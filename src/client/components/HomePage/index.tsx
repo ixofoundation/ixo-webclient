@@ -37,7 +37,6 @@ export class HomePage extends React.Component<HomePage.IProps, HomePage.State> {
     private loginUser() {
         this.props.onGetWeb3();
         var username = this.state.username;
-        console.log('Username: ' + username);
     }
 
     private setText(text: string) {

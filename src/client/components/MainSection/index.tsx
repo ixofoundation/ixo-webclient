@@ -5,12 +5,15 @@ import {HomePage} from '../HomePage/index';
 import {connect} from "react-redux";
 import {IPublicSiteStoreState} from "../../redux/public_site_reducer";
 import {initializeWeb3} from "../../redux/web3/web3_action_creators";
+import {renderIf} from "../../utils/react_utils";
 
 export namespace MainSection {
     interface Props {
+        web3Instance?: any
     }
 
     export interface State {
+        isWeb3AccountLoaded: boolean
     }
 
     interface Callbacks {
@@ -26,32 +29,52 @@ export class MainSection extends React.Component<MainSection.IProps, MainSection
 
     constructor(props?: MainSection.IProps, context?: any) {
         super(props, context);
+        this.state = {
+            isWeb3AccountLoaded: false
+        }
     }
 
-    componentDidMount(): void {
+    componentDidUpdate(prevProps: MainSection.IProps) {
+        if (prevProps.web3Instance !== this.props.web3Instance) {
+            if (this.props.web3Instance.eth.coinbase !== null) {
+                this.setState({isWeb3AccountLoaded: true});
+            } else {
+                this.setState({isWeb3AccountLoaded: false});
+            }
+        }
+    }
+
+    componentDidMount() {
         this.props.onWeb3Init();
-    }
-
-    renderFooter() {
-        return (
-            <Footer/>
-        );
     }
 
     render() {
         return (
             <section className={style.main}>
                 <ul className={style.normal}>
-                    <HomePage/>
+                    {renderIf(this.state.isWeb3AccountLoaded, {
+                        ifTrue : () => (
+                            <div>
+                                <HomePage/>
+                            </div>
+                        ),
+                        ifFalse: () => (
+                            <div>
+                                <p>Please log into your metamask account...</p>
+                            </div>
+                        )
+                    })}
                 </ul>
-                {this.renderFooter()}
+                <Footer/>
             </section>
         );
     }
 }
 
 function mapStateToProps(state: IPublicSiteStoreState) {
-    return {};
+    return {
+        web3Instance: state.web3Store.web3Instance
+    };
 }
 
 function mapDispatchToProps(dispatch) {
