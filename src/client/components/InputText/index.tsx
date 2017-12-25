@@ -7,6 +7,7 @@ export namespace InputText {
         placeholder?: string;
         newTodo?: boolean;
         editing?: boolean;
+        onTextChanges: (text: string) => void;
     }
 
     export interface State {
@@ -26,6 +27,7 @@ export class InputText extends React.Component<InputText.Props, InputText.State>
 
     handleChange(e) {
         this.setState({text: e.target.value});
+        this.props.onTextChanges(e.target.value);
     }
 
     render() {

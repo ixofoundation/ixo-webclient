@@ -1,45 +1,39 @@
 import * as React from 'react';
-import * as TodoActions from '../../actions/todos';
 import * as style from './style.css';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-import { RouteComponentProps } from 'react-router';
-import { RootState } from '../../reducers/index';
-import { Header, MainSection } from '../../components';
+import {connect} from 'react-redux';
+import {RouteComponentProps} from 'react-router';
+import {Header, MainSection} from '../../components';
+import {IPublicSiteStoreState} from "../../redux/public_site_reducer";
 
 export namespace App {
-  export interface Props extends RouteComponentProps<void> {
-    actions: typeof TodoActions;
-  }
+    export interface Props extends RouteComponentProps<void> {
+    }
 
-  export interface State {
-    /* empty */
-  }
+    export interface State {
+        /* empty */
+    }
 }
 
 @connect(mapStateToProps, mapDispatchToProps)
 export class App extends React.Component<App.Props, App.State> {
-
-  render() {
-    const { actions, children } = this.props;
-    return (
-      <div className={style.normal}>
-        <Header />
-        <MainSection/>
-        {children}
-      </div>
-    );
-  }
+    render() {
+        const {children} = this.props;
+        return (
+            <div className={style.normal}>
+                <Header/>
+                <MainSection/>
+                {children}
+            </div>
+        );
+    }
 }
 
-function mapStateToProps(state: RootState) {
-  return {
-    todos: state.todos
-  };
+function mapStateToProps(state: IPublicSiteStoreState) {
+    return {
+    };
 }
 
 function mapDispatchToProps(dispatch) {
-  return {
-    actions: bindActionCreators(TodoActions as any, dispatch)
-  };
+    return {
+    };
 }
