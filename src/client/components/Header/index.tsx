@@ -5,28 +5,33 @@ import * as style from './style.css';
 const logoSrc = require("../../assets/images/logo.png");
 
 import * as ReactTooltip from 'react-tooltip';
+import {connect} from "react-redux";
+import {IPublicSiteStoreState} from "../../redux/public_site_reducer";
+import {pingIxoServer} from "../../redux/ping/ping_action_creators";
 
 export namespace Header {
-    export interface Props {
-    }
+  export interface Props {
+  }
 
-    export interface State {
-    }
+  export interface State {
+  }
+
+  export interface Callbacks {
+    onLoad?: () => void;
+  }
+
+  export interface IProps extends Props, Callbacks {
+  }
 }
 
-export class Header extends React.Component<Header.Props, Header.State> {
+@connect(mapStateToProps, mapDispatchToProps)
+export class Header extends React.Component<Header.IProps, Header.State> {
 
-    constructor(props?: Header.Props, context?: any) {
+    constructor(props?: Header.IProps, context?: any) {
         super(props, context);
     }
 
-    private renderPing() {
-        return AsyncGet.render(this.props.reponseStatus, {
-            none    : () => <span></span>,
-            fetching: () => <span className={style.loading}></span>,
-            fetched : () => <span className={style.ready}></span>,
-            error   : () => <span></span>
-        });
+    componentDidMount(){
     }
 
     render() {
@@ -45,8 +50,22 @@ export class Header extends React.Component<Header.Props, Header.State> {
                         </div>
                     </div>
                 </div>
-                
+
             </header>
         );
     }
+}
+
+function mapStateToProps(state: IPublicSiteStoreState) {
+  return {
+
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    onLoad: () => {
+      dispatch(pingIxoServer())
+    }
+  };
 }

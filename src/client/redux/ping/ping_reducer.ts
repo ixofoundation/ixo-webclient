@@ -2,13 +2,10 @@ import {createReducer} from "../../../lib/redux_utils/reducers";
 import {PING__CREATE__FAILURE, PING__CREATE__INIT, PING__CREATE__SUCCESS} from "./ping_actions";
 
 export type IPingModelState = {
-    isResponding: boolean,
-    responseTime: number
 }
 
 const initialState: IPingModelState = {
-    isResponding     : null,
-    responseTime: null
+    result: null
 };
 
 export let pingReducer = createReducer<IPingModelState>(initialState, [
@@ -18,8 +15,6 @@ export let pingReducer = createReducer<IPingModelState>(initialState, [
         handler: (state: IPingModelState, action: PING__CREATE__INIT) => {
             return {
                 ...state,
-                isResponding           : state.isResponding,
-                responseTime: state.responseTime
             }
         }
     },

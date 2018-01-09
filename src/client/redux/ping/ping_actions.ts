@@ -3,8 +3,6 @@ export module PING__CREATE__INIT {
 }
 
 export interface PING__CREATE__INIT {
-    isResponding: boolean
-    responseTime: number
 }
 
 export module PING__CREATE__SUCCESS {

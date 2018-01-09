@@ -44,9 +44,9 @@
     "webpack-dev-server": "^2.9.4"
   },
   "dependencies": {
-    "bootstrap": "^4.0.0-beta.3",
     "classnames": "^2.2.5",
     "immutable": "^3.8.2",
+    "ixo-module": "^1.1.1",
     "jquery": "^3.2.1",
     "loadjs": "^3.5.1",
     "popper.js": "^1.12.9",
