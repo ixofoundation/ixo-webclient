@@ -32,7 +32,7 @@ export class InputText extends React.Component<InputText.Props, InputText.State>
 
     render() {
         return (
-            <input className={style.inputText}
+            <input className="form-control"
                    type="text"
                    autoFocus
                    placeholder={this.props.placeholder}

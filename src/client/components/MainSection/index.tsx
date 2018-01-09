@@ -2,6 +2,7 @@ import * as React from 'react';
 import * as style from './style.css';
 import {Footer} from '../Footer/index';
 import {HomePage} from '../HomePage/index';
+import {Register} from '../Register/index';
 import {connect} from "react-redux";
 import {IPublicSiteStoreState} from "../../redux/public_site_reducer";
 import {initializeWeb3} from "../../redux/web3/web3_action_creators";
@@ -59,8 +60,14 @@ export class MainSection extends React.Component<MainSection.IProps, MainSection
                             </div>
                         ),
                         ifFalse: () => (
-                            <div>
-                                <p>Please log into your metamask account...</p>
+                            <div className="container">
+                                <div className="row">
+                                    <div className="col-md-6">
+                                        <Register/>
+                                    </div>
+                                    <div className="col-md-6">
+                                    </div>
+                                </div>
                             </div>
                         )
                     })}
