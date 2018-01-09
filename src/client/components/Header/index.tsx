@@ -1,5 +1,6 @@
 import * as React from 'react';
 import {findDOMNode} from 'react-dom'
+import {AsyncGet} from '../../../lib/redux_utils/async_get';
 import * as style from './style.css';
 const logoSrc = require("../../assets/images/logo.png");
 
@@ -17,12 +18,15 @@ export class Header extends React.Component<Header.Props, Header.State> {
 
     constructor(props?: Header.Props, context?: any) {
         super(props, context);
-        this.handleSave = this.handleSave.bind(this);
     }
 
-    handleSave(text: string) {
-        if (text.length) {
-        }
+    private renderPing() {
+        return AsyncGet.render(this.props.reponseStatus, {
+            none    : () => <span></span>,
+            fetching: () => <span className={style.loading}></span>,
+            fetched : () => <span className={style.ready}></span>,
+            error   : () => <span></span>
+        });
     }
 
     render() {
