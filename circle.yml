@@ -1,6 +1,11 @@
 machine:
   node:
-    version: 8.0.53
+    version: 9.3.0
 test:
   override:
     - "true"
+deployment:
+  staging:
+    branch: master
+    heroku:
+      appname: ixo-web
