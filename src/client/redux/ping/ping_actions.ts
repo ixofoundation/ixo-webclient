@@ -1,8 +1,11 @@
+import {IPingResult} from "../../../../types/models";
+
 export module PING__CREATE__INIT {
     export var type = 'PING__CREATE__INIT';
 }
 
 export interface PING__CREATE__INIT {
+  hostName: string
 }
 
 export module PING__CREATE__SUCCESS {
@@ -10,7 +13,7 @@ export module PING__CREATE__SUCCESS {
 }
 
 export interface PING__CREATE__SUCCESS {
-    result: any
+    pingResult: any
 }
 
 export module PING__CREATE__FAILURE {

@@ -21,6 +21,7 @@ header img {
 }
 
 .ping .loading {
+  margin-left: 5px;
   box-shadow: 0px 0px 10px 0px rgba(255,165,0,1);
   background:rgb(255, 165, 0);
   animation: flashing 1s infinite;
@@ -40,6 +41,7 @@ header img {
 }
 
 .ping .ready {
+  margin-left: 5px;
   background:rgb(162, 240, 45);
   box-shadow: 0px 0px 10px 0px rgb(0, 255, 64);
 }
