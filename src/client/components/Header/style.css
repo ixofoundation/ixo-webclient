@@ -9,9 +9,11 @@ header img {
 
 .ping {
   margin-bottom:0;
+  position:relative;
 }
 
 .ping span{
+  margin-left: 5px;
   background:rgb(240, 0, 0);
   border-radius:50%;
   box-shadow: 0px 0px 10px 0px rgba(255,0,0,1);
@@ -21,7 +23,6 @@ header img {
 }
 
 .ping .loading {
-  margin-left: 5px;
   box-shadow: 0px 0px 10px 0px rgba(255,165,0,1);
   background:rgb(255, 165, 0);
   animation: flashing 1s infinite;
@@ -41,7 +42,46 @@ header img {
 }
 
 .ping .ready {
-  margin-left: 5px;
   background:rgb(162, 240, 45);
   box-shadow: 0px 0px 10px 0px rgb(0, 255, 64);
+}
+
+.ping:hover {
+  cursor:pointer;
+}
+
+.ping::before {   
+  opacity:0; 
+  content: attr(data-tip);
+  background: rgba(0, 0, 0,0.7);
+  position: absolute;
+  color: white;
+  top: 140%;
+  padding: 10px;
+  line-height: 1.2;
+  font-size: 0.8em;
+  text-align: center;
+  border-radius: 10px;
+  pointer-events:none;
+  transition:opacity 0.3s ease;
+}
+
+.ping::after {
+  content: "";
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-bottom: 10px solid rgba(0, 0, 0,0.7);
+  position: absolute;
+  top: 102%;
+  left: 20px;
+  opacity:0;
+  pointer-events:none;
+  transition:opacity 0.3s ease;
+}
+
+.ping:hover::before,
+.ping:hover::after {
+  opacity:1;
 }

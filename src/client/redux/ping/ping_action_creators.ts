@@ -6,10 +6,10 @@ import {IPingResult} from "../../../../types/models";
 export function pingIxoServer(hostName: string) {
   return dispatch => {
     dispatch(createAction<PING__CREATE__INIT>(PING__CREATE__INIT.type, {hostName}));
-    var ixoNetwork = new ixo.Network();
-
+    const ixoNetwork = new ixo.Network();
     ixoNetwork.pingIxoServerNode(hostName)
       .then((response: IPingResult) => {
+
           dispatch(
             createAction<PING__CREATE__SUCCESS>(PING__CREATE__SUCCESS.type, {
               pingResult: response
@@ -21,7 +21,6 @@ export function pingIxoServer(hostName: string) {
           error: result['error'] ? result['error'] : result.message
         }))
     });
-
 
   }
 }

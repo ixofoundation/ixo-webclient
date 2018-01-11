@@ -3,10 +3,12 @@ import {PING__CREATE__FAILURE, PING__CREATE__INIT, PING__CREATE__SUCCESS} from "
 
 export type IPingModelState = {
   pingResult: any,
+  error:any
 }
 
 const initialState: IPingModelState = {
   pingResult: null,
+  error:null
 };
 
 export let pingReducer = createReducer<IPingModelState>(initialState, [
@@ -23,7 +25,8 @@ export let pingReducer = createReducer<IPingModelState>(initialState, [
     handler: (state: IPingModelState, action: PING__CREATE__SUCCESS) => {
       return {
         ...state,
-        pingResult: action.pingResult
+        pingResult: action.pingResult,
+        error:null
       }
     }
   },

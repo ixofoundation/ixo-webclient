@@ -45,6 +45,7 @@
   },
   "dependencies": {
     "classnames": "^2.2.5",
+    "dotenv": "^4.0.0",
     "immutable": "^3.8.2",
     "ixo-module": "1.2.4",
     "jquery": "^3.2.1",

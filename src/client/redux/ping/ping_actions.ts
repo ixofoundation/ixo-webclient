@@ -21,5 +21,5 @@ export module PING__CREATE__FAILURE {
 }
 
 export interface PING__CREATE__FAILURE {
-    error: Object;
+    error: Object
 }

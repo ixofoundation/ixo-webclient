@@ -1,6 +1,6 @@
-export default function loggerMiddleware(store) {
-  return next => action => {
-    console.log(action);
-    return next(action);
-  };
-}
+export default function pingResponseTime(store) {
+    return next => action => {
+      return next(action);
+    };
+  }
+  
