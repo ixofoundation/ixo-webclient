@@ -5,9 +5,7 @@
   "description": "ixo-web with reactJS client and node express backend.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npm install --dev && webpack --config webpack.prod.js",
-    "dev": "webpack-dev-server --debug --devtool cheap-module-source-map --output-pathinfo --history-api-fallback --hot --inline --progress --colors --port 3000 --open  --config webpack.dev.js",
+    "start": "webpack-dev-server --debug --devtool cheap-module-source-map --output-pathinfo --history-api-fallback --hot --inline --progress --colors --port 3000 --open",
     "build": "webpack -p --progress --colors"
   },
   "license": "MIT",
@@ -23,6 +21,7 @@
     "@types/webpack": "3.8.1",
     "@types/webpack-env": "1.13.2",
     "awesome-typescript-loader": "^3.4.0",
+    "clean-webpack-plugin": "^0.1.17",
     "css-loader": "^0.28.8",
     "extract-text-webpack-plugin": "^3.0.2",
     "file-loader": "^1.1.5",
@@ -45,13 +44,13 @@
     "webpack-merge": "^4.1.1"
   },
   "dependencies": {
-    "webpack": "^3.10.0",
     "classnames": "^2.2.5",
     "dotenv": "^4.0.0",
     "immutable": "^3.8.2",
     "ixo-module": "1.2.4",
     "jquery": "^3.2.1",
     "loadjs": "^3.5.1",
+    "path": "^0.12.7",
     "popper.js": "^1.12.9",
     "react": "^16.1.1",
     "react-dom": "^16.1.1",
@@ -63,6 +62,7 @@
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.2.0",
     "util": "^0.10.3",
-    "web3": "^1.0.0-beta.27"
+    "web3": "^1.0.0-beta.27",
+    "webpack": "^3.10.0"
   }
 }
