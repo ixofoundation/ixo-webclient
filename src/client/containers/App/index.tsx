@@ -4,9 +4,6 @@ import {connect} from 'react-redux';
 import {RouteComponentProps} from 'react-router';
 import {Header, MainSection} from '../../components';
 import {IPublicSiteStoreState} from "../../redux/public_site_reducer";
-require('dotenv').config();
-
-console.log(process.env);
 
 export namespace App {
     export interface Props extends RouteComponentProps<void> {

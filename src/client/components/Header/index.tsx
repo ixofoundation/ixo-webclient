@@ -1,6 +1,5 @@
 import * as React from 'react';
 import * as style from './style.css';
-// import * as ReactTooltip from 'react-tooltip';
 import {connect} from "react-redux";
 import {IPublicSiteStoreState} from "../../redux/public_site_reducer";
 import {pingIxoServer} from "../../redux/ping/ping_action_creators";
@@ -49,13 +48,11 @@ export class Header extends React.Component<Header.IProps, Header.State> {
 
   componentDidMount() {
     this.ping();
-    console.log(process.env.API_URL);
     setInterval(this.ping,5000);
   }
 
   componentDidUpdate(prevProps: Header.IProps) {
     if (prevProps.pingResult !== this.props.pingResult) {
-      console.log("has changed");
       if(this.props.pingResult === null){
         this.setState({isServerConnected: false})
       }
@@ -102,7 +99,6 @@ export class Header extends React.Component<Header.IProps, Header.State> {
             </div>
             <div className="col-md-4 d-flex align-items-center justify-content-end">
               {this.renderStatusIndicator()}
-              {/* <ReactTooltip/> */}
             </div>
           </div>
         </div>
@@ -122,8 +118,8 @@ function mapStateToProps(state: IPublicSiteStoreState) {
 function mapDispatchToProps(dispatch) {
   return {
     getPing: () => {
-      // dispatch(pingIxoServer('https://arcane-stream-64697.herokuapp.com/api/network'))
-      dispatch(pingIxoServer('http://localhost:5000/api/network'))
+      dispatch(pingIxoServer('https://arcane-stream-64697.herokuapp.com/api/network'))
+      // dispatch(pingIxoServer('http://localhost:5000/api/network'))
       // dispatch(pingIxoServer('process.env.API_URL))
     }
   };
