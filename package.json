@@ -6,7 +6,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "webpack --config webpack.prod.js npm install --dev",
+    "start": "npm install --dev && webpack --config webpack.prod.js",
     "dev": "webpack-dev-server --debug --devtool cheap-module-source-map --output-pathinfo --history-api-fallback --hot --inline --progress --colors --port 3000 --open  --config webpack.dev.js",
     "build": "webpack -p --progress --colors"
   },

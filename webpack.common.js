@@ -3,7 +3,6 @@ const Webpack = require('webpack');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const outPath = Path.join(__dirname, './dist');
 const sourcePath = Path.join(__dirname, './src');
 const isProduction = process.argv.indexOf('-p') >= 0;
 
@@ -38,11 +37,6 @@ module.exports = {
             template: 'client/index.html'
         })
     ],
-    output: {
-        path: outPath,
-        publicPath: '/',
-        filename: 'bundle.js',
-    },
         target: 'web',
         resolve: {
         extensions: ['.js', '.ts', '.tsx'],

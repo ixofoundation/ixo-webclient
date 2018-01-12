@@ -4,6 +4,7 @@ const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const common = require('./webpack.common.js');
 const sourcePath = Path.join(__dirname, './src');
 const Webpack = require('webpack');
+const outPath = Path.join(__dirname, './dist');
 
 module.exports = merge(common, {
     devtool: 'inline-source-map',
@@ -14,16 +15,12 @@ module.exports = merge(common, {
           warnings: false
         },
     },
-    node: {
-        // workaround for webpack-dev-server issue
-        // https://github.com/webpack/webpack-dev-server/issues/60#issuecomment-103411179
-        fs: 'empty',
-        net: 'empty'
+    output: {
+        path: outPath,
+        publicPath: '/',
+        filename: 'bundle.js',
     },
     plugins: [
-        new UglifyJSPlugin({
-           sourceMap: true
-        }),
         new Webpack.DefinePlugin({
            'process.env.NODE_ENV': JSON.stringify('development')
         })
