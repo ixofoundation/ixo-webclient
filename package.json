@@ -41,11 +41,11 @@
     "typescript": "^2.6.1",
     "url-loader": "^0.6.2",
     "web3-typescript-typings": "^0.7.2",
-    "webpack": "^3.10.0",
     "webpack-dev-server": "2.10.1",
     "webpack-merge": "^4.1.1"
   },
   "dependencies": {
+    "webpack": "^3.10.0",
     "classnames": "^2.2.5",
     "dotenv": "^4.0.0",
     "immutable": "^3.8.2",
