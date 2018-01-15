@@ -18,11 +18,12 @@ export namespace Header {
   export interface State {
     isServerConnected: boolean
     initialDate: Date,
-    responseTime: number
+    responseTime: number,
+    selectedServer: string
   }
 
   export interface Callbacks {
-    getPing?: () => void;
+    getPing?: (hostName:string) => void;
   }
 
   export interface IProps extends Props, Callbacks {
@@ -37,13 +38,14 @@ export class Header extends React.Component<Header.IProps, Header.State> {
     this.state = {
       isServerConnected: null,
       initialDate: null,
-      responseTime: null
+      responseTime: null,
+      selectedServer: "https://arcane-stream-64697.herokuapp.com/api/network"
     }
   }
 
   ping = () => {
     this.setState({initialDate : new Date()});
-    this.props.getPing();
+    this.props.getPing(this.state.selectedServer);
   }
 
   componentDidMount() {
@@ -87,6 +89,11 @@ export class Header extends React.Component<Header.IProps, Header.State> {
     }
   }
 
+  handleServerChange=(event)=>{
+    this.setState({selectedServer:event.target.value});
+    console.log("Chosen server: "+this.state.selectedServer);
+  }
+
   render() {
     return (
       <header className="container-fluid bg-dark text-white">
@@ -98,6 +105,10 @@ export class Header extends React.Component<Header.IProps, Header.State> {
             <div className="col-md-4">
             </div>
             <div className="col-md-4 d-flex align-items-center justify-content-end">
+              <select value={this.state.selectedServer} onChange={this.handleServerChange}>
+                <option value="https://arcane-stream-64697.herokuapp.com/api/network">Production Server</option>
+                <option value="http://localhost:5000/api/network">Dev Server</option>
+              </select>
               {this.renderStatusIndicator()}
             </div>
           </div>
@@ -117,8 +128,9 @@ function mapStateToProps(state: IPublicSiteStoreState) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    getPing: () => {
-      dispatch(pingIxoServer('https://arcane-stream-64697.herokuapp.com/api/network'))
+    getPing: (hostName) => {
+      dispatch(pingIxoServer(hostName))
+      // dispatch(pingIxoServer('https://arcane-stream-64697.herokuapp.com/api/network'))
       // dispatch(pingIxoServer('http://localhost:5000/api/network'))
       // dispatch(pingIxoServer('process.env.API_URL))
     }
