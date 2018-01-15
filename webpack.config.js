@@ -96,7 +96,11 @@ module.exports = {
         }),
         new HtmlWebpackPlugin({
             template: 'client/index.html'
-        })
+        }),
+        new Webpack.DefinePlugin({
+            'process.env.NODE_ENV': JSON.stringify('production')
+        }),
+        new Webpack.optimize.UglifyJsPlugin()
     ],
     devServer: {
         contentBase: sourcePath,
