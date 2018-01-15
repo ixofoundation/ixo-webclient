@@ -18,11 +18,12 @@ export namespace Header {
   export interface State {
     isServerConnected: boolean
     initialDate: Date,
-    responseTime: number
+    responseTime: number,
+    selectedServer: string
   }
 
   export interface Callbacks {
-    getPing?: () => void;
+    getPing?: (hostName:string) => void;
   }
 
   export interface IProps extends Props, Callbacks {
@@ -37,18 +38,19 @@ export class Header extends React.Component<Header.IProps, Header.State> {
     this.state = {
       isServerConnected: null,
       initialDate: null,
-      responseTime: null
+      responseTime: null,
+      selectedServer: "https://arcane-stream-64697.herokuapp.com/api/network"
     }
   }
 
   ping = () => {
     this.setState({initialDate : new Date()});
-    this.props.getPing();
+    this.props.getPing(this.state.selectedServer);
   }
 
   componentDidMount() {
     this.ping();
-    setInterval(this.ping,5000);
+    const pingInterval = setInterval(this.ping,5000);
   }
 
   componentDidUpdate(prevProps: Header.IProps) {
@@ -66,7 +68,11 @@ export class Header extends React.Component<Header.IProps, Header.State> {
   renderStatusIndicator(){
     if(this.state.isServerConnected && this.props.pingError === null){
       return (
-      <p className={style.ping} data-tip={`Response time: ${this.state.responseTime} ms`}>Server Status:
+      <p className={style.ping} 
+      data-tip={`Response time: ${this.state.responseTime} ms
+--------
+${this.state.selectedServer}`}>
+       Server Status:
         <span className={style.ready}></span>
       </p>
       );
@@ -80,11 +86,16 @@ export class Header extends React.Component<Header.IProps, Header.State> {
     }
     else{
       return (
-      <p className={style.ping} data-tip="Server not responding">Server Status:
+      <p className={style.ping} data-tip={`${this.state.selectedServer} not responding`}>Server Status:
         <span className={style.error}></span>
       </p>
       );
     }
+  }
+
+  handleServerChange=(event)=>{
+    this.setState({selectedServer:event.target.value,
+    isServerConnected:false});
   }
 
   render() {
@@ -98,6 +109,10 @@ export class Header extends React.Component<Header.IProps, Header.State> {
             <div className="col-md-4">
             </div>
             <div className="col-md-4 d-flex align-items-center justify-content-end">
+              <select value={this.state.selectedServer} onChange={this.handleServerChange}>
+                <option value="https://arcane-stream-64697.herokuapp.com/api/network">Production Server</option>
+                <option value="http://localhost:5000/api/network">Development Server</option>
+              </select>
               {this.renderStatusIndicator()}
             </div>
           </div>
@@ -117,10 +132,8 @@ function mapStateToProps(state: IPublicSiteStoreState) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    getPing: () => {
-      dispatch(pingIxoServer('https://arcane-stream-64697.herokuapp.com/api/network'))
-      // dispatch(pingIxoServer('http://localhost:5000/api/network'))
-      // dispatch(pingIxoServer('process.env.API_URL))
+    getPing: (hostName) => {
+      dispatch(pingIxoServer(hostName))
     }
   };
 }

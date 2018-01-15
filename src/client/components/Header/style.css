@@ -60,8 +60,8 @@ header img {
   padding: 10px;
   line-height: 1.2;
   font-size: 0.8em;
-  text-align: center;
   border-radius: 10px;
+  white-space: pre-wrap;
   pointer-events:none;
   transition:opacity 0.3s ease;
 }
@@ -84,4 +84,8 @@ header img {
 .ping:hover::before,
 .ping:hover::after {
   opacity:1;
+}
+
+select {
+  margin-right:20px;
 }
