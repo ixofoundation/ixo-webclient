@@ -50,7 +50,7 @@ export class Header extends React.Component<Header.IProps, Header.State> {
 
   componentDidMount() {
     this.ping();
-    setInterval(this.ping,5000);
+    const pingInterval = setInterval(this.ping,5000);
   }
 
   componentDidUpdate(prevProps: Header.IProps) {
@@ -68,7 +68,11 @@ export class Header extends React.Component<Header.IProps, Header.State> {
   renderStatusIndicator(){
     if(this.state.isServerConnected && this.props.pingError === null){
       return (
-      <p className={style.ping} data-tip={`Response time: ${this.state.responseTime} ms`}>Server Status:
+      <p className={style.ping} 
+      data-tip={`Response time: ${this.state.responseTime} ms
+--------
+${this.state.selectedServer}`}>
+       Server Status:
         <span className={style.ready}></span>
       </p>
       );
@@ -82,7 +86,7 @@ export class Header extends React.Component<Header.IProps, Header.State> {
     }
     else{
       return (
-      <p className={style.ping} data-tip="Server not responding">Server Status:
+      <p className={style.ping} data-tip={`${this.state.selectedServer} not responding`}>Server Status:
         <span className={style.error}></span>
       </p>
       );
@@ -90,8 +94,8 @@ export class Header extends React.Component<Header.IProps, Header.State> {
   }
 
   handleServerChange=(event)=>{
-    this.setState({selectedServer:event.target.value});
-    console.log("Chosen server: "+this.state.selectedServer);
+    this.setState({selectedServer:event.target.value,
+    isServerConnected:false});
   }
 
   render() {
@@ -107,7 +111,7 @@ export class Header extends React.Component<Header.IProps, Header.State> {
             <div className="col-md-4 d-flex align-items-center justify-content-end">
               <select value={this.state.selectedServer} onChange={this.handleServerChange}>
                 <option value="https://arcane-stream-64697.herokuapp.com/api/network">Production Server</option>
-                <option value="http://localhost:5000/api/network">Dev Server</option>
+                <option value="http://localhost:5000/api/network">Development Server</option>
               </select>
               {this.renderStatusIndicator()}
             </div>
@@ -130,9 +134,6 @@ function mapDispatchToProps(dispatch) {
   return {
     getPing: (hostName) => {
       dispatch(pingIxoServer(hostName))
-      // dispatch(pingIxoServer('https://arcane-stream-64697.herokuapp.com/api/network'))
-      // dispatch(pingIxoServer('http://localhost:5000/api/network'))
-      // dispatch(pingIxoServer('process.env.API_URL))
     }
   };
 }
