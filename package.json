@@ -51,7 +51,7 @@
     "classnames": "^2.2.5",
     "dotenv": "^4.0.0",
     "immutable": "^3.8.2",
-    "ixo-module": "1.2.4",
+    "ixo-module": "1.2.6",
     "jquery": "^3.2.1",
     "loadjs": "^3.5.1",
     "path": "^0.12.7",
