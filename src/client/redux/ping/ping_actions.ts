@@ -5,7 +5,7 @@ export module PING__CREATE__INIT {
 }
 
 export interface PING__CREATE__INIT {
-  hostName: string
+  ixo: string
 }
 
 export module PING__CREATE__SUCCESS {

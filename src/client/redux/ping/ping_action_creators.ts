@@ -1,12 +1,10 @@
 import {createAction} from "../../../lib/redux_utils/actions";
 import {PING__CREATE__FAILURE, PING__CREATE__INIT, PING__CREATE__SUCCESS} from "./ping_actions";
-import Ixo from "ixo-module";
 import {IPingResult} from "../../../../types/models";
 
-export function pingIxoServer(hostName: string) {
-    var ixo = new Ixo('https://ixo-node.herokuapp.com');
+export function pingIxoServer(ixo: any) {
     return dispatch => {
-        dispatch(createAction<PING__CREATE__INIT>(PING__CREATE__INIT.type, {hostName}));
+        dispatch(createAction<PING__CREATE__INIT>(PING__CREATE__INIT.type, {ixo: ixo}));
         ixo.network.pingIxoServerNode()
             .then((response: IPingResult) => {
 
