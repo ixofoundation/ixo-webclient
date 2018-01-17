@@ -7,6 +7,7 @@ import {connect} from "react-redux";
 import {IPublicSiteStoreState} from "../../redux/public_site_reducer";
 import {initializeWeb3} from "../../redux/web3/web3_action_creators";
 import {renderIf} from "../../utils/react_utils";
+import {initIxo} from "../../redux/ixo/ixo_action_creators";
 
 
 const projectList = [
@@ -54,6 +55,7 @@ const projectList = [
 export namespace MainSection {
     interface Props {
         web3Instance?: any
+        ixo?: any
     }
 
     export interface State {
@@ -62,7 +64,8 @@ export namespace MainSection {
     }
 
     interface Callbacks {
-        onWeb3Init?: () => void
+        onIxoInit?: () => void
+        onWeb3Init?: (ixo: any) => void
     }
 
     export interface IProps extends Props, Callbacks {
@@ -81,6 +84,12 @@ export class MainSection extends React.Component<MainSection.IProps, MainSection
     }
 
     componentDidUpdate(prevProps: MainSection.IProps) {
+        if (prevProps.ixo !== this.props.ixo) {
+            if (this.props.ixo) {
+                this.props.onWeb3Init(this.props.ixo);
+            }
+        }
+
         if (prevProps.web3Instance !== this.props.web3Instance) {
             if (this.props.web3Instance.eth.coinbase !== null) {
                 this.setState({isWeb3AccountLoaded: true});
@@ -88,10 +97,12 @@ export class MainSection extends React.Component<MainSection.IProps, MainSection
                 this.setState({isWeb3AccountLoaded: false});
             }
         }
+
+
     }
 
     componentDidMount() {
-        this.props.onWeb3Init();
+        this.props.onIxoInit();
     }
 
     render() {
@@ -99,11 +110,16 @@ export class MainSection extends React.Component<MainSection.IProps, MainSection
             <section id={style.main} className="col-md-10">
             
                     {renderIf(this.state.isWeb3AccountLoaded, {
-                        ifTrue : () => (
-                            <HomePage/>
+                        ifTrue: () => (
+                            <div>
+                                <HomePage/>
+                            </div>
                         ),
                         ifFalse: () => (
-                            <Projects projects={projectList}/>
+                            <div className="container">
+                                PLEASE LOGIN TO YOUR CREDENTIAL PROVIDER
+                                <Projects projects={projectList}/>
+                            </div>
                         )
                     })}
             </section>
@@ -113,14 +129,18 @@ export class MainSection extends React.Component<MainSection.IProps, MainSection
 
 function mapStateToProps(state: IPublicSiteStoreState) {
     return {
-        web3Instance: state.web3Store.web3Instance
+        web3Instance: state.web3Store.web3Instance,
+        ixo: state.ixoStore.ixo
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        onWeb3Init: () => {
-            dispatch(initializeWeb3());
+        onWeb3Init: (ixo: any) => {
+            dispatch(initializeWeb3(ixo));
+        },
+        onIxoInit: () => {
+            dispatch(initIxo('https://ixo-node.herokuapp.com'))
         }
     };
 }

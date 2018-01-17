@@ -9,3 +9,8 @@ export interface IPingResult {
   id: number,
   result: string
 }
+
+export interface ICredentialProviderResult {
+    provider: any,
+    credentialProviderInstance: any,
+}
