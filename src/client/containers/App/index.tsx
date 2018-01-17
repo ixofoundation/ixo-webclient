@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as style from './style.css';
 import {connect} from 'react-redux';
 import {RouteComponentProps} from 'react-router';
-import {Header, MainSection} from '../../components';
+import {Header, MainSection, Sidebar, Footer} from '../../components';
 import {IPublicSiteStoreState} from "../../redux/public_site_reducer";
 
 export namespace App {
@@ -22,7 +22,13 @@ export class App extends React.Component<App.Props, App.State> {
         return (
             <div className={style.normal}>
                 <Header/>
-                <MainSection/>
+                <div className="container-fluid">
+                    <div className="row">
+                        <Sidebar/>
+                        <MainSection/>
+                    </div>
+                </div>
+                <Footer/>
                 {children}
             </div>
         );

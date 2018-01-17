@@ -1,5 +1,6 @@
-export { Footer } from './Footer/index';
-export { Header } from './Header/index';
-export { MainSection } from './MainSection/index';
-export { InputText } from './InputText/index';
-export { HomePage } from './HomePage/index';
+export { Footer } from './footer/index';
+export { Header } from './header/index';
+export { Sidebar } from './sidebar/index';
+export { MainSection } from './mainSection/index';
+export { InputText } from './inputText/index';
+export { HomePage } from './homePage/index';

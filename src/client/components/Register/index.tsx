@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {InputText} from "../InputText";
+import {InputText} from "../inputText";
 import './style.css';
 
 export namespace Register {

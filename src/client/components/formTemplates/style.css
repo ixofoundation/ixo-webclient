@@ -1,0 +1,12 @@
+form {
+    color:#c0eff9;
+    margin:20px 0;
+}
+
+form section {
+    padding:10px;
+}
+
+form select {
+    border-color:red;
+}

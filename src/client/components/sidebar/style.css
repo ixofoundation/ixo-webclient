@@ -1,0 +1,6 @@
+#sidebar {
+    background:#00d3ff;
+    width:20vw;
+    min-width:200px;
+    height:calc(100vh - 140px);
+}

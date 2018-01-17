@@ -4,13 +4,14 @@ import {InputText} from "../inputText";
 import {connect} from "react-redux";
 import {IPublicSiteStoreState} from "../../redux/public_site_reducer";
 
-export namespace HomePage {
+export namespace Projects {
 
     export interface Props {
+        projects: any
     }
 
     export interface State {
-        username: string
+        
     }
 
     export interface Callbacks {
@@ -22,34 +23,27 @@ export namespace HomePage {
 }
 
 @connect(mapStateToProps, mapDispatchToProps)
-export class HomePage extends React.Component<HomePage.IProps, HomePage.State> {
+export class Projects extends React.Component<Projects.IProps, Projects.State> {
 
-    constructor(props?: HomePage.IProps, context?: any) {
+    constructor(props?: Projects.IProps, context?: any) {
         super(props, context);
         this.state = {
-            username: ''
         };
-
-        this.loginUser = this.loginUser.bind(this);
-        this.setText = this.setText.bind(this);
     }
-
-    private loginUser() {
-        this.props.onGetWeb3();
-        var username = this.state.username;
-    }
-
-    private setText(text: string) {
-        this.setState({username: text});
-    }
+    
 
     render() {
         return (
-            <section className={style.homepage}>
-                <div className={style.text}>Username:</div>
-                <InputText onTextChanges={this.setText} placeholder='Username'/>
-                <button className={style.button} onClick={this.loginUser}>Login</button>
-            </section>
+            <div id={style.projects} className=" container">
+                <div className="row">
+                    {this.props.projects.map((project,index)=>{
+                        return <div className="col-md-4" key={index}>
+                            <h3>{project.name}</h3>
+                            <p>{project.overview}</p>
+                        </div>
+                    })}
+                </div>
+            </div>
         );
     }
 }
