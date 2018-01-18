@@ -94,7 +94,7 @@ export class Sidebar extends React.Component<Sidebar.Props, Sidebar.State> {
                     >
                     <DynamicForm formSchema={formSchema.entities} />
                 </Modal>
-                <button onClick={this.handleOpenModal}>Create project</button>
+                <button onClick={this.handleOpenModal}>Create projects</button>
             </div>
         );
     }

@@ -24,6 +24,10 @@ module.exports = {
         publicPath: '/',
         filename: 'bundle.js',
     },
+    watchOptions: {
+        aggregateTimeout: 300,
+        poll: 1000
+      },
     target: 'web',
     resolve: {
         extensions: ['.js', '.ts', '.tsx'],

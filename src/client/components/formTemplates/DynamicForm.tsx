@@ -4,11 +4,13 @@ import TextArea from '../FormTemplates/TextArea';
 import InputFile from '../FormTemplates/InputFile';
 import CountrySelect from '../FormTemplates/CountrySelect';
 
+export namespace DynamicForm {
   export interface formProps {
     formSchema: any;
   }
+}
 
-const DynamicForm: React.SFC<formProps> = (props) => {
+const DynamicForm: React.SFC<DynamicForm.formProps> = (props) => {
     
     return(
         <form>
@@ -30,10 +32,6 @@ const DynamicForm: React.SFC<formProps> = (props) => {
             <button>Cancel</button>
         </form>
     );
-}
-
-DynamicForm.defaultProps = {
-    formSchema: ""
 }
 
 export default DynamicForm;

@@ -1,4 +1,5 @@
 import * as React from 'react';
+import * as iso3311a2 from 'iso-3166-1-alpha-2';
 
 export namespace CountrySelect {
   export interface Props {
@@ -17,10 +18,12 @@ export default class CountrySelect extends React.Component<CountrySelect.Props, 
     }
 
     handleChange=(e)=>{
+        
         this.setState({selectedCountry: e.target.value});
     }
 
     render() {
+        console.log(iso3311a2.getCountries());
         return (
             <section>
                 <label htmlFor={this.props.id}>{this.props.text}</label>

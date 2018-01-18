@@ -84,6 +84,7 @@ export class MainSection extends React.Component<MainSection.IProps, MainSection
     }
 
     componentDidUpdate(prevProps: MainSection.IProps) {
+        
         if (prevProps.ixo !== this.props.ixo) {
             if (this.props.ixo) {
                 this.props.onWeb3Init(this.props.ixo);
