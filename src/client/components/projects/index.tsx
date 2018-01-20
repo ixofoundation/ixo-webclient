@@ -1,24 +1,19 @@
 import * as React from 'react';
 import * as style from './style.css';
-import {InputText} from "../inputText";
 import {connect} from "react-redux";
 import {IPublicSiteStoreState} from "../../redux/public_site_reducer";
+import {Link} from 'react-router-dom';
 
 export namespace Projects {
 
     export interface Props {
-        projects: any
+        projectList: any
     }
 
     export interface State {
-        
     }
 
-    export interface Callbacks {
-        onGetWeb3?: () => void;
-    }
-
-    export interface IProps extends Props, Callbacks {
+    export interface IProps extends Props {
     }
 }
 
@@ -30,18 +25,26 @@ export class Projects extends React.Component<Projects.IProps, Projects.State> {
         this.state = {
         };
     }
-    
+
+    componentDidUpdate(prevProps: Projects.IProps){
+        const projects = this.props.projectList;
+    }
 
     render() {
+        const projects = this.props.projectList;
         return (
             <div id={style.projects} className=" container">
                 <div className="row">
-                    {this.props.projects.map((project,index)=>{
+                    { projects.map((project,index)=>{
                         return <div className="col-md-4" key={index}>
                             <h3>{project.name}</h3>
-                            <p>{project.overview}</p>
+                            <p>Country: {project.country}</p>
+                            <h4><u>Owner information: </u></h4>
+                            <p>Name: {project.owner.name}</p>
+                            <p>Email: {project.owner.email}</p>
+                            <Link to={`/project`}>View Project</Link>
                         </div>
-                    })}
+                    }) }
                 </div>
             </div>
         );
@@ -50,9 +53,7 @@ export class Projects extends React.Component<Projects.IProps, Projects.State> {
 
 function mapStateToProps(state: IPublicSiteStoreState) {
     return {
-        onGetWeb3: () => {
-            console.log('Web3 Instance: ' + state.web3Store.web3Instance)
-        }
+        
     };
 }
 

@@ -1,21 +1,18 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
-import {Route, Router, Switch} from 'react-router';
-import {createBrowserHistory} from 'history';
 import {App} from './containers/App';
 import {createPublicSiteStore} from "./redux/store";
+import {BrowserRouter} from 'react-router-dom';
 
 const store = createPublicSiteStore();
-const history = createBrowserHistory();
+
 
 ReactDOM.render(
     <Provider store={store}>
-        <Router history={history}>
-            <Switch>
-                <Route path="/" component={App}/>
-            </Switch>
-        </Router>
+        <BrowserRouter>
+            <App/>
+        </BrowserRouter>
     </Provider>,
     document.getElementById('root')
 );

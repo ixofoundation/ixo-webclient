@@ -109,7 +109,7 @@ module.exports = {
         hot: !isProduction,
         stats: {
             warnings: false
-        },
+        }
     },
     node: {
         // workaround for webpack-dev-server issue

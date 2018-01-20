@@ -22,16 +22,25 @@ export default class CountrySelect extends React.Component<CountrySelect.Props, 
         this.setState({selectedCountry: e.target.value});
     }
 
+    generateCountries=()=>{
+        const countryList = iso3311a2.getData();
+        let countryOptions = [];
+
+        for(var code in countryList){
+            if(countryList.hasOwnProperty(code) ) {
+                countryOptions.push(<option key={code} value={code}>{countryList[code]}</option>);
+            } 
+        }
+        return countryOptions;
+    }
+
     render() {
-        console.log(iso3311a2.getCountries());
+
         return (
             <section>
                 <label htmlFor={this.props.id}>{this.props.text}</label>
                 <select id={this.props.id} onChange={this.handleChange} value="South Africa">
-                    <option value="China">China</option>
-                    <option value="England">England</option>
-                    <option value="South Africa">South Africa</option>
-                    <option value="USA">USA</option>
+                    {this.generateCountries()}
                 </select>
             </section>
         );
