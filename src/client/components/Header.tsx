@@ -6,6 +6,7 @@ import {IPingResult}           from '../../../types/models';
 import {initIxo}               from '../redux/ixo/ixo_action_creators';
 import {initializeWeb3}        from '../redux/web3/web3_action_creators';
 import styled             from 'styled-components';
+import {Link} from 'react-router-dom';
 
 const logoSrc = require('../assets/images/logo.png');
 
@@ -129,7 +130,7 @@ export class Header extends React.Component<Header.IProps, Header.State> {
                 <div className="container">
                     <div className="row">
                         <div className="col-md-4 d-flex align-items-center">
-                            <img src={logoSrc} alt="IXO Logo"/>
+                            <Link to="/"><img src={logoSrc} alt="IXO Logo"/></Link>
                         </div>
                         <div className="col-md-4">
                         </div>
@@ -204,7 +205,8 @@ const StatusMessage = styled.div`
     border-radius: 10px;
     pointer-events:none;
     transition:opacity 0.3s ease;
-
+    z-index: 1;
+    
     &:after {
         content: "";
         width: 0;
@@ -220,7 +222,7 @@ const StatusMessage = styled.div`
     }
 `;
 
-const Ping = styled.p`
+const Ping = styled.div`
     margin-bottom:0;
     position:relative;
 

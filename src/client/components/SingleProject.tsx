@@ -5,18 +5,13 @@ import {IPublicSiteStoreState} from "../redux/public_site_reducer";
 export namespace SingleProject {
 
     export interface Props {
-        title:string
+        location?: any
     }
-
     export interface State {
 
     }
 
-    export interface Callbacks {
-        onGetWeb3?: () => void;
-    }
-
-    export interface IProps extends Props, Callbacks {
+    export interface IProps extends Props {
     }
 }
 
@@ -27,13 +22,30 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
         super(props, context);
 
     }
+
+    componentDidUpdate(prevProps:SingleProject.IProps){
+
+        if(prevProps.location.state !== this.props.location.state){
+            // console.log("HERE");
+        }
+        console.log(this.props.location.state);
+    }
     
-    render() {
+    
+    render() {        
+        console.log("rendering");
+        const projectMeta = this.props.location.state;
         return (
-            <div /*id={style.projects}*/ className=" container">
-                <div className="row">
-                    <h2>{this.props.title}</h2>
-                    <button id="agents">View Agents</button>
+            <div className=" container">
+                <div>
+                    <h2>{projectMeta.name}</h2>
+                    <p>Country: {projectMeta.country}</p>
+                    <p>Date created: {projectMeta.created}</p>
+                    <p>Project ID: {projectMeta._id}</p>
+                    <br/>
+                    <p>Owner information:</p>
+                    <p>Name: {projectMeta.owner.name}</p>
+                    <p>Email: {projectMeta.owner.name}</p>
                 </div>
             </div>
         );

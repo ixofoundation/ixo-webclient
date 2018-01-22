@@ -1,6 +1,7 @@
 import * as React  from 'react';
 import * as Modal  from 'react-modal';
 import DynamicForm from './formTemplates/DynamicForm';
+import styled             from 'styled-components';
 
 const modalStyles = {
     overlay: {
@@ -16,6 +17,11 @@ const modalStyles = {
         transform  : 'translate(-50%, -50%)'
     }
 };
+
+const SidebarContainer = styled.div`
+    background:#00d3ff;
+    height:calc(100vh - 140px);
+`;
 
 const formSchema = {
     'entities': [
@@ -81,7 +87,7 @@ export class Sidebar extends React.Component<Sidebar.Props, Sidebar.State> {
 
     render() {
         return (
-            <div /*id={style.sidebar}*/ className='col-md-2'>
+            <SidebarContainer className='col-md-2'>
                 <h2>Dashboard</h2>
                 <Modal
                     style={modalStyles}
@@ -93,7 +99,7 @@ export class Sidebar extends React.Component<Sidebar.Props, Sidebar.State> {
                     <DynamicForm formSchema={formSchema.entities}/>
                 </Modal>
                 <button onClick={this.handleOpenModal}>Create projects</button>
-            </div>
+            </SidebarContainer>
         );
     }
 }

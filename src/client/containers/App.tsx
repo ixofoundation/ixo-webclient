@@ -8,6 +8,7 @@ import {Routes}                from '../components/Routes';
 import {Sidebar}               from '../components/SideBar';
 import {Footer}                from '../components/Footer';
 import {Header}                from '../components/Header';
+import styled                  from 'styled-components';
 
 export namespace App {
     export interface Props {
