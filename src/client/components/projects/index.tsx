@@ -23,6 +23,7 @@ export class Projects extends React.Component<Projects.IProps, Projects.State> {
     constructor(props?: Projects.IProps, context?: any) {
         super(props, context);
         this.state = {
+            historyChanged: false
         };
     }
 

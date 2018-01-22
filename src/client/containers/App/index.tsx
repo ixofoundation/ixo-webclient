@@ -6,6 +6,7 @@ import {Header, MainSection, Sidebar, Footer, SingleProject, Projects} from '../
 import {IPublicSiteStoreState} from "../../redux/public_site_reducer";
 import {Route, Switch} from 'react-router-dom';
 import {initIxo}               from '../../redux/ixo/ixo_action_creators';
+import {withRouter} from 'react-router-dom';
 
 export namespace App {
     export interface Props {
@@ -20,6 +21,7 @@ export namespace App {
     }
 }
 
+@withRouter
 @connect(mapStateToProps, mapDispatchToProps)
 export class App extends React.Component<App.IProps,App.State> {
 
