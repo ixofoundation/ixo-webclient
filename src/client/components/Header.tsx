@@ -5,6 +5,7 @@ import {pingIxoServer}         from '../redux/ping/ping_action_creators';
 import {IPingResult}           from '../../../types/models';
 import {initIxo}               from '../redux/ixo/ixo_action_creators';
 import {initializeWeb3}        from '../redux/web3/web3_action_creators';
+import styled             from 'styled-components';
 
 const logoSrc = require('../assets/images/logo.png');
 
@@ -81,28 +82,35 @@ export class Header extends React.Component<Header.IProps, Header.State> {
     renderStatusIndicator() {
         if (this.state.isServerConnected && this.props.pingError === null) {
             return (
-                <p //className={style.ping}
-                   data-tip={`Response time: ${this.state.responseTime} ms
---------
-${this.state.selectedServer}`}>
+                <Ping>
                     Server Status:
-                    <span /**className={style.ready}**/></span>
-                </p>
+                    <LightReady/>
+                    <StatusMessage>
+                        <p>Response time: {this.state.responseTime} ms</p>
+                        <br/>
+                        <p>{this.state.selectedServer}</p>
+                    </StatusMessage>
+                </Ping>
             );
         }
         else if (this.props.pingError === null) {
             return (
-                <p /**className={style.ping}**/ data-tip="Waiting for server...">Server Status:
-                    {/*<span className={style.loading}></span>*/}
-                </p>
+                <Ping>Server Status:
+                    <LightLoading/>
+                    <StatusMessage>
+                        <p>Waiting for server...</p>
+                    </StatusMessage>
+                </Ping>
             );
         }
         else {
             return (
-                <div></div>
-                //<p className={style.ping} data-tip={`${this.state.selectedServer} not responding`}>Server Status:
-                 //   <span className={style.error}></span>
-                //</p>
+                <Ping>Server Status:
+                   <Light/>
+                   <StatusMessage>
+                        <p>{this.state.selectedServer} not responding</p>
+                    </StatusMessage>
+                </Ping>
             );
         }
     }
@@ -117,7 +125,7 @@ ${this.state.selectedServer}`}>
 
     render() {
         return (
-            <header className="container-fluid bg-dark text-white">
+            <TopBar className="container-fluid bg-dark text-white">
                 <div className="container">
                     <div className="row">
                         <div className="col-md-4 d-flex align-items-center">
@@ -137,7 +145,7 @@ ${this.state.selectedServer}`}>
                     </div>
                 </div>
 
-            </header>
+            </TopBar>
         );
     }
 }
@@ -164,3 +172,98 @@ function mapDispatchToProps(dispatch) {
         }
     };
 }
+
+/* STYLING BELOW */
+
+const TopBar = styled.header`
+    padding:15px 0;
+    z-index:1;
+
+    & img {
+        height:40px;
+    }
+
+    & select {
+        margin-right: 20px;
+        background: none;
+        color: white;
+        border: 1px solid white;
+        height: 35px;
+        width: 180px;
+    }
+`;
+const StatusMessage = styled.div`
+    opacity:0; 
+    background: rgba(0, 0, 0,0.7);
+    position: absolute;
+    color: white;
+    top: 140%;
+    padding: 10px;
+    line-height: 1.2;
+    font-size: 0.8em;
+    border-radius: 10px;
+    pointer-events:none;
+    transition:opacity 0.3s ease;
+
+    &:after {
+        content: "";
+        width: 0;
+        height: 0;
+        border-left: 10px solid transparent;
+        border-right: 10px solid transparent;
+        border-bottom: 10px solid rgba(0, 0, 0,0.7);
+        position: absolute;
+        top: -10px;
+        left: 20px;
+        pointer-events:none;
+        transition:opacity 0.3s ease;
+    }
+`;
+
+const Ping = styled.p`
+    margin-bottom:0;
+    position:relative;
+
+    &:hover {
+        cursor:pointer;
+    }
+
+    &:hover ${StatusMessage},
+    &:hover ${StatusMessage}{
+      opacity:1;
+    }
+`;
+
+const Light = styled.span`
+    margin-left: 5px;
+    background:rgb(240, 0, 0);
+    border-radius:50%;
+    box-shadow: 0px 0px 10px 0px rgba(255,0,0,1);
+    display:inline-block;
+    width:10px;
+    height:10px;
+`;
+
+const LightLoading = Light.extend`
+    box-shadow: 0px 0px 10px 0px rgba(255,165,0,1);
+    background:rgb(255, 165, 0);
+    animation: flashing 1s infinite;
+
+    @keyframes flashing {
+        0% {
+          box-shadow: 0px 0px 10px 0px rgba(255,165,0,1);
+        }
+        50% {
+          box-shadow: 0px 0px 10px 1px rgba(255,200,0,1);
+          background:rgb(255, 200, 0);
+        }
+        100% {
+          box-shadow: 0px 0px 10px 0px rgba(255,165,0,1);
+        }
+      }
+`;
+
+const LightReady = Light.extend`
+    background:rgb(162, 240, 45);
+    box-shadow: 0px 0px 10px 0px rgb(0, 255, 64);
+`;

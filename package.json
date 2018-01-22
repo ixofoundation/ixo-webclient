@@ -64,6 +64,7 @@
     "redux-actions": "^2.2.1",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.2.0",
+    "styled-components": "^2.4.0",
     "util": "^0.10.3",
     "web3": "^1.0.0-beta2",
     "webpack": "^3.10.0"
