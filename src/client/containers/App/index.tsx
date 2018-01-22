@@ -7,6 +7,7 @@ import {IPublicSiteStoreState} from "../../redux/public_site_reducer";
 import {Route, Switch} from 'react-router-dom';
 import {initIxo}               from '../../redux/ixo/ixo_action_creators';
 import {withRouter} from 'react-router-dom';
+import {Routes} from '../../components/Routes';
 
 export namespace App {
     export interface Props {
@@ -54,14 +55,9 @@ export class App extends React.Component<App.IProps,App.State> {
                 <div className="container-fluid">
                     <div className="row">
                         <Sidebar/>
-                        <Switch>
-                            <Route path='/project' component={SingleProject} />
-                            <Route exact path="/"
-                            render={(routeProps) => (
-                                <Projects {...routeProps} {...this.props} projectList={this.state.projectList} />
-                            )}
-                            />
-                        </Switch>
+                        <Routes 
+                            projectList={this.state.projectList}
+                        />
                     </div>
                 </div>
                 <Footer/>
