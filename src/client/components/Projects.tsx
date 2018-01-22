@@ -1,8 +1,7 @@
-import * as React from 'react';
-import * as style from './style.css';
-import {connect} from "react-redux";
-import {IPublicSiteStoreState} from "../../redux/public_site_reducer";
-import {Link} from 'react-router-dom';
+import * as React              from 'react';
+import {connect}               from "react-redux";
+import {IPublicSiteStoreState} from "../redux/public_site_reducer";
+import {Link}                  from 'react-router-dom';
 
 export namespace Projects {
 
@@ -34,7 +33,7 @@ export class Projects extends React.Component<Projects.IProps, Projects.State> {
     render() {
         const projects = this.props.projectList;
         return (
-            <div id={style.projects} className=" container">
+            <div /*id={style.projects}*/ className=" container">
                 <div className="row">
                     { projects.map((project,index)=>{
                         return <div className="col-md-4" key={index}>

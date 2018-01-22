@@ -1,8 +1,6 @@
-import * as React from 'react';
-import * as style from './style.css';
-import {InputText} from "../inputText";
-import {connect} from "react-redux";
-import {IPublicSiteStoreState} from "../../redux/public_site_reducer";
+import * as React              from 'react';
+import {connect}               from "react-redux";
+import {IPublicSiteStoreState} from "../redux/public_site_reducer";
 
 export namespace HomePage {
 
@@ -45,10 +43,9 @@ export class HomePage extends React.Component<HomePage.IProps, HomePage.State> {
 
     render() {
         return (
-            <section className={style.homepage}>
-                <div className={style.text}>Username:</div>
-                <InputText onTextChanges={this.setText} placeholder='Username'/>
-                <button className={style.button} onClick={this.loginUser}>Login</button>
+            <section /*className={style.homepage}*/>
+                <div /*className={style.text}*/>Username:</div>
+                <button /*className={style.button}*/ onClick={this.loginUser}>Login</button>
             </section>
         );
     }

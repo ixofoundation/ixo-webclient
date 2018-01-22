@@ -1,12 +1,9 @@
 import * as React              from 'react';
-import * as style              from './style.css';
-import {HomePage}              from '../homePage';
-import {Projects}              from '../projects';
-import {SingleProject}         from '../singleProject';
+import {HomePage}              from './HomePage';
 import {connect}               from 'react-redux';
-import {IPublicSiteStoreState} from '../../redux/public_site_reducer';
-import {renderIf}              from '../../utils/react_utils';
-import {Route} from 'react-router-dom';
+import {IPublicSiteStoreState} from '../redux/public_site_reducer';
+import {renderIf}              from '../utils/react_utils';
+import {Route}                 from 'react-router-dom';
 
 export namespace MainSection {
     interface Props {
@@ -50,7 +47,7 @@ export class MainSection extends React.Component<MainSection.IProps, MainSection
 
     render() {
         return (
-            <section id={style.main} className="col-md-10">
+            <section /*id={style.main}*/ className="col-md-10">
 
                 {renderIf(this.state.isWeb3AccountLoaded, {
                     ifTrue : () => (

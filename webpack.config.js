@@ -27,7 +27,7 @@ module.exports = {
     watchOptions: {
         aggregateTimeout: 300,
         poll: 1000
-      },
+    },
     target: 'web',
     resolve: {
         extensions: ['.js', '.ts', '.tsx'],
@@ -47,48 +47,19 @@ module.exports = {
                         'awesome-typescript-loader'
                     ]
             },
-            // css
-            {
-                test: /\.css$/,
-                use: ExtractTextPlugin.extract({
-                    fallback: 'style-loader',
-                    use: [
-                        {
-                            loader: 'css-loader',
-                            query: {
-                                modules: true,
-                                sourceMap: !isProduction,
-                                importLoaders: 1,
-                                localIdentName: '[local]__[hash:base64:5]'
-                            }
-                        },
-                        {
-                            loader: 'postcss-loader',
-                            options: {
-                                ident: 'postcss',
-                                plugins: [
-                                    require('postcss-import')({addDependencyTo: Webpack}),
-                                    require('postcss-url')(),
-                                    require('postcss-cssnext')(),
-                                    require('postcss-reporter')(),
-                                    require('postcss-browser-reporter')({disabled: isProduction}),
-                                ]
-                            }
-                        }
-                    ]
-                })
-            },
+            {test: /\.css$/, use: ['style-loader', 'css-loader']},
             // static assets
             {test: /\.html$/, use: 'html-loader'},
             {test: /\.png$/, use: 'url-loader?limit=10000'},
             {test: /\.jpg$/, use: 'file-loader'},
+
         ],
     },
     plugins: [
         new Webpack.DefinePlugin({
-            "process.env": { 
-                NODE_ENV: isProduction === true ? JSON.stringify('production') : JSON.stringify('development') 
-              }
+            "process.env": {
+                NODE_ENV: isProduction === true ? JSON.stringify('production') : JSON.stringify('development')
+            }
         }),
         new Webpack.optimize.CommonsChunkPlugin({
             name: 'vendor',

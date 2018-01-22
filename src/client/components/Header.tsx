@@ -1,13 +1,12 @@
 import * as React              from 'react';
-import * as style              from './style.css';
 import {connect}               from 'react-redux';
-import {IPublicSiteStoreState} from '../../redux/public_site_reducer';
-import {pingIxoServer}         from '../../redux/ping/ping_action_creators';
-import {IPingResult}           from '../../../../types/models';
-import {initIxo}               from '../../redux/ixo/ixo_action_creators';
-import {initializeWeb3}        from '../../redux/web3/web3_action_creators';
+import {IPublicSiteStoreState} from '../redux/public_site_reducer';
+import {pingIxoServer}         from '../redux/ping/ping_action_creators';
+import {IPingResult}           from '../../../types/models';
+import {initIxo}               from '../redux/ixo/ixo_action_creators';
+import {initializeWeb3}        from '../redux/web3/web3_action_creators';
 
-const logoSrc = require('../../assets/images/logo.png');
+const logoSrc = require('../assets/images/logo.png');
 
 export namespace Header {
     export interface Props {
@@ -82,27 +81,28 @@ export class Header extends React.Component<Header.IProps, Header.State> {
     renderStatusIndicator() {
         if (this.state.isServerConnected && this.props.pingError === null) {
             return (
-                <p className={style.ping}
+                <p //className={style.ping}
                    data-tip={`Response time: ${this.state.responseTime} ms
 --------
 ${this.state.selectedServer}`}>
                     Server Status:
-                    <span className={style.ready}></span>
+                    <span /**className={style.ready}**/></span>
                 </p>
             );
         }
         else if (this.props.pingError === null) {
             return (
-                <p className={style.ping} data-tip="Waiting for server...">Server Status:
-                    <span className={style.loading}></span>
+                <p /**className={style.ping}**/ data-tip="Waiting for server...">Server Status:
+                    {/*<span className={style.loading}></span>*/}
                 </p>
             );
         }
         else {
             return (
-                <p className={style.ping} data-tip={`${this.state.selectedServer} not responding`}>Server Status:
-                    <span className={style.error}></span>
-                </p>
+                <div></div>
+                //<p className={style.ping} data-tip={`${this.state.selectedServer} not responding`}>Server Status:
+                 //   <span className={style.error}></span>
+                //</p>
             );
         }
     }

@@ -1,7 +1,6 @@
-import * as React from 'react';
-import * as style from './style.css';
-import {connect} from "react-redux";
-import {IPublicSiteStoreState} from "../../redux/public_site_reducer";
+import * as React              from 'react';
+import {connect}               from "react-redux";
+import {IPublicSiteStoreState} from "../redux/public_site_reducer";
 
 export namespace SingleProject {
 
@@ -31,7 +30,7 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
     
     render() {
         return (
-            <div id={style.projects} className=" container">
+            <div /*id={style.projects}*/ className=" container">
                 <div className="row">
                     <h2>{this.props.title}</h2>
                     <button id="agents">View Agents</button>

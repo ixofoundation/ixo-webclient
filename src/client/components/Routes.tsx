@@ -1,7 +1,7 @@
-import * as React from 'react';
+import * as React      from 'react';
 import {Switch, Route} from 'react-router-dom';
-import {SingleProject} from '../components/singleProject';
-import {Projects} from '../components/projects';
+import {SingleProject} from './SingleProject';
+import {Projects}      from './Projects';
 
 export namespace Routes {
     export interface RouteProps {
