@@ -91,16 +91,19 @@ const SidebarLink = styled(NavLink)`
     color:white;
     padding:10px;
     
+    transition:all 0.3s ease;
+
     &:hover {
         background:${props => props.theme.bgLighter};
         color:white;
         text-decoration:none;
+        padding-left:15px;
     }
 
     &.sidebar-active {
         border-left:5px solid #0f8dab;
         background:${props => props.theme.bgLightest};
-        padding-left:5px;
+        padding-left:10px;
         color:#0f8dab;
     }
 `;

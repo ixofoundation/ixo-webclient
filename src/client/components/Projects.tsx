@@ -7,7 +7,9 @@ import styled                  from 'styled-components';
 export namespace Projects {
 
     export interface Props {
-        projectList: any
+        projectList: any,
+        web3Instance?: any,
+        isWeb3AccountLoaded: boolean
     }
 
     export interface State {
@@ -23,6 +25,7 @@ export class Projects extends React.Component<Projects.IProps, Projects.State> {
     constructor(props?: Projects.IProps, context?: any) {
         super(props, context);
         this.state = {
+            isWeb3AccountLoaded: false
         };
     }
 
@@ -33,25 +36,27 @@ export class Projects extends React.Component<Projects.IProps, Projects.State> {
     render() {
         const projects = this.props.projectList;
         return (
-            <ProjectsContainer className=" container">
+            <ProjectsContainer className="container">
                 <div className="row">
                     { projects.map((project,index)=>{
                         return (
                         <ProjectCard className="col-md-4" key={index}>
-                            <h3>{project.name}</h3>
-                            <p>Country: {project.country}</p>
+                            <ProjectCardInner>
+                                <h3>{project.name}</h3>
+                                <p>Country: {project.country}</p>
 
-                            <OwnerBox>
-                                <h4>Owner information:</h4>
-                                <p>Name: {project.owner.name}</p>
-                                <p>Email: {project.owner.email}</p>
-                            </OwnerBox>
-
-                            <ViewProject to={{
-                                pathname:`/project/${project._id}`,
-                                state: project
-                            }}
-                            project={project}>View Project</ViewProject>
+                                <OwnerBox>
+                                    <h4>Owner information:</h4>
+                                    <p>Name: {project.owner.name}</p>
+                                    <p>Email: {project.owner.email}</p>
+                                </OwnerBox>
+                                <ViewProject to={{
+                                    pathname:`/project/${project._id}`,
+                                    state: project
+                                }}
+                                project={project}>View Project</ViewProject>
+                                
+                            </ProjectCardInner>
                         </ProjectCard>);
                     }) }
                 </div>
@@ -62,7 +67,7 @@ export class Projects extends React.Component<Projects.IProps, Projects.State> {
 
 function mapStateToProps(state: IPublicSiteStoreState) {
     return {
-        
+        web3Instance: state.web3Store.web3Instance
     };
 }
 
@@ -76,33 +81,42 @@ const ProjectsContainer = styled.div`
     padding-top:30px;
 `;
 
-const ProjectCard = styled.div`
-    background:${props => props.theme.darkBlue};
+const ProjectCardInner = styled.div`
+    box-shadow: 3px 3px 5px 0px rgba(0,0,0,0.2);
+    border-radius: 5px;
     padding:10px;
     color:white;
+    margin: 5px;
+`;
 
-    &:nth-child(4n+0) {
+const ProjectCard = styled.div`
+
+    &&{
+        padding:0;
+    }
+
+    &:nth-child(4n+0) ${ProjectCardInner}{
         background:${props => props.theme.bgLightest};
         & h3, h4, p {
             color:${props => props.theme.fontMain};
         }
     }
 
-    &:nth-child(4n+1) {
+    &:nth-child(4n+1) ${ProjectCardInner}{
         background:${props => props.theme.bgLighter};
         & h3, h4, p {
             color:${props => props.theme.fontMain};
         }
     }
 
-    &:nth-child(4n+2) {
+    &:nth-child(4n+2) ${ProjectCardInner}{
         background:${props => props.theme.bgMain};
         & h3, h4, p {
             color:${props => props.theme.fontMain};
         }
     }
 
-    &:nth-child(4n+3) {
+    &:nth-child(4n+3) ${ProjectCardInner}{
         background:${props => props.theme.bgDarker};
         & h3, h4, p {
             color:${props => props.theme.fontMain};
@@ -133,7 +147,7 @@ const ViewProject = styled(Link)`
     text-align: center;
     border-radius: 5px;
     background: #0f8dab;
-    margin:10px 0;
+    margin:10px 0 0;
     padding:5px 0;
     color:white;
     transition:background 0.3s ease;

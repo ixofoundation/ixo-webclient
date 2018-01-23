@@ -12,12 +12,14 @@ import styled,{ThemeProvider}  from 'styled-components';
 
 export namespace App {
     export interface Props {
-        ixo?: any
+        ixo?: any,
+        web3Instance?: any
     }
 
     export interface State {
         projectList: any,
-        projectSchema: any
+        projectSchema: any,
+        isWeb3AccountLoaded: boolean
     }
 
     export interface IProps extends Props {
@@ -32,11 +34,21 @@ export class App extends React.Component<App.IProps, App.State> {
         super(props, context);
         this.state = {
             projectList: [],
-            projectSchema: []
+            projectSchema: [],
+            isWeb3AccountLoaded: false,
         };
     }
 
     componentDidUpdate(prevProps: App.Props) {
+
+        if (prevProps.web3Instance !== this.props.web3Instance) {
+            if (this.props.web3Instance.eth.coinbase !== null) {
+                this.setState({isWeb3AccountLoaded: true});
+            } else {
+                this.setState({isWeb3AccountLoaded: false});
+            }
+        }
+
         if (prevProps.ixo !== this.props.ixo) {
             this.props.ixo.project.listProjects().then((response: any) => {
                 const projectList = response.result;
@@ -82,7 +94,8 @@ export class App extends React.Component<App.IProps, App.State> {
 
 function mapStateToProps(state: IPublicSiteStoreState) {
     return {
-        ixo: state.ixoStore.ixo
+        ixo: state.ixoStore.ixo,
+        web3Instance: state.web3Store.web3Instance
     };
 }
 
