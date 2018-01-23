@@ -2,65 +2,12 @@ import * as React  from 'react';
 import * as Modal  from 'react-modal';
 import DynamicForm from './formTemplates/DynamicForm';
 import styled             from 'styled-components';
-
-const modalStyles = {
-    overlay: {
-        backgroundColor: 'rgba(0, 0, 0, 0.75)',
-        transition     : 'all 0.5s ease'
-    },
-    content: {
-        top        : '50%',
-        left       : '50%',
-        right      : 'auto',
-        bottom     : 'auto',
-        marginRight: '-50%',
-        transform  : 'translate(-50%, -50%)'
-    }
-};
-
-const SidebarContainer = styled.div`
-    background:#00d3ff;
-    height:calc(100vh - 140px);
-`;
-
-const formSchema = {
-    'entities': [
-        {
-            'label': 'Project Name',
-            'name' : 'name',
-            'type' : 'text'
-        },
-        {
-            'label': 'About',
-            'name' : 'about',
-            'type' : 'textarea'
-        },
-        {
-            'label': 'Country',
-            'name' : 'country',
-            'type' : 'country'
-        },
-        {
-            'label': 'Thumbnail',
-            'name' : 'thumbnail',
-            'type' : 'image'
-        },
-        {
-            'label': 'Owner Name',
-            'name' : 'owner.name',
-            'type' : 'text'
-        },
-        {
-            'label': 'Owner email',
-            'name' : 'owner.email',
-            'type' : 'text'
-        }
-    ]
-};
+import { IPublicSiteStoreState } from '../redux/public_site_reducer';
+import {NavLink} from 'react-router-dom';
 
 export namespace Sidebar {
     export interface Props {
-
+        projectSchema: any
     }
 
     export interface State {
@@ -88,7 +35,7 @@ export class Sidebar extends React.Component<Sidebar.Props, Sidebar.State> {
     render() {
         return (
             <SidebarContainer className='col-md-2'>
-                <h2>Dashboard</h2>
+                <SidebarLink to='/' activeClassName="sidebar-active">Dashboard</SidebarLink>
                 <Modal
                     style={modalStyles}
                     isOpen={this.state.isModalOpen}
@@ -96,10 +43,69 @@ export class Sidebar extends React.Component<Sidebar.Props, Sidebar.State> {
                     contentLabel="Modal"
                     ariaHideApp={false}
                 >
-                    <DynamicForm formSchema={formSchema.entities}/>
+                    {this.props.projectSchema.length > 0 ?
+                    <DynamicForm formSchema={this.props.projectSchema}/> :
+                    <p>No Project Schema found</p>
+                    }
                 </Modal>
-                <button onClick={this.handleOpenModal}>Create projects</button>
+                <SidebarModalLink href="#" onClick={this.handleOpenModal}>Create a Project</SidebarModalLink>
+                <SidebarLink to='/my-projects' activeClassName="sidebar-active">View My Projects</SidebarLink>
+                <SidebarLink to='/service-agents' activeClassName="sidebar-active">Service Agents</SidebarLink>
             </SidebarContainer>
         );
     }
 }
+
+function mapStateToProps(state: IPublicSiteStoreState){
+    
+}
+
+/* STYLES BELOW */
+
+const modalStyles = {
+    overlay: {
+        backgroundColor: 'rgba(0, 0, 0, 0.75)',
+        transition     : 'all 0.5s ease'
+    },
+    content: {
+        top        : '50%',
+        left       : '50%',
+        right      : 'auto',
+        bottom     : 'auto',
+        marginRight: '-50%',
+        transform  : 'translate(-50%, -50%)'
+    }
+};
+
+const SidebarContainer = styled.div`
+    background:${props => props.theme.bgMain};
+    height:calc(100vh - 140px);
+
+    && {
+        padding:0;
+    }
+`;
+
+const SidebarLink = styled(NavLink)`
+    display:block;
+    color:white;
+    padding:10px;
+    
+    &:hover {
+        background:${props => props.theme.bgLighter};
+        color:white;
+        text-decoration:none;
+    }
+
+    &.sidebar-active {
+        border-left:5px solid #0f8dab;
+        background:${props => props.theme.bgLightest};
+        padding-left:5px;
+        color:#0f8dab;
+    }
+`;
+
+const Link = SidebarLink.withComponent('a')
+
+const SidebarModalLink = Link.extend`
+`;

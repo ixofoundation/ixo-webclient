@@ -20,14 +20,16 @@ export default class InputText extends React.Component<InputText.Props> {
 
     render() {
         return (
-            <section>
+            <div className="input-group">
+                <div className="input-group-prepend">
+                    <span className="input-group-text">{this.props.text}</span>
+                </div>
                 <input className="form-control"
                     id={this.props.id}
                     type={this.props.type}
                     placeholder={this.props.text}
                     onChange={this.handleChange}/>
-            </section>
-            
+            </div>
         );
     }
 }

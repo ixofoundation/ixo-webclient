@@ -13,7 +13,7 @@ export namespace Footer {
 export class Footer extends React.Component<Footer.Props, Footer.State> {
     render() {
         return (
-            <FooterContainer className="container-fluid bg-dark">
+            <FooterContainer className="container-fluid">
                 <div className="row">
                     <p className="col-md-12">Copyright ixo Foundation</p>
                 </div>
@@ -28,4 +28,5 @@ const FooterContainer = styled.div`
     color:white;
     display: flex;
     align-items: center;
+    background:black;
 `;

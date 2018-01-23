@@ -47,7 +47,7 @@ export class MainSection extends React.Component<MainSection.IProps, MainSection
 
     render() {
         return (
-            <section /*id={style.main}*/ className="col-md-10">
+            <section className="col-md-10">
 
                 {renderIf(this.state.isWeb3AccountLoaded, {
                     ifTrue : () => (

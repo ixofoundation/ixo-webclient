@@ -126,7 +126,7 @@ export class Header extends React.Component<Header.IProps, Header.State> {
 
     render() {
         return (
-            <TopBar className="container-fluid bg-dark text-white">
+            <TopBar className="container-fluid text-white">
                 <div className="container">
                     <div className="row">
                         <div className="col-md-4 d-flex align-items-center">
@@ -179,7 +179,8 @@ function mapDispatchToProps(dispatch) {
 const TopBar = styled.header`
     padding:15px 0;
     z-index:1;
-
+    background:black;
+    
     & img {
         height:40px;
     }

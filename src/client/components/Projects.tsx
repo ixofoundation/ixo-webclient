@@ -36,19 +36,23 @@ export class Projects extends React.Component<Projects.IProps, Projects.State> {
             <ProjectsContainer className=" container">
                 <div className="row">
                     { projects.map((project,index)=>{
-                        return <div className="col-md-4" key={index}>
+                        return (
+                        <ProjectCard className="col-md-4" key={index}>
                             <h3>{project.name}</h3>
                             <p>Country: {project.country}</p>
-                            <h4><u>Owner information: </u></h4>
-                            <p>Name: {project.owner.name}</p>
-                            <p>Email: {project.owner.email}</p>
-                            <Link to={{
+
+                            <OwnerBox>
+                                <h4>Owner information:</h4>
+                                <p>Name: {project.owner.name}</p>
+                                <p>Email: {project.owner.email}</p>
+                            </OwnerBox>
+
+                            <ViewProject to={{
                                 pathname:`/project/${project._id}`,
                                 state: project
                             }}
-                            
-                            project={project}>View Project</Link>
-                        </div>
+                            project={project}>View Project</ViewProject>
+                        </ProjectCard>);
                     }) }
                 </div>
             </ProjectsContainer>
@@ -69,4 +73,75 @@ function mapDispatchToProps(dispatch) {
 const ProjectsContainer = styled.div`
     height:calc(100vh - 140px);
     overflow-y: scroll;
+    padding-top:30px;
+`;
+
+const ProjectCard = styled.div`
+    background:${props => props.theme.darkBlue};
+    padding:10px;
+    color:white;
+
+    &:nth-child(4n+0) {
+        background:${props => props.theme.bgLightest};
+        & h3, h4, p {
+            color:${props => props.theme.fontMain};
+        }
+    }
+
+    &:nth-child(4n+1) {
+        background:${props => props.theme.bgLighter};
+        & h3, h4, p {
+            color:${props => props.theme.fontMain};
+        }
+    }
+
+    &:nth-child(4n+2) {
+        background:${props => props.theme.bgMain};
+        & h3, h4, p {
+            color:${props => props.theme.fontMain};
+        }
+    }
+
+    &:nth-child(4n+3) {
+        background:${props => props.theme.bgDarker};
+        & h3, h4, p {
+            color:${props => props.theme.fontMain};
+        }
+    }
+
+    & h3 {
+        font-weight: 400;
+    }
+
+    & p {
+        font-weight:100;
+    }
+`;
+
+const OwnerBox = styled.div`
+    & h4 {
+        font-size:1em;
+    }
+
+    & p {
+        margin-bottom:0;
+    }
+`;
+
+const ViewProject = styled(Link)`
+    display: block;
+    text-align: center;
+    border-radius: 5px;
+    background: #0f8dab;
+    margin:10px 0;
+    padding:5px 0;
+    color:white;
+    transition:background 0.3s ease;
+    
+
+    &:hover {
+        background:#c3f4ff;
+        text-decoration:none;
+        color:#0f8dab;
+    }
 `;

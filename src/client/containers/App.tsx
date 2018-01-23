@@ -8,7 +8,7 @@ import {Routes}                from '../components/Routes';
 import {Sidebar}               from '../components/SideBar';
 import {Footer}                from '../components/Footer';
 import {Header}                from '../components/Header';
-import styled                  from 'styled-components';
+import styled,{ThemeProvider}  from 'styled-components';
 
 export namespace App {
     export interface Props {
@@ -16,7 +16,8 @@ export namespace App {
     }
 
     export interface State {
-        projectList: any
+        projectList: any,
+        projectSchema: any
     }
 
     export interface IProps extends Props {
@@ -30,7 +31,8 @@ export class App extends React.Component<App.IProps, App.State> {
     constructor(props?: App.Props, context?: any) {
         super(props, context);
         this.state = {
-            projectList: []
+            projectList: [],
+            projectSchema: []
         };
     }
 
@@ -38,11 +40,20 @@ export class App extends React.Component<App.IProps, App.State> {
         if (prevProps.ixo !== this.props.ixo) {
             this.props.ixo.project.listProjects().then((response: any) => {
                 const projectList = response.result;
-
                 if (projectList !== this.state.projectList) {
                     this.setState({projectList: projectList});
                 }
 
+            }).catch((result: Error) => {
+                console.log(result);
+            });
+            this.props.ixo.project.getProjectTemplate('default').then((response: any) => {
+                console.log(response);
+                const projectSchema = response.result.form.fields;
+
+                if (projectSchema !== this.state.projectSchema) {
+                    this.setState({projectSchema: projectSchema});
+                }
             }).catch((result: Error) => {
                 console.log(result);
             });
@@ -51,18 +62,20 @@ export class App extends React.Component<App.IProps, App.State> {
 
     render() {
         return (
-            <div>
-                <Header/>
-                <div className="container-fluid">
-                    <div className="row">
-                        <Sidebar/>
-                        <Routes
-                            projectList={this.state.projectList}
-                        />
+            <ThemeProvider theme={mainTheme}>
+                <AppContainer>
+                    <Header/>
+                    <div className="container-fluid">
+                        <div className="row">
+                            <Sidebar projectSchema={this.state.projectSchema}/>
+                            <Routes
+                                projectList={this.state.projectList}
+                            />
+                        </div>
                     </div>
-                </div>
-                <Footer/>
-            </div>
+                    <Footer/>
+                </AppContainer>
+            </ThemeProvider>
         );
     }
 }
@@ -76,3 +89,21 @@ function mapStateToProps(state: IPublicSiteStoreState) {
 function mapDispatchToProps(dispatch) {
     return {};
 }
+
+const AppContainer = styled.div`
+    font-family: 'Roboto', sans-serif;
+`;
+
+// Define what props.theme will look like
+const mainTheme = {
+    bgLightest : '#66e3ff',
+    bgLighter : '#33daff',
+    bgMain : '#00d2ff',
+    bgDarker: '#01b6dd',
+
+    fontLighter:'#00677f',
+    fontMain: '#004d5e',
+    fontDarker: '#00333f',
+    fontDarkest: '#001b22'
+};
+  

@@ -43,16 +43,15 @@ export default class InputFile extends React.Component<InputFile.Props,InputFile
           imgPreview = (<img src={imgSrc} />);
         }
         return (
-            <section>
-                <label htmlFor={this.props.id}>{this.props.text}
-                    <input className="form-control"
+                <div className="custom-file">
+                    <input className="custom-file-input"
                         id={this.props.id}
                         type="file"
                         onChange={this.handleChange}/>
-                </label>
-                {imgPreview}
-            </section>
-            
+                    <label className="custom-file-label" htmlFor={this.props.id}>{this.props.text}</label>
+                    {imgPreview}  
+                </div>                    
+                          
         );
     }
 }
