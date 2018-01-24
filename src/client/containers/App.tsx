@@ -44,8 +44,7 @@ export class App extends React.Component<App.IProps, App.State> {
     }
 
     componentDidUpdate(prevProps: App.Props) {
-
-        this.setState({ixoLoaded:false});
+        
         if (prevProps.web3Instance !== this.props.web3Instance) {
             if (this.props.web3Instance.eth.coinbase !== null) {
                 this.setState({isWeb3AccountLoaded: true});
@@ -55,19 +54,18 @@ export class App extends React.Component<App.IProps, App.State> {
         }
 
         if (prevProps.ixo !== this.props.ixo && this.props !== null) {
-            console.log("LOADING");
+            this.setState({ixoLoaded:true});
             let myProjectList = [];
             this.props.ixo.project.listProjects().then((response: any) => {
                 const projectList = response.result;
                 // const userDID = this.props.web3Instance.eth.accounts[0];
-                // // const userDID = '0x92928b5135d8dbad88b1e772bf5b8f91bfe41a8d';
-                // myProjectList = projectList.filter((project,index) => { 
-                //     return project.owner.did === "0x92928b5135d8dbad88b1e772bf5b8f91bfe41a8d"
-                // });
-
-                // if (myProjectList !== this.state.myProjectList) {
-                //     this.setState({myProjectList: myProjectList});
-                // }
+                const userDID = '0x92928b5135d8dbad88b1e772bf5b8f91bfe41a8d';
+                myProjectList = projectList.filter((project,index) => { 
+                    return (project.owner.did === userDID && index < 5)
+                });
+                if (myProjectList !== this.state.myProjectList) {
+                    this.setState({myProjectList: myProjectList});
+                }
                 if (projectList !== this.state.projectList) {
                     this.setState({projectList: projectList});
                 }
@@ -78,29 +76,40 @@ export class App extends React.Component<App.IProps, App.State> {
         }
     }
 
-    render() {
-        if(this.state.ixoLoaded === false){
-            return <p>Loading...</p>;
+    conditionalRender=()=>{
+        
+        if(this.state.ixoLoaded){
+            
+            return (
+            <div className="row">
+                <Sidebar/>
+                <Routes
+                projectList={this.state.projectList}
+                myProjectList={this.state.myProjectList}
+                />
+            </div>
+            );
         }
-        else {return (
+        else {
+            return <p>Loading...</p>
+        }
+    }
+
+    render() {
+        return (
             <ThemeProvider theme={mainTheme}>
                 <AppContainer>
                     <Header/>
                     <div className="container-fluid">
-                        <div className="row">
-                            <Sidebar/>
-                                <Routes
-                                    projectList={this.state.projectList}
-                                    myProjectList={this.state.myProjectList}
-                                />
-                        </div>
+                        {this.conditionalRender()}
                     </div>
                     <Footer/>
                 </AppContainer>
             </ThemeProvider>
-        );}
+        );
     }
 }
+
 
 function mapStateToProps(state: IPublicSiteStoreState) {
     return {

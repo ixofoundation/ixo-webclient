@@ -30,7 +30,6 @@ export default class DynamicForm extends React.Component<DynamicForm.Props, Dyna
     }
 
     handleSubmit = (event) => {
-        debugger;
         const target = event.target;
         event.preventDefault();
         

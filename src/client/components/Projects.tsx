@@ -30,6 +30,7 @@ export class Projects extends React.Component<Projects.IProps, Projects.State> {
     }
 
     render() {
+        console.log("IN Projects");
         const projects = this.props.projectList;
         return (
             <ProjectsContainer className="container">

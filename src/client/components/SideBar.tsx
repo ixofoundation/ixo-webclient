@@ -43,7 +43,7 @@ export class Sidebar extends React.Component<Sidebar.IProps, Sidebar.State> {
         this.setState({isModalOpen: false});
     };
 
-    componentDidUpdate(){
+    componentDidMount(){
 
         this.props.ixo.project.getProjectTemplate('default').then((response: any) => {
             const projectSchema = response.result.form.fields;
@@ -73,7 +73,7 @@ export class Sidebar extends React.Component<Sidebar.IProps, Sidebar.State> {
                     }
                 </Modal>
                 <SidebarModalLink href="#" onClick={this.handleOpenModal}>Create a Project</SidebarModalLink>
-                <SidebarLink to='/my-projects' >View My Projects</SidebarLink>
+                <SidebarLink exact to='/my-projects' >View My Projects</SidebarLink>
                 <SidebarLink to='/service-agents' >Service Agents</SidebarLink>
             </SidebarContainer>
         );
