@@ -5,11 +5,20 @@ export namespace InputText {
     type: string;
     text?: string;
     id:string;
+
+  }
+  export interface Callbacks {
+      onChange: (event) => void
+  }
+
+  export interface IProps extends Props, Callbacks {
+
   }
 }
 
-export default class InputText extends React.Component<InputText.Props> {
-    constructor(props?: InputText.Props, context?: any) {
+
+export default class InputText extends React.Component<InputText.IProps> {
+    constructor(props?: InputText.IProps, context?: any) {
         super(props, context);
 
     }
@@ -28,7 +37,8 @@ export default class InputText extends React.Component<InputText.Props> {
                     id={this.props.id}
                     type={this.props.type}
                     placeholder={this.props.text}
-                    onChange={this.handleChange}/>
+                    onChange={this.props.onChange}
+                    name={this.props.id}/>
             </div>
         );
     }

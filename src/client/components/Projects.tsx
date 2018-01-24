@@ -29,10 +29,6 @@ export class Projects extends React.Component<Projects.IProps, Projects.State> {
         };
     }
 
-    componentDidUpdate(prevProps: Projects.IProps){
-        const projects = this.props.projectList;
-    }
-
     render() {
         const projects = this.props.projectList;
         return (
@@ -97,38 +93,28 @@ const ProjectCard = styled.div`
 
     &:nth-child(4n+0) ${ProjectCardInner}{
         background:${props => props.theme.bgLightest};
-        & h3, h4, p {
-            color:${props => props.theme.fontMain};
-        }
     }
 
     &:nth-child(4n+1) ${ProjectCardInner}{
         background:${props => props.theme.bgLighter};
-        & h3, h4, p {
-            color:${props => props.theme.fontMain};
-        }
     }
 
     &:nth-child(4n+2) ${ProjectCardInner}{
         background:${props => props.theme.bgMain};
-        & h3, h4, p {
-            color:${props => props.theme.fontMain};
-        }
     }
 
     &:nth-child(4n+3) ${ProjectCardInner}{
         background:${props => props.theme.bgDarker};
-        & h3, h4, p {
-            color:${props => props.theme.fontMain};
-        }
     }
 
     & h3 {
         font-weight: 400;
+        color:#0f8dab;
     }
 
     & p {
         font-weight:100;
+        color:${props => props.theme.fontMain};
     }
 `;
 

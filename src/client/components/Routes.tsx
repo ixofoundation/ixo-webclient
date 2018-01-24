@@ -5,7 +5,8 @@ import {Projects}      from './Projects';
 
 export namespace Routes {
     export interface RouteProps {
-      projectList: any;
+      projectList: any,
+      myProjectList: any
     }
   }
   
@@ -17,6 +18,13 @@ export const Routes: React.SFC<Routes.RouteProps> = (props) => {
         render={(routeProps) => (
             <Projects {...routeProps} {...props} projectList={props.projectList} />
         )}
+        
+        />
+        <Route exact path="/my-projects"
+        render={(routeProps) => (
+            <Projects {...routeProps} {...props} projectList={props.myProjectList} />
+        )}
+        
         />
     </Switch>
     );

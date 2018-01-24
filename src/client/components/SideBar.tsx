@@ -1,30 +1,41 @@
 import * as React  from 'react';
 import * as Modal  from 'react-modal';
+import {connect} from 'react-redux';
 import DynamicForm from './formTemplates/DynamicForm';
 import styled             from 'styled-components';
 import { IPublicSiteStoreState } from '../redux/public_site_reducer';
 import {NavLink} from 'react-router-dom';
+import { withRouter } from 'react-router';
 
 export namespace Sidebar {
     export interface Props {
-        projectSchema: any
+        ixo?: any
     }
 
     export interface State {
-        isModalOpen: boolean
+        isModalOpen: boolean,
+        projectSchema: any
+    }
+
+    export interface IProps extends Props {
+
     }
 }
 
-export class Sidebar extends React.Component<Sidebar.Props, Sidebar.State> {
+@withRouter
+@connect(mapStateToProps)
+export class Sidebar extends React.Component<Sidebar.IProps, Sidebar.State> {
     constructor(props?: Sidebar.Props, context?: any) {
         super(props, context);
         this.state = {
-            isModalOpen: false
+            isModalOpen: false,
+            projectSchema: []
         };
 
     }
 
-    handleOpenModal = () => {
+    handleOpenModal = (e) => {
+        e.preventDefault();
         this.setState({isModalOpen: true});
     };
 
@@ -32,10 +43,23 @@ export class Sidebar extends React.Component<Sidebar.Props, Sidebar.State> {
         this.setState({isModalOpen: false});
     };
 
+    componentDidUpdate(){
+
+        this.props.ixo.project.getProjectTemplate('default').then((response: any) => {
+            const projectSchema = response.result.form.fields;
+
+            if (projectSchema !== this.state.projectSchema) {
+                this.setState({projectSchema: projectSchema});
+            }
+        }).catch((result: Error) => {
+            console.log(result);
+        });
+    }
+
     render() {
         return (
             <SidebarContainer className='col-md-2'>
-                <SidebarLink to='/' activeClassName="sidebar-active">Dashboard</SidebarLink>
+                <SidebarLink exact to='/' >Dashboard</SidebarLink>
                 <Modal
                     style={modalStyles}
                     isOpen={this.state.isModalOpen}
@@ -43,21 +67,23 @@ export class Sidebar extends React.Component<Sidebar.Props, Sidebar.State> {
                     contentLabel="Modal"
                     ariaHideApp={false}
                 >
-                    {this.props.projectSchema.length > 0 ?
-                    <DynamicForm formSchema={this.props.projectSchema}/> :
+                    {this.state.projectSchema.length > 0 ?
+                    <DynamicForm formSchema={this.state.projectSchema}/> :
                     <p>No Project Schema found</p>
                     }
                 </Modal>
                 <SidebarModalLink href="#" onClick={this.handleOpenModal}>Create a Project</SidebarModalLink>
-                <SidebarLink to='/my-projects' activeClassName="sidebar-active">View My Projects</SidebarLink>
-                <SidebarLink to='/service-agents' activeClassName="sidebar-active">Service Agents</SidebarLink>
+                <SidebarLink to='/my-projects' >View My Projects</SidebarLink>
+                <SidebarLink to='/service-agents' >Service Agents</SidebarLink>
             </SidebarContainer>
         );
     }
 }
 
 function mapStateToProps(state: IPublicSiteStoreState){
-    
+    return {
+        ixo: state.ixoStore.ixo
+    };
 }
 
 /* STYLES BELOW */
@@ -100,7 +126,7 @@ const SidebarLink = styled(NavLink)`
         padding-left:15px;
     }
 
-    &.sidebar-active {
+    &.active {
         border-left:5px solid #0f8dab;
         background:${props => props.theme.bgLightest};
         padding-left:10px;
