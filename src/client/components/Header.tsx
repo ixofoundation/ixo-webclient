@@ -4,9 +4,8 @@ import {IPublicSiteStoreState} from '../redux/public_site_reducer';
 import {pingIxoServer}         from '../redux/ping/ping_action_creators';
 import {IPingResult}           from '../../../types/models';
 import {initIxo}               from '../redux/ixo/ixo_action_creators';
-import {initializeWeb3}        from '../redux/web3/web3_action_creators';
-import styled             from 'styled-components';
-import {Link} from 'react-router-dom';
+import styled                  from 'styled-components';
+import {Link}                  from 'react-router-dom';
 
 const logoSrc = require('../assets/images/logo.png');
 
@@ -28,7 +27,6 @@ export namespace Header {
     export interface Callbacks {
         getPing?: (ixo: any) => void;
         onIxoInit?: (hostName: string) => void;
-        onWeb3Init?: (ixo: any) => void;
     }
 
     export interface IProps extends Props, Callbacks {
@@ -50,20 +48,21 @@ export class Header extends React.Component<Header.IProps, Header.State> {
 
     ping = () => {
         this.setState({initialDate: new Date()});
-        if (this.props.ixo) {
-            this.props.getPing(this.props.ixo);
-        }
+        this.props.getPing(this.props.ixo);
     };
 
     componentDidMount() {
         this.props.onIxoInit(this.state.selectedServer);
-        this.ping();
         setInterval(this.ping, 5000);
     }
 
     componentDidUpdate(prevProps: Header.IProps) {
         if (prevProps.ixo !== this.props.ixo) {
-            this.props.onWeb3Init(this.props.ixo);
+            this.ping();
+        }
+
+        if (this.state.selectedServer !== this.props.ixo.hostname) {
+            this.props.onIxoInit(this.state.selectedServer);
         }
 
         if (prevProps.pingResult !== this.props.pingResult) {
@@ -107,8 +106,8 @@ export class Header extends React.Component<Header.IProps, Header.State> {
         else {
             return (
                 <Ping>Server Status:
-                   <Light/>
-                   <StatusMessage>
+                    <Light/>
+                    <StatusMessage>
                         <p>{this.state.selectedServer} not responding</p>
                     </StatusMessage>
                 </Ping>
@@ -117,7 +116,6 @@ export class Header extends React.Component<Header.IProps, Header.State> {
     }
 
     handleServerChange = (event) => {
-        this.props.onIxoInit(event.target.value);
         this.setState({
             selectedServer   : event.target.value,
             isServerConnected: false
@@ -153,22 +151,18 @@ export class Header extends React.Component<Header.IProps, Header.State> {
 
 function mapStateToProps(state: IPublicSiteStoreState) {
     return {
-        pingResult  : state.pingStore.pingResult,
-        pingError   : state.pingStore.error,
-        web3Instance: state.web3Store.web3Instance,
-        ixo         : state.ixoStore.ixo
+        pingResult: state.pingStore.pingResult,
+        pingError : state.pingStore.error,
+        ixo       : state.ixoStore.ixo
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        getPing   : (ixo) => {
+        getPing  : (ixo) => {
             dispatch(pingIxoServer(ixo));
         },
-        onWeb3Init: (ixo: any) => {
-            dispatch(initializeWeb3(ixo));
-        },
-        onIxoInit : (hostname: string) => {
+        onIxoInit: (hostname: string) => {
             dispatch(initIxo(hostname));
         }
     };

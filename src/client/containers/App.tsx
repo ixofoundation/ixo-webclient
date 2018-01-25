@@ -1,30 +1,36 @@
-import * as React              from 'react';
-import {connect}               from 'react-redux';
-import {Link}                  from 'react-router-dom';
-import {IPublicSiteStoreState} from '../redux/public_site_reducer';
-import {Route, Switch, withRouter}         from 'react-router-dom';
-import {Routes}                from '../components/Routes';
-import {Sidebar}               from '../components/SideBar';
-import {Footer}                from '../components/Footer';
-import {Header}                from '../components/Header';
-import styled,{ThemeProvider}  from 'styled-components';
-import {renderIf}              from '../utils/react_utils';
+import * as React                  from 'react';
+import {connect}                   from 'react-redux';
+import {Link}                      from 'react-router-dom';
+import {IPublicSiteStoreState}     from '../redux/public_site_reducer';
+import {Route, Switch, withRouter} from 'react-router-dom';
+import {Footer}                    from '../components/Footer';
+import {Header}                    from '../components/Header';
+import styled, {ThemeProvider}     from 'styled-components';
+import {initIxo}                   from '../redux/ixo/ixo_action_creators';
+import {initializeWeb3}            from '../redux/web3/web3_action_creators';
+import {Sidebar}                   from '../components/SideBar';
+import {Routes}                    from '../components/Routes';
+import {IPingResult}               from '../../../types/models';
 
 export namespace App {
     export interface Props {
         ixo?: any,
         web3Instance?: any
+        pingError?: any
+        pingResult?: IPingResult
     }
 
     export interface State {
         projectList: any,
-        myProjectList: any,
-        projectSchema: any,
-        isWeb3AccountLoaded: boolean,
-        ixoLoaded:boolean
     }
 
-    export interface IProps extends Props {
+    export interface Callbacks {
+        onGetPing?: (ixo: any) => void;
+        onIxoInit?: (hostName: string) => void;
+        onWeb3Init?: (ixo: any) => void;
+    }
+
+    export interface IProps extends Props, Callbacks {
     }
 }
 
@@ -35,65 +41,46 @@ export class App extends React.Component<App.IProps, App.State> {
     constructor(props?: App.Props, context?: any) {
         super(props, context);
         this.state = {
-            projectList: [],
-            myProjectList: [],
-            projectSchema: [],
-            isWeb3AccountLoaded: false,
-            ixoLoaded: false
+            projectList: null
         };
     }
 
     componentDidUpdate(prevProps: App.Props) {
-        
-        if (prevProps.web3Instance !== this.props.web3Instance) {
-            if (this.props.web3Instance.eth.coinbase !== null) {
-                this.setState({isWeb3AccountLoaded: true});
-            } else {
-                this.setState({isWeb3AccountLoaded: false});
+        if (prevProps.ixo !== this.props.ixo) {
+            this.props.onWeb3Init(this.props.ixo);
+        }
+
+        if (prevProps.pingResult !== this.props.pingResult) {
+            if (this.props.pingResult.result === 'pong') {
+                if (!this.state.projectList) {
+                    this.props.ixo.project.listProjects().then((response: any) => {
+                        this.setState({projectList: response.result});
+                    }).catch((error) => {
+                        console.error(error);
+                    });
+                }
             }
         }
 
-        if (prevProps.ixo !== this.props.ixo && this.props !== null) {
-            this.setState({ixoLoaded:true});
-            let myProjectList = [];
-            this.props.ixo.project.listProjects().then((response: any) => {
-                const projectList = response.result;
-                // const userDID = this.props.web3Instance.eth.accounts[0];
-                const userDID = '0x92928b5135d8dbad88b1e772bf5b8f91bfe41a8d';
-                myProjectList = projectList.filter((project,index) => { 
-                    return (project.owner.did === userDID && index < 5)
-                });
-                if (myProjectList !== this.state.myProjectList) {
-                    this.setState({myProjectList: myProjectList});
-                }
-                if (projectList !== this.state.projectList) {
-                    this.setState({projectList: projectList});
-                }
-
-            }).catch((result: Error) => {
-                console.log(result);
-            });
+        if (prevProps.pingError !== this.props.pingError) {
+            if (this.props.pingError) {
+                this.setState({projectList: null});
+            }
         }
     }
 
-    conditionalRender=()=>{
-        
-        if(this.state.ixoLoaded){
-            
-            return (
-            <div className="row">
-                <Sidebar/>
-                <Routes
-                projectList={this.state.projectList}
-                myProjectList={this.state.myProjectList}
-                />
-            </div>
-            );
-        }
-        else {
-            return <p>Loading...</p>
+    renderProjectContent() {
+        if (this.props.ixo && this.state.projectList && !this.props.pingError) {
+            return <div className="col-md-8">
+                <Routes projectList={this.state.projectList}/>
+            </div>;
+        } else if (this.props.pingError) {
+            return <p>Error connecting to ixo server... Retrying...</p>;
+        } else {
+            return <p>Loading...</p>;
         }
     }
+
 
     render() {
         return (
@@ -101,7 +88,10 @@ export class App extends React.Component<App.IProps, App.State> {
                 <AppContainer>
                     <Header/>
                     <div className="container-fluid">
-                        {this.conditionalRender()}
+                        <div className="row">
+                            <Sidebar/>
+                            {this.renderProjectContent()}
+                        </div>
                     </div>
                     <Footer/>
                 </AppContainer>
@@ -113,13 +103,22 @@ export class App extends React.Component<App.IProps, App.State> {
 
 function mapStateToProps(state: IPublicSiteStoreState) {
     return {
-        ixo: state.ixoStore.ixo,
-        web3Instance: state.web3Store.web3Instance
+        ixo         : state.ixoStore.ixo,
+        web3Instance: state.web3Store.web3Instance,
+        pingError   : state.pingStore.error,
+        pingResult  : state.pingStore.pingResult
     };
 }
 
 function mapDispatchToProps(dispatch) {
-    return {};
+    return {
+        onIxoInit : (hostname: string) => {
+            dispatch(initIxo(hostname));
+        },
+        onWeb3Init: (ixo: any) => {
+            dispatch(initializeWeb3(ixo));
+        }
+    };
 }
 
 const AppContainer = styled.div`
@@ -128,14 +127,14 @@ const AppContainer = styled.div`
 
 // Define what props.theme will look like
 const mainTheme = {
-    bgLightest : '#66e3ff',
+    bgLightest: '#66e3ff',
     bgLighter : '#33daff',
-    bgMain : '#00d2ff',
-    bgDarker: '#00bde4',
+    bgMain    : '#00d2ff',
+    bgDarker  : '#00bde4',
 
-    fontLighter:'#00677f',
-    fontMain: '#004d5e',
-    fontDarker: '#00333f',
+    fontLighter: '#00677f',
+    fontMain   : '#004d5e',
+    fontDarker : '#00333f',
     fontDarkest: '#001b22'
 };
   

@@ -1,11 +1,12 @@
-import * as React  from 'react';
-import * as Modal  from 'react-modal';
-import {connect} from 'react-redux';
-import DynamicForm from './formTemplates/DynamicForm';
-import styled             from 'styled-components';
-import { IPublicSiteStoreState } from '../redux/public_site_reducer';
-import {NavLink} from 'react-router-dom';
-import { withRouter } from 'react-router';
+import * as React              from 'react';
+import * as Modal              from 'react-modal';
+import {connect}               from 'react-redux';
+import DynamicForm             from './formTemplates/DynamicForm';
+import styled                  from 'styled-components';
+import {IPublicSiteStoreState} from '../redux/public_site_reducer';
+import {NavLink}               from 'react-router-dom';
+import {withRouter}            from 'react-router';
+import {App}                   from '../containers/App';
 
 export namespace Sidebar {
     export interface Props {
@@ -28,7 +29,7 @@ export class Sidebar extends React.Component<Sidebar.IProps, Sidebar.State> {
     constructor(props?: Sidebar.Props, context?: any) {
         super(props, context);
         this.state = {
-            isModalOpen: false,
+            isModalOpen  : false,
             projectSchema: []
         };
 
@@ -43,23 +44,24 @@ export class Sidebar extends React.Component<Sidebar.IProps, Sidebar.State> {
         this.setState({isModalOpen: false});
     };
 
-    componentDidMount(){
+    componentDidUpdate(prevProps: App.Props) {
+        if (prevProps.ixo !== this.props.ixo) {
+            this.props.ixo.project.getProjectTemplate('default').then((response: any) => {
+                const projectSchema = response.result.form.fields;
 
-        this.props.ixo.project.getProjectTemplate('default').then((response: any) => {
-            const projectSchema = response.result.form.fields;
-
-            if (projectSchema !== this.state.projectSchema) {
-                this.setState({projectSchema: projectSchema});
-            }
-        }).catch((result: Error) => {
-            console.log(result);
-        });
+                if (projectSchema !== this.state.projectSchema) {
+                    this.setState({projectSchema: projectSchema});
+                }
+            }).catch((result: Error) => {
+                console.log(result);
+            });
+        }
     }
 
     render() {
         return (
             <SidebarContainer className='col-md-2'>
-                <SidebarLink exact to='/' >Dashboard</SidebarLink>
+                <SidebarLink exact to='/'>Dashboard</SidebarLink>
                 <Modal
                     style={modalStyles}
                     isOpen={this.state.isModalOpen}
@@ -68,19 +70,19 @@ export class Sidebar extends React.Component<Sidebar.IProps, Sidebar.State> {
                     ariaHideApp={false}
                 >
                     {this.state.projectSchema.length > 0 ?
-                    <DynamicForm formSchema={this.state.projectSchema}/> :
-                    <p>No Project Schema found</p>
+                        <DynamicForm formSchema={this.state.projectSchema}/>:
+                        <p>No Project Schema found</p>
                     }
                 </Modal>
                 <SidebarModalLink href="#" onClick={this.handleOpenModal}>Create a Project</SidebarModalLink>
-                <SidebarLink exact to='/my-projects' >View My Projects</SidebarLink>
-                <SidebarLink to='/service-agents' >Service Agents</SidebarLink>
+                <SidebarLink exact to='/my-projects'>View My Projects</SidebarLink>
+                <SidebarLink to='/service-agents'>Service Agents</SidebarLink>
             </SidebarContainer>
         );
     }
 }
 
-function mapStateToProps(state: IPublicSiteStoreState){
+function mapStateToProps(state: IPublicSiteStoreState) {
     return {
         ixo: state.ixoStore.ixo
     };
@@ -134,7 +136,7 @@ const SidebarLink = styled(NavLink)`
     }
 `;
 
-const Link = SidebarLink.withComponent('a')
+const Link = SidebarLink.withComponent('a');
 
 const SidebarModalLink = Link.extend`
 `;

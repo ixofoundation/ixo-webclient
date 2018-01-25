@@ -1,6 +1,6 @@
 import * as React              from 'react';
-import {connect}               from "react-redux";
-import {IPublicSiteStoreState} from "../redux/public_site_reducer";
+import {connect}               from 'react-redux';
+import {IPublicSiteStoreState} from '../redux/public_site_reducer';
 import {Link}                  from 'react-router-dom';
 import styled                  from 'styled-components';
 
@@ -9,7 +9,7 @@ export namespace Projects {
     export interface Props {
         projectList: any,
         web3Instance?: any,
-        isWeb3AccountLoaded: boolean
+        isWeb3AccountLoaded?: boolean
     }
 
     export interface State {
@@ -30,32 +30,32 @@ export class Projects extends React.Component<Projects.IProps, Projects.State> {
     }
 
     render() {
-        console.log("IN Projects");
+        console.log('IN Projects');
         const projects = this.props.projectList;
         return (
             <ProjectsContainer className="container">
                 <div className="row">
-                    { projects.map((project,index)=>{
+                    {projects.map((project, index) => {
                         return (
-                        <ProjectCard className="col-md-4" key={index}>
-                            <ProjectCardInner>
-                                <h3>{project.name}</h3>
-                                <p>Country: {project.country}</p>
+                            <ProjectCard className="col-md-4" key={index}>
+                                <ProjectCardInner>
+                                    <h3>{project.name}</h3>
+                                    <p>Country: {project.country}</p>
 
-                                <OwnerBox>
-                                    <h4>Owner information:</h4>
-                                    <p>Name: {project.owner.name}</p>
-                                    <p>Email: {project.owner.email}</p>
-                                </OwnerBox>
-                                <ViewProject to={{
-                                    pathname:`/project/${project._id}`,
-                                    state: project
-                                }}
-                                project={project}>View Project</ViewProject>
-                                
-                            </ProjectCardInner>
-                        </ProjectCard>);
-                    }) }
+                                    <OwnerBox>
+                                        <h4>Owner information:</h4>
+                                        <p>Name: {project.owner.name}</p>
+                                        <p>Email: {project.owner.email}</p>
+                                    </OwnerBox>
+                                    <ViewProject to={{
+                                        pathname: `/project/${project._id}`,
+                                        state   : project
+                                    }}
+                                                 project={project}>View Project</ViewProject>
+
+                                </ProjectCardInner>
+                            </ProjectCard>);
+                    })}
                 </div>
             </ProjectsContainer>
         );
