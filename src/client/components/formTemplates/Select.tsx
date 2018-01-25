@@ -11,10 +11,18 @@ export namespace Select {
   export interface State {
     selectedCountry: string;
   }
+
+  export interface Callbacks {
+      onChange
+  }
+
+  export interface IProps extends Props, Callbacks {
+
+  }
 }
 
-export default class Select extends React.Component<Select.Props, Select.State> {
-    constructor(props?: Select.Props, context?: any) {
+export default class Select extends React.Component<Select.IProps, Select.State> {
+    constructor(props?: Select.IProps, context?: any) {
         super(props, context);
     }
 
@@ -51,7 +59,7 @@ export default class Select extends React.Component<Select.Props, Select.State> 
         return (
             <div className="form-group">
                 <label htmlFor={this.props.id}>{this.props.text}</label>
-                <select className="custom-select" id={this.props.id} onChange={this.handleChange}>
+                <select className="custom-select" id={this.props.id} onChange={this.props.onChange}>
                     {this.generateSelect()}
                 </select>
             </div>

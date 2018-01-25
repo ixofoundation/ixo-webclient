@@ -49,6 +49,7 @@ export default class DynamicForm extends React.Component<DynamicForm.Props, Dyna
             }
         })
         console.log(formData);
+
         this.setState({formData: formData});
     }
 
@@ -67,20 +68,19 @@ export default class DynamicForm extends React.Component<DynamicForm.Props, Dyna
                             case 'text' || 'email':
                                 return <InputText id={field.name} type={field.type} text={field.label} key={i} onChange={this.onFormValueChanged(field.name)}/>;
                             case 'image' :
-                                return <InputFile id={field.type} text={field.label} key={i}/>;
+                                return <InputFile id={field.name} text={field.label} key={i} onChange={this.onFormValueChanged(field.name)}/>;
                             case 'textarea' :
-                                return <TextArea id={field.type} text={field.label} key={i}/>;
+                                return <TextArea id={field.name} text={field.label} key={i} onChange={this.onFormValueChanged(field.name)}/>;
                             case 'select':
-                                return <Select id={field.type} options={field.options} text={field.label} key={i}/>;
+                                return <Select id={field.name} options={field.options} text={field.label} key={i} onChange={this.onFormValueChanged(field.name)}/>;
                             case 'country':
-                                return <Select id={field.type} text={field.label} key={i}/>;
+                                return <Select id={field.name} text={field.label} key={i} onChange={this.onFormValueChanged(field.name)}/>;
 
                             default:
                                 return <p>Type not found</p>;
                         }
                     })}
                     <input type="submit" className="btn btn-primary" value="Submit Project"/> 
-                    <button type="button" className="btn btn-primary">Cancel</button>
                 </div>
             </form>
         );

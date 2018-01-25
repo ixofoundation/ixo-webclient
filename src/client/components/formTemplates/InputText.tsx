@@ -23,10 +23,6 @@ export default class InputText extends React.Component<InputText.IProps> {
 
     }
 
-    handleChange=(e)=>{
-        this.setState({text: e.target.value});
-    }
-
     render() {
         return (
             <div className="input-group">

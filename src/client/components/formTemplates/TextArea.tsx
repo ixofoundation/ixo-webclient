@@ -6,15 +6,19 @@ export namespace TextArea {
     id: string;
   }
 
-}
+    export interface Callbacks {
+        onChange: (event) => void
+    }
+    
+    export interface IProps extends Props, Callbacks {
 
-export default class TextArea extends React.Component<TextArea.Props> {
-    constructor(props?: TextArea.Props, context?: any) {
-        super(props, context);
     }
 
-    handleChange=(e)=>{
-        this.setState({text: e.target.value});
+}
+
+export default class TextArea extends React.Component<TextArea.IProps> {
+    constructor(props?: TextArea.IProps, context?: any) {
+        super(props, context);
     }
 
     render() {
@@ -22,7 +26,7 @@ export default class TextArea extends React.Component<TextArea.Props> {
             <section>
                 <textarea id={this.props.id} className="form-control"
                     placeholder={this.props.text}
-                    onChange={this.handleChange}>
+                    onChange={this.props.onChange}>
                 </textarea>
             </section>
         );

@@ -70,7 +70,10 @@ export class Sidebar extends React.Component<Sidebar.IProps, Sidebar.State> {
                     ariaHideApp={false}
                 >
                     {this.state.projectSchema.length > 0 ?
-                        <DynamicForm formSchema={this.state.projectSchema}/>:
+                        <div>
+                        <DynamicForm formSchema={this.state.projectSchema}/>
+                        <button onClick={this.handleCloseModal}>Cancel</button>
+                        </div>:
                         <p>No Project Schema found</p>
                     }
                 </Modal>

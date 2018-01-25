@@ -33,7 +33,7 @@ export class Projects extends React.Component<Projects.IProps, Projects.State> {
         console.log('IN Projects');
         const projects = this.props.projectList;
         return (
-            <ProjectsContainer className="container">
+            <ProjectsContainer className="container-fluid">
                 <div className="row">
                     {projects.map((project, index) => {
                         return (
