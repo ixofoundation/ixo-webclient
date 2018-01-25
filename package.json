@@ -14,7 +14,7 @@
     "@types/classnames": "2.2.3",
     "@types/history": "4.6.2",
     "@types/node": "8.0.53",
-    "@types/react": "^16.0.34",
+    "@types/react": "^16.0.35",
     "@types/react-dom": "16.0.3",
     "@types/react-redux": "5.0.13",
     "@types/react-router": "4.0.18",
@@ -42,7 +42,7 @@
     "webpack-merge": "^4.1.1"
   },
   "dependencies": {
-    "@types/bootstrap": "^3.3.36",
+    "@types/bootstrap": "^3.3.37",
     "bootstrap": "^4.0.0",
     "classnames": "^2.2.5",
     "dotenv": "^4.0.0",

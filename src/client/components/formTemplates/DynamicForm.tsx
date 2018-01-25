@@ -1,12 +1,16 @@
 import * as React    from 'react';
+import {connect} from 'react-redux';
 import TextArea      from './TextArea';
 import InputFile     from './InputFile';
 import InputText     from './InputText';
 import Select from './Select';
+import { IPublicSiteStoreState } from '../../redux/public_site_reducer';
 
 export namespace DynamicForm {
     export interface Props {
-        formSchema: any;
+        formSchema: any,
+        web3Instance?: any,
+        ixo?: any
     }
 
     export interface State {
@@ -14,6 +18,7 @@ export namespace DynamicForm {
     }
 }
 
+@connect(mapStateToProps)
 export default class DynamicForm extends React.Component<DynamicForm.Props, DynamicForm.State>{
 
     constructor(props?:DynamicForm.Props,context?:any){
@@ -21,6 +26,7 @@ export default class DynamicForm extends React.Component<DynamicForm.Props, Dyna
         this.state = {
             formData: {}
         }
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     componentWillMount(){
@@ -30,9 +36,16 @@ export default class DynamicForm extends React.Component<DynamicForm.Props, Dyna
     }
 
     handleSubmit = (event) => {
-        const target = event.target;
         event.preventDefault();
-        
+        debugger;
+        this.props.ixo.auth.sign(this.props.web3Instance,this.state.formData).then((response)=>{
+            console.log(response);
+            
+        }).catch((error)=>{
+            console.log(error);
+            debugger;
+        })
+        const target = event.target;
     }
 
     setFormState = (name: String, value: any) => {
@@ -86,4 +99,11 @@ export default class DynamicForm extends React.Component<DynamicForm.Props, Dyna
         );
     }
 };
+
+function mapStateToProps(state:IPublicSiteStoreState){
+    return {
+        web3Instance: state.web3Store.web3Instance,
+        ixo: state.ixoStore.ixo
+    }
+}
 
