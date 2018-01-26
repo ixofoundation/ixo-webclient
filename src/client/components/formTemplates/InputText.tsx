@@ -1,4 +1,5 @@
 import * as React from 'react';
+import styled from 'styled-components';
 
 export namespace InputText {
   export interface Props {
@@ -25,7 +26,7 @@ export default class InputText extends React.Component<InputText.IProps> {
 
     render() {
         return (
-            <div className="input-group">
+            <Input className="input-group">
                 <div className="input-group-prepend">
                     <span className="input-group-text">{this.props.text}</span>
                 </div>
@@ -35,7 +36,12 @@ export default class InputText extends React.Component<InputText.IProps> {
                     placeholder={this.props.text}
                     onChange={this.props.onChange}
                     name={this.props.id}/>
-            </div>
+            </Input>
         );
     }
 }
+
+const Input = styled.div`
+    & .input-group-text {
+    }
+`;

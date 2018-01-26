@@ -37,18 +37,21 @@ export default class DynamicForm extends React.Component<DynamicForm.Props, Dyna
 
     handleSubmit = (event) => {
         event.preventDefault();
-        debugger;
         this.props.ixo.auth.sign(this.props.web3Instance,this.state.formData).then((response)=>{
             console.log(response);
-            
+            this.props.ixo.project.createProject(this.props.web3Instance.eth.accounts[0],response,this.state.formData,new Date()).then((response)=>{
+                console.log(response);
+            }).catch((error)=>{
+                console.log(error);
+            })
         }).catch((error)=>{
             console.log(error);
-            debugger;
         })
         const target = event.target;
     }
 
     setFormState = (name: String, value: any) => {
+
         var fields = name.split(".");
         var formData = this.state.formData;
         var curObj = formData;
@@ -61,8 +64,6 @@ export default class DynamicForm extends React.Component<DynamicForm.Props, Dyna
                 curObj = curObj[field];
             }
         })
-        console.log(formData);
-
         this.setState({formData: formData});
     }
 

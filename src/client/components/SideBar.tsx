@@ -70,10 +70,10 @@ export class Sidebar extends React.Component<Sidebar.IProps, Sidebar.State> {
                     ariaHideApp={false}
                 >
                     {this.state.projectSchema.length > 0 ?
-                        <div>
-                        <DynamicForm formSchema={this.state.projectSchema}/>
-                        <button onClick={this.handleCloseModal}>Cancel</button>
-                        </div>:
+                        <ModalInner>
+                            <CloseModal onClick={this.handleCloseModal}>&times;</CloseModal>
+                            <DynamicForm formSchema={this.state.projectSchema}/>
+                        </ModalInner>:
                         <p>No Project Schema found</p>
                     }
                 </Modal>
@@ -104,9 +104,31 @@ const modalStyles = {
         right      : 'auto',
         bottom     : 'auto',
         marginRight: '-50%',
-        transform  : 'translate(-50%, -50%)'
+        transform  : 'translate(-50%, -50%)',
+        background : 'white',
+        border : '0',
+        padding: '0'
     }
 };
+
+const ModalInner = styled.div`
+    border:5px solid #66e3ff;
+    padding: 10px;
+    border-radius:2px;
+`;
+
+const CloseModal = styled.button`
+    color: #333;
+    background: white;
+    border: 0;
+    float: right;
+    margin-top: -10px;
+    margin-right: -10px;
+    font-size: 25px;
+    margin-bottom: 10px;
+    line-height: 1;
+    cursor: pointer;
+`;
 
 const SidebarContainer = styled.div`
     background:${props => props.theme.bgMain};
