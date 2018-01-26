@@ -42,6 +42,23 @@ export default class InputText extends React.Component<InputText.IProps> {
 }
 
 const Input = styled.div`
+
+    margin:15px 0;
+    border-radius:0;
+    text-transform:uppercase;
+
     & .input-group-text {
+        background: ${props => props.theme.bgMain};
+        border: 0;
+        color: white;
+        padding: 15px 10px;
+        font-size:0.7em;
+        border-radius: 0;
+        width:140px;
+    }
+
+    & input {
+        border-radius:0;
+        border-left:0;
     }
 `;

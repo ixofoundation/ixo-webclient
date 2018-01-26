@@ -46,6 +46,7 @@ export class App extends React.Component<App.IProps, App.State> {
     }
 
     componentDidUpdate(prevProps: App.Props) {
+
         if (prevProps.ixo !== this.props.ixo) {
             this.props.onWeb3Init(this.props.ixo);
         }
@@ -75,9 +76,9 @@ export class App extends React.Component<App.IProps, App.State> {
                 <Routes projectList={this.state.projectList}/>
             </div>;
         } else if (this.props.pingError) {
-            return <p>Error connecting to ixo server... Retrying...</p>;
+            return <Unsuccessful className="col-md-10"><p>Error connecting to ixo server... Retrying...</p></Unsuccessful>;
         } else {
-            return <p>Loading...</p>;
+            return <Loading className="col-md-10"><p>Loading...</p></Loading>;
         }
     }
 
@@ -138,3 +139,11 @@ const mainTheme = {
     fontDarkest: '#001b22'
 };
   
+const Loading = styled.div`
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:calc(100vh - 140px);
+`;  
+
+const Unsuccessful = Loading;

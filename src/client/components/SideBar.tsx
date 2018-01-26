@@ -72,7 +72,7 @@ export class Sidebar extends React.Component<Sidebar.IProps, Sidebar.State> {
                     {this.state.projectSchema.length > 0 ?
                         <ModalInner>
                             <CloseModal onClick={this.handleCloseModal}>&times;</CloseModal>
-                            <DynamicForm formSchema={this.state.projectSchema}/>
+                            <DynamicForm formSchema={this.state.projectSchema} />
                         </ModalInner>:
                         <p>No Project Schema found</p>
                     }
@@ -107,13 +107,10 @@ const modalStyles = {
         transform  : 'translate(-50%, -50%)',
         background : 'white',
         border : '0',
-        padding: '0'
     }
 };
 
 const ModalInner = styled.div`
-    border:5px solid #66e3ff;
-    padding: 10px;
     border-radius:2px;
 `;
 

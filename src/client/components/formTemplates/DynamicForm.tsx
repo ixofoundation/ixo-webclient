@@ -5,6 +5,7 @@ import InputFile     from './InputFile';
 import InputText     from './InputText';
 import Select from './Select';
 import { IPublicSiteStoreState } from '../../redux/public_site_reducer';
+import styled from 'styled-components';
 
 export namespace DynamicForm {
     export interface Props {
@@ -14,7 +15,8 @@ export namespace DynamicForm {
     }
 
     export interface State {
-        formData: any
+        formData: any,
+        submitStatus: string
     }
 }
 
@@ -24,7 +26,8 @@ export default class DynamicForm extends React.Component<DynamicForm.Props, Dyna
     constructor(props?:DynamicForm.Props,context?:any){
         super(props);
         this.state = {
-            formData: {}
+            formData: {},
+            submitStatus: ''
         }
         this.handleSubmit = this.handleSubmit.bind(this);
     }
@@ -37,15 +40,26 @@ export default class DynamicForm extends React.Component<DynamicForm.Props, Dyna
 
     handleSubmit = (event) => {
         event.preventDefault();
-        this.props.ixo.auth.sign(this.props.web3Instance,this.state.formData).then((response)=>{
-            console.log(response);
-            this.props.ixo.project.createProject(this.props.web3Instance.eth.accounts[0],response,this.state.formData,new Date()).then((response)=>{
-                console.log(response);
+        this.props.ixo.auth.sign(this.props.web3Instance,this.state.formData).then((response: any)=>{
+            this.props.ixo.project.createProject(this.props.web3Instance.eth.accounts[0],response,this.state.formData,new Date()).then((response: any)=>{
+
+                if(response.result){
+                    this.setState({
+                        submitStatus: 'Your project has been submitted successfully',
+                        formData : {}
+                    });
+                } else if(response.error){
+                    this.setState({
+                        submitStatus: 'Error submitting the project, please ensure all fields have been entered',
+                        formData : {}
+                    });
+                }
+                
             }).catch((error)=>{
-                console.log(error);
+                this.setState({submitStatus: 'Error submitting the project'});
             })
         }).catch((error)=>{
-            console.log(error);
+            this.setState({submitStatus: 'Error submitting the project'});
         })
         const target = event.target;
     }
@@ -89,12 +103,12 @@ export default class DynamicForm extends React.Component<DynamicForm.Props, Dyna
                                 return <Select id={field.name} options={field.options} text={field.label} key={i} onChange={this.onFormValueChanged(field.name)}/>;
                             case 'country':
                                 return <Select id={field.name} text={field.label} key={i} onChange={this.onFormValueChanged(field.name)}/>;
-
                             default:
                                 return <p>Type not found</p>;
                         }
                     })}
-                    <input type="submit" className="btn btn-primary" value="Submit Project"/> 
+                    <Submit type="submit" value="Submit Project"/> 
+                    <SubmitStatus>{this.state.submitStatus}</SubmitStatus>
                 </div>
             </form>
         );
@@ -108,3 +122,25 @@ function mapStateToProps(state:IPublicSiteStoreState){
     }
 }
 
+const Submit = styled.input`
+    background: #0f8dab;
+    display: block;
+    margin: 0 auto;
+    color: white;
+    border: 0;
+    padding: 15px;
+    text-transform: uppercase;
+    font-size:0.8em;
+    transition:all 0.3s ease;
+    cursor:pointer;
+
+    &:hover {
+        box-shadow: 3px 3px 5px 0px rgba(0,0,0,0.3);
+    }
+`;
+
+const SubmitStatus = styled.p`
+    color:#0f8dab;
+    margin-top:10px;
+    text-align:center;
+`;  

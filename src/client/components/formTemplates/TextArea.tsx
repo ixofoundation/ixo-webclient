@@ -1,4 +1,5 @@
 import * as React from 'react';
+import styled from 'styled-components';
 
 export namespace TextArea {
   export interface Props {
@@ -23,12 +24,19 @@ export default class TextArea extends React.Component<TextArea.IProps> {
 
     render() {
         return (
-            <section>
+            <Text>
                 <textarea id={this.props.id} className="form-control"
                     placeholder={this.props.text}
                     onChange={this.props.onChange}>
                 </textarea>
-            </section>
+            </Text>
         );
     }
 }
+
+const Text = styled.div`
+    
+    & textarea {
+        border-radius:0;
+    }
+`;

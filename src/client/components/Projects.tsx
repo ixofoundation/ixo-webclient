@@ -30,7 +30,6 @@ export class Projects extends React.Component<Projects.IProps, Projects.State> {
     }
 
     render() {
-        console.log('IN Projects');
         const projects = this.props.projectList;
         return (
             <ProjectsContainer className="container-fluid">
@@ -75,7 +74,7 @@ function mapDispatchToProps(dispatch) {
 const ProjectsContainer = styled.div`
     height:calc(100vh - 140px);
     overflow-y: scroll;
-    padding-top:30px;
+    padding-top:15px;
 `;
 
 const ProjectCardInner = styled.div`
