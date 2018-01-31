@@ -73,7 +73,10 @@ module.exports = {
         }),
         new HtmlWebpackPlugin({
             template: 'client/index.html'
-        })
+        }),
+        new Webpack.NormalModuleReplacementPlugin(
+            /\/iconv-loader$/, 'node-noop'
+        )
     ],
     devServer: {
         contentBase: sourcePath,

@@ -92,8 +92,8 @@ export module AsyncGet {
      * Joins an array of AsyncGet values into a single AsyncGet which gets fulfilled only if all the AsyncGet values
      * are fulfilled (similarly like Promise.all())
      */
-    export function all<T1,T2,T3>(asyncGetValues: [AsyncGet<T1>, AsyncGet<T2>, AsyncGet<T3>]) : AsyncGet<[T1,T2, T3]>;
-    export function all<T1,T2>(asyncGetValues: [AsyncGet<T1>, AsyncGet<T2>]) : AsyncGet<[T1,T2]>;
+    //export function all<T1,T2,T3>(asyncGetValues: [AsyncGet<T1>, AsyncGet<T2>, AsyncGet<T3>]) : AsyncGet<[T1,T2, T3]>;
+    //export function all<T1,T2>(asyncGetValues: [AsyncGet<T1>, AsyncGet<T2>]) : AsyncGet<[T1,T2]>;
     export function all<T>(asyncGetValues: [AsyncGet<T>]) : AsyncGet<[T]> {
         if (asyncGetValues.every(x => x.status == AsyncGetStatus.FETCHED)) {
             // If all of them are fetched then we return a fetched one with all the values
