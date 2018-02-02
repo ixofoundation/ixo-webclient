@@ -2,7 +2,6 @@ const Webpack = require('webpack');
 const Path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-
 const isProduction = process.argv.indexOf('-p') >= 0;
 const outPath = Path.join(__dirname, './dist');
 const sourcePath = Path.join(__dirname, './src');
@@ -36,23 +35,22 @@ module.exports = {
         mainFields: ['browser', 'main']
     },
     module: {
-        loaders: [
+        rules: [
             // .ts, .tsx
             {
                 test: /\.tsx?$/,
-                use: isProduction
-                    ? 'awesome-typescript-loader?module=es6'
+                loader: isProduction
+                    ? 'ts-loader'
                     : [
                         'react-hot-loader/webpack',
-                        'awesome-typescript-loader'
+                        'ts-loader'
                     ]
             },
-            {test: /\.css$/, use: ['style-loader', 'css-loader']},
+            { test: /\.css$/, loader: ['style-loader', 'css-loader'] },
             // static assets
-            {test: /\.html$/, use: 'html-loader'},
-            {test: /\.png$/, use: 'url-loader?limit=10000'},
-            {test: /\.jpg$/, use: 'file-loader'},
-
+            { test: /\.html$/, loader: 'html-loader' },
+            { test: /\.png$/, loader: 'url-loader?limit=10000' },
+            { test: /\.jpg$/, loader: 'file-loader' },
         ],
     },
     plugins: [
