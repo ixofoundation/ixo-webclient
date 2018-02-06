@@ -32,7 +32,8 @@ export const ModalWrapper: React.SFC<ModalWrapper.IProps>= (props) => {
 const modalStyles = {
     overlay: {
         backgroundColor: 'rgba(0, 0, 0, 0.75)',
-        transition     : 'all 0.5s ease'
+        transition     : 'all 0.5s ease',
+        zIndex : '50'
     },
     content: {
         top        : '50%',
