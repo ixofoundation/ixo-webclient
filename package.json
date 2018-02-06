@@ -5,9 +5,9 @@
   "description": "ixo-web with reactJS client and node express backend.",
   "main": "index.js",
   "scripts": {
-    "start": "webpack -p && NODE_ENV=production node ./webpack/server.js",
+    "start": "webpack && NODE_ENV=production node ./webpack/server.js",
     "dev": "webpack-dev-server --content-base src --hot --debug --devtool cheap-module-source-map --output-pathinfo --history-api-fallback --inline --progress --colors --port 3000 --open",
-    "build": "webpack -p --progress --colors"
+    "build": "webpack --progress --colors"
   },
   "license": "MIT",
   "devDependencies": {
