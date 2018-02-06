@@ -1,9 +1,11 @@
 import * as React              from 'react';
 import {connect}               from "react-redux";
-import {IPublicSiteStoreState} from "../redux/public_site_reducer";
+import {IPublicSiteStoreState} from "../../../redux/public_site_reducer";
 import {Link} from 'react-router-dom';
 import styled from 'styled-components';
-const projectBG = require('../assets/images/project-bg.jpg');
+import {ModalWrapper}          from '../../ModalWrapper';
+
+const projectBG = require('../../../assets/images/project-bg.jpg');
 
 export namespace SingleProject {
 
@@ -12,7 +14,8 @@ export namespace SingleProject {
         ixo?: any
     }
     export interface State {
-        projectMeta: any
+        projectMeta: any,
+        isModalOpen: boolean
     }
 
     export interface IProps extends Props {
@@ -26,11 +29,15 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
         super(props, context);
 
         this.state = {
+            isModalOpen  : false,
             projectMeta : this.props.location.state
         }
 
     }
 
+    handleToggleModal(modalStatus){
+        this.setState({isModalOpen: modalStatus});
+    };
     // componentWillMount(){
 
     //     const URLArray = window.location.pathname.split("/");
@@ -72,7 +79,15 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
                             <p>Email: {this.state.projectMeta.owner.email}</p>
                         </OwnerBox>
                     </div>
+                    <div className="col-md-12">
+                        <RegisterAgent onClick={() => this.handleToggleModal(true)}>Register as Agent</RegisterAgent>
+                    </div>
                 </ProjectContainer>
+                <ModalWrapper 
+                    isModalOpen={this.state.isModalOpen}
+                    handleToggleModal={(modalStatus) => this.handleToggleModal(modalStatus)}>
+                    <p>Test</p>
+                </ModalWrapper>
             </div>
         );
     }
@@ -147,4 +162,10 @@ const OwnerBox = styled.div`
     & p {
         margin-bottom:0;
     }
+`;
+
+const RegisterAgent = styled.div`
+
+    cursor:pointer;
+    color:green;
 `;

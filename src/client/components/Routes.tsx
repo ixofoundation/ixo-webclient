@@ -1,7 +1,7 @@
 import * as React      from 'react';
 import {Switch, Route} from 'react-router-dom';
-import {SingleProject} from './SingleProject';
-import {Projects}      from './Projects';
+import {SingleProject} from './sidebarItems/projects/SingleProject';
+import {Projects}      from './sidebarItems/projects/Projects';
 
 export namespace Routes {
     export interface RouteProps {
@@ -17,7 +17,6 @@ export const Routes: React.SFC<Routes.RouteProps> = (props) => {
                    render={(routeProps) => (
                        <Projects {...routeProps} {...props} projectList={props.projectList}/>
                    )}
-
             />
         </Switch>
     );

@@ -2,6 +2,7 @@ import * as React              from 'react';
 import * as Modal              from 'react-modal';
 import {connect}               from 'react-redux';
 import DynamicForm             from './formTemplates/DynamicForm';
+import {ModalWrapper}          from './ModalWrapper';
 import styled                  from 'styled-components';
 import {IPublicSiteStoreState} from '../redux/public_site_reducer';
 import {NavLink}               from 'react-router-dom';
@@ -10,12 +11,14 @@ import {App}                   from '../containers/App';
 
 export namespace Sidebar {
     export interface Props {
-        ixo?: any
+        ixo?: any,
+        web3Instance?:any
     }
 
     export interface State {
         isModalOpen: boolean,
-        projectSchema: any
+        projectSchema: any,
+        submitStatus: string
     }
 
     export interface IProps extends Props {
@@ -30,18 +33,14 @@ export class Sidebar extends React.Component<Sidebar.IProps, Sidebar.State> {
         super(props, context);
         this.state = {
             isModalOpen  : false,
+            submitStatus: '',
             projectSchema: []
         };
 
     }
 
-    handleOpenModal = (e) => {
-        e.preventDefault();
-        this.setState({isModalOpen: true});
-    };
-
-    handleCloseModal = () => {
-        this.setState({isModalOpen: false});
+    handleToggleModal(modalStatus){
+        this.setState({isModalOpen: modalStatus});
     };
 
     componentDidUpdate(prevProps: App.Props) {
@@ -58,28 +57,46 @@ export class Sidebar extends React.Component<Sidebar.IProps, Sidebar.State> {
         }
     }
 
+    handleSubmit = (formData) =>{
+        let submitStatus = '';
+
+        this.props.ixo.auth.sign(this.props.web3Instance,formData).then((response: any)=>{
+            this.props.ixo.project.createProject(this.props.web3Instance.eth.accounts[0],response,formData,new Date()).then((response: any)=>{
+    
+                if(response.result){
+                        this.setState({submitStatus : 'Your project has been submitted successfully'});
+                        // formData : {}
+                } else if(response.error){
+                        this.setState({submitStatus : 'Error submitting the project, please ensure all fields have been entered'});
+                        // formData : {}
+                }
+                
+            }).catch((error) => {
+                submitStatus = 'Error submitting the project';
+            })
+        }).catch((error) => {
+            submitStatus = 'Error submitting the project';
+        })
+    }
+
     render() {
+
+        const theForm = this.state.projectSchema.length > 0 ?
+            <DynamicForm formSchema={this.state.projectSchema} handleSubmit={this.handleSubmit}/> :
+            <p>No Project Schema found</p>;
+
         return (
             <SidebarContainer className='col-md-2'>
                 <SidebarLink exact to='/'>Dashboard</SidebarLink>
-                <Modal
-                    style={modalStyles}
-                    isOpen={this.state.isModalOpen}
-                    onRequestClose={this.handleCloseModal}
-                    contentLabel="Modal"
-                    ariaHideApp={false}
-                >
-                    {this.state.projectSchema.length > 0 ?
-                        <ModalInner>
-                            <CloseModal onClick={this.handleCloseModal}>&times;</CloseModal>
-                            <DynamicForm formSchema={this.state.projectSchema} />
-                        </ModalInner>:
-                        <p>No Project Schema found</p>
-                    }
-                </Modal>
-                <SidebarModalLink href="#" onClick={this.handleOpenModal}>Create a Project</SidebarModalLink>
+                <SidebarModalLink href="#" onClick={() => this.handleToggleModal(true)}>Create a Project</SidebarModalLink>
                 <SidebarLink exact to='/my-projects'>View My Projects</SidebarLink>
                 <SidebarLink to='/service-agents'>Service Agents</SidebarLink>
+                <ModalWrapper 
+                    isModalOpen={this.state.isModalOpen}
+                    handleToggleModal={(modalStatus) => this.handleToggleModal(modalStatus)}>
+                    {theForm}
+                    <SubmitStatus>{this.state.submitStatus}</SubmitStatus>
+                </ModalWrapper>
             </SidebarContainer>
         );
     }
@@ -87,45 +104,12 @@ export class Sidebar extends React.Component<Sidebar.IProps, Sidebar.State> {
 
 function mapStateToProps(state: IPublicSiteStoreState) {
     return {
-        ixo: state.ixoStore.ixo
+        ixo: state.ixoStore.ixo,
+        web3Instance: state.web3Store.web3Instance
     };
 }
 
 /* STYLES BELOW */
-
-const modalStyles = {
-    overlay: {
-        backgroundColor: 'rgba(0, 0, 0, 0.75)',
-        transition     : 'all 0.5s ease'
-    },
-    content: {
-        top        : '50%',
-        left       : '50%',
-        right      : 'auto',
-        bottom     : 'auto',
-        marginRight: '-50%',
-        transform  : 'translate(-50%, -50%)',
-        background : 'white',
-        border : '0',
-    }
-};
-
-const ModalInner = styled.div`
-    border-radius:2px;
-`;
-
-const CloseModal = styled.button`
-    color: #333;
-    background: white;
-    border: 0;
-    float: right;
-    margin-top: -10px;
-    margin-right: -10px;
-    font-size: 25px;
-    margin-bottom: 10px;
-    line-height: 1;
-    cursor: pointer;
-`;
 
 const SidebarContainer = styled.div`
     background:${props => props.theme.bgMain};
@@ -148,6 +132,7 @@ const SidebarLink = styled(NavLink)`
         color:white;
         text-decoration:none;
         padding-left:15px;
+        cursor:pointer;
     }
 
     &.active {
@@ -159,6 +144,10 @@ const SidebarLink = styled(NavLink)`
 `;
 
 const Link = SidebarLink.withComponent('a');
+const SidebarModalLink = SidebarLink.withComponent('div');
 
-const SidebarModalLink = Link.extend`
-`;
+const SubmitStatus = styled.p`
+    color:#0f8dab;
+    margin-top:10px;
+    text-align:center;
+`;  
