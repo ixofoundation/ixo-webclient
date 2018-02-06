@@ -1,6 +1,6 @@
 import * as React              from 'react';
 import {connect}               from 'react-redux';
-import {IPublicSiteStoreState} from '../redux/public_site_reducer';
+import {IPublicSiteStoreState} from '../../../redux/public_site_reducer';
 import {Link}                  from 'react-router-dom';
 import styled                  from 'styled-components';
 
