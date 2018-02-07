@@ -10,7 +10,6 @@ export namespace Select {
   }
 
   export interface State {
-    selectedCountry: string;
   }
 
   export interface Callbacks {
@@ -25,11 +24,6 @@ export namespace Select {
 export default class Select extends React.Component<Select.IProps, Select.State> {
     constructor(props?: Select.IProps, context?: any) {
         super(props, context);
-    }
-
-    handleChange = (e) => {
-        
-        this.setState({selectedCountry: e.target.value});
     }
 
     generateSelect = () => {
@@ -47,10 +41,9 @@ export default class Select extends React.Component<Select.IProps, Select.State>
         }
         else {
             this.props.options.map((option,index)=>{
-                selectOptions.push(<option key={index} value={option}>{option.label}</option>); 
+                selectOptions.push(<option key={index} value={option.label}>{option.label}</option>); 
             })
         }
-
         return selectOptions;
 
     }

@@ -12,12 +12,14 @@ export namespace SingleProject {
 
     export interface Props {
         location?: any,
-        ixo?: any
+        ixo?: any,
+        web3Instance?: any
     }
     export interface State {
         projectMeta: any,
         isModalOpen: boolean,
-        formSchema: any
+        formSchema: any,
+        submitStatus: string
     }
 
     export interface IProps extends Props {
@@ -33,13 +35,34 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
         this.state = {
             isModalOpen  : false,
             projectMeta : this.props.location.state,
-            formSchema: {}
+            formSchema: {},
+            submitStatus: null
         }
 
     }
 
-    handleSubmit = () => {
-        alert("Submitted");
+    handleSubmit = (formData:any) => {
+
+        console.log(formData);
+        debugger;
+        this.props.ixo.auth.sign(this.props.web3Instance,formData).then((response: any)=>{
+            console.log(this.props.web3Instance.eth.accounts[0]);
+            this.props.ixo.agent.createAgent(formData,this.props.web3Instance.eth.accounts[0],response,new Date(),'default').then((response: any)=>{
+    
+                if(response.result){
+                        this.setState({submitStatus : 'Your project has been submitted successfully'});
+                        // formData : {}
+                } else if(response.error){
+                        this.setState({submitStatus : 'Error submitting the project, please ensure all fields have been entered correctly'});
+                        // formData : {}
+                }
+                
+            }).catch((error) => {
+                this.setState({submitStatus : 'Error submitting the project'});
+            })
+        }).catch((error) => {
+            this.setState({submitStatus : 'Error submitting the project'});
+        })
     }
 
     handleRegisterAgent = () =>{
@@ -58,26 +81,6 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
     handleToggleModal(modalStatus){
         this.setState({isModalOpen: modalStatus});
     };
-    // componentWillMount(){
-
-    //     const URLArray = window.location.pathname.split("/");
-    //     const currProjectID =URLArray[URLArray.length-1];
-
-    //     if(this.state.projectMeta.length === 0){
-            
-    //         this.props.ixo.project.listProjects().then((response:any)=>{
-    //             const projectList = response.result;
-                
-    //             const currProject = projectList.filter((project)=>{
-    //                 currProject === project._id;
-    //             })
-    //             console.log("Project name is: "+currProject.name);
-    //         }).catch((error)=>{
-
-    //         })
-    //     }
-    // }
-    
     
     render() {      
         const theForm = this.state.formSchema.length > 0 ?
@@ -112,6 +115,7 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
                     isModalOpen={this.state.isModalOpen}
                     handleToggleModal={(modalStatus) => this.handleToggleModal(modalStatus)}>
                     {theForm}
+                    <SubmitStatus>{this.state.submitStatus}</SubmitStatus>
                 </ModalWrapper>
             </div>
         );
@@ -120,7 +124,8 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
 
 function mapStateToProps(state: IPublicSiteStoreState) {
     return {
-        ixo: state.ixoStore.ixo
+        ixo: state.ixoStore.ixo,
+        web3Instance: state.web3Store.web3Instance
     };
 }
 
@@ -194,3 +199,9 @@ const RegisterAgent = styled.div`
     cursor:pointer;
     color:green;
 `;
+
+const SubmitStatus = styled.p`
+    color:#0f8dab;
+    margin-top:10px;
+    text-align:center;
+`;  

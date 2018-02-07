@@ -45,27 +45,6 @@ export default class DynamicForm extends React.Component<DynamicForm.IProps, Dyn
         event.preventDefault();
 
         this.props.handleSubmit(this.state.formData);
-        // this.props.ixo.auth.sign(this.props.web3Instance,this.state.formData).then((response: any)=>{
-        //     this.props.ixo.project.createProject(this.props.web3Instance.eth.accounts[0],response,this.state.formData,new Date()).then((response: any)=>{
-
-        //         if(response.result){
-        //             this.setState({
-        //                 submitStatus: 'Your project has been submitted successfully',
-        //                 formData : {}
-        //             });
-        //         } else if(response.error){
-        //             this.setState({
-        //                 submitStatus: 'Error submitting the project, please ensure all fields have been entered',
-        //                 formData : {}
-        //             });
-        //         }
-                
-        //     }).catch((error)=>{
-        //         this.setState({submitStatus: 'Error submitting the project'});
-        //     })
-        // }).catch((error)=>{
-        //     this.setState({submitStatus: 'Error submitting the project'});
-        // })
         const target = event.target;
     }
 

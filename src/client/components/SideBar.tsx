@@ -59,7 +59,7 @@ export class Sidebar extends React.Component<Sidebar.IProps, Sidebar.State> {
 
     handleSubmit = (formData) =>{
         let submitStatus = '';
-
+        debugger;
         this.props.ixo.auth.sign(this.props.web3Instance,formData).then((response: any)=>{
             this.props.ixo.project.createProject(this.props.web3Instance.eth.accounts[0],response,formData,new Date()).then((response: any)=>{
     
@@ -72,10 +72,10 @@ export class Sidebar extends React.Component<Sidebar.IProps, Sidebar.State> {
                 }
                 
             }).catch((error) => {
-                submitStatus = 'Error submitting the project';
+                this.setState({submitStatus : 'Error submitting the project'});
             })
         }).catch((error) => {
-            submitStatus = 'Error submitting the project';
+            this.setState({submitStatus : 'Error submitting the project'});
         })
     }
 
