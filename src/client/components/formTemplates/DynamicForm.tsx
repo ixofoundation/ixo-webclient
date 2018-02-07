@@ -112,7 +112,7 @@ export default class DynamicForm extends React.Component<DynamicForm.IProps, Dyn
                                 return <p>Type not found</p>;
                         }
                     })}
-                    <Submit type="submit" value="Submit Project"/> 
+                    <Submit type="submit" value="Submit Form"/> 
                     <SubmitStatus>{this.state.submitStatus}</SubmitStatus>
                 </div>
             </form>

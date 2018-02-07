@@ -4,6 +4,7 @@ import {IPublicSiteStoreState} from "../../../redux/public_site_reducer";
 import {Link} from 'react-router-dom';
 import styled from 'styled-components';
 import {ModalWrapper}          from '../../ModalWrapper';
+import DynamicForm from '../../formTemplates/DynamicForm';
 
 const projectBG = require('../../../assets/images/project-bg.jpg');
 
@@ -15,7 +16,8 @@ export namespace SingleProject {
     }
     export interface State {
         projectMeta: any,
-        isModalOpen: boolean
+        isModalOpen: boolean,
+        formSchema: any
     }
 
     export interface IProps extends Props {
@@ -30,9 +32,27 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
 
         this.state = {
             isModalOpen  : false,
-            projectMeta : this.props.location.state
+            projectMeta : this.props.location.state,
+            formSchema: {}
         }
 
+    }
+
+    handleSubmit = () => {
+        alert("Submitted");
+    }
+
+    handleRegisterAgent = () =>{
+        this.handleToggleModal(true);
+        this.props.ixo.agent.getAgentTemplate('default').then((response: any) => {
+
+            if (response.result.form.fields !== this.state.formSchema) {
+                this.setState({formSchema: response.result.form.fields});
+            }
+
+        }).catch((result: Error) => {
+            console.log(result);
+        });
     }
 
     handleToggleModal(modalStatus){
@@ -59,7 +79,11 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
     // }
     
     
-    render() {        
+    render() {      
+        const theForm = this.state.formSchema.length > 0 ?
+            <DynamicForm formSchema={this.state.formSchema} handleSubmit={this.handleSubmit}/> :
+            <p>Loading Form...</p>;
+
         return (
             <div className="container">
                 <ProjectContainer className="row">
@@ -69,6 +93,7 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
                     <div className="col-md-4">
                         <h2>{this.state.projectMeta.name}</h2>
                     </div>
+                    
                     <div className="col-md-8">
                         <p>Country: {this.state.projectMeta.country}</p>
                         <p>Date created: {this.state.projectMeta.created}</p>
@@ -80,13 +105,13 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
                         </OwnerBox>
                     </div>
                     <div className="col-md-12">
-                        <RegisterAgent onClick={() => this.handleToggleModal(true)}>Register as Agent</RegisterAgent>
+                        <RegisterAgent onClick={this.handleRegisterAgent}>Register as Agent</RegisterAgent>
                     </div>
                 </ProjectContainer>
                 <ModalWrapper 
                     isModalOpen={this.state.isModalOpen}
                     handleToggleModal={(modalStatus) => this.handleToggleModal(modalStatus)}>
-                    <p>Test</p>
+                    {theForm}
                 </ModalWrapper>
             </div>
         );

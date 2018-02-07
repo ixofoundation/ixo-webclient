@@ -83,7 +83,7 @@ export class Sidebar extends React.Component<Sidebar.IProps, Sidebar.State> {
 
         const theForm = this.state.projectSchema.length > 0 ?
             <DynamicForm formSchema={this.state.projectSchema} handleSubmit={this.handleSubmit}/> :
-            <p>No Project Schema found</p>;
+            <p>Loading project form...</p>;
 
         return (
             <SidebarContainer className='col-md-2'>
