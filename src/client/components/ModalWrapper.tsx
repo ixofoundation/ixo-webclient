@@ -44,6 +44,8 @@ const modalStyles = {
         transform  : 'translate(-50%, -50%)',
         background : 'white',
         border : '0',
+        overflow: 'scroll',
+        maxHeight: '90vh'
     }
 };
 

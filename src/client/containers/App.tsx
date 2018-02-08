@@ -62,7 +62,6 @@ export class App extends React.Component<App.IProps, App.State> {
                         const filteredProjects = response.result.filter((project)=>{
                             project.owner.did === this.props.web3Instance.eth.accounts[0]
                         })
-                        console.log(filteredProjects);
                     }).catch((error) => {
                         console.error(error);
                     });

@@ -27,7 +27,6 @@ export default class InputFile extends React.Component<InputFile.IProps,InputFil
         this.state = {
             imgSrc: ''
         };
-        console.log("In InputFile");
     }
 
     handleChange=(e)=>{

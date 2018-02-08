@@ -71,8 +71,8 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
                 this.setState({formSchema: response.result.form.fields});
             }
 
-        }).catch((result: Error) => {
-            console.log(result);
+        }).catch((error: Error) => {
+            console.log(error);
         });
     }
 

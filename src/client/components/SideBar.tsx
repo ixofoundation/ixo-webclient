@@ -8,6 +8,9 @@ import {IPublicSiteStoreState} from '../redux/public_site_reducer';
 import {NavLink}               from 'react-router-dom';
 import {withRouter}            from 'react-router';
 import {App}                   from '../containers/App';
+import Select from './formTemplates/Select';
+
+const templateList = [{label:"default"},{label:"secondType"},{label:"thirdType"}];
 
 export namespace Sidebar {
     export interface Props {
@@ -43,24 +46,26 @@ export class Sidebar extends React.Component<Sidebar.IProps, Sidebar.State> {
         this.setState({isModalOpen: modalStatus});
     };
 
-    componentDidUpdate(prevProps: App.Props) {
-        if (prevProps.ixo !== this.props.ixo) {
-            this.props.ixo.project.getProjectTemplate('default').then((response: any) => {
-                const projectSchema = response.result.form.fields;
-                if (projectSchema !== this.state.projectSchema) {
-                    this.setState({projectSchema: projectSchema});
-                }
-            }).catch((result: Error) => {
-                console.log(result);
-            });
-        }
+    // componentDidUpdate(prevProps: App.Props) {
+        // if (prevProps.ixo !== this.props.ixo) {
+        // componentDidMount(){
+    handleLoadTemplate = (templateName) => {
+        this.props.ixo.project.getProjectTemplate(templateName).then((response: any) => {
+            const projectSchema = response.result.form.fields;
+            if (projectSchema !== this.state.projectSchema) {
+                this.setState({projectSchema: projectSchema});
+            }
+        }).catch((result: Error) => {
+            this.setState({projectSchema: []});
+        });
     }
+        // }
+        // }
+    // }
 
     handleSubmit = (formData) =>{
         let submitStatus = '';
-        console.log("Form data is: ",formData);
         this.props.ixo.auth.sign(this.props.web3Instance,formData).then((response: any)=>{
-            debugger;
             this.props.ixo.project.createProject(this.props.web3Instance.eth.accounts[0],response,formData,new Date()).then((response: any)=>{
     
                 if(response.result){
@@ -79,11 +84,18 @@ export class Sidebar extends React.Component<Sidebar.IProps, Sidebar.State> {
         })
     }
 
-    render() {
+    handleRenderCreateProject = () =>{
+        if(this.state.projectSchema.length > 0){
+            
+             return <DynamicForm formSchema={this.state.projectSchema} handleSubmit={this.handleSubmit}/> 
+        }
+    }
 
-        const theForm = this.state.projectSchema.length > 0 ?
-            <DynamicForm formSchema={this.state.projectSchema} handleSubmit={this.handleSubmit}/> :
-            <p>Loading project form...</p>;
+    handleTemplateChange = (event) => {
+        this.handleLoadTemplate(event.target.value);
+    }
+
+    render() {
 
         return (
             <SidebarContainer className='col-md-2'>
@@ -94,13 +106,15 @@ export class Sidebar extends React.Component<Sidebar.IProps, Sidebar.State> {
                 <ModalWrapper 
                     isModalOpen={this.state.isModalOpen}
                     handleToggleModal={(modalStatus) => this.handleToggleModal(modalStatus)}>
-                    {theForm}
+                    <Select id="templateSelect" options={templateList} text="Template" onChange={(event)=>this.handleTemplateChange(event)}/>
+                    {this.handleRenderCreateProject()}
                     <SubmitStatus>{this.state.submitStatus}</SubmitStatus>
                 </ModalWrapper>
             </SidebarContainer>
         );
     }
 }
+
 
 function mapStateToProps(state: IPublicSiteStoreState) {
     return {
@@ -151,3 +165,4 @@ const SubmitStatus = styled.p`
     margin-top:10px;
     text-align:center;
 `;  
+
