@@ -22,6 +22,7 @@ export namespace App {
 
     export interface State {
         projectList: any,
+        myProjectList: any
     }
 
     export interface Callbacks {
@@ -41,7 +42,8 @@ export class App extends React.Component<App.IProps, App.State> {
     constructor(props?: App.Props, context?: any) {
         super(props, context);
         this.state = {
-            projectList: null
+            projectList: null,
+            myProjectList: null
         };
     }
 
@@ -56,6 +58,11 @@ export class App extends React.Component<App.IProps, App.State> {
                 if (!this.state.projectList) {
                     this.props.ixo.project.listProjects().then((response: any) => {
                         this.setState({projectList: response.result});
+
+                        const filteredProjects = response.result.filter((project)=>{
+                            project.owner.did === this.props.web3Instance.eth.accounts[0]
+                        })
+                        console.log(filteredProjects);
                     }).catch((error) => {
                         console.error(error);
                     });
@@ -73,7 +80,7 @@ export class App extends React.Component<App.IProps, App.State> {
     renderProjectContent() {
         if (this.props.ixo && this.state.projectList && !this.props.pingError) {
             return <div className="col-md-10">
-                <Routes projectList={this.state.projectList}/>
+                <Routes projectList={this.state.projectList} />
             </div>;
         } else if (this.props.pingError) {
             return <Unsuccessful className="col-md-10"><p>Error connecting to ixo server... Retrying...</p></Unsuccessful>;

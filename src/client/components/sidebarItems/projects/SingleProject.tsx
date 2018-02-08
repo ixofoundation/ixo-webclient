@@ -42,13 +42,11 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
     }
 
     handleSubmit = (formData:any) => {
+        //Handle submission for register as new agent
+        formData['projectTx'] = this.state.projectMeta.tx;
 
-        console.log(formData);
-        debugger;
         this.props.ixo.auth.sign(this.props.web3Instance,formData).then((response: any)=>{
-            console.log(this.props.web3Instance.eth.accounts[0]);
             this.props.ixo.agent.createAgent(formData,this.props.web3Instance.eth.accounts[0],response,new Date(),'default').then((response: any)=>{
-    
                 if(response.result){
                         this.setState({submitStatus : 'Your project has been submitted successfully'});
                         // formData : {}
@@ -81,12 +79,28 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
     handleToggleModal(modalStatus){
         this.setState({isModalOpen: modalStatus});
     };
+
+    handleRenderAgentForm = () => {
+        if(this.state.formSchema.length > 0){
+            let agentSchema = [...this.state.formSchema];
+            agentSchema = agentSchema.filter((value) => value.name !== "template.name" && value.name !== "projectTx")
+            
+             return <DynamicForm formSchema={agentSchema} handleSubmit={this.handleSubmit}/> 
+        }
+        else {
+            return <p>Loading Form...</p>;
+        }
+    }
+
+    handleListAgents(){
+        this.props.ixo.agent.listAgentsForProject(this.props.web3Instance.eth.accounts[0], this.state.projectMeta.tx).then( agentList =>{
+            console.log(agentList);
+        }).catch( error =>{
+            console.log(error);
+        })
+    }
     
     render() {      
-        const theForm = this.state.formSchema.length > 0 ?
-            <DynamicForm formSchema={this.state.formSchema} handleSubmit={this.handleSubmit}/> :
-            <p>Loading Form...</p>;
-
         return (
             <div className="container">
                 <ProjectContainer className="row">
@@ -109,12 +123,14 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
                     </div>
                     <div className="col-md-12">
                         <RegisterAgent onClick={this.handleRegisterAgent}>Register as Agent</RegisterAgent>
+                        <h3>List of agents for project:</h3>
                     </div>
                 </ProjectContainer>
                 <ModalWrapper 
                     isModalOpen={this.state.isModalOpen}
                     handleToggleModal={(modalStatus) => this.handleToggleModal(modalStatus)}>
-                    {theForm}
+                    {this.handleRenderAgentForm()}
+                    {this.handleListAgents()}
                     <SubmitStatus>{this.state.submitStatus}</SubmitStatus>
                 </ModalWrapper>
             </div>

@@ -47,7 +47,6 @@ export class Sidebar extends React.Component<Sidebar.IProps, Sidebar.State> {
         if (prevProps.ixo !== this.props.ixo) {
             this.props.ixo.project.getProjectTemplate('default').then((response: any) => {
                 const projectSchema = response.result.form.fields;
-
                 if (projectSchema !== this.state.projectSchema) {
                     this.setState({projectSchema: projectSchema});
                 }
@@ -59,8 +58,9 @@ export class Sidebar extends React.Component<Sidebar.IProps, Sidebar.State> {
 
     handleSubmit = (formData) =>{
         let submitStatus = '';
-        debugger;
+        console.log("Form data is: ",formData);
         this.props.ixo.auth.sign(this.props.web3Instance,formData).then((response: any)=>{
+            debugger;
             this.props.ixo.project.createProject(this.props.web3Instance.eth.accounts[0],response,formData,new Date()).then((response: any)=>{
     
                 if(response.result){
