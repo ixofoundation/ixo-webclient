@@ -49,16 +49,15 @@ export class App extends React.Component<App.IProps, App.State> {
 
     componentDidUpdate(prevProps: App.Props) {
 
-        if (prevProps.ixo !== this.props.ixo) {
+        /* if (prevProps.ixo !== this.props.ixo) {
             this.props.onWeb3Init(this.props.ixo);
-        }
+        } */
 
         if (prevProps.pingResult !== this.props.pingResult) {
             if (this.props.pingResult.result === 'pong') {
                 if (!this.state.projectList) {
                     this.props.ixo.project.listProjects().then((response: any) => {
                         this.setState({projectList: response.result});
-
                         const filteredProjects = response.result.filter((project)=>{
                             project.owner.did === this.props.web3Instance.eth.accounts[0]
                         })

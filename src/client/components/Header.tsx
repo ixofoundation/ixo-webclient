@@ -1,11 +1,11 @@
-import * as React              from 'react';
-import {connect}               from 'react-redux';
-import {IPublicSiteStoreState} from '../redux/public_site_reducer';
-import {pingIxoServer}         from '../redux/ping/ping_action_creators';
-import {IPingResult}           from '../../../types/models';
-import {initIxo}               from '../redux/ixo/ixo_action_creators';
-import styled                  from 'styled-components';
-import {Link}                  from 'react-router-dom';
+import * as React from 'react';
+import { connect } from 'react-redux';
+import { IPublicSiteStoreState } from '../redux/public_site_reducer';
+import { pingIxoServer } from '../redux/ping/ping_action_creators';
+import { IPingResult } from '../../../types/models';
+import { initIxo } from '../redux/ixo/ixo_action_creators';
+import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 const logoSrc = require('../assets/images/logo.png');
 
@@ -40,14 +40,14 @@ export class Header extends React.Component<Header.IProps, Header.State> {
         super(props, context);
         this.state = {
             isServerConnected: null,
-            initialDate      : null,
-            responseTime     : null,
-            selectedServer   : 'https://ixo-node.herokuapp.com'
+            initialDate: null,
+            responseTime: null,
+            selectedServer: 'https://ixo-node.herokuapp.com'
         };
     }
 
     ping = () => {
-        this.setState({initialDate: new Date()});
+        this.setState({ initialDate: new Date() });
         this.props.getPing(this.props.ixo);
     };
 
@@ -67,7 +67,7 @@ export class Header extends React.Component<Header.IProps, Header.State> {
 
         if (prevProps.pingResult !== this.props.pingResult) {
             if (this.props.pingResult === null) {
-                this.setState({isServerConnected: false});
+                this.setState({ isServerConnected: false });
             }
             else if (this.props.pingResult.result === 'pong') {
                 const responseTime = Math.abs(new Date().getTime() - this.state.initialDate.getTime());
@@ -84,10 +84,10 @@ export class Header extends React.Component<Header.IProps, Header.State> {
             return (
                 <Ping>
                     Server Status:
-                    <LightReady/>
+                    <LightReady />
                     <StatusMessage>
                         <p>Response time: {this.state.responseTime} ms</p>
-                        <br/>
+                        <br />
                         <p>{this.state.selectedServer}</p>
                     </StatusMessage>
                 </Ping>
@@ -96,7 +96,7 @@ export class Header extends React.Component<Header.IProps, Header.State> {
         else if (this.props.pingError === null) {
             return (
                 <Ping>Server Status:
-                    <LightLoading/>
+                    <LightLoading />
                     <StatusMessage>
                         <p>Waiting for server...</p>
                     </StatusMessage>
@@ -106,7 +106,7 @@ export class Header extends React.Component<Header.IProps, Header.State> {
         else {
             return (
                 <Ping>Server Status:
-                    <Light/>
+                    <Light />
                     <StatusMessage>
                         <p>{this.state.selectedServer} not responding</p>
                     </StatusMessage>
@@ -117,7 +117,7 @@ export class Header extends React.Component<Header.IProps, Header.State> {
 
     handleServerChange = (event) => {
         this.setState({
-            selectedServer   : event.target.value,
+            selectedServer: event.target.value,
             isServerConnected: false
         });
     };
@@ -128,7 +128,7 @@ export class Header extends React.Component<Header.IProps, Header.State> {
                 <div className="container">
                     <div className="row">
                         <div className="col-md-4 d-flex align-items-center">
-                            <Link to="/"><img src={logoSrc} alt="IXO Logo"/></Link>
+                            <Link to="/"><img src={logoSrc} alt="IXO Logo" /></Link>
                         </div>
                         <div className="col-md-4">
                         </div>
@@ -152,14 +152,14 @@ export class Header extends React.Component<Header.IProps, Header.State> {
 function mapStateToProps(state: IPublicSiteStoreState) {
     return {
         pingResult: state.pingStore.pingResult,
-        pingError : state.pingStore.error,
-        ixo       : state.ixoStore.ixo
+        pingError: state.pingStore.error,
+        ixo: state.ixoStore.ixo
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        getPing  : (ixo) => {
+        getPing: (ixo) => {
             dispatch(pingIxoServer(ixo));
         },
         onIxoInit: (hostname: string) => {
