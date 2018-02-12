@@ -14,8 +14,7 @@
     "strictNullChecks": false,
     "outDir": "build",
     "lib": [
-      "es6",
-      "es7",
+      "es2015",
       "dom"
     ]
   },

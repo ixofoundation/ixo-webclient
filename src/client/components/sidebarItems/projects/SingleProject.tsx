@@ -1,9 +1,9 @@
-import * as React              from 'react';
-import {connect}               from "react-redux";
-import {IPublicSiteStoreState} from "../../../redux/public_site_reducer";
-import {Link} from 'react-router-dom';
+import * as React from 'react';
+import { connect } from "react-redux";
+import { IPublicSiteStoreState } from "../../../redux/public_site_reducer";
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import {ModalWrapper}          from '../../ModalWrapper';
+import { ModalWrapper } from '../../ModalWrapper';
 import DynamicForm from '../../formTemplates/DynamicForm';
 
 const projectBG = require('../../../assets/images/project-bg.jpg');
@@ -28,49 +28,44 @@ export namespace SingleProject {
 
 @connect(mapStateToProps, mapDispatchToProps)
 export class SingleProject extends React.Component<SingleProject.IProps, SingleProject.State> {
-
     constructor(props?: SingleProject.IProps, context?: any) {
         super(props, context);
-
         this.state = {
-            isModalOpen  : false,
-            projectMeta : this.props.location.state,
+            isModalOpen: false,
+            projectMeta: this.props.location.state,
             formSchema: {},
             submitStatus: null
         }
-
     }
 
-    handleSubmit = (formData:any) => {
-
+    handleSubmit = (formData: any) => {
         console.log(formData);
-        debugger;
-        this.props.ixo.auth.sign(this.props.web3Instance,formData).then((response: any)=>{
+        this.props.ixo.auth.sign(this.props.web3Instance, formData).then((response: any) => {
             console.log(this.props.web3Instance.eth.accounts[0]);
-            this.props.ixo.agent.createAgent(formData,this.props.web3Instance.eth.accounts[0],response,new Date(),'default').then((response: any)=>{
-    
-                if(response.result){
-                        this.setState({submitStatus : 'Your project has been submitted successfully'});
-                        // formData : {}
-                } else if(response.error){
-                        this.setState({submitStatus : 'Error submitting the project, please ensure all fields have been entered correctly'});
-                        // formData : {}
+            this.props.ixo.agent.createAgent(formData, this.props.web3Instance.eth.accounts[0], response, new Date(), 'default').then((response: any) => {
+
+                if (response.result) {
+                    this.setState({ submitStatus: 'Your project has been submitted successfully' });
+                    // formData : {}
+                } else if (response.error) {
+                    this.setState({ submitStatus: 'Error submitting the project, please ensure all fields have been entered correctly' });
+                    // formData : {}
                 }
-                
+
             }).catch((error) => {
-                this.setState({submitStatus : 'Error submitting the project'});
+                this.setState({ submitStatus: 'Error submitting the project' });
             })
         }).catch((error) => {
-            this.setState({submitStatus : 'Error submitting the project'});
+            this.setState({ submitStatus: 'Error submitting the project' });
         })
     }
 
-    handleRegisterAgent = () =>{
+    handleRegisterAgent = () => {
         this.handleToggleModal(true);
         this.props.ixo.agent.getAgentTemplate('default').then((response: any) => {
 
             if (response.result.form.fields !== this.state.formSchema) {
-                this.setState({formSchema: response.result.form.fields});
+                this.setState({ formSchema: response.result.form.fields });
             }
 
         }).catch((result: Error) => {
@@ -78,13 +73,13 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
         });
     }
 
-    handleToggleModal(modalStatus){
-        this.setState({isModalOpen: modalStatus});
+    handleToggleModal(modalStatus) {
+        this.setState({ isModalOpen: modalStatus });
     };
-    
-    render() {      
+
+    render() {
         const theForm = this.state.formSchema.length > 0 ?
-            <DynamicForm formSchema={this.state.formSchema} handleSubmit={this.handleSubmit}/> :
+            <DynamicForm formSchema={this.state.formSchema} handleSubmit={this.handleSubmit} /> :
             <p>Loading Form...</p>;
 
         return (
@@ -96,7 +91,7 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
                     <div className="col-md-4">
                         <h2>{this.state.projectMeta.name}</h2>
                     </div>
-                    
+
                     <div className="col-md-8">
                         <p>Country: {this.state.projectMeta.country}</p>
                         <p>Date created: {this.state.projectMeta.created}</p>
@@ -111,7 +106,7 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
                         <RegisterAgent onClick={this.handleRegisterAgent}>Register as Agent</RegisterAgent>
                     </div>
                 </ProjectContainer>
-                <ModalWrapper 
+                <ModalWrapper
                     isModalOpen={this.state.isModalOpen}
                     handleToggleModal={(modalStatus) => this.handleToggleModal(modalStatus)}>
                     {theForm}
