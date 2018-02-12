@@ -13,7 +13,6 @@ import Select from './formTemplates/Select'
 export namespace Sidebar {
     export interface Props {
         ixo?: any,
-        web3Instance?: any
     }
 
     export interface State {
@@ -39,7 +38,6 @@ export class Sidebar extends React.Component<Sidebar.IProps, Sidebar.State> {
             submitStatus: '',
             projectSchema: []
         };
-
     }
 
     handleToggleModal(modalStatus) {
@@ -62,10 +60,8 @@ export class Sidebar extends React.Component<Sidebar.IProps, Sidebar.State> {
         this.props.ixo.project.createProject(formData, 'default').then((response: any) => {
             if (response.result) {
                 this.setState({ submitStatus: 'Your project has been submitted successfully' });
-                // formData : {}
             } else if (response.error) {
                 this.setState({ submitStatus: 'Error submitting the project, please ensure all fields have been entered' });
-                // formData : {}
             }
         }).catch((error) => {
             this.setState({ submitStatus: 'Error submitting the project' });
@@ -105,7 +101,6 @@ export class Sidebar extends React.Component<Sidebar.IProps, Sidebar.State> {
 function mapStateToProps(state: IPublicSiteStoreState) {
     return {
         ixo: state.ixoStore.ixo,
-        web3Instance: state.web3Store.web3Instance
     };
 }
 

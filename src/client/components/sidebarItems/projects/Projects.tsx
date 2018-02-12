@@ -1,15 +1,13 @@
-import * as React              from 'react';
-import {connect}               from 'react-redux';
-import {IPublicSiteStoreState} from '../../../redux/public_site_reducer';
-import {Link}                  from 'react-router-dom';
-import styled                  from 'styled-components';
+import * as React from 'react';
+import { connect } from 'react-redux';
+import { IPublicSiteStoreState } from '../../../redux/public_site_reducer';
+import { Link } from 'react-router-dom';
+import styled from 'styled-components';
 
 export namespace Projects {
 
     export interface Props {
         projectList: any,
-        web3Instance?: any,
-        isWeb3AccountLoaded?: boolean
     }
 
     export interface State {
@@ -19,22 +17,12 @@ export namespace Projects {
     }
 }
 
-@connect(mapStateToProps, mapDispatchToProps)
 export class Projects extends React.Component<Projects.IProps, Projects.State> {
-
-    constructor(props?: Projects.IProps, context?: any) {
-        super(props, context);
-        this.state = {
-            isWeb3AccountLoaded: false
-        };
-    }
-
     render() {
-        const projects = this.props.projectList;
         return (
             <ProjectsContainer className="container-fluid">
                 <div className="row">
-                    {projects.map((project, index) => {
+                    {this.props.projectList.map((project, index) => {
                         return (
                             <ProjectCard className="col-md-4" key={index}>
                                 <ProjectCardInner>
@@ -48,9 +36,9 @@ export class Projects extends React.Component<Projects.IProps, Projects.State> {
                                     </OwnerBox>
                                     <ViewProject to={{
                                         pathname: `/project/${project._id}`,
-                                        state   : project
+                                        state: project
                                     }}
-                                                 project={project}>View Project</ViewProject>
+                                        project={project}>View Project</ViewProject>
 
                                 </ProjectCardInner>
                             </ProjectCard>);
@@ -59,16 +47,6 @@ export class Projects extends React.Component<Projects.IProps, Projects.State> {
             </ProjectsContainer>
         );
     }
-}
-
-function mapStateToProps(state: IPublicSiteStoreState) {
-    return {
-        web3Instance: state.web3Store.web3Instance
-    };
-}
-
-function mapDispatchToProps(dispatch) {
-    return {};
 }
 
 const ProjectsContainer = styled.div`
@@ -128,7 +106,7 @@ const OwnerBox = styled.div`
     }
 `;
 
-const ViewProject = styled(Link)`
+const ViewProject = styled(Link) `
     display: block;
     text-align: center;
     border-radius: 5px;

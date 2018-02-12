@@ -7,7 +7,6 @@ import { Footer } from '../components/Footer';
 import { Header } from '../components/Header';
 import styled, { ThemeProvider } from 'styled-components';
 import { initIxo } from '../redux/ixo/ixo_action_creators';
-import { initializeWeb3 } from '../redux/web3/web3_action_creators';
 import { Sidebar } from '../components/SideBar';
 import { Routes } from '../components/Routes';
 import { IPingResult } from '../../../types/models';
@@ -105,7 +104,6 @@ export class App extends React.Component<App.IProps, App.State> {
 function mapStateToProps(state: IPublicSiteStoreState) {
     return {
         ixo: state.ixoStore.ixo,
-        web3Instance: state.web3Store.web3Instance,
         pingError: state.pingStore.error,
         pingResult: state.pingStore.pingResult
     };

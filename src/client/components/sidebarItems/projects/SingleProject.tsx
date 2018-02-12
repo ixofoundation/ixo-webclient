@@ -13,7 +13,6 @@ export namespace SingleProject {
     export interface Props {
         location?: any,
         ixo?: any,
-        web3Instance?: any
     }
     export interface State {
         projectMeta: any,
@@ -130,7 +129,6 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
 function mapStateToProps(state: IPublicSiteStoreState) {
     return {
         ixo: state.ixoStore.ixo,
-        web3Instance: state.web3Store.web3Instance
     };
 }
 
