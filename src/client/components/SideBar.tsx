@@ -27,7 +27,7 @@ export namespace Sidebar {
     }
 }
 
-const templateList = ["default","second","third"];
+const templateList = ["default", "second", "third"];
 
 @withRouter
 @connect(mapStateToProps)
@@ -46,47 +46,35 @@ export class Sidebar extends React.Component<Sidebar.IProps, Sidebar.State> {
         this.setState({ isModalOpen: modalStatus });
     };
 
-    // componentDidUpdate(prevProps: App.Props) {
-        // if (prevProps.ixo !== this.props.ixo) {
-        // componentDidMount(){
     handleLoadTemplate = (templateName) => {
         this.props.ixo.project.getProjectTemplate(templateName).then((response: any) => {
             const projectSchema = response.result.form.fields;
             if (projectSchema !== this.state.projectSchema) {
-                this.setState({projectSchema: projectSchema});
+                this.setState({ projectSchema: projectSchema });
             }
         }).catch((result: Error) => {
-            this.setState({projectSchema: []});
+            this.setState({ projectSchema: [] });
         });
     }
-        // }
-        // }
-    // }
 
     handleSubmit = (formData) => {
         let submitStatus = '';
-        this.props.ixo.credetialProvider.sign(formData).then((response: any) => {
-            this.props.ixo.project.createProject(formData, 'default').then((response: any) => {
-                if (response.result) {
-                    this.setState({ submitStatus: 'Your project has been submitted successfully' });
-                    // formData : {}
-                } else if (response.error) {
-                    this.setState({ submitStatus: 'Error submitting the project, please ensure all fields have been entered' });
-                    // formData : {}
-                }
-
-            }).catch((error) => {
-                this.setState({ submitStatus: 'Error submitting the project' });
-            })
+        this.props.ixo.project.createProject(formData, 'default').then((response: any) => {
+            if (response.result) {
+                this.setState({ submitStatus: 'Your project has been submitted successfully' });
+                // formData : {}
+            } else if (response.error) {
+                this.setState({ submitStatus: 'Error submitting the project, please ensure all fields have been entered' });
+                // formData : {}
+            }
         }).catch((error) => {
             this.setState({ submitStatus: 'Error submitting the project' });
         })
     }
 
-    handleRenderCreateProject = () =>{
-        if(this.state.projectSchema.length > 0){
-            
-             return <DynamicForm formSchema={this.state.projectSchema} handleSubmit={this.handleSubmit}/> 
+    handleRenderCreateProject = () => {
+        if (this.state.projectSchema.length > 0) {
+            return <DynamicForm formSchema={this.state.projectSchema} handleSubmit={this.handleSubmit} />
         }
     }
 
@@ -95,7 +83,6 @@ export class Sidebar extends React.Component<Sidebar.IProps, Sidebar.State> {
     }
 
     render() {
-
         return (
             <SidebarContainer className='col-md-2'>
                 <SidebarLink exact to='/'>Dashboard</SidebarLink>
@@ -105,7 +92,7 @@ export class Sidebar extends React.Component<Sidebar.IProps, Sidebar.State> {
                 <ModalWrapper
                     isModalOpen={this.state.isModalOpen}
                     handleToggleModal={(modalStatus) => this.handleToggleModal(modalStatus)}>
-                    <Select id="templateSelect" options={templateList} text="Template" onChange={(event)=>this.handleTemplateChange(event)}/>
+                    <Select id="templateSelect" options={templateList} text="Template" onChange={(event) => this.handleTemplateChange(event)} />
                     {this.handleRenderCreateProject()}
                     <SubmitStatus>{this.state.submitStatus}</SubmitStatus>
                 </ModalWrapper>
@@ -163,5 +150,5 @@ const SubmitStatus = styled.p`
     color:#0f8dab;
     margin-top:10px;
     text-align:center;
-`;  
+`;
 

@@ -39,22 +39,14 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
     }
 
     handleSubmit = (formData: any) => {
-        console.log(formData);
-        this.props.ixo.auth.sign(this.props.web3Instance, formData).then((response: any) => {
-            console.log(this.props.web3Instance.eth.accounts[0]);
-            this.props.ixo.agent.createAgent(formData, this.props.web3Instance.eth.accounts[0], response, new Date(), 'default').then((response: any) => {
-
-                if (response.result) {
-                    this.setState({ submitStatus: 'Your project has been submitted successfully' });
-                    // formData : {}
-                } else if (response.error) {
-                    this.setState({ submitStatus: 'Error submitting the project, please ensure all fields have been entered correctly' });
-                    // formData : {}
-                }
-
-            }).catch((error) => {
-                this.setState({ submitStatus: 'Error submitting the project' });
-            })
+        this.props.ixo.agent.createAgent(formData, 'default').then((response: any) => {
+            if (response.result) {
+                this.setState({ submitStatus: 'Your project has been submitted successfully' });
+                // formData : {}
+            } else if (response.error) {
+                this.setState({ submitStatus: 'Error submitting the project, please ensure all fields have been entered correctly' });
+                // formData : {}
+            }
         }).catch((error) => {
             this.setState({ submitStatus: 'Error submitting the project' });
         })
@@ -78,26 +70,26 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
     };
 
     handleRenderAgentForm = () => {
-        if(this.state.formSchema.length > 0){
+        if (this.state.formSchema.length > 0) {
             let agentSchema = [...this.state.formSchema];
             agentSchema = agentSchema.filter((value) => value.name !== "template.name" && value.name !== "projectTx")
-            
-             return <DynamicForm formSchema={agentSchema} handleSubmit={this.handleSubmit}/> 
+
+            return <DynamicForm formSchema={agentSchema} handleSubmit={this.handleSubmit} />
         }
         else {
             return <p>Loading Form...</p>;
         }
     }
 
-    handleListAgents(){
-        this.props.ixo.agent.listAgentsForProject(this.props.web3Instance.eth.accounts[0], this.state.projectMeta.tx).then( agentList =>{
+    handleListAgents() {
+        this.props.ixo.agent.listAgentsForProject(this.props.ixo.credentialProvider.getDid(), this.state.projectMeta.tx).then(agentList => {
             console.log(agentList);
-        }).catch( error =>{
+        }).catch(error => {
             console.log(error);
         })
     }
-    
-    render() {      
+
+    render() {
         return (
             <div className="container">
                 <ProjectContainer className="row">

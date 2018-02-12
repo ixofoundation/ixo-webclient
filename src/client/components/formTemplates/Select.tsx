@@ -3,45 +3,45 @@ import * as iso3311a2 from 'iso-3166-1-alpha-2';
 import styled from 'styled-components';
 
 export namespace Select {
-  export interface Props {
-    text?: string;
-    id: string;
-    options?: any
-  }
+    export interface Props {
+        text?: string;
+        id: string;
+        options?: any
+    }
 
-  export interface State {
-  }
+    export interface State {
+    }
 
-  export interface Callbacks {
-      onChange
-  }
+    export interface Callbacks {
+        onChange
+    }
 
-  export interface IProps extends Props, Callbacks {
+    export interface IProps extends Props, Callbacks {
 
-  }
+    }
 }
 
 export default class Select extends React.Component<Select.IProps, Select.State> {
     constructor(props?: Select.IProps, context?: any) {
         super(props, context);
+
     }
 
     generateSelect = () => {
-
         let selectOptions = [];
 
-        if(this.props.options == null){
+        if (this.props.options == null) {
             const countryList = iso3311a2.getData();
 
-            for(var code in countryList){
-                if(countryList.hasOwnProperty(code) ) {
+            for (var code in countryList) {
+                if (countryList.hasOwnProperty(code)) {
                     selectOptions.push(<option key={code} value={code}>{countryList[code]}</option>);
-                } 
+                }
             }
         }
         else {
-            this.props.options.map((option,index)=>{
-                selectOptions.push(<option key={index} value={option.label}>{option.label}</option>); 
+            this.props.options.map((option, index) => {
+                selectOptions.push(<option key={index} value={option}>{option}</option>);
             })
         }
         return selectOptions;

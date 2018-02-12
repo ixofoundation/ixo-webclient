@@ -1,21 +1,20 @@
-import * as React                  from 'react';
-import {connect}                   from 'react-redux';
-import {Link}                      from 'react-router-dom';
-import {IPublicSiteStoreState}     from '../redux/public_site_reducer';
-import {Route, Switch, withRouter} from 'react-router-dom';
-import {Footer}                    from '../components/Footer';
-import {Header}                    from '../components/Header';
-import styled, {ThemeProvider}     from 'styled-components';
-import {initIxo}                   from '../redux/ixo/ixo_action_creators';
-import {initializeWeb3}            from '../redux/web3/web3_action_creators';
-import {Sidebar}                   from '../components/SideBar';
-import {Routes}                    from '../components/Routes';
-import {IPingResult}               from '../../../types/models';
+import * as React from 'react';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { IPublicSiteStoreState } from '../redux/public_site_reducer';
+import { Route, Switch, withRouter } from 'react-router-dom';
+import { Footer } from '../components/Footer';
+import { Header } from '../components/Header';
+import styled, { ThemeProvider } from 'styled-components';
+import { initIxo } from '../redux/ixo/ixo_action_creators';
+import { initializeWeb3 } from '../redux/web3/web3_action_creators';
+import { Sidebar } from '../components/SideBar';
+import { Routes } from '../components/Routes';
+import { IPingResult } from '../../../types/models';
 
 export namespace App {
     export interface Props {
         ixo?: any,
-        web3Instance?: any
         pingError?: any
         pingResult?: IPingResult
     }
@@ -28,7 +27,6 @@ export namespace App {
     export interface Callbacks {
         onGetPing?: (ixo: any) => void;
         onIxoInit?: (hostName: string) => void;
-        onWeb3Init?: (ixo: any) => void;
     }
 
     export interface IProps extends Props, Callbacks {
@@ -48,19 +46,16 @@ export class App extends React.Component<App.IProps, App.State> {
     }
 
     componentDidUpdate(prevProps: App.Props) {
-
-        /* if (prevProps.ixo !== this.props.ixo) {
-            this.props.onWeb3Init(this.props.ixo);
-        } */
-
         if (prevProps.pingResult !== this.props.pingResult) {
             if (this.props.pingResult.result === 'pong') {
                 if (!this.state.projectList) {
                     this.props.ixo.project.listProjects().then((response: any) => {
-                        this.setState({projectList: response.result});
-                        const filteredProjects = response.result.filter((project)=>{
-                            project.owner.did === this.props.web3Instance.eth.accounts[0]
-                        })
+                        this.setState({ projectList: response.result });
+                        if (this.props.ixo.credentialProvider) {
+                            const filteredProjects = response.result.filter((project) => {
+                                project.owner.did === this.props.ixo.credentialProvider.getDid();
+                            })
+                        }
                     }).catch((error) => {
                         console.error(error);
                     });
@@ -70,7 +65,7 @@ export class App extends React.Component<App.IProps, App.State> {
 
         if (prevProps.pingError !== this.props.pingError) {
             if (this.props.pingError) {
-                this.setState({projectList: null});
+                this.setState({ projectList: null });
             }
         }
     }
@@ -92,14 +87,14 @@ export class App extends React.Component<App.IProps, App.State> {
         return (
             <ThemeProvider theme={mainTheme}>
                 <AppContainer>
-                    <Header/>
+                    <Header />
                     <div className="container-fluid">
                         <div className="row">
-                            <Sidebar/>
+                            <Sidebar />
                             {this.renderProjectContent()}
                         </div>
                     </div>
-                    <Footer/>
+                    <Footer />
                 </AppContainer>
             </ThemeProvider>
         );
@@ -109,20 +104,17 @@ export class App extends React.Component<App.IProps, App.State> {
 
 function mapStateToProps(state: IPublicSiteStoreState) {
     return {
-        ixo         : state.ixoStore.ixo,
+        ixo: state.ixoStore.ixo,
         web3Instance: state.web3Store.web3Instance,
-        pingError   : state.pingStore.error,
-        pingResult  : state.pingStore.pingResult
+        pingError: state.pingStore.error,
+        pingResult: state.pingStore.pingResult
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        onIxoInit : (hostname: string) => {
+        onIxoInit: (hostname: string) => {
             dispatch(initIxo(hostname));
-        },
-        onWeb3Init: (ixo: any) => {
-            dispatch(initializeWeb3(ixo));
         }
     };
 }
@@ -134,21 +126,21 @@ const AppContainer = styled.div`
 // Define what props.theme will look like
 const mainTheme = {
     bgLightest: '#66e3ff',
-    bgLighter : '#33daff',
-    bgMain    : '#00d2ff',
-    bgDarker  : '#00bde4',
+    bgLighter: '#33daff',
+    bgMain: '#00d2ff',
+    bgDarker: '#00bde4',
 
     fontLighter: '#00677f',
-    fontMain   : '#004d5e',
-    fontDarker : '#00333f',
+    fontMain: '#004d5e',
+    fontDarker: '#00333f',
     fontDarkest: '#001b22'
 };
-  
+
 const Loading = styled.div`
     display:flex;
     justify-content:center;
     align-items:center;
     height:calc(100vh - 140px);
-`;  
+`;
 
 const Unsuccessful = Loading;
