@@ -1,9 +1,11 @@
-import * as React from 'react';
-import { connect } from 'react-redux';
-import TextArea from './TextArea';
-import InputFile from './InputFile';
-import InputText from './InputText';
+import * as React    from 'react';
+import {connect} from 'react-redux';
+import TextArea      from './TextArea';
+import InputFile     from './InputFile';
+import InputText     from './InputText';
 import Select from './Select';
+import CountrySelect from './CountrySelect';
+import TemplateSelect from './TemplateSelect';
 import { IPublicSiteStoreState } from '../../redux/public_site_reducer';
 import styled from 'styled-components';
 
@@ -18,15 +20,15 @@ export namespace DynamicForm {
     }
 
     export interface Callbacks {
-        handleSubmit: (formData: any) => void
+        handleSubmit: (formData:any) => void
     }
 
-    export interface IProps extends Props, Callbacks { }
+    export interface IProps extends Props, Callbacks {}
 }
 
 export default class DynamicForm extends React.Component<DynamicForm.IProps, DynamicForm.State>{
 
-    constructor(props?: DynamicForm.IProps, context?: any) {
+    constructor(props?:DynamicForm.IProps,context?:any){
         super(props);
         this.state = {
             formData: {},
@@ -35,7 +37,7 @@ export default class DynamicForm extends React.Component<DynamicForm.IProps, Dyn
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    componentWillMount() {
+    componentWillMount(){
         this.props.formSchema.map((field, i) => {
             this.setFormState(field.name, "");
         });
@@ -49,19 +51,20 @@ export default class DynamicForm extends React.Component<DynamicForm.IProps, Dyn
     }
 
     setFormState = (name: String, value: any) => {
+
         var fields = name.split(".");
         var formData = this.state.formData;
         var curObj = formData;
         fields.forEach((field, idx) => {
-            if (idx == fields.length - 1) {
+            if(idx == fields.length-1){
                 curObj[field] = value;
-            } else {
-                if (!curObj[field])
+            }else{
+                if(!curObj[field])
                     curObj[field] = {};
                 curObj = curObj[field];
             }
         })
-        this.setState({ formData: formData });
+        this.setState({formData: formData});
     }
 
     onFormValueChanged = (name: String) => {
@@ -70,27 +73,29 @@ export default class DynamicForm extends React.Component<DynamicForm.IProps, Dyn
         }
     }
 
-    render() {
+    render(){
         return (
             <form onSubmit={this.handleSubmit}>
                 <div className="form-group">
                     {this.props.formSchema.map((field, i) => {
                         switch (field.type) {
                             case 'text' || 'email':
-                                return <InputText id={field.name} type={field.type} text={field.label} key={i} onChange={this.onFormValueChanged(field.name)} />;
-                            case 'image':
-                                return <InputFile id={field.name} text={field.label} key={i} onChange={this.onFormValueChanged(field.name)} />;
-                            case 'textarea':
-                                return <TextArea id={field.name} text={field.label} key={i} onChange={this.onFormValueChanged(field.name)} />;
+                                return <InputText id={field.name} type={field.type} text={field.label} key={i} onChange={this.onFormValueChanged(field.name)}/>;
+                            case 'image' :
+                                return <InputFile id={field.name} text={field.label} key={i} onChange={this.onFormValueChanged(field.name)}/>;
+                            case 'textarea' :
+                                return <TextArea id={field.name} text={field.label} key={i} onChange={this.onFormValueChanged(field.name)}/>;
                             case 'select':
-                                return <Select id={field.name} options={field.options} text={field.label} key={i} onChange={this.onFormValueChanged(field.name)} />;
+                                return <Select id={field.name} options={field.options} text={field.label} key={i} onChange={this.onFormValueChanged(field.name)}/>;
                             case 'country':
-                                return <Select id={field.name} text={field.label} key={i} onChange={this.onFormValueChanged(field.name)} />;
+                                return <CountrySelect id={field.name} text={field.label} key={i} onChange={this.onFormValueChanged(field.name)}/>;
+                            case 'template':
+                                return <TemplateSelect id={field.name} text={field.label} key={i} onChange={this.onFormValueChanged(field.name)}/>;
                             default:
                                 return <p>Type not found</p>;
                         }
                     })}
-                    <Submit type="submit" value="Submit Form" />
+                    <Submit type="submit" value="Submit Form"/> 
                     <SubmitStatus>{this.state.submitStatus}</SubmitStatus>
                 </div>
             </form>
