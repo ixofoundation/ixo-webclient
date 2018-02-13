@@ -20,7 +20,8 @@ export namespace App {
 
     export interface State {
         projectList: any,
-        myProjectList: any
+        myProjectList: any,
+        did: string
     }
 
     export interface Callbacks {
@@ -39,41 +40,49 @@ export class App extends React.Component<App.IProps, App.State> {
     constructor(props?: App.Props, context?: any) {
         super(props, context);
         this.state = {
-            projectList: null,
-            myProjectList: null
+            projectList: [],
+            myProjectList: [],
+            did: null
         };
     }
 
     componentDidUpdate(prevProps: App.Props) {
         if (prevProps.pingResult !== this.props.pingResult) {
             if (this.props.pingResult.result === 'pong') {
-                if (!this.state.projectList) {
+
+                if (!(this.state.projectList.length > 0)) {
                     this.props.ixo.project.listProjects().then((response: any) => {
                         this.setState({ projectList: response.result });
-                        if (this.props.ixo.credentialProvider) {
-                            const filteredProjects = response.result.filter((project) => {
-                                project.owner.did === this.props.ixo.credentialProvider.getDid();
-                            })
-                        }
                     }).catch((error) => {
                         console.error(error);
                     });
                 }
-            }
-        }
+                if (this.props.ixo.credentialProvider.getDid() && (this.state.did !== this.props.ixo.credentialProvider.getDid())) {
+                    this.setState({ did: this.props.ixo.credentialProvider.getDid() })
+                    this.props.ixo.project.listProjectsByDid(this.props.ixo.credentialProvider.getDid()).then((response: any) => {
+                        this.setState({ myProjectList: response.result });
+                    });
+                }
 
-        if (prevProps.pingError !== this.props.pingError) {
-            if (this.props.pingError) {
-                this.setState({ projectList: null });
+                if (!this.props.ixo.credentialProvider.getDid()) {
+                    this.setState({ myProjectList: [], did: null });
+                }
+
+            }
+
+            if (prevProps.pingError !== this.props.pingError) {
+                if (this.props.pingError) {
+                    this.setState({ projectList: [], myProjectList: [] });
+                }
             }
         }
     }
 
     renderProjectContent() {
-        if (this.props.ixo && this.state.projectList && !this.props.pingError) {
+        if (this.props.ixo && !this.props.pingError) {
             return <div className="col-md-10">
-                <Routes projectList={this.state.projectList} />
-            </div>;
+                <Routes projectList={this.state.projectList} myProjectList={this.state.myProjectList} />
+            </div>
         } else if (this.props.pingError) {
             return <Unsuccessful className="col-md-10"><p>Error connecting to ixo server... Retrying...</p></Unsuccessful>;
         } else {

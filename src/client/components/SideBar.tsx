@@ -9,6 +9,7 @@ import { NavLink } from 'react-router-dom';
 import { withRouter } from 'react-router';
 import { App } from '../containers/App';
 import Select from './formTemplates/Select'
+import { renderIf } from '../utils/react_utils';
 
 export namespace Sidebar {
     export interface Props {
@@ -22,7 +23,6 @@ export namespace Sidebar {
     }
 
     export interface IProps extends Props {
-
     }
 }
 
@@ -36,7 +36,7 @@ export class Sidebar extends React.Component<Sidebar.IProps, Sidebar.State> {
         this.state = {
             isModalOpen: false,
             submitStatus: '',
-            projectSchema: []
+            projectSchema: [],
         };
     }
 
@@ -78,6 +78,25 @@ export class Sidebar extends React.Component<Sidebar.IProps, Sidebar.State> {
         this.handleLoadTemplate(event.target.value);
     }
 
+    renderModal() {
+        return <div>
+            {renderIf(this.props.ixo && this.props.ixo.credentialProvider.getDid(), {
+                ifTrue: () => (
+                    <div>
+                        <Select id="templateSelect" options={templateList} text="Template" onChange={(event) => this.handleTemplateChange(event)} />
+                        {this.handleRenderCreateProject()}
+                        <SubmitStatus>{this.state.submitStatus}</SubmitStatus>
+                    </div>
+                ),
+                ifFalse: () => (
+                    <div>
+                        Please login to Metamask to perform this action.
+                    </div>
+                )
+            })}
+        </div>
+    }
+
     render() {
         return (
             <SidebarContainer className='col-md-2'>
@@ -88,15 +107,12 @@ export class Sidebar extends React.Component<Sidebar.IProps, Sidebar.State> {
                 <ModalWrapper
                     isModalOpen={this.state.isModalOpen}
                     handleToggleModal={(modalStatus) => this.handleToggleModal(modalStatus)}>
-                    <Select id="templateSelect" options={templateList} text="Template" onChange={(event) => this.handleTemplateChange(event)} />
-                    {this.handleRenderCreateProject()}
-                    <SubmitStatus>{this.state.submitStatus}</SubmitStatus>
+                    {this.renderModal()}
                 </ModalWrapper>
             </SidebarContainer>
         );
     }
 }
-
 
 function mapStateToProps(state: IPublicSiteStoreState) {
     return {

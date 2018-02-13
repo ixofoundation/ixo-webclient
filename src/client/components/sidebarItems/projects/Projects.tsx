@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { IPublicSiteStoreState } from '../../../redux/public_site_reducer';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { renderIf } from '../../../utils/react_utils';
 
 export namespace Projects {
 
@@ -18,33 +19,50 @@ export namespace Projects {
 }
 
 export class Projects extends React.Component<Projects.IProps, Projects.State> {
+
+    renderProjects = () => {
+        return <div>
+            {renderIf(this.props.projectList.length > 0, {
+                ifTrue: () => (
+                    <ProjectsContainer className="container-fluid">
+                        <div className="row">
+                            {this.props.projectList.map((project, index) => {
+                                return (
+                                    <ProjectCard className="col-md-4" key={index}>
+                                        <ProjectCardInner>
+                                            <h3>{project.name}</h3>
+                                            <p>Country: {project.country}</p>
+
+                                            <OwnerBox>
+                                                <h4>Owner information:</h4>
+                                                <p>Name: {project.owner.name}</p>
+                                                <p>Email: {project.owner.email}</p>
+                                            </OwnerBox>
+                                            <ViewProject to={{
+                                                pathname: `/project/${project._id}`,
+                                                state: project
+                                            }}
+                                                project={project}>View Project</ViewProject>
+                                        </ProjectCardInner>
+                                    </ProjectCard>);
+                            })}
+                        </div>
+                    </ProjectsContainer>
+                ),
+                ifFalse: () => (
+                    <div>
+                        There are currently no projects...
+                    </div>
+                )
+            })}
+        </div>
+    }
+
     render() {
         return (
-            <ProjectsContainer className="container-fluid">
-                <div className="row">
-                    {this.props.projectList.map((project, index) => {
-                        return (
-                            <ProjectCard className="col-md-4" key={index}>
-                                <ProjectCardInner>
-                                    <h3>{project.name}</h3>
-                                    <p>Country: {project.country}</p>
-
-                                    <OwnerBox>
-                                        <h4>Owner information:</h4>
-                                        <p>Name: {project.owner.name}</p>
-                                        <p>Email: {project.owner.email}</p>
-                                    </OwnerBox>
-                                    <ViewProject to={{
-                                        pathname: `/project/${project._id}`,
-                                        state: project
-                                    }}
-                                        project={project}>View Project</ViewProject>
-
-                                </ProjectCardInner>
-                            </ProjectCard>);
-                    })}
-                </div>
-            </ProjectsContainer>
+            <div>
+                {this.renderProjects()}
+            </div>
         );
     }
 }
