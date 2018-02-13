@@ -1,10 +1,13 @@
 import * as React from 'react';
+import 'react-table/react-table.css'
 import { connect } from "react-redux";
 import { IPublicSiteStoreState } from "../../../redux/public_site_reducer";
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { ModalWrapper } from '../../ModalWrapper';
 import DynamicForm from '../../formTemplates/DynamicForm';
+var merge = require('merge');
+import ReactTable from 'react-table'
 
 const projectBG = require('../../../assets/images/project-bg.jpg');
 
@@ -18,7 +21,8 @@ export namespace SingleProject {
         projectMeta: any,
         isModalOpen: boolean,
         formSchema: any,
-        submitStatus: string
+        submitStatus: string,
+        agentList: any
     }
 
     export interface IProps extends Props {
@@ -33,28 +37,13 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
             isModalOpen: false,
             projectMeta: this.props.location.state,
             formSchema: {},
-            submitStatus: null
+            submitStatus: null,
+            agentList: []
         }
     }
 
-    handleSubmit = (formData: any) => {
-        this.props.ixo.agent.createAgent(formData, 'default').then((response: any) => {
-            if (response.result) {
-                this.setState({ submitStatus: 'Your project has been submitted successfully' });
-                // formData : {}
-            } else if (response.error) {
-                this.setState({ submitStatus: 'Error submitting the project, please ensure all fields have been entered correctly' });
-                // formData : {}
-            }
-        }).catch((error) => {
-            this.setState({ submitStatus: 'Error submitting the project' });
-        })
-    }
-
-    handleRegisterAgent = () => {
-        this.handleToggleModal(true);
+    componentDidMount() {
         this.props.ixo.agent.getAgentTemplate('default').then((response: any) => {
-
             if (response.result.form.fields !== this.state.formSchema) {
                 this.setState({ formSchema: response.result.form.fields });
             }
@@ -62,6 +51,33 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
         }).catch((error: Error) => {
             console.log(error);
         });
+
+        this.getAgentList();
+    }
+
+    getAgentList() {
+        this.props.ixo.agent.listAgentsForProject(this.props.ixo.credentialProvider.getDid(), this.state.projectMeta.tx).then(agentList => {
+            this.setState({ agentList: agentList.result })
+        }).catch(error => {
+            console.log(error);
+        })
+    }
+
+    handleSubmit = (formData: any) => {
+        var data = merge(formData, { projectTx: this.state.projectMeta.tx })
+        this.props.ixo.agent.createAgent(formData, 'default').then((response: any) => {
+            if (response.result) {
+                this.setState({ submitStatus: 'Your project has been submitted successfully' });
+                this.getAgentList();
+            } else if (response.error) {
+                this.setState({ submitStatus: response.error.message });
+            }
+        }).catch((error) => {
+            this.setState({ submitStatus: 'Error submitting the project' });
+        })
+    }
+    handleRegisterAgent = () => {
+        this.handleToggleModal(true);
     }
 
     handleToggleModal(modalStatus) {
@@ -72,20 +88,55 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
         if (this.state.formSchema.length > 0) {
             let agentSchema = [...this.state.formSchema];
             agentSchema = agentSchema.filter((value) => value.name !== "template.name" && value.name !== "projectTx")
-
             return <DynamicForm formSchema={agentSchema} handleSubmit={this.handleSubmit} />
-        }
-        else {
-            return <p>Loading Form...</p>;
+        } else {
+            return <p>Loading Form...</p>
         }
     }
 
-    handleListAgents() {
-        this.props.ixo.agent.listAgentsForProject(this.props.ixo.credentialProvider.getDid(), this.state.projectMeta.tx).then(agentList => {
-            console.log(agentList);
-        }).catch(error => {
-            console.log(error);
-        })
+    renderAgentListTable() {
+        return (
+            <div>
+                <ReactTable
+                    data={this.state.agentList}
+                    columns={[
+                        {
+                            Header: "Agents",
+                            columns: [
+                                {
+                                    Header: "First Name",
+                                    accessor: "name"
+                                },
+                                {
+                                    Header: "Email",
+                                    accessor: "email"
+                                },
+                                {
+                                    Header: "Role",
+                                    accessor: "role"
+                                },
+                                {
+                                    Header: "Did",
+                                    accessor: "did"
+                                },
+                                {
+                                    Header: "Created",
+                                    accessor: "created"
+                                },
+                                {
+                                    Header: "Status",
+                                    accessor: "latestStatus"
+                                }
+
+                            ]
+                        }
+                    ]}
+                    defaultPageSize={10}
+                    className="-striped -highlight"
+                />
+                <br />
+            </div>
+        );
     }
 
     render() {
@@ -112,13 +163,16 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
                     <div className="col-md-12">
                         <RegisterAgent onClick={this.handleRegisterAgent}>Register as Agent</RegisterAgent>
                         <h3>List of agents for project:</h3>
+
+                        {this.renderAgentListTable()}
                     </div>
                 </ProjectContainer>
+
                 <ModalWrapper
                     isModalOpen={this.state.isModalOpen}
                     handleToggleModal={(modalStatus) => this.handleToggleModal(modalStatus)}>
+
                     {this.handleRenderAgentForm()}
-                    {this.handleListAgents()}
                     <SubmitStatus>{this.state.submitStatus}</SubmitStatus>
                 </ModalWrapper>
             </div>
