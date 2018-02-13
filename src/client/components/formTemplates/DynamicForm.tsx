@@ -4,6 +4,8 @@ import TextArea      from './TextArea';
 import InputFile     from './InputFile';
 import InputText     from './InputText';
 import Select from './Select';
+import CountrySelect from './CountrySelect';
+import TemplateSelect from './TemplateSelect';
 import { IPublicSiteStoreState } from '../../redux/public_site_reducer';
 import styled from 'styled-components';
 
@@ -86,7 +88,9 @@ export default class DynamicForm extends React.Component<DynamicForm.IProps, Dyn
                             case 'select':
                                 return <Select id={field.name} options={field.options} text={field.label} key={i} onChange={this.onFormValueChanged(field.name)}/>;
                             case 'country':
-                                return <Select id={field.name} text={field.label} key={i} onChange={this.onFormValueChanged(field.name)}/>;
+                                return <CountrySelect id={field.name} text={field.label} key={i} onChange={this.onFormValueChanged(field.name)}/>;
+                            case 'template':
+                                return <TemplateSelect id={field.name} text={field.label} key={i} onChange={this.onFormValueChanged(field.name)}/>;
                             default:
                                 return <p>Type not found</p>;
                         }
