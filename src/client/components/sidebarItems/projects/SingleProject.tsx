@@ -1,13 +1,12 @@
 import * as React from 'react';
-import 'react-table/react-table.css'
 import { connect } from "react-redux";
 import { IPublicSiteStoreState } from "../../../redux/public_site_reducer";
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { ModalWrapper } from '../../ModalWrapper';
 import DynamicForm from '../../formTemplates/DynamicForm';
+import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 var merge = require('merge');
-import ReactTable from 'react-table'
 
 const projectBG = require('../../../assets/images/project-bg.jpg');
 
@@ -94,49 +93,26 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
         }
     }
 
-    renderAgentListTable() {
+    createCustomClearButton = (onClick) => {
         return (
-            <div>
-                <ReactTable
-                    data={this.state.agentList}
-                    columns={[
-                        {
-                            Header: "Agents",
-                            columns: [
-                                {
-                                    Header: "First Name",
-                                    accessor: "name"
-                                },
-                                {
-                                    Header: "Email",
-                                    accessor: "email"
-                                },
-                                {
-                                    Header: "Role",
-                                    accessor: "role"
-                                },
-                                {
-                                    Header: "Did",
-                                    accessor: "did"
-                                },
-                                {
-                                    Header: "Created",
-                                    accessor: "created"
-                                },
-                                {
-                                    Header: "Status",
-                                    accessor: "latestStatus"
-                                }
-
-                            ]
-                        }
-                    ]}
-                    defaultPageSize={10}
-                    className="-striped -highlight"
-                />
-                <br />
-            </div>
+            <button className='btn btn-success' onClick={onClick}>Clear</button>
         );
+    }
+
+    renderAgentListTable() {
+        const options = {
+            clearSearch: true,
+            clearSearchBtn: this.createCustomClearButton
+        };
+        return (
+            <BootstrapTable data={this.state.agentList} options={options} version='4' search>
+                <TableHeaderColumn dataField='did' isKey={true}>DID</TableHeaderColumn>
+                <TableHeaderColumn dataField='name'>Name</TableHeaderColumn>
+                <TableHeaderColumn dataField='email'>Email</TableHeaderColumn>
+                <TableHeaderColumn dataField='role'>Role</TableHeaderColumn>
+                <TableHeaderColumn dataField='created'>Created</TableHeaderColumn>
+                <TableHeaderColumn dataField='latestStatus'>Status</TableHeaderColumn>
+            </BootstrapTable>);
     }
 
     render() {
@@ -163,7 +139,7 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
                     <div className="col-md-12">
                         <RegisterAgent onClick={this.handleRegisterAgent}>Register as Agent</RegisterAgent>
                         <h3>List of agents for project:</h3>
-
+                        <br />
                         {this.renderAgentListTable()}
                     </div>
                 </ProjectContainer>
@@ -252,7 +228,6 @@ const OwnerBox = styled.div`
 `;
 
 const RegisterAgent = styled.div`
-
     cursor:pointer;
     color:green;
 `;
