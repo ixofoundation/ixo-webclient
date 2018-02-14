@@ -24,7 +24,8 @@ export class Footer extends React.Component<Footer.Props, Footer.State> {
 
 const FooterContainer = styled.div`
     width:100%;
-    height:70px;
+    height:40px;
+    font-size: 0.7rem;
     color:white;
     display: flex;
     align-items: center;

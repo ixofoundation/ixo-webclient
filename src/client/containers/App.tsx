@@ -80,13 +80,13 @@ export class App extends React.Component<App.IProps, App.State> {
 
     renderProjectContent() {
         if (this.props.ixo && !this.props.pingError) {
-            return <div className="col-10">
+            return <div className="col-12">
                 <Routes projectList={this.state.projectList} myProjectList={this.state.myProjectList} />
             </div>
         } else if (this.props.pingError) {
-            return <Unsuccessful className="col-md-10"><p>Error connecting to ixo server... Retrying...</p></Unsuccessful>;
+            return <Unsuccessful className="col-md-12"><p>Error connecting to ixo server... Retrying...</p></Unsuccessful>;
         } else {
-            return <Loading className="col-md-10"><p>Loading...</p></Loading>;
+            return <Loading className="col-md-12"><p>Loading...</p></Loading>;
         }
     }
 
@@ -97,8 +97,10 @@ export class App extends React.Component<App.IProps, App.State> {
                 <AppContainer>
                     <Header />
                     <div className="container-fluid">
-                        <div className="row">
+                        <NavRow className="row">
                             <Sidebar />
+                        </NavRow>
+                        <div className="row">
                             {this.renderProjectContent()}
                         </div>
                     </div>
@@ -142,6 +144,10 @@ const mainTheme = {
     fontDarker: '#00333f',
     fontDarkest: '#001b22'
 };
+
+const NavRow = styled.div`
+    height: 45px;
+`;
 
 const Loading = styled.div`
     display:flex;
