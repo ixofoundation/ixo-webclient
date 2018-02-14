@@ -8,7 +8,7 @@ import { IPublicSiteStoreState } from '../redux/public_site_reducer';
 import { NavLink } from 'react-router-dom';
 import { withRouter } from 'react-router';
 import { App } from '../containers/App';
-import Select from './formTemplates/Select'
+import TemplateSelect from './formTemplates/TemplateSelect'
 import { renderIf } from '../utils/react_utils';
 
 export namespace Sidebar {
@@ -26,7 +26,7 @@ export namespace Sidebar {
     }
 }
 
-const templateList = ["default", "second", "third"];
+const templateList = { default: "default", second: "second", third: "third" }
 
 @withRouter
 @connect(mapStateToProps)
@@ -83,7 +83,7 @@ export class Sidebar extends React.Component<Sidebar.IProps, Sidebar.State> {
             {renderIf(this.props.ixo && this.props.ixo.credentialProvider.getDid(), {
                 ifTrue: () => (
                     <div>
-                        <Select id="templateSelect" options={templateList} text="Template" onChange={(event) => this.handleTemplateChange(event)} />
+                        <TemplateSelect id="templateSelect" options={templateList} text="Template" onChange={(event) => this.handleTemplateChange(event)} />
                         {this.handleRenderCreateProject()}
                         <SubmitStatus>{this.state.submitStatus}</SubmitStatus>
                     </div>
