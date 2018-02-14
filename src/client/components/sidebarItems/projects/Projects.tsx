@@ -30,13 +30,13 @@ export class Projects extends React.Component<Projects.IProps, Projects.State> {
                                 return (
                                     <ProjectCard className="col-md-4" key={index}>
                                         <ProjectCardInner>
-                                            <h3>{project.name}</h3>
+                                            <TitleContainer>{project.name}</TitleContainer>
                                             <p>Country: {project.country}</p>
 
                                             <OwnerBox>
                                                 <h4>Owner information:</h4>
-                                                <p>Name: {project.owner.name}</p>
-                                                <p>Email: {project.owner.email}</p>
+                                                <EllipseText>Name: {project.owner.name}</EllipseText>
+                                                <EllipseText>Email: {project.owner.email}</EllipseText>
                                             </OwnerBox>
                                             <ViewProject to={{
                                                 pathname: `/project/${project._id}`,
@@ -71,6 +71,27 @@ const ProjectsContainer = styled.div`
     height:calc(100vh - 140px);
     overflow-y: scroll;
     padding-top:15px;
+`;
+
+const TitleContainer = styled.div`
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    width: '100%';
+    color: #0f8dab;
+    font-weight: 400;
+    font-size: 1.75rem;
+    box-sizing: border-box;
+    margin-top: 0;
+    margin-bottom: .5rem;
+    line-height: 1.2;
+`;
+
+const EllipseText = styled.p`
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    width: '100%';
 `;
 
 const ProjectCardInner = styled.div`
