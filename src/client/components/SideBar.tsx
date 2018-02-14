@@ -99,7 +99,7 @@ export class Sidebar extends React.Component<Sidebar.IProps, Sidebar.State> {
 
     render() {
         return (
-            <SidebarContainer className='col-md-2'>
+            <SidebarContainer className='col-2'>
                 <SidebarLink exact to='/'>Dashboard</SidebarLink>
                 <SidebarModalLink href="#" onClick={() => this.handleToggleModal(true)}>Create a Project</SidebarModalLink>
                 <SidebarLink exact to='/my-projects'>View My Projects</SidebarLink>

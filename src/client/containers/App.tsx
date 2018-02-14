@@ -80,7 +80,7 @@ export class App extends React.Component<App.IProps, App.State> {
 
     renderProjectContent() {
         if (this.props.ixo && !this.props.pingError) {
-            return <div className="col-md-10">
+            return <div className="col-10">
                 <Routes projectList={this.state.projectList} myProjectList={this.state.myProjectList} />
             </div>
         } else if (this.props.pingError) {

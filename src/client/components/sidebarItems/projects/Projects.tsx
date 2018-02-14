@@ -28,7 +28,7 @@ export class Projects extends React.Component<Projects.IProps, Projects.State> {
                         <div className="row">
                             {this.props.projectList.map((project, index) => {
                                 return (
-                                    <ProjectCard className="col-md-4" key={index}>
+                                    <ProjectCard className="col-12 col-xl-3 col-lg-3 col-md-4 col-sm-6 " key={index}>
                                         <ProjectCardInner>
                                             <TitleContainer>{project.name}</TitleContainer>
                                             <p>Country: {project.country}</p>
