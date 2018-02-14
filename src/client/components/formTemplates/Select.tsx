@@ -41,7 +41,7 @@ export default class Select extends React.Component<Select.IProps, Select.State>
         }
         else {
             this.props.options.map((option, index) => {
-                selectOptions.push(<option key={index} value={option}>{option}</option>);
+                selectOptions.push(<option key={index} value={option.value}>{option.label}</option>);
             })
         }
         return selectOptions;
