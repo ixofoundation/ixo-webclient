@@ -30,20 +30,10 @@ export default class Select extends React.Component<Select.IProps, Select.State>
     generateSelect = () => {
         let selectOptions = [];
 
-        if (this.props.options == null) {
-            const countryList = iso3311a2.getData();
+        this.props.options.map((option, index) => {
+            selectOptions.push(<option key={index} value={option.value}>{option.label}</option>);
+        })
 
-            for (var code in countryList) {
-                if (countryList.hasOwnProperty(code)) {
-                    selectOptions.push(<option key={code} value={code}>{countryList[code]}</option>);
-                }
-            }
-        }
-        else {
-            this.props.options.map((option, index) => {
-                selectOptions.push(<option key={index} value={option.value}>{option.label}</option>);
-            })
-        }
         return selectOptions;
 
     }

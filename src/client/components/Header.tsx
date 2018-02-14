@@ -80,38 +80,42 @@ export class Header extends React.Component<Header.IProps, Header.State> {
     }
 
     renderStatusIndicator() {
-        if (this.state.isServerConnected && this.props.pingError === null) {
-            return (
-                <Ping>
-                    Server Status:
-                    <LightReady />
-                    <StatusMessage>
+        return (
+            <Ping>
+                <ServerLabel className="d-none d-sm-block">Server Status:</ServerLabel>
+                {this.renderLightIndicator()}
+                <div  className="d-none d-sm-block">
+                    {this.renderStatusMessage()}
+                </div>
+            </Ping>
+        );
+    }
+
+    renderStatusMessage(){
+        if (this.state.isServerConnected) {
+            return (<StatusMessage>
                         <p>Response time: {this.state.responseTime} ms</p>
                         <br />
                         <p>{this.state.selectedServer}</p>
-                    </StatusMessage>
-                </Ping>
-            );
-        }
-        else if (this.props.pingError === null) {
-            return (
-                <Ping>Server Status:
-                    <LightLoading />
-                    <StatusMessage>
+                    </StatusMessage>);
+        }else if (this.props.pingError === null) {
+            return (<StatusMessage>
                         <p>Waiting for server...</p>
-                    </StatusMessage>
-                </Ping>
-            );
-        }
-        else {
-            return (
-                <Ping>Server Status:
-                    <Light />
-                    <StatusMessage>
+                    </StatusMessage>)
+        }else{
+            return (<StatusMessage>
                         <p>{this.state.selectedServer} not responding</p>
-                    </StatusMessage>
-                </Ping>
-            );
+                    </StatusMessage>)
+        }
+    }
+
+    renderLightIndicator(){
+        if (this.state.isServerConnected) {
+            return (<LightReady />)
+        }else if (this.props.pingError === null) {
+            return (<LightLoading />)
+        }else{
+            return (<Light />)
         }
     }
 
@@ -125,14 +129,11 @@ export class Header extends React.Component<Header.IProps, Header.State> {
     render() {
         return (
             <TopBar className="container-fluid text-white">
-                <div className="container">
                     <div className="row">
-                        <div className="col-md-4 d-flex align-items-center">
+                        <div className="col-4 d-flex align-items-center">
                             <Link to="/"><img src={logoSrc} alt="IXO Logo" /></Link>
                         </div>
-                        <div className="col-md-4">
-                        </div>
-                        <div className="col-md-4 d-flex align-items-center justify-content-end">
+                        <div className="col-8 d-flex align-items-center justify-content-end">
                             <select value={this.state.selectedServer} onChange={this.handleServerChange}>
                                 <option value="https://ixo-node.herokuapp.com">Production
                                     Server
@@ -142,7 +143,6 @@ export class Header extends React.Component<Header.IProps, Header.State> {
                             {this.renderStatusIndicator()}
                         </div>
                     </div>
-                </div>
 
             </TopBar>
         );
@@ -169,6 +169,10 @@ function mapDispatchToProps(dispatch) {
 }
 
 /* STYLING BELOW */
+
+const ServerLabel = styled.div`
+float: left;
+`;
 
 const TopBar = styled.header`
     padding:15px 0;
