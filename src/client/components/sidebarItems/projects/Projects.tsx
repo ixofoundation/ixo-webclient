@@ -29,21 +29,22 @@ export class Projects extends React.Component<Projects.IProps, Projects.State> {
                             {this.props.projectList.map((project, index) => {
                                 return (
                                     <ProjectCard className="col-12 col-xl-3 col-lg-3 col-md-4 col-sm-6 " key={index}>
-                                        <ProjectCardInner>
-                                            <TitleContainer>{project.name}</TitleContainer>
-                                            <p>Country: {project.country}</p>
+                                        <ProjectLink to={{
+                                                    pathname: `/project/${project._id}`,
+                                                    state: project
+                                                }}
+                                                project={project}>
+                                            <ProjectCardInner>
+                                                <TitleContainer>{project.name}</TitleContainer>
+                                                <p>Country: {project.country}</p>
 
-                                            <OwnerBox>
-                                                <h4>Owner information:</h4>
-                                                <EllipseText>Name: {project.owner.name}</EllipseText>
-                                                <EllipseText>Email: {project.owner.email}</EllipseText>
-                                            </OwnerBox>
-                                            <ViewProject to={{
-                                                pathname: `/project/${project._id}`,
-                                                state: project
-                                            }}
-                                                project={project}>View Project</ViewProject>
-                                        </ProjectCardInner>
+                                                <OwnerBox>
+                                                    <h4>Owner information:</h4>
+                                                    <EllipseText>Name: {project.owner.name}</EllipseText>
+                                                    <EllipseText>Email: {project.owner.email}</EllipseText>
+                                                </OwnerBox>
+                                            </ProjectCardInner>
+                                        </ProjectLink>
                                     </ProjectCard>);
                             })}
                         </div>
@@ -70,7 +71,7 @@ export class Projects extends React.Component<Projects.IProps, Projects.State> {
 const ProjectsContainer = styled.div`
     height:calc(100vh - 140px);
     overflow-y: scroll;
-    padding-top:15px;
+    padding-top:5px;
 `;
 
 const TitleContainer = styled.div`
@@ -100,10 +101,13 @@ const ProjectCardInner = styled.div`
     padding:10px;
     color:white;
     margin: 5px;
+
+    &&:hover {
+        box-shadow: 3px 3px 5px 0px #383d41;
+    }
 `;
 
 const ProjectCard = styled.div`
-
     &&{
         padding:0;
     }
@@ -145,20 +149,10 @@ const OwnerBox = styled.div`
     }
 `;
 
-const ViewProject = styled(Link) `
-    display: block;
-    text-align: center;
-    border-radius: 5px;
-    background: #0f8dab;
-    margin:10px 0 0;
-    padding:5px 0;
-    color:white;
+const ProjectLink = styled(Link) `
     transition:background 0.3s ease;
-    
 
     &:hover {
-        background:#c3f4ff;
         text-decoration:none;
-        color:#0f8dab;
     }
 `;

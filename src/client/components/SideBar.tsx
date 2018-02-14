@@ -10,6 +10,7 @@ import { withRouter } from 'react-router';
 import { App } from '../containers/App';
 import TemplateSelect from './formTemplates/TemplateSelect'
 import { renderIf } from '../utils/react_utils';
+import { slide as Menu } from 'react-burger-menu';
 
 export namespace Sidebar {
     export interface Props {
@@ -17,6 +18,7 @@ export namespace Sidebar {
     }
 
     export interface State {
+        isMenuOpen: boolean,
         isModalOpen: boolean,
         projectSchema: any,
         submitStatus: string
@@ -34,6 +36,7 @@ export class Sidebar extends React.Component<Sidebar.IProps, Sidebar.State> {
     constructor(props?: Sidebar.Props, context?: any) {
         super(props, context);
         this.state = {
+            isMenuOpen: false,
             isModalOpen: false,
             submitStatus: '',
             projectSchema: [],
@@ -41,7 +44,11 @@ export class Sidebar extends React.Component<Sidebar.IProps, Sidebar.State> {
     }
 
     handleToggleModal(modalStatus) {
-        this.setState({ isModalOpen: modalStatus });
+        this.setState({ isModalOpen: modalStatus, isMenuOpen: false });
+    };
+
+    closeMenu(){
+        this.setState({ isMenuOpen: false });
     };
 
     handleLoadTemplate = (templateName) => {
@@ -99,17 +106,17 @@ export class Sidebar extends React.Component<Sidebar.IProps, Sidebar.State> {
 
     render() {
         return (
-            <SidebarContainer className='col-2'>
-                <SidebarLink exact to='/'>Dashboard</SidebarLink>
+            <Menu isOpen={this.state.isMenuOpen} styles={menuStyle}>
+                <SidebarLink exact to='/' onClick={() => this.closeMenu()}>Dashboard</SidebarLink>
                 <SidebarModalLink href="#" onClick={() => this.handleToggleModal(true)}>Create a Project</SidebarModalLink>
-                <SidebarLink exact to='/my-projects'>View My Projects</SidebarLink>
-                <SidebarLink to='/service-agents'>Service Agents</SidebarLink>
+                <SidebarLink exact to='/my-projects' onClick={() => this.closeMenu()}>View My Projects</SidebarLink>
+                <SidebarLink to='/service-agents' onClick={() => this.closeMenu()}>Service Agents</SidebarLink>
                 <ModalWrapper
                     isModalOpen={this.state.isModalOpen}
                     handleToggleModal={(modalStatus) => this.handleToggleModal(modalStatus)}>
                     {this.renderModal()}
                 </ModalWrapper>
-            </SidebarContainer>
+            </Menu>
         );
     }
 }
@@ -120,16 +127,43 @@ function mapStateToProps(state: IPublicSiteStoreState) {
     };
 }
 
-/* STYLES BELOW */
-
-const SidebarContainer = styled.div`
-    background:${props => props.theme.bgMain};
-    height:calc(100vh - 140px);
-
-    && {
-        padding:0;
+var menuStyle = {
+    bmBurgerButton: {
+      position: 'fixed',
+      width: '36px',
+      height: '30px',
+      left: '26px',
+      top: '81px'
+    },
+    bmBurgerBars: {
+      background: '#373a47'
+    },
+    bmCrossButton: {
+      height: '24px',
+      width: '24px'
+    },
+    bmCross: {
+      background: '#bdc3c7'
+    },
+    bmMenu: {
+      background: '#373a47',
+      padding: '2.5em 1.5em 0',
+      fontSize: '1.15em'
+    },
+    bmMorphShape: {
+      fill: '#373a47'
+    },
+    bmItemList: {
+      color: '#b8b7ad',
+      padding: '0.8em'
+    },
+    bmOverlay: {
+      background: 'rgba(0, 0, 0, 0.3)'
     }
-`;
+  }
+
+
+/* STYLES BELOW */
 
 const SidebarLink = styled(NavLink) `
     display:block;
@@ -139,18 +173,17 @@ const SidebarLink = styled(NavLink) `
     transition:all 0.3s ease;
 
     &:hover {
-        background:${props => props.theme.bgLighter};
         color:white;
+        border-left:5px solid #0f8dab;
+        padding-left:10px;
         text-decoration:none;
-        padding-left:15px;
         cursor:pointer;
     }
 
     &.active {
-        border-left:5px solid #0f8dab;
-        background:${props => props.theme.bgLightest};
-        padding-left:10px;
         color:#0f8dab;
+        border-left:5px solid #0f8dab;
+        padding-left:10px;
     }
 `;
 
