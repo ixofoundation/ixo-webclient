@@ -47,7 +47,7 @@
     "dotenv": "^4.0.0",
     "express": "^4.16.2",
     "immutable": "^3.8.2",
-    "ixo-module": "^1.4.19",
+    "ixo-module": "^1.4.21",
     "jquery": "^3.3.1",
     "loadjs": "^3.5.2",
     "merge": "^1.2.0",
