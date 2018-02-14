@@ -138,6 +138,8 @@ const mainTheme = {
     bgLighter: '#33daff',
     bgMain: '#00d2ff',
     bgDarker: '#00bde4',
+    bgDarkest: '#00687b',
+
 
     fontLighter: '#00677f',
     fontMain: '#004d5e',
