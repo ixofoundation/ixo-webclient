@@ -23,6 +23,8 @@ export class Footer extends React.Component<Footer.Props, Footer.State> {
 }
 
 const FooterContainer = styled.div`
+    position: absolute;
+    bottom: 0;
     width:100%;
     height:40px;
     font-size: 0.7rem;
