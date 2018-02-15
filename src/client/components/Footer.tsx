@@ -13,7 +13,7 @@ export namespace Footer {
 export class Footer extends React.Component<Footer.Props, Footer.State> {
     render() {
         return (
-            <FooterContainer className="container-fluid">
+            <FooterContainer className="container-fluid justify-content-end">
                 <div className="row">
                     <p className="col-md-12">Copyright ixo Foundation</p>
                 </div>
