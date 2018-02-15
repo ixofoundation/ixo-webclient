@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import { ModalWrapper } from '../../ModalWrapper';
 import DynamicForm from '../../formTemplates/DynamicForm';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
+import { toast } from 'react-toastify';
 var merge = require('merge');
 
 const projectBG = require('../../../assets/images/project-bg.jpg');
@@ -106,8 +107,22 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
             agentTx: row.tx,
             status: this.state.selectedStatus
         }
+        var toastId = toast('Updating agent status...', { autoClose: false });
+
         this.props.ixo.agent.updateAgentStatus(agentData).then((response: any) => {
+            if (response.error) {
+                toast.update(toastId, {
+                    render: response.error.message,
+                    type: 'error',
+                    autoClose: 3000
+                })
+            }
             if (response.result.latestStatus === this.state.selectedStatus) {
+                toast.update(toastId, {
+                    render: 'Agent status updated',
+                    type: 'success',
+                    autoClose: 3000
+                })
                 this.getAgentList();
             }
         });
