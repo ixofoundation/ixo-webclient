@@ -4,6 +4,7 @@ import { IPublicSiteStoreState } from '../../../redux/public_site_reducer';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { renderIf } from '../../../utils/react_utils';
+import FlagIcon from '../../FlagIcon';
 
 export namespace Projects {
 
@@ -20,6 +21,13 @@ export namespace Projects {
 
 export class Projects extends React.Component<Projects.IProps, Projects.State> {
 
+    formatCountryCodeForFlag(code: String) :String {
+        var result = code.toLowerCase();
+        if(result == 'uk')
+            result = 'gb';
+        return result;
+    }
+
     renderProjects = () => {
         return <div>
             {renderIf(this.props.projectList.length > 0, {
@@ -35,9 +43,9 @@ export class Projects extends React.Component<Projects.IProps, Projects.State> {
                                                 }}
                                                 project={project}>
                                             <ProjectCardInner>
-                                                <TitleContainer>{project.name}</TitleContainer>
-                                                <p>Country: {project.country}</p>
-
+                                                
+                                                <TitleContainer><FlagIcon code={this.formatCountryCodeForFlag(project.country)} size='1x' /> {project.name}</TitleContainer>
+                                                
                                                 <OwnerBox>
                                                     <h4>Owner information:</h4>
                                                     <EllipseText>Name: {project.owner.name}</EllipseText>
@@ -72,6 +80,7 @@ const ProjectsContainer = styled.div`
     height:calc(100vh - 140px);
     overflow-y: scroll;
     padding-top:5px;
+    padding-bottom: 20px;
 `;
 
 const TitleContainer = styled.div`
@@ -100,10 +109,14 @@ const ProjectCardInner = styled.div`
     border-radius: 5px;
     padding:10px;
     color:white;
-    margin: 5px;
+    margin: 10px;
+    transition:all 0.3s ease;
 
     &&:hover {
-        box-shadow: 3px 3px 5px 0px #383d41;
+        box-shadow: 0px 3px 5px 0px #383d41b8;
+        transform: scale(1.05);
+        position:relative;
+        z-index:99;
     }
 `;
 

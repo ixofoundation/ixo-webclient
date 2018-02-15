@@ -51,6 +51,7 @@ module.exports = {
             { test: /\.html$/, loader: 'html-loader' },
             { test: /\.png$/, loader: 'url-loader?limit=10000' },
             { test: /\.jpg$/, loader: 'file-loader' },
+            { test: /\.svg$/, loader: 'file-loader' },
         ],
     },
     plugins: [
