@@ -18,7 +18,7 @@ export namespace Header {
     }
 
     export interface State {
-        isServerConnected: boolean
+        isServerConnected: boolean,
         initialDate: Date,
         responseTime: number,
         selectedServer: string
@@ -53,7 +53,7 @@ export class Header extends React.Component<Header.IProps, Header.State> {
 
     componentDidMount() {
         this.props.onIxoInit(this.state.selectedServer);
-        setInterval(this.ping, 5000);
+        setInterval(this.ping.bind(this), 5000);
     }
 
     componentDidUpdate(prevProps: Header.IProps) {
@@ -66,15 +66,15 @@ export class Header extends React.Component<Header.IProps, Header.State> {
         }
 
         if (prevProps.pingResult !== this.props.pingResult) {
-            if (this.props.pingResult === null) {
-                this.setState({ isServerConnected: false });
-            }
-            else if (this.props.pingResult.result === 'pong') {
+            if (this.props.pingResult.result === 'pong') {
                 const responseTime = Math.abs(new Date().getTime() - this.state.initialDate.getTime());
                 this.setState({
                     isServerConnected: true,
                     responseTime
                 });
+            
+            }else{
+                this.setState({ isServerConnected: false});
             }
         }
     }

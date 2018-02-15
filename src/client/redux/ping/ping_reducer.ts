@@ -35,6 +35,7 @@ export let pingReducer = createReducer<IPingModelState>(initialState, [
         handler: (state: IPingModelState, action: PING__CREATE__FAILURE) => {
             return {
                 ...state,
+                pingResult: action.pingResult,
                 error: action.error
             };
         }

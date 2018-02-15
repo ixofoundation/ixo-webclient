@@ -16,6 +16,7 @@ export function pingIxoServer(ixo: any) {
             ).catch((result: Error) => {
             dispatch(
                 createAction<PING__CREATE__FAILURE>(PING__CREATE__FAILURE.type, {
+                    pingResult: result['error'] ? result['error'] : result.message,
                     error: result['error'] ? result['error'] : result.message
                 }))
         });

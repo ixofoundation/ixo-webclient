@@ -90,7 +90,7 @@ const TitleContainer = styled.div`
     width: '100%';
     color: #0f8dab;
     font-weight: 400;
-    font-size: 1.75rem;
+    font-size: 1.3rem;
     box-sizing: border-box;
     margin-top: 0;
     margin-bottom: .5rem;
