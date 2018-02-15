@@ -21,7 +21,8 @@ export namespace SingleProject {
         isModalOpen: boolean,
         formSchema: any,
         submitStatus: string,
-        agentList: any
+        agentList: any,
+        selectedStatus: string,
     }
 
     export interface IProps extends Props {
@@ -37,7 +38,8 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
             projectMeta: this.props.location.state,
             formSchema: {},
             submitStatus: null,
-            agentList: []
+            agentList: [],
+            selectedStatus: 'Approved'
         }
     }
 
@@ -99,6 +101,42 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
         );
     }
 
+    onUpdateStatus(cell, row, rowIndex) {
+        var agentData = {
+            agentTx: row.tx,
+            status: this.state.selectedStatus
+        }
+        this.props.ixo.agent.updateAgentStatus(agentData).then((response: any) => {
+            if (response.result.latestStatus === this.state.selectedStatus) {
+                this.getAgentList();
+            }
+        });
+    }
+
+    onSetStatus = (selectedStatus) => {
+        this.setState({ selectedStatus: selectedStatus.target.value });
+    }
+
+    cellButton(cell, row, enumObject, rowIndex) {
+        return (
+            <div>
+                <select onChange={this.onSetStatus}>
+                    <option value="Approved" label='Approve' />
+                    <option value="NotApproved" label='Decline' />
+                    <option value="Revoked" label='Revoke' />
+                </select>
+                <br />
+                <button
+                    className='btn btn-success'
+                    type="button"
+                    onClick={() =>
+                        this.onUpdateStatus(cell, row, rowIndex)}>
+                    Update
+                </button>
+            </div >
+        )
+    }
+
     renderAgentListTable() {
         const options = {
             clearSearch: true,
@@ -112,6 +150,7 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
                 <TableHeaderColumn dataField='role'>Role</TableHeaderColumn>
                 <TableHeaderColumn dataField='created'>Created</TableHeaderColumn>
                 <TableHeaderColumn dataField='latestStatus'>Status</TableHeaderColumn>
+                <TableHeaderColumn dataField='button' dataFormat={this.cellButton.bind(this)}>Set Status</TableHeaderColumn>
             </BootstrapTable>);
     }
 
