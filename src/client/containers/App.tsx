@@ -10,6 +10,7 @@ import { initIxo } from '../redux/ixo/ixo_action_creators';
 import { Sidebar } from '../components/SideBar';
 import { Routes } from '../components/Routes';
 import { IPingResult } from '../../../types/models';
+import { ToastContainer } from 'react-toastify';
 
 export namespace App {
     export interface Props {
@@ -98,6 +99,7 @@ export class App extends React.Component<App.IProps, App.State> {
                 <AppContainer>
                     <Header />
                     <div className="container-fluid">
+                        <ToastContainer autoClose={4000} />
                         <NavRow className="row">
                             <Sidebar />
                         </NavRow>

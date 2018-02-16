@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import { ModalWrapper } from '../../ModalWrapper';
 import DynamicForm from '../../formTemplates/DynamicForm';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
+import { toast } from 'react-toastify';
 var merge = require('merge');
 
 const projectBG = require('../../../assets/images/project-bg.jpg');
@@ -20,7 +21,6 @@ export namespace SingleProject {
         projectMeta: any,
         isModalOpen: boolean,
         formSchema: any,
-        submitStatus: string,
         agentList: any,
         selectedStatus: string,
     }
@@ -37,7 +37,6 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
             isModalOpen: false,
             projectMeta: this.props.location.state,
             formSchema: {},
-            submitStatus: null,
             agentList: [],
             selectedStatus: 'Approved'
         }
@@ -65,16 +64,32 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
     }
 
     handleSubmit = (formData: any) => {
+        var toastId = toast('Creating agent...', { autoClose: false });
         var data = merge(formData, { projectTx: this.state.projectMeta.tx })
         this.props.ixo.agent.createAgent(formData, 'default').then((response: any) => {
             if (response.result) {
-                this.setState({ submitStatus: 'Your project has been submitted successfully' });
+                this.handleToggleModal(false);
+                toast.update(toastId, {
+                    render: 'Agent Created',
+                    type: 'success',
+                    autoClose: 3000
+                });
                 this.getAgentList();
             } else if (response.error) {
-                this.setState({ submitStatus: response.error.message });
+                this.handleToggleModal(false);
+                toast.update(toastId, {
+                    render: response.error.message,
+                    type: 'error',
+                    autoClose: 3000
+                });
             }
         }).catch((error) => {
-            this.setState({ submitStatus: 'Error submitting the project' });
+            this.handleToggleModal(false);
+            toast.update(toastId, {
+                render: 'Error creating agent',
+                type: 'error',
+                autoClose: 3000
+            });;
         })
     }
     handleRegisterAgent = () => {
@@ -97,7 +112,7 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
 
     createCustomClearButton = (onClick) => {
         return (
-            <button className='btn btn-success' onClick={onClick}>Clear</button>
+            <ClearButton onClick={onClick}>Clear</ClearButton>
         );
     }
 
@@ -106,8 +121,22 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
             agentTx: row.tx,
             status: this.state.selectedStatus
         }
+        var toastId = toast('Updating agent status...', { autoClose: false });
+
         this.props.ixo.agent.updateAgentStatus(agentData).then((response: any) => {
+            if (response.error) {
+                toast.update(toastId, {
+                    render: response.error.message,
+                    type: 'error',
+                    autoClose: 3000
+                })
+            }
             if (response.result.latestStatus === this.state.selectedStatus) {
+                toast.update(toastId, {
+                    render: 'Agent status updated',
+                    type: 'success',
+                    autoClose: 3000
+                })
                 this.getAgentList();
             }
         });
@@ -117,7 +146,7 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
         this.setState({ selectedStatus: selectedStatus.target.value });
     }
 
-    cellButton(cell, row, enumObject, rowIndex) {
+    cellStatusButton(cell, row, enumObject, rowIndex) {
         return (
             <div>
                 <select onChange={this.onSetStatus}>
@@ -150,7 +179,7 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
                 <TableHeaderColumn dataField='role'>Role</TableHeaderColumn>
                 <TableHeaderColumn dataField='created'>Created</TableHeaderColumn>
                 <TableHeaderColumn dataField='latestStatus'>Status</TableHeaderColumn>
-                <TableHeaderColumn dataField='button' dataFormat={this.cellButton.bind(this)}>Set Status</TableHeaderColumn>
+                <TableHeaderColumn dataField='button' dataFormat={this.cellStatusButton.bind(this)}>Set Status</TableHeaderColumn>
             </BootstrapTable>);
     }
 
@@ -176,9 +205,10 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
                         </OwnerBox>
                     </div>
                     <div className="col-md-12">
-                        <RegisterAgent onClick={this.handleRegisterAgent}>Register as Agent</RegisterAgent>
-                        <h3>List of agents for project:</h3>
-                        <br />
+                        <AgentHeader>List of agents for project:</AgentHeader>
+                        <ButtonContainer>
+                            <RegisterAgent onClick={this.handleRegisterAgent}><span>Register as Agent</span></RegisterAgent>
+                        </ButtonContainer>
                         {this.renderAgentListTable()}
                     </div>
                 </ProjectContainer>
@@ -188,7 +218,6 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
                     handleToggleModal={(modalStatus) => this.handleToggleModal(modalStatus)}>
 
                     {this.handleRenderAgentForm()}
-                    <SubmitStatus>{this.state.submitStatus}</SubmitStatus>
                 </ModalWrapper>
             </div>
         );
@@ -248,6 +277,13 @@ const ProjectContainer = styled.div`
     }
 `;
 
+const AgentHeader = styled.div`
+    display: flex;
+    justify-content: center;
+    font-size: 28px;
+    margin-top: 15px;
+`;
+
 const OwnerBox = styled.div`
 
     background:${props => props.theme.bgLightest};
@@ -266,9 +302,59 @@ const OwnerBox = styled.div`
     }
 `;
 
-const RegisterAgent = styled.div`
-    cursor:pointer;
-    color:green;
+const ClearButton = styled.button`
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+    height: 35px;
+    background-color: ${props => props.theme.bgLightest};
+    border: none;
+    color: #FFFFFF;
+`;
+
+const ButtonContainer = styled.div`
+    display: flex;
+    justify-content:flex-end;
+`;
+
+const RegisterAgent = styled.button`
+    border-radius: 4px;
+    background-color: ${props => props.theme.bgLightest};
+    border: none;
+    color: #FFFFFF;
+    font-size: 1em;
+    transition: all 0.5s;
+    cursor: pointer;
+    margin-bottom: 5px;
+    display: flex;
+    align-items: left;
+    width: 180px;
+    justify-content: space-around;
+    height: 35px;
+  
+  & span {
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    transition: 0.5s;
+  }
+  
+  & span:after {
+    content: '\00bb';
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    right: -20px;
+    transition: 0.5s;
+  }
+  
+  &:hover span {
+    padding-right: 25px;
+  }
+  
+  &:hover span:after {
+    opacity: 1;
+    right: 0;
+  }
 `;
 
 const SubmitStatus = styled.p`
