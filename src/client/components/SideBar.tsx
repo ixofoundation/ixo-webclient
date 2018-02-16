@@ -11,6 +11,7 @@ import { App } from '../containers/App';
 import TemplateSelect from './formTemplates/TemplateSelect'
 import { renderIf } from '../utils/react_utils';
 import { slide as Menu } from 'react-burger-menu';
+import { toast } from 'react-toastify';
 
 export namespace Sidebar {
     export interface Props {
@@ -24,7 +25,12 @@ export namespace Sidebar {
         submitStatus: string
     }
 
-    export interface IProps extends Props {
+    export interface Callbacks {
+        refreshProjects: () => void
+    }
+
+    export interface IProps extends Props, Callbacks {
+
     }
 }
 
@@ -33,7 +39,7 @@ const templateList = { default: "default", second: "second", third: "third" }
 @withRouter
 @connect(mapStateToProps)
 export class Sidebar extends React.Component<Sidebar.IProps, Sidebar.State> {
-    constructor(props?: Sidebar.Props, context?: any) {
+    constructor(props?: Sidebar.IProps, context?: any) {
         super(props, context);
         this.state = {
             isMenuOpen: false,
@@ -41,6 +47,7 @@ export class Sidebar extends React.Component<Sidebar.IProps, Sidebar.State> {
             submitStatus: '',
             projectSchema: [],
         };
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     handleToggleModal(modalStatus) {
@@ -64,15 +71,32 @@ export class Sidebar extends React.Component<Sidebar.IProps, Sidebar.State> {
     }
 
     handleSubmit = (formData) => {
-        let submitStatus = '';
+        var toastId = toast('Creating project...', { autoClose: false });
+
         this.props.ixo.project.createProject(formData, 'default').then((response: any) => {
             if (response.result) {
-                this.setState({ submitStatus: 'Your project has been submitted successfully' });
+                this.handleToggleModal(false);
+                toast.update(toastId, {
+                    render: 'Project Created',
+                    type: 'success',
+                    autoClose: 3000
+                });
+                this.props.refreshProjects();
             } else if (response.error) {
-                this.setState({ submitStatus: 'Error submitting the project, please ensure all fields have been entered' });
+                this.handleToggleModal(false);
+                toast.update(toastId, {
+                    render: response.error.message,
+                    type: 'error',
+                    autoClose: 3000
+                });
             }
         }).catch((error) => {
-            this.setState({ submitStatus: 'Error submitting the project' });
+            this.handleToggleModal(false);
+            toast.update(toastId, {
+                render: error.message,
+                type: 'error',
+                autoClose: 3000
+            });
         })
     }
 

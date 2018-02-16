@@ -79,6 +79,14 @@ export class App extends React.Component<App.IProps, App.State> {
         }
     }
 
+    refreshProjectList = () => {
+        this.props.ixo.project.listProjects().then((response: any) => {
+            this.setState({ projectList: response.result });
+        }).catch((error) => {
+            console.error(error);
+        });
+    }
+
     renderProjectContent() {
         if (this.props.ixo && !this.props.pingError) {
             return <div className="col-12">
@@ -91,7 +99,6 @@ export class App extends React.Component<App.IProps, App.State> {
         }
     }
 
-
     render() {
         return (
             <ThemeProvider theme={mainTheme}>
@@ -100,7 +107,7 @@ export class App extends React.Component<App.IProps, App.State> {
                     <div className="container-fluid">
                         <ToastContainer autoClose={4000} />
                         <NavRow className="row">
-                            <Sidebar />
+                            <Sidebar refreshProjects={this.refreshProjectList} />
                         </NavRow>
                         <div className="row">
                             {this.renderProjectContent()}
