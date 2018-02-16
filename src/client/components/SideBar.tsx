@@ -44,10 +44,11 @@ export class Sidebar extends React.Component<Sidebar.IProps, Sidebar.State> {
     }
 
     handleToggleModal(modalStatus) {
+        this.setState({ submitStatus: null });
         this.setState({ isModalOpen: modalStatus, isMenuOpen: false });
     };
 
-    closeMenu(){
+    closeMenu() {
         this.setState({ isMenuOpen: false });
     };
 
@@ -129,38 +130,38 @@ function mapStateToProps(state: IPublicSiteStoreState) {
 
 var menuStyle = {
     bmBurgerButton: {
-      position: 'fixed',
-      width: '36px',
-      height: '30px',
-      left: '26px',
-      top: '81px'
+        position: 'fixed',
+        width: '36px',
+        height: '30px',
+        left: '26px',
+        top: '81px'
     },
     bmBurgerBars: {
-      background: '#373a47'
+        background: '#373a47'
     },
     bmCrossButton: {
-      height: '24px',
-      width: '24px'
+        height: '24px',
+        width: '24px'
     },
     bmCross: {
-      background: '#bdc3c7'
+        background: '#bdc3c7'
     },
     bmMenu: {
-      background: '#373a47',
-      padding: '2.5em 1.5em 0',
-      fontSize: '1.15em'
+        background: '#373a47',
+        padding: '2.5em 1.5em 0',
+        fontSize: '1.15em'
     },
     bmMorphShape: {
-      fill: '#373a47'
+        fill: '#373a47'
     },
     bmItemList: {
-      color: '#b8b7ad',
-      padding: '0.8em'
+        color: '#b8b7ad',
+        padding: '0.8em'
     },
     bmOverlay: {
-      background: 'rgba(0, 0, 0, 0.3)'
+        background: 'rgba(0, 0, 0, 0.3)'
     }
-  }
+}
 
 
 /* STYLES BELOW */
