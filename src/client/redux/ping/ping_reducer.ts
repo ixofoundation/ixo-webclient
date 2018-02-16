@@ -1,42 +1,24 @@
 import {createReducer}                                                    from '../../../lib/redux_utils/reducers';
-import {PING__CREATE__FAILURE, PING__CREATE__INIT, PING__CREATE__SUCCESS} from './ping_actions';
+import {PING_RESULT} from './ping_actions';
 
 export type IPingModelState = {
     pingResult: any,
-    error: any
+    pingError: any
 }
 
 const initialState: IPingModelState = {
     pingResult: null,
-    error     : null
+    pingError     : null
 };
 
 export let pingReducer = createReducer<IPingModelState>(initialState, [
     {
-        action : PING__CREATE__INIT,
-        handler: (state: IPingModelState, action: PING__CREATE__INIT) => {
-            return {
-                ...state,
-                error: null
-            };
-        }
-    },
-    {
-        action : PING__CREATE__SUCCESS,
-        handler: (state: IPingModelState, action: PING__CREATE__SUCCESS) => {
-            return {
-                ...state,
-                pingResult: action.pingResult
-            };
-        }
-    },
-    {
-        action : PING__CREATE__FAILURE,
-        handler: (state: IPingModelState, action: PING__CREATE__FAILURE) => {
-            return {
-                ...state,
-                pingResult: action.pingResult,
-                error: action.error
+        action : PING_RESULT,
+        handler: (state: IPingModelState, action: PING_RESULT) => {
+            state.pingResult = action.pingResult,
+            state.pingError = action.pingError
+         return {
+             ...state
             };
         }
     }
