@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { IPublicSiteStoreState } from '../redux/public_site_reducer';
-import { pingIxoServer } from '../redux/ping/ping_action_creators';
+import { pingIxoServer, resetPing } from '../redux/ping/ping_action_creators';
 import { IPingResult } from '../../../types/models';
 import { initIxo } from '../redux/ixo/ixo_action_creators';
 import styled from 'styled-components';
@@ -11,9 +11,9 @@ const logoSrc = require('../assets/images/logo.png');
 
 export namespace Header {
     export interface Props {
-        pingResult?: IPingResult
+        pingResult?: String,
         responseDate?: IPingResult,
-        pingError?: IPingResult,
+        pingError?: String,
         ixo?: any
     }
 
@@ -27,6 +27,7 @@ export namespace Header {
     export interface Callbacks {
         getPing?: (ixo: any) => void;
         onIxoInit?: (hostName: string) => void;
+        onServerChange?: () => void;
     }
 
     export interface IProps extends Props, Callbacks {
@@ -66,7 +67,7 @@ export class Header extends React.Component<Header.IProps, Header.State> {
         }
 
         if (prevProps.pingResult !== this.props.pingResult) {
-            if (this.props.pingResult.result === 'pong') {
+            if (this.props.pingResult === 'pong') {
                 const responseTime = Math.abs(new Date().getTime() - this.state.initialDate.getTime());
                 this.setState({
                     isServerConnected: true,
@@ -124,6 +125,7 @@ export class Header extends React.Component<Header.IProps, Header.State> {
             selectedServer: event.target.value,
             isServerConnected: false
         });
+        this.props.onServerChange();
     };
 
     render() {
@@ -152,7 +154,7 @@ export class Header extends React.Component<Header.IProps, Header.State> {
 function mapStateToProps(state: IPublicSiteStoreState) {
     return {
         pingResult: state.pingStore.pingResult,
-        pingError: state.pingStore.error,
+        pingError: state.pingStore.pingError,
         ixo: state.ixoStore.ixo
     };
 }
@@ -164,6 +166,9 @@ function mapDispatchToProps(dispatch) {
         },
         onIxoInit: (hostname: string) => {
             dispatch(initIxo(hostname));
+        },
+        onServerChange: () => {
+            dispatch( resetPing() );
         }
     };
 }

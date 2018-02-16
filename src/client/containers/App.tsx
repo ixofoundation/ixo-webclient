@@ -14,8 +14,8 @@ import { IPingResult } from '../../../types/models';
 export namespace App {
     export interface Props {
         ixo?: any,
-        pingError?: any
-        pingResult?: IPingResult
+        pingError?: String,
+        pingResult?: String
     }
 
     export interface State {
@@ -48,8 +48,7 @@ export class App extends React.Component<App.IProps, App.State> {
 
     componentDidUpdate(prevProps: App.Props) {
         if (prevProps.pingResult !== this.props.pingResult) {
-            if (this.props.pingResult.result === 'pong') {
-
+            if (this.props.pingResult === 'pong') {
                 if (!(this.state.projectList.length > 0)) {
                     this.props.ixo.project.listProjects().then((response: any) => {
                         this.setState({ projectList: response.result });
@@ -68,6 +67,8 @@ export class App extends React.Component<App.IProps, App.State> {
                     this.setState({ myProjectList: [], did: null });
                 }
 
+            }else{
+                this.setState({ projectList: [], myProjectList: [] });
             }
 
             if (prevProps.pingError !== this.props.pingError) {
@@ -115,7 +116,7 @@ export class App extends React.Component<App.IProps, App.State> {
 function mapStateToProps(state: IPublicSiteStoreState) {
     return {
         ixo: state.ixoStore.ixo,
-        pingError: state.pingStore.error,
+        pingError: state.pingStore.pingError,
         pingResult: state.pingStore.pingResult
     };
 }

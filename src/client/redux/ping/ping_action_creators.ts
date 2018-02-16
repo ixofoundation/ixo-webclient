@@ -1,25 +1,37 @@
 import {createAction} from "../../../lib/redux_utils/actions";
-import {PING__CREATE__FAILURE, PING__CREATE__INIT, PING__CREATE__SUCCESS} from "./ping_actions";
+import {PING_RESULT} from "./ping_actions";
 import {IPingResult} from "../../../../types/models";
 
 export function pingIxoServer(ixo: any) {
     return dispatch => {
-        dispatch(createAction<PING__CREATE__INIT>(PING__CREATE__INIT.type, {ixo: ixo}));
         ixo.network.pingIxoServerNode()
             .then((response: IPingResult) => {
-
-                    dispatch(
-                        createAction<PING__CREATE__SUCCESS>(PING__CREATE__SUCCESS.type, {
-                            pingResult: response
-                        }))
-                }
+                dispatch(
+                    createAction<PING_RESULT>(PING_RESULT.type, {
+                        pingResult: response.result,
+                        pingError: null
+                    })
+                )}
             ).catch((result: Error) => {
             dispatch(
-                createAction<PING__CREATE__FAILURE>(PING__CREATE__FAILURE.type, {
-                    pingResult: result['error'] ? result['error'] : result.message,
-                    error: result['error'] ? result['error'] : result.message
-                }))
+                createAction<PING_RESULT>(PING_RESULT.type, {
+                    pingResult: null,
+                    pingError: result['error'] ? result['error'] : result.message
+                })
+            )
         });
 
+    }
+}
+
+
+export function resetPing() {
+    return dispatch => {
+        dispatch(
+            createAction<PING_RESULT>(PING_RESULT.type, {
+                pingResult: null,
+                pingError: null
+            })
+        )
     }
 }
