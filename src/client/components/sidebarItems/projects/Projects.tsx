@@ -44,7 +44,7 @@ export class Projects extends React.Component<Projects.IProps, Projects.State> {
                                                 project={project}>
                                             <ProjectCardInner>
                                                 
-                                                <TitleContainer><FlagIcon code={this.formatCountryCodeForFlag(project.country)} size='1x' /> {project.name}</TitleContainer>
+                                                <TitleContainer><FlagIcon code={this.formatCountryCodeForFlag(project.country)} size='lg' /> {project.name}</TitleContainer>
                                                 
                                                 <OwnerBox>
                                                     <h4>Owner information:</h4>
