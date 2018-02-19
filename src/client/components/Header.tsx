@@ -43,8 +43,7 @@ export class Header extends React.Component<Header.IProps, Header.State> {
             isServerConnected: null,
             initialDate: null,
             responseTime: null,
-            selectedServer: 'http://localhost:5001'
-//            selectedServer: 'https://ixo-node.herokuapp.com'
+            selectedServer: 'https://ixo-node.herokuapp.com'
         };
     }
 
