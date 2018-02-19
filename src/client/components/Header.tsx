@@ -188,8 +188,9 @@ float: left;
 `;
 
 const TopBar = styled.header`
+    position: fixed;
     padding:15px 0;
-    z-index:1;
+    z-index:99;
     background:black;
     
     & img {

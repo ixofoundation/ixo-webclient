@@ -33,7 +33,7 @@ const modalStyles = {
     overlay: {
         backgroundColor: 'rgba(0, 0, 0, 0.75)',
         transition     : 'all 0.5s ease',
-        zIndex : '50'
+        zIndex : '100'
     },
     content: {
         top        : '50%',

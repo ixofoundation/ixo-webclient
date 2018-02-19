@@ -4,6 +4,7 @@ import TextArea      from './TextArea';
 import InputFile     from './InputFile';
 import InputText     from './InputText';
 import Select from './Select';
+import Radio from './Radio';
 import CountrySelect from './CountrySelect';
 import TemplateSelect from './TemplateSelect';
 import { IPublicSiteStoreState } from '../../redux/public_site_reducer';
@@ -79,7 +80,9 @@ export default class DynamicForm extends React.Component<DynamicForm.IProps, Dyn
                 <div className="form-group">
                     {this.props.formSchema.map((field, i) => {
                         switch (field.type) {
-                            case 'text' || 'email':
+                            case 'text':
+                            case 'claim-amount':
+                            case 'email':
                                 return <InputText id={field.name} type={field.type} text={field.label} key={i} onChange={this.onFormValueChanged(field.name)}/>;
                             case 'image' :
                                 return <InputFile id={field.name} text={field.label} key={i} onChange={this.onFormValueChanged(field.name)}/>;
@@ -91,6 +94,8 @@ export default class DynamicForm extends React.Component<DynamicForm.IProps, Dyn
                                 return <CountrySelect id={field.name} text={field.label} key={i} onChange={this.onFormValueChanged(field.name)}/>;
                             case 'template':
                                 return <TemplateSelect id={field.name} text={field.label} key={i} onChange={this.onFormValueChanged(field.name)}/>;
+                            case 'radio':
+                                return <Radio id={field.name} options={field.options} text={field.label} key={i} onChange={this.onFormValueChanged(field.name)}/>;
                             default:
                                 return <p>Type not found</p>;
                         }

@@ -23,7 +23,7 @@ export class Footer extends React.Component<Footer.Props, Footer.State> {
 }
 
 const FooterContainer = styled.div`
-    position: absolute;
+    position: fixed;
     bottom: 0;
     width:100%;
     height:40px;
@@ -32,4 +32,5 @@ const FooterContainer = styled.div`
     display: flex;
     align-items: center;
     background:black;
+    z-index:50;
 `;

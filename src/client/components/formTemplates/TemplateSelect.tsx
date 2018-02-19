@@ -25,7 +25,6 @@ export namespace TemplateSelect {
 export default class TemplateSelect extends Select {
     constructor(props?: TemplateSelect.IProps, context?: any) {
         super(props, context);
-
     }
 
     generateSelect = () => {

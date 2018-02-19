@@ -77,10 +77,9 @@ export class Projects extends React.Component<Projects.IProps, Projects.State> {
 }
 
 const ProjectsContainer = styled.div`
-    height:calc(100vh - 140px);
     overflow-y: scroll;
-    padding-top:5px;
-    padding-bottom: 20px;
+    padding-top:70px;
+    padding-bottom: 50px;
 `;
 
 const TitleContainer = styled.div`
@@ -116,7 +115,7 @@ const ProjectCardInner = styled.div`
         box-shadow: 0px 3px 5px 0px #383d41b8;
         transform: scale(1.05);
         position:relative;
-        z-index:99;
+        z-index:50;
     }
 `;
 
@@ -126,19 +125,19 @@ const ProjectCard = styled.div`
     }
 
     &:nth-child(4n+0) ${ProjectCardInner}{
-        background:${props => props.theme.bgLightest};
+        background:${props => props.theme.randomColor(props.theme.projectColors)};
     }
 
     &:nth-child(4n+1) ${ProjectCardInner}{
-        background:${props => props.theme.bgLighter};
+        background:${props => props.theme.randomColor(props.theme.projectColors)};
     }
 
     &:nth-child(4n+2) ${ProjectCardInner}{
-        background:${props => props.theme.bgMain};
+        background:${props => props.theme.randomColor(props.theme.projectColors)};
     }
 
     &:nth-child(4n+3) ${ProjectCardInner}{
-        background:${props => props.theme.bgDarker};
+        background:${props => props.theme.randomColor(props.theme.projectColors)};
     }
 
     & h3 {
