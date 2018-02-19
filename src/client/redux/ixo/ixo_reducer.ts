@@ -1,40 +1,26 @@
-import {createReducer} from "../../../lib/redux_utils/reducers";
-import {IXO__CREATE__FAILURE, IXO__CREATE__INIT, IXO__CREATE__SUCCESS} from "./ixo_actions";
+import { createReducer } from "../../../lib/redux_utils/reducers";
+import { IXO_RESULT } from "./ixo_actions";
+import { stat } from "fs";
 
 export type IIxoModelState = {
     ixo: any,
+    error: Object,
 }
 
 const initialState: IIxoModelState = {
     ixo: null,
+    error: null,
 };
 
 export let ixoReducer = createReducer<IIxoModelState>(initialState, [
     {
-        action: IXO__CREATE__INIT,
-        handler: (state: IIxoModelState, action: IXO__CREATE__INIT) => {
+        action: IXO_RESULT,
+        handler: (state: IIxoModelState, action: IXO_RESULT) => {
+                state.ixo = action.ixo,
+                state.error = action.error
             return {
-                ...state,
-            }
-        }
-    },
-    {
-        action: IXO__CREATE__SUCCESS,
-        handler: (state: IIxoModelState, action: IXO__CREATE__SUCCESS) => {
-            return {
-                ...state,
-                ixo: action.ixo,
-                error: null
-            }
-        }
-    },
-    {
-        action: IXO__CREATE__FAILURE,
-        handler: (state: IIxoModelState, action: IXO__CREATE__FAILURE) => {
-            return {
-                ...state,
-                error: action.error
-            }
+                ...state
+            };
         }
     }
 ]);

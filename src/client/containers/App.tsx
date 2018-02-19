@@ -6,7 +6,6 @@ import { Route, Switch, withRouter } from 'react-router-dom';
 import { Footer } from '../components/Footer';
 import { Header } from '../components/Header';
 import styled, { ThemeProvider } from 'styled-components';
-import { initIxo } from '../redux/ixo/ixo_action_creators';
 import { Sidebar } from '../components/SideBar';
 import { Routes } from '../components/Routes';
 import { IPingResult } from '../../../types/models';
@@ -27,7 +26,6 @@ export namespace App {
 
     export interface Callbacks {
         onGetPing?: (ixo: any) => void;
-        onIxoInit?: (hostName: string) => void;
     }
 
     export interface IProps extends Props, Callbacks {
@@ -132,9 +130,6 @@ function mapStateToProps(state: IPublicSiteStoreState) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        onIxoInit: (hostname: string) => {
-            dispatch(initIxo(hostname));
-        }
     };
 }
 

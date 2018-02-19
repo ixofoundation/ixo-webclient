@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { IPublicSiteStoreState } from '../redux/public_site_reducer';
 import { pingIxoServer, resetPing } from '../redux/ping/ping_action_creators';
 import { IPingResult } from '../../../types/models';
-import { initIxo } from '../redux/ixo/ixo_action_creators';
+import { initIxo, resetIxo } from '../redux/ixo/ixo_action_creators';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
@@ -45,11 +45,18 @@ export class Header extends React.Component<Header.IProps, Header.State> {
             responseTime: null,
             selectedServer: 'https://ixo-node.herokuapp.com'
         };
+        this.handleServerChange = this.handleServerChange.bind(this);
     }
 
     ping = () => {
-        this.setState({ initialDate: new Date() });
-        this.props.getPing(this.props.ixo);
+        this.setState({
+            initialDate: new Date()
+        });
+        if (this.props.ixo) {
+            this.props.getPing(this.props.ixo);
+        } else {
+            this.props.onIxoInit(this.state.selectedServer);
+        }
     };
 
     componentDidMount() {
@@ -62,10 +69,6 @@ export class Header extends React.Component<Header.IProps, Header.State> {
             this.ping();
         }
 
-        if (this.state.selectedServer !== this.props.ixo.hostname) {
-            this.props.onIxoInit(this.state.selectedServer);
-        }
-
         if (prevProps.pingResult !== this.props.pingResult) {
             if (this.props.pingResult === 'pong') {
                 const responseTime = Math.abs(new Date().getTime() - this.state.initialDate.getTime());
@@ -73,9 +76,9 @@ export class Header extends React.Component<Header.IProps, Header.State> {
                     isServerConnected: true,
                     responseTime
                 });
-            
-            }else{
-                this.setState({ isServerConnected: false});
+
+            } else {
+                this.setState({ isServerConnected: false });
             }
         }
     }
@@ -85,66 +88,70 @@ export class Header extends React.Component<Header.IProps, Header.State> {
             <Ping>
                 <ServerLabel className="d-none d-sm-block">Server Status:</ServerLabel>
                 {this.renderLightIndicator()}
-                <div  className="d-none d-sm-block">
+                <div className="d-none d-sm-block">
                     {this.renderStatusMessage()}
                 </div>
             </Ping>
         );
     }
 
-    renderStatusMessage(){
+    renderStatusMessage() {
         if (this.state.isServerConnected) {
             return (<StatusMessage>
-                        <p>Response time: {this.state.responseTime} ms</p>
-                        <br />
-                        <p>{this.state.selectedServer}</p>
-                    </StatusMessage>);
-        }else if (this.props.pingError === null) {
+                <p>Response time: {this.state.responseTime} ms</p>
+                <br />
+                <p>{this.state.selectedServer}</p>
+            </StatusMessage>);
+        } else if (this.props.pingError === null) {
             return (<StatusMessage>
-                        <p>Waiting for server...</p>
-                    </StatusMessage>)
-        }else{
+                <p>Waiting for server...</p>
+            </StatusMessage>)
+        } else {
             return (<StatusMessage>
-                        <p>{this.state.selectedServer} not responding</p>
-                    </StatusMessage>)
+                <p>{this.state.selectedServer} not responding</p>
+            </StatusMessage>)
         }
     }
 
-    renderLightIndicator(){
+    renderLightIndicator() {
         if (this.state.isServerConnected) {
             return (<LightReady />)
-        }else if (this.props.pingError === null) {
+        } else if (this.props.pingError === null) {
             return (<LightLoading />)
-        }else{
+        } else {
             return (<Light />)
         }
     }
 
     handleServerChange = (event) => {
-        this.setState({
-            selectedServer: event.target.value,
-            isServerConnected: false
-        });
-        this.props.onServerChange();
+
+        if (this.state.selectedServer !== event.target.value) {
+            this.setState({
+                selectedServer: event.target.value,
+                isServerConnected: false
+            });
+            this.props.onServerChange();
+            this.props.onIxoInit(event.target.value);
+        }
     };
 
     render() {
         return (
             <TopBar className="container-fluid text-white">
-                    <div className="row">
-                        <div className="col-4 d-flex align-items-center">
-                            <Link to="/"><img src={logoSrc} alt="IXO Logo" /></Link>
-                        </div>
-                        <div className="col-8 d-flex align-items-center justify-content-end">
-                            <select value={this.state.selectedServer} onChange={this.handleServerChange}>
-                                <option value="https://ixo-node.herokuapp.com">Production
-                                    Server
-                                </option>
-                                <option value="http://localhost:5000">Development Server</option>
-                            </select>
-                            {this.renderStatusIndicator()}
-                        </div>
+                <div className="row">
+                    <div className="col-4 d-flex align-items-center">
+                        <Link to="/"><img src={logoSrc} alt="IXO Logo" /></Link>
                     </div>
+                    <div className="col-8 d-flex align-items-center justify-content-end">
+                        <select value={this.state.selectedServer} onChange={this.handleServerChange}>
+                            <option value="https://ixo-node.herokuapp.com">Production
+                                Server
+                                </option>
+                            <option value="http://localhost:5000">Development Server</option>
+                        </select>
+                        {this.renderStatusIndicator()}
+                    </div>
+                </div>
 
             </TopBar>
         );
@@ -168,7 +175,8 @@ function mapDispatchToProps(dispatch) {
             dispatch(initIxo(hostname));
         },
         onServerChange: () => {
-            dispatch( resetPing() );
+            dispatch(resetPing());
+            dispatch(resetIxo());
         }
     };
 }

@@ -1,6 +1,6 @@
-import {createAction} from "../../../lib/redux_utils/actions";
-import {PING_RESULT} from "./ping_actions";
-import {IPingResult} from "../../../../types/models";
+import { createAction } from "../../../lib/redux_utils/actions";
+import { PING_RESULT } from "./ping_actions";
+import { IPingResult } from "../../../../types/models";
 
 export function pingIxoServer(ixo: any) {
     return dispatch => {
@@ -11,16 +11,16 @@ export function pingIxoServer(ixo: any) {
                         pingResult: response.result,
                         pingError: null
                     })
-                )}
+                )
+            }
             ).catch((result: Error) => {
-            dispatch(
-                createAction<PING_RESULT>(PING_RESULT.type, {
-                    pingResult: null,
-                    pingError: result['error'] ? result['error'] : result.message
-                })
-            )
-        });
-
+                dispatch(
+                    createAction<PING_RESULT>(PING_RESULT.type, {
+                        pingResult: null,
+                        pingError: result['error'] ? result['error'] : result.message
+                    })
+                )
+            });
     }
 }
 
