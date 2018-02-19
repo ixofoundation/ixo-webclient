@@ -149,19 +149,16 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
     cellStatusButton(cell, row, enumObject, rowIndex) {
         return (
             <div>
-                <select onChange={this.onSetStatus}>
+                <SelectStatus onChange={this.onSetStatus}>
                     <option value="Approved" label='Approve' />
                     <option value="NotApproved" label='Decline' />
                     <option value="Revoked" label='Revoke' />
-                </select>
-                <br />
-                <button
-                    className='btn btn-success'
-                    type="button"
+                </SelectStatus>
+                <UpdateButton
                     onClick={() =>
                         this.onUpdateStatus(cell, row, rowIndex)}>
                     Update
-                </button>
+                </UpdateButton>
             </div >
         )
     }
@@ -309,6 +306,28 @@ const ClearButton = styled.button`
     background-color: ${props => props.theme.bgLightest};
     border: none;
     color: #FFFFFF;
+`;
+
+
+const UpdateButton = styled.button`
+    display: block;
+    justify-content: center;
+    border-radius: 4px;
+    height: 35px;
+    width: 90px;
+    background-color: black;
+    border: none;
+    color: ${props => props.theme.bgLightest};
+`;
+
+const SelectStatus = styled.select`
+    display: block;
+    justify-content: center;
+    background-color: white;
+    height: 35px;
+    width: 90px;
+    border: none;
+    color: black;
 `;
 
 const ButtonContainer = styled.div`
