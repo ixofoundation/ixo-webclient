@@ -1,7 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
 
-export namespace Select {
+export namespace Radio {
     export interface Props {
         text?: string;
         id: string;
@@ -20,21 +20,28 @@ export namespace Select {
     }
 }
 
-export default class Select extends React.Component<Select.IProps, Select.State> {
-    constructor(props?: Select.IProps, context?: any) {
+export default class Radio extends React.Component<Radio.IProps, Radio.State> {
+    constructor(props?: Radio.IProps, context?: any) {
         super(props, context);
 
     }
 
-    generateSelect = () => {
-        let selectOptions = [];
-
+    generateButtons = () => {
+        let options = [
+        ];
         this.props.options.map((option, index) => {
-            selectOptions.push(<option key={index} value={option.value}>{option.label}</option>);
+            var active = '';
+            if(option.default){
+                active = 'active'
+            }
+            options.push(
+                <RadioButton className="form-group">
+                    <input key={index} name={this.props.id} value={option.value} className="with-gap" type="radio"/>
+                    <label>{option.label}</label>
+                </RadioButton>
+            );
         })
-
-        return selectOptions;
-
+        return options;
     }
 
     render() {
@@ -44,10 +51,10 @@ export default class Select extends React.Component<Select.IProps, Select.State>
                 <div className="input-group-prepend">
                     <span className="input-group-text">{this.props.text}</span>
                 </div>
-                <select defaultValue="default" className="custom-select" id={this.props.id} onChange={this.props.onChange}>
-                    <option value="default" disabled>Please choose a {this.props.text}</option>
-                    {this.generateSelect()}
-                </select>
+
+                <div className="form-inline" onChange={this.props.onChange}>
+                    {this.generateButtons()}
+                 </div>
             </Input>
         );
     }
@@ -60,6 +67,7 @@ const Input = styled.div`
     text-transform:uppercase;
 
     & .input-group-text {
+        white-space: normal;
         background: ${props => props.theme.bgMain};
         border: 0;
         color: white;
@@ -68,10 +76,10 @@ const Input = styled.div`
         border-radius: 0;
         width:140px;
     }
-
-    & select {
-        height: 50px;
-        border-left: 0;
-        border-radius: 0;
-    }
 `;
+
+const RadioButton = styled.div`
+    padding: 10px 0px 10px 40px;
+    text-transform:none;
+`;
+
