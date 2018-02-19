@@ -154,7 +154,19 @@ const mainTheme = {
     fontLighter: '#00677f',
     fontMain: '#004d5e',
     fontDarker: '#00333f',
-    fontDarkest: '#001b22'
+    fontDarkest: '#001b22',
+
+    projectColors: [
+        '#66e3ff',
+        '#33daff',
+        '#00d2ff',
+        '#00bde4'
+        ],
+
+    randomColor: function(colorArray){
+        var idx = Math.floor(Math.random() * colorArray.length);
+        return colorArray[idx];
+    }
 };
 
 const NavRow = styled.div`
