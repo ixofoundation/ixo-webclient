@@ -7,6 +7,10 @@ import { ModalWrapper } from '../../ModalWrapper';
 import DynamicForm from '../../formTemplates/DynamicForm';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import { toast } from 'react-toastify';
+import {FlagIcon, fixCountryCode} from '../../FlagIcon';
+import * as iso3311a2 from 'iso-3166-1-alpha-2';
+import {formatJSONDateTime} from '../../../utils/formatters';
+
 var merge = require('merge');
 
 const projectBG = require('../../../assets/images/project-bg.jpg');
@@ -146,6 +150,10 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
         this.setState({ selectedStatus: selectedStatus.target.value });
     }
 
+    getCountryName(countryCode: string) : String {
+        return iso3311a2.getCountry(fixCountryCode(countryCode).toUpperCase())
+    }
+
     cellStatusButton(cell, row, enumObject, rowIndex) {
         return (
             <div>
@@ -192,9 +200,18 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
                     </div>
 
                     <div className="col-md-8">
-                        <p>Country: {this.state.projectMeta.country}</p>
-                        <p>Date created: {this.state.projectMeta.created}</p>
-                        <p>Project ID: {this.state.projectMeta._id}</p>
+                        <div className='fluid-container'>
+                            <div className='row'>
+                                <div className="col-8">
+                                    <p>ID: {this.state.projectMeta._id}</p>
+                                    <p>Created: {formatJSONDateTime(this.state.projectMeta.created)}</p>
+                                </div>
+                                <div className="col-4">
+                                    <FlagIcon code={fixCountryCode(this.state.projectMeta.country)} size='3x'></FlagIcon>
+                                    <p>{this.getCountryName(this.state.projectMeta.country)}</p>
+                                </div>
+                            </div>
+                        </div>
                         <OwnerBox>
                             <h3>Owner information:</h3>
                             <p>Name: {this.state.projectMeta.owner.name}</p>

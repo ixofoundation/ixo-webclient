@@ -4,7 +4,7 @@ import { IPublicSiteStoreState } from '../../../redux/public_site_reducer';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { renderIf } from '../../../utils/react_utils';
-import FlagIcon from '../../FlagIcon';
+import {FlagIcon, fixCountryCode} from '../../FlagIcon';
 
 export namespace Projects {
 
@@ -20,13 +20,6 @@ export namespace Projects {
 }
 
 export class Projects extends React.Component<Projects.IProps, Projects.State> {
-
-    formatCountryCodeForFlag(code: String) :String {
-        var result = code.toLowerCase();
-        if(result == 'uk')
-            result = 'gb';
-        return result;
-    }
 
     renderProjects = () => {
         return <div>
@@ -44,7 +37,7 @@ export class Projects extends React.Component<Projects.IProps, Projects.State> {
                                                 project={project}>
                                             <ProjectCardInner>
                                                 
-                                                <TitleContainer><FlagIcon code={this.formatCountryCodeForFlag(project.country)} size='lg' /> {project.name}</TitleContainer>
+                                                <TitleContainer><FlagIcon code={fixCountryCode(project.country)} size='lg' /> {project.name}</TitleContainer>
                                                 
                                                 <OwnerBox>
                                                     <h4>Owner information:</h4>
