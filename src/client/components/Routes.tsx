@@ -6,7 +6,8 @@ import { Projects } from './sidebarItems/projects/Projects';
 export namespace Routes {
     export interface RouteProps {
         projectList: any,
-        myProjectList: any
+        myProjectList: any,
+        serviceAgentProjectList: any
     }
 }
 
@@ -23,6 +24,11 @@ export const Routes: React.SFC<Routes.RouteProps> = (props) => {
             <Route exact path="/my-projects"
                 render={(routeProps) => (
                     <Projects {...routeProps} {...props} projectList={props.myProjectList} />
+                )}
+            />
+            <Route exact path="/capture-claim"
+                render={(routeProps) => (
+                    <Projects {...routeProps} {...props} projectList={props.serviceAgentProjectList} />
                 )}
             />
         </Switch>

@@ -135,7 +135,7 @@ export class Sidebar extends React.Component<Sidebar.IProps, Sidebar.State> {
                 <SidebarLink exact to='/' onClick={() => this.closeMenu()}>Dashboard</SidebarLink>
                 <SidebarModalLink href="#" onClick={() => this.handleToggleModal(true)}>Create a Project</SidebarModalLink>
                 <SidebarLink exact to='/my-projects' onClick={() => this.closeMenu()}>View My Projects</SidebarLink>
-                <SidebarLink to='/service-agents' onClick={() => this.closeMenu()}>Service Agents</SidebarLink>
+                <SidebarLink exact to='/capture-claim' onClick={() => this.closeMenu()}>Capture Claim</SidebarLink>
                 <ModalWrapper
                     isModalOpen={this.state.isModalOpen}
                     handleToggleModal={(modalStatus) => this.handleToggleModal(modalStatus)}>
