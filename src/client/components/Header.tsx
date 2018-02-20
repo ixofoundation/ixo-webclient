@@ -22,11 +22,9 @@ export namespace Header {
         initialDate: Date,
         responseTime: number,
         selectedServer: string,
-        currentDid: string
     }
 
     export interface Callbacks {
-        refreshProjects: () => void
         getPing?: (ixo: any) => void;
         onIxoInit?: (hostName: string) => void;
         onServerChange?: () => void;
@@ -45,8 +43,7 @@ export class Header extends React.Component<Header.IProps, Header.State> {
             isServerConnected: null,
             initialDate: null,
             responseTime: null,
-            selectedServer: 'https://ixo-node.herokuapp.com',
-            currentDid: null
+            selectedServer: 'https://ixo-node.herokuapp.com'
         };
         this.handleServerChange = this.handleServerChange.bind(this);
     }
@@ -62,18 +59,9 @@ export class Header extends React.Component<Header.IProps, Header.State> {
         }
     };
 
-    //Check metamask account change
-    metamaskAccountChecker = () => {
-        if (this.state.currentDid !== this.props.ixo.credentialProvider.getDid()) {
-            this.setState({ currentDid: this.props.ixo.credentialProvider.getDid() });
-            this.props.refreshProjects();
-        }
-    }
-
     componentDidMount() {
         this.props.onIxoInit(this.state.selectedServer);
         setInterval(this.ping.bind(this), 5000);
-        setInterval(this.metamaskAccountChecker.bind(this), 1000);
     }
 
     componentDidUpdate(prevProps: Header.IProps) {

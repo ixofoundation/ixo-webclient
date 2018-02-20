@@ -59,6 +59,14 @@ export class Sidebar extends React.Component<Sidebar.IProps, Sidebar.State> {
         this.setState({ isMenuOpen: false });
     };
 
+    renderSidebarLink = (label: string, route: string) => {
+        if (this.props.ixo && this.props.ixo.credentialProvider.getDid()) {
+            return <SidebarLink exact to={route} onClick={() => this.closeMenu()}>{label}</SidebarLink>;
+        } else {
+            return <SidebarModalLink href="#" onClick={() => this.handleToggleModal(true)}>{label}</SidebarModalLink>
+        }
+    }
+
     handleLoadTemplate = (templateName) => {
         this.props.ixo.project.getProjectTemplate(templateName).then((response: any) => {
             const projectSchema = response.result.form.fields;
@@ -134,8 +142,8 @@ export class Sidebar extends React.Component<Sidebar.IProps, Sidebar.State> {
             <Menu isOpen={this.state.isMenuOpen} styles={menuStyle}>
                 <SidebarLink exact to='/' onClick={() => this.closeMenu()}>Dashboard</SidebarLink>
                 <SidebarModalLink href="#" onClick={() => this.handleToggleModal(true)}>Create a Project</SidebarModalLink>
-                <SidebarLink exact to='/my-projects' onClick={() => this.closeMenu()}>View My Projects</SidebarLink>
-                <SidebarLink exact to='/capture-claim' onClick={() => this.closeMenu()}>Capture Claim</SidebarLink>
+                {this.renderSidebarLink('My Projects', '/my-projects')}
+                {this.renderSidebarLink('Capture Claim', '/capture-claim')}
                 <ModalWrapper
                     isModalOpen={this.state.isModalOpen}
                     handleToggleModal={(modalStatus) => this.handleToggleModal(modalStatus)}>

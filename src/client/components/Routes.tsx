@@ -9,13 +9,14 @@ export namespace Routes {
         myProjectList: any,
         serviceAgentProjectList: any
     }
+
 }
 
 export const Routes: React.SFC<Routes.RouteProps> = (props) => {
 
     return (
         <Switch>
-            <Route path='/project/:projectID' component={SingleProject} />
+            <Route exact path='/project/:projectID' component={SingleProject} />
             <Route exact path="/"
                 render={(routeProps) => (
                     <Projects {...routeProps} {...props} projectList={props.projectList} />

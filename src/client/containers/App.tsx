@@ -47,6 +47,18 @@ export class App extends React.Component<App.IProps, App.State> {
         };
     }
 
+    //Check metamask account change
+    metamaskAccountChecker = () => {
+        if (this.state.did !== this.props.ixo.credentialProvider.getDid()) {
+            this.setState({ did: this.props.ixo.credentialProvider.getDid() });
+            this.refreshProjectList();
+        }
+    }
+
+    componentDidMount() {
+        setInterval(this.metamaskAccountChecker.bind(this), 1000);
+    }
+
     componentDidUpdate(prevProps: App.Props) {
         if (prevProps.pingResult !== this.props.pingResult) {
             if (this.props.pingResult === 'pong') {
@@ -56,19 +68,20 @@ export class App extends React.Component<App.IProps, App.State> {
                 if (this.props.ixo.credentialProvider.getDid() && (this.state.did !== this.props.ixo.credentialProvider.getDid())) {
                     this.setState({ did: this.props.ixo.credentialProvider.getDid() })
                     this.refreshMyProjects();
+                    this.refreshServiceAgentProjectList();
                 }
 
                 if (!this.props.ixo.credentialProvider.getDid()) {
-                    this.setState({ myProjectList: [], did: null });
+                    this.setState({ myProjectList: [], serviceAgentProjectList: [], did: null });
                 }
 
             } else {
-                this.setState({ projectList: [], myProjectList: [] });
+                this.setState({ projectList: [], myProjectList: [], serviceAgentProjectList: [] });
             }
 
             if (prevProps.pingError !== this.props.pingError) {
                 if (this.props.pingError) {
-                    this.setState({ projectList: [], myProjectList: [] });
+                    this.setState({ projectList: [], myProjectList: [], serviceAgentProjectList: [] });
                 }
             }
         }
@@ -90,9 +103,18 @@ export class App extends React.Component<App.IProps, App.State> {
         });
     }
 
+    refreshServiceAgentProjectList = () => {
+        this.props.ixo.project.listProjectsByDidAndRole(this.props.ixo.credentialProvider.getDid(), 'SA').then((response: any) => {
+            this.setState({ serviceAgentProjectList: response.result });
+        }).catch((error) => {
+            console.error(error);
+        });
+    }
+
     refreshProjectList = () => {
         this.refreshProjects();
         this.refreshMyProjects();
+        this.refreshServiceAgentProjectList();
     }
 
     renderProjectContent() {
@@ -111,7 +133,7 @@ export class App extends React.Component<App.IProps, App.State> {
         return (
             <ThemeProvider theme={mainTheme}>
                 <AppContainer>
-                    <Header refreshProjects={this.refreshProjectList} />
+                    <Header />
                     <div className="container-fluid">
                         <ToastContainer autoClose={4000} />
                         <NavRow className="row">
