@@ -145,17 +145,13 @@ const mainTheme = {
     bgDarker: '#00bde4',
     bgDarkest: '#00687b',
 
-
     fontLighter: '#00677f',
     fontMain: '#004d5e',
     fontDarker: '#00333f',
     fontDarkest: '#001b22',
 
     projectColors: [
-        '#66e3ff',
-        '#33daff',
-        '#00d2ff',
-        '#00bde4'
+        '#66e3ff'
         ],
 
     randomColor: function(colorArray){
