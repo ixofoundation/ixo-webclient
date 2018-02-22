@@ -31,7 +31,7 @@ export class Projects extends React.Component<Projects.IProps, Projects.State> {
 
     renderProjects = () => {
         return <div>
-            {renderIf(this.props.projectList.length > 0, {
+            {renderIf((typeof this.props.projectList !== 'undefined') && this.props.projectList.length > 0, {
                 ifTrue: () => (
                     <ProjectsContainer className="container-fluid">
                         <div className="row">
@@ -40,12 +40,12 @@ export class Projects extends React.Component<Projects.IProps, Projects.State> {
                                 return (
                                     <ProjectCard className="col-12 col-xl-3 col-lg-3 col-md-4 col-sm-6 " key={index}>
                                         <ProjectLink to={{
-                                                    pathname: `/project/${project._id}`,
-                                                    state: project
-                                                }}
-                                                project={project}>
+                                            pathname: `/project/${project._id}`,
+                                            state: project
+                                        }}
+                                            project={project}>
                                             <ProjectCardInner>
-                                                
+
                                                 <TitleContainer><FlagIcon code={fixCountryCode(project.country)} size='lg' /> {project.name}</TitleContainer>
                                                 <AboutBox>
                                                     <div>{project.about}</div>

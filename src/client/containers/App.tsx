@@ -21,6 +21,7 @@ export namespace App {
     export interface State {
         projectList: any,
         myProjectList: any,
+        serviceAgentProjectList: any,
         did: string
     }
 
@@ -41,44 +42,52 @@ export class App extends React.Component<App.IProps, App.State> {
         this.state = {
             projectList: [],
             myProjectList: [],
+            serviceAgentProjectList: [],
             did: null
         };
+    }
+
+    //Check metamask account change
+    metamaskAccountChecker = () => {
+        if (this.state.did !== this.props.ixo.credentialProvider.getDid()) {
+            this.setState({ did: this.props.ixo.credentialProvider.getDid() });
+            this.refreshProjectList();
+        }
+    }
+
+    componentDidMount() {
+        setInterval(this.metamaskAccountChecker.bind(this), 1000);
     }
 
     componentDidUpdate(prevProps: App.Props) {
         if (prevProps.pingResult !== this.props.pingResult) {
             if (this.props.pingResult === 'pong') {
                 if (!(this.state.projectList.length > 0)) {
-                    this.props.ixo.project.listProjects().then((response: any) => {
-                        this.setState({ projectList: response.result });
-                    }).catch((error) => {
-                        console.error(error);
-                    });
+                    this.refreshProjects();
                 }
                 if (this.props.ixo.credentialProvider.getDid() && (this.state.did !== this.props.ixo.credentialProvider.getDid())) {
                     this.setState({ did: this.props.ixo.credentialProvider.getDid() })
-                    this.props.ixo.project.listProjectsByDid(this.props.ixo.credentialProvider.getDid()).then((response: any) => {
-                        this.setState({ myProjectList: response.result });
-                    });
+                    this.refreshMyProjects();
+                    this.refreshServiceAgentProjectList();
                 }
 
                 if (!this.props.ixo.credentialProvider.getDid()) {
-                    this.setState({ myProjectList: [], did: null });
+                    this.setState({ myProjectList: [], serviceAgentProjectList: [], did: null });
                 }
 
-            }else{
-                this.setState({ projectList: [], myProjectList: [] });
+            } else {
+                this.setState({ projectList: [], myProjectList: [], serviceAgentProjectList: [] });
             }
 
             if (prevProps.pingError !== this.props.pingError) {
                 if (this.props.pingError) {
-                    this.setState({ projectList: [], myProjectList: [] });
+                    this.setState({ projectList: [], myProjectList: [], serviceAgentProjectList: [] });
                 }
             }
         }
     }
 
-    refreshProjectList = () => {
+    refreshProjects = () => {
         this.props.ixo.project.listProjects().then((response: any) => {
             this.setState({ projectList: response.result });
         }).catch((error) => {
@@ -86,10 +95,32 @@ export class App extends React.Component<App.IProps, App.State> {
         });
     }
 
+    refreshMyProjects = () => {
+        this.props.ixo.project.listProjectsByDid(this.props.ixo.credentialProvider.getDid()).then((response: any) => {
+            this.setState({ myProjectList: response.result });
+        }).catch((error) => {
+            console.error(error);
+        });
+    }
+
+    refreshServiceAgentProjectList = () => {
+        this.props.ixo.project.listProjectsByDidAndRole(this.props.ixo.credentialProvider.getDid(), 'SA').then((response: any) => {
+            this.setState({ serviceAgentProjectList: response.result });
+        }).catch((error) => {
+            console.error(error);
+        });
+    }
+
+    refreshProjectList = () => {
+        this.refreshProjects();
+        this.refreshMyProjects();
+        this.refreshServiceAgentProjectList();
+    }
+
     renderProjectContent() {
         if (this.props.ixo && !this.props.pingError) {
             return <div className="col-12">
-                <Routes projectList={this.state.projectList} myProjectList={this.state.myProjectList} />
+                <Routes projectList={this.state.projectList} myProjectList={this.state.myProjectList} serviceAgentProjectList={this.state.serviceAgentProjectList} />
             </div>
         } else if (this.props.pingError) {
             return <Unsuccessful className="col-md-12"><p>Error connecting to ixo server... Retrying...</p></Unsuccessful>;
@@ -154,7 +185,7 @@ const mainTheme = {
         '#66e3ff'
         ],
 
-    randomColor: function(colorArray){
+    randomColor: function (colorArray) {
         var idx = Math.floor(Math.random() * colorArray.length);
         return colorArray[idx];
     }

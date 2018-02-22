@@ -7,7 +7,6 @@ export function initIxo(hostName: string) {
     return dispatch => {
         var ixo = new Ixo(hostName);
         var web3 = window['web3'];
-
         if (ixo && web3) {
             ixo.init(web3).then((provider: any) => {
                 if (provider) {

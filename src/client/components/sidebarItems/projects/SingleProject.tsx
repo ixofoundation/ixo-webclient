@@ -7,12 +7,13 @@ import { ModalWrapper } from '../../ModalWrapper';
 import DynamicForm from '../../formTemplates/DynamicForm';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import { toast } from 'react-toastify';
-import {FlagIcon, fixCountryCode} from '../../FlagIcon';
+import { FlagIcon, fixCountryCode } from '../../FlagIcon';
 import * as iso3311a2 from 'iso-3166-1-alpha-2';
-import {formatJSONDateTime} from '../../../utils/formatters';
+import { formatJSONDateTime } from '../../../utils/formatters';
+import { renderIf, renderSwitch } from '../../../utils/react_utils';
 
 var merge = require('merge');
-
+var JSONPretty = require('react-json-pretty');
 const projectBG = require('../../../assets/images/project-bg.jpg');
 
 export namespace SingleProject {
@@ -24,9 +25,14 @@ export namespace SingleProject {
     export interface State {
         projectMeta: any,
         isModalOpen: boolean,
-        formSchema: any,
+        agentFormSchema: any,
+        claimFormSchema: any,
+        evaluationFormSchema: any,
         agentList: any,
+        claimList: any,
         selectedStatus: string,
+        modalType: string,
+        currentClaimJson: any
     }
 
     export interface IProps extends Props {
@@ -40,22 +46,44 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
         this.state = {
             isModalOpen: false,
             projectMeta: this.props.location.state,
-            formSchema: {},
+            agentFormSchema: {},
+            claimFormSchema: {},
+            evaluationFormSchema: {},
             agentList: [],
-            selectedStatus: 'Approved'
+            claimList: [],
+            currentClaimJson: null,
+            selectedStatus: 'Approved',
+            modalType: null
         }
     }
 
     componentDidMount() {
         this.props.ixo.agent.getAgentTemplate('default').then((response: any) => {
-            if (response.result.form.fields !== this.state.formSchema) {
-                this.setState({ formSchema: response.result.form.fields });
+            if (response.result.form.fields !== this.state.agentFormSchema) {
+                this.setState({ agentFormSchema: response.result.form.fields });
             }
-
         }).catch((error: Error) => {
             console.log(error);
         });
 
+        this.props.ixo.claim.getClaimTemplate('default').then((response: any) => {
+            if (response.result.form.fields !== this.state.claimFormSchema) {
+                this.setState({ claimFormSchema: response.result.form.fields });
+            }
+        }).catch((error: Error) => {
+            console.log(error);
+        });
+
+        this.props.ixo.claim.getEvaluationTemplate('default').then((response: any) => {
+            if (response.result.form.fields !== this.state.evaluationFormSchema) {
+                this.setState({ evaluationFormSchema: response.result.form.fields });
+            }
+        }).catch((error: Error) => {
+            console.log(error);
+        });
+
+
+        this.getClaimList();
         this.getAgentList();
     }
 
@@ -67,7 +95,75 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
         })
     }
 
-    handleSubmit = (formData: any) => {
+    getClaimList() {
+        this.props.ixo.claim.listClaimsByProjectId(this.state.projectMeta.tx).then(claimList => {
+            this.setState({ claimList: claimList.result })
+        }).catch(error => {
+            console.log(error);
+        })
+    }
+
+    handleClaimEvaluation = (formData: any) => {
+        var toastId = toast('Evaluating claim...', { autoClose: false });
+        var data = { claimTx: formData.claimTx, result: formData.result };
+        this.props.ixo.claim.evaluateClaim(data, 'default').then((response: any) => {
+            if (response.result) {
+                this.handleToggleModal(false);
+                toast.update(toastId, {
+                    render: 'Claim evaluated',
+                    type: 'success',
+                    autoClose: 3000
+                });
+                this.getClaimList();
+            } else if (response.error) {
+                this.handleToggleModal(false);
+                toast.update(toastId, {
+                    render: response.error.message,
+                    type: 'error',
+                    autoClose: 3000
+                });
+            }
+        }).catch((error) => {
+            this.handleToggleModal(false);
+            toast.update(toastId, {
+                render: 'Error submitting claim',
+                type: 'error',
+                autoClose: 3000
+            });;
+        })
+    }
+
+    handleClaimSubmit = (formData: any) => {
+        var toastId = toast('Submitting claim...', { autoClose: false });
+        var data = merge(formData, { projectTx: this.state.projectMeta.tx })
+        this.props.ixo.claim.createClaim(formData, 'default').then((response: any) => {
+            if (response.result) {
+                this.handleToggleModal(false);
+                toast.update(toastId, {
+                    render: 'Claim submitted',
+                    type: 'success',
+                    autoClose: 3000
+                });
+                this.getClaimList();
+            } else if (response.error) {
+                this.handleToggleModal(false);
+                toast.update(toastId, {
+                    render: response.error.message,
+                    type: 'error',
+                    autoClose: 3000
+                });
+            }
+        }).catch((error) => {
+            this.handleToggleModal(false);
+            toast.update(toastId, {
+                render: 'Error submitting claim',
+                type: 'error',
+                autoClose: 3000
+            });;
+        })
+    }
+
+    handleAgentSubmit = (formData: any) => {
         var toastId = toast('Creating agent...', { autoClose: false });
         var data = merge(formData, { projectTx: this.state.projectMeta.tx })
         this.props.ixo.agent.createAgent(formData, 'default').then((response: any) => {
@@ -96,7 +192,19 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
             });;
         })
     }
+
     handleRegisterAgent = () => {
+        this.setState({ modalType: 'agent' });
+        this.handleToggleModal(true);
+    }
+
+    handleCaptureClaim = () => {
+        this.setState({ modalType: 'claim' });
+        this.handleToggleModal(true);
+    }
+
+    handleEvaluateClaim = (claimData: string) => {
+        this.setState({ modalType: 'evaluate' });
         this.handleToggleModal(true);
     }
 
@@ -104,14 +212,38 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
         this.setState({ isModalOpen: modalStatus });
     };
 
-    handleRenderAgentForm = () => {
-        if (this.state.formSchema.length > 0) {
-            let agentSchema = [...this.state.formSchema];
+    handleRenderEvaluateForm = () => {
+        if (this.state.agentFormSchema.length > 0) {
+            let agentSchema = [...this.state.evaluationFormSchema];
             agentSchema = agentSchema.filter((value) => value.name !== "template.name" && value.name !== "projectTx")
-            return <DynamicForm formSchema={agentSchema} handleSubmit={this.handleSubmit} />
+            return <DynamicForm formSchema={agentSchema} handleSubmit={this.handleClaimEvaluation} />
         } else {
             return <p>Loading Form...</p>
         }
+    }
+
+    handleRenderAgentForm = () => {
+        if (this.state.agentFormSchema.length > 0) {
+            let agentSchema = [...this.state.agentFormSchema];
+            agentSchema = agentSchema.filter((value) => value.name !== "template.name" && value.name !== "projectTx")
+            return <DynamicForm formSchema={agentSchema} handleSubmit={this.handleAgentSubmit} />
+        } else {
+            return <p>Loading Form...</p>
+        }
+    }
+
+    handleRenderClaimForm = () => {
+        if (this.state.claimFormSchema.length > 0) {
+            let agentSchema = [...this.state.claimFormSchema];
+            agentSchema = agentSchema.filter((value) => value.name !== "template.name" && value.name !== "projectTx")
+            return <DynamicForm formSchema={agentSchema} handleSubmit={this.handleClaimSubmit} />
+        } else {
+            return <p>Loading Form...</p>
+        }
+    }
+
+    handleRenderClaimJson = () => {
+        return <div><JSONPretty id="json-pretty" json={this.state.currentClaimJson}></JSONPretty></div>;
     }
 
     createCustomClearButton = (onClick) => {
@@ -150,7 +282,7 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
         this.setState({ selectedStatus: selectedStatus.target.value });
     }
 
-    getCountryName(countryCode: string) : String {
+    getCountryName(countryCode: string): String {
         return iso3311a2.getCountry(fixCountryCode(countryCode).toUpperCase())
     }
 
@@ -162,13 +294,43 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
                     <option value="NotApproved" label='Decline' />
                     <option value="Revoked" label='Revoke' />
                 </SelectStatus>
-                <UpdateButton
+                <CellButton
                     onClick={() =>
                         this.onUpdateStatus(cell, row, rowIndex)}>
                     Update
-                </UpdateButton>
+                </CellButton>
             </div >
         )
+    }
+
+    cellEvaluateButton(cell, row, enumObject, rowIndex) {
+        return (
+            <div>
+                <CellButton
+                    onClick={() =>
+                        this.handleEvaluateClaim(row)}>
+                    Evaluate
+                </CellButton>
+            </div>
+        );
+    }
+
+    claimJson(cell, row, enumObject, rowIndex) {
+        return (
+            <div>
+                <button
+                    className='btn-info'
+                    onClick={() =>
+                        this.onViewClaimClicked(cell, row, rowIndex)}>
+                    View Claim Data
+                </button>
+            </div>
+        )
+    }
+
+    onViewClaimClicked(cell, row, rowIndex) {
+        this.handleToggleModal(true);
+        this.setState({ currentClaimJson: row, modalType: 'json' })
     }
 
     renderAgentListTable() {
@@ -185,6 +347,21 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
                 <TableHeaderColumn dataField='created'>Created</TableHeaderColumn>
                 <TableHeaderColumn dataField='latestStatus'>Status</TableHeaderColumn>
                 <TableHeaderColumn dataField='button' dataFormat={this.cellStatusButton.bind(this)}>Set Status</TableHeaderColumn>
+            </BootstrapTable>);
+    }
+
+    renderClaimListTable() {
+        const options = {
+            clearSearch: true,
+            clearSearchBtn: this.createCustomClearButton
+        };
+        return (
+            <BootstrapTable data={this.state.claimList} options={options} version='4' search>
+                <TableHeaderColumn dataField='_id' isKey={true}>Claim ID</TableHeaderColumn>
+                <TableHeaderColumn dataField='name'>Name</TableHeaderColumn>
+                <TableHeaderColumn dataField='latestEvaluation'>Evaluation</TableHeaderColumn>
+                <TableHeaderColumn dataField='json' dataFormat={this.claimJson.bind(this)}>JSON Data</TableHeaderColumn>
+                <TableHeaderColumn dataField='button' dataFormat={this.cellEvaluateButton.bind(this)}>Evaluate</TableHeaderColumn>
             </BootstrapTable>);
     }
 
@@ -219,11 +396,18 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
                         </OwnerBox>
                     </div>
                     <div className="col-md-12">
-                        <AgentHeader>List of agents for project:</AgentHeader>
+                        <AgentHeader>Agents:</AgentHeader>
                         <ButtonContainer>
-                            <RegisterAgent onClick={this.handleRegisterAgent}><span>Register as Agent</span></RegisterAgent>
+                            <ProjectAnimatedButton onClick={this.handleRegisterAgent}><span>Register as Agent</span></ProjectAnimatedButton>
                         </ButtonContainer>
                         {this.renderAgentListTable()}
+                    </div>
+                    <div className="col-md-12">
+                        <AgentHeader>Claims:</AgentHeader>
+                        <ButtonContainer>
+                            <ProjectAnimatedButton onClick={this.handleCaptureClaim}><span>Capture Claim</span></ProjectAnimatedButton>
+                        </ButtonContainer>
+                        {this.renderClaimListTable()}
                     </div>
                 </ProjectContainer>
 
@@ -231,7 +415,12 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
                     isModalOpen={this.state.isModalOpen}
                     handleToggleModal={(modalStatus) => this.handleToggleModal(modalStatus)}>
 
-                    {this.handleRenderAgentForm()}
+                    {renderSwitch(this.state.modalType, {
+                        agent: () => <div>{this.handleRenderAgentForm()}</div>,
+                        claim: () => <div>{this.handleRenderClaimForm()}</div>,
+                        json: () => <div>{this.handleRenderClaimJson()}</div>,
+                        evaluate: () => <div>{this.handleRenderEvaluateForm()}</div>
+                    })}
                 </ModalWrapper>
             </div>
         );
@@ -326,7 +515,7 @@ const ClearButton = styled.button`
 `;
 
 
-const UpdateButton = styled.button`
+const CellButton = styled.button`
     display: block;
     justify-content: center;
     border-radius: 4px;
@@ -352,7 +541,7 @@ const ButtonContainer = styled.div`
     justify-content:flex-end;
 `;
 
-const RegisterAgent = styled.button`
+const ProjectAnimatedButton = styled.button`
     border-radius: 4px;
     background-color: ${props => props.theme.bgLightest};
     border: none;

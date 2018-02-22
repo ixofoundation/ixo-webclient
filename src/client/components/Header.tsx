@@ -21,7 +21,7 @@ export namespace Header {
         isServerConnected: boolean,
         initialDate: Date,
         responseTime: number,
-        selectedServer: string
+        selectedServer: string,
     }
 
     export interface Callbacks {
