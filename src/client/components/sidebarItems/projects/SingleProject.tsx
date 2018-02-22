@@ -282,7 +282,7 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
         this.setState({ selectedStatus: selectedStatus.target.value });
     }
 
-    getCountryName(countryCode: string): String {
+    getCountryName(countryCode: string): string {
         return iso3311a2.getCountry(fixCountryCode(countryCode).toUpperCase())
     }
 
@@ -380,13 +380,11 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
                         <div className='fluid-container'>
                             <div className='row'>
                                 <div className="col-8">
-                                    <p>ID: {this.state.projectMeta._id}</p>
                                     <p>Created: {formatJSONDateTime(this.state.projectMeta.created)}</p>
                                 </div>
-                                <div className="col-4">
+                                <FlagBox className="col-4" title={this.getCountryName(this.state.projectMeta.country)}>
                                     <FlagIcon code={fixCountryCode(this.state.projectMeta.country)} size='3x'></FlagIcon>
-                                    <p>{this.getCountryName(this.state.projectMeta.country)}</p>
-                                </div>
+                                </FlagBox>
                             </div>
                         </div>
                         <OwnerBox>
@@ -486,7 +484,9 @@ const AgentHeader = styled.div`
     font-size: 28px;
     margin-top: 15px;
 `;
-
+const FlagBox = styled.div`
+    padding: 5px;
+`;
 const OwnerBox = styled.div`
 
     background:${props => props.theme.bgLightest};
