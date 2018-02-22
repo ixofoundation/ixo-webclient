@@ -104,15 +104,8 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
     }
 
     handleClaimEvaluation = (formData: any) => {
-        var result;
-
-        if (formData.attended === 'true') {
-            result = "Approved"
-        } else {
-            result = "NotApproved"
-        }
         var toastId = toast('Evaluating claim...', { autoClose: false });
-        var data = { claimTx: this.state.currentClaimJson.tx, result: result };
+        var data = { claimTx: formData.claimTx, result: formData.result };
         this.props.ixo.claim.evaluateClaim(data, 'default').then((response: any) => {
             if (response.result) {
                 this.handleToggleModal(false);
@@ -211,7 +204,7 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
     }
 
     handleEvaluateClaim = (claimData: string) => {
-        this.setState({ modalType: 'evaluate', currentClaimJson: claimData });
+        this.setState({ modalType: 'evaluate' });
         this.handleToggleModal(true);
     }
 
