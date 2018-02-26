@@ -85,8 +85,11 @@ export class Projects extends React.Component<Projects.IProps, Projects.State> {
 
 const ProjectsContainer = styled.div`
     overflow-y: scroll;
-    padding-top:70px;
     padding-bottom: 50px;
+
+    & > .row {
+        margin-top:30px;
+    }
 `;
 
 const TitleContainer = styled.div`
@@ -112,18 +115,37 @@ const EllipseText = styled.p`
     font-weight:100;
 `;
 
+const ProgressBox = styled.div`
+    padding:20px;
+    width: 75%;
+    margin: 5px auto 20px;
+    border-radius: 50%;
+    transition:all 0.5s ease;
+
+    .progressbar .CircularProgressbar-path { stroke: ${props => props.theme.bgDarkest}; }
+    .progressbar .CircularProgressbar-trail {stroke: ${props => props.theme.bgLighter}; }
+    .progressbar .CircularProgressbar-text { text-anchor: "middle" alignment-baseline: "middle" }
+`;
+
+const ProgressText = styled.div`
+    height: 50px;
+    width: 100px;
+    top: calc(50% - 25px);
+    left: calc(50% - 25px);
+    position: absolute;
+`;
+
 const ProjectCardInner = styled.div`
-    box-shadow: 3px 3px 5px 0px rgba(0,0,0,0.2);
-    border-radius: 5px;
+    box-shadow: inset 0px 0px 60px 2px rgba(50, 219, 255, 0.1), 0px 0px 1px 1px rgba(0, 0, 0, 0.1);
     padding:10px;
     color:white;
-    margin: 10px;
+    margin: 15px;
     transition:all 0.3s ease;
-    background:${props => props.theme.randomColor(props.theme.projectColors)};
+    background:white;
 
     &&:hover {
-        box-shadow: 0px 3px 5px 0px #383d41b8;
-        transform: scale(1.05);
+        box-shadow: inset 0px 0px 60px 2px rgba(50, 219, 255, 0.1), 0px 0px 1px 1px rgba(0, 0, 0, 0.1);
+        transform: scale(0.95);
         position:relative;
         z-index:50;
     }
@@ -157,25 +179,6 @@ const AboutBox = styled.div`
         text-overflow: ellipsis;
         margin-bottom:0;
     }
-`;
-
-const ProgressBox = styled.div`
-    padding:20px;
-    margin: auto;
-    width: 75%;
-    background: ${props => props.theme.bgDarker};
-
-    .progressbar .CircularProgressbar-path { stroke: ${props => props.theme.bgDarkest}; }
-    .progressbar .CircularProgressbar-trail {stroke: ${props => props.theme.bgLighter}; }
-    .progressbar .CircularProgressbar-text { text-anchor: "middle" alignment-baseline: "middle" }
-`;
-
-const ProgressText = styled.div`
-    height: 50px;
-    width: 100px;
-    top: calc(50% - 25px);
-    left: calc(50% - 25px);
-    position: absolute;
 `;
 
 const InfoBox = styled.div`

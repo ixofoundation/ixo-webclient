@@ -192,6 +192,7 @@ const TopBar = styled.header`
     padding:15px 0;
     z-index:99;
     background:black;
+    top:0;
     
     & img {
         height:40px;

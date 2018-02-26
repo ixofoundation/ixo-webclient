@@ -134,7 +134,7 @@ export class App extends React.Component<App.IProps, App.State> {
             <ThemeProvider theme={mainTheme}>
                 <AppContainer>
                     <Header />
-                    <div className="container-fluid">
+                    <BodyContainer className="container-fluid">
                         <ToastContainer autoClose={4000} />
                         <NavRow className="row">
                             <Sidebar refreshProjects={this.refreshProjectList} />
@@ -142,7 +142,7 @@ export class App extends React.Component<App.IProps, App.State> {
                         <div className="row">
                             {this.renderProjectContent()}
                         </div>
-                    </div>
+                    </BodyContainer>
                     <Footer />
                 </AppContainer>
             </ThemeProvider>
@@ -191,8 +191,12 @@ const mainTheme = {
     }
 };
 
+const BodyContainer = styled.div`
+    margin-top:70px;
+    background:#dcebf1;
+`;
+
 const NavRow = styled.div`
-    height: 45px;
 `;
 
 const Loading = styled.div`

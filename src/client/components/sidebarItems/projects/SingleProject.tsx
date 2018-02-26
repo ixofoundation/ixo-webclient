@@ -58,6 +58,8 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
     }
 
     componentDidMount() {
+
+        console.log(this.state.projectMeta);
         this.props.ixo.agent.getAgentTemplate('default').then((response: any) => {
             if (response.result.form.fields !== this.state.agentFormSchema) {
                 this.setState({ agentFormSchema: response.result.form.fields });
@@ -97,7 +99,7 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
 
     getClaimList() {
         this.props.ixo.claim.listClaimsByProjectId(this.state.projectMeta.tx).then(claimList => {
-            this.setState({ claimList: claimList.result })
+            this.setState({ claimList: claimList.result });
         }).catch(error => {
             console.log(error);
         })
@@ -365,43 +367,109 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
             </BootstrapTable>);
     }
 
+    claimStatistics() {
+
+        let approved = 0, rejected = 0, pending = 0, approvedPercent = 0, rejectedPercent = 0, pendingPercent = 0;
+        const total = this.state.claimList.length;
+
+        this.state.claimList.map((claim,index) => {
+            switch(claim.latestEvaluation){
+                case "Approved" :
+                    approved++;
+                    break;
+                case "NotApproved":
+                    rejected++;
+                    break;
+                case "Pending":
+                    pending++;
+                    break;
+                default :
+                    break;
+            }
+        });
+        
+        approvedPercent = (approved/total)*100;
+        rejectedPercent = (rejected/total)*100;
+        pendingPercent = (pending/total)*100;
+        return (
+            <ClaimStatistics>
+                <ApprovedClaims title={`Approved claims: ${approved}, Percentage of total: ${approvedPercent}%`} style={{width:`${approvedPercent}%`}}></ApprovedClaims>
+                <RejectedClaims title={`Rejected claims: ${rejected}, Rejected of total: ${rejectedPercent}%`} style={{width:`${rejectedPercent}%`}}></RejectedClaims>
+                <PendingClaims title={`Pending claims: ${pending}, Pending of total: ${pendingPercent}%`} style={{width:`${pendingPercent}%`}}></PendingClaims>
+            </ClaimStatistics>
+        );
+    }
+
     render() {
         return (
             <div className="container">
-                <ProjectContainer className="row">
-                    <div className="col-md-12">
-                        <Link to="/">Back to Home</Link>
-                    </div>
-                    <div className="col-md-4">
-                        <h2>{this.state.projectMeta.name}</h2>
-                    </div>
-
-                    <div className="col-md-8">
-                        <div className='fluid-container'>
-                            <div className='row'>
-                                <div className="col-8">
-                                    <p>Created: {formatJSONDateTime(this.state.projectMeta.created)}</p>
-                                </div>
-                                <FlagBox className="col-4" title={this.getCountryName(this.state.projectMeta.country)}>
+                <ProjectContainer>
+                    <div className="row">
+                        <div className="col-md-12">
+                            <ProjectHeader>
+                                <Link to="/">&larr; Back to Home</Link>
+                                <h1>{this.state.projectMeta.name}</h1>
+                                <FlagBox title={this.getCountryName(this.state.projectMeta.country)}>
                                     <FlagIcon code={fixCountryCode(this.state.projectMeta.country)} size='3x'></FlagIcon>
                                 </FlagBox>
-                            </div>
+                            </ProjectHeader>
                         </div>
-                        <OwnerBox>
-                            <h3>Owner information:</h3>
-                            <p>Name: {this.state.projectMeta.owner.name}</p>
-                            <p>Email: {this.state.projectMeta.owner.email}</p>
-                        </OwnerBox>
+                    </div>
+                    <div className="row">
+                        <div className="col-md-6">
+                            <ProjectCard>
+                                <H2>Project Description</H2>
+                                <p>{this.state.projectMeta.about}</p>
+                            </ProjectCard>
+                        </div>
+                        <div className="col-md-6">
+                            <ProjectCard>
+                                <H2>Additional Project Information</H2>
+                                    <p><strong>Created:</strong> {formatJSONDateTime(this.state.projectMeta.created)}</p>
+                                    <p><strong>Owner Name:</strong> {this.state.projectMeta.owner.name}</p>
+                                    <p><strong>Owner Email:</strong> {this.state.projectMeta.owner.email}</p>
+                            </ProjectCard>
+                        </div>
+                    </div>
+
+                    <div className="row">
+                        <div className="col-md-12">
+                            <ProjectCard>
+                            <div className="row">
+                                <div className="col-md-4">
+                                    <H2>Project Statistics:</H2>
+                                    <p>Claim breakdown</p>
+                                    {this.claimStatistics()}
+                                </div>
+                                <div className="col-md-2 vertical-center">
+                                    <p>Successful Claims</p>
+                                    <Number>6/10</Number>
+                                </div>
+                                <div className="col-md-2 vertical-center">
+                                    <p>Evaluation Agents</p>
+                                    <Number>3</Number>
+                                </div>
+                                <div className="col-md-2 vertical-center">
+                                    <p>Service Agents</p>
+                                    <Number>1</Number>
+                                </div>
+                                <div className="col-md-2 vertical-center">
+                                    <p>Investor Agents</p>
+                                    <Number>2</Number>
+                                </div>
+                            </div>
+                            </ProjectCard>
+                        </div>
                     </div>
                     <div className="col-md-12">
-                        <AgentHeader>Agents:</AgentHeader>
+                        <H2>Agents:</H2>
                         <ButtonContainer>
                             <ProjectAnimatedButton onClick={this.handleRegisterAgent}><span>Register as Agent</span></ProjectAnimatedButton>
                         </ButtonContainer>
                         {this.renderAgentListTable()}
                     </div>
                     <div className="col-md-12">
-                        <AgentHeader>Claims:</AgentHeader>
+                        <H2>Claims:</H2>
                         <ButtonContainer>
                             <ProjectAnimatedButton onClick={this.handleCaptureClaim}><span>Capture Claim</span></ProjectAnimatedButton>
                         </ButtonContainer>
@@ -436,74 +504,91 @@ function mapDispatchToProps(dispatch) {
 }
 
 const ProjectContainer = styled.div`
-    margin-top:30px;
-    box-shadow: 3px 3px 5px 0px rgba(0,0,0,0.2);
+    margin:30px 0 60px;
 
-    & .col-md-12 {
-        padding-left:0;
-    }
-
-    & .col-md-12 a {
-        background: ${props => props.theme.bgLightest};
-        padding:10px;
-        color:white;
-        margin-bottom:20px;
-        display:inline-block;
-    }
-
-    & .col-md-4 {
-        background: url(${projectBG});
-        display:flex;
-        align-items:center;
-        justify-content:center;
-        position:relative;
-    }
-
-    & .col-md-4 h2 {
-        color:white;
-        position:relative;
-        z-index:1;
-    }
-
-    & .col-md-4:after {
-        content:"";
-        position:absolute;
-        width:100%;
-        height:100%;
-        background: rgba(0,0,0,0.3);
-    }
-
-    & .col-md-8 {
-        padding-top:20px;
+    > .row {
+        margin-bottom:30px;
     }
 `;
 
-const AgentHeader = styled.div`
-    display: flex;
-    justify-content: center;
+const H2 = styled.h2`
     font-size: 28px;
     margin-top: 15px;
 `;
+
+const ProjectCard = styled.div`
+    background: white;
+    box-shadow: 0px 0px 30px 0px rgba(0,0,0,0.1);
+    padding: 10px 20px 30px;
+    height:100%;
+    border-radius:20px;
+    border-bottom:5px solid #b6f2ff;
+
+    a {
+        color: ${props => props.theme.bgLightest};
+        padding:10px;
+        display:inline-block;
+    }
+
+    ${H2} {
+        margin-bottom: 20px;
+        color: #00d2ff;
+    }
+
+    p {
+        margin-bottom:0;
+    }
+
+    .vertical-center {
+        justify-content:center;
+        align-items:center;
+        display:flex;
+    }
+`;
+
+const ProjectHeader = ProjectCard.extend`
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding-bottom:10px;
+
+    h1,a {
+        flex:1;
+    }
+
+    h1 {
+        text-align:center;
+        margin-bottom:0;
+        font-size:30px;
+        color: #00d2ff;
+    }
+
+    a:hover {
+        text-decoration:none;
+
+    }
+`;
+
 const FlagBox = styled.div`
     padding: 5px;
+    flex:1;
+    text-align:right;
 `;
 const OwnerBox = styled.div`
 
-    background:${props => props.theme.bgLightest};
-    padding:10px;
-    color:white;
-    border-radius:10px;
     margin-bottom:10px;
-
-    & h3 {
-        font-size:1em;
-        font-weight:bold;
-    }
 
     & p {
         margin-bottom:0;
     }
 `;
+
+const Number = styled.p`
+    font-size:40px;
+    font-weight:bold;
+    text-align:center;
+`
 
 const ClearButton = styled.button`
     border-top-right-radius: 4px;
@@ -514,6 +599,28 @@ const ClearButton = styled.button`
     color: #FFFFFF;
 `;
 
+const ClaimStatistics = styled.div`
+    display:flex;
+    width:80%;
+    margin:0 auto;
+`;
+
+
+const ApprovedClaims = styled.div`
+    height:20px;
+    background:lime;
+
+`;
+
+const RejectedClaims = styled.div`
+    height:20px;
+    background:red;
+`;
+
+const PendingClaims = styled.div`
+    height:20px;
+    background:orange;    
+`;
 
 const CellButton = styled.button`
     display: block;
