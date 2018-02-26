@@ -10,7 +10,8 @@ import { toast } from 'react-toastify';
 import { FlagIcon, fixCountryCode } from '../../FlagIcon';
 import * as iso3311a2 from 'iso-3166-1-alpha-2';
 import { formatJSONDateTime } from '../../../utils/formatters';
-import { renderIf, renderSwitch } from '../../../utils/react_utils';
+import { renderIf, renderSwitch, renderIfTrue } from '../../../utils/react_utils';
+import { Table } from '../../shared/Table';
 
 var merge = require('merge');
 var JSONPretty = require('react-json-pretty');
@@ -41,6 +42,7 @@ export namespace SingleProject {
 
 @connect(mapStateToProps, mapDispatchToProps)
 export class SingleProject extends React.Component<SingleProject.IProps, SingleProject.State> {
+
     constructor(props?: SingleProject.IProps, context?: any) {
         super(props, context);
         this.state = {
@@ -252,10 +254,10 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
         );
     }
 
-    onUpdateStatus(cell, row, rowIndex) {
+    onUpdateStatus = (row, selectedOption) => {
         var agentData = {
             agentTx: row.tx,
-            status: this.state.selectedStatus
+            status: selectedOption
         }
         var toastId = toast('Updating agent status...', { autoClose: false });
 
@@ -267,7 +269,7 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
                     autoClose: 3000
                 })
             }
-            if (response.result.latestStatus === this.state.selectedStatus) {
+            if (response.result.latestStatus === selectedOption) {
                 toast.update(toastId, {
                     render: 'Agent status updated',
                     type: 'success',
@@ -286,83 +288,57 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
         return iso3311a2.getCountry(fixCountryCode(countryCode).toUpperCase())
     }
 
-    cellStatusButton(cell, row, enumObject, rowIndex) {
-        return (
-            <div>
-                <SelectStatus onChange={this.onSetStatus}>
-                    <option value="Approved" label='Approve' />
-                    <option value="NotApproved" label='Decline' />
-                    <option value="Revoked" label='Revoke' />
-                </SelectStatus>
-                <CellButton
-                    onClick={() =>
-                        this.onUpdateStatus(cell, row, rowIndex)}>
-                    Update
-                </CellButton>
-            </div >
-        )
-    }
-
-    cellEvaluateButton(cell, row, enumObject, rowIndex) {
-        return (
-            <div>
-                <CellButton
-                    onClick={() =>
-                        this.handleEvaluateClaim(row)}>
-                    Evaluate
-                </CellButton>
-            </div>
-        );
-    }
-
-    claimJson(cell, row, enumObject, rowIndex) {
-        return (
-            <div>
-                <button
-                    className='btn-info'
-                    onClick={() =>
-                        this.onViewClaimClicked(cell, row, rowIndex)}>
-                    View Claim Data
-                </button>
-            </div>
-        )
-    }
-
-    onViewClaimClicked(cell, row, rowIndex) {
+    onViewClaimClicked = (row) => {
         this.handleToggleModal(true);
         this.setState({ currentClaimJson: row, modalType: 'json' })
     }
 
-    renderAgentListTable() {
+    renderTable(type: string) {
         const options = {
             clearSearch: true,
             clearSearchBtn: this.createCustomClearButton
         };
-        return (
-            <BootstrapTable data={this.state.agentList} options={options} version='4' search>
-                <TableHeaderColumn dataField='did' isKey={true}>DID</TableHeaderColumn>
-                <TableHeaderColumn dataField='name'>Name</TableHeaderColumn>
-                <TableHeaderColumn dataField='email'>Email</TableHeaderColumn>
-                <TableHeaderColumn dataField='role'>Role</TableHeaderColumn>
-                <TableHeaderColumn dataField='created'>Created</TableHeaderColumn>
-                <TableHeaderColumn dataField='latestStatus'>Status</TableHeaderColumn>
-                <TableHeaderColumn dataField='button' dataFormat={this.cellStatusButton.bind(this)}>Set Status</TableHeaderColumn>
-            </BootstrapTable>);
-    }
+        var selectOptions = [
+            { label: 'Approve', value: 'Approved' },
+            { label: 'Decline', value: 'NotApproved' },
+            { label: 'Revoke', value: 'Revoked' }
+        ];
 
-    renderClaimListTable() {
-        const options = {
-            clearSearch: true,
-            clearSearchBtn: this.createCustomClearButton
-        };
-        return (
-            <BootstrapTable data={this.state.claimList} options={options} version='4' search>
-                <TableHeaderColumn dataField='_id' isKey={true}>Claim ID</TableHeaderColumn>
-                <TableHeaderColumn dataField='name'>Name</TableHeaderColumn>
-                <TableHeaderColumn dataField='latestEvaluation'>Evaluation</TableHeaderColumn>
-                <TableHeaderColumn dataField='json' dataFormat={this.claimJson.bind(this)}>JSON Data</TableHeaderColumn>
-                <TableHeaderColumn dataField='button' dataFormat={this.cellEvaluateButton.bind(this)}>Evaluate</TableHeaderColumn>
-            </BootstrapTable>);
+        switch (type) {
+            case 'agents': {
+                const agentsButtons = [
+                    {
+                        headerLabel: 'Update Status',
+                        buttonLabel: 'Update',
+                        callback: this.onUpdateStatus
+                    }
+                ]
+
+                return <Table tableList={this.state.agentList}
+                    tableOptions={options}
+                    customButtons={agentsButtons}
+                    selectOptions={selectOptions} />
+            }
+            case 'claims': {
+                const claimsButtons = [
+                    {
+                        headerLabel: 'jsonData',
+                        buttonLabel: 'View Claim Data',
+                        callback: this.onViewClaimClicked
+                    },
+                    {
+                        headerLabel: 'Evaluate',
+                        buttonLabel: 'Evaluate',
+                        callback: this.handleEvaluateClaim
+                    }
+                ]
+
+                return <Table tableList={this.state.claimList}
+                    tableOptions={options}
+                    customButtons={claimsButtons}
+                />
+            }
+        }
     }
 
     render() {
@@ -400,14 +376,14 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
                         <ButtonContainer>
                             <ProjectAnimatedButton onClick={this.handleRegisterAgent}><span>Register as Agent</span></ProjectAnimatedButton>
                         </ButtonContainer>
-                        {this.renderAgentListTable()}
+                        {renderIfTrue(this.state.agentList.length > 0, () => this.renderTable('agents'))}
                     </div>
                     <div className="col-md-12">
                         <AgentHeader>Claims:</AgentHeader>
                         <ButtonContainer>
                             <ProjectAnimatedButton onClick={this.handleCaptureClaim}><span>Capture Claim</span></ProjectAnimatedButton>
                         </ButtonContainer>
-                        {this.renderClaimListTable()}
+                        {renderIfTrue(this.state.claimList.length > 0, () => this.renderTable('claims'))}
                     </div>
                 </ProjectContainer>
 
