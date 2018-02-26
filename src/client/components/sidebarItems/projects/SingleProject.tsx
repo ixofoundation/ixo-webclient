@@ -12,6 +12,7 @@ import * as iso3311a2 from 'iso-3166-1-alpha-2';
 import { formatJSONDateTime } from '../../../utils/formatters';
 import { renderIf, renderSwitch, renderIfTrue } from '../../../utils/react_utils';
 import { Table } from '../../shared/Table';
+import { ICustomButton } from '../../../../../types/models';
 
 var merge = require('merge');
 var JSONPretty = require('react-json-pretty');
@@ -306,7 +307,7 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
 
         switch (type) {
             case 'agents': {
-                const agentsButtons = [
+                const agentsButtons: ICustomButton[] = [
                     {
                         headerLabel: 'Update Status',
                         buttonLabel: 'Update',
@@ -314,13 +315,18 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
                     }
                 ]
 
-                return <Table tableList={this.state.agentList}
+                const visibleAgentColumns = [
+                    '_id', 'name', 'email', 'role', 'did'
+                ]
+
+                return <Table tableDataSet={this.state.agentList}
                     tableOptions={options}
                     customButtons={agentsButtons}
-                    selectOptions={selectOptions} />
+                    selectOptions={selectOptions}
+                    tableVisibleColumns={visibleAgentColumns} />
             }
             case 'claims': {
-                const claimsButtons = [
+                const claimsButtons: ICustomButton[] = [
                     {
                         headerLabel: 'jsonData',
                         buttonLabel: 'View Claim Data',
@@ -333,9 +339,14 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
                     }
                 ]
 
-                return <Table tableList={this.state.claimList}
+                const visibleClaimColumns = [
+                    '_id', 'name', 'attended', 'did'
+                ]
+
+                return <Table tableDataSet={this.state.claimList}
                     tableOptions={options}
                     customButtons={claimsButtons}
+                    tableVisibleColumns={visibleClaimColumns}
                 />
             }
         }

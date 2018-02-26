@@ -5,13 +5,15 @@ import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import { renderIfTrue } from '../../utils/react_utils';
 import { ICustomButton } from '../../../../types/models';
 import styled from 'styled-components';
+import { capitalizeFirstLetter } from '../../utils/formatters';
 
 export namespace Table {
 
     export interface Props {
         ixo?: any
-        tableList: any
+        tableDataSet: any
         tableOptions: any
+        tableVisibleColumns: string[]
         customButtons?: ICustomButton[]
         selectOptions?: any[]
     }
@@ -27,7 +29,6 @@ export namespace Table {
 }
 
 export class Table extends React.Component<Table.IProps, Table.State> {
-
     buttonIndex = -1;
 
     constructor(props?: Table.IProps, context?: any) {
@@ -57,7 +58,7 @@ export class Table extends React.Component<Table.IProps, Table.State> {
                 {renderIfTrue(this.props.selectOptions && this.props.selectOptions.length > 0, () =>
                     <SelectStatus onChange={this.handleOptionChanged}>
                         {this.props.selectOptions.map((option) => {
-                            return <option value={option.value} label={option.label} />
+                            return <option key={Math.random()} value={option.value} label={option.label} />
                         })}
                     </SelectStatus>
                 )}
@@ -66,7 +67,6 @@ export class Table extends React.Component<Table.IProps, Table.State> {
                     className='btn-info'
                     onClick={() => {
                         this.handleSubmit(cell, row, enumObject, rowIndex, this.state.selectedOption)
-
                     }}>
                     {this.props.customButtons[this.buttonIndex].buttonLabel}
                 </button>
@@ -75,12 +75,14 @@ export class Table extends React.Component<Table.IProps, Table.State> {
     }
 
     renderColumns() {
-        var entry = this.props.tableList[0];
+        var entry = this.props.tableDataSet[0];
         var columns = [];
 
         for (var key in entry) {
             if (entry.hasOwnProperty(key)) {
-                columns.push(key);
+                if (this.props.tableVisibleColumns.indexOf(key) > -1) {
+                    columns.push(key);
+                }
             }
         }
 
@@ -98,7 +100,7 @@ export class Table extends React.Component<Table.IProps, Table.State> {
                     key={id}
                     hidden={key.includes('_') || false}
                     isKey={key === '_id' || false}>
-                    {this.props.customButtons[key.slice(-1)].headerLabel}
+                    {capitalizeFirstLetter(this.props.customButtons[key.slice(-1)].headerLabel)}
                 </TableHeaderColumn>
             } else {
                 return <TableHeaderColumn
@@ -106,7 +108,7 @@ export class Table extends React.Component<Table.IProps, Table.State> {
                     key={id}
                     hidden={key.includes('_') || false}
                     isKey={key === '_id' || false}>
-                    {key}
+                    {capitalizeFirstLetter(key)}
                 </TableHeaderColumn>
             }
 
@@ -114,7 +116,7 @@ export class Table extends React.Component<Table.IProps, Table.State> {
     }
 
     render() {
-        return <BootstrapTable data={this.props.tableList} search={true} options={this.props.tableOptions}>
+        return <BootstrapTable data={this.props.tableDataSet} search={true} options={this.props.tableOptions}>
             {this.renderColumns()}
         </BootstrapTable>
     }

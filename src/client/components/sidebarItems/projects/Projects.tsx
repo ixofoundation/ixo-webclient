@@ -25,7 +25,6 @@ export namespace Projects {
 export class Projects extends React.Component<Projects.IProps, Projects.State> {
 
     percentageComplete = (project: any) => { 
-//        debugger;
         return Math.round((project.approvedClaimCount / project.numberOfSuccessfulClaims) * 100);
     }
 
