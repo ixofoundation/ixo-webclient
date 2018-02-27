@@ -346,7 +346,7 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
     claimStatistics() {
 
         let approved = 0, rejected = 0, pending = 0, approvedPercent = 0, rejectedPercent = 0, pendingPercent = 0;
-        const total = this.state.claimList.length;
+        const total = this.state.projectMeta.numberOfSuccessfulClaims;
 
         this.state.claimList.map((claim,index) => {
             switch(claim.latestEvaluation){
@@ -406,7 +406,6 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
     }
 
     getClaimsOfType(claimType: string){
-        console.log(this.state.projectMeta);
         let amount = 0;
 
         this.state.claimList.map((claim,index) => {
@@ -460,7 +459,7 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
                                 </div>
                                 <div className="col-md-2 vertical-center">
                                     <p>Successful Claims</p>
-                                    <Number>{this.getClaimsOfType('Approved')}/{this.state.claimList.length}</Number>
+                                    <Number>{this.getClaimsOfType('Approved')}/{this.state.projectMeta.numberOfSuccessfulClaims}</Number>
                                 </div>
                                 <div className="col-md-2 vertical-center">
                                     <p>Evaluation Agents</p>
