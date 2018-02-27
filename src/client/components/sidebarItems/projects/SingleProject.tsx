@@ -10,7 +10,10 @@ import { toast } from 'react-toastify';
 import { FlagIcon, fixCountryCode } from '../../FlagIcon';
 import * as iso3311a2 from 'iso-3166-1-alpha-2';
 import { formatJSONDateTime } from '../../../utils/formatters';
-import { renderIf, renderSwitch } from '../../../utils/react_utils';
+import { renderIf, renderSwitch, renderIfTrue } from '../../../utils/react_utils';
+import { Table } from '../../shared/Table';
+import { ICustomButton } from '../../../../../types/models';
+import {Doughnut} from 'react-chartjs-2';
 
 var merge = require('merge');
 var JSONPretty = require('react-json-pretty');
@@ -41,6 +44,7 @@ export namespace SingleProject {
 
 @connect(mapStateToProps, mapDispatchToProps)
 export class SingleProject extends React.Component<SingleProject.IProps, SingleProject.State> {
+
     constructor(props?: SingleProject.IProps, context?: any) {
         super(props, context);
         this.state = {
@@ -59,7 +63,6 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
 
     componentDidMount() {
 
-        console.log(this.state.projectMeta);
         this.props.ixo.agent.getAgentTemplate('default').then((response: any) => {
             if (response.result.form.fields !== this.state.agentFormSchema) {
                 this.setState({ agentFormSchema: response.result.form.fields });
@@ -83,7 +86,6 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
         }).catch((error: Error) => {
             console.log(error);
         });
-
 
         this.getClaimList();
         this.getAgentList();
@@ -195,53 +197,43 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
         })
     }
 
-    handleRegisterAgent = () => {
-        this.setState({ modalType: 'agent' });
+    checkCredentialProvider(modalType?: string) {
+        if (this.props.ixo.credentialProvider.getDid() && modalType) {
+            this.setState({ modalType: modalType });
+        } else {
+            this.setState({ modalType: 'metaMask' });
+        }
         this.handleToggleModal(true);
+    }
+
+    handleRegisterAgent = () => {
+        this.checkCredentialProvider('agent');
     }
 
     handleCaptureClaim = () => {
-        this.setState({ modalType: 'claim' });
-        this.handleToggleModal(true);
+        this.checkCredentialProvider('claim');
     }
 
-    handleEvaluateClaim = (claimData: string) => {
-        this.setState({ modalType: 'evaluate' });
-        this.handleToggleModal(true);
+    handleEvaluateClaim = () => {
+        this.checkCredentialProvider('evaluate');
     }
 
     handleToggleModal(modalStatus) {
         this.setState({ isModalOpen: modalStatus });
     };
 
-    handleRenderEvaluateForm = () => {
-        if (this.state.agentFormSchema.length > 0) {
-            let agentSchema = [...this.state.evaluationFormSchema];
-            agentSchema = agentSchema.filter((value) => value.name !== "template.name" && value.name !== "projectTx")
-            return <DynamicForm formSchema={agentSchema} handleSubmit={this.handleClaimEvaluation} />
-        } else {
-            return <p>Loading Form...</p>
-        }
-    }
-
-    handleRenderAgentForm = () => {
-        if (this.state.agentFormSchema.length > 0) {
-            let agentSchema = [...this.state.agentFormSchema];
-            agentSchema = agentSchema.filter((value) => value.name !== "template.name" && value.name !== "projectTx")
-            return <DynamicForm formSchema={agentSchema} handleSubmit={this.handleAgentSubmit} />
-        } else {
-            return <p>Loading Form...</p>
-        }
-    }
-
-    handleRenderClaimForm = () => {
+    handleRenderForm = (schema: any, handler: any) => {
         if (this.state.claimFormSchema.length > 0) {
-            let agentSchema = [...this.state.claimFormSchema];
+            let agentSchema = [...schema];
             agentSchema = agentSchema.filter((value) => value.name !== "template.name" && value.name !== "projectTx")
-            return <DynamicForm formSchema={agentSchema} handleSubmit={this.handleClaimSubmit} />
+            return <DynamicForm formSchema={agentSchema} handleSubmit={handler} />
         } else {
             return <p>Loading Form...</p>
         }
+    }
+
+    handleRenderMetaMaskModal = () => {
+        return <div>Please login to Metamask to perform this action.</div>;
     }
 
     handleRenderClaimJson = () => {
@@ -254,117 +246,101 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
         );
     }
 
-    onUpdateStatus(cell, row, rowIndex) {
-        var agentData = {
-            agentTx: row.tx,
-            status: this.state.selectedStatus
+    onUpdateStatus = (row, selectedOption) => {
+        if (this.props.ixo.credentialProvider.getDid()) {
+            var agentData = {
+                agentTx: row.tx,
+                status: selectedOption
+            }
+            var toastId = toast('Updating agent status...', { autoClose: false });
+
+            this.props.ixo.agent.updateAgentStatus(agentData).then((response: any) => {
+                if (response.error) {
+                    toast.update(toastId, {
+                        render: response.error.message,
+                        type: 'error',
+                        autoClose: 3000
+                    })
+                }
+                if (response.result.latestStatus === selectedOption) {
+                    toast.update(toastId, {
+                        render: 'Agent status updated',
+                        type: 'success',
+                        autoClose: 3000
+                    })
+                    this.getAgentList();
+                }
+            });
+        } else {
+            this.setState({ modalType: 'metaMask' });
+            this.handleToggleModal(true);
         }
-        var toastId = toast('Updating agent status...', { autoClose: false });
-
-        this.props.ixo.agent.updateAgentStatus(agentData).then((response: any) => {
-            if (response.error) {
-                toast.update(toastId, {
-                    render: response.error.message,
-                    type: 'error',
-                    autoClose: 3000
-                })
-            }
-            if (response.result.latestStatus === this.state.selectedStatus) {
-                toast.update(toastId, {
-                    render: 'Agent status updated',
-                    type: 'success',
-                    autoClose: 3000
-                })
-                this.getAgentList();
-            }
-        });
-    }
-
-    onSetStatus = (selectedStatus) => {
-        this.setState({ selectedStatus: selectedStatus.target.value });
     }
 
     getCountryName(countryCode: string): string {
         return iso3311a2.getCountry(fixCountryCode(countryCode).toUpperCase())
     }
 
-    cellStatusButton(cell, row, enumObject, rowIndex) {
-        return (
-            <div>
-                <SelectStatus onChange={this.onSetStatus}>
-                    <option value="Approved" label='Approve' />
-                    <option value="NotApproved" label='Decline' />
-                    <option value="Revoked" label='Revoke' />
-                </SelectStatus>
-                <CellButton
-                    onClick={() =>
-                        this.onUpdateStatus(cell, row, rowIndex)}>
-                    Update
-                </CellButton>
-            </div >
-        )
-    }
-
-    cellEvaluateButton(cell, row, enumObject, rowIndex) {
-        return (
-            <div>
-                <CellButton
-                    onClick={() =>
-                        this.handleEvaluateClaim(row)}>
-                    Evaluate
-                </CellButton>
-            </div>
-        );
-    }
-
-    claimJson(cell, row, enumObject, rowIndex) {
-        return (
-            <div>
-                <button
-                    className='btn-info'
-                    onClick={() =>
-                        this.onViewClaimClicked(cell, row, rowIndex)}>
-                    View Claim Data
-                </button>
-            </div>
-        )
-    }
-
-    onViewClaimClicked(cell, row, rowIndex) {
+    onViewClaimClicked = (row) => {
         this.handleToggleModal(true);
         this.setState({ currentClaimJson: row, modalType: 'json' })
     }
 
-    renderAgentListTable() {
+    renderTable(type: string) {
         const options = {
             clearSearch: true,
             clearSearchBtn: this.createCustomClearButton
         };
-        return (
-            <BootstrapTable data={this.state.agentList} options={options} version='4' search>
-                <TableHeaderColumn dataField='did' isKey={true}>DID</TableHeaderColumn>
-                <TableHeaderColumn dataField='name'>Name</TableHeaderColumn>
-                <TableHeaderColumn dataField='email'>Email</TableHeaderColumn>
-                <TableHeaderColumn dataField='role'>Role</TableHeaderColumn>
-                <TableHeaderColumn dataField='created'>Created</TableHeaderColumn>
-                <TableHeaderColumn dataField='latestStatus'>Status</TableHeaderColumn>
-                <TableHeaderColumn dataField='button' dataFormat={this.cellStatusButton.bind(this)}>Set Status</TableHeaderColumn>
-            </BootstrapTable>);
-    }
+        var selectOptions = [
+            { label: 'Approve', value: 'Approved' },
+            { label: 'Decline', value: 'NotApproved' },
+            { label: 'Revoke', value: 'Revoked' }
+        ];
 
-    renderClaimListTable() {
-        const options = {
-            clearSearch: true,
-            clearSearchBtn: this.createCustomClearButton
-        };
-        return (
-            <BootstrapTable data={this.state.claimList} options={options} version='4' search>
-                <TableHeaderColumn dataField='_id' isKey={true}>Claim ID</TableHeaderColumn>
-                <TableHeaderColumn dataField='name'>Name</TableHeaderColumn>
-                <TableHeaderColumn dataField='latestEvaluation'>Evaluation</TableHeaderColumn>
-                <TableHeaderColumn dataField='json' dataFormat={this.claimJson.bind(this)}>JSON Data</TableHeaderColumn>
-                <TableHeaderColumn dataField='button' dataFormat={this.cellEvaluateButton.bind(this)}>Evaluate</TableHeaderColumn>
-            </BootstrapTable>);
+        switch (type) {
+            case 'agents': {
+                const agentsButtons: ICustomButton[] = [
+                    {
+                        headerLabel: 'Update Status',
+                        buttonLabel: 'Update',
+                        callback: this.onUpdateStatus
+                    }
+                ]
+
+                const visibleAgentColumns = [
+                    '_id', 'name', 'email', 'role', 'did', 'latestStatus'
+                ]
+                return <Table tableDataSet={this.state.agentList}
+                    tableOptions={options}
+                    customButtons={agentsButtons}
+                    selectOptions={selectOptions}
+                    tableVisibleColumns={visibleAgentColumns} />
+            }
+            case 'claims': {
+                const claimsButtons: ICustomButton[] = [
+                    {
+                        headerLabel: 'jsonData',
+                        buttonLabel: 'View Claim Data',
+                        callback: this.onViewClaimClicked
+                    },
+                    {
+                        headerLabel: 'Evaluate',
+                        buttonLabel: 'Evaluate',
+                        callback: this.handleEvaluateClaim
+                    }
+                ]
+
+                const visibleClaimColumns = [
+                    '_id', 'name', 'attended', 'did', 'latestEvaluation', 'tx'
+                ]
+
+                return <Table tableDataSet={this.state.claimList}
+                    tableOptions={options}
+                    customButtons={claimsButtons}
+                    tableVisibleColumns={visibleClaimColumns}
+                />
+            }
+        }
     }
 
     claimStatistics() {
@@ -392,25 +368,53 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
         rejectedPercent = (rejected/total)*100;
         pendingPercent = (pending/total)*100;
 
-        const chartData = {
-            datasets: [{
-                data: [approvedPercent, pendingPercent, rejectedPercent]
-            }],
-        
-            // These labels appear in the legend and in the tooltips when hovering different arcs
+        const data = {
             labels: [
-                'Approved Claims',
-                'Pending Claims',
-                'RejectedClaims'
-            ]
+                'Approved',
+                'Pending',
+                'Rejected'
+            ],
+            datasets: [{
+                data: [approvedPercent, pendingPercent, rejectedPercent],
+                backgroundColor: [
+                '#22d022',
+                '#ffa500',
+                '#FF0000'
+                ],
+                hoverBackgroundColor: [
+                '#1bb51b',
+                '#ec9900',
+                '#e20303'
+                ]
+            }],
         };
+        const options = {
+            tooltips: {
+                callbacks: {
+                    afterBody: function(tooltipItem, chart){
+                        return '%';
+                    }
+                }
+            }
+        }
+
         return (
             <ClaimStatistics>
-                <ApprovedClaims title={`Approved claims: ${approved}, Percentage of total: ${approvedPercent}%`} style={{width:`${approvedPercent}%`}}></ApprovedClaims>
-                <PendingClaims title={`Pending claims: ${pending}, Pending of total: ${pendingPercent}%`} style={{width:`${pendingPercent}%`}}></PendingClaims>
-                <RejectedClaims title={`Rejected claims: ${rejected}, Rejected of total: ${rejectedPercent}%`} style={{width:`${rejectedPercent}%`}}></RejectedClaims>
+                <Doughnut data={data} options={options}/>
             </ClaimStatistics>
         );
+    }
+
+    getClaimsOfType(claimType: string){
+        console.log(this.state.projectMeta);
+        let amount = 0;
+
+        this.state.claimList.map((claim,index) => {
+            if(claim.latestEvaluation == claimType){
+                amount++;
+            }
+        });
+        return amount;
     }
 
     render() {
@@ -451,12 +455,12 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
                             <div className="row">
                                 <div className="col-md-4">
                                     <H2>Project Statistics:</H2>
-                                    <p>Claim breakdown</p>
+                                    <p>Claims breakdown (%)</p>
                                     {this.claimStatistics()}
                                 </div>
                                 <div className="col-md-2 vertical-center">
                                     <p>Successful Claims</p>
-                                    <Number>6/10</Number>
+                                    <Number>{this.getClaimsOfType('Approved')}/{this.state.claimList.length}</Number>
                                 </div>
                                 <div className="col-md-2 vertical-center">
                                     <p>Evaluation Agents</p>
@@ -479,14 +483,14 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
                         <ButtonContainer>
                             <ProjectAnimatedButton onClick={this.handleRegisterAgent}><span>Register as Agent</span></ProjectAnimatedButton>
                         </ButtonContainer>
-                        {this.renderAgentListTable()}
+                        {renderIfTrue(this.state.agentList.length > 0, () => this.renderTable('agents'))}
                     </div>
                     <div className="col-md-12">
                         <H2>Claims:</H2>
                         <ButtonContainer>
                             <ProjectAnimatedButton onClick={this.handleCaptureClaim}><span>Capture Claim</span></ProjectAnimatedButton>
                         </ButtonContainer>
-                        {this.renderClaimListTable()}
+                        {renderIfTrue(this.state.claimList.length > 0, () => this.renderTable('claims'))}
                     </div>
                 </ProjectContainer>
 
@@ -495,10 +499,11 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
                     handleToggleModal={(modalStatus) => this.handleToggleModal(modalStatus)}>
 
                     {renderSwitch(this.state.modalType, {
-                        agent: () => <div>{this.handleRenderAgentForm()}</div>,
-                        claim: () => <div>{this.handleRenderClaimForm()}</div>,
+                        agent: () => <div>{this.handleRenderForm(this.state.agentFormSchema, this.handleAgentSubmit)}</div>,
+                        claim: () => <div>{this.handleRenderForm(this.state.claimFormSchema, this.handleClaimSubmit)}</div>,
                         json: () => <div>{this.handleRenderClaimJson()}</div>,
-                        evaluate: () => <div>{this.handleRenderEvaluateForm()}</div>
+                        evaluate: () => <div>{this.handleRenderForm(this.state.evaluationFormSchema, this.handleClaimEvaluation)}</div>,
+                        metaMask: () => <div>{this.handleRenderMetaMaskModal()}</div>
                     })}
                 </ModalWrapper>
             </div>
@@ -517,10 +522,15 @@ function mapDispatchToProps(dispatch) {
 }
 
 const ProjectContainer = styled.div`
-    margin:30px 0 60px;
+    margin-top:30px;
+    padding-bottom:10%;
 
-    &> .row {
+    > .row {
         margin-bottom:30px;
+    }
+
+    .table {
+        background:white;
     }
 `;
 
@@ -534,7 +544,8 @@ const ProjectCard = styled.div`
     box-shadow: 0px 0px 30px 0px rgba(0,0,0,0.1);
     padding: 10px 20px 30px;
     height:100%;
-    border-radius:20px;
+    border-radius:5px;
+    border-bottom:5px solid #b6f2ff;
 
     a {
         color: ${props => props.theme.bgLightest};
@@ -555,6 +566,7 @@ const ProjectCard = styled.div`
         justify-content:center;
         align-items:center;
         display:flex;
+        flex-direction:column;
     }
 `;
 
@@ -613,28 +625,7 @@ const ClearButton = styled.button`
 
 const ClaimStatistics = styled.div`
     display:flex;
-    width:80%;
     margin:0 auto;
-`;
-
-
-const ApprovedClaims = styled.div`
-    height:20px;
-    background:lime;
-    border-radius:5px 0 0 5px;
-    marg
-`;
-
-const RejectedClaims = styled.div`
-    height:20px;
-    background:red;
-    border-radius:0 5px 5px 0;
-`;
-
-const PendingClaims = styled.div`
-    height:20px;
-    background:orange;    
-
 `;
 
 const CellButton = styled.button`
