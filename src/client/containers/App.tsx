@@ -183,7 +183,7 @@ const mainTheme = {
 
     projectColors: [
         '#66e3ff'
-        ],
+    ],
 
     randomColor: function (colorArray) {
         var idx = Math.floor(Math.random() * colorArray.length);

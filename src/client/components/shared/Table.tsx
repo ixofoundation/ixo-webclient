@@ -58,7 +58,7 @@ export class Table extends React.Component<Table.IProps, Table.State> {
                 {renderIfTrue(this.props.selectOptions && this.props.selectOptions.length > 0, () =>
                     <SelectStatus onChange={this.handleOptionChanged}>
                         {this.props.selectOptions.map((option) => {
-                            return <option key={Math.random()} value={option.value} label={option.label} />
+                            return <option key={option.value} value={option.value} label={option.label} />
                         })}
                     </SelectStatus>
                 )}

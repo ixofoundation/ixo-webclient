@@ -85,7 +85,6 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
             console.log(error);
         });
 
-
         this.getClaimList();
         this.getAgentList();
     }
@@ -196,53 +195,43 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
         })
     }
 
-    handleRegisterAgent = () => {
-        this.setState({ modalType: 'agent' });
+    checkCredentialProvider(modalType?: string) {
+        if (this.props.ixo.credentialProvider.getDid() && modalType) {
+            this.setState({ modalType: modalType });
+        } else {
+            this.setState({ modalType: 'metaMask' });
+        }
         this.handleToggleModal(true);
+    }
+
+    handleRegisterAgent = () => {
+        this.checkCredentialProvider('agent');
     }
 
     handleCaptureClaim = () => {
-        this.setState({ modalType: 'claim' });
-        this.handleToggleModal(true);
+        this.checkCredentialProvider('claim');
     }
 
-    handleEvaluateClaim = (claimData: string) => {
-        this.setState({ modalType: 'evaluate' });
-        this.handleToggleModal(true);
+    handleEvaluateClaim = () => {
+        this.checkCredentialProvider('evaluate');
     }
 
     handleToggleModal(modalStatus) {
         this.setState({ isModalOpen: modalStatus });
     };
 
-    handleRenderEvaluateForm = () => {
-        if (this.state.agentFormSchema.length > 0) {
-            let agentSchema = [...this.state.evaluationFormSchema];
-            agentSchema = agentSchema.filter((value) => value.name !== "template.name" && value.name !== "projectTx")
-            return <DynamicForm formSchema={agentSchema} handleSubmit={this.handleClaimEvaluation} />
-        } else {
-            return <p>Loading Form...</p>
-        }
-    }
-
-    handleRenderAgentForm = () => {
-        if (this.state.agentFormSchema.length > 0) {
-            let agentSchema = [...this.state.agentFormSchema];
-            agentSchema = agentSchema.filter((value) => value.name !== "template.name" && value.name !== "projectTx")
-            return <DynamicForm formSchema={agentSchema} handleSubmit={this.handleAgentSubmit} />
-        } else {
-            return <p>Loading Form...</p>
-        }
-    }
-
-    handleRenderClaimForm = () => {
+    handleRenderForm = (schema: any, handler: any) => {
         if (this.state.claimFormSchema.length > 0) {
-            let agentSchema = [...this.state.claimFormSchema];
+            let agentSchema = [...schema];
             agentSchema = agentSchema.filter((value) => value.name !== "template.name" && value.name !== "projectTx")
-            return <DynamicForm formSchema={agentSchema} handleSubmit={this.handleClaimSubmit} />
+            return <DynamicForm formSchema={agentSchema} handleSubmit={handler} />
         } else {
             return <p>Loading Form...</p>
         }
+    }
+
+    handleRenderMetaMaskModal = () => {
+        return <div>Please login to Metamask to perform this action.</div>;
     }
 
     handleRenderClaimJson = () => {
@@ -256,33 +245,34 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
     }
 
     onUpdateStatus = (row, selectedOption) => {
-        var agentData = {
-            agentTx: row.tx,
-            status: selectedOption
+        if (this.props.ixo.credentialProvider.getDid()) {
+            var agentData = {
+                agentTx: row.tx,
+                status: selectedOption
+            }
+            var toastId = toast('Updating agent status...', { autoClose: false });
+
+            this.props.ixo.agent.updateAgentStatus(agentData).then((response: any) => {
+                if (response.error) {
+                    toast.update(toastId, {
+                        render: response.error.message,
+                        type: 'error',
+                        autoClose: 3000
+                    })
+                }
+                if (response.result.latestStatus === selectedOption) {
+                    toast.update(toastId, {
+                        render: 'Agent status updated',
+                        type: 'success',
+                        autoClose: 3000
+                    })
+                    this.getAgentList();
+                }
+            });
+        } else {
+            this.setState({ modalType: 'metaMask' });
+            this.handleToggleModal(true);
         }
-        var toastId = toast('Updating agent status...', { autoClose: false });
-
-        this.props.ixo.agent.updateAgentStatus(agentData).then((response: any) => {
-            if (response.error) {
-                toast.update(toastId, {
-                    render: response.error.message,
-                    type: 'error',
-                    autoClose: 3000
-                })
-            }
-            if (response.result.latestStatus === selectedOption) {
-                toast.update(toastId, {
-                    render: 'Agent status updated',
-                    type: 'success',
-                    autoClose: 3000
-                })
-                this.getAgentList();
-            }
-        });
-    }
-
-    onSetStatus = (selectedStatus) => {
-        this.setState({ selectedStatus: selectedStatus.target.value });
     }
 
     getCountryName(countryCode: string): string {
@@ -316,9 +306,8 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
                 ]
 
                 const visibleAgentColumns = [
-                    '_id', 'name', 'email', 'role', 'did'
+                    '_id', 'name', 'email', 'role', 'did', 'latestStatus'
                 ]
-
                 return <Table tableDataSet={this.state.agentList}
                     tableOptions={options}
                     customButtons={agentsButtons}
@@ -340,7 +329,7 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
                 ]
 
                 const visibleClaimColumns = [
-                    '_id', 'name', 'attended', 'did'
+                    '_id', 'name', 'attended', 'did', 'latestEvaluation', 'tx'
                 ]
 
                 return <Table tableDataSet={this.state.claimList}
@@ -401,10 +390,11 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
                     handleToggleModal={(modalStatus) => this.handleToggleModal(modalStatus)}>
 
                     {renderSwitch(this.state.modalType, {
-                        agent: () => <div>{this.handleRenderAgentForm()}</div>,
-                        claim: () => <div>{this.handleRenderClaimForm()}</div>,
+                        agent: () => <div>{this.handleRenderForm(this.state.agentFormSchema, this.handleAgentSubmit)}</div>,
+                        claim: () => <div>{this.handleRenderForm(this.state.claimFormSchema, this.handleClaimSubmit)}</div>,
                         json: () => <div>{this.handleRenderClaimJson()}</div>,
-                        evaluate: () => <div>{this.handleRenderEvaluateForm()}</div>
+                        evaluate: () => <div>{this.handleRenderForm(this.state.evaluationFormSchema, this.handleClaimEvaluation)}</div>,
+                        metaMask: () => <div>{this.handleRenderMetaMaskModal()}</div>
                     })}
                 </ModalWrapper>
             </div>
@@ -424,6 +414,7 @@ function mapDispatchToProps(dispatch) {
 
 const ProjectContainer = styled.div`
     margin-top:30px;
+    padding-bottom:10%;
     box-shadow: 3px 3px 5px 0px rgba(0,0,0,0.2);
 
     & .col-md-12 {
