@@ -345,25 +345,13 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
 
     claimStatistics() {
 
-        let approved = 0, rejected = 0, pending = 0, approvedPercent = 0, rejectedPercent = 0, pendingPercent = 0;
+        let approvedPercent = 0, rejectedPercent = 0, pendingPercent = 0;
         const total = this.state.projectMeta.numberOfSuccessfulClaims;
 
-        this.state.claimList.map((claim,index) => {
-            switch(claim.latestEvaluation){
-                case "Approved" :
-                    approved++;
-                    break;
-                case "NotApproved":
-                    rejected++;
-                    break;
-                case "Pending":
-                    pending++;
-                    break;
-                default :
-                    break;
-            }
-        });
-        
+        let approved = this.getCountClaimsOfType('Approved');
+        let pending = this.getCountClaimsOfType('Pending');
+        let rejected = this.getCountClaimsOfType('NotApproved');
+
         approvedPercent = (approved/total)*100;
         rejectedPercent = (rejected/total)*100;
         pendingPercent = (pending/total)*100;
@@ -405,11 +393,24 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
         );
     }
 
-    getClaimsOfType(claimType: string){
+    getCountClaimsOfType(claimType: string){
+
         let amount = 0;
 
         this.state.claimList.map((claim,index) => {
             if(claim.latestEvaluation == claimType){
+                amount++;
+            }
+        });
+        return amount;
+    }
+
+    getCountAgentsOfRole(agentType: string){
+        let amount = 0;
+
+        console.log(this.state.agentList);
+        this.state.agentList.map((agent,index) => {
+            if(agentType == agent.role){
                 amount++;
             }
         });
@@ -459,19 +460,19 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
                                 </div>
                                 <div className="col-md-2 vertical-center">
                                     <p>Successful Claims</p>
-                                    <Number>{this.getClaimsOfType('Approved')}/{this.state.projectMeta.numberOfSuccessfulClaims}</Number>
+                                    <Number>{this.getCountClaimsOfType('Approved')}/{this.state.projectMeta.numberOfSuccessfulClaims}</Number>
                                 </div>
                                 <div className="col-md-2 vertical-center">
                                     <p>Evaluation Agents</p>
-                                    <Number>3</Number>
+                                    <Number>{this.getCountAgentsOfRole('EA')}</Number>
                                 </div>
                                 <div className="col-md-2 vertical-center">
                                     <p>Service Agents</p>
-                                    <Number>1</Number>
+                                    <Number>{this.getCountAgentsOfRole('SA')}</Number>
                                 </div>
                                 <div className="col-md-2 vertical-center">
                                     <p>Investor Agents</p>
-                                    <Number>2</Number>
+                                    <Number>{this.getCountAgentsOfRole('IA')}</Number>
                                 </div>
                             </div>
                             </ProjectCard>
