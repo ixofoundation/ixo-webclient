@@ -10,8 +10,7 @@ import { toast } from 'react-toastify';
 import { FlagIcon, fixCountryCode } from '../../FlagIcon';
 import * as iso3311a2 from 'iso-3166-1-alpha-2';
 import { formatJSONDateTime } from '../../../utils/formatters';
-import { renderIf, renderSwitch, renderIfTrue } from '../../../utils/react_utils';
-import { Table } from '../../shared/Table';
+import { renderIf, renderSwitch } from '../../../utils/react_utils';
 
 var merge = require('merge');
 var JSONPretty = require('react-json-pretty');
@@ -42,7 +41,6 @@ export namespace SingleProject {
 
 @connect(mapStateToProps, mapDispatchToProps)
 export class SingleProject extends React.Component<SingleProject.IProps, SingleProject.State> {
-
     constructor(props?: SingleProject.IProps, context?: any) {
         super(props, context);
         this.state = {
@@ -256,10 +254,10 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
         );
     }
 
-    onUpdateStatus = (row, selectedOption) => {
+    onUpdateStatus(cell, row, rowIndex) {
         var agentData = {
             agentTx: row.tx,
-            status: selectedOption
+            status: this.state.selectedStatus
         }
         var toastId = toast('Updating agent status...', { autoClose: false });
 
@@ -271,7 +269,7 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
                     autoClose: 3000
                 })
             }
-            if (response.result.latestStatus === selectedOption) {
+            if (response.result.latestStatus === this.state.selectedStatus) {
                 toast.update(toastId, {
                     render: 'Agent status updated',
                     type: 'success',
@@ -290,57 +288,83 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
         return iso3311a2.getCountry(fixCountryCode(countryCode).toUpperCase())
     }
 
-    onViewClaimClicked = (row) => {
+    cellStatusButton(cell, row, enumObject, rowIndex) {
+        return (
+            <div>
+                <SelectStatus onChange={this.onSetStatus}>
+                    <option value="Approved" label='Approve' />
+                    <option value="NotApproved" label='Decline' />
+                    <option value="Revoked" label='Revoke' />
+                </SelectStatus>
+                <CellButton
+                    onClick={() =>
+                        this.onUpdateStatus(cell, row, rowIndex)}>
+                    Update
+                </CellButton>
+            </div >
+        )
+    }
+
+    cellEvaluateButton(cell, row, enumObject, rowIndex) {
+        return (
+            <div>
+                <CellButton
+                    onClick={() =>
+                        this.handleEvaluateClaim(row)}>
+                    Evaluate
+                </CellButton>
+            </div>
+        );
+    }
+
+    claimJson(cell, row, enumObject, rowIndex) {
+        return (
+            <div>
+                <button
+                    className='btn-info'
+                    onClick={() =>
+                        this.onViewClaimClicked(cell, row, rowIndex)}>
+                    View Claim Data
+                </button>
+            </div>
+        )
+    }
+
+    onViewClaimClicked(cell, row, rowIndex) {
         this.handleToggleModal(true);
         this.setState({ currentClaimJson: row, modalType: 'json' })
     }
 
-    renderTable(type: string) {
+    renderAgentListTable() {
         const options = {
             clearSearch: true,
             clearSearchBtn: this.createCustomClearButton
         };
-        var selectOptions = [
-            { label: 'Approve', value: 'Approved' },
-            { label: 'Decline', value: 'NotApproved' },
-            { label: 'Revoke', value: 'Revoked' }
-        ];
+        return (
+            <BootstrapTable data={this.state.agentList} options={options} version='4' search>
+                <TableHeaderColumn dataField='did' isKey={true}>DID</TableHeaderColumn>
+                <TableHeaderColumn dataField='name'>Name</TableHeaderColumn>
+                <TableHeaderColumn dataField='email'>Email</TableHeaderColumn>
+                <TableHeaderColumn dataField='role'>Role</TableHeaderColumn>
+                <TableHeaderColumn dataField='created'>Created</TableHeaderColumn>
+                <TableHeaderColumn dataField='latestStatus'>Status</TableHeaderColumn>
+                <TableHeaderColumn dataField='button' dataFormat={this.cellStatusButton.bind(this)}>Set Status</TableHeaderColumn>
+            </BootstrapTable>);
+    }
 
-        switch (type) {
-            case 'agents': {
-                const agentsButtons = [
-                    {
-                        headerLabel: 'Update Status',
-                        buttonLabel: 'Update',
-                        callback: this.onUpdateStatus
-                    }
-                ]
-
-                return <Table tableList={this.state.agentList}
-                    tableOptions={options}
-                    customButtons={agentsButtons}
-                    selectOptions={selectOptions} />
-            }
-            case 'claims': {
-                const claimsButtons = [
-                    {
-                        headerLabel: 'jsonData',
-                        buttonLabel: 'View Claim Data',
-                        callback: this.onViewClaimClicked
-                    },
-                    {
-                        headerLabel: 'Evaluate',
-                        buttonLabel: 'Evaluate',
-                        callback: this.handleEvaluateClaim
-                    }
-                ]
-
-                return <Table tableList={this.state.claimList}
-                    tableOptions={options}
-                    customButtons={claimsButtons}
-                />
-            }
-        }
+    renderClaimListTable() {
+        const options = {
+            clearSearch: true,
+            clearSearchBtn: this.createCustomClearButton
+        };
+        return (
+            <BootstrapTable data={this.state.claimList} options={options} version='4' search>
+                <TableHeaderColumn dataField='_id' isKey={true}>Claim ID</TableHeaderColumn>
+                <TableHeaderColumn dataField='name'>Name</TableHeaderColumn>
+                <TableHeaderColumn dataField='latestEvaluation'>Evaluation</TableHeaderColumn>
+                <TableHeaderColumn dataField='json' dataFormat={this.claimJson.bind(this)}>JSON Data</TableHeaderColumn>
+                <TableHeaderColumn dataField='button' dataFormat={this.cellEvaluateButton.bind(this)}>Evaluate</TableHeaderColumn>
+            </BootstrapTable>);
     }
 
     claimStatistics() {
@@ -367,11 +391,24 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
         approvedPercent = (approved/total)*100;
         rejectedPercent = (rejected/total)*100;
         pendingPercent = (pending/total)*100;
+
+        const chartData = {
+            datasets: [{
+                data: [approvedPercent, pendingPercent, rejectedPercent]
+            }],
+        
+            // These labels appear in the legend and in the tooltips when hovering different arcs
+            labels: [
+                'Approved Claims',
+                'Pending Claims',
+                'RejectedClaims'
+            ]
+        };
         return (
             <ClaimStatistics>
                 <ApprovedClaims title={`Approved claims: ${approved}, Percentage of total: ${approvedPercent}%`} style={{width:`${approvedPercent}%`}}></ApprovedClaims>
-                <RejectedClaims title={`Rejected claims: ${rejected}, Rejected of total: ${rejectedPercent}%`} style={{width:`${rejectedPercent}%`}}></RejectedClaims>
                 <PendingClaims title={`Pending claims: ${pending}, Pending of total: ${pendingPercent}%`} style={{width:`${pendingPercent}%`}}></PendingClaims>
+                <RejectedClaims title={`Rejected claims: ${rejected}, Rejected of total: ${rejectedPercent}%`} style={{width:`${rejectedPercent}%`}}></RejectedClaims>
             </ClaimStatistics>
         );
     }
@@ -442,14 +479,14 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
                         <ButtonContainer>
                             <ProjectAnimatedButton onClick={this.handleRegisterAgent}><span>Register as Agent</span></ProjectAnimatedButton>
                         </ButtonContainer>
-                        {renderIfTrue(this.state.agentList.length > 0, () => this.renderTable('agents'))}
+                        {this.renderAgentListTable()}
                     </div>
                     <div className="col-md-12">
                         <H2>Claims:</H2>
                         <ButtonContainer>
                             <ProjectAnimatedButton onClick={this.handleCaptureClaim}><span>Capture Claim</span></ProjectAnimatedButton>
                         </ButtonContainer>
-                        {renderIfTrue(this.state.claimList.length > 0, () => this.renderTable('claims'))}
+                        {this.renderClaimListTable()}
                     </div>
                 </ProjectContainer>
 
@@ -482,7 +519,7 @@ function mapDispatchToProps(dispatch) {
 const ProjectContainer = styled.div`
     margin:30px 0 60px;
 
-    > .row {
+    &> .row {
         margin-bottom:30px;
     }
 `;
@@ -498,7 +535,6 @@ const ProjectCard = styled.div`
     padding: 10px 20px 30px;
     height:100%;
     border-radius:20px;
-    border-bottom:5px solid #b6f2ff;
 
     a {
         color: ${props => props.theme.bgLightest};
@@ -585,17 +621,20 @@ const ClaimStatistics = styled.div`
 const ApprovedClaims = styled.div`
     height:20px;
     background:lime;
-
+    border-radius:5px 0 0 5px;
+    marg
 `;
 
 const RejectedClaims = styled.div`
     height:20px;
     background:red;
+    border-radius:0 5px 5px 0;
 `;
 
 const PendingClaims = styled.div`
     height:20px;
     background:orange;    
+
 `;
 
 const CellButton = styled.button`
