@@ -105,56 +105,11 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
         })
     }
 
-    handleClaimEvaluation = (formData: any) => {
-        var toastId = toast('Evaluating claim...', { autoClose: false });
-        var data = { claimTx: formData.claimTx, result: formData.result };
-        this.props.ixo.claim.evaluateClaim(data, 'default').then((response: any) => {
-            if (response.result) {
-                this.handleToggleModal(false);
-                toast.update(toastId, {
-                    render: 'Claim evaluated',
-                    type: 'success',
-                    autoClose: 3000
-                });
-                this.getClaimList();
-            } else if (response.error) {
-                this.handleToggleModal(false);
-                toast.update(toastId, {
-                    render: response.error.message,
-                    type: 'error',
-                    autoClose: 3000
-                });
-            }
-        }).catch((error) => {
-            this.handleToggleModal(false);
-            toast.update(toastId, {
-                render: 'Error submitting claim',
-                type: 'error',
-                autoClose: 3000
-            });;
-        })
-    }
-
     handleClaimSubmit = (formData: any) => {
         var toastId = toast('Submitting claim...', { autoClose: false });
         var data = merge(formData, { projectTx: this.state.projectMeta.tx })
         this.props.ixo.claim.createClaim(formData, 'default').then((response: any) => {
-            if (response.result) {
-                this.handleToggleModal(false);
-                toast.update(toastId, {
-                    render: 'Claim submitted',
-                    type: 'success',
-                    autoClose: 3000
-                });
-                this.getClaimList();
-            } else if (response.error) {
-                this.handleToggleModal(false);
-                toast.update(toastId, {
-                    render: response.error.message,
-                    type: 'error',
-                    autoClose: 3000
-                });
-            }
+            this.handleResponse(toastId, response, 'submitClaim');
         }).catch((error) => {
             this.handleToggleModal(false);
             toast.update(toastId, {
@@ -167,24 +122,9 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
 
     handleAgentSubmit = (formData: any) => {
         var toastId = toast('Creating agent...', { autoClose: false });
-        var data = merge(formData, { projectTx: this.state.projectMeta.tx })
+        merge(formData, { projectTx: this.state.projectMeta.tx })
         this.props.ixo.agent.createAgent(formData, 'default').then((response: any) => {
-            if (response.result) {
-                this.handleToggleModal(false);
-                toast.update(toastId, {
-                    render: 'Agent Created',
-                    type: 'success',
-                    autoClose: 3000
-                });
-                this.getAgentList();
-            } else if (response.error) {
-                this.handleToggleModal(false);
-                toast.update(toastId, {
-                    render: response.error.message,
-                    type: 'error',
-                    autoClose: 3000
-                });
-            }
+            this.handleResponse(toastId, response, 'createAgent');
         }).catch((error) => {
             this.handleToggleModal(false);
             toast.update(toastId, {
@@ -194,6 +134,62 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
             });;
         })
     }
+
+    handleResponse(toastId: any, response: any, responseType: string) {
+        if (response.result) {
+            this.handleToggleModal(false);
+            toast.update(toastId, {
+                render: 'Successfull',
+                type: 'success',
+                autoClose: 3000
+            });
+            switch (responseType) {
+                case 'evaluateClaim' || 'submitClaim': this.getClaimList();
+                case 'updateAgentStatus' || 'createAgent': this.getAgentList();
+
+            }
+        } else if (response.error) {
+            this.handleToggleModal(false);
+            toast.update(toastId, {
+                render: response.error.message,
+                type: 'error',
+                autoClose: 3000
+            });
+        }
+    }
+
+    handleClaimEvaluation = (formData: any) => {
+        var toastId = toast('Evaluating claim...', { autoClose: false });
+        var data = { claimTx: formData.claimTx, result: formData.result };
+        this.props.ixo.claim.evaluateClaim(data, 'default').then((response: any) => {
+            this.handleResponse(toastId, response, 'evaluateClaim');
+        }).catch((error) => {
+            this.handleToggleModal(false);
+            toast.update(toastId, {
+                render: 'Error evaluating claim',
+                type: 'error',
+                autoClose: 3000
+            });;
+        })
+    }
+
+    onUpdateStatus = (row, selectedOption) => {
+        if (this.props.ixo.credentialProvider.getDid()) {
+            var agentData = {
+                agentTx: row.tx,
+                status: selectedOption
+            }
+            var toastId = toast('Updating agent status...', { autoClose: false });
+            this.props.ixo.agent.updateAgentStatus(agentData).then((response: any) => {
+                this.handleResponse(toastId, response, 'updateAgentStatus');
+            });
+        } else {
+            this.setState({ modalType: 'metaMask' });
+            this.handleToggleModal(true);
+        }
+    }
+
+
 
     checkCredentialProvider(modalType?: string) {
         if (this.props.ixo.credentialProvider.getDid() && modalType) {
@@ -244,36 +240,7 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
         );
     }
 
-    onUpdateStatus = (row, selectedOption) => {
-        if (this.props.ixo.credentialProvider.getDid()) {
-            var agentData = {
-                agentTx: row.tx,
-                status: selectedOption
-            }
-            var toastId = toast('Updating agent status...', { autoClose: false });
 
-            this.props.ixo.agent.updateAgentStatus(agentData).then((response: any) => {
-                if (response.error) {
-                    toast.update(toastId, {
-                        render: response.error.message,
-                        type: 'error',
-                        autoClose: 3000
-                    })
-                }
-                if (response.result.latestStatus === selectedOption) {
-                    toast.update(toastId, {
-                        render: 'Agent status updated',
-                        type: 'success',
-                        autoClose: 3000
-                    })
-                    this.getAgentList();
-                }
-            });
-        } else {
-            this.setState({ modalType: 'metaMask' });
-            this.handleToggleModal(true);
-        }
-    }
 
     getCountryName(countryCode: string): string {
         return iso3311a2.getCountry(fixCountryCode(countryCode).toUpperCase())
