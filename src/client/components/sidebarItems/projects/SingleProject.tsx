@@ -67,6 +67,12 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
 
     componentDidMount() {
 
+        // this.props.ixo.project.findProjectById('5a8edc0288bdb9001a0f9a97').then((response: any) => {
+        //     console.log("PROJECT STUFF: "+JSON.stringify(response.result));
+        // }).catch((error: Error) => {
+        //     console.log(error);
+        // });
+
         this.props.ixo.agent.getAgentTemplate('default').then((response: any) => {
             if (response.result.form.fields !== this.state.agentFormSchema) {
                 this.setState({ agentFormSchema: response.result.form.fields });
@@ -388,109 +394,113 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
         return amount;
     }
 
-    render() {
-        return (
-            <div className="container">
-                <ProjectContainer>
-                    <div className="row">
-                        <div className="col-md-12">
-                            <ProjectHeader>
-                                <Link to="/">&larr; Back to Home</Link>
-                                <h1>{this.state.projectMeta.name}</h1>
-                                <FlagBox title={this.getCountryName(this.state.projectMeta.country)}>
-                                    <FlagIcon code={fixCountryCode(this.state.projectMeta.country)} size='3x'></FlagIcon>
-                                </FlagBox>
-                            </ProjectHeader>
-                        </div>
-                    </div>
-                    <div className="row">
-                        <div className="col-md-6">
-                            <ProjectCard>
-                                <H2>Project Description</H2>
-                                <p>{this.state.projectMeta.about}</p>
-                            </ProjectCard>
-                        </div>
-                        <div className="col-md-6">
-                            <ProjectCard>
-                                <H2>Additional Project Information</H2>
-                                    <p><strong>Created:</strong> {formatJSONDateTime(this.state.projectMeta.created)}</p>
-                                    <p><strong>Owner Name:</strong> {this.state.projectMeta.owner.name}</p>
-                                    <p><strong>Owner Email:</strong> {this.state.projectMeta.owner.email}</p>
-                            </ProjectCard>
-                        </div>
-                    </div>
-
-                    <div className="row">
-                        <div className="col-md-12">
-                            <ProjectCard>
-                            <div className="row">
-                                <div className="col-md-4">
-                                    <H2>Project Statistics:</H2>
-                                    <p>Claims breakdown (%)</p>
-                                    {this.claimStatistics()}
-                                </div>
-                                <div className="col-md-2 vertical-center">
-                                    <p>Successful Claims</p>
-                                    <Number>{this.getCountClaimsOfType('Approved')}/{this.state.projectMeta.numberOfSuccessfulClaims}</Number>
-                                </div>
-                                <div className="col-md-2 vertical-center">
-                                    <p>Evaluation Agents</p>
-                                    <Number>{this.getCountAgentsOfRole('EA')}</Number>
-                                </div>
-                                <div className="col-md-2 vertical-center">
-                                    <p>Service Agents</p>
-                                    <Number>{this.getCountAgentsOfRole('SA')}</Number>
-                                </div>
-                                <div className="col-md-2 vertical-center">
-                                    <p>Investor Agents</p>
-                                    <Number>{this.getCountAgentsOfRole('IA')}</Number>
-                                </div>
+    render() 
+    {   if(this.state.projectMeta){
+            return (
+                <div className="container">
+                    <ProjectContainer>
+                        <div className="row">
+                            <div className="col-md-12">
+                                <ProjectHeader>
+                                    <Link to="/">&larr; Back to Home</Link>
+                                    <h1>{this.state.projectMeta.name}</h1>
+                                    <FlagBox title={this.getCountryName(this.state.projectMeta.country)}>
+                                        <FlagIcon code={fixCountryCode(this.state.projectMeta.country)} size='3x'></FlagIcon>
+                                    </FlagBox>
+                                </ProjectHeader>
                             </div>
-                            </ProjectCard>
                         </div>
-                    </div>
-                    <div className="row">
-                        <div className="col-md-12">
-                            <ProjectCard>
-                                <H2>Agents:</H2>
-                                <ButtonContainer>
-                                    <ProjectAnimatedButton onClick={this.handleRegisterAgent}><span>Register as Agent</span></ProjectAnimatedButton>
-                                </ButtonContainer>
-                                <ProjectTable>
-                                    {renderIfTrue(this.state.agentList.length > 0, () => this.renderTable('agents'))}
-                                </ProjectTable>
-                            </ProjectCard>
+                        <div className="row">
+                            <div className="col-md-6">
+                                <ProjectCard>
+                                    <H2>Project Description</H2>
+                                    <p>{this.state.projectMeta.about}</p>
+                                </ProjectCard>
+                            </div>
+                            <div className="col-md-6">
+                                <ProjectCard>
+                                    <H2>Additional Project Information</H2>
+                                        <p><strong>Created:</strong> {formatJSONDateTime(this.state.projectMeta.created)}</p>
+                                        <p><strong>Owner Name:</strong> {this.state.projectMeta.owner.name}</p>
+                                        <p><strong>Owner Email:</strong> {this.state.projectMeta.owner.email}</p>
+                                </ProjectCard>
+                            </div>
                         </div>
-                    </div>
-                    <div className="row">
-                        <div className="col-md-12">
-                            <ProjectCard>
-                                <H2>Claims:</H2>
-                                <ButtonContainer>
-                                    <ProjectAnimatedButton onClick={this.handleCaptureClaim}><span>Capture Claim</span></ProjectAnimatedButton>
-                                </ButtonContainer>
-                                <ProjectTable>
-                                    {renderIfTrue(this.state.claimList.length > 0, () => this.renderTable('claims'))}
-                                </ProjectTable>
-                            </ProjectCard>
-                        </div>
-                    </div>
-                </ProjectContainer>
 
-                <ModalWrapper
-                    isModalOpen={this.state.isModalOpen}
-                    handleToggleModal={(modalStatus) => this.handleToggleModal(modalStatus)}>
+                        <div className="row">
+                            <div className="col-md-12">
+                                <ProjectCard>
+                                <div className="row">
+                                    <div className="col-md-4">
+                                        <H2>Project Statistics:</H2>
+                                        <p>Claims breakdown (%)</p>
+                                        {this.claimStatistics()}
+                                    </div>
+                                    <div className="col-md-2 vertical-center">
+                                        <p>Successful Claims</p>
+                                        <Number>{this.getCountClaimsOfType('Approved')}/{this.state.projectMeta.numberOfSuccessfulClaims}</Number>
+                                    </div>
+                                    <div className="col-md-2 vertical-center">
+                                        <p>Evaluation Agents</p>
+                                        <Number>{this.getCountAgentsOfRole('EA')}</Number>
+                                    </div>
+                                    <div className="col-md-2 vertical-center">
+                                        <p>Service Agents</p>
+                                        <Number>{this.getCountAgentsOfRole('SA')}</Number>
+                                    </div>
+                                    <div className="col-md-2 vertical-center">
+                                        <p>Investor Agents</p>
+                                        <Number>{this.getCountAgentsOfRole('IA')}</Number>
+                                    </div>
+                                </div>
+                                </ProjectCard>
+                            </div>
+                        </div>
+                        <div className="row">
+                            <div className="col-md-12">
+                                <ProjectCard>
+                                    <H2>Agents:</H2>
+                                    <ButtonContainer>
+                                        <ProjectAnimatedButton onClick={this.handleRegisterAgent}><span>Register as Agent</span></ProjectAnimatedButton>
+                                    </ButtonContainer>
+                                    <ProjectTable>
+                                        {renderIfTrue(this.state.agentList.length > 0, () => this.renderTable('agents'))}
+                                    </ProjectTable>
+                                </ProjectCard>
+                            </div>
+                        </div>
+                        <div className="row">
+                            <div className="col-md-12">
+                                <ProjectCard>
+                                    <H2>Claims:</H2>
+                                    <ButtonContainer>
+                                        <ProjectAnimatedButton onClick={this.handleCaptureClaim}><span>Capture Claim</span></ProjectAnimatedButton>
+                                    </ButtonContainer>
+                                    <ProjectTable>
+                                        {renderIfTrue(this.state.claimList.length > 0, () => this.renderTable('claims'))}
+                                    </ProjectTable>
+                                </ProjectCard>
+                            </div>
+                        </div>
+                    </ProjectContainer>
 
-                    {renderSwitch(this.state.modalType, {
-                        agent: () => <div>{this.handleRenderForm(this.state.agentFormSchema, this.handleAgentSubmit)}</div>,
-                        claim: () => <div>{this.handleRenderForm(this.state.claimFormSchema, this.handleClaimSubmit)}</div>,
-                        json: () => <div>{this.handleRenderClaimJson()}</div>,
-                        evaluate: () => <div>{this.handleRenderForm(this.state.evaluationFormSchema, this.handleClaimEvaluation)}</div>,
-                        metaMask: () => <div>{this.handleRenderMetaMaskModal()}</div>
-                    })}
-                </ModalWrapper>
-            </div>
-        );
+                    <ModalWrapper
+                        isModalOpen={this.state.isModalOpen}
+                        handleToggleModal={(modalStatus) => this.handleToggleModal(modalStatus)}>
+
+                        {renderSwitch(this.state.modalType, {
+                            agent: () => <div>{this.handleRenderForm(this.state.agentFormSchema, this.handleAgentSubmit)}</div>,
+                            claim: () => <div>{this.handleRenderForm(this.state.claimFormSchema, this.handleClaimSubmit)}</div>,
+                            json: () => <div>{this.handleRenderClaimJson()}</div>,
+                            evaluate: () => <div>{this.handleRenderForm(this.state.evaluationFormSchema, this.handleClaimEvaluation)}</div>,
+                            metaMask: () => <div>{this.handleRenderMetaMaskModal()}</div>
+                        })}
+                    </ModalWrapper>
+                </div>
+            );
+        } else {
+            return <p>Loading...</p>
+        }
     }
 }
 
