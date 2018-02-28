@@ -243,7 +243,6 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
     }
 
 
-
     getCountryName(countryCode: string): string {
         return iso3311a2.getCountry(fixCountryCode(countryCode).toUpperCase())
     }
