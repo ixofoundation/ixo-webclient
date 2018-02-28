@@ -138,11 +138,11 @@ const ProjectCardInner = styled.div`
     padding:10px;
     color:white;
     margin: 15px;
-    transition:all 0.3s ease;
+    transition:all 0.5s ease;
     background:white;
 
     &&:hover {
-        box-shadow: inset 0px 0px 60px 2px rgba(50, 219, 255, 0.1), 0px 0px 1px 1px rgba(0, 0, 0, 0.1);
+        box-shadow: inset 0px 0px 60px 2px rgba(50, 219, 255, 0.5), 0px 0px 1px 1px rgba(0, 0, 0, 0.1);
         transform: scale(0.95);
         position:relative;
         z-index:50;

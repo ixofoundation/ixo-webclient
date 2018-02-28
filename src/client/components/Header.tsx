@@ -60,7 +60,16 @@ export class Header extends React.Component<Header.IProps, Header.State> {
     };
 
     componentDidMount() {
-        this.props.onIxoInit(this.state.selectedServer);
+
+        const cachedServer = localStorage.getItem("server");
+        if (cachedServer) {
+            this.setState({selectedServer: cachedServer})
+            this.props.onIxoInit(cachedServer);
+        } else {
+            this.props.onIxoInit(this.state.selectedServer);
+        }
+
+        
         setInterval(this.ping.bind(this), 5000);
     }
 
@@ -126,6 +135,7 @@ export class Header extends React.Component<Header.IProps, Header.State> {
     handleServerChange = (event) => {
 
         if (this.state.selectedServer !== event.target.value) {
+            localStorage.setItem("server",event.target.value);
             this.setState({
                 selectedServer: event.target.value,
                 isServerConnected: false
