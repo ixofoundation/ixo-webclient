@@ -38,7 +38,11 @@ export namespace SingleProject {
         currentClaimJson: any
     }
 
-    export interface IProps extends Props {
+    export interface Callbacks {
+        refreshProjects: () => void
+    }
+
+    export interface IProps extends Props, Callbacks {
     }
 }
 
@@ -164,6 +168,7 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
         var toastId = toast('Evaluating claim...', { autoClose: false });
         var data = { claimTx: formData.claimTx, result: formData.result };
         this.props.ixo.claim.evaluateClaim(data, 'default').then((response: any) => {
+            this.props.refreshProjects();
             this.handleResponse(toastId, response, 'evaluateClaim');
         }).catch((error) => {
             this.handleToggleModal(false);
@@ -242,7 +247,6 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
         );
     }
 
-
     getCountryName(countryCode: string): string {
         return iso3311a2.getCountry(fixCountryCode(countryCode).toUpperCase())
     }
@@ -311,16 +315,15 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
 
     claimStatistics() {
 
-        let approvedPercent = 0, rejectedPercent = 0, pendingPercent = 0;
         const total = this.state.projectMeta.numberOfSuccessfulClaims;
 
-        let approved = this.getCountClaimsOfType('Approved');
-        let pending = this.getCountClaimsOfType('Pending');
-        let rejected = this.getCountClaimsOfType('NotApproved');
+        const approved = this.getCountClaimsOfType('Approved');
+        const pending = this.getCountClaimsOfType('Pending');
+        const rejected = this.getCountClaimsOfType('NotApproved');
 
-        approvedPercent = (approved/total)*100;
-        rejectedPercent = (rejected/total)*100;
-        pendingPercent = (pending/total)*100;
+        const approvedPercent = (approved/total)*100;
+        const rejectedPercent = (rejected/total)*100;
+        const pendingPercent = (pending/total)*100;
 
         const data = {
             labels: [
@@ -453,7 +456,9 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
                                 <ButtonContainer>
                                     <ProjectAnimatedButton onClick={this.handleRegisterAgent}><span>Register as Agent</span></ProjectAnimatedButton>
                                 </ButtonContainer>
-                                {renderIfTrue(this.state.agentList.length > 0, () => this.renderTable('agents'))}
+                                <ProjectTable>
+                                    {renderIfTrue(this.state.agentList.length > 0, () => this.renderTable('agents'))}
+                                </ProjectTable>
                             </ProjectCard>
                         </div>
                     </div>
@@ -464,7 +469,9 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
                                 <ButtonContainer>
                                     <ProjectAnimatedButton onClick={this.handleCaptureClaim}><span>Capture Claim</span></ProjectAnimatedButton>
                                 </ButtonContainer>
-                                {renderIfTrue(this.state.claimList.length > 0, () => this.renderTable('claims'))}
+                                <ProjectTable>
+                                    {renderIfTrue(this.state.claimList.length > 0, () => this.renderTable('claims'))}
+                                </ProjectTable>
                             </ProjectCard>
                         </div>
                     </div>
@@ -504,15 +511,32 @@ const ProjectContainer = styled.div`
     > .row {
         margin-bottom:30px;
     }
-
-    .table {
-        background:white;
-    }
 `;
 
 const H2 = styled.h2`
     font-size: 28px;
     margin-top: 15px;
+`;
+
+const ProjectTable = styled.div`
+    .table {
+        background:white;
+    }
+
+    .table thead th {
+        background: #64e4ff;
+        color: white;
+        text-align:center;
+        text-transform:uppercase;
+        border: 5px solid white;
+    }
+
+    .table td {
+        border: 0;
+        border: 5px solid #ffffff;
+        background: #dcecf1;
+        color: #16a2b8;
+    }
 `;
 
 const ProjectCard = styled.div`

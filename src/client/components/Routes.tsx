@@ -10,13 +10,25 @@ export namespace Routes {
         serviceAgentProjectList: any
     }
 
+    export interface Callbacks {
+        refreshProjects: () => void
+    }
+
+    export interface IRouteProps extends RouteProps, Callbacks{
+
+    }
+
 }
 
-export const Routes: React.SFC<Routes.RouteProps> = (props) => {
+export const Routes: React.SFC<Routes.IRouteProps> = (props) => {
 
     return (
         <Switch>
-            <Route exact path='/project/:projectID' component={SingleProject} />
+            <Route exact path='/project/:projectID'
+                render={(routeProps) => (
+                    <SingleProject {...routeProps} {...props} refreshProjects={props.refreshProjects}/>
+                )}
+            />
             <Route exact path="/"
                 render={(routeProps) => (
                     <Projects {...routeProps} {...props} projectList={props.projectList} />

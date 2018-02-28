@@ -63,13 +63,12 @@ export class Table extends React.Component<Table.IProps, Table.State> {
                     </SelectStatus>
                 )}
 
-                <button
-                    className='btn-info'
+                <Button
                     onClick={() => {
                         this.handleSubmit(cell, row, enumObject, rowIndex, this.state.selectedOption)
                     }}>
                     {this.props.customButtons[this.buttonIndex].buttonLabel}
-                </button>
+                </Button>
             </div>
         )
     }
@@ -116,19 +115,32 @@ export class Table extends React.Component<Table.IProps, Table.State> {
     }
 
     render() {
-        return <BootstrapTable data={this.props.tableDataSet} search={true} options={this.props.tableOptions}>
+        return <BootstrapTable tableStyle={tableStyle} bordered={false} data={this.props.tableDataSet} search={true} options={this.props.tableOptions}>
             {this.renderColumns()}
         </BootstrapTable>
     }
 }
 
-
+const tableStyle = {
+    background:'red'
+}
 const SelectStatus = styled.select`
     display: block;
     justify-content: center;
     background-color: white;
     height: 35px;
-    width: 90px;
+    width: 100%;
     border: none;
     color: black;
+`;
+
+const Button = styled.button`
+    color: #fff;
+    background-color: #17a2b8;
+    border:0;
+    width: 100%;
+    margin-top: 5px;
+    border-radius: 5px;
+    height: 35px;
+    font-size:14px;
 `;

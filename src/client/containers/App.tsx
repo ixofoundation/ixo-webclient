@@ -120,7 +120,12 @@ export class App extends React.Component<App.IProps, App.State> {
     renderProjectContent() {
         if (this.props.ixo && !this.props.pingError) {
             return <div className="col-12">
-                <Routes projectList={this.state.projectList} myProjectList={this.state.myProjectList} serviceAgentProjectList={this.state.serviceAgentProjectList} />
+                <Routes 
+                    projectList={this.state.projectList}
+                    myProjectList={this.state.myProjectList}
+                    serviceAgentProjectList={this.state.serviceAgentProjectList}
+                    refreshProjects={this.refreshProjectList}
+                />
             </div>
         } else if (this.props.pingError) {
             return <Unsuccessful className="col-md-12"><p>Error connecting to ixo server... Retrying...</p></Unsuccessful>;
