@@ -379,8 +379,11 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
         const options = {
             tooltips: {
                 callbacks: {
-                    afterBody: function(tooltipItem, chart){
-                        return '%';
+                    label: function(tooltipItem,chart){
+                        const label = chart.labels[tooltipItem.index];
+                        const title =chart.datasets[0].data[tooltipItem.index];
+
+                        return `${label} ${title}%`;
                     }
                 }
             }
@@ -408,7 +411,6 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
     getCountAgentsOfRole(agentType: string){
         let amount = 0;
 
-        console.log(this.state.agentList);
         this.state.agentList.map((agent,index) => {
             if(agentType == agent.role){
                 amount++;
@@ -478,19 +480,27 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
                             </ProjectCard>
                         </div>
                     </div>
-                    <div className="col-md-12">
-                        <H2>Agents:</H2>
-                        <ButtonContainer>
-                            <ProjectAnimatedButton onClick={this.handleRegisterAgent}><span>Register as Agent</span></ProjectAnimatedButton>
-                        </ButtonContainer>
-                        {renderIfTrue(this.state.agentList.length > 0, () => this.renderTable('agents'))}
+                    <div className="row">
+                        <div className="col-md-12">
+                            <ProjectCard>
+                                <H2>Agents:</H2>
+                                <ButtonContainer>
+                                    <ProjectAnimatedButton onClick={this.handleRegisterAgent}><span>Register as Agent</span></ProjectAnimatedButton>
+                                </ButtonContainer>
+                                {renderIfTrue(this.state.agentList.length > 0, () => this.renderTable('agents'))}
+                            </ProjectCard>
+                        </div>
                     </div>
-                    <div className="col-md-12">
-                        <H2>Claims:</H2>
-                        <ButtonContainer>
-                            <ProjectAnimatedButton onClick={this.handleCaptureClaim}><span>Capture Claim</span></ProjectAnimatedButton>
-                        </ButtonContainer>
-                        {renderIfTrue(this.state.claimList.length > 0, () => this.renderTable('claims'))}
+                    <div className="row">
+                        <div className="col-md-12">
+                            <ProjectCard>
+                                <H2>Claims:</H2>
+                                <ButtonContainer>
+                                    <ProjectAnimatedButton onClick={this.handleCaptureClaim}><span>Capture Claim</span></ProjectAnimatedButton>
+                                </ButtonContainer>
+                                {renderIfTrue(this.state.claimList.length > 0, () => this.renderTable('claims'))}
+                            </ProjectCard>
+                        </div>
                     </div>
                 </ProjectContainer>
 
