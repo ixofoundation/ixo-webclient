@@ -13,7 +13,7 @@ import { formatJSONDateTime } from '../../../utils/formatters';
 import { renderIf, renderSwitch, renderIfTrue } from '../../../utils/react_utils';
 import { Table } from '../../shared/Table';
 import { ICustomButton } from '../../../../../types/models';
-import {Doughnut} from 'react-chartjs-2';
+import { Doughnut } from 'react-chartjs-2';
 
 var merge = require('merge');
 var JSONPretty = require('react-json-pretty');
@@ -67,10 +67,9 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
     }
 
     componentDidMount() {
-
-        if(!this.state.projectMeta){
+        if (!this.state.projectMeta) {
             this.props.ixo.project.findProjectById(this.props.match.params.projectID).then((response: any) => {
-            this.setState({projectMeta:response.result[0]});
+                this.setState({ projectMeta: response.result[0] });
                 this.handleInitialLoad();
             }).catch((error: Error) => {
                 console.log(error);
@@ -82,7 +81,7 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
 
     }
 
-    handleInitialLoad =()=>{
+    handleInitialLoad = () => {
         this.props.ixo.agent.getAgentTemplate('default').then((response: any) => {
             if (response.result.form.fields !== this.state.agentFormSchema) {
                 this.setState({ agentFormSchema: response.result.form.fields });
@@ -157,7 +156,7 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
         })
     }
 
-    handleResponse(toastId: any, response: any, responseType: string) {
+    handleResponse = (toastId: any, response: any, responseType: string) => {
         if (response.result) {
             this.handleToggleModal(false);
             toast.update(toastId, {
@@ -165,10 +164,20 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
                 type: 'success',
                 autoClose: 3000
             });
-            switch (responseType) {
-                case 'evaluateClaim' || 'submitClaim': this.getClaimList();
-                case 'updateAgentStatus' || 'createAgent': this.getAgentList();
 
+            switch (responseType) {
+                case 'evaluateClaim':
+                    this.getClaimList();
+                    break;
+                case 'submitClaim':
+                    this.getClaimList();
+                    break;
+                case 'updateAgentStatus':
+                    this.getAgentList();
+                    break;
+                case 'createAgent':
+                    this.getAgentList();
+                    break;
             }
         } else if (response.error) {
             this.handleToggleModal(false);
@@ -337,9 +346,9 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
         const pending = this.getCountClaimsOfType('Pending');
         const rejected = this.getCountClaimsOfType('NotApproved');
 
-        const approvedPercent = (approved/total)*100;
-        const rejectedPercent = (rejected/total)*100;
-        const pendingPercent = (pending/total)*100;
+        const approvedPercent = (approved / total) * 100;
+        const rejectedPercent = (rejected / total) * 100;
+        const pendingPercent = (pending / total) * 100;
 
         const data = {
             labels: [
@@ -350,23 +359,23 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
             datasets: [{
                 data: [approvedPercent, pendingPercent, rejectedPercent],
                 backgroundColor: [
-                '#22d022',
-                '#ffa500',
-                '#FF0000'
+                    '#22d022',
+                    '#ffa500',
+                    '#FF0000'
                 ],
                 hoverBackgroundColor: [
-                '#1bb51b',
-                '#ec9900',
-                '#e20303'
+                    '#1bb51b',
+                    '#ec9900',
+                    '#e20303'
                 ]
             }],
         };
         const options = {
             tooltips: {
                 callbacks: {
-                    label: function(tooltipItem,chart){
+                    label: function (tooltipItem, chart) {
                         const label = chart.labels[tooltipItem.index];
-                        const title =chart.datasets[0].data[tooltipItem.index];
+                        const title = chart.datasets[0].data[tooltipItem.index];
 
                         return `${label} ${title}%`;
                     }
@@ -376,36 +385,36 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
 
         return (
             <ClaimStatistics>
-                <Doughnut data={data} options={options}/>
+                <Doughnut data={data} options={options} />
             </ClaimStatistics>
         );
     }
 
-    getCountClaimsOfType(claimType: string){
+    getCountClaimsOfType(claimType: string) {
 
         let amount = 0;
 
-        this.state.claimList.map((claim,index) => {
-            if(claim.latestEvaluation == claimType){
+        this.state.claimList.map((claim, index) => {
+            if (claim.latestEvaluation == claimType) {
                 amount++;
             }
         });
         return amount;
     }
 
-    getCountAgentsOfRole(agentType: string){
+    getCountAgentsOfRole(agentType: string) {
         let amount = 0;
 
-        this.state.agentList.map((agent,index) => {
-            if(agentType == agent.role){
+        this.state.agentList.map((agent, index) => {
+            if (agentType == agent.role) {
                 amount++;
             }
         });
         return amount;
     }
 
-    render() 
-    {   if(this.state.projectMeta){
+    render() {
+        if (this.state.projectMeta) {
             return (
                 <div className="container">
                     <ProjectContainer>
@@ -430,9 +439,9 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
                             <div className="col-md-6">
                                 <ProjectCard>
                                     <H2>Additional Project Information</H2>
-                                        <p><strong>Created:</strong> {formatJSONDateTime(this.state.projectMeta.created)}</p>
-                                        <p><strong>Owner Name:</strong> {this.state.projectMeta.owner.name}</p>
-                                        <p><strong>Owner Email:</strong> {this.state.projectMeta.owner.email}</p>
+                                    <p><strong>Created:</strong> {formatJSONDateTime(this.state.projectMeta.created)}</p>
+                                    <p><strong>Owner Name:</strong> {this.state.projectMeta.owner.name}</p>
+                                    <p><strong>Owner Email:</strong> {this.state.projectMeta.owner.email}</p>
                                 </ProjectCard>
                             </div>
                         </div>
@@ -440,29 +449,29 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
                         <div className="row">
                             <div className="col-md-12">
                                 <ProjectCard>
-                                <div className="row">
-                                    <div className="col-md-4">
-                                        <H2>Project Statistics:</H2>
-                                        <p>Claims breakdown (%)</p>
-                                        {this.claimStatistics()}
+                                    <div className="row">
+                                        <div className="col-md-4">
+                                            <H2>Project Statistics:</H2>
+                                            <p>Claims breakdown (%)</p>
+                                            {this.claimStatistics()}
+                                        </div>
+                                        <div className="col-md-2 vertical-center">
+                                            <p>Successful Claims</p>
+                                            <Number>{this.getCountClaimsOfType('Approved')}/{this.state.projectMeta.numberOfSuccessfulClaims}</Number>
+                                        </div>
+                                        <div className="col-md-2 vertical-center">
+                                            <p>Evaluation Agents</p>
+                                            <Number>{this.getCountAgentsOfRole('EA')}</Number>
+                                        </div>
+                                        <div className="col-md-2 vertical-center">
+                                            <p>Service Agents</p>
+                                            <Number>{this.getCountAgentsOfRole('SA')}</Number>
+                                        </div>
+                                        <div className="col-md-2 vertical-center">
+                                            <p>Investor Agents</p>
+                                            <Number>{this.getCountAgentsOfRole('IA')}</Number>
+                                        </div>
                                     </div>
-                                    <div className="col-md-2 vertical-center">
-                                        <p>Successful Claims</p>
-                                        <Number>{this.getCountClaimsOfType('Approved')}/{this.state.projectMeta.numberOfSuccessfulClaims}</Number>
-                                    </div>
-                                    <div className="col-md-2 vertical-center">
-                                        <p>Evaluation Agents</p>
-                                        <Number>{this.getCountAgentsOfRole('EA')}</Number>
-                                    </div>
-                                    <div className="col-md-2 vertical-center">
-                                        <p>Service Agents</p>
-                                        <Number>{this.getCountAgentsOfRole('SA')}</Number>
-                                    </div>
-                                    <div className="col-md-2 vertical-center">
-                                        <p>Investor Agents</p>
-                                        <Number>{this.getCountAgentsOfRole('IA')}</Number>
-                                    </div>
-                                </div>
                                 </ProjectCard>
                             </div>
                         </div>
