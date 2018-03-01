@@ -24,6 +24,7 @@ export namespace SingleProject {
     export interface Props {
         location?: any,
         ixo?: any,
+        match?: any
     }
     export interface State {
         projectMeta: any,
@@ -66,8 +67,9 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
     }
 
     componentDidMount() {
+
         if(!this.state.projectMeta){
-            this.props.ixo.project.findProjectById('5a8edc0288bdb9001a0f9a97').then((response: any) => {
+            this.props.ixo.project.findProjectById(this.props.match.params.projectID).then((response: any) => {
             this.setState({projectMeta:response.result[0]});
                 this.handleInitialLoad();
             }).catch((error: Error) => {
