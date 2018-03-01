@@ -66,13 +66,21 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
     }
 
     componentDidMount() {
+        if(!this.state.projectMeta){
+            this.props.ixo.project.findProjectById('5a8edc0288bdb9001a0f9a97').then((response: any) => {
+            this.setState({projectMeta:response.result[0]});
+                this.handleInitialLoad();
+            }).catch((error: Error) => {
+                console.log(error);
+            });
+        }
+        else {
+            this.handleInitialLoad();
+        }
 
-        // this.props.ixo.project.findProjectById('5a8edc0288bdb9001a0f9a97').then((response: any) => {
-        //     console.log("PROJECT STUFF: "+JSON.stringify(response.result));
-        // }).catch((error: Error) => {
-        //     console.log(error);
-        // });
+    }
 
+    handleInitialLoad =()=>{
         this.props.ixo.agent.getAgentTemplate('default').then((response: any) => {
             if (response.result.form.fields !== this.state.agentFormSchema) {
                 this.setState({ agentFormSchema: response.result.form.fields });
