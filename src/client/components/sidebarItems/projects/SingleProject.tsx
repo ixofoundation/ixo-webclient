@@ -190,7 +190,7 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
     }
 
     handleClaimEvaluation = (formData: any) => {
-        var toastId = toast('Evaluating claim...', { autoClose: false });
+        var toastId = toast('Evaluating claim...');
         var data = { claimTx: formData.claimTx, result: formData.result };
         this.props.ixo.claim.evaluateClaim(data, 'default').then((response: any) => {
             this.props.refreshProjects();
@@ -211,14 +211,16 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
                 agentTx: row.tx,
                 status: selectedOption
             }
-            var toastId = toast('Updating agent status...', { autoClose: false });
+            var toastId = toast('Updating agent status...');
             this.props.ixo.agent.updateAgentStatus(agentData).then((response: any) => {
                 this.handleResponse(toastId, response, 'updateAgentStatus');
             });
+            
         } else {
             this.setState({ modalType: 'metaMask' });
             this.handleToggleModal(true);
         }
+
     }
 
 

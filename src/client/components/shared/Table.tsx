@@ -34,7 +34,7 @@ export class Table extends React.Component<Table.IProps, Table.State> {
     constructor(props?: Table.IProps, context?: any) {
         super(props, context);
         this.state = {
-            selectedOption: null
+            selectedOption: 'Approved'
         }
     }
 

@@ -4,10 +4,10 @@ import { IPublicSiteStoreState } from '../../../redux/public_site_reducer';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { renderIf } from '../../../utils/react_utils';
-import {FlagIcon, fixCountryCode} from '../../FlagIcon';
+import { FlagIcon, fixCountryCode } from '../../FlagIcon';
 import CircularProgressbar from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
-import {formatJSONDateTime} from '../../../utils/formatters';
+import { formatJSONDateTime } from '../../../utils/formatters';
 
 export namespace Projects {
 
@@ -24,7 +24,7 @@ export namespace Projects {
 
 export class Projects extends React.Component<Projects.IProps, Projects.State> {
 
-    percentageComplete = (project: any) => { 
+    percentageComplete = (project: any) => {
         return Math.round((project.approvedClaimCount / project.numberOfSuccessfulClaims) * 100);
     }
 
@@ -63,9 +63,7 @@ export class Projects extends React.Component<Projects.IProps, Projects.State> {
                     </ProjectsContainer>
                 ),
                 ifFalse: () => (
-                    <div>
-                        There are currently no projects...
-                    </div>
+                    <NoProjectsToDisplay className="col-md-12"><p>There are currently no projects...</p></NoProjectsToDisplay>
                 )
             })}
         </div>
@@ -88,6 +86,13 @@ const ProjectsContainer = styled.div`
     & > .row {
         margin-top:30px;
     }
+`;
+
+const NoProjectsToDisplay = styled.div`
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:calc(100vh - 140px);
 `;
 
 const TitleContainer = styled.div`
