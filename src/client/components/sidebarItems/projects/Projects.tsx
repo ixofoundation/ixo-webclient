@@ -28,45 +28,72 @@ export class Projects extends React.Component<Projects.IProps, Projects.State> {
         return Math.round((project.approvedClaimCount / project.numberOfSuccessfulClaims) * 100);
     }
 
+    renderExcerpt = (theText:string) => {
+        const cutOffCount = 20;
+        const wordCount = theText.split(" ").length-1;
+
+        if(wordCount > cutOffCount){
+            let count = 0;
+            let theIndex = 0;
+
+            for(let i = 0;i< theText.length-1;i++){
+                if(count < cutOffCount){
+                    if(theText[i] === " "){
+                        count++;
+                    }
+                } else {
+                    theIndex = i;
+                    break;
+                }
+            }
+            return theText.slice(0,theIndex-1)+"...";
+        }
+        else {
+            return theText;
+        }
+    }
+
     renderProjects = () => {
-        return <div>
-            {renderIf((typeof this.props.projectList !== 'undefined') && this.props.projectList.length > 0, {
-                ifTrue: () => (
-                    <ProjectsContainer className="container-fluid">
-                        <div className="row">
-                            {this.props.projectList.map((project, index) => {
-                                project.percentageComplete = 50;
-                                return (
-                                    <ProjectCard className="col-12 col-xl-3 col-lg-3 col-md-4 col-sm-6 " key={index}>
-                                        <ProjectLink to={{
-                                            pathname: `/project/${project._id}`,
-                                            state: project
-                                        }}
-                                            project={project}>
-                                            <ProjectCardInner>
+        if(this.props.projectList === null) {
+            return <NoProjectsToDisplay className="col-md-12"><p>Projects are loading...</p></NoProjectsToDisplay>
+        }
+        else if(this.props.projectList.length > 0) {
+            return (
+                <ProjectsContainer className="container-fluid">
+                    <div className="row">
+                        {this.props.projectList.map((project, index) => {
+                            return (
+                                <ProjectCard className="col-12 col-xl-3 col-lg-3 col-md-4 col-sm-6 " key={index}>
+                                    <ProjectLink to={{
+                                        pathname: `/project/${project._id}`,
+                                        state: project
+                                    }}
+                                        project={project}>
+                                        <ProjectCardInner>
+                                            <div>
                                                 <TitleContainer><FlagIcon code={fixCountryCode(project.country)} size='lg' /> {project.name}</TitleContainer>
                                                 <AboutBox>
-                                                    <div>{project.about}</div>
+                                                    <div>{this.renderExcerpt(project.about)}</div>
                                                 </AboutBox>
-                                                <ProgressBox>
-                                                    <CircularProgressbar className='progressbar' percentage={this.percentageComplete(project)} textForPercentage={(percent) => percent < 100 ? percent + '%' : 'complete'} />
-                                                </ProgressBox>
-                                                <InfoBox>
-                                                    <EllipseText>Created: {formatJSONDateTime(project.created)}</EllipseText>
-                                                    <EllipseText>Owner: {project.owner.name}</EllipseText>
-                                                </InfoBox>
-                                            </ProjectCardInner>
-                                        </ProjectLink>
-                                    </ProjectCard>);
-                            })}
-                        </div>
-                    </ProjectsContainer>
-                ),
-                ifFalse: () => (
-                    <NoProjectsToDisplay className="col-md-12"><p>There are currently no projects...</p></NoProjectsToDisplay>
-                )
-            })}
-        </div>
+                                            </div>
+                                            <ProgressBox>
+                                                <CircularProgressbar className='progressbar' percentage={this.percentageComplete(project)} textForPercentage={(percent) => percent < 100 ? percent + '%' : 'complete'} />
+                                            </ProgressBox>
+                                            <InfoBox>
+                                                <EllipseText>Created: {formatJSONDateTime(project.created)}</EllipseText>
+                                                <EllipseText>Owner: {project.owner.name}</EllipseText>
+                                            </InfoBox>
+                                        </ProjectCardInner>
+                                    </ProjectLink>
+                                </ProjectCard>);
+                        })}
+                    </div>
+                </ProjectsContainer>
+            )
+        }
+        else {
+            return <NoProjectsToDisplay className="col-md-12"><p>No projects were found</p></NoProjectsToDisplay>
+        }
     }
 
     render() {
@@ -85,6 +112,7 @@ const ProjectsContainer = styled.div`
 
     & > .row {
         margin-top:30px;
+        justify-content:center;
     }
 `;
 
@@ -145,6 +173,10 @@ const ProjectCardInner = styled.div`
     margin: 15px;
     transition:all 0.5s ease;
     background:white;
+    height:calc(100% - 30px);
+    justify-content: space-between;
+    display: flex;
+    flex-direction: column;
 
     &&:hover {
         box-shadow: inset 0px 0px 60px 2px rgba(50, 219, 255, 0.5), 0px 0px 1px 1px rgba(0, 0, 0, 0.1);

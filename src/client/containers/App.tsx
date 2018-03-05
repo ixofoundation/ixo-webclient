@@ -40,7 +40,7 @@ export class App extends React.Component<App.IProps, App.State> {
     constructor(props?: App.Props, context?: any) {
         super(props, context);
         this.state = {
-            projectList: [],
+            projectList: null,
             myProjectList: [],
             serviceAgentProjectList: [],
             did: null
@@ -62,7 +62,7 @@ export class App extends React.Component<App.IProps, App.State> {
     componentDidUpdate(prevProps: App.Props) {
         if (prevProps.pingResult !== this.props.pingResult) {
             if (this.props.pingResult === 'pong') {
-                if (!(this.state.projectList.length > 0)) {
+                if (this.state.projectList === null) {
                     this.refreshProjects();
                 }
                 if (this.props.ixo.credentialProvider.getDid() && (this.state.did !== this.props.ixo.credentialProvider.getDid())) {
@@ -199,6 +199,7 @@ const mainTheme = {
 const BodyContainer = styled.div`
     margin-top:70px;
     background:#dcebf1;
+    min-height: calc(100vh - 70px);
 `;
 
 const NavRow = styled.div`

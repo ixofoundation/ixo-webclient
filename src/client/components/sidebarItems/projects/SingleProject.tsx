@@ -395,7 +395,7 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
     getCountClaimsOfType(claimType: string) {
 
         let amount = 0;
-
+        
         this.state.claimList.map((claim, index) => {
             if (claim.latestEvaluation == claimType) {
                 amount++;
@@ -417,6 +417,8 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
 
     render() {
         if (this.state.projectMeta) {
+            console.log(this.state.projectMeta);
+
             return (
                 <div className="container">
                     <ProjectContainer>
@@ -444,6 +446,7 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
                                     <p><strong>Created:</strong> {formatJSONDateTime(this.state.projectMeta.created)}</p>
                                     <p><strong>Owner Name:</strong> {this.state.projectMeta.owner.name}</p>
                                     <p><strong>Owner Email:</strong> {this.state.projectMeta.owner.email}</p>
+                                    <p><strong>Sustainable Development Goal:</strong> {this.state.projectMeta.sdg.name}</p>
                                 </ProjectCard>
                             </div>
                         </div>
@@ -452,24 +455,28 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
                             <div className="col-md-12">
                                 <ProjectCard>
                                     <div className="row">
-                                        <div className="col-md-4">
+                                        <div className="col-12">
                                             <H2>Project Statistics:</H2>
+                                        </div>
+                                        {this.state.claimList.length > 0 &&
+                                        <div className="col-xl-4 col-md-6 ">
                                             <p>Claims breakdown (%)</p>
                                             {this.claimStatistics()}
                                         </div>
-                                        <div className="col-md-2 vertical-center">
+                                        }
+                                        <div className="col-xl-2 col-md-3 col-sm-6 vertical-center">
                                             <p>Successful Claims</p>
                                             <Number>{this.getCountClaimsOfType('Approved')}/{this.state.projectMeta.numberOfSuccessfulClaims}</Number>
                                         </div>
-                                        <div className="col-md-2 vertical-center">
+                                        <div className="col-xl-2 col-md-3 col-sm-6 vertical-center">
                                             <p>Evaluation Agents</p>
                                             <Number>{this.getCountAgentsOfRole('EA')}</Number>
                                         </div>
-                                        <div className="col-md-2 vertical-center">
+                                        <div className="col-xl-2 col-md-3 col-sm-6 vertical-center">
                                             <p>Service Agents</p>
                                             <Number>{this.getCountAgentsOfRole('SA')}</Number>
                                         </div>
-                                        <div className="col-md-2 vertical-center">
+                                        <div className="col-xl-2 col-md-3 col-sm-6 vertical-center">
                                             <p>Investor Agents</p>
                                             <Number>{this.getCountAgentsOfRole('IA')}</Number>
                                         </div>
@@ -577,6 +584,10 @@ const ProjectCard = styled.div`
     height:100%;
     border-radius:5px;
     border-bottom:5px solid #b6f2ff;
+
+    .row {
+        justify-content: center;
+    }
 
     a {
         color: ${props => props.theme.bgLightest};

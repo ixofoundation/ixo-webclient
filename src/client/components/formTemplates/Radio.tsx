@@ -35,7 +35,7 @@ export default class Radio extends React.Component<Radio.IProps, Radio.State> {
                 active = 'active'
             }
             options.push(
-                <RadioButton className="form-group">
+                <RadioButton className="form-group" key={index}>
                     <input key={index} name={this.props.id} value={option.value} className="with-gap" type="radio"/>
                     <label>{option.label}</label>
                 </RadioButton>

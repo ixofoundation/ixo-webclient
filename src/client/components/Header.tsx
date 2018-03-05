@@ -108,7 +108,6 @@ export class Header extends React.Component<Header.IProps, Header.State> {
         if (this.state.isServerConnected) {
             return (<StatusMessage>
                 <p>Response time: {this.state.responseTime} ms</p>
-                <br />
                 <p>{this.state.selectedServer}</p>
             </StatusMessage>);
         } else if (this.props.pingError === null) {
@@ -117,7 +116,7 @@ export class Header extends React.Component<Header.IProps, Header.State> {
             </StatusMessage>)
         } else {
             return (<StatusMessage>
-                <p>{this.state.selectedServer} not responding</p>
+                <p>{this.state.selectedServer} <br/>not responding</p>
             </StatusMessage>)
         }
     }
@@ -222,7 +221,9 @@ const StatusMessage = styled.div`
     background: rgba(0, 0, 0,0.7);
     position: absolute;
     color: white;
-    top: 140%;
+    top: 60px;
+    right:0;
+    width:220px;
     padding: 10px;
     line-height: 1.2;
     font-size: 0.8em;
@@ -240,7 +241,7 @@ const StatusMessage = styled.div`
         border-bottom: 10px solid rgba(0, 0, 0,0.7);
         position: absolute;
         top: -10px;
-        left: 20px;
+        right: 20px;
         pointer-events:none;
         transition:opacity 0.3s ease;
     }
