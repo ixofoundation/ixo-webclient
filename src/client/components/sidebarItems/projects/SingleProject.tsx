@@ -37,6 +37,8 @@ export namespace SingleProject {
         selectStatuses: any,
         modalType: string,
         currentClaimJson: any
+        activeAgent: number,
+        activeClaim: number
     }
 
     export interface Callbacks {
@@ -62,7 +64,9 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
             claimList: [],
             currentClaimJson: null,
             selectStatuses: [],
-            modalType: null
+            modalType: null,
+            activeAgent : null,
+            activeClaim : null
         }
     }
 
@@ -430,42 +434,60 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
         let fieldsArray = [];
         let listToTraverse = [];
 
-        if(type === 'agents'){
-            fieldsArray =  ['_id', 'name', 'email', 'did', 'latestStatus', 'tx','role'];
+        if(type === 'agent'){
+            fieldsArray =  ['email', '_id', 'did', 'latestStatus', 'tx','role'];
             listToTraverse = this.state.agentList;
         }
-        else if(type ==='claims'){
-            fieldsArray =  ['_id', 'name', 'attended', 'did', 'latestEvaluation', 'tx'];
+        else if(type ==='claim'){
+            fieldsArray =  ['_id','attended', 'did', 'latestEvaluation', 'tx'];
             listToTraverse = this.state.claimList;
         }
 
         return (
-            <div>
+            <DataCard>
                 {listToTraverse.map((listItem,index)=>{
+                    console.log(index);
                     const tx = listToTraverse[index]['tx'];
-                    return (
-                        <div key={index}>
-                            {this.renderObjectData(fieldsArray,listToTraverse,index)}
-                            {(type === 'agents') && 
-                                <div>
-                                    <SelectStatus value={this.state.selectStatuses[index]} onChange={(e)=>this.handleSelectChange(index,e)}>
-                                        <option value="Approved">Approve</option>
-                                        <option value="NotApproved">Decline</option>
-                                        <option value="Revoked">Revoke</option>
-                                    </SelectStatus>
-                                    <button onClick={()=>this.onUpdateStatus(tx,this.state.selectStatuses[index])}>Update Status</button>
+                    if(type === 'agent'){
+                        return (
+                            <div className={type} key={index}>
+                                <DataHeading onClick={()=>this.setState({activeAgent:index})}>{listToTraverse[index]['name']}
+                                        <div>
+                                            <SelectStatus value={this.state.selectStatuses[index]} onChange={(e)=>this.handleSelectChange(index,e)}>
+                                                <option value="Approved">Approve</option>
+                                                <option value="NotApproved">Decline</option>
+                                                <option value="Revoked">Revoke</option>
+                                            </SelectStatus>
+                                            <ProjectAnimatedButton onClick={()=>this.onUpdateStatus(tx,this.state.selectStatuses[index])}>Update Status</ProjectAnimatedButton>
+                                        </div>
+                                </DataHeading>
+                                <div className="container">
+                                    <DataBody className={`${(this.state.activeAgent === index) ? 'active-row': ''} row`}>
+                                        {this.renderObjectData(fieldsArray,listToTraverse,index)}
+                                    </DataBody>
                                 </div>
-                            }
-                            {(type === 'claims') &&
-                                <div>
-                                    <button onClick={()=>this.onViewClaimClicked(listItem)}>View Claim Data</button>
-                                    <button onClick={this.handleEvaluateClaim}>Evaluate</button>
+                            </div>
+                        );
+                    }
+                    else if(type === 'claim'){
+                        return (
+                            <div className={type} key={index}>
+                                <DataHeading onClick={()=>this.setState({activeClaim:index})}>{listToTraverse[index]['name']}
+                                        <div>
+                                            <ProjectAnimatedButton onClick={()=>this.onViewClaimClicked(listItem)}>View Claim Data</ProjectAnimatedButton>
+                                            <ProjectAnimatedButton onClick={this.handleEvaluateClaim}>Evaluate</ProjectAnimatedButton>
+                                        </div>
+                                </DataHeading>
+                                <div className="container">
+                                    <DataBody className={`${(this.state.activeClaim === index) ? 'active-row': ''} row`}>
+                                        {this.renderObjectData(fieldsArray,listToTraverse,index)}
+                                    </DataBody>
                                 </div>
-                            }
-                        </div>
-                    );
+                            </div>
+                        );
+                    }
                 })}
-            </div>
+            </DataCard>
         );
     }
 
@@ -477,7 +499,14 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
 
     renderObjectData(fieldsArray:any,listToTraverse:any,index:number){
         return fieldsArray.map((value, key)=>{
-            return <p key={key}>{value} : {listToTraverse[index][value]}</p>
+            return (
+                <Field key={key} className="col-md-4">
+                    <div>
+                        <FieldKey>{value}</FieldKey>
+                        <FieldValue>{listToTraverse[index][value]}</FieldValue>
+                    </div>
+                </Field>
+            );
         });
     }
 
@@ -552,12 +581,12 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
                             <div className="col-md-12">
                                 <ProjectCard>
                                     <H2>Agents:</H2>
-                                        {renderIfTrue(this.state.agentList.length > 0, () => this.renderData('agents'))}
+                                        {renderIfTrue(this.state.agentList.length > 0, () => this.renderData('agent'))}
                                     <ButtonContainer>
                                         <ProjectAnimatedButton onClick={this.handleRegisterAgent}><span>Register as Agent</span></ProjectAnimatedButton>
                                     </ButtonContainer>
                                     <ProjectTable>
-                                        {renderIfTrue(this.state.agentList.length > 0, () => this.renderTable('agents'))}
+                                        {/* {renderIfTrue(this.state.agentList.length > 0, () => this.renderTable('agents'))} */}
                                     </ProjectTable>
                                 </ProjectCard>
                             </div>
@@ -566,12 +595,12 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
                             <div className="col-md-12">
                                 <ProjectCard>
                                     <H2>Claims:</H2>
-                                    {renderIfTrue(this.state.agentList.length > 0, () => this.renderData('claims'))}
+                                    {renderIfTrue(this.state.agentList.length > 0, () => this.renderData('claim'))}
                                     <ButtonContainer>
                                         <ProjectAnimatedButton onClick={this.handleCaptureClaim}><span>Capture Claim</span></ProjectAnimatedButton>
                                     </ButtonContainer>
                                     <ProjectTable>
-                                        {renderIfTrue(this.state.claimList.length > 0, () => this.renderTable('claims'))}
+                                        {/* {renderIfTrue(this.state.claimList.length > 0, () => this.renderTable('claims'))} */}
                                     </ProjectTable>
                                 </ProjectCard>
                             </div>
@@ -748,11 +777,11 @@ const CellButton = styled.button`
 `;
 
 const SelectStatus = styled.select`
-    display: block;
     justify-content: center;
     background-color: white;
+    margin:0 5px;
     height: 35px;
-    width: 90px;
+    width: 160px;
     border: none;
     color: black;
 `;
@@ -770,7 +799,7 @@ const ProjectAnimatedButton = styled.button`
     font-size: 1em;
     transition: all 0.5s;
     cursor: pointer;
-    margin-bottom: 5px;
+    margin-left:5px;
     display: flex;
     align-items: left;
     width: 180px;
@@ -792,6 +821,11 @@ const ProjectAnimatedButton = styled.button`
     right: -20px;
     transition: 0.5s;
   }
+
+  :hover {
+    background-color: ${props => props.theme.bgDarkest};
+
+  }
   
   &:hover span {
     padding-right: 25px;
@@ -808,3 +842,69 @@ const SubmitStatus = styled.p`
     margin-top:10px;
     text-align:center;
 `;  
+
+const DataBody = styled.div`
+    padding: 10px;
+    background: #b5f3ff;
+    border-radius: 5px;
+    margin-bottom:0px;
+    color: #16a2b8;
+
+    opacity:0;
+    height:0;
+    transform: scaleY(0);
+    transform-origin:top;
+    transition:opacity 0.5s ease;
+`;
+
+const DataCard = styled.div`
+    ${DataBody}.active-row {
+        opacity:1;
+        transform: scaleY(1);
+        height:auto;
+        margin-bottom:20px;
+    }
+
+`;
+
+const DataHeading = styled.div`
+    padding: 10px;
+    background: #16a2b8;
+    border-radius: 5px;
+    margin-bottom:2px;
+    color: white;
+    display: flex;
+    background: #00d2ff;
+    justify-content: space-between;
+    align-items: center;
+
+    transition:background 0.3s ease;
+
+    :hover {
+        cursor:pointer;
+        background:#00b9e0;
+    }
+    div {
+        display:flex;
+    }
+`;
+
+const Field = styled.div`
+    margin-bottom:10px;
+
+    div {
+    }
+`;
+
+const FieldKey = styled.p`
+    font-weight: bold;
+    margin-right: 5px;
+    border-radius: 5px;
+`;
+
+const FieldValue = styled.p`
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+`;
