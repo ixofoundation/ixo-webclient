@@ -6,6 +6,7 @@ import { IPingResult } from '../../../types/models';
 import { initIxo, resetIxo } from '../redux/ixo/ixo_action_creators';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const logoSrc = require('../assets/images/logo.png');
 
@@ -22,6 +23,7 @@ export namespace Header {
         initialDate: Date,
         responseTime: number,
         selectedServer: string,
+        loginStatus: boolean
     }
 
     export interface Callbacks {
@@ -43,7 +45,8 @@ export class Header extends React.Component<Header.IProps, Header.State> {
             isServerConnected: null,
             initialDate: null,
             responseTime: null,
-            selectedServer: 'https://ixo-node.herokuapp.com'
+            selectedServer: 'https://ixo-node.herokuapp.com',
+            loginStatus: null
         };
         this.handleServerChange = this.handleServerChange.bind(this);
     }
@@ -53,14 +56,30 @@ export class Header extends React.Component<Header.IProps, Header.State> {
             initialDate: new Date()
         });
         if (this.props.ixo) {
+
             this.props.getPing(this.props.ixo);
+
+            this.props.ixo.credentialProvider.provider.eth.getAccounts((err,accounts)=>{
+                if (err != null) {
+                    console.error("An error occurred: "+err);
+                } else if(accounts.length > 0){
+                    this.state.loginStatus === false &&
+                        toast('You have sucessfully logged into MetaMask', {type:'info', autoClose: 3000 });
+                    this.setState({loginStatus:true});
+                } else {
+                    this.state.loginStatus === true &&
+                        toast('You have sucessfully logged out of MetaMask', {type:'warning', autoClose: 3000 });
+                    this.setState({loginStatus:false});
+                }
+            });
+            
         } else {
             this.props.onIxoInit(this.state.selectedServer);
         }
     };
 
     componentDidMount() {
-
+        
         const cachedServer = localStorage.getItem("server");
         if (cachedServer) {
             this.setState({selectedServer: cachedServer})
@@ -68,12 +87,12 @@ export class Header extends React.Component<Header.IProps, Header.State> {
         } else {
             this.props.onIxoInit(this.state.selectedServer);
         }
-
         
-        setInterval(this.ping.bind(this), 5000);
+        setInterval(this.ping, 5000);
     }
 
     componentDidUpdate(prevProps: Header.IProps) {
+
         if (prevProps.ixo !== this.props.ixo) {
             this.ping();
         }
