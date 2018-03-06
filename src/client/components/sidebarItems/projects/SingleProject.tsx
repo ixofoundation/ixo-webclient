@@ -34,7 +34,7 @@ export namespace SingleProject {
         evaluationFormSchema: any,
         agentList: any,
         claimList: any,
-        selectedStatus: string,
+        selectStatuses: any,
         modalType: string,
         currentClaimJson: any
     }
@@ -61,7 +61,7 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
             agentList: [],
             claimList: [],
             currentClaimJson: null,
-            selectedStatus: 'Approved',
+            selectStatuses: [],
             modalType: null
         }
     }
@@ -112,7 +112,15 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
 
     getAgentList() {
         this.props.ixo.agent.listAgentsForProject(this.props.ixo.credentialProvider.getDid(), this.state.projectMeta.tx).then(agentList => {
-            this.setState({ agentList: agentList.result })
+
+            let selectStatuses = [...this.state.selectStatuses];
+
+            agentList.result.map((val,index)=>{
+                selectStatuses[index] = "Approved";
+            });
+            
+            this.setState({ agentList: agentList.result ,selectStatuses});
+
         }).catch(error => {
             console.log(error);
         })
@@ -205,12 +213,16 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
         })
     }
 
-    onUpdateStatus = (row, selectedOption) => {
+    onUpdateStatus = (tx, selectedOption) => {
         if (this.props.ixo.credentialProvider.getDid()) {
             var agentData = {
-                agentTx: row.tx,
+                agentTx: tx,
                 status: selectedOption
             }
+            // var agentData = {
+            //     agentTx: row.tx,
+            //     status: selectedOption
+            // }
             var toastId = toast('Updating agent status...');
             this.props.ixo.agent.updateAgentStatus(agentData).then((response: any) => {
                 this.handleResponse(toastId, response, 'updateAgentStatus');
@@ -222,8 +234,6 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
         }
 
     }
-
-
 
     checkCredentialProvider(modalType?: string) {
         if (this.props.ixo.credentialProvider.getDid() && modalType) {
@@ -415,10 +425,64 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
         return amount;
     }
 
+    renderData(type:string) {
+
+        let fieldsArray = [];
+        let listToTraverse = [];
+
+        if(type === 'agents'){
+            fieldsArray =  ['_id', 'name', 'email', 'did', 'latestStatus', 'tx','role'];
+            listToTraverse = this.state.agentList;
+        }
+        else if(type ==='claims'){
+            fieldsArray =  ['_id', 'name', 'attended', 'did', 'latestEvaluation', 'tx'];
+            listToTraverse = this.state.claimList;
+        }
+
+        return (
+            <div>
+                {listToTraverse.map((listItem,index)=>{
+                    const tx = listToTraverse[index]['tx'];
+                    return (
+                        <div key={index}>
+                            {this.renderObjectData(fieldsArray,listToTraverse,index)}
+                            {(type === 'agents') && 
+                                <div>
+                                    <SelectStatus value={this.state.selectStatuses[index]} onChange={(e)=>this.handleSelectChange(index,e)}>
+                                        <option value="Approved">Approve</option>
+                                        <option value="NotApproved">Decline</option>
+                                        <option value="Revoked">Revoke</option>
+                                    </SelectStatus>
+                                    <button onClick={()=>this.onUpdateStatus(tx,this.state.selectStatuses[index])}>Update Status</button>
+                                </div>
+                            }
+                            {(type === 'claims') &&
+                                <div>
+                                    <button onClick={()=>this.onViewClaimClicked(listItem)}>View Claim Data</button>
+                                    <button onClick={this.handleEvaluateClaim}>Evaluate</button>
+                                </div>
+                            }
+                        </div>
+                    );
+                })}
+            </div>
+        );
+    }
+
+    handleSelectChange(index:number,event:any){
+        let selectStatuses = [...this.state.selectStatuses];
+        selectStatuses[index] = event.target.value;
+        this.setState({selectStatuses})
+    }
+
+    renderObjectData(fieldsArray:any,listToTraverse:any,index:number){
+        return fieldsArray.map((value, key)=>{
+            return <p key={key}>{value} : {listToTraverse[index][value]}</p>
+        });
+    }
+
     render() {
         if (this.state.projectMeta) {
-            console.log(this.state.projectMeta);
-
             return (
                 <div className="container">
                     <ProjectContainer>
@@ -488,6 +552,7 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
                             <div className="col-md-12">
                                 <ProjectCard>
                                     <H2>Agents:</H2>
+                                        {renderIfTrue(this.state.agentList.length > 0, () => this.renderData('agents'))}
                                     <ButtonContainer>
                                         <ProjectAnimatedButton onClick={this.handleRegisterAgent}><span>Register as Agent</span></ProjectAnimatedButton>
                                     </ButtonContainer>
@@ -501,6 +566,7 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
                             <div className="col-md-12">
                                 <ProjectCard>
                                     <H2>Claims:</H2>
+                                    {renderIfTrue(this.state.agentList.length > 0, () => this.renderData('claims'))}
                                     <ButtonContainer>
                                         <ProjectAnimatedButton onClick={this.handleCaptureClaim}><span>Capture Claim</span></ProjectAnimatedButton>
                                     </ButtonContainer>
@@ -519,7 +585,7 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
                         {renderSwitch(this.state.modalType, {
                             agent: () => <div>{this.handleRenderForm(this.state.agentFormSchema, this.handleAgentSubmit)}</div>,
                             claim: () => <div>{this.handleRenderForm(this.state.claimFormSchema, this.handleClaimSubmit)}</div>,
-                            json: () => <div>{this.handleRenderClaimJson()}</div>,
+                            json: () => <div>test{this.handleRenderClaimJson()}</div>,
                             evaluate: () => <div>{this.handleRenderForm(this.state.evaluationFormSchema, this.handleClaimEvaluation)}</div>,
                             metaMask: () => <div>{this.handleRenderMetaMaskModal()}</div>
                         })}
