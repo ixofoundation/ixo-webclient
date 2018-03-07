@@ -16,8 +16,6 @@ import { ICustomButton } from '../../../../../types/models';
 import { Doughnut } from 'react-chartjs-2';
 
 var merge = require('merge');
-var JSONPretty = require('react-json-pretty');
-const projectBG = require('../../../assets/images/project-bg.jpg');
 
 export namespace SingleProject {
 
@@ -172,7 +170,7 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
         if (response.result) {
             this.handleToggleModal(false);
             toast.update(toastId, {
-                render: 'Successfull',
+                render: 'Successful',
                 type: 'success',
                 autoClose: 3000
             });
@@ -223,10 +221,6 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
                 agentTx: tx,
                 status: selectedOption
             }
-            // var agentData = {
-            //     agentTx: row.tx,
-            //     status: selectedOption
-            // }
             var toastId = toast('Updating agent status...');
             this.props.ixo.agent.updateAgentStatus(agentData).then((response: any) => {
                 this.handleResponse(toastId, response, 'updateAgentStatus');
@@ -278,80 +272,8 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
         return <div>Please login to Metamask to perform this action.</div>;
     }
 
-    handleRenderClaimJson = () => {
-        return <div><JSONPretty id="json-pretty" json={this.state.currentClaimJson}></JSONPretty></div>;
-    }
-
-    createCustomClearButton = (onClick) => {
-        return (
-            <ClearButton onClick={onClick}>Clear</ClearButton>
-        );
-    }
-
     getCountryName(countryCode: string): string {
         return iso3311a2.getCountry(fixCountryCode(countryCode).toUpperCase())
-    }
-
-    onViewClaimClicked = (row) => {
-        this.handleToggleModal(true);
-        this.setState({ currentClaimJson: row, modalType: 'json' })
-    }
-
-    renderTable(type: string) {
-        const options = {
-            clearSearch: true,
-            clearSearchBtn: this.createCustomClearButton
-        };
-        var selectOptions = [
-            { label: 'Approve', value: 'Approved' },
-            { label: 'Decline', value: 'NotApproved' },
-            { label: 'Revoke', value: 'Revoked' }
-        ];
-
-        switch (type) {
-            case 'agents': {
-                const agentsButtons: ICustomButton[] = [
-                    {
-                        headerLabel: 'Update Status',
-                        buttonLabel: 'Update',
-                        callback: this.onUpdateStatus
-                    }
-                ]
-
-                const visibleAgentColumns = [
-                    '_id', 'name', 'email', 'role', 'did', 'latestStatus'
-                ]
-                return <Table tableDataSet={this.state.agentList}
-                    tableOptions={options}
-                    customButtons={agentsButtons}
-                    selectOptions={selectOptions}
-                    tableVisibleColumns={visibleAgentColumns} />
-            }
-            case 'claims': {
-                const claimsButtons: ICustomButton[] = [
-                    {
-                        headerLabel: 'jsonData',
-                        buttonLabel: 'View Claim Data',
-                        callback: this.onViewClaimClicked
-                    },
-                    {
-                        headerLabel: 'Evaluate',
-                        buttonLabel: 'Evaluate',
-                        callback: this.handleEvaluateClaim
-                    }
-                ]
-
-                const visibleClaimColumns = [
-                    '_id', 'name', 'attended', 'did', 'latestEvaluation', 'tx'
-                ]
-
-                return <Table tableDataSet={this.state.claimList}
-                    tableOptions={options}
-                    customButtons={claimsButtons}
-                    tableVisibleColumns={visibleClaimColumns}
-                />
-            }
-        }
     }
 
     claimStatistics() {
@@ -433,59 +355,55 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
 
         let fieldsArray = [];
         let listToTraverse = [];
+        let activeType = 0;
 
         if(type === 'agent'){
             fieldsArray =  ['email', '_id', 'did', 'latestStatus', 'tx','role'];
             listToTraverse = this.state.agentList;
+            activeType = this.state.activeAgent;
         }
         else if(type ==='claim'){
             fieldsArray =  ['_id','attended', 'did', 'latestEvaluation', 'tx'];
             listToTraverse = this.state.claimList;
+            activeType = this.state.activeClaim;
         }
 
         return (
             <DataCard>
                 {listToTraverse.map((listItem,index)=>{
-                    console.log(index);
                     const tx = listToTraverse[index]['tx'];
-                    if(type === 'agent'){
-                        return (
-                            <div className={type} key={index}>
-                                <DataHeading onClick={()=>this.setState({activeAgent:index})}>{listToTraverse[index]['name']}
-                                        <div>
-                                            <SelectStatus value={this.state.selectStatuses[index]} onChange={(e)=>this.handleSelectChange(index,e)}>
-                                                <option value="Approved">Approve</option>
-                                                <option value="NotApproved">Decline</option>
-                                                <option value="Revoked">Revoke</option>
-                                            </SelectStatus>
-                                            <ProjectAnimatedButton onClick={()=>this.onUpdateStatus(tx,this.state.selectStatuses[index])}>Update Status</ProjectAnimatedButton>
-                                        </div>
+                    return (
+                        <div className={type} key={index}>
+                            {(type === 'agent') &&
+                                <DataHeading onClick={()=>activeType === index ? this.setState({activeAgent:null}) : this.setState({activeAgent:index})}>
+                                    {listToTraverse[index]['name']}
+                                    <div className={`${(activeType === index) ? 'active-heading': ''}`}>
+                                        <SelectStatus value={this.state.selectStatuses[index]} onChange={(e)=>this.handleSelectChange(index,e)}>
+                                            <option value="Approved">Approve</option>
+                                            <option value="NotApproved">Decline</option>
+                                            <option value="Revoked">Revoke</option>
+                                        </SelectStatus>
+                                        <ProjectAnimatedButton onClick={()=>this.onUpdateStatus(tx,this.state.selectStatuses[index])}>Update Status</ProjectAnimatedButton>
+                                        <span>&#8249;</span>
+                                    </div>
                                 </DataHeading>
-                                <div className="container">
-                                    <DataBody className={`${(this.state.activeAgent === index) ? 'active-row': ''} row`}>
-                                        {this.renderObjectData(fieldsArray,listToTraverse,index)}
-                                    </DataBody>
-                                </div>
-                            </div>
-                        );
-                    }
-                    else if(type === 'claim'){
-                        return (
-                            <div className={type} key={index}>
-                                <DataHeading onClick={()=>this.setState({activeClaim:index})}>{listToTraverse[index]['name']}
-                                        <div>
-                                            <ProjectAnimatedButton onClick={()=>this.onViewClaimClicked(listItem)}>View Claim Data</ProjectAnimatedButton>
-                                            <ProjectAnimatedButton onClick={this.handleEvaluateClaim}>Evaluate</ProjectAnimatedButton>
-                                        </div>
+                            }
+                            {(type === 'claim') &&
+                                <DataHeading onClick={()=>activeType === index ? this.setState({activeClaim:null}) : this.setState({activeClaim:index})}>
+                                    {listToTraverse[index]['name']}
+                                    <div className={`${(activeType === index) ? 'active-heading': ''}`}>
+                                        <ProjectAnimatedButton onClick={this.handleEvaluateClaim}>Evaluate</ProjectAnimatedButton>
+                                        <span>&#8249;</span>
+                                    </div>        
                                 </DataHeading>
-                                <div className="container">
-                                    <DataBody className={`${(this.state.activeClaim === index) ? 'active-row': ''} row`}>
-                                        {this.renderObjectData(fieldsArray,listToTraverse,index)}
-                                    </DataBody>
-                                </div>
+                            }
+                            <div className="container">
+                                <DataBody className={`${(activeType === index) ? 'active-row': ''} row`}>
+                                    {this.renderObjectData(fieldsArray,listToTraverse,index)}
+                                </DataBody>
                             </div>
-                        );
-                    }
+                        </div>
+                    );
                 })}
             </DataCard>
         );
@@ -580,28 +498,22 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
                         <div className="row">
                             <div className="col-md-12">
                                 <ProjectCard>
-                                    <H2>Agents:</H2>
-                                        {renderIfTrue(this.state.agentList.length > 0, () => this.renderData('agent'))}
-                                    <ButtonContainer>
+                                    <CardHeading>
+                                        <H2>Agents:</H2>
                                         <ProjectAnimatedButton onClick={this.handleRegisterAgent}><span>Register as Agent</span></ProjectAnimatedButton>
-                                    </ButtonContainer>
-                                    <ProjectTable>
-                                        {/* {renderIfTrue(this.state.agentList.length > 0, () => this.renderTable('agents'))} */}
-                                    </ProjectTable>
+                                    </CardHeading>
+                                        {renderIfTrue(this.state.agentList.length > 0, () => this.renderData('agent'))}
                                 </ProjectCard>
                             </div>
                         </div>
                         <div className="row">
                             <div className="col-md-12">
                                 <ProjectCard>
-                                    <H2>Claims:</H2>
-                                    {renderIfTrue(this.state.agentList.length > 0, () => this.renderData('claim'))}
-                                    <ButtonContainer>
+                                    <CardHeading>
+                                    <   H2>Claims:</H2>
                                         <ProjectAnimatedButton onClick={this.handleCaptureClaim}><span>Capture Claim</span></ProjectAnimatedButton>
-                                    </ButtonContainer>
-                                    <ProjectTable>
-                                        {/* {renderIfTrue(this.state.claimList.length > 0, () => this.renderTable('claims'))} */}
-                                    </ProjectTable>
+                                    </CardHeading>
+                                    {renderIfTrue(this.state.agentList.length > 0, () => this.renderData('claim'))}
                                 </ProjectCard>
                             </div>
                         </div>
@@ -614,7 +526,6 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
                         {renderSwitch(this.state.modalType, {
                             agent: () => <div>{this.handleRenderForm(this.state.agentFormSchema, this.handleAgentSubmit)}</div>,
                             claim: () => <div>{this.handleRenderForm(this.state.claimFormSchema, this.handleClaimSubmit)}</div>,
-                            json: () => <div>test{this.handleRenderClaimJson()}</div>,
                             evaluate: () => <div>{this.handleRenderForm(this.state.evaluationFormSchema, this.handleClaimEvaluation)}</div>,
                             metaMask: () => <div>{this.handleRenderMetaMaskModal()}</div>
                         })}
@@ -651,27 +562,6 @@ const H2 = styled.h2`
     margin-top: 15px;
 `;
 
-const ProjectTable = styled.div`
-    .table {
-        background:white;
-    }
-
-    .table thead th {
-        background: #64e4ff;
-        color: white;
-        text-align:center;
-        text-transform:uppercase;
-        border: 5px solid white;
-    }
-
-    .table td {
-        border: 0;
-        border: 5px solid #ffffff;
-        background: #dcecf1;
-        color: #16a2b8;
-    }
-`;
-
 const ProjectCard = styled.div`
     background: white;
     box-shadow: 0px 0px 30px 0px rgba(0,0,0,0.1);
@@ -690,11 +580,6 @@ const ProjectCard = styled.div`
         display:inline-block;
     }
 
-    ${H2} {
-        margin-bottom: 20px;
-        color: #00d2ff;
-    }
-
     p {
         margin-bottom:0;
     }
@@ -704,6 +589,18 @@ const ProjectCard = styled.div`
         align-items:center;
         display:flex;
         flex-direction:column;
+    }
+`;
+
+const CardHeading = styled.div`
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    ${H2} {
+        margin-bottom: 20px;
+        color: #00d2ff;
     }
 `;
 
@@ -736,14 +633,6 @@ const FlagBox = styled.div`
     flex:1;
     text-align:right;
 `;
-const OwnerBox = styled.div`
-
-    margin-bottom:10px;
-
-    & p {
-        margin-bottom:0;
-    }
-`;
 
 const Number = styled.p`
     font-size:40px;
@@ -751,29 +640,9 @@ const Number = styled.p`
     text-align:center;
 `
 
-const ClearButton = styled.button`
-    border-top-right-radius: 4px;
-    border-bottom-right-radius: 4px;
-    height: 35px;
-    background-color: ${props => props.theme.bgLightest};
-    border: none;
-    color: #FFFFFF;
-`;
-
 const ClaimStatistics = styled.div`
     display:flex;
     margin:0 auto;
-`;
-
-const CellButton = styled.button`
-    display: block;
-    justify-content: center;
-    border-radius: 4px;
-    height: 35px;
-    width: 90px;
-    background-color: black;
-    border: none;
-    color: ${props => props.theme.bgLightest};
 `;
 
 const SelectStatus = styled.select`
@@ -786,14 +655,9 @@ const SelectStatus = styled.select`
     color: black;
 `;
 
-const ButtonContainer = styled.div`
-    display: flex;
-    justify-content:flex-end;
-`;
-
 const ProjectAnimatedButton = styled.button`
     border-radius: 4px;
-    background-color: ${props => props.theme.bgLightest};
+    background-color: ${props => props.theme.bgDarker};
     border: none;
     color: #FFFFFF;
     font-size: 1em;
@@ -837,12 +701,6 @@ const ProjectAnimatedButton = styled.button`
   }
 `;
 
-const SubmitStatus = styled.p`
-    color:#0f8dab;
-    margin-top:10px;
-    text-align:center;
-`;  
-
 const DataBody = styled.div`
     padding: 10px;
     background: #b5f3ff;
@@ -855,6 +713,7 @@ const DataBody = styled.div`
     transform: scaleY(0);
     transform-origin:top;
     transition:opacity 0.5s ease;
+
 `;
 
 const DataCard = styled.div`
@@ -863,13 +722,14 @@ const DataCard = styled.div`
         transform: scaleY(1);
         height:auto;
         margin-bottom:20px;
+        justify-content:start;
+
     }
 
 `;
 
 const DataHeading = styled.div`
     padding: 10px;
-    background: #16a2b8;
     border-radius: 5px;
     margin-bottom:2px;
     color: white;
@@ -887,13 +747,27 @@ const DataHeading = styled.div`
     div {
         display:flex;
     }
+
+    span {
+        display: flex;
+        align-items: center;
+        margin: 0 5px 0 10px;
+        transform: rotate(-90deg);
+        color: #ffffff;
+        font-size: 2.5em;
+        line-height: 35px;
+
+        transition:transform 0.4s ease;
+    }
+
+    .active-heading span {
+        transform: rotate(-270deg);
+        margin: 0 0 0 15px;
+    }
 `;
 
 const Field = styled.div`
     margin-bottom:10px;
-
-    div {
-    }
 `;
 
 const FieldKey = styled.p`
