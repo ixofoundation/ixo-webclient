@@ -62,13 +62,12 @@ export class App extends React.Component<App.IProps, App.State> {
     componentDidUpdate(prevProps: App.Props) {
         if (prevProps.pingResult !== this.props.pingResult) {
             if (this.props.pingResult === 'pong') {
-                if (this.state.projectList === null) {
-                    this.refreshProjects();
+                if (this.state.projectList === null || this.state.projectList.length === 0) {
+                    this.refreshProjectList();
                 }
                 if (this.props.ixo.credentialProvider.getDid() && (this.state.did !== this.props.ixo.credentialProvider.getDid())) {
                     this.setState({ did: this.props.ixo.credentialProvider.getDid() })
-                    this.refreshMyProjects();
-                    this.refreshServiceAgentProjectList();
+                    this.refreshProjectList();
                 }
 
                 if (!this.props.ixo.credentialProvider.getDid()) {

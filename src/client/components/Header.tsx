@@ -159,7 +159,7 @@ export class Header extends React.Component<Header.IProps, Header.State> {
                 isServerConnected: false
             });
             this.props.onServerChange();
-            this.props.onIxoInit(event.target.value);
+            this.props.onIxoInit(event.target.value);    
         }
     };
 
