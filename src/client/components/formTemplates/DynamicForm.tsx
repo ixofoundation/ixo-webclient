@@ -13,6 +13,7 @@ import styled from 'styled-components';
 export namespace DynamicForm {
     export interface Props {
         formSchema: any,
+        presetValues?: any[]
     }
 
     export interface State {
@@ -39,8 +40,15 @@ export default class DynamicForm extends React.Component<DynamicForm.IProps, Dyn
     }
 
     componentWillMount(){
+
+        let hiddenCount = 0;
         this.props.formSchema.map((field, i) => {
-            this.setFormState(field.name, "");
+            if(field.hidden){
+                this.setFormState(field.name, this.props.presetValues[hiddenCount]);
+                hiddenCount++;
+            } else {
+                this.setFormState(field.name, "");
+            }
         });
     }
 
@@ -74,6 +82,10 @@ export default class DynamicForm extends React.Component<DynamicForm.IProps, Dyn
         }
     }
 
+    onHiddenCreate = (name: any, value: String) => {
+
+    }
+
     render(){
         return (
             <form onSubmit={this.handleSubmit}>
@@ -83,6 +95,7 @@ export default class DynamicForm extends React.Component<DynamicForm.IProps, Dyn
                             case 'text':
                             case 'claim-amount':
                             case 'email':
+                                if(field.hidden){ break }
                                 return <InputText id={field.name} type={field.type} text={field.label} key={i} onChange={this.onFormValueChanged(field.name)}/>;
                             case 'image' :
                                 return <InputFile id={field.name} text={field.label} key={i} onChange={this.onFormValueChanged(field.name)}/>;

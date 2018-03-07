@@ -34,7 +34,7 @@ export namespace SingleProject {
         claimList: any,
         selectStatuses: any,
         modalType: string,
-        currentClaimJson: any
+        claimTxToEvaluate: any
         activeAgent: number,
         activeClaim: number
     }
@@ -60,7 +60,7 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
             evaluationFormSchema: {},
             agentList: [],
             claimList: [],
-            currentClaimJson: null,
+            claimTxToEvaluate: null,
             selectStatuses: [],
             modalType: null,
             activeAgent : null,
@@ -250,7 +250,8 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
         this.checkCredentialProvider('claim');
     }
 
-    handleEvaluateClaim = () => {
+    handleEvaluateClaim = (tx:String) => {
+        this.setState({claimTxToEvaluate:tx});
         this.checkCredentialProvider('evaluate');
     }
 
@@ -258,11 +259,12 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
         this.setState({ isModalOpen: modalStatus });
     };
 
-    handleRenderForm = (schema: any, handler: any) => {
+    handleRenderForm = (schema: any, handler: any, tx = '') => {
         if (this.state.claimFormSchema.length > 0) {
             let agentSchema = [...schema];
+            let presetValues = [tx];
             agentSchema = agentSchema.filter((value) => value.name !== "template.name" && value.name !== "projectTx")
-            return <DynamicForm formSchema={agentSchema} handleSubmit={handler} />
+            return <DynamicForm presetValues={presetValues} formSchema={agentSchema} handleSubmit={handler} />
         } else {
             return <p>Loading Form...</p>
         }
@@ -351,6 +353,16 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
         return amount;
     }
 
+    handleAccordionToggle(type,index,event){
+        if(event.target === event.currentTarget || event.target.tagName === 'SPAN'){
+            if(type === 'agent'){
+                this.state.activeAgent === index ? this.setState({activeAgent:null}) : this.setState({activeAgent:index})
+            } else if (type === 'claim'){
+                this.state.activeClaim === index ? this.setState({activeClaim:null}) : this.setState({activeClaim:index})
+            }
+        }
+    }
+
     renderData(type:string) {
 
         let fieldsArray = [];
@@ -374,29 +386,29 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
                     const tx = listToTraverse[index]['tx'];
                     return (
                         <div className={type} key={index}>
-                            {(type === 'agent') &&
-                                <DataHeading onClick={()=>activeType === index ? this.setState({activeAgent:null}) : this.setState({activeAgent:index})}>
-                                    {listToTraverse[index]['name']}
-                                    <div className={`${(activeType === index) ? 'active-heading': ''}`}>
-                                        <SelectStatus value={this.state.selectStatuses[index]} onChange={(e)=>this.handleSelectChange(index,e)}>
-                                            <option value="Approved">Approve</option>
-                                            <option value="NotApproved">Decline</option>
-                                            <option value="Revoked">Revoke</option>
-                                        </SelectStatus>
-                                        <ProjectAnimatedButton onClick={()=>this.onUpdateStatus(tx,this.state.selectStatuses[index])}>Update Status</ProjectAnimatedButton>
-                                        <span>&#8249;</span>
-                                    </div>
-                                </DataHeading>
-                            }
-                            {(type === 'claim') &&
-                                <DataHeading onClick={()=>activeType === index ? this.setState({activeClaim:null}) : this.setState({activeClaim:index})}>
-                                    {listToTraverse[index]['name']}
-                                    <div className={`${(activeType === index) ? 'active-heading': ''}`}>
-                                        <ProjectAnimatedButton onClick={this.handleEvaluateClaim}>Evaluate</ProjectAnimatedButton>
-                                        <span>&#8249;</span>
-                                    </div>        
-                                </DataHeading>
-                            }
+                            <DataHeading onClick={(event)=>this.handleAccordionToggle(type,index,event)}>
+                                {listToTraverse[index]['name']}
+                                <div className={`${(activeType === index) ? 'active-heading': ''}`}>
+                                    {(type === 'agent') &&
+                                        <div>
+                                            <SelectStatus value={this.state.selectStatuses[index]} onChange={(e)=>this.handleSelectChange(index,e)}>
+                                                <option value="Approved">Approve</option>
+                                                <option value="NotApproved">Decline</option>
+                                                <option value="Revoked">Revoke</option>
+                                            </SelectStatus>
+                                            <ProjectAnimatedButton onClick={()=>this.onUpdateStatus(tx,this.state.selectStatuses[index])}>Update Status</ProjectAnimatedButton>
+                                        </div>
+                                    }
+                                    {(type === 'claim') &&
+                                            <div>
+                                                <ProjectAnimatedButton onClick={()=>this.handleEvaluateClaim(tx)}>Evaluate</ProjectAnimatedButton>
+                                            </div>        
+                                    }
+                                    <span>&#8249;</span>
+                                </div>
+
+
+                            </DataHeading>
                             <div className="container">
                                 <DataBody className={`${(activeType === index) ? 'active-row': ''} row`}>
                                     {this.renderObjectData(fieldsArray,listToTraverse,index)}
@@ -510,7 +522,7 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
                             <div className="col-md-12">
                                 <ProjectCard>
                                     <CardHeading>
-                                    <   H2>Claims:</H2>
+                                        <H2>Claims:</H2>
                                         <ProjectAnimatedButton onClick={this.handleCaptureClaim}><span>Capture Claim</span></ProjectAnimatedButton>
                                     </CardHeading>
                                     {renderIfTrue(this.state.agentList.length > 0, () => this.renderData('claim'))}
@@ -526,7 +538,7 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
                         {renderSwitch(this.state.modalType, {
                             agent: () => <div>{this.handleRenderForm(this.state.agentFormSchema, this.handleAgentSubmit)}</div>,
                             claim: () => <div>{this.handleRenderForm(this.state.claimFormSchema, this.handleClaimSubmit)}</div>,
-                            evaluate: () => <div>{this.handleRenderForm(this.state.evaluationFormSchema, this.handleClaimEvaluation)}</div>,
+                            evaluate: () => <div>{this.handleRenderForm(this.state.evaluationFormSchema, this.handleClaimEvaluation,this.state.claimTxToEvaluate)}</div>,
                             metaMask: () => <div>{this.handleRenderMetaMaskModal()}</div>
                         })}
                     </ModalWrapper>
@@ -756,7 +768,6 @@ const DataHeading = styled.div`
         color: #ffffff;
         font-size: 2.5em;
         line-height: 35px;
-
         transition:transform 0.4s ease;
     }
 
