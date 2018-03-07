@@ -56,6 +56,7 @@ const Input = styled.div`
         border-radius: 0;
         width:140px;
         white-space: normal;
+        justify-content:center;
     }
 
     & input {

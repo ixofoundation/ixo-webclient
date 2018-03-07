@@ -58,6 +58,7 @@ const Input = styled.div`
     margin:15px 0;
     border-radius:0;
     text-transform:uppercase;
+    & {align-items:center;}
 
     & .input-group-text {
         background: ${props => props.theme.bgMain};
@@ -67,6 +68,8 @@ const Input = styled.div`
         font-size:0.7em;
         border-radius: 0;
         width:140px;
+        white-space:normal;
+        justify-content:center;
     }
 
     & select {

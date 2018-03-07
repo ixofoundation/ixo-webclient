@@ -124,7 +124,7 @@ export default class DynamicForm extends React.Component<DynamicForm.IProps, Dyn
 const Submit = styled.input`
     background: #0f8dab;
     display: block;
-    margin: 0 auto;
+    margin: 10px auto 0;
     color: white;
     border: 0;
     padding: 15px;
