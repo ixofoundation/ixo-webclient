@@ -5,15 +5,14 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { ModalWrapper } from '../../ModalWrapper';
 import DynamicForm from '../../formTemplates/DynamicForm';
-import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import { toast } from 'react-toastify';
 import { FlagIcon, fixCountryCode } from '../../FlagIcon';
 import * as iso3311a2 from 'iso-3166-1-alpha-2';
 import { formatJSONDateTime } from '../../../utils/formatters';
 import { renderIf, renderSwitch, renderIfTrue } from '../../../utils/react_utils';
-import { Table } from '../../shared/Table';
-import { ICustomButton } from '../../../../../types/models';
 import { Doughnut } from 'react-chartjs-2';
+
+import SDGStats from './SDGStats';
 
 var merge = require('merge');
 
@@ -36,7 +35,8 @@ export namespace SingleProject {
         modalType: string,
         claimTxToEvaluate: any
         activeAgent: number,
-        activeClaim: number
+        activeClaim: number,
+        SDGArray: string[]
     }
 
     export interface Callbacks {
@@ -64,15 +64,19 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
             selectStatuses: [],
             modalType: null,
             activeAgent : null,
-            activeClaim : null
+            activeClaim : null,
+            SDGArray: []
         }
     }
 
     componentDidMount() {
         if (!this.state.projectMeta) {
             this.props.ixo.project.findProjectById(this.props.match.params.projectID).then((response: any) => {
-                this.setState({ projectMeta: response.result[0] });
+                
+                const SDGArray = response.result[0].sdg.name.split(",");
+                this.setState({ projectMeta: response.result[0], SDGArray});
                 this.handleInitialLoad();
+
             }).catch((error: Error) => {
                 console.log(error);
             });
@@ -84,6 +88,7 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
     }
 
     handleInitialLoad = () => {
+
         this.props.ixo.agent.getAgentTemplate('default').then((response: any) => {
             if (response.result.form.fields !== this.state.agentFormSchema) {
                 this.setState({ agentFormSchema: response.result.form.fields });
@@ -503,6 +508,8 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
                                             <p>Investor Agents</p>
                                             <Number>{this.getCountAgentsOfRole('IA')}</Number>
                                         </div>
+
+                                        <SDGStats SDGArray={this.state.SDGArray}/>
                                     </div>
                                 </ProjectCard>
                             </div>
