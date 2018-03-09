@@ -221,7 +221,11 @@ const TopBar = styled.header`
     z-index:99;
     background:black;
     top:0;
-    
+
+    && {
+        width:100vw;
+    }
+
     & img {
         height:40px;
     }

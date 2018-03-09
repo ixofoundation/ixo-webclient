@@ -113,6 +113,9 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
             console.log(error);
         });
 
+        const SDGArray = this.state.projectMeta.sdg.name.split(",");
+        this.setState({ SDGArray});
+
         this.getClaimList();
         this.getAgentList();
     }
@@ -392,7 +395,7 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
                     return (
                         <div className={type} key={index}>
                             <DataHeading onClick={(event)=>this.handleAccordionToggle(type,index,event)}>
-                                {listToTraverse[index]['name']}
+                                <p>{listToTraverse[index]['name']}</p>
                                 <div className={`${(activeType === index) ? 'active-heading': ''}`}>
                                     {(type === 'agent') &&
                                         <div>
@@ -574,6 +577,10 @@ const ProjectContainer = styled.div`
     > .row {
         margin-bottom:30px;
     }
+
+    .col-md-6 {
+        margin-bottom:20px;
+    }
 `;
 
 const H2 = styled.h2`
@@ -588,6 +595,10 @@ const ProjectCard = styled.div`
     height:100%;
     border-radius:5px;
     border-bottom:5px solid #b6f2ff;
+
+    @media (max-width: 768px){
+        margin-bottom:20px;
+    }
 
     .row {
         justify-content: center;
@@ -781,6 +792,32 @@ const DataHeading = styled.div`
     .active-heading span {
         transform: rotate(-270deg);
         margin: 0 0 0 15px;
+    }
+
+    @media (max-width:768px){
+        display:block;
+        text-align:center;
+
+        div {
+            display:block;
+        }
+
+        span {
+            display:block;
+        }
+
+        button {
+            margin:10px auto;
+        }
+
+        > p {
+            font-weight:bold;
+            margin-bottomL15px;
+        }
+
+        select {
+            margin-top:10px;
+        }
     }
 `;
 

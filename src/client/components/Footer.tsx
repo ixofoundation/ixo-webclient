@@ -33,4 +33,8 @@ const FooterContainer = styled.div`
     align-items: center;
     background:black;
     z-index:50;
+
+    && {
+        width:100vw;
+    }
 `;

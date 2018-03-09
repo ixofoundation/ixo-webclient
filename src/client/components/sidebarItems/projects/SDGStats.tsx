@@ -19,37 +19,39 @@ export default class SDGStats extends React.Component<Props,State> {
         }
     }
 
-    componentDidMount(){
+    componentDidUpdate(prevProps){
 
-        const mainGoals = this.props.SDGArray.map((goal,index)=>{
-            return goal.split('.')[0];
-        });
-        const goalsList = this.props.SDGArray.map((SDG,index)=>{
-            return SDG.split('.')[0]+',';
-        })
-        
-        fetch(`https://ixo-sdg.herokuapp.com/goals?ids=${goalsList}&indicators=true`).then(res=> {return res.json()})
-        .then((goals)=>{
-            const goalsWithMeta = [];
-            goals.data.forEach((goal,index)=>{
-                if(mainGoals.includes(String(goal.goal))){
-                    goalsWithMeta.push({
-                        title: goal.title, 
-                        icon_url: goal.icon_url, 
-                        link: goal.targets[0].indicators[0].goal_meta_link
-                    });
-                }
+        if(this.props.SDGArray !== prevProps.SDGArray){
+            const mainGoals = this.props.SDGArray.map((goal,index)=>{
+                return goal.split('.')[0];
             });
-            this.setState({goalsWithMeta});
-        })
+            const goalsList = this.props.SDGArray.map((SDG,index)=>{
+                return SDG.split('.')[0]+',';
+            })
+            
+            fetch(`https://ixo-sdg.herokuapp.com/goals?ids=${goalsList}&indicators=true`).then(res=> {return res.json()})
+            .then((goals)=>{
+                const goalsWithMeta = [];
+                goals.data.forEach((goal,index)=>{
+                    if(mainGoals.includes(String(goal.goal))){
+                        goalsWithMeta.push({
+                            title: goal.title, 
+                            icon_url: goal.icon_url, 
+                            link: goal.targets[0].indicators[0].goal_meta_link
+                        });
+                    }
+                });
+                this.setState({goalsWithMeta});
+            })
+        }
 
     }
 
     displayGoalsMeta(){
         return (
-            <div className="row col-md-12"> 
+            <div className="row"> 
                 {this.state.goalsWithMeta.map((goal,index)=>{
-                    return(<SDG className="col-md-2" key={index}>
+                    return(<SDG className="col-md-2 col-sm-6 col-xs-6" key={index}>
                         <a href={goal.link} target="_blank"><img src={goal.icon_url} /></a>
                     </SDG>);
                 })}
