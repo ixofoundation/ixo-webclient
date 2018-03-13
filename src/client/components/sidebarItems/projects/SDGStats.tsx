@@ -26,17 +26,21 @@ export default class SDGStats extends React.Component<Props> {
     
     render() {
         return (
-            <div className="col-md-12">
-                <H3>Relevant SDGs:</H3>
-                {this.displayGoalsMeta()}
+            <div className="row">
+                <div className="col-md-12">
+                    <H2>Relevant SDGs:</H2>
+                    {this.displayGoalsMeta()}
+                </div>
             </div>
         );
     }
     
 }
 
-const H3 = styled.h3`
-    margin-top:20px;
+const H2 = styled.h2`
+    font-size: 1.8em;
+    color: #00d2ff;
+    margin-top: 15px;
 `;
 
 const SDG = styled.div`

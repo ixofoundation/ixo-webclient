@@ -9,7 +9,7 @@ import { formatJSONDateTime } from '../../../utils/formatters';
 import { renderIf, renderSwitch, renderIfTrue } from '../../../utils/react_utils';
 import { Doughnut } from 'react-chartjs-2';
 import ProjectHeader from './ProjectHeader';
-import ProjectStatistics from './ProjectStatistics';
+import ProjectStats from './ProjectStats';
 import SDGStats from './SDGStats';
 
 var merge = require('merge');
@@ -397,12 +397,12 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
         let activeType = 0;
 
         if(type === 'agent'){
-            fieldsArray =  ['email', '_id', 'did', 'latestStatus', 'tx','role'];
+            fieldsArray =  ['email', '_id', 'did', 'tx','role'];
             listToTraverse = this.state.agentList;
             activeType = this.state.activeAgent;
         }
         else if(type ==='claim'){
-            fieldsArray =  ['_id','attended', 'did', 'latestEvaluation', 'tx'];
+            fieldsArray =  ['_id','attended', 'did', 'tx'];
             listToTraverse = this.state.claimList;
             activeType = this.state.activeClaim;
         }
@@ -414,31 +414,31 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
                     return (
                         <div className={type} key={index}>
                             <DataHeading onClick={(event)=>this.handleAccordionToggle(type,index,event)}>
-                                <p>{listToTraverse[index]['name']}</p>
+                                <h3>{listToTraverse[index]['name']}</h3>
                                 <div className={`${(activeType === index) ? 'active-heading': ''}`}>
+                                    {type == 'agent' && <p>{listToTraverse[index]['latestStatus']}</p>}
+                                    {type == 'claim' && <p>{listToTraverse[index]['latestEvaluation']}</p>}
+                                    <span>&#8249;</span>
+                                </div>
+                            </DataHeading>
+                            <div className="container">
+                                <DataBody className={`${(activeType === index) ? 'active-row': ''} row`}>
+                                    {this.renderObjectData(fieldsArray,listToTraverse,index)}
                                     {(type === 'agent') &&
-                                        <div>
+                                        <DataButtons>
                                             <SelectStatus value={this.state.selectStatuses[index]} onChange={(e)=>this.handleSelectChange(index,e)}>
                                                 <option value="Approved">Approve</option>
                                                 <option value="NotApproved">Decline</option>
                                                 <option value="Revoked">Revoke</option>
                                             </SelectStatus>
                                             <ProjectAnimatedButton onClick={()=>this.onUpdateStatus(tx,this.state.selectStatuses[index])}>Update Status</ProjectAnimatedButton>
-                                        </div>
+                                        </DataButtons>
                                     }
                                     {(type === 'claim') &&
-                                            <div>
-                                                <ProjectAnimatedButton onClick={()=>this.handleEvaluateClaim(tx)}>Evaluate</ProjectAnimatedButton>
-                                            </div>        
+                                        <DataButtons>
+                                            <ProjectAnimatedButton onClick={()=>this.handleEvaluateClaim(tx)}>Evaluate</ProjectAnimatedButton>
+                                        </DataButtons>        
                                     }
-                                    <span>&#8249;</span>
-                                </div>
-
-
-                            </DataHeading>
-                            <div className="container">
-                                <DataBody className={`${(activeType === index) ? 'active-row': ''} row`}>
-                                    {this.renderObjectData(fieldsArray,listToTraverse,index)}
                                 </DataBody>
                             </div>
                         </div>
@@ -494,15 +494,15 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
                         <div className="row">
                             <div className="col-md-12">
                                 <ProjectCard>
-                                            {this.state.claimList.length > 0 &&
-                                            <ProjectStatistics 
-                                                getClaimStatistics={this.getClaimStatistics}
-                                                getCountClaimsOfType={this.getCountClaimsOfType}
-                                                successfulClaims={this.state.projectMeta.numberOfSuccessfulClaims}
-                                                getCountAgentsOfRole={this.getCountAgentsOfRole}
-                                            /> 
-                                            } 
-                                        <div className="row"><SDGStats SDGArray={this.state.goalsWithMeta}/></div>
+                                    {this.state.claimList.length > 0 &&
+                                        <ProjectStats 
+                                            getClaimStatistics={this.getClaimStatistics}
+                                            getCountClaimsOfType={this.getCountClaimsOfType}
+                                            successfulClaims={this.state.projectMeta.numberOfSuccessfulClaims}
+                                            getCountAgentsOfRole={this.getCountAgentsOfRole}
+                                        /> 
+                                    } 
+                                    <SDGStats SDGArray={this.state.goalsWithMeta}/>
                                 </ProjectCard>
                             </div>
                         </div>
@@ -573,7 +573,8 @@ const ProjectContainer = styled.div`
 `;
 
 const H2 = styled.h2`
-    font-size: 28px;
+    font-size: 1.8em;
+    color: #00d2ff;
     margin-top: 15px;
 `;
 
@@ -619,7 +620,6 @@ const CardHeading = styled.div`
 
     ${H2} {
         margin-bottom: 20px;
-        color: #00d2ff;
     }
 `;
 
@@ -699,6 +699,16 @@ const DataBody = styled.div`
 
 `;
 
+const DataButtons = styled.div`
+    width:100%;
+    display:flex;
+    justify-content:flex-end;
+
+    button {
+        margin:0 0 0 5px;
+    }
+`;
+
 const DataCard = styled.div`
     ${DataBody}.active-row {
         opacity:1;
@@ -708,7 +718,6 @@ const DataCard = styled.div`
         justify-content:start;
 
     }
-
 `;
 
 const DataHeading = styled.div`
@@ -727,8 +736,19 @@ const DataHeading = styled.div`
         cursor:pointer;
         background:#00b9e0;
     }
+
+    h3 {
+       font-weight:bold; 
+       margin-bottom:0;
+       font-size:1em;
+    }
+
+    p {
+    }
+
     div {
         display:flex;
+        align-items:center;
     }
 
     span {
