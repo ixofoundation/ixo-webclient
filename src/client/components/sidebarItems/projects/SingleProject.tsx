@@ -1,17 +1,15 @@
 import * as React from 'react';
 import { connect } from "react-redux";
 import { IPublicSiteStoreState } from "../../../redux/public_site_reducer";
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { ModalWrapper } from '../../ModalWrapper';
 import DynamicForm from '../../formTemplates/DynamicForm';
 import { toast } from 'react-toastify';
-import { FlagIcon, fixCountryCode } from '../../FlagIcon';
-import * as iso3311a2 from 'iso-3166-1-alpha-2';
 import { formatJSONDateTime } from '../../../utils/formatters';
 import { renderIf, renderSwitch, renderIfTrue } from '../../../utils/react_utils';
 import { Doughnut } from 'react-chartjs-2';
-
+import ProjectHeader from './ProjectHeader';
+import ProjectStatistics from './ProjectStatistics';
 import SDGStats from './SDGStats';
 
 var merge = require('merge');
@@ -36,7 +34,7 @@ export namespace SingleProject {
         claimTxToEvaluate: any
         activeAgent: number,
         activeClaim: number,
-        SDGArray: string[]
+        goalsWithMeta: string[]
     }
 
     export interface Callbacks {
@@ -65,7 +63,7 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
             modalType: null,
             activeAgent : null,
             activeClaim : null,
-            SDGArray: []
+            goalsWithMeta: []
         }
     }
 
@@ -73,8 +71,7 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
         if (!this.state.projectMeta) {
             this.props.ixo.project.findProjectById(this.props.match.params.projectID).then((response: any) => {
                 
-                const SDGArray = response.result[0].sdg.name.split(",");
-                this.setState({ projectMeta: response.result[0], SDGArray});
+                this.setState({ projectMeta: response.result[0]});
                 this.handleInitialLoad();
 
             }).catch((error: Error) => {
@@ -113,11 +110,37 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
             console.log(error);
         });
 
-        const SDGArray = this.state.projectMeta.sdg.name.split(",");
-        this.setState({ SDGArray});
-
         this.getClaimList();
         this.getAgentList();
+        this.getSDGGoals();
+    }
+
+    getSDGGoals(){
+        
+        const SDGArray = this.state.projectMeta.sdg.name.split(",");
+        // this.setState({ SDGArray});
+
+        const mainGoals = SDGArray.map((goal,index)=>{
+            return goal.split('.')[0];
+        });
+        const goalsList = SDGArray.map((SDG,index)=>{
+            return SDG.split('.')[0]+',';
+        })
+
+        fetch(`https://ixo-sdg.herokuapp.com/goals?ids=${goalsList}&indicators=true`).then(res=> {return res.json()})
+        .then((goals)=>{
+            const goalsWithMeta = [];
+            goals.data.forEach((goal,index)=>{
+                if(mainGoals.includes(String(goal.goal))){
+                    goalsWithMeta.push({
+                        title: goal.title, 
+                        icon_url: goal.icon_url, 
+                        link: goal.targets[0].indicators[0].goal_meta_link
+                    });
+                }
+            });
+            this.setState({goalsWithMeta});
+        })
     }
 
     getAgentList() {
@@ -282,11 +305,7 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
         return <div>Please login to Metamask to perform this action.</div>;
     }
 
-    getCountryName(countryCode: string): string {
-        return iso3311a2.getCountry(fixCountryCode(countryCode).toUpperCase())
-    }
-
-    claimStatistics() {
+    getClaimStatistics = () => {
 
         const total = this.state.projectMeta.numberOfSuccessfulClaims;
 
@@ -338,7 +357,7 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
         );
     }
 
-    getCountClaimsOfType(claimType: string) {
+    getCountClaimsOfType = (claimType: string) =>{
 
         let amount = 0;
         
@@ -350,7 +369,7 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
         return amount;
     }
 
-    getCountAgentsOfRole(agentType: string) {
+    getCountAgentsOfRole = (agentType: string) =>{
         let amount = 0;
 
         this.state.agentList.map((agent, index) => {
@@ -453,17 +472,7 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
             return (
                 <div className="container">
                     <ProjectContainer>
-                        <div className="row">
-                            <div className="col-md-12">
-                                <ProjectHeader>
-                                    <Link to="/">&larr; Back to Home</Link>
-                                    <h1>{this.state.projectMeta.name}</h1>
-                                    <FlagBox title={this.getCountryName(this.state.projectMeta.country)}>
-                                        <FlagIcon code={fixCountryCode(this.state.projectMeta.country)} size='3x'></FlagIcon>
-                                    </FlagBox>
-                                </ProjectHeader>
-                            </div>
-                        </div>
+                        <ProjectHeader country={this.state.projectMeta.country} name={this.state.projectMeta.name}/>
                         <div className="row">
                             <div className="col-md-6">
                                 <ProjectCard>
@@ -485,35 +494,15 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
                         <div className="row">
                             <div className="col-md-12">
                                 <ProjectCard>
-                                    <div className="row">
-                                        <div className="col-12">
-                                            <H2>Project Statistics:</H2>
-                                        </div>
-                                        {this.state.claimList.length > 0 &&
-                                        <div className="col-xl-4 col-md-6 ">
-                                            <p>Claims breakdown (%)</p>
-                                            {this.claimStatistics()}
-                                        </div>
-                                        }
-                                        <div className="col-xl-2 col-md-3 col-sm-6 vertical-center">
-                                            <p>Successful Claims</p>
-                                            <Number>{this.getCountClaimsOfType('Approved')}/{this.state.projectMeta.numberOfSuccessfulClaims}</Number>
-                                        </div>
-                                        <div className="col-xl-2 col-md-3 col-sm-6 vertical-center">
-                                            <p>Evaluation Agents</p>
-                                            <Number>{this.getCountAgentsOfRole('EA')}</Number>
-                                        </div>
-                                        <div className="col-xl-2 col-md-3 col-sm-6 vertical-center">
-                                            <p>Service Agents</p>
-                                            <Number>{this.getCountAgentsOfRole('SA')}</Number>
-                                        </div>
-                                        <div className="col-xl-2 col-md-3 col-sm-6 vertical-center">
-                                            <p>Investor Agents</p>
-                                            <Number>{this.getCountAgentsOfRole('IA')}</Number>
-                                        </div>
-
-                                        <SDGStats SDGArray={this.state.SDGArray}/>
-                                    </div>
+                                            {this.state.claimList.length > 0 &&
+                                            <ProjectStatistics 
+                                                getClaimStatistics={this.getClaimStatistics}
+                                                getCountClaimsOfType={this.getCountClaimsOfType}
+                                                successfulClaims={this.state.projectMeta.numberOfSuccessfulClaims}
+                                                getCountAgentsOfRole={this.getCountAgentsOfRole}
+                                            /> 
+                                            } 
+                                        <div className="row"><SDGStats SDGArray={this.state.goalsWithMeta}/></div>
                                 </ProjectCard>
                             </div>
                         </div>
@@ -633,42 +622,6 @@ const CardHeading = styled.div`
         color: #00d2ff;
     }
 `;
-
-const ProjectHeader = ProjectCard.extend`
-
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    padding-bottom:10px;
-
-    h1,a {
-        flex:1;
-    }
-
-    h1 {
-        text-align:center;
-        margin-bottom:0;
-        font-size:30px;
-        color: #00d2ff;
-    }
-
-    a:hover {
-        text-decoration:none;
-
-    }
-`;
-
-const FlagBox = styled.div`
-    padding: 5px;
-    flex:1;
-    text-align:right;
-`;
-
-const Number = styled.p`
-    font-size:40px;
-    font-weight:bold;
-    text-align:center;
-`
 
 const ClaimStatistics = styled.div`
     display:flex;
