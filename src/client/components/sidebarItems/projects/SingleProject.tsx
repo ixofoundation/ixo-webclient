@@ -413,12 +413,12 @@ export class SingleProject extends React.Component<SingleProject.IProps, SingleP
                     const tx = listToTraverse[index]['tx'];
                     return (
                         <div className={type} key={index}>
-                            <DataHeading onClick={(event)=>this.handleAccordionToggle(type,index,event)}>
+                            <DataHeading onClick={(event)=>this.handleAccordionToggle(type,index,event)} className={`${(activeType === index) ? 'active-heading': ''}`}>
                                 <h3>{listToTraverse[index]['name']}</h3>
-                                <div className={`${(activeType === index) ? 'active-heading': ''}`}>
+                                <div>
                                     {type == 'agent' && <p>{listToTraverse[index]['latestStatus']}</p>}
                                     {type == 'claim' && <p>{listToTraverse[index]['latestEvaluation']}</p>}
-                                    <span>&#8249;</span>
+                                    <span className={`${(activeType === index) ? 'active': ''}`}>&#8249;</span>
                                 </div>
                             </DataHeading>
                             <div className="container">
@@ -709,41 +709,29 @@ const DataButtons = styled.div`
     }
 `;
 
-const DataCard = styled.div`
-    ${DataBody}.active-row {
-        opacity:1;
-        transform: scaleY(1);
-        height:auto;
-        margin-bottom:20px;
-        justify-content:start;
-
-    }
-`;
-
 const DataHeading = styled.div`
-    padding: 10px;
-    border-radius: 5px;
-    margin-bottom:2px;
-    color: white;
-    display: flex;
-    background: #00d2ff;
-    justify-content: space-between;
-    align-items: center;
-
-    transition:background 0.3s ease;
 
     :hover {
         cursor:pointer;
         background:#00b9e0;
+        border:1px solid #00b9e0;
     }
 
     h3 {
        font-weight:bold; 
        margin-bottom:0;
        font-size:1em;
+       color:#00d3ff
     }
 
     p {
+        color:#00d3ff;
+    }
+
+    :hover h3, :hover span, :hover p {
+        color:white;
+
+        transition:all 0.5s ease;
     }
 
     div {
@@ -756,13 +744,13 @@ const DataHeading = styled.div`
         align-items: center;
         margin: 0 5px 0 10px;
         transform: rotate(-90deg);
-        color: #ffffff;
+        color: #00d3ff;
         font-size: 2.5em;
         line-height: 35px;
         transition:transform 0.4s ease;
     }
 
-    .active-heading span {
+    span.active {
         transform: rotate(-270deg);
         margin: 0 0 0 15px;
     }
@@ -790,6 +778,41 @@ const DataHeading = styled.div`
 
         select {
             margin-top:10px;
+        }
+    }
+`;
+
+const DataCard = styled.div`
+    ${DataBody}.active-row {
+        opacity:1;
+        transform: scaleY(1);
+        height:auto;
+        margin-bottom:20px;
+        justify-content:start;
+
+    }
+
+    ${DataHeading} {
+        padding: 10px;
+        border-radius: 5px;
+        margin-bottom: 2px;
+        color: white;
+        display: flex;
+        border: 1px solid #00d2ff;
+        justify-content: space-between;
+        align-items: center;
+        transition: background 0.3s ease;
+        box-shadow: inset 0px 0px 60px 2px rgba(50,219,255,0.1), 0px 0px 1px 1px rgba(0,0,0,0.1);
+    
+    }
+    ${DataHeading}.active-heading {
+        background:#00b9e0;
+        border:1px solid #00b9e0;
+
+        h3, span, p {
+            color:white;
+    
+            transition:all 0.5s ease;
         }
     }
 `;
