@@ -8,4 +8,4 @@ deployment:
   staging:
     branch: master
     heroku:
-      appname: ixo-web
+      appname: ixo-block-explorer
