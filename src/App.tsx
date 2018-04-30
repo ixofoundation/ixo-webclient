@@ -1,8 +1,19 @@
 import * as React from 'react';
-// import { withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { HeaderConnected } from './components/Header';
 import { PublicSiteStoreState } from './redux/public_site_reducer';
+import { Routes } from './components/Routes';
+import styled from 'styled-components';
+
+const Loading = styled.div`
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:calc(100vh - 140px);
+`;
+
+const Unsuccessful = Loading;
 
 export namespace App {
 
@@ -76,9 +87,31 @@ refreshServiceAgentProjectList = () => {
       setInterval(this.metamaskAccountChecker, 1000);
   }
 
+  renderProjectContent() {
+    if (this.props.ixo && !this.props.pingError) {
+        return (
+            <div className="col-12">
+                <Routes 
+                    projectList={this.state.projectList}
+                    myProjectList={this.state.myProjectList}
+                    serviceAgentProjectList={this.state.serviceAgentProjectList}
+                    refreshProjects={this.refreshProjectList}
+                />
+            </div>
+        );
+    } else if (this.props.pingError) {
+        return <Unsuccessful className="col-md-12"><p>Error connecting to ixo server... Retrying...</p></Unsuccessful>;
+    } else {
+        return <Loading className="col-md-12"><p>Loading...</p></Loading>;
+    }
+}
+
   render() {
     return (
-        <HeaderConnected />
+        <div>
+            <HeaderConnected />
+            {this.renderProjectContent()}
+        </div>
     );
   }
 }
@@ -91,6 +124,6 @@ function mapStateToProps(state: PublicSiteStoreState) {
   };
 }
 
-export default connect<App.Props, App.State>(
+export default withRouter(connect<App.Props, App.State>(
   mapStateToProps
-)(App);
+)(App) as any);

@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import { PublicSiteStoreState } from '../redux/public_site_reducer';
 import { pingIxoServer, resetPing } from '../redux/ping/ping_action_creators';
 import { initIxo, resetIxo } from '../redux/ixo/ixo_action_creators';
@@ -312,7 +313,7 @@ function mapDispatchToProps(dispatch: any): DispatchProps {
     };
 }
 
-export const HeaderConnected =  connect(
+export const HeaderConnected = withRouter(connect(
     mapStateToProps,
     mapDispatchToProps
-  )(Header);
+  )(Header) as any);
