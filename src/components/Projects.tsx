@@ -127,99 +127,99 @@ const ProjectLink = styled(Link) `
 
 export namespace Projects {
 
-    export interface StateProps {
-        projectList?: any;
-    }
+	export interface StateProps {
+		projectList?: any;
+	}
 
-    export interface State {
-    }
+	export interface State {
+	}
 
-    export interface Props extends StateProps {
-    }
+	export interface Props extends StateProps {
+	}
 }
 
 export class Projects extends React.Component<Projects.Props, Projects.State> {
 
-    percentageComplete = (project: any) => {
-        return Math.round((project.approvedClaimCount / project.numberOfSuccessfulClaims) * 100);
-    }
+	percentageComplete = (project: any) => {
+		return Math.round((project.approvedClaimCount / project.numberOfSuccessfulClaims) * 100);
+	}
 
-    renderExcerpt = (theText: string) => {
-        const cutOffCount = 20;
-        const wordCount = theText.split(' ').length - 1;
+	renderExcerpt = (theText: string) => {
+		const cutOffCount = 20;
+		const wordCount = theText.split(' ').length - 1;
 
-        if (wordCount > cutOffCount) {
-            let count = 0;
-            let theIndex = 0;
+		if (wordCount > cutOffCount) {
+			let count = 0;
+			let theIndex = 0;
 
-            for (let i = 0; i < theText.length - 1; i++) {
-                if (count < cutOffCount) {
-                    if (theText[i] === ' ') {
-                        count++;
-                    }
-                } else {
-                    theIndex = i;
-                    break;
-                }
-            }
-            return theText.slice(0, theIndex - 1) + '...';
-        } else {
-            return theText;
-        }
-    }
+			for (let i = 0; i < theText.length - 1; i++) {
+				if (count < cutOffCount) {
+					if (theText[i] === ' ') {
+						count++;
+					}
+				} else {
+					theIndex = i;
+					break;
+				}
+			}
+			return theText.slice(0, theIndex - 1) + '...';
+		} else {
+			return theText;
+		}
+	}
 
-    renderProjects = () => {
-        if (this.props.projectList === null) {
-            return <NoProjectsToDisplay className="col-md-12"><p>Projects are loading...</p></NoProjectsToDisplay>;
-        } else if (this.props.projectList.length > 0) {
-            return (
-                <ProjectsContainer className="container-fluid">
-                    <div className="row">
-                        {this.props.projectList.map((project, index) => {
-                            return (
-                                <ProjectCard className="col-12 col-xl-3 col-lg-3 col-md-4 col-sm-6 " key={index}>
-                                    <ProjectLink 
-                                        to={{
-                                        pathname: `/project/${project._id}`,
-                                        state: project
-                                    }}
-                                        // project={project}
-                                    >
-                                        <ProjectCardInner>
-                                            <div>
-                                                <TitleContainer>{project.country} {project.name}</TitleContainer>
-                                                <AboutBox>
-                                                    <div>{this.renderExcerpt(project.about)}</div>
-                                                </AboutBox>
-                                            </div>
-                                            <ProgressBox>
-                                                <CircularProgressbar
-                                                    className="progressbar" 
-                                                    percentage={this.percentageComplete(project)}
-                                                    textForPercentage={(percent) => percent < 100 ? percent + '%' : 'complete'}
-                                                />
-                                            </ProgressBox>
-                                            <InfoBox>
-                                                <EllipseText>Created: {formatJSONDateTime(project.created)}</EllipseText>
-                                                <EllipseText>Owner: {project.owner.name}</EllipseText>
-                                            </InfoBox>
-                                        </ProjectCardInner>
-                                    </ProjectLink>
-                                </ProjectCard>);
-                        })}
-                    </div>
-                </ProjectsContainer>
-            );
-        } else {
-            return <NoProjectsToDisplay className="col-md-12"><p>No projects were found</p></NoProjectsToDisplay>;
-        }
-    }
+	renderProjects = () => {
+		if (this.props.projectList === null) {
+			return <NoProjectsToDisplay className="col-md-12"><p>Projects are loading...</p></NoProjectsToDisplay>;
+		} else if (this.props.projectList.length > 0) {
+			return (
+				<ProjectsContainer className="container-fluid">
+					<div className="row">
+						{this.props.projectList.map((project, index) => {
+							return (
+								<ProjectCard className="col-12 col-xl-3 col-lg-3 col-md-4 col-sm-6 " key={index}>
+									<ProjectLink 
+										to={{
+										pathname: `/project/${project._id}`,
+										state: project
+									}}
+										// project={project}
+									>
+										<ProjectCardInner>
+											<div>
+												<TitleContainer>{project.country} {project.name}</TitleContainer>
+												<AboutBox>
+													<div>{this.renderExcerpt(project.about)}</div>
+												</AboutBox>
+											</div>
+											<ProgressBox>
+												<CircularProgressbar
+													className="progressbar" 
+													percentage={this.percentageComplete(project)}
+													textForPercentage={(percent) => percent < 100 ? percent + '%' : 'complete'}
+												/>
+											</ProgressBox>
+											<InfoBox>
+												<EllipseText>Created: {formatJSONDateTime(project.created)}</EllipseText>
+												<EllipseText>Owner: {project.owner.name}</EllipseText>
+											</InfoBox>
+										</ProjectCardInner>
+									</ProjectLink>
+								</ProjectCard>);
+						})}
+					</div>
+				</ProjectsContainer>
+			);
+		} else {
+			return <NoProjectsToDisplay className="col-md-12"><p>No projects were found</p></NoProjectsToDisplay>;
+		}
+	}
 
-    render() {
-        return (
-            <div>
-                {this.renderProjects()}
-            </div>
-        );
-    }
+	render() {
+		return (
+			<div>
+				{this.renderProjects()}
+			</div>
+		);
+	}
 }

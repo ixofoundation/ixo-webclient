@@ -6,16 +6,16 @@ import logger from 'redux-logger';
 let publicStore: Store<PublicSiteStoreState>;
 
 export function createPublicSiteStore(this: any, preloadedState?: PublicSiteStoreState): Store<PublicSiteStoreState> {
-  const middlewares: Middleware[] = [thunk];
-  middlewares.push(logger);
-  publicStore = createStore.call(this, publicSiteReducer, preloadedState, applyMiddleware(...middlewares));
-  return publicStore;
+	const middlewares: Middleware[] = [thunk];
+	middlewares.push(logger);
+	publicStore = createStore.call(this, publicSiteReducer, preloadedState, applyMiddleware(...middlewares));
+	return publicStore;
 }
 
 export function getPublicStore(): Store<PublicSiteStoreState> {
-  return publicStore;
+	return publicStore;
 }
 
 export function getInitializedStoreState(): PublicSiteStoreState {
-  return createPublicSiteStore().getState();
+	return createPublicSiteStore().getState();
 }

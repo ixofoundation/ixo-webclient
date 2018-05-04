@@ -1,7 +1,7 @@
 import * as Immutable from 'immutable';
 
 export interface Action {
-    type: string;
+	type: string;
 }
 
 /**
@@ -13,7 +13,7 @@ export interface Action {
  */
 
 export function createAction<T>(type: string, data: T): Action {
-    return Immutable.Map(data as any).set('type', type).toObject() as any;
+	return Immutable.Map(data as any).set('type', type).toObject() as any;
 }
 
 /**
@@ -21,9 +21,9 @@ export function createAction<T>(type: string, data: T): Action {
  * @param response - Response sent by server
  */
 export function checkServerError(response: any) {
-    if (response.status === 'error') {
-        throw response;
-    } else {
-        return response;
-    }
+	if (response.status === 'error') {
+		throw response;
+	} else {
+		return response;
+	}
 }

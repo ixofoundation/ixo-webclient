@@ -9,11 +9,11 @@ import { createPublicSiteStore } from './redux/store';
 const store = createPublicSiteStore();
 
 ReactDOM.render(
-  <Provider store={store}>
-    <HashRouter>
-        <App/>
-    </HashRouter>
-</Provider>,
-  document.getElementById('root') as HTMLElement
+	<Provider store={store}>
+		<HashRouter>
+			<App/>
+		</HashRouter>
+	</Provider>,
+	document.getElementById('root') as HTMLElement
 );
 registerServiceWorker();

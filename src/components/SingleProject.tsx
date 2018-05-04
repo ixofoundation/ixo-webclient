@@ -69,11 +69,9 @@
 
 //     componentDidMount() {
 //         if (!this.state.projectMeta) {
-//             this.props.ixo.project.findProjectById(this.props.match.params.projectID).then((response: any) => {
-                
+//             this.props.ixo.project.findProjectById(this.props.match.params.projectID).then((response: any) => {    
 //                 this.setState({ projectMeta: response.result[0]});
 //                 this.handleInitialLoad();
-
 //             }).catch((error: Error) => {
 //                 console.log(error);
 //             });
@@ -116,7 +114,6 @@
 //     }
 
 //     getSDGGoals(){
-        
 //         const SDGArray = this.state.projectMeta.sdg.name.split(",");
 //         // this.setState({ SDGArray});
 
@@ -151,7 +148,6 @@
 //             agentList.result.map((val,index)=>{
 //                 selectStatuses[index] = "Approved";
 //             });
-            
 //             this.setState({ agentList: agentList.result ,selectStatuses});
 
 //         }).catch(error => {
@@ -256,7 +252,7 @@
 //             this.props.ixo.agent.updateAgentStatus(agentData).then((response: any) => {
 //                 this.handleResponse(toastId, response, 'updateAgentStatus');
 //             });
-            
+
 //         } else {
 //             this.setState({ modalType: 'metaMask' });
 //             this.handleToggleModal(true);
@@ -360,7 +356,7 @@
 //     getCountClaimsOfType = (claimType: string) =>{
 
 //         let amount = 0;
-        
+
 //         this.state.claimList.map((claim, index) => {
 //             if (claim.latestEvaluation == claimType) {
 //                 amount++;
@@ -652,14 +648,14 @@
 //     width: 180px;
 //     justify-content: space-around;
 //     height: 35px;
-  
+
 //   & span {
 //     cursor: pointer;
 //     display: inline-block;
 //     position: relative;
 //     transition: 0.5s;
 //   }
-  
+
 //   & span:after {
 //     content: '\00bb';
 //     position: absolute;
@@ -673,11 +669,11 @@
 //     background-color: ${props => props.theme.bgDarkest};
 
 //   }
-  
+
 //   &:hover span {
 //     padding-right: 25px;
 //   }
-  
+
 //   &:hover span:after {
 //     opacity: 1;
 //     right: 0;
@@ -803,7 +799,7 @@
 //         align-items: center;
 //         transition: background 0.3s ease;
 //         box-shadow: inset 0px 0px 60px 2px rgba(50,219,255,0.1), 0px 0px 1px 1px rgba(0,0,0,0.1);
-    
+
 //     }
 //     ${DataHeading}.active-heading {
 //         background:#00b9e0;
@@ -811,7 +807,7 @@
 
 //         h3, span, p {
 //             color:white;
-    
+
 //             transition:all 0.5s ease;
 //         }
 //     }
@@ -835,15 +831,15 @@
 // `;
 import * as React from 'react';
 
-export interface Props {
-    location?: any;
-    ixo?: any;
-    match?: any;
+export interface Props {    
+	location?: any;   
+	ixo?: any;  
+	match?: any;
 }
 
 export class SingleProject extends React.Component {
 
-    render() {
-        return 'test';
-    }
+	render() {
+		return 'test';
+	}
 }
