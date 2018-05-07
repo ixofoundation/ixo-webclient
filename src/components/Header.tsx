@@ -117,6 +117,7 @@ export interface State {
 	selectedServer: string;
 	loginStatus: boolean;
 	currDid: string;
+	copied: boolean;
 }
 
 export interface StateProps {
@@ -136,22 +137,18 @@ export interface Props extends StateProps, DispatchProps {
 
 class Header extends React.Component<Props, State> {
 
-	constructor(props: Props, context?: any) {
-		super(props, context);
-		this.state = {
-			isServerConnected: 0,
-			initialDate: new Date(),
-			responseTime: 0,
-			selectedServer: 'https://ixo-node.herokuapp.com',
-			loginStatus: false,
-			currDid: ''
-		};
-	}
+	state = {
+		isServerConnected: 0,
+		initialDate: new Date(),
+		responseTime: 0,
+		selectedServer: 'https://ixo-node.herokuapp.com',
+		loginStatus: false,
+		currDid: '',
+		copied: false
+	};
 
 	ping = () => {
-		this.setState({
-			initialDate: new Date()
-		});
+		this.setState({ initialDate: new Date() });
 		if (this.props.ixo) {
 
 			this.props.getPing(this.props.ixo);
