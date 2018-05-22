@@ -2,9 +2,10 @@ import * as React from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { HeaderConnected } from './components/Header';
+import { HeroSection } from './components/HeroSection';
 import { PublicSiteStoreState } from './redux/public_site_reducer';
 import { Routes } from './components/Routes';
-import styled from 'styled-components';
+import styled, { ThemeProvider } from 'styled-components';
 
 const Container = styled.div`
 	font-family: 'Roboto Condensed', sans-serif;
@@ -18,6 +19,28 @@ const Loading = styled.div`
 `;
 
 const Unsuccessful = Loading;
+
+const theme = {
+	ixoBlue: '#49BFE0',
+	ixoOrange: '#F89D28',
+	bg: {
+		blue: '#002233',
+		darkBlue: '#01151F',
+		LightBlue: '#017492',
+		LightGrey: '#F6F6F6',	
+		gradientBlue: 'linear-gradient(to bottom, #012639 0%,#002d42 100%)',
+	},
+	fontBlue: '#49BFE0',
+	fontDarkBlue: '#013C4F',
+	fontLightBlue: '#83D9F2',
+	fontGrey: '#282828',
+	grey: '#e2e22',
+	darkGrey: '656969',
+	widgetBorder: '#0C3549',
+	graphGradientFrom: '#03d0FE',
+	graphGradientTo: '#016480',
+	red: '#E2223B'
+};
 
 export namespace App {
 
@@ -40,15 +63,12 @@ export namespace App {
 
 class App extends React.Component<App.Props, App.State> {
 
-	constructor(props: App.Props, context?: any) {
-		super(props, context);
-		this.state = {
-			projectList: [],
-			myProjectList: [],
-			serviceAgentProjectList: [],
-			did: ''
-		};
-	}
+	state = {
+		projectList: [],
+		myProjectList: [],
+		serviceAgentProjectList: [],
+		did: ''
+	};
 
 	metamaskAccountChecker = () => {
 		if (this.state.did !== this.props.ixo.credentialProvider.getDid()) {
@@ -93,14 +113,12 @@ class App extends React.Component<App.Props, App.State> {
 	renderProjectContent() {
 		if (this.props.ixo && !this.props.pingError) {
 			return (
-				<div className="col-12">
 					<Routes
 						projectList={this.state.projectList}
 						myProjectList={this.state.myProjectList}
 						serviceAgentProjectList={this.state.serviceAgentProjectList}
 						refreshProjects={this.refreshProjectList}
 					/>
-				</div>
 			);
 		} else if (this.props.pingError) {
 			return <Unsuccessful className="col-md-12"><p>Error connecting to ixo server... Retrying...</p></Unsuccessful>;
@@ -111,10 +129,13 @@ class App extends React.Component<App.Props, App.State> {
 
 	render() {
 		return (
-			<Container>
-				<HeaderConnected />
-				{this.renderProjectContent()}
-			</Container>
+			<ThemeProvider theme={theme}>
+				<Container>
+					<HeaderConnected />
+					<HeroSection isProjectPage={false}/>
+					{this.renderProjectContent()}
+				</Container>
+			</ThemeProvider>
 		);
 	}
 }

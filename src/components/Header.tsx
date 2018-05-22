@@ -8,11 +8,17 @@ import styled from 'styled-components';
 import { toast } from 'react-toastify';
 import { HeaderLeft } from './HeaderLeft';
 import { HeaderRight } from './HeaderRight';
+import { Tabs } from './Tabs';
+
+const graphIcon = require('../assets/images/graph-view-icon.svg');
 
 const TopBar = styled.header`
     position: fixed;
 	padding:0 15px;
-	height:90px;
+
+	@media all and (min-width:768px) {
+		height:90px;
+	}
     z-index:99;
     background:black;
     top:0;
@@ -111,7 +117,7 @@ const LightReady = Light.extend`
     box-shadow: 0px 0px 5px 0px rgb(0, 255, 64);
 `;
 export interface State {
-	isServerConnected: number;
+	isServerConnected: boolean;
 	initialDate: Date;
 	responseTime: number;
 	selectedServer: string;
@@ -138,7 +144,7 @@ export interface Props extends StateProps, DispatchProps {
 class Header extends React.Component<Props, State> {
 
 	state = {
-		isServerConnected: 0,
+		isServerConnected: false,
 		initialDate: new Date(),
 		responseTime: 0,
 		selectedServer: 'https://ixo-node.herokuapp.com',
@@ -194,12 +200,12 @@ class Header extends React.Component<Props, State> {
 			if (this.props.pingResult === 'pong') {
 				const responseTime = Math.abs(new Date().getTime() - this.state.initialDate.getTime());
 				this.setState({
-					isServerConnected: 1,
+					isServerConnected: true,
 					responseTime
 				});
 
 			} else {
-				this.setState({ isServerConnected: 0 });
+				this.setState({ isServerConnected: false });
 			}
 		}
 	}
@@ -216,7 +222,7 @@ class Header extends React.Component<Props, State> {
 	}
 
 	renderStatusMessage() {
-		if (this.state.isServerConnected === 1) {
+		if (this.state.isServerConnected) {
 			return (
 				<StatusMessage>
 					<p>Response time: {this.state.responseTime} ms</p>
@@ -236,7 +242,7 @@ class Header extends React.Component<Props, State> {
 	}
 
 	renderLightIndicator() {
-		if (this.state.isServerConnected === 1) {
+		if (this.state.isServerConnected) {
 			return <LightReady />;
 		} else if (this.props.pingError === null) {
 			return <LightLoading />;
@@ -251,7 +257,7 @@ class Header extends React.Component<Props, State> {
 			localStorage.setItem('server', event.target.value);
 			this.setState({
 				selectedServer: event.target.value,
-				isServerConnected: 0
+				isServerConnected: false
 			});
 			this.props.onServerChange();
 			this.props.onIxoInit(event.target.value);    
@@ -270,7 +276,13 @@ class Header extends React.Component<Props, State> {
 						did={this.state.currDid}
 					/>
 				</div>
-
+				<Tabs 
+					buttons={[
+						{ iconURL: graphIcon, path: '/', title: 'path' },
+						{ iconURL: graphIcon, path: '', title: 'path' },
+						{ iconURL: '', path: 'testText2' }
+					]}
+				/>
 			</TopBar>
 		);
 	}

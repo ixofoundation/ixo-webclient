@@ -1,6 +1,8 @@
-// import * as React from 'react';
-// import { connect } from "react-redux";
-// // import { IPublicSiteStoreState } from "../../../redux/public_site_reducer";
+import * as React from 'react';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import { PublicSiteStoreState } from '../redux/public_site_reducer';
+
 // // import styled from 'styled-components';
 // // import { ModalWrapper } from '../../ModalWrapper';
 // // import DynamicForm from '../../formTemplates/DynamicForm';
@@ -11,6 +13,78 @@
 // // import ProjectHeader from './ProjectHeader';
 // // import ProjectStats from './ProjectStats';
 // // import SDGStats from './SDGStats';
+
+export interface State {
+	projectMeta: any;
+	isModalOpen: boolean;
+	agentFormSchema: any;
+	claimFormSchema: any;
+	evaluationFormSchema: any;
+	agentList: any;
+	claimList: any;
+	selectStatuses: any;
+	claimTxToEvaluate: any;
+	activeAgent: number;
+	activeClaim: number;
+	goalsWithMeta: string[];
+}
+
+export interface StateProps {    
+	location?: any;   
+	ixo?: any;  
+	match?: any;
+}
+
+export class SingleProject extends React.Component<StateProps> {
+
+	state = {
+		projectMeta: this.props.location.state,
+		agentFormSchema: {},
+		claimFormSchema: {},
+		evaluationFormSchema: {},
+		agentList: [],
+		claimList: [],
+		claimTxToEvaluate: null,
+		selectStatuses: [],
+		goalsWithMeta: []
+	};
+
+	componentDidMount() {
+		// if (!this.state.projectMeta) {
+		// 	console.log('GET PROJECT');
+		// 	this.props.ixo.project.findProjectById(this.props.match.params.projectID).then((response: any) => {    
+		// 		this.setState({ projectMeta: response.result[0]});
+		// 		// this.handleInitialLoad();
+		// 	}).catch((error: Error) => {
+		// 		console.log(error);
+		// 	});
+		// } else {
+		// 	// this.handleInitialLoad();
+		// }
+
+	}
+	render() {
+
+		// if (performance.navigation.type === 1) {
+		// 	console.info( 'This page is reloaded' );
+		// } else {
+		// 	console.info( 'This page is not reloaded');
+		// }
+		console.log(this.props);
+	
+		return 'test';
+	}
+}
+
+function mapStateToProps(state: PublicSiteStoreState) {
+	return {
+		ixo: state.ixoStore.ixo
+	};
+}
+
+export const SingleProjectConnected = withRouter(connect(
+	mapStateToProps
+)(SingleProject as any) as any);
 
 // var merge = require('merge');
 
@@ -554,7 +628,6 @@
 // function mapDispatchToProps(dispatch) {
 //     return {};
 // }
-
 // const ProjectContainer = styled.div`
 //     margin-top:30px;
 //     padding-bottom:10%;
@@ -829,17 +902,3 @@
 //     text-overflow: ellipsis;
 //     max-width: 100%;
 // `;
-import * as React from 'react';
-
-export interface Props {    
-	location?: any;   
-	ixo?: any;  
-	match?: any;
-}
-
-export class SingleProject extends React.Component {
-
-	render() {
-		return 'test';
-	}
-}

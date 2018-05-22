@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Switch, Route } from 'react-router-dom';
-import { SingleProject } from './SingleProject';
+import { SingleProjectConnected } from './SingleProject';
 import { Projects } from './Projects';
 
 export namespace Routes {
@@ -17,7 +17,6 @@ export namespace Routes {
 	export interface RouteProps extends StateProps, Callbacks {
 
 	}
-
 }
 
 export const Routes: React.SFC<Routes.RouteProps> = (props) => {
@@ -26,18 +25,18 @@ export const Routes: React.SFC<Routes.RouteProps> = (props) => {
 		<Switch>
 			<Route 
 				exact={true}
-				path="/project/:projectID"
+				path="/"
 				render={(routeProps) => (
-					<SingleProject 
-						{...routeProps} 
-						{...props} 
-						// refreshProjects={props.refreshProjects}
+					<Projects 
+						// {...routeProps}
+						// {...props}
+						projectList={props.projectList}
 					/>
 				)}
 			/>
 			<Route 
 				exact={true}
-				path="/"
+				path="/global-statistics"
 				render={(routeProps) => (
 					<Projects {...routeProps} {...props} projectList={props.projectList} />
 				)}
@@ -49,9 +48,58 @@ export const Routes: React.SFC<Routes.RouteProps> = (props) => {
 					<Projects {...routeProps} {...props} projectList={props.myProjectList} />
 				)}
 			/>
+			<Route 
+				exact={true}
+				path="/:projectID/home"
+				render={(routeProps) => (
+					<SingleProjectConnected 
+						// {...routeProps} 
+						// {...props} 
+						// refreshProjects={props.refreshProjects}
+					/>
+				)}
+			/>
+			<Route 
+				exact={true}
+				path="/:projectID/stats"
+				render={(routeProps) => (
+					<SingleProjectConnected 
+						// {...routeProps} 
+						// {...props} 
+					/>
+				)}
+			/>
 			<Route
 				exact={true}
-				path="/capture-claim"
+				path="/:projectID/claims"
+				render={(routeProps) => (
+					<Projects {...routeProps} {...props} projectList={props.serviceAgentProjectList} />
+				)}
+			/>
+			<Route
+				exact={true}
+				path="/:projectID/evaluators"
+				render={(routeProps) => (
+					<Projects {...routeProps} {...props} projectList={props.serviceAgentProjectList} />
+				)}
+			/>
+			<Route
+				exact={true}
+				path="/:projectID/funders"
+				render={(routeProps) => (
+					<Projects {...routeProps} {...props} projectList={props.serviceAgentProjectList} />
+				)}
+			/>
+			<Route
+				exact={true}
+				path="/:projectID/service-agents"
+				render={(routeProps) => (
+					<Projects {...routeProps} {...props} projectList={props.serviceAgentProjectList} />
+				)}
+			/>
+			<Route
+				exact={true}
+				path="/create-project"
 				render={(routeProps) => (
 					<Projects {...routeProps} {...props} projectList={props.serviceAgentProjectList} />
 				)}

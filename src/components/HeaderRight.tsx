@@ -58,6 +58,12 @@ const UserBox = styled.div`
 
 	:hover {
 		cursor: pointer;
+		background: #002233;
+	}
+
+	> p {
+		margin-bottom: 0;
+		text-align: center;
 	}
 `;
 
@@ -70,6 +76,7 @@ const MenuTop = styled.div`
 		font-size: 14px;
 		margin:3px 0;
 		line-height: 16px;
+		font-weight:300;
 	}
 
 	img {
@@ -111,6 +118,7 @@ const NoPadLeft = styled.div`
 		justify-content: space-between;
 		z-index:2;
 		position:relative;
+		letter-spacing:0.3px
 	}
 `;
 
@@ -162,12 +170,12 @@ export class HeaderRight extends React.Component<HeaderRightProps, State> {
 	};
 	
 	toggleMenu = () => {
-		this.setState({showMenu: !this.state.showMenu});
+		this.setState((prevState) => ({showMenu: !prevState.showMenu}));
 	}
 
 	render() {
 		return (
-			<NoPadLeft className="col-6">
+			<NoPadLeft className="col-md-6">
 				<Inner className="d-flex justify-content-end">
 					<div>
 						{this.props.renderStatusIndicator()}
@@ -179,19 +187,21 @@ export class HeaderRight extends React.Component<HeaderRightProps, State> {
 						</select>
 						<IXO><img src={xIcon} alt="IXO" /> 0.567</IXO>
 					</div>
-					<UserBox onClick={this.toggleMenu} >
-						<h3>Michael <ArrowDown /></h3>
-					</UserBox>
+					{this.props.did &&
+						<UserBox onClick={this.toggleMenu} >
+							<h3>Michael <ArrowDown /></h3>
+						</UserBox>
+					}
 				</Inner>
 				<UserMenu className={this.state.showMenu ? 'visible' : ''}>
 						<MenuTop>
 							<h3>Michael <Link to="/">COG</Link></h3>
-							<AccDID >
-								<p>{this.props.did}</p> 
-								<CopyToClipboard text={this.props.did}>
-									<span>Copy</span>
-								</CopyToClipboard>
-							</AccDID>
+								<AccDID >
+									<p>{this.props.did}</p> 
+									<CopyToClipboard text={this.props.did}>
+										<span>Copy</span>
+									</CopyToClipboard>
+								</AccDID>
 							<p><img src={xIcon} alt="IXO Icon" /> <strong>45.76</strong> ixo balance</p>
 						</MenuTop>
 						<MenuBottom>

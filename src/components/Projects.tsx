@@ -126,25 +126,18 @@ const ProjectLink = styled(Link) `
 `;
 
 export namespace Projects {
-
 	export interface StateProps {
 		projectList?: any;
 	}
-
-	export interface State {
-	}
-
-	export interface Props extends StateProps {
-	}
 }
 
-export class Projects extends React.Component<Projects.Props, Projects.State> {
+export const Projects: React.SFC<Projects.StateProps> = (props) => {
 
-	percentageComplete = (project: any) => {
+	const percentageComplete = (project: any) => {
 		return Math.round((project.approvedClaimCount / project.numberOfSuccessfulClaims) * 100);
-	}
+	};
 
-	renderExcerpt = (theText: string) => {
+	const renderExcerpt = (theText: string) => {
 		const cutOffCount = 20;
 		const wordCount = theText.split(' ').length - 1;
 
@@ -166,21 +159,24 @@ export class Projects extends React.Component<Projects.Props, Projects.State> {
 		} else {
 			return theText;
 		}
-	}
+	};
 
-	renderProjects = () => {
-		if (this.props.projectList === null) {
-			return <NoProjectsToDisplay className="col-md-12"><p>Projects are loading...</p></NoProjectsToDisplay>;
-		} else if (this.props.projectList.length > 0) {
+	const renderProjects = () => {
+		if (props.projectList === null) {
 			return (
-				<ProjectsContainer className="container-fluid">
+				<div className="row">
+					<NoProjectsToDisplay className="col-md-12"><p>Projects are loading...</p></NoProjectsToDisplay>;
+				</div>
+			);
+		} else if (props.projectList.length > 0) {
+			return (
 					<div className="row">
-						{this.props.projectList.map((project, index) => {
+						{props.projectList.map((project, index) => {
 							return (
 								<ProjectCard className="col-12 col-xl-3 col-lg-3 col-md-4 col-sm-6 " key={index}>
 									<ProjectLink 
 										to={{
-										pathname: `/project/${project._id}`,
+										pathname: `/${project._id}/home`,
 										state: project
 									}}
 										// project={project}
@@ -189,13 +185,13 @@ export class Projects extends React.Component<Projects.Props, Projects.State> {
 											<div>
 												<TitleContainer>{project.country} {project.name}</TitleContainer>
 												<AboutBox>
-													<div>{this.renderExcerpt(project.about)}</div>
+													<div>{renderExcerpt(project.about)}</div>
 												</AboutBox>
 											</div>
 											<ProgressBox>
 												<CircularProgressbar
 													className="progressbar" 
-													percentage={this.percentageComplete(project)}
+													percentage={percentageComplete(project)}
 													textForPercentage={(percent) => percent < 100 ? percent + '%' : 'complete'}
 												/>
 											</ProgressBox>
@@ -208,18 +204,19 @@ export class Projects extends React.Component<Projects.Props, Projects.State> {
 								</ProjectCard>);
 						})}
 					</div>
-				</ProjectsContainer>
 			);
 		} else {
-			return <NoProjectsToDisplay className="col-md-12"><p>No projects were found</p></NoProjectsToDisplay>;
+			return (
+				<div className="row">
+					<NoProjectsToDisplay className="col-md-12"><p>No projects were found</p></NoProjectsToDisplay>;
+				</div>
+			);
 		}
-	}
+	};
 
-	render() {
-		return (
-			<div>
-				{this.renderProjects()}
-			</div>
-		);
-	}
-}
+	return (
+		<ProjectsContainer className="container-fluid">
+			{renderProjects()}
+		</ProjectsContainer>
+	);
+};
