@@ -1,31 +1,50 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 const TabsContainer = styled.div`
 	background:${props => props.theme.bg.gradientBlue};
 	border-radius:3px;
+	overflow: hidden;
 	display:inline-flex;
 
 	a {
 		color:white;
+		text-transform: uppercase;
 		font-weight:300;
-		padding:10px 10px 10px 20px;
+		font-size:14px;
+		padding:10px 20px;
 		display:flex;
 		align-items: center;
 		justify-content: center;
 		text-decoration: none;
-		border-right:${props => props.theme.bg.LightBlue};
+
+		transition: all 0.3s ease;
 	}
 
-	a:hover {
-		background: ${props => props.theme.bg.LightBlue};
+	a:last-child {
+		border-left:1px solid ${props => props.theme.bg.lightBlue};
 	}
 
-	a:hover img {
-		color:red;
-		background:red;
-		fill: red;
+	a i {
+		margin:0 10px 0 0
+		font-size: 18px;
+	}
+
+	i:before {
+		transition: all 0.3s ease;
+	}
+
+	a p {
+		margin-bottom:0;
+	}
+
+	a:hover, .active {
+		background: ${props => props.theme.bg.lightBlue};
+	}
+
+	a:hover i:before, a.active i:before {
+		color: ${props => props.theme.ixoBlue};
 	}
 
 	img {
@@ -34,7 +53,7 @@ const TabsContainer = styled.div`
 `;
 
 export interface Button {
-	iconURL: string;
+	iconClass: string;
 	title?: string;
 	path: string;
 }
@@ -48,10 +67,10 @@ export const Tabs: React.SFC<Props> = (props) => {
 		<TabsContainer>
 			{props.buttons.map((button, index) => {
 				return (
-					<Link to={button.path} key={index}>
-						{button.iconURL && <img src={button.iconURL} />}
-						{button.title && button.title}
-					</Link>
+					<NavLink exact={true} to={button.path} key={index}>
+						{button.iconClass && <i className={button.iconClass}/>}
+						{button.title && <p>{button.title}</p>}
+					</NavLink>
 				);
 			})}
 		</TabsContainer>

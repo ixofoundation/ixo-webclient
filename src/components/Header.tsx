@@ -8,9 +8,6 @@ import styled from 'styled-components';
 import { toast } from 'react-toastify';
 import { HeaderLeft } from './HeaderLeft';
 import { HeaderRight } from './HeaderRight';
-import { Tabs } from './Tabs';
-
-const graphIcon = require('../assets/images/graph-view-icon.svg');
 
 const TopBar = styled.header`
     position: fixed;
@@ -276,13 +273,6 @@ class Header extends React.Component<Props, State> {
 						did={this.state.currDid}
 					/>
 				</div>
-				<Tabs 
-					buttons={[
-						{ iconURL: graphIcon, path: '/', title: 'path' },
-						{ iconURL: graphIcon, path: '', title: 'path' },
-						{ iconURL: '', path: 'testText2' }
-					]}
-				/>
 			</TopBar>
 		);
 	}

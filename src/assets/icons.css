@@ -1,0 +1,122 @@
+@font-face {
+	font-family: 'icomoon';
+	src:  url('fonts/icomoon.eot?5cgi95');
+	src:  url('fonts/icomoon.eot?5cgi95#iefix') format('embedded-opentype'),
+	  url('fonts/icomoon.ttf?5cgi95') format('truetype'),
+	  url('fonts/icomoon.woff?5cgi95') format('woff'),
+	  url('fonts/icomoon.svg?5cgi95#icomoon') format('svg');
+	font-weight: normal;
+	font-style: normal;
+  }
+  
+  [class^="icon-"], [class*=" icon-"] {
+	/* use !important to prevent issues with browser extensions that change fonts */
+	font-family: 'icomoon' !important;
+	speak: none;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+  
+	/* Better Font Rendering =========== */
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+  }
+  
+  .icon-ixo-logo:before {
+	content: "\e900";
+	color: #49bfe0;
+  }
+  .icon-ixo-small:before {
+	content: "\e901";
+	color: #49bfe0;
+  }
+  .icon-location:before {
+	content: "\e902";
+	color: #4c4c4c;
+  }
+  .icon-url:before {
+	content: "\e903";
+	color: #4c4c4c;
+  }
+  .icon-instagram-logo:before {
+	content: "\e904";
+	color: #4c4c4c;
+  }
+  .icon-twitter-logo-silhouette:before {
+	content: "\e905";
+	color: #4c4c4c;
+  }
+  .icon-facebook-logo:before {
+	content: "\e906";
+	color: #4c4c4c;
+  }
+  .icon-world-url:before {
+	content: "\e907";
+	color: #4c4c4c;
+  }
+  .icon-statistics-graph:before {
+	content: "\e908";
+	color: #fff;
+  }
+  .icon-projects:before {
+	content: "\e909";
+	color: #fff;
+  }
+  .icon-sdg-good-health:before {
+	content: "\e90a";
+	color: #fff;
+  }
+  .icon-sdg-clean-water:before {
+	content: "\e90b";
+	color: #fff;
+  }
+  .icon-sdg-life-on-land:before {
+	content: "\e90c";
+	color: #fff;
+  }
+  .icon-settings-large:before {
+	content: "\e90d";
+	color: #fff;
+  }
+  .icon-share:before {
+	content: "\e90e";
+	color: #b8b8b8;
+  }
+  .icon-favourites:before {
+	content: "\e90f";
+	color: #b8b8b8;
+  }
+  .icon-calendar:before {
+	content: "\e910";
+	color: #fff;
+  }
+  .icon-info:before {
+	content: "\e911";
+	color: #fff;
+  }
+  .icon-expand:before {
+	content: "\e912";
+	color: #fff;
+  }
+  .icon-indicator-up:before {
+	content: "\e913";
+	color: #8fba3f;
+  }
+  .icon-indicator-down:before {
+	content: "\e914";
+	color: #e2223b;
+  }
+  .icon-add:before {
+	content: "\e915";
+	color: #49bfe0;
+  }
+  .icon-export:before {
+	content: "\e916";
+	color: #49bfe0;
+  }
+  .icon-arrow-dropdown-large:before {
+	content: "\e917";
+	color: #fff;
+  }

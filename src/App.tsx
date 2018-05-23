@@ -6,7 +6,32 @@ import { HeroSection } from './components/HeroSection';
 import { PublicSiteStoreState } from './redux/public_site_reducer';
 import { Routes } from './components/Routes';
 import styled, { ThemeProvider } from 'styled-components';
+import './assets/icons.css';
 
+// THEME DECLARATION BELOW
+
+const theme = {
+	ixoBlue: '#49BFE0', // button borders, small hero numbers, SDG numbers
+	ixoOrange: '#F89D28',
+	bg: {
+		blue: '#002233', // dashboard background
+		darkBlue: '#01151F', // Tooltips background
+		lightBlue: '#017492', // active button background for tabs on hero section
+		lightGrey: '#F6F6F6', // light background for projects list
+		gradientBlue: 'linear-gradient(to bottom, #012639 0%,#002d42 100%)', // background for widgets (charts, graphs, tabs, etc.)
+	},
+	fontBlue: '#49BFE0', // Same as ixoBlue
+	fontDarkBlue: '#013C4F', 
+	fontLightBlue: '#83D9F2', // big hero section numbers, widgets big numbers
+	fontGrey: '#282828', // generally text on white background
+	grey: '#e2e22', // borders for project list cards, progress bar background on projects list
+	darkGrey: '656969', // "load more projects" button on project list
+	widgetBorder: '#0C3549', // border color for graphs/ charts, etc.
+	graphGradient: 'linear-gradient(to bottom, #03d0FE 0%,#016480 100%)', // gradient fill for graphs/bars/charts
+	red: '#E2223B'
+};
+
+// END OF THEME DECLARATION, CSS FOR COMPONENT BELOW
 const Container = styled.div`
 	font-family: 'Roboto Condensed', sans-serif;
 `;
@@ -19,28 +44,6 @@ const Loading = styled.div`
 `;
 
 const Unsuccessful = Loading;
-
-const theme = {
-	ixoBlue: '#49BFE0',
-	ixoOrange: '#F89D28',
-	bg: {
-		blue: '#002233',
-		darkBlue: '#01151F',
-		LightBlue: '#017492',
-		LightGrey: '#F6F6F6',	
-		gradientBlue: 'linear-gradient(to bottom, #012639 0%,#002d42 100%)',
-	},
-	fontBlue: '#49BFE0',
-	fontDarkBlue: '#013C4F',
-	fontLightBlue: '#83D9F2',
-	fontGrey: '#282828',
-	grey: '#e2e22',
-	darkGrey: '656969',
-	widgetBorder: '#0C3549',
-	graphGradientFrom: '#03d0FE',
-	graphGradientTo: '#016480',
-	red: '#E2223B'
-};
 
 export namespace App {
 
