@@ -135,7 +135,7 @@ class App extends React.Component<App.Props, App.State> {
 			<ThemeProvider theme={theme}>
 				<Container>
 					<HeaderConnected />
-					<HeroSection isProjectPage={false}/>
+					<HeroSection isProjectPage={false} statistics={[]}/>
 					{this.renderProjectContent()}
 				</Container>
 			</ThemeProvider>

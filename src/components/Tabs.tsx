@@ -7,6 +7,7 @@ const TabsContainer = styled.div`
 	border-radius:3px;
 	overflow: hidden;
 	display:inline-flex;
+	box-shadow: 0px 10px 50px 0px rgba(0,0,0,0.35);
 
 	a {
 		color:white;
@@ -39,8 +40,13 @@ const TabsContainer = styled.div`
 		margin-bottom:0;
 	}
 
-	a:hover, .active {
+	a:hover {
+		color: ${props => props.theme.ixoBlue};
+	}
+
+	a.active {
 		background: ${props => props.theme.bg.lightBlue};
+		color:white;
 	}
 
 	a:hover i:before, a.active i:before {
