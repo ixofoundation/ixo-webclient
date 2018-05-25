@@ -11,7 +11,7 @@ const bg = require('../assets/images/heroBg.jpg');
 const HeroContainer = styled.div`
 	background: url(${bg}) no-repeat center top;
 	background-size: cover;
-	margin:74px 0 60px;
+	margin:0 0 60px;
 	width: 100vw;
 	position: relative;
 	cursor:pointer;
@@ -35,7 +35,6 @@ const HeroContainer = styled.div`
 	
 	@media (min-width: ${deviceWidth.tablet}px) {
 		height:200px;
-		margin:90px 0 60px;
 	}
 `;
 
@@ -70,8 +69,10 @@ const StatisticContainer = styled.div`
 		width: 100%;
 	}
 
-	@media (min-width: ${deviceWidth.tablet}) {
-		border-left: 1px solid rgba(73,191,224,0.3);
+	@media (min-width: ${deviceWidth.tablet}px) {
+		> div {
+			border-left: 1px solid rgba(73,191,224,0.3);
+		}
 	}
 
 	:first-child > div {

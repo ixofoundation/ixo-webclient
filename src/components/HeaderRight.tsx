@@ -17,7 +17,6 @@ const ArrowDown = styled.div`
 	display: inline-block;
 	padding: 6px;
 	transform: rotate(45deg);
-	-webkit-transform: rotate(45deg);
 	margin-left:20px;
 	margin-bottom:5px;
 `;

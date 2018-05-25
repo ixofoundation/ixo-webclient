@@ -3,12 +3,20 @@ import { Link, NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 
 const HeaderLink = styled(NavLink)`
-	padding:10px 20px 10px;
-	color:white;
-	text-transform:uppercase;
-	margin:0 10px;
-	font-size:15px;
-	border:1px solid #000000;
+
+    padding: 10px 10px 10px;
+    color: white;
+    text-transform: uppercase;
+    margin: 0;
+    font-size: 13px;
+    border: 1px solid #000000;
+    transition: border 0.3s ease;
+
+	@media (min-width: 415px) {
+		padding:10px 20px 10px;
+		margin:0 10px;
+		font-size:15px;
+	}
 
 	transition:border 0.3s ease;
 	

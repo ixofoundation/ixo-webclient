@@ -12,7 +12,8 @@ import MediaQuery from 'react-responsive';
 import { deviceWidth } from '../utils/mediaBreakpoints';
 
 const TopBar = styled.header`
-    position: fixed;
+	position: sticky;
+	top:0;
 	padding:0 15px;
 
 	@media all and (min-width:768px) {
