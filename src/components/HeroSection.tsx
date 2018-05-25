@@ -63,7 +63,7 @@ const PositionController = styled.div`
 	}
 
 	.single {
-		top:0;
+		top:-10px;
 	}
     z-index: 1;
 `;
@@ -98,9 +98,17 @@ const HeroContainer = styled.div`
 	}
 `;
 
+export interface ProjectHeaderData {
+	title: string,
+	SDGs:number[],
+	description: string,
+	dateCreated: Date,
+	country: string
+}
+
 export interface Props {
 	statistics?: Statistic[];
-	projectData?: string;
+	projectData?: ProjectHeaderData;
 }
 
 export const HeroSection: React.SFC<Props> = (props) => {

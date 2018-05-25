@@ -132,7 +132,7 @@ class App extends React.Component<App.Props, App.State> {
 }
 
 	render() {
-		const isProjectPage = true;
+		const isProjectPage = false;
 		return (
 			<ThemeProvider theme={theme}>
 				<Container>
@@ -160,6 +160,13 @@ class App extends React.Component<App.Props, App.State> {
 						/>
 						:
 						<HeroSection 
+							// ProjectHeaderData = {
+							// 	title:'test',
+							// 	SDGs:[15,12,9],
+							// 	description: 'test',
+							// 	dateCreated: '2017/11/12',
+							// 	country: 'South Africa'
+							// }
 					/>
 					}
 
