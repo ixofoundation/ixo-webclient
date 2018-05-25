@@ -6,6 +6,7 @@ import { HeroSection } from './components/HeroSection';
 import { PublicSiteStoreState } from './redux/public_site_reducer';
 import { Routes } from './components/Routes';
 import styled, { ThemeProvider } from 'styled-components';
+import { StatType } from './types/models';
 import './assets/icons.css';
 
 // THEME DECLARATION BELOW
@@ -135,7 +136,27 @@ class App extends React.Component<App.Props, App.State> {
 			<ThemeProvider theme={theme}>
 				<Container>
 					<HeaderConnected />
-					<HeroSection isProjectPage={false} statistics={[]}/>
+					<HeroSection 
+						isProjectPage={false} 
+						statistics={[
+							{title: 'SERVICE PROVIDER',
+							type: StatType.fraction,
+							descriptor: [{class: 'text', value: 'test'}, {class: 'number', value: 2}, {class: 'text', value: 'test2'}],
+							amount: [20, 1110]},
+							{title: 'SERVICE PROVIDER',
+							type: StatType.fraction,
+							descriptor: [{class: 'text', value: 'test'}, {class: 'number', value: 2}, {class: 'text', value: 'test2'}],
+							amount: [20, 1110]},
+							{title: 'SERVICE PROVIDER',
+							type: StatType.ixoAmount,
+							descriptor: [{class: 'text', value: 'test'}, {class: 'number', value: 2}, {class: 'text', value: 'test2'}],
+							amount: [20, 1110]},
+							{title: 'SERVICE PROVIDER',
+							type: StatType.decimal,
+							descriptor: [{class: 'text', value: 'claims available: '}, {class: 'number', value: 2}],
+							amount: [20, 1110]}
+						]} 
+					/>
 					{this.renderProjectContent()}
 				</Container>
 			</ThemeProvider>

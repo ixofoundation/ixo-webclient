@@ -28,7 +28,7 @@ const Main = styled.div`
 `;
 
 const IXOLogo = styled.i`
-	height: 40px;
+	font-size: 40px;
 	margin-right:20px;
 `;
 

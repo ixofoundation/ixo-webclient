@@ -1,20 +1,53 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import { Tabs } from './Tabs';
-import { Statistic } from './Statistic';
+import { SingleStatistic } from './SingleStatistic';
+import { Statistic } from '../types/models';
+import '../utils/mediaBreakpoints';
+import { deviceWidth } from '../utils/mediaBreakpoints';
+
 const bg = require('../assets/images/heroBg.jpg');
 
 const HeroContainer = styled.div`
-	height:200px;
-	background: ${props => props.theme.bg.darkBlue} url(${bg}) no-repeat center top;
+	background: url(${bg}) no-repeat center top;
 	background-size: cover;
-	margin:90px 0 60px;
+	margin:74px 0 60px;
 	width: 100vw;
+	position: relative;
+	cursor:pointer;
+
+	:before {
+		position: absolute;
+		content:" ";
+		top:0;
+		left:0;
+		width:100%;
+		height:100%;
+		z-index:0;
+		transition: background 0.3s ease;
+
+		background-color: rgba(3,60,80,0);
+	}
+
+	:hover:before {
+		background-color: rgba(3,60,80,0.6);
+	}
+	
+	@media (min-width: ${deviceWidth.tablet}px) {
+		height:200px;
+		margin:90px 0 60px;
+	}
 `;
 
 const HeroInner = styled.div`
 	position:relative;
 	height:100%;
+
+	> .row {
+		justify-content: center;
+		align-items: center;
+		height:100%;
+	}
 `;
 
 const PositionController = styled.div`
@@ -24,30 +57,45 @@ const PositionController = styled.div`
     z-index: 1;
 `;
 
-enum StatisticType {
-	decimalAmount = 'DECIMAL',
-	fraction = 'FRACTION',
-	ixoAmount = 'IXO',
-}
+const StatisticContainer = styled.div`
 
-export interface Statistic {
-	title: string;
-	type?: StatisticType;
-	amount: number | [number, number];
-	descriptor?: string;
-}
+	height: 100%;
+	align-items: center;
+	display: flex;
+	padding: 0;
+	justify-content: center;
+
+	> div {
+		height: auto;
+		width: 100%;
+	}
+
+	@media (min-width: ${deviceWidth.tablet}) {
+		border-left: 1px solid rgba(73,191,224,0.3);
+	}
+
+	:first-child > div {
+		border-left:0;
+	}
+`;
 
 export interface Props {
 	isProjectPage: boolean;
 	statistics: Statistic[];
 }
 
-export const HeroSection: React.SFC<Props> = () => {
+export const HeroSection: React.SFC<Props> = (props) => {
 	return (
 		<HeroContainer>
 			<HeroInner className="container">
 				<div className="row">
-					<div className="col-md-6"><Statistic title={'test'} type={StatisticType.decimalAmount} amount={[1, 20]} descriptor={'test'}/></div>
+				{props.statistics.map((statistic, index) => {
+					return (
+						<StatisticContainer key={index} className="col-md-3 col-sm-6 col-6">
+							<SingleStatistic title={statistic.title} type={statistic.type} amount={statistic.amount} descriptor={statistic.descriptor}/>
+						</StatisticContainer>
+					);
+				})}
 				</div>
 				<PositionController>
 					<Tabs 

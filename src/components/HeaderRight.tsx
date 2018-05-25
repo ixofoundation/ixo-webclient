@@ -2,8 +2,6 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
-import MediaQuery from 'react-responsive';
-import { deviceWidth } from '../utils/mediaBreakpoints';
 
 const xIcon = require('../assets/images/x-icon.png');
 
@@ -189,13 +187,11 @@ export class HeaderRight extends React.Component<HeaderRightProps, State> {
 						</select>
 						<IXO><img src={xIcon} alt="IXO" /> 0.567</IXO>
 					</div>
-					<MediaQuery minWidth={deviceWidth.tablet}>
 						{(this.props.did) &&
 							<UserBox onClick={this.toggleMenu} >
 								<h3>Michael <ArrowDown /></h3>
 							</UserBox>
 						}
-					</MediaQuery>
 				</Inner>
 				<UserMenu className={this.state.showMenu ? 'visible' : ''}>
 						<MenuTop>

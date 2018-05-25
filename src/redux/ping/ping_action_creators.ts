@@ -1,11 +1,11 @@
 import { createAction } from '../../lib/redux_utils/actions';
 import { PingResult, PING_RESULT } from './ping_actions';
-import { IPingResult } from '../../types/models';
+import { Ping } from '../../types/models';
 
 export function pingIxoServer(ixo: any) {
 	return dispatch => {
 		ixo.network.pingIxoServerNode()
-			.then((response: IPingResult) => {
+			.then((response: Ping) => {
 				dispatch(
 					createAction<PingResult>(PING_RESULT.type, {
 						pingResult: response.result,

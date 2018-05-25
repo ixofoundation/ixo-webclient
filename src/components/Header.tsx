@@ -8,6 +8,8 @@ import styled from 'styled-components';
 import { toast } from 'react-toastify';
 import { HeaderLeft } from './HeaderLeft';
 import { HeaderRight } from './HeaderRight';
+import MediaQuery from 'react-responsive';
+import { deviceWidth } from '../utils/mediaBreakpoints';
 
 const TopBar = styled.header`
     position: fixed;
@@ -150,7 +152,7 @@ class Header extends React.Component<Props, State> {
 		copied: false
 	};
 
-	ping = () => {
+	ping: () => void = () => {
 		this.setState({ initialDate: new Date() });
 		if (this.props.ixo) {
 
@@ -266,12 +268,14 @@ class Header extends React.Component<Props, State> {
 			<TopBar className="container-fluid text-white">
 				<div className="row">
 					<HeaderLeft />
-					<HeaderRight 
-						renderStatusIndicator={this.renderStatusIndicator}
-						selectedServer={this.state.selectedServer}
-						handleServerChange={this.handleServerChange}
-						did={this.state.currDid}
-					/>
+					<MediaQuery minWidth={deviceWidth.tablet}>
+						<HeaderRight 
+							renderStatusIndicator={this.renderStatusIndicator}
+							selectedServer={this.state.selectedServer}
+							handleServerChange={this.handleServerChange}
+							did={this.state.currDid}
+						/>
+					</MediaQuery>
 				</div>
 			</TopBar>
 		);
