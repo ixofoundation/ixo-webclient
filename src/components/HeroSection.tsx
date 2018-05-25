@@ -8,6 +8,66 @@ import { deviceWidth } from '../utils/mediaBreakpoints';
 
 const bg = require('../assets/images/heroBg.jpg');
 
+const StatisticContainer = styled.div`
+
+	height: 100%;
+	align-items: center;
+	display: flex;
+	padding: 0;
+	justify-content: center;
+
+	> div {
+		height: auto;
+		width: 100%;
+	}
+
+	@media (min-width: ${deviceWidth.tablet}px) {
+		> div {
+			border-left: 1px solid rgba(73,191,224,0.3);
+		}
+	}
+
+	:first-child > div {
+		border-left:0;
+	}
+`;
+
+const HeroInner = styled.div`
+	position:relative;
+	height:100%;
+
+	> .row {
+		justify-content: center;
+		align-items: center;
+		height:100%;
+	}
+
+	${StatisticContainer}{
+		transition: transform 0.3s ease;
+	}
+
+	> .row:hover {
+	
+		:hover ${StatisticContainer}{
+			transform: scale(0.95);
+		}
+	}
+`;
+
+const PositionController = styled.div`
+	position: absolute;
+	right: 0;
+	
+	.overview {
+		bottom: calc(0% - 20px);
+	}
+
+	.single {
+		top:0;
+	}
+    z-index: 1;
+`;
+
 const HeroContainer = styled.div`
 	background: url(${bg}) no-repeat center top;
 	background-size: cover;
@@ -38,75 +98,38 @@ const HeroContainer = styled.div`
 	}
 `;
 
-const HeroInner = styled.div`
-	position:relative;
-	height:100%;
-
-	> .row {
-		justify-content: center;
-		align-items: center;
-		height:100%;
-	}
-`;
-
-const PositionController = styled.div`
-	position: absolute;
-    right: 0;
-    bottom: calc(0% - 20px);
-    z-index: 1;
-`;
-
-const StatisticContainer = styled.div`
-
-	height: 100%;
-	align-items: center;
-	display: flex;
-	padding: 0;
-	justify-content: center;
-
-	> div {
-		height: auto;
-		width: 100%;
-	}
-
-	@media (min-width: ${deviceWidth.tablet}px) {
-		> div {
-			border-left: 1px solid rgba(73,191,224,0.3);
-		}
-	}
-
-	:first-child > div {
-		border-left:0;
-	}
-`;
-
 export interface Props {
-	isProjectPage: boolean;
-	statistics: Statistic[];
+	statistics?: Statistic[];
+	projectData?: string;
 }
 
 export const HeroSection: React.SFC<Props> = (props) => {
+
 	return (
 		<HeroContainer>
-			<HeroInner className="container">
-				<div className="row">
-				{props.statistics.map((statistic, index) => {
-					return (
-						<StatisticContainer key={index} className="col-md-3 col-sm-6 col-6">
-							<SingleStatistic title={statistic.title} type={statistic.type} amount={statistic.amount} descriptor={statistic.descriptor}/>
-						</StatisticContainer>
-					);
-				})}
-				</div>
-				<PositionController>
-					<Tabs 
-						buttons={[
-							{ iconClass: 'icon-projects', path: '/', title: 'PROJECTS' },
-							{ iconClass: 'icon-statistics-graph', path: '/global-statistics', title: 'IMPACTS' }
-						]}
-					/>
-				</PositionController>
-			</HeroInner>
+				<HeroInner className="container">
+					{(props.statistics) ?
+					<div className="row">
+						{props.statistics.map((statistic, index) => {
+							return (
+								<StatisticContainer key={index} className="col-md-3 col-sm-6 col-6">
+									<SingleStatistic title={statistic.title} type={statistic.type} amount={statistic.amount} descriptor={statistic.descriptor}/>
+								</StatisticContainer>
+							);
+						})}
+					</div>
+					:
+					<div>test</div>
+					}
+					<PositionController className={(props.statistics) ? 'overview' : 'single'}>
+						<Tabs 
+							buttons={[
+								{ iconClass: 'icon-projects', path: '/', title: 'PROJECTS' },
+								{ iconClass: 'icon-statistics-graph', path: '/global-statistics', title: 'IMPACTS' }
+							]}
+						/>
+					</PositionController>
+				</HeroInner>
 		</HeroContainer>
 	);
 };
