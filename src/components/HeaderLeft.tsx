@@ -33,6 +33,10 @@ const HeaderLink = styled(NavLink)`
 
 const Main = styled.div`
 	padding:15px 20px;
+
+	a {
+		text-decoration: none;
+	}
 `;
 
 const IXOLogo = styled.i`

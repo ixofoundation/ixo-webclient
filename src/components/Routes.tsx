@@ -28,9 +28,9 @@ export const Routes: React.SFC<Routes.RouteProps> = (props) => {
 		if (isSingle === true) {
 			return (
 				<HeroSingle 
-					projectTitle={'test'}
+					projectTitle={'Togo water project'}
 					SDGs={[15, 12, 9]}
-					description={'test'}
+					description={'Togo provides clean water, basic toilets and good hygiene practices are essential for the survival and development of children in Uganda. '}
 					dateCreated={'2017/11/12'}
 					country={'South Africa'}
 					owner={'Water for Africa'}

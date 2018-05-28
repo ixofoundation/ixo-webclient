@@ -37,7 +37,6 @@ const StatisticContainer = styled.div`
 `;
 
 const HeroInner = styled.div`
-	position:relative;
 	height:100%;
 
 	> .row {
@@ -69,10 +68,10 @@ const HeroContainer = styled.div`
 	background-size: cover;
 	margin:0 0 60px;
 	width: 100vw;
-	position: relative;
 	cursor:pointer;
-
-	:before {
+	position:relative;
+	
+	${HeroInner}:before {
 		position: absolute;
 		content:" ";
 		top:0;
@@ -85,7 +84,7 @@ const HeroContainer = styled.div`
 		background-color: rgba(3,60,80,0);
 	}
 
-	:hover:before {
+	${HeroInner}:hover:before {
 		background-color: rgba(3,60,80,0.6);
 	}
 	
@@ -123,7 +122,11 @@ export const HeroOverview: React.SFC<Props> = (props) => {
 							);
 						})}
 					</div>
-					<PositionController>
+				</HeroInner>
+				<div className="container">
+						<div className="row">
+						<div className="col-md-12">
+						<PositionController>
 						<Tabs 
 							buttons={[
 								{ iconClass: 'icon-projects', path: '/', title: 'PROJECTS' },
@@ -131,7 +134,9 @@ export const HeroOverview: React.SFC<Props> = (props) => {
 							]}
 						/>
 					</PositionController>
-				</HeroInner>
+						</div>
+					</div>
+				</div>
 		</HeroContainer>
 	);
 };

@@ -21,7 +21,6 @@ const TopBar = styled.header`
 	}
     z-index:9;
     background:black;
-    top:0;
 
     && {
         width:100vw;
