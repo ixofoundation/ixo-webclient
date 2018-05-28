@@ -2,7 +2,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { Tabs } from './Tabs';
 import { SDGArray, deviceWidth } from '../lib/commonData';
-
+import MediaQuery from 'react-responsive';
 const bg = require('../assets/images/heroBg.jpg');
 
 const SingleSDG = styled.a`
@@ -41,21 +41,38 @@ const SingleSDG = styled.a`
 
 const HeroInner = styled.div`
 	
-	padding-top: 60px;
+	padding-top: 90px;
 	position:relative;
 	height:100%;
 
-	@media (min-width: ${deviceWidth.desktop}px){
+	@media (min-width: ${deviceWidth.desktop + 1}px){
 		padding-top: 150px;
 	}	
 `;
 
-const PositionController = styled.div`
+const TabsController = styled.div`
 	position: fixed;
-	top: 80px;
 	display: flex;
 	justify-content: flex-end;
-    z-index: 11;
+	z-index: 11;
+	top: 74px;
+	right: 0;
+	width: 100%;
+
+	a:last-child {
+		padding: 10px;
+	}
+
+	a:last-child i {
+		margin: 0;
+		font-size:22px;
+	}
+
+	@media (min-width: ${deviceWidth.tablet}px){
+		top: 80px;
+		left: auto;
+		right: auto;
+	}
 `;
 
 const HeroContainer = styled.div`
@@ -143,7 +160,25 @@ export const HeroSingle: React.SFC<Props> = (props) => {
 							</p>
 						</ColRight>
 					</div>
-					<PositionController className="container">
+				</HeroInner>
+				<TabsController>
+				<MediaQuery minWidth={deviceWidth.desktop}>
+					<div className="container">
+						<div className="row">
+							<div className="offset-md-8" />
+							<div className="col-md-4">
+								<Tabs 
+									buttons={[
+										{ iconClass: 'icon-projects', path: `/${props.match.params.projectID}/home`, title: 'PROJECT' },
+										{ iconClass: 'icon-statistics-graph', path: `/${props.match.params.projectID}/stats`, title: 'DASHBOARD' },
+										{ iconClass: 'icon-settings-large', path: '/global-statistics' }
+									]}
+								/>
+							</div>
+						</div>
+					</div>
+					</MediaQuery>
+					<MediaQuery maxWidth={deviceWidth.desktop - 1}>
 						<Tabs 
 							buttons={[
 								{ iconClass: 'icon-projects', path: `/${props.match.params.projectID}/home`, title: 'PROJECT' },
@@ -151,8 +186,8 @@ export const HeroSingle: React.SFC<Props> = (props) => {
 								{ iconClass: 'icon-settings-large', path: '/global-statistics' }
 							]}
 						/>
-					</PositionController>
-				</HeroInner>
+					</MediaQuery>
+				</TabsController>
 		</HeroContainer>
 	);
 };

@@ -24,7 +24,7 @@ const TabsContainer = styled.div`
 	}
 
 	a:last-child {
-		border-left:1px solid ${props => props.theme.bg.lightBlue};
+		border-left: 1px solid rgba(1, 116, 146, 0.5);
 	}
 
 	a i {

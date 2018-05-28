@@ -50,7 +50,7 @@ const HeroInner = styled.div`
 	}
 
 	> .row:hover ${ContainerInner} > div{
-		transform: scale(0.95);
+		transform: scale(1.05);
 	}
 	
 `;
@@ -70,7 +70,7 @@ const HeroContainer = styled.div`
 	width: 100vw;
 	cursor:pointer;
 	position:relative;
-	
+
 	${HeroInner}:before {
 		position: absolute;
 		content:" ";

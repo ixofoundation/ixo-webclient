@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import styled from 'styled-components';
+import { deviceWidth } from '../lib/commonData';
 
 const HeaderLink = styled(NavLink)`
 
@@ -33,6 +34,19 @@ const HeaderLink = styled(NavLink)`
 
 const Main = styled.div`
 	padding:15px 20px;
+	justify-content: flex-end;
+	
+	a:first-child {
+		margin-right: auto;
+	}
+
+	@media (min-width:${deviceWidth.tablet}px){
+		justify-content: flex-start;
+
+		a:first-child {
+			margin-right: inherit;
+		}
+	}
 
 	a {
 		text-decoration: none;
