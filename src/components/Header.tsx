@@ -9,7 +9,7 @@ import { toast } from 'react-toastify';
 import { HeaderLeft } from './HeaderLeft';
 import { HeaderRight } from './HeaderRight';
 import MediaQuery from 'react-responsive';
-import { deviceWidth } from '../utils/mediaBreakpoints';
+import { deviceWidth } from '../lib/commonData';
 
 const TopBar = styled.header`
 	position: sticky;
@@ -19,7 +19,7 @@ const TopBar = styled.header`
 	@media all and (min-width:768px) {
 		height:90px;
 	}
-    z-index:99;
+    z-index:9;
     background:black;
     top:0;
 

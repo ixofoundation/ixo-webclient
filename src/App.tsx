@@ -2,11 +2,9 @@ import * as React from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { HeaderConnected } from './components/Header';
-import { HeroSection } from './components/HeroSection';
 import { PublicSiteStoreState } from './redux/public_site_reducer';
 import { Routes } from './components/Routes';
 import styled, { ThemeProvider } from 'styled-components';
-import { StatType } from './types/models';
 import './assets/icons.css';
 
 // THEME DECLARATION BELOW
@@ -71,7 +69,8 @@ class App extends React.Component<App.Props, App.State> {
 		projectList: [],
 		myProjectList: [],
 		serviceAgentProjectList: [],
-		did: ''
+		did: '',
+		isProjectPage: false
 	};
 
 	metamaskAccountChecker = () => {
@@ -132,44 +131,10 @@ class App extends React.Component<App.Props, App.State> {
 }
 
 	render() {
-		const isProjectPage = false;
 		return (
 			<ThemeProvider theme={theme}>
 				<Container>
 					<HeaderConnected />
-					{isProjectPage ? 
-						<HeroSection 
-							statistics={[
-								{title: 'CLAIM AMOUNT',
-								type: StatType.fraction,
-								descriptor: [{class: 'text', value: 'test'}, {class: 'number', value: 2}, {class: 'text', value: 'test2'}],
-								amount: [20, 1110]},
-								{title: 'SERVICE PROVIDER',
-								type: StatType.decimal,
-								descriptor: [{class: 'text', value: 'test'}, {class: 'number', value: 24}, {class: 'text', value: 'test2'}],
-								amount: 12},
-								{title: 'IXO REMAINING',
-								type: StatType.ixoAmount,
-								descriptor: [{class: 'text', value: 'This is a test for a long description text for a single statistic type'}],
-								amount: 40.67},
-								{title: 'SERVICE PROVIDER',
-								type: StatType.decimal,
-								descriptor: [{class: 'text', value: 'claims available: '}, {class: 'number', value: 2}],
-								amount: 142}
-							]} 
-						/>
-						:
-						<HeroSection 
-							// ProjectHeaderData = {
-							// 	title:'test',
-							// 	SDGs:[15,12,9],
-							// 	description: 'test',
-							// 	dateCreated: '2017/11/12',
-							// 	country: 'South Africa'
-							// }
-					/>
-					}
-
 					{this.renderProjectContent()}
 				</Container>
 			</ThemeProvider>

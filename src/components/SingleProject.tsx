@@ -69,9 +69,7 @@ export class SingleProject extends React.Component<StateProps> {
 		// 	console.info( 'This page is reloaded' );
 		// } else {
 		// 	console.info( 'This page is not reloaded');
-		// }
-		console.log(this.props);
-	
+		// }	
 		return 'test';
 	}
 }
