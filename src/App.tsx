@@ -21,6 +21,7 @@ const theme = {
 	},
 	fontBlue: '#49BFE0', // Same as ixoBlue
 	fontDarkBlue: '#013C4F', 
+	fontDarkGrey: '#282828',
 	fontLightBlue: '#83D9F2', // big hero section numbers, widgets big numbers
 	fontGrey: '#282828', // generally text on white background
 	grey: '#e2e22', // borders for project list cards, progress bar background on projects list

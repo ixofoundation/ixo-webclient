@@ -45,11 +45,11 @@ const HeroInner = styled.div`
 		height:100%;
 	}
 	
-	> .row:hover ${ContainerInner} {
+	:hover ${ContainerInner} {
 		border-left: 1px solid rgba(73,191,224,0);
 	}
 
-	> .row:hover ${ContainerInner} > div{
+	:hover ${ContainerInner} > div{
 		transform: scale(1.05);
 	}
 	
@@ -124,17 +124,17 @@ export const HeroOverview: React.SFC<Props> = (props) => {
 					</div>
 				</HeroInner>
 				<div className="container">
-						<div className="row">
+					<div className="row">
 						<div className="col-md-12">
 						<PositionController>
-						<Tabs 
-							buttons={[
-								{ iconClass: 'icon-projects', path: '/', title: 'PROJECTS' },
-								{ iconClass: 'icon-statistics-graph', path: '/global-statistics', title: 'IMPACTS' }
-							]}
-						/>
-					</PositionController>
-						</div>
+							<Tabs 
+								buttons={[
+									{ iconClass: 'icon-projects', path: '/', title: 'PROJECTS' },
+									{ iconClass: 'icon-statistics-graph', path: '/global-statistics', title: 'IMPACTS' }
+								]}
+							/>
+						</PositionController>
+					</div>
 					</div>
 				</div>
 		</HeroContainer>

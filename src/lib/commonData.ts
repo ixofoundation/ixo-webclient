@@ -15,7 +15,7 @@ export const SDGArray = [
 	{ ico: 'life-water', title: 'LIFE BELOW WATER'},
 	{ ico: 'life-land', title: 'LIFE ON LAND'},
 	{ ico: 'peace-justice', title: 'PEACE, JUSTICE AND STRONG INSTITUTIONS'},
-	{ ico: 'partnerships', title: 'PARTNERSHIPS FOR THE GOALS'}
+	{ ico: 'partnership-goals', title: 'PARTNERSHIPS FOR THE GOALS'}
 	];
 
 export const deviceWidth = {

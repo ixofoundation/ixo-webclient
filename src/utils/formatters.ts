@@ -14,7 +14,7 @@ export function capitalizeFirstLetter(theString: string) {
 	return theString.charAt(0).toUpperCase() + theString.slice(1);
 }
 
-export function excerpt(theText: string, words: number = 20) {
+export function excerptText(theText: string, words: number = 20) {
 	const cutOffCount = words;
 	const wordCount = theText.split(' ').length - 1;
 

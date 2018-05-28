@@ -1,14 +1,13 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import CircularProgressbar from 'react-circular-progressbar';
-import 'react-circular-progressbar/dist/styles.css';
-import { formatJSONDateTime } from '../utils/formatters';
+import { formatJSONDateTime, excerptText } from '../utils/formatters';
+import { SDGArray } from '../lib/commonData';
 
 const ProjectsContainer = styled.div`
     overflow-y: scroll;
-    padding-bottom: 50px;
-
+    padding: 76px 0 50px;
+	background: ${props => props.theme.bg.lightGrey};
     & > .row {
         margin-top:30px;
         justify-content:center;
@@ -22,17 +21,17 @@ const NoProjectsToDisplay = styled.div`
     height:calc(100vh - 140px);
 `;
 
-const TitleContainer = styled.div`
+const TitleContainer = styled.h3`
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
-    width: '100%';
-    color: #0f8dab;
+    width: 100%;
     font-weight: 400;
-    font-size: 1.3rem;
+    font-size: 21px;
     box-sizing: border-box;
     margin-top: 0;
-    margin-bottom: .5rem;
+	margin-bottom: 8px;
+	color: ${props => props.theme.fontDarkGrey};
     line-height: 1.2;
 `;
 
@@ -41,55 +40,47 @@ const EllipseText = styled.p`
     text-overflow: ellipsis;
     overflow: hidden;
     width: '100%';
-    color: #0f8dab;
     font-weight:100;
 `;
 
 const ProgressBox = styled.div`
-    padding:20px;
-    width: 75%;
-    margin: 5px auto 20px;
-    border-radius: 50%;
-    transition:all 0.5s ease;
 
-    .progressbar .CircularProgressbar-path { stroke: ${props => props.theme.bgDarkest}; }
-    .progressbar .CircularProgressbar-trail {stroke: ${props => props.theme.bgLighter}; }
-    .progressbar .CircularProgressbar-text { text-anchor: "middle" alignment-baseline: "middle" }
 `;
 
-const ProjectCardInner = styled.div`
-    box-shadow: inset 0px 0px 60px 2px rgba(50, 219, 255, 0.1), 0px 0px 1px 1px rgba(0, 0, 0, 0.1);
-    padding:10px;
-    color:white;
-    margin: 15px;
-    transition:all 0.5s ease;
-    background:white;
-    height:calc(100% - 30px);
-    justify-content: space-between;
-    display: flex;
-    flex-direction: column;
+const CardTop = styled.div`
+	border-radius:2px 2px 0 0;
+	padding:0 10px;
+	height: 170px;
+	display: flex;
+	flex-wrap: wrap;
+	align-content: flex-start;
+	justify-content: flex-end;
+	box-shadow: 0 8px 16px -2px rgba(0,0,0,0.03);
+	background: linear-gradient(180deg, rgba(0,0,0,0.63) 0%, rgba(0,0,0,0) 100%), ${props => props.theme.bg.lightBlue};
 
-    &&:hover {
-        box-shadow: inset 0px 0px 60px 2px rgba(50, 219, 255, 0.5), 0px 0px 1px 1px rgba(0, 0, 0, 0.1);
-        transform: scale(0.95);
-        position:relative;
-        z-index:50;
-    }
+	i:before {
+		color: white;
+		font-size: 20px;
+		margin: 10px 5px;
+		display: inline-flex;
+	}
+`;
+
+const CardBottom = styled.div`
+	border-radius: 0 0 2px 2px;
+	padding: 20px 14px;
+	border: 1px solid #E2E2E2;
+	border-top: 0;
+	
 `;
 
 const ProjectCard = styled.div`
-    &&{
-        padding:0;
-    }
 
-    & h3 {
-        font-weight: 400;
-        color:#0f8dab;
-    }
+	margin-bottom: 34px;
 
     & p {
         font-weight:100;
-        color:${props => props.theme.fontMain};
+		color: ${props => props.theme.fontDarkGrey};
     }
 `;
 
@@ -133,34 +124,6 @@ export namespace Projects {
 
 export const Projects: React.SFC<Projects.StateProps> = (props) => {
 
-	const percentageComplete = (project: any) => {
-		return Math.round((project.approvedClaimCount / project.numberOfSuccessfulClaims) * 100);
-	};
-
-	const renderExcerpt = (theText: string) => {
-		const cutOffCount = 20;
-		const wordCount = theText.split(' ').length - 1;
-
-		if (wordCount > cutOffCount) {
-			let count = 0;
-			let theIndex = 0;
-
-			for (let i = 0; i < theText.length - 1; i++) {
-				if (count < cutOffCount) {
-					if (theText[i] === ' ') {
-						count++;
-					}
-				} else {
-					theIndex = i;
-					break;
-				}
-			}
-			return theText.slice(0, theIndex - 1) + '...';
-		} else {
-			return theText;
-		}
-	};
-
 	const renderProjects = () => {
 		if (props.projectList === null) {
 			return (
@@ -173,33 +136,35 @@ export const Projects: React.SFC<Projects.StateProps> = (props) => {
 					<div className="row">
 						{props.projectList.map((project, index) => {
 							return (
-								<ProjectCard className="col-12 col-xl-3 col-lg-3 col-md-4 col-sm-6 " key={index}>
+								<ProjectCard className="col-12 col-xl-4 col-lg-3 col-md-4 col-sm-6 " key={index}>
 									<ProjectLink 
 										to={{
 										pathname: `/${project._id}/home`,
 										state: project
 									}}
-										// project={project}
 									>
-										<ProjectCardInner>
+										<CardTop>
+											{SDGArray.map((SDG, SDGi) => {
+												return (
+												<i key={SDGi} className={`icon-${SDGArray[SDGi].ico}`} />
+												);
+											})}
+										</CardTop>
+										<CardBottom>
 											<div>
 												<TitleContainer>{project.country} {project.name}</TitleContainer>
+												<EllipseText>By {project.owner.name}</EllipseText>
 												<AboutBox>
-													<div>{renderExcerpt(project.about)}</div>
+													<div>{excerptText(project.about)}</div>
 												</AboutBox>
 											</div>
 											<ProgressBox>
-												<CircularProgressbar
-													className="progressbar" 
-													percentage={percentageComplete(project)}
-													textForPercentage={(percent) => percent < 100 ? percent + '%' : 'complete'}
-												/>
+												{}
 											</ProgressBox>
 											<InfoBox>
 												<EllipseText>Created: {formatJSONDateTime(project.created)}</EllipseText>
-												<EllipseText>Owner: {project.owner.name}</EllipseText>
 											</InfoBox>
-										</ProjectCardInner>
+										</CardBottom>
 									</ProjectLink>
 								</ProjectCard>);
 						})}
@@ -216,7 +181,9 @@ export const Projects: React.SFC<Projects.StateProps> = (props) => {
 
 	return (
 		<ProjectsContainer className="container-fluid">
-			{renderProjects()}
+			<div className="container">
+				{renderProjects()}
+			</div>
 		</ProjectsContainer>
 	);
 };
