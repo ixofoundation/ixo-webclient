@@ -9,8 +9,25 @@ const HeaderLink = styled(NavLink)`
     color: white;
     text-transform: uppercase;
     margin: 0;
-    font-size: 13px;
-    border: 1px solid #000000;
+	font-size: 13px;
+	border: 1px solid #000000;
+	border-radius:3px;
+	
+	:last-child {
+		border:1px solid #49bfe0;
+	}
+
+	:hover {
+		text-decoration:none;
+		color:#49bfe0;
+	}
+
+	&:last-child.active {
+		background: ${props => props.theme.bg.gradientButton};
+		border: 1px solid #000000;
+		color:white;
+	}
+
     transition: border 0.3s ease;
 
 	@media (min-width: 415px) {
@@ -20,16 +37,6 @@ const HeaderLink = styled(NavLink)`
 	}
 
 	transition:border 0.3s ease;
-	
-	&.active {
-		border:1px solid #49bfe0;
-		border-radius:3px;
-	}
-
-	:hover {
-		text-decoration:none;
-		color:#49bfe0;
-	}
 `;
 
 const Main = styled.div`

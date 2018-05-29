@@ -18,6 +18,7 @@ const theme = {
 		lightBlue: '#017492', // active button background for tabs on hero section
 		lightGrey: '#F6F6F6', // light background for projects list
 		gradientBlue: 'linear-gradient(to bottom, #012639 0%,#002d42 100%)', // background for widgets (charts, graphs, tabs, etc.)
+		gradientButton: 'linear-gradient(180deg, #49BFE0 0%, #016480 100%)'
 	},
 	fontBlue: '#49BFE0', // Same as ixoBlue
 	fontDarkBlue: '#013C4F', 

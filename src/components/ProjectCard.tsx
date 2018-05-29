@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { SDGArray } from '../lib/commonData';
+import { SDGArray, deviceWidth } from '../lib/commonData';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { ProgressBar } from './ProgressBar';
@@ -23,7 +23,6 @@ const Description = styled.div`
 	height: 100%;
     width: 100%;
     background: rgba(0,0,0,0.5);
-    opacity: 0;
     margin: 0;
     position: absolute;
     top: 0;
@@ -33,6 +32,10 @@ const Description = styled.div`
     padding: 40px 20px 10px;
 	text-align: left;
 	transition: opacity 0.5s ease;
+
+	@media (min-width: ${deviceWidth.desktop}px){
+		opacity: 0;
+	}
 
 	p {
 		font-size: 13px;
@@ -64,11 +67,15 @@ const SDGs = styled.div`
 const CardTop = styled.div`
 	border-radius:2px 2px 0 0;
 	padding: 10px;
-	height: 170px;
+	height: 240px;
 	box-shadow: 0 8px 16px -2px rgba(0,0,0,0.03);
 	background-size: cover;
 	background-repeat: no-repeat;
 	position:relative;
+
+	@media (min-width: ${deviceWidth.mobile}px){
+		height: 170px;
+	}
 
 	:before {
 		content: "";
@@ -137,7 +144,7 @@ export interface Props {
 
 export const ProjectCard: React.SFC<Props> = (props) => {
 	return (
-		<CardContainer className="col-12 col-xl-4 col-lg-3 col-md-4 col-sm-6 ">
+		<CardContainer className="col-10 offset-1 col-xl-4 col-md-6 col-sm-10 offset-sm-1 offset-md-0">
 			<ProjectLink to={{pathname: `/${props.project._id}/home`, state: props.project }}>
 				<CardTop style={{background: `url(${props.bg}) no-repeat center top / cover`}}>
 					<SDGs>

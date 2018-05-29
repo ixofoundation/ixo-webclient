@@ -19,6 +19,7 @@ export const SDGArray = [
 	];
 
 export const deviceWidth = {
+	mobile: 576,
 	tablet: 768,
 	desktop: 980
 };

@@ -13,18 +13,8 @@ const Inner = styled.div`
 	font-family: ${props => props.theme.fontRobotoCondensed};
 `;
 
-const ArrowDown = styled.div`
-	border: solid white;
-	border-width: 0 3px 3px 0;
-	display: inline-block;
-	padding: 6px;
-	transform: rotate(45deg);
-	margin-left:20px;
-	margin-bottom:5px;
-`;
-
 const IXO = styled.div`
-	font-size:35px;
+	font-size:30px;
 	line-height: 46px;
 	
 	img {
@@ -66,6 +56,11 @@ const UserBox = styled.div`
 	> p {
 		margin-bottom: 0;
 		text-align: center;
+	}
+
+	i {
+		font-size: 11px;
+		margin: 4px 15px 0;
 	}
 `;
 
@@ -115,13 +110,14 @@ const NoPadLeft = styled.div`
 	}
 
 	h3 {
-		font-size:18px;
+		font-size:16px;
 		margin-bottom:0;
 		display: flex;
 		justify-content: space-between;
 		z-index:2;
 		position:relative;
 		letter-spacing:0.3px
+		font-weight: 300;
 	}
 `;
 
@@ -194,7 +190,7 @@ export class HeaderRight extends React.Component<HeaderRightProps, State> {
 					</div>
 						{(this.props.did) &&
 							<UserBox onClick={this.toggleMenu} >
-								<h3>Michael <ArrowDown /></h3>
+								<h3>Michael <i className="icon-arrow-dropdown-large" /></h3>
 							</UserBox>
 						}
 				</Inner>
