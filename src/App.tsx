@@ -24,16 +24,19 @@ const theme = {
 	fontDarkGrey: '#282828',
 	fontLightBlue: '#83D9F2', // big hero section numbers, widgets big numbers
 	fontGrey: '#282828', // generally text on white background
+	fontRoboto: 'Roboto, sans-serif',
+	fontRobotoCondensed: 'Roboto Condensed, sans-serif',
 	grey: '#e2e22', // borders for project list cards, progress bar background on projects list
 	darkGrey: '656969', // "load more projects" button on project list
 	widgetBorder: '#0C3549', // border color for graphs/ charts, etc.
-	graphGradient: 'linear-gradient(to bottom, #03d0FE 0%,#016480 100%)', // gradient fill for graphs/bars/charts
+	graphGradient: 'linear-gradient(to right, #016480 0%, #03d0FE 100%)', // gradient fill for graphs/bars/charts
 	red: '#E2223B'
 };
 
 // END OF THEME DECLARATION, CSS FOR COMPONENT BELOW
 const Container = styled.div`
-	font-family: 'Roboto Condensed', sans-serif;
+	font-family: ${theme.fontRoboto};
+	font-weight: 300;
 `;
 
 const Loading = styled.div`

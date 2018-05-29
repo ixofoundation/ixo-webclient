@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { deviceWidth } from '../lib/commonData';
 
 const HeaderLink = styled(NavLink)`
-
+	font-family: ${props => props.theme.fontRobotoCondensed};
     padding: 10px 10px 10px;
     color: white;
     text-transform: uppercase;

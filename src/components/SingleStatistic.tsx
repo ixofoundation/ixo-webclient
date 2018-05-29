@@ -5,6 +5,7 @@ import styled from 'styled-components';
 const Container = styled.div`
 	text-align: center;
 	padding:20px 15px;
+	font-family: ${props => props.theme.fontRobotoCondensed};
 `;
 
 const Title = styled.h3`
@@ -19,10 +20,7 @@ const Amount = styled.p`
 	font-size: 29px;
 	line-height: 38px;
 	margin-bottom: 4px;
-
-	span {
-		font-weight: 300;
-	}
+	font-weight: 300;
 
 	i:before {
 		font-size: 19px;
@@ -45,7 +43,7 @@ const Description = styled.p`
 	color: white;
 	font-weight: 300;
 	font-size: 13px;
-
+	font-family: ${props => props.theme.fontRoboto};
 	.text {
 		color: white;
 	}
@@ -83,7 +81,7 @@ export const SingleStatistic: React.SFC<Statistic> = ({type, amount, title, desc
 				}
 				return (
 					<Amount>
-						<span>{(amount[0]).toLocaleString()}/</span>{(amount[1]).toLocaleString()}
+						{(amount[0]).toLocaleString()}/<strong>{(amount[1]).toLocaleString()}</strong>
 					</Amount>
 				);
 			

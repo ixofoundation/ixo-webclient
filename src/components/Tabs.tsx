@@ -10,6 +10,7 @@ const TabsContainer = styled.div`
 	box-shadow: 0px 10px 50px 0px rgba(0,0,0,0.35);
 
 	a {
+		font-family: ${props => props.theme.fontRobotoCondensed};
 		color:white;
 		text-transform: uppercase;
 		font-weight:300;

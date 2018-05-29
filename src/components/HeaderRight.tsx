@@ -9,6 +9,8 @@ const Inner = styled.div`
 	position:relative;
 	z-index:2;
 	background:black;
+
+	font-family: ${props => props.theme.fontRobotoCondensed};
 `;
 
 const ArrowDown = styled.div`
@@ -38,6 +40,7 @@ const UserMenu = styled.div`
 	width: 320px;
 	right:0;
 	z-index: 1;
+	font-family: ${props => props.theme.fontRoboto};
 
 	transition: top 0.5s ease;
 `;
@@ -72,7 +75,7 @@ const MenuTop = styled.div`
 	font-size:18px;
 
 	p {
-		font-size: 14px;
+		font-size: 12px;
 		margin:3px 0;
 		line-height: 16px;
 		font-weight:300;
@@ -89,6 +92,7 @@ const MenuBottom = styled.div`
 	padding:20px 34px 30px;
 
 	a {
+		font-family: ${props => props.theme.fontRobotoCondensed};
 		display: block;
 		color: white;
 		font-size: 17px;
@@ -122,8 +126,6 @@ const NoPadLeft = styled.div`
 `;
 
 const AccDID = styled.div`
-	font-weight:300;
-	font-size:13px;
 	padding:3px 6px;
 	margin:6px 0px 5px -6px;
 	background:#01151F;
@@ -138,12 +140,16 @@ const AccDID = styled.div`
 		text-overflow: ellipsis;
 		width:80%;
 		margin:0;
+		font-weight:300;
+		font-size:10px;	
 	}
 
 	span {
 		color: #024e67;
 		cursor:pointer;
 		display:inline-block;
+		font-weight:300;
+		font-size:10px;	
 	}
 
 	span:hover {
@@ -194,7 +200,7 @@ export class HeaderRight extends React.Component<HeaderRightProps, State> {
 				</Inner>
 				<UserMenu className={this.state.showMenu ? 'visible' : ''}>
 						<MenuTop>
-							<h3>Michael <Link to="/">COG</Link></h3>
+							<h3>Michael <Link to="/"><i className="icon-settings-large"/></Link></h3>
 								<AccDID >
 									<p>{this.props.did}</p> 
 									<CopyToClipboard text={this.props.did}>
