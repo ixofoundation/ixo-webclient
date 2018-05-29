@@ -23,3 +23,14 @@ export const deviceWidth = {
 	tablet: 768,
 	desktop: 980
 };
+
+export const imgArray = () => {
+	const tempArray: string[] = []; 
+
+	for (let i = 0; i < 9; i++) {
+		tempArray[i] = require(`../assets/images/image${i + 1}.jpg`);
+	}
+	return tempArray;
+};
+
+export const SocialMediaLinks = ['http://www.instagram.com', 'http://www.twitter.com', 'http://www.facebook.com', 'http://www.website.com'];

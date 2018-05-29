@@ -1,20 +1,21 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import { ProjectCard } from './ProjectCard';
-
-const imgArray = []; 
-for (let i = 1; i < 10; i++) {
-	imgArray[i] = require(`../assets/images/image${i}.jpg`);
-}
+import { HeroOverview } from './HeroOverview';
+import { StatType } from '../types/models';
+import { imgArray } from '../lib/commonData';
 
 const ProjectsContainer = styled.div`
     overflow-y: scroll;
-    padding: 76px 0 50px;
 	background: ${props => props.theme.bg.lightGrey};
     & > .row {
         margin-top:30px;
         justify-content:center;
-    }
+	}
+	
+	> .container {
+		padding: 76px 0 50px;
+	}
 `;
 
 const NoProjectsToDisplay = styled.div`
@@ -43,7 +44,7 @@ export const Projects: React.SFC<Projects.StateProps> = (props) => {
 			return (
 					<div className="row">
 						{props.projectList.map((project, index) => {
-							return <ProjectCard project={project} bg={imgArray[index + 1]} key={index} />;
+							return <ProjectCard project={project} bg={imgArray()[index]} key={index} />;
 						})}
 					</div>
 			);
@@ -57,10 +58,32 @@ export const Projects: React.SFC<Projects.StateProps> = (props) => {
 	};
 
 	return (
-		<ProjectsContainer className="container-fluid">
-			<div className="container">
-				{renderProjects()}
-			</div>
-		</ProjectsContainer>
+		<div>
+			<HeroOverview 
+				statistics={[
+					{title: 'CLAIM AMOUNT',
+					type: StatType.fraction,
+					descriptor: [{class: 'text', value: 'test'}, {class: 'number', value: 2}, {class: 'text', value: 'test2'}],
+					amount: [20, 1110]},
+					{title: 'SERVICE PROVIDER',
+					type: StatType.decimal,
+					descriptor: [{class: 'number', value: 24}, {class: 'text', value: 'test'}, {class: 'text', value: ' test2'}],
+					amount: 12},
+					{title: 'IXO REMAINING',
+					type: StatType.ixoAmount,
+					descriptor: [{class: 'text', value: 'This is a test text for a single statistic type'}],
+					amount: 40.67},
+					{title: 'SERVICE PROVIDER',
+					type: StatType.decimal,
+					descriptor: [{class: 'text', value: 'claims available: '}, {class: 'number', value: 2}],
+					amount: 142}
+				]} 
+			/>
+			<ProjectsContainer className="container-fluid">
+				<div className="container">
+					{renderProjects()}
+				</div>
+			</ProjectsContainer>
+		</div>
 	);
 };

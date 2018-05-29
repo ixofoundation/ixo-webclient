@@ -14,8 +14,16 @@ export enum StatType {
 	ixoAmount = 'IXO'
 }
 
+export enum contentPage {
+	overview = 'OVERVIEW',
+	dashboard = 'DASHBOARD',
+	evaluators = 'EVALUATORS',
+	claims = 'CLAIMS',
+	investors = 'INVESTORS'
+}
+
 export interface Statistic {
-	title: string;
+	title?: string;
 	type: StatType;
 	amount: number | [number, number];
 	descriptor?: {class: string, value: string | number}[];

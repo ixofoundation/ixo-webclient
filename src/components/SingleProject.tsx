@@ -1,7 +1,10 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { PublicSiteStoreState } from '../redux/public_site_reducer';
+import { contentPage, StatType } from '../types/models';
+import { HeroSingle } from './HeroSingle';
+import { ProjectOverview } from './ProjectOverview';
 
 // // import styled from 'styled-components';
 // // import { ModalWrapper } from '../../ModalWrapper';
@@ -30,9 +33,10 @@ export interface State {
 }
 
 export interface StateProps {    
-	location?: any;   
+	location: any;   
 	ixo?: any;  
-	match?: any;
+	contentPage: contentPage;
+	match: any;
 }
 
 export class SingleProject extends React.Component<StateProps> {
@@ -70,7 +74,35 @@ export class SingleProject extends React.Component<StateProps> {
 		// } else {
 		// 	console.info( 'This page is not reloaded');
 		// }	
-		return 'test';
+		console.log(this.props);
+
+		return (
+			<div>
+				<HeroSingle 
+					projectTitle={'Togo water project'}
+					SDGs={[15, 12, 9]}
+					description={'Togo provides clean water, basic toilets and good hygiene practices are essential for the survival and development of children in Uganda. '}
+					dateCreated={'2017/11/12'}
+					country={'South Africa'}
+					owner={'Water for Africa'}
+					match={this.props.match}
+				/>
+				<ProjectOverview 
+					statistics={[
+						{type: StatType.decimal,
+						descriptor: [{class: 'text', value: 'Investors'}],
+						amount: 50},
+						{type: StatType.decimal,
+						descriptor: [{class: 'text', value: 'Evaluators'}],
+						amount: 12},
+						{type: StatType.decimal,
+						descriptor: [{class: 'text', value: 'Service providers'}],
+						amount: 142}
+				]}
+				/>
+			</div>
+			
+		);
 	}
 }
 
@@ -80,7 +112,7 @@ function mapStateToProps(state: PublicSiteStoreState) {
 	};
 }
 
-export const SingleProjectConnected = withRouter(connect(
+export const SingleProjectConnected = withRouter<StateProps & RouteComponentProps<{}>>(connect(
 	mapStateToProps
 )(SingleProject as any) as any);
 

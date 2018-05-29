@@ -9,7 +9,7 @@ const SingleSDG = styled.a`
 	&&& {
 		color: ${props => props.theme.fontBlue};
 	}
-
+	font-family: ${props => props.theme.fontRobotoCondensed};
 	font-weight: 300;
 	font-size: 14px;
 	margin:0 10px 10px 0;
@@ -28,7 +28,7 @@ const SingleSDG = styled.a`
 		display: inline-block;
 	}
 
-	@media (min-width: ${deviceWidth.tablet}){
+	@media (min-width: ${deviceWidth.tablet}px){
 		i:before {
 			width: auto;
 		}		
@@ -110,6 +110,7 @@ const Title = styled.h1`
 	color: white;
 	font-size: 36px;
 	margin-bottom:10px;
+	font-family: ${props => props.theme.fontRobotoCondensed};
 
 	@media (min-width: 600px) {
 		font-size: 45px;

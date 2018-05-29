@@ -99,13 +99,13 @@ export const SingleStatistic: React.SFC<Statistic> = ({type, amount, title, desc
 
 	return (
 		<Container>
-			<Title>{title}</Title>
+			{title && <Title>{title}</Title>}
 			{handleAmount()}
-			<Description>
+			{descriptor && <Description>
 				{descriptor.map((obj, index) => {
 					return <span key={index} className={obj.class}>{obj.value}</span>;
 				})}
-			</Description>
+			</Description>}
 		</Container>
 	);
 };
