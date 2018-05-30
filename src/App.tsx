@@ -27,8 +27,8 @@ const theme = {
 	fontGrey: '#282828', // generally text on white background
 	fontRoboto: 'Roboto, sans-serif',
 	fontRobotoCondensed: 'Roboto Condensed, sans-serif',
-	grey: '#e2e22', // borders for project list cards, progress bar background on projects list
-	darkGrey: '656969', // "load more projects" button on project list
+	grey: '#E9E8E8', // borders for project list cards, progress bar background on projects list
+	darkGrey: '#656969', // "load more projects" button on project list
 	widgetBorder: '#0C3549', // border color for graphs/ charts, etc.
 	graphGradient: 'linear-gradient(to right, #016480 0%, #03d0FE 100%)', // gradient fill for graphs/bars/charts
 	red: '#E2223B'

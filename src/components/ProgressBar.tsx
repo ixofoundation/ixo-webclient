@@ -2,7 +2,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 
 const Bar = styled.div`
-	background: #E9E8E8;
+	background: ${props => props.theme.grey};
 	display: flex;
 	justify-content: flex-start;
 	width: 100%;

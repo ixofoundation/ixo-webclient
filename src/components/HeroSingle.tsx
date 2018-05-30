@@ -79,7 +79,7 @@ const HeroContainer = styled.div`
 	background: url(${bg}) no-repeat center top;
 	background-size: cover;
 	margin:0;
-	padding-bottom: 140px;
+	padding-bottom: 110px;
 	width: 100vw;
 	position: relative;	
 `;

@@ -19,12 +19,11 @@ const HeaderLink = styled(NavLink)`
 
 	:hover {
 		text-decoration:none;
-		color:#49bfe0;
+		color: ${props => props.theme.fontBlue};
 	}
 
 	&:last-child.active {
 		background: ${props => props.theme.bg.gradientButton};
-		border: 1px solid #000000;
 		color:white;
 	}
 
