@@ -5,6 +5,8 @@ import styled from 'styled-components';
 import { SingleStatistic } from './SingleStatistic';
 import { Statistic } from '../types/models';
 
+const founderLogo = require('../assets/images/founder-logo.png');
+
 const OverviewContainer = styled.section`
 
 	margin-top: -86px;
@@ -15,15 +17,8 @@ const OverviewContainer = styled.section`
 	img {
 		width: 100%;
 		box-shadow: 0px 10px 35px 0px rgba(0,0,0,0.25);
+		margin-bottom: 22px;
 	}
-`;
-
-const FounderContainer = styled.section`
-
-`;
-
-const Founder = styled.div`
-	background: white;
 `;
 
 const DarkBar = styled(ProgressBar)``;
@@ -92,15 +87,13 @@ const Disputed = styled.p`
 	}
 `;
 
-const LongDescription = styled.div`
+const Text = styled.div`
 	color: ${props => props.theme.fontDarkGrey};
 	font-size: 16px;
 	line-height: 30px;
-	margin-top: 22px;
 `;
 
 const Social = styled.div`
-
 
 	margin: 10px 0 20px;
     display: flex;
@@ -176,6 +169,57 @@ const BlueButton = styled(Button)`
 	}
 `;
 
+const FounderContainer = styled.section`
+	padding: 50px 0;
+`;
+
+const IconText = styled.p`
+
+`;
+
+const Founder = styled.div`
+	background: white;
+
+	h3, h4 {
+		font-family: ${props => props.theme.fontRobotoCondensed};
+	}
+
+	h3 {
+		font-size: 30px;
+	}
+
+	h4 {
+		font-size: 16px;
+		color: ${props => props.theme.darkGrey};
+	}
+	
+	img {
+		margin-top: 20px;
+	}
+
+	${IconText} {
+		margin-top: 10px;
+		color: #333C4E;
+		font-size: 14px;
+		font-family: ${props => props.theme.fontRoboto};
+
+		span {
+			display: block;
+			margin:0 15px 10px 0;
+		}
+
+		@media (min-width:400px) {
+			span {
+				display: inline;
+			}
+		}
+
+		i {
+			margin-right: 5px;
+		}
+	}
+`;
+
 export interface Props {
 	statistics: Statistic[];
 }
@@ -188,7 +232,7 @@ export const ProjectOverview: React.SFC<Props> = (props) => {
 					<div className="row">
 						<div className="col-md-8">
 							<img src={imgArray()[0]} />
-							<LongDescription>
+							<Text>
 								<p>Like other rural areas in Africa, the water supply and sanitation infrastructure in Togo is poor,
 								which in turn results in illnesses as a result of hygiene deficits. The German Red Cross is cooperating
 								with the Togolese Red Cross (TRC) in the Maritime region to improve drinking water supplies as well as
@@ -201,7 +245,7 @@ export const ProjectOverview: React.SFC<Props> = (props) => {
 								project, the GRC is improving the water supply in 60 villages by drilling new wells or repairing wells. Training in hygiene
 								and education in the communities, in particular in the "Mother Clubs" and women's groups, initiated by the GRC and the TRC, has been successful. 
 								</p>
-							</LongDescription>
+							</Text>
 							<Social>
 								<i className="icon-instagram-logo" />
 								<i className="icon-twitter-logo-silhouette"/>
@@ -241,15 +285,15 @@ export const ProjectOverview: React.SFC<Props> = (props) => {
 						<div className="col-md-8">
 							<h4>Project Founder</h4>
 							<h3>Water for Africa</h3>
-							<p>We believe that a sustained programme of investment will enable communities in Africa to develop,
-								become self reliant and so break the cycle of dependency and short term aid.</p>
-							<p>
-								<span className="icon-world-url">United Kingdom</span>
-								<span className="icon-url">waterforafrica.co.uk</span>
-							</p>
+							<Text>We believe that a sustained programme of investment will enable communities in Africa to develop,
+								become self reliant and so break the cycle of dependency and short term aid.</Text>
+							<IconText>
+								<span><i className="icon-location"/>United Kingdom</span>
+								<span><i className="icon-url"/>waterforafrica.co.uk</span>
+							</IconText>
 						</div>
 						<div className="col-md-4">
-							cerveza
+							<img src={founderLogo} alt="Water for Africa lgoo"/>
 						</div>
 					</Founder>
 				</div>

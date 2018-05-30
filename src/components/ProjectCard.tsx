@@ -55,6 +55,7 @@ const Progress = styled.p`
 
 const Impact = styled.p`
 	font-size: 13px;
+	font-weight: 400;
 `;
 
 const SDGs = styled.div`
@@ -107,8 +108,8 @@ const CardBottom = styled.div`
 	border-top: 0;
 	background: white;
 
-	& p {
-        font-weight:100;
+	p {
+        font-weight:300;
 		color: ${props => props.theme.fontDarkGrey};
     }
 `;
