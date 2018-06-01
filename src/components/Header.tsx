@@ -16,9 +16,6 @@ const TopBar = styled.header`
 	top:0;
 	padding:0 15px;
 
-	@media all and (min-width:768px) {
-		height:90px;
-	}
     z-index:9;
     background:black;
 
@@ -186,7 +183,7 @@ class Header extends React.Component<Props, State> {
 		// } else {
 		// 	this.props.onIxoInit(this.state.selectedServer);
 		// }
-		
+		this.props.onIxoInit();
 		setInterval(this.ping, 5000);
 	}
 

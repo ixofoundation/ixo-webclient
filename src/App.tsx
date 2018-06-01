@@ -171,28 +171,12 @@ class App extends React.Component<App.Props, App.State> {
 		// 	return <Loading className="col-md-12"><p>Loading...</p></Loading>;
 		// }
 }
-	signMessage() {
-		if (!window['ixoCm']) {
-			window.alert('Please install IXO Credential Manager first.');
-		}
-		const IxoInpageProvider = window['ixoCm'];
-		const inpageProvider = new IxoInpageProvider();
-		// inpageProvider.requestInfoFromIxoCM((error, response) => {
-		// 	// alert(`Dashboard handling received response for INFO response: ${JSON.stringify(response)}, error: ${JSON.stringify(error)}`);
-		// });
-		const message = 'test';
-		inpageProvider.requestMessageSigningFromIxoCM(message, (error, response) => {
-			alert(`Dashboard handling received response for SIGN response: ${JSON.stringify(response)}, error: ${JSON.stringify(error)}`);
-			console.log('TOETS' + JSON.stringify(response));
-		});
-	}
 
 	render() {
 		return (
 			<ThemeProvider theme={theme}>
 				<Container>
 					<HeaderConnected />
-					<button onClick={this.signMessage}>SIGN MESSAGE</button>
 					{this.renderProjectContent()}
 				</Container>
 			</ThemeProvider>
