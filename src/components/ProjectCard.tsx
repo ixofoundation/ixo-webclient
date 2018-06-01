@@ -70,8 +70,12 @@ const CardTop = styled.div`
 	padding: 10px;
 	height: 240px;
 	box-shadow: 0 8px 16px -2px rgba(0,0,0,0.03);
-	background-size: cover;
+	background-size: 100%;
 	background-repeat: no-repeat;
+	background-position: center top;
+
+	transition: background-size 0.3s ease;
+
 	position:relative;
 
 	@media (min-width: ${deviceWidth.mobile}px){
@@ -87,7 +91,6 @@ const CardTop = styled.div`
 		left: 0;
 		background: linear-gradient(180deg,rgba(0,0,0,0.33) 0%,rgba(0,0,0,0) 100%);
 	}
-	
 
 	i {
 		position: relative;
@@ -129,6 +132,10 @@ const ProjectLink = styled(Link) `
 		text-decoration:none;
 	}
 
+	:hover ${CardTop} {
+		background-size: 105%;
+	}
+
 	:hover ${Description} {
 		opacity: 1;
 	}
@@ -147,7 +154,7 @@ export const ProjectCard: React.SFC<Props> = (props) => {
 	return (
 		<CardContainer className="col-10 offset-1 col-xl-4 col-md-6 col-sm-10 offset-sm-1 offset-md-0">
 			<ProjectLink to={{pathname: `/${props.project._id}/home`, state: props.project }}>
-				<CardTop style={{background: `url(${props.bg}) no-repeat center top / cover`}}>
+				<CardTop style={{backgroundImage: `url(${props.bg})`}}>
 					<SDGs>
 					{props.project.sdgs.map((SDG, SDGi) => {
 						return (
