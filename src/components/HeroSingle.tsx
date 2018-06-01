@@ -180,7 +180,7 @@ export const HeroSingle: React.SFC<Props> = (props) => {
 						</div>
 					</div>
 					</MediaQuery>
-					<MediaQuery maxWidth={deviceWidth.desktop - 1}>
+					<MediaQuery maxWidth={Number(deviceWidth.desktop) - 1}>
 						<Tabs 
 							buttons={[
 								{ iconClass: 'icon-projects', path: `/${props.match.params.projectID}/home`, title: 'PROJECT' },

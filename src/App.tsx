@@ -40,14 +40,14 @@ const Container = styled.div`
 	font-weight: 300;
 `;
 
-const Loading = styled.div`
-	display:flex;
-	justify-content:center;
-	align-items:center;
-	height:calc(100vh - 140px);
-`;
+// const Loading = styled.div`
+// 	display:flex;
+// 	justify-content:center;
+// 	align-items:center;
+// 	height:calc(100vh - 140px);
+// `;
 
-const Unsuccessful = Loading;
+// const Unsuccessful = Loading;
 
 export namespace App {
 
@@ -115,7 +115,15 @@ class App extends React.Component<App.Props, App.State> {
 	}
 
 	componentDidMount() {
-		setInterval(this.metamaskAccountChecker, 1000);
+
+		const IxoInpageProvider = window['ixoCm'];
+		const inpageProvider = new IxoInpageProvider();
+		inpageProvider.requestInfoFromIxoCM((error, response) => {
+			this.setState({did: response.did});
+			// alert(`Dashboard handling received response for INFO response: ${JSON.stringify(response)}, error: ${JSON.stringify(error)}`);
+		});
+		
+		// setInterval(this.metamaskAccountChecker, 1000);
 
 		const promise = fetch('https://ixo-block-sync.herokuapp.com/api/project', {
 			method: 'POST',
@@ -140,20 +148,28 @@ class App extends React.Component<App.Props, App.State> {
 	}
 
 	renderProjectContent() {
-		if (this.props.ixo && !this.props.pingError) {
-			return (
-					<Routes
-						projectList={this.state.projectList}
-						myProjectList={this.state.myProjectList}
-						serviceAgentProjectList={this.state.serviceAgentProjectList}
-						refreshProjects={this.refreshProjectList}
-					/>
-			);
-		} else if (this.props.pingError) {
-			return <Unsuccessful className="col-md-12"><p>Error connecting to ixo server... Retrying...</p></Unsuccessful>;
-		} else {
-			return <Loading className="col-md-12"><p>Loading...</p></Loading>;
-		}
+		return (
+			<Routes
+				projectList={this.state.projectList}
+				myProjectList={this.state.myProjectList}
+				serviceAgentProjectList={this.state.serviceAgentProjectList}
+				refreshProjects={this.refreshProjectList}
+			/>
+		);
+		// if (this.props.ixo && !this.props.pingError) {
+		// 	return (
+		// 			<Routes
+		// 				projectList={this.state.projectList}
+		// 				myProjectList={this.state.myProjectList}
+		// 				serviceAgentProjectList={this.state.serviceAgentProjectList}
+		// 				refreshProjects={this.refreshProjectList}
+		// 			/>
+		// 	);
+		// } else if (this.props.pingError) {
+		// 	return <Unsuccessful className="col-md-12"><p>Error connecting to ixo server... Retrying...</p></Unsuccessful>;
+		// } else {
+		// 	return <Loading className="col-md-12"><p>Loading...</p></Loading>;
+		// }
 }
 	signMessage() {
 		if (!window['ixoCm']) {

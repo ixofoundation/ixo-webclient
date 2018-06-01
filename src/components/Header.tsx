@@ -5,7 +5,7 @@ import { PublicSiteStoreState } from '../redux/public_site_reducer';
 import { pingIxoServer, resetPing } from '../redux/ping/ping_action_creators';
 import { initIxo, resetIxo } from '../redux/ixo/ixo_action_creators';
 import styled from 'styled-components';
-import { toast } from 'react-toastify';
+// import { toast } from 'react-toastify';
 import { HeaderLeft } from './HeaderLeft';
 import { HeaderRight } from './HeaderRight';
 import MediaQuery from 'react-responsive';
@@ -133,7 +133,7 @@ export interface StateProps {
 
 export interface DispatchProps {
 	getPing: (ixo: any) => void;
-	onIxoInit: (hostName: string) => void;
+	onIxoInit: () => void;
 	onServerChange: () => void;
 }
 
@@ -155,44 +155,44 @@ class Header extends React.Component<Props, State> {
 	ping: () => void = () => {
 		this.setState({ initialDate: new Date() });
 		if (this.props.ixo) {
+			console.log(this.props.ixo);
+			// this.props.getPing(this.props.ixo);
 
-			this.props.getPing(this.props.ixo);
-
-			this.props.ixo.credentialProvider.provider.eth.getAccounts((err, accounts) => {
-				if (err != null) {
-					console.error('An error occurred: ' + err);
-				} else if (accounts.length > 0) {
-					this.state.loginStatus === false &&
-					toast('You have sucessfully logged into MetaMask', {type: 'info', autoClose: 3000 });
-					this.setState({ loginStatus: true, currDid: accounts[0]});
-				} else {
-					this.state.loginStatus === true &&
-						toast('You have sucessfully logged out of MetaMask', {type: 'warning', autoClose: 3000 });
-					this.setState({loginStatus: false});
-				}
-			});
+			// this.props.ixo.credentialProvider.provider.eth.getAccounts((err, accounts) => {
+			// 	if (err != null) {
+			// 		console.error('An error occurred: ' + err);
+			// 	} else if (accounts.length > 0) {
+			// 		this.state.loginStatus === false &&
+			// 		// toast('You have sucessfully logged into MetaMask', {type: 'info', autoClose: 3000 });
+			// 		this.setState({ loginStatus: true, currDid: accounts[0]});
+			// 	} else {
+			// 		this.state.loginStatus === true &&
+			// 			// toast('You have sucessfully logged out of MetaMask', {type: 'warning', autoClose: 3000 });
+			// 		this.setState({loginStatus: false});
+			// 	}
+			// });
 			
 		} else {
-			this.props.onIxoInit(this.state.selectedServer);
+			this.props.onIxoInit();
 		}
 	}
 
 	componentDidMount() {
 		
-		const cachedServer = localStorage.getItem('server');
-		if (cachedServer) {
-			this.setState({selectedServer: cachedServer});
-			this.props.onIxoInit(cachedServer);
-		} else {
-			this.props.onIxoInit(this.state.selectedServer);
-		}
+		// const cachedServer = localStorage.getItem('server');
+		// if (cachedServer) {
+		// 	this.setState({selectedServer: cachedServer});
+		// 	this.props.onIxoInit(cachedServer);
+		// } else {
+		// 	this.props.onIxoInit(this.state.selectedServer);
+		// }
 		
 		setInterval(this.ping, 5000);
 	}
 
 	componentDidUpdate(prevProps: Props) {
 		if (prevProps.ixo !== this.props.ixo) {
-			this.ping();
+			// this.ping();
 		}
 
 		if (prevProps.pingResult !== this.props.pingResult) {
@@ -259,7 +259,7 @@ class Header extends React.Component<Props, State> {
 				isServerConnected: false
 			});
 			this.props.onServerChange();
-			this.props.onIxoInit(event.target.value);    
+			this.props.onIxoInit();    
 		}
 	}
 
@@ -295,8 +295,8 @@ function mapDispatchToProps(dispatch: any): DispatchProps {
 		getPing: (ixo) => {
 			dispatch(pingIxoServer(ixo));
 		},
-		onIxoInit: (hostname: string) => {
-			dispatch(initIxo(hostname));
+		onIxoInit: () => {
+			dispatch(initIxo());
 		},
 		onServerChange: () => {
 			dispatch(resetPing());

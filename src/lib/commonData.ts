@@ -19,9 +19,9 @@ export const SDGArray = [
 	];
 
 export const deviceWidth = {
-	mobile: 576,
-	tablet: 768,
-	desktop: 980
+	mobile: '576',
+	tablet: '768',
+	desktop: '980'
 };
 
 export const imgArray = () => {

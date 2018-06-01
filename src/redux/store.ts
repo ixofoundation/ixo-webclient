@@ -1,3 +1,4 @@
+
 import thunk from 'redux-thunk';
 import { applyMiddleware, createStore, Middleware, Store } from 'redux';
 import { PublicSiteStoreState, publicSiteReducer } from './public_site_reducer';
