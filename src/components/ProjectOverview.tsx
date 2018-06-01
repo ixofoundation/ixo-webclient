@@ -3,9 +3,8 @@ import { ProgressBar } from './ProgressBar';
 import { imgArray, deviceWidth } from '../lib/commonData';
 import styled from 'styled-components';
 import { SingleStatistic } from './SingleStatistic';
-import { Statistic } from '../types/models';
-
-const founderLogo = require('../assets/images/founder-logo.png');
+import { Statistic, StatType } from '../types/models';
+import { getCountryName } from '../utils/formatters';
 
 const OverviewContainer = styled.section`
 
@@ -221,10 +220,24 @@ const Founder = styled.div`
 `;
 
 export interface Props {
-	statistics: Statistic[];
+	project: any;
 }
 
 export const ProjectOverview: React.SFC<Props> = (props) => {
+
+	const statistics: Statistic[] = [
+		{type: StatType.decimal,
+		descriptor: [{class: 'text', value: 'Investors'}],
+		amount: props.project.agents.investors},
+		{type: StatType.decimal,
+		descriptor: [{class: 'text', value: 'Evaluators'}],
+		amount: props.project.agents.evaluators},
+		{type: StatType.decimal,
+		descriptor: [{class: 'text', value: 'Service providers'}],
+		amount: props.project.agents.serviceProviders}
+		];
+	
+	console.log(props.project);
 	return (
 		<div>
 			<OverviewContainer className="container-fluid">
@@ -233,17 +246,7 @@ export const ProjectOverview: React.SFC<Props> = (props) => {
 						<div className="col-md-8">
 							<img src={imgArray()[0]} />
 							<Text>
-								<p>Like other rural areas in Africa, the water supply and sanitation infrastructure in Togo is poor,
-								which in turn results in illnesses as a result of hygiene deficits. The German Red Cross is cooperating
-								with the Togolese Red Cross (TRC) in the Maritime region to improve drinking water supplies as well as
-								hygiene and sewage water systems.
-								</p>
-								<p>
-								In rural areas access to clean drinking water is often non-existent or subject to restrictions. Most people seek relief in nature or
-								use the "flying toilet"(open defecation in a plastic bag). Every year people die of hygiene-related illnesses such as cholera,
-								typhoid and other pathogens which cause diarrhoea. Working together with the TRC and the responsible ministry in an EU-funded
-								project, the GRC is improving the water supply in 60 villages by drilling new wells or repairing wells. Training in hygiene
-								and education in the communities, in particular in the "Mother Clubs" and women's groups, initiated by the GRC and the TRC, has been successful. 
+								<p>{props.project.longDescription} 
 								</p>
 							</Text>
 							<Social>
@@ -255,16 +258,22 @@ export const ProjectOverview: React.SFC<Props> = (props) => {
 						</div>
 						<div className="col-md-4">
 							<Sidebar>
-								<BarContainer><DarkBar total={20} approved={7} rejected={1} /></BarContainer>
-								<Claims>567/<strong>1,298</strong></Claims>
+								<BarContainer>
+									<DarkBar 
+										total={props.project.claims.required}
+										approved={props.project.claims.currentSucessful}
+										rejected={props.project.claims.currentRejected} 
+									/>
+								</BarContainer>
+								<Claims>{props.project.claims.currentSucessful}/<strong>{props.project.claims.required}</strong></Claims>
 								<ImpactAction>successful water systems built</ImpactAction>
-								<Disputed><strong>4</strong> disputed claims</Disputed>
+								<Disputed><strong>{props.project.claims.currentRejected}</strong> disputed claims</Disputed>
 								<hr />
 								<div className="row">
-									{props.statistics.map((statistic, index) => {
+									{statistics.map((statistic, index) => {
 										return (
 											<StatisticsContainer className="col-md-6 col-lg-4 col-4" key={index}>
-												<SingleStatistic type={props.statistics[index].type} amount={props.statistics[index].amount} descriptor={props.statistics[index].descriptor}/>
+												<SingleStatistic type={statistics[index].type} amount={statistics[index].amount} descriptor={statistics[index].descriptor}/>
 											</StatisticsContainer>
 										);
 									})}
@@ -284,16 +293,15 @@ export const ProjectOverview: React.SFC<Props> = (props) => {
 					<Founder className="row">
 						<div className="col-md-8">
 							<h4>Project Founder</h4>
-							<h3>Water for Africa</h3>
-							<Text>We believe that a sustained programme of investment will enable communities in Africa to develop,
-								become self reliant and so break the cycle of dependency and short term aid.</Text>
+							<h3>{props.project.founder.name}</h3>
+							<Text>{props.project.founder.shortDescription}</Text>
 							<IconText>
-								<span><i className="icon-location"/>United Kingdom</span>
-								<span><i className="icon-url"/>waterforafrica.co.uk</span>
+								<span><i className="icon-location"/>{getCountryName(props.project.founder.countryOfOrigin)}</span>
+								<span><i className="icon-url"/>{props.project.founder.websiteURL}</span>
 							</IconText>
 						</div>
 						<div className="col-md-4">
-							<img src={founderLogo} alt="Water for Africa lgoo"/>
+							<img src={props.project.founder.logoLink} alt="Water for Africa lgoo"/>
 						</div>
 					</Founder>
 				</div>

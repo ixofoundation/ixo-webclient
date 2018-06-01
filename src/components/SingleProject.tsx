@@ -2,9 +2,10 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { PublicSiteStoreState } from '../redux/public_site_reducer';
-import { contentPage, StatType } from '../types/models';
+import { contentPage } from '../types/models';
 import { HeroSingle } from './HeroSingle';
 import { ProjectOverview } from './ProjectOverview';
+import { getCountryName } from '../utils/formatters';
 
 // // import styled from 'styled-components';
 // // import { ModalWrapper } from '../../ModalWrapper';
@@ -74,31 +75,21 @@ export class SingleProject extends React.Component<StateProps> {
 		// } else {
 		// 	console.info( 'This page is not reloaded');
 		// }	
-		console.log(this.props);
-
+		const project  = this.props.location.state;
+		console.log(project);
 		return (
 			<div>
 				<HeroSingle 
-					projectTitle={'Togo water project'}
-					SDGs={[15, 12, 9]}
-					description={'Togo provides clean water, basic toilets and good hygiene practices are essential for the survival and development of children in Uganda. '}
-					dateCreated={'2017/11/12'}
-					country={'South Africa'}
-					owner={'Water for Africa'}
+					projectTitle={project.title}
+					SDGs={project.sdgs}
+					description={project.shortDescription}
+					dateCreated={project.createdOn.split('T')[0]}
+					country={getCountryName(project.projectLocation)}
+					owner={project.ownerName}
 					match={this.props.match}
 				/>
 				<ProjectOverview 
-					statistics={[
-						{type: StatType.decimal,
-						descriptor: [{class: 'text', value: 'Investors'}],
-						amount: 50},
-						{type: StatType.decimal,
-						descriptor: [{class: 'text', value: 'Evaluators'}],
-						amount: 12},
-						{type: StatType.decimal,
-						descriptor: [{class: 'text', value: 'Service providers'}],
-						amount: 142}
-				]}
+					project={project}
 				/>
 			</div>
 			

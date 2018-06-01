@@ -143,10 +143,11 @@ export const HeroSingle: React.SFC<Props> = (props) => {
 						</div>
 						<ColLeft className="col-lg-8 col-sm-12">
 							{props.SDGs.map((SDG, index) => {
+								const goal = Math.floor(SDG);
 								return (
 									<SingleSDG key={index}>
-											<i className={`icon-${SDGArray[SDG - 1].ico}`}/>
-											{SDG}. {SDGArray[SDG - 1].title}
+											<i className={`icon-${SDGArray[goal - 1].ico}`}/>
+											{goal}. {SDGArray[goal - 1].title}
 									</SingleSDG>
 								);
 							})}

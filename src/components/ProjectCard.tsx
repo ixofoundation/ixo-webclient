@@ -149,21 +149,18 @@ export const ProjectCard: React.SFC<Props> = (props) => {
 			<ProjectLink to={{pathname: `/${props.project._id}/home`, state: props.project }}>
 				<CardTop style={{background: `url(${props.bg}) no-repeat center top / cover`}}>
 					<SDGs>
-					{SDGArray.map((SDG, SDGi) => {
-						if (SDGi > 4) { 
-							return '';
-						}
+					{props.project.sdgs.map((SDG, SDGi) => {
 						return (
-						<i key={SDGi} className={`icon-${SDGArray[Math.floor(Math.random() * 17)].ico}`} />
+						<i key={SDGi} className={`icon-${SDGArray[Math.floor(SDG) - 1].ico}`} />
 						);
 					})}
 					</SDGs>
-					<Description><p>{excerptText(props.project.about, 20)}</p></Description>
+					<Description><p>{excerptText(props.project.shortDescription, 20)}</p></Description>
 				</CardTop>
 				<CardBottom>
-					<Title>{excerptText(props.project.name, 10)}</Title>
-					<Owner>By {props.project.owner.name}</Owner>
-					<ProgressBar total={20} approved={10} rejected={3}/>
+					<Title>{excerptText(props.project.title, 10)}</Title>
+					<Owner>By {props.project.ownerName}</Owner>
+					<ProgressBar total={props.project.claims.required} approved={props.project.claims.currentSucessful} rejected={props.project.claims.currentRejected}/>
 					<Progress>50 / <strong>200</strong></Progress>
 					<Impact>Trees planted</Impact>
 				</CardBottom>

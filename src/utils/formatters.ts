@@ -1,3 +1,5 @@
+import { isoCountries } from '../lib/commonData';
+
 export function formatJSONDate(jsonDateTimeString: string): string {
 	return new Date(jsonDateTimeString).toLocaleDateString('en-US', {year: 'numeric', month: 'long', day: 'numeric'});
 }
@@ -35,5 +37,13 @@ export function excerptText(theText: string, words: number = 20) {
 		return theText.slice(0, theIndex - 1) + '...';
 	} else {
 		return theText;
+	}
+}
+
+export function getCountryName (countryCode: string) {
+	if (isoCountries.hasOwnProperty(countryCode)) {
+		return isoCountries[countryCode];
+	} else {
+		return countryCode;
 	}
 }

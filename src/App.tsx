@@ -87,17 +87,17 @@ class App extends React.Component<App.Props, App.State> {
 
 	refreshProjects = () => {
 		this.props.ixo.project.listProjects().then((response: any) => {
-			this.setState({ projectList: response.result });
+			// this.setState({ projectList: response.result });
 		}).catch((error) => {
 			console.error(error);
 		});
 	}
 
 	refreshMyProjects = () => {
-		const myProjectsList: any = this.state.projectList.filter((project) => {
-			return project.owner.did === this.props.ixo.credentialProvider.getDid();
-		});
-		this.setState({ myProjectList: myProjectsList });
+		// const myProjectsList: any = this.state.projectList.filter((project) => {
+		// 	return project.owner.did === this.props.ixo.credentialProvider.getDid();
+		// });
+		this.setState({ myProjectList: this.state.projectList });
 	}
 
 	refreshServiceAgentProjectList = () => {
@@ -116,6 +116,26 @@ class App extends React.Component<App.Props, App.State> {
 
 	componentDidMount() {
 		setInterval(this.metamaskAccountChecker, 1000);
+		const promise = fetch('https://ixo-block-sync.herokuapp.com/api/project', {
+			method: 'POST',
+			body: JSON.stringify({  
+				'jsonrpc': '2.0',
+				'method': 'listProjects',
+				'id': 412,
+				'params': {}
+			}),
+			credentials: 'same-origin',
+			headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' }
+		}).then((response: any) => {
+			return response.json();
+			
+		}).catch((error) => {
+			console.error(error);
+		});
+
+		promise.then((response) => {
+			this.setState({ projectList: response.result });
+		});
 	}
 
 	renderProjectContent() {
