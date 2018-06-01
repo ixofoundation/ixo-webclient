@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import { SingleProjectConnected } from './SingleProject';
 import { Projects } from './Projects';
+import { ProjectCreate } from './ProjectCreate';
 import { contentPage } from '../types/models';
 
 export namespace Routes {
@@ -122,7 +123,7 @@ export const Routes: React.SFC<Routes.RouteProps> = (props) => {
 				path="/create-project"
 				render={(routeProps) => (
 					<div>
-						<Projects {...routeProps} {...props} projectList={props.serviceAgentProjectList} />
+						<ProjectCreate {...routeProps} {...props} />
 					</div>
 				)}
 			/>
