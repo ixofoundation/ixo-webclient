@@ -3,6 +3,7 @@ import { PublicSiteStoreState } from '../redux/public_site_reducer';
 import { connect } from 'react-redux';
 import { initIxo } from '../redux/ixo/ixo_action_creators';
 import styled from 'styled-components';
+import { testProjectData } from '../lib/commonData';
 
 const Text = styled.textarea`
 	margin: 20px 0;
@@ -26,7 +27,7 @@ export interface State {
 }	
 export class ProjectCreate extends React.Component<Props, State> {
 
-	state = {json: ''};
+	state = {json: testProjectData};
 
 	componentDidMount() {
 		this.props.onIxoInit();
@@ -42,10 +43,8 @@ export class ProjectCreate extends React.Component<Props, State> {
 			// 	// alert(`Dashboard handling received response for INFO response: ${JSON.stringify(response)}, error: ${JSON.stringify(error)}`);
 			// });
 			let message = this.state.json;
-			inpageProvider.requestMessageSigningFromIxoCM(message, (error, response) => {
-				alert(`Dashboard handling received response for SIGN response: ${JSON.stringify(response)}, error: ${JSON.stringify(error)}`);
-
-				this.props.ixo.project.createProject(message, response, 'http://localhost:5000/').then((res) => {
+			inpageProvider.requestMessageSigningFromIxoCM(message, (error, signature) => {
+				this.props.ixo.project.createProject(JSON.parse(message), signature, 'http://35.225.6.178:5000/').then((res) => {
 					console.log('PROJECT CREATE STATUS: ', res);
 				});
 			});

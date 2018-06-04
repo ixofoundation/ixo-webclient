@@ -44,7 +44,7 @@ export const Projects: React.SFC<Projects.StateProps> = (props) => {
 			return (
 					<div className="row">
 						{props.projectList.map((project, index) => {
-							return <ProjectCard project={project} bg={imgArray()[index]} key={index} />;
+							return <ProjectCard project={project.data} bg={imgArray()[index]} key={index} />;
 						})}
 					</div>
 			);

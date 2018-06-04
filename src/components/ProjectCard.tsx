@@ -167,7 +167,7 @@ export const ProjectCard: React.SFC<Props> = (props) => {
 				<CardBottom>
 					<Title>{excerptText(props.project.title, 10)}</Title>
 					<Owner>By {props.project.ownerName}</Owner>
-					<ProgressBar total={props.project.claims.required} approved={props.project.claims.currentSucessful} rejected={props.project.claims.currentRejected}/>
+					<ProgressBar total={props.project.claims.required} approved={props.project.claims.currentSuccessful} rejected={props.project.claims.currentRejected}/>
 					<Progress>50 / <strong>200</strong></Progress>
 					<Impact>Trees planted</Impact>
 				</CardBottom>

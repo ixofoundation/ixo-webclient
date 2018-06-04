@@ -261,11 +261,11 @@ export const ProjectOverview: React.SFC<Props> = (props) => {
 								<BarContainer>
 									<DarkBar 
 										total={props.project.claims.required}
-										approved={props.project.claims.currentSucessful}
+										approved={props.project.claims.currentSuccessful}
 										rejected={props.project.claims.currentRejected} 
 									/>
 								</BarContainer>
-								<Claims>{props.project.claims.currentSucessful}/<strong>{props.project.claims.required}</strong></Claims>
+								<Claims>{props.project.claims.currentSuccessful}/<strong>{props.project.claims.required}</strong></Claims>
 								<ImpactAction>successful water systems built</ImpactAction>
 								<Disputed><strong>{props.project.claims.currentRejected}</strong> disputed claims</Disputed>
 								<hr />

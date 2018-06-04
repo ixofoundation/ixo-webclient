@@ -152,7 +152,6 @@ class Header extends React.Component<Props, State> {
 	ping: () => void = () => {
 		this.setState({ initialDate: new Date() });
 		if (this.props.ixo) {
-			console.log(this.props.ixo);
 			// this.props.getPing(this.props.ixo);
 
 			// this.props.ixo.credentialProvider.provider.eth.getAccounts((err, accounts) => {
