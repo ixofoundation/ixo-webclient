@@ -50,7 +50,7 @@ export class ProjectCreate extends React.Component<Props, State> {
 				signature.creator = 'did:sov:' + signature.creator;
 				console.log('MESSAGE IS: ', JSON.parse(this.state.json));
 				// 'http://35.225.6.178:5000/' 'http://localhost:5000/'
-				this.props.ixo.project.createProject(JSON.parse(message), signature, 'http://localhost:5000/').then((res) => {
+				this.props.ixo.project.createProject(JSON.parse(message), signature, 'http://35.225.6.178:5000/').then((res) => {
 					console.log('PROJECT CREATE STATUS: ', res);
 				});
 			});
