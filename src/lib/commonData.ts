@@ -284,10 +284,11 @@ export const isoCountries = {
 };
 
 // tslint:disable-next-line:max-line-length
-export const testProjectData = '{"title":"Projecto por hombre de agua","ownerName":"Don","ownerEmail":"test@test","shortDescription":"Potato","longDescription":"long des","impactAction":"Plant some trees","createdOn":"2018-05-31T12:42:26.816Z","createdBy":"did:sov:GHxdsQYYf1sM2Bo8TGhPc9","projectLocation":"CO","sdgs":["12.2","3","2.4"],"claims":{"required":30,"currentSuccessful":0,"currentRejected":4},"templates":{"claim":"default"},"agents":{"evaluators":0,"evaluatorsPending":0,"serviceProviders":23,"serviceProvidersPending":0,"investors":6},"evaluatorPayPerClaim":"15","socialMedia":{"facebookLink":"https://www.facebook.com/ixofoundation/","instagramLink":"","twitterLink":"","webLink":"https://ixo.foundation"},"ixo":{"totalStaked":200,"totalUsed":55},"serviceEndpoint":"https://togo.pds.ixo.network","imageLink":"","founder":{"name":"Nic","email":"nic@test.co.za","countryOfOrigin":"ZA","shortDescription":"primary donny","websiteURL":"www.youtwitface.com","logoLink":""}}';
+export const testProjectData = '{"title":"Projecto por hombre de agua","ownerName":"Don","ownerEmail":"test@test","shortDescription":"Potato","longDescription":"long des","impactAction":"Plant some trees","createdOn":"2018-05-31T12:42:26.816Z","createdBy":"did:sov:Tp25vz5iHoLJ4ktk7pKYC6","projectLocation":"CO","sdgs":["12.2","3","2.4"],"claims":{"required":30,"currentSuccessful":0,"currentRejected":4},"templates":{"claim":"default"},"agents":{"evaluators":0,"evaluatorsPending":0,"serviceProviders":23,"serviceProvidersPending":0,"investors":6},"evaluatorPayPerClaim":"15","socialMedia":{"facebookLink":"https://www.facebook.com/ixofoundation/","instagramLink":"","twitterLink":"","webLink":"https://ixo.foundation"},"ixo":{"totalStaked":200,"totalUsed":55},"serviceEndpoint":"https://togo.pds.ixo.network","imageLink":"","founder":{"name":"Nic","email":"nic@test.co.za","countryOfOrigin":"ZA","shortDescription":"primary donny","websiteURL":"www.youtwitface.com","logoLink":""}}';
+export const testAgentData = '{"email":"don@ixo.com","name":"Don","role":"EA","agentDid":"did:sov:Tp25vz5iHoLJ4ktk7pKYC6","projectDID":"did:ixo:AYhXKKUELQqo9dcuFwYMXH"}';
 export const testSig = {
 	type: 'ed25519-sha-256',
-	created: '2018-06-04T10:55:33+0200',
-	creator: 'did:sov:GHxdsQYYf1sM2Bo8TGhPc9',
-	publicKey: '7UTneJkyCKSdh415zcCftRbwyU7BkmNPNwce1FQQ9pnK',
-	signature: '4uDhv1meFCbigaYS5U9t3QXgPofGH3xnWDWSyWi47j4pU8TSLiHhqVmsmYWaRFUEZnFbXnGway9bThUmeXBGCT6QAEdzZxnAttQH5mvHvXmAAzZx2W9jYMBzePaesdLr'};
+	created: '2018-06-06T09:18:47Z',
+	creator: 'did:sov:Tp25vz5iHoLJ4ktk7pKYC6',
+	publicKey: 'BGcahyLmkPeuteRemDXMUPu1W9Tc6ghuCSud4mD7fTG3',
+	signatureValue: '6A548060AEB78449D17C1B825F941028728ADBBD5A4952CDF7782F128B2582A648D0697670AA3164434B8C27D18FDC213333DE7A8ADC574940B509B6B2AD590E'};

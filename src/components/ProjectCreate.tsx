@@ -3,7 +3,7 @@ import { PublicSiteStoreState } from '../redux/public_site_reducer';
 import { connect } from 'react-redux';
 import { initIxo } from '../redux/ixo/ixo_action_creators';
 import styled from 'styled-components';
-import { testProjectData } from '../lib/commonData';
+import { testProjectData, testAgentData } from '../lib/commonData';
 
 const Text = styled.textarea`
 	margin: 20px 0;
@@ -23,32 +23,36 @@ export interface Props extends StateProps, DispatchProps {
 }
 
 export interface State {
-	json: string;
+	projectCreateJson: string;
+	agentCreateJson: string;
+	inpageProvider: any;
 }	
 export class ProjectCreate extends React.Component<Props, State> {
 
-	state = {json: testProjectData};
+	state = {
+		projectCreateJson: testProjectData,
+		agentCreateJson: testAgentData,
+		inpageProvider: null
+	};
 
 	componentDidMount() {
 		this.props.onIxoInit();
+		const IxoInpageProvider = window['ixoCm'];
+		this.setState({inpageProvider: new IxoInpageProvider()});
 	}
 
-	signMessage = () => {
+	handleCreateProject = () => {
 		if (!window['ixoCm']) {
 			window.alert('Please install IXO Credential Manager first.');
 		} else {
-			const IxoInpageProvider = window['ixoCm'];
-			const inpageProvider = new IxoInpageProvider();
 			// inpageProvider.requestInfoFromIxoCM((error, response) => {
 			// 	// alert(`Dashboard handling received response for INFO response: ${JSON.stringify(response)}, error: ${JSON.stringify(error)}`);
 			// });
-			let message = this.state.json;
-			inpageProvider.requestMessageSigningFromIxoCM(message, (error, signature) => {
+			let message = this.state.projectCreateJson;
+			this.state.inpageProvider.requestMessageSigningFromIxoCM(message, (error, signature) => {
+				
+				console.log('MESSAGE IS: ', JSON.parse(message));
 				console.log('SIGNATURE IS: ', signature);
-				signature['signature'] = signature.signatureValue;
-				delete signature.signatureValue;
-				signature.creator = 'did:sov:' + signature.creator;
-				console.log('MESSAGE IS: ', JSON.parse(this.state.json));
 				// 'http://35.225.6.178:5000/' 'http://localhost:5000/'
 				this.props.ixo.project.createProject(JSON.parse(message), signature, 'http://35.225.6.178:5000/').then((res) => {
 					console.log('PROJECT CREATE STATUS: ', res);
@@ -57,8 +61,32 @@ export class ProjectCreate extends React.Component<Props, State> {
 		}
 	}
 
-	handleChange = (event: any) => {
-		this.setState({json: event.target.value});
+	handleCreateAgent = () => {
+		if (!window['ixoCm']) {
+			window.alert('Please install IXO Credential Manager first.');
+		} else {
+			// inpageProvider.requestInfoFromIxoCM((error, response) => {
+			// 	// alert(`Dashboard handling received response for INFO response: ${JSON.stringify(response)}, error: ${JSON.stringify(error)}`);
+			// });
+			let message = this.state.agentCreateJson;
+			this.state.inpageProvider.requestMessageSigningFromIxoCM(message, (error, signature) => {
+				
+				console.log('MESSAGE IS: ', JSON.parse(message));
+				console.log('SIGNATURE IS: ', signature);
+				// 'http://35.225.6.178:5000/' 'http://localhost:5000/'
+				this.props.ixo.agent.createAgent(JSON.parse(message), signature, 'http://35.225.6.178:5000/').then((res) => {
+					console.log('AGENT CREATE STATUS: ', res);
+				});
+			});
+		}
+	}
+
+	handleProjectChange = (event: any) => {
+		this.setState({projectCreateJson: event.target.value});
+	}
+
+	handleAgentChange = (event: any) => {
+		this.setState({agentCreateJson: event.target.value});
 	}
 
 	render() {
@@ -66,9 +94,13 @@ export class ProjectCreate extends React.Component<Props, State> {
 			<div>
 				<div className="container">
 					<div className="row">
-						<div className="col-md-12">
-						<Text value={this.state.json} onChange={this.handleChange} />
-						<button onClick={this.signMessage}>SIGN MESSAGE AND CREATE PROJECT</button>
+						<div className="col-md-6">
+							<Text value={this.state.projectCreateJson} onChange={this.handleProjectChange} />
+							<button onClick={this.handleCreateProject}>SIGN MESSAGE AND CREATE PROJECT</button>
+						</div>
+						<div className="col-md-6">
+							<Text value={this.state.agentCreateJson} onChange={this.handleAgentChange} />
+							<button onClick={this.handleCreateAgent}>SIGN MESSAGE AND CREATE AGENT</button>
 						</div>
 					</div>
 				</div>

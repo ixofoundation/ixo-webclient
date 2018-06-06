@@ -130,7 +130,7 @@ class App extends React.Component<App.Props, App.State> {
 			body: JSON.stringify({  
 				'jsonrpc': '2.0',
 				'method': 'listProjects',
-				'id': 412,
+				'id': 0,
 				'params': {}
 			}),
 			credentials: 'same-origin',
