@@ -149,8 +149,8 @@ class Header extends React.Component<Props, State> {
 		copied: false
 	};
 
-	ping: () => void = () => {
-		this.setState({ initialDate: new Date() });
+	ping = () => {
+		// this.setState({ initialDate: new Date() });
 		if (this.props.ixo) {
 			// this.props.getPing(this.props.ixo);
 
@@ -182,8 +182,8 @@ class Header extends React.Component<Props, State> {
 		// } else {
 		// 	this.props.onIxoInit(this.state.selectedServer);
 		// }
-		this.props.onIxoInit();
-		setInterval(this.ping, 5000);
+		this.ping();
+		// setInterval(this.ping, 5000);
 	}
 
 	componentDidUpdate(prevProps: Props) {

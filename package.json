@@ -10,7 +10,7 @@
     "@types/redux-logger": "^3.0.6",
     "@types/redux-thunk": "^2.1.0",
     "base-64": "^0.1.0",
-    "ixo-module": "^1.4.32",
+    "ixo-module": "^1.4.33",
     "moment": "^2.22.2",
     "react": "^16.4.0",
     "react-bootstrap": "^0.32.1",

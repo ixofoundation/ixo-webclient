@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { SingleStatistic } from './SingleStatistic';
 import { Statistic, StatType } from '../types/models';
 import { getCountryName } from '../utils/formatters';
+import { Link } from 'react-router-dom';
 
 const OverviewContainer = styled.section`
 
@@ -120,9 +121,9 @@ const Social = styled.div`
 	}
 `;
 
-const Button = styled.button`
+const Button = styled.a`
 	border: 1px solid #B8B8B8;
-    color: ${props => props.theme.fontGrey};
+    &&& {color: ${props => props.theme.fontGrey};}
     font-size: 16px;
     text-transform: uppercase;
     padding: 10px 20px;
@@ -131,7 +132,9 @@ const Button = styled.button`
 	width: 100%;
 	font-family: ${props => props.theme.fontRobotoCondensed};
 	font-weight: 500;
-	
+	display:inline-block;
+	text-align: center;
+
 	transition: all 0.3s ease;
 	cursor: pointer;
 
@@ -156,15 +159,23 @@ const Button = styled.button`
 	}
 `;
 
-const BlueButton = styled(Button)`
+const BlueButton = styled(Link)`
 	border: 1px solid ${props => props.theme.ixoBlue};
-    color: white;
-	font-weight: 300;
+    &&& {color: white;}
 	font-size: 15px;
+    text-transform: uppercase;
+    padding: 10px 20px;
+    margin-bottom: 10px;
+	font-family: ${props => props.theme.fontRobotoCondensed};
+	display:block;
+	text-align: center;
 
+	transition: all 0.3s ease;
+	cursor: pointer;
+	
 	:hover {
-		color: ${props => props.theme.fontBlue};
-		background: none;
+		&&&{ color: ${props => props.theme.fontBlue};}
+		text-decoration: none;
 	}
 `;
 
@@ -221,6 +232,7 @@ const Founder = styled.div`
 
 export interface Props {
 	project: any;
+	id: string;
 }
 
 export const ProjectOverview: React.SFC<Props> = (props) => {
@@ -236,7 +248,6 @@ export const ProjectOverview: React.SFC<Props> = (props) => {
 		descriptor: [{class: 'text', value: 'Service providers'}],
 		amount: props.project.agents.serviceProviders}
 		];
-	
 	console.log(props.project);
 	return (
 		<div>
@@ -250,10 +261,10 @@ export const ProjectOverview: React.SFC<Props> = (props) => {
 								</p>
 							</Text>
 							<Social>
-								<i className="icon-instagram-logo" />
-								<i className="icon-twitter-logo-silhouette"/>
-								<i className="icon-facebook-logo"/>
-								<i className="icon-world-url"/>
+								<a><i className="icon-instagram-logo" /></a>
+								<a><i className="icon-twitter-logo-silhouette"/></a>
+								<a><i className="icon-facebook-logo"/></a>
+								<a><i className="icon-world-url"/></a>
 							</Social>
 						</div>
 						<div className="col-md-4">
@@ -278,9 +289,9 @@ export const ProjectOverview: React.SFC<Props> = (props) => {
 										);
 									})}
 								</div>
-								<BlueButton>INVEST IN THIS PROJECT</BlueButton>
-								<BlueButton>BECOME AN EVALUATOR</BlueButton>
-								<BlueButton>BECOME A SERVICE PROVIDER</BlueButton>
+								<BlueButton to={{pathname: `/${props.id}/home` }}>INVEST IN THIS PROJECT</BlueButton>
+								<BlueButton to={{pathname: `/${props.id}/home` }}>BECOME AN EVALUATOR</BlueButton>
+								<BlueButton to={{pathname: `/${props.id}/home` }}>BECOME A SERVICE PROVIDER</BlueButton>
 							</Sidebar>
 							<Button><i className="icon-favourites"/>SAVE TO FAVOURITES</Button>
 							<Button><i className="icon-share"/>SHARE THIS PROJECT</Button>

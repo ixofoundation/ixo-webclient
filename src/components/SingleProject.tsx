@@ -75,8 +75,7 @@ export class SingleProject extends React.Component<StateProps> {
 		// } else {
 		// 	console.info( 'This page is not reloaded');
 		// }	
-		const project  = this.props.location.state;
-		console.log(project);
+		const {id, project }  = this.props.location.state;
 		return (
 			<div>
 				<HeroSingle 
@@ -90,6 +89,7 @@ export class SingleProject extends React.Component<StateProps> {
 				/>
 				<ProjectOverview 
 					project={project}
+					id={id}
 				/>
 			</div>
 			

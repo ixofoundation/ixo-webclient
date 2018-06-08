@@ -41,10 +41,11 @@ export const Projects: React.SFC<Projects.StateProps> = (props) => {
 				</div>
 			);
 		} else if (props.projectList.length > 0) {
+			console.log(props.projectList);
 			return (
-					<div className="row">
+					<div className="row row-eq-height">
 						{props.projectList.map((project, index) => {
-							return <ProjectCard project={project.data} bg={imgArray()[index]} key={index} />;
+							return <ProjectCard project={project.data} id={project._id} bg={imgArray()[index]} key={index} />;
 						})}
 					</div>
 			);

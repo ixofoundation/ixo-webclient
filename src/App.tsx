@@ -119,7 +119,11 @@ class App extends React.Component<App.Props, App.State> {
 		const IxoInpageProvider = window['ixoCm'];
 		const inpageProvider = new IxoInpageProvider();
 		inpageProvider.requestInfoFromIxoCM((error, response) => {
-			this.setState({did: response.did});
+			if (response) {
+				this.setState({did: response.did});
+			} else {
+				console.log('Please login to your credential provider', error);
+			}
 			// alert(`Dashboard handling received response for INFO response: ${JSON.stringify(response)}, error: ${JSON.stringify(error)}`);
 		});
 		

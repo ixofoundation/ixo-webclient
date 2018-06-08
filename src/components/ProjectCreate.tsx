@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { PublicSiteStoreState } from '../redux/public_site_reducer';
 import { connect } from 'react-redux';
-import { initIxo } from '../redux/ixo/ixo_action_creators';
 import styled from 'styled-components';
 import { testProjectData, testAgentData } from '../lib/commonData';
 
@@ -15,19 +14,12 @@ export interface StateProps {
 	ixo?: any;
 }
 
-export interface DispatchProps {
-	onIxoInit: () => void;
-}
-
-export interface Props extends StateProps, DispatchProps {
-}
-
 export interface State {
 	projectCreateJson: string;
 	agentCreateJson: string;
 	inpageProvider: any;
 }	
-export class ProjectCreate extends React.Component<Props, State> {
+export class ProjectCreate extends React.Component<StateProps, State> {
 
 	state = {
 		projectCreateJson: testProjectData,
@@ -36,7 +28,8 @@ export class ProjectCreate extends React.Component<Props, State> {
 	};
 
 	componentDidMount() {
-		this.props.onIxoInit();
+		// this.props.onIxoInit();
+		
 		const IxoInpageProvider = window['ixoCm'];
 		this.setState({inpageProvider: new IxoInpageProvider()});
 	}
@@ -81,6 +74,27 @@ export class ProjectCreate extends React.Component<Props, State> {
 		}
 	}
 
+	listAgents() {
+		return new Promise((resolve) => {
+			const listData = '{"projectDid":"did:ixo:7ptsZma2sxjSLb3JZ7R4uW"}';
+			this.state.inpageProvider.requestMessageSigningFromIxoCM(listData, (error, signature) => {
+				console.log(signature);
+				console.log(JSON.parse(listData));
+				this.props.ixo.agent.listAgentsForProject(JSON.parse(listData), signature, 'http://35.225.6.178:5000/').then((res) => {
+					resolve(res);
+				});
+			});
+		});
+	}
+
+	updateAgentStatus = () => {
+		
+		// this.listAgents.then((result) => {
+		// 	console.log(result);
+		// });
+		// console.log('PROMISE RETURNED: ', theAgent);
+	}
+
 	handleProjectChange = (event: any) => {
 		this.setState({projectCreateJson: event.target.value});
 	}
@@ -102,10 +116,11 @@ export class ProjectCreate extends React.Component<Props, State> {
 							<Text value={this.state.agentCreateJson} onChange={this.handleAgentChange} />
 							<button onClick={this.handleCreateAgent}>SIGN MESSAGE AND CREATE AGENT</button>
 						</div>
+						<button onClick={this.listAgents}>List agents</button>
 					</div>
 				</div>
 			</div>
-		);
+		); 
 	}
 }
 
@@ -115,15 +130,6 @@ function mapStateToProps(state: PublicSiteStoreState): StateProps {
 	};
 }
 
-function mapDispatchToProps(dispatch: any): DispatchProps {
-	return {
-		onIxoInit: () => {
-			dispatch(initIxo());
-		}
-	};
-}
-
 export const ProjectCreateConnected = (connect(
-	mapStateToProps,
-	mapDispatchToProps
-)(ProjectCreate) as any);
+	mapStateToProps
+)(ProjectCreate));

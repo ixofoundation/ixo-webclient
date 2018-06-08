@@ -107,8 +107,6 @@ const CardTop = styled.div`
 const CardBottom = styled.div`
 	border-radius: 0 0 2px 2px;
 	padding: 20px 14px;
-	border: 1px solid #E2E2E2;
-	border-top: 0;
 	background: white;
 
 	p {
@@ -124,6 +122,9 @@ const CardContainer = styled.div`
 const ProjectLink = styled(Link) `
 	display: block;
 	box-shadow: 0px 10px 25px 0px rgba(0,0,0,0);
+	background: white;
+	height:100%;
+	border: 1px solid #E2E2E2;
 
 	transition: box-shadow 0.3s ease;
 
@@ -147,27 +148,28 @@ const ProjectLink = styled(Link) `
 
 export interface Props {
 	project: any;
+	id: string;
 	bg: string;
 }
 
-export const ProjectCard: React.SFC<Props> = (props) => {
+export const ProjectCard: React.SFC<Props> = ({project, id, bg}) => {
 	return (
 		<CardContainer className="col-10 offset-1 col-xl-4 col-md-6 col-sm-10 offset-sm-1 offset-md-0">
-			<ProjectLink to={{pathname: `/${props.project._id}/home`, state: props.project }}>
-				<CardTop style={{backgroundImage: `url(${props.bg})`}}>
+			<ProjectLink to={{pathname: `/${id}/home`, state: { project, id } }}>
+				<CardTop style={{backgroundImage: `url(${bg})`}}>
 					<SDGs>
-					{props.project.sdgs.map((SDG, SDGi) => {
+					{project.sdgs.map((SDG, SDGi) => {
 						return (
 						<i key={SDGi} className={`icon-${SDGArray[Math.floor(SDG) - 1].ico}`} />
 						);
 					})}
 					</SDGs>
-					<Description><p>{excerptText(props.project.shortDescription, 20)}</p></Description>
+					<Description><p>{excerptText(project.shortDescription, 20)}</p></Description>
 				</CardTop>
 				<CardBottom>
-					<Title>{excerptText(props.project.title, 10)}</Title>
-					<Owner>By {props.project.ownerName}</Owner>
-					<ProgressBar total={props.project.claims.required} approved={props.project.claims.currentSuccessful} rejected={props.project.claims.currentRejected}/>
+					<Title>{excerptText(project.title, 10)}</Title>
+					<Owner>By {project.ownerName}</Owner>
+					<ProgressBar total={project.claims.required} approved={project.claims.currentSuccessful} rejected={project.claims.currentRejected}/>
 					<Progress>50 / <strong>200</strong></Progress>
 					<Impact>Trees planted</Impact>
 				</CardBottom>
