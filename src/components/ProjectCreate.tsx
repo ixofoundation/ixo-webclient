@@ -10,6 +10,12 @@ const Text = styled.textarea`
 	width: 100%;
 	height: 300px;
 `;
+
+const Container = styled.div`
+	button {
+		margin: 0 10px 10px 10px;
+	}
+`;
 export interface StateProps {
 	ixo?: any;
 }
@@ -74,24 +80,47 @@ export class ProjectCreate extends React.Component<StateProps, State> {
 		}
 	}
 
-	listAgents() {
+	listAgents = (agentDid?: string): Promise<any> => {
 		return new Promise((resolve) => {
-			const listData = '{"projectDid":"did:ixo:7ptsZma2sxjSLb3JZ7R4uW"}';
+			let listData: string = '';
+			agentDid ? listData = `{"projectDid":"did:ixo:7ptsZma2sxjSLb3JZ7R4uW","agentDid":"${agentDid}"}`
+					: listData = '{"projectDid":"did:ixo:7ptsZma2sxjSLb3JZ7R4uW"}';
+
 			this.state.inpageProvider.requestMessageSigningFromIxoCM(listData, (error, signature) => {
 				console.log(signature);
 				console.log(JSON.parse(listData));
 				this.props.ixo.agent.listAgentsForProject(JSON.parse(listData), signature, 'http://35.225.6.178:5000/').then((res) => {
-					resolve(res);
+					console.log(res.result);
+					resolve(res.result);
 				});
 			});
 		});
 	}
 
-	updateAgentStatus = () => {
+	handleUpdateAgentStatus = () => {
 		
-		// this.listAgents.then((result) => {
-		// 	console.log(result);
-		// });
+		this.listAgents('did:sov:Tp25vz5iHoLJ4ktk7pKYC6').then((result: any) => {
+
+			let agentData = {
+				agentDid: result[0].agentDid,
+				status: '2',
+				projectDid: result[0].projectDid
+			};
+
+			if (result[0].currentStatus !== null) {
+				console.log('STATUSES ARRAY: ', result[0].currentStatus);
+				agentData['version'] = result[0].currentStatus.version;
+			}
+
+			console.log(agentData);
+			this.state.inpageProvider.requestMessageSigningFromIxoCM(JSON.stringify(agentData), (error, signature) => {
+				this.props.ixo.agent.updateAgentStatus(agentData, signature, 'http://35.225.6.178:5000/').then((res) => {
+					console.log(res);
+				});
+			});
+		}).catch((reject) => {
+			console.log('reject:', reject);
+		});
 		// console.log('PROMISE RETURNED: ', theAgent);
 	}
 
@@ -106,19 +135,20 @@ export class ProjectCreate extends React.Component<StateProps, State> {
 	render() {
 		return (
 			<div>
-				<div className="container">
+				<Container className="container">
 					<div className="row">
 						<div className="col-md-6">
 							<Text value={this.state.projectCreateJson} onChange={this.handleProjectChange} />
-							<button onClick={this.handleCreateProject}>SIGN MESSAGE AND CREATE PROJECT</button>
+							<button onClick={this.handleCreateProject}>CREATE PROJECT</button>
 						</div>
 						<div className="col-md-6">
 							<Text value={this.state.agentCreateJson} onChange={this.handleAgentChange} />
-							<button onClick={this.handleCreateAgent}>SIGN MESSAGE AND CREATE AGENT</button>
+							<button onClick={this.handleCreateAgent}> CREATE AGENT</button>
 						</div>
-						<button onClick={this.listAgents}>List agents</button>
+						<br /> <button onClick={() => this.listAgents()}>LIST AGENTS</button>
+						<br /> <button onClick={this.handleUpdateAgentStatus}>UPDATE AGENT STATUS</button>
 					</div>
-				</div>
+				</Container>
 			</div>
 		); 
 	}
