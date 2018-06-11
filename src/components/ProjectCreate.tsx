@@ -81,48 +81,55 @@ export class ProjectCreate extends React.Component<StateProps, State> {
 	}
 
 	listAgents = (agentDid?: string): Promise<any> => {
-		return new Promise((resolve) => {
-			let listData: string = '';
-			agentDid ? listData = `{"projectDid":"did:ixo:LufJQ9WyHtQczpaSvdq6ji","agentDid":"${agentDid}"}`
-					: listData = '{"projectDid":"did:ixo:LufJQ9WyHtQczpaSvdq6ji"}';
+		return new Promise((resolve, reject) => {
+			if (!window['ixoCm']) {
+				window.alert('Please install IXO Credential Manager first.');
+				reject('Please install IXO Credential Manager first.');
+			} else {
+				let listData: string = '';
+				agentDid ? listData = `{"projectDid":"did:ixo:4tUnX7Sx65h1JUNH6swwBe","agentDid":"${agentDid}"}`
+						: listData = '{"projectDid":"did:ixo:4tUnX7Sx65h1JUNH6swwBe"}';
 
-			this.state.inpageProvider.requestMessageSigningFromIxoCM(listData, (error, signature) => {
-				console.log(signature);
-				console.log(JSON.parse(listData));
-				this.props.ixo.agent.listAgentsForProject(JSON.parse(listData), signature, 'http://35.225.6.178:5000/').then((res) => {
-					console.log(res.result);
-					resolve(res.result);
+				this.state.inpageProvider.requestMessageSigningFromIxoCM(listData, (error, signature) => {
+					console.log(signature);
+					console.log(JSON.parse(listData));
+					this.props.ixo.agent.listAgentsForProject(JSON.parse(listData), signature, 'http://35.225.6.178:5000/').then((res) => {
+						console.log(res.result);
+						resolve(res.result);
+					});
 				});
-			});
+			}
 		});
 	}
 
 	handleUpdateAgentStatus = () => {
-		
-		this.listAgents('did:sov:Tp25vz5iHoLJ4ktk7pKYC6').then((result: any) => {
+		if (!window['ixoCm']) {
+			window.alert('Please install IXO Credential Manager first.');
+		} else {
+			this.listAgents('did:sov:VtvWwbjASFqyfZKyWZ643z').then((result: any) => {
 
-			let agentData = {
-				agentDid: result[0].agentDid,
-				status: '1',
-				projectDid: result[0].projectDid,
-				role: result[0].role
-			};
+				let agentData = {
+					agentDid: result[0].agentDid,
+					status: '1',
+					projectDid: result[0].projectDid,
+					role: result[0].role
+				};
 
-			if (result[0].currentStatus !== null) {
-				console.log('STATUSES ARRAY: ', result[0].currentStatus);
-				agentData['version'] = result[0].currentStatus.version;
-			}
+				if (result[0].currentStatus !== null) {
+					console.log('STATUSES ARRAY: ', result[0].currentStatus);
+					agentData['version'] = result[0].currentStatus.version;
+				}
 
-			console.log(agentData);
-			this.state.inpageProvider.requestMessageSigningFromIxoCM(JSON.stringify(agentData), (error, signature) => {
-				this.props.ixo.agent.updateAgentStatus(agentData, signature, 'http://35.225.6.178:5000/').then((res) => {
-					console.log(res);
+				console.log(agentData);
+				this.state.inpageProvider.requestMessageSigningFromIxoCM(JSON.stringify(agentData), (error, signature) => {
+					this.props.ixo.agent.updateAgentStatus(agentData, signature, 'http://35.225.6.178:5000/').then((res) => {
+						console.log(res);
+					});
 				});
+			}).catch((reject) => {
+				console.log('reject:', reject);
 			});
-		}).catch((reject) => {
-			console.log('reject:', reject);
-		});
-		// console.log('PROMISE RETURNED: ', theAgent);
+		}
 	}
 
 	handleProjectChange = (event: any) => {

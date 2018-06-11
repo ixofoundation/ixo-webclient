@@ -264,7 +264,7 @@ class Header extends React.Component<Props, State> {
 			<TopBar className="container-fluid text-white">
 				<div className="row">
 					<HeaderLeft />
-					<MediaQuery minWidth={deviceWidth.tablet}>
+					<MediaQuery minDeviceWidth={`${deviceWidth.tablet}px`}>
 						<HeaderRight 
 							renderStatusIndicator={this.renderStatusIndicator}
 							selectedServer={this.state.selectedServer}

@@ -164,7 +164,7 @@ export const HeroSingle: React.SFC<Props> = (props) => {
 					</div>
 				</HeroInner>
 				<TabsController>
-				<MediaQuery minWidth={deviceWidth.desktop}>
+				<MediaQuery minWidth={`${deviceWidth.desktop}px`}>
 					<div className="container">
 						<div className="row">
 							<div className="offset-md-8" />
@@ -180,7 +180,7 @@ export const HeroSingle: React.SFC<Props> = (props) => {
 						</div>
 					</div>
 					</MediaQuery>
-					<MediaQuery maxWidth={Number(deviceWidth.desktop) - 1}>
+					<MediaQuery maxWidth={`${Number(deviceWidth.desktop) - 1}px`}>
 						<Tabs 
 							buttons={[
 								{ iconClass: 'icon-projects', path: `/${props.match.params.projectID}/home`, title: 'PROJECT' },
