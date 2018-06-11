@@ -17,28 +17,20 @@ const Container = styled.div`
 	}
 `;
 export interface StateProps {
-	ixo?: any;
+	ixo: any;
+	keysafe?: any;
 }
 
 export interface State {
 	projectCreateJson: string;
 	agentCreateJson: string;
-	inpageProvider: any;
 }	
 export class ProjectCreate extends React.Component<StateProps, State> {
 
 	state = {
 		projectCreateJson: testProjectData,
 		agentCreateJson: testAgentData,
-		inpageProvider: null
 	};
-
-	componentDidMount() {
-		// this.props.onIxoInit();
-		
-		const IxoInpageProvider = window['ixoCm'];
-		this.setState({inpageProvider: new IxoInpageProvider()});
-	}
 
 	handleCreateProject = () => {
 		if (!window['ixoCm']) {
@@ -48,7 +40,7 @@ export class ProjectCreate extends React.Component<StateProps, State> {
 			// 	// alert(`Dashboard handling received response for INFO response: ${JSON.stringify(response)}, error: ${JSON.stringify(error)}`);
 			// });
 			let message: string = this.state.projectCreateJson;
-			this.state.inpageProvider.requestMessageSigningFromIxoCM(message, (error: any, signature: any) => {
+			this.props.keysafe.requestSigning(message, (error: any, signature: any) => {
 				
 				console.log('MESSAGE IS: ', JSON.parse(message));
 				console.log('SIGNATURE IS: ', signature);
@@ -68,7 +60,7 @@ export class ProjectCreate extends React.Component<StateProps, State> {
 			// 	// alert(`Dashboard handling received response for INFO response: ${JSON.stringify(response)}, error: ${JSON.stringify(error)}`);
 			// });
 			let message: string = this.state.agentCreateJson;
-			this.state.inpageProvider.requestMessageSigningFromIxoCM(message, (error: any, signature: any) => {
+			this.props.keysafe.requestSigning(message, (error: any, signature: any) => {
 				
 				console.log('MESSAGE IS: ', JSON.parse(message));
 				console.log('SIGNATURE IS: ', signature);
@@ -90,7 +82,7 @@ export class ProjectCreate extends React.Component<StateProps, State> {
 				agentDid ? listData = `{"projectDid":"did:ixo:4tUnX7Sx65h1JUNH6swwBe","agentDid":"${agentDid}"}`
 						: listData = '{"projectDid":"did:ixo:4tUnX7Sx65h1JUNH6swwBe"}';
 
-				this.state.inpageProvider.requestMessageSigningFromIxoCM(listData, (error, signature) => {
+				this.props.keysafe.requestSigning(listData, (error, signature) => {
 					console.log(signature);
 					console.log(JSON.parse(listData));
 					this.props.ixo.agent.listAgentsForProject(JSON.parse(listData), signature, 'http://35.225.6.178:5000/').then((res) => {
@@ -121,7 +113,7 @@ export class ProjectCreate extends React.Component<StateProps, State> {
 				}
 
 				console.log(agentData);
-				this.state.inpageProvider.requestMessageSigningFromIxoCM(JSON.stringify(agentData), (error, signature) => {
+				this.props.keysafe.requestMessageSigningFromIxoCM(JSON.stringify(agentData), (error, signature) => {
 					this.props.ixo.agent.updateAgentStatus(agentData, signature, 'http://35.225.6.178:5000/').then((res) => {
 						console.log(res);
 					});
@@ -165,6 +157,7 @@ export class ProjectCreate extends React.Component<StateProps, State> {
 function mapStateToProps(state: PublicSiteStoreState): StateProps {
 	return {
 		ixo: state.ixoStore.ixo,
+		keysafe: state.keysafeStore.keysafe
 	};
 }
 

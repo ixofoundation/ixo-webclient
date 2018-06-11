@@ -154,11 +154,23 @@ const AccDID = styled.div`
 	}
 `;	
 
+const StatusBox = styled.div`
+	text-align:center;
+	width: 110px;
+	margin-right: 20px;
+`;
+const StatusText = styled.p`
+	color: white;
+	text-transform: uppercase;
+	font-size: 11px;
+	margin: 5px auto 0;
+	font-weight: normal;
+`;
+
 interface HeaderRightProps {
 	selectedServer: string;
 	did: string;
 	renderStatusIndicator: () => JSX.Element;
-	handleServerChange: (event: any) => void;
 }
 
 interface State {
@@ -178,16 +190,11 @@ export class HeaderRight extends React.Component<HeaderRightProps, State> {
 		return (
 			<NoPadLeft className="col-md-6">
 				<Inner className="d-flex justify-content-end">
-					<div>
+					<StatusBox>
 						{this.props.renderStatusIndicator()}
-						<select value={this.props.selectedServer} onChange={this.props.handleServerChange}>
-							<option value="https://ixo-node.herokuapp.com">Production
-								Server
-								</option>
-							<option value="http://localhost:5000">Development Server</option>
-						</select>
+						<StatusText>EXPLORER STATUS</StatusText>
 						<IXO><img src={xIcon} alt="IXO" /> 0.567</IXO>
-					</div>
+					</StatusBox>
 						{(this.props.did) &&
 							<UserBox onClick={this.toggleMenu} >
 								<h3>Michael <i className="icon-arrow-dropdown-large" /></h3>

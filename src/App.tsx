@@ -62,6 +62,7 @@ export namespace App {
 		ixo?: any;
 		pingError?: String;
 		pingResult?: String;
+		keysafe?: any;
 	}
 
 	export interface Props extends StateProps {
@@ -77,13 +78,6 @@ class App extends React.Component<App.Props, App.State> {
 		did: '',
 		isProjectPage: false
 	};
-
-	metamaskAccountChecker = () => {
-		if (this.state.did !== this.props.ixo.credentialProvider.getDid()) {
-			this.setState({ did: this.props.ixo.credentialProvider.getDid() });
-			this.refreshProjectList();
-		}
-	}
 
 	refreshProjects = () => {
 		this.props.ixo.project.listProjects().then((response: any) => {
@@ -114,20 +108,30 @@ class App extends React.Component<App.Props, App.State> {
 		this.refreshServiceAgentProjectList();
 	}
 
-	componentDidMount() {
-
-		const IxoInpageProvider = window['ixoCm'];
-		const inpageProvider = new IxoInpageProvider();
-		inpageProvider.requestInfoFromIxoCM((error, response) => {
+	handleOnboardDid() {
+		this.props.keysafe.getInfo((error, response) => {
 			if (response) {
 				this.setState({did: response.did});
+				console.log('You have successfully been linked into the keysafe');
 			} else {
 				console.log('Please login to your credential provider', error);
 			}
-			// alert(`Dashboard handling received response for INFO response: ${JSON.stringify(response)}, error: ${JSON.stringify(error)}`);
 		});
-		
-		// setInterval(this.metamaskAccountChecker, 1000);
+	}
+
+	componentDidUpdate(prevProps: any) {
+		if (this.props.keysafe !== null && this.props.keysafe !== prevProps.keysafe) {
+			this.handleOnboardDid();
+		}
+	}
+
+	componentDidMount() {
+
+		if (this.props.keysafe !== null) {
+			this.handleOnboardDid();
+		} else {
+			console.log('Please install IXO Keysafe');
+		}
 
 		const promise = fetch('https://ixo-block-sync.herokuapp.com/api/project', {
 			method: 'POST',
@@ -191,8 +195,7 @@ class App extends React.Component<App.Props, App.State> {
 function mapStateToProps(state: PublicSiteStoreState) {
 	return {
 		ixo: state.ixoStore.ixo,
-		pingError: state.pingStore.pingError,
-		pingResult: state.pingStore.pingResult
+		keysafe: state.keysafeStore.keysafe
 	};
 }
 

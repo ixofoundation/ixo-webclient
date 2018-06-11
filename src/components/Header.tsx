@@ -2,14 +2,14 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { PublicSiteStoreState } from '../redux/public_site_reducer';
-import { pingIxoServer, resetPing } from '../redux/ping/ping_action_creators';
-import { initIxo, resetIxo } from '../redux/ixo/ixo_action_creators';
+import { initIxo } from '../redux/ixo/ixo_action_creators';
 import styled from 'styled-components';
 // import { toast } from 'react-toastify';
 import { HeaderLeft } from './HeaderLeft';
 import { HeaderRight } from './HeaderRight';
 import MediaQuery from 'react-responsive';
 import { deviceWidth } from '../lib/commonData';
+import { initKeysafe } from '../redux/keysafe/keysafe_action_creators';
 
 const TopBar = styled.header`
 	position: sticky;
@@ -22,16 +22,6 @@ const TopBar = styled.header`
     && {
         width:100vw;
     }
-
-    & select {
-		background: none;
-		color: white;
-		border: 0;
-		text-transform: uppercase;
-		width: 125px;
-		font-size: 11px;
-		margin-left:-6px;
-	}
 	
 `;
 
@@ -67,8 +57,8 @@ const StatusMessage = styled.div`
 `;
 
 const Ping = styled.div`
-    margin-right:30px;
-    position:relative;
+	position:relative;
+	width: 100%;
 
     &:hover {
         cursor:pointer;
@@ -82,31 +72,31 @@ const Ping = styled.div`
 
 const Light = styled.span`
 	display: block;
-	width: 116px;
+	width: 100%;
 	height: 4px;
 	background: rgb(240, 0, 0);
 	border-radius:0 0 2px 2px;
 	box-shadow: 0px 0px 5px 0px rgb(255,0,0);	
 `;
 
-const LightLoading = Light.extend`
-    box-shadow: 0px 0px 5px 0px rgba(255,165,0,1);
-    background:rgb(255, 165, 0);
-    animation: flashing 1s infinite;
+// const LightLoading = Light.extend`
+//     box-shadow: 0px 0px 5px 0px rgba(255,165,0,1);
+//     background:rgb(255, 165, 0);
+//     animation: flashing 1s infinite;
 
-    @keyframes flashing {
-        0% {
-          box-shadow: 0px 0px 5px 0px rgba(255,165,0,1);
-        }
-        50% {
-          box-shadow: 0px 0px 5px 1px rgba(255,200,0,1);
-          background:rgb(255, 200, 0);
-        }
-        100% {
-          box-shadow: 0px 0px 5px 0px rgba(255,165,0,1);
-        }
-      }
-`;
+//     @keyframes flashing {
+//         0% {
+//           box-shadow: 0px 0px 5px 0px rgba(255,165,0,1);
+//         }
+//         50% {
+//           box-shadow: 0px 0px 5px 1px rgba(255,200,0,1);
+//           background:rgb(255, 200, 0);
+//         }
+//         100% {
+//           box-shadow: 0px 0px 5px 0px rgba(255,165,0,1);
+//         }
+//       }
+// `;
 
 const LightReady = Light.extend`
     background: #5ab946;
@@ -123,15 +113,13 @@ export interface State {
 }
 
 export interface StateProps {
-	pingResult?: string;
-	pingError?: string;
 	ixo?: any;
+	keysafe?: any;
 }
 
 export interface DispatchProps {
-	getPing: (ixo: any) => void;
 	onIxoInit: () => void;
-	onServerChange: () => void;
+	onKeysafeInit: () => void;
 }
 
 export interface Props extends StateProps, DispatchProps {
@@ -149,30 +137,6 @@ class Header extends React.Component<Props, State> {
 		copied: false
 	};
 
-	ping = () => {
-		// this.setState({ initialDate: new Date() });
-		if (this.props.ixo) {
-			// this.props.getPing(this.props.ixo);
-
-			// this.props.ixo.credentialProvider.provider.eth.getAccounts((err, accounts) => {
-			// 	if (err != null) {
-			// 		console.error('An error occurred: ' + err);
-			// 	} else if (accounts.length > 0) {
-			// 		this.state.loginStatus === false &&
-			// 		// toast('You have sucessfully logged into MetaMask', {type: 'info', autoClose: 3000 });
-			// 		this.setState({ loginStatus: true, currDid: accounts[0]});
-			// 	} else {
-			// 		this.state.loginStatus === true &&
-			// 			// toast('You have sucessfully logged out of MetaMask', {type: 'warning', autoClose: 3000 });
-			// 		this.setState({loginStatus: false});
-			// 	}
-			// });
-			
-		} else {
-			this.props.onIxoInit();
-		}
-	}
-
 	componentDidMount() {
 		
 		// const cachedServer = localStorage.getItem('server');
@@ -182,7 +146,8 @@ class Header extends React.Component<Props, State> {
 		// } else {
 		// 	this.props.onIxoInit(this.state.selectedServer);
 		// }
-		this.ping();
+		this.props.onIxoInit();
+		this.props.onKeysafeInit();
 		// setInterval(this.ping, 5000);
 	}
 
@@ -191,18 +156,18 @@ class Header extends React.Component<Props, State> {
 			// this.ping();
 		}
 
-		if (prevProps.pingResult !== this.props.pingResult) {
-			if (this.props.pingResult === 'pong') {
-				const responseTime = Math.abs(new Date().getTime() - this.state.initialDate.getTime());
-				this.setState({
-					isServerConnected: true,
-					responseTime
-				});
+		// if (prevProps.pingResult !== this.props.pingResult) {
+		// 	if (this.props.pingResult === 'pong') {
+		// 		const responseTime = Math.abs(new Date().getTime() - this.state.initialDate.getTime());
+		// 		this.setState({
+		// 			isServerConnected: true,
+		// 			responseTime
+		// 		});
 
-			} else {
-				this.setState({ isServerConnected: false });
-			}
-		}
+		// 	} else {
+		// 		this.setState({ isServerConnected: false });
+		// 	}
+		// }
 	}
 
 	renderStatusIndicator = () => {
@@ -223,11 +188,6 @@ class Header extends React.Component<Props, State> {
 					<p>Response time: {this.state.responseTime} ms</p>
 					<p>{this.state.selectedServer}</p>
 				</StatusMessage>);
-		} else if (this.props.pingError === null) {
-			return (
-				<StatusMessage>
-					<p>Waiting for server...</p>
-				</StatusMessage>);
 		} else {
 			return (
 				<StatusMessage>
@@ -239,8 +199,8 @@ class Header extends React.Component<Props, State> {
 	renderLightIndicator() {
 		if (this.state.isServerConnected) {
 			return <LightReady />;
-		} else if (this.props.pingError === null) {
-			return <LightLoading />;
+		// } else if (this.props.pingError === null) {
+		// 	return <LightLoading />;
 		} else {
 			return <Light />;
 		}
@@ -254,7 +214,6 @@ class Header extends React.Component<Props, State> {
 				selectedServer: event.target.value,
 				isServerConnected: false
 			});
-			this.props.onServerChange();
 			this.props.onIxoInit();    
 		}
 	}
@@ -264,11 +223,10 @@ class Header extends React.Component<Props, State> {
 			<TopBar className="container-fluid text-white">
 				<div className="row">
 					<HeaderLeft />
-					<MediaQuery minDeviceWidth={`${deviceWidth.tablet}px`}>
+					<MediaQuery minWidth={`${deviceWidth.tablet}px`}>
 						<HeaderRight 
 							renderStatusIndicator={this.renderStatusIndicator}
 							selectedServer={this.state.selectedServer}
-							handleServerChange={this.handleServerChange}
 							did={this.state.currDid}
 						/>
 					</MediaQuery>
@@ -280,23 +238,18 @@ class Header extends React.Component<Props, State> {
 
 function mapStateToProps(state: PublicSiteStoreState): StateProps {
 	return {
-		pingResult: state.pingStore.pingResult,
-		pingError: state.pingStore.pingError,
-		ixo: state.ixoStore.ixo
+		ixo: state.ixoStore.ixo,
+		keysafe: state.keysafeStore.keysafe
 	};
 }
 
 function mapDispatchToProps(dispatch: any): DispatchProps {
 	return {
-		getPing: (ixo) => {
-			dispatch(pingIxoServer(ixo));
-		},
 		onIxoInit: () => {
 			dispatch(initIxo());
 		},
-		onServerChange: () => {
-			dispatch(resetPing());
-			dispatch(resetIxo());
+		onKeysafeInit: () => {
+			dispatch(initKeysafe());
 		}
 	};
 }
