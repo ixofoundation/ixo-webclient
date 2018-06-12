@@ -33,7 +33,7 @@ export class ProjectCreate extends React.Component<StateProps, State> {
 	};
 
 	handleCreateProject = () => {
-		if (!window['ixoCm']) {
+		if (this.props.keysafe === null) {
 			window.alert('Please install IXO Credential Manager first.');
 		} else {
 			// inpageProvider.requestInfoFromIxoCM((error, response) => {
@@ -53,7 +53,7 @@ export class ProjectCreate extends React.Component<StateProps, State> {
 	}
 
 	handleCreateAgent = () => {
-		if (!window['ixoCm']) {
+		if (this.props.keysafe === null) {
 			window.alert('Please install IXO Credential Manager first.');
 		} else {
 			// inpageProvider.requestInfoFromIxoCM((error, response) => {
@@ -74,7 +74,7 @@ export class ProjectCreate extends React.Component<StateProps, State> {
 
 	listAgents = (agentDid?: string): Promise<any> => {
 		return new Promise((resolve, reject) => {
-			if (!window['ixoCm']) {
+			if (this.props.keysafe === null) {
 				window.alert('Please install IXO Credential Manager first.');
 				reject('Please install IXO Credential Manager first.');
 			} else {
@@ -95,7 +95,7 @@ export class ProjectCreate extends React.Component<StateProps, State> {
 	}
 
 	handleUpdateAgentStatus = () => {
-		if (!window['ixoCm']) {
+		if (this.props.keysafe === null) {
 			window.alert('Please install IXO Credential Manager first.');
 		} else {
 			this.listAgents('did:sov:VtvWwbjASFqyfZKyWZ643z').then((result: any) => {

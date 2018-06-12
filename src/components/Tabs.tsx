@@ -63,6 +63,7 @@ export interface Button {
 	iconClass: string;
 	title?: string;
 	path: string;
+	state?: any;
 }
 
 export interface Props {
@@ -74,7 +75,12 @@ export const Tabs: React.SFC<Props> = (props) => {
 		<TabsContainer>
 			{props.buttons.map((button, index) => {
 				return (
-					<NavLink exact={true} to={button.path} key={index}>
+					<NavLink 
+						exact={true}
+						// to={{pathname: button.path, state: { project, id } }}
+						to={{pathname: button.path }}
+						key={index}
+					>
 						{button.iconClass && <i className={button.iconClass}/>}
 						{button.title && <p>{button.title}</p>}
 					</NavLink>

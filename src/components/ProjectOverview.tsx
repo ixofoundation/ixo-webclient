@@ -5,7 +5,8 @@ import styled from 'styled-components';
 import { SingleStatistic } from './SingleStatistic';
 import { Statistic, StatType } from '../types/models';
 import { getCountryName } from '../utils/formatters';
-import { Link } from 'react-router-dom';
+import { ModalWrapper } from './ModalWrapper';
+// import { ModalWrapper } from './ModalWrapper';
 
 const OverviewContainer = styled.section`
 
@@ -159,7 +160,7 @@ const Button = styled.a`
 	}
 `;
 
-const BlueButton = styled(Link)`
+const BlueButton = styled.a`
 	border: 1px solid ${props => props.theme.ixoBlue};
     &&& {color: white;}
 	font-size: 15px;
@@ -233,6 +234,8 @@ const Founder = styled.div`
 export interface Props {
 	project: any;
 	id: string;
+	isModalOpen: boolean;
+	handleToggleModal: (modalStatus?: boolean) => void;
 }
 
 export const ProjectOverview: React.SFC<Props> = (props) => {
@@ -249,8 +252,21 @@ export const ProjectOverview: React.SFC<Props> = (props) => {
 		amount: props.project.agents.serviceProviders}
 		];
 	console.log(props.project);
+
+	const renderModal = () => {
+		return (
+			<p>Test</p>
+		);
+	};
+
 	return (
 		<div>
+				<ModalWrapper
+					isModalOpen={props.isModalOpen}
+					handleToggleModal={() => props.handleToggleModal()}
+				>
+					{renderModal()}
+				</ModalWrapper>
 			<OverviewContainer className="container-fluid">
 				<div className="container">
 					<div className="row">
@@ -289,9 +305,9 @@ export const ProjectOverview: React.SFC<Props> = (props) => {
 										);
 									})}
 								</div>
-								<BlueButton to={{pathname: `/${props.id}/home` }}>INVEST IN THIS PROJECT</BlueButton>
-								<BlueButton to={{pathname: `/${props.id}/home` }}>BECOME AN EVALUATOR</BlueButton>
-								<BlueButton to={{pathname: `/${props.id}/home` }}>BECOME A SERVICE PROVIDER</BlueButton>
+								<BlueButton onClick={() => props.handleToggleModal(true)}>INVEST IN THIS PROJECT</BlueButton>
+								<BlueButton >BECOME AN EVALUATOR</BlueButton>
+								<BlueButton >BECOME A SERVICE PROVIDER</BlueButton>
 							</Sidebar>
 							<Button><i className="icon-favourites"/>SAVE TO FAVOURITES</Button>
 							<Button><i className="icon-share"/>SHARE THIS PROJECT</Button>

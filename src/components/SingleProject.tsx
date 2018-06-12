@@ -19,18 +19,7 @@ import { getCountryName } from '../utils/formatters';
 // // import SDGStats from './SDGStats';
 
 export interface State {
-	projectMeta: any;
-	isModalOpen: boolean;
-	agentFormSchema: any;
-	claimFormSchema: any;
-	evaluationFormSchema: any;
-	agentList: any;
-	claimList: any;
-	selectStatuses: any;
-	claimTxToEvaluate: any;
-	activeAgent: number;
-	activeClaim: number;
-	goalsWithMeta: string[];
+
 }
 
 export interface StateProps {    
@@ -43,16 +32,13 @@ export interface StateProps {
 export class SingleProject extends React.Component<StateProps> {
 
 	state = {
-		projectMeta: this.props.location.state,
-		agentFormSchema: {},
-		claimFormSchema: {},
-		evaluationFormSchema: {},
-		agentList: [],
-		claimList: [],
-		claimTxToEvaluate: null,
-		selectStatuses: [],
-		goalsWithMeta: []
+		isModalOpen: false
 	};
+
+	handleToggleModal = (modalStatus: boolean) => {
+		console.log('modal changed');
+		this.setState({ isModalOpen: modalStatus });
+	}
 
 	componentDidMount() {
 		// if (!this.state.projectMeta) {
@@ -76,6 +62,7 @@ export class SingleProject extends React.Component<StateProps> {
 		// 	console.info( 'This page is not reloaded');
 		// }	
 		const {id, project }  = this.props.location.state;
+		console.log(this.props.location.state);
 		return (
 			<div>
 				<HeroSingle 
@@ -90,6 +77,8 @@ export class SingleProject extends React.Component<StateProps> {
 				<ProjectOverview 
 					project={project}
 					id={id}
+					isModalOpen={this.state.isModalOpen}
+					handleToggleModal={this.handleToggleModal}
 				/>
 			</div>
 			

@@ -17,6 +17,7 @@
     "react-circular-progressbar": "^0.8.0",
     "react-copy-to-clipboard": "^5.0.1",
     "react-dom": "^16.4.0",
+    "react-modal": "^3.4.5",
     "react-redux": "^5.0.7",
     "react-responsive": "^4.1.0",
     "react-router-dom": "^4.2.2",
