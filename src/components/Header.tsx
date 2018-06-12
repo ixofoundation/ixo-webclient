@@ -10,6 +10,7 @@ import { HeaderRight } from './HeaderRight';
 import MediaQuery from 'react-responsive';
 import { deviceWidth } from '../lib/commonData';
 import { initKeysafe } from '../redux/keysafe/keysafe_action_creators';
+import { ActiveProjectInit } from '../redux/activeProject/activeProject_action_creators';
 
 const TopBar = styled.header`
 	position: sticky;
@@ -115,11 +116,13 @@ export interface State {
 export interface StateProps {
 	ixo?: any;
 	keysafe?: any;
+	activeProject?: any;
 }
 
 export interface DispatchProps {
 	onIxoInit: () => void;
 	onKeysafeInit: () => void;
+	onActiveProjectInit: () => any;
 }
 
 export interface Props extends StateProps, DispatchProps {
@@ -148,6 +151,8 @@ class Header extends React.Component<Props, State> {
 		// }
 		this.props.onIxoInit();
 		this.props.onKeysafeInit();
+		this.props.onActiveProjectInit();
+		console.log('ACTIVE PROJECT: ', this.props.activeProject);
 		// setInterval(this.ping, 5000);
 	}
 
@@ -239,7 +244,8 @@ class Header extends React.Component<Props, State> {
 function mapStateToProps(state: PublicSiteStoreState): StateProps {
 	return {
 		ixo: state.ixoStore.ixo,
-		keysafe: state.keysafeStore.keysafe
+		keysafe: state.keysafeStore.keysafe,
+		activeProject: state.activeProjectStore.activeProject
 	};
 }
 
@@ -250,6 +256,9 @@ function mapDispatchToProps(dispatch: any): DispatchProps {
 		},
 		onKeysafeInit: () => {
 			dispatch(initKeysafe());
+		},
+		onActiveProjectInit: () => {
+			dispatch(ActiveProjectInit());
 		}
 	};
 }
