@@ -150,11 +150,12 @@ export interface Props {
 	project: any;
 	id: string;
 	bg: string;
+	onClick: () => void;
 }
 
-export const ProjectCard: React.SFC<Props> = ({project, id, bg}) => {
+export const ProjectCard: React.SFC<Props> = ({project, id, bg, onClick}) => {
 	return (
-		<CardContainer className="col-10 offset-1 col-xl-4 col-md-6 col-sm-10 offset-sm-1 offset-md-0">
+		<CardContainer onClick={onClick} className="col-10 offset-1 col-xl-4 col-md-6 col-sm-10 offset-sm-1 offset-md-0">
 			<ProjectLink to={{pathname: `/${id}/home`, state: { project, id } }}>
 				<CardTop style={{backgroundImage: `url(${bg})`}}>
 					<SDGs>

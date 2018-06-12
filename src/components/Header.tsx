@@ -10,7 +10,6 @@ import { HeaderRight } from './HeaderRight';
 import MediaQuery from 'react-responsive';
 import { deviceWidth } from '../lib/commonData';
 import { initKeysafe } from '../redux/keysafe/keysafe_action_creators';
-import { ActiveProjectInit } from '../redux/activeProject/activeProject_action_creators';
 
 const TopBar = styled.header`
 	position: sticky;
@@ -122,7 +121,6 @@ export interface StateProps {
 export interface DispatchProps {
 	onIxoInit: () => void;
 	onKeysafeInit: () => void;
-	onActiveProjectInit: () => any;
 }
 
 export interface Props extends StateProps, DispatchProps {
@@ -151,13 +149,16 @@ class Header extends React.Component<Props, State> {
 		// }
 		this.props.onIxoInit();
 		this.props.onKeysafeInit();
-		this.props.onActiveProjectInit();
-		console.log('ACTIVE PROJECT: ', this.props.activeProject);
 		// setInterval(this.ping, 5000);
 	}
 
 	componentDidUpdate(prevProps: Props) {
 		if (prevProps.ixo !== this.props.ixo) {
+			// this.ping();
+		}
+
+		if (prevProps.activeProject !== this.props.activeProject) {
+			console.log(this.props.activeProject);
 			// this.ping();
 		}
 
@@ -256,9 +257,6 @@ function mapDispatchToProps(dispatch: any): DispatchProps {
 		},
 		onKeysafeInit: () => {
 			dispatch(initKeysafe());
-		},
-		onActiveProjectInit: () => {
-			dispatch(ActiveProjectInit());
 		}
 	};
 }
