@@ -4,8 +4,6 @@ import { ProjectCard } from './ProjectCard';
 import { HeroOverview } from './HeroOverview';
 import { StatType } from '../types/models';
 import { imgArray } from '../lib/commonData';
-import { setActiveProject } from '../redux/activeProject/activeProject_action_creators';
-import { connect } from 'react-redux';
 
 const ProjectsContainer = styled.div`
     overflow-y: scroll;
@@ -27,23 +25,15 @@ const NoProjectsToDisplay = styled.div`
     height:calc(100vh - 140px);
 `;
 
-export namespace Projects {
+export namespace IProjects {
 	export interface StateProps {
 		projectList?: any;
 	}
 
-	export interface DispatchProps {
-		onSetActiveProject: (project: any) => void;
-	}
-
-	export interface Props extends StateProps, DispatchProps {}
+	export interface Props extends StateProps {}
 }
 
-const Projects: React.SFC<Projects.Props> = (props) => {
-
-	const handleSetActiveProject = (project: any) => {
-		props.onSetActiveProject(project);
-	};
+export const Projects: React.SFC<IProjects.Props> = (props) => {
 
 	const renderProjects = () => {
 		if (props.projectList === null) {
@@ -57,7 +47,7 @@ const Projects: React.SFC<Projects.Props> = (props) => {
 			return (
 					<div className="row row-eq-height">
 						{props.projectList.map((project, index) => {
-							return <ProjectCard project={project.data} id={project._id} onClick={() => handleSetActiveProject(project)} bg={imgArray()[index]} key={index} />;
+							return <ProjectCard project={project.data} did={project.projectDid} bg={imgArray()[index]} key={index} />;
 						})}
 					</div>
 			);
@@ -100,15 +90,3 @@ const Projects: React.SFC<Projects.Props> = (props) => {
 		</div>
 	);
 };
-
-function mapDispatchToProps(dispatch: any): Projects.DispatchProps {
-	return {
-		onSetActiveProject: (project) => {
-			dispatch(setActiveProject(project));
-		}
-	};
-}
-
-export const ProjectsConnected = connect(
-	null, mapDispatchToProps
-)(Projects);
