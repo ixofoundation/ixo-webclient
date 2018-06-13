@@ -19,12 +19,16 @@ import { getCountryName } from '../utils/formatters';
 // // import SDGStats from './SDGStats';
 
 export interface State {
+	isModalOpen: boolean;
+}
 
+export interface DispatchProps {
+	ixo?: any;  
+	activeProject?: any;
 }
 
 export interface StateProps {    
 	location: any;   
-	ixo?: any;  
 	contentPage: contentPage;
 	match: any;
 }
@@ -88,7 +92,8 @@ export class SingleProject extends React.Component<StateProps> {
 
 function mapStateToProps(state: PublicSiteStoreState) {
 	return {
-		ixo: state.ixoStore.ixo
+		ixo: state.ixoStore.ixo,
+		activeProject: state.activeProjectStore.activeProject
 	};
 }
 
