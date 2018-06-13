@@ -251,7 +251,6 @@ export const ProjectOverview: React.SFC<Props> = (props) => {
 		descriptor: [{class: 'text', value: 'Service providers'}],
 		amount: props.project.agents.serviceProviders}
 		];
-	console.log(props.project);
 
 	const renderModal = () => {
 		return (

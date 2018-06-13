@@ -15,11 +15,12 @@ export enum StatType {
 }
 
 export enum contentType {
-	home = 'HOME',
+	overview = 'OVERVIEW',
 	dashboard = 'DASHBOARD',
 	evaluators = 'EVALUATORS',
 	claims = 'CLAIMS',
-	investors = 'INVESTORS'
+	investors = 'INVESTORS',
+	serviceAgents = 'SERVICE_AGENTS'
 }
 
 export interface Statistic {

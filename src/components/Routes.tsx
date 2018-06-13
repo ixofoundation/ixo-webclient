@@ -56,68 +56,12 @@ export const Routes: React.SFC<Routes.RouteProps> = (props) => {
 					</div>
 				)}
 			/>
-			<Route 
-				exact={true}
-				path="/projects/:projectDID/home"
-				render={(routeProps) => (
-					<div>
-						<SingleProjectConnected 
-							// {...props} 
-							contentType={contentType.home}
-							// refreshProjects={props.refreshProjects}
-						/>
-					</div>
-				)}
-			/>
-			<Route 
-				exact={true}
-				path="/projects/:projectDID/dashboard"
-				render={(routeProps) => (
-					<div>
-						<SingleProjectConnected 
-							contentType={contentType.dashboard}
-							// {...routeProps} 
-							// {...props} 
-						/>
-					</div>
-				)}
-			/>
-			<Route
-				exact={true}
-				path="/projects/:projectDID/claims"
-				render={(routeProps) => (
-					<div>
-						<Projects {...routeProps} {...props} projectList={props.serviceAgentProjectList} />
-					</div>
-				)}
-			/>
-			<Route
-				exact={true}
-				path="/projects/:projectDID/evaluators"
-				render={(routeProps) => (
-					<div>
-						<Projects {...routeProps} {...props} projectList={props.serviceAgentProjectList} />
-					</div>
-				)}
-			/>
-			<Route
-				exact={true}
-				path="/projects/:projectDID/funders"
-				render={(routeProps) => (
-					<div>
-						<Projects {...routeProps} {...props} projectList={props.serviceAgentProjectList} />
-					</div>
-				)}
-			/>
-			<Route
-				exact={true}
-				path="/projects/:projectDID/service-agents"
-				render={(routeProps) => (
-					<div>
-						<Projects {...routeProps} {...props} projectList={props.serviceAgentProjectList} />
-					</div>
-				)}
-			/>
+			<Route exact={true} path="/projects/:projectDID/overview" render={() => <SingleProjectConnected contentType={contentType.overview} />}/>
+			<Route exact={true} path="/projects/:projectDID/dashboard" render={() => <SingleProjectConnected contentType={contentType.dashboard} />}/>
+			<Route exact={true} path="/projects/:projectDID/evaluators" render={() => <SingleProjectConnected contentType={contentType.evaluators} />}/>
+			<Route exact={true} path="/projects/:projectDID/claims" render={() => <SingleProjectConnected contentType={contentType.claims} />}/>
+			<Route exact={true} path="/projects/:projectDID/investors" render={() => <SingleProjectConnected contentType={contentType.investors} />}/>
+			<Route exact={true} path="/projects/:projectDID/service-agents" render={() => <SingleProjectConnected contentType={contentType.serviceAgents} />}/>
 			<Route
 				exact={true}
 				path="/create-project"

@@ -7,6 +7,7 @@ import { HeroSingle } from '../project/HeroSingle';
 import { ProjectOverview } from './ProjectOverview';
 import { getCountryName } from '../../utils/formatters';
 import { setActiveProject } from '../../redux/activeProject/activeProject_action_creators';
+import { ProjectDashboard } from './ProjectDashboard';
 
 export interface State {
 	isModalOpen: boolean;
@@ -40,6 +41,12 @@ export class SingleProject extends React.Component<Props> {
 		this.setState({ isModalOpen: modalStatus });
 	}
 
+	componentDidMount() {
+		this.handleGetProjectData();
+
+		console.log(this.props.match);
+	}
+
 	componentDidUpdate() {
 		this.handleGetProjectData();
 	}
@@ -53,26 +60,10 @@ export class SingleProject extends React.Component<Props> {
 			this.props.ixo.project.listProjects().then((response: any) => {
 				project = response.result.filter((single, index) => single.projectDid === did)[0];
 				this.setState({ project: project.data});
-				console.log(project);
 			}).catch((result: Error) => {
 				console.log(result);
 			});
 		}
-	}
-	componentDidMount() {
-		this.handleGetProjectData();
-		// if (!this.state.projectMeta) {
-		// 	console.log('GET PROJECT');
-		// 	this.props.ixo.project.findProjectById(this.props.match.params.projectID).then((response: any) => {    
-		// 		this.setState({ projectMeta: response.result[0]});
-		// 		// this.handleInitialLoad();
-		// 	}).catch((error: Error) => {
-		// 		console.log(error);
-		// 	});
-		// } else {
-		// 	// this.handleInitialLoad();
-		// }
-
 	}
 
 	handleRenderProject = () => {
@@ -80,26 +71,47 @@ export class SingleProject extends React.Component<Props> {
 			return <div><p>Loading</p></div>;
 		} else {
 			const project = this.state.project;
-			console.log('project is', this.state.project);
-			return (
-				<div>
-				<HeroSingle 
-					projectTitle={project.title}
-					SDGs={project.sdgs}
-					description={project.shortDescription}
-					dateCreated={project.createdOn.split('T')[0]}
-					country={getCountryName(project.projectLocation)}
-					owner={project.ownerName}
-					match={this.props.match}
-				/>
-				<ProjectOverview 
-					project={project}
-					id={project._id}
-					isModalOpen={this.state.isModalOpen}
-					handleToggleModal={this.handleToggleModal}
-				/>
-				</div>
-			);
+
+			switch (this.props.contentType) {
+				case contentType.overview:
+					return (
+						<div>
+							<HeroSingle 
+								projectTitle={project.title}
+								SDGs={project.sdgs}
+								description={project.shortDescription}
+								dateCreated={project.createdOn.split('T')[0]}
+								country={getCountryName(project.projectLocation)}
+								owner={project.ownerName}
+								match={this.props.match}
+							/>
+							<ProjectOverview 
+								project={project}
+								id={project._id}
+								isModalOpen={this.state.isModalOpen}
+								handleToggleModal={this.handleToggleModal}
+							/>
+						</div>
+					);
+				case contentType.dashboard:
+					return (
+						<div>
+							<HeroSingle 
+								projectTitle={project.title}
+								SDGs={project.sdgs}
+								description={project.shortDescription}
+								dateCreated={project.createdOn.split('T')[0]}
+								country={getCountryName(project.projectLocation)}
+								owner={project.ownerName}
+								match={this.props.match}
+							/>
+							<ProjectDashboard
+							/>
+						</div>
+					);
+				default:
+					return <p>Nothing to see here...</p>;
+			}
 		}
 	}
 		// if (performance.navigation.type === 1) {
