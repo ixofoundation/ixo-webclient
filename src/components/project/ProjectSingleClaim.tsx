@@ -1,5 +1,5 @@
 import * as React from 'react';
 
-export const ProjectDashboard: React.SFC<{}> = (props) => {
+export const ProjectSingleClaim: React.SFC<{}> = () => {
 	return <p>DASHBOARD</p>;
 };

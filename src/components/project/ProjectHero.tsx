@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import { Tabs } from '../common/Tabs';
 import { SDGArray, deviceWidth } from '../../lib/commonData';
 import MediaQuery from 'react-responsive';
+import { Link } from 'react-router-dom';
+import { getCountryName } from '../../utils/formatters';
 const bg = require('../../assets/images/heroBg.jpg');
 
 const SingleSDG = styled.a`
@@ -42,6 +44,7 @@ const SingleSDG = styled.a`
 const HeroInner = styled.div`
 	
 	padding-top: 90px;
+	padding-bottom: 50px;
 	position:relative;
 	height:100%;
 
@@ -80,7 +83,6 @@ const HeroContainer = styled.div`
 	background-size: cover;
 	margin:0;
 	padding-bottom: 110px;
-	width: 100vw;
 	position: relative;	
 `;
 
@@ -123,26 +125,38 @@ const Description = styled.p`
 	margin-top:10px;
 `;
 
+const AddClaim = styled(Link)`
+	color: white;
+	display: inline-block;
+	text-align: center;
+	background: ${props => props.theme.bg.gradientButton};
+	font-size: 15px;
+	width: 288px;
+	padding:10px 0;
+	font-family: ${props => props.theme.fontRobotoCondensed};
+
+	:hover {
+		text-decoration: none;
+		color: white;
+		background: ${props => props.theme.bg.lightBlue};;
+	}
+`;
+
 export interface Props {
-	projectTitle: string;
-	SDGs: number[];
-	description: string;
-	dateCreated: string;
-	owner: string;
-	country: string;
+	project: any;
 	match: any;
 }
 
-export const ProjectHero: React.SFC<Props> = (props) => {
+export const ProjectHero: React.SFC<Props> = ({project, match}) => {
 	return (
-		<HeroContainer>
+		<HeroContainer className="container-fluid">
 				<HeroInner className="container">
 					<div className="row">
 						<div className="col-12">
-							<Title>{props.projectTitle}</Title>
+							<Title>{project.title}</Title>
 						</div>
 						<ColLeft className="col-lg-8 col-sm-12">
-							{props.SDGs.map((SDG, index) => {
+							{project.sdgs.map((SDG, index) => {
 								const goal = Math.floor(SDG);
 								return (
 									<SingleSDG key={index}>
@@ -151,14 +165,15 @@ export const ProjectHero: React.SFC<Props> = (props) => {
 									</SingleSDG>
 								);
 							})}
-							<Description>{props.description}</Description>
+							<Description>{project.shortDescription}</Description>
+							<AddClaim to={`/projects/${match.params.projectDID}/new-claim`}>+ SUBMIT CLAIM</AddClaim>
 						</ColLeft>
 						<ColRight className="col-lg-4 col-sm-12">
-							<p><strong>Created:</strong> {props.dateCreated}</p>
-							<p><strong>By:</strong> {props.owner}</p>
+							<p><strong>Created:</strong> {project.createdOn.split('T')[0]}</p>
+							<p><strong>By:</strong> {project.ownerName}</p>
 							<p>
 								<i className="icon-location" />
-								{props.country}
+								{getCountryName(project.projectLocation)}
 							</p>
 						</ColRight>
 					</div>
@@ -171,8 +186,8 @@ export const ProjectHero: React.SFC<Props> = (props) => {
 							<div className="col-md-4">
 								<Tabs 
 									buttons={[
-										{ iconClass: 'icon-projects', path: `/projects/${props.match.params.projectDID}/overview`, title: 'PROJECT' },
-										{ iconClass: 'icon-statistics-graph', path: `/projects/${props.match.params.projectDID}/dashboard`, title: 'DASHBOARD' },
+										{ iconClass: 'icon-projects', path: `/projects/${match.params.projectDID}/overview`, title: 'PROJECT' },
+										{ iconClass: 'icon-statistics-graph', path: `/projects/${match.params.projectDID}/dashboard`, title: 'DASHBOARD' },
 										{ iconClass: 'icon-settings-large', path: '/global-statistics' }
 									]}
 								/>
@@ -183,8 +198,8 @@ export const ProjectHero: React.SFC<Props> = (props) => {
 					<MediaQuery maxWidth={`${Number(deviceWidth.desktop) - 1}px`}>
 						<Tabs 
 							buttons={[
-								{ iconClass: 'icon-projects', path: `/projects/${props.match.params.projectID}/overview`, title: 'PROJECT' },
-								{ iconClass: 'icon-statistics-graph', path: `/projects/${props.match.params.projectID}/stats`, title: 'DASHBOARD' },
+								{ iconClass: 'icon-projects', path: `/projects/${match.params.projectID}/overview`, title: 'PROJECT' },
+								{ iconClass: 'icon-statistics-graph', path: `/projects/${match.params.projectID}/stats`, title: 'DASHBOARD' },
 								{ iconClass: 'icon-settings-large', path: '/global-statistics' }
 							]}
 						/>

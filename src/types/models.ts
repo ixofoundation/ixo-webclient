@@ -19,8 +19,9 @@ export enum contentType {
 	dashboard = 'DASHBOARD',
 	evaluators = 'EVALUATORS',
 	claims = 'CLAIMS',
+	newClaim = 'NEW_CLAIM',
 	investors = 'INVESTORS',
-	serviceAgents = 'SERVICE_AGENTS'
+	serviceProviders = 'SERVICE_PROVIDERS'
 }
 
 export interface Statistic {

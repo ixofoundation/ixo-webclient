@@ -5,35 +5,57 @@ import { PublicSiteStoreState } from '../../redux/public_site_reducer';
 import { contentType } from '../../types/models';
 import { ProjectHero } from './ProjectHero';
 import { ProjectOverview } from './ProjectOverview';
-import { getCountryName } from '../../utils/formatters';
 import { setActiveProject } from '../../redux/activeProject/activeProject_action_creators';
 import { ProjectDashboard } from './ProjectDashboard';
+import { ProjectNewClaim } from './ProjectNewClaim';
+import { ProjectClaims } from './ProjectClaims';
+import styled from 'styled-components';
+import { ProjectAgents } from './ProjectAgents';
 
+const Loading = styled.div`
+	display:flex;
+	justify-content:center;
+	align-items:center;
+	height:calc(100vh - 140px);
+`;
 export interface State {
 	isModalOpen: boolean;
 	project: Object;
+	ClaimList: Object[];
+	PDSUrl: string;
+	Agents: Object;
+}
+
+export interface StateProps {
+	ixo?: any;  
+	projectDid?: any;
+	keysafe?: any;
 }
 
 export interface DispatchProps {
-	ixo?: any;  
-	projectDid?: any;
-	onSetActiveProject: (project: any) => void;
-
+	onSetActiveProject?: (project: any) => void;
 }
 
-export interface StateProps {    
+export interface ParentProps {    
 	location: any;   
 	contentType: contentType;
 	match: any;
 }
 
-export interface Props extends DispatchProps, StateProps {}
+export interface Props extends ParentProps, StateProps, DispatchProps {}
 
-export class SingleProject extends React.Component<Props> {
+export class ProjectContainer extends React.Component<Props> {
 
 	state = {
 		isModalOpen: false,
-		project: null
+		project: null,
+		claims: null,
+		agents: {
+			serviceProviders: null,
+			Investors: null,
+			Evaluators: null
+		},
+		PDSUrl: 'http://35.225.6.178:5000/'
 	};
 
 	handleToggleModal = (modalStatus: boolean) => {
@@ -42,23 +64,25 @@ export class SingleProject extends React.Component<Props> {
 	}
 
 	componentDidMount() {
-		this.handleGetProjectData();
-
-		console.log(this.props.match);
+		if (this.props.ixo !== null) {
+			this.handleGetProjectData();
+		}
 	}
 
 	componentDidUpdate() {
-		this.handleGetProjectData();
+		if (this.props.ixo !== null) {
+			this.handleGetProjectData();
+		} 
 	}
 
 	handleGetProjectData = () => {
-		if (this.props.ixo !== null && this.state.project === null) {
+		if (this.state.project === null) {
 			this.props.onSetActiveProject(this.props.match.params.projectDID);
 			const did = this.props.match.params.projectDID;
 			let project = null;
 
 			this.props.ixo.project.listProjects().then((response: any) => {
-				project = response.result.filter((single, index) => single.projectDid === did)[0];
+				project = response.result.filter((single) => single.projectDid === did)[0];
 				this.setState({ project: project.data});
 			}).catch((result: Error) => {
 				console.log(result);
@@ -66,9 +90,42 @@ export class SingleProject extends React.Component<Props> {
 		}
 	}
 
+	handleGetClaims = () => {
+		if (this.state.claims === null) {
+			this.state.claims = {};
+			const ProjectDIDPayload: Object = { projectDid: this.props.match.params.projectDID};
+			this.props.keysafe.requestSigning(JSON.stringify(ProjectDIDPayload), (error, signature) => {	
+				if (!error) {
+					this.props.ixo.claim.listClaimsForProject(ProjectDIDPayload, signature, this.state.PDSUrl).then((response: any) => {
+						this.setState({claimList: response.result});
+						// expect(response.error.message).to.be.equal('Only the Evaluation agents on project can evaluate claims');
+					}).catch((result: Error) => {
+						console.log((result));
+					});
+				} else {
+					console.log(error);
+				}
+			});
+		}
+	}
+
+	handleSubmitClaim = (claimData) => {
+		this.props.keysafe.requestSigning(JSON.stringify(claimData), (error, signature) => {			
+			if (!error) {
+				this.props.ixo.claim.createClaim(claimData, signature, this.state.PDSUrl).then((response) => {
+					console.log('claim has been submitted successfully', response);
+				}).catch((claimError: Error) => {
+					console.log(claimError);
+				});
+			} else {
+				console.log(error);
+			}
+		});
+	}
+
 	handleRenderProject = () => {
 		if (this.state.project === null) {
-			return <div><p>Loading</p></div>;
+			return <Loading className="col-md-12"><p>Loading...</p></Loading>;
 		} else {
 			const project = this.state.project;
 
@@ -76,15 +133,7 @@ export class SingleProject extends React.Component<Props> {
 				case contentType.overview:
 					return (
 						<div>
-							<ProjectHero 
-								projectTitle={project.title}
-								SDGs={project.sdgs}
-								description={project.shortDescription}
-								dateCreated={project.createdOn.split('T')[0]}
-								country={getCountryName(project.projectLocation)}
-								owner={project.ownerName}
-								match={this.props.match}
-							/>
+							<ProjectHero project={project} match={this.props.match} />
 							<ProjectOverview 
 								project={project}
 								id={project._id}
@@ -96,19 +145,42 @@ export class SingleProject extends React.Component<Props> {
 				case contentType.dashboard:
 					return (
 						<div>
-							<ProjectHero 
-								projectTitle={project.title}
-								SDGs={project.sdgs}
-								description={project.shortDescription}
-								dateCreated={project.createdOn.split('T')[0]}
-								country={getCountryName(project.projectLocation)}
-								owner={project.ownerName}
-								match={this.props.match}
-							/>
+							<ProjectHero project={project} match={this.props.match} />
 							<ProjectDashboard
 							/>
 						</div>
 					);
+				case contentType.newClaim:
+					return (
+						<div>
+							<ProjectHero project={project} match={this.props.match} />
+							<ProjectNewClaim submitClaim={(claimData) => this.handleSubmitClaim(claimData)}/>
+						</div>
+					);
+				case contentType.claims:
+					if (this.state.claims !== null) {
+						return (
+							<div>
+								<ProjectHero project={project} match={this.props.match} />
+								<ProjectClaims claims={this.state.claims}/>
+							</div>
+						);
+					} else {		
+						this.handleGetClaims();
+						return <Loading className="col-md-12"><p>Loading...</p></Loading>;
+					}
+				case contentType.evaluators:
+					if (this.state.agents.Evaluators !== null) {
+						return (
+							<div>
+								<ProjectHero project={project} match={this.props.match} />
+								<ProjectAgents agents={this.state.agents.Evaluators}/>
+							</div>
+						);
+					} else {		
+						this.handleGetClaims();
+						return <Loading className="col-md-12"><p>Loading...</p></Loading>;
+					}
 				default:
 					return <p>Nothing to see here...</p>;
 			}
@@ -131,7 +203,8 @@ export class SingleProject extends React.Component<Props> {
 function mapStateToProps(state: PublicSiteStoreState) {
 	return {
 		ixo: state.ixoStore.ixo,
-		projectDid: state.activeProjectStore.projectDid
+		projectDid: state.activeProjectStore.projectDid,
+		keysafe: state.keysafeStore.keysafe
 	};
 }
 
@@ -143,7 +216,7 @@ function mapDispatchToProps(dispatch: any): DispatchProps {
 	};
 }
 
-export const SingleProjectConnected = withRouter<StateProps & RouteComponentProps<{}>>(connect(
+export const ProjectContainerConnected = withRouter<Props & RouteComponentProps<{}>>(connect(
 	mapStateToProps,
 	mapDispatchToProps
-)(SingleProject as any) as any);
+)(ProjectContainer as any) as any);

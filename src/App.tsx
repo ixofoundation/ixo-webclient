@@ -8,7 +8,6 @@ import styled, { ThemeProvider } from 'styled-components';
 import './assets/icons.css';
 import { initIxo } from './redux/ixo/ixo_action_creators';
 import { initKeysafe } from './redux/keysafe/keysafe_action_creators';
-import { setActiveProject } from './redux/activeProject/activeProject_action_creators';
 
 // THEME DECLARATION BELOW
 
@@ -70,7 +69,6 @@ export namespace App {
 	export interface DispatchProps {
 		onIxoInit: () => void;
 		onKeysafeInit: () => void;
-		onSetActiveProject: (did: string) => void;
 	}
 	export interface Props extends StateProps, DispatchProps {
 	}
@@ -86,19 +84,12 @@ class App extends React.Component<App.Props, App.State> {
 		isProjectPage: false
 	};
 
-	refreshProjects = () => {
+	handleLoadProjects = () => {
 		this.props.ixo.project.listProjects().then((response: any) => {
 			// this.setState({ projectList: response.result });
 		}).catch((error) => {
 			console.error(error);
 		});
-	}
-
-	refreshMyProjects = () => {
-		// const myProjectsList: any = this.state.projectList.filter((project) => {
-		// 	return project.owner.did === this.props.ixo.credentialProvider.getDid();
-		// });
-		this.setState({ myProjectList: this.state.projectList });
 	}
 
 	refreshServiceAgentProjectList = () => {
@@ -110,8 +101,7 @@ class App extends React.Component<App.Props, App.State> {
 	}
 
 	refreshProjectList = () => {
-		this.refreshProjects();
-		this.refreshMyProjects();
+		this.handleLoadProjects();
 		this.refreshServiceAgentProjectList();
 	}
 
@@ -156,7 +146,6 @@ class App extends React.Component<App.Props, App.State> {
 				projectList={this.state.projectList}
 				myProjectList={this.state.myProjectList}
 				serviceAgentProjectList={this.state.serviceAgentProjectList}
-				refreshProjects={this.refreshProjectList}
 			/>
 		);
 		// if (this.props.ixo && !this.props.pingError) {
@@ -201,9 +190,6 @@ function mapDispatchToProps(dispatch: any): App.DispatchProps {
 		},
 		onKeysafeInit: () => {
 			dispatch(initKeysafe());
-		},
-		onSetActiveProject: (did: string) => {
-			dispatch(setActiveProject(did));
 		}
 	};
 }

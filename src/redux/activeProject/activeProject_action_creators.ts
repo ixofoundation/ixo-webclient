@@ -25,7 +25,6 @@ export function setActiveProject(projectDid?: any) {
 		// const ixo = getInitializedStoreState().ixoStore.ixo;
 		// const keysafe = getInitializedStoreState().keysafeStore.keysafe;
 		if (projectDid) {
-			console.log('the project did is: ', projectDid);
 			// const projectDID = project.did;
 			// keysafe.requestSigning(message, (error: any, signature: any) => {
 			// 	ixo.agent.listAgentsForProject(listData, signature, PDSUrl).then((response: any) => {
