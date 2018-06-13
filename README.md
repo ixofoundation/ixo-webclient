@@ -15,8 +15,8 @@ This project serves as the Front-end Web platform for the IXO ecosystem.
 <p>Back-end for all API calls and DID management</p>
 
 <ul>
-	<li>IXO Module](https://github.com/wmonk/create-react-app-typescript) </li>
-	<li>IXO Key Extension](https://github.com/wmonk/create-react-app-typescript) </li>
+	<li>IXO Module(https://github.com/wmonk/create-react-app-typescript) </li>
+	<li>IXO Key Extension(https://github.com/wmonk/create-react-app-typescript) </li>
 </ul>
 
 <h2>Setup</h2>
@@ -34,6 +34,7 @@ This project serves as the Front-end Web platform for the IXO ecosystem.
 <h2>Build & production</h2>
 
 <code>npm run build</code>
+<br/>
 <code>npm start</code>
  
 
