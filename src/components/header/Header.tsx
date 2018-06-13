@@ -1,13 +1,13 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { PublicSiteStoreState } from '../redux/public_site_reducer';
+import { PublicSiteStoreState } from '../../redux/public_site_reducer';
 import styled from 'styled-components';
 // import { toast } from 'react-toastify';
 import { HeaderLeft } from './HeaderLeft';
 import { HeaderRight } from './HeaderRight';
 import MediaQuery from 'react-responsive';
-import { deviceWidth } from '../lib/commonData';
+import { deviceWidth } from '../../lib/commonData';
 
 const TopBar = styled.header`
 	position: sticky;

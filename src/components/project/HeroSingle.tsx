@@ -1,9 +1,9 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { Tabs } from './Tabs';
-import { SDGArray, deviceWidth } from '../lib/commonData';
+import { Tabs } from '../common/Tabs';
+import { SDGArray, deviceWidth } from '../../lib/commonData';
 import MediaQuery from 'react-responsive';
-const bg = require('../assets/images/heroBg.jpg');
+const bg = require('../../assets/images/heroBg.jpg');
 
 const SingleSDG = styled.a`
 	&&& {
@@ -171,8 +171,8 @@ export const HeroSingle: React.SFC<Props> = (props) => {
 							<div className="col-md-4">
 								<Tabs 
 									buttons={[
-										{ iconClass: 'icon-projects', path: `/${props.match.params.projectID}/home`, title: 'PROJECT' },
-										{ iconClass: 'icon-statistics-graph', path: `/${props.match.params.projectID}/stats`, title: 'DASHBOARD' },
+										{ iconClass: 'icon-projects', path: `/projects/${props.match.params.projectDID}/home`, title: 'PROJECT' },
+										{ iconClass: 'icon-statistics-graph', path: `/${props.match.params.projectDID}/dashboard`, title: 'DASHBOARD' },
 										{ iconClass: 'icon-settings-large', path: '/global-statistics' }
 									]}
 								/>

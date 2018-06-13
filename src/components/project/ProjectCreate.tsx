@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { PublicSiteStoreState } from '../redux/public_site_reducer';
+import { PublicSiteStoreState } from '../../redux/public_site_reducer';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
-import { testProjectData, testAgentData } from '../lib/commonData';
+import { testProjectData, testAgentData } from '../../lib/commonData';
 
 const Text = styled.textarea`
 	margin: 20px 0;

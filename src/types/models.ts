@@ -14,8 +14,8 @@ export enum StatType {
 	ixoAmount = 'IXO'
 }
 
-export enum contentPage {
-	overview = 'OVERVIEW',
+export enum contentType {
+	home = 'HOME',
 	dashboard = 'DASHBOARD',
 	evaluators = 'EVALUATORS',
 	claims = 'CLAIMS',

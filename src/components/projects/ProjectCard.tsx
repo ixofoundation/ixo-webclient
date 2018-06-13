@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { SDGArray, deviceWidth } from '../lib/commonData';
+import { SDGArray, deviceWidth } from '../../lib/commonData';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import { ProgressBar } from './ProgressBar';
-import { excerptText } from '../utils/formatters';
+import { ProgressBar } from '../common/ProgressBar';
+import { excerptText } from '../../utils/formatters';
 
 const Title = styled.h3`
     font-weight: 400;
@@ -155,7 +155,7 @@ export interface Props {
 export const ProjectCard: React.SFC<Props> = ({project, did, bg}) => {
 	return (
 		<CardContainer className="col-10 offset-1 col-xl-4 col-md-6 col-sm-10 offset-sm-1 offset-md-0">
-			<ProjectLink to={{pathname: `/project/${did}`, state: { project, did } }}>
+			<ProjectLink to={{pathname: `/projects/${did}/home`, state: { project, did } }}>
 				<CardTop style={{backgroundImage: `url(${bg})`}}>
 					<SDGs>
 					{project.sdgs.map((SDG, SDGi) => {

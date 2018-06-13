@@ -1,11 +1,11 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { Tabs } from './Tabs';
-import { SingleStatistic } from './SingleStatistic';
-import { Statistic } from '../types/models';
-import { deviceWidth } from '../lib/commonData';
+import { Tabs } from '../common/Tabs';
+import { SingleStatistic } from '../common/SingleStatistic';
+import { Statistic } from '../../types/models';
+import { deviceWidth } from '../../lib/commonData';
 
-const bg = require('../assets/images/heroBg.jpg');
+const bg = require('../../assets/images/heroBg.jpg');
 
 const ContainerInner = styled.div`
 	height: auto;

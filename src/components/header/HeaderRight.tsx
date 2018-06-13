@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 
-const xIcon = require('../assets/images/x-icon.png');
+const xIcon = require('../../assets/images/x-icon.png');
 
 const Inner = styled.div`
 	position:relative;

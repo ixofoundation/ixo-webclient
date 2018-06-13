@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { Switch, Route } from 'react-router-dom';
-import { SingleProjectConnected } from './SingleProject';
-import { Projects } from './Projects';
-import { ProjectCreateConnected } from './ProjectCreate';
-import { contentPage } from '../types/models';
+import { SingleProjectConnected } from './project/SingleProject';
+import { Projects } from './projects/Projects';
+import { ProjectCreateConnected } from './project/ProjectCreate';
+import { contentType } from '../types/models';
 
 export namespace Routes {
 	export interface StateProps {
@@ -58,12 +58,12 @@ export const Routes: React.SFC<Routes.RouteProps> = (props) => {
 			/>
 			<Route 
 				exact={true}
-				path="/project/:projectDID"
+				path="/projects/:projectDID/home"
 				render={(routeProps) => (
 					<div>
 						<SingleProjectConnected 
 							// {...props} 
-							contentPage={contentPage.overview}
+							contentType={contentType.home}
 							// refreshProjects={props.refreshProjects}
 						/>
 					</div>
@@ -71,11 +71,11 @@ export const Routes: React.SFC<Routes.RouteProps> = (props) => {
 			/>
 			<Route 
 				exact={true}
-				path="/:projectID/stats"
+				path="/projects/:projectDID/dashboard"
 				render={(routeProps) => (
 					<div>
 						<SingleProjectConnected 
-							contentPage={contentPage.dashboard}
+							contentType={contentType.dashboard}
 							// {...routeProps} 
 							// {...props} 
 						/>
@@ -84,7 +84,7 @@ export const Routes: React.SFC<Routes.RouteProps> = (props) => {
 			/>
 			<Route
 				exact={true}
-				path="/:projectID/claims"
+				path="/projects/:projectDID/claims"
 				render={(routeProps) => (
 					<div>
 						<Projects {...routeProps} {...props} projectList={props.serviceAgentProjectList} />
@@ -93,7 +93,7 @@ export const Routes: React.SFC<Routes.RouteProps> = (props) => {
 			/>
 			<Route
 				exact={true}
-				path="/:projectID/evaluators"
+				path="/projects/:projectDID/evaluators"
 				render={(routeProps) => (
 					<div>
 						<Projects {...routeProps} {...props} projectList={props.serviceAgentProjectList} />
@@ -102,7 +102,7 @@ export const Routes: React.SFC<Routes.RouteProps> = (props) => {
 			/>
 			<Route
 				exact={true}
-				path="/:projectID/funders"
+				path="/projects/:projectDID/funders"
 				render={(routeProps) => (
 					<div>
 						<Projects {...routeProps} {...props} projectList={props.serviceAgentProjectList} />
@@ -111,7 +111,7 @@ export const Routes: React.SFC<Routes.RouteProps> = (props) => {
 			/>
 			<Route
 				exact={true}
-				path="/:projectID/service-agents"
+				path="/projects/:projectDID/service-agents"
 				render={(routeProps) => (
 					<div>
 						<Projects {...routeProps} {...props} projectList={props.serviceAgentProjectList} />

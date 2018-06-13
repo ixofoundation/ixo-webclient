@@ -1,23 +1,12 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
-import { PublicSiteStoreState } from '../redux/public_site_reducer';
-import { contentPage } from '../types/models';
-import { HeroSingle } from './HeroSingle';
+import { PublicSiteStoreState } from '../../redux/public_site_reducer';
+import { contentType } from '../../types/models';
+import { HeroSingle } from '../project/HeroSingle';
 import { ProjectOverview } from './ProjectOverview';
-import { getCountryName } from '../utils/formatters';
-import { setActiveProject } from '../redux/activeProject/activeProject_action_creators';
-
-// // import styled from 'styled-components';
-// // import { ModalWrapper } from '../../ModalWrapper';
-// // import DynamicForm from '../../formTemplates/DynamicForm';
-// // import { toast } from 'react-toastify';
-// // import { formatJSONDateTime } from '../../../utils/formatters';
-// // import { renderIf, renderSwitch, renderIfTrue } from '../../../utils/react_utils';
-// // import { Doughnut } from 'react-chartjs-2';
-// // import ProjectHeader from './ProjectHeader';
-// // import ProjectStats from './ProjectStats';
-// // import SDGStats from './SDGStats';
+import { getCountryName } from '../../utils/formatters';
+import { setActiveProject } from '../../redux/activeProject/activeProject_action_creators';
 
 export interface State {
 	isModalOpen: boolean;
@@ -33,7 +22,7 @@ export interface DispatchProps {
 
 export interface StateProps {    
 	location: any;   
-	contentPage: contentPage;
+	contentType: contentType;
 	match: any;
 }
 

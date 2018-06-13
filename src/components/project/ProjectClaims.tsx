@@ -1,11 +1,11 @@
 import * as React from 'react';
-import { ProgressBar } from './ProgressBar';
-import { imgArray, deviceWidth } from '../lib/commonData';
+import { ProgressBar } from '../common/ProgressBar';
+import { imgArray, deviceWidth } from '../../lib/commonData';
 import styled from 'styled-components';
-import { SingleStatistic } from './SingleStatistic';
-import { Statistic, StatType } from '../types/models';
-import { getCountryName } from '../utils/formatters';
-import { ModalWrapper } from './ModalWrapper';
+import { SingleStatistic } from '../common/SingleStatistic';
+import { Statistic, StatType } from '../../types/models';
+import { getCountryName } from '../../utils/formatters';
+import { ModalWrapper } from '../common/ModalWrapper';
 // import { ModalWrapper } from './ModalWrapper';
 
 const OverviewContainer = styled.section`

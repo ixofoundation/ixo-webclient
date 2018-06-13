@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import styled from 'styled-components';
-import { deviceWidth } from '../lib/commonData';
+import { deviceWidth } from '../../lib/commonData';
 
 const HeaderLink = styled(NavLink)`
 	font-family: ${props => props.theme.fontRobotoCondensed};

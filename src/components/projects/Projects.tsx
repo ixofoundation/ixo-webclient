@@ -2,8 +2,8 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { ProjectCard } from './ProjectCard';
 import { HeroOverview } from './HeroOverview';
-import { StatType } from '../types/models';
-import { imgArray } from '../lib/commonData';
+import { StatType } from '../../types/models';
+import { imgArray } from '../../lib/commonData';
 
 const ProjectsContainer = styled.div`
     overflow-y: scroll;
