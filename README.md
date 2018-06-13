@@ -41,13 +41,10 @@ This project serves as the Front-end Web platform for the IXO ecosystem.
 <h2>Architecture & flow</h2>
 
 <h3>Styling </h3>
-IXO-Web is styled using styled components. all styling information is kept within a component. The amin App.tsx file contains theme information, where you can add variables for use through the Web App.
+IXO-Web is styled using styled components. all styling information is kept within a component. The main file - App.tsx contains theme information, where you can add variables for use through the Web App.
 
 <h3>Container Components </h3>
 
-<h2>App</h2>
-  
-  
 <ul>
  <li>
 	<strong>App</strong> <br/>
