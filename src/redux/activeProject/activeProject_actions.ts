@@ -1,11 +1,9 @@
 export interface ActiveProjectResult {
-	public: Object;
-	agents: Object;
+	projectDid: string;
 }
 
 export interface ActiveProject {
-	public: Object;
-	agents: Object;
+	projectDid: string;
 }
 
 export module SET_ACTIVE_PROJECT {

@@ -6,6 +6,9 @@ import { PublicSiteStoreState } from './redux/public_site_reducer';
 import { Routes } from './components/Routes';
 import styled, { ThemeProvider } from 'styled-components';
 import './assets/icons.css';
+import { initIxo } from './redux/ixo/ixo_action_creators';
+import { initKeysafe } from './redux/keysafe/keysafe_action_creators';
+import { setActiveProject } from './redux/activeProject/activeProject_action_creators';
 
 // THEME DECLARATION BELOW
 
@@ -64,8 +67,12 @@ export namespace App {
 		pingResult?: String;
 		keysafe?: any;
 	}
-
-	export interface Props extends StateProps {
+	export interface DispatchProps {
+		onIxoInit: () => void;
+		onKeysafeInit: () => void;
+		onSetActiveProject: (did: string) => void;
+	}
+	export interface Props extends StateProps, DispatchProps {
 	}
 }
 
@@ -120,12 +127,20 @@ class App extends React.Component<App.Props, App.State> {
 	}
 
 	componentDidUpdate(prevProps: any) {
-		if (this.props.keysafe !== null && this.props.keysafe !== prevProps.keysafe) {
-			this.handleOnboardDid();
+		if (this.props.ixo !== prevProps.ixo) {
+			this.props.ixo.project.listProjects().then((response: any) => {
+				this.setState({ projectList: response.result });
+			}).catch((result: Error) => {
+				console.log(result);
+			});
 		}
+
 	}
 
 	componentDidMount() {
+
+		this.props.onIxoInit();
+		this.props.onKeysafeInit();
 
 		if (this.props.keysafe !== null) {
 			this.handleOnboardDid();
@@ -133,26 +148,6 @@ class App extends React.Component<App.Props, App.State> {
 			console.log('Please install IXO Keysafe');
 		}
 
-		const promise = fetch('https://ixo-block-sync.herokuapp.com/api/project', {
-			method: 'POST',
-			body: JSON.stringify({  
-				'jsonrpc': '2.0',
-				'method': 'listProjects',
-				'id': 0,
-				'params': {}
-			}),
-			credentials: 'same-origin',
-			headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' }
-		}).then((response: any) => {
-			return response.json();
-			
-		}).catch((error) => {
-			console.error(error);
-		});
-
-		promise.then((response) => {
-			this.setState({ projectList: response.result });
-		});
 	}
 
 	renderProjectContent() {
@@ -199,6 +194,21 @@ function mapStateToProps(state: PublicSiteStoreState) {
 	};
 }
 
-export default withRouter(connect<App.Props, App.State>(
-	mapStateToProps
-)(App) as any);
+function mapDispatchToProps(dispatch: any): App.DispatchProps {
+	return {
+		onIxoInit: () => {
+			dispatch(initIxo());
+		},
+		onKeysafeInit: () => {
+			dispatch(initKeysafe());
+		},
+		onSetActiveProject: (did: string) => {
+			dispatch(setActiveProject(did));
+		}
+	};
+}
+
+export const AppConnected = withRouter(connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(App as any) as any);

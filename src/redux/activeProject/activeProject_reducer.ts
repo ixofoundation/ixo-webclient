@@ -2,22 +2,18 @@ import { createReducer } from '../../lib/redux_utils/reducers';
 import { ActiveProjectResult, SET_ACTIVE_PROJECT, CLEAR_ACTIVE_PROJECT } from './activeProject_actions';
 
 export type IActiveProjectModelState = {
-	activeProject: ActiveProjectResult,
+	projectDid: string;
 };
 
 const initialState: IActiveProjectModelState = {
-	activeProject: {
-		public: {},
-		agents: {}
-	}
+	projectDid: ''
 };
 
 export let activeProjectReducer = createReducer<IActiveProjectModelState>(initialState, [
 	{
 		action: SET_ACTIVE_PROJECT,
 		handler: (state: IActiveProjectModelState, action: ActiveProjectResult) => {
-			state.activeProject.public = action.public;
-			state.activeProject.agents = action.agents;
+			state.projectDid = action.projectDid;
 			return {
 				...state
 			};
@@ -26,8 +22,7 @@ export let activeProjectReducer = createReducer<IActiveProjectModelState>(initia
 	{
 		action: CLEAR_ACTIVE_PROJECT,
 		handler: (state: IActiveProjectModelState, action: ActiveProjectResult) => {
-			state.activeProject.public = action.public;
-			state.activeProject.agents = action.agents;
+			state.projectDid = action.projectDid;
 			return {
 				...state
 			};

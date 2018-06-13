@@ -93,7 +93,7 @@ export class SingleProject extends React.Component<StateProps> {
 function mapStateToProps(state: PublicSiteStoreState) {
 	return {
 		ixo: state.ixoStore.ixo,
-		activeProject: state.activeProjectStore.activeProject
+		activeProject: state.activeProjectStore.projectDid
 	};
 }
 

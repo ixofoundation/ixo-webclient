@@ -6,8 +6,7 @@ export function ActiveProjectInit() {
 	return dispatch => {
 		dispatch(
 			createAction<ActiveProjectResult>(CLEAR_ACTIVE_PROJECT.type, {
-				public: {},
-				agents: {}
+				projectDid: ''
 		}));
 	};
 }
@@ -16,18 +15,17 @@ export function clearActiveProject() {
 	return dispatch => {
 		dispatch(
 			createAction<ActiveProjectResult>(CLEAR_ACTIVE_PROJECT.type, {
-				public: {},
-				agents: {}
+				projectDid: ''
 		}));
 	};
 }
 
-export function setActiveProject(project?: any) {
+export function setActiveProject(projectDid?: any) {
 	return dispatch => {
 		// const ixo = getInitializedStoreState().ixoStore.ixo;
 		// const keysafe = getInitializedStoreState().keysafeStore.keysafe;
-		if (project) {
-			console.log('the project did is: ', project.projectDid);
+		if (projectDid) {
+			console.log('the project did is: ', projectDid);
 			// const projectDID = project.did;
 			// keysafe.requestSigning(message, (error: any, signature: any) => {
 			// 	ixo.agent.listAgentsForProject(listData, signature, PDSUrl).then((response: any) => {
@@ -40,14 +38,12 @@ export function setActiveProject(project?: any) {
 
 			dispatch(
 				createAction<ActiveProjectResult>(SET_ACTIVE_PROJECT.type, {
-					public: project,
-					agents: {}
+					projectDid: projectDid
 				}));
 		} else {
 			dispatch(
 				createAction<ActiveProjectResult>(CLEAR_ACTIVE_PROJECT.type, {
-					public: {},
-					agents: {}
+					projectDid: ''
 				}));
 		}
 	}; 

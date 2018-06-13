@@ -2,14 +2,12 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { PublicSiteStoreState } from '../redux/public_site_reducer';
-import { initIxo } from '../redux/ixo/ixo_action_creators';
 import styled from 'styled-components';
 // import { toast } from 'react-toastify';
 import { HeaderLeft } from './HeaderLeft';
 import { HeaderRight } from './HeaderRight';
 import MediaQuery from 'react-responsive';
 import { deviceWidth } from '../lib/commonData';
-import { initKeysafe } from '../redux/keysafe/keysafe_action_creators';
 
 const TopBar = styled.header`
 	position: sticky;
@@ -115,15 +113,10 @@ export interface State {
 export interface StateProps {
 	ixo?: any;
 	keysafe?: any;
-	activeProject?: any;
+	projectDid?: any;
 }
 
-export interface DispatchProps {
-	onIxoInit: () => void;
-	onKeysafeInit: () => void;
-}
-
-export interface Props extends StateProps, DispatchProps {
+export interface Props extends StateProps {
 }
 
 class Header extends React.Component<Props, State> {
@@ -147,8 +140,6 @@ class Header extends React.Component<Props, State> {
 		// } else {
 		// 	this.props.onIxoInit(this.state.selectedServer);
 		// }
-		this.props.onIxoInit();
-		this.props.onKeysafeInit();
 		// setInterval(this.ping, 5000);
 	}
 
@@ -157,8 +148,8 @@ class Header extends React.Component<Props, State> {
 			// this.ping();
 		}
 
-		if (prevProps.activeProject !== this.props.activeProject) {
-			console.log(this.props.activeProject);
+		if (prevProps.projectDid !== this.props.projectDid) {
+			console.log(this.props.projectDid);
 			// this.ping();
 		}
 
@@ -214,14 +205,14 @@ class Header extends React.Component<Props, State> {
 
 	handleServerChange = (event) => {
 
-		if (this.state.selectedServer !== event.target.value) {
-			localStorage.setItem('server', event.target.value);
-			this.setState({
-				selectedServer: event.target.value,
-				isServerConnected: false
-			});
-			this.props.onIxoInit();    
-		}
+		// if (this.state.selectedServer !== event.target.value) {
+		// 	localStorage.setItem('server', event.target.value);
+		// 	this.setState({
+		// 		selectedServer: event.target.value,
+		// 		isServerConnected: false
+		// 	});
+		// 	this.props.onIxoInit();    
+		// }
 	}
 
 	render() {
@@ -246,22 +237,10 @@ function mapStateToProps(state: PublicSiteStoreState): StateProps {
 	return {
 		ixo: state.ixoStore.ixo,
 		keysafe: state.keysafeStore.keysafe,
-		activeProject: state.activeProjectStore.activeProject
-	};
-}
-
-function mapDispatchToProps(dispatch: any): DispatchProps {
-	return {
-		onIxoInit: () => {
-			dispatch(initIxo());
-		},
-		onKeysafeInit: () => {
-			dispatch(initKeysafe());
-		}
+		projectDid: state.activeProjectStore.projectDid
 	};
 }
 
 export const HeaderConnected = withRouter(connect(
-	mapStateToProps,
-	mapDispatchToProps
+	mapStateToProps
 )(Header) as any);
