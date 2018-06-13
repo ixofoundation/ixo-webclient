@@ -171,7 +171,7 @@ export const HeroSingle: React.SFC<Props> = (props) => {
 							<div className="col-md-4">
 								<Tabs 
 									buttons={[
-										{ iconClass: 'icon-projects', path: `/projects/${props.match.params.projectDID}/home`, title: 'PROJECT' },
+										{ iconClass: 'icon-projects', path: `/projects/${props.match.params.projectDID}/overview`, title: 'PROJECT' },
 										{ iconClass: 'icon-statistics-graph', path: `/projects/${props.match.params.projectDID}/dashboard`, title: 'DASHBOARD' },
 										{ iconClass: 'icon-settings-large', path: '/global-statistics' }
 									]}
@@ -183,7 +183,7 @@ export const HeroSingle: React.SFC<Props> = (props) => {
 					<MediaQuery maxWidth={`${Number(deviceWidth.desktop) - 1}px`}>
 						<Tabs 
 							buttons={[
-								{ iconClass: 'icon-projects', path: `/projects/${props.match.params.projectID}/home`, title: 'PROJECT' },
+								{ iconClass: 'icon-projects', path: `/projects/${props.match.params.projectID}/overview`, title: 'PROJECT' },
 								{ iconClass: 'icon-statistics-graph', path: `/projects/${props.match.params.projectID}/stats`, title: 'DASHBOARD' },
 								{ iconClass: 'icon-settings-large', path: '/global-statistics' }
 							]}
