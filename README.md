@@ -3,20 +3,17 @@ This project serves as the Front-end Web platform for the IXO ecosystem.
 
 <h2>Built Using </h2>
 <ul>
-	<li>Create React App - TypeScript (https://github.com/wmonk/create-react-app-typescript)</li>
-	<li>Styled Components -(https://www.styled-components.com/)</li>
-	<li>Redux -  (https://redux.js.org/)</li>
+	<li><a href="https://github.com/wmonk/create-react-app-typescript">Create React App - TypeScript</a></li>
+	<li><a href="https://www.styled-components.com/">Styled Components</a></li>
+	<li><a href="https://redux.js.org/">Redux</a></li>
 </ul>
-
-
-
 
 <h2>Built to work with </h2>
 <p>Back-end for all API calls and DID management</p>
 
 <ul>
-	<li>IXO Module(https://github.com/wmonk/create-react-app-typescript) </li>
-	<li>IXO Key Extension(https://github.com/wmonk/create-react-app-typescript) </li>
+	<li><a href="https://github.com/wmonk/create-react-app-typescript">IXO Module</a></li>
+	<li><a href="https://github.com/wmonk/create-react-app-typescript">IXO Key Extension</a></li>
 </ul>
 
 <h2>Setup</h2>
