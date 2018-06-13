@@ -6,7 +6,8 @@ This project serves as the Front-end Web platform for the IXO ecosystem.
 - [x] [Styled Components](https://github.com/wmonk/create-react-app-typescript) 
 - [x] [Create React App - TypeScript](https://github.com/wmonk/create-react-app-typescript) 
 
-## Built to work with
+## Built to work with 
+Back-end for all API calls and DID management
 - [x] [IXO Module](https://github.com/wmonk/create-react-app-typescript) 
 - [x] [IXO Key Extension](https://github.com/wmonk/create-react-app-typescript) 
 
