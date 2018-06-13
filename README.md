@@ -3,7 +3,7 @@ This project serves as the Front-end Web platform for the IXO ecosystem.
 
 <h2>Built Using </h2>
 <ul>
-	<li>Create React App - TypeScript](https://github.com/wmonk/create-react-app-typescript)</li>
+	<li>Create React App - TypeScript (https://github.com/wmonk/create-react-app-typescript)</li>
 	<li>Styled Components -(https://www.styled-components.com/)</li>
 	<li>Redux -  (https://redux.js.org/)</li>
 </ul>
