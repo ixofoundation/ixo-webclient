@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { HeaderConnected } from './components/header/Header';
+import { HeaderConnected } from './components/header/HeaderContainer';
 import { PublicSiteStoreState } from './redux/public_site_reducer';
 import { Routes } from './components/Routes';
 import styled, { ThemeProvider } from 'styled-components';

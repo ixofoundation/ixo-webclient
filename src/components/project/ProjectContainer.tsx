@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { PublicSiteStoreState } from '../../redux/public_site_reducer';
 import { contentType } from '../../types/models';
-import { HeroSingle } from '../project/HeroSingle';
+import { ProjectHero } from './ProjectHero';
 import { ProjectOverview } from './ProjectOverview';
 import { getCountryName } from '../../utils/formatters';
 import { setActiveProject } from '../../redux/activeProject/activeProject_action_creators';
@@ -76,7 +76,7 @@ export class SingleProject extends React.Component<Props> {
 				case contentType.overview:
 					return (
 						<div>
-							<HeroSingle 
+							<ProjectHero 
 								projectTitle={project.title}
 								SDGs={project.sdgs}
 								description={project.shortDescription}
@@ -96,7 +96,7 @@ export class SingleProject extends React.Component<Props> {
 				case contentType.dashboard:
 					return (
 						<div>
-							<HeroSingle 
+							<ProjectHero 
 								projectTitle={project.title}
 								SDGs={project.sdgs}
 								description={project.shortDescription}

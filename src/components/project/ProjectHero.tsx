@@ -133,7 +133,7 @@ export interface Props {
 	match: any;
 }
 
-export const HeroSingle: React.SFC<Props> = (props) => {
+export const ProjectHero: React.SFC<Props> = (props) => {
 	return (
 		<HeroContainer>
 				<HeroInner className="container">

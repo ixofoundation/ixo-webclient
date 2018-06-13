@@ -1,7 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import { ProjectCard } from './ProjectCard';
-import { HeroOverview } from './HeroOverview';
+import { ProjectsOverview } from './ProjectsOverview';
 import { StatType } from '../../types/models';
 import { imgArray } from '../../lib/commonData';
 
@@ -62,7 +62,7 @@ export const Projects: React.SFC<IProjects.Props> = (props) => {
 
 	return (
 		<div>
-			<HeroOverview 
+			<ProjectsOverview 
 				statistics={[
 					{title: 'CLAIM AMOUNT',
 					type: StatType.fraction,
