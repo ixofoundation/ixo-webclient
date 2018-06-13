@@ -1,5 +1,6 @@
 <h1>IXO Web </h1>
-This project serves as the Front-end Web platform for the IXO ecosystem. 
+<p>This project serves as the Front-end Web platform for the IXO ecosystem.</p>
+<strong>Latest Development Branch:</strong>
 
 <h2>Built Using </h2>
 <ul>
