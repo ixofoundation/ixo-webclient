@@ -3,10 +3,9 @@ import { ProgressBar } from '../common/ProgressBar';
 import { imgArray, deviceWidth } from '../../lib/commonData';
 import styled from 'styled-components';
 import { SingleStatistic } from '../common/SingleStatistic';
-import { Statistic, StatType } from '../../types/models';
+import { Statistic, StatType, AgentRole } from '../../types/models';
 import { getCountryName } from '../../utils/formatters';
 import { ModalWrapper } from '../common/ModalWrapper';
-// import { ModalWrapper } from './ModalWrapper';
 
 const OverviewContainer = styled.section`
 
@@ -235,7 +234,10 @@ export interface Props {
 	project: any;
 	id: string;
 	isModalOpen: boolean;
+	selectedRoleToCreate: AgentRole;
 	handleToggleModal: (modalStatus?: boolean) => void;
+	handleCreateAgent: () => void;
+	handleselectedRoleToCreate: (role: string) => void;
 }
 
 export const ProjectOverview: React.SFC<Props> = (props) => {
@@ -253,19 +255,46 @@ export const ProjectOverview: React.SFC<Props> = (props) => {
 		];
 
 	const renderModal = () => {
-		return (
-			<p>Test</p>
-		);
+		console.log(props.selectedRoleToCreate);
+		if (props.selectedRoleToCreate === AgentRole.EA) {
+			return (
+				<div>
+					<p>Test</p>
+					<button onClick={() => props.handleCreateAgent()}>Create Evaluator</button>
+				</div>
+			);
+		} else if (props.selectedRoleToCreate === AgentRole.SA) {
+			return (
+				<div>
+					<p>Test</p>
+					<button onClick={() => props.handleCreateAgent()}>Create Service Provider</button>
+				</div>
+			);
+		} else if (props.selectedRoleToCreate === AgentRole.IA) {
+			return (
+				<div>
+					<p>Test</p>
+					<button onClick={() => props.handleCreateAgent()}>Create Investor</button>
+				</div>
+			);
+		} else {
+			return <p>Empty</p>;
+		}
+	};
+
+	const initiateCreateAgent = (role: string) => {
+		props.handleselectedRoleToCreate(role);
+		props.handleToggleModal(true);
 	};
 
 	return (
 		<div>
-				<ModalWrapper
-					isModalOpen={props.isModalOpen}
-					handleToggleModal={() => props.handleToggleModal()}
-				>
-					{renderModal()}
-				</ModalWrapper>
+			<ModalWrapper
+				isModalOpen={props.isModalOpen}
+				handleToggleModal={() => props.handleToggleModal()}
+			>
+				{renderModal()}
+			</ModalWrapper>
 			<OverviewContainer className="container-fluid">
 				<div className="container">
 					<div className="row">
@@ -304,9 +333,9 @@ export const ProjectOverview: React.SFC<Props> = (props) => {
 										);
 									})}
 								</div>
-								<BlueButton onClick={() => props.handleToggleModal(true)}>INVEST IN THIS PROJECT</BlueButton>
-								<BlueButton >BECOME AN EVALUATOR</BlueButton>
-								<BlueButton >BECOME A SERVICE PROVIDER</BlueButton>
+								<BlueButton onClick={() => initiateCreateAgent('IA')}>INVEST IN THIS PROJECT</BlueButton>
+								<BlueButton onClick={() => initiateCreateAgent('EA')}>BECOME AN EVALUATOR</BlueButton>
+								<BlueButton onClick={() => initiateCreateAgent('SA')}>BECOME A SERVICE PROVIDER</BlueButton>
 							</Sidebar>
 							<Button><i className="icon-favourites"/>SAVE TO FAVOURITES</Button>
 							<Button><i className="icon-share"/>SHARE THIS PROJECT</Button>

@@ -24,6 +24,12 @@ export enum contentType {
 	serviceProviders = 'SERVICE_PROVIDERS'
 }
 
+export enum AgentRole {
+	EA = 'EA',
+	SA = 'SA',
+	IA = 'IA'
+}
+
 export interface Statistic {
 	title?: string;
 	type: StatType;
