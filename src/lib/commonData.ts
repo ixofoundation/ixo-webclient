@@ -33,6 +33,10 @@ export const imgArray = () => {
 	return tempArray;
 };
 
+export const spinner = () => {
+	return require(`../assets/images/spinner.svg`);
+};
+
 export const SocialMediaLinks = ['http://www.instagram.com', 'http://www.twitter.com', 'http://www.facebook.com', 'http://www.website.com'];
 
 export const isoCountries = {

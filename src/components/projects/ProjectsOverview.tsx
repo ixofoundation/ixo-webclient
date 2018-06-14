@@ -66,7 +66,7 @@ const PositionController = styled.div`
 const HeroContainer = styled.div`
 	background: url(${bg}) no-repeat center top;
 	background-size: cover;
-	margin:0 0 60px;
+	margin:0 0 0px;
 	width: 100vw;
 	cursor:pointer;
 	position:relative;

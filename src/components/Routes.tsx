@@ -8,8 +8,6 @@ import { contentType } from '../types/models';
 export namespace Routes {
 	export interface StateProps {
 		projectList: any;
-		myProjectList: any;
-		serviceAgentProjectList: any;
 	}
 
 	export interface RouteProps extends StateProps {
@@ -48,7 +46,7 @@ export const Routes: React.SFC<Routes.RouteProps> = (props) => {
 				path="/my-projects"
 				render={(routeProps) => (
 					<div>
-						<Projects {...routeProps} {...props} projectList={props.myProjectList} />
+						<Projects {...routeProps} {...props} projectList={props.projectList} />
 					</div>
 				)}
 			/>
