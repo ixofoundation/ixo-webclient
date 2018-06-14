@@ -1,22 +1,28 @@
 import * as React from 'react';
+import styled from 'styled-components';
 
 export interface ParentProps {
 	claims?: any;  
 }
 
-export const ProjectClaims: React.SFC<ParentProps> = (props) => {
+const Claim = styled.div`
+	background: grey;
+	padding: 10px;
+	display: inline-block;
+	color: white;
+	margin: 10px;
+`;
 
-	const handleRenderClaims = () => {
-		if (props.claims.length > 0) {
-		return props.claims.map((claim, index) => <p key={index}>{claim.name}</p> );
-		} else {
-			return <p>No claims were found</p>;
-		}
-	};
-
+export const ProjectClaims: React.SFC<ParentProps> = ({claims}) => {
 	return (
 		<div>
-			{handleRenderClaims()}
+			{claims.map((claim, index) => {
+				return (
+					<Claim key={index}>
+						<p>{claim.name}</p>
+					</Claim>
+				);
+			})}
 		</div>
 	);
 };
