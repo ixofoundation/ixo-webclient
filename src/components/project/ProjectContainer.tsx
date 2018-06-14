@@ -87,11 +87,11 @@ export class ProjectContainer extends React.Component<Props> {
 		if (this.state.project === null) {
 			this.props.onSetActiveProject(this.props.match.params.projectDID);
 			const did = this.props.match.params.projectDID;
-			let project = null;
+			// let project = null;
 
-			this.props.ixo.project.listProjects().then((response: any) => {
-				project = response.result.filter((single) => single.projectDid === did)[0];
-				this.setState({ project: project.data});
+			this.props.ixo.project.getProjectByDid(did).then((response: any) => {
+				// project = response.result.filter((single) => single.projectDid === did)[0];
+				this.setState({ project: response.result});
 			}).catch((result: Error) => {
 				console.log(result);
 			});
@@ -100,13 +100,15 @@ export class ProjectContainer extends React.Component<Props> {
 
 	handleListClaims = () => {
 		if (this.state.claims === null) {
-			this.state.claims = {};
+			this.state.claims = [];
 			const ProjectDIDPayload: Object = { projectDid: this.props.match.params.projectDID};
 			this.props.keysafe.requestSigning(JSON.stringify(ProjectDIDPayload), (error, signature) => {	
 				if (!error) {
 					console.log(ProjectDIDPayload, signature);
 					this.props.ixo.claim.listClaimsForProject(ProjectDIDPayload, signature, this.state.PDSUrl).then((response: any) => {
-						this.setState({claimList: response.result});
+						this.setState({claims: response.result});
+						console.log(response.result);
+						debugger;
 					}).catch((result: Error) => {
 						console.log((result));
 					});
@@ -115,6 +117,22 @@ export class ProjectContainer extends React.Component<Props> {
 				}
 			});
 		}
+	}
+
+	handleRenderClaims = () => {
+		if (this.state.claims === null) {
+			this.handleListClaims();
+			return <Loading className="col-md-12"><p>Loading...</p></Loading>;
+		} else if (this.state.claims.length > 0) {		
+			return (
+				<div>
+					<ProjectHero project={this.state.project} match={this.props.match} />
+					<ProjectClaims claims={this.state.claims}/>
+				</div>
+			);
+		} else {
+			return <Loading className="col-md-12"><p>No agents found</p></Loading>;
+		} 
 	}
 
 	handleRenderAgents = (agentRole: string) => {
@@ -129,7 +147,7 @@ export class ProjectContainer extends React.Component<Props> {
 				</div>
 			);
 		} else {
-			return <Loading className="col-md-12"><p>No agents found</p></Loading>;
+			return <Loading className="col-md-12"><p>No claims found</p></Loading>;
 		}
 	}
 
@@ -201,9 +219,11 @@ export class ProjectContainer extends React.Component<Props> {
 	}
 
 	handleSubmitClaim = (claimData) => {
-		this.props.keysafe.requestSigning(JSON.stringify(claimData), (error, signature) => {			
+		let claimPayload = Object.assign(claimData);
+		claimPayload['projectDid'] = this.props.match.params.projectDID;
+		this.props.keysafe.requestSigning(JSON.stringify(claimPayload), (error, signature) => {			
 			if (!error) {
-				this.props.ixo.claim.createClaim(claimData, signature, this.state.PDSUrl).then((response) => {
+				this.props.ixo.claim.createClaim(claimPayload, signature, this.state.PDSUrl).then((response) => {
 					console.log('claim has been submitted successfully', response);
 				}).catch((claimError: Error) => {
 					console.log(claimError);
@@ -252,17 +272,7 @@ export class ProjectContainer extends React.Component<Props> {
 						</div>
 					);
 				case contentType.claims:
-					if (this.state.claims !== null) {
-						return (
-							<div>
-								<ProjectHero project={project} match={this.props.match} />
-								<ProjectClaims claims={this.state.claims}/>
-							</div>
-						);
-					} else {		
-						this.handleListClaims();
-						return <Loading className="col-md-12"><p>Loading...</p></Loading>;
-					}
+					return this.handleRenderClaims();
 				case contentType.evaluators:
 					return this.handleRenderAgents('evaluators');
 				case contentType.investors:
