@@ -2,6 +2,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { ProjectCard } from './ProjectCard';
 import { ProjectsOverview } from './ProjectsOverview';
+import { Spinner } from '../common/Spinner';
 import { StatType } from '../../types/models';
 import { imgArray } from '../../lib/commonData';
 
@@ -39,7 +40,7 @@ export const Projects: React.SFC<IProjects.Props> = (props) => {
 		if (props.projectList === null) {
 			return (
 				<div className="row">
-					<NoProjectsToDisplay className="col-md-12"><p>Projects are loading...</p></NoProjectsToDisplay>;
+					<Spinner info="ProjectsContainer: Loading Projects"/>;
 				</div>
 			);
 		} else if (props.projectList.length > 0) {

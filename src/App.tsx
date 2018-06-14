@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { HeaderConnected } from './components/header/HeaderContainer';
 import { PublicSiteStoreState } from './redux/public_site_reducer';
 import { Routes } from './components/Routes';
+import { Spinner } from './components/common/Spinner';
 import styled, { ThemeProvider } from 'styled-components';
 import './assets/icons.css';
 import { initIxo } from './redux/ixo/ixo_action_creators';
@@ -41,15 +42,6 @@ const Container = styled.div`
 	font-family: ${theme.fontRoboto};
 	font-weight: 300;
 `;
-
-const Loading = styled.div`
-	display:flex;
-	justify-content:center;
-	align-items:center;
-	height:calc(100vh - 140px);
-`;
-
-const Unsuccessful = Loading;
 
 export namespace App {
 
@@ -118,9 +110,9 @@ class App extends React.Component<App.Props, App.State> {
 
 	renderProjectContent() {
 		if (this.state.projectList.length === 0) {
-			return <Unsuccessful className="col-md-12"><p>Loading Projects...</p></Unsuccessful>;
+			return <Spinner info="App: Loading Projects" />;
 		} else if (this.props.ixo === null) {
-			return <Loading className="col-md-12"><p>Loading IXO Module...</p></Loading>;
+			return <Spinner info="App: Loading IXO Module" />;
 		} else {
 			return (
 				<Routes
