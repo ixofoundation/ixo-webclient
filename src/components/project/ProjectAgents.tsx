@@ -10,15 +10,46 @@ const Agent = styled.div`
 `;
 export interface ParentProps {
 	agents: any;
+	handleUpdateAgentStatus: (status: object, did: string, role: string) => void;
 }
-export const ProjectAgents: React.SFC<ParentProps> = ({agents}) => {
+export const ProjectAgents: React.SFC<ParentProps> = (props) => {
+
+	const handleRenderStatus = (agent) => {
+
+		if (agent === null) {
+			return 'Pending';
+		} else {
+			switch (agent.status) {				
+				case '1':
+				return 'Approved';
+				case '2':
+				return 'Revoked';
+				case '0':
+				default:
+				return 'Pending';
+			}
+		}
+	};
+
+	const handleUpdateAgentStatus = (status: string, statusObj: any, did: string, role: string) => {
+		if (statusObj === null) {
+			props.handleUpdateAgentStatus({status: status}, did, role);
+		} else {
+			props.handleUpdateAgentStatus({status, version: statusObj.version}, did, role);
+		}
+	};
+
 	return (
 		<div>
-			{agents.map((agent, index) => {
+			{props.agents.map((agent, index) => {
+				console.log(agent);
 				return (
 					<Agent key={index}>
 						<p>{agent.name}</p>
 						<p>{agent.role}</p>
+						<p>{handleRenderStatus(agent.currentStatus)}</p>
+						<button onClick={() => handleUpdateAgentStatus('1', agent.currentStatus, agent.agentDid, agent.role)}>Approve</button>
+						<button onClick={() => handleUpdateAgentStatus('2', agent.currentStatus, agent.agentDid, agent.role)}>Revoke</button>
 					</Agent>
 				);
 			})}

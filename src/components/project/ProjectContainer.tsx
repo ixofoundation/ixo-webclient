@@ -141,11 +141,11 @@ export class ProjectContainer extends React.Component<Props> {
 			return (
 				<div>
 					<ProjectHero project={this.state.project} match={this.props.match} />
-					<ProjectAgents agents={...this.state[agentRole]}/>
+					<ProjectAgents agents={...this.state[agentRole]} handleUpdateAgentStatus={this.handleUpdateAgent}/>
 				</div>
 			);
 		} else {
-			return <Loading className="col-md-12"><p>No claims found</p></Loading>;
+			return <Loading className="col-md-12"><p>No Agents found</p></Loading>;
 		}
 	}
 
@@ -214,6 +214,29 @@ export class ProjectContainer extends React.Component<Props> {
 				console.log(error);
 			}
 		});
+	}
+
+	handleUpdateAgent = (statusObj: any, did: string, role: string) => {
+				let agentPaylod = {
+					agentDid: did,
+					status: statusObj.status,
+					projectDid: this.props.match.params.projectDID,
+					role: role
+				};
+
+				if (statusObj.version) {
+					agentPaylod['version'] = statusObj.version;
+				}
+
+				this.props.keysafe.requestSigning(JSON.stringify(agentPaylod), (error, signature) => {
+					if (!error) {
+						this.props.ixo.agent.updateAgentStatus(agentPaylod, signature, this.state.PDSUrl).then((res) => {
+							console.log(res);
+						}); 
+					} else {
+						console.log(error);
+					}
+				});
 	}
 
 	handleSubmitClaim = (claimData) => {
