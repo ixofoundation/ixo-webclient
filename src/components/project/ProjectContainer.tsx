@@ -11,6 +11,7 @@ import { ProjectNewClaim } from './ProjectNewClaim';
 import { ProjectClaims } from './ProjectClaims';
 import styled from 'styled-components';
 import { ProjectAgents } from './ProjectAgents';
+import { Spinner } from '../common/Spinner';
 
 const Loading = styled.div`
 	display:flex;
@@ -234,7 +235,7 @@ export class ProjectContainer extends React.Component<Props> {
 
 	handleRenderProject = () => {
 		if (this.state.project === null) {
-			return <Loading className="col-md-12"><p>Loading...</p></Loading>;
+			return <Spinner info="ProjectContainer: Loading Project"/>;
 		} else {
 			const project = this.state.project;
 
