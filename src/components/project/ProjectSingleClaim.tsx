@@ -1,5 +1,8 @@
 import * as React from 'react';
 
-export const ProjectSingleClaim: React.SFC<{}> = () => {
+export interface ParentProps {
+	claim: any;
+}
+export const ProjectAgents: React.SFC<ParentProps> = (props) => {
 	return <p>DASHBOARD</p>;
 };

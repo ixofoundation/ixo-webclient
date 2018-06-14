@@ -20,8 +20,15 @@ export enum contentType {
 	evaluators = 'EVALUATORS',
 	claims = 'CLAIMS',
 	newClaim = 'NEW_CLAIM',
+	singleClaim = 'SINGLE_CLAIM',
 	investors = 'INVESTORS',
 	serviceProviders = 'SERVICE_PROVIDERS'
+}
+
+export enum AgentRoles {
+	evaluators = 'EA',
+	serviceProviders = 'SA',
+	investors = 'IA'
 }
 
 export interface Statistic {

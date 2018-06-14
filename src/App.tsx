@@ -42,14 +42,14 @@ const Container = styled.div`
 	font-weight: 300;
 `;
 
-// const Loading = styled.div`
-// 	display:flex;
-// 	justify-content:center;
-// 	align-items:center;
-// 	height:calc(100vh - 140px);
-// `;
+const Loading = styled.div`
+	display:flex;
+	justify-content:center;
+	align-items:center;
+	height:calc(100vh - 140px);
+`;
 
-// const Unsuccessful = Loading;
+const Unsuccessful = Loading;
 
 export namespace App {
 
@@ -105,22 +105,12 @@ class App extends React.Component<App.Props, App.State> {
 		this.refreshServiceAgentProjectList();
 	}
 
-	handleOnboardDid() {
-		this.props.keysafe.getInfo((error, response) => {
-			if (response) {
-				this.setState({did: response.did});
-				console.log('You have successfully been linked into the keysafe');
-			} else {
-				console.log('Please login to your credential provider', error);
-			}
-		});
-	}
-
 	componentDidUpdate(prevProps: any) {
 		if (this.props.ixo !== prevProps.ixo) {
 			this.props.ixo.project.listProjects().then((response: any) => {
 				this.setState({ projectList: response.result });
 			}).catch((result: Error) => {
+				console.log('test');
 				console.log(result);
 			});
 		}
@@ -128,40 +118,25 @@ class App extends React.Component<App.Props, App.State> {
 	}
 
 	componentDidMount() {
-
 		this.props.onIxoInit();
 		this.props.onKeysafeInit();
-
-		if (this.props.keysafe !== null) {
-			this.handleOnboardDid();
-		} else {
-			console.log('Please install IXO Keysafe');
-		}
-
+		console.log('first lodad');
 	}
 
 	renderProjectContent() {
-		return (
-			<Routes
-				projectList={this.state.projectList}
-				myProjectList={this.state.myProjectList}
-				serviceAgentProjectList={this.state.serviceAgentProjectList}
-			/>
-		);
-		// if (this.props.ixo && !this.props.pingError) {
-		// 	return (
-		// 			<Routes
-		// 				projectList={this.state.projectList}
-		// 				myProjectList={this.state.myProjectList}
-		// 				serviceAgentProjectList={this.state.serviceAgentProjectList}
-		// 				refreshProjects={this.refreshProjectList}
-		// 			/>
-		// 	);
-		// } else if (this.props.pingError) {
-		// 	return <Unsuccessful className="col-md-12"><p>Error connecting to ixo server... Retrying...</p></Unsuccessful>;
-		// } else {
-		// 	return <Loading className="col-md-12"><p>Loading...</p></Loading>;
-		// }
+		if (this.state.projectList.length === 0) {
+			return <Unsuccessful className="col-md-12"><p>Loading Projects...</p></Unsuccessful>;
+		} else if (this.props.ixo === null) {
+			return <Loading className="col-md-12"><p>Loading IXO Module...</p></Loading>;
+		} else {
+			return (
+				<Routes
+					projectList={this.state.projectList}
+					myProjectList={this.state.myProjectList}
+					serviceAgentProjectList={this.state.serviceAgentProjectList}
+				/>
+			);
+		}
 }
 
 	render() {

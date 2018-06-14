@@ -3,7 +3,7 @@ import { ProgressBar } from '../common/ProgressBar';
 import { imgArray, deviceWidth } from '../../lib/commonData';
 import styled from 'styled-components';
 import { SingleStatistic } from '../common/SingleStatistic';
-import { Statistic, StatType } from '../../types/models';
+import { Statistic, StatType, AgentRoles } from '../../types/models';
 import { getCountryName } from '../../utils/formatters';
 import { ModalWrapper } from '../common/ModalWrapper';
 import { ProjectNewAgent } from './ProjectNewAgent';
@@ -233,6 +233,7 @@ const Founder = styled.div`
 `;
 
 export interface Props {
+	userDid: string;
 	handleCreateAgent: (agentData: any) => void;
 	project: any;
 	id: string;
@@ -256,7 +257,6 @@ export const ProjectOverview: React.SFC<Props> = (props) => {
 		];
 
 	const submitAgent = (role: string, agentData: any) => {
-		console.log(agentData);
 		let agentCreateJson: any = {agentData, role: role};
 		props.handleCreateAgent(agentCreateJson);
 	};
@@ -313,9 +313,9 @@ export const ProjectOverview: React.SFC<Props> = (props) => {
 										);
 									})}
 								</div>
-								<BlueButton onClick={() => props.handleToggleModal({selectedRole: 'IA'}, true)}>INVEST IN THIS PROJECT</BlueButton>
-								<BlueButton onClick={() => props.handleToggleModal({selectedRole: 'EA'}, true)} >BECOME AN EVALUATOR</BlueButton>
-								<BlueButton onClick={() => props.handleToggleModal({selectedRole: 'SA'}, true)} >BECOME A SERVICE PROVIDER</BlueButton>
+								<BlueButton onClick={() => props.userDid != null && props.handleToggleModal({selectedRole: AgentRoles.investors}, true)}>INVEST IN THIS PROJECT</BlueButton>
+								<BlueButton onClick={() => props.userDid != null && props.handleToggleModal({selectedRole: AgentRoles.evaluators}, true)} >BECOME AN EVALUATOR</BlueButton>
+								<BlueButton onClick={() => props.userDid != null && props.handleToggleModal({selectedRole: AgentRoles.serviceProviders}, true)} >BECOME A SERVICE PROVIDER</BlueButton>
 							</Sidebar>
 							<Button><i className="icon-favourites"/>SAVE TO FAVOURITES</Button>
 							<Button><i className="icon-share"/>SHARE THIS PROJECT</Button>

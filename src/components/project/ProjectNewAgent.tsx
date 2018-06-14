@@ -1,5 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
+import { AgentRoles } from '../../types/models';
 
 const Text = styled.input`
 	margin: 20px 0;
@@ -31,9 +32,9 @@ export class ProjectNewAgent extends React.Component<ParentProps, State> {
 	};
 
 	titleMap = {
-		'IA': 'Become an Investor',
-		'EA': 'Become an Evaluator',
-		'SA': 'Become an Service Agent',
+		[AgentRoles.investors]: 'Become an Investor',
+		[AgentRoles.evaluators]: 'Become an Evaluator',
+		[AgentRoles.serviceProviders]: 'Become an Service Agent',
 	};
 
 	renderTitle = (role: string) => {
