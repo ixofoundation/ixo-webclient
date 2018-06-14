@@ -20,6 +20,7 @@ export enum contentType {
 	evaluators = 'EVALUATORS',
 	claims = 'CLAIMS',
 	newClaim = 'NEW_CLAIM',
+	singleClaim = 'SINGLE_CLAIM',
 	investors = 'INVESTORS',
 	serviceProviders = 'SERVICE_PROVIDERS'
 }

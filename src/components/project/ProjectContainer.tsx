@@ -102,6 +102,7 @@ export class ProjectContainer extends React.Component<Props> {
 			const ProjectDIDPayload: Object = { projectDid: this.props.match.params.projectDID};
 			this.props.keysafe.requestSigning(JSON.stringify(ProjectDIDPayload), (error, signature) => {	
 				if (!error) {
+					console.log(ProjectDIDPayload);
 					this.props.ixo.claim.listClaimsForProject(ProjectDIDPayload, signature, this.state.PDSUrl).then((response: any) => {
 						this.setState({claimList: response.result});
 					}).catch((result: Error) => {
@@ -136,8 +137,6 @@ export class ProjectContainer extends React.Component<Props> {
 	}
 
 	handleCreateAgent = () => {
-		console.log(this.state.userDid);
-		debugger;
 		const agentData = {
 			email: 'don@ixo.com',
 			name: 'Don',
