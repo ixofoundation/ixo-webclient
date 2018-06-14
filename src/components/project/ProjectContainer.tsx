@@ -2,7 +2,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { PublicSiteStoreState } from '../../redux/public_site_reducer';
-import { contentType, AgentRole } from '../../types/models';
+import { contentType, AgentRoles } from '../../types/models';
 import { ProjectHero } from './ProjectHero';
 import { ProjectOverview } from './ProjectOverview';
 import { setActiveProject } from '../../redux/activeProject/activeProject_action_creators';
@@ -24,7 +24,7 @@ export interface State {
 	ClaimList: Object[];
 	PDSUrl: string;
 	Agents: Object;
-	selectedRoleToCreate: AgentRole;
+	selectedRoleToCreate: AgentRoles;
 }
 
 export interface StateProps {
@@ -53,11 +53,9 @@ export class ProjectContainer extends React.Component<Props> {
 		userDid: null,
 		selectedRoleToCreate: null,
 		claims: null,
-		agents: {
-			serviceProviders: null,
-			investors: null,
-			evaluators: null
-		},
+		serviceProviders: null,
+		investors: null,
+		evaluators: null,
 		PDSUrl: 'http://35.225.6.178:5000/'
 	};
 
@@ -96,13 +94,13 @@ export class ProjectContainer extends React.Component<Props> {
 		}
 	}
 
-	handleGetClaims = () => {
+	handleListClaims = () => {
 		if (this.state.claims === null) {
 			this.state.claims = {};
 			const ProjectDIDPayload: Object = { projectDid: this.props.match.params.projectDID};
 			this.props.keysafe.requestSigning(JSON.stringify(ProjectDIDPayload), (error, signature) => {	
 				if (!error) {
-					console.log(ProjectDIDPayload);
+					console.log(ProjectDIDPayload, signature);
 					this.props.ixo.claim.listClaimsForProject(ProjectDIDPayload, signature, this.state.PDSUrl).then((response: any) => {
 						this.setState({claimList: response.result});
 					}).catch((result: Error) => {
@@ -115,16 +113,40 @@ export class ProjectContainer extends React.Component<Props> {
 		}
 	}
 
-	handleListAgents = () => {
-		if (this.state.agents.serviceProviders === null) {
-			const ProjectDIDPayload: Object = { projectDid: this.props.match.params.projectDID};
+	handleRenderAgents = (agentRole: string) => {
+		if (this.state[agentRole] === null) {
+			this.handleListAgents(agentRole);
+			return <Loading className="col-md-12"><p>Loading...</p></Loading>;
+		} else if (this.state[agentRole].length > 0) {
+			return (
+				<div>
+					<ProjectHero project={this.state.project} match={this.props.match} />
+					<ProjectAgents agents={...this.state[agentRole]}/>
+				</div>
+			);
+		} else {
+			return <Loading className="col-md-12"><p>No agents found</p></Loading>;
+		}
+	}
+
+	handleListAgents = (agentRole: string) => {
+		
+		if (this.state[agentRole] === null) {
+			this.state[agentRole] = [];
+			console.log(agentRole);
+			const ProjectDIDPayload: Object = { projectDid: this.props.match.params.projectDID, role: AgentRoles[agentRole]};
 			this.props.keysafe.requestSigning(JSON.stringify(ProjectDIDPayload), (error, signature) => {	
 				if (!error) {
 					this.props.ixo.agent.listAgentsForProject(ProjectDIDPayload, signature, this.state.PDSUrl).then((response: any) => {
 						if (response.error) {
 							console.log('error occured', response.error);
 						} else {
-							this.setState({agents: response.result});
+							let agentsObj = [];
+							if (this.state[agentRole] !== null) {
+								agentsObj = [...this.state[agentRole]];
+							}
+							agentsObj = response.result;
+							this.setState({ [agentRole] : [...agentsObj]});
 						}
 					}).catch((result: Error) => {
 						console.log((result));
@@ -145,7 +167,6 @@ export class ProjectContainer extends React.Component<Props> {
 			projectDid: this.props.match.params.projectDID
 		};
 
-		console.log(agentData);
 		this.props.keysafe.requestSigning(JSON.stringify(agentData), (error: any, signature: any) => {
 			if (!error) {
 				this.props.ixo.agent.createAgent(agentData, signature, this.state.PDSUrl).then((res) => {
@@ -193,7 +214,7 @@ export class ProjectContainer extends React.Component<Props> {
 								handleToggleModal={this.handleToggleModal}
 								handleCreateAgent={this.handleCreateAgent}
 								selectedRoleToCreate={this.state.selectedRoleToCreate}
-								handleselectedRoleToCreate={(role: AgentRole) => this.handleSelectedRoleToCreate(role)}
+								handleselectedRoleToCreate={(role: AgentRoles) => this.handleSelectedRoleToCreate(role)}
 							/>
 						</div>
 					);
@@ -221,31 +242,15 @@ export class ProjectContainer extends React.Component<Props> {
 							</div>
 						);
 					} else {		
-						this.handleGetClaims();
+						this.handleListClaims();
 						return <Loading className="col-md-12"><p>Loading...</p></Loading>;
 					}
 				case contentType.evaluators:
-				case contentType.serviceProviders:
+					return this.handleRenderAgents('evaluators');
 				case contentType.investors:
-					let agents: Object = null;
-					if (this.props.contentType === contentType.evaluators) {
-						agents = this.state.agents.evaluators;
-					} else if (this.props.contentType === contentType.serviceProviders) {
-						agents = this.state.agents.serviceProviders;
-					} else if (this.props.contentType === contentType.investors) {
-						agents = this.state.agents.investors;
-					}
-					if (agents !== null) {
-						return (
-							<div>
-								<ProjectHero project={project} match={this.props.match} />
-								<ProjectAgents agents={agents}/>
-							</div>
-						);
-					} else {		
-						this.handleListAgents();
-						return <Loading className="col-md-12"><p>Loading...</p></Loading>;
-					}
+					return this.handleRenderAgents('investors');
+				case contentType.serviceProviders:
+					return this.handleRenderAgents('serviceProviders');
 				default:
 					return <p>Nothing to see here...</p>;
 			}

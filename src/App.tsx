@@ -110,6 +110,7 @@ class App extends React.Component<App.Props, App.State> {
 			this.props.ixo.project.listProjects().then((response: any) => {
 				this.setState({ projectList: response.result });
 			}).catch((result: Error) => {
+				console.log('test');
 				console.log(result);
 			});
 		}

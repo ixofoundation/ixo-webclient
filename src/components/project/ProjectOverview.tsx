@@ -3,7 +3,7 @@ import { ProgressBar } from '../common/ProgressBar';
 import { imgArray, deviceWidth } from '../../lib/commonData';
 import styled from 'styled-components';
 import { SingleStatistic } from '../common/SingleStatistic';
-import { Statistic, StatType, AgentRole } from '../../types/models';
+import { Statistic, StatType, AgentRoles } from '../../types/models';
 import { getCountryName } from '../../utils/formatters';
 import { ModalWrapper } from '../common/ModalWrapper';
 
@@ -234,7 +234,7 @@ export interface Props {
 	project: any;
 	id: string;
 	isModalOpen: boolean;
-	selectedRoleToCreate: AgentRole;
+	selectedRoleToCreate: AgentRoles;
 	handleToggleModal: (modalStatus?: boolean) => void;
 	handleCreateAgent: () => void;
 	handleselectedRoleToCreate: (role: string) => void;
@@ -255,22 +255,21 @@ export const ProjectOverview: React.SFC<Props> = (props) => {
 		];
 
 	const renderModal = () => {
-		console.log(props.selectedRoleToCreate);
-		if (props.selectedRoleToCreate === AgentRole.EA) {
+		if (props.selectedRoleToCreate === AgentRoles.evaluators) {
 			return (
 				<div>
 					<p>Test</p>
 					<button onClick={() => props.handleCreateAgent()}>Create Evaluator</button>
 				</div>
 			);
-		} else if (props.selectedRoleToCreate === AgentRole.SA) {
+		} else if (props.selectedRoleToCreate === AgentRoles.serviceProviders) {
 			return (
 				<div>
 					<p>Test</p>
 					<button onClick={() => props.handleCreateAgent()}>Create Service Provider</button>
 				</div>
 			);
-		} else if (props.selectedRoleToCreate === AgentRole.IA) {
+		} else if (props.selectedRoleToCreate === AgentRoles.investors) {
 			return (
 				<div>
 					<p>Test</p>

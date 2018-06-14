@@ -25,10 +25,10 @@ export enum contentType {
 	serviceProviders = 'SERVICE_PROVIDERS'
 }
 
-export enum AgentRole {
-	EA = 'EA',
-	SA = 'SA',
-	IA = 'IA'
+export enum AgentRoles {
+	evaluators = 'EA',
+	serviceProviders = 'SA',
+	investors = 'IA'
 }
 
 export interface Statistic {
