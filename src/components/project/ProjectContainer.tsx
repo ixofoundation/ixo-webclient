@@ -87,11 +87,9 @@ export class ProjectContainer extends React.Component<Props> {
 		if (this.state.project === null) {
 			this.props.onSetActiveProject(this.props.match.params.projectDID);
 			const did = this.props.match.params.projectDID;
-			// let project = null;
-
 			this.props.ixo.project.getProjectByDid(did).then((response: any) => {
-				// project = response.result.filter((single) => single.projectDid === did)[0];
-				this.setState({ project: response.result});
+				console.log(response);
+				this.setState({ project: response.result.data});
 			}).catch((result: Error) => {
 				console.log(result);
 			});
