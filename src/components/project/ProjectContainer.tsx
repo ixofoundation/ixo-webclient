@@ -20,6 +20,7 @@ const Loading = styled.div`
 `;
 export interface State {
 	isModalOpen: boolean;
+	modalData: any;
 	project: Object;
 	ClaimList: Object[];
 	PDSUrl: string;
@@ -48,6 +49,7 @@ export class ProjectContainer extends React.Component<Props> {
 
 	state = {
 		isModalOpen: false,
+		modalData: {},
 		project: null,
 		claims: null,
 		agents: {
@@ -58,9 +60,9 @@ export class ProjectContainer extends React.Component<Props> {
 		PDSUrl: 'http://35.225.6.178:5000/'
 	};
 
-	handleToggleModal = (modalStatus: boolean) => {
+	handleToggleModal = (data: any, modalStatus: boolean) => {
 		console.log('modal changed');
-		this.setState({ isModalOpen: modalStatus });
+		this.setState({ modalData: data, isModalOpen: modalStatus });
 	}
 
 	componentDidMount() {
@@ -123,6 +125,24 @@ export class ProjectContainer extends React.Component<Props> {
 		});
 	}
 
+	handleCreateAgent = (agentData) => {
+		if (this.props.keysafe === null) {
+			window.alert('Please install IXO Credential Manager first.');
+		} else {
+			let agentCreateJson = {agentData, agentDid: '', projectDid: this.props.match.params.projectDID};
+			let message: string = JSON.stringify(agentCreateJson);
+			this.props.keysafe.requestSigning(message, (error: any, signature: any) => {
+				
+				console.log('MESSAGE IS: ', JSON.parse(message));
+				console.log('SIGNATURE IS: ', signature);
+				// 'http://35.225.6.178:5000/' 'http://localhost:5000/'
+				this.props.ixo.agent.createAgent(JSON.parse(message), signature, 'http://35.225.6.178:5000/').then((res) => {
+					console.log('AGENT CREATE STATUS: ', res);
+				});
+			});
+		}
+	}
+
 	handleRenderProject = () => {
 		if (this.state.project === null) {
 			return <Loading className="col-md-12"><p>Loading...</p></Loading>;
@@ -135,10 +155,12 @@ export class ProjectContainer extends React.Component<Props> {
 						<div>
 							<ProjectHero project={project} match={this.props.match} />
 							<ProjectOverview 
+								handleCreateAgent={this.handleCreateAgent}
 								project={project}
 								id={project._id}
 								isModalOpen={this.state.isModalOpen}
 								handleToggleModal={this.handleToggleModal}
+								modalData={this.state.modalData}
 							/>
 						</div>
 					);

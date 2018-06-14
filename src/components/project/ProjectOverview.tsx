@@ -6,6 +6,7 @@ import { SingleStatistic } from '../common/SingleStatistic';
 import { Statistic, StatType } from '../../types/models';
 import { getCountryName } from '../../utils/formatters';
 import { ModalWrapper } from '../common/ModalWrapper';
+import { ProjectNewAgent } from './ProjectNewAgent';
 // import { ModalWrapper } from './ModalWrapper';
 
 const OverviewContainer = styled.section`
@@ -232,10 +233,12 @@ const Founder = styled.div`
 `;
 
 export interface Props {
+	handleCreateAgent: (agentData: any) => void;
 	project: any;
 	id: string;
 	isModalOpen: boolean;
-	handleToggleModal: (modalStatus?: boolean) => void;
+	handleToggleModal: (data?: any, modalStatus?: boolean) => void;
+	modalData: any;
 }
 
 export const ProjectOverview: React.SFC<Props> = (props) => {
@@ -252,9 +255,15 @@ export const ProjectOverview: React.SFC<Props> = (props) => {
 		amount: props.project.agents.serviceProviders}
 		];
 
-	const renderModal = () => {
+	const submitAgent = (role: string, agentData: any) => {
+		console.log(agentData);
+		let agentCreateJson: any = {agentData, role: role};
+		props.handleCreateAgent(agentCreateJson);
+	};
+
+	const renderModal = (data: any) => {
 		return (
-			<p>Test</p>
+			<ProjectNewAgent submitAgent={submitAgent} role={data.selectedRole}/>
 		);
 	};
 
@@ -262,9 +271,9 @@ export const ProjectOverview: React.SFC<Props> = (props) => {
 		<div>
 				<ModalWrapper
 					isModalOpen={props.isModalOpen}
-					handleToggleModal={() => props.handleToggleModal()}
+					handleToggleModal={() => props.handleToggleModal({})}
 				>
-					{renderModal()}
+					{renderModal(props.modalData)}
 				</ModalWrapper>
 			<OverviewContainer className="container-fluid">
 				<div className="container">
@@ -304,9 +313,9 @@ export const ProjectOverview: React.SFC<Props> = (props) => {
 										);
 									})}
 								</div>
-								<BlueButton onClick={() => props.handleToggleModal(true)}>INVEST IN THIS PROJECT</BlueButton>
-								<BlueButton >BECOME AN EVALUATOR</BlueButton>
-								<BlueButton >BECOME A SERVICE PROVIDER</BlueButton>
+								<BlueButton onClick={() => props.handleToggleModal({selectedRole: 'IA'}, true)}>INVEST IN THIS PROJECT</BlueButton>
+								<BlueButton onClick={() => props.handleToggleModal({selectedRole: 'EA'}, true)} >BECOME AN EVALUATOR</BlueButton>
+								<BlueButton onClick={() => props.handleToggleModal({selectedRole: 'SA'}, true)} >BECOME A SERVICE PROVIDER</BlueButton>
 							</Sidebar>
 							<Button><i className="icon-favourites"/>SAVE TO FAVOURITES</Button>
 							<Button><i className="icon-share"/>SHARE THIS PROJECT</Button>
