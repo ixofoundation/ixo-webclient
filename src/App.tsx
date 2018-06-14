@@ -55,9 +55,7 @@ export namespace App {
 
 	export interface State {
 		projectList: any;
-		myProjectList: any;
-		serviceAgentProjectList: any;
-		did: string;
+		userDid: string;
 	}
 
 	export interface StateProps {
@@ -78,9 +76,7 @@ class App extends React.Component<App.Props, App.State> {
 
 	state = {
 		projectList: [],
-		myProjectList: [],
-		serviceAgentProjectList: [],
-		did: '',
+		userDid: null,
 		isProjectPage: false
 	};
 
@@ -93,8 +89,8 @@ class App extends React.Component<App.Props, App.State> {
 	}
 
 	refreshServiceAgentProjectList = () => {
-		this.props.ixo.project.listProjectsByDidAndRole(this.props.ixo.credentialProvider.getDid(), 'SA').then((response: any) => {
-			this.setState({ serviceAgentProjectList: response.result });
+		this.props.ixo.project.listProjectsByDidAndRole(this.state.userDid, 'SA').then((response: any) => {
+			this.setState({ projectList: response.result });
 		}).catch((error) => {
 			console.error(error);
 		});
@@ -102,7 +98,6 @@ class App extends React.Component<App.Props, App.State> {
 
 	refreshProjectList = () => {
 		this.handleLoadProjects();
-		this.refreshServiceAgentProjectList();
 	}
 
 	componentDidUpdate(prevProps: any) {
@@ -110,7 +105,6 @@ class App extends React.Component<App.Props, App.State> {
 			this.props.ixo.project.listProjects().then((response: any) => {
 				this.setState({ projectList: response.result });
 			}).catch((result: Error) => {
-				console.log('test');
 				console.log(result);
 			});
 		}
@@ -120,7 +114,6 @@ class App extends React.Component<App.Props, App.State> {
 	componentDidMount() {
 		this.props.onIxoInit();
 		this.props.onKeysafeInit();
-		console.log('first lodad');
 	}
 
 	renderProjectContent() {
@@ -132,8 +125,6 @@ class App extends React.Component<App.Props, App.State> {
 			return (
 				<Routes
 					projectList={this.state.projectList}
-					myProjectList={this.state.myProjectList}
-					serviceAgentProjectList={this.state.serviceAgentProjectList}
 				/>
 			);
 		}
