@@ -55,7 +55,7 @@ export const Routes: React.SFC<Routes.RouteProps> = (props) => {
 			<Route exact={true} path="/projects/:projectDID/evaluators" render={() => <ProjectContainerConnected contentType={contentType.evaluators} />}/>
 			<Route exact={true} path="/projects/:projectDID/claims" render={() => <ProjectContainerConnected contentType={contentType.claims} />}/>
 			<Route exact={true} path="/projects/:projectDID/new-claim" render={() => <ProjectContainerConnected contentType={contentType.newClaim} />}/>
-			<Route exact={true} path="/projects/:projectDID/claims/:claimID" render={() => <ProjectContainerConnected contentType={contentType.claims} />}/>
+			<Route exact={true} path="/projects/:projectDID/claims/:claimID" render={() => <ProjectContainerConnected contentType={contentType.singleClaim} />}/>
 			<Route exact={true} path="/projects/:projectDID/investors" render={() => <ProjectContainerConnected contentType={contentType.investors} />}/>
 			<Route exact={true} path="/projects/:projectDID/service-providers" render={() => <ProjectContainerConnected contentType={contentType.serviceProviders} />}/>
 			<Route
