@@ -56,8 +56,8 @@ export class ProjectNewAgent extends React.Component<ParentProps, State> {
 					<div className="row">
 						<div className="col-md-12">
 							<h1>{this.renderTitle(this.props.role)}</h1>
-							<Text value={this.state.name} onChange={this.handleNameChange} />
-							<Text value={this.state.email} onChange={this.handleEmailChange} />
+							<Text placeholder="Name" value={this.state.name} onChange={this.handleNameChange} />
+							<Text placeholder="Email" value={this.state.email} onChange={this.handleEmailChange} />
 							<button onClick={() => this.props.submitAgent(this.props.role, this.state)}>Submit new Agent</button>
 						</div>
 					</div>
