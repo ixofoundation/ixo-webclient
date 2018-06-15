@@ -259,6 +259,7 @@ export const ProjectOverview: React.SFC<Props> = (props) => {
 	const submitAgent = (role: string, agentData: any) => {
 		let agentCreateJson: any = {...agentData, role: role};
 		props.handleCreateAgent(agentCreateJson);
+		props.handleToggleModal({});
 	};
 
 	const renderModal = (data: any) => {
