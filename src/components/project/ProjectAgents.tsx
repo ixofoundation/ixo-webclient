@@ -15,7 +15,6 @@ export interface ParentProps {
 export const ProjectAgents: React.SFC<ParentProps> = (props) => {
 
 	const handleRenderStatus = (agent) => {
-
 		if (agent === null) {
 			return 'Pending';
 		} else {
@@ -42,14 +41,13 @@ export const ProjectAgents: React.SFC<ParentProps> = (props) => {
 	return (
 		<div>
 			{props.agents.map((agent, index) => {
-				console.log(agent);
 				return (
 					<Agent key={index}>
 						<p>{agent.name}</p>
 						<p>{agent.role}</p>
 						<p>{handleRenderStatus(agent.currentStatus)}</p>
 						<button onClick={() => handleUpdateAgentStatus('1', agent.currentStatus, agent.agentDid, agent.role)}>Approve</button>
-						<button onClick={() => handleUpdateAgentStatus('2', agent.currentStatus, agent.agentDid, agent.role)}>Revoke</button>
+						<button onClick={() => handleUpdateAgentStatus('2', agent.currentStatus, agent.agentDid, agent.role)}>Reject</button>
 					</Agent>
 				);
 			})}

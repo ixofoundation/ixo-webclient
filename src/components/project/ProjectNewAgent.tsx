@@ -17,6 +17,7 @@ const Container = styled.div`
 export interface ParentProps {
 	submitAgent: (role: string, agentData: object) => void;
 	role: string;
+	name: string;
 }
 
 export interface State {

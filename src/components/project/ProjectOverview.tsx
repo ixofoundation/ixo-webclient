@@ -233,7 +233,7 @@ const Founder = styled.div`
 `;
 
 export interface Props {
-	checkAndGetUserDid: () => void;
+	checkUserDid: () => void;
 	handleCreateAgent: (agentData: any) => void;
 	project: any;
 	id: string;
@@ -244,16 +244,18 @@ export interface Props {
 
 export const ProjectOverview: React.SFC<Props> = (props) => {
 
+	console.log(props.project);
+	const {evaluators, serviceProviders, investors} = props.project.agentStats;
 	const statistics: Statistic[] = [
 		{type: StatType.decimal,
 		descriptor: [{class: 'text', value: 'Investors'}],
-		amount: props.project.agents.investors},
+		amount: investors},
 		{type: StatType.decimal,
 		descriptor: [{class: 'text', value: 'Evaluators'}],
-		amount: props.project.agents.evaluators},
+		amount: evaluators},
 		{type: StatType.decimal,
 		descriptor: [{class: 'text', value: 'Service providers'}],
-		amount: props.project.agents.serviceProviders}
+		amount: serviceProviders}
 		];
 
 	const submitAgent = (role: string, agentData: any) => {
@@ -263,19 +265,20 @@ export const ProjectOverview: React.SFC<Props> = (props) => {
 	};
 
 	const renderModal = (data: any) => {
+		let userName = '';
 		return (
-			<ProjectNewAgent submitAgent={submitAgent} role={data.selectedRole}/>
+			<ProjectNewAgent submitAgent={submitAgent} role={data.selectedRole} name={userName}/>
 		);
 	};
-
+	
 	return (
 		<div>
-				<ModalWrapper
-					isModalOpen={props.isModalOpen}
-					handleToggleModal={() => props.handleToggleModal({})}
-				>
-					{renderModal(props.modalData)}
-				</ModalWrapper>
+			<ModalWrapper
+				isModalOpen={props.isModalOpen}
+				handleToggleModal={() => props.handleToggleModal({})}
+			>
+				{renderModal(props.modalData)}
+			</ModalWrapper>
 			<OverviewContainer className="container-fluid">
 				<div className="container">
 					<div className="row">
@@ -296,14 +299,14 @@ export const ProjectOverview: React.SFC<Props> = (props) => {
 							<Sidebar>
 								<BarContainer>
 									<DarkBar 
-										total={props.project.claims.required}
-										approved={props.project.claims.currentSuccessful}
-										rejected={props.project.claims.currentRejected} 
+										total={props.project.claims[0].required}
+										approved={props.project.claims[0].currentSuccessful}
+										rejected={props.project.claims[0].currentRejected} 
 									/>
 								</BarContainer>
-								<Claims>{props.project.claims.currentSuccessful}/<strong>{props.project.claims.required}</strong></Claims>
+								<Claims>{props.project.claims[0].currentSuccessful}/<strong>{props.project.claims[0].required}</strong></Claims>
 								<ImpactAction>successful water systems built</ImpactAction>
-								<Disputed><strong>{props.project.claims.currentRejected}</strong> disputed claims</Disputed>
+								<Disputed><strong>{props.project.claims[0].currentRejected}</strong> disputed claims</Disputed>
 								<hr />
 								<div className="row">
 									{statistics.map((statistic, index) => {
@@ -314,13 +317,13 @@ export const ProjectOverview: React.SFC<Props> = (props) => {
 										);
 									})}
 								</div>
-								<BlueButton onClick={() => props.checkAndGetUserDid() != null && props.handleToggleModal({selectedRole: AgentRoles.investors}, true)}>
+								<BlueButton onClick={() => props.checkUserDid() && props.handleToggleModal({selectedRole: AgentRoles.investors}, true)}>
 									INVEST IN THIS Project
 								</BlueButton>
-								<BlueButton onClick={() => props.checkAndGetUserDid() != null && props.handleToggleModal({selectedRole: AgentRoles.evaluators}, true)}>
+								<BlueButton onClick={() => props.checkUserDid() && props.handleToggleModal({selectedRole: AgentRoles.evaluators}, true)}>
 									BECOME AN EVALUATOR
 								</BlueButton>
-								<BlueButton onClick={() => props.checkAndGetUserDid() != null && props.handleToggleModal({selectedRole: AgentRoles.serviceProviders}, true)} >
+								<BlueButton onClick={() => props.checkUserDid() && props.handleToggleModal({selectedRole: AgentRoles.serviceProviders}, true)} >
 									BECOME A SERVICE PROVIDER
 								</BlueButton>
 							</Sidebar>

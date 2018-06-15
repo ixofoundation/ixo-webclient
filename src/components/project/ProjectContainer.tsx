@@ -8,6 +8,7 @@ import { ProjectOverview } from './ProjectOverview';
 import { setActiveProject } from '../../redux/activeProject/activeProject_action_creators';
 import { ProjectDashboard } from './ProjectDashboard';
 import { ProjectNewClaim } from './ProjectNewClaim';
+import { ProjectSingleClaim } from './ProjectSingleClaim';
 import { ProjectClaims } from './ProjectClaims';
 import styled from 'styled-components';
 import { ProjectAgents } from './ProjectAgents';
@@ -55,7 +56,6 @@ export class ProjectContainer extends React.Component<Props> {
 		isModalOpen: false,
 		modalData: {},
 		project: null,
-		userDid: null,
 		claims: null,
 		serviceProviders: null,
 		investors: null,
@@ -69,20 +69,6 @@ export class ProjectContainer extends React.Component<Props> {
 
 	componentDidMount() {
 			this.handleGetProjectData();
-			this.handleGetUserDid();
-	}
-
-	handleGetUserDid = () => {
-		if (this.props.keysafe != null) {
-			this.props.keysafe.getInfo((error, response) => {
-				if (response) {
-					this.setState({userDid: response.didDoc.did});
-					console.log('User Did has been captured');
-				} else {
-					console.log('Please login to your credential provider', error);
-				}
-			});
-		}
 	}
 
 	handleGetProjectData = () => {
@@ -90,7 +76,6 @@ export class ProjectContainer extends React.Component<Props> {
 			this.props.onSetActiveProject(this.props.match.params.projectDID);
 			const did = this.props.match.params.projectDID;
 			this.props.ixo.project.getProjectByDid(did).then((response: any) => {
-				console.log(response);
 				this.setState({ project: response.result.data});
 			}).catch((result: Error) => {
 				console.log(result);
@@ -101,7 +86,7 @@ export class ProjectContainer extends React.Component<Props> {
 	handleListClaims = () => {
 		if (this.state.claims === null) {
 			this.state.claims = [];
-			const ProjectDIDPayload: Object = { projectDid: this.props.match.params.projectDID};
+			const ProjectDIDPayload: Object = { projectDid: this.props.projectDid};
 			this.props.keysafe.requestSigning(JSON.stringify(ProjectDIDPayload), (error, signature) => {	
 				if (!error) {
 					this.props.ixo.claim.listClaimsForProject(ProjectDIDPayload, signature, this.state.PDSUrl).then((response: any) => {
@@ -124,7 +109,7 @@ export class ProjectContainer extends React.Component<Props> {
 			return (
 				<div>
 					<ProjectHero project={this.state.project} match={this.props.match} />
-					<ProjectClaims claims={this.state.claims}/>
+					<ProjectClaims claims={this.state.claims} projectDid={this.props.projectDid}/>
 				</div>
 			);
 		} else {
@@ -153,7 +138,7 @@ export class ProjectContainer extends React.Component<Props> {
 		if (this.state[agentRole] === null) {
 			this.state[agentRole] = [];
 			console.log(agentRole);
-			const ProjectDIDPayload: Object = { projectDid: this.props.match.params.projectDID, role: AgentRoles[agentRole]};
+			const ProjectDIDPayload: Object = { projectDid: this.props.projectDid, role: AgentRoles[agentRole]};
 			this.props.keysafe.requestSigning(JSON.stringify(ProjectDIDPayload), (error, signature) => {	
 				if (!error) {
 					this.props.ixo.agent.listAgentsForProject(ProjectDIDPayload, signature, this.state.PDSUrl).then((response: any) => {
@@ -177,31 +162,25 @@ export class ProjectContainer extends React.Component<Props> {
 		}
 	}
 
-	checkAndGetUserDid = () => {
-		if (this.props.keysafe === null) {
+	checkUserDid = () => {
+		if (this.props.keysafe === null || this.props.userInfo === null) {
 			window.alert('Please install IXO Credential Manager first.');
-			return null;
-		}
-		if (this.state.userDid === null ) {
-			this.handleGetUserDid();
-			return this.state.userDid;
+			return false;
 		} else {
-			return this.state.userDid;
+			return true;
 		}
-		
 	}
 
 	handleCreateAgent = (agentFormData) => {
-		let userDid = this.checkAndGetUserDid();
-		if (userDid == null) {
+		if (this.checkUserDid() == null) {
 			return;
 		}
 		const agentData = {
 			email: agentFormData.email,
 			name: agentFormData.name,
 			role: agentFormData.role,
-			agentDid: this.checkAndGetUserDid(),
-			projectDid: this.props.match.params.projectDID
+			agentDid: this.props.userInfo.didDoc.did,
+			projectDid: this.props.projectDid
 		};
 		this.props.keysafe.requestSigning(JSON.stringify(agentData), (error: any, signature: any) => {
 			if (!error) {
@@ -218,7 +197,7 @@ export class ProjectContainer extends React.Component<Props> {
 				let agentPaylod = {
 					agentDid: did,
 					status: statusObj.status,
-					projectDid: this.props.match.params.projectDID,
+					projectDid: this.props.projectDid,
 					role: role
 				};
 
@@ -237,9 +216,31 @@ export class ProjectContainer extends React.Component<Props> {
 				});
 	}
 
+	handleEvaluateClaim = (statusObj: any, id: string) => {
+		let claimPayload = {
+			claimId: id,
+			status: statusObj.status,
+			projectDid: this.props.projectDid,
+		};
+
+		if (statusObj.version) {
+			claimPayload['version'] = statusObj.version;
+		}
+
+		this.props.keysafe.requestSigning(JSON.stringify(claimPayload), (error, signature) => {
+			if (!error) {
+				this.props.ixo.claim.evaluateClaim(claimPayload, signature, this.state.PDSUrl).then((res) => {
+					console.log(res);
+				}); 
+			} else {
+				console.log(error);
+			}
+		});
+	}
+
 	handleSubmitClaim = (claimData) => {
 		let claimPayload = Object.assign(claimData);
-		claimPayload['projectDid'] = this.props.match.params.projectDID;
+		claimPayload['projectDid'] = this.props.projectDid;
 		this.props.keysafe.requestSigning(JSON.stringify(claimPayload), (error, signature) => {			
 			if (!error) {
 				this.props.ixo.claim.createClaim(claimPayload, signature, this.state.PDSUrl).then((response) => {
@@ -265,7 +266,7 @@ export class ProjectContainer extends React.Component<Props> {
 						<div>
 							<ProjectHero project={project} match={this.props.match} />
 							<ProjectOverview
-								checkAndGetUserDid={this.checkAndGetUserDid} 
+								checkUserDid={this.checkUserDid} 
 								handleCreateAgent={this.handleCreateAgent}
 								project={project}
 								id={project._id}
@@ -279,8 +280,7 @@ export class ProjectContainer extends React.Component<Props> {
 					return (
 						<div>
 							<ProjectHero project={project} match={this.props.match} />
-							<ProjectDashboard
-							/>
+							<ProjectDashboard projectDid={this.props.projectDid}/>
 						</div>
 					);
 				case contentType.newClaim:
@@ -288,6 +288,18 @@ export class ProjectContainer extends React.Component<Props> {
 						<div>
 							<ProjectHero project={project} match={this.props.match} />
 							<ProjectNewClaim submitClaim={(claimData) => this.handleSubmitClaim(claimData)}/>
+						</div>
+					);
+				case contentType.singleClaim:
+					return (
+						<div>
+							<ProjectHero project={project} match={this.props.match} />
+							<ProjectSingleClaim 
+								claims={this.state.claims}
+								match={this.props.match}
+								handleListClaims={this.handleListClaims}
+								handleEvaluateClaim={this.handleEvaluateClaim}
+							/>
 						</div>
 					);
 				case contentType.claims:
@@ -321,7 +333,8 @@ function mapStateToProps(state: PublicSiteStoreState) {
 	return {
 		ixo: state.ixoStore.ixo,
 		projectDid: state.activeProjectStore.projectDid,
-		keysafe: state.keysafeStore.keysafe
+		keysafe: state.keysafeStore.keysafe,
+		userInfo: state.loginStore.userInfo,
 	};
 }
 
@@ -329,7 +342,7 @@ function mapDispatchToProps(dispatch: any): DispatchProps {
 	return {
 		onSetActiveProject: (project) => {
 			dispatch(setActiveProject(project));
-		}
+		},
 	};
 }
 
