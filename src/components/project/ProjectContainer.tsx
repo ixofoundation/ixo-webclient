@@ -104,11 +104,8 @@ export class ProjectContainer extends React.Component<Props> {
 			const ProjectDIDPayload: Object = { projectDid: this.props.match.params.projectDID};
 			this.props.keysafe.requestSigning(JSON.stringify(ProjectDIDPayload), (error, signature) => {	
 				if (!error) {
-					console.log(ProjectDIDPayload, signature);
 					this.props.ixo.claim.listClaimsForProject(ProjectDIDPayload, signature, this.state.PDSUrl).then((response: any) => {
 						this.setState({claims: response.result});
-						console.log(response.result);
-						debugger;
 					}).catch((result: Error) => {
 						console.log((result));
 					});
@@ -131,7 +128,7 @@ export class ProjectContainer extends React.Component<Props> {
 				</div>
 			);
 		} else {
-			return <Loading className="col-md-12"><p>No agents found</p></Loading>;
+			return <Loading className="col-md-12"><p>No claims found</p></Loading>;
 		} 
 	}
 
