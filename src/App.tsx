@@ -9,6 +9,8 @@ import styled, { ThemeProvider } from 'styled-components';
 import './assets/icons.css';
 import { initIxo } from './redux/ixo/ixo_action_creators';
 import { initKeysafe } from './redux/keysafe/keysafe_action_creators';
+import { UserInfo } from './types/models';
+import { initUserInfo } from './redux/login/login_action_creators';
 
 // THEME DECLARATION BELOW
 
@@ -47,7 +49,7 @@ export namespace App {
 
 	export interface State {
 		projectList: any;
-		userDid: string;
+		loginError: String;
 	}
 
 	export interface StateProps {
@@ -55,20 +57,24 @@ export namespace App {
 		pingError?: String;
 		pingResult?: String;
 		keysafe?: any;
+		userInfo: UserInfo;
 	}
 	export interface DispatchProps {
 		onIxoInit: () => void;
 		onKeysafeInit: () => void;
+		onLoginInit: (keysafe: any) => void;
 	}
 	export interface Props extends StateProps, DispatchProps {
 	}
+
 }
 
 class App extends React.Component<App.Props, App.State> {
 
 	state = {
 		projectList: [],
-		userDid: null,
+		userInfo: null,
+		loginError: null,
 		isProjectPage: false
 	};
 
@@ -81,7 +87,7 @@ class App extends React.Component<App.Props, App.State> {
 	}
 
 	refreshServiceAgentProjectList = () => {
-		this.props.ixo.project.listProjectsByDidAndRole(this.state.userDid, 'SA').then((response: any) => {
+		this.props.ixo.project.listProjectsByDidAndRole(this.state.userInfo.didDoc.did, 'SA').then((response: any) => {
 			this.setState({ projectList: response.result });
 		}).catch((error) => {
 			console.error(error);
@@ -99,6 +105,9 @@ class App extends React.Component<App.Props, App.State> {
 			}).catch((result: Error) => {
 				console.log(result);
 			});
+		}
+		if (this.props.keysafe !== null && this.props.userInfo === null) {
+			this.props.onLoginInit(this.props.keysafe);
 		}
 
 	}
@@ -137,7 +146,8 @@ class App extends React.Component<App.Props, App.State> {
 function mapStateToProps(state: PublicSiteStoreState) {
 	return {
 		ixo: state.ixoStore.ixo,
-		keysafe: state.keysafeStore.keysafe
+		keysafe: state.keysafeStore.keysafe,
+		userInfo: state.loginStore.userInfo,
 	};
 }
 
@@ -148,6 +158,9 @@ function mapDispatchToProps(dispatch: any): App.DispatchProps {
 		},
 		onKeysafeInit: () => {
 			dispatch(initKeysafe());
+		},
+		onLoginInit: (keysafe: any) => {
+			dispatch(initUserInfo(keysafe));
 		}
 	};
 }

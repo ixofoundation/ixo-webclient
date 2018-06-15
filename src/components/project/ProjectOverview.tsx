@@ -233,7 +233,7 @@ const Founder = styled.div`
 `;
 
 export interface Props {
-	userDid: string;
+	checkAndGetUserDid: () => void;
 	handleCreateAgent: (agentData: any) => void;
 	project: any;
 	id: string;
@@ -314,9 +314,15 @@ export const ProjectOverview: React.SFC<Props> = (props) => {
 										);
 									})}
 								</div>
-								<BlueButton onClick={() => props.userDid != null && props.handleToggleModal({selectedRole: AgentRoles.investors}, true)}>INVEST IN THIS PROJECT</BlueButton>
-								<BlueButton onClick={() => props.userDid != null && props.handleToggleModal({selectedRole: AgentRoles.evaluators}, true)} >BECOME AN EVALUATOR</BlueButton>
-								<BlueButton onClick={() => props.userDid != null && props.handleToggleModal({selectedRole: AgentRoles.serviceProviders}, true)} >BECOME A SERVICE PROVIDER</BlueButton>
+								<BlueButton onClick={() => props.checkAndGetUserDid() != null && props.handleToggleModal({selectedRole: AgentRoles.investors}, true)}>
+									INVEST IN THIS Project
+								</BlueButton>
+								<BlueButton onClick={() => props.checkAndGetUserDid() != null && props.handleToggleModal({selectedRole: AgentRoles.evaluators}, true)}>
+									BECOME AN EVALUATOR
+								</BlueButton>
+								<BlueButton onClick={() => props.checkAndGetUserDid() != null && props.handleToggleModal({selectedRole: AgentRoles.serviceProviders}, true)} >
+									BECOME A SERVICE PROVIDER
+								</BlueButton>
 							</Sidebar>
 							<Button><i className="icon-favourites"/>SAVE TO FAVOURITES</Button>
 							<Button><i className="icon-share"/>SHARE THIS PROJECT</Button>

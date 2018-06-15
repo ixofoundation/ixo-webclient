@@ -37,3 +37,12 @@ export interface Statistic {
 	amount: number | [number, number];
 	descriptor?: {class: string, value: string | number}[];
 }
+
+export interface DidDoc {
+	did: String;
+	pubKey: String;
+}
+export interface UserInfo {
+	didDoc: DidDoc;
+	name: String;
+}

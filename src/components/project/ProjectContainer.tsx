@@ -12,6 +12,7 @@ import { ProjectClaims } from './ProjectClaims';
 import styled from 'styled-components';
 import { ProjectAgents } from './ProjectAgents';
 import { Spinner } from '../common/Spinner';
+import { UserInfo } from '../../types/models';
 
 const Loading = styled.div`
 	display:flex;
@@ -33,6 +34,7 @@ export interface StateProps {
 	ixo?: any;  
 	projectDid?: any;
 	keysafe?: any;
+	userInfo?: UserInfo;
 }
 
 export interface DispatchProps {
@@ -62,7 +64,6 @@ export class ProjectContainer extends React.Component<Props> {
 	};
 
 	handleToggleModal = (data: any, modalStatus: boolean) => {
-		console.log('modal changed');
 		this.setState({ modalData: data, isModalOpen: modalStatus });
 	}
 
@@ -179,22 +180,22 @@ export class ProjectContainer extends React.Component<Props> {
 		}
 	}
 
-	getUserDid = () => {
-		if (this.state.userDid === '') {
-			if (this.props.keysafe === null) {
-				window.alert('Please install IXO Credential Manager first.');
-				return null;
-			} else {
-				this.handleGetUserDid();
-				return this.state.userDid;
-			}
+	checkAndGetUserDid = () => {
+		if (this.props.keysafe === null) {
+			window.alert('Please install IXO Credential Manager first.');
+			return null;
+		}
+		if (this.state.userDid === null ) {
+			this.handleGetUserDid();
+			return this.state.userDid;
 		} else {
 			return this.state.userDid;
 		}
+		
 	}
 
 	handleCreateAgent = (agentFormData) => {
-		let userDid = this.getUserDid();
+		let userDid = this.checkAndGetUserDid();
 		if (userDid == null) {
 			return;
 		}
@@ -202,10 +203,9 @@ export class ProjectContainer extends React.Component<Props> {
 			email: agentFormData.email,
 			name: agentFormData.name,
 			role: agentFormData.role,
-			agentDid: this.getUserDid(),
+			agentDid: this.checkAndGetUserDid(),
 			projectDid: this.props.match.params.projectDID
 		};
-
 		this.props.keysafe.requestSigning(JSON.stringify(agentData), (error: any, signature: any) => {
 			if (!error) {
 				this.props.ixo.agent.createAgent(agentData, signature, this.state.PDSUrl).then((res) => {
@@ -268,7 +268,7 @@ export class ProjectContainer extends React.Component<Props> {
 						<div>
 							<ProjectHero project={project} match={this.props.match} />
 							<ProjectOverview
-								userDid={this.getUserDid()} 
+								checkAndGetUserDid={this.checkAndGetUserDid} 
 								handleCreateAgent={this.handleCreateAgent}
 								project={project}
 								id={project._id}
