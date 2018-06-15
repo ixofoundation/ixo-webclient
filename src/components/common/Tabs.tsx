@@ -76,8 +76,7 @@ export const Tabs: React.SFC<Props> = (props) => {
 			{props.buttons.map((button, index) => {
 				return (
 					<NavLink 
-						exact={true}
-						// to={{pathname: button.path, state: { project, id } }}
+						strict={true}
 						to={{pathname: button.path }}
 						key={index}
 					>

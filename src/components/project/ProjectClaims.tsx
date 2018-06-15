@@ -21,7 +21,7 @@ export const ProjectClaims: React.SFC<ParentProps> = ({claims, projectDid}) => {
 			{claims.map((claim, index) => {
 				console.log(claim);
 				return (
-					<Claim key={index} to={{pathname: `/projects/${projectDid}/claims/${claim._id}`}}>
+					<Claim key={index} to={{pathname: `/projects/${projectDid}/detail/claims/${claim._id}`}}>
 						<p>{claim.name}</p>
 					</Claim>
 				);

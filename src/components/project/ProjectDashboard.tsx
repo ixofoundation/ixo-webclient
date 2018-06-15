@@ -13,16 +13,16 @@ export const ProjectDashboard: React.SFC<ParentProps> = ({projectDid}) => {
 					<h1>DASHBOARD</h1>
 				</div>
 				<div className="col-md-3">
-					<Link to={`/projects/${projectDid}/evaluators`}>List evaluators</Link>
+					<Link to={`/projects/${projectDid}/detail/evaluators`}>List evaluators</Link>
 				</div>
 				<div className="col-md-3">
-					<Link to={`/projects/${projectDid}/service-providers`}>List service providers</Link>
+					<Link to={`/projects/${projectDid}/detail/service-providers`}>List service providers</Link>
 				</div>
 				<div className="col-md-3">
-					<Link to={`/projects/${projectDid}/investors`}>List investors</Link>
+					<Link to={`/projects/${projectDid}/detail/investors`}>List investors</Link>
 				</div>
 				<div className="col-md-3">
-					<Link to={`/projects/${projectDid}/claims`}>List claims</Link>
+					<Link to={`/projects/${projectDid}/detail/claims`}>List claims</Link>
 				</div>
 			</div>
 		</div>
