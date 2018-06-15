@@ -22,19 +22,7 @@ export function clearActiveProject() {
 
 export function setActiveProject(projectDid?: any) {
 	return dispatch => {
-		// const ixo = getInitializedStoreState().ixoStore.ixo;
-		// const keysafe = getInitializedStoreState().keysafeStore.keysafe;
 		if (projectDid) {
-			// const projectDID = project.did;
-			// keysafe.requestSigning(message, (error: any, signature: any) => {
-			// 	ixo.agent.listAgentsForProject(listData, signature, PDSUrl).then((response: any) => {
-			// 		console.log('Agent list for Project: ' + success(JSON.stringify(response, null, '\t')));
-			// 		expect(response.result).to.not.equal(null);
-			// 	}).catch((result: Error) => {
-			// 		console.log(error(result));
-			// 	});
-			// });
-
 			dispatch(
 				createAction<ActiveProjectResult>(SET_ACTIVE_PROJECT.type, {
 					projectDid: projectDid

@@ -8,6 +8,7 @@ import { ProjectOverview } from './ProjectOverview';
 import { setActiveProject } from '../../redux/activeProject/activeProject_action_creators';
 import { ProjectDashboard } from './ProjectDashboard';
 import { ProjectNewClaim } from './ProjectNewClaim';
+import { ProjectSingleClaim } from './ProjectSingleClaim';
 import { ProjectClaims } from './ProjectClaims';
 import styled from 'styled-components';
 import { ProjectAgents } from './ProjectAgents';
@@ -100,7 +101,7 @@ export class ProjectContainer extends React.Component<Props> {
 	handleListClaims = () => {
 		if (this.state.claims === null) {
 			this.state.claims = [];
-			const ProjectDIDPayload: Object = { projectDid: this.props.match.params.projectDID};
+			const ProjectDIDPayload: Object = { projectDid: this.props.projectDid};
 			this.props.keysafe.requestSigning(JSON.stringify(ProjectDIDPayload), (error, signature) => {	
 				if (!error) {
 					this.props.ixo.claim.listClaimsForProject(ProjectDIDPayload, signature, this.state.PDSUrl).then((response: any) => {
@@ -116,6 +117,7 @@ export class ProjectContainer extends React.Component<Props> {
 	}
 
 	handleRenderClaims = () => {
+		console.log('project DID is ', this.props.projectDid);
 		if (this.state.claims === null) {
 			this.handleListClaims();
 			return <Loading className="col-md-12"><p>Loading...</p></Loading>;
@@ -123,7 +125,7 @@ export class ProjectContainer extends React.Component<Props> {
 			return (
 				<div>
 					<ProjectHero project={this.state.project} match={this.props.match} />
-					<ProjectClaims claims={this.state.claims}/>
+					<ProjectClaims claims={this.state.claims} projectDid={this.props.projectDid}/>
 				</div>
 			);
 		} else {
@@ -152,7 +154,7 @@ export class ProjectContainer extends React.Component<Props> {
 		if (this.state[agentRole] === null) {
 			this.state[agentRole] = [];
 			console.log(agentRole);
-			const ProjectDIDPayload: Object = { projectDid: this.props.match.params.projectDID, role: AgentRoles[agentRole]};
+			const ProjectDIDPayload: Object = { projectDid: this.props.projectDid, role: AgentRoles[agentRole]};
 			this.props.keysafe.requestSigning(JSON.stringify(ProjectDIDPayload), (error, signature) => {	
 				if (!error) {
 					this.props.ixo.agent.listAgentsForProject(ProjectDIDPayload, signature, this.state.PDSUrl).then((response: any) => {
@@ -200,7 +202,7 @@ export class ProjectContainer extends React.Component<Props> {
 			name: agentFormData.name,
 			role: agentFormData.role,
 			agentDid: this.getUserDid(),
-			projectDid: this.props.match.params.projectDID
+			projectDid: this.props.projectDid
 		};
 
 		this.props.keysafe.requestSigning(JSON.stringify(agentData), (error: any, signature: any) => {
@@ -218,7 +220,7 @@ export class ProjectContainer extends React.Component<Props> {
 				let agentPaylod = {
 					agentDid: did,
 					status: statusObj.status,
-					projectDid: this.props.match.params.projectDID,
+					projectDid: this.props.projectDid,
 					role: role
 				};
 
@@ -237,9 +239,33 @@ export class ProjectContainer extends React.Component<Props> {
 				});
 	}
 
+	handleEvaluateClaim = (statusObj: any, id: string) => {
+		let claimPayload = {
+			claimId: id,
+			status: statusObj.status,
+			projectDid: this.props.projectDid,
+		};
+
+		if (statusObj.version) {
+			claimPayload['version'] = statusObj.version;
+		}
+
+		console.log(claimPayload);
+		debugger;
+		this.props.keysafe.requestSigning(JSON.stringify(claimPayload), (error, signature) => {
+			if (!error) {
+				this.props.ixo.claim.evaluateClaim(claimPayload, signature, this.state.PDSUrl).then((res) => {
+					console.log(res);
+				}); 
+			} else {
+				console.log(error);
+			}
+		});
+	}
+
 	handleSubmitClaim = (claimData) => {
 		let claimPayload = Object.assign(claimData);
-		claimPayload['projectDid'] = this.props.match.params.projectDID;
+		claimPayload['projectDid'] = this.props.projectDid;
 		this.props.keysafe.requestSigning(JSON.stringify(claimPayload), (error, signature) => {			
 			if (!error) {
 				this.props.ixo.claim.createClaim(claimPayload, signature, this.state.PDSUrl).then((response) => {
@@ -288,6 +314,18 @@ export class ProjectContainer extends React.Component<Props> {
 						<div>
 							<ProjectHero project={project} match={this.props.match} />
 							<ProjectNewClaim submitClaim={(claimData) => this.handleSubmitClaim(claimData)}/>
+						</div>
+					);
+				case contentType.singleClaim:
+					return (
+						<div>
+							<ProjectHero project={project} match={this.props.match} />
+							<ProjectSingleClaim 
+								claims={this.state.claims}
+								match={this.props.match}
+								handleListClaims={this.handleListClaims}
+								handleEvaluateClaim={this.handleEvaluateClaim}
+							/>
 						</div>
 					);
 				case contentType.claims:
