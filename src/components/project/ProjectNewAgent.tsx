@@ -29,7 +29,7 @@ export class ProjectNewAgent extends React.Component<ParentProps, State> {
 
 	state = {
 		email: '', 
-		name: '', 
+		name: this.props.name, 
 	};
 
 	titleMap = {

@@ -7,6 +7,7 @@ import { Statistic, StatType, AgentRoles } from '../../types/models';
 import { getCountryName } from '../../utils/formatters';
 import { ModalWrapper } from '../common/ModalWrapper';
 import { ProjectNewAgent } from './ProjectNewAgent';
+import { UserInfo } from '../../types/models';
 // import { ModalWrapper } from './ModalWrapper';
 
 const OverviewContainer = styled.section`
@@ -235,6 +236,7 @@ const Founder = styled.div`
 export interface Props {
 	checkUserDid: () => void;
 	handleCreateAgent: (agentData: any) => void;
+	userInfo: UserInfo;
 	project: any;
 	id: string;
 	isModalOpen: boolean;
@@ -259,7 +261,7 @@ export const ProjectOverview: React.SFC<Props> = (props) => {
 	};
 
 	const renderModal = (data: any) => {
-		let userName = '';
+		let userName = props.userInfo.name.valueOf();
 		return (
 			<ProjectNewAgent submitAgent={submitAgent} role={data.selectedRole} name={userName}/>
 		);

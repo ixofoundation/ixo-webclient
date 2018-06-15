@@ -268,6 +268,7 @@ export class ProjectContainer extends React.Component<Props> {
 							<ProjectOverview
 								checkUserDid={this.checkUserDid} 
 								handleCreateAgent={this.handleCreateAgent}
+								userInfo={this.props.userInfo}
 								project={project}
 								id={project._id}
 								isModalOpen={this.state.isModalOpen}
