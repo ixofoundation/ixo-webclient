@@ -148,6 +148,13 @@ export interface Props {
 }
 
 export const ProjectHero: React.SFC<Props> = ({project, match}) => {
+
+	const buttonsArray = [
+		{ iconClass: 'icon-projects', path: `/projects/${match.params.projectDID}/overview`, title: 'PROJECT' },
+		{ iconClass: 'icon-statistics-graph', path: `/projects/${match.params.projectDID}/detail`, title: 'DASHBOARD' },
+		{ iconClass: 'icon-settings-large', path: '/global-statistics' }
+	];
+
 	return (
 		<HeroContainer className="container-fluid">
 				<HeroInner className="container">
@@ -185,11 +192,7 @@ export const ProjectHero: React.SFC<Props> = ({project, match}) => {
 							<div className="offset-md-8" />
 							<div className="col-md-4">
 								<Tabs 
-									buttons={[
-										{ iconClass: 'icon-projects', path: `/projects/${match.params.projectDID}/overview`, title: 'PROJECT' },
-										{ iconClass: 'icon-statistics-graph', path: `/projects/${match.params.projectDID}/dashboard`, title: 'DASHBOARD' },
-										{ iconClass: 'icon-settings-large', path: '/global-statistics' }
-									]}
+									buttons={buttonsArray}
 								/>
 							</div>
 						</div>
@@ -197,11 +200,7 @@ export const ProjectHero: React.SFC<Props> = ({project, match}) => {
 					</MediaQuery>
 					<MediaQuery maxWidth={`${Number(deviceWidth.desktop) - 1}px`}>
 						<Tabs 
-							buttons={[
-								{ iconClass: 'icon-projects', path: `/projects/${match.params.projectID}/overview`, title: 'PROJECT' },
-								{ iconClass: 'icon-statistics-graph', path: `/projects/${match.params.projectID}/stats`, title: 'DASHBOARD' },
-								{ iconClass: 'icon-settings-large', path: '/global-statistics' }
-							]}
+							buttons={buttonsArray}
 						/>
 					</MediaQuery>
 				</TabsController>

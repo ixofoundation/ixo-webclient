@@ -247,15 +247,9 @@ export const ProjectOverview: React.SFC<Props> = (props) => {
 	console.log(props.project);
 	const {evaluators, serviceProviders, investors} = props.project.agentStats;
 	const statistics: Statistic[] = [
-		{type: StatType.decimal,
-		descriptor: [{class: 'text', value: 'Investors'}],
-		amount: investors},
-		{type: StatType.decimal,
-		descriptor: [{class: 'text', value: 'Evaluators'}],
-		amount: evaluators},
-		{type: StatType.decimal,
-		descriptor: [{class: 'text', value: 'Service providers'}],
-		amount: serviceProviders}
+		{type: StatType.decimal, descriptor: [{class: 'text', value: 'Investors'}], amount: investors},
+		{type: StatType.decimal, descriptor: [{class: 'text', value: 'Evaluators'}], amount: evaluators},
+		{type: StatType.decimal, descriptor: [{class: 'text', value: 'Service providers'}], amount: serviceProviders}
 		];
 
 	const submitAgent = (role: string, agentData: any) => {
