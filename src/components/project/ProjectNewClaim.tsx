@@ -5,7 +5,7 @@ export interface ParentProps {
 }
 export const ProjectNewClaim: React.SFC<ParentProps> = (props) => {
 
-	const claimData = { name: 'doggy bag', weight: '2kg', claimid: 123 };
+	const claimData = { name: 'doggy bag', weight: '2kg', claimId: 432 };
 	return (
 		<div className="container-fluid">
 			<div className="container">

@@ -90,7 +90,6 @@ export class ProjectContainer extends React.Component<Props> {
 			this.props.onSetActiveProject(this.props.match.params.projectDID);
 			const did = this.props.match.params.projectDID;
 			this.props.ixo.project.getProjectByDid(did).then((response: any) => {
-				console.log(response);
 				this.setState({ project: response.result.data});
 			}).catch((result: Error) => {
 				console.log(result);
@@ -117,7 +116,6 @@ export class ProjectContainer extends React.Component<Props> {
 	}
 
 	handleRenderClaims = () => {
-		console.log('project DID is ', this.props.projectDid);
 		if (this.state.claims === null) {
 			this.handleListClaims();
 			return <Loading className="col-md-12"><p>Loading...</p></Loading>;
@@ -250,8 +248,6 @@ export class ProjectContainer extends React.Component<Props> {
 			claimPayload['version'] = statusObj.version;
 		}
 
-		console.log(claimPayload);
-		debugger;
 		this.props.keysafe.requestSigning(JSON.stringify(claimPayload), (error, signature) => {
 			if (!error) {
 				this.props.ixo.claim.evaluateClaim(claimPayload, signature, this.state.PDSUrl).then((res) => {
@@ -305,8 +301,7 @@ export class ProjectContainer extends React.Component<Props> {
 					return (
 						<div>
 							<ProjectHero project={project} match={this.props.match} />
-							<ProjectDashboard
-							/>
+							<ProjectDashboard projectDid={this.props.projectDid}/>
 						</div>
 					);
 				case contentType.newClaim:

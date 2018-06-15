@@ -15,7 +15,6 @@ export interface ParentProps {
 export const ProjectAgents: React.SFC<ParentProps> = (props) => {
 
 	const handleRenderStatus = (agent) => {
-
 		if (agent === null) {
 			return 'Pending';
 		} else {

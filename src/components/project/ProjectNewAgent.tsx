@@ -67,3 +67,16 @@ export class ProjectNewAgent extends React.Component<ParentProps, State> {
 		);
 	}
 }
+
+/*
+function mapStateToProps(state: PublicSiteStoreState): ParentProps {
+	return {
+		submitAgent: state.ixoStore.ixo
+		role: state
+	};
+}
+
+export const ProjectNewAgentConnected = (connect(
+	mapStateToProps
+)(ProjectNewAgent));
+*/

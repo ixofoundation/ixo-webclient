@@ -20,10 +20,26 @@ export const ProjectSingleClaim: React.SFC<ParentProps> = (props) => {
 	const claimId = props.match.params.claimID;
 
 	const handleEvaluateClaim = (status: string, statusObj: any, id: string) => {
-		if (statusObj.length === 0) {
+		if (statusObj === null) {
 			props.handleEvaluateClaim({status: status}, id);
 		} else {
 			props.handleEvaluateClaim({status, version: statusObj.version}, id);
+		}
+	};
+
+	const handleRenderStatus = (claimStatus) => {
+		if (claimStatus === null) {
+			return 'Pending';
+		} else {
+			switch (claimStatus.status) {				
+				case '1':
+				return 'Approved';
+				case '2':
+				return 'Revoked';
+				case '0':
+				default:
+				return 'Pending';
+			}
 		}
 	};
 
@@ -41,6 +57,7 @@ export const ProjectSingleClaim: React.SFC<ParentProps> = (props) => {
 				<Claim>
 					<h3>{claim.name}</h3>
 					<p>{claim._id}</p>
+					<p>{handleRenderStatus(claim.evaluations)}</p>
 					<button onClick={() => handleEvaluateClaim('1', claim.evaluations, claim._id)}>Approve</button>
 					<button onClick={() => handleEvaluateClaim('2', claim.evaluations, claim._id)}>Reject</button>
 				</Claim>
