@@ -173,7 +173,7 @@ export const ProjectHero: React.SFC<Props> = ({project, match}) => {
 								);
 							})}
 							<Description>{project.shortDescription}</Description>
-							<AddClaim to={`/projects/${match.params.projectDID}/new-claim`}>+ SUBMIT CLAIM</AddClaim>
+							<AddClaim to={`/projects/${match.params.projectDID}/detail/new-claim`}>+ SUBMIT CLAIM</AddClaim>
 						</ColLeft>
 						<ColRight className="col-lg-4 col-sm-12">
 							<p><strong>Created:</strong> {project.createdOn.split('T')[0]}</p>

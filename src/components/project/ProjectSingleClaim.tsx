@@ -35,7 +35,7 @@ export const ProjectSingleClaim: React.SFC<ParentProps> = (props) => {
 				case '1':
 				return 'Approved';
 				case '2':
-				return 'Revoked';
+				return 'Rejected';
 				case '0':
 				default:
 				return 'Pending';
@@ -49,17 +49,18 @@ export const ProjectSingleClaim: React.SFC<ParentProps> = (props) => {
 			props.handleListClaims();
 			return <p>Loading claim...</p>;
 		} else {
-			const claim = props.claims.filter((theClaim) => theClaim._id === claimId)[0];
+			const claim = props.claims.filter((theClaim) => theClaim.txHash === claimId)[0];
 			if (!claim) {
 				return <p>No claim found with that ID</p>;
 			}
+			console.log(claim);
 			return (
 				<Claim>
 					<h3>{claim.name}</h3>
 					<p>{claim._id}</p>
 					<p>{handleRenderStatus(claim.evaluations)}</p>
-					<button onClick={() => handleEvaluateClaim('1', claim.evaluations, claim._id)}>Approve</button>
-					<button onClick={() => handleEvaluateClaim('2', claim.evaluations, claim._id)}>Reject</button>
+					<button onClick={() => handleEvaluateClaim('1', claim.evaluations, claim.txHash)}>Approve</button>
+					<button onClick={() => handleEvaluateClaim('2', claim.evaluations, claim.txHash)}>Reject</button>
 				</Claim>
 			);
 		}

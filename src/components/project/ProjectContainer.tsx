@@ -68,7 +68,8 @@ export class ProjectContainer extends React.Component<Props> {
 	}
 
 	componentDidMount() {
-			this.handleGetProjectData();
+		console.log(this.props.userInfo);
+		this.handleGetProjectData();
 	}
 
 	handleGetProjectData = () => {
