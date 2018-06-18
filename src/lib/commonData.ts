@@ -296,3 +296,48 @@ export const testSig = {
 	creator: 'did:sov:Tp25vz5iHoLJ4ktk7pKYC6',
 	publicKey: 'BGcahyLmkPeuteRemDXMUPu1W9Tc6ghuCSud4mD7fTG3',
 	signatureValue: '6A548060AEB78449D17C1B825F941028728ADBBD5A4952CDF7782F128B2582A648D0697670AA3164434B8C27D18FDC213333DE7A8ADC574940B509B6B2AD590E'};
+
+export const formJson = {
+	'fields': [
+		{
+		'label': 'Name',
+		'name': 'name',
+		'type': 'text'
+		},
+		{
+		'label': 'Project Name',
+		'name': 'project-name',
+		'type': 'text'
+		},
+		{
+		'label': 'About',
+		'name': 'about',
+		'type': 'textarea'
+		},
+		{
+		'label': 'Country',
+		'name': 'country',
+		'type': 'country'
+		},
+		{
+		'label': 'Agent Template',
+		'name': 'agentTemplate.name',
+		'type': 'template'
+		},
+		{
+		'label': 'Attended School',
+		'name': 'attended',
+		'type': 'select',
+		'options': [
+			{
+			'label': 'Yes', 
+			'value': 'true'
+			},
+			{
+			'label': 'No',
+			'value': 'false'
+			}
+		]
+		}
+	]
+};

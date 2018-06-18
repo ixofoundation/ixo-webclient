@@ -1,6 +1,33 @@
 import * as React from 'react';
 import styled from 'styled-components';
 
+const FileContainer = styled.div`
+
+	& img {
+		max-width:200px;
+		max-height:80px;
+		margin:10px 0 0;
+		padding-bottom:15px;
+	}
+
+	& .custom-file-label {
+		border-radius:0;
+	}
+
+	& .custom-file-label::after {
+	background: ${props => props.theme.bgMain};
+	border-radius:0;
+	color:white;
+	text-transform: uppercase;
+	border:0;
+	font-size:0.7em;
+	height:38px;
+	top:-1px;
+	right:-1px;
+	display:flex;
+	align-items:center;
+	}
+`;
 export interface ParentProps {
 	text?: string;
 	imgSrc?: string;
@@ -61,31 +88,3 @@ export default class InputFile extends React.Component<Props, State> {
 		);
 	}
 }
-
-const FileContainer = styled.div`
-
-	& img {
-		max-width:200px;
-		max-height:80px;
-		margin:10px 0 0;
-		padding-bottom:15px;
-	}
-
-	& .custom-file-label {
-		border-radius:0;
-	}
-
-	& .custom-file-label::after {
-	background: ${props => props.theme.bgMain};
-	border-radius:0;
-	color:white;
-	text-transform: uppercase;
-	border:0;
-	font-size:0.7em;
-	height:38px;
-	top:-1px;
-	right:-1px;
-	display:flex;
-	align-items:center;
-	}
-`;
