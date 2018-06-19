@@ -29,12 +29,19 @@ export interface ParentProps {
 	type: string;
 	text?: string;
 	id: string;
+	validation?: string;
 }
 export interface Callbacks {
 	onChange: (event: any) => void;
 }
 
 export interface Props extends ParentProps, Callbacks {}
+
+// const validateEmail = (email: string) => {
+// 	const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+// 	console.log(re.test(String(email).toLowerCase()));
+// 	return re.test(String(email).toLowerCase());
+// };
 
 const InputText: React.SFC<Props> = (props) => {
 
@@ -50,6 +57,7 @@ const InputText: React.SFC<Props> = (props) => {
 					placeholder={props.text}
 					onChange={props.onChange}
 					name={props.id}
+					// onBlur={(event) => validateEmail(event.target.value)}
 				/>
 			</Input>
 		);

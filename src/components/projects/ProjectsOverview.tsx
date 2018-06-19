@@ -2,7 +2,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { Tabs } from '../common/Tabs';
 import { SingleStatistic } from '../common/SingleStatistic';
-import { Statistic } from '../../types/models';
+import { Statistic, MatchType } from '../../types/models';
 import { deviceWidth } from '../../lib/commonData';
 
 const bg = require('../../assets/images/heroBg.jpg');
@@ -132,6 +132,7 @@ export const ProjectsOverview: React.SFC<Props> = (props) => {
 									{ iconClass: 'icon-projects', path: '/', title: 'PROJECTS' },
 									{ iconClass: 'icon-statistics-graph', path: '/global-statistics', title: 'IMPACTS' }
 								]}
+								matchType={MatchType.exact}
 							/>
 						</PositionController>
 					</div>

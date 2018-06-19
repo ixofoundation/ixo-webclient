@@ -39,18 +39,22 @@ export const ProjectAgents: React.SFC<ParentProps> = (props) => {
 	};
 
 	return (
-		<div>
-			{props.agents.map((agent, index) => {
-				return (
-					<Agent key={index}>
-						<p>{agent.name}</p>
-						<p>{agent.role}</p>
-						<p>{handleRenderStatus(agent.currentStatus)}</p>
-						<button onClick={() => handleUpdateAgentStatus('1', agent.currentStatus, agent.agentDid, agent.role)}>Approve</button>
-						<button onClick={() => handleUpdateAgentStatus('2', agent.currentStatus, agent.agentDid, agent.role)}>Reject</button>
-					</Agent>
-				);
-			})}
+		<div className="container-fluid">
+			<div className="row">
+				<div className="col-md-12">
+					{props.agents.map((agent, index) => {
+						return (
+							<Agent key={index}>
+								<p>{agent.name}</p>
+								<p>{agent.role}</p>
+								<p>{handleRenderStatus(agent.currentStatus)}</p>
+								<button onClick={() => handleUpdateAgentStatus('1', agent.currentStatus, agent.agentDid, agent.role)}>Approve</button>
+								<button onClick={() => handleUpdateAgentStatus('2', agent.currentStatus, agent.agentDid, agent.role)}>Reject</button>
+							</Agent>
+						);
+					})}
+				</div>
+			</div>
 		</div>
 	);
 };

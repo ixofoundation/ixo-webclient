@@ -78,26 +78,6 @@ class App extends React.Component<App.Props, App.State> {
 		isProjectPage: false
 	};
 
-	handleLoadProjects = () => {
-		this.props.ixo.project.listProjects().then((response: any) => {
-			// this.setState({ projectList: response.result });
-		}).catch((error) => {
-			console.error(error);
-		});
-	}
-
-	refreshServiceAgentProjectList = () => {
-		this.props.ixo.project.listProjectsByDidAndRole(this.state.userInfo.didDoc.did, 'SA').then((response: any) => {
-			this.setState({ projectList: response.result });
-		}).catch((error) => {
-			console.error(error);
-		});
-	}
-
-	refreshProjectList = () => {
-		this.handleLoadProjects();
-	}
-
 	componentDidUpdate(prevProps: any) {
 		if (this.props.ixo !== prevProps.ixo) {
 			this.props.ixo.project.listProjects().then((response: any) => {

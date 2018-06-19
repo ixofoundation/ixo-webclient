@@ -14,12 +14,17 @@ import styled from 'styled-components';
 import { ProjectAgents } from './ProjectAgents';
 import { Spinner } from '../common/Spinner';
 import { UserInfo } from '../../types/models';
+import { ProjectSidebar } from './ProjectSidebar';
 
 const Loading = styled.div`
 	display:flex;
 	justify-content:center;
 	align-items:center;
 	height:calc(100vh - 140px);
+`;
+
+const DetailContainer = styled.div`
+	display:flex;
 `;
 export interface State {
 	isModalOpen: boolean;
@@ -109,7 +114,7 @@ export class ProjectContainer extends React.Component<Props> {
 		} else if (this.state.claims.length > 0) {		
 			return (
 				<div>
-					<ProjectHero project={this.state.project} match={this.props.match} />
+					<ProjectHero project={this.state.project} match={this.props.match} isDetail={true} />
 					<ProjectClaims claims={this.state.claims} projectDid={this.props.projectDid}/>
 				</div>
 			);
@@ -125,8 +130,11 @@ export class ProjectContainer extends React.Component<Props> {
 		} else if (this.state[agentRole].length > 0) {
 			return (
 				<div>
-					<ProjectHero project={this.state.project} match={this.props.match} />
-					<ProjectAgents agents={...this.state[agentRole]} handleUpdateAgentStatus={this.handleUpdateAgent}/>
+					<ProjectHero project={this.state.project} match={this.props.match} isDetail={true} />
+					<DetailContainer>
+						<ProjectSidebar match={this.props.match} projectDid={this.props.projectDid}/>
+						<ProjectAgents agents={...this.state[agentRole]} handleUpdateAgentStatus={this.handleUpdateAgent}/>
+					</DetailContainer>
 				</div>
 			);
 		} else {
@@ -265,7 +273,7 @@ export class ProjectContainer extends React.Component<Props> {
 				case contentType.overview:
 					return (
 						<div>
-							<ProjectHero project={project} match={this.props.match} />
+							<ProjectHero project={project} match={this.props.match} isDetail={false} />
 							<ProjectOverview
 								checkUserDid={this.checkUserDid} 
 								handleCreateAgent={this.handleCreateAgent}
@@ -281,21 +289,24 @@ export class ProjectContainer extends React.Component<Props> {
 				case contentType.dashboard:
 					return (
 						<div>
-							<ProjectHero project={project} match={this.props.match} />
-							<ProjectDashboard projectDid={this.props.projectDid}/>
+							<ProjectHero project={project} match={this.props.match} isDetail={true} />
+							<div>
+
+								<ProjectDashboard projectDid={this.props.projectDid}/>
+							</div>
 						</div>
 					);
 				case contentType.newClaim:
 					return (
 						<div>
-							<ProjectHero project={project} match={this.props.match} />
+							<ProjectHero project={project} match={this.props.match} isDetail={true}  />
 							<ProjectNewClaim submitClaim={(claimData) => this.handleSubmitClaim(claimData)}/>
 						</div>
 					);
 				case contentType.singleClaim:
 					return (
 						<div>
-							<ProjectHero project={project} match={this.props.match} />
+							<ProjectHero project={project} match={this.props.match} isDetail={true}  />
 							<ProjectSingleClaim 
 								claims={this.state.claims}
 								match={this.props.match}

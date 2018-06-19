@@ -305,8 +305,18 @@ export const formJson = {
 		'type': 'text'
 		},
 		{
-		'label': 'Project Name',
-		'name': 'project-name',
+		'label': 'Number',
+		'name': 'Number',
+		'type': 'number'
+		},
+		{
+		'label': 'theimage',
+		'name': 'theimage',
+		'type': 'image'
+		},
+		{
+		'label': 'Owner email',
+		'name': 'email',
 		'type': 'text'
 		},
 		{

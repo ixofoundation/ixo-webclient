@@ -31,6 +31,11 @@ export enum AgentRoles {
 	investors = 'IA'
 }
 
+export enum MatchType {
+	exact = 'EXACT',
+	strict = 'STRICT'
+}
+
 export interface Statistic {
 	title?: string;
 	type: StatType;

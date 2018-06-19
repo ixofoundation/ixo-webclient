@@ -5,6 +5,7 @@ import { SDGArray, deviceWidth } from '../../lib/commonData';
 import MediaQuery from 'react-responsive';
 import { Link } from 'react-router-dom';
 import { getCountryName } from '../../utils/formatters';
+import { MatchType } from '../../types/models';
 const bg = require('../../assets/images/heroBg.jpg');
 
 const SingleSDG = styled.a`
@@ -43,8 +44,8 @@ const SingleSDG = styled.a`
 
 const HeroInner = styled.div`
 	
-	padding-top: 90px;
-	padding-bottom: 50px;
+	padding-top: 80px;
+	padding-bottom: 130px;
 	position:relative;
 	height:100%;
 
@@ -72,7 +73,7 @@ const TabsController = styled.div`
 	}
 
 	@media (min-width: ${deviceWidth.tablet}px){
-		top: 80px;
+		top: 65px;
 		left: auto;
 		right: auto;
 	}
@@ -82,8 +83,11 @@ const HeroContainer = styled.div`
 	background: url(${bg}) no-repeat center top;
 	background-size: cover;
 	margin:0;
-	padding-bottom: 110px;
 	position: relative;	
+
+	.detailed {
+		padding-bottom: 50px;
+	}
 `;
 
 const ColLeft = styled.div`
@@ -93,7 +97,10 @@ const ColLeft = styled.div`
 const ColRight = styled.div`
 	color: white;
 	font-weight: 300;
-
+    display: flex;
+    flex-direction: column;
+	justify-content: center;
+	
 	p {
 		margin-bottom: 0;
 		line-height: 24px;
@@ -111,6 +118,7 @@ const ColRight = styled.div`
 const Title = styled.h1`
 	color: white;
 	font-size: 36px;
+	line-height: 1;
 	margin-bottom:10px;
 	font-family: ${props => props.theme.fontRobotoCondensed};
 
@@ -145,9 +153,10 @@ const AddClaim = styled(Link)`
 export interface Props {
 	project: any;
 	match: any;
+	isDetail: boolean;
 }
 
-export const ProjectHero: React.SFC<Props> = ({project, match}) => {
+export const ProjectHero: React.SFC<Props> = ({project, match, isDetail}) => {
 
 	const buttonsArray = [
 		{ iconClass: 'icon-projects', path: `/projects/${match.params.projectDID}/overview`, title: 'PROJECT' },
@@ -157,12 +166,10 @@ export const ProjectHero: React.SFC<Props> = ({project, match}) => {
 
 	return (
 		<HeroContainer className="container-fluid">
-				<HeroInner className="container">
+				<HeroInner className={`container ${isDetail && `detailed`}`}>
 					<div className="row">
-						<div className="col-12">
-							<Title>{project.title}</Title>
-						</div>
 						<ColLeft className="col-lg-8 col-sm-12">
+							<Title>{project.title}</Title>
 							{project.sdgs.map((SDG, index) => {
 								const goal = Math.floor(SDG);
 								return (
@@ -172,8 +179,8 @@ export const ProjectHero: React.SFC<Props> = ({project, match}) => {
 									</SingleSDG>
 								);
 							})}
-							<Description>{project.shortDescription}</Description>
-							<AddClaim to={`/projects/${match.params.projectDID}/detail/new-claim`}>+ SUBMIT CLAIM</AddClaim>
+							{!isDetail && <Description>{project.shortDescription}</Description>}
+							{!isDetail && <AddClaim to={`/projects/${match.params.projectDID}/detail/new-claim`}>+ CAPTURE CLAIM</AddClaim>}
 						</ColLeft>
 						<ColRight className="col-lg-4 col-sm-12">
 							<p><strong>Created:</strong> {project.createdOn.split('T')[0]}</p>
@@ -193,6 +200,7 @@ export const ProjectHero: React.SFC<Props> = ({project, match}) => {
 							<div className="col-md-4">
 								<Tabs 
 									buttons={buttonsArray}
+									matchType={MatchType.strict}
 								/>
 							</div>
 						</div>
@@ -201,6 +209,7 @@ export const ProjectHero: React.SFC<Props> = ({project, match}) => {
 					<MediaQuery maxWidth={`${Number(deviceWidth.desktop) - 1}px`}>
 						<Tabs 
 							buttons={buttonsArray}
+							matchType={MatchType.strict}
 						/>
 					</MediaQuery>
 				</TabsController>

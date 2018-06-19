@@ -44,7 +44,6 @@ export const Projects: React.SFC<IProjects.Props> = (props) => {
 				</div>
 			);
 		} else if (props.projectList.length > 0) {
-			console.log(props.projectList);
 			return (
 					<div className="row row-eq-height">
 						{props.projectList.map((project, index) => {

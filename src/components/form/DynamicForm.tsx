@@ -72,18 +72,16 @@ export default class DynamicForm extends React.Component<Props, State> {
 	}
 
 	setFormState = (name: String, value: any) => {
-
 		const fields = name.split('.');
-		const formData = this.state.formData;
-		let curObj = formData;
-		fields.forEach((field, idx) => {
-			if (idx === fields.length - 1 ) {
-				curObj[field] = value;
+		let formData = this.state.formData;
+		fields.forEach((field, index) => {
+			if (index === fields.length - 1 ) {
+				formData[field] = value;
 			} else {
-				if (!curObj[field]) {
-					curObj[field] = {};
+				if (!formData[field]) {
+					formData[field] = {};
 				}
-				curObj = curObj[field];
+				formData = formData[field];
 			}
 		});
 		this.setState({formData: formData});
@@ -101,10 +99,11 @@ export default class DynamicForm extends React.Component<Props, State> {
 				<div className="form-group">
 					{this.props.formSchema.map((field, i) => {
 						switch (field.type) {
+							case 'number':
 							case 'text':
-							case 'claim-amount':
+							return <InputText id={field.name} type={field.type} text={field.label} key={i} onChange={this.onFormValueChanged(field.name)}/>;
 							case 'email':
-								return <InputText id={field.name} type={field.type} text={field.label} key={i} onChange={this.onFormValueChanged(field.name)}/>;
+								return <InputText id={field.name} type={field.type} text={field.label} validation={field.validation} key={i} onChange={this.onFormValueChanged(field.name)}/>;
 							case 'image' :
 								return <InputFile id={field.name} text={field.label} key={i} onChange={this.onFormValueChanged(field.name)}/>;
 							case 'textarea' :

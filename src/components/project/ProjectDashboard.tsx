@@ -7,7 +7,7 @@ export interface ParentProps {
 
 export const ProjectDashboard: React.SFC<ParentProps> = ({projectDid}) => {
 	return (
-		<div className="container">
+		<div className="container-fluid">
 			<div className="row">
 				<div className="col-md-12">
 					<h1>DASHBOARD</h1>
