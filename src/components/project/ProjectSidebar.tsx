@@ -4,10 +4,12 @@ import { NavLink } from 'react-router-dom';
 
 const Container = styled.div`
 	width: 75px;
+	background: ${props => props.theme.bg.gradientBlue}
 `;
 
 const NavItem = styled(NavLink)`
-
+	display: block;
+	color: white;
 `;
 
 export interface Props {
