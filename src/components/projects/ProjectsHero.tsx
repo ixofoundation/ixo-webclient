@@ -106,7 +106,7 @@ export interface Props {
 	projectData?: ProjectHeaderData;
 }
 
-export const ProjectsOverview: React.SFC<Props> = (props) => {
+export const ProjectsHero: React.SFC<Props> = (props) => {
 
 	return (
 		<HeroContainer>

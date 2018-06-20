@@ -37,6 +37,10 @@ export const spinner = () => {
 	return require(`../assets/images/spinner.svg`);
 };
 
+export const iconUpload = () => {
+	return require(`../assets/images/icon-upload.svg`);
+};
+
 export const SocialMediaLinks = ['http://www.instagram.com', 'http://www.twitter.com', 'http://www.facebook.com', 'http://www.website.com'];
 
 export const isoCountries = {
@@ -288,7 +292,10 @@ export const isoCountries = {
 };
 
 // tslint:disable-next-line:max-line-length
-export const testProjectData = '{"title":"Water project","ownerName":"Don","ownerEmail":"don@gmail.com","shortDescription":"Project for water","longDescription":"project to save water for areas with drought","impactAction":"litres of water saved","projectLocation":"ZA","sdgs":["12.2","3","2.4"],"claims":{"required":30,"currentSuccessful":0,"currentRejected":4},"templates":{"claim":"default"},"agents":{"evaluators":0,"evaluatorsPending":0,"serviceProviders":23,"serviceProvidersPending":0,"investors":6},"evaluatorPayPerClaim":"15","socialMedia":{"facebookLink":"https://www.facebook.com/ixofoundation/","instagramLink":"","twitterLink":"","webLink":"https://ixo.foundation"},"ixo":{"totalStaked":200,"totalUsed":55},"serviceEndpoint":"https://togo.pds.ixo.network","imageLink":"","founder":{"name":"Nic","email":"nic@test.co.za","countryOfOrigin":"ZA","shortDescription":"primary description for founder","websiteURL":"www.water.com","logoLink":""}}';
+export const testProjectData = JSON.stringify(require('./json/project.json'));
+// export const testClaimSchema = JSON.stringify(require('./json/claim.json'));
+// export const testClaimForm = '{}';
+
 export const testAgentData = '{"email":"don@ixo.com","name":"Don","role":"EA","agentDid":"did:sov:Tp25vz5iHoLJ4ktk7pKYC6","projectDid":"did:ixo:3vDYCPWvwCsj9Co3RqXp3z"}';
 export const testSig = {
 	type: 'ed25519-sha-256',

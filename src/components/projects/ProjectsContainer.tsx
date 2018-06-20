@@ -1,7 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import { ProjectCard } from './ProjectCard';
-import { ProjectsOverview } from './ProjectsOverview';
+import { ProjectsHero } from './ProjectsHero';
 import { Spinner } from '../common/Spinner';
 import { StatType } from '../../types/models';
 import { imgArray } from '../../lib/commonData';
@@ -19,11 +19,13 @@ const ProjectsContainer = styled.div`
 	}
 `;
 
-const NoProjectsToDisplay = styled.div`
-    display:flex;
-    justify-content:center;
+const ErrorContainer = styled.div`
+	display:flex;
+	justify-content:center;
+	color: white;
     align-items:center;
-    height:calc(100vh - 140px);
+	height:calc(100vh - 70px);
+	background-color: ${props => props.theme.bg.blue};
 `;
 
 export namespace IProjects {
@@ -39,22 +41,31 @@ export const Projects: React.SFC<IProjects.Props> = (props) => {
 	const renderProjects = () => {
 		if (props.projectList === null) {
 			return (
-				<div className="row">
-					<Spinner info="ProjectsContainer: Loading Projects"/>;
+				<div className="container-fluid">
+					<ErrorContainer className="row">
+						<Spinner info="App: Loading Projects" />
+						<p>Loading Projects</p>
+					</ErrorContainer>
 				</div>
 			);
 		} else if (props.projectList.length > 0) {
 			return (
-					<div className="row row-eq-height">
-						{props.projectList.map((project, index) => {
-							return <ProjectCard project={project.data} did={project.projectDid} bg={imgArray()[index]} key={index} />;
-						})}
+				<ProjectsContainer className="container-fluid">
+					<div className="container">
+						<div className="row row-eq-height">
+							{props.projectList.map((project, index) => {
+								return <ProjectCard project={project.data} did={project.projectDid} bg={imgArray()[index]} key={index} />;
+							})}
+						</div>
 					</div>
+				</ProjectsContainer>
 			);
 		} else {
 			return (
-				<div className="row">
-					<NoProjectsToDisplay className="col-md-12"><p>No projects were found</p></NoProjectsToDisplay>;
+				<div className="container-fluid">
+					<div className="row">
+						<ErrorContainer className="col-md-12"><p>No projects were found</p></ErrorContainer>
+					</div>
 				</div>
 			);
 		}
@@ -62,7 +73,7 @@ export const Projects: React.SFC<IProjects.Props> = (props) => {
 
 	return (
 		<div>
-			<ProjectsOverview 
+			<ProjectsHero 
 				statistics={[
 					{title: 'CLAIM AMOUNT',
 					type: StatType.fraction,
@@ -82,11 +93,7 @@ export const Projects: React.SFC<IProjects.Props> = (props) => {
 					amount: 142}
 				]} 
 			/>
-			<ProjectsContainer className="container-fluid">
-				<div className="container">
-					{renderProjects()}
-				</div>
-			</ProjectsContainer>
+				{renderProjects()}
 		</div>
 	);
 };

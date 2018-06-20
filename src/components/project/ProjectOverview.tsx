@@ -261,7 +261,10 @@ export const ProjectOverview: React.SFC<Props> = (props) => {
 	};
 
 	const renderModal = (data: any) => {
-		let userName = props.userInfo.name.valueOf();
+		let userName = '';
+		if (props.userInfo) {
+			userName = props.userInfo.name.valueOf();
+		}
 		return (
 			<ProjectNewAgent submitAgent={submitAgent} role={data.selectedRole} name={userName}/>
 		);
