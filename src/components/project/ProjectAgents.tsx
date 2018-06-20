@@ -50,10 +50,9 @@ export const ProjectAgents: React.SFC<ParentProps> = (props) => {
 		}
 	};
 
-	const handleRenderSection = (agents: any[], title: string) => {
-
+	const handleRenderSection = (agents: any[], title: string, key: number) => {
 		return (
-			<Section className="row">
+			<Section className="row" key={key}>
 				<div className="col-md-12">
 					<h2>{title}</h2>
 					{agents.map((agent, index) => {
@@ -96,9 +95,9 @@ export const ProjectAgents: React.SFC<ParentProps> = (props) => {
 			}
 		});
 
-		sections.push(handleRenderSection(pending, 'Pending Approval'));
-		sections.push(handleRenderSection(approved, 'Service Providers'));
-		sections.push(handleRenderSection(revoked, 'Revoked'));
+		sections.push(handleRenderSection(pending, 'Pending Approval', 1));
+		sections.push(handleRenderSection(approved, 'Service Providers', 2));
+		sections.push(handleRenderSection(revoked, 'Revoked', 3));
 
 		return sections;
 	};

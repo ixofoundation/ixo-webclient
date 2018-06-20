@@ -203,26 +203,26 @@ export class ProjectContainer extends React.Component<Props> {
 	}
 
 	handleUpdateAgent = (statusObj: any, did: string, role: string) => {
-				let agentPaylod = {
-					agentDid: did,
-					status: statusObj.status,
-					projectDid: this.props.projectDid,
-					role: role
-				};
+		let agentPaylod = {
+			agentDid: did,
+			status: statusObj.status,
+			projectDid: this.props.projectDid,
+			role: role
+		};
 
-				if (statusObj.version) {
-					agentPaylod['version'] = statusObj.version;
-				}
+		if (statusObj.version) {
+			agentPaylod['version'] = statusObj.version;
+		}
 
-				this.props.keysafe.requestSigning(JSON.stringify(agentPaylod), (error, signature) => {
-					if (!error) {
-						this.props.ixo.agent.updateAgentStatus(agentPaylod, signature, this.state.PDSUrl).then((res) => {
-							console.log(res);
-						}); 
-					} else {
-						console.log(error);
-					}
-				});
+		this.props.keysafe.requestSigning(JSON.stringify(agentPaylod), (error, signature) => {
+			if (!error) {
+				this.props.ixo.agent.updateAgentStatus(agentPaylod, signature, this.state.PDSUrl).then((res) => {
+					console.log(res);
+				}); 
+			} else {
+				console.log(error);
+			}
+		});
 	}
 
 	handleEvaluateClaim = (statusObj: any, id: string) => {
@@ -290,29 +290,35 @@ export class ProjectContainer extends React.Component<Props> {
 					return (
 						<div>
 							<ProjectHero project={project} match={this.props.match} isDetail={true} />
-							<div>
-
+							<DetailContainer>
+								<ProjectSidebar match={this.props.match} projectDid={this.props.projectDid}/>
 								<ProjectDashboard projectDid={this.props.projectDid}/>
-							</div>
+							</DetailContainer>
 						</div>
 					);
 				case contentType.newClaim:
 					return (
 						<div>
 							<ProjectHero project={project} match={this.props.match} isDetail={true}  />
-							<ProjectNewClaim submitClaim={(claimData) => this.handleSubmitClaim(claimData)}/>
+							<DetailContainer>
+								<ProjectSidebar match={this.props.match} projectDid={this.props.projectDid}/>
+								<ProjectNewClaim submitClaim={(claimData) => this.handleSubmitClaim(claimData)}/>
+							</DetailContainer>
 						</div>
 					);
 				case contentType.singleClaim:
 					return (
 						<div>
 							<ProjectHero project={project} match={this.props.match} isDetail={true}  />
-							<ProjectSingleClaim 
-								claims={this.state.claims}
-								match={this.props.match}
-								handleListClaims={this.handleListClaims}
-								handleEvaluateClaim={this.handleEvaluateClaim}
-							/>
+							<DetailContainer>
+								<ProjectSidebar match={this.props.match} projectDid={this.props.projectDid}/>
+								<ProjectSingleClaim 
+									claims={this.state.claims}
+									match={this.props.match}
+									handleListClaims={this.handleListClaims}
+									handleEvaluateClaim={this.handleEvaluateClaim}
+								/>
+							</DetailContainer>
 						</div>
 					);
 				case contentType.claims:
