@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { HomeBanner } from './HomeBanner';
 
 export interface ParentProps {
 	title: string;
@@ -7,7 +8,7 @@ export interface ParentProps {
 export const HomePage: React.SFC<ParentProps> = (props) => {
 	return (
 		<div className="container-fluid">
-			HOMEPAGE HEERE
+			<HomeBanner />
 		</div>
 	);
 };
