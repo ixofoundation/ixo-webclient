@@ -5,7 +5,7 @@ import { Projects } from './projects/ProjectsContainer';
 import { ProjectCreateConnected } from './project/ProjectCreate';
 import { contentType } from '../types/models';
 import { ProjectForm } from './project/ProjectForm';
-import { HomePage } from './public/HomePage';
+import { AboutContainer } from './public/AboutContainer';
 export namespace Routes {
 	export interface StateProps {
 		projectList: any;
@@ -20,14 +20,14 @@ export const Routes: React.SFC<Routes.RouteProps> = (props) => {
 
 	return (
 		<Switch>
-			<Route exact={true} path="/homepage" component={HomePage} />
+			<Route exact={true} path="/about" component={AboutContainer} />
 			<Route exact={true} path="/json" component={ProjectForm} />
-			<Route 
+			<Route
 				exact={true}
 				path="/"
 				render={(routeProps) => (
 					<div>
-						<Projects 
+						<Projects
 							// {...routeProps}
 							// {...props}
 							projectList={props.projectList}
@@ -35,7 +35,7 @@ export const Routes: React.SFC<Routes.RouteProps> = (props) => {
 					</div>
 				)}
 			/>
-			<Route 
+			<Route
 				exact={true}
 				path="/global-statistics"
 				render={(routeProps) => (
@@ -44,7 +44,7 @@ export const Routes: React.SFC<Routes.RouteProps> = (props) => {
 					</div>
 				)}
 			/>
-			<Route 
+			<Route
 				exact={true}
 				path="/my-projects"
 				render={(routeProps) => (
@@ -53,14 +53,14 @@ export const Routes: React.SFC<Routes.RouteProps> = (props) => {
 					</div>
 				)}
 			/>
-			<Route exact={true} path="/projects/:projectDID/overview" render={() => <ProjectContainerConnected contentType={contentType.overview} />}/>
-			<Route exact={true} path="/projects/:projectDID/detail/" render={() => <ProjectContainerConnected contentType={contentType.dashboard} />}/>
-			<Route exact={true} path="/projects/:projectDID/detail/evaluators" render={() => <ProjectContainerConnected contentType={contentType.evaluators} />}/>
-			<Route exact={true} path="/projects/:projectDID/detail/investors" render={() => <ProjectContainerConnected contentType={contentType.investors} />}/>
-			<Route exact={true} path="/projects/:projectDID/detail/service-providers" render={() => <ProjectContainerConnected contentType={contentType.serviceProviders} />}/>
-			<Route exact={true} path="/projects/:projectDID/detail/claims" render={() => <ProjectContainerConnected contentType={contentType.claims} />}/>
-			<Route exact={true} path="/projects/:projectDID/detail/new-claim" render={() => <ProjectContainerConnected contentType={contentType.newClaim} />}/>
-			<Route exact={true} path="/projects/:projectDID/detail/claims/:claimID" render={() => <ProjectContainerConnected contentType={contentType.singleClaim} />}/>
+			<Route exact={true} path="/projects/:projectDID/overview" render={() => <ProjectContainerConnected contentType={contentType.overview} />} />
+			<Route exact={true} path="/projects/:projectDID/detail/" render={() => <ProjectContainerConnected contentType={contentType.dashboard} />} />
+			<Route exact={true} path="/projects/:projectDID/detail/evaluators" render={() => <ProjectContainerConnected contentType={contentType.evaluators} />} />
+			<Route exact={true} path="/projects/:projectDID/detail/investors" render={() => <ProjectContainerConnected contentType={contentType.investors} />} />
+			<Route exact={true} path="/projects/:projectDID/detail/service-providers" render={() => <ProjectContainerConnected contentType={contentType.serviceProviders} />} />
+			<Route exact={true} path="/projects/:projectDID/detail/claims" render={() => <ProjectContainerConnected contentType={contentType.claims} />} />
+			<Route exact={true} path="/projects/:projectDID/detail/new-claim" render={() => <ProjectContainerConnected contentType={contentType.newClaim} />} />
+			<Route exact={true} path="/projects/:projectDID/detail/claims/:claimID" render={() => <ProjectContainerConnected contentType={contentType.singleClaim} />} />
 			<Route
 				exact={true}
 				path="/create-project"

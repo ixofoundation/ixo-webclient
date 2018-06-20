@@ -1,20 +1,22 @@
 import * as React from 'react';
 import styled from 'styled-components';
 
-const penguinImg = require('../../assets/images/home/ixo-banner-penguin.png');
+const penguinImg = require('../../assets/images/about/ixo-banner-penguin.png');
 
 const BannerLeft = styled.div`
 	width: 100%;
 
 	img {
+		margin-top: 10%;
 		margin-left: -3%;
-		width: 70%;
+		width: 90%;
 	}
 `;
 const BannerRight = styled.div`
 	width: 100%;
 	color: white;
-	margin-top: 15%;
+	margin-top: 12%;
+	margin-right: 10%;
 	h2 {
 		font-size: 60px;
 		font-family: ${props => props.theme.fontRobotoCondensed};
@@ -30,7 +32,7 @@ const BannerRight = styled.div`
 		position: relative;
 		box-sizing: border-box;
 		font-weight: 300;
-		padding-right: 25%;
+		padding-right: 55%;
 	}
 	p::before {
 		content: " ";
@@ -54,15 +56,15 @@ const BannerRight = styled.div`
 `;
 export interface ParentProps { }
 
-export const HomeBanner: React.SFC<ParentProps> = (props) => {
+export const AboutBanner: React.SFC<ParentProps> = (props) => {
 	return (
 		<div className="row">
-			<div className="col-md-6">
+			<div className="col-md-4">
 				<BannerLeft>
 					<img src={penguinImg} alt="" />
 				</BannerLeft>
 			</div>
-			<div className="col-md-6">
+			<div className="col-md-8">
 				<BannerRight>
 					<div className="row">
 						<h2>What counts</h2>
