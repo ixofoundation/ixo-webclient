@@ -55,7 +55,7 @@ export const AboutMatters: React.SFC<ParentProps> = (props) => {
 			<div className="col-md-4">
 				<MattersLeft>
 					<h2>What matters</h2>
-					<h5>The 2030 Sustainable Development Goals</h5>
+					<h5>The 2030 Sustainable<br /> Development Goals</h5>
 					<p>The Sustainable Development Goals, otherwise known as the Global Goals, are a universal call to action to end poverty, protect the planet and ensure that all people enjoy peace and prosperity.
 					</p>
 				</MattersLeft>
