@@ -1,12 +1,13 @@
 import * as React from 'react';
-import { AboutBanner } from './AboutBanner';
 import styled from 'styled-components';
+import { AboutBanner } from './AboutBanner';
 import { AboutMatters } from './AboutMatters';
+import { AboutValue } from './AboutValue';
 
 const bannerBg = require('../../assets/images/about/ixo-banner-bg.jpg');
 
 const Banner = styled.div`
-	background: #00273A url(${bannerBg}) no-repeat;
+	background: #002233 url(${bannerBg}) no-repeat;
 	background-size: cover;
 	background-position: left 5px bottom -70px;
 	width: 100%;
@@ -22,6 +23,7 @@ export const AboutContainer: React.SFC<ParentProps> = (props) => {
 		<Banner className="container-fluid">
 			<AboutBanner />
 			<AboutMatters />
+			<AboutValue />
 		</Banner>
 	);
 };
