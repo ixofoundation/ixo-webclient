@@ -91,7 +91,6 @@ export class ProjectContainer extends React.Component<Props> {
 
 	handleListClaims = () => {
 		if (this.state.claims === null) {
-			this.state.claims = [];
 			const ProjectDIDPayload: Object = { projectDid: this.props.projectDid};
 			this.props.keysafe.requestSigning(JSON.stringify(ProjectDIDPayload), (error, signature) => {	
 				if (!error) {
@@ -108,6 +107,8 @@ export class ProjectContainer extends React.Component<Props> {
 	}
 
 	handleRenderClaims = () => {
+		debugger;
+		console.log(this.state.claims);
 		if (this.state.claims === null) {
 			this.handleListClaims();
 			return <Loading className="col-md-12"><p>Loading...</p></Loading>;
