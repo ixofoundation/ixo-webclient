@@ -4,6 +4,7 @@ import { ProjectContainerConnected } from './project/ProjectContainer';
 import { Projects } from './projects/ProjectsContainer';
 import { ProjectCreateConnected } from './project/ProjectCreate';
 import { contentType } from '../types/models';
+import { ProjectForm } from './project/ProjectForm';
 
 export namespace Routes {
 	export interface StateProps {
@@ -19,6 +20,7 @@ export const Routes: React.SFC<Routes.RouteProps> = (props) => {
 
 	return (
 		<Switch>
+			<Route exact={true} path="/json" component={ProjectForm} />
 			<Route 
 				exact={true}
 				path="/"

@@ -1,6 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import { NavLink } from 'react-router-dom';
+import { MatchType } from '../../types/models';
 
 const TabsContainer = styled.div`
 	background:${props => props.theme.bg.gradientBlue};
@@ -68,15 +69,18 @@ export interface Button {
 
 export interface Props {
 	buttons: Button[];
+	matchType: MatchType;
 }
 
 export const Tabs: React.SFC<Props> = (props) => {
+
 	return (
 		<TabsContainer>
 			{props.buttons.map((button, index) => {
 				return (
 					<NavLink 
-						strict={true}
+						exact={props.matchType === MatchType.exact}
+						strict={props.matchType === MatchType.strict}
 						to={{pathname: button.path }}
 						key={index}
 					>

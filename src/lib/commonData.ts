@@ -293,8 +293,8 @@ export const isoCountries = {
 
 // tslint:disable-next-line:max-line-length
 export const testProjectData = JSON.stringify(require('./json/project.json'));
-export const testClaimSchema = JSON.stringify(require('./json/claim.json'));
-export const testClaimForm = '{}';
+// export const testClaimSchema = JSON.stringify(require('./json/claim.json'));
+// export const testClaimForm = '{}';
 
 export const testAgentData = '{"email":"don@ixo.com","name":"Don","role":"EA","agentDid":"did:sov:Tp25vz5iHoLJ4ktk7pKYC6","projectDid":"did:ixo:3vDYCPWvwCsj9Co3RqXp3z"}';
 export const testSig = {
@@ -303,3 +303,58 @@ export const testSig = {
 	creator: 'did:sov:Tp25vz5iHoLJ4ktk7pKYC6',
 	publicKey: 'BGcahyLmkPeuteRemDXMUPu1W9Tc6ghuCSud4mD7fTG3',
 	signatureValue: '6A548060AEB78449D17C1B825F941028728ADBBD5A4952CDF7782F128B2582A648D0697670AA3164434B8C27D18FDC213333DE7A8ADC574940B509B6B2AD590E'};
+
+export const formJson = {
+	'fields': [
+		{
+		'label': 'Name',
+		'name': 'name',
+		'type': 'text'
+		},
+		{
+		'label': 'Number',
+		'name': 'Number',
+		'type': 'number'
+		},
+		{
+		'label': 'theimage',
+		'name': 'theimage',
+		'type': 'image'
+		},
+		{
+		'label': 'Owner email',
+		'name': 'email',
+		'type': 'text'
+		},
+		{
+		'label': 'About',
+		'name': 'about',
+		'type': 'textarea'
+		},
+		{
+		'label': 'Country',
+		'name': 'country',
+		'type': 'country'
+		},
+		{
+		'label': 'Agent Template',
+		'name': 'agentTemplate.name',
+		'type': 'template'
+		},
+		{
+		'label': 'Attended School',
+		'name': 'attended',
+		'type': 'select',
+		'options': [
+			{
+			'label': 'Yes', 
+			'value': 'true'
+			},
+			{
+			'label': 'No',
+			'value': 'false'
+			}
+		]
+		}
+	]
+};
