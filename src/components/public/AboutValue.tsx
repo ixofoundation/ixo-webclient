@@ -44,6 +44,16 @@ const ValueRight = styled.div`
 		width: 100px;
 		top: -20%;
 	}
+	button {
+		background: none;
+		color: white;
+		border: 1px solid #49BFE0;
+		padding: 10px 50px;
+		text-transform: uppercase;
+		font-size: 15px;
+		font-family: ${props => props.theme.fontRobotoCondensed};
+		margin-top: 20px;
+	}
 `;
 
 export interface ParentProps { }
@@ -63,6 +73,7 @@ export const AboutValue: React.SFC<ParentProps> = (props) => {
 					<p>The ixo protocol ensures the provenance of impact data over time, transparency of impact funding, accountability of performance, attribution for results and a marketplace mechanism for sharing impact data. The most exciting innovation for impact financing is that the ixo protocol creates a new asset class for the impact economy.
 					</p>
 					<p><strong>Explore the ixo projects and how see how impact data is changing their end goal.</strong></p>
+					<button>start exploring</button>
 				</ValueRight>
 			</div>
 		</ValueContainer>
