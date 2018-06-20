@@ -7,6 +7,24 @@ import { iconUpload } from '../../lib/commonData';
 
 import styled from 'styled-components';
 
+/*
+Creates a dropzone to drop or select images. It then allows for cropping of image based on parameters
+
+Parameters:
+	imageCallback: The callback function that is called when an image is selected it gets a base64encoded image file
+	imageWidth: The width in pixels of the resultant image file
+	aspect?: (Optional) If set is forces the aspect ratio (width/height) of the resultant image
+	placeholder?: (Optional) This is th etext to be displayed under the upload-icon. Default: "Choose file"
+
+Example:
+	<ImageLoader placeholder="Choose a project image file" imageWidth={960} aspect={16 / 9} imageCallback={this.handleImage}/>
+
+	This creates the dropzone to drop or select an image the aspect ratio is forced to be (16 / 9) and the 
+	resultant image will be scaled to width 960px
+
+	When an image is selected the handleImage(base64Image) function is called.
+
+*/
 const ImageContainer = styled.div`
 	height: 400px;
 	align: center;
