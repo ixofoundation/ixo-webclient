@@ -72,7 +72,7 @@ export namespace App {
 class App extends React.Component<App.Props, App.State> {
 
 	state = {
-		projectList: [],
+		projectList: null,
 		userInfo: null,
 		loginError: null,
 		isProjectPage: false
@@ -98,9 +98,7 @@ class App extends React.Component<App.Props, App.State> {
 	}
 
 	renderProjectContent() {
-		if (this.state.projectList.length === 0) {
-			return <Spinner info="App: Loading Projects" />;
-		} else if (this.props.ixo === null) {
+		if (this.props.ixo === null) {
 			return <Spinner info="App: Loading IXO Module" />;
 		} else {
 			return (

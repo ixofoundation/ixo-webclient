@@ -45,7 +45,7 @@ export class ProjectCreate extends React.Component<StateProps, State> {
 				console.log('MESSAGE IS: ', JSON.parse(message));
 				console.log('SIGNATURE IS: ', signature);
 				// 'http://35.225.6.178:5000/' 'http://localhost:5000/'
-				this.props.ixo.project.createProject(JSON.parse(message), signature, 'http://35.225.6.178:5000/').then((res: any) => {
+				this.props.ixo.project.createProject(JSON.parse(message), signature, 'http://104.155.142.57:5000/').then((res: any) => {
 					console.log('PROJECT CREATE STATUS: ', res);
 				});
 			});
