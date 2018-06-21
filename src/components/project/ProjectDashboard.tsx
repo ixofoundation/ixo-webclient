@@ -4,8 +4,8 @@ import styled from 'styled-components';
 import { ProjectWidget } from './ProjectWidget';
 import { ProjectDetailWrapper } from './ProjectDetailWrapper';
 
-const Container = styled(ProjectDetailWrapper)`
-	min-height; 900px;
+const Container = styled.div`
+	height: 1200px;
 `;
 export interface ParentProps {
 	projectDid: string;
@@ -13,8 +13,8 @@ export interface ParentProps {
 
 export const ProjectDashboard: React.SFC<ParentProps> = ({projectDid}) => {
 	return (
-		<Container>
-			<div className="row">
+		<ProjectDetailWrapper>
+			<Container className="row">
 				<div className="col-md-12">
 					<h2>DASHBOARD</h2>
 				</div>
@@ -38,7 +38,7 @@ export const ProjectDashboard: React.SFC<ParentProps> = ({projectDid}) => {
 						<Link to={`/projects/${projectDid}/detail/claims`}>List claims</Link>
 					</ProjectWidget>
 				</div>
-			</div>
-		</Container>
+			</Container>
+		</ProjectDetailWrapper>
 	);
 };

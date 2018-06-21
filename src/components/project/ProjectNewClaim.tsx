@@ -1,22 +1,25 @@
 import * as React from 'react';
+import { ProjectDetailWrapper } from './ProjectDetailWrapper';
+import DynamicForm from '../form/DynamicForm';
+import { claimJson } from '../../lib/commonData';
 
 export interface ParentProps {
 	submitClaim: (claimData: object) => void;
 }
 export const ProjectNewClaim: React.SFC<ParentProps> = (props) => {
 
-	const claimData = { name: 'toets', weight: '2kg' };
+	console.log(claimJson);
 	return (
-		<div className="container-fluid">
+		<ProjectDetailWrapper>
 			<div className="container">
 				<div className="row">
 					<div className="col-md-12">
 						<h1>Submit new claim page</h1>
-						<button onClick={() => props.submitClaim(claimData)}>Submit new Claim</button>
+						<DynamicForm formSchema={claimJson.fields} handleSubmit={(claimData) => props.submitClaim(claimData)} />
 					</div>
 				</div>
 			</div>
 
-		</div>
+		</ProjectDetailWrapper>
 	);
 };

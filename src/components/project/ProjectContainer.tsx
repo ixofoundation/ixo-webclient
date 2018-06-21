@@ -115,7 +115,10 @@ export class ProjectContainer extends React.Component<Props> {
 			return (
 				<div>
 					<ProjectHero project={this.state.project} match={this.props.match} isDetail={true} />
-					<ProjectClaims claims={this.state.claims} projectDid={this.props.projectDid}/>
+					<DetailContainer>
+						<ProjectSidebar match={this.props.match} projectDid={this.props.projectDid}/>
+						<ProjectClaims claims={this.state.claims} projectDid={this.props.projectDid}/>
+					</DetailContainer>
 				</div>
 			);
 		} else {
