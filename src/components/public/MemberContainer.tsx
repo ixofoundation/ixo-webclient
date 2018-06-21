@@ -1,6 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import { MemberBanner } from './MemberBanner';
+import { MemberBenefits } from './MemberBenefits';
 
 const bannerBg = require('../../assets/images/member/member-bg.jpg');
 
@@ -19,6 +20,7 @@ export const MemberContainer: React.SFC<ParentProps> = (props) => {
 	return (
 		<Banner className="container-fluid">
 			<MemberBanner />
+			<MemberBenefits />
 		</Banner>
 	);
 };
