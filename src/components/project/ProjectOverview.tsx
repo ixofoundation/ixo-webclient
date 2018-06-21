@@ -8,7 +8,7 @@ import { getCountryName } from '../../utils/formatters';
 import { ModalWrapper } from '../common/ModalWrapper';
 import { ProjectNewAgent } from './ProjectNewAgent';
 import { UserInfo } from '../../types/models';
-import { DarkButton as NewButton, buttonTypes } from '../common/Buttons';
+import { DarkButton, buttonTypes } from '../common/Buttons';
 // import { ModalWrapper } from './ModalWrapper';
 
 const OverviewContainer = styled.section`
@@ -163,6 +163,7 @@ const Button = styled.a`
 	}
 `;
 
+/*
 const BlueButton = styled.a`
 	border: 1px solid ${props => props.theme.ixoBlue};
     &&& {color: white;}
@@ -182,6 +183,7 @@ const BlueButton = styled.a`
 		text-decoration: none;
 	}
 `;
+*/
 
 const FounderContainer = styled.section`
 	padding: 50px 0;
@@ -235,7 +237,7 @@ const Founder = styled.div`
 `;
 
 export interface Props {
-	checkUserDid: () => void;
+	checkUserDid: () => boolean;
 	handleCreateAgent: (agentData: any) => void;
 	userInfo: UserInfo;
 	project: any;
@@ -299,14 +301,14 @@ export const ProjectOverview: React.SFC<Props> = (props) => {
 							<Sidebar>
 								<BarContainer>
 									<DarkBar 
-										total={props.project.claims[0].required}
-										approved={props.project.claims[0].currentSuccessful}
-										rejected={props.project.claims[0].currentRejected} 
+										total={props.project.requiredClaims}
+										approved={props.project.claimStats.currentSuccessful}
+										rejected={props.project.claimStats.currentRejected} 
 									/>
 								</BarContainer>
-								<Claims>{props.project.claims[0].currentSuccessful}/<strong>{props.project.claims[0].required}</strong></Claims>
+								<Claims>{props.project.claimStats.currentSuccessful}/<strong>{props.project.requiredClaims}</strong></Claims>
 								<ImpactAction>successful water systems built</ImpactAction>
-								<Disputed><strong>{props.project.claims[0].currentRejected}</strong> disputed claims</Disputed>
+								<Disputed><strong>{props.project.claimStats.currentRejected}</strong> disputed claims</Disputed>
 								<hr />
 								<div className="row">
 									{statistics.map((statistic, index) => {
@@ -317,18 +319,24 @@ export const ProjectOverview: React.SFC<Props> = (props) => {
 										);
 									})}
 								</div>
-								<NewButton 
-									value="INVEST IN THIS Project" 
-									type={buttonTypes.PRIMARY} 
-									disabled={false} 
+								<DarkButton 
+									value="Invest in this Project" 
+									type={buttonTypes.SECONDARY} 
+									disabled={false}
 									onClick={() => props.handleToggleModal({selectedRole: AgentRoles.investors}, true)}
 								/>
-								<BlueButton onClick={() => props.checkUserDid() && props.handleToggleModal({selectedRole: AgentRoles.evaluators}, true)}>
-									BECOME AN EVALUATOR
-								</BlueButton>
-								<BlueButton onClick={() => props.checkUserDid() && props.handleToggleModal({selectedRole: AgentRoles.serviceProviders}, true)} >
-									BECOME A SERVICE PROVIDER
-								</BlueButton>
+								<DarkButton 
+									value="Become an Evaluator" 
+									type={buttonTypes.SECONDARY} 
+									disabled={false}
+									onClick={() => props.handleToggleModal({selectedRole: AgentRoles.evaluators}, true)}
+								/>
+								<DarkButton 
+									value="Become a Service Provider" 
+									type={buttonTypes.SECONDARY} 
+									disabled={false}
+									onClick={() => props.handleToggleModal({selectedRole: AgentRoles.serviceProviders}, true)}
+								/>
 							</Sidebar>
 							<Button><i className="icon-favourites"/>SAVE TO FAVOURITES</Button>
 							<Button><i className="icon-share"/>SHARE THIS PROJECT</Button>

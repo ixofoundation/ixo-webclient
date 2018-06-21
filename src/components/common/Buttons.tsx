@@ -1,46 +1,38 @@
 import * as React from 'react';
 import styled from 'styled-components';
 
-const EnabledDarkPrimaryButtonComponent = styled.a`
-	background: ${props => props.theme.bg.gradientButton};
-	&&&{color: ${props => props.theme.fontBlueButtonNormal} };
+const BaseButton = styled.a`
 	border-radius: 2px;
 	font-size: 15px;
-  text-transform: uppercase;
-  padding: 10px 20px;
-  margin-bottom: 10px;
+	font-weight: 300;
+	text-transform: uppercase;
+	padding: 10px 20px;
+	margin-bottom: 10px;
 	font-family: ${props => props.theme.fontRobotoCondensed};
 	letter-spacing: 0.3px;	
 	line-height: 20px;	
 	text-align: center;
-	display: flex;
+	display: block;
+	transition: all 0.3s ease;
+`;
+
+const EnabledDarkPrimaryButtonComponent = BaseButton.extend`
+	background: ${props => props.theme.bg.gradientButton};
+	&&&{color: ${props => props.theme.fontBlueButtonNormal} };
+	font-family: ${props => props.theme.fontRobotoCondensed};
 	cursor: pointer;
 
-	transition: all 0.3s ease;
-	
 	:hover {
 		&&&{ color: ${props => props.theme.fontBlueButtonHover} }
 		text-decoration: none;
 	}
 `;
 
-const EnabledDarkSecondaryButtonComponent = styled.a`
+const EnabledDarkSecondaryButtonComponent = BaseButton.extend`
 	background: ${props => props.theme.bg.darkButton};
 	&&&{color: ${props => props.theme.ixoBlue} };
 	border: 1px solid ${props => props.theme.ixoBlue};
-	border-radius: 2px;
-	font-size: 15px;
-  text-transform: uppercase;
-  padding: 10px 20px;
-  margin-bottom: 10px;
-	font-family: ${props => props.theme.fontRobotoCondensed};
-	letter-spacing: 0.3px;	
-	line-height: 20px;	
-	text-align: center;
-	display: flex;
 	cursor: pointer;
-
-	transition: all 0.3s ease;
 	
 	:hover {
 		&&&{ color: ${props => props.theme.fontBlueButtonHover} }
@@ -48,23 +40,11 @@ const EnabledDarkSecondaryButtonComponent = styled.a`
 	}
 `;
 
-const DisabledDarkButtonComponent = styled.a`
+const DisabledDarkButtonComponent = BaseButton.extend`
 	&&&{color: ${props => props.theme.ixoBlue} };
 	border: 1px solid ${props => props.theme.ixoBlue};
-	border-radius: 2px;
-	font-size: 15px;
-  text-transform: uppercase;
-  padding: 10px 20px;
-  margin-bottom: 10px;
-	font-family: ${props => props.theme.fontRobotoCondensed};
-	letter-spacing: 0.3px;	
-	line-height: 20px;	
-	text-align: center;
-	display: flex;
 	cursor: none;
 	opacity: 0.4;
-
-	transition: all 0.3s ease;
 	
 	:hover {
 		&&&{ color: ${props => props.theme.ixoBlue} };
@@ -72,7 +52,7 @@ const DisabledDarkButtonComponent = styled.a`
 	}
 `;
 
-const Plus = styled.div`
+const Plus = styled.span`
 	margin-right: 5px;
 `;
 
