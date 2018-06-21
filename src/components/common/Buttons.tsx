@@ -43,8 +43,8 @@ const EnabledDarkSecondaryButtonComponent = BaseButton.extend`
 const DisabledDarkButtonComponent = BaseButton.extend`
 	&&&{color: ${props => props.theme.ixoBlue} };
 	border: 1px solid ${props => props.theme.ixoBlue};
-	cursor: none;
 	opacity: 0.4;
+	cursor: default;
 	
 	:hover {
 		&&&{ color: ${props => props.theme.ixoBlue} };
