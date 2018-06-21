@@ -293,6 +293,7 @@ export const isoCountries = {
 
 // tslint:disable-next-line:max-line-length
 export const testProjectData = JSON.stringify(require('./json/project.json'));
+export const claimJson = JSON.stringify(require('./json/claimForm.json'));
 // export const testClaimSchema = JSON.stringify(require('./json/claim.json'));
 // export const testClaimForm = '{}';
 
@@ -355,26 +356,6 @@ export const formJson = {
 			'value': 'false'
 			}
 		]
-		}
-	]
-};
-
-export const claimJson = {
-	'fields': [
-		{
-		'label': 'Name',
-		'name': 'name',
-		'type': 'text'
-		},
-		{
-		'label': 'email',
-		'name': 'email',
-		'type': 'email'
-		},
-		{
-		'label': 'Comments',
-		'name': 'comments',
-		'type': 'textarea'
 		}
 	]
 };
