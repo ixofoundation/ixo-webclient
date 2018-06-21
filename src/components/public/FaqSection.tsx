@@ -2,7 +2,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 
 const CardContainer = styled.div`
-	margin: 106px 0 0px;
+	margin: 166px 0 0px;
 	background: #F6F6F6;
 	padding: 40px 0;
 	h2 {
@@ -23,8 +23,9 @@ const Card = styled.div`
 	padding: 20px;
 	margin: 40px 0 20px;
 	h3 {
-		padding-bottom: 20px;
+		padding-bottom: 10px;
 		font-size: 17px;
+		line-height: 50px;
 	}
 	h3::after {
 		content: " ";
