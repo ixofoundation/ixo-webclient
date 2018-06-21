@@ -358,3 +358,23 @@ export const formJson = {
 		}
 	]
 };
+
+export const claimJson = {
+	'fields': [
+		{
+		'label': 'Name',
+		'name': 'name',
+		'type': 'text'
+		},
+		{
+		'label': 'email',
+		'name': 'email',
+		'type': 'email'
+		},
+		{
+		'label': 'Comments',
+		'name': 'comments',
+		'type': 'textarea'
+		}
+	]
+};
