@@ -7,9 +7,13 @@
   "impactAction":"litres of water saved",
   "projectLocation":"ZA",
   "sdgs":["12.2","3","2.4"],
-  "claims":{"required":30,"currentSuccessful":0,"currentRejected":4},
-  "templates":{"claim":"default"},
-  "agents":{"evaluators":0,"evaluatorsPending":0,"serviceProviders":23,"serviceProvidersPending":0,"investors":6},
+  "requiredClaims":30,
+  "templates":{
+    "claim":{
+      "schema":"",
+      "form": ""
+    }
+  },
   "evaluatorPayPerClaim":"0",
   "socialMedia":{
     "facebookLink":"https://www.facebook.com/ixofoundation/",
@@ -17,8 +21,6 @@
     "twitterLink":"",
     "webLink":"https://ixo.foundation"
   },
-  "ixo":{"totalStaked":200,"totalUsed":55},
-  "serviceEndpoint":"https://togo.pds.ixo.network",
   "imageLink":"",
   "founder":{
     "name":"Nic",

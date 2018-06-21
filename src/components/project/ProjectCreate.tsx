@@ -1,10 +1,17 @@
 import * as React from 'react';
+import { ImageLoader } from '../common/ImageLoader';
 import { PublicSiteStoreState } from '../../redux/public_site_reducer';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
-import { testProjectData, testAgentData } from '../../lib/commonData';
+import { testProjectData, testClaimSchema, testClaimForm } from '../../lib/commonData';
 
-const Text = styled.textarea`
+const Text = styled.input`
+	margin: 20px 0;
+	display: block;
+	width: 100%;
+`;
+
+const TextArea = styled.textarea`
 	margin: 20px 0;
 	display: block;
 	width: 100%;
@@ -22,14 +29,21 @@ export interface StateProps {
 }
 
 export interface State {
+	pdsURL: string;
+	croppedImg: any;
+	projectClaimSchemaJson: string;
+	projectClaimFormJson: string;
 	projectCreateJson: string;
-	agentCreateJson: string;
 }	
+
 export class ProjectCreate extends React.Component<StateProps, State> {
 
 	state = {
-		projectCreateJson: testProjectData,
-		agentCreateJson: testAgentData,
+			pdsURL: 'http://35.225.6.178:5000',
+			croppedImg: null,
+			projectClaimSchemaJson: testClaimSchema,
+			projectClaimFormJson: testClaimForm,
+			projectCreateJson: testProjectData,
 	};
 
 	handleCreateProject = () => {
@@ -52,21 +66,38 @@ export class ProjectCreate extends React.Component<StateProps, State> {
 		}
 	}
 
+	handlePdsUrlChange = (event: any) => {
+		this.setState({pdsURL: event.target.value});
+	}
+
+	handleProjectClaimSchemaChange = (event: any) => {
+		this.setState({projectClaimSchemaJson: event.target.value});
+	}
+
+	handleProjectClaimFormChange = (event: any) => {
+		this.setState({projectClaimFormJson: event.target.value});
+	}
+
 	handleProjectChange = (event: any) => {
 		this.setState({projectCreateJson: event.target.value});
 	}
 
-	handleAgentChange = (event: any) => {
-		this.setState({agentCreateJson: event.target.value});
+	handleImage = (base64Image) => {
+		this.setState({croppedImg: base64Image });
 	}
-
+	
 	render() {
 		return (
 			<div>
 				<Container className="container">
 					<div className="row">
 						<div className="col-md-12">
-							<Text value={this.state.projectCreateJson} onChange={this.handleProjectChange} />
+							<Text placeholder="PDS Url: http://" value={this.state.pdsURL} onChange={this.handlePdsUrlChange} />
+							<ImageLoader placeholder="Choose file" imageWidth={960} aspect={16 / 9} imageCallback={this.handleImage}/>
+							<img src={this.state.croppedImg} />
+							<TextArea value={this.state.projectClaimSchemaJson} onChange={this.handleProjectClaimSchemaChange} />
+							<TextArea value={this.state.projectClaimFormJson} onChange={this.handleProjectClaimFormChange} />
+							<TextArea value={this.state.projectCreateJson} onChange={this.handleProjectChange} />
 							<button onClick={this.handleCreateProject}>CREATE PROJECT</button>
 						</div>
 					</div>

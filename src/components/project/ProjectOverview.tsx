@@ -8,6 +8,7 @@ import { getCountryName } from '../../utils/formatters';
 import { ModalWrapper } from '../common/ModalWrapper';
 import { ProjectNewAgent } from './ProjectNewAgent';
 import { UserInfo } from '../../types/models';
+import { DarkButton as NewButton, buttonTypes } from '../common/Buttons';
 // import { ModalWrapper } from './ModalWrapper';
 
 const OverviewContainer = styled.section`
@@ -316,9 +317,12 @@ export const ProjectOverview: React.SFC<Props> = (props) => {
 										);
 									})}
 								</div>
-								<BlueButton onClick={() => props.checkUserDid() && props.handleToggleModal({selectedRole: AgentRoles.investors}, true)}>
-									INVEST IN THIS Project
-								</BlueButton>
+								<NewButton 
+									value="INVEST IN THIS Project" 
+									type={buttonTypes.PRIMARY} 
+									disabled={false} 
+									onClick={() => props.handleToggleModal({selectedRole: AgentRoles.investors}, true)}
+								/>
 								<BlueButton onClick={() => props.checkUserDid() && props.handleToggleModal({selectedRole: AgentRoles.evaluators}, true)}>
 									BECOME AN EVALUATOR
 								</BlueButton>
