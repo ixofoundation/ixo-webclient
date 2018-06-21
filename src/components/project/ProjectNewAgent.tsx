@@ -61,7 +61,6 @@ export class ProjectNewAgent extends React.Component<ParentProps, State> {
 							<Text placeholder="Name" value={this.state.name} onChange={this.handleNameChange} />
 							<Text placeholder="Email" value={this.state.email} onChange={this.handleEmailChange} />
 							<DarkButton type={buttonTypes.PRIMARY} onClick={(e) => this.props.submitAgent(this.props.role, this.state)} value="Submit new Agent"/>
-							<button onClick={() => this.props.submitAgent(this.props.role, this.state)}>Submit new Agent</button>
 						</div>
 					</div>
 				</Container>
