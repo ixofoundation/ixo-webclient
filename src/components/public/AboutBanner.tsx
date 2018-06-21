@@ -8,7 +8,7 @@ const BannerLeft = styled.div`
 
 	img {
 		margin-top: 10%;
-		margin-left: -2%;
+		margin-left: -3%;
 		width: 90%;
 	}
 `;

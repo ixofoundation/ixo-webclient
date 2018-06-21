@@ -19,6 +19,7 @@ const MattersLeft = styled.div`
 	h5 {
 		font-size: 23px;
 		font-weight: 300;
+		padding-bottom: 10px;
 	}
 	p {
 		margin-top: 5%;
