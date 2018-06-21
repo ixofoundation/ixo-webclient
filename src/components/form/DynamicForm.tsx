@@ -12,7 +12,7 @@ const Submit = styled.input`
 	background: #0f8dab;
 	display: block;
 	margin: 10px auto 0;
-	color: white;
+	color: black;
 	border: 0;
 	padding: 15px;
 	text-transform: uppercase;

@@ -105,6 +105,7 @@ export class ProjectContainer extends React.Component<Props> {
 		});
 
 		this.setState({ userRoles: userRoles});
+		console.log(userRoles);
 	}
 
 	handleHasCapability = (role: AgentRoles) => {
@@ -357,6 +358,7 @@ export class ProjectContainer extends React.Component<Props> {
 									match={this.props.match}
 									handleListClaims={this.handleListClaims}
 									handleEvaluateClaim={this.handleEvaluateClaim}
+									hasCapability={this.handleHasCapability}
 								/>
 							</DetailContainer>
 						</Fragment>
