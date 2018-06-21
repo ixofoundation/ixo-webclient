@@ -11,14 +11,6 @@ const Section = styled.section`
 	}
 `;
 
-const Agent = styled.div`
-	background: ${props => props.theme.bg.gradientBlue};
-	border: 1px solid ${props => props.theme.widgetBorder};
-	padding: 10px;
-	display: inline-block;
-	color: white;
-	margin: 10px;
-`;
 export interface ParentProps {
 	agents: any;
 	handleUpdateAgentStatus: (status: object, did: string, role: string) => void;
@@ -59,11 +51,9 @@ export const ProjectAgents: React.SFC<ParentProps> = (props) => {
 						return (
 							<div className="col-md-3" key={index}>
 								<ProjectWidget title={agent.name}>
-									<Agent>
-										<p>{agent.role}</p>
-										<button onClick={() => handleUpdateAgentStatus('1', agent.currentStatus, agent.agentDid, agent.role)}>Approve</button>
-										<button onClick={() => handleUpdateAgentStatus('2', agent.currentStatus, agent.agentDid, agent.role)}>Reject</button>
-									</Agent>
+									<p>{agent.role}</p>
+									<button onClick={() => handleUpdateAgentStatus('1', agent.currentStatus, agent.agentDid, agent.role)}>Approve</button>
+									<button onClick={() => handleUpdateAgentStatus('2', agent.currentStatus, agent.agentDid, agent.role)}>Reject</button>
 								</ProjectWidget>
 							</div>
 						);

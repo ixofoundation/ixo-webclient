@@ -236,18 +236,19 @@ const Founder = styled.div`
 	}
 `;
 
-export interface Props {
-	checkUserDid: () => boolean;
-	handleCreateAgent: (agentData: any) => void;
+export interface ParentProps {
 	userInfo: UserInfo;
 	project: any;
 	id: string;
 	isModalOpen: boolean;
-	handleToggleModal: (data?: any, modalStatus?: boolean) => void;
 	modalData: any;
+	checkUserDid: () => boolean;
+	createAgent: (agentData: any) => void;
+	toggleModal: (data?: any, modalStatus?: boolean) => void;
+	hasCapability: (Role: AgentRoles) => boolean;
 }
 
-export const ProjectOverview: React.SFC<Props> = (props) => {
+export const ProjectOverview: React.SFC<ParentProps> = (props) => {
 
 	console.log(props.project);
 	const {evaluators, serviceProviders, investors} = props.project.agentStats;
@@ -259,8 +260,8 @@ export const ProjectOverview: React.SFC<Props> = (props) => {
 
 	const submitAgent = (role: string, agentData: any) => {
 		let agentCreateJson: any = {...agentData, role: role};
-		props.handleCreateAgent(agentCreateJson);
-		props.handleToggleModal({});
+		props.createAgent(agentCreateJson);
+		props.toggleModal({});
 	};
 
 	const renderModal = (data: any) => {
@@ -277,7 +278,7 @@ export const ProjectOverview: React.SFC<Props> = (props) => {
 		<div>
 			<ModalWrapper
 				isModalOpen={props.isModalOpen}
-				handleToggleModal={() => props.handleToggleModal({})}
+				handleToggleModal={() => props.toggleModal({})}
 			>
 				{renderModal(props.modalData)}
 			</ModalWrapper>
@@ -323,19 +324,19 @@ export const ProjectOverview: React.SFC<Props> = (props) => {
 									value="Invest in this Project" 
 									type={buttonTypes.SECONDARY} 
 									disabled={false}
-									onClick={() => props.handleToggleModal({selectedRole: AgentRoles.investors}, true)}
+									onClick={() => props.toggleModal({selectedRole: AgentRoles.investors}, true)}
 								/>
 								<DarkButton 
 									value="Become an Evaluator" 
 									type={buttonTypes.SECONDARY} 
 									disabled={false}
-									onClick={() => props.handleToggleModal({selectedRole: AgentRoles.evaluators}, true)}
+									onClick={() => props.toggleModal({selectedRole: AgentRoles.evaluators}, true)}
 								/>
 								<DarkButton 
 									value="Become a Service Provider" 
 									type={buttonTypes.SECONDARY} 
 									disabled={false}
-									onClick={() => props.handleToggleModal({selectedRole: AgentRoles.serviceProviders}, true)}
+									onClick={() => props.toggleModal({selectedRole: AgentRoles.serviceProviders}, true)}
 								/>
 							</Sidebar>
 							<Button><i className="icon-favourites"/>SAVE TO FAVOURITES</Button>

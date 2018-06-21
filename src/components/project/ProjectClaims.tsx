@@ -11,17 +11,19 @@ export interface ParentProps {
 export const ProjectClaims: React.SFC<ParentProps> = ({claims, projectDid}) => {
 	return (
 		<ProjectDetailWrapper>
-			{claims.map((claim, index) => {
-				return (
-					<div key={index} className="col-md-3">
-						<ProjectWidget>
-							<Link to={{pathname: `/projects/${projectDid}/detail/claims/${claim.txHash}`}}>
-								<p>{claim.name}</p>
-							</Link>
-						</ProjectWidget>
-					</div>
-				);
-			})}
+			<div className="row">
+				{claims.map((claim, index) => {
+					return (
+						<div key={index} className="col-md-3">
+							<ProjectWidget>
+								<Link to={{pathname: `/projects/${projectDid}/detail/claims/${claim.txHash}`}}>
+									<p>{claim.name}</p>
+								</Link>
+							</ProjectWidget>
+						</div>
+					);
+				})}
+			</div>
 		</ProjectDetailWrapper>
 	);
 };

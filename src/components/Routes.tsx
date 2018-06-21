@@ -6,6 +6,7 @@ import { ProjectCreateConnected } from './project/ProjectCreate';
 import { contentType } from '../types/models';
 import { ProjectForm } from './project/ProjectForm';
 import { HomePage } from './public/HomePage';
+import { Fragment } from 'react';
 export namespace Routes {
 	export interface StateProps {
 		projectList: any;
@@ -26,31 +27,31 @@ export const Routes: React.SFC<Routes.RouteProps> = (props) => {
 				exact={true}
 				path="/"
 				render={(routeProps) => (
-					<div>
+					<Fragment>
 						<Projects 
 							// {...routeProps}
 							// {...props}
 							projectList={props.projectList}
 						/>
-					</div>
+					</Fragment>
 				)}
 			/>
 			<Route 
 				exact={true}
 				path="/global-statistics"
 				render={(routeProps) => (
-					<div>
+					<Fragment>
 						<Projects {...routeProps} {...props} projectList={props.projectList} />
-					</div>
+					</Fragment>
 				)}
 			/>
 			<Route 
 				exact={true}
 				path="/my-projects"
 				render={(routeProps) => (
-					<div>
+					<Fragment>
 						<Projects {...routeProps} {...props} projectList={props.projectList} />
-					</div>
+					</Fragment>
 				)}
 			/>
 			<Route exact={true} path="/projects/:projectDID/overview" render={() => <ProjectContainerConnected contentType={contentType.overview} />}/>
@@ -65,9 +66,9 @@ export const Routes: React.SFC<Routes.RouteProps> = (props) => {
 				exact={true}
 				path="/create-project"
 				render={(routeProps) => (
-					<div>
+					<Fragment>
 						<ProjectCreateConnected {...routeProps} {...props} />
-					</div>
+					</Fragment>
 				)}
 			/>
 		</Switch>
