@@ -25,6 +25,7 @@ const Loading = styled.div`
 
 const DetailContainer = styled.div`
 	display:flex;
+	height: 100%;
 `;
 export interface State {
 	isModalOpen: boolean;
@@ -65,7 +66,7 @@ export class ProjectContainer extends React.Component<Props> {
 		serviceProviders: null,
 		investors: null,
 		evaluators: null,
-		PDSUrl: 'http://35.225.6.178:5000/'
+		PDSUrl: 'http://104.155.142.57:5000/'
 	};
 
 	handleToggleModal = (data: any, modalStatus: boolean) => {
@@ -107,8 +108,6 @@ export class ProjectContainer extends React.Component<Props> {
 	}
 
 	handleRenderClaims = () => {
-		debugger;
-		console.log(this.state.claims);
 		if (this.state.claims === null) {
 			this.handleListClaims();
 			return <Loading className="col-md-12"><p>Loading...</p></Loading>;
@@ -120,7 +119,15 @@ export class ProjectContainer extends React.Component<Props> {
 				</div>
 			);
 		} else {
-			return <Loading className="col-md-12"><p>No claims found</p></Loading>;
+			return (
+				<div>
+					<ProjectHero project={this.state.project} match={this.props.match} isDetail={true} />
+					<DetailContainer>
+						<ProjectSidebar match={this.props.match} projectDid={this.props.projectDid}/>
+						<Loading className="container-fluid"><p>No Claims found</p></Loading>
+					</DetailContainer>
+				</div>
+			);
 		} 
 	}
 
@@ -139,7 +146,15 @@ export class ProjectContainer extends React.Component<Props> {
 				</div>
 			);
 		} else {
-			return <Loading className="col-md-12"><p>No Agents found</p></Loading>;
+			return (
+				<div>
+					<ProjectHero project={this.state.project} match={this.props.match} isDetail={true} />
+					<DetailContainer>
+						<ProjectSidebar match={this.props.match} projectDid={this.props.projectDid}/>
+						<Loading className="container-fluid"><p>No Agents found</p></Loading>
+					</DetailContainer>
+				</div>
+			);
 		}
 	}
 

@@ -298,14 +298,14 @@ export const ProjectOverview: React.SFC<Props> = (props) => {
 							<Sidebar>
 								<BarContainer>
 									<DarkBar 
-										total={props.project.claims[0].required}
-										approved={props.project.claims[0].currentSuccessful}
-										rejected={props.project.claims[0].currentRejected} 
+										total={props.project.requiredClaims}
+										approved={props.project.claimStats.currentSuccessful}
+										rejected={props.project.claimStats.currentRejected} 
 									/>
 								</BarContainer>
-								<Claims>{props.project.claims[0].currentSuccessful}/<strong>{props.project.claims[0].required}</strong></Claims>
+								<Claims>{props.project.claimStats.currentSuccessful}/<strong>{props.project.requiredClaims}</strong></Claims>
 								<ImpactAction>successful water systems built</ImpactAction>
-								<Disputed><strong>{props.project.claims[0].currentRejected}</strong> disputed claims</Disputed>
+								<Disputed><strong>{props.project.claimStats.currentRejected}</strong> disputed claims</Disputed>
 								<hr />
 								<div className="row">
 									{statistics.map((statistic, index) => {

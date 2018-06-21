@@ -1,14 +1,13 @@
 import * as React from 'react';
 import styled from 'styled-components';
-
-const Container = styled.div`
-	background: ${props => props.theme.bg.blue};
-
-`;
+import { ProjectWidget } from './ProjectWidget';
+import { ProjectDetailWrapper } from './ProjectDetailWrapper';
 
 const Section = styled.section`
 	h2 {
 		color: white;
+		font-size: 30px;
+		font-family: ${props => props.theme.fontRobotoCondensed};
 	}
 `;
 
@@ -53,19 +52,22 @@ export const ProjectAgents: React.SFC<ParentProps> = (props) => {
 	const handleRenderSection = (agents: any[], title: string, key: number) => {
 		return (
 			<Section className="row" key={key}>
-				<div className="col-md-12">
-					<h2>{title}</h2>
+					<div className="col-md-12">
+						<h2>{title}</h2>
+					</div>
 					{agents.map((agent, index) => {
 						return (
-							<Agent key={index}>
-								<p>{agent.name}</p>
-								<p>{agent.role}</p>
-								<button onClick={() => handleUpdateAgentStatus('1', agent.currentStatus, agent.agentDid, agent.role)}>Approve</button>
-								<button onClick={() => handleUpdateAgentStatus('2', agent.currentStatus, agent.agentDid, agent.role)}>Reject</button>
-							</Agent>
+							<div className="col-md-3" key={index}>
+								<ProjectWidget title={agent.name}>
+									<Agent>
+										<p>{agent.role}</p>
+										<button onClick={() => handleUpdateAgentStatus('1', agent.currentStatus, agent.agentDid, agent.role)}>Approve</button>
+										<button onClick={() => handleUpdateAgentStatus('2', agent.currentStatus, agent.agentDid, agent.role)}>Reject</button>
+									</Agent>
+								</ProjectWidget>
+							</div>
 						);
 					})}
-				</div>
 			</Section>
 		);
 	};
@@ -103,8 +105,8 @@ export const ProjectAgents: React.SFC<ParentProps> = (props) => {
 	};
 
 	return (
-		<Container className="container-fluid">
+		<ProjectDetailWrapper>
 			{handleMapAgents()}
-		</Container>
+		</ProjectDetailWrapper>
 	);
 };
