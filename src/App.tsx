@@ -23,8 +23,13 @@ const theme = {
 		lightBlue: '#017492', // active button background for tabs on hero section
 		lightGrey: '#F6F6F6', // light background for projects list
 		gradientBlue: 'linear-gradient(to bottom, #012639 0%,#002d42 100%)', // background for widgets (charts, graphs, tabs, etc.)
-		gradientButton: 'linear-gradient(180deg, #49BFE0 0%, #016480 100%)'
+		gradientButton: 'linear-gradient(to bottom, #03D0FB 0%, #016480 100%)',
+		darkButton: '#0C3550'
 	},
+	fontBlueButtonNormal: 'white',
+	fontBlueButtonHover: '#83D9F2', 
+	fontDarkBlueButtonNormal: 'white',
+	fontDarkBlueButtonHover: '#00D2FF', 
 	fontBlue: '#49BFE0', // Same as ixoBlue
 	fontDarkBlue: '#013C4F', 
 	fontDarkGrey: '#282828',
@@ -34,7 +39,7 @@ const theme = {
 	fontRobotoCondensed: 'Roboto Condensed, sans-serif',
 	grey: '#E9E8E8', // borders for project list cards, progress bar background on projects list
 	darkGrey: '#656969', // "load more projects" button on project list
-	widgetBorder: '#0C3549', // border color for graphs/ charts, etc.
+	widgetBorder: '#0C3550', // border color for graphs/ charts, etc.
 	graphGradient: 'linear-gradient(to right, #016480 0%, #03d0FE 100%)', // gradient fill for graphs/bars/charts
 	red: '#E2223B'
 };
@@ -98,7 +103,9 @@ class App extends React.Component<App.Props, App.State> {
 	}
 
 	renderProjectContent() {
-		if (this.props.ixo === null) {
+		if (this.state.projectList === null) {
+			return <Spinner info="App: Loading Projects" />;
+		} else if (this.props.ixo === null) {
 			return <Spinner info="App: Loading IXO Module" />;
 		} else {
 			return (

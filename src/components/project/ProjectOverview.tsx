@@ -8,6 +8,7 @@ import { getCountryName } from '../../utils/formatters';
 import { ModalWrapper } from '../common/ModalWrapper';
 import { ProjectNewAgent } from './ProjectNewAgent';
 import { UserInfo } from '../../types/models';
+import { DarkButton, buttonTypes } from '../common/Buttons';
 // import { ModalWrapper } from './ModalWrapper';
 
 const OverviewContainer = styled.section`
@@ -162,6 +163,7 @@ const Button = styled.a`
 	}
 `;
 
+/*
 const BlueButton = styled.a`
 	border: 1px solid ${props => props.theme.ixoBlue};
     &&& {color: white;}
@@ -181,6 +183,7 @@ const BlueButton = styled.a`
 		text-decoration: none;
 	}
 `;
+*/
 
 const FounderContainer = styled.section`
 	padding: 50px 0;
@@ -234,7 +237,7 @@ const Founder = styled.div`
 `;
 
 export interface Props {
-	checkUserDid: () => void;
+	checkUserDid: () => boolean;
 	handleCreateAgent: (agentData: any) => void;
 	userInfo: UserInfo;
 	project: any;
@@ -316,15 +319,24 @@ export const ProjectOverview: React.SFC<Props> = (props) => {
 										);
 									})}
 								</div>
-								<BlueButton onClick={() => props.checkUserDid() && props.handleToggleModal({selectedRole: AgentRoles.investors}, true)}>
-									INVEST IN THIS Project
-								</BlueButton>
-								<BlueButton onClick={() => props.checkUserDid() && props.handleToggleModal({selectedRole: AgentRoles.evaluators}, true)}>
-									BECOME AN EVALUATOR
-								</BlueButton>
-								<BlueButton onClick={() => props.checkUserDid() && props.handleToggleModal({selectedRole: AgentRoles.serviceProviders}, true)} >
-									BECOME A SERVICE PROVIDER
-								</BlueButton>
+								<DarkButton 
+									value="Invest in this Project" 
+									type={buttonTypes.SECONDARY} 
+									disabled={false}
+									onClick={() => props.handleToggleModal({selectedRole: AgentRoles.investors}, true)}
+								/>
+								<DarkButton 
+									value="Become an Evaluator" 
+									type={buttonTypes.SECONDARY} 
+									disabled={false}
+									onClick={() => props.handleToggleModal({selectedRole: AgentRoles.evaluators}, true)}
+								/>
+								<DarkButton 
+									value="Become a Service Provider" 
+									type={buttonTypes.SECONDARY} 
+									disabled={false}
+									onClick={() => props.handleToggleModal({selectedRole: AgentRoles.serviceProviders}, true)}
+								/>
 							</Sidebar>
 							<Button><i className="icon-favourites"/>SAVE TO FAVOURITES</Button>
 							<Button><i className="icon-share"/>SHARE THIS PROJECT</Button>

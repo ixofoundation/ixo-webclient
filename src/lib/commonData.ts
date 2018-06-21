@@ -293,9 +293,14 @@ export const isoCountries = {
 
 // tslint:disable-next-line:max-line-length
 export const testProjectData = JSON.stringify(require('./json/project.json'));
+<<<<<<< HEAD
 export const claimJson = JSON.stringify(require('./json/claimForm.json'));
 // export const testClaimSchema = JSON.stringify(require('./json/claim.json'));
 // export const testClaimForm = '{}';
+=======
+export const testClaimSchema = JSON.stringify(require('./json/claim.json'));
+export const testClaimForm = '{}';
+>>>>>>> 4e4d6ebafb2ca75f3609973f39ae5912ecd67dd4
 
 export const testAgentData = '{"email":"don@ixo.com","name":"Don","role":"EA","agentDid":"did:sov:Tp25vz5iHoLJ4ktk7pKYC6","projectDid":"did:ixo:3vDYCPWvwCsj9Co3RqXp3z"}';
 export const testSig = {
