@@ -102,7 +102,7 @@ const NoPadLeft = styled.div`
 		font-size:16px;
 		margin-bottom:0;
 		display: flex;
-		justify-content: center;
+		justify-content: space-between;
 		z-index:2;
 		position:relative;
 		letter-spacing:0.3px
@@ -156,7 +156,6 @@ const StatusText = styled.p`
 `;
 
 interface HeaderRightProps {
-	selectedServer: string;
 	userInfo: any;
 	renderStatusIndicator: () => JSX.Element;
 }
@@ -191,7 +190,7 @@ export class HeaderRight extends React.Component<HeaderRightProps, State> {
 								{this.props.renderStatusIndicator()}
 								<StatusText>IXO EXPLORER STATUS</StatusText>
 							</StatusBox>
-							<h3><span>Michael</span> <i className="icon-arrow-dropdown-large" /></h3>
+							<h3><span>{this.props.userInfo.name}</span> <i className="icon-arrow-dropdown-large" /></h3>
 						</UserBox>
 					}
 				</Inner>
