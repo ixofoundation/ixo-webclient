@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { PublicSiteStoreState } from '../../redux/public_site_reducer';
 import styled from 'styled-components';
 // import { toast } from 'react-toastify';
@@ -58,7 +58,7 @@ const Ping = styled.div`
 	position:relative;
 	width: 100%;
 
-    &:hover {
+	&:hover {
         cursor:pointer;
     }
 
@@ -101,33 +101,29 @@ const LightReady = Light.extend`
     box-shadow: 0px 0px 5px 0px rgb(0, 255, 64);
 `;
 export interface State {
-	isServerConnected: boolean;
-	initialDate: Date;
+	isExplorerConnected: boolean;
 	responseTime: number;
 	selectedServer: string;
-	loginStatus: boolean;
-	currDid: string;
 	copied: boolean;
 }
 
 export interface StateProps {
 	ixo?: any;
 	keysafe?: any;
-	projectDid?: any;
 }
 
-export interface Props extends StateProps {
+export interface ParentProps {
+	userInfo: any;
+}
+export interface Props extends StateProps, ParentProps {
 }
 
 class Header extends React.Component<Props, State> {
 
 	state = {
-		isServerConnected: false,
-		initialDate: new Date(),
+		isExplorerConnected: false,
 		responseTime: 0,
 		selectedServer: 'https://ixo-node.herokuapp.com',
-		loginStatus: false,
-		currDid: '',
 		copied: false
 	};
 
@@ -144,27 +140,14 @@ class Header extends React.Component<Props, State> {
 	}
 
 	componentDidUpdate(prevProps: Props) {
-		if (prevProps.ixo !== this.props.ixo) {
+		if (prevProps.ixo !== this.props.ixo && this.props.ixo !== 0) {
 			// this.ping();
+			this.props.ixo.network.pingIxoExplorer().then((result) => {
+				console.log(result);
+			}).catch((error) => {
+				console.log(error);
+			});
 		}
-
-		if (prevProps.projectDid !== this.props.projectDid) {
-			console.log(this.props.projectDid);
-			// this.ping();
-		}
-
-		// if (prevProps.pingResult !== this.props.pingResult) {
-		// 	if (this.props.pingResult === 'pong') {
-		// 		const responseTime = Math.abs(new Date().getTime() - this.state.initialDate.getTime());
-		// 		this.setState({
-		// 			isServerConnected: true,
-		// 			responseTime
-		// 		});
-
-		// 	} else {
-		// 		this.setState({ isServerConnected: false });
-		// 	}
-		// }
 	}
 
 	renderStatusIndicator = () => {
@@ -179,7 +162,7 @@ class Header extends React.Component<Props, State> {
 	}
 
 	renderStatusMessage() {
-		if (this.state.isServerConnected) {
+		if (this.state.isExplorerConnected) {
 			return (
 				<StatusMessage>
 					<p>Response time: {this.state.responseTime} ms</p>
@@ -194,25 +177,13 @@ class Header extends React.Component<Props, State> {
 	}
 
 	renderLightIndicator() {
-		if (this.state.isServerConnected) {
+		if (this.state.isExplorerConnected) {
 			return <LightReady />;
 		// } else if (this.props.pingError === null) {
 		// 	return <LightLoading />;
 		} else {
 			return <Light />;
 		}
-	}
-
-	handleServerChange = (event) => {
-
-		// if (this.state.selectedServer !== event.target.value) {
-		// 	localStorage.setItem('server', event.target.value);
-		// 	this.setState({
-		// 		selectedServer: event.target.value,
-		// 		isServerConnected: false
-		// 	});
-		// 	this.props.onIxoInit();    
-		// }
 	}
 
 	render() {
@@ -224,7 +195,7 @@ class Header extends React.Component<Props, State> {
 						<HeaderRight 
 							renderStatusIndicator={this.renderStatusIndicator}
 							selectedServer={this.state.selectedServer}
-							did={this.state.currDid}
+							userInfo={this.props.userInfo}
 						/>
 					</MediaQuery>
 				</div>
@@ -236,11 +207,10 @@ class Header extends React.Component<Props, State> {
 function mapStateToProps(state: PublicSiteStoreState): StateProps {
 	return {
 		ixo: state.ixoStore.ixo,
-		keysafe: state.keysafeStore.keysafe,
-		projectDid: state.activeProjectStore.projectDid
+		keysafe: state.keysafeStore.keysafe
 	};
 }
 
-export const HeaderConnected = withRouter(connect(
+export const HeaderConnected = withRouter<Props & RouteComponentProps<{}>>(connect(
 	mapStateToProps
 )(Header) as any);

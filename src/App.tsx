@@ -11,6 +11,7 @@ import { initIxo } from './redux/ixo/ixo_action_creators';
 import { initKeysafe } from './redux/keysafe/keysafe_action_creators';
 import { UserInfo } from './types/models';
 import { initUserInfo } from './redux/login/login_action_creators';
+import ScrollToTop from './components/common/ScrollToTop';
 
 // THEME DECLARATION BELOW
 
@@ -78,7 +79,6 @@ class App extends React.Component<App.Props, App.State> {
 
 	state = {
 		projectList: null,
-		userInfo: null,
 		loginError: null,
 		isProjectPage: false
 	};
@@ -119,10 +119,12 @@ class App extends React.Component<App.Props, App.State> {
 	render() {
 		return (
 			<ThemeProvider theme={theme}>
-				<Container>
-					<HeaderConnected />
-					{this.renderProjectContent()}
-				</Container>
+				<ScrollToTop>
+					<Container>
+						<HeaderConnected userInfo={this.props.userInfo}/>
+						{this.renderProjectContent()}
+					</Container>
+				</ScrollToTop>
 			</ThemeProvider>
 		);
 	}

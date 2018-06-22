@@ -32,10 +32,11 @@ export interface State {
 	isModalOpen: boolean;
 	modalData: any;
 	project: Object;
-	ClaimList: Object[];
+	claims: Object[];
+	serviceProviders: any[];
+	investors: any[];
+	evaluators: any[];
 	PDSUrl: string;
-	Agents: Object;
-	selectedRoleToCreate: AgentRoles;
 	userRoles: AgentRoles[];
 }
 
@@ -58,7 +59,7 @@ export interface ParentProps {
 
 export interface Props extends ParentProps, StateProps, DispatchProps {}
 
-export class ProjectContainer extends React.Component<Props> {
+export class ProjectContainer extends React.Component<Props, State> {
 
 	state = {
 		isModalOpen: false,
@@ -119,6 +120,7 @@ export class ProjectContainer extends React.Component<Props> {
 				if (!error) {
 					this.props.ixo.claim.listClaimsForProject(ProjectDIDPayload, signature, this.state.PDSUrl).then((response: any) => {
 						this.setState({claims: response.result});
+						console.log('HERE ARE THE CLAIMS', response.result);
 					}).catch((result: Error) => {
 						console.log((result));
 					});
@@ -199,7 +201,14 @@ export class ProjectContainer extends React.Component<Props> {
 								agentsObj = [...this.state[agentRole]];
 							}
 							agentsObj = response.result;
-							this.setState({ [agentRole] : [...agentsObj]});
+							if (agentRole === AgentRoles.evaluators) {
+								this.setState({ evaluators : [...agentsObj]});
+							} else if (agentRole === AgentRoles.investors) {
+								this.setState({ investors : [...agentsObj]});
+							} else if (agentRole === AgentRoles.serviceProviders) {
+								this.setState({ serviceProviders : [...agentsObj]});
+							}
+							// this.setState({ [agentRole] : [...agentsObj]});
 						}
 					}).catch((result: Error) => {
 						console.log((result));

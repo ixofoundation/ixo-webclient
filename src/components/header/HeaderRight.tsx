@@ -13,17 +13,6 @@ const Inner = styled.div`
 	font-family: ${props => props.theme.fontRobotoCondensed};
 `;
 
-const IXO = styled.div`
-	font-size:30px;
-	line-height: 46px;
-	
-	img {
-		width:25px;
-		height:25px;
-		margin-top:-6px;
-	}
-`;
-
 const UserMenu = styled.div`
 	position: fixed;
 	top: -260px;
@@ -36,15 +25,15 @@ const UserMenu = styled.div`
 `;
 
 const UserBox = styled.div`
-	height: 90px;
 	width: 160px;
-	display: flex;
-	padding: 0 10px;
-	align-items:center;
-	justify-content:center;
+	height: 74px;
+	padding: 0 10px 20px 10px;
 	border-left: 1px solid #3C3D3D;
 	position:relative;
 	z-index: 2;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 
 	transition: all 0.5s ease;
 
@@ -60,7 +49,7 @@ const UserBox = styled.div`
 
 	i {
 		font-size: 11px;
-		margin: 4px 15px 0;
+		margin: 4px 0 0 10px;
 	}
 `;
 
@@ -106,14 +95,14 @@ const NoPadLeft = styled.div`
 	z-index:2;
 
 	${UserMenu}.visible {
-		top:90px;
+		top:74px;
 	}
 
 	h3 {
 		font-size:16px;
 		margin-bottom:0;
 		display: flex;
-		justify-content: space-between;
+		justify-content: center;
 		z-index:2;
 		position:relative;
 		letter-spacing:0.3px
@@ -157,19 +146,18 @@ const AccDID = styled.div`
 const StatusBox = styled.div`
 	text-align:center;
 	width: 110px;
-	margin-right: 20px;
 `;
 const StatusText = styled.p`
 	color: white;
 	text-transform: uppercase;
 	font-size: 11px;
-	margin: 5px auto 0;
+	margin: 5px auto 10px;
 	font-weight: normal;
 `;
 
 interface HeaderRightProps {
 	selectedServer: string;
-	did: string;
+	userInfo: any;
 	renderStatusIndicator: () => JSX.Element;
 }
 
@@ -190,23 +178,29 @@ export class HeaderRight extends React.Component<HeaderRightProps, State> {
 		return (
 			<NoPadLeft className="col-md-6">
 				<Inner className="d-flex justify-content-end">
-					<StatusBox>
-						{this.props.renderStatusIndicator()}
-						<StatusText>EXPLORER STATUS</StatusText>
-						<IXO><img src={xIcon} alt="IXO" /> 0.567</IXO>
-					</StatusBox>
-						{(this.props.did) &&
-							<UserBox onClick={this.toggleMenu} >
-								<h3>Michael <i className="icon-arrow-dropdown-large" /></h3>
-							</UserBox>
-						}
+					{(this.props.userInfo === null) ?
+						<UserBox>
+							<StatusBox>
+								{this.props.renderStatusIndicator()}
+								<StatusText>IXO EXPLORER STATUS</StatusText>
+							</StatusBox>
+						</UserBox>
+						:
+						<UserBox onClick={this.toggleMenu}>
+							<StatusBox>
+								{this.props.renderStatusIndicator()}
+								<StatusText>IXO EXPLORER STATUS</StatusText>
+							</StatusBox>
+							<h3><span>Michael</span> <i className="icon-arrow-dropdown-large" /></h3>
+						</UserBox>
+					}
 				</Inner>
 				<UserMenu className={this.state.showMenu ? 'visible' : ''}>
 						<MenuTop>
-							<h3>Michael <Link to="/"><i className="icon-settings-large"/></Link></h3>
+							<h3>{this.props.userInfo !== null && this.props.userInfo.name} <Link to="/"><i className="icon-settings-large"/></Link></h3>
 								<AccDID >
-									<p>{this.props.did}</p> 
-									<CopyToClipboard text={this.props.did}>
+									<p>{this.props.userInfo !== null && this.props.userInfo.didDoc.did}</p> 
+									<CopyToClipboard text={this.props.userInfo !== null && this.props.userInfo.didDoc.did}>
 										<span>Copy</span>
 									</CopyToClipboard>
 								</AccDID>
