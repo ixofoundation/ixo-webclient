@@ -171,9 +171,9 @@ export class ProjectCreate extends React.Component<StateProps, State> {
 							<TextArea value={this.state.projectJson} onChange={this.handleProjectChange} />
 							<button onClick={this.handleCreateProject}>CREATE PROJECT</button>
 							<br /><br />
-							<DarkButton type={buttonTypes.PRIMARY} value="Fetch image" onClick={this.fetchImage} />
+							<DarkButton type={buttonTypes.SECONDARY} value="Fetch image" onClick={this.fetchImage} />
 							<img src={this.state.fetchedImage} />
-							<DarkButton type={buttonTypes.PRIMARY} value="Fetch file" onClick={this.fetchFile} />
+							<DarkButton type={buttonTypes.SECONDARY} value="Fetch file" onClick={this.fetchFile} />
 							<TextArea value={this.state.fetchedFile} />
 						</div>
 					</div>
