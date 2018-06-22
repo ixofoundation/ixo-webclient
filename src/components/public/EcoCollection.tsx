@@ -19,6 +19,11 @@ const Card = styled.div`
 	padding: 20px;
 	margin: 40px 0 20px;
 	text-align: center;
+	height: 180px;
+	-webkit-transition: all 0.5s ease-out;
+	-moz-transition: all 0.5s ease-out;
+	-o-transition: all 0.5s ease-out;
+	transition: all 0.5s ease-out;
 	img {
 		padding-bottom: 20px;
 	}
@@ -26,6 +31,34 @@ const Card = styled.div`
 		font-size: 14px;
 		color: #4C4C4C;
 		font-weight: 300;
+	}
+	.website {
+		display: none;
+	}
+	&:hover {
+		background: rgba(1,25,38,0.94);
+		box-shadow: 0 2px 10px 0 rgba(0,0,0,0.18);
+		text-align: center;
+		img {
+			display: none;
+		}
+		p {
+			display: none;
+		}
+		.website {
+			display: inline-block;
+			position: relative;
+			top: calc(50% - 17.5px);
+			height: 35px;
+			color: white;
+			background: none;
+			border: 1px solid #00D2FF;
+			border-radius: 2px;
+			cursor: pointer;
+			padding: 0 20px;
+			font-size: 14px;
+			font-weight: 300;
+		}
 	}
 `;
 
@@ -37,59 +70,71 @@ export const EcoCollection: React.SFC<ParentProps> = (props) => {
 			<EcoCards className="row">
 				<div className="col-md-2" />
 				<div className="col-md-2">
-					<Card>
+					<Card className="row-eq-height">
 						<img src={innoLogo} alt="" />
 						<p>Innovation Edge</p>
+						<button className="website">Website</button>
 					</Card>
-					<Card>
+					<Card className="row-eq-height">
 						<img src={innoLogo} alt="" />
 						<p>Innovation Edge</p>
+						<button className="website">Website</button>
 					</Card>
-					<Card>
+					<Card className="row-eq-height">
 						<img src={innoLogo} alt="" />
 						<p>Innovation Edge</p>
-					</Card>
-				</div>
-				<div className="col-md-2">
-					<Card>
-						<img src={innoLogo} alt="" />
-						<p>Innovation Edge</p>
-					</Card>
-					<Card>
-						<img src={innoLogo} alt="" />
-						<p>Innovation Edge</p>
-					</Card>
-					<Card>
-						<img src={innoLogo} alt="" />
-						<p>Innovation Edge</p>
+						<button className="website">Website</button>
 					</Card>
 				</div>
 				<div className="col-md-2">
-					<Card>
+					<Card className="row-eq-height">
 						<img src={innoLogo} alt="" />
 						<p>Innovation Edge</p>
+						<button className="website">Website</button>
 					</Card>
-					<Card>
+					<Card className="row-eq-height">
 						<img src={innoLogo} alt="" />
 						<p>Innovation Edge</p>
+						<button className="website">Website</button>
 					</Card>
-					<Card>
+					<Card className="row-eq-height">
 						<img src={innoLogo} alt="" />
 						<p>Innovation Edge</p>
+						<button className="website">Website</button>
 					</Card>
 				</div>
 				<div className="col-md-2">
-					<Card>
+					<Card className="row-eq-height">
 						<img src={innoLogo} alt="" />
 						<p>Innovation Edge</p>
+						<button className="website">Website</button>
 					</Card>
-					<Card>
+					<Card className="row-eq-height">
 						<img src={innoLogo} alt="" />
 						<p>Innovation Edge</p>
+						<button className="website">Website</button>
 					</Card>
-					<Card>
+					<Card className="row-eq-height">
 						<img src={innoLogo} alt="" />
 						<p>Innovation Edge</p>
+						<button className="website">Website</button>
+					</Card>
+				</div>
+				<div className="col-md-2">
+					<Card className="row-eq-height">
+						<img src={innoLogo} alt="" />
+						<p>Innovation Edge</p>
+						<button className="website">Website</button>
+					</Card>
+					<Card className="row-eq-height">
+						<img src={innoLogo} alt="" />
+						<p>Innovation Edge</p>
+						<button className="website">Website</button>
+					</Card>
+					<Card className="row-eq-height">
+						<img src={innoLogo} alt="" />
+						<p>Innovation Edge</p>
+						<button className="website">Website</button>
 					</Card>
 				</div>
 				<div className="col-md-2" />
