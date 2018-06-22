@@ -8,6 +8,7 @@ import { ProjectForm } from './project/ProjectForm';
 import { AboutContainer } from './public/AboutContainer';
 import { MemberContainer } from './public/MemberContainer';
 import { FaqContainer } from './public/FaqContainer';
+import { EcoContainer } from './public/EcoContainer';
 export namespace Routes {
 	export interface StateProps {
 		projectList: any;
@@ -25,6 +26,7 @@ export const Routes: React.SFC<Routes.RouteProps> = (props) => {
 			<Route exact={true} path="/member" component={MemberContainer} />
 			<Route exact={true} path="/about" component={AboutContainer} />
 			<Route exact={true} path="/faqs" component={FaqContainer} />
+			<Route exact={true} path="/ecosystem" component={EcoContainer} />
 			<Route exact={true} path="/json" component={ProjectForm} />
 			<Route
 				exact={true}
