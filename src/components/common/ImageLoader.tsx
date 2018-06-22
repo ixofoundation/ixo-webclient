@@ -4,6 +4,7 @@ import ReactCrop, { makeAspectCrop } from 'react-image-crop/dist/ReactCrop';
 import 'react-image-crop/dist/ReactCrop.css';
 import Dropzone from 'react-dropzone'; 
 import { iconUpload } from '../../lib/commonData';
+import { DarkButton, buttonTypes } from '../common/Buttons';
 
 import styled from 'styled-components';
 
@@ -14,7 +15,7 @@ Parameters:
 	imageCallback: The callback function that is called when an image is selected it gets a base64encoded image file
 	imageWidth: The width in pixels of the resultant image file
 	aspect?: (Optional) If set is forces the aspect ratio (width/height) of the resultant image
-	placeholder?: (Optional) This is th etext to be displayed under the upload-icon. Default: "Choose file"
+	placeholder?: (Optional) This is the text to be displayed under the upload-icon. Default: "Choose file"
 
 Example:
 	<ImageLoader placeholder="Choose a project image file" imageWidth={960} aspect={16 / 9} imageCallback={this.handleImage}/>
@@ -34,27 +35,6 @@ const OverviewContainer = styled.div`
 	background: ${props => props.theme.bg.ixoBlue};
 `;
 
-const BlueButton = styled.a`
-	background: ${props => props.theme.bg.gradientButton};
-	border: 1px solid ${props => props.theme.ixoBlue};
-    &&& {color: white;}
-	font-size: 15px;
-    text-transform: uppercase;
-    padding: 10px 20px;
-    margin-bottom: 10px;
-	font-family: ${props => props.theme.fontRobotoCondensed};
-	text-align: center;
-
-	transition: all 0.3s ease;
-	cursor: pointer;
-	margin: 10px;
-
-	:hover {
-		&&&{ color: ${props => props.theme.fontBlue};}
-		text-decoration: none;
-	}
-`;
-
 const IconImage = styled.img`
 	padding: 3px;
 	margin-top: 10px;
@@ -62,16 +42,16 @@ const IconImage = styled.img`
 
 const styles = {
 	dropzone: {
-		'width': '100%',
-		'height': '150px',
-		'background-color': 'lightgrey',
-		'border-width': '2px',
-		'text-align': 'center',
-		'align-vertical': 'middle',
-		'display': 'flex',
-		'flex-direction': 'column',
-		'justify-content': 'center',
-		'border-radius': '5px',
+		width: '100%',
+		height: '150px',
+		backgroundColor: 'lightgrey',
+		borderWidth: '2px',
+		textAlign: 'center',
+		alignVertical: 'middle',
+		display: 'flex',
+		flexDirection: 'column',
+		justifyContent: 'center',
+		borderRadius: '5px',
 	}
 };
 
@@ -90,11 +70,13 @@ export interface State {
 	image: any;
 	crop: any;
 	pixelCrop: any;
+	filename: string;
 }	
 
 export class ImageLoader extends React.Component<StateProps, State> {
 
 	state = {
+			filename: null,
 			projectImgSrc: '',
 			isModalOpen: false,
 			image: null,
@@ -110,22 +92,6 @@ export class ImageLoader extends React.Component<StateProps, State> {
 			crop: null,
 			pixelCrop: null,
 		});
-	}
-
-	onPickFile = (event) => {
-		const file = event.target.files.item(0);
-
-		if (!file || !imageType.test(file.type)) {
-			return;
-		}
-	
-		const reader = new FileReader();
-	
-		reader.onload = (e2) => {
-			this.setState({ projectImgSrc: e2.target.result, isModalOpen: true });
-		};
-	
-		reader.readAsDataURL(file);
 	}
 
 	onCropChange = (crop) => {
@@ -164,7 +130,6 @@ export class ImageLoader extends React.Component<StateProps, State> {
 		if (this.state.pixelCrop != null) {
 			base64EncodedImage = this.getCroppedImg(this.state.image, this.state.pixelCrop);
 		} else {
-			console.log('uncropped');
 			base64EncodedImage = this.getUncroppedImg(this.state.image);
 		}
 		this.props.imageCallback(base64EncodedImage);
@@ -230,12 +195,11 @@ export class ImageLoader extends React.Component<StateProps, State> {
 	}	
 
 	onDropAccepted = (files) => {
-		console.log(files[0].name);
 		let file = files[0];
 		if (!file || !imageType.test(file.type)) {
 			return;
 		}
-	
+		this.setState({filename: file.name});
 		const reader = new FileReader();
 	
 		reader.onload = (e2) => {
@@ -246,12 +210,19 @@ export class ImageLoader extends React.Component<StateProps, State> {
 
 	}
 
+	showFilename = () => {
+		if (this.state.filename !== null) {
+			return ': "' + this.state.filename + '"';
+		}
+		return '';
+	}
+
 	render() {
 		return (
 			<div>
 				<Dropzone accept="image/*" onDropAccepted={this.onDropAccepted} style={styles.dropzone} >
 					<IconImage src={iconUpload()} />
-					<p>{this.props.placeholder || 'Choose file'}</p>
+					<p>{this.props.placeholder || 'Choose file'}{this.showFilename()}</p>
 				</Dropzone>
 				<ModalWrapper
 					isModalOpen={this.state.isModalOpen}
@@ -264,13 +235,11 @@ export class ImageLoader extends React.Component<StateProps, State> {
 							</ImageContainer>
 						</div>
 						<div className="row">
-							<div className="col-md-12">
-								<BlueButton onClick={() => this.cancel()}>
-									Cancel
-								</BlueButton>
-								<BlueButton onClick={() => this.save()}>
-									Save
-								</BlueButton>
+							<div className="col-md-6">
+								<DarkButton type={buttonTypes.SECONDARY} value="Cancel" onClick={() => this.cancel()} />
+							</div>
+							<div className="col-md-6">
+								<DarkButton type={buttonTypes.PRIMARY}  value="Submit" onClick={() => this.save()} />
 							</div>
 						</div>
 					</OverviewContainer>
