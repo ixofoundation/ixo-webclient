@@ -51,6 +51,7 @@ const BannerText = styled.div`
 		font-size: 15px;
 		font-family: ${props => props.theme.fontRobotoCondensed};
 		margin-top: 20px;
+		cursor: pointer;
 	}
 `;
 

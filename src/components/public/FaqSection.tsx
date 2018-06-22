@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 const CardContainer = styled.div`
 	background: #F6F6F6;
+	margin-top: 60px;
 	padding: 40px 0;
 	h2 {
 		font-size: 60px;
