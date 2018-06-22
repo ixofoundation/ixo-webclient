@@ -40,8 +40,8 @@ export interface ParentProps { }
 
 export const FaqSection: React.SFC<ParentProps> = (props) => {
 	return (
-		<CardContainer>
-			<div className="row">
+		<CardContainer className="row">
+			<div>
 				<div className="col-md-2" />
 				<div className="col-md-10">
 					<h2>FAQ</h2>

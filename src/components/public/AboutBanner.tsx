@@ -2,7 +2,15 @@ import * as React from 'react';
 import styled from 'styled-components';
 
 const penguinImg = require('../../assets/images/about/ixo-banner-penguin.png');
+const bannerBg = require('../../assets/images/about/ixo-banner-bg.jpg');
 
+const Banner = styled.div`
+	background: #002233 url(${bannerBg}) no-repeat;
+	background-size: cover;
+	width: 100%;
+	height: 600px;
+
+`;
 const BannerLeft = styled.div`
 	width: 100%;
 
@@ -110,26 +118,28 @@ export interface ParentProps { }
 
 export const AboutBanner: React.SFC<ParentProps> = (props) => {
 	return (
-		<div className="row">
-			<div className="col-md-4">
-				<BannerLeft>
-					<img src={penguinImg} alt="" />
-				</BannerLeft>
+		<Banner className="container-fluid">
+			<div className="row">
+				<div className="col-md-4">
+					<BannerLeft>
+						<img src={penguinImg} alt="" />
+					</BannerLeft>
+				</div>
+				<div className="col-md-8">
+					<BannerRight>
+						<div className="row">
+							<h2>What counts</h2>
+							<h5>Impact Data: Trust, Measure & Accountability</h5>
+							<p>ixo provides a trusted global information network that is owned by everyone. Enabling anyone to become the creators of their own impact projects and a stake-holder in the projects they believe in. </p>
+							<Button className="btn-box">
+								<div className="btn btn-hover">
+									<span>start your own impact project</span>
+								</div>
+							</Button>
+						</div>
+					</BannerRight>
+				</div>
 			</div>
-			<div className="col-md-8">
-				<BannerRight>
-					<div className="row">
-						<h2>What counts</h2>
-						<h5>Impact Data: Trust, Measure & Accountability</h5>
-						<p>ixo provides a trusted global information network that is owned by everyone. Enabling anyone to become the creators of their own impact projects and a stake-holder in the projects they believe in. </p>
-						<Button className="btn-box">
-							<div className="btn btn-hover">
-								<span>start your own impact project</span>
-							</div>
-						</Button>
-					</div>
-				</BannerRight>
-			</div>
-		</div>
+		</Banner>
 	);
 };

@@ -43,7 +43,7 @@ const MattersRight = styled.div`
 	width: 85%;
 	display: inline-flex;
 	position: relative;
-	top: -80px;
+	top: -50px;
 	.sdg-icon {
 		margin-bottom: 15px;
 	}
