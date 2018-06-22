@@ -10,7 +10,7 @@ const MattersContainer = styled.div`
 `;
 const MattersLeft = styled.div`
 	width: 100%;
-	margin-top: 40px;
+	margin-top: 80px;
 	h2 {
 		font-size: 60px;
 		font-family: ${props => props.theme.fontRobotoCondensed};
