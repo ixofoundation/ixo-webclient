@@ -17,7 +17,7 @@ const BaseButton = styled.a`
 	transition: all 0.3s ease;
 `;
 
-const EnabledDarkPrimaryButtonComponent = BaseButton.extend`
+const EnabledPrimary = BaseButton.extend`
 	background: ${props => props.theme.bg.gradientButton};
 	&&&{ color: ${props => props.theme.fontDarkBlueButtonNormal} };
 	font-family: ${props => props.theme.fontRobotoCondensed};
@@ -29,19 +29,20 @@ const EnabledDarkPrimaryButtonComponent = BaseButton.extend`
 	}
 `;
 
-const EnabledDarkSecondaryButtonComponent = BaseButton.extend`
-	background: ${props => props.theme.bg.darkButton};
+const EnabledSecondary = BaseButton.extend`
+	background: ${props => props.theme.bg.gradientBlue};
 	&&&{ color: ${props => props.theme.fontDarkBlueButtonNormal} };
 	border: 1px solid ${props => props.theme.ixoBlue};
 	cursor: pointer;
 	
 	:hover {
 		&&&{ color: ${props => props.theme.fontBlueButtonHover} }
+		background: ${props => props.theme.bg.darkButton};
 		text-decoration: none;
 	}
 `;
 
-const DisabledDarkButtonComponent = BaseButton.extend`
+const Disabled = BaseButton.extend`
 	&&&{color: ${props => props.theme.ixoBlue} };
 	border: 1px solid ${props => props.theme.ixoBlue};
 	opacity: 0.4;
@@ -57,20 +58,19 @@ const Plus = styled.span`
 	margin-right: 5px;
 `;
 
-export const buttonTypes = {
-	PRIMARY: 'primary',
-	SECONDARY: 'secondary',
-};
+export enum ButtonTypes {
+	gradient = 'gradient',
+	dark = 'dark',
+}
 
 export interface Props {
-	value: string;
 	onClick: (event: any) => void;
-	type: string;
+	type: ButtonTypes;
 	disabled?: boolean;
 	plus?: true;
 }
 
-export const DarkButton: React.SFC<Props> = (props) => {
+export const Button: React.SFC<Props> = (props) => {
 	const renderPlus = () => {
 		if ( props.plus ) {
 			return <Plus>+ </Plus>;
@@ -80,22 +80,22 @@ export const DarkButton: React.SFC<Props> = (props) => {
 
 	if (props.disabled) {
 		return (
-			<DisabledDarkButtonComponent >
-				{renderPlus()} {props.value}
-			</DisabledDarkButtonComponent>
+			<Disabled >
+				{renderPlus()} {props.children}
+			</Disabled>
 		);
 	} else {
-		if (props.type === buttonTypes.PRIMARY) {
+		if (props.type === ButtonTypes.gradient) {
 			return (
-				<EnabledDarkPrimaryButtonComponent onClick={props.onClick} >
-					{renderPlus()} {props.value}
-				</EnabledDarkPrimaryButtonComponent>
+				<EnabledPrimary onClick={props.onClick} >
+					{renderPlus()} {props.children}
+				</EnabledPrimary>
 			);
 		} else {
 			return (
-				<EnabledDarkSecondaryButtonComponent onClick={props.onClick} >
-					{renderPlus()} {props.value}
-				</EnabledDarkSecondaryButtonComponent>
+				<EnabledSecondary onClick={props.onClick} >
+					{renderPlus()} {props.children}
+				</EnabledSecondary>
 			);
 		}
 	}

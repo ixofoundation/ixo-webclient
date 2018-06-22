@@ -183,7 +183,7 @@ export class ProjectContainer extends React.Component<Props, State> {
 
 	handleListAgents = (agentRole: string) => {
 		if (this.state[agentRole] === null) {
-			const ProjectDIDPayload: Object = { projectDid: this.props.projectDid, role: AgentRoles[agentRole], agentDid: this.props.userInfo.didDoc.did};
+			const ProjectDIDPayload: Object = { projectDid: this.props.projectDid, role: AgentRoles[agentRole]};
 			this.props.keysafe.requestSigning(JSON.stringify(ProjectDIDPayload), (error, signature) => {	
 				if (!error) {
 					this.props.ixo.agent.listAgentsForProject(ProjectDIDPayload, signature, this.state.PDSUrl).then((response: any) => {

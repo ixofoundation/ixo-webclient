@@ -8,8 +8,7 @@ import { getCountryName } from '../../utils/formatters';
 import { ModalWrapper } from '../common/ModalWrapper';
 import { ProjectNewAgent } from './ProjectNewAgent';
 import { UserInfo } from '../../types/models';
-import { DarkButton, buttonTypes } from '../common/Buttons';
-// import { ModalWrapper } from './ModalWrapper';
+import { Button, ButtonTypes } from '../common/Buttons';
 
 const OverviewContainer = styled.section`
 
@@ -125,7 +124,7 @@ const Social = styled.div`
 	}
 `;
 
-const Button = styled.a`
+const LocalButton = styled.a`
 	border: 1px solid #B8B8B8;
     &&& {color: ${props => props.theme.fontGrey};}
     font-size: 16px;
@@ -162,28 +161,6 @@ const Button = styled.a`
 		transition: color 0.3s ease;
 	}
 `;
-
-/*
-const BlueButton = styled.a`
-	border: 1px solid ${props => props.theme.ixoBlue};
-    &&& {color: white;}
-	font-size: 15px;
-    text-transform: uppercase;
-    padding: 10px 20px;
-    margin-bottom: 10px;
-	font-family: ${props => props.theme.fontRobotoCondensed};
-	display:block;
-	text-align: center;
-
-	transition: all 0.3s ease;
-	cursor: pointer;
-	
-	:hover {
-		&&&{ color: ${props => props.theme.fontBlue};}
-		text-decoration: none;
-	}
-`;
-*/
 
 const FounderContainer = styled.section`
 	padding: 50px 0;
@@ -320,27 +297,27 @@ export const ProjectOverview: React.SFC<ParentProps> = (props) => {
 										);
 									})}
 								</div>
-								<DarkButton 
-									value="Invest in this Project" 
-									type={buttonTypes.SECONDARY} 
+								<Button 
+									type={ButtonTypes.dark} 
 									disabled={false}
 									onClick={() => props.toggleModal({selectedRole: AgentRoles.investors}, true)}
-								/>
-								<DarkButton 
-									value="Become an Evaluator" 
-									type={buttonTypes.SECONDARY} 
+								>Invest in this Project
+								</Button>
+								<Button 
+									type={ButtonTypes.dark} 
 									disabled={false}
 									onClick={() => props.toggleModal({selectedRole: AgentRoles.evaluators}, true)}
-								/>
-								<DarkButton 
-									value="Become a Service Provider" 
-									type={buttonTypes.SECONDARY} 
+								>Become an Evaluator
+								</Button>
+								<Button 
+									type={ButtonTypes.dark} 
 									disabled={false}
 									onClick={() => props.toggleModal({selectedRole: AgentRoles.serviceProviders}, true)}
-								/>
+								>Become a Service Provider
+								</Button>
 							</Sidebar>
-							<Button><i className="icon-favourites"/>SAVE TO FAVOURITES</Button>
-							<Button><i className="icon-share"/>SHARE THIS PROJECT</Button>
+							<LocalButton><i className="icon-favourites"/>SAVE TO FAVOURITES</LocalButton>
+							<LocalButton><i className="icon-share"/>SHARE THIS PROJECT</LocalButton>
 						</div>
 					</div>
 				</div>

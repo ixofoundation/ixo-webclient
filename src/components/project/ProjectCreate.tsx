@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { decode as base64Decode } from 'base-64';
 import { testProjectData } from '../../lib/commonData';
-import { DarkButton, buttonTypes } from '../common/Buttons';
+import { Button, ButtonTypes } from '../common/Buttons';
 import { FileLoader } from '../common/FileLoader';
 
 const Text = styled.input`
@@ -160,20 +160,20 @@ export class ProjectCreate extends React.Component<StateProps, State> {
 							<Text placeholder="Project datastore url example: http://104.155.142.57:5000/" value={this.state.pdsURL} onChange={this.handlePdsUrlChange} />
 							<ImageLoader placeholder="Choose project image file" imageWidth={960} aspect={16 / 9} imageCallback={this.handleImage}/>
 							<img src={this.state.croppedImg} />
-							<DarkButton type={buttonTypes.PRIMARY} value="Upload image" onClick={this.uploadImage} />
+							<Button type={ButtonTypes.gradient} onClick={this.uploadImage} >Upload image</Button>
 							<FileLoader placeholder="Choose claim schema file" acceptType="application/json" selectedCallback={(dataUrl) => this.handleFileSelected('schema', dataUrl)}/>
-							<DarkButton type={buttonTypes.PRIMARY} value="Upload file" onClick={() => this.uploadFile('schema')} />
+							<Button type={ButtonTypes.gradient} onClick={() => this.uploadFile('schema')} >Upload file</Button>
 							<Text value={this.state.project.templates.claim.schema} />
 							<FileLoader placeholder="Choose claim form file" acceptType="application/json" selectedCallback={(dataUrl) => this.handleFileSelected('form', dataUrl)}/>
-							<DarkButton type={buttonTypes.PRIMARY} value="Upload file" onClick={() => this.uploadFile('form')} />
+							<Button type={ButtonTypes.gradient} onClick={() => this.uploadFile('form')} >Upload file</Button>
 							<Text value={this.state.project.templates.claim.form} />
 
 							<TextArea value={this.state.projectJson} onChange={this.handleProjectChange} />
 							<button onClick={this.handleCreateProject}>CREATE PROJECT</button>
 							<br /><br />
-							<DarkButton type={buttonTypes.SECONDARY} value="Fetch image" onClick={this.fetchImage} />
+							<Button type={ButtonTypes.dark} onClick={this.fetchImage} >Fetch image</Button>
 							<img src={this.state.fetchedImage} />
-							<DarkButton type={buttonTypes.SECONDARY} value="Fetch file" onClick={this.fetchFile} />
+							<Button type={ButtonTypes.dark} onClick={this.fetchFile} >Fetch file</Button>
 							<TextArea value={this.state.fetchedFile} />
 						</div>
 					</div>

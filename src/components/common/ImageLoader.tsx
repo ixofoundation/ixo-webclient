@@ -4,7 +4,7 @@ import ReactCrop, { makeAspectCrop } from 'react-image-crop/dist/ReactCrop';
 import 'react-image-crop/dist/ReactCrop.css';
 import Dropzone from 'react-dropzone'; 
 import { iconUpload } from '../../lib/commonData';
-import { DarkButton, buttonTypes } from '../common/Buttons';
+import { Button, ButtonTypes } from '../common/Buttons';
 
 import styled from 'styled-components';
 
@@ -236,10 +236,10 @@ export class ImageLoader extends React.Component<StateProps, State> {
 						</div>
 						<div className="row">
 							<div className="col-md-6">
-								<DarkButton type={buttonTypes.SECONDARY} value="Cancel" onClick={() => this.cancel()} />
+								<Button type={ButtonTypes.dark} onClick={() => this.cancel()}>Cancel</Button>
 							</div>
 							<div className="col-md-6">
-								<DarkButton type={buttonTypes.PRIMARY}  value="Submit" onClick={() => this.save()} />
+								<Button type={ButtonTypes.dark} onClick={() => this.save()}>Submit</Button>
 							</div>
 						</div>
 					</OverviewContainer>

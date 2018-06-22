@@ -1,7 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import { AgentRoles } from '../../types/models';
-import { DarkButton, buttonTypes } from '../common/Buttons';
+import { Button, ButtonTypes } from '../common/Buttons';
 
 const Text = styled.input`
 	margin: 20px 0;
@@ -60,7 +60,7 @@ export class ProjectNewAgent extends React.Component<ParentProps, State> {
 							<h1>{this.renderTitle(this.props.role)}</h1>
 							<Text placeholder="Name" value={this.state.name} onChange={this.handleNameChange} />
 							<Text placeholder="Email" value={this.state.email} onChange={this.handleEmailChange} />
-							<DarkButton type={buttonTypes.PRIMARY} onClick={(e) => this.props.submitAgent(this.props.role, this.state)} value="Submit new Agent"/>
+							<Button type={ButtonTypes.gradient} onClick={(e) => this.props.submitAgent(this.props.role, this.state)}>Submit new Agent</Button>
 						</div>
 					</div>
 				</Container>
@@ -69,16 +69,3 @@ export class ProjectNewAgent extends React.Component<ParentProps, State> {
 		);
 	}
 }
-
-/*
-function mapStateToProps(state: PublicSiteStoreState): ParentProps {
-	return {
-		submitAgent: state.ixoStore.ixo
-		role: state
-	};
-}
-
-export const ProjectNewAgentConnected = (connect(
-	mapStateToProps
-)(ProjectNewAgent));
-*/
