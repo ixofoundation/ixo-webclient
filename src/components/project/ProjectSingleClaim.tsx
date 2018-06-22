@@ -1,20 +1,14 @@
 import * as React from 'react';
-import styled from 'styled-components';
-
-const Claim = styled.div`
-	background: grey;
-	padding: 10px;
-	display: inline-block;
-	color: white;
-	margin: 10px;
-`;
+import { ProjectDetailWrapper } from './ProjectDetailWrapper';
+import { ProjectWidget } from './ProjectWidget';
+import { AgentRoles } from '../../types/models';
 
 export interface ParentProps {
 	match: any;
 	claims: any[];
 	handleListClaims: () => any;
 	handleEvaluateClaim: (status: object, claimId: string) => void;
-
+	hasCapability: (role: AgentRoles) => boolean;
 }
 export const ProjectSingleClaim: React.SFC<ParentProps> = (props) => {
 	const claimId = props.match.params.claimID;
@@ -43,6 +37,15 @@ export const ProjectSingleClaim: React.SFC<ParentProps> = (props) => {
 		}
 	};
 
+	const handleRenderButtons = (claim: any) => {
+		return (
+			<div>
+				<button onClick={() => handleEvaluateClaim('1', claim.evaluations, claim.txHash)}>Approve</button>
+				<button onClick={() => handleEvaluateClaim('2', claim.evaluations, claim.txHash)}>Reject</button>
+			</div>
+		);
+	};
+
 	const handleRenderClaim = () => {
 
 		if (props.claims === null) {
@@ -50,18 +53,23 @@ export const ProjectSingleClaim: React.SFC<ParentProps> = (props) => {
 			return <p>Loading claim...</p>;
 		} else {
 			const claim = props.claims.filter((theClaim) => theClaim.txHash === claimId)[0];
+			console.log(claim);
 			if (!claim) {
 				return <p>No claim found with that ID</p>;
 			}
-			console.log(claim);
 			return (
-				<Claim>
-					<h3>{claim.name}</h3>
-					<p>{claim._id}</p>
-					<p>{handleRenderStatus(claim.evaluations)}</p>
-					<button onClick={() => handleEvaluateClaim('1', claim.evaluations, claim.txHash)}>Approve</button>
-					<button onClick={() => handleEvaluateClaim('2', claim.evaluations, claim.txHash)}>Reject</button>
-				</Claim>
+				<ProjectDetailWrapper>
+					<div className="row">
+						<div className="col-md-12">
+							<ProjectWidget>
+								<h3>{claim.name}</h3>
+								<p>{claim._id}</p>
+								<p>{handleRenderStatus(claim.evaluations)}</p>
+								{props.hasCapability(AgentRoles.evaluators) && handleRenderButtons(claim)}
+							</ProjectWidget>
+						</div>
+					</div>
+				</ProjectDetailWrapper>
 			);
 		}
 	};

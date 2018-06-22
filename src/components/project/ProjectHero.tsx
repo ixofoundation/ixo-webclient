@@ -5,7 +5,7 @@ import { SDGArray, deviceWidth } from '../../lib/commonData';
 import MediaQuery from 'react-responsive';
 import { Link } from 'react-router-dom';
 import { getCountryName } from '../../utils/formatters';
-import { MatchType } from '../../types/models';
+import { MatchType, AgentRoles } from '../../types/models';
 const bg = require('../../assets/images/heroBg.jpg');
 
 const SingleSDG = styled.a`
@@ -142,6 +142,7 @@ const AddClaim = styled(Link)`
 	width: 288px;
 	padding:10px 0;
 	font-family: ${props => props.theme.fontRobotoCondensed};
+	margin-right: 10px;
 
 	:hover {
 		text-decoration: none;
@@ -154,9 +155,10 @@ export interface Props {
 	project: any;
 	match: any;
 	isDetail: boolean;
+	hasCapability: (role: AgentRoles) => boolean;
 }
 
-export const ProjectHero: React.SFC<Props> = ({project, match, isDetail}) => {
+export const ProjectHero: React.SFC<Props> = ({project, match, isDetail, hasCapability}) => {
 
 	const buttonsArray = [
 		{ iconClass: 'icon-projects', path: `/projects/${match.params.projectDID}/overview`, title: 'PROJECT' },
@@ -180,7 +182,8 @@ export const ProjectHero: React.SFC<Props> = ({project, match, isDetail}) => {
 								);
 							})}
 							{!isDetail && <Description>{project.shortDescription}</Description>}
-							{!isDetail && <AddClaim to={`/projects/${match.params.projectDID}/detail/new-claim`}>+ CAPTURE CLAIM</AddClaim>}
+							{!isDetail && hasCapability(AgentRoles.serviceProviders) && <AddClaim to={`/projects/${match.params.projectDID}/detail/new-claim`}>+ CAPTURE CLAIM</AddClaim>}
+							{!isDetail && hasCapability(AgentRoles.evaluators) && <AddClaim to={`/projects/${match.params.projectDID}/detail/claims`}>EVALUATE CLAIMS</AddClaim>}
 						</ColLeft>
 						<ColRight className="col-lg-4 col-sm-12">
 							<p><strong>Created:</strong> {project.createdOn.split('T')[0]}</p>

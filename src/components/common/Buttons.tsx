@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 const BaseButton = styled.a`
 	border-radius: 2px;
+	color: white;
 	font-size: 15px;
 	font-weight: 300;
 	text-transform: uppercase;
@@ -17,25 +18,23 @@ const BaseButton = styled.a`
 `;
 
 const EnabledDarkPrimaryButtonComponent = BaseButton.extend`
-	background: ${props => props.theme.bg.gradientButton};
-	&&&{color: ${props => props.theme.fontBlueButtonNormal} };
 	font-family: ${props => props.theme.fontRobotoCondensed};
 	cursor: pointer;
 
 	:hover {
 		&&&{ color: ${props => props.theme.fontBlueButtonHover} }
+		background: ${props => props.theme.bg.gradientButton};
 		text-decoration: none;
 	}
 `;
 
 const EnabledDarkSecondaryButtonComponent = BaseButton.extend`
-	background: ${props => props.theme.bg.darkButton};
-	&&&{color: ${props => props.theme.ixoBlue} };
 	border: 1px solid ${props => props.theme.ixoBlue};
 	cursor: pointer;
 	
 	:hover {
 		&&&{ color: ${props => props.theme.fontBlueButtonHover} }
+		background: ${props => props.theme.bg.darkButton};
 		text-decoration: none;
 	}
 `;

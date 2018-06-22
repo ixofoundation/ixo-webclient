@@ -5,6 +5,7 @@ const Container = styled.div`
 	padding:40px;
 	background: ${props => props.theme.bg.blue};
 	color: white;
+	min-height: 800px;
 `;
 export const ProjectDetailWrapper: React.SFC<{}> = ({children}) => {
 	return (

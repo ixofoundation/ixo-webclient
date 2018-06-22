@@ -21,7 +21,7 @@ const Container = styled.div`
 
 const NavItem = styled(NavLink)`
 	color: white;
-	margin: 60px 0;
+	margin: 30px 0;
 	width: 100%;
 	height: 50px;
 	display:flex;

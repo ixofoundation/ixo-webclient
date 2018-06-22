@@ -5,7 +5,7 @@ import { ProjectWidget } from './ProjectWidget';
 import { ProjectDetailWrapper } from './ProjectDetailWrapper';
 
 const Container = styled.div`
-	height: 1200px;
+	color: white;
 `;
 export interface ParentProps {
 	projectDid: string;
@@ -18,6 +18,7 @@ export const ProjectDashboard: React.SFC<ParentProps> = ({projectDid}) => {
 				<div className="col-md-12">
 					<h2>DASHBOARD</h2>
 				</div>
+
 				<div className="col-md-3">
 					<ProjectWidget title="Evaluators">
 						<Link to={`/projects/${projectDid}/detail/evaluators`}>List evaluators</Link>
