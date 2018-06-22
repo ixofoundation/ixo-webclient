@@ -2,7 +2,6 @@ import * as React from 'react';
 import styled from 'styled-components';
 
 const CardContainer = styled.div`
-	margin: 166px 0 0px;
 	background: #F6F6F6;
 	padding: 40px 0;
 	h2 {

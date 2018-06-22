@@ -1,6 +1,16 @@
 import * as React from 'react';
 import styled from 'styled-components';
 
+const bannerImg = require('../../assets/images/faq/faq-bg.jpg');
+
+const Banner = styled.div`
+	background: #002233 url(${bannerImg}) no-repeat;
+	background-size: cover;
+	width: 100%;
+	height: 350px;
+	margin: 0;
+`;
+
 const BannerText = styled.div`
 	width: 100%;
 	color: white;
@@ -48,7 +58,7 @@ export interface ParentProps { }
 
 export const FaqBanner: React.SFC<ParentProps> = (props) => {
 	return (
-		<div className="row">
+		<Banner className="row">
 			<div className="col-md-2" />
 			<div className="col-md-10">
 				<BannerText>
@@ -59,6 +69,6 @@ export const FaqBanner: React.SFC<ParentProps> = (props) => {
 					</div>
 				</BannerText>
 			</div>
-		</div>
+		</Banner>
 	);
 };
