@@ -97,16 +97,13 @@ export class ProjectContainer extends React.Component<Props, State> {
 
 	handleGetCapabilities = () => {
 		const userRoles = [];
-		this.setState({userRoles: []});
 		const userDid = this.props.userInfo.didDoc.did;
 		this.state.project.agents.map((agent) => {
 			if (agent.did === userDid) {
 				userRoles.push(agent.role);
 			}
 		});
-
 		this.setState({ userRoles: userRoles});
-		console.log(userRoles);
 	}
 
 	handleHasCapability = (role: AgentRoles) => {
@@ -305,7 +302,6 @@ export class ProjectContainer extends React.Component<Props, State> {
 	}
 
 	handleRenderProject = () => {
-		debugger;
 		if (this.state.project === null || this.state.userRoles === null) {
 			return <Spinner info="ProjectContainer: Loading Project"/>;
 		} else {
