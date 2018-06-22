@@ -120,7 +120,6 @@ export class ProjectContainer extends React.Component<Props, State> {
 				if (!error) {
 					this.props.ixo.claim.listClaimsForProject(ProjectDIDPayload, signature, this.state.PDSUrl).then((response: any) => {
 						this.setState({claims: response.result});
-						console.log('HERE ARE THE CLAIMS', response.result);
 					}).catch((result: Error) => {
 						console.log((result));
 					});
@@ -137,23 +136,23 @@ export class ProjectContainer extends React.Component<Props, State> {
 			return <Loading className="col-md-12"><p>Loading...</p></Loading>;
 		} else if (this.state.claims.length > 0) {		
 			return (
-				<div>
+				<Fragment>
 					<ProjectHero project={this.state.project} match={this.props.match} isDetail={true} hasCapability={this.handleHasCapability} />
 					<DetailContainer>
 						<ProjectSidebar match={this.props.match} projectDid={this.props.projectDid}/>
 						<ProjectClaims claims={this.state.claims} projectDid={this.props.projectDid}/>
 					</DetailContainer>
-				</div>
+				</Fragment>
 			);
 		} else {
 			return (
-				<div>
+				<Fragment>
 					<ProjectHero project={this.state.project} match={this.props.match} isDetail={true} hasCapability={this.handleHasCapability} />
 					<DetailContainer>
 						<ProjectSidebar match={this.props.match} projectDid={this.props.projectDid}/>
 						<Loading className="container-fluid"><p>No Claims found</p></Loading>
 					</DetailContainer>
-				</div>
+				</Fragment>
 			);
 		} 
 	}
@@ -186,10 +185,8 @@ export class ProjectContainer extends React.Component<Props, State> {
 	}
 
 	handleListAgents = (agentRole: string) => {
-		
 		if (this.state[agentRole] === null) {
-			this.state[agentRole] = [];
-			const ProjectDIDPayload: Object = { projectDid: this.props.projectDid, role: AgentRoles[agentRole]};
+			const ProjectDIDPayload: Object = { projectDid: this.props.projectDid, role: AgentRoles[agentRole], agentDid: this.props.userInfo.didDoc.did};
 			this.props.keysafe.requestSigning(JSON.stringify(ProjectDIDPayload), (error, signature) => {	
 				if (!error) {
 					this.props.ixo.agent.listAgentsForProject(ProjectDIDPayload, signature, this.state.PDSUrl).then((response: any) => {
@@ -201,14 +198,9 @@ export class ProjectContainer extends React.Component<Props, State> {
 								agentsObj = [...this.state[agentRole]];
 							}
 							agentsObj = response.result;
-							if (agentRole === AgentRoles.evaluators) {
-								this.setState({ evaluators : [...agentsObj]});
-							} else if (agentRole === AgentRoles.investors) {
-								this.setState({ investors : [...agentsObj]});
-							} else if (agentRole === AgentRoles.serviceProviders) {
-								this.setState({ serviceProviders : [...agentsObj]});
-							}
-							// this.setState({ [agentRole] : [...agentsObj]});
+
+							// @ts-ignore
+							this.setState({ [agentRole]: [...agentsObj]});
 						}
 					}).catch((result: Error) => {
 						console.log((result));
@@ -313,6 +305,7 @@ export class ProjectContainer extends React.Component<Props, State> {
 	}
 
 	handleRenderProject = () => {
+		debugger;
 		if (this.state.project === null || this.state.userRoles === null) {
 			return <Spinner info="ProjectContainer: Loading Project"/>;
 		} else {
@@ -349,7 +342,7 @@ export class ProjectContainer extends React.Component<Props, State> {
 				case contentType.newClaim:
 					return (
 						<Fragment>
-							<ProjectHero project={project} match={this.props.match} isDetail={true} hasCapability={this.handleHasCapability} />
+							<ProjectHero isClaim={true} project={project} match={this.props.match} isDetail={true} hasCapability={this.handleHasCapability} />
 							<DetailContainer>
 								<ProjectSidebar match={this.props.match} projectDid={this.props.projectDid}/>
 								<ProjectNewClaim submitClaim={(claimData) => this.handleSubmitClaim(claimData)}/>
@@ -359,7 +352,7 @@ export class ProjectContainer extends React.Component<Props, State> {
 				case contentType.singleClaim:
 					return (
 						<Fragment>
-							<ProjectHero project={project} match={this.props.match} isDetail={true} hasCapability={this.handleHasCapability} />
+							<ProjectHero isClaim={true} project={project} match={this.props.match} isDetail={true} hasCapability={this.handleHasCapability} />
 							<DetailContainer>
 								<ProjectSidebar match={this.props.match} projectDid={this.props.projectDid}/>
 								<ProjectSingleClaim 

@@ -25,7 +25,7 @@ const TopBar = styled.header`
 
 const StatusMessage = styled.div`
     opacity:0; 
-    background: ${props => props.theme.ixoBlue};
+    background: ${props => props.theme.bg.lightBlue};
     position: absolute;
     color: white;
     top: 15px;
@@ -49,7 +49,7 @@ const StatusMessage = styled.div`
         height: 0;
         border-left: 10px solid transparent;
         border-right: 10px solid transparent;
-        border-bottom: 10px solid ${props => props.theme.ixoBlue};
+        border-bottom: 10px solid ${props => props.theme.bg.lightBlue};
         position: absolute;
         top: -10px;
         right: 20px;

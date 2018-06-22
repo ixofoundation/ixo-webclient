@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { Tabs } from '../common/Tabs';
 import { SDGArray, deviceWidth } from '../../lib/commonData';
 import MediaQuery from 'react-responsive';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import { getCountryName } from '../../utils/formatters';
 import { MatchType, AgentRoles } from '../../types/models';
 const bg = require('../../assets/images/heroBg.jpg');
@@ -58,24 +58,14 @@ const TabsController = styled.div`
 	position: fixed;
 	display: flex;
 	justify-content: flex-end;
-	z-index: 11;
-	top: 74px;
+	z-index: 0;
+	top: 80px;
 	right: 0;
 	width: 100%;
 
-	a:last-child {
-		padding: 10px;
-	}
-
-	a:last-child i {
-		margin: 0;
-		font-size:22px;
-	}
-
-	@media (min-width: ${deviceWidth.tablet}px){
+	@media (min-width: ${deviceWidth.desktopLarge}px){
 		top: 65px;
-		left: auto;
-		right: auto;
+		z-index: 11;
 	}
 `;
 
@@ -151,20 +141,78 @@ const AddClaim = styled(Link)`
 	}
 `;
 
+const SubTextContainer = styled.div`
+	margin-bottom: 20px;
+
+	@media (min-width: ${deviceWidth.desktop}px) {
+		margin-bottom: 0;
+	}
+`;
+
+const SubNavItem = styled(NavLink).attrs({
+		activeClassName: 'active'
+	})`
+	color: ${props => props.theme.fontBlue};
+	font-family: ${props => props.theme.fontRobotoCondensed};
+	font-weight: 300;
+	font-size: 14px;
+	text-transform: uppercase;
+
+	&.active {
+		color: white;
+	}
+
+	+ span  {
+		color: ${props => props.theme.fontBlue};
+		margin:0 10px;
+	}
+	:hover {
+		color: white;
+		text-decoration: none;
+	}
+`;
+
 export interface Props {
 	project: any;
 	match: any;
 	isDetail: boolean;
+	isClaim?: boolean;
 	hasCapability: (role: AgentRoles) => boolean;
 }
 
-export const ProjectHero: React.SFC<Props> = ({project, match, isDetail, hasCapability}) => {
+export const ProjectHero: React.SFC<Props> = ({project, match, isDetail, hasCapability, isClaim}) => {
 
 	const buttonsArray = [
 		{ iconClass: 'icon-projects', path: `/projects/${match.params.projectDID}/overview`, title: 'PROJECT' },
-		{ iconClass: 'icon-statistics-graph', path: `/projects/${match.params.projectDID}/detail`, title: 'DASHBOARD' },
-		{ iconClass: 'icon-settings-large', path: '/global-statistics' }
+		{ iconClass: 'icon-statistics-graph', path: `/projects/${match.params.projectDID}/detail`, title: 'DASHBOARD' }
 	];
+
+	const handleSwitchDescription = () => {
+		if (isClaim) {
+			return (
+				<SubTextContainer>
+					<SubNavItem exact={true} to={`/homepage`}>HOME</SubNavItem> <span>|</span>
+					<SubNavItem exact={true} to={`/projects/`}>PROJECTS</SubNavItem> <span>|</span>
+					<SubNavItem exact={true} to={`/projects/${match.params.projectDID}/overview/`}>{project.title}</SubNavItem> <span>|</span>
+					<SubNavItem to={`/projects/${match.params.projectDID}/detail/new-claim`}>SUBMIT CLAIM</SubNavItem>
+				</SubTextContainer>
+			);
+		} else {
+			return (
+				<SubTextContainer>
+					{project.sdgs.map((SDG, index) => {
+						const goal = Math.floor(SDG);
+						return (
+							<SingleSDG key={index}>
+								<i className={`icon-${SDGArray[goal - 1].ico}`}/>
+								{goal}. {SDGArray[goal - 1].title}
+						</SingleSDG>
+						);
+					})}
+				</SubTextContainer>
+			);
+		}
+	};
 
 	return (
 		<HeroContainer className="container-fluid">
@@ -172,15 +220,7 @@ export const ProjectHero: React.SFC<Props> = ({project, match, isDetail, hasCapa
 					<div className="row">
 						<ColLeft className="col-lg-8 col-sm-12">
 							<Title>{project.title}</Title>
-							{project.sdgs.map((SDG, index) => {
-								const goal = Math.floor(SDG);
-								return (
-									<SingleSDG key={index}>
-											<i className={`icon-${SDGArray[goal - 1].ico}`}/>
-											{goal}. {SDGArray[goal - 1].title}
-									</SingleSDG>
-								);
-							})}
+							{handleSwitchDescription()}
 							{!isDetail && <Description>{project.shortDescription}</Description>}
 							{!isDetail && hasCapability(AgentRoles.serviceProviders) && <AddClaim to={`/projects/${match.params.projectDID}/detail/new-claim`}>+ CAPTURE CLAIM</AddClaim>}
 							{!isDetail && hasCapability(AgentRoles.evaluators) && <AddClaim to={`/projects/${match.params.projectDID}/detail/claims`}>EVALUATE CLAIMS</AddClaim>}
