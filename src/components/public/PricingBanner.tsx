@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { deviceWidth } from '../../lib/commonData';
 
@@ -28,7 +29,7 @@ const BannerText = styled.div`
 	h2 {
 		font-size: 60px;
 		font-family: ${props => props.theme.fontRobotoCondensed};
-		margin-bottom: 0;
+		margin-bottom: 15px;
 		width: 100%;
 		line-height: 52px;
 	}
@@ -89,7 +90,7 @@ export const PricingBanner: React.SFC<ParentProps> = (props) => {
 						<h2>Plans & pricing</h2>
 						<h5>Impact Data: Trust, Measure & Accountability</h5>
 						<p>Don't see a plan that works for you? We can create one that perfectly fits your needs. </p>
-						<button>GET IN TOUCH </button>
+						<Link to="/"><button>GET IN TOUCH </button></Link>
 					</div>
 				</BannerText>
 			</div>
