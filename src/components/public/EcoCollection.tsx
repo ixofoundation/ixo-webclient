@@ -1,5 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
+import { deviceWidth } from '../../lib/commonData';
 
 const innoLogo = require('../../assets/images/eco/logo-innovationedge.png');
 
@@ -7,6 +8,10 @@ const CollectionContainer = styled.div`
 	background: #F6F6F6;
 	padding: 40px 0;
 	margin-top: 60px;
+	@media (max-width: ${deviceWidth.mobile}px){
+		margin-top: 30px;
+		padding: 0;
+	}
 `;
 
 const EcoCards = styled.div`
@@ -24,6 +29,9 @@ const Card = styled.div`
 	-moz-transition: all 0.5s ease-out;
 	-o-transition: all 0.5s ease-out;
 	transition: all 0.5s ease-out;
+	@media (max-width: ${deviceWidth.mobile}px){
+		margin: 40px;
+	}
 	img {
 		padding-bottom: 20px;
 	}

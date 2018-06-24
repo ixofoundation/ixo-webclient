@@ -1,5 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
+import { deviceWidth } from '../../lib/commonData';
 
 const bannerImg = require('../../assets/images/faq/faq-bg.jpg');
 
@@ -9,6 +10,9 @@ const Banner = styled.div`
 	width: 100%;
 	height: 350px;
 	margin: 0;
+	@media (max-width: ${deviceWidth.mobile}px){
+		padding: 6%;
+	}
 `;
 
 const BannerText = styled.div`
@@ -22,9 +26,19 @@ const BannerText = styled.div`
 		margin-bottom: 0;
 		width: 100%;
 	}
+	@media (max-width: ${deviceWidth.mobile}px){
+		h2 {
+			margin-bottom: 20px;
+		}
+	}
 	h5 {
 		font-size: 23px;
 		font-weight: 300;
+	}
+	@media (max-width: ${deviceWidth.mobile}px){
+		h5 {
+			margin-top: 20px;
+		}
 	}
 	p {
 		padding-top: 2%;
@@ -33,6 +47,11 @@ const BannerText = styled.div`
 		font-weight: 300;
 		padding-right: 55%;
 	}
+	@media (max-width: ${deviceWidth.mobile}px){
+		p {
+			padding-right: 0;
+		}
+	}
 	p::before {
 		content: " ";
 		display: block;
@@ -40,7 +59,12 @@ const BannerText = styled.div`
 		height: 1px;
 		background: #00D2FF;
 		width: 100px;
-		top: 22%;
+
+	}
+	@media (max-width: ${deviceWidth.mobile}px){
+		p::before {
+			top: -8%;
+		}
 	}
 	button {
 		background: none;
@@ -52,6 +76,11 @@ const BannerText = styled.div`
 		font-family: ${props => props.theme.fontRobotoCondensed};
 		margin-top: 20px;
 		cursor: pointer;
+	}
+	@media (max-width: ${deviceWidth.mobile}px){
+		button {
+			padding: 10px 20px;
+		}
 	}
 `;
 
