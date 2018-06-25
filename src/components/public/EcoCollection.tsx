@@ -24,15 +24,13 @@ const Card = styled.div`
 	border: 1px solid #E2E2E2;
 	box-shadow: 0 8px 16px -2px rgba(0,0,0,0.03);
 	text-align: center;
-	flex: 1 0 20%; margin: 10px;
+	flex: 1 0 20%;
+	margin: 10px;
 	padding: 15px;
 	-webkit-transition: all 0.5s ease-out;
 	-moz-transition: all 0.5s ease-out;
 	-o-transition: all 0.5s ease-out;
 	transition: all 0.5s ease-out;
-	@media (max-width: ${deviceWidth.mobile}px){
-		margin: 40px;
-	}
 	img {
 		padding-bottom: 20px;
 	}
