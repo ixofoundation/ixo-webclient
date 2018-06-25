@@ -1,15 +1,25 @@
 import * as React from 'react';
 import styled from 'styled-components';
+import { deviceWidth } from '../../lib/commonData';
 
 const polarBearImg = require('../../assets/images/member/polar-bear-image.png');
 
 const BannerLeft = styled.div`
 	width: 100%;
-
 	img {
 		margin-top: 10%;
-		margin-left: -3%;
-		width: 90%;
+		margin-left: -4%;
+		width: 100%;
+	}
+	@media (max-width: 1240px) {
+		img {
+			margin-left: -5%;
+		}
+	}
+	@media (max-width: ${deviceWidth.tablet}px){
+		img {
+			display: none;
+		}
 	}
 `;
 const BannerRight = styled.div`
@@ -17,23 +27,55 @@ const BannerRight = styled.div`
 	color: white;
 	margin-top: 12%;
 	margin-right: 10%;
+	@media (max-width: 1240px){
+		margin-top: 8%;
+	}
+	@media (max-width: 1024px){
+		margin-top: 4%;
+	}
 	h2 {
 		font-size: 60px;
 		font-family: ${props => props.theme.fontRobotoCondensed};
 		margin-bottom: 0;
 		width: 100%;
 	}
+	@media (max-width: ${deviceWidth.mobile}px){
+		h2 {
+			line-height: 55px;
+		}
+	}
 	h5 {
 		font-size: 23px;
 		font-weight: 300;
 	}
+	@media (max-width: ${deviceWidth.mobile}px){
+		h5 {
+			margin-top: 10px;
+		}
+	}
 	p {
-		margin-top: 3%;
+		padding-top: 30px;
 		position: relative;
 		box-sizing: border-box;
 		font-weight: 300;
-		line-height: 26px;
 		padding-right: 55%;
+		margin-bottom: 0;
+	}
+	@media (max-width: 1240px){
+		p {
+			padding-right: 35%;
+		}
+	}
+	@media (max-width: ${deviceWidth.tablet}px){
+		p {
+			padding-top: 28px;
+			padding-right: 30%;
+		}
+	}
+	@media (max-width: ${deviceWidth.mobile}px){
+		p {
+			padding-top: 18px;
+		}
 	}
 	p::before {
 		content: " ";
@@ -42,7 +84,12 @@ const BannerRight = styled.div`
 		height: 1px;
 		background: #00D2FF;
 		width: 100px;
-		top: -35%;
+		top: 22%;
+	}
+	@media (max-width: ${deviceWidth.mobile}px){
+		p::before {
+			top: 8%;
+		}
 	}
 	button {
 		background: none;
@@ -54,57 +101,6 @@ const BannerRight = styled.div`
 		font-family: ${props => props.theme.fontRobotoCondensed};
 		margin-top: 20px;
 		cursor: pointer;
-	}
-`;
-const Button = styled.div`
-	.btn {
-		line-height: 50px;
-		height: 50px;
-		text-align: center;
-		width: 250px;
-		cursor: pointer;
-	}
-	.btn-hover {
-		color: #FFF;
-		transition: all 0.5s;
-		position: relative;
-	}
-	.btn-hover span {
-		z-index: 2;
-		display: block;
-		line-height: 35px;
-		width: 100%;
-		height: 100%;
-	}
-	.btn-hover::before {
-		content: '';
-		position: absolute;
-		top: 0;
-		left: 0;
-		width: 100%;
-		height: 100%;
-		z-index: 1;
-		transition: all 0.5s;
-		border: 1px solid #49BFE0;
-	}
-	.btn-hover::after {
-		content: '';
-		position: absolute;
-		top: 0;
-		left: 0;
-		width: 100%;
-		height: 100%;
-		z-index: 1;
-		transition: all 0.5s;
-		border: 1px solid #49BFE0;
-	}
-	.btn-hover:hover::before {
-		transform: rotate(-45deg);
-
-	}
-	.btn-hover:hover::after {
-		transform: rotate(45deg);
-
 	}
 `;
 export interface ParentProps { }
@@ -119,15 +115,13 @@ export const MemberBanner: React.SFC<ParentProps> = (props) => {
 			</div>
 			<div className="col-md-8">
 				<BannerRight>
-					<div className="row">
-						<h2>Become a member</h2>
-						<h5>A global collaboration to build the Blockchain for Impact.</h5>
-						<p>Passionate about impact and the potential for ixo to change the world and usher in the Impact Economy? </p>
-						<Button className="btn-box">
-							<div className="btn btn-hover">
-								<span>BECOME A MEMBER</span>
-							</div>
-						</Button>
+					<div className="container">
+						<div className="row">
+							<h2>Become a member</h2>
+							<h5>A global collaboration to build the Blockchain for Impact.</h5>
+							<p>Passionate about impact and the potential for ixo to change the world and usher in the Impact Economy? </p>
+							<button>Become a member</button>
+						</div>
 					</div>
 				</BannerRight>
 			</div>
