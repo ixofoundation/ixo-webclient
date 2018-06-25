@@ -7,55 +7,58 @@ const tickImg = require('../../assets/images/member/icon-tick.svg');
 const PricingCards = styled.div`
 	margin-top: -180px;
 	padding: 0 15% 60px 15%;
+
 	@media (min-width: ${deviceWidth.tablet}px){
 		padding: 0 10% 60px 10%;
 	}
+`;
+const PricingTable = styled.div`
+	display: flex;
+	justify-content: space-between;
+	flex-wrap: wrap;
 `;
 const Card = styled.div`
 	background: #FFFFFF 0%;
 	-webkit-box-shadow: 1px 25px 35px -12px rgba(116,114,114,0.1);
 	-moz-box-shadow: 1px 25px 35px -12px rgba(116,114,114,0.1);
 	box-shadow: 1px 25px 35px -12px rgba(116,114,114,0.1);
-	padding: 20px;
-	margin: 40px 20px;
+	flex: 1 0 40%;
+	margin: 35px;
+	padding: 15px;
 	text-align: center;
 	-webkit-transition: all 0.5s ease-out;
 	-moz-transition: all 0.5s ease-out;
 	-o-transition: all 0.5s ease-out;
 	transition: all 0.5s ease-out;
-	@media (min-width: ${deviceWidth.tablet}px){
-		margin: 40px 0;
-	}
-	@media (min-width: ${deviceWidth.desktop}px){
-		margin: 40px 0;
-	}
 	.personal&::before {
 		content: " ";
 		display: block;
-		position: absolute;
+		position: relative;
 		height: 8px;
 		background: #F89D28;
 		width: 100px;
-		top: 7%;
+		top: -23px;
 	}
-	@media (min-width: ${deviceWidth.tablet}px){
-		.personal&::before{
-			top: 6%;
-		}
+	@media (max-width: ${deviceWidth.tablet}px){
+		flex: 1 0 50%;
+	}
+	@media (max-width: ${deviceWidth.mobile}px){
+		margin: 40px 0;
 	}
 	.corporate&::before {
 		content: " ";
 		display: block;
-		position: absolute;
+		position: relative;
 		height: 8px;
 		background: #5AB946;
 		width: 100px;
-		top: 7%;
+		top: -23px;
 	}
-	@media (min-width: ${deviceWidth.tablet}px){
-		.corporate&::before{
-			top: 6%;
-		}
+	@media (max-width: ${deviceWidth.tablet}px){
+		flex: 1 0 50%;
+	}
+	@media (max-width: ${deviceWidth.mobile}px){
+		margin: 40px 0;
 	}
 	h3 {
 		text-align: center;
@@ -95,8 +98,8 @@ export interface ParentProps { }
 export const PricingTables: React.SFC<ParentProps> = (props) => {
 	return (
 		<PricingCards className="row">
-			<div className="col-md-6 col-sm-12">
-				<Card className="row-eq-height personal">
+			<PricingTable className="col-md-10 offset-md-1">
+				<Card className="personal">
 					<h3>Personal</h3>
 					<ul>
 						<li>Plan structure 1</li>
@@ -106,9 +109,7 @@ export const PricingTables: React.SFC<ParentProps> = (props) => {
 					</ul>
 					<button>Buy Now</button>
 				</Card>
-			</div>
-			<div className="col-md-6 col-sm-12">
-				<Card className="row-eq-height corporate">
+				<Card className="corporate">
 					<h3>Corporate</h3>
 					<ul>
 						<li>Plan structure 1</li>
@@ -118,7 +119,7 @@ export const PricingTables: React.SFC<ParentProps> = (props) => {
 					</ul>
 					<button>Buy Now</button>
 				</Card>
-			</div>
+			</PricingTable>
 		</PricingCards>
 	);
 };
