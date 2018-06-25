@@ -15,16 +15,17 @@ const CollectionContainer = styled.div`
 `;
 
 const EcoCards = styled.div`
-	padding-bottom: 60px;
+	display: flex;
+	justify-content: space-between;
+	flex-wrap: wrap;
 `;
 const Card = styled.div`
 	background: linear-gradient(180deg, #FFFFFF 0%, #F4F4F4 100%);
 	border: 1px solid #E2E2E2;
 	box-shadow: 0 8px 16px -2px rgba(0,0,0,0.03);
-	padding: 20px;
-	margin: 40px 0 20px;
 	text-align: center;
-	height: 180px;
+	flex: 1 0 20%; margin: 10px;
+	padding: 15px;
 	-webkit-transition: all 0.5s ease-out;
 	-moz-transition: all 0.5s ease-out;
 	-o-transition: all 0.5s ease-out;
@@ -74,79 +75,71 @@ export interface ParentProps { }
 
 export const EcoCollection: React.SFC<ParentProps> = (props) => {
 	return (
-		<CollectionContainer>
-			<EcoCards className="row">
-				<div className="col-md-2" />
-				<div className="col-md-2">
-					<Card className="row-eq-height">
+		<CollectionContainer className="container-fluid">
+			<div className="container">
+				<EcoCards>
+					<Card>
 						<img src={innoLogo} alt="" />
 						<p>Innovation Edge</p>
 						<button className="website">Website</button>
 					</Card>
-					<Card className="row-eq-height">
+					<Card>
 						<img src={innoLogo} alt="" />
 						<p>Innovation Edge</p>
 						<button className="website">Website</button>
 					</Card>
-					<Card className="row-eq-height">
+					<Card>
 						<img src={innoLogo} alt="" />
 						<p>Innovation Edge</p>
 						<button className="website">Website</button>
 					</Card>
-				</div>
-				<div className="col-md-2">
-					<Card className="row-eq-height">
+					<Card>
 						<img src={innoLogo} alt="" />
 						<p>Innovation Edge</p>
 						<button className="website">Website</button>
 					</Card>
-					<Card className="row-eq-height">
+					<Card>
 						<img src={innoLogo} alt="" />
 						<p>Innovation Edge</p>
 						<button className="website">Website</button>
 					</Card>
-					<Card className="row-eq-height">
+					<Card>
 						<img src={innoLogo} alt="" />
 						<p>Innovation Edge</p>
 						<button className="website">Website</button>
 					</Card>
-				</div>
-				<div className="col-md-2">
-					<Card className="row-eq-height">
+					<Card>
 						<img src={innoLogo} alt="" />
 						<p>Innovation Edge</p>
 						<button className="website">Website</button>
 					</Card>
-					<Card className="row-eq-height">
+					<Card>
 						<img src={innoLogo} alt="" />
 						<p>Innovation Edge</p>
 						<button className="website">Website</button>
 					</Card>
-					<Card className="row-eq-height">
+					<Card>
 						<img src={innoLogo} alt="" />
 						<p>Innovation Edge</p>
 						<button className="website">Website</button>
 					</Card>
-				</div>
-				<div className="col-md-2">
-					<Card className="row-eq-height">
+					<Card>
 						<img src={innoLogo} alt="" />
 						<p>Innovation Edge</p>
 						<button className="website">Website</button>
 					</Card>
-					<Card className="row-eq-height">
+					<Card>
 						<img src={innoLogo} alt="" />
 						<p>Innovation Edge</p>
 						<button className="website">Website</button>
 					</Card>
-					<Card className="row-eq-height">
+					<Card>
 						<img src={innoLogo} alt="" />
 						<p>Innovation Edge</p>
 						<button className="website">Website</button>
 					</Card>
-				</div>
-				<div className="col-md-2" />
-			</EcoCards>
+				</EcoCards>
+			</div>
 		</CollectionContainer>
 	);
 };
