@@ -6,7 +6,10 @@ const tickImg = require('../../assets/images/member/icon-tick.svg');
 
 const PricingCards = styled.div`
 	margin-top: -180px;
-	padding-bottom: 60px;
+	padding: 0 15% 60px 15%;
+	@media (min-width: ${deviceWidth.tablet}px){
+		padding: 0 10% 60px 10%;
+	}
 `;
 const Card = styled.div`
 	background: #FFFFFF 0%;
@@ -21,7 +24,7 @@ const Card = styled.div`
 	-o-transition: all 0.5s ease-out;
 	transition: all 0.5s ease-out;
 	@media (min-width: ${deviceWidth.tablet}px){
-		margin: 40px 15%;
+		margin: 40px 0;
 	}
 	@media (min-width: ${deviceWidth.desktop}px){
 		margin: 40px 0;
@@ -92,8 +95,7 @@ export interface ParentProps { }
 export const PricingTables: React.SFC<ParentProps> = (props) => {
 	return (
 		<PricingCards className="row">
-			<div className="col-lg-2" />
-			<div className="col-lg-4">
+			<div className="col-md-6 col-sm-12">
 				<Card className="row-eq-height personal">
 					<h3>Personal</h3>
 					<ul>
@@ -105,7 +107,7 @@ export const PricingTables: React.SFC<ParentProps> = (props) => {
 					<button>Buy Now</button>
 				</Card>
 			</div>
-			<div className="col-lg-4">
+			<div className="col-md-6 col-sm-12">
 				<Card className="row-eq-height corporate">
 					<h3>Corporate</h3>
 					<ul>
@@ -117,7 +119,6 @@ export const PricingTables: React.SFC<ParentProps> = (props) => {
 					<button>Buy Now</button>
 				</Card>
 			</div>
-			<div className="col-lg-2" />
 		</PricingCards>
 	);
 };

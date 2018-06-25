@@ -9,8 +9,14 @@ const Banner = styled.div`
 	background: #002233 url(${bannerImg}) no-repeat;
 	background-size: cover;
 	width: 100%;
+	padding-left: 15%;
+	padding-right: 15%;
 	height: 600px;
 	margin: 0;
+	@media (min-width: ${deviceWidth.tablet}px){
+		padding-left: 10%;
+		padding-right: 10%;
+	}
 	@media (max-width: ${deviceWidth.mobile}px){
 		.col-md-2.hidden {
 			display: none;
@@ -83,8 +89,7 @@ export interface ParentProps { }
 export const PricingBanner: React.SFC<ParentProps> = (props) => {
 	return (
 		<Banner className="row">
-			<div className="col-md-2 hidden" />
-			<div className="col-md-10 col-xs-12">
+			<div className="col-md-12">
 				<BannerText>
 					<div className="row">
 						<h2>Plans & pricing</h2>
