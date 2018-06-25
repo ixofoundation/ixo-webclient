@@ -1,0 +1,182 @@
+@font-face {
+  font-family: 'icomoon';
+  src:  url('fonts/icomoon.eot?udwgaf');
+  src:  url('fonts/icomoon.eot?udwgaf#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?udwgaf') format('truetype'),
+    url('fonts/icomoon.woff?udwgaf') format('woff'),
+    url('fonts/icomoon.svg?udwgaf#icomoon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'icomoon' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-arrow-dropdown-large:before {
+  content: "\e911";
+  color: #fff;
+}
+.icon-down-small:before {
+  content: "\e912";
+  color: #fff;
+}
+.icon-facebook-logo:before {
+  content: "\e913";
+  color: #4c4c4c;
+}
+.icon-add:before {
+  content: "\e914";
+  color: #49bfe0;
+}
+.icon-calendar:before {
+  content: "\e915";
+  color: #fff;
+}
+.icon-expand:before {
+  content: "\e916";
+  color: #fff;
+}
+.icon-export:before {
+  content: "\e917";
+  color: #49bfe0;
+}
+.icon-favourites:before {
+  content: "\e918";
+  color: #b8b8b8;
+}
+.icon-info:before {
+  content: "\e919";
+  color: #fff;
+}
+.icon-location:before {
+  content: "\e91a";
+  color: #4c4c4c;
+}
+.icon-settings-large:before {
+  content: "\e91b";
+  color: #fff;
+}
+.icon-share:before {
+  content: "\e91c";
+  color: #b8b8b8;
+}
+.icon-url:before {
+  content: "\e91d";
+  color: #4c4c4c;
+}
+.icon-indicator-down:before {
+  content: "\e91e";
+  color: #e2223b;
+}
+.icon-indicator-up:before {
+  content: "\e91f";
+  color: #8fba3f;
+}
+.icon-instagram-logo:before {
+  content: "\e920";
+  color: #4c4c4c;
+}
+.icon-ixo-logo:before {
+  content: "\e921";
+  color: #49bfe0;
+}
+.icon-ixo-small:before {
+  content: "\e922";
+  color: #49bfe0;
+}
+.icon-projects:before {
+  content: "\e923";
+  color: #fff;
+}
+.icon-statistics-graph:before {
+  content: "\e924";
+  color: #fff;
+}
+.icon-twitter-logo-silhouette:before {
+  content: "\e925";
+  color: #4c4c4c;
+}
+.icon-world-url:before {
+  content: "\e926";
+  color: #4c4c4c;
+}
+.icon-affordable-energy:before {
+  content: "\e900";
+  color: #49bfe0;
+}
+.icon-clean-water:before {
+  content: "\e901";
+  color: #26bde2;
+}
+.icon-climate-action:before {
+  content: "\e902";
+  color: #49bfe0;
+}
+.icon-decent-work:before {
+  content: "\e903";
+  color: #49bfe0;
+}
+.icon-gender-equality:before {
+  content: "\e904";
+  color: #49bfe0;
+}
+.icon-good-health:before {
+  content: "\e905";
+  color: #49bfe0;
+}
+.icon-industry-innovation:before {
+  content: "\e906";
+  color: #49bfe0;
+}
+.icon-life-land:before {
+  content: "\e907";
+  color: #49bfe0;
+}
+.icon-life-water:before {
+  content: "\e908";
+  color: #49bfe0;
+}
+.icon-no-poverty:before {
+  content: "\e909";
+  color: #49bfe0;
+}
+.icon-partnership-goals:before {
+  content: "\e90a";
+  color: #49bfe0;
+}
+.icon-peace-justice:before {
+  content: "\e90b";
+  color: #49bfe0;
+}
+.icon-quality-education:before {
+  content: "\e90c";
+  color: #49bfe0;
+}
+.icon-reduced-inequalities:before {
+  content: "\e90d";
+  color: #49bfe0;
+}
+.icon-responsible-consumption:before {
+  content: "\e90e";
+  color: #49bfe0;
+}
+.icon-sustainable-cities:before {
+  content: "\e90f";
+  color: #49bfe0;
+}
+.icon-zero-hunger:before {
+  content: "\e910";
+  color: #49bfe0;
+}
