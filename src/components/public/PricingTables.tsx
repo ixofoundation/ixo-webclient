@@ -39,12 +39,6 @@ const Card = styled.div`
 		width: 100px;
 		top: -23px;
 	}
-	@media (max-width: ${deviceWidth.tablet}px){
-		flex: 1 0 50%;
-	}
-	@media (max-width: ${deviceWidth.mobile}px){
-		margin: 40px 0;
-	}
 	.corporate&::before {
 		content: " ";
 		display: block;
@@ -58,7 +52,7 @@ const Card = styled.div`
 		flex: 1 0 50%;
 	}
 	@media (max-width: ${deviceWidth.mobile}px){
-		margin: 40px 0;
+		margin: 100px 0 40px 0;
 	}
 	h3 {
 		text-align: center;

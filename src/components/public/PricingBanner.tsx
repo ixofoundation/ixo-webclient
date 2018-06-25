@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { deviceWidth } from '../../lib/commonData';
 
@@ -9,7 +8,7 @@ const Banner = styled.div`
 	background: #002233 url(${bannerImg}) no-repeat;
 	background-size: cover;
 	width: 100%;
-	height: 600px;
+	height: 450px;
 	margin: 0;
 	@media (max-width: ${deviceWidth.mobile}px){
 		padding: 6%;
@@ -36,34 +35,22 @@ const BannerText = styled.div`
 		font-weight: 300;
 		margin-bottom: 0;
 		padding-bottom: 15px;
+		margin-right: 35%;
 	}
 	@media (max-width: ${deviceWidth.mobile}px){
 		h5 {
 			margin-top: 20px;
+			margin-right: 10px;
 		}
 	}
-	p {
-		padding-top: 20px;
-		position: relative;
-		box-sizing: border-box;
-		font-weight: 300;
-		padding-right: 55%;
-		margin-bottom: 0;
-	}
-	@media (max-width: ${deviceWidth.mobile}px){
-		p {
-			padding-top: 12px;
-			padding-right: 30%;
-		}
-	}
-	p::before {
+	h5::after {
 		content: " ";
 		display: block;
-		position: absolute;
+		position: relative;
 		height: 1px;
 		background: #00D2FF;
 		width: 100px;
-		top: 10%;
+		bottom: -50%;
 	}
 	@media (max-width: ${deviceWidth.mobile}px){
 		p::before {
@@ -92,9 +79,7 @@ export const PricingBanner: React.SFC<ParentProps> = (props) => {
 				<BannerText>
 					<div className="row">
 						<h2>Plans & pricing</h2>
-						<h5>Impact Data: Trust, Measure & Accountability</h5>
-						<p>Don't see a plan that works for you? We can create one that perfectly fits your needs. </p>
-						<Link to="/"><button>GET IN TOUCH </button></Link>
+						<h5>Launch your impact projects. Stake on projects you believe in.</h5>
 					</div>
 				</BannerText>
 			</div>
