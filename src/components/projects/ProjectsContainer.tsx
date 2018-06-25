@@ -37,7 +37,7 @@ export namespace IProjects {
 }
 
 export const Projects: React.SFC<IProjects.Props> = (props) => {
-
+	console.log(props.projectList);
 	const renderProjects = () => {
 		if (props.projectList === null) {
 			return (

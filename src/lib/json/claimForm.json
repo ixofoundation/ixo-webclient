@@ -6,14 +6,44 @@
 		"type": "text"
 		},
 		{
+		"label": "projectDid",
+		"name": "projectdid",
+		"type": "text"
+		},
+		{
 		"label": "email",
 		"name": "email",
 		"type": "email"
 		},
 		{
-		"label": "Comments",
-		"name": "comments",
-		"type": "textarea"
+		"label": "tree planted",
+		"name": "planted",
+		"type": "select",
+		"options": [
+			{
+			"label": "Yes", 
+			"value": "true"
+			},
+			{
+			"labe": "No",
+			"value": "false"
+			}
+		]
+		},
+		{
+		"label": "Country",
+		"name": "country",
+		"type": "country"
+		},
+		{
+		"label": "Longitutde",
+		"name": "string",
+		"type": "string"
+		},
+		{
+		"label": "Latitude",
+		"name": "string",
+		"type": "string"
 		}
 	]
 }

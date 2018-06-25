@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { ProjectDetailWrapper } from './ProjectDetailWrapper';
-import { ProjectWidget } from './ProjectWidget';
+import { LayoutWrapper } from '../common/LayoutWrapper';
+import { WidgetWrapper } from '../common/WidgetWrapper';
 import { AgentRoles } from '../../types/models';
 
 export interface ParentProps {
@@ -58,18 +58,18 @@ export const ProjectSingleClaim: React.SFC<ParentProps> = (props) => {
 				return <p>No claim found with that ID</p>;
 			}
 			return (
-				<ProjectDetailWrapper>
+				<LayoutWrapper>
 					<div className="row">
 						<div className="col-md-12">
-							<ProjectWidget>
+							<WidgetWrapper>
 								<h3>{claim.name}</h3>
 								<p>{claim._id}</p>
 								<p>{handleRenderStatus(claim.evaluations)}</p>
 								{props.hasCapability(AgentRoles.evaluators) && handleRenderButtons(claim)}
-							</ProjectWidget>
+							</WidgetWrapper>
 						</div>
 					</div>
-				</ProjectDetailWrapper>
+				</LayoutWrapper>
 			);
 		}
 	};

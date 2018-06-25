@@ -5,9 +5,8 @@ const Container = styled.div`
 	padding:40px;
 	background: ${props => props.theme.bg.blue};
 	color: white;
-	min-height: 800px;
 `;
-export const ProjectDetailWrapper: React.SFC<{}> = ({children}) => {
+export const LayoutWrapper: React.SFC<{}> = ({children}) => {
 	return (
 		<Container className="container-fluid">
 			{children}

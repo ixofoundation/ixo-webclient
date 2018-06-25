@@ -69,7 +69,7 @@ export const HeaderLeft: React.SFC<any> = () => {
 		<Main className="col-md-6 d-flex align-items-center">
 			<Link to="/"><IXOLogo className="icon-ixo-logo" title="IXO Logo" /></Link>
 			<HeaderLink exact={true} to="/">Explore</HeaderLink>
-			<HeaderLink exact={true} to="/create-project">Create Project</HeaderLink>
+			<HeaderLink exact={true} to="/create-project">Launch a Project</HeaderLink>
 		</Main>
 	);
 };

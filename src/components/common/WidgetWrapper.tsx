@@ -23,7 +23,7 @@ export interface ParentProps {
 	title?: string;
 }
 
-export const ProjectWidget: React.SFC<ParentProps> = ({title, children}) => {
+export const WidgetWrapper: React.SFC<ParentProps> = ({title, children}) => {
 	return (
 		<Container className="container-fluid">
 		<h3>{title}</h3>

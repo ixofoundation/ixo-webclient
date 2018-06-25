@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ProjectDetailWrapper } from './ProjectDetailWrapper';
+import { LayoutWrapper } from '../common/LayoutWrapper';
 import DynamicForm from '../form/DynamicForm';
 import { claimJson } from '../../lib/commonData';
 
@@ -10,7 +10,7 @@ export const ProjectNewClaim: React.SFC<ParentProps> = (props) => {
 
 	const claimParsed = JSON.parse(claimJson);
 	return (
-		<ProjectDetailWrapper>
+		<LayoutWrapper>
 			<div className="container">
 				<div className="row">
 					<div className="col-md-12">
@@ -20,6 +20,6 @@ export const ProjectNewClaim: React.SFC<ParentProps> = (props) => {
 				</div>
 			</div>
 
-		</ProjectDetailWrapper>
+		</LayoutWrapper>
 	);
 };

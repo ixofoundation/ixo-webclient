@@ -247,7 +247,12 @@ export const ProjectOverview: React.SFC<ParentProps> = (props) => {
 			userName = props.userInfo.name.valueOf();
 		}
 		return (
-			<ProjectNewAgent submitAgent={submitAgent} role={data.selectedRole} name={userName}/>
+			<ProjectNewAgent 
+				submitAgent={submitAgent}
+				role={data.selectedRole}
+				name={userName}
+				projectTitle={props.project.title}
+			/>
 		);
 	};
 	

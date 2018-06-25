@@ -15,28 +15,31 @@ const modalStyles = {
 		bottom     : 'auto',
 		marginRight: '-50%',
 		transform  : 'translate(-50%, -50%)',
-		background : 'white',
-		border : '0',
+		border : '1px solid #0C3550',
 		overflow: 'scroll',
-		maxHeight: '90vh'
+		maxHeight: '90vh',
+		padding: '0',
+		borderRadius: '2px'
 	}
 };
 
 const ModalInner = styled.div`
-	border-radius:2px;
+	background: ${props => props.theme.bg.blue};
+	color: white;
+	padding: 10px 20px;
 `;
 
 const CloseModal = styled.button`
-	color: #333;
-	background: white;
+	color: white;
+	background: none;
 	border: 0;
-	float: right;
-	margin-top: -10px;
-	margin-right: -10px;
-	font-size: 25px;
-	margin-bottom: 10px;
+	top: 0px;
+	right: 5px;
+	font-size: 40px;
 	line-height: 1;
 	cursor: pointer;
+	font-weight: 100;
+	position: absolute;
 `;
 
 interface StateProps {
@@ -57,10 +60,10 @@ export const ModalWrapper: React.SFC<Props> = (props) => {
 			contentLabel="Modal"
 			ariaHideApp={false}
 		>
-		<ModalInner>
-			<CloseModal onClick={() => props.handleToggleModal(false)}>&times;</CloseModal>
-			<div>{props.children}</div>
-		</ModalInner>
+			<ModalInner>
+					<CloseModal onClick={() => props.handleToggleModal(false)}>&times;</CloseModal>
+					<div>{props.children}</div>
+			</ModalInner>
 		</Modal>
 	);
 };

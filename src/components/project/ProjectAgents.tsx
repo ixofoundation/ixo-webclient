@@ -1,7 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { ProjectWidget } from './ProjectWidget';
-import { ProjectDetailWrapper } from './ProjectDetailWrapper';
+import { WidgetWrapper } from '../common/WidgetWrapper';
+import { LayoutWrapper } from '../common/LayoutWrapper';
 import { ButtonTypes, Button } from '../common/Buttons';
 
 const Section = styled.section`
@@ -176,7 +176,7 @@ export class ProjectAgents extends React.Component<ParentProps, State> {
 					{agents.map((agent, index) => {
 						return (
 							<Col className="col-md-3" key={index}>
-								<ProjectWidget title={agent.name}>
+								<WidgetWrapper title={agent.name}>
 									<Indicator color={colorClass}/>
 									<p>{agent.role}</p>
 									<p><strong>DID: </strong>{agent.agentDid}</p>
@@ -193,7 +193,7 @@ export class ProjectAgents extends React.Component<ParentProps, State> {
 										</Actions>
 										<Button onClick={() => console.log('clicked')} type={ButtonTypes.dark}>View</Button>
 									</Hover>
-								</ProjectWidget>
+								</WidgetWrapper>
 							</Col>
 						);
 					})}
@@ -236,9 +236,9 @@ export class ProjectAgents extends React.Component<ParentProps, State> {
 	render() {
 		console.log(this.props.agents);
 		return (
-			<ProjectDetailWrapper>
+			<LayoutWrapper>
 				{this.handleMapAgents()}
-			</ProjectDetailWrapper>
+			</LayoutWrapper>
 		);
 	}
 }

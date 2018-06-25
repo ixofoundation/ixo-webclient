@@ -21,6 +21,7 @@
     "twitterLink":"",
     "webLink":"https://ixo.foundation"
   },
+  "serviceEndpoint":"http://35.192.187.110:5000/",
   "imageLink":"",
   "founder":{
     "name":"Nic",

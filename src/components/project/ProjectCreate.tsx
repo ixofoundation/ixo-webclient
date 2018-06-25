@@ -49,7 +49,7 @@ export interface State {
 export class ProjectCreate extends React.Component<StateProps, State> {
 
 	state = {
-			pdsURL: 'http://104.155.142.57:5000/', // 'http://192.168.1.125:5000/', // 'http://35.225.6.178:5000/',
+			pdsURL: 'http://35.192.187.110:5000/', // 'http://192.168.1.125:5000/', // 'http://35.225.6.178:5000/',
 			croppedImg: null,
 			imageKey: null,
 			claimSchema: '',
@@ -58,7 +58,6 @@ export class ProjectCreate extends React.Component<StateProps, State> {
 			claimFormKey: null,
 			projectJson: testProjectData,
 			project: JSON.parse(testProjectData),
-
 			fetchedImage: null,
 			fetchedFile: '',
 			};
@@ -151,6 +150,14 @@ export class ProjectCreate extends React.Component<StateProps, State> {
 		});
 	}
 
+	fetchFormFile = (event) => {
+		this.props.ixo.project.fetchPublic(this.state.claimFormKey, this.state.pdsURL).then((res: any) => {
+			console.log('Fetched: ', res);
+			let fileContents = base64Decode(res.data);
+			this.setState({fetchedFile: fileContents});
+		});
+	}
+
 	render() {
 		return (
 			<div>
@@ -174,6 +181,7 @@ export class ProjectCreate extends React.Component<StateProps, State> {
 							<Button type={ButtonTypes.dark} onClick={this.fetchImage} >Fetch image</Button>
 							<img src={this.state.fetchedImage} />
 							<Button type={ButtonTypes.dark} onClick={this.fetchFile} >Fetch file</Button>
+							<Button type={ButtonTypes.dark} onClick={this.fetchFormFile} >Fetch Form file</Button>
 							<TextArea value={this.state.fetchedFile} />
 						</div>
 					</div>

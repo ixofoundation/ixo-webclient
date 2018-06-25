@@ -29,19 +29,75 @@
           "$id": "/properties/payload/properties/data",
           "type": "object",
           "properties": {
-            "projectDid": {
+			"projectDid": {
               "$id": "/properties/payload/properties/data/properties/projectDid",
               "type": "string",
-              "title": "The project did ",
+              "title": "The project did",
               "default": "",
               "examples": [
                 "did:ixo:23423432"
-              ],
-              "required":[
-               "projectDid" 
+              ]
+			},
+			"name": {
+              "$id": "/properties/payload/properties/data/properties/name",
+              "type": "string",
+              "title": "Claim name",
+              "default": "",
+              "examples": [
+                "Reforestation claim"
+              ]
+            },
+			"email": {
+              "$id": "/properties/payload/properties/data/properties/email",
+              "type": "string",
+              "title": "Service Provider email address",
+              "default": "",
+              "examples": [
+                "don@ixo.foundation"
+              ]
+			},
+			"treesPlanted": {
+              "$id": "/properties/payload/properties/data/properties/treesPlanted",
+              "type": "string",
+              "title": "Trees planted",
+              "default": "",
+              "examples": [
+                "don@ixo.foundation"
+              ]
+			},
+			"country": {
+              "$id": "/properties/payload/properties/data/properties/country",
+              "type": "string",
+              "title": "Trees planted",
+              "default": "",
+              "examples": [
+                "don@ixo.foundation"
+              ]
+			}
+			,
+			"longitutde": {
+              "$id": "/properties/payload/properties/data/properties/longitutde",
+              "type": "string",
+              "title": "Longitude",
+              "default": "",
+              "examples": [
+                "33.125"
+              ]
+            },
+			"latitude": {
+              "$id": "/properties/payload/properties/data/properties/latitude",
+              "type": "string",
+              "title": "Latitude",
+              "default": "",
+              "examples": [
+                "21.4"
               ]
             }
-          }
+          },          
+          "required": [
+            "projectDid"
+          ],
+          "additionalProperties": true
         }
       },
       "required": [
