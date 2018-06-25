@@ -1,8 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
-
-const iconCard = require('../../assets/images/about/sdg-nopoverty.png');
-const iconCardHover = require('../../assets/images/about/sdg-nopoverty-hover.png');
+import '../../assets/icons.css';
+import AboutCards from './AboutCards';
 
 const MattersContainer = styled.div`
 	padding-left: 5%;
@@ -39,44 +38,6 @@ const MattersLeft = styled.div`
 		top: -20%;
 	}
 `;
-const MattersRight = styled.div`
-	width: 85%;
-	display: inline-flex;
-	position: relative;
-	top: -50px;
-	.sdg-icon {
-		margin-bottom: 15px;
-	}
-	.sdg-nopoverty {
-		background: url(${iconCard}) no-repeat;
-		width: 117px;
-		height: 118px;
-		cursor: pointer;
-		-webkit-transition: all 0.5s ease-out;
-		-moz-transition: all 0.5s ease-out;
-		-o-transition: all 0.5s ease-out;
-		transition: all 0.5s ease-out;
-	}
-	.sdg-nopoverty:hover {
-		background: url(${iconCardHover}) no-repeat;
-	}
-	.sdg-tooltip {
-		visibility: hidden;
-		width: 150px;
-		background-color: #001A27;
-		font-size: 10px;
-		color: white;
-		text-align: center;
-		padding: 10px;
-		border-radius: 10px; /* This defines tooltip text position */
-		position: absolute;
-		z-index: 1;
-	}
-	.sdg-nopoverty:hover .sdg-tooltip {
-		visibility: visible;
-	}
-
-`;
 export interface ParentProps { }
 
 export const AboutMatters: React.SFC<ParentProps> = (props) => {
@@ -91,74 +52,7 @@ export const AboutMatters: React.SFC<ParentProps> = (props) => {
 				</MattersLeft>
 			</div>
 			<div className="col-md-8">
-				<MattersRight>
-					<div className="col-md-2">
-						<div className="sdg-icon sdg-nopoverty">
-							<span className="sdg-tooltip">This is the No Poverty tooltip</span>
-						</div>
-						<div className="sdg-icon sdg-nopoverty">
-							<span className="sdg-tooltip">This is the No Poverty tooltip</span>
-						</div>
-						<div className="sdg-icon sdg-nopoverty">
-							<span className="sdg-tooltip">This is the No Poverty tooltip</span>
-						</div>
-					</div>
-					<div className="col-md-2">
-						<div className="sdg-icon sdg-nopoverty">
-							<span className="sdg-tooltip">This is the No Poverty tooltip</span>
-						</div>
-						<div className="sdg-icon sdg-nopoverty">
-							<span className="sdg-tooltip">This is the No Poverty tooltip</span>
-						</div>
-						<div className="sdg-icon sdg-nopoverty">
-							<span className="sdg-tooltip">This is the No Poverty tooltip</span>
-						</div>
-					</div>
-					<div className="col-md-2">
-						<div className="sdg-icon sdg-nopoverty">
-							<span className="sdg-tooltip">This is the No Poverty tooltip</span>
-						</div>
-						<div className="sdg-icon sdg-nopoverty">
-							<span className="sdg-tooltip">This is the No Poverty tooltip</span>
-						</div>
-						<div className="sdg-icon sdg-nopoverty">
-							<span className="sdg-tooltip">This is the No Poverty tooltip</span>
-						</div>
-					</div>
-					<div className="col-md-2">
-						<div className="sdg-icon sdg-nopoverty">
-							<span className="sdg-tooltip">This is the No Poverty tooltip</span>
-						</div>
-						<div className="sdg-icon sdg-nopoverty">
-							<span className="sdg-tooltip">This is the No Poverty tooltip</span>
-						</div>
-						<div className="sdg-icon sdg-nopoverty">
-							<span className="sdg-tooltip">This is the No Poverty tooltip</span>
-						</div>
-					</div>
-					<div className="col-md-2">
-						<div className="sdg-icon sdg-nopoverty">
-							<span className="sdg-tooltip">This is the No Poverty tooltip</span>
-						</div>
-						<div className="sdg-icon sdg-nopoverty">
-							<span className="sdg-tooltip">This is the No Poverty tooltip</span>
-						</div>
-						<div className="sdg-icon sdg-nopoverty">
-							<span className="sdg-tooltip">This is the No Poverty tooltip</span>
-						</div>
-					</div>
-					<div className="col-md-2">
-						<div className="sdg-icon sdg-nopoverty">
-							<span className="sdg-tooltip">This is the No Poverty tooltip</span>
-						</div>
-						<div className="sdg-icon sdg-nopoverty">
-							<span className="sdg-tooltip">This is the No Poverty tooltip</span>
-						</div>
-						<div className="sdg-icon sdg-nopoverty">
-							<span className="sdg-tooltip">This is the No Poverty tooltip</span>
-						</div>
-					</div>
-				</MattersRight>
+				<AboutCards />
 			</div>
 		</MattersContainer>
 	);
