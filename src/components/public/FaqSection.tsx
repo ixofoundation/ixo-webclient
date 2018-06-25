@@ -6,7 +6,7 @@ const CardContainer = styled.div`
 	margin-top: 60px;
 	padding: 40px 0;
 	h2 {
-		font-size: 60px;
+		font-size: 32px;
 		font-family: ${props => props.theme.fontRobotoCondensed};
 		margin-bottom: 0;
 		width: 100%;
@@ -41,30 +41,25 @@ export interface ParentProps { }
 export const FaqSection: React.SFC<ParentProps> = (props) => {
 	return (
 		<CardContainer>
-			<div className="row">
-				<div className="col-md-2" />
-				<div className="col-md-10">
-					<h2>FAQ</h2>
-				</div>
+			<div className="container">
+				<h2>FAQ</h2>
+				<FaqCards className="row">
+					<div className="col-md-12">
+						<Card>
+							<h3>How do I create a project?</h3>
+							<p>Answer, it's so simple let us explain...</p>
+						</Card>
+						<Card>
+							<h3>How do I create a project?</h3>
+							<p>Answer, it's so simple let us explain...</p>
+						</Card>
+						<Card>
+							<h3>How do I create a project?</h3>
+							<p>Answer, it's so simple let us explain...</p>
+						</Card>
+					</div>
+				</FaqCards>
 			</div>
-			<FaqCards className="row">
-				<div className="col-md-2" />
-				<div className="col-md-8">
-					<Card>
-						<h3>How do I create a project?</h3>
-						<p>Answer, it's so simple let us explain...</p>
-					</Card>
-					<Card>
-						<h3>How do I create a project?</h3>
-						<p>Answer, it's so simple let us explain...</p>
-					</Card>
-					<Card>
-						<h3>How do I create a project?</h3>
-						<p>Answer, it's so simple let us explain...</p>
-					</Card>
-				</div>
-				<div className="col-md-2" />
-			</FaqCards>
 		</CardContainer>
 	);
 };

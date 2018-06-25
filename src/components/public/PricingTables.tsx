@@ -55,6 +55,7 @@ const Card = styled.div`
 		margin: 100px 0 40px 0;
 	}
 	h3 {
+		font-family: ${props => props.theme.fontRobotoCondensed};
 		text-align: center;
 		font-size: 32px;
 	}
