@@ -41,15 +41,17 @@ const BannerText = styled.div`
 		}
 	}
 	p {
-		padding-top: 2%;
+		padding-top: 30px;
 		position: relative;
 		box-sizing: border-box;
 		font-weight: 300;
 		padding-right: 55%;
+		margin-bottom: 0;
 	}
 	@media (max-width: ${deviceWidth.mobile}px){
 		p {
-			padding-right: 0;
+			padding-top: 12px;
+			padding-right: 30%;
 		}
 	}
 	p::before {
@@ -59,7 +61,7 @@ const BannerText = styled.div`
 		height: 1px;
 		background: #00D2FF;
 		width: 100px;
-
+		top: 22%;
 	}
 	@media (max-width: ${deviceWidth.mobile}px){
 		p::before {
@@ -89,8 +91,7 @@ export interface ParentProps { }
 export const EcoBanner: React.SFC<ParentProps> = (props) => {
 	return (
 		<Banner className="row">
-			<div className="col-md-2" />
-			<div className="col-md-10">
+			<div className="offset-md-2 col-md-10 col-sm-11 col-xs-11 offset-sm-1 offset-xs-1">
 				<BannerText>
 					<div className="row">
 						<h2>Ecosystem</h2>
