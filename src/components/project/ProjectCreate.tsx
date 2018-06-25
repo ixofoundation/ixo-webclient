@@ -105,7 +105,7 @@ export class ProjectCreate extends React.Component<StateProps, State> {
 	}
 
 	fetchImage = (event) => {
-		this.props.ixo.project.fetchPublic(this.state.imageKey, this.state.pdsURL).then((res: any) => {
+		this.props.ixo.project.fetchPublic(this.state.project.imageLink, this.state.pdsURL).then((res: any) => {
 			console.log('Fetched: ', res);
 			let imageSrc = 'data:' + res.contentType + ';base64,' + res.data;
 			this.setState({fetchedImage: imageSrc});

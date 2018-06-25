@@ -69,7 +69,7 @@ export class ProjectContainer extends React.Component<Props, State> {
 		serviceProviders: null,
 		investors: null,
 		evaluators: null,
-		PDSUrl: 'http://104.155.142.57:5000/',
+		PDSUrl: 'http://35.192.187.110:5000/',
 		userRoles: null
 	};
 
