@@ -95,6 +95,7 @@ export class ProjectCreate extends React.Component<StateProps, State> {
 	}
 	
 	uploadImage = (event) => {
+		console.log(this.state.croppedImg);
 		this.props.ixo.project.createPublic(this.state.croppedImg, this.state.pdsURL).then((res: any) => {
 			console.log('Uploaded: ', res);
 			let newProject = this.state.project;

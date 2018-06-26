@@ -8,6 +8,9 @@ import { contentType } from '../types/models';
 import { ProjectForm } from './project/ProjectForm';
 import { HomePage } from './public/HomePage';
 import { Fragment } from 'react';
+import { Widgets } from './public/Widgets';
+import { Icons } from './public/Icons';
+
 export namespace Routes {
 	export interface StateProps {
 		projectList: any;
@@ -23,7 +26,9 @@ export const Routes: React.SFC<Routes.RouteProps> = (props) => {
 	return (
 		<Switch>
 			<Route exact={true} path="/homepage" component={HomePage} />
+			<Route exact={true} path="/widgets" component={Widgets} />
 			<Route exact={true} path="/json" component={ProjectForm} />
+			<Route exact={true} path="/icons" component={Icons} />
 			<Route 
 				exact={true}
 				path="/"

@@ -75,11 +75,11 @@ export const FooterRight: React.SFC<any> = () => {
 			</div>
 			<div className="row">
 				<SocialIconContainer className="col-md-12">
-					<SocialIcon className="icon-twitter-logo-silhouette" />
-					<SocialIcon className="icon-twitter-logo-silhouette" />
-					<SocialIcon className="icon-twitter-logo-silhouette" />
-					<SocialIcon className="icon-twitter-logo-silhouette" />
-					<SocialIcon className="icon-twitter-logo-silhouette" />
+					<SocialIcon className="icon-twitter" />
+					<SocialIcon className="icon-facebook" />
+					<SocialIcon className="icon-github" />
+					<SocialIcon className="icon-medium" />
+					<SocialIcon className="icon-telegram" />
 				</SocialIconContainer>
 			</div>
 		</Main>
