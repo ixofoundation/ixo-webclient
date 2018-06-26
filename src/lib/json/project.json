@@ -6,8 +6,8 @@
   "longDescription":"project to save water for areas with drought",
   "impactAction":"litres of water saved",
   "projectLocation":"ZA",
-  "sdgs":["12.2","3","2.4"],
   "requiredClaims":30,
+  "sdgs":["12.2","3","2.4"],
   "templates":{
     "claim":{
       "schema":"",
