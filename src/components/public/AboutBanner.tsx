@@ -10,6 +10,18 @@ const Banner = styled.div`
 	background-size: cover;
 	width: 100%;
 	height: 600px;
+	@media (max-width: 1600px){
+		height: 500px;
+	}
+	@media (max-width: 1336px){
+		height: 400px;
+	}
+	@media (max-width: 1024px){
+		height: 350px;
+	}
+	@media (max-width: ${deviceWidth.mobile}px){
+		height: 390px;
+	}
 
 `;
 const BannerLeft = styled.div`
@@ -19,6 +31,16 @@ const BannerLeft = styled.div`
 		margin-top: 10%;
 		margin-left: -3%;
 		width: 90%;
+	}
+	@media (max-width: 1240px) {
+		img {
+			margin-left: -5%;
+		}
+	}
+	@media (max-width: ${deviceWidth.tablet}px){
+		img {
+			display: none;
+		}
 	}
 `;
 const BannerRight = styled.div`

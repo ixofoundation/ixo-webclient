@@ -9,10 +9,11 @@ const BannerLeft = styled.div`
 	img {
 		margin-top: 10%;
 		margin-left: -4%;
-		width: 100%;
+		width: 90%;
 	}
-	@media (max-width: 1240px) {
+	@media (max-width: 1336px){
 		img {
+			width: 85%;
 			margin-left: -5%;
 		}
 	}
@@ -116,12 +117,10 @@ export const MemberBanner: React.SFC<ParentProps> = (props) => {
 			<div className="col-md-8">
 				<BannerRight>
 					<div className="container">
-						<div className="row">
-							<h2>Become a member</h2>
-							<h5>A global collaboration to build the Blockchain for Impact.</h5>
-							<p>Passionate about impact and the potential for ixo to change the world and usher in the Impact Economy? </p>
-							<button>Become a member</button>
-						</div>
+						<h2>Become a member</h2>
+						<h5>A global collaboration to build the Blockchain for Impact.</h5>
+						<p>Passionate about impact and the potential for ixo to change the world and usher in the Impact Economy? </p>
+						<button>Become a member</button>
 					</div>
 				</BannerRight>
 			</div>

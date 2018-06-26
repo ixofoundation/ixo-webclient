@@ -1,8 +1,8 @@
 import * as React from 'react';
 import styled from 'styled-components';
-// import { deviceWidth } from '../../lib/commonData';
 import { MemberBanner } from './MemberBanner';
 import { MemberBenefits } from './MemberBenefits';
+
 import { deviceWidth } from '../../lib/commonData';
 
 const bannerBg = require('../../assets/images/member/member-bg.jpg');
@@ -32,7 +32,7 @@ export interface ParentProps {
 
 export const MemberContainer: React.SFC<ParentProps> = (props) => {
 	return (
-		<Banner className="container-fluid">
+		<Banner>
 			<MemberBanner />
 			<MemberBenefits />
 		</Banner>

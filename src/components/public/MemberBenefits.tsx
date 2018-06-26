@@ -5,7 +5,7 @@ import styled from 'styled-components';
 const tickImg = require('../../assets/images/member/icon-tick.svg');
 
 const MemberContainer = styled.div`
-	margin: 60px 0 100px;
+	margin: 100px auto;
 	text-align: center;
 	h2 {
 		font-size: 48px;
@@ -64,40 +64,38 @@ export interface ParentProps { }
 
 export const MemberBenefits: React.SFC<ParentProps> = (props) => {
 	return (
-		<MemberContainer>
-			<div className="container">
-				<h2>Member benefits</h2>
-				<MemberCards className="row">
-					<CardsLeft>
-						<Card>
-							<div><img src={tickImg} alt="" /></div>
-							<p>Connect with people worldwide, all walks of life, and all backgrounds who share a common goal</p>
-						</Card>
-						<Card>
-							<div><img src={tickImg} alt="" /></div>
-							<p>Get notified of ixo events in your area</p>
-						</Card>
-						<Card>
-							<div><img src={tickImg} alt="" /></div>
-							<p>10% discount on ixo apparel and merchandise</p>
-						</Card>
-					</CardsLeft>
-					<CardsRight>
-						<Card>
-							<div><img src={tickImg} alt="" /></div>
-							<p>Exclusive news and updates</p>
-						</Card>
-						<Card>
-							<div><img src={tickImg} alt="" /></div>
-							<p>Get automatically added to our Token Sale Whitelist</p>
-						</Card>
-						<Card>
-							<div><img src={tickImg} alt="" /></div>
-							<p>First access to our ixo.world alpha launches</p>
-						</Card>
-					</CardsRight>
-				</MemberCards>
-			</div>
+		<MemberContainer className="container">
+			<h2>Member benefits</h2>
+			<MemberCards>
+				<CardsLeft>
+					<Card>
+						<div><img src={tickImg} alt="" /></div>
+						<p>Connect with people worldwide, all walks of life, and all backgrounds who share a common goal</p>
+					</Card>
+					<Card>
+						<div><img src={tickImg} alt="" /></div>
+						<p>Get notified of ixo events in your area</p>
+					</Card>
+					<Card>
+						<div><img src={tickImg} alt="" /></div>
+						<p>10% discount on ixo apparel and merchandise</p>
+					</Card>
+				</CardsLeft>
+				<CardsRight>
+					<Card>
+						<div><img src={tickImg} alt="" /></div>
+						<p>Exclusive news and updates</p>
+					</Card>
+					<Card>
+						<div><img src={tickImg} alt="" /></div>
+						<p>Get automatically added to our Token Sale Whitelist</p>
+					</Card>
+					<Card>
+						<div><img src={tickImg} alt="" /></div>
+						<p>First access to our ixo.world alpha launches</p>
+					</Card>
+				</CardsRight>
+			</MemberCards>
 			<button>become a member</button>
 		</MemberContainer>
 	);

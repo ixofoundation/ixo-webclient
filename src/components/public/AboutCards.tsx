@@ -8,6 +8,9 @@ const MattersRight = styled.div`
 	position: relative;
 	top: -50px;
 	width: 85%;
+	@media (max-width: 1366px){
+		width: 90%;
+	}
 	.sdg-icon {
 		background: #036C93;
 		font-size: 45px;
