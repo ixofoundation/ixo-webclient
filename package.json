@@ -13,6 +13,7 @@
     "@types/redux-thunk": "^2.1.0",
     "ajv": "^6.5.1",
     "base-64": "^0.1.0",
+    "chart.js": "^2.7.2",
     "ixo-module": "^1.4.50",
     "moment": "^2.22.2",
     "react": "^16.4.0",
