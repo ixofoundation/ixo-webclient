@@ -67,7 +67,7 @@ const IXOLogo = styled.i`
 export const HeaderLeft: React.SFC<any> = () => {
 	return (
 		<Main className="col-md-6 d-flex align-items-center">
-			<Link to="/"><IXOLogo className="icon-ixo-logo" title="IXO Logo" /></Link>
+			<Link to="/"><IXOLogo className="icon-logo-ixo" title="IXO Logo" /></Link>
 			<HeaderLink exact={true} to="/">Explore</HeaderLink>
 			<HeaderLink exact={true} to="/create-project">Launch a Project</HeaderLink>
 		</Main>

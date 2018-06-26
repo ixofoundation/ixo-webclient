@@ -48,8 +48,8 @@ const UserBox = styled.div`
 	}
 
 	i {
-		font-size: 11px;
-		margin: 4px 0 0 10px;
+		font-size: 18px;
+		margin: 1px 0 0 10px;	
 	}
 `;
 
@@ -190,13 +190,13 @@ export class HeaderRight extends React.Component<HeaderRightProps, State> {
 								{this.props.renderStatusIndicator()}
 								<StatusText>IXO EXPLORER STATUS</StatusText>
 							</StatusBox>
-							<h3><span>{this.props.userInfo.name}</span> <i className="icon-arrow-dropdown-large" /></h3>
+							<h3><span>{this.props.userInfo.name}</span> <i className="icon-down" /></h3>
 						</UserBox>
 					}
 				</Inner>
 				<UserMenu className={this.state.showMenu ? 'visible' : ''}>
 						<MenuTop>
-							<h3>{this.props.userInfo !== null && this.props.userInfo.name} <Link to="/"><i className="icon-settings-large"/></Link></h3>
+							<h3>{this.props.userInfo !== null && this.props.userInfo.name} <Link to="/"><i className="icon-settings"/></Link></h3>
 								<AccDID >
 									<p>{this.props.userInfo !== null && this.props.userInfo.didDoc.did}</p> 
 									<CopyToClipboard text={this.props.userInfo !== null && this.props.userInfo.didDoc.did}>

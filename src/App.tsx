@@ -6,12 +6,12 @@ import { PublicSiteStoreState } from './redux/public_site_reducer';
 import { Routes } from './components/Routes';
 import { Spinner } from './components/common/Spinner';
 import styled, { ThemeProvider } from 'styled-components';
-import './assets/icons.css';
 import { initIxo } from './redux/ixo/ixo_action_creators';
 import { initKeysafe } from './redux/keysafe/keysafe_action_creators';
 import { UserInfo } from './types/models';
 import { initUserInfo } from './redux/login/login_action_creators';
 import ScrollToTop from './components/common/ScrollToTop';
+import './assets/icons.css';
 
 // THEME DECLARATION BELOW
 
