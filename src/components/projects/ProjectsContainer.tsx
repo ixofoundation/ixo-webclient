@@ -6,7 +6,6 @@ import { Spinner } from '../common/Spinner';
 import { StatType } from '../../types/models';
 import { imgArray } from '../../lib/commonData';
 import { connect } from 'react-redux';
-
 import { Stats } from '../../types/models/stats';
 
 import { PublicSiteStoreState } from '../../redux/public_site_reducer';

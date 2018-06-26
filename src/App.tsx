@@ -46,11 +46,6 @@ const theme = {
 	widgetBorder: '#0C3550', // border color for graphs/ charts, etc.
 	graphGradient: 'linear-gradient(to right, #016480 0%, #03d0FE 100%)', // gradient fill for graphs/bars/charts
 	red: '#E2223B',
-	toast: {
-		success: '#5AB946',
-		error: '#C5202D',
-		orange: '#5AB946'
-	}
 };
 
 // END OF THEME DECLARATION, CSS FOR COMPONENT BELOW
@@ -130,7 +125,7 @@ class App extends React.Component<App.Props, App.State> {
 				<ScrollToTop>
 					<Container>
 						<HeaderConnected userInfo={this.props.userInfo}/>
-						<ToastContainer />
+						<ToastContainer hideProgressBar={true} />
 						{this.renderProjectContent()}
 						<Footer />
 					</Container>
