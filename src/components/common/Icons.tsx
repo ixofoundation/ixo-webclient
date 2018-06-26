@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 const IconsContainer = styled.div`
 	background: black;
-	margin-top: 10px;
+	margin: 20px auto;
 	
 	i {
 		font-size: 20px;

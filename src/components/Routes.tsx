@@ -8,8 +8,8 @@ import { contentType } from '../types/models';
 import { ProjectForm } from './project/ProjectForm';
 import { HomePage } from './public/HomePage';
 import { Fragment } from 'react';
-import { Widgets } from './public/Widgets';
-import { Icons } from './public/Icons';
+import { Widgets } from './widgets/Widgets';
+import { Icons } from './common/Icons';
 
 export namespace Routes {
 	export interface StateProps {

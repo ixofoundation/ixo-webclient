@@ -57,7 +57,7 @@ export const FooterLeft: React.SFC<any> = () => {
 		<Main className="col-md-8">
 			<div className="row">
 				<MediaQuery minWidth={`${deviceWidth.tablet}px`}>
-					<Link to="/"><IXOLogo className="icon-ixo-logo" title="IXO Logo" /></Link>
+					<Link to="/"><IXOLogo className="icon-logo-ixo" title="IXO Logo" /></Link>
 				</MediaQuery>
 				<FooterLink exact={true} to="/">About</FooterLink>
 				<FooterLink exact={true} to="/">Membership</FooterLink>
