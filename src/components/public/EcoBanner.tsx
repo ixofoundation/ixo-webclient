@@ -91,14 +91,14 @@ export interface ParentProps { }
 export const EcoBanner: React.SFC<ParentProps> = (props) => {
 	return (
 		<Banner className="row">
-			<div className="offset-md-2 col-md-10 col-sm-11 col-xs-11 offset-sm-1 offset-xs-1">
-				<BannerText>
-					<div className="row">
+			<div className="container">
+				<div className="col-md-12">
+					<BannerText>
 						<h2>Ecosystem</h2>
 						<p>Behind great change is a collective of thought leaders,  innovators and visionaries. </p>
 						<button>JOIN THE IXO ECOSYSTEM</button>
-					</div>
-				</BannerText>
+					</BannerText>
+				</div>
 			</div>
 		</Banner>
 	);
