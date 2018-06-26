@@ -2,6 +2,7 @@ import * as React from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { HeaderConnected } from './components/header/HeaderContainer';
+import Footer from './components/footer/FooterContainer';
 import { PublicSiteStoreState } from './redux/public_site_reducer';
 import { Routes } from './components/Routes';
 import { Spinner } from './components/common/Spinner';
@@ -123,6 +124,7 @@ class App extends React.Component<App.Props, App.State> {
 					<Container>
 						<HeaderConnected userInfo={this.props.userInfo}/>
 						{this.renderProjectContent()}
+						<Footer />
 					</Container>
 				</ScrollToTop>
 			</ThemeProvider>
