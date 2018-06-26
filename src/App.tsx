@@ -13,7 +13,9 @@ import { initKeysafe } from './redux/keysafe/keysafe_action_creators';
 import { UserInfo } from './types/models';
 import { initUserInfo } from './redux/login/login_action_creators';
 import ScrollToTop from './components/common/ScrollToTop';
+import { ToastContainer } from 'react-toastify';
 
+import 'react-toastify/dist/ReactToastify.min.css';
 // THEME DECLARATION BELOW
 
 const theme = {
@@ -43,7 +45,12 @@ const theme = {
 	darkGrey: '#656969', // "load more projects" button on project list
 	widgetBorder: '#0C3550', // border color for graphs/ charts, etc.
 	graphGradient: 'linear-gradient(to right, #016480 0%, #03d0FE 100%)', // gradient fill for graphs/bars/charts
-	red: '#E2223B'
+	red: '#E2223B',
+	toast: {
+		success: '#5AB946',
+		error: '#C5202D',
+		orange: '#5AB946'
+	}
 };
 
 // END OF THEME DECLARATION, CSS FOR COMPONENT BELOW
@@ -123,6 +130,7 @@ class App extends React.Component<App.Props, App.State> {
 				<ScrollToTop>
 					<Container>
 						<HeaderConnected userInfo={this.props.userInfo}/>
+						<ToastContainer />
 						{this.renderProjectContent()}
 						<Footer />
 					</Container>
