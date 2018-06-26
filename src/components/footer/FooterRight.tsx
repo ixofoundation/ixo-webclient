@@ -58,8 +58,11 @@ const SocialIconContainer = styled.div`
 `;
 
 const ButtonContainer = styled.div`
-	margin-top: 20px;
-	margin-bottom: 20px;
+	@media (max-width:${deviceWidth.tablet}px) {
+		margin-top: 30px;
+		margin-bottom: 10px;
+	}
+	margin-top: 10px;
 `;
 
 export const FooterRight: React.SFC<any> = () => {
