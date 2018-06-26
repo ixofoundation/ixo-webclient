@@ -1,35 +1,34 @@
-{"title":"Water project",
-	"ownerName":"Don",
-	"ownerEmail":"don@gmail.com",
-	"shortDescription":"Project for water",
-	"longDescription":"projecttosavewaterforareaswithdrought",
-	"impactAction":"litres of water saved",
-	"createdOn":"2018-06-20T14:25:37Z",
-	"createdBy":"did:sov:Tz3Y8Eka1MqrGDSerdnJWc",
-	"projectLocation":"ZA",
-	"requiredClaims":30,
-	"sdgs":["12.2","3","2.4"],
-	"templates":{
-		"claim":{
-			"schema":"",
-			"form":""}
-		}
-	,
-	"evaluatorPayPerClaim":"0",
-	"socialMedia":{
-		"facebookLink":"https://www.facebook.com/ixofoundation/",
-		"instagramLink":"",
-		"twitterLink":"",
-		"webLink":"https://ixo.foundation"
-	},
-	"serviceEndpoint":"",
-	"imageLink":"",
-	"founder":{
-		"name":"Nic",
-		"email":"nic@test.co.za",
-		"countryOfOrigin":"ZA",
-		"shortDescription":"primary description for founder",
-		"websiteURL":"www.water.com",
-		"logoLink":"thelogoURL"
-	}
+{
+  "title":"Water project",
+  "ownerName":"Don",
+  "ownerEmail":"don@gmail.com",
+  "shortDescription":"Project for water",
+  "longDescription":"project to save water for areas with drought",
+  "impactAction":"litres of water saved",
+  "projectLocation":"ZA",
+  "requiredClaims":30,
+  "sdgs":["12.2","3","2.4"],
+  "templates":{
+    "claim":{
+      "schema":"",
+      "form": ""
+    }
+  },
+  "evaluatorPayPerClaim":"0",
+  "socialMedia":{
+    "facebookLink":"https://www.facebook.com/ixofoundation/",
+    "instagramLink":"",
+    "twitterLink":"",
+    "webLink":"https://ixo.foundation"
+  },
+  "serviceEndpoint":"http://35.192.187.110:5000/",
+  "imageLink":"",
+  "founder":{
+    "name":"Nic",
+    "email":"nic@test.co.za",
+    "countryOfOrigin":"ZA",
+    "shortDescription":"primary description for founder",
+    "websiteURL":"www.water.com",
+    "logoLink":""
+  }
 }

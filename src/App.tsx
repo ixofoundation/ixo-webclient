@@ -2,16 +2,20 @@ import * as React from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { HeaderConnected } from './components/header/HeaderContainer';
+import Footer from './components/footer/FooterContainer';
 import { PublicSiteStoreState } from './redux/public_site_reducer';
 import { Routes } from './components/Routes';
 import { Spinner } from './components/common/Spinner';
 import styled, { ThemeProvider } from 'styled-components';
-import './assets/icons.css';
 import { initIxo } from './redux/ixo/ixo_action_creators';
 import { initKeysafe } from './redux/keysafe/keysafe_action_creators';
 import { UserInfo } from './types/models';
 import { initUserInfo } from './redux/login/login_action_creators';
+import ScrollToTop from './components/common/ScrollToTop';
+import { ToastContainer } from 'react-toastify';
+import './assets/icons.css';
 
+import 'react-toastify/dist/ReactToastify.min.css';
 // THEME DECLARATION BELOW
 
 const theme = {
@@ -23,8 +27,13 @@ const theme = {
 		lightBlue: '#017492', // active button background for tabs on hero section
 		lightGrey: '#F6F6F6', // light background for projects list
 		gradientBlue: 'linear-gradient(to bottom, #012639 0%,#002d42 100%)', // background for widgets (charts, graphs, tabs, etc.)
-		gradientButton: 'linear-gradient(180deg, #49BFE0 0%, #016480 100%)'
+		gradientButton: 'linear-gradient(to bottom, #03D0FB 0%, #016480 100%)',
+		darkButton: '#0C3550'
 	},
+	fontBlueButtonNormal: 'white',
+	fontBlueButtonHover: '#83D9F2', 
+	fontDarkBlueButtonNormal: 'white',
+	fontDarkBlueButtonHover: '#00D2FF', 
 	fontBlue: '#49BFE0', // Same as ixoBlue
 	fontDarkBlue: '#013C4F', 
 	fontDarkGrey: '#282828',
@@ -34,9 +43,14 @@ const theme = {
 	fontRobotoCondensed: 'Roboto Condensed, sans-serif',
 	grey: '#E9E8E8', // borders for project list cards, progress bar background on projects list
 	darkGrey: '#656969', // "load more projects" button on project list
-	widgetBorder: '#0C3549', // border color for graphs/ charts, etc.
+	widgetBorder: '#0C3550', // border color for graphs/ charts, etc.
 	graphGradient: 'linear-gradient(to right, #016480 0%, #03d0FE 100%)', // gradient fill for graphs/bars/charts
-	red: '#E2223B'
+	red: '#E2223B',
+	toast: {
+		success: '#5AB946',
+		error: '#C5202D',
+		orange: '#5AB946'
+	}
 };
 
 // END OF THEME DECLARATION, CSS FOR COMPONENT BELOW
@@ -73,7 +87,6 @@ class App extends React.Component<App.Props, App.State> {
 
 	state = {
 		projectList: null,
-		userInfo: null,
 		loginError: null,
 		isProjectPage: false
 	};
@@ -98,7 +111,9 @@ class App extends React.Component<App.Props, App.State> {
 	}
 
 	renderProjectContent() {
-		if (this.props.ixo === null) {
+		if (this.state.projectList === null) {
+			return <Spinner info="App: Loading Projects" />;
+		} else if (this.props.ixo === null) {
 			return <Spinner info="App: Loading IXO Module" />;
 		} else {
 			return (
@@ -112,10 +127,14 @@ class App extends React.Component<App.Props, App.State> {
 	render() {
 		return (
 			<ThemeProvider theme={theme}>
-				<Container>
-					<HeaderConnected />
-					{this.renderProjectContent()}
-				</Container>
+				<ScrollToTop>
+					<Container>
+						<HeaderConnected userInfo={this.props.userInfo}/>
+						<ToastContainer />
+						{this.renderProjectContent()}
+						<Footer />
+					</Container>
+				</ScrollToTop>
 			</ThemeProvider>
 		);
 	}

@@ -10,6 +10,10 @@ import { MemberContainer } from './public/MemberContainer';
 import { FaqContainer } from './public/FaqContainer';
 import { EcoContainer } from './public/EcoContainer';
 import { PricingContainer } from './public/PricingContainer';
+import { Fragment } from 'react';
+import { Widgets } from './public/Widgets';
+import { Icons } from './public/Icons';
+
 export namespace Routes {
 	export interface StateProps {
 		projectList: any;
@@ -30,35 +34,39 @@ export const Routes: React.SFC<Routes.RouteProps> = (props) => {
 			<Route exact={true} path="/ecosystem" component={EcoContainer} />
 			<Route exact={true} path="/pricing" component={PricingContainer} />
 			<Route exact={true} path="/json" component={ProjectForm} />
+
+			<Route exact={true} path="/widgets" component={Widgets} />
+			<Route exact={true} path="/json" component={ProjectForm} />
+			<Route exact={true} path="/icons" component={Icons} />
 			<Route
 				exact={true}
 				path="/"
 				render={(routeProps) => (
-					<div>
+					<Fragment>
 						<Projects
 							// {...routeProps}
 							// {...props}
 							projectList={props.projectList}
 						/>
-					</div>
+					</Fragment>
 				)}
 			/>
 			<Route
 				exact={true}
 				path="/global-statistics"
 				render={(routeProps) => (
-					<div>
+					<Fragment>
 						<Projects {...routeProps} {...props} projectList={props.projectList} />
-					</div>
+					</Fragment>
 				)}
 			/>
 			<Route
 				exact={true}
 				path="/my-projects"
 				render={(routeProps) => (
-					<div>
+					<Fragment>
 						<Projects {...routeProps} {...props} projectList={props.projectList} />
-					</div>
+					</Fragment>
 				)}
 			/>
 			<Route exact={true} path="/projects/:projectDID/overview" render={() => <ProjectContainerConnected contentType={contentType.overview} />} />
@@ -73,9 +81,9 @@ export const Routes: React.SFC<Routes.RouteProps> = (props) => {
 				exact={true}
 				path="/create-project"
 				render={(routeProps) => (
-					<div>
+					<Fragment>
 						<ProjectCreateConnected {...routeProps} {...props} />
-					</div>
+					</Fragment>
 				)}
 			/>
 		</Switch>

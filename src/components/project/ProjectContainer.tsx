@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Fragment } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { PublicSiteStoreState } from '../../redux/public_site_reducer';
@@ -31,10 +32,12 @@ export interface State {
 	isModalOpen: boolean;
 	modalData: any;
 	project: Object;
-	ClaimList: Object[];
+	claims: Object[];
+	serviceProviders: any[];
+	investors: any[];
+	evaluators: any[];
 	PDSUrl: string;
-	Agents: Object;
-	selectedRoleToCreate: AgentRoles;
+	userRoles: AgentRoles[];
 }
 
 export interface StateProps {
@@ -56,7 +59,7 @@ export interface ParentProps {
 
 export interface Props extends ParentProps, StateProps, DispatchProps {}
 
-export class ProjectContainer extends React.Component<Props> {
+export class ProjectContainer extends React.Component<Props, State> {
 
 	state = {
 		isModalOpen: false,
@@ -66,7 +69,8 @@ export class ProjectContainer extends React.Component<Props> {
 		serviceProviders: null,
 		investors: null,
 		evaluators: null,
-		PDSUrl: 'http://104.155.142.57:5000/'
+		PDSUrl: 'http://35.192.187.110:5000/',
+		userRoles: null
 	};
 
 	handleToggleModal = (data: any, modalStatus: boolean) => {
@@ -84,10 +88,26 @@ export class ProjectContainer extends React.Component<Props> {
 			const did = this.props.match.params.projectDID;
 			this.props.ixo.project.getProjectByDid(did).then((response: any) => {
 				this.setState({ project: response.result.data});
+				this.handleGetCapabilities();
 			}).catch((result: Error) => {
 				console.log(result);
 			});
 		}
+	}
+
+	handleGetCapabilities = () => {
+		const userRoles = [];
+		const userDid = this.props.userInfo.didDoc.did;
+		this.state.project.agents.map((agent) => {
+			if (agent.did === userDid) {
+				userRoles.push(agent.role);
+			}
+		});
+		this.setState({ userRoles: userRoles});
+	}
+
+	handleHasCapability = (role: AgentRoles) => {
+		return (this.state.userRoles.includes(role)) ? true : false;
 	}
 
 	handleListClaims = () => {
@@ -113,20 +133,23 @@ export class ProjectContainer extends React.Component<Props> {
 			return <Loading className="col-md-12"><p>Loading...</p></Loading>;
 		} else if (this.state.claims.length > 0) {		
 			return (
-				<div>
-					<ProjectHero project={this.state.project} match={this.props.match} isDetail={true} />
-					<ProjectClaims claims={this.state.claims} projectDid={this.props.projectDid}/>
-				</div>
+				<Fragment>
+					<ProjectHero project={this.state.project} match={this.props.match} isDetail={true} hasCapability={this.handleHasCapability} />
+					<DetailContainer>
+						<ProjectSidebar match={this.props.match} projectDid={this.props.projectDid}/>
+						<ProjectClaims claims={this.state.claims} projectDid={this.props.projectDid}/>
+					</DetailContainer>
+				</Fragment>
 			);
 		} else {
 			return (
-				<div>
-					<ProjectHero project={this.state.project} match={this.props.match} isDetail={true} />
+				<Fragment>
+					<ProjectHero project={this.state.project} match={this.props.match} isDetail={true} hasCapability={this.handleHasCapability} />
 					<DetailContainer>
 						<ProjectSidebar match={this.props.match} projectDid={this.props.projectDid}/>
 						<Loading className="container-fluid"><p>No Claims found</p></Loading>
 					</DetailContainer>
-				</div>
+				</Fragment>
 			);
 		} 
 	}
@@ -137,32 +160,29 @@ export class ProjectContainer extends React.Component<Props> {
 			return <Loading className="col-md-12"><p>Loading...</p></Loading>;
 		} else if (this.state[agentRole].length > 0) {
 			return (
-				<div>
-					<ProjectHero project={this.state.project} match={this.props.match} isDetail={true} />
+				<Fragment>
+					<ProjectHero project={this.state.project} match={this.props.match} isDetail={true} hasCapability={this.handleHasCapability} />
 					<DetailContainer>
 						<ProjectSidebar match={this.props.match} projectDid={this.props.projectDid}/>
 						<ProjectAgents agents={...this.state[agentRole]} handleUpdateAgentStatus={this.handleUpdateAgent}/>
 					</DetailContainer>
-				</div>
+				</Fragment>
 			);
 		} else {
 			return (
-				<div>
-					<ProjectHero project={this.state.project} match={this.props.match} isDetail={true} />
+				<Fragment>
+					<ProjectHero project={this.state.project} match={this.props.match} isDetail={true} hasCapability={this.handleHasCapability} />
 					<DetailContainer>
 						<ProjectSidebar match={this.props.match} projectDid={this.props.projectDid}/>
 						<Loading className="container-fluid"><p>No Agents found</p></Loading>
 					</DetailContainer>
-				</div>
+				</Fragment>
 			);
 		}
 	}
 
 	handleListAgents = (agentRole: string) => {
-		
 		if (this.state[agentRole] === null) {
-			this.state[agentRole] = [];
-			console.log(agentRole);
 			const ProjectDIDPayload: Object = { projectDid: this.props.projectDid, role: AgentRoles[agentRole]};
 			this.props.keysafe.requestSigning(JSON.stringify(ProjectDIDPayload), (error, signature) => {	
 				if (!error) {
@@ -175,7 +195,9 @@ export class ProjectContainer extends React.Component<Props> {
 								agentsObj = [...this.state[agentRole]];
 							}
 							agentsObj = response.result;
-							this.setState({ [agentRole] : [...agentsObj]});
+
+							// @ts-ignore
+							this.setState({ [agentRole]: [...agentsObj]});
 						}
 					}).catch((result: Error) => {
 						console.log((result));
@@ -280,7 +302,7 @@ export class ProjectContainer extends React.Component<Props> {
 	}
 
 	handleRenderProject = () => {
-		if (this.state.project === null) {
+		if (this.state.project === null || this.state.userRoles === null) {
 			return <Spinner info="ProjectContainer: Loading Project"/>;
 		} else {
 			const project = this.state.project;
@@ -288,44 +310,45 @@ export class ProjectContainer extends React.Component<Props> {
 			switch (this.props.contentType) {
 				case contentType.overview:
 					return (
-						<div>
-							<ProjectHero project={project} match={this.props.match} isDetail={false} />
+						<Fragment>
+							<ProjectHero project={project} match={this.props.match} isDetail={false} hasCapability={this.handleHasCapability} />
 							<ProjectOverview
 								checkUserDid={this.checkUserDid} 
-								handleCreateAgent={this.handleCreateAgent}
+								createAgent={this.handleCreateAgent}
 								userInfo={this.props.userInfo}
 								project={project}
 								id={project._id}
 								isModalOpen={this.state.isModalOpen}
-								handleToggleModal={this.handleToggleModal}
+								toggleModal={this.handleToggleModal}
 								modalData={this.state.modalData}
+								hasCapability={this.handleHasCapability}
 							/>
-						</div>
+						</Fragment>
 					);
 				case contentType.dashboard:
 					return (
-						<div>
-							<ProjectHero project={project} match={this.props.match} isDetail={true} />
+						<Fragment>
+							<ProjectHero project={project} match={this.props.match} isDetail={true} hasCapability={this.handleHasCapability} />
 							<DetailContainer>
 								<ProjectSidebar match={this.props.match} projectDid={this.props.projectDid}/>
 								<ProjectDashboard projectDid={this.props.projectDid}/>
 							</DetailContainer>
-						</div>
+						</Fragment>
 					);
 				case contentType.newClaim:
 					return (
-						<div>
-							<ProjectHero project={project} match={this.props.match} isDetail={true}  />
+						<Fragment>
+							<ProjectHero isClaim={true} project={project} match={this.props.match} isDetail={true} hasCapability={this.handleHasCapability} />
 							<DetailContainer>
 								<ProjectSidebar match={this.props.match} projectDid={this.props.projectDid}/>
 								<ProjectNewClaim submitClaim={(claimData) => this.handleSubmitClaim(claimData)}/>
 							</DetailContainer>
-						</div>
+						</Fragment>
 					);
 				case contentType.singleClaim:
 					return (
-						<div>
-							<ProjectHero project={project} match={this.props.match} isDetail={true}  />
+						<Fragment>
+							<ProjectHero isClaim={true} project={project} match={this.props.match} isDetail={true} hasCapability={this.handleHasCapability} />
 							<DetailContainer>
 								<ProjectSidebar match={this.props.match} projectDid={this.props.projectDid}/>
 								<ProjectSingleClaim 
@@ -333,9 +356,10 @@ export class ProjectContainer extends React.Component<Props> {
 									match={this.props.match}
 									handleListClaims={this.handleListClaims}
 									handleEvaluateClaim={this.handleEvaluateClaim}
+									hasCapability={this.handleHasCapability}
 								/>
 							</DetailContainer>
-						</div>
+						</Fragment>
 					);
 				case contentType.claims:
 					return this.handleRenderClaims();
@@ -350,16 +374,12 @@ export class ProjectContainer extends React.Component<Props> {
 			}
 		}
 	}
-		// if (performance.navigation.type === 1) {
-		// 	console.info( 'This page is reloaded' );
-		// } else {
-		// 	console.info( 'This page is not reloaded');
-		// }	
+	
 	render() {
 		return(
-			<div>
+			<Fragment>
 				{this.handleRenderProject()}
-			</div>	
+			</Fragment>	
 		);	
 	}
 }

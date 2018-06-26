@@ -1,31 +1,29 @@
 import * as React from 'react';
-import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import { LayoutWrapper } from '../common/LayoutWrapper';
+import { WidgetWrapper } from '../common/WidgetWrapper';
 
 export interface ParentProps {
 	claims?: any[];  
 	projectDid: string;
 }
 
-const Claim = styled(Link)`
-	background: grey;
-	padding: 10px;
-	display: inline-block;
-	color: white;
-	margin: 10px;
-`;
-
 export const ProjectClaims: React.SFC<ParentProps> = ({claims, projectDid}) => {
 	return (
-		<div>
-			{claims.map((claim, index) => {
-				console.log(claim);
-				return (
-					<Claim key={index} to={{pathname: `/projects/${projectDid}/detail/claims/${claim.txHash}`}}>
-						<p>{claim.name}</p>
-					</Claim>
-				);
-			})}
-		</div>
+		<LayoutWrapper>
+			<div className="row">
+				{claims.map((claim, index) => {
+					return (
+						<div key={index} className="col-md-3">
+							<WidgetWrapper>
+								<Link to={{pathname: `/projects/${projectDid}/detail/claims/${claim.txHash}`}}>
+									<p>{claim.name}</p>
+								</Link>
+							</WidgetWrapper>
+						</div>
+					);
+				})}
+			</div>
+		</LayoutWrapper>
 	);
 };

@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { deviceWidth } from '../../lib/commonData';
 
 const HeaderLink = styled(NavLink)`
-	font-family: ${props => props.theme.fontRobotoCondensed};
+	font-family: ${props => props.theme.fontRoboto};
     padding: 10px 10px 10px;
     color: white;
     text-transform: uppercase;
@@ -67,9 +67,9 @@ const IXOLogo = styled.i`
 export const HeaderLeft: React.SFC<any> = () => {
 	return (
 		<Main className="col-md-6 d-flex align-items-center">
-			<Link to="/"><IXOLogo className="icon-ixo-logo" title="IXO Logo" /></Link>
+			<Link to="/"><IXOLogo className="icon-logo-ixo" title="IXO Logo" /></Link>
 			<HeaderLink exact={true} to="/">Explore</HeaderLink>
-			<HeaderLink exact={true} to="/create-project">Create Project</HeaderLink>
+			<HeaderLink exact={true} to="/create-project">Launch a Project</HeaderLink>
 		</Main>
 	);
 };

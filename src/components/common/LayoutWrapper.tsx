@@ -6,7 +6,7 @@ const Container = styled.div`
 	background: ${props => props.theme.bg.blue};
 	color: white;
 `;
-export const ProjectDetailWrapper: React.SFC<{}> = ({children}) => {
+export const LayoutWrapper: React.SFC<{}> = ({children}) => {
 	return (
 		<Container className="container-fluid">
 			{children}

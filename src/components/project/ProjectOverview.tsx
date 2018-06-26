@@ -8,7 +8,7 @@ import { getCountryName } from '../../utils/formatters';
 import { ModalWrapper } from '../common/ModalWrapper';
 import { ProjectNewAgent } from './ProjectNewAgent';
 import { UserInfo } from '../../types/models';
-// import { ModalWrapper } from './ModalWrapper';
+import { Button, ButtonTypes } from '../common/Buttons';
 
 const OverviewContainer = styled.section`
 
@@ -124,7 +124,7 @@ const Social = styled.div`
 	}
 `;
 
-const Button = styled.a`
+const LocalButton = styled.a`
 	border: 1px solid #B8B8B8;
     &&& {color: ${props => props.theme.fontGrey};}
     font-size: 16px;
@@ -159,26 +159,6 @@ const Button = styled.a`
 
 	i:before {
 		transition: color 0.3s ease;
-	}
-`;
-
-const BlueButton = styled.a`
-	border: 1px solid ${props => props.theme.ixoBlue};
-    &&& {color: white;}
-	font-size: 15px;
-    text-transform: uppercase;
-    padding: 10px 20px;
-    margin-bottom: 10px;
-	font-family: ${props => props.theme.fontRobotoCondensed};
-	display:block;
-	text-align: center;
-
-	transition: all 0.3s ease;
-	cursor: pointer;
-	
-	:hover {
-		&&&{ color: ${props => props.theme.fontBlue};}
-		text-decoration: none;
 	}
 `;
 
@@ -233,18 +213,19 @@ const Founder = styled.div`
 	}
 `;
 
-export interface Props {
-	checkUserDid: () => void;
-	handleCreateAgent: (agentData: any) => void;
+export interface ParentProps {
 	userInfo: UserInfo;
 	project: any;
 	id: string;
 	isModalOpen: boolean;
-	handleToggleModal: (data?: any, modalStatus?: boolean) => void;
 	modalData: any;
+	checkUserDid: () => boolean;
+	createAgent: (agentData: any) => void;
+	toggleModal: (data?: any, modalStatus?: boolean) => void;
+	hasCapability: (Role: AgentRoles) => boolean;
 }
 
-export const ProjectOverview: React.SFC<Props> = (props) => {
+export const ProjectOverview: React.SFC<ParentProps> = (props) => {
 
 	console.log(props.project);
 	const {evaluators, serviceProviders, investors} = props.project.agentStats;
@@ -256,8 +237,8 @@ export const ProjectOverview: React.SFC<Props> = (props) => {
 
 	const submitAgent = (role: string, agentData: any) => {
 		let agentCreateJson: any = {...agentData, role: role};
-		props.handleCreateAgent(agentCreateJson);
-		props.handleToggleModal({});
+		props.createAgent(agentCreateJson);
+		props.toggleModal({});
 	};
 
 	const renderModal = (data: any) => {
@@ -266,7 +247,12 @@ export const ProjectOverview: React.SFC<Props> = (props) => {
 			userName = props.userInfo.name.valueOf();
 		}
 		return (
-			<ProjectNewAgent submitAgent={submitAgent} role={data.selectedRole} name={userName}/>
+			<ProjectNewAgent 
+				submitAgent={submitAgent}
+				role={data.selectedRole}
+				name={userName}
+				projectTitle={props.project.title}
+			/>
 		);
 	};
 	
@@ -274,7 +260,7 @@ export const ProjectOverview: React.SFC<Props> = (props) => {
 		<div>
 			<ModalWrapper
 				isModalOpen={props.isModalOpen}
-				handleToggleModal={() => props.handleToggleModal({})}
+				handleToggleModal={() => props.toggleModal({})}
 			>
 				{renderModal(props.modalData)}
 			</ModalWrapper>
@@ -316,18 +302,27 @@ export const ProjectOverview: React.SFC<Props> = (props) => {
 										);
 									})}
 								</div>
-								<BlueButton onClick={() => props.checkUserDid() && props.handleToggleModal({selectedRole: AgentRoles.investors}, true)}>
-									INVEST IN THIS Project
-								</BlueButton>
-								<BlueButton onClick={() => props.checkUserDid() && props.handleToggleModal({selectedRole: AgentRoles.evaluators}, true)}>
-									BECOME AN EVALUATOR
-								</BlueButton>
-								<BlueButton onClick={() => props.checkUserDid() && props.handleToggleModal({selectedRole: AgentRoles.serviceProviders}, true)} >
-									BECOME A SERVICE PROVIDER
-								</BlueButton>
+								<Button 
+									type={ButtonTypes.dark} 
+									disabled={false}
+									onClick={() => props.toggleModal({selectedRole: AgentRoles.investors}, true)}
+								>Invest in this Project
+								</Button>
+								<Button 
+									type={ButtonTypes.dark} 
+									disabled={false}
+									onClick={() => props.toggleModal({selectedRole: AgentRoles.evaluators}, true)}
+								>Become an Evaluator
+								</Button>
+								<Button 
+									type={ButtonTypes.dark} 
+									disabled={false}
+									onClick={() => props.toggleModal({selectedRole: AgentRoles.serviceProviders}, true)}
+								>Become a Service Provider
+								</Button>
 							</Sidebar>
-							<Button><i className="icon-favourites"/>SAVE TO FAVOURITES</Button>
-							<Button><i className="icon-share"/>SHARE THIS PROJECT</Button>
+							<LocalButton><i className="icon-favourites"/>SAVE TO FAVOURITES</LocalButton>
+							<LocalButton><i className="icon-share"/>SHARE THIS PROJECT</LocalButton>
 						</div>
 					</div>
 				</div>
