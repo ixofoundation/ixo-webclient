@@ -5,6 +5,11 @@ import { ProjectsHero } from './ProjectsHero';
 import { Spinner } from '../common/Spinner';
 import { StatType } from '../../types/models';
 import { imgArray } from '../../lib/commonData';
+import { connect } from 'react-redux';
+
+import { Stats } from '../../types/models/stats';
+
+import { PublicSiteStoreState } from '../../redux/public_site_reducer';
 
 const ProjectsContainer = styled.div`
     overflow-y: scroll;
@@ -28,18 +33,52 @@ const ErrorContainer = styled.div`
 	background-color: ${props => props.theme.bg.blue};
 `;
 
-export namespace IProjects {
-	export interface StateProps {
-		projectList?: any;
-	}
-
-	export interface Props extends StateProps {}
+export interface ParentProps {
+	projectList?: any;
 }
 
-export const Projects: React.SFC<IProjects.Props> = (props) => {
-	console.log(props.projectList);
-	const renderProjects = () => {
-		if (props.projectList === null) {
+export interface State {
+	statistics: Stats;
+}
+
+export interface StateProps {
+	ixo?: any;
+}
+
+export interface Props extends ParentProps, StateProps {}
+
+export class Projects extends React.Component<Props, State> {
+
+	state = {
+		statistics: {
+			claims: {
+				total: 0,
+				totalSuccessful: 0,
+				totalSubmitted: 0,
+				totalPending: 0,
+				totalRejected: 0,
+			},
+			totalServiceProviders: 0,
+			totalProjects: 0,
+			totalEvaluationAgents: 0,
+		},
+	};
+
+	componentDidMount() {
+		this.handleGetGlobalData();
+	}
+
+	handleGetGlobalData = () => {
+		this.props.ixo.stats.getGolbalStats().then((res) => {
+			if (res.result) {
+				const statistics: Stats = res.result;
+				this.setState({ statistics });
+			}
+		}); 
+	}
+
+	renderProjects = () => {
+		if (this.props.projectList === null) {
 			return (
 				<div className="container-fluid">
 					<ErrorContainer className="row">
@@ -48,12 +87,12 @@ export const Projects: React.SFC<IProjects.Props> = (props) => {
 					</ErrorContainer>
 				</div>
 			);
-		} else if (props.projectList.length > 0) {
+		} else if (this.props.projectList.length > 0) {
 			return (
 				<ProjectsContainer className="container-fluid">
 					<div className="container">
 						<div className="row row-eq-height">
-							{props.projectList.map((project, index) => {
+							{this.props.projectList.map((project, index) => {
 								return <ProjectCard project={project.data} did={project.projectDid} bg={imgArray()[index]} key={index} />;
 							})}
 						</div>
@@ -69,31 +108,43 @@ export const Projects: React.SFC<IProjects.Props> = (props) => {
 				</div>
 			);
 		}
-	};
+	}
 
-	return (
-		<div>
-			<ProjectsHero 
-				statistics={[
-					{title: 'CLAIM AMOUNT',
-					type: StatType.fraction,
-					descriptor: [{class: 'text', value: 'test'}, {class: 'number', value: 2}, {class: 'text', value: 'test2'}],
-					amount: [20, 1110]},
-					{title: 'SERVICE PROVIDER',
-					type: StatType.decimal,
-					descriptor: [{class: 'number', value: 24}, {class: 'text', value: 'test'}, {class: 'text', value: ' test2'}],
-					amount: 12},
-					{title: 'IXO REMAINING',
-					type: StatType.ixoAmount,
-					descriptor: [{class: 'text', value: 'This is a test text for a single statistic type'}],
-					amount: 40.67},
-					{title: 'SERVICE PROVIDER',
-					type: StatType.decimal,
-					descriptor: [{class: 'text', value: 'claims available: '}, {class: 'number', value: 2}],
-					amount: 142}
-				]} 
-			/>
-				{renderProjects()}
-		</div>
-	);
-};
+	render() {
+		return (
+			<div>
+				<ProjectsHero 
+					statistics={[
+						{title: 'MY ACTIVE PROJECTS',
+						type: StatType.decimal,
+						descriptor: [{class: 'text', value: 'Expired'}, {class: 'number', value: '?'}],
+						amount: this.state.statistics.totalProjects},
+						{title: 'TOTAL PROJECTS',
+						type: StatType.decimal,
+						descriptor: [{class: 'text', value: ' '}],
+						amount: this.state.statistics.totalProjects},
+						{title: 'TOTAL IMPACT CLAIMS',
+						type: StatType.fraction,
+						descriptor: [{class: 'text', value: 'verified to date'}],
+						amount: [this.state.statistics.claims.totalSuccessful, this.state.statistics.claims.total]},
+						{title: 'TOTAL IXO IN CIRCULATION',
+						type: StatType.fraction,
+						descriptor: [{class: 'text', value: 'IXO staked to date'}],
+						amount: [0, 0]}
+					]} 
+				/>
+					{this.renderProjects()}
+			</div>
+		);
+	}
+}
+
+function mapStateToProps(state: PublicSiteStoreState) {
+	return {
+		ixo: state.ixoStore.ixo,
+	};
+}
+
+export const ProjectsContainerConnected = connect<{}, {}, ParentProps>(
+	mapStateToProps
+)(Projects as any);

@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import { ProjectContainerConnected } from './project/ProjectContainer';
+import { ProjectsContainerConnected } from './projects/ProjectsContainer';
 import { Projects } from './projects/ProjectsContainer';
 import { ProjectCreateConnected } from './project/ProjectCreate';
 import { contentType } from '../types/models';
@@ -28,7 +29,7 @@ export const Routes: React.SFC<Routes.RouteProps> = (props) => {
 				path="/"
 				render={(routeProps) => (
 					<Fragment>
-						<Projects 
+						<ProjectsContainerConnected 
 							// {...routeProps}
 							// {...props}
 							projectList={props.projectList}
