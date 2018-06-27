@@ -2,16 +2,16 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { deviceWidth } from '../../lib/commonData';
 
-const bannerImg = require('../../assets/images/faq/faq-bg.jpg');
+const bannerBg = require('../../assets/images/faq/faq-bg.jpg');
 
 const Banner = styled.div`
-	background: #002233 url(${bannerImg}) no-repeat;
+	background: #002233 url(${bannerBg}) no-repeat;
 	background-size: cover;
 	width: 100%;
 	height: 350px;
 	margin: 0;
-	@media (max-width: ${deviceWidth.mobile}px){
-		padding: 6%;
+	@media (max-width: ${deviceWidth.tablet}px){
+		height: 300px;
 	}
 `;
 
@@ -20,6 +20,9 @@ const BannerText = styled.div`
 	color: white;
 	margin-top: 3%;
 	margin-right: 10%;
+	@media (max-width: ${deviceWidth.tablet}px){
+		margin-top: 30px;
+	}
 	h2 {
 		font-size: 45px;
 		font-family: ${props => props.theme.fontRobotoCondensed};
@@ -40,7 +43,7 @@ const BannerText = styled.div`
 	}
 	@media (max-width: ${deviceWidth.tablet}px){
 		p {
-			padding-top: 28px;
+			padding-top: 20px;
 			padding-right: 30%;
 		}
 	}
@@ -52,6 +55,11 @@ const BannerText = styled.div`
 		background: #00D2FF;
 		width: 100px;
 		top: 22%;
+	}
+	@media (max-width: ${deviceWidth.mobile}px){
+		p::before {
+			top: 12%;
+		}
 	}
 	button {
 		background: none;
@@ -71,9 +79,9 @@ export interface ParentProps { }
 export const FaqBanner: React.SFC<ParentProps> = (props) => {
 	return (
 		<Banner className="row">
-			<div className="offset-md-2 col-md-10 col-sm-11 col-xs-11 offset-sm-1 offset-xs-1">
+			<div className="col-lg-12">
 				<BannerText>
-					<div className="row">
+					<div className="container">
 						<h2>Support</h2>
 						<p>Get the most out of ixo. Contact the support team if you don’t find what you’re looking for. </p>
 						<button>contact the support team</button>
