@@ -50,4 +50,5 @@ export interface DidDoc {
 export interface UserInfo {
 	didDoc: DidDoc;
 	name: String;
+	ledgered: boolean; 
 }
