@@ -237,8 +237,7 @@ export const ProjectOverview: React.SFC<ParentProps> = (props) => {
 		];
 
 	const submitAgent = (role: string, agentData: any) => {
-		debugger;
-		
+
 		let agentCreateJson: any = {...agentData, role: role};
 		props.createAgent(agentCreateJson);
 		props.toggleModal({});

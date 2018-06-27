@@ -241,10 +241,14 @@ export class ProjectContainer extends React.Component<Props, State> {
 		this.props.keysafe.requestSigning(JSON.stringify(agentData), (error: any, signature: any) => {
 			if (!error) {
 				this.props.ixo.agent.createAgent(agentData, signature, this.state.PDSUrl).then((res) => {
-					console.log('AGENT CREATE STATUS: ', res);
+					if (res.error !== undefined) {
+						Toast.errorToast(res.error.message);
+					} else {
+						Toast.successToast(`Successfully registered as ${agentData.role}`);
+					}
 				});
 			} else {
-				console.log(error);
+				Toast.errorToast('PDS is not responding');
 			}
 		});
 	}
