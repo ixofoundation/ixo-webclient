@@ -10,6 +10,7 @@ const Banner = styled.div`
 	background-size: cover;
 	width: 100%;
 	height: 600px;
+	margin: 0;
 	@media (max-width: 1600px){
 		height: 500px;
 	}
@@ -17,7 +18,7 @@ const Banner = styled.div`
 		height: 400px;
 	}
 	@media (max-width: 1024px){
-		height: 350px;
+		height: 450px;
 	}
 	@media (max-width: ${deviceWidth.mobile}px){
 		height: 390px;
@@ -35,6 +36,7 @@ const BannerLeft = styled.div`
 	@media (max-width: 1240px) {
 		img {
 			margin-left: -5%;
+			width: 100%;
 		}
 	}
 	@media (max-width: ${deviceWidth.tablet}px){
@@ -48,6 +50,9 @@ const BannerRight = styled.div`
 	color: white;
 	margin-top: 12%;
 	margin-right: 10%;
+	@media (max-width: ${deviceWidth.tablet}px){
+		margin-top: -20px;
+	}
 	h2 {
 		font-size: 60px;
 		font-family: ${props => props.theme.fontRobotoCondensed};
@@ -66,10 +71,21 @@ const BannerRight = styled.div`
 		padding-right: 55%;
 		margin-bottom: 0;
 	}
+	@media (max-width: 1024px){
+		p {
+			padding-top: 20px;
+			padding-right: 35%;
+		}
+	}
+	@media (max-width: ${deviceWidth.tablet}px){
+		p {
+			padding-right: 25%;
+		}
+	}
 	@media (max-width: ${deviceWidth.mobile}px){
 		p {
-			padding-top: 12px;
-			padding-right: 30%;
+			padding-top: 20px;
+			padding-right: 18%;
 		}
 	}
 	p::before {
@@ -79,7 +95,22 @@ const BannerRight = styled.div`
 		height: 1px;
 		background: #00D2FF;
 		width: 100px;
-		top: 22%;
+		top: 15%;
+	}
+	@media (max-width: 1024px){
+		p::before {
+			top: -2%;
+		}
+	}
+	@media (max-width: ${deviceWidth.tablet}px){
+		p::before {
+			top: 14%;
+		}
+	}
+	@media (max-width: ${deviceWidth.mobile}px){
+		p::before {
+			top: 5%;
+		}
 	}
 	button {
 		background: none;
@@ -97,23 +128,21 @@ export interface ParentProps { }
 
 export const AboutBanner: React.SFC<ParentProps> = (props) => {
 	return (
-		<Banner className="container-fluid">
-			<div className="row">
-				<div className="col-md-4">
-					<BannerLeft>
-						<img src={penguinImg} alt="" />
-					</BannerLeft>
-				</div>
-				<div className="col-md-8">
-					<BannerRight>
-						<div className="row">
-							<h2>What counts</h2>
-							<h5>Impact Data: Trust, Measure & Accountability</h5>
-							<p>ixo provides a trusted global information network that is owned by everyone. Enabling anyone to become the creators of their own impact projects and a stake-holder in the projects they believe in. </p>
-							<button>Start your own impact project</button>
-						</div>
-					</BannerRight>
-				</div>
+		<Banner className="row">
+			<div className="col-lg-4 hidden-md-down">
+				<BannerLeft>
+					<img src={penguinImg} alt="" />
+				</BannerLeft>
+			</div>
+			<div className="col-lg-8 col-md-12">
+				<BannerRight>
+					<div className="container">
+						<h2>What counts</h2>
+						<h5>Impact Data: Trust, Measure & Accountability</h5>
+						<p>ixo provides a trusted global information network that is owned by everyone. Enabling anyone to become the creators of their own impact projects and a stake-holder in the projects they believe in. </p>
+						<button>Start your own impact project</button>
+					</div>
+				</BannerRight>
 			</div>
 		</Banner>
 	);

@@ -1,12 +1,15 @@
 import * as React from 'react';
 import styled from 'styled-components';
-// import { deviceWidth } from '../../lib/commonData';
+import { deviceWidth } from '../../lib/commonData';
 
 const tickImg = require('../../assets/images/member/icon-tick.svg');
 
 const MemberContainer = styled.div`
 	margin: 100px auto;
 	text-align: center;
+	@media (max-width: ${deviceWidth.tablet}px){
+		margin: 40px auto 80px;
+	}
 	h2 {
 		font-size: 48px;
 		font-family: ${props => props.theme.fontRobotoCondensed};
@@ -23,6 +26,11 @@ const MemberContainer = styled.div`
 		font-size: 15px;
 		font-family: ${props => props.theme.fontRobotoCondensed};
 		margin-top: 20px;
+	}
+	@media (max-width: ${deviceWidth.tablet}px){
+		button {
+			padding: 10px 60px;
+		}
 	}
 `;
 

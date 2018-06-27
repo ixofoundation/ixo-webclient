@@ -1,5 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
+import { deviceWidth } from '../../lib/commonData';
 
 const MattersRight = styled.div`
 	display: flex;
@@ -10,6 +11,18 @@ const MattersRight = styled.div`
 	width: 85%;
 	@media (max-width: 1366px){
 		width: 90%;
+	}
+	@media (max-width: 1024px){
+		width: 100%;
+		left: calc(25% - 60px);
+	}
+	@media (max-width: ${deviceWidth.tablet}px){
+		width: 100%;
+		top: -35px;
+	}
+	@media (max-width: ${deviceWidth.mobile}px){
+		width: 100%;
+		top: 5px;
 	}
 	.sdg-icon {
 		background: #036C93;

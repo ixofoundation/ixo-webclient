@@ -1,5 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
+import { deviceWidth } from '../../lib/commonData';
 
 const bgImg = require('../../assets/images/about/about-value-bg.jpg');
 
@@ -9,6 +10,9 @@ const ValueContainer = styled.div`
 	background-size: cover;
 	background-position: center;
 	color: white;
+	@media (max-width: ${deviceWidth.tablet}px){
+		padding: 5% 30px;
+	}
 `;
 
 const ValueLeft = styled.div`
@@ -27,8 +31,13 @@ const ValueRight = styled.div`
 		font-size: 23px;
 		font-weight: 300;
 	}
+	@media (max-width: ${deviceWidth.tablet}px){
+		h5 {
+			padding-top: 10px;
+		}
+	}
 	p:first-of-type {
-		margin-top: 5%;
+		margin-top: 30px;
 		position: relative;
 		box-sizing: border-box;
 		font-weight: 300;
@@ -42,7 +51,25 @@ const ValueRight = styled.div`
 		height: 1px;
 		background: #00D2FF;
 		width: 100px;
-		top: -20%;
+		top: -14%;
+	}
+	@media (max-width: 1024px) {
+		p:first-of-type::before {
+			top: -9%;
+		}
+	}
+	@media (max-width: ${deviceWidth.tablet}px){
+		p:first-of-type {
+			padding-right: 0;
+		}
+		p:first-of-type::before {
+			top: -8%;
+		}
+	}
+	@media (max-width: ${deviceWidth.mobile}px){
+		p:first-of-type::before {
+			top: -7%;
+		}
 	}
 	button {
 		background: none;
@@ -61,12 +88,12 @@ export interface ParentProps { }
 export const AboutValue: React.SFC<ParentProps> = (props) => {
 	return (
 		<ValueContainer className="row">
-			<div className="col-md-4">
+			<div className="col-md-4 col-sm-12">
 				<ValueLeft>
 					ChartJS goes here*
 				</ValueLeft>
 			</div>
-			<div className="col-md-8">
+			<div className="col-md-8 col-sm-12">
 				<ValueRight>
 					<h2>What we value</h2>
 					<h5>Data + trust = optimised IMPACT</h5>
