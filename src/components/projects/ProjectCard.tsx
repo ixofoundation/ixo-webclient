@@ -173,8 +173,10 @@ export class ProjectCard extends React.Component<Props, States> {
 		}
 	}
 
-	componentDidMount() {
-		this.fetchImage(this.props.project.imageLink, this.props.project.serviceEndpoint);
+	componentDidUpdate(prevProps: any) {
+		if (this.props.project.imageLink !== prevProps.project.imageLink) {
+			this.fetchImage(this.props.project.imageLink, this.props.project.serviceEndpoint);
+		}
 	}
 
 	render() {
