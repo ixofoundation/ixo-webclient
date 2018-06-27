@@ -76,7 +76,7 @@ export class ProjectContainer extends React.Component<Props, State> {
 		evaluators: null,
 		PDSUrl: 'http://35.192.187.110:5000/',
 		userRoles: null,
-		imageLink: placeholder,
+		imageLink: placeholder
 	};
 
 	handleToggleModal = (data: any, modalStatus: boolean) => {
@@ -357,7 +357,7 @@ export class ProjectContainer extends React.Component<Props, State> {
 							<ProjectHero isClaim={true} project={project} match={this.props.match} isDetail={true} hasCapability={this.handleHasCapability} />
 							<DetailContainer>
 								<ProjectSidebar match={this.props.match} projectDid={this.props.projectDid}/>
-								<ProjectNewClaim submitClaim={(claimData) => this.handleSubmitClaim(claimData)}/>
+								<ProjectNewClaim projectData={project} ixo={this.props.ixo} submitClaim={(claimData) => this.handleSubmitClaim(claimData)}/>
 							</DetailContainer>
 						</Fragment>
 					);
