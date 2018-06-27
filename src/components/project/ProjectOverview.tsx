@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { ProgressBar } from '../common/ProgressBar';
-import { imgArray, deviceWidth } from '../../lib/commonData';
+import { deviceWidth } from '../../lib/commonData';
 import styled from 'styled-components';
 import { SingleStatistic } from '../common/SingleStatistic';
 import { Statistic, StatType, AgentRoles } from '../../types/models';
@@ -223,6 +223,7 @@ export interface ParentProps {
 	createAgent: (agentData: any) => void;
 	toggleModal: (data?: any, modalStatus?: boolean) => void;
 	hasCapability: (Role: AgentRoles) => boolean;
+	imageLink: string;
 }
 
 export const ProjectOverview: React.SFC<ParentProps> = (props) => {
@@ -270,7 +271,7 @@ export const ProjectOverview: React.SFC<ParentProps> = (props) => {
 				<div className="container">
 					<div className="row">
 						<div className="col-md-8">
-							<img src={imgArray()[0]} />
+							<img src={props.imageLink} />
 							<Text>
 								<p>{props.project.longDescription} 
 								</p>
@@ -292,7 +293,7 @@ export const ProjectOverview: React.SFC<ParentProps> = (props) => {
 									/>
 								</BarContainer>
 								<Claims>{props.project.claimStats.currentSuccessful}/<strong>{props.project.requiredClaims}</strong></Claims>
-								<ImpactAction>successful water systems built</ImpactAction>
+								<ImpactAction>{props.project.impactAction}</ImpactAction>
 								<Disputed><strong>{props.project.claimStats.currentRejected}</strong> disputed claims</Disputed>
 								<hr />
 								<div className="row">

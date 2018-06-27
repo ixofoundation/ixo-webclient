@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { PublicSiteStoreState } from '../../redux/public_site_reducer';
 import { contentType, AgentRoles } from '../../types/models';
+import { Project } from '../../types/models/project';
 import { ProjectHero } from './ProjectHero';
 import { ProjectOverview } from './ProjectOverview';
 import { setActiveProject } from '../../redux/activeProject/activeProject_action_creators';
@@ -16,6 +17,9 @@ import { ProjectAgents } from './ProjectAgents';
 import { Spinner } from '../common/Spinner';
 import { UserInfo } from '../../types/models';
 import { ProjectSidebar } from './ProjectSidebar';
+import * as Toast from '../common/Toast';
+
+const placeholder = require('../../assets/images/ixo-placeholder-large.jpg');
 
 const Loading = styled.div`
 	display:flex;
@@ -38,6 +42,7 @@ export interface State {
 	evaluators: any[];
 	PDSUrl: string;
 	userRoles: AgentRoles[];
+	imageLink: string;
 }
 
 export interface StateProps {
@@ -70,7 +75,8 @@ export class ProjectContainer extends React.Component<Props, State> {
 		investors: null,
 		evaluators: null,
 		PDSUrl: 'http://35.192.187.110:5000/',
-		userRoles: null
+		userRoles: null,
+		imageLink: placeholder,
 	};
 
 	handleToggleModal = (data: any, modalStatus: boolean) => {
@@ -89,7 +95,10 @@ export class ProjectContainer extends React.Component<Props, State> {
 			this.props.ixo.project.getProjectByDid(did).then((response: any) => {
 				this.setState({ project: response.result.data});
 				this.handleGetCapabilities();
+				const project: Project = response.result;
+				this.fetchImage(project.data.imageLink, project.data.serviceEndpoint);
 			}).catch((result: Error) => {
+				Toast.errorToast(result.message);
 				console.log(result);
 			});
 		}
@@ -97,9 +106,9 @@ export class ProjectContainer extends React.Component<Props, State> {
 
 	handleGetCapabilities = () => {
 		const userRoles = [];
-		const userDid = this.props.userInfo.didDoc.did;
+		const userInfo: UserInfo = this.props.userInfo;
 		this.state.project.agents.map((agent) => {
-			if (agent.did === userDid) {
+			if (agent.did === userInfo.didDoc.did) {
 				userRoles.push(agent.role);
 			}
 		});
@@ -322,6 +331,7 @@ export class ProjectContainer extends React.Component<Props, State> {
 								toggleModal={this.handleToggleModal}
 								modalData={this.state.modalData}
 								hasCapability={this.handleHasCapability}
+								imageLink={this.state.imageLink}
 							/>
 						</Fragment>
 					);
@@ -373,6 +383,13 @@ export class ProjectContainer extends React.Component<Props, State> {
 					return <p>Nothing to see here...</p>;
 			}
 		}
+	}
+
+	fetchImage = (imageLink: string, pdsURL: string) => {
+		this.props.ixo.project.fetchPublic(imageLink, pdsURL).then((res: any) => {
+			let imageSrc = 'data:' + res.contentType + ';base64,' + res.data;
+			this.setState({ imageLink: imageSrc });
+		});
 	}
 	
 	render() {

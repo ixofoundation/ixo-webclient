@@ -14,6 +14,7 @@ import { initUserInfo } from './redux/login/login_action_creators';
 import ScrollToTop from './components/common/ScrollToTop';
 import { ToastContainer } from 'react-toastify';
 import './assets/icons.css';
+import * as Toast from './components/common/Toast';
 
 import 'react-toastify/dist/ReactToastify.min.css';
 // THEME DECLARATION BELOW
@@ -91,6 +92,7 @@ class App extends React.Component<App.Props, App.State> {
 			this.props.ixo.project.listProjects().then((response: any) => {
 				this.setState({ projectList: response.result });
 			}).catch((result: Error) => {
+				Toast.errorToast(result.message);
 				console.log(result);
 			});
 		}

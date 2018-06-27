@@ -4,7 +4,7 @@ import { ProjectCard } from './ProjectCard';
 import { ProjectsHero } from './ProjectsHero';
 import { Spinner } from '../common/Spinner';
 import { StatType } from '../../types/models';
-import { imgArray } from '../../lib/commonData';
+// import { imgArray } from '../../lib/commonData';
 import { connect } from 'react-redux';
 import { Stats } from '../../types/models/stats';
 
@@ -68,12 +68,14 @@ export class Projects extends React.Component<Props, State> {
 	}
 
 	handleGetGlobalData = () => {
-		this.props.ixo.stats.getGolbalStats().then((res) => {
-			if (res.result) {
-				const statistics: Stats = res.result;
-				this.setState({ statistics });
-			}
-		}); 
+		if (this.props.ixo) {
+			this.props.ixo.stats.getGolbalStats().then((res) => {
+				if (res.result) {
+					const statistics: Stats = res.result;
+					this.setState({ statistics });
+				}
+			}); 
+		}
 	}
 
 	renderProjects = () => {
@@ -92,7 +94,7 @@ export class Projects extends React.Component<Props, State> {
 					<div className="container">
 						<div className="row row-eq-height">
 							{this.props.projectList.map((project, index) => {
-								return <ProjectCard project={project.data} did={project.projectDid} bg={imgArray()[index]} key={index} />;
+								return <ProjectCard ixo={this.props.ixo} project={project.data} did={project.projectDid} key={index} />;
 							})}
 						</div>
 					</div>
