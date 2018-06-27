@@ -1,17 +1,22 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import { NavLink } from 'react-router-dom';
+import { deviceWidth } from '../../lib/commonData';
 
 const NavItem = styled(NavLink)`
 	color: white;
-	margin: 30px 0;
-	width: 100%;
 	height: 50px;
+	width: 50px;
 	display:flex;
 	justify-content: center;
 	align-items: center;
 	text-decoration: none;
-	border-left: 5px solid transparent;
+	border-top: 5px solid transparent;
+
+	@media (min-width: ${deviceWidth.mobile}px) {
+		margin: 30px 0;
+		width: 100%;	
+	}
 
 	:hover {
 		text-decoration: none;
@@ -26,15 +31,31 @@ const NavItem = styled(NavLink)`
 `;
 
 const Container = styled.div`
-	width: 75px;
-	padding-top: 15px;
+	width: 100%;
+	padding-top: 0;
 	background: ${props => props.theme.bg.gradientBlue};
-	position:sticky;
-	top:70px;
+	position:relative;
+	top:auto;
+	display: flex;
+	justify-content: space-evenly;
 
 	.active {
-		border-left:5px solid ${props => props.theme.ixoBlue};
+		border-top:5px solid ${props => props.theme.ixoBlue};
 	}
+
+	@media (min-width: ${deviceWidth.mobile}px) {
+		position:sticky;
+		top:70px;
+		width: 75px;
+		display: block;
+		padding-top: 15px;
+
+		.active {
+			border-left:5px solid ${props => props.theme.ixoBlue};
+		}
+	}
+
+
 `;
 
 export interface Props {
@@ -69,7 +90,7 @@ export class ProjectSidebar extends React.Component<Props, State> {
 				title="Dashboard"
 				to={`/projects/${this.props.projectDid}/detail`}
 			>
-				<i className={(this.state.activeLink === 'detail' || this.state.activeLink === '') ? 'icon-home-active' : 'icon-home'} />
+				<i className={(this.state.activeLink === 'detail') ? 'icon-home-active' : 'icon-home'} />
 			</NavItem>
 			<NavItem 
 				exact={true} 

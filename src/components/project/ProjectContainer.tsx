@@ -18,18 +18,26 @@ import { Spinner } from '../common/Spinner';
 import { UserInfo } from '../../types/models';
 import { ProjectSidebar } from './ProjectSidebar';
 import * as Toast from '../common/Toast';
+import { deviceWidth } from '../../lib/commonData';
 
 const placeholder = require('../../assets/images/ixo-placeholder-large.jpg');
 
 const Loading = styled.div`
+
 	display:flex;
 	justify-content:center;
 	align-items:center;
+
 	height:calc(100vh - 140px);
 `;
 
 const DetailContainer = styled.div`
-	display:flex;
+
+	display:block;
+	
+	@media (min-width: ${deviceWidth.mobile}px) {
+		display:flex;
+	}
 	height: 100%;
 `;
 export interface State {
