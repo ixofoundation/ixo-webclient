@@ -184,7 +184,7 @@ export const ProjectHero: React.SFC<Props> = ({project, match, isDetail, hasCapa
 
 	const buttonsArray = [
 		{ iconClass: 'icon-projects', path: `/projects/${match.params.projectDID}/overview`, title: 'PROJECT' },
-		{ iconClass: 'icon-statistics-graph', path: `/projects/${match.params.projectDID}/detail`, title: 'DASHBOARD' }
+		{ iconClass: 'icon-impacts', path: `/projects/${match.params.projectDID}/detail`, title: 'DASHBOARD' }
 	];
 
 	const handleSwitchDescription = () => {
