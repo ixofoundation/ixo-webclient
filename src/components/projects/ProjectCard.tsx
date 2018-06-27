@@ -194,7 +194,7 @@ export class ProjectCard extends React.Component<Props, States> {
 					<CardBottom>
 						<Title>{excerptText(this.props.project.title, 10)}</Title>
 						<Owner>By {this.props.project.ownerName}</Owner>
-						<ProgressBar total={this.props.project.claims.required} approved={this.props.project.claims.currentSuccessful} rejected={this.props.project.claims.currentRejected}/>
+						<ProgressBar total={this.props.project.requiredClaims} approved={this.props.project.claimStats.currentSuccessful} rejected={this.props.project.claimStats.currentRejected}/>
 						<Progress>{this.props.project.claimStats.currentSuccessful} / <strong>{this.props.project.requiredClaims}</strong></Progress>
 						<Impact>{this.props.project.impactAction}</Impact>
 					</CardBottom>

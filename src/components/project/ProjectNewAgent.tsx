@@ -2,7 +2,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { AgentRoles } from '../../types/models';
 import DynamicForm from '../form/DynamicForm';
-import { claimJson } from '../../lib/commonData';
+import { agentJson } from '../../lib/commonData';
 
 const Container = styled.div`
 	button {
@@ -73,7 +73,7 @@ export class ProjectNewAgent extends React.Component<ParentProps, State> {
 	}
 
 	render() {
-		let formJson = JSON.parse(claimJson);
+		let formJson = JSON.parse(agentJson);
 		return (
 			<Container>
 				<FlexContainer>

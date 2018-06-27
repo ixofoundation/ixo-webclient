@@ -1,0 +1,14 @@
+{
+	"fields": [
+		{
+		"label": "Name",
+		"name": "name",
+		"type": "text"
+		},
+		{
+		"label": "email",
+		"name": "email",
+		"type": "email"
+		}
+	]
+}

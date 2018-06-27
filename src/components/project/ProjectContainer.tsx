@@ -107,11 +107,13 @@ export class ProjectContainer extends React.Component<Props, State> {
 	handleGetCapabilities = () => {
 		const userRoles = [];
 		const userInfo: UserInfo = this.props.userInfo;
-		this.state.project.agents.map((agent) => {
-			if (agent.did === userInfo.didDoc.did) {
-				userRoles.push(agent.role);
-			}
-		});
+		if (userInfo) {
+			this.state.project.agents.map((agent) => {
+				if (agent.did === userInfo.didDoc.did) {
+					userRoles.push(agent.role);
+				}
+			});
+		}
 		this.setState({ userRoles: userRoles});
 	}
 
@@ -241,10 +243,14 @@ export class ProjectContainer extends React.Component<Props, State> {
 		this.props.keysafe.requestSigning(JSON.stringify(agentData), (error: any, signature: any) => {
 			if (!error) {
 				this.props.ixo.agent.createAgent(agentData, signature, this.state.PDSUrl).then((res) => {
-					console.log('AGENT CREATE STATUS: ', res);
+					if (res.error !== undefined) {
+						Toast.errorToast(res.error.message);
+					} else {
+						Toast.successToast(`Successfully registered as ${agentData.role}`);
+					}
 				});
 			} else {
-				console.log(error);
+				Toast.errorToast('PDS is not responding');
 			}
 		});
 	}
