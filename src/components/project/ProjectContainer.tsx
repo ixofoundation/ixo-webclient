@@ -17,6 +17,7 @@ import { ProjectAgents } from './ProjectAgents';
 import { Spinner } from '../common/Spinner';
 import { UserInfo } from '../../types/models';
 import { ProjectSidebar } from './ProjectSidebar';
+import * as Toast from '../common/Toast';
 
 const placeholder = require('../../assets/images/ixo-placeholder-large.jpg');
 
@@ -97,6 +98,7 @@ export class ProjectContainer extends React.Component<Props, State> {
 				const project: Project = response.result;
 				this.fetchImage(project.data.imageLink, project.data.serviceEndpoint);
 			}).catch((result: Error) => {
+				Toast.errorToast(result.message);
 				console.log(result);
 			});
 		}

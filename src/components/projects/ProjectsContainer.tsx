@@ -68,12 +68,14 @@ export class Projects extends React.Component<Props, State> {
 	}
 
 	handleGetGlobalData = () => {
-		this.props.ixo.stats.getGolbalStats().then((res) => {
-			if (res.result) {
-				const statistics: Stats = res.result;
-				this.setState({ statistics });
-			}
-		}); 
+		if (this.props.ixo) {
+			this.props.ixo.stats.getGolbalStats().then((res) => {
+				if (res.result) {
+					const statistics: Stats = res.result;
+					this.setState({ statistics });
+				}
+			}); 
+		}
 	}
 
 	renderProjects = () => {
