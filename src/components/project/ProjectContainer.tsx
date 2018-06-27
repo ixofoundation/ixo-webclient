@@ -126,6 +126,7 @@ export class ProjectContainer extends React.Component<Props, State> {
 				if (!error) {
 					this.props.ixo.claim.listClaimsForProject(ProjectDIDPayload, signature, this.state.PDSUrl).then((response: any) => {
 						this.setState({claims: response.result});
+						console.log(response.result);
 					}).catch((result: Error) => {
 						console.log((result));
 					});

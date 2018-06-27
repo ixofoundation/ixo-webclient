@@ -53,7 +53,6 @@ export const ProjectSingleClaim: React.SFC<ParentProps> = (props) => {
 			return <p>Loading claim...</p>;
 		} else {
 			const claim = props.claims.filter((theClaim) => theClaim.txHash === claimId)[0];
-			console.log(claim);
 			if (!claim) {
 				return <p>No claim found with that ID</p>;
 			}

@@ -234,7 +234,6 @@ export class ProjectAgents extends React.Component<ParentProps, State> {
 	}
 
 	render() {
-		console.log(this.props.agents);
 		return (
 			<LayoutWrapper>
 				{this.handleMapAgents()}

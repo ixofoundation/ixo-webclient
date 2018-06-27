@@ -7,23 +7,7 @@ import Radio from './Radio';
 import CountrySelect from './CountrySelect';
 import TemplateSelect from './TemplateSelect';
 import styled from 'styled-components';
-
-const Submit = styled.input`
-	background: #0f8dab;
-	display: block;
-	margin: 10px auto 0;
-	color: black;
-	border: 0;
-	padding: 15px;
-	text-transform: uppercase;
-	font-size:0.8em;
-	transition:all 0.3s ease;
-	cursor:pointer;
-
-	&:hover {
-		box-shadow: 3px 3px 5px 0px rgba(0,0,0,0.3);
-	}
-`;
+import { Button, ButtonTypes } from '../common/Buttons';
 
 const SubmitStatus = styled.p`
 	color:#0f8dab;
@@ -34,6 +18,7 @@ const SubmitStatus = styled.p`
 export interface ParentProps {
 	formSchema: any;
 	presetValues?: any[];
+	submitText?: string;
 }
 
 export interface State {
@@ -67,7 +52,6 @@ export default class DynamicForm extends React.Component<Props, State> {
 	}
 
 	handleSubmit = (event) => {
-		event.preventDefault();
 		this.props.handleSubmit(this.state.formData);
 	}
 
@@ -95,7 +79,7 @@ export default class DynamicForm extends React.Component<Props, State> {
 
 	render() {
 		return (
-			<form onSubmit={this.handleSubmit}>
+			<form>
 				<div className="form-group">
 					{this.props.formSchema.map((field, i) => {
 						switch (field.type) {
@@ -120,7 +104,7 @@ export default class DynamicForm extends React.Component<Props, State> {
 								return <p>Type not found</p>;
 						}
 					})}
-					<Submit type="submit" value="Submit Form"/> 
+					<Button onClick={this.handleSubmit} type={ButtonTypes.gradient}>{this.props.submitText ? this.props.submitText : 'Submit Form'}</Button> 
 					<SubmitStatus>{this.state.submitStatus}</SubmitStatus>
 				</div>
 			</form>
