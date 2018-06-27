@@ -97,9 +97,9 @@ export class ProjectContainer extends React.Component<Props, State> {
 
 	handleGetCapabilities = () => {
 		const userRoles = [];
-		const userDid = this.props.userInfo.didDoc.did;
+		const userInfo: UserInfo = this.props.userInfo;
 		this.state.project.agents.map((agent) => {
-			if (agent.did === userDid) {
+			if (agent.did === userInfo.didDoc.did) {
 				userRoles.push(agent.role);
 			}
 		});
