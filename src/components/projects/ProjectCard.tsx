@@ -149,31 +149,53 @@ const ProjectLink = styled(Link) `
 export interface Props {
 	project: any;
 	did: string;
-	bg: string;
+	ixo?: any;
 }
 
-export const ProjectCard: React.SFC<Props> = ({project, did, bg}) => {
-	return (
-		<CardContainer className="col-10 offset-1 col-xl-4 col-md-6 col-sm-10 offset-sm-1 offset-md-0">
-			<ProjectLink to={{pathname: `/projects/${did}/overview`, state: { project, did } }}>
-				<CardTop style={{backgroundImage: `url(${bg})`}}>
-					<SDGs>
-					{project.sdgs.map((SDG, SDGi) => {
-						return (
-						<i key={SDGi} className={`icon-${SDGArray[Math.floor(SDG) - 1].ico}`} />
-						);
-					})}
-					</SDGs>
-					<Description><p>{excerptText(project.shortDescription, 20)}</p></Description>
-				</CardTop>
-				<CardBottom>
-					<Title>{excerptText(project.title, 10)}</Title>
-					<Owner>By {project.ownerName}</Owner>
-					<ProgressBar total={project.claims.required} approved={project.claims.currentSuccessful} rejected={project.claims.currentRejected}/>
-					<Progress>50 / <strong>200</strong></Progress>
-					<Impact>Trees planted</Impact>
-				</CardBottom>
-			</ProjectLink>
-		</CardContainer>
-	);
-};
+export interface States {
+	imageLink: string;
+}
+
+export class ProjectCard extends React.Component<Props, States> {
+
+	state = {
+		imageLink: 'placeholders/ixo-placeholder-@2x.jpg'
+	};
+	
+	fetchImage = (imageLink: string, pdsURL: string) => {
+		this.props.ixo.project.fetchPublic(imageLink, pdsURL).then((res: any) => {
+			let imageSrc = 'data:' + res.contentType + ';base64,' + res.data;
+			this.setState({ imageLink: imageSrc });
+		});
+	}
+
+	componentDidMount() {
+		this.fetchImage(this.props.project.imageLink, this.props.project.serviceEndpoint);
+	}
+
+	render() {
+		return (
+			<CardContainer className="col-10 offset-1 col-xl-4 col-md-6 col-sm-10 offset-sm-1 offset-md-0">
+				<ProjectLink to={{pathname: `/projects/${this.props.did}/overview`, state: { project: this.props.project, did: this.props.did } }}>
+					<CardTop style={{backgroundImage: `url(${this.state.imageLink})`}}>
+						<SDGs>
+						{this.props.project.sdgs.map((SDG, SDGi) => {
+							return (
+							<i key={SDGi} className={`icon-${SDGArray[Math.floor(SDG) - 1].ico}`} />
+							);
+						})}
+						</SDGs>
+						<Description><p>{excerptText(this.props.project.shortDescription, 20)}</p></Description>
+					</CardTop>
+					<CardBottom>
+						<Title>{excerptText(this.props.project.title, 10)}</Title>
+						<Owner>By {this.props.project.ownerName}</Owner>
+						<ProgressBar total={this.props.project.claims.required} approved={this.props.project.claims.currentSuccessful} rejected={this.props.project.claims.currentRejected}/>
+						<Progress>50 / <strong>200</strong></Progress>
+						<Impact>Trees planted</Impact>
+					</CardBottom>
+				</ProjectLink>
+			</CardContainer>
+		);
+	}
+}
