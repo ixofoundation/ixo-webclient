@@ -122,6 +122,7 @@ export class ProjectContainer extends React.Component<Props, State> {
 				}
 			});
 		}
+		console.log(userRoles);
 		this.setState({ userRoles: userRoles});
 	}
 
@@ -135,8 +136,11 @@ export class ProjectContainer extends React.Component<Props, State> {
 			this.props.keysafe.requestSigning(JSON.stringify(ProjectDIDPayload), (error, signature) => {	
 				if (!error) {
 					this.props.ixo.claim.listClaimsForProject(ProjectDIDPayload, signature, this.state.PDSUrl).then((response: any) => {
-						this.setState({claims: response.result});
-						console.log(response.result);
+						if (response.error) {
+							Toast.errorToast(response.error.message);
+						} else {
+							this.setState({claims: response.result});
+						}
 					}).catch((result: Error) => {
 						console.log((result));
 					});

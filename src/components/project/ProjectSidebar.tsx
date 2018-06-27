@@ -51,6 +51,7 @@ const Container = styled.div`
 		padding-top: 15px;
 
 		.active {
+			border-top: 0;
 			border-left:5px solid ${props => props.theme.ixoBlue};
 		}
 	}
