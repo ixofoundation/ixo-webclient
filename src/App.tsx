@@ -73,6 +73,7 @@ export namespace App {
 		onIxoInit: () => void;
 		onKeysafeInit: () => void;
 		onLoginInit: (keysafe: any) => void;
+		// checkDidLedgered: (did: string) => void;
 	}
 	export interface Props extends StateProps, DispatchProps {
 	}
@@ -98,6 +99,18 @@ class App extends React.Component<App.Props, App.State> {
 		}
 		if (this.props.keysafe !== null && this.props.userInfo === null) {
 			this.props.onLoginInit(this.props.keysafe);
+		}
+
+		if (this.props.userInfo && this.props.ixo) {
+			if (typeof this.props.userInfo.ledgered === 'undefined') {
+				this.props.ixo.user.getDidDoc(this.props.userInfo.didDoc.did).then((response: any) => {
+					if (response.error) {
+						this.props.userInfo.ledgered = false;
+					} else if (response.did) {
+						this.props.userInfo.ledgered = true;
+					}
+				});
+			}
 		}
 
 	}

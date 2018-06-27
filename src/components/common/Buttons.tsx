@@ -17,7 +17,7 @@ const BaseButton = styled.a`
 	transition: all 0.3s ease;
 `;
 
-const EnabledPrimary = BaseButton.extend`
+const EnabledGradient = BaseButton.extend`
 	background: ${props => props.theme.bg.gradientButton};
 	&&&{ color: ${props => props.theme.fontDarkBlueButtonNormal} };
 	font-family: ${props => props.theme.fontRobotoCondensed};
@@ -29,8 +29,8 @@ const EnabledPrimary = BaseButton.extend`
 	}
 `;
 
-const EnabledSecondary = BaseButton.extend`
-	background: ${props => props.theme.bg.gradientBlue};
+const EnabledDark = BaseButton.extend`
+	background: #002d42;
 	&&&{ color: ${props => props.theme.fontDarkBlueButtonNormal} };
 	border: 1px solid ${props => props.theme.ixoBlue};
 	cursor: pointer;
@@ -87,15 +87,15 @@ export const Button: React.SFC<Props> = (props) => {
 	} else {
 		if (props.type === ButtonTypes.gradient) {
 			return (
-				<EnabledPrimary onClick={props.onClick} >
+				<EnabledGradient onClick={props.onClick} >
 					{renderPlus()} {props.children}
-				</EnabledPrimary>
+				</EnabledGradient>
 			);
 		} else {
 			return (
-				<EnabledSecondary onClick={props.onClick} >
+				<EnabledDark onClick={props.onClick} >
 					{renderPlus()} {props.children}
-				</EnabledSecondary>
+				</EnabledDark>
 			);
 		}
 	}
