@@ -5,6 +5,8 @@ import { Link } from 'react-router-dom';
 import { ProgressBar } from '../common/ProgressBar';
 import { excerptText } from '../../utils/formatters';
 
+const placeholder = require('../../assets/images/ixo-placeholder-large.jpg');
+
 const Title = styled.h3`
     font-weight: 400;
     font-size: 21px;
@@ -159,7 +161,7 @@ export interface States {
 export class ProjectCard extends React.Component<Props, States> {
 
 	state = {
-		imageLink: 'placeholders/ixo-placeholder-@2x.jpg'
+		imageLink: placeholder
 	};
 	
 	fetchImage = (imageLink: string, pdsURL: string) => {
