@@ -291,7 +291,7 @@ export const ProjectOverview: React.SFC<ParentProps> = (props) => {
 									/>
 								</BarContainer>
 								<Claims>{props.project.claimStats.currentSuccessful}/<strong>{props.project.requiredClaims}</strong></Claims>
-								<ImpactAction>successful water systems built</ImpactAction>
+								<ImpactAction>{props.project.impactAction}</ImpactAction>
 								<Disputed><strong>{props.project.claimStats.currentRejected}</strong> disputed claims</Disputed>
 								<hr />
 								<div className="row">
