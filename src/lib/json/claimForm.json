@@ -6,11 +6,6 @@
 		"type": "text"
 		},
 		{
-		"label": "projectDid",
-		"name": "projectdid",
-		"type": "text"
-		},
-		{
 		"label": "email",
 		"name": "email",
 		"type": "email"
@@ -25,7 +20,7 @@
 			"value": "true"
 			},
 			{
-			"labe": "No",
+			"label": "No",
 			"value": "false"
 			}
 		]
@@ -37,13 +32,13 @@
 		},
 		{
 		"label": "Longitutde",
-		"name": "string",
-		"type": "string"
+		"name": "longitutde",
+		"type": "text"
 		},
 		{
 		"label": "Latitude",
-		"name": "string",
-		"type": "string"
+		"name": "latitude",
+		"type": "text"
 		}
 	]
 }

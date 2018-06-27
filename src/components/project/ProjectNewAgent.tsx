@@ -1,15 +1,8 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import { AgentRoles } from '../../types/models';
-import { Button, ButtonTypes } from '../common/Buttons';
 import DynamicForm from '../form/DynamicForm';
 import { claimJson } from '../../lib/commonData';
-
-const Text = styled.input`
-	margin: 20px 0;
-	display: block;
-	width: 100%;
-`;
 
 const Container = styled.div`
 	button {
@@ -56,21 +49,19 @@ export interface ParentProps {
 }
 
 export interface State {
-	email: string;
 	name: string;
 }	
 
 export class ProjectNewAgent extends React.Component<ParentProps, State> {
 
 	state = {
-		email: '', 
-		name: this.props.name, 
+		name: this.props.name
 	};
 
 	titleMap = {
 		[AgentRoles.investors]: 'Become an Investor',
 		[AgentRoles.evaluators]: 'Become an Evaluator',
-		[AgentRoles.serviceProviders]: 'Become an Service Agent',
+		[AgentRoles.serviceProviders]: 'Become a Service Agent',
 	};
 
 	renderSubtitle = (role: string) => {
@@ -81,12 +72,8 @@ export class ProjectNewAgent extends React.Component<ParentProps, State> {
 		this.setState({name: event.target.value});
 	}
 
-	handleEmailChange = (event: any) => {
-		this.setState({email: event.target.value});
-	}
-
 	render() {
-		const formJson = claimJson;
+		let formJson = JSON.parse(claimJson);
 		return (
 			<Container>
 				<FlexContainer>
@@ -97,10 +84,7 @@ export class ProjectNewAgent extends React.Component<ParentProps, State> {
 					</div>
 				</FlexContainer>
 				<Line />
-				<DynamicForm formSchema={formJson} handleSubmit={(e) => this.props.submitAgent(this.props.role, this.state)} />
-				<Text placeholder="Name" value={this.state.name} onChange={this.handleNameChange} />
-				<Text placeholder="Email" value={this.state.email} onChange={this.handleEmailChange} />
-				<Button type={ButtonTypes.gradient} onClick={(e) => this.props.submitAgent(this.props.role, this.state)}>Submit new Agent</Button>
+				<DynamicForm formSchema={formJson.fields} handleSubmit={(e) => this.props.submitAgent(this.props.role, e)} />
 			</Container>
 		);
 	}

@@ -1,27 +1,28 @@
 import * as React from 'react';
 import styled from 'styled-components';
 
-const Input = styled.div`
+const InputContainer = styled.div`
 
 	margin:15px 0;
 	border-radius:0;
 	text-transform:uppercase;
 
-	& .input-group-text {
-		background: ${props => props.theme.bgMain};
-		border: 0;
-		color: white;
-		padding: 15px 10px;
-		font-size:0.7em;
-		border-radius: 0;
-		width:140px;
-		white-space: normal;
-		justify-content:center;
+	p {
+		color: ${props => props.theme.fontLightBlue};
+		margin-bottom: 0;
+		
 	}
 
 	& input {
 		border-radius:0;
-		border-left:0;
+		border:0;
+		background: none;
+		border-bottom: 1px solid ${props => props.theme.fontDarkBlueButtonHover};
+	}
+
+	& input:focus {
+		background: none;
+		border-bottom: 1px solid #5AB946;
 	}
 `;
 
@@ -46,20 +47,18 @@ export interface Props extends ParentProps, Callbacks {}
 const InputText: React.SFC<Props> = (props) => {
 
 		return (
-			<Input className="input-group">
-				<div className="input-group-prepend">
-					<span className="input-group-text">{props.text}</span>
-				</div>
+			<InputContainer>
+				<p>{props.text}</p>
 				<input 
 					className="form-control"
 					id={props.id}
 					type={props.type}
-					placeholder={props.text}
+					// placeholder={props.text}
 					onChange={props.onChange}
 					name={props.id}
 					// onBlur={(event) => validateEmail(event.target.value)}
 				/>
-			</Input>
+			</InputContainer>
 		);
 };
 

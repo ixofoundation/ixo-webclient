@@ -56,7 +56,7 @@ export default class Select extends React.Component<Props> {
 					<span className="input-group-text">{this.props.text}</span>
 				</div>
 				<select defaultValue="default" className="custom-select" id={this.props.id} onChange={this.props.onChange}>
-					<option value="default" disabled={true}>Please choose a {this.props.text}</option>
+					<option value="default" disabled={true}>{this.props.text}</option>
 					{this.generateSelect()}
 				</select>
 			</Input>
