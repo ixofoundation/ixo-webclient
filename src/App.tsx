@@ -24,6 +24,7 @@ const theme = {
 	ixoOrange: '#F89D28',
 	bg: {
 		blue: '#002233', // dashboard background
+		green: '#5AB946',
 		darkBlue: '#01151F', // Tooltips background
 		lightBlue: '#017492', // active button background for tabs on hero section
 		lightGrey: '#F6F6F6', // light background for projects list

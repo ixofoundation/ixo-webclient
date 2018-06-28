@@ -7,13 +7,13 @@ import Radio from './Radio';
 import CountrySelect from './CountrySelect';
 import TemplateSelect from './TemplateSelect';
 import styled from 'styled-components';
-import { Button, ButtonTypes } from '../common/Buttons';
+// import { Button, ButtonTypes } from '../common/Buttons';
 
 const SubmitStatus = styled.p`
 	color:#0f8dab;
 	margin-top:10px;
 	text-align:center;
-`;  
+`;
 
 export interface ParentProps {
 	formSchema: any;
@@ -54,6 +54,23 @@ export default class DynamicForm extends React.Component<Props, State> {
 	handleSubmit = (event) => {
 		this.props.handleSubmit(this.state.formData);
 	}
+
+	// handleRenderButtons = () => {
+	// 	return (
+	// 		<ButtonContainer>
+	// 			<div className="row">
+	// 				<div className="col-md-6">
+	// 					<ReturnButton>Back</ReturnButton>
+	// 				</div>
+	// 				<div className="col-md-6">
+	// 						<EvaluateMoreButton>
+	// 							Submit Claim<ButtonIcon className="icon-approvetick" />
+	// 						</EvaluateMoreButton>
+	// 				</div>
+	// 			</div>
+	// 		</ButtonContainer>
+	// 	);
+	// }
 
 	setFormState = (name: String, value: any) => {
 		const fields = name.split('.');
@@ -104,7 +121,8 @@ export default class DynamicForm extends React.Component<Props, State> {
 								return <p>Type not found</p>;
 						}
 					})}
-					<Button onClick={this.handleSubmit} type={ButtonTypes.gradient}>{this.props.submitText ? this.props.submitText : 'Submit Form'}</Button> 
+					
+					{/* <Button onClick={this.handleSubmit} type={ButtonTypes.gradient}>{this.props.submitText ? this.props.submitText : 'Submit Form'}</Button>  */}
 					<SubmitStatus>{this.state.submitStatus}</SubmitStatus>
 				</div>
 			</form>
