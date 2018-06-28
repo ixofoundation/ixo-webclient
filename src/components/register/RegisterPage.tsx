@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { UserInfo } from '../../types/models';
 import { connect } from 'react-redux';
 import { PublicSiteStoreState } from '../../redux/public_site_reducer';
-import { warningToast, successToast, errorToast } from '../common/Toast';
+import { warningToast, errorToast, successToast } from '../helpers/Toast';
 
 const LocalButton = styled.a`
 	border: 1px solid #b8b8b8;
