@@ -32,13 +32,14 @@ const Loading = styled.div`
 `;
 
 const DetailContainer = styled.div`
-
+	background: ${props => props.theme.bg.gradientBlue};
 	display:block;
+	height: 100%;
+	min-height: 700px;
 	
 	@media (min-width: ${deviceWidth.mobile}px) {
 		display:flex;
 	}
-	height: 100%;
 `;
 export interface State {
 	isModalOpen: boolean;
@@ -92,7 +93,6 @@ export class ProjectContainer extends React.Component<Props, State> {
 	}
 
 	componentDidMount() {
-		console.log(this.props.userInfo);
 		this.handleGetProjectData();
 	}
 
@@ -360,7 +360,11 @@ export class ProjectContainer extends React.Component<Props, State> {
 							<ProjectHero project={project} match={this.props.match} isDetail={true} hasCapability={this.handleHasCapability} />
 							<DetailContainer>
 								<ProjectSidebar match={this.props.match} projectDid={this.props.projectDid}/>
-								<ProjectDashboard projectDid={this.props.projectDid}/>
+								<ProjectDashboard 
+									projectDid={this.props.projectDid}
+									claimStats={this.state.project.claimStats}
+									agentStats={this.state.project.agentStats}
+								/>
 							</DetailContainer>
 						</Fragment>
 					);
