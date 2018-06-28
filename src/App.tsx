@@ -28,6 +28,7 @@ const theme = {
 		lightBlue: '#017492', // active button background for tabs on hero section
 		lightGrey: '#F6F6F6', // light background for projects list
 		gradientBlue: 'linear-gradient(to bottom, #012639 0%,#002d42 100%)', // background for widgets (charts, graphs, tabs, etc.)
+		gradientDarkBlue: 'linear-gradient(180deg, #038FB8 0%, #036C93 100%)', // claims 
 		gradientButton: 'linear-gradient(to bottom, #03D0FB 0%, #016480 100%)',
 		gradientButtonGreen: 'linear-gradient(180deg, #5AB946 0%, #339F1C 100%)',
 		gradientButtonRed: 'linear-gradient(180deg, #C5202D 0%, #AB101C 100%)',

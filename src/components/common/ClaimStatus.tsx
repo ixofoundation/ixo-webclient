@@ -6,9 +6,12 @@ const Container = styled.div`
 	display: flex;
 `;
 
-const Icon = styled.i`
+const Icon = styled.div`
 	font-size: 64px;
-	color: ${props => props.theme.bg.lightBlue};
+	padding-bottom: 10px;
+	i:before {
+		color: ${props => props.theme.bg.lightBlue};
+	}
 `;
 
 const MessageText = styled.div`
@@ -24,10 +27,10 @@ export interface Props {
 export const ClaimStatus: React.SFC<Props> = (props) => {
 	return (
 		<Container className="row">
-			<div className="col-md-4">
-				<div className="row d-flex justify-content-center">
-					<Icon className={props.icon} />
-				</div>
+			<div className="col-md-12">
+				<Icon className="row d-flex justify-content-center">
+					<i className={props.icon} />
+				</Icon>
 				<MessageText className="row d-flex justify-content-center">{props.message}</MessageText>
 			</div>
 		</Container>

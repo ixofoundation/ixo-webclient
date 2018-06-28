@@ -41,8 +41,8 @@ export const ProgressBar: React.SFC<Props> = ({total, approved, rejected}) => {
 	
 	return (
 		<Bar>
-			<Successful style={{width: approvedWidth + 'px'}} />
-			<Rejected style={{width: rejectedWidth + 2 + 'px'}} />
+			<Successful style={{width: approvedWidth + '%'}} />
+			<Rejected style={{width: rejectedWidth + 1 + '%'}} />
 		</Bar>
 	);
 };
