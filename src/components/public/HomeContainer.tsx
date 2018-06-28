@@ -21,13 +21,13 @@ export class HomeContainer extends React.Component<Props> {
 		success: false,
 	};
 
-	handleChange() {
+	handleChange(e) {
 		this.setState({
-			// [e.target.name]: e.target.value
+			[e.target.name]: e.target.value
 		});
 	}
-	handleSubmit() {
-		// e.preventDefault();
+	handleSubmit(e) {
+		e.preventDefault();
 		const onboardItem = {
 			name: this.state.name,
 			email: this.state.email
