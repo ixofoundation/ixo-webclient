@@ -1,0 +1,44 @@
+{
+	"fields": [
+		{
+		"label": "Name",
+		"name": "name",
+		"type": "text"
+		},
+		{
+		"label": "email",
+		"name": "email",
+		"type": "email"
+		},
+		{
+		"label": "tree planted",
+		"name": "planted",
+		"type": "select",
+		"options": [
+			{
+			"label": "Yes", 
+			"value": "true"
+			},
+			{
+			"label": "No",
+			"value": "false"
+			}
+		]
+		},
+		{
+		"label": "Country",
+		"name": "country",
+		"type": "country"
+		},
+		{
+		"label": "Longitutde",
+		"name": "longitutde",
+		"type": "text"
+		},
+		{
+		"label": "Latitude",
+		"name": "latitude",
+		"type": "text"
+		}
+	]
+}

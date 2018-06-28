@@ -14,7 +14,7 @@ import { initUserInfo } from './redux/login/login_action_creators';
 import ScrollToTop from './components/common/ScrollToTop';
 import { ToastContainer } from 'react-toastify';
 import './assets/icons.css';
-import * as Toast from './components/common/Toast';
+import * as Toast from './components/helpers/Toast';
 
 import 'react-toastify/dist/ReactToastify.min.css';
 // THEME DECLARATION BELOW
@@ -28,8 +28,12 @@ const theme = {
 		lightBlue: '#017492', // active button background for tabs on hero section
 		lightGrey: '#F6F6F6', // light background for projects list
 		gradientBlue: 'linear-gradient(to bottom, #012639 0%,#002d42 100%)', // background for widgets (charts, graphs, tabs, etc.)
+		gradientDarkBlue: 'linear-gradient(180deg, #038FB8 0%, #036C93 100%)', // claims 
 		gradientButton: 'linear-gradient(to bottom, #03D0FB 0%, #016480 100%)',
-		darkButton: '#0C3550'
+		gradientButtonGreen: 'linear-gradient(180deg, #5AB946 0%, #339F1C 100%)',
+		gradientButtonRed: 'linear-gradient(180deg, #C5202D 0%, #AB101C 100%)',
+		darkButton: '#0C3550',
+		gradientWhite: 'linear-gradient(180deg, #FFFFFF 0%, #FFFFFF 100%)',
 	},
 	fontBlueButtonNormal: 'white',
 	fontBlueButtonHover: '#83D9F2',

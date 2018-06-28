@@ -7,6 +7,7 @@ import { decode as base64Decode } from 'base-64';
 import { testProjectData } from '../../lib/commonData';
 import { Button, ButtonTypes } from '../common/Buttons';
 import { FileLoader } from '../common/FileLoader';
+import InputImage from '../form/InputImage';
 
 const Text = styled.input`
 	margin: 20px 0;
@@ -238,6 +239,7 @@ export class ProjectCreate extends React.Component<StateProps, State> {
 							<Button type={ButtonTypes.dark} onClick={this.fetchFile} >Fetch file</Button>
 							<Button type={ButtonTypes.dark} onClick={this.fetchFormFile} >Fetch Form file</Button>
 							<TextArea value={this.state.fetchedFile} />
+							<InputImage text="Choose a nice file" id="file1" imageWidth={400} onChange={(v) => console.log(v)}/>
 						</div>
 					</div>
 				</Container>

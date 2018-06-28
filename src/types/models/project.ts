@@ -5,7 +5,7 @@ export interface Project {
 	senderDid: string;
 	txHash: string;
 }
-interface Data {
+export interface Data {
 	title: string;
 	projectDid: string;
 	ownerName: string;
