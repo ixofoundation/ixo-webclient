@@ -17,6 +17,7 @@ const Icon = styled.div`
 const MessageText = styled.div`
 	font-size: 18px;
 	font-family: ${props => props.theme.fontRoboto};
+	text-align: center;
 `;
 
 export interface Props {
