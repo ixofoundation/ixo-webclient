@@ -60,7 +60,7 @@ const PositionController = styled.div`
 	right: 0;
 	bottom: calc(0% - 20px);
 
-    z-index: 99;
+    z-index: 1;
 `;
 
 const HeroContainer = styled.div`

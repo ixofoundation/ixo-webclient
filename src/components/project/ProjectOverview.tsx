@@ -256,6 +256,55 @@ export const ProjectOverview: React.SFC<ParentProps> = (props) => {
 			/>
 		);
 	};
+
+	const handleRenderInvestorButton = () => {
+		if (props.hasCapability(AgentRoles.investors)) {
+			return <Button type={ButtonTypes.dark} disabled={true}>You are an investor</Button>;
+		} else {
+			return (
+			<Button 
+				type={ButtonTypes.dark} 
+				disabled={false}
+				onClick={() => props.toggleModal({selectedRole: AgentRoles.investors}, true)}
+			>Invest in this Project
+			</Button>
+			);
+		} 
+	};
+
+	const handleRenderEvaluatorButton = () => {
+		if (props.hasCapability(AgentRoles.evaluators)) {
+			return <Button type={ButtonTypes.dark} disabled={true}>You are an evaluator</Button>;
+		} else if (props.hasCapability(AgentRoles.serviceProviders)) {
+			return '';
+		} else {
+			return (
+				<Button 
+					type={ButtonTypes.dark} 
+					disabled={false}
+					onClick={() => props.toggleModal({selectedRole: AgentRoles.evaluators}, true)}
+				>Become an evaluator
+				</Button>
+			);
+		} 
+	};
+
+	const handleRenderServiceProviderButton = () => {
+		if (props.hasCapability(AgentRoles.serviceProviders)) {
+			return <Button type={ButtonTypes.dark} disabled={true}>You are a service provider</Button>;
+		} else if (props.hasCapability(AgentRoles.evaluators)) {
+			return '';
+		} else {
+			return (
+				<Button 
+					type={ButtonTypes.dark} 
+					disabled={false}
+					onClick={() => props.toggleModal({selectedRole: AgentRoles.serviceProviders}, true)}
+				>Become a Service Provider
+				</Button>
+			);
+		} 
+	};
 	
 	return (
 		<div>
@@ -303,26 +352,11 @@ export const ProjectOverview: React.SFC<ParentProps> = (props) => {
 										);
 									})}
 								</div>
-								<Button 
-									type={ButtonTypes.dark} 
-									disabled={false}
-									onClick={() => props.toggleModal({selectedRole: AgentRoles.investors}, true)}
-								>Invest in this Project
-								</Button>
-								<Button 
-									type={ButtonTypes.dark} 
-									disabled={false}
-									onClick={() => props.toggleModal({selectedRole: AgentRoles.evaluators}, true)}
-								>Become an Evaluator
-								</Button>
-								<Button 
-									type={ButtonTypes.dark} 
-									disabled={false}
-									onClick={() => props.toggleModal({selectedRole: AgentRoles.serviceProviders}, true)}
-								>Become a Service Provider
-								</Button>
+								{handleRenderInvestorButton()}
+								{handleRenderEvaluatorButton()}
+								{handleRenderServiceProviderButton()}
 							</Sidebar>
-							<LocalButton><i className="icon-favourites"/>SAVE TO FAVOURITES</LocalButton>
+							<LocalButton><i className="icon-heart"/>SAVE TO FAVOURITES</LocalButton>
 							<LocalButton><i className="icon-share"/>SHARE THIS PROJECT</LocalButton>
 						</div>
 					</div>
