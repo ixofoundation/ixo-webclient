@@ -49,10 +49,14 @@ export default class InputImage extends React.Component<Props, State> {
 
 	handleImage = (base64Image) => {
 		this.setState({croppedImage: base64Image });
+		// make this look like an event
+		this.props.onChange({target: {value: base64Image}});
 	}
 
 	clearImage = () => {
 		this.setState({croppedImage: null});
+		// make this look like an event
+		this.props.onChange({target: {value: null}});
 	}
 	
 	render() {
