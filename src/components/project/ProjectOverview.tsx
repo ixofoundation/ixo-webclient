@@ -257,14 +257,14 @@ export const ProjectOverview: React.SFC<ParentProps> = (props) => {
 		);
 	};
 
-<<<<<<< HEAD
 	const renderLogo = () => {
 		if (props.project.founder.logoLink !== '') {
 			return <img src={props.project.founder.logoLink} alt=""/>;
 		} else {
 			return <span />;
 		}
-=======
+	};
+	
 	const handleRenderInvestorButton = () => {
 		if (props.hasCapability(AgentRoles.investors)) {
 			return <Button type={ButtonTypes.dark} disabled={true}>You are an investor</Button>;
@@ -312,7 +312,6 @@ export const ProjectOverview: React.SFC<ParentProps> = (props) => {
 				</Button>
 			);
 		} 
->>>>>>> 5855eb0861a2b4ad5b72f6e630332fb8d56f174c
 	};
 	
 	return (
