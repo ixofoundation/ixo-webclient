@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { WidgetWrapper } from '../common/WidgetWrapper';
 import { LayoutWrapper } from '../common/LayoutWrapper';
 import { SingleStatistic } from '../common/SingleStatistic';
-import { StatType } from '../../types/models';
+import { StatType, AgentRoles } from '../../types/models';
 
 const Container = styled.div`
 	color: white;
@@ -12,11 +12,10 @@ export interface ParentProps {
 	projectDid: string;
 	claimStats: any;
 	agentStats: any;
+	hasCapability: (Role: AgentRoles) => boolean;
 }
 
 export const ProjectDashboard: React.SFC<ParentProps> = ({projectDid, claimStats, agentStats}) => {
-	console.log(agentStats);
-	console.log(claimStats);
 	return (
 		<LayoutWrapper>
 			<Container className="row">

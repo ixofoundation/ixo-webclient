@@ -364,6 +364,7 @@ export class ProjectContainer extends React.Component<Props, State> {
 									projectDid={this.props.projectDid}
 									claimStats={this.state.project.claimStats}
 									agentStats={this.state.project.agentStats}
+									hasCapability={this.handleHasCapability}
 								/>
 							</DetailContainer>
 						</Fragment>
