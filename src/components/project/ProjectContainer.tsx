@@ -18,18 +18,26 @@ import { Spinner } from '../common/Spinner';
 import { UserInfo } from '../../types/models';
 import { ProjectSidebar } from './ProjectSidebar';
 import * as Toast from '../common/Toast';
+import { deviceWidth } from '../../lib/commonData';
 
 const placeholder = require('../../assets/images/ixo-placeholder-large.jpg');
 
 const Loading = styled.div`
+
 	display:flex;
 	justify-content:center;
 	align-items:center;
+
 	height:calc(100vh - 140px);
 `;
 
 const DetailContainer = styled.div`
-	display:flex;
+
+	display:block;
+	
+	@media (min-width: ${deviceWidth.mobile}px) {
+		display:flex;
+	}
 	height: 100%;
 `;
 export interface State {
@@ -114,6 +122,7 @@ export class ProjectContainer extends React.Component<Props, State> {
 				}
 			});
 		}
+		console.log(userRoles);
 		this.setState({ userRoles: userRoles});
 	}
 
@@ -127,7 +136,11 @@ export class ProjectContainer extends React.Component<Props, State> {
 			this.props.keysafe.requestSigning(JSON.stringify(ProjectDIDPayload), (error, signature) => {	
 				if (!error) {
 					this.props.ixo.claim.listClaimsForProject(ProjectDIDPayload, signature, this.state.PDSUrl).then((response: any) => {
-						this.setState({claims: response.result});
+						if (response.error) {
+							Toast.errorToast(response.error.message);
+						} else {
+							this.setState({claims: response.result});
+						}
 					}).catch((result: Error) => {
 						console.log((result));
 					});
