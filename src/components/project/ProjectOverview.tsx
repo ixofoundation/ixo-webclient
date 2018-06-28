@@ -11,7 +11,6 @@ import { UserInfo } from '../../types/models';
 import { Button, ButtonTypes } from '../common/Buttons';
 
 const OverviewContainer = styled.section`
-
 	margin-top: -86px;
 	background: ${props => props.theme.bg.lightGrey};
 	color: white;
@@ -19,7 +18,7 @@ const OverviewContainer = styled.section`
 
 	img {
 		width: 100%;
-		box-shadow: 0px 10px 35px 0px rgba(0,0,0,0.25);
+		box-shadow: 0px 10px 35px 0px rgba(0, 0, 0, 0.25);
 		margin-bottom: 22px;
 	}
 `;
@@ -27,10 +26,9 @@ const OverviewContainer = styled.section`
 const DarkBar = styled(ProgressBar)``;
 
 const BarContainer = styled.div`
-
 	div {
 		height: 2px;
-		background-color: #033C50;
+		background-color: #033c50;
 	}
 
 	div div {
@@ -66,7 +64,6 @@ const Claims = styled.h4`
 `;
 
 const StatisticsContainer = styled.div`
-
 	div {
 		padding: 0;
 	}
@@ -77,7 +74,7 @@ const StatisticsContainer = styled.div`
 
 const ImpactAction = styled.p`
 	font-size: 18px;
-	margin-bottom:10px;
+	margin-bottom: 10px;
 `;
 
 const Disputed = styled.p`
@@ -97,12 +94,11 @@ const Text = styled.div`
 `;
 
 const Social = styled.div`
-
 	margin: 10px 0 20px;
-    display: flex;
+	display: flex;
 	justify-content: space-evenly;
-	
-	@media (min-width:${deviceWidth.tablet}px){
+
+	@media (min-width: ${deviceWidth.tablet}px) {
 		margin-top: 10px;
 		display: block;
 	}
@@ -125,17 +121,19 @@ const Social = styled.div`
 `;
 
 const LocalButton = styled.a`
-	border: 1px solid #B8B8B8;
-    &&& {color: ${props => props.theme.fontGrey};}
-    font-size: 16px;
-    text-transform: uppercase;
-    padding: 10px 20px;
-    background: none;
-    margin-bottom: 10px;
+	border: 1px solid #b8b8b8;
+	&&& {
+		color: ${props => props.theme.fontGrey};
+	}
+	font-size: 16px;
+	text-transform: uppercase;
+	padding: 10px 20px;
+	background: none;
+	margin-bottom: 10px;
 	width: 100%;
 	font-family: ${props => props.theme.fontRobotoCondensed};
 	font-weight: 500;
-	display:inline-block;
+	display: inline-block;
 	text-align: center;
 
 	transition: all 0.3s ease;
@@ -143,7 +141,7 @@ const LocalButton = styled.a`
 
 	:hover {
 		color: white;
-		background: #B8B8B8;
+		background: #b8b8b8;
 	}
 
 	:hover i:before {
@@ -166,14 +164,13 @@ const FounderContainer = styled.section`
 	padding: 50px 0;
 `;
 
-const IconText = styled.p`
-
-`;
+const IconText = styled.p``;
 
 const Founder = styled.div`
 	background: white;
 
-	h3, h4 {
+	h3,
+	h4 {
 		font-family: ${props => props.theme.fontRobotoCondensed};
 	}
 
@@ -185,23 +182,23 @@ const Founder = styled.div`
 		font-size: 16px;
 		color: ${props => props.theme.darkGrey};
 	}
-	
+
 	img {
 		margin-top: 20px;
 	}
 
 	${IconText} {
 		margin-top: 10px;
-		color: #333C4E;
+		color: #333c4e;
 		font-size: 14px;
 		font-family: ${props => props.theme.fontRoboto};
 
 		span {
 			display: block;
-			margin:0 15px 10px 0;
+			margin: 0 15px 10px 0;
 		}
 
-		@media (min-width:400px) {
+		@media (min-width: 400px) {
 			span {
 				display: inline;
 			}
@@ -226,18 +223,20 @@ export interface ParentProps {
 	imageLink: string;
 }
 
-export const ProjectOverview: React.SFC<ParentProps> = (props) => {
-
-	const {evaluators, serviceProviders, investors} = props.project.agentStats;
+export const ProjectOverview: React.SFC<ParentProps> = props => {
+	const { evaluators, serviceProviders, investors } = props.project.agentStats;
 	const statistics: Statistic[] = [
-		{type: StatType.decimal, descriptor: [{class: 'text', value: 'Investors'}], amount: investors},
-		{type: StatType.decimal, descriptor: [{class: 'text', value: 'Evaluators'}], amount: evaluators},
-		{type: StatType.decimal, descriptor: [{class: 'text', value: 'Service providers'}], amount: serviceProviders}
-		];
+		{ type: StatType.decimal, descriptor: [{ class: 'text', value: 'Investors' }], amount: investors },
+		{ type: StatType.decimal, descriptor: [{ class: 'text', value: 'Evaluators' }], amount: evaluators },
+		{
+			type: StatType.decimal,
+			descriptor: [{ class: 'text', value: 'Service providers' }],
+			amount: serviceProviders
+		}
+	];
 
 	const submitAgent = (role: string, agentData: any) => {
-
-		let agentCreateJson: any = {...agentData, role: role};
+		let agentCreateJson: any = { ...agentData, role: role };
 		props.createAgent(agentCreateJson);
 		props.toggleModal({});
 	};
@@ -248,7 +247,7 @@ export const ProjectOverview: React.SFC<ParentProps> = (props) => {
 			userName = props.userInfo.name.valueOf();
 		}
 		return (
-			<ProjectNewAgent 
+			<ProjectNewAgent
 				submitAgent={submitAgent}
 				role={data.selectedRole}
 				name={userName}
@@ -256,13 +255,10 @@ export const ProjectOverview: React.SFC<ParentProps> = (props) => {
 			/>
 		);
 	};
-	
+
 	return (
 		<div>
-			<ModalWrapper
-				isModalOpen={props.isModalOpen}
-				handleToggleModal={() => props.toggleModal({})}
-			>
+			<ModalWrapper isModalOpen={props.isModalOpen} handleToggleModal={() => props.toggleModal({})}>
 				{renderModal(props.modalData)}
 			</ModalWrapper>
 			<OverviewContainer className="container-fluid">
@@ -271,59 +267,85 @@ export const ProjectOverview: React.SFC<ParentProps> = (props) => {
 						<div className="col-md-8">
 							<img src={props.imageLink} />
 							<Text>
-								<p>{props.project.longDescription} 
-								</p>
+								<p>{props.project.longDescription}</p>
 							</Text>
 							<Social>
-								<a><i className="icon-instagram-logo" /></a>
-								<a><i className="icon-twitter-logo-silhouette"/></a>
-								<a><i className="icon-facebook-logo"/></a>
-								<a><i className="icon-world-url"/></a>
+								<a>
+									<i className="icon-instagram-logo" />
+								</a>
+								<a>
+									<i className="icon-twitter-logo-silhouette" />
+								</a>
+								<a>
+									<i className="icon-facebook-logo" />
+								</a>
+								<a>
+									<i className="icon-world-url" />
+								</a>
 							</Social>
 						</div>
 						<div className="col-md-4">
 							<Sidebar>
 								<BarContainer>
-									<DarkBar 
+									<DarkBar
 										total={props.project.requiredClaims}
 										approved={props.project.claimStats.currentSuccessful}
-										rejected={props.project.claimStats.currentRejected} 
+										rejected={props.project.claimStats.currentRejected}
 									/>
 								</BarContainer>
-								<Claims>{props.project.claimStats.currentSuccessful}/<strong>{props.project.requiredClaims}</strong></Claims>
+								<Claims>
+									{props.project.claimStats.currentSuccessful}/<strong>
+										{props.project.requiredClaims}
+									</strong>
+								</Claims>
 								<ImpactAction>{props.project.impactAction}</ImpactAction>
-								<Disputed><strong>{props.project.claimStats.currentRejected}</strong> disputed claims</Disputed>
+								<Disputed>
+									<strong>{props.project.claimStats.currentRejected}</strong> disputed claims
+								</Disputed>
 								<hr />
 								<div className="row">
 									{statistics.map((statistic, index) => {
 										return (
 											<StatisticsContainer className="col-md-6 col-lg-4 col-4" key={index}>
-												<SingleStatistic type={statistics[index].type} amount={statistics[index].amount} descriptor={statistics[index].descriptor}/>
+												<SingleStatistic
+													type={statistics[index].type}
+													amount={statistics[index].amount}
+													descriptor={statistics[index].descriptor}
+												/>
 											</StatisticsContainer>
 										);
 									})}
 								</div>
-								<Button 
-									type={ButtonTypes.dark} 
+								<Button
+									type={ButtonTypes.dark}
 									disabled={false}
-									onClick={() => props.toggleModal({selectedRole: AgentRoles.investors}, true)}
-								>Invest in this Project
+									onClick={() => props.toggleModal({ selectedRole: AgentRoles.investors }, true)}
+								>
+									Invest in this Project
 								</Button>
-								<Button 
-									type={ButtonTypes.dark} 
+								<Button
+									type={ButtonTypes.dark}
 									disabled={false}
-									onClick={() => props.toggleModal({selectedRole: AgentRoles.evaluators}, true)}
-								>Become an Evaluator
+									onClick={() => props.toggleModal({ selectedRole: AgentRoles.evaluators }, true)}
+								>
+									Become an Evaluator
 								</Button>
-								<Button 
-									type={ButtonTypes.dark} 
+								<Button
+									type={ButtonTypes.dark}
 									disabled={false}
-									onClick={() => props.toggleModal({selectedRole: AgentRoles.serviceProviders}, true)}
-								>Become a Service Provider
+									onClick={() =>
+										props.toggleModal({ selectedRole: AgentRoles.serviceProviders }, true)
+									}
+								>
+									Become a Service Provider
 								</Button>
 							</Sidebar>
-							<LocalButton><i className="icon-favourites"/>SAVE TO FAVOURITES</LocalButton>
-							<LocalButton><i className="icon-share"/>SHARE THIS PROJECT</LocalButton>
+							<LocalButton>
+								<i className="icon-favourites" />SAVE TO FAVOURITES
+							</LocalButton>
+							<LocalButton>
+								<i className="icon-share" />SHARE THIS PROJECT
+							</LocalButton>
 						</div>
 					</div>
 				</div>
@@ -336,17 +358,22 @@ export const ProjectOverview: React.SFC<ParentProps> = (props) => {
 							<h3>{props.project.founder.name}</h3>
 							<Text>{props.project.founder.shortDescription}</Text>
 							<IconText>
-								<span><i className="icon-location"/>{getCountryName(props.project.founder.countryOfOrigin)}</span>
-								<span><i className="icon-url"/>{props.project.founder.websiteURL}</span>
+								<span>
+									<i className="icon-location" />
+									{getCountryName(props.project.founder.countryOfOrigin)}
+								</span>
+								<span>
+									<i className="icon-url" />
+									{props.project.founder.websiteURL}
+								</span>
 							</IconText>
 						</div>
 						<div className="col-md-4">
-							<img src={props.project.founder.logoLink} alt="Water for Africa lgoo"/>
+							<img src={props.project.founder.logoLink} alt="Water for Africa lgoo" />
 						</div>
 					</Founder>
 				</div>
 			</FounderContainer>
 		</div>
-
 	);
 };
