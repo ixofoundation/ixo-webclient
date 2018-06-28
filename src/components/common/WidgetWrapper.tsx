@@ -1,5 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 const Container = styled.div`
 	background: ${props => props.theme.bg.gradientBlue};
@@ -7,7 +8,10 @@ const Container = styled.div`
 	padding: 10px 20px;
 	box-shadow: 0 2px 10px 0 rgba(0,0,0,0.18);
 	margin: 15px 0;
-	
+	transform-origin: center;
+
+	transition: box-shadow 0.3s ease, transform 0.3s ease;
+
 	p, h3, a {
 		color: white;
 	}
@@ -19,15 +23,70 @@ const Container = styled.div`
 	}
 `;
 
+const FlexContainer = styled.div`
+	display: flex;
+	justify-content: space-between;
+`;
+
+const WrappedLink = styled(Link)`
+
+	color: white;
+
+	p, a, i, h3 {
+		transition: transform 0.3s ease;
+	}
+
+	i {
+		font-size: 20px;
+	}
+
+	:hover {
+		text-decoration: none;
+		color: white;
+	}
+
+	:hover ${Container} {
+		box-shadow: 0 10px 20px 0 rgba(0,0,0,0.5);
+		transform: scale(1.03);
+	}
+
+	:hover p, :hover h3, :hover a, :hover i {
+	}
+
+	.decimal {
+		color: ${props => props.theme.fontLightBlue};
+	}
+`;
+
 export interface ParentProps {
 	title?: string;
+	link?: boolean;
+	path?: string;
+	linkIcon?: string;
 }
 
-export const WidgetWrapper: React.SFC<ParentProps> = ({title, children}) => {
-	return (
-		<Container className="container-fluid">
-		<h3>{title}</h3>
-			{children}
-		</Container>
-	);
+export const WidgetWrapper: React.SFC<ParentProps> = ({title, link, path, linkIcon, children}) => {
+
+	if (link) {
+		return (
+			<WrappedLink to={path}>
+				<Container className="container-fluid">
+					<FlexContainer>
+						{title && <h3>{title}</h3>}
+						{linkIcon && <i className={linkIcon}/>}
+					</FlexContainer>
+					{children}
+				</Container>
+			</WrappedLink>
+		);
+	} else {
+		return (
+			<Container className="container-fluid">
+				<FlexContainer>
+					{title && <h3>{title}</h3>}
+				</FlexContainer>
+				{children}
+			</Container>
+		);
+	}
 };
