@@ -1,6 +1,6 @@
 import * as React    from 'react';
 import TextArea      from './TextArea';
-import InputFile     from './InputFile';
+// import InputFile     from './InputFile';
 import InputText     from './InputText';
 import Select from './Select';
 import Radio from './Radio';
@@ -8,6 +8,7 @@ import CountrySelect from './CountrySelect';
 import TemplateSelect from './TemplateSelect';
 import styled from 'styled-components';
 import { Button, ButtonTypes } from '../common/Buttons';
+import InputImage from './InputImage';
 
 const SubmitStatus = styled.p`
 	color:#0f8dab;
@@ -85,11 +86,11 @@ export default class DynamicForm extends React.Component<Props, State> {
 						switch (field.type) {
 							case 'number':
 							case 'text':
-							return <InputText id={field.name} type={field.type} text={field.label} key={i} onChange={this.onFormValueChanged(field.name)}/>;
+								return <InputText id={field.name} type={field.type} text={field.label} key={i} onChange={this.onFormValueChanged(field.name)}/>;
 							case 'email':
 								return <InputText id={field.name} type={field.type} text={field.label} validation={field.validation} key={i} onChange={this.onFormValueChanged(field.name)}/>;
 							case 'image' :
-								return <InputFile id={field.name} text={field.label} key={i} onChange={this.onFormValueChanged(field.name)}/>;
+								return <InputImage id={field.name} text={field.label} key={i} imageWidth={600} onChange={this.onFormValueChanged(field.name)}/>;
 							case 'textarea' :
 								return <TextArea id={field.name} text={field.label} key={i} onChange={this.onFormValueChanged(field.name)}/>;
 							case 'select':
