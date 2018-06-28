@@ -1,46 +1,92 @@
 import * as React from 'react';
 import styled from 'styled-components';
+import { FormStyles } from '../../types/models';
 
 const InputContainer = styled.div`
 	font-family: ${props => props.theme.fontRoboto};
-	margin:40px 0;
 	border-radius:0;
-	font-size: 16px;
-
+	
 	p {
 		margin-bottom: 0;
-		padding-left: 15px;
 		position: relative;
-		bottom: 36px;
-		font-size: 15px;
 		pointer-events: none;
-		color: ${props => props.theme.darkGrey};
 		line-height: 15px;
 		font-weight: 300;
-		transition: font-size 0.2s ease, bottom 0.2s ease;
 	}
-
+	
 	input {
-		padding-top: 15px;
-		padding-bottom: 15px;
-		border-radius: 3px;
 		border:0;
-		color: ${props => props.theme.darkGrey};
 		background: none;
-		border: 1px solid ${props => props.theme.lightGrey};
 	}
-
+	
 	input:focus {
 		background: none;
-		color: ${props => props.theme.darkGrey};
-		border: 1px solid ${props => props.theme.darkBlue};
 	}
 
 	input:focus ~ p, input:not(:placeholder-shown) ~ p {
-		right: 15px;
 		bottom: 85px;
-		font-size: 15px;
 		font-weight: 500; 
+	}
+
+	.modal-input {
+		margin:20px 0;
+		font-size: 15px;
+
+		input {
+			color: white;
+			border-bottom: 1px solid ${props => props.theme.fontDarkBlueButtonHover};
+		}
+
+		input:focus {
+			color: white;
+			border-bottom: 1px solid #5AB946;
+		}
+
+		input:focus ~ p, input:not(:placeholder-shown) ~ p {
+			bottom: 50px;
+			font-size: 11px; 
+		}
+
+		p {
+			bottom: 23px;
+			color: #83D9F2;
+			transition: font-size 0.2s ease, bottom 0.2s ease;
+		}
+	}
+	
+	.standard-input {
+		margin:40px 0;
+		font-size: 16px;
+		text-transform:uppercase;
+
+		input {
+			color: ${props => props.theme.darkGrey};
+			border: 1px solid ${props => props.theme.lightGrey};
+			padding-top: 15px;
+			padding-bottom: 15px;
+			border-radius: 3px;
+	
+		}
+
+		input:focus {
+			color: ${props => props.theme.darkGrey};
+			border: 1px solid ${props => props.theme.darkBlue};
+		}
+
+		input:focus ~ p, input:not(:placeholder-shown) ~ p {
+			bottom: 85px;
+			font-size: 11px;
+			font-weight: 500;
+			padding-left: 0;
+		}
+
+		p {
+			bottom: 36px;
+			color: ${props => props.theme.darkGrey};
+			padding-left: 15px;
+
+			transition: padding-left 0.2s ease, bottom 0.2s ease, font-size 0.2s ease;
+		}
 	}
 
 	input::-webkit-input-placeholder { /* WebKit browsers */
@@ -59,8 +105,9 @@ const InputContainer = styled.div`
 
 export interface ParentProps {
 	type: string;
-	text?: string;
 	id: string;
+	formStyle: FormStyles;
+	text?: string;
 	validation?: string;
 }
 export interface Callbacks {
@@ -79,16 +126,18 @@ const InputText: React.SFC<Props> = (props) => {
 		
 		return (
 			<InputContainer>
-				<input 
-					className="form-control"
-					id={props.id}
-					type={props.type}
-					placeholder={props.text}
-					onChange={props.onChange}
-					name={props.id}
-					// onBlur={(event) => validateEmail(event.target.value)}
-				/>
-				<p>{props.text}</p>
+				<div className={`${(props.formStyle).toLowerCase()}-input`}>
+					<input 
+						className="form-control"
+						id={props.id}
+						type={props.type}
+						placeholder={props.text}
+						onChange={props.onChange}
+						name={props.id}
+						// onBlur={(event) => validateEmail(event.target.value)}
+					/>
+					<p>{props.text}</p>
+				</div>
 			</InputContainer>
 		);
 };

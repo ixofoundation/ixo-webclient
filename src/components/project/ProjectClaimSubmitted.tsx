@@ -75,9 +75,8 @@ export interface ParentProps {
 	projectDid: string;
 }
 
-const message: string = 'Your form has been successfully submitted and is awaiting evaluation. Please check back soon';
-
 export const ProjectClaimSubmitted: React.SFC<ParentProps> = (props) => {
+	const message: string = 'Your form has been successfully submitted and is awaiting evaluation. Please check back soon';
 	const handleRenderButtons = () => {
 		return (
 			<ButtonContainer>

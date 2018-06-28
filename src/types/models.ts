@@ -57,3 +57,8 @@ export enum ErrorTypes {
 	goBack = 'GOBACK',
 	message = 'MESSAGE'
 }
+
+export enum FormStyles {
+	modal = 'MODAL',
+	standard = 'STANDARD'
+}

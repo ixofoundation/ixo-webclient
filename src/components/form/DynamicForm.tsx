@@ -1,7 +1,5 @@
 import * as React    from 'react';
-import { Link } from 'react-router-dom';
 import TextArea      from './TextArea';
-// import InputFile     from './InputFile';
 import InputText     from './InputText';
 import Select from './Select';
 import Radio from './Radio';
@@ -9,7 +7,8 @@ import CountrySelect from './CountrySelect';
 import TemplateSelect from './TemplateSelect';
 import styled from 'styled-components';
 import InputImage from './InputImage';
-// import { Button, ButtonTypes } from '../common/Buttons';
+import { FormStyles } from '../../types/models';
+import { Button, ButtonTypes } from '../common/Buttons';
 
 const SubmitStatus = styled.p`
 	color:#0f8dab;
@@ -38,7 +37,7 @@ const ReturnButton = styled.div`
 	cursor: pointer;
 	border: 1px solid ${props => props.theme.bg.darkButton};
 	color: ${props => props.theme.bg.darkButton};
-	under
+	width: 180px;
 `;
 
 const SubmitButton = styled.div`
@@ -52,24 +51,20 @@ const SubmitButton = styled.div`
 	cursor: pointer;
 	color: white;
 	text-decoration:none;
-`;
 
-const ButtonIcon = styled.i`
-	font-size: 13px;
-	padding-left: 10px;
+	i {
+		font-size: 13px;
+		padding-left: 10px;
+	}
+
 	i:before {
 		color: ${props => props.theme.bg.grey};
 	}
 `;
 
-const ButtonLink = styled(Link)`
-	:hover {
-		text-decoration: none;
-	}
-`;
-
 export interface ParentProps {
 	formSchema: any;
+	formStyle: FormStyles;
 	presetValues?: any[];
 	submitText?: string;
 	projectDID?: string;
@@ -89,7 +84,7 @@ export interface Props extends ParentProps, Callbacks {}
 export default class DynamicForm extends React.Component<Props, State> {
 	state = {
 		formData: {},
-		submitStatus: '',
+		submitStatus: ''
 	};
 
 	componentWillMount() {
@@ -132,20 +127,24 @@ export default class DynamicForm extends React.Component<Props, State> {
 	}
 
 	handleRenderButtons = () => {
-		return (
-			<ButtonContainer>
-				<div className="row">
-					<div className="col-md-6">
-						<ButtonLink to={`/projects/${this.props.projectDID}/overview`}><ReturnButton>Back</ReturnButton></ButtonLink>
+		if (this.props.formStyle === FormStyles.modal) {
+			return <Button onClick={this.handleSubmit} type={ButtonTypes.gradient}>{this.props.submitText ? this.props.submitText : 'Submit Form'}</Button>;
+		} else {
+			return (
+				<ButtonContainer>
+					<div className="row">
+						<div className="col-md-6">
+							<ReturnButton onClick={() => history.back(-1)}>Back</ReturnButton>
+						</div>
+						<div className="col-md-6">
+							<SubmitButton onClick={this.handleSubmit}>
+								{this.props.submitText ? this.props.submitText : 'Submit Form'}<i className="icon-approvetick" />
+							</SubmitButton>
+						</div>
 					</div>
-					<div className="col-md-6">
-						<SubmitButton onClick={this.handleSubmit}>
-							Submit Claim<ButtonIcon className="icon-approvetick" />
-						</SubmitButton>
-					</div>
-				</div>
-			</ButtonContainer>
-		);
+				</ButtonContainer>
+			);
+		}
 	}
 
 	render() {
@@ -156,9 +155,18 @@ export default class DynamicForm extends React.Component<Props, State> {
 						switch (field.type) {
 							case 'number':
 							case 'text':
-								return <InputText id={field.name} type={field.type} text={field.label} key={i} onChange={this.onFormValueChanged(field.name)}/>;
 							case 'email':
-								return <InputText id={field.name} type={field.type} text={field.label} validation={field.validation} key={i} onChange={this.onFormValueChanged(field.name)}/>;
+								return (
+									<InputText 
+										formStyle={this.props.formStyle} 
+										id={field.name} 
+										type={field.type} 
+										text={field.label} 
+										key={i} 
+										onChange={this.onFormValueChanged(field.name)}
+										validation={field.validation}
+									/>
+								);
 							case 'image' :
 								return <InputImage id={field.name} text={field.label} key={i} imageWidth={600} onChange={this.onFormValueChanged(field.name)}/>;
 							case 'textarea' :
@@ -176,7 +184,6 @@ export default class DynamicForm extends React.Component<Props, State> {
 						}
 					})}
 					{this.handleRenderButtons()}
-					{/* <Button onClick={this.handleSubmit} type={ButtonTypes.gradient}>{this.props.submitText ? this.props.submitText : 'Submit Form'}</Button>  */}
 					<SubmitStatus>{this.state.submitStatus}</SubmitStatus>
 				</div>
 			</form>

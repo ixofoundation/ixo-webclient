@@ -5,6 +5,14 @@ import DynamicForm from '../form/DynamicForm';
 import { decode as base64Decode } from 'base-64';
 import { Data } from '../../types/models/project';
 import styled from 'styled-components';
+import { FormStyles } from '../../types/models';
+import { Spinner } from '../common/Spinner';
+
+const FormContainer = styled.div`
+	max-width: 640px;
+	width: 100%;
+	margin: 0 auto;
+`;
 
 const Divider = styled.div`
 	height: 2px;
@@ -77,23 +85,30 @@ export class ProjectNewClaim extends React.Component<ParentProps> {
 		if (claimParsed) {
 			return (
 				<LayoutWrapperClaims>
-					<div className="container">
+					<FormContainer className="container">
 						<FormProgressBar />
 						<div className="row">
 							<div className="col-md-12">
 								<WidgetWrapperClaims>
-									<h3>Form section 1</h3>
+									<h3>Submit a Claim</h3>
 									<DividerShadow>
 									<Divider />
 									</DividerShadow>
-									<DynamicForm projectDID={this.props.projectData.projectDid} formSchema={claimParsed.fields} handleSubmit={(claimData) => this.props.submitClaim(claimData)} />
+									<DynamicForm 
+										formStyle={FormStyles.standard}
+										projectDID={this.props.projectData.projectDid} 
+										formSchema={claimParsed.fields} 
+										handleSubmit={(claimData) => this.props.submitClaim(claimData)}
+										submitText={'Submit Claim'}
+									/>
 								</WidgetWrapperClaims>
 							</div>
 						</div>
-					</div>
+					</FormContainer>
 				</LayoutWrapperClaims>
 			);
+		} else {
+			return <Spinner info="App: Loading Claim " />;
 		}
-		return null;
 	}
 }
