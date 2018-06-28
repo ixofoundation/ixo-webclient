@@ -13,12 +13,7 @@
     "@types/redux-thunk": "^2.1.0",
     "ajv": "^6.5.1",
     "base-64": "^0.1.0",
-<<<<<<< HEAD
-    "firebase": "^5.1.0",
-    "ixo-module": "^1.4.50",
-=======
     "ixo-module": "^1.4.51",
->>>>>>> origin/ixo-web-typed
     "moment": "^2.22.2",
     "rc-progress": "^2.2.5",
     "react": "^16.4.0",
