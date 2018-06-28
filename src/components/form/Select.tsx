@@ -8,14 +8,15 @@ border-radius:0;
 
 p {
 	color: ${props => props.theme.fontLightBlue};
-	margin-bottom: 0;
-	
+	margin-bottom: 10px;
+	font-weight: 500; 
 }
 
 & select {
 	height: 50px;
 	border-left: 0;
-	border-radius: 0;
+	border-radius: 3px;
+	border: 1px solid ${props => props.theme.lightGrey};
 }
 `;
 export interface ParentProps {

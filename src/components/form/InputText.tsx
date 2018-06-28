@@ -3,39 +3,44 @@ import styled from 'styled-components';
 
 const InputContainer = styled.div`
 	font-family: ${props => props.theme.fontRoboto};
-	margin:20px 0;
+	margin:40px 0;
 	border-radius:0;
-	text-transform:uppercase;
+	font-size: 16px;
 
 	p {
 		margin-bottom: 0;
+		padding-left: 15px;
 		position: relative;
-		bottom: 23px;
+		bottom: 36px;
 		font-size: 15px;
 		pointer-events: none;
-		color: #83D9F2;
+		color: ${props => props.theme.darkGrey};
 		line-height: 15px;
 		font-weight: 300;
 		transition: font-size 0.2s ease, bottom 0.2s ease;
 	}
 
 	input {
-		border-radius:0;
+		padding-top: 15px;
+		padding-bottom: 15px;
+		border-radius: 3px;
 		border:0;
-		color: white;
+		color: ${props => props.theme.darkGrey};
 		background: none;
-		border-bottom: 1px solid ${props => props.theme.fontDarkBlueButtonHover};
+		border: 1px solid ${props => props.theme.lightGrey};
 	}
 
 	input:focus {
 		background: none;
-		color: white;
-		border-bottom: 1px solid #5AB946;
+		color: ${props => props.theme.darkGrey};
+		border: 1px solid ${props => props.theme.darkBlue};
 	}
 
 	input:focus ~ p, input:not(:placeholder-shown) ~ p {
-		bottom: 50px;
-		font-size: 11px; 
+		right: 15px;
+		bottom: 85px;
+		font-size: 15px;
+		font-weight: 500; 
 	}
 
 	input::-webkit-input-placeholder { /* WebKit browsers */

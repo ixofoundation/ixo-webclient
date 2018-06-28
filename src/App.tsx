@@ -24,6 +24,7 @@ const theme = {
 	ixoOrange: '#F89D28',
 	bg: {
 		blue: '#002233', // dashboard background
+		green: '#5AB946',
 		darkBlue: '#01151F', // Tooltips background
 		lightBlue: '#017492', // active button background for tabs on hero section
 		lightGrey: '#F6F6F6', // light background for projects list
@@ -48,6 +49,7 @@ const theme = {
 	fontRobotoCondensed: 'Roboto Condensed, sans-serif',
 	grey: '#E9E8E8', // borders for project list cards, progress bar background on projects list
 	darkGrey: '#656969', // "load more projects" button on project list
+	lightGrey: '#B6B6B6',
 	widgetBorder: '#0C3550', // border color for graphs/ charts, etc.
 	graphGradient: 'linear-gradient(to right, #016480 0%, #03d0FE 100%)', // gradient fill for graphs/bars/charts
 	red: '#E2223B'

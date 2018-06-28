@@ -315,6 +315,7 @@ export class ProjectContainer extends React.Component<Props, State> {
 	}
 
 	handleSubmitClaim = (claimData) => {
+		debugger;
 		let claimPayload = Object.assign(claimData);
 		claimPayload['projectDid'] = this.props.projectDid;
 		this.props.keysafe.requestSigning(JSON.stringify(claimPayload), (error, signature) => {			

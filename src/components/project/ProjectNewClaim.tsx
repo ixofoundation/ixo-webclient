@@ -1,8 +1,31 @@
 import * as React from 'react';
-import { LayoutWrapper } from '../common/LayoutWrapper';
+import { LayoutWrapperClaims } from '../common/LayoutWrapperClaims';
+import { WidgetWrapperClaims } from '../common/WidgetWrapperClaims';
 import DynamicForm from '../form/DynamicForm';
 import { decode as base64Decode } from 'base-64';
 import { Data } from '../../types/models/project';
+import styled from 'styled-components';
+
+const Divider = styled.div`
+	height: 2px;
+	background: ${props => props.theme.bg.lightBlue};
+	width: 36%;
+	position: absolute;
+	left: 15px;
+`;
+
+const DividerShadow = styled.div`
+	height: 1px;
+	background: ${props => props.theme.bg.lightGrey};
+	width: 100%;
+`;
+
+const FormProgressBar = styled.div`
+	background: ${props => props.theme.bg.green};
+	height: 6px;
+	width: 100%;
+	border-radius: 4px 4px 0px 0px;
+`;
 
 export interface ParentProps {
 	submitClaim: (claimData: object) => void;
@@ -53,16 +76,22 @@ export class ProjectNewClaim extends React.Component<ParentProps> {
 		const claimParsed = JSON.parse(this.state.fetchedFile);
 		if (claimParsed) {
 			return (
-				<LayoutWrapper>
+				<LayoutWrapperClaims>
 					<div className="container">
+						<FormProgressBar />
 						<div className="row">
 							<div className="col-md-12">
-								<h1>Submit new claim page</h1>
-								<DynamicForm formSchema={claimParsed.fields} handleSubmit={(claimData) => this.handleSubmit(claimData)} />
+								<WidgetWrapperClaims>
+									<h3>Form section 1</h3>
+									<DividerShadow>
+									<Divider />
+									</DividerShadow>
+									<DynamicForm projectDID={this.props.projectData.projectDid} formSchema={claimParsed.fields} handleSubmit={(claimData) => this.props.submitClaim(claimData)} />
+								</WidgetWrapperClaims>
 							</div>
 						</div>
 					</div>
-				</LayoutWrapper>
+				</LayoutWrapperClaims>
 			);
 		}
 		return null;
