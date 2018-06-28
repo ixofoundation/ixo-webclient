@@ -129,7 +129,6 @@ export class ProjectContainer extends React.Component<Props, State> {
 				}
 			});
 		}
-		console.log(userRoles);
 		this.setState({ userRoles: userRoles});
 	}
 
