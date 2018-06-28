@@ -29,6 +29,7 @@ Example:
 const ImageContainer = styled.div`
 	height: 400px;
 	align: center;
+	margin-bottom: 5px;
 `;
 
 const OverviewContainer = styled.div`
@@ -45,6 +46,7 @@ const styles = {
 		width: '100%',
 		height: '150px',
 		backgroundColor: 'lightgrey',
+		color: 'black',
 		borderWidth: '2px',
 		textAlign: 'center',
 		alignVertical: 'middle',
@@ -226,7 +228,7 @@ export class ImageLoader extends React.Component<StateProps, State> {
 				</Dropzone>
 				<ModalWrapper
 					isModalOpen={this.state.isModalOpen}
-					handleToggleModal={this.cancel}
+					handleToggleModal={() => this.cancel()}
 				>
 					<OverviewContainer className="container">
 						<div className="row">

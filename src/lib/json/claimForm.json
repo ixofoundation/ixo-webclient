@@ -1,44 +1,34 @@
 {
 	"fields": [
 		{
-		"label": "Name",
-		"name": "name",
+		"label": "Section ID cleared",
+		"name": "sectionId",
 		"type": "text"
 		},
 		{
-		"label": "email",
-		"name": "email",
-		"type": "email"
-		},
-		{
-		"label": "tree planted",
-		"name": "planted",
-		"type": "select",
-		"options": [
-			{
-			"label": "Yes", 
-			"value": "true"
-			},
-			{
-			"label": "No",
-			"value": "false"
-			}
-		]
-		},
-		{
-		"label": "Country",
-		"name": "country",
-		"type": "country"
-		},
-		{
-		"label": "Longitutde",
-		"name": "longitutde",
+		"label": "Longitude",
+		"name": "longitude",
 		"type": "text"
 		},
 		{
 		"label": "Latitude",
 		"name": "latitude",
 		"type": "text"
+		},
+		{
+		"label": "Your comments",
+		"name": "comments",
+		"type": "textarea"
+		},
+		{
+		"label": "Before picture",
+		"name": "beforePicture",
+		"type": "image"
+		},
+		{
+		"label": "After picture",
+		"name": "afterPicture",
+		"type": "image"
 		}
 	]
 }

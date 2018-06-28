@@ -256,6 +256,14 @@ export const ProjectOverview: React.SFC<ParentProps> = (props) => {
 			/>
 		);
 	};
+
+	const renderLogo = () => {
+		if (props.project.founder.logoLink !== '') {
+			return <img src={props.project.founder.logoLink} alt=""/>;
+		} else {
+			return <span />;
+		}
+	};
 	
 	return (
 		<div>
@@ -337,11 +345,11 @@ export const ProjectOverview: React.SFC<ParentProps> = (props) => {
 							<Text>{props.project.founder.shortDescription}</Text>
 							<IconText>
 								<span><i className="icon-location"/>{getCountryName(props.project.founder.countryOfOrigin)}</span>
-								<span><i className="icon-url"/>{props.project.founder.websiteURL}</span>
+								<span><i className="icon-url"/><a href={props.project.founder.websiteURL} target="_blank">{props.project.founder.websiteURL}</a></span>
 							</IconText>
 						</div>
 						<div className="col-md-4">
-							<img src={props.project.founder.logoLink} alt="Water for Africa lgoo"/>
+							{renderLogo()}
 						</div>
 					</Founder>
 				</div>
