@@ -35,9 +35,9 @@ export class HomeContainer extends React.Component<Props> {
 		console.log(onboardItem);
 		this.setState({
 			success: true
-		})
+		});
 	}
-	renderSuccess = () => {
+	renderSuccess() {
 		return (
 			<div>
 				<p><strong>Your info has been submitted successfully.</strong></p>
@@ -46,9 +46,9 @@ export class HomeContainer extends React.Component<Props> {
 		);
 	}
 
-	renderForm = () => {
+	renderForm() {
 		if (this.state.success) {
-			{ this.renderSuccess }
+			{ this.renderSuccess() }
 		} else {
 			<form onSubmit={this.handleSubmit}>
 				<label>Name</label>
