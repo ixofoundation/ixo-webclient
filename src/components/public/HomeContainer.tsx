@@ -21,29 +21,32 @@ export class HomeContainer extends React.Component<Props> {
 		success: false,
 	};
 
-	handleChange(e) {
+	handleChange() {
 		this.setState({
-			[e.target.name]: e.target.value
+			// [e.target.name]: e.target.value
 		});
 	}
-	handleSubmit(e) {
-		e.preventDefault();
+	handleSubmit() {
+		// e.preventDefault();
 		const onboardItem = {
 			name: this.state.name,
 			email: this.state.email
-		}
-		console.log(onboardItem)
+		};
+		console.log(onboardItem);
+		this.setState({
+			success: true
+		})
 	}
-	renderSuccess() {
+	renderSuccess = () => {
 		return (
 			<div>
 				<p><strong>Your info has been submitted successfully.</strong></p>
 				<p>The ixo support team will be in contact with you shortly.</p>
 			</div>
-		)
+		);
 	}
 
-	renderForm() {
+	renderForm = () => {
 		if (this.state.success) {
 			{ this.renderSuccess }
 		} else {
