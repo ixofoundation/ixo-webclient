@@ -52,3 +52,8 @@ export interface UserInfo {
 	name: String;
 	ledgered: boolean; 
 }
+
+export enum ErrorTypes {
+	goBack = 'GOBACK',
+	message = 'MESSAGE'
+}

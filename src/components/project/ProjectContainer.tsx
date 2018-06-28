@@ -3,7 +3,7 @@ import { Fragment } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { PublicSiteStoreState } from '../../redux/public_site_reducer';
-import { contentType, AgentRoles } from '../../types/models';
+import { contentType, AgentRoles, ErrorTypes } from '../../types/models';
 import { Project } from '../../types/models/project';
 import { ProjectHero } from './ProjectHero';
 import { ProjectOverview } from './ProjectOverview';
@@ -144,7 +144,7 @@ export class ProjectContainer extends React.Component<Props, State> {
 				if (!error) {
 					this.props.ixo.claim.listClaimsForProject(ProjectDIDPayload, signature, this.state.PDSUrl).then((response: any) => {
 						if (response.error) {
-							Toast.errorToast(response.error.message);
+							Toast.errorToast(response.error.message, ErrorTypes.goBack);
 						} else {
 							this.setState({claims: response.result});
 						}
@@ -219,7 +219,7 @@ export class ProjectContainer extends React.Component<Props, State> {
 				if (!error) {
 					this.props.ixo.agent.listAgentsForProject(ProjectDIDPayload, signature, this.state.PDSUrl).then((response: any) => {
 						if (response.error) {
-							Toast.errorToast(response.error.message);
+							Toast.errorToast(response.error.message, ErrorTypes.goBack);
 							console.log('error occured', response.error);
 						} else {
 							let agentsObj = [];

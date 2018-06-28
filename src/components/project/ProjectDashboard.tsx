@@ -19,6 +19,7 @@ export const ProjectDashboard: React.SFC<ParentProps> = ({projectDid, claimStats
 	return (
 		<LayoutWrapper>
 			<Container className="row">
+				{
 				<div className="col-sm-6 col-lg-3">
 					<WidgetWrapper title="Evaluators" link={true} path={`/projects/${projectDid}/detail/evaluators`} linkIcon={'icon-expand'}>
 						<SingleStatistic 
@@ -29,6 +30,8 @@ export const ProjectDashboard: React.SFC<ParentProps> = ({projectDid, claimStats
 						/>
 					</WidgetWrapper>
 				</div>
+				}
+				{
 				<div className="col-sm-6 col-lg-3">
 					<WidgetWrapper title="Service Providers" link={true} path={`/projects/${projectDid}/detail/service-providers`} linkIcon={'icon-expand'}>
 						<SingleStatistic 
@@ -39,6 +42,8 @@ export const ProjectDashboard: React.SFC<ParentProps> = ({projectDid, claimStats
 						/>
 					</WidgetWrapper>
 				</div>
+				}
+				{
 				<div className="col-sm-6 col-lg-3">
 					<WidgetWrapper title="Investors" link={true} path={`/projects/${projectDid}/detail/investors`} linkIcon={'icon-expand'}>
 						<SingleStatistic 
@@ -49,6 +54,8 @@ export const ProjectDashboard: React.SFC<ParentProps> = ({projectDid, claimStats
 						/>
 					</WidgetWrapper>
 				</div>
+				}
+				{
 				<div className="col-sm-6 col-lg-3">
 					<WidgetWrapper title="Claims" link={true} path={`/projects/${projectDid}/detail/claims`} linkIcon={'icon-expand'}>
 						<SingleStatistic 
@@ -59,6 +66,7 @@ export const ProjectDashboard: React.SFC<ParentProps> = ({projectDid, claimStats
 						/>
 					</WidgetWrapper>
 				</div>
+				}
 			</Container>
 		</LayoutWrapper>
 	);
