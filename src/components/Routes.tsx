@@ -11,8 +11,8 @@ import { FaqContainer } from './public/FaqContainer';
 import { EcoContainer } from './public/EcoContainer';
 import { PricingContainer } from './public/PricingContainer';
 import { Fragment } from 'react';
-import { Widgets } from './public/Widgets';
-import { Icons } from './public/Icons';
+import { Widgets } from './widgets/Widgets';
+import { Icons } from './common/Icons';
 
 export namespace Routes {
 	export interface StateProps {

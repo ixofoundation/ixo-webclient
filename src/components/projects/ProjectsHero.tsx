@@ -116,7 +116,6 @@ export const ProjectsHero: React.SFC<Props> = (props) => {
 							return (
 								<StatisticContainer key={index} className="col-md-3 col-sm-6 col-6">
 									<ContainerInner>
-										
 										<SingleStatistic title={statistic.title} type={statistic.type} amount={statistic.amount} descriptor={statistic.descriptor}/>
 									</ContainerInner>
 								</StatisticContainer>

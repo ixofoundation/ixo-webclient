@@ -5,19 +5,11 @@ const Input = styled.div`
 
 margin:15px 0;
 border-radius:0;
-text-transform:uppercase;
-& {align-items:center;}
 
-& .input-group-text {
-	background: ${props => props.theme.bgMain};
-	border: 0;
-	color: white;
-	padding: 15px 10px;
-	font-size:0.7em;
-	border-radius: 0;
-	width:140px;
-	white-space:normal;
-	justify-content:center;
+p {
+	color: ${props => props.theme.fontLightBlue};
+	margin-bottom: 0;
+	
 }
 
 & select {
@@ -51,12 +43,10 @@ export default class Select extends React.Component<Props> {
 	render() {
 
 		return (
-			<Input className="input-group">
-				<div className="input-group-prepend">
-					<span className="input-group-text">{this.props.text}</span>
-				</div>
+			<Input>
+				<p>{this.props.text}</p>
 				<select defaultValue="default" className="custom-select" id={this.props.id} onChange={this.props.onChange}>
-					<option value="default" disabled={true}>Please choose a {this.props.text}</option>
+					<option value="default" disabled={true}>{this.props.text}</option>
 					{this.generateSelect()}
 				</select>
 			</Input>

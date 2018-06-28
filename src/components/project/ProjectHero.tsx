@@ -58,7 +58,7 @@ const TabsController = styled.div`
 	position: fixed;
 	display: flex;
 	justify-content: flex-end;
-	z-index: 0;
+	z-index: 7;
 	top: 80px;
 	right: 0;
 	width: 100%;
@@ -184,7 +184,7 @@ export const ProjectHero: React.SFC<Props> = ({project, match, isDetail, hasCapa
 
 	const buttonsArray = [
 		{ iconClass: 'icon-projects', path: `/projects/${match.params.projectDID}/overview`, title: 'PROJECT' },
-		{ iconClass: 'icon-statistics-graph', path: `/projects/${match.params.projectDID}/detail`, title: 'DASHBOARD' }
+		{ iconClass: 'icon-impacts', path: `/projects/${match.params.projectDID}/detail`, title: 'DASHBOARD' }
 	];
 
 	const handleSwitchDescription = () => {

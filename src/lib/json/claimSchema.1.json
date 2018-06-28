@@ -29,7 +29,7 @@
           "$id": "/properties/payload/properties/data",
           "type": "object",
           "properties": {
-      			"projectDid": {
+			"projectDid": {
               "$id": "/properties/payload/properties/data/properties/projectDid",
               "type": "string",
               "title": "The project did",
@@ -37,17 +37,45 @@
               "examples": [
                 "did:ixo:23423432"
               ]
-            },
-            "sectionId": {
-              "$id": "/properties/payload/properties/data/properties/sectionId",
+			},
+			"name": {
+              "$id": "/properties/payload/properties/data/properties/name",
               "type": "string",
-              "title": "Section ID cleared",
+              "title": "Claim name",
               "default": "",
               "examples": [
-                "10001"
+                "Reforestation claim"
               ]
             },
-            "longitutde": {
+			"email": {
+              "$id": "/properties/payload/properties/data/properties/email",
+              "type": "string",
+              "title": "Service Provider email address",
+              "default": "",
+              "examples": [
+                "don@ixo.foundation"
+              ]
+			},
+			"treesPlanted": {
+              "$id": "/properties/payload/properties/data/properties/treesPlanted",
+              "type": "string",
+              "title": "Trees planted",
+              "default": "",
+              "examples": [
+                "don@ixo.foundation"
+              ]
+			},
+			"country": {
+              "$id": "/properties/payload/properties/data/properties/country",
+              "type": "string",
+              "title": "Trees planted",
+              "default": "",
+              "examples": [
+                "don@ixo.foundation"
+              ]
+			}
+			,
+			"longitutde": {
               "$id": "/properties/payload/properties/data/properties/longitutde",
               "type": "string",
               "title": "Longitude",
@@ -56,50 +84,18 @@
                 "33.125"
               ]
             },
-      			"latitude": {
+			"latitude": {
               "$id": "/properties/payload/properties/data/properties/latitude",
               "type": "string",
               "title": "Latitude",
               "default": "",
               "examples": [
-                "21.45"
-              ]
-            },
-      			"comments": {
-              "$id": "/properties/payload/properties/data/properties/comments",
-              "type": "string",
-              "title": "Your comments",
-              "default": "",
-              "examples": [
-                ""
-              ]
-            },
-            "beforePicture": {
-              "$id": "/properties/payload/properties/data/properties/beforePicture",
-              "type": "string",
-              "title": "Before picture",
-              "default": "",
-              "examples": [
-                ""
-              ]
-            },
-            "afterPicture": {
-              "$id": "/properties/payload/properties/data/properties/afterPicture",
-              "type": "string",
-              "title": "After Picture",
-              "default": "",
-              "examples": [
-                ""
+                "21.4"
               ]
             }
           },          
           "required": [
-            "projectDid",
-            "sectionId",
-            "longitutde",
-            "latitude",
-            "beforePicture",
-            "afterPicture"
+            "projectDid"
           ],
           "additionalProperties": true
         }

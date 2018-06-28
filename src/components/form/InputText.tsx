@@ -1,27 +1,54 @@
 import * as React from 'react';
 import styled from 'styled-components';
 
-const Input = styled.div`
-
-	margin:15px 0;
+const InputContainer = styled.div`
+	font-family: ${props => props.theme.fontRoboto};
+	margin:20px 0;
 	border-radius:0;
 	text-transform:uppercase;
 
-	& .input-group-text {
-		background: ${props => props.theme.bgMain};
-		border: 0;
-		color: white;
-		padding: 15px 10px;
-		font-size:0.7em;
-		border-radius: 0;
-		width:140px;
-		white-space: normal;
-		justify-content:center;
+	p {
+		margin-bottom: 0;
+		position: relative;
+		bottom: 23px;
+		font-size: 15px;
+		pointer-events: none;
+		color: #83D9F2;
+		line-height: 15px;
+		font-weight: 300;
+		transition: font-size 0.2s ease, bottom 0.2s ease;
 	}
 
-	& input {
+	input {
 		border-radius:0;
-		border-left:0;
+		border:0;
+		color: white;
+		background: none;
+		border-bottom: 1px solid ${props => props.theme.fontDarkBlueButtonHover};
+	}
+
+	input:focus {
+		background: none;
+		color: white;
+		border-bottom: 1px solid #5AB946;
+	}
+
+	input:focus ~ p, input:not(:placeholder-shown) ~ p {
+		bottom: 50px;
+		font-size: 11px; 
+	}
+
+	input::-webkit-input-placeholder { /* WebKit browsers */
+		opacity:  0;
+	}
+	input:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+	   opacity:  0;
+	}
+	input::-moz-placeholder { /* Mozilla Firefox 19+ */
+		opacity:  0;
+	}
+	input:-ms-input-placeholder { /* Internet Explorer 10+ */
+		opacity:  0;
 	}
 `;
 
@@ -44,12 +71,9 @@ export interface Props extends ParentProps, Callbacks {}
 // };
 
 const InputText: React.SFC<Props> = (props) => {
-
+		
 		return (
-			<Input className="input-group">
-				<div className="input-group-prepend">
-					<span className="input-group-text">{props.text}</span>
-				</div>
+			<InputContainer>
 				<input 
 					className="form-control"
 					id={props.id}
@@ -59,7 +83,8 @@ const InputText: React.SFC<Props> = (props) => {
 					name={props.id}
 					// onBlur={(event) => validateEmail(event.target.value)}
 				/>
-			</Input>
+				<p>{props.text}</p>
+			</InputContainer>
 		);
 };
 

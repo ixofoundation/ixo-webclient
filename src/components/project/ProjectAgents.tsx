@@ -13,14 +13,21 @@ const Section = styled.section`
 		color: white;
 		font-size: 30px;
 		font-family: ${props => props.theme.fontRobotoCondensed};
-	}
 
-	i {
+		i {
+			font-size: 25px;
+			margin-right: 10px;
+		}
 
-	}
-
-	i:before {
-		color: #5AB946;
+		i.icon-pending:before {
+			color: #F89D28;
+		}
+		i.icon-approved:before {
+			color: #5AB946;
+		}
+		i.icon-rejected:before {
+			color: #E2223B;
+		}
 	}
 `;
 
@@ -66,6 +73,7 @@ const Col = styled.div`
 `;
 
 const Hover = styled.div`
+	opacity: 0;
 	position:absolute;
 	top:0;
 	left:0;
@@ -76,23 +84,29 @@ const Hover = styled.div`
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	transition: opacity 0.3s ease;
 
 	> a {
 		padding-left: 30px;
 		padding-right: 30px;
 	}
+
+	:hover {
+		opacity: 1;
+	}
 `;
 
 const Actions = styled.div`
 	position: absolute;
-	top:0;
-	width: 100%;
+	top:20px;
+	width: calc(100% - 40px);
 
 	display: flex;
 	justify-content: space-between;
 `;
 
 const Selector = styled.div`
+	opacity: 0;
 	width: 20px;
 	height: 20px;
 	border:1px solid white;
@@ -116,13 +130,24 @@ const Selector = styled.div`
 `;
 
 const Buttons = styled.div`
-	border-radius: 50%;
+
+	display: flex;
+
+	a {
+		display: block;
+		width: 30px;
+		height: 30px;
+		padding: 5px;
+		margin: 0 0 0 10px;
+	}
+	i:before {
+		color: white;
+	}
 `;
 
-const SmallButton = styled.a`
-	width: 100px;
-	color: white;
-	display:inline-block;
+const DidText = styled.p`
+	overflow: hidden;
+	text-overflow: ellipsis;
 `;
 
 export interface ParentProps {
@@ -175,11 +200,11 @@ export class ProjectAgents extends React.Component<ParentProps, State> {
 					</div>
 					{agents.map((agent, index) => {
 						return (
-							<Col className="col-md-3" key={index}>
+							<Col className="col-xl-3 col-md-6" key={index}>
 								<WidgetWrapper title={agent.name}>
 									<Indicator color={colorClass}/>
 									<p>{agent.role}</p>
-									<p><strong>DID: </strong>{agent.agentDid}</p>
+									<DidText><strong>DID: </strong>{agent.agentDid}</DidText>
 									<Mail href={`mailto:${agent.email}`}>{agent.email}</Mail>
 									<Hover>
 										<Actions>
@@ -187,11 +212,19 @@ export class ProjectAgents extends React.Component<ParentProps, State> {
 												<div className={this.handleIsSelected(agent.agentDid)}/>
 											</Selector>
 											<Buttons>
-												<SmallButton onClick={() => this.handleUpdateAgentStatus('1', agent.currentStatus, agent.agentDid, agent.role)}>&check;</SmallButton>
-												<SmallButton onClick={() => this.handleUpdateAgentStatus('2', agent.currentStatus, agent.agentDid, agent.role)}>&cross;</SmallButton>
+												<Button 
+													type={ButtonTypes.dark}
+													onClick={() => this.handleUpdateAgentStatus('1', agent.currentStatus, agent.agentDid, agent.role)}
+												><i className="icon-approvetick"/>
+												</Button>
+												<Button 
+													type={ButtonTypes.gradient} 
+													onClick={() => this.handleUpdateAgentStatus('2', agent.currentStatus, agent.agentDid, agent.role)}
+												><i className="icon-close"/>
+												</Button>
 											</Buttons>
 										</Actions>
-										<Button onClick={() => console.log('clicked')} type={ButtonTypes.dark}>View</Button>
+										{/* <Button onClick={() => console.log('clicked')} type={ButtonTypes.dark}>View</Button> */}
 									</Hover>
 								</WidgetWrapper>
 							</Col>
@@ -226,15 +259,14 @@ export class ProjectAgents extends React.Component<ParentProps, State> {
 			}
 		});
 
-		pending.length > 0 && sections.push(this.handleRenderSection('icon-ixo-logo', pending, '#F89D28', 'Pending Approval', 1));
-		approved.length > 0 && sections.push(this.handleRenderSection('icon-ixo-logo', approved, '#5AB946', 'Service Providers', 2));
-		revoked.length > 0 && sections.push(this.handleRenderSection('icon-ixo-logo', revoked, '#E2223B', 'Revoked', 3));
+		pending.length > 0 && sections.push(this.handleRenderSection('icon-pending', pending, '#F89D28', 'Pending Approval', 1));
+		approved.length > 0 && sections.push(this.handleRenderSection('icon-approved', approved, '#5AB946', 'Service Providers', 2));
+		revoked.length > 0 && sections.push(this.handleRenderSection('icon-rejectedcross', revoked, '#E2223B', 'Revoked', 3));
 
 		return sections;
 	}
 
 	render() {
-		console.log(this.props.agents);
 		return (
 			<LayoutWrapper>
 				{this.handleMapAgents()}

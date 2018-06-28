@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { ProgressBar } from '../common/ProgressBar';
-import { imgArray, deviceWidth } from '../../lib/commonData';
+import { deviceWidth } from '../../lib/commonData';
 import styled from 'styled-components';
 import { SingleStatistic } from '../common/SingleStatistic';
 import { Statistic, StatType, AgentRoles } from '../../types/models';
@@ -223,11 +223,11 @@ export interface ParentProps {
 	createAgent: (agentData: any) => void;
 	toggleModal: (data?: any, modalStatus?: boolean) => void;
 	hasCapability: (Role: AgentRoles) => boolean;
+	imageLink: string;
 }
 
 export const ProjectOverview: React.SFC<ParentProps> = (props) => {
 
-	console.log(props.project);
 	const {evaluators, serviceProviders, investors} = props.project.agentStats;
 	const statistics: Statistic[] = [
 		{type: StatType.decimal, descriptor: [{class: 'text', value: 'Investors'}], amount: investors},
@@ -236,6 +236,7 @@ export const ProjectOverview: React.SFC<ParentProps> = (props) => {
 		];
 
 	const submitAgent = (role: string, agentData: any) => {
+
 		let agentCreateJson: any = {...agentData, role: role};
 		props.createAgent(agentCreateJson);
 		props.toggleModal({});
@@ -255,6 +256,63 @@ export const ProjectOverview: React.SFC<ParentProps> = (props) => {
 			/>
 		);
 	};
+
+	const renderLogo = () => {
+		if (props.project.founder.logoLink !== '') {
+			return <img src={props.project.founder.logoLink} alt=""/>;
+		} else {
+			return <span />;
+		}
+	};
+	
+	const handleRenderInvestorButton = () => {
+		if (props.hasCapability(AgentRoles.investors)) {
+			return <Button type={ButtonTypes.dark} disabled={true}>You are an investor</Button>;
+		} else {
+			return (
+			<Button 
+				type={ButtonTypes.dark} 
+				disabled={false}
+				onClick={() => props.toggleModal({selectedRole: AgentRoles.investors}, true)}
+			>Invest in this Project
+			</Button>
+			);
+		} 
+	};
+
+	const handleRenderEvaluatorButton = () => {
+		if (props.hasCapability(AgentRoles.evaluators)) {
+			return <Button type={ButtonTypes.dark} disabled={true}>You are an evaluator</Button>;
+		} else if (props.hasCapability(AgentRoles.serviceProviders)) {
+			return '';
+		} else {
+			return (
+				<Button 
+					type={ButtonTypes.dark} 
+					disabled={false}
+					onClick={() => props.toggleModal({selectedRole: AgentRoles.evaluators}, true)}
+				>Become an evaluator
+				</Button>
+			);
+		} 
+	};
+
+	const handleRenderServiceProviderButton = () => {
+		if (props.hasCapability(AgentRoles.serviceProviders)) {
+			return <Button type={ButtonTypes.dark} disabled={true}>You are a service provider</Button>;
+		} else if (props.hasCapability(AgentRoles.evaluators)) {
+			return '';
+		} else {
+			return (
+				<Button 
+					type={ButtonTypes.dark} 
+					disabled={false}
+					onClick={() => props.toggleModal({selectedRole: AgentRoles.serviceProviders}, true)}
+				>Become a Service Provider
+				</Button>
+			);
+		} 
+	};
 	
 	return (
 		<div>
@@ -268,7 +326,7 @@ export const ProjectOverview: React.SFC<ParentProps> = (props) => {
 				<div className="container">
 					<div className="row">
 						<div className="col-md-8">
-							<img src={imgArray()[0]} />
+							<img src={props.imageLink} />
 							<Text>
 								<p>{props.project.longDescription} 
 								</p>
@@ -290,7 +348,7 @@ export const ProjectOverview: React.SFC<ParentProps> = (props) => {
 									/>
 								</BarContainer>
 								<Claims>{props.project.claimStats.currentSuccessful}/<strong>{props.project.requiredClaims}</strong></Claims>
-								<ImpactAction>successful water systems built</ImpactAction>
+								<ImpactAction>{props.project.impactAction}</ImpactAction>
 								<Disputed><strong>{props.project.claimStats.currentRejected}</strong> disputed claims</Disputed>
 								<hr />
 								<div className="row">
@@ -302,26 +360,11 @@ export const ProjectOverview: React.SFC<ParentProps> = (props) => {
 										);
 									})}
 								</div>
-								<Button 
-									type={ButtonTypes.dark} 
-									disabled={false}
-									onClick={() => props.toggleModal({selectedRole: AgentRoles.investors}, true)}
-								>Invest in this Project
-								</Button>
-								<Button 
-									type={ButtonTypes.dark} 
-									disabled={false}
-									onClick={() => props.toggleModal({selectedRole: AgentRoles.evaluators}, true)}
-								>Become an Evaluator
-								</Button>
-								<Button 
-									type={ButtonTypes.dark} 
-									disabled={false}
-									onClick={() => props.toggleModal({selectedRole: AgentRoles.serviceProviders}, true)}
-								>Become a Service Provider
-								</Button>
+								{handleRenderInvestorButton()}
+								{handleRenderEvaluatorButton()}
+								{handleRenderServiceProviderButton()}
 							</Sidebar>
-							<LocalButton><i className="icon-favourites"/>SAVE TO FAVOURITES</LocalButton>
+							<LocalButton><i className="icon-heart"/>SAVE TO FAVOURITES</LocalButton>
 							<LocalButton><i className="icon-share"/>SHARE THIS PROJECT</LocalButton>
 						</div>
 					</div>
@@ -336,11 +379,11 @@ export const ProjectOverview: React.SFC<ParentProps> = (props) => {
 							<Text>{props.project.founder.shortDescription}</Text>
 							<IconText>
 								<span><i className="icon-location"/>{getCountryName(props.project.founder.countryOfOrigin)}</span>
-								<span><i className="icon-url"/>{props.project.founder.websiteURL}</span>
+								<span><i className="icon-url"/><a href={props.project.founder.websiteURL} target="_blank">{props.project.founder.websiteURL}</a></span>
 							</IconText>
 						</div>
 						<div className="col-md-4">
-							<img src={props.project.founder.logoLink} alt="Water for Africa lgoo"/>
+							{renderLogo()}
 						</div>
 					</Founder>
 				</div>

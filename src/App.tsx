@@ -14,6 +14,7 @@ import { initUserInfo } from './redux/login/login_action_creators';
 import ScrollToTop from './components/common/ScrollToTop';
 import { ToastContainer } from 'react-toastify';
 import './assets/icons.css';
+import * as Toast from './components/helpers/Toast';
 
 import 'react-toastify/dist/ReactToastify.min.css';
 // THEME DECLARATION BELOW
@@ -27,8 +28,12 @@ const theme = {
 		lightBlue: '#017492', // active button background for tabs on hero section
 		lightGrey: '#F6F6F6', // light background for projects list
 		gradientBlue: 'linear-gradient(to bottom, #012639 0%,#002d42 100%)', // background for widgets (charts, graphs, tabs, etc.)
+		gradientDarkBlue: 'linear-gradient(180deg, #038FB8 0%, #036C93 100%)', // claims 
 		gradientButton: 'linear-gradient(to bottom, #03D0FB 0%, #016480 100%)',
-		darkButton: '#0C3550'
+		gradientButtonGreen: 'linear-gradient(180deg, #5AB946 0%, #339F1C 100%)',
+		gradientButtonRed: 'linear-gradient(180deg, #C5202D 0%, #AB101C 100%)',
+		darkButton: '#0C3550',
+		gradientWhite: 'linear-gradient(180deg, #FFFFFF 0%, #FFFFFF 100%)',
 	},
 	fontBlueButtonNormal: 'white',
 	fontBlueButtonHover: '#83D9F2', 
@@ -46,11 +51,6 @@ const theme = {
 	widgetBorder: '#0C3550', // border color for graphs/ charts, etc.
 	graphGradient: 'linear-gradient(to right, #016480 0%, #03d0FE 100%)', // gradient fill for graphs/bars/charts
 	red: '#E2223B',
-	toast: {
-		success: '#5AB946',
-		error: '#C5202D',
-		orange: '#5AB946'
-	}
 };
 
 // END OF THEME DECLARATION, CSS FOR COMPONENT BELOW
@@ -77,6 +77,7 @@ export namespace App {
 		onIxoInit: () => void;
 		onKeysafeInit: () => void;
 		onLoginInit: (keysafe: any) => void;
+		// checkDidLedgered: (did: string) => void;
 	}
 	export interface Props extends StateProps, DispatchProps {
 	}
@@ -96,11 +97,24 @@ class App extends React.Component<App.Props, App.State> {
 			this.props.ixo.project.listProjects().then((response: any) => {
 				this.setState({ projectList: response.result });
 			}).catch((result: Error) => {
+				Toast.errorToast(result.message);
 				console.log(result);
 			});
 		}
 		if (this.props.keysafe !== null && this.props.userInfo === null) {
 			this.props.onLoginInit(this.props.keysafe);
+		}
+
+		if (this.props.userInfo && this.props.ixo) {
+			if (typeof this.props.userInfo.ledgered === 'undefined') {
+				this.props.ixo.user.getDidDoc(this.props.userInfo.didDoc.did).then((response: any) => {
+					if (response.error) {
+						this.props.userInfo.ledgered = false;
+					} else if (response.did) {
+						this.props.userInfo.ledgered = true;
+					}
+				});
+			}
 		}
 
 	}
@@ -130,7 +144,7 @@ class App extends React.Component<App.Props, App.State> {
 				<ScrollToTop>
 					<Container>
 						<HeaderConnected userInfo={this.props.userInfo}/>
-						<ToastContainer />
+						<ToastContainer hideProgressBar={true} />
 						{this.renderProjectContent()}
 						<Footer />
 					</Container>

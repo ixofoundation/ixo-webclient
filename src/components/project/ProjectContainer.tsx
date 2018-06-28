@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { PublicSiteStoreState } from '../../redux/public_site_reducer';
 import { contentType, AgentRoles } from '../../types/models';
+import { Project } from '../../types/models/project';
 import { ProjectHero } from './ProjectHero';
 import { ProjectOverview } from './ProjectOverview';
 import { setActiveProject } from '../../redux/activeProject/activeProject_action_creators';
@@ -16,17 +17,29 @@ import { ProjectAgents } from './ProjectAgents';
 import { Spinner } from '../common/Spinner';
 import { UserInfo } from '../../types/models';
 import { ProjectSidebar } from './ProjectSidebar';
+import * as Toast from '../helpers/Toast';
+import { deviceWidth } from '../../lib/commonData';
+
+const placeholder = require('../../assets/images/ixo-placeholder-large.jpg');
 
 const Loading = styled.div`
+
 	display:flex;
 	justify-content:center;
 	align-items:center;
+
 	height:calc(100vh - 140px);
 `;
 
 const DetailContainer = styled.div`
-	display:flex;
+	background: ${props => props.theme.bg.gradientBlue};
+	display:block;
 	height: 100%;
+	min-height: 700px;
+	
+	@media (min-width: ${deviceWidth.mobile}px) {
+		display:flex;
+	}
 `;
 export interface State {
 	isModalOpen: boolean;
@@ -38,6 +51,7 @@ export interface State {
 	evaluators: any[];
 	PDSUrl: string;
 	userRoles: AgentRoles[];
+	imageLink: string;
 }
 
 export interface StateProps {
@@ -70,7 +84,8 @@ export class ProjectContainer extends React.Component<Props, State> {
 		investors: null,
 		evaluators: null,
 		PDSUrl: 'http://35.192.187.110:5000/',
-		userRoles: null
+		userRoles: null,
+		imageLink: placeholder
 	};
 
 	handleToggleModal = (data: any, modalStatus: boolean) => {
@@ -78,7 +93,6 @@ export class ProjectContainer extends React.Component<Props, State> {
 	}
 
 	componentDidMount() {
-		console.log(this.props.userInfo);
 		this.handleGetProjectData();
 	}
 
@@ -89,7 +103,10 @@ export class ProjectContainer extends React.Component<Props, State> {
 			this.props.ixo.project.getProjectByDid(did).then((response: any) => {
 				this.setState({ project: response.result.data});
 				this.handleGetCapabilities();
+				const project: Project = response.result;
+				this.fetchImage(project.data.imageLink, project.data.serviceEndpoint);
 			}).catch((result: Error) => {
+				Toast.errorToast(result.message);
 				console.log(result);
 			});
 		}
@@ -97,12 +114,15 @@ export class ProjectContainer extends React.Component<Props, State> {
 
 	handleGetCapabilities = () => {
 		const userRoles = [];
-		const userDid = this.props.userInfo.didDoc.did;
-		this.state.project.agents.map((agent) => {
-			if (agent.did === userDid) {
-				userRoles.push(agent.role);
-			}
-		});
+		const userInfo: UserInfo = this.props.userInfo;
+		if (userInfo) {
+			this.state.project.agents.map((agent) => {
+				if (agent.did === userInfo.didDoc.did) {
+					userRoles.push(agent.role);
+				}
+			});
+		}
+		console.log(userRoles);
 		this.setState({ userRoles: userRoles});
 	}
 
@@ -116,7 +136,11 @@ export class ProjectContainer extends React.Component<Props, State> {
 			this.props.keysafe.requestSigning(JSON.stringify(ProjectDIDPayload), (error, signature) => {	
 				if (!error) {
 					this.props.ixo.claim.listClaimsForProject(ProjectDIDPayload, signature, this.state.PDSUrl).then((response: any) => {
-						this.setState({claims: response.result});
+						if (response.error) {
+							Toast.errorToast(response.error.message);
+						} else {
+							this.setState({claims: response.result});
+						}
 					}).catch((result: Error) => {
 						console.log((result));
 					});
@@ -188,6 +212,7 @@ export class ProjectContainer extends React.Component<Props, State> {
 				if (!error) {
 					this.props.ixo.agent.listAgentsForProject(ProjectDIDPayload, signature, this.state.PDSUrl).then((response: any) => {
 						if (response.error) {
+							Toast.errorToast(response.error.message);
 							console.log('error occured', response.error);
 						} else {
 							let agentsObj = [];
@@ -232,10 +257,14 @@ export class ProjectContainer extends React.Component<Props, State> {
 		this.props.keysafe.requestSigning(JSON.stringify(agentData), (error: any, signature: any) => {
 			if (!error) {
 				this.props.ixo.agent.createAgent(agentData, signature, this.state.PDSUrl).then((res) => {
-					console.log('AGENT CREATE STATUS: ', res);
+					if (res.error !== undefined) {
+						Toast.errorToast(res.error.message);
+					} else {
+						Toast.successToast(`Successfully registered as ${agentData.role}`);
+					}
 				});
 			} else {
-				console.log(error);
+				Toast.errorToast('PDS is not responding');
 			}
 		});
 	}
@@ -291,11 +320,13 @@ export class ProjectContainer extends React.Component<Props, State> {
 		this.props.keysafe.requestSigning(JSON.stringify(claimPayload), (error, signature) => {			
 			if (!error) {
 				this.props.ixo.claim.createClaim(claimPayload, signature, this.state.PDSUrl).then((response) => {
-					console.log('claim has been submitted successfully', response);
+					Toast.successToast('Claim has been submitted successfully');
 				}).catch((claimError: Error) => {
+					Toast.errorToast(claimError.message);
 					console.log(claimError);
 				});
 			} else {
+				Toast.errorToast(error);
 				console.log(error);
 			}
 		});
@@ -322,6 +353,7 @@ export class ProjectContainer extends React.Component<Props, State> {
 								toggleModal={this.handleToggleModal}
 								modalData={this.state.modalData}
 								hasCapability={this.handleHasCapability}
+								imageLink={this.state.imageLink}
 							/>
 						</Fragment>
 					);
@@ -331,7 +363,12 @@ export class ProjectContainer extends React.Component<Props, State> {
 							<ProjectHero project={project} match={this.props.match} isDetail={true} hasCapability={this.handleHasCapability} />
 							<DetailContainer>
 								<ProjectSidebar match={this.props.match} projectDid={this.props.projectDid}/>
-								<ProjectDashboard projectDid={this.props.projectDid}/>
+								<ProjectDashboard 
+									projectDid={this.props.projectDid}
+									claimStats={this.state.project.claimStats}
+									agentStats={this.state.project.agentStats}
+									hasCapability={this.handleHasCapability}
+								/>
 							</DetailContainer>
 						</Fragment>
 					);
@@ -341,7 +378,7 @@ export class ProjectContainer extends React.Component<Props, State> {
 							<ProjectHero isClaim={true} project={project} match={this.props.match} isDetail={true} hasCapability={this.handleHasCapability} />
 							<DetailContainer>
 								<ProjectSidebar match={this.props.match} projectDid={this.props.projectDid}/>
-								<ProjectNewClaim submitClaim={(claimData) => this.handleSubmitClaim(claimData)}/>
+								<ProjectNewClaim projectData={project} ixo={this.props.ixo} submitClaim={(claimData) => this.handleSubmitClaim(claimData)}/>
 							</DetailContainer>
 						</Fragment>
 					);
@@ -373,6 +410,13 @@ export class ProjectContainer extends React.Component<Props, State> {
 					return <p>Nothing to see here...</p>;
 			}
 		}
+	}
+
+	fetchImage = (imageLink: string, pdsURL: string) => {
+		this.props.ixo.project.fetchPublic(imageLink, pdsURL).then((res: any) => {
+			let imageSrc = 'data:' + res.contentType + ';base64,' + res.data;
+			this.setState({ imageLink: imageSrc });
+		});
 	}
 	
 	render() {

@@ -7,6 +7,7 @@ import { decode as base64Decode } from 'base-64';
 import { testProjectData } from '../../lib/commonData';
 import { Button, ButtonTypes } from '../common/Buttons';
 import { FileLoader } from '../common/FileLoader';
+import InputImage from '../form/InputImage';
 
 const Text = styled.input`
 	margin: 20px 0;
@@ -18,7 +19,14 @@ const TextArea = styled.textarea`
 	margin: 20px 0;
 	display: block;
 	width: 100%;
-	height: 300px;
+	height: 150px;
+`;
+
+const SmallTextArea = TextArea.extend`
+	height: 50px;
+`;
+const BigTextArea = TextArea.extend`
+	height: 150px;
 `;
 
 const Container = styled.div`
@@ -159,6 +167,44 @@ export class ProjectCreate extends React.Component<StateProps, State> {
 		});
 	}
 
+	handlePropertyChanged = (prop: string, event: any) => {
+		let newProject = this.state.project;
+		newProject[prop] = event.target.value;
+		this.setState({project: newProject, projectJson: JSON.stringify(newProject)});
+	}
+
+	handleRequiredClaimsChanged = (event: any) => {
+		let newProject = this.state.project;
+		newProject.requiredClaims = parseInt(event.target.value.trim(), 10);
+		this.setState({project: newProject, projectJson: JSON.stringify(newProject)});
+	}
+
+	handleOwnerNameChanged = (event: any) => {
+		let newProject = this.state.project;
+		newProject.ownerName = event.target.value;
+		newProject.founder.name = event.target.value;
+		this.setState({project: newProject, projectJson: JSON.stringify(newProject)});
+	}
+
+	handleOwnerEmailChanged = (event: any) => {
+		let newProject = this.state.project;
+		newProject.ownerEmail = event.target.value.trim();
+		newProject.founder.email = event.target.value.trim();
+		this.setState({project: newProject, projectJson: JSON.stringify(newProject)});
+	}
+
+	handleSDGChanged = (event: any) => {
+		let newProject = this.state.project;
+		let sdgs = event.target.value;
+		// remove all whitespaces
+		// @ts-ignore
+		sdgs = sdgs.replace(/ /g, '');
+		let sdgList = sdgs.split(',');
+
+		newProject.sdgs = sdgList;
+		this.setState({project: newProject, projectJson: JSON.stringify(newProject)});
+	}
+
 	render() {
 		return (
 			<div>
@@ -166,6 +212,15 @@ export class ProjectCreate extends React.Component<StateProps, State> {
 					<div className="row">
 						<div className="col-md-12">
 							<Text placeholder="Project datastore url example: http://104.155.142.57:5000/" value={this.state.pdsURL} onChange={this.handlePdsUrlChange} />
+							<Text placeholder="Title" value={this.state.project.title} onChange={(ev) => this.handlePropertyChanged('title', ev)}/>
+							<Text placeholder="Owner Name" value={this.state.project.ownerName} onChange={this.handleOwnerNameChanged} />
+							<Text placeholder="Owner Email" value={this.state.project.ownerEmail} onChange={this.handleOwnerEmailChanged} />
+							<SmallTextArea placeholder="Short Description" value={this.state.project.shortDescription} onChange={(ev) => this.handlePropertyChanged('shortDescription', ev)}/>
+							<BigTextArea placeholder="Long Description" value={this.state.project.longDescription} onChange={(ev) => this.handlePropertyChanged('longDescription', ev)}/>
+							<Text placeholder="Impact Action (e.g. trees planted)" value={this.state.project.impactAction} onChange={(ev) => this.handlePropertyChanged('impactAction', ev)}/>
+							<Text placeholder="Required number of claims" value={this.state.project.requiredClaims} onChange={this.handleRequiredClaimsChanged}/>
+							<Text placeholder="SDG list (comma separated)" value={this.state.project.sdgs} onChange={this.handleSDGChanged}/>
+
 							<ImageLoader placeholder="Choose project image file" imageWidth={960} aspect={16 / 9} imageCallback={this.handleImage}/>
 							<img src={this.state.croppedImg} />
 							<Button type={ButtonTypes.gradient} onClick={this.uploadImage} >Upload image</Button>
@@ -176,14 +231,15 @@ export class ProjectCreate extends React.Component<StateProps, State> {
 							<Button type={ButtonTypes.gradient} onClick={() => this.uploadFile('form')} >Upload file</Button>
 							<Text value={this.state.project.templates.claim.form} />
 
-							<TextArea value={this.state.projectJson} onChange={this.handleProjectChange} />
 							<button onClick={this.handleCreateProject}>CREATE PROJECT</button>
-							<br /><br />
+							<br /><br /><br />
+							<TextArea value={this.state.projectJson} onChange={this.handleProjectChange} />
 							<Button type={ButtonTypes.dark} onClick={this.fetchImage} >Fetch image</Button>
 							<img src={this.state.fetchedImage} />
 							<Button type={ButtonTypes.dark} onClick={this.fetchFile} >Fetch file</Button>
 							<Button type={ButtonTypes.dark} onClick={this.fetchFormFile} >Fetch Form file</Button>
 							<TextArea value={this.state.fetchedFile} />
+							<InputImage text="Choose a nice file" id="file1" imageWidth={400} onChange={(v) => console.log(v)}/>
 						</div>
 					</div>
 				</Container>
