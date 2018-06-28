@@ -17,7 +17,7 @@ import { ProjectAgents } from './ProjectAgents';
 import { Spinner } from '../common/Spinner';
 import { UserInfo } from '../../types/models';
 import { ProjectSidebar } from './ProjectSidebar';
-import * as Toast from '../common/Toast';
+import * as Toast from '../helpers/Toast';
 import { deviceWidth } from '../../lib/commonData';
 
 const placeholder = require('../../assets/images/ixo-placeholder-large.jpg');
@@ -212,6 +212,7 @@ export class ProjectContainer extends React.Component<Props, State> {
 				if (!error) {
 					this.props.ixo.agent.listAgentsForProject(ProjectDIDPayload, signature, this.state.PDSUrl).then((response: any) => {
 						if (response.error) {
+							Toast.errorToast(response.error.message);
 							console.log('error occured', response.error);
 						} else {
 							let agentsObj = [];
@@ -319,11 +320,13 @@ export class ProjectContainer extends React.Component<Props, State> {
 		this.props.keysafe.requestSigning(JSON.stringify(claimPayload), (error, signature) => {			
 			if (!error) {
 				this.props.ixo.claim.createClaim(claimPayload, signature, this.state.PDSUrl).then((response) => {
-					console.log('claim has been submitted successfully', response);
+					Toast.successToast('Claim has been submitted successfully');
 				}).catch((claimError: Error) => {
+					Toast.errorToast(claimError.message);
 					console.log(claimError);
 				});
 			} else {
+				Toast.errorToast(error);
 				console.log(error);
 			}
 		});
