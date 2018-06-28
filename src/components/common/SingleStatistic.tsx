@@ -48,6 +48,11 @@ const Description = styled.p`
 		color: white;
 	}
 
+	.text-block {
+		display: block;
+		color: white;
+	}
+
 	.number {
 		color: ${props => props.theme.fontBlue}; 
 		display:inline-block;
@@ -55,6 +60,17 @@ const Description = styled.p`
 		padding:2px 8px;
 		margin:0 5px;
 		border-radius: 3px;
+	}
+
+	.number-orange {
+		color: ${props => props.theme.ixoOrange}; 
+		background: #012232;
+		display: inline-block;
+		padding: 2px 15px;
+		margin: 10px 5px;
+		border-radius: 3px;
+		font-size: 30px;
+		font-weight: bold;
 	}
 `;
 
@@ -68,7 +84,7 @@ export const SingleStatistic: React.SFC<Statistic> = ({type, amount, title, desc
 		switch (type) {
 			case StatType.decimal:
 				return (
-					<Amount>
+					<Amount className="decimal">
 						{(amount).toLocaleString()}
 					</Amount>
 				);

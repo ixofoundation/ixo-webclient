@@ -64,7 +64,7 @@ export enum ButtonTypes {
 }
 
 export interface Props {
-	onClick: (event: any) => void;
+	onClick?: (event: any) => void;
 	type: ButtonTypes;
 	disabled?: boolean;
 	plus?: true;

@@ -38,7 +38,8 @@ const Container = styled.div`
 	top:auto;
 	display: flex;
 	justify-content: space-evenly;
-
+	height: auto;
+	
 	.active {
 		border-top:5px solid ${props => props.theme.ixoBlue};
 	}
@@ -48,6 +49,7 @@ const Container = styled.div`
 		top:70px;
 		width: 75px;
 		display: block;
+		height: 400px;
 		padding-top: 15px;
 
 		.active {
@@ -55,7 +57,6 @@ const Container = styled.div`
 			border-left:5px solid ${props => props.theme.ixoBlue};
 		}
 	}
-
 
 `;
 
@@ -86,42 +87,42 @@ export class ProjectSidebar extends React.Component<Props, State> {
 	render() {
 		return (
 			<Container>
-			<NavItem 
-				exact={true}
-				title="Dashboard"
-				to={`/projects/${this.props.projectDid}/detail`}
-			>
-				<i className={(this.state.activeLink === 'detail') ? 'icon-home-active' : 'icon-home'} />
-			</NavItem>
-			<NavItem 
-				exact={true} 
-				title="Service Providers" 
-				to={`/projects/${this.props.projectDid}/detail/service-providers`} 
-			>
-				<i className={this.state.activeLink === 'service-providers' ? 'icon-serviceproviders-active' : 'icon-serviceproviders'} />
-			</NavItem>
-			<NavItem 
-				exact={true} 
-				title="Evaluators" 
-				to={`/projects/${this.props.projectDid}/detail/evaluators`}
-			>
-				<i className={this.state.activeLink === 'evaluators' ? 'icon-evaluators-active' : 'icon-evaluators'} />
-			</NavItem>
-			<NavItem 
-				exact={true} 
-				title="Claims"
-				to={`/projects/${this.props.projectDid}/detail/claims`}
-			>
-					<i className={this.state.activeLink === 'claims' ? 'icon-claims-active' : 'icon-claims'} />
-			</NavItem>
-			<NavItem 
-				exact={true}
-				title="Settings"
-				to={`/projects/${this.props.projectDid}/overview`}
-			>
-				<i className={this.state.activeLink === 'overview' ? 'icon-settings-active' : 'icon-settings'} />
-			</NavItem>
-		</Container>
+				<NavItem 
+					exact={true}
+					title="Dashboard"
+					to={`/projects/${this.props.projectDid}/detail`}
+				>
+					<i className={(this.state.activeLink === 'detail') ? 'icon-home-active' : 'icon-home'} />
+				</NavItem>
+				<NavItem 
+					exact={true} 
+					title="Service Providers" 
+					to={`/projects/${this.props.projectDid}/detail/service-providers`} 
+				>
+					<i className={this.state.activeLink === 'service-providers' ? 'icon-serviceproviders-active' : 'icon-serviceproviders'} />
+				</NavItem>
+				<NavItem 
+					exact={true} 
+					title="Evaluators" 
+					to={`/projects/${this.props.projectDid}/detail/evaluators`}
+				>
+					<i className={this.state.activeLink === 'evaluators' ? 'icon-evaluators-active' : 'icon-evaluators'} />
+				</NavItem>
+				<NavItem 
+					exact={true} 
+					title="Claims"
+					to={`/projects/${this.props.projectDid}/detail/claims`}
+				>
+						<i className={this.state.activeLink === 'claims' ? 'icon-claims-active' : 'icon-claims'} />
+				</NavItem>
+				<NavItem 
+					exact={true}
+					title="Settings"
+					to={`/projects/${this.props.projectDid}/overview`}
+				>
+					<i className={this.state.activeLink === 'overview' ? 'icon-settings-active' : 'icon-settings'} />
+				</NavItem>
+			</Container>
 	);
 	}
 }

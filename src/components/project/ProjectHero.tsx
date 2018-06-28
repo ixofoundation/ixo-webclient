@@ -58,7 +58,7 @@ const TabsController = styled.div`
 	position: fixed;
 	display: flex;
 	justify-content: flex-end;
-	z-index: 0;
+	z-index: 7;
 	top: 80px;
 	right: 0;
 	width: 100%;

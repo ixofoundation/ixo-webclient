@@ -29,7 +29,6 @@ const InputContainer = styled.div`
 
 	input:focus {
 		background: none;
-		outline: none;
 		color: white;
 		border-bottom: 1px solid #5AB946;
 	}
