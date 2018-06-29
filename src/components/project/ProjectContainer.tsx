@@ -169,7 +169,7 @@ export class ProjectContainer extends React.Component<Props, State> {
 			this.handleListClaims();
 			return <Loading className="col-md-12"><p>Loading...</p></Loading>;
 		} else if (renderType === RenderType.widget) {
-			return <ProjectClaims fullPage={true} claims={this.state.claims} projectDid={this.props.projectDid}/>;
+			return <ProjectClaims fullPage={false} claims={this.state.projectPublic.claims} projectDid={this.props.projectDid}/>;
 		} else if (this.state.claims.length > 0) {		
 			return (
 				<Fragment>
@@ -353,7 +353,6 @@ export class ProjectContainer extends React.Component<Props, State> {
 			return <Spinner info="ProjectContainer: Loading Project"/>;
 		} else {
 			const project = this.state.projectPublic;
-
 			switch (this.props.contentType) {
 				case contentType.overview:
 					return (
@@ -374,8 +373,7 @@ export class ProjectContainer extends React.Component<Props, State> {
 						</Fragment>
 					);
 				case contentType.dashboard:
-					if (this.state.claims === null) {
-						this.handleListClaims();
+					if (this.state.projectPublic.claims === null) {
 						return <Spinner info="ProjectContainer: Loading Project Claims"/>;
 					} else {
 						return (
@@ -388,7 +386,7 @@ export class ProjectContainer extends React.Component<Props, State> {
 										claimStats={this.state.projectPublic.claimStats}
 										agentStats={this.state.projectPublic.agentStats}
 										hasCapability={this.handleHasCapability}
-										claims={this.state.claims}
+										claims={this.state.projectPublic.claims}
 									/>
 									
 								</DetailContainer>
@@ -425,7 +423,7 @@ export class ProjectContainer extends React.Component<Props, State> {
 						</Fragment>
 					);
 				case contentType.claims:
-					return this.handleRenderClaims(RenderType.widget);
+					return this.handleRenderClaims(RenderType.fullPage);
 				case contentType.evaluators:
 					return this.handleRenderAgents('evaluators');
 				case contentType.investors:

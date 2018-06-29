@@ -95,27 +95,25 @@ export interface ParentProps {
 
 export const ProjectClaims: React.SFC<ParentProps> = ({claims, projectDid, fullPage}) => {
 
-	const renderClaimStatus = (claim) => {
-		if (!claim.evaluations || claim.evaluations.length === 0) {
-			return 'Pending';
-		} else {
-			let lastEvaluation = claim.evaluations[0];
-			if (lastEvaluation.status === 1) {
+	const renderClaimStatus = (status) => {
+		switch (status) {
+			case '0':
+				return 'Pending';
+			case '1':
 				return 'Approved';
-			} else {
+			case '2':
 				return 'Rejected';
-			}
+			default:
+				return 'Pending';
 		}
 	};
 
 	const handleRenderSection = (iconClass: string, claimsList: any[], colorClass: string, title: string,  key: number) => {
 		return (
 			<Section className="row" >
-				{fullPage && 
 					<div className="col-12">
 						<h2><i className={iconClass}/>{title}</h2>
 					</div>
-				}
 				{claimsList.map((claim, index) => {
 				return (
 					<Col className="col-12" key={index}>
@@ -138,30 +136,26 @@ export const ProjectClaims: React.SFC<ParentProps> = ({claims, projectDid, fullP
 		return (
 			<ClaimsWidget>
 				{claims.map((claim, index) => {
-					if (claim.evaluations === null) {
-						colorCLass = '#F89D28';
-					} else {
-						switch (claim.evaluations.status) {
-							case '0':
-								colorCLass = '#F89D28';
-								break;
-							case '1':
-								colorCLass = '#5AB946';
-								break;
-								case '2':
-								colorCLass = '#E2223B';
-								break;
-							default:
-								break;
-						}
+					switch (claim.status) {
+						case '0':
+							colorCLass = '#F89D28';
+							break;
+						case '1':
+							colorCLass = '#5AB946';
+							break;
+							case '2':
+							colorCLass = '#E2223B';
+							break;
+						default:
+							break;
 					}
 				
 					return (
-						<Link key={index} to={{pathname: `/projects/${projectDid}/detail/claims/${claim.txHash}`}}>
+						<Link key={index} to={{pathname: `/projects/${projectDid}/detail/claims/${claim.claimId}`}}>
 							<ListItemWrapper className="col-12" >
 										<Indicator color={colorCLass}/>
-										<p>{'Claim ID: ' + claim.txHash}</p>
-										<p>{renderClaimStatus(claim.name)}</p>
+										<p>{'Claim ID: ' + claim.claimId}</p>
+										<p>{renderClaimStatus(claim.status)}</p>
 							</ListItemWrapper>
 						</Link>
 						);

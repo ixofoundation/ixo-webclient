@@ -110,6 +110,7 @@ class App extends React.Component<App.Props, App.State> {
 		if (this.props.userInfo !== null && this.props.ixo !== null && this.props.keysafe !== null) {
 			if (typeof this.props.userInfo.ledgered === 'undefined' && this.state.renderRegisterPage === null) {
 				this.props.ixo.user.getDidDoc(this.props.userInfo.didDoc.did).then((response: any) => {
+					console.log(response);
 					if (response.error) {
 						this.setState({ renderRegisterPage: true });
 						this.props.userInfo.ledgered = false;
