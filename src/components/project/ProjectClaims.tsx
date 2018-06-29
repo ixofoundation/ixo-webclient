@@ -81,6 +81,19 @@ export interface ParentProps {
 
 export const ProjectClaims: React.SFC<ParentProps> = ({claims, projectDid}) => {
 
+	const renderClaimStatus = (claim) => {
+		if (!claim.evaluations || claim.evaluations.length === 0) {
+			return 'Pending';
+		} else {
+			let lastEvaluation = claim.evaluations[0];
+			if (lastEvaluation.status === 1) {
+				return 'Approved';
+			} else {
+				return 'Rejected';
+			}
+		}
+	};
+
 	const handleRenderSection = (iconClass: string, claimsList: any[], colorClass: string, title: string,  key: number) => {
 		return (
 			<Section className="row" key={key}>
@@ -91,9 +104,9 @@ export const ProjectClaims: React.SFC<ParentProps> = ({claims, projectDid}) => {
 						return (
 							<Col className="col-12" key={index}>
 								<Link to={{pathname: `/projects/${projectDid}/detail/claims/${claim.txHash}`}}>
-									<WidgetWrapper title={claim.name}>
+									<WidgetWrapper title={claim.txHash}>
 										<Indicator color={colorClass}/>
-										<p>{claim.name}</p>
+										<p>{renderClaimStatus(claim)}</p>
 									</WidgetWrapper>
 								</Link>
 							</Col>
