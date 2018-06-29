@@ -165,11 +165,13 @@ export class ProjectCard extends React.Component<Props, States> {
 	};
 	
 	fetchImage = (imageLink: string, pdsURL: string) => {
-		if (this.props.ixo) {
-			this.props.ixo.project.fetchPublic(imageLink, pdsURL).then((res: any) => {
-				let imageSrc = 'data:' + res.contentType + ';base64,' + res.data;
-				this.setState({ imageLink: imageSrc });
-			});
+		if (imageLink && imageLink !== '') {
+			if (this.props.ixo) {
+				this.props.ixo.project.fetchPublic(imageLink, pdsURL).then((res: any) => {
+					let imageSrc = 'data:' + res.contentType + ';base64,' + res.data;
+					this.setState({ imageLink: imageSrc });
+				});
+			}
 		}
 	}
 
