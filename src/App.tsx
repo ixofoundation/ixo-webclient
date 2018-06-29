@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { withRouter, Redirect } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { HeaderConnected } from './components/header/HeaderContainer';
 import Footer from './components/footer/FooterContainer';
@@ -29,12 +29,12 @@ const theme = {
 		lightBlue: '#017492', // active button background for tabs on hero section
 		lightGrey: '#F6F6F6', // light background for projects list
 		gradientBlue: 'linear-gradient(to bottom, #012639 0%,#002d42 100%)', // background for widgets (charts, graphs, tabs, etc.)
-		gradientDarkBlue: 'linear-gradient(180deg, #038FB8 0%, #036C93 100%)', // claims 
+		gradientDarkBlue: 'linear-gradient(180deg, #038FB8 0%, #036C93 100%)', // claims
 		gradientButton: 'linear-gradient(to bottom, #03D0FB 0%, #016480 100%)',
 		gradientButtonGreen: 'linear-gradient(180deg, #5AB946 0%, #339F1C 100%)',
 		gradientButtonRed: 'linear-gradient(180deg, #C5202D 0%, #AB101C 100%)',
 		darkButton: '#0C3550',
-		gradientWhite: 'linear-gradient(180deg, #FFFFFF 0%, #FFFFFF 100%)',
+		gradientWhite: 'linear-gradient(180deg, #FFFFFF 0%, #FFFFFF 100%)'
 	},
 	fontBlueButtonNormal: 'white',
 	fontBlueButtonHover: '#83D9F2',
@@ -65,7 +65,7 @@ export namespace App {
 	export interface State {
 		projectList: any;
 		loginError: String;
-		renderRegisterPage: boolean;
+		
 	}
 
 	export interface StateProps {
@@ -74,6 +74,8 @@ export namespace App {
 		pingResult?: String;
 		keysafe?: any;
 		userInfo: UserInfo;
+		location: any;
+		history: any;
 	}
 	export interface DispatchProps {
 		onIxoInit: () => void;
@@ -88,11 +90,25 @@ class App extends React.Component<App.Props, App.State> {
 		projectList: null,
 		loginError: null,
 		isProjectPage: false,
-		renderRegisterPage: null
 	};
 
 	componentDidUpdate(prevProps: any) {
-		if (this.props.ixo !== prevProps.ixo) {
+		if (this.props.userInfo !== null && this.props.ixo !== null && this.props.keysafe !== null) {
+			if (typeof this.props.userInfo.ledgered === 'undefined') {
+				this.props.ixo.user.getDidDoc(this.props.userInfo.didDoc.did).then((response: any) => {
+					if (response.error) {
+						this.props.userInfo.ledgered = false;
+						if (!(this.props.location.pathName === '/register')) {
+							this.props.history.push('/register');
+						}
+					} else if (response.did) {
+						this.props.userInfo.ledgered = true;
+					}
+				});
+			}
+		}
+
+		if (this.props.ixo !== prevProps.ixo && !(this.props.location.pathName === '/register')) {
 			this.props.ixo.project
 				.listProjects()
 				.then((response: any) => {
@@ -106,19 +122,6 @@ class App extends React.Component<App.Props, App.State> {
 		if (this.props.keysafe !== null && this.props.userInfo === null) {
 			this.props.onLoginInit(this.props.keysafe);
 		}
-
-		if (this.props.userInfo !== null && this.props.ixo !== null && this.props.keysafe !== null) {
-			if (typeof this.props.userInfo.ledgered === 'undefined' && this.state.renderRegisterPage === null) {
-				this.props.ixo.user.getDidDoc(this.props.userInfo.didDoc.did).then((response: any) => {
-					if (response.error) {
-						this.setState({ renderRegisterPage: true });
-						this.props.userInfo.ledgered = false;
-					} else if (response.did) {
-						this.props.userInfo.ledgered = true;
-					}
-				});
-			}
-		}
 	}
 
 	componentDidMount() {
@@ -126,13 +129,9 @@ class App extends React.Component<App.Props, App.State> {
 		this.props.onKeysafeInit();
 	}
 
-	renderRegisterPage() {
-		if (this.state.renderRegisterPage) {
-			return <Redirect push={true} to="/register" />;
-		} else {
-			return <div />;
-		}
-	}
+	/* renderRegisterPage() {
+		return <Redirect push={true} to="/register" />;
+	} */
 
 	renderProjectContent() {
 		if (this.state.projectList === null) {
@@ -151,7 +150,6 @@ class App extends React.Component<App.Props, App.State> {
 					<Container>
 						<HeaderConnected userInfo={this.props.userInfo} />
 						<ToastContainer hideProgressBar={true} />
-						{this.renderRegisterPage()}
 						{this.renderProjectContent()}
 						<Footer />
 					</Container>
