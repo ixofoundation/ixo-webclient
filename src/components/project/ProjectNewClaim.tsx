@@ -98,7 +98,7 @@ export class ProjectNewClaim extends React.Component<ParentProps> {
 										formStyle={FormStyles.standard}
 										projectDID={this.props.projectData.projectDid} 
 										formSchema={claimParsed.fields} 
-										handleSubmit={(claimData) => this.props.submitClaim(claimData)}
+										handleSubmit={(claimData) => this.handleSubmit(claimData)}
 										submitText={'Submit Claim'}
 									/>
 								</WidgetWrapperClaims>
