@@ -11,14 +11,17 @@ const Container = styled.div`
 `;
 export interface ParentProps {
 	projectDid: string;
-	claimStats: any;
 	agentStats: any;
 	claims: any[];
 	hasCapability: (Role: AgentRoles) => boolean;
 }
 
-export const ProjectDashboard: React.SFC<ParentProps> = ({projectDid, claimStats, agentStats, claims}) => {
+export const ProjectDashboard: React.SFC<ParentProps> = ({projectDid, agentStats, claims}) => {
 
+	const countPendingClaims = () => {
+		const pendingClaims = claims.filter((claim) => (claim.status === '0'));
+		return pendingClaims.length;
+	};
 	return (
 		<LayoutWrapper>
 			<Container className="row">
@@ -54,6 +57,18 @@ export const ProjectDashboard: React.SFC<ParentProps> = ({projectDid, claimStats
 							type={StatType.decimal}
 							amount={agentStats.investors} 
 							descriptor={[{class: 'text-block', value: 'Pending Approval:'}, {class: 'number-orange', value: agentStats.investorsPending}]}
+						/>
+					</WidgetWrapper>
+				</div>
+				}
+				{
+				<div className="col-sm-6 col-lg-3">
+					<WidgetWrapper title="Claims" link={true} path={`/projects/${projectDid}/detail/claims`} linkIcon={'icon-expand'}>
+						<SingleStatistic 
+							title="Total" 
+							type={StatType.decimal}
+							amount={agentStats.investors} 
+							descriptor={[{class: 'text-block', value: 'Pending Approval:'}, {class: 'number-orange', value: countPendingClaims()}]}
 						/>
 					</WidgetWrapper>
 				</div>

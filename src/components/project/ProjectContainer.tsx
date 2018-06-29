@@ -385,7 +385,6 @@ export class ProjectContainer extends React.Component<Props, State> {
 									<ProjectSidebar match={this.props.match} projectDid={this.props.projectDid}/>
 									<ProjectDashboard 
 										projectDid={this.props.projectDid}
-										claimStats={this.state.projectPublic.claimStats}
 										agentStats={this.state.projectPublic.agentStats}
 										hasCapability={this.handleHasCapability}
 										claims={this.state.projectPublic.claims}
