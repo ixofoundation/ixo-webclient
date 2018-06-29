@@ -95,6 +95,19 @@ export interface ParentProps {
 
 export const ProjectClaims: React.SFC<ParentProps> = ({claims, projectDid, fullPage}) => {
 
+	const renderClaimStatus = (claim) => {
+		if (!claim.evaluations || claim.evaluations.length === 0) {
+			return 'Pending';
+		} else {
+			let lastEvaluation = claim.evaluations[0];
+			if (lastEvaluation.status === 1) {
+				return 'Approved';
+			} else {
+				return 'Rejected';
+			}
+		}
+	};
+
 	const handleRenderSection = (iconClass: string, claimsList: any[], colorClass: string, title: string,  key: number) => {
 		return (
 			<Section className="row" >
@@ -107,9 +120,9 @@ export const ProjectClaims: React.SFC<ParentProps> = ({claims, projectDid, fullP
 				return (
 					<Col className="col-12" key={index}>
 							<Link to={{pathname: `/projects/${projectDid}/detail/claims/${claim.txHash}`}}>
-								<WidgetWrapper title={claim.name}>
+								<WidgetWrapper title={'Claim ID: ' + claim.txHash}>
 									<Indicator color={colorClass}/>
-									<p>{claim.name}</p>
+									<p>{renderClaimStatus(claim)}</p>
 								</WidgetWrapper>
 							</Link>
 						</Col>
@@ -147,7 +160,8 @@ export const ProjectClaims: React.SFC<ParentProps> = ({claims, projectDid, fullP
 						<Link key={index} to={{pathname: `/projects/${projectDid}/detail/claims/${claim.txHash}`}}>
 							<ListItemWrapper className="col-12" >
 										<Indicator color={colorCLass}/>
-										<p>{claim.name}</p>
+										<p>{'Claim ID: ' + claim.txHash}</p>
+										<p>{renderClaimStatus(claim.name)}</p>
 							</ListItemWrapper>
 						</Link>
 						);

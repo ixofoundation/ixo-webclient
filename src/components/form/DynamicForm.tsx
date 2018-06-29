@@ -168,7 +168,7 @@ export default class DynamicForm extends React.Component<Props, State> {
 									/>
 								);
 							case 'image' :
-								return <InputImage id={field.name} text={field.label} key={i} imageWidth={600} onChange={this.onFormValueChanged(field.name)}/>;
+								return <InputImage id={field.name} text={field.label} key={i} imageWidth={570} onChange={this.onFormValueChanged(field.name)}/>;
 							case 'textarea' :
 								return <TextArea id={field.name} text={field.label} key={i} onChange={this.onFormValueChanged(field.name)}/>;
 							case 'select':
