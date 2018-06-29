@@ -423,7 +423,7 @@ export class ProjectContainer extends React.Component<Props, State> {
 	}
 
 	fetchImage = (imageLink: string, pdsURL: string) => {
-		if (imageLink && imageLink != "") {
+		if (imageLink && imageLink !== '') {
 			this.props.ixo.project.fetchPublic(imageLink, pdsURL).then((res: any) => {
 				let imageSrc = 'data:' + res.contentType + ';base64,' + res.data;
 				this.setState({ imageLink: imageSrc });
