@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { LayoutWrapper } from '../common/LayoutWrapper';
 import { WidgetWrapper } from '../common/WidgetWrapper';
 import styled from 'styled-components';
+import { Fragment } from 'react';
 
 const Section = styled.section`
 
@@ -74,36 +75,88 @@ const Col = styled.div`
 
 `;
 
+const ClaimsWidget = styled.div`
+	margin: 20px 0;
+`;	
+
+const ListItemWrapper = styled.div`
+	background: #002d42;
+	position: relative;
+	margin-bottom: 10px;
+	padding: 12px 25px;
+	box-shadow: 0 2px 10px 0 rgba(0,0,0,0.18);
+`;
+
 export interface ParentProps {
 	claims?: any[];  
 	projectDid: string;
+	fullPage: boolean;
 }
 
-export const ProjectClaims: React.SFC<ParentProps> = ({claims, projectDid}) => {
+export const ProjectClaims: React.SFC<ParentProps> = ({claims, projectDid, fullPage}) => {
 
 	const handleRenderSection = (iconClass: string, claimsList: any[], colorClass: string, title: string,  key: number) => {
 		return (
-			<Section className="row" key={key}>
+			<Section className="row" >
+				{fullPage && 
 					<div className="col-12">
 						<h2><i className={iconClass}/>{title}</h2>
 					</div>
-					{claimsList.map((claim, index) => {
-						return (
-							<Col className="col-12" key={index}>
-								<Link to={{pathname: `/projects/${projectDid}/detail/claims/${claim.txHash}`}}>
-									<WidgetWrapper title={claim.name}>
-										<Indicator color={colorClass}/>
+				}
+				{claimsList.map((claim, index) => {
+				return (
+					<Col className="col-12" key={index}>
+							<Link to={{pathname: `/projects/${projectDid}/detail/claims/${claim.txHash}`}}>
+								<WidgetWrapper title={claim.name}>
+									<Indicator color={colorClass}/>
+									<p>{claim.name}</p>
+								</WidgetWrapper>
+							</Link>
+						</Col>
+					);
+				})}
+			</Section>
+		);
+
+	};
+
+	const handleRenderWidget = () => {
+		let colorCLass = '';
+		return (
+			<ClaimsWidget>
+				{claims.map((claim, index) => {
+					if (claim.evaluations === null) {
+						colorCLass = '#F89D28';
+					} else {
+						switch (claim.evaluations.status) {
+							case '0':
+								colorCLass = '#F89D28';
+								break;
+							case '1':
+								colorCLass = '#5AB946';
+								break;
+								case '2':
+								colorCLass = '#E2223B';
+								break;
+							default:
+								break;
+						}
+					}
+				
+					return (
+						<Link key={index} to={{pathname: `/projects/${projectDid}/detail/claims/${claim.txHash}`}}>
+							<ListItemWrapper className="col-12" >
+										<Indicator color={colorCLass}/>
 										<p>{claim.name}</p>
-									</WidgetWrapper>
-								</Link>
-							</Col>
+							</ListItemWrapper>
+						</Link>
 						);
 					})}
-			</Section>
+				</ClaimsWidget>
 		);
 	};
 
-	const handleMapClaims = () => {
+	const handleRenderFull = () => {
 
 		const approved = [];
 		const pending = [];
@@ -131,13 +184,16 @@ export const ProjectClaims: React.SFC<ParentProps> = ({claims, projectDid}) => {
 		pending.length > 0 && sections.push(handleRenderSection('icon-pending', pending, '#F89D28', 'Claims pending approval', 1));
 		approved.length > 0 && sections.push(handleRenderSection('icon-approved', approved, '#5AB946', 'Claims Approved', 2));
 		revoked.length > 0 && sections.push(handleRenderSection('icon-rejectedcross', revoked, '#E2223B', 'Claims rejected', 3));
-
-		return sections;
+		return (
+			<LayoutWrapper>
+				{sections}
+			</LayoutWrapper>
+		);
 	};
 
 	return (
-		<LayoutWrapper>
-			{handleMapClaims()}
-		</LayoutWrapper>
+		<Fragment>
+			{(fullPage) ? handleRenderFull() : handleRenderWidget()}
+		</Fragment>
 	);
 };

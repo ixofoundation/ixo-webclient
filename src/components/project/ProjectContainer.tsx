@@ -3,7 +3,7 @@ import { Fragment } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { PublicSiteStoreState } from '../../redux/public_site_reducer';
-import { contentType, AgentRoles, ErrorTypes } from '../../types/models';
+import { contentType, AgentRoles, ErrorTypes, RenderType } from '../../types/models';
 import { Project } from '../../types/models/project';
 import { ProjectHero } from './ProjectHero';
 import { ProjectOverview } from './ProjectOverview';
@@ -45,7 +45,7 @@ const DetailContainer = styled.div`
 export interface State {
 	isModalOpen: boolean;
 	modalData: any;
-	project: Object;
+	projectPublic: Object;
 	claims: Object[];
 	serviceProviders: any[];
 	investors: any[];
@@ -80,7 +80,7 @@ export class ProjectContainer extends React.Component<Props, State> {
 	state = {
 		isModalOpen: false,
 		modalData: {},
-		project: null,
+		projectPublic: null,
 		claims: null,
 		serviceProviders: null,
 		investors: null,
@@ -104,11 +104,11 @@ export class ProjectContainer extends React.Component<Props, State> {
 	}
 
 	handleGetProjectData = () => {
-		if (this.state.project === null) {
+		if (this.state.projectPublic === null) {
 			this.props.onSetActiveProject(this.props.match.params.projectDID);
 			const did = this.props.match.params.projectDID;
 			this.props.ixo.project.getProjectByDid(did).then((response: any) => {
-				this.setState({ project: response.result.data});
+				this.setState({ projectPublic: response.result.data});
 				this.handleGetCapabilities();
 				const project: Project = response.result;
 				this.fetchImage(project.data.imageLink, project.data.serviceEndpoint);
@@ -123,7 +123,7 @@ export class ProjectContainer extends React.Component<Props, State> {
 		const userRoles = [];
 		const userInfo: UserInfo = this.props.userInfo;
 		if (userInfo) {
-			this.state.project.agents.map((agent) => {
+			this.state.projectPublic.agents.map((agent) => {
 				if (agent.did === userInfo.didDoc.did) {
 					userRoles.push(agent.role);
 				}
@@ -145,7 +145,14 @@ export class ProjectContainer extends React.Component<Props, State> {
 						if (response.error) {
 							Toast.errorToast(response.error.message, ErrorTypes.goBack);
 						} else {
-							this.setState({claims: response.result});
+							let claimsObj = [];
+							if (this.state.claims !== null) {
+								claimsObj = [...this.state.claims];
+							}
+							claimsObj = response.result;
+
+							// @ts-ignore
+							this.setState({ claims: [...claimsObj]});
 						}
 					}).catch((result: Error) => {
 						console.log((result));
@@ -157,24 +164,26 @@ export class ProjectContainer extends React.Component<Props, State> {
 		}
 	}
 
-	handleRenderClaims = () => {
+	handleRenderClaims = (renderType: RenderType) => {
 		if (this.state.claims === null) {
 			this.handleListClaims();
 			return <Loading className="col-md-12"><p>Loading...</p></Loading>;
+		} else if (renderType === RenderType.widget) {
+			return <ProjectClaims fullPage={true} claims={this.state.claims} projectDid={this.props.projectDid}/>;
 		} else if (this.state.claims.length > 0) {		
 			return (
 				<Fragment>
-					<ProjectHero project={this.state.project} match={this.props.match} isDetail={true} hasCapability={this.handleHasCapability} />
+					<ProjectHero project={this.state.projectPublic} match={this.props.match} isDetail={true} hasCapability={this.handleHasCapability} />
 					<DetailContainer>
 						<ProjectSidebar match={this.props.match} projectDid={this.props.projectDid}/>
-						<ProjectClaims claims={this.state.claims} projectDid={this.props.projectDid}/>
+						<ProjectClaims fullPage={true} claims={this.state.claims} projectDid={this.props.projectDid}/>
 					</DetailContainer>
 				</Fragment>
 			);
 		} else {
 			return (
 				<Fragment>
-					<ProjectHero project={this.state.project} match={this.props.match} isDetail={true} hasCapability={this.handleHasCapability} />
+					<ProjectHero project={this.state.projectPublic} match={this.props.match} isDetail={true} hasCapability={this.handleHasCapability} />
 					<DetailContainer>
 						<ProjectSidebar match={this.props.match} projectDid={this.props.projectDid}/>
 						<Loading className="container-fluid"><p>No Claims found</p></Loading>
@@ -191,7 +200,7 @@ export class ProjectContainer extends React.Component<Props, State> {
 		} else if (this.state[agentRole].length > 0) {
 			return (
 				<Fragment>
-					<ProjectHero project={this.state.project} match={this.props.match} isDetail={true} hasCapability={this.handleHasCapability} />
+					<ProjectHero project={this.state.projectPublic} match={this.props.match} isDetail={true} hasCapability={this.handleHasCapability} />
 					<DetailContainer>
 						<ProjectSidebar match={this.props.match} projectDid={this.props.projectDid}/>
 						<ProjectAgents agents={...this.state[agentRole]} handleUpdateAgentStatus={this.handleUpdateAgent}/>
@@ -201,7 +210,7 @@ export class ProjectContainer extends React.Component<Props, State> {
 		} else {
 			return (
 				<Fragment>
-					<ProjectHero project={this.state.project} match={this.props.match} isDetail={true} hasCapability={this.handleHasCapability} />
+					<ProjectHero project={this.state.projectPublic} match={this.props.match} isDetail={true} hasCapability={this.handleHasCapability} />
 					<DetailContainer>
 						<ProjectSidebar match={this.props.match} projectDid={this.props.projectDid}/>
 						<Loading className="container-fluid"><p>No Agents found</p></Loading>
@@ -340,10 +349,10 @@ export class ProjectContainer extends React.Component<Props, State> {
 	}
 
 	handleRenderProject = () => {
-		if (this.state.project === null || this.state.userRoles === null) {
+		if (this.state.projectPublic === null || this.state.userRoles === null) {
 			return <Spinner info="ProjectContainer: Loading Project"/>;
 		} else {
-			const project = this.state.project;
+			const project = this.state.projectPublic;
 
 			switch (this.props.contentType) {
 				case contentType.overview:
@@ -365,20 +374,27 @@ export class ProjectContainer extends React.Component<Props, State> {
 						</Fragment>
 					);
 				case contentType.dashboard:
-					return (
-						<Fragment>
-							<ProjectHero project={project} match={this.props.match} isDetail={true} hasCapability={this.handleHasCapability} />
-							<DetailContainer>
-								<ProjectSidebar match={this.props.match} projectDid={this.props.projectDid}/>
-								<ProjectDashboard 
-									projectDid={this.props.projectDid}
-									claimStats={this.state.project.claimStats}
-									agentStats={this.state.project.agentStats}
-									hasCapability={this.handleHasCapability}
-								/>
-							</DetailContainer>
-						</Fragment>
-					);
+					if (this.state.claims === null) {
+						this.handleListClaims();
+						return <Spinner info="ProjectContainer: Loading Project Claims"/>;
+					} else {
+						return (
+							<Fragment>
+								<ProjectHero project={project} match={this.props.match} isDetail={true} hasCapability={this.handleHasCapability} />
+								<DetailContainer>
+									<ProjectSidebar match={this.props.match} projectDid={this.props.projectDid}/>
+									<ProjectDashboard 
+										projectDid={this.props.projectDid}
+										claimStats={this.state.projectPublic.claimStats}
+										agentStats={this.state.projectPublic.agentStats}
+										hasCapability={this.handleHasCapability}
+										claims={this.state.claims}
+									/>
+									
+								</DetailContainer>
+							</Fragment>
+						);
+					}
 				case contentType.newClaim:
 					return (
 						<Fragment>
@@ -409,7 +425,7 @@ export class ProjectContainer extends React.Component<Props, State> {
 						</Fragment>
 					);
 				case contentType.claims:
-					return this.handleRenderClaims();
+					return this.handleRenderClaims(RenderType.widget);
 				case contentType.evaluators:
 					return this.handleRenderAgents('evaluators');
 				case contentType.investors:

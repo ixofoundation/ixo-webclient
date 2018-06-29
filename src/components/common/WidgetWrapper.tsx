@@ -33,13 +33,13 @@ const WrappedLink = styled(Link)`
 	color: white;
 
 	p, a, i, h3 {
-		transition: transform 0.3s ease;
 	}
-
+	
 	i {
 		font-size: 20px;
+		transition: transform 0.3s ease;
 	}
-
+	
 	:hover {
 		text-decoration: none;
 		color: white;
@@ -47,12 +47,14 @@ const WrappedLink = styled(Link)`
 
 	:hover ${Container} {
 		box-shadow: 0 10px 20px 0 rgba(0,0,0,0.5);
-		transform: scale(1.03);
 	}
 
 	:hover p, :hover h3, :hover a, :hover i {
 	}
 
+	:hover i {
+		transform: scale(1.1);
+	}
 	.decimal {
 		color: ${props => props.theme.fontLightBlue};
 	}

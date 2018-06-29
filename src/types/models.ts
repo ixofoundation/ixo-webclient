@@ -62,3 +62,8 @@ export enum FormStyles {
 	modal = 'MODAL',
 	standard = 'STANDARD'
 }
+
+export enum RenderType {
+	widget = 'WIDGET',
+	fullPage = 'FULLPAGE'
+}
