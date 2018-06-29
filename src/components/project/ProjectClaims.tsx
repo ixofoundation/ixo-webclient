@@ -104,7 +104,7 @@ export const ProjectClaims: React.SFC<ParentProps> = ({claims, projectDid}) => {
 						return (
 							<Col className="col-12" key={index}>
 								<Link to={{pathname: `/projects/${projectDid}/detail/claims/${claim.txHash}`}}>
-									<WidgetWrapper title={claim.txHash}>
+									<WidgetWrapper title={'Claim ID: ' + claim.txHash}>
 										<Indicator color={colorClass}/>
 										<p>{renderClaimStatus(claim)}</p>
 									</WidgetWrapper>
