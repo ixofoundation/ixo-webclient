@@ -108,10 +108,9 @@ export class ProjectContainer extends React.Component<Props, State> {
 			this.props.onSetActiveProject(this.props.match.params.projectDID);
 			const did = this.props.match.params.projectDID;
 			this.props.ixo.project.getProjectByDid(did).then((response: any) => {
-				this.setState({ projectPublic: response.result.data});
+				const project: Project = response.result.data;
+				this.setState({ projectPublic: project});
 				this.handleGetCapabilities();
-				const project: Project = response.result;
-				this.fetchImage(project.data.imageLink, project.data.serviceEndpoint);
 			}).catch((result: Error) => {
 				Toast.errorToast(result.message);
 				console.log(result);
@@ -355,6 +354,9 @@ export class ProjectContainer extends React.Component<Props, State> {
 			const project = this.state.projectPublic;
 			switch (this.props.contentType) {
 				case contentType.overview:
+					if (this.state.imageLink === placeholder) {
+						this.fetchImage(project.imageLink, project.serviceEndpoint);
+					}
 					return (
 						<Fragment>
 							<ProjectHero project={project} match={this.props.match} isDetail={false} hasCapability={this.handleHasCapability} />

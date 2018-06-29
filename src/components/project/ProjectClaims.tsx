@@ -87,6 +87,10 @@ const ListItemWrapper = styled.div`
 	box-shadow: 0 2px 10px 0 rgba(0,0,0,0.18);
 `;
 
+const WidgetLink = styled(Link)`
+	display: block;
+	text-align: center;
+`;
 export interface ParentProps {
 	claims?: any[];  
 	projectDid: string;
@@ -108,22 +112,22 @@ export const ProjectClaims: React.SFC<ParentProps> = ({claims, projectDid, fullP
 		}
 	};
 
-	const handleRenderSection = (iconClass: string, claimsList: any[], colorClass: string, title: string,  key: number) => {
+	const handleRenderSection = (iconClass: string, claimsList: any[], colorClass: string, title: string, key: number) => {
 		return (
-			<Section className="row" >
+			<Section className="row" key={key}>
 					<div className="col-12">
 						<h2><i className={iconClass}/>{title}</h2>
 					</div>
 				{claimsList.map((claim, index) => {
-				return (
-					<Col className="col-12" key={index}>
-							<Link to={{pathname: `/projects/${projectDid}/detail/claims/${claim.txHash}`}}>
-								<WidgetWrapper title={'Claim ID: ' + claim.txHash}>
-									<Indicator color={colorClass}/>
-									<p>{renderClaimStatus(claim)}</p>
-								</WidgetWrapper>
-							</Link>
-						</Col>
+					return (
+						<Col className="col-12" key={index}>
+								<Link to={{pathname: `/projects/${projectDid}/detail/claims/${claim.txHash}`}}>
+									<WidgetWrapper title={'Claim ID: ' + claim.txHash}>
+										<Indicator color={colorClass}/>
+										<p>{renderClaimStatus(claim)}</p>
+									</WidgetWrapper>
+								</Link>
+							</Col>
 					);
 				})}
 			</Section>
@@ -160,6 +164,7 @@ export const ProjectClaims: React.SFC<ParentProps> = ({claims, projectDid, fullP
 						</Link>
 						);
 					})}
+					<WidgetLink to={`/projects/${projectDid}/detail/claims`}>View all claims</WidgetLink>
 				</ClaimsWidget>
 		);
 	};
