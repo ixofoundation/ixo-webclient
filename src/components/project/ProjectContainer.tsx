@@ -387,6 +387,7 @@ export class ProjectContainer extends React.Component<Props, State> {
 										projectDid={this.props.projectDid}
 										agentStats={this.state.projectPublic.agentStats}
 										hasCapability={this.handleHasCapability}
+										claimStats={this.state.projectPublic.claimStats}
 										claims={this.state.projectPublic.claims}
 									/>
 									
