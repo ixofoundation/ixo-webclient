@@ -127,7 +127,7 @@ export class Projects extends React.Component<Props, State> {
 						{
 							title: 'MY ACTIVE PROJECTS',
 							type: StatType.decimal,
-							descriptor: [{ class: 'text', value: 'Expired' }, { class: 'number', value: '?' }],
+							descriptor: [{ class: 'text', value: 'Expired' }, { class: 'number', value: '0' }],
 							amount: this.state.statistics.totalProjects
 						},
 						{
