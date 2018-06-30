@@ -3,6 +3,7 @@ import { Fragment } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { PublicSiteStoreState } from '../../redux/public_site_reducer';
+import { decode as base64Decode } from 'base-64';
 import { contentType, AgentRoles, ErrorTypes } from '../../types/models';
 import { Project } from '../../types/models/project';
 import { ProjectHero } from './ProjectHero';
@@ -54,6 +55,9 @@ export interface State {
 	userRoles: AgentRoles[];
 	imageLink: string;
 	claimSubmitted: boolean;
+	singleClaimFormFile: string;
+	singleClaimDependentsFetched: boolean;
+	singleClaim: Object;
 }
 
 export interface StateProps {
@@ -89,6 +93,9 @@ export class ProjectContainer extends React.Component<Props, State> {
 		userRoles: null,
 		imageLink: placeholder,
 		claimSubmitted: false,
+		singleClaimFormFile: '',
+		singleClaimDependentsFetched: false,
+		singleClaim: null
 	};
 
 	handleToggleModal = (data: any, modalStatus: boolean) => {
@@ -96,7 +103,7 @@ export class ProjectContainer extends React.Component<Props, State> {
 	}
 
 	componentWillReceiveProps() {
-		this.setState({ claimSubmitted: false });
+		this.setState({ claimSubmitted: false, singleClaimDependentsFetched: false });
 	}
 
 	componentDidMount() {
@@ -145,7 +152,7 @@ export class ProjectContainer extends React.Component<Props, State> {
 						if (response.error) {
 							Toast.errorToast(response.error.message, ErrorTypes.goBack);
 						} else {
-							this.setState({claims: response.result});
+							this.setState({ claims: response.result });
 						}
 					}).catch((result: Error) => {
 						console.log((result));
@@ -339,6 +346,72 @@ export class ProjectContainer extends React.Component<Props, State> {
 		});
 	}
 
+	handleGetClaim(ProjectDIDPayload: object, signature: string): Promise<any> {
+		return new Promise((resolve) => {
+			this.props.ixo.claim.listClaimsForProject(ProjectDIDPayload, signature, this.state.PDSUrl).then((response: any) => {
+				if (response.error) {
+					Toast.errorToast(response.error.message, ErrorTypes.goBack);
+				} else {
+					const claimFound = response.result.filter((theClaim) => theClaim.txHash === this.props.match.params.claimID)[0];
+					return resolve(claimFound);
+				}
+			});
+		});
+	}
+
+	handleFetchFormFile(claimFormKey: string, pdsURL: string): Promise<any> {
+		return new Promise ((resolve) => {
+			this.props.ixo.project.fetchPublic(claimFormKey, pdsURL).then((res: any) => {
+				let fileContents = base64Decode(res.data);
+				return resolve(fileContents);
+			});
+		});
+	}
+
+	handleSingleClaimFetch = (project: any) => {
+		const ProjectDIDPayload: Object = { projectDid: this.props.projectDid};
+		this.props.keysafe.requestSigning(JSON.stringify(ProjectDIDPayload), (error, signature) => {	
+			if (!error) {
+				const claimPromise = this.handleGetClaim(ProjectDIDPayload, signature); // get claim
+				const formFilePromise = this.handleFetchFormFile(project.templates.claim.form, this.state.PDSUrl); // get form file
+				Promise.all([claimPromise, formFilePromise]).then(([claim, formFile]) => {
+					this.setState({ singleClaim: claim, singleClaimFormFile: formFile, singleClaimDependentsFetched: true });
+					this.handleFetchClaimImages(formFile, claim); // go fetch images
+				});
+			} else {
+				console.log(error);
+			}
+		});
+	}
+
+	handleFetchClaimImages = (formFile: any, claim: any) => {
+		const { fields = [] } = JSON.parse(formFile);
+		let promises = [];
+		fields.forEach(field => {
+			if (field.type === 'image') {
+				promises.push(
+					this.props.ixo.project.fetchPublic(claim[field.name], this.state.PDSUrl).then((res: any) => {
+						let imageSrc = 'data:' + res.contentType + ';base64,' + res.data;
+						return { field: field.name, url: imageSrc };
+					})
+				);
+			}
+		});
+		Promise.all(promises).then((results) => {
+			results.forEach((item) => {
+				claim[item.field] = item.url;
+				this.setState({ singleClaim: claim });
+			});
+		});
+	}
+
+	fetchImage = (imageLink: string, pdsURL: string) => {
+		this.props.ixo.project.fetchPublic(imageLink, pdsURL).then((res: any) => {
+			let imageSrc = 'data:' + res.contentType + ';base64,' + res.data;
+			this.setState({ imageLink: imageSrc });
+		});
+	}
+
 	handleRenderProject = () => {
 		if (this.state.project === null || this.state.userRoles === null) {
 			return <Spinner info="ProjectContainer: Loading Project"/>;
@@ -393,21 +466,26 @@ export class ProjectContainer extends React.Component<Props, State> {
 						</Fragment>
 					);
 				case contentType.singleClaim:
-					return (
-						<Fragment>
-							<ProjectHero isClaim={true} project={project} match={this.props.match} isDetail={true} hasCapability={this.handleHasCapability} />
-							<DetailContainer>
-								<ProjectSidebar match={this.props.match} projectDid={this.props.projectDid}/>
-								<ProjectSingleClaim 
-									claims={this.state.claims}
-									match={this.props.match}
-									handleListClaims={this.handleListClaims}
-									handleEvaluateClaim={this.handleEvaluateClaim}
-									hasCapability={this.handleHasCapability}
-								/>
-							</DetailContainer>
-						</Fragment>
-					);
+				if (!this.state.singleClaimDependentsFetched)  {
+					this.handleSingleClaimFetch(project);
+					return <Spinner info="ProjectContainer: Loading Project"/>;	
+				}
+				return (
+					<Fragment>
+						<ProjectHero isClaim={true} project={project} match={this.props.match} isDetail={true} hasCapability={this.handleHasCapability} />
+						<DetailContainer>
+							<ProjectSidebar match={this.props.match} projectDid={this.props.projectDid}/>
+							<ProjectSingleClaim
+								singleClaimFormFile={this.state.singleClaimFormFile}
+								claim={this.state.singleClaim}
+								match={this.props.match}
+								handleListClaims={this.handleListClaims}
+								handleEvaluateClaim={this.handleEvaluateClaim}
+								hasCapability={this.handleHasCapability}
+							/>
+						</DetailContainer>
+					</Fragment>
+				);
 				case contentType.claims:
 					return this.handleRenderClaims();
 				case contentType.evaluators:
@@ -422,13 +500,6 @@ export class ProjectContainer extends React.Component<Props, State> {
 		}
 	}
 
-	fetchImage = (imageLink: string, pdsURL: string) => {
-		this.props.ixo.project.fetchPublic(imageLink, pdsURL).then((res: any) => {
-			let imageSrc = 'data:' + res.contentType + ';base64,' + res.data;
-			this.setState({ imageLink: imageSrc });
-		});
-	}
-	
 	render() {
 		return(
 			<Fragment>

@@ -60,5 +60,6 @@ export enum ErrorTypes {
 
 export enum FormStyles {
 	modal = 'MODAL',
-	standard = 'STANDARD'
+	standard = 'STANDARD',
+	disabled = 'DISABLED'
 }

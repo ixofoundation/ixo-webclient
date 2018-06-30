@@ -33,7 +33,7 @@ export interface ParentProps {
 	aspect?: number;
 }
 export interface Callbacks {
-	onChange: (event: any) => void;
+	onChange?: (event: any) => void;
 }
 
 export interface Props extends ParentProps, Callbacks {}

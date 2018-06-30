@@ -15,6 +15,7 @@ const Icon = styled.div`
 `;
 
 const MessageText = styled.div`
+	color: ${props => props.theme.bg.lightBlue};
 	font-size: 18px;
 	font-family: ${props => props.theme.fontRoboto};
 	text-align: center;
