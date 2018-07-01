@@ -287,6 +287,7 @@ export const isoCountries = {
 // tslint:disable-next-line:max-line-length
 export const testProjectData = JSON.stringify(require('./json/project.json'));
 export const claimJson = JSON.stringify(require('./json/claimForm.json'));
+export const onboardJson = JSON.stringify(require('./json/onboardingForm.json'));
 export const testClaimSchema = JSON.stringify(require('./json/claimSchema.json'));
 export const agentJson = JSON.stringify(require('./json/agentForm.json'));
 export const testClaimForm = '{}';
