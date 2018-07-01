@@ -1,6 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { AgentRoles } from '../../types/models';
+import { AgentRoles, FormStyles } from '../../types/models';
 import DynamicForm from '../form/DynamicForm';
 import { agentJson } from '../../lib/commonData';
 
@@ -113,7 +113,12 @@ export class ProjectNewAgent extends React.Component<ParentProps, State> {
 				</FlexContainer>
 				<Line />
 				{this.renderByLine(this.props.role)}
-				<DynamicForm formSchema={formJson.fields} submitText="Apply" handleSubmit={(e) => this.props.submitAgent(this.props.role, e)} />
+				<DynamicForm 
+					formStyle={FormStyles.modal}
+					formSchema={formJson.fields} 
+					submitText="Apply" 
+					handleSubmit={(e) => this.props.submitAgent(this.props.role, e)} 
+				/>
 			</Container>
 		);
 	}

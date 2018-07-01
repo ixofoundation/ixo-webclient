@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { HeaderConnected } from './components/header/HeaderContainer';
 import Footer from './components/footer/FooterContainer';
@@ -24,6 +24,7 @@ const theme = {
 	ixoOrange: '#F89D28',
 	bg: {
 		blue: '#002233', // dashboard background
+		green: '#5AB946',
 		darkBlue: '#01151F', // Tooltips background
 		lightBlue: '#017492', // active button background for tabs on hero section
 		lightGrey: '#F6F6F6', // light background for projects list
@@ -36,11 +37,11 @@ const theme = {
 		gradientWhite: 'linear-gradient(180deg, #FFFFFF 0%, #FFFFFF 100%)',
 	},
 	fontBlueButtonNormal: 'white',
-	fontBlueButtonHover: '#83D9F2', 
+	fontBlueButtonHover: '#83D9F2',
 	fontDarkBlueButtonNormal: 'white',
-	fontDarkBlueButtonHover: '#00D2FF', 
+	fontDarkBlueButtonHover: '#00D2FF',
 	fontBlue: '#49BFE0', // Same as ixoBlue
-	fontDarkBlue: '#013C4F', 
+	fontDarkBlue: '#013C4F',
 	fontDarkGrey: '#282828',
 	fontLightBlue: '#83D9F2', // big hero section numbers, widgets big numbers
 	fontGrey: '#282828', // generally text on white background
@@ -48,9 +49,10 @@ const theme = {
 	fontRobotoCondensed: 'Roboto Condensed, sans-serif',
 	grey: '#E9E8E8', // borders for project list cards, progress bar background on projects list
 	darkGrey: '#656969', // "load more projects" button on project list
+	lightGrey: '#B6B6B6',
 	widgetBorder: '#0C3550', // border color for graphs/ charts, etc.
 	graphGradient: 'linear-gradient(to right, #016480 0%, #03d0FE 100%)', // gradient fill for graphs/bars/charts
-	red: '#E2223B',
+	red: '#E2223B'
 };
 
 // END OF THEME DECLARATION, CSS FOR COMPONENT BELOW
@@ -60,10 +62,10 @@ const Container = styled.div`
 `;
 
 export namespace App {
-
 	export interface State {
 		projectList: any;
 		loginError: String;
+		renderRegisterPage: boolean;
 	}
 
 	export interface StateProps {
@@ -77,38 +79,39 @@ export namespace App {
 		onIxoInit: () => void;
 		onKeysafeInit: () => void;
 		onLoginInit: (keysafe: any) => void;
-		// checkDidLedgered: (did: string) => void;
 	}
-	export interface Props extends StateProps, DispatchProps {
-	}
-
+	export interface Props extends StateProps, DispatchProps {}
 }
 
 class App extends React.Component<App.Props, App.State> {
-
 	state = {
 		projectList: null,
 		loginError: null,
-		isProjectPage: false
+		isProjectPage: false,
+		renderRegisterPage: null
 	};
 
 	componentDidUpdate(prevProps: any) {
 		if (this.props.ixo !== prevProps.ixo) {
-			this.props.ixo.project.listProjects().then((response: any) => {
-				this.setState({ projectList: response.result });
-			}).catch((result: Error) => {
-				Toast.errorToast(result.message);
-				console.log(result);
-			});
+			this.props.ixo.project
+				.listProjects()
+				.then((response: any) => {
+					this.setState({ projectList: response.result });
+				})
+				.catch((result: Error) => {
+					Toast.errorToast(result.message);
+					console.log(result);
+				});
 		}
 		if (this.props.keysafe !== null && this.props.userInfo === null) {
 			this.props.onLoginInit(this.props.keysafe);
 		}
 
-		if (this.props.userInfo && this.props.ixo) {
-			if (typeof this.props.userInfo.ledgered === 'undefined') {
+		if (this.props.userInfo !== null && this.props.ixo !== null && this.props.keysafe !== null) {
+			if (typeof this.props.userInfo.ledgered === 'undefined' && this.state.renderRegisterPage === null) {
 				this.props.ixo.user.getDidDoc(this.props.userInfo.didDoc.did).then((response: any) => {
 					if (response.error) {
+						this.setState({ renderRegisterPage: true });
 						this.props.userInfo.ledgered = false;
 					} else if (response.did) {
 						this.props.userInfo.ledgered = true;
@@ -116,12 +119,19 @@ class App extends React.Component<App.Props, App.State> {
 				});
 			}
 		}
-
 	}
 
 	componentDidMount() {
 		this.props.onIxoInit();
 		this.props.onKeysafeInit();
+	}
+
+	renderRegisterPage() {
+		if (this.state.renderRegisterPage) {
+			return <Redirect push={true} to="/register" />;
+		} else {
+			return <div />;
+		}
 	}
 
 	renderProjectContent() {
@@ -130,21 +140,18 @@ class App extends React.Component<App.Props, App.State> {
 		} else if (this.props.ixo === null) {
 			return <Spinner info="App: Loading IXO Module" />;
 		} else {
-			return (
-				<Routes
-					projectList={this.state.projectList}
-				/>
-			);
+			return <Routes projectList={this.state.projectList} />;
 		}
-}
+	}
 
 	render() {
 		return (
 			<ThemeProvider theme={theme}>
 				<ScrollToTop>
 					<Container>
-						<HeaderConnected userInfo={this.props.userInfo}/>
+						<HeaderConnected userInfo={this.props.userInfo} />
 						<ToastContainer hideProgressBar={true} />
+						{this.renderRegisterPage()}
 						{this.renderProjectContent()}
 						<Footer />
 					</Container>
@@ -158,7 +165,7 @@ function mapStateToProps(state: PublicSiteStoreState) {
 	return {
 		ixo: state.ixoStore.ixo,
 		keysafe: state.keysafeStore.keysafe,
-		userInfo: state.loginStore.userInfo,
+		userInfo: state.loginStore.userInfo
 	};
 }
 

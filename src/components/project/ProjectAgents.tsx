@@ -8,6 +8,7 @@ const Section = styled.section`
 
 	padding-bottom: 30px;
 	border-bottom: 1px solid #164A63;
+	margin-bottom: 30px;
 
 	h2 {
 		color: white;
@@ -85,7 +86,7 @@ const Hover = styled.div`
 	justify-content: center;
 	align-items: center;
 	transition: opacity 0.3s ease;
-
+	
 	> a {
 		padding-left: 30px;
 		padding-right: 30px;
@@ -192,10 +193,17 @@ export class ProjectAgents extends React.Component<ParentProps, State> {
 		return '';
 	}
 
+	handleRoleLabel = (role: string) => {
+		if (role === 'IA') { return 'Investors'; }
+		if (role === 'EA') { return 'Evaluators'; }
+		if (role === 'SA') { return 'Service Providers'; }
+		return role;
+	}
+
 	handleRenderSection = (iconClass: string, agents: any[], colorClass: string, title: string,  key: number) => {
 		return (
 			<Section className="row" key={key}>
-					<div className="col-md-12">
+					<div className="col-12">
 						<h2><i className={iconClass}/>{title}</h2>
 					</div>
 					{agents.map((agent, index) => {
@@ -203,7 +211,7 @@ export class ProjectAgents extends React.Component<ParentProps, State> {
 							<Col className="col-xl-3 col-md-6" key={index}>
 								<WidgetWrapper title={agent.name}>
 									<Indicator color={colorClass}/>
-									<p>{agent.role}</p>
+									<p>{this.handleRoleLabel(agent.role)}</p>
 									<DidText><strong>DID: </strong>{agent.agentDid}</DidText>
 									<Mail href={`mailto:${agent.email}`}>{agent.email}</Mail>
 									<Hover>
@@ -260,7 +268,7 @@ export class ProjectAgents extends React.Component<ParentProps, State> {
 		});
 
 		pending.length > 0 && sections.push(this.handleRenderSection('icon-pending', pending, '#F89D28', 'Pending Approval', 1));
-		approved.length > 0 && sections.push(this.handleRenderSection('icon-approved', approved, '#5AB946', 'Service Providers', 2));
+		approved.length > 0 && sections.push(this.handleRenderSection('icon-approved', approved, '#5AB946', 'Approved Service Providers', 2));
 		revoked.length > 0 && sections.push(this.handleRenderSection('icon-rejectedcross', revoked, '#E2223B', 'Revoked', 3));
 
 		return sections;

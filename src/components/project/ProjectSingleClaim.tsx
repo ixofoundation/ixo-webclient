@@ -223,7 +223,7 @@ export const ProjectSingleClaim: React.SFC<ParentProps> = (props) => {
 								</DividerShadow>
 								<div style={{ padding: '20px' }}>
 									<p>{claim._id}</p>
-									<p>{handleRenderStatus(claim.evaluations, claim._id)}</p>
+									{handleRenderStatus(claim.evaluations, claim._id)}
 								</div>
 							</WidgetWrapperClaims>
 							{props.hasCapability(AgentRoles.evaluators) && handleRenderButtons(claim)}

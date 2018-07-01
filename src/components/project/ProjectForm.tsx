@@ -2,6 +2,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { formJson } from '../../lib/commonData';
 import DynamicForm from '../form/DynamicForm';
+import { FormStyles } from '../../types/models';
 
 const Text = styled.textarea`
 	margin: 20px 0;
@@ -36,7 +37,13 @@ export class ProjectForm extends React.Component<{}, State> {
 
 	handleRenderForm = () => {
 		if (formJson.fields.length > 0) {
-			return <DynamicForm formSchema={this.state.formJson} handleSubmit={this.handleSubmitForm} />;
+			return (
+				<DynamicForm 
+					formStyle={FormStyles.standard}
+					formSchema={this.state.formJson} 
+					handleSubmit={this.handleSubmitForm} 
+				/>
+			);
 		} else {
 			return <p>No Template found</p>;
 		}

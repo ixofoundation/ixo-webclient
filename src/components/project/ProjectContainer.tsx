@@ -3,7 +3,7 @@ import { Fragment } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { PublicSiteStoreState } from '../../redux/public_site_reducer';
-import { contentType, AgentRoles } from '../../types/models';
+import { contentType, AgentRoles, ErrorTypes } from '../../types/models';
 import { Project } from '../../types/models/project';
 import { ProjectHero } from './ProjectHero';
 import { ProjectOverview } from './ProjectOverview';
@@ -19,6 +19,7 @@ import { UserInfo } from '../../types/models';
 import { ProjectSidebar } from './ProjectSidebar';
 import * as Toast from '../helpers/Toast';
 import { deviceWidth } from '../../lib/commonData';
+import { ProjectClaimSubmitted } from './ProjectClaimSubmitted';
 
 const placeholder = require('../../assets/images/ixo-placeholder-large.jpg');
 
@@ -52,6 +53,7 @@ export interface State {
 	PDSUrl: string;
 	userRoles: AgentRoles[];
 	imageLink: string;
+	claimSubmitted: boolean;
 }
 
 export interface StateProps {
@@ -74,7 +76,7 @@ export interface ParentProps {
 export interface Props extends ParentProps, StateProps, DispatchProps {}
 
 export class ProjectContainer extends React.Component<Props, State> {
-
+	
 	state = {
 		isModalOpen: false,
 		modalData: {},
@@ -85,11 +87,16 @@ export class ProjectContainer extends React.Component<Props, State> {
 		evaluators: null,
 		PDSUrl: 'http://35.192.187.110:5000/',
 		userRoles: null,
-		imageLink: placeholder
+		imageLink: placeholder,
+		claimSubmitted: false,
 	};
 
 	handleToggleModal = (data: any, modalStatus: boolean) => {
 		this.setState({ modalData: data, isModalOpen: modalStatus });
+	}
+
+	componentWillReceiveProps() {
+		this.setState({ claimSubmitted: false });
 	}
 
 	componentDidMount() {
@@ -122,7 +129,6 @@ export class ProjectContainer extends React.Component<Props, State> {
 				}
 			});
 		}
-		console.log(userRoles);
 		this.setState({ userRoles: userRoles});
 	}
 
@@ -137,7 +143,7 @@ export class ProjectContainer extends React.Component<Props, State> {
 				if (!error) {
 					this.props.ixo.claim.listClaimsForProject(ProjectDIDPayload, signature, this.state.PDSUrl).then((response: any) => {
 						if (response.error) {
-							Toast.errorToast(response.error.message);
+							Toast.errorToast(response.error.message, ErrorTypes.goBack);
 						} else {
 							this.setState({claims: response.result});
 						}
@@ -212,7 +218,7 @@ export class ProjectContainer extends React.Component<Props, State> {
 				if (!error) {
 					this.props.ixo.agent.listAgentsForProject(ProjectDIDPayload, signature, this.state.PDSUrl).then((response: any) => {
 						if (response.error) {
-							Toast.errorToast(response.error.message);
+							Toast.errorToast(response.error.message, ErrorTypes.goBack);
 							console.log('error occured', response.error);
 						} else {
 							let agentsObj = [];
@@ -321,6 +327,7 @@ export class ProjectContainer extends React.Component<Props, State> {
 			if (!error) {
 				this.props.ixo.claim.createClaim(claimPayload, signature, this.state.PDSUrl).then((response) => {
 					Toast.successToast('Claim has been submitted successfully');
+					this.setState({ claimSubmitted: true });
 				}).catch((claimError: Error) => {
 					Toast.errorToast(claimError.message);
 					console.log(claimError);
@@ -376,10 +383,13 @@ export class ProjectContainer extends React.Component<Props, State> {
 					return (
 						<Fragment>
 							<ProjectHero isClaim={true} project={project} match={this.props.match} isDetail={true} hasCapability={this.handleHasCapability} />
-							<DetailContainer>
-								<ProjectSidebar match={this.props.match} projectDid={this.props.projectDid}/>
-								<ProjectNewClaim projectData={project} ixo={this.props.ixo} submitClaim={(claimData) => this.handleSubmitClaim(claimData)}/>
-							</DetailContainer>
+								{(this.state.claimSubmitted) ?
+									<ProjectClaimSubmitted projectDid={this.props.projectDid} /> : 
+									<DetailContainer>
+										<ProjectSidebar match={this.props.match} projectDid={this.props.projectDid}/>
+										<ProjectNewClaim projectData={project} ixo={this.props.ixo} submitClaim={(claimData) => this.handleSubmitClaim(claimData)}/>
+									</DetailContainer>
+								}
 						</Fragment>
 					);
 				case contentType.singleClaim:

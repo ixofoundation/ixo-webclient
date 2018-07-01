@@ -1,24 +1,73 @@
 import * as React    from 'react';
 import TextArea      from './TextArea';
-import InputFile     from './InputFile';
 import InputText     from './InputText';
 import Select from './Select';
 import Radio from './Radio';
 import CountrySelect from './CountrySelect';
 import TemplateSelect from './TemplateSelect';
 import styled from 'styled-components';
+import InputImage from './InputImage';
+import { FormStyles } from '../../types/models';
 import { Button, ButtonTypes } from '../common/Buttons';
 
 const SubmitStatus = styled.p`
 	color:#0f8dab;
 	margin-top:10px;
 	text-align:center;
-`;  
+`;
+
+const ButtonContainer = styled.div`
+	margin-left: -20px;
+	margin-right: -20px;
+	margin-bottom: -25px;
+	padding: 22px 34px 22px 34px;
+	background: ${props => props.theme.grey};
+	padding: 10px 20px;
+	box-shadow: 0 2px 2px 0 rgba(0,0,0,0.18);
+`;
+
+const ReturnButton = styled.div`
+	text-transform: uppercase;
+	border-radius:3px;
+	text-align: center;
+	background: ${props => props.theme.bg.grey};
+	font-family: ${props => props.theme.fontRobotoCondensed};
+	font-size: 15px;
+	padding:10px 20px 10px;
+	cursor: pointer;
+	border: 1px solid ${props => props.theme.bg.darkButton};
+	color: ${props => props.theme.bg.darkButton};
+	width: 180px;
+`;
+
+const SubmitButton = styled.div`
+	text-transform: uppercase;
+	border-radius:3px;
+	text-align: center;
+	background: ${props => props.theme.bg.gradientButtonGreen};
+	font-family: ${props => props.theme.fontRobotoCondensed};
+	font-size: 15px;
+	padding:10px 20px 10px;
+	cursor: pointer;
+	color: white;
+	text-decoration:none;
+
+	i {
+		font-size: 13px;
+		padding-left: 10px;
+	}
+
+	i:before {
+		color: ${props => props.theme.bg.grey};
+	}
+`;
 
 export interface ParentProps {
 	formSchema: any;
+	formStyle: FormStyles;
 	presetValues?: any[];
 	submitText?: string;
+	projectDID?: string;
 }
 
 export interface State {
@@ -77,6 +126,27 @@ export default class DynamicForm extends React.Component<Props, State> {
 		};
 	}
 
+	handleRenderButtons = () => {
+		if (this.props.formStyle === FormStyles.modal) {
+			return <Button onClick={this.handleSubmit} type={ButtonTypes.gradient}>{this.props.submitText ? this.props.submitText : 'Submit Form'}</Button>;
+		} else {
+			return (
+				<ButtonContainer>
+					<div className="row">
+						<div className="col-md-6">
+							<ReturnButton onClick={() => history.back(-1)}>Back</ReturnButton>
+						</div>
+						<div className="col-md-6">
+							<SubmitButton onClick={this.handleSubmit}>
+								{this.props.submitText ? this.props.submitText : 'Submit Form'}<i className="icon-approvetick" />
+							</SubmitButton>
+						</div>
+					</div>
+				</ButtonContainer>
+			);
+		}
+	}
+
 	render() {
 		return (
 			<form>
@@ -85,11 +155,20 @@ export default class DynamicForm extends React.Component<Props, State> {
 						switch (field.type) {
 							case 'number':
 							case 'text':
-							return <InputText id={field.name} type={field.type} text={field.label} key={i} onChange={this.onFormValueChanged(field.name)}/>;
 							case 'email':
-								return <InputText id={field.name} type={field.type} text={field.label} validation={field.validation} key={i} onChange={this.onFormValueChanged(field.name)}/>;
+								return (
+									<InputText 
+										formStyle={this.props.formStyle} 
+										id={field.name} 
+										type={field.type} 
+										text={field.label} 
+										key={i} 
+										onChange={this.onFormValueChanged(field.name)}
+										validation={field.validation}
+									/>
+								);
 							case 'image' :
-								return <InputFile id={field.name} text={field.label} key={i} onChange={this.onFormValueChanged(field.name)}/>;
+								return <InputImage id={field.name} text={field.label} key={i} imageWidth={570} onChange={this.onFormValueChanged(field.name)}/>;
 							case 'textarea' :
 								return <TextArea id={field.name} text={field.label} key={i} onChange={this.onFormValueChanged(field.name)}/>;
 							case 'select':
@@ -104,7 +183,7 @@ export default class DynamicForm extends React.Component<Props, State> {
 								return <p>Type not found</p>;
 						}
 					})}
-					<Button onClick={this.handleSubmit} type={ButtonTypes.gradient}>{this.props.submitText ? this.props.submitText : 'Submit Form'}</Button> 
+					{this.handleRenderButtons()}
 					<SubmitStatus>{this.state.submitStatus}</SubmitStatus>
 				</div>
 			</form>

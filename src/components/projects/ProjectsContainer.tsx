@@ -11,24 +11,24 @@ import { Stats } from '../../types/models/stats';
 import { PublicSiteStoreState } from '../../redux/public_site_reducer';
 
 const ProjectsContainer = styled.div`
-    overflow-y: scroll;
+	overflow-y: scroll;
 	background: ${props => props.theme.bg.lightGrey};
-    & > .row {
-        margin-top:30px;
-        justify-content:center;
+	& > .row {
+		margin-top: 30px;
+		justify-content: center;
 	}
-	
+
 	> .container {
 		padding: 76px 0 50px;
 	}
 `;
 
 const ErrorContainer = styled.div`
-	display:flex;
-	justify-content:center;
+	display: flex;
+	justify-content: center;
 	color: white;
-    align-items:center;
-	height:calc(100vh - 70px);
+	align-items: center;
+	height: calc(100vh - 70px);
 	background-color: ${props => props.theme.bg.blue};
 `;
 
@@ -47,7 +47,6 @@ export interface StateProps {
 export interface Props extends ParentProps, StateProps {}
 
 export class Projects extends React.Component<Props, State> {
-
 	state = {
 		statistics: {
 			claims: {
@@ -55,12 +54,12 @@ export class Projects extends React.Component<Props, State> {
 				totalSuccessful: 0,
 				totalSubmitted: 0,
 				totalPending: 0,
-				totalRejected: 0,
+				totalRejected: 0
 			},
 			totalServiceProviders: 0,
 			totalProjects: 0,
-			totalEvaluationAgents: 0,
-		},
+			totalEvaluationAgents: 0
+		}
 	};
 
 	componentDidMount() {
@@ -69,12 +68,12 @@ export class Projects extends React.Component<Props, State> {
 
 	handleGetGlobalData = () => {
 		if (this.props.ixo) {
-			this.props.ixo.stats.getGolbalStats().then((res) => {
+			this.props.ixo.stats.getGolbalStats().then(res => {
 				if (res.result) {
 					const statistics: Stats = res.result;
 					this.setState({ statistics });
 				}
-			}); 
+			});
 		}
 	}
 
@@ -94,7 +93,14 @@ export class Projects extends React.Component<Props, State> {
 					<div className="container">
 						<div className="row row-eq-height">
 							{this.props.projectList.map((project, index) => {
-								return <ProjectCard ixo={this.props.ixo} project={project.data} did={project.projectDid} key={index} />;
+								return (
+									<ProjectCard
+										ixo={this.props.ixo}
+										project={project.data}
+										did={project.projectDid}
+										key={index}
+									/>
+								);
 							})}
 						</div>
 					</div>
@@ -104,7 +110,9 @@ export class Projects extends React.Component<Props, State> {
 			return (
 				<div className="container-fluid">
 					<div className="row">
-						<ErrorContainer className="col-md-12"><p>No projects were found</p></ErrorContainer>
+						<ErrorContainer className="col-md-12">
+							<p>No projects were found</p>
+						</ErrorContainer>
 					</div>
 				</div>
 			);
@@ -112,30 +120,37 @@ export class Projects extends React.Component<Props, State> {
 	}
 
 	render() {
-		console.log(this.props.projectList);
 		return (
 			<div>
-				<ProjectsHero 
+				<ProjectsHero
 					statistics={[
-						{title: 'MY ACTIVE PROJECTS',
-						type: StatType.decimal,
-						descriptor: [{class: 'text', value: 'Expired'}, {class: 'number', value: '?'}],
-						amount: this.state.statistics.totalProjects},
-						{title: 'TOTAL PROJECTS',
-						type: StatType.decimal,
-						descriptor: [{class: 'text', value: ' '}],
-						amount: this.state.statistics.totalProjects},
-						{title: 'TOTAL IMPACT CLAIMS',
-						type: StatType.fraction,
-						descriptor: [{class: 'text', value: 'verified to date'}],
-						amount: [this.state.statistics.claims.totalSuccessful, this.state.statistics.claims.total]},
-						{title: 'TOTAL IXO IN CIRCULATION',
-						type: StatType.fraction,
-						descriptor: [{class: 'text', value: 'IXO staked to date'}],
-						amount: [0, 0]}
-					]} 
+						{
+							title: 'MY ACTIVE PROJECTS',
+							type: StatType.decimal,
+							descriptor: [{ class: 'text', value: 'Expired' }, { class: 'number', value: '0' }],
+							amount: this.state.statistics.totalProjects
+						},
+						{
+							title: 'TOTAL PROJECTS',
+							type: StatType.decimal,
+							descriptor: [{ class: 'text', value: ' ' }],
+							amount: this.state.statistics.totalProjects
+						},
+						{
+							title: 'TOTAL IMPACT CLAIMS',
+							type: StatType.fraction,
+							descriptor: [{ class: 'text', value: 'verified to date' }],
+							amount: [this.state.statistics.claims.totalSuccessful, this.state.statistics.claims.total]
+						},
+						{
+							title: 'TOTAL IXO IN CIRCULATION',
+							type: StatType.fraction,
+							descriptor: [{ class: 'text', value: 'IXO staked to date' }],
+							amount: [0, 0]
+						}
+					]}
 				/>
-					{this.renderProjects()}
+				{this.renderProjects()}
 			</div>
 		);
 	}
@@ -143,10 +158,8 @@ export class Projects extends React.Component<Props, State> {
 
 function mapStateToProps(state: PublicSiteStoreState) {
 	return {
-		ixo: state.ixoStore.ixo,
+		ixo: state.ixoStore.ixo
 	};
 }
 
-export const ProjectsContainerConnected = connect<{}, {}, ParentProps>(
-	mapStateToProps
-)(Projects as any);
+export const ProjectsContainerConnected = connect<{}, {}, ParentProps>(mapStateToProps)(Projects as any);
