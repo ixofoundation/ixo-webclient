@@ -29,12 +29,6 @@ const Container = styled.div`
 		font-weight: 300;
 		margin-bottom: 0;
 	}
-	@media (max-width: ${deviceWidth.tablet}px){
-		p {
-			padding-top: 20px;
-			padding-right: 30%;
-		}
-	}
 	p::before {
 		content: " ";
 		display: block;
@@ -43,11 +37,6 @@ const Container = styled.div`
 		background: #00D2FF;
 		width: 200px;
 		top: 26%;
-	}
-	@media (max-width: ${deviceWidth.mobile}px){
-		p::before {
-			top: 12%;
-		}
 	}
 	button {
 		background: none;
@@ -59,6 +48,7 @@ const Container = styled.div`
 		font-size: 18px;
 		font-family: ${props => props.theme.fontRobotoCondensed};
 		cursor: pointer;
+		outline: none;
 	}
 	.countdown-timer {
 		justify-content: left !important;
@@ -91,14 +81,17 @@ const Container = styled.div`
 			font-size: 45px !important;
 		}
 	}
-
-
 `;
 
 const OnboardFormStyle = styled.div`
 	padding: 20px 5px;
 	width: 400px;
 	height: 350px;
+	@media (max-width: ${deviceWidth.mobile}px){
+		padding: 20px 0;
+		width: 320px;
+		height: 320px;
+	}
 	h5 {
 		font-family: "Roboto Condensed";
 		font-size: 23px;
@@ -112,6 +105,9 @@ const OnboardFormStyle = styled.div`
 		justify-content: center;
 		align-items: center;
 		height: 260px;
+		@media (max-width: ${deviceWidth.mobile}px){
+			height: 210px;
+		}
 		p {
 			margin-bottom: 0;
 		}
