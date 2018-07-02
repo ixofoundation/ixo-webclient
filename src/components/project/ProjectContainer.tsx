@@ -173,7 +173,7 @@ export class ProjectContainer extends React.Component<Props, State> {
 	handleRenderClaims = (renderType: RenderType) => {
 		if (this.state.claims === null) {
 			this.handleListClaims();
-			return <Loading className="col-md-12"><p>Loading...</p></Loading>;
+			return <Spinner info="Loading..." />;
 		} else if (renderType === RenderType.widget) {
 			return <ProjectClaims fullPage={false} claims={this.state.projectPublic.claims} projectDid={this.props.projectDid}/>;
 		} else if (this.state.claims.length > 0) {		
@@ -202,7 +202,7 @@ export class ProjectContainer extends React.Component<Props, State> {
 	handleRenderAgents = (agentRole: string) => {
 		if (this.state[agentRole] === null) {
 			this.handleListAgents(agentRole);
-			return <Loading className="col-md-12"><p>Loading...</p></Loading>;
+			return <Spinner info="Loading agents..." />;
 		} else if (this.state[agentRole].length > 0) {
 			return (
 				<Fragment>

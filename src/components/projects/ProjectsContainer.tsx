@@ -83,7 +83,6 @@ export class Projects extends React.Component<Props, State> {
 				<div className="container-fluid">
 					<ErrorContainer className="row">
 						<Spinner info="App: Loading Projects" />
-						<p>Loading Projects</p>
 					</ErrorContainer>
 				</div>
 			);
