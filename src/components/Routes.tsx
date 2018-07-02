@@ -78,16 +78,6 @@ export const Routes: React.SFC<Routes.RouteProps> = props => {
 					</Fragment>
 				)}
 			/>
-<<<<<<< HEAD
-	<Route exact={true} path="/projects/:projectDID/overview" render={() => <ProjectContainerConnected contentType={contentType.overview} />} />
-		<Route exact={true} path="/projects/:projectDID/detail/" render={() => <ProjectContainerConnected contentType={contentType.dashboard} />} />
-		<Route exact={true} path="/projects/:projectDID/detail/evaluators" render={() => <ProjectContainerConnected contentType={contentType.evaluators} />} />
-		<Route exact={true} path="/projects/:projectDID/detail/investors" render={() => <ProjectContainerConnected contentType={contentType.investors} />} />
-		<Route exact={true} path="/projects/:projectDID/detail/service-providers" render={() => <ProjectContainerConnected contentType={contentType.serviceProviders} />} />
-		<Route exact={true} path="/projects/:projectDID/detail/claims" render={() => <ProjectContainerConnected contentType={contentType.claims} />} />
-		<Route exact={true} path="/projects/:projectDID/detail/new-claim" render={() => <ProjectContainerConnected contentType={contentType.newClaim} />} />
-		<Route exact={true} path="/projects/:projectDID/detail/claims/:claimID" render={() => <ProjectContainerConnected contentType={contentType.singleClaim} />} />
-=======
 			<Route
 				exact={true}
 				path="/projects/:projectDID/overview"
@@ -160,16 +150,15 @@ export const Routes: React.SFC<Routes.RouteProps> = props => {
 					/>
 				)}
 			/>
->>>>>>> ixo-web-typed
-		<Route
-			exact={true}
-			path="/create-project"
-			render={routeProps => (
-				<Fragment>
-					<ProjectCreateConnected {...routeProps} {...props} />
-				</Fragment>
-			)}
-		/>
+			<Route
+				exact={true}
+				path="/create-project"
+				render={routeProps => (
+					<Fragment>
+						<ProjectCreateConnected {...routeProps} {...props} />
+					</Fragment>
+				)}
+			/>
 		</Switch >
 	);
 };

@@ -5,6 +5,7 @@ import * as moment from 'moment';
 import CountdownTimer from 'react-awesome-countdowntimer';
 import { deviceWidth, onboardJson } from '../../lib/commonData';
 import DynamicForm from '../form/DynamicForm';
+import { FormStyles } from '../../types/models';
 
 const Container = styled.div`
 	height: calc(100vh - 213px);
@@ -160,7 +161,7 @@ export class HomeContainer extends React.Component<Props> {
 			if (formJson.fields.length > 0) {
 				return (
 					<DynamicForm
-
+						formStyle={FormStyles.standard}
 						formSchema={formJson.fields}
 						handleSubmit={this.handleSubmitForm}
 						submitText={'Join Now'}
