@@ -1,7 +1,5 @@
 <h1>IXO Web </h1>
 <p>This project serves as the Front-end Web platform for the IXO ecosystem.</p>
-<strong>Latest Development Branch:</strong>
-<p>IXO-WEB-TYPED</p>
 <h2>Built Using </h2>
 <ul>
 	<li><a href="https://github.com/wmonk/create-react-app-typescript">Create React App - TypeScript</a></li>
@@ -24,12 +22,12 @@
 
 <h2>Running</h2>
 
-<h2>Development</h2>
+<h3>Development</h3>
 <code>
 	npm run dev
 </code>
 
-<h2>Build & production</h2>
+<h3>Build & production</h3>
 
 <code>npm run build</code>
 <br/>
