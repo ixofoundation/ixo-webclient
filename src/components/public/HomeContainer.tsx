@@ -180,8 +180,8 @@ export class HomeContainer extends React.Component<Props> {
 	render() {
 		return (
 			<Container className="container-fluid text-white">
-				<div className="row">
-					<div className="offset-1 col-md-12">
+				<div className="container">
+					<div className="col-md-12">
 						<ModalWrapper
 							isModalOpen={this.state.isModalOpen}
 							handleToggleModal={(e: any) => this.handleToggleModal(e)}
@@ -193,8 +193,8 @@ export class HomeContainer extends React.Component<Props> {
 						</ModalWrapper>
 					</div>
 				</div>
-				<div className="container">
-					<div className="col-md-6">
+				<div className="row">
+					<div className="offset-1 col-md-6">
 						<h1>A <span>New</span><br /> world is<br /> coming</h1>
 						<p>Count what matters.<br />Value what counts.</p>
 						<div className="countdown-timer">
