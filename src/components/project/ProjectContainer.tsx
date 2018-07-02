@@ -400,17 +400,13 @@ export class ProjectContainer extends React.Component<Props, State> {
 				promises.push(
 					this.props.ixo.project.fetchPublic(claim[field.name], this.state.PDSUrl).then((res: any) => {
 						let imageSrc = 'data:' + res.contentType + ';base64,' + res.data;
-						return { field: field.name, url: imageSrc };
+						claim[field.name] = imageSrc;
+						this.setState({ singleClaim: claim });
 					})
 				);
 			}
 		});
-		Promise.all(promises).then((results) => {
-			results.forEach((item) => {
-				claim[item.field] = item.url;
-				this.setState({ singleClaim: claim });
-			});
-		});
+		Promise.all(promises);
 	}
 
 	fetchImage = (imageLink: string, pdsURL: string) => {
