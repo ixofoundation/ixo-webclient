@@ -114,7 +114,7 @@ export class ProjectContainer extends React.Component<Props, State> {
 		if (this.state.projectPublic === null) {
 			this.props.onSetActiveProject(this.props.match.params.projectDID);
 			const did = this.props.match.params.projectDID;
-			this.props.ixo.project.getProjectByDid(did).then((response: any) => {
+			this.props.ixo.project.getProjectByProjectDid(did).then((response: any) => {
 				const project: Project = response.result.data;
 				this.setState({ projectPublic: project});
 				this.handleGetCapabilities();
