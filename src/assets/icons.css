@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'icomoon';
-  src:  url('fonts/icomoon.eot?pww3z4');
-  src:  url('fonts/icomoon.eot?pww3z4#iefix') format('embedded-opentype'),
-    url('fonts/icomoon.ttf?pww3z4') format('truetype'),
-    url('fonts/icomoon.woff?pww3z4') format('woff'),
-    url('fonts/icomoon.svg?pww3z4#icomoon') format('svg');
+  src:  url('fonts/icomoon.eot?mlcidw');
+  src:  url('fonts/icomoon.eot?mlcidw#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?mlcidw') format('truetype'),
+    url('fonts/icomoon.woff?mlcidw') format('woff'),
+    url('fonts/icomoon.svg?mlcidw#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -12,7 +12,7 @@
 [class^="icon-"], [class*=" icon-"] {
   /* use !important to prevent issues with browser extensions that change fonts */
   font-family: 'icomoon' !important;
-  speak-as: none;
+  speak: none;
   font-style: normal;
   font-weight: normal;
   font-variant: normal;
@@ -24,6 +24,15 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-approve02 .path1:before {
+  content: "\e900";
+  color: rgb(90, 185, 70);
+}
+.icon-approve02 .path2:before {
+  content: "\e901";
+  margin-left: -1em;
+  color: rgb(255, 255, 255);
+}
 .icon-approved:before {
   content: "\e902";
   color: #5ab946;
@@ -48,6 +57,10 @@
   content: "\e907";
   color: #fff;
 }
+.icon-denycross:before {
+  content: "\e908";
+  color: #fff;
+}
 .icon-down:before {
   content: "\e909";
   color: #fff;
@@ -68,53 +81,53 @@
   content: "\e90d";
   color: #00d2ff;
 }
-.icon-facebook:before {
-  content: "\e90e";
-  color: #fff;
-}
 .icon-favourite-active:before {
-  content: "\e90f";
+  content: "\e90e";
   color: #c5202d;
 }
 .icon-github:before {
-  content: "\e910";
+  content: "\e90f";
   color: #fff;
 }
 .icon-heart:before {
-  content: "\e911";
+  content: "\e910";
   color: #b8b8b8;
 }
 .icon-home-active:before {
-  content: "\e912";
+  content: "\e911";
   color: #fff;
 }
 .icon-home:before {
+  content: "\e912";
+  color: #fff;
+}
+.icon-facebook:before {
   content: "\e913";
   color: #fff;
 }
-.icon-impacts:before {
+.icon-twitter:before {
   content: "\e914";
   color: #fff;
 }
-.icon-indicator-down:before {
+.icon-impacts:before {
   content: "\e915";
+  color: #fff;
+}
+.icon-indicator-down:before {
+  content: "\e916";
   color: #e2223b;
 }
 .icon-indicator-up:before {
-  content: "\e916";
+  content: "\e917";
   color: #5ab946;
 }
 .icon-info:before {
-  content: "\e917";
+  content: "\e918";
   color: #fff;
 }
 .icon-instagram:before {
-  content: "\e918";
-  color: #4c4c4c;
-}
-.icon-logo-ixo:before {
   content: "\e919";
-  color: #00d2ff;
+  color: #4c4c4c;
 }
 .icon-ixosmall:before {
   content: "\e91a";
@@ -124,143 +137,147 @@
   content: "\e91b";
   color: #fff;
 }
-.icon-medium:before {
+.icon-logo-ixo:before {
   content: "\e91c";
+  color: #00d2ff;
+}
+.icon-medium:before {
+  content: "\e91d";
   color: #fff;
 }
 .icon-modal:before {
-  content: "\e91d";
+  content: "\e91e";
   color: #00d2ff;
 }
 .icon-pending:before {
-  content: "\e91e";
+  content: "\e91f";
   color: #f89d28;
 }
 .icon-plus:before {
-  content: "\e91f";
-  color: #fff;
-}
-.icon-projects:before {
   content: "\e920";
   color: #fff;
 }
-.icon-rejected:before {
+.icon-projects:before {
   content: "\e921";
+  color: #fff;
+}
+.icon-rejected:before {
+  content: "\e922";
   color: #017492;
 }
 .icon-rejectedcross:before {
-  content: "\e922";
+  content: "\e923";
   color: #e2223b;
 }
 .icon-sdg-affordableenergy:before {
-  content: "\e923";
-  color: #83d9f2;
-}
-.icon-sdg-cleanwater:before {
   content: "\e924";
   color: #83d9f2;
 }
-.icon-sdg-climateaction:before {
+.icon-sdg-cleanwater:before {
   content: "\e925";
   color: #83d9f2;
 }
-.icon-sdg-consumption:before {
+.icon-sdg-climateaction:before {
   content: "\e926";
   color: #83d9f2;
 }
-.icon-sdg-decentwork:before {
+.icon-sdg-consumption:before {
   content: "\e927";
   color: #83d9f2;
 }
-.icon-sdg-generequality:before {
+.icon-sdg-decentwork:before {
   content: "\e928";
   color: #83d9f2;
 }
-.icon-sdg-goodhealth:before {
+.icon-sdg-genderequality:before {
   content: "\e929";
   color: #83d9f2;
 }
-.icon-sdg-industry:before {
+.icon-sdg-goodhealth:before {
   content: "\e92a";
   color: #83d9f2;
 }
-.icon-sdg-lifebelowwater:before {
+.icon-sdg-industry:before {
   content: "\e92b";
   color: #83d9f2;
 }
-.icon-sdg-lifeonland:before {
+.icon-sdg-lifebelowwater:before {
   content: "\e92c";
   color: #83d9f2;
 }
-.icon-sdg-nopoverty:before {
+.icon-sdg-lifeonland:before {
   content: "\e92d";
   color: #83d9f2;
 }
-.icon-sdg-partnership:before {
+.icon-sdg-nopoverty:before {
   content: "\e92e";
   color: #83d9f2;
 }
-.icon-sdg-peace:before {
+.icon-sdg-partnership:before {
   content: "\e92f";
   color: #83d9f2;
 }
-.icon-sdg-qualityeducation:before {
+.icon-sdg-peace:before {
   content: "\e930";
   color: #83d9f2;
 }
-.icon-sdg-reduced:before {
+.icon-sdg-qualityeducation:before {
   content: "\e931";
   color: #83d9f2;
 }
-.icon-sdg-zerohunger:before {
+.icon-sdg-reduced:before {
   content: "\e932";
   color: #83d9f2;
 }
-.icon-search:before {
+.icon-sdg-sustainablecities:before {
   content: "\e933";
+  color: #83d9f2;
+}
+.icon-sdg-zerohunger:before {
+  content: "\e934";
+  color: #83d9f2;
+}
+.icon-search:before {
+  content: "\e935";
   color: #00d2ff;
 }
 .icon-serviceproviders-active:before {
-  content: "\e934";
-  color: #fff;
-}
-.icon-serviceproviders:before {
-  content: "\e935";
-  color: #fff;
-}
-.icon-settings-active:before {
   content: "\e936";
   color: #fff;
 }
-.icon-settings:before {
+.icon-serviceproviders:before {
   content: "\e937";
   color: #fff;
 }
-.icon-share:before {
+.icon-settings-active:before {
   content: "\e938";
+  color: #fff;
+}
+.icon-settings:before {
+  content: "\e939";
+  color: #fff;
+}
+.icon-share:before {
+  content: "\e93a";
   color: #b8b8b8;
 }
 .icon-success:before {
-  content: "\e939";
+  content: "\e93b";
   color: #017492;
 }
 .icon-telegram:before {
-  content: "\e93a";
-  color: #fff;
-}
-.icon-trash:before {
-  content: "\e93b";
-  color: #fff;
-}
-.icon-twitter:before {
   content: "\e93c";
   color: #fff;
 }
-.icon-upload:before {
+.icon-trash:before {
   content: "\e93d";
+  color: #fff;
+}
+.icon-upload:before {
+  content: "\e93e";
   color: #017492;
 }
 .icon-world:before {
-  content: "\e93e";
+  content: "\e93f";
   color: #4c4c4c;
 }

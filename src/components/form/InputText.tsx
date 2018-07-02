@@ -37,6 +37,11 @@ const InputContainer = styled.div`
 			border-bottom: 1px solid ${props => props.theme.fontDarkBlueButtonHover};
 		}
 
+		input::-webkit-input-placeholder { opacity:  0;}
+		input:-moz-placeholder { opacity:  0;}
+		input::-moz-placeholder { opacity:  0;}
+		input:-ms-input-placeholder { opacity:  0;}
+
 		input:focus {
 			color: white;
 			border-bottom: 1px solid #5AB946;
@@ -68,6 +73,11 @@ const InputContainer = styled.div`
 	
 		}
 
+		input::-webkit-input-placeholder { opacity:  0;}
+		input:-moz-placeholder { opacity:  0;}
+		input::-moz-placeholder { opacity:  0;}
+		input:-ms-input-placeholder { opacity:  0;}
+
 		input:focus {
 			color: ${props => props.theme.darkGrey};
 			border: 1px solid ${props => props.theme.darkBlue};
@@ -89,29 +99,45 @@ const InputContainer = styled.div`
 		}
 	}
 
-	input::-webkit-input-placeholder { /* WebKit browsers */
-		opacity:  0;
+	.disabled-input {
+		margin:40px 0;
+		font-size: 16px;
+		text-transform:uppercase;
+
+		input {
+			color: ${props => props.theme.darkGrey};
+			border: 1px solid ${props => props.theme.darkBlue};
+			padding-top: 15px;
+			padding-bottom: 15px;
+			border-radius: 3px;
+	
+		}
+
+		p {
+			color: ${props => props.theme.darkGrey};
+			bottom: 85px;
+			font-size: 11px;
+			font-weight: 500;
+			padding-left: 0;
+		}
 	}
-	input:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
-	   opacity:  0;
-	}
-	input::-moz-placeholder { /* Mozilla Firefox 19+ */
-		opacity:  0;
-	}
-	input:-ms-input-placeholder { /* Internet Explorer 10+ */
-		opacity:  0;
-	}
+
+	input::-webkit-input-placeholder { opacity:  0;}
+	input:-moz-placeholder { opacity:  0;}
+	input::-moz-placeholder { opacity:  0;}
+	input:-ms-input-placeholder { opacity:  0;}
 `;
 
 export interface ParentProps {
 	type: string;
-	id: string;
+	id?: string;
 	formStyle: FormStyles;
 	text?: string;
+	value?: string;
 	validation?: string;
 }
 export interface Callbacks {
-	onChange: (event: any) => void;
+	onChange?: (event: any) => void;
 }
 
 export interface Props extends ParentProps, Callbacks {}
@@ -123,23 +149,41 @@ export interface Props extends ParentProps, Callbacks {}
 // };
 
 const InputText: React.SFC<Props> = (props) => {
-		
-		return (
-			<InputContainer>
+		if (props.formStyle === FormStyles.disabled) {
+			return (
+				<InputContainer>
 				<div className={`${(props.formStyle).toLowerCase()}-input`}>
-					<input 
-						className="form-control"
-						id={props.id}
-						type={props.type}
-						placeholder={props.text}
-						onChange={props.onChange}
-						name={props.id}
-						// onBlur={(event) => validateEmail(event.target.value)}
-					/>
-					<p>{props.text}</p>
-				</div>
-			</InputContainer>
-		);
+						<input 
+							className="form-control"
+							id={props.id}
+							type={props.type}
+							placeholder={props.value}
+							value={props.text}
+							onChange={props.onChange}
+							name={props.id}
+							disabled={true}
+						/>
+						<p>{props.value}</p>
+					</div>	
+				</InputContainer>
+			);
+		} else {
+			return (
+				<InputContainer>
+					<div className={`${(props.formStyle).toLowerCase()}-input`}>
+						<input 
+							className="form-control"
+							id={props.id}
+							type={props.type}
+							placeholder={props.text}
+							onChange={props.onChange}
+							name={props.id}
+						/>
+						<p>{props.text}</p>
+					</div>
+				</InputContainer>
+			);
+		}
 };
 
 export default InputText;

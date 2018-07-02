@@ -88,6 +88,7 @@ export class Projects extends React.Component<Props, State> {
 				</div>
 			);
 		} else if (this.props.projectList.length > 0) {
+			console.log(this.props.projectList);
 			return (
 				<ProjectsContainer className="container-fluid">
 					<div className="container">

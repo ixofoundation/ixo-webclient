@@ -3,8 +3,14 @@ import { Link } from 'react-router-dom';
 import { LayoutWrapperClaims } from '../common/LayoutWrapperClaims';
 import { WidgetWrapperClaims } from '../common/WidgetWrapperClaims';
 import { ClaimStatus } from '../common/ClaimStatus';
-import { AgentRoles } from '../../types/models';
+import { AgentRoles, FormStyles } from '../../types/models';
+import InputText from '../../components/form/InputText';
+import TextArea from '../../components/form/TextArea';
+
 import styled from 'styled-components';
+import { ImageSpinner } from '../common/ImageSpinner';
+
+const placeholder = require('../../assets/images/ixo-placeholder.jpg');
 
 const Container = styled.div`
 	justify-content: center;
@@ -66,7 +72,6 @@ const ReturnButton = styled.div`
 	cursor: pointer;
 	border: 1px solid ${props => props.theme.bg.darkButton};
 	color: ${props => props.theme.bg.darkButton};
-	under
 `;
 
 const EvaluateMoreButton = styled.div`
@@ -104,15 +109,23 @@ const ButtonLink = styled(Link)`
 	}
 `;
 
+const ImageContainer = styled.img`
+	width: 100%;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	border-radius: 3px;
+`;
+
 export interface ParentProps {
 	match: any;
-	claims: any[];
+	claim: any;
 	handleListClaims: () => any;
 	handleEvaluateClaim: (status: object, claimId: string) => void;
 	hasCapability: (role: AgentRoles) => boolean;
+	singleClaimFormFile: string;
 }
 export const ProjectSingleClaim: React.SFC<ParentProps> = (props) => {
-	const claimId = props.match.params.claimID;
+	// const claimId = props.match.params.claimID;
 	const projectDID = props.match.params.projectDID;
 
 	const handleEvaluateClaim = (status: string, statusObj: any, id: string) => {
@@ -121,6 +134,16 @@ export const ProjectSingleClaim: React.SFC<ParentProps> = (props) => {
 		} else {
 			props.handleEvaluateClaim({status, version: statusObj.version}, id);
 		}
+	};
+
+	const handleRenderImage = (index: number, link: string) => {
+		if (link === '') { // no image show placeholder
+			return <ImageContainer key={index} src={placeholder} />;
+		}
+		if (link.length > 40) { // image found render
+			return <ImageContainer key={index} src={link} />;
+		}
+		return <ImageSpinner key={index} info={'Loading image for claim'} />;
 	};
 
 	const handleRenderStatus = (claimStatus, ID: string) => {
@@ -203,12 +226,39 @@ export const ProjectSingleClaim: React.SFC<ParentProps> = (props) => {
 		);
 	};
 
+	const handleDataRender = (claim: object) => {
+		const { fields = [] } = JSON.parse(props.singleClaimFormFile);
+		return (
+			<div>
+				{fields.map((field, index) => {
+					switch (field.type) {
+						case 'text':
+							return <InputText
+										formStyle={FormStyles.disabled} 
+										key={index}
+										type={field.type}
+										value={field.name}
+										text={claim[`${field.name}`]} 
+										validation={field.validation}
+							/>;
+						case 'textarea':
+							return <TextArea id={field.name} text={field.label} key={index} />;
+						case 'image':
+							return handleRenderImage(index, claim[`${field.name}`]);
+						default:
+							return null;
+					}
+				})}
+			</div>
+		);
+	};
+
 	const handleRenderClaim = () => {
-		if (props.claims === null) {
+		if (props.claim === null) {
 			props.handleListClaims();
 			return <p>Loading claim...</p>;
 		} else {
-			const claim = props.claims.filter((theClaim) => theClaim.txHash === claimId)[0];
+			const claim = props.claim;
 			if (!claim) {
 				return <p>No claim found with that ID</p>;
 			}
@@ -217,12 +267,12 @@ export const ProjectSingleClaim: React.SFC<ParentProps> = (props) => {
 					<Container className="row">
 						<div className="col-md-6">
 							<WidgetWrapperClaims>
-								<h3>{claim.name}</h3>
+								<h3>Claim</h3>
 								<DividerShadow>
 									<Divider />
 								</DividerShadow>
 								<div style={{ padding: '20px' }}>
-									<p>{claim._id}</p>
+									{handleDataRender(claim)}
 									{handleRenderStatus(claim.evaluations, claim._id)}
 								</div>
 							</WidgetWrapperClaims>

@@ -62,7 +62,7 @@ export const Icons: React.SFC<ParentProps> = (props) => {
 					<i className="icon-sdg-climateaction" />
 					<i className="icon-sdg-consumption" />
 					<i className="icon-sdg-decentwork" />
-					<i className="icon-sdg-generequality" />
+					<i className="icon-sdg-genderequality" />
 					<i className="icon-sdg-goodhealth" />
 					<i className="icon-sdg-industry" />
 					<i className="icon-sdg-lifebelowwater" />
@@ -72,6 +72,7 @@ export const Icons: React.SFC<ParentProps> = (props) => {
 					<i className="icon-sdg-peace" />
 					<i className="icon-sdg-qualityeducation" />
 					<i className="icon-sdg-reduced" />
+					<i className="icon-sdg-sustainablecities" />
 					<i className="icon-sdg-zerohunger" />
 					<i className="icon-search" />
 					<i className="icon-serviceproviders-active" />

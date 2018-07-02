@@ -4,18 +4,25 @@ import { WidgetWrapper } from '../common/WidgetWrapper';
 import { LayoutWrapper } from '../common/LayoutWrapper';
 import { SingleStatistic } from '../common/SingleStatistic';
 import { StatType, AgentRoles } from '../../types/models';
+import { ProjectClaims } from './ProjectClaims';
 
 const Container = styled.div`
 	color: white;
 `;
 export interface ParentProps {
 	projectDid: string;
-	claimStats: any;
 	agentStats: any;
+	claimStats: any;
+	claims: any[];
 	hasCapability: (Role: AgentRoles) => boolean;
 }
 
-export const ProjectDashboard: React.SFC<ParentProps> = ({projectDid, claimStats, agentStats}) => {
+export const ProjectDashboard: React.SFC<ParentProps> = ({projectDid, agentStats, claimStats, claims}) => {
+
+	const countPendingClaims = () => {
+		const pendingClaims = claims.filter((claim) => (claim.status === '0'));
+		return pendingClaims.length;
+	};
 	return (
 		<LayoutWrapper>
 			<Container className="row">
@@ -59,11 +66,18 @@ export const ProjectDashboard: React.SFC<ParentProps> = ({projectDid, claimStats
 				<div className="col-sm-6 col-lg-3">
 					<WidgetWrapper title="Claims" link={true} path={`/projects/${projectDid}/detail/claims`} linkIcon={'icon-expand'}>
 						<SingleStatistic 
-							title="Successful" 
+							title="Total Successful" 
 							type={StatType.decimal}
 							amount={claimStats.currentSuccessful} 
-							descriptor={[{class: 'text-block', value: 'Rejected:'}, {class: 'number-orange', value: claimStats.currentRejected}]}
+							descriptor={[{class: 'text-block', value: 'Pending Approval:'}, {class: 'number-orange', value: countPendingClaims()}]}
 						/>
+					</WidgetWrapper>
+				</div>
+				}
+				{
+				<div className="col-md-6">
+					<WidgetWrapper title="My latest claims" link={true} path={`/projects/${projectDid}/detail/claims`} linkIcon={'icon-expand'} >
+						<ProjectClaims claims={claims} projectDid={projectDid} fullPage={false} />
 					</WidgetWrapper>
 				</div>
 				}

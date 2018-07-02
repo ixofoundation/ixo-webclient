@@ -60,5 +60,11 @@ export enum ErrorTypes {
 
 export enum FormStyles {
 	modal = 'MODAL',
-	standard = 'STANDARD'
+	standard = 'STANDARD',
+	disabled = 'DISABLED'
+}
+
+export enum RenderType {
+	widget = 'WIDGET',
+	fullPage = 'FULLPAGE'
 }
