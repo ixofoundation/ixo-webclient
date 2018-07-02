@@ -1,46 +1,65 @@
-# ixo Protocol client(React, Redux & TypeScript) and server(Node express)
+<h1>IXO Web </h1>
+<p>This project serves as the Front-end Web platform for the IXO ecosystem.</p>
+<strong>Latest Development Branch:</strong>
+<p>IXO-WEB-TYPED</p>
+<h2>Built Using </h2>
+<ul>
+	<li><a href="https://github.com/wmonk/create-react-app-typescript">Create React App - TypeScript</a></li>
+	<li><a href="https://www.styled-components.com/">Styled Components</a></li>
+	<li><a href="https://redux.js.org/">Redux</a></li>
+</ul>
 
-## Contains
+<h2>Built to work with </h2>
+<p>Back-end for all API calls and DID management</p>
 
-- [x] [Typescript](https://www.typescriptlang.org/) 2.5
-- [x] [React](https://facebook.github.io/react/) 16.0
-- [x] [Redux](https://github.com/reactjs/redux) 3.7
-- [x] [React Router](https://github.com/ReactTraining/react-router) 4.2
-- [x] [Redux DevTools Extension](https://github.com/zalmoxisus/redux-devtools-extension)
-- [x] [TodoMVC example](http://todomvc.com)
+<ul>
+	<li><a href="https://github.com/wmonk/create-react-app-typescript">IXO Module</a></li>
+	<li><a href="https://github.com/wmonk/create-react-app-typescript">IXO Key Extension</a></li>
+</ul>
 
-### Build tools
+<h2>Setup</h2>
+<code>
+	npm install
+</code>
 
-- [x] [Webpack](https://webpack.github.io) 3
-  - [x] [Tree Shaking](https://medium.com/@Rich_Harris/tree-shaking-versus-dead-code-elimination-d3765df85c80)
-  - [x] [Webpack Dev Server](https://github.com/webpack/webpack-dev-server)
-- [x] [Awesome Typescript Loader](https://github.com/s-panferov/awesome-typescript-loader)
-- [x] [PostCSS Loader](https://github.com/postcss/postcss-loader)
-  - [x] [CSS next](https://github.com/MoOx/postcss-cssnext)
-  - [x] [CSS modules](https://github.com/css-modules/css-modules)
-- [x] [React Hot Loader](https://github.com/gaearon/react-hot-loader)
-- [x] [ExtractText Plugin](https://github.com/webpack/extract-text-webpack-plugin)
-- [x] [HTML Webpack Plugin](https://github.com/ampedandwired/html-webpack-plugin)
+<h2>Running</h2>
 
+<h2>Development</h2>
+<code>
+	npm run dev
+</code>
 
-## Setup
+<h2>Build & production</h2>
 
-```
-$ npm install
-```
+<code>npm run build</code>
+<br/>
+<code>npm start</code>
+ 
 
-## Running
+<h2>Architecture & flow</h2>
 
-```
-$ npm start
-```
+<h3>Styling </h3>
+IXO-Web is styled using styled components. all styling information is kept within a component. The main file - App.tsx contains theme information, where you can add variables for use through the Web App.
 
-## Build
+<h3>Container Components </h3>
 
-```
-$ npm run build
-```
-
-# License
+<ul>
+ <li>
+	<strong>App</strong> <br/>
+	Displays state-based views for projects lists (eg. Overivew, Loading, Dashboard)
+</li>
+ <li>
+	<strong>ProjectContainer</strong><br/></li>
+	Contains logic for all single-project data and views (eg. Overview, Dashboard, List Providers)
+ <li>
+	 <strong>ProjectsContainer</strong><br/>
+	 Contains logic for listing projects and initiation of IXO-Module & IXO-Keysafe Objects.
+</li>
+ <li>
+	 <strong>HeaderContainer</strong><br/>
+	 Contains logic related to network status
+</li>
+    
+<h1>License</h1>
 
 MIT

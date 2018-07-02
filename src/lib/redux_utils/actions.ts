@@ -1,7 +1,7 @@
 import * as Immutable from 'immutable';
 
-export interface IAction {
-    type: string
+export interface Action {
+	type: string;
 }
 
 /**
@@ -9,20 +9,21 @@ export interface IAction {
  * Note: If the data object is empty ({}), then there is no need to provide the type while calling the method
  * @param type      Action name
  * @param data      Data
- * @returns {IAction}    The action plain object for dispatching
+ * @returns {Action}    The action plain object for dispatching
  */
-export function createAction<T>(type: string, data: T) : IAction {
-    return Immutable.Map(data as any).set('type', type).toObject() as any;
+
+export function createAction<T>(type: string, data: T): Action {
+	return Immutable.Map(data as any).set('type', type).toObject() as any;
 }
 
 /**
  * Throw error when server returns a response with status 'error'
  * @param response - Response sent by server
  */
-export function checkServerError(response) {
-    if (response.status === 'error') {
-        throw response;
-    } else {
-        return response;
-    }
+export function checkServerError(response: any) {
+	if (response.status === 'error') {
+		throw response;
+	} else {
+		return response;
+	}
 }
