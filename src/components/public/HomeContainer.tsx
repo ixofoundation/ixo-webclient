@@ -180,8 +180,8 @@ export class HomeContainer extends React.Component<Props> {
 	render() {
 		return (
 			<Container className="container-fluid text-white">
-				<div className="container">
-					<div className="col-md-12">
+				<div className="row">
+					<div className="offset-1 col-md-12">
 						<ModalWrapper
 							isModalOpen={this.state.isModalOpen}
 							handleToggleModal={(e: any) => this.handleToggleModal(e)}
