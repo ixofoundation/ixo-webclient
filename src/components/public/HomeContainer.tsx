@@ -7,9 +7,12 @@ import { deviceWidth, onboardJson } from '../../lib/commonData';
 import DynamicForm from '../form/DynamicForm';
 import { FormStyles } from '../../types/models';
 
+const bannerBg = require('../../assets/images/home/homepage-bg.jpg');
+
 const Container = styled.div`
 	height: calc(100vh - 213px);
-	background: #00374C;
+	background: #00374C url(${bannerBg}) no-repeat;
+	background-size: cover;
 	h1 {
 		font-size: 55px;
 		font-family: ${props => props.theme.fontRobotoCondensed};
@@ -88,6 +91,7 @@ const OnboardFormStyle = styled.div`
 	padding: 20px 5px;
 	width: 400px;
 	height: 350px;
+	overflow: hidden;
 	@media (max-width: ${deviceWidth.mobile}px){
 		padding: 20px 0;
 		width: 320px;
@@ -161,7 +165,7 @@ export class HomeContainer extends React.Component<Props> {
 			if (formJson.fields.length > 0) {
 				return (
 					<DynamicForm
-						formStyle={FormStyles.standard}
+						formStyle={FormStyles.modal}
 						formSchema={formJson.fields}
 						handleSubmit={this.handleSubmitForm}
 						submitText={'Join Now'}
