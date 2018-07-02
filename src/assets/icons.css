@@ -212,6 +212,10 @@
   content: "\e931";
   color: #83d9f2;
 }
+.icon-sdg-sustainablecities:before {
+	content: "\e933";
+	color: #83d9f2;
+}
 .icon-sdg-zerohunger:before {
   content: "\e932";
   color: #83d9f2;

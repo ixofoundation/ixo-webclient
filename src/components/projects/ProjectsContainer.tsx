@@ -88,6 +88,7 @@ export class Projects extends React.Component<Props, State> {
 				</div>
 			);
 		} else if (this.props.projectList.length > 0) {
+			console.log(this.props.projectList);
 			return (
 				<ProjectsContainer className="container-fluid">
 					<div className="container">
@@ -127,7 +128,7 @@ export class Projects extends React.Component<Props, State> {
 						{
 							title: 'MY ACTIVE PROJECTS',
 							type: StatType.decimal,
-							descriptor: [{ class: 'text', value: 'Expired' }, { class: 'number', value: '?' }],
+							descriptor: [{ class: 'text', value: 'Expired' }, { class: 'number', value: '0' }],
 							amount: this.state.statistics.totalProjects
 						},
 						{

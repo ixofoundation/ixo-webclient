@@ -63,3 +63,8 @@ export enum FormStyles {
 	standard = 'STANDARD',
 	disabled = 'DISABLED'
 }
+
+export enum RenderType {
+	widget = 'WIDGET',
+	fullPage = 'FULLPAGE'
+}

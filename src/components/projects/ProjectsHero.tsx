@@ -130,7 +130,7 @@ export const ProjectsHero: React.SFC<Props> = (props) => {
 							<Tabs 
 								buttons={[
 									{ iconClass: 'icon-projects', path: '/', title: 'PROJECTS' },
-									{ iconClass: 'icon-statistics-graph', path: '/global-statistics', title: 'IMPACTS' }
+									{ iconClass: 'icon-impacts', path: '/global-statistics', title: 'IMPACTS' }
 								]}
 								matchType={MatchType.exact}
 							/>
