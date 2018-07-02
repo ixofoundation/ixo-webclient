@@ -243,7 +243,7 @@ export class ProjectAgents extends React.Component<ParentProps, State> {
 	}
 
 	handleMapAgents = () => {
-
+		
 		const approved = [];
 		const pending = [];
 		const revoked = [];

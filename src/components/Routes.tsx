@@ -11,6 +11,7 @@ import { Fragment } from 'react';
 import { Widgets } from './widgets/Widgets';
 import { Icons } from './common/Icons';
 import { RegisterConnected } from './register/RegisterPage';
+import { Spinner } from './common/Spinner';
 
 export namespace Routes {
 	export interface StateProps {
@@ -23,6 +24,7 @@ export namespace Routes {
 export const Routes: React.SFC<Routes.RouteProps> = props => {
 	return (
 		<Switch>
+			<Route exact={true} path="/spinner" component={Spinner} />
 			<Route exact={true} path="/homepage" component={HomePage} />
 			<Route exact={true} path="/widgets" component={Widgets} />
 			<Route exact={true} path="/json" component={ProjectForm} />

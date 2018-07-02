@@ -17,6 +17,7 @@ const InputContainer = styled.div`
 	input {
 		border:0;
 		background: none;
+		border-radius: 0;
 	}
 	
 	input:focus {

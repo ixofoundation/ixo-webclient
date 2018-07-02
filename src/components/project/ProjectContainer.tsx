@@ -345,7 +345,6 @@ export class ProjectContainer extends React.Component<Props, State> {
 					this.setState({ claimSubmitted: true });
 				}).catch((claimError: Error) => {
 					Toast.errorToast(claimError.message);
-					console.log(claimError);
 				});
 			} else {
 				Toast.errorToast(error);
