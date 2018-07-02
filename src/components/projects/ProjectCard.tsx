@@ -187,7 +187,7 @@ export class ProjectCard extends React.Component<Props, States> {
 						<SDGs>
 						{this.props.project.sdgs.map((SDG, SDGi) => {
 							return (
-							<i key={SDGi} className={`icon-${SDGArray[Math.floor(SDG) - 1].ico}`} />
+							<i key={SDGi} className={`icon-sdg-${SDGArray[Math.floor(SDG) - 1].ico}`} />
 							);
 						})}
 						</SDGs>

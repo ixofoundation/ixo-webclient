@@ -1,21 +1,21 @@
 export const SDGArray = [
-	{ ico: 'no-poverty', title: 'NO POVERTY'},
-	{ ico: 'zero-hunger', title: 'ZERO HUNGER'},
-	{ ico: 'good-health', title: 'GOOD HEALTH AND WELL-BEING'},
-	{ ico: 'quality-education', title: 'QUALITY EDUCATION'},
-	{ ico: 'gender-equality', title: 'GENDER EQUALITY'},
-	{ ico: 'clean-water', title: 'CLEAN WATER AND SANITATION'},
-	{ ico: 'affordable-energy', title: 'AFFORDABLE AND CLEAN ENERGY'},
-	{ ico: 'decent-work', title: 'DECENT WORK AND ECONOMIC GROWTH'},
-	{ ico: 'industry-innovation', title: 'INDUSTRY, INNOVATION AND INFRASTRUCTURE'},
-	{ ico: 'reduced-inequalities', title: 'REDUCED INEQUALITIES'},
-	{ ico: 'sustainable-cities', title: 'SUSTAINABLE CITIES AND COMMUNITIES'},
-	{ ico: 'responsible-consumption', title: 'RESPONSIBLE CONSUMPTION AND PRODUCTION'},
-	{ ico: 'climate-action', title: 'CLIMATE ACTION'},
-	{ ico: 'life-water', title: 'LIFE BELOW WATER'},
-	{ ico: 'life-land', title: 'LIFE ON LAND'},
-	{ ico: 'peace-justice', title: 'PEACE, JUSTICE AND STRONG INSTITUTIONS'},
-	{ ico: 'partnership-goals', title: 'PARTNERSHIPS FOR THE GOALS'}
+	{ ico: 'nopoverty', title: 'NO POVERTY'},
+	{ ico: 'zerohunger', title: 'ZERO HUNGER'},
+	{ ico: 'goodhealth', title: 'GOOD HEALTH AND WELL-BEING'},
+	{ ico: 'qualityeducation', title: 'QUALITY EDUCATION'},
+	{ ico: 'genderequality', title: 'GENDER EQUALITY'},
+	{ ico: 'cleanwater', title: 'CLEAN WATER AND SANITATION'},
+	{ ico: 'affordableenergy', title: 'AFFORDABLE AND CLEAN ENERGY'},
+	{ ico: 'decentwork', title: 'DECENT WORK AND ECONOMIC GROWTH'},
+	{ ico: 'industry', title: 'INDUSTRY, INNOVATION AND INFRASTRUCTURE'},
+	{ ico: 'reduced', title: 'REDUCED INEQUALITIES'},
+	{ ico: 'sustainablecities', title: 'SUSTAINABLE CITIES AND COMMUNITIES'},
+	{ ico: 'consumption', title: 'RESPONSIBLE CONSUMPTION AND PRODUCTION'},
+	{ ico: 'climateaction', title: 'CLIMATE ACTION'},
+	{ ico: 'lifebelowwater', title: 'LIFE BELOW WATER'},
+	{ ico: 'lifeonland', title: 'LIFE ON LAND'},
+	{ ico: 'peace', title: 'PEACE, JUSTICE AND STRONG INSTITUTIONS'},
+	{ ico: 'partnership', title: 'PARTNERSHIPS FOR THE GOALS'}
 	];
 
 export const deviceWidth = {
