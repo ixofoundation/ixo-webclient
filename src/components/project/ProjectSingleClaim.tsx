@@ -9,6 +9,7 @@ import TextArea from '../../components/form/TextArea';
 
 import styled from 'styled-components';
 import { ImageSpinner } from '../common/ImageSpinner';
+import { Spinner } from '../common/Spinner';
 
 const placeholder = require('../../assets/images/ixo-placeholder.jpg');
 
@@ -256,7 +257,7 @@ export const ProjectSingleClaim: React.SFC<ParentProps> = (props) => {
 	const handleRenderClaim = () => {
 		if (props.claim === null) {
 			props.handleListClaims();
-			return <p>Loading claim...</p>;
+			return <Spinner info="Loading claim..." />;
 		} else {
 			const claim = props.claim;
 			if (!claim) {
