@@ -4,8 +4,9 @@ import { ModalWrapper } from '../common/ModalWrapper';
 import * as moment from 'moment';
 import CountdownTimer from 'react-awesome-countdowntimer';
 import { deviceWidth, onboardJson } from '../../lib/commonData';
-import DynamicForm from '../form/DynamicForm';
-import { FormStyles } from '../../types/models';
+import MailchimpSubscribe from 'react-mailchimp-subscribe';
+// import DynamicForm from '../form/DynamicForm';
+// import { FormStyles } from '../../types/models';
 
 const globe = require('../../assets/images/home/globe.png');
 
@@ -190,6 +191,8 @@ export class ComingSoonContainer extends React.Component<Props> {
 	}
 
 	handleRenderModal = () => {
+		const url = 'https://foundation.us16.list-manage.com/subscribe/post?u=36b779870e68e6a7757acbabe&amp;id=6c94bbfad3';
+
 		if (this.state.success) {
 			return (
 				<div className="success-msg">
@@ -201,12 +204,23 @@ export class ComingSoonContainer extends React.Component<Props> {
 			let formJson = JSON.parse(onboardJson);
 			if (formJson.fields.length > 0) {
 				return (
-					<DynamicForm
-						formStyle={FormStyles.modal}
-						formSchema={formJson.fields}
-						handleSubmit={this.handleSubmitForm}
-						submitText={'Join Now'}
+					<MailchimpSubscribe
+						url={url}
+						render={({ subscribe, status, message }) => (
+						<div>
+							{/* <MyForm onSubmitted={formData => subscribe(formData)} />
+							{status === "sending" && <div style={{ color: "blue" }}>sending...</div>}
+							{status === "error" && <div style={{ color: "red" }} dangerouslySetInnerHTML={{__html: message}}/>}
+							{status === "success" && <div style={{ color: "green" }}>Subscribed !</div>} */}
+						</div>
+						)}
 					/>
+					// <DynamicForm
+					// 	formStyle={FormStyles.modal}
+					// 	formSchema={formJson.fields}
+					// 	handleSubmit={this.handleSubmitForm}
+					// 	submitText={'Join Now'}
+					// />
 				);
 			} else {
 				return <p>No Template found</p>;
