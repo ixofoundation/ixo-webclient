@@ -44,7 +44,7 @@ const HeroInner = styled.div`
 		align-items: center;
 		height:100%;
 	}
-	
+
 	:hover ${ContainerInner} {
 		border-left: 1px solid rgba(73,191,224,0);
 	}
@@ -52,7 +52,7 @@ const HeroInner = styled.div`
 	:hover ${ContainerInner} > div{
 		transform: scale(1.05);
 	}
-	
+
 `;
 
 const PositionController = styled.div`
@@ -87,7 +87,7 @@ const HeroContainer = styled.div`
 	${HeroInner}:hover:before {
 		background-color: rgba(3,60,80,0.6);
 	}
-	
+
 	@media (min-width: ${deviceWidth.tablet}px) {
 		height:200px;
 	}
@@ -110,34 +110,34 @@ export const ProjectsHero: React.SFC<Props> = (props) => {
 
 	return (
 		<HeroContainer>
-				<HeroInner className="container">
-					<div className="row">
-						{props.statistics.map((statistic, index) => {
-							return (
-								<StatisticContainer key={index} className="col-md-3 col-sm-6 col-6">
-									<ContainerInner>
-										<SingleStatistic title={statistic.title} type={statistic.type} amount={statistic.amount} descriptor={statistic.descriptor}/>
-									</ContainerInner>
-								</StatisticContainer>
-							);
-						})}
-					</div>
-				</HeroInner>
-				<div className="container">
-					<div className="row">
-						<div className="col-md-12">
+			<HeroInner className="container">
+				<div className="row">
+					{props.statistics.map((statistic, index) => {
+						return (
+							<StatisticContainer key={index} className="col-md-3 col-sm-6 col-6">
+								<ContainerInner>
+									<SingleStatistic title={statistic.title} type={statistic.type} amount={statistic.amount} descriptor={statistic.descriptor} />
+								</ContainerInner>
+							</StatisticContainer>
+						);
+					})}
+				</div>
+			</HeroInner>
+			<div className="container">
+				<div className="row">
+					<div className="col-md-12">
 						<PositionController>
-							<Tabs 
+							<Tabs
 								buttons={[
-									{ iconClass: 'icon-projects', path: '/', title: 'PROJECTS' },
+									{ iconClass: 'icon-projects', path: '/projects', title: 'PROJECTS' },
 									{ iconClass: 'icon-impacts', path: '/global-statistics', title: 'IMPACTS' }
 								]}
 								matchType={MatchType.exact}
 							/>
 						</PositionController>
 					</div>
-					</div>
 				</div>
+			</div>
 		</HeroContainer>
 	);
 };

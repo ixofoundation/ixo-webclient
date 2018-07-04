@@ -176,7 +176,7 @@ const sdgIcons = [
 		bgColor: '#DFA551'
 	},
 	{
-		class: 'generequality',
+		class: 'genderequality',
 		title: 'Gender Equality',
 		tooltip: 'Achieve gender equality and power all women and girls',
 		bgColor: '#DD4F3A'
@@ -212,7 +212,7 @@ const sdgIcons = [
 		bgColor: '#CE3481'
 	},
 	{
-		class: 'reduced',
+		class: 'sustainablecities',
 		title: 'Sustainable Cities and Communities',
 		tooltip: 'Make cities and human settlements inclusive, safe, resilient and sustainable',
 		bgColor: '#EBA046'
