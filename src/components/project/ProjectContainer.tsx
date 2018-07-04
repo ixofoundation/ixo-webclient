@@ -119,8 +119,7 @@ export class ProjectContainer extends React.Component<Props, State> {
 				this.setState({ projectPublic: project});
 				this.handleGetCapabilities();
 			}).catch((result: Error) => {
-				Toast.errorToast(result.message);
-				console.log(result);
+				Toast.errorToast(result.message, ErrorTypes.goBack);
 			});
 		}
 	}
@@ -147,7 +146,7 @@ export class ProjectContainer extends React.Component<Props, State> {
 			const ProjectDIDPayload: Object = { projectDid: this.props.projectDid};
 			this.props.keysafe.requestSigning(JSON.stringify(ProjectDIDPayload), (error, signature) => {	
 				if (!error) {
-					this.props.ixo.claim.listClaimsForProject(ProjectDIDPayload, signature, this.state.PDSUrl).then((response: any) => {
+					this.props.ixo.claim.listClaimsForProject(ProjectDIDPayload, signature, 'test' + this.state.PDSUrl).then((response: any) => {
 						if (response.error) {
 							Toast.errorToast(response.error.message, ErrorTypes.goBack);
 						} else {
@@ -161,10 +160,10 @@ export class ProjectContainer extends React.Component<Props, State> {
 							this.setState({ claims: [...claimsObj]});
 						}
 					}).catch((result: Error) => {
-						console.log((result));
+						Toast.errorToast(result.message, ErrorTypes.goBack);
 					});
 				} else {
-					console.log(error);
+					Toast.errorToast(error, ErrorTypes.goBack);
 				}
 			});
 		}
