@@ -23,7 +23,7 @@
             "tabs"
         ],
         "interface-name": [
-            true,
+            false,
             "never-prefix"
         ],
         "jsdoc-format": true,
@@ -31,7 +31,7 @@
         "jsx-no-multiline-js": false,
         "label-position": true,
         "max-line-length": [
-            false,
+            true,
             180
         ],
         "member-ordering": [

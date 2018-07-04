@@ -19,6 +19,7 @@ export interface ParentProps {
 
 export const ProjectDashboard: React.SFC<ParentProps> = ({projectDid, agentStats, claimStats, claims}) => {
 
+	console.log(projectDid);
 	const countPendingClaims = () => {
 		const pendingClaims = claims.filter((claim) => (claim.status === '0'));
 		return pendingClaims.length;

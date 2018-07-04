@@ -40,7 +40,6 @@ export interface StateProps {
 }
 
 export interface State {
-	pdsURL: string;
 	croppedImg: any;
 	imageKey: string;
 	claimSchema: string;
@@ -57,7 +56,6 @@ export interface State {
 export class ProjectCreate extends React.Component<StateProps, State> {
 
 	state = {
-			pdsURL: 'http://35.192.187.110:5000/', // 'http://192.168.1.125:5000/', // 'http://35.225.6.178:5000/',
 			croppedImg: null,
 			imageKey: null,
 			claimSchema: '',
@@ -74,16 +72,13 @@ export class ProjectCreate extends React.Component<StateProps, State> {
 		if (this.props.keysafe === null) {
 			window.alert('Please install IXO Credential Manager first.');
 		} else {
-			// inpageProvider.requestInfoFromIxoCM((error, response) => {
-			// 	// alert(`Dashboard handling received response for INFO response: ${JSON.stringify(response)}, error: ${JSON.stringify(error)}`);
-			// });
 			let message: string = this.state.projectJson;
 			this.props.keysafe.requestSigning(message, (error: any, signature: any) => {
 				
 				console.log('MESSAGE IS: ', JSON.parse(message));
 				console.log('SIGNATURE IS: ', signature);
 				// 'http://35.225.6.178:5000/' 'http://localhost:5000/'
-				this.props.ixo.project.createProject(JSON.parse(message), signature, this.state.pdsURL).then((res: any) => {
+				this.props.ixo.project.createProject(JSON.parse(message), signature, this.state.project.serviceEndpoint).then((res: any) => {
 					console.log('PROJECT CREATE STATUS: ', res);
 				});
 			});
@@ -91,7 +86,9 @@ export class ProjectCreate extends React.Component<StateProps, State> {
 	}
 
 	handlePdsUrlChange = (event: any) => {
-		this.setState({pdsURL: event.target.value});
+		let newProject = this.state.project;
+		newProject.serviceEndpoint = event.target.value;
+		this.setState({project: newProject, projectJson: JSON.stringify(newProject)});
 	}
 
 	handleProjectChange = (event: any) => {
@@ -104,7 +101,7 @@ export class ProjectCreate extends React.Component<StateProps, State> {
 	
 	uploadImage = (event) => {
 		console.log(this.state.croppedImg);
-		this.props.ixo.project.createPublic(this.state.croppedImg, this.state.pdsURL).then((res: any) => {
+		this.props.ixo.project.createPublic(this.state.croppedImg, this.state.project.serviceEndpoint).then((res: any) => {
 			console.log('Uploaded: ', res);
 			let newProject = this.state.project;
 			newProject.imageLink = res.result;
@@ -113,7 +110,7 @@ export class ProjectCreate extends React.Component<StateProps, State> {
 	}
 
 	fetchImage = (event) => {
-		this.props.ixo.project.fetchPublic(this.state.project.imageLink, this.state.pdsURL).then((res: any) => {
+		this.props.ixo.project.fetchPublic(this.state.project.imageLink, this.state.project.serviceEndpoint).then((res: any) => {
 			console.log('Fetched: ', res);
 			let imageSrc = 'data:' + res.contentType + ';base64,' + res.data;
 			this.setState({fetchedImage: imageSrc});
@@ -138,7 +135,7 @@ export class ProjectCreate extends React.Component<StateProps, State> {
 			fileToUpload = this.state.claimForm;
 		}
 
-		this.props.ixo.project.createPublic(fileToUpload, this.state.pdsURL).then((res: any) => {
+		this.props.ixo.project.createPublic(fileToUpload, this.state.project.serviceEndpoint).then((res: any) => {
 			console.log('Uploaded: ', res);
 			let newProject = this.state.project;
 			if (type === 'schema') {
@@ -152,7 +149,7 @@ export class ProjectCreate extends React.Component<StateProps, State> {
 	}
 
 	fetchFile = (event) => {
-		this.props.ixo.project.fetchPublic(this.state.claimSchemaKey, this.state.pdsURL).then((res: any) => {
+		this.props.ixo.project.fetchPublic(this.state.claimSchemaKey, this.state.project.serviceEndpoint).then((res: any) => {
 			console.log('Fetched: ', res);
 			let fileContents = base64Decode(res.data);
 			this.setState({fetchedFile: fileContents});
@@ -160,7 +157,7 @@ export class ProjectCreate extends React.Component<StateProps, State> {
 	}
 
 	fetchFormFile = (event) => {
-		this.props.ixo.project.fetchPublic(this.state.claimFormKey, this.state.pdsURL).then((res: any) => {
+		this.props.ixo.project.fetchPublic(this.state.claimFormKey, this.state.project.serviceEndpoint).then((res: any) => {
 			console.log('Fetched: ', res);
 			let fileContents = base64Decode(res.data);
 			this.setState({fetchedFile: fileContents});
@@ -211,7 +208,7 @@ export class ProjectCreate extends React.Component<StateProps, State> {
 				<Container className="container">
 					<div className="row">
 						<div className="col-md-12">
-							<Text placeholder="Project datastore url example: http://104.155.142.57:5000/" value={this.state.pdsURL} onChange={this.handlePdsUrlChange} />
+							<Text placeholder="Project datastore url example: http://104.155.142.57:5000/" value={this.state.project.serviceEndpoint} onChange={this.handlePdsUrlChange} />
 							<Text placeholder="Title" value={this.state.project.title} onChange={(ev) => this.handlePropertyChanged('title', ev)}/>
 							<Text placeholder="Owner Name" value={this.state.project.ownerName} onChange={this.handleOwnerNameChanged} />
 							<Text placeholder="Owner Email" value={this.state.project.ownerEmail} onChange={this.handleOwnerEmailChanged} />

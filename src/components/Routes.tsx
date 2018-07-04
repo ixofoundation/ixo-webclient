@@ -5,18 +5,26 @@ import { Projects } from './projects/ProjectsContainer';
 import { ProjectCreateConnected } from './project/ProjectCreate';
 // import { contentType } from '../types/models';
 import { ProjectForm } from './project/ProjectForm';
+<<<<<<< HEAD
 import { HomeContainer } from './public/HomeContainer';
 import { AboutContainer } from './public/AboutContainer';
 import { MemberContainer } from './public/MemberContainer';
 import { FaqContainer } from './public/FaqContainer';
 import { EcoContainer } from './public/EcoContainer';
 import { PricingContainer } from './public/PricingContainer';
+=======
+import { HomePage } from './public/HomePage';
+>>>>>>> master
 import { Fragment } from 'react';
 import { Widgets } from './widgets/Widgets';
 import { Icons } from './common/Icons';
 import { RegisterConnected } from './register/RegisterPage';
+<<<<<<< HEAD
 import { NotFound } from './public/NotFound';
 import { ComingSoonContainer } from './public/ComingSoonContainer';
+=======
+import { Spinner } from './common/Spinner';
+>>>>>>> master
 
 export namespace Routes {
 	export interface StateProps {
@@ -29,6 +37,7 @@ export namespace Routes {
 export const Routes: React.SFC<Routes.RouteProps> = props => {
 	return (
 		<Switch>
+<<<<<<< HEAD
 			<Route exact={true} path="/" component={ComingSoonContainer} />
 			<Route exact={true} path="/home" component={HomeContainer} />
 			<Route exact={true} path="/about" component={AboutContainer} />
@@ -38,6 +47,10 @@ export const Routes: React.SFC<Routes.RouteProps> = props => {
 			<Route exact={true} path="/pricing" component={PricingContainer} />
 			<Route exact={true} path="/json" component={ProjectForm} />
 
+=======
+			<Route exact={true} path="/spinner" component={Spinner} />
+			<Route exact={true} path="/homepage" component={HomePage} />
+>>>>>>> master
 			<Route exact={true} path="/widgets" component={Widgets} />
 			<Route exact={true} path="/json" component={ProjectForm} />
 			<Route exact={true} path="/icons" component={Icons} />
@@ -48,7 +61,11 @@ export const Routes: React.SFC<Routes.RouteProps> = props => {
 				path="/"
 				render={routeProps => (
 					<Fragment>
+<<<<<<< HEAD
 						<ProjectContainerConnected
+=======
+						<ProjectsContainerConnected
+>>>>>>> master
 							// {...routeProps}
 							// {...props}
 							projectList={props.projectList}
@@ -153,7 +170,11 @@ export const Routes: React.SFC<Routes.RouteProps> = props => {
 						contentType={contentType.singleClaim}
 					/>
 				)}
+<<<<<<< HEAD
 			/> */}
+=======
+			/>
+>>>>>>> master
 			<Route
 				exact={true}
 				path="/create-project"

@@ -156,17 +156,20 @@ export interface Props {
 
 export interface States {
 	imageLink: string;
+	imageLoaded: boolean;
 }
 
 export class ProjectCard extends React.Component<Props, States> {
 
 	state = {
-		imageLink: placeholder
+		imageLink: placeholder,
+		imageLoaded: false
 	};
 	
 	fetchImage = (imageLink: string, pdsURL: string) => {
 		if (imageLink && imageLink !== '') {
-			if (this.props.ixo) {
+			if (this.props.ixo && !this.state.imageLoaded) {
+				this.setState({imageLoaded: true});
 				this.props.ixo.project.fetchPublic(imageLink, pdsURL).then((res: any) => {
 					let imageSrc = 'data:' + res.contentType + ';base64,' + res.data;
 					this.setState({ imageLink: imageSrc });
@@ -175,7 +178,7 @@ export class ProjectCard extends React.Component<Props, States> {
 		}
 	}
 
-	componentDidMount() {
+	componentDidUpdate() {
 		this.fetchImage(this.props.project.imageLink, this.props.project.serviceEndpoint);
 	}
 

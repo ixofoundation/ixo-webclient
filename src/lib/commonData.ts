@@ -31,9 +31,6 @@ export const imgArray = () => {
 	}
 	return tempArray;
 };
-export const spinner = () => {
-	return require(`../assets/images/spinner.svg`);
-};
 export const iconUpload = () => {
 	return require(`../assets/images/icon-upload.svg`);
 };
