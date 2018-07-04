@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { FooterLeft } from './FooterLeft';
 import { FooterRight } from './FooterRight';
 
-const BottomBar = styled.header`
+const BottomBar = styled.footer`
 	position: sticky;
 	top:0;
 	padding: 19px 54px 19px 54px;
@@ -17,13 +17,16 @@ const BottomBar = styled.header`
 	}
 `;
 
-class Footer extends React.Component<{}> {
+export interface ParentProps {
+	simpleFooter?: boolean;
+}
+class Footer extends React.Component<ParentProps> {
 	render() {
 		return (
 			<BottomBar className="container-fluid text-white">
 				<div className="row">
-					<FooterLeft />
-					<FooterRight />
+					<FooterLeft simple={this.props.simpleFooter}/>
+					<FooterRight simple={this.props.simpleFooter}/>
 				</div>
 			</BottomBar>
 		);

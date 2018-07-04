@@ -12,14 +12,10 @@ export interface State {
 }
 
 export interface ParentProps {
-	ixo?: any;
-	keysafe?: any;
-	projectDid?: any;
+
 }
 
-export default class Header extends React.Component<ParentProps, State> {
-
-	// state = { };
+export default class Home extends React.Component<ParentProps, State> {
 
 	render() {
 		return (

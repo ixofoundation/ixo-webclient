@@ -45,9 +45,18 @@ const Main = styled.div`
 	}
 `;
 
-const SocialIcon = styled.i`
+const SocialIcon = styled.a`
 	padding: 10px;
-	color: '#FFF'
+	color: '#FFF';
+
+	&:hover:before {
+		text-decoration: none;
+		color: ${props => props.theme.ixoBlue};
+	}
+	
+	&&:hover {
+		text-decoration: none;
+	}
 `;
 
 const SocialIconContainer = styled.div`
@@ -65,7 +74,22 @@ const ButtonContainer = styled.div`
 	margin-top: 10px;
 `;
 
-export const FooterRight: React.SFC<any> = () => {
+export const FooterRight: React.SFC<any> = ({simple}) => {
+	if (simple === true ) {
+		return (
+			<Main className="col-md-4">
+				<div className="row">
+					<SocialIconContainer className="col-md-12">
+						<SocialIcon href="https://twitter.com/ixo_impact?lang=en" target="_blank" className="icon-twitter" />
+						<SocialIcon href="https://www.facebook.com/pg/ixofoundation/about/?ref=page_internal" target="_blank" className="icon-facebook" />
+						<SocialIcon href="https://github.com/ixofoundation" target="_blank" className="icon-github" />
+						<SocialIcon href="https://medium.com/ixo-blog" target="_blank" className="icon-medium" />
+						<SocialIcon href="https://t.me/joinchat/Ejz5exAfFUzcBMRlaYLecQ" target="_blank" className="icon-telegram" />
+					</SocialIconContainer>
+				</div>
+			</Main>
+		);
+	}
 	return (
 		<Main className="col-md-4">
 			<div className="row">

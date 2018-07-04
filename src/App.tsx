@@ -58,7 +58,10 @@ const theme = {
 
 // END OF THEME DECLARATION, CSS FOR COMPONENT BELOW
 const Container = styled.div`
-	font-family: ${theme.fontRoboto};
+
+	h1, h2, h3, h4, h5, p, a {
+		font-family: ${props => props.theme.fontRoboto};
+	}
 	font-weight: 300;
 `;
 
@@ -76,6 +79,7 @@ export namespace App {
 		userInfo: UserInfo;
 		location: any;
 		history: any;
+		match: any;
 	}
 	export interface DispatchProps {
 		onIxoInit: () => void;
@@ -86,6 +90,7 @@ export namespace App {
 }
 
 class App extends React.Component<App.Props, App.State> {
+
 	state = {
 		projectList: null,
 		loginError: null,
@@ -144,11 +149,25 @@ class App extends React.Component<App.Props, App.State> {
 	}
 
 	render() {
+		if (this.props.match.path === '/') {
+			return (
+				<ThemeProvider theme={theme}>
+					<ScrollToTop>
+						<Container>
+							<HeaderConnected userInfo={this.props.userInfo} simpleHeader={true}/>
+							<ToastContainer hideProgressBar={true} />
+							{this.renderProjectContent()}
+							<Footer simpleFooter={true}/>
+						</Container>
+					</ScrollToTop>
+				</ThemeProvider>
+			);
+		}
 		return (
 			<ThemeProvider theme={theme}>
 				<ScrollToTop>
 					<Container>
-						<HeaderConnected userInfo={this.props.userInfo} />
+						<HeaderConnected simpleHeader={false} userInfo={this.props.userInfo} />
 						<ToastContainer hideProgressBar={true} />
 						{this.renderProjectContent()}
 						<Footer />
