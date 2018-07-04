@@ -8,7 +8,6 @@ import MailchimpSubscribe from 'react-mailchimp-subscribe';
 import { Button, ButtonTypes } from '../common/Buttons';
 // import DynamicForm from '../form/DynamicForm';
 // import { FormStyles } from '../../types/models';
-
 const globe = require('../../assets/images/home/globe.png');
 
 const Container = styled.div`
@@ -94,7 +93,6 @@ const OnboardFormStyle = styled.div`
 		width: 320px;
 		height: 320px;
 	}
-
 	h3 {
 		font-family: ${props => props.theme.fontRobotoCondensed};
 		font-size: 21px;
@@ -108,29 +106,23 @@ const GlobeWrapper = styled.div`
 	background: url(${globe}) no-repeat center center;
 	background-size: auto calc(100vh - 200px);
 	height: 100%;
-
 	br {
 		display: none;
 	}
-
 	> .row {
 		height: 100%;
 		align-items: center;
 		background: rgba(0,0,0,0.5);
-
 		h1 {
 			margin-top: 0;
 		}
-
 		@media(min-width: ${deviceWidth.tablet}px) {
 			background: none;
 		}
 	}
-
 	.countdown-timer > div {
 		justify-content: space-between!important;
 	}
-
 	@media (min-width: ${deviceWidth.desktop}px) {
 		br {
 			display: block;
@@ -139,7 +131,6 @@ const GlobeWrapper = styled.div`
 `;
 
 const MyForm = styled.div`
-
 	p {
 		font-size: 13px;
 		margin-bottom:10px;
@@ -154,15 +145,13 @@ const MyForm = styled.div`
 		width: 100%;
 		margin-bottom: 20px;
 	}
-
 	input:focus {
 		background: none;
 	}
-	
+
 `;
 
 const ButtonWrapper = styled.div`
-
 	display:flex;
 	justify-content: center;
 	background: #09425C;
@@ -172,7 +161,7 @@ const ButtonWrapper = styled.div`
     bottom: 0;
     width: 100%;
 	left: 0;
-	
+
 	a {
 		width: 220px;
 		margin: 0;
@@ -186,14 +175,12 @@ const Success = styled.div`
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
-
 	p {
 		font-size: 14px;
 		font-weight: 300;
 		margin:0;
 		font-family: ${props => props.theme.fontRoboto};
 	}
-
 	strong {
 		font-weight: 500;
 	}
@@ -202,13 +189,13 @@ const Success = styled.div`
 const CustomForm = ({ status, message, onValidated }) => {
 	let email, name;
 	const submit = () =>
-	email &&
-	name &&
-	email.value.indexOf('@') > -1 &&
-	onValidated({
-		EMAIL: email.value,
-		NAME: name.value
-	});
+		email &&
+		name &&
+		email.value.indexOf('@') > -1 &&
+		onValidated({
+			EMAIL: email.value,
+			NAME: name.value
+		});
 
 	if (status === 'success') {
 		return (
@@ -219,29 +206,29 @@ const CustomForm = ({ status, message, onValidated }) => {
 		);
 	}
 	return (
-	<MyForm>
-		<p>Name</p>
-		<input
-			style={{ fontSize: '2em', padding: 5 }}
-			ref={node => (name = node)}
-			type="text"
-			name="Name"
-		/>
-		<p>Email</p>
-		<input
-			style={{ fontSize: '2em', padding: 5 }}
-			ref={node => (email = node)}
-			type="email"
-			name="Name"
-		/>
-		{status === 'sending' && <div style={{ color: 'white' }}>sending...</div>}
-		{status === 'error' && <div style={{ color: 'red' }} dangerouslySetInnerHTML={{__html: message}}/>}
-		<ButtonWrapper>
-			<Button type={ButtonTypes.gradient} onClick={submit}>
-			JOIN NOW
+		<MyForm>
+			<p>Name</p>
+			<input
+				style={{ fontSize: '2em', padding: 5 }}
+				ref={node => (name = node)}
+				type="text"
+				name="Name"
+			/>
+			<p>Email</p>
+			<input
+				style={{ fontSize: '2em', padding: 5 }}
+				ref={node => (email = node)}
+				type="email"
+				name="Name"
+			/>
+			{status === 'sending' && <div style={{ color: 'white' }}>sending...</div>}
+			{status === 'error' && <div style={{ color: 'red' }} dangerouslySetInnerHTML={{ __html: message }} />}
+			<ButtonWrapper>
+				<Button type={ButtonTypes.gradient} onClick={submit}>
+					JOIN NOW
 			</Button>
-		</ButtonWrapper>
-	</MyForm>
+			</ButtonWrapper>
+		</MyForm>
 	);
 };
 
@@ -285,13 +272,13 @@ export class ComingSoonContainer extends React.Component<Props> {
 					<MailchimpSubscribe
 						url={url}
 						render={({ subscribe, status, message }) => (
-						<div>
-							<CustomForm
-								status={status}
-								message={message}
-								onValidated={formData => subscribe(formData)}
-							/>
-						</div>
+							<div>
+								<CustomForm
+									status={status}
+									message={message}
+									onValidated={formData => subscribe(formData)}
+								/>
+							</div>
 						)}
 					/>
 					// <DynamicForm
@@ -330,7 +317,7 @@ export class ComingSoonContainer extends React.Component<Props> {
 							<p>Count what matters.<br />Value what counts.</p>
 							<div className="countdown-timer">
 								{/* <CountdownTimer endDate={moment('07/12/2018')} /> */}
-							</div> 
+							</div>
 							<Button type={ButtonTypes.dark} onClick={() => this.handleToggleModal(true)}>Be the first to onboard</Button>
 						</div>
 					</div>
