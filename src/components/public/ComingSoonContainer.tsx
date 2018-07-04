@@ -1,10 +1,11 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import { ModalWrapper } from '../common/ModalWrapper';
-import * as moment from 'moment';
-import CountdownTimer from 'react-awesome-countdowntimer';
+// import * as moment from 'moment';
+// import CountdownTimer from 'react-awesome-countdowntimer';
 import { deviceWidth, onboardJson } from '../../lib/commonData';
 import MailchimpSubscribe from 'react-mailchimp-subscribe';
+import { Button, ButtonTypes } from '../common/Buttons';
 // import DynamicForm from '../form/DynamicForm';
 // import { FormStyles } from '../../types/models';
 
@@ -42,17 +43,10 @@ const Container = styled.div`
 		width: 200px;
 		top: 26%;
 	}
-	button {
-		background: none;
-		color: white;
-		border: 1px solid #49BFE0;
-		padding: 10px 40px;
+	a {
 		margin-top: 20px;
 		text-transform: uppercase;
-		font-size: 18px;
-		font-family: ${props => props.theme.fontRobotoCondensed};
-		cursor: pointer;
-		outline: none;
+		width: 240px;
 	}
 	.countdown-timer {
 		justify-content: left !important;
@@ -91,34 +85,22 @@ const Container = styled.div`
 `;
 
 const OnboardFormStyle = styled.div`
-	padding: 20px 5px;
+	padding: 20px 10px;
 	width: 400px;
-	height: 350px;
+	height: 360px;
 	overflow: hidden;
 	@media (max-width: ${deviceWidth.mobile}px){
 		padding: 20px 0;
 		width: 320px;
 		height: 320px;
 	}
-	h5 {
-		font-family: "Roboto Condensed";
-		font-size: 23px;
+
+	h3 {
+		font-family: ${props => props.theme.fontRobotoCondensed};
+		font-size: 21px;
+		margin-bottom: 20px;
+		font-weight: 500;
 		text-transform: uppercase;
-	}
-	.success-msg {
-		font-size: 15px;
-		text-align: center;
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-		height: 260px;
-		@media (max-width: ${deviceWidth.mobile}px){
-			height: 210px;
-		}
-		p {
-			margin-bottom: 0;
-		}
 	}
 `;
 
@@ -126,7 +108,7 @@ const GlobeWrapper = styled.div`
 	background: url(${globe}) no-repeat center center;
 	background-size: auto calc(100vh - 200px);
 	height: 100%;
-	
+
 	br {
 		display: none;
 	}
@@ -156,6 +138,113 @@ const GlobeWrapper = styled.div`
 	}
 `;
 
+const MyForm = styled.div`
+
+	p {
+		font-size: 13px;
+		margin-bottom:10px;
+	}
+	input {
+		border: 0;
+		background: none;
+		font-size: 16px!important;
+		color: white;
+		border: 1px solid ${props => props.theme.fontDarkBlueButtonHover};
+		height: 40px;
+		width: 100%;
+		margin-bottom: 20px;
+	}
+
+	input:focus {
+		background: none;
+	}
+	
+`;
+
+const ButtonWrapper = styled.div`
+
+	display:flex;
+	justify-content: center;
+	background: #09425C;
+	padding: 15px 0;
+	align-items: center;
+	position: absolute;
+    bottom: 0;
+    width: 100%;
+	left: 0;
+	
+	a {
+		width: 220px;
+		margin: 0;
+	}
+`;
+
+const Success = styled.div`
+	text-align: center;
+	height: 240px;
+	font-size: 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+
+	p {
+		font-size: 14px;
+		font-weight: 300;
+		margin:0;
+		font-family: ${props => props.theme.fontRoboto};
+	}
+
+	strong {
+		font-weight: 500;
+	}
+`;
+
+const CustomForm = ({ status, message, onValidated }) => {
+	let email, name;
+	const submit = () =>
+	email &&
+	name &&
+	email.value.indexOf('@') > -1 &&
+	onValidated({
+		EMAIL: email.value,
+		NAME: name.value
+	});
+
+	if (status === 'success') {
+		return (
+			<Success>
+				<p><strong>Your info has been submitted successfully</strong></p>
+				<p>The IXO support team will be in contact with you shortly</p>
+			</Success>
+		);
+	}
+	return (
+	<MyForm>
+		<p>Name</p>
+		<input
+			style={{ fontSize: '2em', padding: 5 }}
+			ref={node => (name = node)}
+			type="text"
+			name="Name"
+		/>
+		<p>Email</p>
+		<input
+			style={{ fontSize: '2em', padding: 5 }}
+			ref={node => (email = node)}
+			type="email"
+			name="Name"
+		/>
+		{status === 'sending' && <div style={{ color: 'white' }}>sending...</div>}
+		{status === 'error' && <div style={{ color: 'red' }} dangerouslySetInnerHTML={{__html: message}}/>}
+		<ButtonWrapper>
+			<Button type={ButtonTypes.gradient} onClick={submit}>
+			JOIN NOW
+			</Button>
+		</ButtonWrapper>
+	</MyForm>
+	);
+};
+
 export interface ParentProps {
 	projectDid: string;
 }
@@ -168,17 +257,6 @@ export class ComingSoonContainer extends React.Component<Props> {
 		success: false,
 	};
 
-	// handleSubmit(e: any) {
-	// 	console.log(e);
-	// }
-	// renderSuccess() {
-	// 	return (
-	// 		<div>
-	// 			<p><strong>Your info has been submitted successfully.</strong></p>
-	// 			<p>The ixo support team will be in contact with you shortly.</p>
-	// 		</div>
-	// 	);
-	// }
 	handleToggleModal = (modalStatus: boolean) => {
 		this.setState({ isModalOpen: modalStatus });
 	}
@@ -208,10 +286,11 @@ export class ComingSoonContainer extends React.Component<Props> {
 						url={url}
 						render={({ subscribe, status, message }) => (
 						<div>
-							{/* <MyForm onSubmitted={formData => subscribe(formData)} />
-							{status === "sending" && <div style={{ color: "blue" }}>sending...</div>}
-							{status === "error" && <div style={{ color: "red" }} dangerouslySetInnerHTML={{__html: message}}/>}
-							{status === "success" && <div style={{ color: "green" }}>Subscribed !</div>} */}
+							<CustomForm
+								status={status}
+								message={message}
+								onValidated={formData => subscribe(formData)}
+							/>
 						</div>
 						)}
 					/>
@@ -239,7 +318,7 @@ export class ComingSoonContainer extends React.Component<Props> {
 								handleToggleModal={(e: any) => this.handleToggleModal(e)}
 							>
 								<OnboardFormStyle>
-									<h5>Be the first to onboard</h5>
+									<h3>Be the first to onboard</h3>
 									{this.handleRenderModal()}
 								</OnboardFormStyle>
 							</ModalWrapper>
@@ -250,9 +329,9 @@ export class ComingSoonContainer extends React.Component<Props> {
 							<h1>A <span>New</span><br /> world is<br /> coming</h1>
 							<p>Count what matters.<br />Value what counts.</p>
 							<div className="countdown-timer">
-								<CountdownTimer endDate={moment('07/12/2018')} />
+								{/* <CountdownTimer endDate={moment('07/12/2018')} /> */}
 							</div> 
-							<button onClick={() => this.handleToggleModal(true)}>Be the first to onboard</button>
+							<Button type={ButtonTypes.dark} onClick={() => this.handleToggleModal(true)}>Be the first to onboard</Button>
 						</div>
 					</div>
 				</GlobeWrapper>

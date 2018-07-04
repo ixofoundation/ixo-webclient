@@ -57,7 +57,10 @@ const theme = {
 
 // END OF THEME DECLARATION, CSS FOR COMPONENT BELOW
 const Container = styled.div`
-	font-family: ${theme.fontRoboto};
+
+	h1, h2, h3, h4, h5, p, a {
+		font-family: ${props => props.theme.fontRoboto};
+	}
 	font-weight: 300;
 `;
 
