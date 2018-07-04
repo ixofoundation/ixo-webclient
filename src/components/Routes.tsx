@@ -16,6 +16,7 @@ import { Widgets } from './widgets/Widgets';
 import { Icons } from './common/Icons';
 import { RegisterConnected } from './register/RegisterPage';
 import { NotFound } from './public/NotFound';
+import { ComingSoonContainer } from './public/ComingSoonContainer';
 
 export namespace Routes {
 	export interface StateProps {
@@ -28,6 +29,7 @@ export namespace Routes {
 export const Routes: React.SFC<Routes.RouteProps> = props => {
 	return (
 		<Switch>
+			<Route exact={true} path="/" component={ComingSoonContainer} />
 			<Route exact={true} path="/home" component={HomeContainer} />
 			<Route exact={true} path="/about" component={AboutContainer} />
 			<Route exact={true} path="/membership" component={MemberContainer} />

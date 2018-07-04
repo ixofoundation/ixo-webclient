@@ -34,8 +34,12 @@ const IXOLogo = styled.i`
 	margin-right:20px;
 `;
 
-const FooterTextBlue = styled.div`
+const FooterTextBlue = styled.span`
 	color: #5CD0FA;
+
+	:hover {
+		text-decoration: underline;
+	}
 `;
 
 const FooterText = styled.div`
@@ -52,7 +56,21 @@ const Main = styled.div`
     justify-content: space-between;
 `;
 
-export const FooterLeft: React.SFC<any> = () => {
+const RowCenter = styled.div`
+	align-items: center;
+`;
+
+export const FooterLeft: React.SFC<any> = ({simple}) => {
+	if (simple === true ) {
+		return (
+			<Main className="col-md-8">
+				<RowCenter className="row">
+						<Link to="/"><IXOLogo className="icon-logo-ixo" title="IXO Logo" /></Link>
+						Email:<a href="mailto:info@ixo.foundation"><FooterTextBlue>&nbsp;info@ixo.foundation</FooterTextBlue></a>
+				</RowCenter>
+			</Main>
+		);	
+	}
 	return (
 		<Main className="col-md-8">
 			<div className="row">
@@ -69,7 +87,7 @@ export const FooterLeft: React.SFC<any> = () => {
 			<div className="row">
 				<FooterText className="col-md-10">
 				<div className="row">
-					Email:<FooterTextBlue>&nbsp;info@ixo.foundation</FooterTextBlue>
+					Email:<a href="mailto:info@ixo.foundation"><FooterTextBlue>&nbsp;info@ixo.foundation</FooterTextBlue></a>
 				</div>
 				<div className="row">
 					ixo.world AG <FooterTextBlue>&nbsp;|&nbsp;</FooterTextBlue> Terms <FooterTextBlue>&nbsp;|&nbsp;</FooterTextBlue> Privacy Policy
