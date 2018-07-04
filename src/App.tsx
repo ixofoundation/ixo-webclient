@@ -1,3 +1,4 @@
+require('dotenv').config();
 import * as React from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -65,7 +66,6 @@ export namespace App {
 	export interface State {
 		projectList: any;
 		loginError: String;
-		
 	}
 
 	export interface StateProps {
@@ -89,7 +89,7 @@ class App extends React.Component<App.Props, App.State> {
 	state = {
 		projectList: null,
 		loginError: null,
-		isProjectPage: false,
+		isProjectPage: false
 	};
 
 	componentDidUpdate(prevProps: any) {
@@ -170,7 +170,7 @@ function mapStateToProps(state: PublicSiteStoreState) {
 function mapDispatchToProps(dispatch: any): App.DispatchProps {
 	return {
 		onIxoInit: () => {
-			dispatch(initIxo());
+			dispatch(initIxo(process.env.REACT_APP_BLOCKCHAIN_IP, process.env.REACT_APP_BLOCK_SYNC_URL));
 		},
 		onKeysafeInit: () => {
 			dispatch(initKeysafe());

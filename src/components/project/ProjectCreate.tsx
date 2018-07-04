@@ -57,7 +57,7 @@ export interface State {
 export class ProjectCreate extends React.Component<StateProps, State> {
 
 	state = {
-			pdsURL: 'http://35.192.187.110:5000/', // 'http://192.168.1.125:5000/', // 'http://35.225.6.178:5000/',
+			pdsURL: JSON.parse(testProjectData).serviceEndpoint, // 'http://192.168.1.125:5000/', // 'http://35.225.6.178:5000/',
 			croppedImg: null,
 			imageKey: null,
 			claimSchema: '',
@@ -74,9 +74,6 @@ export class ProjectCreate extends React.Component<StateProps, State> {
 		if (this.props.keysafe === null) {
 			window.alert('Please install IXO Credential Manager first.');
 		} else {
-			// inpageProvider.requestInfoFromIxoCM((error, response) => {
-			// 	// alert(`Dashboard handling received response for INFO response: ${JSON.stringify(response)}, error: ${JSON.stringify(error)}`);
-			// });
 			let message: string = this.state.projectJson;
 			this.props.keysafe.requestSigning(message, (error: any, signature: any) => {
 				
