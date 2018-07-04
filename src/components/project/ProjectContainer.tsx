@@ -51,7 +51,6 @@ export interface State {
 	serviceProviders: any[];
 	investors: any[];
 	evaluators: any[];
-	PDSUrl: string;
 	userRoles: AgentRoles[];
 	imageLink: string;
 	claimSubmitted: boolean;
@@ -89,7 +88,6 @@ export class ProjectContainer extends React.Component<Props, State> {
 		serviceProviders: null,
 		investors: null,
 		evaluators: null,
-		PDSUrl: 'http://35.192.187.110:5000/',
 		userRoles: null,
 		imageLink: placeholder,
 		claimSubmitted: false,
@@ -146,7 +144,7 @@ export class ProjectContainer extends React.Component<Props, State> {
 			const ProjectDIDPayload: Object = { projectDid: this.props.projectDid};
 			this.props.keysafe.requestSigning(JSON.stringify(ProjectDIDPayload), (error, signature) => {	
 				if (!error) {
-					this.props.ixo.claim.listClaimsForProject(ProjectDIDPayload, signature, 'test' + this.state.PDSUrl).then((response: any) => {
+					this.props.ixo.claim.listClaimsForProject(ProjectDIDPayload, signature, this.state.projectPublic.serviceEndpoint).then((response: any) => {
 						if (response.error) {
 							Toast.errorToast(response.error.message, ErrorTypes.goBack);
 						} else {
@@ -230,7 +228,7 @@ export class ProjectContainer extends React.Component<Props, State> {
 			const ProjectDIDPayload: Object = { projectDid: this.props.projectDid, role: AgentRoles[agentRole]};
 			this.props.keysafe.requestSigning(JSON.stringify(ProjectDIDPayload), (error, signature) => {	
 				if (!error) {
-					this.props.ixo.agent.listAgentsForProject(ProjectDIDPayload, signature, this.state.PDSUrl).then((response: any) => {
+					this.props.ixo.agent.listAgentsForProject(ProjectDIDPayload, signature, this.state.projectPublic.serviceEndpoint).then((response: any) => {
 						if (response.error) {
 							Toast.errorToast(response.error.message, ErrorTypes.goBack);
 							console.log('error occured', response.error);
@@ -276,7 +274,7 @@ export class ProjectContainer extends React.Component<Props, State> {
 		};
 		this.props.keysafe.requestSigning(JSON.stringify(agentData), (error: any, signature: any) => {
 			if (!error) {
-				this.props.ixo.agent.createAgent(agentData, signature, this.state.PDSUrl).then((res) => {
+				this.props.ixo.agent.createAgent(agentData, signature, this.state.projectPublic.serviceEndpoint).then((res) => {
 					if (res.error !== undefined) {
 						Toast.errorToast(res.error.message);
 					} else {
@@ -303,7 +301,7 @@ export class ProjectContainer extends React.Component<Props, State> {
 
 		this.props.keysafe.requestSigning(JSON.stringify(agentPaylod), (error, signature) => {
 			if (!error) {
-				this.props.ixo.agent.updateAgentStatus(agentPaylod, signature, this.state.PDSUrl).then((res) => {
+				this.props.ixo.agent.updateAgentStatus(agentPaylod, signature, this.state.projectPublic.serviceEndpoint).then((res) => {
 					console.log(res);
 				}); 
 			} else {
@@ -325,7 +323,7 @@ export class ProjectContainer extends React.Component<Props, State> {
 
 		this.props.keysafe.requestSigning(JSON.stringify(claimPayload), (error, signature) => {
 			if (!error) {
-				this.props.ixo.claim.evaluateClaim(claimPayload, signature, this.state.PDSUrl).then((res) => {
+				this.props.ixo.claim.evaluateClaim(claimPayload, signature, this.state.projectPublic.serviceEndpoint).then((res) => {
 					console.log(res);
 				}); 
 			} else {
@@ -339,7 +337,7 @@ export class ProjectContainer extends React.Component<Props, State> {
 		claimPayload['projectDid'] = this.props.projectDid;
 		this.props.keysafe.requestSigning(JSON.stringify(claimPayload), (error, signature) => {			
 			if (!error) {
-				this.props.ixo.claim.createClaim(claimPayload, signature, this.state.PDSUrl).then((response) => {
+				this.props.ixo.claim.createClaim(claimPayload, signature, this.state.projectPublic.serviceEndpoint).then((response) => {
 					Toast.successToast('Claim has been submitted successfully');
 					this.setState({ claimSubmitted: true });
 				}).catch((claimError: Error) => {
@@ -354,7 +352,7 @@ export class ProjectContainer extends React.Component<Props, State> {
 
 	handleGetClaim(ProjectDIDPayload: object, signature: string): Promise<any> {
 		return new Promise((resolve) => {
-			this.props.ixo.claim.listClaimsForProject(ProjectDIDPayload, signature, this.state.PDSUrl).then((response: any) => {
+			this.props.ixo.claim.listClaimsForProject(ProjectDIDPayload, signature, this.state.projectPublic.serviceEndpoint).then((response: any) => {
 				if (response.error) {
 					Toast.errorToast(response.error.message, ErrorTypes.goBack);
 				} else {
@@ -379,7 +377,7 @@ export class ProjectContainer extends React.Component<Props, State> {
 		this.props.keysafe.requestSigning(JSON.stringify(ProjectDIDPayload), (error, signature) => {	
 			if (!error) {
 				const claimPromise = this.handleGetClaim(ProjectDIDPayload, signature); // get claim
-				const formFilePromise = this.handleFetchFormFile(project.templates.claim.form, this.state.PDSUrl); // get form file
+				const formFilePromise = this.handleFetchFormFile(project.templates.claim.form, this.state.projectPublic.serviceEndpoint); // get form file
 				Promise.all([claimPromise, formFilePromise]).then(([claim, formFile]) => {
 					this.setState({ singleClaim: claim, singleClaimFormFile: formFile, singleClaimDependentsFetched: true });
 					this.handleFetchClaimImages(formFile, claim); // go fetch images
@@ -396,7 +394,7 @@ export class ProjectContainer extends React.Component<Props, State> {
 		fields.forEach(field => {
 			if (field.type === 'image') {
 				promises.push(
-					this.props.ixo.project.fetchPublic(claim[field.name], this.state.PDSUrl).then((res: any) => {
+					this.props.ixo.project.fetchPublic(claim[field.name], this.state.projectPublic.serviceEndpoint).then((res: any) => {
 						let imageSrc = 'data:' + res.contentType + ';base64,' + res.data;
 						claim[field.name] = imageSrc;
 						this.setState({ singleClaim: claim });
