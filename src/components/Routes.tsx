@@ -15,6 +15,7 @@ import { Fragment } from 'react';
 import { Widgets } from './widgets/Widgets';
 import { Icons } from './common/Icons';
 import { RegisterConnected } from './register/RegisterPage';
+import { NotFound } from './public/NotFound';
 
 export namespace Routes {
 	export interface StateProps {
@@ -39,6 +40,7 @@ export const Routes: React.SFC<Routes.RouteProps> = props => {
 			<Route exact={true} path="/json" component={ProjectForm} />
 			<Route exact={true} path="/icons" component={Icons} />
 			<Route exact={true} path="/register" component={RegisterConnected} />
+			<Route path="*" component={NotFound} />
 			{/* <Route
 				exact={true}
 				path="/"
