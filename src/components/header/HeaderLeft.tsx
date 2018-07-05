@@ -64,7 +64,15 @@ const IXOLogo = styled.i`
 	margin-right:20px;
 `;
 
-export const HeaderLeft: React.SFC<any> = () => {
+export const HeaderLeft: React.SFC<any> = ({simple}) => {
+
+	if (simple === true) {
+		return (
+			<Main className="col-md-6 d-flex align-items-center">
+				<Link to="/"><IXOLogo className="icon-logo-ixo" title="IXO Logo" /></Link>
+			</Main>
+		);
+	}
 	return (
 		<Main className="col-md-6 d-flex align-items-center">
 			<Link to="/"><IXOLogo className="icon-logo-ixo" title="IXO Logo" /></Link>

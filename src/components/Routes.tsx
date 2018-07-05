@@ -1,16 +1,23 @@
 import * as React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import { ProjectContainerConnected } from './project/ProjectContainer';
-import { ProjectsContainerConnected } from './projects/ProjectsContainer';
-import { Projects } from './projects/ProjectsContainer';
+import { Projects, ProjectsContainerConnected } from './projects/ProjectsContainer';
 import { ProjectCreateConnected } from './project/ProjectCreate';
 import { contentType } from '../types/models';
 import { ProjectForm } from './project/ProjectForm';
+import { HomeContainer } from './public/HomeContainer';
+import { AboutContainer } from './public/AboutContainer';
+import { MemberContainer } from './public/MemberContainer';
+import { FaqContainer } from './public/FaqContainer';
+import { EcoContainer } from './public/EcoContainer';
+import { PricingContainer } from './public/PricingContainer';
 import { HomePage } from './public/HomePage';
 import { Fragment } from 'react';
 import { Widgets } from './widgets/Widgets';
 import { Icons } from './common/Icons';
 import { RegisterConnected } from './register/RegisterPage';
+import { NotFound } from './public/NotFound';
+import { ComingSoonContainer } from './public/ComingSoonContainer';
 import { Spinner } from './common/Spinner';
 
 export namespace Routes {
@@ -18,12 +25,21 @@ export namespace Routes {
 		projectList: any;
 	}
 
-	export interface RouteProps extends StateProps {}
+	export interface RouteProps extends StateProps { }
 }
 
 export const Routes: React.SFC<Routes.RouteProps> = props => {
 	return (
 		<Switch>
+			<Route exact={true} path="/" component={ComingSoonContainer} />
+			<Route exact={true} path="/home" component={HomeContainer} />
+			<Route exact={true} path="/about" component={AboutContainer} />
+			<Route exact={true} path="/membership" component={MemberContainer} />
+			<Route exact={true} path="/faq" component={FaqContainer} />
+			<Route exact={true} path="/ecosystem" component={EcoContainer} />
+			<Route exact={true} path="/pricing" component={PricingContainer} />
+			<Route exact={true} path="/json" component={ProjectForm} />
+
 			<Route exact={true} path="/spinner" component={Spinner} />
 			<Route exact={true} path="/homepage" component={HomePage} />
 			<Route exact={true} path="/widgets" component={Widgets} />
@@ -32,7 +48,7 @@ export const Routes: React.SFC<Routes.RouteProps> = props => {
 			<Route exact={true} path="/register" component={RegisterConnected} />
 			<Route
 				exact={true}
-				path="/"
+				path="/projects"
 				render={routeProps => (
 					<Fragment>
 						<ProjectsContainerConnected
@@ -150,6 +166,7 @@ export const Routes: React.SFC<Routes.RouteProps> = props => {
 					</Fragment>
 				)}
 			/>
-		</Switch>
+			<Route path="*" component={NotFound} />
+		</Switch >
 	);
 };

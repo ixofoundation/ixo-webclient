@@ -62,7 +62,10 @@ const Inner = styled.div`
 
 // END OF THEME DECLARATION, CSS FOR COMPONENT BELOW
 const Container = styled.div`
-	font-family: ${theme.fontRoboto};
+
+	h1, h2, h3, h4, h5, p, a {
+		font-family: ${props => props.theme.fontRoboto};
+	}
 	font-weight: 300;
 	
 	${Inner} {
@@ -92,6 +95,7 @@ export namespace App {
 		userInfo: UserInfo;
 		location: any;
 		history: any;
+		match: any;
 	}
 	export interface DispatchProps {
 		onIxoInit: () => void;
@@ -102,6 +106,7 @@ export namespace App {
 }
 
 class App extends React.Component<App.Props, App.State> {
+
 	state = {
 		projectList: null,
 		loginError: null,
@@ -170,6 +175,7 @@ class App extends React.Component<App.Props, App.State> {
 	}
 
 	render() {
+<<<<<<< HEAD
 		if (this.state.error !== null) {
 			return (
 				<div>
@@ -177,18 +183,39 @@ class App extends React.Component<App.Props, App.State> {
 					<p>{this.state.error}</p>
 					<p>{this.state.errorInfo}</p>
 				</div>
+=======
+		if (this.props.match.path === '/') {
+			return (
+				<ThemeProvider theme={theme}>
+					<ScrollToTop>
+						<Container>
+							<HeaderConnected userInfo={this.props.userInfo} simpleHeader={true}/>
+							<ToastContainer hideProgressBar={true} />
+							{this.renderProjectContent()}
+							<Footer simpleFooter={true}/>
+						</Container>
+					</ScrollToTop>
+				</ThemeProvider>
+>>>>>>> c194719217a27eaaebf396717a37fee77e5d7d53
 			);
 		}
 		return (
 			<ThemeProvider theme={theme}>
 				<ScrollToTop>
 					<Container>
+<<<<<<< HEAD
 						<Inner className={this.state.loaded === true ? 'loaded' : ''}>
 							<HeaderConnected userInfo={this.props.userInfo} />
 							<ToastContainer hideProgressBar={true} />
 							{this.renderProjectContent()}
 							<Footer />
 						</Inner>
+=======
+						<HeaderConnected simpleHeader={false} userInfo={this.props.userInfo} />
+						<ToastContainer hideProgressBar={true} />
+						{this.renderProjectContent()}
+						<Footer />
+>>>>>>> c194719217a27eaaebf396717a37fee77e5d7d53
 					</Container>
 				</ScrollToTop>
 			</ThemeProvider>

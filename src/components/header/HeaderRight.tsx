@@ -158,6 +158,7 @@ const StatusText = styled.p`
 interface HeaderRightProps {
 	userInfo: any;
 	renderStatusIndicator: () => JSX.Element;
+	simple?: boolean;
 }
 
 interface State {
@@ -174,43 +175,47 @@ export class HeaderRight extends React.Component<HeaderRightProps, State> {
 	}
 
 	render() {
-		return (
-			<NoPadLeft className="col-md-6">
-				<Inner className="d-flex justify-content-end">
-					{(this.props.userInfo === null) ?
-						<UserBox>
-							<StatusBox>
-								{this.props.renderStatusIndicator()}
-								<StatusText>IXO EXPLORER STATUS</StatusText>
-							</StatusBox>
-						</UserBox>
-						:
-						<UserBox onClick={this.toggleMenu}>
-							<StatusBox>
-								{this.props.renderStatusIndicator()}
-								<StatusText>IXO EXPLORER STATUS</StatusText>
-							</StatusBox>
-							<h3><span>{this.props.userInfo.name}</span> <i className="icon-down" /></h3>
-						</UserBox>
-					}
-				</Inner>
-				<UserMenu className={this.state.showMenu ? 'visible' : ''}>
-						<MenuTop>
-							<h3>{this.props.userInfo !== null && this.props.userInfo.name} <Link to="/"><i className="icon-settings"/></Link></h3>
-								<AccDID >
-									<p>{this.props.userInfo !== null && this.props.userInfo.didDoc.did}</p> 
-									<CopyToClipboard text={this.props.userInfo !== null && this.props.userInfo.didDoc.did}>
-										<span>Copy</span>
-									</CopyToClipboard>
-								</AccDID>
-							<p><img src={xIcon} alt="IXO Icon" /> <strong>45.76</strong> ixo balance</p>
-						</MenuTop>
-						<MenuBottom>
-							<Link to="/my-projects">MY PROJECTS</Link>
-							<Link to="/">FAVOURITES</Link>
-						</MenuBottom>
-					</UserMenu>
-			</NoPadLeft>
-		);
+		if (this.props.simple === true) {
+			return <NoPadLeft className="col-md-6" />;
+		} else {
+			return (
+				<NoPadLeft className="col-md-6">
+					<Inner className="d-flex justify-content-end">
+						{(this.props.userInfo === null) ?
+							<UserBox>
+								<StatusBox>
+									{this.props.renderStatusIndicator()}
+									<StatusText>IXO EXPLORER STATUS</StatusText>
+								</StatusBox>
+							</UserBox>
+							:
+							<UserBox onClick={this.toggleMenu}>
+								<StatusBox>
+									{this.props.renderStatusIndicator()}
+									<StatusText>IXO EXPLORER STATUS</StatusText>
+								</StatusBox>
+								<h3><span>{this.props.userInfo.name}</span> <i className="icon-down" /></h3>
+							</UserBox>
+						}
+					</Inner>
+					<UserMenu className={this.state.showMenu ? 'visible' : ''}>
+							<MenuTop>
+								<h3>{this.props.userInfo !== null && this.props.userInfo.name} <Link to="/"><i className="icon-settings"/></Link></h3>
+									<AccDID >
+										<p>{this.props.userInfo !== null && this.props.userInfo.didDoc.did}</p> 
+										<CopyToClipboard text={this.props.userInfo !== null && this.props.userInfo.didDoc.did}>
+											<span>Copy</span>
+										</CopyToClipboard>
+									</AccDID>
+								<p><img src={xIcon} alt="IXO Icon" /> <strong>45.76</strong> ixo balance</p>
+							</MenuTop>
+							<MenuBottom>
+								<Link to="/my-projects">MY PROJECTS</Link>
+								<Link to="/">FAVOURITES</Link>
+							</MenuBottom>
+						</UserMenu>
+				</NoPadLeft>
+			);
+		}
 	}
 }

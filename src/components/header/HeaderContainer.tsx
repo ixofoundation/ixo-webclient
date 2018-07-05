@@ -115,6 +115,7 @@ export interface StateProps {
 
 export interface ParentProps {
 	userInfo: any;
+	simpleHeader: boolean;
 }
 export interface Props extends StateProps, ParentProps {}
 
@@ -201,11 +202,12 @@ class Header extends React.Component<Props, State> {
 		return (
 			<TopBar className="container-fluid text-white">
 				<div className="row">
-					<HeaderLeft />
+					<HeaderLeft simple={this.props.simpleHeader} />
 					<MediaQuery minWidth={`${deviceWidth.tablet}px`}>
 						<HeaderRight
 							renderStatusIndicator={this.renderStatusIndicator}
 							userInfo={this.props.userInfo}
+							simple={this.props.simpleHeader}
 						/>
 					</MediaQuery>
 				</div>
