@@ -30,6 +30,7 @@
     "react-router-dom": "^4.2.2",
     "react-scripts-ts": "2.14.0",
     "react-toastify": "^4.0.1",
+    "react-transition-group": "^2.4.0",
     "redux-logger": "^3.0.6",
     "redux-thunk": "2.2.0",
     "serve": "^6.5.8",

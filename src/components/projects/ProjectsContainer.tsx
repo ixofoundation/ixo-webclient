@@ -10,6 +10,26 @@ import { Stats } from '../../types/models/stats';
 
 import { PublicSiteStoreState } from '../../redux/public_site_reducer';
 
+const Container = styled.div`
+	.example-enter {
+		opacity: 0.01;
+	}
+	
+	.example-enter.example-enter-active {
+		opacity: 1;
+		transition: opacity 1000ms ease-in;
+	}
+	
+	.example-leave {
+		opacity: 1;
+	}
+	
+	.example-leave.example-leave-active {
+		opacity: 0.01;
+		transition: opacity 800ms ease-in;
+	}
+`;
+
 const ProjectsContainer = styled.div`
 	overflow-y: scroll;
 	background: ${props => props.theme.bg.lightGrey};
@@ -120,8 +140,8 @@ export class Projects extends React.Component<Props, State> {
 	}
 
 	render() {
-		return (
-			<div>
+		return (        
+			<Container>
 				<ProjectsHero
 					statistics={[
 						{
@@ -151,7 +171,7 @@ export class Projects extends React.Component<Props, State> {
 					]}
 				/>
 				{this.renderProjects()}
-			</div>
+			</Container>
 		);
 	}
 }

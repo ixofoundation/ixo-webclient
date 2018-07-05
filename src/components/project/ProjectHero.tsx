@@ -150,7 +150,7 @@ const SubTextContainer = styled.div`
 `;
 
 const SubNavItem = styled(NavLink).attrs({
-		activeClassName: 'active'
+		activeClassName: 'active',
 	})`
 	color: ${props => props.theme.fontBlue};
 	font-family: ${props => props.theme.fontRobotoCondensed};

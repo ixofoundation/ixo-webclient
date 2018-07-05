@@ -75,7 +75,7 @@ export class CircleProgressbar extends React.Component<ParentProps, State> {
 	}
 
 	easingFormula = (amount: number) => {
-		return amount * 0.7;
+		return 15;
 	}
 
 	getMaxPercent = (type: string) => {
