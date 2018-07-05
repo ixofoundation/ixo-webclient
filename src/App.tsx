@@ -175,7 +175,6 @@ class App extends React.Component<App.Props, App.State> {
 	}
 
 	render() {
-<<<<<<< HEAD
 		if (this.state.error !== null) {
 			return (
 				<div>
@@ -183,8 +182,9 @@ class App extends React.Component<App.Props, App.State> {
 					<p>{this.state.error}</p>
 					<p>{this.state.errorInfo}</p>
 				</div>
-=======
-		if (this.props.match.path === '/') {
+			);
+		}
+		if (this.props.match.path === '/comingsoon') {
 			return (
 				<ThemeProvider theme={theme}>
 					<ScrollToTop>
@@ -196,26 +196,16 @@ class App extends React.Component<App.Props, App.State> {
 						</Container>
 					</ScrollToTop>
 				</ThemeProvider>
->>>>>>> c194719217a27eaaebf396717a37fee77e5d7d53
 			);
 		}
 		return (
 			<ThemeProvider theme={theme}>
 				<ScrollToTop>
 					<Container>
-<<<<<<< HEAD
-						<Inner className={this.state.loaded === true ? 'loaded' : ''}>
-							<HeaderConnected userInfo={this.props.userInfo} />
-							<ToastContainer hideProgressBar={true} />
-							{this.renderProjectContent()}
-							<Footer />
-						</Inner>
-=======
 						<HeaderConnected simpleHeader={false} userInfo={this.props.userInfo} />
 						<ToastContainer hideProgressBar={true} />
 						{this.renderProjectContent()}
 						<Footer />
->>>>>>> c194719217a27eaaebf396717a37fee77e5d7d53
 					</Container>
 				</ScrollToTop>
 			</ThemeProvider>

@@ -31,7 +31,7 @@ export namespace Routes {
 export const Routes: React.SFC<Routes.RouteProps> = props => {
 	return (
 		<Switch>
-			<Route exact={true} path="/" component={ComingSoonContainer} />
+			<Route exact={true} path="/comingsoon" component={ComingSoonContainer} />
 			<Route exact={true} path="/home" component={HomeContainer} />
 			<Route exact={true} path="/about" component={AboutContainer} />
 			<Route exact={true} path="/membership" component={MemberContainer} />
@@ -48,7 +48,7 @@ export const Routes: React.SFC<Routes.RouteProps> = props => {
 			<Route exact={true} path="/register" component={RegisterConnected} />
 			<Route
 				exact={true}
-				path="/projects"
+				path="/"
 				render={routeProps => (
 					<Fragment>
 						<ProjectsContainerConnected

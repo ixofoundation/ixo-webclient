@@ -68,15 +68,15 @@ export class CircleProgressbar2 extends React.Component<ParentProps, State> {
 
 	increaseApproved = () => {
 
-		const percentApproved = this.state.percentApproved + 1;
-		const tm = setTimeout(this.increaseApproved, this.easingFormula(percentApproved));
-		const approvedMax = this.getMaxPercent('approved');
+		// const percentApproved = this.state.percentApproved + 1;
+		// const tm = setTimeout(this.increaseApproved, this.easingFormula(percentApproved));
+		// const approvedMax = this.getMaxPercent('approved');
 
-		if (percentApproved >= approvedMax) {
-			clearTimeout(tm);
-			return;
-		}
-		this.setState({ percentApproved });
+		// if (percentApproved >= approvedMax) {
+		// 	clearTimeout(tm);
+		// 	return;
+		// }
+		// this.setState({ percentApproved });
 	}
 
 	progress = (value) => {
@@ -89,9 +89,9 @@ export class CircleProgressbar2 extends React.Component<ParentProps, State> {
 		return dashoffset;
 	}
 
-	static getCircumference = (radius: number) => {
-		return 2 * Math.PI * radius;
-	}
+	// static getCircumference = (radius: number) => {
+	// 	return 2 * Math.PI * radius;
+	// }
 
 	render() {
 		var RADIUS = 54;
