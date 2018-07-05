@@ -123,8 +123,13 @@ export class CircleProgressbar extends React.Component<ParentProps, State> {
 	}
 
 	getMaxPercent = (type: string) => {
-		const { approved, rejected, pending, totalNeeded } = this.props;
-		
+		const { approved, rejected, pending } = this.props;
+		let { totalNeeded } = this.props;
+		const sum = approved + rejected + pending;
+		if (sum >= totalNeeded) {
+			totalNeeded = sum;
+		}
+
 		if (type === 'percentApproved') {
 			return this.calcPercent(approved, totalNeeded);
 		} else if (type === 'percentPending') {
