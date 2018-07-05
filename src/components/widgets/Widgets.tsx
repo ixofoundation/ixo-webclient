@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { CircleProgressbar2 } from './CircleProgressbar2';
+import { CircleProgressbar } from './CircleProgressbar';
 
 export interface ParentProps {
 	title: string;
@@ -16,12 +16,11 @@ export class Widgets extends React.Component<ParentProps> {
 			<div className="container">
 				<div className="row">
 					<div className="col-md-3">
-						<CircleProgressbar2
-							title="test"
-							approved={100}
-							rejected={20}
+						<CircleProgressbar
+							approved={50}
+							rejected={60}
 							pending={10}
-							totalNeeded={100}
+							totalNeeded={200}
 						/>
 					</div>
 				</div>

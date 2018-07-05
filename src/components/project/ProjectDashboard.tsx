@@ -5,9 +5,41 @@ import { LayoutWrapper } from '../common/LayoutWrapper';
 import { SingleStatistic } from '../common/SingleStatistic';
 import { StatType, AgentRoles } from '../../types/models';
 import { ProjectClaims } from './ProjectClaims';
+import { CircleProgressbar } from '../widgets/CircleProgressbar';
 
 const Container = styled.div`
 	color: white;
+`;
+
+const ClaimsWidget = styled.div`
+	display: flex;
+	justify-content: space-between;
+	padding:0 20px 20px 0;
+	flex-wrap: wrap;
+`;
+
+const ClaimsLabels = styled.div`
+
+	margin-top: 40px;
+	p:before {
+		content:'';
+		width:10px;
+		height:10px;
+		display: inline-block;
+		margin-right: 20px;
+	}
+	p:nth-child(1):before {
+		background: ${props => props.theme.ixoBlue};
+	}
+	p:nth-child(2):before {
+		background: ${props => props.theme.ixoOrange};
+	}
+	p:nth-child(3):before {
+		background: ${props => props.theme.red};
+	}
+	p:nth-child(4):before {
+		background: #033C50;
+	}
 `;
 export interface ParentProps {
 	projectDid: string;
@@ -19,10 +51,8 @@ export interface ParentProps {
 
 export const ProjectDashboard: React.SFC<ParentProps> = ({projectDid, agentStats, claimStats, claims}) => {
 
-	console.log(projectDid);
 	const countPendingClaims = () => {
-		const pendingClaims = claims.filter((claim) => (claim.status === '0'));
-		return pendingClaims.length;
+		return [...claims].filter((claim) => claim.status === '0').length;
 	};
 	return (
 		<LayoutWrapper>
@@ -79,6 +109,26 @@ export const ProjectDashboard: React.SFC<ParentProps> = ({projectDid, agentStats
 				<div className="col-md-6">
 					<WidgetWrapper title="My latest claims" link={true} path={`/projects/${projectDid}/detail/claims`} linkIcon={'icon-expand'} >
 						<ProjectClaims claims={claims} projectDid={projectDid} fullPage={false} />
+					</WidgetWrapper>
+				</div>
+				}
+				{
+				<div className="col-lg-6">
+					<WidgetWrapper title="Impact claims" link={true} path={`/projects/${projectDid}/detail/claims`} linkIcon={'icon-expand'} >
+						<ClaimsWidget>
+							<ClaimsLabels>
+								<p>Approved</p>
+								<p>Pending Approval</p>
+								<p>Rejected</p>
+								<p>Claims Submitted</p>
+							</ClaimsLabels>
+							<CircleProgressbar
+								approved={claimStats.currentSuccessful}
+								rejected={claimStats.currentRejected}
+								pending={countPendingClaims()}
+								totalNeeded={claimStats.required}
+							/>
+						</ClaimsWidget>
 					</WidgetWrapper>
 				</div>
 				}

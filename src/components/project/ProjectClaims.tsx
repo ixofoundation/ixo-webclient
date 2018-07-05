@@ -87,7 +87,7 @@ const ListItemWrapper = styled.div`
 	box-shadow: 0 2px 10px 0 rgba(0,0,0,0.18);
 `;
 
-const WidgetLink = styled(Link)`
+const WidgetLink = styled.p`
 	display: block;
 	text-align: center;
 `;
@@ -164,7 +164,7 @@ export const ProjectClaims: React.SFC<ParentProps> = ({claims, projectDid, fullP
 						</Link>
 						);
 					})}
-					<WidgetLink to={`/projects/${projectDid}/detail/claims`}>View all claims</WidgetLink>
+					<WidgetLink>View all claims</WidgetLink>
 				</ClaimsWidget>
 		);
 	};
