@@ -95,9 +95,10 @@ export interface ParentProps {
 	claims?: any[];  
 	projectDid: string;
 	fullPage: boolean;
+	hasLink: boolean;
 }
 
-export const ProjectClaims: React.SFC<ParentProps> = ({claims, projectDid, fullPage}) => {
+export const ProjectClaims: React.SFC<ParentProps> = ({claims, projectDid, fullPage, hasLink}) => {
 
 	const renderClaimStatus = (status) => {
 		switch (status) {
@@ -112,6 +113,26 @@ export const ProjectClaims: React.SFC<ParentProps> = ({claims, projectDid, fullP
 		}
 	};
 
+	const renderClaim = (claim, colorClass) => {
+		if (hasLink) {
+			return (
+				<Link to={{pathname: `/projects/${projectDid}/detail/claims/${claim.txHash}`}}>
+					<WidgetWrapper title={'Claim ID: ' + claim.txHash}>
+						<Indicator color={colorClass}/>
+						<p>{renderClaimStatus(claim)}</p>
+					</WidgetWrapper>
+				</Link>
+			);
+		} else {
+			return (
+				<WidgetWrapper title={'Claim ID: ' + claim.txHash}>
+					<Indicator color={colorClass}/>
+					<p>{renderClaimStatus(claim)}</p>
+				</WidgetWrapper>
+			);
+		}
+	};
+
 	const handleRenderSection = (iconClass: string, claimsList: any[], colorClass: string, title: string, key: number) => {
 		return (
 			<Section className="row" key={key}>
@@ -121,18 +142,21 @@ export const ProjectClaims: React.SFC<ParentProps> = ({claims, projectDid, fullP
 				{claimsList.map((claim, index) => {
 					return (
 						<Col className="col-12" key={index}>
-								<Link to={{pathname: `/projects/${projectDid}/detail/claims/${claim.txHash}`}}>
-									<WidgetWrapper title={'Claim ID: ' + claim.txHash}>
-										<Indicator color={colorClass}/>
-										<p>{renderClaimStatus(claim)}</p>
-									</WidgetWrapper>
-								</Link>
-							</Col>
+							{renderClaim(claim, colorClass)}
+						</Col>
 					);
 				})}
 			</Section>
 		);
 
+	};
+
+	const showViewAllLink = () => {
+		if (hasLink) {
+			return (<WidgetLink>View all claims</WidgetLink>);
+		} else {
+			return null;
+		}
 	};
 
 	const handleRenderWidget = () => {
@@ -153,19 +177,28 @@ export const ProjectClaims: React.SFC<ParentProps> = ({claims, projectDid, fullP
 						default:
 							break;
 					}
-				
-					return (
-						<Link key={index} to={{pathname: `/projects/${projectDid}/detail/claims/${claim.claimId}`}}>
+					if (hasLink) {
+						return (
+							<Link key={index} to={{pathname: `/projects/${projectDid}/detail/claims/${claim.claimId}`}}>
+								<ListItemWrapper className="col-12" >
+											<Indicator color={colorCLass}/>
+											<p>{'Claim ID: ' + claim.claimId}</p>
+											<p>{renderClaimStatus(claim.status)}</p>
+								</ListItemWrapper>
+							</Link>
+						);
+					} else {
+						return (
 							<ListItemWrapper className="col-12" >
 										<Indicator color={colorCLass}/>
 										<p>{'Claim ID: ' + claim.claimId}</p>
 										<p>{renderClaimStatus(claim.status)}</p>
 							</ListItemWrapper>
-						</Link>
 						);
-					})}
-					<WidgetLink>View all claims</WidgetLink>
-				</ClaimsWidget>
+					}
+				})}
+				{showViewAllLink()}
+			</ClaimsWidget>
 		);
 	};
 

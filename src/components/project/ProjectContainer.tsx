@@ -131,12 +131,21 @@ export class ProjectContainer extends React.Component<Props, State> {
 					userRoles.push(agent.role);
 				}
 			});
+			if (this.state.projectPublic.createdBy === userInfo.didDoc.did) {
+				userRoles.push(AgentRoles.owners);
+			}
 		}
 		this.setState({ userRoles: userRoles});
 	}
 
-	handleHasCapability = (role: AgentRoles) => {
-		return (this.state.userRoles.includes(role)) ? true : false;
+	handleHasCapability = (roles: AgentRoles[]) => {
+		var found = false;
+		roles.map((role) => {
+			if (this.state.userRoles.includes(role)) {
+				found = true;
+			}
+		});
+		return found;
 	}
 
 	handleListClaims = () => {
@@ -172,14 +181,14 @@ export class ProjectContainer extends React.Component<Props, State> {
 			this.handleListClaims();
 			return <Spinner info="Loading..." />;
 		} else if (renderType === RenderType.widget) {
-			return <ProjectClaims fullPage={false} claims={this.state.projectPublic.claims} projectDid={this.props.projectDid}/>;
+			return <ProjectClaims hasLink={true} fullPage={false} claims={this.state.projectPublic.claims} projectDid={this.props.projectDid}/>;
 		} else if (this.state.claims.length > 0) {		
 			return (
 				<Fragment>
 					<ProjectHero project={this.state.projectPublic} match={this.props.match} isDetail={true} hasCapability={this.handleHasCapability} />
 					<DetailContainer>
 						<ProjectSidebar match={this.props.match} projectDid={this.props.projectDid}/>
-						<ProjectClaims fullPage={true} claims={this.state.claims} projectDid={this.props.projectDid}/>
+						<ProjectClaims hasLink={true} fullPage={true} claims={this.state.claims} projectDid={this.props.projectDid}/>
 					</DetailContainer>
 				</Fragment>
 			);
