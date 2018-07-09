@@ -166,26 +166,29 @@ export class ProjectCard extends React.Component<Props, States> {
 		imageLoaded: false
 	};
 	
-	fetchImage = (imageLink: string, pdsURL: string) => {
-		if (imageLink && imageLink !== '') {
+	fetchImage = () => {
+		if (this.props.project.imageLink && this.props.project.imageLink !== '') {
 			if (this.props.ixo && !this.state.imageLoaded) {
 				this.setState({imageLoaded: true});
-				this.props.ixo.project.fetchPublic(imageLink, pdsURL).then((res: any) => {
+				this.props.ixo.project.fetchPublic(this.props.project.imageLink, this.props.project.serviceEndpoint).then((res: any) => {
 					let imageSrc = 'data:' + res.contentType + ';base64,' + res.data;
 					this.setState({ imageLink: imageSrc });
+				})
+				.catch((err) => {
+					console.log(err);
 				});
 			}
 		}
 	}
 
 	componentDidMount() {
-		this.fetchImage(this.props.project.imageLink, this.props.project.serviceEndpoint);
+		this.fetchImage();
 	}
 
 	render() {
 		return (
 			<CardContainer className="col-10 offset-1 col-xl-4 col-md-6 col-sm-10 offset-sm-1 offset-md-0">
-				<ProjectLink to={{pathname: `/projects/${this.props.did}/overview`, state: { project: this.props.project, did: this.props.did } }}>
+				<ProjectLink to={{pathname: `/projects/${this.props.did}/overview`, state: { imageLink: this.state.imageLink } }}>
 					<CardTop style={{backgroundImage: `url(${this.state.imageLink})`}}>
 						<SDGs>
 						{this.props.project.sdgs.map((SDG, SDGi) => {

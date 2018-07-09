@@ -89,7 +89,7 @@ export class ProjectContainer extends React.Component<Props, State> {
 		investors: null,
 		evaluators: null,
 		userRoles: null,
-		imageLink: placeholder,
+		imageLink: this.props.location.state.imageLink ? this.props.location.state.imageLink : placeholder,
 		claimSubmitted: false,
 		singleClaimFormFile: '',
 		singleClaimDependentsFetched: false,
@@ -519,7 +519,6 @@ export class ProjectContainer extends React.Component<Props, State> {
 	}
 
 	render() {
-		console.log(this.state.projectPublic);
 		return(
 			<Fragment>
 				{this.handleRenderProject()}
