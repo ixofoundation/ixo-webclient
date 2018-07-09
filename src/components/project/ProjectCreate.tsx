@@ -274,15 +274,11 @@ export class ProjectCreate extends React.Component<StateProps, State> {
 							<Text placeholder="SDG list (comma separated)" value={this.state.project.sdgs} onChange={this.handleSDGChanged}/>
 
 							<ImageLoader placeholder="Choose project image file" imageWidth={960} aspect={16 / 9} imageCallback={this.handleImage}/>
-							<img src={this.state.croppedImg} />
-							<Button type={ButtonTypes.gradient} onClick={this.uploadImage} >Upload image</Button>
+							<br />
 							<FileLoader placeholder="Choose claim schema file" acceptType="application/json" selectedCallback={(dataUrl) => this.handleFileSelected('schema', dataUrl)}/>
-							<Button type={ButtonTypes.gradient} onClick={() => this.uploadFile('schema')} >Upload file</Button>
-							<Text value={this.state.project.templates.claim.schema} />
+							<br />
 							<FileLoader placeholder="Choose claim form file" acceptType="application/json" selectedCallback={(dataUrl) => this.handleFileSelected('form', dataUrl)}/>
-							<Button type={ButtonTypes.gradient} onClick={() => this.uploadFile('form')} >Upload file</Button>
-							<Text value={this.state.project.templates.claim.form} />
-
+							<br />
 							<Button type={ButtonTypes.gradient} onClick={this.handleCreateProject}>CREATE PROJECT</Button>
 							{this.renderDevPortion()}
 						</div>
