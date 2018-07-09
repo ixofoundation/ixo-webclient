@@ -26,6 +26,7 @@ export enum contentType {
 }
 
 export enum AgentRoles {
+	owners = 'PO',
 	evaluators = 'EA',
 	serviceProviders = 'SA',
 	investors = 'IA'

@@ -177,7 +177,7 @@ export interface Props {
 	match: any;
 	isDetail: boolean;
 	isClaim?: boolean;
-	hasCapability: (role: AgentRoles) => boolean;
+	hasCapability: (role: [AgentRoles]) => boolean;
 }
 
 export const ProjectHero: React.SFC<Props> = ({project, match, isDetail, hasCapability, isClaim}) => {
@@ -222,8 +222,8 @@ export const ProjectHero: React.SFC<Props> = ({project, match, isDetail, hasCapa
 							<Title>{project.title}</Title>
 							{handleSwitchDescription()}
 							{!isDetail && <Description>{project.shortDescription}</Description>}
-							{!isDetail && hasCapability(AgentRoles.serviceProviders) && <AddClaim to={`/projects/${match.params.projectDID}/detail/new-claim`}>+ CAPTURE CLAIM</AddClaim>}
-							{!isDetail && hasCapability(AgentRoles.evaluators) && <AddClaim to={`/projects/${match.params.projectDID}/detail/claims`}>EVALUATE CLAIMS</AddClaim>}
+							{!isDetail && hasCapability([AgentRoles.serviceProviders]) && <AddClaim to={`/projects/${match.params.projectDID}/detail/new-claim`}>+ CAPTURE CLAIM</AddClaim>}
+							{!isDetail && hasCapability([AgentRoles.evaluators]) && <AddClaim to={`/projects/${match.params.projectDID}/detail/claims`}>EVALUATE CLAIMS</AddClaim>}
 						</ColLeft>
 						<ColRight className="col-lg-4 col-sm-12">
 							<p><strong>Created:</strong> {project.createdOn.split('T')[0]}</p>

@@ -222,7 +222,7 @@ export interface ParentProps {
 	checkUserDid: () => boolean;
 	createAgent: (agentData: any) => void;
 	toggleModal: (data?: any, modalStatus?: boolean) => void;
-	hasCapability: (Role: AgentRoles) => boolean;
+	hasCapability: (Role: [AgentRoles]) => boolean;
 	imageLink: string;
 }
 
@@ -266,7 +266,7 @@ export const ProjectOverview: React.SFC<ParentProps> = (props) => {
 	};
 	
 	const handleRenderInvestorButton = () => {
-		if (props.hasCapability(AgentRoles.investors)) {
+		if (props.hasCapability([AgentRoles.investors])) {
 			return <Button type={ButtonTypes.dark} disabled={true}>You are an investor</Button>;
 		} else {
 			return (
@@ -281,9 +281,9 @@ export const ProjectOverview: React.SFC<ParentProps> = (props) => {
 	};
 
 	const handleRenderEvaluatorButton = () => {
-		if (props.hasCapability(AgentRoles.evaluators)) {
+		if (props.hasCapability([AgentRoles.evaluators])) {
 			return <Button type={ButtonTypes.dark} disabled={true}>You are an evaluator</Button>;
-		} else if (props.hasCapability(AgentRoles.serviceProviders)) {
+		} else if (props.hasCapability([AgentRoles.serviceProviders])) {
 			return '';
 		} else {
 			return (
@@ -298,9 +298,9 @@ export const ProjectOverview: React.SFC<ParentProps> = (props) => {
 	};
 
 	const handleRenderServiceProviderButton = () => {
-		if (props.hasCapability(AgentRoles.serviceProviders)) {
+		if (props.hasCapability([AgentRoles.serviceProviders])) {
 			return <Button type={ButtonTypes.dark} disabled={true}>You are a service provider</Button>;
-		} else if (props.hasCapability(AgentRoles.evaluators)) {
+		} else if (props.hasCapability([AgentRoles.evaluators])) {
 			return '';
 		} else {
 			return (
