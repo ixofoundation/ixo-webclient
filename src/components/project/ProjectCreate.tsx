@@ -4,7 +4,7 @@ import { PublicSiteStoreState } from '../../redux/public_site_reducer';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { decode as base64Decode } from 'base-64';
-import { testProjectData } from '../../lib/commonData';
+import { blankProjectData, testProjectData } from '../../lib/commonData';
 import { Button, ButtonTypes } from '../common/Buttons';
 import { FileLoader } from '../common/FileLoader';
 import InputImage from '../form/InputImage';
@@ -62,8 +62,8 @@ export class ProjectCreate extends React.Component<StateProps, State> {
 			claimSchemaKey: null,
 			claimForm: '',
 			claimFormKey: null,
-			projectJson: testProjectData,
-			project: JSON.parse(testProjectData),
+			projectJson: blankProjectData,
+			project: JSON.parse(blankProjectData),
 			fetchedImage: null,
 			fetchedFile: '',
 			};
@@ -72,16 +72,43 @@ export class ProjectCreate extends React.Component<StateProps, State> {
 		if (this.props.keysafe === null) {
 			window.alert('Please install IXO Credential Manager first.');
 		} else {
-			let message: string = this.state.projectJson;
-			this.props.keysafe.requestSigning(message, (error: any, signature: any) => {
-				
-				console.log('MESSAGE IS: ', JSON.parse(message));
-				console.log('SIGNATURE IS: ', signature);
-				// 'http://35.225.6.178:5000/' 'http://localhost:5000/'
-				this.props.ixo.project.createProject(JSON.parse(message), signature, this.state.project.serviceEndpoint).then((res: any) => {
-					console.log('PROJECT CREATE STATUS: ', res);
+			if (this.state.croppedImg && this.state.claimSchema.length > 0 && this.state.claimForm.length > 0) {
+				let promises = [];
+				promises.push(
+					this.props.ixo.project.createPublic(this.state.croppedImg, this.state.project.serviceEndpoint).then((res: any) => {
+						console.log('Uploaded: ', res);
+						let newProject = this.state.project;
+						newProject.imageLink = res.result;
+						this.setState({project: newProject, projectJson: JSON.stringify(newProject)});
+						return res.result;
+					})
+				);
+				promises.push(
+					this.props.ixo.project.createPublic(this.state.claimSchema, this.state.project.serviceEndpoint).then((res: any) => {
+						let newProject = this.state.project;
+						newProject.templates.claim.schema = res.result;
+						this.setState({project: newProject, projectJson: JSON.stringify(newProject)});
+						return res.result;
+					})
+				);
+				promises.push(
+					this.props.ixo.project.createPublic(this.state.claimForm, this.state.project.serviceEndpoint).then((res: any) => {
+						let newProject = this.state.project;
+						newProject.templates.claim.form = res.result;
+						this.setState({project: newProject, projectJson: JSON.stringify(newProject)});
+						return res.result;
+					})
+				);
+				Promise.all(promises).then((results) => {
+					let projectObj: string = this.state.projectJson;
+					this.props.keysafe.requestSigning(projectObj, (error: any, signature: any) => {
+						
+						this.props.ixo.project.createProject(JSON.parse(projectObj), signature, this.state.project.serviceEndpoint).then((res: any) => {
+							console.log('PROJECT CREATE STATUS: ', res);
+						});
+					});
 				});
-			});
+			}
 		}
 	}
 
@@ -202,12 +229,40 @@ export class ProjectCreate extends React.Component<StateProps, State> {
 		this.setState({project: newProject, projectJson: JSON.stringify(newProject)});
 	}
 
+	loadTestData = () => {
+		this.setState({
+			projectJson: testProjectData,
+			project: JSON.parse(testProjectData)
+		});
+	}
+
+	renderDevPortion() {
+		if (process.env.REACT_APP_DEV) {
+			return (
+				<div>
+					<br /><br /><br />
+					<TextArea value={this.state.projectJson} onChange={this.handleProjectChange} />
+					<Button type={ButtonTypes.dark} onClick={this.fetchImage} >Fetch image</Button>
+					<img src={this.state.fetchedImage} />
+					<Button type={ButtonTypes.dark} onClick={this.fetchFile} >Fetch file</Button>
+					<Button type={ButtonTypes.dark} onClick={this.fetchFormFile} >Fetch Form file</Button>
+					<TextArea value={this.state.fetchedFile} />
+					<InputImage text="Choose a nice file" id="file1" imageWidth={400} onChange={(v) => console.log(v)}/>
+				</div>
+			);
+		} else {
+			return null;
+		}
+	}
+
 	render() {
 		return (
 			<div>
 				<Container className="container">
 					<div className="row">
 						<div className="col-md-12">
+							<br />
+							<Button type={ButtonTypes.gradient} onClick={() => this.loadTestData()} >Load Example Data</Button>
 							<Text placeholder="Project datastore url example: http://104.155.142.57:5000/" value={this.state.project.serviceEndpoint} onChange={this.handlePdsUrlChange} />
 							<Text placeholder="Title" value={this.state.project.title} onChange={(ev) => this.handlePropertyChanged('title', ev)}/>
 							<Text placeholder="Owner Name" value={this.state.project.ownerName} onChange={this.handleOwnerNameChanged} />
@@ -228,15 +283,8 @@ export class ProjectCreate extends React.Component<StateProps, State> {
 							<Button type={ButtonTypes.gradient} onClick={() => this.uploadFile('form')} >Upload file</Button>
 							<Text value={this.state.project.templates.claim.form} />
 
-							<button onClick={this.handleCreateProject}>CREATE PROJECT</button>
-							<br /><br /><br />
-							<TextArea value={this.state.projectJson} onChange={this.handleProjectChange} />
-							<Button type={ButtonTypes.dark} onClick={this.fetchImage} >Fetch image</Button>
-							<img src={this.state.fetchedImage} />
-							<Button type={ButtonTypes.dark} onClick={this.fetchFile} >Fetch file</Button>
-							<Button type={ButtonTypes.dark} onClick={this.fetchFormFile} >Fetch Form file</Button>
-							<TextArea value={this.state.fetchedFile} />
-							<InputImage text="Choose a nice file" id="file1" imageWidth={400} onChange={(v) => console.log(v)}/>
+							<Button type={ButtonTypes.gradient} onClick={this.handleCreateProject}>CREATE PROJECT</Button>
+							{this.renderDevPortion()}
 						</div>
 					</div>
 				</Container>

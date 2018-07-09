@@ -1,0 +1,34 @@
+{
+  "title":"",
+  "ownerName":"",
+  "ownerEmail":"",
+  "shortDescription":"",
+  "longDescription":"",
+  "impactAction":"",
+  "projectLocation":"",
+  "requiredClaims":0,
+  "sdgs":[],
+  "templates":{
+    "claim":{
+      "schema":"",
+      "form": ""
+    }
+  },
+  "evaluatorPayPerClaim":"0",
+  "socialMedia":{
+    "facebookLink":"",
+    "instagramLink":"",
+    "twitterLink":"",
+    "webLink":""
+  },
+  "serviceEndpoint":"",
+  "imageLink":"",
+  "founder":{
+    "name":"",
+    "email":"",
+    "countryOfOrigin":"",
+    "shortDescription":"",
+    "websiteURL":"",
+    "logoLink":""
+  }
+}

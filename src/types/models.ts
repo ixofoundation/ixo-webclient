@@ -40,7 +40,7 @@ export enum MatchType {
 export interface Statistic {
 	title?: string;
 	type: StatType;
-	amount: number | [number, number];
+	amount: number | number[];
 	descriptor?: {class: string, value: string | number}[];
 }
 

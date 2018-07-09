@@ -178,7 +178,7 @@ export class ProjectCard extends React.Component<Props, States> {
 		}
 	}
 
-	componentDidUpdate() {
+	componentDidMount() {
 		this.fetchImage(this.props.project.imageLink, this.props.project.serviceEndpoint);
 	}
 
