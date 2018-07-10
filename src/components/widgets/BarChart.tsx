@@ -24,7 +24,8 @@ export default class BarChart extends React.Component<ParentProps, State> {
 	state = {
 		canvasHeight: 0,
 		hasError: false,
-		data: null
+		canvas: null,
+		firstTime: true
 	};
 
 	componentWillMount () {
@@ -192,6 +193,15 @@ export default class BarChart extends React.Component<ParentProps, State> {
 			};
 	}
 
+	componentDidMount() {
+		const that = this;
+		Chart.pluginService.register({
+			beforeInit: function (chart: any) {
+				that.setState({ canvas: chart.canvas});
+			}
+		});
+	}
+
 	getRandomInt = (max: number) => {
 		return Math.floor(Math.random() * Math.floor(max));
 	}
@@ -212,7 +222,12 @@ export default class BarChart extends React.Component<ParentProps, State> {
 		return tempArr;
 	}
 
-	rejectedData = (canvas) => {
+	waitAndChange = () => {
+		console.log('hh');
+		this.setState({firstTime: false});
+	}
+
+	allData = (canvas) => {
 		const ctx = canvas.getContext('2d');
 
 		const gradientRejected = ctx.createLinearGradient(0, 0, 0, this.state.canvasHeight);
@@ -253,6 +268,19 @@ export default class BarChart extends React.Component<ParentProps, State> {
 			this.setState({hasError: true});
 		}
 
+		if (this.state.firstTime === true) { 
+			setTimeout(this.waitAndChange, 5000);
+			return {
+				labels: this.populateLabelArray(50),
+				datasets: [
+				{
+					label: 'Total Remainder',
+					data: dataRemainder,
+					backgroundColor: gradientRemaining,
+					hoverBackgroundColor: 'green',
+				}]
+			};
+		}
 		return {
 			labels: this.populateLabelArray(50),
 			datasets: [{
@@ -321,7 +349,7 @@ export default class BarChart extends React.Component<ParentProps, State> {
 		return (
 			<Container className="container-fluid">
 				{this.state.hasError ? 'Invalid data sent' :
-					<Bar data={this.rejectedData} options={options} />
+					<Bar data={this.allData} options={options} />
 				}
 			</Container>
 		);
