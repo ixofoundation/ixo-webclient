@@ -64,7 +64,6 @@ const Inner = styled.div`
 const Container = styled.div`
 
 	h1, h2, h3, h4, h5, p, a {
-		font-family: ${props => props.theme.fontRoboto};
 	}
 	font-weight: 300;
 	

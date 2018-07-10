@@ -14,23 +14,19 @@ export interface State {
 export interface ParentProps {
 
 }
+/* ======================================================================= */
+/* ======================================================================= */
+// PLEASE NOTE: THIS IS A WIP BACKUP OF THE BARCHART IN CASE MY OTHER METHOD DIDN'T WORK - Donovan Risk
+/* ======================================================================= */
+/* ======================================================================= */
 
 export default class BarChart extends React.Component<ParentProps, State> {
 	
-	state = {
-		canvasHeight: 0
-	};
-
 	componentWillMount () {
-		
-		const that = this;
 		Chart.elements.Rectangle.prototype.draw = function () {
 
 			const ctx = this._chart.ctx;
 			const vm = this._view;
-			if (that.state.canvasHeight < vm.base) {
-				that.setState({canvasHeight : vm.base });
-			}
 			let left, right, top, bottom, signX, signY, borderSkipped, radius;
 			let borderWidth = vm.borderWidth;
 			// Set Radius Here
@@ -187,40 +183,62 @@ export default class BarChart extends React.Component<ParentProps, State> {
 	}
 	render() {
 		const data = (canvas) => {
-			console.log('canvas height: ', this.state.canvasHeight);
 			const ctx = canvas.getContext('2d');
 
-			const gradientRejected = ctx.createLinearGradient(0, 0, 0, this.state.canvasHeight);
-			gradientRejected.addColorStop(0, 'rgba(255,0,0,1)');
-			gradientRejected.addColorStop(1, 'rgba(0,255,0,1)');
+			const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+			gradient.addColorStop(0, 'rgba(255,0,0,1)');
+			gradient.addColorStop(1, 'rgba(0,255,0,1)');
 
-			const gradientApproved = ctx.createLinearGradient(0, 0, 0, this.state.canvasHeight);
-			gradientApproved.addColorStop(0, '#49BFE0');
-			gradientApproved.addColorStop(0.5, '#49BFE0');
-			gradientApproved.addColorStop(1, '#016582');
+			const gradient1 = ctx.createLinearGradient(0, 0, 0, canvas.height);
+			gradient1.addColorStop(0, 'rgba(0,255,0,1)');
+			gradient1.addColorStop(1, 'rgba(255,0,0,1)');
 
-			const gradientPending = ctx.createLinearGradient(0, 0, 0, this.state.canvasHeight);
-			gradientPending.addColorStop(0, 'rgba(0,255,0,1)');
-			gradientPending.addColorStop(1, 'rgba(0,0,255,1)');
+			const gradient2 = ctx.createLinearGradient(0, 0, 0, canvas.height);
+			gradient2.addColorStop(0, 'rgba(0,255,0,1)');
+			gradient2.addColorStop(1, 'rgba(0,0,255,1)');
+
 			return {
-				labels: ['one', 'two', 'three', 'four', 'five', 'six'],
 				datasets: [{
 					label: 'Claims Rejected',
-					data: [0, 3, 5, 3, 3],
-					backgroundColor: gradientRejected,
+					data: [2, 3, 5, 3, 3],
+					backgroundColor: gradient,
 					hoverBackgroundColor: 'red',
+					stack: 'test',			  
 				},
 				{
 					label: 'Claims Approved',
-					data: [20, 3, 5, 3, 3],
-					backgroundColor: gradientApproved,
+					data: [2, 3, 5, 3, 3],
+					backgroundColor: gradient1,
 					hoverBackgroundColor: 'blue',
+					stack: 'test',
 				},
 				{
 					label: 'Claims Submitted',
-					data: [0, 3, 5, 3, 3],
-					backgroundColor: gradientPending,
+					data: [2, 3, 5, 3, 3],
+					backgroundColor: gradient,
 					hoverBackgroundColor: 'purple',
+					stack: 'test',
+				},
+				{
+					label: 'Claims Rejected',
+					data: [12, 3, 5, 3, 3],
+					backgroundColor: gradient2,
+					hoverBackgroundColor: 'red',
+					stack: 'test2',
+				},
+				{
+					label: 'Claims Approved',
+					data: [12, 3, 5, 3, 3],
+					backgroundColor: gradient,
+					hoverBackgroundColor: 'blue',
+					stack: 'test2',
+				},
+				{
+					label: 'Claims Submitted',
+					data: [12, 3, 5, 3, 3],
+					backgroundColor: gradient1,
+					hoverBackgroundColor: 'purple',
+					stack: 'test2',
 				}]
 			};
 		};
@@ -235,9 +253,10 @@ export default class BarChart extends React.Component<ParentProps, State> {
 					gridLines: {
 						display: false
 					},
+					labels: ['one', 'two', 'three'],
+					type: 'category',
 					ticks: {
-						beginAtZero: true,
-						display: false
+						beginAtZero: true
 					}
 				}],
 				yAxes: [{

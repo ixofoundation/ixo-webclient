@@ -128,7 +128,6 @@ export const ProjectDashboard: React.SFC<ParentProps> = ({projectDid, agentStats
 								pending={countPendingClaims()}
 								totalNeeded={claimStats.required}
 							/>
-							<div style={{background: 'red', width: '54px', height: '100px'}} />
 						</ClaimsWidget>
 					</WidgetWrapper>
 				</div>

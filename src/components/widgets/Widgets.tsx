@@ -24,7 +24,7 @@ export class Widgets extends React.Component<ParentProps> {
 							totalNeeded={200}
 						/>
 					</div>
-					<div className="col-md-6">
+					<div className="col-md-18">
 						<BarChart />
 					</div>
 				</div>
