@@ -25,7 +25,7 @@ export default class BarChart extends React.Component<ParentProps, State> {
 		canvasHeight: 0,
 		hasError: false,
 		canvas: null,
-		firstTime: true
+		amountOfSteps: 2
 	};
 
 	componentWillMount () {
@@ -222,18 +222,38 @@ export default class BarChart extends React.Component<ParentProps, State> {
 		return tempArr;
 	}
 
-	waitAndChange = () => {
-		console.log('hh');
-		this.setState({firstTime: false});
+	waitAndChange = (prevState) => {
+		this.setState({amountOfSteps: this.state.amountOfSteps - 1});
 	}
 
+	handleGetGradients = (ctx: any, ) => {
+		const colorArrays = {
+			redArray : ['#E2223B', '#B31429'],
+			blueArray : ['#49BFE0', '#016582'],
+			darkBlueArray : ['#045971', '#033c50'],
+			bgArray : ['#00283a', '#045971']
+		};
+		const gradientsArray: any[] = [];
+
+		for (let i = this.state.amountOfSteps - 1; i >= 0; i--) {
+			const nthKey = Object.keys(colorArrays)[i];
+			const gradient = ctx.createLinearGradient(0, 0, 0, this.state.canvasHeight);
+			gradient.addColorStop(0, colorArrays[nthKey[0]]);
+			gradient.addColorStop(0.5,  colorArrays[nthKey[0]]);
+			{(i === this.state.amountOfSteps - 1) && gradient.addColorStop(0,  colorArrays[nthKey[1]]); }
+			gradientsArray.push();
+		}
+
+		return gradientsArray;
+	}
 	allData = (canvas) => {
 		const ctx = canvas.getContext('2d');
 
+		// const gradientsArray = this.handleGetGradients(ctx);
 		const gradientRejected = ctx.createLinearGradient(0, 0, 0, this.state.canvasHeight);
 		gradientRejected.addColorStop(0, '#E2223B');
 		gradientRejected.addColorStop(0.5, '#E2223B');
-		gradientRejected.addColorStop(1, '#a9071c');
+		gradientRejected.addColorStop(1, '#B31429');
 
 		const gradientApproved = ctx.createLinearGradient(0, 0, 0, this.state.canvasHeight);
 		gradientApproved.addColorStop(0, '#49BFE0');
@@ -253,6 +273,7 @@ export default class BarChart extends React.Component<ParentProps, State> {
 		const dataApproved: number[] = this.populateDataArray(50, 20);
 		const dataSubmitted: number[] = this.populateDataArray(50, 20);
 		let dataRemainder: number[] = [];
+		let dataMaxArray: number[] = [];
 
 		if (dataRejected.length === dataApproved.length && dataSubmitted.length === dataApproved.length) {
 			const dataSumArray = dataRejected.map((value, index) => {
@@ -261,52 +282,56 @@ export default class BarChart extends React.Component<ParentProps, State> {
 
 			const max = Math.max(...dataSumArray);
 
-			dataRemainder = dataSumArray.map((value) => {
+			dataRemainder = dataSumArray.map((value, index) => {
+				dataMaxArray.push(max + 2);
 				return (max + 2) - value;
 			});
 		} else {
 			this.setState({hasError: true});
 		}
 
-		if (this.state.firstTime === true) { 
-			setTimeout(this.waitAndChange, 5000);
+		const dataSets: any[] = [{
+			label: 'Claims Rejected',
+			data: dataRejected,
+			backgroundColor: gradientRejected,
+			hoverBackgroundColor: 'red',
+		},
+		{
+			label: 'Claims Approved',
+			data: dataApproved,
+			backgroundColor: gradientApproved,
+			hoverBackgroundColor: 'blue',
+		},
+		{
+			label: 'Claims Submitted',
+			data: dataSubmitted,
+			backgroundColor: gradientPending,
+			hoverBackgroundColor: 'purple',
+		},
+		{
+			label: 'Total Remainder',
+			data: dataRemainder,
+			backgroundColor: gradientRemaining,
+			hoverBackgroundColor: 'green',
+		}];
+
+		if (this.state.amountOfSteps === 2) {
+			setTimeout(this.waitAndChange, 1000);
 			return {
 				labels: this.populateLabelArray(50),
 				datasets: [
 				{
 					label: 'Total Remainder',
-					data: dataRemainder,
+					data: dataMaxArray,
 					backgroundColor: gradientRemaining,
 					hoverBackgroundColor: 'green',
 				}]
 			};
 		}
+
 		return {
 			labels: this.populateLabelArray(50),
-			datasets: [{
-				label: 'Claims Rejected',
-				data: dataRejected,
-				backgroundColor: gradientRejected,
-				hoverBackgroundColor: 'red',
-			},
-			{
-				label: 'Claims Approved',
-				data: dataApproved,
-				backgroundColor: gradientApproved,
-				hoverBackgroundColor: 'blue',
-			},
-			{
-				label: 'Claims Submitted',
-				data: dataSubmitted,
-				backgroundColor: gradientPending,
-				hoverBackgroundColor: 'purple',
-			},
-			{
-				label: 'Total Remainder',
-				data: dataRemainder,
-				backgroundColor: gradientRemaining,
-				hoverBackgroundColor: 'green',
-			}]
+			datasets: dataSets
 		};
 	}
 
