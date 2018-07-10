@@ -11,7 +11,7 @@
     "@types/react-router-dom": "^4.2.7",
     "@types/redux-logger": "^3.0.6",
     "@types/redux-thunk": "^2.1.0",
-    "ajv": "^6.5.1",
+    "ajv": "^6.5.2",
     "base-64": "^0.1.0",
     "chart.js": "^2.7.2",
     "dotenv": "^6.0.0",
@@ -20,34 +20,34 @@
     "moment": "^2.22.2",
     "npm": "^6.1.0",
     "rc-progress": "^2.2.5",
-    "react": "^16.4.0",
+    "react": "^16.4.1",
     "react-awesome-countdowntimer": "^1.1.1",
     "react-bootstrap": "^0.32.1",
     "react-chartjs-2": "^2.7.2",
     "react-copy-to-clipboard": "^5.0.1",
-    "react-dom": "^16.4.0",
-    "react-dropzone": "^4.2.11",
+    "react-dom": "^16.4.1",
+    "react-dropzone": "^4.2.13",
     "react-image-crop": "^4.0.1",
     "react-mailchimp-subscribe": "^2.0.2",
-    "react-modal": "^3.4.5",
+    "react-modal": "^3.5.1",
     "react-redux": "^5.0.7",
     "react-responsive": "^4.1.0",
-    "react-router-dom": "^4.2.2",
+    "react-router-dom": "^4.3.1",
     "react-scripts-ts": "2.14.0",
-    "react-toastify": "^4.0.1",
+    "react-toastify": "^4.1.0",
     "react-transition-group": "^2.4.0",
     "redux-logger": "^3.0.6",
     "redux-thunk": "2.2.0",
     "serve": "^6.5.8",
-    "styled-components": "^3.3.2"
+    "styled-components": "^3.3.3"
   },
   "scripts": {
     "dev": "react-scripts-ts start",
-    "start": "react-scripts-ts build && serve -s build"
+    "start": "react-scripts-ts build && PORT=80 serve -s build"
   },
   "devDependencies": {
-    "@types/node": "^9.6.20",
-    "@types/react": "^16.3.16",
+    "@types/node": "^9.6.23",
+    "@types/react": "^16.4.6",
     "@types/react-dom": "^16.0.5",
     "typescript": "2.8.3"
   }

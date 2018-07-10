@@ -18,7 +18,8 @@ export interface ParentProps {
 export default class BarChart extends React.Component<ParentProps, State> {
 	
 	state = {
-		canvasHeight: 0
+		canvasHeight: 0,
+		hasError: false
 	};
 
 	componentWillMount () {
@@ -185,14 +186,35 @@ export default class BarChart extends React.Component<ParentProps, State> {
 			}
 			};
 	}
+
+	getRandomInt = (max: number) => {
+		return Math.floor(Math.random() * Math.floor(max));
+	}
+
+	populateDataArray = (length: number, max: number) => {
+		let tempArr: number[] = [];
+		for (var i = 0; i < length; i++) {
+			tempArr.push(this.getRandomInt(max));
+		}
+		return tempArr;
+	}
+
+	populateLabelArray(length: number) {
+		let tempArr: string[] = [];
+		for (var i = 0; i < length; i++) {
+			tempArr.push(String(i));
+		}
+		return tempArr;
+	}
+
 	render() {
 		const data = (canvas) => {
-			console.log('canvas height: ', this.state.canvasHeight);
 			const ctx = canvas.getContext('2d');
 
 			const gradientRejected = ctx.createLinearGradient(0, 0, 0, this.state.canvasHeight);
-			gradientRejected.addColorStop(0, 'rgba(255,0,0,1)');
-			gradientRejected.addColorStop(1, 'rgba(0,255,0,1)');
+			gradientRejected.addColorStop(0, '#E2223B');
+			gradientRejected.addColorStop(0.5, '#E2223B');
+			gradientRejected.addColorStop(1, '#a9071c');
 
 			const gradientApproved = ctx.createLinearGradient(0, 0, 0, this.state.canvasHeight);
 			gradientApproved.addColorStop(0, '#49BFE0');
@@ -200,27 +222,58 @@ export default class BarChart extends React.Component<ParentProps, State> {
 			gradientApproved.addColorStop(1, '#016582');
 
 			const gradientPending = ctx.createLinearGradient(0, 0, 0, this.state.canvasHeight);
-			gradientPending.addColorStop(0, 'rgba(0,255,0,1)');
-			gradientPending.addColorStop(1, 'rgba(0,0,255,1)');
+			gradientPending.addColorStop(0, '#045971');
+			gradientPending.addColorStop(0.5, '#045971');
+			gradientPending.addColorStop(1, '#033c50');
+
+			const gradientRemaining = ctx.createLinearGradient(0, 0, 0, this.state.canvasHeight);
+			gradientRemaining.addColorStop(0, '#00283a');
+			gradientRemaining.addColorStop(1, '#045971');
+
+			const dataRejected: number[] = this.populateDataArray(50, 20);
+			const dataApproved: number[] = this.populateDataArray(50, 20);
+			const dataSubmitted: number[] = this.populateDataArray(50, 20);
+			let dataRemainder: number[] = [];
+
+			if (dataRejected.length === dataApproved.length && dataSubmitted.length === dataApproved.length) {
+				const dataSumArray = dataRejected.map((value, index) => {
+					return value + dataApproved[index] + dataSubmitted[index];
+				});
+
+				const max = Math.max(...dataSumArray);
+
+				dataRemainder = dataSumArray.map((value, index) => {
+					return (max + 2) - value;
+				});
+			} else {
+				this.setState({hasError: true});
+			}
+
 			return {
-				labels: ['one', 'two', 'three', 'four', 'five', 'six'],
+				labels: this.populateLabelArray(50),
 				datasets: [{
 					label: 'Claims Rejected',
-					data: [0, 3, 5, 3, 3],
+					data: dataRejected,
 					backgroundColor: gradientRejected,
 					hoverBackgroundColor: 'red',
 				},
 				{
 					label: 'Claims Approved',
-					data: [20, 3, 5, 3, 3],
+					data: dataApproved,
 					backgroundColor: gradientApproved,
 					hoverBackgroundColor: 'blue',
 				},
 				{
 					label: 'Claims Submitted',
-					data: [0, 3, 5, 3, 3],
+					data: dataSubmitted,
 					backgroundColor: gradientPending,
 					hoverBackgroundColor: 'purple',
+				},
+				{
+					label: 'Total Remainder',
+					data: dataRemainder,
+					backgroundColor: gradientRemaining,
+					hoverBackgroundColor: 'green',
 				}]
 			};
 		};
@@ -254,7 +307,9 @@ export default class BarChart extends React.Component<ParentProps, State> {
 
 		return (
 			<Container className="container-fluid">
-				<Bar data={data} options={options} />
+				{this.state.hasError ? 'Invalid data sent' :
+					<Bar data={data} options={options} />
+				}
 			</Container>
 		);
 	}

@@ -145,20 +145,23 @@ class Header extends React.Component<Props, State> {
 
 	handlePingExplorer = () => {
 		const t0 = performance.now();
-
-		this.props.ixo.network
-			.pingIxoExplorer()
-			.then(result => {
-				if (result === 'API is running') {
-					const t1 = performance.now();
-					this.setState({ isExplorerConnected: true, responseTime: Math.trunc(t1 - t0) });
-				} else {
-					this.setState({ isExplorerConnected: false });
-				}
-			})
-			.catch(error => {
-				console.log(error);
-			});
+		if ( this.props.ixo ) {
+			this.props.ixo.network
+				.pingIxoExplorer()
+				.then(result => {
+					if (result === 'API is running') {
+						const t1 = performance.now();
+						this.setState({ isExplorerConnected: true, responseTime: Math.trunc(t1 - t0) });
+					} else {
+						this.setState({ isExplorerConnected: false });
+					}
+				})
+				.catch(error => {
+					console.log(error);
+				});
+		} else {
+			this.setState({ isExplorerConnected: false });
+		}
 	}
 
 	renderStatusIndicator = () => {

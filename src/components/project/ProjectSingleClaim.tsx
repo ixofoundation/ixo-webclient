@@ -122,7 +122,7 @@ export interface ParentProps {
 	claim: any;
 	handleListClaims: () => any;
 	handleEvaluateClaim: (status: object, claimId: string) => void;
-	hasCapability: (role: AgentRoles) => boolean;
+	hasCapability: (role: AgentRoles[]) => boolean;
 	singleClaimFormFile: string;
 }
 export const ProjectSingleClaim: React.SFC<ParentProps> = (props) => {
@@ -151,7 +151,7 @@ export const ProjectSingleClaim: React.SFC<ParentProps> = (props) => {
 		if (claimStatus === null) {
 			return <ClaimStatus message={'Pending'} icon={'icon-pending'} />;
 		} else {
-			if (props.hasCapability(AgentRoles.evaluators)) { // is evaluator
+			if (props.hasCapability([AgentRoles.evaluators])) { // is evaluator
 				switch (claimStatus.status) {				
 					case '1':
 					return <ClaimStatus message={`You have accepted claim ${ID}`} icon={'icon-approved'} />;
@@ -277,7 +277,7 @@ export const ProjectSingleClaim: React.SFC<ParentProps> = (props) => {
 									{handleRenderStatus(claim.evaluations, claim._id)}
 								</div>
 							</WidgetWrapperClaims>
-							{props.hasCapability(AgentRoles.evaluators) && handleRenderButtons(claim)}
+							{props.hasCapability([AgentRoles.evaluators]) && handleRenderButtons(claim)}
 						</div>
 					</Container>
 				</LayoutWrapperClaims>

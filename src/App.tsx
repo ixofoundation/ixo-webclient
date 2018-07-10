@@ -135,6 +135,8 @@ class App extends React.Component<App.Props, App.State> {
 			this.props.ixo.project
 				.listProjects()
 				.then((response: any) => {
+					let projectList = response.result;
+					projectList.sort((a, b) => {return (a.data.createdOn < b.data.createdOn); });
 					this.setState({ projectList: response.result });
 				})
 				.catch((result: Error) => {
