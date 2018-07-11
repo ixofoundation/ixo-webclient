@@ -4,7 +4,7 @@ services:
     container_name: ixo-web
     image: trustlab/ixo-web:latest
     environment:
-      - REACT_APP_BLOCKCHAIN_IP=http://beta.cosmos.ixo.world
+      - REACT_APP_BLOCKCHAIN_IP=beta.cosmos.ixo.world
       - REACT_APP_BLOCK_SYNC_URL=http://beta.cosmos.ixo.world:8080
       - PORT=80
     restart: always
