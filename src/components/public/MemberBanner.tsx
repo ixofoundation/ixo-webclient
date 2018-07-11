@@ -104,7 +104,7 @@ const BannerRight = styled.div`
 		height: 1px;
 		background: #00D2FF;
 		width: 100px;
-		top: 15%;
+		top: -20%;
 	}
 	@media (max-width: 1024px){
 		p::before {

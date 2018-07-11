@@ -71,6 +71,9 @@ const MattersRight = styled.div`
 		&.reduced {
 			background: #CE3481;
 		}
+		&.sustainablecities {
+			background: #EBA046;
+		}
 		&.consumption {
 			background: #B88E40;
 		}
@@ -90,7 +93,8 @@ const MattersRight = styled.div`
 			background: #244868;
 		}
 		.hover-text {
-			display: block;
+			visibility: visible;
+			opacity: 1;
 		}
 	}
 	.content {
@@ -101,7 +105,9 @@ const MattersRight = styled.div`
 		justify-content: space-around;
 	}
 	.hover-text {
-		display: none;
+		visibility: hidden;
+		opacity: 0;
+		transition: visibility 0s, opacity 0.6s linear;
 		text-transform: uppercase;
 		font-size: 12px;
 		line-height: 12px;
@@ -109,7 +115,9 @@ const MattersRight = styled.div`
 		text-align: center;
 	}
 	.sdg-tooltip {
-		display: none;
+		visibility: hidden;
+		opacity: 0;
+		transition: visibility 0s, opacity 0.6s linear;
 		width: 340px;
 		background-color: #001A27;
 		font-size: 11px;
@@ -123,28 +131,31 @@ const MattersRight = styled.div`
 		z-index: 1;
 	}
 	.sdg-tooltip::after {
-		border-color: #001A27 rgba(0, 0, 0, 0) rgba(0, 0, 0, 0);
-		border-style: solid;
-		border-width: 7px;
-		bototm: 160px;
-		content: "";
-		display: block;
-		height: 0;
-		left: calc(50% - 7px);
+		content: '';
 		position: absolute;
+		left: 48%;
+		top: 100%;
 		width: 0;
-		margin-top: 5px;
-		-webkit-transform: rotate(0deg);
-		-moz-transform: rotate(0deg);
-		-o-transform: rotate(0deg);
-		-ms-transform: rotate(0deg);
-		transform: rotate(0deg);
+		height: 0;
+		border-left: 8px solid transparent;
+		border-right: 8px solid transparent;
+		border-top: 8px solid #001A27;
+		clear: both;
+	}
+	i[class^="icon-"], i[class*=" icon-"] {
+		margin-top: 30px;
+		transition: margin 200ms;
 	}
 	.sdg-icon:hover {
 		.sdg-tooltip {
-			display: block;
+			visibility: visible;
+			opacity: 1;
+		}
+		i[class^="icon-"], i[class*=" icon-"] {
+			margin-top: 0;
 		}
 	}
+
 `;
 const Icon = styled.div`
 
