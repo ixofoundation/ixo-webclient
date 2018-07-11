@@ -52,6 +52,7 @@ export interface ParentProps {
 
 export const ProjectDashboard: React.SFC<ParentProps> = ({projectDid, agentStats, claimStats, claims, hasCapability}) => {
 
+	console.log(claims);
 	const countPendingClaims = () => {
 		return [...claims].filter((claim) => claim.status === '0').length;
 	};
@@ -59,6 +60,13 @@ export const ProjectDashboard: React.SFC<ParentProps> = ({projectDid, agentStats
 	return (
 		<LayoutWrapper>
 			<Container className="row">
+				{
+				<div className="col-md-12">
+					<WidgetWrapper title="Project Timeline" path={`/projects/${projectDid}/detail/investors`} linkIcon={'icon-expand'}>
+							<BarChart totalBars={100} />
+					</WidgetWrapper>
+				</div>
+				}
 				{
 				<div className="col-sm-6 col-lg-3">
 					<WidgetWrapper title="Evaluators" link={hasCapability([AgentRoles.owners])} path={`/projects/${projectDid}/detail/evaluators`} linkIcon={'icon-expand'}>
@@ -132,11 +140,6 @@ export const ProjectDashboard: React.SFC<ParentProps> = ({projectDid, agentStats
 							/>
 						</ClaimsWidget>
 					</WidgetWrapper>
-				</div>
-				}
-				{
-				<div className="col-md-6">
-					<BarChart />
 				</div>
 				}
 			</Container>

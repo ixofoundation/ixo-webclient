@@ -12,7 +12,7 @@ export interface State {
 }
 
 export interface ParentProps {
-
+	totalBars: number;
 }
 
 export default class BarChart extends React.Component<ParentProps, State> {
@@ -25,11 +25,12 @@ export default class BarChart extends React.Component<ParentProps, State> {
 		canvasHeight: 0,
 		hasError: false,
 		canvas: null,
-		amountOfSteps: 2
+		firstTime: true
 	};
 
 	componentWillMount () {
 		
+		// https://github.com/jedtrow/Chart.js-Rounded-Bar-Charts/blob/master/Chart.roundedBarCharts.js
 		const that = this;
 		Chart.elements.Rectangle.prototype.draw = function () {
 
@@ -180,7 +181,9 @@ export default class BarChart extends React.Component<ParentProps, State> {
 					ctx.lineTo(x + width - radius, y);
 					ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
 					ctx.lineTo(x + width, y + height + radius); // set the bottom-right starting pixel
+					ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
 					ctx.lineTo(x, y + height + radius); // set the bottom-left starting pixel
+					ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
 					ctx.lineTo(x, y + radius);
 					ctx.quadraticCurveTo(x, y, x + radius, y);
 				}
@@ -222,30 +225,30 @@ export default class BarChart extends React.Component<ParentProps, State> {
 		return tempArr;
 	}
 
-	waitAndChange = (prevState) => {
-		this.setState({amountOfSteps: this.state.amountOfSteps - 1});
+	waitAndChange = () => {
+		this.setState({firstTime: false});
 	}
 
-	handleGetGradients = (ctx: any, ) => {
-		const colorArrays = {
-			redArray : ['#E2223B', '#B31429'],
-			blueArray : ['#49BFE0', '#016582'],
-			darkBlueArray : ['#045971', '#033c50'],
-			bgArray : ['#00283a', '#045971']
-		};
-		const gradientsArray: any[] = [];
+	// handleGetGradients = (ctx: any, ) => {
+	// 	const colorArrays = {
+	// 		redArray : ['#E2223B', '#B31429'],
+	// 		blueArray : ['#49BFE0', '#016582'],
+	// 		darkBlueArray : ['#045971', '#033c50'],
+	// 		bgArray : ['#00283a', '#045971']
+	// 	};
+	// 	const gradientsArray: any[] = [];
 
-		for (let i = this.state.amountOfSteps - 1; i >= 0; i--) {
-			const nthKey = Object.keys(colorArrays)[i];
-			const gradient = ctx.createLinearGradient(0, 0, 0, this.state.canvasHeight);
-			gradient.addColorStop(0, colorArrays[nthKey[0]]);
-			gradient.addColorStop(0.5,  colorArrays[nthKey[0]]);
-			{(i === this.state.amountOfSteps - 1) && gradient.addColorStop(0,  colorArrays[nthKey[1]]); }
-			gradientsArray.push();
-		}
+	// 	for (let i = this.state.amountOfSteps - 1; i >= 0; i--) {
+	// 		const nthKey = Object.keys(colorArrays);
+	// 		const gradient = ctx.createLinearGradient(0, 0, 0, this.state.canvasHeight);
+	// 		gradient.addColorStop(0, colorArrays[nthKey[i]][0]);
+	// 		gradient.addColorStop(0.5,  colorArrays[nthKey[i]][1]);
+	// 		{(i === this.state.amountOfSteps - 1) && gradient.addColorStop(0,  colorArrays[nthKey[i]][0]); }
+	// 		gradientsArray.push(gradient);
+	// 	}
 
-		return gradientsArray;
-	}
+	// 	return gradientsArray;
+	// }
 	allData = (canvas) => {
 		const ctx = canvas.getContext('2d');
 
@@ -269,9 +272,9 @@ export default class BarChart extends React.Component<ParentProps, State> {
 		gradientRemaining.addColorStop(0, '#00283a');
 		gradientRemaining.addColorStop(1, '#045971');
 
-		const dataRejected: number[] = this.populateDataArray(50, 20);
-		const dataApproved: number[] = this.populateDataArray(50, 20);
-		const dataSubmitted: number[] = this.populateDataArray(50, 20);
+		const dataRejected: number[] = this.populateDataArray(this.props.totalBars, 20);
+		const dataApproved: number[] = this.populateDataArray(this.props.totalBars, 20);
+		const dataSubmitted: number[] = this.populateDataArray(this.props.totalBars, 20);
 		let dataRemainder: number[] = [];
 		let dataMaxArray: number[] = [];
 
@@ -281,9 +284,9 @@ export default class BarChart extends React.Component<ParentProps, State> {
 			});
 
 			const max = Math.max(...dataSumArray);
-
-			dataRemainder = dataSumArray.map((value, index) => {
-				dataMaxArray.push(max + 2);
+			dataMaxArray = new Array(this.props.totalBars);
+			dataMaxArray.fill(max + 2);
+			dataRemainder = dataSumArray.map((value) => {
 				return (max + 2) - value;
 			});
 		} else {
@@ -294,50 +297,43 @@ export default class BarChart extends React.Component<ParentProps, State> {
 			label: 'Claims Rejected',
 			data: dataRejected,
 			backgroundColor: gradientRejected,
-			hoverBackgroundColor: 'red',
+			hoverBackgroundColor: '#E2223B',
 		},
 		{
 			label: 'Claims Approved',
 			data: dataApproved,
 			backgroundColor: gradientApproved,
-			hoverBackgroundColor: 'blue',
+			hoverBackgroundColor: '#49BFE0',
 		},
 		{
 			label: 'Claims Submitted',
 			data: dataSubmitted,
 			backgroundColor: gradientPending,
-			hoverBackgroundColor: 'purple',
+			hoverBackgroundColor: '#066a86',
 		},
 		{
 			label: 'Total Remainder',
 			data: dataRemainder,
 			backgroundColor: gradientRemaining,
-			hoverBackgroundColor: 'green',
+			hoverBackgroundColor: gradientRemaining,
 		}];
 
-		if (this.state.amountOfSteps === 2) {
+		if (this.state.firstTime === true) {
 			setTimeout(this.waitAndChange, 1000);
 			return {
-				labels: this.populateLabelArray(50),
-				datasets: [
-				{
+				labels: this.populateLabelArray(this.props.totalBars),
+				datasets: [{
 					label: 'Total Remainder',
 					data: dataMaxArray,
 					backgroundColor: gradientRemaining,
-					hoverBackgroundColor: 'green',
+					hoverBackgroundColor: gradientRemaining,
 				}]
 			};
 		}
-
 		return {
-			labels: this.populateLabelArray(50),
+			labels: this.populateLabelArray(this.props.totalBars),
 			datasets: dataSets
 		};
-	}
-
-	handleReturnData = () => {
-				// console.log(this.rejectedData());
-				// let theChart = this.refs.chart;
 	}
 
 	render() {
@@ -369,12 +365,10 @@ export default class BarChart extends React.Component<ParentProps, State> {
 			}
 		};
 
-		this.handleReturnData();
-
 		return (
 			<Container className="container-fluid">
 				{this.state.hasError ? 'Invalid data sent' :
-					<Bar data={this.allData} options={options} />
+					<Bar height={80} data={this.allData} options={options} />
 				}
 			</Container>
 		);
