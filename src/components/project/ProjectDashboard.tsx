@@ -52,24 +52,15 @@ export interface ParentProps {
 
 export const ProjectDashboard: React.SFC<ParentProps> = ({projectDid, agentStats, claimStats, claims, hasCapability}) => {
 
-	const date1 = Date.parse('2018-07-05T09:50:21.054Z');
-	const date2 = Date.parse('2018-07-05T09:24:30.870Z');
-	if (date1 < date2 ) {
-		console.log('yes');
-	} else {
-		console.log('no');
-	}
-
 	function randomDate(start: Date, end: Date) {
-		return (new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()))).toISOString();
+		return new Date(start.getTime() + (Math.random() * (end.getTime() - start.getTime())));
 	}
-	
 	const generateClaims = (status: number, length: number) => {
 		const claimsArray = new Array();
 
 		for (let i = 0; i < length; i++) {
 			const claimObject = {
-				date: randomDate(new Date(2018, 6, 1), new Date()),
+				date: randomDate(new Date(2018, 6, 10), new Date()),
 				status: status
 			};
 
@@ -82,10 +73,10 @@ export const ProjectDashboard: React.SFC<ParentProps> = ({projectDid, agentStats
 	const countPendingClaims = () => {
 		return [...claims].filter((claim) => claim.status === '0').length;
 	};
+	const dummyApprovedClaims = generateClaims(1, 80);
+	const dummyPendingClaims = generateClaims(0, 60);
+	const dummyRejectedClaims = generateClaims(2, 45);
 
-	const dummyApprovedClaims = generateClaims(1, 30);
-	const dummyPendingClaims = generateClaims(0, 20);
-	const dummyRejectedClaims = generateClaims(2, 15);
 	return (
 		<LayoutWrapper>
 			<Container className="row">

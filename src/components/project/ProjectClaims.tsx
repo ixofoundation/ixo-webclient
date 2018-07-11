@@ -195,7 +195,7 @@ export const ProjectClaims: React.SFC<ParentProps> = ({claims, projectDid, fullP
 						);
 					} else {
 						return (
-							<ListItemWrapper className="col-12" >
+							<ListItemWrapper key={index} className="col-12" >
 										<Indicator color={colorCLass}/>
 										<p>{'Claim ID: ' + claim.claimId}</p>
 										<p>{renderClaimStatus(claim.status)}</p>

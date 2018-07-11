@@ -7,6 +7,10 @@ const Container = styled.div`
 
 `;
 
+const LabelsX = styled.div`
+	display: flex;
+	justify-content: space-between;
+`;
 export interface State {
 
 }
@@ -39,7 +43,8 @@ export default class BarChart extends React.Component<ParentProps, State> {
 		hasError: false,
 		errorMessage: '',
 		canvas: null,
-		firstTime: true
+		firstTime: true,
+		xLabels: []
 	};
 
 	componentWillMount () {
@@ -211,6 +216,7 @@ export default class BarChart extends React.Component<ParentProps, State> {
 	}
 
 	componentDidMount() {
+
 		const that = this;
 		Chart.pluginService.register({
 			beforeInit: function (chart: any) {
@@ -223,7 +229,7 @@ export default class BarChart extends React.Component<ParentProps, State> {
 		return Math.floor(Math.random() * Math.floor(max));
 	}
 
-	populateDataArray = (length: number, max: number) => {
+	populateDummyDataArray = (length: number, max: number) => {
 		let tempArr: number[] = [];
 		for (var i = 0; i < length; i++) {
 			tempArr.push(this.getRandomInt(max));
@@ -231,7 +237,7 @@ export default class BarChart extends React.Component<ParentProps, State> {
 		return tempArr;
 	}
 
-	populateLabelArray(length: number) {
+	populateTooltipArray(length: number) {
 		let tempArr: string[] = [];
 		for (var i = 0; i < length; i++) {
 			tempArr.push(String(i));
@@ -239,11 +245,19 @@ export default class BarChart extends React.Component<ParentProps, State> {
 		return tempArr;
 	}
 
+	populateXaxisLabels(hoursPerBucket: number) {
+		const labelArray = new Array();
+		for (let i = 0; i < 12; i++) {
+			labelArray.push(Math.floor(i * 8.33) + hoursPerBucket);
+		}
+		this.setState({xLabels: labelArray});
+	}
+
 	waitAndChange = () => {
 		this.setState({firstTime: false});
 	}
 
-	calculateArray = (arrayIndex: number) => {
+	populateDataArray = (arrayIndex: number) => {
 		this.props.barData[arrayIndex].data.sort(function (a: any, b: any) {
 			return Date.parse(a.date) - Date.parse(b.date);
 		});
@@ -266,6 +280,8 @@ export default class BarChart extends React.Component<ParentProps, State> {
 		if (noHoursPerBucket < 1) {
 			noHoursPerBucket = 1;
 		}
+
+		{(this.state.xLabels.length === 0) && this.populateXaxisLabels(noHoursPerBucket); }
 
 		let bucketsArray = new Array();
 		for (let i = 0; i <= this.props.totalBars; i++) {
@@ -333,13 +349,13 @@ export default class BarChart extends React.Component<ParentProps, State> {
 		gradientRemaining.addColorStop(0, '#00283a');
 		gradientRemaining.addColorStop(1, '#045971');
 
-		// let dataRejected: number[] = this.populateDataArray(80, 20);
-		// const dataApproved: number[] = this.populateDataArray(80, 20);
-		// const dataSubmitted: number[] = this.populateDataArray(80, 20);
+		// let dataRejected: number[] = this.populateDummyDataArray(80, 20);
+		// const dataApproved: number[] = this.populateDummyDataArray(80, 20);
+		// const dataSubmitted: number[] = this.populateDummyDataArray(80, 20);
 
-		let dataRejected = this.calculateArray(0);
-		let dataApproved = this.calculateArray(1);
-		let dataPending = this.calculateArray(2);
+		let dataRejected = this.populateDataArray(0); // this number is the index of the data received as props
+		let dataApproved = this.populateDataArray(1);
+		let dataPending = this.populateDataArray(2);
 
 		let dataRemainder: number[] = [];
 		let dataMaxArray: number[] = [];
@@ -391,9 +407,9 @@ export default class BarChart extends React.Component<ParentProps, State> {
 		}];
 
 		if (this.state.firstTime === true) {
-			setTimeout(this.waitAndChange, 1000);
+			setTimeout(this.waitAndChange, 500);
 			return {
-				labels: this.populateLabelArray(this.props.totalBars),
+				labels: this.populateTooltipArray(this.props.totalBars),
 				datasets: [{
 					label: 'Total Remainder',
 					data: dataMaxArray,
@@ -403,7 +419,7 @@ export default class BarChart extends React.Component<ParentProps, State> {
 			};
 		}
 		return {
-			labels: this.populateLabelArray(this.props.totalBars),
+			labels: this.populateTooltipArray(this.props.totalBars),
 			datasets: dataSets
 		};
 	}
@@ -440,8 +456,13 @@ export default class BarChart extends React.Component<ParentProps, State> {
 		return (
 			<Container className="container-fluid">
 				{this.state.hasError ? this.state.errorMessage :
-					<Bar height={80} data={this.allData} options={options} />
+					<Bar height={60} data={this.allData} options={options} />
 				}
+				<LabelsX>
+				{this.state.xLabels.map((label, index) => {
+					return <p key={index}>{label} hours ago</p>;
+				})}
+				</LabelsX>
 			</Container>
 		);
 	}
