@@ -85,12 +85,18 @@ const ListItemWrapper = styled.div`
 	margin-bottom: 10px;
 	padding: 12px 25px;
 	box-shadow: 0 2px 10px 0 rgba(0,0,0,0.18);
+	p {
+		font-size: 14px;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
 `;
 
 const WidgetLink = styled.p`
 	display: block;
 	text-align: center;
 `;
+
 export interface ParentProps {
 	claims?: any[];  
 	projectDid: string;
