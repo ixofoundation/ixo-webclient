@@ -153,7 +153,7 @@ export class ProjectsHero extends React.Component<Props, State> {
 
 	handleGetGlobalData = () => {
 		if (this.props.ixo) {
-			this.props.ixo.stats.getGolbalStats().then(res => {
+			this.props.ixo.stats.getGlobalStats().then(res => {
 				if (res.result) {
 					const statistics: Stats = res.result;
 					this.setState({ statistics });
