@@ -272,9 +272,9 @@ export default class BarChart extends React.Component<ParentProps, State> {
 		gradientRemaining.addColorStop(0, '#00283a');
 		gradientRemaining.addColorStop(1, '#045971');
 
-		const dataRejected: number[] = this.populateDataArray(this.props.totalBars, 20);
-		const dataApproved: number[] = this.populateDataArray(this.props.totalBars, 20);
-		const dataSubmitted: number[] = this.populateDataArray(this.props.totalBars, 20);
+		const dataRejected: number[] = this.populateDataArray(80, 20);
+		const dataApproved: number[] = this.populateDataArray(80, 20);
+		const dataSubmitted: number[] = this.populateDataArray(80, 20);
 		let dataRemainder: number[] = [];
 		let dataMaxArray: number[] = [];
 
@@ -289,6 +289,14 @@ export default class BarChart extends React.Component<ParentProps, State> {
 			dataRemainder = dataSumArray.map((value) => {
 				return (max + 2) - value;
 			});
+			if (dataRemainder.length < this.props.totalBars) {
+				const excessBarsCount = this.props.totalBars - dataRemainder.length;
+				const excessElements = new Array(excessBarsCount);
+				excessElements.fill(max + 2);
+				dataRemainder.push(...excessElements);
+				console.log(dataRemainder);
+				debugger;
+			}
 		} else {
 			this.setState({hasError: true});
 		}

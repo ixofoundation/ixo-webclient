@@ -52,7 +52,13 @@ export interface ParentProps {
 
 export const ProjectDashboard: React.SFC<ParentProps> = ({projectDid, agentStats, claimStats, claims, hasCapability}) => {
 
-	console.log(claims);
+	const date1 = Date.parse('2018-07-05T09:50:21.054Z');
+	const date2 = Date.parse('2018-07-05T09:24:30.870Z');
+	if (date1 < date2 ) {
+		console.log('yes');
+	} else {
+		console.log('no');
+	}
 	const countPendingClaims = () => {
 		return [...claims].filter((claim) => claim.status === '0').length;
 	};
