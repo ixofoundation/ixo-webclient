@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { CircleProgressbar } from './CircleProgressbar';
+// import BarChart from './BarChart';
 
 export interface ParentProps {
 	title: string;
@@ -17,12 +18,14 @@ export class Widgets extends React.Component<ParentProps> {
 				<div className="row">
 					<div className="col-md-3">
 						<CircleProgressbar
-							title="test"
-							approved={10}
-							rejected={5}
-							pending={2}
-							totalNeeded={100}
+							approved={50}
+							rejected={60}
+							pending={10}
+							totalNeeded={200}
 						/>
+					</div>
+					<div className="col-md-12">
+						{/* <BarChart totalBars={100} /> */}
 					</div>
 				</div>
 			</div>

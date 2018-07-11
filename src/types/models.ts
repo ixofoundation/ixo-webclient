@@ -26,6 +26,7 @@ export enum contentType {
 }
 
 export enum AgentRoles {
+	owners = 'PO',
 	evaluators = 'EA',
 	serviceProviders = 'SA',
 	investors = 'IA'
@@ -39,7 +40,7 @@ export enum MatchType {
 export interface Statistic {
 	title?: string;
 	type: StatType;
-	amount: number | [number, number];
+	amount: number | number[];
 	descriptor?: {class: string, value: string | number}[];
 }
 

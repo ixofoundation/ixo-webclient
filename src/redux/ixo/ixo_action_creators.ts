@@ -4,8 +4,8 @@ import { IxoResult, IXO_RESULT } from './ixo_actions';
 
 export function initIxo(BLOCKCHAIN_IP: string, BLOCK_SYNC_URL: string) {
 	return dispatch => {
-		var ixo = new Ixo(BLOCKCHAIN_IP, BLOCK_SYNC_URL);
-		if (ixo) {
+		if (BLOCKCHAIN_IP && BLOCK_SYNC_URL) {
+			var ixo = new Ixo(BLOCKCHAIN_IP, BLOCK_SYNC_URL);
 			dispatch(
 				createAction<IxoResult>(IXO_RESULT.type, {
 					ixo: ixo,
@@ -16,7 +16,7 @@ export function initIxo(BLOCKCHAIN_IP: string, BLOCK_SYNC_URL: string) {
 			dispatch(
 				createAction<IxoResult>(IXO_RESULT.type, {
 					ixo: null,
-					error: 'Please log into your ixo key safe!'
+					error: 'Environment not setup for Blockchain node'
 				})
 			);
 		}

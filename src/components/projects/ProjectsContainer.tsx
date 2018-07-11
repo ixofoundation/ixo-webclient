@@ -3,12 +3,29 @@ import styled from 'styled-components';
 import { ProjectCard } from './ProjectCard';
 import { ProjectsHero } from './ProjectsHero';
 import { Spinner } from '../common/Spinner';
-import { StatType } from '../../types/models';
-// import { imgArray } from '../../lib/commonData';
 import { connect } from 'react-redux';
-import { Stats } from '../../types/models/stats';
 
 import { PublicSiteStoreState } from '../../redux/public_site_reducer';
+
+const Container = styled.div`
+	.example-enter {
+		opacity: 0.01;
+	}
+	
+	.example-enter.example-enter-active {
+		opacity: 1;
+		transition: opacity 1000ms ease-in;
+	}
+	
+	.example-leave {
+		opacity: 1;
+	}
+	
+	.example-leave.example-leave-active {
+		opacity: 0.01;
+		transition: opacity 800ms ease-in;
+	}
+`;
 
 const ProjectsContainer = styled.div`
 	overflow-y: scroll;
@@ -37,7 +54,6 @@ export interface ParentProps {
 }
 
 export interface State {
-	statistics: Stats;
 }
 
 export interface StateProps {
@@ -47,35 +63,7 @@ export interface StateProps {
 export interface Props extends ParentProps, StateProps {}
 
 export class Projects extends React.Component<Props, State> {
-	state = {
-		statistics: {
-			claims: {
-				total: 0,
-				totalSuccessful: 0,
-				totalSubmitted: 0,
-				totalPending: 0,
-				totalRejected: 0
-			},
-			totalServiceProviders: 0,
-			totalProjects: 0,
-			totalEvaluationAgents: 0
-		}
-	};
-
-	componentDidMount() {
-		this.handleGetGlobalData();
-	}
-
-	handleGetGlobalData = () => {
-		if (this.props.ixo) {
-			this.props.ixo.stats.getGolbalStats().then(res => {
-				if (res.result) {
-					const statistics: Stats = res.result;
-					this.setState({ statistics });
-				}
-			});
-		}
-	}
+	state = {};
 
 	renderProjects = () => {
 		if (this.props.projectList === null) {
@@ -86,8 +74,7 @@ export class Projects extends React.Component<Props, State> {
 					</ErrorContainer>
 				</div>
 			);
-		} else if (this.props.projectList.length > 0) {
-			console.log(this.props.projectList);
+		} else if (this.props.projectList.length > 0) {		
 			return (
 				<ProjectsContainer className="container-fluid">
 					<div className="container">
@@ -120,38 +107,11 @@ export class Projects extends React.Component<Props, State> {
 	}
 
 	render() {
-		return (
-			<div>
-				<ProjectsHero
-					statistics={[
-						{
-							title: 'MY ACTIVE PROJECTS',
-							type: StatType.decimal,
-							descriptor: [{ class: 'text', value: 'Expired' }, { class: 'number', value: '0' }],
-							amount: this.state.statistics.totalProjects
-						},
-						{
-							title: 'TOTAL PROJECTS',
-							type: StatType.decimal,
-							descriptor: [{ class: 'text', value: ' ' }],
-							amount: this.state.statistics.totalProjects
-						},
-						{
-							title: 'TOTAL IMPACT CLAIMS',
-							type: StatType.fraction,
-							descriptor: [{ class: 'text', value: 'verified to date' }],
-							amount: [this.state.statistics.claims.totalSuccessful, this.state.statistics.claims.total]
-						},
-						{
-							title: 'TOTAL IXO IN CIRCULATION',
-							type: StatType.fraction,
-							descriptor: [{ class: 'text', value: 'IXO staked to date' }],
-							amount: [0, 0]
-						}
-					]}
-				/>
+		return (        
+			<Container>
+				<ProjectsHero ixo={this.props.ixo}/>
 				{this.renderProjects()}
-			</div>
+			</Container>
 		);
 	}
 }

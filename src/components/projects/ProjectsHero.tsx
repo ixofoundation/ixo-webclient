@@ -2,7 +2,8 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { Tabs } from '../common/Tabs';
 import { SingleStatistic } from '../common/SingleStatistic';
-import { Statistic, MatchType } from '../../types/models';
+import { StatType, MatchType } from '../../types/models';
+import { Stats } from '../../types/models/stats';
 import { deviceWidth } from '../../lib/commonData';
 
 const bg = require('../../assets/images/heroBg.jpg');
@@ -93,51 +94,106 @@ const HeroContainer = styled.div`
 	}
 `;
 
-export interface ProjectHeaderData {
-	title: string;
-	SDGs: number[];
-	description: string;
-	dateCreated: string;
-	country: string;
+export interface State {
+	statistics: Stats;
 }
 
 export interface Props {
-	statistics?: Statistic[];
-	projectData?: ProjectHeaderData;
+	ixo?: any;
 }
 
-export const ProjectsHero: React.SFC<Props> = (props) => {
+export class ProjectsHero extends React.Component<Props, State> {
+	state = {
+		statistics: {
+			claims: {
+				total: 0,
+				totalSuccessful: 0,
+				totalSubmitted: 0,
+				totalPending: 0,
+				totalRejected: 0
+			},
+			totalServiceProviders: 0,
+			totalProjects: 0,
+			totalEvaluationAgents: 0
+		}
+	};
 
-	return (
-		<HeroContainer>
-			<HeroInner className="container">
-				<div className="row">
-					{props.statistics.map((statistic, index) => {
-						return (
-							<StatisticContainer key={index} className="col-md-3 col-sm-6 col-6">
-								<ContainerInner>
-									<SingleStatistic title={statistic.title} type={statistic.type} amount={statistic.amount} descriptor={statistic.descriptor} />
-								</ContainerInner>
-							</StatisticContainer>
-						);
-					})}
-				</div>
-			</HeroInner>
-			<div className="container">
-				<div className="row">
-					<div className="col-md-12">
-						<PositionController>
-							<Tabs
-								buttons={[
-									{ iconClass: 'icon-projects', path: '/projects', title: 'PROJECTS' },
-									{ iconClass: 'icon-impacts', path: '/global-statistics', title: 'IMPACTS' }
-								]}
-								matchType={MatchType.exact}
-							/>
-						</PositionController>
+	getConfig() {
+		return [
+			{
+				title: 'MY ACTIVE PROJECTS',
+				type: StatType.decimal,
+				descriptor: [{ class: 'text', value: 'Expired' }, { class: 'number', value: '0' }],
+				amount: this.state.statistics.totalProjects
+			},
+			{
+				title: 'TOTAL PROJECTS',
+				type: StatType.decimal,
+				descriptor: [{ class: 'text', value: ' ' }],
+				amount: this.state.statistics.totalProjects
+			},
+			{
+				title: 'TOTAL IMPACT CLAIMS',
+				type: StatType.fraction,
+				descriptor: [{ class: 'text', value: 'verified to date' }],
+				amount: [this.state.statistics.claims.totalSuccessful, this.state.statistics.claims.total]
+			},
+			{
+				title: 'TOTAL IXO IN CIRCULATION',
+				type: StatType.fraction,
+				descriptor: [{ class: 'text', value: 'IXO staked to date' }],
+				amount: [0, 0]
+			}
+		];
+	}
+	
+	componentWillMount() {
+		this.handleGetGlobalData();
+	}
+
+	handleGetGlobalData = () => {
+		if (this.props.ixo) {
+			this.props.ixo.stats.getGlobalStats().then(res => {
+				if (res.result) {
+					const statistics: Stats = res.result;
+					this.setState({ statistics });
+				}
+			});
+		}
+	}
+
+	render() {
+		return (
+			<HeroContainer>
+				<HeroInner className="container">
+					<div className="row">
+						{this.getConfig().map((statistic, index) => {
+							return (
+								<StatisticContainer key={index} className="col-md-3 col-sm-6 col-6">
+									<ContainerInner>
+										<SingleStatistic title={statistic.title} type={statistic.type} amount={statistic.amount} descriptor={statistic.descriptor} />
+									</ContainerInner>
+								</StatisticContainer>
+							);
+						})}
+					</div>
+				</HeroInner>
+				<div className="container">
+					<div className="row">
+						<div className="col-md-12">
+							<PositionController>
+								<Tabs
+									buttons={[
+										{ iconClass: 'icon-projects', path: '/', title: 'PROJECTS' },
+										{ iconClass: 'icon-impacts', path: '/global-statistics', title: 'IMPACTS' }
+									]}
+									matchType={MatchType.exact}
+								/>
+							</PositionController>
+						</div>
 					</div>
 				</div>
-			</div>
-		</HeroContainer>
-	);
-};
+			</HeroContainer>
+		);
+	}
+}

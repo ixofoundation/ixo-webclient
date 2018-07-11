@@ -56,19 +56,34 @@ const theme = {
 	red: '#E2223B'
 };
 
+const Inner = styled.div`
+
+`;
+
 // END OF THEME DECLARATION, CSS FOR COMPONENT BELOW
 const Container = styled.div`
 
 	h1, h2, h3, h4, h5, p, a {
-		font-family: ${props => props.theme.fontRoboto};
 	}
 	font-weight: 300;
+	
+	${Inner} {
+		opacity: 0;
+		transition: opacity 2s ease;
+	}
+	
+	${Inner}.loaded {
+		opacity: 1;
+	}
 `;
 
 export namespace App {
 	export interface State {
 		projectList: any;
 		loginError: String;
+		error: any;
+		errorInfo: any;
+		loaded: boolean;
 	}
 
 	export interface StateProps {
@@ -94,7 +109,10 @@ class App extends React.Component<App.Props, App.State> {
 	state = {
 		projectList: null,
 		loginError: null,
-		isProjectPage: false
+		isProjectPage: false,
+		errorInfo: null, 
+		error: null,
+		loaded: false
 	};
 
 	componentDidUpdate(prevProps: any) {
@@ -117,11 +135,12 @@ class App extends React.Component<App.Props, App.State> {
 			this.props.ixo.project
 				.listProjects()
 				.then((response: any) => {
+					let projectList = response.result;
+					projectList.sort((a, b) => {return (a.data.createdOn < b.data.createdOn); });
 					this.setState({ projectList: response.result });
 				})
 				.catch((result: Error) => {
 					Toast.errorToast(result.message);
-					console.log(result);
 				});
 		}
 		if (this.props.keysafe !== null && this.props.userInfo === null) {
@@ -129,9 +148,17 @@ class App extends React.Component<App.Props, App.State> {
 		}
 	}
 
+	load = () => {
+		this.setState({ loaded: true });
+	}
 	componentDidMount() {
 		this.props.onIxoInit();
 		this.props.onKeysafeInit();
+		setTimeout(this.load , 100);
+	}
+
+	componentDidCatch(error: any, info: any) {
+		this.setState({ error: error, errorInfo: info });
 	}
 
 	/* renderRegisterPage() {
@@ -149,7 +176,16 @@ class App extends React.Component<App.Props, App.State> {
 	}
 
 	render() {
-		if (this.props.match.path === '/') {
+		if (this.state.error !== null) {
+			return (
+				<div>
+					<h3>React Error Component </h3>
+					<p>{this.state.error}</p>
+					<p>{this.state.errorInfo}</p>
+				</div>
+			);
+		}
+		if (this.props.match.path === '/comingsoon') {
 			return (
 				<ThemeProvider theme={theme}>
 					<ScrollToTop>

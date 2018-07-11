@@ -66,7 +66,14 @@ class RegisterPage extends React.Component<Props, State> {
 	componentDidMount() {
 		if (this.props.keysafe) {
 			this.props.keysafe.getDidDoc((error, response) => {
-				this.setState({ didDoc: response });
+				let newDidDoc = {
+					didDoc: {
+						did: response.didDoc.did,
+						pubKey: response.didDoc.pubKey,
+						credentials: []
+					}
+				};
+				this.setState({ didDoc: newDidDoc });
 			});
 		}
 	}
