@@ -13,6 +13,19 @@ export interface State {
 
 export interface ParentProps {
 	totalBars: number;
+	barData: BarData[];
+}
+
+export interface BarData {
+	data: any[];
+	color: BarColors;
+}
+
+export enum BarColors {
+	blue = 'BLUE',
+	red = 'RED',
+	green = 'GREEN',
+	darkBlue = 'DARKBLUE'
 }
 
 export default class BarChart extends React.Component<ParentProps, State> {
@@ -24,6 +37,7 @@ export default class BarChart extends React.Component<ParentProps, State> {
 	state = {
 		canvasHeight: 0,
 		hasError: false,
+		errorMessage: '',
 		canvas: null,
 		firstTime: true
 	};
@@ -229,6 +243,53 @@ export default class BarChart extends React.Component<ParentProps, State> {
 		this.setState({firstTime: false});
 	}
 
+	calculateArray = (arrayIndex: number) => {
+		this.props.barData[arrayIndex].data.sort(function (a: any, b: any) {
+			return Date.parse(a.date) - Date.parse(b.date);
+		});
+		
+		const now = Date.now();
+
+		const currentHour = now / 1000 / 60 / 60;
+		let hoursDifferenceArray = new Array();
+
+		for (let k = 0; k < this.props.barData[arrayIndex].data.length; k++) {
+			const theDate = Date.parse(this.props.barData[arrayIndex].data[k].date);
+			const theHour = theDate / 1000 / 60 / 60;
+
+			hoursDifferenceArray.push(currentHour - theHour);
+		}
+
+		const earliestHoursDifference = hoursDifferenceArray[0];
+
+		let noHoursPerBucket = (earliestHoursDifference / this.props.totalBars);
+		if (noHoursPerBucket < 1) {
+			noHoursPerBucket = 1;
+		}
+
+		let bucketsArray = new Array();
+		for (let i = 0; i <= this.props.totalBars; i++) {
+			bucketsArray.push(noHoursPerBucket * i);
+		}
+
+		let BucketValueArray = Array.apply(null, new Array(this.props.totalBars)).map(Number.prototype.valueOf, 0);
+
+		for (let k = 0; k < hoursDifferenceArray.length; k++) {
+			for (let p = 0; p < this.props.totalBars; p++) {
+				if (p === this.props.totalBars - 1) {
+					if (hoursDifferenceArray[k] > bucketsArray[p]) {
+						BucketValueArray[p]++;
+					}
+				} else {
+				if (hoursDifferenceArray[k] > bucketsArray[p] && hoursDifferenceArray[k] < bucketsArray[p + 1]) {
+					BucketValueArray[p]++;
+				}
+				}
+			}
+		}
+		return BucketValueArray;
+	}
+
 	// handleGetGradients = (ctx: any, ) => {
 	// 	const colorArrays = {
 	// 		redArray : ['#E2223B', '#B31429'],
@@ -272,15 +333,20 @@ export default class BarChart extends React.Component<ParentProps, State> {
 		gradientRemaining.addColorStop(0, '#00283a');
 		gradientRemaining.addColorStop(1, '#045971');
 
-		const dataRejected: number[] = this.populateDataArray(80, 20);
-		const dataApproved: number[] = this.populateDataArray(80, 20);
-		const dataSubmitted: number[] = this.populateDataArray(80, 20);
+		// let dataRejected: number[] = this.populateDataArray(80, 20);
+		// const dataApproved: number[] = this.populateDataArray(80, 20);
+		// const dataSubmitted: number[] = this.populateDataArray(80, 20);
+
+		let dataRejected = this.calculateArray(0);
+		let dataApproved = this.calculateArray(1);
+		let dataPending = this.calculateArray(2);
+
 		let dataRemainder: number[] = [];
 		let dataMaxArray: number[] = [];
 
-		if (dataRejected.length === dataApproved.length && dataSubmitted.length === dataApproved.length) {
+		if (dataRejected.length === dataApproved.length && dataPending.length === dataApproved.length) {
 			const dataSumArray = dataRejected.map((value, index) => {
-				return value + dataApproved[index] + dataSubmitted[index];
+				return value + dataApproved[index] + dataPending[index];
 			});
 
 			const max = Math.max(...dataSumArray);
@@ -294,11 +360,9 @@ export default class BarChart extends React.Component<ParentProps, State> {
 				const excessElements = new Array(excessBarsCount);
 				excessElements.fill(max + 2);
 				dataRemainder.push(...excessElements);
-				console.log(dataRemainder);
-				debugger;
 			}
 		} else {
-			this.setState({hasError: true});
+			this.setState({hasError: true, errorMessage: 'length of data arrays are not equal'});
 		}
 
 		const dataSets: any[] = [{
@@ -315,7 +379,7 @@ export default class BarChart extends React.Component<ParentProps, State> {
 		},
 		{
 			label: 'Claims Submitted',
-			data: dataSubmitted,
+			data: dataPending,
 			backgroundColor: gradientPending,
 			hoverBackgroundColor: '#066a86',
 		},
@@ -375,7 +439,7 @@ export default class BarChart extends React.Component<ParentProps, State> {
 
 		return (
 			<Container className="container-fluid">
-				{this.state.hasError ? 'Invalid data sent' :
+				{this.state.hasError ? this.state.errorMessage :
 					<Bar height={80} data={this.allData} options={options} />
 				}
 			</Container>

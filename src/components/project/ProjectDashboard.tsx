@@ -6,7 +6,7 @@ import { SingleStatistic } from '../common/SingleStatistic';
 import { StatType, AgentRoles } from '../../types/models';
 import { ProjectClaims } from './ProjectClaims';
 import { CircleProgressbar } from '../widgets/CircleProgressbar';
-import BarChart from '../widgets/BarChart';
+import BarChart, { BarColors } from '../widgets/BarChart';
 
 const Container = styled.div`
 	color: white;
@@ -59,17 +59,47 @@ export const ProjectDashboard: React.SFC<ParentProps> = ({projectDid, agentStats
 	} else {
 		console.log('no');
 	}
+
+	function randomDate(start: Date, end: Date) {
+		return (new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()))).toISOString();
+	}
+	
+	const generateClaims = (status: number, length: number) => {
+		const claimsArray = new Array();
+
+		for (let i = 0; i < length; i++) {
+			const claimObject = {
+				date: randomDate(new Date(2018, 6, 1), new Date()),
+				status: status
+			};
+
+			claimsArray.push(claimObject);
+		}
+
+		return claimsArray;
+	};
+
 	const countPendingClaims = () => {
 		return [...claims].filter((claim) => claim.status === '0').length;
 	};
 
+	const dummyApprovedClaims = generateClaims(1, 30);
+	const dummyPendingClaims = generateClaims(0, 20);
+	const dummyRejectedClaims = generateClaims(2, 15);
 	return (
 		<LayoutWrapper>
 			<Container className="row">
 				{
 				<div className="col-md-12">
 					<WidgetWrapper title="Project Timeline" path={`/projects/${projectDid}/detail/investors`} linkIcon={'icon-expand'}>
-							<BarChart totalBars={100} />
+							<BarChart 
+								totalBars={100} 
+								barData={[
+									{data: dummyRejectedClaims, color: BarColors.red},
+									{data: dummyApprovedClaims, color: BarColors.blue},
+									{data: dummyPendingClaims, color: BarColors.darkBlue}
+								]}
+							/>
 					</WidgetWrapper>
 				</div>
 				}
