@@ -89,6 +89,11 @@ const ListItemWrapper = styled.div`
 		font-size: 14px;
 		overflow: hidden;
 		text-overflow: ellipsis;
+		color: white;
+	}
+
+	a {
+		color: white;
 	}
 `;
 
