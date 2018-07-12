@@ -78,7 +78,7 @@ export class ProjectCreate extends React.Component<StateProps, State> {
 				let promises = [];
 				promises.push(
 					this.props.ixo.project.createPublic(this.state.croppedImg, this.state.project.serviceEndpoint).then((res: any) => {
-						successToast('Uploaded image: ' + res);
+						successToast('Uploaded image successfully');
 						let newProject = this.state.project;
 						newProject.imageLink = res.result;
 						this.setState({project: newProject, projectJson: JSON.stringify(newProject)});
@@ -87,7 +87,7 @@ export class ProjectCreate extends React.Component<StateProps, State> {
 				);
 				promises.push(
 					this.props.ixo.project.createPublic(this.state.claimSchema, this.state.project.serviceEndpoint).then((res: any) => {
-						successToast('Uploaded Schema: ' + res);
+						successToast('Uploaded Schema successfully');
 						let newProject = this.state.project;
 						newProject.templates.claim.schema = res.result;
 						this.setState({project: newProject, projectJson: JSON.stringify(newProject)});
@@ -96,7 +96,7 @@ export class ProjectCreate extends React.Component<StateProps, State> {
 				);
 				promises.push(
 					this.props.ixo.project.createPublic(this.state.claimForm, this.state.project.serviceEndpoint).then((res: any) => {
-						successToast('Uploaded Form JSON: ' + res);
+						successToast('Uploaded Form JSON successfully');
 						let newProject = this.state.project;
 						newProject.templates.claim.form = res.result;
 						this.setState({project: newProject, projectJson: JSON.stringify(newProject)});

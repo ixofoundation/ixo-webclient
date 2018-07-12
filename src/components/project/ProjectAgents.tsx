@@ -4,15 +4,23 @@ import { WidgetWrapper } from '../common/WidgetWrapper';
 import { LayoutWrapper } from '../common/LayoutWrapper';
 import { ButtonTypes, Button } from '../common/Buttons';
 
+const Heading = styled.h2`
+	color: white;
+	font-size: 30px;
+	margin-bottom: 20px;
+	font-family: ${props => props.theme.fontRobotoCondensed};
+
+`;
+
 const Section = styled.section`
 
 	padding-bottom: 30px;
 	border-bottom: 1px solid #164A63;
 	margin-bottom: 30px;
 
-	h2 {
+	h3 {
 		color: white;
-		font-size: 30px;
+		font-size: 22px;
 		font-family: ${props => props.theme.fontRobotoCondensed};
 
 		i {
@@ -204,14 +212,13 @@ export class ProjectAgents extends React.Component<ParentProps, State> {
 		return (
 			<Section className="row" key={key}>
 					<div className="col-12">
-						<h2><i className={iconClass}/>{title}</h2>
+						<h3><i className={iconClass}/>{title}</h3>
 					</div>
 					{agents.map((agent, index) => {
 						return (
 							<Col className="col-xl-3 col-md-6" key={index}>
 								<WidgetWrapper title={agent.name}>
 									<Indicator color={colorClass}/>
-									<p>{this.handleRoleLabel(agent.role)}</p>
 									<DidText><strong>DID: </strong>{agent.agentDid}</DidText>
 									<Mail href={`mailto:${agent.email}`}>{agent.email}</Mail>
 									<Hover>
@@ -268,7 +275,7 @@ export class ProjectAgents extends React.Component<ParentProps, State> {
 		});
 
 		pending.length > 0 && sections.push(this.handleRenderSection('icon-pending', pending, '#F89D28', 'Pending Approval', 1));
-		approved.length > 0 && sections.push(this.handleRenderSection('icon-approved', approved, '#5AB946', 'Approved Service Providers', 2));
+		approved.length > 0 && sections.push(this.handleRenderSection('icon-approved', approved, '#5AB946', 'Approved', 2));
 		revoked.length > 0 && sections.push(this.handleRenderSection('icon-rejectedcross', revoked, '#E2223B', 'Revoked', 3));
 
 		return sections;
@@ -277,6 +284,9 @@ export class ProjectAgents extends React.Component<ParentProps, State> {
 	render() {
 		return (
 			<LayoutWrapper>
+				<div className="row">
+					<div className="col-12"><Heading>{this.handleRoleLabel(this.props.agents[0].role)}</Heading></div>
+				</div>
 				{this.handleMapAgents()}
 			</LayoutWrapper>
 		);

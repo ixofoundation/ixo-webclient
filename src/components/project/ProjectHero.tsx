@@ -204,7 +204,7 @@ export const ProjectHero: React.SFC<Props> = ({project, match, isDetail, hasCapa
 						const goal = Math.floor(SDG);
 						return (
 							<SingleSDG key={index}>
-								<i className={`icon-${SDGArray[goal - 1].ico}`}/>
+								<i className={`icon-sdg-${SDGArray[goal - 1].ico}`}/>
 								{goal}. {SDGArray[goal - 1].title}
 						</SingleSDG>
 						);

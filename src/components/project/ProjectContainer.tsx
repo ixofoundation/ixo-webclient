@@ -26,10 +26,11 @@ const placeholder = require('../../assets/images/ixo-placeholder-large.jpg');
 
 const Loading = styled.div`
 
+	color: white;
 	display:flex;
 	justify-content:center;
 	align-items:center;
-
+	background: ${props => props.theme.bg.blue};
 	height:calc(100vh - 140px);
 `;
 
