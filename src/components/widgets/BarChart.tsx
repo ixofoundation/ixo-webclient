@@ -250,6 +250,8 @@ export default class BarChart extends React.Component<ParentProps, State> {
 		for (let i = 0; i < 12; i++) {
 			labelArray.push(Math.floor(i * 8.33) + hoursPerBucket);
 		}
+
+		labelArray.reverse();
 		this.setState({xLabels: labelArray});
 	}
 
@@ -356,6 +358,10 @@ export default class BarChart extends React.Component<ParentProps, State> {
 		let dataRejected = this.populateDataArray(0); // this number is the index of the data received as props
 		let dataApproved = this.populateDataArray(1);
 		let dataPending = this.populateDataArray(2);
+
+		dataRejected.reverse();
+		dataApproved.reverse();
+		dataPending.reverse();
 
 		let dataRemainder: number[] = [];
 		let dataMaxArray: number[] = [];
