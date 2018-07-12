@@ -171,6 +171,7 @@ class App extends React.Component<App.Props, App.State> {
 		} else if (this.props.ixo === null) {
 			return <Spinner info="App: Loading IXO Module" />;
 		} else {
+			console.log(this.state.projectList);
 			return <Routes projectList={this.state.projectList} />;
 		}
 	}

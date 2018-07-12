@@ -334,10 +334,14 @@ export class ProjectContainer extends React.Component<Props, State> {
 		this.props.keysafe.requestSigning(JSON.stringify(claimPayload), (error, signature) => {
 			if (!error) {
 				this.props.ixo.claim.evaluateClaim(claimPayload, signature, this.state.projectPublic.serviceEndpoint).then((res) => {
-					console.log(res);
+					if (res.error !== undefined) {
+						Toast.errorToast(res.error.message);
+					} else {
+						Toast.successToast('Evaluation succesfully submitted');
+					}
 				}); 
 			} else {
-				console.log(error);
+					Toast.errorToast('Evaluation was not submitted');
 			}
 		});
 	}
