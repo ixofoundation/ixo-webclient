@@ -90,7 +90,7 @@ export const ProjectDashboard: React.SFC<ParentProps> = ({projectDid, agentStats
 
 		for (let i = 0; i < length; i++) {
 			const claimObject = {
-				date: randomDate(new Date(2018, 6, 10), new Date()),
+				date: randomDate(new Date(2018, 6, 11), new Date()),
 				status: status
 			};
 
@@ -103,9 +103,9 @@ export const ProjectDashboard: React.SFC<ParentProps> = ({projectDid, agentStats
 	const countPendingClaims = () => {
 		return [...claims].filter((claim) => claim.status === '0').length;
 	};
-	const dummyApprovedClaims = generateClaims(1, 80);
-	const dummyPendingClaims = generateClaims(0, 60);
-	const dummyRejectedClaims = generateClaims(2, 45);
+	const dummyApprovedClaims = generateClaims(1, 30);
+	const dummyPendingClaims = generateClaims(0, 20);
+	const dummyRejectedClaims = generateClaims(2, 15);
 
 	return (
 		<LayoutWrapper>

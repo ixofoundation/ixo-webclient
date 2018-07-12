@@ -347,7 +347,7 @@ export class ProjectContainer extends React.Component<Props, State> {
 		this.props.keysafe.requestSigning(JSON.stringify(claimPayload), (error, signature) => {			
 			if (!error) {
 				this.props.ixo.claim.createClaim(claimPayload, signature, this.state.projectPublic.serviceEndpoint).then((response) => {
-					Toast.successToast('Claim has been submitted successfully');
+					Toast.warningToast('Claim has been submitted for approval');
 					this.setState({ claimSubmitted: true });
 				}).catch((claimError: Error) => {
 					Toast.errorToast(claimError.message);

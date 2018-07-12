@@ -8,6 +8,8 @@ import { blankProjectData, testProjectData } from '../../lib/commonData';
 import { Button, ButtonTypes } from '../common/Buttons';
 import { FileLoader } from '../common/FileLoader';
 import InputImage from '../form/InputImage';
+import { successToast, errorToast } from '../helpers/Toast';
+import { ErrorTypes } from '../../types/models';
 
 const Text = styled.input`
 	margin: 20px 0;
@@ -76,7 +78,7 @@ export class ProjectCreate extends React.Component<StateProps, State> {
 				let promises = [];
 				promises.push(
 					this.props.ixo.project.createPublic(this.state.croppedImg, this.state.project.serviceEndpoint).then((res: any) => {
-						console.log('Uploaded: ', res);
+						successToast('Uploaded image: ' + res);
 						let newProject = this.state.project;
 						newProject.imageLink = res.result;
 						this.setState({project: newProject, projectJson: JSON.stringify(newProject)});
@@ -85,6 +87,7 @@ export class ProjectCreate extends React.Component<StateProps, State> {
 				);
 				promises.push(
 					this.props.ixo.project.createPublic(this.state.claimSchema, this.state.project.serviceEndpoint).then((res: any) => {
+						successToast('Uploaded Schema: ' + res);
 						let newProject = this.state.project;
 						newProject.templates.claim.schema = res.result;
 						this.setState({project: newProject, projectJson: JSON.stringify(newProject)});
@@ -93,6 +96,7 @@ export class ProjectCreate extends React.Component<StateProps, State> {
 				);
 				promises.push(
 					this.props.ixo.project.createPublic(this.state.claimForm, this.state.project.serviceEndpoint).then((res: any) => {
+						successToast('Uploaded Form JSON: ' + res);
 						let newProject = this.state.project;
 						newProject.templates.claim.form = res.result;
 						this.setState({project: newProject, projectJson: JSON.stringify(newProject)});
@@ -104,7 +108,11 @@ export class ProjectCreate extends React.Component<StateProps, State> {
 					this.props.keysafe.requestSigning(projectObj, (error: any, signature: any) => {
 						
 						this.props.ixo.project.createProject(JSON.parse(projectObj), signature, this.state.project.serviceEndpoint).then((res: any) => {
-							console.log('PROJECT CREATE STATUS: ', res);
+							if (res.error) {
+								errorToast(res.error.message, ErrorTypes.message);
+							} else {
+								successToast('Project created successfully');
+							}
 						});
 					});
 				});
