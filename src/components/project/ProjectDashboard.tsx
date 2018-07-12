@@ -69,7 +69,7 @@ const ClaimsTopLabels = styled.div`
 		background: ${props => props.theme.ixoBlue};
 	}
 	p:nth-child(3):before {
-		background: ${props => props.theme.ixoOrange};
+		background: ${props => props.theme.red};
 	}
 `;
 export interface ParentProps {

@@ -247,10 +247,16 @@ export default class BarChart extends React.Component<ParentProps, State> {
 
 	populateXaxisLabels(hoursPerBucket: number) {
 		const labelArray = new Array();
-		for (let i = 0; i < 12; i++) {
-			labelArray.push(Math.floor(i * 8.33) + hoursPerBucket);
-		}
+		let theTime = new Date();
 
+		for (let i = 0; i < 12; i++) {
+			const theDiff = Math.floor(i * 8.33) + hoursPerBucket;
+			theTime.setHours((theTime.getHours() - theDiff));
+			let stringDate = theTime.toDateString();
+			// @ts-ignore
+			stringDate = stringDate.split(' ')[1] + ' ' + stringDate.split(' ')[2];
+			labelArray.push(stringDate);
+		}
 		labelArray.reverse();
 		this.setState({xLabels: labelArray});
 	}
@@ -433,6 +439,11 @@ export default class BarChart extends React.Component<ParentProps, State> {
 	render() {
 
 		const options = {
+			tooltips: {
+				filter: function (tooltipItem: any) {
+					return tooltipItem.datasetIndex !== 3; // this should actually be set to the highest dataIndex for remainder
+				}
+			},
 			legend: {
 				display: false
 			},
@@ -466,7 +477,7 @@ export default class BarChart extends React.Component<ParentProps, State> {
 				}
 				<LabelsX>
 				{this.state.xLabels.map((label, index) => {
-					return <p key={index}>{label} hours ago</p>;
+					return <p key={index}>{label}</p>;
 				})}
 				</LabelsX>
 			</Container>
