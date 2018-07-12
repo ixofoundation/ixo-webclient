@@ -42,6 +42,36 @@ const ClaimsLabels = styled.div`
 		background: #033C50;
 	}
 `;
+
+const ClaimsTopLabels = styled.div`
+
+	display: flex;
+	justify-content: flex-end; 
+    margin-top: -25px;
+	margin-bottom: 30px;
+	
+	p {
+		margin:0 10px;
+		font-size: 13px;
+	}
+	p:before {
+		content:'';
+		width:10px;
+		height:10px;
+		display: inline-block;
+		margin-right: 20px;
+	}
+	p:nth-child(1):before {
+		background: #033C50;
+	}
+
+	p:nth-child(2):before {
+		background: ${props => props.theme.ixoBlue};
+	}
+	p:nth-child(3):before {
+		background: ${props => props.theme.ixoOrange};
+	}
+`;
 export interface ParentProps {
 	projectDid: string;
 	agentStats: any;
@@ -83,14 +113,19 @@ export const ProjectDashboard: React.SFC<ParentProps> = ({projectDid, agentStats
 				{
 				<div className="col-md-12">
 					<WidgetWrapper title="Project Timeline" path={`/projects/${projectDid}/detail/investors`} linkIcon={'icon-expand'}>
-							<BarChart 
-								totalBars={100} 
-								barData={[
-									{data: dummyRejectedClaims, color: BarColors.red},
-									{data: dummyApprovedClaims, color: BarColors.blue},
-									{data: dummyPendingClaims, color: BarColors.darkBlue}
-								]}
-							/>
+						<ClaimsTopLabels>
+							<p>Claims submitted</p>
+							<p>Claims approved</p>
+							<p>Claims rejected</p>
+						</ClaimsTopLabels>
+						<BarChart 
+							totalBars={100} 
+							barData={[
+								{data: dummyRejectedClaims, color: BarColors.red},
+								{data: dummyApprovedClaims, color: BarColors.blue},
+								{data: dummyPendingClaims, color: BarColors.darkBlue}
+							]}
+						/>
 					</WidgetWrapper>
 				</div>
 				}
