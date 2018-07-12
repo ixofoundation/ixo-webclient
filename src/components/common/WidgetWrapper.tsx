@@ -12,10 +12,6 @@ const Container = styled.div`
 
 	transition: box-shadow 0.3s ease, transform 0.3s ease;
 
-	p, h3, a {
-		color: white;
-	}
-
 	h3 {
 		font-family: ${props => props.theme.fontRobotoCondensed};
 		font-weight: normal;

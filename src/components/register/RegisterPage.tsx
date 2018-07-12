@@ -101,6 +101,8 @@ class RegisterPage extends React.Component<Props, State> {
 	render() {
 		return (
 			<div className="container-fluid">
+				<h2>Your did has not been found on the IXO Blockchain</h2>
+				<p>Please click below to add it. This will allow you to interact with projects on our platform</p>
 				<LocalButton onClick={this.ledgerDid}>
 					<i className="icon-favourites" />LEDGER DID
 				</LocalButton>

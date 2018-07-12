@@ -116,10 +116,10 @@ class App extends React.Component<App.Props, App.State> {
 	};
 
 	componentDidUpdate(prevProps: any) {
-		if (this.props.userInfo !== null && this.props.ixo !== null && this.props.keysafe !== null) {
+		if (this.props.userInfo && this.props.ixo && this.props.keysafe) {
 			if (typeof this.props.userInfo.ledgered === 'undefined') {
 				this.props.ixo.user.getDidDoc(this.props.userInfo.didDoc.did).then((response: any) => {
-					if (response.error) {
+					if (!response.result) {
 						this.props.userInfo.ledgered = false;
 						if (!(this.props.location.pathName === '/register')) {
 							this.props.history.push('/register');
