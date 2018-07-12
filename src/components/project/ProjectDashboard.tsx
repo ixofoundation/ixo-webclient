@@ -90,7 +90,7 @@ export const ProjectDashboard: React.SFC<ParentProps> = ({projectDid, agentStats
 
 		for (let i = 0; i < length; i++) {
 			const claimObject = {
-				date: randomDate(new Date(2018, 6, 11), new Date()),
+				date: randomDate(new Date(2018, 6, 8), new Date()),
 				status: status
 			};
 
@@ -103,18 +103,17 @@ export const ProjectDashboard: React.SFC<ParentProps> = ({projectDid, agentStats
 	const countPendingClaims = () => {
 		return [...claims].filter((claim) => claim.status === '0').length;
 	};
-	const dummyApprovedClaims = generateClaims(1, 30);
+	const dummyApprovedClaims = generateClaims(1, 70);
 	const dummyPendingClaims = generateClaims(0, 20);
 	const dummyRejectedClaims = generateClaims(2, 15);
 
 	return (
 		<LayoutWrapper>
 			<Container className="row">
-				{
-				<div className="col-md-12">
+				<div className="col-md-12" style={{display: 'none'}}>
 					<WidgetWrapper title="Project Timeline" path={`/projects/${projectDid}/detail/investors`} linkIcon={'icon-expand'}>
 						<ClaimsTopLabels>
-							<p>Claims submitted</p>
+							<p>Claims pending</p>
 							<p>Claims approved</p>
 							<p>Claims rejected</p>
 						</ClaimsTopLabels>
@@ -128,7 +127,6 @@ export const ProjectDashboard: React.SFC<ParentProps> = ({projectDid, agentStats
 						/>
 					</WidgetWrapper>
 				</div>
-				}
 				{
 				<div className="col-sm-6 col-lg-3">
 					<WidgetWrapper title="Evaluators" link={hasCapability([AgentRoles.owners])} path={`/projects/${projectDid}/detail/evaluators`} linkIcon={'icon-expand'}>

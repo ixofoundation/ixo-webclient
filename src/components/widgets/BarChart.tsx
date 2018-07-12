@@ -249,14 +249,14 @@ export default class BarChart extends React.Component<ParentProps, State> {
 		const labelArray = new Array();
 		let theTime = new Date();
 
-		for (let i = 0; i < 12; i++) {
-			const theDiff = Math.floor(i * 8.33) + hoursPerBucket;
+		for (let i = 0; i < 100; i += 8.33) {
+			const theDiff = Math.floor(i *  hoursPerBucket);
 			theTime.setHours((theTime.getHours() - theDiff));
 			let stringDate = theTime.toDateString();
-			// @ts-ignore
 			stringDate = stringDate.split(' ')[1] + ' ' + stringDate.split(' ')[2];
 			labelArray.push(stringDate);
 		}
+		console.log(labelArray);
 		labelArray.reverse();
 		this.setState({xLabels: labelArray});
 	}
@@ -283,7 +283,6 @@ export default class BarChart extends React.Component<ParentProps, State> {
 		}
 
 		const earliestHoursDifference = hoursDifferenceArray[0];
-
 		let noHoursPerBucket = (earliestHoursDifference / this.props.totalBars);
 		if (noHoursPerBucket < 1) {
 			noHoursPerBucket = 1;
