@@ -251,7 +251,7 @@ export default class BarChart extends React.Component<ParentProps, State> {
 
 		for (let i = 0; i < 100; i += 8.33) {
 			const theDiff = Math.floor(i *  hoursPerBucket);
-			console.log(theDiff);
+			// console.log(theDiff);
 			// NEED TO CHECK WHAT IS GOING ON HERE
 			theTime.setHours((theTime.getHours() - theDiff));
 			let stringDate = theTime.toDateString();

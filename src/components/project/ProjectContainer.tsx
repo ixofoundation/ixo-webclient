@@ -114,6 +114,7 @@ export class ProjectContainer extends React.Component<Props, State> {
 			this.props.onSetActiveProject(this.props.match.params.projectDID);
 			const did = this.props.match.params.projectDID;
 			this.props.ixo.project.getProjectByProjectDid(did).then((response: any) => {
+				console.log(response.result.data);
 				const project: Project = response.result.data;
 				this.setState({ projectPublic: project});
 				this.handleGetCapabilities();
@@ -163,8 +164,7 @@ export class ProjectContainer extends React.Component<Props, State> {
 								claimsObj = [...this.state.claims];
 							}
 							claimsObj = response.result;
-
-							// @ts-ignore
+							console.log('private claims: ', claimsObj);
 							this.setState({ claims: [...claimsObj]});
 						}
 					}).catch((result: Error) => {
@@ -178,18 +178,18 @@ export class ProjectContainer extends React.Component<Props, State> {
 	}
 
 	handleRenderClaims = (renderType: RenderType) => {
-		if (this.state.claims === null) {
-			this.handleListClaims();
+		if (this.state.projectPublic.claims === null) {
+			this.handleGetProjectData();
 			return <Spinner info="Loading..." />;
 		} else if (renderType === RenderType.widget) {
 			return <ProjectClaims hasLink={true} fullPage={false} claims={this.state.projectPublic.claims} projectDid={this.props.projectDid}/>;
-		} else if (this.state.claims.length > 0) {		
+		} else if (this.state.projectPublic.claims.length > 0) {		
 			return (
 				<Fragment>
 					<ProjectHero project={this.state.projectPublic} match={this.props.match} isDetail={true} hasCapability={this.handleHasCapability} />
 					<DetailContainer>
 						<ProjectSidebar match={this.props.match} projectDid={this.props.projectDid}/>
-						<ProjectClaims hasLink={true} fullPage={true} claims={this.state.claims} projectDid={this.props.projectDid}/>
+						<ProjectClaims hasLink={true} fullPage={true} claims={this.state.projectPublic.claims} projectDid={this.props.projectDid}/>
 					</DetailContainer>
 				</Fragment>
 			);

@@ -271,7 +271,7 @@ export class ProjectCreate extends React.Component<StateProps, State> {
 						<div className="col-md-12">
 							<br />
 							<Button type={ButtonTypes.gradient} onClick={() => this.loadTestData()} >Load Example Data</Button>
-							<Text placeholder="Project datastore url example: http://104.155.142.57:5000/" value={this.state.project.serviceEndpoint} onChange={this.handlePdsUrlChange} />
+							<Text placeholder="Project datastore url example: http://104.155.142.57:5000/ or http://beta.elysian.ixo.world:5000/" value={this.state.project.serviceEndpoint} onChange={this.handlePdsUrlChange} />
 							<Text placeholder="Title" value={this.state.project.title} onChange={(ev) => this.handlePropertyChanged('title', ev)}/>
 							<Text placeholder="Owner Name" value={this.state.project.ownerName} onChange={this.handleOwnerNameChanged} />
 							<Text placeholder="Owner Email" value={this.state.project.ownerEmail} onChange={this.handleOwnerEmailChanged} />

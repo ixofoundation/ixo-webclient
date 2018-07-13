@@ -177,7 +177,7 @@ export const ProjectDashboard: React.SFC<ParentProps> = ({projectDid, agentStats
 				}
 				{
 				<div className="col-md-6">
-					<WidgetWrapper title="My latest claims" path={`/projects/${projectDid}/detail/claims`} linkIcon={'icon-expand'} link={hasCapability([AgentRoles.owners, AgentRoles.evaluators, AgentRoles.serviceProviders, AgentRoles.investors])}>
+					<WidgetWrapper title="My latest claims" path={`/projects/${projectDid}/detail/claims`}>
 						<ProjectClaims claims={claims} projectDid={projectDid} fullPage={false} hasLink={hasCapability([AgentRoles.owners, AgentRoles.evaluators, AgentRoles.serviceProviders, AgentRoles.investors])} />
 					</WidgetWrapper>
 				</div>

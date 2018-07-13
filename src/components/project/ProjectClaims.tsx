@@ -52,6 +52,11 @@ const Col = styled.div`
 
 	font-size: 15px;
 	font-weight: 300;
+
+	a {
+		color: white;
+		text-decoration: none;
+	}
 	
 	${Mail} {
 		color: #5094ac;
@@ -97,9 +102,16 @@ const ListItemWrapper = styled.div`
 	}
 `;
 
-const WidgetLink = styled.p`
+const WidgetLink = styled(Link)`
 	display: block;
 	text-align: center;
+	color: white;
+
+	:hover {
+		color: white;
+		font-weight: bold;
+		text-decoration: none;
+	}
 `;
 
 export interface ParentProps {
@@ -127,8 +139,8 @@ export const ProjectClaims: React.SFC<ParentProps> = ({claims, projectDid, fullP
 	const renderClaim = (claim, colorClass) => {
 		if (hasLink) {
 			return (
-				<Link to={{pathname: `/projects/${projectDid}/detail/claims/${claim.txHash}`}}>
-					<WidgetWrapper title={'Claim ID: ' + claim.txHash}>
+				<Link to={{pathname: `/projects/${projectDid}/detail/claims/${claim.claimId}`}}>
+					<WidgetWrapper title={'Claim ID: ' + claim.claimId}>
 						<Indicator color={colorClass}/>
 						<p>{renderClaimStatus(claim)}</p>
 					</WidgetWrapper>
@@ -136,7 +148,7 @@ export const ProjectClaims: React.SFC<ParentProps> = ({claims, projectDid, fullP
 			);
 		} else {
 			return (
-				<WidgetWrapper title={'Claim ID: ' + claim.txHash}>
+				<WidgetWrapper title={'Claim ID: ' + claim.claimId}>
 					<Indicator color={colorClass}/>
 					<p>{renderClaimStatus(claim)}</p>
 				</WidgetWrapper>
@@ -164,7 +176,7 @@ export const ProjectClaims: React.SFC<ParentProps> = ({claims, projectDid, fullP
 
 	const showViewAllLink = () => {
 		if (hasLink) {
-			return (<WidgetLink>View all claims</WidgetLink>);
+			return (<WidgetLink to={`/projects/${projectDid}/detail/claims`}>View all claims</WidgetLink>);
 		} else {
 			return null;
 		}
@@ -220,21 +232,17 @@ export const ProjectClaims: React.SFC<ParentProps> = ({claims, projectDid, fullP
 		const revoked = [];
 		const sections = [];
 		claims.map((claim) => {
-			if (claim.evaluations === null) {
-				pending.push(claim);
-			} else {
-				switch (claim.evaluations.status) {				
-					case '1':
-						approved.push(claim);
-						break;
-					case '2':
-						revoked.push(claim);
-						break;
-					case '0':
-					default:
-						pending.push(claim);
-						break;
-				}
+			switch (claim.status) {				
+				case '1':
+					approved.push(claim);
+					break;
+				case '2':
+					revoked.push(claim);
+					break;
+				case '0':
+				default:
+					pending.push(claim);
+					break;
 			}
 		});
 

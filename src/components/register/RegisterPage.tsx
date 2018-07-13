@@ -84,7 +84,7 @@ class RegisterPage extends React.Component<Props, State> {
 				if (!error) {
 					this.props.ixo.user.registerUserDid(this.state.didDoc, signature).then((response: any) => {
 						if (response.status === 200) {
-							successToast('Did document was ledgerd successfully');
+							successToast('Did document was ledgered successfully');
 						} else {
 							errorToast('Unable to ledger did at this time');
 						}
