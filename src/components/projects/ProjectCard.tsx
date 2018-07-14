@@ -155,19 +155,17 @@ export interface Props {
 }
 
 export interface States {
-	imageLink: string;
-	imageLoaded: boolean;
 }
 
 export class ProjectCard extends React.Component<Props, States> {
 
 	state = {
-		imageLink: placeholder,
-		imageLoaded: false
 	};
 	
 	fetchImage = () => {
 		if (this.props.project.imageLink && this.props.project.imageLink !== '') {
+			this.setState({ imageLink: this.props.project.serviceEndpoint + 'public/' + this.props.project.imageLink});
+/*
 			if (this.props.ixo && !this.state.imageLoaded) {
 				this.setState({imageLoaded: true});
 				this.props.ixo.project.fetchPublic(this.props.project.imageLink, this.props.project.serviceEndpoint).then((res: any) => {
@@ -178,7 +176,12 @@ export class ProjectCard extends React.Component<Props, States> {
 					console.log(err);
 				});
 			}
+			*/
 		}
+	}
+
+	getImageLink = () => {
+		return this.props.project.serviceEndpoint + 'public/' + this.props.project.imageLink;
 	}
 
 	componentDidMount() {
@@ -188,8 +191,8 @@ export class ProjectCard extends React.Component<Props, States> {
 	render() {
 		return (
 			<CardContainer className="col-10 offset-1 col-xl-4 col-md-6 col-sm-10 offset-sm-1 offset-md-0">
-				<ProjectLink to={{pathname: `/projects/${this.props.did}/overview`, state: { imageLink: this.state.imageLink } }}>
-					<CardTop style={{backgroundImage: `url(${this.state.imageLink})`}}>
+				<ProjectLink to={{pathname: `/projects/${this.props.did}/overview`, state: { imageLink: this.getImageLink() } }}>
+					<CardTop style={{backgroundImage: `url(${this.getImageLink()}),url(${placeholder})`}}>
 						<SDGs>
 						{this.props.project.sdgs.map((SDG, SDGi) => {
 							return (

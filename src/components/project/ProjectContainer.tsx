@@ -108,6 +108,10 @@ export class ProjectContainer extends React.Component<Props, State> {
 	componentDidMount() {
 		this.handleGetProjectData();
 	}
+	
+	getImageLink = (project) => {
+		return project.serviceEndpoint + 'public/' + project.imageLink;
+	}
 
 	handleGetProjectData = () => {
 		if (this.state.projectPublic === null) {
@@ -116,7 +120,11 @@ export class ProjectContainer extends React.Component<Props, State> {
 			this.props.ixo.project.getProjectByProjectDid(did).then((response: any) => {
 				console.log(response.result.data);
 				const project: Project = response.result.data;
-				this.setState({ projectPublic: project});
+				this.setState({ 
+					projectPublic: project,
+					imageLink: this.getImageLink(project)
+				});
+
 				this.handleGetCapabilities();
 			}).catch((result: Error) => {
 				Toast.errorToast(result.message, ErrorTypes.goBack);
@@ -419,13 +427,6 @@ export class ProjectContainer extends React.Component<Props, State> {
 		Promise.all(promises);
 	}
 
-	fetchImage = (imageLink: string, pdsURL: string) => {
-		this.props.ixo.project.fetchPublic(imageLink, pdsURL).then((res: any) => {
-			let imageSrc = 'data:' + res.contentType + ';base64,' + res.data;
-			this.setState({ imageLink: imageSrc });
-		});
-	}
-
 	handleRenderProject = () => {
 		if (this.state.projectPublic === null || this.state.userRoles === null) {
 			return <Spinner info="ProjectContainer: Loading Project"/>;
@@ -433,9 +434,6 @@ export class ProjectContainer extends React.Component<Props, State> {
 			const project = this.state.projectPublic;
 			switch (this.props.contentType) {
 				case contentType.overview:
-					if (this.state.imageLink === placeholder) {
-						this.fetchImage(project.imageLink, project.serviceEndpoint);
-					}
 					return (
 						<Fragment>
 							<ProjectHero project={project} match={this.props.match} isDetail={false} hasCapability={this.handleHasCapability} />

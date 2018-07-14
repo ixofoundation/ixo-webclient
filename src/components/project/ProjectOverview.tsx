@@ -10,6 +10,8 @@ import { ProjectNewAgent } from './ProjectNewAgent';
 import { UserInfo } from '../../types/models';
 import { Button, ButtonTypes } from '../common/Buttons';
 
+const placeholder = require('../../assets/images/ixo-placeholder-large.jpg');
+
 const OverviewContainer = styled.section`
 
 	margin-top: -86px;
@@ -313,6 +315,10 @@ export const ProjectOverview: React.SFC<ParentProps> = (props) => {
 			);
 		} 
 	};
+
+	const onProjectImageNotFound = (evt) => {
+		evt.target.src = placeholder;
+	};
 	
 	return (
 		<div>
@@ -326,7 +332,7 @@ export const ProjectOverview: React.SFC<ParentProps> = (props) => {
 				<div className="container">
 					<div className="row">
 						<div className="col-md-8">
-							<img src={props.imageLink} />
+							<img src={props.imageLink} onError={onProjectImageNotFound}/>
 							<Text>
 								<p>{props.project.longDescription} 
 								</p>
