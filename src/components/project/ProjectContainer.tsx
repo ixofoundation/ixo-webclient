@@ -100,9 +100,11 @@ export class ProjectContainer extends React.Component<Props, State> {
 	handleToggleModal = (data: any, modalStatus: boolean) => {
 		this.setState({ modalData: data, isModalOpen: modalStatus });
 	}
-
-	componentWillReceiveProps() {
-		this.setState({ claimSubmitted: false, singleClaimDependentsFetched: false });
+	
+	componentWillReceiveProps(nextProps: any) {
+		if (nextProps.contentType === contentType.newClaim) {
+			this.setState({ claimSubmitted: false, singleClaimDependentsFetched: false });
+		}
 	}
 
 	componentDidMount() {
