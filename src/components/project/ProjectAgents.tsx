@@ -215,6 +215,7 @@ export class ProjectAgents extends React.Component<ParentProps, State> {
 						<h3><i className={iconClass}/>{title}</h3>
 					</div>
 					{agents.map((agent, index) => {
+						let currentStatus = agent.currentStatus.status;
 						return (
 							<Col className="col-xl-3 col-md-6" key={index}>
 								<WidgetWrapper title={agent.name}>
@@ -229,11 +230,13 @@ export class ProjectAgents extends React.Component<ParentProps, State> {
 											<Buttons>
 												<Button 
 													type={ButtonTypes.dark}
+													disabled={currentStatus === '1'}
 													onClick={() => this.handleUpdateAgentStatus('1', agent.currentStatus, agent.agentDid, agent.role)}
 												><i className="icon-approvetick"/>
 												</Button>
 												<Button 
-													type={ButtonTypes.gradient} 
+													type={ButtonTypes.gradient}
+													disabled={currentStatus === '2'} 
 													onClick={() => this.handleUpdateAgentStatus('2', agent.currentStatus, agent.agentDid, agent.role)}
 												><i className="icon-close"/>
 												</Button>
