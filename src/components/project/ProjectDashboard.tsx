@@ -97,6 +97,12 @@ export const ProjectDashboard: React.SFC<ParentProps> = ({projectDid, agentStats
 			claimsArray.push(claimObject);
 		}
 
+		for (let i = 0; i < claimsArray.length; i ++) {
+			claimsArray.sort(function (a: any, b: any) {
+				return Date.parse(a.date) - Date.parse(b.date);
+			});
+		}
+
 		return claimsArray;
 	};
 
@@ -110,7 +116,7 @@ export const ProjectDashboard: React.SFC<ParentProps> = ({projectDid, agentStats
 	return (
 		<LayoutWrapper>
 			<Container className="row">
-				<div className="col-md-12" style={{display: 'none'}}>
+				<div className="col-md-12">
 					<WidgetWrapper title="Project Timeline" path={`/projects/${projectDid}/detail/investors`} linkIcon={'icon-expand'}>
 						<ClaimsTopLabels>
 							<p>Claims pending</p>

@@ -138,7 +138,6 @@ export const ProjectClaims: React.SFC<ParentProps> = ({claims, projectDid, fullP
 
 	const renderClaim = (claim, colorClass) => {
 
-		console.log(claim);
 		if (hasLink) {
 			return (
 				<Link to={{pathname: `/projects/${projectDid}/detail/claims/${claim.claimId}`}}>

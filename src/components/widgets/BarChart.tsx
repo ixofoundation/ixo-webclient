@@ -2,6 +2,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { Bar } from 'react-chartjs-2';
 import { Chart } from 'chart.js';
+import * as moment from 'moment';
 
 const Container = styled.div`
 
@@ -44,10 +45,14 @@ export default class BarChart extends React.Component<ParentProps, State> {
 		errorMessage: '',
 		canvas: null,
 		firstTime: true,
-		xLabels: []
+		xLabels: [],
+		hoursPerBucket: 1,
+		hoursDifferenceArray: []
 	};
 
 	componentWillMount () {
+
+		this.calculateHoursPerBucket();
 		
 		// https://github.com/jedtrow/Chart.js-Rounded-Bar-Charts/blob/master/Chart.roundedBarCharts.js
 		const that = this;
@@ -247,17 +252,21 @@ export default class BarChart extends React.Component<ParentProps, State> {
 
 	populateXaxisLabels(hoursPerBucket: number) {
 		const labelArray = new Array();
-		let theTime = new Date();
+		let now = moment();
 
 		for (let i = 0; i < 100; i += 8.33) {
 			const theDiff = Math.floor(i *  hoursPerBucket);
-			// console.log(theDiff);
-			// NEED TO CHECK WHAT IS GOING ON HERE
-			theTime.setHours((theTime.getHours() - theDiff));
-			let stringDate = theTime.toDateString();
-			stringDate = stringDate.split(' ')[1] + ' ' + stringDate.split(' ')[2];
-			labelArray.push(stringDate);
+			let theTime = now.clone().subtract(theDiff, 'hours');
+			console.log(theTime.format());
+			if (theTime.diff(now, 'days') < 1) {
+				// console.log('less than a day');
+				labelArray.push(theTime.format('h:mm:ss a'));
+			} else {
+				// console.log('more than a day');
+				labelArray.push(theTime.format('MMM, Do'));
+			}
 		}
+		console.log('done');
 		labelArray.reverse();
 		this.setState({xLabels: labelArray});
 	}
@@ -266,34 +275,42 @@ export default class BarChart extends React.Component<ParentProps, State> {
 		this.setState({firstTime: false});
 	}
 
-	populateDataArray = (arrayIndex: number) => {
-		this.props.barData[arrayIndex].data.sort(function (a: any, b: any) {
-			return Date.parse(a.date) - Date.parse(b.date);
-		});
+	calculateHoursPerBucket = () => {
 		
-		const now = Date.now();
+		const now = moment();
+		let earliestHoursDifference = 0;
 
-		const currentHour = now / 1000 / 60 / 60;
+		for (let j = 0; j < this.props.barData.length; j++) {
+			const theDate = moment(this.props.barData[j].data[0].date);
+			const theDiff = now.diff(theDate, 'hours');
+			if (theDiff > earliestHoursDifference) {
+				earliestHoursDifference = theDiff;
+			}
+		}
+
+		let hoursPerBucket = (earliestHoursDifference / this.props.totalBars);
+		if (hoursPerBucket < 1) {
+			hoursPerBucket = 1;
+		}
+
+		this.setState({ hoursPerBucket: hoursPerBucket});
+	}
+
+	populateDataArray = (arrayIndex: number) => {
+		
+		const now = moment();
+
 		let hoursDifferenceArray = new Array();
 
 		for (let k = 0; k < this.props.barData[arrayIndex].data.length; k++) {
-			const theDate = Date.parse(this.props.barData[arrayIndex].data[k].date);
-			const theHour = theDate / 1000 / 60 / 60;
+			const theDate = moment(this.props.barData[arrayIndex].data[k].date);
 
-			hoursDifferenceArray.push(currentHour - theHour);
+			hoursDifferenceArray.push(now.diff(theDate, 'hours'));
 		}
-
-		const earliestHoursDifference = hoursDifferenceArray[0];
-		let noHoursPerBucket = (earliestHoursDifference / this.props.totalBars);
-		if (noHoursPerBucket < 1) {
-			noHoursPerBucket = 1;
-		}
-
-		{(this.state.xLabels.length === 0) && this.populateXaxisLabels(noHoursPerBucket); }
 
 		let bucketsArray = new Array();
 		for (let i = 0; i <= this.props.totalBars; i++) {
-			bucketsArray.push(noHoursPerBucket * i);
+			bucketsArray.push(this.state.hoursPerBucket * i);
 		}
 
 		let BucketValueArray = Array.apply(null, new Array(this.props.totalBars)).map(Number.prototype.valueOf, 0);
@@ -305,9 +322,9 @@ export default class BarChart extends React.Component<ParentProps, State> {
 						BucketValueArray[p]++;
 					}
 				} else {
-				if (hoursDifferenceArray[k] > bucketsArray[p] && hoursDifferenceArray[k] < bucketsArray[p + 1]) {
-					BucketValueArray[p]++;
-				}
+					if (hoursDifferenceArray[k] > bucketsArray[p] && hoursDifferenceArray[k] < bucketsArray[p + 1]) {
+						BucketValueArray[p]++;
+					}
 				}
 			}
 		}
@@ -364,6 +381,8 @@ export default class BarChart extends React.Component<ParentProps, State> {
 		let dataRejected = this.populateDataArray(0); // this number is the index of the data received as props
 		let dataApproved = this.populateDataArray(1);
 		let dataPending = this.populateDataArray(2);
+
+		// {(this.state.xLabels.length === 0) && this.populateXaxisLabels(noHoursPerBucket); }
 
 		dataRejected.reverse();
 		dataApproved.reverse();
