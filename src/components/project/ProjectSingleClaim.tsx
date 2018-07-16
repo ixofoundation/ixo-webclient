@@ -120,20 +120,37 @@ const ImageContainer = styled.img`
 export interface ParentProps {
 	match: any;
 	claim: any;
+	claimEvaluated: boolean;
 	handleListClaims: () => any;
 	handleEvaluateClaim: (status: object, claimId: string) => void;
 	hasCapability: (role: AgentRoles[]) => boolean;
 	singleClaimFormFile: string;
 }
 export const ProjectSingleClaim: React.SFC<ParentProps> = (props) => {
-	// const claimId = props.match.params.claimID;
+	console.log('evaluation status: ', props.claimEvaluated);
 	const projectDID = props.match.params.projectDID;
+	const latestClaimStatus = () => {
+		if (props.claim.evaluations.length > 0) {
+			return props.claim.evaluations[props.claim.evaluations.length - 1].status;
+		} else {
+			return 0;
+		}
+	};
 
-	const handleEvaluateClaim = (status: string, statusObj: any, id: string) => {
-		if (statusObj === null) {
+	const latestClaimVersion = () => {
+		if (props.claim.evaluations.length > 0) {
+			return props.claim.evaluations[props.claim.evaluations.length - 1].version;
+		} else {
+			return 0;
+		}
+	};
+	
+	const evaluateClaim = (status: string, evaluations: any, id: string) => {
+		console.log(latestClaimStatus());
+		if (evaluations.length === 0) {
 			props.handleEvaluateClaim({status: status}, id);
 		} else {
-			props.handleEvaluateClaim({status, version: statusObj.version}, id);
+			props.handleEvaluateClaim({status, version: latestClaimVersion()}, id);
 		}
 	};
 
@@ -144,41 +161,37 @@ export const ProjectSingleClaim: React.SFC<ParentProps> = (props) => {
 		if (link.length > 40) { // image found render
 			return <ImageContainer key={index} src={link} />;
 		}
-		return <ImageSpinner key={index} info={'Loading image for claim'} />;
+		return <ImageSpinner key={index} />;
 	};
 
 	const handleRenderStatus = (claimStatus, ID: string) => {
-		if (claimStatus === null) {
-			return <ClaimStatus message={'Pending'} icon={'icon-pending'} />;
+		
+		if (props.hasCapability([AgentRoles.evaluators])) { // is evaluator
+			switch (claimStatus) {				
+				case '1':
+				return <ClaimStatus message={`You have accepted claim ${ID}`} icon={'icon-approved'} />;
+				case '2':
+				return <ClaimStatus message={`You have rejected claim ${ID}`} icon={'icon-rejected'} />;
+				case '0':
+				default:
+				return <ClaimStatus message={'Pending'} icon={'icon-pending'} />;
+			}
 		} else {
-			if (props.hasCapability([AgentRoles.evaluators])) { // is evaluator
-				switch (claimStatus.status) {				
-					case '1':
-					return <ClaimStatus message={`You have accepted claim ${ID}`} icon={'icon-approved'} />;
-					case '2':
-					return <ClaimStatus message={`You have rejected claim ${ID}`} icon={'icon-rejected'} />;
-					case '0':
-					default:
-					return <ClaimStatus message={'Pending'} icon={'icon-pending'} />;
-				}
-			} else {
-				switch (claimStatus.status) {				
-					case '1':
-					return <ClaimStatus message={'Approved'} icon={'icon-approved'} />;
-					case '2':
-					return <ClaimStatus message={'Rejected'} icon={'icon-rejected'} />;
-					case '0':
-					default:
-					return <ClaimStatus message={'Pending'} icon={'icon-pending'} />;
-				}
+			switch (claimStatus) {			
+				case '1':
+				return <ClaimStatus message={'Approved'} icon={'icon-approved'} />;
+				case '2':
+				return <ClaimStatus message={'Rejected'} icon={'icon-rejected'} />;
+				case '0':
+				default:
+				return <ClaimStatus message={'Pending'} icon={'icon-pending'} />;
 			}
 		}
 	};
 
 	const handleRenderButtons = (claim: any) => {
-		let status: string = (claim.evaluations) ? claim.evaluations.status : '0';
 
-		if (status === '1') { // approved
+		if (props.claimEvaluated === true) { // approved
 			return (
 				<ButtonContainer>
 					<div className="row">
@@ -187,24 +200,7 @@ export const ProjectSingleClaim: React.SFC<ParentProps> = (props) => {
 						</div>
 						<div className="col-md-6">
 							<ButtonLink to={`/projects/${projectDID}/detail/claims`}>
-								<EvaluateMoreButton onClick={() => handleEvaluateClaim('1', claim.evaluations, claim.txHash)}>
-									<ButtonIconLeft className="icon-approvetick" />Evaluate another claim
-								</EvaluateMoreButton>
-							</ButtonLink>
-						</div>
-					</div>
-				</ButtonContainer>
-			);
-		} else if (status === '2') { // rejected
-			return (
-				<ButtonContainer>
-					<div className="row">
-						<div className="col-md-6">
-							<ButtonLink to="/"><ReturnButton>Return to project</ReturnButton></ButtonLink>
-						</div>
-						<div className="col-md-6">
-							<ButtonLink to="/">
-								<EvaluateMoreButton onClick={() => handleEvaluateClaim('1', claim.evaluations, claim.txHash)}>
+								<EvaluateMoreButton>
 									<ButtonIconLeft className="icon-approvetick" />Evaluate another claim
 								</EvaluateMoreButton>
 							</ButtonLink>
@@ -217,17 +213,17 @@ export const ProjectSingleClaim: React.SFC<ParentProps> = (props) => {
 			<ButtonContainer>
 				<div className="row">
 					<div className="col-md-6">
-						<RejectButton onClick={() => handleEvaluateClaim('2', claim.evaluations, claim.txHash)}>Reject Claim<ButtonIcon className="icon-close" /></RejectButton>
+						<RejectButton onClick={() => evaluateClaim('2', claim.evaluations, claim.txHash)}>Reject Claim<ButtonIcon className="icon-close" /></RejectButton>
 					</div>
 					<div className="col-md-6">
-						<ApproveButton onClick={() => handleEvaluateClaim('1', claim.evaluations, claim.txHash)}>Approve Claim<ButtonIcon className="icon-approvetick" /></ApproveButton>
+						<ApproveButton onClick={() => evaluateClaim('1', claim.evaluations, claim.txHash)}>Approve Claim<ButtonIcon className="icon-approvetick" /></ApproveButton>
 					</div>
 				</div>
 			</ButtonContainer>
 		);
 	};
 
-	const handleDataRender = (claim: object) => {
+	const handleDataRender = () => {
 		const { fields = [] } = JSON.parse(props.singleClaimFormFile);
 		return (
 			<div>
@@ -239,13 +235,13 @@ export const ProjectSingleClaim: React.SFC<ParentProps> = (props) => {
 										key={index}
 										type={field.type}
 										value={field.name}
-										text={claim[`${field.name}`]} 
+										text={props.claim[`${field.name}`]} 
 										validation={field.validation}
 							/>;
 						case 'textarea':
-							return <TextArea id={field.name} text={field.label} key={index} />;
+							return <TextArea formStyle={FormStyles.disabled} id={field.name} text={field.label} key={index} />;
 						case 'image':
-							return handleRenderImage(index, claim[`${field.name}`]);
+							return handleRenderImage(index, props.claim[`${field.name}`]);
 						default:
 							return null;
 					}
@@ -255,6 +251,7 @@ export const ProjectSingleClaim: React.SFC<ParentProps> = (props) => {
 	};
 
 	const handleRenderClaim = () => {
+		console.log('the claim: ', props.claim);
 		if (props.claim === null) {
 			props.handleListClaims();
 			return <Spinner info="Loading claim..." />;
@@ -273,8 +270,8 @@ export const ProjectSingleClaim: React.SFC<ParentProps> = (props) => {
 									<Divider />
 								</DividerShadow>
 								<div style={{ padding: '20px' }}>
-									{handleDataRender(claim)}
-									{handleRenderStatus(claim.evaluations, claim._id)}
+									{handleDataRender()}
+									{handleRenderStatus(latestClaimStatus(), claim._id)}
 								</div>
 							</WidgetWrapperClaims>
 							{props.hasCapability([AgentRoles.evaluators]) && handleRenderButtons(claim)}

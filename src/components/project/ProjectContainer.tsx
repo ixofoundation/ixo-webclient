@@ -55,6 +55,7 @@ export interface State {
 	userRoles: AgentRoles[];
 	imageLink: string;
 	claimSubmitted: boolean;
+	claimEvaluated: boolean;
 	singleClaimFormFile: string;
 	singleClaimDependentsFetched: boolean;
 	singleClaim: Object;
@@ -92,6 +93,7 @@ export class ProjectContainer extends React.Component<Props, State> {
 		userRoles: null,
 		imageLink: (this.props.location.state && this.props.location.state.imageLink) ? this.props.location.state.imageLink : placeholder,
 		claimSubmitted: false,
+		claimEvaluated: false,
 		singleClaimFormFile: '',
 		singleClaimDependentsFetched: false,
 		singleClaim: null
@@ -102,7 +104,7 @@ export class ProjectContainer extends React.Component<Props, State> {
 	}
 
 	componentWillReceiveProps() {
-		this.setState({ claimSubmitted: false, singleClaimDependentsFetched: false });
+		this.setState({ claimSubmitted: false, singleClaimDependentsFetched: false, claimEvaluated: false });
 	}
 
 	componentDidMount() {
@@ -338,6 +340,7 @@ export class ProjectContainer extends React.Component<Props, State> {
 						Toast.errorToast(res.error.message);
 					} else {
 						Toast.successToast('Evaluation succesfully submitted');
+						this.setState({claimEvaluated: true});
 					}
 				}); 
 			} else {
@@ -393,6 +396,7 @@ export class ProjectContainer extends React.Component<Props, State> {
 				const claimPromise = this.handleGetClaim(ProjectDIDPayload, signature); // get claim
 				const formFilePromise = this.handleFetchFormFile(project.templates.claim.form, this.state.projectPublic.serviceEndpoint); // get form file
 				Promise.all([claimPromise, formFilePromise]).then(([claim, formFile]) => {
+					console.log(claim);
 					this.setState({ singleClaim: claim, singleClaimFormFile: formFile, singleClaimDependentsFetched: true });
 					this.handleFetchClaimImages(formFile, claim); // go fetch images
 				});
@@ -501,6 +505,7 @@ export class ProjectContainer extends React.Component<Props, State> {
 							<ProjectSingleClaim
 								singleClaimFormFile={this.state.singleClaimFormFile}
 								claim={this.state.singleClaim}
+								claimEvaluated={this.state.claimEvaluated}
 								match={this.props.match}
 								handleListClaims={this.handleListClaims}
 								handleEvaluateClaim={this.handleEvaluateClaim}

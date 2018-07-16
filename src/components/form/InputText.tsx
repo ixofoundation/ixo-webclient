@@ -160,7 +160,6 @@ const InputText: React.SFC<Props> = (props) => {
 							type={props.type}
 							placeholder={props.value}
 							value={props.text}
-							onChange={props.onChange}
 							name={props.id}
 							disabled={true}
 						/>
