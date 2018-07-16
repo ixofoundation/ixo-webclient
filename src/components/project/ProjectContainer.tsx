@@ -102,13 +102,19 @@ export class ProjectContainer extends React.Component<Props, State> {
 	handleToggleModal = (data: any, modalStatus: boolean) => {
 		this.setState({ modalData: data, isModalOpen: modalStatus });
 	}
-
-	componentWillReceiveProps() {
-		this.setState({ claimSubmitted: false, singleClaimDependentsFetched: false, claimEvaluated: false });
+	
+	componentWillReceiveProps(nextProps: any) {
+		if (nextProps.contentType === contentType.newClaim) {
+			this.setState({ claimSubmitted: false, singleClaimDependentsFetched: false });
+		}
 	}
 
 	componentDidMount() {
 		this.handleGetProjectData();
+	}
+	
+	getImageLink = (project) => {
+		return project.serviceEndpoint + 'public/' + project.imageLink;
 	}
 
 	handleGetProjectData = () => {
@@ -118,7 +124,11 @@ export class ProjectContainer extends React.Component<Props, State> {
 			this.props.ixo.project.getProjectByProjectDid(did).then((response: any) => {
 				console.log(response.result.data);
 				const project: Project = response.result.data;
-				this.setState({ projectPublic: project});
+				this.setState({ 
+					projectPublic: project,
+					imageLink: this.getImageLink(project)
+				});
+
 				this.handleGetCapabilities();
 			}).catch((result: Error) => {
 				Toast.errorToast(result.message, ErrorTypes.goBack);
@@ -422,7 +432,7 @@ export class ProjectContainer extends React.Component<Props, State> {
 		});
 		Promise.all(promises);
 	}
-
+	
 	fetchImage = (imageLink: string, pdsURL: string) => {
 		this.props.ixo.project.fetchPublic(imageLink, pdsURL).then((res: any) => {
 			let imageSrc = 'data:' + res.contentType + ';base64,' + res.data;
@@ -437,26 +447,26 @@ export class ProjectContainer extends React.Component<Props, State> {
 			const project = this.state.projectPublic;
 			switch (this.props.contentType) {
 				case contentType.overview:
-					if (this.state.imageLink === placeholder) {
-						this.fetchImage(project.imageLink, project.serviceEndpoint);
-					}
-					return (
-						<Fragment>
-							<ProjectHero project={project} match={this.props.match} isDetail={false} hasCapability={this.handleHasCapability} />
-							<ProjectOverview
-								checkUserDid={this.checkUserDid} 
-								createAgent={this.handleCreateAgent}
-								userInfo={this.props.userInfo}
-								project={project}
-								id={project._id}
-								isModalOpen={this.state.isModalOpen}
-								toggleModal={this.handleToggleModal}
-								modalData={this.state.modalData}
-								hasCapability={this.handleHasCapability}
-								imageLink={this.state.imageLink}
-							/>
-						</Fragment>
-					);
+				if (this.state.imageLink === placeholder) {
+					this.fetchImage(project.imageLink, project.serviceEndpoint);
+				}
+				return (
+					<Fragment>
+						<ProjectHero project={project} match={this.props.match} isDetail={false} hasCapability={this.handleHasCapability} />
+						<ProjectOverview
+							checkUserDid={this.checkUserDid} 
+							createAgent={this.handleCreateAgent}
+							userInfo={this.props.userInfo}
+							project={project}
+							id={project._id}
+							isModalOpen={this.state.isModalOpen}
+							toggleModal={this.handleToggleModal}
+							modalData={this.state.modalData}
+							hasCapability={this.handleHasCapability}
+							imageLink={this.state.imageLink}
+						/>
+					</Fragment>
+				);
 				case contentType.dashboard:
 					if (this.state.projectPublic.claims === null) {
 						return <Spinner info="Project Container: Loading claims"/>;
