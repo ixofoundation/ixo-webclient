@@ -90,7 +90,7 @@ export const ProjectDashboard: React.SFC<ParentProps> = ({projectDid, agentStats
 
 		for (let i = 0; i < length; i++) {
 			const claimObject = {
-				date: randomDate(new Date(2018, 6, 8), new Date()),
+				date: randomDate(new Date(2018, 6, 11), new Date()),
 				status: status
 			};
 
@@ -124,7 +124,6 @@ export const ProjectDashboard: React.SFC<ParentProps> = ({projectDid, agentStats
 							<p>Claims rejected</p>
 						</ClaimsTopLabels>
 						<BarChart 
-							totalBars={100} 
 							barData={[
 								{data: dummyRejectedClaims, color: BarColors.red},
 								{data: dummyApprovedClaims, color: BarColors.blue},

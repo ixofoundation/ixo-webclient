@@ -17,7 +17,6 @@ export interface State {
 }
 
 export interface ParentProps {
-	totalBars: number;
 	barData: BarData[];
 }
 
@@ -46,13 +45,13 @@ export default class BarChart extends React.Component<ParentProps, State> {
 		canvas: null,
 		firstTime: true,
 		xLabels: [],
-		hoursPerBucket: 1,
-		hoursDifferenceArray: []
+		bucketsArray: 1,
+		totalBars: 100
 	};
 
 	componentWillMount () {
 
-		this.calculateHoursPerBucket();
+		this.createBucketsArray();
 		
 		// https://github.com/jedtrow/Chart.js-Rounded-Bar-Charts/blob/master/Chart.roundedBarCharts.js
 		const that = this;
@@ -275,7 +274,7 @@ export default class BarChart extends React.Component<ParentProps, State> {
 		this.setState({firstTime: false});
 	}
 
-	calculateHoursPerBucket = () => {
+	createBucketsArray = () => {
 		
 		const now = moment();
 		let earliestHoursDifference = 0;
@@ -288,12 +287,18 @@ export default class BarChart extends React.Component<ParentProps, State> {
 			}
 		}
 
-		let hoursPerBucket = (earliestHoursDifference / this.props.totalBars);
+		let hoursPerBucket = (earliestHoursDifference / this.state.totalBars);
+		let bucketsArray = new Array();
+
 		if (hoursPerBucket < 1) {
 			hoursPerBucket = 1;
 		}
+		for (let i = 0; i <= this.state.totalBars; i++) {
+			bucketsArray.push(hoursPerBucket * i);
+		}
 
-		this.setState({ hoursPerBucket: hoursPerBucket});
+		this.setState({ bucketsArray: bucketsArray});
+
 	}
 
 	populateDataArray = (arrayIndex: number) => {
@@ -308,21 +313,16 @@ export default class BarChart extends React.Component<ParentProps, State> {
 			hoursDifferenceArray.push(now.diff(theDate, 'hours'));
 		}
 
-		let bucketsArray = new Array();
-		for (let i = 0; i <= this.props.totalBars; i++) {
-			bucketsArray.push(this.state.hoursPerBucket * i);
-		}
-
-		let BucketValueArray = Array.apply(null, new Array(this.props.totalBars)).map(Number.prototype.valueOf, 0);
+		let BucketValueArray = Array.apply(null, new Array(this.state.totalBars)).map(Number.prototype.valueOf, 0);
 
 		for (let k = 0; k < hoursDifferenceArray.length; k++) {
-			for (let p = 0; p < this.props.totalBars; p++) {
-				if (p === this.props.totalBars - 1) {
-					if (hoursDifferenceArray[k] > bucketsArray[p]) {
+			for (let p = 0; p < this.state.totalBars; p++) {
+				if (p === this.state.totalBars - 1) {
+					if (hoursDifferenceArray[k] > this.state.bucketsArray[p]) {
 						BucketValueArray[p]++;
 					}
 				} else {
-					if (hoursDifferenceArray[k] > bucketsArray[p] && hoursDifferenceArray[k] < bucketsArray[p + 1]) {
+					if (hoursDifferenceArray[k] >= this.state.bucketsArray[p] && hoursDifferenceArray[k] < this.state.bucketsArray[p + 1]) {
 						BucketValueArray[p]++;
 					}
 				}
@@ -374,14 +374,9 @@ export default class BarChart extends React.Component<ParentProps, State> {
 		gradientRemaining.addColorStop(0, '#00283a');
 		gradientRemaining.addColorStop(1, '#045971');
 
-		// let dataRejected: number[] = this.populateDummyDataArray(80, 20);
-		// const dataApproved: number[] = this.populateDummyDataArray(80, 20);
-		// const dataSubmitted: number[] = this.populateDummyDataArray(80, 20);
-
 		let dataRejected = this.populateDataArray(0); // this number is the index of the data received as props
 		let dataApproved = this.populateDataArray(1);
 		let dataPending = this.populateDataArray(2);
-
 		// {(this.state.xLabels.length === 0) && this.populateXaxisLabels(noHoursPerBucket); }
 
 		dataRejected.reverse();
@@ -397,13 +392,13 @@ export default class BarChart extends React.Component<ParentProps, State> {
 			});
 
 			const max = Math.max(...dataSumArray);
-			dataMaxArray = new Array(this.props.totalBars);
+			dataMaxArray = new Array(this.state.totalBars);
 			dataMaxArray.fill(max + 2);
 			dataRemainder = dataSumArray.map((value) => {
 				return (max + 2) - value;
 			});
-			if (dataRemainder.length < this.props.totalBars) {
-				const excessBarsCount = this.props.totalBars - dataRemainder.length;
+			if (dataRemainder.length < this.state.totalBars) {
+				const excessBarsCount = this.state.totalBars - dataRemainder.length;
 				const excessElements = new Array(excessBarsCount);
 				excessElements.fill(max + 2);
 				dataRemainder.push(...excessElements);
@@ -440,7 +435,7 @@ export default class BarChart extends React.Component<ParentProps, State> {
 		if (this.state.firstTime === true) {
 			setTimeout(this.waitAndChange, 500);
 			return {
-				labels: this.populateTooltipArray(this.props.totalBars),
+				labels: this.populateTooltipArray(this.state.totalBars),
 				datasets: [{
 					label: 'Total Remainder',
 					data: dataMaxArray,
@@ -450,7 +445,7 @@ export default class BarChart extends React.Component<ParentProps, State> {
 			};
 		}
 		return {
-			labels: this.populateTooltipArray(this.props.totalBars),
+			labels: this.populateTooltipArray(this.state.totalBars),
 			datasets: dataSets
 		};
 	}
