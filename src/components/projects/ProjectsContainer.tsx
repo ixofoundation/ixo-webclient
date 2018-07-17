@@ -45,8 +45,8 @@ const ErrorContainer = styled.div`
 	justify-content: center;
 	color: white;
 	align-items: center;
-	height: calc(100vh - 70px);
 	background-color: ${props => props.theme.bg.blue};
+	height:100%:
 `;
 
 export interface ParentProps {

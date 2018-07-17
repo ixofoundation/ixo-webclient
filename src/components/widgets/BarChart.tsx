@@ -11,6 +11,7 @@ const Container = styled.div`
 const LabelsX = styled.div`
 	display: flex;
 	justify-content: space-between;
+	padding-left: 25px;
 `;
 export interface State {
 
@@ -51,8 +52,6 @@ export default class BarChart extends React.Component<ParentProps, State> {
 
 	componentWillMount () {
 
-		this.createBucketsArray();
-		
 		// https://github.com/jedtrow/Chart.js-Rounded-Bar-Charts/blob/master/Chart.roundedBarCharts.js
 		const that = this;
 		Chart.elements.Rectangle.prototype.draw = function () {
@@ -220,7 +219,7 @@ export default class BarChart extends React.Component<ParentProps, State> {
 	}
 
 	componentDidMount() {
-
+		this.createBucketsArray();
 		const that = this;
 		Chart.pluginService.register({
 			beforeInit: function (chart: any) {
@@ -250,22 +249,23 @@ export default class BarChart extends React.Component<ParentProps, State> {
 	}
 
 	populateXaxisLabels(hoursPerBucket: number) {
+
+		// IF LESS THAN 24 HOURS THEN IT SHOULD SHOW TIME, BUT THAT MAKES NO SENSE CUZ MIN HOURS IS 100
+		// REMOVE DUPLICATE DATES
 		const labelArray = new Array();
 		let now = moment();
 
-		for (let i = 0; i < 100; i += 8.33) {
-			const theDiff = Math.floor(i *  hoursPerBucket);
+		for (let i = 0; i < 100; i += 10) {
+			const theDiff = Math.floor(i * hoursPerBucket);
 			let theTime = now.clone().subtract(theDiff, 'hours');
-			console.log(theTime.format());
-			if (theTime.diff(now, 'days') < 1) {
+			if (now.diff(theTime, 'days') < 1) {
 				// console.log('less than a day');
 				labelArray.push(theTime.format('h:mm:ss a'));
 			} else {
 				// console.log('more than a day');
-				labelArray.push(theTime.format('MMM, Do'));
+				labelArray.push(theTime.format('D MMM'));
 			}
 		}
-		console.log('done');
 		labelArray.reverse();
 		this.setState({xLabels: labelArray});
 	}
@@ -296,6 +296,8 @@ export default class BarChart extends React.Component<ParentProps, State> {
 		for (let i = 0; i <= this.state.totalBars; i++) {
 			bucketsArray.push(hoursPerBucket * i);
 		}
+
+		this.populateXaxisLabels(hoursPerBucket);
 
 		this.setState({ bucketsArray: bucketsArray});
 
@@ -377,7 +379,6 @@ export default class BarChart extends React.Component<ParentProps, State> {
 		let dataRejected = this.populateDataArray(0); // this number is the index of the data received as props
 		let dataApproved = this.populateDataArray(1);
 		let dataPending = this.populateDataArray(2);
-		// {(this.state.xLabels.length === 0) && this.populateXaxisLabels(noHoursPerBucket); }
 
 		dataRejected.reverse();
 		dataApproved.reverse();
@@ -478,7 +479,8 @@ export default class BarChart extends React.Component<ParentProps, State> {
 						display: false
 					},
 					ticks: {
-						beginAtZero: true
+						beginAtZero: true,
+						fontColor: '#2A7597'
 					}
 				}]
 			}

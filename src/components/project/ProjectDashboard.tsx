@@ -90,7 +90,7 @@ export const ProjectDashboard: React.SFC<ParentProps> = ({projectDid, agentStats
 
 		for (let i = 0; i < length; i++) {
 			const claimObject = {
-				date: randomDate(new Date(2018, 6, 11), new Date()),
+				date: randomDate(new Date(2018, 6, 15), new Date()),
 				status: status
 			};
 

@@ -56,31 +56,27 @@ const theme = {
 	red: '#E2223B'
 };
 
-const Inner = styled.div`
-
-`;
-
 // END OF THEME DECLARATION, CSS FOR COMPONENT BELOW
 const Container = styled.div`
+
+	display: flex;
+  	flex-flow: column;
+  	height: 100%;
 
 	h1, h2, h3, h4, h5, p, a {
 	}
 	font-weight: 300;
 	
-	${Inner} {
-		opacity: 0;
-		transition: opacity 2s ease;
-	}
-	
-	${Inner}.loaded {
-		opacity: 1;
-	}
+`;
+
+const ContentWrapper = styled.main`
+	flex: 1 1 auto;
 `;
 
 export namespace App {
 	export interface State {
 		projectList: any;
-		loginError: String;
+		loginError: string;
 		error: any;
 		errorInfo: any;
 		loaded: boolean;
@@ -88,8 +84,8 @@ export namespace App {
 
 	export interface StateProps {
 		ixo?: any;
-		pingError?: String;
-		pingResult?: String;
+		pingError?: string;
+		pingResult?: string;
 		keysafe?: any;
 		userInfo: UserInfo;
 		location: any;
@@ -136,8 +132,13 @@ class App extends React.Component<App.Props, App.State> {
 				.listProjects()
 				.then((response: any) => {
 					let projectList = response.result;
-					projectList.sort((a, b) => {return (a.data.createdOn < b.data.createdOn); });
-					this.setState({ projectList: response.result });
+					if (response.error) {
+						console.log(response.error);
+						this.setState({ error: response.error.message, errorInfo: 'Unable to connect IXO Explorer' });
+					} else {
+						projectList.sort((a, b) => {return (a.data.createdOn < b.data.createdOn); });
+						this.setState({ projectList: response.result });
+					}
 				})
 				.catch((result: Error) => {
 					Toast.errorToast(result.message);
@@ -178,11 +179,19 @@ class App extends React.Component<App.Props, App.State> {
 	render() {
 		if (this.state.error !== null) {
 			return (
-				<div>
-					<h3>React Error Component </h3>
-					<p>{this.state.error}</p>
-					<p>{this.state.errorInfo}</p>
-				</div>
+				<ThemeProvider theme={theme}>
+					<ScrollToTop>
+						<Container>
+							<HeaderConnected simpleHeader={false} userInfo={this.props.userInfo} />
+								<ContentWrapper>
+									<h3>React Error Component </h3>
+									<p>{this.state.error}</p>
+									<p>{this.state.errorInfo}</p>
+								</ContentWrapper>
+							<Footer />
+						</Container>
+					</ScrollToTop>
+				</ThemeProvider>
 			);
 		}
 		if (this.props.match.path === '/comingsoon') {
@@ -192,7 +201,9 @@ class App extends React.Component<App.Props, App.State> {
 						<Container>
 							<HeaderConnected userInfo={this.props.userInfo} simpleHeader={true}/>
 							<ToastContainer hideProgressBar={true} />
-							{this.renderProjectContent()}
+							<ContentWrapper>
+								{this.renderProjectContent()}
+							</ContentWrapper>
 							<Footer simpleFooter={true}/>
 						</Container>
 					</ScrollToTop>

@@ -6,13 +6,12 @@ const Container = styled.div`
     justify-content:center;
 	align-items:center;
 	flex-direction: column;
+	height: 100%;
+	background-color: ${props => props.theme.bg.blue};
 
-		height:calc(100vh - 70px);
-		background-color: ${props => props.theme.bg.blue};
-
-		p {
-			color: ${props => props.theme.ixoBlue}
-		}
+	p {
+		color: ${props => props.theme.ixoBlue}
+	}
 `;
 
 const LoaderContainer = styled.div`
