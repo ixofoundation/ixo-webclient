@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { CircleProgressbar } from './CircleProgressbar';
+import { WorldMap } from './WorldMap';
 // import BarChart from './BarChart';
 
 export interface ParentProps {
@@ -16,6 +17,9 @@ export class Widgets extends React.Component<ParentProps> {
 		return (
 			<div className="container">
 				<div className="row">
+					<div className="col-md-12">
+						<WorldMap />
+					</div>
 					<div className="col-md-3">
 						<CircleProgressbar
 							approved={50}

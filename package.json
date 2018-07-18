@@ -36,6 +36,7 @@
     "react-responsive": "^4.1.0",
     "react-router-dom": "^4.3.1",
     "react-scripts-ts": "2.14.0",
+    "react-simple-maps": "^0.12.1",
     "react-toastify": "^4.1.0",
     "react-transition-group": "^2.4.0",
     "redux-logger": "^3.0.6",
