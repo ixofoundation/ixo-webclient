@@ -13,6 +13,10 @@ import styled from 'styled-components';
 
 const MapWrapper = styled.div`
 	background: #012b40;
+
+	path {
+		outline: none!important;
+	}
 `;
 
 const geographyPaths = require('../../lib/maps/world-50m-simplified.json');
@@ -27,7 +31,7 @@ export class WorldMap extends React.Component<ParentProps> {
 		return (
 			<MapWrapper>
 				<ComposableMap style={{ width: '100%' }}>
-					<ZoomableGroup zoom={2}>
+					<ZoomableGroup zoom={4}>
 					<Geographies geography={geographyPaths}>
 					{(geographies, projection) => geographies.map((geography, index) => (
 						<Geography
@@ -41,6 +45,8 @@ export class WorldMap extends React.Component<ParentProps> {
 									strokeWidth: 0.1,
 									outline: 'none',
 								},
+								hover:   { fill: '#FFF' },
+								pressed: { fill: '#000' },
 							}}
 						/>
 					))}
@@ -55,10 +61,10 @@ export class WorldMap extends React.Component<ParentProps> {
 						}
 						}
 					>
-						<circle cx={0} cy={0} r={5} filter="url(#glow)"/>
+						<circle cx={0} cy={0} r={10} filter="url(#glow)"/>
 						<defs>
 							<filter id="glow" width="180%" height="180%" filterUnits="userSpaceOnUse">
-								<feGaussianBlur in="SourceGraphic"  stdDeviation="5"/> {/* stdDeviation is how much to blur */}
+								<feGaussianBlur in="SourceGraphic"  stdDeviation="10"/> {/* stdDeviation is how much to blur */}
 								<feComponentTransfer>
 								<feFuncA type="linear" slope="3"/> {/* slope is the opacity of the shadow */}
 								</feComponentTransfer>

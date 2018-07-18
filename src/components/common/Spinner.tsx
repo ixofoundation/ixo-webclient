@@ -6,9 +6,8 @@ const Container = styled.div`
     justify-content:center;
 	align-items:center;
 	flex-direction: column;
-	height: 100%;
 	background-color: ${props => props.theme.bg.blue};
-
+	min-height: calc(100vh - 213px);
 	p {
 		color: ${props => props.theme.ixoBlue}
 	}

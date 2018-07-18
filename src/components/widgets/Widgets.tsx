@@ -17,7 +17,7 @@ export class Widgets extends React.Component<ParentProps> {
 		return (
 			<div className="container">
 				<div className="row">
-					<div className="col-md-12">
+					<div className="col-md-6">
 						<WorldMap />
 					</div>
 					<div className="col-md-3">

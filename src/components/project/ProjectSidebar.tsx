@@ -33,7 +33,6 @@ const NavItem = styled(NavLink)`
 const Container = styled.div`
 	width: 100%;
 	padding-top: 0;
-	background: ${props => props.theme.bg.gradientBlue};
 	position:relative;
 	top:auto;
 	display: flex;
@@ -49,7 +48,7 @@ const Container = styled.div`
 		top:70px;
 		width: 75px;
 		display: block;
-		height: 400px;
+		height: 450px;
 		padding-top: 15px;
 
 		.active {

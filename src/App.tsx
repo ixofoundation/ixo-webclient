@@ -60,8 +60,9 @@ const theme = {
 const Container = styled.div`
 
 	display: flex;
-  	flex-flow: column;
-  	height: 100%;
+	flex-flow: column;
+	min-height: 100%;
+
 
 	h1, h2, h3, h4, h5, p, a {
 	}
@@ -184,6 +185,7 @@ class App extends React.Component<App.Props, App.State> {
 						<Container>
 							<HeaderConnected simpleHeader={false} userInfo={this.props.userInfo} />
 								<ContentWrapper>
+
 									<h3>React Error Component </h3>
 									<p>{this.state.error}</p>
 									<p>{this.state.errorInfo}</p>
@@ -216,7 +218,9 @@ class App extends React.Component<App.Props, App.State> {
 					<Container>
 						<HeaderConnected simpleHeader={false} userInfo={this.props.userInfo} />
 						<ToastContainer hideProgressBar={true} />
-						{this.renderProjectContent()}
+						<ContentWrapper>
+							{this.renderProjectContent()}
+						</ContentWrapper>
 						<Footer />
 					</Container>
 				</ScrollToTop>

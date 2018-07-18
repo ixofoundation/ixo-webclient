@@ -5,8 +5,6 @@ import { FooterLeft } from './FooterLeft';
 import { FooterRight } from './FooterRight';
 
 const BottomBar = styled.footer`
-	position: sticky;
-	top:0;
 	padding: 19px 54px 19px 54px;
 
 	z-index:9;

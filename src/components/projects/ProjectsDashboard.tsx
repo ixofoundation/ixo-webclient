@@ -18,7 +18,8 @@ export const ProjectDashboard: React.SFC<ParentProps> = ({projectDid}) => {
 				<div className="col-md-12">
 					<h2>DASHBOARD</h2>
 				</div>
-
+			</ Container>
+			<Container className="row">
 				<div className="col-md-3">
 					<WidgetWrapper title="Evaluators">
 						<Link to={`/projects/${projectDid}/detail/evaluators`}>List evaluators</Link>
