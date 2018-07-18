@@ -66,14 +66,19 @@ class RegisterPage extends React.Component<Props, State> {
 	componentDidMount() {
 		if (this.props.keysafe) {
 			this.props.keysafe.getDidDoc((error, response) => {
-				let newDidDoc = {
-					didDoc: {
-						did: response.didDoc.did,
-						pubKey: response.didDoc.pubKey,
-						credentials: []
-					}
-				};
-				this.setState({ didDoc: newDidDoc });
+
+				if (error) {
+					errorToast('Please log into IXO Keysafe');
+				} else {	
+					let newDidDoc = {
+						didDoc: {
+							did: response.didDoc.did,
+							pubKey: response.didDoc.pubKey,
+							credentials: []
+						}
+					};
+					this.setState({ didDoc: newDidDoc });
+				}
 			});
 		}
 	}
