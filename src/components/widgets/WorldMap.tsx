@@ -12,7 +12,6 @@ import {
 import styled from 'styled-components';
 
 const MapWrapper = styled.div`
-	background: #012b40;
 
 	path {
 		outline: none!important;
@@ -31,7 +30,7 @@ export class WorldMap extends React.Component<ParentProps> {
 		return (
 			<MapWrapper>
 				<ComposableMap style={{ width: '100%' }}>
-					<ZoomableGroup zoom={4}>
+					<ZoomableGroup zoom={1}>
 					<Geographies geography={geographyPaths}>
 					{(geographies, projection) => geographies.map((geography, index) => (
 						<Geography

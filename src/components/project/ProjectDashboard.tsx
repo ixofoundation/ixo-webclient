@@ -7,6 +7,7 @@ import { StatType, AgentRoles } from '../../types/models';
 import { ProjectClaims } from './ProjectClaims';
 import { CircleProgressbar } from '../widgets/CircleProgressbar';
 import BarChart, { BarColors } from '../widgets/BarChart';
+import { WorldMap } from '../widgets/WorldMap';
 
 const Container = styled.div`
 	color: white;
@@ -90,7 +91,7 @@ export const ProjectDashboard: React.SFC<ParentProps> = ({projectDid, agentStats
 
 		for (let i = 0; i < length; i++) {
 			const claimObject = {
-				date: randomDate(new Date(2018, 6, 15), new Date()),
+				date: randomDate(new Date(2018, 6, 16), new Date()),
 				status: status
 			};
 
@@ -184,6 +185,13 @@ export const ProjectDashboard: React.SFC<ParentProps> = ({projectDid, agentStats
 				<div className="col-md-6">
 					<WidgetWrapper title="My latest claims" path={`/projects/${projectDid}/detail/claims`}>
 						<ProjectClaims claims={claims} projectDid={projectDid} fullPage={false} hasLink={hasCapability([AgentRoles.owners, AgentRoles.evaluators, AgentRoles.serviceProviders, AgentRoles.investors])} />
+					</WidgetWrapper>
+				</div>
+				}
+				{
+				<div className="col-md-6">
+					<WidgetWrapper title="Claim location activity" path={`/projects/${projectDid}/detail/claims`}>
+						<WorldMap />
 					</WidgetWrapper>
 				</div>
 				}

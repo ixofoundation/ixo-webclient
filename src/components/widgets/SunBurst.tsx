@@ -1,122 +1,68 @@
-// import * as React from 'react';
-// // import * as d3 from 'd3';
-// import { scaleLinear } from 'd3-scale';
+import * as React from 'react';
+import 'react-vis/dist/style.css';
+import { Sunburst } from 'react-vis';
 
-// export interface ParentProps {
+function randomLeaf() {
+	return {
+		size: Math.random() * 1000,
+		color: Math.random()
+	};
+}
 
-// }
+function updateData() {
+	const totalLeaves = Math.random() * 20;
+	const leaves = [];
+	for (let i = 0; i < totalLeaves; i++) {
+		const leaf = randomLeaf();
+		if (Math.random() > 0.8) {
+			// SOMETHING NOT WORKING HERE. CHILDREN MAP FUNCTION NOT GOING
+			// @ts-ignore
+			leaf.children = new Array(3);
+			// @ts-ignore
+			leaf.children.map(() => {
+				const newEl = randomLeaf();
+				console.log('CHILD IS: ', newEl);
+			});
+			console.log('after: ', leaf);
+		}
+		leaves.push(leaf);
+	}
+	return {
+		title: '',
+		color: 1,
+		children: leaves
+	};
+}
 
-// export interface State {
-// 	SDGData: any;
-// }
+export interface ParentProps {
 
-// function toDegrees(rad: any) {
-// 	let deg = rad * 180 / Math.PI;
-// 	return deg > 359 ? deg % 360 : deg;
-// }
+}
 
-// export class Sunburst extends React.Component<ParentProps, State> {
+const DIVERGING_COLOR_SCALE = ['#00939C', '#85C4C8', '#EC9370', '#C22E00'];
 
-// 	state = {
-// 		SDGData: 'Waiting for data...'
-// 	};
+export default class SunburstSDG extends React.Component<ParentProps>  {
+	state = {
+		data: updateData(),
+		hovering: false
+	};
 
-// 	componentDidMount() {
-
-// 		fetch('https://ixo-sdg.herokuapp.com/goals?ids=5,12&targets=true&indicators=true&includeMetadata=false').then((response) => {
-// 		if (response.ok) {
-// 			response.json().then(json => {
-// 				this.setState({SDGData: json.data});
-// 			});
-// 		}
-// 		}).catch((error) => {
-// 			console.log(error);
-// 		});
-// 	}
-
-// 	handleMouseOver(e: any) {
-// 		let path = e.target.getAttribute('data-path'),
-// 			name = e.target.getAttribute('data-name'),
-// 			size = e.target.getAttribute('data-value'),
-// 			total = this.svg.getAttribute('data-total'),
-// 			slices = this.svg.querySelectorAll(`path.slice:not([data-path^='${path}'])`);
-
-// 		let i = -1,
-// 			n = slices.length;
-
-// 		while (++i < n) { slices[i].style.opacity = '0.3'; }
-
-// 		this.details.textContent = name;
-// 		this.percentage.textContent = `${(size * 100 / total).toFixed(2)}%`;
-// 	},
-// 	handleMouseOut(e) {
-// 		let slices = this.svg.querySelectorAll('path.slice');
-
-// 		let i = -1,
-// 			n = slices.length;
-
-// 		while(++i < n) { slices[i].style.opacity = '1'; }
-
-// 		this.details.textContent = '';
-// 		this.percentage.textContent = '';
-// 	}
-// 	render() {
-// 	let width = 600,
-// 		height = 600,
-// 		radius = 400,
-// 		donutRadius = 100,
-// 		transform = `translate(${width * 0.45},${0.55 * height})`,
-// 		slices = utils.flatten(utils.findSum(data)),
-// 		// slices = utils.findSum(data),
-// 		scale = scaleLinear().domain([0, slices[0].size]).range([0, 2 * Math.PI]),
-// 		shape = arc(),
-// 		depth = utils.depth(data);
-
-// 	let currentStartAngle = 0,
-// 		currentLevel = 1,
-// 		arcWidth = (radius - donutRadius)/depth,
-// 		levelStartAngle = [0];
-
-// 	return (
-// 		<svg ref={(c) => this.svg = c} viewBox={`0 0 ${width} ${height}`} data-total={slices[0].size}>
-// 			<g transform={transform}>
-// 			{slices.map((slice, i) => {
-// 				let { level, size, name} = slice,
-// 					startAngle = currentStartAngle,
-// 					endAngle = startAngle + scale(slice.size),
-// 					innerRadius = (slice.level - 1) * arcWidth,
-// 					outerRadius = innerRadius + arcWidth;
-
-// 				if (slices[i + 1] && (slices[i + 1].level <= level)) {
-// 					currentStartAngle = endAngle;
-// 				}
-// 				currentLevel = slice.level;
-// 				return (
-// 					<path 
-// 						key={i}
-// 						className="slice"
-// 						data-path={slice.path}
-// 						data-value={slice.size}
-// 						data-name={slice.name}
-// 						display={i === 0 ? 'none' : 'inline'}
-// 						fill={rmc.getColor()} d={shape({
-// 							startAngle,
-// 							endAngle,
-// 							innerRadius,
-// 							outerRadius
-// 						})} onMouseOver={this.handleMouseOver}
-// 						onMouseOut={this.handleMouseOut}>
-// 						<title>{`${slice.name}\n${slice.size}`}</title>
-// 						</path>
-// 				);
-// 			})}
-// 			</g>
-// 			<text transform={transform} ref={(c) => this.details = c}
-// 				textAnchor="middle" className="details" dy={-10}/>
-// 			<text transform={transform} ref={(c) => this.percentage = c}
-// 				textAnchor="middle" className="details-percentage" dy={10}/>
-// 		</svg>
-// 	);
-// 	}
-// 	})
-// }
+	render() {
+		const {data, hovering} = this.state;
+		return (
+		<div className="animated-sunburst-example-wrapper">
+			<div>{hovering ? 'CURRENTLY HOVERING' : 'NOT HOVERED'}</div>
+			<Sunburst
+				animation={{damping: 20, stiffness: 300}}
+				data={data}
+				colorType={'category'}
+				colorRange={DIVERGING_COLOR_SCALE}
+				style={{stroke: '#fff'}}
+				onValueMouseOver={() => this.setState({hovering: true})}
+				onValueMouseOut={() => this.setState({hovering: false})}
+				height={300}
+				width={350} 
+			/>
+		</div>
+		);
+	}
+}

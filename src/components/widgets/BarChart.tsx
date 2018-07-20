@@ -47,7 +47,8 @@ export default class BarChart extends React.Component<ParentProps, State> {
 		firstTime: true,
 		xLabels: [],
 		bucketsArray: 1,
-		totalBars: 100
+		totalBars: 100,
+		hoursPerBucket: 0
 	};
 
 	componentWillMount () {
@@ -252,22 +253,29 @@ export default class BarChart extends React.Component<ParentProps, State> {
 
 		// IF LESS THAN 24 HOURS THEN IT SHOULD SHOW TIME, BUT THAT MAKES NO SENSE CUZ MIN HOURS IS 100
 		// REMOVE DUPLICATE DATES
-		const labelArray = new Array();
+		let labelArray = new Array();
 		let now = moment();
 
-		for (let i = 0; i < 100; i += 10) {
+		for (let i = 0; i < 100; i += 1) {
 			const theDiff = Math.floor(i * hoursPerBucket);
+			// console.log('the diff in hours is: ', theDiff);
 			let theTime = now.clone().subtract(theDiff, 'hours');
-			if (now.diff(theTime, 'days') < 1) {
-				// console.log('less than a day');
-				labelArray.push(theTime.format('h:mm:ss a'));
-			} else {
-				// console.log('more than a day');
+			if (theDiff % 24 === 0) {
 				labelArray.push(theTime.format('D MMM'));
 			}
 		}
+		console.log(labelArray);
+
+		// reverse array so that latest label is on the right of the chart
 		labelArray.reverse();
 		this.setState({xLabels: labelArray});
+	}
+
+	getBarDate(index: number) {
+		let now = moment();
+		const theDiff = Math.floor(index * this.state.hoursPerBucket);
+		let theTime = now.clone().subtract(theDiff, 'hours');
+		return theTime.format('dddd, D MMMM, YYYY');
 	}
 
 	waitAndChange = () => {
@@ -299,7 +307,7 @@ export default class BarChart extends React.Component<ParentProps, State> {
 
 		this.populateXaxisLabels(hoursPerBucket);
 
-		this.setState({ bucketsArray: bucketsArray});
+		this.setState({ bucketsArray: bucketsArray, hoursPerBucket: hoursPerBucket});
 
 	}
 
@@ -455,8 +463,13 @@ export default class BarChart extends React.Component<ParentProps, State> {
 
 		const options = {
 			tooltips: {
-				filter: function (tooltipItem: any) {
-					return tooltipItem.datasetIndex !== 3; // this should actually be set to the highest dataIndex for remainder
+				callbacks: {
+					title: (tooltipItem: any, data: any) => {
+						return this.getBarDate(tooltipItem.index);
+					},
+					label: (tooltipItem: any, data: any) => {
+						return `${tooltipItem.yLabel} ${data.datasets[tooltipItem.datasetIndex].label}`;
+					}
 				}
 			},
 			legend: {
