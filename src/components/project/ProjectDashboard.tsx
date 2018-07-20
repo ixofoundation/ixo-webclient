@@ -172,7 +172,7 @@ export const ProjectDashboard: React.SFC<ParentProps> = ({projectDid, agentStats
 					</WidgetWrapper>
 				</div>
 				}
-				{
+				{process.env.REACT_APP_DEV &&
 				<div className="col-md-6">
 					<WidgetWrapper title="Claim location activity" path={`/projects/${projectDid}/detail/claims`}>
 						<WorldMap />

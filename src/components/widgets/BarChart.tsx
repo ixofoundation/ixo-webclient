@@ -414,19 +414,19 @@ export default class BarChart extends React.Component<ParentProps, State> {
 		}
 
 		const dataSets: any[] = [{
-			label: 'Claims Rejected',
+			label: `Claims Rejected`,
 			data: dataRejected,
 			backgroundColor: gradientRejected,
 			hoverBackgroundColor: '#E2223B',
 		},
 		{
-			label: 'Claims Approved',
+			label: `Claims Approved`,
 			data: dataApproved,
 			backgroundColor: gradientApproved,
 			hoverBackgroundColor: '#49BFE0',
 		},
 		{
-			label: 'Claims Submitted',
+			label: `Claims Submitted`,
 			data: dataPending,
 			backgroundColor: gradientPending,
 			hoverBackgroundColor: '#066a86',
@@ -457,6 +457,8 @@ export default class BarChart extends React.Component<ParentProps, State> {
 	}
 
 	render() {
+
+		// NEED TO CODE *VIEW REPORT* LINK, THAT GOES TO CLAIM PAGE ITSELF
 
 		const options = {
 			tooltips: {
