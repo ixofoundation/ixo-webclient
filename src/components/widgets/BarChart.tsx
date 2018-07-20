@@ -272,12 +272,13 @@ export default class BarChart extends React.Component<ParentProps, State> {
 	}
 
 	getBarDate(index: number) {
+		const reversedIndex = 100 - index;
 		let now = moment();
-		const theDiff = Math.floor(index * this.state.hoursPerBucket);
+		const theDiff = Math.floor(reversedIndex * this.state.hoursPerBucket);
 		let theTime = now.clone().subtract(theDiff, 'hours');
 		return theTime.format('dddd, D MMMM, YYYY');
 	}
-
+	
 	waitAndChange = () => {
 		this.setState({firstTime: false});
 	}
@@ -463,12 +464,19 @@ export default class BarChart extends React.Component<ParentProps, State> {
 
 		const options = {
 			tooltips: {
+				// filter: function (tooltipItem: any) {
+				// 	return tooltipItem.datasetIndex !== 3; // hide tooltip for remainder bars
+				// },
 				callbacks: {
 					title: (tooltipItem: any, data: any) => {
-						return this.getBarDate(tooltipItem.index);
+						return this.getBarDate(tooltipItem[0].index);
 					},
 					label: (tooltipItem: any, data: any) => {
-						return `${tooltipItem.yLabel} ${data.datasets[tooltipItem.datasetIndex].label}`;
+						if (tooltipItem.datasetIndex !== 3) {
+							return `${tooltipItem.yLabel} ${data.datasets[tooltipItem.datasetIndex].label}`;
+						} else {
+							return '';
+						}
 					}
 				}
 			},
