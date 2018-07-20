@@ -8,6 +8,7 @@ import { ProjectClaims } from './ProjectClaims';
 import { CircleProgressbar } from '../widgets/CircleProgressbar';
 import BarChart, { BarColors } from '../widgets/BarChart';
 import { WorldMap } from '../widgets/WorldMap';
+import { deviceWidth } from '../../lib/commonData';
 
 const Container = styled.div`
 	color: white;
@@ -72,6 +73,12 @@ const ClaimsTopLabels = styled.div`
 	p:nth-child(3):before {
 		background: ${props => props.theme.red};
 	}
+
+	@media (max-width: ${deviceWidth.tablet}px){
+		justify-content: flex-start;
+		margin: 15px 0 15px 12px;
+		flex-wrap: wrap;
+	}
 `;
 export interface ParentProps {
 	projectDid: string;
@@ -83,36 +90,13 @@ export interface ParentProps {
 
 export const ProjectDashboard: React.SFC<ParentProps> = ({projectDid, agentStats, claimStats, claims, hasCapability}) => {
 
-	function randomDate(start: Date, end: Date) {
-		return new Date(start.getTime() + (Math.random() * (end.getTime() - start.getTime())));
-	}
-	const generateClaims = (status: number, length: number) => {
-		const claimsArray = new Array();
-
-		for (let i = 0; i < length; i++) {
-			const claimObject = {
-				date: randomDate(new Date(2018, 6, 18), new Date()),
-				status: status
-			};
-
-			claimsArray.push(claimObject);
-		}
-
-		for (let i = 0; i < claimsArray.length; i ++) {
-			claimsArray.sort(function (a: any, b: any) {
-				return Date.parse(a.date) - Date.parse(b.date);
-			});
-		}
-
-		return claimsArray;
+	const countClaimsOfType = (claimType: string) => {
+		return [...claims].filter((claim) => claim.status === claimType).length;
 	};
 
-	const countPendingClaims = () => {
-		return [...claims].filter((claim) => claim.status === '0').length;
+	const getClaimsOfType = (claimType: string) => {
+		return [...claims].filter((claim) => claim.status === claimType);
 	};
-	const dummyApprovedClaims = generateClaims(1, 70);
-	const dummyPendingClaims = generateClaims(0, 20);
-	const dummyRejectedClaims = generateClaims(2, 15);
 
 	return (
 		<LayoutWrapper>
@@ -126,9 +110,9 @@ export const ProjectDashboard: React.SFC<ParentProps> = ({projectDid, agentStats
 						</ClaimsTopLabels>
 						<BarChart 
 							barData={[
-								{data: dummyRejectedClaims, color: BarColors.red},
-								{data: dummyApprovedClaims, color: BarColors.blue},
-								{data: dummyPendingClaims, color: BarColors.darkBlue}
+								{data: getClaimsOfType('2'), color: BarColors.red},
+								{data: getClaimsOfType('1'), color: BarColors.blue},
+								{data: getClaimsOfType('0'), color: BarColors.darkBlue}
 							]}
 						/>
 					</WidgetWrapper>
@@ -176,7 +160,7 @@ export const ProjectDashboard: React.SFC<ParentProps> = ({projectDid, agentStats
 							title="Total Successful" 
 							type={StatType.decimal}
 							amount={claimStats.currentSuccessful} 
-							descriptor={[{class: 'text-block', value: 'Pending Approval:'}, {class: 'number-orange', value: countPendingClaims()}]}
+							descriptor={[{class: 'text-block', value: 'Pending Approval:'}, {class: 'number-orange', value: countClaimsOfType('0')}]}
 						/>
 					</WidgetWrapper>
 				</div>
@@ -208,7 +192,7 @@ export const ProjectDashboard: React.SFC<ParentProps> = ({projectDid, agentStats
 							<CircleProgressbar
 								approved={claimStats.currentSuccessful}
 								rejected={claimStats.currentRejected}
-								pending={countPendingClaims()}
+								pending={countClaimsOfType('0')}
 								totalNeeded={claimStats.required}
 							/>
 						</ClaimsWidget>

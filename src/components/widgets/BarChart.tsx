@@ -43,15 +43,28 @@ export default class BarChart extends React.Component<ParentProps, State> {
 		canvasHeight: 0,
 		hasError: false,
 		errorMessage: '',
-		canvas: null,
 		firstTime: true,
 		xLabels: [],
 		bucketsArray: 1,
 		totalBars: 100,
-		hoursPerBucket: 0
+		hoursPerBucket: 0,
+		chartHeight: 60
 	};
 
+	dataBasedOnDeviceWidth = () => {
+		if (window.innerWidth < 960) {
+			this.setState({ totalBars: 50});
+		}
+		if (window.innerWidth < 480) {
+			this.setState({ chartHeight: 120});
+		} else if (window.innerWidth < 768) {
+			this.setState({ chartHeight: 100});
+		}
+	}
+
 	componentWillMount () {
+
+		this.dataBasedOnDeviceWidth();
 
 		// https://github.com/jedtrow/Chart.js-Rounded-Bar-Charts/blob/master/Chart.roundedBarCharts.js
 		const that = this;
@@ -221,24 +234,6 @@ export default class BarChart extends React.Component<ParentProps, State> {
 
 	componentDidMount() {
 		this.createBucketsArray();
-		const that = this;
-		Chart.pluginService.register({
-			beforeInit: function (chart: any) {
-				that.setState({ canvas: chart.canvas});
-			}
-		});
-	}
-
-	getRandomInt = (max: number) => {
-		return Math.floor(Math.random() * Math.floor(max));
-	}
-
-	populateDummyDataArray = (length: number, max: number) => {
-		let tempArr: number[] = [];
-		for (var i = 0; i < length; i++) {
-			tempArr.push(this.getRandomInt(max));
-		}
-		return tempArr;
 	}
 
 	populateTooltipArray(length: number) {
@@ -251,20 +246,18 @@ export default class BarChart extends React.Component<ParentProps, State> {
 
 	populateXaxisLabels(hoursPerBucket: number) {
 
-		// IF LESS THAN 24 HOURS THEN IT SHOULD SHOW TIME, BUT THAT MAKES NO SENSE CUZ MIN HOURS IS 100
-		// REMOVE DUPLICATE DATES
+		// THIS FUNCTION DOESN'T WORK 100%. NEED TO RETHINK WHEN TO PUSH TO LABELARRAY
 		let labelArray = new Array();
 		let now = moment();
 
-		for (let i = 0; i < 100; i += 1) {
-			const theDiff = Math.floor(i * hoursPerBucket);
+		for (let i = 0; i < this.state.totalBars; i += 1) {
+			const theDiff = Math.round(i * hoursPerBucket);
 			// console.log('the diff in hours is: ', theDiff);
 			let theTime = now.clone().subtract(theDiff, 'hours');
 			if (theDiff % 24 === 0) {
 				labelArray.push(theTime.format('D MMM'));
 			}
 		}
-		console.log(labelArray);
 
 		// reverse array so that latest label is on the right of the chart
 		labelArray.reverse();
@@ -272,9 +265,9 @@ export default class BarChart extends React.Component<ParentProps, State> {
 	}
 
 	getBarDate(index: number) {
-		const reversedIndex = 100 - index;
+		const reversedIndex = this.state.totalBars - index;
 		let now = moment();
-		const theDiff = Math.floor(reversedIndex * this.state.hoursPerBucket);
+		const theDiff = Math.round(reversedIndex * this.state.hoursPerBucket);
 		let theTime = now.clone().subtract(theDiff, 'hours');
 		return theTime.format('dddd, D MMMM, YYYY');
 	}
@@ -289,10 +282,12 @@ export default class BarChart extends React.Component<ParentProps, State> {
 		let earliestHoursDifference = 0;
 
 		for (let j = 0; j < this.props.barData.length; j++) {
-			const theDate = moment(this.props.barData[j].data[0].date);
-			const theDiff = now.diff(theDate, 'hours');
-			if (theDiff > earliestHoursDifference) {
-				earliestHoursDifference = theDiff;
+			if (this.props.barData[j].data.length > 0) {
+				const theDate = moment(this.props.barData[j].data[0].date);
+				const theDiff = now.diff(theDate, 'hours');
+				if (theDiff > earliestHoursDifference) {
+					earliestHoursDifference = theDiff;
+				}
 			}
 		}
 
@@ -385,6 +380,7 @@ export default class BarChart extends React.Component<ParentProps, State> {
 		gradientRemaining.addColorStop(0, '#00283a');
 		gradientRemaining.addColorStop(1, '#045971');
 
+		// CURRENTLY YOU NEED TO SUBMIT 3 ARRAYS, THIS IS STATIC, NEEDS TO BE MADE DYNAMIC ALONG WITH THE GRADIENTS ABOVE
 		let dataRejected = this.populateDataArray(0); // this number is the index of the data received as props
 		let dataApproved = this.populateDataArray(1);
 		let dataPending = this.populateDataArray(2);
@@ -510,7 +506,7 @@ export default class BarChart extends React.Component<ParentProps, State> {
 		return (
 			<Container className="container-fluid">
 				{this.state.hasError ? this.state.errorMessage :
-					<Bar height={60} data={this.allData} options={options} />
+					<Bar height={this.state.chartHeight} data={this.allData} options={options} />
 				}
 				<LabelsX>
 				{this.state.xLabels.map((label, index) => {

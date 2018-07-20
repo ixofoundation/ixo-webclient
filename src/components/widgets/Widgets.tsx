@@ -2,7 +2,7 @@ import * as React from 'react';
 import { CircleProgressbar } from './CircleProgressbar';
 import { WorldMap } from './WorldMap';
 // import Sunburst from './SunBurst';
-// import BarChart from './BarChart';
+import BarChart, { BarColors } from './BarChart';
 
 export interface ParentProps {
 	title: string;
@@ -13,6 +13,39 @@ export interface ParentProps {
 }
 
 export class Widgets extends React.Component<ParentProps> {
+
+	// BELOW IS DUMMY DATA GENERATION FOR THE BARCHART COMPONENT
+
+	randomDate(start: Date, end: Date) {
+		return new Date(start.getTime() + (Math.random() * (end.getTime() - start.getTime())));
+	}
+
+	generateClaims = (status: number, length: number) => {
+		const claimsArray = new Array();
+
+		for (let i = 0; i < length; i++) {
+			const claimObject = {
+				date: this.randomDate(new Date(2018, 6, 11), new Date()),
+				status: status
+			};
+
+			claimsArray.push(claimObject);
+		}
+
+		for (let i = 0; i < claimsArray.length; i ++) {
+			claimsArray.sort(function (a: any, b: any) {
+				return Date.parse(a.date) - Date.parse(b.date);
+			});
+		}
+
+		return claimsArray;
+	}
+
+	dummyApprovedClaims = this.generateClaims(1, 30);
+	dummyPendingClaims = this.generateClaims(0, 20);
+	dummyRejectedClaims = this.generateClaims(2, 15);
+
+	// END OF DUMMY DATA GENERATION FOR BAR CHART
 
 	render() {
 		return (
@@ -33,7 +66,13 @@ export class Widgets extends React.Component<ParentProps> {
 						/>
 					</div>
 					<div className="col-md-12">
-						{/* <BarChart totalBars={100} /> */}
+						<BarChart 							
+							barData={[
+								{data: this.dummyRejectedClaims, color: BarColors.red},
+								{data: this.dummyApprovedClaims, color: BarColors.blue},
+								{data: this.dummyPendingClaims, color: BarColors.darkBlue}
+							]}
+						/>
 					</div>
 				</div>
 			</div>
