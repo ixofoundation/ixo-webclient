@@ -29,7 +29,7 @@ export namespace Routes {
 
 export const Routes: React.SFC<Routes.RouteProps> = props => {
 	return (
-		<React.Fragment>
+		<Fragment>
 			<Switch>
 				<Route exact={true} path="/comingsoon" component={ComingSoonContainer} />
 				<Route exact={true} path="/home" component={HomeContainer} />
@@ -129,6 +129,6 @@ export const Routes: React.SFC<Routes.RouteProps> = props => {
 				/>
 				<Route path="*" component={NotFound} />
 			</Switch>
-		</React.Fragment>
+		</Fragment>
 	);
 };

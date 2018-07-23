@@ -68,6 +68,12 @@ const Container = styled.div`
 	
 `;
 
+const ContentWrapper = styled.main`
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+`;
+
 export namespace App {
 	export interface State {
 		loginError: string;
@@ -133,11 +139,13 @@ class App extends React.Component<App.Props, App.State> {
 
 	render() {
 		return (
-			<ThemeProvider theme={theme}>
+			<ThemeProvider theme={theme}> 
 				<ScrollToTop>
 					<Container>
 						<HeaderConnected simpleHeader={false} userInfo={this.props.userInfo} refreshProjects={() => console.log('clicked')} />
-						<Routes />;
+							<ContentWrapper>
+								<Routes />
+							</ContentWrapper>
 						<Footer />
 					</Container>
 				</ScrollToTop>

@@ -100,7 +100,7 @@ export const ProjectDashboard: React.SFC<ParentProps> = ({projectDid, agentStats
 
 	return (
 		<LayoutWrapper>
-			<Container className="row">
+			<Container className="row row-eq-height">
 				<div className="col-md-12">
 					<WidgetWrapper title="Project Timeline" path={`/projects/${projectDid}/detail/investors`} linkIcon={'icon-expand'}>
 						<ClaimsTopLabels>
@@ -170,8 +170,7 @@ export const ProjectDashboard: React.SFC<ParentProps> = ({projectDid, agentStats
 					<WidgetWrapper title="My latest claims" path={`/projects/${projectDid}/detail/claims`}>
 						<ProjectClaims claims={claims} projectDid={projectDid} fullPage={false} hasLink={hasCapability([AgentRoles.owners, AgentRoles.evaluators, AgentRoles.serviceProviders, AgentRoles.investors])} />
 					</WidgetWrapper>
-				</div>
-				}
+				</div>}
 				{process.env.REACT_APP_DEV &&
 				<div className="col-md-6">
 					<WidgetWrapper title="Claim location activity" path={`/projects/${projectDid}/detail/claims`}>

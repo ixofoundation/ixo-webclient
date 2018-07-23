@@ -4,7 +4,6 @@ import { LayoutWrapper } from '../common/LayoutWrapper';
 import { WidgetWrapper } from '../common/WidgetWrapper';
 import styled from 'styled-components';
 import { Fragment } from 'react';
-
 const Section = styled.section`
 
 	padding-bottom: 30px;
@@ -82,6 +81,7 @@ const Col = styled.div`
 
 const ClaimsWidget = styled.div`
 	margin: 20px 0;
+	
 `;	
 
 const ListItemWrapper = styled.div`

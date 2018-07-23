@@ -34,6 +34,7 @@
     "react-responsive": "^4.1.0",
     "react-router-dom": "^4.3.1",
     "react-scripts-ts": "2.14.0",
+    "react-scrollbar": "^0.5.4",
     "react-simple-maps": "^0.12.1",
     "react-toastify": "^4.1.0",
     "react-transition-group": "^2.4.0",

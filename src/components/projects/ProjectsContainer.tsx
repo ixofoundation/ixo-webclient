@@ -9,6 +9,11 @@ import { PublicSiteStoreState } from '../../redux/public_site_reducer';
 import * as Toast from '../helpers/Toast';
 
 const Container = styled.div`
+
+	display: flex;
+	flex-direction: column;
+	flex: 1 1 auto;
+	
 	.example-enter {
 		opacity: 0.01;
 	}
@@ -31,6 +36,8 @@ const Container = styled.div`
 const ProjectsContainer = styled.div`
 	overflow-y: scroll;
 	background: ${props => props.theme.bg.lightGrey};
+	flex: 1 1 auto;
+
 	& > .row {
 		margin-top: 30px;
 		justify-content: center;
@@ -114,11 +121,7 @@ export class Projects extends React.Component<Props, State> {
 		if (this.state.projectList === null) {
 			this.refreshProjects();
 			return (
-				<div className="container-fluid">
-					<ErrorContainer className="row">
-						<Spinner info="App: Loading Projects" />
-					</ErrorContainer>
-				</div>
+				<Spinner info="App: Loading Projects" />
 			);
 		} else if (this.state.projectList.length > 0) {		
 			return (

@@ -72,7 +72,7 @@ export class ProjectCreate extends React.Component<StateProps, State> {
 
 	handleCreateProject = () => {
 		if (this.props.keysafe === null) {
-			window.alert('Please install IXO Credential Manager first.');
+		errorToast('Please install IXO Credential Manager first.');
 		} else {
 			if (this.state.croppedImg && this.state.claimSchema.length > 0 && this.state.claimForm.length > 0) {
 				let promises = [];
