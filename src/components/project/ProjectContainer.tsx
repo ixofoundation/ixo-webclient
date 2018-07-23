@@ -122,7 +122,6 @@ export class ProjectContainer extends React.Component<Props, State> {
 			this.props.onSetActiveProject(this.props.match.params.projectDID);
 			const did = this.props.match.params.projectDID;
 			this.props.ixo.project.getProjectByProjectDid(did).then((response: any) => {
-				console.log(response.result.data);
 				const project: Project = response.result.data;
 				this.setState({ 
 					projectPublic: project,
@@ -297,7 +296,6 @@ export class ProjectContainer extends React.Component<Props, State> {
 		this.props.keysafe.requestSigning(JSON.stringify(agentData), (error: any, signature: any) => {
 			if (!error) {
 				this.props.ixo.agent.createAgent(agentData, signature, this.state.projectPublic.serviceEndpoint).then((res) => {
-					debugger;
 					if (res.error !== undefined) {
 						Toast.errorToast(res.error.message);
 					} else {
@@ -325,10 +323,14 @@ export class ProjectContainer extends React.Component<Props, State> {
 		this.props.keysafe.requestSigning(JSON.stringify(agentPaylod), (error, signature) => {
 			if (!error) {
 				this.props.ixo.agent.updateAgentStatus(agentPaylod, signature, this.state.projectPublic.serviceEndpoint).then((res) => {
-					console.log(res);
+					if (res.error !== undefined) {
+						Toast.errorToast(res.error.message);
+					} else {
+						Toast.successToast(`Successfully updated agent status`);
+					}
 				}); 
 			} else {
-				console.log(error);
+				Toast.errorToast('PDS is not responding');
 			}
 		});
 	}
@@ -484,6 +486,7 @@ export class ProjectContainer extends React.Component<Props, State> {
 										hasCapability={this.handleHasCapability}
 										claimStats={dashboardClaimStats}
 										claims={this.state.projectPublic.claims}
+										impactAction={this.state.projectPublic.impactAction}
 									/>
 									
 								</DetailContainer>

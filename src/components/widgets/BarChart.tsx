@@ -377,8 +377,8 @@ export default class BarChart extends React.Component<ParentProps, State> {
 		gradientPending.addColorStop(1, '#033c50');
 
 		const gradientRemaining = ctx.createLinearGradient(0, 0, 0, this.state.canvasHeight);
-		gradientRemaining.addColorStop(0, '#00283a');
-		gradientRemaining.addColorStop(1, '#045971');
+		gradientRemaining.addColorStop(0, '#01293C');
+		gradientRemaining.addColorStop(1, '#033C50');
 
 		// CURRENTLY YOU NEED TO SUBMIT 3 ARRAYS, THIS IS STATIC, NEEDS TO BE MADE DYNAMIC ALONG WITH THE GRADIENTS ABOVE
 		let dataRejected = this.populateDataArray(0); // this number is the index of the data received as props

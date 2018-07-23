@@ -24,12 +24,17 @@ const ClaimsWidget = styled.div`
 const ClaimsLabels = styled.div`
 
 	margin-top: 40px;
+
+	strong {
+		font-weight: 700;
+	}
+
 	p:before {
 		content:'';
 		width:10px;
 		height:10px;
 		display: inline-block;
-		margin-right: 20px;
+		margin-right: 25px;
 	}
 	p:nth-child(1):before {
 		background: ${props => props.theme.ixoBlue};
@@ -82,13 +87,14 @@ const ClaimsTopLabels = styled.div`
 `;
 export interface ParentProps {
 	projectDid: string;
+	impactAction: string;
 	agentStats: any;
 	claimStats: any;
 	claims: any[];
 	hasCapability: (Role: AgentRoles[]) => boolean;
 }
 
-export const ProjectDashboard: React.SFC<ParentProps> = ({projectDid, agentStats, claimStats, claims, hasCapability}) => {
+export const ProjectDashboard: React.SFC<ParentProps> = ({projectDid, agentStats, claimStats, claims, hasCapability, impactAction}) => {
 
 	const countClaimsOfType = (claimType: string) => {
 		return [...claims].filter((claim) => claim.status === claimType).length;
@@ -167,7 +173,7 @@ export const ProjectDashboard: React.SFC<ParentProps> = ({projectDid, agentStats
 				}
 				{
 				<div className="col-md-6">
-					<WidgetWrapper title="My latest claims" path={`/projects/${projectDid}/detail/claims`}>
+					<WidgetWrapper title="Latest claims" path={`/projects/${projectDid}/detail/claims`}>
 						<ProjectClaims claims={claims} projectDid={projectDid} fullPage={false} hasLink={hasCapability([AgentRoles.owners, AgentRoles.evaluators, AgentRoles.serviceProviders, AgentRoles.investors])} />
 					</WidgetWrapper>
 				</div>}
@@ -180,19 +186,20 @@ export const ProjectDashboard: React.SFC<ParentProps> = ({projectDid, agentStats
 				}
 				{
 				<div className="col-lg-6">
-					<WidgetWrapper title="Impact claims" path={`/projects/${projectDid}/detail/claims`} linkIcon={'icon-expand'} link={hasCapability([AgentRoles.owners, AgentRoles.evaluators, AgentRoles.serviceProviders, AgentRoles.investors])}>
+					<WidgetWrapper title="Project impact claims" path={`/projects/${projectDid}/detail/claims`} linkIcon={'icon-expand'} link={hasCapability([AgentRoles.owners, AgentRoles.evaluators, AgentRoles.serviceProviders, AgentRoles.investors])}>
 						<ClaimsWidget>
 							<ClaimsLabels>
-								<p>Approved</p>
-								<p>Pending Approval</p>
-								<p>Rejected</p>
-								<p>Claims Submitted</p>
+								<p><strong>{claimStats.currentSuccessful}</strong> Approved</p>
+								<p><strong>{countClaimsOfType('0')}</strong> Pending Approval</p>
+								<p><strong>{claimStats.currentRejected}</strong> Rejected</p>
+								<p><strong>{claimStats.required}</strong> Claims Submitted</p>
 							</ClaimsLabels>
 							<CircleProgressbar
 								approved={claimStats.currentSuccessful}
 								rejected={claimStats.currentRejected}
 								pending={countClaimsOfType('0')}
 								totalNeeded={claimStats.required}
+								descriptor={impactAction}
 							/>
 						</ClaimsWidget>
 					</WidgetWrapper>

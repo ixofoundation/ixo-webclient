@@ -188,6 +188,7 @@ export const ProjectClaims: React.SFC<ParentProps> = ({claims, projectDid, fullP
 		return (
 			<ClaimsWidget>
 				{claims.map((claim, index) => {
+					console.log(claim);
 					switch (claim.status) {
 						case '0':
 							colorCLass = '#F89D28';

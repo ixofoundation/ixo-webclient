@@ -16,7 +16,7 @@ const Inner = styled.div`
 const UserMenu = styled.div`
 	position: fixed;
 	top: -260px;
-	width: 320px;
+	width: 260px;
 	right:0;
 	z-index: 1;
 	font-family: ${props => props.theme.fontRoboto};
