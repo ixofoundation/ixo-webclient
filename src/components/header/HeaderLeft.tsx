@@ -64,7 +64,7 @@ const IXOLogo = styled.i`
 	margin-right:20px;
 `;
 
-export const HeaderLeft: React.SFC<any> = ({simple}) => {
+export const HeaderLeft: React.SFC<any> = ({simple, refreshProjects}) => {
 
 	if (simple === true) {
 		return (
@@ -76,7 +76,7 @@ export const HeaderLeft: React.SFC<any> = ({simple}) => {
 	return (
 		<Main className="col-md-6 d-flex align-items-center">
 			<Link to="/"><IXOLogo className="icon-logo-ixo" title="IXO Logo" /></Link>
-			<HeaderLink exact={true} to="/">Explore</HeaderLink>
+			<HeaderLink exact={true} onClick={refreshProjects} to="/">Explore</HeaderLink>
 			<HeaderLink exact={true} to="/create-project">Launch a Project</HeaderLink>
 		</Main>
 	);

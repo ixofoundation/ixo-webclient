@@ -116,6 +116,7 @@ export interface StateProps {
 export interface ParentProps {
 	userInfo: any;
 	simpleHeader: boolean;
+	refreshProjects?: Function;
 }
 export interface Props extends StateProps, ParentProps {}
 
@@ -127,13 +128,6 @@ class Header extends React.Component<Props, State> {
 	};
 
 	componentDidMount() {
-		// const cachedServer = localStorage.getItem('server');
-		// if (cachedServer) {
-		// 	this.setState({selectedServer: cachedServer});
-		// 	this.props.onIxoInit(cachedServer);
-		// } else {
-		// 	this.props.onIxoInit(this.state.selectedServer);
-		// }
 		setInterval(this.handlePingExplorer, 5000);
 	}
 
@@ -205,7 +199,7 @@ class Header extends React.Component<Props, State> {
 		return (
 			<TopBar className="container-fluid text-white">
 				<div className="row">
-					<HeaderLeft simple={this.props.simpleHeader} />
+					<HeaderLeft simple={this.props.simpleHeader} refreshProjects={this.props.refreshProjects}/>
 					<MediaQuery minWidth={`${deviceWidth.tablet}px`}>
 						<HeaderRight
 							renderStatusIndicator={this.renderStatusIndicator}

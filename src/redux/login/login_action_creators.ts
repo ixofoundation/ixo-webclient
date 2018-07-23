@@ -1,7 +1,7 @@
 import { createAction } from '../../lib/redux_utils/actions';
 import { LoginResult, LOGIN_RESULT } from './login_actions';
 
-export function initUserInfo(keysafe: any) {
+export function initUserInfo(keysafe: any, ixo: any) {
 	return dispatch => {
 		if (keysafe === null) {
 			dispatch(
@@ -12,12 +12,20 @@ export function initUserInfo(keysafe: any) {
 		} else {
 			keysafe.getInfo((error, response) => {
 				if (response) {
-					dispatch(
-						createAction<LoginResult>(LOGIN_RESULT.type, {
-							userInfo: response,
-							error: {}
-						})
-					);
+					var userInfo = response;
+					ixo.user.getDidDoc(userInfo.didDoc.did).then((didResponse: any) => {
+						if (!didResponse.result) {
+							userInfo.ledgered = false;
+						} else {
+							userInfo.ledgered = true;
+						}
+						dispatch(
+							createAction<LoginResult>(LOGIN_RESULT.type, {
+								userInfo: userInfo,
+								error: {}
+							})
+						);
+				});
 				} else {
 					dispatch(
 						createAction<LoginResult>(LOGIN_RESULT.type, {

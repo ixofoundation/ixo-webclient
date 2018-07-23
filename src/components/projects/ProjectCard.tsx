@@ -165,18 +165,6 @@ export class ProjectCard extends React.Component<Props, States> {
 	fetchImage = () => {
 		if (this.props.project.imageLink && this.props.project.imageLink !== '') {
 			this.setState({ imageLink: this.props.project.serviceEndpoint + 'public/' + this.props.project.imageLink});
-/*
-			if (this.props.ixo && !this.state.imageLoaded) {
-				this.setState({imageLoaded: true});
-				this.props.ixo.project.fetchPublic(this.props.project.imageLink, this.props.project.serviceEndpoint).then((res: any) => {
-					let imageSrc = 'data:' + res.contentType + ';base64,' + res.data;
-					this.setState({ imageLink: imageSrc });
-				})
-				.catch((err) => {
-					console.log(err);
-				});
-			}
-			*/
 		}
 	}
 

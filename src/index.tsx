@@ -1,20 +1,20 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import { AppConnected } from './App';
 import { Provider } from 'react-redux';
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
 import registerServiceWorker from './registerServiceWorker';
 import { createPublicSiteStore } from './redux/store';
+import { AppConnected } from './App';
 
 const store = createPublicSiteStore();
 
 ReactDOM.render(
 	<Provider store={store}>
-		<BrowserRouter>
+		<Router>
 			{/* <React.StrictMode> */}
 				<AppConnected/>
 			{/* </React.StrictMode> */}
-		</BrowserRouter>
+		</Router>
 	</Provider>,
 	document.getElementById('root') as HTMLElement
 );
