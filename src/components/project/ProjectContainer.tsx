@@ -297,6 +297,7 @@ export class ProjectContainer extends React.Component<Props, State> {
 		this.props.keysafe.requestSigning(JSON.stringify(agentData), (error: any, signature: any) => {
 			if (!error) {
 				this.props.ixo.agent.createAgent(agentData, signature, this.state.projectPublic.serviceEndpoint).then((res) => {
+					debugger;
 					if (res.error !== undefined) {
 						Toast.errorToast(res.error.message);
 					} else {

@@ -17,6 +17,7 @@ import './assets/icons.css';
 import 'react-toastify/dist/ReactToastify.min.css';
 import { Routes } from './components/Routes';
 import { Spinner } from './components/common/Spinner';
+import { ToastContainer } from '../node_modules/react-toastify';
 // THEME DECLARATION BELOW
 
 const theme = {
@@ -138,6 +139,7 @@ class App extends React.Component<App.Props, App.State> {
 				<ScrollToTop>
 					<Container>
 						<HeaderConnected simpleHeader={false} userInfo={this.props.userInfo} refreshProjects={() => console.log('clicked')} />
+							<ToastContainer hideProgressBar={true} />
 							<ContentWrapper>
 								{this.props.ixo !== null ? 
 									<Routes /> : 
