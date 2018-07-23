@@ -16,6 +16,7 @@ import './assets/icons.css';
 
 import 'react-toastify/dist/ReactToastify.min.css';
 import { Routes } from './components/Routes';
+import { Spinner } from './components/common/Spinner';
 // THEME DECLARATION BELOW
 
 const theme = {
@@ -79,7 +80,6 @@ export namespace App {
 		loginError: string;
 		error: any;
 		errorInfo: any;
-		loaded: boolean;
 	}
 
 	export interface StateProps {
@@ -106,11 +106,11 @@ class App extends React.Component<App.Props, App.State> {
 		loginError: null,
 		isProjectPage: false,
 		errorInfo: null, 
-		error: null,
-		loaded: false
+		error: null
 	};
 
-	componentDidUpdate(prevProps: any) {
+	componentDidUpdate() {
+
 		if (this.props.ixo !== null && this.props.keysafe !== null && this.props.userInfo === null) {
 			this.props.onLoginInit(this.props.keysafe, this.props.ixo);
 		}
@@ -123,14 +123,9 @@ class App extends React.Component<App.Props, App.State> {
 		}
 	}
 
-	load = () => {
-		this.setState({ loaded: true });
-	}
-
 	componentDidMount() {
 		this.props.onIxoInit();
 		this.props.onKeysafeInit();
-		setTimeout(this.load , 100);
 	}
 
 	componentDidCatch(error: any, info: any) {
@@ -144,7 +139,10 @@ class App extends React.Component<App.Props, App.State> {
 					<Container>
 						<HeaderConnected simpleHeader={false} userInfo={this.props.userInfo} refreshProjects={() => console.log('clicked')} />
 							<ContentWrapper>
-								<Routes />
+								{this.props.ixo !== null ? 
+									<Routes /> : 
+									<Spinner info={'Loading IXO WORLD...'}/>
+								}
 							</ContentWrapper>
 						<Footer />
 					</Container>

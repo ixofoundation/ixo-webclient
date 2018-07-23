@@ -121,7 +121,7 @@ export class Projects extends React.Component<Props, State> {
 		if (this.state.projectList === null) {
 			this.refreshProjects();
 			return (
-				<Spinner info="App: Loading Projects" />
+				<Spinner info="Loading Projects" />
 			);
 		} else if (this.state.projectList.length > 0) {		
 			return (
