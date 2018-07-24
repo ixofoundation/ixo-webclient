@@ -2,6 +2,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { NavLink } from 'react-router-dom';
 import { deviceWidth } from '../../lib/commonData';
+import { AgentRoles } from '../../types/models';
 
 const NavItem = styled(NavLink)`
 	color: white;
@@ -62,6 +63,7 @@ const Container = styled.div`
 export interface Props {
 	match: any;
 	projectDid: string;
+	hasCapability: (role: [AgentRoles]) => boolean;
 }
 
 export interface State {
@@ -93,20 +95,24 @@ export class ProjectSidebar extends React.Component<Props, State> {
 				>
 					<i className={(this.state.activeLink === 'detail') ? 'icon-home-active' : 'icon-home'} />
 				</NavItem>
-				<NavItem 
-					exact={true} 
-					title="Service Providers" 
-					to={`/projects/${this.props.projectDid}/detail/service-providers`} 
-				>
-					<i className={this.state.activeLink === 'service-providers' ? 'icon-serviceproviders-active' : 'icon-serviceproviders'} />
-				</NavItem>
-				<NavItem 
-					exact={true} 
-					title="Evaluators" 
-					to={`/projects/${this.props.projectDid}/detail/evaluators`}
-				>
-					<i className={this.state.activeLink === 'evaluators' ? 'icon-evaluators-active' : 'icon-evaluators'} />
-				</NavItem>
+				{(this.props.hasCapability([AgentRoles.owners])) ?
+					(<React.Fragment>
+						<NavItem 
+							exact={true} 
+							title="Service Providers" 
+							to={`/projects/${this.props.projectDid}/detail/service-providers`} 
+						>
+							<i className={this.state.activeLink === 'service-providers' ? 'icon-serviceproviders-active' : 'icon-serviceproviders'} />
+						</NavItem>
+						<NavItem 
+							exact={true} 
+							title="Evaluators" 
+							to={`/projects/${this.props.projectDid}/detail/evaluators`}
+						>
+							<i className={this.state.activeLink === 'evaluators' ? 'icon-evaluators-active' : 'icon-evaluators'} />
+						</NavItem>
+					</React.Fragment>) : null
+				}
 				<NavItem 
 					exact={true} 
 					title="Claims"
@@ -114,13 +120,13 @@ export class ProjectSidebar extends React.Component<Props, State> {
 				>
 						<i className={this.state.activeLink === 'claims' ? 'icon-claims-active' : 'icon-claims'} />
 				</NavItem>
-				<NavItem 
+				{/* <NavItem 
 					exact={true}
 					title="Settings"
 					to={`/projects/${this.props.projectDid}/overview`}
 				>
 					<i className={this.state.activeLink === 'overview' ? 'icon-settings-active' : 'icon-settings'} />
-				</NavItem>
+				</NavItem> */}
 			</Container>
 	);
 	}

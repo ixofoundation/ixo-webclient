@@ -187,6 +187,7 @@ export class HeaderRight extends React.Component<HeaderRightProps, State> {
 									{this.props.renderStatusIndicator()}
 									<StatusText>IXO EXPLORER STATUS</StatusText>
 								</StatusBox>
+								<h3><span>Join</span></h3>
 							</UserBox>
 							:
 							<UserBox onClick={this.toggleMenu}>

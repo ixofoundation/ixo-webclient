@@ -179,7 +179,7 @@ export class ProjectCard extends React.Component<Props, States> {
 	render() {
 		return (
 			<CardContainer className="col-10 offset-1 col-xl-4 col-md-6 col-sm-10 offset-sm-1 offset-md-0">
-				<ProjectLink to={{pathname: `/projects/${this.props.did}/overview`, state: { imageLink: this.getImageLink() } }}>
+				<ProjectLink to={{pathname: `/projects/${this.props.did}/overview`, state: { projectPublic: this.props.project, imageLink: this.getImageLink() } }}>
 					<CardTop style={{backgroundImage: `url(${this.getImageLink()}),url(${placeholder})`}}>
 						<SDGs>
 						{this.props.project.sdgs.map((SDG, SDGi) => {

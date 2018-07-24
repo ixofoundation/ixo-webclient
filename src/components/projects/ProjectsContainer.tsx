@@ -87,18 +87,13 @@ export class Projects extends React.Component<Props, State> {
 			this.props.ixo.project
 				.listProjects()
 				.then((response: any) => {
-					let projectList = response.result;
-					if (response.error) {
-						Toast.errorToast('Unable to connect IXO Explorer');
-						this.loadingProjects = false;
-					} else {
-						projectList.sort((a, b) => {return (a.data.createdOn < b.data.createdOn); });
-						this.setState({ projectList: projectList });
-						this.loadingProjects = false;
-					}
+					let projectList = response;
+					projectList.sort((a, b) => {return (a.data.createdOn < b.data.createdOn); });
+					this.setState({ projectList: projectList });
+					this.loadingProjects = false;
 				})
 				.catch((result: Error) => {
-					Toast.errorToast(result.message);
+					Toast.errorToast('Unable to connect IXO Explorer');
 					this.loadingProjects = false;
 				});
 		}

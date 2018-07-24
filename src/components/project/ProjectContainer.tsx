@@ -8,7 +8,6 @@ import { contentType, AgentRoles, ErrorTypes, RenderType } from '../../types/mod
 import { Project } from '../../types/models/project';
 import { ProjectHero } from './ProjectHero';
 import { ProjectOverview } from './ProjectOverview';
-import { setActiveProject } from '../../redux/activeProject/activeProject_action_creators';
 import { ProjectDashboard } from './ProjectDashboard';
 import { ProjectNewClaim } from './ProjectNewClaim';
 import { ProjectSingleClaim } from './ProjectSingleClaim';
@@ -45,15 +44,18 @@ const DetailContainer = styled.div`
 	}
 `;
 export interface State {
+	imageLink: string;
+	projectPublic: Object;
+	projectDid: string;
+
 	isModalOpen: boolean;
 	modalData: any;
-	projectPublic: Object;
+
 	claims: Object[];
 	serviceProviders: any[];
 	investors: any[];
 	evaluators: any[];
 	userRoles: AgentRoles[];
-	imageLink: string;
 	claimSubmitted: boolean;
 	claimEvaluated: boolean;
 	singleClaimFormFile: string;
@@ -63,13 +65,11 @@ export interface State {
 
 export interface StateProps {
 	ixo?: any;  
-	projectDid?: any;
 	keysafe?: any;
 	userInfo?: UserInfo;
 }
 
 export interface DispatchProps {
-	onSetActiveProject?: (project: any) => void;
 }
 
 export interface ParentProps {    
@@ -81,17 +81,17 @@ export interface ParentProps {
 export interface Props extends ParentProps, StateProps, DispatchProps {}
 
 export class ProjectContainer extends React.Component<Props, State> {
-	
 	state = {
+		projectDid: this.props.match.params.projectDID,
+		projectPublic: (this.props.location.state && this.props.location.state.projectPublic) ? this.props.location.state.projectPublic : null,
+		imageLink: (this.props.location.state && this.props.location.state.imageLink) ? this.props.location.state.imageLink : placeholder,
 		isModalOpen: false,
 		modalData: {},
-		projectPublic: null,
 		claims: null,
 		serviceProviders: null,
 		investors: null,
 		evaluators: null,
 		userRoles: null,
-		imageLink: (this.props.location.state && this.props.location.state.imageLink) ? this.props.location.state.imageLink : placeholder,
 		claimSubmitted: false,
 		claimEvaluated: false,
 		singleClaimFormFile: '',
@@ -119,10 +119,9 @@ export class ProjectContainer extends React.Component<Props, State> {
 
 	handleGetProjectData = () => {
 		if (this.state.projectPublic === null) {
-			this.props.onSetActiveProject(this.props.match.params.projectDID);
 			const did = this.props.match.params.projectDID;
 			this.props.ixo.project.getProjectByProjectDid(did).then((response: any) => {
-				const project: Project = response.result.data;
+				const project: Project = response.data;
 				this.setState({ 
 					projectPublic: project,
 					imageLink: this.getImageLink(project)
@@ -132,6 +131,8 @@ export class ProjectContainer extends React.Component<Props, State> {
 			}).catch((result: Error) => {
 				Toast.errorToast(result.message, ErrorTypes.goBack);
 			});
+		} else {
+			this.handleGetCapabilities();
 		}
 	}
 
@@ -163,7 +164,7 @@ export class ProjectContainer extends React.Component<Props, State> {
 
 	handleListClaims = () => {
 		if (this.state.claims === null) {
-			const ProjectDIDPayload: Object = { projectDid: this.props.projectDid};
+			const ProjectDIDPayload: Object = { projectDid: this.state.projectDid};
 			this.props.keysafe.requestSigning(JSON.stringify(ProjectDIDPayload), (error, signature) => {	
 				if (!error) {
 					this.props.ixo.claim.listClaimsForProject(ProjectDIDPayload, signature, this.state.projectPublic.serviceEndpoint).then((response: any) => {
@@ -193,14 +194,14 @@ export class ProjectContainer extends React.Component<Props, State> {
 			this.handleGetProjectData();
 			return <Spinner info="Loading..." />;
 		} else if (renderType === RenderType.widget) {
-			return <ProjectClaims hasLink={true} fullPage={false} claims={this.state.projectPublic.claims} projectDid={this.props.projectDid}/>;
+			return <ProjectClaims hasLink={true} fullPage={false} claims={this.state.projectPublic.claims} projectDid={this.state.projectDid}/>;
 		} else if (this.state.projectPublic.claims.length > 0) {		
 			return (
 				<Fragment>
 					<ProjectHero project={this.state.projectPublic} match={this.props.match} isDetail={true} hasCapability={this.handleHasCapability} />
 					<DetailContainer>
-						<ProjectSidebar match={this.props.match} projectDid={this.props.projectDid}/>
-						<ProjectClaims hasLink={true} fullPage={true} claims={this.state.projectPublic.claims} projectDid={this.props.projectDid}/>
+						<ProjectSidebar match={this.props.match} projectDid={this.state.projectDid} hasCapability={this.handleHasCapability}/>
+						<ProjectClaims hasLink={true} fullPage={true} claims={this.state.projectPublic.claims} projectDid={this.state.projectDid}/>
 					</DetailContainer>
 				</Fragment>
 			);
@@ -209,7 +210,7 @@ export class ProjectContainer extends React.Component<Props, State> {
 				<Fragment>
 					<ProjectHero project={this.state.projectPublic} match={this.props.match} isDetail={true} hasCapability={this.handleHasCapability} />
 					<DetailContainer>
-						<ProjectSidebar match={this.props.match} projectDid={this.props.projectDid}/>
+						<ProjectSidebar match={this.props.match} projectDid={this.state.projectDid} hasCapability={this.handleHasCapability}/>
 						<Loading className="container-fluid"><p>No Claims found</p></Loading>
 					</DetailContainer>
 				</Fragment>
@@ -226,7 +227,7 @@ export class ProjectContainer extends React.Component<Props, State> {
 				<Fragment>
 					<ProjectHero project={this.state.projectPublic} match={this.props.match} isDetail={true} hasCapability={this.handleHasCapability} />
 					<DetailContainer>
-						<ProjectSidebar match={this.props.match} projectDid={this.props.projectDid}/>
+						<ProjectSidebar match={this.props.match} projectDid={this.state.projectDid} hasCapability={this.handleHasCapability}/>
 						<ProjectAgents agents={...this.state[agentRole]} handleUpdateAgentStatus={this.handleUpdateAgent}/>
 					</DetailContainer>
 				</Fragment>
@@ -236,7 +237,7 @@ export class ProjectContainer extends React.Component<Props, State> {
 				<Fragment>
 					<ProjectHero project={this.state.projectPublic} match={this.props.match} isDetail={true} hasCapability={this.handleHasCapability} />
 					<DetailContainer>
-						<ProjectSidebar match={this.props.match} projectDid={this.props.projectDid}/>
+						<ProjectSidebar match={this.props.match} projectDid={this.state.projectDid} hasCapability={this.handleHasCapability}/>
 						<Loading className="container-fluid"><p>No Agents found</p></Loading>
 					</DetailContainer>
 				</Fragment>
@@ -246,7 +247,7 @@ export class ProjectContainer extends React.Component<Props, State> {
 
 	handleListAgents = (agentRole: string) => {
 		if (this.state[agentRole] === null) {
-			const ProjectDIDPayload: Object = { projectDid: this.props.projectDid, role: AgentRoles[agentRole]};
+			const ProjectDIDPayload: Object = { projectDid: this.state.projectDid, role: AgentRoles[agentRole]};
 			this.props.keysafe.requestSigning(JSON.stringify(ProjectDIDPayload), (error, signature) => {	
 				if (!error) {
 					this.props.ixo.agent.listAgentsForProject(ProjectDIDPayload, signature, this.state.projectPublic.serviceEndpoint).then((response: any) => {
@@ -291,7 +292,7 @@ export class ProjectContainer extends React.Component<Props, State> {
 			name: agentFormData.name,
 			role: agentFormData.role,
 			agentDid: this.props.userInfo.didDoc.did,
-			projectDid: this.props.projectDid
+			projectDid: this.state.projectDid
 		};
 		this.props.keysafe.requestSigning(JSON.stringify(agentData), (error: any, signature: any) => {
 			if (!error) {
@@ -312,7 +313,7 @@ export class ProjectContainer extends React.Component<Props, State> {
 		let agentPaylod = {
 			agentDid: did,
 			status: statusObj.status,
-			projectDid: this.props.projectDid,
+			projectDid: this.state.projectDid,
 			role: role
 		};
 
@@ -339,7 +340,7 @@ export class ProjectContainer extends React.Component<Props, State> {
 		let claimPayload = {
 			claimId: id,
 			status: statusObj.status,
-			projectDid: this.props.projectDid,
+			projectDid: this.state.projectDid,
 		};
 
 		if (statusObj.version) {
@@ -364,7 +365,7 @@ export class ProjectContainer extends React.Component<Props, State> {
 
 	handleSubmitClaim = (claimData) => {
 		let claimPayload = Object.assign(claimData);
-		claimPayload['projectDid'] = this.props.projectDid;
+		claimPayload['projectDid'] = this.state.projectDid;
 		this.props.keysafe.requestSigning(JSON.stringify(claimPayload), (error, signature) => {			
 			if (!error) {
 				this.props.ixo.claim.createClaim(claimPayload, signature, this.state.projectPublic.serviceEndpoint).then((response) => {
@@ -403,7 +404,7 @@ export class ProjectContainer extends React.Component<Props, State> {
 	}
 
 	handleSingleClaimFetch = (project: any) => {
-		const ProjectDIDPayload: Object = { projectDid: this.props.projectDid};
+		const ProjectDIDPayload: Object = { projectDid: this.state.projectDid};
 		this.props.keysafe.requestSigning(JSON.stringify(ProjectDIDPayload), (error, signature) => {	
 			if (!error) {
 				const claimPromise = this.handleGetClaim(ProjectDIDPayload, signature); // get claim
@@ -436,13 +437,6 @@ export class ProjectContainer extends React.Component<Props, State> {
 		Promise.all(promises);
 	}
 	
-	fetchImage = (imageLink: string, pdsURL: string) => {
-		this.props.ixo.project.fetchPublic(imageLink, pdsURL).then((res: any) => {
-			let imageSrc = 'data:' + res.contentType + ';base64,' + res.data;
-			this.setState({ imageLink: imageSrc });
-		});
-	}
-
 	handleRenderProject = () => {
 		if (this.state.projectPublic === null || this.state.userRoles === null) {
 			return <Spinner info="ProjectContainer: Loading Project"/>;
@@ -450,9 +444,6 @@ export class ProjectContainer extends React.Component<Props, State> {
 			const project = this.state.projectPublic;
 			switch (this.props.contentType) {
 				case contentType.overview:
-				if (this.state.imageLink === placeholder) {
-					this.fetchImage(project.imageLink, project.serviceEndpoint);
-				}
 				return (
 					<Fragment>
 						<ProjectHero project={project} match={this.props.match} isDetail={false} hasCapability={this.handleHasCapability} />
@@ -479,9 +470,9 @@ export class ProjectContainer extends React.Component<Props, State> {
 							<Fragment>
 								<ProjectHero project={project} match={this.props.match} isDetail={true} hasCapability={this.handleHasCapability} />
 								<DetailContainer>
-									<ProjectSidebar match={this.props.match} projectDid={this.props.projectDid}/>
+									<ProjectSidebar match={this.props.match} projectDid={this.state.projectDid} hasCapability={this.handleHasCapability}/>
 									<ProjectDashboard 
-										projectDid={this.props.projectDid}
+										projectDid={this.state.projectDid}
 										agentStats={this.state.projectPublic.agentStats}
 										hasCapability={this.handleHasCapability}
 										claimStats={dashboardClaimStats}
@@ -498,9 +489,9 @@ export class ProjectContainer extends React.Component<Props, State> {
 						<Fragment>
 							<ProjectHero isClaim={true} project={project} match={this.props.match} isDetail={true} hasCapability={this.handleHasCapability} />
 								{(this.state.claimSubmitted) ?
-									<ProjectClaimSubmitted projectDid={this.props.projectDid} /> : 
+									<ProjectClaimSubmitted projectDid={this.state.projectDid} /> : 
 									<DetailContainer>
-										<ProjectSidebar match={this.props.match} projectDid={this.props.projectDid}/>
+										<ProjectSidebar match={this.props.match} projectDid={this.state.projectDid} hasCapability={this.handleHasCapability}/>
 										<ProjectNewClaim projectData={project} ixo={this.props.ixo} submitClaim={(claimData) => this.handleSubmitClaim(claimData)}/>
 									</DetailContainer>
 								}
@@ -515,7 +506,7 @@ export class ProjectContainer extends React.Component<Props, State> {
 					<Fragment>
 						<ProjectHero isClaim={true} project={project} match={this.props.match} isDetail={true} hasCapability={this.handleHasCapability} />
 						<DetailContainer>
-							<ProjectSidebar match={this.props.match} projectDid={this.props.projectDid}/>
+							<ProjectSidebar match={this.props.match} projectDid={this.state.projectDid} hasCapability={this.handleHasCapability}/>
 							<ProjectSingleClaim
 								singleClaimFormFile={this.state.singleClaimFormFile}
 								claim={this.state.singleClaim}
@@ -554,21 +545,11 @@ export class ProjectContainer extends React.Component<Props, State> {
 function mapStateToProps(state: PublicSiteStoreState) {
 	return {
 		ixo: state.ixoStore.ixo,
-		projectDid: state.activeProjectStore.projectDid,
 		keysafe: state.keysafeStore.keysafe,
 		userInfo: state.loginStore.userInfo,
 	};
 }
 
-function mapDispatchToProps(dispatch: any): DispatchProps {
-	return {
-		onSetActiveProject: (project) => {
-			dispatch(setActiveProject(project));
-		},
-	};
-}
-
 export const ProjectContainerConnected = withRouter<Props & RouteComponentProps<{}>>(connect(
 	mapStateToProps,
-	mapDispatchToProps
 )(ProjectContainer as any) as any);

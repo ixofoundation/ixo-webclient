@@ -83,7 +83,7 @@ export namespace App {
 		errorInfo: any;
 		isExplorerConnected: boolean;
 		responseTime: number;
-		isLoaded: boolean;
+		onLoginInitCalled: boolean;
 	}
 
 	export interface StateProps {
@@ -113,22 +113,23 @@ class App extends React.Component<App.Props, App.State> {
 		error: null,
 		isExplorerConnected: null,
 		responseTime: 0,
-		isLoaded: false
+		onLoginInitCalled: false
 	};
 
 	componentDidUpdate(prevProps: App.Props) {
 		if (prevProps.ixo !== this.props.ixo && this.props.ixo !== 0) {
 			this.handlePingExplorer();
 		}
-		if (this.props.ixo !== null && this.props.keysafe !== null && this.props.userInfo === null && this.state.isLoaded === false) {
+		if (this.props.ixo !== null && this.props.keysafe !== null && this.props.userInfo === null && this.state.onLoginInitCalled === false) {
 			this.props.onLoginInit(this.props.keysafe, this.props.ixo);
-			this.setState({ isLoaded: true });
+			this.setState({onLoginInitCalled: true});
 		}
-		if (this.props.userInfo && this.state.isLoaded === false) {
-			if (!this.props.userInfo.ledgered) {
-				if (!(this.props.location.pathName === '/register')) {
-					this.props.history.push('/register');
-				}
+	}
+
+	static getDerivedStateFromProps(nextProps: any, state: any) {
+		if (nextProps.userInfo && !nextProps.userInfo.ledgered) {
+			if (!(nextProps.location.pathname === '/register')) {
+				nextProps.history.push('/register');
 			}
 		}
 	}
