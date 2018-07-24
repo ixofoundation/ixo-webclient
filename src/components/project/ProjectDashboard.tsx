@@ -1,6 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { WidgetWrapper } from '../common/WidgetWrapper';
+import { WidgetWrapper, gridSizes } from '../common/WidgetWrapper';
 import { LayoutWrapper } from '../common/LayoutWrapper';
 import { SingleStatistic } from '../common/SingleStatistic';
 import { StatType, AgentRoles } from '../../types/models';
@@ -17,7 +17,7 @@ const Container = styled.div`
 const ClaimsWidget = styled.div`
 	display: flex;
 	justify-content: space-between;
-	padding:0 20px 20px 0;
+	padding:0 20px 0 0;
 	flex-wrap: wrap;
 `;
 
@@ -108,7 +108,7 @@ export const ProjectDashboard: React.SFC<ParentProps> = ({projectDid, agentStats
 		<LayoutWrapper>
 			<Container className="row row-eq-height">
 				<div className="col-md-12">
-					<WidgetWrapper title="Project Timeline" path={`/projects/${projectDid}/detail/investors`} linkIcon={'icon-expand'}>
+					<WidgetWrapper title="Project Timeline" path={`/projects/${projectDid}/detail/investors`} linkIcon={'icon-expand'} gridHeight={gridSizes.standard}>
 						<ClaimsTopLabels>
 							<p>Claims pending</p>
 							<p>Claims approved</p>
@@ -125,7 +125,7 @@ export const ProjectDashboard: React.SFC<ParentProps> = ({projectDid, agentStats
 				</div>
 				{
 				<div className="col-sm-6 col-lg-3">
-					<WidgetWrapper title="Evaluators" link={hasCapability([AgentRoles.owners])} path={`/projects/${projectDid}/detail/evaluators`} linkIcon={'icon-expand'}>
+					<WidgetWrapper title="Evaluators" link={hasCapability([AgentRoles.owners])} gridHeight={gridSizes.standard} path={`/projects/${projectDid}/detail/evaluators`} linkIcon={'icon-expand'}>
 						<SingleStatistic 
 							title="Total" 
 							type={StatType.decimal}
@@ -137,7 +137,7 @@ export const ProjectDashboard: React.SFC<ParentProps> = ({projectDid, agentStats
 				}
 				{
 				<div className="col-sm-6 col-lg-3">
-					<WidgetWrapper title="Service Providers" link={hasCapability([AgentRoles.owners])} path={`/projects/${projectDid}/detail/service-providers`} linkIcon={'icon-expand'}>
+					<WidgetWrapper title="Service Providers" link={hasCapability([AgentRoles.owners])} gridHeight={gridSizes.standard} path={`/projects/${projectDid}/detail/service-providers`} linkIcon={'icon-expand'}>
 						<SingleStatistic 
 							title="Total" 
 							type={StatType.decimal}
@@ -148,45 +148,8 @@ export const ProjectDashboard: React.SFC<ParentProps> = ({projectDid, agentStats
 				</div>
 				}
 				{
-				<div className="col-sm-6 col-lg-3">
-					<WidgetWrapper title="Investors" link={hasCapability([AgentRoles.owners])} path={`/projects/${projectDid}/detail/investors`} linkIcon={'icon-expand'}>
-						<SingleStatistic 
-							title="Total" 
-							type={StatType.decimal}
-							amount={agentStats.investors} 
-							descriptor={[{class: 'text-block', value: 'Pending Approval:'}, {class: 'number-orange', value: agentStats.investorsPending}]}
-						/>
-					</WidgetWrapper>
-				</div>
-				}
-				{
-				<div className="col-sm-6 col-lg-3">
-					<WidgetWrapper title="Claims" link={hasCapability([AgentRoles.owners, AgentRoles.evaluators, AgentRoles.serviceProviders, AgentRoles.investors])} path={`/projects/${projectDid}/detail/claims`} linkIcon={'icon-expand'}>
-						<SingleStatistic 
-							title="Total Successful" 
-							type={StatType.decimal}
-							amount={claimStats.currentSuccessful} 
-							descriptor={[{class: 'text-block', value: 'Pending Approval:'}, {class: 'number-orange', value: countClaimsOfType('0')}]}
-						/>
-					</WidgetWrapper>
-				</div>
-				}
-				{
-				<div className="col-md-6">
-					<WidgetWrapper title="Latest claims" path={`/projects/${projectDid}/detail/claims`}>
-						<ProjectClaims claims={claims} projectDid={projectDid} fullPage={false} hasLink={hasCapability([AgentRoles.owners, AgentRoles.evaluators, AgentRoles.serviceProviders, AgentRoles.investors])} />
-					</WidgetWrapper>
-				</div>}
-				{process.env.REACT_APP_DEV &&
-				<div className="col-md-6">
-					<WidgetWrapper title="Claim location activity" path={`/projects/${projectDid}/detail/claims`}>
-						<WorldMap />
-					</WidgetWrapper>
-				</div>
-				}
-				{
 				<div className="col-lg-6">
-					<WidgetWrapper title="Project impact claims" path={`/projects/${projectDid}/detail/claims`} linkIcon={'icon-expand'} link={hasCapability([AgentRoles.owners, AgentRoles.evaluators, AgentRoles.serviceProviders, AgentRoles.investors])}>
+					<WidgetWrapper title="Project impact claims" path={`/projects/${projectDid}/detail/claims`} gridHeight={gridSizes.standard} linkIcon={'icon-expand'} link={hasCapability([AgentRoles.owners, AgentRoles.evaluators, AgentRoles.serviceProviders, AgentRoles.investors])}>
 						<ClaimsWidget>
 							<ClaimsLabels>
 								<p><strong>{claimStats.currentSuccessful}</strong> Approved</p>
@@ -202,6 +165,19 @@ export const ProjectDashboard: React.SFC<ParentProps> = ({projectDid, agentStats
 								descriptor={impactAction}
 							/>
 						</ClaimsWidget>
+					</WidgetWrapper>
+				</div>
+				}
+				{
+				<div className="col-md-6">
+					<WidgetWrapper title="Latest claims" path={`/projects/${projectDid}/detail/claims`} gridHeight={gridSizes.standard}>
+						<ProjectClaims claims={claims} projectDid={projectDid} fullPage={false} hasLink={hasCapability([AgentRoles.owners, AgentRoles.evaluators, AgentRoles.serviceProviders, AgentRoles.investors])} />
+					</WidgetWrapper>
+				</div>}
+				{process.env.REACT_APP_DEV &&
+				<div className="col-md-6">
+					<WidgetWrapper title="Claim location activity" path={`/projects/${projectDid}/detail/claims`} gridHeight={gridSizes.standard}>
+						<WorldMap />
 					</WidgetWrapper>
 				</div>
 				}

@@ -372,9 +372,9 @@ export default class BarChart extends React.Component<ParentProps, State> {
 		gradientApproved.addColorStop(1, '#016582');
 
 		const gradientPending = ctx.createLinearGradient(0, 0, 0, this.state.canvasHeight);
-		gradientPending.addColorStop(0, '#045971');
-		gradientPending.addColorStop(0.5, '#045971');
-		gradientPending.addColorStop(1, '#033c50');
+		gradientPending.addColorStop(0, '#096f8c');
+		gradientPending.addColorStop(0.5, '#096f8c');
+		gradientPending.addColorStop(1, '#0b556f');
 
 		const gradientRemaining = ctx.createLinearGradient(0, 0, 0, this.state.canvasHeight);
 		gradientRemaining.addColorStop(0, '#01293C');

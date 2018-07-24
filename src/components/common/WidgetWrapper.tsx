@@ -9,7 +9,9 @@ const Container = styled.div`
 	box-shadow: 0 2px 10px 0 rgba(0,0,0,0.18);
 	margin: 15px 0;
 	transform-origin: center;
-
+	display: flex;
+	flex-direction: column;
+	
 	transition: box-shadow 0.3s ease, transform 0.3s ease;
 
 	h3 {
@@ -19,9 +21,16 @@ const Container = styled.div`
 	}
 `;
 
-const FlexContainer = styled.div`
+const FlexTitle = styled.div`
 	display: flex;
 	justify-content: space-between;
+`;
+
+const FlexContent = styled.div`
+	display: flex;
+	flex: 1 1 auto;
+	flex-direction: column;
+	justify-content: center;
 `;
 
 const WrappedLink = styled(Link)`
@@ -56,34 +65,54 @@ const WrappedLink = styled(Link)`
 	}
 `;
 
+export enum gridSizes {
+	standard = 'NORMAL',
+	double = 'DOUBLE',
+}
+
 export interface ParentProps {
 	title?: string;
 	link?: boolean;
 	path?: string;
 	linkIcon?: string;
+	gridHeight?: gridSizes;
 }
 
-export const WidgetWrapper: React.SFC<ParentProps> = ({title, link, path, linkIcon, children}) => {
+export const WidgetWrapper: React.SFC<ParentProps> = ({title, link, path, linkIcon, gridHeight, children}) => {
+
+	const setGridHeight = () => {
+		if (!gridHeight || window.innerWidth < 576) {
+			return 'none';
+		} else if (gridHeight === gridSizes.standard) {
+			return '315px';
+		} else {
+			return '630px';
+		}
+	};
 
 	if (link) {
 		return (
 			<WrappedLink to={path}>
-				<Container className="container-fluid">
-					<FlexContainer>
+				<Container className="container-fluid" style={{minHeight: setGridHeight()}}>
+					<FlexTitle>
 						{title && <h3>{title}</h3>}
 						{linkIcon && <i className={linkIcon}/>}
-					</FlexContainer>
-					{children}
+					</FlexTitle>
+					<FlexContent>
+						{children}
+					</FlexContent>
 				</Container>
 			</WrappedLink>
 		);
 	} else {
 		return (
-			<Container className="container-fluid">
-				<FlexContainer>
+			<Container className="container-fluid" style={{minHeight: setGridHeight()}}>
+				<FlexTitle>
 					{title && <h3>{title}</h3>}
-				</FlexContainer>
-				{children}
+				</FlexTitle>
+				<FlexContent>
+					{children}
+				</FlexContent>
 			</Container>
 		);
 	}

@@ -6,7 +6,7 @@ const WidgetContainer = styled.div`
 	position: relative;
 	
 	.progress {
-		width: 100%;
+		width: 250px;
 		height: 100%;
 		transform: rotate(-90deg);
 		background: none;
@@ -78,6 +78,8 @@ export interface State {
 	percentPending: number;
 }
 
+const radius = 45;
+const svgSize = 100;
 export class CircleProgressbar extends React.Component<ParentProps, State> {
 
 	state = {
@@ -91,7 +93,7 @@ export class CircleProgressbar extends React.Component<ParentProps, State> {
 	}
 
 	getRadius = () => {
-		return 54;
+		return radius;
 	}
 
 	componentDidMount() {
@@ -159,13 +161,13 @@ export class CircleProgressbar extends React.Component<ParentProps, State> {
 					<Descriptor>{this.props.descriptor}</Descriptor>
 				</Text>
 				<div className="circle">
-					<svg className="progress" viewBox="0 0 120 120">
-						<circle className="progress__meter" cx="60" cy="60" r="54" strokeWidth="3" />
+					<svg className="progress" viewBox={`0 0 ${svgSize} ${svgSize}`}>
+						<circle className="progress__meter" cx={svgSize / 2} cy={svgSize / 2} r={radius} strokeWidth="3" />
 						<circle 
 							className="progress__value" 
-							cx="60" 
-							cy="60" 
-							r="54" 
+							cx={svgSize / 2}
+							cy={svgSize / 2}
+							r={radius}
 							strokeDasharray={this.getCircumference()} 
 							strokeWidth="6" 
 							stroke="url(#gradientRejected)" 
@@ -173,9 +175,9 @@ export class CircleProgressbar extends React.Component<ParentProps, State> {
 						/>
 						<circle 
 							className="progress__value" 
-							cx="60" 
-							cy="60" 
-							r="54" 
+							cx={svgSize / 2}
+							cy={svgSize / 2}
+							r={radius}
 							strokeWidth="6" 
 							strokeDasharray={this.getCircumference()} 
 							stroke="url(#gradientPending)" 
@@ -183,9 +185,9 @@ export class CircleProgressbar extends React.Component<ParentProps, State> {
 						/>
 						<circle 
 							className="progress__value" 
-							cx="60" 
-							cy="60" 
-							r="54" 
+							cx={svgSize / 2}
+							cy={svgSize / 2}
+							r={radius}
 							strokeWidth="6" 
 							strokeDasharray={this.getCircumference()} 
 							stroke="url(#gradientApproved)" 

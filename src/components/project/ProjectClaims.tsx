@@ -183,6 +183,10 @@ export const ProjectClaims: React.SFC<ParentProps> = ({claims, projectDid, fullP
 		}
 	};
 
+	const claimDate = (date: string) => {
+		return 'test';
+	};
+
 	const handleRenderWidget = () => {
 		let colorCLass = '';
 		return (
@@ -207,7 +211,7 @@ export const ProjectClaims: React.SFC<ParentProps> = ({claims, projectDid, fullP
 							<Link key={index} to={{pathname: `/projects/${projectDid}/detail/claims/${claim.claimId}`}}>
 								<ListItemWrapper className="col-12" >
 											<Indicator color={colorCLass}/>
-											<p>{'Claim ID: ' + claim.claimId}</p>
+											<p>{'Claim ID: ' + claim.claimId} {claimDate(claim.date)}</p>
 											<p>{renderClaimStatus(claim.status)}</p>
 								</ListItemWrapper>
 							</Link>
