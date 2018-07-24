@@ -52,7 +52,7 @@ export class Widgets extends React.Component<ParentProps> {
 			<div className="container">
 				<div className="row">
 					<div className="col-md-12">
-						<WorldMap />
+						<WorldMap markers={[]}/>
 					</div>
 					<div className="col-md-6">
 						{/* <Sunburst /> */}

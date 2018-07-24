@@ -7,7 +7,8 @@ import { StatType, AgentRoles } from '../../types/models';
 import { ProjectClaims } from './ProjectClaims';
 import { CircleProgressbar } from '../widgets/CircleProgressbar';
 import BarChart, { BarColors } from '../widgets/BarChart';
-import { WorldMap } from '../widgets/WorldMap';
+import { WorldMap, LatLng } from '../widgets/WorldMap';
+const countryLatLng = require('../../lib/maps/countryLatLng.json');
 import { deviceWidth } from '../../lib/commonData';
 
 const Container = styled.div`
@@ -86,6 +87,7 @@ const ClaimsTopLabels = styled.div`
 	}
 `;
 export interface ParentProps {
+	project: any;
 	projectDid: string;
 	impactAction: string;
 	agentStats: any;
@@ -94,7 +96,7 @@ export interface ParentProps {
 	hasCapability: (Role: AgentRoles[]) => boolean;
 }
 
-export const ProjectDashboard: React.SFC<ParentProps> = ({projectDid, agentStats, claimStats, claims, hasCapability, impactAction}) => {
+export const ProjectDashboard: React.SFC<ParentProps> = ({project, projectDid, agentStats, claimStats, claims, hasCapability, impactAction}) => {
 
 	const countClaimsOfType = (claimType: string) => {
 		return [...claims].filter((claim) => claim.status === claimType).length;
@@ -102,6 +104,16 @@ export const ProjectDashboard: React.SFC<ParentProps> = ({projectDid, agentStats
 
 	const getClaimsOfType = (claimType: string) => {
 		return [...claims].filter((claim) => claim.status === claimType);
+	};
+
+	const getProjectLatLng = () => {
+		let latLng = new LatLng(0, 0);
+		countryLatLng.map( (country: any) => {
+			if (project.projectLocation	=== country.alpha2) {
+				latLng = new LatLng(country.latitude, country.longitude);
+			}
+		});
+		return latLng;
 	};
 
 	return (
@@ -177,7 +189,7 @@ export const ProjectDashboard: React.SFC<ParentProps> = ({projectDid, agentStats
 				{process.env.REACT_APP_DEV &&
 				<div className="col-md-6">
 					<WidgetWrapper title="Claim location activity" path={`/projects/${projectDid}/detail/claims`} gridHeight={gridSizes.standard}>
-						<WorldMap />
+						<WorldMap markers={[getProjectLatLng()]}/>
 					</WidgetWrapper>
 				</div>
 				}
