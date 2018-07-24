@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { PublicSiteStoreState } from '../../redux/public_site_reducer';
 import styled from 'styled-components';
-// import { toast } from 'react-toastify';
 import { HeaderLeft } from './HeaderLeft';
 import { HeaderRight } from './HeaderRight';
 import MediaQuery from 'react-responsive';
@@ -102,61 +101,24 @@ const LightReady = Light.extend`
 	background: #5ab946;
 	box-shadow: 0px 0px 5px 0px rgb(0, 255, 64);
 `;
+
 export interface State {
-	isExplorerConnected: boolean;
-	responseTime: number;
-	copied: boolean;
+
 }
 
 export interface StateProps {
-	ixo?: any;
-	keysafe?: any;
 }
 
 export interface ParentProps {
 	userInfo: any;
 	simpleHeader: boolean;
 	refreshProjects?: Function;
+	isExplorerConnected: boolean;
+	responseTime: number;
 }
 export interface Props extends StateProps, ParentProps {}
 
 class Header extends React.Component<Props, State> {
-	state = {
-		isExplorerConnected: null,
-		responseTime: 0,
-		copied: false
-	};
-
-	componentDidMount() {
-		setInterval(this.handlePingExplorer, 5000);
-	}
-
-	componentDidUpdate(prevProps: Props) {
-		if (prevProps.ixo !== this.props.ixo && this.props.ixo !== 0) {
-			this.handlePingExplorer();
-		}
-	}
-
-	handlePingExplorer = () => {
-		const t0 = performance.now();
-		if ( this.props.ixo ) {
-			this.props.ixo.network
-				.pingIxoExplorer()
-				.then(result => {
-					if (result === 'API is running') {
-						const t1 = performance.now();
-						this.setState({ isExplorerConnected: true, responseTime: Math.trunc(t1 - t0) });
-					} else {
-						this.setState({ isExplorerConnected: false });
-					}
-				})
-				.catch(error => {
-					console.log(error);
-				});
-		} else {
-			this.setState({ isExplorerConnected: false });
-		}
-	}
 
 	renderStatusIndicator = () => {
 		return (
@@ -168,10 +130,10 @@ class Header extends React.Component<Props, State> {
 	}
 
 	renderStatusMessage() {
-		if (this.state.isExplorerConnected) {
+		if (this.props.isExplorerConnected) {
 			return (
 				<StatusMessage>
-					<p>Response time: {this.state.responseTime} ms</p>
+					<p>Response time: {this.props.responseTime} ms</p>
 				</StatusMessage>
 			);
 		} else {
@@ -186,9 +148,9 @@ class Header extends React.Component<Props, State> {
 	}
 
 	renderLightIndicator() {
-		if (this.state.isExplorerConnected === null) {
+		if (this.props.isExplorerConnected === null) {
 			return <LightLoading />;
-		} else if (this.state.isExplorerConnected) {
+		} else if (this.props.isExplorerConnected) {
 			return <LightReady />;
 		} else {
 			return <Light />;

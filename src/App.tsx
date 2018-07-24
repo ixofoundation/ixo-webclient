@@ -81,6 +81,9 @@ export namespace App {
 		loginError: string;
 		error: any;
 		errorInfo: any;
+		isExplorerConnected: boolean;
+		responseTime: number;
+		isLoaded: boolean;
 	}
 
 	export interface StateProps {
@@ -107,15 +110,21 @@ class App extends React.Component<App.Props, App.State> {
 		loginError: null,
 		isProjectPage: false,
 		errorInfo: null, 
-		error: null
+		error: null,
+		isExplorerConnected: null,
+		responseTime: 0,
+		isLoaded: false
 	};
 
-	componentDidUpdate() {
-
-		if (this.props.ixo !== null && this.props.keysafe !== null && this.props.userInfo === null) {
-			this.props.onLoginInit(this.props.keysafe, this.props.ixo);
+	componentDidUpdate(prevProps: App.Props) {
+		if (prevProps.ixo !== this.props.ixo && this.props.ixo !== 0) {
+			this.handlePingExplorer();
 		}
-		if (this.props.userInfo) {
+		if (this.props.ixo !== null && this.props.keysafe !== null && this.props.userInfo === null && this.state.isLoaded === false) {
+			this.props.onLoginInit(this.props.keysafe, this.props.ixo);
+			this.setState({ isLoaded: true });
+		}
+		if (this.props.userInfo && this.state.isLoaded === false) {
 			if (!this.props.userInfo.ledgered) {
 				if (!(this.props.location.pathName === '/register')) {
 					this.props.history.push('/register');
@@ -127,10 +136,28 @@ class App extends React.Component<App.Props, App.State> {
 	componentDidMount() {
 		this.props.onIxoInit();
 		this.props.onKeysafeInit();
+		setInterval(this.handlePingExplorer, 5000);
 	}
 
-	componentDidCatch(error: any, info: any) {
-		this.setState({ error: error, errorInfo: info });
+	handlePingExplorer = () => {
+		const t0 = performance.now();
+		if ( this.props.ixo ) {
+			this.props.ixo.network
+				.pingIxoExplorer()
+				.then(result => {
+					if (result === 'API is running') {
+						const t1 = performance.now();
+						this.setState({ isExplorerConnected: true, responseTime: Math.trunc(t1 - t0) });
+					} else {
+						this.setState({ isExplorerConnected: false });
+					}
+				})
+				.catch(error => {
+					console.log(error);
+				});
+		} else {
+			this.setState({ isExplorerConnected: false });
+		}
 	}
 
 	render() {
@@ -138,7 +165,7 @@ class App extends React.Component<App.Props, App.State> {
 			<ThemeProvider theme={theme}> 
 				<ScrollToTop>
 					<Container>
-						<HeaderConnected simpleHeader={false} userInfo={this.props.userInfo} refreshProjects={() => console.log('clicked')} />
+						<HeaderConnected responseTime={this.state.responseTime} isExplorerConnected={this.state.isExplorerConnected} simpleHeader={false} userInfo={this.props.userInfo} refreshProjects={() => console.log('clicked')} />
 							<ToastContainer hideProgressBar={true} />
 							<ContentWrapper>
 								{this.props.ixo !== null ? 

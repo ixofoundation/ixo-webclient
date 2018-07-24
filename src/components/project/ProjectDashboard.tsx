@@ -108,7 +108,7 @@ export const ProjectDashboard: React.SFC<ParentProps> = ({projectDid, agentStats
 		<LayoutWrapper>
 			<Container className="row row-eq-height">
 				<div className="col-md-12">
-					<WidgetWrapper title="Project Timeline" path={`/projects/${projectDid}/detail/investors`} linkIcon={'icon-expand'} gridHeight={gridSizes.standard}>
+					<WidgetWrapper title="Project Timeline" path={`/projects/${projectDid}/detail/investors`} linkIcon={'icon-expand'}>
 						<ClaimsTopLabels>
 							<p>Claims pending</p>
 							<p>Claims approved</p>
