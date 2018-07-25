@@ -148,7 +148,8 @@ class App extends React.Component<App.Props, App.State> {
 				.then(result => {
 					if (result === 'API is running') {
 						const t1 = performance.now();
-						this.setState({ isExplorerConnected: true, responseTime: Math.trunc(t1 - t0) });
+						this.setState({ isExplorerConnected: true,
+							responseTime: Math.trunc(t1 - t0) });
 					} else {
 						this.setState({ isExplorerConnected: false });
 					}
