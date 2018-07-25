@@ -133,8 +133,7 @@ const ListItemWrapper = styled.div`
 	}
 `;
 
-const WidgetLink = styled(Link)`
-	text-align: center;
+const ClaimLink = styled(Link)`
 	color: white;
 	transition: color 0.3s ease;
 
@@ -142,6 +141,10 @@ const WidgetLink = styled(Link)`
 		text-decoration: none;
 		color: ${props => props.theme.ixoBlue};
 	}
+`;
+
+const ViewAllLink = ClaimLink.extend`
+	text-align: center;
 `;
 
 export interface ParentProps {
@@ -176,9 +179,9 @@ export const ProjectClaims: React.SFC<ParentProps> = ({claims, projectDid, fullP
 		
 		if (hasLink) {
 			return (
-				<Link key={index} to={{pathname: `/projects/${projectDid}/detail/claims/${claim.claimId}`}}>
+				<ClaimLink key={index} to={{pathname: `/projects/${projectDid}/detail/claims/${claim.claimId}`}}>
 					{theItem}
-				</Link>
+				</ClaimLink>
 			);
 		} else {
 			return theItem;
@@ -205,7 +208,7 @@ export const ProjectClaims: React.SFC<ParentProps> = ({claims, projectDid, fullP
 					}
 					return claimItem(claim, index, colorCLass);
 				})}
-				<WidgetLink to={`/projects/${projectDid}/detail/claims`}><ListItemWrapper>View all claims</ListItemWrapper></WidgetLink>
+				<ViewAllLink to={`/projects/${projectDid}/detail/claims`}><ListItemWrapper>View all claims</ListItemWrapper></ViewAllLink>
 			</ClaimsWidget>
 		);
 	};

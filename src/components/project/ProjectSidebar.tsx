@@ -17,6 +17,8 @@ const NavItem = styled(NavLink)`
 	@media (min-width: ${deviceWidth.mobile}px) {
 		margin: 30px 0;
 		width: 100%;	
+		border-top: 0;
+		border-left: 5px solid transparent;
 	}
 
 	:hover {
@@ -61,7 +63,7 @@ const Container = styled.div`
 `;
 
 export interface Props {
-	match: any;
+	match: string;
 	projectDid: string;
 	hasCapability: (role: [AgentRoles]) => boolean;
 }
@@ -73,17 +75,16 @@ export interface State {
 export class ProjectSidebar extends React.Component<Props, State> {
 
 	state = {
-		activeLink: ''
+		activeLink: 'detail'
 	};
 
-	// componentDidUpdate(prevProps: any) {
-	// 	if (prevProps.match.path !== this.props.match.patch) {
-	// 		const path = this.props.match.path;
-	// 		const result = path.substring(path.lastIndexOf('/') + 1);
-	// 		console.log(result);
-	// 		// this.setState({activeLink: result});
-	// 	}
-	// }
+	componentDidMount() {
+		this.setState({ activeLink: this.props.match});
+	}
+
+	setActiveLink = (name: string) => {
+		this.setState({ activeLink: name});
+	}
 
 	render() {
 		return (
@@ -92,6 +93,7 @@ export class ProjectSidebar extends React.Component<Props, State> {
 					exact={true}
 					title="Dashboard"
 					to={`/projects/${this.props.projectDid}/detail`}
+					onClick={() => this.setActiveLink('detail')}
 				>
 					<i className={(this.state.activeLink === 'detail') ? 'icon-home-active' : 'icon-home'} />
 				</NavItem>
@@ -101,13 +103,15 @@ export class ProjectSidebar extends React.Component<Props, State> {
 							exact={true} 
 							title="Service Providers" 
 							to={`/projects/${this.props.projectDid}/detail/service-providers`} 
+							onClick={() => this.setActiveLink('serviceProviders')}
 						>
-							<i className={this.state.activeLink === 'service-providers' ? 'icon-serviceproviders-active' : 'icon-serviceproviders'} />
+							<i className={this.state.activeLink === 'serviceProviders' ? 'icon-serviceproviders-active' : 'icon-serviceproviders'} />
 						</NavItem>
 						<NavItem 
 							exact={true} 
 							title="Evaluators" 
 							to={`/projects/${this.props.projectDid}/detail/evaluators`}
+							onClick={() => this.setActiveLink('evaluators')}
 						>
 							<i className={this.state.activeLink === 'evaluators' ? 'icon-evaluators-active' : 'icon-evaluators'} />
 						</NavItem>
@@ -117,6 +121,7 @@ export class ProjectSidebar extends React.Component<Props, State> {
 					exact={true} 
 					title="Claims"
 					to={`/projects/${this.props.projectDid}/detail/claims`}
+					onClick={() => this.setActiveLink('claims')}
 				>
 						<i className={this.state.activeLink === 'claims' ? 'icon-claims-active' : 'icon-claims'} />
 				</NavItem>
@@ -124,6 +129,7 @@ export class ProjectSidebar extends React.Component<Props, State> {
 					exact={true}
 					title="Settings"
 					to={`/projects/${this.props.projectDid}/overview`}
+					onClick={() => this.setActiveLink('overview')}
 				>
 					<i className={this.state.activeLink === 'overview' ? 'icon-settings-active' : 'icon-settings'} />
 				</NavItem> */}

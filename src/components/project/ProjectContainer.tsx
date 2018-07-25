@@ -36,8 +36,7 @@ const Loading = styled.div`
 const DetailContainer = styled.div`
 	background: ${props => props.theme.bg.gradientBlue};
 	display:block;
-	height: 100%;
-	min-height: 700px;
+	flex: 1 1 auto;
 	
 	@media (min-width: ${deviceWidth.mobile}px) {
 		display:flex;
@@ -200,7 +199,7 @@ export class ProjectContainer extends React.Component<Props, State> {
 				<Fragment>
 					<ProjectHero project={this.state.projectPublic} match={this.props.match} isDetail={true} hasCapability={this.handleHasCapability} />
 					<DetailContainer>
-						<ProjectSidebar match={this.props.match} projectDid={this.state.projectDid} hasCapability={this.handleHasCapability}/>
+						<ProjectSidebar match={'claims'} projectDid={this.state.projectDid} hasCapability={this.handleHasCapability}/>
 						<ProjectClaims hasLink={true} fullPage={true} claims={this.state.projectPublic.claims} projectDid={this.state.projectDid}/>
 					</DetailContainer>
 				</Fragment>
@@ -210,7 +209,7 @@ export class ProjectContainer extends React.Component<Props, State> {
 				<Fragment>
 					<ProjectHero project={this.state.projectPublic} match={this.props.match} isDetail={true} hasCapability={this.handleHasCapability} />
 					<DetailContainer>
-						<ProjectSidebar match={this.props.match} projectDid={this.state.projectDid} hasCapability={this.handleHasCapability}/>
+						<ProjectSidebar match={'claims'} projectDid={this.state.projectDid} hasCapability={this.handleHasCapability}/>
 						<Loading className="container-fluid"><p>No Claims found</p></Loading>
 					</DetailContainer>
 				</Fragment>
@@ -227,7 +226,7 @@ export class ProjectContainer extends React.Component<Props, State> {
 				<Fragment>
 					<ProjectHero project={this.state.projectPublic} match={this.props.match} isDetail={true} hasCapability={this.handleHasCapability} />
 					<DetailContainer>
-						<ProjectSidebar match={this.props.match} projectDid={this.state.projectDid} hasCapability={this.handleHasCapability}/>
+						<ProjectSidebar match={agentRole} projectDid={this.state.projectDid} hasCapability={this.handleHasCapability}/>
 						<ProjectAgents agents={...this.state[agentRole]} handleUpdateAgentStatus={this.handleUpdateAgent}/>
 					</DetailContainer>
 				</Fragment>
@@ -237,7 +236,7 @@ export class ProjectContainer extends React.Component<Props, State> {
 				<Fragment>
 					<ProjectHero project={this.state.projectPublic} match={this.props.match} isDetail={true} hasCapability={this.handleHasCapability} />
 					<DetailContainer>
-						<ProjectSidebar match={this.props.match} projectDid={this.state.projectDid} hasCapability={this.handleHasCapability}/>
+						<ProjectSidebar match={agentRole} projectDid={this.state.projectDid} hasCapability={this.handleHasCapability}/>
 						<Loading className="container-fluid"><p>No Agents found</p></Loading>
 					</DetailContainer>
 				</Fragment>
@@ -470,7 +469,7 @@ export class ProjectContainer extends React.Component<Props, State> {
 							<Fragment>
 								<ProjectHero project={project} match={this.props.match} isDetail={true} hasCapability={this.handleHasCapability} />
 								<DetailContainer>
-									<ProjectSidebar match={this.props.match} projectDid={this.state.projectDid} hasCapability={this.handleHasCapability}/>
+									<ProjectSidebar match={'detail'} projectDid={this.state.projectDid} hasCapability={this.handleHasCapability}/>
 									<ProjectDashboard 
 										project={this.state.projectPublic}
 										projectDid={this.state.projectDid}
@@ -492,7 +491,7 @@ export class ProjectContainer extends React.Component<Props, State> {
 								{(this.state.claimSubmitted) ?
 									<ProjectClaimSubmitted projectDid={this.state.projectDid} /> : 
 									<DetailContainer>
-										<ProjectSidebar match={this.props.match} projectDid={this.state.projectDid} hasCapability={this.handleHasCapability}/>
+										<ProjectSidebar match={'claims'} projectDid={this.state.projectDid} hasCapability={this.handleHasCapability}/>
 										<ProjectNewClaim projectData={project} ixo={this.props.ixo} submitClaim={(claimData) => this.handleSubmitClaim(claimData)}/>
 									</DetailContainer>
 								}
@@ -507,7 +506,7 @@ export class ProjectContainer extends React.Component<Props, State> {
 					<Fragment>
 						<ProjectHero isClaim={true} project={project} match={this.props.match} isDetail={true} hasCapability={this.handleHasCapability} />
 						<DetailContainer>
-							<ProjectSidebar match={this.props.match} projectDid={this.state.projectDid} hasCapability={this.handleHasCapability}/>
+							<ProjectSidebar match={'claims'} projectDid={this.state.projectDid} hasCapability={this.handleHasCapability}/>
 							<ProjectSingleClaim
 								singleClaimFormFile={this.state.singleClaimFormFile}
 								claim={this.state.singleClaim}
