@@ -8,7 +8,8 @@ import { ProjectClaims } from './ProjectClaims';
 import { CircleProgressbar } from '../widgets/CircleProgressbar';
 import BarChart, { BarColors } from '../widgets/BarChart';
 import { WorldMap, LatLng } from '../widgets/WorldMap';
-const countryLatLng = require('../../lib/maps/countryLatLng.json');
+import { isoCountriesLatLng } from '../../lib/commonData';
+
 import { deviceWidth } from '../../lib/commonData';
 
 const Container = styled.div`
@@ -107,13 +108,11 @@ export const ProjectDashboard: React.SFC<ParentProps> = ({project, projectDid, a
 	};
 
 	const getProjectLatLng = () => {
-		let latLng = new LatLng(0, 0);
-		countryLatLng.map( (country: any) => {
-			if (project.projectLocation	=== country.alpha2) {
-				latLng = new LatLng(country.latitude, country.longitude);
-			}
-		});
-		return latLng;
+		let latLng = isoCountriesLatLng[project.projectLocation];
+		if (latLng) {
+			return new LatLng(latLng.lat, latLng.lng);
+		}
+		return new LatLng(0, 0);
 	};
 
 	return (
