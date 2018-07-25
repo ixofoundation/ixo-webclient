@@ -103,22 +103,45 @@ const LightReady = Light.extend`
 `;
 
 export interface State {
-
+	responseTime: number;
 }
 
 export interface StateProps {
+	ixo?: any;
 }
 
 export interface ParentProps {
 	userInfo: any;
 	simpleHeader: boolean;
 	refreshProjects?: Function;
-	isExplorerConnected: boolean;
-	responseTime: number;
+	pingIxoExplorer: Function;
 }
 export interface Props extends StateProps, ParentProps {}
 
 class Header extends React.Component<Props, State> {
+
+	state = {
+		responseTime: null
+	};
+
+	componentDidMount() {
+		setInterval(this.pingExplorer, 5000);
+	}
+
+	componentDidUpdate(prevProps: Props) {
+		if (prevProps.ixo !== this.props.ixo && this.props.ixo !== null) {
+			this.pingExplorer();
+		}
+	}
+
+	pingExplorer = () => {
+		this.props.pingIxoExplorer().then((res) => {
+			this.setState({ responseTime: res});
+		}).catch((error) => {
+			this.setState({ responseTime: error});
+		});
+		
+	}
 
 	renderStatusIndicator = () => {
 		return (
@@ -130,10 +153,10 @@ class Header extends React.Component<Props, State> {
 	}
 
 	renderStatusMessage() {
-		if (this.props.isExplorerConnected) {
+		if (this.props.ixo) {
 			return (
 				<StatusMessage>
-					<p>Response time: {this.props.responseTime} ms</p>
+					<p>Response time: {this.state.responseTime} ms</p>
 				</StatusMessage>
 			);
 		} else {
@@ -148,9 +171,9 @@ class Header extends React.Component<Props, State> {
 	}
 
 	renderLightIndicator() {
-		if (this.props.isExplorerConnected === null) {
+		if (this.props.ixo === null || this.state.responseTime === null) {
 			return <LightLoading />;
-		} else if (this.props.isExplorerConnected) {
+		} else if (this.props.ixo && this.state.responseTime !== 0) {
 			return <LightReady />;
 		} else {
 			return <Light />;
@@ -177,8 +200,7 @@ class Header extends React.Component<Props, State> {
 
 function mapStateToProps(state: PublicSiteStoreState): StateProps {
 	return {
-		ixo: state.ixoStore.ixo,
-		keysafe: state.keysafeStore.keysafe
+		ixo: state.ixoStore.ixo
 	};
 }
 

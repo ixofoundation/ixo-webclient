@@ -111,7 +111,7 @@ const ListItemWrapper = styled.div`
 	position: relative;
 	margin-bottom: 10px;
 	padding: 12px 25px;
-	border: 2px solid #0C3549;
+	border: 1px solid #0C3549;
 
 	transition: background 0.3s ease;
 
@@ -137,7 +137,7 @@ const WidgetLink = styled(Link)`
 	text-align: center;
 	color: white;
 	transition: color 0.3s ease;
-	
+
 	:hover {
 		text-decoration: none;
 		color: ${props => props.theme.ixoBlue};
