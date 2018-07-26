@@ -269,18 +269,19 @@ export const ProjectOverview: React.SFC<ParentProps> = (props) => {
 
 	const handleRenderInvestorButton = () => {
 		// Dont render the button if there is no userInfo or the user already is an investor
-		if (props.userInfo == null || props.hasCapability([AgentRoles.investors])) {
+		// This is disabled for now
+		// if (props.userInfo == null || props.hasCapability([AgentRoles.investors])) {
 			return <Button type={ButtonTypes.dark} disabled={true}>You are an investor</Button>;
-		} else {
-			return (
-			<Button 
-				type={ButtonTypes.dark} 
-				disabled={false}
-				onClick={() => props.toggleModal({selectedRole: AgentRoles.investors}, true)}
-			>Invest in this Project
-			</Button>
-			);
-		} 
+		// } else {
+		// 	return (
+		// 	<Button 
+		// 		type={ButtonTypes.dark} 
+		// 		disabled={false}
+		// 		onClick={() => props.toggleModal({selectedRole: AgentRoles.investors}, true)}
+		// 	>Invest in this Project
+		// 	</Button>
+		// 	);
+		// } 
 	};
 
 	const handleRenderEvaluatorButton = () => {
