@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 const Container = styled.div`
 	background: ${props => props.theme.bg.gradientBlue};
 	border: 1px solid ${props => props.theme.widgetBorder};
-	padding: 10px 20px;
+	padding: 20px;
 	box-shadow: 0 2px 10px 0 rgba(0,0,0,0.18);
 	margin: 15px 0;
 	transform-origin: center;
@@ -84,9 +84,9 @@ export const WidgetWrapper: React.SFC<ParentProps> = ({title, link, path, linkIc
 		if (!gridHeight || window.innerWidth < 576) {
 			return 'none';
 		} else if (gridHeight === gridSizes.standard) {
-			return '315px';
+			return '330px';
 		} else {
-			return '630px';
+			return '660px';
 		}
 	};
 

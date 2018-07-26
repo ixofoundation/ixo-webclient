@@ -179,7 +179,7 @@ export const ProjectDashboard: React.SFC<ParentProps> = ({project, projectDid, a
 					</WidgetWrapper>
 				</div>
 				}
-				{
+				{claims.length > 0 &&
 				<div className="col-md-6">
 					<WidgetWrapper title="Latest claims" path={`/projects/${projectDid}/detail/claims`} gridHeight={gridSizes.standard}>
 						<ProjectClaims claims={claims} projectDid={projectDid} fullPage={false} hasLink={hasCapability([AgentRoles.owners, AgentRoles.evaluators, AgentRoles.serviceProviders, AgentRoles.investors])} />
