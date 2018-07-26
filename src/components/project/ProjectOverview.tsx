@@ -266,7 +266,7 @@ export const ProjectOverview: React.SFC<ParentProps> = (props) => {
 			return <span />;
 		}
 	};
-	
+
 	const handleRenderInvestorButton = () => {
 		// Dont render the button if there is no userInfo or the user already is an investor
 		if (props.userInfo == null || props.hasCapability([AgentRoles.investors])) {

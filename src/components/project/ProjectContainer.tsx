@@ -112,7 +112,7 @@ export class ProjectContainer extends React.Component<Props, State> {
 	componentDidMount() {
 		this.handleGetProjectData();
 	}
-	
+
 	getImageLink = (project) => {
 		return project.serviceEndpoint + 'public/' + project.imageLink;
 	}
@@ -153,12 +153,22 @@ export class ProjectContainer extends React.Component<Props, State> {
 	}
 
 	handleHasCapability = (roles: AgentRoles[]) => {
-		var found = false;
-		roles.map((role) => {
-			if (this.state.userRoles.includes(role)) {
-				found = true;
+		const userInfo: UserInfo = this.props.userInfo;
+		let found = false;
+		if (userInfo) {
+			if (this.state.projectPublic.createdBy === userInfo.didDoc.did) {
+				if (roles.some( (val) => { return val === AgentRoles.owners; }) ) {
+					return true;
+				}
 			}
-		});
+			this.state.projectPublic.agents.forEach( (agent) => {
+				if (agent.did === userInfo.didDoc.did) {
+					if ( roles.some( (val) => { return val === agent.role; } ) ) {
+						found = true;
+					}
+				}
+			});
+		}
 		return found;
 	}
 
