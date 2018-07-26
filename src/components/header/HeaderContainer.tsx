@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { PublicSiteStoreState } from '../../redux/public_site_reducer';
 import styled from 'styled-components';
-// import { toast } from 'react-toastify';
 import { HeaderLeft } from './HeaderLeft';
 import { HeaderRight } from './HeaderRight';
 import MediaQuery from 'react-responsive';
@@ -102,66 +101,46 @@ const LightReady = Light.extend`
 	background: #5ab946;
 	box-shadow: 0px 0px 5px 0px rgb(0, 255, 64);
 `;
+
 export interface State {
-	isExplorerConnected: boolean;
 	responseTime: number;
-	copied: boolean;
 }
 
 export interface StateProps {
 	ixo?: any;
-	keysafe?: any;
 }
 
 export interface ParentProps {
 	userInfo: any;
 	simpleHeader: boolean;
+	refreshProjects?: Function;
+	pingIxoExplorer: Function;
 }
 export interface Props extends StateProps, ParentProps {}
 
 class Header extends React.Component<Props, State> {
+
 	state = {
-		isExplorerConnected: null,
-		responseTime: 0,
-		copied: false
+		responseTime: null
 	};
 
 	componentDidMount() {
-		// const cachedServer = localStorage.getItem('server');
-		// if (cachedServer) {
-		// 	this.setState({selectedServer: cachedServer});
-		// 	this.props.onIxoInit(cachedServer);
-		// } else {
-		// 	this.props.onIxoInit(this.state.selectedServer);
-		// }
-		setInterval(this.handlePingExplorer, 5000);
+		setInterval(this.pingExplorer, 5000);
 	}
 
 	componentDidUpdate(prevProps: Props) {
-		if (prevProps.ixo !== this.props.ixo && this.props.ixo !== 0) {
-			this.handlePingExplorer();
+		if (prevProps.ixo !== this.props.ixo && this.props.ixo !== null) {
+			this.pingExplorer();
 		}
 	}
 
-	handlePingExplorer = () => {
-		const t0 = performance.now();
-		if ( this.props.ixo ) {
-			this.props.ixo.network
-				.pingIxoExplorer()
-				.then(result => {
-					if (result === 'API is running') {
-						const t1 = performance.now();
-						this.setState({ isExplorerConnected: true, responseTime: Math.trunc(t1 - t0) });
-					} else {
-						this.setState({ isExplorerConnected: false });
-					}
-				})
-				.catch(error => {
-					console.log(error);
-				});
-		} else {
-			this.setState({ isExplorerConnected: false });
-		}
+	pingExplorer = () => {
+		this.props.pingIxoExplorer().then((res) => {
+			this.setState({ responseTime: res});
+		}).catch((error) => {
+			this.setState({ responseTime: error});
+		});
+		
 	}
 
 	renderStatusIndicator = () => {
@@ -174,7 +153,7 @@ class Header extends React.Component<Props, State> {
 	}
 
 	renderStatusMessage() {
-		if (this.state.isExplorerConnected) {
+		if (this.props.ixo) {
 			return (
 				<StatusMessage>
 					<p>Response time: {this.state.responseTime} ms</p>
@@ -192,9 +171,9 @@ class Header extends React.Component<Props, State> {
 	}
 
 	renderLightIndicator() {
-		if (this.state.isExplorerConnected === null) {
+		if (this.props.ixo === null || this.state.responseTime === null) {
 			return <LightLoading />;
-		} else if (this.state.isExplorerConnected) {
+		} else if (this.props.ixo && this.state.responseTime !== 0) {
 			return <LightReady />;
 		} else {
 			return <Light />;
@@ -205,7 +184,7 @@ class Header extends React.Component<Props, State> {
 		return (
 			<TopBar className="container-fluid text-white">
 				<div className="row">
-					<HeaderLeft simple={this.props.simpleHeader} />
+					<HeaderLeft simple={this.props.simpleHeader} refreshProjects={this.props.refreshProjects}/>
 					<MediaQuery minWidth={`${deviceWidth.tablet}px`}>
 						<HeaderRight
 							renderStatusIndicator={this.renderStatusIndicator}
@@ -221,8 +200,7 @@ class Header extends React.Component<Props, State> {
 
 function mapStateToProps(state: PublicSiteStoreState): StateProps {
 	return {
-		ixo: state.ixoStore.ixo,
-		keysafe: state.keysafeStore.keysafe
+		ixo: state.ixoStore.ixo
 	};
 }
 

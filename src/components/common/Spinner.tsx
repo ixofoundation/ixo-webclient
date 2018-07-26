@@ -7,7 +7,7 @@ const Container = styled.div`
 	align-items:center;
 	flex-direction: column;
 	background-color: ${props => props.theme.bg.blue};
-	min-height: calc(100vh - 213px);
+	flex:1 1 auto;
 	p {
 		color: ${props => props.theme.ixoBlue}
 	}
@@ -56,7 +56,7 @@ export interface Props {
 
 export const Spinner: React.SFC<Props> = ({info}) => {
 	return (
-		<Container className="col-md-12">
+		<Container>
 			<LoaderContainer>
 				<LoaderWrapper>
 					<LoaderInner>

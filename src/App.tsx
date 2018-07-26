@@ -5,19 +5,19 @@ import { connect } from 'react-redux';
 import { HeaderConnected } from './components/header/HeaderContainer';
 import Footer from './components/footer/FooterContainer';
 import { PublicSiteStoreState } from './redux/public_site_reducer';
-import { Routes } from './components/Routes';
-import { Spinner } from './components/common/Spinner';
 import styled, { ThemeProvider } from 'styled-components';
 import { initIxo } from './redux/ixo/ixo_action_creators';
 import { initKeysafe } from './redux/keysafe/keysafe_action_creators';
 import { UserInfo } from './types/models';
 import { initUserInfo } from './redux/login/login_action_creators';
 import ScrollToTop from './components/common/ScrollToTop';
-import { ToastContainer } from 'react-toastify';
 import './assets/icons.css';
-import * as Toast from './components/helpers/Toast';
+// import { ToastContainer } from 'react-toastify';
 
 import 'react-toastify/dist/ReactToastify.min.css';
+import { Routes } from './components/Routes';
+import { Spinner } from './components/common/Spinner';
+import { ToastContainer } from '../node_modules/react-toastify';
 // THEME DECLARATION BELOW
 
 const theme = {
@@ -71,16 +71,17 @@ const Container = styled.div`
 `;
 
 const ContentWrapper = styled.main`
-	flex: 1 1 auto;
+	display: flex;
+	flex-direction: column;
+	flex: 1;
 `;
 
 export namespace App {
 	export interface State {
-		projectList: any;
 		loginError: string;
 		error: any;
 		errorInfo: any;
-		loaded: boolean;
+		onLoginInitCalled: boolean;
 	}
 
 	export interface StateProps {
@@ -96,7 +97,7 @@ export namespace App {
 	export interface DispatchProps {
 		onIxoInit: () => void;
 		onKeysafeInit: () => void;
-		onLoginInit: (keysafe: any) => void;
+		onLoginInit: (keysafe: any, ixo: any) => void;
 	}
 	export interface Props extends StateProps, DispatchProps {}
 }
@@ -104,123 +105,69 @@ export namespace App {
 class App extends React.Component<App.Props, App.State> {
 
 	state = {
-		projectList: null,
 		loginError: null,
 		isProjectPage: false,
 		errorInfo: null, 
 		error: null,
-		loaded: false
+		onLoginInitCalled: false
 	};
 
-	componentDidUpdate(prevProps: any) {
-		if (this.props.userInfo && this.props.ixo && this.props.keysafe) {
-			if (typeof this.props.userInfo.ledgered === 'undefined') {
-				this.props.ixo.user.getDidDoc(this.props.userInfo.didDoc.did).then((response: any) => {
-					if (!response.result) {
-						this.props.userInfo.ledgered = false;
-						if (!(this.props.location.pathName === '/register')) {
-							this.props.history.push('/register');
-						}
-					} else if (response.did) {
-						this.props.userInfo.ledgered = true;
-					}
-				});
+	componentDidUpdate(prevProps: App.Props) {
+
+		if (this.props.ixo !== null && this.props.keysafe !== null && this.props.userInfo === null && this.state.onLoginInitCalled === false) {
+			this.props.onLoginInit(this.props.keysafe, this.props.ixo);
+			this.setState({onLoginInitCalled: true});
+		}
+	}
+
+	static getDerivedStateFromProps(nextProps: any) {
+		if (nextProps.userInfo && !nextProps.userInfo.ledgered) {
+			if (!(nextProps.location.pathname === '/register')) {
+				nextProps.history.push('/register');
 			}
 		}
-
-		if (this.props.ixo !== prevProps.ixo && !(this.props.location.pathName === '/register')) {
-			this.props.ixo.project
-				.listProjects()
-				.then((response: any) => {
-					let projectList = response.result;
-					if (response.error) {
-						console.log(response.error);
-						this.setState({ error: response.error.message, errorInfo: 'Unable to connect IXO Explorer' });
-					} else {
-						projectList.sort((a, b) => {return (a.data.createdOn < b.data.createdOn); });
-						this.setState({ projectList: response.result });
-					}
-				})
-				.catch((result: Error) => {
-					Toast.errorToast(result.message);
-				});
-		}
-		if (this.props.keysafe !== null && this.props.userInfo === null) {
-			this.props.onLoginInit(this.props.keysafe);
-		}
 	}
 
-	load = () => {
-		this.setState({ loaded: true });
-	}
 	componentDidMount() {
 		this.props.onIxoInit();
 		this.props.onKeysafeInit();
-		setTimeout(this.load , 100);
 	}
 
-	componentDidCatch(error: any, info: any) {
-		this.setState({ error: error, errorInfo: info });
-	}
-
-	/* renderRegisterPage() {
-		return <Redirect push={true} to="/register" />;
-	} */
-
-	renderProjectContent() {
-		if (this.state.projectList === null) {
-			return <Spinner info="App: Loading Projects" />;
-		} else if (this.props.ixo === null) {
-			return <Spinner info="App: Loading IXO Module" />;
-		} else {
-			return <Routes projectList={this.state.projectList} />;
-		}
+	handlePingExplorer = () => {
+		return new Promise((resolve, reject) => {
+			const t0 = performance.now();
+			if ( this.props.ixo ) {
+				this.props.ixo.network.pingIxoExplorer().then(result => {
+					if (result === 'API is running') {
+						const t1 = performance.now();
+						resolve(Math.trunc(t1 - t0));
+					} else {
+						reject(0);
+					}
+					})
+					.catch(error => {
+						reject(0);
+					});
+			
+			} else {
+				reject(0);
+			}
+		});
 	}
 
 	render() {
-		if (this.state.error !== null) {
-			return (
-				<ThemeProvider theme={theme}>
-					<ScrollToTop>
-						<Container>
-							<HeaderConnected simpleHeader={false} userInfo={this.props.userInfo} />
-								<ContentWrapper>
-
-									<h3>React Error Component </h3>
-									<p>{this.state.error}</p>
-									<p>{this.state.errorInfo}</p>
-								</ContentWrapper>
-							<Footer />
-						</Container>
-					</ScrollToTop>
-				</ThemeProvider>
-			);
-		}
-		if (this.props.match.path === '/comingsoon') {
-			return (
-				<ThemeProvider theme={theme}>
-					<ScrollToTop>
-						<Container>
-							<HeaderConnected userInfo={this.props.userInfo} simpleHeader={true}/>
-							<ToastContainer hideProgressBar={true} />
-							<ContentWrapper>
-								{this.renderProjectContent()}
-							</ContentWrapper>
-							<Footer simpleFooter={true}/>
-						</Container>
-					</ScrollToTop>
-				</ThemeProvider>
-			);
-		}
 		return (
-			<ThemeProvider theme={theme}>
+			<ThemeProvider theme={theme}> 
 				<ScrollToTop>
 					<Container>
-						<HeaderConnected simpleHeader={false} userInfo={this.props.userInfo} />
-						<ToastContainer hideProgressBar={true} />
-						<ContentWrapper>
-							{this.renderProjectContent()}
-						</ContentWrapper>
+						<HeaderConnected pingIxoExplorer={this.handlePingExplorer} simpleHeader={false} userInfo={this.props.userInfo} refreshProjects={() => console.log('clicked')} />
+							<ToastContainer hideProgressBar={true} />
+							<ContentWrapper>
+								{this.props.ixo !== null ? 
+									<Routes /> : 
+									<Spinner info={'Loading IXO WORLD...'}/>
+								}
+							</ContentWrapper>
 						<Footer />
 					</Container>
 				</ScrollToTop>
@@ -245,8 +192,8 @@ function mapDispatchToProps(dispatch: any): App.DispatchProps {
 		onKeysafeInit: () => {
 			dispatch(initKeysafe());
 		},
-		onLoginInit: (keysafe: any) => {
-			dispatch(initUserInfo(keysafe));
+		onLoginInit: (keysafe: any, ixo: any) => {
+			dispatch(initUserInfo(keysafe, ixo));
 		}
 	};
 }

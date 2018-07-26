@@ -59,12 +59,12 @@ const TabsController = styled.div`
 	display: flex;
 	justify-content: flex-end;
 	z-index: 7;
-	top: 80px;
+	top: 74px;
 	right: 0;
 	width: 100%;
 
-	@media (min-width: ${deviceWidth.desktopLarge}px){
-		top: 65px;
+	@media (min-width: 1450px){
+		top: 48px;
 		z-index: 11;
 	}
 `;

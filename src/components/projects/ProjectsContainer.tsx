@@ -6,8 +6,14 @@ import { Spinner } from '../common/Spinner';
 import { connect } from 'react-redux';
 
 import { PublicSiteStoreState } from '../../redux/public_site_reducer';
+import * as Toast from '../helpers/Toast';
 
 const Container = styled.div`
+
+	display: flex;
+	flex-direction: column;
+	flex: 1 1 auto;
+	
 	.example-enter {
 		opacity: 0.01;
 	}
@@ -30,6 +36,8 @@ const Container = styled.div`
 const ProjectsContainer = styled.div`
 	overflow-y: scroll;
 	background: ${props => props.theme.bg.lightGrey};
+	flex: 1 1 auto;
+
 	& > .row {
 		margin-top: 30px;
 		justify-content: center;
@@ -50,10 +58,13 @@ const ErrorContainer = styled.div`
 `;
 
 export interface ParentProps {
-	projectList?: any;
+	ixo?: any;
+	location?: any;
 }
 
 export interface State {
+	projectList: any;
+	loaded: boolean;
 }
 
 export interface StateProps {
@@ -63,23 +74,56 @@ export interface StateProps {
 export interface Props extends ParentProps, StateProps {}
 
 export class Projects extends React.Component<Props, State> {
-	state = {};
+	state = {
+		projectList: null,
+		loaded: false
+	};
+
+	loadingProjects = false;
+
+	refreshProjects() {
+		if (this.props.ixo && !this.loadingProjects) {
+			this.loadingProjects = true;
+			this.props.ixo.project
+				.listProjects()
+				.then((response: any) => {
+					let projectList = response;
+					projectList.sort((a, b) => {return (a.data.createdOn < b.data.createdOn); });
+					this.setState({ projectList: projectList });
+					this.loadingProjects = false;
+				})
+				.catch((result: Error) => {
+					Toast.errorToast('Unable to connect IXO Explorer');
+					this.loadingProjects = false;
+				});
+		}
+	}
+
+	componentWillUpdate() {
+		if ( this.state.projectList === null) {
+			this.refreshProjects();
+		}
+	}
+
+	componentWillReceiveProps(nextProps: any) {
+		if (nextProps.location.key !== this.props.location.key) {
+			// the route was clicked but not changed, so lets refresh the projects
+			this.refreshProjects();
+		}
+	}
 
 	renderProjects = () => {
-		if (this.props.projectList === null) {
+		if (this.state.projectList === null) {
+			this.refreshProjects();
 			return (
-				<div className="container-fluid">
-					<ErrorContainer className="row">
-						<Spinner info="App: Loading Projects" />
-					</ErrorContainer>
-				</div>
+				<Spinner info="Loading Projects" />
 			);
-		} else if (this.props.projectList.length > 0) {		
+		} else if (this.state.projectList.length > 0) {		
 			return (
 				<ProjectsContainer className="container-fluid">
 					<div className="container">
 						<div className="row row-eq-height">
-							{this.props.projectList.map((project, index) => {
+							{this.state.projectList.map((project, index) => {
 								return (
 									<ProjectCard
 										ixo={this.props.ixo}

@@ -20,8 +20,23 @@ const MapWrapper = styled.div`
 
 const geographyPaths = require('../../lib/maps/world-50m-simplified.json');
 
-export interface ParentProps {
+export class LatLng {
+	coordinate = null;
+	constructor(lat: number, lon: number) {
+		this.coordinate = {lat: lat, lon: lon};
+	}
 
+	lon() {
+		return this.coordinate.lon;
+	}
+
+	lat() {
+		return this.coordinate.lat;
+	}
+}
+
+export interface ParentProps {
+	markers: LatLng[];
 }
 
 export class WorldMap extends React.Component<ParentProps> {
@@ -44,36 +59,41 @@ export class WorldMap extends React.Component<ParentProps> {
 									strokeWidth: 0.1,
 									outline: 'none',
 								},
-								hover:   { fill: '#FFF' },
+								hover:   { fill: '#49BFE0' },
 								pressed: { fill: '#000' },
 							}}
 						/>
 					))}
 					</Geographies>
 					<Markers >
-					<Marker 
-						marker={{ coordinates: [ 28.5, 7.3 ] }}
-						style={{
-							default: { fill: '49BFE0' },
-							hover:   { fill: '#FFF' },
-							pressed: { fill: '#000' },
-						}
-						}
-					>
-						<circle cx={0} cy={0} r={10} filter="url(#glow)"/>
-						<defs>
-							<filter id="glow" width="180%" height="180%" filterUnits="userSpaceOnUse">
-								<feGaussianBlur in="SourceGraphic"  stdDeviation="10"/> {/* stdDeviation is how much to blur */}
-								<feComponentTransfer>
-								<feFuncA type="linear" slope="3"/> {/* slope is the opacity of the shadow */}
-								</feComponentTransfer>
-								<feMerge> 
-									<feMergeNode/>
-									<feMergeNode in="SourceGraphic"/>
-								</feMerge>
-							</filter>
-						</defs>
-					</Marker>
+						{this.props.markers.map( (value: LatLng, i: number) => {
+							return (
+								<Marker 
+										key={i}
+										marker={{ coordinates: [ value.lon(), value.lat() ] }}
+										style={{
+											default: { fill: '49BFE0' },
+											hover:   { fill: '#FFF' },
+											pressed: { fill: '#000' },
+										}
+										}
+								>
+									<circle cx={0} cy={0} r={10} filter="url(#glow)"/>
+									<defs>
+										<filter id="glow" width="180%" height="180%" filterUnits="userSpaceOnUse">
+											<feGaussianBlur in="SourceGraphic"  stdDeviation="10"/> {/* stdDeviation is how much to blur */}
+											<feComponentTransfer>
+											<feFuncA type="linear" slope="3"/> {/* slope is the opacity of the shadow */}
+											</feComponentTransfer>
+											<feMerge> 
+												<feMergeNode/>
+												<feMergeNode in="SourceGraphic"/>
+											</feMerge>
+										</filter>
+									</defs>
+								</Marker>
+							);
+						})}
 					</Markers>
 					<Lines>
 						<Line />

@@ -1,10 +1,9 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
 import { LayoutWrapper } from '../common/LayoutWrapper';
-import { WidgetWrapper } from '../common/WidgetWrapper';
 import styled from 'styled-components';
 import { Fragment } from 'react';
-
+import * as moment from 'moment';
 const Section = styled.section`
 
 	padding-bottom: 30px;
@@ -82,36 +81,70 @@ const Col = styled.div`
 
 const ClaimsWidget = styled.div`
 	margin: 20px 0;
+	
 `;	
+
+const ClaimTitle = styled.p`
+	display: flex;
+	justify-content: space-between;
+
+`;
+
+const ID = styled.span`
+	overflow: hidden;
+	text-overflow: ellipsis;
+	max-width: 70%;
+`;
+
+const Date = styled.span`
+	font-weight: 300;
+	font-size: 13px;
+	color: #d6d3d3;
+`;
+
+const Did = styled.p`
+	&& {color: ${props => props.theme.ixoBlue};
+`;
 
 const ListItemWrapper = styled.div`
 	background: #002d42;
 	position: relative;
 	margin-bottom: 10px;
 	padding: 12px 25px;
-	box-shadow: 0 2px 10px 0 rgba(0,0,0,0.18);
+	border: 1px solid #0C3549;
+
+	transition: background 0.3s ease;
+
+	:hover {
+		background: #04364F;
+	}
+
 	p {
 		font-size: 14px;
-		overflow: hidden;
-		text-overflow: ellipsis;
 		color: white;
 	}
 
 	a {
 		color: white;
 	}
-`;
 
-const WidgetLink = styled(Link)`
-	display: block;
-	text-align: center;
-	color: white;
-
-	:hover {
-		color: white;
-		font-weight: bold;
+	a:hover {
 		text-decoration: none;
 	}
+`;
+
+const ClaimLink = styled(Link)`
+	color: white;
+	transition: color 0.3s ease;
+
+	:hover {
+		text-decoration: none;
+		color: ${props => props.theme.ixoBlue};
+	}
+`;
+
+const ViewAllLink = ClaimLink.extend`
+	text-align: center;
 `;
 
 export interface ParentProps {
@@ -123,63 +156,35 @@ export interface ParentProps {
 
 export const ProjectClaims: React.SFC<ParentProps> = ({claims, projectDid, fullPage, hasLink}) => {
 
-	const renderClaimStatus = (status) => {
-		switch (status) {
-			case '0':
-				return 'Pending';
-			case '1':
-				return 'Approved';
-			case '2':
-				return 'Rejected';
-			default:
-				return 'Pending';
-		}
-	};
+	const claimDate = (date: string) => {
+		var duration = moment.duration(moment().diff(date));
+		var daysDiff = duration.asDays();
 
-	const renderClaim = (claim, colorClass) => {
-
-		if (hasLink) {
-			return (
-				<Link to={{pathname: `/projects/${projectDid}/detail/claims/${claim.claimId}`}}>
-					<WidgetWrapper title={'Claim ID: ' + claim.claimId}>
-						<Indicator color={colorClass}/>
-						<p>{renderClaimStatus(claim.status)}</p>
-					</WidgetWrapper>
-				</Link>
-			);
+		if (daysDiff > 7) {
+			return moment(date).format('YYYY/MM/D');
 		} else {
-			return (
-				<WidgetWrapper title={'Claim ID: ' + claim.claimId}>
-					<Indicator color={colorClass}/>
-					<p>{renderClaimStatus(claim)}</p>
-				</WidgetWrapper>
-			);
+			return moment(date).fromNow();
 		}
 	};
 
-	const handleRenderSection = (iconClass: string, claimsList: any[], colorClass: string, title: string, key: number) => {
-		return (
-			<Section className="row" key={key}>
-					<div className="col-12">
-						<h2><i className={iconClass}/>{title}</h2>
-					</div>
-				{claimsList.map((claim, index) => {
-					return (
-						<Col className="col-12" key={index}>
-							{renderClaim(claim, colorClass)}
-						</Col>
-					);
-				})}
-			</Section>
+	const claimItem = (claim, index, colorClass) => {
+
+		const theItem = (
+			<ListItemWrapper key={index} className="col-12" >
+				<Indicator color={colorClass}/>
+				<ClaimTitle><ID>{claim.claimId}</ID> <Date>{claimDate(claim.date)}</Date></ClaimTitle>
+				<Did>{claim.saDid}</Did>
+			</ListItemWrapper>
 		);
-
-	};
-
-	const showViewAllLink = () => {
+		
 		if (hasLink) {
-			return (<WidgetLink to={`/projects/${projectDid}/detail/claims`}>View all claims</WidgetLink>);
+			return (
+				<ClaimLink key={index} to={{pathname: `/projects/${projectDid}/detail/claims/${claim.claimId}`}}>
+					{theItem}
+				</ClaimLink>
+			);
 		} else {
-			return null;
+			return theItem;
 		}
 	};
 
@@ -201,32 +206,32 @@ export const ProjectClaims: React.SFC<ParentProps> = ({claims, projectDid, fullP
 						default:
 							break;
 					}
-					if (hasLink) {
-						return (
-							<Link key={index} to={{pathname: `/projects/${projectDid}/detail/claims/${claim.claimId}`}}>
-								<ListItemWrapper className="col-12" >
-											<Indicator color={colorCLass}/>
-											<p>{'Claim ID: ' + claim.claimId}</p>
-											<p>{renderClaimStatus(claim.status)}</p>
-								</ListItemWrapper>
-							</Link>
-						);
-					} else {
-						return (
-							<ListItemWrapper key={index} className="col-12" >
-										<Indicator color={colorCLass}/>
-										<p>{'Claim ID: ' + claim.claimId}</p>
-										<p>{renderClaimStatus(claim.status)}</p>
-							</ListItemWrapper>
-						);
-					}
+					return claimItem(claim, index, colorCLass);
 				})}
-				{showViewAllLink()}
+				<ViewAllLink to={`/projects/${projectDid}/detail/claims`}><ListItemWrapper>View all claims</ListItemWrapper></ViewAllLink>
 			</ClaimsWidget>
 		);
 	};
 
-	const handleRenderFull = () => {
+	const handleRenderPageSection = (iconClass: string, claimsList: any[], colorClass: string, title: string, key: number) => {
+		return (
+			<Section className="row" key={key}>
+					<div className="col-12">
+						<h2><i className={iconClass}/>{title}</h2>
+					</div>
+				{claimsList.map((claim, index) => {
+					return (
+						<Col className="col-12" key={index}>
+							{claimItem(claim, index, colorClass)}
+						</Col>
+					);
+				})}
+			</Section>
+		);
+
+	};
+
+	const handleRenderPage = () => {
 
 		const approved = [];
 		const pending = [];
@@ -247,9 +252,9 @@ export const ProjectClaims: React.SFC<ParentProps> = ({claims, projectDid, fullP
 			}
 		});
 
-		pending.length > 0 && sections.push(handleRenderSection('icon-pending', pending, '#F89D28', 'Claims pending approval', 1));
-		approved.length > 0 && sections.push(handleRenderSection('icon-approved', approved, '#5AB946', 'Claims Approved', 2));
-		revoked.length > 0 && sections.push(handleRenderSection('icon-rejectedcross', revoked, '#E2223B', 'Claims rejected', 3));
+		pending.length > 0 && sections.push(handleRenderPageSection('icon-pending', pending, '#F89D28', 'Claims pending approval', 1));
+		approved.length > 0 && sections.push(handleRenderPageSection('icon-approved', approved, '#5AB946', 'Claims Approved', 2));
+		revoked.length > 0 && sections.push(handleRenderPageSection('icon-rejectedcross', revoked, '#E2223B', 'Claims rejected', 3));
 		return (
 			<LayoutWrapper>
 				{sections}
@@ -259,7 +264,7 @@ export const ProjectClaims: React.SFC<ParentProps> = ({claims, projectDid, fullP
 
 	return (
 		<Fragment>
-			{(fullPage) ? handleRenderFull() : handleRenderWidget()}
+			{(fullPage) ? handleRenderPage() : handleRenderWidget()}
 		</Fragment>
 	);
 };

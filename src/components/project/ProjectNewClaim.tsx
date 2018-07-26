@@ -7,6 +7,7 @@ import { Data } from '../../types/models/project';
 import styled from 'styled-components';
 import { FormStyles } from '../../types/models';
 import { Spinner } from '../common/Spinner';
+import { successToast } from '../helpers/Toast';
 
 const FormContainer = styled.div`
 	max-width: 640px;
@@ -68,7 +69,8 @@ export class ProjectNewClaim extends React.Component<ParentProps> {
 					promises.push(
 						this.props.ixo.project.createPublic(claimData[field.name], pdsUrl).then((res: any) => {
 							claimData[field.name] = res.result;
-							console.log(field.name + ': ' + claimData[field.name]);
+							// console.log(field.name + ': ' + claimData[field.name]);
+							successToast(field.name + ' successfully uploaded');
 							return res.result;
 						})
 					);

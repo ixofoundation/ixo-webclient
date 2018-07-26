@@ -118,6 +118,8 @@ export class ProjectsHero extends React.Component<Props, State> {
 		}
 	};
 
+	loadingStats = false;
+
 	getConfig() {
 		return [
 			{
@@ -151,13 +153,17 @@ export class ProjectsHero extends React.Component<Props, State> {
 		this.handleGetGlobalData();
 	}
 
+	componentWillUpdate() {
+		this.handleGetGlobalData();
+	}
+
 	handleGetGlobalData = () => {
-		if (this.props.ixo) {
+		if (this.props.ixo && !this.loadingStats) {
+			this.loadingStats = true;
 			this.props.ixo.stats.getGlobalStats().then(res => {
-				if (res.result) {
-					const statistics: Stats = res.result;
-					this.setState({ statistics });
-				}
+				const statistics: Stats = res;
+				this.setState({ statistics });
+				this.loadingStats = false;
 			});
 		}
 	}
