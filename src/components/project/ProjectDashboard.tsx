@@ -117,7 +117,7 @@ export const ProjectDashboard: React.SFC<ParentProps> = ({project, projectDid, a
 
 	return (
 		<LayoutWrapper>
-			<Container className="row row-eq-height">
+			<Container className="row">
 				<div className="col-md-12">
 					<WidgetWrapper title="Project Timeline" path={`/projects/${projectDid}/detail/investors`} linkIcon={'icon-expand'}>
 						<ClaimsTopLabels>
@@ -127,9 +127,9 @@ export const ProjectDashboard: React.SFC<ParentProps> = ({project, projectDid, a
 						</ClaimsTopLabels>
 						<BarChart 
 							barData={[
-								{data: getClaimsOfType('2'), color: BarColors.red},
-								{data: getClaimsOfType('1'), color: BarColors.blue},
-								{data: getClaimsOfType('0'), color: BarColors.darkBlue}
+								{data: getClaimsOfType('2'), color: BarColors.red, label: 'Claims Rejected'},
+								{data: getClaimsOfType('1'), color: BarColors.blue, label: 'Claims Approved'},
+								{data: getClaimsOfType('0'), color: BarColors.darkBlue, label: 'Claims Submitted'}
 							]}
 						/>
 					</WidgetWrapper>

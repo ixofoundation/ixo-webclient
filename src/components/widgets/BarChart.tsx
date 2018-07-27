@@ -24,6 +24,7 @@ export interface ParentProps {
 export interface BarData {
 	data: any[];
 	color: BarColors;
+	label: string;
 }
 
 export enum BarColors {
@@ -301,8 +302,10 @@ export default class BarChart extends React.Component<ParentProps, State> {
 			bucketsArray.push(hoursPerBucket * i);
 		}
 
-		this.populateXaxisLabels(hoursPerBucket);
+		console.log(earliestHoursDifference);
+		console.log(hoursPerBucket);
 
+		this.populateXaxisLabels(hoursPerBucket);
 		this.setState({ bucketsArray: bucketsArray, hoursPerBucket: hoursPerBucket});
 
 	}
@@ -337,106 +340,100 @@ export default class BarChart extends React.Component<ParentProps, State> {
 		return BucketValueArray;
 	}
 
-	// handleGetGradients = (ctx: any, ) => {
-	// 	const colorArrays = {
-	// 		redArray : ['#E2223B', '#B31429'],
-	// 		blueArray : ['#49BFE0', '#016582'],
-	// 		darkBlueArray : ['#045971', '#033c50'],
-	// 		bgArray : ['#00283a', '#045971']
-	// 	};
-	// 	const gradientsArray: any[] = [];
-
-	// 	for (let i = this.state.amountOfSteps - 1; i >= 0; i--) {
-	// 		const nthKey = Object.keys(colorArrays);
-	// 		const gradient = ctx.createLinearGradient(0, 0, 0, this.state.canvasHeight);
-	// 		gradient.addColorStop(0, colorArrays[nthKey[i]][0]);
-	// 		gradient.addColorStop(0.5,  colorArrays[nthKey[i]][1]);
-	// 		{(i === this.state.amountOfSteps - 1) && gradient.addColorStop(0,  colorArrays[nthKey[i]][0]); }
-	// 		gradientsArray.push(gradient);
-	// 	}
-
-	// 	return gradientsArray;
-	// }
 	allData = (canvas) => {
 		const ctx = canvas.getContext('2d');
 
 		// const gradientsArray = this.handleGetGradients(ctx);
-		const gradientRejected = ctx.createLinearGradient(0, 0, 0, this.state.canvasHeight);
-		gradientRejected.addColorStop(0, '#E2223B');
-		gradientRejected.addColorStop(0.5, '#E2223B');
-		gradientRejected.addColorStop(1, '#B31429');
+		const gradientRed = ctx.createLinearGradient(0, 0, 0, this.state.canvasHeight);
+		gradientRed.addColorStop(0, '#E2223B'); // top
+		gradientRed.addColorStop(0.5, '#E2223B');
+		gradientRed.addColorStop(1, '#B31429'); // bottom
 
-		const gradientApproved = ctx.createLinearGradient(0, 0, 0, this.state.canvasHeight);
-		gradientApproved.addColorStop(0, '#49BFE0');
-		gradientApproved.addColorStop(0.5, '#49BFE0');
-		gradientApproved.addColorStop(1, '#016582');
+		const gradientBlue = ctx.createLinearGradient(0, 0, 0, this.state.canvasHeight);
+		gradientBlue.addColorStop(0, '#49BFE0');
+		gradientBlue.addColorStop(0.5, '#49BFE0');
+		gradientBlue.addColorStop(1, '#016582');
 
-		const gradientPending = ctx.createLinearGradient(0, 0, 0, this.state.canvasHeight);
-		gradientPending.addColorStop(0, '#096f8c');
-		gradientPending.addColorStop(0.5, '#096f8c');
-		gradientPending.addColorStop(1, '#0b556f');
+		const gradientDarkBlue = ctx.createLinearGradient(0, 0, 0, this.state.canvasHeight);
+		gradientDarkBlue.addColorStop(0, '#096f8c');
+		gradientDarkBlue.addColorStop(0.5, '#096f8c');
+		gradientDarkBlue.addColorStop(1, '#0b556f');
+
+		const gradientGreen = ctx.createLinearGradient(0, 0, 0, this.state.canvasHeight);
+		gradientGreen.addColorStop(0, '#63d25a');
+		gradientGreen.addColorStop(0.5, '#63d25a');
+		gradientGreen.addColorStop(1, '#156a0e');
 
 		const gradientRemaining = ctx.createLinearGradient(0, 0, 0, this.state.canvasHeight);
 		gradientRemaining.addColorStop(0, '#01293C');
 		gradientRemaining.addColorStop(1, '#033C50');
 
-		// CURRENTLY YOU NEED TO SUBMIT 3 ARRAYS, THIS IS STATIC, NEEDS TO BE MADE DYNAMIC ALONG WITH THE GRADIENTS ABOVE
-		let dataRejected = this.populateDataArray(0); // this number is the index of the data received as props
-		let dataApproved = this.populateDataArray(1);
-		let dataPending = this.populateDataArray(2);
+		let dataArrays = new Array;
 
-		dataRejected.reverse();
-		dataApproved.reverse();
-		dataPending.reverse();
+		this.props.barData.forEach((val, index) => {
+			dataArrays.push(this.populateDataArray(index).reverse());
+		});
 
 		let dataRemainder: number[] = [];
 		let dataMaxArray: number[] = [];
 
-		if (dataRejected.length === dataApproved.length && dataPending.length === dataApproved.length) {
-			const dataSumArray = dataRejected.map((value, index) => {
-				return value + dataApproved[index] + dataPending[index];
+		let dataSumArray = Array.apply(null, Array(dataArrays[0].length)).map(function() { return 0; });
+		const dataSets = [];
+		dataArrays.forEach((val, index) => {
+			val.forEach((element, elIndex) => {
+				dataSumArray[elIndex] += element;
 			});
 
-			const max = Math.max(...dataSumArray);
-			dataMaxArray = new Array(this.state.totalBars);
-			dataMaxArray.fill(max + 2);
-			dataRemainder = dataSumArray.map((value) => {
-				return (max + 2) - value;
-			});
-			if (dataRemainder.length < this.state.totalBars) {
-				const excessBarsCount = this.state.totalBars - dataRemainder.length;
-				const excessElements = new Array(excessBarsCount);
-				excessElements.fill(max + 2);
-				dataRemainder.push(...excessElements);
+			let theCol = null;
+			let hoverCol = null;
+			switch (this.props.barData[index].color) {
+				case BarColors.red:
+					theCol = gradientRed;
+					hoverCol = '#E2223B';
+					break;
+				case BarColors.blue:
+					theCol = gradientBlue;
+					hoverCol = '#49BFE0';
+					break;
+				case BarColors.darkBlue:
+					theCol = gradientDarkBlue;
+					hoverCol = '#0f81a0';
+					break;
+				case BarColors.green:
+					theCol = gradientGreen;
+					hoverCol = '#E2223B';
+					break;
+				default:
+
 			}
-		} else {
-			this.setState({hasError: true, errorMessage: 'length of data arrays are not equal'});
+			dataSets.push({
+				label: this.props.barData[index].label,
+				data: val,
+				backgroundColor: theCol,
+				hoverBackgroundColor: hoverCol
+			});
+		});
+		
+		const max = Math.max(...dataSumArray);
+		dataMaxArray = new Array(this.state.totalBars);
+		dataMaxArray.fill(max + 2);
+		dataRemainder = dataSumArray.map((value) => {
+			return (max + 2) - value;
+		});
+		if (dataRemainder.length < this.state.totalBars) {
+			const excessBarsCount = this.state.totalBars - dataRemainder.length;
+			const excessElements = new Array(excessBarsCount);
+			excessElements.fill(max + 2);
+			dataRemainder.push(...excessElements);
 		}
 
-		const dataSets: any[] = [{
-			label: `Claims Rejected`,
-			data: dataRejected,
-			backgroundColor: gradientRejected,
-			hoverBackgroundColor: '#E2223B',
-		},
-		{
-			label: `Claims Approved`,
-			data: dataApproved,
-			backgroundColor: gradientApproved,
-			hoverBackgroundColor: '#49BFE0',
-		},
-		{
-			label: `Claims Submitted`,
-			data: dataPending,
-			backgroundColor: gradientPending,
-			hoverBackgroundColor: '#066a86',
-		},
+		dataSets.push(
 		{
 			label: 'Total Remainder',
 			data: dataRemainder,
 			backgroundColor: gradientRemaining,
 			hoverBackgroundColor: gradientRemaining,
-		}];
+		});
 
 		if (this.state.firstTime === true) {
 			setTimeout(this.waitAndChange, 500);
@@ -462,9 +459,6 @@ export default class BarChart extends React.Component<ParentProps, State> {
 
 		const options = {
 			tooltips: {
-				// filter: function (tooltipItem: any) {
-				// 	return tooltipItem.datasetIndex !== 3; // hide tooltip for remainder bars
-				// },
 				callbacks: {
 					title: (tooltipItem: any, data: any) => {
 						return this.getBarDate(tooltipItem[0].index);
