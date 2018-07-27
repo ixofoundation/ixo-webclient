@@ -69,9 +69,9 @@ export class Widgets extends React.Component<ParentProps> {
 					<div className="col-md-12">
 						<BarChart 							
 							barData={[
-								{data: this.dummyRejectedClaims, color: BarColors.red},
-								{data: this.dummyApprovedClaims, color: BarColors.blue},
-								{data: this.dummyPendingClaims, color: BarColors.darkBlue}
+								{data: this.dummyRejectedClaims, color: BarColors.red, label: 'Claims Rejected'},
+								{data: this.dummyApprovedClaims, color: BarColors.blue, label: 'Claims Approved'},
+								{data: this.dummyPendingClaims, color: BarColors.darkBlue, label: 'Claims Submitted'}
 							]}
 						/>
 					</div>
