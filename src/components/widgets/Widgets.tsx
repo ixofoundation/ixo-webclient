@@ -37,7 +37,6 @@ export class Widgets extends React.Component<ParentProps> {
 				return Date.parse(a.date) - Date.parse(b.date);
 			});
 		}
-
 		return claimsArray;
 	}
 

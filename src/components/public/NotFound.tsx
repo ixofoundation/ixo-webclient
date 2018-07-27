@@ -1,6 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import { deviceWidth } from '../../lib/commonData';
+import { ButtonTypes, Button } from '../common/Buttons';
 
 const bannerBg = require('../../assets/images/404/404-bg.jpg');
 const walrusImg = require('../../assets/images/404/walrus-image.png');
@@ -9,7 +10,8 @@ const Banner = styled.div`
 	background: #002233 url(${bannerBg}) no-repeat;
 	background-size: cover;
 	width: 100%;
-	height: calc(100vh - 213px);
+	display: flex;
+	flex: 1 1 auto;
 	margin: 0;
 `;
 const BannerLeft = styled.div`
@@ -130,12 +132,17 @@ const BannerRight = styled.div`
 	}
 `;
 
+const ButtonContainer = styled.div`
+	display: inline-flex;
+	margin-top: 20px;
+`;
+
 export interface ParentProps { }
 
 export const NotFound: React.SFC<ParentProps> = (props) => {
 	return (
 		<Banner className="row">
-			<div className="col-lg-4 hidden-md-down">
+			<div className="col-lg-4">
 				<BannerLeft>
 					<img src={walrusImg} alt="" />
 				</BannerLeft>
@@ -143,9 +150,9 @@ export const NotFound: React.SFC<ParentProps> = (props) => {
 			<div className="col-lg-8 col-md-12">
 				<BannerRight>
 					<div className="container">
-						<h2>Oops, something went wrong</h2>
+						<h2>Oops, something went wrong.</h2>
 						<p>The link you followed may either be broken or no longer exists. </p>
-						<button>Back to previous page</button>
+						<ButtonContainer><Button type={ButtonTypes.dark} onClick={() => history.back(-1)}>Back to previous page</Button></ButtonContainer>
 					</div>
 				</BannerRight>
 			</div>

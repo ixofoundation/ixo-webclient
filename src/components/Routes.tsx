@@ -46,86 +46,60 @@ export const Routes: React.SFC<Routes.RouteProps> = props => {
 				<Route exact={true} path="/json" component={ProjectForm} />
 				<Route exact={true} path="/icons" component={Icons} />
 				<Route exact={true} path="/register" component={RegisterConnected} />
-				<Route exact={true} path="/" component={ProjectsContainerConnected} />
-				{/* <Route exact={true} path="/global-statistics" component={GlobalStatsDashboardConnected} /> */}
+				<Route
+					exact={true}
+					path="/"
+					render={(routeProps) => (<ProjectsContainerConnected {...routeProps.location} contentType={contentType.overview} />)}
+				/>
+				<Route
+					exact={true}
+					path="/global-statistics"
+					render={(routeProps) => (<ProjectsContainerConnected {...routeProps.location} contentType={contentType.dashboard} />)}
+				/>
 				<Route
 					exact={true}
 					path="/projects/:projectDID/overview"
-					render={() => (
-						<ProjectContainerConnected contentType={contentType.overview} />
-					)}
+					render={() => (<ProjectContainerConnected contentType={contentType.overview} />)}
 				/>
 				<Route
 					exact={true}
 					path="/projects/:projectDID/detail/"
-					render={() => (
-						<ProjectContainerConnected
-							contentType={contentType.dashboard}
-						/>
-					)}
+					render={() => (<ProjectContainerConnected contentType={contentType.dashboard}/>)}
 				/>
 				<Route
 					exact={true}
 					path="/projects/:projectDID/detail/evaluators"
-					render={() => (
-						<ProjectContainerConnected
-							contentType={contentType.evaluators}
-						/>
-					)}
+					render={() => (<ProjectContainerConnected contentType={contentType.evaluators}/>)}
 				/>
 				<Route
 					exact={true}
 					path="/projects/:projectDID/detail/investors"
-					render={() => (
-						<ProjectContainerConnected
-							contentType={contentType.investors}
-						/>
-					)}
+					render={() => (<ProjectContainerConnected contentType={contentType.investors}/>)}
 				/>
 				<Route
 					exact={true}
 					path="/projects/:projectDID/detail/service-providers"
-					render={() => (
-						<ProjectContainerConnected
-							contentType={contentType.serviceProviders}
-						/>
-					)}
+					render={() => (<ProjectContainerConnected contentType={contentType.serviceProviders}/>)}
 				/>
 				<Route
 					exact={true}
 					path="/projects/:projectDID/detail/claims"
-					render={() => (
-						<ProjectContainerConnected
-							contentType={contentType.claims}
-						/>
-					)}
+					render={() => (<ProjectContainerConnected contentType={contentType.claims}/>)}
 				/>
 				<Route
 					exact={true}
 					path="/projects/:projectDID/detail/new-claim"
-					render={() => (
-						<ProjectContainerConnected
-							contentType={contentType.newClaim}
-						/>
-					)}
+					render={() => (<ProjectContainerConnected contentType={contentType.newClaim}/>)}
 				/>
 				<Route
 					exact={true}
 					path="/projects/:projectDID/detail/claims/:claimID"
-					render={() => (
-						<ProjectContainerConnected
-							contentType={contentType.singleClaim}
-						/>
-					)}
+					render={() => (<ProjectContainerConnected contentType={contentType.singleClaim}/>)}
 				/>
 				<Route
 					exact={true}
 					path="/create-project"
-					render={routeProps => (
-						<Fragment>
-							<ProjectCreateConnected {...routeProps} {...props} />
-						</Fragment>
-					)}
+					render={routeProps => (<ProjectCreateConnected {...routeProps} {...props} />)}
 				/>
 				<Route path="*" component={NotFound} />
 			</Switch>

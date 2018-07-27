@@ -7,6 +7,8 @@ import { connect } from 'react-redux';
 
 import { PublicSiteStoreState } from '../../redux/public_site_reducer';
 import * as Toast from '../helpers/Toast';
+import { contentType } from '../../types/models';
+import { ProjectsDashboard } from './ProjectsDashboard';
 
 const Container = styled.div`
 
@@ -60,11 +62,14 @@ const ErrorContainer = styled.div`
 export interface ParentProps {
 	ixo?: any;
 	location?: any;
+	contentType: contentType;
 }
 
 export interface State {
 	projectList: any;
 	loaded: boolean;
+	claims: any;
+	claimsTotalRequired: number;
 }
 
 export interface StateProps {
@@ -76,10 +81,16 @@ export interface Props extends ParentProps, StateProps {}
 export class Projects extends React.Component<Props, State> {
 	state = {
 		projectList: null,
-		loaded: false
+		loaded: false,
+		claims: null,
+		claimsTotalRequired: 0
 	};
 
 	loadingProjects = false;
+
+	componentDidMount() {
+		this.refreshProjects();
+	}
 
 	refreshProjects() {
 		if (this.props.ixo && !this.loadingProjects) {
@@ -89,8 +100,19 @@ export class Projects extends React.Component<Props, State> {
 				.then((response: any) => {
 					let projectList = response;
 					projectList.sort((a, b) => {return (a.data.createdOn < b.data.createdOn); });
-					this.setState({ projectList: projectList });
+					console.log(projectList);
+
+					let claimsArr = new Array();
+					let reqClaims: number = 0;
+					for (let project of projectList) {
+						reqClaims += project.data.requiredClaims;
+						for (let claim of project.data.claims) {
+							claimsArr.push(claim);
+						}
+					}
+					this.setState({ projectList: projectList, claims: claimsArr, claimsTotalRequired: reqClaims });
 					this.loadingProjects = false;
+
 				})
 				.catch((result: Error) => {
 					Toast.errorToast('Unable to connect IXO Explorer');
@@ -100,25 +122,22 @@ export class Projects extends React.Component<Props, State> {
 	}
 
 	componentWillUpdate() {
-		if ( this.state.projectList === null) {
+		if (this.state.projectList === null) {
 			this.refreshProjects();
 		}
 	}
 
 	componentWillReceiveProps(nextProps: any) {
-		if (nextProps.location.key !== this.props.location.key) {
-			// the route was clicked but not changed, so lets refresh the projects
-			this.refreshProjects();
+		if (this.props.contentType) {
+			if (nextProps.location.key !== this.props.location.key) {
+				// the route was clicked but not changed, so lets refresh the projects
+				this.refreshProjects();
+			}
 		}
 	}
 
 	renderProjects = () => {
-		if (this.state.projectList === null) {
-			this.refreshProjects();
-			return (
-				<Spinner info="Loading Projects" />
-			);
-		} else if (this.state.projectList.length > 0) {		
+		if (this.state.projectList.length > 0) {		
 			return (
 				<ProjectsContainer className="container-fluid">
 					<div className="container">
@@ -150,15 +169,27 @@ export class Projects extends React.Component<Props, State> {
 		}
 	}
 
-	render() {
-		return (        
-			<Container>
-				<ProjectsHero ixo={this.props.ixo}/>
-				{this.renderProjects()}
-			</Container>
-		);
+	handleRenderProjects() {
+		if (this.state.projectList === null) {
+			return <Spinner info="Loading Projects" />;
+		} else {
+			if (this.props.contentType === contentType.dashboard) {
+				return <ProjectsDashboard claims={this.state.claims} claimsTotalRequired={this.state.claimsTotalRequired} />;
+			} else {
+				return this.renderProjects();
+			}
+		}
 	}
-}
+
+	render() {
+			return (        
+				<Container>
+					<ProjectsHero ixo={this.props.ixo}/>
+					{this.handleRenderProjects()}
+				</Container>
+			);
+		}
+	}
 
 function mapStateToProps(state: PublicSiteStoreState) {
 	return {
