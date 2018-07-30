@@ -5,12 +5,14 @@ echo "* IXO WEB START                   *"
 echo "***********************************"
 echo ""
 echo "Build Ixo Web"
+CURRENT_DIR=`dirname $0`
 ROOT_DIR=$CURRENT_DIR/..
 
-docker-compose up --no-start
-docker build -t trustlab/ixo-web $ROOT_DIR
+cd $ROOT_DIR
+yarn
 
-docker-compose start ixo-web
+docker build -t trustlab/ixo-web $ROOT_DIR
+docker-compose up -d 
 
 echo -n "Starting Ixo Web ..."
 sleep 5
