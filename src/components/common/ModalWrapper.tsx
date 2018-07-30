@@ -42,16 +42,73 @@ const CloseModal = styled.button`
 	position: absolute;
 `;
 
-interface StateProps {
+const FlexContainer = styled.div`
+	display: flex;
+	padding: 10px 30px 0 0;
+	
+	i {
+		margin-right: 10px;
+		font-size: 50px;
+	}
+	
+	h3 {
+		font-weight: 300;
+		font-size: 24px;
+		line-height: 1;
+		text-transform: uppercase;
+		margin: 0;
+		font-family: ${props => props.theme.fontRobotoCondensed};
+	}
+
+	p {
+		font-weight: 300;
+		margin: 0;
+		font-size: 16px;
+		color: ${props => props.theme.fontLightBlue};
+		font-family: ${props => props.theme.fontRoboto};
+	}
+`;
+
+const Line = styled.div`
+	background: ${props => props.theme.widgetBorder};
+    width: calc(100% + 40px);
+    margin: 10px -20px 25px;
+	height: 1px;
+`;
+
+interface ParentProps {
 	isModalOpen: boolean;
+	header?: Header;
 }
 
+export interface Header {
+	title: string;
+	subtitle?: string;
+	icon: string;
+}
 interface Callbacks {
 	handleToggleModal?: (theStatus: boolean) => void;
 }
-export interface Props extends StateProps, Callbacks {}
+export interface Props extends ParentProps, Callbacks {}
 
 export const ModalWrapper: React.SFC<Props> = (props) => {
+
+	console.log(props.header);
+	const renderHeader = () => {
+		return (
+			<React.Fragment>
+				<FlexContainer>
+					<div><i className={`${props.header.icon}`} /></div>
+					<div>
+						<h3>{props.header.title}</h3>
+						<p>{props.header.subtitle}</p>
+					</div>
+				</FlexContainer>
+				<Line />
+			</React.Fragment>
+		);
+	};
+
 	return (
 		<Modal
 			style={modalStyles}
@@ -62,6 +119,7 @@ export const ModalWrapper: React.SFC<Props> = (props) => {
 		>
 			<ModalInner>
 					<CloseModal onClick={() => props.handleToggleModal(false)}>&times;</CloseModal>
+					{props.header && renderHeader()}
 					<div>{props.children}</div>
 			</ModalInner>
 		</Modal>

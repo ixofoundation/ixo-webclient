@@ -254,7 +254,6 @@ export const ProjectOverview: React.SFC<ParentProps> = (props) => {
 				submitAgent={submitAgent}
 				role={data.selectedRole}
 				name={userName}
-				projectTitle={props.project.title}
 			/>
 		);
 	};
@@ -265,6 +264,16 @@ export const ProjectOverview: React.SFC<ParentProps> = (props) => {
 		} else {
 			return <span />;
 		}
+	};
+
+	const titleMap = {
+		[AgentRoles.investors]: 'Become an Investor',
+		[AgentRoles.evaluators]: 'Become an Evaluator',
+		[AgentRoles.serviceProviders]: 'Become a Service Agent',
+	};
+
+	const renderSubtitle = (role: string) => {
+		return titleMap[role];
 	};
 
 	const handleRenderInvestorButton = () => {
@@ -327,11 +336,17 @@ export const ProjectOverview: React.SFC<ParentProps> = (props) => {
 		evt.target.src = placeholder;
 	};
 	
+	console.log(props.modalData);
 	return (
 		<div>
 			<ModalWrapper
 				isModalOpen={props.isModalOpen}
 				handleToggleModal={() => props.toggleModal({})}
+				header={{
+					title: props.project.title,
+					subtitle: renderSubtitle(props.modalData.selectedRole),
+					icon: 'icon-modal'
+				}}
 			>
 				{renderModal(props.modalData)}
 			</ModalWrapper>

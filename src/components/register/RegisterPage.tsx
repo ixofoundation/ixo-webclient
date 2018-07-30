@@ -143,7 +143,6 @@ class RegisterPage extends React.Component<Props, State> {
 	}
 
 	ledgerDid = () => {
-		debugger;
 		if (this.state.didDoc && !this.busyLedgering) {
 			let payload = {didDoc: this.state.didDoc};
 			this.busyLedgering = true;

@@ -32,7 +32,7 @@ export const imgArray = () => {
 	return tempArray;
 };
 export const iconUpload = () => {
-	return require(`../assets/images/icon-upload.svg`);
+	return require('../assets/images/icon-upload.svg');
 };
 export const SocialMediaLinks = ['http://www.instagram.com', 'http://www.twitter.com', 'http://www.facebook.com', 'http://www.website.com'];
 const countryLatLng = require('../lib/maps/countryLatLng.json');
