@@ -4,7 +4,7 @@ import ReactCrop, { makeAspectCrop } from 'react-image-crop/dist/ReactCrop';
 import 'react-image-crop/dist/ReactCrop.css';
 import Dropzone from 'react-dropzone'; 
 import { iconUpload } from '../../lib/commonData';
-import { Button, ButtonTypes } from '../common/Buttons';
+import { Button, ButtonTypes } from './Buttons';
 
 import styled from 'styled-components';
 

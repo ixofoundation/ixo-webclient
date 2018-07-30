@@ -5,52 +5,27 @@ import { connect } from 'react-redux';
 import { PublicSiteStoreState } from '../../redux/public_site_reducer';
 import { warningToast, errorToast, successToast } from '../helpers/Toast';
 import { ModalWrapper } from '../common/ModalWrapper';
-import { RegisterStatus } from './RegisterStatus';
 import { AgentRoles } from '../../types/models';
+import { Heading } from './Heading';
+import { TextBlock } from './TextBlock';
+
+const keysafeImg = require('../../assets/images/register/ixo-keysafe.png');
 
 const ModalContainer = styled.div`
 
 `;
 
-const LocalButton = styled.a`
-	border: 1px solid #b8b8b8;
-	&&& {
-		color: ${props => props.theme.fontGrey};
-	}
-	font-size: 16px;
-	text-transform: uppercase;
-	padding: 10px 20px;
-	background: none;
-	margin-top: 10px;
-	margin-bottom: 10px;
-	width: 100%;
-	font-family: ${props => props.theme.fontRobotoCondensed};
-	font-weight: 500;
-	display: inline-block;
-	text-align: center;
+const Section = styled.div`
 
-	transition: all 0.3s ease;
-	cursor: pointer;
+`;
 
-	:hover {
-		color: white;
-		background: #b8b8b8;
-	}
+const BlueRow = styled.div`
+	padding-top: 70px;
+	background: ${props => props.theme.bg.gradientBlue};
+`;
 
-	:hover i:before {
-		color: white;
-	}
-
-	i {
-		font-size: 21px;
-		position: relative;
-		top: 3px;
-		margin-right: 10px;
-	}
-
-	i:before {
-		transition: color 0.3s ease;
-	}
+const KeySafe = styled.img`
+	margin-bottom: -50%;
 `;
 
 export interface ParentProps {
@@ -168,33 +143,52 @@ class RegisterPage extends React.Component<Props, State> {
 
 	render() {
 		return (
-			<div className="container-fluid">
+			<div>
 			<ModalWrapper
 				isModalOpen={this.state.isModalOpen}
 				handleToggleModal={() => this.toggleModal()}
 			>
 				{this.renderModal()}
 			</ModalWrapper>
-
-				<h2>Your did has not been found on the IXO Blockchain</h2>
-				<p>Please click below to add it. This will allow you to interact with projects on our platform</p>
-				<LocalButton onClick={this.ledgerDid}>
-					<i className="icon-favourites" />LEDGER DID
-				</LocalButton>
-				<br />
-				<div>Project Founder</div>
-				<br />
-				<RegisterStatus role={AgentRoles.owners} hasKeySafe={this.state.hasKeySafe} hasKYC={this.state.hasKYC}/>
-				<br />
-				<br />
-				<div>Service Provider</div>
-				<br />
-				<RegisterStatus role={AgentRoles.serviceProviders} hasKeySafe={this.state.hasKeySafe} hasKYC={this.state.hasKYC}/>
-				<br />
-				<br />
-				<div>Evaluators</div>
-				<br />
-				<RegisterStatus role={AgentRoles.evaluators} hasKeySafe={this.state.hasKeySafe} hasKYC={this.state.hasKYC}/>
+				<Heading />
+				<Section>
+					<div className="container">
+						<div className="row">
+							<div className="col-md-6">test</div>
+							<div className="col-md-6">
+								<TextBlock title="Want to launch your own project?" icon="icon-claims" role={AgentRoles.owners} keysafe={this.state.hasKeySafe} KYC={this.state.hasKYC}>
+									<p>Create your own impact projects on the ixo blockchain.</p>
+								</TextBlock>
+							</div>
+						</div>
+					</div>
+					<BlueRow>
+						<div className="container">
+							<div className="row">
+								<div className="col-md-6">
+									<TextBlock blueBG={true} title="Want to become a service provider?" icon="icon-serviceproviders" role={AgentRoles.serviceProviders} keysafe={this.state.hasKeySafe} KYC={this.state.hasKYC}>
+										<p>Service providers deliver the impact to a project. </p>
+										<p>They are the people on the ground submitting claims, and making the difference
+										e.g. planting trees or delivering books.</p>
+									</TextBlock>
+								</div>
+								<div className="col-md-6"><KeySafe src={keysafeImg}/></div>
+							</div>
+						</div>
+					</BlueRow>
+					<div className="container">
+						<div className="row">
+							<div className="col-md-6">
+								<TextBlock title="Want to become an evaluator?" icon="icon-evaluators" role={AgentRoles.evaluators} keysafe={this.state.hasKeySafe} KYC={this.state.hasKYC}>
+									<p>Evaluators are individuals or entities with knowledge and experience in any given field. 
+									Using this experience you determine the validity of the claims submitted on projects.  
+									It is your role to approve the claims submitted on all projects.</p>
+								</TextBlock>
+							</div>
+							<div className="col-md-6"/>
+						</div>
+					</div>
+				</Section>
 			</div>
 		);
 	}

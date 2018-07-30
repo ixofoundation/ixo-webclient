@@ -11,11 +11,10 @@ import { MemberContainer } from './public/MemberContainer';
 import { FaqContainer } from './public/FaqContainer';
 import { EcoContainer } from './public/EcoContainer';
 import { PricingContainer } from './public/PricingContainer';
-import { HomePage } from './public/HomePage';
 import { Fragment } from 'react';
 import { Widgets } from './widgets/Widgets';
 import { Icons } from './common/Icons';
-import { RegisterConnected } from './register/RegisterPage';
+import { RegisterConnected } from './register/RegisterContainer';
 import { NotFound } from './public/NotFound';
 import { ComingSoonContainer } from './public/ComingSoonContainer';
 import { Spinner } from './common/Spinner';
@@ -41,7 +40,6 @@ export const Routes: React.SFC<Routes.RouteProps> = props => {
 				<Route exact={true} path="/json" component={ProjectForm} />
 
 				<Route exact={true} path="/spinner" component={Spinner} />
-				<Route exact={true} path="/homepage" component={HomePage} />
 				<Route exact={true} path="/widgets" component={Widgets} />
 				<Route exact={true} path="/json" component={ProjectForm} />
 				<Route exact={true} path="/icons" component={Icons} />

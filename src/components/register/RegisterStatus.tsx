@@ -4,13 +4,10 @@ import { AgentRoles } from '../../types/models';
 import '../../assets/icons.css';
 
 const StatusContainer = styled.div`
-	height: 67px;
-	width: 583px;
-	color: #333C4E;
 	font-family: Roboto;
 	font-size: 16px;
 	font-weight: 300;
-	line-height: 26px;
+	line-height: 1.1;
 `;
 
 const Link = styled.a`
@@ -20,13 +17,20 @@ const Link = styled.a`
 	text-decoration: underline;
 `;
 
-const IconGreen = styled.span`
+const Icon = styled.i`
+	font-size: 20px;
+	top: 4px;
+    position: relative;
+    margin-right: 15px;
+`;
+
+const GreenI = Icon.extend`
 	&&{:before {
 		color: #4A9F46;
 	}}
 `;
 
-const IconGrey = styled.span`
+const GreyI = Icon.extend`
 	&&{:before {
 		color: #B6B6B6;
 	}}
@@ -34,25 +38,17 @@ const IconGrey = styled.span`
 
 export interface ParentProps {
 	role: AgentRoles;
-	hasKeySafe: boolean;
-	hasKYC: boolean;
+	hasKeySafe?: boolean;
+	hasKYC?: boolean; 
 }
 
 export const RegisterStatus: React.SFC<ParentProps> = (props) => {
 
-	const renderHasKeySafe = () => {
-		if (props.hasKeySafe) {
-			return (<IconGreen className={'icon-approved'} />);
+	const isQualified = (condition) => {
+		if (condition) {
+			return <GreenI className={'icon-approved'} />;
 		} else {
-			return (<IconGrey className={'icon-rejectedcross'} />);
-		}
-	};
-
-	const renderHasKYC = () => {
-		if (props.hasKYC) {
-			return (<IconGreen className={'icon-approved'} />);
-		} else {
-			return (<IconGrey className={'icon-rejectedcross'} />);
+			return <GreyI className={'icon-rejectedcross'} />;
 		}
 	};
 
@@ -60,8 +56,8 @@ export const RegisterStatus: React.SFC<ParentProps> = (props) => {
 		if (props.role !== AgentRoles.serviceProviders) {
 			return (
 				<React.Fragment>
-					<div>{renderHasKYC()} Successfully complete the <Link>KYC process</Link></div> 
-					<div>{renderHasKYC()} Please note that for the beta phase you need to be <Link>invited by ixo</Link></div> 
+					<p>{isQualified(props.hasKYC)} Please note that for the beta phase you need to be <Link>invited by ixo</Link></p> 
+					<p>{isQualified(props.hasKYC)} Successfully complete the <Link>KYC process</Link></p> 
 				</React.Fragment>
 			);
 		} else {
@@ -69,31 +65,10 @@ export const RegisterStatus: React.SFC<ParentProps> = (props) => {
 		}
 	};
 
-	switch (props.role) {
-		case AgentRoles.owners: 
-			return (
-				<StatusContainer>
-					<div>Create your own impact projects on the ixo blockchain.</div> 
-					<div>{renderHasKeySafe()} Install the <Link onClick={() => console.log('InstallKeySafe')}>ixo Key Safe</Link></div> 
-					{renderKYCPart()}
-				</StatusContainer>
-			);
-		case AgentRoles.serviceProviders: 
-			return (
-				<StatusContainer>
-					<div>Service providers deliver the impact to a project. They are the people on the ground submitting claims, and making the difference e.g. planting trees or delivering books.</div> 
-					<div>{renderHasKeySafe()} Install the <Link onClick={() => console.log('InstallKeySafe')}>ixo Key Safe</Link></div> 
-				</StatusContainer>
-			);
-		case AgentRoles.evaluators: 
-			return (
-				<StatusContainer>
-					<div>Evaluators are individuals or entities with knowledge and experience in any given field. Using this experience you determine the validity of the claims submitted on projects.  It is your role to approve the claims submitted on all projects.</div> 
-					<div>{renderHasKeySafe()} Install the <Link onClick={() => console.log('InstallKeySafe')}>ixo Key Safe</Link></div> 
-					{renderKYCPart()}
-				</StatusContainer>
-			);
-		default:
-			return null;
-	}
+	return (
+		<StatusContainer>
+			<p>{isQualified(props.hasKeySafe)} Install the <Link onClick={() => console.log('InstallKeySafe')}>ixo Key Safe</Link></p> 
+			{renderKYCPart()}
+		</StatusContainer>
+	);
 };

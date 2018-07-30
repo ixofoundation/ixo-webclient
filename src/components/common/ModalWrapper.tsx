@@ -93,7 +93,6 @@ export interface Props extends ParentProps, Callbacks {}
 
 export const ModalWrapper: React.SFC<Props> = (props) => {
 
-	console.log(props.header);
 	const renderHeader = () => {
 		return (
 			<React.Fragment>
@@ -101,7 +100,7 @@ export const ModalWrapper: React.SFC<Props> = (props) => {
 					<div><i className={`${props.header.icon}`} /></div>
 					<div>
 						<h3>{props.header.title}</h3>
-						<p>{props.header.subtitle}</p>
+						{props.header.subtitle && <p>{props.header.subtitle}</p>}
 					</div>
 				</FlexContainer>
 				<Line />

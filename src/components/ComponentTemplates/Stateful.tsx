@@ -4,10 +4,10 @@ export interface ParentProps {
 	title: string;
 }
 
-export const Home: React.SFC<ParentProps> = (props) => {
+export const Stateful: React.SFC<ParentProps> = (props) => {
 	return (
 		<div className="container-fluid">
-			test
+			CONTENT HERE
 		</div>
 	);
 };

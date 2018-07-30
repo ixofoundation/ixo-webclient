@@ -12,12 +12,11 @@ import { UserInfo } from './types/models';
 import { initUserInfo } from './redux/login/login_action_creators';
 import ScrollToTop from './components/common/ScrollToTop';
 import './assets/icons.css';
-// import { ToastContainer } from 'react-toastify';
 
 import 'react-toastify/dist/ReactToastify.min.css';
 import { Routes } from './components/Routes';
 import { Spinner } from './components/common/Spinner';
-import { ToastContainer } from '../node_modules/react-toastify';
+import { ToastContainer } from 'react-toastify';
 // THEME DECLARATION BELOW
 
 const theme = {
