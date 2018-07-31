@@ -6,7 +6,7 @@ import { PublicSiteStoreState } from '../../redux/public_site_reducer';
 import { warningToast, errorToast, successToast } from '../helpers/Toast';
 import { ModalWrapper } from '../common/ModalWrapper';
 import { AgentRoles } from '../../types/models';
-import { Heading } from './Heading';
+import { Banner } from './Banner';
 import { TextBlock } from './TextBlock';
 import { deviceWidth } from '../../lib/commonData';
 import MediaQuery from 'react-responsive';
@@ -238,7 +238,7 @@ class RegisterPage extends React.Component<Props, State> {
 			>
 				{this.renderModal()}
 			</ModalWrapper>
-				<Heading />
+				<Banner />
 				<Section>
 					<div className="container">
 						<div className="row">

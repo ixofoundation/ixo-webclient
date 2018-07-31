@@ -77,7 +77,7 @@ export const RegisterStatus: React.SFC<ParentProps> = (props) => {
 			return (
 				<React.Fragment>
 					<CheckItem onClick={() => props.activeModal(ModalData.invite, true)} >{isQualified(props.hasKYC)} Please note that for the beta phase you need to be <Link>invited by ixo</Link></CheckItem> 
-					<CheckItem>{isQualified(props.hasKYC)} Successfully complete the <Link>KYC process</Link></CheckItem> 
+					<CheckItem onClick={() => props.activeModal(ModalData.kyc, true)}>{isQualified(props.hasKYC)} Successfully complete the <Link>KYC process</Link></CheckItem> 
 				</React.Fragment>
 			);
 		} else {
@@ -87,7 +87,7 @@ export const RegisterStatus: React.SFC<ParentProps> = (props) => {
 
 	return (
 		<StatusContainer>
-			<CheckItem>{isQualified(props.hasKeySafe)} Install the <Link onClick={() => console.log('InstallKeySafe')}>ixo Key Safe</Link></CheckItem> 
+			<CheckItem onClick={() => props.activeModal(ModalData.keysafe, true)}>{isQualified(props.hasKeySafe)} Install the <Link onClick={() => console.log('InstallKeySafe')}>ixo Key Safe</Link></CheckItem> 
 			{renderKYCPart()}
 		</StatusContainer>
 	);

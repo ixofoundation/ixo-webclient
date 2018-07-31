@@ -4,8 +4,8 @@ import { LayoutWrapperClaims } from '../common/LayoutWrapperClaims';
 import { WidgetWrapperClaims } from '../common/WidgetWrapperClaims';
 import { ClaimStatus } from '../common/ClaimStatus';
 import { AgentRoles, FormStyles } from '../../types/models';
-import InputText from '../../components/form/InputText';
-import TextArea from '../../components/form/TextArea';
+import InputText from '../form/InputText';
+import TextArea from '../form/TextArea';
 
 import styled from 'styled-components';
 import { ImageSpinner } from '../common/ImageSpinner';

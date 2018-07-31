@@ -1,12 +1,13 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import { deviceWidth } from '../../lib/commonData';
+// import { Parallax } from 'react-parallax';
 
 const penguinImg = require('../../assets/images/about/ixo-banner-penguin.png');
 const bannerBg = require('../../assets/images/about/ixo-banner-bg.jpg');
 
 const Banner = styled.div`
-	background: #002233 url(${bannerBg}) no-repeat;
+	background: url(${bannerBg}) #002233;
 	background-size: cover;
 	width: 100%;
 	height: 600px;
@@ -128,22 +129,27 @@ export interface ParentProps { }
 
 export const AboutBanner: React.SFC<ParentProps> = (props) => {
 	return (
-		<Banner className="row">
-			<div className="col-lg-4 hidden-md-down">
-				<BannerLeft>
-					<img src={penguinImg} alt="" />
-				</BannerLeft>
-			</div>
-			<div className="col-lg-8 col-md-12">
-				<BannerRight>
-					<div className="container">
-						<h2>What counts</h2>
-						<h5>Impact Data: Trust, Measure & Accountability</h5>
-						<p>ixo provides a trusted global information network that is owned by everyone. Enabling anyone to become the creators of their own impact projects and a stake-holder in the projects they believe in. </p>
-						<button>Start your own impact project</button>
-					</div>
-				</BannerRight>
-			</div>
-		</Banner>
+		// <Parallax
+		// 	bgImage={bannerBg}
+		// 	strength={500}
+		// >
+			<Banner className="row">
+				<div className="col-lg-4 hidden-md-down">
+					<BannerLeft>
+						<img src={penguinImg} alt="" />
+					</BannerLeft>
+				</div>
+				<div className="col-lg-8 col-md-12">
+					<BannerRight>
+						<div className="container">
+							<h2>What counts</h2>
+							<h5>Impact Data: Trust, Measure & Accountability</h5>
+							<p>ixo provides a trusted global information network that is owned by everyone. Enabling anyone to become the creators of their own impact projects and a stake-holder in the projects they believe in. </p>
+							<button>Start your own impact project</button>
+						</div>
+					</BannerRight>
+				</div>
+			</Banner>
+		// </Parallax>
 	);
 };
