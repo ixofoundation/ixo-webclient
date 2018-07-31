@@ -8,7 +8,6 @@ const Container = styled.div`
 	font-family: ${props => props.theme.fontRoboto};
 	min-width: 320px;
 	max-width: 60vw;
-	padding: 10px;
 	button {
 		margin: 0 10px 10px 10px;
 	}

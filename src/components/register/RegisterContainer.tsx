@@ -10,16 +10,44 @@ import { Banner } from './Banner';
 import { TextBlock } from './TextBlock';
 import { deviceWidth } from '../../lib/commonData';
 import MediaQuery from 'react-responsive';
+import { Button, ButtonTypes } from '../common/Buttons';
 
 const keysafeImg = require('../../assets/images/register/ixo-keysafe.png');
 const amplyImg = require('../../assets/images/register/ixo-amply.png');
 const keysafeIcon = require('../../assets/images/register/ixo-keysafeIco.png');
 
-// const chromeIcon = require('../../assets/images/register/chrome.png');
-// const mozillaIcon = require('../../assets/images/register/firefox.png');
+const chromeIcon = require('../../assets/images/register/chrome.png');
+const mozillaIcon = require('../../assets/images/register/firefox.png');
 
 const ModalContainer = styled.div`
+	width: 360px;
+	margin:0 auto;
+	max-width: 100%;
+	padding-bottom: 20px;
 
+	p {
+		font-weight: 300;
+	}
+
+	a {
+		margin:30px 0;
+	}
+`;
+
+const UnderlineLink = styled.div`
+	text-decoration: underline;
+	text-align: center;
+	margin-bottom: 30px;
+
+	a {
+		font-size: 14px;
+		font-weight: 300;
+		color: white;
+	}
+
+	a:hover {
+		color: ${props => props.theme.fontBlue};
+	}
 `;
 
 const Section = styled.div`
@@ -63,6 +91,13 @@ const SmallIconCol = styled.div`
 	h2 i {
 		font-size: 25px;
 	}
+`;
+
+const BrowserIcon = styled.img`
+	position: absolute;
+    left: 10px;
+    top: 2px;
+    width: 36px
 `;
 
 export enum ModalData {
@@ -113,22 +148,28 @@ class RegisterPage extends React.Component<Props, State> {
 
 	renderModal = () => {
 
-		if (this.state.activeModal === ModalData.invite) {
+		if (this.state.activeModal === ModalData.keysafe) {
 			return (
 				<ModalContainer> 
-					test
+					<p>ixo Key Safe is your connection to the ixo blockchain. It is a secure identity vault that allows you to manage your profile and sign transactions on your projects.</p>
+					<Button type={ButtonTypes.dark}><BrowserIcon src={chromeIcon} alt="Chrome"/> DOWNLOAD FOR CHROME</Button>
+					<Button type={ButtonTypes.dark}><BrowserIcon src={mozillaIcon} alt="Firefox"/> DOWNLOAD FOR FIREFOX</Button>
 				</ModalContainer>
 			);
-		} else if (this.state.activeModal === ModalData.keysafe) {
+		} else if (this.state.activeModal === ModalData.kyc) {
 			return (
 				<ModalContainer> 
-					test
+					<p>By becoming KYC (Know Your Customer) compliant, we can verify your identity so that you can buy tokens, create and participate in projects.</p>
+					<Button type={ButtonTypes.dark}>REGISTER</Button>
+					<UnderlineLink><a href="">Find out more about KYC</a></UnderlineLink>
 				</ModalContainer>
 			);
-		} else if (this.state.activeModal = ModalData.kyc) {
+		} else if (this.state.activeModal = ModalData.invite) {
 			return (
 				<ModalContainer> 
-					test
+					<p>If you have received communication from ixo inviting you to the ixo.world beta, it means that you have already been listed. 
+If not, please send us an email, telling us a little about yourself and the projects you would like to create.</p>
+					<Button type={ButtonTypes.dark}>CONTACT IXO</Button>
 				</ModalContainer>
 			);
 		} else {
@@ -138,23 +179,26 @@ class RegisterPage extends React.Component<Props, State> {
 
 	renderModalHeading = () => {
 
-		if (this.state.activeModal === ModalData.invite) {
+		if (this.state.activeModal === ModalData.keysafe) {
 			return {
 				title: 'IXO KEY SAFE',
 				subtitle: 'Your secure identity vault',
-				image: keysafeIcon
+				image: keysafeIcon,
+				width: '365'
 			};
-		} else if (this.state.activeModal === ModalData.keysafe) {
+		} else if (this.state.activeModal === ModalData.kyc) {
 			return {
-				title: 'IXO KEY SAFE',
-				subtitle: 'Your secure identity vault',
-				image: keysafeIcon
+				title: 'KYC',
+				subtitle: 'Verifying that you are who you are',
+				icon: 'icon-kyc',
+				width: '365'
 			};
-		} else if (this.state.activeModal = ModalData.kyc) {
+		} else if (this.state.activeModal = ModalData.invite) {
 			return {
-				title: 'IXO KEY SAFE',
-				subtitle: 'Your secure identity vault',
-				image: keysafeIcon
+				title: 'LISTED BY IXO',
+				subtitle: 'Interested in creating your own projects?',
+				icon: 'icon-claims',
+				width: '365'
 			};
 		} else {
 			return null;
@@ -231,13 +275,13 @@ class RegisterPage extends React.Component<Props, State> {
 	render() {
 		return (
 			<div>
-			<ModalWrapper
-				isModalOpen={this.state.isModalOpen}
-				handleToggleModal={(val) => this.toggleModal({}, val)}
-				header={this.renderModalHeading()}
-			>
-				{this.renderModal()}
-			</ModalWrapper>
+				<ModalWrapper
+					isModalOpen={this.state.isModalOpen}
+					handleToggleModal={(val) => this.toggleModal({}, val)}
+					header={this.renderModalHeading()}
+				>
+					{this.renderModal()}
+				</ModalWrapper>
 				<Banner />
 				<Section>
 					<div className="container">
