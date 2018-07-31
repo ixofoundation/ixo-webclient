@@ -8,8 +8,11 @@ import { ModalWrapper } from '../common/ModalWrapper';
 import { AgentRoles } from '../../types/models';
 import { Heading } from './Heading';
 import { TextBlock } from './TextBlock';
+import { deviceWidth } from '../../lib/commonData';
+import MediaQuery from 'react-responsive';
 
 const keysafeImg = require('../../assets/images/register/ixo-keysafe.png');
+const amplyImg = require('../../assets/images/register/ixo-amply.png');
 
 const ModalContainer = styled.div`
 
@@ -19,13 +22,37 @@ const Section = styled.div`
 
 `;
 
+const RelativeCol = styled.div`
+	position: relative;
+`;
+
 const BlueRow = styled.div`
-	padding-top: 70px;
 	background: ${props => props.theme.bg.gradientBlue};
+	margin-top: 0;
+
+	@media (min-width: ${deviceWidth.desktop}px){
+		padding-top: 70px;
+	}
+
+	@media (min-width: ${deviceWidth.desktopLarge}px){
+		margin-top: -120px;
+	}
 `;
 
 const KeySafe = styled.img`
 	margin-bottom: -50%;
+	
+	@media (min-width: ${deviceWidth.desktop}px){
+		position: absolute;
+		top: 0;
+		right: 0;
+	}
+`;
+
+const Amply = styled.img`
+	max-width: 100%;
+	margin-left: -5%;
+	margin-top: 20px;
 `;
 
 export interface ParentProps {
@@ -154,8 +181,10 @@ class RegisterPage extends React.Component<Props, State> {
 				<Section>
 					<div className="container">
 						<div className="row">
-							<div className="col-md-6">test</div>
-							<div className="col-md-6">
+							<MediaQuery minWidth={`${deviceWidth.desktop}px`}>
+								<div className="col-lg-6"><Amply src={amplyImg} /></div>
+							</MediaQuery>
+							<div className="col-lg-6">
 								<TextBlock title="Want to launch your own project?" icon="icon-claims" role={AgentRoles.owners} keysafe={this.state.hasKeySafe} KYC={this.state.hasKYC}>
 									<p>Create your own impact projects on the ixo blockchain.</p>
 								</TextBlock>
@@ -165,27 +194,29 @@ class RegisterPage extends React.Component<Props, State> {
 					<BlueRow>
 						<div className="container">
 							<div className="row">
-								<div className="col-md-6">
+								<div className="col-lg-6">
 									<TextBlock blueBG={true} title="Want to become a service provider?" icon="icon-serviceproviders" role={AgentRoles.serviceProviders} keysafe={this.state.hasKeySafe} KYC={this.state.hasKYC}>
 										<p>Service providers deliver the impact to a project. </p>
 										<p>They are the people on the ground submitting claims, and making the difference
 										e.g. planting trees or delivering books.</p>
 									</TextBlock>
 								</div>
-								<div className="col-md-6"><KeySafe src={keysafeImg}/></div>
+								<MediaQuery minWidth={`${deviceWidth.desktop}px`}>
+									<RelativeCol className="col-lg-6"><KeySafe src={keysafeImg}/></RelativeCol>
+								</MediaQuery>
 							</div>
 						</div>
 					</BlueRow>
 					<div className="container">
 						<div className="row">
-							<div className="col-md-6">
+							<div className="col-lg-6">
 								<TextBlock title="Want to become an evaluator?" icon="icon-evaluators" role={AgentRoles.evaluators} keysafe={this.state.hasKeySafe} KYC={this.state.hasKYC}>
 									<p>Evaluators are individuals or entities with knowledge and experience in any given field. 
 									Using this experience you determine the validity of the claims submitted on projects.  
 									It is your role to approve the claims submitted on all projects.</p>
 								</TextBlock>
 							</div>
-							<div className="col-md-6"/>
+							<div className="col-lg-6"/>
 						</div>
 					</div>
 				</Section>

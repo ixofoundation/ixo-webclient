@@ -19,8 +19,9 @@ const Link = styled.a`
 
 const Icon = styled.i`
 	font-size: 20px;
-	top: 4px;
-    position: relative;
+	top: 6px;
+	left: 0;
+	position: absolute;
     margin-right: 15px;
 `;
 
@@ -34,6 +35,13 @@ const GreyI = Icon.extend`
 	&&{:before {
 		color: #B6B6B6;
 	}}
+`;
+
+const CheckItem = styled.p`
+	line-height: 2;
+	margin-bottom: 0;
+	padding-left: 35px;
+	position: relative;
 `;
 
 export interface ParentProps {
@@ -56,8 +64,8 @@ export const RegisterStatus: React.SFC<ParentProps> = (props) => {
 		if (props.role !== AgentRoles.serviceProviders) {
 			return (
 				<React.Fragment>
-					<p>{isQualified(props.hasKYC)} Please note that for the beta phase you need to be <Link>invited by ixo</Link></p> 
-					<p>{isQualified(props.hasKYC)} Successfully complete the <Link>KYC process</Link></p> 
+					<CheckItem>{isQualified(props.hasKYC)} Please note that for the beta phase you need to be <Link>invited by ixo</Link></CheckItem> 
+					<CheckItem>{isQualified(props.hasKYC)} Successfully complete the <Link>KYC process</Link></CheckItem> 
 				</React.Fragment>
 			);
 		} else {
@@ -67,7 +75,7 @@ export const RegisterStatus: React.SFC<ParentProps> = (props) => {
 
 	return (
 		<StatusContainer>
-			<p>{isQualified(props.hasKeySafe)} Install the <Link onClick={() => console.log('InstallKeySafe')}>ixo Key Safe</Link></p> 
+			<CheckItem>{isQualified(props.hasKeySafe)} Install the <Link onClick={() => console.log('InstallKeySafe')}>ixo Key Safe</Link></CheckItem> 
 			{renderKYCPart()}
 		</StatusContainer>
 	);
