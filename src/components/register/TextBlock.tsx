@@ -7,6 +7,10 @@ const Container = styled.div`
 	padding: 50px 0;
 	color: #333C4E;
 
+	h2 {
+		font-family: ${props => props.theme.fontRobotoCondensed};
+	}
+
 	i:before {
 		color: #333C4E;
 	}
@@ -16,12 +20,17 @@ const ContainerWhite = styled.div`
 	padding: 50px 0;
 	color: white;
 
+	h2 {
+		font-family: ${props => props.theme.fontRobotoCondensed};
+	}
+
 	i:before {
 		color: white;
 	}
 `;
 
 export interface ParentProps {
+	activeModal: Function;
 	title: string;
 	icon: string;
 	role: AgentRoles;
@@ -38,7 +47,7 @@ export const TextBlock: React.SFC<ParentProps> = (props) => {
 			<ContainerWhite>
 				<h2><i className={props.icon}/> {props.title}</h2>
 				{props.children}
-				<RegisterStatus role={props.role} hasKeySafe={props.keysafe} hasKYC={props.KYC}/>
+				<RegisterStatus activeModal={props.activeModal} role={props.role} hasKeySafe={props.keysafe} hasKYC={props.KYC}/>
 			</ContainerWhite>
 		);
 	} else {
@@ -46,7 +55,7 @@ export const TextBlock: React.SFC<ParentProps> = (props) => {
 			<Container>
 				<h2><i className={props.icon}/> {props.title}</h2>
 				{props.children}
-				<RegisterStatus role={props.role} hasKeySafe={props.keysafe} hasKYC={props.KYC}/>
+				<RegisterStatus activeModal={props.activeModal} role={props.role} hasKeySafe={props.keysafe} hasKYC={props.KYC}/>
 			</Container>
 		);
 	}

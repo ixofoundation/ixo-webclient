@@ -50,6 +50,11 @@ const FlexContainer = styled.div`
 		margin-right: 10px;
 		font-size: 50px;
 	}
+
+	img {
+		width: 40px;
+		margin-right: 20px;
+	}
 	
 	h3 {
 		font-weight: 300;
@@ -84,7 +89,8 @@ interface ParentProps {
 export interface Header {
 	title: string;
 	subtitle?: string;
-	icon: string;
+	icon?: string;
+	image?: string;
 }
 interface Callbacks {
 	handleToggleModal?: (theStatus: boolean) => void;
@@ -97,7 +103,10 @@ export const ModalWrapper: React.SFC<Props> = (props) => {
 		return (
 			<React.Fragment>
 				<FlexContainer>
-					<div><i className={`${props.header.icon}`} /></div>
+				<div>
+					{props.header.icon && <i className={`${props.header.icon}`} />}
+					{props.header.image && <img src={props.header.image} />}
+				</div>
 					<div>
 						<h3>{props.header.title}</h3>
 						{props.header.subtitle && <p>{props.header.subtitle}</p>}
