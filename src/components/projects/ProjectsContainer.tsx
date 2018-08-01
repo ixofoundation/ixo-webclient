@@ -100,7 +100,6 @@ export class Projects extends React.Component<Props, State> {
 				.then((response: any) => {
 					let projectList = response;
 					projectList.sort((a, b) => {return (a.data.createdOn < b.data.createdOn); });
-					console.log(projectList);
 
 					let claimsArr = new Array();
 					let reqClaims: number = 0;
