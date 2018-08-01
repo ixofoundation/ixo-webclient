@@ -26,7 +26,7 @@ const modalStyles = {
 const ModalInner = styled.div`
 	background: ${props => props.theme.bg.blue};
 	color: white;
-	padding: 10px 20px;
+	padding: 10px 30px;
 `;
 
 const CloseModal = styled.button`
@@ -50,6 +50,11 @@ const FlexContainer = styled.div`
 		margin-right: 10px;
 		font-size: 50px;
 	}
+
+	img {
+		width: 40px;
+		margin-right: 20px;
+	}
 	
 	h3 {
 		font-weight: 300;
@@ -63,7 +68,7 @@ const FlexContainer = styled.div`
 	p {
 		font-weight: 300;
 		margin: 0;
-		font-size: 16px;
+		font-size: 18px;
 		color: ${props => props.theme.fontLightBlue};
 		font-family: ${props => props.theme.fontRoboto};
 	}
@@ -71,8 +76,8 @@ const FlexContainer = styled.div`
 
 const Line = styled.div`
 	background: ${props => props.theme.widgetBorder};
-    width: calc(100% + 40px);
-    margin: 10px -20px 25px;
+    width: calc(100% + 60px);
+    margin: 10px -30px 25px;
 	height: 1px;
 `;
 
@@ -84,7 +89,9 @@ interface ParentProps {
 export interface Header {
 	title: string;
 	subtitle?: string;
-	icon: string;
+	icon?: string;
+	image?: string;
+	width?: string;
 }
 interface Callbacks {
 	handleToggleModal?: (theStatus: boolean) => void;
@@ -96,8 +103,11 @@ export const ModalWrapper: React.SFC<Props> = (props) => {
 	const renderHeader = () => {
 		return (
 			<React.Fragment>
-				<FlexContainer>
-					<div><i className={`${props.header.icon}`} /></div>
+				<FlexContainer style={props.header.width && {width: `${props.header.width}px`}}>
+				<div>
+					{props.header.icon && <i className={`${props.header.icon}`} />}
+					{props.header.image && <img src={props.header.image} />}
+				</div>
 					<div>
 						<h3>{props.header.title}</h3>
 						{props.header.subtitle && <p>{props.header.subtitle}</p>}

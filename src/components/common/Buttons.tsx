@@ -2,6 +2,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 
 const BaseButton = styled.a`
+	position: relative;
 	border-radius: 2px;
 	color: white;
 	font-size: 15px;

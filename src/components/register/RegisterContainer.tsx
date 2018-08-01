@@ -6,16 +6,48 @@ import { PublicSiteStoreState } from '../../redux/public_site_reducer';
 import { warningToast, errorToast, successToast } from '../helpers/Toast';
 import { ModalWrapper } from '../common/ModalWrapper';
 import { AgentRoles } from '../../types/models';
-import { Heading } from './Heading';
+import { Banner } from './Banner';
 import { TextBlock } from './TextBlock';
 import { deviceWidth } from '../../lib/commonData';
 import MediaQuery from 'react-responsive';
+import { Button, ButtonTypes } from '../common/Buttons';
 
 const keysafeImg = require('../../assets/images/register/ixo-keysafe.png');
 const amplyImg = require('../../assets/images/register/ixo-amply.png');
+const keysafeIcon = require('../../assets/images/register/ixo-keysafeIco.png');
+
+const chromeIcon = require('../../assets/images/register/chrome.png');
+const mozillaIcon = require('../../assets/images/register/firefox.png');
 
 const ModalContainer = styled.div`
+	width: 360px;
+	margin:0 auto;
+	max-width: 100%;
+	padding-bottom: 20px;
 
+	p {
+		font-weight: 300;
+	}
+
+	a {
+		margin:30px 0;
+	}
+`;
+
+const UnderlineLink = styled.div`
+	text-decoration: underline;
+	text-align: center;
+	margin-bottom: 30px;
+
+	a {
+		font-size: 14px;
+		font-weight: 300;
+		color: white;
+	}
+
+	a:hover {
+		color: ${props => props.theme.fontBlue};
+	}
 `;
 
 const Section = styled.div`
@@ -55,6 +87,25 @@ const Amply = styled.img`
 	margin-top: 20px;
 `;
 
+const SmallIconCol = styled.div`
+	h2 i {
+		font-size: 25px;
+	}
+`;
+
+const BrowserIcon = styled.img`
+	position: absolute;
+    left: 10px;
+    top: 2px;
+    width: 36px
+`;
+
+export enum ModalData {
+	invite = 'INVITE',
+	kyc = 'KYC',
+	keysafe = 'KEYSAFE'
+}
+
 export interface ParentProps {
 	projectList?: any;
 }
@@ -66,6 +117,7 @@ export interface State {
 	hasDid: boolean;
 	hasKYC: boolean;
 	isDidLedgered: boolean;
+	activeModal: ModalData;
 }
 
 export interface StateProps {
@@ -85,20 +137,72 @@ class RegisterPage extends React.Component<Props, State> {
 		hasDid: false,
 		hasKYC: false,
 		isDidLedgered: false,
+		activeModal: null
 		};
 
 	busyLedgering = false;
 
-	toggleModal() {
-		this.setState({isModalOpen: !this.state.isModalOpen});
+	toggleModal = (activeModal: any, booleanVal: boolean) => {
+		this.setState({isModalOpen: booleanVal, activeModal});
 	}
 
-	renderModal() {
-		return (
-			<ModalContainer> 
-				test
-			</ModalContainer>
-		);
+	renderModal = () => {
+
+		if (this.state.activeModal === ModalData.keysafe) {
+			return (
+				<ModalContainer> 
+					<p>ixo Key Safe is your connection to the ixo blockchain. It is a secure identity vault that allows you to manage your profile and sign transactions on your projects.</p>
+					<Button type={ButtonTypes.dark}><BrowserIcon src={chromeIcon} alt="Chrome"/> DOWNLOAD FOR CHROME</Button>
+					<Button type={ButtonTypes.dark}><BrowserIcon src={mozillaIcon} alt="Firefox"/> DOWNLOAD FOR FIREFOX</Button>
+				</ModalContainer>
+			);
+		} else if (this.state.activeModal === ModalData.kyc) {
+			return (
+				<ModalContainer> 
+					<p>By becoming KYC (Know Your Customer) compliant, we can verify your identity so that you can buy tokens, create and participate in projects.</p>
+					<Button type={ButtonTypes.dark}>REGISTER</Button>
+					<UnderlineLink><a href="">Find out more about KYC</a></UnderlineLink>
+				</ModalContainer>
+			);
+		} else if (this.state.activeModal = ModalData.invite) {
+			return (
+				<ModalContainer> 
+					<p>If you have received communication from ixo inviting you to the ixo.world beta, it means that you have already been listed. 
+If not, please send us an email, telling us a little about yourself and the projects you would like to create.</p>
+					<Button type={ButtonTypes.dark}>CONTACT IXO</Button>
+				</ModalContainer>
+			);
+		} else {
+			return null;
+		}
+	}
+
+	renderModalHeading = () => {
+
+		if (this.state.activeModal === ModalData.keysafe) {
+			return {
+				title: 'IXO KEY SAFE',
+				subtitle: 'Your secure identity vault',
+				image: keysafeIcon,
+				width: '365'
+			};
+		} else if (this.state.activeModal === ModalData.kyc) {
+			return {
+				title: 'KYC',
+				subtitle: 'Verifying that you are who you are',
+				icon: 'icon-kyc',
+				width: '365'
+			};
+		} else if (this.state.activeModal = ModalData.invite) {
+			return {
+				title: 'LISTED BY IXO',
+				subtitle: 'Interested in creating your own projects?',
+				icon: 'icon-claims',
+				width: '365'
+			};
+		} else {
+			return null;
+		}
 	}
 
 	checkState() {
@@ -171,31 +275,32 @@ class RegisterPage extends React.Component<Props, State> {
 	render() {
 		return (
 			<div>
-			<ModalWrapper
-				isModalOpen={this.state.isModalOpen}
-				handleToggleModal={() => this.toggleModal()}
-			>
-				{this.renderModal()}
-			</ModalWrapper>
-				<Heading />
+				<ModalWrapper
+					isModalOpen={this.state.isModalOpen}
+					handleToggleModal={(val) => this.toggleModal({}, val)}
+					header={this.renderModalHeading()}
+				>
+					{this.renderModal()}
+				</ModalWrapper>
+				<Banner />
 				<Section>
 					<div className="container">
 						<div className="row">
 							<MediaQuery minWidth={`${deviceWidth.desktop}px`}>
 								<div className="col-lg-6"><Amply src={amplyImg} /></div>
 							</MediaQuery>
-							<div className="col-lg-6">
-								<TextBlock title="Want to launch your own project?" icon="icon-claims" role={AgentRoles.owners} keysafe={this.state.hasKeySafe} KYC={this.state.hasKYC}>
+							<SmallIconCol className="col-lg-6">
+								<TextBlock activeModal={this.toggleModal} title="Want to launch your own project?" icon="icon-claims" role={AgentRoles.owners} keysafe={this.state.hasKeySafe} KYC={this.state.hasKYC}>
 									<p>Create your own impact projects on the ixo blockchain.</p>
 								</TextBlock>
-							</div>
+							</SmallIconCol>
 						</div>
 					</div>
 					<BlueRow>
 						<div className="container">
 							<div className="row">
 								<div className="col-lg-6">
-									<TextBlock blueBG={true} title="Want to become a service provider?" icon="icon-serviceproviders" role={AgentRoles.serviceProviders} keysafe={this.state.hasKeySafe} KYC={this.state.hasKYC}>
+									<TextBlock activeModal={this.toggleModal} blueBG={true} title="Want to become a service provider?" icon="icon-serviceproviders" role={AgentRoles.serviceProviders} keysafe={this.state.hasKeySafe} KYC={this.state.hasKYC}>
 										<p>Service providers deliver the impact to a project. </p>
 										<p>They are the people on the ground submitting claims, and making the difference
 										e.g. planting trees or delivering books.</p>
@@ -210,7 +315,7 @@ class RegisterPage extends React.Component<Props, State> {
 					<div className="container">
 						<div className="row">
 							<div className="col-lg-6">
-								<TextBlock title="Want to become an evaluator?" icon="icon-evaluators" role={AgentRoles.evaluators} keysafe={this.state.hasKeySafe} KYC={this.state.hasKYC}>
+								<TextBlock activeModal={this.toggleModal} title="Want to become an evaluator?" icon="icon-evaluators" role={AgentRoles.evaluators} keysafe={this.state.hasKeySafe} KYC={this.state.hasKYC}>
 									<p>Evaluators are individuals or entities with knowledge and experience in any given field. 
 									Using this experience you determine the validity of the claims submitted on projects.  
 									It is your role to approve the claims submitted on all projects.</p>
