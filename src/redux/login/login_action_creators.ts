@@ -25,7 +25,10 @@ export function initUserInfo(keysafe: any, ixo: any) {
 								error: {}
 							})
 						);
+				}).catch((didError) => {
+					console.log(didError);
 				});
+
 				} else {
 					dispatch(
 						createAction<LoginResult>(LOGIN_RESULT.type, {
