@@ -43,16 +43,17 @@ const CheckItem = styled.p`
 	margin-bottom: 0;
 	padding-left: 35px;
 	position: relative;
-	cursor: pointer;
 	transition: color 0.3s ease;
 
-	&&{a, a:hover {
+	&&{a {
 		text-decoration: underline;
 	}}
 
-	:hover {
+	&&{a:hover {
+		text-decoration: underline;
+		cursor: pointer;
 		color: ${props => props.theme.fontBlue};
-	}
+	}}
 `;
 
 export interface ParentProps {
@@ -64,7 +65,7 @@ export interface ParentProps {
 
 export const RegisterStatus: React.SFC<ParentProps> = (props) => {
 
-	const isQualified = (condition) => {
+	const getIcon = (condition) => {
 		if (condition) {
 			return <GreenI className={'icon-approved'} />;
 		} else {
@@ -72,14 +73,26 @@ export const RegisterStatus: React.SFC<ParentProps> = (props) => {
 		}
 	};
 
+	const getKeysafeText = () => {
+		if (props.hasKeySafe) {
+			return <React.Fragment>{getIcon(props.hasKeySafe)} You have successfully installed the <u>ixo Keysafe</u></React.Fragment>;
+		} else {
+			return <React.Fragment>{getIcon(props.hasKeySafe)} Install the <Link onClick={() => props.activeModal(ModalData.keysafe, true)}>ixo Key Safe</Link></React.Fragment>;
+		}
+	};
+
 	const renderKYCPart = () => {
 		if (props.role !== AgentRoles.serviceProviders) {
-			return (
-				<React.Fragment>
-					<CheckItem onClick={() => props.activeModal(ModalData.invite, true)} >{isQualified(props.hasKYC)} Please note that for the beta phase you need to be <Link>invited by ixo</Link></CheckItem> 
-					<CheckItem onClick={() => props.activeModal(ModalData.kyc, true)}>{isQualified(props.hasKYC)} Successfully complete the <Link>KYC process</Link></CheckItem> 
-				</React.Fragment>
-			);
+			if (props.hasKYC) {
+				return <React.Fragment>{getIcon(props.hasKYC)} You have successfully completed the <u>KYC process</u></React.Fragment>;
+			} else {
+				return (
+					<React.Fragment>
+						{getIcon(props.hasKYC)} Please note that for the beta phase you need to be <Link onClick={() => props.activeModal(ModalData.invite, true)}>invited by ixo</Link> 
+						<br/> and then successfully complete the <Link onClick={() => props.activeModal(ModalData.kyc, true)}>KYC process</Link>
+					</React.Fragment>
+				);
+			}
 		} else {
 			return null;
 		}
@@ -87,8 +100,8 @@ export const RegisterStatus: React.SFC<ParentProps> = (props) => {
 
 	return (
 		<StatusContainer>
-			<CheckItem onClick={() => props.activeModal(ModalData.keysafe, true)}>{isQualified(props.hasKeySafe)} Install the <Link onClick={() => console.log('InstallKeySafe')}>ixo Key Safe</Link></CheckItem> 
-			{renderKYCPart()}
+			<CheckItem>{getIcon(props.hasKeySafe)} {getKeysafeText()}</CheckItem> 
+			<CheckItem>{renderKYCPart()}</CheckItem>
 		</StatusContainer>
 	);
 };

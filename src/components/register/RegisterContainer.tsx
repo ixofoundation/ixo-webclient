@@ -11,6 +11,7 @@ import { TextBlock } from './TextBlock';
 import { deviceWidth } from '../../lib/commonData';
 import MediaQuery from 'react-responsive';
 import { Button, ButtonTypes } from '../common/Buttons';
+import { Spinner } from '../common/Spinner';
 
 const keysafeImg = require('../../assets/images/register/ixo-keysafe.png');
 const amplyImg = require('../../assets/images/register/ixo-amply.png');
@@ -107,7 +108,6 @@ export enum ModalData {
 }
 
 export interface ParentProps {
-	projectList?: any;
 }
 
 export interface State {
@@ -118,6 +118,7 @@ export interface State {
 	hasKYC: boolean;
 	isDidLedgered: boolean;
 	activeModal: ModalData;
+	toastShown: boolean;
 }
 
 export interface StateProps {
@@ -137,7 +138,8 @@ class RegisterPage extends React.Component<Props, State> {
 		hasDid: false,
 		hasKYC: false,
 		isDidLedgered: false,
-		activeModal: null
+		activeModal: null,
+		toastShown: false
 		};
 
 	busyLedgering = false;
@@ -169,7 +171,7 @@ class RegisterPage extends React.Component<Props, State> {
 				<ModalContainer> 
 					<p>If you have received communication from ixo inviting you to the ixo.world beta, it means that you have already been listed. 
 If not, please send us an email, telling us a little about yourself and the projects you would like to create.</p>
-					<Button type={ButtonTypes.dark}>CONTACT IXO</Button>
+					<Button type={ButtonTypes.dark} href="mailto:info@ixo.world">CONTACT IXO</Button>
 				</ModalContainer>
 			);
 		} else {
@@ -210,7 +212,10 @@ If not, please send us an email, telling us a little about yourself and the proj
 		if (this.props.keysafe && !this.state.hasKeySafe) {
 			this.props.keysafe.getDidDoc((error, response) => {
 				if (error) {
-					errorToast('Please log into IXO Keysafe');
+					if (this.state.toastShown === false) {
+						errorToast('Please log into IXO Keysafe');
+						this.setState({ toastShown: true});
+					}
 				} else {	
 					let newDidDoc = {
 							did: response.didDoc.did,
@@ -264,15 +269,20 @@ If not, please send us an email, telling us a little about yourself and the proj
 					});
 				} else {
 					this.busyLedgering = false;
-					console.log(error);
 				}
 			});
 		} else {
-			warningToast('Please log into the IXO Keysafe');
+			if (this.state.toastShown === false) {
+				warningToast('Please log into the IXO Keysafe');
+				this.setState({ toastShown: true});
+			}
 		}
 	}
 
 	render() {
+		if (!this.props.ixo) {
+			return <Spinner info="Loading ixo World..."/>;
+		}
 		return (
 			<div>
 				<ModalWrapper
