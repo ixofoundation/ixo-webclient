@@ -18,6 +18,8 @@ import { RegisterConnected } from './register/RegisterContainer';
 import { NotFound } from './public/NotFound';
 import { ComingSoonContainer } from './public/ComingSoonContainer';
 import { Spinner } from './common/Spinner';
+import { ProjectSignAndCreateConnected } from './project/curation/ProjectSignAndCreate';
+import { ProjectCreateUploadPublicDocsConnected } from './project/curation/ProjectCreateUploadPublicDocs';
 
 export namespace Routes {
 	export interface StateProps {
@@ -98,6 +100,16 @@ export const Routes: React.SFC<Routes.RouteProps> = props => {
 					exact={true}
 					path="/create-project"
 					render={routeProps => (<ProjectCreateConnected {...routeProps} {...props} />)}
+				/>
+				<Route
+					exact={true}
+					path="/upload-project"
+					render={routeProps => (<ProjectCreateUploadPublicDocsConnected {...routeProps} {...props} />)}
+				/>
+				<Route
+					exact={true}
+					path="/upload-project-create"
+					render={routeProps => (<ProjectSignAndCreateConnected {...routeProps} {...props} />)}
 				/>
 				<Route path="*" component={NotFound} />
 			</Switch>
