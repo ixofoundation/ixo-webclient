@@ -2,6 +2,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 // import { Link } from 'react-router-dom';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
+import { Link } from 'react-router-dom';
 
 const xIcon = require('../../assets/images/x-icon.png');
 
@@ -161,6 +162,16 @@ const StatusText = styled.p`
 	font-weight: normal;
 `;
 
+const JoinLink = styled(Link)`
+	color: white;
+	text-decoration: none;
+
+	:hover {
+		text-decoration: none;
+		color: white;
+	}
+`;	
+
 interface HeaderRightProps {
 	userInfo: any;
 	renderStatusIndicator: () => JSX.Element;
@@ -188,13 +199,15 @@ export class HeaderRight extends React.Component<HeaderRightProps, State> {
 				<NoPadLeft className="col-md-6">
 					<Inner className="d-flex justify-content-end">
 						{(this.props.userInfo === null) ?
-							<UserBox>
-								<StatusBox>
-									{this.props.renderStatusIndicator()}
-									<StatusText>IXO EXPLORER STATUS</StatusText>
-								</StatusBox>
-								<h3><span>Join</span></h3>
-							</UserBox>
+							<JoinLink to="/create-project">
+								<UserBox>
+									<StatusBox>
+										{this.props.renderStatusIndicator()}
+										<StatusText>IXO EXPLORER STATUS</StatusText>
+									</StatusBox>
+									<h3><span>Join</span></h3>
+								</UserBox>
+							</JoinLink>
 							:
 							<UserBox onClick={this.toggleMenu}>
 								<StatusBox>

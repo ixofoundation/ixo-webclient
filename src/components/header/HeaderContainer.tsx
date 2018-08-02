@@ -153,7 +153,7 @@ class Header extends React.Component<Props, State> {
 	}
 
 	renderStatusMessage() {
-		if (this.props.ixo) {
+		if (this.props.ixo && this.state.responseTime > 0) {
 			return (
 				<StatusMessage>
 					<p>Response time: {this.state.responseTime} ms</p>
