@@ -155,6 +155,7 @@ class App extends React.Component<App.Props, App.State> {
 	}
 
 	render() {
+
 		return (
 			<ThemeProvider theme={theme}> 
 				<ScrollToTop>

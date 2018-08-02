@@ -2,8 +2,8 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { WidgetWrapper, gridSizes } from '../common/WidgetWrapper';
 import { LayoutWrapper } from '../common/LayoutWrapper';
-// import { SingleStatistic } from '../common/SingleStatistic';
-// import { StatType, AgentRoles } from '../../types/models';
+import { SingleStatistic } from '../common/SingleStatistic';
+import { StatType } from '../../types/models';
 import { CircleProgressbar } from '../widgets/CircleProgressbar';
 // import { WorldMap, LatLng } from '../widgets/WorldMap';
 // import { isoCountriesLatLng } from '../../lib/commonData';
@@ -53,9 +53,10 @@ const ClaimsLabels = styled.div`
 export interface ParentProps {
 	claims: any[];
 	claimsTotalRequired: number;
+	agents: any;
 }
 
-export const ProjectsDashboard: React.SFC<ParentProps> = ({claims, claimsTotalRequired}) => {
+export const ProjectsDashboard: React.SFC<ParentProps> = ({claims, claimsTotalRequired, agents}) => {
 
 	const countClaimsOfType = (claimType: string) => {
 		return [...claims].filter((claim) => claim.status === claimType).length;
@@ -77,28 +78,26 @@ export const ProjectsDashboard: React.SFC<ParentProps> = ({claims, claimsTotalRe
 		<LayoutWrapper>
 			<Container className="row">
 				{
-				// <div className="col-sm-6 col-lg-3">
-				// 	<WidgetWrapper title="Service Providers" gridHeight={gridSizes.standard} path={`/projects/${projectDid}/detail/service-providers`} linkIcon={'icon-expand'}>
-				// 		<SingleStatistic 
-				// 			title="Total" 
-				// 			type={StatType.decimal}
-				// 			amount={agentStats.serviceProviders} 
-				// 			descriptor={[{class: 'text-block', value: 'Pending Approval:'}, {class: 'number-orange', value: agentStats.serviceProvidersPending}]}
-				// 		/>
-				// 	</WidgetWrapper>
-				// </div>
+				<div className="col-sm-6 col-lg-3">
+					<WidgetWrapper title="Service Providers" gridHeight={gridSizes.standard}>
+						<SingleStatistic 
+							title="Total" 
+							type={StatType.decimal}
+							amount={agents.serviceProviders} 
+						/>
+					</WidgetWrapper>
+				</div>
 				}
 				{
-				// <div className="col-sm-6 col-lg-3">
-				// 	<WidgetWrapper title="Evaluators" gridHeight={gridSizes.standard} path={`/projects/${projectDid}/detail/evaluators`} linkIcon={'icon-expand'}>
-				// 		<SingleStatistic 
-				// 			title="Total" 
-				// 			type={StatType.decimal}
-				// 			amount={agentStats.evaluators} 
-				// 			descriptor={[{class: 'text-block', value: 'Pending Approval:'}, {class: 'number-orange', value: agentStats.evaluatorsPending}]}
-				// 		/>
-				// 	</WidgetWrapper>
-				// </div>
+				<div className="col-sm-6 col-lg-3">
+					<WidgetWrapper title="Evaluators" gridHeight={gridSizes.standard}>
+						<SingleStatistic 
+							title="Total" 
+							type={StatType.decimal}
+							amount={agents.evaluators} 
+						/>
+					</WidgetWrapper>
+				</div>
 				}
 				{
 				<div className="col-lg-6">

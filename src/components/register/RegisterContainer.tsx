@@ -245,13 +245,13 @@ If not, please send us an email, telling us a little about yourself and the proj
 			});
 		}
 		if (!this.state.hasKYC) {
-			// setTimeout(() => this.checkState(), 2000);
+			setTimeout(() => this.checkState(), 2000);
 		}
 	}
 
 	componentDidMount() {
-		// setTimeout(() => this.checkState(), 2000);
-		this.checkState();
+		setTimeout(() => this.checkState(), 2000);
+		// this.checkState();
 	}
 
 	ledgerDid = () => {

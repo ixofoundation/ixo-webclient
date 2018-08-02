@@ -199,7 +199,7 @@ export class HeaderRight extends React.Component<HeaderRightProps, State> {
 				<NoPadLeft className="col-md-6">
 					<Inner className="d-flex justify-content-end">
 						{(this.props.userInfo === null) ?
-							<JoinLink to="/create-project">
+							<JoinLink to="/register">
 								<UserBox>
 									<StatusBox>
 										{this.props.renderStatusIndicator()}

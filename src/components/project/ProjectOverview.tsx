@@ -336,7 +336,6 @@ export const ProjectOverview: React.SFC<ParentProps> = (props) => {
 		evt.target.src = placeholder;
 	};
 	
-	console.log(props.modalData);
 	return (
 		<div>
 			<ModalWrapper

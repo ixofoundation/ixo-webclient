@@ -9,7 +9,7 @@ export const Globe: React.SFC<ParentProps> = (props) => {
 
 	const origin = location.origin;
 	const width = window.innerWidth;
-	const height = window.innerHeight;
+	const height = window.innerHeight - 213;
 
 	const ratio = (height / width * 100);
 
