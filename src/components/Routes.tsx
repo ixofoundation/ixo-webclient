@@ -20,7 +20,7 @@ import { ComingSoonContainer } from './public/ComingSoonContainer';
 import { Spinner } from './common/Spinner';
 import { ProjectSignAndCreateConnected } from './project/curation/ProjectSignAndCreate';
 import { ProjectCreateUploadPublicDocsConnected } from './project/curation/ProjectCreateUploadPublicDocs';
-
+import { Globe } from './globe/globe';
 export namespace Routes {
 	export interface StateProps {
 	}
@@ -35,6 +35,7 @@ export const Routes: React.SFC<Routes.RouteProps> = props => {
 				<Route exact={true} path="/comingsoon" component={ComingSoonContainer} />
 				<Route exact={true} path="/home" component={HomeContainer} />
 				<Route exact={true} path="/about" component={AboutContainer} />
+				<Route exact={true} path="/globe" component={Globe} />
 				<Route exact={true} path="/membership" component={MemberContainer} />
 				<Route exact={true} path="/faq" component={FaqContainer} />
 				<Route exact={true} path="/ecosystem" component={EcoContainer} />
