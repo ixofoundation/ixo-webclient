@@ -12,6 +12,8 @@ import { CircleProgressbar } from '../widgets/CircleProgressbar';
 
 const Container = styled.div`
 	color: white;
+	flex: 1 1 auto;
+	display: flex;
 `;
 
 const ClaimsWidget = styled.div`
@@ -75,8 +77,9 @@ export const ProjectsDashboard: React.SFC<ParentProps> = ({claims, claimsTotalRe
 	// };
 
 	return (
+		<Container>
 		<LayoutWrapper>
-			<Container className="row">
+			<div className="row">
 				{
 				<div className="col-sm-6 col-lg-3">
 					<WidgetWrapper title="Service Providers" gridHeight={gridSizes.standard}>
@@ -127,7 +130,8 @@ export const ProjectsDashboard: React.SFC<ParentProps> = ({claims, claimsTotalRe
 				// 	</WidgetWrapper>
 				// </div>
 				}
-			</Container>
+			</div>
 		</LayoutWrapper>
+		</Container>
 	);
 };

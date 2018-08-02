@@ -105,10 +105,14 @@ export class Projects extends React.Component<Props, State> {
 
 					let claimsArr = new Array();
 					let reqClaims: number = 0;
-					let agents = null;
+					let agents = {
+						serviceProviders: 0,
+						evaluators: 0
+					};
 					for (let project of projectList) {
-						agents.serviceProviders = project.data.agentStats.serviceProviders;
-						agents.evaluators = project.data.agentStats.evaluators;
+
+						agents.serviceProviders += project.data.agentStats.serviceProviders;
+						agents.evaluators += project.data.agentStats.evaluators;
 
 						// count and sum required claims
 						reqClaims += project.data.requiredClaims;
@@ -124,7 +128,6 @@ export class Projects extends React.Component<Props, State> {
 						agents: Object.assign({}, agents)
 					});
 					this.loadingProjects = false;
-					console.log(projectList);
 				})
 				.catch((result: Error) => {
 					Toast.errorToast('Unable to connect IXO Explorer');

@@ -125,7 +125,6 @@ export class ProjectsHero extends React.Component<Props, State> {
 			{
 				title: 'MY ACTIVE PROJECTS',
 				type: StatType.decimal,
-				descriptor: [{ class: 'text', value: 'Expired' }, { class: 'number', value: '0' }],
 				amount: this.state.statistics.totalProjects
 			},
 			{
@@ -149,7 +148,7 @@ export class ProjectsHero extends React.Component<Props, State> {
 		];
 	}
 	
-	componentWillMount() {
+	componentDidMount() {
 		this.handleGetGlobalData();
 	}
 
@@ -161,6 +160,7 @@ export class ProjectsHero extends React.Component<Props, State> {
 		if (this.props.ixo && !this.loadingStats) {
 			this.loadingStats = true;
 			this.props.ixo.stats.getGlobalStats().then(res => {
+				console.log(res);
 				const statistics: Stats = res;
 				this.setState({ statistics });
 				this.loadingStats = false;

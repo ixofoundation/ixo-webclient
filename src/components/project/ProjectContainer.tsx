@@ -418,8 +418,11 @@ export class ProjectContainer extends React.Component<Props, State> {
 				const claimPromise = this.handleGetClaim(ProjectDIDPayload, signature); // get claim
 				const formFilePromise = this.handleFetchFormFile(project.templates.claim.form, this.state.projectPublic.serviceEndpoint); // get form file
 				Promise.all([claimPromise, formFilePromise]).then(([claim, formFile]) => {
-					console.log(claim);
-					this.setState({ singleClaim: claim, singleClaimFormFile: formFile, singleClaimDependentsFetched: true });
+					if (claim.evaluations.length > 0) {
+						this.setState({ singleClaim: claim, singleClaimFormFile: formFile, singleClaimDependentsFetched: true, claimEvaluated: true });
+					} else {
+						this.setState({ singleClaim: claim, singleClaimFormFile: formFile, singleClaimDependentsFetched: true });
+					}
 					this.handleFetchClaimImages(formFile, claim); // go fetch images
 				});
 			} else {
