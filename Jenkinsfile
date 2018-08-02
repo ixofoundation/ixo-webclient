@@ -40,7 +40,9 @@ node {
         }
     }
 
-    stage('Prune Docker Images') {
-        sh 'docker image prune -a --force --filter "label!=trustlab/ixo-ci-jenkins"'
+     stage('Removing Images') {
+        sh "docker rmi ${app.id}"
+        sh "docker rmi registry.hub.docker.com/${app.id}"
+        sh "docker rmi registry.hub.docker.com/${app.id}:${env.BUILD_NUMBER}"
     }
 }
