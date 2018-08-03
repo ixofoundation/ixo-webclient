@@ -101,7 +101,7 @@ export class Projects extends React.Component<Props, State> {
 				.listProjects()
 				.then((response: any) => {
 					let projectList = response;
-					projectList.sort((a, b) => {return (a.data.createdOn < b.data.createdOn); });
+					projectList.sort((a, b) => {return new Date(b.data.createdOn).getTime() - new Date(a.data.createdOn).getTime(); } );
 
 					let claimsArr = new Array();
 					let reqClaims: number = 0;
