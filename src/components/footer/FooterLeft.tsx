@@ -4,6 +4,31 @@ import styled from 'styled-components';
 import MediaQuery from 'react-responsive';
 import { deviceWidth } from '../../lib/commonData';
 
+const ExternalFooterLink = styled.a`
+	font-family: ${props => props.theme.fontRobotoRegular};
+	color: white;
+	margin: 0;
+	font-size: 13px;
+	border: 1px solid #000000;
+	border-radius:3px;
+	margin:0 10px;
+
+	:hover {
+		text-decoration:none;
+		color: ${props => props.theme.fontBlue};
+	}
+
+	transition: border 0.3s ease;
+
+	@media (min-width: ${deviceWidth.tablet}px) {
+		padding:10px 20px 10px;
+		margin:0 10px;
+		font-size:15px;
+	}
+
+	transition:border 0.3s ease;
+`;
+
 const FooterLink = styled(NavLink)`
 	font-family: ${props => props.theme.fontRobotoRegular};
     color: white;
@@ -66,7 +91,7 @@ export const FooterLeft: React.SFC<any> = ({simple}) => {
 			<Main className="col-md-8">
 				<RowCenter className="row">
 						<Link to="/"><IXOLogo className="icon-logo-ixo" title="IXO Logo" /></Link>
-						Email:<a href="mailto:info@ixo.foundation"><FooterTextBlue>&nbsp;info@ixo.foundation</FooterTextBlue></a>
+						Email:<a href="mailto:info@ixo.world"><FooterTextBlue>&nbsp;info@ixo.world</FooterTextBlue></a>
 				</RowCenter>
 			</Main>
 		);	
@@ -77,17 +102,17 @@ export const FooterLeft: React.SFC<any> = ({simple}) => {
 				<MediaQuery minWidth={`${deviceWidth.tablet}px`}>
 					<Link to="/"><IXOLogo className="icon-logo-ixo" title="IXO Logo" /></Link>
 				</MediaQuery>
-				<FooterLink exact={true} to="/">About</FooterLink>
-				<FooterLink exact={true} to="/">Membership</FooterLink>
-				<FooterLink exact={true} to="/">Ecosystem</FooterLink>
-				<FooterLink exact={true} to="/">Network</FooterLink>
-				<FooterLink exact={true} to="/">Oracles</FooterLink>
-				<FooterLink exact={true} to="/">Plans / Pricing</FooterLink>
+				<FooterLink exact={true} to="/about">About</FooterLink>
+				{/* <FooterLink exact={true} to="/membership">Membership</FooterLink> */}
+				<FooterLink exact={true} to="/ecosystem">Ecosystem</FooterLink>
+				<ExternalFooterLink target="_blank" href="https://ixo.foundation">ixo.Foundation</ExternalFooterLink>
+				{/* <FooterLink exact={true} to="/">Oracles</FooterLink> */}
+				{/* <FooterLink exact={true} to="/">Plans / Pricing</FooterLink> */}
 			</div>
 			<div className="row">
 				<FooterText className="col-md-10">
 				<div className="row">
-					Email:<a href="mailto:info@ixo.foundation"><FooterTextBlue>&nbsp;info@ixo.foundation</FooterTextBlue></a>
+					Email:<a href="mailto:info@ixo.world"><FooterTextBlue>&nbsp;info@ixo.world</FooterTextBlue></a>
 				</div>
 				<div className="row">
 					ixo.world AG <FooterTextBlue>&nbsp;|&nbsp;</FooterTextBlue> Terms <FooterTextBlue>&nbsp;|&nbsp;</FooterTextBlue> Privacy Policy
