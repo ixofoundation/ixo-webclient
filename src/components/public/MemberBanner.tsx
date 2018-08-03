@@ -12,7 +12,7 @@ const Banner = styled.div`
 	height: 600px;
 	margin: 0;
 	@media (max-width: 1600px){
-		height: 500px;
+		height: 600px;
 	}
 	@media (max-width: 1336px){
 		height: 400px;
@@ -149,7 +149,7 @@ export const MemberBanner: React.SFC<ParentProps> = (props) => {
 						<h2>Become a member</h2>
 						<h5>A global collaboration to build the Blockchain for Impact.</h5>
 						<p>Passionate about impact and the potential for ixo to change the world and usher in the Impact Economy? </p>
-						<button>Become a member</button>
+						<button>SUBSCRIBE TO OUR NEWSLETTER</button>
 					</div>
 				</BannerRight>
 			</div>
