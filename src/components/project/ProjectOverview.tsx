@@ -126,43 +126,43 @@ const Social = styled.div`
 	}
 `;
 
-const LocalButton = styled.a`
-	border: 1px solid #B8B8B8;
-    &&& {color: ${props => props.theme.fontGrey};}
-    font-size: 16px;
-    text-transform: uppercase;
-    padding: 10px 20px;
-    background: none;
-    margin-bottom: 10px;
-	width: 100%;
-	font-family: ${props => props.theme.fontRobotoCondensed};
-	font-weight: 500;
-	display:inline-block;
-	text-align: center;
+// const LocalButton = styled.a`
+// 	border: 1px solid #B8B8B8;
+//     &&& {color: ${props => props.theme.fontGrey};}
+//     font-size: 16px;
+//     text-transform: uppercase;
+//     padding: 10px 20px;
+//     background: none;
+//     margin-bottom: 10px;
+// 	width: 100%;
+// 	font-family: ${props => props.theme.fontRobotoCondensed};
+// 	font-weight: 500;
+// 	display:inline-block;
+// 	text-align: center;
 
-	transition: all 0.3s ease;
-	cursor: pointer;
+// 	transition: all 0.3s ease;
+// 	cursor: pointer;
 
-	:hover {
-		color: white;
-		background: #B8B8B8;
-	}
+// 	:hover {
+// 		color: white;
+// 		background: #B8B8B8;
+// 	}
 
-	:hover i:before {
-		color: white;
-	}
+// 	:hover i:before {
+// 		color: white;
+// 	}
 
-	i {
-		font-size: 21px;
-		position: relative;
-		top: 3px;
-		margin-right: 10px;
-	}
+// 	i {
+// 		font-size: 21px;
+// 		position: relative;
+// 		top: 3px;
+// 		margin-right: 10px;
+// 	}
 
-	i:before {
-		transition: color 0.3s ease;
-	}
-`;
+// 	i:before {
+// 		transition: color 0.3s ease;
+// 	}
+// `;
 
 const FounderContainer = styled.section`
 	padding: 50px 0;
@@ -391,8 +391,8 @@ export const ProjectOverview: React.SFC<ParentProps> = (props) => {
 								{handleRenderEvaluatorButton()}
 								{handleRenderServiceProviderButton()}
 							</Sidebar>
-							<LocalButton><i className="icon-heart"/>SAVE TO FAVOURITES</LocalButton>
-							<LocalButton><i className="icon-share"/>SHARE THIS PROJECT</LocalButton>
+							{/* <LocalButton><i className="icon-heart"/>SAVE TO FAVOURITES</LocalButton> */}
+							{/* <LocalButton><i className="icon-share"/>SHARE THIS PROJECT</LocalButton> */}
 						</div>
 					</div>
 				</div>

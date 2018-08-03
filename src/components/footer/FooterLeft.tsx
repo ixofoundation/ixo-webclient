@@ -103,7 +103,7 @@ export const FooterLeft: React.SFC<any> = ({simple}) => {
 					<Link to="/"><IXOLogo className="icon-logo-ixo" title="IXO Logo" /></Link>
 				</MediaQuery>
 				<FooterLink exact={true} to="/about">About</FooterLink>
-				{/* <FooterLink exact={true} to="/membership">Membership</FooterLink> */}
+				<FooterLink exact={true} to="/membership">Membership</FooterLink>
 				<FooterLink exact={true} to="/ecosystem">Ecosystem</FooterLink>
 				<ExternalFooterLink target="_blank" href="https://ixo.foundation">ixo.Foundation</ExternalFooterLink>
 				{/* <FooterLink exact={true} to="/">Oracles</FooterLink> */}
