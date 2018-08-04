@@ -227,7 +227,7 @@ If not, please send us an email, telling us a little about yourself and the proj
 			});
 		}
 		// So has a client side didDoc, so lets check if it is ledgered
-		if (this.props.ixo && this.state.didDoc && !this.state.hasKYC) {
+		if (this.props.ixo && this.state.didDoc && !this.state.isDidLedgered) {
 			let ledgerDid = () => this.ledgerDid();
 			this.props.ixo.user.getDidDoc(this.state.didDoc.did).then((didResponse: any) => {
 				if (didResponse) {
@@ -254,6 +254,10 @@ If not, please send us an email, telling us a little about yourself and the proj
 		// this.checkState();
 	}
 
+	setBusyLedgeringToFalse() {
+		this.busyLedgering = false;
+	}
+
 	ledgerDid = () => {
 		if (this.state.didDoc && !this.busyLedgering) {
 			let payload = {didDoc: this.state.didDoc};
@@ -266,7 +270,8 @@ If not, please send us an email, telling us a little about yourself and the proj
 						} else {
 							errorToast('Unable to ledger did at this time');
 						}
-						this.busyLedgering = false;
+						// Delay the update here to allow Explorer to sync
+						setTimeout(() => this.busyLedgering = false, 3000);
 					});
 				} else {
 					this.busyLedgering = false;
