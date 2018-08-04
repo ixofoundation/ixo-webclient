@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 
 import { PublicSiteStoreState } from '../../redux/public_site_reducer';
 import * as Toast from '../helpers/Toast';
-import { contentType } from '../../types/models';
+import { contentType, UserInfo } from '../../types/models';
 import { ProjectsDashboard } from './ProjectsDashboard';
 
 const Container = styled.div`
@@ -63,14 +63,17 @@ export interface ParentProps {
 	ixo?: any;
 	location?: any;
 	contentType: contentType;
+	userInfo?: UserInfo;
 }
 
 export interface State {
-	projectList: any;
+	projectList: any[];
 	loaded: boolean;
 	claims: any;
 	claimsTotalRequired: number;
 	agents: any;
+	myProjects: any[];
+	showOnlyMyProjects: boolean;
 }
 
 export interface StateProps {
@@ -85,16 +88,35 @@ export class Projects extends React.Component<Props, State> {
 		loaded: false,
 		claims: null,
 		claimsTotalRequired: 0,
-		agents: null
+		agents: null,
+		myProjects: [],
+		showOnlyMyProjects: false,
 	};
 
 	loadingProjects = false;
 
 	componentDidMount() {
-		this.refreshProjects();
+		this.refreshAllProjects();
 	}
 
-	refreshProjects() {
+	showMyProjects( showMyProjects: boolean ) {
+		this.setState({showOnlyMyProjects: showMyProjects});
+	}
+
+	getMyProjects(userInfo: UserInfo, projList: any) {
+		// debugger;
+		if (userInfo != null) {
+			let did = userInfo.didDoc.did;
+			let myProjects = projList.filter((proj) => {
+				return (proj.data.createdBy === did || proj.data.agents.some((agent) => agent.did === did));
+			});
+			return myProjects;
+		} else {
+			return [];
+		}
+	}
+
+	refreshAllProjects() {
 		if (this.props.ixo && !this.loadingProjects) {
 			this.loadingProjects = true;
 			this.props.ixo.project
@@ -125,7 +147,8 @@ export class Projects extends React.Component<Props, State> {
 						projectList: projectList,
 						claims: claimsArr,
 						claimsTotalRequired: reqClaims,
-						agents: Object.assign({}, agents)
+						agents: Object.assign({}, agents),
+						myProjects: this.getMyProjects(this.props.userInfo, projectList)
 					});
 					this.loadingProjects = false;
 				})
@@ -138,26 +161,30 @@ export class Projects extends React.Component<Props, State> {
 
 	componentWillUpdate() {
 		if (this.state.projectList === null) {
-			this.refreshProjects();
+			this.refreshAllProjects();
 		}
 	}
 
 	componentWillReceiveProps(nextProps: any) {
 		if (this.props.contentType) {
-			if (nextProps.location.key !== this.props.location.key) {
+			if (nextProps.location && nextProps.location.key !== this.props.location.key) {
 				// the route was clicked but not changed, so lets refresh the projects
-				this.refreshProjects();
+				this.refreshAllProjects();
 			}
+		}
+		if (this.state.projectList !== null && this.props.userInfo !== nextProps.userInfo) {
+			this.setState({myProjects: this.getMyProjects(nextProps.userInfo, this.state.projectList)});
 		}
 	}
 
 	renderProjects = () => {
-		if (this.state.projectList.length > 0) {		
+		if (this.state.projectList.length > 0) {	
+			let projects = (this.state.showOnlyMyProjects ? this.state.myProjects : this.state.projectList);	
 			return (
 				<ProjectsContainer className="container-fluid">
 					<div className="container">
 						<div className="row row-eq-height">
-							{this.state.projectList.map((project, index) => {
+							{projects.map((project, index) => {
 								return (
 									<ProjectCard
 										ixo={this.props.ixo}
@@ -184,7 +211,7 @@ export class Projects extends React.Component<Props, State> {
 		}
 	}
 
-	handleRenderProjects() {
+	handleRenderProjectList() {
 		if (this.state.projectList === null) {
 			return <Spinner info="Loading Projects" />;
 		} else {
@@ -205,8 +232,8 @@ export class Projects extends React.Component<Props, State> {
 	render() {
 			return (        
 				<Container>
-					<ProjectsHero ixo={this.props.ixo}/>
-					{this.handleRenderProjects()}
+					<ProjectsHero ixo={this.props.ixo} myProjectsCount={this.state.myProjects.length} showMyProjects={(val) => this.showMyProjects(val)}/>
+					{this.handleRenderProjectList()}
 				</Container>
 			);
 		}
@@ -214,7 +241,8 @@ export class Projects extends React.Component<Props, State> {
 
 function mapStateToProps(state: PublicSiteStoreState) {
 	return {
-		ixo: state.ixoStore.ixo
+		ixo: state.ixoStore.ixo,
+		userInfo: state.loginStore.userInfo,
 	};
 }
 

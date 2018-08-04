@@ -87,6 +87,7 @@ const HeroContainer = styled.div`
 
 	${HeroInner}:hover:before {
 		background-color: rgba(3,60,80,0.6);
+		cursor: normal;
 	}
 
 	@media (min-width: ${deviceWidth.tablet}px) {
@@ -100,6 +101,8 @@ export interface State {
 
 export interface Props {
 	ixo?: any;
+	myProjectsCount: number;
+	showMyProjects: Function;
 }
 
 export class ProjectsHero extends React.Component<Props, State> {
@@ -115,7 +118,7 @@ export class ProjectsHero extends React.Component<Props, State> {
 			totalServiceProviders: 0,
 			totalProjects: 0,
 			totalEvaluationAgents: 0
-		}
+		},
 	};
 
 	loadingStats = false;
@@ -125,25 +128,30 @@ export class ProjectsHero extends React.Component<Props, State> {
 			{
 				title: 'MY ACTIVE PROJECTS',
 				type: StatType.decimal,
-				amount: this.state.statistics.totalProjects
+				descriptor: [{ class: 'text', value: ' ' }],
+				amount: this.props.myProjectsCount,
+				onClick: () => this.props.showMyProjects(true),
 			},
 			{
 				title: 'TOTAL PROJECTS',
 				type: StatType.decimal,
 				descriptor: [{ class: 'text', value: ' ' }],
-				amount: this.state.statistics.totalProjects
+				amount: this.state.statistics.totalProjects,
+				onClick: () => this.props.showMyProjects(false),
 			},
 			{
 				title: 'TOTAL IMPACT CLAIMS',
 				type: StatType.fraction,
 				descriptor: [{ class: 'text', value: 'verified to date' }],
-				amount: [this.state.statistics.claims.totalSuccessful, this.state.statistics.claims.total]
+				amount: [this.state.statistics.claims.totalSuccessful, this.state.statistics.claims.total],
+				onClick: () => this.props.showMyProjects(false),
 			},
 			{
 				title: 'TOTAL IXO IN CIRCULATION',
 				type: StatType.fraction,
 				descriptor: [{ class: 'text', value: 'IXO staked to date' }],
-				amount: [0, 0]
+				amount: [0, 0],
+				onClick: () => this.props.showMyProjects(false),
 			}
 		];
 	}
@@ -176,8 +184,8 @@ export class ProjectsHero extends React.Component<Props, State> {
 						{this.getConfig().map((statistic, index) => {
 							return (
 								<StatisticContainer key={index} className="col-md-3 col-sm-6 col-6">
-									<ContainerInner>
-										<SingleStatistic title={statistic.title} type={statistic.type} amount={statistic.amount} descriptor={statistic.descriptor} />
+									<ContainerInner onClick={() => statistic.onClick()}>
+										<SingleStatistic title={statistic.title} type={statistic.type} amount={statistic.amount} descriptor={statistic.descriptor}/>
 									</ContainerInner>
 								</StatisticContainer>
 							);

@@ -74,7 +74,7 @@ const Description = styled.p`
 	}
 `;
 
-export const SingleStatistic: React.SFC<Statistic> = ({type, amount, title, descriptor}) => {
+export const SingleStatistic: React.SFC<Statistic> = ({type, amount, title, descriptor, onClick}) => {
 
 	const handleAmount = () => {
 

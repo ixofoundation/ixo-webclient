@@ -42,6 +42,7 @@ export interface Statistic {
 	type: StatType;
 	amount: number | number[];
 	descriptor?: {class: string, value: string | number}[];
+	onClick?: Function;
 }
 
 export interface DidDoc {

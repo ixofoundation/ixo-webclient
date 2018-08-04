@@ -125,7 +125,7 @@ class Header extends React.Component<Props, State> {
 	};
 
 	componentDidMount() {
-		setInterval(this.pingExplorer, 5000);
+		this.pingExplorer();
 	}
 
 	componentDidUpdate(prevProps: Props) {
@@ -137,8 +137,12 @@ class Header extends React.Component<Props, State> {
 	pingExplorer = () => {
 		this.props.pingIxoExplorer().then((res) => {
 			this.setState({ responseTime: res});
+			// Only check every 30 sec if connected
+			setTimeout(() => this.pingExplorer(), 30000);
 		}).catch((error) => {
 			this.setState({ responseTime: error});
+			// Only check every 5 sec if not connected
+			setTimeout(() => this.pingExplorer(), 5000);
 		});
 		
 	}
