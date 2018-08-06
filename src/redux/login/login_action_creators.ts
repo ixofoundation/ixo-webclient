@@ -14,7 +14,7 @@ export function initUserInfo(keysafe: any, ixo: any) {
 				if (response) {
 					var userInfo = response;
 					ixo.user.getDidDoc(userInfo.didDoc.did).then((didResponse: any) => {
-						if (!didResponse) {
+						if (didResponse.error) {
 							userInfo.ledgered = false;
 						} else {
 							userInfo.ledgered = true;
