@@ -11,9 +11,7 @@ const store = createPublicSiteStore();
 ReactDOM.render(
 	<Provider store={store}>
 		<Router>
-			{/* <React.StrictMode> */}
-				<AppConnected/>
-			{/* </React.StrictMode> */}
+			<AppConnected/>
 		</Router>
 	</Provider>,
 	document.getElementById('root') as HTMLElement

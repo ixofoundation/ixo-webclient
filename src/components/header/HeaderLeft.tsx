@@ -3,8 +3,10 @@ import { Link, NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 import { deviceWidth } from '../../lib/commonData';
 
+const ixoLogo = require('../../assets/images/ixo-logo.svg');
+
 const HeaderLink = styled(NavLink)`
-	font-family: ${props => props.theme.fontRoboto};
+	font-family: ${props => props.theme.fontRobotoCondensed};
     padding: 10px 10px 10px;
     color: white;
     text-transform: uppercase;
@@ -59,23 +61,16 @@ const Main = styled.div`
 	}
 `;
 
-const IXOLogo = styled.i`
-	font-size: 40px;
+const IXOLogo = styled.img`
+	margin-top: -6px;
 	margin-right:20px;
 `;
 
 export const HeaderLeft: React.SFC<any> = ({simple, refreshProjects}) => {
 
-	if (simple === true) {
-		return (
-			<Main className="col-md-6 d-flex align-items-center">
-				<Link to="/"><IXOLogo className="icon-logo-ixo" title="IXO Logo" /></Link>
-			</Main>
-		);
-	}
 	return (
 		<Main className="col-md-6 d-flex align-items-center">
-			<Link to="/"><IXOLogo className="icon-logo-ixo" title="IXO Logo" /></Link>
+			<Link to="/"><IXOLogo alt="IXO Logo" src={ixoLogo}/></Link>
 			<HeaderLink exact={true} onClick={refreshProjects} to="/">Explore</HeaderLink>
 			<HeaderLink exact={true} to="/register">Launch a Project</HeaderLink>
 		</Main>
