@@ -5,11 +5,11 @@ import { ProjectsContainerConnected } from './projects/ProjectsContainer';
 import { ProjectCreateConnected } from './project/ProjectCreate';
 import { contentType } from '../types/models';
 import { ProjectForm } from './project/ProjectForm';
-import { AboutContainer } from './public/AboutContainer';
-import { MemberContainer } from './public/MemberContainer';
-import { FaqContainer } from './public/FaqContainer';
-import { EcoContainer } from './public/EcoContainer';
-import { PricingContainer } from './public/PricingContainer';
+import { AboutContainer } from './public/about/AboutContainer';
+import { MemberContainer } from './public/member/MemberContainer';
+import { FaqContainer } from './public/faq/FaqContainer';
+import { EcoContainer } from './public/eco/EcoContainer';
+import { PricingContainer } from './public/pricing/PricingContainer';
 import { Fragment } from 'react';
 import { Widgets } from './widgets/Widgets';
 import { Icons } from './common/Icons';
@@ -20,7 +20,7 @@ import { Spinner } from './common/Spinner';
 import { ProjectSignAndCreateConnected } from './project/curation/ProjectSignAndCreate';
 import { ProjectCreateUploadPublicDocsConnected } from './project/curation/ProjectCreateUploadPublicDocs';
 import { Globe } from './globe/globe';
-import { ReferralContainer } from 'src/components/public/ReferralContainer';
+import { ReferralContainer } from './public/referral/ReferralContainer';
 export namespace Routes {
 	export interface StateProps {
 	}

@@ -3,13 +3,13 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
 const TextBlock = styled.div`
-	opacity: 0;
 	position: absolute;
 	top: 50%;
 	z-index: 1;
 	left: 65px;
-
+	pointer-events: none;
 	a {
+		pointer-events: auto;
 		border: 1px solid ${props => props.theme.ixoBlue};
 		width: 260px;
 		display: block
@@ -27,29 +27,36 @@ const TextBlock = styled.div`
 	}
 `;
 
-export interface ParentProps {
+interface State {
+	ratio: number;
 }
 
-export class Globe extends React.Component<ParentProps> {
+interface ParentProps {
+}
+
+export class Globe extends React.Component<ParentProps, State> {
 
 	state = {
+		ratio: 0
 	};
-
-	// const origin = location.origin;
-	width = window.innerWidth;
-	height = window.innerHeight - 213;
-
-	ratio = (this.height / this.width * 100);
 	
-	// componentDidMount() {
-	// }
+	componentDidMount() {
+		this.handleResize();
+		window.addEventListener('resize', this.handleResize);
+	}
+
+	handleResize = () => {
+		const width = window.innerWidth;
+		const height = window.innerHeight - 210;
+		this.setState({ratio : height / width * 100});
+	}
 
 	render() {
 		const Container = styled.div`
 			position: relative;
 			height: 0;
 			overflow: hidden;
-			padding-bottom: ${this.ratio}%;
+			padding-bottom: ${this.state.ratio}%;
 
 			iframe {
 				position: absolute;
@@ -71,7 +78,7 @@ export class Globe extends React.Component<ParentProps> {
 					<Link to="/register">ENTER THE IXO WORLD</Link>
 					<a href="https://ixo.world">SUBSCRIBE TO OUR NEWSLETTER</a>
 				</TextBlock>
-				<iframe src="/ixoearth/index.html" />
+				<iframe src={'http://localhost:3001'} />
 			</Container>
 		);
 	}

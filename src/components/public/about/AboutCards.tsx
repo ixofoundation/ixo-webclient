@@ -1,6 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { deviceWidth } from '../../lib/commonData';
+import { deviceWidth } from '../../../lib/commonData';
 
 const MattersRight = styled.div`
 	display: flex;

@@ -1,8 +1,8 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { deviceWidth } from '../../lib/commonData';
+import { deviceWidth } from '../../../lib/commonData';
 
-const bannerBg = require('../../assets/images/faq/faq-bg.jpg');
+const bannerBg = require('../../../assets/images/faq/faq-bg.jpg');
 
 const Banner = styled.div`
 	background: #002233 url(${bannerBg}) no-repeat;

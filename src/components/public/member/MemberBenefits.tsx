@@ -1,8 +1,8 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { deviceWidth } from '../../lib/commonData';
+import { deviceWidth } from '../../../lib/commonData';
 
-const tickImg = require('../../assets/images/member/icon-tick.svg');
+const tickImg = require('../../../assets/images/member/icon-tick.svg');
 
 const MemberContainer = styled.div`
 	margin: 100px auto;

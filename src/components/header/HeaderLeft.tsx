@@ -66,7 +66,7 @@ const IXOLogo = styled.img`
 	margin-right:20px;
 `;
 
-export const HeaderLeft: React.SFC<any> = ({simple, refreshProjects}) => {
+export const HeaderLeft: React.SFC<any> = ({refreshProjects}) => {
 
 	return (
 		<Main className="col-md-6 d-flex align-items-center">

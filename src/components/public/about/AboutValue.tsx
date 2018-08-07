@@ -1,8 +1,8 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { deviceWidth } from '../../lib/commonData';
+import { deviceWidth } from '../../../lib/commonData';
 
-const bgImg = require('../../assets/images/about/about-value-bg.jpg');
+const bgImg = require('../../../assets/images/about/about-value-bg.jpg');
 
 const ValueContainer = styled.div`
 	padding: 5% 60px;

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
-const infographic = require('../../assets/images/referral/infographic.jpg');
+const infographic = require('../../../assets/images/referral/infographic.jpg');
 
 const Container = styled.div`
 	justify-content: center;

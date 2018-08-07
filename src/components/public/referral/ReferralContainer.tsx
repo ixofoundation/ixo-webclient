@@ -2,8 +2,8 @@ import * as React from 'react';
 import { ReferralHeading } from './ReferralHeading';
 import { ReferralCols } from './ReferralCols';
 import styled from 'styled-components';
-const bannerImg = require('../../assets/images/referral/referral-bg.jpg');
-require('../../lib/viralLoops.js');
+const bannerImg = require('../../../assets/images/referral/referral-bg.jpg');
+require('../../../lib/viralLoops.js');
 
 const ReferralWrapper = styled.div`
 	background: #f6f6f6 url(${bannerImg}) no-repeat left top;

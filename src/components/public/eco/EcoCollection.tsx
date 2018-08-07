@@ -1,8 +1,8 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { deviceWidth } from '../../lib/commonData';
+import { deviceWidth } from '../../../lib/commonData';
 
-const innoLogo = require('../../assets/images/eco/logo-innovationedge.png');
+const innoLogo = require('../../../assets/images/eco/logo-innovationedge.png');
 
 const CollectionContainer = styled.div`
 	background: #F6F6F6;

@@ -1,19 +1,18 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { deviceWidth } from '../../lib/commonData';
-// import { Parallax } from 'react-parallax';
+import { deviceWidth } from '../../../lib/commonData';
 
-const penguinImg = require('../../assets/images/about/ixo-banner-penguin.png');
-const bannerBg = require('../../assets/images/about/ixo-banner-bg.jpg');
+const polarBearImg = require('../../../assets/images/member/polar-bear-image.png');
+const bannerBg = require('../../../assets/images/member/member-bg.jpg');
 
 const Banner = styled.div`
-	background: url(${bannerBg}) #002233;
+	background: #002233 url(${bannerBg}) no-repeat;
 	background-size: cover;
 	width: 100%;
 	height: 600px;
 	margin: 0;
 	@media (max-width: 1600px){
-		height: 500px;
+		height: 600px;
 	}
 	@media (max-width: 1336px){
 		height: 400px;
@@ -24,20 +23,19 @@ const Banner = styled.div`
 	@media (max-width: ${deviceWidth.mobile}px){
 		height: 390px;
 	}
-
 `;
+
 const BannerLeft = styled.div`
 	width: 100%;
-
 	img {
 		margin-top: 10%;
-		margin-left: -3%;
+		margin-left: -4%;
 		width: 90%;
 	}
-	@media (max-width: 1240px) {
+	@media (max-width: 1336px){
 		img {
+			width: 85%;
 			margin-left: -5%;
-			width: 100%;
 		}
 	}
 	@media (max-width: ${deviceWidth.tablet}px){
@@ -60,12 +58,22 @@ const BannerRight = styled.div`
 		margin-bottom: 0;
 		width: 100%;
 	}
+	@media (max-width: ${deviceWidth.mobile}px){
+		h2 {
+			line-height: 55px;
+		}
+	}
 	h5 {
 		font-size: 23px;
 		font-weight: 300;
 	}
+	@media (max-width: ${deviceWidth.mobile}px){
+		h5 {
+			margin-top: 10px;
+		}
+	}
 	p {
-		padding-top: 30px;
+		margin-top: 30px;
 		position: relative;
 		box-sizing: border-box;
 		font-weight: 300;
@@ -74,7 +82,7 @@ const BannerRight = styled.div`
 	}
 	@media (max-width: 1024px){
 		p {
-			padding-top: 20px;
+			margin-top: 20px;
 			padding-right: 35%;
 		}
 	}
@@ -96,11 +104,11 @@ const BannerRight = styled.div`
 		height: 1px;
 		background: #00D2FF;
 		width: 100px;
-		top: 15%;
+		top: -20%;
 	}
 	@media (max-width: 1024px){
 		p::before {
-			top: -2%;
+			top: 2%;
 		}
 	}
 	@media (max-width: ${deviceWidth.tablet}px){
@@ -110,7 +118,7 @@ const BannerRight = styled.div`
 	}
 	@media (max-width: ${deviceWidth.mobile}px){
 		p::before {
-			top: 5%;
+			top: 2%;
 		}
 	}
 	button {
@@ -127,29 +135,24 @@ const BannerRight = styled.div`
 `;
 export interface ParentProps { }
 
-export const AboutBanner: React.SFC<ParentProps> = (props) => {
+export const MemberBanner: React.SFC<ParentProps> = (props) => {
 	return (
-		// <Parallax
-		// 	bgImage={bannerBg}
-		// 	strength={500}
-		// >
-			<Banner className="row">
-				<div className="col-lg-4 hidden-md-down">
-					<BannerLeft>
-						<img src={penguinImg} alt="" />
-					</BannerLeft>
-				</div>
-				<div className="col-lg-8 col-md-12">
-					<BannerRight>
-						<div className="container">
-							<h2>What counts</h2>
-							<h5>Impact Data: Trust, Measure & Accountability</h5>
-							<p>ixo provides a trusted global information network that is owned by everyone. Enabling anyone to become the creators of their own impact projects and a stake-holder in the projects they believe in. </p>
-							<button>Start your own impact project</button>
-						</div>
-					</BannerRight>
-				</div>
-			</Banner>
-		// </Parallax>
+		<Banner className="row">
+			<div className="col-lg-4 hidden-md-down">
+				<BannerLeft>
+					<img src={polarBearImg} alt="" />
+				</BannerLeft>
+			</div>
+			<div className="col-lg-8 col-md-12">
+				<BannerRight>
+					<div className="container">
+						<h2>Become a member</h2>
+						<h5>A global collaboration to build the Blockchain for Impact.</h5>
+						<p>Passionate about impact and the potential for ixo to change the world and usher in the Impact Economy? </p>
+						<button>SUBSCRIBE TO OUR NEWSLETTER</button>
+					</div>
+				</BannerRight>
+			</div>
+		</Banner>
 	);
 };

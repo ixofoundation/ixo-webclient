@@ -1,7 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import '../../assets/icons.css';
-import { deviceWidth } from '../../lib/commonData';
+import '../../../assets/icons.css';
+import { deviceWidth } from '../../../lib/commonData';
 import AboutCards from './AboutCards';
 
 const MattersContainer = styled.div`

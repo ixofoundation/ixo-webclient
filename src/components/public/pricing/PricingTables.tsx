@@ -1,8 +1,8 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { deviceWidth } from '../../lib/commonData';
+import { deviceWidth } from '../../../lib/commonData';
 
-const tickImg = require('../../assets/images/member/icon-tick.svg');
+const tickImg = require('../../../assets/images/member/icon-tick.svg');
 
 const PricingCards = styled.div`
 	margin-top: -180px;
