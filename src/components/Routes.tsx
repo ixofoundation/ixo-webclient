@@ -5,22 +5,14 @@ import { ProjectsContainerConnected } from './projects/ProjectsContainer';
 import { ProjectCreateConnected } from './project/ProjectCreate';
 import { contentType } from '../types/models';
 import { ProjectForm } from './project/ProjectForm';
-import { AboutContainer } from './public/about/AboutContainer';
-import { MemberContainer } from './public/member/MemberContainer';
-import { FaqContainer } from './public/faq/FaqContainer';
-import { EcoContainer } from './public/eco/EcoContainer';
-import { PricingContainer } from './public/pricing/PricingContainer';
 import { Fragment } from 'react';
 import { Widgets } from './widgets/Widgets';
 import { Icons } from './common/Icons';
 import { RegisterConnected } from './register/RegisterContainer';
 import { NotFound } from './public/NotFound';
-import { ComingSoonContainer } from './public/ComingSoonContainer';
 import { Spinner } from './common/Spinner';
 import { ProjectSignAndCreateConnected } from './project/curation/ProjectSignAndCreate';
 import { ProjectCreateUploadPublicDocsConnected } from './project/curation/ProjectCreateUploadPublicDocs';
-import { Globe } from './globe/globe';
-import { ReferralContainer } from './public/referral/ReferralContainer';
 export namespace Routes {
 	export interface StateProps {
 	}
@@ -32,21 +24,6 @@ export const Routes: React.SFC<Routes.RouteProps> = props => {
 	return (
 		<Fragment>
 			<Switch>
-			<Route exact={true} path="/referral" component={ReferralContainer} />
-				<Route
-					exact={true}
-					path="/referral/share"
-					render={() => (
-						<ReferralContainer shared={true}/>
-					)}
-				/>
-				<Route exact={true} path="/comingsoon" component={ComingSoonContainer} />
-				<Route exact={true} path="/about" component={AboutContainer} />
-				<Route exact={true} path="/globe" component={Globe} />
-				<Route exact={true} path="/membership" component={MemberContainer} />
-				<Route exact={true} path="/faq" component={FaqContainer} />
-				<Route exact={true} path="/ecosystem" component={EcoContainer} />
-				<Route exact={true} path="/pricing" component={PricingContainer} />
 				<Route exact={true} path="/json" component={ProjectForm} />
 				<Route exact={true} path="/spinner" component={Spinner} />
 				<Route exact={true} path="/widgets" component={Widgets} />
