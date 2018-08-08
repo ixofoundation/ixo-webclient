@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -xe
 #green=`tput setaf 2`
 echo "***********************************"
 echo "* IXO WEB START                   *"
@@ -8,12 +8,16 @@ echo "Build Ixo Web"
 CURRENT_DIR=`dirname $0`
 ROOT_DIR=$CURRENT_DIR/..
 
-cd $ROOT_DIR
-yarn
+if [ "$1" = "dev" ]
+then
+  echo "Building Developer images"
+  docker-compose -f $ROOT_DIR/docker-compose.yml -f $ROOT_DIR/docker-compose.dev.yml up --build --no-start
+else
+  echo "Building Production images"
+  docker-compose -f $ROOT_DIR/docker-compose.yml -f $ROOT_DIR/docker-compose.prod.yml up --no-start
+fi
 
-docker build -t trustlab/ixo-web $ROOT_DIR
-docker-compose up -d 
-
+docker-compose start ixo-web
 echo -n "Starting Ixo Web ..."
 sleep 5
 echo ${green} "done"

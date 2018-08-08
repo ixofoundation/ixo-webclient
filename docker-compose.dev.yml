@@ -1,0 +1,10 @@
+version: "2"
+services:
+  ixo-web:
+    build: .
+    ports:
+      - "80:80"
+ 
+
+
+
