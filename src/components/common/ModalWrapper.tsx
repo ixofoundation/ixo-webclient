@@ -5,7 +5,6 @@ import styled from 'styled-components';
 const modalStyles = {
 	overlay: {
 		backgroundColor: 'rgba(0, 0, 0, 0.75)',
-		transition     : 'all 0.5s ease',
 		zIndex : '100'
 	},
 	content: {
@@ -125,6 +124,7 @@ export const ModalWrapper: React.SFC<Props> = (props) => {
 			onRequestClose={() => props.handleToggleModal(false)}
 			contentLabel="Modal"
 			ariaHideApp={false}
+			// closeTimeoutMS={300}
 		>
 			<ModalInner>
 					<CloseModal onClick={() => props.handleToggleModal(false)}>&times;</CloseModal>

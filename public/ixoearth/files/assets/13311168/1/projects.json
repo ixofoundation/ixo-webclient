@@ -44,7 +44,7 @@
                3,
                2.4
             ],
-            "title":"Reforestation",
+            "title":"Desertification",
             "ownerName":"Nic",
             "ownerEmail":"test@test",
             "shortDescription":"Potato",
@@ -69,7 +69,77 @@
          "projectDid":"did:ixo:BkmLc6KhDiJn1cX7W9NXVM",
          "pubKey":"6ryRb15rUcFHFhsPf4CBVkjdA7jGPphxbtVdK4AVwkzW",
          "__v":0
-      },
+	  },
+	  {
+		"_id":"5b2b8f83070c553a56a53ceb",
+		"data":{
+		   "claimStats":{
+			  "currentSuccessful":10,
+			  "currentRejected":0
+		   },
+		   "templates":{
+			  "claim":{
+				 "schema":"",
+				 "form":""
+			  }
+		   },
+		   "agentStats":{
+			  "evaluators":0,
+			  "evaluatorsPending":0,
+			  "serviceProviders":0,
+			  "serviceProvidersPending":0,
+			  "investors":0,
+			  "investorsPending":0
+		   },
+		   "socialMedia":{
+			  "facebookLink":"https://www.facebook.com/ixofoundation/",
+			  "instagramLink":"",
+			  "twitterLink":"",
+			  "webLink":"https://ixo.foundation"
+		   },
+		   "ixo":{
+			  "totalStaked":0,
+			  "totalUsed":0
+		   },
+		   "founder":{
+			  "name":"Nic",
+			  "email":"nic@test.co.za",
+			  "countryOfOrigin":"ZA",
+			  "shortDescription":"primarydonny",
+			  "websiteURL":"www.youtwitface.com",
+			  "logoLink":""
+		   },
+		   "sdgs":[
+			  12.2,
+			  3,
+			  2.4
+		   ],
+		   "title":"Reforestation",
+		   "ownerName":"Nic",
+		   "ownerEmail":"test@test",
+		   "shortDescription":"Potato",
+		   "longDescription":"longdes",
+		   "impactAction":"Plantsometrees",
+		   "createdOn":            "2018-06-20T11:38:52.944Z",
+		   "createdBy":"did:sov:SH8FvXPQqcP78NkmYQfVUB",
+		   "projectLocation":"CO",
+		   "requiredClaims":30,
+		   "evaluatorPayPerClaim":"0",
+		   "serviceEndpoint":"http://test.pds:8080",
+		   "imageLink":"",
+		   "claims":[
+
+		   ],
+		   "agents":[
+
+		   ]
+		},
+		"txHash":"",
+		"senderDid":"",
+		"projectDid":"did:ixo:BkmLc6KhDiJn1cX7W9NXVM",
+		"pubKey":"6ryRb15rUcFHFhsPf4CBVkjdA7jGPphxbtVdK4AVwkzW",
+		"__v":0
+	 },
       {
          "_id":"5b2b90db070c553a56a53cec",
          "data":{

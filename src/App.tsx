@@ -66,7 +66,6 @@ const Container = styled.div`
 	h1, h2, h3, h4, h5, p, a {
 	}
 	font-weight: 300;
-	
 `;
 
 const ContentWrapper = styled.main`
