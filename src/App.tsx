@@ -61,7 +61,7 @@ const Container = styled.div`
 	display: flex;
 	flex-flow: column;
 	min-height: 100%;
-
+	font-family: roboto;
 
 	h1, h2, h3, h4, h5, p, a {
 	}
@@ -164,7 +164,7 @@ class App extends React.Component<App.Props, App.State> {
 							<ContentWrapper>
 								{this.props.ixo !== null ? 
 									<Routes /> : 
-									<Spinner info={'Loading IXO WORLD...'}/>
+									<Spinner info={'Loading ixo.world...'}/>
 								}
 							</ContentWrapper>
 						<Footer />

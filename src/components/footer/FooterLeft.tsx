@@ -71,10 +71,10 @@ const FooterTextBlue = styled.span`
 `;
 
 const FooterText = styled.div`
-	padding: 19px 0px 0px 15px;
+	padding: 19px 0px 20px 15px;
 	color: #808080;
 	font-family: Roboto;
-	font-size: 12px;
+	font-size: 14px;
 	line-height: 19px;
 `;
 
@@ -101,12 +101,9 @@ export const FooterLeft: React.SFC<any> = ({simple}) => {
 			</div>
 			<div className="row">
 				<FooterText className="col-md-10">
-				<div className="row">
-					Email:<a href="mailto:info@ixo.world"><FooterTextBlue>&nbsp;info@ixo.world</FooterTextBlue></a>
-				</div>
-				<div className="row">
-					ixo.world AG <FooterTextBlue>&nbsp;|&nbsp;</FooterTextBlue> Terms <FooterTextBlue>&nbsp;|&nbsp;</FooterTextBlue> Privacy Policy
-				</div>
+					<div className="row">
+						Email:<a href="mailto:info@ixo.world"><FooterTextBlue>&nbsp;info@ixo.world</FooterTextBlue></a>
+					</div>
 				</FooterText>
 			</div>
 		</Main>
