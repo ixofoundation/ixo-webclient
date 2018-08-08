@@ -149,7 +149,7 @@ class RegisterPage extends React.Component<Props, State> {
 	}
 
 	renderModal = () => {
-
+		console.log(this.state.activeModal);
 		if (this.state.activeModal === ModalData.keysafe) {
 			return (
 				<ModalContainer> 

@@ -35,7 +35,7 @@ export const Routes: React.SFC<Routes.RouteProps> = props => {
 			<Route exact={true} path="/referral" component={ReferralContainer} />
 				<Route
 					exact={true}
-					path="/share"
+					path="/referral/share"
 					render={() => (
 						<ReferralContainer shared={true}/>
 					)}
