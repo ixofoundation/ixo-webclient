@@ -2,7 +2,7 @@ version: "2"
 services:
   ixo-web:
     ports:
-      - "80:80"
+      - "443:80"
  
 
 
