@@ -1,0 +1,9 @@
+version: "2"
+services:
+  ixo-web:
+    ports:
+      - "443:80"
+ 
+
+
+

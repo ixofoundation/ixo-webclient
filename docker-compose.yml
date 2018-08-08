@@ -8,9 +8,6 @@ services:
       - REACT_APP_BLOCK_SYNC_URL=http://beta.cosmos.ixo.world:8080
       - PORT=80
     restart: always
-    build: .
-    ports:
-      - "80:80"
     logging:
       driver: "json-file"
       options:
