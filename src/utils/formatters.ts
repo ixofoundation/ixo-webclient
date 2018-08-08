@@ -1,3 +1,4 @@
+require('dotenv').config();
 import { isoCountries } from '../lib/commonData';
 
 export function formatJSONDate(jsonDateTimeString: string): string {
@@ -46,4 +47,9 @@ export function getCountryName (countryCode: string) {
 	} else {
 		return countryCode;
 	}
+}
+
+export function getIxoWorldRoute(path: string) {
+	let origin = process.env.REACT_APP_IXO_WORLD_ORIGIN || 'https://ixo.world';
+	return origin + path;
 }
