@@ -5,6 +5,8 @@ services:
     image: trustlab/ixo-web:latest
     environment:
       - PORT=80
+    ports:
+      - "80:80"
     restart: always
     logging:
       driver: "json-file"
