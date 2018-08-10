@@ -62,16 +62,40 @@ const ModalContainer = styled.div`
 	}
 `;
 
-const IxoIcon = styled.div`
+const IconContainer = styled.div`
+	height: 80px;
+	display: flex;
+	align-items: center;
+`;
 
-	padding-bottom: 20px;
+const IconWrapper = styled.div`
+	padding: 0;
+	border-radius: 50%;
+	animation: pulse 1.5s infinite ease;
+		
+	@keyframes pulse {
+		0%   { padding: 0; background: rgba(73,191,224,1);}
+		100% { padding: 20px; background: rgba(255,255,255,1);}
+	}
+`;
+
+const InnerIcon = styled.div`
+
+	border-radius: 50%;
+	padding: 5px;
+	background: ${props => props.theme.ixoBlue};
 
 	i {
-		font-size: 37px;
+		font-size: 30px;
 		display:block;
+		width: 29px;
+		height: 29px;
 		padding: 0;
+		background: #FFF;
+		border-radius: 50%;
 	}
 	.icon-ixosmall:before {
+		color: ${props => props.theme.ixoBlue};
 	}
 `;
 
@@ -189,7 +213,6 @@ export class ProjectSignAndCreate extends React.Component<Props, State> {
 
 	handleGetProjectData = () => {
 		let params = queryString.parse(this.props.location.search);
-		console.log(params);
 		const key = decodeURIComponent(params.key);
 		const pdsURL = decodeURIComponent(params.url);
 		this.fetchProjectFile(key, pdsURL);
@@ -198,10 +221,14 @@ export class ProjectSignAndCreate extends React.Component<Props, State> {
 	renderModal = () => {
 		if (this.state.status === '') {
 			return (
-				<ModalContainer> 
-					<IxoIcon>
-						<i className="icon-ixosmall" />
-					</IxoIcon>
+				<ModalContainer>
+					<IconContainer> 
+						<IconWrapper>
+							<InnerIcon>
+								<i className="icon-ixosmall" />
+							</InnerIcon>
+						</IconWrapper>
+					</IconContainer> 
 					<Title>Creating your project</Title>
 				</ModalContainer>
 			);
