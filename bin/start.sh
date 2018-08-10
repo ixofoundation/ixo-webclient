@@ -10,6 +10,10 @@ ROOT_DIR=$CURRENT_DIR/..
 
 if [ "$1" = "dev" ]
 then
+  cd $ROOT_DIR
+  yarn
+  cd bin
+
   echo "Building Developer images"
   docker-compose -f $ROOT_DIR/docker-compose.yml -f $ROOT_DIR/docker-compose.dev.yml up --build --no-start
 else
