@@ -106,7 +106,7 @@ const NoPadLeft = styled.div`
 	}
 
 	h3 {
-		font-size:16px;
+		font-size:14px;
 		margin-bottom:0;
 		display: flex;
 		justify-content: space-between;
@@ -205,7 +205,7 @@ export class HeaderRight extends React.Component<HeaderRightProps, State> {
 										{this.props.renderStatusIndicator()}
 										<StatusText>IXO EXPLORER STATUS</StatusText>
 									</StatusBox>
-									<h3><span>Join</span></h3>
+									<h3><span>Join the Beta</span></h3>
 								</UserBox>
 							</JoinLink>
 							:

@@ -70,6 +70,7 @@ export interface Props {
 	disabled?: boolean;
 	plus?: true;
 	href?: string;
+	target?: string;
 }
 
 export const Button: React.SFC<Props> = (props) => {
@@ -89,13 +90,13 @@ export const Button: React.SFC<Props> = (props) => {
 	} else {
 		if (props.type === ButtonTypes.gradient) {
 			return (
-				<EnabledGradient onClick={props.onClick} href={props.href}>
+				<EnabledGradient onClick={props.onClick} href={props.href} target={props.target}>
 					{renderPlus()} {props.children}
 				</EnabledGradient>
 			);
 		} else {
 			return (
-				<EnabledDark onClick={props.onClick} href={props.href}>
+				<EnabledDark onClick={props.onClick} href={props.href} target={props.target}>
 					{renderPlus()} {props.children}
 				</EnabledDark>
 			);
