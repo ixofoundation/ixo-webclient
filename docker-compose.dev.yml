@@ -2,6 +2,9 @@ version: "2"
 services:
   ixo-web:
     build: .
+    environment:
+      - REACT_APP_BLOCKCHAIN_IP=beta.cosmos.ixo.world
+      - REACT_APP_BLOCK_SYNC_URL=http://beta.cosmos.ixo.world:8080
     ports:
       - "80:80"
  
