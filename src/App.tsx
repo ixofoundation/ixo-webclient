@@ -186,7 +186,7 @@ function mapStateToProps(state: PublicSiteStoreState) {
 function mapDispatchToProps(dispatch: any): App.DispatchProps {
 	return {
 		onIxoInit: () => {
-			dispatch(initIxo(process.env.REACT_APP_BLOCKCHAIN_IP, process.env.REACT_APP_BLOCK_SYNC_URL));
+			dispatch(initIxo(process.env.REACT_APP_BLOCKCHAIN_NODE_URL, process.env.REACT_APP_BLOCK_SYNC_URL));
 		},
 		onKeysafeInit: () => {
 			dispatch(initKeysafe());

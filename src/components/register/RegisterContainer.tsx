@@ -267,7 +267,7 @@ If not, please send us an email, telling us a little about yourself and the proj
 			this.props.keysafe.requestSigning(JSON.stringify(payload), (error, signature) => {
 				if (!error) {
 					this.props.ixo.user.registerUserDid(payload, signature).then((response: any) => {
-						if (response.status === 200) {
+						if (response.code === 0) {
 							successToast('Did document was ledgered successfully');
 						} else {
 							errorToast('Unable to ledger did at this time');

@@ -16,7 +16,7 @@
     "chart.js": "^2.7.2",
     "dotenv": "^6.0.0",
     "immutable": "^3.8.2",
-    "ixo-module": "^1.4.63",
+    "ixo-module": "^1.4.65",
     "moment": "^2.22.2",
     "npm": "^6.1.0",
     "parallelshell": "^3.0.2",
