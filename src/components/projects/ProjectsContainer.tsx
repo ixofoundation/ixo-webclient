@@ -52,6 +52,7 @@ const ProjectsContainer = styled.div`
 
 const ErrorContainer = styled.div`
 	display: flex;
+	flex: 1;
 	justify-content: center;
 	color: white;
 	align-items: center;
@@ -200,13 +201,9 @@ export class Projects extends React.Component<Props, State> {
 			);
 		} else {
 			return (
-				<div className="container-fluid">
-					<div className="row">
-						<ErrorContainer className="col-md-12">
-							<p>No projects were found</p>
-						</ErrorContainer>
-					</div>
-				</div>
+				<ErrorContainer>
+					<p>No projects were found</p>
+				</ErrorContainer>
 			);
 		}
 	}

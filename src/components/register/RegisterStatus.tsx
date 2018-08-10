@@ -108,7 +108,7 @@ export const RegisterStatus: React.SFC<ParentProps> = (props) => {
 				</CheckItem>
 			);
 		} else {
-			return <CheckItem>{getIcon(props.hasKeySafe)} Install the <ModalLink onClick={() => props.activeModal(ModalData.keysafe, true)}>ixo Key Safe</ModalLink></CheckItem>;
+			return <CheckItem>{getIcon(props.hasKeySafe)} You need to install the <ModalLink onClick={() => props.activeModal(ModalData.keysafe, true)}>ixo Key Safe</ModalLink></CheckItem>;
 		}
 	};
 
@@ -117,7 +117,7 @@ export const RegisterStatus: React.SFC<ParentProps> = (props) => {
 			return (
 				<CheckItem>
 					{getIcon(props.hasKYC)} Please note that for the beta phase you need to be <ModalLink onClick={() => props.activeModal(ModalData.invite, true)}>invited by ixo</ModalLink> 
-					<br/> and then successfully complete the <ModalLink onClick={() => props.activeModal(ModalData.kyc, true)}>KYC process</ModalLink>
+					<br/> and then successfully complete the <ModalLink onClick={() => props.activeModal(ModalData.kyc, true)}>ixo membership registration</ModalLink>
 				</CheckItem>
 			);
 		} else {

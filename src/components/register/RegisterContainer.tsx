@@ -35,21 +35,21 @@ const ModalContainer = styled.div`
 	}
 `;
 
-const UnderlineLink = styled.div`
-	text-decoration: underline;
-	text-align: center;
-	margin-bottom: 30px;
+// const UnderlineLink = styled.div`
+// 	text-decoration: underline;
+// 	text-align: center;
+// 	margin-bottom: 30px;
 
-	a {
-		font-size: 14px;
-		font-weight: 300;
-		color: white;
-	}
+// 	a {
+// 		font-size: 14px;
+// 		font-weight: 300;
+// 		color: white;
+// 	}
 
-	a:hover {
-		color: ${props => props.theme.fontBlue};
-	}
-`;
+// 	a:hover {
+// 		color: ${props => props.theme.fontBlue};
+// 	}
+// `;
 
 const Section = styled.div`
 
@@ -160,16 +160,15 @@ class RegisterPage extends React.Component<Props, State> {
 		} else if (this.state.activeModal === ModalData.kyc) {
 			return (
 				<ModalContainer> 
-					<p>By becoming KYC (Know Your Customer) compliant, we can verify your identity so that you can buy tokens, create and participate in projects.</p>
+					<p>Verifying your identity will enable you to create, evaluate and participate in ixo projects.</p>
 					<Button type={ButtonTypes.dark}>REGISTER</Button>
-					<UnderlineLink><a href="">Find out more about KYC</a></UnderlineLink>
 				</ModalContainer>
 			);
 		} else if (this.state.activeModal = ModalData.invite) {
 			return (
 				<ModalContainer> 
-					<p>If you have received communication from ixo inviting you to the ixo.world beta, it means that you have already been listed. 
-If not, please send us an email, telling us a little about yourself and the projects you would like to create.</p>
+					<p>If you have received communications from ixo inviting you to the beta phase, please go ahead and begin your membership process.
+If not, please send us an email, telling us a little about the project you would like to create and we will be in touch with next steps.</p>
 					<Button type={ButtonTypes.dark} href="mailto:info@ixo.world">CONTACT IXO</Button>
 				</ModalContainer>
 			);
@@ -183,20 +182,19 @@ If not, please send us an email, telling us a little about yourself and the proj
 		if (this.state.activeModal === ModalData.keysafe) {
 			return {
 				title: 'IXO KEY SAFE',
-				subtitle: 'Your secure identity vault',
+				subtitle: 'Your secure identity vault.',
 				image: keysafeIcon,
 				width: '365'
 			};
 		} else if (this.state.activeModal === ModalData.kyc) {
 			return {
-				title: 'KYC',
-				subtitle: 'Verifying that you are who you are',
+				title: 'MEMBERSHIP REGISTRATION',
 				icon: 'icon-kyc',
 				width: '365'
 			};
 		} else if (this.state.activeModal = ModalData.invite) {
 			return {
-				title: 'LISTED BY IXO',
+				title: 'INTERESTED IN CREATING YOUR OWN PROJECTS?',
 				subtitle: 'Interested in creating your own projects?',
 				icon: 'icon-claims',
 				width: '365'

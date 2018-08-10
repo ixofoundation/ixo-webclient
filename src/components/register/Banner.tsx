@@ -52,8 +52,8 @@ export const Banner: React.SFC<ParentProps> = (props) => {
 				<div className="row">
 					<div className="col-md-12">
 						<Title>Join the world of <span>impact</span></Title>
-						<p>We are currently in the ixo world beta phase and invite you to explore and connect. <br/>
-							Please identify the role that you are interested in:</p>
+						<p>We are currently in the ixo.world Beta phase and invite you to explore and connect. <br/>
+						Please identify the role that you are interested in:</p>
 					</div>
 				</div>
 			</div>
