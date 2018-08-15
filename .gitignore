@@ -8,3 +8,4 @@ dist
 .idea
 .env
 yarn.lock
+docker-compose.dev.yml
