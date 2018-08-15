@@ -3,6 +3,6 @@ services:
   ixo-web:
     build: .
     environment:
-      - REACT_APP_BLOCKCHAIN_NODE_URL=http://blockchain-uat.ixo.world:46657
-      - REACT_APP_BLOCK_SYNC_URL=https://explorer-uat.ixo.world
+      - REACT_APP_BLOCKCHAIN_NODE_URL=http://blockchain_uat.ixo.world:46657
+      - REACT_APP_BLOCK_SYNC_URL=https://exploreru_uat.ixo.world
       - REACT_APP_IXO_WORLD_ORIGIN=https://uat.ixo.world
