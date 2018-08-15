@@ -20,6 +20,7 @@ if [ "$1" = "dev" ]; then
   yarn
   cd bin
 
+  docker build -t trustlab/ixo-web $ROOT_DIR
   docker-compose -f $ROOT_DIR/docker-compose.yml -f $ROOT_DIR/docker-compose.dev.yml up --build --no-start
 elif [ "$1" = "uat" ]; then
   echo "Running with UAT config"
