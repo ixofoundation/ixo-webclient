@@ -1,288 +1,298 @@
 @font-face {
-	font-family: 'icomoon';
-	src:  url('fonts/icomoon.eot?r1pftp');
-	src:  url('fonts/icomoon.eot?r1pftp#iefix') format('embedded-opentype'),
-	  url('fonts/icomoon.ttf?r1pftp') format('truetype'),
-	  url('fonts/icomoon.woff?r1pftp') format('woff'),
-	  url('fonts/icomoon.svg?r1pftp#icomoon') format('svg');
-	font-weight: normal;
-	font-style: normal;
-  }
-  
-  [class^="icon-"], [class*=" icon-"] {
-	/* use !important to prevent issues with browser extensions that change fonts */
-	font-family: 'icomoon' !important;
-	speak: none;
-	font-style: normal;
-	font-weight: normal;
-	font-variant: normal;
-	text-transform: none;
-	line-height: 1;
-  
-	/* Better Font Rendering =========== */
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
-  }
-  
-  .icon-kyc:before {
-	content: "\e940";
-	color: #fff;
-  }
-  .icon-approve02 .path1:before {
-	content: "\e900";
-	color: rgb(90, 185, 70);
-  }
-  .icon-approve02 .path2:before {
-	content: "\e901";
-	margin-left: -1em;
-	color: rgb(255, 255, 255);
-  }
-  .icon-approved:before {
-	content: "\e902";
-	color: #5ab946;
-  }
-  .icon-approvetick:before {
-	content: "\e903";
-	color: #fff;
-  }
-  .icon-calendar:before {
-	content: "\e904";
-	color: #fff;
-  }
-  .icon-claims-active:before {
-	content: "\e905";
-	color: #fff;
-  }
-  .icon-claims:before {
-	content: "\e906";
-	color: #fff;
-  }
-  .icon-close:before {
-	content: "\e907";
-	color: #fff;
-  }
-  .icon-denycross:before {
-	content: "\e908";
-	color: #fff;
-  }
-  .icon-down:before {
-	content: "\e909";
-	color: #fff;
-  }
-  .icon-evaluators-active:before {
-	content: "\e90a";
-	color: #fff;
-  }
-  .icon-evaluators:before {
-	content: "\e90b";
-	color: #fff;
-  }
-  .icon-expand:before {
-	content: "\e90c";
-	color: #fff;
-  }
-  .icon-export:before {
-	content: "\e90d";
-	color: #00d2ff;
-  }
-  .icon-favourite-active:before {
-	content: "\e90e";
-	color: #c5202d;
-  }
-  .icon-github:before {
-	content: "\e90f";
-	color: #fff;
-  }
-  .icon-heart:before {
-	content: "\e910";
-	color: #b8b8b8;
-  }
-  .icon-home-active:before {
-	content: "\e911";
-	color: #fff;
-  }
-  .icon-home:before {
-	content: "\e912";
-	color: #fff;
-  }
-  .icon-facebook:before {
-	content: "\e913";
-	color: #fff;
-  }
-  .icon-twitter:before {
-	content: "\e914";
-	color: #fff;
-  }
-  .icon-impacts:before {
-	content: "\e915";
-	color: #fff;
-  }
-  .icon-indicator-down:before {
-	content: "\e916";
-	color: #e2223b;
-  }
-  .icon-indicator-up:before {
-	content: "\e917";
-	color: #5ab946;
-  }
-  .icon-info:before {
-	content: "\e918";
-	color: #fff;
-  }
-  .icon-instagram:before {
-	content: "\e919";
-	color: #4c4c4c;
-  }
-  .icon-ixosmall:before {
-	content: "\e91a";
-	color: #00d2ff;
-  }
-  .icon-location:before {
-	content: "\e91b";
-	color: #fff;
-  }
-  .icon-logo-ixo:before {
-	content: "\e91c";
-	color: #00d2ff;
-  }
-  .icon-medium:before {
-	content: "\e91d";
-	color: #fff;
-  }
-  .icon-modal:before {
-	content: "\e91e";
-	color: #00d2ff;
-  }
-  .icon-pending:before {
-	content: "\e91f";
-	color: #f89d28;
-  }
-  .icon-plus:before {
-	content: "\e920";
-	color: #fff;
-  }
-  .icon-projects:before {
-	content: "\e921";
-	color: #fff;
-  }
-  .icon-rejected:before {
-	content: "\e922";
-	color: #017492;
-  }
-  .icon-rejectedcross:before {
-	content: "\e923";
-	color: #e2223b;
-  }
-  .icon-sdg-affordableenergy:before {
-	content: "\e924";
-	color: #83d9f2;
-  }
-  .icon-sdg-cleanwater:before {
-	content: "\e925";
-	color: #83d9f2;
-  }
-  .icon-sdg-climateaction:before {
-	content: "\e926";
-	color: #83d9f2;
-  }
-  .icon-sdg-consumption:before {
-	content: "\e927";
-	color: #83d9f2;
-  }
-  .icon-sdg-decentwork:before {
-	content: "\e928";
-	color: #83d9f2;
-  }
-  .icon-sdg-genderequality:before {
-	content: "\e929";
-	color: #83d9f2;
-  }
-  .icon-sdg-goodhealth:before {
-	content: "\e92a";
-	color: #83d9f2;
-  }
-  .icon-sdg-industry:before {
-	content: "\e92b";
-	color: #83d9f2;
-  }
-  .icon-sdg-lifebelowwater:before {
-	content: "\e92c";
-	color: #83d9f2;
-  }
-  .icon-sdg-lifeonland:before {
-	content: "\e92d";
-	color: #83d9f2;
-  }
-  .icon-sdg-nopoverty:before {
-	content: "\e92e";
-	color: #83d9f2;
-  }
-  .icon-sdg-partnership:before {
-	content: "\e92f";
-	color: #83d9f2;
-  }
-  .icon-sdg-peace:before {
-	content: "\e930";
-	color: #83d9f2;
-  }
-  .icon-sdg-qualityeducation:before {
-	content: "\e931";
-	color: #83d9f2;
-  }
-  .icon-sdg-reduced:before {
-	content: "\e932";
-	color: #83d9f2;
-  }
-  .icon-sdg-sustainablecities:before {
-	content: "\e933";
-	color: #83d9f2;
-  }
-  .icon-sdg-zerohunger:before {
-	content: "\e934";
-	color: #83d9f2;
-  }
-  .icon-search:before {
-	content: "\e935";
-	color: #00d2ff;
-  }
-  .icon-serviceproviders-active:before {
-	content: "\e936";
-	color: #fff;
-  }
-  .icon-serviceproviders:before {
-	content: "\e937";
-	color: #fff;
-  }
-  .icon-settings-active:before {
-	content: "\e938";
-	color: #fff;
-  }
-  .icon-settings:before {
-	content: "\e939";
-	color: #fff;
-  }
-  .icon-share:before {
-	content: "\e93a";
-	color: #b8b8b8;
-  }
-  .icon-success:before {
-	content: "\e93b";
-	color: #017492;
-  }
-  .icon-telegram:before {
-	content: "\e93c";
-	color: #fff;
-  }
-  .icon-trash:before {
-	content: "\e93d";
-	color: #fff;
-  }
-  .icon-upload:before {
-	content: "\e93e";
-	color: #017492;
-  }
-  .icon-world:before {
-	content: "\e93f";
-	color: #4c4c4c;
-  }
-  
+  font-family: 'icomoon';
+  src:  url('fonts/icomoon.eot?9f7fvs');
+  src:  url('fonts/icomoon.eot?9f7fvs#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?9f7fvs') format('truetype'),
+    url('fonts/icomoon.woff?9f7fvs') format('woff'),
+    url('fonts/icomoon.svg?9f7fvs#icomoon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'icomoon' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-ixo-x:before {
+  content: "\e943";
+  color: #3fc6f1;
+}
+.icon-claims2:before {
+  content: "\e91a";
+}
+.icon-register-no:before {
+  content: "\e941";
+  color: #c6c4c4;
+}
+.icon-registration-yes:before {
+  content: "\e942";
+  color: #4a9f46;
+}
+.icon-kyc:before {
+  content: "\e940";
+  color: #fff;
+}
+.icon-approve02 .path1:before {
+  content: "\e900";
+  color: rgb(90, 185, 70);
+}
+.icon-approve02 .path2:before {
+  content: "\e901";
+  margin-left: -1em;
+  color: rgb(255, 255, 255);
+}
+.icon-approved:before {
+  content: "\e902";
+  color: #5ab946;
+}
+.icon-approvetick:before {
+  content: "\e903";
+  color: #fff;
+}
+.icon-calendar:before {
+  content: "\e904";
+  color: #fff;
+}
+.icon-claims-active:before {
+  content: "\e905";
+  color: #fff;
+}
+.icon-claims:before {
+  content: "\e906";
+  color: #fff;
+}
+.icon-close:before {
+  content: "\e907";
+  color: #fff;
+}
+.icon-denycross:before {
+  content: "\e908";
+  color: #fff;
+}
+.icon-down:before {
+  content: "\e909";
+  color: #fff;
+}
+.icon-evaluators-active:before {
+  content: "\e90a";
+  color: #fff;
+}
+.icon-evaluators:before {
+  content: "\e90b";
+  color: #fff;
+}
+.icon-expand:before {
+  content: "\e90c";
+  color: #fff;
+}
+.icon-export:before {
+  content: "\e90d";
+  color: #00d2ff;
+}
+.icon-favourite-active:before {
+  content: "\e90e";
+  color: #c5202d;
+}
+.icon-github:before {
+  content: "\e90f";
+  color: #fff;
+}
+.icon-heart:before {
+  content: "\e910";
+  color: #b8b8b8;
+}
+.icon-home-active:before {
+  content: "\e911";
+  color: #fff;
+}
+.icon-home:before {
+  content: "\e912";
+  color: #fff;
+}
+.icon-facebook:before {
+  content: "\e913";
+  color: #fff;
+}
+.icon-twitter:before {
+  content: "\e914";
+  color: #fff;
+}
+.icon-impacts:before {
+  content: "\e915";
+  color: #fff;
+}
+.icon-indicator-down:before {
+  content: "\e916";
+  color: #e2223b;
+}
+.icon-indicator-up:before {
+  content: "\e917";
+  color: #5ab946;
+}
+.icon-info:before {
+  content: "\e918";
+  color: #fff;
+}
+.icon-instagram:before {
+  content: "\e919";
+  color: #4c4c4c;
+}
+.icon-location:before {
+  content: "\e91b";
+  color: #fff;
+}
+.icon-logo-ixo:before {
+  content: "\e91c";
+  color: #00d2ff;
+}
+.icon-medium:before {
+  content: "\e91d";
+  color: #fff;
+}
+.icon-modal:before {
+  content: "\e91e";
+  color: #00d2ff;
+}
+.icon-pending:before {
+  content: "\e91f";
+  color: #f89d28;
+}
+.icon-plus:before {
+  content: "\e920";
+  color: #fff;
+}
+.icon-projects:before {
+  content: "\e921";
+  color: #fff;
+}
+.icon-rejected:before {
+  content: "\e922";
+  color: #017492;
+}
+.icon-rejectedcross:before {
+  content: "\e923";
+  color: #e2223b;
+}
+.icon-sdg-affordableenergy:before {
+  content: "\e924";
+  color: #83d9f2;
+}
+.icon-sdg-cleanwater:before {
+  content: "\e925";
+  color: #83d9f2;
+}
+.icon-sdg-climateaction:before {
+  content: "\e926";
+  color: #83d9f2;
+}
+.icon-sdg-consumption:before {
+  content: "\e927";
+  color: #83d9f2;
+}
+.icon-sdg-decentwork:before {
+  content: "\e928";
+  color: #83d9f2;
+}
+.icon-sdg-genderequality:before {
+  content: "\e929";
+  color: #83d9f2;
+}
+.icon-sdg-goodhealth:before {
+  content: "\e92a";
+  color: #83d9f2;
+}
+.icon-sdg-industry:before {
+  content: "\e92b";
+  color: #83d9f2;
+}
+.icon-sdg-lifebelowwater:before {
+  content: "\e92c";
+  color: #83d9f2;
+}
+.icon-sdg-lifeonland:before {
+  content: "\e92d";
+  color: #83d9f2;
+}
+.icon-sdg-nopoverty:before {
+  content: "\e92e";
+  color: #83d9f2;
+}
+.icon-sdg-partnership:before {
+  content: "\e92f";
+  color: #83d9f2;
+}
+.icon-sdg-peace:before {
+  content: "\e930";
+  color: #83d9f2;
+}
+.icon-sdg-qualityeducation:before {
+  content: "\e931";
+  color: #83d9f2;
+}
+.icon-sdg-reduced:before {
+  content: "\e932";
+  color: #83d9f2;
+}
+.icon-sdg-sustainablecities:before {
+  content: "\e933";
+  color: #83d9f2;
+}
+.icon-sdg-zerohunger:before {
+  content: "\e934";
+  color: #83d9f2;
+}
+.icon-search:before {
+  content: "\e935";
+  color: #00d2ff;
+}
+.icon-serviceproviders-active:before {
+  content: "\e936";
+  color: #fff;
+}
+.icon-serviceproviders:before {
+  content: "\e937";
+  color: #fff;
+}
+.icon-settings-active:before {
+  content: "\e938";
+  color: #fff;
+}
+.icon-settings:before {
+  content: "\e939";
+  color: #fff;
+}
+.icon-share:before {
+  content: "\e93a";
+  color: #b8b8b8;
+}
+.icon-success:before {
+  content: "\e93b";
+  color: #017492;
+}
+.icon-telegram:before {
+  content: "\e93c";
+  color: #fff;
+}
+.icon-trash:before {
+  content: "\e93d";
+  color: #fff;
+}
+.icon-upload:before {
+  content: "\e93e";
+  color: #017492;
+}
+.icon-world:before {
+  content: "\e93f";
+  color: #4c4c4c;
+}

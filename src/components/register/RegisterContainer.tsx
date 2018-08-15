@@ -52,7 +52,7 @@ const ModalContainer = styled.div`
 // `;
 
 const Section = styled.div`
-
+	background: #F6F6F6;
 `;
 
 const RelativeCol = styled.div`

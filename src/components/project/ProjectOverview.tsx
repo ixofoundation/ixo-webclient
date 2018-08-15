@@ -211,6 +211,11 @@ const Founder = styled.div`
 
 		i {
 			margin-right: 5px;
+			color: #4c4c4c;
+		}
+
+		&{
+			color: #333C4E;
 		}
 	}
 `;

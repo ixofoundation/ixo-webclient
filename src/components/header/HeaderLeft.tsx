@@ -1,7 +1,8 @@
 import * as React from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 import { deviceWidth } from '../../lib/commonData';
+import { getIxoWorldRoute } from '../../utils/formatters';
 
 const ixoLogo = require('../../assets/images/ixo-logo.svg');
 
@@ -105,7 +106,7 @@ export const HeaderLeft: React.SFC<any> = ({refreshProjects}) => {
 
 	return (
 		<Main className="col-md-6 d-flex align-items-center">
-			<Link to="/"><IXOLogo alt="IXO Logo" src={ixoLogo}/></Link>
+			<a href={getIxoWorldRoute('')}><IXOLogo alt="IXO Logo" src={ixoLogo}/></a>
 			<HeaderLink exact={true} onClick={refreshProjects} to="/">Explore</HeaderLink>
 			<HeaderLink exact={true} to="/register">Launch a Project</HeaderLink>
 		</Main>

@@ -48,7 +48,7 @@ export const Icons: React.SFC<ParentProps> = (props) => {
 					<i className="icon-info" />
 					<i className="icon-instagram" />
 					<i className="icon-logo-ixo" />
-					<i className="icon-ixosmall" />
+					<i className="icon-ixo-x" />
 					<i className="icon-kyc" />
 					<i className="icon-location" />
 					<i className="icon-medium" />

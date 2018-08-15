@@ -49,7 +49,7 @@ const LoaderInner = styled.div`
 		background: #FFF;
 		border-radius: 50%;
 	}
-	.icon-ixosmall:before {
+	.icon-ixo-x:before {
 		color: ${props => props.theme.ixoBlue};
 	}
 `;
@@ -62,7 +62,7 @@ export const ImageSpinner: React.SFC<Props> = () => {
 			<LoaderContainer>
 				<LoaderWrapper>
 					<LoaderInner>
-					<i className="icon-ixosmall" />
+					<i className="icon-ixo-x" />
 					</LoaderInner>
 				</LoaderWrapper>
 			</LoaderContainer>

@@ -113,7 +113,8 @@ const NoPadLeft = styled.div`
 		z-index:2;
 		position:relative;
 		letter-spacing:0.3px
-		font-weight: 300;
+		font-weight: 600;
+		font-family: ${props => props.theme.fontRoboto};
 	}
 `;
 

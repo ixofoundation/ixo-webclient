@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import MediaQuery from 'react-responsive';
 import { deviceWidth } from '../../lib/commonData';
@@ -66,7 +65,7 @@ export const FooterLeft: React.SFC<any> = ({simple}) => {
 		<Main className="col-md-8">
 			<div className="row">
 				<MediaQuery minWidth={`${deviceWidth.tablet}px`}>
-					<Link to="/"><IXOLogo alt="IXO Logo" src={ixoLogo}/></Link>
+					<a href={getIxoWorldRoute('')}><IXOLogo alt="IXO Logo" src={ixoLogo}/></a>
 				</MediaQuery>
 				<ExternalFooterLink target="_blank" href={getIxoWorldRoute('/about')}>About</ExternalFooterLink>
 				<ExternalFooterLink target="_blank" href={getIxoWorldRoute('/membership')}>Membership</ExternalFooterLink>

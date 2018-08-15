@@ -179,7 +179,7 @@ export class Projects extends React.Component<Props, State> {
 	}
 
 	renderProjects = () => {
-		if (this.state.projectList.length > 0) {	
+		if (this.state.projectList.length === 0) {	
 			let projects = (this.state.showOnlyMyProjects ? this.state.myProjects : this.state.projectList);	
 			return (
 				<ProjectsContainer className="container-fluid">

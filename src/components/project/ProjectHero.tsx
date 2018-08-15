@@ -86,7 +86,7 @@ const ColLeft = styled.div`
 
 const ColRight = styled.div`
 	color: white;
-	font-weight: 300;
+	font-weight: 200;
     display: flex;
     flex-direction: column;
 	justify-content: center;
