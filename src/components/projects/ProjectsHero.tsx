@@ -168,7 +168,6 @@ export class ProjectsHero extends React.Component<Props, State> {
 		if (this.props.ixo && !this.loadingStats) {
 			this.loadingStats = true;
 			this.props.ixo.stats.getGlobalStats().then(res => {
-				console.log(res);
 				const statistics: Stats = res;
 				this.setState({ statistics });
 				this.loadingStats = false;

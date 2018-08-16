@@ -124,6 +124,10 @@ const Social = styled.div`
 		cursor: pointer;
 		color: ${props => props.theme.darkGrey};
 	}
+
+	a:hover {
+		text-decoration: none;
+	}
 `;
 
 // const LocalButton = styled.a`
@@ -211,6 +215,10 @@ const Founder = styled.div`
 
 		i {
 			margin-right: 5px;
+			color: #4c4c4c;
+		}
+
+		i:before {
 			color: #4c4c4c;
 		}
 
@@ -364,10 +372,10 @@ export const ProjectOverview: React.SFC<ParentProps> = (props) => {
 								</p>
 							</Text>
 							<Social>
-								<a><i className="icon-instagram-logo" /></a>
-								<a><i className="icon-twitter-logo-silhouette"/></a>
-								<a><i className="icon-facebook-logo"/></a>
-								<a><i className="icon-world-url"/></a>
+								{props.project.socialMedia.instagramLink && <a href={props.project.socialMedia.instagramLink} target="_blank"><i className="icon-instagram" /></a>}
+								{props.project.socialMedia.twitterLink && <a href={props.project.socialMedia.twitterLink} target="_blank"><i className="icon-twitter"/></a>}
+								{props.project.socialMedia.facebookLink && <a href={props.project.socialMedia.facebookLink} target="_blank"><i className="icon-facebook"/></a>}
+								{props.project.socialMedia.webLink && <a href={props.project.socialMedia.webLink} target="_blank"><i className="icon-world"/></a>}
 							</Social>
 						</div>
 						<div className="col-md-4">
