@@ -5,11 +5,14 @@ import '../../assets/icons.css';
 import { ModalData } from './RegisterContainer';
 import { Link } from 'react-router-dom';
 
-const StatusContainer = styled.div`
+const StatusContainer = styled.section`
 	font-family: Roboto;
 	font-size: 16px;
 	font-weight: 300;
 	line-height: 1.1;
+	padding: 15px;
+	box-shadow: 0 0 14px 0 rgba(0,0,0,0.08);
+	border-radius: 2px;
 `;
 
 const ModalLink = styled.a`
@@ -47,17 +50,17 @@ const GreenI = Icon.extend`
 
 const GreyI = Icon.extend`
 	&&{:before {
-		color: #B6B6B6;
+		color: #C6C4C4;
 	}}
 `;
 
 const CheckItem = styled.p`
 	line-height: 1.5;
-	margin-bottom: 10px;
+	margin: 5px 0;
 	padding-left: 35px;
 	position: relative;
 	transition: color 0.3s ease;
-
+	
 	&&{a {
 		text-decoration: underline;
 	}}
@@ -94,9 +97,9 @@ export const RegisterStatus: React.SFC<ParentProps> = (props) => {
 
 	const getIcon = (condition) => {
 		if (condition) {
-			return <GreenI className={'icon-approved'} />;
+			return <GreenI className={'icon-registration-yes'} />;
 		} else {
-			return <GreyI className={'icon-rejectedcross'} />;
+			return <GreyI className={'icon-register-no'} />;
 		}
 	};
 
@@ -104,20 +107,20 @@ export const RegisterStatus: React.SFC<ParentProps> = (props) => {
 		if (props.hasKeySafe) {
 			return (
 				<CheckItem>{getIcon(props.hasKeySafe)}
-					{getIcon(props.hasKeySafe)} You have successfully installed the <ModalLink onClick={() => props.activeModal(ModalData.keysafe, true)}>ixo Key Safe</ModalLink>
+					{getIcon(props.hasKeySafe)} You have successfully installed the <ModalLink onClick={() => props.activeModal(ModalData.keysafe, true)}>ixo Keysafe</ModalLink>
 				</CheckItem>
 			);
 		} else {
-			return <CheckItem>{getIcon(props.hasKeySafe)} You need to install the <ModalLink onClick={() => props.activeModal(ModalData.keysafe, true)}>ixo Key Safe</ModalLink></CheckItem>;
+			return <CheckItem>{getIcon(props.hasKeySafe)} This role requires <ModalLink onClick={() => props.activeModal(ModalData.keysafe, true)}>installing ixo Keysafe.</ModalLink></CheckItem>;
 		}
 	};
 
 	const renderKYCPart = () => { 
-		if (props.role !== AgentRoles.serviceProviders) {
+		if (props.role === AgentRoles.owners) {
 			return (
 				<CheckItem>
-					{getIcon(props.hasKYC)} Please note that for the beta phase you need to be <ModalLink onClick={() => props.activeModal(ModalData.invite, true)}>invited by ixo</ModalLink> 
-					<br/> and then successfully complete the <ModalLink onClick={() => props.activeModal(ModalData.kyc, true)}>ixo membership registration</ModalLink>
+					{getIcon(props.hasKYC)} The closed Beta is <ModalLink onClick={() => props.activeModal(ModalData.invite, true)}>by invitation </ModalLink> 
+					and requires <ModalLink onClick={() => props.activeModal(ModalData.kyc, true)}>registering as an ixo member.</ModalLink>
 				</CheckItem>
 			);
 		} else {
@@ -127,26 +130,31 @@ export const RegisterStatus: React.SFC<ParentProps> = (props) => {
 
 	if (!!props.hasKYC && !!props.hasKeySafe && props.role === AgentRoles.owners) {
 		return (
+		<StatusContainer>
 			<CheckItem>{getIcon(true)} You have successfully registered. 
-				We are currently in the ixo world beta phase. We invite you to contact the ixo support team to create your own impact project. 
-				<Start href="mailto:info@ixo.world?subject=Request to launch a project&body=Full Name:%0D%0A%0D%0ATell us about you and your project:%0D%0A">START THE PROCESS</Start>
+				<Start href="https://docs.google.com/forms/d/e/1FAIpQLSfv6TY-8Eurg6dcS-2YPeFIuT7nlPE5YGKj2SaRrPJ0vIf4ZA/viewform" target="_blank">LAUNCH A PROJECT</Start>
 			</CheckItem>
+		</StatusContainer>
 		);
 	}
 
 	if (!!props.hasKYC && !!props.hasKeySafe && props.role === AgentRoles.evaluators) {
 		return (
+		<StatusContainer>
 			<CheckItem>{getIcon(props.hasKeySafe)}
-				{getIcon(props.hasKeySafe)} You can now become an evaluator on our list of <DarkLink to="/">projects.</DarkLink>
+				{getIcon(props.hasKeySafe)} You can now become an evaluator on the <DarkLink to="/">ixo test projects.</DarkLink>
 			</CheckItem>
+		</StatusContainer>
 		);
 	}
 
 	if (!!props.hasKeySafe && props.role === AgentRoles.serviceProviders) {
 		return (
+		<StatusContainer>
 			<CheckItem>{getIcon(props.hasKeySafe)}
-				{getIcon(props.hasKeySafe)} You can now become a service provider on our list of <WhiteLink to="/">projects.</WhiteLink>
+				{getIcon(props.hasKeySafe)} You can now become a service provider on the <WhiteLink to="/">ixo test projects.</WhiteLink>
 			</CheckItem>
+		</StatusContainer>	
 		);
 	}
 	

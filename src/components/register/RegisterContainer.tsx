@@ -306,8 +306,8 @@ If not, please send us an email, telling us a little about the project you would
 								<div className="col-lg-6"><Amply src={amplyImg} /></div>
 							</MediaQuery>
 							<SmallIconCol className="col-lg-6">
-								<TextBlock activeModal={this.toggleModal} title="Want to launch your own project?" icon="icon-claims" role={AgentRoles.owners} keysafe={this.state.hasKeySafe} KYC={this.state.hasKYC}>
-									<p>Create your own impact projects on the ixo blockchain.</p>
+								<TextBlock activeModal={this.toggleModal} title="Launch a test project" icon="icon-claims2" role={AgentRoles.owners} keysafe={this.state.hasKeySafe} KYC={this.state.hasKYC}>
+									<p>Become the founder of your own impact initiative (for testing).</p>
 								</TextBlock>
 							</SmallIconCol>
 						</div>
@@ -317,9 +317,8 @@ If not, please send us an email, telling us a little about the project you would
 							<div className="row">
 								<div className="col-lg-6">
 									<TextBlock activeModal={this.toggleModal} blueBG={true} title="Want to become a service provider?" icon="icon-serviceproviders" role={AgentRoles.serviceProviders} keysafe={this.state.hasKeySafe} KYC={this.state.hasKYC}>
-										<p>Service providers deliver the impact to a project. </p>
-										<p>They are the people on the ground submitting claims, and making the difference
-										e.g. planting trees or delivering books.</p>
+										<p>Service providers deliver project impacts by submitting signed impact claims 
+e.g. planting trees or educating children.</p>
 									</TextBlock>
 								</div>
 								<MediaQuery minWidth={`${deviceWidth.desktop}px`}>
@@ -332,9 +331,7 @@ If not, please send us an email, telling us a little about the project you would
 						<div className="row">
 							<div className="col-lg-6">
 								<TextBlock activeModal={this.toggleModal} title="Want to become an evaluator?" icon="icon-evaluators" role={AgentRoles.evaluators} keysafe={this.state.hasKeySafe} KYC={this.state.hasKYC}>
-									<p>Evaluators are individuals or entities with knowledge and experience in any given field. 
-									Using this experience you determine the validity of the claims submitted on projects.  
-									It is your role to approve the claims submitted on all projects.</p>
+									<p>Evaluators are individuals or entities with specific knowledge and experience to provide an opinion on impact claims (often assisted by <strong>verification oracles</strong>). </p>
 								</TextBlock>
 							</div>
 							<div className="col-lg-6"/>

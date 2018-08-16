@@ -9,6 +9,7 @@ import { ModalWrapper } from '../common/ModalWrapper';
 import { ProjectNewAgent } from './ProjectNewAgent';
 import { UserInfo } from '../../types/models';
 import { Button, ButtonTypes } from '../common/Buttons';
+import { Fragment } from 'react';
 
 const placeholder = require('../../assets/images/ixo-placeholder-large.jpg');
 
@@ -56,17 +57,6 @@ const Sidebar = styled.div`
 	}
 `;
 
-const Claims = styled.h4`
-	font-weight: 100;
-	font-size: 30px;
-	margin: 15px 0 0;
-	line-height: 1;
-
-	strong {
-		font-weight: 500;
-	}
-`;
-
 const StatisticsContainer = styled.div`
 
 	div {
@@ -77,6 +67,16 @@ const StatisticsContainer = styled.div`
 	}
 `;
 
+const Claims = styled.h4`
+	font-weight: 100;
+	font-size: 30px;
+	margin: 15px 0 0;
+	line-height: 1;
+
+	strong {
+		font-weight: 500;
+	}
+`;
 const ImpactAction = styled.p`
 	font-size: 18px;
 	margin-bottom:10px;
@@ -387,9 +387,15 @@ export const ProjectOverview: React.SFC<ParentProps> = (props) => {
 										rejected={props.project.claimStats.currentRejected} 
 									/>
 								</BarContainer>
-								<Claims>{props.project.claimStats.currentSuccessful}/<strong>{props.project.requiredClaims}</strong></Claims>
-								<ImpactAction>{props.project.impactAction}</ImpactAction>
-								<Disputed><strong>{props.project.claimStats.currentRejected}</strong> disputed claims</Disputed>
+								{props.project.requiredClaims === 0 ? 
+									<p style={{marginTop: '20px'}}>This project will launch in September 2018.</p>
+								:
+									<Fragment>
+										<Claims>{props.project.claimStats.currentSuccessful}/<strong>{props.project.requiredClaims}</strong></Claims>
+										<ImpactAction>{props.project.impactAction}</ImpactAction>
+										<Disputed><strong>{props.project.claimStats.currentRejected}</strong> disputed claims</Disputed>
+									</Fragment>
+								}
 								<hr />
 								<div className="row">
 									{statistics.map((statistic, index) => {

@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { ProgressBar } from '../common/ProgressBar';
 import { excerptText } from '../../utils/formatters';
+import { Fragment } from 'react';
 
 const placeholder = require('../../assets/images/ixo-placeholder-large.jpg');
 
@@ -193,9 +194,15 @@ export class ProjectCard extends React.Component<Props, States> {
 					<CardBottom>
 						<Title>{excerptText(this.props.project.title, 10)}</Title>
 						<Owner>By {this.props.project.ownerName}</Owner>
-						<ProgressBar total={this.props.project.requiredClaims} approved={this.props.project.claimStats.currentSuccessful} rejected={this.props.project.claimStats.currentRejected}/>
-						<Progress>{this.props.project.claimStats.currentSuccessful} / <strong>{this.props.project.requiredClaims}</strong></Progress>
-						<Impact>{this.props.project.impactAction}</Impact>
+						{this.props.project.requiredClaims === 0 ?
+							<p>This project will launch in September 2018.</p>
+						:
+							<Fragment>
+								<ProgressBar total={this.props.project.requiredClaims} approved={this.props.project.claimStats.currentSuccessful} rejected={this.props.project.claimStats.currentRejected}/>
+								<Progress>{this.props.project.claimStats.currentSuccessful} / <strong>{this.props.project.requiredClaims}</strong></Progress>
+								<Impact>{this.props.project.impactAction}</Impact>
+							</Fragment>
+						}
 					</CardBottom>
 				</ProjectLink>
 			</CardContainer>

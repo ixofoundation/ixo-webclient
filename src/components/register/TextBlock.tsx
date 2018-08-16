@@ -14,6 +14,17 @@ const Container = styled.div`
 	i:before {
 		color: #333C4E;
 	}
+
+	section {
+		background: white;
+		display: inline-flex;
+		flex-direction: column;
+		padding-right: 30px;
+	}
+
+	strong {
+		font-weight: 700;
+	}
 `;
 
 const ContainerWhite = styled.div`
@@ -26,6 +37,14 @@ const ContainerWhite = styled.div`
 
 	i:before {
 		color: white;
+	}
+
+	section {
+		background: #053952;
+	}
+
+	strong {
+		font-weight: 700;
 	}
 `;
 

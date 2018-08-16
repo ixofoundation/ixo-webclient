@@ -30,6 +30,7 @@ export const Icons: React.SFC<ParentProps> = (props) => {
 					<i className="icon-calendar" />
 					<i className="icon-claims-active" />
 					<i className="icon-claims" />
+					<i className="icon-claims2" />
 					<i className="icon-close" />
 					<i className="icon-down" />
 					<i className="icon-evaluators-active" />
@@ -56,6 +57,8 @@ export const Icons: React.SFC<ParentProps> = (props) => {
 					<i className="icon-pending" />
 					<i className="icon-plus" />
 					<i className="icon-projects" />
+					<i className="icon-register-no" />
+					<i className="icon-registration-yes" />
 					<i className="icon-rejected" />
 					<i className="icon-rejectedcross" />
 					<i className="icon-sdg-affordableenergy" />
