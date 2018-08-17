@@ -331,7 +331,7 @@ e.g. planting trees or educating children.</p>
 					<div className="container">
 						<div className="row">
 							<div className="col-lg-6">
-								<TextBlock activeModal={this.toggleModal} title="Evaluate claims " icon="icon-evaluators" role={AgentRoles.evaluators} keysafe={this.state.hasKeySafe} KYC={this.state.hasKYC}>
+								<TextBlock activeModal={this.toggleModal} title="Evaluate claims" icon="icon-evaluators" role={AgentRoles.evaluators} keysafe={this.state.hasKeySafe} KYC={this.state.hasKYC}>
 									<p>Evaluators are individuals or entities with specific knowledge and experience to provide an opinion on impact claims (often assisted by <strong>verification oracles</strong>). </p>
 								</TextBlock>
 							</div>

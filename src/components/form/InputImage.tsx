@@ -1,6 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { ImageLoader } from '../common/ImageLoader';
+import { ImageLoader, imageQuality } from '../common/ImageLoader';
 
 const InputContainer = styled.div`
 	font-family: ${props => props.theme.fontRoboto};
@@ -70,7 +70,7 @@ export default class InputImage extends React.Component<Props, State> {
 		} else {
 			return (
 				<InputContainer>
-					<ImageLoader placeholder={this.props.text} imageWidth={this.props.imageWidth} aspect={this.props.aspect} imageCallback={this.handleImage}/>
+					<ImageLoader quality={imageQuality.medium} placeholder={this.props.text} imageWidth={this.props.imageWidth} aspect={this.props.aspect} imageCallback={this.handleImage}/>
 				</InputContainer>
 			);
 		}

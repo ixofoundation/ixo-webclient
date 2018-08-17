@@ -59,11 +59,16 @@ const styles = {
 
 const imageType = /^image\//;
 
+export enum imageQuality {
+	medium = 'LOW',
+	high = 'HIGH',
+}
 export interface StateProps {
 	imageCallback: Function;
 	imageWidth: number;
 	aspect?: number;
 	placeholder?: string;
+	quality: imageQuality;
 }
 
 export interface State {
@@ -163,8 +168,11 @@ export class ImageLoader extends React.Component<StateProps, State> {
 			imageHeight
 		);
 
-		// As Base64 string
-		return canvas.toDataURL();
+		if (this.props.quality === imageQuality.high) {
+			return canvas.toDataURL();
+		} else {
+			return canvas.toDataURL('image/jpeg', 0.9);
+		}
 	}	
 
 	getUncroppedImg = (image) => {

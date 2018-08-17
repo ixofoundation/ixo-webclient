@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ImageLoader } from '../../common/ImageLoader';
+import { ImageLoader, imageQuality } from '../../common/ImageLoader';
 import { PublicSiteStoreState } from '../../../redux/public_site_reducer';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
@@ -209,7 +209,7 @@ export class ProjectCreateUploadPublicDocs extends React.Component<StateProps, S
 							<div>Image Link: <a href={this.state.imageLogoLink}>{this.state.imageLogoLink}</a></div>
 							<div>Founder Logo Link: <a href={this.state.founderLogoLink}>{this.state.founderLogoLink}</a></div>
 							<BigTextArea value={this.state.projectJson} onChange={this.updateProjectJSON}/>
-							<ImageLoader placeholder="Choose project image file" imageWidth={960} aspect={16 / 9} imageCallback={this.handleImage}/>
+							<ImageLoader quality={imageQuality.medium} placeholder="Choose project image file" imageWidth={960} aspect={16 / 9} imageCallback={this.handleImage}/>
 							<br />
 							<FileLoader placeholder="Choose claim schema file" acceptType="application/json" selectedCallback={(dataUrl) => this.handleFileSelected('schema', dataUrl)}/>
 							<br />
