@@ -74,7 +74,8 @@ const BlueRow = styled.div`
 
 const KeySafe = styled.img`
 	margin-bottom: -50%;
-	
+	max-width: 616px;
+
 	@media (min-width: ${deviceWidth.desktop}px){
 		position: absolute;
 		top: 0;
@@ -153,7 +154,7 @@ class RegisterPage extends React.Component<Props, State> {
 			return (
 				<ModalContainer> 
 					<p>ixo Key Safe is your connection to the ixo blockchain. It is a secure identity vault that allows you to manage your profile and sign transactions on your projects.</p>
-					<Button type={ButtonTypes.dark}><BrowserIcon src={chromeIcon} alt="Chrome"/> DOWNLOAD FOR CHROME</Button>
+					<Button type={ButtonTypes.dark} href="https://chrome.google.com/webstore/detail/ixo-keysafe/nnlfaleaeoefglohpacnfgoeldfakkjk" target="_blank"><BrowserIcon src={chromeIcon} alt="Chrome"/> DOWNLOAD FOR CHROME</Button>
 					<Button type={ButtonTypes.dark}><BrowserIcon src={mozillaIcon} alt="Firefox"/> DOWNLOAD FOR FIREFOX</Button>
 				</ModalContainer>
 			);
@@ -316,7 +317,7 @@ If not, please send us an email, telling us a little about the project you would
 						<div className="container">
 							<div className="row">
 								<div className="col-lg-6">
-									<TextBlock activeModal={this.toggleModal} blueBG={true} title="Want to become a service provider?" icon="icon-serviceproviders" role={AgentRoles.serviceProviders} keysafe={this.state.hasKeySafe} KYC={this.state.hasKYC}>
+									<TextBlock activeModal={this.toggleModal} blueBG={true} title="Participate as a service provider" icon="icon-serviceproviders" role={AgentRoles.serviceProviders} keysafe={this.state.hasKeySafe} KYC={this.state.hasKYC}>
 										<p>Service providers deliver project impacts by submitting signed impact claims 
 e.g. planting trees or educating children.</p>
 									</TextBlock>
@@ -330,7 +331,7 @@ e.g. planting trees or educating children.</p>
 					<div className="container">
 						<div className="row">
 							<div className="col-lg-6">
-								<TextBlock activeModal={this.toggleModal} title="Want to become an evaluator?" icon="icon-evaluators" role={AgentRoles.evaluators} keysafe={this.state.hasKeySafe} KYC={this.state.hasKYC}>
+								<TextBlock activeModal={this.toggleModal} title="Evaluate claims " icon="icon-evaluators" role={AgentRoles.evaluators} keysafe={this.state.hasKeySafe} KYC={this.state.hasKYC}>
 									<p>Evaluators are individuals or entities with specific knowledge and experience to provide an opinion on impact claims (often assisted by <strong>verification oracles</strong>). </p>
 								</TextBlock>
 							</div>

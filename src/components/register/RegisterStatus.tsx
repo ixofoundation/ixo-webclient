@@ -83,7 +83,7 @@ const Start = styled.a`
 	font-weight: normal;
 	margin-top: 20px;
 	text-align: center;
-	width: 315px;
+	width: 200px;
 `;
 
 export interface ParentProps {
@@ -128,7 +128,7 @@ export const RegisterStatus: React.SFC<ParentProps> = (props) => {
 		}
 	};
 
-	if (!!props.hasKYC && !!props.hasKeySafe && props.role === AgentRoles.owners) {
+	if (!props.hasKYC) {
 		return (
 		<StatusContainer>
 			<CheckItem>{getIcon(true)} You have successfully registered. 

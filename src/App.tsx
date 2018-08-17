@@ -17,6 +17,12 @@ import 'react-toastify/dist/ReactToastify.min.css';
 import { Routes } from './components/Routes';
 import { Spinner } from './components/common/Spinner';
 import { ToastContainer } from 'react-toastify';
+import * as ReactGA from 'react-ga';
+
+ReactGA.initialize('UA-106630107-5');
+
+ReactGA.pageview(window.location.pathname + window.location.search);
+
 // THEME DECLARATION BELOW
 
 const theme = {

@@ -20,6 +20,8 @@ const Container = styled.div`
 		display: inline-flex;
 		flex-direction: column;
 		padding-right: 30px;
+		width: 400px;
+		max-width: 100%
 	}
 
 	strong {
@@ -41,6 +43,11 @@ const ContainerWhite = styled.div`
 
 	section {
 		background: #053952;
+		display: inline-flex;
+		flex-direction: column;
+		padding-right: 30px;
+		width: 400px;
+		max-width: 100%
 	}
 
 	strong {
