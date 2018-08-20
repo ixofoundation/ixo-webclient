@@ -1,34 +1,35 @@
 {
-  "title":"Clearing of alien vegetation",
-  "ownerName":"Jodie Franco",
-  "ownerEmail":"jody.franco@gmail.com",
-  "shortDescription":"We provide invasive alien vegetation management to ensure a sustainable water supply and to make cleared land productive again.",
-  "longDescription":"Invasive alien vegetation refers to plants brought to South Africa from other countries, both intentionally and unintentionally, that cause human, environmental or economic harm.\nWithout natural enemies, these plants reproduce and spread rapidly, taking valuable water and space from our indigenous plants. Many alien plants consume more water than local plants, depleting our valuable underground water resources. Dense alien vegetation can also provide plenty of fuel for veldfires, making them exceptionally hot, which damages the burnt area’s soil structure.\nInvasive alien plants are a major threat to biodiversity in catchment areas, potentially disrupting the delicate natural balance in ecosystems. As we depend on biodiversity for water, food, wood, clean air, medicine and much more, it is vitally important that we protect this resource.",
-  "impactAction":"10m x 10m sections cleared",
-  "projectLocation":"ZA",
-  "requiredClaims":30,
-  "sdgs":["15.5"],
-  "templates":{
-    "claim":{
-      "schema":"",
-      "form": ""
-    }
-  },
-  "evaluatorPayPerClaim":"0",
-  "socialMedia":{
-    "facebookLink":"https://www.facebook.com/ixofoundation/",
-    "instagramLink":"",
-    "twitterLink":"",
-    "webLink":"https://ixo.foundation"
-  },
-  "serviceEndpoint":"http://35.192.187.110:5000/",
-  "imageLink":"",
-  "founder":{
-    "name":"Jodie Franco",
-    "email":"jodie@me.com",
-    "countryOfOrigin":"ZA",
-    "shortDescription":"Passionate about fynbos rehabilitation and sustainable farming in the Westcoast region of Southern Africa.",
-    "websiteURL":"http://westcoastfynbos.co.za",
-    "logoLink":""
-  }
+	"title": "Clearing of alien vegetation",
+	"ownerName": "Jodie Franco",
+	"ownerEmail": "jody.franco@gmail.com",
+	"shortDescription": "We provide invasive alien vegetation management to ensure a sustainable water supply and to make cleared land productive again.",
+	"longDescription": "Invasive alien vegetation refers to plants brought to South Africa from other countries, both intentionally and unintentionally, that cause human, environmental or economic harm.\nWithout natural enemies, these plants reproduce and spread rapidly, taking valuable water and space from our indigenous plants. Many alien plants consume more water than local plants, depleting our valuable underground water resources. Dense alien vegetation can also provide plenty of fuel for veldfires, making them exceptionally hot, which damages the burnt area’s soil structure.\nInvasive alien plants are a major threat to biodiversity in catchment areas, potentially disrupting the delicate natural balance in ecosystems. As we depend on biodiversity for water, food, wood, clean air, medicine and much more, it is vitally important that we protect this resource.",
+	"impactAction": "10m x 10m sections cleared",
+	"projectLocation": "ZA",
+	"requiredClaims": 30,
+	"autoApprove": ["SA"],
+	"sdgs": ["15.5"],
+	"templates": {
+		"claim": {
+			"schema": "",
+			"form": ""
+		}
+	},
+	"evaluatorPayPerClaim": "0",
+	"socialMedia": {
+		"facebookLink": "https://www.facebook.com/ixofoundation/",
+		"instagramLink": "",
+		"twitterLink": "",
+		"webLink": "https://ixo.foundation"
+	},
+	"serviceEndpoint": "http://35.192.187.110:5000/",
+	"imageLink": "",
+	"founder": {
+		"name": "Jodie Franco",
+		"email": "jodie@me.com",
+		"countryOfOrigin": "ZA",
+		"shortDescription": "Passionate about fynbos rehabilitation and sustainable farming in the Westcoast region of Southern Africa.",
+		"websiteURL": "http://westcoastfynbos.co.za",
+		"logoLink": ""
+	}
 }
