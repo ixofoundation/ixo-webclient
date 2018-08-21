@@ -3,7 +3,7 @@ node {
 
     stage('Clone repository') {
         /* Let's make sure we have the repository cloned to our workspace */
-        echo 'Pulling...' + env.BRANCH_NAME
+        echo 'Pulling...' + scm.branches[0].name
         checkout scm
     }
 
