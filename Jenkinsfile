@@ -1,47 +1,53 @@
-node {
-    def app
-    def branch
+pipeline {
+    agent any
+    app any
+    branch string
 
-    stage('Clone repository') {
-        /* Let's make sure we have the repository cloned to our workspace */
-        checkout scm
-        branch = scm.branches[0].name.drop(2)
-        echo 'Branch Name: ' + branch
-    }
+    stages{
+        stage('Clone repository') {
+            /* Let's make sure we have the repository cloned to our workspace */
+            steps {
+                checkout scm
+                branch = scm.branches[0].name.drop(2)
+                echo 'Branch Name: ' + branch
+            }
+        }
 
-    stage('Build source') {
-        /* Let's make sure we have the repository cloned to our workspace */
+        stage('Build source') {
+            /* Let's make sure we have the repository cloned to our workspace */
 
-        sh 'yarn install'
-    }
+            sh 'yarn install'
+        }
 
-    stage('Build image') {
-        app = docker.build("trustlab/ixo-web:" + branch)
-    }
+        stage('Build image') {
+            app = docker.build("trustlab/ixo-web:" + branch)
+        }
 
-    stage('Test image') {
-        /* Ideally, we would run a test framework against our image.
-         * For this example, we're using a Volkswagen-type approach ;-) */
+        stage('Test image') {
+            /* Ideally, we would run a test framework against our image.
+            * For this example, we're using a Volkswagen-type approach ;-) */
 
-        app.inside {
-            sh 'echo "Tests passed"'
+            app.inside {
+                sh 'echo "Tests passed"'
+            }
+        }
+
+        stage('Push image') {
+            /* Finally, we'll push the image with two tags:
+            * First, the incremental build number from Jenkins
+            * Second, the 'latest' tag.
+            * Pushing multiple tags is cheap, as all the layers are reused. */
+            docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
+                app.push("${env.BUILD_NUMBER}")
+                app.push("latest")
+            }
+        }
+
+        stage('Removing Images') {
+            sh "docker rmi ${app.id}"
+            sh "docker rmi registry.hub.docker.com/${app.id}"
+            sh "docker rmi registry.hub.docker.com/${app.id}:${env.BUILD_NUMBER}"
         }
     }
-
-    stage('Push image') {
-        /* Finally, we'll push the image with two tags:
-         * First, the incremental build number from Jenkins
-         * Second, the 'latest' tag.
-         * Pushing multiple tags is cheap, as all the layers are reused. */
-        docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
-            app.push("${env.BUILD_NUMBER}")
-            app.push("latest")
-        }
-    }
-
-     stage('Removing Images') {
-        sh "docker rmi ${app.id}"
-        sh "docker rmi registry.hub.docker.com/${app.id}"
-        sh "docker rmi registry.hub.docker.com/${app.id}:${env.BUILD_NUMBER}"
-    }
+    
 }
