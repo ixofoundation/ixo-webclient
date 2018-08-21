@@ -1,4 +1,4 @@
-pipeline {
+node {
     def app
     def branch
 
@@ -15,16 +15,8 @@ pipeline {
         sh 'yarn install'
     }
 
-     stage('Build image') {
-         steps {
-             script {
-                 if (branch == 'master'){
-                    app = docker.build("trustlab/ixo-web")
-                 } else {
-                    app = docker.build("trustlab/ixo-web:" + branch)
-                 }
-             }
-         }
+    stage('Build image') {
+        app = docker.build("trustlab/ixo-web:" + branch)
     }
 
     stage('Test image') {
