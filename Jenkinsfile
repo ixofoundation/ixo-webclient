@@ -4,7 +4,7 @@ node {
     stage('Clone repository') {
         /* Let's make sure we have the repository cloned to our workspace */
         checkout scm
-        echo 'Pulling...' + scm.getUserRemoteConfigs()[0].getUrl()
+        echo 'Pulling...' + scm.branches[0].name
     }
 
     stage('Build source') {
