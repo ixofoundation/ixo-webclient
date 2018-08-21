@@ -11,17 +11,20 @@ node {
     stage('Build source') {
         /* Let's make sure we have the repository cloned to our workspace */
 
-        sh 'yarn'
+        sh 'yarn install'
     }
 
     stage('Build image') {
         /* This builds the actual image; synonymous to
          * docker build on the command line */
-        if(branch == 'master'){
-            app = docker.build("trustlab/ixo-web")
-        } else {
-            app = docker.build("trustlab/ixo-web:" + branch)
-        }
+         script {
+            if(branch == 'master'){
+                app = docker.build("trustlab/ixo-web")
+            } else {
+                app = docker.build("trustlab/ixo-web:" + branch)
+            }
+         }
+        
     }
 
     stage('Test image') {
