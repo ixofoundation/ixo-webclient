@@ -6,6 +6,7 @@ node {
         /* Let's make sure we have the repository cloned to our workspace */
         checkout scm
         branch = scm.branches[0].name
+        echo 'Branch Name: ' + branch
     }
 
     stage('Build source') {
@@ -14,17 +15,26 @@ node {
         sh 'yarn install'
     }
 
-    stage('Build image') {
+    stage('Build master image') {
         /* This builds the actual image; synonymous to
          * docker build on the command line */
-         script {
-            if(branch == 'master'){
-                app = docker.build("trustlab/ixo-web")
-            } else {
-                app = docker.build("trustlab/ixo-web:" + branch)
-            }
-         }
-        
+        when {
+            expression { branch == 'gremastereting' }
+        }
+        steps {
+            app = docker.build("trustlab/ixo-web")
+        }
+    }
+
+     stage('Build dev image') {
+        /* This builds the actual image; synonymous to
+         * docker build on the command line */
+        when {
+            expression { branch == 'gremastereting' }
+        }
+        steps {
+            app = docker.build("trustlab/ixo-web:" + branch)
+        }
     }
 
     stage('Test image') {
