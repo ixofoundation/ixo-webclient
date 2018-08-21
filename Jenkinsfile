@@ -15,26 +15,16 @@ node {
         sh 'yarn install'
     }
 
-    stage('Build master image') {
-        /* This builds the actual image; synonymous to
-         * docker build on the command line */
-        when {
-            expression { branch == 'gremastereting' }
-        }
-        steps {
-            app = docker.build("trustlab/ixo-web")
-        }
-    }
-
-     stage('Build dev image') {
-        /* This builds the actual image; synonymous to
-         * docker build on the command line */
-        when {
-            expression { branch == 'gremastereting' }
-        }
-        steps {
-            app = docker.build("trustlab/ixo-web:" + branch)
-        }
+     stage('Build image') {
+         steps {
+             script {
+                 if (branch == 'master'){
+                    app = docker.build("trustlab/ixo-web")
+                 } else {
+                    app = docker.build("trustlab/ixo-web:" + branch)
+                 }
+             }
+         }
     }
 
     stage('Test image') {
