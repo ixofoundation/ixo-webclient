@@ -128,7 +128,7 @@ export const RegisterStatus: React.SFC<ParentProps> = (props) => {
 		}
 	};
 
-	if (!props.hasKYC) {
+	if (props.hasKYC) {
 		return (
 		<StatusContainer>
 			<CheckItem>{getIcon(true)} You have successfully registered. 
@@ -138,7 +138,7 @@ export const RegisterStatus: React.SFC<ParentProps> = (props) => {
 		);
 	}
 
-	if (!!props.hasKYC && !!props.hasKeySafe && props.role === AgentRoles.evaluators) {
+	if (props.hasKYC && props.hasKeySafe && props.role === AgentRoles.evaluators) {
 		return (
 		<StatusContainer>
 			<CheckItem>{getIcon(props.hasKeySafe)}
@@ -148,7 +148,7 @@ export const RegisterStatus: React.SFC<ParentProps> = (props) => {
 		);
 	}
 
-	if (!!props.hasKeySafe && props.role === AgentRoles.serviceProviders) {
+	if (props.hasKeySafe && props.role === AgentRoles.serviceProviders) {
 		return (
 		<StatusContainer>
 			<CheckItem>{getIcon(props.hasKeySafe)}
