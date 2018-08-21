@@ -155,7 +155,7 @@ class RegisterPage extends React.Component<Props, State> {
 				<ModalContainer> 
 					<p>ixo Key Safe is your connection to the ixo blockchain. It is a secure identity vault that allows you to manage your profile and sign transactions on your projects.</p>
 					<Button type={ButtonTypes.dark} href="https://chrome.google.com/webstore/detail/ixo-keysafe/nnlfaleaeoefglohpacnfgoeldfakkjk" target="_blank"><BrowserIcon src={chromeIcon} alt="Chrome"/> DOWNLOAD FOR CHROME</Button>
-					<Button type={ButtonTypes.dark}><BrowserIcon src={mozillaIcon} alt="Firefox"/> DOWNLOAD FOR FIREFOX</Button>
+					<Button type={ButtonTypes.dark} href="https://addons.mozilla.org/en-US/firefox/addon/ixo-keysafe/" target="_blank"><BrowserIcon src={mozillaIcon} alt="Firefox"/> DOWNLOAD FOR FIREFOX</Button>
 				</ModalContainer>
 			);
 		} else if (this.state.activeModal === ModalData.kyc) {
@@ -243,6 +243,7 @@ If not, please send us an email, telling us a little about the project you would
 			.catch((err) => {
 					// Did not ledgered
 					ledgerDid();
+					
 			});
 		}
 		if (!this.state.hasKYC) {
