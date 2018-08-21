@@ -1,10 +1,11 @@
 node {
     def app
+    def branch
 
     stage('Clone repository') {
         /* Let's make sure we have the repository cloned to our workspace */
         checkout scm
-        echo 'Pulling...' + scm.branches[0].name
+        branch = scm.branches[0].name
     }
 
     stage('Build source') {
@@ -16,8 +17,11 @@ node {
     stage('Build image') {
         /* This builds the actual image; synonymous to
          * docker build on the command line */
-
-        app = docker.build("trustlab/ixo-web")
+        if(branch == 'master'){
+            app = docker.build("trustlab/ixo-web")
+        } else {
+            app = docker.build("trustlab/ixo-web:" + branch)
+        }
     }
 
     stage('Test image') {
