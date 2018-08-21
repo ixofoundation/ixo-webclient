@@ -1,9 +1,13 @@
 node {
     def app
 
+    String determineRepoName() {
+        return scm.getUserRemoteConfigs()[0].getUrl().tokenize('/')[3].split("\\.")[0]
+    }
+
     stage('Clone repository') {
         /* Let's make sure we have the repository cloned to our workspace */
-        echo 'Pulling...' + scm.branches[0].name
+        echo 'Pulling...' + determineRepoName()
         checkout scm
     }
 
