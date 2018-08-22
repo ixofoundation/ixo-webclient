@@ -213,6 +213,7 @@ export class ImageLoader extends React.Component<StateProps, State> {
 		const reader = new FileReader();
 	
 		reader.onload = (e2) => {
+			// @ts-ignore
 			this.setState({ projectImgSrc: e2.target.result, isModalOpen: true });
 		};
 	
