@@ -4,7 +4,7 @@ import { ErrorTypes } from '../../types/models';
 
 const successToast = (message: string) => {
 	toast(message, {
-		position: toast.POSITION.TOP_RIGHT,
+		position: 'top-right',
 		className: 'successToast'
 	});
 };
@@ -12,7 +12,7 @@ const successToast = (message: string) => {
 const errorToast = (message: string, type?: ErrorTypes) => {
 
 	toast(message, {
-		position: toast.POSITION.TOP_RIGHT,
+		position: 'top-right',
 		className: 'errorToast'
 	});
 	if (type === ErrorTypes.goBack) {
@@ -22,7 +22,7 @@ const errorToast = (message: string, type?: ErrorTypes) => {
 
 const warningToast = (message: string) => {
 	toast(message, {
-		position: toast.POSITION.TOP_RIGHT,
+		position: 'top-right',
 		className: 'warningToast'
 	});
 };
