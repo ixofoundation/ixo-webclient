@@ -33,7 +33,7 @@ node {
          * Second, the 'latest' tag.
          * Pushing multiple tags is cheap, as all the layers are reused. */
         docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
-            app.push(branch + "${env.BUILD_NUMBER}")
+            app.push(branch + "-" + "${env.BUILD_NUMBER}")
             app.push(branch)
         }
     }
@@ -41,6 +41,6 @@ node {
      stage('Removing Images') {
         sh "docker rmi ${app.id}"
         sh "docker rmi registry.hub.docker.com/${app.id}"
-        sh "docker rmi registry.hub.docker.com/${app.id}:${env.BUILD_NUMBER}"
+        sh "docker rmi registry.hub.docker.com/${app.id}:" + branch + "-" + "${env.BUILD_NUMBER}"
     }
 }
