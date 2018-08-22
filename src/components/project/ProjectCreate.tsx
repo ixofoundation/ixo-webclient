@@ -242,6 +242,7 @@ export class ProjectCreate extends React.Component<StateProps, State> {
 			projectJson: testProjectData,
 			project: JSON.parse(testProjectData)
 		});
+		console.log(this.state.projectJson);
 	}
 
 	renderDevPortion() {
