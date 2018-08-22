@@ -41,6 +41,6 @@ node {
      stage('Removing Images') {
         sh "docker rmi ${app.id}"
         sh "docker rmi registry.hub.docker.com/${app.id}"
-        sh "docker rmi registry.hub.docker.com/${app.id}:" + branch + "-" + "${env.BUILD_NUMBER}"
+        sh "docker rmi registry.hub.docker.com/${app.id}-${env.BUILD_NUMBER}"
     }
 }
