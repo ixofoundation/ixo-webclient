@@ -2,26 +2,20 @@ node {
     def app
     def branch
 
-    parameters {
-        booleanParam(defaultValue: true, description: '', name: 'userFlag')
-    }
-
     stage('Clone repository') {
         /* Let's make sure we have the repository cloned to our workspace */
         checkout scm
         branch = scm.branches[0].name.drop(2)
-        echo 'Branch Name: ' + branch
-        echo "flag: ${params.userFlag}"
+        echo 'Branch Name: ${env.BRANCH_NAME}'
     }
 
     stage('Build source') {
         /* Let's make sure we have the repository cloned to our workspace */
-
         sh 'yarn install'
     }
 
     stage('Build image') {
-        app = docker.build("trustlab/ixo-web:" + branch)
+        app = docker.build("trustlab/ixo-web:${env.BRANCH_NAME}")
     }
 
     stage('Test image') {
@@ -40,7 +34,7 @@ node {
          * Pushing multiple tags is cheap, as all the layers are reused. */
         docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
             app.push("${env.BUILD_NUMBER}")
-            app.push("dev")
+            app.push("${env.BRANCH_NAME}")
         }
     }
 
