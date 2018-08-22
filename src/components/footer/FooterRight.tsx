@@ -18,8 +18,11 @@ const Main = styled.div`
 
 const SocialIcon = styled.a`
 	padding: 10px;
-	color: '#FFF';
 
+	:before {
+		color: #FFF;
+	}
+	
 	&:hover:before {
 		text-decoration: none;
 		color: ${props => props.theme.ixoBlue};
@@ -45,8 +48,9 @@ export const FooterRight: React.SFC<any> = () => {
 		<Main className="col-md-4">
 			<div className="row">
 				<SocialIconContainer className="col-md-12">
-					<SocialIcon href="https://twitter.com/ixo_impact?lang=en" target="_blank" className="icon-twitter" />
-					<SocialIcon href="https://www.facebook.com/pg/ixofoundation/about/?ref=page_internal" target="_blank" className="icon-facebook" />
+					<SocialIcon href="https://twitter.com/ixoworld?lang=en" target="_blank" className="icon-twitter" />
+					<SocialIcon href="https://www.facebook.com/ixoworld/" target="_blank" className="icon-facebook" />
+					<SocialIcon href="https://www.linkedin.com/company/25001970/admin/updates/" target="_blank" className="icon-linkedin" />
 					<SocialIcon href="https://github.com/ixofoundation" target="_blank" className="icon-github" />
 					<SocialIcon href="https://medium.com/ixo-blog" target="_blank" className="icon-medium" />
 					<SocialIcon href="https://t.me/joinchat/Ejz5exAfFUzcBMRlaYLecQ" target="_blank" className="icon-telegram" />
