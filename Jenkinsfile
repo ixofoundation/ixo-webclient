@@ -2,11 +2,16 @@ node {
     def app
     def branch
 
+    parameters {
+        booleanParam(defaultValue: true, description: '', name: 'userFlag')
+    }
+
     stage('Clone repository') {
         /* Let's make sure we have the repository cloned to our workspace */
         checkout scm
         branch = scm.branches[0].name.drop(2)
         echo 'Branch Name: ' + branch
+        echo "flag: ${params.userFlag}"
     }
 
     stage('Build source') {
