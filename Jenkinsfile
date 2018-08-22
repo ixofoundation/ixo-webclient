@@ -1,23 +1,21 @@
 node {
     def app
+    def branch
 
     stage('Clone repository') {
         /* Let's make sure we have the repository cloned to our workspace */
-
         checkout scm
+        branch = scm.branches[0].name.drop(2)
+        echo 'Branch Name: ' + branch
     }
 
     stage('Build source') {
         /* Let's make sure we have the repository cloned to our workspace */
-
-        sh 'yarn'
+        sh 'yarn install'
     }
 
     stage('Build image') {
-        /* This builds the actual image; synonymous to
-         * docker build on the command line */
-
-        app = docker.build("trustlab/ixo-web")
+        app = docker.build("trustlab/ixo-web:" + branch)
     }
 
     stage('Test image') {
@@ -35,8 +33,8 @@ node {
          * Second, the 'latest' tag.
          * Pushing multiple tags is cheap, as all the layers are reused. */
         docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
-            app.push("${env.BUILD_NUMBER}")
-            app.push("latest")
+            app.push(branch + "${env.BUILD_NUMBER}")
+            app.push(branch)
         }
     }
 
