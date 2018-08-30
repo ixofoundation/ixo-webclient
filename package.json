@@ -21,6 +21,7 @@
     "moment": "^2.22.2",
     "npm": "^6.4.0",
     "parallelshell": "^3.0.2",
+    "qrcode": "^1.2.2",
     "query-string": "^6.1.0",
     "rc-progress": "^2.2.5",
     "react": "^16.4.1",
