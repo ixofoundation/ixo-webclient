@@ -10,6 +10,7 @@ import { ProjectNewAgent } from './ProjectNewAgent';
 import { UserInfo } from '../../types/models';
 import { Button, ButtonTypes } from '../common/Buttons';
 import { Fragment } from 'react';
+import QRComponent from '../common/QRComponent';
 
 const placeholder = require('../../assets/images/ixo-placeholder-large.jpg');
 
@@ -412,6 +413,7 @@ export const ProjectOverview: React.SFC<ParentProps> = (props) => {
 							</Sidebar>
 							{/* <LocalButton><i className="icon-heart"/>SAVE TO FAVOURITES</LocalButton> */}
 							{/* <LocalButton><i className="icon-share"/>SHARE THIS PROJECT</LocalButton> */}
+							<QRComponent url="http://google.com" />
 						</div>
 					</div>
 				</div>
