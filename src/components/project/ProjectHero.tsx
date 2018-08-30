@@ -15,7 +15,7 @@ const SingleSDG = styled.a`
 	font-family: ${props => props.theme.fontRobotoCondensed};
 	font-weight: 300;
 	font-size: 14px;
-	margin:0 10px 10px 0;
+	margin:0 10px 0 0;
 	display:inline-flex;
 	align-items: center;
 	text-decoration: none;
@@ -34,7 +34,7 @@ const SingleSDG = styled.a`
 	@media (min-width: ${deviceWidth.tablet}px){
 		i:before {
 			width: auto;
-		}		
+		}
 	}
 
 	&&&:hover, :hover i:before {
@@ -43,7 +43,7 @@ const SingleSDG = styled.a`
 `;
 
 const HeroInner = styled.div`
-	
+
 	padding-top: 80px;
 	padding-bottom: 130px;
 	position:relative;
@@ -51,7 +51,7 @@ const HeroInner = styled.div`
 
 	@media (min-width: ${deviceWidth.desktop + 1}px){
 		padding-top: 150px;
-	}	
+	}
 `;
 
 const TabsController = styled.div`
@@ -73,7 +73,7 @@ const HeroContainer = styled.div`
 	background: url(${bg}) no-repeat center top;
 	background-size: cover;
 	margin:0;
-	position: relative;	
+	position: relative;
 
 	.detailed {
 		padding-bottom: 50px;
@@ -90,7 +90,7 @@ const ColRight = styled.div`
     display: flex;
     flex-direction: column;
 	justify-content: center;
-	
+
 	p {
 		margin-bottom: 0;
 		line-height: 24px;
@@ -241,7 +241,7 @@ export const ProjectHero: React.SFC<Props> = ({project, match, isDetail, hasCapa
 						<div className="row">
 							<div className="offset-md-8" />
 							<div className="col-md-4">
-								<Tabs 
+								<Tabs
 									buttons={buttonsArray}
 									matchType={MatchType.strict}
 								/>
@@ -250,7 +250,7 @@ export const ProjectHero: React.SFC<Props> = ({project, match, isDetail, hasCapa
 					</div>
 					</MediaQuery>
 					<MediaQuery maxWidth={`${Number(deviceWidth.desktop) - 1}px`}>
-						<Tabs 
+						<Tabs
 							buttons={buttonsArray}
 							matchType={MatchType.strict}
 						/>
