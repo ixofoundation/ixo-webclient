@@ -103,7 +103,7 @@ const Social = styled.div`
 	margin: 10px 0 20px;
     display: flex;
 	justify-content: space-evenly;
-	
+
 	@media (min-width:${deviceWidth.tablet}px){
 		margin-top: 10px;
 		display: block;
@@ -191,7 +191,7 @@ const Founder = styled.div`
 		font-size: 16px;
 		color: ${props => props.theme.darkGrey};
 	}
-	
+
 	img {
 		margin-top: 20px;
 	}
@@ -242,7 +242,7 @@ export interface ParentProps {
 }
 
 export const ProjectOverview: React.SFC<ParentProps> = (props) => {
-	
+
 	const {evaluators, serviceProviders, investors} = props.project.agentStats;
 	const statistics: Statistic[] = [
 		{type: StatType.decimal, descriptor: [{class: 'text', value: 'Investors'}], amount: investors},
@@ -263,7 +263,7 @@ export const ProjectOverview: React.SFC<ParentProps> = (props) => {
 			userName = props.userInfo.name.valueOf();
 		}
 		return (
-			<ProjectNewAgent 
+			<ProjectNewAgent
 				submitAgent={submitAgent}
 				role={data.selectedRole}
 				name={userName}
@@ -296,14 +296,14 @@ export const ProjectOverview: React.SFC<ParentProps> = (props) => {
 			// return <Button type={ButtonTypes.dark} disabled={true}>You are an investor</Button>;
 		// } else {
 		// 	return (
-		// 	<Button 
-		// 		type={ButtonTypes.dark} 
+		// 	<Button
+		// 		type={ButtonTypes.dark}
 		// 		disabled={false}
 		// 		onClick={() => props.toggleModal({selectedRole: AgentRoles.investors}, true)}
 		// 	>Invest in this Project
 		// 	</Button>
 		// 	);
-		// } 
+		// }
 		return '';
 	};
 
@@ -316,14 +316,14 @@ export const ProjectOverview: React.SFC<ParentProps> = (props) => {
 			return '';
 		} else {
 			return (
-				<Button 
-					type={ButtonTypes.dark} 
+				<Button
+					type={ButtonTypes.dark}
 					disabled={false}
 					onClick={() => props.toggleModal({selectedRole: AgentRoles.evaluators}, true)}
 				>Become an evaluator
 				</Button>
 			);
-		} 
+		}
 	};
 
 	const handleRenderServiceProviderButton = () => {
@@ -335,20 +335,20 @@ export const ProjectOverview: React.SFC<ParentProps> = (props) => {
 			return '';
 		} else {
 			return (
-				<Button 
-					type={ButtonTypes.dark} 
+				<Button
+					type={ButtonTypes.dark}
 					disabled={false}
 					onClick={() => props.toggleModal({selectedRole: AgentRoles.serviceProviders}, true)}
 				>Become a Service Provider
 				</Button>
 			);
-		} 
+		}
 	};
 
 	const onProjectImageNotFound = (evt) => {
 		evt.target.src = placeholder;
 	};
-	
+
 	return (
 		<div>
 			<ModalWrapper
@@ -368,7 +368,7 @@ export const ProjectOverview: React.SFC<ParentProps> = (props) => {
 						<div className="col-md-8">
 							<img src={props.imageLink} onError={onProjectImageNotFound}/>
 							<Text>
-								<p>{props.project.longDescription} 
+								<p>{props.project.longDescription}
 								</p>
 							</Text>
 							<Social>
@@ -381,13 +381,13 @@ export const ProjectOverview: React.SFC<ParentProps> = (props) => {
 						<div className="col-md-4">
 							<Sidebar>
 								<BarContainer>
-									<DarkBar 
+									<DarkBar
 										total={props.project.requiredClaims}
 										approved={props.project.claimStats.currentSuccessful}
-										rejected={props.project.claimStats.currentRejected} 
+										rejected={props.project.claimStats.currentRejected}
 									/>
 								</BarContainer>
-								{props.project.requiredClaims === 0 ? 
+								{props.project.requiredClaims === 0 ?
 									<p style={{marginTop: '20px'}}>This project will launch in September 2018.</p>
 								:
 									<Fragment>
@@ -425,7 +425,7 @@ export const ProjectOverview: React.SFC<ParentProps> = (props) => {
 							<Text>{props.project.founder.shortDescription}</Text>
 							<IconText>
 								<span><i className="icon-location"/>{getCountryName(props.project.founder.countryOfOrigin)}</span>
-								<span><i className="icon-url"/><a href={props.project.founder.websiteURL} target="_blank">{props.project.founder.websiteURL}</a></span>
+								<span><i className="icon-world"/><a href={props.project.founder.websiteURL} target="_blank">{props.project.founder.websiteURL}</a></span>
 							</IconText>
 						</div>
 						<div className="col-md-4">
