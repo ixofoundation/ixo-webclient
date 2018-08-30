@@ -227,12 +227,12 @@ export class Projects extends React.Component<Props, State> {
 	}
 
 	render() {
-			return (        
-				<Container>
-					<ProjectsHero ixo={this.props.ixo} myProjectsCount={this.state.myProjects.length} showMyProjects={(val) => this.showMyProjects(val)}/>
-					{this.handleRenderProjectList()}
-				</Container>
-			);
+		return (        
+			<Container>
+				<ProjectsHero ixo={this.props.ixo} myProjectsCount={this.state.myProjects.length} showMyProjects={(val) => this.showMyProjects(val)}/>
+				{this.handleRenderProjectList()}
+			</Container>
+		);
 		}
 	}
 

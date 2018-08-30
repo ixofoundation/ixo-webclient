@@ -20,12 +20,12 @@ const OverviewContainer = styled.section`
 	background: ${props => props.theme.bg.lightGrey};
 	color: white;
 	padding-bottom: 40px;
+`;
 
-	img {
-		width: 100%;
-		box-shadow: 0px 10px 35px 0px rgba(0,0,0,0.25);
-		margin-bottom: 22px;
-	}
+const ProjectImage = styled.img`
+	width: 100%;
+	box-shadow: 0px 10px 35px 0px rgba(0,0,0,0.25);
+	margin-bottom: 22px;
 `;
 
 const DarkBar = styled(ProgressBar)``;
@@ -349,7 +349,7 @@ export const ProjectOverview: React.SFC<ParentProps> = (props) => {
 	const onProjectImageNotFound = (evt) => {
 		evt.target.src = placeholder;
 	};
-	
+
 	return (
 		<div>
 			<ModalWrapper
@@ -367,7 +367,7 @@ export const ProjectOverview: React.SFC<ParentProps> = (props) => {
 				<div className="container">
 					<div className="row">
 						<div className="col-md-8">
-							<img src={props.imageLink} onError={onProjectImageNotFound}/>
+							<ProjectImage src={props.imageLink} onError={onProjectImageNotFound}/>
 							<Text>
 								<p>{props.project.longDescription} 
 								</p>
@@ -413,7 +413,7 @@ export const ProjectOverview: React.SFC<ParentProps> = (props) => {
 							</Sidebar>
 							{/* <LocalButton><i className="icon-heart"/>SAVE TO FAVOURITES</LocalButton> */}
 							{/* <LocalButton><i className="icon-share"/>SHARE THIS PROJECT</LocalButton> */}
-							<QRComponent url="http://google.com" />
+							<QRComponent url={location.href} />
 						</div>
 					</div>
 				</div>
