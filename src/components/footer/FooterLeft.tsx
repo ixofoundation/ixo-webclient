@@ -67,9 +67,9 @@ export const FooterLeft: React.SFC<any> = ({simple}) => {
 				<MediaQuery minWidth={`${deviceWidth.tablet}px`}>
 					<a href={getIxoWorldRoute('')}><IXOLogo alt="IXO Logo" src={ixoLogo}/></a>
 				</MediaQuery>
-				<ExternalFooterLink target="_blank" href={getIxoWorldRoute('/about')}>About</ExternalFooterLink>
-				<ExternalFooterLink target="_blank" href={getIxoWorldRoute('/membership')}>Membership</ExternalFooterLink>
-				<ExternalFooterLink target="_blank" href={getIxoWorldRoute('/ecosystem')}>Ecosystem</ExternalFooterLink>
+				<ExternalFooterLink href={getIxoWorldRoute('/about')}>About</ExternalFooterLink>
+				<ExternalFooterLink href={getIxoWorldRoute('/membership')}>Membership</ExternalFooterLink>
+				<ExternalFooterLink href={getIxoWorldRoute('/ecosystem')}>Ecosystem</ExternalFooterLink>
 				<ExternalFooterLink target="_blank" href="https://ixo.foundation">ixo.Foundation</ExternalFooterLink>
 				{/* <FooterLink exact={true} to="/">Oracles</FooterLink> */}
 				{/* <FooterLink exact={true} to="/">Plans / Pricing</FooterLink> */}
