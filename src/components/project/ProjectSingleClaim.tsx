@@ -16,7 +16,7 @@ const placeholder = require('../../assets/images/ixo-placeholder.jpg');
 const Container = styled.div`
 	justify-content: center;
 	display: flex;
-`; 
+`;
 
 const Divider = styled.div`
 	height: 2px;
@@ -144,7 +144,7 @@ export const ProjectSingleClaim: React.SFC<ParentProps> = (props) => {
 			return 0;
 		}
 	};
-	
+
 	const evaluateClaim = (status: string, evaluations: any, id: string) => {
 		console.log(latestClaimStatus());
 		if (evaluations.length === 0) {
@@ -165,19 +165,19 @@ export const ProjectSingleClaim: React.SFC<ParentProps> = (props) => {
 	};
 
 	const handleRenderStatus = (claimStatus, ID: string) => {
-		
+
 		if (props.hasCapability([AgentRoles.evaluators])) { // is evaluator
-			switch (claimStatus) {				
+			switch (claimStatus) {
 				case '1':
-				return <ClaimStatus message={`You have accepted claim ${ID}`} icon={'icon-approved'} />;
+				return <ClaimStatus message={`claim ${ID}`} icon={'icon-approved'} />;
 				case '2':
-				return <ClaimStatus message={`You have rejected claim ${ID}`} icon={'icon-rejected'} />;
+				return <ClaimStatus message={`claim ${ID}`} icon={'icon-rejected'} />;
 				case '0':
 				default:
 				return <ClaimStatus message={'Pending'} icon={'icon-pending'} />;
 			}
 		} else {
-			switch (claimStatus) {			
+			switch (claimStatus) {
 				case '1':
 				return <ClaimStatus message={'Approved'} icon={'icon-approved'} />;
 				case '2':
@@ -231,11 +231,11 @@ export const ProjectSingleClaim: React.SFC<ParentProps> = (props) => {
 					switch (field.type) {
 						case 'text':
 							return <InputText
-										formStyle={FormStyles.disabled} 
+										formStyle={FormStyles.disabled}
 										key={index}
 										type={field.type}
 										value={field.name}
-										text={props.claim[`${field.name}`]} 
+										text={props.claim[`${field.name}`]}
 										validation={field.validation}
 							/>;
 						case 'textarea':
