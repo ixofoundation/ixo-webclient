@@ -2,7 +2,7 @@ version: "2"
 services:
   ixo-web:
     container_name: ixo-web
-    image: trustlab/ixo-web:latest
+    image: trustlab/ixo-web:master
     environment:
       - PORT=80
     ports:
