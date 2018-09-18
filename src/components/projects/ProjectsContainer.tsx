@@ -9,7 +9,7 @@ import { PublicSiteStoreState } from '../../redux/public_site_reducer';
 import * as Toast from '../helpers/Toast';
 import { contentType, UserInfo } from '../../types/models';
 import { ProjectsDashboard } from './ProjectsDashboard';
-import io from 'socket.io-client';
+import { explorerSocket } from '../helpers/explorerSocket';
 
 const Container = styled.div`
 
@@ -99,14 +99,8 @@ export class Projects extends React.Component<Props, State> {
 
 	componentDidMount() {
 
-		const socket = io('http://localhost:8080');
-		socket.on('news', function (data: any) {
-			console.log('heeee');
-			console.log(data);
-			socket.emit('my other event', { my: 'data' });
-		});
-		socket.on('list projects', function (data: any) {
-			console.log('LLIST PROJECT');
+		explorerSocket.on('list all projects', function (data: any) {
+			console.log('LLIST PROJECT', data);
 		});
 
 		this.refreshAllProjects();

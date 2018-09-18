@@ -18,6 +18,7 @@ import { Routes } from './components/Routes';
 import { Spinner } from './components/common/Spinner';
 import { ToastContainer } from 'react-toastify';
 import * as ReactGA from 'react-ga';
+import { explorerSocket } from './components/helpers/explorerSocket';
 
 ReactGA.initialize('UA-106630107-5');
 
@@ -105,6 +106,16 @@ export namespace App {
 	}
 	export interface Props extends StateProps, DispatchProps {}
 }
+
+explorerSocket.on('did created', function (data: any) {
+	console.log('did created');
+	console.log(data);
+});
+
+explorerSocket.on('did updated', function (data: any) {
+	console.log('did updated');
+	console.log(data);
+});
 
 class App extends React.Component<App.Props, App.State> {
 

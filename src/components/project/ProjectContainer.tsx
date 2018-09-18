@@ -20,6 +20,7 @@ import { ProjectSidebar } from './ProjectSidebar';
 import * as Toast from '../helpers/Toast';
 import { deviceWidth } from '../../lib/commonData';
 import { ProjectClaimSubmitted } from './ProjectClaimSubmitted';
+import { explorerSocket } from '../helpers/explorerSocket';
 
 const placeholder = require('../../assets/images/ixo-placeholder-large.jpg');
 
@@ -75,6 +76,21 @@ export interface ParentProps {
 	contentType: contentType;
 	match: any;
 }
+
+explorerSocket.on('list project', function (data: any) {
+	console.log('list project');
+	console.log(data);
+});
+
+explorerSocket.on('agent added', function (data: any) {
+	console.log('agent updated');
+	console.log(data);
+});
+
+explorerSocket.on('agent stats updated', function (data: any) {
+	console.log('agent stats updated');
+	console.log(data);
+});
 
 export interface Props extends ParentProps, StateProps, DispatchProps {}
 

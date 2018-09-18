@@ -95,6 +95,9 @@ export const SingleStatistic: React.SFC<Statistic> = ({type, amount, title, desc
 				if (amount[0] > amount[1]) {
 					return <Error>INVALID FORMAT, NUMERATOR CANNOT BE LARGER THAN DENOMINATOR</Error>;
 				}
+				if (amount[0] === undefined || amount[1] === undefined) {
+					return <Error>UNDEFINED</Error>;
+				}
 				return (
 					<Amount>
 						{(amount[0]).toLocaleString()}/<strong>{(amount[1]).toLocaleString()}</strong>
