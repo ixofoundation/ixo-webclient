@@ -8,7 +8,6 @@ import { successToast, errorToast } from '../../helpers/Toast';
 import { ErrorTypes } from '../../../types/models';
 import queryString from 'query-string';
 import { Banner } from './Banner';
-import { Spinner } from '../../common/Spinner';
 import { ImageSpinner } from '../../common/ImageSpinner';
 const bg = require('../../../assets/images/register/background.jpg');
 
