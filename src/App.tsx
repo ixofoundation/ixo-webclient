@@ -129,7 +129,6 @@ const Container = styled.div`
 		border-radius: 2px;
 		position: relative;
 	}
-
 	.Toastify__close-button--default {
 		display: none;
 	}
