@@ -220,7 +220,7 @@ class App extends React.Component<App.Props, App.State> {
 		});
 	}
 
-	toastMessage = () => toast('Success', { autoClose: 95000 });
+	toastMessage = () => toast('Success', { autoClose: 3000 });
 
 	render() {
 

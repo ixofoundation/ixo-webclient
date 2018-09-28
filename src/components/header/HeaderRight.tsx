@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { Link } from 'react-router-dom';
 
-const xIcon = require('../../assets/images/x-icon.png');
+const xIcon = require('../../assets/images/oval-x-icon.png');
 
 const Inner = styled.div`
 	position:relative;
@@ -50,7 +50,7 @@ const UserBox = styled.div`
 
 	i {
 		font-size: 18px;
-		margin: 1px 0 0 10px;	
+		margin: 1px 0 0 10px;
 	}
 `;
 
@@ -126,7 +126,7 @@ const AccDID = styled.div`
 	color: #3ea2c0;
 	display:flex;
 	justify-content:space-between;
-	
+
 	p {
 		white-space: nowrap;
 		overflow: hidden;
@@ -134,7 +134,7 @@ const AccDID = styled.div`
 		width:80%;
 		margin:0;
 		font-weight:300;
-		font-size:10px;	
+		font-size:10px;
 	}
 
 	span {
@@ -142,14 +142,14 @@ const AccDID = styled.div`
 		cursor:pointer;
 		display:inline-block;
 		font-weight:300;
-		font-size:10px;	
+		font-size:10px;
 	}
 
 	span:hover {
 		color: #3ea2c0;
 		font-weight: bold;
 	}
-`;	
+`;
 
 const StatusBox = styled.div`
 	text-align:center;
@@ -171,7 +171,7 @@ const JoinLink = styled(Link)`
 		text-decoration: none;
 		color: white;
 	}
-`;	
+`;
 
 interface HeaderRightProps {
 	userInfo: any;
@@ -187,7 +187,7 @@ export class HeaderRight extends React.Component<HeaderRightProps, State> {
 	state = {
 		showMenu: false
 	};
-	
+
 	toggleMenu = () => {
 		this.setState((prevState) => ({showMenu: !prevState.showMenu}));
 	}
@@ -222,14 +222,14 @@ export class HeaderRight extends React.Component<HeaderRightProps, State> {
 					<UserMenu className={this.state.showMenu ? 'visible' : ''} onMouseLeave={() => this.toggleMenu()}>
 							<MenuTop>
 								{/* <h3>{this.props.userInfo !== null && this.props.userInfo.name} <Link to="/"><i className="icon-settings"/></Link></h3> */}
-								<h3>{this.props.userInfo !== null && this.props.userInfo.name}</h3>
+
 									<AccDID >
-										<p>{this.props.userInfo !== null && this.props.userInfo.didDoc.did}</p> 
+										<p>{this.props.userInfo !== null && this.props.userInfo.didDoc.did}</p>
 										<CopyToClipboard text={this.props.userInfo !== null && this.props.userInfo.didDoc.did}>
 											<span>Copy</span>
 										</CopyToClipboard>
 									</AccDID>
-								<BalanceContainer><img src={xIcon} alt="IXO Icon" /> <strong>0</strong> ixo balance</BalanceContainer>
+								<BalanceContainer><img src={xIcon} alt="IXO Icon" /> <strong>0</strong> IXO balance</BalanceContainer>
 							</MenuTop>
 							{/* <MenuBottom>
 								<Link to="/my-projects">MY PROJECTS</Link>

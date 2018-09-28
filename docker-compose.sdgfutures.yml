@@ -1,0 +1,7 @@
+version: "2"
+services:
+  ixo-web:
+    environment:
+      - REACT_APP_BLOCKCHAIN_NODE_URL=http://blockchain_sdgfutures.ixo.world:46657
+      - REACT_APP_BLOCK_SYNC_URL=https://explorer_sdgfutures.ixo.world
+      - REACT_APP_IXO_WORLD_ORIGIN=https://sdgfutures.ixo.world

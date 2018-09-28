@@ -196,7 +196,6 @@ If not, please send us an email, telling us a little about the project you would
 		} else if (this.state.activeModal = ModalData.invite) {
 			return {
 				title: 'INTERESTED IN CREATING YOUR OWN PROJECTS?',
-				subtitle: 'Interested in creating your own projects?',
 				icon: 'icon-claims',
 				width: '365'
 			};
@@ -244,7 +243,11 @@ If not, please send us an email, telling us a little about the project you would
 					// Did not ledgered
 					ledgerDid();
 
+<<<<<<< HEAD
 				});
+=======
+			});
+>>>>>>> origin/dev
 		}
 		if (!this.state.hasKYC) {
 			setTimeout(() => this.checkState(), 2000);
