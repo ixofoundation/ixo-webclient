@@ -136,54 +136,75 @@ export interface ParentProps {
 	text?: string;
 	value?: string;
 	validation?: string;
+	required?: boolean;
 }
 export interface Callbacks {
 	onChange?: (event: any) => void;
+	setHasError?: Function;
 }
 
 export interface Props extends ParentProps, Callbacks {}
 
-// const validateEmail = (email: string) => {
-// 	const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-// 	console.log(re.test(String(email).toLowerCase()));
-// 	return re.test(String(email).toLowerCase());
-// };
+const validateEmail = (email: string) => {
+	const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+	console.log(re.test(String(email).toLowerCase()));
+	return re.test(String(email).toLowerCase());
+};
 
 const InputText: React.SFC<Props> = (props) => {
-		if (props.formStyle === FormStyles.disabled) {
-			return (
-				<InputContainer>
-				<div className={`${(props.formStyle).toLowerCase()}-input`}>
-						<input 
-							className="form-control"
-							id={props.id}
-							type={props.type}
-							placeholder={props.value}
-							value={props.text}
-							name={props.id}
-							disabled={true}
-						/>
-						<p>{props.value}</p>
-					</div>	
-				</InputContainer>
-			);
-		} else {
-			return (
-				<InputContainer>
-					<div className={`${(props.formStyle).toLowerCase()}-input`}>
-						<input 
-							className="form-control"
-							id={props.id}
-							type={props.type}
-							placeholder={props.text}
-							onChange={props.onChange}
-							name={props.id}
-						/>
-						<p>{props.text}</p>
-					</div>
-				</InputContainer>
-			);
+
+	const handleValidation = (event: any) => {
+		console.log(event.target.value);
+		if (props.type === 'email') {
+			const verdict = validateEmail(event.target.value);
+			if (verdict === false) {
+				props.setHasError(true);
+			} else {
+				props.setHasError(false);
+			}
 		}
+		if (props.required === true && event.target.value.length === 0) {
+			props.setHasError(true);
+		} else {
+			props.setHasError(false);
+		}
+	};
+
+	if (props.formStyle === FormStyles.disabled) {
+		return (
+			<InputContainer>
+				<div className={`${(props.formStyle).toLowerCase()}-input`}>
+					<input 
+						className="form-control"
+						id={props.id}
+						type={props.type}
+						placeholder={props.value}
+						value={props.text}
+						name={props.id}
+						disabled={true}
+					/>
+					<p>{props.value}</p>
+				</div>	
+			</InputContainer>
+		);
+	} else {
+		return (
+			<InputContainer>
+				<div className={`${(props.formStyle).toLowerCase()}-input`}>
+					<input 
+						className="form-control"
+						id={props.id}
+						type={props.type}
+						placeholder={props.text}
+						onChange={props.onChange}
+						name={props.id}
+						onBlur={handleValidation}
+					/>
+					<p>{props.text}</p>
+				</div>
+			</InputContainer>
+		);
+	}
 };
 
 export default InputText;

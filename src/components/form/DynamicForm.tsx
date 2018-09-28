@@ -1,6 +1,6 @@
-import * as React from 'react';
-import TextArea from './TextArea';
-import InputText from './InputText';
+import * as React    from 'react';
+import TextArea      from './TextArea';
+import InputText     from './InputText';
 import Select from './Select';
 import Radio from './Radio';
 import CountrySelect from './CountrySelect';
@@ -73,18 +73,20 @@ export interface ParentProps {
 export interface State {
 	formData: any;
 	submitStatus: string;
+	hasError: boolean;
 }
 
 export interface Callbacks {
 	handleSubmit: (formData: any) => void;
 }
 
-export interface Props extends ParentProps, Callbacks { }
+export interface Props extends ParentProps, Callbacks {}
 
 export default class DynamicForm extends React.Component<Props, State> {
 	state = {
 		formData: {},
-		submitStatus: ''
+		submitStatus: '',
+		hasError: false
 	};
 
 	componentWillMount() {
@@ -101,19 +103,24 @@ export default class DynamicForm extends React.Component<Props, State> {
 	}
 
 	handleSubmit = (event) => {
-		// console.log(this.state.formData);
-		// let formObj = this.state.formData;
-		// formObj.map((obj) => {
-
-		// })
-		this.props.handleSubmit(this.state.formData);
+		// for (let field in this.props.formSchema) {
+		// 	if (this.props.formSchema.hasOwnProperty(field)) {
+		// 		console.log(field + ' -> ' + JSON.stringify(this.props.formSchema[field]));
+		// 	}
+		// }
+		if (this.state.hasError === true ) {
+			console.log('you lose');
+		} else {
+			// THIS WAS THE ONLY LINE IN THE FUNCTION BEFORE DONOVAN CAME ALONG
+			// this.props.handleSubmit(this.state.formData);
+		}
 	}
 
 	setFormState = (name: String, value: any) => {
 		const fields = name.split('.');
 		let formData = this.state.formData;
 		fields.forEach((field, index) => {
-			if (index === fields.length - 1) {
+			if (index === fields.length - 1 ) {
 				formData[field] = value;
 			} else {
 				if (!formData[field]) {
@@ -122,7 +129,7 @@ export default class DynamicForm extends React.Component<Props, State> {
 				formData = formData[field];
 			}
 		});
-		this.setState({ formData: formData });
+		this.setState({formData: formData});
 	}
 
 	onFormValueChanged = (name: String) => {
@@ -152,6 +159,10 @@ export default class DynamicForm extends React.Component<Props, State> {
 		}
 	}
 
+	setHasError = (val: boolean) => {
+			this.setState({ hasError: val});
+	}
+
 	render() {
 		return (
 			<form>
@@ -162,28 +173,30 @@ export default class DynamicForm extends React.Component<Props, State> {
 							case 'text':
 							case 'email':
 								return (
-									<InputText
-										formStyle={this.props.formStyle}
-										id={field.name}
-										type={field.type}
-										text={field.label}
-										key={i}
+									<InputText 
+										formStyle={this.props.formStyle} 
+										id={field.name} 
+										type={field.type} 
+										text={field.label} 
+										key={i} 
 										onChange={this.onFormValueChanged(field.name)}
 										validation={field.validation}
+										required={field.required}
+										setHasError={(val) => this.setHasError(val)}
 									/>
 								);
-							case 'image':
-								return <InputImage id={field.name} text={field.label} key={i} imageWidth={570} onChange={this.onFormValueChanged(field.name)} />;
-							case 'textarea':
-								return <TextArea formStyle={this.props.formStyle} id={field.name} text={field.label} key={i} onChange={this.onFormValueChanged(field.name)} />;
+							case 'image' :
+								return <InputImage id={field.name} text={field.label} key={i} imageWidth={570} onChange={this.onFormValueChanged(field.name)}/>;
+							case 'textarea' :
+								return <TextArea formStyle={this.props.formStyle} id={field.name} text={field.label} key={i} onChange={this.onFormValueChanged(field.name)}/>;
 							case 'select':
-								return <Select id={field.name} options={field.options} text={field.label} key={i} onChange={this.onFormValueChanged(field.name)} />;
+								return <Select id={field.name} options={field.options} text={field.label} key={i} onChange={this.onFormValueChanged(field.name)}/>;
 							case 'country':
-								return <CountrySelect id={field.name} text={field.label} key={i} onChange={this.onFormValueChanged(field.name)} />;
+								return <CountrySelect id={field.name} text={field.label} key={i} onChange={this.onFormValueChanged(field.name)}/>;
 							case 'template':
-								return <TemplateSelect id={field.name} text={field.label} key={i} onChange={this.onFormValueChanged(field.name)} />;
+								return <TemplateSelect id={field.name} text={field.label} key={i} onChange={this.onFormValueChanged(field.name)}/>;
 							case 'radio':
-								return <Radio id={field.name} options={field.options} text={field.label} key={i} onChange={this.onFormValueChanged(field.name)} />;
+								return <Radio id={field.name} options={field.options} text={field.label} key={i} onChange={this.onFormValueChanged(field.name)}/>;
 							default:
 								return <p>Type not found</p>;
 						}
