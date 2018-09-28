@@ -103,6 +103,8 @@ export default class DynamicForm extends React.Component<Props, State> {
 	}
 
 	handleSubmit = (event) => {
+		console.log(this.state.formData);
+		console.log(this.props.formSchema);
 		// for (let field in this.props.formSchema) {
 		// 	if (this.props.formSchema.hasOwnProperty(field)) {
 		// 		console.log(field + ' -> ' + JSON.stringify(this.props.formSchema[field]));

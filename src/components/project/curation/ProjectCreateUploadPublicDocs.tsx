@@ -9,8 +9,6 @@ import { Button, ButtonTypes } from '../../common/Buttons';
 import { FileLoader } from '../../common/FileLoader';
 import { successToast, errorToast } from '../../helpers/Toast';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
-import { ImageSpinner } from '../../common/ImageSpinner';
-import { Spinner } from '../../common/Spinner';
 
 const Text = styled.input`
 	margin: 20px 0;
