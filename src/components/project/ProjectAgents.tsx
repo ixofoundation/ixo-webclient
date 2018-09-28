@@ -279,7 +279,7 @@ export class ProjectAgents extends React.Component<ParentProps, State> {
 
 		pending.length > 0 && sections.push(this.handleRenderSection('icon-pending', pending, '#F89D28', 'Pending Approval', 1));
 		approved.length > 0 && sections.push(this.handleRenderSection('icon-approved', approved, '#5AB946', 'Approved', 2));
-		revoked.length > 0 && sections.push(this.handleRenderSection('icon-rejectedcross', revoked, '#E2223B', 'Revoked', 3));
+		revoked.length > 0 && sections.push(this.handleRenderSection('icon-rejectedcross', revoked, '#E2223B', 'Rejected', 3));
 
 		return sections;
 	}
