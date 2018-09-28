@@ -8,6 +8,8 @@ import { successToast, errorToast } from '../../helpers/Toast';
 import { ErrorTypes } from '../../../types/models';
 import queryString from 'query-string';
 import { Banner } from './Banner';
+import { Spinner } from '../../common/Spinner';
+import { ImageSpinner } from '../../common/ImageSpinner';
 const bg = require('../../../assets/images/register/background.jpg');
 
 const Container = styled.div`
@@ -59,43 +61,6 @@ const ModalContainer = styled.div`
 
 	a {
 		margin:30px 0;
-	}
-`;
-
-const IconContainer = styled.div`
-	height: 80px;
-	display: flex;
-	align-items: center;
-`;
-
-const IconWrapper = styled.div`
-	padding: 0;
-	border-radius: 50%;
-	animation: pulse 1.5s infinite ease;
-		
-	@keyframes pulse {
-		0%   { padding: 0; background: rgba(73,191,224,1);}
-		100% { padding: 20px; background: rgba(255,255,255,1);}
-	}
-`;
-
-const InnerIcon = styled.div`
-
-	border-radius: 50%;
-	padding: 5px;
-	background: ${props => props.theme.ixoBlue};
-
-	i {
-		font-size: 30px;
-		display:block;
-		width: 29px;
-		height: 29px;
-		padding: 0;
-		background: #FFF;
-		border-radius: 50%;
-	}
-	.icon-ixosmall:before {
-		color: ${props => props.theme.ixoBlue};
 	}
 `;
 
@@ -222,13 +187,7 @@ export class ProjectSignAndCreate extends React.Component<Props, State> {
 		if (this.state.status === '') {
 			return (
 				<ModalContainer>
-					<IconContainer> 
-						<IconWrapper>
-							<InnerIcon>
-								<i className="icon-ixosmall" />
-							</InnerIcon>
-						</IconWrapper>
-					</IconContainer> 
+					<ImageSpinner />
 					<Title>Creating your project</Title>
 				</ModalContainer>
 			);
