@@ -50,6 +50,7 @@ const LoaderInner = styled.div`
 		color: ${props => props.theme.ixoBlue};
 		top: -13px;
 		left: -12px;
+		position: relative;
 	}
 `;
 export interface Props {
