@@ -16,7 +16,7 @@ import './assets/icons.css';
 import 'react-toastify/dist/ReactToastify.min.css';
 import { Routes } from './components/Routes';
 import { Spinner } from './components/common/Spinner';
-import { ToastContainer } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
 import * as ReactGA from 'react-ga';
 
 ReactGA.initialize('UA-106630107-5');
@@ -72,6 +72,67 @@ const Container = styled.div`
 	h1, h2, h3, h4, h5, p, a {
 	}
 	font-weight: 300;
+	.Toastify__toast-container {
+		width: 200px;
+	}
+	.Toastify__toast:before {
+		content: '✓';
+		color: white;
+		position: absolute;
+		left: 8px;
+		top: 18%;
+		background: rgb(126,189,77);
+		border-radius: 50%;
+		padding: 5px 10px;
+
+	}
+	.Toastify__toast {
+		min-height: 30px;
+		border-radius: 2px;
+		color: white;
+		font-size: 13px;
+		font-weight: 300;
+		position: relative;
+		text-transform: uppercase;
+		padding: 5px 20px;
+		margin-bottom: 0;
+		font-family: Roboto Condensed,sans-serif;
+		-webkit-letter-spacing: 0.3px;
+		-moz-letter-spacing: 0.3px;
+		-ms-letter-spacing: 0.3px;
+		letter-spacing: 0.3px;
+		line-height: 20px;
+		text-align: center;
+		display: block;
+		-webkit-transition: all 0.3s ease;
+		transition: all 0.3s ease;
+		background: none;
+		box-shadow: none;
+		border: none;
+		cursor: pointer;
+		max-width: 280px;
+	}
+	.Toastify__toast-body:before {
+		content:" ";
+		border-style: solid;
+		border-width: 10px 15px 10px 0;
+		border-color: transparent rgb(126,189,77) transparent transparent;
+		position: absolute;
+		left: -14px;
+		top: 24%;
+		height: 20px;
+	}
+	.Toastify__toast-body {
+		background: rgb(126, 189, 77);
+		padding: 3px 0;
+		margin: 0 -20px 0 27px;
+		border-radius: 2px;
+		position: relative;
+	}
+
+	.Toastify__close-button--default {
+		display: none;
+	}
 `;
 
 const ContentWrapper = styled.main`
@@ -103,7 +164,7 @@ export namespace App {
 		onKeysafeInit: () => void;
 		onLoginInit: (keysafe: any, ixo: any) => void;
 	}
-	export interface Props extends StateProps, DispatchProps {}
+	export interface Props extends StateProps, DispatchProps { }
 }
 
 class App extends React.Component<App.Props, App.State> {
@@ -111,7 +172,7 @@ class App extends React.Component<App.Props, App.State> {
 	state = {
 		loginError: null,
 		isProjectPage: false,
-		errorInfo: null, 
+		errorInfo: null,
 		error: null,
 		onLoginInitCalled: false
 	};
@@ -120,7 +181,7 @@ class App extends React.Component<App.Props, App.State> {
 
 		if (this.props.ixo !== null && this.props.keysafe !== null && this.props.userInfo === null && this.state.onLoginInitCalled === false) {
 			this.props.onLoginInit(this.props.keysafe, this.props.ixo);
-			this.setState({onLoginInitCalled: true});
+			this.setState({ onLoginInitCalled: true });
 		}
 	}
 
@@ -140,7 +201,7 @@ class App extends React.Component<App.Props, App.State> {
 	handlePingExplorer = () => {
 		return new Promise((resolve, reject) => {
 			const t0 = performance.now();
-			if ( this.props.ixo ) {
+			if (this.props.ixo) {
 				this.props.ixo.network.pingIxoExplorer().then(result => {
 					if (result === 'API is running') {
 						const t1 = performance.now();
@@ -148,31 +209,34 @@ class App extends React.Component<App.Props, App.State> {
 					} else {
 						reject(0);
 					}
-					})
+				})
 					.catch(error => {
 						reject(0);
 					});
-			
+
 			} else {
 				reject(0);
 			}
 		});
 	}
 
+	toastMessage = () => toast('Success', { autoClose: 95000 });
+
 	render() {
 
 		return (
-			<ThemeProvider theme={theme}> 
+			<ThemeProvider theme={theme}>
 				<ScrollToTop>
 					<Container>
 						<HeaderConnected pingIxoExplorer={this.handlePingExplorer} simpleHeader={false} userInfo={this.props.userInfo} refreshProjects={() => console.log('clicked')} />
-							<ToastContainer hideProgressBar={true} />
-							<ContentWrapper>
-								{this.props.ixo !== null ? 
-									<Routes /> : 
-									<Spinner info={'Loading ixo.world...'}/>
-								}
-							</ContentWrapper>
+						<ToastContainer hideProgressBar={true} />
+						<ContentWrapper>
+							{this.props.ixo !== null ?
+								<Routes /> :
+								<Spinner info={'Loading ixo.world...'} />
+							}
+							<button onClick={this.toastMessage}>Toast Yo!</button>
+						</ContentWrapper>
 						<Footer />
 					</Container>
 				</ScrollToTop>

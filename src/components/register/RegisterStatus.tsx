@@ -60,7 +60,7 @@ const CheckItem = styled.p`
 	padding-left: 35px;
 	position: relative;
 	transition: color 0.3s ease;
-	
+
 	&&{a {
 		text-decoration: underline;
 	}}
@@ -90,7 +90,7 @@ export interface ParentProps {
 	role: AgentRoles;
 	activeModal: Function;
 	hasKeySafe?: boolean;
-	hasKYC?: boolean; 
+	hasKYC?: boolean;
 }
 
 export const RegisterStatus: React.SFC<ParentProps> = (props) => {
@@ -115,11 +115,11 @@ export const RegisterStatus: React.SFC<ParentProps> = (props) => {
 		}
 	};
 
-	const renderKYCPart = () => { 
+	const renderKYCPart = () => {
 		if (props.role === AgentRoles.owners) {
 			return (
 				<CheckItem>
-					{getIcon(props.hasKYC)} The closed Beta is <ModalLink onClick={() => props.activeModal(ModalData.invite, true)}>by invitation </ModalLink> 
+					{getIcon(props.hasKYC)} The closed Beta is <ModalLink onClick={() => props.activeModal(ModalData.invite, true)}>by invitation </ModalLink>
 					and requires <ModalLink onClick={() => props.activeModal(ModalData.kyc, true)}>registering as an ixo member.</ModalLink>
 				</CheckItem>
 			);
@@ -130,34 +130,34 @@ export const RegisterStatus: React.SFC<ParentProps> = (props) => {
 
 	if (props.hasKYC) {
 		return (
-		<StatusContainer>
-			<CheckItem>{getIcon(true)} You have successfully registered. 
+			<StatusContainer>
+				<CheckItem>{getIcon(true)} You have successfully registered.
 				<Start href="https://docs.google.com/forms/d/e/1FAIpQLSfv6TY-8Eurg6dcS-2YPeFIuT7nlPE5YGKj2SaRrPJ0vIf4ZA/viewform" target="_blank">LAUNCH A PROJECT</Start>
-			</CheckItem>
-		</StatusContainer>
+				</CheckItem>
+			</StatusContainer>
 		);
 	}
 
-	if (props.hasKYC && props.hasKeySafe && props.role === AgentRoles.evaluators) {
+	if (props.hasKeySafe && props.role === AgentRoles.evaluators) {
 		return (
-		<StatusContainer>
-			<CheckItem>{getIcon(props.hasKeySafe)}
-				{getIcon(props.hasKeySafe)} You can now become an evaluator on the <DarkLink to="/">ixo test projects.</DarkLink>
-			</CheckItem>
-		</StatusContainer>
+			<StatusContainer>
+				<CheckItem>{getIcon(props.hasKeySafe)}
+					{getIcon(props.hasKeySafe)} You can now become an evaluation agent on the <DarkLink to="/">ixo test projects.</DarkLink>
+				</CheckItem>
+			</StatusContainer>
 		);
 	}
 
 	if (props.hasKeySafe && props.role === AgentRoles.serviceProviders) {
 		return (
-		<StatusContainer>
-			<CheckItem>{getIcon(props.hasKeySafe)}
-				{getIcon(props.hasKeySafe)} You can now become a service provider on the <WhiteLink to="/">ixo test projects.</WhiteLink>
-			</CheckItem>
-		</StatusContainer>	
+			<StatusContainer>
+				<CheckItem>{getIcon(props.hasKeySafe)}
+					{getIcon(props.hasKeySafe)} You can now become a service provider on the <WhiteLink to="/">ixo test projects.</WhiteLink>
+				</CheckItem>
+			</StatusContainer>
 		);
 	}
-	
+
 	return (
 		<StatusContainer>
 			{getKeysafeText()}
