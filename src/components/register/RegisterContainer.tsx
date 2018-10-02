@@ -84,9 +84,11 @@ const KeySafe = styled.img`
 `;
 
 const Amply = styled.img`
-	max-width: 100%;
-	margin-left: -5%;
-	margin-top: 20px;
+	max-width: 110%;
+    margin-left: -5%;
+    margin-top: 40px;
+    position: relative;
+    right: 20px;
 `;
 
 const SmallIconCol = styled.div`
@@ -162,7 +164,7 @@ class RegisterPage extends React.Component<Props, State> {
 			return (
 				<ModalContainer>
 					<p>Verifying your identity will enable you to create, evaluate and participate in ixo projects.</p>
-					<Button type={ButtonTypes.dark}>REGISTER</Button>
+					<Button target="_blank" href={process.env.REACT_APP_KYC_LINK} type={ButtonTypes.dark}>REGISTER</Button>
 				</ModalContainer>
 			);
 		} else if (this.state.activeModal = ModalData.invite) {

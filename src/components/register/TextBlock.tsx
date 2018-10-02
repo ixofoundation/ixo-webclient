@@ -17,10 +17,9 @@ const Container = styled.div`
 
 	section {
 		background: white;
-		display: inline-flex;
+		display: flex;
 		flex-direction: column;
 		padding-right: 30px;
-		width: 400px;
 		max-width: 100%
 	}
 
@@ -46,7 +45,6 @@ const ContainerWhite = styled.div`
 		display: inline-flex;
 		flex-direction: column;
 		padding-right: 30px;
-		width: 400px;
 		max-width: 100%
 	}
 
