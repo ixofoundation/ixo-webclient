@@ -162,7 +162,7 @@ class RegisterPage extends React.Component<Props, State> {
 			return (
 				<ModalContainer>
 					<p>Verifying your identity will enable you to create, evaluate and participate in ixo projects.</p>
-					<Button type={ButtonTypes.dark}>REGISTER</Button>
+					<Button type={ButtonTypes.dark} href="https://staging.ixo.frctls.com">REGISTER</Button>
 				</ModalContainer>
 			);
 		} else if (this.state.activeModal = ModalData.invite) {
@@ -243,7 +243,7 @@ If not, please send us an email, telling us a little about the project you would
 					// Did not ledgered
 					ledgerDid();
 
-			});
+				});
 		}
 		if (!this.state.hasKYC) {
 			setTimeout(() => this.checkState(), 2000);
