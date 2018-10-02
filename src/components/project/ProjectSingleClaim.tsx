@@ -127,7 +127,6 @@ export interface ParentProps {
 	singleClaimFormFile: string;
 }
 export const ProjectSingleClaim: React.SFC<ParentProps> = (props) => {
-	console.log('evaluation status: ', props.claimEvaluated);
 	const projectDID = props.match.params.projectDID;
 	const latestClaimStatus = () => {
 		if (props.claim.evaluations.length > 0) {
@@ -251,7 +250,6 @@ export const ProjectSingleClaim: React.SFC<ParentProps> = (props) => {
 	};
 
 	const handleRenderClaim = () => {
-		console.log('the claim: ', props.claim);
 		if (props.claim === null) {
 			props.handleListClaims();
 			return <Spinner info="Loading claim..." />;

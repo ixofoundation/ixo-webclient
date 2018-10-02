@@ -84,9 +84,11 @@ const KeySafe = styled.img`
 `;
 
 const Amply = styled.img`
-	max-width: 100%;
-	margin-left: -5%;
-	margin-top: 20px;
+	max-width: 110%;
+    margin-left: -5%;
+    margin-top: 40px;
+    position: relative;
+    right: 20px;
 `;
 
 const SmallIconCol = styled.div`
@@ -152,7 +154,7 @@ class RegisterPage extends React.Component<Props, State> {
 	renderModal = () => {
 		if (this.state.activeModal === ModalData.keysafe) {
 			return (
-				<ModalContainer> 
+				<ModalContainer>
 					<p>ixo Key Safe is your connection to the ixo blockchain. It is a secure identity vault that allows you to manage your profile and sign transactions on your projects.</p>
 					<Button type={ButtonTypes.dark} href="https://chrome.google.com/webstore/detail/ixo-keysafe/nnlfaleaeoefglohpacnfgoeldfakkjk" target="_blank"><BrowserIcon src={chromeIcon} alt="Chrome"/> DOWNLOAD FOR CHROME</Button>
 					<Button type={ButtonTypes.dark} href="https://addons.mozilla.org/en-US/firefox/addon/ixo-keysafe/" target="_blank"><BrowserIcon src={mozillaIcon} alt="Firefox"/> DOWNLOAD FOR FIREFOX</Button>
@@ -160,14 +162,14 @@ class RegisterPage extends React.Component<Props, State> {
 			);
 		} else if (this.state.activeModal === ModalData.kyc) {
 			return (
-				<ModalContainer> 
+				<ModalContainer>
 					<p>Verifying your identity will enable you to create, evaluate and participate in ixo projects.</p>
-					<Button type={ButtonTypes.dark}>REGISTER</Button>
+					<Button target="_blank" href={process.env.REACT_APP_KYC_LINK} type={ButtonTypes.dark}>REGISTER</Button>
 				</ModalContainer>
 			);
 		} else if (this.state.activeModal = ModalData.invite) {
 			return (
-				<ModalContainer> 
+				<ModalContainer>
 					<p>If you have received communications from ixo inviting you to the beta phase, please go ahead and begin your membership process.
 If not, please send us an email, telling us a little about the project you would like to create and we will be in touch with next steps.</p>
 					<Button type={ButtonTypes.dark} href="mailto:info@ixo.world">CONTACT IXO</Button>
@@ -196,7 +198,6 @@ If not, please send us an email, telling us a little about the project you would
 		} else if (this.state.activeModal = ModalData.invite) {
 			return {
 				title: 'INTERESTED IN CREATING YOUR OWN PROJECTS?',
-				subtitle: 'Interested in creating your own projects?',
 				icon: 'icon-claims',
 				width: '365'
 			};
@@ -214,7 +215,7 @@ If not, please send us an email, telling us a little about the project you would
 						errorToast('Please log into IXO Keysafe');
 						this.setState({ toastShown: true});
 					}
-				} else {	
+				} else {
 					let newDidDoc = {
 							did: response.didDoc.did,
 							pubKey: response.didDoc.pubKey,
@@ -243,7 +244,7 @@ If not, please send us an email, telling us a little about the project you would
 			.catch((err) => {
 					// Did not ledgered
 					ledgerDid();
-					
+
 			});
 		}
 		if (!this.state.hasKYC) {
@@ -319,7 +320,7 @@ If not, please send us an email, telling us a little about the project you would
 							<div className="row">
 								<div className="col-lg-6">
 									<TextBlock activeModal={this.toggleModal} blueBG={true} title="Participate as a service provider" icon="icon-serviceproviders" role={AgentRoles.serviceProviders} keysafe={this.state.hasKeySafe} KYC={this.state.hasKYC}>
-										<p>Service providers deliver project impacts by submitting signed impact claims 
+										<p>Service providers deliver project impacts by submitting signed impact claims
 e.g. planting trees or educating children.</p>
 									</TextBlock>
 								</div>

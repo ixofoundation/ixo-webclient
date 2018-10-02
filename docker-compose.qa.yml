@@ -5,3 +5,4 @@ services:
       - REACT_APP_BLOCKCHAIN_NODE_URL=http://blockchain_qa.ixo.world:46657
       - REACT_APP_BLOCK_SYNC_URL=https://explorer_qa.ixo.world
       - REACT_APP_IXO_WORLD_ORIGIN=https://qa.ixo.world
+      - REACT_APP_KYC_LINK=https://staging.ixo.frctls.com

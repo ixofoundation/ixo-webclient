@@ -38,7 +38,7 @@ const LoaderInner = styled.div`
 	background: ${props => props.theme.ixoBlue};
 
 	i {
-		font-size: 30px;
+		font-size: 54px;
 		display:block;
 		width: 29px;
 		height: 29px;
@@ -48,6 +48,9 @@ const LoaderInner = styled.div`
 	}
 	.icon-ixo-x:before {
 		color: ${props => props.theme.ixoBlue};
+		top: -13px;
+		left: -12px;
+		position: relative;
 	}
 `;
 export interface Props {
