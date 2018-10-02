@@ -137,6 +137,7 @@ export interface ParentProps {
 	value?: string;
 	validation?: string;
 	required?: boolean;
+	errors?: string;
 }
 export interface Callbacks {
 	onChange?: (event: any) => void;
@@ -145,28 +146,15 @@ export interface Callbacks {
 
 export interface Props extends ParentProps, Callbacks {}
 
-const validateEmail = (email: string) => {
-	const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-	console.log(re.test(String(email).toLowerCase()));
-	return re.test(String(email).toLowerCase());
-};
-
 const InputText: React.SFC<Props> = (props) => {
 
-	const handleValidation = (event: any) => {
-		console.log(event.target.value);
-		if (props.type === 'email') {
-			const verdict = validateEmail(event.target.value);
-			if (verdict === false) {
-				props.setHasError(true);
-			} else {
-				props.setHasError(false);
-			}
+	const handleErrors = (field) => {
+		if (field === 'name' && props.errors[field]) {
+			return props.errors['name'];
 		}
-		if (props.required === true && event.target.value.length === 0) {
-			props.setHasError(true);
-		} else {
-			props.setHasError(false);
+		
+		if (field === 'email' && props.errors[field]) {
+			return props.errors['email'];
 		}
 	};
 
@@ -191,6 +179,7 @@ const InputText: React.SFC<Props> = (props) => {
 		return (
 			<InputContainer>
 				<div className={`${(props.formStyle).toLowerCase()}-input`}>
+					<span style={{ color: 'red' }}>{handleErrors(props.id)}</span>
 					<input 
 						className="form-control"
 						id={props.id}
@@ -198,7 +187,6 @@ const InputText: React.SFC<Props> = (props) => {
 						placeholder={props.text}
 						onChange={props.onChange}
 						name={props.id}
-						onBlur={handleValidation}
 					/>
 					<p>{props.text}</p>
 				</div>

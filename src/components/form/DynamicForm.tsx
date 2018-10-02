@@ -73,6 +73,7 @@ export interface ParentProps {
 export interface State {
 	formData: any;
 	submitStatus: string;
+	errors: any;
 	hasError: boolean;
 }
 
@@ -86,7 +87,8 @@ export default class DynamicForm extends React.Component<Props, State> {
 	state = {
 		formData: {},
 		submitStatus: '',
-		hasError: false
+		errors: '',
+		hasError: false,
 	};
 
 	componentWillMount() {
@@ -103,19 +105,35 @@ export default class DynamicForm extends React.Component<Props, State> {
 	}
 
 	handleSubmit = (event) => {
-		console.log(this.state.formData);
-		console.log(this.props.formSchema);
-		// for (let field in this.props.formSchema) {
-		// 	if (this.props.formSchema.hasOwnProperty(field)) {
-		// 		console.log(field + ' -> ' + JSON.stringify(this.props.formSchema[field]));
-		// 	}
-		// }
-		if (this.state.hasError === true ) {
-			console.log('you lose');
-		} else {
-			// THIS WAS THE ONLY LINE IN THE FUNCTION BEFORE DONOVAN CAME ALONG
+		let fields = this.state.formData;
+		let errors = {};
+		
+		if (!fields['name']) {
+			errors['name'] = 'This field cannot be empty';
+		}
+
+		if (!fields['email']) {
+			errors['email'] = 'This field cannot be empty';
+		}
+
+		if (typeof fields['email'] !== 'undefined') {
+			let lastAtPos = fields['email'].lastIndexOf('@');
+			let lastDotPos = fields['email'].lastIndexOf('.');
+
+			if (!(lastAtPos < lastDotPos && lastAtPos > 0 && fields['email'].indexOf('@@') === -1 && lastDotPos > 2 && (fields['email'].length - lastDotPos) > 2)) {
+				errors['email'] = 'Please enter a valid email';
+			}
+		}
+
+		this.setState({ 
+			errors: errors,
+		});
+
+		if (Object.keys(errors).length === 0) {
+			console.log('The gods are with us, it\'s finally valid!');
 			// this.props.handleSubmit(this.state.formData);
 		}
+		
 	}
 
 	setFormState = (name: String, value: any) => {
@@ -137,6 +155,8 @@ export default class DynamicForm extends React.Component<Props, State> {
 	onFormValueChanged = (name: String) => {
 		return (event) => {
 			this.setFormState(name, event.target.value);
+			this.setState({ errors: '' });
+			console.log(this.state.errors);
 		};
 	}
 
@@ -161,10 +181,6 @@ export default class DynamicForm extends React.Component<Props, State> {
 		}
 	}
 
-	setHasError = (val: boolean) => {
-			this.setState({ hasError: val});
-	}
-
 	render() {
 		return (
 			<form>
@@ -184,7 +200,7 @@ export default class DynamicForm extends React.Component<Props, State> {
 										onChange={this.onFormValueChanged(field.name)}
 										validation={field.validation}
 										required={field.required}
-										setHasError={(val) => this.setHasError(val)}
+										errors={this.state.errors}
 									/>
 								);
 							case 'image' :
