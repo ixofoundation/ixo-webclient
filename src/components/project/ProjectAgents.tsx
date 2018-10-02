@@ -175,9 +175,9 @@ export class ProjectAgents extends React.Component<ParentProps, State> {
 
 	handleUpdateAgentStatus = (status: string, statusObj: any, did: string, role: string) => {
 		if (statusObj === null) {
-			this.props.handleUpdateAgentStatus({status: status}, did, role);
+			this.props.handleUpdateAgentStatus({ status: status }, did, role);
 		} else {
-			this.props.handleUpdateAgentStatus({status, version: statusObj.version}, did, role);
+			this.props.handleUpdateAgentStatus({ status, version: statusObj.version }, did, role);
 		}
 	}
 
@@ -186,10 +186,10 @@ export class ProjectAgents extends React.Component<ParentProps, State> {
 		// @ts-ignore
 		if (tempSelect.includes(agentDid)) {
 			tempSelect = tempSelect.filter((agent) => agentDid !== agent);
-			this.setState({selectedAgents: tempSelect});
+			this.setState({ selectedAgents: tempSelect });
 		} else {
 			tempSelect.push(agentDid);
-			this.setState({selectedAgents: tempSelect});
+			this.setState({ selectedAgents: tempSelect });
 		}
 	}
 
@@ -208,52 +208,52 @@ export class ProjectAgents extends React.Component<ParentProps, State> {
 		return role;
 	}
 
-	handleRenderSection = (iconClass: string, agents: any[], colorClass: string, title: string,  key: number) => {
+	handleRenderSection = (iconClass: string, agents: any[], colorClass: string, title: string, key: number) => {
 		return (
 			<Section className="row" key={key}>
-					<div className="col-12">
-						<h3><i className={iconClass}/>{title}</h3>
-					</div>
-					{agents.map((agent, index) => {
-						let currentStatus = agent.currentStatus.status;
-						return (
-							<Col className="col-xl-3 col-md-6" key={index}>
-								<WidgetWrapper title={agent.name}>
-									<Indicator color={colorClass}/>
-									<DidText><strong>DID: </strong>{agent.agentDid}</DidText>
-									<Mail href={`mailto:${agent.email}`}>{agent.email}</Mail>
-									<Hover>
-										<Actions>
-											<Selector onClick={() => this.handleAgentSelect(agent.agentDid)}>
-												<div className={this.handleIsSelected(agent.agentDid)}/>
-											</Selector>
-											<Buttons>
-												<Button 
-													type={ButtonTypes.dark}
-													disabled={currentStatus === '1'}
-													onClick={() => this.handleUpdateAgentStatus('1', agent.currentStatus, agent.agentDid, agent.role)}
-												><i className="icon-approvetick"/>
-												</Button>
-												<Button 
-													type={ButtonTypes.gradient}
-													disabled={currentStatus === '2'} 
-													onClick={() => this.handleUpdateAgentStatus('2', agent.currentStatus, agent.agentDid, agent.role)}
-												><i className="icon-close"/>
-												</Button>
-											</Buttons>
-										</Actions>
-										{/* <Button onClick={() => console.log('clicked')} type={ButtonTypes.dark}>View</Button> */}
-									</Hover>
-								</WidgetWrapper>
-							</Col>
-						);
-					})}
+				<div className="col-12">
+					<h3><i className={iconClass} />{title}</h3>
+				</div>
+				{agents.map((agent, index) => {
+					let currentStatus = agent.currentStatus.status;
+					return (
+						<Col className="col-xl-3 col-md-6" key={index}>
+							<WidgetWrapper title={agent.name}>
+								<Indicator color={colorClass} />
+								<DidText><strong>DID: </strong>{agent.agentDid}</DidText>
+								<Mail href={`mailto:${agent.email}`}>{agent.email}</Mail>
+								<Hover>
+									<Actions>
+										<Selector onClick={() => this.handleAgentSelect(agent.agentDid)}>
+											<div className={this.handleIsSelected(agent.agentDid)} />
+										</Selector>
+										<Buttons>
+											<Button
+												type={ButtonTypes.dark}
+												disabled={currentStatus === '1'}
+												onClick={() => this.handleUpdateAgentStatus('1', agent.currentStatus, agent.agentDid, agent.role)}
+											><i className="icon-approvetick" />
+											</Button>
+											<Button
+												type={ButtonTypes.gradient}
+												disabled={currentStatus === '2'}
+												onClick={() => this.handleUpdateAgentStatus('2', agent.currentStatus, agent.agentDid, agent.role)}
+											><i className="icon-close" />
+											</Button>
+										</Buttons>
+									</Actions>
+									{/* <Button onClick={() => console.log('clicked')} type={ButtonTypes.dark}>View</Button> */}
+								</Hover>
+							</WidgetWrapper>
+						</Col>
+					);
+				})}
 			</Section>
 		);
 	}
 
 	handleMapAgents = () => {
-		
+
 		const approved = [];
 		const pending = [];
 		const revoked = [];
@@ -262,7 +262,7 @@ export class ProjectAgents extends React.Component<ParentProps, State> {
 			if (agent.currentStatus === null) {
 				pending.push(agent);
 			} else {
-				switch (agent.currentStatus.status) {				
+				switch (agent.currentStatus.status) {
 					case '1':
 						approved.push(agent);
 						break;
@@ -279,7 +279,7 @@ export class ProjectAgents extends React.Component<ParentProps, State> {
 
 		pending.length > 0 && sections.push(this.handleRenderSection('icon-pending', pending, '#F89D28', 'Pending Approval', 1));
 		approved.length > 0 && sections.push(this.handleRenderSection('icon-approved', approved, '#5AB946', 'Approved', 2));
-		revoked.length > 0 && sections.push(this.handleRenderSection('icon-rejectedcross', revoked, '#E2223B', 'Rejected', 3));
+		revoked.length > 0 && sections.push(this.handleRenderSection('icon-rejected', revoked, '#E2223B', 'Rejected', 3));
 
 		return sections;
 	}
