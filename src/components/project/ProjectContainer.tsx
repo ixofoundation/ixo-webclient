@@ -450,7 +450,7 @@ export class ProjectContainer extends React.Component<Props, State> {
 	
 	handleRenderProject = () => {
 		if (this.state.projectPublic === null || this.state.userRoles === null) {
-			return <Spinner info="ProjectContainer: Loading Project"/>;
+			return <Spinner info="Loading Project..."/>;
 		} else {
 			const project = this.state.projectPublic;
 			switch (this.props.contentType) {
@@ -474,7 +474,7 @@ export class ProjectContainer extends React.Component<Props, State> {
 				);
 				case contentType.dashboard:
 					if (this.state.projectPublic.claims === null) {
-						return <Spinner info="Project Container: Loading claims"/>;
+						return <Spinner info="Loading claims..."/>;
 					} else {
 						const dashboardClaimStats = Object.assign({required: this.state.projectPublic.requiredClaims}, this.state.projectPublic.claimStats);
 						return (
@@ -512,7 +512,7 @@ export class ProjectContainer extends React.Component<Props, State> {
 				case contentType.singleClaim:
 				if (!this.state.singleClaimDependentsFetched)  {
 					this.handleSingleClaimFetch(project);
-					return <Spinner info="Project Container: Loading Project"/>;	
+					return <Spinner info="Loading claim..."/>;	
 				}
 				return (
 					<Fragment>

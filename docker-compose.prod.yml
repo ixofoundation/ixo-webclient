@@ -5,3 +5,4 @@ services:
       - REACT_APP_BLOCKCHAIN_NODE_URL=http://blockchain.ixo.world:46657
       - REACT_APP_BLOCK_SYNC_URL=https://explorer.ixo.world
       - REACT_APP_IXO_WORLD_ORIGIN=https://ixo.world
+      - REACT_APP_KYC_LINK=https://signup.ixo.world
