@@ -17,7 +17,6 @@ const TopBar = styled.header`
 	background: black;
 
 	&& {
-		width: 100vw;
 	}
 `;
 
