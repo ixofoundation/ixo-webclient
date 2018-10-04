@@ -78,7 +78,7 @@ export interface Callbacks {
 	handleSubmit: (formData: any) => void;
 }
 
-export interface Props extends ParentProps, Callbacks { }
+export interface Props extends ParentProps, Callbacks {}
 
 export default class DynamicForm extends React.Component<Props, State> {
 	state = {
@@ -106,7 +106,7 @@ export default class DynamicForm extends React.Component<Props, State> {
 		const fields = name.split('.');
 		let formData = this.state.formData;
 		fields.forEach((field, index) => {
-			if (index === fields.length - 1) {
+			if (index === fields.length - 1 ) {
 				formData[field] = value;
 			} else {
 				if (!formData[field]) {
@@ -115,7 +115,7 @@ export default class DynamicForm extends React.Component<Props, State> {
 				formData = formData[field];
 			}
 		});
-		this.setState({ formData: formData });
+		this.setState({formData: formData});
 	}
 
 	onFormValueChanged = (name: String) => {
@@ -166,17 +166,17 @@ export default class DynamicForm extends React.Component<Props, State> {
 									/>
 								);
 							case 'image':
-								return <InputImage id={field.name} text={field.label} key={i} imageWidth={570} onChange={this.onFormValueChanged(field.name)} />;
+								return <InputImage id={field.name} text={field.label} key={i} imageWidth={570} onChange={this.onFormValueChanged(field.name)}/>;
 							case 'textarea':
-								return <TextArea formStyle={this.props.formStyle} id={field.name} text={field.label} key={i} onChange={this.onFormValueChanged(field.name)} />;
+								return <TextArea formStyle={this.props.formStyle} id={field.name} text={field.label} key={i} onChange={this.onFormValueChanged(field.name)}/>;
 							case 'select':
-								return <Select id={field.name} options={field.options} text={field.label} key={i} onChange={this.onFormValueChanged(field.name)} />;
+								return <Select id={field.name} options={field.options} text={field.label} key={i} onChange={this.onFormValueChanged(field.name)}/>;
 							case 'country':
-								return <CountrySelect id={field.name} text={field.label} key={i} onChange={this.onFormValueChanged(field.name)} />;
+								return <CountrySelect id={field.name} text={field.label} key={i} onChange={this.onFormValueChanged(field.name)}/>;
 							case 'template':
-								return <TemplateSelect id={field.name} text={field.label} key={i} onChange={this.onFormValueChanged(field.name)} />;
+								return <TemplateSelect id={field.name} text={field.label} key={i} onChange={this.onFormValueChanged(field.name)}/>;
 							case 'radio':
-								return <Radio id={field.name} options={field.options} text={field.label} key={i} onChange={this.onFormValueChanged(field.name)} />;
+								return <Radio id={field.name} options={field.options} text={field.label} key={i} onChange={this.onFormValueChanged(field.name)}/>;
 							default:
 								return <p>Type not found</p>;
 						}
