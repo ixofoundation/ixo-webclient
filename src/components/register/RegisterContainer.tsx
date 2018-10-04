@@ -245,7 +245,7 @@ If not, please send us an email, telling us a little about the project you would
 					// Did not ledgered
 					ledgerDid();
 
-			});
+				});
 		}
 		if (!this.state.hasKYC) {
 			setTimeout(() => this.checkState(), 2000);

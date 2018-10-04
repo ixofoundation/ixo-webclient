@@ -48,9 +48,9 @@ const LoaderInner = styled.div`
 	}
 	.icon-ixo-x:before {
 		color: ${props => props.theme.ixoBlue};
+		position: relative;
 		top: -13px;
 		left: -12px;
-		position: relative;
 	}
 `;
 export interface Props {
