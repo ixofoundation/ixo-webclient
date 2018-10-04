@@ -16,7 +16,7 @@ import './assets/icons.css';
 import 'react-toastify/dist/ReactToastify.min.css';
 import { Routes } from './components/Routes';
 import { Spinner } from './components/common/Spinner';
-import { ToastContainer } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
 import * as ReactGA from 'react-ga';
 
 ReactGA.initialize('UA-106630107-5');
@@ -72,6 +72,67 @@ const Container = styled.div`
 	h1, h2, h3, h4, h5, p, a {
 	}
 	font-weight: 300;
+
+	.Toastify__toast-container {
+		width: 200px;
+	}
+	.Toastify__toast:before {
+		content: '✓';
+		color: white;
+		position: absolute;
+		left: 8px;
+		top: 18%;
+		background: rgb(126,189,77);
+		border-radius: 50%;
+		padding: 5px 10px;
+
+	}
+	.Toastify__toast {
+		min-height: 30px;
+		border-radius: 2px;
+		color: white;
+		font-size: 13px;
+		font-weight: 300;
+		position: relative;
+		text-transform: uppercase;
+		padding: 5px 20px;
+		margin-bottom: 0;
+		font-family: Roboto Condensed,sans-serif;
+		-webkit-letter-spacing: 0.3px;
+		-moz-letter-spacing: 0.3px;
+		-ms-letter-spacing: 0.3px;
+		letter-spacing: 0.3px;
+		line-height: 20px;
+		text-align: center;
+		display: block;
+		-webkit-transition: all 0.3s ease;
+		transition: all 0.3s ease;
+		background: none;
+		box-shadow: none;
+		border: none;
+		cursor: pointer;
+		max-width: 280px;
+	}
+	.Toastify__toast-body:before {
+		content:" ";
+		border-style: solid;
+		border-width: 10px 15px 10px 0;
+		border-color: transparent rgb(126,189,77) transparent transparent;
+		position: absolute;
+		left: -14px;
+		top: 24%;
+		height: 20px;
+	}
+	.Toastify__toast-body {
+		background: rgb(126, 189, 77);
+		padding: 3px 0;
+		margin: 0 -20px 0 27px;
+		border-radius: 2px;
+		position: relative;
+	}
+	.Toastify__close-button--default {
+		display: none;
+	}
 `;
 
 const ContentWrapper = styled.main`
@@ -159,6 +220,8 @@ class App extends React.Component<App.Props, App.State> {
 		});
 	}
 
+	toastMessage = () => toast('Success', { autoClose: 3000 });
+
 	render() {
 
 		return (
@@ -172,6 +235,7 @@ class App extends React.Component<App.Props, App.State> {
 								<Routes /> :
 								<Spinner info={'Loading ixo.world...'} />
 							}
+							<button onClick={this.toastMessage}>Toast Me!</button>
 						</ContentWrapper>
 						<Footer />
 					</Container>
