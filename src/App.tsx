@@ -103,7 +103,7 @@ export namespace App {
 		onKeysafeInit: () => void;
 		onLoginInit: (keysafe: any, ixo: any) => void;
 	}
-	export interface Props extends StateProps, DispatchProps {}
+	export interface Props extends StateProps, DispatchProps { }
 }
 
 class App extends React.Component<App.Props, App.State> {
@@ -111,7 +111,7 @@ class App extends React.Component<App.Props, App.State> {
 	state = {
 		loginError: null,
 		isProjectPage: false,
-		errorInfo: null, 
+		errorInfo: null,
 		error: null,
 		onLoginInitCalled: false
 	};
@@ -120,7 +120,7 @@ class App extends React.Component<App.Props, App.State> {
 
 		if (this.props.ixo !== null && this.props.keysafe !== null && this.props.userInfo === null && this.state.onLoginInitCalled === false) {
 			this.props.onLoginInit(this.props.keysafe, this.props.ixo);
-			this.setState({onLoginInitCalled: true});
+			this.setState({ onLoginInitCalled: true });
 		}
 	}
 
@@ -140,7 +140,7 @@ class App extends React.Component<App.Props, App.State> {
 	handlePingExplorer = () => {
 		return new Promise((resolve, reject) => {
 			const t0 = performance.now();
-			if ( this.props.ixo ) {
+			if (this.props.ixo) {
 				this.props.ixo.network.pingIxoExplorer().then(result => {
 					if (result === 'API is running') {
 						const t1 = performance.now();
@@ -148,11 +148,11 @@ class App extends React.Component<App.Props, App.State> {
 					} else {
 						reject(0);
 					}
-					})
+				})
 					.catch(error => {
 						reject(0);
 					});
-			
+
 			} else {
 				reject(0);
 			}
@@ -162,17 +162,17 @@ class App extends React.Component<App.Props, App.State> {
 	render() {
 
 		return (
-			<ThemeProvider theme={theme}> 
+			<ThemeProvider theme={theme}>
 				<ScrollToTop>
 					<Container>
 						<HeaderConnected pingIxoExplorer={this.handlePingExplorer} simpleHeader={false} userInfo={this.props.userInfo} refreshProjects={() => console.log('clicked')} />
-							<ToastContainer hideProgressBar={true} />
-							<ContentWrapper>
-								{this.props.ixo !== null ? 
-									<Routes /> : 
-									<Spinner info={'Loading ixo.world...'}/>
-								}
-							</ContentWrapper>
+						<ToastContainer hideProgressBar={true} />
+						<ContentWrapper>
+							{this.props.ixo !== null ?
+								<Routes /> :
+								<Spinner info={'Loading ixo.world...'} />
+							}
+						</ContentWrapper>
 						<Footer />
 					</Container>
 				</ScrollToTop>

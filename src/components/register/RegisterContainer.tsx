@@ -130,7 +130,7 @@ export interface StateProps {
 	keysafe: any;
 }
 
-export interface Props extends ParentProps, StateProps {}
+export interface Props extends ParentProps, StateProps { }
 
 class RegisterPage extends React.Component<Props, State> {
 
@@ -143,12 +143,12 @@ class RegisterPage extends React.Component<Props, State> {
 		isDidLedgered: false,
 		activeModal: null,
 		toastShown: false
-		};
+	};
 
 	busyLedgering = false;
 
 	toggleModal = (activeModal: any, booleanVal: boolean) => {
-		this.setState({isModalOpen: booleanVal, activeModal});
+		this.setState({ isModalOpen: booleanVal, activeModal });
 	}
 
 	renderModal = () => {
@@ -156,8 +156,8 @@ class RegisterPage extends React.Component<Props, State> {
 			return (
 				<ModalContainer>
 					<p>ixo Key Safe is your connection to the ixo blockchain. It is a secure identity vault that allows you to manage your profile and sign transactions on your projects.</p>
-					<Button type={ButtonTypes.dark} href="https://chrome.google.com/webstore/detail/ixo-keysafe/nnlfaleaeoefglohpacnfgoeldfakkjk" target="_blank"><BrowserIcon src={chromeIcon} alt="Chrome"/> DOWNLOAD FOR CHROME</Button>
-					<Button type={ButtonTypes.dark} href="https://addons.mozilla.org/en-US/firefox/addon/ixo-keysafe/" target="_blank"><BrowserIcon src={mozillaIcon} alt="Firefox"/> DOWNLOAD FOR FIREFOX</Button>
+					<Button type={ButtonTypes.dark} href="https://chrome.google.com/webstore/detail/ixo-keysafe/nnlfaleaeoefglohpacnfgoeldfakkjk" target="_blank"><BrowserIcon src={chromeIcon} alt="Chrome" /> DOWNLOAD FOR CHROME</Button>
+					<Button type={ButtonTypes.dark} href="https://addons.mozilla.org/en-US/firefox/addon/ixo-keysafe/" target="_blank"><BrowserIcon src={mozillaIcon} alt="Firefox" /> DOWNLOAD FOR FIREFOX</Button>
 				</ModalContainer>
 			);
 		} else if (this.state.activeModal === ModalData.kyc) {
@@ -213,15 +213,15 @@ If not, please send us an email, telling us a little about the project you would
 				if (error) {
 					if (this.state.toastShown === false) {
 						errorToast('Please log into IXO Keysafe');
-						this.setState({ toastShown: true});
+						this.setState({ toastShown: true });
 					}
 				} else {
 					let newDidDoc = {
-							did: response.didDoc.did,
-							pubKey: response.didDoc.pubKey,
-							credentials: []
+						did: response.didDoc.did,
+						pubKey: response.didDoc.pubKey,
+						credentials: []
 					};
-					this.setState({hasKeySafe: true, hasDid: true, didDoc: newDidDoc });
+					this.setState({ hasKeySafe: true, hasDid: true, didDoc: newDidDoc });
 				}
 			});
 		}
@@ -232,16 +232,16 @@ If not, please send us an email, telling us a little about the project you would
 				if (didResponse.did) {
 					if (didResponse.credentials.length === 0) {
 						// Has no KYC Credential (Should look at the detail here, but right now we only have one type of credential)
-						this.setState({isDidLedgered: true, didDoc: didResponse, hasKYC: false});
+						this.setState({ isDidLedgered: true, didDoc: didResponse, hasKYC: false });
 					} else {
-						this.setState({isDidLedgered: true, didDoc: didResponse, hasKYC: true});
+						this.setState({ isDidLedgered: true, didDoc: didResponse, hasKYC: true });
 					}
 				} else {
 					// Did not ledgered
 					ledgerDid();
 				}
 			})
-			.catch((err) => {
+				.catch((err) => {
 					// Did not ledgered
 					ledgerDid();
 
@@ -263,7 +263,7 @@ If not, please send us an email, telling us a little about the project you would
 
 	ledgerDid = () => {
 		if (this.state.didDoc && !this.busyLedgering) {
-			let payload = {didDoc: this.state.didDoc};
+			let payload = { didDoc: this.state.didDoc };
 			this.busyLedgering = true;
 			this.props.keysafe.requestSigning(JSON.stringify(payload), (error, signature) => {
 				if (!error) {
@@ -283,14 +283,14 @@ If not, please send us an email, telling us a little about the project you would
 		} else {
 			if (this.state.toastShown === false) {
 				warningToast('Please log into the IXO Keysafe');
-				this.setState({ toastShown: true});
+				this.setState({ toastShown: true });
 			}
 		}
 	}
 
 	render() {
 		if (!this.props.ixo) {
-			return <Spinner info="Loading ixo World..."/>;
+			return <Spinner info="Loading ixo World..." />;
 		}
 		return (
 			<div>
@@ -325,7 +325,7 @@ e.g. planting trees or educating children.</p>
 									</TextBlock>
 								</div>
 								<MediaQuery minWidth={`${deviceWidth.desktop}px`}>
-									<RelativeCol className="col-lg-6"><KeySafe src={keysafeImg}/></RelativeCol>
+									<RelativeCol className="col-lg-6"><KeySafe src={keysafeImg} /></RelativeCol>
 								</MediaQuery>
 							</div>
 						</div>
@@ -337,7 +337,7 @@ e.g. planting trees or educating children.</p>
 									<p>Evaluators are individuals or entities with specific knowledge and experience to provide an opinion on impact claims (often assisted by <strong>verification oracles</strong>). </p>
 								</TextBlock>
 							</div>
-							<div className="col-lg-6"/>
+							<div className="col-lg-6" />
 						</div>
 					</div>
 				</Section>
