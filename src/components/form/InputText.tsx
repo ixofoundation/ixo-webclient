@@ -136,33 +136,25 @@ export interface ParentProps {
 	text?: string;
 	value?: string;
 	validation?: string;
-	required?: boolean;
-	errors?: string;
 }
 export interface Callbacks {
 	onChange?: (event: any) => void;
-	setHasError?: Function;
 }
 
-export interface Props extends ParentProps, Callbacks {}
+export interface Props extends ParentProps, Callbacks { }
 
 const InputText: React.SFC<Props> = (props) => {
 
-	const handleErrors = (field) => {
-		if (field === 'name' && props.errors[field]) {
-			return props.errors['name'];
-		}
-		
-		if (field === 'email' && props.errors[field]) {
-			return props.errors['email'];
-		}
-	};
-
+	// const validateEmail = (email: string) => {
+	// 	const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+	// 	console.log(re.test(String(email).toLowerCase()));
+	// 	return re.test(String(email).toLowerCase());
+	// };
 	if (props.formStyle === FormStyles.disabled) {
 		return (
 			<InputContainer>
 				<div className={`${(props.formStyle).toLowerCase()}-input`}>
-					<input 
+					<input
 						className="form-control"
 						id={props.id}
 						type={props.type}
@@ -172,15 +164,14 @@ const InputText: React.SFC<Props> = (props) => {
 						disabled={true}
 					/>
 					<p>{props.value}</p>
-				</div>	
+				</div>
 			</InputContainer>
 		);
 	} else {
 		return (
 			<InputContainer>
 				<div className={`${(props.formStyle).toLowerCase()}-input`}>
-					<span style={{ color: 'red' }}>{handleErrors(props.id)}</span>
-					<input 
+					<input
 						className="form-control"
 						id={props.id}
 						type={props.type}

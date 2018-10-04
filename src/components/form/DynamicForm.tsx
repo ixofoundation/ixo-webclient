@@ -1,6 +1,6 @@
-import * as React    from 'react';
-import TextArea      from './TextArea';
-import InputText     from './InputText';
+import * as React from 'react';
+import TextArea from './TextArea';
+import InputText from './InputText';
 import Select from './Select';
 import Radio from './Radio';
 import CountrySelect from './CountrySelect';
@@ -72,23 +72,17 @@ export interface ParentProps {
 
 export interface State {
 	formData: any;
-	submitStatus: string;
-	errors: any;
-	hasError: boolean;
 }
 
 export interface Callbacks {
 	handleSubmit: (formData: any) => void;
 }
 
-export interface Props extends ParentProps, Callbacks {}
+export interface Props extends ParentProps, Callbacks { }
 
 export default class DynamicForm extends React.Component<Props, State> {
 	state = {
-		formData: {},
-		submitStatus: '',
-		errors: '',
-		hasError: false,
+		formData: {}
 	};
 
 	componentWillMount() {
@@ -105,42 +99,14 @@ export default class DynamicForm extends React.Component<Props, State> {
 	}
 
 	handleSubmit = (event) => {
-		let fields = this.state.formData;
-		let errors = {};
-		
-		if (!fields['name']) {
-			errors['name'] = 'This field cannot be empty';
-		}
-
-		if (!fields['email']) {
-			errors['email'] = 'This field cannot be empty';
-		}
-
-		if (typeof fields['email'] !== 'undefined') {
-			let lastAtPos = fields['email'].lastIndexOf('@');
-			let lastDotPos = fields['email'].lastIndexOf('.');
-
-			if (!(lastAtPos < lastDotPos && lastAtPos > 0 && fields['email'].indexOf('@@') === -1 && lastDotPos > 2 && (fields['email'].length - lastDotPos) > 2)) {
-				errors['email'] = 'Please enter a valid email';
-			}
-		}
-
-		this.setState({ 
-			errors: errors,
-		});
-
-		if (Object.keys(errors).length === 0) {
-			console.log('The gods are with us, it\'s finally valid!');
-			// this.props.handleSubmit(this.state.formData);
-		}
-		
+		this.props.handleSubmit(this.state.formData);
 	}
 
 	setFormState = (name: String, value: any) => {
 		const fields = name.split('.');
 		let formData = this.state.formData;
 		fields.forEach((field, index) => {
-			if (index === fields.length - 1 ) {
+			if (index === fields.length - 1) {
 				formData[field] = value;
 			} else {
 				if (!formData[field]) {
@@ -149,14 +115,12 @@ export default class DynamicForm extends React.Component<Props, State> {
 				formData = formData[field];
 			}
 		});
-		this.setState({formData: formData});
+		this.setState({ formData: formData });
 	}
 
 	onFormValueChanged = (name: String) => {
 		return (event) => {
 			this.setFormState(name, event.target.value);
-			this.setState({ errors: '' });
-			console.log(this.state.errors);
 		};
 	}
 
@@ -191,36 +155,34 @@ export default class DynamicForm extends React.Component<Props, State> {
 							case 'text':
 							case 'email':
 								return (
-									<InputText 
-										formStyle={this.props.formStyle} 
-										id={field.name} 
-										type={field.type} 
-										text={field.label} 
-										key={i} 
+									<InputText
+										formStyle={this.props.formStyle}
+										id={field.name}
+										type={field.type}
+										text={field.label}
+										key={i}
 										onChange={this.onFormValueChanged(field.name)}
 										validation={field.validation}
-										required={field.required}
-										errors={this.state.errors}
 									/>
 								);
-							case 'image' :
-								return <InputImage id={field.name} text={field.label} key={i} imageWidth={570} onChange={this.onFormValueChanged(field.name)}/>;
-							case 'textarea' :
-								return <TextArea formStyle={this.props.formStyle} id={field.name} text={field.label} key={i} onChange={this.onFormValueChanged(field.name)}/>;
+							case 'image':
+								return <InputImage id={field.name} text={field.label} key={i} imageWidth={570} onChange={this.onFormValueChanged(field.name)} />;
+							case 'textarea':
+								return <TextArea formStyle={this.props.formStyle} id={field.name} text={field.label} key={i} onChange={this.onFormValueChanged(field.name)} />;
 							case 'select':
-								return <Select id={field.name} options={field.options} text={field.label} key={i} onChange={this.onFormValueChanged(field.name)}/>;
+								return <Select id={field.name} options={field.options} text={field.label} key={i} onChange={this.onFormValueChanged(field.name)} />;
 							case 'country':
-								return <CountrySelect id={field.name} text={field.label} key={i} onChange={this.onFormValueChanged(field.name)}/>;
+								return <CountrySelect id={field.name} text={field.label} key={i} onChange={this.onFormValueChanged(field.name)} />;
 							case 'template':
-								return <TemplateSelect id={field.name} text={field.label} key={i} onChange={this.onFormValueChanged(field.name)}/>;
+								return <TemplateSelect id={field.name} text={field.label} key={i} onChange={this.onFormValueChanged(field.name)} />;
 							case 'radio':
-								return <Radio id={field.name} options={field.options} text={field.label} key={i} onChange={this.onFormValueChanged(field.name)}/>;
+								return <Radio id={field.name} options={field.options} text={field.label} key={i} onChange={this.onFormValueChanged(field.name)} />;
 							default:
 								return <p>Type not found</p>;
 						}
 					})}
 					{this.handleRenderButtons()}
-					<SubmitStatus>{this.state.submitStatus}</SubmitStatus>
+					<SubmitStatus />
 				</div>
 			</form>
 		);
