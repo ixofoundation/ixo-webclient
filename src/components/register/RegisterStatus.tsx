@@ -60,7 +60,7 @@ const CheckItem = styled.p`
 	padding-left: 35px;
 	position: relative;
 	transition: color 0.3s ease;
-	
+
 	&&{a {
 		text-decoration: underline;
 	}}
@@ -106,7 +106,7 @@ export interface ParentProps {
 	role: AgentRoles;
 	activeModal: Function;
 	hasKeySafe?: boolean;
-	hasKYC?: boolean; 
+	hasKYC?: boolean;
 }
 
 export const RegisterStatus: React.SFC<ParentProps> = (props) => {
@@ -131,13 +131,13 @@ export const RegisterStatus: React.SFC<ParentProps> = (props) => {
 		}
 	};
 
-	const renderKYCPart = () => { 
+	const renderKYCPart = () => {
 		if (props.role === AgentRoles.owners) {
 			return (
-				<CheckItem> 
-					{getIcon(props.hasKYC)} Successfully <ModalLink onClick={() => props.activeModal(ModalData.kyc, true)}>register</ModalLink> as an ixo member 
+				<CheckItem>
+					{getIcon(props.hasKYC)} Successfully <ModalLink onClick={() => props.activeModal(ModalData.kyc, true)}>register</ModalLink> as an ixo member
 					<span>Please note that for the beta phase you need to be <ModalLink onClick={() => props.activeModal(ModalData.invite, true)}>invited by ixo</ModalLink> </span>
-					<Start  className={props.hasKYC && 'active'} href="https://docs.google.com/forms/d/e/1FAIpQLSfv6TY-8Eurg6dcS-2YPeFIuT7nlPE5YGKj2SaRrPJ0vIf4ZA/viewform" target="_blank">LAUNCH A PROJECT</Start>
+					<Start className={props.hasKYC && 'active'} href="https://docs.google.com/forms/d/e/1FAIpQLSfv6TY-8Eurg6dcS-2YPeFIuT7nlPE5YGKj2SaRrPJ0vIf4ZA/viewform" target="_blank">LAUNCH A PROJECT</Start>
 				</CheckItem>
 			);
 		} else {
@@ -147,33 +147,33 @@ export const RegisterStatus: React.SFC<ParentProps> = (props) => {
 
 	if (props.hasKYC) {
 		return (
-		<StatusContainer>
-			<CheckItem>{getIcon(true)} You have successfully registered. 
+			<StatusContainer>
+				<CheckItem>{getIcon(true)} You have successfully registered.
 			</CheckItem>
-		</StatusContainer>
+			</StatusContainer>
 		);
 	}
 
-	if (props.hasKYC && props.hasKeySafe && props.role === AgentRoles.evaluators) {
+	if (props.hasKeySafe && props.role === AgentRoles.evaluators) {
 		return (
-		<StatusContainer>
-			<CheckItem>{getIcon(props.hasKeySafe)}
-				{getIcon(props.hasKeySafe)} You have successfully installed the <ModalLink onClick={() => props.activeModal(ModalData.keysafe, true)}>ixo Keysafe</ModalLink>
-			</CheckItem>
-		</StatusContainer>
+			<StatusContainer>
+				<CheckItem>{getIcon(props.hasKeySafe)}
+					{getIcon(props.hasKeySafe)} You have successfully installed the <ModalLink onClick={() => props.activeModal(ModalData.keysafe, true)}>ixo Keysafe</ModalLink>
+				</CheckItem>
+			</StatusContainer>
 		);
 	}
 
 	if (props.hasKeySafe && props.role === AgentRoles.serviceProviders) {
 		return (
-		<StatusContainer>
-			<CheckItem>{getIcon(props.hasKeySafe)}
-				{getIcon(props.hasKeySafe)} You have successfully installed the <ModalLink onClick={() => props.activeModal(ModalData.keysafe, true)}>ixo Keysafe</ModalLink>
-			</CheckItem>
-		</StatusContainer>	
+			<StatusContainer>
+				<CheckItem>{getIcon(props.hasKeySafe)}
+					{getIcon(props.hasKeySafe)} You have successfully installed the <ModalLink onClick={() => props.activeModal(ModalData.keysafe, true)}>ixo Keysafe</ModalLink>
+				</CheckItem>
+			</StatusContainer>
 		);
 	}
-	
+
 	return (
 		<StatusContainer>
 			{getKeysafeText()}

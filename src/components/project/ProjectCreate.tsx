@@ -214,14 +214,14 @@ export class ProjectCreate extends React.Component<StateProps, State> {
 	handleOwnerNameChanged = (event: any) => {
 		let newProject = this.state.project;
 		newProject.ownerName = event.target.value;
-		newProject.founder.name = event.target.value;
+		// newProject.founder.name = event.target.value;
 		this.setState({project: newProject, projectJson: JSON.stringify(newProject)});
 	}
 
 	handleOwnerEmailChanged = (event: any) => {
 		let newProject = this.state.project;
 		newProject.ownerEmail = event.target.value.trim();
-		newProject.founder.email = event.target.value.trim();
+		// newProject.founder.email = event.target.value.trim();
 		this.setState({project: newProject, projectJson: JSON.stringify(newProject)});
 	}
 

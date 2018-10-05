@@ -28,7 +28,7 @@ export interface ParentProps {
 
 export interface State {
 	name: string;
-}	
+}
 
 export class ProjectNewAgent extends React.Component<ParentProps, State> {
 
@@ -41,7 +41,7 @@ export class ProjectNewAgent extends React.Component<ParentProps, State> {
 			case 'SA':
 				return <ByLine>Service Providers delivers the impact to a project. They are the people on the ground submitting claims, and making a difference.</ByLine>;
 			case 'EA':
-			return <ByLine> Evaluators check that submitted claims are valid and complete, ensuring that the project quality is maintained and validated</ByLine>;
+				return <ByLine> Evaluators check that submitted claims are valid and complete, ensuring that the project quality is maintained and validated</ByLine>;
 			case 'IA':
 				return <ByLine>Investors fund the project's processing costs.</ByLine>;
 			default:
@@ -50,7 +50,7 @@ export class ProjectNewAgent extends React.Component<ParentProps, State> {
 	}
 
 	handleNameChange = (event: any) => {
-		this.setState({name: event.target.value});
+		this.setState({ name: event.target.value });
 	}
 
 	render() {
@@ -58,11 +58,11 @@ export class ProjectNewAgent extends React.Component<ParentProps, State> {
 		return (
 			<Container>
 				{this.renderByLine(this.props.role)}
-				<DynamicForm 
+				<DynamicForm
 					formStyle={FormStyles.modal}
-					formSchema={formJson.fields} 
-					submitText="Apply" 
-					handleSubmit={(e) => this.props.submitAgent(this.props.role, e)} 
+					formSchema={formJson.fields}
+					submitText="Apply"
+					handleSubmit={(e) => this.props.submitAgent(this.props.role, e)}
 				/>
 			</Container>
 		);

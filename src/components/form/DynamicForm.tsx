@@ -1,6 +1,6 @@
-import * as React    from 'react';
-import TextArea      from './TextArea';
-import InputText     from './InputText';
+import * as React from 'react';
+import TextArea from './TextArea';
+import InputText from './InputText';
 import Select from './Select';
 import Radio from './Radio';
 import CountrySelect from './CountrySelect';
@@ -72,7 +72,6 @@ export interface ParentProps {
 
 export interface State {
 	formData: any;
-	submitStatus: string;
 }
 
 export interface Callbacks {
@@ -83,8 +82,7 @@ export interface Props extends ParentProps, Callbacks {}
 
 export default class DynamicForm extends React.Component<Props, State> {
 	state = {
-		formData: {},
-		submitStatus: ''
+		formData: {}
 	};
 
 	componentWillMount() {
@@ -157,19 +155,19 @@ export default class DynamicForm extends React.Component<Props, State> {
 							case 'text':
 							case 'email':
 								return (
-									<InputText 
-										formStyle={this.props.formStyle} 
-										id={field.name} 
-										type={field.type} 
-										text={field.label} 
-										key={i} 
+									<InputText
+										formStyle={this.props.formStyle}
+										id={field.name}
+										type={field.type}
+										text={field.label}
+										key={i}
 										onChange={this.onFormValueChanged(field.name)}
 										validation={field.validation}
 									/>
 								);
-							case 'image' :
+							case 'image':
 								return <InputImage id={field.name} text={field.label} key={i} imageWidth={570} onChange={this.onFormValueChanged(field.name)}/>;
-							case 'textarea' :
+							case 'textarea':
 								return <TextArea formStyle={this.props.formStyle} id={field.name} text={field.label} key={i} onChange={this.onFormValueChanged(field.name)}/>;
 							case 'select':
 								return <Select id={field.name} options={field.options} text={field.label} key={i} onChange={this.onFormValueChanged(field.name)}/>;
@@ -184,7 +182,7 @@ export default class DynamicForm extends React.Component<Props, State> {
 						}
 					})}
 					{this.handleRenderButtons()}
-					<SubmitStatus>{this.state.submitStatus}</SubmitStatus>
+					<SubmitStatus />
 				</div>
 			</form>
 		);
