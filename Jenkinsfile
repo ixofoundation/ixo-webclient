@@ -2,12 +2,6 @@ node {
     def app
     def branch
 
-     stage('Removing Images') {
-        sh "docker rmi ${app.id}"
-        sh "docker rmi registry.hub.docker.com/${app.id}"
-        sh "docker rmi registry.hub.docker.com/${app.id}-${env.BUILD_NUMBER}"
-    }
-    
     stage('Clone repository') {
         /* Let's make sure we have the repository cloned to our workspace */
         checkout scm
