@@ -4,7 +4,7 @@ ADD package.json /package.json
 
 ENV NODE_PATH=/node_modules
 ENV PATH=$PATH:/node_modules/.bin
-RUN NPM i
+RUN npm install
 
 RUN mkdir /usr/src/app
 WORKDIR /usr/src/app
