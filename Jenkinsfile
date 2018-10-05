@@ -39,6 +39,8 @@ node {
     }
 
      stage('Removing Images') {
+         sh "echo APP.id"
+         sh "echo ${app.id}"
         sh "docker rmi ${app.id}"
         sh "docker rmi registry.hub.docker.com/${app.id}"
         sh "docker rmi registry.hub.docker.com/${app.id}-${env.BUILD_NUMBER}"
