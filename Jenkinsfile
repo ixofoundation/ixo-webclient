@@ -9,6 +9,10 @@ node {
         echo 'Branch Name: ' + branch
     }
 
+    stage('Removing Images') {
+        sh "docker rmi $(docker images -a -q)"
+    }
+
     stage('Build source') {
         /* Let's make sure we have the repository cloned to our workspace */
         sh 'yarn install'
