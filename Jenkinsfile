@@ -3,7 +3,7 @@ node {
     def branch
 
     stage('Removing Images') {
-        sh "docker rmi $(docker images -a -q)"
+        sh "docker rmi \$(docker images -a -q)"
     }
 
     stage('Clone repository') {
