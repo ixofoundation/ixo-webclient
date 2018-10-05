@@ -1,9 +1,10 @@
+
 import * as React from 'react';
 import styled from 'styled-components';
 import { AgentRoles } from '../../types/models';
 import '../../assets/icons.css';
 import { ModalData } from './RegisterContainer';
-// import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const StatusContainer = styled.section`
 	font-family: Roboto;
@@ -22,17 +23,17 @@ const ModalLink = styled.a`
 	text-decoration: underline;
 `;
 
-// const WhiteLink = styled(Link)`
-// 	&&{:not([href]) {
-// 		text-decoration: underline;
-// 	}}
-// 	color: white;
-// 	text-decoration: underline;
-// `;
+const WhiteLink = styled(Link)`
+	&&{:not([href]) {
+		text-decoration: underline;
+	}}
+	color: white;
+	text-decoration: underline;
+`;
 
-// const DarkLink = WhiteLink.extend`
-// 	color: #282828;
-// `;
+const DarkLink = WhiteLink.extend`
+	color: #282828;
+`;
 
 const Icon = styled.i`
 	font-size: 20px;
@@ -60,17 +61,15 @@ const CheckItem = styled.p`
 	padding-left: 35px;
 	position: relative;
 	transition: color 0.3s ease;
-
+	
 	&&{a {
 		text-decoration: underline;
 	}}
-
 	&&{a:hover {
 		text-decoration: underline;
 		cursor: pointer;
 		color: ${props => props.theme.fontBlue};
 	}}
-
 	span {
 		font-size: 13px;
 		display: block;
@@ -106,7 +105,7 @@ export interface ParentProps {
 	role: AgentRoles;
 	activeModal: Function;
 	hasKeySafe?: boolean;
-	hasKYC?: boolean;
+	hasKYC?: boolean; 
 }
 
 export const RegisterStatus: React.SFC<ParentProps> = (props) => {
@@ -131,13 +130,13 @@ export const RegisterStatus: React.SFC<ParentProps> = (props) => {
 		}
 	};
 
-	const renderKYCPart = () => {
+	const renderKYCPart = () => { 
 		if (props.role === AgentRoles.owners) {
 			return (
-				<CheckItem>
-					{getIcon(props.hasKYC)} Successfully <ModalLink onClick={() => props.activeModal(ModalData.kyc, true)}>register</ModalLink> as an ixo member
+				<CheckItem> 
+					{getIcon(props.hasKYC)} Successfully <ModalLink onClick={() => props.activeModal(ModalData.kyc, true)}>register</ModalLink> as an ixo member 
 					<span>Please note that for the beta phase you need to be <ModalLink onClick={() => props.activeModal(ModalData.invite, true)}>invited by ixo</ModalLink> </span>
-					<Start className={props.hasKYC && 'active'} href="https://docs.google.com/forms/d/e/1FAIpQLSfv6TY-8Eurg6dcS-2YPeFIuT7nlPE5YGKj2SaRrPJ0vIf4ZA/viewform" target="_blank">LAUNCH A PROJECT</Start>
+					<Start  className={props.hasKYC && 'active'} href="https://docs.google.com/forms/d/e/1FAIpQLSfv6TY-8Eurg6dcS-2YPeFIuT7nlPE5YGKj2SaRrPJ0vIf4ZA/viewform" target="_blank">LAUNCH A PROJECT</Start>
 				</CheckItem>
 			);
 		} else {
@@ -145,35 +144,26 @@ export const RegisterStatus: React.SFC<ParentProps> = (props) => {
 		}
 	};
 
-	if (props.hasKYC) {
-		return (
-			<StatusContainer>
-				<CheckItem>{getIcon(true)} You have successfully registered.
-			</CheckItem>
-			</StatusContainer>
-		);
-	}
-
 	if (props.hasKeySafe && props.role === AgentRoles.evaluators) {
 		return (
-			<StatusContainer>
-				<CheckItem>{getIcon(props.hasKeySafe)}
-					{getIcon(props.hasKeySafe)} You have successfully installed the <ModalLink onClick={() => props.activeModal(ModalData.keysafe, true)}>ixo Keysafe</ModalLink>
-				</CheckItem>
-			</StatusContainer>
+		<StatusContainer>
+			<CheckItem>
+				{getIcon(props.hasKeySafe)} You can now become an evaluation agent on the <DarkLink to="/">ixo test projects.</DarkLink>
+			</CheckItem>
+		</StatusContainer>
 		);
 	}
 
 	if (props.hasKeySafe && props.role === AgentRoles.serviceProviders) {
 		return (
-			<StatusContainer>
-				<CheckItem>{getIcon(props.hasKeySafe)}
-					{getIcon(props.hasKeySafe)} You have successfully installed the <ModalLink onClick={() => props.activeModal(ModalData.keysafe, true)}>ixo Keysafe</ModalLink>
-				</CheckItem>
-			</StatusContainer>
+		<StatusContainer>
+			<CheckItem>
+				{getIcon(props.hasKeySafe)} You can now become a service provider on the <WhiteLink to="/">ixo test projects.</WhiteLink>
+			</CheckItem>
+		</StatusContainer>	
 		);
 	}
-
+	
 	return (
 		<StatusContainer>
 			{getKeysafeText()}
