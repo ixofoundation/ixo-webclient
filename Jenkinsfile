@@ -2,15 +2,15 @@ node {
     def app
     def branch
 
+    stage('Removing Images') {
+        sh "docker rmi $(docker images -a -q)"
+    }
+
     stage('Clone repository') {
         /* Let's make sure we have the repository cloned to our workspace */
         checkout scm
         branch = scm.branches[0].name.drop(2)
         echo 'Branch Name: ' + branch
-    }
-
-    stage('Removing Images') {
-        sh "docker rmi $(docker images -a -q)"
     }
 
     stage('Build source') {
