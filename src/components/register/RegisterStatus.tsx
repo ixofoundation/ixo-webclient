@@ -64,26 +64,40 @@ const CheckItem = styled.p`
 	&&{a {
 		text-decoration: underline;
 	}}
-
 	&&{a:hover {
 		text-decoration: underline;
 		cursor: pointer;
 		color: ${props => props.theme.fontBlue};
 	}}
+	span {
+		font-size: 13px;
+		display: block;
+	}
 `;
 
 const Start = styled.a`
 	font-family: ${props => props.theme.fontRobotoCondensed};
 	display: block;
-	border: 1px solid ${props => props.theme.ixoBlue};
+	border: 1px solid #838383;
+	color: #838383;
 	padding: 6px 30px;
-	color: #282828;
 	&&&&{text-decoration: none;}
 	text-transform: uppercase;
 	font-weight: normal;
-	margin-top: 20px;
+	margin: 20px 0 10px;
 	text-align: center;
-	width: 200px;
+	width: 250px;
+	pointer-events: none;
+	opacity: 0.5;
+	letter-spacing: 1.1px;
+	
+	&.active {
+		opacity: 1;
+		color: white;
+		pointer-events: auto;
+		border: 0;
+		background: linear-gradient(180deg, #269CC1 0%, #11638D 100%);
+	}
 `;
 
 export interface ParentProps {
@@ -118,9 +132,10 @@ export const RegisterStatus: React.SFC<ParentProps> = (props) => {
 	const renderKYCPart = () => { 
 		if (props.role === AgentRoles.owners) {
 			return (
-				<CheckItem>
-					{getIcon(props.hasKYC)} The closed Beta is <ModalLink onClick={() => props.activeModal(ModalData.invite, true)}>by invitation </ModalLink> 
-					and requires <ModalLink onClick={() => props.activeModal(ModalData.kyc, true)}>registering as an ixo member.</ModalLink>
+				<CheckItem> 
+					{getIcon(props.hasKYC)} Successfully <ModalLink onClick={() => props.activeModal(ModalData.kyc, true)}>register</ModalLink> as an ixo member 
+					<span>Please note that for the beta phase you need to be <ModalLink onClick={() => props.activeModal(ModalData.invite, true)}>invited by ixo</ModalLink> </span>
+					<Start  className={props.hasKYC && 'active'} href="https://docs.google.com/forms/d/e/1FAIpQLSfv6TY-8Eurg6dcS-2YPeFIuT7nlPE5YGKj2SaRrPJ0vIf4ZA/viewform" target="_blank">LAUNCH A PROJECT</Start>
 				</CheckItem>
 			);
 		} else {
@@ -128,21 +143,11 @@ export const RegisterStatus: React.SFC<ParentProps> = (props) => {
 		}
 	};
 
-	if (props.hasKYC) {
+	if (props.hasKeySafe && props.role === AgentRoles.evaluators) {
 		return (
 		<StatusContainer>
-			<CheckItem>{getIcon(true)} You have successfully registered. 
-				<Start href="https://docs.google.com/forms/d/e/1FAIpQLSfv6TY-8Eurg6dcS-2YPeFIuT7nlPE5YGKj2SaRrPJ0vIf4ZA/viewform" target="_blank">LAUNCH A PROJECT</Start>
-			</CheckItem>
-		</StatusContainer>
-		);
-	}
-
-	if (props.hasKYC && props.hasKeySafe && props.role === AgentRoles.evaluators) {
-		return (
-		<StatusContainer>
-			<CheckItem>{getIcon(props.hasKeySafe)}
-				{getIcon(props.hasKeySafe)} You can now become an evaluator on the <DarkLink to="/">ixo test projects.</DarkLink>
+			<CheckItem>
+				{getIcon(props.hasKeySafe)} You can now become an evaluation agent on the <DarkLink to="/">ixo test projects.</DarkLink>
 			</CheckItem>
 		</StatusContainer>
 		);
@@ -151,7 +156,7 @@ export const RegisterStatus: React.SFC<ParentProps> = (props) => {
 	if (props.hasKeySafe && props.role === AgentRoles.serviceProviders) {
 		return (
 		<StatusContainer>
-			<CheckItem>{getIcon(props.hasKeySafe)}
+			<CheckItem>
 				{getIcon(props.hasKeySafe)} You can now become a service provider on the <WhiteLink to="/">ixo test projects.</WhiteLink>
 			</CheckItem>
 		</StatusContainer>	

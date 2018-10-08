@@ -166,7 +166,7 @@ export const ProjectDashboard: React.SFC<ParentProps> = ({project, projectDid, a
 								<p><strong>{claimStats.currentSuccessful}</strong> Approved</p>
 								<p><strong>{countClaimsOfType('0')}</strong> Pending Approval</p>
 								<p><strong>{claimStats.currentRejected}</strong> Rejected</p>
-								<p><strong>{claimStats.required}</strong> Claims Submitted</p>
+								<p><strong>{claimStats.required - claimStats.currentSuccessful - countClaimsOfType('0') - claimStats.currentRejected}</strong> Remaining Claims</p>
 							</ClaimsLabels>
 							<CircleProgressbar
 								approved={claimStats.currentSuccessful}

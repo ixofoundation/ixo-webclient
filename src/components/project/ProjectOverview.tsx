@@ -11,6 +11,7 @@ import { UserInfo } from '../../types/models';
 import { Button, ButtonTypes } from '../common/Buttons';
 import { Fragment } from 'react';
 import QRComponent from '../common/QRComponent';
+import ReactMd from 'react-md-file';
 
 const placeholder = require('../../assets/images/ixo-placeholder-large.jpg');
 
@@ -369,8 +370,7 @@ export const ProjectOverview: React.SFC<ParentProps> = (props) => {
 						<div className="col-md-8">
 							<ProjectImage src={props.imageLink} onError={onProjectImageNotFound}/>
 							<Text>
-								<p>{props.project.longDescription}
-								</p>
+								<ReactMd markdown={props.project.longDescription} />
 							</Text>
 							<Social>
 								{props.project.socialMedia.instagramLink && <a href={props.project.socialMedia.instagramLink} target="_blank"><i className="icon-instagram" /></a>}
@@ -422,12 +422,12 @@ export const ProjectOverview: React.SFC<ParentProps> = (props) => {
 				<div className="container">
 					<Founder className="row">
 						<div className="col-md-8">
-							<h4>Project Founder</h4>
+							{props.project.founder.name && <h4>Project Founder</h4>}
 							<h3>{props.project.founder.name}</h3>
 							<Text>{props.project.founder.shortDescription}</Text>
 							<IconText>
-								<span><i className="icon-location"/>{getCountryName(props.project.founder.countryOfOrigin)}</span>
-								<span><i className="icon-world"/><a href={props.project.founder.websiteURL} target="_blank">{props.project.founder.websiteURL}</a></span>
+								{props.project.founder.countryOfOrigin && <span><i className="icon-location"/>{getCountryName(props.project.founder.countryOfOrigin)}</span>}
+								{props.project.founder.websiteURL && <span><i className="icon-world"/><a href={props.project.founder.websiteURL} target="_blank">{props.project.founder.websiteURL}</a></span>}
 							</IconText>
 						</div>
 						<div className="col-md-4">

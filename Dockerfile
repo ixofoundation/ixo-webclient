@@ -1,14 +1,18 @@
-FROM node:carbon
+# base image
+FROM node:9.6.1
 
-ADD yarn.lock /yarn.lock
-ADD package.json /package.json
-
-ENV NODE_PATH=/node_modules
-ENV PATH=$PATH:/node_modules/.bin
-RUN yarn
-
+# set working directory
 RUN mkdir /usr/src/app
 WORKDIR /usr/src/app
-COPY . .
-EXPOSE 80
+
+# add `/usr/src/app/node_modules/.bin` to $PATH
+ENV PATH /usr/src/app/node_modules/.bin:$PATH
+
+# install and cache app dependencies
+COPY package.json /usr/src/app/package.json
+COPY . /usr/src/app/
+RUN npm install --silent
+RUN npm install react-scripts-ts -g --silent
+
+# start app
 CMD ["npm", "start"]

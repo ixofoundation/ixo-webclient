@@ -82,7 +82,7 @@ const Col = styled.div`
 const ClaimsWidget = styled.div`
 	margin: 20px 0;
 	
-`;	
+`;
 
 const ClaimTitle = styled.p`
 	display: flex;
@@ -148,13 +148,13 @@ const ViewAllLink = ClaimLink.extend`
 `;
 
 export interface ParentProps {
-	claims?: any[];  
+	claims?: any[];
 	projectDid: string;
 	fullPage: boolean;
 	hasLink: boolean;
 }
 
-export const ProjectClaims: React.SFC<ParentProps> = ({claims, projectDid, fullPage, hasLink}) => {
+export const ProjectClaims: React.SFC<ParentProps> = ({ claims, projectDid, fullPage, hasLink }) => {
 
 	const claimDate = (date: string) => {
 		var duration = moment.duration(moment().diff(date));
@@ -171,15 +171,15 @@ export const ProjectClaims: React.SFC<ParentProps> = ({claims, projectDid, fullP
 
 		const theItem = (
 			<ListItemWrapper key={index} className="col-12" >
-				<Indicator color={colorClass}/>
+				<Indicator color={colorClass} />
 				<ClaimTitle><ID>{claim.claimId}</ID> <Date>{claimDate(claim.date)}</Date></ClaimTitle>
 				<Did>{claim.saDid}</Did>
 			</ListItemWrapper>
 		);
-		
+
 		if (hasLink) {
 			return (
-				<ClaimLink key={index} to={{pathname: `/projects/${projectDid}/detail/claims/${claim.claimId}`}}>
+				<ClaimLink key={index} to={{ pathname: `/projects/${projectDid}/detail/claims/${claim.claimId}` }}>
 					{theItem}
 				</ClaimLink>
 			);
@@ -200,7 +200,7 @@ export const ProjectClaims: React.SFC<ParentProps> = ({claims, projectDid, fullP
 						case '1':
 							colorCLass = '#5AB946';
 							break;
-							case '2':
+						case '2':
 							colorCLass = '#E2223B';
 							break;
 						default:
@@ -216,9 +216,9 @@ export const ProjectClaims: React.SFC<ParentProps> = ({claims, projectDid, fullP
 	const handleRenderPageSection = (iconClass: string, claimsList: any[], colorClass: string, title: string, key: number) => {
 		return (
 			<Section className="row" key={key}>
-					<div className="col-12">
-						<h2><i className={iconClass}/>{title}</h2>
-					</div>
+				<div className="col-12">
+					<h2><i className={iconClass} />{title}</h2>
+				</div>
 				{claimsList.map((claim, index) => {
 					return (
 						<Col className="col-12" key={index}>
@@ -238,7 +238,7 @@ export const ProjectClaims: React.SFC<ParentProps> = ({claims, projectDid, fullP
 		const revoked = [];
 		const sections = [];
 		claims.map((claim) => {
-			switch (claim.status) {				
+			switch (claim.status) {
 				case '1':
 					approved.push(claim);
 					break;
@@ -253,8 +253,8 @@ export const ProjectClaims: React.SFC<ParentProps> = ({claims, projectDid, fullP
 		});
 
 		pending.length > 0 && sections.push(handleRenderPageSection('icon-pending', pending, '#F89D28', 'Claims pending approval', 1));
-		approved.length > 0 && sections.push(handleRenderPageSection('icon-approved', approved, '#5AB946', 'Claims Approved', 2));
-		revoked.length > 0 && sections.push(handleRenderPageSection('icon-rejectedcross', revoked, '#E2223B', 'Claims rejected', 3));
+		revoked.length > 0 && sections.push(handleRenderPageSection('icon-rejected', revoked, '#E2223B', 'Claims rejected', 2));
+		approved.length > 0 && sections.push(handleRenderPageSection('icon-approved', approved, '#5AB946', 'Claims Approved', 3));
 		return (
 			<LayoutWrapper>
 				{sections}
