@@ -531,6 +531,7 @@ export class ProjectContainer extends React.Component<Props, State> {
 									handleListClaims={this.handleListClaims}
 									handleEvaluateClaim={this.handleEvaluateClaim}
 									hasCapability={this.handleHasCapability}
+									singleClaimDependentsFetchedCallback={this.singleClaimDependentsFetchedCallback}
 								/>
 							</DetailContainer>
 						</Fragment>

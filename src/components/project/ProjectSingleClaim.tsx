@@ -128,6 +128,7 @@ export interface ParentProps {
 	handleListClaims: () => any;
 	handleEvaluateClaim: (status: object, claimId: string) => void;
 	hasCapability: (role: AgentRoles[]) => boolean;
+	singleClaimDependentsFetchedCallback: () => void;
 	singleClaimFormFile: string;
 }
 export const ProjectSingleClaim: React.SFC<ParentProps> = (props) => {
@@ -203,9 +204,9 @@ export const ProjectSingleClaim: React.SFC<ParentProps> = (props) => {
 							<ButtonLink to={`/projects/${projectDID}/overview`}><ReturnButton>Return to project</ReturnButton></ButtonLink>
 						</div>
 						<div className="col-md-6">
-							<ButtonLink to={`/projects/${projectDID}/detail/claims`}>
+							<ButtonLink to={`/projects/${projectDID}/detail/claims`} onClick={() => props.singleClaimDependentsFetchedCallback()}>
 								<EvaluateMoreButton>
-									<ButtonIconLeft className="icon-approvetick" />Evaluate another claim
+									<ButtonIconLeft className="icon-approvetick"/>Evaluate another claim
 								</EvaluateMoreButton>
 							</ButtonLink>
 						</div>
