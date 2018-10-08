@@ -117,6 +117,10 @@ const ImageContainer = styled.img`
 	border-radius: 3px;
 `;
 
+const IconContainer = styled.div`
+	padding: 50px 20px 80px;
+`;
+
 export interface ParentProps {
 	match: any;
 	claim: any;
@@ -145,7 +149,6 @@ export const ProjectSingleClaim: React.SFC<ParentProps> = (props) => {
 	};
 
 	const evaluateClaim = (status: string, evaluations: any, id: string) => {
-		console.log(latestClaimStatus());
 		if (evaluations.length === 0) {
 			props.handleEvaluateClaim({status: status}, id);
 		} else {
@@ -163,20 +166,22 @@ export const ProjectSingleClaim: React.SFC<ParentProps> = (props) => {
 		return <ImageSpinner key={index} />;
 	};
 
-	const handleRenderStatus = (claimStatus, ID: string) => {
-
+	const handleRenderStatus = (status, claim) => {
+		if (props.claimEvaluated === true) {
+			return <ClaimStatus message={`You have evaluated claim (${claim._id})`} icon={'icon-approved'} />;
+		}
 		if (props.hasCapability([AgentRoles.evaluators])) { // is evaluator
-			switch (claimStatus) {
+			switch (status) {
 				case '1':
-				return <ClaimStatus message={`claim ${ID}`} icon={'icon-approved'} />;
+				return <ClaimStatus message={`claim ${claim._id}`} icon={'icon-approved'} />;
 				case '2':
-				return <ClaimStatus message={`claim ${ID}`} icon={'icon-rejected'} />;
+				return <ClaimStatus message={`claim ${claim._id}`} icon={'icon-rejected'} />;
 				case '0':
 				default:
 				return <ClaimStatus message={'Pending'} icon={'icon-pending'} />;
 			}
 		} else {
-			switch (claimStatus) {
+			switch (status) {
 				case '1':
 				return <ClaimStatus message={'Approved'} icon={'icon-approved'} />;
 				case '2':
@@ -263,14 +268,14 @@ export const ProjectSingleClaim: React.SFC<ParentProps> = (props) => {
 					<Container className="row">
 						<div className="col-md-6">
 							<WidgetWrapperClaims>
-								<h3>Claim</h3>
+								<h3>Claim {props.claimEvaluated === true && 'evaluated'}</h3>
 								<DividerShadow>
 									<Divider />
 								</DividerShadow>
-								<div style={{ padding: '20px' }}>
-									{handleDataRender()}
-									{handleRenderStatus(latestClaimStatus(), claim._id)}
-								</div>
+								<IconContainer>
+									{props.claimEvaluated === false && handleDataRender()}
+									{handleRenderStatus(latestClaimStatus(), claim)}
+								</IconContainer>
 							</WidgetWrapperClaims>
 							{props.hasCapability([AgentRoles.evaluators]) && handleRenderButtons(claim)}
 						</div>

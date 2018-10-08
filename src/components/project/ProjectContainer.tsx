@@ -425,7 +425,7 @@ export class ProjectContainer extends React.Component<Props, State> {
 					if (claim.evaluations.length > 0) {
 						this.setState({ singleClaim: claim, singleClaimFormFile: formFile, singleClaimDependentsFetched: true, claimEvaluated: true });
 					} else {
-						this.setState({ singleClaim: claim, singleClaimFormFile: formFile, singleClaimDependentsFetched: true });
+						this.setState({ singleClaim: claim, singleClaimFormFile: formFile, singleClaimDependentsFetched: true, claimEvaluated: false });
 					}
 					this.handleFetchClaimImages(formFile, claim); // go fetch images
 				});
