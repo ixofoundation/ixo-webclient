@@ -98,7 +98,6 @@ export class Projects extends React.Component<Props, State> {
 	loadingProjects = false;
 
 	componentDidMount() {
-
 		explorerSocket.on('list all projects', function (data: any) {
 			console.log('LLIST PROJECT', data);
 		});
@@ -163,12 +162,6 @@ export class Projects extends React.Component<Props, State> {
 					Toast.errorToast('Unable to connect IXO Explorer');
 					this.loadingProjects = false;
 				});
-		}
-	}
-
-	componentWillUpdate() {
-		if (this.state.projectList === null) {
-			this.refreshAllProjects();
 		}
 	}
 
