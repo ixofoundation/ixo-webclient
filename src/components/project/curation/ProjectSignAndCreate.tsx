@@ -11,6 +11,12 @@ import { Banner } from './Banner';
 import { ImageSpinner } from '../../common/ImageSpinner';
 const bg = require('../../../assets/images/register/background.jpg');
 
+const CreateContainer = styled.div`
+	display: flex;
+	flex: 1;
+	flex-direction: column;
+`;
+
 const Container = styled.div`
 	button {
 		margin: 0 10px 10px 10px;
@@ -23,7 +29,8 @@ const Container = styled.div`
 `;
 
 const BottomContainer = styled.div`
-
+	display: flex;
+	flex: 1;
 	padding-top: 30px;
 	padding-bottom: 30px;
 
@@ -186,8 +193,7 @@ export class ProjectSignAndCreate extends React.Component<Props, State> {
 		if (this.state.status === '') {
 			return (
 				<ModalContainer>
-					<ImageSpinner />
-					<Title>Creating your project</Title>
+					<ImageSpinner info="Creating your project..."/>
 				</ModalContainer>
 			);
 		} else {
@@ -206,13 +212,13 @@ export class ProjectSignAndCreate extends React.Component<Props, State> {
 
 	render() {
 		return (
-			<div>
+			<CreateContainer>
 				<Banner />
 					<Container>
 						{this.renderModal()}
 					</Container>
 				<BottomContainer />
-			</div>
+			</CreateContainer>
 		); 
 	}
 }
