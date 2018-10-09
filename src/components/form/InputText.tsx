@@ -141,49 +141,49 @@ export interface Callbacks {
 	onChange?: (event: any) => void;
 }
 
-export interface Props extends ParentProps, Callbacks {}
-
-// const validateEmail = (email: string) => {
-// 	const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-// 	console.log(re.test(String(email).toLowerCase()));
-// 	return re.test(String(email).toLowerCase());
-// };
+export interface Props extends ParentProps, Callbacks { }
 
 const InputText: React.SFC<Props> = (props) => {
-		if (props.formStyle === FormStyles.disabled) {
-			return (
-				<InputContainer>
+
+	// const validateEmail = (email: string) => {
+	// 	const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+	// 	console.log(re.test(String(email).toLowerCase()));
+	// 	return re.test(String(email).toLowerCase());
+	// };
+	if (props.formStyle === FormStyles.disabled) {
+		return (
+			<InputContainer>
 				<div className={`${(props.formStyle).toLowerCase()}-input`}>
-						<input 
-							className="form-control"
-							id={props.id}
-							type={props.type}
-							placeholder={props.value}
-							value={props.text}
-							name={props.id}
-							disabled={true}
-						/>
-						<p>{props.value}</p>
-					</div>	
-				</InputContainer>
-			);
-		} else {
-			return (
-				<InputContainer>
-					<div className={`${(props.formStyle).toLowerCase()}-input`}>
-						<input 
-							className="form-control"
-							id={props.id}
-							type={props.type}
-							placeholder={props.text}
-							onChange={props.onChange}
-							name={props.id}
-						/>
-						<p>{props.text}</p>
-					</div>
-				</InputContainer>
-			);
-		}
+					<input
+						className="form-control"
+						id={props.id}
+						type={props.type}
+						placeholder={props.value}
+						value={props.text}
+						name={props.id}
+						disabled={true}
+					/>
+					<p>{props.value}</p>
+				</div>
+			</InputContainer>
+		);
+	} else {
+		return (
+			<InputContainer>
+				<div className={`${(props.formStyle).toLowerCase()}-input`}>
+					<input
+						className="form-control"
+						id={props.id}
+						type={props.type}
+						placeholder={props.text}
+						onChange={props.onChange}
+						name={props.id}
+					/>
+					<p>{props.text}</p>
+				</div>
+			</InputContainer>
+		);
+	}
 };
 
 export default InputText;

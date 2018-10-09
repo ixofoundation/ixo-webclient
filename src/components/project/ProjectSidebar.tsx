@@ -66,6 +66,7 @@ export interface Props {
 	match: string;
 	projectDid: string;
 	hasCapability: (role: [AgentRoles]) => boolean;
+	singleClaimDependentsFetchedCallback: () => void;
 }
 
 export interface State {
@@ -84,6 +85,7 @@ export class ProjectSidebar extends React.Component<Props, State> {
 
 	setActiveLink = (name: string) => {
 		this.setState({ activeLink: name});
+		this.props.singleClaimDependentsFetchedCallback();
 	}
 
 	render() {

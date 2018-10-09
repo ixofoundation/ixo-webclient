@@ -15,7 +15,7 @@ const modalStyles = {
 		marginRight: '-50%',
 		transform  : 'translate(-50%, -50%)',
 		border : '1px solid #0C3550',
-		overflow: 'scroll',
+		overflow: 'auto',
 		maxHeight: '90vh',
 		padding: '0',
 		borderRadius: '2px'
