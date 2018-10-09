@@ -57,9 +57,10 @@ const LoaderInner = styled.div`
 	}
 `;
 export interface Props {
+	info?: string;
 }
 
-export const ImageSpinner: React.SFC<Props> = () => {
+export const ImageSpinner: React.SFC<Props> = ({info}) => {
 	return (
 		<Container className="col-md-12">
 			<LoaderContainer>
@@ -69,7 +70,7 @@ export const ImageSpinner: React.SFC<Props> = () => {
 					</LoaderInner>
 				</LoaderWrapper>
 			</LoaderContainer>
-			<p>Loading image...</p>
+			<p>{info ? info : 'Loading image...'}</p>
 		</Container>
 	);
 };
