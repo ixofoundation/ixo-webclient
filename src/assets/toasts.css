@@ -1,15 +1,110 @@
 
-.successToast {
-    background-color: #5AB946 !important;
+.Toastify__toast-container {
+    width: 200px;
+}
+.Toastify__toast {
+    min-height: 30px;
+    border-radius: 2px;
+    color: white;
+    font-size: 13px;
+    font-weight: 300;
+    position: relative;
+    text-transform: uppercase;
+    padding: 5px 20px;
+    margin-bottom: 0;
+    font-family: Roboto Condensed,sans-serif;
+    letter-spacing: 0.3px;
+    line-height: 20px;
+    text-align: center;
+    display: block;
+    transition: all 0.3s ease;
+    background: none;
+    box-shadow: none;
+    border: none;
+    cursor: pointer;
+    max-width: 280px;
+}
+.Toastify__toast-body:before {
+    content:" ";
+    border-style: solid;
+    border-width: 10px 15px 10px 0;
+    position: absolute;
+    left: -10px;
+    top: 14%;
+    height: 20px;
+}
+.Toastify__toast-body {
+    padding: 3px 0;
+    margin: 0 -20px 0 27px;
+    border-radius: 2px;
+    position: relative;
+}
+.Toastify__close-button--default {
+    display: none;
+}
+
+.successToast .Toastify__toast-body {
+    background-color: #7fae50 !important;
     color: #FFF !important;
+}
+.successToast .Toastify__toast-body:before {
+    border-color: transparent #7fae50 transparent transparent;
+}
+
+.successToast:before {
+    content: ' ';
+    background-image: url('../assets/images/toast-tick.png');
+    width: 28px;
+    height: 28px;
+    color: white;
+    position: absolute;
+    left: 12px;
+    top: 14%;
+    padding: 5px 10px;
+}
+.errorToast .Toastify__toast-body {
+    background-color: #ad5151 !important;
+    color: #FFF !important;
+}
+.errorToast .Toastify__toast-body:before {
+    border-color: transparent #ad5151 transparent transparent;
+}
+
+.errorToast:before {
+    content: ' ';
+    background-image: url('../assets/images/toast-cross.png');
+    width: 28px;
+    height: 28px;
+    position: absolute;
+    left: 12px;
+    top: 14%;
+    border-radius: 50%;
+    padding: 5px 10px;
+}
+.warningToast .Toastify__toast-body {
+    background-color: #ed9432 !important;
+    color: #FFF !important;
+}
+.warningToast .Toastify__toast-body:before {
+    border-color: transparent #ed9432 transparent transparent;
+}
+
+.warningToast:before {
+    content: ' ';
+    background-image: url('../assets/images/toast-warning.png');
+    width: 28px;
+    height: 28px;
+    position: absolute;
+    left: 12px;
+    top: 14%;
+    border-radius: 50%;
+    padding: 5px 10px;
 }
 
 .errorToast {
-    background-color: #C5202D !important;
     color: #FFF !important;
 }
 
 .warningToast {
-    background-color: #F89D28 !important;
     color: #FFF !important;
 }

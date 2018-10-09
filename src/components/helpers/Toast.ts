@@ -7,7 +7,8 @@ const successToast = (message: string) => {
 	// @ts-ignore
 	toast(message, {
 		position: toast.POSITION.TOP_RIGHT,
-		className: 'successToast'
+		className: 'successToast',
+		autoClose: 25000
 	});
 };
 
@@ -15,7 +16,8 @@ const errorToast = (message: string, type?: ErrorTypes) => {
 	// @ts-ignore
 	toast(message, {
 		position: toast.POSITION.TOP_RIGHT,
-		className: 'errorToast'
+		className: 'errorToast',
+		autoClose: 25000
 	});
 	if (type === ErrorTypes.goBack) {
 		history.back(-1);
@@ -26,7 +28,8 @@ const warningToast = (message: string) => {
 	// @ts-ignore
 	toast(message, {
 		position: toast.POSITION.TOP_RIGHT,
-		className: 'warningToast'
+		className: 'warningToast',
+		autoClose: 25000
 	});
 };
 
