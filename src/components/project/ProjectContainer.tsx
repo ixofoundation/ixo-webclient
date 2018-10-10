@@ -77,21 +77,6 @@ export interface ParentProps {
 	match: any;
 }
 
-explorerSocket.on('list project', function (data: any) {
-	console.log('list project');
-	console.log(data);
-});
-
-explorerSocket.on('agent added', function (data: any) {
-	console.log('agent updated');
-	console.log(data);
-});
-
-explorerSocket.on('agent stats updated', function (data: any) {
-	console.log('agent stats updated');
-	console.log(data);
-});
-
 export interface Props extends ParentProps, StateProps, DispatchProps {}
 
 export class ProjectContainer extends React.Component<Props, State> {
@@ -125,6 +110,22 @@ export class ProjectContainer extends React.Component<Props, State> {
 
 	componentDidMount() {
 		this.handleGetProjectData();
+
+		explorerSocket.on('claim added', (data: any) => {
+			this.handleGetProjectData(true);
+		});
+		
+		explorerSocket.on('claim updated', (data: any) => {
+			this.handleGetProjectData(true);
+		});
+
+		explorerSocket.on('agent added', (data: any) => {
+			this.handleGetProjectData(true);
+		});
+		
+		explorerSocket.on('agent updated', (data: any) => {
+			this.handleGetProjectData(true);
+		});
 	}
 
 	singleClaimDependentsFetchedCallback = () => {
@@ -135,8 +136,8 @@ export class ProjectContainer extends React.Component<Props, State> {
 		return project.serviceEndpoint + 'public/' + project.imageLink;
 	}
 
-	handleGetProjectData = () => {
-		if (this.state.projectPublic === null) {
+	handleGetProjectData = (autorefresh?: boolean) => {
+		if (autorefresh === true || this.state.projectPublic === null) {
 			const did = this.props.match.params.projectDID;
 			this.props.ixo.project.getProjectByProjectDid(did).then((response: any) => {
 				const project: Project = response.data;
@@ -441,7 +442,7 @@ export class ProjectContainer extends React.Component<Props, State> {
 					if (claim.evaluations.length > 0) {
 						this.setState({ singleClaim: claim, singleClaimFormFile: formFile, singleClaimDependentsFetched: true, claimEvaluated: true });
 					} else {
-						this.setState({ singleClaim: claim, singleClaimFormFile: formFile, singleClaimDependentsFetched: true });
+						this.setState({ singleClaim: claim, singleClaimFormFile: formFile, singleClaimDependentsFetched: true, claimEvaluated: false });
 					}
 					this.handleFetchClaimImages(formFile, claim); // go fetch images
 				});
@@ -547,6 +548,7 @@ export class ProjectContainer extends React.Component<Props, State> {
 									handleListClaims={this.handleListClaims}
 									handleEvaluateClaim={this.handleEvaluateClaim}
 									hasCapability={this.handleHasCapability}
+									singleClaimDependentsFetchedCallback={this.singleClaimDependentsFetchedCallback}
 								/>
 							</DetailContainer>
 						</Fragment>
