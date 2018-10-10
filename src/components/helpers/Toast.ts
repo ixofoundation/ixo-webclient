@@ -8,7 +8,7 @@ const successToast = (message: string) => {
 	toast(message, {
 		position: toast.POSITION.TOP_RIGHT,
 		className: 'successToast',
-		autoClose: 25000
+		autoClose: false
 	});
 };
 
@@ -17,7 +17,7 @@ const errorToast = (message: string, type?: ErrorTypes) => {
 	toast(message, {
 		position: toast.POSITION.TOP_RIGHT,
 		className: 'errorToast',
-		autoClose: 25000
+		autoClose: false
 	});
 	if (type === ErrorTypes.goBack) {
 		history.back(-1);
@@ -29,7 +29,7 @@ const warningToast = (message: string) => {
 	toast(message, {
 		position: toast.POSITION.TOP_RIGHT,
 		className: 'warningToast',
-		autoClose: 25000
+		autoClose: false
 	});
 };
 
