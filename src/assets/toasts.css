@@ -26,8 +26,9 @@
 }
 
 @keyframes pulse {
-	0%   { transform: scale(0)}
-	100% { transform: scale(1)}
+	0%   { transform: scale(0); opacity: 1}
+	50%   { opacity: 1}
+	100% { transform: scale(1); opacity: 0}
 }
 
 .Toastify__toast:before {
@@ -47,7 +48,6 @@
 	content: '';
 	width: 40px;
 	height: 40px;
-	background: grey;
 	position: absolute;
 	left: 0;
 	top: calc(50% - 20px);
@@ -88,6 +88,11 @@
 .successToast:before {
     background-image: url('../assets/images/toast-tick.png');
 }
+
+.successToast:after {
+	background: #7fae50;
+}
+
 .errorToast .Toastify__toast-body {
     background-color: #ad5151 !important;
     color: #FFF !important;
@@ -99,6 +104,11 @@
 .errorToast:before {
     background-image: url('../assets/images/toast-cross.png');
 }
+
+.errorToast:after {
+    background: #ad5151;
+}
+
 .warningToast .Toastify__toast-body {
     background-color: #ed9432 !important;
     color: #FFF !important;
@@ -109,6 +119,10 @@
 
 .warningToast:before {
     background-image: url('../assets/images/toast-warning.png');
+}
+
+.warningToast:after {
+    background: #ed9432;
 }
 
 .errorToast {
