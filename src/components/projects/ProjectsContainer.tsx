@@ -99,7 +99,7 @@ export class Projects extends React.Component<Props, State> {
 
 	componentDidMount() {
 		explorerSocket.on('list all projects', function (data: any) {
-			console.log('LLIST PROJECT', data);
+			// console.log('LLIST PROJECT', data);
 		});
 
 		this.refreshAllProjects();
