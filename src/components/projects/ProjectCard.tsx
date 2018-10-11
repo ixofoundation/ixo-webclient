@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { ProgressBar } from '../common/ProgressBar';
 import { excerptText } from '../../utils/formatters';
-import { Fragment } from 'react';
 
 const placeholder = require('../../assets/images/ixo-placeholder-large.jpg');
 
@@ -71,18 +70,18 @@ const SDGs = styled.div`
 const CardTop = styled.div`
 	border-radius:2px 2px 0 0;
 	padding: 10px;
-	height: 240px;
+	height: 250px;
 	box-shadow: 0 8px 16px -2px rgba(0,0,0,0.03);
-	background-size: 100%;
+	background-size: auto 100%;
 	background-repeat: no-repeat;
 	background-position: center top;
 
 	transition: background-size 0.3s ease;
 
-	position:relative;
+	position: relative;
 
-	@media (min-width: ${deviceWidth.mobile}px){
-		height: 170px;
+	@media (min-width: ${deviceWidth.tablet}px){
+		height: 225px;
 	}
 
 	:before {
@@ -109,8 +108,12 @@ const CardTop = styled.div`
 
 const CardBottom = styled.div`
 	border-radius: 0 0 2px 2px;
-	padding: 20px 14px;
+	flex: 1;
+	padding: 20px 14px 0;
 	background: white;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
 
 	p {
         font-weight:300;
@@ -123,7 +126,8 @@ const CardContainer = styled.div`
 `;
 
 const ProjectLink = styled(Link) `
-	display: block;
+	display: flex;
+	flex-direction: column;
 	box-shadow: 0px 10px 25px 0px rgba(0,0,0,0);
 	background: white;
 	height:100%;
@@ -137,7 +141,7 @@ const ProjectLink = styled(Link) `
 	}
 
 	:hover ${CardTop} {
-		background-size: 105%;
+		background-size: auto 105%;
 	}
 
 	:hover ${Description} {
@@ -196,16 +200,18 @@ export class ProjectCard extends React.Component<Props, States> {
 						<Description><p>{excerptText(this.props.project.shortDescription, 20)}</p></Description>
 					</CardTop>
 					<CardBottom>
-						<Title>{excerptText(this.props.project.title, 10)}</Title>
-						<Owner>By {this.props.project.ownerName}</Owner>
+						<div>
+							<Title>{excerptText(this.props.project.title, 10)}</Title>
+							<Owner>By {this.props.project.ownerName}</Owner>
+						</div>
 						{this.props.project.requiredClaims === 0 ?
 							<p>This project will launch in September 2018.</p>
 						:
-							<Fragment>
+							<div>
 								<ProgressBar total={this.props.project.requiredClaims} approved={this.props.project.claimStats.currentSuccessful} rejected={this.props.project.claimStats.currentRejected}/>
 								<Progress>{this.props.project.claimStats.currentSuccessful} / <strong>{this.props.project.requiredClaims}</strong></Progress>
 								<Impact>{this.props.project.impactAction}</Impact>
-							</Fragment>
+							</div>
 						}
 					</CardBottom>
 				</ProjectLink>
