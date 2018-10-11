@@ -18,7 +18,6 @@ import { Routes } from './components/Routes';
 import { Spinner } from './components/common/Spinner';
 import { ToastContainer } from 'react-toastify';
 import * as ReactGA from 'react-ga';
-import { successToast, errorToast, warningToast } from './components/helpers/Toast';
 
 ReactGA.initialize('UA-106630107-5');
 
