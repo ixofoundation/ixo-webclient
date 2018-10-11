@@ -20,6 +20,7 @@ import { ProjectSidebar } from './ProjectSidebar';
 import * as Toast from '../helpers/Toast';
 import { deviceWidth } from '../../lib/commonData';
 import { ProjectClaimSubmitted } from './ProjectClaimSubmitted';
+import { explorerSocket } from '../helpers/explorerSocket';
 
 const placeholder = require('../../assets/images/ixo-placeholder-large.jpg');
 
@@ -76,7 +77,7 @@ export interface ParentProps {
 	match: any;
 }
 
-export interface Props extends ParentProps, StateProps, DispatchProps { }
+export interface Props extends ParentProps, StateProps, DispatchProps {}
 
 export class ProjectContainer extends React.Component<Props, State> {
 	state = {
@@ -109,6 +110,22 @@ export class ProjectContainer extends React.Component<Props, State> {
 
 	componentDidMount() {
 		this.handleGetProjectData();
+
+		explorerSocket.on('claim added', (data: any) => {
+			this.handleGetProjectData(true);
+		});
+		
+		explorerSocket.on('claim updated', (data: any) => {
+			this.handleGetProjectData(true);
+		});
+
+		explorerSocket.on('agent added', (data: any) => {
+			this.handleGetProjectData(true);
+		});
+		
+		explorerSocket.on('agent updated', (data: any) => {
+			this.handleGetProjectData(true);
+		});
 	}
 
 	singleClaimDependentsFetchedCallback = () => {
@@ -119,8 +136,8 @@ export class ProjectContainer extends React.Component<Props, State> {
 		return project.serviceEndpoint + 'public/' + project.imageLink;
 	}
 
-	handleGetProjectData = () => {
-		if (this.state.projectPublic === null) {
+	handleGetProjectData = (autorefresh?: boolean) => {
+		if (autorefresh === true || this.state.projectPublic === null) {
 			const did = this.props.match.params.projectDID;
 			this.props.ixo.project.getProjectByProjectDid(did).then((response: any) => {
 				const project: Project = response.data;

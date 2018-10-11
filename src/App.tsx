@@ -18,6 +18,7 @@ import { Routes } from './components/Routes';
 import { Spinner } from './components/common/Spinner';
 import { ToastContainer } from 'react-toastify';
 import * as ReactGA from 'react-ga';
+import { explorerSocket } from './components/helpers/explorerSocket';
 
 ReactGA.initialize('UA-106630107-5');
 
@@ -135,6 +136,16 @@ class App extends React.Component<App.Props, App.State> {
 	componentDidMount() {
 		this.props.onIxoInit();
 		this.props.onKeysafeInit();
+
+		explorerSocket.on('did created', function (data: any) {
+			console.log('did created');
+			console.log(data);
+		});
+		
+		explorerSocket.on('did updated', function (data: any) {
+			console.log('did updated');
+			console.log(data);
+		});
 	}
 
 	handlePingExplorer = () => {

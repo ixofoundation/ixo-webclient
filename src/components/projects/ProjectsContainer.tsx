@@ -9,6 +9,7 @@ import { PublicSiteStoreState } from '../../redux/public_site_reducer';
 import * as Toast from '../helpers/Toast';
 import { contentType, UserInfo } from '../../types/models';
 import { ProjectsDashboard } from './ProjectsDashboard';
+import { explorerSocket } from '../helpers/explorerSocket';
 
 const Container = styled.div`
 
@@ -97,6 +98,10 @@ export class Projects extends React.Component<Props, State> {
 	loadingProjects = false;
 
 	componentDidMount() {
+		explorerSocket.on('list all projects', function (data: any) {
+			// console.log('LLIST PROJECT', data);
+		});
+
 		this.refreshAllProjects();
 	}
 
@@ -157,12 +162,6 @@ export class Projects extends React.Component<Props, State> {
 					Toast.errorToast('Unable to connect IXO Explorer');
 					this.loadingProjects = false;
 				});
-		}
-	}
-
-	componentWillUpdate() {
-		if (this.state.projectList === null) {
-			this.refreshAllProjects();
 		}
 	}
 
