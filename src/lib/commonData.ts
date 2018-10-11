@@ -1,21 +1,21 @@
 export const SDGArray = [
-	{ ico: 'nopoverty', title: 'NO POVERTY' },
-	{ ico: 'zerohunger', title: 'ZERO HUNGER' },
-	{ ico: 'goodhealth', title: 'GOOD HEALTH AND WELL-BEING' },
-	{ ico: 'qualityeducation', title: 'QUALITY EDUCATION' },
-	{ ico: 'genderequality', title: 'GENDER EQUALITY' },
-	{ ico: 'cleanwater', title: 'CLEAN WATER AND SANITATION' },
-	{ ico: 'affordableenergy', title: 'AFFORDABLE AND CLEAN ENERGY' },
-	{ ico: 'decentwork', title: 'DECENT WORK AND ECONOMIC GROWTH' },
-	{ ico: 'industry', title: 'INDUSTRY, INNOVATION AND INFRASTRUCTURE' },
-	{ ico: 'reduced', title: 'REDUCED INEQUALITIES' },
-	{ ico: 'sustainablecities', title: 'SUSTAINABLE CITIES AND COMMUNITIES' },
-	{ ico: 'consumption', title: 'RESPONSIBLE CONSUMPTION AND PRODUCTION' },
-	{ ico: 'climateaction', title: 'CLIMATE ACTION' },
-	{ ico: 'lifebelowwater', title: 'LIFE BELOW WATER' },
-	{ ico: 'lifeonland', title: 'LIFE ON LAND' },
-	{ ico: 'peace', title: 'PEACE, JUSTICE AND STRONG INSTITUTIONS' },
-	{ ico: 'partnership', title: 'PARTNERSHIPS FOR THE GOALS' }
+	{ ico: 'nopoverty', title: 'NO POVERTY', url: 'https://www.un.org/sustainabledevelopment/poverty/' },
+	{ ico: 'zerohunger', title: 'ZERO HUNGER', url: 'https://www.un.org/sustainabledevelopment/hunger/' },
+	{ ico: 'goodhealth', title: 'GOOD HEALTH AND WELL-BEING', url: 'https://www.un.org/sustainabledevelopment/health/' },
+	{ ico: 'qualityeducation', title: 'QUALITY EDUCATION', url: 'https://www.un.org/sustainabledevelopment/education/' },
+	{ ico: 'genderequality', title: 'GENDER EQUALITY', url: 'https://www.un.org/sustainabledevelopment/gender-equality/' },
+	{ ico: 'cleanwater', title: 'CLEAN WATER AND SANITATION', url: 'https://www.un.org/sustainabledevelopment/water-and-sanitation/' },
+	{ ico: 'affordableenergy', title: 'AFFORDABLE AND CLEAN ENERGY', url: 'https://www.un.org/sustainabledevelopment/energy/' },
+	{ ico: 'decentwork', title: 'DECENT WORK AND ECONOMIC GROWTH', url: 'https://www.un.org/sustainabledevelopment/economic-growth/' },
+	{ ico: 'industry', title: 'INDUSTRY, INNOVATION AND INFRASTRUCTURE', url: 'https://www.un.org/sustainabledevelopment/infrastructure-industrialization/' },
+	{ ico: 'reduced', title: 'REDUCED INEQUALITIES', url: 'https://www.un.org/sustainabledevelopment/inequality/' },
+	{ ico: 'sustainablecities', title: 'SUSTAINABLE CITIES AND COMMUNITIES', url: 'https://www.un.org/sustainabledevelopment/cities/' },
+	{ ico: 'consumption', title: 'RESPONSIBLE CONSUMPTION AND PRODUCTION', url: 'https://www.un.org/sustainabledevelopment/sustainable-consumption-production/' },
+	{ ico: 'climateaction', title: 'CLIMATE ACTION', url: 'https://www.un.org/sustainabledevelopment/climate-change-2/' },
+	{ ico: 'lifebelowwater', title: 'LIFE BELOW WATER', url: 'https://www.un.org/sustainabledevelopment/oceans/' },
+	{ ico: 'lifeonland', title: 'LIFE ON LAND', url: 'https://www.un.org/sustainabledevelopment/biodiversity/' },
+	{ ico: 'peace', title: 'PEACE, JUSTICE AND STRONG INSTITUTIONS', url: 'https://www.un.org/sustainabledevelopment/peace-justice/' },
+	{ ico: 'partnership', title: 'PARTNERSHIPS FOR THE GOALS', url: 'https://www.un.org/sustainabledevelopment/globalpartnerships/' }
 ];
 
 export const deviceWidth = {
