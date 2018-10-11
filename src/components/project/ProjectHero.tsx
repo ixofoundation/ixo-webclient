@@ -4,7 +4,7 @@ import { Tabs } from '../common/Tabs';
 import { SDGArray, deviceWidth } from '../../lib/commonData';
 import MediaQuery from 'react-responsive';
 import { Link, NavLink } from 'react-router-dom';
-import { getCountryName, getIxoWorldRoute } from '../../utils/formatters';
+import { getCountryName } from '../../utils/formatters';
 import { MatchType, AgentRoles } from '../../types/models';
 const bg = require('../../assets/images/heroBg.jpg');
 
@@ -204,7 +204,7 @@ export const ProjectHero: React.SFC<Props> = ({project, match, isDetail, hasCapa
 						const goal = Math.floor(SDG);
 						if (goal > 0 && goal <= SDGArray.length) {
 							return (
-								<SingleSDG href={getIxoWorldRoute('/about')} key={index}>
+								<SingleSDG target="_blank" href={SDGArray[goal - 1].url} key={index}>
 									<i className={`icon-sdg-${SDGArray[goal - 1].ico}`}/>
 									{goal}. {SDGArray[goal - 1].title}
 							</SingleSDG>
