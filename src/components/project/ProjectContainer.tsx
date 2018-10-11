@@ -24,12 +24,13 @@ import { ProjectClaimSubmitted } from './ProjectClaimSubmitted';
 const placeholder = require('../../assets/images/ixo-placeholder-large.jpg');
 
 const Loading = styled.div`
-
+	text-align: center;
 	color: white;
 	display:flex;
 	justify-content:center;
 	align-items:center;
 	background: ${props => props.theme.bg.blue};
+	padding: 50px 20px;
 `;
 
 const DetailContainer = styled.div`
@@ -223,7 +224,7 @@ export class ProjectContainer extends React.Component<Props, State> {
 					<ProjectHero project={this.state.projectPublic} match={this.props.match} isDetail={true} hasCapability={this.handleHasCapability} />
 					<DetailContainer>
 						<ProjectSidebar match={'claims'} projectDid={this.state.projectDid} hasCapability={this.handleHasCapability} singleClaimDependentsFetchedCallback={this.singleClaimDependentsFetchedCallback} />
-						<Loading className="container-fluid"><p>No Claims found</p></Loading>
+						<Loading className="container-fluid"><p>There are currently no recorded claims on this project. <br/>Check back soon or get involved yourself.</p></Loading>
 					</DetailContainer>
 				</Fragment>
 			);
@@ -250,7 +251,7 @@ export class ProjectContainer extends React.Component<Props, State> {
 					<ProjectHero project={this.state.projectPublic} match={this.props.match} isDetail={true} hasCapability={this.handleHasCapability} />
 					<DetailContainer>
 						<ProjectSidebar match={agentRole} projectDid={this.state.projectDid} hasCapability={this.handleHasCapability} singleClaimDependentsFetchedCallback={this.singleClaimDependentsFetchedCallback} />
-						<Loading className="container-fluid"><p>No Agents found</p></Loading>
+						<Loading className="container-fluid"><p>There are currently no recorded agents on this project. <br/>Check back soon or get involved yourself.</p></Loading>
 					</DetailContainer>
 				</Fragment>
 			);
