@@ -81,11 +81,11 @@
 }
 
 .successToast .Toastify__toast-body {
-    background-color: #7fae50 !important;
+    background-color: #70b03f !important;
     color: #FFF !important;
 }
 .successToast .Toastify__toast-body:before {
-    border-color: transparent #7fae50 transparent transparent;
+    border-color: transparent #70b03f transparent transparent;
 }
 
 .successToast:before {
@@ -93,15 +93,15 @@
 }
 
 .successToast:after {
-	background: #7fae50;
+	background: #70b03f;
 }
 
 .errorToast .Toastify__toast-body {
-    background-color: #ad5151 !important;
+    background-color: #b00042 !important;
     color: #FFF !important;
 }
 .errorToast .Toastify__toast-body:before {
-    border-color: transparent #ad5151 transparent transparent;
+    border-color: transparent #b00042 transparent transparent;
 }
 
 .errorToast:before {
@@ -109,15 +109,15 @@
 }
 
 .errorToast:after {
-    background: #ad5151;
+    background: #b00042;
 }
 
 .warningToast .Toastify__toast-body {
-    background-color: #ed9432 !important;
+    background-color: #ff9800 !important;
     color: #FFF !important;
 }
 .warningToast .Toastify__toast-body:before {
-    border-color: transparent #ed9432 transparent transparent;
+    border-color: transparent #ff9800 transparent transparent;
 }
 
 .warningToast:before {
@@ -125,7 +125,7 @@
 }
 
 .warningToast:after {
-    background: #ed9432;
+    background: #ff9800;
 }
 
 .errorToast {

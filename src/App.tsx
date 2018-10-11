@@ -160,10 +160,6 @@ class App extends React.Component<App.Props, App.State> {
 		});
 	}
 
-	successMessage = () => successToast('It works');
-	warningMessage = () => warningToast('Something doesn\'t feel right');
-	errorMessage = () => errorToast('Well now what?');
-
 	render() {
 
 		return (
@@ -177,9 +173,6 @@ class App extends React.Component<App.Props, App.State> {
 								<Routes /> :
 								<Spinner info={'Loading ixo.world...'} />
 							}
-							<button onClick={this.successMessage}>Success Toast!</button>
-							<button onClick={this.warningMessage}>Warning Toast!</button>
-							<button onClick={this.errorMessage}>Error Toast!</button>
 						</ContentWrapper>
 						<Footer />
 					</Container>

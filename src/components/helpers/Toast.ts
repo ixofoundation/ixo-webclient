@@ -15,7 +15,8 @@ const errorToast = (message: string, type?: ErrorTypes) => {
 	// @ts-ignore
 	toast(message, {
 		position: toast.POSITION.TOP_RIGHT,
-		className: 'errorToast'
+		className: 'errorToast',
+		autoClose: false
 	});
 	if (type === ErrorTypes.goBack) {
 		history.back(-1);
