@@ -105,7 +105,7 @@ export class ProjectCreate extends React.Component<StateProps, State> {
 				);
 				Promise.all(promises).then((results) => {
 					let projectObj: string = this.state.projectJson;
-					this.props.keysafe.requestSigning(projectObj, (error: any, signature: any) => {
+					this.props.keysafe.requestSigning(projectObj, 'base64', (error: any, signature: any) => {
 						
 						this.props.ixo.project.createProject(JSON.parse(projectObj), signature, this.state.project.serviceEndpoint).then((res: any) => {
 							if (res.error) {
