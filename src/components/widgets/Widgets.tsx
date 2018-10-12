@@ -3,6 +3,7 @@ import { CircleProgressbar } from './CircleProgressbar';
 import { WorldMap } from './WorldMap';
 // import Sunburst from './SunBurst';
 import BarChart, { BarColors } from './BarChart';
+import { successToast, warningToast, errorToast } from '../helpers/Toast';
 
 export interface ParentProps {
 	title: string;
@@ -46,10 +47,19 @@ export class Widgets extends React.Component<ParentProps> {
 
 	// END OF DUMMY DATA GENERATION FOR BAR CHART
 
+	success = () => successToast('Successful');
+	warning = () => warningToast('Warning');
+	error = () => errorToast('Error');
+	
 	render() {
 		return (
 			<div className="container">
 				<div className="row">
+					<div className="col-md-12">
+						<button onClick={this.success}>Success Toast</button>
+						<button onClick={this.warning}>Warning Toast</button>
+						<button onClick={this.error}>Error Toast</button>
+					</div>
 					<div className="col-md-12">
 						<WorldMap markers={[]}/>
 					</div>

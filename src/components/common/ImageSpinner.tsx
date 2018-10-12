@@ -19,37 +19,51 @@ const Container = styled.div`
 
 const LoaderContainer = styled.div`
 	height: 80px;
+	width: 80px;
 	display: flex;
 	align-items: center;
+	justify-content: center;
 `;
 
 const LoaderWrapper = styled.div`
 	padding: 0;
 	border-radius: 50%;
-	animation: pulse 1.5s infinite ease;
-		
-	@keyframes pulse {
-		0%   { padding: 0; background: rgba(73,191,224,1);}
-		100% { padding: 20px; background: rgba(255,255,255,1);}
-	}
+	position: relative;
+	width: 40px;
+	height: 40px;
+	display: flex;
+	background: #00c2e4;
+	justify-content: center;
+	align-items: center;
 `;
 
-const LoaderInner = styled.div`
-
+const Pulse = styled.div`
 	border-radius: 50%;
-	padding: 5px;
+	width: 40px;
+	height: 40px;
 	background: ${props => props.theme.ixoBlue};
+	position: absolute;
+	margin: 0;
+	padding: 0;
 
-	i {
-		font-size: 54px;
-		display:block;
-		width: 29px;
-		height: 29px;
-		padding: 0;
-		background: #FFF;
-		border-radius: 50%;
+	@keyframes iPulse {
+		0%   { width: 40px; height: 40px; background: rgba(0,210,255,1);}
+		100% { width: 80px; height: 80px; background: rgba(0,34,51,0);}
 	}
-	.icon-ixo-x:before {
+	animation: iPulse 1.5s infinite ease;
+`;
+
+const IxoIcon = styled.i`
+	font-size: 54px;
+	display:block;
+	width: 29px;
+	height: 29px;
+	padding: 0;
+	background: #FFF;
+	border-radius: 50%;
+	position: absolute;
+
+	:before {
 		color: ${props => props.theme.ixoBlue};
 		position: relative;
 		top: -13px;
@@ -64,10 +78,9 @@ export const ImageSpinner: React.SFC<Props> = ({info}) => {
 	return (
 		<Container className="col-md-12">
 			<LoaderContainer>
+				<Pulse/>
 				<LoaderWrapper>
-					<LoaderInner>
-					<i className="icon-ixo-x" />
-					</LoaderInner>
+					<IxoIcon className="icon-ixo-x" />
 				</LoaderWrapper>
 			</LoaderContainer>
 			<p>{info ? info : 'Loading image...'}</p>

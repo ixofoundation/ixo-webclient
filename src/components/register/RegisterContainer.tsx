@@ -211,8 +211,8 @@ If not, please send us an email, telling us a little about the project you would
 		if (this.props.keysafe && !this.state.hasKeySafe) {
 			this.props.keysafe.getDidDoc((error, response) => {
 				if (error) {
+					console.log(error);
 					if (this.state.toastShown === false) {
-						errorToast('Please log into IXO Keysafe');
 						this.setState({ toastShown: true });
 					}
 				} else {

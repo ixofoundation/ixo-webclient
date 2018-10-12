@@ -201,7 +201,7 @@ export const ProjectSingleClaim: React.SFC<ParentProps> = (props) => {
 				<ButtonContainer>
 					<div className="row">
 						<div className="col-md-6">
-							<ButtonLink to={`/projects/${projectDID}/overview`}><ReturnButton>Return to project</ReturnButton></ButtonLink>
+							<ButtonLink to={`/projects/${projectDID}/overview`} onClick={() => props.singleClaimDependentsFetchedCallback()}><ReturnButton>Return to project</ReturnButton></ButtonLink>
 						</div>
 						<div className="col-md-6">
 							<ButtonLink to={`/projects/${projectDID}/detail/claims`} onClick={() => props.singleClaimDependentsFetchedCallback()}>
