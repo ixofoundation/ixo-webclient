@@ -108,6 +108,7 @@ const ColRight = styled.div`
 const Title = styled.h1`
 	color: white;
 	font-size: 36px;
+	font-weight: 200;
 	line-height: 1;
 	margin-bottom:10px;
 	font-family: ${props => props.theme.fontRobotoCondensed};

@@ -39,19 +39,18 @@ const LoaderWrapper = styled.div`
 
 const Pulse = styled.div`
 	border-radius: 50%;
-	width: 80px;
-	height: 80px;
+	width: 40px;
+	height: 40px;
 	background: ${props => props.theme.ixoBlue};
 	position: absolute;
 	margin: 0;
 	padding: 0;
 
-	@keyframes pulse {
-		0%   { transform: scale(1); background: rgba(0,210,255,1);}
-		100% { transform: scale(1.2); background: rgba(0,34,51,1);}
+	@keyframes iPulse {
+		0%   { width: 40px; height: 40px; background: rgba(0,210,255,1);}
+		100% { width: 80px; height: 80px; background: rgba(0,34,51,0);}
 	}
-	animation: pulse 1.5s infinite ease-out;
-
+	animation: iPulse 1.5s infinite ease;
 `;
 
 const IxoIcon = styled.i`

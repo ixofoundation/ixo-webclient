@@ -49,7 +49,7 @@ const UserBox = styled.div`
 	}
 
 	i {
-		font-size: 18px;
+		font-size: 14px;
 		margin: 1px 0 0 10px;
 	}
 `;
