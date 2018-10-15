@@ -13,6 +13,7 @@ const Title = styled.h3`
 	color: white;
 	font-size: 15px;
 	margin-bottom: 4px;
+	font-weight: 300;
 `;
 
 const Amount = styled.p`

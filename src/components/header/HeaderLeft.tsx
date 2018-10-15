@@ -57,8 +57,7 @@ const HeaderLink = styled(NavLink)`
 	}
 
 	&:last-child.active {
-		background: ${props => props.theme.bg.gradientButton};
-		color:white;
+		color: ${props => props.theme.fontBlueButtonHover};
 		font-weight: 300;
 	}
 

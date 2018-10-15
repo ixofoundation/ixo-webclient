@@ -78,8 +78,8 @@ const CheckItem = styled.p`
 const Start = styled.a`
 	font-family: ${props => props.theme.fontRobotoCondensed};
 	display: block;
-	border: 1px solid #838383;
-	color: #838383;
+	border: 1px solid rgba(0,0,0,0.17);
+	color: rgba(0,0,0,0.17);
 	padding: 6px 30px;
 	&&&&{text-decoration: none;}
 	text-transform: uppercase;
