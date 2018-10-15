@@ -441,7 +441,7 @@ export class ProjectContainer extends React.Component<Props, State> {
 				const formFilePromise = this.handleFetchFormFile(project.templates.claim.form, this.state.projectPublic.serviceEndpoint); // get form file
 				Promise.all([claimPromise, formFilePromise]).then(([claim, formFile]) => {
 					if (claim.evaluations.length > 0) {
-						this.setState({ singleClaim: claim, singleClaimFormFile: formFile, singleClaimDependentsFetched: true, claimEvaluated: true });
+						this.setState({ singleClaim: claim, singleClaimFormFile: formFile, singleClaimDependentsFetched: true, claimEvaluated: false });
 					} else {
 						this.setState({ singleClaim: claim, singleClaimFormFile: formFile, singleClaimDependentsFetched: true, claimEvaluated: false });
 					}
