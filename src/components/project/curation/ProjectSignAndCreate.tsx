@@ -138,14 +138,14 @@ export interface DispatchProps {
 
 export interface State {
 	status: string;
-}	
+}
 
-export interface ParentProps {    
-	location: any;   
+export interface ParentProps {
+	location: any;
 	match: any;
 }
 
-export interface Props extends ParentProps, StateProps, DispatchProps {}
+export interface Props extends ParentProps, StateProps, DispatchProps { }
 
 export class ProjectSignAndCreate extends React.Component<Props, State> {
 
@@ -158,25 +158,25 @@ export class ProjectSignAndCreate extends React.Component<Props, State> {
 			console.log('Fetched: ', res);
 			let fileContents = base64Decode(res.data);
 			return fileContents;
-		}).then( (projectJson) => {
+		}).then((projectJson) => {
 			this.props.keysafe.requestSigning(projectJson, (error: any, signature: any) => {
-				
+
 				this.props.ixo.project.createProject(JSON.parse(projectJson), signature, pdsURL).then((res: any) => {
 					if (res.error) {
 						errorToast(res.error.message, ErrorTypes.message);
 					} else {
-						this.setState({status: 'Project created successfully'});
+						this.setState({ status: 'Project created successfully' });
 						successToast('Project created successfully');
 					}
 				});
-			});
+			}, 'base64');
 		});
 	}
 
 	componentDidMount() {
 		if (this.props.keysafe === null) {
 			errorToast('Please install IXO Credential Manager first.');
-			this.setState({status: 'Please install IXO Credential Manager first.'});
+			this.setState({ status: 'Please install IXO Credential Manager first.' });
 		} else {
 			this.handleGetProjectData();
 		}
@@ -193,12 +193,12 @@ export class ProjectSignAndCreate extends React.Component<Props, State> {
 		if (this.state.status === '') {
 			return (
 				<ModalContainer>
-					<ImageSpinner info="Creating your project..."/>
+					<ImageSpinner info="Creating your project..." />
 				</ModalContainer>
 			);
 		} else {
 			return (
-				<ModalContainer> 
+				<ModalContainer>
 					<ApprovedIcon>
 						<i className="icon-success" />
 					</ApprovedIcon>
@@ -214,12 +214,12 @@ export class ProjectSignAndCreate extends React.Component<Props, State> {
 		return (
 			<CreateContainer>
 				<Banner />
-					<Container>
-						{this.renderModal()}
-					</Container>
+				<Container>
+					{this.renderModal()}
+				</Container>
 				<BottomContainer />
 			</CreateContainer>
-		); 
+		);
 	}
 }
 

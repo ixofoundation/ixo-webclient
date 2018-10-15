@@ -114,7 +114,7 @@ export class ProjectCreate extends React.Component<StateProps, State> {
 								successToast('Project created successfully');
 							}
 						});
-					});
+					}, 'base64');
 				});
 			}
 		}
