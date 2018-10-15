@@ -159,7 +159,7 @@ export class ProjectSignAndCreate extends React.Component<Props, State> {
 			let fileContents = base64Decode(res.data);
 			return fileContents;
 		}).then((projectJson) => {
-			this.props.keysafe.requestSigning(projectJson, 'base64', (error: any, signature: any) => {
+			this.props.keysafe.requestSigning(projectJson, (error: any, signature: any) => {
 
 				this.props.ixo.project.createProject(JSON.parse(projectJson), signature, pdsURL).then((res: any) => {
 					if (res.error) {
@@ -169,7 +169,7 @@ export class ProjectSignAndCreate extends React.Component<Props, State> {
 						successToast('Project created successfully');
 					}
 				});
-			});
+			}, 'base64');
 		});
 	}
 
