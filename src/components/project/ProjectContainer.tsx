@@ -5,7 +5,7 @@ import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { PublicSiteStoreState } from '../../redux/public_site_reducer';
 import { decode as base64Decode } from 'base-64';
 import { contentType, AgentRoles, ErrorTypes, RenderType } from '../../types/models';
-import { Project } from '../../types/models/project';
+import { Data } from '../../types/models/project';
 import { ProjectHero } from './ProjectHero';
 import { ProjectOverview } from './ProjectOverview';
 import { ProjectDashboard } from './ProjectDashboard';
@@ -125,7 +125,7 @@ export class ProjectContainer extends React.Component<Props, State> {
 		});
 		
 		explorerSocket.on('agent updated', (data: any) => {
-			this.handleGetProjectData(true);
+			this.handleGetProjectData(true, data.agentDid);
 		});
 	}
 
@@ -137,11 +137,17 @@ export class ProjectContainer extends React.Component<Props, State> {
 		return project.serviceEndpoint + 'public/' + project.imageLink;
 	}
 
-	handleGetProjectData = (autorefresh?: boolean) => {
+	handleGetProjectData = (autorefresh?: boolean, agentDid?: string) => {
 		if (autorefresh === true || this.state.projectPublic === null) {
 			const did = this.props.match.params.projectDID;
 			this.props.ixo.project.getProjectByProjectDid(did).then((response: any) => {
-				const project: Project = response.data;
+				const project: Data = response.data;
+				if (agentDid) {
+					const theAgent = project.agents.find((agent) => agent.did === agentDid);
+					if (theAgent) {
+						this.handleListAgents(theAgent.role, true);
+					}
+				}
 				this.setState({
 					projectPublic: project,
 					imageLink: this.getImageLink(project)
@@ -258,7 +264,7 @@ export class ProjectContainer extends React.Component<Props, State> {
 					<ProjectHero project={this.state.projectPublic} match={this.props.match} isDetail={true} hasCapability={this.handleHasCapability} />
 					<DetailContainer>
 						<ProjectSidebar match={agentRole} projectDid={this.state.projectDid} hasCapability={this.handleHasCapability} singleClaimDependentsFetchedCallback={this.singleClaimDependentsFetchedCallback} />
-						<ProjectAgents agents={...this.state[agentRole]} handleUpdateAgentStatus={this.handleUpdateAgent} />
+						<ProjectAgents agents={this.state[agentRole]} handleUpdateAgentStatus={this.handleUpdateAgent} />
 					</DetailContainer>
 				</Fragment>
 			);
@@ -275,9 +281,10 @@ export class ProjectContainer extends React.Component<Props, State> {
 		}
 	}
 
-	handleListAgents = (agentRole: string) => {
-		if (this.state[agentRole] === null) {
-			const ProjectDIDPayload: Object = { projectDid: this.state.projectDid, role: AgentRoles[agentRole] };
+	handleListAgents = (agentRole: string, shouldUpdate?: boolean) => {
+		if (this.state[agentRole] === null || shouldUpdate === true) {
+			const roleString = shouldUpdate === true ? agentRole : AgentRoles[agentRole];
+			const ProjectDIDPayload: Object = { projectDid: this.state.projectDid, role: roleString};
 			this.props.keysafe.requestSigning(JSON.stringify(ProjectDIDPayload), (error, signature) => {
 				if (!error) {
 					this.props.ixo.agent.listAgentsForProject(ProjectDIDPayload, signature, this.state.projectPublic.serviceEndpoint).then((response: any) => {
@@ -285,14 +292,13 @@ export class ProjectContainer extends React.Component<Props, State> {
 							Toast.errorToast(response.error.message, ErrorTypes.goBack);
 							console.log('error occured', response.error);
 						} else {
-							let agentsObj = [];
-							if (this.state[agentRole] !== null) {
-								agentsObj = [...this.state[agentRole]];
-							}
-							agentsObj = response.result;
+							const agentsObj = [...response.result];
+							if (agentRole === 'serviceProviders' || 'SA') {
+								this.setState({ serviceProviders: agentsObj });
+							} else if (agentRole === 'evaluators' || 'EA') {
+								this.setState({ evaluators : agentsObj });
 
-							// @ts-ignore
-							this.setState({ [agentRole]: [...agentsObj] });
+							}
 						}
 					}).catch((result: Error) => {
 						console.log((result));

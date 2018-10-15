@@ -245,9 +245,8 @@ export interface ParentProps {
 
 export const ProjectOverview: React.SFC<ParentProps> = (props) => {
 
-	const {evaluators, serviceProviders, investors} = props.project.agentStats;
+	const {evaluators, serviceProviders} = props.project.agentStats;
 	const statistics: Statistic[] = [
-		{type: StatType.decimal, descriptor: [{class: 'text', value: 'Investors'}], amount: investors},
 		{type: StatType.decimal, descriptor: [{class: 'text', value: 'Evaluators'}], amount: evaluators},
 		{type: StatType.decimal, descriptor: [{class: 'text', value: 'Service providers'}], amount: serviceProviders}
 		];
