@@ -83,7 +83,7 @@ export const Button: React.SFC<Props> = (props) => {
 
 	if (props.disabled) {
 		return (
-			<Disabled >
+			<Disabled className="disabled">
 				{renderPlus()} {props.children}
 			</Disabled>
 		);
