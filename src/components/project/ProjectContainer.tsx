@@ -125,7 +125,6 @@ export class ProjectContainer extends React.Component<Props, State> {
 		});
 		
 		explorerSocket.on('agent updated', (data: any) => {
-			console.log('content type is: ', this.props.contentType);
 			if (this.props.contentType === contentType.evaluators || this.props.contentType === contentType.serviceProviders) {
 				this.handleGetProjectData(true, data.agentDid);
 			} else {
