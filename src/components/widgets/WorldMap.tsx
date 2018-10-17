@@ -20,12 +20,12 @@ const MapWrapper = styled.div`
 	:active {
 		cursor: grabbing;
 	}
-	
+
 	path:focus {
 		outline: none!important;
 	}
 	g.rsm-marker {
-    outline-width: 0px;
+    	outline-width: 0px;
 	}
 `;
 

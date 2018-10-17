@@ -57,7 +57,7 @@ export default class QRComponent extends React.Component<ParentProps> {
 			<QRContainer>
 				<QRInner>
 					<QRImg src={this.state.imgSrc} />
-					<p>Scan project QR code</p>
+					<p>Connect to project</p>
 				</QRInner>
 			</QRContainer>
 		);
