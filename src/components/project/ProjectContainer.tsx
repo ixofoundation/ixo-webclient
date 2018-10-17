@@ -125,10 +125,20 @@ export class ProjectContainer extends React.Component<Props, State> {
 		});
 		
 		explorerSocket.on('agent updated', (data: any) => {
-			this.handleGetProjectData(true, data.agentDid);
+			console.log('content type is: ', this.props.contentType);
+			if (this.props.contentType === contentType.evaluators || this.props.contentType === contentType.serviceProviders) {
+				this.handleGetProjectData(true, data.agentDid);
+			} else {
+				this.handleGetProjectData(true);
+			}
 		});
 	}
 
+	componentDidUpdate(prevProps: any) {
+		if (this.props.userInfo !== prevProps.userInfo) {
+			this.handleGetProjectData(true);
+		}
+	}
 	singleClaimDependentsFetchedCallback = () => {
 		this.setState({ singleClaimDependentsFetched: false });
 	}
@@ -138,6 +148,7 @@ export class ProjectContainer extends React.Component<Props, State> {
 	}
 
 	handleGetProjectData = (autorefresh?: boolean, agentDid?: string) => {
+
 		if (autorefresh === true || this.state.projectPublic === null) {
 			const did = this.props.match.params.projectDID;
 			this.props.ixo.project.getProjectByProjectDid(did).then((response: any) => {
