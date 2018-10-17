@@ -99,6 +99,9 @@ export class ProjectContainer extends React.Component<Props, State> {
 		singleClaim: null
 	};
 
+	private gettingProjectData: boolean = false;
+	private gettingAgents: boolean = false;
+
 	handleToggleModal = (data: any, modalStatus: boolean) => {
 		this.setState({ modalData: data, isModalOpen: modalStatus });
 	}
@@ -110,6 +113,7 @@ export class ProjectContainer extends React.Component<Props, State> {
 	}
 
 	componentDidMount() {
+
 		this.handleGetProjectData();
 
 		explorerSocket.on('claim added', (data: any) => {
@@ -148,8 +152,9 @@ export class ProjectContainer extends React.Component<Props, State> {
 
 	handleGetProjectData = (autorefresh?: boolean, agentDid?: string) => {
 
-		if (autorefresh === true || this.state.projectPublic === null) {
+		if ((this.gettingProjectData === false) && autorefresh === true || this.state.projectPublic === null) {
 			const did = this.props.match.params.projectDID;
+			this.gettingProjectData = true;
 			this.props.ixo.project.getProjectByProjectDid(did).then((response: any) => {
 				const project: Data = response.data;
 				if (agentDid) {
@@ -164,8 +169,11 @@ export class ProjectContainer extends React.Component<Props, State> {
 				});
 
 				this.handleGetCapabilities();
+				this.gettingProjectData = false;
+
 			}).catch((result: Error) => {
 				Toast.errorToast(result.message, ErrorTypes.goBack);
+				this.gettingProjectData = false;
 			});
 		} else {
 			this.handleGetCapabilities();
@@ -292,9 +300,10 @@ export class ProjectContainer extends React.Component<Props, State> {
 	}
 
 	handleListAgents = (agentRole: string, shouldUpdate?: boolean) => {
-		if (this.state[agentRole] === null || shouldUpdate === true) {
+		if ((this.gettingAgents === false) && this.state[agentRole] === null || shouldUpdate === true) {
 			const roleString = shouldUpdate === true ? agentRole : AgentRoles[agentRole];
 			const ProjectDIDPayload: Object = { projectDid: this.state.projectDid, role: roleString};
+			this.gettingAgents = true;
 			this.props.keysafe.requestSigning(JSON.stringify(ProjectDIDPayload), (error, signature) => {
 				if (!error) {
 					this.props.ixo.agent.listAgentsForProject(ProjectDIDPayload, signature, this.state.projectPublic.serviceEndpoint).then((response: any) => {
@@ -308,8 +317,10 @@ export class ProjectContainer extends React.Component<Props, State> {
 								this.setState({ evaluators : agentsObj });
 							}
 						}
+						this.gettingAgents = false;
 					}).catch((result: Error) => {
 						console.log((result));
+						this.gettingAgents = false;
 					});
 				} else {
 					console.log(error);
