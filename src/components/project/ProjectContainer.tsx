@@ -290,14 +290,12 @@ export class ProjectContainer extends React.Component<Props, State> {
 					this.props.ixo.agent.listAgentsForProject(ProjectDIDPayload, signature, this.state.projectPublic.serviceEndpoint).then((response: any) => {
 						if (response.error) {
 							Toast.errorToast(response.error.message, ErrorTypes.goBack);
-							console.log('error occured', response.error);
 						} else {
 							const agentsObj = [...response.result];
-							if (agentRole === 'serviceProviders' || 'SA') {
+							if (agentRole === 'serviceProviders' || agentRole === 'SA') {
 								this.setState({ serviceProviders: agentsObj });
-							} else if (agentRole === 'evaluators' || 'EA') {
+							} else if (agentRole === 'evaluators' || agentRole === 'EA') {
 								this.setState({ evaluators : agentsObj });
-
 							}
 						}
 					}).catch((result: Error) => {

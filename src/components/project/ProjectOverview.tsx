@@ -383,6 +383,7 @@ export const ProjectOverview: React.SFC<ParentProps> = (props) => {
 	};
 
 	const shareToFacebook = () => {
+		console.log(location.href);
 		// @ts-ignore
 		FB.ui({
 			method: 'share',
