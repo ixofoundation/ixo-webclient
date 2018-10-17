@@ -34,11 +34,11 @@ const Section = styled.section`
 `;
 
 const Indicator = styled.div`
-	width: 7px;
+	width: 12px;
 	height: 25px;
 	position: absolute;
 	top:18px;
-	left:-7px;
+	left:-6px;
 
 	background: ${props => props.color};
 
@@ -80,7 +80,7 @@ const Col = styled.div`
 `;
 
 const ClaimsWidget = styled.div`
-	margin: 20px 0;
+	margin: 20px 0 0;
 	
 `;
 
@@ -122,6 +122,7 @@ const ListItemWrapper = styled.div`
 	p {
 		font-size: 14px;
 		color: white;
+		margin-bottom: 0;
 	}
 
 	a {
@@ -192,7 +193,7 @@ export const ProjectClaims: React.SFC<ParentProps> = ({ claims, projectDid, full
 		let colorCLass = '';
 		return (
 			<ClaimsWidget>
-				{claims.map((claim, index) => {
+				{claims.slice(0, 3).map((claim, index) => {
 					switch (claim.status) {
 						case '0':
 							colorCLass = '#F89D28';

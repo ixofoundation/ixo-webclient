@@ -138,13 +138,13 @@ class App extends React.Component<App.Props, App.State> {
 		this.props.onKeysafeInit();
 
 		explorerSocket.on('did created', function (data: any) {
-// 			console.log('did created');
-// 			console.log(data);
+      // console.log('did created');
+      // console.log(data);
 		});
 		
 		explorerSocket.on('did updated', function (data: any) {
-// 			console.log('did updated');
-// 			console.log(data);
+      // console.log('did updated');
+      // console.log(data);
 		});
 	}
 

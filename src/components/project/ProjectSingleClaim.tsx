@@ -169,34 +169,22 @@ export const ProjectSingleClaim: React.SFC<ParentProps> = (props) => {
 
 	const handleRenderStatus = (status, claim) => {
 		if (props.claimEvaluated === true) {
-			return <ClaimStatus message={`You have evaluated claim (${claim._id})`} icon={'icon-approved'} />;
+			return <ClaimStatus message={`Claim (${claim._id}) has been evaluated`} icon={'icon-approved'} />;
 		}
-		if (props.hasCapability([AgentRoles.evaluators])) { // is evaluator
-			switch (status) {
-				case '1':
-				return <ClaimStatus message={`claim ${claim._id}`} icon={'icon-approved'} />;
-				case '2':
-				return <ClaimStatus message={`claim ${claim._id}`} icon={'icon-rejected'} />;
-				case '0':
-				default:
-				return <ClaimStatus message={'Pending'} icon={'icon-pending'} />;
-			}
-		} else {
-			switch (status) {
-				case '1':
-				return <ClaimStatus message={'Approved'} icon={'icon-approved'} />;
-				case '2':
-				return <ClaimStatus message={'Rejected'} icon={'icon-rejected'} />;
-				case '0':
-				default:
-				return <ClaimStatus message={'Pending'} icon={'icon-pending'} />;
-			}
+		switch (status) {
+			case '1':
+			return <ClaimStatus message={`Claim ${claim._id} Approved`} icon={'icon-approved'} />;
+			case '2':
+			return <ClaimStatus message={`Claim ${claim._id} Rejected`} icon={'icon-rejected'} />;
+			case '0':
+			default:
+			return <ClaimStatus message={`Pending`} icon={'icon-pending'} />;
 		}
 	};
 
 	const handleRenderButtons = (claim: any) => {
 
-		if (props.claimEvaluated === true) { // approved
+		if (props.claimEvaluated === true) {
 			return (
 				<ButtonContainer>
 					<div className="row">
@@ -214,18 +202,21 @@ export const ProjectSingleClaim: React.SFC<ParentProps> = (props) => {
 				</ButtonContainer>
 			);
 		}
-		return (
-			<ButtonContainer>
-				<div className="row">
-					<div className="col-md-6">
-						<RejectButton onClick={() => evaluateClaim('2', claim.evaluations, claim.txHash)}>Reject Claim<ButtonIcon className="icon-close" /></RejectButton>
+		if (latestClaimStatus() === 0) {
+			return (
+				<ButtonContainer>
+					<div className="row">
+						<div className="col-md-6">
+							<RejectButton onClick={() => evaluateClaim('2', claim.evaluations, claim.txHash)}>Reject Claim<ButtonIcon className="icon-close" /></RejectButton>
+						</div>
+						<div className="col-md-6">
+							<ApproveButton onClick={() => evaluateClaim('1', claim.evaluations, claim.txHash)}>Approve Claim<ButtonIcon className="icon-approvetick" /></ApproveButton>
+						</div>
 					</div>
-					<div className="col-md-6">
-						<ApproveButton onClick={() => evaluateClaim('1', claim.evaluations, claim.txHash)}>Approve Claim<ButtonIcon className="icon-approvetick" /></ApproveButton>
-					</div>
-				</div>
-			</ButtonContainer>
-		);
+				</ButtonContainer>
+			);
+		}
+		return '';
 	};
 
 	const handleDataRender = () => {

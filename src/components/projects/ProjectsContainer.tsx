@@ -122,6 +122,12 @@ export class Projects extends React.Component<Props, State> {
 		}
 	}
 
+	getProjectsCountries = () => {
+		return this.state.projectList.map((project, i) => {
+			return project.data.projectLocation;
+		});
+	}
+
 	refreshAllProjects() {
 		if (this.props.ixo && !this.loadingProjects) {
 			this.loadingProjects = true;
@@ -148,7 +154,6 @@ export class Projects extends React.Component<Props, State> {
 							claimsArr.push(claim);
 						}
 					}
-
 					this.setState({ 
 						projectList: projectList,
 						claims: claimsArr,
@@ -217,6 +222,7 @@ export class Projects extends React.Component<Props, State> {
 						claims={this.state.claims} 
 						claimsTotalRequired={this.state.claimsTotalRequired}
 						agents={this.state.agents}
+						projectCountries={this.getProjectsCountries()}
 					/>
 				);
 			} else {

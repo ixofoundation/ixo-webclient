@@ -60,7 +60,7 @@ const ClaimsTopLabels = styled.div`
 	margin-bottom: 30px;
 	
 	p {
-		margin:0 10px;
+		margin:0 5px;
 		font-size: 13px;
 	}
 	p:before {
@@ -68,10 +68,10 @@ const ClaimsTopLabels = styled.div`
 		width:10px;
 		height:10px;
 		display: inline-block;
-		margin-right: 20px;
+		margin-right: 10px;
 	}
 	p:nth-child(1):before {
-		background: #033C50;
+		background: #035971;
 	}
 
 	p:nth-child(2):before {
@@ -163,10 +163,10 @@ export const ProjectDashboard: React.SFC<ParentProps> = ({project, projectDid, a
 					<WidgetWrapper title="Project impact claims" path={`/projects/${projectDid}/detail/claims`} gridHeight={gridSizes.standard} linkIcon={'icon-expand'} link={hasCapability([AgentRoles.owners, AgentRoles.evaluators, AgentRoles.serviceProviders, AgentRoles.investors])}>
 						<ClaimsWidget>
 							<ClaimsLabels>
-								<p><strong>{claimStats.currentSuccessful}</strong> Approved</p>
-								<p><strong>{countClaimsOfType('0')}</strong> Pending Approval</p>
-								<p><strong>{claimStats.currentRejected}</strong> Rejected</p>
-								<p><strong>{claimStats.required - claimStats.currentSuccessful}</strong> Remaining Claims</p>
+								<p><strong>{claimStats.currentSuccessful}</strong> approved</p>
+								<p><strong>{countClaimsOfType('0')}</strong> pending approval</p>
+								<p><strong>{claimStats.currentRejected}</strong> rejected</p>
+								<p><strong>{claimStats.required - claimStats.currentSuccessful}</strong> remaining claims</p>
 							</ClaimsLabels>
 							<CircleProgressbar
 								approved={claimStats.currentSuccessful}

@@ -13,8 +13,19 @@ import styled from 'styled-components';
 
 const MapWrapper = styled.div`
 
-	path {
+	:hover {
+		cursor: grab;
+	}
+
+	:active {
+		cursor: grabbing;
+	}
+	
+	path:focus {
 		outline: none!important;
+	}
+	g.rsm-marker {
+    outline-width: 0px;
 	}
 `;
 
@@ -42,10 +53,22 @@ export interface ParentProps {
 export class WorldMap extends React.Component<ParentProps> {
 
 	render() {
+
+		const countryProps = {
+			fill: '#053c53',
+			stroke: '#337a8e',
+			strokeWidth: 0.3,
+			outline: 'none!important',
+		};
+
+		const markerProps = {
+			fill: '#49BFE0'
+		};
+
 		return (
 			<MapWrapper>
-				<ComposableMap style={{ width: '100%' }}>
-					<ZoomableGroup zoom={1}>
+				<ComposableMap style={{ width: '100%', outline: 'none!important', maxHeight: '330px' }}>
+					<ZoomableGroup zoom={3}>
 					<Geographies geography={geographyPaths}>
 					{(geographies, projection) => geographies.map((geography, index) => (
 						<Geography
@@ -53,35 +76,32 @@ export class WorldMap extends React.Component<ParentProps> {
 							geography={geography}
 							projection={projection}
 							style={{
-								default: {
-									fill: '#053c53',
-									stroke: '#49BFE0',
-									strokeWidth: 0.1,
-									outline: 'none',
-								},
-								hover:   { fill: '#49BFE0' },
-								pressed: { fill: '#000' },
+								default: countryProps,
+								hover:   countryProps,
+								pressed: countryProps,
 							}}
 						/>
 					))}
 					</Geographies>
-					<Markers >
+					<Markers style={{outlineWidth: '0px'}}>
 						{this.props.markers.map( (value: LatLng, i: number) => {
 							return (
 								<Marker 
 										key={i}
-										marker={{ coordinates: [ value.lon(), value.lat() ] }}
+										marker={{ coordinates: [ value[0], value[1] ] }}
 										style={{
-											default: { fill: '49BFE0' },
-											hover:   { fill: '#FFF' },
-											pressed: { fill: '#000' },
+											default: markerProps,
+											hover:   markerProps,
+											pressed: markerProps,
+											outline: 'none!important',
+											outlineWidth: '0px'
 										}
 										}
 								>
-									<circle cx={0} cy={0} r={10} filter="url(#glow)"/>
+									<circle cx={0} cy={0} r={3} filter="url(#glow)"/>
 									<defs>
 										<filter id="glow" width="180%" height="180%" filterUnits="userSpaceOnUse">
-											<feGaussianBlur in="SourceGraphic"  stdDeviation="10"/> {/* stdDeviation is how much to blur */}
+											<feGaussianBlur in="SourceGraphic"  stdDeviation="5"/> {/* stdDeviation is how much to blur */}
 											<feComponentTransfer>
 											<feFuncA type="linear" slope="3"/> {/* slope is the opacity of the shadow */}
 											</feComponentTransfer>

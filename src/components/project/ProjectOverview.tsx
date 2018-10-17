@@ -132,43 +132,69 @@ const Social = styled.div`
 	}
 `;
 
-// const LocalButton = styled.a`
-// 	border: 1px solid #B8B8B8;
-//     &&& {color: ${props => props.theme.fontGrey};}
-//     font-size: 16px;
-//     text-transform: uppercase;
-//     padding: 10px 20px;
-//     background: none;
-//     margin-bottom: 10px;
-// 	width: 100%;
-// 	font-family: ${props => props.theme.fontRobotoCondensed};
-// 	font-weight: 500;
-// 	display:inline-block;
-// 	text-align: center;
+const Hidden = styled.div`
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	transition: opacity 0.3s ease;
+	opacity: 0;
+	i {
+		color: #282828;
+		top: auto;
+		margin: 0 8px;
+		font-size: 20px;
+	}
+	.icon-facebook:hover:before {
+		color: #4A67AD;
+	}
+	.icon-twitter:hover:before {
+		color: #4CA0EB;
+	}
+`;
 
-// 	transition: all 0.3s ease;
-// 	cursor: pointer;
+const Visible = styled.div`
+	i {
+		font-size: 21px;
+		position: relative;
+		top: 3px;
+		margin-right: 10px;
+	}
+	transition: opacity 0.3s ease;
+`;
 
-// 	:hover {
-// 		color: white;
-// 		background: #B8B8B8;
-// 	}
-
-// 	:hover i:before {
-// 		color: white;
-// 	}
-
-// 	i {
-// 		font-size: 21px;
-// 		position: relative;
-// 		top: 3px;
-// 		margin-right: 10px;
-// 	}
-
-// 	i:before {
-// 		transition: color 0.3s ease;
-// 	}
-// `;
+const LocalButton = styled.a`
+	border: 1px solid #B8B8B8;
+    &&& {color: ${props => props.theme.fontGrey};}
+    font-size: 16px;
+    text-transform: uppercase;
+    padding: 5px 20px;
+    background: none;
+    margin:0 0 30px;
+	width: 100%;
+	font-family: ${props => props.theme.fontRobotoCondensed};
+	font-weight: 500;
+	display:inline-block;
+	text-align: center;
+	position: relative;
+	transition: all 0.3s ease;
+	cursor: pointer;
+	i:before {
+		color: ${props => props.theme.fontGrey};
+	}
+	:hover {
+		${Visible} {
+			opacity: 0;
+		}
+		${Hidden} {
+			opacity: 1;
+		}
+	}
+`;
 
 const FounderContainer = styled.section`
 	padding: 50px 0;
@@ -245,9 +271,8 @@ export interface ParentProps {
 
 export const ProjectOverview: React.SFC<ParentProps> = (props) => {
 
-	const {evaluators, serviceProviders, investors} = props.project.agentStats;
+	const {evaluators, serviceProviders} = props.project.agentStats;
 	const statistics: Statistic[] = [
-		{type: StatType.decimal, descriptor: [{class: 'text', value: 'Investors'}], amount: investors},
 		{type: StatType.decimal, descriptor: [{class: 'text', value: 'Evaluators'}], amount: evaluators},
 		{type: StatType.decimal, descriptor: [{class: 'text', value: 'Service providers'}], amount: serviceProviders}
 		];
@@ -351,6 +376,25 @@ export const ProjectOverview: React.SFC<ParentProps> = (props) => {
 		evt.target.src = placeholder;
 	};
 
+	const shareToTwitter = () => {
+		var url = location.href;
+		var text = 'It’s up to all of us to start making an impact for a positive future for humanity. Check out this venture that aims to achieve the global SDGs. If you think it’s a worthy cause, then like or share this post to show your support.';
+		window.open('http://twitter.com/share?url=' + encodeURIComponent(url) + '&text=' + encodeURIComponent(text), '', 'left=0,top=0,width=550,height=450,personalbar=0,toolbar=0,scrollbars=0,resizable=0');
+	};
+
+	const shareToFacebook = () => {
+		// @ts-ignore
+		FB.ui({
+			method: 'share',
+			href: location.href, 
+			picture: props.imageLink,
+			name: props.project.title,
+			description: props.project.shortDescription
+		},    (response) => {
+			// console.log('res is: ', response);
+		});
+	};
+
 	return (
 		<div>
 			<ModalWrapper
@@ -412,7 +456,15 @@ export const ProjectOverview: React.SFC<ParentProps> = (props) => {
 								{handleRenderServiceProviderButton()}
 							</Sidebar>
 							{/* <LocalButton><i className="icon-heart"/>SAVE TO FAVOURITES</LocalButton> */}
-							{/* <LocalButton><i className="icon-share"/>SHARE THIS PROJECT</LocalButton> */}
+							<LocalButton>
+								<Visible>
+									<i className="icon-share" />SHARE THIS PROJECT
+								</Visible>
+								<Hidden>
+									<i onClick={shareToTwitter} className="icon-twitter" />
+									<i onClick={shareToFacebook} className="icon-facebook" />
+								</Hidden>
+							</LocalButton>
 							<QRComponent url={location.href} />
 						</div>
 					</div>

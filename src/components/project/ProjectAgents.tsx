@@ -152,6 +152,11 @@ const Buttons = styled.div`
 	i:before {
 		color: white;
 	}
+
+	a:not(.disabled):hover {
+		background: ${props => props.theme.ixoBlue};
+	}
+
 `;
 
 const DidText = styled.p`
@@ -230,15 +235,15 @@ export class ProjectAgents extends React.Component<ParentProps, State> {
 										<Buttons>
 											<Button
 												type={ButtonTypes.dark}
-												disabled={currentStatus === '1'}
-												onClick={() => this.handleUpdateAgentStatus('1', agent.currentStatus, agent.agentDid, agent.role)}
-											><i className="icon-approvetick" />
-											</Button>
-											<Button
-												type={ButtonTypes.gradient}
 												disabled={currentStatus === '2'}
 												onClick={() => this.handleUpdateAgentStatus('2', agent.currentStatus, agent.agentDid, agent.role)}
 											><i className="icon-close" />
+											</Button>
+											<Button
+												type={ButtonTypes.gradient}
+												disabled={currentStatus === '1'}
+												onClick={() => this.handleUpdateAgentStatus('1', agent.currentStatus, agent.agentDid, agent.role)}
+											><i className="icon-approvetick" />
 											</Button>
 										</Buttons>
 									</Actions>
@@ -253,7 +258,6 @@ export class ProjectAgents extends React.Component<ParentProps, State> {
 	}
 
 	handleMapAgents = () => {
-
 		const approved = [];
 		const pending = [];
 		const revoked = [];

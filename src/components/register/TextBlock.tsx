@@ -9,6 +9,7 @@ const Container = styled.div`
 
 	h2 {
 		font-family: ${props => props.theme.fontRobotoCondensed};
+		font-weight: 300;
 	}
 
 	i:before {
@@ -34,6 +35,7 @@ const ContainerWhite = styled.div`
 
 	h2 {
 		font-family: ${props => props.theme.fontRobotoCondensed};
+		font-weight: 300;
 	}
 
 	i:before {
