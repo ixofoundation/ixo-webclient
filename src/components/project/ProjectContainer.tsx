@@ -481,7 +481,7 @@ export class ProjectContainer extends React.Component<Props, State> {
 					console.log(error);
 					this.gettingSingleClaim = false;
 				}
-			}, 'base64');
+			});
 		}
 	}
 
