@@ -9,7 +9,8 @@ const Container = styled.div`
 	background-color: ${props => props.theme.bg.blue};
 	flex:1 1 auto;
 	p {
-		color: ${props => props.theme.ixoBlue}
+		color: ${props => props.theme.ixoBlue};
+		margin-top: 10px;
 	}
 `;
 

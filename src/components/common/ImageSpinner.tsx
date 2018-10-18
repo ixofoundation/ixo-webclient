@@ -14,6 +14,7 @@ const Container = styled.div`
 	
 	p {
 		display: block;
+		margin-top: 10px;
 	}
 `;
 

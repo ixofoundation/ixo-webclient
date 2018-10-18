@@ -5,7 +5,7 @@ import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { PublicSiteStoreState } from '../../redux/public_site_reducer';
 import { decode as base64Decode } from 'base-64';
 import { contentType, AgentRoles, ErrorTypes, RenderType } from '../../types/models';
-import { Project } from '../../types/models/project';
+import { Data } from '../../types/models/project';
 import { ProjectHero } from './ProjectHero';
 import { ProjectOverview } from './ProjectOverview';
 import { ProjectDashboard } from './ProjectDashboard';
@@ -99,6 +99,10 @@ export class ProjectContainer extends React.Component<Props, State> {
 		singleClaim: null
 	};
 
+	private gettingProjectData: boolean = false;
+	private gettingAgents: boolean = false;
+	private gettingSingleClaim: boolean = false;
+
 	handleToggleModal = (data: any, modalStatus: boolean) => {
 		this.setState({ modalData: data, isModalOpen: modalStatus });
 	}
@@ -110,6 +114,7 @@ export class ProjectContainer extends React.Component<Props, State> {
 	}
 
 	componentDidMount() {
+
 		this.handleGetProjectData();
 
 		explorerSocket.on('claim added', (data: any) => {
@@ -125,10 +130,19 @@ export class ProjectContainer extends React.Component<Props, State> {
 		});
 		
 		explorerSocket.on('agent updated', (data: any) => {
-			this.handleGetProjectData(true);
+			if (this.props.contentType === contentType.evaluators || this.props.contentType === contentType.serviceProviders) {
+				this.handleGetProjectData(true, data.agentDid);
+			} else {
+				this.handleGetProjectData(true);
+			}
 		});
 	}
 
+	componentDidUpdate(prevProps: any) {
+		if (this.props.userInfo !== prevProps.userInfo) {
+			this.handleGetProjectData(true);
+		}
+	}
 	singleClaimDependentsFetchedCallback = () => {
 		this.setState({ singleClaimDependentsFetched: false });
 	}
@@ -137,19 +151,30 @@ export class ProjectContainer extends React.Component<Props, State> {
 		return project.serviceEndpoint + 'public/' + project.imageLink;
 	}
 
-	handleGetProjectData = (autorefresh?: boolean) => {
-		if (autorefresh === true || this.state.projectPublic === null) {
+	handleGetProjectData = (autorefresh?: boolean, agentDid?: string) => {
+
+		if ((this.gettingProjectData === false) && autorefresh === true || this.state.projectPublic === null) {
 			const did = this.props.match.params.projectDID;
+			this.gettingProjectData = true;
 			this.props.ixo.project.getProjectByProjectDid(did).then((response: any) => {
-				const project: Project = response.data;
+				const project: Data = response.data;
+				if (agentDid) {
+					const theAgent = project.agents.find((agent) => agent.did === agentDid);
+					if (theAgent) {
+						this.handleListAgents(theAgent.role, true);
+					}
+				}
 				this.setState({
 					projectPublic: project,
 					imageLink: this.getImageLink(project)
 				});
 
 				this.handleGetCapabilities();
+				this.gettingProjectData = false;
+
 			}).catch((result: Error) => {
 				Toast.errorToast(result.message, ErrorTypes.goBack);
+				this.gettingProjectData = false;
 			});
 		} else {
 			this.handleGetCapabilities();
@@ -258,7 +283,7 @@ export class ProjectContainer extends React.Component<Props, State> {
 					<ProjectHero project={this.state.projectPublic} match={this.props.match} isDetail={true} hasCapability={this.handleHasCapability} />
 					<DetailContainer>
 						<ProjectSidebar match={agentRole} projectDid={this.state.projectDid} hasCapability={this.handleHasCapability} singleClaimDependentsFetchedCallback={this.singleClaimDependentsFetchedCallback} />
-						<ProjectAgents agents={...this.state[agentRole]} handleUpdateAgentStatus={this.handleUpdateAgent} />
+						<ProjectAgents agents={this.state[agentRole]} handleUpdateAgentStatus={this.handleUpdateAgent} />
 					</DetailContainer>
 				</Fragment>
 			);
@@ -275,27 +300,28 @@ export class ProjectContainer extends React.Component<Props, State> {
 		}
 	}
 
-	handleListAgents = (agentRole: string) => {
-		if (this.state[agentRole] === null) {
-			const ProjectDIDPayload: Object = { projectDid: this.state.projectDid, role: AgentRoles[agentRole] };
+	handleListAgents = (agentRole: string, shouldUpdate?: boolean) => {
+		if ((this.gettingAgents === false) && this.state[agentRole] === null || shouldUpdate === true) {
+			const roleString = shouldUpdate === true ? agentRole : AgentRoles[agentRole];
+			const ProjectDIDPayload: Object = { projectDid: this.state.projectDid, role: roleString};
+			this.gettingAgents = true;
 			this.props.keysafe.requestSigning(JSON.stringify(ProjectDIDPayload), (error, signature) => {
 				if (!error) {
 					this.props.ixo.agent.listAgentsForProject(ProjectDIDPayload, signature, this.state.projectPublic.serviceEndpoint).then((response: any) => {
 						if (response.error) {
 							Toast.errorToast(response.error.message, ErrorTypes.goBack);
-							console.log('error occured', response.error);
 						} else {
-							let agentsObj = [];
-							if (this.state[agentRole] !== null) {
-								agentsObj = [...this.state[agentRole]];
+							const agentsObj = [...response.result];
+							if (agentRole === 'serviceProviders' || agentRole === 'SA') {
+								this.setState({ serviceProviders: agentsObj });
+							} else if (agentRole === 'evaluators' || agentRole === 'EA') {
+								this.setState({ evaluators : agentsObj });
 							}
-							agentsObj = response.result;
-
-							// @ts-ignore
-							this.setState({ [agentRole]: [...agentsObj] });
 						}
+						this.gettingAgents = false;
 					}).catch((result: Error) => {
 						console.log((result));
+						this.gettingAgents = false;
 					});
 				} else {
 					console.log(error);
@@ -434,23 +460,29 @@ export class ProjectContainer extends React.Component<Props, State> {
 	}
 
 	handleSingleClaimFetch = (project: any) => {
-		const ProjectDIDPayload: Object = { projectDid: this.state.projectDid };
-		this.props.keysafe.requestSigning(JSON.stringify(ProjectDIDPayload), (error, signature) => {
-			if (!error) {
-				const claimPromise = this.handleGetClaim(ProjectDIDPayload, signature); // get claim
-				const formFilePromise = this.handleFetchFormFile(project.templates.claim.form, this.state.projectPublic.serviceEndpoint); // get form file
-				Promise.all([claimPromise, formFilePromise]).then(([claim, formFile]) => {
-					if (claim.evaluations.length > 0) {
-						this.setState({ singleClaim: claim, singleClaimFormFile: formFile, singleClaimDependentsFetched: true, claimEvaluated: true });
-					} else {
-						this.setState({ singleClaim: claim, singleClaimFormFile: formFile, singleClaimDependentsFetched: true, claimEvaluated: false });
-					}
-					this.handleFetchClaimImages(formFile, claim); // go fetch images
-				});
-			} else {
-				console.log(error);
-			}
-		}, 'base64');
+		console.log(this.gettingSingleClaim);
+		if (this.gettingSingleClaim === false) {
+			this.gettingSingleClaim = true;
+			const ProjectDIDPayload: Object = { projectDid: this.state.projectDid };
+			this.props.keysafe.requestSigning(JSON.stringify(ProjectDIDPayload), (error, signature) => {
+				if (!error) {
+					const claimPromise = this.handleGetClaim(ProjectDIDPayload, signature); // get claim
+					const formFilePromise = this.handleFetchFormFile(project.templates.claim.form, this.state.projectPublic.serviceEndpoint); // get form file
+					Promise.all([claimPromise, formFilePromise]).then(([claim, formFile]) => {
+						if (claim.evaluations.length > 0) {
+							this.setState({ singleClaim: claim, singleClaimFormFile: formFile, singleClaimDependentsFetched: true, claimEvaluated: false });
+						} else {
+							this.setState({ singleClaim: claim, singleClaimFormFile: formFile, singleClaimDependentsFetched: true, claimEvaluated: false });
+						}
+						this.handleFetchClaimImages(formFile, claim); // go fetch images
+						this.gettingSingleClaim = false;
+					});
+				} else {
+					console.log(error);
+					this.gettingSingleClaim = false;
+				}
+			}, 'base64');
+		}
 	}
 
 	handleFetchClaimImages = (formFile: any, claim: any) => {

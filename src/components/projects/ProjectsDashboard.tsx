@@ -5,8 +5,8 @@ import { LayoutWrapper } from '../common/LayoutWrapper';
 import { SingleStatistic } from '../common/SingleStatistic';
 import { StatType } from '../../types/models';
 import { CircleProgressbar } from '../widgets/CircleProgressbar';
-// import { WorldMap, LatLng } from '../widgets/WorldMap';
-// import { isoCountriesLatLng } from '../../lib/commonData';
+import { WorldMap } from '../widgets/WorldMap';
+import { isoCountriesLatLng } from '../../lib/commonData';
 
 // import { deviceWidth } from '../../lib/commonData';
 
@@ -56,26 +56,30 @@ export interface ParentProps {
 	claims: any[];
 	claimsTotalRequired: number;
 	agents: any;
+	projectCountries: any[];
 }
 
-export const ProjectsDashboard: React.SFC<ParentProps> = ({claims, claimsTotalRequired, agents}) => {
+export const ProjectsDashboard: React.SFC<ParentProps> = ({claims, claimsTotalRequired, agents, projectCountries}) => {
 
 	const countClaimsOfType = (claimType: string) => {
 		return [...claims].filter((claim) => claim.status === claimType).length;
 	};
 
-	// const getClaimsOfType = (claimType: string) => {
-	// 	return [...claims].filter((claim) => claim.status === claimType);
-	// };
+	const getProjectsLatLng = () => {
+		let coords = [];
+		for (var key in isoCountriesLatLng) {
+			if (isoCountriesLatLng.hasOwnProperty(key)) {
+				for (let i in projectCountries) {
+					if (projectCountries[i] === key) {
+						coords.push( [isoCountriesLatLng[key].lng, isoCountriesLatLng[key].lat] );
+					}
+				}
+			}
+		}
+		return coords;
+	};
 
-	// const getProjectsLatLng = () => {
-	// 	let latLng = isoCountriesLatLng[project.projectLocation];
-	// 	if (latLng) {
-	// 		return new LatLng(latLng.lat, latLng.lng);
-	// 	}
-	// 	return new LatLng(0, 0);
-	// };
-
+	getProjectsLatLng();
 	return (
 		<Container>
 		<LayoutWrapper>
@@ -124,11 +128,11 @@ export const ProjectsDashboard: React.SFC<ParentProps> = ({claims, claimsTotalRe
 				</div>
 				}
 				{
-				// <div className="col-md-6">
-				// 	<WidgetWrapper title="Claim location activity" path={`/projects/${projectDid}/detail/claims`} gridHeight={gridSizes.standard}>
-				// 		<WorldMap markers={[getProjectLatLng()]}/>
-				// 	</WidgetWrapper>
-				// </div>
+				<div className="col-md-6">
+					<WidgetWrapper title="Projects location activity" gridHeight={gridSizes.standard} padding={false}>
+						<WorldMap markers={getProjectsLatLng()}/>
+					</WidgetWrapper>
+				</div>
 				}
 			</div>
 		</LayoutWrapper>
