@@ -101,6 +101,7 @@ export class ProjectContainer extends React.Component<Props, State> {
 
 	private gettingProjectData: boolean = false;
 	private gettingAgents: boolean = false;
+	private gettingSingleClaim: boolean = false;
 
 	handleToggleModal = (data: any, modalStatus: boolean) => {
 		this.setState({ modalData: data, isModalOpen: modalStatus });
@@ -459,23 +460,29 @@ export class ProjectContainer extends React.Component<Props, State> {
 	}
 
 	handleSingleClaimFetch = (project: any) => {
-		const ProjectDIDPayload: Object = { projectDid: this.state.projectDid };
-		this.props.keysafe.requestSigning(JSON.stringify(ProjectDIDPayload), (error, signature) => {
-			if (!error) {
-				const claimPromise = this.handleGetClaim(ProjectDIDPayload, signature); // get claim
-				const formFilePromise = this.handleFetchFormFile(project.templates.claim.form, this.state.projectPublic.serviceEndpoint); // get form file
-				Promise.all([claimPromise, formFilePromise]).then(([claim, formFile]) => {
-					if (claim.evaluations.length > 0) {
-						this.setState({ singleClaim: claim, singleClaimFormFile: formFile, singleClaimDependentsFetched: true, claimEvaluated: false });
-					} else {
-						this.setState({ singleClaim: claim, singleClaimFormFile: formFile, singleClaimDependentsFetched: true, claimEvaluated: false });
-					}
-					this.handleFetchClaimImages(formFile, claim); // go fetch images
-				});
-			} else {
-				console.log(error);
-			}
-		});
+		console.log(this.gettingSingleClaim);
+		if (this.gettingSingleClaim === false) {
+			this.gettingSingleClaim = true;
+			const ProjectDIDPayload: Object = { projectDid: this.state.projectDid };
+			this.props.keysafe.requestSigning(JSON.stringify(ProjectDIDPayload), (error, signature) => {
+				if (!error) {
+					const claimPromise = this.handleGetClaim(ProjectDIDPayload, signature); // get claim
+					const formFilePromise = this.handleFetchFormFile(project.templates.claim.form, this.state.projectPublic.serviceEndpoint); // get form file
+					Promise.all([claimPromise, formFilePromise]).then(([claim, formFile]) => {
+						if (claim.evaluations.length > 0) {
+							this.setState({ singleClaim: claim, singleClaimFormFile: formFile, singleClaimDependentsFetched: true, claimEvaluated: false });
+						} else {
+							this.setState({ singleClaim: claim, singleClaimFormFile: formFile, singleClaimDependentsFetched: true, claimEvaluated: false });
+						}
+						this.handleFetchClaimImages(formFile, claim); // go fetch images
+						this.gettingSingleClaim = false;
+					});
+				} else {
+					console.log(error);
+					this.gettingSingleClaim = false;
+				}
+			});
+		}
 	}
 
 	handleFetchClaimImages = (formFile: any, claim: any) => {
