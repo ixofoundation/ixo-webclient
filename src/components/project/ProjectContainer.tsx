@@ -240,7 +240,7 @@ export class ProjectContainer extends React.Component<Props, State> {
 				} else {
 					Toast.errorToast(error, ErrorTypes.goBack);
 				}
-			});
+			}, 'base64');
 		}
 	}
 
@@ -326,7 +326,7 @@ export class ProjectContainer extends React.Component<Props, State> {
 				} else {
 					console.log(error);
 				}
-			});
+			}, 'base64');
 		}
 	}
 
@@ -362,7 +362,7 @@ export class ProjectContainer extends React.Component<Props, State> {
 			} else {
 				Toast.errorToast('PDS is not responding');
 			}
-		});
+		}, 'base64');
 	}
 
 	handleUpdateAgent = (statusObj: any, did: string, role: string) => {
@@ -389,7 +389,7 @@ export class ProjectContainer extends React.Component<Props, State> {
 			} else {
 				Toast.errorToast('PDS is not responding');
 			}
-		});
+		}, 'base64');
 	}
 
 	handleEvaluateClaim = (statusObj: any, id: string) => {
@@ -416,7 +416,7 @@ export class ProjectContainer extends React.Component<Props, State> {
 			} else {
 				Toast.errorToast('Evaluation was not submitted');
 			}
-		});
+		}, 'base64');
 	}
 
 	handleSubmitClaim = (claimData) => {
@@ -434,7 +434,7 @@ export class ProjectContainer extends React.Component<Props, State> {
 				Toast.errorToast(error);
 				console.log(error);
 			}
-		});
+		}, 'base64');
 	}
 
 	handleGetClaim(ProjectDIDPayload: object, signature: string): Promise<any> {
@@ -481,7 +481,7 @@ export class ProjectContainer extends React.Component<Props, State> {
 					console.log(error);
 					this.gettingSingleClaim = false;
 				}
-			});
+			}, 'base64');
 		}
 	}
 
