@@ -18,6 +18,7 @@ export const Tooltip: React.SFC<ParentProps> = ({text, icon, position, children}
 
 	let positionCss = '';
 	let arrowCss = '';
+	let transformOrigin = '';
 	switch (position) {
 		case TooltipPositions.top:
 		default:
@@ -32,6 +33,7 @@ export const Tooltip: React.SFC<ParentProps> = ({text, icon, position, children}
 					bottom: -10px;
 					left: 10px;
 			`;
+			transformOrigin = `bottom left`;
 			break;
 		case TooltipPositions.right:
 			positionCss = `
@@ -45,6 +47,7 @@ export const Tooltip: React.SFC<ParentProps> = ({text, icon, position, children}
 					left: -10px;
 					top: 10px;
 			`;
+			transformOrigin = `top left`;
 			break;
 		case TooltipPositions.bottom:
 			positionCss = `
@@ -58,6 +61,7 @@ export const Tooltip: React.SFC<ParentProps> = ({text, icon, position, children}
 					top: -10px;
 					left: 10px;
 			`;
+			transformOrigin = `top left`;
 			break;
 		case TooltipPositions.left:
 			positionCss = `
@@ -73,6 +77,7 @@ export const Tooltip: React.SFC<ParentProps> = ({text, icon, position, children}
 					top: 10px;
 					right: -10px;
 			`;
+			transformOrigin = `top right`;
 			break;
 		
 	}
@@ -86,7 +91,8 @@ export const Tooltip: React.SFC<ParentProps> = ({text, icon, position, children}
 	`;
 
 	const TooltipInner = styled.div`
-		// opacity: 0;
+		opacity: 0;
+		transform: scale(0.8);
 		padding: 10px;
 		border-radius: 5px;
 		max-width:300px;
@@ -104,6 +110,9 @@ export const Tooltip: React.SFC<ParentProps> = ({text, icon, position, children}
 			position: absolute;
 			${arrowCss}
 		}
+
+		transition: all 0.3s ease;
+		transform-origin: ${transformOrigin};
 	`;
 
 	const Hover = styled.div`
@@ -119,8 +128,9 @@ export const Tooltip: React.SFC<ParentProps> = ({text, icon, position, children}
 		}
 
 		:hover {
-			${TooltipWrapper} {
+			${TooltipInner} {
 				opacity: 1;
+				transform: scale(1);
 			}
 		}
 	`;

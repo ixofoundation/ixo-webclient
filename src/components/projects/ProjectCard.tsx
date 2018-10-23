@@ -225,12 +225,12 @@ export class ProjectCard extends React.Component<Props, States> {
 					<CardBottom>
 						<StatusContainer>
 							<ProjectStatus>
-								{this.props.status}
 								<Tooltip 
 									position={TooltipPositions.right} 
 									icon={false}
 									text="this is a test tooltip this is a test tooltip this is a test tooltip this is a test tooltip" 
-								/>
+								>{this.props.status}
+								</Tooltip>
 							</ProjectStatus>
 						</StatusContainer>
 						<div>
