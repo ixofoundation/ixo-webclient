@@ -98,6 +98,7 @@ export class Projects extends React.Component<Props, State> {
 	loadingProjects = false;
 
 	componentDidMount() {
+		
 		explorerSocket.on('list all projects', function (data: any) {
 			// console.log('LLIST PROJECT', data);
 		});
@@ -196,6 +197,7 @@ export class Projects extends React.Component<Props, State> {
 										project={project.data}
 										did={project.projectDid}
 										key={index}
+										status={project.status}
 									/>
 								);
 							})}

@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { ProgressBar } from '../common/ProgressBar';
 import { excerptText } from '../../utils/formatters';
+import { Tooltip, TooltipPositions } from '../common/Tooltip';
 
 const placeholder = require('../../assets/images/ixo-placeholder-large.jpg');
 
@@ -109,7 +110,7 @@ const CardTop = styled.div`
 const CardBottom = styled.div`
 	border-radius: 0 0 2px 2px;
 	flex: 1;
-	padding: 20px 14px 0;
+	padding: 0 14px 0;
 	background: white;
 	display: flex;
 	flex-direction: column;
@@ -119,6 +120,26 @@ const CardBottom = styled.div`
         font-weight:300;
 		color: ${props => props.theme.fontDarkGrey};
     }
+`;
+
+const StatusContainer = styled.div`
+	display: flex;
+	height: 40px;
+	justify-content: flex-end;
+`;
+
+const ProjectStatus = styled.div`
+	margin: 0;
+	font-size: 12px;
+
+	&.pending {
+		color: white;
+		background: ${props => props.theme.ixoOrange};
+	}
+
+	&.completed {
+		color: #B6B6B6;
+	}
 `;
 
 const CardContainer = styled.div`
@@ -157,6 +178,7 @@ export interface Props {
 	project: any;
 	did: string;
 	ixo?: any;
+	status: string;
 }
 
 export interface States {
@@ -182,6 +204,7 @@ export class ProjectCard extends React.Component<Props, States> {
 	}
 
 	render() {
+		console.log(this.props.project);
 		return (
 			<CardContainer className="col-10 offset-1 col-xl-4 col-md-6 col-sm-10 offset-sm-1 offset-md-0">
 				<ProjectLink to={{pathname: `/projects/${this.props.did}/overview`, state: { projectPublic: this.props.project, imageLink: this.getImageLink() } }}>
@@ -200,6 +223,16 @@ export class ProjectCard extends React.Component<Props, States> {
 						<Description><p>{excerptText(this.props.project.shortDescription, 20)}</p></Description>
 					</CardTop>
 					<CardBottom>
+						<StatusContainer>
+							<ProjectStatus>
+								{this.props.status}
+								<Tooltip 
+									position={TooltipPositions.right} 
+									icon={false}
+									text="this is a test tooltip this is a test tooltip this is a test tooltip this is a test tooltip" 
+								/>
+							</ProjectStatus>
+						</StatusContainer>
 						<div>
 							<Title>{excerptText(this.props.project.title, 10)}</Title>
 							<Owner>By {this.props.project.ownerName}</Owner>

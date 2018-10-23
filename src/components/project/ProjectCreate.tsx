@@ -207,7 +207,7 @@ export class ProjectCreate extends React.Component<StateProps, State> {
 
 	handleRequiredClaimsChanged = (event: any) => {
 		let newProject = this.state.project;
-		newProject.requiredClaims = parseInt(event.target.value.trim(), 10);
+		newProject.requiredClaims = String(event.target.value.trim());
 		this.setState({project: newProject, projectJson: JSON.stringify(newProject)});
 	}
 
@@ -242,7 +242,6 @@ export class ProjectCreate extends React.Component<StateProps, State> {
 			projectJson: testProjectData,
 			project: JSON.parse(testProjectData)
 		});
-		console.log(this.state.projectJson);
 	}
 
 	renderDevPortion() {
