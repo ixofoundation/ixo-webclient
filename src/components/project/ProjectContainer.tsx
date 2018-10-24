@@ -21,6 +21,7 @@ import * as Toast from '../helpers/Toast';
 import { deviceWidth } from '../../lib/commonData';
 import { ProjectClaimSubmitted } from './ProjectClaimSubmitted';
 import { explorerSocket } from '../helpers/explorerSocket';
+import { FundingContainer } from './funding/FundingContainer';
 
 const placeholder = require('../../assets/images/ixo-placeholder-large.jpg');
 
@@ -604,6 +605,7 @@ export class ProjectContainer extends React.Component<Props, State> {
 		return (
 			<Fragment>
 				{this.handleRenderProject()}
+				<FundingContainer />
 			</Fragment>
 		);
 	}

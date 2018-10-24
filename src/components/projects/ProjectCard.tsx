@@ -199,12 +199,34 @@ export class ProjectCard extends React.Component<Props, States> {
 		return this.props.project.serviceEndpoint + 'public/' + this.props.project.imageLink;
 	}
 
+	projectStatus = () => {
+		let statusType: string = '';
+		let shouldShow: boolean = false;
+		if (this.props.status === 'CREATED') {
+			statusType = 'PENDING';
+			shouldShow = true;
+		} else if (this.props.status === 'COMPLETED') {
+			statusType = 'COMPLETED';
+			shouldShow = true;
+		}
+		if (shouldShow === true) {
+		return (
+			<ProjectStatus className={statusType}>
+				<Tooltip position={TooltipPositions.right} icon={false} text="project status" >
+					{statusType}
+				</Tooltip>
+			</ProjectStatus>
+		);
+		} else {
+			return null;
+		}
+	}
+
 	componentDidMount() {
 		this.fetchImage();
 	}
 
 	render() {
-		console.log(this.props.project);
 		return (
 			<CardContainer className="col-10 offset-1 col-xl-4 col-md-6 col-sm-10 offset-sm-1 offset-md-0">
 				<ProjectLink to={{pathname: `/projects/${this.props.did}/overview`, state: { projectPublic: this.props.project, imageLink: this.getImageLink() } }}>
@@ -224,21 +246,14 @@ export class ProjectCard extends React.Component<Props, States> {
 					</CardTop>
 					<CardBottom>
 						<StatusContainer>
-							<ProjectStatus>
-								<Tooltip 
-									position={TooltipPositions.right} 
-									icon={false}
-									text="this is a test tooltip this is a test tooltip this is a test tooltip this is a test tooltip" 
-								>{this.props.status}
-								</Tooltip>
-							</ProjectStatus>
+							{this.projectStatus()}
 						</StatusContainer>
 						<div>
 							<Title>{excerptText(this.props.project.title, 10)}</Title>
 							<Owner>By {this.props.project.ownerName}</Owner>
 						</div>
 						{this.props.project.requiredClaims === 0 ?
-							<p>This project will launch in September 2018.</p>
+							<p>Project is launching soon...</p>
 						:
 							<div>
 								<ProgressBar total={this.props.project.requiredClaims} approved={this.props.project.claimStats.currentSuccessful} rejected={this.props.project.claimStats.currentRejected}/>

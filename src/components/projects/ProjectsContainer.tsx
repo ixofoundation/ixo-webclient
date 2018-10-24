@@ -103,6 +103,10 @@ export class Projects extends React.Component<Props, State> {
 			// console.log('LLIST PROJECT', data);
 		});
 
+		explorerSocket.on('project status updated', function (data: any) {
+			console.log('UPDATED PROJECT STATUS', data);
+		});
+
 		this.refreshAllProjects();
 	}
 
@@ -191,6 +195,7 @@ export class Projects extends React.Component<Props, State> {
 					<div className="container">
 						<div className="row row-eq-height">
 							{projects.map((project, index) => {
+								console.log(project);
 								return (
 									<ProjectCard
 										ixo={this.props.ixo}
