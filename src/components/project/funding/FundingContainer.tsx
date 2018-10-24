@@ -1,7 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import { Button, ButtonTypes } from 'src/components/common/Buttons';
-
+import { deviceWidth } from '../../../lib/commonData';
 const FundingWrapper = styled.div`
 	position: sticky;
 	bottom:0;
@@ -67,7 +67,7 @@ const FundingWrapper = styled.div`
 const IxoGauge = styled.div`
 	font-family: ${props => props.theme.fontRobotoCondensed};
 	color: white;
-	font-size: 32px;
+	font-size: 24px;
 	line-height: 26px;
 	font-weight: 400;
 	margin-right: 30px;
@@ -93,17 +93,19 @@ const IxoGauge = styled.div`
 		text-align: right;
 	}
 
+	@media (min-width: ${deviceWidth.desktopLarge}px) {
+		font-size: 32px;
+	}
 
 `;
 
 const ButtonWrapper = styled.div`
-	max-width: 300px;
 
 	a {
 		display: flex;
 		justify-content: center;
 		flex-direction: row;
-		width: 300px;	
+		width: 240px;	
 		position: relative;
 		font-size: 15px;
 		margin-bottom: 0;
@@ -115,9 +117,13 @@ const ButtonWrapper = styled.div`
 			right: 20px;
 			transform: rotate(-90deg);
 			position: absolute;
-			top: 12px;
+			top: 14px;
 			font-size: 12px;
 			font-weight: bold;
+		}
+
+		@media (min-width: ${deviceWidth.desktopLarge}px) {
+			width: 290px;	
 		}
 	}
 `;
