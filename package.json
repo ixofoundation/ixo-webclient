@@ -50,7 +50,8 @@
     "redux-thunk": "2.2.0",
     "serve": "^9.4.0",
     "socket.io-client": "^2.1.1",
-    "styled-components": "^3.3.3"
+    "styled-components": "^3.3.3",
+    "web3": "^1.0.0-beta.36"
   },
   "scripts": {
     "dev": "react-scripts-ts start",

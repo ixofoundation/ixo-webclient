@@ -1,7 +1,10 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import { Button, ButtonTypes } from 'src/components/common/Buttons';
+import { connect } from 'react-redux';
 import { deviceWidth } from '../../../lib/commonData';
+import { PublicSiteStoreState } from 'src/redux/public_site_reducer';
+import Web3Proxy from 'src/redux/web3/util/Web3Proxy';
 const FundingWrapper = styled.div`
 	position: sticky;
 	bottom:0;
@@ -129,18 +132,46 @@ const ButtonWrapper = styled.div`
 	}
 `;
 export interface ParentProps {
-	
+	projectDid: string;
 }
 
 export interface State {
 
 }
 
-export class FundingContainer extends React.Component<ParentProps, State> {
+export interface StateProps {
+	web3: any;
+}
+
+export interface Props extends ParentProps, StateProps {}
+export class Funding extends React.Component<Props, State> {
 
 	state = {
 
 	};
+
+	private accountBalance: any = null;
+
+	componentDidMount() {
+		const projectWeb3 = new Web3Proxy(this.props.web3);
+		console.log(projectWeb3);
+		// projectWeb3.createEthProjectWallet(this.props.projectDid);
+	}
+
+	handleCheckBalance = () => {
+
+		this.props.web3.eth.getAccounts((err: any, acc: any) => {
+			if (!err) {
+				this.props.web3.eth.getBalance(acc[0], (error, balance) => {
+					if (!error) {
+						this.accountBalance = balance;
+						console.log(this.accountBalance);
+					}
+				});
+			}
+		});
+
+	}
 
 	render() {
 		return (
@@ -150,6 +181,7 @@ export class FundingContainer extends React.Component<ParentProps, State> {
 							<ol>
 								<li>SETUP</li>
 								<li className="active">FUEL</li>
+								<li onClick={this.handleCheckBalance}>Check balance</li>
 							</ol>
 						</div>
 						<div className="col-md-6">
@@ -169,3 +201,14 @@ export class FundingContainer extends React.Component<ParentProps, State> {
 		);
 	}
 }
+
+function mapStateToProps(state: PublicSiteStoreState, ownProps: ParentProps) {
+	return {
+		web3: state.web3Store.web3,
+		projectDid: ownProps.projectDid
+	};
+}
+
+export const FundingContainer = connect(
+	mapStateToProps
+)(Funding as any);

@@ -605,7 +605,7 @@ export class ProjectContainer extends React.Component<Props, State> {
 		return (
 			<Fragment>
 				{this.handleRenderProject()}
-				<FundingContainer />
+				<FundingContainer projectDid={this.state.projectDid} />
 			</Fragment>
 		);
 	}

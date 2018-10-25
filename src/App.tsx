@@ -19,7 +19,7 @@ import { Spinner } from './components/common/Spinner';
 import { ToastContainer } from 'react-toastify';
 import * as ReactGA from 'react-ga';
 import { explorerSocket } from './components/helpers/explorerSocket';
-
+import { connectWeb3 } from './redux/web3/web3_action_creators';
 ReactGA.initialize('UA-106630107-5');
 
 ReactGA.pageview(window.location.pathname + window.location.search);
@@ -103,6 +103,7 @@ export namespace App {
 		onIxoInit: () => void;
 		onKeysafeInit: () => void;
 		onLoginInit: (keysafe: any, ixo: any) => void;
+		onWeb3Connect: () => void;
 	}
 	export interface Props extends StateProps, DispatchProps { }
 }
@@ -136,7 +137,8 @@ class App extends React.Component<App.Props, App.State> {
 	componentDidMount() {
 		this.props.onIxoInit();
 		this.props.onKeysafeInit();
-
+		this.props.onWeb3Connect();
+		
 		explorerSocket.on('did created', function (data: any) {
 			// console.log('did created');
 			// console.log(data);
@@ -210,6 +212,9 @@ function mapDispatchToProps(dispatch: any): App.DispatchProps {
 		},
 		onLoginInit: (keysafe: any, ixo: any) => {
 			dispatch(initUserInfo(keysafe, ixo));
+		},
+		onWeb3Connect: () => {
+			dispatch(connectWeb3());
 		}
 	};
 }
