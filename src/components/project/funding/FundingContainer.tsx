@@ -151,12 +151,7 @@ export class Funding extends React.Component<Props, State> {
 	};
 
 	private accountBalance: any = null;
-
-	componentDidMount() {
-		const projectWeb3 = new Web3Proxy(this.props.web3);
-		console.log(projectWeb3);
-		// projectWeb3.createEthProjectWallet(this.props.projectDid);
-	}
+	private projectWeb3 = new Web3Proxy(this.props.web3);
 
 	handleCheckBalance = () => {
 
@@ -170,7 +165,10 @@ export class Funding extends React.Component<Props, State> {
 				});
 			}
 		});
+	}
 
+	handleCreateWallet = () => {
+		this.projectWeb3.createEthProjectWallet(this.props.projectDid);
 	}
 
 	render() {
@@ -182,6 +180,7 @@ export class Funding extends React.Component<Props, State> {
 								<li>SETUP</li>
 								<li className="active">FUEL</li>
 								<li onClick={this.handleCheckBalance}>Check balance</li>
+								<li onClick={this.handleCreateWallet}>Create Project Wallet</li>
 							</ol>
 						</div>
 						<div className="col-md-6">

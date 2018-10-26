@@ -132,6 +132,7 @@ class App extends React.Component<App.Props, App.State> {
 				nextProps.history.push('/register');
 			}
 		}
+		return null;
 	}
 
 	componentDidMount() {

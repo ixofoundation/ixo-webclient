@@ -7,7 +7,7 @@ import { decode as base64Decode } from 'base-64';
 import { contentType, AgentRoles, ErrorTypes, RenderType } from '../../types/models';
 import { Data } from '../../types/models/project';
 import { ProjectHero } from './ProjectHero';
-import { ProjectOverview } from './ProjectOverview';
+import { ProjectOverview } from './overview/ProjectOverview';
 import { ProjectDashboard } from './ProjectDashboard';
 import { ProjectNewClaim } from './ProjectNewClaim';
 import { ProjectSingleClaim } from './ProjectSingleClaim';
@@ -62,6 +62,7 @@ export interface State {
 	singleClaimFormFile: string;
 	singleClaimDependentsFetched: boolean;
 	singleClaim: Object;
+	projectStatus: string;
 }
 
 export interface StateProps {
@@ -97,7 +98,8 @@ export class ProjectContainer extends React.Component<Props, State> {
 		claimEvaluated: false,
 		singleClaimFormFile: '',
 		singleClaimDependentsFetched: false,
-		singleClaim: null
+		singleClaim: null,
+		projectStatus: null
 	};
 
 	private gettingProjectData: boolean = false;
@@ -129,6 +131,14 @@ export class ProjectContainer extends React.Component<Props, State> {
 		explorerSocket.on('agent added', (data: any) => {
 			this.handleGetProjectData(true);
 		});
+
+		explorerSocket.on('project status updated', (data: any) => {
+			console.log('updated with data', data);
+			if (data.projectDid === this.state.projectDid) {
+				this.setState({ projectStatus: data.status});
+				console.log('state updated with new data');
+			}
+		});
 		
 		explorerSocket.on('agent updated', (data: any) => {
 			if (this.props.contentType === contentType.evaluators || this.props.contentType === contentType.serviceProviders) {
@@ -159,6 +169,7 @@ export class ProjectContainer extends React.Component<Props, State> {
 			this.gettingProjectData = true;
 			this.props.ixo.project.getProjectByProjectDid(did).then((response: any) => {
 				const project: Data = response.data;
+				const status: string = response.status;
 				if (agentDid) {
 					const theAgent = project.agents.find((agent) => agent.did === agentDid);
 					if (theAgent) {
@@ -167,7 +178,8 @@ export class ProjectContainer extends React.Component<Props, State> {
 				}
 				this.setState({
 					projectPublic: project,
-					imageLink: this.getImageLink(project)
+					imageLink: this.getImageLink(project),
+					projectStatus: status
 				});
 
 				this.handleGetCapabilities();
@@ -518,12 +530,12 @@ export class ProjectContainer extends React.Component<Props, State> {
 								createAgent={this.handleCreateAgent}
 								userInfo={this.props.userInfo}
 								project={project}
-								id={project._id}
 								isModalOpen={this.state.isModalOpen}
 								toggleModal={this.handleToggleModal}
 								modalData={this.state.modalData}
 								hasCapability={this.handleHasCapability}
 								imageLink={this.state.imageLink}
+								projectStatus={this.state.projectStatus}
 							/>
 						</Fragment>
 					);

@@ -210,6 +210,7 @@ If not, please send us an email, telling us a little about the project you would
 		// If the user has a keysafe and but the hasKeySafe not set then set state
 		if (this.props.keysafe && !this.state.hasKeySafe) {
 			this.props.keysafe.getDidDoc((error, response) => {
+				console.log('retrieved details');
 				if (error) {
 					console.log(error);
 					if (this.state.toastShown === false) {
