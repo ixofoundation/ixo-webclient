@@ -152,6 +152,7 @@ export class Funding extends React.Component<Props, State> {
 
 	private accountBalance: any = null;
 	private projectWeb3 = new Web3Proxy(this.props.web3);
+	private projectWalletAddress: string = null;
 
 	handleCheckBalance = () => {
 
@@ -171,6 +172,19 @@ export class Funding extends React.Component<Props, State> {
 		this.projectWeb3.createEthProjectWallet(this.props.projectDid);
 	}
 
+	handleGetProjectWalletAddres = async () => {
+		try {
+			this.projectWalletAddress = await this.projectWeb3.getProjectWalletAddress(this.props.projectDid);
+		} catch {
+			console.log('couldnt retrieve wallet address');
+		}
+	}
+
+	handleFundProjectWallet = async () => {
+		await this.handleGetProjectWalletAddres();
+		this.projectWeb3.fundEthProjectWallet(this.projectWalletAddress);
+	}
+
 	render() {
 		return (
 			<FundingWrapper className="container-fluid">
@@ -181,6 +195,8 @@ export class Funding extends React.Component<Props, State> {
 								<li className="active">FUEL</li>
 								<li onClick={this.handleCheckBalance}>Check balance</li>
 								<li onClick={this.handleCreateWallet}>Create Project Wallet</li>
+								<li onClick={this.handleGetProjectWalletAddres}>Get Project Wallet Address</li>
+								<li onClick={this.handleFundProjectWallet}>Fund Project Wallet</li>
 							</ol>
 						</div>
 						<div className="col-md-6">
