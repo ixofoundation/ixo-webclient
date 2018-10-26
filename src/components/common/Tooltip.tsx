@@ -103,6 +103,8 @@ export const Tooltip: React.SFC<ParentProps> = ({text, icon, position, children}
 
 		p {
 			color: white;
+			margin: 0;
+			font-size: 12px;
 		}
 
 		:after {

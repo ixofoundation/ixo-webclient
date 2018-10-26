@@ -107,6 +107,7 @@ export class ProjectCreate extends React.Component<StateProps, State> {
 					let projectObj: string = this.state.projectJson;
 					this.props.keysafe.requestSigning(projectObj, (error: any, signature: any) => {
 						
+						console.log(projectObj);
 						this.props.ixo.project.createProject(JSON.parse(projectObj), signature, this.state.project.serviceEndpoint).then((res: any) => {
 							if (res.error) {
 								errorToast(res.error.message, ErrorTypes.message);

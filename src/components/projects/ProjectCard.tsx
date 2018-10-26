@@ -126,19 +126,30 @@ const StatusContainer = styled.div`
 	display: flex;
 	height: 40px;
 	justify-content: flex-end;
+	align-items: center;
+`;
+
+const StatusText = styled.p`
+	margin: 0;
+	font-size: 12px;
 `;
 
 const ProjectStatus = styled.div`
-	margin: 0;
-	font-size: 12px;
-
-	&.pending {
-		color: white;
-		background: ${props => props.theme.ixoOrange};
+	&.PENDING {
+		${StatusText} {
+			color: white;
+			font-weight: 400;
+			padding: 2px 10px;
+			border-radius: 2px;
+			background: ${props => props.theme.ixoOrange};
+			font-family: ${props => props.theme.fontRobotoCondensed};
+		}
 	}
 
-	&.completed {
-		color: #B6B6B6;
+	&.COMPLETED {
+		${StatusText} {
+			color: #B6B6B6;
+		}
 	}
 `;
 
@@ -213,7 +224,7 @@ export class ProjectCard extends React.Component<Props, States> {
 		return (
 			<ProjectStatus className={statusType}>
 				<Tooltip position={TooltipPositions.right} icon={false} text="project status" >
-					{statusType}
+					<StatusText>{statusType}</StatusText>
 				</Tooltip>
 			</ProjectStatus>
 		);

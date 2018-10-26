@@ -44,6 +44,13 @@ const BarContainer = styled.div`
 		top: -1px;
 		z-index: 1;
 	}
+
+	span {
+		font-size: 15px;
+		color: white;
+		font-weight: 400;
+		background: ${props => props.theme.ixoOrange};
+	}
 `;
 
 const Sidebar = styled.div`
@@ -353,11 +360,14 @@ export const ProjectOverview: React.SFC<ParentProps> = (props) => {
 						<div className="col-md-4">
 							<Sidebar>
 								<BarContainer>
-									<DarkBar
-										total={props.project.requiredClaims}
-										approved={props.project.claimStats.currentSuccessful}
-										rejected={props.project.claimStats.currentRejected}
-									/>
+									{props.projectStatus === 'CREATED' ? 
+										<span>PENDING</span> :
+										<DarkBar
+											total={props.project.requiredClaims}
+											approved={props.project.claimStats.currentSuccessful}
+											rejected={props.project.claimStats.currentRejected}
+										/>
+									}
 								</BarContainer>
 								{props.project.requiredClaims === 0 ?
 									<p style={{marginTop: '20px'}}>Project launching soon...</p>
