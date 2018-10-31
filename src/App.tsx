@@ -149,6 +149,11 @@ class App extends React.Component<App.Props, App.State> {
 			// console.log('did updated');
 			// console.log(data);
 		});
+
+		explorerSocket.on('did updated', function (data: any) {
+			// console.log('did updated');
+			// console.log(data);
+		});
 	}
 
 	handlePingExplorer = () => {

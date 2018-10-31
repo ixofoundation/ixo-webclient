@@ -55,20 +55,26 @@ export default class Web3Proxy implements IWeb3Proxy {
 		});
 	}
 
-	fundEthProjectWallet = (projectWalletAddress: string) => {
-		web3.eth.getAccounts().then((accounts: any) => {
+	fundEthProjectWallet(projectWalletAddress: string) {
+		return new Promise((resolve: any, reject: any) => {
+			web3.eth.getAccounts().then((accounts: any) => {
 
-			ixoERC20TokenContract.methods
-				.transfer(projectWalletAddress, '10000000000')
-				.send({
-					from: accounts[0]
-				})
-				.on('transactionHash', hash => {
-					console.log('TX hash: ' + hash);
-				})
-				.on('error', error => {
-					console.error(error);
-				});
+				if (accounts[0]!) {
+					ixoERC20TokenContract.methods
+						.transfer(projectWalletAddress, '10000000000')
+						.send({
+							from: accounts[0]
+						})
+						.on('transactionHash', hash => {
+							resolve(hash);
+						})
+						.on('error', error => {
+							reject(error);
+						});
+				} else {
+					console.log('please log into metamask');
+				}
+			});
 		});
 	}
 }

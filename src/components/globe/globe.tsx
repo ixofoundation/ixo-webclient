@@ -78,7 +78,7 @@ export class Globe extends React.Component<ParentProps, State> {
 					<Link to="/register">ENTER THE IXO WORLD</Link>
 					<a href="https://ixo.world">SUBSCRIBE TO OUR NEWSLETTER</a>
 				</TextBlock>
-				<iframe src={location.origin + ':3001'} />
+				<iframe src={location.protocol + '//' + location.hostname + ':3001'} />
 			</Container>
 		);
 	}

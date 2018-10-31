@@ -5,6 +5,8 @@ import { connect } from 'react-redux';
 import { deviceWidth } from '../../../lib/commonData';
 import { PublicSiteStoreState } from 'src/redux/public_site_reducer';
 import Web3Proxy from 'src/redux/web3/util/Web3Proxy';
+import * as Toast from '../../helpers/Toast';
+
 const FundingWrapper = styled.div`
 	position: sticky;
 	bottom:0;
@@ -133,26 +135,39 @@ const ButtonWrapper = styled.div`
 `;
 export interface ParentProps {
 	projectDid: string;
+	projectURL: string;
 }
 
 export interface State {
-
+	web3error: string;
 }
 
 export interface StateProps {
 	web3: any;
+	error: any;
+	ixo?: any;
+	keysafe?: any;
 }
 
 export interface Props extends ParentProps, StateProps {}
 export class Funding extends React.Component<Props, State> {
 
 	state = {
-
+		web3error: null
 	};
 
 	private accountBalance: any = null;
-	private projectWeb3 = new Web3Proxy(this.props.web3);
+	private projectWeb3 = null;
 	private projectWalletAddress: string = null;
+
+	componentDidMount() {
+		if (this.props.web3 === null) {
+			console.log(this.props);
+			this.setState({web3error : this.props.error});
+		} else {
+			this.projectWeb3 = new Web3Proxy(this.props.web3);
+		}
+	}
 
 	handleCheckBalance = () => {
 
@@ -182,30 +197,67 @@ export class Funding extends React.Component<Props, State> {
 
 	handleFundProjectWallet = async () => {
 		await this.handleGetProjectWalletAddres();
-		this.projectWeb3.fundEthProjectWallet(this.projectWalletAddress);
+		this.projectWeb3.fundEthProjectWallet(this.projectWalletAddress).then((txnHash) => {
+			const statusObj = {
+				projectDid: this.props.projectDid,
+				status: 'PENDING',
+				txnId: txnHash
+			};
+			this.handleUpdateProjectStatus(statusObj);
+		});
 	}
 
+	handleUpdateProjectStatus = (statusData) => {
+
+		this.props.keysafe.requestSigning(JSON.stringify(statusData), (error: any, signature: any) => {
+			if (!error) {
+				this.props.ixo.project.updateProjectStatus(statusData, signature, this.props.projectURL).then((res) => {
+					if (res.error !== undefined) {
+						Toast.errorToast(res.error.message);
+					} else {
+						Toast.successToast(`Successfully updated project status to funding`);
+					}
+				});
+			} else {
+				Toast.errorToast('PDS is not responding');
+			}
+		}, 'base64');
+	}
+
+	handleRenderGauge = () => {
+		if (this.state.web3error === null) {
+			return (
+				<React.Fragment>
+					<div>
+						<i className="icon-ixo-x" />
+						IXO 2698<span>/3000</span>
+					</div>
+					<p>fuel needed</p>
+				</React.Fragment>
+			);
+		} else {
+			return <h3>{this.state.web3error} and hit refresh</h3>;
+		}
+	}
 	render() {
 		return (
 			<FundingWrapper className="container-fluid">
 					<div className="row">
 						<div className="col-md-6">
-							<ol>
-								<li>SETUP</li>
-								<li className="active">FUEL</li>
-								<li onClick={this.handleCheckBalance}>Check balance</li>
-								<li onClick={this.handleCreateWallet}>Create Project Wallet</li>
-								<li onClick={this.handleGetProjectWalletAddres}>Get Project Wallet Address</li>
-								<li onClick={this.handleFundProjectWallet}>Fund Project Wallet</li>
-							</ol>
+							{this.projectWeb3 &&
+								<ol>
+									<li>SETUP</li>
+									<li className="active">FUEL</li>
+									<li onClick={this.handleCheckBalance}>Check balance</li>
+									<li onClick={this.handleCreateWallet}>Create Project Wallet</li>
+									<li onClick={this.handleGetProjectWalletAddres}>Get Project Wallet Address</li>
+									<li onClick={this.handleFundProjectWallet}>Fund Project Wallet</li>
+								</ol>
+							}
 						</div>
 						<div className="col-md-6">
 							<IxoGauge>
-								<div>
-									<i className="icon-ixo-x" />
-									IXO 2698<span>/3000</span>
-								</div>
-								<p>fuel needed</p>
+								{this.handleRenderGauge()}
 							</IxoGauge>
 							<ButtonWrapper>
 								<Button type={ButtonTypes.dark} disabled={true}><p>Launch your project</p> <i className="icon-down" /></Button>
@@ -220,7 +272,11 @@ export class Funding extends React.Component<Props, State> {
 function mapStateToProps(state: PublicSiteStoreState, ownProps: ParentProps) {
 	return {
 		web3: state.web3Store.web3,
-		projectDid: ownProps.projectDid
+		keysafe: state.keysafeStore.keysafe,
+		ixo: state.ixoStore.ixo,
+		projectDid: ownProps.projectDid,
+		projectURL: ownProps.projectURL,
+		error: state.web3Store.error
 	};
 }
 

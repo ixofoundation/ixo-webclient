@@ -5,7 +5,7 @@ import * as Web3 from 'web3';
 export function connectWeb3() {
 	return dispatch => {
 		let { web3 }: Web3 = window;
-		if (web3) {
+		if (web3 !== undefined) {
 			let myWeb3 = new Web3(web3.currentProvider);
 			
 			dispatch(
@@ -15,7 +15,12 @@ export function connectWeb3() {
 				})
 			);
 		} else {
-			console.error('Please use a web3 browser or extension such as MetaMask');
+			dispatch(
+				createAction<Web3Result>(WEB3_RESULT.type, {
+					web3: null,
+					error: 'Please install MetaMask'
+				})
+			);		
 		}
 	};
 }
