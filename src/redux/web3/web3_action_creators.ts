@@ -5,16 +5,37 @@ import * as Web3 from 'web3';
 export function connectWeb3() {
 	return dispatch => {
 		let { web3 }: Web3 = window;
-		if (web3 !== undefined) {
-			let myWeb3 = new Web3(web3.currentProvider);
-			
+		// @ts-ignore
+		if (window.ethereum) { // Modern dapp browsers...
+			// @ts-ignore
+			window.web3 = new Web3(ethereum);
+			try {
+				// @ts-ignore
+				ethereum.enable(); // Request account access if needed
+				// Acccounts now exposed
+				dispatch(
+					createAction<Web3Result>(WEB3_RESULT.type, {
+						// @ts-ignore
+						web3: window.web3,
+						error: {}
+					})
+				);
+			} catch (error) {
+				// User denied account access...
+			}
+			// @ts-ignore
+		} else if (window.web3) { // Legacy dapp browsers...
+			// @ts-ignore
+			window.web3 = new Web3(web3.currentProvider);
+			// Acccounts always exposed
 			dispatch(
 				createAction<Web3Result>(WEB3_RESULT.type, {
-					web3: myWeb3,
+					// @ts-ignore
+					web3: window.web3,
 					error: {}
 				})
 			);
-		} else {
+		}  else {
 			dispatch(
 				createAction<Web3Result>(WEB3_RESULT.type, {
 					web3: null,

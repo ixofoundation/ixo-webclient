@@ -213,9 +213,12 @@ export class ProjectCard extends React.Component<Props, States> {
 	projectStatus = () => {
 		let statusType: string = '';
 		let shouldShow: boolean = false;
+		let metaString: string = '';
+
 		if (this.props.status === 'CREATED') {
-			statusType = 'PENDING';
+			statusType = 'WAITING FOR FUNDS'; // 'PENDING'
 			shouldShow = true;
+			metaString = 'This projets is awaiting funds';
 		} else if (this.props.status === 'COMPLETED') {
 			statusType = 'COMPLETED';
 			shouldShow = true;
@@ -223,7 +226,7 @@ export class ProjectCard extends React.Component<Props, States> {
 		if (shouldShow === true) {
 		return (
 			<ProjectStatus className={statusType}>
-				<Tooltip position={TooltipPositions.right} icon={false} text="project status" >
+				<Tooltip position={TooltipPositions.right} icon={false} text={metaString} >
 					<StatusText>{statusType}</StatusText>
 				</Tooltip>
 			</ProjectStatus>
@@ -240,7 +243,7 @@ export class ProjectCard extends React.Component<Props, States> {
 	render() {
 		return (
 			<CardContainer className="col-10 offset-1 col-xl-4 col-md-6 col-sm-10 offset-sm-1 offset-md-0">
-				<ProjectLink to={{pathname: `/projects/${this.props.did}/overview`, state: { projectPublic: this.props.project, imageLink: this.getImageLink() } }}>
+				<ProjectLink to={{pathname: `/projects/${this.props.did}/overview`, state: { projectPublic: this.props.project, imageLink: this.getImageLink(), projectStatus: this.props.status } }}>
 					<CardTop style={{backgroundImage: `url(${this.getImageLink()}),url(${placeholder})`}}>
 						<SDGs>
 						{this.props.project.sdgs.map((SDG, SDGi) => {

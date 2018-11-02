@@ -6,6 +6,8 @@ import { deviceWidth } from '../../../lib/commonData';
 import { PublicSiteStoreState } from 'src/redux/public_site_reducer';
 import Web3Proxy from 'src/redux/web3/util/Web3Proxy';
 import * as Toast from '../../helpers/Toast';
+import { Web3Acc } from 'src/types/models/web3';
+import { FundingGauge } from './FundingGauge';
 
 const FundingWrapper = styled.div`
 	position: sticky;
@@ -70,41 +72,6 @@ const FundingWrapper = styled.div`
 	}
 `;
 
-const IxoGauge = styled.div`
-	font-family: ${props => props.theme.fontRobotoCondensed};
-	color: white;
-	font-size: 24px;
-	line-height: 26px;
-	font-weight: 400;
-	margin-right: 30px;
-
-	span {
-		color: ${props => props.theme.fontLightBlue};
-		font-weight: 300;
-	}
-
-	i:before {
-		position: relative;
-		top: 4px;
-		color: ${props => props.theme.ixoBlue};
-		font-size: 30px;
-	}
-
-	p {
-		margin: 0;
-		font-family: ${props => props.theme.fontRoboto};
-		color: white;
-		font-size: 15px;
-		line-height: 1.5;
-		text-align: right;
-	}
-
-	@media (min-width: ${deviceWidth.desktopLarge}px) {
-		font-size: 32px;
-	}
-
-`;
-
 const ButtonWrapper = styled.div`
 
 	a {
@@ -156,17 +123,39 @@ export class Funding extends React.Component<Props, State> {
 		web3error: null
 	};
 
-	private accountBalance: any = null;
+	private account: Web3Acc = {
+		address: null,
+		balance: null
+	};
 	private projectWeb3 = null;
 	private projectWalletAddress: string = null;
-
+	
 	componentDidMount() {
 		if (this.props.web3 === null) {
-			console.log(this.props);
 			this.setState({web3error : this.props.error});
+			
 		} else {
 			this.projectWeb3 = new Web3Proxy(this.props.web3);
+			setInterval( this.handleCheckAccount, 1000);
+			setInterval( this.handleCheckProvider, 1000);
 		}
+	}
+
+	handleCheckProvider = () => {
+		console.log('here', this.props.web3.currentProvider.isMetaMask === true);
+	}
+
+	handleCheckAccount = () => {
+		this.props.web3.eth.getAccounts((err: any, acc: any) => {
+			if (!err) {
+				if (acc[0]!) {
+					this.setState({ web3error: null});
+					this.account.address = acc[0];
+				} else {
+					this.setState({ web3error: 'SIGN IN TO METAMASK'});
+				}
+			}
+		});
 	}
 
 	handleCheckBalance = () => {
@@ -175,8 +164,7 @@ export class Funding extends React.Component<Props, State> {
 			if (!err) {
 				this.props.web3.eth.getBalance(acc[0], (error, balance) => {
 					if (!error) {
-						this.accountBalance = balance;
-						console.log(this.accountBalance);
+						this.account.balance = balance;
 					}
 				});
 			}
@@ -212,7 +200,7 @@ export class Funding extends React.Component<Props, State> {
 		this.props.keysafe.requestSigning(JSON.stringify(statusData), (error: any, signature: any) => {
 			if (!error) {
 				this.props.ixo.project.updateProjectStatus(statusData, signature, this.props.projectURL).then((res) => {
-					if (res.error !== undefined) {
+					if (res.error) {
 						Toast.errorToast(res.error.message);
 					} else {
 						Toast.successToast(`Successfully updated project status to funding`);
@@ -224,27 +212,27 @@ export class Funding extends React.Component<Props, State> {
 		}, 'base64');
 	}
 
-	handleRenderGauge = () => {
-		if (this.state.web3error === null) {
-			return (
-				<React.Fragment>
-					<div>
-						<i className="icon-ixo-x" />
-						IXO 2698<span>/3000</span>
-					</div>
-					<p>fuel needed</p>
-				</React.Fragment>
-			);
+	handleCompleteProject = async () => {
+		if (!this.projectWalletAddress!) {
+			console.log('need to retrieve address');
+			await this.handleGetProjectWalletAddres();
+			console.log('wallet is: ', this.projectWalletAddress);
+			const statusObj = {
+				projectDid: this.props.projectDid,
+				status: 'STOPPED'
+			};
+			this.handleUpdateProjectStatus(statusObj);
 		} else {
-			return <h3>{this.state.web3error} and hit refresh</h3>;
+			console.log(this.projectWalletAddress);
 		}
 	}
+
 	render() {
 		return (
 			<FundingWrapper className="container-fluid">
 					<div className="row">
 						<div className="col-md-6">
-							{this.projectWeb3 &&
+							{/* {this.projectWeb3 && */}
 								<ol>
 									<li>SETUP</li>
 									<li className="active">FUEL</li>
@@ -252,13 +240,12 @@ export class Funding extends React.Component<Props, State> {
 									<li onClick={this.handleCreateWallet}>Create Project Wallet</li>
 									<li onClick={this.handleGetProjectWalletAddres}>Get Project Wallet Address</li>
 									<li onClick={this.handleFundProjectWallet}>Fund Project Wallet</li>
+									<li onClick={this.handleCompleteProject}>Complete Project</li>
 								</ol>
-							}
+							{/* } */}
 						</div>
 						<div className="col-md-6">
-							<IxoGauge>
-								{this.handleRenderGauge()}
-							</IxoGauge>
+							<FundingGauge web3error={this.state.web3error} account={this.account}/>
 							<ButtonWrapper>
 								<Button type={ButtonTypes.dark} disabled={true}><p>Launch your project</p> <i className="icon-down" /></Button>
 							</ButtonWrapper>

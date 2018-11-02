@@ -33,6 +33,8 @@ const DarkBar = styled(ProgressBar)``;
 
 const BarContainer = styled.div`
 
+	text-align: right;
+
 	div {
 		height: 2px;
 		background-color: #033C50;
@@ -50,12 +52,17 @@ const BarContainer = styled.div`
 		color: white;
 		font-weight: 400;
 		background: ${props => props.theme.ixoOrange};
+		font-family: ${props => props.theme.fontRobotoCondensed};
+		padding: 0px 20px;
+		border-radius: 3px;
+		display: inline-flex;
+		margin-bottom: 14px;
 	}
 `;
 
 const Sidebar = styled.div`
 	background: ${props => props.theme.bg.gradientBlue};
-	padding: 24px 15px 15px;
+	padding: 14px 15px 15px;
 	box-shadow: 0px 15px 35px 0px rgba(0,0,0,0.35);
 	margin-bottom: 35px;
 
@@ -360,14 +367,12 @@ export const ProjectOverview: React.SFC<ParentProps> = (props) => {
 						<div className="col-md-4">
 							<Sidebar>
 								<BarContainer>
-									{props.projectStatus === 'CREATED' ? 
-										<span>PENDING</span> :
+									{props.projectStatus === 'CREATED' && <span>PENDING</span>}
 										<DarkBar
 											total={props.project.requiredClaims}
 											approved={props.project.claimStats.currentSuccessful}
 											rejected={props.project.claimStats.currentRejected}
 										/>
-									}
 								</BarContainer>
 								{props.project.requiredClaims === 0 ?
 									<p style={{marginTop: '20px'}}>Project launching soon...</p>
