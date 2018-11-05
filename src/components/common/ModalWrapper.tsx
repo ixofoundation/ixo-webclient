@@ -18,7 +18,8 @@ const modalStyles = {
 		overflow: 'auto',
 		maxHeight: '90vh',
 		padding: '0',
-		borderRadius: '2px'
+		borderRadius: '2px',
+		backgroundColor: 'black'
 	}
 };
 
@@ -80,6 +81,12 @@ const Line = styled.div`
 	height: 1px;
 `;
 
+const TitleContainer = styled.div`
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+`;
+
 interface ParentProps {
 	isModalOpen: boolean;
 	header?: Header;
@@ -107,10 +114,10 @@ export const ModalWrapper: React.SFC<Props> = (props) => {
 					{props.header.icon && <i className={`${props.header.icon}`} />}
 					{props.header.image && <img src={props.header.image} />}
 				</div>
-					<div>
+					<TitleContainer>
 						<h3>{props.header.title}</h3>
 						{props.header.subtitle && <p>{props.header.subtitle}</p>}
-					</div>
+					</TitleContainer>
 				</FlexContainer>
 				<Line />
 			</React.Fragment>

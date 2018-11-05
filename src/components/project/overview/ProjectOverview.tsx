@@ -210,6 +210,10 @@ const LocalButton = styled.a`
 	}
 `;
 
+const BlueBold = styled.strong`
+	color: ${props => props.theme.ixoBlue};
+`;
+
 export interface ParentProps {
 	userInfo: UserInfo;
 	project: any;
@@ -286,11 +290,17 @@ export const ProjectOverview: React.SFC<ParentProps> = (props) => {
 
 	const handleRenderFuelButton = () => {
 
+		let content = (
+			<Fragment>
+				<p>Interested in funding the <BlueBold>{props.project.title}</BlueBold>?<br/>
+				Please contact the project founder below</p> <br/>
+				<Button type={ButtonTypes.dark} href={'mailto:donnierisk@gmail.com'}>GET IN CONTACT</Button>
+			</Fragment>
+		);
 		const modalData = {
-				title: 'FUEL1',
-				subtitle: 'TESTT2',
-				icon: 'icon-modal',
-				content: 'YEEEE3'
+				title: 'HELP FUEL THIS PROJECT',
+				icon: 'icon-ixo-x',
+				content: content
 		};
 
 		return (
