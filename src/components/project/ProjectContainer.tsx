@@ -619,12 +619,17 @@ export class ProjectContainer extends React.Component<Props, State> {
 		return (
 			<Fragment>
 				{theContent}
-				<FundingContainer projectDid={this.state.projectDid} projectURL={this.state.projectPublic.serviceEndpoint} />
+				<FundingContainer 
+					projectIxoRequired={this.state.projectPublic.requiredClaims * this.state.projectPublic.evaluatorPayPerClaim}
+					projectDid={this.state.projectDid}
+					projectURL={this.state.projectPublic.serviceEndpoint}
+				/>
 			</Fragment>
 		);
 	}
 
 	render() {
+		console.log(this.state.projectPublic);
 		return (
 			<Fragment>
 				{(this.state.projectPublic === null || this.state.userRoles === null) ?

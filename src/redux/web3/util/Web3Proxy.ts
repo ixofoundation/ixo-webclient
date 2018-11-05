@@ -55,15 +55,31 @@ export default class Web3Proxy implements IWeb3Proxy {
 		});
 	}
 
-	fundEthProjectWallet(projectWalletAddress: string) {
+	getIxoBalance = (account: string) => {
+		return new Promise((resolve, reject) => {
+			ixoERC20TokenContract.methods
+				.balanceOf(account)
+				.call({
+					from: account
+				})
+				.then(result => {
+					resolve(result);
+				})
+				.catch(error => {
+					reject(error);
+				});
+		});
+	}
+
+	fundEthProjectWallet(projectWalletAddress: string, account: string) {
 		return new Promise((resolve: any, reject: any) => {
 			web3.eth.getAccounts().then((accounts: any) => {
 
-				if (accounts[0]!) {
+				if (account!) {
 					ixoERC20TokenContract.methods
-						.transfer(projectWalletAddress, '10000000000')
+						.transfer(projectWalletAddress, '2') // this should be the amount of ixo you want to send plus 8 zeros
 						.send({
-							from: accounts[0]
+							from: account
 						})
 						.on('transactionHash', hash => {
 							resolve(hash);

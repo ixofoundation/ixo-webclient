@@ -239,17 +239,22 @@ export const ProjectOverview: React.SFC<ParentProps> = (props) => {
 	};
 
 	const renderModal = (data: any) => {
-		let userName = '';
-		if (props.userInfo) {
-			userName = props.userInfo.name.valueOf();
+
+		if (props.modalData.selectedRole!) {
+			let userName = '';
+			if (props.userInfo) {
+				userName = props.userInfo.name.valueOf();
+			}
+			return (
+				<ProjectNewAgent
+					submitAgent={submitAgent}
+					role={data.selectedRole}
+					name={userName}
+				/>
+			);
+		} else {
+			return props.modalData.content;
 		}
-		return (
-			<ProjectNewAgent
-				submitAgent={submitAgent}
-				role={data.selectedRole}
-				name={userName}
-			/>
-		);
 	};
 
 	const titleMap = {
@@ -262,22 +267,41 @@ export const ProjectOverview: React.SFC<ParentProps> = (props) => {
 		return titleMap[role];
 	};
 
-	const handleRenderInvestorButton = () => {
-		// Dont render the button if there is no userInfo or the user already is an investor
-		// This is disabled for now
-		// if (props.userInfo == null || props.hasCapability([AgentRoles.investors])) {
-			// return <Button type={ButtonTypes.dark} disabled={true}>You are an investor</Button>;
-		// } else {
-		// 	return (
-		// 	<Button
-		// 		type={ButtonTypes.dark}
-		// 		disabled={false}
-		// 		onClick={() => props.toggleModal({selectedRole: AgentRoles.investors}, true)}
-		// 	>Invest in this Project
-		// 	</Button>
-		// 	);
-		// }
-		return '';
+	const renderModalHeader = () => {
+
+		if (props.modalData.selectedRole!) {
+			return ({
+				title: props.project.title,
+				subtitle: renderSubtitle(props.modalData.selectedRole),
+				icon: 'icon-modal'
+			});
+		} else {
+			return ({
+				title: props.modalData.title,
+				subtitle: props.modalData.subtitle,
+				icon: props.modalData.icon
+			});
+		}
+	};
+
+	const handleRenderFuelButton = () => {
+
+		const modalData = {
+				title: 'FUEL1',
+				subtitle: 'TESTT2',
+				icon: 'icon-modal',
+				content: 'YEEEE3'
+		};
+
+		return (
+			<Button
+				type={ButtonTypes.dark}
+				disabled={false}
+				onClick={() => props.toggleModal(modalData, true)}
+			>
+				HELP FUEL THIS PROJECT
+			</Button>
+		);
 	};
 
 	const handleRenderEvaluatorButton = () => {
@@ -341,11 +365,7 @@ export const ProjectOverview: React.SFC<ParentProps> = (props) => {
 			<ModalWrapper
 				isModalOpen={props.isModalOpen}
 				handleToggleModal={() => props.toggleModal({})}
-				header={{
-					title: props.project.title,
-					subtitle: renderSubtitle(props.modalData.selectedRole),
-					icon: 'icon-modal'
-				}}
+				header={renderModalHeader()}
 			>
 				{renderModal(props.modalData)}
 			</ModalWrapper>
@@ -393,7 +413,7 @@ export const ProjectOverview: React.SFC<ParentProps> = (props) => {
 										);
 									})}
 								</div>
-								{handleRenderInvestorButton()}
+								{handleRenderFuelButton()}
 								{handleRenderEvaluatorButton()}
 								{handleRenderServiceProviderButton()}
 							</Sidebar>

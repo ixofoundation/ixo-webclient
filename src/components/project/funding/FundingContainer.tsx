@@ -103,6 +103,7 @@ const ButtonWrapper = styled.div`
 export interface ParentProps {
 	projectDid: string;
 	projectURL: string;
+	projectIxoRequired: number;
 }
 
 export interface State {
@@ -137,12 +138,7 @@ export class Funding extends React.Component<Props, State> {
 		} else {
 			this.projectWeb3 = new Web3Proxy(this.props.web3);
 			setInterval( this.handleCheckAccount, 1000);
-			setInterval( this.handleCheckProvider, 1000);
 		}
-	}
-
-	handleCheckProvider = () => {
-		console.log('here', this.props.web3.currentProvider.isMetaMask === true);
 	}
 
 	handleCheckAccount = () => {
@@ -151,6 +147,7 @@ export class Funding extends React.Component<Props, State> {
 				if (acc[0]!) {
 					this.setState({ web3error: null});
 					this.account.address = acc[0];
+					this.handleCheckIxoBalance();
 				} else {
 					this.setState({ web3error: 'SIGN IN TO METAMASK'});
 				}
@@ -158,7 +155,7 @@ export class Funding extends React.Component<Props, State> {
 		});
 	}
 
-	handleCheckBalance = () => {
+	handleCheckEthBalance = () => {
 
 		this.props.web3.eth.getAccounts((err: any, acc: any) => {
 			if (!err) {
@@ -168,6 +165,13 @@ export class Funding extends React.Component<Props, State> {
 					}
 				});
 			}
+		});
+	}
+
+	handleCheckIxoBalance = () => {
+
+		this.projectWeb3.getIxoBalance(this.account.address).then((balance) => {
+			this.account.balance = balance;
 		});
 	}
 
@@ -185,7 +189,7 @@ export class Funding extends React.Component<Props, State> {
 
 	handleFundProjectWallet = async () => {
 		await this.handleGetProjectWalletAddres();
-		this.projectWeb3.fundEthProjectWallet(this.projectWalletAddress).then((txnHash) => {
+		this.projectWeb3.fundEthProjectWallet(this.projectWalletAddress, this.account.address).then((txnHash) => {
 			const statusObj = {
 				projectDid: this.props.projectDid,
 				status: 'PENDING',
@@ -236,7 +240,7 @@ export class Funding extends React.Component<Props, State> {
 								<ol>
 									<li>SETUP</li>
 									<li className="active">FUEL</li>
-									<li onClick={this.handleCheckBalance}>Check balance</li>
+									<li onClick={this.handleCheckIxoBalance}>Check IXO balance</li>
 									<li onClick={this.handleCreateWallet}>Create Project Wallet</li>
 									<li onClick={this.handleGetProjectWalletAddres}>Get Project Wallet Address</li>
 									<li onClick={this.handleFundProjectWallet}>Fund Project Wallet</li>
@@ -245,7 +249,7 @@ export class Funding extends React.Component<Props, State> {
 							{/* } */}
 						</div>
 						<div className="col-md-6">
-							<FundingGauge web3error={this.state.web3error} account={this.account}/>
+							<FundingGauge web3error={this.state.web3error} account={this.account} requiredIxo={this.props.projectIxoRequired} />
 							<ButtonWrapper>
 								<Button type={ButtonTypes.dark} disabled={true}><p>Launch your project</p> <i className="icon-down" /></Button>
 							</ButtonWrapper>
@@ -263,6 +267,7 @@ function mapStateToProps(state: PublicSiteStoreState, ownProps: ParentProps) {
 		ixo: state.ixoStore.ixo,
 		projectDid: ownProps.projectDid,
 		projectURL: ownProps.projectURL,
+		projectIxoRequired: ownProps.projectIxoRequired,
 		error: state.web3Store.error
 	};
 }

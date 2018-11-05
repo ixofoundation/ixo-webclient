@@ -2,6 +2,9 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { deviceWidth } from 'src/lib/commonData';
 import { Web3Acc } from 'src/types/models/web3';
+import { Fragment } from 'react';
+
+const MetaMaskLogo = require('../../../assets/images/metamask.svg');
 
 const IxoGauge = styled.div`
 	font-family: ${props => props.theme.fontRobotoCondensed};
@@ -10,6 +13,7 @@ const IxoGauge = styled.div`
 	line-height: 26px;
 	font-weight: 400;
 	margin-right: 30px;
+	min-width: 215px;
 
 	span {
 		color: ${props => props.theme.fontLightBlue};
@@ -38,26 +42,59 @@ const IxoGauge = styled.div`
 
 `;
 
+const ErrorWrapper = styled.div`
+	display: flex;
+	align-items: center;
+
+	h3 {
+		text-transform: uppercase;
+		font-size: 19px;
+		font-family: ${props => props.theme.fontRobotoCondensed};
+		margin: 0;
+		line-height: 1.1;
+	}
+
+	p {
+		margin: 0;
+		text-align: left;
+		line-height: 1.1;
+	}
+
+	img {
+		margin: 0 15px 0 5px;
+	}
+`;
 export interface ParentProps {
 	web3error: string;
 	account: Web3Acc;
+	requiredIxo: number;
 }
 
 export const FundingGauge: React.SFC<ParentProps> = (props) => {
 
 	function handleRenderGauge() {
 		if (props.web3error) {
-			return <h3>{props.web3error}</h3>;
+			return (
+				<ErrorWrapper>
+					<div>
+						<img src={MetaMaskLogo} />
+					</div>
+					<div>
+						<h3>{props.web3error}</h3>
+						<p>to fuel your project</p>
+					</div>
+				</ErrorWrapper>
+			);
 		}
 		if (props.account.address!) {
 			return (
-				<React.Fragment>
+				<Fragment>
 					<div>
 						<i className="icon-ixo-x" />
-						IXO 2698<span>/3000</span>
+						IXO {(props.account.balance / 100000000).toFixed(8)}<span>/{props.requiredIxo}</span>
 					</div>
 					<p>fuel needed</p>
-				</React.Fragment>
+				</Fragment>
 			);
 		} else {
 			return null;

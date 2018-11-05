@@ -57,7 +57,7 @@
     "dev": "react-scripts-ts start",
     "build": "react-scripts-ts build",
     "start": "react-scripts-ts build && serve -s build",
-    "parallel-start": "parallelshell 'serve build -s -l 5000' 'serve build/ixoearth -s -l 3001'"
+    "parallel-start": "parallelshell 'serve build -s -l 80' 'serve build/ixoearth -s -l 3001'"
   },
   "devDependencies": {
     "@types/node": "^9.6.23",
