@@ -1,13 +1,12 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { Button, ButtonTypes } from 'src/components/common/Buttons';
 import { connect } from 'react-redux';
-import { deviceWidth } from '../../../lib/commonData';
 import { PublicSiteStoreState } from 'src/redux/public_site_reducer';
 import Web3Proxy from 'src/redux/web3/util/Web3Proxy';
 import * as Toast from '../../helpers/Toast';
 import { Web3Acc } from 'src/types/models/web3';
 import { FundingGauge } from './FundingGauge';
+import { FundingButton } from './FundingButton';
 
 const FundingWrapper = styled.div`
 	position: sticky;
@@ -72,34 +71,6 @@ const FundingWrapper = styled.div`
 	}
 `;
 
-const ButtonWrapper = styled.div`
-
-	a {
-		display: flex;
-		justify-content: center;
-		flex-direction: row;
-		width: 240px;	
-		position: relative;
-		font-size: 15px;
-		margin-bottom: 0;
-		p {
-			margin: 0;
-		}
-		
-		i {
-			right: 20px;
-			transform: rotate(-90deg);
-			position: absolute;
-			top: 14px;
-			font-size: 12px;
-			font-weight: bold;
-		}
-
-		@media (min-width: ${deviceWidth.desktopLarge}px) {
-			width: 290px;	
-		}
-	}
-`;
 export interface ParentProps {
 	projectDid: string;
 	projectURL: string;
@@ -108,6 +79,7 @@ export interface ParentProps {
 
 export interface State {
 	web3error: string;
+	projectWalletAddress: string;
 }
 
 export interface StateProps {
@@ -121,7 +93,8 @@ export interface Props extends ParentProps, StateProps {}
 export class Funding extends React.Component<Props, State> {
 
 	state = {
-		web3error: null
+		web3error: null,
+		projectWalletAddress: null
 	};
 
 	private account: Web3Acc = {
@@ -129,7 +102,6 @@ export class Funding extends React.Component<Props, State> {
 		balance: null
 	};
 	private projectWeb3 = null;
-	private projectWalletAddress: string = null;
 	
 	componentDidMount() {
 		if (this.props.web3 === null) {
@@ -137,7 +109,7 @@ export class Funding extends React.Component<Props, State> {
 			
 		} else {
 			this.projectWeb3 = new Web3Proxy(this.props.web3);
-			setInterval( this.handleCheckAccount, 1000);
+			setInterval( this.handleCheckAccount, 3000);
 		}
 	}
 
@@ -148,6 +120,7 @@ export class Funding extends React.Component<Props, State> {
 					this.setState({ web3error: null});
 					this.account.address = acc[0];
 					this.handleCheckIxoBalance();
+					this.handleGetProjectWalletAddres();
 				} else {
 					this.setState({ web3error: 'SIGN IN TO METAMASK'});
 				}
@@ -181,7 +154,7 @@ export class Funding extends React.Component<Props, State> {
 
 	handleGetProjectWalletAddres = async () => {
 		try {
-			this.projectWalletAddress = await this.projectWeb3.getProjectWalletAddress(this.props.projectDid);
+			this.setState({projectWalletAddress : await this.projectWeb3.getProjectWalletAddress(this.props.projectDid)});
 		} catch {
 			console.log('couldnt retrieve wallet address');
 		}
@@ -189,7 +162,7 @@ export class Funding extends React.Component<Props, State> {
 
 	handleFundProjectWallet = async () => {
 		await this.handleGetProjectWalletAddres();
-		this.projectWeb3.fundEthProjectWallet(this.projectWalletAddress, this.account.address).then((txnHash) => {
+		this.projectWeb3.fundEthProjectWallet(this.state.projectWalletAddress, this.account.address).then((txnHash) => {
 			const statusObj = {
 				projectDid: this.props.projectDid,
 				status: 'PENDING',
@@ -217,17 +190,17 @@ export class Funding extends React.Component<Props, State> {
 	}
 
 	handleCompleteProject = async () => {
-		if (!this.projectWalletAddress!) {
+		if (!this.state.projectWalletAddress!) {
 			console.log('need to retrieve address');
 			await this.handleGetProjectWalletAddres();
-			console.log('wallet is: ', this.projectWalletAddress);
+			console.log('wallet is: ', this.state.projectWalletAddress);
 			const statusObj = {
 				projectDid: this.props.projectDid,
 				status: 'STOPPED'
 			};
 			this.handleUpdateProjectStatus(statusObj);
 		} else {
-			console.log(this.projectWalletAddress);
+			console.log(this.state.projectWalletAddress);
 		}
 	}
 
@@ -236,23 +209,23 @@ export class Funding extends React.Component<Props, State> {
 			<FundingWrapper className="container-fluid">
 					<div className="row">
 						<div className="col-md-6">
-							{/* {this.projectWeb3 && */}
-								<ol>
-									<li>SETUP</li>
-									<li className="active">FUEL</li>
-									<li onClick={this.handleCheckIxoBalance}>Check IXO balance</li>
-									<li onClick={this.handleCreateWallet}>Create Project Wallet</li>
-									<li onClick={this.handleGetProjectWalletAddres}>Get Project Wallet Address</li>
-									<li onClick={this.handleFundProjectWallet}>Fund Project Wallet</li>
-									<li onClick={this.handleCompleteProject}>Complete Project</li>
-								</ol>
-							{/* } */}
+							<ol>
+								<li>SETUP</li>
+								<li className="active">FUEL</li>
+								<li onClick={this.handleCheckIxoBalance}>Check IXO balance</li>
+								<li onClick={this.handleCreateWallet}>Create Project Wallet</li>
+								<li onClick={this.handleGetProjectWalletAddres}>Get Project Wallet Address</li>
+								<li onClick={this.handleFundProjectWallet}>Fund Project Wallet</li>
+								<li onClick={this.handleCompleteProject}>Complete Project</li>
+							</ol>
 						</div>
 						<div className="col-md-6">
 							<FundingGauge web3error={this.state.web3error} account={this.account} requiredIxo={this.props.projectIxoRequired} />
-							<ButtonWrapper>
-								<Button type={ButtonTypes.dark} disabled={true}><p>Launch your project</p> <i className="icon-down" /></Button>
-							</ButtonWrapper>
+							<FundingButton 
+								projectWalletAddress={this.state.projectWalletAddress}
+								account={this.account}
+								createProjectWallet={this.handleCreateWallet}
+							/>
 						</div>
 					</div>
 			</FundingWrapper>

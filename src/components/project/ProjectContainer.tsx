@@ -629,7 +629,6 @@ export class ProjectContainer extends React.Component<Props, State> {
 	}
 
 	render() {
-		console.log(this.state.projectPublic);
 		return (
 			<Fragment>
 				{(this.state.projectPublic === null || this.state.userRoles === null) ?
