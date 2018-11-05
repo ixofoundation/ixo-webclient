@@ -80,6 +80,7 @@ export interface ParentProps {
 export interface State {
 	web3error: string;
 	projectWalletAddress: string;
+	account: Web3Acc;
 }
 
 export interface StateProps {
@@ -94,13 +95,13 @@ export class Funding extends React.Component<Props, State> {
 
 	state = {
 		web3error: null,
-		projectWalletAddress: null
+		projectWalletAddress: null,
+		account: {
+			address: null,
+			balance: null
+		}
 	};
 
-	private account: Web3Acc = {
-		address: null,
-		balance: null
-	};
 	private projectWeb3 = null;
 	
 	componentDidMount() {
@@ -117,8 +118,13 @@ export class Funding extends React.Component<Props, State> {
 		this.props.web3.eth.getAccounts((err: any, acc: any) => {
 			if (!err) {
 				if (acc[0]!) {
-					this.setState({ web3error: null});
-					this.account.address = acc[0];
+
+					let tempAcc = Object.assign({}, this.state.account);
+					tempAcc.address = acc[0];
+					this.setState({ 
+						web3error: null,
+						account: tempAcc
+					});
 					this.handleCheckIxoBalance();
 					this.handleGetProjectWalletAddres();
 				} else {
@@ -126,6 +132,7 @@ export class Funding extends React.Component<Props, State> {
 				}
 			}
 		});
+		console.log(this.state);
 	}
 
 	handleCheckEthBalance = () => {
@@ -134,7 +141,12 @@ export class Funding extends React.Component<Props, State> {
 			if (!err) {
 				this.props.web3.eth.getBalance(acc[0], (error, balance) => {
 					if (!error) {
-						this.account.balance = balance;
+						let tempAcc = Object.assign({}, this.state.account);
+						tempAcc.balance = balance;
+						this.setState({ 
+							web3error: null,
+							account: tempAcc
+						});
 					}
 				});
 			}
@@ -143,8 +155,13 @@ export class Funding extends React.Component<Props, State> {
 
 	handleCheckIxoBalance = () => {
 
-		this.projectWeb3.getIxoBalance(this.account.address).then((balance) => {
-			this.account.balance = balance;
+		this.projectWeb3.getIxoBalance(this.state.account.address).then((balance) => {
+			let tempAcc = Object.assign({}, this.state.account);
+			tempAcc.balance = balance;
+			this.setState({ 
+				web3error: null,
+				account: tempAcc
+			});
 		});
 	}
 
@@ -162,7 +179,7 @@ export class Funding extends React.Component<Props, State> {
 
 	handleFundProjectWallet = async () => {
 		await this.handleGetProjectWalletAddres();
-		this.projectWeb3.fundEthProjectWallet(this.state.projectWalletAddress, this.account.address).then((txnHash) => {
+		this.projectWeb3.fundEthProjectWallet(this.state.projectWalletAddress, this.state.account.address).then((txnHash) => {
 			const statusObj = {
 				projectDid: this.props.projectDid,
 				status: 'PENDING',
@@ -220,10 +237,10 @@ export class Funding extends React.Component<Props, State> {
 							</ol>
 						</div>
 						<div className="col-md-6">
-							<FundingGauge web3error={this.state.web3error} account={this.account} requiredIxo={this.props.projectIxoRequired} />
+							<FundingGauge web3error={this.state.web3error} account={this.state.account} requiredIxo={this.props.projectIxoRequired} />
 							<FundingButton 
 								projectWalletAddress={this.state.projectWalletAddress}
-								account={this.account}
+								account={this.state.account}
 								createProjectWallet={this.handleCreateWallet}
 							/>
 						</div>
