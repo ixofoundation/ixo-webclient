@@ -121,10 +121,10 @@ export const Tooltip: React.SFC<ParentProps> = ({text, icon, position, children}
 		position: relative;
 		${(icon! && icon === true) && 'width: 20px;height:20px;'}
 
-		i {
+		> i {
 			font-size: 20px;
 			
-			:before {
+			> :before {
 				color: grey;
 			}
 		}

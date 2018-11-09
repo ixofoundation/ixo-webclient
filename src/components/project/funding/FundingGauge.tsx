@@ -91,7 +91,7 @@ export const FundingGauge: React.SFC<ParentProps> = (props) => {
 				<Fragment>
 					<div>
 						<i className="icon-ixo-x" />
-						IXO {(props.account.balance / 100000000).toFixed(8)}<span>/{props.requiredIxo}</span>
+						{(props.account.balance / 100000000).toFixed(2)}<span>/{props.requiredIxo} IXO</span>
 					</div>
 					<p>fuel needed</p>
 				</Fragment>

@@ -5,12 +5,15 @@ import { deviceWidth } from '../../lib/commonData';
 import { getIxoWorldRoute } from '../../utils/formatters';
 
 const ixoLogo = require('../../assets/images/ixo-logo.svg');
+const tcs = require('../../assets/legal/terms-and-conditions.pdf');
+const privacypolicy = require('../../assets/legal/privacy-policy.pdf');
 
 const ExternalFooterLink = styled.a`
 	font-family: ${props => props.theme.fontRobotoRegular};
 	color: white;
 	margin: 0;
-	font-size: 12px;
+	font-size: 13px;
+    font-weight: 400;
 	border: 1px solid #000000;
 	border-radius:3px;
 	margin:0 10px;
@@ -25,7 +28,7 @@ const ExternalFooterLink = styled.a`
 	@media (min-width: ${deviceWidth.tablet}px) {
 		padding:10px 20px 10px;
 		margin:0 10px;
-		font-size:13px;
+		font-size:15px;
 	}
 
 	transition:border 0.3s ease;
@@ -51,12 +54,38 @@ const FooterText = styled.div`
 	font-family: Roboto;
 	font-size: 14px;
 	line-height: 19px;
+
+	a {
+		font-weight: 400;
+	}
+	p {
+		font-size: 13px;
+		color: #808080;
+		display: block;
+		font-weight: 400;
+	}
 `;
 
 const Main = styled.div`
 	display: flex;
     flex-direction: column;
     justify-content: space-between;
+`;
+
+const ByLine = styled.div`
+	a {
+		color: #808080;
+	}
+
+	a:hover {
+		color: white;
+	}
+
+	a:before {
+		content: "|";
+		margin: 0 15px;
+		color: #808080;
+	}
 `;
 
 export const FooterLeft: React.SFC<any> = ({simple}) => {
@@ -69,16 +98,20 @@ export const FooterLeft: React.SFC<any> = ({simple}) => {
 				</MediaQuery>
 				<ExternalFooterLink href={getIxoWorldRoute('/about')}>About</ExternalFooterLink>
 				<ExternalFooterLink href={getIxoWorldRoute('/membership')}>Membership</ExternalFooterLink>
+				<ExternalFooterLink href={getIxoWorldRoute('/subscribe')}>Subscribe</ExternalFooterLink>
 				<ExternalFooterLink href={getIxoWorldRoute('/ecosystem')}>Ecosystem</ExternalFooterLink>
 				<ExternalFooterLink target="_blank" href="https://ixo.foundation">ixo.Foundation</ExternalFooterLink>
 				{/* <FooterLink exact={true} to="/">Oracles</FooterLink> */}
 				{/* <FooterLink exact={true} to="/">Plans / Pricing</FooterLink> */}
 			</div>
 			<div className="row">
-				<FooterText className="col-md-10">
+			<FooterText className="col-md-10">
 					<div className="row">
-						Email:<a href="mailto:info@ixo.world"><FooterTextBlue>&nbsp;info@ixo.world</FooterTextBlue></a>
+						<a href="mailto:info@ixo.world"><FooterTextBlue>info@ixo.world</FooterTextBlue></a>
 					</div>
+					<ByLine className="row">
+						<p>ixo.world AG, Heiligkreuz 6, 9490 Vaduz, Liechtenstein <a href={tcs} target="_blank">Terms &amp; conditions</a> <a href={privacypolicy} target="_blank">Privacy policy</a></p>
+					</ByLine>
 				</FooterText>
 			</div>
 		</Main>

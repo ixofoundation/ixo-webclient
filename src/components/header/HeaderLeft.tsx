@@ -6,41 +6,6 @@ import { getIxoWorldRoute } from '../../utils/formatters';
 
 const ixoLogo = require('../../assets/images/ixo-logo.svg');
 
-// const HeaderLinkBorder = styled(NavLink)`
-// 	font-family: ${props => props.theme.fontRobotoCondensed};
-//     padding: 10px 10px 10px;
-//     color: white;
-//     text-transform: uppercase;
-//     margin: 0;
-// 	font-size: 13px;
-// 	border: 1px solid #000000;
-// 	border-radius:3px;
-	
-// 	:last-child {
-// 		border:1px solid #49bfe0;
-// 	}
-
-// 	:hover {
-// 		text-decoration:none;
-// 		color: ${props => props.theme.fontBlue};
-// 	}
-
-// 	&:last-child.active {
-// 		background: ${props => props.theme.bg.gradientButton};
-// 		color:white;
-// 	}
-
-//     transition: border 0.3s ease;
-
-// 	@media (min-width: 415px) {
-// 		padding:10px 20px 10px;
-// 		margin:0 10px;
-// 		font-size:15px;
-// 	}
-
-// 	transition:border 0.3s ease;
-// `;
-
 const HeaderLink = styled(NavLink)`
 	color: white;
 	font-family: ${props => props.theme.fontRobotoCondensed};

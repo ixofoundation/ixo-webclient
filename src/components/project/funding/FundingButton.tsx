@@ -3,6 +3,7 @@ import { Button, ButtonTypes } from 'src/components/common/Buttons';
 import { deviceWidth } from '../../../lib/commonData';
 import styled from 'styled-components';
 import { Web3Acc } from 'src/types/models/web3';
+import { Spinner } from 'src/components/common/Spinner';
 
 const ButtonWrapper = styled.div`
 
@@ -35,6 +36,7 @@ const ButtonWrapper = styled.div`
 
 export interface ParentProps {
 	projectWalletAddress: string;
+	requiredIxo: number;
 	account: Web3Acc;
 	createProjectWallet: () => void;
 }
@@ -42,7 +44,7 @@ export interface ParentProps {
 export const FundingButton: React.SFC<ParentProps> = (props) => {
 
 	if (props.projectWalletAddress === null) {
-		return null;
+		return <Spinner info="" />;
 	}
 	if (props.projectWalletAddress === '0x0000000000000000000000000000000000000000') {
 		return (
@@ -51,9 +53,16 @@ export const FundingButton: React.SFC<ParentProps> = (props) => {
 			</ButtonWrapper>
 		);
 	}
+	if (props.account.balance >= props.requiredIxo) {
+		return (
+			<ButtonWrapper>
+				<Button type={ButtonTypes.dark} ><p>ADD FUEL</p> <i className="icon-down" /></Button>
+			</ButtonWrapper>
+		);
+	}
 	return (
 		<ButtonWrapper>
-			<Button type={ButtonTypes.dark} disabled={true}><p>Launch your project</p> <i className="icon-down" /></Button>
+			<Button type={ButtonTypes.dark} disabled={true}><p>ADD FUEL</p> <i className="icon-down" /></Button>
 		</ButtonWrapper>
 	);
 };

@@ -210,7 +210,6 @@ If not, please send us an email, telling us a little about the project you would
 		// If the user has a keysafe and but the hasKeySafe not set then set state
 		if (this.props.keysafe && !this.state.hasKeySafe) {
 			this.props.keysafe.getDidDoc((error, response) => {
-				console.log('retrieved details');
 				if (error) {
 					console.log(error);
 					if (this.state.toastShown === false) {
@@ -231,6 +230,7 @@ If not, please send us an email, telling us a little about the project you would
 		if (this.props.ixo && this.state.didDoc && !this.state.isDidLedgered) {
 			let ledgerDid = () => this.ledgerDid();
 			this.props.ixo.user.getDidDoc(this.state.didDoc.did).then((didResponse: any) => {
+				console.log('the user info is: ', didResponse);
 				if (didResponse.did) {
 					if (didResponse.credentials.length === 0) {
 						// Has no KYC Credential (Should look at the detail here, but right now we only have one type of credential)

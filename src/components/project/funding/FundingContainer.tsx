@@ -7,6 +7,8 @@ import * as Toast from '../../helpers/Toast';
 import { Web3Acc } from 'src/types/models/web3';
 import { FundingGauge } from './FundingGauge';
 import { FundingButton } from './FundingButton';
+import { Fragment } from 'react';
+// import { ModalWrapper } from 'src/components/common/ModalWrapper';
 
 const FundingWrapper = styled.div`
 	position: sticky;
@@ -132,7 +134,6 @@ export class Funding extends React.Component<Props, State> {
 				}
 			}
 		});
-		console.log(this.state);
 	}
 
 	handleCheckEthBalance = () => {
@@ -221,31 +222,53 @@ export class Funding extends React.Component<Props, State> {
 		}
 	}
 
+	// renderModalHeader = () => {
+	// 	return ({
+	// 		title: props.modalData.title,
+	// 		subtitle: props.modalData.subtitle,
+	// 		icon: props.modalData.icon
+	// 	});
+	// }
+
+	// renderModal = (data: any) => {
+	// 	return props.modalData.content;
+	// }
+
 	render() {
 		return (
-			<FundingWrapper className="container-fluid">
-					<div className="row">
-						<div className="col-md-6">
-							<ol>
-								<li>SETUP</li>
-								<li className="active">FUEL</li>
-								<li onClick={this.handleCheckIxoBalance}>Check IXO balance</li>
-								<li onClick={this.handleCreateWallet}>Create Project Wallet</li>
-								<li onClick={this.handleGetProjectWalletAddres}>Get Project Wallet Address</li>
-								<li onClick={this.handleFundProjectWallet}>Fund Project Wallet</li>
-								<li onClick={this.handleCompleteProject}>Complete Project</li>
-							</ol>
+			<Fragment>
+				{/* <ModalWrapper
+					isModalOpen={props.isModalOpen}
+					handleToggleModal={() => props.toggleModal({})}
+					header={renderModalHeader()}
+				>
+					{renderModal(props.modalData)}
+				</ModalWrapper> */}
+				<FundingWrapper className="container-fluid">
+						<div className="row">
+							<div className="col-md-6">
+								<ol>
+									<li>SETUP</li>
+									<li className="active">FUEL</li>
+									<li onClick={this.handleCheckIxoBalance}>Check IXO balance</li>
+									<li onClick={this.handleCreateWallet}>Create Project Wallet</li>
+									<li onClick={this.handleGetProjectWalletAddres}>Get Project Wallet Address</li>
+									<li onClick={this.handleFundProjectWallet}>Fund Project Wallet</li>
+									<li onClick={this.handleCompleteProject}>Complete Project</li>
+								</ol>
+							</div>
+							<div className="col-md-6">
+								<FundingGauge web3error={this.state.web3error} account={this.state.account} requiredIxo={this.props.projectIxoRequired} />
+								<FundingButton 
+									projectWalletAddress={this.state.projectWalletAddress}
+									account={this.state.account}
+									createProjectWallet={this.handleCreateWallet}
+									requiredIxo={this.props.projectIxoRequired}
+								/>
+							</div>
 						</div>
-						<div className="col-md-6">
-							<FundingGauge web3error={this.state.web3error} account={this.state.account} requiredIxo={this.props.projectIxoRequired} />
-							<FundingButton 
-								projectWalletAddress={this.state.projectWalletAddress}
-								account={this.state.account}
-								createProjectWallet={this.handleCreateWallet}
-							/>
-						</div>
-					</div>
-			</FundingWrapper>
+				</FundingWrapper>
+			</Fragment>
 		);
 	}
 }
