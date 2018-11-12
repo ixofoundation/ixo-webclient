@@ -283,7 +283,7 @@ If not, please send us an email, telling us a little about the project you would
 			}, 'base64');
 		} else {
 			if (this.state.toastShown === false) {
-				warningToast('Please log into the IXO Keysafe');
+				// warningToast('Please log into the IXO Keysafe');
 				this.setState({ toastShown: true });
 			}
 		}
