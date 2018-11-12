@@ -163,7 +163,7 @@ const StatusText = styled.p`
 	font-weight: normal;
 `;
 
-const JoinLink = styled(Link)`
+const JoinLink = styled.a`
 	color: white;
 	text-decoration: none;
 
@@ -200,13 +200,13 @@ export class HeaderRight extends React.Component<HeaderRightProps, State> {
 				<NoPadLeft className="col-md-6">
 					<Inner className="d-flex justify-content-end">
 						{(this.props.userInfo === null) ?
-							<JoinLink to="/register">
+							<JoinLink>
 								<UserBox>
 									<StatusBox>
 										{this.props.renderStatusIndicator()}
 										<StatusText>IXO EXPLORER STATUS</StatusText>
 									</StatusBox>
-									<h3><span>Join the Beta</span></h3>
+									{/* <h3><span>Join the Beta</span></h3> */}
 								</UserBox>
 							</JoinLink>
 							:
