@@ -5,6 +5,8 @@ import { deviceWidth } from '../../lib/commonData';
 import { getIxoWorldRoute } from '../../utils/formatters';
 
 const ixoLogo = require('../../assets/images/ixo-logo.svg');
+const tcs = require('../../assets/legal/terms-and-conditions.pdf');
+const privacypolicy = require('../../assets/legal/privacy-policy.pdf');
 
 const ExternalFooterLink = styled.a`
 	font-family: ${props => props.theme.fontRobotoRegular};
@@ -59,6 +61,22 @@ const Main = styled.div`
     justify-content: space-between;
 `;
 
+const ByLine = styled.div`
+	a {
+		color: #808080;
+	}
+
+	a:hover {
+		color: white;
+	}
+
+	a:before {
+		content: "|";
+		margin: 0 15px;
+		color: #808080;
+	}
+`;
+
 export const FooterLeft: React.SFC<any> = ({simple}) => {
 
 	return (
@@ -75,10 +93,13 @@ export const FooterLeft: React.SFC<any> = ({simple}) => {
 				{/* <FooterLink exact={true} to="/">Plans / Pricing</FooterLink> */}
 			</div>
 			<div className="row">
-				<FooterText className="col-md-10">
+			<FooterText className="col-md-10">
 					<div className="row">
-						Email:<a href="mailto:info@ixo.world"><FooterTextBlue>&nbsp;info@ixo.world</FooterTextBlue></a>
+						<a href="mailto:info@ixo.world"><FooterTextBlue>info@ixo.world</FooterTextBlue></a>
 					</div>
+					<ByLine className="row">
+						<p>ixo.world AG, Heiligkreuz 6, 9490 Vaduz, Liechtenstein <a href={tcs} target="_blank">Terms &amp; conditions</a> <a href={privacypolicy} target="_blank">Privacy policy</a></p>
+					</ByLine>
 				</FooterText>
 			</div>
 		</Main>
