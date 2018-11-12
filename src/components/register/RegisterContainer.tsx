@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { UserInfo } from '../../types/models';
 import { connect } from 'react-redux';
 import { PublicSiteStoreState } from '../../redux/public_site_reducer';
-import { warningToast, errorToast, successToast } from '../helpers/Toast';
+import { errorToast, successToast } from '../helpers/Toast';
 import { ModalWrapper } from '../common/ModalWrapper';
 import { AgentRoles } from '../../types/models';
 import { Banner } from './Banner';
