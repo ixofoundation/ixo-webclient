@@ -2,7 +2,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 // import { Link } from 'react-router-dom';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 
 const xIcon = require('../../assets/images/oval-x-icon.png');
 
