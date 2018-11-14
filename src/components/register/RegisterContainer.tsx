@@ -280,7 +280,7 @@ If not, please send us an email, telling us a little about the project you would
 				} else {
 					this.busyLedgering = false;
 				}
-			}, 'base64');
+			});
 		} else {
 			if (this.state.toastShown === false) {
 				// warningToast('Please log into the IXO Keysafe');
