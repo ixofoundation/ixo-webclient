@@ -270,6 +270,7 @@ export class Funding extends React.Component<Props, State> {
 									account={this.state.account}
 									createProjectWallet={this.handleCreateWallet}
 									requiredIxo={this.props.projectIxoRequired}
+									web3error={this.state.web3error}
 								/>
 							</div>
 						</div>

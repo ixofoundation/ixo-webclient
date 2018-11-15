@@ -1,19 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
 
-const Container = styled.div`
-    display:flex;
-    justify-content:center;
-	align-items:center;
-	flex-direction: column;
-	background-color: ${props => props.theme.bg.blue};
-	flex:1 1 auto;
-	p {
-		color: ${props => props.theme.ixoBlue};
-		margin-top: 10px;
-	}
-`;
-
 const LoaderContainer = styled.div`
 	height: 80px;
 	width: 80px;
@@ -71,9 +58,29 @@ const IxoIcon = styled.i`
 
 export interface Props {
 	info: string;
+	transparentBg?: boolean;
+	scale?: number;
 }
 
-export const Spinner: React.SFC<Props> = ({info}) => {
+export const Spinner: React.SFC<Props> = ({info, transparentBg, scale}) => {
+
+	let bgString = 'background-color: #002233;';
+	if (transparentBg === true) {
+		bgString = '';
+	}
+	const Container = styled.div`
+		display:flex;
+		justify-content:center;
+		align-items:center;
+		flex-direction: column;
+		transform: scale(${scale});
+		${bgString}
+		flex:1 1 auto;
+		p {
+			color: ${props => props.theme.ixoBlue};
+			margin-top: 10px;
+		}
+	`;
 	return (
 		<Container>
 			<LoaderContainer>

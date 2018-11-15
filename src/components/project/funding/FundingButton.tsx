@@ -39,12 +39,16 @@ export interface ParentProps {
 	requiredIxo: number;
 	account: Web3Acc;
 	createProjectWallet: () => void;
+	web3error: string;
 }
 
 export const FundingButton: React.SFC<ParentProps> = (props) => {
 
+	if (props.web3error) {
+		return null;
+	}
 	if (props.projectWalletAddress === null) {
-		return <Spinner info="" />;
+		return <Spinner info="" transparentBg={true} scale={0.8} />;
 	}
 	if (props.projectWalletAddress === '0x0000000000000000000000000000000000000000') {
 		return (
