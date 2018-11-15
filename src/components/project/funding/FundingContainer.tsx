@@ -84,6 +84,7 @@ export interface State {
 	projectWalletAddress: string;
 	account: Web3Acc;
 	isModalOpen: boolean;
+	creatingProjectWallet: boolean;
 }
 
 export interface StateProps {
@@ -103,19 +104,25 @@ export class Funding extends React.Component<Props, State> {
 		account: {
 			address: null,
 			balance: null
-		}
+		},
+		creatingProjectWallet: false
 	};
 
 	private projectWeb3 = null;
-	
+	private checkInterval = null;
+
 	componentDidMount() {
 		if (this.props.web3 === null) {
 			this.setState({web3error : this.props.error});
 			
 		} else {
 			this.projectWeb3 = new Web3Proxy(this.props.web3);
-			setInterval( this.handleCheckAccount, 3000);
+			this.checkInterval = setInterval( this.handleCheckAccount, 3000);
 		}
+	}
+
+	componentWillUnmount() {
+		clearInterval(this.checkInterval);
 	}
 
 	handleCheckAccount = () => {
@@ -136,6 +143,10 @@ export class Funding extends React.Component<Props, State> {
 				}
 			}
 		});
+
+		if ((this.state.projectWalletAddress !== null && this.state.projectWalletAddress !== '0x0000000000000000000000000000000000000000') && this.state.creatingProjectWallet === true) {
+			this.setState({ creatingProjectWallet: false});
+		}
 	}
 
 	handleCheckEthBalance = () => {
@@ -169,7 +180,11 @@ export class Funding extends React.Component<Props, State> {
 	}
 
 	handleCreateWallet = () => {
-		this.projectWeb3.createEthProjectWallet(this.props.projectDid);
+		this.projectWeb3.createEthProjectWallet(this.props.projectDid).then((res, error) => {
+			if (res === 'creating') {
+				this.setState({ creatingProjectWallet: true});
+			}
+		});
 	}
 
 	handleGetProjectWalletAddres = async () => {
@@ -271,6 +286,7 @@ export class Funding extends React.Component<Props, State> {
 									createProjectWallet={this.handleCreateWallet}
 									requiredIxo={this.props.projectIxoRequired}
 									web3error={this.state.web3error}
+									creatingWallet={this.state.creatingProjectWallet}
 								/>
 							</div>
 						</div>

@@ -17,21 +17,23 @@ export default class Web3Proxy implements IWeb3Proxy {
 	}
 
 	createEthProjectWallet = (projectDid: string) => {
-		web3.eth.getAccounts().then((accounts: any) => {
-			projectWalletRegistryContract.methods
-				.ensureWallet('0x' + new Buffer(projectDid.replace('did:ixo:', '')).toString('hex'))
-				.send({
-					from: accounts[0]
-				})
-				.on('transactionHash', hash => {
-					console.log('TX hash: ' + hash);
-				})
-				.on('receipt', receipt => {
-					console.log(JSON.stringify(receipt));
-				})
-				.on('error', error => {
-					console.error(error);
-				});
+		return new Promise((resolve: any, reject: any) => {
+			web3.eth.getAccounts().then((accounts: any) => {
+				projectWalletRegistryContract.methods
+					.ensureWallet('0x' + new Buffer(projectDid.replace('did:ixo:', '')).toString('hex'))
+					.send({
+						from: accounts[0]
+					})
+					.on('transactionHash', hash => {
+						resolve('creating'); // as soon as transaction is initiated
+					})
+					.on('receipt', receipt => {
+						console.log(JSON.stringify(receipt)); // once the transaction is confirmed on the network
+					})
+					.on('error', error => {
+						reject(error);
+					});
+			});
 		});
 	}
 
