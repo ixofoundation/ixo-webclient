@@ -8,7 +8,7 @@ import { Web3Acc } from 'src/types/models/web3';
 import { FundingGauge } from './FundingGauge';
 import { FundingButton } from './FundingButton';
 import { Fragment } from 'react';
-// import { ModalWrapper } from 'src/components/common/ModalWrapper';
+import { ModalWrapper } from 'src/components/common/ModalWrapper';
 
 const FundingWrapper = styled.div`
 	position: sticky;
@@ -83,6 +83,7 @@ export interface State {
 	web3error: string;
 	projectWalletAddress: string;
 	account: Web3Acc;
+	isModalOpen: boolean;
 }
 
 export interface StateProps {
@@ -96,6 +97,7 @@ export interface Props extends ParentProps, StateProps {}
 export class Funding extends React.Component<Props, State> {
 
 	state = {
+		isModalOpen: false,
 		web3error: null,
 		projectWalletAddress: null,
 		account: {
@@ -222,33 +224,37 @@ export class Funding extends React.Component<Props, State> {
 		}
 	}
 
-	// renderModalHeader = () => {
-	// 	return ({
-	// 		title: props.modalData.title,
-	// 		subtitle: props.modalData.subtitle,
-	// 		icon: props.modalData.icon
-	// 	});
-	// }
+	renderModalHeader = () => {
+		return ({
+			title: 'title',
+			subtitle: 'test',
+			icon: 'icon-ixo-x'
+		});
+	}
 
-	// renderModal = (data: any) => {
-	// 	return props.modalData.content;
-	// }
+	renderModal = () => {
+		return 'test';
+	}
+
+	toggleModal = (data: boolean) => {
+		this.setState({isModalOpen: data});
+	}
 
 	render() {
 		return (
 			<Fragment>
-				{/* <ModalWrapper
-					isModalOpen={props.isModalOpen}
-					handleToggleModal={() => props.toggleModal({})}
-					header={renderModalHeader()}
+				<ModalWrapper
+					isModalOpen={this.state.isModalOpen}
+					handleToggleModal={this.toggleModal}
+					header={this.renderModalHeader()}
 				>
-					{renderModal(props.modalData)}
-				</ModalWrapper> */}
+					{this.renderModal()}
+				</ModalWrapper>
 				<FundingWrapper className="container-fluid">
 						<div className="row">
 							<div className="col-md-6">
 								<ol>
-									<li>SETUP</li>
+									<li onClick={() => this.toggleModal(true)}>SETUP</li>
 									<li className="active">FUEL</li>
 									<li onClick={this.handleCheckIxoBalance}>Check IXO balance</li>
 									<li onClick={this.handleCreateWallet}>Create Project Wallet</li>

@@ -44,7 +44,6 @@ export default class Web3Proxy implements IWeb3Proxy {
 						from: accounts[0]
 					})
 					.then(address => {
-						console.log('Wallet address: ' + address);
 						resolve(address);
 					})
 					.catch(error => {

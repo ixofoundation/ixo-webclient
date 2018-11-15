@@ -230,7 +230,6 @@ If not, please send us an email, telling us a little about the project you would
 		if (this.props.ixo && this.state.didDoc && !this.state.isDidLedgered) {
 			let ledgerDid = () => this.ledgerDid();
 			this.props.ixo.user.getDidDoc(this.state.didDoc.did).then((didResponse: any) => {
-				console.log('the user info is: ', didResponse);
 				if (didResponse.did) {
 					if (didResponse.credentials.length === 0) {
 						// Has no KYC Credential (Should look at the detail here, but right now we only have one type of credential)
