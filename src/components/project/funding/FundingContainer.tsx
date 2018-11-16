@@ -54,10 +54,12 @@ const FundingWrapper = styled.div`
 		li {
 			margin: 0 30px;
 			font-family: ${props => props.theme.fontRobotoCondensed};
-			font-size: 15px;
+			// font-size: 15px;
+			font-size: 12px;
 			font-weight: 400;
-			color: ${props => props.theme.fontBlue};
-			opacity: 0.4;
+			// color: props => props.theme.fontBlue;
+			color: ${props => props.theme.fontLightBlue};
+			// opacity: 0.4;
 
 			&.active {
 				color: ${props => props.theme.fontLightBlue};
@@ -248,11 +250,15 @@ export class Funding extends React.Component<Props, State> {
 
 	handleFundProjectWallet = async () => {
 		await this.handleGetProjectWalletAddres();
-		this.projectWeb3.fundEthProjectWallet(this.state.projectWalletAddress, this.state.account.address).then((txnHash) => {
+
+		const ixoToSend = this.props.projectIxoRequired * 100000000;
+		// NEED TO CHECK IF this.props.projectIxoRequired is the amount it requires
+		this.projectWeb3.fundEthProjectWallet(this.state.projectWalletAddress, this.state.account.address, ixoToSend).then((txnHash) => {
+			console.log('ts hask:', txnHash);
 			const statusObj = {
 				projectDid: this.props.projectDid,
 				status: 'PENDING',
-				txnId: txnHash
+				txnID: txnHash
 			};
 			this.handleUpdateProjectStatus(statusObj);
 		});
@@ -273,6 +279,21 @@ export class Funding extends React.Component<Props, State> {
 				Toast.errorToast('PDS is not responding');
 			}
 		}, 'base64');
+	}
+
+	handleStartProject = async () => {
+		if (!this.state.projectWalletAddress!) {
+			console.log('need to retrieve address');
+			await this.handleGetProjectWalletAddres();
+			console.log('wallet is: ', this.state.projectWalletAddress);
+			const statusObj = {
+				projectDid: this.props.projectDid,
+				status: 'STARTED'
+			};
+			this.handleUpdateProjectStatus(statusObj);
+		} else {
+			console.log(this.state.projectWalletAddress);
+		}
 	}
 
 	handleCompleteProject = async () => {
@@ -335,6 +356,7 @@ export class Funding extends React.Component<Props, State> {
 									<li onClick={this.handleCreateWallet}>Create Project Wallet</li>
 									<li onClick={this.handleGetProjectWalletAddres}>Get Project Wallet Address</li>
 									<li onClick={this.handleFundProjectWallet}>Fund Project Wallet</li>
+									<li onClick={this.handleStartProject}>Start Project</li>
 									<li onClick={this.handleCompleteProject}>Complete Project</li>
 								</ol>
 							</div>
