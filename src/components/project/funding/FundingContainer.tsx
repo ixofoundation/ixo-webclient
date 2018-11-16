@@ -9,6 +9,7 @@ import { FundingGauge } from './FundingGauge';
 import { FundingButton } from './FundingButton';
 import { Fragment } from 'react';
 import { ModalWrapper } from 'src/components/common/ModalWrapper';
+import { successToast, errorToast } from '../../helpers/Toast';
 
 const FundingWrapper = styled.div`
 	position: sticky;
@@ -145,6 +146,7 @@ export interface StateProps {
 	error: any;
 	ixo?: any;
 	keysafe?: any;
+	userInfo: any;
 }
 
 export interface Props extends ParentProps, StateProps {}
@@ -282,7 +284,7 @@ export class Funding extends React.Component<Props, State> {
 	}
 
 	handleStartProject = async () => {
-		if (!this.state.projectWalletAddress!) {
+		if (this.state.projectWalletAddress! && this.state.projectWalletAddress !== '0x0000000000000000000000000000000000000000') {
 			console.log('need to retrieve address');
 			await this.handleGetProjectWalletAddres();
 			console.log('wallet is: ', this.state.projectWalletAddress);
@@ -297,7 +299,7 @@ export class Funding extends React.Component<Props, State> {
 	}
 
 	handleCompleteProject = async () => {
-		if (!this.state.projectWalletAddress!) {
+		if (this.state.projectWalletAddress! && this.state.projectWalletAddress !== '0x0000000000000000000000000000000000000000') {
 			console.log('need to retrieve address');
 			await this.handleGetProjectWalletAddres();
 			console.log('wallet is: ', this.state.projectWalletAddress);
@@ -308,6 +310,35 @@ export class Funding extends React.Component<Props, State> {
 			this.handleUpdateProjectStatus(statusObj);
 		} else {
 			console.log(this.state.projectWalletAddress);
+		}
+	}
+
+	handleWithdrawFunds = () => {
+		if (this.props.userInfo!) {
+
+			const payload = {
+				data: {
+					projectDid: this.props.projectDid,
+					ethWallet: this.state.account.address,
+					isRefund: true
+				},
+				senderDid: this.props.userInfo.didDoc.did
+			};
+			// need to add amount: ethAmt property for withdrawel
+
+			this.props.keysafe.requestSigning(JSON.stringify(payload), (error, signature) => {
+				if (!error) {
+					this.props.ixo.project.payOutToEthWallet(payload, signature).then((response: any) => {
+						if (response.code === 0) {
+							successToast('Withdraw requested successfully');
+						} else {
+							errorToast('Unable to request a withdrawel at this time');
+						}
+					});
+				} 
+			}, 'base64');
+		} else {
+			errorToast('we not find your did');
 		}
 	}
 
@@ -358,6 +389,7 @@ export class Funding extends React.Component<Props, State> {
 									<li onClick={this.handleFundProjectWallet}>Fund Project Wallet</li>
 									<li onClick={this.handleStartProject}>Start Project</li>
 									<li onClick={this.handleCompleteProject}>Complete Project</li>
+									<li onClick={this.handleWithdrawFunds}>Refund MEH</li>
 								</ol>
 							</div>
 							<div className="col-md-6">
@@ -386,7 +418,8 @@ function mapStateToProps(state: PublicSiteStoreState, ownProps: ParentProps) {
 		projectDid: ownProps.projectDid,
 		projectURL: ownProps.projectURL,
 		projectIxoRequired: ownProps.projectIxoRequired,
-		error: state.web3Store.error
+		error: state.web3Store.error,
+		userInfo: state.loginStore.userInfo
 	};
 }
 
