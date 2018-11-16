@@ -256,7 +256,7 @@ export class Funding extends React.Component<Props, State> {
 		const ixoToSend = this.props.projectIxoRequired * 100000000;
 		// NEED TO CHECK IF this.props.projectIxoRequired is the amount it requires
 		this.projectWeb3.fundEthProjectWallet(this.state.projectWalletAddress, this.state.account.address, ixoToSend).then((txnHash) => {
-			console.log('ts hask:', txnHash);
+			console.log('tx hash:', txnHash);
 			const statusObj = {
 				projectDid: this.props.projectDid,
 				status: 'PENDING',
@@ -285,8 +285,8 @@ export class Funding extends React.Component<Props, State> {
 
 	handleStartProject = async () => {
 		if (this.state.projectWalletAddress! && this.state.projectWalletAddress !== '0x0000000000000000000000000000000000000000') {
-			console.log('need to retrieve address');
-			await this.handleGetProjectWalletAddres();
+			// console.log('need to retrieve address');
+			// await this.handleGetProjectWalletAddres();
 			console.log('wallet is: ', this.state.projectWalletAddress);
 			const statusObj = {
 				projectDid: this.props.projectDid,
@@ -298,14 +298,29 @@ export class Funding extends React.Component<Props, State> {
 		}
 	}
 
-	handleCompleteProject = async () => {
+	handleStopProject = async () => {
 		if (this.state.projectWalletAddress! && this.state.projectWalletAddress !== '0x0000000000000000000000000000000000000000') {
-			console.log('need to retrieve address');
-			await this.handleGetProjectWalletAddres();
+			// console.log('need to retrieve address');
+			// await this.handleGetProjectWalletAddres();
 			console.log('wallet is: ', this.state.projectWalletAddress);
 			const statusObj = {
 				projectDid: this.props.projectDid,
 				status: 'STOPPED'
+			};
+			this.handleUpdateProjectStatus(statusObj);
+		} else {
+			console.log(this.state.projectWalletAddress);
+		}
+	}
+
+	handlePayOutProject = async () => {
+		if (this.state.projectWalletAddress! && this.state.projectWalletAddress !== '0x0000000000000000000000000000000000000000') {
+			// console.log('need to retrieve address');
+			// await this.handleGetProjectWalletAddres();
+			console.log('wallet is: ', this.state.projectWalletAddress);
+			const statusObj = {
+				projectDid: this.props.projectDid,
+				status: 'PAIDOUT'
 			};
 			this.handleUpdateProjectStatus(statusObj);
 		} else {
@@ -388,7 +403,8 @@ export class Funding extends React.Component<Props, State> {
 									<li onClick={this.handleGetProjectWalletAddres}>Get Project Wallet Address</li>
 									<li onClick={this.handleFundProjectWallet}>Fund Project Wallet</li>
 									<li onClick={this.handleStartProject}>Start Project</li>
-									<li onClick={this.handleCompleteProject}>Complete Project</li>
+									<li onClick={this.handleStopProject}>Complete Project</li>
+									<li onClick={this.handlePayOutProject}>Pay out stage</li>
 									<li onClick={this.handleWithdrawFunds}>Refund MEH</li>
 								</ol>
 							</div>

@@ -180,6 +180,7 @@ export class ProjectContainer extends React.Component<Props, State> {
 					imageLink: this.getImageLink(project),
 					projectStatus: status
 				});
+				console.log('PROJECT: ', response);
 				console.log('STATUS: ', status);
 
 				this.handleGetCapabilities();
