@@ -85,6 +85,9 @@
   .icon-claims:before {
 	content: "\e906";
   }
+  .icon-claims2:before {
+	content: "\e91a";
+  }
   .icon-close:before {
 	content: "\e907";
   }
@@ -141,9 +144,6 @@
   }
   .icon-instagram:before {
 	content: "\e919";
-  }
-  .icon-claims2:before {
-	content: "\e91a";
   }
   .icon-location:before {
 	content: "\e91b";
