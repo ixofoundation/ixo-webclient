@@ -16,7 +16,7 @@ const ButtonWrapper = styled.div`
 		font-size: 15px;
 		margin-bottom: 0;
 
-		:not(.disabled), (.greenButton) {
+		:not(.disabled):not(.greenButton) {
 			background: #007695;
 			border: 1px solid #007695;
 
@@ -56,6 +56,33 @@ const ButtonWrapper = styled.div`
 	}
 `;
 
+const ButtonWrapperLoading = ButtonWrapper.extend`
+	a {
+		i {
+			right: auto;
+			position: relative;
+			top: auto;
+			animation: loadingButton 2s infinite;
+			animation-timing-function: linear;
+			transform-origin: center;
+			width: 21px;
+			height: 16px;
+			margin-right: 10px;
+			margin-top: 2px;
+
+			:before {
+				font-size: 16px;
+				font-weight: 100;
+			}
+		}
+
+		@keyframes loadingButton{
+			0% {transform: rotate(-90deg)}
+			100% {transform: rotate(270deg)}
+		}
+	}
+`;
+
 export interface ParentProps {
 	projectWalletAddress: string;
 	requiredIxo: number;
@@ -70,9 +97,9 @@ export const FundingButton: React.SFC<ParentProps> = (props) => {
 
 	if (props.creatingWallet === true) {
 		return (
-			<ButtonWrapper>
-				<Button type={ButtonTypes.green} disabled={true} ><p>Creating wallet...</p> <i className="icon-down" /></Button>
-			</ButtonWrapper>
+			<ButtonWrapperLoading>
+				<Button type={ButtonTypes.green} disabled={true} ><i className="icon-sync-icon" /><p>Creating wallet</p></Button>
+			</ButtonWrapperLoading>
 		);
 	}
 	if (props.web3error) {
@@ -84,7 +111,7 @@ export const FundingButton: React.SFC<ParentProps> = (props) => {
 	if (props.projectWalletAddress === '0x0000000000000000000000000000000000000000') {
 		return (
 			<ButtonWrapper>
-				<Button type={ButtonTypes.green} onClick={props.createProjectWallet}><p>Create Project Wallet</p> <i className="icon-down" /></Button>
+				<Button type={ButtonTypes.dark} onClick={props.createProjectWallet}><p>Create Project Wallet</p><i className="icon-down" /></Button>
 			</ButtonWrapper>
 		);
 	}
