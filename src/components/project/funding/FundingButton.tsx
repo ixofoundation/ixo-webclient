@@ -15,6 +15,22 @@ const ButtonWrapper = styled.div`
 		position: relative;
 		font-size: 15px;
 		margin-bottom: 0;
+
+		:not(.disabled) {
+			background: #007695;
+			border: 1px solid #007695;
+
+			:hover {
+
+				background: #002d42;
+				border: 1px solid ${props => props.theme.ixoBlue};
+				
+				i {
+					animation: buttonHover 0.5s ease;
+				}
+			}
+		}
+
 		p {
 			margin: 0;
 		}
@@ -26,6 +42,12 @@ const ButtonWrapper = styled.div`
 			top: 14px;
 			font-size: 12px;
 			font-weight: bold;
+			opacity: 1;
+		}
+
+		@keyframes buttonHover {
+			0% { right: 40px; opacity: 0;}
+			100% { right: 20px; opacity: 1;}
 		}
 
 		@media (min-width: ${deviceWidth.desktopLarge}px) {
@@ -39,6 +61,7 @@ export interface ParentProps {
 	requiredIxo: number;
 	account: Web3Acc;
 	createProjectWallet: () => void;
+	fundProject: () => void;
 	web3error: string;
 	creatingWallet: boolean;
 }
@@ -68,7 +91,7 @@ export const FundingButton: React.SFC<ParentProps> = (props) => {
 	if (props.account.balance >= props.requiredIxo) {
 		return (
 			<ButtonWrapper>
-				<Button type={ButtonTypes.dark} ><p>ADD FUEL</p> <i className="icon-down" /></Button>
+				<Button type={ButtonTypes.dark} onClick={props.fundProject}><p>ADD FUEL</p> <i className="icon-down" /></Button>
 			</ButtonWrapper>
 		);
 	}

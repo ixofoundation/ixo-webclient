@@ -12,19 +12,13 @@ const IxoGauge = styled.div`
 	font-size: 24px;
 	line-height: 26px;
 	font-weight: 400;
-	margin-right: 30px;
+	margin-right: 40px;
 	min-width: 215px;
+	text-align: right;
 
 	span {
 		color: ${props => props.theme.fontLightBlue};
 		font-weight: 300;
-	}
-
-	i:before {
-		position: relative;
-		top: 4px;
-		color: ${props => props.theme.ixoBlue};
-		font-size: 30px;
 	}
 
 	p {
@@ -40,6 +34,10 @@ const IxoGauge = styled.div`
 		font-size: 32px;
 	}
 
+`;
+
+const GaugeContainer = styled.div`
+	position: relative;
 `;
 
 const ErrorWrapper = styled.div`
@@ -62,6 +60,34 @@ const ErrorWrapper = styled.div`
 
 	img {
 		margin: 0 15px 0 5px;
+	}
+`;
+
+const IxoX = styled.i`
+	:before {
+		position: relative;
+		top: 4px;
+		color: ${props => props.theme.ixoBlue};
+		font-size: 30px;
+	}
+`;
+
+const CheckIcon = styled.i`
+	position: absolute;
+	top: 13px;
+	right: -22px;
+	width: 16px;
+	height: 16px;
+    background: white;
+	border-radius: 50%;
+	
+	:before {
+		color: ${props => props.theme.bg.green};
+		font-size: 18px;
+		position: absolute;
+		top: 0;
+		right: 0;
+		line-height: 1;
 	}
 `;
 export interface ParentProps {
@@ -87,12 +113,14 @@ export const FundingGauge: React.SFC<ParentProps> = (props) => {
 			);
 		}
 		if (props.account.address!) {
+			const balance = (props.account.balance / 100000000).toFixed(2);
 			return (
 				<Fragment>
-					<div>
-						<i className="icon-ixo-x" />
-						{(props.account.balance / 100000000).toFixed(2)}<span>/{props.requiredIxo} IXO</span>
-					</div>
+					<GaugeContainer>
+						<IxoX className="icon-ixo-x" />
+						{balance}<span>/{props.requiredIxo} IXO</span>
+						{Number(balance) >= props.requiredIxo && <CheckIcon className="icon-registration-yes" />}
+					</GaugeContainer>
 					<p>fuel needed</p>
 				</Fragment>
 			);
