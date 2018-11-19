@@ -16,7 +16,7 @@ const ButtonWrapper = styled.div`
 		font-size: 15px;
 		margin-bottom: 0;
 
-		:not(.disabled) {
+		:not(.disabled), (.greenButton) {
 			background: #007695;
 			border: 1px solid #007695;
 
@@ -71,7 +71,7 @@ export const FundingButton: React.SFC<ParentProps> = (props) => {
 	if (props.creatingWallet === true) {
 		return (
 			<ButtonWrapper>
-				<Button type={ButtonTypes.dark} disabled={true} ><p>Creating project...</p> <i className="icon-down" /></Button>
+				<Button type={ButtonTypes.green} disabled={true} ><p>Creating wallet...</p> <i className="icon-down" /></Button>
 			</ButtonWrapper>
 		);
 	}
@@ -84,7 +84,7 @@ export const FundingButton: React.SFC<ParentProps> = (props) => {
 	if (props.projectWalletAddress === '0x0000000000000000000000000000000000000000') {
 		return (
 			<ButtonWrapper>
-				<Button type={ButtonTypes.dark} onClick={props.createProjectWallet}><p>Create Project Wallet</p> <i className="icon-down" /></Button>
+				<Button type={ButtonTypes.green} onClick={props.createProjectWallet}><p>Create Project Wallet</p> <i className="icon-down" /></Button>
 			</ButtonWrapper>
 		);
 	}
