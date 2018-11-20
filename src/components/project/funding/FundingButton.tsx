@@ -113,7 +113,7 @@ export const FundingButton: React.SFC<ParentProps> = (props) => {
 	if (props.fundingProject === true) {
 		return (
 			<ButtonWrapperLoading>
-				<Button type={ButtonTypes.green} ><i className="icon-sync-icon" /><p>launching project</p></Button>
+				<Button type={ButtonTypes.green} ><i className="icon-sync-icon" /><p>fuelling project</p></Button>
 			</ButtonWrapperLoading>
 		);
 	}
