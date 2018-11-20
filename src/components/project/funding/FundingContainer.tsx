@@ -131,6 +131,7 @@ export interface ParentProps {
 	projectDid: string;
 	projectURL: string;
 	projectIxoRequired: number;
+	projectStatus: string;
 }
 
 export interface State {
@@ -139,6 +140,7 @@ export interface State {
 	account: Web3Acc;
 	isModalOpen: boolean;
 	creatingProjectWallet: boolean;
+	fundingProject: boolean;
 }
 
 export interface StateProps {
@@ -160,7 +162,8 @@ export class Funding extends React.Component<Props, State> {
 			address: null,
 			balance: null
 		},
-		creatingProjectWallet: false
+		creatingProjectWallet: false,
+		fundingProject: false
 	};
 
 	private projectWeb3 = null;
@@ -199,6 +202,9 @@ export class Funding extends React.Component<Props, State> {
 			}
 		});
 
+		if (this.props.projectStatus === 'FUNDED') {
+			this.setState({fundingProject: false});
+		}
 		if ((this.state.projectWalletAddress !== null && this.state.projectWalletAddress !== '0x0000000000000000000000000000000000000000') && this.state.creatingProjectWallet === true) {
 			this.setState({ creatingProjectWallet: false});
 		}
@@ -256,7 +262,7 @@ export class Funding extends React.Component<Props, State> {
 		const ixoToSend = this.props.projectIxoRequired * 100000000;
 		// NEED TO CHECK IF this.props.projectIxoRequired is the amount it requires
 		this.projectWeb3.fundEthProjectWallet(this.state.projectWalletAddress, this.state.account.address, ixoToSend).then((txnHash) => {
-			console.log('tx hash:', txnHash);
+			this.setState({ fundingProject: true});
 			const statusObj = {
 				projectDid: this.props.projectDid,
 				status: 'PENDING',
@@ -265,7 +271,6 @@ export class Funding extends React.Component<Props, State> {
 			this.handleUpdateProjectStatus(statusObj);
 		});
 	}
-
 	handleUpdateProjectStatus = (statusData) => {
 
 		this.props.keysafe.requestSigning(JSON.stringify(statusData), (error: any, signature: any) => {
@@ -398,9 +403,6 @@ export class Funding extends React.Component<Props, State> {
 								<ol>
 									<li onClick={() => this.toggleModal(true)}>SETUP</li>
 									<li className="active">FUEL</li>
-									<li onClick={this.handleCheckIxoBalance}>Check IXO balance</li>
-									<li onClick={this.handleCreateWallet}>Create Project Wallet</li>
-									<li onClick={this.handleGetProjectWalletAddres}>Get Project Wallet Address</li>
 									<li onClick={this.handleFundProjectWallet}>Fund Project Wallet</li>
 									<li onClick={this.handleStartProject}>Start Project</li>
 									<li onClick={this.handleStopProject}>Complete Project</li>
@@ -417,7 +419,9 @@ export class Funding extends React.Component<Props, State> {
 									requiredIxo={this.props.projectIxoRequired}
 									web3error={this.state.web3error}
 									creatingWallet={this.state.creatingProjectWallet}
+									fundingProject={this.state.fundingProject}
 									fundProject={this.handleFundProjectWallet}
+									projectStatus={this.props.projectStatus}
 								/>
 							</div>
 						</div>

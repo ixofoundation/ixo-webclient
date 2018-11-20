@@ -70,7 +70,6 @@ export interface ParentProps {
 
 export interface State {
 	projectList: any[];
-	loaded: boolean;
 	claims: any;
 	claimsTotalRequired: number;
 	agents: any;
@@ -87,7 +86,6 @@ export interface Props extends ParentProps, StateProps {}
 export class Projects extends React.Component<Props, State> {
 	state = {
 		projectList: null,
-		loaded: false,
 		claims: null,
 		claimsTotalRequired: 0,
 		agents: null,
@@ -190,7 +188,6 @@ export class Projects extends React.Component<Props, State> {
 	renderProjects = () => {
 		if (this.state.projectList.length > 0) {	
 			let projects = (this.state.showOnlyMyProjects ? this.state.myProjects : this.state.projectList);
-			console.log(this.state.projectList);	
 			return (
 				<ProjectsContainer className="container-fluid">
 					<div className="container">

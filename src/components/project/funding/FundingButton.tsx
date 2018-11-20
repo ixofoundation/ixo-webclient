@@ -91,14 +91,29 @@ export interface ParentProps {
 	fundProject: () => void;
 	web3error: string;
 	creatingWallet: boolean;
+	fundingProject: boolean;
+	projectStatus: string;
 }
 
 export const FundingButton: React.SFC<ParentProps> = (props) => {
-
+	if (props.projectStatus === 'FUNDED') {
+		return (
+			<ButtonWrapper>
+				<Button type={ButtonTypes.dark}><p>START PROJECT</p> <i className="icon-down" /></Button>
+			</ButtonWrapper>
+		);
+	}
 	if (props.creatingWallet === true) {
 		return (
 			<ButtonWrapperLoading>
-				<Button type={ButtonTypes.green} disabled={true} ><i className="icon-sync-icon" /><p>Creating wallet</p></Button>
+				<Button type={ButtonTypes.green} ><i className="icon-sync-icon" /><p>Creating wallet</p></Button>
+			</ButtonWrapperLoading>
+		);
+	}
+	if (props.fundingProject === true) {
+		return (
+			<ButtonWrapperLoading>
+				<Button type={ButtonTypes.green} ><i className="icon-sync-icon" /><p>launching project</p></Button>
 			</ButtonWrapperLoading>
 		);
 	}

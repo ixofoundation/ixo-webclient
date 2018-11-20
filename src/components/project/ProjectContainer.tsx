@@ -245,7 +245,6 @@ export class ProjectContainer extends React.Component<Props, State> {
 								claimsObj = [...this.state.claims];
 							}
 							claimsObj = response.result;
-							console.log('private claims: ', claimsObj);
 							this.setState({ claims: [...claimsObj] });
 						}
 					}).catch((result: Error) => {
@@ -625,6 +624,7 @@ export class ProjectContainer extends React.Component<Props, State> {
 					projectIxoRequired={this.state.projectPublic.requiredClaims * this.state.projectPublic.evaluatorPayPerClaim}
 					projectDid={this.state.projectDid}
 					projectURL={this.state.projectPublic.serviceEndpoint}
+					projectStatus={this.state.projectStatus}
 				/>
 			</Fragment>
 		);

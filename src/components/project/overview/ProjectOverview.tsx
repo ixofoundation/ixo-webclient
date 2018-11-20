@@ -292,9 +292,9 @@ export const ProjectOverview: React.SFC<ParentProps> = (props) => {
 
 		let content = (
 			<Fragment>
-				<p>Interested in funding the <BlueBold>{props.project.title}</BlueBold>?<br/>
+				<p>Interested in funding <BlueBold>{props.project.title}</BlueBold>?<br/>
 				Please contact the project founder below</p> <br/>
-				<Button type={ButtonTypes.dark} href={'mailto:donnierisk@gmail.com'}>GET IN CONTACT</Button>
+				<Button type={ButtonTypes.dark} href={`mailto:${props.project.ownerEmail}`}>GET IN CONTACT</Button>
 			</Fragment>
 		);
 		const modalData = {
