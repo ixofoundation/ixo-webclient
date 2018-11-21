@@ -356,8 +356,8 @@ export class Funding extends React.Component<Props, State> {
 		return this.state.modalData.content;
 	}
 
-	toggleModal = (isModal: boolean) => {
-		this.setState({isModalOpen: isModal});
+	toggleModal = (isModalOpen: boolean) => {
+		this.setState({isModalOpen: isModalOpen});
 	}
 
 	modal = () => {
@@ -391,7 +391,7 @@ export class Funding extends React.Component<Props, State> {
 			<Fragment>
 				<ModalWrapper
 					isModalOpen={this.state.isModalOpen}
-					handleToggleModal={() => this.toggleModal}
+					handleToggleModal={this.toggleModal}
 					header={this.renderModalHeader()}
 				>
 					{this.renderModalData()}
