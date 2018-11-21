@@ -75,6 +75,18 @@ const FundingWrapper = styled.div`
 	}
 `;
 
+export const ModalContent = styled.div`
+	p {
+		font-size: 15px;
+		margin-bottom: 0;
+		padding:0 20px;
+	}
+
+	a {
+		margin-top: 40px;
+	}
+`;
+
 export interface ParentProps {
 	projectDid: string;
 	projectURL: string;
@@ -138,18 +150,17 @@ export class Funding extends React.Component<Props, State> {
 	componentDidUpdate(prevProps: Props) {
 		if (this.props.projectStatus === 'FUNDED' && prevProps.projectStatus !== null && this.props.projectStatus !== prevProps.projectStatus) {
 			const content = (
-				<Fragment>
+				<ModalContent>
 					<p>Your project wallet has been funded.</p>
 					<p>This project now has fuel to launch.</p>
 					<p>Prepare for <strong>IMPACT</strong>.</p>
 					<Button type={ButtonTypes.dark} onClick={() => this.toggleModal(false)}>CLOSE</Button>
-				</Fragment>
+				</ModalContent>
 			);
-
+	
 			const modalData = {
 				header: {
 					icon: 'icon-approved',
-					iconColor: '#5AB946',
 					title: 'SUCCESS'
 				},
 				content: content
@@ -158,7 +169,7 @@ export class Funding extends React.Component<Props, State> {
 				fundingProject: false,
 				modalData: modalData
 			});
-
+	
 			this.toggleModal(true);
 		}
 	}
@@ -280,9 +291,6 @@ export class Funding extends React.Component<Props, State> {
 
 	handleStartProject = async () => {
 		if (this.state.projectWalletAddress! && this.state.projectWalletAddress !== '0x0000000000000000000000000000000000000000') {
-			// console.log('need to retrieve address');
-			// await this.handleGetProjectWalletAddres();
-			console.log('wallet is: ', this.state.projectWalletAddress);
 			const statusObj = {
 				projectDid: this.props.projectDid,
 				status: 'STARTED'
@@ -295,9 +303,6 @@ export class Funding extends React.Component<Props, State> {
 
 	handleStopProject = async () => {
 		if (this.state.projectWalletAddress! && this.state.projectWalletAddress !== '0x0000000000000000000000000000000000000000') {
-			// console.log('need to retrieve address');
-			// await this.handleGetProjectWalletAddres();
-			console.log('wallet is: ', this.state.projectWalletAddress);
 			const statusObj = {
 				projectDid: this.props.projectDid,
 				status: 'STOPPED'
@@ -310,9 +315,6 @@ export class Funding extends React.Component<Props, State> {
 
 	handlePayOutProject = async () => {
 		if (this.state.projectWalletAddress! && this.state.projectWalletAddress !== '0x0000000000000000000000000000000000000000') {
-			// console.log('need to retrieve address');
-			// await this.handleGetProjectWalletAddres();
-			console.log('wallet is: ', this.state.projectWalletAddress);
 			const statusObj = {
 				projectDid: this.props.projectDid,
 				status: 'PAIDOUT'
@@ -360,32 +362,6 @@ export class Funding extends React.Component<Props, State> {
 		this.setState({isModalOpen: isModalOpen});
 	}
 
-	modal = () => {
-		const content = (
-			<Fragment>
-				<p>Your project wallet has been funded.</p>
-				<p>This project now has fuel to launch.</p>
-				<p>Prepare for <strong>IMPACT</strong>.</p>
-				<Button type={ButtonTypes.dark} onClick={() => this.toggleModal(false)}>CLOSE</Button>
-			</Fragment>
-		);
-
-		const modalData = {
-			header: {
-				icon: 'icon-approved',
-				iconColor: '#5AB946',
-				title: 'SUCCESS'
-			},
-			content: content
-		};
-		this.setState({
-			fundingProject: false,
-			modalData: modalData
-		});
-
-		this.toggleModal(true);
-	}
-
 	render() {
 		return (
 			<Fragment>
@@ -400,9 +376,9 @@ export class Funding extends React.Component<Props, State> {
 						<div className="row">
 							<div className="col-md-6">
 								<ol>
-									<li className={(this.props.projectStatus === 'CREATED' && this.state.projectWalletAddress === null) && 'active'} onClick={() => this.modal()}>SETUP</li>
-									<li className={(this.props.projectStatus === 'CREATED' && this.state.projectWalletAddress === '0x0000000000000000000000000000000000000000') && 'active'}>CREATE WALLET</li>
-									<li className={(this.state.projectWalletAddress !== null || this.state.projectWalletAddress !== '0x0000000000000000000000000000000000000000') && 'active'}>FUEL</li>
+									<li className={(this.props.projectStatus === 'CREATED' && this.state.projectWalletAddress === null) ? 'active' : ''}>SETUP</li>
+									<li className={(this.props.projectStatus === 'CREATED' && this.state.projectWalletAddress === '0x0000000000000000000000000000000000000000') ? 'active' : ''}>CREATE WALLET</li>
+									<li className={(this.state.projectWalletAddress !== null && this.state.projectWalletAddress !== '0x0000000000000000000000000000000000000000') ? 'active' : ''}>FUEL</li>
 									<li onClick={this.handleFundProjectWallet}>Fund Project Wallet</li>
 									<li onClick={this.handleStartProject}>Start Project</li>
 									<li onClick={this.handleStopProject}>Complete Project</li>

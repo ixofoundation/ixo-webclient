@@ -109,11 +109,11 @@ export const ModalWrapper: React.SFC<Props> = (props) => {
 	const renderHeader = () => {
 		return (
 			<React.Fragment>
-				<FlexContainer style={props.header.width && {width: `${props.header.width}px`}}>
-				<div>
-					{props.header.icon && <i className={`${props.header.icon}`} />}
-					{props.header.image && <img src={props.header.image} />}
-				</div>
+				<FlexContainer style={props.header.width && {width: `${props.header.width}px`}} className="modal-heading">
+					<div>
+						{props.header.icon && <i className={`${props.header.icon}`} />}
+						{props.header.image && <img src={props.header.image} />}
+					</div>
 					<TitleContainer>
 						<h3>{props.header.title}</h3>
 						{props.header.subtitle && <p>{props.header.subtitle}</p>}
