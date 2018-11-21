@@ -10,6 +10,7 @@ import { FundingButton } from './FundingButton';
 import { Fragment } from 'react';
 import { ModalWrapper } from 'src/components/common/ModalWrapper';
 import { successToast, errorToast } from '../../helpers/Toast';
+import { Button, ButtonTypes } from 'src/components/common/Buttons';
 
 const FundingWrapper = styled.div`
 	position: sticky;
@@ -55,12 +56,10 @@ const FundingWrapper = styled.div`
 		li {
 			margin: 0 30px;
 			font-family: ${props => props.theme.fontRobotoCondensed};
-			// font-size: 15px;
 			font-size: 12px;
 			font-weight: 400;
-			// color: props => props.theme.fontBlue;
-			color: ${props => props.theme.fontLightBlue};
-			// opacity: 0.4;
+			color: props => props.theme.fontBlue;
+			opacity: 0.4;
 
 			&.active {
 				color: ${props => props.theme.fontLightBlue};
@@ -73,57 +72,6 @@ const FundingWrapper = styled.div`
 		align-items: center;
 		flex-direction: row;
 		justify-content: flex-start;
-	}
-`;
-
-const CubeFront = styled.div`
-	
-	width: 320px;
-	height: 200px;
-	backface-visibility: hidden;
-	transform: rotateX(0deg) translate3d(0, 0, 100px);
-	box-shadow: 0px 0px 20px 0px ${props => props.theme.ixoBlue};
-	background: ${props => props.theme.bg.lightBlue};
-
-	transition: all 0.5s ease;
-`;
-
-const CubeTop = styled.div`
-	background: ${props => props.theme.bg.blue};
-	width: 320px;
-	height: 200px;
-	transform: rotateX(-90deg) translate3d(0, 0, -100px);
-	backface-visibility: hidden;
-	box-shadow: 0px 0px 20px 0px ${props => props.theme.ixoBlue};
-
-	transition: all 0.5s ease;
-`;
-
-const LoadingCube = styled.div`
-	width: 320px;
-	height: 200px;
-	border: 1px solid #ccc;
-	background: rgba(255,255,255,0.8);
-	box-shadow: inset 0 0 20px rgba(0,0,0,0.2);
-	text-align: center;
-	color: black;
-
-	// animation: spincube 4s ease-in-out infinite;
-	transform-style: preserve-3d;
-	transform-origin: center center;
-	transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg);
-	backface-visibility: hidden;
-	transition: transform 0.5s ease;
-	:hover {
-		transform: rotateX(90deg) rotateY(0deg) rotateZ(0deg);
-
-		${CubeFront} {
-			background: ${props => props.theme.bg.blue};
-		}
-
-		${CubeTop} {
-			background: ${props => props.theme.bg.lightBlue};
-		}
 	}
 `;
 
@@ -141,6 +89,7 @@ export interface State {
 	isModalOpen: boolean;
 	creatingProjectWallet: boolean;
 	fundingProject: boolean;
+	modalData: any;
 }
 
 export interface StateProps {
@@ -163,7 +112,14 @@ export class Funding extends React.Component<Props, State> {
 			balance: null
 		},
 		creatingProjectWallet: false,
-		fundingProject: false
+		fundingProject: false,
+		modalData: { 
+			header: {
+				title: '',
+				icon: '',
+			},
+			content: ''
+		}
 	};
 
 	private projectWeb3 = null;
@@ -179,6 +135,41 @@ export class Funding extends React.Component<Props, State> {
 		}
 	}
 
+	componentDidUpdate(prevProps: Props) {
+		if (this.props.projectStatus === 'FUNDED' && prevProps.projectStatus !== null && this.props.projectStatus !== prevProps.projectStatus) {
+			const content = (
+				<Fragment>
+					<p>Your project wallet has been funded.</p>
+					<p>This project now has fuel to launch.</p>
+					<p>Prepare for <strong>IMPACT</strong>.</p>
+					<Button type={ButtonTypes.dark} onClick={() => this.toggleModal(false)}>CLOSE</Button>
+				</Fragment>
+			);
+
+			const modalData = {
+				header: {
+					icon: 'icon-approved',
+					iconColor: '#5AB946',
+					title: 'SUCCESS'
+				},
+				content: content
+			};
+			this.setState({
+				fundingProject: false,
+				modalData: modalData
+			});
+
+			this.toggleModal(true);
+		}
+	}
+
+	renderModalHeader = () => {
+		return ({
+			title: this.state.modalData.header.title,
+			icon: this.state.modalData.header.icon
+		});
+	}
+
 	componentWillUnmount() {
 		clearInterval(this.checkInterval);
 	}
@@ -187,9 +178,9 @@ export class Funding extends React.Component<Props, State> {
 		this.props.web3.eth.getAccounts((err: any, acc: any) => {
 			if (!err) {
 				if (acc[0]!) {
-
 					let tempAcc = Object.assign({}, this.state.account);
 					tempAcc.address = acc[0];
+					
 					this.setState({ 
 						web3error: null,
 						account: tempAcc
@@ -260,7 +251,6 @@ export class Funding extends React.Component<Props, State> {
 		await this.handleGetProjectWalletAddres();
 
 		const ixoToSend = this.props.projectIxoRequired * 100000000;
-		// NEED TO CHECK IF this.props.projectIxoRequired is the amount it requires
 		this.projectWeb3.fundEthProjectWallet(this.state.projectWalletAddress, this.state.account.address, ixoToSend).then((txnHash) => {
 			this.setState({ fundingProject: true});
 			const statusObj = {
@@ -362,29 +352,38 @@ export class Funding extends React.Component<Props, State> {
 		}
 	}
 
-	renderModalHeader = () => {
-		return ({
-			title: 'title',
-			subtitle: 'test',
-			icon: 'icon-ixo-x'
-		});
+	renderModalData = () => {
+		return this.state.modalData.content;
 	}
 
-	renderModal = () => {
-		return (
-			<LoadingCube>
-				<CubeFront>
-					<p>Test text</p>
-				</CubeFront>
-				<CubeTop>
-					<p>Test text</p>
-				</CubeTop>
-			</LoadingCube>
+	toggleModal = (isModal: boolean) => {
+		this.setState({isModalOpen: isModal});
+	}
+
+	modal = () => {
+		const content = (
+			<Fragment>
+				<p>Your project wallet has been funded.</p>
+				<p>This project now has fuel to launch.</p>
+				<p>Prepare for <strong>IMPACT</strong>.</p>
+				<Button type={ButtonTypes.dark} onClick={() => this.toggleModal(false)}>CLOSE</Button>
+			</Fragment>
 		);
-	}
 
-	toggleModal = (data: boolean) => {
-		this.setState({isModalOpen: data});
+		const modalData = {
+			header: {
+				icon: 'icon-approved',
+				iconColor: '#5AB946',
+				title: 'SUCCESS'
+			},
+			content: content
+		};
+		this.setState({
+			fundingProject: false,
+			modalData: modalData
+		});
+
+		this.toggleModal(true);
 	}
 
 	render() {
@@ -392,17 +391,18 @@ export class Funding extends React.Component<Props, State> {
 			<Fragment>
 				<ModalWrapper
 					isModalOpen={this.state.isModalOpen}
-					handleToggleModal={this.toggleModal}
+					handleToggleModal={() => this.toggleModal}
 					header={this.renderModalHeader()}
 				>
-					{this.renderModal()}
+					{this.renderModalData()}
 				</ModalWrapper>
 				<FundingWrapper className="container-fluid">
 						<div className="row">
 							<div className="col-md-6">
 								<ol>
-									<li onClick={() => this.toggleModal(true)}>SETUP</li>
-									<li className="active">FUEL</li>
+									<li className={(this.props.projectStatus === 'CREATED' && this.state.projectWalletAddress === null) && 'active'} onClick={() => this.modal()}>SETUP</li>
+									<li className={(this.props.projectStatus === 'CREATED' && this.state.projectWalletAddress === '0x0000000000000000000000000000000000000000') && 'active'}>CREATE WALLET</li>
+									<li className={(this.state.projectWalletAddress !== null || this.state.projectWalletAddress !== '0x0000000000000000000000000000000000000000') && 'active'}>FUEL</li>
 									<li onClick={this.handleFundProjectWallet}>Fund Project Wallet</li>
 									<li onClick={this.handleStartProject}>Start Project</li>
 									<li onClick={this.handleStopProject}>Complete Project</li>

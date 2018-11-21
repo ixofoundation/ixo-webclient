@@ -13,6 +13,7 @@ import { NotFound } from './public/NotFound';
 import { Spinner } from './common/Spinner';
 import { ProjectSignAndCreateConnected } from './project/curation/ProjectSignAndCreate';
 import { ProjectCreateUploadPublicDocsConnected } from './project/curation/ProjectCreateUploadPublicDocs';
+import { ThreeD } from './common/3D';
 export namespace Routes {
 	export interface StateProps {
 	}
@@ -26,6 +27,7 @@ export const Routes: React.SFC<Routes.RouteProps> = props => {
 			<Switch>
 				<Route exact={true} path="/json" component={ProjectForm} />
 				<Route exact={true} path="/spinner" component={Spinner} />
+				<Route exact={true} path="/3d" component={ThreeD} />
 				<Route exact={true} path="/widgets" component={Widgets} />
 				<Route exact={true} path="/json" component={ProjectForm} />
 				<Route exact={true} path="/icons" component={Icons} />
