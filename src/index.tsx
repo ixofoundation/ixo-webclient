@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { BrowserRouter as Router } from 'react-router-dom';
-import registerServiceWorker from './registerServiceWorker';
+// import registerServiceWorker from './registerServiceWorker';
 import { createPublicSiteStore } from './redux/store';
 import { AppConnected } from './App';
 
@@ -16,4 +16,4 @@ ReactDOM.render(
 	</Provider>,
 	document.getElementById('root') as HTMLElement
 );
-registerServiceWorker();
+// registerServiceWorker();
