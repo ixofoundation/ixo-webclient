@@ -6,7 +6,7 @@
   "longDescription":"",
   "impactAction":"",
   "projectLocation":"",
-  "requiredClaims":0,
+  "requiredClaims":"0",
   "autoApprove": ["SA"],
   "sdgs":[],
   "templates":{
