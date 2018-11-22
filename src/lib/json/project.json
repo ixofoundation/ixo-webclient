@@ -6,7 +6,7 @@
 	"longDescription": "Invasive alien vegetation refers to plants brought to South Africa from other countries, both intentionally and unintentionally, that cause human, environmental or economic harm.\nWithout natural enemies, these plants reproduce and spread rapidly, taking valuable water and space from our indigenous plants. Many alien plants consume more water than local plants, depleting our valuable underground water resources. Dense alien vegetation can also provide plenty of fuel for veldfires, making them exceptionally hot, which damages the burnt area’s soil structure.\nInvasive alien plants are a major threat to biodiversity in catchment areas, potentially disrupting the delicate natural balance in ecosystems. As we depend on biodiversity for water, food, wood, clean air, medicine and much more, it is vitally important that we protect this resource.",
 	"impactAction": "10m x 10m sections cleared",
 	"projectLocation": "ZA",
-	"requiredClaims": 30,
+	"requiredClaims": "30",
 	"autoApprove": ["SA"],
 	"sdgs": ["15.5"],
 	"templates": {
