@@ -89,6 +89,7 @@ export interface ParentProps {
 	account: Web3Acc;
 	createProjectWallet: () => void;
 	fundProject: () => void;
+	startProject: () => void;
 	web3error: string;
 	creatingWallet: boolean;
 	fundingProject: boolean;
@@ -99,7 +100,7 @@ export const FundingButton: React.SFC<ParentProps> = (props) => {
 	if (props.projectStatus === 'FUNDED') {
 		return (
 			<ButtonWrapper>
-				<Button type={ButtonTypes.dark}><p>START PROJECT</p> <i className="icon-down" /></Button>
+				<Button type={ButtonTypes.dark} onClick={props.startProject}><p>LAUNCH YOUR PROJECT</p> <i className="icon-down" /></Button>
 			</ButtonWrapper>
 		);
 	}
