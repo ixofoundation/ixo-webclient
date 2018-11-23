@@ -128,7 +128,7 @@ export class Funding extends React.Component<Props, State> {
 		modalData: { 
 			header: {
 				title: '',
-				icon: '',
+				icon: null,
 			},
 			content: ''
 		}
@@ -160,7 +160,7 @@ export class Funding extends React.Component<Props, State> {
 	
 			const modalData = {
 				header: {
-					icon: 'icon-approved',
+					icon: <i className="icon-approved" />,
 					title: 'SUCCESS'
 				},
 				content: content
@@ -362,6 +362,31 @@ export class Funding extends React.Component<Props, State> {
 		this.setState({isModalOpen: isModalOpen});
 	}
 
+	modal = () => {
+		const content = (
+			<ModalContent>
+				<p>Your project wallet has been funded.</p>
+				<p>This project now has fuel to launch.</p>
+				<p>Prepare for <strong>IMPACT</strong>.</p>
+				<Button type={ButtonTypes.dark} onClick={() => this.toggleModal(false)}>CLOSE</Button>
+			</ModalContent>
+		);
+
+		const modalData = {
+			header: {
+				icon: <i className="icon-approved" />,
+				title: 'SUCCESS'
+			},
+			content: content
+		};
+		this.setState({
+			fundingProject: false,
+			modalData: modalData
+		});
+
+		this.toggleModal(true);
+	}
+
 	render() {
 		return (
 			<Fragment>
@@ -376,7 +401,7 @@ export class Funding extends React.Component<Props, State> {
 						<div className="row">
 							<div className="col-md-6">
 								<ol>
-									<li className={(this.props.projectStatus === 'CREATED' && this.state.projectWalletAddress === null) ? 'active' : ''}>SETUP</li>
+									<li className={(this.props.projectStatus === 'CREATED' && this.state.projectWalletAddress === null) ? 'active' : ''} onClick={this.modal}>SETUP</li>
 									<li className={(this.props.projectStatus === 'CREATED' && this.state.projectWalletAddress === '0x0000000000000000000000000000000000000000') ? 'active' : ''}>CREATE WALLET</li>
 									<li className={(this.state.projectWalletAddress !== null && this.state.projectWalletAddress !== '0x0000000000000000000000000000000000000000') ? 'active' : ''}>FUEL</li>
 									<li onClick={this.handleFundProjectWallet}>Fund Project Wallet</li>

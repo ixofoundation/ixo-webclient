@@ -277,13 +277,13 @@ export const ProjectOverview: React.SFC<ParentProps> = (props) => {
 			return ({
 				title: props.project.title,
 				subtitle: renderSubtitle(props.modalData.selectedRole),
-				icon: 'icon-modal'
+				icon: <i className="icon-modal" />
 			});
 		} else {
 			return ({
 				title: props.modalData.title,
 				subtitle: props.modalData.subtitle,
-				icon: props.modalData.icon
+				icon: <i className={props.modalData.icon} />
 			});
 		}
 	};

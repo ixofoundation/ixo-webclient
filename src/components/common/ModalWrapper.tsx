@@ -95,7 +95,7 @@ interface ParentProps {
 export interface Header {
 	title: string;
 	subtitle?: string;
-	icon?: string;
+	icon?: JSX.Element;
 	image?: string;
 	width?: string;
 }
@@ -111,7 +111,7 @@ export const ModalWrapper: React.SFC<Props> = (props) => {
 			<React.Fragment>
 				<FlexContainer style={props.header.width && {width: `${props.header.width}px`}} className="modal-heading">
 					<div>
-						{props.header.icon && <i className={`${props.header.icon}`} />}
+						{props.header.icon && props.header.icon}
 						{props.header.image && <img src={props.header.image} />}
 					</div>
 					<TitleContainer>
