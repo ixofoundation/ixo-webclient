@@ -39,7 +39,7 @@ export interface StateProps {
 
 export interface State {
 	croppedImg: any;
-	imageKey: string;
+	croppedLogo: any;
 	claimSchema: string;
 	claimSchemaKey: string;
 	claimForm: string;
@@ -58,7 +58,7 @@ export class ProjectCreateUploadPublicDocs extends React.Component<StateProps, S
 
 	state = {
 			croppedImg: null,
-			imageKey: null,
+			croppedLogo: null,
 			claimSchema: '',
 			claimSchemaKey: null,
 			claimForm: '',
@@ -105,6 +105,17 @@ export class ProjectCreateUploadPublicDocs extends React.Component<StateProps, S
 						return res.result;
 					})
 				);
+				if (this.state.croppedLogo) {
+					promises.push(
+						this.props.ixo.project.createPublic(this.state.croppedLogo, this.state.project.serviceEndpoint).then((res: any) => {
+							successToast('Uploaded logo successfully');
+							let newProject = this.state.project;
+							newProject.founder.logoLink = newProject.serviceEndpoint + 'public/' + res.result;
+							this.setState({project: newProject, projectJson: JSON.stringify(newProject)});
+							return res.result;
+						})
+					);
+				}
 				Promise.all(promises).then((results) => {
 					let projectObj: string = this.state.projectJson;
 					let projectDataURL = 'data:application/json;base64,' + base64Encode(projectObj);
@@ -132,16 +143,10 @@ export class ProjectCreateUploadPublicDocs extends React.Component<StateProps, S
 		this.setState({croppedImg: base64Image });
 	}
 	
-	uploadImage = (event) => {
-		console.log(this.state.croppedImg);
-		this.props.ixo.project.createPublic(this.state.croppedImg, this.state.project.serviceEndpoint).then((res: any) => {
-			console.log('Uploaded: ', res);
-			let newProject = this.state.project;
-			newProject.imageLink = res.result;
-			this.setState({project: newProject, projectJson: JSON.stringify(newProject)});
-		});
+	handleLogo = (base64Image) => {
+		this.setState({croppedLogo: base64Image });
 	}
-
+	
 	handleFileSelected = (type, base64File) => {
 		if (type === 'schema') {
 			this.setState({claimSchema: base64File });
@@ -214,6 +219,8 @@ export class ProjectCreateUploadPublicDocs extends React.Component<StateProps, S
 							<FileLoader placeholder="Choose claim schema file" acceptType="application/json" selectedCallback={(dataUrl) => this.handleFileSelected('schema', dataUrl)}/>
 							<br />
 							<FileLoader placeholder="Choose claim form file" acceptType="application/json" selectedCallback={(dataUrl) => this.handleFileSelected('form', dataUrl)}/>
+							<br />
+							<ImageLoader quality={imageQuality.medium} placeholder="Choose project logo file" imageWidth={200} imageCallback={this.handleLogo}/>
 							<br />
 							<Button type={ButtonTypes.gradient} onClick={this.handleCreateProject}>UPLOAD PROJECT</Button>
 							<br />
