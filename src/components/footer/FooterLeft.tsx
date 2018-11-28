@@ -94,7 +94,7 @@ export const FooterLeft: React.SFC<any> = ({simple}) => {
 				<MediaQuery minWidth={`${deviceWidth.tablet}px`}>
 					<a href={getIxoWorldRoute('')}><IXOLogo alt="IXO Logo" src={ixoLogo}/></a>
 				</MediaQuery>
-				<ExternalFooterLink href={getIxoWorldRoute('/about')}>About</ExternalFooterLink>
+				{/* <ExternalFooterLink href={getIxoWorldRoute('/about')}>About</ExternalFooterLink> */}
 				<ExternalFooterLink href={getIxoWorldRoute('/membership')}>Membership</ExternalFooterLink>
 				<ExternalFooterLink href={getIxoWorldRoute('/subscribe')}>Subscribe</ExternalFooterLink>
 				<ExternalFooterLink href={getIxoWorldRoute('/ecosystem')}>Ecosystem</ExternalFooterLink>
