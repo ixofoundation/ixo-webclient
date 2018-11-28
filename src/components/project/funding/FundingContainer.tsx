@@ -376,11 +376,11 @@ export class Funding extends React.Component<Props, State> {
 									<li className={(this.props.projectStatus === 'CREATED' && this.state.projectWalletAddress === null) ? 'active' : ''}>SETUP</li>
 									<li className={(this.props.projectStatus === 'CREATED' && this.state.projectWalletAddress === '0x0000000000000000000000000000000000000000') ? 'active' : ''}>CREATE WALLET</li>
 									<li className={(this.state.projectWalletAddress !== null && this.state.projectWalletAddress !== '0x0000000000000000000000000000000000000000') ? 'active' : ''}>FUEL</li>
-									<li onClick={this.handleFundProjectWallet}>Fund Project Wallet</li>
+									{/* <li onClick={this.handleFundProjectWallet}>Fund Project Wallet</li>
 									<li onClick={this.handleStartProject}>Start Project</li>
 									<li onClick={this.handleStopProject}>Complete Project</li>
 									<li onClick={this.handlePayOutProject}>Pay out stage</li>
-									<li onClick={this.handleWithdrawFunds}>Refund MEH</li>
+									<li onClick={this.handleWithdrawFunds}>Refund MEH</li> */}
 								</ol>
 							</div>
 							<div className="col-md-6">

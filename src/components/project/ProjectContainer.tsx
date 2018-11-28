@@ -118,7 +118,6 @@ export class ProjectContainer extends React.Component<Props, State> {
 
 	componentDidMount() {
 		this.handleGetProjectData();
-
 		explorerSocket.on('claim added', (data: any) => {
 			this.handleGetProjectData(true);
 		});
@@ -620,12 +619,14 @@ export class ProjectContainer extends React.Component<Props, State> {
 		return (
 			<Fragment>
 				{theContent}
-				<FundingContainer 
-					projectIxoRequired={this.state.projectPublic.requiredClaims * this.state.projectPublic.evaluatorPayPerClaim}
-					projectDid={this.state.projectDid}
-					projectURL={this.state.projectPublic.serviceEndpoint}
-					projectStatus={this.state.projectStatus}
-				/>
+				{(this.props.userInfo! && this.props.userInfo.didDoc.did === this.state.projectPublic.createdBy) &&
+					<FundingContainer 
+						projectIxoRequired={this.state.projectPublic.requiredClaims * this.state.projectPublic.evaluatorPayPerClaim}
+						projectDid={this.state.projectDid}
+						projectURL={this.state.projectPublic.serviceEndpoint}
+						projectStatus={this.state.projectStatus}
+					/>
+				}
 			</Fragment>
 		);
 	}
