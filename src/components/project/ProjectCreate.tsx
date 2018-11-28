@@ -211,6 +211,7 @@ export class ProjectCreate extends React.Component<StateProps, State> {
 		let newProject = this.state.project;
 		newProject.requiredClaims = String(event.target.value.trim());
 		this.setState({project: newProject, projectJson: JSON.stringify(newProject)});
+
 	}
 
 	handleOwnerNameChanged = (event: any) => {
