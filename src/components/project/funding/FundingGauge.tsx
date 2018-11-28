@@ -102,7 +102,7 @@ export const FundingGauge: React.SFC<ParentProps> = (props) => {
 	const balance = (props.account.balance / 100000000).toFixed(2);
 
 	function handleRenderGauge() {
-		if (props.projectStatus === 'FUNDED' || props.projectStatus === 'STARTED') {
+		if (props.projectStatus === 'FUNDED' || props.projectStatus === 'STARTED' || props.projectStatus === 'STOPPED') {
 			return (
 				<Fragment>
 					<GaugeContainer>

@@ -402,6 +402,8 @@ export class Funding extends React.Component<Props, State> {
 									projectStatus={this.props.projectStatus}
 									startProject={this.handleStartProject}
 									stopProject={this.handleStopProject}
+									payoutPhase={this.handlePayOutProject}
+									withdrawFunds={this.handleWithdrawFunds}
 								/>
 							</div>
 						</div>

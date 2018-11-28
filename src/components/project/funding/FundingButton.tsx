@@ -91,6 +91,8 @@ export interface ParentProps {
 	fundProject: () => void;
 	startProject: () => void;
 	stopProject: () => void;
+	payoutPhase: () => void;
+	withdrawFunds: () => void;
 	web3error: string;
 	creatingWallet: boolean;
 	fundingProject: boolean;
@@ -100,6 +102,20 @@ export interface ParentProps {
 export const FundingButton: React.SFC<ParentProps> = (props) => {
 	
 	// DONT REORDER BELOW BUTTONS PLEASE //
+	if (props.projectStatus === 'PAIDOUT') {
+		return (
+			<ButtonWrapper>
+				<Button type={ButtonTypes.dark} onClick={props.withdrawFunds}><p>Refund IXO</p> <i className="icon-down" /></Button>
+			</ButtonWrapper>
+		);
+	}
+	if (props.projectStatus === 'STOPPED') {
+		return (
+			<ButtonWrapper>
+				<Button type={ButtonTypes.dark} onClick={props.payoutPhase}><p>Ready for payout</p> <i className="icon-down" /></Button>
+			</ButtonWrapper>
+		);
+	}
 	if (props.projectStatus === 'STARTED') {
 		return (
 			<ButtonWrapper>
