@@ -116,18 +116,18 @@ export const FundingButton: React.SFC<ParentProps> = (props) => {
 			</ButtonWrapper>
 		);
 	}
-	if (props.account.balance >= props.requiredIxo) {
-		return (
-			<ButtonWrapper>
-				<Button type={ButtonTypes.dark} onClick={props.fundProject}><p>ADD FUEL</p> <i className="icon-down" /></Button>
-			</ButtonWrapper>
-		);
-	}
 	if (props.fundingProject === true) {
 		return (
 			<ButtonWrapperLoading>
 				<Button type={ButtonTypes.green} ><i className="icon-sync-icon" /><p>fueling project</p></Button>
 			</ButtonWrapperLoading>
+		);
+	}
+	if (props.account.balance >= props.requiredIxo) {
+		return (
+			<ButtonWrapper>
+				<Button type={ButtonTypes.dark} onClick={props.fundProject}><p>ADD FUEL</p> <i className="icon-down" /></Button>
+			</ButtonWrapper>
 		);
 	}
 	if (props.projectStatus === 'FUNDED') {
