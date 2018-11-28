@@ -7,7 +7,7 @@ import { decode as base64Decode } from 'base-64';
 import { contentType, AgentRoles, ErrorTypes, RenderType } from '../../types/models';
 import { Data } from '../../types/models/project';
 import { ProjectHero } from './ProjectHero';
-import { ProjectOverview } from './ProjectOverview';
+import { ProjectOverview } from './overview/ProjectOverview';
 import { ProjectDashboard } from './ProjectDashboard';
 import { ProjectNewClaim } from './ProjectNewClaim';
 import { ProjectSingleClaim } from './ProjectSingleClaim';
@@ -21,6 +21,7 @@ import * as Toast from '../helpers/Toast';
 import { deviceWidth } from '../../lib/commonData';
 import { ProjectClaimSubmitted } from './ProjectClaimSubmitted';
 import { explorerSocket } from '../helpers/explorerSocket';
+import { FundingContainer } from './funding/FundingContainer';
 
 const placeholder = require('../../assets/images/ixo-placeholder-large.jpg');
 
@@ -61,6 +62,7 @@ export interface State {
 	singleClaimFormFile: string;
 	singleClaimDependentsFetched: boolean;
 	singleClaim: Object;
+	projectStatus: string;
 }
 
 export interface StateProps {
@@ -85,6 +87,7 @@ export class ProjectContainer extends React.Component<Props, State> {
 		projectDid: this.props.match.params.projectDID,
 		projectPublic: (this.props.location.state && this.props.location.state.projectPublic) ? this.props.location.state.projectPublic : null,
 		imageLink: (this.props.location.state && this.props.location.state.imageLink) ? this.props.location.state.imageLink : placeholder,
+		projectStatus: (this.props.location.state && this.props.location.state.projectStatus) ? this.props.location.state.projectStatus : null,
 		isModalOpen: false,
 		modalData: {},
 		claims: null,
@@ -114,9 +117,7 @@ export class ProjectContainer extends React.Component<Props, State> {
 	}
 
 	componentDidMount() {
-
 		this.handleGetProjectData();
-
 		explorerSocket.on('claim added', (data: any) => {
 			this.handleGetProjectData(true);
 		});
@@ -127,6 +128,14 @@ export class ProjectContainer extends React.Component<Props, State> {
 
 		explorerSocket.on('agent added', (data: any) => {
 			this.handleGetProjectData(true);
+		});
+
+		explorerSocket.on('project status updated', (data: any) => {
+			console.log('updated with data', data);
+			if (data.projectDid === this.state.projectDid) {
+				this.setState({ projectStatus: data.status});
+				console.log('state updated with new data');
+			}
 		});
 		
 		explorerSocket.on('agent updated', (data: any) => {
@@ -158,6 +167,7 @@ export class ProjectContainer extends React.Component<Props, State> {
 			this.gettingProjectData = true;
 			this.props.ixo.project.getProjectByProjectDid(did).then((response: any) => {
 				const project: Data = response.data;
+				const status: string = response.status;
 				if (agentDid) {
 					const theAgent = project.agents.find((agent) => agent.did === agentDid);
 					if (theAgent) {
@@ -166,8 +176,11 @@ export class ProjectContainer extends React.Component<Props, State> {
 				}
 				this.setState({
 					projectPublic: project,
-					imageLink: this.getImageLink(project)
+					imageLink: this.getImageLink(project),
+					projectStatus: status
 				});
+				console.log('PROJECT: ', response);
+				console.log('STATUS: ', status);
 
 				this.handleGetCapabilities();
 				this.gettingProjectData = false;
@@ -231,7 +244,6 @@ export class ProjectContainer extends React.Component<Props, State> {
 								claimsObj = [...this.state.claims];
 							}
 							claimsObj = response.result;
-							console.log('private claims: ', claimsObj);
 							this.setState({ claims: [...claimsObj] });
 						}
 					}).catch((result: Error) => {
@@ -503,107 +515,130 @@ export class ProjectContainer extends React.Component<Props, State> {
 	}
 
 	handleRenderProject = () => {
-		if (this.state.projectPublic === null || this.state.userRoles === null) {
-			return <Spinner info="Loading Project..." />;
-		} else {
-			const project = this.state.projectPublic;
-			switch (this.props.contentType) {
-				case contentType.overview:
-					return (
+		const project = this.state.projectPublic;
+		let theContent: JSX.Element = null;
+		switch (this.props.contentType) {
+			case contentType.overview:
+				theContent = (
+					<Fragment>
+						<ProjectHero project={project} match={this.props.match} isDetail={false} hasCapability={this.handleHasCapability} />
+						<ProjectOverview
+							checkUserDid={this.checkUserDid}
+							createAgent={this.handleCreateAgent}
+							userInfo={this.props.userInfo}
+							project={project}
+							isModalOpen={this.state.isModalOpen}
+							toggleModal={this.handleToggleModal}
+							modalData={this.state.modalData}
+							hasCapability={this.handleHasCapability}
+							imageLink={this.state.imageLink}
+							projectStatus={this.state.projectStatus}
+						/>
+					</Fragment>
+				);
+				break;
+			case contentType.dashboard:
+				if (this.state.projectPublic.claims === null) {
+					theContent = <Spinner info="Loading claims..." />;
+				} else {
+					const dashboardClaimStats = Object.assign({ required: this.state.projectPublic.requiredClaims }, this.state.projectPublic.claimStats);
+					theContent =  (
 						<Fragment>
-							<ProjectHero project={project} match={this.props.match} isDetail={false} hasCapability={this.handleHasCapability} />
-							<ProjectOverview
-								checkUserDid={this.checkUserDid}
-								createAgent={this.handleCreateAgent}
-								userInfo={this.props.userInfo}
-								project={project}
-								id={project._id}
-								isModalOpen={this.state.isModalOpen}
-								toggleModal={this.handleToggleModal}
-								modalData={this.state.modalData}
-								hasCapability={this.handleHasCapability}
-								imageLink={this.state.imageLink}
-							/>
-						</Fragment>
-					);
-				case contentType.dashboard:
-					if (this.state.projectPublic.claims === null) {
-						return <Spinner info="Loading claims..." />;
-					} else {
-						const dashboardClaimStats = Object.assign({ required: this.state.projectPublic.requiredClaims }, this.state.projectPublic.claimStats);
-						return (
-							<Fragment>
-								<ProjectHero project={project} match={this.props.match} isDetail={true} hasCapability={this.handleHasCapability} />
-								<DetailContainer>
-									<ProjectSidebar match={'detail'} projectDid={this.state.projectDid} hasCapability={this.handleHasCapability} singleClaimDependentsFetchedCallback={this.singleClaimDependentsFetchedCallback} />
-									<ProjectDashboard
-										project={this.state.projectPublic}
-										projectDid={this.state.projectDid}
-										agentStats={this.state.projectPublic.agentStats}
-										hasCapability={this.handleHasCapability}
-										claimStats={dashboardClaimStats}
-										claims={this.state.projectPublic.claims}
-										impactAction={this.state.projectPublic.impactAction}
-									/>
-
-								</DetailContainer>
-							</Fragment>
-						);
-					}
-				case contentType.newClaim:
-					return (
-						<Fragment>
-							<ProjectHero isClaim={true} project={project} match={this.props.match} isDetail={true} hasCapability={this.handleHasCapability} />
-							{(this.state.claimSubmitted) ?
-								<ProjectClaimSubmitted projectDid={this.state.projectDid} /> :
-								<DetailContainer>
-									<ProjectSidebar match={'claims'} projectDid={this.state.projectDid} hasCapability={this.handleHasCapability} singleClaimDependentsFetchedCallback={this.singleClaimDependentsFetchedCallback} />
-									<ProjectNewClaim projectData={project} ixo={this.props.ixo} submitClaim={(claimData) => this.handleSubmitClaim(claimData)} />
-								</DetailContainer>
-							}
-						</Fragment>
-					);
-				case contentType.singleClaim:
-					if (!this.state.singleClaimDependentsFetched) {
-						this.handleSingleClaimFetch(project);
-						return <Spinner info="Loading claim..." />;
-					}
-					return (
-						<Fragment>
-							<ProjectHero isClaim={true} project={project} match={this.props.match} isDetail={true} hasCapability={this.handleHasCapability} />
+							<ProjectHero project={project} match={this.props.match} isDetail={true} hasCapability={this.handleHasCapability} />
 							<DetailContainer>
-								<ProjectSidebar match={'claims'} projectDid={this.state.projectDid} hasCapability={this.handleHasCapability} singleClaimDependentsFetchedCallback={this.singleClaimDependentsFetchedCallback} />
-								<ProjectSingleClaim
-									singleClaimFormFile={this.state.singleClaimFormFile}
-									claim={this.state.singleClaim}
-									claimEvaluated={this.state.claimEvaluated}
-									match={this.props.match}
-									handleListClaims={this.handleListClaims}
-									handleEvaluateClaim={this.handleEvaluateClaim}
+								<ProjectSidebar match={'detail'} projectDid={this.state.projectDid} hasCapability={this.handleHasCapability} singleClaimDependentsFetchedCallback={this.singleClaimDependentsFetchedCallback} />
+								<ProjectDashboard
+									project={this.state.projectPublic}
+									projectDid={this.state.projectDid}
+									agentStats={this.state.projectPublic.agentStats}
 									hasCapability={this.handleHasCapability}
-									singleClaimDependentsFetchedCallback={this.singleClaimDependentsFetchedCallback}
+									claimStats={dashboardClaimStats}
+									claims={this.state.projectPublic.claims}
+									impactAction={this.state.projectPublic.impactAction}
 								/>
+
 							</DetailContainer>
 						</Fragment>
 					);
-				case contentType.claims:
-					return this.handleRenderClaims(RenderType.fullPage);
-				case contentType.evaluators:
-					return this.handleRenderAgents('evaluators');
-				case contentType.investors:
-					return this.handleRenderAgents('investors');
-				case contentType.serviceProviders:
-					return this.handleRenderAgents('serviceProviders');
-				default:
-					return <p>Nothing to see here...</p>;
+				}
+				break;
+			case contentType.newClaim:
+				theContent =  (
+					<Fragment>
+						<ProjectHero isClaim={true} project={project} match={this.props.match} isDetail={true} hasCapability={this.handleHasCapability} />
+						{(this.state.claimSubmitted) ?
+							<ProjectClaimSubmitted projectDid={this.state.projectDid} /> :
+							<DetailContainer>
+								<ProjectSidebar match={'claims'} projectDid={this.state.projectDid} hasCapability={this.handleHasCapability} singleClaimDependentsFetchedCallback={this.singleClaimDependentsFetchedCallback} />
+								<ProjectNewClaim projectData={project} ixo={this.props.ixo} submitClaim={(claimData) => this.handleSubmitClaim(claimData)} />
+							</DetailContainer>
+						}
+					</Fragment>
+				);
+				break;
+			case contentType.singleClaim:
+				if (!this.state.singleClaimDependentsFetched) {
+					this.handleSingleClaimFetch(project);
+					theContent =  <Spinner info="Loading claim..." />;
+				}
+				theContent =  (
+					<Fragment>
+						<ProjectHero isClaim={true} project={project} match={this.props.match} isDetail={true} hasCapability={this.handleHasCapability} />
+						<DetailContainer>
+							<ProjectSidebar match={'claims'} projectDid={this.state.projectDid} hasCapability={this.handleHasCapability} singleClaimDependentsFetchedCallback={this.singleClaimDependentsFetchedCallback} />
+							<ProjectSingleClaim
+								singleClaimFormFile={this.state.singleClaimFormFile}
+								claim={this.state.singleClaim}
+								claimEvaluated={this.state.claimEvaluated}
+								match={this.props.match}
+								handleListClaims={this.handleListClaims}
+								handleEvaluateClaim={this.handleEvaluateClaim}
+								hasCapability={this.handleHasCapability}
+								singleClaimDependentsFetchedCallback={this.singleClaimDependentsFetchedCallback}
+							/>
+						</DetailContainer>
+					</Fragment>
+				);
+				break;
+			case contentType.claims:
+				theContent = this.handleRenderClaims(RenderType.fullPage);
+				break;
+			case contentType.evaluators:
+				theContent =  this.handleRenderAgents('evaluators');
+				break;
+			case contentType.investors:
+				theContent =  this.handleRenderAgents('investors');
+				break;
+			case contentType.serviceProviders:
+				theContent =  this.handleRenderAgents('serviceProviders');
+				break;
+			default:
+				theContent = <p>Nothing to see here...</p>;
+				break;
 			}
-		}
+		return (
+			<Fragment>
+				{theContent}
+				{(this.props.userInfo! && this.props.userInfo.didDoc.did === this.state.projectPublic.createdBy) &&
+					<FundingContainer 
+						projectIxoRequired={this.state.projectPublic.requiredClaims * this.state.projectPublic.evaluatorPayPerClaim}
+						projectDid={this.state.projectDid}
+						projectURL={this.state.projectPublic.serviceEndpoint}
+						projectStatus={this.state.projectStatus}
+					/>
+				}
+			</Fragment>
+		);
 	}
 
 	render() {
 		return (
 			<Fragment>
-				{this.handleRenderProject()}
+				{(this.state.projectPublic === null || this.state.userRoles === null) ?
+					<Spinner info="Loading Project..." />
+				:
+					this.handleRenderProject()
+				}
 			</Fragment>
 		);
 	}

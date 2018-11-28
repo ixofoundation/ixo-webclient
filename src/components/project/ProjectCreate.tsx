@@ -107,10 +107,12 @@ export class ProjectCreate extends React.Component<StateProps, State> {
 					let projectObj: string = this.state.projectJson;
 					this.props.keysafe.requestSigning(projectObj, (error: any, signature: any) => {
 						
+						console.log(JSON.parse(projectObj));
 						this.props.ixo.project.createProject(JSON.parse(projectObj), signature, this.state.project.serviceEndpoint).then((res: any) => {
 							if (res.error) {
 								errorToast(res.error.message, ErrorTypes.message);
 							} else {
+								console.log(res);
 								successToast('Project created successfully');
 							}
 						});
@@ -243,7 +245,6 @@ export class ProjectCreate extends React.Component<StateProps, State> {
 			projectJson: testProjectData,
 			project: JSON.parse(testProjectData)
 		});
-		console.log(this.state.projectJson);
 	}
 
 	renderDevPortion() {

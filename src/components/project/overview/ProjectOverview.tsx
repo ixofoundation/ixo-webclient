@@ -1,19 +1,19 @@
 import * as React from 'react';
-import { ProgressBar } from '../common/ProgressBar';
-import { deviceWidth } from '../../lib/commonData';
+import { ProgressBar } from '../../common/ProgressBar';
+import { deviceWidth } from '../../../lib/commonData';
 import styled from 'styled-components';
-import { SingleStatistic } from '../common/SingleStatistic';
-import { Statistic, StatType, AgentRoles } from '../../types/models';
-import { getCountryName } from '../../utils/formatters';
-import { ModalWrapper } from '../common/ModalWrapper';
-import { ProjectNewAgent } from './ProjectNewAgent';
-import { UserInfo } from '../../types/models';
-import { Button, ButtonTypes } from '../common/Buttons';
+import { SingleStatistic } from '../../common/SingleStatistic';
+import { Statistic, StatType, AgentRoles } from '../../../types/models';
+import { ModalWrapper } from '../../common/ModalWrapper';
+import { ProjectNewAgent } from '../ProjectNewAgent';
+import { UserInfo } from '../../../types/models';
+import { Button, ButtonTypes } from '../../common/Buttons';
 import { Fragment } from 'react';
-import QRComponent from '../common/QRComponent';
+import QRComponent from '../../common/QRComponent';
 import ReactMd from 'react-md-file';
+import { ProjectFounder } from './ProjectFounder';
 
-const placeholder = require('../../assets/images/ixo-placeholder-large.jpg');
+const placeholder = require('../../../assets/images/ixo-placeholder-large.jpg');
 
 const OverviewContainer = styled.section`
 
@@ -33,6 +33,8 @@ const DarkBar = styled(ProgressBar)``;
 
 const BarContainer = styled.div`
 
+	text-align: right;
+
 	div {
 		height: 2px;
 		background-color: #033C50;
@@ -44,11 +46,23 @@ const BarContainer = styled.div`
 		top: -1px;
 		z-index: 1;
 	}
+
+	span {
+		font-size: 15px;
+		color: white;
+		font-weight: 400;
+		background: ${props => props.theme.ixoOrange};
+		font-family: ${props => props.theme.fontRobotoCondensed};
+		padding: 0px 20px;
+		border-radius: 3px;
+		display: inline-flex;
+		margin-bottom: 14px;
+	}
 `;
 
 const Sidebar = styled.div`
 	background: ${props => props.theme.bg.gradientBlue};
-	padding: 24px 15px 15px;
+	padding: 14px 15px 15px;
 	box-shadow: 0px 15px 35px 0px rgba(0,0,0,0.35);
 	margin-bottom: 35px;
 
@@ -196,70 +210,13 @@ const LocalButton = styled.a`
 	}
 `;
 
-const FounderContainer = styled.section`
-	padding: 50px 0;
-`;
-
-const IconText = styled.p`
-
-`;
-
-const Founder = styled.div`
-	background: white;
-
-	h3, h4 {
-		font-family: ${props => props.theme.fontRobotoCondensed};
-	}
-
-	h3 {
-		font-size: 30px;
-	}
-
-	h4 {
-		font-size: 16px;
-		color: ${props => props.theme.darkGrey};
-	}
-
-	img {
-		margin-top: 20px;
-	}
-
-	${IconText} {
-		margin-top: 10px;
-		color: #333C4E;
-		font-size: 14px;
-		font-family: ${props => props.theme.fontRoboto};
-
-		span {
-			display: block;
-			margin:0 15px 10px 0;
-		}
-
-		@media (min-width:400px) {
-			span {
-				display: inline;
-			}
-		}
-
-		i {
-			margin-right: 5px;
-			color: #4c4c4c;
-		}
-
-		i:before {
-			color: #4c4c4c;
-		}
-
-		&{
-			color: #333C4E;
-		}
-	}
+const BlueBold = styled.strong`
+	color: ${props => props.theme.ixoBlue};
 `;
 
 export interface ParentProps {
 	userInfo: UserInfo;
 	project: any;
-	id: string;
 	isModalOpen: boolean;
 	modalData: any;
 	checkUserDid: () => boolean;
@@ -267,6 +224,7 @@ export interface ParentProps {
 	toggleModal: (data?: any, modalStatus?: boolean) => void;
 	hasCapability: (Role: [AgentRoles]) => boolean;
 	imageLink: string;
+	projectStatus: string;
 }
 
 export const ProjectOverview: React.SFC<ParentProps> = (props) => {
@@ -285,24 +243,21 @@ export const ProjectOverview: React.SFC<ParentProps> = (props) => {
 	};
 
 	const renderModal = (data: any) => {
-		let userName = '';
-		if (props.userInfo) {
-			userName = props.userInfo.name.valueOf();
-		}
-		return (
-			<ProjectNewAgent
-				submitAgent={submitAgent}
-				role={data.selectedRole}
-				name={userName}
-			/>
-		);
-	};
 
-	const renderLogo = () => {
-		if (props.project.founder.logoLink !== '') {
-			return <img src={props.project.founder.logoLink} alt=""/>;
+		if (props.modalData.selectedRole!) {
+			let userName = '';
+			if (props.userInfo) {
+				userName = props.userInfo.name.valueOf();
+			}
+			return (
+				<ProjectNewAgent
+					submitAgent={submitAgent}
+					role={data.selectedRole}
+					name={userName}
+				/>
+			);
 		} else {
-			return <span />;
+			return props.modalData.content;
 		}
 	};
 
@@ -316,22 +271,47 @@ export const ProjectOverview: React.SFC<ParentProps> = (props) => {
 		return titleMap[role];
 	};
 
-	const handleRenderInvestorButton = () => {
-		// Dont render the button if there is no userInfo or the user already is an investor
-		// This is disabled for now
-		// if (props.userInfo == null || props.hasCapability([AgentRoles.investors])) {
-			// return <Button type={ButtonTypes.dark} disabled={true}>You are an investor</Button>;
-		// } else {
-		// 	return (
-		// 	<Button
-		// 		type={ButtonTypes.dark}
-		// 		disabled={false}
-		// 		onClick={() => props.toggleModal({selectedRole: AgentRoles.investors}, true)}
-		// 	>Invest in this Project
-		// 	</Button>
-		// 	);
-		// }
-		return '';
+	const renderModalHeader = () => {
+
+		if (props.modalData.selectedRole!) {
+			return ({
+				title: props.project.title,
+				subtitle: renderSubtitle(props.modalData.selectedRole),
+				icon: <i className="icon-modal" />
+			});
+		} else {
+			return ({
+				title: props.modalData.title,
+				subtitle: props.modalData.subtitle,
+				icon: <i className={props.modalData.icon} />
+			});
+		}
+	};
+
+	const handleRenderFuelButton = () => {
+
+		let content = (
+			<Fragment>
+				<p>Interested in funding <BlueBold>{props.project.title}</BlueBold>?<br/>
+				Please contact the project founder below</p> <br/>
+				<Button type={ButtonTypes.dark} href={`mailto:${props.project.ownerEmail}`}>GET IN CONTACT</Button>
+			</Fragment>
+		);
+		const modalData = {
+				title: 'HELP FUEL THIS PROJECT',
+				icon: 'icon-ixo-x',
+				content: content
+		};
+
+		return (
+			<Button
+				type={ButtonTypes.dark}
+				disabled={false}
+				onClick={() => props.toggleModal(modalData, true)}
+			>
+				HELP FUEL THIS PROJECT
+			</Button>
+		);
 	};
 
 	const handleRenderEvaluatorButton = () => {
@@ -383,16 +363,10 @@ export const ProjectOverview: React.SFC<ParentProps> = (props) => {
 	};
 
 	const shareToFacebook = () => {
-		console.log(location.href);
 		// @ts-ignore
 		FB.ui({
 			method: 'share',
-			href: location.href, 
-			picture: props.imageLink,
-			name: props.project.title,
-			description: props.project.shortDescription
-		},    (response) => {
-			// console.log('res is: ', response);
+			href: location.href
 		});
 	};
 
@@ -401,11 +375,7 @@ export const ProjectOverview: React.SFC<ParentProps> = (props) => {
 			<ModalWrapper
 				isModalOpen={props.isModalOpen}
 				handleToggleModal={() => props.toggleModal({})}
-				header={{
-					title: props.project.title,
-					subtitle: renderSubtitle(props.modalData.selectedRole),
-					icon: 'icon-modal'
-				}}
+				header={renderModalHeader()}
 			>
 				{renderModal(props.modalData)}
 			</ModalWrapper>
@@ -427,14 +397,15 @@ export const ProjectOverview: React.SFC<ParentProps> = (props) => {
 						<div className="col-md-4">
 							<Sidebar>
 								<BarContainer>
-									<DarkBar
-										total={props.project.requiredClaims}
-										approved={props.project.claimStats.currentSuccessful}
-										rejected={props.project.claimStats.currentRejected}
-									/>
+									{props.projectStatus === 'CREATED' && <span>PENDING</span>}
+										<DarkBar
+											total={props.project.requiredClaims}
+											approved={props.project.claimStats.currentSuccessful}
+											rejected={props.project.claimStats.currentRejected}
+										/>
 								</BarContainer>
 								{props.project.requiredClaims === 0 ?
-									<p style={{marginTop: '20px'}}>This project will launch in September 2018.</p>
+									<p style={{marginTop: '20px'}}>Project launching soon...</p>
 								:
 									<Fragment>
 										<Claims>{props.project.claimStats.currentSuccessful}/<strong>{props.project.requiredClaims}</strong></Claims>
@@ -452,7 +423,7 @@ export const ProjectOverview: React.SFC<ParentProps> = (props) => {
 										);
 									})}
 								</div>
-								{handleRenderInvestorButton()}
+								{handleRenderFuelButton()}
 								{handleRenderEvaluatorButton()}
 								{handleRenderServiceProviderButton()}
 							</Sidebar>
@@ -471,24 +442,7 @@ export const ProjectOverview: React.SFC<ParentProps> = (props) => {
 					</div>
 				</div>
 			</OverviewContainer>
-			<FounderContainer className="container-fluid">
-				<div className="container">
-					<Founder className="row">
-						<div className="col-md-8">
-							{props.project.founder.name && <h4>Project Founder</h4>}
-							<h3>{props.project.founder.name}</h3>
-							<Text>{props.project.founder.shortDescription}</Text>
-							<IconText>
-								{props.project.founder.countryOfOrigin && <span><i className="icon-location"/>{getCountryName(props.project.founder.countryOfOrigin)}</span>}
-								{props.project.founder.websiteURL && <span><i className="icon-world"/><a href={props.project.founder.websiteURL} target="_blank">{props.project.founder.websiteURL}</a></span>}
-							</IconText>
-						</div>
-						<div className="col-md-4">
-							{renderLogo()}
-						</div>
-					</Founder>
-				</div>
-			</FounderContainer>
+			<ProjectFounder founder={props.project.founder}/>
 		</div>
 
 	);

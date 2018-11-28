@@ -70,7 +70,6 @@ export interface ParentProps {
 
 export interface State {
 	projectList: any[];
-	loaded: boolean;
 	claims: any;
 	claimsTotalRequired: number;
 	agents: any;
@@ -87,7 +86,6 @@ export interface Props extends ParentProps, StateProps {}
 export class Projects extends React.Component<Props, State> {
 	state = {
 		projectList: null,
-		loaded: false,
 		claims: null,
 		claimsTotalRequired: 0,
 		agents: null,
@@ -98,8 +96,13 @@ export class Projects extends React.Component<Props, State> {
 	loadingProjects = false;
 
 	componentDidMount() {
+		
 		explorerSocket.on('list all projects', function (data: any) {
 			// console.log('LLIST PROJECT', data);
+		});
+
+		explorerSocket.on('project status updated', function (data: any) {
+			console.log('UPDATED PROJECT STATUS', data);
 		});
 
 		this.refreshAllProjects();
@@ -184,7 +187,7 @@ export class Projects extends React.Component<Props, State> {
 
 	renderProjects = () => {
 		if (this.state.projectList.length > 0) {	
-			let projects = (this.state.showOnlyMyProjects ? this.state.myProjects : this.state.projectList);	
+			let projects = (this.state.showOnlyMyProjects ? this.state.myProjects : this.state.projectList);
 			return (
 				<ProjectsContainer className="container-fluid">
 					<div className="container">
@@ -196,6 +199,7 @@ export class Projects extends React.Component<Props, State> {
 										project={project.data}
 										did={project.projectDid}
 										key={index}
+										status={project.status}
 									/>
 								);
 							})}

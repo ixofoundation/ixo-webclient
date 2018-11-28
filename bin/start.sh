@@ -1,4 +1,4 @@
-#!/bin/bash -xe
+ #!/bin/bash -xe
 #green=`tput setaf 2`
 echo "***********************************"
 echo "* IXO WEB START                   *"

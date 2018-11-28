@@ -18,7 +18,8 @@ const modalStyles = {
 		overflow: 'auto',
 		maxHeight: '90vh',
 		padding: '0',
-		borderRadius: '2px'
+		borderRadius: '2px',
+		backgroundColor: 'black'
 	}
 };
 
@@ -80,6 +81,12 @@ const Line = styled.div`
 	height: 1px;
 `;
 
+const TitleContainer = styled.div`
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+`;
+
 interface ParentProps {
 	isModalOpen: boolean;
 	header?: Header;
@@ -88,7 +95,7 @@ interface ParentProps {
 export interface Header {
 	title: string;
 	subtitle?: string;
-	icon?: string;
+	icon?: JSX.Element;
 	image?: string;
 	width?: string;
 }
@@ -102,15 +109,15 @@ export const ModalWrapper: React.SFC<Props> = (props) => {
 	const renderHeader = () => {
 		return (
 			<React.Fragment>
-				<FlexContainer style={props.header.width && {width: `${props.header.width}px`}}>
-				<div>
-					{props.header.icon && <i className={`${props.header.icon}`} />}
-					{props.header.image && <img src={props.header.image} />}
-				</div>
+				<FlexContainer style={props.header.width && {width: `${props.header.width}px`}} className="modal-heading">
 					<div>
+						{props.header.icon && props.header.icon}
+						{props.header.image && <img src={props.header.image} />}
+					</div>
+					<TitleContainer>
 						<h3>{props.header.title}</h3>
 						{props.header.subtitle && <p>{props.header.subtitle}</p>}
-					</div>
+					</TitleContainer>
 				</FlexContainer>
 				<Line />
 			</React.Fragment>

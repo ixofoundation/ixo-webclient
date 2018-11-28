@@ -16,8 +16,12 @@ export function initUserInfo(keysafe: any, ixo: any) {
 					ixo.user.getDidDoc(userInfo.didDoc.did).then((didResponse: any) => {
 						if (didResponse.error) {
 							userInfo.ledgered = false;
+							userInfo.hasKYC = false;
 						} else {
 							userInfo.ledgered = true;
+							if (didResponse.credentials.length > 0) {
+								userInfo.hasKYC = true;
+							}
 						}
 						dispatch(
 							createAction<LoginResult>(LOGIN_RESULT.type, {

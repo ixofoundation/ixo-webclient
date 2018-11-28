@@ -221,7 +221,7 @@ export class HeaderRight extends React.Component<HeaderRightProps, State> {
 					</Inner>
 					<UserMenu className={this.state.showMenu ? 'visible' : ''} onMouseLeave={() => this.toggleMenu()}>
 							<MenuTop>
-								{/* <h3>{this.props.userInfo !== null && this.props.userInfo.name} <Link to="/"><i className="icon-settings"/></Link></h3> */}
+								{/* <h3>{this.props.userInfo !== null && this.props.userInfo.name} <Link to="/"><i className="icon-settings1"/></Link></h3> */}
 
 									<AccDID >
 										<p>{this.props.userInfo !== null && this.props.userInfo.didDoc.did}</p>

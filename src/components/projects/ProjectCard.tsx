@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { ProgressBar } from '../common/ProgressBar';
 import { excerptText } from '../../utils/formatters';
+import { Tooltip, TooltipPositions } from '../common/Tooltip';
 
 const placeholder = require('../../assets/images/ixo-placeholder-large.jpg');
 
@@ -109,7 +110,7 @@ const CardTop = styled.div`
 const CardBottom = styled.div`
 	border-radius: 0 0 2px 2px;
 	flex: 1;
-	padding: 20px 14px 0;
+	padding: 0 14px 0;
 	background: white;
 	display: flex;
 	flex-direction: column;
@@ -119,6 +120,37 @@ const CardBottom = styled.div`
         font-weight:300;
 		color: ${props => props.theme.fontDarkGrey};
     }
+`;
+
+const StatusContainer = styled.div`
+	display: flex;
+	height: 40px;
+	justify-content: flex-end;
+	align-items: center;
+`;
+
+const StatusText = styled.p`
+	margin: 0;
+	font-size: 12px;
+`;
+
+const ProjectStatus = styled.div`
+	&.PENDING {
+		${StatusText} {
+			color: white;
+			font-weight: 400;
+			padding: 2px 10px;
+			border-radius: 2px;
+			background: ${props => props.theme.ixoOrange};
+			font-family: ${props => props.theme.fontRobotoCondensed};
+		}
+	}
+
+	&.COMPLETED {
+		${StatusText} {
+			color: #B6B6B6;
+		}
+	}
 `;
 
 const CardContainer = styled.div`
@@ -157,6 +189,7 @@ export interface Props {
 	project: any;
 	did: string;
 	ixo?: any;
+	status: string;
 }
 
 export interface States {
@@ -177,6 +210,32 @@ export class ProjectCard extends React.Component<Props, States> {
 		return this.props.project.serviceEndpoint + 'public/' + this.props.project.imageLink;
 	}
 
+	projectStatus = () => {
+		let statusType: string = '';
+		let shouldShow: boolean = false;
+		let metaString: string = '';
+
+		if (this.props.status === 'CREATED') {
+			statusType = 'PENDING'; // 'WAITING FOR FUNDS'
+			shouldShow = true;
+			metaString = 'This projets is awaiting fuel';
+		} else if (this.props.status === 'COMPLETED') {
+			statusType = 'COMPLETED';
+			shouldShow = true;
+		}
+		if (shouldShow === true) {
+		return (
+			<ProjectStatus className={statusType}>
+				<Tooltip position={TooltipPositions.right} icon={false} text={metaString} >
+					<StatusText>{statusType}</StatusText>
+				</Tooltip>
+			</ProjectStatus>
+		);
+		} else {
+			return null;
+		}
+	}
+
 	componentDidMount() {
 		this.fetchImage();
 	}
@@ -184,7 +243,7 @@ export class ProjectCard extends React.Component<Props, States> {
 	render() {
 		return (
 			<CardContainer className="col-10 offset-1 col-xl-4 col-md-6 col-sm-10 offset-sm-1 offset-md-0">
-				<ProjectLink to={{pathname: `/projects/${this.props.did}/overview`, state: { projectPublic: this.props.project, imageLink: this.getImageLink() } }}>
+				<ProjectLink to={{pathname: `/projects/${this.props.did}/overview`, state: { projectPublic: this.props.project, imageLink: this.getImageLink(), projectStatus: this.props.status } }}>
 					<CardTop style={{backgroundImage: `url(${this.getImageLink()}),url(${placeholder})`}}>
 						<SDGs>
 						{this.props.project.sdgs.map((SDG, SDGi) => {
@@ -200,12 +259,15 @@ export class ProjectCard extends React.Component<Props, States> {
 						<Description><p>{excerptText(this.props.project.shortDescription, 20)}</p></Description>
 					</CardTop>
 					<CardBottom>
+						<StatusContainer>
+							{this.projectStatus()}
+						</StatusContainer>
 						<div>
 							<Title>{excerptText(this.props.project.title, 10)}</Title>
 							<Owner>By {this.props.project.ownerName}</Owner>
 						</div>
 						{this.props.project.requiredClaims === 0 ?
-							<p>This project will launch in September 2018.</p>
+							<p>Project is launching soon...</p>
 						:
 							<div>
 								<ProgressBar total={this.props.project.requiredClaims} approved={this.props.project.claimStats.currentSuccessful} rejected={this.props.project.claimStats.currentRejected}/>

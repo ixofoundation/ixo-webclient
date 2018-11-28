@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { UserInfo } from '../../types/models';
 import { connect } from 'react-redux';
 import { PublicSiteStoreState } from '../../redux/public_site_reducer';
-import { warningToast, errorToast, successToast } from '../helpers/Toast';
+import { errorToast, successToast } from '../helpers/Toast';
 import { ModalWrapper } from '../common/ModalWrapper';
 import { AgentRoles } from '../../types/models';
 import { Banner } from './Banner';
@@ -145,7 +145,7 @@ class RegisterPage extends React.Component<Props, State> {
 		toastShown: false
 	};
 
-	busyLedgering = false;
+	private busyLedgering: boolean = false;
 
 	toggleModal = (activeModal: any, booleanVal: boolean) => {
 		this.setState({ isModalOpen: booleanVal, activeModal });
@@ -192,13 +192,13 @@ If not, please send us an email, telling us a little about the project you would
 		} else if (this.state.activeModal === ModalData.kyc) {
 			return {
 				title: 'MEMBERSHIP REGISTRATION',
-				icon: 'icon-kyc',
+				icon: <i className="icon-kyc" />,
 				width: '365'
 			};
 		} else if (this.state.activeModal = ModalData.invite) {
 			return {
 				title: 'INTERESTED IN CREATING YOUR OWN PROJECTS?',
-				icon: 'icon-claims',
+				icon: <i className="icon-claims" />,
 				width: '365'
 			};
 		} else {
@@ -283,7 +283,7 @@ If not, please send us an email, telling us a little about the project you would
 			}, 'base64');
 		} else {
 			if (this.state.toastShown === false) {
-				warningToast('Please log into the IXO Keysafe');
+				// warningToast('Please log into the IXO Keysafe');
 				this.setState({ toastShown: true });
 			}
 		}

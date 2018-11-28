@@ -6,7 +6,7 @@ const BaseButton = styled.a`
 	border-radius: 2px;
 	color: white;
 	font-size: 15px;
-	font-weight: 300;
+	font-weight: 400;
 	text-transform: uppercase;
 	padding: 10px 20px;
 	margin-bottom: 10px;
@@ -43,6 +43,11 @@ const EnabledDark = BaseButton.extend`
 	}
 `;
 
+const EnabledGreen  = BaseButton.extend`
+	background: #5AB946;
+	color: white;
+`;
+
 const Disabled = BaseButton.extend`
 	&&&{color: ${props => props.theme.ixoBlue} };
 	border: 1px solid ${props => props.theme.ixoBlue};
@@ -62,6 +67,7 @@ const Plus = styled.span`
 export enum ButtonTypes {
 	gradient = 'gradient',
 	dark = 'dark',
+	green = 'green'
 }
 
 export interface Props {
@@ -90,15 +96,21 @@ export const Button: React.SFC<Props> = (props) => {
 	} else {
 		if (props.type === ButtonTypes.gradient) {
 			return (
-				<EnabledGradient onClick={props.onClick} href={props.href} target={props.target}>
+				<EnabledGradient onClick={props.onClick} href={props.href} target={props.target} className="gradientButton">
 					{renderPlus()} {props.children}
 				</EnabledGradient>
 			);
-		} else {
+		} else if (props.type === ButtonTypes.dark) {
 			return (
-				<EnabledDark onClick={props.onClick} href={props.href} target={props.target}>
+				<EnabledDark onClick={props.onClick} href={props.href} target={props.target} className="darkButton">
 					{renderPlus()} {props.children}
 				</EnabledDark>
+			);
+		} else {
+			return (
+				<EnabledGreen onClick={props.onClick} href={props.href} target={props.target} className="greenButton">
+					{renderPlus()} {props.children}
+				</EnabledGreen>
 			);
 		}
 	}
