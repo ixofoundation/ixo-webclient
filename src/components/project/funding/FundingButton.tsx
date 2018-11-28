@@ -97,10 +97,16 @@ export interface ParentProps {
 }
 
 export const FundingButton: React.SFC<ParentProps> = (props) => {
-	if (props.projectStatus === 'FUNDED') {
+	
+	// THE BELOW BUTTONS ARE IN CHRONOLOGICAL ORDER //
+	
+	if (props.projectWalletAddress === null) {
+		return <div style={{position: 'relative', top: '8px'}}><Spinner info="" transparentBg={true} scale={0.8} /></div>;
+	}
+	if (props.projectWalletAddress === '0x0000000000000000000000000000000000000000') {
 		return (
 			<ButtonWrapper>
-				<Button type={ButtonTypes.dark} onClick={props.startProject}><p>LAUNCH YOUR PROJECT</p> <i className="icon-down" /></Button>
+				<Button type={ButtonTypes.dark} onClick={props.createProjectWallet}><p>Create Project Wallet</p><i className="icon-down" /></Button>
 			</ButtonWrapper>
 		);
 	}
@@ -111,26 +117,6 @@ export const FundingButton: React.SFC<ParentProps> = (props) => {
 			</ButtonWrapperLoading>
 		);
 	}
-	if (props.fundingProject === true) {
-		return (
-			<ButtonWrapperLoading>
-				<Button type={ButtonTypes.green} ><i className="icon-sync-icon" /><p>fuelling project</p></Button>
-			</ButtonWrapperLoading>
-		);
-	}
-	if (props.web3error) {
-		return null;
-	}
-	if (props.projectWalletAddress === null) {
-		return <Spinner info="" transparentBg={true} scale={0.8} />;
-	}
-	if (props.projectWalletAddress === '0x0000000000000000000000000000000000000000') {
-		return (
-			<ButtonWrapper>
-				<Button type={ButtonTypes.dark} onClick={props.createProjectWallet}><p>Create Project Wallet</p><i className="icon-down" /></Button>
-			</ButtonWrapper>
-		);
-	}
 	if (props.account.balance >= props.requiredIxo) {
 		return (
 			<ButtonWrapper>
@@ -138,9 +124,21 @@ export const FundingButton: React.SFC<ParentProps> = (props) => {
 			</ButtonWrapper>
 		);
 	}
-	return (
-		<ButtonWrapper>
-			<Button type={ButtonTypes.dark} disabled={true}><p>ADD FUEL</p> <i className="icon-down" /></Button>
-		</ButtonWrapper>
-	);
+	if (props.fundingProject === true) {
+		return (
+			<ButtonWrapperLoading>
+				<Button type={ButtonTypes.green} ><i className="icon-sync-icon" /><p>fuelling project</p></Button>
+			</ButtonWrapperLoading>
+		);
+	}
+	if (props.projectStatus === 'FUNDED') {
+		return (
+			<ButtonWrapper>
+				<Button type={ButtonTypes.dark} onClick={props.startProject}><p>LAUNCH YOUR PROJECT</p> <i className="icon-down" /></Button>
+			</ButtonWrapper>
+		);
+	}
+	// if (props.web3error) {
+	return null;
+	// }
 };
