@@ -216,9 +216,9 @@ export class ProjectCard extends React.Component<Props, States> {
 		let metaString: string = '';
 
 		if (this.props.status === 'CREATED') {
-			statusType = 'WAITING FOR FUNDS'; // 'PENDING'
+			statusType = 'PENDING'; // 'WAITING FOR FUNDS'
 			shouldShow = true;
-			metaString = 'This projets is awaiting funds';
+			metaString = 'This projets is awaiting fuel';
 		} else if (this.props.status === 'COMPLETED') {
 			statusType = 'COMPLETED';
 			shouldShow = true;

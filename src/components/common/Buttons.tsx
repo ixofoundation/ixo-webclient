@@ -44,7 +44,7 @@ const EnabledDark = BaseButton.extend`
 `;
 
 const EnabledGreen  = BaseButton.extend`
-	background: #12a137;
+	background: #5AB946;
 	color: white;
 `;
 

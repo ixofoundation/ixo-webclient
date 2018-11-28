@@ -98,23 +98,22 @@ export interface ParentProps {
 
 export const FundingButton: React.SFC<ParentProps> = (props) => {
 	
-	// THE BELOW BUTTONS ARE IN CHRONOLOGICAL ORDER //
-	
+	// DONT REORDER BELOW BUTTONS PLEASE //
 	if (props.projectWalletAddress === null) {
 		return <div style={{position: 'relative', top: '8px'}}><Spinner info="" transparentBg={true} scale={0.8} /></div>;
-	}
-	if (props.projectWalletAddress === '0x0000000000000000000000000000000000000000') {
-		return (
-			<ButtonWrapper>
-				<Button type={ButtonTypes.dark} onClick={props.createProjectWallet}><p>Create Project Wallet</p><i className="icon-down" /></Button>
-			</ButtonWrapper>
-		);
 	}
 	if (props.creatingWallet === true) {
 		return (
 			<ButtonWrapperLoading>
 				<Button type={ButtonTypes.green} ><i className="icon-sync-icon" /><p>Creating wallet</p></Button>
 			</ButtonWrapperLoading>
+		);
+	}
+	if (props.projectWalletAddress === '0x0000000000000000000000000000000000000000') {
+		return (
+			<ButtonWrapper>
+				<Button type={ButtonTypes.dark} onClick={props.createProjectWallet}><p>Create Project Wallet</p><i className="icon-down" /></Button>
+			</ButtonWrapper>
 		);
 	}
 	if (props.account.balance >= props.requiredIxo) {
@@ -127,7 +126,7 @@ export const FundingButton: React.SFC<ParentProps> = (props) => {
 	if (props.fundingProject === true) {
 		return (
 			<ButtonWrapperLoading>
-				<Button type={ButtonTypes.green} ><i className="icon-sync-icon" /><p>fuelling project</p></Button>
+				<Button type={ButtonTypes.green} ><i className="icon-sync-icon" /><p>fueling project</p></Button>
 			</ButtonWrapperLoading>
 		);
 	}
