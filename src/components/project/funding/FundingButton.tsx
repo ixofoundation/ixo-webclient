@@ -90,6 +90,7 @@ export interface ParentProps {
 	createProjectWallet: () => void;
 	fundProject: () => void;
 	startProject: () => void;
+	stopProject: () => void;
 	web3error: string;
 	creatingWallet: boolean;
 	fundingProject: boolean;
@@ -99,6 +100,20 @@ export interface ParentProps {
 export const FundingButton: React.SFC<ParentProps> = (props) => {
 	
 	// DONT REORDER BELOW BUTTONS PLEASE //
+	if (props.projectStatus === 'STARTED') {
+		return (
+			<ButtonWrapper>
+				<Button type={ButtonTypes.dark} onClick={props.stopProject}><p>STOP PROJECT</p> <i className="icon-down" /></Button>
+			</ButtonWrapper>
+		);
+	}
+	if (props.projectStatus === 'FUNDED') {
+		return (
+			<ButtonWrapper>
+				<Button type={ButtonTypes.dark} onClick={props.startProject}><p>LAUNCH YOUR PROJECT</p> <i className="icon-down" /></Button>
+			</ButtonWrapper>
+		);
+	}
 	if (props.projectWalletAddress === null) {
 		return <div style={{position: 'relative', top: '8px'}}><Spinner info="" transparentBg={true} scale={0.8} /></div>;
 	}
@@ -127,13 +142,6 @@ export const FundingButton: React.SFC<ParentProps> = (props) => {
 		return (
 			<ButtonWrapper>
 				<Button type={ButtonTypes.dark} onClick={props.fundProject}><p>ADD FUEL</p> <i className="icon-down" /></Button>
-			</ButtonWrapper>
-		);
-	}
-	if (props.projectStatus === 'FUNDED') {
-		return (
-			<ButtonWrapper>
-				<Button type={ButtonTypes.dark} onClick={props.startProject}><p>LAUNCH YOUR PROJECT</p> <i className="icon-down" /></Button>
 			</ButtonWrapper>
 		);
 	}

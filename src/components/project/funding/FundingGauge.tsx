@@ -94,11 +94,25 @@ export interface ParentProps {
 	web3error: string;
 	account: Web3Acc;
 	requiredIxo: number;
+	projectStatus: string;
 }
 
 export const FundingGauge: React.SFC<ParentProps> = (props) => {
 
+	const balance = (props.account.balance / 100000000).toFixed(2);
+
 	function handleRenderGauge() {
+		if (props.projectStatus === 'FUNDED' || props.projectStatus === 'STARTED') {
+			return (
+				<Fragment>
+					<GaugeContainer>
+						<IxoX className="icon-ixo-x" />
+						{balance}
+					</GaugeContainer>
+					<p>user account balance</p>
+				</Fragment>
+			);
+		}
 		if (props.web3error) {
 			return (
 				<ErrorWrapper>
@@ -113,7 +127,6 @@ export const FundingGauge: React.SFC<ParentProps> = (props) => {
 			);
 		}
 		if (props.account.address!) {
-			const balance = (props.account.balance / 100000000).toFixed(2);
 			return (
 				<Fragment>
 					<GaugeContainer>

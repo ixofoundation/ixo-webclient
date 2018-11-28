@@ -384,7 +384,12 @@ export class Funding extends React.Component<Props, State> {
 								</ol>
 							</div>
 							<div className="col-md-6">
-								<FundingGauge web3error={this.state.web3error} account={this.state.account} requiredIxo={this.props.projectIxoRequired} />
+								<FundingGauge 
+									web3error={this.state.web3error} 
+									account={this.state.account} 
+									requiredIxo={this.props.projectIxoRequired}
+									projectStatus={this.props.projectStatus}
+								/>
 								<FundingButton 
 									projectWalletAddress={this.state.projectWalletAddress}
 									account={this.state.account}
@@ -396,6 +401,7 @@ export class Funding extends React.Component<Props, State> {
 									fundProject={this.handleFundProjectWallet}
 									projectStatus={this.props.projectStatus}
 									startProject={this.handleStartProject}
+									stopProject={this.handleStopProject}
 								/>
 							</div>
 						</div>
