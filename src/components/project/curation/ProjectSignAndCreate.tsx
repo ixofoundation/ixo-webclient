@@ -169,7 +169,7 @@ export class ProjectSignAndCreate extends React.Component<Props, State> {
 						successToast('Project created successfully');
 					}
 				});
-			});
+			}, 'base64');
 		});
 	}
 
