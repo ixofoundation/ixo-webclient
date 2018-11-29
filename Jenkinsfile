@@ -9,10 +9,10 @@ node {
         echo 'Branch Name: ' + branch
     }
 
-    stage('Build source') {
-        /* Let's make sure we have the repository cloned to our workspace */
-        sh 'yarn install'
-    }
+    // stage('Build source') {
+    //     /* Let's make sure we have the repository cloned to our workspace */
+    //     sh 'yarn install'
+    // }
 
     stage('Build image') {
         app = docker.build("trustlab/ixo-web:" + branch)
