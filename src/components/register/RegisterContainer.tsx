@@ -145,7 +145,7 @@ class RegisterPage extends React.Component<Props, State> {
 		toastShown: false
 	};
 
-	busyLedgering = false;
+	private busyLedgering: boolean = false;
 
 	toggleModal = (activeModal: any, booleanVal: boolean) => {
 		this.setState({ isModalOpen: booleanVal, activeModal });
@@ -192,13 +192,13 @@ If not, please send us an email, telling us a little about the project you would
 		} else if (this.state.activeModal === ModalData.kyc) {
 			return {
 				title: 'MEMBERSHIP REGISTRATION',
-				icon: 'icon-kyc',
+				icon: <i className="icon-kyc" />,
 				width: '365'
 			};
 		} else if (this.state.activeModal = ModalData.invite) {
 			return {
 				title: 'INTERESTED IN CREATING YOUR OWN PROJECTS?',
-				icon: 'icon-claims',
+				icon: <i className="icon-claims" />,
 				width: '365'
 			};
 		} else {
