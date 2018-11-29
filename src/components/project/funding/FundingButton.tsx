@@ -154,14 +154,20 @@ export const FundingButton: React.SFC<ParentProps> = (props) => {
 			</ButtonWrapperLoading>
 		);
 	}
-	if (props.account.balance >= props.requiredIxo) {
+	if ((props.account.balance / 100000000) >= props.requiredIxo) {
 		return (
 			<ButtonWrapper>
 				<Button type={ButtonTypes.dark} onClick={props.fundProject}><p>ADD FUEL</p> <i className="icon-down" /></Button>
 			</ButtonWrapper>
 		);
+	} else {
+		return (
+			<ButtonWrapper>
+				<Button type={ButtonTypes.dark} disabled={true}><p>ADD FUEL</p> <i className="icon-down" /></Button>
+			</ButtonWrapper>
+		);
 	}
 	// if (props.web3error) {
-	return null;
+	// return null;
 	// }
 };
