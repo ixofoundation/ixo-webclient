@@ -621,7 +621,7 @@ export class ProjectContainer extends React.Component<Props, State> {
 				{theContent}
 				{(this.props.userInfo! && this.props.userInfo.didDoc.did === this.state.projectPublic.createdBy) &&
 					<FundingContainer 
-						projectIxoRequired={this.state.projectPublic.requiredClaims * this.state.projectPublic.evaluatorPayPerClaim}
+						projectIxoRequired={this.calculateProjectFee(this.state.projectPublic)}
 						projectDid={this.state.projectDid}
 						projectURL={this.state.projectPublic.serviceEndpoint}
 						projectStatus={this.state.projectStatus}
@@ -629,6 +629,14 @@ export class ProjectContainer extends React.Component<Props, State> {
 				}
 			</Fragment>
 		);
+	}
+
+	calculateProjectFee(project: any) {
+		var perEvalFee = parseFloat(process.env.REACT_APP_FEE_PER_EVALUATION);
+		var perClaimFee = parseFloat(process.env.REACT_APP_FEE_PER_CLAIM_FEE);
+		var feeOverhead = parseFloat(process.env.REACT_APP_FEE_OVERHEAD);
+		var minFee = (project.requiredClaims * (perClaimFee + perEvalFee)) + (project.requiredClaims * project.evaluatorPayPerClaim);
+		return minFee * feeOverhead;
 	}
 
 	render() {
