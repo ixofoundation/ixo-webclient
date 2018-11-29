@@ -87,7 +87,7 @@ export class ImageLoader extends React.Component<StateProps, State> {
 			projectImgSrc: '',
 			isModalOpen: false,
 			image: null,
-			crop: null,
+			crop: ReactCrop.defaultCrop,
 			pixelCrop: null,
 	};
 
@@ -96,7 +96,7 @@ export class ImageLoader extends React.Component<StateProps, State> {
 			projectImgSrc: '',
 			isModalOpen: false,
 			image: null,
-			crop: null,
+			crop: ReactCrop.defaultCrop,
 			pixelCrop: null,
 		});
 	}
