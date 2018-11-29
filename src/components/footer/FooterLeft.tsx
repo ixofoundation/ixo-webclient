@@ -5,6 +5,8 @@ import { deviceWidth } from '../../lib/commonData';
 import { getIxoWorldRoute } from '../../utils/formatters';
 
 const ixoLogo = require('../../assets/images/ixo-logo.svg');
+// const tcs = require('../../assets/legal/terms-and-conditions.pdf');
+// const privacypolicy = require('../../assets/legal/privacy-policy.pdf');
 
 const ExternalFooterLink = styled.a`
 	font-family: ${props => props.theme.fontRobotoRegular};

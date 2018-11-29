@@ -405,7 +405,7 @@ export const ProjectOverview: React.SFC<ParentProps> = (props) => {
 										/>
 								</BarContainer>
 								{props.project.requiredClaims === 0 ?
-									<p style={{marginTop: '20px'}}>Project launching soon...</p>
+									<p style={{marginTop: '20px'}}>Project is launching in 2019</p>
 								:
 									<Fragment>
 										<Claims>{props.project.claimStats.currentSuccessful}/<strong>{props.project.requiredClaims}</strong></Claims>

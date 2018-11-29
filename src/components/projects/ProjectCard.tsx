@@ -267,7 +267,7 @@ export class ProjectCard extends React.Component<Props, States> {
 							<Owner>By {this.props.project.ownerName}</Owner>
 						</div>
 						{this.props.project.requiredClaims === 0 ?
-							<p>Project is launching soon...</p>
+							<p>Project is launching in 2019</p>
 						:
 							<div>
 								<ProgressBar total={this.props.project.requiredClaims} approved={this.props.project.claimStats.currentSuccessful} rejected={this.props.project.claimStats.currentRejected}/>

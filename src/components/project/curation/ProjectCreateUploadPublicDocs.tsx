@@ -118,7 +118,9 @@ export class ProjectCreateUploadPublicDocs extends React.Component<StateProps, S
 				}
 				Promise.all(promises).then((results) => {
 					let projectObj: string = this.state.projectJson;
+					console.log(this.state.projectJson);
 					let projectDataURL = 'data:application/json;base64,' + base64Encode(projectObj);
+					console.log('Here');
 					this.props.ixo.project.createPublic(projectDataURL, this.state.project.serviceEndpoint).then((res: any) => {
 						successToast('Uploaded projectJson successfully');
 						this.setState({projectEmailLink: this.compileEmailLink(res.result)});
