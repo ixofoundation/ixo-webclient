@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { deviceWidth } from 'src/lib/commonData';
 import { Web3Acc } from 'src/types/models/web3';
 import { Fragment } from 'react';
+import * as BigNumber from 'big-number';
 
 const MetaMaskLogo = require('../../../assets/images/metamask.svg');
 
@@ -99,7 +100,7 @@ export interface ParentProps {
 
 export const FundingGauge: React.SFC<ParentProps> = (props) => {
 
-	const balance = (props.account.balance / 100000000).toFixed(2);
+	const balance = (BigNumber(props.account.balance).div(100000000)).toFixed(2);
 
 	function handleRenderGauge() {
 		if (props.projectStatus === 'FUNDED' || props.projectStatus === 'STARTED' || props.projectStatus === 'STOPPED') {

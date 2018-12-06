@@ -78,23 +78,35 @@ const MenuTop = styled.div`
 	}
 `;
 
-// const MenuBottom = styled.div`
-// 	background-color: #01151F;
-// 	padding:20px 34px 30px;
+const RedIcon = styled.div`
+	width: 10px;
+	height: 10px;
+	border-radius: 50%;
+	background: ${props => props.theme.red};
+	margin-right: 8px;
+`;
 
-// 	a {
-// 		font-family: ${props => props.theme.fontRobotoCondensed};
-// 		display: block;
-// 		color: white;
-// 		font-size: 17px;
-// 		padding:10px 0;
-// 	}
+const MenuBottom = styled.div`
+	background-color: #01151F;
+	padding: 15px;
+	display: flex;
 
-// 	a:hover {
-// 		text-decoration:none;
-// 		color: #49bfe0;
-// 	}
-// `;
+	p {
+		color: ${props => props.theme.ixoOrange};
+		width: 180px;
+		font-size: 12px;
+	}
+
+	span {
+		color: white;
+		text-decoration: underline;
+		cursor: pointer;
+	}
+
+	${RedIcon} {
+		margin-top: 5px;
+	}
+`;
 
 const NoPadLeft = styled.div`
 	padding-right:0;
@@ -107,6 +119,7 @@ const NoPadLeft = styled.div`
 
 	h3 {
 		font-size:14px;
+		align-items: center;
 		margin-bottom:0;
 		display: flex;
 		justify-content: space-between;
@@ -177,6 +190,8 @@ interface HeaderRightProps {
 	userInfo: any;
 	renderStatusIndicator: () => JSX.Element;
 	simple?: boolean;
+	shouldLedgerDid: boolean;
+	toggleModal: (IsOpen: boolean) => void;
 }
 
 interface State {
@@ -187,6 +202,10 @@ export class HeaderRight extends React.Component<HeaderRightProps, State> {
 	state = {
 		showMenu: false
 	};
+
+	componentDidUpdate() {
+		// console.log(this.props.shouldLedgerDid);
+	}
 
 	toggleMenu = () => {
 		this.setState((prevState) => ({showMenu: !prevState.showMenu}));
@@ -215,7 +234,7 @@ export class HeaderRight extends React.Component<HeaderRightProps, State> {
 									{this.props.renderStatusIndicator()}
 									<StatusText>IXO EXPLORER STATUS</StatusText>
 								</StatusBox>
-								<h3><span>{this.props.userInfo.name}</span> <i className="icon-down" /></h3>
+								<h3>{this.props.shouldLedgerDid === true && <RedIcon />} <span>{this.props.userInfo.name}</span> <i className="icon-down" /></h3>
 							</UserBox>
 						}
 					</Inner>
@@ -231,10 +250,12 @@ export class HeaderRight extends React.Component<HeaderRightProps, State> {
 									</AccDID>
 								<BalanceContainer><img src={xIcon} alt="IXO Icon" /> <strong>0</strong> IXO balance</BalanceContainer>
 							</MenuTop>
-							{/* <MenuBottom>
-								<Link to="/my-projects">MY PROJECTS</Link>
-								<Link to="/">FAVOURITES</Link>
-							</MenuBottom> */}
+							{this.props.shouldLedgerDid === true &&
+								<MenuBottom>
+									<RedIcon />
+									<p>Ledger your credentials on the ixo blockchain <span onClick={() => this.props.toggleModal(true)}>Sign now with the ixo Keysafe</span></p>
+								</MenuBottom>
+							}
 						</UserMenu>
 				</NoPadLeft>
 			);
