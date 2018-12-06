@@ -9,7 +9,6 @@ import MediaQuery from 'react-responsive';
 import { deviceWidth } from '../../lib/commonData';
 import { ModalWrapper } from 'src/components/common/ModalWrapper';
 import { ButtonTypes, Button } from '../common/Buttons';
-import { successToast, errorToast } from '../helpers/Toast';
 
 const TopBar = styled.header`
 	position: sticky;
@@ -104,11 +103,6 @@ const LightReady = Light.extend`
 	box-shadow: 0px 0px 5px 0px rgb(0, 255, 64);
 `;
 
-const ButtonWrapper = styled.div`
-	&&& a {
-		color: ${props => props.theme.ixoOrange};
-	}
-`;
 const ModalData = styled.div`
 
 	max-width: 380px;
@@ -131,7 +125,6 @@ const ModalData = styled.div`
 
 	p {
 		font-size: 15px;
-		color: ${props => props.theme.ixoOrange};
 		font-weight: 300;
 
 		span {
@@ -154,6 +147,7 @@ export interface State {
 	responseTime: number;
 	shouldLedgerDid: boolean;
 	isModalOpen: boolean;
+	modalResponse: string;
 }
 
 export interface StateProps {
@@ -174,7 +168,8 @@ class Header extends React.Component<Props, State> {
 	state = {
 		responseTime: null,
 		shouldLedgerDid: false,
-		isModalOpen: false
+		isModalOpen: false,
+		modalResponse: ''
 	};
 
 	componentDidMount() {
@@ -188,7 +183,8 @@ class Header extends React.Component<Props, State> {
 	}
 
 	static getDerivedStateFromProps(nextProps: any) {
-		if (nextProps.userInfo && !nextProps.userInfo.ledgered) {
+		// NEED TO RECALL initKeysafe from redux to update ledgered status
+		if (nextProps.userInfo && nextProps.userInfo.ledgered === false) {
 			return { shouldLedgerDid: true };
 		}
 		return null;
@@ -254,15 +250,24 @@ class Header extends React.Component<Props, State> {
 	}
 
 	renderModalData = () => {
-		return (
-			<ModalData>
-				<i className="icon-success" />
-				<h3>YOU HAVE SUCCESSFULLY INSTALLED THE IXO KEYSAFE</h3>
-				<p><span>LAST STEP - </span>create your self-sovereign credentials on the ixo blockchain.</p>
-				<ButtonWrapper><Button type={ButtonTypes.dark} onClick={this.handleLedgerDid}>SIGN NOW USING KEYSAFE</Button></ButtonWrapper>
-				<InfoLink href="https://medium.com/ixo-blog/the-ixo-keysafe-kyc-and-becoming-an-ixo-member-ef33d9e985b6" target="_blank">Why do I need to sign my credentials?</InfoLink>
-			</ModalData>
-		);
+
+		if (this.state.modalResponse.length > 0) {
+			return (
+				<ModalData>
+					<p>{this.state.modalResponse}</p>
+				</ModalData>
+			);
+		} else {
+			return (
+				<ModalData>
+					<i className="icon-success" />
+					<h3>YOU HAVE SUCCESSFULLY INSTALLED THE IXO KEYSAFE</h3>
+					<p><span>LAST STEP - </span>create your self-sovereign credentials on the ixo blockchain.</p>
+					<Button type={ButtonTypes.dark} onClick={this.handleLedgerDid}>SIGN NOW USING KEYSAFE</Button>
+					<InfoLink href="https://medium.com/ixo-blog/the-ixo-keysafe-kyc-and-becoming-an-ixo-member-ef33d9e985b6" target="_blank">Why do I need to sign my credentials?</InfoLink>
+				</ModalData>
+			);
+		}
 	}
 
 	handleToggleModal = (isModalOpen: boolean) => {
@@ -276,17 +281,15 @@ class Header extends React.Component<Props, State> {
 				if (!error) {
 					this.props.ixo.user.registerUserDid(payload, signature).then((response: any) => {
 						if (response.code === 0) {
-							this.handleToggleModal(false);
-							successToast('Your credentials were ledgered successfully');
-							this.setState({ shouldLedgerDid: false});
+							this.setState({ shouldLedgerDid: false, modalResponse: 'Your credentials were ledgered successfully'});
 						} else {
-							errorToast('Unable to ledger did at this time, please contact our support at support@ixo.world');
+							this.setState({ modalResponse: 'Unable to ledger did at this time, please contact our support at support@ixo.world'});
 						}
 					});
 				} 
 			}, 'base64');
 		} else {
-			errorToast('We cannot find your keysafe information, please reach out to our support at support@ixo.world');
+			this.setState({ modalResponse: 'We cannot find your keysafe information, please reach out to our support at support@ixo.world'});
 		}
 	}
 
