@@ -160,6 +160,7 @@ export interface ParentProps {
 	simpleHeader: boolean;
 	refreshProjects?: Function;
 	pingIxoExplorer: Function;
+	initUserInfo: Function;
 }
 export interface Props extends StateProps, ParentProps {}
 
@@ -183,11 +184,11 @@ class Header extends React.Component<Props, State> {
 	}
 
 	static getDerivedStateFromProps(nextProps: any) {
-		// NEED TO RECALL initKeysafe from redux to update ledgered status
 		if (nextProps.userInfo && nextProps.userInfo.ledgered === false) {
 			return { shouldLedgerDid: true };
+		} else {
+			return { shouldLedgerDid: false};
 		}
-		return null;
 	}
 
 	pingExplorer = () => {
@@ -281,7 +282,9 @@ class Header extends React.Component<Props, State> {
 				if (!error) {
 					this.props.ixo.user.registerUserDid(payload, signature).then((response: any) => {
 						if (response.code === 0) {
-							this.setState({ shouldLedgerDid: false, modalResponse: 'Your credentials were ledgered successfully'});
+							this.setState({ shouldLedgerDid: false, modalResponse: 'Your credentials have been signed to ledger. Please wait a few seconds for this to complete...'});
+							
+							setTimeout(() => { this.props.initUserInfo(); }, 10000);
 						} else {
 							this.setState({ modalResponse: 'Unable to ledger did at this time, please contact our support at support@ixo.world'});
 						}

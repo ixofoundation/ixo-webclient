@@ -175,7 +175,13 @@ class App extends React.Component<App.Props, App.State> {
 			<ThemeProvider theme={theme}>
 				<ScrollToTop>
 					<Container>
-						<HeaderConnected pingIxoExplorer={this.handlePingExplorer} simpleHeader={false} userInfo={this.props.userInfo} refreshProjects={() => console.log('clicked')} />
+						<HeaderConnected 
+							pingIxoExplorer={this.handlePingExplorer} 
+							simpleHeader={false} 
+							userInfo={this.props.userInfo}
+							refreshProjects={() => console.log('clicked')}
+							initUserInfo={() => this.props.onLoginInit(this.props.keysafe, this.props.ixo)}
+						/>
 						<ToastContainer hideProgressBar={true} />
 						<ContentWrapper>
 							{this.props.ixo !== null ?
