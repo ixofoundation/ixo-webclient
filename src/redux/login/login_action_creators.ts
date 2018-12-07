@@ -14,7 +14,6 @@ export function initUserInfo(keysafe: any, ixo: any) {
 				if (response) {
 					var userInfo = response;
 					ixo.user.getDidDoc(userInfo.didDoc.did).then((didResponse: any) => {
-						console.log('new data: ', didResponse);
 						if (didResponse.error) {
 							userInfo.ledgered = false;
 							userInfo.hasKYC = false;
