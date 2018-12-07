@@ -4,7 +4,7 @@ import { deviceWidth } from '../../../lib/commonData';
 import styled from 'styled-components';
 import { Web3Acc } from 'src/types/models/web3';
 import { Spinner } from 'src/components/common/Spinner';
-import * as BigNumber from 'big-number';
+import { BigNumber } from 'bignumber.js';
 
 const ButtonWrapper = styled.div`
 
@@ -155,7 +155,11 @@ export const FundingButton: React.SFC<ParentProps> = (props) => {
 			</ButtonWrapperLoading>
 		);
 	}
-	if ((BigNumber(props.account.balance).div(100000000)) >= props.requiredIxo) {
+	let balance = new BigNumber(props.account.balance);
+	balance = balance.div(100000000);
+	let requiredIxo = new BigNumber(props.requiredIxo);
+
+	if (balance.toNumber() >= requiredIxo.toNumber()) {
 		return (
 			<ButtonWrapper>
 				<Button type={ButtonTypes.dark} onClick={props.fundProject}><p>ADD FUEL</p> <i className="icon-down" /></Button>

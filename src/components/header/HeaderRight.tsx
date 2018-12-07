@@ -118,7 +118,6 @@ const NoPadLeft = styled.div`
 
 	h3 {
 		font-size:14px;
-		align-items: center;
 		margin-bottom:0;
 		display: flex;
 		justify-content: space-between;

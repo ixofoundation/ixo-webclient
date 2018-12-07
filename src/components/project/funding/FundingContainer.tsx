@@ -11,7 +11,7 @@ import { Fragment } from 'react';
 import { ModalWrapper } from 'src/components/common/ModalWrapper';
 import { successToast, errorToast } from '../../helpers/Toast';
 import { Button, ButtonTypes } from 'src/components/common/Buttons';
-import * as BigNumber from 'big-number';
+import { BigNumber } from 'bignumber.js';
 
 const FundingWrapper = styled.div`
 	position: sticky;
@@ -192,7 +192,6 @@ export class Funding extends React.Component<Props, State> {
 				if (acc[0]!) {
 					let tempAcc = Object.assign({}, this.state.account);
 					tempAcc.address = acc[0];
-					
 					this.setState({ 
 						web3error: null,
 						account: tempAcc
@@ -262,8 +261,9 @@ export class Funding extends React.Component<Props, State> {
 	handleFundProjectWallet = async () => {
 		await this.handleGetProjectWalletAddres();
 
-		const ixoToSend = BigNumber(this.props.projectIxoRequired).multiply(100000000);
-		this.projectWeb3.fundEthProjectWallet(this.state.projectWalletAddress, this.state.account.address, ixoToSend).then((txnHash) => {
+		let ixoToSend = new BigNumber(this.props.projectIxoRequired);
+		ixoToSend = ixoToSend.multipliedBy(100000000);
+		this.projectWeb3.fundEthProjectWallet(this.state.projectWalletAddress, this.state.account.address, ixoToSend.toNumber()).then((txnHash) => {
 			this.setState({ fundingProject: true});
 			const statusObj = {
 				projectDid: this.props.projectDid,
@@ -290,7 +290,7 @@ export class Funding extends React.Component<Props, State> {
 					if (res.error) {
 						Toast.errorToast(res.error.message);
 					} else {
-						Toast.successToast(`Successfully updated project status to funding`);
+						Toast.successToast(`Successfully updated project status to ${statusData.status}`);
 					}
 				});
 			} else {

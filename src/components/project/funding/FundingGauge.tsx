@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { deviceWidth } from 'src/lib/commonData';
 import { Web3Acc } from 'src/types/models/web3';
 import { Fragment } from 'react';
-import * as BigNumber from 'big-number';
+import { BigNumber } from 'bignumber.js';
 
 const MetaMaskLogo = require('../../../assets/images/metamask.svg');
 
@@ -99,16 +99,19 @@ export interface ParentProps {
 }
 
 export const FundingGauge: React.SFC<ParentProps> = (props) => {
-
-	const balance = (BigNumber(props.account.balance).div(100000000)).toFixed(2);
-
+	let balance = new BigNumber(0);
+	if (props.account.balance!) {
+		balance = new BigNumber(props.account.balance);
+		balance = balance.dividedBy(100000000).decimalPlaces(2);
+	}
+	let jsBalance = balance.toNumber();
 	function handleRenderGauge() {
 		if (props.projectStatus === 'FUNDED' || props.projectStatus === 'STARTED' || props.projectStatus === 'STOPPED') {
 			return (
 				<Fragment>
 					<GaugeContainer>
 						<IxoX className="icon-ixo-x" />
-						{balance}
+						{jsBalance}
 					</GaugeContainer>
 					<p>user account balance</p>
 				</Fragment>
@@ -132,8 +135,8 @@ export const FundingGauge: React.SFC<ParentProps> = (props) => {
 				<Fragment>
 					<GaugeContainer>
 						<IxoX className="icon-ixo-x" />
-						{balance}<span>/{props.requiredIxo} IXO</span>
-						{Number(balance) >= props.requiredIxo && <CheckIcon className="icon-registration-yes" />}
+						{jsBalance}<span>/{props.requiredIxo} IXO</span>
+						{Number(jsBalance) >= props.requiredIxo && <CheckIcon className="icon-registration-yes" />}
 					</GaugeContainer>
 					<p>fuel needed</p>
 				</Fragment>
