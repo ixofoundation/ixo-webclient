@@ -256,6 +256,7 @@ class Header extends React.Component<Props, State> {
 			return (
 				<ModalData>
 					<p>{this.state.modalResponse}</p>
+					<Button type={ButtonTypes.dark} onClick={() => this.handleToggleModal(false)}>CONTINUE</Button>
 				</ModalData>
 			);
 		} else {
@@ -282,7 +283,7 @@ class Header extends React.Component<Props, State> {
 				if (!error) {
 					this.props.ixo.user.registerUserDid(payload, signature).then((response: any) => {
 						if (response.code === 0) {
-							this.setState({ shouldLedgerDid: false, modalResponse: 'Your credentials have been signed to ledger. Please wait a few seconds for this to complete...'});
+							this.setState({ shouldLedgerDid: false, modalResponse: 'Your credentials have been registered on the ixo blockchain. This will take a few seconds in the background, you can continue using the site.'});
 							
 							setTimeout(() => { this.props.initUserInfo(); }, 10000);
 						} else {
