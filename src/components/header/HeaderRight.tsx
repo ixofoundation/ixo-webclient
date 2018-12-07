@@ -92,7 +92,6 @@ const MenuBottom = styled.div`
 	display: flex;
 
 	p {
-		color: ${props => props.theme.ixoOrange};
 		width: 180px;
 		font-size: 12px;
 	}
