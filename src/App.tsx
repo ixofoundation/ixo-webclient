@@ -126,15 +126,6 @@ class App extends React.Component<App.Props, App.State> {
 		}
 	}
 
-	static getDerivedStateFromProps(nextProps: any) {
-		if (nextProps.userInfo && !nextProps.userInfo.ledgered) {
-			if (!(nextProps.location.pathname === '/register')) {
-				nextProps.history.push('/register');
-			}
-		}
-		return null;
-	}
-
 	componentDidMount() {
 		this.props.onIxoInit();
 		this.props.onKeysafeInit();
@@ -184,7 +175,13 @@ class App extends React.Component<App.Props, App.State> {
 			<ThemeProvider theme={theme}>
 				<ScrollToTop>
 					<Container>
-						<HeaderConnected pingIxoExplorer={this.handlePingExplorer} simpleHeader={false} userInfo={this.props.userInfo} refreshProjects={() => console.log('clicked')} />
+						<HeaderConnected 
+							pingIxoExplorer={this.handlePingExplorer} 
+							simpleHeader={false} 
+							userInfo={this.props.userInfo}
+							refreshProjects={() => console.log('clicked')}
+							initUserInfo={() => this.props.onLoginInit(this.props.keysafe, this.props.ixo)}
+						/>
 						<ToastContainer hideProgressBar={true} />
 						<ContentWrapper>
 							{this.props.ixo !== null ?

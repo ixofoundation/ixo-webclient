@@ -11,6 +11,7 @@ import { Fragment } from 'react';
 import { ModalWrapper } from 'src/components/common/ModalWrapper';
 import { successToast, errorToast } from '../../helpers/Toast';
 import { Button, ButtonTypes } from 'src/components/common/Buttons';
+import * as BigNumber from 'big-number';
 
 const FundingWrapper = styled.div`
 	position: sticky;
@@ -261,7 +262,7 @@ export class Funding extends React.Component<Props, State> {
 	handleFundProjectWallet = async () => {
 		await this.handleGetProjectWalletAddres();
 
-		const ixoToSend = this.props.projectIxoRequired * 100000000;
+		const ixoToSend = BigNumber(this.props.projectIxoRequired).multiply(100000000);
 		this.projectWeb3.fundEthProjectWallet(this.state.projectWalletAddress, this.state.account.address, ixoToSend).then((txnHash) => {
 			this.setState({ fundingProject: true});
 			const statusObj = {
@@ -376,11 +377,6 @@ export class Funding extends React.Component<Props, State> {
 									<li className={(this.props.projectStatus === 'CREATED' && this.state.projectWalletAddress === null) ? 'active' : ''}>SETUP</li>
 									<li className={(this.props.projectStatus === 'CREATED' && this.state.projectWalletAddress === '0x0000000000000000000000000000000000000000') ? 'active' : ''}>CREATE WALLET</li>
 									<li className={(this.state.projectWalletAddress !== null && this.state.projectWalletAddress !== '0x0000000000000000000000000000000000000000') ? 'active' : ''}>FUEL</li>
-									{/* <li onClick={this.handleFundProjectWallet}>Fund Project Wallet</li>
-									<li onClick={this.handleStartProject}>Start Project</li>
-									<li onClick={this.handleStopProject}>Complete Project</li>
-									<li onClick={this.handlePayOutProject}>Pay out stage</li>
-									<li onClick={this.handleWithdrawFunds}>Refund MEH</li> */}
 								</ol>
 							</div>
 							<div className="col-md-6">

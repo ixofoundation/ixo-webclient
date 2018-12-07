@@ -13,6 +13,7 @@
     "@types/redux-thunk": "^2.1.0",
     "ajv": "^6.5.2",
     "base-64": "^0.1.0",
+    "big-number": "^1.0.0",
     "chart.js": "^2.7.2",
     "dotenv": "^6.0.0",
     "extract-text-webpack-plugin": "^2.1.2",

@@ -7,6 +7,8 @@ import { HeaderLeft } from './HeaderLeft';
 import { HeaderRight } from './HeaderRight';
 import MediaQuery from 'react-responsive';
 import { deviceWidth } from '../../lib/commonData';
+import { ModalWrapper } from 'src/components/common/ModalWrapper';
+import { ButtonTypes, Button } from '../common/Buttons';
 
 const TopBar = styled.header`
 	position: sticky;
@@ -101,12 +103,56 @@ const LightReady = Light.extend`
 	box-shadow: 0px 0px 5px 0px rgb(0, 255, 64);
 `;
 
+const ModalData = styled.div`
+
+	max-width: 380px;
+	text-align: center;
+	padding: 20px 20px 30px;
+
+	i {
+		font-size: 64px;
+
+		:before {
+			color: ${props => props.theme.ixoBlue};
+		}
+	}
+
+	h3 {
+		margin-top: 10px;
+		font-size: 18px;
+		font-family: ${props => props.theme.fontRobotoCondensed};
+	}
+
+	p {
+		font-size: 15px;
+		font-weight: 300;
+
+		span {
+			color: ${props => props.theme.ixoBlue};
+		}
+	}
+`;
+
+const InfoLink = styled.a`
+	color: white;
+	font-size: 12px;
+	text-decoration: underline;
+
+	:hover {
+		color: ${props => props.theme.ixoBlue};
+	}
+`;
+
 export interface State {
 	responseTime: number;
+	shouldLedgerDid: boolean;
+	isModalOpen: boolean;
+	modalResponse: string;
 }
 
 export interface StateProps {
 	ixo?: any;
+	keysafe?: any;
 }
 
 export interface ParentProps {
@@ -114,13 +160,17 @@ export interface ParentProps {
 	simpleHeader: boolean;
 	refreshProjects?: Function;
 	pingIxoExplorer: Function;
+	initUserInfo: Function;
 }
 export interface Props extends StateProps, ParentProps {}
 
 class Header extends React.Component<Props, State> {
 
 	state = {
-		responseTime: null
+		responseTime: null,
+		shouldLedgerDid: false,
+		isModalOpen: false,
+		modalResponse: ''
 	};
 
 	componentDidMount() {
@@ -130,6 +180,14 @@ class Header extends React.Component<Props, State> {
 	componentDidUpdate(prevProps: Props) {
 		if (prevProps.ixo !== this.props.ixo && this.props.ixo !== null) {
 			this.pingExplorer();
+		}
+	}
+
+	static getDerivedStateFromProps(nextProps: any) {
+		if (nextProps.userInfo && nextProps.userInfo.ledgered === false) {
+			return { shouldLedgerDid: true };
+		} else {
+			return { shouldLedgerDid: false};
 		}
 	}
 
@@ -143,7 +201,6 @@ class Header extends React.Component<Props, State> {
 			// Only check every 5 sec if not connected
 			setTimeout(() => this.pingExplorer(), 5000);
 		});
-		
 	}
 
 	renderStatusIndicator = () => {
@@ -183,9 +240,73 @@ class Header extends React.Component<Props, State> {
 		}
 	}
 
+	renderModalHeader = () => {
+		if (this.props.userInfo) {
+			return ({
+				title: 'Hi, ' + this.props.userInfo.name
+			});
+		} else {
+			return null;
+		}
+	}
+
+	renderModalData = () => {
+
+		if (this.state.modalResponse.length > 0) {
+			return (
+				<ModalData>
+					<p>{this.state.modalResponse}</p>
+					<Button type={ButtonTypes.dark} onClick={() => this.handleToggleModal(false)}>CONTINUE</Button>
+				</ModalData>
+			);
+		} else {
+			return (
+				<ModalData>
+					<i className="icon-success" />
+					<h3>YOU HAVE SUCCESSFULLY INSTALLED THE IXO KEYSAFE</h3>
+					<p><span>LAST STEP - </span>create your self-sovereign credentials on the ixo blockchain.</p>
+					<Button type={ButtonTypes.dark} onClick={this.handleLedgerDid}>SIGN NOW USING KEYSAFE</Button>
+					<InfoLink href="https://medium.com/ixo-blog/the-ixo-keysafe-kyc-and-becoming-an-ixo-member-ef33d9e985b6" target="_blank">Why do I need to sign my credentials?</InfoLink>
+				</ModalData>
+			);
+		}
+	}
+
+	handleToggleModal = (isModalOpen: boolean) => {
+		this.setState({isModalOpen: isModalOpen});
+	}
+
+	handleLedgerDid = () => {
+		if (this.props.userInfo.didDoc) {
+			let payload = { didDoc: this.props.userInfo.didDoc };
+			this.props.keysafe.requestSigning(JSON.stringify(payload), (error, signature) => {
+				if (!error) {
+					this.props.ixo.user.registerUserDid(payload, signature).then((response: any) => {
+						if (response.code === 0) {
+							this.setState({ shouldLedgerDid: false, modalResponse: 'Your credentials have been registered on the ixo blockchain. This will take a few seconds in the background, you can continue using the site.'});
+							
+							setTimeout(() => { this.props.initUserInfo(); }, 10000);
+						} else {
+							this.setState({ modalResponse: 'Unable to ledger did at this time, please contact our support at support@ixo.world'});
+						}
+					});
+				} 
+			}, 'base64');
+		} else {
+			this.setState({ modalResponse: 'We cannot find your keysafe information, please reach out to our support at support@ixo.world'});
+		}
+	}
+
 	render() {
 		return (
 			<TopBar className="container-fluid text-white">
+				<ModalWrapper
+					isModalOpen={this.state.isModalOpen}
+					handleToggleModal={this.handleToggleModal}
+					header={this.renderModalHeader()}
+				>
+					{this.renderModalData()}
+				</ModalWrapper>
 				<div className="row">
 					<HeaderLeft simple={this.props.simpleHeader} refreshProjects={this.props.refreshProjects}/>
 					<MediaQuery minWidth={`${deviceWidth.tablet}px`}>
@@ -193,6 +314,8 @@ class Header extends React.Component<Props, State> {
 							renderStatusIndicator={this.renderStatusIndicator}
 							userInfo={this.props.userInfo}
 							simple={this.props.simpleHeader}
+							shouldLedgerDid={this.state.shouldLedgerDid}
+							toggleModal={this.handleToggleModal}
 						/>
 					</MediaQuery>
 				</div>
@@ -203,7 +326,8 @@ class Header extends React.Component<Props, State> {
 
 function mapStateToProps(state: PublicSiteStoreState): StateProps {
 	return {
-		ixo: state.ixoStore.ixo
+		ixo: state.ixoStore.ixo,
+		keysafe: state.keysafeStore.keysafe
 	};
 }
 
