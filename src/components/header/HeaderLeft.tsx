@@ -18,15 +18,40 @@ const HeaderLink = styled(NavLink)`
 	padding:5px 10px 5px;
 	margin:0;
 
-	:last-child {
+	:nth-child(2) {
 		border:1px solid #49bfe0;
 		font-weight: 300;
 	}
 
-	&:last-child.active {
+	&:nth-child(2).active {
 		color: ${props => props.theme.fontBlueButtonHover};
 		font-weight: 300;
 	}
+
+	@media (min-width: 430px) {
+		margin:0 10px;
+		font-size: 13px;
+	}
+
+	transition:border 0.3s ease;
+
+	:hover {
+ 		text-decoration:none;
+ 		&&{color: ${props => props.theme.fontBlue};}}
+ 	}
+`;
+
+const HeaderAnchor = styled.a`
+	color: white;
+	font-family: ${props => props.theme.fontRobotoCondensed};
+	font-size: 12px;
+	font-weight: 400;
+	letter-spacing: 1px;
+	text-transform: uppercase;
+	border: 1px solid #000000;
+	border-radius:3px;
+	padding:5px 10px 5px;
+	margin:0;
 
 	@media (min-width: 430px) {
 		margin:0 10px;
@@ -76,6 +101,9 @@ export const HeaderLeft: React.SFC<any> = ({refreshProjects}) => {
 		<Main className="col-md-6 d-flex align-items-center">
 			<a href={getIxoWorldRoute('')}><IXOLogo alt="IXO Logo" src={ixoLogo}/></a>
 			<HeaderLink exact={true} onClick={refreshProjects} to="/">Explore</HeaderLink>
+			<HeaderAnchor href={getIxoWorldRoute('/membership')}>Membership</HeaderAnchor>
+			<HeaderAnchor href={getIxoWorldRoute('/subscribe')}>Subscribe</HeaderAnchor>
+			<HeaderAnchor href={getIxoWorldRoute('/ecosystem')}>Ecosystem</HeaderAnchor>
 			{/* <HeaderLink exact={true} to="/register">Launch a Project</HeaderLink> */}
 		</Main>
 	);
