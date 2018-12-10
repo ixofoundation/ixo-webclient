@@ -84,6 +84,7 @@ const RedIcon = styled.div`
 	border-radius: 50%;
 	background: ${props => props.theme.red};
 	margin-right: 8px;
+	margin-top: 3px;
 `;
 
 const MenuBottom = styled.div`
