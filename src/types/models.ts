@@ -53,6 +53,8 @@ export interface UserInfo {
 	didDoc: DidDoc;
 	name: String;
 	ledgered: boolean; 
+	loggedInKeysafe: boolean;
+	hasKYC: boolean;
 }
 
 export enum ErrorTypes {

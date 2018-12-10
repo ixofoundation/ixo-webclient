@@ -1,5 +1,6 @@
 import { createAction } from '../../lib/redux_utils/actions';
 import { LoginResult, LOGIN_RESULT } from './login_actions';
+import { UserInfo } from 'src/types/models';
 
 export function initUserInfo(keysafe: any, ixo: any) {
 	return dispatch => {
@@ -10,9 +11,23 @@ export function initUserInfo(keysafe: any, ixo: any) {
 					error: 'Please install IXO Keysafe and login!'
 				}));
 		} else {
+			let userInfo: UserInfo = {
+				ledgered : false,
+				hasKYC: false,
+				loggedInKeysafe: false,
+				didDoc: {
+					did: '',
+					pubKey: ''
+				},
+				name: ''
+			};
+			
 			keysafe.getInfo((error, response) => {
+				console.log('error is:', error);
+				console.log('response is:', response);	
 				if (response) {
-					var userInfo = response;
+					userInfo = response;
+					userInfo.loggedInKeysafe = true;
 					ixo.user.getDidDoc(userInfo.didDoc.did).then((didResponse: any) => {
 						if (didResponse.error) {
 							userInfo.ledgered = false;
@@ -34,9 +49,10 @@ export function initUserInfo(keysafe: any, ixo: any) {
 				});
 
 				} else {
+					userInfo.loggedInKeysafe = false;
 					dispatch(
 						createAction<LoginResult>(LOGIN_RESULT.type, {
-							userInfo: null,
+							userInfo: userInfo,
 							error: 'Please log into IXO Keysafe'
 						}));
 					}

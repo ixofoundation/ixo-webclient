@@ -191,6 +191,7 @@ interface HeaderRightProps {
 	simple?: boolean;
 	shouldLedgerDid: boolean;
 	toggleModal: (IsOpen: boolean) => void;
+	// loggedInKeysafe: boolean;
 }
 
 interface State {

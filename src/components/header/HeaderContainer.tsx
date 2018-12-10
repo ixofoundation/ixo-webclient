@@ -297,6 +297,18 @@ class Header extends React.Component<Props, State> {
 		}
 	}
 
+	// handleIsLoggedInKeysafe() {
+	// 	this.props.keysafe.getDidDoc((error, response) => {
+	// 		if (error) {
+	// 		// handle error
+	// 		console.log('error not logged in');
+	// 		} else {
+	// 		// continue with successful response
+	// 		console.log('logged in');
+	// 		}
+	// 	});
+	// }
+
 	render() {
 		return (
 			<TopBar className="container-fluid text-white">
@@ -316,6 +328,7 @@ class Header extends React.Component<Props, State> {
 							simple={this.props.simpleHeader}
 							shouldLedgerDid={this.state.shouldLedgerDid}
 							toggleModal={this.handleToggleModal}
+							// loggedInKeysafe={this.handleIsLoggedInKeysafe}
 						/>
 					</MediaQuery>
 				</div>
