@@ -20,12 +20,12 @@ const HeaderLink = styled(NavLink)`
 
 	:nth-child(2) {
 		border:1px solid #49bfe0;
-		font-weight: 300;
+		font-weight: 400;
 	}
 
 	&:nth-child(2).active {
 		color: ${props => props.theme.fontBlueButtonHover};
-		font-weight: 300;
+		font-weight: 400;
 	}
 
 	@media (min-width: 430px) {
