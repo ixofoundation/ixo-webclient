@@ -124,7 +124,7 @@ class App extends React.Component<App.Props, App.State> {
 
 		if (this.props.ixo !== null && this.props.keysafe !== null && this.state.onLoginInitCalled === false) {
 			console.log('lll');
-			this.keySafeInterval = setInterval(() => this.handleLoginInKeysafe(prevProps), 3000);
+			this.keySafeInterval = setInterval(() => this.handleLoginInKeysafe(), 3000);
 			this.setState({ onLoginInitCalled: true });
 		}
 	}
@@ -151,9 +151,8 @@ class App extends React.Component<App.Props, App.State> {
 		
 	}
 
-	handleLoginInKeysafe = (prevProps: any) => {
+	handleLoginInKeysafe = () => {
 
-		console.log('prevprops is:', prevProps);
 		let userInfo: UserInfo = {
 			ledgered : false,
 			hasKYC: false,
@@ -179,8 +178,8 @@ class App extends React.Component<App.Props, App.State> {
 							userInfo.hasKYC = true;
 						}
 					}
-					console.log('retrieved userinfo is:', userInfo);
-					if (prevProps.userInfo !== userInfo) {
+					if (JSON.stringify(this.props.userInfo) !== JSON.stringify(userInfo)) {
+						console.log('retrieved userinfo is:', userInfo);
 						this.props.onLoginInit(userInfo, ''); 
 					}
 			}).catch((didError) => {
@@ -189,7 +188,7 @@ class App extends React.Component<App.Props, App.State> {
 
 			} else {
 				userInfo.loggedInKeysafe = false;
-				if (prevProps.userInfo !== userInfo) {
+				if (JSON.stringify(prevProps.userInfo) !== JSON.stringify(userInfo)) {
 					this.props.onLoginInit(userInfo, 'Please log into IXO Keysafe'); 
 				}
 			}
@@ -266,8 +265,8 @@ function mapDispatchToProps(dispatch: any): App.DispatchProps {
 		onKeysafeInit: () => {
 			dispatch(initKeysafe());
 		},
-		onLoginInit: (keysafe: any, ixo: any) => {
-			dispatch(initUserInfo(keysafe, ixo));
+		onLoginInit: (userInfo: UserInfo, error: string) => {
+			dispatch(initUserInfo(userInfo, error));
 		},
 		onWeb3Connect: () => {
 			dispatch(connectWeb3());
