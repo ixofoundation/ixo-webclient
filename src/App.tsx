@@ -123,10 +123,8 @@ class App extends React.Component<App.Props, App.State> {
 	componentDidUpdate(prevProps: App.Props) {
 
 		if (this.props.ixo !== null && this.props.keysafe !== null && this.state.onLoginInitCalled === false) {
-			// setTimeout(() => { this.props.onLoginInit(this.props.keysafe, this.props.ixo); }, 30000);
-			// THIS SHOULDN'T FREAKING EXECUTE MULTIPLE TIMES
 			console.log('lll');
-			// this.keySafeInterval = setInterval(() => this.handleLoginInKeysafe(this.props.keysafe, this.props.ixo), 3000);
+			this.keySafeInterval = setInterval(() => this.handleLoginInKeysafe(prevProps), 3000);
 			this.setState({ onLoginInitCalled: true });
 		}
 	}
