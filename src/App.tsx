@@ -123,7 +123,6 @@ class App extends React.Component<App.Props, App.State> {
 	componentDidUpdate(prevProps: App.Props) {
 
 		if (this.props.ixo !== null && this.props.keysafe !== null && this.state.onLoginInitCalled === false) {
-			console.log('lll');
 			this.keySafeInterval = setInterval(() => this.handleLoginInKeysafe(), 3000);
 			this.setState({ onLoginInitCalled: true });
 		}
@@ -179,7 +178,6 @@ class App extends React.Component<App.Props, App.State> {
 						}
 					}
 					if (JSON.stringify(this.props.userInfo) !== JSON.stringify(userInfo)) {
-						console.log('retrieved userinfo is:', userInfo);
 						this.props.onLoginInit(userInfo, ''); 
 					}
 			}).catch((didError) => {
@@ -188,7 +186,7 @@ class App extends React.Component<App.Props, App.State> {
 
 			} else {
 				userInfo.loggedInKeysafe = false;
-				if (JSON.stringify(prevProps.userInfo) !== JSON.stringify(userInfo)) {
+				if (JSON.stringify(this.props.userInfo) !== JSON.stringify(userInfo)) {
 					this.props.onLoginInit(userInfo, 'Please log into IXO Keysafe'); 
 				}
 			}

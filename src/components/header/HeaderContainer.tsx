@@ -184,7 +184,7 @@ class Header extends React.Component<Props, State> {
 		if (prevProps.ixo !== this.props.ixo && this.props.ixo !== null) {
 			this.pingExplorer();
 		}
-		if (this.props.userInfo && (prevProps.userInfo !== this.props.userInfo) && this.props.userInfo.ledgered === false && this.state.isLedgering === false) {
+		if (this.props.userInfo && (prevProps.userInfo !== this.props.userInfo) && this.props.userInfo.loggedInKeysafe === true && this.props.userInfo.ledgered === false && this.state.isLedgering === false) {
 			this.setState({ shouldLedgerDid: true });
 		}
 	}

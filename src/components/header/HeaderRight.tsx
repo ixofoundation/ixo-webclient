@@ -191,7 +191,6 @@ interface HeaderRightProps {
 	simple?: boolean;
 	shouldLedgerDid: boolean;
 	toggleModal: (IsOpen: boolean) => void;
-	// loggedInKeysafe: boolean;
 }
 
 interface State {
@@ -202,10 +201,6 @@ export class HeaderRight extends React.Component<HeaderRightProps, State> {
 	state = {
 		showMenu: false
 	};
-
-	componentDidUpdate() {
-		// console.log(this.props.shouldLedgerDid);
-	}
 
 	toggleMenu = () => {
 		this.setState((prevState) => ({showMenu: !prevState.showMenu}));
@@ -218,14 +213,14 @@ export class HeaderRight extends React.Component<HeaderRightProps, State> {
 			return (
 				<NoPadLeft className="col-md-6">
 					<Inner className="d-flex justify-content-end">
-						{(this.props.userInfo === null) ?
+						{(this.props.userInfo === null) || (this.props.userInfo.loggedInKeysafe === false) ?
 							<JoinLink>
 								<UserBox>
 									<StatusBox>
 										{this.props.renderStatusIndicator()}
 										<StatusText>IXO EXPLORER STATUS</StatusText>
 									</StatusBox>
-									{/* <h3><span>Join the Beta</span></h3> */}
+									<h3><span>Log in</span></h3>
 								</UserBox>
 							</JoinLink>
 							:
