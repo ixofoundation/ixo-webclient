@@ -118,10 +118,15 @@ class App extends React.Component<App.Props, App.State> {
 		onLoginInitCalled: false
 	};
 
+	private keySafeInterval = null;
+
 	componentDidUpdate(prevProps: App.Props) {
 
-		if (this.props.ixo !== null && this.props.keysafe !== null && this.props.userInfo === null && this.state.onLoginInitCalled === false) {
-			this.props.onLoginInit(this.props.keysafe, this.props.ixo);
+		if (this.props.ixo !== null && this.props.keysafe !== null && this.state.onLoginInitCalled === false) {
+			// setTimeout(() => { this.props.onLoginInit(this.props.keysafe, this.props.ixo); }, 30000);
+			// THIS SHOULDN'T FREAKING EXECUTE MULTIPLE TIMES
+			console.log('lll');
+			// this.keySafeInterval = setInterval(() => this.handleLoginInKeysafe(this.props.keysafe, this.props.ixo), 3000);
 			this.setState({ onLoginInitCalled: true });
 		}
 	}
@@ -145,6 +150,56 @@ class App extends React.Component<App.Props, App.State> {
 			// console.log('did updated');
 			// console.log(data);
 		});
+		
+	}
+
+	handleLoginInKeysafe = (prevProps: any) => {
+
+		console.log('prevprops is:', prevProps);
+		let userInfo: UserInfo = {
+			ledgered : false,
+			hasKYC: false,
+			loggedInKeysafe: false,
+			didDoc: {
+				did: '',
+				pubKey: ''
+			},
+			name: ''
+		};
+
+		this.props.keysafe.getInfo((error, response) => {
+			if (response) {
+				userInfo = response;
+				userInfo.loggedInKeysafe = true;
+				this.props.ixo.user.getDidDoc(userInfo.didDoc.did).then((didResponse: any) => {
+					if (didResponse.error) {
+						userInfo.ledgered = false;
+						userInfo.hasKYC = false;
+					} else {
+						userInfo.ledgered = true;
+						if (didResponse.credentials.length > 0) {
+							userInfo.hasKYC = true;
+						}
+					}
+					console.log('retrieved userinfo is:', userInfo);
+					if (prevProps.userInfo !== userInfo) {
+						this.props.onLoginInit(userInfo, ''); 
+					}
+			}).catch((didError) => {
+				console.log(didError);
+			});
+
+			} else {
+				userInfo.loggedInKeysafe = false;
+				if (prevProps.userInfo !== userInfo) {
+					this.props.onLoginInit(userInfo, 'Please log into IXO Keysafe'); 
+				}
+			}
+		});
+	}
+	
+	componentWillUnmount() {
+		clearInterval(this.keySafeInterval);
 	}
 
 	handlePingExplorer = () => {
