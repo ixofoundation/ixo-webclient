@@ -206,6 +206,16 @@ export class HeaderRight extends React.Component<HeaderRightProps, State> {
 		this.setState((prevState) => ({showMenu: !prevState.showMenu}));
 	}
 
+	handleLogInButton = () => {
+		if (this.props.userInfo === null) {
+			return <h3><span>Log in</span></h3>;
+		}
+		if (this.props.userInfo.loggedInKeysafe === false) {
+			return <h3><span>Log in</span></h3>;
+		}
+		return '';
+	}
+
 	render() {
 		if (this.props.simple === true) {
 			return <NoPadLeft className="col-md-6" />;
@@ -220,7 +230,7 @@ export class HeaderRight extends React.Component<HeaderRightProps, State> {
 										{this.props.renderStatusIndicator()}
 										<StatusText>IXO EXPLORER STATUS</StatusText>
 									</StatusBox>
-									<h3><span>Log in</span></h3>
+									{this.handleLogInButton()}
 								</UserBox>
 							</JoinLink>
 							:
