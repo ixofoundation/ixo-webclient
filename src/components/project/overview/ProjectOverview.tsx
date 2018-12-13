@@ -242,25 +242,6 @@ export const ProjectOverview: React.SFC<ParentProps> = (props) => {
 		props.toggleModal({});
 	};
 
-	const renderModal = (data: any) => {
-
-		if (props.modalData.selectedRole!) {
-			let userName = '';
-			if (props.userInfo) {
-				userName = props.userInfo.name.valueOf();
-			}
-			return (
-				<NewAgent
-					submitAgent={submitAgent}
-					role={data.selectedRole}
-					name={userName}
-				/>
-			);
-		} else {
-			return props.modalData.content;
-		}
-	};
-
 	const titleMap = {
 		[AgentRoles.investors]: 'Become an Investor',
 		[AgentRoles.evaluators]: 'Become an Evaluator',
@@ -272,20 +253,11 @@ export const ProjectOverview: React.SFC<ParentProps> = (props) => {
 	};
 
 	const renderModalHeader = () => {
-
-		if (props.modalData.selectedRole!) {
-			return ({
-				title: props.project.title,
-				subtitle: renderSubtitle(props.modalData.selectedRole),
-				icon: <i className="icon-modal" />
-			});
-		} else {
-			return ({
-				title: props.modalData.title,
-				subtitle: props.modalData.subtitle,
-				icon: <i className={props.modalData.icon} />
-			});
-		}
+		return ({
+			title: props.modalData.title,
+			subtitle: props.modalData.subtitle,
+			icon: props.modalData.icon
+		});
 	};
 
 	const handleRenderFuelButton = () => {
@@ -299,7 +271,7 @@ export const ProjectOverview: React.SFC<ParentProps> = (props) => {
 		);
 		const modalData = {
 				title: 'HELP FUEL THIS PROJECT',
-				icon: 'icon-ixo-x',
+				icon: <i className="icon-ixo-x" />,
 				content: content
 		};
 
@@ -322,11 +294,28 @@ export const ProjectOverview: React.SFC<ParentProps> = (props) => {
 		} else if (props.hasCapability([AgentRoles.serviceProviders])) {
 			return '';
 		} else {
+			let userName = '';
+			if (props.userInfo) {
+				userName = props.userInfo.name.valueOf();
+			}
+			const content = (
+				<NewAgent
+					submitAgent={submitAgent}
+					role={AgentRoles.evaluators}
+					name={userName}
+				/>
+			);
+			const modalData = {
+				title: props.project.title,
+				subtitle: renderSubtitle(AgentRoles.evaluators),
+				icon: <i className="icon-modal" />,
+				content: content
+			};
 			return (
 				<Button
 					type={ButtonTypes.dark}
 					disabled={false}
-					onClick={() => props.toggleModal({selectedRole: AgentRoles.evaluators}, true)}
+					onClick={() => props.toggleModal(modalData, true)}
 				>Become an evaluator
 				</Button>
 			);
@@ -341,11 +330,29 @@ export const ProjectOverview: React.SFC<ParentProps> = (props) => {
 		} else if (props.hasCapability([AgentRoles.evaluators])) {
 			return '';
 		} else {
+			let userName = '';
+			if (props.userInfo) {
+				userName = props.userInfo.name.valueOf();
+			}
+			const content = (
+				<NewAgent
+					submitAgent={submitAgent}
+					role={AgentRoles.serviceProviders}
+					name={userName}
+				/>
+			);
+			const modalData = {
+				title: props.project.title,
+				subtitle: renderSubtitle(AgentRoles.serviceProviders),
+				icon: <i className="icon-modal" />,
+				content: content
+			};
+			
 			return (
 				<Button
 					type={ButtonTypes.dark}
 					disabled={false}
-					onClick={() => props.toggleModal({selectedRole: AgentRoles.serviceProviders}, true)}
+					onClick={() => props.toggleModal(modalData, true)}
 				>Become a Service Provider
 				</Button>
 			);
@@ -377,7 +384,7 @@ export const ProjectOverview: React.SFC<ParentProps> = (props) => {
 				handleToggleModal={() => props.toggleModal({})}
 				header={renderModalHeader()}
 			>
-				{renderModal(props.modalData)}
+				{props.modalData.content}
 			</ModalWrapper>
 			<OverviewContainer className="container-fluid">
 				<div className="container">
