@@ -333,6 +333,7 @@ class Header extends React.Component<Props, State> {
 							simple={this.props.simpleHeader}
 							shouldLedgerDid={this.state.shouldLedgerDid}
 							toggleModal={this.handleToggleModal}
+							keysafe={this.props.keysafe}
 						/>
 					</MediaQuery>
 				</div>

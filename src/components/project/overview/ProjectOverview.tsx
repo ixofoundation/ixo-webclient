@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { SingleStatistic } from '../../common/SingleStatistic';
 import { Statistic, StatType, AgentRoles } from '../../../types/models';
 import { ModalWrapper } from '../../common/ModalWrapper';
-import { ProjectNewAgent } from '../ProjectNewAgent';
+import { NewAgent } from './modalContent/NewAgent';
 import { UserInfo } from '../../../types/models';
 import { Button, ButtonTypes } from '../../common/Buttons';
 import { Fragment } from 'react';
@@ -250,7 +250,7 @@ export const ProjectOverview: React.SFC<ParentProps> = (props) => {
 				userName = props.userInfo.name.valueOf();
 			}
 			return (
-				<ProjectNewAgent
+				<NewAgent
 					submitAgent={submitAgent}
 					role={data.selectedRole}
 					name={userName}

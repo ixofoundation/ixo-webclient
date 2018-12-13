@@ -2,9 +2,11 @@ import * as React from 'react';
 import styled from 'styled-components';
 // import { Link } from 'react-router-dom';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
+import { getIxoWorldRoute } from 'src/utils/formatters';
+import { Link } from 'react-router-dom';
 // import { Link } from 'react-router-dom';
 
-const xIcon = require('../../assets/images/oval-x-icon.png');
+// const xIcon = require('../../assets/images/oval-x-icon.png');
 
 const Inner = styled.div`
 	position:relative;
@@ -54,11 +56,11 @@ const UserBox = styled.div`
 	}
 `;
 
-const BalanceContainer = styled.p`
-	img {
-		vertical-align: baseline;
-	}
-`;
+// const BalanceContainer = styled.p`
+// 	img {
+// 		vertical-align: baseline;
+// 	}
+// `;
 
 const MenuTop = styled.div`
 	background-color: #002233;
@@ -175,7 +177,7 @@ const StatusText = styled.p`
 	font-weight: normal;
 `;
 
-const JoinLink = styled.a`
+const LoginLink = styled(Link)`
 	color: white;
 	text-decoration: none;
 
@@ -191,6 +193,7 @@ interface HeaderRightProps {
 	simple?: boolean;
 	shouldLedgerDid: boolean;
 	toggleModal: (IsOpen: boolean) => void;
+	keysafe: any;
 }
 
 interface State {
@@ -206,12 +209,17 @@ export class HeaderRight extends React.Component<HeaderRightProps, State> {
 		this.setState((prevState) => ({showMenu: !prevState.showMenu}));
 	}
 
+	popup = () => {
+		this.props.keysafe.popupKeysafe();
+		console.log('should open');
+	}
+
 	handleLogInButton = () => {
 		if (this.props.userInfo === null) {
-			return <h3><span>Log in</span></h3>;
+			return <LoginLink to={getIxoWorldRoute('/membership')}><h3 ><span>Log in</span></h3></LoginLink>;
 		}
 		if (this.props.userInfo.loggedInKeysafe === false) {
-			return <h3><span>Log in</span></h3>;
+			return <a onClick={this.popup}><h3><span>Log in</span></h3></a>;
 		}
 		return '';
 	}
@@ -224,7 +232,7 @@ export class HeaderRight extends React.Component<HeaderRightProps, State> {
 				<NoPadLeft className="col-md-6">
 					<Inner className="d-flex justify-content-end">
 						{(this.props.userInfo === null) || (this.props.userInfo.loggedInKeysafe === false) ?
-							<JoinLink>
+							<div>
 								<UserBox>
 									<StatusBox>
 										{this.props.renderStatusIndicator()}
@@ -232,12 +240,12 @@ export class HeaderRight extends React.Component<HeaderRightProps, State> {
 									</StatusBox>
 									{this.handleLogInButton()}
 								</UserBox>
-							</JoinLink>
+							</div>
 							:
 							<UserBox onClick={this.toggleMenu}>
 								<StatusBox>
 									{this.props.renderStatusIndicator()}
-									<StatusText>IXO EXPLORER STATUS</StatusText>
+									<StatusText onClick={this.popup}>IXO EXPLORER STATUS</StatusText>
 								</StatusBox>
 								<h3>{this.props.shouldLedgerDid === true && <RedIcon />} <span>{this.props.userInfo.name}</span> <i className="icon-down" /></h3>
 							</UserBox>
@@ -253,7 +261,7 @@ export class HeaderRight extends React.Component<HeaderRightProps, State> {
 											<span>Copy</span>
 										</CopyToClipboard>
 									</AccDID>
-								<BalanceContainer><img src={xIcon} alt="IXO Icon" /> <strong>0</strong> IXO balance</BalanceContainer>
+								{/* <BalanceContainer><img src={xIcon} alt="IXO Icon" /> <strong>0</strong> IXO balance</BalanceContainer> */}
 							</MenuTop>
 							{this.props.shouldLedgerDid === true &&
 								<MenuBottom>
