@@ -183,7 +183,7 @@ const LoginLink = styled(Link)`
 
 	:hover {
 		text-decoration: none;
-		color: white;
+		color: red;
 	}
 `;
 
@@ -209,17 +209,12 @@ export class HeaderRight extends React.Component<HeaderRightProps, State> {
 		this.setState((prevState) => ({showMenu: !prevState.showMenu}));
 	}
 
-	popup = () => {
-		this.props.keysafe.popupKeysafe();
-		console.log('should open');
-	}
-
 	handleLogInButton = () => {
 		if (this.props.userInfo === null) {
 			return <LoginLink to={getIxoWorldRoute('/membership')}><h3 ><span>Log in</span></h3></LoginLink>;
 		}
 		if (this.props.userInfo.loggedInKeysafe === false) {
-			return <a onClick={this.popup}><h3><span>Log in</span></h3></a>;
+			return <a onClick={this.props.keysafe.popupKeysafe}><h3><span>Log in</span></h3></a>;
 		}
 		return '';
 	}
@@ -245,7 +240,7 @@ export class HeaderRight extends React.Component<HeaderRightProps, State> {
 							<UserBox onClick={this.toggleMenu}>
 								<StatusBox>
 									{this.props.renderStatusIndicator()}
-									<StatusText onClick={this.popup}>IXO EXPLORER STATUS</StatusText>
+									<StatusText>IXO EXPLORER STATUS</StatusText>
 								</StatusBox>
 								<h3>{this.props.shouldLedgerDid === true && <RedIcon />} <span>{this.props.userInfo.name}</span> <i className="icon-down" /></h3>
 							</UserBox>
