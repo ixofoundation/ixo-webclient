@@ -60,4 +60,4 @@ IXO-Web is styled using styled components. all styling information is kept withi
     
 <h1>License</h1>
 
-MIT
+Apache 2.0 license
