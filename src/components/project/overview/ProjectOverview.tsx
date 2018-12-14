@@ -369,13 +369,13 @@ export const ProjectOverview: React.SFC<ParentProps> = (props) => {
 		window.open('http://twitter.com/share?url=' + encodeURIComponent(url) + '&text=' + encodeURIComponent(text), '', 'left=0,top=0,width=550,height=450,personalbar=0,toolbar=0,scrollbars=0,resizable=0');
 	};
 
-	const shareToFacebook = () => {
-		// @ts-ignore
-		FB.ui({
-			method: 'share',
-			href: location.href
-		});
-	};
+	// const shareToFacebook = () => {
+	// 	// @ts-ignore
+	// 	FB.ui({
+	// 		method: 'share',
+	// 		href: location.href
+	// 	});
+	// };
 
 	return (
 		<div>
@@ -441,7 +441,7 @@ export const ProjectOverview: React.SFC<ParentProps> = (props) => {
 								</Visible>
 								<Hidden>
 									<i onClick={shareToTwitter} className="icon-twitter" />
-									<i onClick={shareToFacebook} className="icon-facebook" />
+									{/* <i onClick={shareToFacebook} className="icon-facebook" /> */}
 								</Hidden>
 							</LocalButton>
 							<QRComponent url={location.href} />

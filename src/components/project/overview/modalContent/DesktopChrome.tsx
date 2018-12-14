@@ -9,10 +9,10 @@ export interface ParentProps {
 	// title: string;
 }
 
-export const NoKeysafe: React.SFC<ParentProps> = (props) => {
+export const DesktopChrome: React.SFC<ParentProps> = (props) => {
 	return (
 		<div>
-			<p>Service providers work on projects and make claims about their contributions.</p>
+			<p>Desktop and chrome please.</p>
 			<BorderBox>
 				<h3><div><i className="icon-pending"/>t </div></h3>
 			</BorderBox>
