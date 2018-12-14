@@ -25,11 +25,6 @@ const HeaderLink = styled(NavLink)`
 		font-weight: 400;
 	}
 
-	@media (min-width: ${deviceWidth.desktop}px) {
-		margin:0 10px;
-		font-size: 13px;	
-	}
-
 	&:first-child.active {
 		color: ${props => props.theme.fontBlueButtonHover};
 		font-weight: 400;
@@ -40,6 +35,11 @@ const HeaderLink = styled(NavLink)`
 	:hover {
 		text-decoration:none;
 		&&{color: ${props => props.theme.fontBlue};}}
+	}
+
+	@media (min-width: ${deviceWidth.desktop}px) {
+		margin:0 10px;
+		font-size: 13px;	
 	}
 `;
 
@@ -72,7 +72,7 @@ const HeaderAnchor = styled.a`
 	:hover {
  		text-decoration:none;
  		&&{color: ${props => props.theme.fontBlue};}}
-	 }
+	}
 `;
 
 const MenuHeaderAnchor = styled(HeaderAnchor)`
@@ -83,7 +83,6 @@ const MenuHeaderAnchor = styled(HeaderAnchor)`
 		background: #012233;
 	}
 
-	margin:0 10px;
 	font-size: 16px;	
 	margin: 3px 10px;
 `;
@@ -126,7 +125,7 @@ const NavItems = styled.div`
 	@media( min-width: ${deviceWidth.desktop}px) {
 		display: block;
 		margin-right: 0px;
-		}
+	}
 `;
 
 const Menu = styled.div`
@@ -149,7 +148,7 @@ const Menu = styled.div`
 
 const MobileMenu = Menu.extend`
 	&.openMenu {
-		top: 65px;
+		top: 64px;
 		opacity: 1;
 		pointer-events: auto;
 	}
@@ -163,7 +162,7 @@ const MobileMenu = Menu.extend`
 	padding: 30px 2px 20px 30px;
 	pointer-events: none;
 	z-index: 1;
-	border-radius: 5px 0 0 5px;
+	border-radius: 0 0 5px 5px;
 `;
 
 const Burger = styled.div`
@@ -174,20 +173,18 @@ const Burger = styled.div`
 	}
 	.bar1, .bar2, .bar3 {
 		width: 35px;
-		height: 5px;
-		background-color: #333;
+		height: 2px;
+		background-color: #FFF;
 		margin: 6px 0;
 		transition: 0.4s;
 	}
 	.change .bar1 {
-		-webkit-transform: rotate(-45deg) translate(-8px, 8px);
-		transform: rotate(-45deg) translate(-8px, 8px);
+		transform: rotate(-45deg) translate(-6px, 6px);
 		transform-origin: center;
 	}
 	.change .bar2 {opacity: 0;}
 	.change .bar3 {
-		-webkit-transform: rotate(45deg) translate(-8px, -8px);
-		transform: rotate(45deg) translate(-8px, -8px);
+		transform: rotate(45deg) translate(-6px, -6px);
 		transform-origin: center;
 	}
 `;
