@@ -19,6 +19,7 @@ const TopBar = styled.header`
 	background: black;
 
 	&& {
+		width: 100%;
 	}
 `;
 
@@ -326,7 +327,7 @@ class Header extends React.Component<Props, State> {
 				</ModalWrapper>
 				<div className="row">
 					<HeaderLeft simple={this.props.simpleHeader} refreshProjects={this.props.refreshProjects}/>
-					<MediaQuery minWidth={`${deviceWidth.tablet}px`}>
+					<MediaQuery minWidth={`${deviceWidth.desktop}px`}>
 						<HeaderRight
 							renderStatusIndicator={this.renderStatusIndicator}
 							userInfo={this.props.userInfo}

@@ -221,10 +221,10 @@ export class HeaderRight extends React.Component<HeaderRightProps, State> {
 
 	render() {
 		if (this.props.simple === true) {
-			return <NoPadLeft className="col-md-6" />;
+			return <NoPadLeft className="col-md-2" />;
 		} else {
 			return (
-				<NoPadLeft className="col-md-6">
+				<NoPadLeft className="col-md-2">
 					<Inner className="d-flex justify-content-end">
 						{(this.props.userInfo === null) || (this.props.userInfo.loggedInKeysafe === false) ?
 							<div>
