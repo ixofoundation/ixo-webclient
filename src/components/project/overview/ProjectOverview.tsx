@@ -12,6 +12,7 @@ import { Fragment } from 'react';
 import QRComponent from '../../common/QRComponent';
 import ReactMd from 'react-md-file';
 import { ProjectFounder } from './ProjectFounder';
+import { NoKeysafe } from './modalContent/NoKeysafe';
 
 const placeholder = require('../../../assets/images/ixo-placeholder-large.jpg');
 
@@ -323,6 +324,25 @@ export const ProjectOverview: React.SFC<ParentProps> = (props) => {
 	};
 
 	const handleRenderServiceProviderButton = () => {
+		if (props.userInfo === null) {
+			const content = (
+				<NoKeysafe />
+			);
+			const modalData = {
+				title: props.project.title,
+				subtitle: renderSubtitle(AgentRoles.serviceProviders),
+				icon: <i className="icon-modal" />,
+				content: content
+			};
+			return (
+				<Button 
+					type={ButtonTypes.dark}
+					disabled={false}
+					onClick={() => props.toggleModal(modalData, true)}
+				>No user detected
+				</Button> 
+			);
+		}
 		if (props.hasCapability([AgentRoles.serviceProviders])) {
 			return <Button type={ButtonTypes.dark} disabled={true}>You are a service provider</Button>;
 		} else if (props.userInfo == null) {

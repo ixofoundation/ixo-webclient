@@ -9,7 +9,7 @@ export interface ParentProps {
 	// title: string;
 }
 
-export const NoKeysafe: React.SFC<ParentProps> = (props) => {
+export const NoKYC: React.SFC<ParentProps> = (props) => {
 	return (
 		<div>
 			<p>please kyc.</p>
