@@ -325,21 +325,18 @@ export const ProjectOverview: React.SFC<ParentProps> = (props) => {
 
 	const handleRenderServiceProviderButton = () => {
 		if (props.userInfo === null) {
-			const content = (
-				<NoKeysafe />
-			);
 			const modalData = {
 				title: props.project.title,
 				subtitle: renderSubtitle(AgentRoles.serviceProviders),
 				icon: <i className="icon-modal" />,
-				content: content
+				content: <NoKeysafe />
 			};
 			return (
 				<Button 
 					type={ButtonTypes.dark}
 					disabled={false}
 					onClick={() => props.toggleModal(modalData, true)}
-				>No user detected
+				>Become a Service Provider
 				</Button> 
 			);
 		}

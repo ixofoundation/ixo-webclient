@@ -27,6 +27,7 @@ const ModalInner = styled.div`
 	background: ${props => props.theme.bg.blue};
 	color: white;
 	padding: 10px 30px;
+	font-family: ${props => props.theme.fontRoboto};
 `;
 
 const CloseModal = styled.button`
