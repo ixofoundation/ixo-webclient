@@ -218,6 +218,12 @@ const BlueBold = styled.strong`
 	color: ${props => props.theme.ixoBlue};
 `;
 
+const AgentIcon = styled.i`
+	:before {
+		color: ${props => props.theme.ixoBlue};
+	}
+`;
+
 export interface ParentProps {
 	userInfo: UserInfo;
 	project: any;
@@ -246,21 +252,22 @@ export const ProjectOverview: React.SFC<ParentProps> = (props) => {
 		props.toggleModal({});
 	};
 
-	const titleMap = {
-		[AgentRoles.investors]: 'Become an Investor',
-		[AgentRoles.evaluators]: 'Become an Evaluator',
-		[AgentRoles.serviceProviders]: 'Become a Service Agent',
-	};
+	// const titleMap = {
+	// 	[AgentRoles.investors]: 'Become an Investor',
+	// 	[AgentRoles.evaluators]: 'Become an Evaluator',
+	// 	[AgentRoles.serviceProviders]: 'Become a Service Agent',
+	// };
 
-	const renderSubtitle = (role: string) => {
-		return titleMap[role];
-	};
+	// const renderSubtitle = (role: string) => {
+	// 	return titleMap[role];
+	// };
 
 	const renderModalHeader = () => {
 		return ({
 			title: props.modalData.title,
 			subtitle: props.modalData.subtitle,
-			icon: props.modalData.icon
+			icon: props.modalData.icon,
+			width: '360'
 		});
 	};
 
@@ -293,9 +300,8 @@ export const ProjectOverview: React.SFC<ParentProps> = (props) => {
 	const handleRenderEvaluatorButton = () => {
 		if (navigator.userAgent.indexOf('Chrome') === -1 || isBrowser === false) {
 			const modalData = {
-				title: props.project.title,
-				subtitle: renderSubtitle(AgentRoles.evaluators),
-				icon: <i className="icon-modal" />,
+				title: 'APPLY TO EVALUATE THIS PROJECT',
+				icon: <AgentIcon className="icon-evaluators" />,
 				content: <DesktopChrome role={AgentRoles.evaluators} />
 			};
 			return (
@@ -309,9 +315,8 @@ export const ProjectOverview: React.SFC<ParentProps> = (props) => {
 		}
 		if (props.userInfo === null) {
 			const modalData = {
-				title: props.project.title,
-				subtitle: renderSubtitle(AgentRoles.evaluators),
-				icon: <i className="icon-modal" />,
+				title: 'APPLY TO EVALUATE THIS PROJECT',
+				icon: <AgentIcon className="icon-evaluators" />,
 				content: <NoKeysafe role={AgentRoles.evaluators} />
 			};
 			return (
@@ -325,9 +330,8 @@ export const ProjectOverview: React.SFC<ParentProps> = (props) => {
 		}
 		if (props.userInfo.hasKYC === false) {
 			const modalData = {
-				title: props.project.title,
-				subtitle: renderSubtitle(AgentRoles.evaluators),
-				icon: <i className="icon-modal" />,
+				title: 'APPLY TO EVALUATE THIS PROJECT',
+				icon: <AgentIcon className="icon-evaluators" />,
 				content: <NoKYC />
 			};
 			return (
@@ -356,9 +360,8 @@ export const ProjectOverview: React.SFC<ParentProps> = (props) => {
 				/>
 			);
 			const modalData = {
-				title: props.project.title,
-				subtitle: renderSubtitle(AgentRoles.evaluators),
-				icon: <i className="icon-modal" />,
+				title: 'APPLY TO EVALUATE THIS PROJECT',
+				icon: <AgentIcon className="icon-evaluators" />,
 				content: content
 			};
 			return (
@@ -375,9 +378,8 @@ export const ProjectOverview: React.SFC<ParentProps> = (props) => {
 	const handleRenderServiceProviderButton = () => {
 		if (navigator.userAgent.indexOf('Chrome') === -1 || isBrowser === false) {
 			const modalData = {
-				title: props.project.title,
-				subtitle: renderSubtitle(AgentRoles.serviceProviders),
-				icon: <i className="icon-modal" />,
+				title: 'SERVICE THIS PROJECT',
+				icon: <AgentIcon className="icon-serviceproviders" />,
 				content: <DesktopChrome role={AgentRoles.serviceProviders} />
 			};
 			return (
@@ -391,9 +393,8 @@ export const ProjectOverview: React.SFC<ParentProps> = (props) => {
 		}
 		if (props.userInfo === null) {
 			const modalData = {
-				title: props.project.title,
-				subtitle: renderSubtitle(AgentRoles.serviceProviders),
-				icon: <i className="icon-modal" />,
+				title: 'SERVICE THIS PROJECT',
+				icon: <AgentIcon className="icon-serviceproviders" />,
 				content: <NoKeysafe role={AgentRoles.serviceProviders} />
 			};
 			return (
@@ -424,9 +425,8 @@ export const ProjectOverview: React.SFC<ParentProps> = (props) => {
 				/>
 			);
 			const modalData = {
-				title: props.project.title,
-				subtitle: renderSubtitle(AgentRoles.serviceProviders),
-				icon: <i className="icon-modal" />,
+				title: 'SERVICE THIS PROJECT',
+				icon: <AgentIcon className="icon-serviceproviders" />,
 				content: content
 			};
 			

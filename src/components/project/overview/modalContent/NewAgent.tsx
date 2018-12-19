@@ -39,9 +39,9 @@ export class NewAgent extends React.Component<ParentProps, State> {
 	renderByLine = (role: string) => {
 		switch (role) {
 			case 'SA':
-				return <ByLine>Service Providers delivers the impact to a project. They are the people on the ground submitting claims, and making a difference.</ByLine>;
+				return <ByLine>Service Providers work on projects and make claims about their contributions. </ByLine>;
 			case 'EA':
-				return <ByLine> Evaluators check that submitted claims are valid and complete, ensuring that the project quality is maintained and validated</ByLine>;
+				return <ByLine>Evaluators are individuals or entities with knowledge and experience in any given field. Using this experience, your role is to approve or reject the claims submmitted on the project.</ByLine>;
 			case 'IA':
 				return <ByLine>Investors fund the project's processing costs.</ByLine>;
 			default:

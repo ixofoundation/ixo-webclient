@@ -76,9 +76,9 @@ export const DesktopChrome: React.SFC<ParentProps> = ({role}) => {
 	const renderByLine = () => {
 		switch (role) {
 			case 'SA':
-				return <p>Service Providers delivers the impact to a project. They are the people on the ground submitting claims, and making a difference.</p>;
+				return <p>Service Providers work on projects and make claims about their contributions.</p>;
 			case 'EA':
-				return <p> Evaluators check that submitted claims are valid and complete, ensuring that the project quality is maintained and validated</p>;
+				return <p>Evaluators are individuals or entities with knowledge and experience in any given field. Using this experience, your role is to approve or reject the claims submmitted on the project.</p>;
 			default:
 				return 'role not found';
 		}
