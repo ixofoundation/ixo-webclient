@@ -14,6 +14,7 @@ import ReactMd from 'react-md-file';
 import { ProjectFounder } from './ProjectFounder';
 import { NoKeysafe } from './modalContent/NoKeysafe';
 import { DesktopChrome } from './modalContent/DesktopChrome';
+import { isBrowser } from 'react-device-detect';
 
 const placeholder = require('../../../assets/images/ixo-placeholder-large.jpg');
 
@@ -289,7 +290,7 @@ export const ProjectOverview: React.SFC<ParentProps> = (props) => {
 	};
 
 	const handleRenderEvaluatorButton = () => {
-		if (navigator.userAgent.indexOf('Chrome') === -1) {
+		if (navigator.userAgent.indexOf('Chrome') === -1 || isBrowser === false) {
 			const modalData = {
 				title: props.project.title,
 				subtitle: renderSubtitle(AgentRoles.evaluators),
@@ -356,7 +357,7 @@ export const ProjectOverview: React.SFC<ParentProps> = (props) => {
 	};
 
 	const handleRenderServiceProviderButton = () => {
-		if (navigator.userAgent.indexOf('Chrome') === -1) {
+		if (navigator.userAgent.indexOf('Chrome') === -1 || isBrowser === false) {
 			const modalData = {
 				title: props.project.title,
 				subtitle: renderSubtitle(AgentRoles.serviceProviders),
