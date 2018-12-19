@@ -76,13 +76,25 @@ const AppImg = styled.img`
 `;
 
 export interface ParentProps {
-	// title: string;
+	role: string;
 }
 
 export const NoKeysafe: React.SFC<ParentProps> = (props) => {
+
+	const renderByLine = (role: string) => {
+		switch (role) {
+			case 'SA':
+				return <p>Service Providers delivers the impact to a project. They are the people on the ground submitting claims, and making a difference.</p>;
+			case 'EA':
+				return <p> Evaluators check that submitted claims are valid and complete, ensuring that the project quality is maintained and validated</p>;
+			default:
+				return 'role not found';
+		}
+	};
+
 	return (
 		<Container>
-			<p>Service providers work on projects and make claims about their contributions.</p>
+			{renderByLine}
 			<BorderBox>
 				<h3><div><i className="icon-pending"/></div><div>You need to install the ixo Keysafe and <span>refresh your browser</span></div></h3>
 				<p>ixo Keysafe is a browser extension that enables you to connect to the ixo blockchain</p>

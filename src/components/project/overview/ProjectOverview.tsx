@@ -288,10 +288,24 @@ export const ProjectOverview: React.SFC<ParentProps> = (props) => {
 	};
 
 	const handleRenderEvaluatorButton = () => {
+		if (props.userInfo === null) {
+			const modalData = {
+				title: props.project.title,
+				subtitle: renderSubtitle(AgentRoles.evaluators),
+				icon: <i className="icon-modal" />,
+				content: <NoKeysafe role={AgentRoles.evaluators} />
+			};
+			return (
+				<Button 
+					type={ButtonTypes.dark}
+					disabled={false}
+					onClick={() => props.toggleModal(modalData, true)}
+				>Become an evaluator
+				</Button> 
+			);
+		}
 		if (props.hasCapability([AgentRoles.evaluators])) {
 			return <Button type={ButtonTypes.dark} disabled={true}>You are an evaluator</Button>;
-		} else if (props.userInfo == null) {
-			return <Button type={ButtonTypes.dark} disabled={true}>Become an evaluator</Button>;
 		} else if (props.hasCapability([AgentRoles.serviceProviders])) {
 			return '';
 		} else {
@@ -329,7 +343,7 @@ export const ProjectOverview: React.SFC<ParentProps> = (props) => {
 				title: props.project.title,
 				subtitle: renderSubtitle(AgentRoles.serviceProviders),
 				icon: <i className="icon-modal" />,
-				content: <NoKeysafe />
+				content: <NoKeysafe role={AgentRoles.serviceProviders} />
 			};
 			return (
 				<Button 

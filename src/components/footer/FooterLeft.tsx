@@ -110,7 +110,11 @@ export const FooterLeft: React.SFC<any> = ({simple}) => {
 						<a href="mailto:info@ixo.world"><FooterTextBlue>info@ixo.world</FooterTextBlue></a>
 					</div>
 					<ByLine className="row">
-						<p>ixo.world AG, Heiligkreuz 6, 9490 Vaduz, Liechtenstein <a href="https://github.com/ixofoundation/Legal-Documents/raw/master/Terms%20%26%20Conditions.pdf#page=2" target="_blank">Terms &amp; conditions</a> <a href="https://github.com/ixofoundation/Legal-Documents/raw/master/Privacy%20Policy.pdf" target="_blank">Privacy policy</a></p>
+						<p>ixo.world AG, Heiligkreuz 6, 9490 Vaduz, Liechtenstein 
+							<a href="https://github.com/ixofoundation/Legal-Documents/raw/master/Terms%20%26%20Conditions.pdf#page=2" target="_blank">Terms &amp; conditions</a>
+							<a href="https://github.com/ixofoundation/Legal-Documents/raw/master/Privacy%20Policy.pdf" target="_blank">Privacy policy</a>
+							<a href="https://github.com/ixofoundation/Legal-Documents/raw/master/ixo.world%20-%20Security.pdf" target="_blank">Privacy policy</a>
+						</p>
 					</ByLine>
 				</FooterText>
 			</div>
