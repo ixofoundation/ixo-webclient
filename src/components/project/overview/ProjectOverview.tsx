@@ -13,6 +13,7 @@ import QRComponent from '../../common/QRComponent';
 import ReactMd from 'react-md-file';
 import { ProjectFounder } from './ProjectFounder';
 import { NoKeysafe } from './modalContent/NoKeysafe';
+import { DesktopChrome } from './modalContent/DesktopChrome';
 
 const placeholder = require('../../../assets/images/ixo-placeholder-large.jpg');
 
@@ -288,6 +289,22 @@ export const ProjectOverview: React.SFC<ParentProps> = (props) => {
 	};
 
 	const handleRenderEvaluatorButton = () => {
+		if (navigator.userAgent.indexOf('Chrome') === -1) {
+			const modalData = {
+				title: props.project.title,
+				subtitle: renderSubtitle(AgentRoles.evaluators),
+				icon: <i className="icon-modal" />,
+				content: <DesktopChrome role={AgentRoles.evaluators} />
+			};
+			return (
+				<Button 
+					type={ButtonTypes.dark}
+					disabled={false}
+					onClick={() => props.toggleModal(modalData, true)}
+				>Become an evaluator
+				</Button> 
+			);
+		}
 		if (props.userInfo === null) {
 			const modalData = {
 				title: props.project.title,
@@ -304,6 +321,7 @@ export const ProjectOverview: React.SFC<ParentProps> = (props) => {
 				</Button> 
 			);
 		}
+		
 		if (props.hasCapability([AgentRoles.evaluators])) {
 			return <Button type={ButtonTypes.dark} disabled={true}>You are an evaluator</Button>;
 		} else if (props.hasCapability([AgentRoles.serviceProviders])) {
@@ -338,6 +356,22 @@ export const ProjectOverview: React.SFC<ParentProps> = (props) => {
 	};
 
 	const handleRenderServiceProviderButton = () => {
+		if (navigator.userAgent.indexOf('Chrome') === -1) {
+			const modalData = {
+				title: props.project.title,
+				subtitle: renderSubtitle(AgentRoles.serviceProviders),
+				icon: <i className="icon-modal" />,
+				content: <DesktopChrome role={AgentRoles.serviceProviders} />
+			};
+			return (
+				<Button 
+					type={ButtonTypes.dark}
+					disabled={false}
+					onClick={() => props.toggleModal(modalData, true)}
+				>Become a Service Provider
+				</Button> 
+			);
+		}
 		if (props.userInfo === null) {
 			const modalData = {
 				title: props.project.title,
