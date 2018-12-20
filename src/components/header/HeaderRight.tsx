@@ -214,7 +214,8 @@ export class HeaderRight extends React.Component<HeaderRightProps, State> {
 			return <LoginLink to={getIxoWorldRoute('/membership')}><h3 ><span>Log in</span></h3></LoginLink>;
 		}
 		if (this.props.userInfo.loggedInKeysafe === false) {
-			return <a onClick={this.props.keysafe.popupKeysafe}><h3><span>Log in</span></h3></a>;
+			// return <a onClick={this.props.keysafe.popupKeysafe}><h3><span>Log in</span></h3></a>; // NEEDS TO POPUP KEYSAFE ONCE THAT WORKS
+			return <LoginLink to={getIxoWorldRoute('/membership')}><h3 ><span>Log in</span></h3></LoginLink>;
 		}
 		return '';
 	}
