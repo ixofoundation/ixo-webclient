@@ -37,7 +37,6 @@ const Container = styled.div`
 `;
 
 const ProjectsContainer = styled.div`
-	overflow-y: scroll;
 	background: ${props => props.theme.bg.lightGrey};
 	flex: 1 1 auto;
 

@@ -102,7 +102,7 @@ export const FundingGauge: React.SFC<ParentProps> = (props) => {
 	let balance = new BigNumber(0);
 	if (props.account.balance!) {
 		balance = new BigNumber(props.account.balance);
-		balance = balance.dividedBy(100000000).decimalPlaces(2);
+		balance = balance.dividedBy(100000000).decimalPlaces(2, 1);
 	}
 	let jsBalance = balance.toNumber();
 	function handleRenderGauge() {

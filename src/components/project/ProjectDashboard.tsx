@@ -11,6 +11,10 @@ import { WorldMap, LatLng } from '../widgets/WorldMap';
 import { isoCountriesLatLng } from '../../lib/commonData';
 
 import { deviceWidth } from '../../lib/commonData';
+import { LinkButton, ButtonTypes } from '../common/LinkButtons';
+import {
+	isBrowser
+} from 'react-device-detect';
 
 const Container = styled.div`
 	color: white;
@@ -26,9 +30,21 @@ const ClaimsWidget = styled.div`
 const ClaimsLabels = styled.div`
 
 	margin-top: 40px;
+	flex: 1;
+	flex-direction: column;
+	justify-content: space-between;
+	display: flex;
+
+	a {
+		max-width: 300px;
+	}
 
 	strong {
 		font-weight: 700;
+	}
+
+	p {
+		margin-bottom: 5px;
 	}
 
 	p:before {
@@ -163,10 +179,17 @@ export const ProjectDashboard: React.SFC<ParentProps> = ({project, projectDid, a
 					<WidgetWrapper title="Project impact claims" path={`/projects/${projectDid}/detail/claims`} gridHeight={gridSizes.standard} linkIcon={'icon-expand'} link={hasCapability([AgentRoles.owners, AgentRoles.evaluators, AgentRoles.serviceProviders, AgentRoles.investors])}>
 						<ClaimsWidget>
 							<ClaimsLabels>
-								<p><strong>{claimStats.currentSuccessful}</strong> approved</p>
-								<p><strong>{countClaimsOfType('0')}</strong> pending approval</p>
-								<p><strong>{claimStats.currentRejected}</strong> rejected</p>
-								<p><strong>{claimStats.required - claimStats.currentSuccessful}</strong> remaining claims</p>
+								<div>
+									<p><strong>{claimStats.currentSuccessful}</strong> approved</p>
+									<p><strong>{countClaimsOfType('0')}</strong> pending approval</p>
+									<p><strong>{claimStats.currentRejected}</strong> rejected</p>
+									<p><strong>{claimStats.required - claimStats.currentSuccessful}</strong> remaining claims</p>
+								</div>
+								<div>
+									{(hasCapability([AgentRoles.serviceProviders]) && isBrowser === true) && 
+										<LinkButton to={`/projects/${projectDid}/detail/new-claim`} type={ButtonTypes.gradient} >+ CAPTURE CLAIM</LinkButton>
+									}
+								</div>
 							</ClaimsLabels>
 							<CircleProgressbar
 								approved={claimStats.currentSuccessful}

@@ -139,10 +139,13 @@ export class Funding extends React.Component<Props, State> {
 	private checkInterval = null;
 
 	componentDidMount() {
+		
 		if (this.props.web3 === null) {
 			this.setState({web3error : this.props.error});
 			
 		} else {
+			// @ts-ignore
+			ethereum.enable(); // Request account access if needed
 			this.projectWeb3 = new Web3Proxy(this.props.web3);
 			this.checkInterval = setInterval( this.handleCheckAccount, 3000);
 		}

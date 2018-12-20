@@ -5,13 +5,17 @@ import styled from 'styled-components';
 import { SingleStatistic } from '../../common/SingleStatistic';
 import { Statistic, StatType, AgentRoles } from '../../../types/models';
 import { ModalWrapper } from '../../common/ModalWrapper';
-import { ProjectNewAgent } from '../ProjectNewAgent';
+import { NewAgent } from './modalContent/NewAgent';
 import { UserInfo } from '../../../types/models';
 import { Button, ButtonTypes } from '../../common/Buttons';
 import { Fragment } from 'react';
 import QRComponent from '../../common/QRComponent';
 import ReactMd from 'react-md-file';
 import { ProjectFounder } from './ProjectFounder';
+import { NoKeysafe } from './modalContent/NoKeysafe';
+import { DesktopChrome } from './modalContent/DesktopChrome';
+import { isBrowser } from 'react-device-detect';
+import { NoKYC } from './modalContent/NoKYC';
 
 const placeholder = require('../../../assets/images/ixo-placeholder-large.jpg');
 
@@ -214,6 +218,12 @@ const BlueBold = styled.strong`
 	color: ${props => props.theme.ixoBlue};
 `;
 
+const AgentIcon = styled.i`
+	:before {
+		color: ${props => props.theme.ixoBlue};
+	}
+`;
+
 export interface ParentProps {
 	userInfo: UserInfo;
 	project: any;
@@ -242,50 +252,23 @@ export const ProjectOverview: React.SFC<ParentProps> = (props) => {
 		props.toggleModal({});
 	};
 
-	const renderModal = (data: any) => {
+	// const titleMap = {
+	// 	[AgentRoles.investors]: 'Become an Investor',
+	// 	[AgentRoles.evaluators]: 'Become an Evaluator',
+	// 	[AgentRoles.serviceProviders]: 'Become a Service Agent',
+	// };
 
-		if (props.modalData.selectedRole!) {
-			let userName = '';
-			if (props.userInfo) {
-				userName = props.userInfo.name.valueOf();
-			}
-			return (
-				<ProjectNewAgent
-					submitAgent={submitAgent}
-					role={data.selectedRole}
-					name={userName}
-				/>
-			);
-		} else {
-			return props.modalData.content;
-		}
-	};
-
-	const titleMap = {
-		[AgentRoles.investors]: 'Become an Investor',
-		[AgentRoles.evaluators]: 'Become an Evaluator',
-		[AgentRoles.serviceProviders]: 'Become a Service Agent',
-	};
-
-	const renderSubtitle = (role: string) => {
-		return titleMap[role];
-	};
+	// const renderSubtitle = (role: string) => {
+	// 	return titleMap[role];
+	// };
 
 	const renderModalHeader = () => {
-
-		if (props.modalData.selectedRole!) {
-			return ({
-				title: props.project.title,
-				subtitle: renderSubtitle(props.modalData.selectedRole),
-				icon: <i className="icon-modal" />
-			});
-		} else {
-			return ({
-				title: props.modalData.title,
-				subtitle: props.modalData.subtitle,
-				icon: <i className={props.modalData.icon} />
-			});
-		}
+		return ({
+			title: props.modalData.title,
+			subtitle: props.modalData.subtitle,
+			icon: props.modalData.icon,
+			width: '360'
+		});
 	};
 
 	const handleRenderFuelButton = () => {
@@ -299,7 +282,7 @@ export const ProjectOverview: React.SFC<ParentProps> = (props) => {
 		);
 		const modalData = {
 				title: 'HELP FUEL THIS PROJECT',
-				icon: 'icon-ixo-x',
+				icon: <i className="icon-ixo-x" />,
 				content: content
 		};
 
@@ -315,18 +298,77 @@ export const ProjectOverview: React.SFC<ParentProps> = (props) => {
 	};
 
 	const handleRenderEvaluatorButton = () => {
+		if (navigator.userAgent.indexOf('Chrome') === -1 || isBrowser === false) {
+			const modalData = {
+				title: 'APPLY TO EVALUATE THIS PROJECT',
+				icon: <AgentIcon className="icon-evaluators" />,
+				content: <DesktopChrome role={AgentRoles.evaluators} />
+			};
+			return (
+				<Button 
+					type={ButtonTypes.dark}
+					disabled={false}
+					onClick={() => props.toggleModal(modalData, true)}
+				>Become an evaluator
+				</Button> 
+			);
+		}
+		if (props.userInfo === null) {
+			const modalData = {
+				title: 'APPLY TO EVALUATE THIS PROJECT',
+				icon: <AgentIcon className="icon-evaluators" />,
+				content: <NoKeysafe role={AgentRoles.evaluators} />
+			};
+			return (
+				<Button 
+					type={ButtonTypes.dark}
+					disabled={false}
+					onClick={() => props.toggleModal(modalData, true)}
+				>Become an evaluator
+				</Button> 
+			);
+		}
+		if (props.userInfo.hasKYC === false) {
+			const modalData = {
+				title: 'APPLY TO EVALUATE THIS PROJECT',
+				icon: <AgentIcon className="icon-evaluators" />,
+				content: <NoKYC />
+			};
+			return (
+				<Button 
+					type={ButtonTypes.dark}
+					disabled={false}
+					onClick={() => props.toggleModal(modalData, true)}
+				>Become an evaluator
+				</Button> 
+			);
+		}
 		if (props.hasCapability([AgentRoles.evaluators])) {
 			return <Button type={ButtonTypes.dark} disabled={true}>You are an evaluator</Button>;
-		} else if (props.userInfo == null) {
-			return <Button type={ButtonTypes.dark} disabled={true}>Become an evaluator</Button>;
 		} else if (props.hasCapability([AgentRoles.serviceProviders])) {
 			return '';
 		} else {
+			let userName = '';
+			if (props.userInfo) {
+				userName = props.userInfo.name.valueOf();
+			}
+			const content = (
+				<NewAgent
+					submitAgent={submitAgent}
+					role={AgentRoles.evaluators}
+					name={userName}
+				/>
+			);
+			const modalData = {
+				title: 'APPLY TO EVALUATE THIS PROJECT',
+				icon: <AgentIcon className="icon-evaluators" />,
+				content: content
+			};
 			return (
 				<Button
 					type={ButtonTypes.dark}
 					disabled={false}
-					onClick={() => props.toggleModal({selectedRole: AgentRoles.evaluators}, true)}
+					onClick={() => props.toggleModal(modalData, true)}
 				>Become an evaluator
 				</Button>
 			);
@@ -334,6 +376,36 @@ export const ProjectOverview: React.SFC<ParentProps> = (props) => {
 	};
 
 	const handleRenderServiceProviderButton = () => {
+		if (navigator.userAgent.indexOf('Chrome') === -1 || isBrowser === false) {
+			const modalData = {
+				title: 'SERVICE THIS PROJECT',
+				icon: <AgentIcon className="icon-serviceproviders" />,
+				content: <DesktopChrome role={AgentRoles.serviceProviders} />
+			};
+			return (
+				<Button 
+					type={ButtonTypes.dark}
+					disabled={false}
+					onClick={() => props.toggleModal(modalData, true)}
+				>Become a Service Provider
+				</Button> 
+			);
+		}
+		if (props.userInfo === null) {
+			const modalData = {
+				title: 'SERVICE THIS PROJECT',
+				icon: <AgentIcon className="icon-serviceproviders" />,
+				content: <NoKeysafe role={AgentRoles.serviceProviders} />
+			};
+			return (
+				<Button 
+					type={ButtonTypes.dark}
+					disabled={false}
+					onClick={() => props.toggleModal(modalData, true)}
+				>Become a Service Provider
+				</Button> 
+			);
+		}
 		if (props.hasCapability([AgentRoles.serviceProviders])) {
 			return <Button type={ButtonTypes.dark} disabled={true}>You are a service provider</Button>;
 		} else if (props.userInfo == null) {
@@ -341,11 +413,28 @@ export const ProjectOverview: React.SFC<ParentProps> = (props) => {
 		} else if (props.hasCapability([AgentRoles.evaluators])) {
 			return '';
 		} else {
+			let userName = '';
+			if (props.userInfo) {
+				userName = props.userInfo.name.valueOf();
+			}
+			const content = (
+				<NewAgent
+					submitAgent={submitAgent}
+					role={AgentRoles.serviceProviders}
+					name={userName}
+				/>
+			);
+			const modalData = {
+				title: 'SERVICE THIS PROJECT',
+				icon: <AgentIcon className="icon-serviceproviders" />,
+				content: content
+			};
+			
 			return (
 				<Button
 					type={ButtonTypes.dark}
 					disabled={false}
-					onClick={() => props.toggleModal({selectedRole: AgentRoles.serviceProviders}, true)}
+					onClick={() => props.toggleModal(modalData, true)}
 				>Become a Service Provider
 				</Button>
 			);
@@ -362,13 +451,13 @@ export const ProjectOverview: React.SFC<ParentProps> = (props) => {
 		window.open('http://twitter.com/share?url=' + encodeURIComponent(url) + '&text=' + encodeURIComponent(text), '', 'left=0,top=0,width=550,height=450,personalbar=0,toolbar=0,scrollbars=0,resizable=0');
 	};
 
-	const shareToFacebook = () => {
-		// @ts-ignore
-		FB.ui({
-			method: 'share',
-			href: location.href
-		});
-	};
+	// const shareToFacebook = () => {
+	// 	// @ts-ignore
+	// 	FB.ui({
+	// 		method: 'share',
+	// 		href: location.href
+	// 	});
+	// };
 
 	return (
 		<div>
@@ -377,7 +466,7 @@ export const ProjectOverview: React.SFC<ParentProps> = (props) => {
 				handleToggleModal={() => props.toggleModal({})}
 				header={renderModalHeader()}
 			>
-				{renderModal(props.modalData)}
+				{props.modalData.content}
 			</ModalWrapper>
 			<OverviewContainer className="container-fluid">
 				<div className="container">
@@ -434,7 +523,7 @@ export const ProjectOverview: React.SFC<ParentProps> = (props) => {
 								</Visible>
 								<Hidden>
 									<i onClick={shareToTwitter} className="icon-twitter" />
-									<i onClick={shareToFacebook} className="icon-facebook" />
+									{/* <i onClick={shareToFacebook} className="icon-facebook" /> */}
 								</Hidden>
 							</LocalButton>
 							<QRComponent url={location.href} />
