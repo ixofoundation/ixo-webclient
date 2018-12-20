@@ -177,13 +177,13 @@ const StatusText = styled.p`
 	font-weight: normal;
 `;
 
-const LoginLink = styled(Link)`
+const LoginLink = styled.a`
 	color: white;
 	text-decoration: none;
 
 	:hover {
 		text-decoration: none;
-		color: red;
+		color: white;
 	}
 `;
 
@@ -211,11 +211,11 @@ export class HeaderRight extends React.Component<HeaderRightProps, State> {
 
 	handleLogInButton = () => {
 		if (this.props.userInfo === null) {
-			return <LoginLink to={getIxoWorldRoute('/membership')}><h3 ><span>Log in</span></h3></LoginLink>;
+			return <LoginLink href={getIxoWorldRoute('/membership')}><h3 ><span>Log in</span></h3></LoginLink>;
 		}
 		if (this.props.userInfo.loggedInKeysafe === false) {
 			// return <a onClick={this.props.keysafe.popupKeysafe}><h3><span>Log in</span></h3></a>; // NEEDS TO POPUP KEYSAFE ONCE THAT WORKS
-			return <LoginLink to={getIxoWorldRoute('/membership')}><h3 ><span>Log in</span></h3></LoginLink>;
+			return <LoginLink href={getIxoWorldRoute('/membership')}><h3 ><span>Log in</span></h3></LoginLink>;
 		}
 		return '';
 	}
