@@ -113,7 +113,7 @@ export const FooterLeft: React.SFC<any> = ({simple}) => {
 						<p>ixo.world AG, Heiligkreuz 6, 9490 Vaduz, Liechtenstein 
 							<a href="https://github.com/ixofoundation/Legal-Documents/raw/master/Terms%20%26%20Conditions.pdf#page=2" target="_blank">Terms &amp; conditions</a>
 							<a href="https://github.com/ixofoundation/Legal-Documents/raw/master/Privacy%20Policy.pdf" target="_blank">Privacy policy</a>
-							<a href="https://github.com/ixofoundation/Legal-Documents/raw/master/ixo.world%20-%20Security.pdf" target="_blank">Privacy policy</a>
+							<a href="https://github.com/ixofoundation/Legal-Documents/raw/master/ixo.world%20-%20Security.pdf" target="_blank">Security</a>
 						</p>
 					</ByLine>
 				</FooterText>
