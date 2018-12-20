@@ -118,10 +118,12 @@ class App extends React.Component<App.Props, App.State> {
 		onLoginInitCalled: false
 	};
 
+	private keySafeInterval = null;
+
 	componentDidUpdate(prevProps: App.Props) {
 
-		if (this.props.ixo !== null && this.props.keysafe !== null && this.props.userInfo === null && this.state.onLoginInitCalled === false) {
-			this.props.onLoginInit(this.props.keysafe, this.props.ixo);
+		if (this.props.ixo !== null && this.props.keysafe !== null && this.state.onLoginInitCalled === false) {
+			this.keySafeInterval = setInterval(() => this.handleLoginInKeysafe(), 3000);
 			this.setState({ onLoginInitCalled: true });
 		}
 	}
@@ -145,6 +147,54 @@ class App extends React.Component<App.Props, App.State> {
 			// console.log('did updated');
 			// console.log(data);
 		});
+		
+	}
+
+	handleLoginInKeysafe = () => {
+
+		let userInfo: UserInfo = {
+			ledgered : false,
+			hasKYC: false,
+			loggedInKeysafe: false,
+			didDoc: {
+				did: '',
+				pubKey: ''
+			},
+			name: ''
+		};
+
+		this.props.keysafe.getInfo((error, response) => {
+			if (response) {
+				userInfo = response;
+				userInfo.loggedInKeysafe = true;
+				this.props.ixo.user.getDidDoc(userInfo.didDoc.did).then((didResponse: any) => {
+					if (didResponse.error) {
+						userInfo.ledgered = false;
+						userInfo.hasKYC = false;
+					} else {
+						userInfo.ledgered = true;
+						if (didResponse.credentials.length > 0) {
+							userInfo.hasKYC = true;
+						}
+					}
+					if (JSON.stringify(this.props.userInfo) !== JSON.stringify(userInfo)) {
+						this.props.onLoginInit(userInfo, ''); 
+					}
+			}).catch((didError) => {
+				console.log(didError);
+			});
+
+			} else {
+				userInfo.loggedInKeysafe = false;
+				if (JSON.stringify(this.props.userInfo) !== JSON.stringify(userInfo)) {
+					this.props.onLoginInit(userInfo, 'Please log into IXO Keysafe'); 
+				}
+			}
+		});
+	}
+	
+	componentWillUnmount() {
+		clearInterval(this.keySafeInterval);
 	}
 
 	handlePingExplorer = () => {
@@ -213,8 +263,8 @@ function mapDispatchToProps(dispatch: any): App.DispatchProps {
 		onKeysafeInit: () => {
 			dispatch(initKeysafe());
 		},
-		onLoginInit: (keysafe: any, ixo: any) => {
-			dispatch(initUserInfo(keysafe, ixo));
+		onLoginInit: (userInfo: UserInfo, error: string) => {
+			dispatch(initUserInfo(userInfo, error));
 		},
 		onWeb3Connect: () => {
 			dispatch(connectWeb3());

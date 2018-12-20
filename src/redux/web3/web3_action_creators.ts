@@ -10,8 +10,6 @@ export function connectWeb3() {
 			// @ts-ignore
 			window.web3 = new Web3(ethereum);
 			try {
-				// @ts-ignore
-				// ethereum.enable(); // Request account access if needed
 				// Acccounts now exposed
 				dispatch(
 					createAction<Web3Result>(WEB3_RESULT.type, {

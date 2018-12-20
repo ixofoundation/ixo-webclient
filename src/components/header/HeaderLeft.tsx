@@ -11,14 +11,14 @@ const ixoLogo = require('../../assets/images/ixo-logo.svg');
 const HeaderLink = styled(NavLink)`
 	color: white;
 	font-family: ${props => props.theme.fontRobotoCondensed};
-	font-size: 12px;
 	font-weight: 400;
 	letter-spacing: 1px;
 	text-transform: uppercase;
-	border: 1px solid #000000;
+	border:1px solid #49bfe0;
 	border-radius:3px;
 	padding:5px 10px 5px;
-	margin: 0 10px;
+	margin:0 10px 10px;
+	font-size: 16px;
 
 	:first-child {
 		border:1px solid #49bfe0;
@@ -33,9 +33,14 @@ const HeaderLink = styled(NavLink)`
 	transition:border 0.3s ease;
 
 	:hover {
- 		text-decoration:none;
- 		&&{color: ${props => props.theme.fontBlue};}
- 	}
+		text-decoration:none;
+		&&{color: ${props => props.theme.fontBlue};}}
+	}
+
+	@media (min-width: ${deviceWidth.desktop}px) {
+		margin:0 10px;
+		font-size: 13px;	
+	}
 `;
 
 const MenuHeaderContainer = styled.div`
@@ -54,11 +59,10 @@ const MenuHeaderLink = styled(HeaderLink)`
 const HeaderAnchor = styled.a`
 	color: white;
 	font-family: ${props => props.theme.fontRobotoCondensed};
-	font-size: 12px;
+	font-size: 13px;
 	font-weight: 400;
 	letter-spacing: 1px;
 	text-transform: uppercase;
-	border: 1px solid #000000;
 	border-radius:3px;
 	padding:5px 10px 5px;
 	margin: 0 10px;
@@ -68,7 +72,7 @@ const HeaderAnchor = styled.a`
 	:hover {
  		text-decoration:none;
  		&&{color: ${props => props.theme.fontBlue};}}
- 	}
+	}
 `;
 
 const MenuHeaderAnchor = styled(HeaderAnchor)`
@@ -78,11 +82,14 @@ const MenuHeaderAnchor = styled(HeaderAnchor)`
 	:hover {
 		background: #012233;
 	}
+
+	font-size: 16px;	
+	margin: 3px 10px;
 `;
 
 const Main = styled.div`
 	padding:15px 20px;
-	justify-content: flex-start;
+	justify-content: flex-end;
 	
 	a:first-child {
 		margin-right: auto;
@@ -90,10 +97,9 @@ const Main = styled.div`
 
 	@media (min-width:${deviceWidth.tablet}px){
 		justify-content: flex-start;
-		margin: inherit
 
 		a:first-child {
-			margin-right: 25px;
+			margin-right: inherit;
 		}
 	}
 
@@ -119,7 +125,7 @@ const NavItems = styled.div`
 	@media( min-width: ${deviceWidth.desktop}px) {
 		display: block;
 		margin-right: 0px;
-		}
+	}
 `;
 
 const Menu = styled.div`
@@ -142,7 +148,7 @@ const Menu = styled.div`
 
 const MobileMenu = Menu.extend`
 	&.openMenu {
-		top: 65px;
+		top: 64px;
 		opacity: 1;
 		pointer-events: auto;
 	}
@@ -153,11 +159,10 @@ const MobileMenu = Menu.extend`
 	right: 0;
 	background: #002C41;
 	width: 100%;
-	padding: 15px 2px 5px;
+	padding: 30px 2px 20px 30px;
 	pointer-events: none;
-	max-width: 300px;
 	z-index: 1;
-	border-radius: 5px 0 0 5px;
+	border-radius: 0 0 5px 5px;
 `;
 
 const Burger = styled.div`
@@ -168,20 +173,18 @@ const Burger = styled.div`
 	}
 	.bar1, .bar2, .bar3 {
 		width: 35px;
-		height: 5px;
-		background-color: #333;
+		height: 2px;
+		background-color: #FFF;
 		margin: 6px 0;
 		transition: 0.4s;
 	}
 	.change .bar1 {
-		-webkit-transform: rotate(-45deg) translate(-8px, 8px);
-		transform: rotate(-45deg) translate(-8px, 8px);
+		transform: rotate(-45deg) translate(-6px, 6px);
 		transform-origin: center;
 	}
 	.change .bar2 {opacity: 0;}
 	.change .bar3 {
-		-webkit-transform: rotate(45deg) translate(-8px, -8px);
-		transform: rotate(45deg) translate(-8px, -8px);
+		transform: rotate(45deg) translate(-6px, -6px);
 		transform-origin: center;
 	}
 `;

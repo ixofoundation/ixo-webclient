@@ -149,6 +149,7 @@ export interface State {
 	shouldLedgerDid: boolean;
 	isModalOpen: boolean;
 	modalResponse: string;
+	isLedgering: boolean;
 }
 
 export interface StateProps {
@@ -171,26 +172,31 @@ class Header extends React.Component<Props, State> {
 		responseTime: null,
 		shouldLedgerDid: false,
 		isModalOpen: false,
-		modalResponse: ''
+		modalResponse: '',
+		isLedgering: false
 	};
 
 	componentDidMount() {
 		this.pingExplorer();
+		// setTimeout(() => { this.props.initUserInfo(); }, 10000);
 	}
 
 	componentDidUpdate(prevProps: Props) {
 		if (prevProps.ixo !== this.props.ixo && this.props.ixo !== null) {
 			this.pingExplorer();
 		}
-	}
-
-	static getDerivedStateFromProps(nextProps: any) {
-		if (nextProps.userInfo && nextProps.userInfo.ledgered === false) {
-			return { shouldLedgerDid: true };
-		} else {
-			return { shouldLedgerDid: false};
+		if (this.props.userInfo && (prevProps.userInfo !== this.props.userInfo) && this.props.userInfo.loggedInKeysafe === true && this.props.userInfo.ledgered === false && this.state.isLedgering === false) {
+			this.setState({ shouldLedgerDid: true });
 		}
 	}
+
+	// static getDerivedStateFromProps(nextProps: any) {
+	// 	if (nextProps.userInfo && nextProps.userInfo.ledgered === false && this.getDerivedStateFromProps.isLedgering === false) {
+	// 		return { shouldLedgerDid: true };
+	// 	} else {
+	// 		return { shouldLedgerDid: false};
+	// 	}
+	// }
 
 	pingExplorer = () => {
 		this.props.pingIxoExplorer().then((res) => {
@@ -281,12 +287,11 @@ class Header extends React.Component<Props, State> {
 		if (this.props.userInfo.didDoc) {
 			let payload = { didDoc: this.props.userInfo.didDoc };
 			this.props.keysafe.requestSigning(JSON.stringify(payload), (error, signature) => {
+				this.setState({ isLedgering: true});
 				if (!error) {
 					this.props.ixo.user.registerUserDid(payload, signature).then((response: any) => {
 						if (response.code === 0) {
 							this.setState({ shouldLedgerDid: false, modalResponse: 'Your credentials have been registered on the ixo blockchain. This will take a few seconds in the background, you can continue using the site.'});
-							
-							setTimeout(() => { this.props.initUserInfo(); }, 10000);
 						} else {
 							this.setState({ modalResponse: 'Unable to ledger did at this time, please contact our support at support@ixo.world'});
 						}
@@ -297,6 +302,18 @@ class Header extends React.Component<Props, State> {
 			this.setState({ modalResponse: 'We cannot find your keysafe information, please reach out to our support at support@ixo.world'});
 		}
 	}
+
+	// handleIsLoggedInKeysafe() {
+	// 	this.props.keysafe.getDidDoc((error, response) => {
+	// 		if (error) {
+	// 		// handle error
+	// 		console.log('error not logged in');
+	// 		} else {
+	// 		// continue with successful response
+	// 		console.log('logged in');
+	// 		}
+	// 	});
+	// }
 
 	render() {
 		return (
@@ -317,6 +334,7 @@ class Header extends React.Component<Props, State> {
 							simple={this.props.simpleHeader}
 							shouldLedgerDid={this.state.shouldLedgerDid}
 							toggleModal={this.handleToggleModal}
+							keysafe={this.props.keysafe}
 						/>
 					</MediaQuery>
 				</div>

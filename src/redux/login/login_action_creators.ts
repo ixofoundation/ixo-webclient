@@ -1,47 +1,14 @@
 import { createAction } from '../../lib/redux_utils/actions';
 import { LoginResult, LOGIN_RESULT } from './login_actions';
+import { UserInfo } from 'src/types/models';
 
-export function initUserInfo(keysafe: any, ixo: any) {
+export function initUserInfo(userInfo: UserInfo, error: string) {
 	return dispatch => {
-		if (keysafe === null) {
-			dispatch(
-				createAction<LoginResult>(LOGIN_RESULT.type, {
-					userInfo: null,
-					error: 'Please install IXO Keysafe and login!'
-				}));
-		} else {
-			keysafe.getInfo((error, response) => {
-				if (response) {
-					var userInfo = response;
-					ixo.user.getDidDoc(userInfo.didDoc.did).then((didResponse: any) => {
-						if (didResponse.error) {
-							userInfo.ledgered = false;
-							userInfo.hasKYC = false;
-						} else {
-							userInfo.ledgered = true;
-							if (didResponse.credentials.length > 0) {
-								userInfo.hasKYC = true;
-							}
-						}
-						dispatch(
-							createAction<LoginResult>(LOGIN_RESULT.type, {
-								userInfo: userInfo,
-								error: {}
-							})
-						);
-				}).catch((didError) => {
-					console.log(didError);
-				});
-
-				} else {
-					dispatch(
-						createAction<LoginResult>(LOGIN_RESULT.type, {
-							userInfo: null,
-							error: 'Please log into IXO Keysafe'
-						}));
-					}
-			});
-		}
+		dispatch(
+			createAction<LoginResult>(LOGIN_RESULT.type, {
+				userInfo: userInfo,
+				error: error
+		}));
 	};
 }
 

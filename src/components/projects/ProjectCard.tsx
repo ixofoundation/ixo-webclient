@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { ProgressBar } from '../common/ProgressBar';
 import { excerptText } from '../../utils/formatters';
-import { Tooltip, TooltipPositions } from '../common/Tooltip';
 
 const placeholder = require('../../assets/images/ixo-placeholder-large.jpg');
 
@@ -213,12 +212,10 @@ export class ProjectCard extends React.Component<Props, States> {
 	projectStatus = () => {
 		let statusType: string = '';
 		let shouldShow: boolean = false;
-		let metaString: string = '';
 
 		if (this.props.status === 'CREATED') {
 			statusType = 'PENDING'; // 'WAITING FOR FUNDS'
 			shouldShow = true;
-			metaString = 'This projets is awaiting fuel';
 		} else if (this.props.status === 'COMPLETED') {
 			statusType = 'COMPLETED';
 			shouldShow = true;
@@ -226,9 +223,7 @@ export class ProjectCard extends React.Component<Props, States> {
 		if (shouldShow === true) {
 		return (
 			<ProjectStatus className={statusType}>
-				<Tooltip position={TooltipPositions.right} icon={false} text={metaString} >
-					<StatusText>{statusType}</StatusText>
-				</Tooltip>
+				<StatusText>{statusType}</StatusText>
 			</ProjectStatus>
 		);
 		} else {
