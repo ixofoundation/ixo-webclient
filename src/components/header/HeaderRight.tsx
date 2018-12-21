@@ -1,10 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
-// import { Link } from 'react-router-dom';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { getIxoWorldRoute } from 'src/utils/formatters';
-import { Link } from 'react-router-dom';
-// import { Link } from 'react-router-dom';
 
 // const xIcon = require('../../assets/images/oval-x-icon.png');
 
@@ -209,13 +206,17 @@ export class HeaderRight extends React.Component<HeaderRightProps, State> {
 		this.setState((prevState) => ({showMenu: !prevState.showMenu}));
 	}
 
+	openKeysafe = () => {
+		this.props.keysafe.popupKeysafe();
+	}
+
 	handleLogInButton = () => {
 		if (this.props.userInfo === null) {
 			return <LoginLink href={getIxoWorldRoute('/membership')}><h3 ><span>Log in</span></h3></LoginLink>;
 		}
 		if (this.props.userInfo.loggedInKeysafe === false) {
-			// return <a onClick={this.props.keysafe.popupKeysafe}><h3><span>Log in</span></h3></a>; // NEEDS TO POPUP KEYSAFE ONCE THAT WORKS
-			return <LoginLink href={getIxoWorldRoute('/membership')}><h3 ><span>Log in</span></h3></LoginLink>;
+			return <a onClick={this.openKeysafe}><h3><span>Log in</span></h3></a>; // NEEDS TO POPUP KEYSAFE ONCE THAT WORKS
+			// return <LoginLink href={getIxoWorldRoute('/membership')}><h3 ><span>Log in</span></h3></LoginLink>;
 		}
 		return '';
 	}
