@@ -121,7 +121,7 @@ export const ModalWrapper: React.SFC<Props> = (props) => {
 						{props.header.image && <img src={props.header.image} />}
 					</div>
 					<TitleContainer>
-						<h3 className={props.header.titleNoCaps === true && 'noCaps'}>{props.header.title}</h3>
+						<h3 className={props.header.titleNoCaps === true ? 'noCaps' : ''}>{props.header.title}</h3>
 						{props.header.subtitle && <p>{props.header.subtitle}</p>}
 					</TitleContainer>
 				</FlexContainer>
