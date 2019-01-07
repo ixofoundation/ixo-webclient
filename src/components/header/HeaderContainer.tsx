@@ -196,14 +196,6 @@ class Header extends React.Component<Props, State> {
 		}
 	}
 
-	// static getDerivedStateFromProps(nextProps: any) {
-	// 	if (nextProps.userInfo && nextProps.userInfo.ledgered === false && this.getDerivedStateFromProps.isLedgering === false) {
-	// 		return { shouldLedgerDid: true };
-	// 	} else {
-	// 		return { shouldLedgerDid: false};
-	// 	}
-	// }
-
 	pingExplorer = () => {
 		this.props.pingIxoExplorer().then((res) => {
 			this.setState({ responseTime: res});
@@ -256,7 +248,8 @@ class Header extends React.Component<Props, State> {
 	renderModalHeader = () => {
 		if (this.props.userInfo) {
 			return ({
-				title: 'Hi, ' + this.props.userInfo.name
+				title: 'Hi, ' + this.props.userInfo.name,
+				titleNoCaps : true
 			});
 		} else {
 			return null;
