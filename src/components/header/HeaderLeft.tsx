@@ -239,7 +239,7 @@ export class HeaderLeft extends React.Component<ParentProps> {
 	render() {
 		return (
 			<Fragment>
-				<Main className="col-md-12 col-lg-10 d-flex align-items-center">
+				<Main className="col-md-12 col-lg-8 d-flex align-items-center">
 					<div>
 					<a href={getIxoWorldRoute('')}><IXOLogo alt="IXO Logo" src={ixoLogo}/></a>
 					</div>
