@@ -150,6 +150,7 @@ export interface State {
 	isModalOpen: boolean;
 	modalResponse: string;
 	isLedgering: boolean;
+	ledgerPopupShown: boolean;
 }
 
 export interface StateProps {
@@ -173,7 +174,8 @@ class Header extends React.Component<Props, State> {
 		shouldLedgerDid: false,
 		isModalOpen: false,
 		modalResponse: '',
-		isLedgering: false
+		isLedgering: false,
+		ledgerPopupShown: false
 	};
 
 	componentDidMount() {
@@ -187,6 +189,10 @@ class Header extends React.Component<Props, State> {
 		}
 		if (this.props.userInfo && (prevProps.userInfo !== this.props.userInfo) && this.props.userInfo.loggedInKeysafe === true && this.props.userInfo.ledgered === false && this.state.isLedgering === false) {
 			this.setState({ shouldLedgerDid: true });
+		}
+		if (this.state.shouldLedgerDid === true && this.state.ledgerPopupShown === false) {
+			this.setState({ ledgerPopupShown : true });
+			this.handleToggleModal(true);
 		}
 	}
 
@@ -302,18 +308,6 @@ class Header extends React.Component<Props, State> {
 			this.setState({ modalResponse: 'We cannot find your keysafe information, please reach out to our support at support@ixo.world'});
 		}
 	}
-
-	// handleIsLoggedInKeysafe() {
-	// 	this.props.keysafe.getDidDoc((error, response) => {
-	// 		if (error) {
-	// 		// handle error
-	// 		console.log('error not logged in');
-	// 		} else {
-	// 		// continue with successful response
-	// 		console.log('logged in');
-	// 		}
-	// 	});
-	// }
 
 	render() {
 		return (

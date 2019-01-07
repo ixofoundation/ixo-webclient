@@ -376,6 +376,7 @@ export const ProjectOverview: React.SFC<ParentProps> = (props) => {
 	};
 
 	const handleRenderServiceProviderButton = () => {
+		console.log(props.userInfo);
 		if (navigator.userAgent.indexOf('Chrome') === -1 || isBrowser === false) {
 			const modalData = {
 				title: 'SERVICE THIS PROJECT',
