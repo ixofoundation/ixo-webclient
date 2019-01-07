@@ -165,6 +165,8 @@ const AccDID = styled.div`
 const StatusBox = styled.div`
 	text-align:center;
 	width: 110px;
+	position: relative;
+	z-index: 1;
 `;
 const StatusText = styled.p`
 	color: white;
@@ -177,6 +179,14 @@ const StatusText = styled.p`
 const LoginLink = styled.a`
 	color: white;
 	text-decoration: none;
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding-top: 10px;
+	z-index: 0;
 
 	:hover {
 		text-decoration: none;
@@ -215,7 +225,7 @@ export class HeaderRight extends React.Component<HeaderRightProps, State> {
 			return <LoginLink href={getIxoWorldRoute('/membership')}><h3 ><span>Log in</span></h3></LoginLink>;
 		}
 		if (this.props.userInfo.loggedInKeysafe === false) {
-			return <a onClick={this.openKeysafe}><h3><span>Log in</span></h3></a>; 
+			return <LoginLink onClick={this.openKeysafe}><h3><span>Log in</span></h3></LoginLink>; 
 		}
 		return '';
 	}
