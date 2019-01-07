@@ -513,6 +513,7 @@ export class ProjectContainer extends React.Component<Props, State> {
 	}
 
 	handleRenderProject = () => {
+		console.log(this.props.userInfo);
 		const project = this.state.projectPublic;
 		let theContent: JSX.Element = null;
 		switch (this.props.contentType) {

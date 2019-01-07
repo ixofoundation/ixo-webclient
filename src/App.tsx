@@ -165,7 +165,7 @@ class App extends React.Component<App.Props, App.State> {
 
 		this.props.keysafe.getInfo((error, response) => {
 			if (response) {
-				userInfo = response;
+				userInfo = Object.assign({}, response);
 				userInfo.loggedInKeysafe = true;
 				this.props.ixo.user.getDidDoc(userInfo.didDoc.did).then((didResponse: any) => {
 					if (didResponse.error) {
@@ -175,8 +175,11 @@ class App extends React.Component<App.Props, App.State> {
 						userInfo.ledgered = true;
 						if (didResponse.credentials.length > 0) {
 							userInfo.hasKYC = true;
+						} else {
+							userInfo.hasKYC = false;
 						}
 					}
+					
 					if (JSON.stringify(this.props.userInfo) !== JSON.stringify(userInfo)) {
 						this.props.onLoginInit(userInfo, ''); 
 					}
