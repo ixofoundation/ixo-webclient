@@ -235,6 +235,10 @@ export interface ParentProps {
 	hasCapability: (Role: [AgentRoles]) => boolean;
 	imageLink: string;
 	projectStatus: string;
+	ledger: {
+		modalResponse: string,
+		isLedgering: boolean
+	}
 }
 
 export const ProjectOverview: React.SFC<ParentProps> = (props) => {

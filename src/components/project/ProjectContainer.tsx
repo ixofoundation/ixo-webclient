@@ -63,6 +63,10 @@ export interface State {
 	singleClaimDependentsFetched: boolean;
 	singleClaim: Object;
 	projectStatus: string;
+	ledger: {
+		modalResponse: string,
+		isLedgering: boolean
+	}
 }
 
 export interface StateProps {
@@ -99,7 +103,11 @@ export class ProjectContainer extends React.Component<Props, State> {
 		claimEvaluated: false,
 		singleClaimFormFile: '',
 		singleClaimDependentsFetched: false,
-		singleClaim: null
+		singleClaim: null,
+		ledger: {
+			modalResponse: '',
+			isLedgering: false
+		}
 	};
 
 	private gettingProjectData: boolean = false;
@@ -512,6 +520,39 @@ export class ProjectContainer extends React.Component<Props, State> {
 		Promise.all(promises);
 	}
 
+	handleLedgerDid = () => {
+		if (this.props.userInfo.didDoc) {
+			let payload = { didDoc: this.props.userInfo.didDoc };
+			this.props.keysafe.requestSigning(JSON.stringify(payload), (error, signature) => {
+				let ledgerObj = {
+					isLedgering: true,
+					modalResponse: ''
+				};
+				this.setState({ ledger: ledgerObj });
+				if (!error) {
+					this.props.ixo.user.registerUserDid(payload, signature).then((response: any) => {
+						if (response.code === 0) {
+							ledgerObj = {
+								isLedgering: false,
+								modalResponse: 'Your credentials have been registered on the ixo blockchain. This will take a few seconds in the background, you can continue using the site.'
+							}
+							this.setState({ ledger: ledgerObj });
+						} else {
+							ledgerObj.modalResponse = 'Unable to ledger did at this time, please contact our support at support@ixo.world';
+							this.setState({ ledger: ledgerObj});
+						}
+					});
+				} 
+			}, 'base64');
+		} else {
+			let ledgerObj = {
+				isLedgering: false,
+				modalResponse: 'We cannot find your keysafe information, please reach out to our support at support@ixo.world'
+			};
+			this.setState({ ledger: ledgerObj });
+		}
+	}
+
 	handleRenderProject = () => {
 		const project = this.state.projectPublic;
 		let theContent: JSX.Element = null;
@@ -531,6 +572,7 @@ export class ProjectContainer extends React.Component<Props, State> {
 							hasCapability={this.handleHasCapability}
 							imageLink={this.state.imageLink}
 							projectStatus={this.state.projectStatus}
+							ledger={this.state.ledger}
 						/>
 					</Fragment>
 				);

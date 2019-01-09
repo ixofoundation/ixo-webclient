@@ -1,53 +1,45 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import { ButtonTypes, Button } from 'src/components/common/Buttons';
-import { getIxoWorldRoute } from 'src/utils/formatters';
 
-const BorderBox = styled.div`
-	border: 1px solid #004c61;
-	border-radius: 5px;
-	padding: 15px;
-	margin-bottom: 20px;
-	h3 {
-		display: flex;
-		font-size: 15px;
-    	font-weight: normal;
-		text-transform: uppercase;
-		font-family: ${props => props.theme.fontRobotoCondensed};
-		margin-bottom: 20px;
-		i {
-			font-size: 36px;
-			margin-right: 10px;
+const ModalData = styled.div`
 
-			:before {
-				color: ${props => props.theme.ixoBlue};
-			}
+	max-width: 380px;
+	text-align: center;
+	padding: 20px 20px 30px;
+
+	i {
+		font-size: 64px;
+
+		:before {
+			color: ${props => props.theme.ixoBlue};
 		}
+	}
+
+	h3 {
+		margin-top: 10px;
+		font-size: 18px;
+		font-family: ${props => props.theme.fontRobotoCondensed};
+	}
+
+	p {
+		font-size: 15px;
+		font-weight: 300;
 
 		span {
 			color: ${props => props.theme.ixoBlue};
 		}
 	}
-
-	p {
-		font-size: 13px;
-	}
-
-	> span {
-		font-size: 12px;
-		font-family: ${props => props.theme.fontRobotoCondensed};
-		display: block;
-		text-align: center;
-	}
 `;
 
-const KeySafeLink = styled.a`
+const InfoLink = styled.a`
 	color: white;
+	font-size: 12px;
 	text-decoration: underline;
-	font-size: 13px;
-	display: block;
-	text-align: center;
-	font-weight: 200;
+
+	:hover {
+		color: ${props => props.theme.ixoBlue};
+	}
 `;
 
 const Container = styled.div`
@@ -60,19 +52,33 @@ const Container = styled.div`
 `;
 
 export interface ParentProps {
+	modalResponse: string;
+	handleToggleModal: (isOpen: boolean) => void;
+	ledgerDid: () => string;
 }
 
-export const NoKYC: React.SFC<ParentProps> = () => {
+export const NoKYC: React.SFC<ParentProps> = (props) => {
 
-	return (
-		<Container>
-			<p>Evaluators are individuals or entities with knowledge and experience in any given field. 
-			Using this experience, your role is to approve or reject the claims submmitted on the project.</p>
-			<BorderBox>
-				<h3><div><i className="icon-pending"/></div><div>All Evaluators must have an ixo Membership Credential</div></h3>
-				<Button type={ButtonTypes.dark} href={getIxoWorldRoute('/membership')}>become a member</Button>
-				<KeySafeLink href="https://medium.com/ixo-blog/the-ixo-keysafe-kyc-and-becoming-an-ixo-member-ef33d9e985b6" target="_blank">Why do I need to become a member?</KeySafeLink>
-			</BorderBox>
-		</Container>
-	);
+	if (props.modalResponse.length > 0) {
+		return (
+			<Container>
+				<ModalData>
+					<p>{props.modalResponse}</p>
+					<Button type={ButtonTypes.dark} onClick={() => props.handleToggleModal(false)}>CONTINUE</Button>
+				</ModalData>
+			</Container>
+		);
+	} else {
+		return (
+			<Container>
+				<ModalData>
+					<i className="icon-success" />
+					<h3>YOU HAVE SUCCESSFULLY INSTALLED THE IXO KEYSAFE</h3>
+					<p><span>LAST STEP - </span>create your self-sovereign credentials on the ixo blockchain.</p>
+					<Button type={ButtonTypes.dark} onClick={props.ledgerDid}>SIGN NOW USING KEYSAFE</Button>
+					<InfoLink href="https://medium.com/ixo-blog/the-ixo-keysafe-kyc-and-becoming-an-ixo-member-ef33d9e985b6" target="_blank">Why do I need to sign my credentials?</InfoLink>
+				</ModalData>
+			</Container>
+		);
+	}
 };
