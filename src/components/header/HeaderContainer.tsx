@@ -189,7 +189,10 @@ class Header extends React.Component<Props, State> {
 		}
 		if (this.props.userInfo && (prevProps.userInfo !== this.props.userInfo) && this.props.userInfo.loggedInKeysafe === true && this.props.userInfo.ledgered === false && this.state.isLedgering === false) {
 			this.setState({ shouldLedgerDid: true });
-		}
+		} 
+		if (this.props.userInfo && (prevProps.userInfo !== this.props.userInfo) && this.props.userInfo.loggedInKeysafe === true && this.props.userInfo.ledgered === true && this.state.isLedgering === false) {
+			this.setState({ shouldLedgerDid: false });
+		} 
 		if (this.state.shouldLedgerDid === true && this.state.ledgerPopupShown === false) {
 			this.setState({ ledgerPopupShown : true });
 			this.handleToggleModal(true);

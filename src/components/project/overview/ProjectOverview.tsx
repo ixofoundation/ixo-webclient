@@ -352,7 +352,7 @@ export const ProjectOverview: React.SFC<ParentProps> = (props) => {
 					type={ButtonTypes.dark}
 					disabled={false}
 					onClick={() => props.toggleModal(modalData, true)}
-				>Become a Service Provider
+				>Become an evaluator
 				</Button>
 			);
 		}

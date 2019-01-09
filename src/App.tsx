@@ -179,7 +179,6 @@ class App extends React.Component<App.Props, App.State> {
 							userInfo.hasKYC = false;
 						}
 					}
-					
 					if (JSON.stringify(this.props.userInfo) !== JSON.stringify(userInfo)) {
 						this.props.onLoginInit(userInfo, ''); 
 					}
