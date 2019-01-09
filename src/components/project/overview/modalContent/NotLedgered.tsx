@@ -53,18 +53,18 @@ const Container = styled.div`
 
 export interface ParentProps {
 	modalResponse: string;
-	handleToggleModal: (isOpen: boolean) => void;
-	ledgerDid: () => string;
+	closeModal: () => void;
+	ledgerDid: () => void;
 }
 
-export const NoKYC: React.SFC<ParentProps> = (props) => {
+export const NotLedgered: React.SFC<ParentProps> = (props) => {
 
 	if (props.modalResponse.length > 0) {
 		return (
 			<Container>
 				<ModalData>
 					<p>{props.modalResponse}</p>
-					<Button type={ButtonTypes.dark} onClick={() => props.handleToggleModal(false)}>CONTINUE</Button>
+					<Button type={ButtonTypes.dark} onClick={() => props.closeModal()}>CONTINUE</Button>
 				</ModalData>
 			</Container>
 		);

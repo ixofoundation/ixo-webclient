@@ -115,7 +115,11 @@ export class ProjectContainer extends React.Component<Props, State> {
 	private gettingSingleClaim: boolean = false;
 
 	handleToggleModal = (data: any, modalStatus: boolean) => {
-		this.setState({ modalData: data, isModalOpen: modalStatus });
+		if(data === null) {
+			this.setState({ isModalOpen: modalStatus });
+		} else {
+			this.setState({ modalData: data, isModalOpen: modalStatus });
+		}
 	}
 
 	componentWillReceiveProps(nextProps: any) {
@@ -573,6 +577,7 @@ export class ProjectContainer extends React.Component<Props, State> {
 							imageLink={this.state.imageLink}
 							projectStatus={this.state.projectStatus}
 							ledger={this.state.ledger}
+							ledgerDid={this.handleLedgerDid}
 						/>
 					</Fragment>
 				);

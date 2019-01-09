@@ -16,6 +16,7 @@ import { NoKeysafe } from './modalContent/NoKeysafe';
 import { DesktopChrome } from './modalContent/DesktopChrome';
 import { isBrowser } from 'react-device-detect';
 import { NoKYC } from './modalContent/NoKYC';
+import { NotLedgered } from './modalContent/NotLedgered';
 
 const placeholder = require('../../../assets/images/ixo-placeholder-large.jpg');
 
@@ -233,6 +234,7 @@ export interface ParentProps {
 	createAgent: (agentData: any) => void;
 	toggleModal: (data?: any, modalStatus?: boolean) => void;
 	hasCapability: (Role: [AgentRoles]) => boolean;
+	ledgerDid: () => void;
 	imageLink: string;
 	projectStatus: string;
 	ledger: {
@@ -408,6 +410,28 @@ export const ProjectOverview: React.SFC<ParentProps> = (props) => {
 					onClick={() => props.toggleModal(modalData, true)}
 				>Become a Service Provider
 				</Button> 
+			);
+		}
+		if (props.userInfo.ledgered === false) {
+			const content = (
+				<NotLedgered
+					ledgerDid={props.ledgerDid}
+					modalResponse={props.ledger.modalResponse}
+					closeModal={() => props.toggleModal(null, false)}
+				/>
+			);
+			const modalData = {
+				title: 'SERVICE THIS PROJECT',
+				icon: <AgentIcon className="icon-serviceproviders" />,
+				content: content
+			};
+			return (
+				<Button
+					type={ButtonTypes.dark}
+					disabled={false}
+					onClick={() => props.toggleModal(modalData, true)}
+				>Become a Service Provider
+				</Button>
 			);
 		}
 		if (props.hasCapability([AgentRoles.serviceProviders])) {
