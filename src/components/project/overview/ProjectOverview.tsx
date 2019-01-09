@@ -240,7 +240,7 @@ export interface ParentProps {
 	ledger: {
 		modalResponse: string,
 		isLedgering: boolean
-	}
+	};
 }
 
 export const ProjectOverview: React.SFC<ParentProps> = (props) => {
@@ -334,6 +334,28 @@ export const ProjectOverview: React.SFC<ParentProps> = (props) => {
 				</Button> 
 			);
 		}
+		if (props.userInfo.ledgered === false) {
+			const content = (
+				<NotLedgered
+					ledgerDid={props.ledgerDid}
+					modalResponse={props.ledger.modalResponse}
+					closeModal={() => props.toggleModal(null, false)}
+				/>
+			);
+			const modalData = {
+				title: 'APPLY TO EVALUATE THIS PROJECT',
+				icon: <AgentIcon className="icon-evaluators" />,
+				content: content
+			};
+			return (
+				<Button
+					type={ButtonTypes.dark}
+					disabled={false}
+					onClick={() => props.toggleModal(modalData, true)}
+				>Become a Service Provider
+				</Button>
+			);
+		}
 		if (props.userInfo.hasKYC === false) {
 			const modalData = {
 				title: 'APPLY TO EVALUATE THIS PROJECT',
@@ -382,6 +404,7 @@ export const ProjectOverview: React.SFC<ParentProps> = (props) => {
 	};
 
 	const handleRenderServiceProviderButton = () => {
+		
 		if (navigator.userAgent.indexOf('Chrome') === -1 || isBrowser === false) {
 			const modalData = {
 				title: 'SERVICE THIS PROJECT',

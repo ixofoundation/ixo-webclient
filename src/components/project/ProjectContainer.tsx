@@ -22,6 +22,7 @@ import { deviceWidth } from '../../lib/commonData';
 import { ProjectClaimSubmitted } from './ProjectClaimSubmitted';
 import { explorerSocket } from '../helpers/explorerSocket';
 import { FundingContainer } from './funding/FundingContainer';
+import { NotLedgered } from './overview/modalContent/NotLedgered';
 
 const placeholder = require('../../assets/images/ixo-placeholder-large.jpg');
 
@@ -44,6 +45,7 @@ const DetailContainer = styled.div`
 		display:flex;
 	}
 `;
+
 export interface State {
 	imageLink: string;
 	projectPublic: Object;
@@ -66,7 +68,7 @@ export interface State {
 	ledger: {
 		modalResponse: string,
 		isLedgering: boolean
-	}
+	};
 }
 
 export interface StateProps {
@@ -115,7 +117,7 @@ export class ProjectContainer extends React.Component<Props, State> {
 	private gettingSingleClaim: boolean = false;
 
 	handleToggleModal = (data: any, modalStatus: boolean) => {
-		if(data === null) {
+		if (data === null) {
 			this.setState({ isModalOpen: modalStatus });
 		} else {
 			this.setState({ modalData: data, isModalOpen: modalStatus });
@@ -531,20 +533,33 @@ export class ProjectContainer extends React.Component<Props, State> {
 				let ledgerObj = {
 					isLedgering: true,
 					modalResponse: ''
-				};
-				this.setState({ ledger: ledgerObj });
+				};				
 				if (!error) {
 					this.props.ixo.user.registerUserDid(payload, signature).then((response: any) => {
 						if (response.code === 0) {
 							ledgerObj = {
 								isLedgering: false,
 								modalResponse: 'Your credentials have been registered on the ixo blockchain. This will take a few seconds in the background, you can continue using the site.'
-							}
-							this.setState({ ledger: ledgerObj });
+							};
 						} else {
-							ledgerObj.modalResponse = 'Unable to ledger did at this time, please contact our support at support@ixo.world';
-							this.setState({ ledger: ledgerObj});
+							ledgerObj = {
+								isLedgering: false,
+								modalResponse: 'Unable to ledger did at this time, please contact our support at support@ixo.world'
+							};
 						}
+						const content = (
+							<NotLedgered
+								ledgerDid={this.handleLedgerDid}
+								modalResponse={ledgerObj.modalResponse}
+								closeModal={() => this.handleToggleModal(null, false)}
+							/>
+						);
+						const modalData = {
+							title: `Hi, ${this.props.userInfo.name}`,
+							titleNoCaps : true,
+							content: content
+						};
+						this.setState({ ledger: ledgerObj, modalData: modalData});
 					});
 				} 
 			}, 'base64');
