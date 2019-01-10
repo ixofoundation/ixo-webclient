@@ -102,7 +102,7 @@ export const NoKeysafe: React.SFC<ParentProps> = ({role}) => {
 			<BorderBox>
 				<h3><div><i className="icon-pending"/></div><div>You need to install the ixo Keysafe and <span>refresh your browser</span></div></h3>
 				<p>ixo Keysafe is a browser extension that enables you to connect to the ixo blockchain</p>
-				<Button type={ButtonTypes.dark}>install ixo Keysafe</Button>
+				<Button type={ButtonTypes.dark} href={`https://chrome.google.com/webstore/detail/ixo-keysafe/nnlfaleaeoefglohpacnfgoeldfakkjk`} target="_blank">install ixo Keysafe</Button>
 				<KeySafeLink href="https://medium.com/ixo-blog/the-ixo-keysafe-kyc-and-becoming-an-ixo-member-ef33d9e985b6" target="_blank">Tell me more about the ixo keysafe</KeySafeLink>
 				<hr />
 				<span>OR REGISTER VIA IXO MOBILE</span>
