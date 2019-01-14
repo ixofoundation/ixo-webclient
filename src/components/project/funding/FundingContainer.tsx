@@ -297,7 +297,19 @@ export class Funding extends React.Component<Props, State> {
 				status: 'PENDING',
 				txnID: txnHash
 			};
-			this.handleUpdateProjectStatus(statusObj);
+
+			const signature = {
+				creator: this.props.userInfo.didDoc.did,
+				created: new Date()
+			};
+
+			this.props.ixo.project.fundProject(statusObj, signature, this.props.projectURL).then((res) => {
+				if (res.error) {
+					Toast.errorToast(res.error.message);
+				} else {
+					Toast.successToast(`Successfully updated project status to ${statusObj.status}`);
+				}
+			});
 		});
 	}
 
