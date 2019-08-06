@@ -15,7 +15,6 @@ import { ProjectFounder } from './ProjectFounder';
 import { NoKeysafe } from './modalContent/NoKeysafe';
 import { DesktopChrome } from './modalContent/DesktopChrome';
 import { isBrowser } from 'react-device-detect';
-import { NoKYC } from './modalContent/NoKYC';
 import { NotLedgered } from './modalContent/NotLedgered';
 
 const placeholder = require('../../../assets/images/ixo-placeholder-large.jpg');
