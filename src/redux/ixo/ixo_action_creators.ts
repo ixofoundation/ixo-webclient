@@ -2,10 +2,11 @@ import { createAction } from '../../lib/redux_utils/actions';
 import { Ixo } from 'ixo-module';
 import { IxoResult, IXO_RESULT } from './ixo_actions';
 
-export function initIxo(BLOCKCHAIN_IP: string, BLOCK_SYNC_URL: string) {
+export function initIxo(BLOCK_SYNC_URL: string) {
 	return dispatch => {
-		if (BLOCKCHAIN_IP && BLOCK_SYNC_URL) {
-			var ixo = new Ixo(BLOCKCHAIN_IP, BLOCK_SYNC_URL);
+		if (BLOCK_SYNC_URL) {
+			// @ts-ignore
+			var ixo = new Ixo(BLOCK_SYNC_URL);
 			dispatch(
 				createAction<IxoResult>(IXO_RESULT.type, {
 					ixo: ixo,

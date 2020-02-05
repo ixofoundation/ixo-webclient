@@ -88,6 +88,11 @@ export const ModalContent = styled.div`
 	}
 `;
 
+export enum Web3Accounts {
+	project = 'PROJECT',
+	user = 'USER'
+}
+
 export interface ParentProps {
 	projectDid: string;
 	projectURL: string;
@@ -97,7 +102,7 @@ export interface ParentProps {
 
 export interface State {
 	web3error: string;
-	projectWalletAddress: string;
+	projectAccount: Web3Acc;
 	account: Web3Acc;
 	isModalOpen: boolean;
 	creatingProjectWallet: boolean;
@@ -119,8 +124,11 @@ export class Funding extends React.Component<Props, State> {
 	state = {
 		isModalOpen: false,
 		web3error: null,
-		projectWalletAddress: null,
 		account: {
+			address: null,
+			balance: null
+		},
+		projectAccount: {
 			address: null,
 			balance: null
 		},
@@ -199,7 +207,7 @@ export class Funding extends React.Component<Props, State> {
 						web3error: null,
 						account: tempAcc
 					});
-					this.handleCheckIxoBalance();
+					this.handleCheckIxoBalance(Web3Accounts.user);
 					this.handleGetProjectWalletAddres();
 				} else {
 					this.setState({ web3error: 'SIGN IN TO METAMASK'});
@@ -210,38 +218,52 @@ export class Funding extends React.Component<Props, State> {
 		if (this.props.projectStatus === 'FUNDED') {
 			this.setState({fundingProject: false});
 		}
-		if ((this.state.projectWalletAddress !== null && this.state.projectWalletAddress !== '0x0000000000000000000000000000000000000000') && this.state.creatingProjectWallet === true) {
+		if ((this.state.projectAccount.address !== null && this.state.projectAccount.address !== '0x0000000000000000000000000000000000000000') && this.state.creatingProjectWallet === true) {
 			this.setState({ creatingProjectWallet: false});
 		}
 	}
 
-	handleCheckEthBalance = () => {
+	// handleCheckEthBalance = () => {
 
-		this.props.web3.eth.getAccounts((err: any, acc: any) => {
-			if (!err) {
-				this.props.web3.eth.getBalance(acc[0], (error, balance) => {
-					if (!error) {
-						let tempAcc = Object.assign({}, this.state.account);
-						tempAcc.balance = balance;
-						this.setState({ 
-							web3error: null,
-							account: tempAcc
-						});
-					}
-				});
-			}
-		});
-	}
+	// 	this.props.web3.eth.getAccounts((err: any, acc: any) => {
+	// 		if (!err) {
+	// 			this.props.web3.eth.getBalance(acc[0], (error, balance) => {
+	// 				if (!error) {
+	// 					let tempAcc = Object.assign({}, this.state.account);
+	// 					tempAcc.balance = balance;
+	// 					this.setState({ 
+	// 						web3error: null,
+	// 						account: tempAcc
+	// 					});
+	// 				}
+	// 			});
+	// 		}
+	// 	});
+	// }
 
-	handleCheckIxoBalance = () => {
+	handleCheckIxoBalance = (accountType: Web3Accounts) => {
+		
+		let addressToUse = null;
+		
+		if (accountType === Web3Accounts.project) {
+			addressToUse = this.state.projectAccount.address;
+		} else {
+			addressToUse = this.state.account.address;
+		}
 
-		this.projectWeb3.getIxoBalance(this.state.account.address).then((balance) => {
+		this.projectWeb3.getIxoBalance(addressToUse).then((balance) => {
 			let tempAcc = Object.assign({}, this.state.account);
 			tempAcc.balance = balance;
-			this.setState({ 
-				web3error: null,
-				account: tempAcc
-			});
+			if (accountType === Web3Accounts.project) {
+				this.setState({
+					projectAccount: tempAcc
+				});
+			} else {
+				this.setState({ 
+					web3error: null,
+					account: tempAcc
+				});
+			}
 		});
 	}
 
@@ -253,12 +275,14 @@ export class Funding extends React.Component<Props, State> {
 		});
 	}
 
-	handleGetProjectWalletAddres = async () => {
-		try {
-			this.setState({projectWalletAddress : await this.projectWeb3.getProjectWalletAddress(this.props.projectDid)});
-		} catch {
-			console.log('couldnt retrieve wallet address');
-		}
+	handleGetProjectWalletAddres = () => {
+			this.projectWeb3.getProjectWalletAddress(this.props.projectDid).then((res) => {
+				const projectAccount = Object.assign({}, this.state.projectAccount); 
+				projectAccount.address = res;
+				this.setState({ projectAccount : projectAccount });
+			}).catch((err) => {
+			console.log('couldnt retrieve wallet address. ', err);
+		});
 	}
 
 	handleFundProjectWallet = async () => {
@@ -266,14 +290,26 @@ export class Funding extends React.Component<Props, State> {
 
 		let ixoToSend = new BigNumber(this.props.projectIxoRequired);
 		ixoToSend = ixoToSend.multipliedBy(100000000);
-		this.projectWeb3.fundEthProjectWallet(this.state.projectWalletAddress, this.state.account.address, ixoToSend.toNumber()).then((txnHash) => {
+		this.projectWeb3.fundEthProjectWallet(this.state.projectAccount.address, this.state.account.address, ixoToSend.toNumber()).then((txnHash) => {
 			this.setState({ fundingProject: true});
 			const statusObj = {
 				projectDid: this.props.projectDid,
 				status: 'PENDING',
 				txnID: txnHash
 			};
-			this.handleUpdateProjectStatus(statusObj);
+
+			const signature = {
+				creator: this.props.userInfo.didDoc.did,
+				created: new Date()
+			};
+
+			this.props.ixo.project.fundProject(statusObj, signature, this.props.projectURL).then((res) => {
+				if (res.error) {
+					Toast.errorToast(res.error.message);
+				} else {
+					Toast.successToast(`Successfully updated project status to ${statusObj.status}`);
+				}
+			});
 		});
 	}
 
@@ -303,26 +339,26 @@ export class Funding extends React.Component<Props, State> {
 	}
 
 	handleStopProject = async () => {
-		if (this.state.projectWalletAddress! && this.state.projectWalletAddress !== '0x0000000000000000000000000000000000000000') {
+		if (this.state.projectAccount.address! && this.state.projectAccount.address !== '0x0000000000000000000000000000000000000000') {
 			const statusObj = {
 				projectDid: this.props.projectDid,
 				status: 'STOPPED'
 			};
 			this.handleUpdateProjectStatus(statusObj);
 		} else {
-			console.log(this.state.projectWalletAddress);
+			console.log(this.state.projectAccount.address);
 		}
 	}
 
 	handlePayOutProject = async () => {
-		if (this.state.projectWalletAddress! && this.state.projectWalletAddress !== '0x0000000000000000000000000000000000000000') {
+		if (this.state.projectAccount.address! && this.state.projectAccount.address !== '0x0000000000000000000000000000000000000000') {
 			const statusObj = {
 				projectDid: this.props.projectDid,
 				status: 'PAIDOUT'
 			};
 			this.handleUpdateProjectStatus(statusObj);
 		} else {
-			console.log(this.state.projectWalletAddress);
+			console.log(this.state.projectAccount.address);
 		}
 	}
 
@@ -377,9 +413,10 @@ export class Funding extends React.Component<Props, State> {
 						<div className="row">
 							<div className="col-md-6">
 								<ol>
-									<li className={(this.props.projectStatus === 'CREATED' && this.state.projectWalletAddress === null) ? 'active' : ''}>SETUP</li>
-									<li className={(this.props.projectStatus === 'CREATED' && this.state.projectWalletAddress === '0x0000000000000000000000000000000000000000') ? 'active' : ''}>CREATE WALLET</li>
-									<li className={(this.state.projectWalletAddress !== null && this.state.projectWalletAddress !== '0x0000000000000000000000000000000000000000') ? 'active' : ''}>FUEL</li>
+									<li onClick={() => this.handleCheckIxoBalance(Web3Accounts.project)}>Check project balance</li>
+									<li className={(this.props.projectStatus === 'CREATED' && this.state.projectAccount.address === null) ? 'active' : ''}>SETUP</li>
+									<li className={(this.props.projectStatus === 'CREATED' && this.state.projectAccount.address === '0x0000000000000000000000000000000000000000') ? 'active' : ''}>CREATE WALLET</li>
+									<li className={(this.state.projectAccount.address !== null && this.state.projectAccount.address !== '0x0000000000000000000000000000000000000000') ? 'active' : ''}>FUEL</li>
 								</ol>
 							</div>
 							<div className="col-md-6">
@@ -390,7 +427,7 @@ export class Funding extends React.Component<Props, State> {
 									projectStatus={this.props.projectStatus}
 								/>
 								<FundingButton 
-									projectWalletAddress={this.state.projectWalletAddress}
+									projectWalletAddress={this.state.projectAccount.address}
 									account={this.state.account}
 									createProjectWallet={this.handleCreateWallet}
 									requiredIxo={this.props.projectIxoRequired}
