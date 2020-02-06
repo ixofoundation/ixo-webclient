@@ -11,7 +11,7 @@ const initialState: IKeysafeModelState = {
 	error: {},
 };
 
-export let keysafeReducer = createReducer<IKeysafeModelState>(initialState, [
+export const keysafeReducer = createReducer<IKeysafeModelState>(initialState, [
 	{
 		action: KEYSAFE_RESULT,
 		handler: (state: IKeysafeModelState, action: KeysafeResult) => {

@@ -77,11 +77,11 @@ export class ProjectCreateUploadPublicDocs extends React.Component<StateProps, S
 		errorToast('Please install IXO Credential Manager first.');
 		} else {
 			if (this.state.croppedImg && this.state.claimSchema.length > 0 && this.state.claimForm.length > 0) {
-				let promises = [];
+				const promises = [];
 				promises.push(
 					this.props.ixo.project.createPublic(this.state.croppedImg, this.state.project.serviceEndpoint).then((res: any) => {
 						successToast('Uploaded image successfully');
-						let newProject = this.state.project;
+						const newProject = this.state.project;
 						newProject.imageLink = res.result;
 						this.setState({project: newProject, projectJson: JSON.stringify(newProject)});
 						return res.result;
@@ -90,7 +90,7 @@ export class ProjectCreateUploadPublicDocs extends React.Component<StateProps, S
 				promises.push(
 					this.props.ixo.project.createPublic(this.state.claimSchema, this.state.project.serviceEndpoint).then((res: any) => {
 						successToast('Uploaded Schema successfully');
-						let newProject = this.state.project;
+						const newProject = this.state.project;
 						newProject.templates.claim.schema = res.result;
 						this.setState({project: newProject, projectJson: JSON.stringify(newProject)});
 						return res.result;
@@ -99,7 +99,7 @@ export class ProjectCreateUploadPublicDocs extends React.Component<StateProps, S
 				promises.push(
 					this.props.ixo.project.createPublic(this.state.claimForm, this.state.project.serviceEndpoint).then((res: any) => {
 						successToast('Uploaded Form JSON successfully');
-						let newProject = this.state.project;
+						const newProject = this.state.project;
 						newProject.templates.claim.form = res.result;
 						this.setState({project: newProject, projectJson: JSON.stringify(newProject)});
 						return res.result;
@@ -109,7 +109,7 @@ export class ProjectCreateUploadPublicDocs extends React.Component<StateProps, S
 					promises.push(
 						this.props.ixo.project.createPublic(this.state.croppedLogo, this.state.project.serviceEndpoint).then((res: any) => {
 							successToast('Uploaded logo successfully');
-							let newProject = this.state.project;
+							const newProject = this.state.project;
 							newProject.founder.logoLink = newProject.serviceEndpoint + 'public/' + res.result;
 							this.setState({project: newProject, projectJson: JSON.stringify(newProject)});
 							return res.result;
@@ -117,9 +117,9 @@ export class ProjectCreateUploadPublicDocs extends React.Component<StateProps, S
 					);
 				}
 				Promise.all(promises).then((results) => {
-					let projectObj: string = this.state.projectJson;
+					const projectObj: string = this.state.projectJson;
 					console.log(this.state.projectJson);
-					let projectDataURL = 'data:application/json;base64,' + base64Encode(projectObj);
+					const projectDataURL = 'data:application/json;base64,' + base64Encode(projectObj);
 					console.log('Here');
 					this.props.ixo.project.createPublic(projectDataURL, this.state.project.serviceEndpoint).then((res: any) => {
 						successToast('Uploaded projectJson successfully');
@@ -136,7 +136,7 @@ export class ProjectCreateUploadPublicDocs extends React.Component<StateProps, S
 	}
 
 	handlePdsUrlChange = (event: any) => {
-		let newProject = this.state.project;
+		const newProject = this.state.project;
 		newProject.serviceEndpoint = event.target.value;
 		this.setState({project: newProject, projectJson: JSON.stringify(newProject)});
 	}
@@ -169,7 +169,7 @@ export class ProjectCreateUploadPublicDocs extends React.Component<StateProps, S
 
 		this.props.ixo.project.createPublic(fileToUpload, this.state.project.serviceEndpoint).then((res: any) => {
 			console.log('Uploaded: ', res);
-			let newProject = this.state.project;
+			const newProject = this.state.project;
 			if (type === 'schema') {
 				newProject.templates.claim.schema = res.result;
 			}
@@ -183,7 +183,7 @@ export class ProjectCreateUploadPublicDocs extends React.Component<StateProps, S
 	fetchFile = (event) => {
 		this.props.ixo.project.fetchPublic(this.state.claimSchemaKey, this.state.project.serviceEndpoint).then((res: any) => {
 			console.log('Fetched: ', res);
-			let fileContents = base64Decode(res.data);
+			const fileContents = base64Decode(res.data);
 			this.setState({fetchedFile: fileContents});
 		});
 	}
@@ -191,16 +191,16 @@ export class ProjectCreateUploadPublicDocs extends React.Component<StateProps, S
 	fetchFormFile = (event) => {
 		this.props.ixo.project.fetchPublic(this.state.claimFormKey, this.state.project.serviceEndpoint).then((res: any) => {
 			console.log('Fetched: ', res);
-			let fileContents = base64Decode(res.data);
+			const fileContents = base64Decode(res.data);
 			this.setState({fetchedFile: fileContents});
 		});
 	}
 
 	updateProjectJSON = (event) => {
-		let project = JSON.parse(event.target.value);
-		let imageLogoLink = project.imageLink;
+		const project = JSON.parse(event.target.value);
+		const imageLogoLink = project.imageLink;
 		project.imageLink = '';
-		let founderLogoLink = project.founder.logoLink;
+		const founderLogoLink = project.founder.logoLink;
 		project.founder.logoLink = '';
 		this.setState({projectJson: JSON.stringify(project), project: project, imageLogoLink: imageLogoLink, founderLogoLink: founderLogoLink});
 	}

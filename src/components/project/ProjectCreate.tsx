@@ -75,11 +75,11 @@ export class ProjectCreate extends React.Component<StateProps, State> {
 		errorToast('Please install IXO Credential Manager first.');
 		} else {
 			if (this.state.croppedImg && this.state.claimSchema.length > 0 && this.state.claimForm.length > 0) {
-				let promises = [];
+				const promises = [];
 				promises.push(
 					this.props.ixo.project.createPublic(this.state.croppedImg, this.state.project.serviceEndpoint).then((res: any) => {
 						successToast('Uploaded image successfully');
-						let newProject = this.state.project;
+						const newProject = this.state.project;
 						newProject.imageLink = res.result;
 						this.setState({project: newProject, projectJson: JSON.stringify(newProject)});
 						return res.result;
@@ -88,7 +88,7 @@ export class ProjectCreate extends React.Component<StateProps, State> {
 				promises.push(
 					this.props.ixo.project.createPublic(this.state.claimSchema, this.state.project.serviceEndpoint).then((res: any) => {
 						successToast('Uploaded Schema successfully');
-						let newProject = this.state.project;
+						const newProject = this.state.project;
 						newProject.templates.claim.schema = res.result;
 						this.setState({project: newProject, projectJson: JSON.stringify(newProject)});
 						return res.result;
@@ -97,14 +97,14 @@ export class ProjectCreate extends React.Component<StateProps, State> {
 				promises.push(
 					this.props.ixo.project.createPublic(this.state.claimForm, this.state.project.serviceEndpoint).then((res: any) => {
 						successToast('Uploaded Form JSON successfully');
-						let newProject = this.state.project;
+						const newProject = this.state.project;
 						newProject.templates.claim.form = res.result;
 						this.setState({project: newProject, projectJson: JSON.stringify(newProject)});
 						return res.result;
 					})
 				);
 				Promise.all(promises).then((results) => {
-					let projectObj: string = this.state.projectJson;
+					const projectObj: string = this.state.projectJson;
 					this.props.keysafe.requestSigning(projectObj, (error: any, signature: any) => {
 						
 						console.log(JSON.parse(projectObj));
@@ -123,7 +123,7 @@ export class ProjectCreate extends React.Component<StateProps, State> {
 	}
 
 	handlePdsUrlChange = (event: any) => {
-		let newProject = this.state.project;
+		const newProject = this.state.project;
 		newProject.serviceEndpoint = event.target.value;
 		this.setState({project: newProject, projectJson: JSON.stringify(newProject)});
 	}
@@ -140,7 +140,7 @@ export class ProjectCreate extends React.Component<StateProps, State> {
 		console.log(this.state.croppedImg);
 		this.props.ixo.project.createPublic(this.state.croppedImg, this.state.project.serviceEndpoint).then((res: any) => {
 			console.log('Uploaded: ', res);
-			let newProject = this.state.project;
+			const newProject = this.state.project;
 			newProject.imageLink = res.result;
 			this.setState({project: newProject, projectJson: JSON.stringify(newProject)});
 		});
@@ -149,7 +149,7 @@ export class ProjectCreate extends React.Component<StateProps, State> {
 	fetchImage = (event) => {
 		this.props.ixo.project.fetchPublic(this.state.project.imageLink, this.state.project.serviceEndpoint).then((res: any) => {
 			console.log('Fetched: ', res);
-			let imageSrc = 'data:' + res.contentType + ';base64,' + res.data;
+			const imageSrc = 'data:' + res.contentType + ';base64,' + res.data;
 			this.setState({fetchedImage: imageSrc});
 		});
 	}
@@ -174,7 +174,7 @@ export class ProjectCreate extends React.Component<StateProps, State> {
 
 		this.props.ixo.project.createPublic(fileToUpload, this.state.project.serviceEndpoint).then((res: any) => {
 			console.log('Uploaded: ', res);
-			let newProject = this.state.project;
+			const newProject = this.state.project;
 			if (type === 'schema') {
 				newProject.templates.claim.schema = res.result;
 			}
@@ -188,7 +188,7 @@ export class ProjectCreate extends React.Component<StateProps, State> {
 	fetchFile = (event) => {
 		this.props.ixo.project.fetchPublic(this.state.claimSchemaKey, this.state.project.serviceEndpoint).then((res: any) => {
 			console.log('Fetched: ', res);
-			let fileContents = base64Decode(res.data);
+			const fileContents = base64Decode(res.data);
 			this.setState({fetchedFile: fileContents});
 		});
 	}
@@ -196,45 +196,44 @@ export class ProjectCreate extends React.Component<StateProps, State> {
 	fetchFormFile = (event) => {
 		this.props.ixo.project.fetchPublic(this.state.claimFormKey, this.state.project.serviceEndpoint).then((res: any) => {
 			console.log('Fetched: ', res);
-			let fileContents = base64Decode(res.data);
+			const fileContents = base64Decode(res.data);
 			this.setState({fetchedFile: fileContents});
 		});
 	}
 
 	handlePropertyChanged = (prop: string, event: any) => {
-		let newProject = this.state.project;
+		const newProject = this.state.project;
 		newProject[prop] = event.target.value;
 		this.setState({project: newProject, projectJson: JSON.stringify(newProject)});
 	}
 
 	handleRequiredClaimsChanged = (event: any) => {
-		let newProject = this.state.project;
+		const newProject = this.state.project;
 		newProject.requiredClaims = String(event.target.value.trim());
 		this.setState({project: newProject, projectJson: JSON.stringify(newProject)});
 
 	}
 
 	handleOwnerNameChanged = (event: any) => {
-		let newProject = this.state.project;
+		const newProject = this.state.project;
 		newProject.ownerName = event.target.value;
 		// newProject.founder.name = event.target.value;
 		this.setState({project: newProject, projectJson: JSON.stringify(newProject)});
 	}
 
 	handleOwnerEmailChanged = (event: any) => {
-		let newProject = this.state.project;
+		const newProject = this.state.project;
 		newProject.ownerEmail = event.target.value.trim();
 		// newProject.founder.email = event.target.value.trim();
 		this.setState({project: newProject, projectJson: JSON.stringify(newProject)});
 	}
 
 	handleSDGChanged = (event: any) => {
-		let newProject = this.state.project;
+		const newProject = this.state.project;
 		let sdgs = event.target.value;
 		// remove all whitespaces
-		// @ts-ignore
 		sdgs = sdgs.replace(/ /g, '');
-		let sdgList = sdgs.split(',');
+		const sdgList = sdgs.split(',');
 
 		newProject.sdgs = sdgList;
 		this.setState({project: newProject, projectJson: JSON.stringify(newProject)});

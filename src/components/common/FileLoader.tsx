@@ -1,11 +1,11 @@
-import * as React from 'react';
-import Dropzone from 'react-dropzone'; 
-import { iconUpload } from '../../lib/commonData';
+import * as React from 'react'
+import Dropzone from 'react-dropzone'
+import { iconUpload } from '../../lib/commonData'
 
-import styled from 'styled-components';
+import styled from 'styled-components'
 
 /*
-Creates a dropzone to drop or select files. 
+Creates a dropzone to drop or select files.
 
 Parameters:
 	fileUrl: The callback function that is called when an image is selected it gets a base64encoded image file
@@ -17,73 +17,78 @@ Example:
 */
 
 const IconImage = styled.img`
-	padding: 3px;
-	margin-top: 10px;
-`;
+  padding: 3px;
+  margin-top: 10px;
+`
 
 const styles = {
-	dropzone: {
-		width: '100%',
-		height: '150px',
-		backgroundColor: 'lightgrey',
-		borderWidth: '2px',
-		textAlign: 'center',
-		alignVertical: 'middle',
-		display: 'flex',
-		flexDirection: 'column',
-		justifyContent: 'center',
-		borderRadius: '5px',
-	}
-};
+  dropzone: {
+    width: '100%',
+    height: '150px',
+    backgroundColor: 'lightgrey',
+    borderWidth: '2px',
+    textAlign: 'center',
+    alignVertical: 'middle',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    borderRadius: '5px',
+  },
+}
 
 export interface StateProps {
-	selectedCallback: Function;
-	acceptType: string;
-	placeholder?: string;
+  selectedCallback: Function
+  acceptType: string
+  placeholder?: string
 }
 
 export interface State {
-	filename: string;
+  filename: string
 }
 
 export class FileLoader extends React.Component<StateProps, State> {
+  state = {
+    filename: null,
+  }
 
-	state = {
-		filename: null,
-	};
+  onDropAccepted = files => {
+    const file = files[0]
+    if (!file) {
+      return
+    }
 
-	onDropAccepted = (files) => {
-		let file = files[0];
-		if (!file) {
-			return;
-		}
-	
-		this.setState({filename: file.name});
-		const reader = new FileReader();
-	
-		reader.onload = (e2) => {
-			this.props.selectedCallback(e2.target.result);
-		};
-	
-		reader.readAsDataURL(file);
+    this.setState({ filename: file.name })
+    const reader = new FileReader()
 
-	}
+    reader.onload = e2 => {
+      this.props.selectedCallback(e2.target.result)
+    }
 
-	showFilename = () => {
-		if (this.state.filename !== null) {
-			return ': "' + this.state.filename + '"';
-		}
-		return '';
-	}
+    reader.readAsDataURL(file)
+  }
 
-	render() {
-		return (
-			<div>
-				<Dropzone accept={this.props.acceptType} onDropAccepted={this.onDropAccepted} style={styles.dropzone} >
-					<IconImage src={iconUpload()} />
-					<p>{this.props.placeholder || 'Choose file'}{this.showFilename()}</p>
-				</Dropzone>
-			</div>
-		);
-	}
+  showFilename = () => {
+    if (this.state.filename !== null) {
+      return ': "' + this.state.filename + '"'
+    }
+    return ''
+  }
+
+  render() {
+    return (
+      <div>
+        <Dropzone
+          accept={this.props.acceptType}
+          onDropAccepted={this.onDropAccepted}
+          style={styles.dropzone}
+        >
+          <IconImage src={iconUpload()} />
+          <p>
+            {this.props.placeholder || 'Choose file'}
+            {this.showFilename()}
+          </p>
+        </Dropzone>
+      </div>
+    )
+  }
 }

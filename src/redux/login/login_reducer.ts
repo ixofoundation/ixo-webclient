@@ -12,7 +12,7 @@ const initialState: ILoginModelState = {
 	loginError: {},
 };
 
-export let loginReducer = createReducer<ILoginModelState>(initialState, [
+export const loginReducer = createReducer<ILoginModelState>(initialState, [
 	{
 		action: LOGIN_RESULT,
 		handler: (state: ILoginModelState, action: LoginResult) => {

@@ -11,7 +11,7 @@ export function initKeysafe() {
 				}));
 		} else {
 			const IxoInpageProvider = window['ixoKs'];
-			let keysafe = new IxoInpageProvider();
+			const keysafe = new IxoInpageProvider();
 	
 			if (keysafe) {
 				dispatch(
