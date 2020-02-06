@@ -112,7 +112,6 @@ export class Projects extends React.Component<Props, State> {
 	}
 
 	getMyProjects(userInfo: UserInfo, projList: any) {
-		// debugger;
 		if (userInfo != null) {
 			let did = userInfo.didDoc.did;
 			let myProjects = projList.filter((proj) => {

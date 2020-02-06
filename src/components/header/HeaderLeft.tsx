@@ -226,9 +226,6 @@ export class HeaderLeft extends React.Component<ParentProps> {
 						<MenuHeaderAnchor href={getIxoWorldRoute('/membership')}>Membership</MenuHeaderAnchor>
 					</MenuHeaderContainer>
 					<MenuHeaderContainer>
-						<MenuHeaderAnchor href={getIxoWorldRoute('/subscribe')}>Subscribe</MenuHeaderAnchor>
-					</MenuHeaderContainer>
-					<MenuHeaderContainer>
 						<MenuHeaderAnchor href={getIxoWorldRoute('/ecosystem')}>Ecosystem</MenuHeaderAnchor>
 					</MenuHeaderContainer>
 				</Fragment>

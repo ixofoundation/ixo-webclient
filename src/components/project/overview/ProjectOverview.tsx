@@ -15,7 +15,6 @@ import { ProjectFounder } from './ProjectFounder';
 import { NoKeysafe } from './modalContent/NoKeysafe';
 import { DesktopChrome } from './modalContent/DesktopChrome';
 import { isBrowser } from 'react-device-detect';
-import { NoKYC } from './modalContent/NoKYC';
 import { NotLedgered } from './modalContent/NotLedgered';
 
 const placeholder = require('../../../assets/images/ixo-placeholder-large.jpg');
@@ -356,21 +355,21 @@ export const ProjectOverview: React.SFC<ParentProps> = (props) => {
 				</Button>
 			);
 		}
-		if (props.userInfo.hasKYC === false) {
-			const modalData = {
-				title: 'APPLY TO EVALUATE THIS PROJECT',
-				icon: <AgentIcon className="icon-evaluators" />,
-				content: <NoKYC />
-			};
-			return (
-				<Button 
-					type={ButtonTypes.dark}
-					disabled={false}
-					onClick={() => props.toggleModal(modalData, true)}
-				>Become an evaluator
-				</Button> 
-			);
-		}
+// 		if (props.userInfo.hasKYC === false) {
+// 			const modalData = {
+// 				title: 'APPLY TO EVALUATE THIS PROJECT',
+// 				icon: <AgentIcon className="icon-evaluators" />,
+// 				content: <NoKYC />
+// 			};
+// 			return (
+// 				<Button 
+// 					type={ButtonTypes.dark}
+// 					disabled={false}
+// 					onClick={() => props.toggleModal(modalData, true)}
+// 				>Become an evaluator
+// 				</Button> 
+// 			);
+// 		}
 		if (props.hasCapability([AgentRoles.evaluators])) {
 			return <Button type={ButtonTypes.dark} disabled={true}>You are an evaluator</Button>;
 		} else if (props.hasCapability([AgentRoles.serviceProviders])) {

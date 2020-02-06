@@ -235,9 +235,11 @@ export const ProjectSingleClaim: React.SFC<ParentProps> = (props) => {
 										validation={field.validation}
 							/>;
 						case 'textarea':
-							return <TextArea formStyle={FormStyles.disabled} id={field.name} text={field.label} key={index} />;
+							return <TextArea formStyle={FormStyles.disabled} id={field.name} text={field.label + ': ' + props.claim[`${field.name}`]} key={index} />;
 						case 'image':
 							return handleRenderImage(index, props.claim[`${field.name}`]);
+						case 'qrcode':
+							return <TextArea formStyle={FormStyles.disabled} id={field.name} text={props.claim[`${field.name}`]} key={index} />;
 						default:
 							return null;
 					}

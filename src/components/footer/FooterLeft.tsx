@@ -98,7 +98,6 @@ export const FooterLeft: React.SFC<any> = ({simple}) => {
 				</MediaQuery>
 				{/* <ExternalFooterLink href={getIxoWorldRoute('/about')}>About</ExternalFooterLink> */}
 				<ExternalFooterLink href={getIxoWorldRoute('/membership')}>Membership</ExternalFooterLink>
-				<ExternalFooterLink href={getIxoWorldRoute('/subscribe')}>Subscribe</ExternalFooterLink>
 				<ExternalFooterLink href={getIxoWorldRoute('/ecosystem')}>Ecosystem</ExternalFooterLink>
 				<ExternalFooterLink target="_blank" href="https://ixo.foundation">ixo.Foundation</ExternalFooterLink>
 				{/* <FooterLink exact={true} to="/">Oracles</FooterLink> */}
