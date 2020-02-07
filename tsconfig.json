@@ -18,17 +18,15 @@
     "noUnusedLocals": true,
     "baseUrl": "."
   },
-  "include": [
-    "src/**/*"
-  ],
+  "include": ["src/**/*"],
   "exclude": [
-	"node_modules",
-	"src/ixoearth",
+    "node_modules",
+    "src/ixoearth",
     "build",
     "scripts",
     "acceptance-tests",
     "webpack",
     "jest",
-	"src/setupTests.ts"
+    "src/setupTests.ts"
   ]
 }
