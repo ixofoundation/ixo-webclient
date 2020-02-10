@@ -52,13 +52,13 @@ const ClaimsLabels = styled.div`
     margin-right: 25px;
   }
   p:nth-child(1):before {
-    background: ${props => props.theme.ixoBlue};
+    background: ${/* eslint-disable-line */ props => props.theme.ixoBlue};
   }
   p:nth-child(2):before {
-    background: ${props => props.theme.ixoOrange};
+    background: ${/* eslint-disable-line */ props => props.theme.ixoOrange};
   }
   p:nth-child(3):before {
-    background: ${props => props.theme.red};
+    background: ${/* eslint-disable-line */ props => props.theme.red};
   }
   p:nth-child(4):before {
     background: #033c50;
@@ -87,10 +87,10 @@ const ClaimsTopLabels = styled.div`
   }
 
   p:nth-child(2):before {
-    background: ${props => props.theme.ixoBlue};
+    background: ${/* eslint-disable-line */ props => props.theme.ixoBlue};
   }
   p:nth-child(3):before {
-    background: ${props => props.theme.red};
+    background: ${/* eslint-disable-line */ props => props.theme.red};
   }
 
   @media (max-width: ${deviceWidth.tablet}px) {
@@ -118,15 +118,15 @@ export const ProjectDashboard: React.SFC<ParentProps> = ({
   hasCapability,
   impactAction,
 }) => {
-  const countClaimsOfType = (claimType: string) => {
+  const countClaimsOfType = (claimType: string): number => {
     return [...claims].filter(claim => claim.status === claimType).length
   }
 
-  const getClaimsOfType = (claimType: string) => {
+  const getClaimsOfType = (claimType: string): Array<any> => {
     return [...claims].filter(claim => claim.status === claimType)
   }
 
-  const getProjectLatLng = () => {
+  const getProjectLatLng = (): LatLng => {
     const latLng = isoCountriesLatLng[project.projectLocation]
     if (latLng) {
       return new LatLng(latLng.lat, latLng.lng)

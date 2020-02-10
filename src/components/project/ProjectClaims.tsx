@@ -12,7 +12,8 @@ const Section = styled.section`
   h2 {
     color: white;
     font-size: 30px;
-    font-family: ${props => props.theme.fontRobotoCondensed};
+    font-family: ${/* eslint-disable-line */ props =>
+      props.theme.fontRobotoCondensed};
     margin-bottom: 20px;
 
     i {
@@ -39,7 +40,7 @@ const Indicator = styled.div`
   top: 18px;
   left: -6px;
 
-  background: ${props => props.color};
+  background: ${/* eslint-disable-line */ props => props.color};
 `
 
 const Mail = styled.a``
@@ -96,7 +97,7 @@ const Date = styled.span`
 `
 
 const Did = styled.p`
-	&& {color: ${props => props.theme.ixoBlue};
+	&& {color: ${/* eslint-disable-line */ props => props.theme.ixoBlue};
 `
 
 const ListItemWrapper = styled.div`
@@ -133,7 +134,7 @@ const ClaimLink = styled(Link)`
 
   :hover {
     text-decoration: none;
-    color: ${props => props.theme.ixoBlue};
+    color: ${/* eslint-disable-line */ props => props.theme.ixoBlue};
   }
 `
 
@@ -154,7 +155,7 @@ export const ProjectClaims: React.SFC<ParentProps> = ({
   fullPage,
   hasLink,
 }) => {
-  const claimDate = (date: string) => {
+  const claimDate = (date: string): string => {
     const duration = moment.duration(moment().diff(date))
     const daysDiff = duration.asDays()
 
@@ -165,7 +166,7 @@ export const ProjectClaims: React.SFC<ParentProps> = ({
     }
   }
 
-  const claimItem = (claim, index, colorClass) => {
+  const claimItem = (claim, index, colorClass): JSX.Element => {
     const theItem = (
       <ListItemWrapper key={index} className="col-12">
         <Indicator color={colorClass} />
@@ -192,7 +193,7 @@ export const ProjectClaims: React.SFC<ParentProps> = ({
     }
   }
 
-  const handleRenderWidget = () => {
+  const handleRenderWidget = (): JSX.Element => {
     let colorCLass = ''
     return (
       <ClaimsWidget>
@@ -225,7 +226,7 @@ export const ProjectClaims: React.SFC<ParentProps> = ({
     colorClass: string,
     title: string,
     key: number,
-  ) => {
+  ): JSX.Element => {
     return (
       <Section className="row" key={key}>
         <div className="col-12">
@@ -245,7 +246,7 @@ export const ProjectClaims: React.SFC<ParentProps> = ({
     )
   }
 
-  const handleRenderPage = () => {
+  const handleRenderPage = (): JSX.Element => {
     const approved = []
     const pending = []
     const revoked = []

@@ -8,7 +8,8 @@ const Heading = styled.h2`
   color: white;
   font-size: 30px;
   margin-bottom: 20px;
-  font-family: ${props => props.theme.fontRobotoCondensed};
+  font-family: ${/* eslint-disable-line */ props =>
+    props.theme.fontRobotoCondensed};
 `
 
 const Section = styled.section`
@@ -19,7 +20,8 @@ const Section = styled.section`
   h3 {
     color: white;
     font-size: 22px;
-    font-family: ${props => props.theme.fontRobotoCondensed};
+    font-family: ${/* eslint-disable-line */ props =>
+      props.theme.fontRobotoCondensed};
 
     i {
       font-size: 25px;
@@ -45,7 +47,7 @@ const Indicator = styled.div`
   top: 18px;
   left: -7px;
 
-  background: ${props => props.color};
+  background: ${/* eslint-disable-line */ props => props.color};
 `
 
 const Mail = styled.a``
@@ -113,12 +115,13 @@ const Selector = styled.div`
   width: 20px;
   height: 20px;
   border: 1px solid white;
-  background: ${props => props.theme.bg.blue};
+  background: ${/* eslint-disable-line */ props => props.theme.bg.blue};
   padding: 2px;
   border-radius: 50%;
 
   > div {
-    background: ${props => props.theme.fontDarkBlueButtonHover};
+    background: ${/* eslint-disable-line */ props =>
+      props.theme.fontDarkBlueButtonHover};
     width: 100%;
     border-radius: 50%;
     height: 100%;
@@ -147,7 +150,7 @@ const Buttons = styled.div`
   }
 
   a:not(.disabled):hover {
-    background: ${props => props.theme.ixoBlue};
+    background: ${/* eslint-disable-line */ props => props.theme.ixoBlue};
   }
 `
 
@@ -174,7 +177,7 @@ export class ProjectAgents extends React.Component<ParentProps, State> {
     statusObj: any,
     did: string,
     role: string,
-  ) => {
+  ): void => {
     if (statusObj === null) {
       this.props.handleUpdateAgentStatus({ status: status }, did, role)
     } else {
@@ -186,9 +189,8 @@ export class ProjectAgents extends React.Component<ParentProps, State> {
     }
   }
 
-  handleAgentSelect = (agentDid: string) => {
+  handleAgentSelect = (agentDid: string): void => {
     let tempSelect = [...this.state.selectedAgents]
-    // @ts-ignore
     if (tempSelect.includes(agentDid)) {
       tempSelect = tempSelect.filter(agent => agentDid !== agent)
       this.setState({ selectedAgents: tempSelect })
@@ -198,15 +200,14 @@ export class ProjectAgents extends React.Component<ParentProps, State> {
     }
   }
 
-  handleIsSelected = (agentDid: string) => {
+  handleIsSelected = (agentDid: string): string => {
     if (this.state.selectedAgents !== null) {
-      // @ts-ignore
       return this.state.selectedAgents.includes(agentDid) ? 'selected' : ''
     }
     return ''
   }
 
-  handleRoleLabel = (role: string) => {
+  handleRoleLabel = (role: string): string => {
     if (role === 'IA') {
       return 'Investors'
     }
@@ -225,7 +226,7 @@ export class ProjectAgents extends React.Component<ParentProps, State> {
     colorClass: string,
     title: string,
     key: number,
-  ) => {
+  ): JSX.Element => {
     return (
       <Section className="row" key={key}>
         <div className="col-12">
@@ -248,7 +249,9 @@ export class ProjectAgents extends React.Component<ParentProps, State> {
                 <Hover>
                   <Actions>
                     <Selector
-                      onClick={() => this.handleAgentSelect(agent.agentDid)}
+                      onClick={(): void =>
+                        this.handleAgentSelect(agent.agentDid)
+                      }
                     >
                       <div className={this.handleIsSelected(agent.agentDid)} />
                     </Selector>
@@ -256,7 +259,7 @@ export class ProjectAgents extends React.Component<ParentProps, State> {
                       <Button
                         type={ButtonTypes.dark}
                         disabled={currentStatus === '2'}
-                        onClick={() =>
+                        onClick={(): void =>
                           this.handleUpdateAgentStatus(
                             '2',
                             agent.currentStatus,
@@ -270,7 +273,7 @@ export class ProjectAgents extends React.Component<ParentProps, State> {
                       <Button
                         type={ButtonTypes.gradient}
                         disabled={currentStatus === '1'}
-                        onClick={() =>
+                        onClick={(): void =>
                           this.handleUpdateAgentStatus(
                             '1',
                             agent.currentStatus,
@@ -293,7 +296,7 @@ export class ProjectAgents extends React.Component<ParentProps, State> {
     )
   }
 
-  handleMapAgents = () => {
+  handleMapAgents = (): Array<unknown> => {
     const approved = []
     const pending = []
     const revoked = []
@@ -351,7 +354,7 @@ export class ProjectAgents extends React.Component<ParentProps, State> {
     return sections
   }
 
-  render() {
+  render(): JSX.Element {
     return (
       <LayoutWrapper>
         <div className="row">

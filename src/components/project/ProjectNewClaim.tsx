@@ -17,7 +17,7 @@ const FormContainer = styled.div`
 
 const Divider = styled.div`
   height: 2px;
-  background: ${props => props.theme.bg.lightBlue};
+  background: ${/* eslint-disable-line */ props => props.theme.bg.lightBlue};
   width: 36%;
   position: absolute;
   left: 15px;
@@ -25,12 +25,12 @@ const Divider = styled.div`
 
 const DividerShadow = styled.div`
   height: 1px;
-  background: ${props => props.theme.bg.lightGrey};
+  background: ${/* eslint-disable-line */ props => props.theme.bg.lightGrey};
   width: 100%;
 `
 
 const FormProgressBar = styled.div`
-  background: ${props => props.theme.bg.green};
+  background: ${/* eslint-disable-line */ props => props.theme.bg.green};
   height: 6px;
   width: 100%;
   border-radius: 4px 4px 0px 0px;
@@ -46,7 +46,7 @@ export class ProjectNewClaim extends React.Component<ParentProps> {
     fetchedFile: null,
   }
 
-  fetchFormFile = (claimFormKey: string, pdsURL: string) => {
+  fetchFormFile = (claimFormKey: string, pdsURL: string): void => {
     this.props.ixo.project
       .fetchPublic(claimFormKey, pdsURL)
       .then((res: any) => {
@@ -56,14 +56,14 @@ export class ProjectNewClaim extends React.Component<ParentProps> {
       })
   }
 
-  componentDidMount() {
+  componentDidMount(): void {
     this.fetchFormFile(
       this.props.projectData.templates.claim.form,
       this.props.projectData.serviceEndpoint,
     )
   }
 
-  handleSubmit = (claimData: any) => {
+  handleSubmit = (claimData: any): void => {
     // upload all the images and change the value to the returned hash of the image
     const formDef = JSON.parse(this.state.fetchedFile)
     const pdsUrl = this.props.projectData.serviceEndpoint
@@ -84,12 +84,12 @@ export class ProjectNewClaim extends React.Component<ParentProps> {
         }
       }
     })
-    Promise.all(promises).then(results => {
+    Promise.all(promises).then(() => {
       this.props.submitClaim(claimData)
     })
   }
 
-  render() {
+  render(): JSX.Element {
     const claimParsed = JSON.parse(this.state.fetchedFile)
     if (claimParsed) {
       return (
@@ -107,7 +107,9 @@ export class ProjectNewClaim extends React.Component<ParentProps> {
                     formStyle={FormStyles.standard}
                     projectDID={this.props.projectData.projectDid}
                     formSchema={claimParsed.fields}
-                    handleSubmit={claimData => this.handleSubmit(claimData)}
+                    handleSubmit={(claimData): void =>
+                      this.handleSubmit(claimData)
+                    }
                     submitText={'Submit Claim'}
                   />
                 </WidgetWrapperClaims>

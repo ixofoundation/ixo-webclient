@@ -12,7 +12,7 @@ const Container = styled.div`
 
 const Divider = styled.div`
   height: 2px;
-  background: ${props => props.theme.bg.lightBlue};
+  background: ${/* eslint-disable-line */ props => props.theme.bg.lightBlue};
   width: 36%;
   position: absolute;
   left: 15px;
@@ -20,13 +20,13 @@ const Divider = styled.div`
 
 const DividerShadow = styled.div`
   height: 1px;
-  background: ${props => props.theme.bg.lightGrey};
+  background: ${/* eslint-disable-line */ props => props.theme.bg.lightGrey};
   width: 100%;
 `
 
 const ButtonContainer = styled.div`
   padding: 22px 34px 22px 34px;
-  background: ${props => props.theme.grey};
+  background: ${/* eslint-disable-line */ props => props.theme.grey};
   padding: 10px 20px;
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.18);
 `
@@ -35,21 +35,25 @@ const ReturnButton = styled.div`
   text-transform: uppercase;
   border-radius: 3px;
   text-align: center;
-  background: ${props => props.theme.bg.grey};
-  font-family: ${props => props.theme.fontRobotoCondensed};
+  background: ${/* eslint-disable-line */ props => props.theme.bg.grey};
+  font-family: ${/* eslint-disable-line */ props =>
+    props.theme.fontRobotoCondensed};
   font-size: 15px;
   padding: 10px 20px 10px;
   cursor: pointer;
-  border: 1px solid ${props => props.theme.bg.darkButton};
-  color: ${props => props.theme.bg.darkButton};
+  border: 1px solid
+    ${/* eslint-disable-line */ props => props.theme.bg.darkButton};
+  color: ${/* eslint-disable-line */ props => props.theme.bg.darkButton};
 `
 
 const EvaluateMoreButton = styled.div`
   text-transform: uppercase;
   border-radius: 3px;
   text-align: center;
-  background: ${props => props.theme.bg.gradientDarkBlue};
-  font-family: ${props => props.theme.fontRobotoCondensed};
+  background: ${/* eslint-disable-line */ props =>
+    props.theme.bg.gradientDarkBlue};
+  font-family: ${/* eslint-disable-line */ props =>
+    props.theme.fontRobotoCondensed};
   font-size: 15px;
   padding: 10px 20px 10px;
   cursor: pointer;
@@ -61,7 +65,7 @@ const ButtonIconLeft = styled.i`
   font-size: 13px;
   padding-right: 10px;
   i:before {
-    color: ${props => props.theme.bg.grey};
+    color: ${/* eslint-disable-line */ props => props.theme.bg.grey};
   }
 `
 
@@ -78,7 +82,7 @@ export interface ParentProps {
 export const ProjectClaimSubmitted: React.SFC<ParentProps> = props => {
   const message =
     'Your form has been successfully submitted and is awaiting evaluation. Please check back soon'
-  const handleRenderButtons = () => {
+  const handleRenderButtons = (): JSX.Element => {
     return (
       <ButtonContainer>
         <div className="row">

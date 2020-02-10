@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { Fragment } from 'react'
 import { connect } from 'react-redux'
-import { withRouter, RouteComponentProps } from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 import { PublicSiteStoreState } from '../../redux/public_site_reducer'
 import { decode as base64Decode } from 'base-64'
 import {
@@ -29,20 +29,18 @@ import { explorerSocket } from '../helpers/explorerSocket'
 import { FundingContainer } from './funding/FundingContainer'
 import { NotLedgered } from './overview/modalContent/NotLedgered'
 
-const placeholder = require('../../assets/images/ixo-placeholder-large.jpg')
-
 const Loading = styled.div`
   text-align: center;
   color: white;
   display: flex;
   justify-content: center;
   align-items: center;
-  background: ${props => props.theme.bg.blue};
+  background: ${/* eslint-disable-line */ props => props.theme.bg.blue};
   padding: 50px 20px;
 `
 
 const DetailContainer = styled.div`
-  background: ${props => props.theme.bg.gradientBlue};
+  background: ${/* eslint-disable-line */ props => props.theme.bg.gradientBlue};
   display: block;
   flex: 1 1 auto;
 
@@ -102,7 +100,7 @@ export class ProjectContainer extends React.Component<Props, State> {
     imageLink:
       this.props.location.state && this.props.location.state.imageLink
         ? this.props.location.state.imageLink
-        : placeholder,
+        : require('../../assets/images/ixo-placeholder-large.jpg'),
     projectStatus:
       this.props.location.state && this.props.location.state.projectStatus
         ? this.props.location.state.projectStatus
@@ -129,7 +127,7 @@ export class ProjectContainer extends React.Component<Props, State> {
   private gettingAgents = false
   private gettingSingleClaim = false
 
-  handleToggleModal = (data: any, modalStatus: boolean) => {
+  handleToggleModal = (data: any, modalStatus: boolean): void => {
     if (data === null) {
       this.setState({ isModalOpen: modalStatus })
     } else {
@@ -137,7 +135,7 @@ export class ProjectContainer extends React.Component<Props, State> {
     }
   }
 
-  componentWillReceiveProps(nextProps: any) {
+  componentWillReceiveProps(nextProps: any): void {
     if (nextProps.contentType === contentType.newClaim) {
       this.setState({
         claimSubmitted: false,
@@ -146,17 +144,17 @@ export class ProjectContainer extends React.Component<Props, State> {
     }
   }
 
-  componentDidMount() {
+  componentDidMount(): void {
     this.handleGetProjectData()
-    explorerSocket.on('claim added', (data: any) => {
+    explorerSocket.on('claim added', () => {
       this.handleGetProjectData(true)
     })
 
-    explorerSocket.on('claim updated', (data: any) => {
+    explorerSocket.on('claim updated', () => {
       this.handleGetProjectData(true)
     })
 
-    explorerSocket.on('agent added', (data: any) => {
+    explorerSocket.on('agent added', () => {
       this.handleGetProjectData(true)
     })
 
@@ -180,20 +178,20 @@ export class ProjectContainer extends React.Component<Props, State> {
     })
   }
 
-  componentDidUpdate(prevProps: any) {
+  componentDidUpdate(prevProps: any): void {
     if (this.props.userInfo !== prevProps.userInfo) {
       this.handleGetProjectData(true)
     }
   }
-  singleClaimDependentsFetchedCallback = () => {
+  singleClaimDependentsFetchedCallback = (): void => {
     this.setState({ singleClaimDependentsFetched: false })
   }
 
-  getImageLink = project => {
+  getImageLink = (project): string => {
     return project.serviceEndpoint + 'public/' + project.imageLink
   }
 
-  handleGetProjectData = (autorefresh?: boolean, agentDid?: string) => {
+  handleGetProjectData = (autorefresh?: boolean, agentDid?: string): void => {
     if (
       (this.gettingProjectData === false && autorefresh === true) ||
       this.state.projectPublic === null
@@ -231,7 +229,7 @@ export class ProjectContainer extends React.Component<Props, State> {
     }
   }
 
-  handleGetCapabilities = () => {
+  handleGetCapabilities = (): void => {
     const userRoles = []
     const userInfo: UserInfo = this.props.userInfo
     if (userInfo) {
@@ -247,7 +245,7 @@ export class ProjectContainer extends React.Component<Props, State> {
     this.setState({ userRoles: userRoles })
   }
 
-  handleHasCapability = (roles: AgentRoles[]) => {
+  handleHasCapability = (roles: AgentRoles[]): boolean => {
     const userInfo: UserInfo = this.props.userInfo
     let found = false
     if (userInfo) {
@@ -275,7 +273,7 @@ export class ProjectContainer extends React.Component<Props, State> {
     return found
   }
 
-  handleListClaims = () => {
+  handleListClaims = (): void => {
     if (this.state.claims === null) {
       const ProjectDIDPayload: Record<string, any> = {
         projectDid: this.state.projectDid,
@@ -314,7 +312,7 @@ export class ProjectContainer extends React.Component<Props, State> {
     }
   }
 
-  handleRenderClaims = (renderType: RenderType) => {
+  handleRenderClaims = (renderType: RenderType): JSX.Element => {
     if (this.state.projectPublic.claims === null) {
       this.handleGetProjectData()
       return <Spinner info="Loading..." />
@@ -384,7 +382,7 @@ export class ProjectContainer extends React.Component<Props, State> {
     }
   }
 
-  handleRenderAgents = (agentRole: string) => {
+  handleRenderAgents = (agentRole: string): JSX.Element => {
     if (this.state[agentRole] === null) {
       this.handleListAgents(agentRole)
       return <Spinner info="Loading agents..." />
@@ -443,7 +441,7 @@ export class ProjectContainer extends React.Component<Props, State> {
     }
   }
 
-  handleListAgents = (agentRole: string, shouldUpdate?: boolean) => {
+  handleListAgents = (agentRole: string, shouldUpdate?: boolean): void => {
     if (
       (this.gettingAgents === false && this.state[agentRole] === null) ||
       shouldUpdate === true
@@ -491,7 +489,7 @@ export class ProjectContainer extends React.Component<Props, State> {
     }
   }
 
-  checkUserDid = () => {
+  checkUserDid = (): boolean => {
     if (this.props.keysafe === null || this.props.userInfo === null) {
       window.alert('Please install IXO Credential Manager first.')
       return false
@@ -500,7 +498,7 @@ export class ProjectContainer extends React.Component<Props, State> {
     }
   }
 
-  handleCreateAgent = agentFormData => {
+  handleCreateAgent = (agentFormData): void => {
     if (this.checkUserDid() == null) {
       return
     }
@@ -538,7 +536,7 @@ export class ProjectContainer extends React.Component<Props, State> {
     )
   }
 
-  handleUpdateAgent = (statusObj: any, did: string, role: string) => {
+  handleUpdateAgent = (statusObj: any, did: string, role: string): void => {
     const agentPaylod = {
       agentDid: did,
       status: statusObj.status,
@@ -564,7 +562,7 @@ export class ProjectContainer extends React.Component<Props, State> {
               if (res.error !== undefined) {
                 Toast.errorToast(res.error.message)
               } else {
-                Toast.successToast(`Successfully updated agent status`)
+                Toast.successToast('Successfully updated agent status')
               }
             })
         } else {
@@ -575,7 +573,7 @@ export class ProjectContainer extends React.Component<Props, State> {
     )
   }
 
-  handleEvaluateClaim = (statusObj: any, id: string) => {
+  handleEvaluateClaim = (statusObj: any, id: string): void => {
     const claimPayload = {
       claimId: id,
       status: statusObj.status,
@@ -612,7 +610,7 @@ export class ProjectContainer extends React.Component<Props, State> {
     )
   }
 
-  handleSubmitClaim = claimData => {
+  handleSubmitClaim = (claimData): void => {
     const claimPayload = Object.assign(claimData)
     claimPayload['projectDid'] = this.state.projectDid
     this.props.keysafe.requestSigning(
@@ -625,7 +623,7 @@ export class ProjectContainer extends React.Component<Props, State> {
               signature,
               this.state.projectPublic.serviceEndpoint,
             )
-            .then(response => {
+            .then(() => {
               Toast.warningToast('Claim has been submitted for approval')
               this.setState({ claimSubmitted: true })
             })
@@ -673,7 +671,7 @@ export class ProjectContainer extends React.Component<Props, State> {
     })
   }
 
-  handleSingleClaimFetch = (project: any) => {
+  handleSingleClaimFetch = (project: any): void => {
     console.log(this.gettingSingleClaim)
     if (this.gettingSingleClaim === false) {
       this.gettingSingleClaim = true
@@ -723,7 +721,7 @@ export class ProjectContainer extends React.Component<Props, State> {
     }
   }
 
-  handleFetchClaimImages = (formFile: any, claim: any) => {
+  handleFetchClaimImages = (formFile: any, claim: any): void => {
     const { fields = [] } = JSON.parse(formFile)
     const promises = []
     fields.forEach(field => {
@@ -745,7 +743,7 @@ export class ProjectContainer extends React.Component<Props, State> {
     Promise.all(promises)
   }
 
-  handleLedgerDid = () => {
+  handleLedgerDid = (): void => {
     if (this.props.userInfo.didDoc) {
       const payload = { didDoc: this.props.userInfo.didDoc }
       this.props.keysafe.requestSigning(
@@ -776,7 +774,7 @@ export class ProjectContainer extends React.Component<Props, State> {
                   <NotLedgered
                     ledgerDid={this.handleLedgerDid}
                     modalResponse={ledgerObj.modalResponse}
-                    closeModal={() => this.handleToggleModal(null, false)}
+                    closeModal={(): void => this.handleToggleModal(null, false)}
                   />
                 )
                 const modalData = {
@@ -800,7 +798,7 @@ export class ProjectContainer extends React.Component<Props, State> {
     }
   }
 
-  handleRenderProject = () => {
+  handleRenderProject = (): JSX.Element => {
     const project = this.state.projectPublic
     let theContent: JSX.Element = null
     switch (this.props.contentType) {
@@ -894,7 +892,9 @@ export class ProjectContainer extends React.Component<Props, State> {
                 <ProjectNewClaim
                   projectData={project}
                   ixo={this.props.ixo}
-                  submitClaim={claimData => this.handleSubmitClaim(claimData)}
+                  submitClaim={(claimData): void =>
+                    this.handleSubmitClaim(claimData)
+                  }
                 />
               </DetailContainer>
             )}
@@ -959,7 +959,7 @@ export class ProjectContainer extends React.Component<Props, State> {
     return (
       <Fragment>
         {theContent}
-        {this.props.userInfo! &&
+        {this.props.userInfo &&
           this.props.userInfo.didDoc.did ===
             this.state.projectPublic.createdBy && (
             <FundingContainer
@@ -975,7 +975,7 @@ export class ProjectContainer extends React.Component<Props, State> {
     )
   }
 
-  calculateProjectFee(project: any) {
+  calculateProjectFee(project: any): number {
     const perEvalFee = parseFloat(process.env.REACT_APP_FEE_PER_EVALUATION)
     const perClaimFee = parseFloat(process.env.REACT_APP_FEE_PER_CLAIM_FEE)
     const feeOverhead = parseFloat(process.env.REACT_APP_FEE_OVERHEAD)
@@ -985,7 +985,7 @@ export class ProjectContainer extends React.Component<Props, State> {
     return minFee * feeOverhead
   }
 
-  render() {
+  render(): JSX.Element {
     return (
       <Fragment>
         {this.state.projectPublic === null || this.state.userRoles === null ? (
@@ -998,7 +998,7 @@ export class ProjectContainer extends React.Component<Props, State> {
   }
 }
 
-function mapStateToProps(state: PublicSiteStoreState) {
+function mapStateToProps(state: PublicSiteStoreState): Record<string, any> {
   return {
     ixo: state.ixoStore.ixo,
     keysafe: state.keysafeStore.keysafe,
@@ -1006,6 +1006,6 @@ function mapStateToProps(state: PublicSiteStoreState) {
   }
 }
 
-export const ProjectContainerConnected = withRouter<
-  Props & RouteComponentProps<{}>
->(connect(mapStateToProps)(ProjectContainer as any) as any)
+export const ProjectContainerConnected = withRouter(
+  connect(mapStateToProps)(ProjectContainer as any) as any,
+)

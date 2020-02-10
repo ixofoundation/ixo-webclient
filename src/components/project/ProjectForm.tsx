@@ -1,67 +1,69 @@
-import * as React from 'react';
-import styled from 'styled-components';
-import { formJson } from '../../lib/commonData';
-import DynamicForm from '../form/DynamicForm';
-import { FormStyles } from '../../types/models';
+import * as React from 'react'
+import styled from 'styled-components'
+import { formJson } from '../../lib/commonData'
+import DynamicForm from '../form/DynamicForm'
+import { FormStyles } from '../../types/models'
 
 const Text = styled.textarea`
-	margin: 20px 0;
-	display: block;
-	width: 100%;
-	height: 300px;
-`;
+  margin: 20px 0;
+  display: block;
+  width: 100%;
+  height: 300px;
+`
 
 const Container = styled.div`
-	button {
-		margin: 0 10px 10px 10px;
-	}
-`;
+  button {
+    margin: 0 10px 10px 10px;
+  }
+`
 
 export interface State {
-	formJson: any;
-}	
+  formJson: any
+}
 export class ProjectForm extends React.Component<{}, State> {
+  state = {
+    formJson: formJson.fields,
+  }
 
-	state = {
-		formJson: formJson.fields,
-	};
+  handleJSONChange = (event: any): void => {
+    this.setState({ formJson: JSON.parse(event.target.value) })
+    this.handleRenderForm()
+  }
 
-	handleJSONChange = (event: any) => {
-		this.setState({formJson: JSON.parse(event.target.value)});
-		this.handleRenderForm();
-	}
+  handleSubmitForm = (event: any): void => {
+    console.log(event)
+  }
 
-	handleSubmitForm = (event: any) => {
-		console.log(event);
-	}
+  handleRenderForm = (): JSX.Element => {
+    if (formJson.fields.length > 0) {
+      return (
+        <DynamicForm
+          formStyle={FormStyles.standard}
+          formSchema={this.state.formJson}
+          handleSubmit={this.handleSubmitForm}
+        />
+      )
+    } else {
+      return <p>No Template found</p>
+    }
+  }
 
-	handleRenderForm = () => {
-		if (formJson.fields.length > 0) {
-			return (
-				<DynamicForm 
-					formStyle={FormStyles.standard}
-					formSchema={this.state.formJson} 
-					handleSubmit={this.handleSubmitForm} 
-				/>
-			);
-		} else {
-			return <p>No Template found</p>;
-		}
-	}
-
-	render() {
-		return (
-			<div>
-				<Container className="container">
-					<div className="row">
-						<div className="col-md-12">
-							<Text value={JSON.stringify(this.state.formJson)} onChange={this.handleJSONChange} />
-							{this.handleRenderForm()}
-							<button onClick={this.handleSubmitForm}>CREATE PROJECT</button>
-						</div>
-					</div>
-				</Container>
-			</div>
-		); 
-	}
+  render(): JSX.Element {
+    return (
+      <div>
+        <Container className="container">
+          <div className="row">
+            <div className="col-md-12">
+              <Text
+                value={JSON.stringify(this.state.formJson)}
+                onChange={this.handleJSONChange}
+              />
+              {this.handleRenderForm()}
+              <button onClick={this.handleSubmitForm}>CREATE PROJECT</button>
+            </div>
+          </div>
+        </Container>
+      </div>
+    )
+  }
 }

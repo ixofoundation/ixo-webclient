@@ -6,10 +6,9 @@ import { decode as base64Decode } from 'base-64'
 import styled from 'styled-components'
 import { successToast, errorToast } from '../../helpers/Toast'
 import { ErrorTypes } from '../../../types/models'
-import queryString from 'query-string'
+import * as queryString from 'query-string'
 import { Banner } from './Banner'
 import { ImageSpinner } from '../../common/ImageSpinner'
-const bg = require('../../../assets/images/register/background.jpg')
 
 const CreateContainer = styled.div`
   display: flex;
@@ -34,7 +33,8 @@ const BottomContainer = styled.div`
   padding-top: 30px;
   padding-bottom: 30px;
 
-  background: url(${bg}) no-repeat center top;
+  background: url(${require('../../../assets/images/register/background.jpg')})
+    no-repeat center top;
   background-size: cover;
 
   p {
@@ -43,8 +43,10 @@ const BottomContainer = styled.div`
 `
 
 const ModalContainer = styled.div`
-	font-family: ${props => props.theme.fontRobotoCondensed};
-	color: ${props => props.theme.fontGrey};
+	font-family: ${
+    /* eslint-disable-line */ props => props.theme.fontRobotoCondensed
+  };
+	color: ${/* eslint-disable-line */ props => props.theme.fontGrey};
 	width: 550px;
 	height: 400px
 	position: relative;
@@ -79,29 +81,32 @@ const ApprovedIcon = styled.div`
     padding: 0;
   }
   .icon-success:before {
-    color: ${props => props.theme.bg.green};
+    color: ${/* eslint-disable-line */ props => props.theme.bg.green};
   }
 `
 
 const Title = styled.h2`
-  font-family: ${props => props.theme.fontRobotoCondensed};
-  color: ${props => props.theme.fontGrey};
+  font-family: ${/* eslint-disable-line */ props =>
+    props.theme.fontRobotoCondensed};
+  color: ${/* eslint-disable-line */ props => props.theme.fontGrey};
   font-size: 24px;
   letter-spacing: 0.16px;
   line-height: 32px;
 `
 
 const Content = styled.p`
-  font-family: ${props => props.theme.fontRoboto};
-  color: ${props => props.theme.fontGrey};
+  font-family: ${/* eslint-disable-line */ props => props.theme.fontRoboto};
+  color: ${/* eslint-disable-line */ props => props.theme.fontGrey};
   font-size: 18px;
   font-weight: 300;
   line-height: 24px;
 `
 
 const ButtonLink = styled(NavLink)`
-	color: ${props => props.theme.fontGrey};
-	font-family: ${props => props.theme.fontRobotoCondensed};
+	color: ${/* eslint-disable-line */ props => props.theme.fontGrey};
+	font-family: ${
+    /* eslint-disable-line */ props => props.theme.fontRobotoCondensed
+  };
 	font-size: 16px;
 	font-weight: 400;
 	letter-spacing: 0.92px;
@@ -110,7 +115,7 @@ const ButtonLink = styled(NavLink)`
 	border:1px solid #49bfe0;
 
 	&:.active {
-		color: ${props => props.theme.fontGrey};
+		color: ${/* eslint-disable-line */ props => props.theme.fontGrey};
 	}
 
 	@media (min-width: 415px) {
@@ -123,7 +128,7 @@ const ButtonLink = styled(NavLink)`
 
 	:hover {
  		text-decoration:none;
- 		&&{color: ${props => props.theme.fontBlue};}}
+ 		&&{color: ${/* eslint-disable-line */ props => props.theme.fontBlue};}}
  	}
 `
 
@@ -150,7 +155,7 @@ export class ProjectSignAndCreate extends React.Component<Props, State> {
     status: '',
   }
 
-  fetchProjectFile = (key: string, pdsURL: string) => {
+  fetchProjectFile = (key: string, pdsURL: string): void => {
     this.props.ixo.project
       .fetchPublic(key, pdsURL)
       .then((res: any) => {
@@ -178,7 +183,7 @@ export class ProjectSignAndCreate extends React.Component<Props, State> {
       })
   }
 
-  componentDidMount() {
+  componentDidMount(): void {
     if (this.props.keysafe === null) {
       errorToast('Please install IXO Credential Manager first.')
       this.setState({ status: 'Please install IXO Credential Manager first.' })
@@ -187,14 +192,14 @@ export class ProjectSignAndCreate extends React.Component<Props, State> {
     }
   }
 
-  handleGetProjectData = () => {
+  handleGetProjectData = (): void => {
     const params = queryString.parse(this.props.location.search)
-    const key = decodeURIComponent(params.key)
-    const pdsURL = decodeURIComponent(params.url)
+    const key = decodeURIComponent(params.key as string)
+    const pdsURL = decodeURIComponent(params.url as string)
     this.fetchProjectFile(key, pdsURL)
   }
 
-  renderModal = () => {
+  renderModal = (): JSX.Element => {
     if (this.state.status === '') {
       return (
         <ModalContainer>
@@ -223,7 +228,7 @@ export class ProjectSignAndCreate extends React.Component<Props, State> {
     }
   }
 
-  render() {
+  render(): JSX.Element {
     return (
       <CreateContainer>
         <Banner />

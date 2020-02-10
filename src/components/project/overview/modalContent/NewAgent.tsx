@@ -5,7 +5,7 @@ import DynamicForm from '../../../form/DynamicForm'
 import { agentJson } from '../../../../lib/commonData'
 
 const Container = styled.div`
-  font-family: ${props => props.theme.fontRoboto};
+  font-family: ${/*eslint-disable-line*/ props => props.theme.fontRoboto};
   min-width: 320px;
   max-width: 60vw;
   button {
@@ -35,7 +35,7 @@ export class NewAgent extends React.Component<ParentProps, State> {
     name: this.props.name,
   }
 
-  renderByLine = (role: string) => {
+  renderByLine = (role: string): JSX.Element | string => {
     switch (role) {
       case 'SA':
         return (
@@ -53,17 +53,19 @@ export class NewAgent extends React.Component<ParentProps, State> {
           </ByLine>
         )
       case 'IA':
-        return <ByLine>Investors fund the project's processing costs.</ByLine>
+        return (
+          <ByLine>Investors fund the project{"'"}s processing costs.</ByLine>
+        )
       default:
         return 'role not found'
     }
   }
 
-  handleNameChange = (event: any) => {
+  handleNameChange = (event: any): void => {
     this.setState({ name: event.target.value })
   }
 
-  render() {
+  render(): JSX.Element {
     const formJson = JSON.parse(agentJson)
     return (
       <Container>
@@ -72,7 +74,7 @@ export class NewAgent extends React.Component<ParentProps, State> {
           formStyle={FormStyles.modal}
           formSchema={formJson.fields}
           submitText="Apply"
-          handleSubmit={e => this.props.submitAgent(this.props.role, e)}
+          handleSubmit={(e): void => this.props.submitAgent(this.props.role, e)}
         />
       </Container>
     )

@@ -17,11 +17,9 @@ import { DesktopChrome } from './modalContent/DesktopChrome'
 import { isBrowser } from 'react-device-detect'
 import { NotLedgered } from './modalContent/NotLedgered'
 
-const placeholder = require('../../../assets/images/ixo-placeholder-large.jpg')
-
 const OverviewContainer = styled.section`
   margin-top: -86px;
-  background: ${props => props.theme.bg.lightGrey};
+  background: ${/*eslint-disable-line*/ props => props.theme.bg.lightGrey};
   color: white;
   padding-bottom: 40px;
 `
@@ -53,8 +51,9 @@ const BarContainer = styled.div`
     font-size: 15px;
     color: white;
     font-weight: 400;
-    background: ${props => props.theme.ixoOrange};
-    font-family: ${props => props.theme.fontRobotoCondensed};
+    background: ${/*eslint-disable-line*/ props => props.theme.ixoOrange};
+    font-family: ${/*eslint-disable-line*/ props =>
+      props.theme.fontRobotoCondensed};
     padding: 0px 20px;
     border-radius: 3px;
     display: inline-flex;
@@ -63,7 +62,7 @@ const BarContainer = styled.div`
 `
 
 const Sidebar = styled.div`
-	background: ${props => props.theme.bg.gradientBlue};
+	background: ${/*eslint-disable-line*/ props => props.theme.bg.gradientBlue};
 	padding: 14px 15px 15px;
 	box-shadow: 0px 15px 35px 0px rgba(0,0,0,0.35);
 	margin-bottom: 35px;
@@ -110,7 +109,7 @@ const Disputed = styled.p`
 `
 
 const Text = styled.div`
-  color: ${props => props.theme.fontDarkGrey};
+  color: ${/*eslint-disable-line*/ props => props.theme.fontDarkGrey};
   font-size: 16px;
   line-height: 30px;
 `
@@ -133,12 +132,12 @@ const Social = styled.div`
   }
 
   i:before {
-    color: ${props => props.theme.fontDarkGrey};
+    color: ${/*eslint-disable-line*/ props => props.theme.fontDarkGrey};
   }
 
   i:hover:before {
     cursor: pointer;
-    color: ${props => props.theme.darkGrey};
+    color: ${/*eslint-disable-line*/ props => props.theme.darkGrey};
   }
 
   a:hover {
@@ -184,7 +183,7 @@ const Visible = styled.div`
 const LocalButton = styled.a`
   border: 1px solid #b8b8b8;
   &&& {
-    color: ${props => props.theme.fontGrey};
+    color: ${/*eslint-disable-line*/ props => props.theme.fontGrey};
   }
   font-size: 16px;
   text-transform: uppercase;
@@ -192,7 +191,8 @@ const LocalButton = styled.a`
   background: none;
   margin: 0 0 30px;
   width: 100%;
-  font-family: ${props => props.theme.fontRobotoCondensed};
+  font-family: ${/*eslint-disable-line*/ props =>
+    props.theme.fontRobotoCondensed};
   font-weight: 500;
   display: inline-block;
   text-align: center;
@@ -200,7 +200,7 @@ const LocalButton = styled.a`
   transition: all 0.3s ease;
   cursor: pointer;
   i:before {
-    color: ${props => props.theme.fontGrey};
+    color: ${/*eslint-disable-line*/ props => props.theme.fontGrey};
   }
   :hover {
     ${Visible} {
@@ -213,12 +213,12 @@ const LocalButton = styled.a`
 `
 
 const BlueBold = styled.strong`
-  color: ${props => props.theme.ixoBlue};
+  color: ${/*eslint-disable-line*/ props => props.theme.ixoBlue};
 `
 
 const AgentIcon = styled.i`
   :before {
-    color: ${props => props.theme.ixoBlue};
+    color: ${/*eslint-disable-line*/ props => props.theme.ixoBlue};
   }
 `
 
@@ -240,7 +240,9 @@ export interface ParentProps {
   }
 }
 
-export const ProjectOverview: React.SFC<ParentProps> = props => {
+export type Props = ParentProps
+
+export const ProjectOverview: React.SFC<Props> = props => {
   const { evaluators, serviceProviders } = props.project.agentStats
   const statistics: Statistic[] = [
     {
@@ -255,7 +257,7 @@ export const ProjectOverview: React.SFC<ParentProps> = props => {
     },
   ]
 
-  const submitAgent = (role: string, agentData: any) => {
+  const submitAgent = (role: string, agentData: any): void => {
     const agentCreateJson: any = { ...agentData, role: role }
     props.createAgent(agentCreateJson)
     props.toggleModal({})
@@ -280,7 +282,7 @@ export const ProjectOverview: React.SFC<ParentProps> = props => {
     }
   }
 
-  const handleRenderFuelButton = () => {
+  const handleRenderFuelButton = (): JSX.Element => {
     const content = (
       <Fragment>
         <p>
@@ -307,14 +309,14 @@ export const ProjectOverview: React.SFC<ParentProps> = props => {
       <Button
         type={ButtonTypes.dark}
         disabled={false}
-        onClick={() => props.toggleModal(modalData, true)}
+        onClick={(): void => props.toggleModal(modalData, true)}
       >
         HELP FUEL THIS PROJECT
       </Button>
     )
   }
 
-  const handleRenderEvaluatorButton = () => {
+  const handleRenderEvaluatorButton = (): JSX.Element | string => {
     if (navigator.userAgent.indexOf('Chrome') === -1 || isBrowser === false) {
       const modalData = {
         title: 'APPLY TO EVALUATE THIS PROJECT',
@@ -325,7 +327,7 @@ export const ProjectOverview: React.SFC<ParentProps> = props => {
         <Button
           type={ButtonTypes.dark}
           disabled={false}
-          onClick={() => props.toggleModal(modalData, true)}
+          onClick={(): void => props.toggleModal(modalData, true)}
         >
           Become an evaluator
         </Button>
@@ -341,7 +343,7 @@ export const ProjectOverview: React.SFC<ParentProps> = props => {
         <Button
           type={ButtonTypes.dark}
           disabled={false}
-          onClick={() => props.toggleModal(modalData, true)}
+          onClick={(): void => props.toggleModal(modalData, true)}
         >
           Become an evaluator
         </Button>
@@ -352,7 +354,7 @@ export const ProjectOverview: React.SFC<ParentProps> = props => {
         <NotLedgered
           ledgerDid={props.ledgerDid}
           modalResponse={props.ledger.modalResponse}
-          closeModal={() => props.toggleModal(null, false)}
+          closeModal={(): void => props.toggleModal(null, false)}
         />
       )
       const modalData = {
@@ -364,7 +366,7 @@ export const ProjectOverview: React.SFC<ParentProps> = props => {
         <Button
           type={ButtonTypes.dark}
           disabled={false}
-          onClick={() => props.toggleModal(modalData, true)}
+          onClick={(): void => props.toggleModal(modalData, true)}
         >
           Become an evaluator
         </Button>
@@ -380,7 +382,7 @@ export const ProjectOverview: React.SFC<ParentProps> = props => {
     // 				<Button
     // 					type={ButtonTypes.dark}
     // 					disabled={false}
-    // 					onClick={() => props.toggleModal(modalData, true)}
+    // 					onClick={():void => props.toggleModal(modalData, true)}
     // 				>Become an evaluator
     // 				</Button>
     // 			);
@@ -414,7 +416,7 @@ export const ProjectOverview: React.SFC<ParentProps> = props => {
         <Button
           type={ButtonTypes.dark}
           disabled={false}
-          onClick={() => props.toggleModal(modalData, true)}
+          onClick={(): void => props.toggleModal(modalData, true)}
         >
           Become an evaluator
         </Button>
@@ -422,7 +424,7 @@ export const ProjectOverview: React.SFC<ParentProps> = props => {
     }
   }
 
-  const handleRenderServiceProviderButton = () => {
+  const handleRenderServiceProviderButton = (): JSX.Element | null => {
     if (navigator.userAgent.indexOf('Chrome') === -1 || isBrowser === false) {
       const modalData = {
         title: 'SERVICE THIS PROJECT',
@@ -433,7 +435,7 @@ export const ProjectOverview: React.SFC<ParentProps> = props => {
         <Button
           type={ButtonTypes.dark}
           disabled={false}
-          onClick={() => props.toggleModal(modalData, true)}
+          onClick={(): void => props.toggleModal(modalData, true)}
         >
           Become a Service Provider
         </Button>
@@ -449,7 +451,7 @@ export const ProjectOverview: React.SFC<ParentProps> = props => {
         <Button
           type={ButtonTypes.dark}
           disabled={false}
-          onClick={() => props.toggleModal(modalData, true)}
+          onClick={(): void => props.toggleModal(modalData, true)}
         >
           Become a Service Provider
         </Button>
@@ -460,7 +462,7 @@ export const ProjectOverview: React.SFC<ParentProps> = props => {
         <NotLedgered
           ledgerDid={props.ledgerDid}
           modalResponse={props.ledger.modalResponse}
-          closeModal={() => props.toggleModal(null, false)}
+          closeModal={(): void => props.toggleModal(null, false)}
         />
       )
       const modalData = {
@@ -472,7 +474,7 @@ export const ProjectOverview: React.SFC<ParentProps> = props => {
         <Button
           type={ButtonTypes.dark}
           disabled={false}
-          onClick={() => props.toggleModal(modalData, true)}
+          onClick={(): void => props.toggleModal(modalData, true)}
         >
           Become a Service Provider
         </Button>
@@ -491,7 +493,7 @@ export const ProjectOverview: React.SFC<ParentProps> = props => {
         </Button>
       )
     } else if (props.hasCapability([AgentRoles.evaluators])) {
-      return ''
+      return null
     } else {
       let userName = ''
       if (props.userInfo) {
@@ -514,7 +516,7 @@ export const ProjectOverview: React.SFC<ParentProps> = props => {
         <Button
           type={ButtonTypes.dark}
           disabled={false}
-          onClick={() => props.toggleModal(modalData, true)}
+          onClick={(): void => props.toggleModal(modalData, true)}
         >
           Become a Service Provider
         </Button>
@@ -522,11 +524,11 @@ export const ProjectOverview: React.SFC<ParentProps> = props => {
     }
   }
 
-  const onProjectImageNotFound = evt => {
-    evt.target.src = placeholder
+  const onProjectImageNotFound = (evt): void => {
+    evt.target.src = require('../../../assets/images/ixo-placeholder-large.jpg')
   }
 
-  const shareToTwitter = () => {
+  const shareToTwitter = (): void => {
     const url = location.href
     const text =
       'It’s up to all of us to start making an impact for a positive future for humanity. Check out this venture that aims to achieve the global SDGs. If you think it’s a worthy cause, then like or share this post to show your support.'
@@ -552,7 +554,7 @@ export const ProjectOverview: React.SFC<ParentProps> = props => {
     <div>
       <ModalWrapper
         isModalOpen={props.isModalOpen}
-        handleToggleModal={() => props.toggleModal({})}
+        handleToggleModal={(): void => props.toggleModal({})}
         header={renderModalHeader()}
       >
         {props.modalData.content}
@@ -573,6 +575,7 @@ export const ProjectOverview: React.SFC<ParentProps> = props => {
                   <a
                     href={props.project.socialMedia.instagramLink}
                     target="_blank"
+                    rel="noopener noreferrer"
                   >
                     <i className="icon-instagram" />
                   </a>
@@ -581,6 +584,7 @@ export const ProjectOverview: React.SFC<ParentProps> = props => {
                   <a
                     href={props.project.socialMedia.twitterLink}
                     target="_blank"
+                    rel="noopener noreferrer"
                   >
                     <i className="icon-twitter" />
                   </a>
@@ -589,12 +593,17 @@ export const ProjectOverview: React.SFC<ParentProps> = props => {
                   <a
                     href={props.project.socialMedia.facebookLink}
                     target="_blank"
+                    rel="noopener noreferrer"
                   >
                     <i className="icon-facebook" />
                   </a>
                 )}
                 {props.project.socialMedia.webLink && (
-                  <a href={props.project.socialMedia.webLink} target="_blank">
+                  <a
+                    href={props.project.socialMedia.webLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
                     <i className="icon-world" />
                   </a>
                 )}
@@ -670,4 +679,3 @@ export const ProjectOverview: React.SFC<ParentProps> = props => {
     </div>
   )
 }
-

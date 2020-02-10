@@ -22,7 +22,8 @@ const ButtonWrapper = styled.div`
 
       :hover {
         background: #002d42;
-        border: 1px solid ${props => props.theme.ixoBlue};
+        border: 1px solid
+          ${/*eslint-disable-line*/ props => props.theme.ixoBlue};
 
         i {
           animation: buttonHover 0.5s ease;

@@ -5,10 +5,9 @@ import { Web3Acc } from 'src/types/models/web3'
 import { Fragment } from 'react'
 import { BigNumber } from 'bignumber.js'
 
-const MetaMaskLogo = require('../../../assets/images/metamask.svg')
-
 const IxoGauge = styled.div`
-  font-family: ${props => props.theme.fontRobotoCondensed};
+  font-family: ${/*eslint-disable-line*/ props =>
+    props.theme.fontRobotoCondensed};
   color: white;
   font-size: 24px;
   line-height: 26px;
@@ -18,13 +17,13 @@ const IxoGauge = styled.div`
   text-align: right;
 
   span {
-    color: ${props => props.theme.fontLightBlue};
+    color: ${/*eslint-disable-line*/ props => props.theme.fontLightBlue};
     font-weight: 300;
   }
 
   p {
     margin: 0;
-    font-family: ${props => props.theme.fontRoboto};
+    font-family: ${/*eslint-disable-line*/ props => props.theme.fontRoboto};
     color: white;
     font-size: 15px;
     line-height: 1.5;
@@ -47,7 +46,8 @@ const ErrorWrapper = styled.div`
   h3 {
     text-transform: uppercase;
     font-size: 19px;
-    font-family: ${props => props.theme.fontRobotoCondensed};
+    font-family: ${/*eslint-disable-line*/ props =>
+      props.theme.fontRobotoCondensed};
     margin: 0;
     line-height: 1.1;
   }
@@ -67,7 +67,7 @@ const IxoX = styled.i`
   :before {
     position: relative;
     top: 4px;
-    color: ${props => props.theme.ixoBlue};
+    color: ${/*eslint-disable-line*/ props => props.theme.ixoBlue};
     font-size: 30px;
   }
 `
@@ -82,7 +82,7 @@ const CheckIcon = styled.i`
   border-radius: 50%;
 
   :before {
-    color: ${props => props.theme.bg.green};
+    color: ${/*eslint-disable-line*/ props => props.theme.bg.green};
     font-size: 18px;
     position: absolute;
     top: 0;
@@ -99,12 +99,12 @@ export interface ParentProps {
 
 export const FundingGauge: React.SFC<ParentProps> = props => {
   let balance = new BigNumber(0)
-  if (props.account.balance!) {
+  if (props.account.balance) {
     balance = new BigNumber(props.account.balance)
     balance = balance.dividedBy(100000000).decimalPlaces(2, 1)
   }
   const jsBalance = balance.toNumber()
-  function handleRenderGauge() {
+  function handleRenderGauge(): JSX.Element | null {
     if (
       props.projectStatus === 'FUNDED' ||
       props.projectStatus === 'STARTED' ||
@@ -124,7 +124,7 @@ export const FundingGauge: React.SFC<ParentProps> = props => {
       return (
         <ErrorWrapper>
           <div>
-            <img src={MetaMaskLogo} />
+            <img src={require('../../../assets/images/metamask.svg')} />
           </div>
           <div>
             <h3>{props.web3error}</h3>
@@ -133,7 +133,7 @@ export const FundingGauge: React.SFC<ParentProps> = props => {
         </ErrorWrapper>
       )
     }
-    if (props.account.address!) {
+    if (props.account.address) {
       return (
         <Fragment>
           <GaugeContainer>

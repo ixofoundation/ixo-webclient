@@ -56,14 +56,15 @@ const FundingWrapper = styled.div`
 
     li {
       margin: 0 30px;
-      font-family: ${props => props.theme.fontRobotoCondensed};
+      font-family: ${/* eslint-disable-line */ props =>
+        props.theme.fontRobotoCondensed};
       font-size: 12px;
       font-weight: 400;
       color: props => props.theme.fontBlue;
       opacity: 0.4;
 
       &.active {
-        color: ${props => props.theme.fontLightBlue};
+        color: ${/* eslint-disable-line */ props => props.theme.fontLightBlue};
         opacity: 1;
       }
     }
@@ -145,18 +146,17 @@ export class Funding extends React.Component<Props, State> {
   private projectWeb3 = null
   private checkInterval = null
 
-  componentDidMount() {
+  componentDidMount(): void {
     if (this.props.web3 === null) {
       this.setState({ web3error: this.props.error })
     } else {
-      // @ts-ignore
       ethereum.enable() // Request account access if needed
       this.projectWeb3 = new Web3Proxy(this.props.web3)
       this.checkInterval = setInterval(this.handleCheckAccount, 3000)
     }
   }
 
-  componentDidUpdate(prevProps: Props) {
+  componentDidUpdate(prevProps: Props): void {
     if (
       this.props.projectStatus === 'FUNDED' &&
       prevProps.projectStatus !== null &&
@@ -171,7 +171,7 @@ export class Funding extends React.Component<Props, State> {
           </p>
           <Button
             type={ButtonTypes.dark}
-            onClick={() => this.toggleModal(false)}
+            onClick={(): void => this.toggleModal(false)}
           >
             CLOSE
           </Button>
@@ -199,21 +199,21 @@ export class Funding extends React.Component<Props, State> {
     }
   }
 
-  renderModalHeader = () => {
+  renderModalHeader = (): Record<string, any> => {
     return {
       title: this.state.modalData.header.title,
       icon: this.state.modalData.header.icon,
     }
   }
 
-  componentWillUnmount() {
+  componentWillUnmount(): void {
     clearInterval(this.checkInterval)
   }
 
-  handleCheckAccount = () => {
+  handleCheckAccount = (): void => {
     this.props.web3.eth.getAccounts((err: any, acc: any) => {
       if (!err) {
-        if (acc[0]!) {
+        if (acc[0]) {
           const tempAcc = Object.assign({}, this.state.account)
           tempAcc.address = acc[0]
           this.setState({
@@ -259,7 +259,7 @@ export class Funding extends React.Component<Props, State> {
   // 	});
   // }
 
-  handleCheckIxoBalance = (accountType: Web3Accounts) => {
+  handleCheckIxoBalance = (accountType: Web3Accounts): void => {
     let addressToUse = null
 
     if (accountType === Web3Accounts.project) {
@@ -284,17 +284,15 @@ export class Funding extends React.Component<Props, State> {
     })
   }
 
-  handleCreateWallet = () => {
-    this.projectWeb3
-      .createEthProjectWallet(this.props.projectDid)
-      .then((res, error) => {
-        if (res === 'creating') {
-          this.setState({ creatingProjectWallet: true })
-        }
-      })
+  handleCreateWallet = (): void => {
+    this.projectWeb3.createEthProjectWallet(this.props.projectDid).then(res => {
+      if (res === 'creating') {
+        this.setState({ creatingProjectWallet: true })
+      }
+    })
   }
 
-  handleGetProjectWalletAddres = () => {
+  handleGetProjectWalletAddres = (): void => {
     this.projectWeb3
       .getProjectWalletAddress(this.props.projectDid)
       .then(res => {
@@ -307,7 +305,7 @@ export class Funding extends React.Component<Props, State> {
       })
   }
 
-  handleFundProjectWallet = async () => {
+  handleFundProjectWallet = async (): Promise<void> => {
     await this.handleGetProjectWalletAddres()
 
     let ixoToSend = new BigNumber(this.props.projectIxoRequired)
@@ -345,7 +343,7 @@ export class Funding extends React.Component<Props, State> {
       })
   }
 
-  handleStartProject = () => {
+  handleStartProject = (): void => {
     const statusObj = {
       projectDid: this.props.projectDid,
       status: 'STARTED',
@@ -353,7 +351,7 @@ export class Funding extends React.Component<Props, State> {
     this.handleUpdateProjectStatus(statusObj)
   }
 
-  handleUpdateProjectStatus = statusData => {
+  handleUpdateProjectStatus = (statusData): void => {
     this.props.keysafe.requestSigning(
       JSON.stringify(statusData),
       (error: any, signature: any) => {
@@ -377,9 +375,9 @@ export class Funding extends React.Component<Props, State> {
     )
   }
 
-  handleStopProject = async () => {
+  handleStopProject = async (): Promise<void> => {
     if (
-      this.state.projectAccount.address! &&
+      this.state.projectAccount.address &&
       this.state.projectAccount.address !==
         '0x0000000000000000000000000000000000000000'
     ) {
@@ -393,9 +391,9 @@ export class Funding extends React.Component<Props, State> {
     }
   }
 
-  handlePayOutProject = async () => {
+  handlePayOutProject = async (): Promise<void> => {
     if (
-      this.state.projectAccount.address! &&
+      this.state.projectAccount.address &&
       this.state.projectAccount.address !==
         '0x0000000000000000000000000000000000000000'
     ) {
@@ -409,8 +407,8 @@ export class Funding extends React.Component<Props, State> {
     }
   }
 
-  handleWithdrawFunds = () => {
-    if (this.props.userInfo!) {
+  handleWithdrawFunds = (): void => {
+    if (this.props.userInfo) {
       const payload = {
         data: {
           projectDid: this.props.projectDid,
@@ -443,15 +441,15 @@ export class Funding extends React.Component<Props, State> {
     }
   }
 
-  renderModalData = () => {
+  renderModalData = (): string => {
     return this.state.modalData.content
   }
 
-  toggleModal = (isModalOpen: boolean) => {
+  toggleModal = (isModalOpen: boolean): void => {
     this.setState({ isModalOpen: isModalOpen })
   }
 
-  render() {
+  render(): JSX.Element {
     return (
       <Fragment>
         <ModalWrapper
@@ -466,7 +464,7 @@ export class Funding extends React.Component<Props, State> {
             <div className="col-md-6">
               <ol>
                 <li
-                  onClick={() =>
+                  onClick={(): void =>
                     this.handleCheckIxoBalance(Web3Accounts.project)
                   }
                 >
