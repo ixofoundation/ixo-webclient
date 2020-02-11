@@ -159,7 +159,7 @@ export class ProjectsHero extends React.Component<Props, State> {
 		this.handleGetGlobalData();
 	}
 
-	componentWillUpdate() {
+	UNSAFE_componentWillUpdate() {
 		this.handleGetGlobalData();
 	}
 

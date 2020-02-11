@@ -135,7 +135,7 @@ export class ProjectContainer extends React.Component<Props, State> {
     }
   }
 
-  componentWillReceiveProps(nextProps: any): void {
+  UNSAFE_componentWillReceiveProps(nextProps: any): void {
     if (nextProps.contentType === contentType.newClaim) {
       this.setState({
         claimSubmitted: false,

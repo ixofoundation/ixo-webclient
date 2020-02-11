@@ -58,7 +58,7 @@ export default class BarChart extends React.Component<ParentProps, State> {
     }
   }
 
-  componentWillMount(): void {
+  UNSAFE_componentWillMount(): void {
     this.dataBasedOnDeviceWidth()
 
     // https://github.com/jedtrow/Chart.js-Rounded-Bar-Charts/blob/master/Chart.roundedBarCharts.js

@@ -176,7 +176,7 @@ export class Projects extends React.Component<Props, State> {
     }
   }
 
-  componentWillReceiveProps(nextProps: any) {
+  UNSAFE_componentWillReceiveProps(nextProps: any) {
     if (this.props.contentType) {
       if (
         nextProps.location &&

@@ -89,7 +89,7 @@ export default class DynamicForm extends React.Component<Props, State> {
     formData: {},
   }
 
-  componentWillMount(): void {
+  UNSAFE_componentWillMount(): void {
     let hiddenCount = 0
     this.props.formSchema.map((field, i) => {
       if (field.hidden) {
