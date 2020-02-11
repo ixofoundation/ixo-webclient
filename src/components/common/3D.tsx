@@ -6,19 +6,21 @@ const CubeFront = styled.div`
   height: 200px;
   backface-visibility: hidden;
   transform: rotateX(0deg) translate3d(0, 0, 100px);
-  box-shadow: 0px 0px 20px 0px ${props => props.theme.ixoBlue};
-  background: ${props => props.theme.bg.lightBlue};
+  box-shadow: 0px 0px 20px 0px
+    ${/* eslint-disable-line */ props => props.theme.ixoBlue};
+  background: ${/* eslint-disable-line */ props => props.theme.bg.lightBlue};
 
   transition: all 0.5s ease;
 `
 
 const CubeTop = styled.div`
-  background: ${props => props.theme.bg.blue};
+  background: ${/* eslint-disable-line */ props => props.theme.bg.blue};
   width: 320px;
   height: 200px;
   transform: rotateX(-90deg) translate3d(0, 0, -100px);
   backface-visibility: hidden;
-  box-shadow: 0px 0px 20px 0px ${props => props.theme.ixoBlue};
+  box-shadow: 0px 0px 20px 0px
+    ${/* eslint-disable-line */ props => props.theme.ixoBlue};
 
   transition: all 0.5s ease;
 `
@@ -42,11 +44,12 @@ const LoadingCube = styled.div`
     transform: rotateX(90deg) rotateY(0deg) rotateZ(0deg);
 
     ${CubeFront} {
-      background: ${props => props.theme.bg.blue};
+      background: ${/* eslint-disable-line */ props => props.theme.bg.blue};
     }
 
     ${CubeTop} {
-      background: ${props => props.theme.bg.lightBlue};
+      background: ${/* eslint-disable-line */ props =>
+        props.theme.bg.lightBlue};
     }
   }
 `
@@ -54,7 +57,7 @@ export interface ParentProps {
   title: string
 }
 
-export const ThreeD: React.SFC<ParentProps> = props => {
+export const ThreeD: React.SFC<ParentProps> = () => {
   return (
     <LoadingCube>
       <CubeFront>

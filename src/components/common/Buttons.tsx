@@ -10,7 +10,8 @@ const BaseButton = styled.a`
   text-transform: uppercase;
   padding: 10px 20px;
   margin-bottom: 10px;
-  font-family: ${props => props.theme.fontRobotoCondensed};
+  font-family: ${/* eslint-disable-line */ props =>
+    props.theme.fontRobotoCondensed};
   letter-spacing: 0.3px;
   line-height: 20px;
   text-align: center;
@@ -19,16 +20,20 @@ const BaseButton = styled.a`
 `
 
 const EnabledGradient = BaseButton.extend`
-  background: ${props => props.theme.bg.gradientButton};
+  background: ${/* eslint-disable-line */ props =>
+    props.theme.bg.gradientButton};
   &&& {
-    color: ${props => props.theme.fontDarkBlueButtonNormal};
+    color: ${/* eslint-disable-line */ props =>
+      props.theme.fontDarkBlueButtonNormal};
   }
-  font-family: ${props => props.theme.fontRobotoCondensed};
+  font-family: ${/* eslint-disable-line */ props =>
+    props.theme.fontRobotoCondensed};
   cursor: pointer;
 
   :hover {
     &&& {
-      color: ${props => props.theme.fontBlueButtonHover};
+      color: ${/* eslint-disable-line */ props =>
+        props.theme.fontBlueButtonHover};
     }
     text-decoration: none;
   }
@@ -37,16 +42,18 @@ const EnabledGradient = BaseButton.extend`
 const EnabledDark = BaseButton.extend`
   background: #002d42;
   &&& {
-    color: ${props => props.theme.fontDarkBlueButtonNormal};
+    color: ${/* eslint-disable-line */ props =>
+      props.theme.fontDarkBlueButtonNormal};
   }
-  border: 1px solid ${props => props.theme.ixoBlue};
+  border: 1px solid ${/* eslint-disable-line */ props => props.theme.ixoBlue};
   cursor: pointer;
 
   :hover {
     &&& {
-      color: ${props => props.theme.fontBlueButtonHover};
+      color: ${/* eslint-disable-line */ props =>
+        props.theme.fontBlueButtonHover};
     }
-    background: ${props => props.theme.bg.darkButton};
+    background: ${/* eslint-disable-line */ props => props.theme.bg.darkButton};
     text-decoration: none;
   }
 `
@@ -58,15 +65,15 @@ const EnabledGreen = BaseButton.extend`
 
 const Disabled = BaseButton.extend`
   &&& {
-    color: ${props => props.theme.ixoBlue};
+    color: ${/* eslint-disable-line */ props => props.theme.ixoBlue};
   }
-  border: 1px solid ${props => props.theme.ixoBlue};
+  border: 1px solid ${/* eslint-disable-line */ props => props.theme.ixoBlue};
   opacity: 0.4;
   cursor: default;
 
   :hover {
     &&& {
-      color: ${props => props.theme.ixoBlue};
+      color: ${/* eslint-disable-line */ props => props.theme.ixoBlue};
     }
     text-decoration: none;
   }
@@ -92,7 +99,7 @@ export interface Props {
 }
 
 export const Button: React.SFC<Props> = props => {
-  const renderPlus = () => {
+  const renderPlus = (): JSX.Element => {
     if (props.plus) {
       return <Plus>+ </Plus>
     }

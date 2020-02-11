@@ -51,7 +51,7 @@ export class FileLoader extends React.Component<StateProps, State> {
     filename: null,
   }
 
-  onDropAccepted = files => {
+  onDropAccepted = (files): void => {
     const file = files[0]
     if (!file) {
       return
@@ -60,21 +60,21 @@ export class FileLoader extends React.Component<StateProps, State> {
     this.setState({ filename: file.name })
     const reader = new FileReader()
 
-    reader.onload = e2 => {
+    reader.onload = (e2): void => {
       this.props.selectedCallback(e2.target.result)
     }
 
     reader.readAsDataURL(file)
   }
 
-  showFilename = () => {
+  showFilename = (): string => {
     if (this.state.filename !== null) {
       return ': "' + this.state.filename + '"'
     }
     return ''
   }
 
-  render() {
+  render(): JSX.Element {
     return (
       <div>
         <Dropzone

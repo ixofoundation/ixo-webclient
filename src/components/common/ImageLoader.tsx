@@ -33,7 +33,7 @@ const ImageContainer = styled.div`
 `
 
 const OverviewContainer = styled.div`
-  background: ${props => props.theme.bg.ixoBlue};
+  background: ${/* eslint-disable-line */ props => props.theme.bg.ixoBlue};
 `
 
 const IconImage = styled.img`
@@ -90,7 +90,7 @@ export class ImageLoader extends React.Component<StateProps, State> {
     pixelCrop: null,
   }
 
-  reset = () => {
+  reset = (): void => {
     this.setState({
       projectImgSrc: '',
       isModalOpen: false,
@@ -100,14 +100,14 @@ export class ImageLoader extends React.Component<StateProps, State> {
     })
   }
 
-  onCropChange = crop => {
+  onCropChange = (crop): void => {
     if (this.props.aspect) {
       crop.aspect = this.props.aspect
     }
     this.setState({ crop: crop })
   }
 
-  onImageLoaded = image => {
+  onImageLoaded = (image): void => {
     let crop = {}
     if (this.props.aspect) {
       crop = makeAspectCrop(
@@ -127,12 +127,12 @@ export class ImageLoader extends React.Component<StateProps, State> {
     })
   }
 
-  cancel = () => {
+  cancel = (): void => {
     this.setState({ isModalOpen: false })
     this.reset()
   }
 
-  save = () => {
+  save = (): void => {
     let base64EncodedImage: string
     if (this.state.pixelCrop != null) {
       base64EncodedImage = this.getCroppedImg(
@@ -146,11 +146,11 @@ export class ImageLoader extends React.Component<StateProps, State> {
     this.reset()
   }
 
-  onComplete = (crop, pixelCrop) => {
+  onComplete = (crop, pixelCrop): void => {
     this.setState({ crop: crop, pixelCrop: pixelCrop })
   }
 
-  getCroppedImg = (image, pixelCrop) => {
+  getCroppedImg = (image, pixelCrop): string => {
     const canvas = document.createElement('canvas')
     const aspect = pixelCrop.width / pixelCrop.height
     const imageHeight = this.props.imageWidth / aspect
@@ -178,7 +178,7 @@ export class ImageLoader extends React.Component<StateProps, State> {
     }
   }
 
-  getUncroppedImg = image => {
+  getUncroppedImg = (image): string => {
     const canvas = document.createElement('canvas')
     const img = document.createElement('img')
     img.src = this.state.projectImgSrc
@@ -212,7 +212,7 @@ export class ImageLoader extends React.Component<StateProps, State> {
     return canvas.toDataURL()
   }
 
-  onDropAccepted = files => {
+  onDropAccepted = (files): void => {
     const file = files[0]
     if (!file || !imageType.test(file.type)) {
       return
@@ -220,22 +220,21 @@ export class ImageLoader extends React.Component<StateProps, State> {
     this.setState({ filename: file.name })
     const reader = new FileReader()
 
-    reader.onload = e2 => {
-      // @ts-ignore
+    reader.onload = (e2): void => {
       this.setState({ projectImgSrc: e2.target.result, isModalOpen: true })
     }
 
     reader.readAsDataURL(file)
   }
 
-  showFilename = () => {
+  showFilename = (): string => {
     if (this.state.filename !== null) {
       return ': "' + this.state.filename + '"'
     }
     return ''
   }
 
-  render() {
+  render(): JSX.Element {
     return (
       <div>
         <Dropzone
@@ -251,7 +250,7 @@ export class ImageLoader extends React.Component<StateProps, State> {
         </Dropzone>
         <ModalWrapper
           isModalOpen={this.state.isModalOpen}
-          handleToggleModal={() => this.cancel()}
+          handleToggleModal={(): void => this.cancel()}
         >
           <OverviewContainer className="container">
             <div className="row">
@@ -267,12 +266,18 @@ export class ImageLoader extends React.Component<StateProps, State> {
             </div>
             <div className="row">
               <div className="col-md-6">
-                <Button type={ButtonTypes.dark} onClick={() => this.cancel()}>
+                <Button
+                  type={ButtonTypes.dark}
+                  onClick={(): void => this.cancel()}
+                >
                   Cancel
                 </Button>
               </div>
               <div className="col-md-6">
-                <Button type={ButtonTypes.dark} onClick={() => this.save()}>
+                <Button
+                  type={ButtonTypes.dark}
+                  onClick={(): void => this.save()}
+                >
                   Submit
                 </Button>
               </div>

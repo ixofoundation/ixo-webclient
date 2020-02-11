@@ -1,17 +1,19 @@
-import * as React from 'react';
-import styled from 'styled-components';
-import { NavLink } from 'react-router-dom';
-import { MatchType } from '../../types/models';
+import * as React from 'react'
+import styled from 'styled-components'
+import { NavLink } from 'react-router-dom'
+import { MatchType } from '../../types/models'
 
 const TabsContainer = styled.div`
-	background:${props => props.theme.bg.gradientBlue};
+	background:${/* eslint-disable-line */ props => props.theme.bg.gradientBlue};
 	border-radius:3px;
 	overflow: hidden;
 	display:inline-flex;
 	box-shadow: 0px 10px 50px 0px rgba(0,0,0,0.35);
 
 	a {
-		font-family: ${props => props.theme.fontRobotoCondensed};
+		font-family: ${
+      /* eslint-disable-line */ props => props.theme.fontRobotoCondensed
+    };
 		color:white;
 		text-transform: uppercase;
 		font-weight:300;
@@ -43,52 +45,51 @@ const TabsContainer = styled.div`
 	}
 
 	a:hover {
-		color: ${props => props.theme.ixoBlue};
+		color: ${/* eslint-disable-line */ props => props.theme.ixoBlue};
 	}
 
 	a.active {
-		background: ${props => props.theme.bg.lightBlue};
+		background: ${/* eslint-disable-line */ props => props.theme.bg.lightBlue};
 		color:white;
 	}
 
 	a:hover i:before, a.active i:before {
-		color: ${props => props.theme.ixoBlue};
+		color: ${/* eslint-disable-line */ props => props.theme.ixoBlue};
 	}
 
 	img {
 		padding:0 5px;
 	}
-`;
+`
 
 export interface Button {
-	iconClass: string;
-	title?: string;
-	path: string;
-	state?: any;
+  iconClass: string
+  title?: string
+  path: string
+  state?: any
 }
 
 export interface Props {
-	buttons: Button[];
-	matchType: MatchType;
+  buttons: Button[]
+  matchType: MatchType
 }
 
-export const Tabs: React.SFC<Props> = (props) => {
-
-	return (
-		<TabsContainer>
-			{props.buttons.map((button, index) => {
-				return (
-					<NavLink 
-						exact={props.matchType === MatchType.exact}
-						strict={props.matchType === MatchType.strict}
-						to={{pathname: button.path }}
-						key={index}
-					>
-						{button.iconClass && <i className={button.iconClass}/>}
-						{button.title && <p>{button.title}</p>}
-					</NavLink>
-				);
-			})}
-		</TabsContainer>
-	);
-};
+export const Tabs: React.SFC<Props> = props => {
+  return (
+    <TabsContainer>
+      {props.buttons.map((button, index) => {
+        return (
+          <NavLink
+            exact={props.matchType === MatchType.exact}
+            strict={props.matchType === MatchType.strict}
+            to={{ pathname: button.path }}
+            key={index}
+          >
+            {button.iconClass && <i className={button.iconClass} />}
+            {button.title && <p>{button.title}</p>}
+          </NavLink>
+        )
+      })}
+    </TabsContainer>
+  )
+}
