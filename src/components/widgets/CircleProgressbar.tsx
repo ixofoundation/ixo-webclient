@@ -39,12 +39,13 @@ const Text = styled.div`
   z-index: 1;
   text-align: center;
   p {
-    font-family: ${props => props.theme.fontRobotoCondensed};
+    font-family: ${/* eslint-disable-line */ props =>
+      props.theme.fontRobotoCondensed};
     line-height: 1;
   }
 
   ${ApprovedText} {
-    color: ${props => props.theme.fontBlue};
+    color: ${/* eslint-disable-line */ props => props.theme.fontBlue};
     font-size: 30px;
     font-weight: 500;
     margin: 0;
@@ -86,26 +87,21 @@ export class CircleProgressbar extends React.Component<ParentProps, State> {
     percentPending: 0,
   }
 
-  getCircumference = () => {
-    return 2 * Math.PI * this.getRadius()
+  getCircumference = (): number => {
+    return 2 * Math.PI * radius
   }
 
-  getRadius = () => {
-    return radius
-  }
-
-  componentDidMount() {
+  componentDidMount(): void {
     this.increasePercent('percentApproved')
     this.increasePercent('percentRejected')
     this.increasePercent('percentPending')
   }
 
-  increasePercent = (type: string) => {
+  increasePercent = (type: string): void => {
     const percent = this.state[type] + 1
     const approvedMax = this.getMaxPercent(type)
     let tm = null
     if (percent <= approvedMax) {
-      // @ts-ignore
       this.setState({ [type]: percent })
       tm = setTimeout(
         () => this.increasePercent(type),
@@ -117,15 +113,15 @@ export class CircleProgressbar extends React.Component<ParentProps, State> {
     }
   }
 
-  calcPercent = (amount: number, total: number) => {
+  calcPercent = (amount: number, total: number): number => {
     return (amount / total) * 100
   }
 
-  easingFormula = (amount: number) => {
+  easingFormula = (amount: number): number => {
     return amount / 2
   }
 
-  getMaxPercent = (type: string) => {
+  getMaxPercent = (type: string): number | string => {
     const { approved, rejected, pending } = this.props
     let { totalNeeded } = this.props
     const sum = approved + rejected + pending
@@ -151,15 +147,12 @@ export class CircleProgressbar extends React.Component<ParentProps, State> {
     }
   }
 
-  progress = value => {
+  progress = (value): number => {
     const progress = value / 100
-
-    const dashoffset = this.getCircumference() * (1 - progress)
-
-    return dashoffset
+    return this.getCircumference() * (1 - progress)
   }
 
-  render() {
+  render(): JSX.Element {
     return (
       <WidgetContainer>
         <Text>

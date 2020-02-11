@@ -1,7 +1,6 @@
 import * as React from 'react'
 import { CircleProgressbar } from './CircleProgressbar'
 import { WorldMap } from './WorldMap'
-// import Sunburst from './SunBurst';
 import BarChart, { BarColors } from './BarChart'
 import { successToast, warningToast, errorToast } from '../helpers/Toast'
 
@@ -16,13 +15,13 @@ export interface ParentProps {
 export class Widgets extends React.Component<ParentProps> {
   // BELOW IS DUMMY DATA GENERATION FOR THE BARCHART COMPONENT
 
-  randomDate(start: Date, end: Date) {
+  randomDate(start: Date, end: Date): Date {
     return new Date(
       start.getTime() + Math.random() * (end.getTime() - start.getTime()),
     )
   }
 
-  generateClaims = (status: number, length: number) => {
+  generateClaims = (status: number, length: number): Array<any> => {
     const claimsArray = []
 
     for (let i = 0; i < length; i++) {
@@ -48,11 +47,11 @@ export class Widgets extends React.Component<ParentProps> {
 
   // END OF DUMMY DATA GENERATION FOR BAR CHART
 
-  success = () => successToast('Successful')
-  warning = () => warningToast('Warning')
-  error = () => errorToast('Error')
+  success = (): void => successToast('Successful')
+  warning = (): void => warningToast('Warning')
+  error = (): void => errorToast('Error')
 
-  render() {
+  render(): JSX.Element {
     return (
       <div className="container">
         <div className="row">

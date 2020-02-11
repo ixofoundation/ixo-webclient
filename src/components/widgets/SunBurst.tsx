@@ -2,14 +2,14 @@ import * as React from 'react'
 import 'react-vis/dist/style.css'
 import { Sunburst } from 'react-vis'
 
-function randomLeaf() {
+function randomLeaf(): Record<string, any> {
   return {
     size: Math.random() * 1000,
     color: Math.random(),
   }
 }
 
-function updateData() {
+function updateData(): Record<string, any> {
   const totalLeaves = Math.random() * 20
   const leaves = []
   for (let i = 0; i < totalLeaves; i++) {
@@ -42,7 +42,7 @@ export default class SunburstSDG extends React.Component<ParentProps> {
     hovering: false,
   }
 
-  render() {
+  render(): JSX.Element {
     const { data, hovering } = this.state
     return (
       <div className="animated-sunburst-example-wrapper">
@@ -53,8 +53,8 @@ export default class SunburstSDG extends React.Component<ParentProps> {
           colorType={'category'}
           colorRange={DIVERGING_COLOR_SCALE}
           style={{ stroke: '#fff' }}
-          onValueMouseOver={() => this.setState({ hovering: true })}
-          onValueMouseOut={() => this.setState({ hovering: false })}
+          onValueMouseOver={(): void => this.setState({ hovering: true })}
+          onValueMouseOut={(): void => this.setState({ hovering: false })}
           height={300}
           width={350}
         />

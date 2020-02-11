@@ -23,10 +23,11 @@ const Title = styled.h1`
   font-size: 36px;
   line-height: 1;
   margin-bottom: 10px;
-  font-family: ${props => props.theme.fontRobotoCondensed};
+  font-family: ${/* eslint-disable-line */ props =>
+    props.theme.fontRobotoCondensed};
 
   span {
-    color: ${props => props.theme.fontLightBlue};
+    color: ${/* eslint-disable-line */ props => props.theme.fontLightBlue};
   }
 
   @media (min-width: 600px) {

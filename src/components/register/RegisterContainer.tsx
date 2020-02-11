@@ -13,13 +13,6 @@ import MediaQuery from 'react-responsive'
 import { Button, ButtonTypes } from '../common/Buttons'
 import { Spinner } from '../common/Spinner'
 
-const keysafeImg = require('../../assets/images/register/ixo-keysafe.png')
-const amplyImg = require('../../assets/images/register/ixo-amply.png')
-const keysafeIcon = require('../../assets/images/register/ixo-keysafeIco.png')
-
-const chromeIcon = require('../../assets/images/register/chrome.png')
-const mozillaIcon = require('../../assets/images/register/firefox.png')
-
 const ModalContainer = styled.div`
   width: 360px;
   margin: 0 auto;
@@ -47,7 +40,7 @@ const ModalContainer = styled.div`
 // 	}
 
 // 	a:hover {
-// 		color: ${props => props.theme.fontBlue};
+// 		color: ${/* eslint-disable-line */ props => props.theme.fontBlue};
 // 	}
 // `;
 
@@ -60,7 +53,7 @@ const RelativeCol = styled.div`
 `
 
 const BlueRow = styled.div`
-  background: ${props => props.theme.bg.gradientBlue};
+  background: ${/* eslint-disable-line */ props => props.theme.bg.gradientBlue};
   margin-top: 0;
 
   @media (min-width: ${deviceWidth.desktop}px) {
@@ -145,11 +138,11 @@ class RegisterPage extends React.Component<Props, State> {
 
   private busyLedgering = false
 
-  toggleModal = (activeModal: any, booleanVal: boolean) => {
+  toggleModal = (activeModal: any, booleanVal: boolean): void => {
     this.setState({ isModalOpen: booleanVal, activeModal })
   }
 
-  renderModal = () => {
+  renderModal = (): JSX.Element => {
     if (this.state.activeModal === ModalData.keysafe) {
       return (
         <ModalContainer>
@@ -163,14 +156,22 @@ class RegisterPage extends React.Component<Props, State> {
             href="https://chrome.google.com/webstore/detail/ixo-keysafe/nnlfaleaeoefglohpacnfgoeldfakkjk"
             target="_blank"
           >
-            <BrowserIcon src={chromeIcon} alt="Chrome" /> DOWNLOAD FOR CHROME
+            <BrowserIcon
+              src={require('../../assets/images/register/chrome.png')}
+              alt="Chrome"
+            />{' '}
+            DOWNLOAD FOR CHROME
           </Button>
           <Button
             type={ButtonTypes.dark}
             href="https://addons.mozilla.org/en-US/firefox/addon/ixo-keysafe/"
             target="_blank"
           >
-            <BrowserIcon src={mozillaIcon} alt="Firefox" /> DOWNLOAD FOR FIREFOX
+            <BrowserIcon
+              src={require('../../assets/images/register/firefox.png')}
+              alt="Firefox"
+            />{' '}
+            DOWNLOAD FOR FIREFOX
           </Button>
         </ModalContainer>
       )
@@ -190,7 +191,7 @@ class RegisterPage extends React.Component<Props, State> {
           </Button>
         </ModalContainer>
       )
-    } else if ((this.state.activeModal = ModalData.invite)) {
+    } else if (this.state.activeModal === ModalData.invite) {
       return (
         <ModalContainer>
           <p>
@@ -209,12 +210,12 @@ class RegisterPage extends React.Component<Props, State> {
     }
   }
 
-  renderModalHeading = () => {
+  renderModalHeading = (): Record<string, any> => {
     if (this.state.activeModal === ModalData.keysafe) {
       return {
         title: 'IXO KEY SAFE',
         subtitle: 'Your secure identity vault.',
-        image: keysafeIcon,
+        image: require('../../assets/images/register/ixo-keysafeIco.png'),
         width: '365',
       }
     } else if (this.state.activeModal === ModalData.kyc) {
@@ -223,7 +224,7 @@ class RegisterPage extends React.Component<Props, State> {
         icon: <i className="icon-kyc" />,
         width: '365',
       }
-    } else if ((this.state.activeModal = ModalData.invite)) {
+    } else if (this.state.activeModal === ModalData.invite) {
       return {
         title: 'INTERESTED IN CREATING YOUR OWN PROJECTS?',
         icon: <i className="icon-claims" />,
@@ -234,7 +235,7 @@ class RegisterPage extends React.Component<Props, State> {
     }
   }
 
-  checkState() {
+  checkState(): void {
     // If the user has a keysafe and but the hasKeySafe not set then set state
     if (this.props.keysafe && !this.state.hasKeySafe) {
       this.props.keysafe.getDidDoc((error, response) => {
@@ -256,7 +257,7 @@ class RegisterPage extends React.Component<Props, State> {
 
     // So has a client side didDoc, so lets check if it is ledgered
     if (this.props.ixo && this.state.didDoc && !this.state.isDidLedgered) {
-      const ledgerDid = () => this.ledgerDid()
+      const ledgerDid = (): void => this.ledgerDid()
       this.props.ixo.user
         .getDidDoc(this.state.didDoc.did)
         .then((didResponse: any) => {
@@ -280,7 +281,7 @@ class RegisterPage extends React.Component<Props, State> {
             ledgerDid()
           }
         })
-        .catch(err => {
+        .catch((): void => {
           // Did not ledgered
           ledgerDid()
         })
@@ -290,16 +291,16 @@ class RegisterPage extends React.Component<Props, State> {
     }
   }
 
-  componentDidMount() {
+  componentDidMount(): void {
     setTimeout(() => this.checkState(), 2000)
     // this.checkState();
   }
 
-  setBusyLedgeringToFalse() {
+  setBusyLedgeringToFalse(): void {
     this.busyLedgering = false
   }
 
-  ledgerDid = () => {
+  ledgerDid = (): void => {
     if (this.state.didDoc && !this.busyLedgering) {
       const payload = { didDoc: this.state.didDoc }
       this.busyLedgering = true
@@ -332,7 +333,7 @@ class RegisterPage extends React.Component<Props, State> {
     }
   }
 
-  render() {
+  render(): JSX.Element {
     if (!this.props.ixo) {
       return <Spinner info="Loading ixo World..." />
     }
@@ -340,7 +341,7 @@ class RegisterPage extends React.Component<Props, State> {
       <div>
         <ModalWrapper
           isModalOpen={this.state.isModalOpen}
-          handleToggleModal={val => this.toggleModal({}, val)}
+          handleToggleModal={(val): void => this.toggleModal({}, val)}
           header={this.renderModalHeading()}
         >
           {this.renderModal()}
@@ -351,7 +352,9 @@ class RegisterPage extends React.Component<Props, State> {
             <div className="row">
               <MediaQuery minWidth={`${deviceWidth.desktop}px`}>
                 <div className="col-lg-6">
-                  <Amply src={amplyImg} />
+                  <Amply
+                    src={require('../../assets/images/register/ixo-amply.png')}
+                  />
                 </div>
               </MediaQuery>
               <SmallIconCol className="col-lg-6">
@@ -393,7 +396,9 @@ class RegisterPage extends React.Component<Props, State> {
                 </div>
                 <MediaQuery minWidth={`${deviceWidth.desktop}px`}>
                   <RelativeCol className="col-lg-6">
-                    <KeySafe src={keysafeImg} />
+                    <KeySafe
+                      src={require('../../assets/images/register/ixo-keysafe.png')}
+                    />
                   </RelativeCol>
                 </MediaQuery>
               </div>
@@ -427,7 +432,7 @@ class RegisterPage extends React.Component<Props, State> {
   }
 }
 
-function mapStateToProps(state: PublicSiteStoreState) {
+function mapStateToProps(state: PublicSiteStoreState): Record<string, any> {
   return {
     ixo: state.ixoStore.ixo,
     userInfo: state.loginStore.userInfo,
@@ -435,6 +440,4 @@ function mapStateToProps(state: PublicSiteStoreState) {
   }
 }
 
-export const RegisterConnected = connect<{}, {}, ParentProps>(mapStateToProps)(
-  RegisterPage as any,
-)
+export const RegisterConnected = connect(mapStateToProps)(RegisterPage as any)

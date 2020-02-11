@@ -8,7 +8,8 @@ const Container = styled.div`
   color: #333c4e;
 
   h2 {
-    font-family: ${props => props.theme.fontRobotoCondensed};
+    font-family: ${/* eslint-disable-line */ props =>
+      props.theme.fontRobotoCondensed};
     font-weight: 300;
   }
 
@@ -34,7 +35,8 @@ const ContainerWhite = styled.div`
   color: white;
 
   h2 {
-    font-family: ${props => props.theme.fontRobotoCondensed};
+    font-family: ${/* eslint-disable-line */ props =>
+      props.theme.fontRobotoCondensed};
     font-weight: 300;
   }
 

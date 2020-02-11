@@ -21,7 +21,7 @@ const ButtonContainer = styled.div`
   margin-right: -20px;
   margin-bottom: -25px;
   padding: 22px 34px 22px 34px;
-  background: ${props => props.theme.grey};
+  background: ${/*eslint-disable-line*/ props => props.theme.grey};
   padding: 10px 20px;
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.18);
 `
@@ -30,13 +30,15 @@ const ReturnButton = styled.div`
   text-transform: uppercase;
   border-radius: 3px;
   text-align: center;
-  background: ${props => props.theme.bg.grey};
-  font-family: ${props => props.theme.fontRobotoCondensed};
+  background: ${/*eslint-disable-line*/ props => props.theme.bg.grey};
+  font-family: ${/*eslint-disable-line*/ props =>
+    props.theme.fontRobotoCondensed};
   font-size: 15px;
   padding: 10px 20px 10px;
   cursor: pointer;
-  border: 1px solid ${props => props.theme.bg.darkButton};
-  color: ${props => props.theme.bg.darkButton};
+  border: 1px solid
+    ${/*eslint-disable-line*/ props => props.theme.bg.darkButton};
+  color: ${/*eslint-disable-line*/ props => props.theme.bg.darkButton};
   width: 180px;
 `
 
@@ -44,8 +46,10 @@ const SubmitButton = styled.div`
   text-transform: uppercase;
   border-radius: 3px;
   text-align: center;
-  background: ${props => props.theme.bg.gradientButtonGreen};
-  font-family: ${props => props.theme.fontRobotoCondensed};
+  background: ${/*eslint-disable-line*/ props =>
+    props.theme.bg.gradientButtonGreen};
+  font-family: ${/*eslint-disable-line*/ props =>
+    props.theme.fontRobotoCondensed};
   font-size: 15px;
   padding: 10px 20px 10px;
   cursor: pointer;
@@ -58,7 +62,7 @@ const SubmitButton = styled.div`
   }
 
   i:before {
-    color: ${props => props.theme.bg.grey};
+    color: ${/*eslint-disable-line*/ props => props.theme.bg.grey};
   }
 `
 
@@ -85,7 +89,7 @@ export default class DynamicForm extends React.Component<Props, State> {
     formData: {},
   }
 
-  componentWillMount() {
+  componentWillMount(): void {
     let hiddenCount = 0
     this.props.formSchema.map((field, i) => {
       if (field.hidden) {
@@ -97,11 +101,11 @@ export default class DynamicForm extends React.Component<Props, State> {
     })
   }
 
-  handleSubmit = event => {
+  handleSubmit = (): void => {
     this.props.handleSubmit(this.state.formData)
   }
 
-  setFormState = (name: string, value: any) => {
+  setFormState = (name: string, value: any): void => {
     const fields = name.split('.')
     let formData = this.state.formData
     fields.forEach((field, index) => {
@@ -118,12 +122,12 @@ export default class DynamicForm extends React.Component<Props, State> {
   }
 
   onFormValueChanged = (name: string) => {
-    return event => {
+    return (event): void => {
       this.setFormState(name, event.target.value)
     }
   }
 
-  handleRenderButtons = () => {
+  handleRenderButtons = (): JSX.Element => {
     if (this.props.formStyle === FormStyles.modal) {
       return (
         <Button onClick={this.handleSubmit} type={ButtonTypes.gradient}>
@@ -135,7 +139,9 @@ export default class DynamicForm extends React.Component<Props, State> {
         <ButtonContainer>
           <div className="row">
             <div className="col-md-6">
-              <ReturnButton onClick={() => history.back(-1)}>Back</ReturnButton>
+              <ReturnButton onClick={(): void => history.back()}>
+                Back
+              </ReturnButton>
             </div>
             <div className="col-md-6">
               <SubmitButton onClick={this.handleSubmit}>
@@ -149,7 +155,7 @@ export default class DynamicForm extends React.Component<Props, State> {
     }
   }
 
-  render() {
+  render(): JSX.Element {
     return (
       <form>
         <div className="form-group">

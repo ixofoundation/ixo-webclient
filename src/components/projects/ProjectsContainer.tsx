@@ -272,6 +272,6 @@ function mapStateToProps(state: PublicSiteStoreState) {
   }
 }
 
-export const ProjectsContainerConnected = connect<{}, {}, ParentProps>(
-  mapStateToProps,
-)(Projects as any)
+export const ProjectsContainerConnected = connect(mapStateToProps)(
+  Projects as any,
+)

@@ -78,7 +78,7 @@ const CheckItem = styled.p`
     a:hover {
       text-decoration: underline;
       cursor: pointer;
-      color: ${props => props.theme.fontBlue};
+      color: ${/* eslint-disable-line */ props => props.theme.fontBlue};
     }
   }
   span {
@@ -88,7 +88,8 @@ const CheckItem = styled.p`
 `
 
 const Start = styled.a`
-  font-family: ${props => props.theme.fontRobotoCondensed};
+  font-family: ${/* eslint-disable-line */ props =>
+    props.theme.fontRobotoCondensed};
   display: block;
   border: 1px solid rgba(0, 0, 0, 0.17);
   color: rgba(0, 0, 0, 0.17);
@@ -122,7 +123,7 @@ export interface ParentProps {
 }
 
 export const RegisterStatus: React.SFC<ParentProps> = props => {
-  const getIcon = condition => {
+  const getIcon = (condition): JSX.Element => {
     if (condition) {
       return <GreenI className={'icon-registration-yes'} />
     } else {
@@ -130,13 +131,15 @@ export const RegisterStatus: React.SFC<ParentProps> = props => {
     }
   }
 
-  const getKeysafeText = () => {
+  const getKeysafeText = (): JSX.Element => {
     if (props.hasKeySafe) {
       return (
         <CheckItem>
           {getIcon(props.hasKeySafe)}
           {getIcon(props.hasKeySafe)} You have successfully installed the{' '}
-          <ModalLink onClick={() => props.activeModal(ModalData.keysafe, true)}>
+          <ModalLink
+            onClick={(): void => props.activeModal(ModalData.keysafe, true)}
+          >
             ixo Keysafe
           </ModalLink>
         </CheckItem>
@@ -145,7 +148,9 @@ export const RegisterStatus: React.SFC<ParentProps> = props => {
       return (
         <CheckItem>
           {getIcon(props.hasKeySafe)} This role requires{' '}
-          <ModalLink onClick={() => props.activeModal(ModalData.keysafe, true)}>
+          <ModalLink
+            onClick={(): void => props.activeModal(ModalData.keysafe, true)}
+          >
             installing ixo Keysafe.
           </ModalLink>
         </CheckItem>
@@ -153,19 +158,21 @@ export const RegisterStatus: React.SFC<ParentProps> = props => {
     }
   }
 
-  const renderKYCPart = () => {
+  const renderKYCPart = (): JSX.Element => {
     if (props.role === AgentRoles.owners) {
       return (
         <CheckItem>
           {getIcon(props.hasKYC)} Successfully{' '}
-          <ModalLink onClick={() => props.activeModal(ModalData.kyc, true)}>
+          <ModalLink
+            onClick={(): void => props.activeModal(ModalData.kyc, true)}
+          >
             register
           </ModalLink>{' '}
           as an ixo member
           <span>
             Please note that for the beta phase you need to be{' '}
             <ModalLink
-              onClick={() => props.activeModal(ModalData.invite, true)}
+              onClick={(): void => props.activeModal(ModalData.invite, true)}
             >
               invited by ixo
             </ModalLink>{' '}

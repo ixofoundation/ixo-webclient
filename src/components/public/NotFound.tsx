@@ -3,11 +3,9 @@ import styled from 'styled-components'
 import { deviceWidth } from '../../lib/commonData'
 import { ButtonTypes, Button } from '../common/Buttons'
 
-const bannerBg = require('../../assets/images/404/404-bg.jpg')
-const walrusImg = require('../../assets/images/404/walrus-image.png')
-
 const Banner = styled.div`
-  background: #002233 url(${bannerBg}) no-repeat;
+  background: #002233 url(${require('../../assets/images/404/404-bg.jpg')})
+    no-repeat;
   background-size: cover;
   width: 100%;
   display: flex;
@@ -45,7 +43,8 @@ const BannerRight = styled.div`
   }
   h2 {
     font-size: 60px;
-    font-family: ${props => props.theme.fontRobotoCondensed};
+    font-family: ${/*eslint-disable-line*/ props =>
+      props.theme.fontRobotoCondensed};
     margin-bottom: 5px;
     width: 100%;
   }
@@ -126,7 +125,8 @@ const BannerRight = styled.div`
     padding: 10px 25px;
     text-transform: uppercase;
     font-size: 15px;
-    font-family: ${props => props.theme.fontRobotoCondensed};
+    font-family: ${/*eslint-disable-line*/ props =>
+      props.theme.fontRobotoCondensed};
     margin-top: 20px;
     cursor: pointer;
   }
@@ -137,14 +137,15 @@ const ButtonContainer = styled.div`
   margin-top: 20px;
 `
 
-export interface ParentProps {}
-
-export const NotFound: React.SFC<ParentProps> = props => {
+export const NotFound: React.SFC = () => {
   return (
     <Banner className="row">
       <div className="col-lg-4">
         <BannerLeft>
-          <img src={walrusImg} alt="" />
+          <img
+            src={require('../../assets/images/404/walrus-image.png')}
+            alt=""
+          />
         </BannerLeft>
       </div>
       <div className="col-lg-8 col-md-12">
@@ -155,7 +156,10 @@ export const NotFound: React.SFC<ParentProps> = props => {
               The link you followed may either be broken or no longer exists.{' '}
             </p>
             <ButtonContainer>
-              <Button type={ButtonTypes.dark} onClick={() => history.back(-1)}>
+              <Button
+                type={ButtonTypes.dark}
+                onClick={(): void => history.back()}
+              >
                 Back to previous page
               </Button>
             </ButtonContainer>

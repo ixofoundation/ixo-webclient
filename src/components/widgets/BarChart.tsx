@@ -47,7 +47,7 @@ export default class BarChart extends React.Component<ParentProps, State> {
     chartHeight: 60,
   }
 
-  dataBasedOnDeviceWidth = () => {
+  dataBasedOnDeviceWidth = (): void => {
     if (window.innerWidth < 960) {
       this.setState({ totalBars: 50 })
     }
@@ -58,12 +58,12 @@ export default class BarChart extends React.Component<ParentProps, State> {
     }
   }
 
-  componentWillMount() {
+  componentWillMount(): void {
     this.dataBasedOnDeviceWidth()
 
     // https://github.com/jedtrow/Chart.js-Rounded-Bar-Charts/blob/master/Chart.roundedBarCharts.js
     const that = this
-    Chart.elements.Rectangle.prototype.draw = function() {
+    Chart.elements.Rectangle.prototype.draw = function(): void {
       const ctx = this._chart.ctx
       const vm = this._view
       if (that.state.canvasHeight < vm.base) {
@@ -145,7 +145,7 @@ export default class BarChart extends React.Component<ParentProps, State> {
         startCorner = 0
       }
 
-      function cornerAt(index: number) {
+      function cornerAt(index: number): Array<Array<number>> {
         return corners[(startCorner + index) % 4]
       }
 
@@ -241,11 +241,11 @@ export default class BarChart extends React.Component<ParentProps, State> {
     }
   }
 
-  componentDidMount() {
+  componentDidMount(): void {
     this.createBucketsArray()
   }
 
-  populateTooltipArray(length: number) {
+  populateTooltipArray(length: number): Array<string> {
     const tempArr: string[] = []
     for (let i = 0; i < length; i++) {
       tempArr.push(String(i))
@@ -253,7 +253,7 @@ export default class BarChart extends React.Component<ParentProps, State> {
     return tempArr
   }
 
-  populateXaxisLabels(hoursPerBucket: number) {
+  populateXaxisLabels(hoursPerBucket: number): void {
     // THIS FUNCTION DOESN'T WORK 100%. NEED TO RETHINK WHEN TO PUSH TO LABELARRAY
     const labelArray = []
     const now = moment()
@@ -272,7 +272,7 @@ export default class BarChart extends React.Component<ParentProps, State> {
     this.setState({ xLabels: labelArray })
   }
 
-  getBarDate(index: number) {
+  getBarDate(index: number): string {
     const reversedIndex = this.state.totalBars - index
     const now = moment()
     const theDiff = Math.round(reversedIndex * this.state.hoursPerBucket)
@@ -280,11 +280,11 @@ export default class BarChart extends React.Component<ParentProps, State> {
     return theTime.format('dddd, D MMMM, YYYY')
   }
 
-  waitAndChange = () => {
+  waitAndChange = (): void => {
     this.setState({ firstTime: false })
   }
 
-  createBucketsArray = () => {
+  createBucketsArray = (): void => {
     const now = moment()
     let earliestHoursDifference = 0
 
@@ -315,7 +315,7 @@ export default class BarChart extends React.Component<ParentProps, State> {
     })
   }
 
-  populateDataArray = (arrayIndex: number) => {
+  populateDataArray = (arrayIndex: number): Array<number> => {
     const now = moment()
 
     const hoursDifferenceArray = []
@@ -326,10 +326,10 @@ export default class BarChart extends React.Component<ParentProps, State> {
       hoursDifferenceArray.push(now.diff(theDate, 'hours'))
     }
 
-    const BucketValueArray = Array.apply(
-      null,
-      new Array(this.state.totalBars),
-    ).map(Number.prototype.valueOf, 0)
+    const BucketValueArray = [this.state.totalBars].map(
+      Number.prototype.valueOf,
+      0,
+    )
 
     for (let k = 0; k < hoursDifferenceArray.length; k++) {
       for (let p = 0; p < this.state.totalBars; p++) {
@@ -350,7 +350,7 @@ export default class BarChart extends React.Component<ParentProps, State> {
     return BucketValueArray
   }
 
-  allData = canvas => {
+  allData = (canvas): Record<string, any> => {
     const ctx = canvas.getContext('2d')
 
     // const gradientsArray = this.handleGetGradients(ctx);
@@ -412,11 +412,9 @@ export default class BarChart extends React.Component<ParentProps, State> {
     let dataRemainder: number[] = []
     let dataMaxArray: number[] = []
 
-    const dataSumArray = Array.apply(null, Array(dataArrays[0].length)).map(
-      function() {
-        return 0
-      },
-    )
+    const dataSumArray = Array(...dataArrays[0].length).map(function() {
+      return 0
+    })
     const dataSets = []
     dataArrays.forEach((val, index) => {
       val.forEach((element, elIndex) => {
@@ -492,16 +490,16 @@ export default class BarChart extends React.Component<ParentProps, State> {
     }
   }
 
-  render() {
+  render(): JSX.Element {
     // NEED TO CODE *VIEW REPORT* LINK, THAT GOES TO CLAIM PAGE ITSELF
 
     const options = {
       tooltips: {
         callbacks: {
-          title: (tooltipItem: any, data: any) => {
+          title: (tooltipItem: any): string => {
             return this.getBarDate(tooltipItem[0].index)
           },
-          label: (tooltipItem: any, data: any) => {
+          label: (tooltipItem: any, data: any): string => {
             if (tooltipItem.datasetIndex !== 3) {
               return `${tooltipItem.yLabel} ${
                 data.datasets[tooltipItem.datasetIndex].label

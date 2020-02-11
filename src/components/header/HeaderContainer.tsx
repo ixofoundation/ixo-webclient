@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
-import { withRouter, RouteComponentProps } from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 import { PublicSiteStoreState } from '../../redux/public_site_reducer'
 import styled from 'styled-components'
 import { HeaderLeft } from './HeaderLeft'
@@ -25,7 +25,7 @@ const TopBar = styled.header`
 
 const StatusMessage = styled.div`
   opacity: 0;
-  background: ${props => props.theme.bg.lightBlue};
+  background: ${/*eslint-disable-line*/ props => props.theme.bg.lightBlue};
   position: absolute;
   color: white;
   top: 15px;
@@ -49,7 +49,8 @@ const StatusMessage = styled.div`
     height: 0;
     border-left: 10px solid transparent;
     border-right: 10px solid transparent;
-    border-bottom: 10px solid ${props => props.theme.bg.lightBlue};
+    border-bottom: 10px solid
+      ${/*eslint-disable-line*/ props => props.theme.bg.lightBlue};
     position: absolute;
     top: -10px;
     right: 20px;
@@ -113,14 +114,15 @@ const ModalData = styled.div`
     font-size: 64px;
 
     :before {
-      color: ${props => props.theme.ixoBlue};
+      color: ${/*eslint-disable-line*/ props => props.theme.ixoBlue};
     }
   }
 
   h3 {
     margin-top: 10px;
     font-size: 18px;
-    font-family: ${props => props.theme.fontRobotoCondensed};
+    font-family: ${/*eslint-disable-line*/ props =>
+      props.theme.fontRobotoCondensed};
   }
 
   p {
@@ -128,7 +130,7 @@ const ModalData = styled.div`
     font-weight: 300;
 
     span {
-      color: ${props => props.theme.ixoBlue};
+      color: ${/*eslint-disable-line*/ props => props.theme.ixoBlue};
     }
   }
 `
@@ -139,7 +141,7 @@ const InfoLink = styled.a`
   text-decoration: underline;
 
   :hover {
-    color: ${props => props.theme.ixoBlue};
+    color: ${/*eslint-disable-line*/ props => props.theme.ixoBlue};
   }
 `
 
@@ -161,10 +163,12 @@ export interface ParentProps {
   userInfo: any
   simpleHeader: boolean
   refreshProjects?: Function
-  pingIxoExplorer: Function
+  pingIxoExplorer: () => Promise<unknown>
   initUserInfo: Function
 }
-export interface Props extends StateProps, ParentProps {}
+export interface Props extends StateProps, ParentProps {
+  pingExplorer: Function
+}
 
 class Header extends React.Component<Props, State> {
   state = {
@@ -176,12 +180,12 @@ class Header extends React.Component<Props, State> {
     ledgerPopupShown: false,
   }
 
-  componentDidMount() {
+  componentDidMount(): void {
     this.pingExplorer()
     // setTimeout(() => { this.props.initUserInfo(); }, 10000);
   }
 
-  componentDidUpdate(prevProps: Props) {
+  componentDidUpdate(prevProps: Props): void {
     if (prevProps.ixo !== this.props.ixo && this.props.ixo !== null) {
       this.pingExplorer()
     }
@@ -212,11 +216,11 @@ class Header extends React.Component<Props, State> {
     }
   }
 
-  pingExplorer = () => {
+  pingExplorer = (): void => {
     this.props
       .pingIxoExplorer()
       .then(res => {
-        this.setState({ responseTime: res })
+        this.setState({ responseTime: res as number })
         // Only check every 30 sec if connected
         setTimeout(() => this.pingExplorer(), 30000)
       })
@@ -227,7 +231,7 @@ class Header extends React.Component<Props, State> {
       })
   }
 
-  renderStatusIndicator = () => {
+  renderStatusIndicator = (): JSX.Element => {
     return (
       <Ping>
         {this.renderLightIndicator()}
@@ -236,7 +240,7 @@ class Header extends React.Component<Props, State> {
     )
   }
 
-  renderStatusMessage() {
+  renderStatusMessage(): JSX.Element {
     if (this.props.ixo && this.state.responseTime > 0) {
       return (
         <StatusMessage>
@@ -255,7 +259,7 @@ class Header extends React.Component<Props, State> {
     }
   }
 
-  renderLightIndicator() {
+  renderLightIndicator(): JSX.Element {
     if (this.props.ixo === null || this.state.responseTime === null) {
       return <LightLoading />
     } else if (this.props.ixo && this.state.responseTime !== 0) {
@@ -265,7 +269,10 @@ class Header extends React.Component<Props, State> {
     }
   }
 
-  renderModalHeader = () => {
+  renderModalHeader = (): {
+    title: string
+    titleNoCaps: boolean
+  } | null => {
     if (this.props.userInfo) {
       return {
         title: 'Hi, ' + this.props.userInfo.name,
@@ -276,14 +283,14 @@ class Header extends React.Component<Props, State> {
     }
   }
 
-  renderModalData = () => {
+  renderModalData = (): JSX.Element => {
     if (this.state.modalResponse.length > 0) {
       return (
         <ModalData>
           <p>{this.state.modalResponse}</p>
           <Button
             type={ButtonTypes.dark}
-            onClick={() => this.handleToggleModal(false)}
+            onClick={(): void => this.handleToggleModal(false)}
           >
             CONTINUE
           </Button>
@@ -312,11 +319,11 @@ class Header extends React.Component<Props, State> {
     }
   }
 
-  handleToggleModal = (isModalOpen: boolean) => {
+  handleToggleModal = (isModalOpen: boolean): void => {
     this.setState({ isModalOpen: isModalOpen })
   }
 
-  handleLedgerDid = () => {
+  handleLedgerDid = (): void => {
     if (this.props.userInfo.didDoc) {
       const payload = { didDoc: this.props.userInfo.didDoc }
       this.props.keysafe.requestSigning(
@@ -352,7 +359,7 @@ class Header extends React.Component<Props, State> {
     }
   }
 
-  render() {
+  render(): JSX.Element {
     return (
       <TopBar className="container-fluid text-white">
         <ModalWrapper
@@ -390,6 +397,6 @@ function mapStateToProps(state: PublicSiteStoreState): StateProps {
   }
 }
 
-export const HeaderConnected = withRouter<Props & RouteComponentProps<{}>>(
+export const HeaderConnected = withRouter(
   connect(mapStateToProps)(Header) as any,
 )

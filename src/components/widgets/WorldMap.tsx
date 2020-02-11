@@ -28,19 +28,17 @@ const MapWrapper = styled.div`
   }
 `
 
-const geographyPaths = require('../../lib/maps/world-50m-simplified.json')
-
 export class LatLng {
   coordinate = null
   constructor(lat: number, lon: number) {
     this.coordinate = { lat: lat, lon: lon }
   }
 
-  lon() {
+  lon(): number {
     return this.coordinate.lon
   }
 
-  lat() {
+  lat(): number {
     return this.coordinate.lat
   }
 }
@@ -50,7 +48,7 @@ export interface ParentProps {
 }
 
 export class WorldMap extends React.Component<ParentProps> {
-  render() {
+  render(): JSX.Element {
     const countryProps = {
       fill: '#053c53',
       stroke: '#337a8e',
@@ -72,8 +70,10 @@ export class WorldMap extends React.Component<ParentProps> {
           }}
         >
           <ZoomableGroup zoom={3}>
-            <Geographies geography={geographyPaths}>
-              {(geographies, projection) =>
+            <Geographies
+              geography={require('../../lib/maps/world-50m-simplified.json')}
+            >
+              {(geographies, projection): JSX.Element =>
                 geographies.map((geography, index) => (
                   <Geography
                     key={index}
