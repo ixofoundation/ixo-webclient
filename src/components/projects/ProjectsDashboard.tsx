@@ -38,13 +38,13 @@ const ClaimsLabels = styled.div`
     margin-right: 25px;
   }
   p:nth-child(1):before {
-    background: ${props => props.theme.ixoBlue};
+    background: ${/* eslint-disable-line */ props => props.theme.ixoBlue};
   }
   p:nth-child(2):before {
-    background: ${props => props.theme.ixoOrange};
+    background: ${/* eslint-disable-line */ props => props.theme.ixoOrange};
   }
   p:nth-child(3):before {
-    background: ${props => props.theme.red};
+    background: ${/* eslint-disable-line */ props => props.theme.red};
   }
   p:nth-child(4):before {
     background: #033c50;
@@ -64,14 +64,14 @@ export const ProjectsDashboard: React.SFC<ParentProps> = ({
   agents,
   projectCountries,
 }) => {
-  const countClaimsOfType = (claimType: string) => {
+  const countClaimsOfType = (claimType: string): number => {
     return [...claims].filter(claim => claim.status === claimType).length
   }
 
-  const getProjectsLatLng = () => {
+  const getProjectsLatLng = (): Array<unknown> => {
     const coords = []
     for (const key in isoCountriesLatLng) {
-      if (isoCountriesLatLng.hasOwnProperty(key)) {
+      if (Object.hasOwnProperty.call(isoCountriesLatLng, key)) {
         for (const i in projectCountries) {
           if (projectCountries[i] === key) {
             coords.push([

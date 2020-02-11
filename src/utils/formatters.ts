@@ -50,7 +50,7 @@ export function excerptText(theText: string, words = 20): string {
 }
 
 export function getCountryName(countryCode: string): string {
-  if (isoCountries.hasOwnProperty(countryCode)) {
+  if (Object.hasOwnProperty.call(isoCountries, countryCode)) {
     return isoCountries[countryCode]
   } else {
     return countryCode

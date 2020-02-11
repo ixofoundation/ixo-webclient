@@ -137,8 +137,6 @@ export interface StateProps {
   keysafe?: any
 }
 
-export interface DispatchProps {}
-
 export interface State {
   status: string
 }
@@ -148,7 +146,7 @@ export interface ParentProps {
   match: any
 }
 
-export interface Props extends ParentProps, StateProps, DispatchProps {}
+export interface Props extends ParentProps, StateProps {}
 
 export class ProjectSignAndCreate extends React.Component<Props, State> {
   state = {

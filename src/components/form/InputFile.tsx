@@ -14,7 +14,7 @@ const FileContainer = styled.div`
   }
 
   & .custom-file-label::after {
-    background: ${props => props.theme.bgMain};
+    background: ${/* eslint-disable-line*/ props => props.theme.bgMain};
     border-radius: 0;
     color: white;
     text-transform: uppercase;
@@ -34,7 +34,7 @@ export interface ParentProps {
 }
 
 export interface State {
-  imgSrc: string
+  imgSrc: string | ArrayBuffer | null
 }
 
 export interface Callbacks {
@@ -48,13 +48,13 @@ export default class InputFile extends React.Component<Props, State> {
     imgSrc: '',
   }
 
-  handleChange = e => {
+  handleChange = (e): void => {
     e.preventDefault()
     this.props.onChange(e)
     const reader = new FileReader()
     const file = e.target.files[0]
 
-    reader.onloadend = () => {
+    reader.onloadend = (): void => {
       this.setState({
         imgSrc: reader.result,
       })
@@ -63,7 +63,7 @@ export default class InputFile extends React.Component<Props, State> {
     reader.readAsDataURL(file)
   }
 
-  render() {
+  render(): JSX.Element {
     const { imgSrc } = this.state
     let imgPreview = null
     if (imgSrc) {

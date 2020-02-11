@@ -273,7 +273,7 @@ export const ProjectOverview: React.SFC<Props> = props => {
   // 	return titleMap[role];
   // };
 
-  const renderModalHeader = () => {
+  const renderModalHeader = (): Record<string, any> => {
     return {
       title: props.modalData.title,
       subtitle: props.modalData.subtitle,

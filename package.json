@@ -61,8 +61,7 @@
     "build": "react-scripts-ts build",
     "start": "react-scripts-ts build && serve -s build",
     "lint": "eslint --ext=jsx,ts,tsx src",
-    "lint:fix": "eslint --ext=jsx,ts,tsx src --fix",
-    "lint:project": "eslint --ext=jsx,ts,tsx src/components/project"
+    "lint:fix": "eslint --ext=jsx,ts,tsx src --fix"
   },
   "devDependencies": {
     "@types/node": "^9.6.55",

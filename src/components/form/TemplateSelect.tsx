@@ -14,7 +14,7 @@ export interface Callbacks {
 export interface Props extends ParentProps, Callbacks {}
 
 export default class TemplateSelect extends Select {
-  generateSelect = () => {
+  generateSelect = (): Array<JSX.Element> => {
     const selectOptions = []
 
     // TODO:
@@ -24,7 +24,7 @@ export default class TemplateSelect extends Select {
     // Push default as the only available template for now
     const templateList = { default: 'default' }
     for (const code in templateList) {
-      if (templateList.hasOwnProperty(code)) {
+      if (Object.hasOwnProperty.call(templateList, code)) {
         selectOptions.push(
           <option key={code} value={code}>
             {templateList[code]}

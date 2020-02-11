@@ -28,22 +28,6 @@ const ModalContainer = styled.div`
   }
 `
 
-// const UnderlineLink = styled.div`
-// 	text-decoration: underline;
-// 	text-align: center;
-// 	margin-bottom: 30px;
-
-// 	a {
-// 		font-size: 14px;
-// 		font-weight: 300;
-// 		color: white;
-// 	}
-
-// 	a:hover {
-// 		color: ${/* eslint-disable-line */ props => props.theme.fontBlue};
-// 	}
-// `;
-
 const Section = styled.div`
   background: #f6f6f6;
 `
@@ -103,8 +87,6 @@ export enum ModalData {
   keysafe = 'KEYSAFE',
 }
 
-export interface ParentProps {}
-
 export interface State {
   didDoc: any
   isModalOpen: boolean
@@ -122,7 +104,7 @@ export interface StateProps {
   keysafe: any
 }
 
-export interface Props extends ParentProps, StateProps {}
+export type Props = StateProps
 
 class RegisterPage extends React.Component<Props, State> {
   state = {

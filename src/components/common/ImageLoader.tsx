@@ -72,7 +72,7 @@ export interface StateProps {
 }
 
 export interface State {
-  projectImgSrc: string
+  projectImgSrc: string | ArrayBuffer | null
   isModalOpen: boolean
   image: any
   crop: any
@@ -221,7 +221,10 @@ export class ImageLoader extends React.Component<StateProps, State> {
     const reader = new FileReader()
 
     reader.onload = (e2): void => {
-      this.setState({ projectImgSrc: e2.target.result, isModalOpen: true })
+      this.setState({
+        projectImgSrc: e2.target.result,
+        isModalOpen: true,
+      })
     }
 
     reader.readAsDataURL(file)

@@ -81,7 +81,7 @@ export interface ParentProps {
 }
 
 export const ProjectFounder: React.SFC<ParentProps> = ({ founder }) => {
-  const renderLogo = () => {
+  const renderLogo = (): JSX.Element => {
     if (founder.logoLink !== '') {
       return <img src={founder.logoLink} alt="" />
     } else {

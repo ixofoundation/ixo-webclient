@@ -1,13 +1,12 @@
 import * as React from 'react'
 import styled from 'styled-components'
 
-const bg = require('../../assets/images/register/background.jpg')
-
 const Container = styled.div`
   padding-top: 60px;
   padding-bottom: 60px;
 
-  background: url(${bg}) no-repeat center top;
+  background: url(${require('../../assets/images/register/background.jpg')})
+    no-repeat center top;
   background-size: cover;
 
   p {
@@ -45,9 +44,7 @@ const Title = styled.h1`
   }
 `
 
-export interface ParentProps {}
-
-export const Banner: React.SFC<ParentProps> = props => {
+export const Banner: React.SFC<{}> = (): JSX.Element => {
   return (
     <Container>
       <div className="container">

@@ -1,3 +1,11 @@
+import countryLatLng from '../lib/maps/countryLatLng.json'
+import testProject from './json/project.json'
+import blankProject from './json/blankProject.json'
+import claimJsonData from './json/claimForm.json'
+import onboardJsonData from './json/onboardingForm.json'
+import testClaimSchemaData from './json/claimSchema.json'
+import agentJsonData from './json/agentForm.json'
+
 export const SDGArray = [
   {
     ico: 'nopoverty',
@@ -101,7 +109,7 @@ export const imgArray = (): Array<string> => {
   }
   return tempArray
 }
-export const iconUpload = () => {
+export const iconUpload = (): string => {
   return require('../assets/images/icon-upload.svg')
 }
 export const SocialMediaLinks = [
@@ -110,7 +118,6 @@ export const SocialMediaLinks = [
   'http://www.facebook.com',
   'http://www.website.com',
 ]
-const countryLatLng = require('../lib/maps/countryLatLng.json')
 const isoCountriesTmp = {}
 const isoCountriesLatLngTmp = {}
 
@@ -125,18 +132,13 @@ countryLatLng.map(value => {
 export const isoCountries = isoCountriesTmp
 export const isoCountriesLatLng = isoCountriesLatLngTmp
 
-// eslint-disable-next-line
-export const testProjectData = JSON.stringify(require('./json/project.json'))
-export const blankProjectData = JSON.stringify(
-  require('./json/blankProject.json'),
-)
+export const testProjectData = JSON.stringify(testProject)
+export const blankProjectData = JSON.stringify(blankProject)
 
-export const claimJson = JSON.stringify(require('./json/claimForm.json'))
-export const onboardJson = JSON.stringify(require('./json/onboardingForm.json'))
-export const testClaimSchema = JSON.stringify(
-  require('./json/claimSchema.json'),
-)
-export const agentJson = JSON.stringify(require('./json/agentForm.json'))
+export const claimJson = JSON.stringify(claimJsonData)
+export const onboardJson = JSON.stringify(onboardJsonData)
+export const testClaimSchema = JSON.stringify(testClaimSchemaData)
+export const agentJson = JSON.stringify(agentJsonData)
 
 export const testClaimForm = '{}'
 export const testAgentData =

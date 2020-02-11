@@ -1,33 +1,29 @@
+import { toast } from 'react-toastify'
+import '../../assets/toasts.css'
+import { ErrorTypes } from '../../types/models'
 
-import { toast } from 'react-toastify';
-import '../../assets/toasts.css';
-import { ErrorTypes } from '../../types/models';
+const successToast = (message: string): void => {
+  toast(message, {
+    position: toast.POSITION.TOP_RIGHT,
+    className: 'successToast',
+  })
+}
 
-const successToast = (message: string) => {
-	// @ts-ignore
-	toast(message, {
-		position: toast.POSITION.TOP_RIGHT,
-		className: 'successToast'
-	});
-};
+const errorToast = (message: string, type?: ErrorTypes): void => {
+  toast(message, {
+    position: toast.POSITION.TOP_RIGHT,
+    className: 'errorToast',
+  })
+  if (type === ErrorTypes.goBack) {
+    history.back()
+  }
+}
 
-const errorToast = (message: string, type?: ErrorTypes) => {
-	// @ts-ignore
-	toast(message, {
-		position: toast.POSITION.TOP_RIGHT,
-		className: 'errorToast'
-	});
-	if (type === ErrorTypes.goBack) {
-		history.back(-1);
-	}
-};
+const warningToast = (message: string): void => {
+  toast(message, {
+    position: toast.POSITION.TOP_RIGHT,
+    className: 'warningToast',
+  })
+}
 
-const warningToast = (message: string) => {
-	// @ts-ignore
-	toast(message, {
-		position: toast.POSITION.TOP_RIGHT,
-		className: 'warningToast'
-	});
-};
-
-export { successToast, errorToast, warningToast };
+export { successToast, errorToast, warningToast }

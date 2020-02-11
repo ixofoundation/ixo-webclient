@@ -15,8 +15,6 @@ const LabelsX = styled.div`
 
 const compEnd = moment('2018-12-15 00:00:00')
 
-export interface State {}
-
 export interface ParentProps {
   barData: BarData[]
 }
@@ -35,10 +33,7 @@ export enum BarColors {
   darkBlue = 'DARKBLUE',
 }
 
-export default class BarChartProjects extends React.Component<
-  ParentProps,
-  State
-> {
+export default class BarChartProjects extends React.Component<ParentProps, {}> {
   constructor(props: ParentProps) {
     super(props)
   }
@@ -70,12 +65,11 @@ export default class BarChartProjects extends React.Component<
     this.dataBasedOnDeviceWidth()
 
     // https://github.com/jedtrow/Chart.js-Rounded-Bar-Charts/blob/master/Chart.roundedBarCharts.js
-    const that = this
-    Chart.elements.Rectangle.prototype.draw = function(): void {
+    Chart.elements.Rectangle.prototype.draw = (): void => {
       const ctx = this._chart.ctx
       const vm = this._view
-      if (that.state.canvasHeight < vm.base) {
-        that.setState({ canvasHeight: vm.base })
+      if (this.state.canvasHeight < vm.base) {
+        this.setState({ canvasHeight: vm.base })
       }
       let left, right, top, bottom, signX, signY, borderSkipped, radius
       let borderWidth = vm.borderWidth

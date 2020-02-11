@@ -1,6 +1,5 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
-import { withRouter } from 'react-router-dom'
 import { PublicSiteStoreState } from '../../redux/public_site_reducer'
 import styled from 'styled-components'
 import { HeaderLeft } from './HeaderLeft'
@@ -166,9 +165,7 @@ export interface ParentProps {
   pingIxoExplorer: () => Promise<unknown>
   initUserInfo: Function
 }
-export interface Props extends StateProps, ParentProps {
-  pingExplorer: Function
-}
+export interface Props extends StateProps, ParentProps {}
 
 class Header extends React.Component<Props, State> {
   state = {
@@ -397,6 +394,4 @@ function mapStateToProps(state: PublicSiteStoreState): StateProps {
   }
 }
 
-export const HeaderConnected = withRouter(
-  connect(mapStateToProps)(Header) as any,
-)
+export const HeaderConnected = connect(mapStateToProps)(Header)

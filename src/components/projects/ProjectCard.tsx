@@ -5,14 +5,12 @@ import { Link } from 'react-router-dom'
 import { ProgressBar } from '../common/ProgressBar'
 import { excerptText } from '../../utils/formatters'
 
-const placeholder = require('../../assets/images/ixo-placeholder-large.jpg')
-
 const Title = styled.h3`
   font-weight: 400;
   font-size: 21px;
   box-sizing: border-box;
   margin: 12px 0;
-  color: ${props => props.theme.fontDarkGrey};
+  color: ${/* eslint-disable-line */ props => props.theme.fontDarkGrey};
   line-height: 1.2;
 `
 
@@ -121,7 +119,7 @@ const CardBottom = styled.div`
 
   p {
     font-weight: 300;
-    color: ${props => props.theme.fontDarkGrey};
+    color: ${/* eslint-disable-line */ props => props.theme.fontDarkGrey};
   }
 `
 
@@ -144,8 +142,9 @@ const ProjectStatus = styled.div`
       font-weight: 400;
       padding: 2px 10px;
       border-radius: 2px;
-      background: ${props => props.theme.ixoOrange};
-      font-family: ${props => props.theme.fontRobotoCondensed};
+      background: ${/* eslint-disable-line */ props => props.theme.ixoOrange};
+      font-family: ${/* eslint-disable-line */ props =>
+        props.theme.fontRobotoCondensed};
     }
   }
 
@@ -195,12 +194,10 @@ export interface Props {
   status: string
 }
 
-export interface States {}
-
-export class ProjectCard extends React.Component<Props, States> {
+export class ProjectCard extends React.Component<Props, {}> {
   state = {}
 
-  fetchImage = () => {
+  fetchImage = (): void => {
     if (this.props.project.imageLink && this.props.project.imageLink !== '') {
       this.setState({
         imageLink:
@@ -211,7 +208,7 @@ export class ProjectCard extends React.Component<Props, States> {
     }
   }
 
-  getImageLink = () => {
+  getImageLink = (): string => {
     return (
       this.props.project.serviceEndpoint +
       'public/' +
@@ -219,7 +216,7 @@ export class ProjectCard extends React.Component<Props, States> {
     )
   }
 
-  projectStatus = () => {
+  projectStatus = (): JSX.Element => {
     let statusType = ''
     let shouldShow = false
 
@@ -241,11 +238,11 @@ export class ProjectCard extends React.Component<Props, States> {
     }
   }
 
-  componentDidMount() {
+  componentDidMount(): void {
     this.fetchImage()
   }
 
-  render() {
+  render(): JSX.Element {
     return (
       <CardContainer className="col-10 offset-1 col-xl-4 col-md-6 col-sm-10 offset-sm-1 offset-md-0">
         <ProjectLink
@@ -260,7 +257,7 @@ export class ProjectCard extends React.Component<Props, States> {
         >
           <CardTop
             style={{
-              backgroundImage: `url(${this.getImageLink()}),url(${placeholder})`,
+              backgroundImage: `url(${this.getImageLink()}),url(${require('../../assets/images/ixo-placeholder-large.jpg')})`,
             }}
           >
             <SDGs>

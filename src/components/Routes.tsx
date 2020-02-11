@@ -14,13 +14,8 @@ import { Spinner } from './common/Spinner'
 import { ProjectSignAndCreateConnected } from './project/curation/ProjectSignAndCreate'
 import { ProjectCreateUploadPublicDocsConnected } from './project/curation/ProjectCreateUploadPublicDocs'
 import { ThreeD } from './common/3D'
-export namespace Routes {
-  export interface StateProps {}
 
-  export type RouteProps = StateProps
-}
-
-export const Routes: React.SFC<Routes.RouteProps> = props => {
+export const Routes: React.SFC<{}> = props => {
   return (
     <Fragment>
       <Switch>
@@ -34,7 +29,7 @@ export const Routes: React.SFC<Routes.RouteProps> = props => {
         <Route
           exact={true}
           path="/"
-          render={routeProps => (
+          render={(routeProps): JSX.Element => (
             <ProjectsContainerConnected
               {...routeProps.location}
               contentType={contentType.overview}
@@ -44,7 +39,7 @@ export const Routes: React.SFC<Routes.RouteProps> = props => {
         <Route
           exact={true}
           path="/global-statistics"
-          render={routeProps => (
+          render={(routeProps): JSX.Element => (
             <ProjectsContainerConnected
               {...routeProps.location}
               contentType={contentType.dashboard}
@@ -54,35 +49,35 @@ export const Routes: React.SFC<Routes.RouteProps> = props => {
         <Route
           exact={true}
           path="/projects/:projectDID/overview"
-          render={() => (
+          render={(): JSX.Element => (
             <ProjectContainerConnected contentType={contentType.overview} />
           )}
         />
         <Route
           exact={true}
           path="/projects/:projectDID/detail/"
-          render={() => (
+          render={(): JSX.Element => (
             <ProjectContainerConnected contentType={contentType.dashboard} />
           )}
         />
         <Route
           exact={true}
           path="/projects/:projectDID/detail/evaluators"
-          render={() => (
+          render={(): JSX.Element => (
             <ProjectContainerConnected contentType={contentType.evaluators} />
           )}
         />
         <Route
           exact={true}
           path="/projects/:projectDID/detail/investors"
-          render={() => (
+          render={(): JSX.Element => (
             <ProjectContainerConnected contentType={contentType.investors} />
           )}
         />
         <Route
           exact={true}
           path="/projects/:projectDID/detail/service-providers"
-          render={() => (
+          render={(): JSX.Element => (
             <ProjectContainerConnected
               contentType={contentType.serviceProviders}
             />
@@ -91,35 +86,35 @@ export const Routes: React.SFC<Routes.RouteProps> = props => {
         <Route
           exact={true}
           path="/projects/:projectDID/detail/claims"
-          render={() => (
+          render={(): JSX.Element => (
             <ProjectContainerConnected contentType={contentType.claims} />
           )}
         />
         <Route
           exact={true}
           path="/projects/:projectDID/detail/new-claim"
-          render={() => (
+          render={(): JSX.Element => (
             <ProjectContainerConnected contentType={contentType.newClaim} />
           )}
         />
         <Route
           exact={true}
           path="/projects/:projectDID/detail/claims/:claimID"
-          render={() => (
+          render={(): JSX.Element => (
             <ProjectContainerConnected contentType={contentType.singleClaim} />
           )}
         />
         <Route
           exact={true}
           path="/create-project"
-          render={routeProps => (
+          render={(routeProps): JSX.Element => (
             <ProjectCreateConnected {...routeProps} {...props} />
           )}
         />
         <Route
           exact={true}
           path="/upload-project"
-          render={routeProps => (
+          render={(routeProps): JSX.Element => (
             <ProjectCreateUploadPublicDocsConnected
               {...routeProps}
               {...props}
@@ -129,7 +124,7 @@ export const Routes: React.SFC<Routes.RouteProps> = props => {
         <Route
           exact={true}
           path="/upload-project-create"
-          render={routeProps => (
+          render={(routeProps): JSX.Element => (
             <ProjectSignAndCreateConnected {...routeProps} {...props} />
           )}
         />

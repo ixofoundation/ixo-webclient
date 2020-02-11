@@ -80,15 +80,13 @@ export interface StateProps {
   userInfo?: UserInfo
 }
 
-export interface DispatchProps {}
-
 export interface ParentProps {
   location: any
   contentType: contentType
   match: any
 }
 
-export interface Props extends ParentProps, StateProps, DispatchProps {}
+export interface Props extends ParentProps, StateProps {}
 
 export class ProjectContainer extends React.Component<Props, State> {
   state = {

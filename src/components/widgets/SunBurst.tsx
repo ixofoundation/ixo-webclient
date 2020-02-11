@@ -32,11 +32,9 @@ function updateData(): Record<string, any> {
   }
 }
 
-export interface ParentProps {}
-
 const DIVERGING_COLOR_SCALE = ['#00939C', '#85C4C8', '#EC9370', '#C22E00']
 
-export default class SunburstSDG extends React.Component<ParentProps> {
+export default class SunburstSDG extends React.Component<{}> {
   state = {
     data: updateData(),
     hovering: false,

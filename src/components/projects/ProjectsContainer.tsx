@@ -36,7 +36,7 @@ const Container = styled.div`
 `
 
 const ProjectsContainer = styled.div`
-  background: ${props => props.theme.bg.lightGrey};
+  background: ${/* eslint-disable-line */ props => props.theme.bg.lightGrey};
   flex: 1 1 auto;
 
   & > .row {
@@ -55,7 +55,7 @@ const ErrorContainer = styled.div`
 	justify-content: center;
 	color: white;
 	align-items: center;
-	background-color: ${props => props.theme.bg.blue};
+	background-color: ${/* eslint-disable-line */ props => props.theme.bg.blue};
 	height:100%:
 `
 
@@ -93,8 +93,8 @@ export class Projects extends React.Component<Props, State> {
 
   loadingProjects = false
 
-  componentDidMount() {
-    explorerSocket.on('list all projects', function(data: any) {
+  componentDidMount(): void {
+    explorerSocket.on('list all projects', function() {
       // console.log('LLIST PROJECT', data);
     })
 
@@ -105,11 +105,11 @@ export class Projects extends React.Component<Props, State> {
     this.refreshAllProjects()
   }
 
-  showMyProjects(showMyProjects: boolean) {
+  showMyProjects(showMyProjects: boolean): void {
     this.setState({ showOnlyMyProjects: showMyProjects })
   }
 
-  getMyProjects(userInfo: UserInfo, projList: any) {
+  getMyProjects(userInfo: UserInfo, projList: any): Array<any> {
     if (userInfo != null) {
       const did = userInfo.didDoc.did
       const myProjects = projList.filter(proj => {
@@ -124,13 +124,13 @@ export class Projects extends React.Component<Props, State> {
     }
   }
 
-  getProjectsCountries = () => {
-    return this.state.projectList.map((project, i) => {
+  getProjectsCountries = (): any => {
+    return this.state.projectList.map(project => {
       return project.data.projectLocation
     })
   }
 
-  refreshAllProjects() {
+  refreshAllProjects(): void {
     if (this.props.ixo && !this.loadingProjects) {
       this.loadingProjects = true
       this.props.ixo.project
@@ -169,14 +169,14 @@ export class Projects extends React.Component<Props, State> {
           })
           this.loadingProjects = false
         })
-        .catch((result: Error) => {
+        .catch(() => {
           Toast.errorToast('Unable to connect IXO Explorer')
           this.loadingProjects = false
         })
     }
   }
 
-  UNSAFE_componentWillReceiveProps(nextProps: any) {
+  UNSAFE_componentWillReceiveProps(nextProps: any): void {
     if (this.props.contentType) {
       if (
         nextProps.location &&
@@ -199,7 +199,7 @@ export class Projects extends React.Component<Props, State> {
     }
   }
 
-  renderProjects = () => {
+  renderProjects = (): JSX.Element => {
     if (this.state.projectList.length > 0) {
       const projects = this.state.showOnlyMyProjects
         ? this.state.myProjects
@@ -232,7 +232,7 @@ export class Projects extends React.Component<Props, State> {
     }
   }
 
-  handleRenderProjectList() {
+  handleRenderProjectList(): JSX.Element {
     if (this.state.projectList === null) {
       return <Spinner info="Loading Projects" />
     } else {
@@ -251,13 +251,13 @@ export class Projects extends React.Component<Props, State> {
     }
   }
 
-  render() {
+  render(): JSX.Element {
     return (
       <Container>
         <ProjectsHero
           ixo={this.props.ixo}
           myProjectsCount={this.state.myProjects.length}
-          showMyProjects={val => this.showMyProjects(val)}
+          showMyProjects={(val): void => this.showMyProjects(val)}
         />
         {this.handleRenderProjectList()}
       </Container>
@@ -265,7 +265,7 @@ export class Projects extends React.Component<Props, State> {
   }
 }
 
-function mapStateToProps(state: PublicSiteStoreState) {
+function mapStateToProps(state: PublicSiteStoreState): Record<string, any> {
   return {
     ixo: state.ixoStore.ixo,
     userInfo: state.loginStore.userInfo,

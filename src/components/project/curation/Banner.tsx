@@ -41,9 +41,7 @@ const Title = styled.h1`
   }
 `
 
-export interface ParentProps {}
-
-export const Banner: React.SFC<ParentProps> = () => {
+export const Banner: React.SFC<{}> = () => {
   return (
     <Container>
       <div className="container">

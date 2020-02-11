@@ -86,34 +86,32 @@ const ContentWrapper = styled.main`
   flex: 1;
 `
 
-export namespace App {
-  export interface State {
-    loginError: string
-    error: any
-    errorInfo: any
-    onLoginInitCalled: boolean
-  }
-
-  export interface StateProps {
-    ixo?: any
-    pingError?: string
-    pingResult?: string
-    keysafe?: any
-    userInfo: UserInfo
-    location: any
-    history: any
-    match: any
-  }
-  export interface DispatchProps {
-    onIxoInit: () => void
-    onKeysafeInit: () => void
-    onLoginInit: (keysafe: any, ixo: any) => void
-    onWeb3Connect: () => void
-  }
-  export interface Props extends StateProps, DispatchProps {}
+export interface State {
+  loginError: string
+  error: any
+  errorInfo: any
+  onLoginInitCalled: boolean
 }
 
-class App extends React.Component<App.Props, App.State> {
+export interface StateProps {
+  ixo?: any
+  pingError?: string
+  pingResult?: string
+  keysafe?: any
+  userInfo: UserInfo
+  location: any
+  history: any
+  match: any
+}
+export interface DispatchProps {
+  onIxoInit: () => void
+  onKeysafeInit: () => void
+  onLoginInit: (keysafe: any, ixo: any) => void
+  onWeb3Connect: () => void
+}
+export interface Props extends StateProps, DispatchProps {}
+
+class App extends React.Component<Props, State> {
   state = {
     loginError: null,
     isProjectPage: false,
@@ -124,7 +122,7 @@ class App extends React.Component<App.Props, App.State> {
 
   private keySafeInterval = null
 
-  componentDidUpdate(prevProps: App.Props) {
+  componentDidUpdate(): void {
     if (
       this.props.ixo !== null &&
       this.props.keysafe !== null &&
@@ -138,28 +136,28 @@ class App extends React.Component<App.Props, App.State> {
     }
   }
 
-  componentDidMount() {
+  componentDidMount(): void {
     this.props.onIxoInit()
     this.props.onKeysafeInit()
     this.props.onWeb3Connect()
 
-    explorerSocket.on('did created', function(data: any) {
+    explorerSocket.on('did created', function() {
       // console.log('did created');
       // console.log(data);
     })
 
-    explorerSocket.on('did updated', function(data: any) {
+    explorerSocket.on('did updated', function() {
       // console.log('did updated');
       // console.log(data);
     })
 
-    explorerSocket.on('did updated', function(data: any) {
+    explorerSocket.on('did updated', function() {
       // console.log('did updated');
       // console.log(data);
     })
   }
 
-  handleLoginInKeysafe = () => {
+  handleLoginInKeysafe = (): void => {
     let userInfo: UserInfo = {
       ledgered: false,
       hasKYC: false,
@@ -207,11 +205,11 @@ class App extends React.Component<App.Props, App.State> {
     })
   }
 
-  componentWillUnmount() {
+  componentWillUnmount(): void {
     clearInterval(this.keySafeInterval)
   }
 
-  handlePingExplorer = () => {
+  handlePingExplorer = (): Promise<any> => {
     return new Promise((resolve, reject) => {
       const t0 = performance.now()
       if (this.props.ixo) {
@@ -225,7 +223,7 @@ class App extends React.Component<App.Props, App.State> {
               reject(0)
             }
           })
-          .catch(error => {
+          .catch(() => {
             reject(0)
           })
       } else {
@@ -234,7 +232,7 @@ class App extends React.Component<App.Props, App.State> {
     })
   }
 
-  render() {
+  render(): JSX.Element {
     return (
       <ThemeProvider theme={theme}>
         <ScrollToTop>
@@ -243,8 +241,8 @@ class App extends React.Component<App.Props, App.State> {
               pingIxoExplorer={this.handlePingExplorer}
               simpleHeader={false}
               userInfo={this.props.userInfo}
-              refreshProjects={() => console.log('clicked')}
-              initUserInfo={() =>
+              refreshProjects={(): void => console.log('clicked')}
+              initUserInfo={(): void =>
                 this.props.onLoginInit(this.props.keysafe, this.props.ixo)
               }
             />
@@ -264,7 +262,7 @@ class App extends React.Component<App.Props, App.State> {
   }
 }
 
-function mapStateToProps(state: PublicSiteStoreState) {
+function mapStateToProps(state: PublicSiteStoreState): Record<string, any> {
   return {
     ixo: state.ixoStore.ixo,
     keysafe: state.keysafeStore.keysafe,
@@ -272,18 +270,18 @@ function mapStateToProps(state: PublicSiteStoreState) {
   }
 }
 
-function mapDispatchToProps(dispatch: any): App.DispatchProps {
+function mapDispatchToProps(dispatch: any): DispatchProps {
   return {
-    onIxoInit: () => {
+    onIxoInit: (): void => {
       dispatch(initIxo(process.env.REACT_APP_BLOCK_SYNC_URL))
     },
-    onKeysafeInit: () => {
+    onKeysafeInit: (): void => {
       dispatch(initKeysafe())
     },
-    onLoginInit: (userInfo: UserInfo, error: string) => {
+    onLoginInit: (userInfo: UserInfo, error: string): void => {
       dispatch(initUserInfo(userInfo, error))
     },
-    onWeb3Connect: () => {
+    onWeb3Connect: (): void => {
       dispatch(connectWeb3())
     },
   }

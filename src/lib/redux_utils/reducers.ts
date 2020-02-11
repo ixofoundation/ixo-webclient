@@ -17,7 +17,7 @@ export function createReducer<S>(
   initialState: S,
   reducers: ActionReducer<S>[],
 ): (S: any, Action: any) => S {
-  return (state: S = initialState, action: Action = { type: 'NONE' }) => {
+  return (state: S = initialState, action: Action = { type: 'NONE' }): any => {
     const reducer = Immutable.List(reducers).find(
       x => x.action.type === action.type,
     )

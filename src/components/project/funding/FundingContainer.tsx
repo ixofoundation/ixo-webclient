@@ -13,6 +13,8 @@ import { successToast, errorToast } from '../../helpers/Toast'
 import { Button, ButtonTypes } from 'src/components/common/Buttons'
 import { BigNumber } from 'bignumber.js'
 
+declare const ethereum: any
+
 const FundingWrapper = styled.div`
   position: sticky;
   bottom: 0;
@@ -455,7 +457,7 @@ export class Funding extends React.Component<Props, State> {
         <ModalWrapper
           isModalOpen={this.state.isModalOpen}
           handleToggleModal={this.toggleModal}
-          header={this.renderModalHeader()}
+          header={(): void => this.renderModalHeader()}
         >
           {this.renderModalData()}
         </ModalWrapper>
@@ -534,7 +536,10 @@ export class Funding extends React.Component<Props, State> {
   }
 }
 
-function mapStateToProps(state: PublicSiteStoreState, ownProps: ParentProps) {
+function mapStateToProps(
+  state: PublicSiteStoreState,
+  ownProps: ParentProps,
+): Record<string, any> {
   return {
     web3: state.web3Store.web3,
     keysafe: state.keysafeStore.keysafe,

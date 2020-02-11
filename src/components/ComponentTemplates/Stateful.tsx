@@ -4,12 +4,10 @@ export interface ParentProps {
   title: string
 }
 
-export interface State {}
-
-export class Stateful extends React.Component<ParentProps, State> {
+export class Stateful extends React.Component<ParentProps, {}> {
   state = {}
 
-  render() {
+  render(): JSX.Element {
     return <div className="container-fluid">CONTENT HERE</div>
   }
 }
