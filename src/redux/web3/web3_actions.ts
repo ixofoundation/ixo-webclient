@@ -1,9 +1,9 @@
-
 export interface Web3Result {
-	web3: any;
-	error: Object;
+  web3: any
+  error: Record<string, any>
 }
 
-export module WEB3_RESULT {
-	export var type = 'WEB3_RESULT';
+// eslint-disable-next-line
+export namespace WEB3_RESULT {
+  export const type = 'WEB3_RESULT'
 }

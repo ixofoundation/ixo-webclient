@@ -1,7 +1,6 @@
 import * as React from 'react'
 import styled from 'styled-components'
 import { ButtonTypes, Button } from 'src/components/common/Buttons'
-import { ParentProps } from 'src/components/widgets/SunBurst'
 
 const BorderBox = styled.div`
   border: 1px solid #004c61;
@@ -68,7 +67,7 @@ const AppImg = styled.img`
   margin-right: 10px;
 `
 
-export interface Props extends ParentProps {
+export interface Props {
   role: string
 }
 

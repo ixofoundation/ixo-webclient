@@ -3,7 +3,7 @@ import { Ixo } from 'ixo-module'
 import { IxoResult, IXO_RESULT } from './ixo_actions'
 
 export function initIxo(BLOCK_SYNC_URL: string) {
-  return dispatch => {
+  return (dispatch): void => {
     if (BLOCK_SYNC_URL) {
       const ixo = new Ixo(BLOCK_SYNC_URL)
       dispatch(
@@ -16,7 +16,7 @@ export function initIxo(BLOCK_SYNC_URL: string) {
       dispatch(
         createAction<IxoResult>(IXO_RESULT.type, {
           ixo: null,
-          error: 'Environment not setup for Blockchain node',
+          error: { error: 'Environment not setup for Blockchain node' },
         }),
       )
     }
@@ -24,7 +24,7 @@ export function initIxo(BLOCK_SYNC_URL: string) {
 }
 
 export function resetIxo() {
-  return dispatch => {
+  return (dispatch): void => {
     dispatch(
       createAction<IxoResult>(IXO_RESULT.type, {
         ixo: null,

@@ -97,12 +97,16 @@ export class CircleProgressbar extends React.Component<ParentProps, State> {
     this.increasePercent('percentPending')
   }
 
-  increasePercent = (type: string): void => {
-    const percent = this.state[type] + 1
+  increasePercent = (
+    type: 'percentApproved' | 'percentRejected' | 'percentPending',
+  ): void => {
+    const percent: number = this.state[type] + 1
     const approvedMax = this.getMaxPercent(type)
     let tm = null
     if (percent <= approvedMax) {
-      this.setState({ [type]: percent })
+      const newState = {}
+      newState[type] = percent
+      this.setState(newState)
       tm = setTimeout(
         () => this.increasePercent(type),
         this.easingFormula(percent),

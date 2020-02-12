@@ -158,6 +158,7 @@ export const ProjectsDashboard: React.SFC<ParentProps> = ({
                 gridHeight={gridSizes.standard}
                 padding={false}
               >
+                // @ts-ignore
                 <WorldMap markers={getProjectsLatLng()} />
               </WidgetWrapper>
             </div>

@@ -14,8 +14,8 @@ const initialState: IIxoModelState = {
 export const ixoReducer = createReducer<IIxoModelState>(initialState, [
   {
     action: IXO_RESULT,
-    handler: (state: IIxoModelState, action: IxoResult) => {
-      ;(state.ixo = action.ixo), (state.error = action.error)
+    handler: (state: IIxoModelState, action: IxoResult): IIxoModelState => {
+      (state.ixo = action.ixo), (state.error = action.error)
       return {
         ...state,
       }

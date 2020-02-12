@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { LayoutWrapper } from '../common/LayoutWrapper'
 import styled from 'styled-components'
 import { Fragment } from 'react'
-import * as moment from 'moment'
+import moment from 'moment'
 const Section = styled.section`
   padding-bottom: 30px;
   border-bottom: 1px solid #164a63;

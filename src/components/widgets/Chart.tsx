@@ -2,7 +2,7 @@ import * as React from 'react'
 import styled from 'styled-components'
 import { Bar } from 'react-chartjs-2'
 import { Chart } from 'chart.js'
-import * as moment from 'moment'
+import moment from 'moment'
 
 const Container = styled.div``
 
@@ -34,6 +34,7 @@ export enum BarColors {
 }
 
 export default class BarChartProjects extends React.Component<ParentProps, {}> {
+  [x: string]: any
   constructor(props: ParentProps) {
     super(props)
   }

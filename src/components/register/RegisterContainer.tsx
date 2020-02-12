@@ -12,6 +12,7 @@ import { deviceWidth } from '../../lib/commonData'
 import MediaQuery from 'react-responsive'
 import { Button, ButtonTypes } from '../common/Buttons'
 import { Spinner } from '../common/Spinner'
+import { Header } from '../../types/models'
 
 const ModalContainer = styled.div`
   width: 360px;
@@ -192,7 +193,7 @@ class RegisterPage extends React.Component<Props, State> {
     }
   }
 
-  renderModalHeading = (): Record<string, any> => {
+  renderModalHeading = (): Header => {
     if (this.state.activeModal === ModalData.keysafe) {
       return {
         title: 'IXO KEY SAFE',

@@ -12,6 +12,7 @@ import { ModalWrapper } from 'src/components/common/ModalWrapper'
 import { successToast, errorToast } from '../../helpers/Toast'
 import { Button, ButtonTypes } from 'src/components/common/Buttons'
 import { BigNumber } from 'bignumber.js'
+import { Header } from '../../../types/models'
 
 declare const ethereum: any
 
@@ -201,7 +202,7 @@ export class Funding extends React.Component<Props, State> {
     }
   }
 
-  renderModalHeader = (): Record<string, any> => {
+  renderModalHeader = (): Header => {
     return {
       title: this.state.modalData.header.title,
       icon: this.state.modalData.header.icon,
@@ -457,7 +458,7 @@ export class Funding extends React.Component<Props, State> {
         <ModalWrapper
           isModalOpen={this.state.isModalOpen}
           handleToggleModal={this.toggleModal}
-          header={(): void => this.renderModalHeader()}
+          header={this.renderModalHeader()}
         >
           {this.renderModalData()}
         </ModalWrapper>

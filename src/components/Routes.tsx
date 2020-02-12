@@ -32,6 +32,7 @@ export const Routes: React.SFC<{}> = props => {
           render={(routeProps): JSX.Element => (
             <ProjectsContainerConnected
               {...routeProps.location}
+              // @ts-ignore
               contentType={contentType.overview}
             />
           )}
@@ -42,6 +43,7 @@ export const Routes: React.SFC<{}> = props => {
           render={(routeProps): JSX.Element => (
             <ProjectsContainerConnected
               {...routeProps.location}
+              // @ts-ignore
               contentType={contentType.dashboard}
             />
           )}
@@ -50,28 +52,40 @@ export const Routes: React.SFC<{}> = props => {
           exact={true}
           path="/projects/:projectDID/overview"
           render={(): JSX.Element => (
-            <ProjectContainerConnected contentType={contentType.overview} />
+            <ProjectContainerConnected
+              // @ts-ignore
+              contentType={contentType.overview}
+            />
           )}
         />
         <Route
           exact={true}
           path="/projects/:projectDID/detail/"
           render={(): JSX.Element => (
-            <ProjectContainerConnected contentType={contentType.dashboard} />
+            <ProjectContainerConnected
+              // @ts-ignore
+              contentType={contentType.dashboard}
+            />
           )}
         />
         <Route
           exact={true}
           path="/projects/:projectDID/detail/evaluators"
           render={(): JSX.Element => (
-            <ProjectContainerConnected contentType={contentType.evaluators} />
+            <ProjectContainerConnected
+              // @ts-ignore
+              contentType={contentType.evaluators}
+            />
           )}
         />
         <Route
           exact={true}
           path="/projects/:projectDID/detail/investors"
           render={(): JSX.Element => (
-            <ProjectContainerConnected contentType={contentType.investors} />
+            <ProjectContainerConnected
+              // @ts-ignore
+              contentType={contentType.investors}
+            />
           )}
         />
         <Route
@@ -79,6 +93,7 @@ export const Routes: React.SFC<{}> = props => {
           path="/projects/:projectDID/detail/service-providers"
           render={(): JSX.Element => (
             <ProjectContainerConnected
+              // @ts-ignore
               contentType={contentType.serviceProviders}
             />
           )}
@@ -87,21 +102,30 @@ export const Routes: React.SFC<{}> = props => {
           exact={true}
           path="/projects/:projectDID/detail/claims"
           render={(): JSX.Element => (
-            <ProjectContainerConnected contentType={contentType.claims} />
+            <ProjectContainerConnected
+              // @ts-ignore
+              contentType={contentType.claims}
+            />
           )}
         />
         <Route
           exact={true}
           path="/projects/:projectDID/detail/new-claim"
           render={(): JSX.Element => (
-            <ProjectContainerConnected contentType={contentType.newClaim} />
+            <ProjectContainerConnected
+              // @ts-ignore
+              contentType={contentType.newClaim}
+            />
           )}
         />
         <Route
           exact={true}
           path="/projects/:projectDID/detail/claims/:claimID"
           render={(): JSX.Element => (
-            <ProjectContainerConnected contentType={contentType.singleClaim} />
+            <ProjectContainerConnected
+              // @ts-ignore
+              contentType={contentType.singleClaim}
+            />
           )}
         />
         <Route

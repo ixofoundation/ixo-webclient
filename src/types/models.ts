@@ -72,3 +72,12 @@ export enum RenderType {
   widget = 'WIDGET',
   fullPage = 'FULLPAGE',
 }
+
+export interface Header {
+  title: string
+  titleNoCaps?: boolean
+  subtitle?: string
+  icon?: JSX.Element
+  image?: string
+  width?: string
+}

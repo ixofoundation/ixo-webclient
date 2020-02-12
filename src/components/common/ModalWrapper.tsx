@@ -1,6 +1,7 @@
 import * as React from 'react'
 import * as Modal from 'react-modal'
 import styled from 'styled-components'
+import { Header } from '../../types/models'
 
 const modalStyles = {
   overlay: {
@@ -98,14 +99,6 @@ interface ParentProps {
   header?: Header
 }
 
-export interface Header {
-  title: string
-  titleNoCaps?: boolean
-  subtitle?: string
-  icon?: JSX.Element
-  image?: string
-  width?: string
-}
 interface Callbacks {
   handleToggleModal?: (theStatus: boolean) => void
 }

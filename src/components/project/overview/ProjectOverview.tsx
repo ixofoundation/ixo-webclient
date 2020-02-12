@@ -16,6 +16,7 @@ import { NoKeysafe } from './modalContent/NoKeysafe'
 import { DesktopChrome } from './modalContent/DesktopChrome'
 import { isBrowser } from 'react-device-detect'
 import { NotLedgered } from './modalContent/NotLedgered'
+import { Header } from '../../../types/models'
 
 const OverviewContainer = styled.section`
   margin-top: -86px;
@@ -273,7 +274,7 @@ export const ProjectOverview: React.SFC<Props> = props => {
   // 	return titleMap[role];
   // };
 
-  const renderModalHeader = (): Record<string, any> => {
+  const renderModalHeader = (): Header => {
     return {
       title: props.modalData.title,
       subtitle: props.modalData.subtitle,
