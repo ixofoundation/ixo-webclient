@@ -10,6 +10,7 @@ import * as Toast from '../helpers/Toast'
 import { contentType, UserInfo } from '../../types/models'
 import { ProjectsDashboard } from './ProjectsDashboard'
 import { explorerSocket } from '../helpers/explorerSocket'
+import FilterSortButtons from './FilterSortButtons'
 
 const Container = styled.div`
   display: flex;
@@ -259,8 +260,10 @@ export class Projects extends React.Component<Props, State> {
           myProjectsCount={this.state.myProjects.length}
           showMyProjects={(val): void => this.showMyProjects(val)}
         />
-        {this.handleRenderProjectList()}
+        {/*this.handleRenderProjectList()*/}
+        <FilterSortButtons/>
       </Container>
+      
     )
   }
 }
