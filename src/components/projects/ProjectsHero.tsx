@@ -1,8 +1,8 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { Tabs } from '../common/Tabs';
+//import { Tabs } from '../common/Tabs';
 import { SingleStatistic } from '../common/SingleStatistic';
-import { StatType, MatchType } from '../../types/models';
+import { StatType } from '../../types/models';
 import { Stats } from '../../types/models/stats';
 import { deviceWidth } from '../../lib/commonData';
 
@@ -56,13 +56,13 @@ const HeroInner = styled.div`
 
 `;
 
-const PositionController = styled.div`
-	position: absolute;
-	right: 0;
-	bottom: calc(0% - 20px);
+// const PositionController = styled.div`
+// 	position: absolute;
+// 	right: 0;
+// 	bottom: calc(0% - 20px);
 
-    z-index: 1;
-`;
+//     z-index: 1;
+// `;
 
 const HeroContainer = styled.div`
 	background: url(${bg}) no-repeat center top;
@@ -190,21 +190,22 @@ export class ProjectsHero extends React.Component<Props, State> {
 						})}
 					</div>
 				</HeroInner>
-				<div className="container">
+				{/* <div className="container">
 					<div className="row">
 						<div className="col-md-12">
 							<PositionController>
 								<Tabs
 									buttons={[
 										{ iconClass: 'icon-projects', path: '/', title: 'PROJECTS' },
-										{ iconClass: 'icon-impacts', path: '/global-statistics', title: 'IMPACTS' }
+										{ iconClass: 'icon-impacts', path: '/global-statistics', title: 'DASHBOARD' },
+										{ iconClass: 'icon-funding', path: '/', title: 'FUNDING' }  
 									]}
 									matchType={MatchType.exact}
 								/>
 							</PositionController>
 						</div>
 					</div>
-				</div>
+				</div> */}
 			</HeroContainer>
 		);
 	}

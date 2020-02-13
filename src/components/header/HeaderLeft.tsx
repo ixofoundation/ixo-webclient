@@ -5,6 +5,8 @@ import { Fragment } from 'react';
 import { deviceWidth } from '../../lib/commonData';
 import MediaQuery from 'react-responsive';
 import { getIxoWorldRoute } from '../../utils/formatters';
+//import { ProjectsHero } from '../projects/ProjectsHero';
+
 
 const ixoLogo = require('../../assets/images/ixo-logo.svg');
 
@@ -189,6 +191,8 @@ const Burger = styled.div`
 	}
 `;
 
+
+
 export interface ParentProps {
 	refreshProjects: Function;
 	simple: boolean;
@@ -254,12 +258,15 @@ export class HeaderLeft extends React.Component<ParentProps> {
 							</Menu>
 						</MediaQuery>
 					</NavItems>
+
+				
 				</Main> 
 				<MediaQuery maxWidth={`991px`}>
 					<MobileMenu className={this.state.menuOpen === true ? 'openMenu' : ''}>
 								{this.getMenuItems(false)}
 					</MobileMenu>
 				</MediaQuery>
+				
 			</Fragment>
 		);
 	}

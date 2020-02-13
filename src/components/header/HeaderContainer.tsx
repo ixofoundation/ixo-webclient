@@ -9,6 +9,8 @@ import MediaQuery from 'react-responsive';
 import { deviceWidth } from '../../lib/commonData';
 import { ModalWrapper } from 'src/components/common/ModalWrapper';
 import { ButtonTypes, Button } from '../common/Buttons';
+import HeaderSubTabs from '../header/HeaderSubTabs';
+
 
 const TopBar = styled.header`
 	position: sticky;
@@ -328,7 +330,9 @@ class Header extends React.Component<Props, State> {
 						/>
 					</MediaQuery>
 				</div>
+				<HeaderSubTabs/>
 			</TopBar>
+			
 		);
 	}
 }

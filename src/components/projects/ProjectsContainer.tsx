@@ -11,8 +11,9 @@ import { contentType, UserInfo } from '../../types/models';
 import { ProjectsDashboard } from './ProjectsDashboard';
 import { explorerSocket } from '../helpers/explorerSocket';
 
-const Container = styled.div`
 
+const Container = styled.div`
+  position: relative;
 	display: flex;
 	flex-direction: column;
 	flex: 1 1 auto;
@@ -35,6 +36,7 @@ const Container = styled.div`
 		transition: opacity 800ms ease-in;
 	}
 `;
+
 
 const ProjectsContainer = styled.div`
 	background: ${props => props.theme.bg.lightGrey};
@@ -234,12 +236,14 @@ export class Projects extends React.Component<Props, State> {
 	}
 
 	render() {
-		return (        
-			<Container>
-				<ProjectsHero ixo={this.props.ixo} myProjectsCount={this.state.myProjects.length} showMyProjects={(val) => this.showMyProjects(val)}/>
+		return(    
+    <Container>
+				
+				<ProjectsHero ixo={null} myProjectsCount={0} showMyProjects={(val) => this.showMyProjects(val)}/>
 				{this.handleRenderProjectList()}
-			</Container>
-		);
+			</Container>    
+				// Change paramaters of project hero back ^	
+			);
 		}
 	}
 

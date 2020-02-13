@@ -112,6 +112,9 @@
   .icon-favourite-active:before {
 	content: "\e90e";
   }
+  .icon-funding:before {
+    content: "\e950";
+  }
   .icon-github:before {
 	content: "\e90f";
   }
