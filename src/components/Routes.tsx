@@ -14,9 +14,12 @@ import { Spinner } from './common/Spinner'
 import { ProjectSignAndCreateConnected } from './project/curation/ProjectSignAndCreate'
 import { ProjectCreateUploadPublicDocsConnected } from './project/curation/ProjectCreateUploadPublicDocs'
 import { ThreeD } from './common/3D'
-import { Overview } from './overview/Overview'
-import Exchange from './exchange/Exchange'
-import Orders from './account/Orders'
+import { Overview } from './bonds/overview/Overview'
+import Exchange from './bonds/exchange/Exchange'
+import Orders from './bonds/orders/Orders'
+import Buy from './bonds/exchange/buy/Buy'
+import Sell from './bonds/exchange/sell/Sell'
+import Swap from './bonds/exchange/swap/Swap'
 
 export const Routes: React.SFC<{}> = props => {
   return (
@@ -32,6 +35,21 @@ export const Routes: React.SFC<{}> = props => {
         <Route path={['/overview']} component={Overview} />
         <Route exact={true} path="/orders" component={Orders} />
         <Route exact={true} path="/exchange" component={Exchange} />
+        <Route
+          exact
+          path={[`/exchange/buy`, `/exchange/buy/confirm`, '/exchange/']}
+          component={Buy}
+        />
+        <Route
+          exact
+          path={[`/exchange/sell`, '/exchange/sell/confirm']}
+          component={Sell}
+        />
+        <Route
+          exact
+          path={[`/exchange/swap`, '/exchange/swap/confirm']}
+          component={Swap}
+        />
         <Route
           exact={true}
           path="/"

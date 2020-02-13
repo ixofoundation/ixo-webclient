@@ -1,0 +1,14 @@
+@import './../../assets/styles/colors';
+
+.Bonds_header {
+  background: $header-background-color;
+  background: $header-background-color-gradient;
+  padding: 1rem;
+  margin: 2rem 2rem 2rem -2px;
+  z-index: 1;
+  border: 1px solid $header-border-color;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: left;
+}

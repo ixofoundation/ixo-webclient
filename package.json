@@ -21,6 +21,7 @@
     "immutable": "^3.8.2",
     "ixo-module": "^2.1.4",
     "moment": "^2.24.0",
+    "node-sass": "^4.13.1",
     "npm": "^6.13.7",
     "parallelshell": "^3.0.2",
     "qrcode": "^1.4.4",

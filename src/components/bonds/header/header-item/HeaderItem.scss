@@ -1,0 +1,52 @@
+@import './../../../assets/styles/colors';
+@import './../../../assets/styles/fonts';
+
+.Bonds_header__item {
+  flex: 1 0 18%;
+  min-height: 10vh;
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  flex-direction: row;
+}
+
+.Bonds_header__item_title {
+  color: $header-title-color;
+  font-family: $header-title-font;
+  font-size: $header-title-font-size;
+}
+
+.Bonds_header__item_value_container {
+  display: flex;
+  flex-direction: column;
+  padding: 0.125rem;
+  color: $header-value-color;
+  font-family: $header-value-font;
+  font-size: $header-value-font-size;
+}
+
+.Bonds_header__item_token {
+  text-transform: uppercase;
+  background: #73ce99;
+  font-size: 0.8rem;
+  padding: 0.1em 0.5rem;
+  border-radius: 0.3rem;
+  margin: 0.2rem 0.5rem 0 0;
+  display: inline;
+}
+
+.Bonds_header__item_token_container {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.Bonds_header__item_value {
+  color: $header-value-color;
+}
+.Bonds_header__item_local_value {
+  color: white;
+  font-size: 0.8rem;
+}
