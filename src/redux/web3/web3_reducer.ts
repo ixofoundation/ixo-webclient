@@ -15,7 +15,8 @@ export const web3Reducer = createReducer<IWeb3State>(initialState, [
   {
     action: WEB3_RESULT,
     handler: (state: IWeb3State, action: Web3Result): IWeb3State => {
-      (state.web3 = action.web3), (state.error = action.error)
+      state.web3 = action.web3
+      state.error = action.error
       return {
         ...state,
       }

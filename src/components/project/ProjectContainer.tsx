@@ -998,9 +998,9 @@ export class ProjectContainer extends React.Component<Props, State> {
 
 function mapStateToProps(state: PublicSiteStoreState): Record<string, any> {
   return {
-    ixo: state.ixoStore.ixo,
-    keysafe: state.keysafeStore.keysafe,
-    userInfo: state.loginStore.userInfo,
+    ixo: state.ixo.ixo,
+    keysafe: state.keySafe.keysafe,
+    userInfo: state.login.userInfo,
   }
 }
 

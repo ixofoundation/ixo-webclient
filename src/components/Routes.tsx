@@ -14,6 +14,9 @@ import { Spinner } from './common/Spinner'
 import { ProjectSignAndCreateConnected } from './project/curation/ProjectSignAndCreate'
 import { ProjectCreateUploadPublicDocsConnected } from './project/curation/ProjectCreateUploadPublicDocs'
 import { ThreeD } from './common/3D'
+import { Overview } from './overview/Overview'
+import Exchange from './exchange/Exchange'
+import Orders from './account/Orders'
 
 export const Routes: React.SFC<{}> = props => {
   return (
@@ -26,6 +29,9 @@ export const Routes: React.SFC<{}> = props => {
         <Route exact={true} path="/json" component={ProjectForm} />
         <Route exact={true} path="/icons" component={Icons} />
         <Route exact={true} path="/register" component={RegisterConnected} />
+        <Route path={['/overview']} component={Overview} />
+        <Route exact={true} path="/orders" component={Orders} />
+        <Route exact={true} path="/exchange" component={Exchange} />
         <Route
           exact={true}
           path="/"
