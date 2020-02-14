@@ -2,7 +2,7 @@ import * as React from 'react'
 import Header from './header/Header'
 import { NavLink } from 'react-router-dom'
 import 'react-toastify/dist/ReactToastify.css'
-import './BondsWrapper.scss'
+import './BondsWrapper.css'
 
 export default function BondsWrapper({ children }) {
   const isActive = (m: any, l: any, paths: [string]) => {

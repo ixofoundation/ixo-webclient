@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import './HeaderItem.scss'
+import './HeaderItem.css'
 
 export default class HeaderItem extends Component<any> {
   render() {

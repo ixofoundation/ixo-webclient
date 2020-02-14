@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import './Overview.scss'
+import './Overview.css'
 import { Route, NavLink } from 'react-router-dom'
 import { Charts } from './charts/Charts'
 import Trades from './trades/Trades'

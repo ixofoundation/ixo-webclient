@@ -1,7 +1,7 @@
 @import url('https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css');
 
-@import './assets/styles/colors';
-@import './assets/styles/fonts';
+@import '../../assets/styles/_colors';
+@import '../../assets/styles/_fonts';
 
 body {
   background-color: #002233;
@@ -94,19 +94,19 @@ hr {
 
       &.icon {
         &.home {
-          background-image: url(./assets/img/sidebar/home.svg);
+          background-image: url(../../assets//img/sidebar/home.svg);
         }
         &.trades {
-          background-image: url(./assets/img/sidebar/refresh.png);
+          background-image: url(../../assets/img/sidebar/refresh.png);
         }
         &.orders {
-          background-image: url(./assets/img/sidebar/history.png);
+          background-image: url(../../assets/img/sidebar/history.png);
         }
         &.wallet {
-          background-image: url(./assets/img/sidebar/wallet.png);
+          background-image: url(../../assets/img/sidebar/wallet.png);
         }
         &.settings {
-          background-image: url(./assets/img/sidebar/settings.png);
+          background-image: url(../../assets/img/sidebar/settings.png);
         }
 
         background-repeat: no-repeat;

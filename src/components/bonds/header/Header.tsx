@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import './Header.scss'
+import './Header.css'
 
 import HeaderItem from './header-item/HeaderItem'
 import { connect } from 'react-redux'

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { NavLink } from 'react-router-dom'
-import './Exchange.scss'
+import './Exchange.css'
 import { QuoteActions } from '../../../model/quote'
 import { connect } from 'react-redux'
 import { Store } from '../../../model/store'

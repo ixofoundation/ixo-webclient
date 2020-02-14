@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import 'react-virtualized/styles.css'
-import './TransactionsTable.scss'
+import './TransactionsTable.css'
 
 // You can import any component you want as a named export from 'react-virtualized', eg
 import { Column, Table } from 'react-virtualized'
