@@ -20,7 +20,7 @@ export default function BondsWrapper({ children }) {
       <div className="tablinks sidebar">
         <NavLink
           exact
-          to={`/`}
+          to={`/overview`}
           isActive={(m, l) => {
             return isActive(m, l, ['/overview'])
           }}

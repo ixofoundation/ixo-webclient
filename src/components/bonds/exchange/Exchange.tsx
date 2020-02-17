@@ -1,10 +1,13 @@
 import React, { Component } from 'react'
-import { NavLink } from 'react-router-dom'
+import { NavLink, Route } from 'react-router-dom'
 import './Exchange.css'
 import { QuoteActions } from '../../../model/quote'
 import { connect } from 'react-redux'
 import { Store } from '../../../model/store'
 import BondsWrapper from '../BondsWrapper'
+import Buy from './buy/Buy'
+import Sell from './sell/Sell'
+import Swap from './swap/Swap'
 
 class Exchange extends Component<any> {
   // console.log(this.props)
@@ -65,6 +68,21 @@ class Exchange extends Component<any> {
               undefined
             )}
           </div>
+          <Route
+            exact
+            path={[`/exchange/buy`, `/exchange/buy/confirm`, '/exchange/']}
+            component={Buy}
+          />
+          <Route
+            exact
+            path={[`/exchange/sell`, '/exchange/sell/confirm']}
+            component={Sell}
+          />
+          <Route
+            exact
+            path={[`/exchange/swap`, '/exchange/swap/confirm']}
+            component={Swap}
+          />
         </div>
       </BondsWrapper>
     )

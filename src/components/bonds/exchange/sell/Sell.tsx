@@ -4,7 +4,6 @@ import { connect } from 'react-redux'
 import { BrowserRouter, Route, Redirect } from 'react-router-dom'
 import QuoteSell from './QuoteSell'
 import ConfirmSell from './ConfirmSell'
-import BondsWrapper from '../../BondsWrapper'
 
 class Sell extends Component<any> {
   componentDidMount() {
@@ -21,11 +20,11 @@ class Sell extends Component<any> {
 
   render() {
     return (
-      <BondsWrapper>
-        <div className="BondsWrapper_panel__chrome">
-          <div className="BondsWrapper_panel__content">
-            <div className="centerAll">
-              <BrowserRouter>
+      <div className="BondsWrapper_panel__chrome">
+        <div className="BondsWrapper_panel__content">
+          <div className="centerAll">
+            <BrowserRouter>
+              <div>
                 <Route
                   exact
                   path="/exchange/sell"
@@ -52,11 +51,11 @@ class Sell extends Component<any> {
                   path="/exchange/sell/confirm"
                   render={props => <ConfirmSell {...props} />}
                 />
-              </BrowserRouter>
-            </div>
+              </div>
+            </BrowserRouter>
           </div>
         </div>
-      </BondsWrapper>
+      </div>
     )
   }
 }

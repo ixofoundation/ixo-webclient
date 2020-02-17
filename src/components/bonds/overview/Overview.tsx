@@ -12,7 +12,7 @@ export class Overview extends Component {
       <BondsWrapper>
         <div className="BondsWrapper_panel">
           <div className="tablinks">
-            <NavLink to={`/`} exact className="tablinks_tablink">
+            <NavLink to={`/overview`} exact className="tablinks_tablink">
               Charts
             </NavLink>
             <NavLink to={`/overview/trades`} className="tablinks_tablink">
