@@ -30,6 +30,57 @@ const InputContainer = styled.div`
     font-weight: 500;
   }
 
+  .search-input {
+    margin: 0;
+    font-size: 16px;
+    text-transform: uppercase;
+    position: relative;
+    height: 100%;
+    display: flex;
+    align-content: center;
+    input {
+      color: #a5adb0;
+      padding-top: 15px;
+      padding-bottom: 15px;
+      border-radius: 3px;
+      outline: none !important;
+      border: none !important;
+      box-shadow: none !important;
+    }
+
+    input::-webkit-input-placeholder {
+      opacity: 0;
+    }
+    input:-moz-placeholder {
+      opacity: 0;
+    }
+    input::-moz-placeholder {
+      opacity: 0;
+    }
+    input:-ms-input-placeholder {
+      opacity: 0;
+    }
+
+    input:focus {
+      color: ${/* eslint-disable */ props => props.theme.darkGrey};
+    }
+
+    input:focus ~ p,
+    input:not(:placeholder-shown) ~ p {
+      display: none;
+    }
+
+    p {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      color: ${/* eslint-disable */ props => props.theme.darkGrey};
+      padding-left: 15px;
+
+      transition: padding-left 0.2s ease, bottom 0.2s ease, font-size 0.2s ease;
+    }
+  }
+
   .modal-input {
     margin: 20px 0;
     font-size: 15px;
