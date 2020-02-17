@@ -5,6 +5,7 @@ import { SingleStatistic } from '../common/SingleStatistic'
 import { StatType, MatchType } from '../../types/models'
 import { Stats } from '../../types/models/stats'
 import { deviceWidth } from '../../lib/commonData'
+import Search from '../common/Search'
 
 const ContainerInner = styled.div`
   height: auto;
@@ -221,6 +222,7 @@ export class ProjectsHero extends React.Component<Props, State> {
             </div>
           </div>
         </div>
+        <Search />
       </HeroContainer>
     )
   }
