@@ -12,24 +12,24 @@ export class Overview extends Component {
       <BondsWrapper>
         <div className="BondsWrapper_panel">
           <div className="tablinks">
-            <NavLink to={`/overview`} exact className="tablinks_tablink">
+            <NavLink to="/bonds" exact className="tablinks_tablink">
               Charts
             </NavLink>
-            <NavLink to={`/overview/trades`} className="tablinks_tablink">
+            <NavLink to="/bonds/overview/trades" className="tablinks_tablink">
               Trades
             </NavLink>
-            <NavLink to={`/overview/events`} className="tablinks_tablink">
+            <NavLink to="/bonds/overview/events" className="tablinks_tablink">
               Events
             </NavLink>
           </div>
 
           <Route
             exact
-            path={[`/overview/charts`, '/overview/', '/']}
+            path={['/bonds/overview/charts', '/bonds/overview/', '/bonds']}
             component={Charts}
           />
-          <Route exact path={`/overview/trades`} component={Trades} />
-          <Route exact path={`/overview/events`} component={Events} />
+          <Route exact path="/bonds/overview/trades" component={Trades} />
+          <Route exact path="/bonds/overview/events" component={Events} />
         </div>
       </BondsWrapper>
     )

@@ -24,7 +24,13 @@ const ConfirmBuy = (props: any) => {
   if (props.signPending) {
     return <div>Signing Transaction</div>
   } else if (!props.activeQuote.recieving) {
-    return <Redirect from="/exchange/buy/confirm" exact to="/exchange/buy" />
+    return (
+      <Redirect
+        from="/bonds/exchange/buy/confirm"
+        exact
+        to="/bonds/exchange/buy"
+      />
+    )
   } else {
     const onSubmit = (formData: any) => {
       props.dispatch(

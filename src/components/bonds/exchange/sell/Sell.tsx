@@ -27,7 +27,7 @@ class Sell extends Component<any> {
               <div>
                 <Route
                   exact
-                  path="/exchange/sell"
+                  path="/bonds/exchange/sell"
                   render={props => {
                     if (
                       this.props.activeQuote &&
@@ -36,9 +36,9 @@ class Sell extends Component<any> {
                     ) {
                       return (
                         <Redirect
-                          from="/exchange/sell"
+                          from="/bonds/exchange/sell"
                           exact
-                          to="/exchange/sell/confirm"
+                          to="/bonds/exchange/sell/confirm"
                         />
                       )
                     } else {
@@ -48,7 +48,7 @@ class Sell extends Component<any> {
                 />
                 <Route
                   exact
-                  path="/exchange/sell/confirm"
+                  path="/bonds/exchange/sell/confirm"
                   render={props => <ConfirmSell {...props} />}
                 />
               </div>

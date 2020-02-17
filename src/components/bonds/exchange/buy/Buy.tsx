@@ -27,10 +27,15 @@ class Buy extends Component<any> {
               <div>
                 <Route
                   exact
-                  path={['/exchange/buy', '/exchange/']}
+                  path={['/bonds/exchange/buy', '/bonds/exchange/']}
                   render={props => {
                     if (this.props.activeQuote.hasOwnProperty('totalPrices')) {
-                      return <Redirect from="/" to="/exchange/buy/confirm" />
+                      return (
+                        <Redirect
+                          from="/bonds"
+                          to="/bonds/exchange/buy/confirm"
+                        />
+                      )
                     } else {
                       return <QuoteBuy {...props} />
                     }
@@ -38,7 +43,7 @@ class Buy extends Component<any> {
                 />
                 <Route
                   exact
-                  path="/exchange/buy/confirm"
+                  path="/bonds/exchange/buy/confirm"
                   render={props => <ConfirmBuy {...props} />}
                 />
               </div>

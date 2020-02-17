@@ -42,7 +42,7 @@ class Exchange extends Component<any> {
               <div className="BondsWrapper_panel__content"></div>*/}
           <div className="tablinks">
             <NavLink
-              to={!this.props.transacting ? `/exchange/` : '#'}
+              to={!this.props.transacting ? '/bonds/exchange/' : '#'}
               isActive={(m, l) => this.isActive(m, l, ['/buy'])}
               exact
               className="tablinks_tablink"
@@ -50,7 +50,7 @@ class Exchange extends Component<any> {
               Buy
             </NavLink>
             <NavLink
-              to={!this.props.transacting ? `/exchange/sell` : '#'}
+              to={!this.props.transacting ? '/bonds/exchange/sell' : '#'}
               isActive={(m, l) => this.isActive(m, l, ['/sell'])}
               className="tablinks_tablink"
             >
@@ -58,7 +58,7 @@ class Exchange extends Component<any> {
             </NavLink>
             {this.props.activeBond.type == 'swapper_function' ? (
               <NavLink
-                to={!this.props.transacting ? `/exchange/swap` : '#'}
+                to={!this.props.transacting ? '/bonds/exchange/swap' : '#'}
                 isActive={(m, l) => this.isActive(m, l, ['/swap'])}
                 className="tablinks_tablink"
               >
@@ -70,17 +70,21 @@ class Exchange extends Component<any> {
           </div>
           <Route
             exact
-            path={[`/exchange/buy`, `/exchange/buy/confirm`, '/exchange/']}
+            path={[
+              '/bonds/exchange/buy',
+              '/bonds/exchange/buy/confirm',
+              '/bonds/exchange/',
+            ]}
             component={Buy}
           />
           <Route
             exact
-            path={[`/exchange/sell`, '/exchange/sell/confirm']}
+            path={['/bonds/exchange/sell', '/bonds/exchange/sell/confirm']}
             component={Sell}
           />
           <Route
             exact
-            path={[`/exchange/swap`, '/exchange/swap/confirm']}
+            path={['/bonds/exchange/swap', '/bonds/exchange/swap/confirm']}
             component={Swap}
           />
         </div>

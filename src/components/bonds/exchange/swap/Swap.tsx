@@ -28,21 +28,25 @@ class Swap extends Component<any> {
               <BrowserRouter>
                 <Route
                   exact
-                  path="/exchange/swap"
+                  path="/bonds/exchange/swap"
                   render={props => {
                     if (this.props.activeQuote.hasOwnProperty('isSwapping')) {
                       return (
                         <Redirect
-                          from="/exchange/swap"
+                          from="/bonds/exchange/swap"
                           exact
-                          to="/exchange/swap/confirm"
+                          to="/bonds/exchange/swap/confirm"
                         />
                       )
                     } else if (
                       this.props.activeBond.type != 'swapper_function'
                     ) {
                       return (
-                        <Redirect from="/exchange/swap" exact to="/exchange/" />
+                        <Redirect
+                          from="/bonds/exchange/swap"
+                          exact
+                          to="/bonds/exchange/"
+                        />
                       )
                     } else {
                       return <QuoteSwap {...props} />
@@ -51,7 +55,7 @@ class Swap extends Component<any> {
                 />
                 <Route
                   exact
-                  path="/exchange/swap/confirm"
+                  path="/bonds/exchange/swap/confirm"
                   render={props => <ConfirmSwap {...props} />}
                 />
               </BrowserRouter>
