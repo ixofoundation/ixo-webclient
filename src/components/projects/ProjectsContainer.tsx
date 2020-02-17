@@ -260,7 +260,7 @@ export class Projects extends React.Component<Props, State> {
           myProjectsCount={this.state.myProjects.length}
           showMyProjects={(val): void => this.showMyProjects(val)}
         />
-        {/*this.handleRenderProjectList()*/}
+        {this.handleRenderProjectList()}
         <FilterSortButtons/>
       </Container>
       
