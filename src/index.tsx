@@ -5,7 +5,7 @@ import { BrowserRouter as Router } from 'react-router-dom'
 import { createPublicSiteStore } from './redux/store'
 import { AppConnected } from './App'
 
-const store = createPublicSiteStore()
+const store = createPublicSiteStore() as any
 
 ReactDOM.render(
   <Provider store={store}>

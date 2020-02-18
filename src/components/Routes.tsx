@@ -14,20 +14,27 @@ import { Spinner } from './common/Spinner'
 import { ProjectSignAndCreateConnected } from './project/curation/ProjectSignAndCreate'
 import { ProjectCreateUploadPublicDocsConnected } from './project/curation/ProjectCreateUploadPublicDocs'
 import { ThreeD } from './common/3D'
+import { Overview } from './bonds/overview/Overview'
+import Exchange from './bonds/exchange/Exchange'
+import Orders from './bonds/orders/Orders'
 
 export const Routes: React.SFC<{}> = props => {
   return (
     <Fragment>
       <Switch>
-        <Route exact={true} path="/json" component={ProjectForm} />
-        <Route exact={true} path="/spinner" component={Spinner} />
-        <Route exact={true} path="/3d" component={ThreeD} />
-        <Route exact={true} path="/widgets" component={Widgets} />
-        <Route exact={true} path="/json" component={ProjectForm} />
-        <Route exact={true} path="/icons" component={Icons} />
-        <Route exact={true} path="/register" component={RegisterConnected} />
+        <Route exact path="/json" component={ProjectForm} />
+        <Route exact path="/spinner" component={Spinner} />
+        <Route exact path="/3d" component={ThreeD} />
+        <Route exact path="/widgets" component={Widgets} />
+        <Route exact path="/json" component={ProjectForm} />
+        <Route exact path="/icons" component={Icons} />
+        <Route exact path="/register" component={RegisterConnected} />
+        <Route exact path={['/bonds']} component={Overview} />
+        <Route path={['/bonds/overview']} component={Overview} />
+        <Route path="/bonds/exchange" component={Exchange} />
+        <Route path="/bonds/orders" component={Orders} />
         <Route
-          exact={true}
+          exact
           path="/"
           render={(routeProps): JSX.Element => (
             <ProjectsContainerConnected
@@ -38,7 +45,7 @@ export const Routes: React.SFC<{}> = props => {
           )}
         />
         <Route
-          exact={true}
+          exact
           path="/global-statistics"
           render={(routeProps): JSX.Element => (
             <ProjectsContainerConnected
@@ -49,7 +56,7 @@ export const Routes: React.SFC<{}> = props => {
           )}
         />
         <Route
-          exact={true}
+          exact
           path="/projects/:projectDID/overview"
           render={(): JSX.Element => (
             <ProjectContainerConnected
@@ -59,7 +66,7 @@ export const Routes: React.SFC<{}> = props => {
           )}
         />
         <Route
-          exact={true}
+          exact
           path="/projects/:projectDID/detail/"
           render={(): JSX.Element => (
             <ProjectContainerConnected
@@ -69,7 +76,7 @@ export const Routes: React.SFC<{}> = props => {
           )}
         />
         <Route
-          exact={true}
+          exact
           path="/projects/:projectDID/detail/evaluators"
           render={(): JSX.Element => (
             <ProjectContainerConnected
@@ -79,7 +86,7 @@ export const Routes: React.SFC<{}> = props => {
           )}
         />
         <Route
-          exact={true}
+          exact
           path="/projects/:projectDID/detail/investors"
           render={(): JSX.Element => (
             <ProjectContainerConnected
@@ -89,7 +96,7 @@ export const Routes: React.SFC<{}> = props => {
           )}
         />
         <Route
-          exact={true}
+          exact
           path="/projects/:projectDID/detail/service-providers"
           render={(): JSX.Element => (
             <ProjectContainerConnected
@@ -99,7 +106,7 @@ export const Routes: React.SFC<{}> = props => {
           )}
         />
         <Route
-          exact={true}
+          exact
           path="/projects/:projectDID/detail/claims"
           render={(): JSX.Element => (
             <ProjectContainerConnected
@@ -109,7 +116,7 @@ export const Routes: React.SFC<{}> = props => {
           )}
         />
         <Route
-          exact={true}
+          exact
           path="/projects/:projectDID/detail/new-claim"
           render={(): JSX.Element => (
             <ProjectContainerConnected
@@ -119,7 +126,7 @@ export const Routes: React.SFC<{}> = props => {
           )}
         />
         <Route
-          exact={true}
+          exact
           path="/projects/:projectDID/detail/claims/:claimID"
           render={(): JSX.Element => (
             <ProjectContainerConnected
@@ -129,14 +136,14 @@ export const Routes: React.SFC<{}> = props => {
           )}
         />
         <Route
-          exact={true}
+          exact
           path="/create-project"
           render={(routeProps): JSX.Element => (
             <ProjectCreateConnected {...routeProps} {...props} />
           )}
         />
         <Route
-          exact={true}
+          exact
           path="/upload-project"
           render={(routeProps): JSX.Element => (
             <ProjectCreateUploadPublicDocsConnected
@@ -146,7 +153,7 @@ export const Routes: React.SFC<{}> = props => {
           )}
         />
         <Route
-          exact={true}
+          exact
           path="/upload-project-create"
           render={(routeProps): JSX.Element => (
             <ProjectSignAndCreateConnected {...routeProps} {...props} />

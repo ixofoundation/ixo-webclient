@@ -417,9 +417,9 @@ class RegisterPage extends React.Component<Props, State> {
 
 function mapStateToProps(state: PublicSiteStoreState): Record<string, any> {
   return {
-    ixo: state.ixoStore.ixo,
-    userInfo: state.loginStore.userInfo,
-    keysafe: state.keysafeStore.keysafe,
+    ixo: state.ixo.ixo,
+    userInfo: state.login.userInfo,
+    keysafe: state.keySafe.keysafe,
   }
 }
 

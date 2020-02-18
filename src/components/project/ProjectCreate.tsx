@@ -464,8 +464,8 @@ export class ProjectCreate extends React.Component<StateProps, State> {
 
 function mapStateToProps(state: PublicSiteStoreState): StateProps {
   return {
-    ixo: state.ixoStore.ixo,
-    keysafe: state.keysafeStore.keysafe,
+    ixo: state.ixo.ixo,
+    keysafe: state.keySafe.keysafe,
   }
 }
 

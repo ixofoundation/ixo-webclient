@@ -270,8 +270,8 @@ export class Projects extends React.Component<Props, State> {
 
 function mapStateToProps(state: PublicSiteStoreState): Record<string, any> {
   return {
-    ixo: state.ixoStore.ixo,
-    userInfo: state.loginStore.userInfo,
+    ixo: state.ixo.ixo,
+    userInfo: state.login.userInfo,
   }
 }
 
