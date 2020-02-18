@@ -1,134 +1,23 @@
 import * as React from 'react'
-import InputText from '../form/InputText'
+import InputText from '../../form/InputText'
 import { FormStyles } from 'src/types/models'
-import styled from 'styled-components'
-
-const SearchWrapper = styled.div`
-  background: white;
-  position: relative;
-  top: 0;
-  left: 0;
-  display: flex;
-  border-radius: 4px;
-  transform: translateY(-50%);
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  font-family: Roboto, sans-serif;
-  > * {
-    flex: 1;
-    border-radius: 4px;
-  }
-  .search-input-wrapper {
-    flex: 3;
-    > * {
-      height: 100%;
-    }
-  }
-`
-
-const ModalButton = styled.div`
-  background: #e8edee;
-  padding: 0 1rem;
-  display: flex;
-  flex-flow: row nowrap;
-  align-items: center;
-  > * {
-    display: block;
-  }
-  .icon-world,
-  .icon-down {
-    width: 1rem;
-    height: 1rem;
-  }
-  .icon-world {
-    margin-right: 0.5rem;
-  }
-  .icon-down {
-    margin-left: auto;
-    transition: all 0.3s;
-    transform-origin: center;
-  }
-`
-
-const SearchIconWrapper = styled.div`
-  width: 50px;
-  height: 50px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  line-height: 50px;
-  flex: initial;
-  text-align: center;
-  i {
-    color: #83d9f2;
-  }
-`
-
-const SearchModal = styled.div`
-  position: absolute;
-  top: calc(100% + 1rem);
-  left: 0;
-  z-index: 10;
-  background: white;
-  width: 100%;
-  padding: 1.5em 2.875em 4.5em;
-`
-
-const SearchHeading = styled.h3`
-  font-weight: 600;
-  font-size: 1.25rem;
-  box-sizing: border-box;
-  margin: 0.825rem 0 1.5rem;
-`
-
-const SearchButtonsWrapper = styled.div`
-  display: flex;
-  flex-flow: row wrap;
-  margin: 0 -0.5rem;
-`
-
-const SearchFilterButton = styled.div`
-  border: 1px solid #39c3e6;
-  color: #39c3e6;
-  text-align: center;
-  width: calc(33.333% - 1rem);
-  margin: 0.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-flow: row wrap;
-  padding: 0.75rem;
-  border-radius: 6px;
-  font-weight: 500;
-  i {
-    color: #39c3e6;
-  }
-  > * {
-    display: block;
-    width: 100%;
-  }
-  &.active,
-  &:hover:not(.disabled) {
-    background: linear-gradient(180deg, #04d0fb 0%, #49bfe0 100%);
-    color: white;
-    i {
-      color: white;
-    }
-  }
-  &.disabled {
-    border-color: #a5adb0;
-    color: #a5adb0;
-    cursor: not-allowed;
-    i {
-      color: #a5adb0;
-    }
-  }
-`
+import {
+  SearchWrapper,
+  ModalButton,
+  SearchIconWrapper,
+  SearchModal,
+  SearchHeading,
+  SearchButtonsWrapper,
+  SearchFilterButton,
+} from './Style'
 
 export default class Search extends React.Component {
   state = {
     search: '',
     isModalOpen: false,
     filterButtonText: 'All projects',
+    iconClass: 'claims',
+    activeFilter: 'all-projects',
   }
 
   handleChange = (event): void => {
@@ -148,24 +37,26 @@ export default class Search extends React.Component {
     })
   }
 
-  handleSearchFilter = (filterButtonText: string): void => {
+  handleSearchFilter = (filterButtonText: string, iconClass?: string): void => {
     const slug = filterButtonText
       .toLowerCase()
       .replace(/ /g, '-')
       .replace(/[^\w-]+/g, '')
-    this.setState({ filterButtonText })
+    this.setState({ filterButtonText, iconClass, activeFilter: slug })
     this.handleToggleModal()
-    console.log(`filter the things: ${slug}`)
   }
 
   render(): JSX.Element {
     return (
       <div className="container">
         <div className="row">
-          <div className="col-xs-12 col-md-8 offset-md-2">
+          <div className="col-xs-12 col-lg-8 offset-lg-2">
             <SearchWrapper>
-              <ModalButton onClick={(): void => this.handleToggleModal()}>
-                <i className="icon-world" />
+              <ModalButton
+                onClick={(): void => this.handleToggleModal()}
+                className={this.state.isModalOpen ? 'modal-open' : ''}
+              >
+                <i className={`filter-icon icon-${this.state.iconClass}`} />
                 {this.state.filterButtonText}
                 <i
                   className="icon-down"
@@ -197,15 +88,22 @@ export default class Search extends React.Component {
                 <SearchButtonsWrapper>
                   <SearchFilterButton
                     onClick={(): void =>
-                      this.handleSearchFilter('All projects')
+                      this.handleSearchFilter('All projects', 'claims')
                     }
-                    className="active"
+                    className={
+                      this.state.activeFilter === 'all-projects' ? 'active' : ''
+                    }
                   >
                     <i className="icon-claims" />
                     All projects
                   </SearchFilterButton>
                   <SearchFilterButton
-                    onClick={(): void => this.handleSearchFilter('My projects')}
+                    onClick={(): void =>
+                      this.handleSearchFilter('My projects', 'claims2')
+                    }
+                    className={
+                      this.state.activeFilter === 'my-projects' ? 'active' : ''
+                    }
                   >
                     <i className="icon-claims2" />
                     My projects
