@@ -1,7 +1,11 @@
 import thunk from 'redux-thunk'
-import { applyMiddleware, createStore, Middleware, Store } from 'redux'
+import { applyMiddleware, createStore, Store } from 'redux'
+import { composeWithDevTools } from 'redux-devtools-extension'
 import { PublicSiteStoreState, publicSiteReducer } from './public_site_reducer'
 import logger from 'redux-logger'
+import promise from 'redux-promise-middleware'
+
+// TODO - PERSISTENCE
 
 let publicStore: Store<PublicSiteStoreState>
 
@@ -9,14 +13,10 @@ export function createPublicSiteStore(
   this: any,
   preloadedState?: PublicSiteStoreState,
 ): Store<PublicSiteStoreState> {
-  const middlewares: Middleware[] = [thunk]
-  middlewares.push(logger)
-  publicStore = createStore.call(
-    this,
-    // @ts-ignore
+  publicStore = createStore(
     publicSiteReducer,
     preloadedState,
-    applyMiddleware(...middlewares),
+    composeWithDevTools(applyMiddleware(thunk, logger, promise)),
   )
   return publicStore
 }
