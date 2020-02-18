@@ -1,9 +1,9 @@
-import { Action } from './actions';
-import * as Immutable from 'immutable';
+import { Action } from './actions'
+import * as Immutable from 'immutable'
 
 interface ActionReducer<S> {
-	action: Action;
-	handler: (state: S, action: any) => S;
+  action: Action
+  handler: (state: S, action: any) => S
 }
 
 /**
@@ -13,13 +13,18 @@ interface ActionReducer<S> {
  * @param reducers      A set of reducers (action and handler)
  * @returns The generated reducer function
  */
-export function createReducer<S>(initialState: S, reducers: ActionReducer<S>[]): (S: any, Action: any) => S {
-	return (state: S = initialState, action: Action = {type: 'NONE'}) => {
-		var reducer = Immutable.List(reducers).find(x => x.action.type === action.type);
-		if (reducer) {
-			return reducer.handler(state, action);
-		} else {
-			return state;
-		}
-	};
+export function createReducer<S>(
+  initialState: S,
+  reducers: ActionReducer<S>[],
+): (S: any, Action: any) => S {
+  return (state: S = initialState, action: Action = { type: 'NONE' }): any => {
+    const reducer = Immutable.List(reducers).find(
+      x => x.action.type === action.type,
+    )
+    if (reducer) {
+      return reducer.handler(state, action)
+    } else {
+      return state
+    }
+  }
 }

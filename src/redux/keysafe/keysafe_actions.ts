@@ -1,8 +1,9 @@
 export interface KeysafeResult {
-	keysafe: any;
-	error: Object;
+  keysafe: any
+  error: Record<string, any>
 }
 
-export module KEYSAFE_RESULT {
-	export var type = 'KEYSAFE_RESULT';
+// eslint-disable-next-line
+export namespace KEYSAFE_RESULT {
+  export const type = 'KEYSAFE_RESULT'
 }

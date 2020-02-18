@@ -1,4 +1,4 @@
 export interface Web3Acc {
-	address: string;
-	balance: number;
+  address: string
+  balance: number
 }

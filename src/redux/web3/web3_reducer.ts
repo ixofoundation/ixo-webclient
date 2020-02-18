@@ -1,25 +1,25 @@
-import { createReducer } from '../../lib/redux_utils/reducers';
-import { Web3Result, WEB3_RESULT } from './web3_actions';
+import { createReducer } from '../../lib/redux_utils/reducers'
+import { Web3Result, WEB3_RESULT } from './web3_actions'
 
 export type IWeb3State = {
-	web3: any,
-	error: Object,
-};
+  web3: any
+  error: Record<string, any>
+}
 
 const initialState: IWeb3State = {
-	web3: null,
-	error: {},
-};
+  web3: null,
+  error: {},
+}
 
-export let web3Reducer = createReducer<IWeb3State>(initialState, [
-	{
-		action: WEB3_RESULT,
-		handler: (state: IWeb3State, action: Web3Result) => {
-			state.web3 = action.web3,
-				state.error = action.error;
-			return {
-				...state
-			};
-		}
-	}
-]);
+export const web3Reducer = createReducer<IWeb3State>(initialState, [
+  {
+    action: WEB3_RESULT,
+    handler: (state: IWeb3State, action: Web3Result): IWeb3State => {
+      state.web3 = action.web3
+      state.error = action.error
+      return {
+        ...state,
+      }
+    },
+  },
+])

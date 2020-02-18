@@ -1,467 +1,556 @@
-import * as React from 'react';
-import styled from 'styled-components';
-import { connect } from 'react-redux';
-import { PublicSiteStoreState } from 'src/redux/public_site_reducer';
-import Web3Proxy from 'src/redux/web3/util/Web3Proxy';
-import * as Toast from '../../helpers/Toast';
-import { Web3Acc } from 'src/types/models/web3';
-import { FundingGauge } from './FundingGauge';
-import { FundingButton } from './FundingButton';
-import { Fragment } from 'react';
-import { ModalWrapper } from 'src/components/common/ModalWrapper';
-import { successToast, errorToast } from '../../helpers/Toast';
-import { Button, ButtonTypes } from 'src/components/common/Buttons';
-import { BigNumber } from 'bignumber.js';
+import * as React from 'react'
+import styled from 'styled-components'
+import { connect } from 'react-redux'
+import { PublicSiteStoreState } from 'src/redux/public_site_reducer'
+import Web3Proxy from 'src/redux/web3/util/Web3Proxy'
+import * as Toast from '../../helpers/Toast'
+import { Web3Acc } from 'src/types/models/web3'
+import { FundingGauge } from './FundingGauge'
+import { FundingButton } from './FundingButton'
+import { Fragment } from 'react'
+import { ModalWrapper } from 'src/components/common/ModalWrapper'
+import { successToast, errorToast } from '../../helpers/Toast'
+import { Button, ButtonTypes } from 'src/components/common/Buttons'
+import { BigNumber } from 'bignumber.js'
+import { Header } from '../../../types/models'
+
+declare const ethereum: any
 
 const FundingWrapper = styled.div`
-	position: sticky;
-	bottom:0;
-	left:0;
-	right:0;
-	background: #00293e;
-	color: white;
-	height: 80px;
-	z-index: 99;
-	display: flex;
-	box-shadow: 0px 0px 25px 0px rgba(0,0,0,0.25);
-	border: 1px solid #0C3550;
-	
-	.container {
-		display: flex;
-		flex-direction: column;
-	}
+  position: sticky;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #00293e;
+  color: white;
+  height: 80px;
+  z-index: 99;
+  display: flex;
+  box-shadow: 0px 0px 25px 0px rgba(0, 0, 0, 0.25);
+  border: 1px solid #0c3550;
 
-	.row {
-		display: flex;
-		flex: 1;
-	}
+  .container {
+    display: flex;
+    flex-direction: column;
+  }
 
-	.row > div {
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-	}
+  .row {
+    display: flex;
+    flex: 1;
+  }
 
-	.row > div:first-child {
-		border-right: 1px solid #033C50;	
-	}
+  .row > div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
 
-	ol {
-		display: flex;
-		flex: 1;
-		justify-content: flex-end;
-		width: 100%;
-		align-items: center;
-		margin: 0;
+  .row > div:first-child {
+    border-right: 1px solid #033c50;
+  }
 
-		li {
-			margin: 0 30px;
-			font-family: ${props => props.theme.fontRobotoCondensed};
-			font-size: 12px;
-			font-weight: 400;
-			color: props => props.theme.fontBlue;
-			opacity: 0.4;
+  ol {
+    display: flex;
+    flex: 1;
+    justify-content: flex-end;
+    width: 100%;
+    align-items: center;
+    margin: 0;
 
-			&.active {
-				color: ${props => props.theme.fontLightBlue};
-				opacity: 1;
-			}
-		}
-	}
+    li {
+      margin: 0 30px;
+      font-family: ${/* eslint-disable-line */ props =>
+        props.theme.fontRobotoCondensed};
+      font-size: 12px;
+      font-weight: 400;
+      color: props => props.theme.fontBlue;
+      opacity: 0.4;
 
-	.row > div:last-child {
-		align-items: center;
-		flex-direction: row;
-		justify-content: flex-start;
-	}
-`;
+      &.active {
+        color: ${/* eslint-disable-line */ props => props.theme.fontLightBlue};
+        opacity: 1;
+      }
+    }
+  }
+
+  .row > div:last-child {
+    align-items: center;
+    flex-direction: row;
+    justify-content: flex-start;
+  }
+`
 
 export const ModalContent = styled.div`
-	p {
-		font-size: 15px;
-		margin-bottom: 0;
-		padding:0 20px;
-	}
+  p {
+    font-size: 15px;
+    margin-bottom: 0;
+    padding: 0 20px;
+  }
 
-	a {
-		margin-top: 40px;
-	}
-`;
+  a {
+    margin-top: 40px;
+  }
+`
 
 export enum Web3Accounts {
-	project = 'PROJECT',
-	user = 'USER'
+  project = 'PROJECT',
+  user = 'USER',
 }
 
 export interface ParentProps {
-	projectDid: string;
-	projectURL: string;
-	projectIxoRequired: number;
-	projectStatus: string;
+  projectDid: string
+  projectURL: string
+  projectIxoRequired: number
+  projectStatus: string
 }
 
 export interface State {
-	web3error: string;
-	projectAccount: Web3Acc;
-	account: Web3Acc;
-	isModalOpen: boolean;
-	creatingProjectWallet: boolean;
-	fundingProject: boolean;
-	modalData: any;
+  web3error: string
+  projectAccount: Web3Acc
+  account: Web3Acc
+  isModalOpen: boolean
+  creatingProjectWallet: boolean
+  fundingProject: boolean
+  modalData: any
 }
 
 export interface StateProps {
-	web3: any;
-	error: any;
-	ixo?: any;
-	keysafe?: any;
-	userInfo: any;
+  web3: any
+  error: any
+  ixo?: any
+  keysafe?: any
+  userInfo: any
 }
 
 export interface Props extends ParentProps, StateProps {}
 export class Funding extends React.Component<Props, State> {
+  state = {
+    isModalOpen: false,
+    web3error: null,
+    account: {
+      address: null,
+      balance: null,
+    },
+    projectAccount: {
+      address: null,
+      balance: null,
+    },
+    creatingProjectWallet: false,
+    fundingProject: false,
+    modalData: {
+      header: {
+        title: '',
+        icon: null,
+      },
+      content: '',
+    },
+  }
 
-	state = {
-		isModalOpen: false,
-		web3error: null,
-		account: {
-			address: null,
-			balance: null
-		},
-		projectAccount: {
-			address: null,
-			balance: null
-		},
-		creatingProjectWallet: false,
-		fundingProject: false,
-		modalData: { 
-			header: {
-				title: '',
-				icon: null,
-			},
-			content: ''
-		}
-	};
+  private projectWeb3 = null
+  private checkInterval = null
 
-	private projectWeb3 = null;
-	private checkInterval = null;
+  componentDidMount(): void {
+    if (this.props.web3 === null) {
+      this.setState({ web3error: this.props.error })
+    } else {
+      ethereum.enable() // Request account access if needed
+      this.projectWeb3 = new Web3Proxy(this.props.web3)
+      this.checkInterval = setInterval(this.handleCheckAccount, 3000)
+    }
+  }
 
-	componentDidMount() {
-		
-		if (this.props.web3 === null) {
-			this.setState({web3error : this.props.error});
-			
-		} else {
-			// @ts-ignore
-			ethereum.enable(); // Request account access if needed
-			this.projectWeb3 = new Web3Proxy(this.props.web3);
-			this.checkInterval = setInterval( this.handleCheckAccount, 3000);
-		}
-	}
+  componentDidUpdate(prevProps: Props): void {
+    if (
+      this.props.projectStatus === 'FUNDED' &&
+      prevProps.projectStatus !== null &&
+      this.props.projectStatus !== prevProps.projectStatus
+    ) {
+      const content = (
+        <ModalContent>
+          <p>Your project wallet has been funded.</p>
+          <p>This project now has fuel to launch.</p>
+          <p>
+            Prepare for <strong>IMPACT</strong>.
+          </p>
+          <Button
+            type={ButtonTypes.dark}
+            onClick={(): void => this.toggleModal(false)}
+          >
+            CLOSE
+          </Button>
+        </ModalContent>
+      )
 
-	componentDidUpdate(prevProps: Props) {
-		if (this.props.projectStatus === 'FUNDED' && prevProps.projectStatus !== null && this.props.projectStatus !== prevProps.projectStatus) {
-			const content = (
-				<ModalContent>
-					<p>Your project wallet has been funded.</p>
-					<p>This project now has fuel to launch.</p>
-					<p>Prepare for <strong>IMPACT</strong>.</p>
-					<Button type={ButtonTypes.dark} onClick={() => this.toggleModal(false)}>CLOSE</Button>
-				</ModalContent>
-			);
-	
-			const modalData = {
-				header: {
-					icon: <i className="icon-approved" style={{fontSize: '40px', color: '#4A9F46'}} />,
-					title: 'SUCCESS'
-				},
-				content: content
-			};
-			this.setState({
-				fundingProject: false,
-				modalData: modalData
-			});
-	
-			this.toggleModal(true);
-		}
-	}
+      const modalData = {
+        header: {
+          icon: (
+            <i
+              className="icon-approved"
+              style={{ fontSize: '40px', color: '#4A9F46' }}
+            />
+          ),
+          title: 'SUCCESS',
+        },
+        content: content,
+      }
+      this.setState({
+        fundingProject: false,
+        modalData: modalData,
+      })
 
-	renderModalHeader = () => {
-		return ({
-			title: this.state.modalData.header.title,
-			icon: this.state.modalData.header.icon
-		});
-	}
+      this.toggleModal(true)
+    }
+  }
 
-	componentWillUnmount() {
-		clearInterval(this.checkInterval);
-	}
+  renderModalHeader = (): Header => {
+    return {
+      title: this.state.modalData.header.title,
+      icon: this.state.modalData.header.icon,
+    }
+  }
 
-	handleCheckAccount = () => {
-		this.props.web3.eth.getAccounts((err: any, acc: any) => {
-			if (!err) {
-				if (acc[0]!) {
-					let tempAcc = Object.assign({}, this.state.account);
-					tempAcc.address = acc[0];
-					this.setState({ 
-						web3error: null,
-						account: tempAcc
-					});
-					this.handleCheckIxoBalance(Web3Accounts.user);
-					this.handleGetProjectWalletAddres();
-				} else {
-					this.setState({ web3error: 'SIGN IN TO METAMASK'});
-				}
-			}
-		});
+  componentWillUnmount(): void {
+    clearInterval(this.checkInterval)
+  }
 
-		if (this.props.projectStatus === 'FUNDED') {
-			this.setState({fundingProject: false});
-		}
-		if ((this.state.projectAccount.address !== null && this.state.projectAccount.address !== '0x0000000000000000000000000000000000000000') && this.state.creatingProjectWallet === true) {
-			this.setState({ creatingProjectWallet: false});
-		}
-	}
+  handleCheckAccount = (): void => {
+    this.props.web3.eth.getAccounts((err: any, acc: any) => {
+      if (!err) {
+        if (acc[0]) {
+          const tempAcc = Object.assign({}, this.state.account)
+          tempAcc.address = acc[0]
+          this.setState({
+            web3error: null,
+            account: tempAcc,
+          })
+          this.handleCheckIxoBalance(Web3Accounts.user)
+          this.handleGetProjectWalletAddres()
+        } else {
+          this.setState({ web3error: 'SIGN IN TO METAMASK' })
+        }
+      }
+    })
 
-	// handleCheckEthBalance = () => {
+    if (this.props.projectStatus === 'FUNDED') {
+      this.setState({ fundingProject: false })
+    }
+    if (
+      this.state.projectAccount.address !== null &&
+      this.state.projectAccount.address !==
+        '0x0000000000000000000000000000000000000000' &&
+      this.state.creatingProjectWallet === true
+    ) {
+      this.setState({ creatingProjectWallet: false })
+    }
+  }
 
-	// 	this.props.web3.eth.getAccounts((err: any, acc: any) => {
-	// 		if (!err) {
-	// 			this.props.web3.eth.getBalance(acc[0], (error, balance) => {
-	// 				if (!error) {
-	// 					let tempAcc = Object.assign({}, this.state.account);
-	// 					tempAcc.balance = balance;
-	// 					this.setState({ 
-	// 						web3error: null,
-	// 						account: tempAcc
-	// 					});
-	// 				}
-	// 			});
-	// 		}
-	// 	});
-	// }
+  // handleCheckEthBalance = () => {
 
-	handleCheckIxoBalance = (accountType: Web3Accounts) => {
-		
-		let addressToUse = null;
-		
-		if (accountType === Web3Accounts.project) {
-			addressToUse = this.state.projectAccount.address;
-		} else {
-			addressToUse = this.state.account.address;
-		}
+  // 	this.props.web3.eth.getAccounts((err: any, acc: any) => {
+  // 		if (!err) {
+  // 			this.props.web3.eth.getBalance(acc[0], (error, balance) => {
+  // 				if (!error) {
+  // 					let tempAcc = Object.assign({}, this.state.account);
+  // 					tempAcc.balance = balance;
+  // 					this.setState({
+  // 						web3error: null,
+  // 						account: tempAcc
+  // 					});
+  // 				}
+  // 			});
+  // 		}
+  // 	});
+  // }
 
-		this.projectWeb3.getIxoBalance(addressToUse).then((balance) => {
-			let tempAcc = Object.assign({}, this.state.account);
-			tempAcc.balance = balance;
-			if (accountType === Web3Accounts.project) {
-				this.setState({
-					projectAccount: tempAcc
-				});
-			} else {
-				this.setState({ 
-					web3error: null,
-					account: tempAcc
-				});
-			}
-		});
-	}
+  handleCheckIxoBalance = (accountType: Web3Accounts): void => {
+    let addressToUse = null
 
-	handleCreateWallet = () => {
-		this.projectWeb3.createEthProjectWallet(this.props.projectDid).then((res, error) => {
-			if (res === 'creating') {
-				this.setState({ creatingProjectWallet: true});
-			}
-		});
-	}
+    if (accountType === Web3Accounts.project) {
+      addressToUse = this.state.projectAccount.address
+    } else {
+      addressToUse = this.state.account.address
+    }
 
-	handleGetProjectWalletAddres = () => {
-			this.projectWeb3.getProjectWalletAddress(this.props.projectDid).then((res) => {
-				const projectAccount = Object.assign({}, this.state.projectAccount); 
-				projectAccount.address = res;
-				this.setState({ projectAccount : projectAccount });
-			}).catch((err) => {
-			console.log('couldnt retrieve wallet address. ', err);
-		});
-	}
+    this.projectWeb3.getIxoBalance(addressToUse).then(balance => {
+      const tempAcc = Object.assign({}, this.state.account)
+      tempAcc.balance = balance
+      if (accountType === Web3Accounts.project) {
+        this.setState({
+          projectAccount: tempAcc,
+        })
+      } else {
+        this.setState({
+          web3error: null,
+          account: tempAcc,
+        })
+      }
+    })
+  }
 
-	handleFundProjectWallet = async () => {
-		await this.handleGetProjectWalletAddres();
+  handleCreateWallet = (): void => {
+    this.projectWeb3.createEthProjectWallet(this.props.projectDid).then(res => {
+      if (res === 'creating') {
+        this.setState({ creatingProjectWallet: true })
+      }
+    })
+  }
 
-		let ixoToSend = new BigNumber(this.props.projectIxoRequired);
-		ixoToSend = ixoToSend.multipliedBy(100000000);
-		this.projectWeb3.fundEthProjectWallet(this.state.projectAccount.address, this.state.account.address, ixoToSend.toNumber()).then((txnHash) => {
-			this.setState({ fundingProject: true});
-			const statusObj = {
-				projectDid: this.props.projectDid,
-				status: 'PENDING',
-				txnID: txnHash
-			};
+  handleGetProjectWalletAddres = (): void => {
+    this.projectWeb3
+      .getProjectWalletAddress(this.props.projectDid)
+      .then(res => {
+        const projectAccount = Object.assign({}, this.state.projectAccount)
+        projectAccount.address = res
+        this.setState({ projectAccount: projectAccount })
+      })
+      .catch(err => {
+        console.log('couldnt retrieve wallet address. ', err)
+      })
+  }
 
-			const signature = {
-				creator: this.props.userInfo.didDoc.did,
-				created: new Date()
-			};
+  handleFundProjectWallet = async (): Promise<void> => {
+    await this.handleGetProjectWalletAddres()
 
-			this.props.ixo.project.fundProject(statusObj, signature, this.props.projectURL).then((res) => {
-				if (res.error) {
-					Toast.errorToast(res.error.message);
-				} else {
-					Toast.successToast(`Successfully updated project status to ${statusObj.status}`);
-				}
-			});
-		});
-	}
+    let ixoToSend = new BigNumber(this.props.projectIxoRequired)
+    ixoToSend = ixoToSend.multipliedBy(100000000)
+    this.projectWeb3
+      .fundEthProjectWallet(
+        this.state.projectAccount.address,
+        this.state.account.address,
+        ixoToSend.toNumber(),
+      )
+      .then(txnHash => {
+        this.setState({ fundingProject: true })
+        const statusObj = {
+          projectDid: this.props.projectDid,
+          status: 'PENDING',
+          txnID: txnHash,
+        }
 
-	handleStartProject = () => {
-		const statusObj = {
-			projectDid: this.props.projectDid,
-			status: 'STARTED'
-		};
-		this.handleUpdateProjectStatus(statusObj);
-	}
+        const signature = {
+          creator: this.props.userInfo.didDoc.did,
+          created: new Date(),
+        }
 
-	handleUpdateProjectStatus = (statusData) => {
+        this.props.ixo.project
+          .fundProject(statusObj, signature, this.props.projectURL)
+          .then(res => {
+            if (res.error) {
+              Toast.errorToast(res.error.message)
+            } else {
+              Toast.successToast(
+                `Successfully updated project status to ${statusObj.status}`,
+              )
+            }
+          })
+      })
+  }
 
-		this.props.keysafe.requestSigning(JSON.stringify(statusData), (error: any, signature: any) => {
-			if (!error) {
-				this.props.ixo.project.updateProjectStatus(statusData, signature, this.props.projectURL).then((res) => {
-					if (res.error) {
-						Toast.errorToast(res.error.message);
-					} else {
-						Toast.successToast(`Successfully updated project status to ${statusData.status}`);
-					}
-				});
-			} else {
-				Toast.errorToast('PDS is not responding');
-			}
-		}, 'base64');
-	}
+  handleStartProject = (): void => {
+    const statusObj = {
+      projectDid: this.props.projectDid,
+      status: 'STARTED',
+    }
+    this.handleUpdateProjectStatus(statusObj)
+  }
 
-	handleStopProject = async () => {
-		if (this.state.projectAccount.address! && this.state.projectAccount.address !== '0x0000000000000000000000000000000000000000') {
-			const statusObj = {
-				projectDid: this.props.projectDid,
-				status: 'STOPPED'
-			};
-			this.handleUpdateProjectStatus(statusObj);
-		} else {
-			console.log(this.state.projectAccount.address);
-		}
-	}
+  handleUpdateProjectStatus = (statusData): void => {
+    this.props.keysafe.requestSigning(
+      JSON.stringify(statusData),
+      (error: any, signature: any) => {
+        if (!error) {
+          this.props.ixo.project
+            .updateProjectStatus(statusData, signature, this.props.projectURL)
+            .then(res => {
+              if (res.error) {
+                Toast.errorToast(res.error.message)
+              } else {
+                Toast.successToast(
+                  `Successfully updated project status to ${statusData.status}`,
+                )
+              }
+            })
+        } else {
+          Toast.errorToast('PDS is not responding')
+        }
+      },
+      'base64',
+    )
+  }
 
-	handlePayOutProject = async () => {
-		if (this.state.projectAccount.address! && this.state.projectAccount.address !== '0x0000000000000000000000000000000000000000') {
-			const statusObj = {
-				projectDid: this.props.projectDid,
-				status: 'PAIDOUT'
-			};
-			this.handleUpdateProjectStatus(statusObj);
-		} else {
-			console.log(this.state.projectAccount.address);
-		}
-	}
+  handleStopProject = async (): Promise<void> => {
+    if (
+      this.state.projectAccount.address &&
+      this.state.projectAccount.address !==
+        '0x0000000000000000000000000000000000000000'
+    ) {
+      const statusObj = {
+        projectDid: this.props.projectDid,
+        status: 'STOPPED',
+      }
+      this.handleUpdateProjectStatus(statusObj)
+    } else {
+      console.log(this.state.projectAccount.address)
+    }
+  }
 
-	handleWithdrawFunds = () => {
-		if (this.props.userInfo!) {
+  handlePayOutProject = async (): Promise<void> => {
+    if (
+      this.state.projectAccount.address &&
+      this.state.projectAccount.address !==
+        '0x0000000000000000000000000000000000000000'
+    ) {
+      const statusObj = {
+        projectDid: this.props.projectDid,
+        status: 'PAIDOUT',
+      }
+      this.handleUpdateProjectStatus(statusObj)
+    } else {
+      console.log(this.state.projectAccount.address)
+    }
+  }
 
-			const payload = {
-				data: {
-					projectDid: this.props.projectDid,
-					ethWallet: this.state.account.address,
-					isRefund: true
-				},
-				senderDid: this.props.userInfo.didDoc.did
-			};
-			// need to add amount: ethAmt property for withdrawel
+  handleWithdrawFunds = (): void => {
+    if (this.props.userInfo) {
+      const payload = {
+        data: {
+          projectDid: this.props.projectDid,
+          ethWallet: this.state.account.address,
+          isRefund: true,
+        },
+        senderDid: this.props.userInfo.didDoc.did,
+      }
+      // need to add amount: ethAmt property for withdrawel
 
-			this.props.keysafe.requestSigning(JSON.stringify(payload), (error, signature) => {
-				if (!error) {
-					this.props.ixo.project.payOutToEthWallet(payload, signature).then((response: any) => {
-						if (response.code === 0) {
-							successToast('Withdraw requested successfully');
-						} else {
-							errorToast('Unable to request a withdrawel at this time');
-						}
-					});
-				} 
-			}, 'base64');
-		} else {
-			errorToast('we not find your did');
-		}
-	}
+      this.props.keysafe.requestSigning(
+        JSON.stringify(payload),
+        (error, signature) => {
+          if (!error) {
+            this.props.ixo.project
+              .payOutToEthWallet(payload, signature)
+              .then((response: any) => {
+                if (response.code === 0) {
+                  successToast('Withdraw requested successfully')
+                } else {
+                  errorToast('Unable to request a withdrawel at this time')
+                }
+              })
+          }
+        },
+        'base64',
+      )
+    } else {
+      errorToast('we not find your did')
+    }
+  }
 
-	renderModalData = () => {
-		return this.state.modalData.content;
-	}
+  renderModalData = (): string => {
+    return this.state.modalData.content
+  }
 
-	toggleModal = (isModalOpen: boolean) => {
-		this.setState({isModalOpen: isModalOpen});
-	}
+  toggleModal = (isModalOpen: boolean): void => {
+    this.setState({ isModalOpen: isModalOpen })
+  }
 
-	render() {
-		return (
-			<Fragment>
-				<ModalWrapper
-					isModalOpen={this.state.isModalOpen}
-					handleToggleModal={this.toggleModal}
-					header={this.renderModalHeader()}
-				>
-					{this.renderModalData()}
-				</ModalWrapper>
-				<FundingWrapper className="container-fluid">
-						<div className="row">
-							<div className="col-md-6">
-								<ol>
-									<li onClick={() => this.handleCheckIxoBalance(Web3Accounts.project)}>Check project balance</li>
-									<li className={(this.props.projectStatus === 'CREATED' && this.state.projectAccount.address === null) ? 'active' : ''}>SETUP</li>
-									<li className={(this.props.projectStatus === 'CREATED' && this.state.projectAccount.address === '0x0000000000000000000000000000000000000000') ? 'active' : ''}>CREATE WALLET</li>
-									<li className={(this.state.projectAccount.address !== null && this.state.projectAccount.address !== '0x0000000000000000000000000000000000000000') ? 'active' : ''}>FUEL</li>
-								</ol>
-							</div>
-							<div className="col-md-6">
-								<FundingGauge 
-									web3error={this.state.web3error} 
-									account={this.state.account} 
-									requiredIxo={this.props.projectIxoRequired}
-									projectStatus={this.props.projectStatus}
-								/>
-								<FundingButton 
-									projectWalletAddress={this.state.projectAccount.address}
-									account={this.state.account}
-									createProjectWallet={this.handleCreateWallet}
-									requiredIxo={this.props.projectIxoRequired}
-									web3error={this.state.web3error}
-									creatingWallet={this.state.creatingProjectWallet}
-									fundingProject={this.state.fundingProject}
-									fundProject={this.handleFundProjectWallet}
-									projectStatus={this.props.projectStatus}
-									startProject={this.handleStartProject}
-									stopProject={this.handleStopProject}
-									payoutPhase={this.handlePayOutProject}
-									withdrawFunds={this.handleWithdrawFunds}
-								/>
-							</div>
-						</div>
-				</FundingWrapper>
-			</Fragment>
-		);
-	}
+  render(): JSX.Element {
+    return (
+      <Fragment>
+        <ModalWrapper
+          isModalOpen={this.state.isModalOpen}
+          handleToggleModal={this.toggleModal}
+          header={this.renderModalHeader()}
+        >
+          {this.renderModalData()}
+        </ModalWrapper>
+        <FundingWrapper className="container-fluid">
+          <div className="row">
+            <div className="col-md-6">
+              <ol>
+                <li
+                  onClick={(): void =>
+                    this.handleCheckIxoBalance(Web3Accounts.project)
+                  }
+                >
+                  Check project balance
+                </li>
+                <li
+                  className={
+                    this.props.projectStatus === 'CREATED' &&
+                    this.state.projectAccount.address === null
+                      ? 'active'
+                      : ''
+                  }
+                >
+                  SETUP
+                </li>
+                <li
+                  className={
+                    this.props.projectStatus === 'CREATED' &&
+                    this.state.projectAccount.address ===
+                      '0x0000000000000000000000000000000000000000'
+                      ? 'active'
+                      : ''
+                  }
+                >
+                  CREATE WALLET
+                </li>
+                <li
+                  className={
+                    this.state.projectAccount.address !== null &&
+                    this.state.projectAccount.address !==
+                      '0x0000000000000000000000000000000000000000'
+                      ? 'active'
+                      : ''
+                  }
+                >
+                  FUEL
+                </li>
+              </ol>
+            </div>
+            <div className="col-md-6">
+              <FundingGauge
+                web3error={this.state.web3error}
+                account={this.state.account}
+                requiredIxo={this.props.projectIxoRequired}
+                projectStatus={this.props.projectStatus}
+              />
+              <FundingButton
+                projectWalletAddress={this.state.projectAccount.address}
+                account={this.state.account}
+                createProjectWallet={this.handleCreateWallet}
+                requiredIxo={this.props.projectIxoRequired}
+                web3error={this.state.web3error}
+                creatingWallet={this.state.creatingProjectWallet}
+                fundingProject={this.state.fundingProject}
+                fundProject={this.handleFundProjectWallet}
+                projectStatus={this.props.projectStatus}
+                startProject={this.handleStartProject}
+                stopProject={this.handleStopProject}
+                payoutPhase={this.handlePayOutProject}
+                withdrawFunds={this.handleWithdrawFunds}
+              />
+            </div>
+          </div>
+        </FundingWrapper>
+      </Fragment>
+    )
+  }
 }
 
-function mapStateToProps(state: PublicSiteStoreState, ownProps: ParentProps) {
-	return {
-		web3: state.web3Store.web3,
-		keysafe: state.keysafeStore.keysafe,
-		ixo: state.ixoStore.ixo,
-		projectDid: ownProps.projectDid,
-		projectURL: ownProps.projectURL,
-		projectIxoRequired: ownProps.projectIxoRequired,
-		error: state.web3Store.error,
-		userInfo: state.loginStore.userInfo
-	};
+function mapStateToProps(
+  state: PublicSiteStoreState,
+  ownProps: ParentProps,
+): Record<string, any> {
+  return {
+    web3: state.web3.web3,
+    keysafe: state.keySafe.keysafe,
+    ixo: state.ixo.ixo,
+    projectDid: ownProps.projectDid,
+    projectURL: ownProps.projectURL,
+    projectIxoRequired: ownProps.projectIxoRequired,
+    error: state.web3.error,
+    userInfo: state.login.userInfo,
+  }
 }
 
-export const FundingContainer = connect(
-	mapStateToProps
-)(Funding as any);
+export const FundingContainer = connect(mapStateToProps)(Funding as any)

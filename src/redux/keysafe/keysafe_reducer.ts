@@ -1,25 +1,28 @@
-import { createReducer } from '../../lib/redux_utils/reducers';
-import { KeysafeResult, KEYSAFE_RESULT } from './keysafe_actions';
+import { createReducer } from '../../lib/redux_utils/reducers'
+import { KeysafeResult, KEYSAFE_RESULT } from './keysafe_actions'
 
 export type IKeysafeModelState = {
-	keysafe: any,
-	error: Object,
-};
+  keysafe: any
+  error: Record<string, any>
+}
 
 const initialState: IKeysafeModelState = {
-	keysafe: null,
-	error: {},
-};
+  keysafe: null,
+  error: {},
+}
 
-export let keysafeReducer = createReducer<IKeysafeModelState>(initialState, [
-	{
-		action: KEYSAFE_RESULT,
-		handler: (state: IKeysafeModelState, action: KeysafeResult) => {
-			state.keysafe = action.keysafe,
-			state.error = action.error;
-			return {
-				...state
-			};
-		}
-	}
-]);
+export const keysafeReducer = createReducer<IKeysafeModelState>(initialState, [
+  {
+    action: KEYSAFE_RESULT,
+    handler: (
+      state: IKeysafeModelState,
+      action: KeysafeResult,
+    ): IKeysafeModelState => {
+      state.keysafe = action.keysafe
+      state.error = action.error
+      return {
+        ...state,
+      }
+    },
+  },
+])

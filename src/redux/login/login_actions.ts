@@ -1,10 +1,11 @@
-import { UserInfo } from '../../types/models';
+import { UserInfo } from '../../types/models'
 
 export interface LoginResult {
-	userInfo: UserInfo;
-	error: Object;
+  userInfo: UserInfo
+  error: Record<string, any>
 }
 
-export module LOGIN_RESULT {
-	export var type = 'LOGIN_RESULT';
+// eslint-disable-next-line
+export namespace LOGIN_RESULT {
+  export const type = 'LOGIN_RESULT'
 }
