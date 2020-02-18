@@ -7,9 +7,11 @@ const PositionController = styled.div`
   position: absolute;
   bottom: 0;
   z-index: 10;
-  transform: translateY(75%);
-  @media screen and (min-width: 768px) {
+  left: 50%;
+  transform: translate(-50%, 75%);
+  @media screen and (min-width: 660px) {
     right: 190px;
+    transform: translate(0, 75%);
   }
 `
 
