@@ -1,6 +1,8 @@
 import * as React from 'react'
 import styled from 'styled-components'
-import './FilterSortButtons.css'
+import '../../assets/filter_sort_buttons.css'
+import './DatePicker'
+import DatePicker from './DatePicker'
 
 const PositionController = styled.div`
     position: absolute;
@@ -10,13 +12,27 @@ const PositionController = styled.div`
     font-weight: bold;        
 `
 
-const FilterSortButtons = () => {
+class FilterSortButtons extends React.Component<{}, { showComponent: boolean }>{
+  constructor(props){
+    super(props);
+    this.state ={
+      showComponent: false
+    };
+  }
+
+  showDatePicker = (e) =>{
+    e.preventDefault();
+    this.setState({
+      showComponent: true
+    })
+  }
+
+ render(){
   return(
     <PositionController>
         <button
             className="btn btn-focus"
-            onClick={()=>console.log('Dates')}
-            
+            onClick={this.showDatePicker} 
         >
             <i className="icon-calendar-sort"></i>
             Dates
@@ -30,9 +46,10 @@ const FilterSortButtons = () => {
           onClick={()=>console.log('Reset')}>
             <i className="icon-reset"></i>
             Reset</button> 
+  {this.state.showComponent ? <DatePicker/> : null}
   </PositionController>
 
-    
   );
+ }
 }
 export default FilterSortButtons;
