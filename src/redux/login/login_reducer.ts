@@ -16,7 +16,8 @@ export const loginReducer = createReducer<ILoginModelState>(initialState, [
   {
     action: LOGIN_RESULT,
     handler: (state: ILoginModelState, action: LoginResult): any => {
-      (state.userInfo = action.userInfo), (state.loginError = action.error)
+      state.userInfo = action.userInfo
+      state.loginError = action.error
       return {
         ...state,
       }

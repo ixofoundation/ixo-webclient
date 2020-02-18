@@ -389,8 +389,8 @@ class Header extends React.Component<Props, State> {
 
 function mapStateToProps(state: PublicSiteStoreState): StateProps {
   return {
-    ixo: state.ixoStore.ixo,
-    keysafe: state.keysafeStore.keysafe,
+    ixo: state.ixo.ixo,
+    keysafe: state.keySafe.keysafe,
   }
 }
 

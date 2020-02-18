@@ -18,7 +18,8 @@ export const keysafeReducer = createReducer<IKeysafeModelState>(initialState, [
       state: IKeysafeModelState,
       action: KeysafeResult,
     ): IKeysafeModelState => {
-      (state.keysafe = action.keysafe), (state.error = action.error)
+      state.keysafe = action.keysafe
+      state.error = action.error
       return {
         ...state,
       }

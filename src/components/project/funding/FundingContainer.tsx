@@ -542,14 +542,14 @@ function mapStateToProps(
   ownProps: ParentProps,
 ): Record<string, any> {
   return {
-    web3: state.web3Store.web3,
-    keysafe: state.keysafeStore.keysafe,
-    ixo: state.ixoStore.ixo,
+    web3: state.web3.web3,
+    keysafe: state.keySafe.keysafe,
+    ixo: state.ixo.ixo,
     projectDid: ownProps.projectDid,
     projectURL: ownProps.projectURL,
     projectIxoRequired: ownProps.projectIxoRequired,
-    error: state.web3Store.error,
-    userInfo: state.loginStore.userInfo,
+    error: state.web3.error,
+    userInfo: state.login.userInfo,
   }
 }
 
