@@ -106,7 +106,7 @@ export default class Search extends React.Component {
                     }
                   >
                     <i className="icon-claims2" />
-                    My projects
+                    My Projects
                   </SearchFilterButton>
                   <SearchFilterButton className="disabled">
                     <i className="icon-serviceproviders" />
