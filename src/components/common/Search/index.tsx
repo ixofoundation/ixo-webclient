@@ -95,7 +95,7 @@ export default class Search extends React.Component {
                     }
                   >
                     <i className="icon-claims" />
-                    All projects
+                    All Projects
                   </SearchFilterButton>
                   <SearchFilterButton
                     onClick={(): void =>
