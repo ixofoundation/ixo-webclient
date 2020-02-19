@@ -99,7 +99,7 @@ export default class Search extends React.Component {
                   </SearchFilterButton>
                   <SearchFilterButton
                     onClick={(): void =>
-                      this.handleSearchFilter('My projects', 'claims2')
+                      this.handleSearchFilter('My Projects', 'claims2')
                     }
                     className={
                       this.state.activeFilter === 'my-projects' ? 'active' : ''
