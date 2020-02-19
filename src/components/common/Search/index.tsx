@@ -88,7 +88,7 @@ export default class Search extends React.Component {
                 <SearchButtonsWrapper>
                   <SearchFilterButton
                     onClick={(): void =>
-                      this.handleSearchFilter('All projects', 'claims')
+                      this.handleSearchFilter('All Projects', 'claims')
                     }
                     className={
                       this.state.activeFilter === 'all-projects' ? 'active' : ''
