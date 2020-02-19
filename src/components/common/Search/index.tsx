@@ -9,7 +9,7 @@ import {
   SearchHeading,
   SearchButtonsWrapper,
   SearchFilterButton,
-} from './style'
+} from './Style'
 
 export default class Search extends React.Component {
   state = {
