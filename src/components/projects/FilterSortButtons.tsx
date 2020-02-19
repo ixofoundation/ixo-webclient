@@ -1,55 +1,71 @@
 import * as React from 'react'
 import styled from 'styled-components'
 import '../../assets/filter_sort_buttons.css'
-import './DatePicker'
 import DatePicker from './DatePicker'
 
 const PositionController = styled.div`
-    position: absolute;
-    right: 5%;
-    top: 35%;
-    margin: 6px;
-    font-weight: bold;        
+  position: absolute;
+  right: 5%;
+  top: 35%;
+  margin: 6px;
+  font-weight: bold;
+`
+const Button = styled.button`
+  background-color: white;
+  border-color: grey;
+  border-width: 1px;
+  margin: 8px;
+  font-weight: 500;
+  font-style: normal;
+  font-family: Roboto;
+  font-size: 16px;
+  padding: 4px 6px;
+  border-radius: 4px;
+  align-items: center;
+  line-height: 19px;
+  height: 40px;
+  width: 100px;
+  &:hover {
+    border-color: blue;
+  }
 `
 
-class FilterSortButtons extends React.Component<{}, { showComponent: boolean }>{
-  constructor(props){
-    super(props);
-    this.state ={
-      showComponent: false
-    };
+class FilterSortButtons extends React.Component<
+  {},
+  { showDatePicker: boolean }
+> {
+  constructor(props) {
+    super(props)
+    this.state = {
+      showDatePicker: false,
+    }
   }
 
-  showDatePicker = (e) =>{
-    e.preventDefault();
+  toggleShowDatePicker = (e): void => {
+    e.preventDefault()
     this.setState({
-      showComponent: true
+      showDatePicker: !this.state.showDatePicker,
     })
   }
 
- render(){
-  return(
-    <PositionController>
-        <button
-            className="btn btn-focus"
-            onClick={this.showDatePicker} 
-        >
-            <i className="icon-calendar-sort"></i>
-            Dates
-        </button>
-        <button className="btn btn-focus" onClick={()=>console.log('Beneficiary')}>Beneficiary</button>
-        <button className="btn btn-focus" onClick={()=>console.log('Field')}>Field</button>
-        <button className="btn btn-focus"onClick={()=>console.log('SDG')}>SDG</button>
-        <button className="btn btn-focus" onClick={()=>console.log('Stage')}>Stage</button>
-        <button
-          className="btn btn-focus"
-          onClick={()=>console.log('Reset')}>
-            <i className="icon-reset"></i>
-            Reset</button> 
-  {this.state.showComponent ? <DatePicker/> : null}
-  </PositionController>
-
-  );
- }
+  render(): JSX.Element {
+    return (
+      <PositionController>
+        <Button onClick={this.toggleShowDatePicker}>
+          <i className="icon-calendar-sort"></i>
+          Dates
+        </Button>
+        <Button>Beneficiary</Button>
+        <Button>Field</Button>
+        <Button>SDG</Button>
+        <Button>Stage</Button>
+        <Button>
+          <i className="icon-reset"></i>
+          Reset
+        </Button>
+        {this.state.showDatePicker ? <DatePicker /> : null}
+      </PositionController>
+    )
+  }
 }
-export default FilterSortButtons;
+export default FilterSortButtons

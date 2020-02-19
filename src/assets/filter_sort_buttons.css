@@ -1,4 +1,4 @@
-.btn {
+.btn1 {
   background-color: white;
   border-color: grey;
   border-width: 0.5px;
@@ -12,19 +12,24 @@
   align-items: center;
   line-height: 19px;
   height: 40px;
-  width: 100px; }
+  width: 100px;
+}
 
-.btn-focus {
+.btn1-focus {
   background-color: white;
-  color: black; }
+  color: black;
+}
 
-.btn-focus:hover {
+.btn1-focus:hover {
   border-color: grey;
   border-width: 2px;
-  color: black; }
+  color: black;
+}
 
 .icon-calendar-sort {
-  padding-right: 10px; }
+  padding-right: 10px;
+}
 
 .icon-reset {
-  padding-right: 10px; }
+  padding-right: 10px;
+}
