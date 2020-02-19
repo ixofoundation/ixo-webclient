@@ -51,13 +51,13 @@ const ProjectsContainer = styled.div`
 `
 
 const ErrorContainer = styled.div`
-	display: flex;
-	flex: 1;
-	justify-content: center;
-	color: white;
-	align-items: center;
-	background-color: ${/* eslint-disable-line */ props => props.theme.bg.blue};
-	height:100%:
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  color: white;
+  align-items: center;
+  background-color: ${/* eslint-disable-line */ props => props.theme.bg.blue};
+  height: 100%;
 `
 
 export interface ParentProps {
@@ -261,9 +261,8 @@ export class Projects extends React.Component<Props, State> {
           showMyProjects={(val): void => this.showMyProjects(val)}
         />
         {this.handleRenderProjectList()}
-        <FilterSortButtons/>
+        <FilterSortButtons />
       </Container>
-      
     )
   }
 }
