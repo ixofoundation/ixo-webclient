@@ -8,7 +8,7 @@ import MediaQuery from 'react-responsive'
 import { deviceWidth } from '../../lib/commonData'
 import { ModalWrapper } from 'src/components/common/ModalWrapper'
 import { ButtonTypes, Button } from '../common/Buttons'
-import HeaderSubTabs from '../header/HeaderSubTabs'
+//import HeaderSubTabs from '../header/HeaderSubTabs'
 
 const TopBar = styled.header`
   position: sticky;
@@ -320,7 +320,7 @@ class Header extends React.Component<Props, State> {
 
   handleLedgerDid = () => {
     if (this.props.userInfo.didDoc) {
-      let payload = { didDoc: this.props.userInfo.didDoc }
+      const payload = { didDoc: this.props.userInfo.didDoc }
       this.props.keysafe.requestSigning(
         JSON.stringify(payload),
         (error, signature) => {
@@ -380,7 +380,7 @@ class Header extends React.Component<Props, State> {
             />
           </MediaQuery>
         </div>
-        <HeaderSubTabs />
+        {/*projectLevel ? <HeaderSubTabs/> : <HeaderSubTabsGlobal/>*/}
       </TopBar>
     )
   }

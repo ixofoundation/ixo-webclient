@@ -1,7 +1,8 @@
 import * as React from 'react'
 import styled from 'styled-components'
+import { Tabs } from '../common/Tabs'
 import { SingleStatistic } from '../common/SingleStatistic'
-import { StatType } from '../../types/models'
+import { StatType, MatchType } from '../../types/models'
 import { Stats } from '../../types/models/stats'
 import { deviceWidth } from '../../lib/commonData'
 import Search from '../common/Search'
@@ -50,6 +51,13 @@ const HeroInner = styled.div`
   :hover ${ContainerInner} > div {
     transform: scale(1.05);
   }
+`
+
+const PositionController = styled.div`
+  position: absolute;
+  right: 0;
+  bottom: calc(0% - 20px);
+  z-index: 1;
 `
 
 const HeroContainer = styled.div`
@@ -190,6 +198,29 @@ export class ProjectsHero extends React.Component<Props, State> {
             })}
           </div>
         </HeroInner>
+        <div className="container">
+          <div className="row">
+            <div className="col-md-12">
+              <PositionController>
+                <Tabs
+                  buttons={[
+                    {
+                      iconClass: 'icon-projects',
+                      path: '/',
+                      title: 'PROJECTS',
+                    },
+                    {
+                      iconClass: 'icon-impacts',
+                      path: '/global-statistics',
+                      title: 'IMPACTS',
+                    },
+                  ]}
+                  matchType={MatchType.exact}
+                />
+              </PositionController>
+            </div>
+          </div>
+        </div>
         <Search />
       </HeroContainer>
     )

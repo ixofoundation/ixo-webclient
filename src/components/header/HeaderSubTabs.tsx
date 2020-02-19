@@ -1,3 +1,4 @@
+/*Test file for styling: Style should be moved to ProjectHero (ProjectLevel) and ProjectsHero (GlobalLevel) in HeaderContainer*/
 import * as React from 'react'
 import styled from 'styled-components'
 import { Tabs } from '../common/Tabs'
@@ -20,13 +21,21 @@ const HeaderSubTabs = () => {
     <PositionController>
       <Tabs
         buttons={[
-          { iconClass: 'icon-projects', path: '/', title: 'PROJECTS' },
+          {
+            iconClass: 'icon-projects',
+            path: '/',
+            title: 'PROJECT',
+          },
           {
             iconClass: 'icon-impacts',
             path: '/global-statistics',
-            title: 'IMPACTS',
+            title: 'PERFORMANCE',
           },
-          { iconClass: 'icon-funding', path: '/', title: 'FUNDING' },
+          {
+            iconClass: 'icon-funding',
+            path: '/bonds',
+            title: 'FUNDING',
+          },
         ]}
         matchType={MatchType.exact}
       />
