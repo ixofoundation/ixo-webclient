@@ -18,6 +18,7 @@ export const StyledHeaderItem = styled.div`
   font-family: 'Roboto Condensed', sans-serif;
   font-weight: normal;
   color: black;
+  justify-content: space-around;
   &:last-child {
     margin: 0;
   }

@@ -126,13 +126,13 @@ hr {
 
 .BondsWrapper_panel {
   border: 1px solid $body-border-color;
-  /*border-radius: 5px;*/
+  border-radius: 3px;
   background-color: $body-background-color;
   // display: flex;
   // flex-direction: column;
   // align-items: center;
   // align-self: space-around;
-  margin: 0 2rem;
+  margin: 2.5rem;
 
   &.exchange_panel {
     max-width: 40em;
