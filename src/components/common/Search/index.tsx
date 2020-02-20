@@ -11,7 +11,12 @@ import {
   SearchFilterButton,
 } from './Style'
 
-export default class Search extends React.Component {
+interface Props {
+  filterChanged: (filter: string) => void
+  // TODO - search submitted
+}
+
+export default class Search extends React.Component<Props> {
   state = {
     search: '',
     isModalOpen: false,
@@ -44,6 +49,8 @@ export default class Search extends React.Component {
       .replace(/[^\w-]+/g, '')
     this.setState({ filterButtonText, iconClass, activeFilter: slug })
     this.handleToggleModal()
+
+    this.props.filterChanged(slug)
   }
 
   render(): JSX.Element {
