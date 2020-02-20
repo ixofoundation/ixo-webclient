@@ -6,19 +6,7 @@ import QuoteBuy from './QuoteBuy'
 import ConfirmBuy from './ConfirmBuy'
 
 class Buy extends Component<any> {
-  componentDidMount() {
-    console.log(this.props)
-  }
-
-  // componentWillReceiveProps(nextProps : any) {
-  //    if (nextProps.activeQuote.hasOwnProperty('actualPrices')) {
-  //       this.props.history.push('/exchange/buy');
-  //    } else {
-  //       this.props.history.push('/exchange/buy.');
-  //    }
-  // }
-
-  render() {
+  render(): JSX.Element {
     return (
       <div className="BondsWrapper_panel__chrome">
         <div className="BondsWrapper_panel__content">
@@ -28,8 +16,13 @@ class Buy extends Component<any> {
                 <Route
                   exact
                   path={['/bonds/exchange/buy', '/bonds/exchange/']}
-                  render={props => {
-                    if (this.props.activeQuote.hasOwnProperty('totalPrices')) {
+                  render={(props): JSX.Element => {
+                    if (
+                      Object.prototype.hasOwnProperty.call(
+                        this.props.activeQuote,
+                        'totalPrices',
+                      )
+                    ) {
                       return (
                         <Redirect
                           from="/bonds"
@@ -44,7 +37,7 @@ class Buy extends Component<any> {
                 <Route
                   exact
                   path="/bonds/exchange/buy/confirm"
-                  render={props => <ConfirmBuy {...props} />}
+                  render={(props): JSX.Element => <ConfirmBuy {...props} />}
                 />
               </div>
             </BrowserRouter>
@@ -55,7 +48,7 @@ class Buy extends Component<any> {
   }
 }
 
-const mapStateToProps = function(state: Store) {
+const mapStateToProps = function(state: Store): Store {
   return state
 }
 

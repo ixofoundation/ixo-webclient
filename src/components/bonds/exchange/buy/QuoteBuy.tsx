@@ -7,10 +7,10 @@ import { quoteBuy } from '../../../../redux/quote/quote_action_creators'
 import { Quote } from '../../../../model/quote'
 import { currencyStr, tokenBalance } from '../../../../model/account'
 
-const QuoteBuy = (props: any) => {
+const QuoteBuy = (props: any): JSX.Element => {
   const { register, handleSubmit, watch, errors } = useForm()
 
-  const onSubmit = (formData: any) => {
+  const onSubmit = (formData: any): void => {
     const quote: Quote = {}
     quote.sending = { denom: formData.denom }
     quote.recieving = {
@@ -119,7 +119,7 @@ const QuoteBuy = (props: any) => {
   }
 }
 
-const mapStateToProps = (state: Store) => {
+const mapStateToProps = (state: Store): Store => {
   return state
 }
 

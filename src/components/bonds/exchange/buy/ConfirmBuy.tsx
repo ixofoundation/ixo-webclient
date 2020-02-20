@@ -14,10 +14,10 @@ import {
   currencyStr,
 } from '../../../../model/account'
 
-const ConfirmBuy = (props: any) => {
+const ConfirmBuy = (props: any): JSX.Element => {
   const { handleSubmit } = useForm()
 
-  const error = (message?: string) => {
+  const error = (message?: string): JSX.Element => {
     return message ? <div className="error">{message}</div> : undefined
   }
 
@@ -32,13 +32,13 @@ const ConfirmBuy = (props: any) => {
       />
     )
   } else {
-    const onSubmit = (formData: any) => {
+    const onSubmit = (): void => {
       props.dispatch(
         confirmBuy(props.activeQuote, props.activeBond, props.account.address),
       )
     }
 
-    const onBack = () => {
+    const onBack = (): void => {
       props.dispatch(clearQuote())
       props.history.push('../')
     }
@@ -142,7 +142,7 @@ const ConfirmBuy = (props: any) => {
   }
 }
 
-const mapStateToProps = (state: Store) => {
+const mapStateToProps = (state: Store): Store => {
   return state
 }
 
