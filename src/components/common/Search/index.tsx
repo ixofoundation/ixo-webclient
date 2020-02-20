@@ -10,6 +10,12 @@ import {
   SearchButtonsWrapper,
   SearchFilterButton,
 } from './Style'
+import Globe from '../../../assets/icons/Globe'
+import Briefcase from '../../../assets/icons/Briefcase'
+import People from '../../../assets/icons/People'
+import Oracle from '../../../assets/icons/Oracle'
+import Template from '../../../assets/icons/Template'
+import Marketplace from '../../../assets/icons/Marketplace'
 
 interface Props {
   filterChanged: (filter: string) => void
@@ -20,9 +26,9 @@ export default class Search extends React.Component<Props> {
   state = {
     search: '',
     isModalOpen: false,
-    filterButtonText: 'All Projects',
-    iconClass: 'claims',
+    activeFilterButtonText: 'All Projects',
     activeFilter: 'all-projects',
+    activeFilterIcon: 'globe',
   }
 
   handleChange = (event): void => {
@@ -42,15 +48,41 @@ export default class Search extends React.Component<Props> {
     })
   }
 
-  handleSearchFilter = (filterButtonText: string, iconClass?: string): void => {
-    const slug = filterButtonText
+  handleSearchFilter = (
+    activeFilterButtonText: string,
+    filterIcon: string,
+  ): void => {
+    const slug = activeFilterButtonText
       .toLowerCase()
       .replace(/ /g, '-')
       .replace(/[^\w-]+/g, '')
-    this.setState({ filterButtonText, iconClass, activeFilter: slug })
+    this.setState({
+      activeFilterButtonText,
+      activeFilter: slug,
+      activeFilterIcon: filterIcon,
+    })
     this.handleToggleModal()
 
     this.props.filterChanged(slug)
+  }
+
+  renderFilterButtonIcon = (icon: string): JSX.Element => {
+    switch (icon) {
+      case 'globe':
+        return <Globe fill="#000" />
+      case 'briefcase':
+        return <Briefcase fill="#000" />
+      case 'people':
+        return <People fill="#000" />
+      case 'oracle':
+        return <Oracle fill="#000" />
+      case 'template':
+        return <Template fill="#000" />
+      case 'marketplace':
+        return <Marketplace fill="#000" />
+      default:
+        return null
+    }
   }
 
   render(): JSX.Element {
@@ -63,8 +95,8 @@ export default class Search extends React.Component<Props> {
                 onClick={(): void => this.handleToggleModal()}
                 className={this.state.isModalOpen ? 'modal-open' : ''}
               >
-                <i className={`filter-icon icon-${this.state.iconClass}`} />
-                {this.state.filterButtonText}
+                {this.renderFilterButtonIcon(this.state.activeFilterIcon)}
+                {this.state.activeFilterButtonText}
                 <i
                   className="icon-down"
                   style={{
@@ -95,40 +127,40 @@ export default class Search extends React.Component<Props> {
                 <SearchButtonsWrapper>
                   <SearchFilterButton
                     onClick={(): void =>
-                      this.handleSearchFilter('All Projects', 'claims')
+                      this.handleSearchFilter('All Projects', 'globe')
                     }
                     className={
                       this.state.activeFilter === 'all-projects' ? 'active' : ''
                     }
                   >
-                    <i className="icon-claims" />
+                    <div>{this.renderFilterButtonIcon('globe')}</div>
                     All Projects
                   </SearchFilterButton>
                   <SearchFilterButton
                     onClick={(): void =>
-                      this.handleSearchFilter('My Projects', 'claims2')
+                      this.handleSearchFilter('My Projects', 'briefcase')
                     }
                     className={
                       this.state.activeFilter === 'my-projects' ? 'active' : ''
                     }
                   >
-                    <i className="icon-claims2" />
+                    <div>{this.renderFilterButtonIcon('briefcase')}</div>
                     My Projects
                   </SearchFilterButton>
                   <SearchFilterButton className="disabled">
-                    <i className="icon-serviceproviders" />
+                    <div>{this.renderFilterButtonIcon('people')}</div>
                     People
                   </SearchFilterButton>
                   <SearchFilterButton className="disabled">
-                    <i className="icon-eye" />
+                    <div>{this.renderFilterButtonIcon('oracle')}</div>
                     Impact Oracles
                   </SearchFilterButton>
                   <SearchFilterButton className="disabled">
-                    <i className="icon-projects" />
+                    <div>{this.renderFilterButtonIcon('template')}</div>
                     Template
                   </SearchFilterButton>
                   <SearchFilterButton className="disabled">
-                    <i className="icon-sdg-sustainablecities" />
+                    <div>{this.renderFilterButtonIcon('marketplace')}</div>
                     Data Marketplace
                   </SearchFilterButton>
                 </SearchButtonsWrapper>
