@@ -11,7 +11,7 @@ import Swap from './swap/Swap'
 
 class Exchange extends Component<any> {
   // console.log(this.props)
-  componentDidMount() {
+  componentDidMount(): void {
     this.props.dispatch({
       type: QuoteActions.QUOTE_BUY + '_FAILED',
     })
@@ -26,7 +26,7 @@ class Exchange extends Component<any> {
     })
   }
 
-  isActive = (m: any, l: any, paths: [string]) => {
+  isActive = (m: any, l: any, paths: [string]): boolean => {
     let active = m != undefined
     paths.forEach((path: string) => {
       active = active || l.pathname.indexOf(path) != -1
@@ -34,7 +34,7 @@ class Exchange extends Component<any> {
     return active
   }
 
-  render() {
+  render(): JSX.Element {
     return (
       <BondsWrapper>
         <div className="BondsWrapper_panel exchange_panel">
@@ -43,7 +43,7 @@ class Exchange extends Component<any> {
           <div className="tablinks">
             <NavLink
               to={!this.props.transacting ? '/bonds/exchange/' : '#'}
-              isActive={(m, l) => this.isActive(m, l, ['/buy'])}
+              isActive={(m, l): boolean => this.isActive(m, l, ['/buy'])}
               exact
               className="tablinks_tablink"
             >
@@ -51,7 +51,7 @@ class Exchange extends Component<any> {
             </NavLink>
             <NavLink
               to={!this.props.transacting ? '/bonds/exchange/sell' : '#'}
-              isActive={(m, l) => this.isActive(m, l, ['/sell'])}
+              isActive={(m, l): boolean => this.isActive(m, l, ['/sell'])}
               className="tablinks_tablink"
             >
               Sell
@@ -59,7 +59,7 @@ class Exchange extends Component<any> {
             {this.props.activeBond.type == 'swapper_function' ? (
               <NavLink
                 to={!this.props.transacting ? '/bonds/exchange/swap' : '#'}
-                isActive={(m, l) => this.isActive(m, l, ['/swap'])}
+                isActive={(m, l): boolean => this.isActive(m, l, ['/swap'])}
                 className="tablinks_tablink"
               >
                 Swap
@@ -93,7 +93,7 @@ class Exchange extends Component<any> {
   }
 }
 
-const mapStateToProps = function(state: Store) {
+const mapStateToProps = function(state: Store): Store {
   return state
 }
 

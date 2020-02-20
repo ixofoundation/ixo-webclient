@@ -7,19 +7,7 @@ import ConfirmSwap from './ConfirmSwap'
 import BondsWrapper from '../../BondsWrapper'
 
 class Swap extends Component<any> {
-  componentDidMount() {
-    console.log(this.props)
-  }
-
-  // componentWillReceiveProps(nextProps : any) {
-  //    if (nextProps.activeQuote.hasOwnProperty('actualPrices')) {
-  //       this.props.history.push('/exchange/swap');
-  //    } else {
-  //       this.props.history.push('/exchange/swap.');
-  //    }
-  // }
-
-  render() {
+  render(): JSX.Element {
     return (
       <BondsWrapper>
         <div className="BondsWrapper_panel__chrome">
@@ -29,8 +17,13 @@ class Swap extends Component<any> {
                 <Route
                   exact
                   path="/bonds/exchange/swap"
-                  render={props => {
-                    if (this.props.activeQuote.hasOwnProperty('isSwapping')) {
+                  render={(props): JSX.Element => {
+                    if (
+                      Object.prototype.hasOwnProperty.call(
+                        this.props.activeQuote,
+                        'isSwapping',
+                      )
+                    ) {
                       return (
                         <Redirect
                           from="/bonds/exchange/swap"
@@ -56,7 +49,7 @@ class Swap extends Component<any> {
                 <Route
                   exact
                   path="/bonds/exchange/swap/confirm"
-                  render={props => <ConfirmSwap {...props} />}
+                  render={(props): JSX.Element => <ConfirmSwap {...props} />}
                 />
               </BrowserRouter>
             </div>
@@ -67,7 +60,7 @@ class Swap extends Component<any> {
   }
 }
 
-const mapStateToProps = function(state: Store) {
+const mapStateToProps = function(state: Store): Store {
   return state
 }
 
