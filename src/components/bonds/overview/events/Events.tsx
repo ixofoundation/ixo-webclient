@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 
 export class Events extends Component {
-  render() {
+  render(): JSX.Element {
     return (
       <div className="BondsWrapper_panel__chrome">
         <div className="BondsWrapper_panel__content">

@@ -14,7 +14,7 @@ import {
   currencyStr,
 } from '../../../../model/account'
 
-const ConfirmSwap = (props: any) => {
+const ConfirmSwap = (props: any): JSX.Element => {
   const { handleSubmit } = useForm()
 
   if (props.signPending) {
@@ -28,13 +28,13 @@ const ConfirmSwap = (props: any) => {
       />
     )
   } else {
-    const onSubmit = (formData: any) => {
+    const onSubmit = (): void => {
       props.dispatch(
         confirmSwap(props.activeQuote, props.activeBond, props.account.address),
       )
     }
 
-    const onBack = () => {
+    const onBack = (): void => {
       props.dispatch(clearQuote())
       props.history.push('../swap')
     }
@@ -121,7 +121,7 @@ const ConfirmSwap = (props: any) => {
   }
 }
 
-const mapStateToProps = (state: Store) => {
+const mapStateToProps = (state: Store): Store => {
   return state
 }
 
