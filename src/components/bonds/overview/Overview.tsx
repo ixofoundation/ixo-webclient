@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import './Overview.css'
 import { Route, NavLink } from 'react-router-dom'
 import { Charts } from './charts/Charts'
 import Trades from './trades/Trades'
@@ -7,7 +6,7 @@ import { Events } from './events/Events'
 import BondsWrapper from '../BondsWrapper'
 
 export class Overview extends Component {
-  render() {
+  render(): JSX.Element {
     return (
       <BondsWrapper>
         <div className="BondsWrapper_panel">

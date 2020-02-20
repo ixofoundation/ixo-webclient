@@ -7,7 +7,7 @@ import { quoteSell } from '../../../../redux/quote/quote_action_creators'
 import { Quote } from '../../../../model/quote'
 import { currencyStr, tokenBalance } from '../../../../model/account'
 
-const QuoteSell = (props: any) => {
+const QuoteSell = (props: any): JSX.Element => {
   const { register, handleSubmit, watch, errors } = useForm()
   // const { state, action } = useStateMachine(wizardUpdateAction);
 
@@ -42,7 +42,7 @@ const QuoteSell = (props: any) => {
   //     }
   // }, []);
 
-  const onSubmit = (formData: any) => {
+  const onSubmit = (formData: any): void => {
     const quote: Quote = {}
     quote.recieving = { denom: formData.denom }
     quote.sending = { amount: formData.amount, denom: props.activeBond.symbol }
@@ -162,7 +162,7 @@ const QuoteSell = (props: any) => {
   }
 }
 
-const mapStateToProps = function(state: Store) {
+const mapStateToProps = function(state: Store): Store {
   return state
 }
 
