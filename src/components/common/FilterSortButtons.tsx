@@ -2,13 +2,17 @@ import * as React from 'react'
 import styled from 'styled-components'
 import '../../assets/filter_sort_buttons.css'
 import DatePicker from './DatePicker'
+import DropDown from './DropDown'
 
 const PositionController = styled.div`
   position: absolute;
   right: 5%;
-  top: 35%;
+  top: 45%;
   margin: 6px;
   font-weight: bold;
+  /* @media screen and (min-width: 520px) {
+    transform: translate(0, 60%);
+  } */
 `
 const Button = styled.button`
   background-color: white;
@@ -55,7 +59,8 @@ class FilterSortButtons extends React.Component<
           <i className="icon-calendar-sort"></i>
           Dates
         </Button>
-        <Button>Beneficiary</Button>
+        {/*<Button>Beneficiary</Button>*/}
+        <DropDown />
         <Button>Field</Button>
         <Button>SDG</Button>
         <Button>Stage</Button>
