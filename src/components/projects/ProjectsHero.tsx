@@ -58,7 +58,6 @@ const PositionController = styled.div`
   position: absolute;
   right: 0;
   bottom: calc(0% - 20px);
-
   z-index: 1;
 `
 
