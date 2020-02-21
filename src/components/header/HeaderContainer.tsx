@@ -177,12 +177,12 @@ class Header extends React.Component<Props, State> {
     ledgerPopupShown: false,
   }
 
-  componentDidMount(): void {
+  componentDidMount() {
     this.pingExplorer()
     // setTimeout(() => { this.props.initUserInfo(); }, 10000);
   }
 
-  componentDidUpdate(prevProps: Props): void {
+  componentDidUpdate(prevProps: Props) {
     if (prevProps.ixo !== this.props.ixo && this.props.ixo !== null) {
       this.pingExplorer()
     }
@@ -213,7 +213,7 @@ class Header extends React.Component<Props, State> {
     }
   }
 
-  pingExplorer = (): void => {
+  pingExplorer = () => {
     this.props
       .pingIxoExplorer()
       .then(res => {
@@ -228,7 +228,7 @@ class Header extends React.Component<Props, State> {
       })
   }
 
-  renderStatusIndicator = (): JSX.Element => {
+  renderStatusIndicator = () => {
     return (
       <Ping>
         {this.renderLightIndicator()}
@@ -237,7 +237,7 @@ class Header extends React.Component<Props, State> {
     )
   }
 
-  renderStatusMessage(): JSX.Element {
+  renderStatusMessage() {
     if (this.props.ixo && this.state.responseTime > 0) {
       return (
         <StatusMessage>
@@ -256,7 +256,7 @@ class Header extends React.Component<Props, State> {
     }
   }
 
-  renderLightIndicator(): JSX.Element {
+  renderLightIndicator() {
     if (this.props.ixo === null || this.state.responseTime === null) {
       return <LightLoading />
     } else if (this.props.ixo && this.state.responseTime !== 0) {
@@ -266,10 +266,7 @@ class Header extends React.Component<Props, State> {
     }
   }
 
-  renderModalHeader = (): {
-    title: string
-    titleNoCaps: boolean
-  } | null => {
+  renderModalHeader = () => {
     if (this.props.userInfo) {
       return {
         title: 'Hi, ' + this.props.userInfo.name,
@@ -280,14 +277,14 @@ class Header extends React.Component<Props, State> {
     }
   }
 
-  renderModalData = (): JSX.Element => {
+  renderModalData = () => {
     if (this.state.modalResponse.length > 0) {
       return (
         <ModalData>
           <p>{this.state.modalResponse}</p>
           <Button
             type={ButtonTypes.dark}
-            onClick={(): void => this.handleToggleModal(false)}
+            onClick={() => this.handleToggleModal(false)}
           >
             CONTINUE
           </Button>
@@ -316,11 +313,11 @@ class Header extends React.Component<Props, State> {
     }
   }
 
-  handleToggleModal = (isModalOpen: boolean): void => {
+  handleToggleModal = (isModalOpen: boolean) => {
     this.setState({ isModalOpen: isModalOpen })
   }
 
-  handleLedgerDid = (): void => {
+  handleLedgerDid = () => {
     if (this.props.userInfo.didDoc) {
       const payload = { didDoc: this.props.userInfo.didDoc }
       this.props.keysafe.requestSigning(
@@ -356,7 +353,7 @@ class Header extends React.Component<Props, State> {
     }
   }
 
-  render(): JSX.Element {
+  render() {
     return (
       <TopBar className="container-fluid text-white">
         <ModalWrapper
