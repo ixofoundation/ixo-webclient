@@ -1,7 +1,7 @@
 /*Test file for styling: Style should be moved to ProjectHero (ProjectLevel) and ProjectsHero (GlobalLevel) in HeaderContainer*/
 import * as React from 'react'
 import styled from 'styled-components'
-import { Tabs } from '../common/Tabs'
+import { Tabs } from './Tabs'
 import { MatchType } from '../../types/models'
 
 const PositionController = styled.div`
@@ -16,7 +16,7 @@ const PositionController = styled.div`
   }
 `
 
-const HeaderSubTabs = () => {
+const HeaderSubTabs = (): JSX.Element => {
   return (
     <PositionController>
       <Tabs
