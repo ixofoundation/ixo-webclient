@@ -10,6 +10,7 @@ export const SearchWrapper = styled.div`
   transform: translateY(-50%);
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   font-family: Roboto, sans-serif;
+  font-weight: 400;
   > * {
     flex: 1;
     border-radius: 4px;
@@ -20,6 +21,7 @@ export const SearchWrapper = styled.div`
       height: 100%;
     }
   }
+  color: black;
 `
 
 export const ModalButton = styled.div`
@@ -33,15 +35,12 @@ export const ModalButton = styled.div`
   > * {
     display: block;
   }
-  .filter-icon,
-  .icon-down {
-    width: 1rem;
-    height: 1rem;
-  }
-  .filter-icon {
+  svg:not(.icon-down) {
     margin-right: 0.5rem;
   }
   .icon-down {
+    width: 1rem;
+    height: 1rem;
     margin-left: auto;
     transition: all 0.3s;
     transform-origin: center;
@@ -116,6 +115,9 @@ export const SearchFilterButton = styled.div`
   i {
     color: #39c3e6;
   }
+  svg path {
+    fill: #39c3e6;
+  }
   > * {
     display: block;
     width: 100%;
@@ -127,6 +129,9 @@ export const SearchFilterButton = styled.div`
     i {
       color: white;
     }
+    svg path {
+      fill: white;
+    }
   }
   &.disabled {
     border-color: #a5adb0;
@@ -134,6 +139,9 @@ export const SearchFilterButton = styled.div`
     cursor: not-allowed;
     i {
       color: #a5adb0;
+    }
+    svg path {
+      fill: #a5adb0;
     }
   }
 `
