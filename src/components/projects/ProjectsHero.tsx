@@ -55,11 +55,9 @@ const HeroInner = styled.div`
 `
 
 const PositionController = styled.div`
-  position: absolute;
-  right: 0;
-  bottom: calc(0% - 20px);
-
-  z-index: 1;
+  position: fixed;
+  z-index: 10;
+  transform: translate(310%, -530%);
 `
 
 const HeroContainer = styled.div`
