@@ -8,7 +8,7 @@ import { Quote } from '../../../../model/quote'
 import { currencyStr, tokenBalance } from '../../../../model/account'
 import { Currency } from '../../../../model'
 
-const QuoteSwap = (props: any) => {
+const QuoteSwap = (props: any): JSX.Element => {
   const { register, handleSubmit, watch, errors } = useForm()
   // const { state, action } = useStateMachine(wizardUpdateAction);
 
@@ -43,7 +43,7 @@ const QuoteSwap = (props: any) => {
   //     }
   // }, []);
 
-  const onSubmit = (formData: any) => {
+  const onSubmit = (formData: any): void => {
     const quote: Quote = {}
 
     quote.bondToken = props.activeBond.symbol
@@ -152,7 +152,7 @@ const QuoteSwap = (props: any) => {
   }
 }
 
-const mapStateToProps = (state: Store) => {
+const mapStateToProps = (state: Store): Store => {
   return state
 }
 

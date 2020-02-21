@@ -16,12 +16,12 @@ class Trades extends Component<any> {
     this.state = { list: [] }
   }
 
-  componentDidMount() {
+  componentDidMount(): void {
     // dispatch a fetch
     this.props.dispatch(getTransactions())
   }
 
-  render() {
+  render(): JSX.Element {
     return (
       <TransactionsTable
         txs={this.props.activeBond.trades}
@@ -31,7 +31,7 @@ class Trades extends Component<any> {
   }
 }
 
-const mapStateToProps = function(state: Store) {
+const mapStateToProps = function(state: Store): Store {
   return state
 }
 

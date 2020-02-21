@@ -3,7 +3,7 @@ import { Quote, QuoteActions, QuoteAction } from '../../model/quote'
 import { Currency } from '../../model'
 import { toast } from 'react-toastify'
 
-const notify = (payload: any) => {
+const notify = (payload: any): void => {
   if (payload.response) {
     toast.info(JSON.parse(payload.response.data.error).message, {
       position: toast.POSITION.BOTTOM_LEFT,
@@ -12,88 +12,82 @@ const notify = (payload: any) => {
 }
 
 export const quotePending = createReducer<boolean>(false, {
-  [QuoteActions.QUOTE_BUY + '_PENDING'](quote: Quote, action: QuoteAction) {
+  [QuoteActions.QUOTE_BUY + '_PENDING']() {
     return true
   },
-  [QuoteActions.QUOTE_SELL + '_PENDING'](quote: Quote, action: QuoteAction) {
+  [QuoteActions.QUOTE_SELL + '_PENDING']() {
     return true
   },
-  [QuoteActions.QUOTE_SWAP + '_PENDING'](quote: Quote, action: QuoteAction) {
+  [QuoteActions.QUOTE_SWAP + '_PENDING']() {
     return true
   },
-  [QuoteActions.QUOTE_BUY + '_FULFILLED'](quote: Quote, action: QuoteAction) {
+  [QuoteActions.QUOTE_BUY + '_FULFILLED']() {
     return false
   },
-  [QuoteActions.QUOTE_SELL + '_FULFILLED'](quote: Quote, action: QuoteAction) {
+  [QuoteActions.QUOTE_SELL + '_FULFILLED']() {
     return false
   },
-  [QuoteActions.QUOTE_SWAP + '_FULFILLED'](quote: Quote, action: QuoteAction) {
+  [QuoteActions.QUOTE_SWAP + '_FULFILLED']() {
     return false
   },
-  [QuoteActions.QUOTE_BUY + '_FAILED'](quote: Quote, action: QuoteAction) {
+  [QuoteActions.QUOTE_BUY + '_FAILED']() {
     return false
   },
-  [QuoteActions.QUOTE_SELL + '_FAILED'](quote: Quote, action: QuoteAction) {
+  [QuoteActions.QUOTE_SELL + '_FAILED']() {
     return false
   },
-  [QuoteActions.QUOTE_SWAP + '_FAILED'](quote: Quote, action: QuoteAction) {
+  [QuoteActions.QUOTE_SWAP + '_FAILED']() {
     return false
   },
-  [QuoteActions.QUOTE_BUY + '_REJECTED'](quote: Quote, action: QuoteAction) {
+  [QuoteActions.QUOTE_BUY + '_REJECTED'](action: QuoteAction) {
     notify(action.payload)
     return false
   },
-  [QuoteActions.QUOTE_SELL + '_REJECTED'](quote: Quote, action: QuoteAction) {
+  [QuoteActions.QUOTE_SELL + '_REJECTED'](action: QuoteAction) {
     notify(action.payload)
     return false
   },
-  [QuoteActions.QUOTE_SWAP + '_REJECTED'](quote: Quote, action: QuoteAction) {
+  [QuoteActions.QUOTE_SWAP + '_REJECTED'](action: QuoteAction) {
     notify(action.payload)
     return false
   },
 })
 
 export const signPending = createReducer<boolean>(false, {
-  [QuoteActions.CONFIRM_QUOTE + '_PENDING'](quote: Quote, action: QuoteAction) {
+  [QuoteActions.CONFIRM_QUOTE + '_PENDING']() {
     return true
   },
-  [QuoteActions.CONFIRM_QUOTE + '_FULFILLED'](
-    quote: Quote,
-    action: QuoteAction,
-  ) {
+  [QuoteActions.CONFIRM_QUOTE + '_FULFILLED']() {
     return false
   },
-  [QuoteActions.CONFIRM_QUOTE + '_FAILED'](quote: Quote, action: QuoteAction) {
+  [QuoteActions.CONFIRM_QUOTE + '_FAILED']() {
     return false
   },
-  [QuoteActions.CONFIRM_QUOTE + '_REJECTED'](
-    quote: Quote,
-    action: QuoteAction,
-  ) {
+  [QuoteActions.CONFIRM_QUOTE + '_REJECTED']() {
     return false
   },
 })
 
 export const transacting = createReducer<boolean>(false, {
-  [QuoteActions.QUOTE_BUY + '_PENDING'](quote: Quote, action: QuoteAction) {
+  [QuoteActions.QUOTE_BUY + '_PENDING']() {
     return true
   },
-  [QuoteActions.QUOTE_SELL + '_PENDING'](quote: Quote, action: QuoteAction) {
+  [QuoteActions.QUOTE_SELL + '_PENDING']() {
     return true
   },
-  [QuoteActions.QUOTE_SWAP + '_PENDING'](quote: Quote, action: QuoteAction) {
+  [QuoteActions.QUOTE_SWAP + '_PENDING']() {
     return true
   },
-  [QuoteActions.CLEAR_QUOTE](state: Quote, action: QuoteAction) {
+  [QuoteActions.CLEAR_QUOTE]() {
     return false
   },
-  [QuoteActions.QUOTE_BUY + '_REJECTED'](quote: Quote, action: QuoteAction) {
+  [QuoteActions.QUOTE_BUY + '_REJECTED']() {
     return false
   },
-  [QuoteActions.QUOTE_SELL + '_REJECTED'](quote: Quote, action: QuoteAction) {
+  [QuoteActions.QUOTE_SELL + '_REJECTED']() {
     return false
   },
-  [QuoteActions.QUOTE_SWAP + '_REJECTED'](quote: Quote, action: QuoteAction) {
+  [QuoteActions.QUOTE_SWAP + '_REJECTED']() {
     return false
   },
 })
@@ -101,7 +95,7 @@ export const transacting = createReducer<boolean>(false, {
 export const activeQuote = createReducer<Quote>(
   {},
   {
-    [QuoteActions.QUOTE_BUY + '_FULFILLED'](quote: Quote, action: QuoteAction) {
+    [QuoteActions.QUOTE_BUY + '_FULFILLED'](action: QuoteAction) {
       const newQuote = Object.assign({}, action.payload.quote)
       const result = action.payload.result
 
@@ -156,7 +150,7 @@ export const activeQuote = createReducer<Quote>(
       return quote
     },
 
-    [QuoteActions.CLEAR_QUOTE](state: Quote, action: QuoteAction) {
+    [QuoteActions.CLEAR_QUOTE]() {
       return {}
     },
   },

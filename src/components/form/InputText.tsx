@@ -32,16 +32,15 @@ const InputContainer = styled.div`
 
   .search-input {
     margin: 0;
-    font-size: 16px;
-    text-transform: uppercase;
+    font-size: 1rem;
     position: relative;
     height: 100%;
     display: flex;
     align-content: center;
     input {
       color: #a5adb0;
-      padding-top: 15px;
-      padding-bottom: 15px;
+      padding-top: 0.75rem;
+      padding-bottom: 0.75rem;
       border-radius: 3px;
       outline: none !important;
       border: none !important;
