@@ -51,11 +51,28 @@ const QuoteBuy = (props: any): JSX.Element => {
             justifyContent: 'flex-end',
           }}
         >
-          {/* <span style={{ marginTop: "-0.5em", padding: "0" }}>{errors.tokenAmount && <span className="error">This field requires a number value</span>}</span> */}
+          <span style={{ marginTop: '-0.5em', padding: '0' }}>
+            {errors.tokenAmount && (
+              <span className="error">This field requires a number value</span>
+            )}
+          </span>
           <div className="label_subtitle">
             My current balance is{' '}
             <span className="label_subtitle__bold">{curBal}</span>
           </div>
+        </div>
+
+        <div className="label">Payment token</div>
+        <select name="denom" ref={register({ required: true })}>
+          {payOptions.map(option => (
+            <option key={option} value={option}>
+              {option.toUpperCase()}
+            </option>
+          ))}
+        </select>
+        <div className="label_subtitle">
+          My current balance is{' '}
+          <span className="label_subtitle__bold">{payBal}</span>
         </div>
 
         {/* the unit of the price will be the one which is selected in the dropdown - so it will be measured in IXO if IXO is selected
@@ -64,21 +81,11 @@ const QuoteBuy = (props: any): JSX.Element => {
         <div className="label">
           Maximum price per <b>{props.activeBond.symbol}</b> token
         </div>
-        <div className="currencyInput">
-          <select name="denom" ref={register({ required: true })}>
-            {payOptions.map(option => (
-              <option key={option} value={option}>
-                {option.toUpperCase()}
-              </option>
-            ))}
-          </select>
-          <input
-            name="maxAmount"
-            placeholder="Enter the highest offer you would accept"
-            ref={register({ required: true, pattern: /^[0-9]+$/i })}
-          />
-        </div>
-
+        <input
+          name="maxAmount"
+          placeholder="Enter the highest offer you would accept"
+          ref={register({ required: true, pattern: /^[0-9]+$/i })}
+        />
         <div
           style={{
             display: 'flex',
@@ -92,22 +99,11 @@ const QuoteBuy = (props: any): JSX.Element => {
             )}
           </span>
           <span className="label_subtitle">
-            My current balance is{' '}
-            <span className="label_subtitle__bold">{payBal}</span>
-          </span>
-          <span className="label_subtitle">
             I will have an opportunity to confirm this order
           </span>
         </div>
 
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-          }}
-        >
-          <span style={{ marginTop: '-0.5em', padding: '0' }}></span>
+        <div>
           <input
             type="submit"
             value="get quote"
