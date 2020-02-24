@@ -45,7 +45,9 @@ const TabsContainer = styled.div`
 	}
 
 	a:hover {
+		text-decoration: none
 		color: ${/* eslint-disable-line */ props => props.theme.ixoBlue};
+		
 	}
 
 	a.active {
