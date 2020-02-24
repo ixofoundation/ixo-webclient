@@ -3,11 +3,12 @@ import styled from 'styled-components'
 import '../../assets/filter_sort_buttons.css'
 import DatePicker from './DatePicker'
 import DropDown from './DropDown'
+import filterData from '../../lib/json/filterData.json'
 
 const PositionController = styled.div`
   position: absolute;
   right: 5%;
-  top: 45%;
+  top: 35%;
   margin: 6px;
   font-weight: bold;
   /* @media screen and (min-width: 520px) {
@@ -59,11 +60,14 @@ class FilterSortButtons extends React.Component<
           <i className="icon-calendar-sort"></i>
           Dates
         </Button>
-        {/*<Button>Beneficiary</Button>*/}
+
+        {filterData.categories.map(filterCategory => {
+          return (
+            <Button key={filterCategory['@id']}>{filterCategory.title}</Button>
+          )
+        })}
+
         <DropDown />
-        <Button>Field</Button>
-        <Button>SDG</Button>
-        <Button>Stage</Button>
         <Button>
           <i className="icon-reset"></i>
           Reset

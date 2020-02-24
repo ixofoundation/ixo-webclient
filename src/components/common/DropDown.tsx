@@ -4,27 +4,6 @@ import { makeStyles, createStyles } from '@material-ui/core/styles'
 import Paper from '@material-ui/core/Paper'
 import Grid from '@material-ui/core/Grid'
 import ButtonBase from '@material-ui/core/ButtonBase'
-//import styled from 'styled-components'
-
-// const Button = styled.button`
-//   background-color: white;
-//   border-color: grey;
-//   border-width: 1px;
-//   margin: 8px;
-//   font-weight: 500;
-//   font-style: normal;
-//   font-family: Roboto;
-//   font-size: 16px;
-//   padding: 4px 6px;
-//   border-radius: 4px;
-//   align-items: center;
-//   line-height: 19px;
-//   height: 40px;
-//   width: 100px;
-//   &:hover {
-//     border-color: blue;
-//   }
-// `
 
 function DropDown(): JSX.Element {
   const useStyles = makeStyles(theme =>
@@ -77,7 +56,8 @@ function DropDown(): JSX.Element {
               width: 290,
               height: 270,
               backgroundColor: '#e7f5ff',
-              top: 410,
+              top: 420,
+              zIndex: 9,
             }}
           >
             <div className={classes.root}>
@@ -91,9 +71,10 @@ function DropDown(): JSX.Element {
                       <img
                         className={classes.img}
                         alt="button 1"
-                        src="../../assets/images/sdg/sdg-affordableenergy.png"
+                        src={require('../../assets/images/dropdown/cap.png')}
                       />
                     </ButtonBase>
+
                     <ButtonBase
                       className={classes.image}
                       style={{ backgroundColor: 'red' }}
@@ -101,9 +82,10 @@ function DropDown(): JSX.Element {
                       <img
                         className={classes.img}
                         alt="button 2"
-                        src="../../assets/images/sdg/sdg-affordableenergy.png"
+                        src={require('../../assets/images/dropdown/pattern.png')}
                       />
                     </ButtonBase>
+
                     <ButtonBase
                       className={classes.image}
                       style={{ backgroundColor: 'green' }}
@@ -111,7 +93,29 @@ function DropDown(): JSX.Element {
                       <img
                         className={classes.img}
                         alt="button 3"
-                        src="../../assets/images/sdg/sdg-affordableenergy.png"
+                        src={require('../../assets/images/dropdown/growth.png')}
+                      />
+                    </ButtonBase>
+
+                    <ButtonBase
+                      className={classes.image}
+                      style={{ backgroundColor: 'orange' }}
+                    >
+                      <img
+                        className={classes.img}
+                        alt="button 4"
+                        src={require('../../assets/images/dropdown/wheelchair.png')}
+                      />
+                    </ButtonBase>
+
+                    <ButtonBase
+                      className={classes.image}
+                      style={{ backgroundColor: 'pink' }}
+                    >
+                      <img
+                        className={classes.img}
+                        alt="button 5"
+                        src={require('../../assets/images/dropdown/walking-stick.png')}
                       />
                     </ButtonBase>
                   </Grid>
