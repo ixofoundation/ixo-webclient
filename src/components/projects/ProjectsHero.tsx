@@ -55,10 +55,12 @@ const HeroInner = styled.div`
 `
 
 const PositionController = styled.div`
-  position: absolute;
-  right: 0;
-  bottom: calc(0% - 20px);
-  z-index: 1;
+  position: fixed;
+  z-index: 10;
+  transform: translate(310%, -530%);
+  @media screen and (max-width: 1080px) {
+    transform: translate(143%, -530%);
+  }
 `
 
 const HeroContainer = styled.div`
