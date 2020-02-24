@@ -58,6 +58,9 @@ const PositionController = styled.div`
   position: fixed;
   z-index: 10;
   transform: translate(310%, -530%);
+  @media screen and (max-width: 1080px) {
+    transform: translate(143%, -530%);
+  }
 `
 
 const HeroContainer = styled.div`
