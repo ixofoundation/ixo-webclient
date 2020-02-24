@@ -6,6 +6,7 @@ import { StatType, MatchType } from '../../types/models'
 import { Stats } from '../../types/models/stats'
 import { deviceWidth } from '../../lib/commonData'
 import Search from '../common/Search'
+import { contentType } from '../../types/models'
 
 const ContainerInner = styled.div`
   height: auto;
@@ -54,11 +55,12 @@ const HeroInner = styled.div`
 `
 
 const PositionController = styled.div`
-  position: absolute;
-  right: 0;
-  bottom: calc(0% - 20px);
-
-  z-index: 1;
+  position: fixed;
+  z-index: 10;
+  transform: translate(310%, -530%);
+  @media screen and (max-width: 1080px) {
+    transform: translate(143%, -530%);
+  }
 `
 
 const HeroContainer = styled.div`
@@ -100,6 +102,7 @@ export interface Props {
   ixo?: any
   myProjectsCount: number
   showMyProjects: Function
+  contentType: contentType
 }
 
 export class ProjectsHero extends React.Component<Props, State> {
@@ -175,6 +178,15 @@ export class ProjectsHero extends React.Component<Props, State> {
     }
   }
 
+  handleSearchFilterChanged = (filter: string): void => {
+    if (filter === 'all-projects') {
+      this.props.showMyProjects(false)
+    }
+    if (filter === 'my-projects') {
+      this.props.showMyProjects(true)
+    }
+  }
+
   render(): JSX.Element {
     return (
       <HeroContainer>
@@ -222,7 +234,9 @@ export class ProjectsHero extends React.Component<Props, State> {
             </div>
           </div>
         </div>
-        <Search />
+        {this.props.contentType !== contentType.dashboard && (
+          <Search filterChanged={this.handleSearchFilterChanged} />
+        )}
       </HeroContainer>
     )
   }

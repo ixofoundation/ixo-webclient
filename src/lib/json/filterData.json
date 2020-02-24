@@ -1,0 +1,130 @@
+{
+  "@context": "https://schema.ixo.foundation/project",
+  "@type": "Project",
+  "categories": [
+    {
+      "@type": "Category",
+      "@id": "{some id}",
+      "title": "Geo Area",
+      "tags": [
+        {
+          "@type": "Tag",
+          "@id": "{some id}",
+          "title": "{some title}",
+          "icon": "somesvg.svg"
+        },
+        {
+          "@type": "Tag",
+          "@id": "{some id}",
+          "title": "{some title}",
+          "icon": "somesvg.svg"
+        },
+        {
+          "@type": "Tag",
+          "@id": "{some id}",
+          "title": "{some title}",
+          "icon": "somesvg.svg"
+        },
+        {
+          "@type": "Tag",
+          "@id": "{some id}",
+          "title": "{some title}",
+          "icon": "somesvg.svg"
+        }
+      ]
+    },
+    {
+      "@type": "Category",
+      "@id": "{some id}",
+      "title": "Goal",
+      "tags": [
+        {
+          "@type": "Tag",
+          "@id": "{some id}",
+          "title": "{some title}",
+          "icon": "somesvg.svg"
+        },
+        {
+          "@type": "Tag",
+          "@id": "{some id}",
+          "title": "{some title}",
+          "icon": "somesvg.svg"
+        },
+        {
+          "@type": "Tag",
+          "@id": "{some id}",
+          "title": "{some title}",
+          "icon": "somesvg.svg"
+        },
+        {
+          "@type": "Tag",
+          "@id": "{some id}",
+          "title": "{some title}",
+          "icon": "somesvg.svg"
+        }
+      ]
+    },
+    {
+      "@type": "Category",
+      "@id": "{some id}",
+      "title": "Target",
+      "tags": [
+        {
+          "@type": "Tag",
+          "@id": "{some id}",
+          "title": "{some title}",
+          "icon": "somesvg.svg"
+        },
+        {
+          "@type": "Tag",
+          "@id": "{some id}",
+          "title": "{some title}",
+          "icon": "somesvg.svg"
+        },
+        {
+          "@type": "Tag",
+          "@id": "{some id}",
+          "title": "{some title}",
+          "icon": "somesvg.svg"
+        },
+        {
+          "@type": "Tag",
+          "@id": "{some id}",
+          "title": "{some title}",
+          "icon": "somesvg.svg"
+        }
+      ]
+    },
+    {
+      "@type": "Category",
+      "@id": "{some id}",
+      "title": "Indicator",
+      "tags": [
+        {
+          "@type": "Tag",
+          "@id": "{some id}",
+          "title": "{some title}",
+          "icon": "somesvg.svg"
+        },
+        {
+          "@type": "Tag",
+          "@id": "{some id}",
+          "title": "{some title}",
+          "icon": "somesvg.svg"
+        },
+        {
+          "@type": "Tag",
+          "@id": "{some id}",
+          "title": "{some title}",
+          "icon": "somesvg.svg"
+        },
+        {
+          "@type": "Tag",
+          "@id": "{some id}",
+          "title": "{some title}",
+          "icon": "somesvg.svg"
+        }
+      ]
+    }
+  ]
+}

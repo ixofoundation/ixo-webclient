@@ -1,6 +1,4 @@
 import React, { Component } from 'react'
-import './Header.css'
-
 import HeaderItem from './header-item/HeaderItem'
 import { connect } from 'react-redux'
 import { Store } from '../../../model/store'
@@ -10,6 +8,14 @@ import {
 } from '../../../redux/account/account_action_creators'
 import { tokenBalance } from '../../../model/account'
 import { getBondBalances } from '../../../redux/bond/bond_action_creators'
+
+import styled from 'styled-components'
+
+const StyledHeader = styled.header`
+  margin: 2.5rem;
+  display: flex;
+  flex-flow: row wrap;
+`
 
 class Header extends Component<any> {
   constructor(props: any) {
@@ -26,7 +32,7 @@ class Header extends Component<any> {
     this.props.dispatch(getBondBalances(props.activeBond.symbol))
   }
 
-  componentWillReceiveProps(nextProps: Store) {
+  UNSAFE_componentWillReceiveProps(nextProps: Store): void {
     // if the user changes, get their balances
     if (this.props.account.address !== nextProps.account.address) {
       this.props.dispatch(getBalances(this.props.account.address))
@@ -44,7 +50,7 @@ class Header extends Component<any> {
     }
   }
 
-  render() {
+  render(): JSX.Element {
     const { activeBond } = this.props
     const activeSymbol = activeBond.symbol
     const balance = tokenBalance(
@@ -53,7 +59,7 @@ class Header extends Component<any> {
     )
 
     return (
-      <header className="Bonds_header">
+      <StyledHeader>
         <HeaderItem
           title="My Tokens"
           value={balance.amount}
@@ -75,12 +81,12 @@ class Header extends Component<any> {
           tokenType={activeBond.totalSupply.denom}
         ></HeaderItem>
         <HeaderItem title="Alpha" value={activeBond.alpha}></HeaderItem>
-      </header>
+      </StyledHeader>
     )
   }
 }
 
-const mapStateToProps = function(state: Store) {
+const mapStateToProps = function(state: Store): Store {
   return state
 }
 

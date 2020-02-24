@@ -6,33 +6,27 @@ import QuoteSell from './QuoteSell'
 import ConfirmSell from './ConfirmSell'
 
 class Sell extends Component<any> {
-  componentDidMount() {
-    console.log(this.props)
-  }
-
-  // componentWillReceiveProps(nextProps : any) {
-  //    if (nextProps.activeQuote.hasOwnProperty('actualPrices')) {
-  //       this.props.history.push('/exchange/sell');
-  //    } else {
-  //       this.props.history.push('/exchange/sell.');
-  //    }
-  // }
-
-  render() {
+  render(): JSX.Element {
     return (
       <div className="BondsWrapper_panel__chrome">
         <div className="BondsWrapper_panel__content">
           <div className="centerAll">
             <BrowserRouter>
-              <div>
+              <div className="BuySellForm_wrapper">
                 <Route
                   exact
                   path="/bonds/exchange/sell"
-                  render={props => {
+                  render={(props): JSX.Element => {
                     if (
                       this.props.activeQuote &&
-                      this.props.activeQuote.hasOwnProperty('recieving') &&
-                      this.props.activeQuote.recieving.hasOwnProperty('amount')
+                      Object.prototype.hasOwnProperty.call(
+                        this.props.activeQuote,
+                        'recieving',
+                      ) &&
+                      Object.prototype.hasOwnProperty.call(
+                        this.props.activeQuote.recieving,
+                        'amount',
+                      )
                     ) {
                       return (
                         <Redirect
@@ -49,7 +43,7 @@ class Sell extends Component<any> {
                 <Route
                   exact
                   path="/bonds/exchange/sell/confirm"
-                  render={props => <ConfirmSell {...props} />}
+                  render={(props): JSX.Element => <ConfirmSell {...props} />}
                 />
               </div>
             </BrowserRouter>
@@ -60,7 +54,7 @@ class Sell extends Component<any> {
   }
 }
 
-const mapStateToProps = function(state: Store) {
+const mapStateToProps = function(state: Store): Store {
   return state
 }
 

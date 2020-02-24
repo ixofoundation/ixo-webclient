@@ -38,7 +38,7 @@ const HeaderLink = styled(NavLink)`
 	}
 
 	@media (min-width: ${deviceWidth.desktop}px) {
-		margin:0 10px;
+		margin: 0 10px;
 		font-size: 13px;
 	}
 `
@@ -131,21 +131,21 @@ const NavItems = styled.div`
 `
 
 const Menu = styled.div`
-	${HeaderLink} {
-		display: block;
-	}
-	@media( min-width: ${deviceWidth.desktop}px) {
-		max-width: none;
-		position: relative;
-		top: auto;
-		opacity: 1;
-		right: auto
-		background: none;
-		pointer-events: auto;
-		${HeaderLink} {
-			display: inline;
-		}
-	}
+  ${HeaderLink} {
+    display: block;
+  }
+  @media (min-width: ${deviceWidth.desktop}px) {
+    max-width: none;
+    position: relative;
+    top: auto;
+    opacity: 1;
+    right: auto;
+    background: none;
+    pointer-events: auto;
+    ${HeaderLink} {
+      display: inline;
+    }
+  }
 `
 
 const MobileMenu = Menu.extend`

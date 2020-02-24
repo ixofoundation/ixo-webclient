@@ -17,6 +17,41 @@ import 'react-dates/lib/css/_datepicker.css'
 import checkmark from '../../assets/img/checkmark.png'
 import x from '../../assets/img/x.png'
 import { Currency } from '../../model'
+import Export from '../../assets/icons/Export'
+import SearchIcon from '../../assets/icons/Search'
+
+import styled from 'styled-components'
+
+const ExportButton = styled.button`
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: center;
+  padding: 0.25rem 1.375rem;
+  outline: none;
+  box-shadow: none;
+  border: none;
+  svg {
+    margin-right: 0.625rem;
+  }
+`
+
+const SearchInput = styled.div`
+  position: relative;
+  margin: 0 0.625rem;
+  input {
+    margin: 0 !important;
+  }
+  svg {
+    position: absolute;
+    right: 0.625rem;
+    top: 50%;
+    transform: translateY(-50%);
+    path {
+      fill: #636971;
+    }
+  }
+`
 
 export enum SortDirection {
   ASC,
@@ -62,21 +97,21 @@ class TransactionsTable extends Component<any> {
     }
   }
 
-  componentDidMount() {
+  componentDidMount(): void {
     // table size needs manual adjusting because virtualized table renders only visible items
     this.resizeTable()
     window.addEventListener('resize', () => this.resizeTable())
     this.props.dispatch(getTotalSupplies())
   }
 
-  resizeTable() {
+  resizeTable(): void {
     const content = document.getElementsByClassName(
       'BondsWrapper_panel__content',
     )
     this.setState({ tableWidth: content[0].clientWidth })
   }
 
-  sortItems(list: any) {
+  sortItems(list: any): any {
     Object.assign([], list)
 
     // sort by key. timestamp for default
@@ -111,7 +146,7 @@ class TransactionsTable extends Component<any> {
     return list
   }
 
-  componentWillReceiveProps(props: any) {
+  UNSAFE_componentWillReceiveProps(props: any): void {
     if (props.txs && props.txs.length != this.state.list.length) {
       this.setState({ list: this.sortItems(props.txs) })
     }
@@ -126,7 +161,7 @@ class TransactionsTable extends Component<any> {
   //     return (nextState !== this.state || nextProps !== this.props)
   // }
 
-  txType(tx: any) {
+  txType(tx: any): any {
     const orderTypes: any = {
       'cosmos-sdk/MsgBuy': 'Buy',
       'cosmos-sdk/MsgSell': 'Sell',
@@ -136,7 +171,7 @@ class TransactionsTable extends Component<any> {
     return orderTypes[msg]
   }
 
-  render() {
+  render(): JSX.Element {
     return (
       <div className="BondsWrapper_panel__chrome Table">
         <div
@@ -147,7 +182,7 @@ class TransactionsTable extends Component<any> {
             <select
               name="orderType"
               className="orderType"
-              onChange={e =>
+              onChange={(e): void =>
                 this.setState({
                   filters: { ...this.state.filters, orderType: e.target.value },
                 })
@@ -162,7 +197,7 @@ class TransactionsTable extends Component<any> {
             <select
               name="token"
               className="token"
-              onChange={e =>
+              onChange={(e): void =>
                 this.setState({
                   filters: { ...this.state.filters, token: e.target.value },
                 })
@@ -184,25 +219,33 @@ class TransactionsTable extends Component<any> {
               startDateId="startDate" // PropTypes.string.isRequired,
               endDate={this.state.filters.endDate} // momentPropTypes.momentObj or null,
               endDateId="endDate" // PropTypes.string.isRequired,
-              onDatesChange={({ startDate, endDate }) =>
+              onDatesChange={({ startDate, endDate }): void =>
                 this.setState({
                   filters: { ...this.state.filters, startDate, endDate },
                 })
               } // PropTypes.func.isRequired,
               focusedInput={this.state.focusedInput} // PropTypes.oneOf([START_DATE, END_DATE]) or null,
-              onFocusChange={focusedInput => this.setState({ focusedInput })} // PropTypes.func.isRequired,
+              onFocusChange={(focusedInput): void =>
+                this.setState({ focusedInput })
+              } // PropTypes.func.isRequired,
             />
 
-            <input
-              placeholder="Search"
-              className="query"
-              onChange={e =>
-                this.setState({
-                  filters: { ...this.state.filters, query: e.target.value },
-                })
-              }
-            />
-            <button>Export</button>
+            <SearchInput>
+              <input
+                placeholder="Search"
+                className="query"
+                onChange={(e): void =>
+                  this.setState({
+                    filters: { ...this.state.filters, query: e.target.value },
+                  })
+                }
+              />
+              <SearchIcon />
+            </SearchInput>
+            <ExportButton>
+              <Export />
+              Export
+            </ExportButton>
           </div>
 
           <Table
@@ -211,14 +254,14 @@ class TransactionsTable extends Component<any> {
             headerHeight={40}
             rowHeight={60}
             rowCount={this.state.list.length}
-            rowGetter={({ index }) => this.state.list[index]}
+            rowGetter={({ index }): void => this.state.list[index]}
           >
             <Column
               label="Time"
               dataKey="timestamp"
               width={150}
-              cellRenderer={tcp => {
-                var time = moment(tcp.cellData)
+              cellRenderer={(tcp): string => {
+                const time = moment(tcp.cellData)
                 return time.fromNow()
               }}
             />
@@ -227,7 +270,7 @@ class TransactionsTable extends Component<any> {
               label="Account"
               width={250}
               dataKey="tx"
-              cellRenderer={tcp => {
+              cellRenderer={(tcp): JSX.Element => {
                 const accountKey: any = {
                   'cosmos-sdk/MsgBuy': 'buyer',
                   'cosmos-sdk/MsgSell': 'seller',
@@ -245,7 +288,7 @@ class TransactionsTable extends Component<any> {
               label="Order Type"
               width={150}
               dataKey="tx"
-              cellRenderer={tcp => {
+              cellRenderer={(tcp): string => {
                 const orderTypes: any = {
                   'cosmos-sdk/MsgBuy': 'Buy',
                   'cosmos-sdk/MsgSell': 'Sell',
@@ -260,7 +303,7 @@ class TransactionsTable extends Component<any> {
               label="Status"
               width={250}
               dataKey="logs"
-              cellRenderer={tcp =>
+              cellRenderer={(tcp): JSX.Element =>
                 tcp.cellData[0].success ? (
                   <>
                     <img src={checkmark} width={15} className="icon" />
@@ -279,7 +322,7 @@ class TransactionsTable extends Component<any> {
               label="Order Amount"
               width={250}
               dataKey="tx"
-              cellRenderer={tcp =>
+              cellRenderer={(tcp): string =>
                 currencyStr(tcp.cellData.value.msg[0].value.amount)
               }
             />
@@ -301,7 +344,7 @@ class TransactionsTable extends Component<any> {
               label="Tokens"
               width={250}
               dataKey="tx"
-              cellRenderer={tcp =>
+              cellRenderer={(tcp): string =>
                 currencyStr(tcp.cellData.value.msg[0].value.amount)
               }
             />
@@ -320,7 +363,7 @@ class TransactionsTable extends Component<any> {
   }
 }
 
-const mapStateToProps = function(state: Store) {
+const mapStateToProps = function(state: Store): Store {
   return state
 }
 

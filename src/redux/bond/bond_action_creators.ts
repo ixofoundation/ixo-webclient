@@ -51,7 +51,7 @@ export const getTotalSupplies = (): AsyncAction => {
   }
 }
 
-export const getTransactions = (filters?: {}): AsyncAction => {
+export const getTransactions = (): AsyncAction => {
   // TODO: Select Specific token
   // TODO: Are queries disappearing?
 

@@ -8,10 +8,34 @@ import BondsWrapper from '../BondsWrapper'
 import Buy from './buy/Buy'
 import Sell from './sell/Sell'
 import Swap from './swap/Swap'
+import styled from 'styled-components'
+
+const BondsSectionNav = styled.div`
+  padding: 1rem;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-around;
+  a {
+    font-weight: normal;
+    font-size: 1.1875rem;
+    text-transform: uppercase;
+    text-decoration: none;
+
+    color: #ffffff;
+    padding: 0.25rem 1.5rem;
+    &.active {
+      color: #87def6;
+    }
+    &:hover {
+      text-decoration: none;
+      color: #87def6;
+    }
+  }
+`
 
 class Exchange extends Component<any> {
   // console.log(this.props)
-  componentDidMount() {
+  componentDidMount(): void {
     this.props.dispatch({
       type: QuoteActions.QUOTE_BUY + '_FAILED',
     })
@@ -26,7 +50,7 @@ class Exchange extends Component<any> {
     })
   }
 
-  isActive = (m: any, l: any, paths: [string]) => {
+  isActive = (m: any, l: any, paths: [string]): boolean => {
     let active = m != undefined
     paths.forEach((path: string) => {
       active = active || l.pathname.indexOf(path) != -1
@@ -34,16 +58,16 @@ class Exchange extends Component<any> {
     return active
   }
 
-  render() {
+  render(): JSX.Element {
     return (
       <BondsWrapper>
         <div className="BondsWrapper_panel exchange_panel">
           {/*<b style={{fontSize: 'calc(10px + 2vmin)'}}>Balances</b>
               <div className="BondsWrapper_panel__content"></div>*/}
-          <div className="tablinks">
+          <BondsSectionNav>
             <NavLink
               to={!this.props.transacting ? '/bonds/exchange/' : '#'}
-              isActive={(m, l) => this.isActive(m, l, ['/buy'])}
+              isActive={(m, l): boolean => this.isActive(m, l, ['/buy'])}
               exact
               className="tablinks_tablink"
             >
@@ -51,7 +75,7 @@ class Exchange extends Component<any> {
             </NavLink>
             <NavLink
               to={!this.props.transacting ? '/bonds/exchange/sell' : '#'}
-              isActive={(m, l) => this.isActive(m, l, ['/sell'])}
+              isActive={(m, l): boolean => this.isActive(m, l, ['/sell'])}
               className="tablinks_tablink"
             >
               Sell
@@ -59,7 +83,7 @@ class Exchange extends Component<any> {
             {this.props.activeBond.type == 'swapper_function' ? (
               <NavLink
                 to={!this.props.transacting ? '/bonds/exchange/swap' : '#'}
-                isActive={(m, l) => this.isActive(m, l, ['/swap'])}
+                isActive={(m, l): boolean => this.isActive(m, l, ['/swap'])}
                 className="tablinks_tablink"
               >
                 Swap
@@ -67,7 +91,7 @@ class Exchange extends Component<any> {
             ) : (
               undefined
             )}
-          </div>
+          </BondsSectionNav>
           <Route
             exact
             path={[
@@ -93,7 +117,7 @@ class Exchange extends Component<any> {
   }
 }
 
-const mapStateToProps = function(state: Store) {
+const mapStateToProps = function(state: Store): Store {
   return state
 }
 

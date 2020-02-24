@@ -259,6 +259,7 @@ export class Projects extends React.Component<Props, State> {
           ixo={this.props.ixo}
           myProjectsCount={this.state.myProjects.length}
           showMyProjects={(val): void => this.showMyProjects(val)}
+          contentType={this.props.contentType}
         />
         {this.handleRenderProjectList()}
         <FilterSortButtons />

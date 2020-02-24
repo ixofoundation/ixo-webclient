@@ -7,42 +7,10 @@ import { quoteSell } from '../../../../redux/quote/quote_action_creators'
 import { Quote } from '../../../../model/quote'
 import { currencyStr, tokenBalance } from '../../../../model/account'
 
-const QuoteSell = (props: any) => {
+const QuoteSell = (props: any): JSX.Element => {
   const { register, handleSubmit, watch, errors } = useForm()
-  // const { state, action } = useStateMachine(wizardUpdateAction);
 
-  // const subscriptions: Subscription = new Subscription();
-
-  // //initial state - react state
-  // const [data, setData] = useState({
-  //     eduBalance: 0,
-  //     firstStepData: {},
-  //     secondStepData: {
-  //         balance: 0
-  //     }
-  // });
-
-  // useEffect(() => {
-  //     //mount functional component
-
-  //     console.log('~~~~~> ' + JSON.stringify(state));
-
-  //     subscriptions.add(props.buyData.tokenObservable.subscribe({
-  //         next: (result: any) => {
-  //             setData({ ...data, eduBalance: result ? parseInt(result) : 0 });
-  //             // state.data.eduBalance = result ? parseInt(result) : 0;
-  //             // console.log( '##### ' + JSON.stringify( state.data ) );
-  //         },
-  //         complete: () => console.log('done fetching edu token balance')
-  //     }));
-
-  //     return () => {
-  //         //unmount functional component
-  //         subscriptions.unsubscribe();
-  //     }
-  // }, []);
-
-  const onSubmit = (formData: any) => {
+  const onSubmit = (formData: any): void => {
     const quote: Quote = {}
     quote.recieving = { denom: formData.denom }
     quote.sending = { amount: formData.amount, denom: props.activeBond.symbol }
@@ -94,11 +62,18 @@ const QuoteSell = (props: any) => {
           </div>
         </div>
 
-        <img
-          src={require('../../../../assets/img/arrow-down.png')}
-          width={10}
-          style={{ display: 'block', margin: '0 auto' }}
-        />
+        <div className="label">Payment token</div>
+        <select name="denom" ref={register({ required: true })}>
+          {payOptions.map(option => (
+            <option key={option} value={option}>
+              {option.toUpperCase()}
+            </option>
+          ))}
+        </select>
+        <div className="label_subtitle">
+          My current balance is{' '}
+          <span className="label_subtitle__bold">{recBal}</span>
+        </div>
 
         {/* the unit of the price will be the one which is selected in the dropdown - so it will be measured in IXO if IXO is selected
                 for example entering number 5 would mean to buy tokenamount of the first input field with 5 IXO per token
@@ -106,21 +81,11 @@ const QuoteSell = (props: any) => {
         <div className="label">
           Minimum price per <b>{props.activeBond.symbol}</b> token
         </div>
-        <div className="currencyInput">
-          <select name="denom" ref={register({ required: true })}>
-            {payOptions.map(option => (
-              <option key={option} value={option}>
-                {option.toUpperCase()}
-              </option>
-            ))}
-          </select>
-          <input
-            name="minAmount"
-            placeholder="Enter the lowest offer you will accept"
-            ref={register({ required: true, pattern: /^[0-9]+$/i })}
-          />
-        </div>
-
+        <input
+          name="minAmount"
+          placeholder="Enter the lowest offer you will accept"
+          ref={register({ required: true, pattern: /^[0-9]+$/i })}
+        />
         <div
           style={{
             display: 'flex',
@@ -133,36 +98,22 @@ const QuoteSell = (props: any) => {
               <span className="error">This field requires a number value</span>
             )}
           </span>
-          <span className="label_subtitle">
-            My current balance is{' '}
-            <span className="label_subtitle__bold">{recBal}</span>
-          </span>
-
-          <span className="label_subtitle">
+          <div className="label_subtitle">
             I will have an opportunity to confirm this value
-          </span>
+          </div>
         </div>
 
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-          }}
-        >
-          <span style={{ marginTop: '-0.5em', padding: '0' }}></span>
-          <input
-            type="submit"
-            value="get quote"
-            className="button button_buy button_buy_quote"
-          />
-        </div>
+        <input
+          type="submit"
+          value="get quote"
+          className="button button_buy button_buy_quote"
+        />
       </form>
     )
   }
 }
 
-const mapStateToProps = function(state: Store) {
+const mapStateToProps = function(state: Store): Store {
   return state
 }
 

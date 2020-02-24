@@ -30,7 +30,7 @@ export const getBalances = (address: string): AsyncAction => {
   }
 }
 
-export const getOrders = (address: string, filters?: {}): AsyncAction => {
+export const getOrders = (address: string): AsyncAction => {
   const buyReq = Axios.get(
     process.env.REACT_APP_BLOCKCHAIN_NODE_URL +
       '/txs?message.action=buy&transfer.recipient=' +

@@ -1,27 +1,44 @@
 import React, { Component } from 'react'
-import './Overview.css'
 import { Route, NavLink } from 'react-router-dom'
 import { Charts } from './charts/Charts'
 import Trades from './trades/Trades'
 import { Events } from './events/Events'
 import BondsWrapper from '../BondsWrapper'
+import styled from 'styled-components'
+
+const BondsHomeSectionNav = styled.div`
+  padding: 1rem;
+  margin-left: 1.875rem;
+  a {
+    font-weight: normal;
+    font-size: 1.1875rem;
+    text-transform: uppercase;
+    text-decoration: none;
+
+    color: #ffffff;
+    padding: 0.25rem 1.5rem;
+    &.active {
+      color: #87def6;
+    }
+    &:hover {
+      text-decoration: none;
+      color: #87def6;
+    }
+  }
+`
 
 export class Overview extends Component {
-  render() {
+  render(): JSX.Element {
     return (
       <BondsWrapper>
         <div className="BondsWrapper_panel">
-          <div className="tablinks">
-            <NavLink to="/bonds" exact className="tablinks_tablink">
+          <BondsHomeSectionNav>
+            <NavLink to="/bonds" exact>
               Charts
             </NavLink>
-            <NavLink to="/bonds/overview/trades" className="tablinks_tablink">
-              Trades
-            </NavLink>
-            <NavLink to="/bonds/overview/events" className="tablinks_tablink">
-              Events
-            </NavLink>
-          </div>
+            <NavLink to="/bonds/overview/trades">Trades</NavLink>
+            <NavLink to="/bonds/overview/events">Events</NavLink>
+          </BondsHomeSectionNav>
 
           <Route
             exact
