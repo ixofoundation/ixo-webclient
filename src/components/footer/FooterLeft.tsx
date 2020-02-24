@@ -2,7 +2,7 @@ import * as React from 'react'
 import styled from 'styled-components'
 import MediaQuery from 'react-responsive'
 import { deviceWidth } from '../../lib/commonData'
-import { getIxoWorldRoute } from '../../utils/formatters'
+import { getIxoWorldRoute } from '../../common/utils/formatters'
 
 const ExternalFooterLink = styled.a`
   font-family: ${/* eslint-disable-line */ props =>

@@ -6,7 +6,7 @@ import { Store } from '../../../../model/store'
 import {
   confirmSwap,
   clearQuote,
-} from '../../../../redux/quote/quote_action_creators'
+} from '../../../../modules/quote/quote.actions'
 
 import {
   remainingBalance,

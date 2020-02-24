@@ -1,5 +1,5 @@
-import { createReducer } from '../../lib/redux_utils/reducers'
-import { LoginResult, LOGIN_RESULT } from './login_actions'
+import { createReducer } from '../../common/redux/redux.utils'
+import { LoginResult, LOGIN_RESULT } from './types'
 import { UserInfo } from '../../types/models'
 
 export type ILoginModelState = {

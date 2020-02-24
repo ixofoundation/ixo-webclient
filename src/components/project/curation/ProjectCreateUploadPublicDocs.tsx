@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { ImageLoader, imageQuality } from '../../common/ImageLoader'
-import { PublicSiteStoreState } from '../../../redux/public_site_reducer'
+import { RootState } from '../../../common/redux/reducers'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 import { decode as base64Decode, encode as base64Encode } from 'base-64'
@@ -352,7 +352,7 @@ export class ProjectCreateUploadPublicDocs extends React.Component<
   }
 }
 
-function mapStateToProps(state: PublicSiteStoreState): StateProps {
+function mapStateToProps(state: RootState): StateProps {
   return {
     ixo: state.ixo.ixo,
     keysafe: state.keySafe.keysafe,

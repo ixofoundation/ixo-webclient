@@ -3,7 +3,7 @@ import useForm from 'react-hook-form'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { Store } from '../../../../model/store'
-import { quoteBuy } from '../../../../redux/quote/quote_action_creators'
+import { quoteBuy } from '../../../../modules/quote/quote.actions'
 import { Quote } from '../../../../model/quote'
 import { currencyStr, tokenBalance } from '../../../../model/account'
 

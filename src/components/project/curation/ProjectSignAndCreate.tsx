@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { NavLink } from 'react-router-dom'
-import { PublicSiteStoreState } from '../../../redux/public_site_reducer'
+import { RootState } from '../../../common/redux/reducers'
 import { connect } from 'react-redux'
 import { decode as base64Decode } from 'base-64'
 import styled from 'styled-components'
@@ -237,7 +237,7 @@ export class ProjectSignAndCreate extends React.Component<Props, State> {
   }
 }
 
-function mapStateToProps(state: PublicSiteStoreState): StateProps {
+function mapStateToProps(state: RootState): StateProps {
   return {
     ixo: state.ixo.ixo,
     keysafe: state.keySafe.keysafe,

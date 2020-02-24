@@ -1,5 +1,5 @@
-import { createAction } from '../../lib/redux_utils/actions'
-import { Web3Result, WEB3_RESULT } from './web3_actions'
+import { createAction } from '../../redux/redux.utils'
+import { Web3Result, WEB3_RESULT } from './types'
 import * as Web3 from 'web3'
 
 declare global {

@@ -1,4 +1,4 @@
-import createReducer from '../createReducer'
+import createReducer from '../../common/redux/createReducer'
 import { BondActions, BondAction } from '../../model/bond'
 import { Currency } from '../../model'
 import { Bond } from '../../model/bond'

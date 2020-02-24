@@ -1,6 +1,6 @@
 import * as React from 'react'
 import styled from 'styled-components'
-import { getCountryName } from '../../../utils/formatters'
+import { getCountryName } from '../../../common/utils/formatters'
 
 const Text = styled.div`
   color: ${/*eslint-disable-line*/ props => props.theme.fontDarkGrey};

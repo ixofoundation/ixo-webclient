@@ -4,10 +4,7 @@ import { withRouter, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { Store } from '../../../../model/store'
 
-import {
-  confirmBuy,
-  clearQuote,
-} from '../../../../redux/quote/quote_action_creators'
+import { confirmBuy, clearQuote } from '../../../../modules/quote/quote.actions'
 import {
   remainingBalance,
   newBalance,

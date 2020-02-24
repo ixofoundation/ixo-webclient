@@ -2,7 +2,7 @@ import * as React from 'react'
 import { Fragment } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import { PublicSiteStoreState } from '../../redux/public_site_reducer'
+import { RootState } from '../../common/redux/reducers'
 import { decode as base64Decode } from 'base-64'
 import {
   contentType,
@@ -10,7 +10,7 @@ import {
   ErrorTypes,
   RenderType,
 } from '../../types/models'
-import { Data } from '../../types/models/project'
+import { Data } from '../../modules/project/types'
 import { ProjectHero } from './ProjectHero'
 import { ProjectOverview } from './overview/ProjectOverview'
 import { ProjectDashboard } from './ProjectDashboard'
@@ -996,7 +996,7 @@ export class ProjectContainer extends React.Component<Props, State> {
   }
 }
 
-function mapStateToProps(state: PublicSiteStoreState): Record<string, any> {
+function mapStateToProps(state: RootState): Record<string, any> {
   return {
     ixo: state.ixo.ixo,
     keysafe: state.keySafe.keysafe,

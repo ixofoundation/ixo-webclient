@@ -1,29 +1,5 @@
 require('dotenv').config()
-import { isoCountries } from '../lib/commonData'
-
-export function formatJSONDate(jsonDateTimeString: string): string {
-  return new Date(jsonDateTimeString).toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  })
-}
-
-export function formatJSONTime(jsonDateTimeString: string): string {
-  return new Date(jsonDateTimeString).toLocaleTimeString()
-}
-
-export function formatJSONDateTime(jsonDateTimeString: string): string {
-  return new Date(jsonDateTimeString).toLocaleString('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  })
-}
-
-export function capitalizeFirstLetter(theString: string): string {
-  return theString.charAt(0).toUpperCase() + theString.slice(1)
-}
+import { isoCountries } from '../../lib/commonData'
 
 export function excerptText(theText: string, words = 20): string {
   const cutOffCount = words
