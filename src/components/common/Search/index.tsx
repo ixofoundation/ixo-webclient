@@ -16,6 +16,7 @@ import People from '../../../assets/icons/People'
 import Oracle from '../../../assets/icons/Oracle'
 import Template from '../../../assets/icons/Template'
 import Marketplace from '../../../assets/icons/Marketplace'
+import SearchIcon from '../../../assets/icons/Search'
 
 interface Props {
   filterChanged: (filter: string) => void
@@ -118,7 +119,7 @@ export default class Search extends React.Component<Props> {
                 />
               </form>
               <SearchIconWrapper onClick={this.handleSubmit}>
-                <i className="icon-search" />
+                <SearchIcon />
               </SearchIconWrapper>
               <SearchModal
                 style={{ display: this.state.isModalOpen ? 'block' : 'none' }}

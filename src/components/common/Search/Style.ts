@@ -71,8 +71,8 @@ export const SearchIconWrapper = styled.div`
   line-height: 50px;
   flex: initial;
   text-align: center;
-  i {
-    color: #83d9f2;
+  svg path {
+    fill: #83d9f2;
   }
 `
 
