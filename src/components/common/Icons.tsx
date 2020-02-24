@@ -20,7 +20,7 @@ export interface ParentProps {
   title: string
 }
 
-export const Icons: React.SFC<ParentProps> = () => {
+export const Icons: React.SFC<ParentProps> = props => {
   return (
     <IconsContainer className="container">
       <div className="row">
@@ -53,6 +53,7 @@ export const Icons: React.SFC<ParentProps> = () => {
           <i className="icon-export" />
           <i className="icon-facebook" />
           <i className="icon-favourite-active" />
+          <i className="icon-funding" />
           <i className="icon-github" />
           <i className="icon-heart" />
           <i className="icon-home-active" />

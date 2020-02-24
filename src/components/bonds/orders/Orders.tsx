@@ -15,12 +15,12 @@ class Orders extends Component<any> {
     this.state = { list: [] }
   }
 
-  componentDidMount() {
+  componentDidMount(): void {
     // dispatch a fetch
     this.props.dispatch(getOrders(this.props.account.address))
   }
 
-  render() {
+  render(): JSX.Element {
     return (
       <BondsWrapper>
         <div className="BondsWrapper_panel orders_panel">
@@ -31,7 +31,7 @@ class Orders extends Component<any> {
   }
 }
 
-const mapStateToProps = function(state: Store) {
+const mapStateToProps = function(state: Store): Store {
   return state
 }
 

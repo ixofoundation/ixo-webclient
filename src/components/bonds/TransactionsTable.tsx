@@ -17,6 +17,41 @@ import 'react-dates/lib/css/_datepicker.css'
 import checkmark from '../../assets/img/checkmark.png'
 import x from '../../assets/img/x.png'
 import { Currency } from '../../model'
+import Export from '../../assets/icons/Export'
+import SearchIcon from '../../assets/icons/Search'
+
+import styled from 'styled-components'
+
+const ExportButton = styled.button`
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: center;
+  padding: 0.25rem 1.375rem;
+  outline: none;
+  box-shadow: none;
+  border: none;
+  svg {
+    margin-right: 0.625rem;
+  }
+`
+
+const SearchInput = styled.div`
+  position: relative;
+  margin: 0 0.625rem;
+  input {
+    margin: 0 !important;
+  }
+  svg {
+    position: absolute;
+    right: 0.625rem;
+    top: 50%;
+    transform: translateY(-50%);
+    path {
+      fill: #636971;
+    }
+  }
+`
 
 export enum SortDirection {
   ASC,
@@ -195,16 +230,22 @@ class TransactionsTable extends Component<any> {
               } // PropTypes.func.isRequired,
             />
 
-            <input
-              placeholder="Search"
-              className="query"
-              onChange={(e): void =>
-                this.setState({
-                  filters: { ...this.state.filters, query: e.target.value },
-                })
-              }
-            />
-            <button>Export</button>
+            <SearchInput>
+              <input
+                placeholder="Search"
+                className="query"
+                onChange={(e): void =>
+                  this.setState({
+                    filters: { ...this.state.filters, query: e.target.value },
+                  })
+                }
+              />
+              <SearchIcon />
+            </SearchInput>
+            <ExportButton>
+              <Export />
+              Export
+            </ExportButton>
           </div>
 
           <Table

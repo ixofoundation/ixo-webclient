@@ -12,7 +12,7 @@ class Sell extends Component<any> {
         <div className="BondsWrapper_panel__content">
           <div className="centerAll">
             <BrowserRouter>
-              <div>
+              <div className="BuySellForm_wrapper">
                 <Route
                   exact
                   path="/bonds/exchange/sell"

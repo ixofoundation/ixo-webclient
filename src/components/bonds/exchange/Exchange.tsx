@@ -8,6 +8,30 @@ import BondsWrapper from '../BondsWrapper'
 import Buy from './buy/Buy'
 import Sell from './sell/Sell'
 import Swap from './swap/Swap'
+import styled from 'styled-components'
+
+const BondsSectionNav = styled.div`
+  padding: 1rem;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-around;
+  a {
+    font-weight: normal;
+    font-size: 1.1875rem;
+    text-transform: uppercase;
+    text-decoration: none;
+
+    color: #ffffff;
+    padding: 0.25rem 1.5rem;
+    &.active {
+      color: #87def6;
+    }
+    &:hover {
+      text-decoration: none;
+      color: #87def6;
+    }
+  }
+`
 
 class Exchange extends Component<any> {
   // console.log(this.props)
@@ -40,7 +64,7 @@ class Exchange extends Component<any> {
         <div className="BondsWrapper_panel exchange_panel">
           {/*<b style={{fontSize: 'calc(10px + 2vmin)'}}>Balances</b>
               <div className="BondsWrapper_panel__content"></div>*/}
-          <div className="tablinks">
+          <BondsSectionNav>
             <NavLink
               to={!this.props.transacting ? '/bonds/exchange/' : '#'}
               isActive={(m, l): boolean => this.isActive(m, l, ['/buy'])}
@@ -67,7 +91,7 @@ class Exchange extends Component<any> {
             ) : (
               undefined
             )}
-          </div>
+          </BondsSectionNav>
           <Route
             exact
             path={[

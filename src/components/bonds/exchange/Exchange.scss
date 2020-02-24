@@ -3,23 +3,10 @@
 
 $border-radius: 0.5rem;
 
-.currencyInput {
-  display: flex;
-  border: 1px solid #c8cdd2;
-  border-radius: $border-radius;
-  background-color: #fff;
-  margin-bottom: 0.625rem;
-
-  select {
-    width: 4rem;
-  }
-  select,
-  input {
-    background: transparent;
-    border: none;
-    margin: 0;
-  }
+.BuySellForm_wrapper {
+  width: 100%;
 }
+
 input {
   border: 1px solid #c8cdd2;
   border-radius: $border-radius;
@@ -55,16 +42,8 @@ select {
 }
 
 .label {
-  line-height: 2;
-  text-align: left;
-  display: block;
-  margin-bottom: 0;
-  margin-top: 1rem;
   padding-top: 1rem;
   color: #444;
-  border-top: 1px solid #aaa;
-  font-family: $form-label-font;
-  font-size: $form-label-font-size;
   &:first-of-type {
     border: 0;
   }
@@ -117,11 +96,13 @@ select {
   border: 0;
   background: #2f6f93;
   background: linear-gradient(180deg, #2f6f93 0%, #3d8cb2 100%);
+  margin-left: auto;
 }
 
 .button_buy_confirm {
   background: #219653;
   background: linear-gradient(180deg, #219653 0%, #27ae60 100%);
+  margin-left: auto;
 }
 
 .button_buy_back {
