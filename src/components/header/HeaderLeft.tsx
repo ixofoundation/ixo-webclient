@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { Fragment } from 'react'
 import { deviceWidth } from '../../lib/commonData'
 import MediaQuery from 'react-responsive'
-import { getIxoWorldRoute } from '../../utils/formatters'
+import { getIxoWorldRoute } from '../../common/utils/formatters'
 
 const HeaderLink = styled(NavLink)`
 	color: white;

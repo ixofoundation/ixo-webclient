@@ -1,6 +1,6 @@
-import { createAction } from '../../lib/redux_utils/actions'
+import { createAction } from '../../redux/redux.utils'
 import { Ixo } from 'ixo-module'
-import { IxoResult, IXO_RESULT } from './ixo_actions'
+import { IxoResult, IXO_RESULT } from './types'
 
 export function initIxo(BLOCK_SYNC_URL: string) {
   return (dispatch): void => {

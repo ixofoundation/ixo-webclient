@@ -4,7 +4,7 @@ import { Tabs } from '../common/Tabs'
 import { SDGArray, deviceWidth } from '../../lib/commonData'
 import MediaQuery from 'react-responsive'
 import { Link, NavLink } from 'react-router-dom'
-import { getCountryName } from '../../utils/formatters'
+import { getCountryName } from '../../common/utils/formatters'
 import { MatchType, AgentRoles } from '../../types/models'
 
 const SingleSDG = styled.a`

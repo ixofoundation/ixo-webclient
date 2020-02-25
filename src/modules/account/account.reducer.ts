@@ -1,4 +1,4 @@
-import createReducer from '../createReducer'
+import createReducer from '../../common/redux/createReducer'
 import { WalletAction, AccountActions } from '../../model/account'
 import { Currency } from '../../model'
 import { Account } from '../../model/account'
@@ -21,7 +21,7 @@ import { Account } from '../../model/account'
 //     }});
 
 const accountInitialState = {
-  address: 'cosmos1d5tmj8fk64vmvs0gvjyjgsx97teee5s4jc7vhh',
+  address: 'cosmos1fydp860ztlyxvyys8p536hm7nzg0348xtdwgls',
   name: 'miguel',
   balances: [],
 } as Account

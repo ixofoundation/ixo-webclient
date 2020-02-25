@@ -1,5 +1,5 @@
-import { createReducer } from '../../lib/redux_utils/reducers'
-import { Web3Result, WEB3_RESULT } from './web3_actions'
+import { createReducer } from '../../redux/redux.utils'
+import { Web3Result, WEB3_RESULT } from './types'
 
 export type IWeb3State = {
   web3: any

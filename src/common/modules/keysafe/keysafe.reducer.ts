@@ -1,5 +1,5 @@
-import { createReducer } from '../../lib/redux_utils/reducers'
-import { KeysafeResult, KEYSAFE_RESULT } from './keysafe_actions'
+import { createReducer } from '../../redux/redux.utils'
+import { KeysafeResult, KEYSAFE_RESULT } from './types'
 
 export type IKeysafeModelState = {
   keysafe: any

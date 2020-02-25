@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import 'react-virtualized/styles.css'
 import { connect } from 'react-redux'
 import { Store } from '../../../model/store'
-import { getOrders } from '../../../redux/account/account_action_creators'
+import { getOrders } from '../../../modules/account/account.actions'
 import TransactionsTable from '../TransactionsTable'
 import BondsWrapper from '../BondsWrapper'
 
