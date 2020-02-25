@@ -10,12 +10,14 @@ export const loginReducer = (
   action: LoginActionTypes,
 ): LoginState => {
   switch (action.type) {
-    case LoginActions.LoginResult:
+    case LoginActions.InitUserInfo:
       return {
         ...state,
         userInfo: action.payload.userInfo,
         loginError: action.payload.error,
       }
+    case LoginActions.ResetUserInfo:
+      return initialState
   }
 
   return state

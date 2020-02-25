@@ -1,6 +1,6 @@
 import * as SUT from './login.reducer'
 import * as fromActions from './login.actions'
-import { LoginResult, LoginState } from './types'
+import { LoginState } from './types'
 
 const initialState = SUT.initialState
 
@@ -45,7 +45,7 @@ describe('Login Reducer', () => {
   })
 
   describe('ResetUserInfo Action', () => {
-    it('should return a new copy of state, with the login result set', () => {
+    it('should return the initial state', () => {
       // given ... we have some mock state
       const mockState: LoginState = {
         userInfo: {
@@ -58,17 +58,14 @@ describe('Login Reducer', () => {
         loginError: { error: 'oops' },
       }
 
-      // ... we create a initUserInfo action
-      const action = fromActions.initUserInfo(
-        mockState.userInfo,
-        mockState.loginError.error,
-      )
+      // ... we create a resetUserInfo action
+      const action = fromActions.resetUserInfo()
 
-      // when ... we run the reducer and pass it our initial state and this action
-      const state = SUT.loginReducer(initialState, action)
+      // when ... we run the reducer and pass it our mockState state and this action
+      const state = SUT.loginReducer(mockState, action)
 
-      // then the state should be set as expected
-      expect(state).toEqual(mockState)
+      // then the state should be reset
+      expect(state).toEqual(initialState)
     })
   })
 })
