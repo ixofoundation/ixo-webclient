@@ -17,7 +17,8 @@ export const SearchWrapper = styled.div`
   }
   .search-input-wrapper {
     flex: 3;
-    > * {
+    > *,
+    input {
       height: 100%;
     }
   }
