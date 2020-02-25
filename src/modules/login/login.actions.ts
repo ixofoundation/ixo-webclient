@@ -8,7 +8,7 @@ export const initUserInfo = (
   type: LoginActions.InitUserInfo,
   payload: {
     userInfo,
-    error: { error },
+    loginError: { error },
   },
 })
 

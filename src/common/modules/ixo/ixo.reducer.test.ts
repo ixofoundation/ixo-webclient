@@ -1,10 +1,11 @@
-import * as SUT from './login.reducer'
-import * as fromActions from './login.actions'
-import { LoginState } from './types'
+import { Ixo } from 'ixo-module'
+import * as SUT from './ixo.reducer'
+import * as fromActions from './ixo.actions'
+import { IxoState } from './types'
 
 const initialState = SUT.initialState
 
-describe('Login Reducer', () => {
+describe('Ixo Reducer', () => {
   it('should return the same state if an action is called on it which is not handled by the reducer', () => {
     // given .. we have an action the reducer does not handle
     const action: any = 'foo'
@@ -17,49 +18,32 @@ describe('Login Reducer', () => {
   })
 
   describe('InitUserInfo Action', () => {
-    it('should return a new copy of state, with the login result set', () => {
+    it('should return a new copy of state, with the ixo result set', () => {
       // given ... we have some mock state
-      const mockState: LoginState = {
-        userInfo: {
-          didDoc: { did: 'someDid', pubKey: 'somePubKey' },
-          name: 'someName',
-          ledgered: true,
-          loggedInKeysafe: false,
-          hasKYC: true,
-        },
-        loginError: { error: 'oops' },
+      const mockState: IxoState = {
+        ixo: new Ixo('some-url'),
       }
 
-      // ... we create a initUserInfo action
-      const action = fromActions.initUserInfo(
-        mockState.userInfo,
-        mockState.loginError.error,
-      )
+      // ... we create a initIxo action
+      const action = fromActions.initIxo('some-url')
 
       // when ... we run the reducer and pass it our initial state and this action
       const state = SUT.reducer(initialState, action)
 
       // then the state should be set as expected
-      expect(state).toEqual(mockState)
+      expect(JSON.stringify(state)).toEqual(JSON.stringify(mockState))
     })
   })
 
   describe('ResetUserInfo Action', () => {
     it('should return the initial state', () => {
       // given ... we have some mock state
-      const mockState: LoginState = {
-        userInfo: {
-          didDoc: { did: 'someDid', pubKey: 'somePubKey' },
-          name: 'someName',
-          ledgered: true,
-          loggedInKeysafe: false,
-          hasKYC: true,
-        },
-        loginError: { error: 'oops' },
+      const mockState: IxoState = {
+        ixo: new Ixo('some-url'),
       }
 
-      // ... we create a resetUserInfo action
-      const action = fromActions.resetUserInfo()
+      // ... we create a resetIxo action
+      const action = fromActions.resetIxo()
 
       // when ... we run the reducer and pass it our mockState state and this action
       const state = SUT.reducer(mockState, action)

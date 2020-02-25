@@ -5,7 +5,7 @@ export const initialState: LoginState = {
   loginError: {},
 }
 
-export const loginReducer = (
+export const reducer = (
   state = initialState,
   action: LoginActionTypes,
 ): LoginState => {
@@ -14,7 +14,7 @@ export const loginReducer = (
       return {
         ...state,
         userInfo: action.payload.userInfo,
-        loginError: action.payload.error,
+        loginError: action.payload.loginError,
       }
     case LoginActions.ResetUserInfo:
       return initialState
