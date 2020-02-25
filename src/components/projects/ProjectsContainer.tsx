@@ -38,6 +38,7 @@ const Container = styled.div`
 const ProjectsContainer = styled.div`
   background: ${/* eslint-disable-line */ props => props.theme.bg.lightGrey};
   flex: 1 1 auto;
+  min-height: 480px;
 
   & > .row {
     margin-top: 30px;
@@ -57,6 +58,7 @@ const ErrorContainer = styled.div`
   align-items: center;
   background-color: ${/* eslint-disable-line */ props => props.theme.bg.blue};
   height: 100%;
+  min-height: 480px;
 `
 
 export interface ParentProps {
