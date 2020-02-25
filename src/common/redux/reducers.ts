@@ -5,10 +5,8 @@ import {
   keysafeReducer,
 } from '../modules/keysafe/keysafe.reducer'
 import { IIxoModelState, ixoReducer } from '../modules/ixo/ixo.reducer'
-import {
-  ILoginModelState,
-  loginReducer,
-} from '../../modules/login/login.reducer'
+import { loginReducer } from '../../modules/login/login.reducer'
+import { LoginState } from '../../modules/login/types'
 import { web3Reducer } from '../modules/web3/web3.reducer'
 import {
   activeQuote as activeQuoteReducer,
@@ -28,7 +26,7 @@ import {
 export interface RootState {
   keySafe: IKeysafeModelState
   ixo: IIxoModelState
-  login: ILoginModelState
+  login: LoginState
   web3: any
   activeQuote: any
   quotePending: any

@@ -1,25 +1,21 @@
-import { createAction } from '../../common/redux/redux.utils'
-import { LoginResult, LOGIN_RESULT } from './types'
+import { UserInfoAction, LoginActions } from './types'
 import { UserInfo } from 'src/types/models'
 
-export function initUserInfo(userInfo: UserInfo, error: string) {
-  return (dispatch): void => {
-    dispatch(
-      createAction<LoginResult>(LOGIN_RESULT.type, {
-        userInfo: userInfo,
-        error: { error },
-      }),
-    )
-  }
-}
+export const initUserInfo = (
+  userInfo: UserInfo,
+  error: string,
+): UserInfoAction => ({
+  type: LoginActions.LoginResult,
+  payload: {
+    userInfo,
+    error: { error },
+  },
+})
 
-export function resetUserInfo() {
-  return (dispatch): void => {
-    dispatch(
-      createAction<LoginResult>(LOGIN_RESULT.type, {
-        userInfo: null,
-        error: {},
-      }),
-    )
-  }
-}
+export const resetUserInfo = (): UserInfoAction => ({
+  type: LoginActions.LoginResult,
+  payload: {
+    userInfo: null,
+    error: {},
+  },
+})
