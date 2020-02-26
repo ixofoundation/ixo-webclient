@@ -4,6 +4,7 @@ import { NavLink } from 'react-router-dom'
 import 'react-toastify/dist/ReactToastify.css'
 import './BondsWrapper.css'
 import { BondsHero } from './BondsHero'
+import { TypeForm } from '../TypeForm'
 
 export default function BondsWrapper({ children }): JSX.Element {
   const isActive = (m: any, l: any, paths: [string]): any => {
@@ -41,6 +42,7 @@ export default function BondsWrapper({ children }): JSX.Element {
           <a className="tablinks_tablink icon settings" />
         </div>
         <div className="pane">
+          <TypeForm />
           <Header />
           {children}
         </div>
