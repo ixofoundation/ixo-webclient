@@ -37,8 +37,6 @@ describe('Keysafe Actions', () => {
       // then we should expect it to create an action with the correct type
       expect(action.type).toEqual(KeysafeActions.InitKeysafe)
 
-      console.log(action.payload)
-
       // ... the payload should be set correctly
       expect(action.payload).toEqual({
         keysafe: {},

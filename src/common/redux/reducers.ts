@@ -1,11 +1,8 @@
 import { combineReducers, Reducer } from 'redux'
 import { reducer as keysafeReducer } from '../modules/keysafe/keysafe.reducer'
-import { KeysafeState } from '../modules/keysafe/types'
 import { reducer as ixoReducer } from '../modules/ixo/ixo.reducer'
 import { reducer as loginReducer } from '../../modules/login/login.reducer'
-import { LoginState } from '../../modules/login/types'
-import { IxoState } from '../../common/modules/ixo/types'
-import { web3Reducer } from '../modules/web3/web3.reducer'
+import { reducer as web3Reducer } from '../modules/web3/web3.reducer'
 import {
   activeQuote as activeQuoteReducer,
   quotePending as quotePendingReducer,
@@ -20,21 +17,7 @@ import {
   activeBond as activeBondReducer,
   totalSupplies as totalSuppliesReducer,
 } from '../../modules/bond/bond.reducer'
-
-export interface RootState {
-  keySafe: KeysafeState
-  ixo: IxoState
-  login: LoginState
-  web3: any
-  activeQuote: any
-  quotePending: any
-  signPending: any
-  transacting: any
-  account: any
-  balances: any
-  activeBond: any
-  totalSupplies: any
-}
+import { RootState } from './types'
 
 export const rootReducer: Reducer<RootState> = combineReducers({
   keySafe: keysafeReducer,

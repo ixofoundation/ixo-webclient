@@ -5,7 +5,7 @@ import { ProjectsHero } from './ProjectsHero'
 import { Spinner } from '../common/Spinner'
 import { connect } from 'react-redux'
 
-import { RootState } from '../../common/redux/reducers'
+import { RootState } from '../../common/redux/types'
 import * as Toast from '../helpers/Toast'
 import { contentType, UserInfo } from '../../types/models'
 import { ProjectsDashboard } from './ProjectsDashboard'

@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { NavLink } from 'react-router-dom'
-import { RootState } from '../../../common/redux/reducers'
+import { RootState } from '../../../common/redux/types'
 import { connect } from 'react-redux'
 import { decode as base64Decode } from 'base-64'
 import styled from 'styled-components'
