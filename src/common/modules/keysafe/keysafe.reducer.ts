@@ -1,6 +1,6 @@
 import { KeysafeState, KeysafeActions, KeysafeActionTypes } from './types'
 
-const initialState: KeysafeState = {
+export const initialState: KeysafeState = {
   keysafe: null,
   error: {},
 }
