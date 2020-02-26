@@ -1,5 +1,5 @@
-import { createAction } from '../../lib/redux_utils/actions'
-import { KeysafeResult, KEYSAFE_RESULT } from './keysafe_actions'
+import { createAction } from '../../redux/redux.utils'
+import { KeysafeResult, KEYSAFE_RESULT } from './types'
 
 export function initKeysafe() {
   return (dispatch): void => {

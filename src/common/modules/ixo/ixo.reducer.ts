@@ -1,5 +1,5 @@
-import { createReducer } from '../../lib/redux_utils/reducers'
-import { IxoResult, IXO_RESULT } from './ixo_actions'
+import { createReducer } from '../../redux/redux.utils'
+import { IxoResult, IXO_RESULT } from './types'
 
 export type IIxoModelState = {
   ixo: any

@@ -5,9 +5,9 @@ import { Store } from '../../../model/store'
 import {
   initProvider,
   getBalances,
-} from '../../../redux/account/account_action_creators'
+} from '../../../modules/account/account.actions'
 import { tokenBalance } from '../../../model/account'
-import { getBondBalances } from '../../../redux/bond/bond_action_creators'
+import { getBondBalances } from '../../../modules/bond/bond.actions'
 
 import styled from 'styled-components'
 

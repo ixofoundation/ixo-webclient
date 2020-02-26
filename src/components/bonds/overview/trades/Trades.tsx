@@ -4,7 +4,7 @@ import 'react-virtualized/styles.css'
 // You can import any component you want as a named export from 'react-virtualized', eg
 import { connect } from 'react-redux'
 import { Store } from '../../../../model/store'
-import { getTransactions } from '../../../../redux/bond/bond_action_creators'
+import { getTransactions } from '../../../../modules/bond/bond.actions'
 import TransactionsTable from '../../TransactionsTable'
 
 class Trades extends Component<any> {

@@ -5,7 +5,7 @@ import { ProjectsHero } from './ProjectsHero'
 import { Spinner } from '../common/Spinner'
 import { connect } from 'react-redux'
 
-import { PublicSiteStoreState } from '../../redux/public_site_reducer'
+import { RootState } from '../../common/redux/reducers'
 import * as Toast from '../helpers/Toast'
 import { contentType, UserInfo } from '../../types/models'
 import { ProjectsDashboard } from './ProjectsDashboard'
@@ -39,6 +39,7 @@ const Container = styled.div`
 const ProjectsContainer = styled.div`
   background: ${/* eslint-disable-line */ props => props.theme.bg.lightGrey};
   flex: 1 1 auto;
+  min-height: 480px;
 
   & > .row {
     margin-top: 30px;
@@ -58,6 +59,7 @@ const ErrorContainer = styled.div`
   align-items: center;
   background-color: ${/* eslint-disable-line */ props => props.theme.bg.blue};
   height: 100%;
+  min-height: 480px;
 `
 
 export interface ParentProps {
@@ -268,7 +270,7 @@ export class Projects extends React.Component<Props, State> {
   }
 }
 
-function mapStateToProps(state: PublicSiteStoreState): Record<string, any> {
+function mapStateToProps(state: RootState): Record<string, any> {
   return {
     ixo: state.ixo.ixo,
     userInfo: state.login.userInfo,

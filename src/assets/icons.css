@@ -14,13 +14,6 @@
 
 [class^='icon-'],
 [class*=' icon-'] {
-  src: url("fonts/icomoon.eot?ixilgu");
-  src: url("fonts/icomoon.eot?ixilgu#iefix") format("embedded-opentype"), url("fonts/icomoon.ttf?ixilgu") format("truetype"), url("fonts/icomoon.woff?ixilgu") format("woff"), url("fonts/icomoon.svg?ixilgu#icomoon") format("svg");
-  font-weight: normal;
-  font-style: normal; }
-
-[class^='icon-'],
-[class*=' icon-'] {
   /* use !important to prevent issues with browser extensions that change fonts */
   font-family: 'icomoon' !important;
   speak: none;

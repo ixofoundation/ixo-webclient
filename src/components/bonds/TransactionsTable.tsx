@@ -6,7 +6,7 @@ import './TransactionsTable.css'
 import { Column, Table } from 'react-virtualized'
 import { connect } from 'react-redux'
 import { Store } from '../../model/store'
-import { getTotalSupplies } from '../../redux/bond/bond_action_creators'
+import { getTotalSupplies } from '../../modules/bond/bond.actions'
 import { currencyStr } from '../../model/account'
 import moment from 'moment'
 

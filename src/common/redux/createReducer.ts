@@ -1,5 +1,5 @@
 import { Reducer } from 'redux'
-import { Action } from '../model'
+import { Action } from '../../model'
 
 export default function createReducer<S>(
   initialState: S,

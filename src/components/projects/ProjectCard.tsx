@@ -3,7 +3,7 @@ import { SDGArray, deviceWidth } from '../../lib/commonData'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import { ProgressBar } from '../common/ProgressBar'
-import { excerptText } from '../../utils/formatters'
+import { excerptText } from '../../common/utils/formatters'
 
 const Title = styled.h3`
   font-weight: 400;

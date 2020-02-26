@@ -2,7 +2,7 @@ import * as React from 'react'
 import * as ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import { BrowserRouter as Router } from 'react-router-dom'
-import { createPublicSiteStore } from './redux/store'
+import { createPublicSiteStore } from './common/redux/store'
 import { AppConnected } from './App'
 
 const store = createPublicSiteStore() as any

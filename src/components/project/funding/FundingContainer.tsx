@@ -1,10 +1,10 @@
 import * as React from 'react'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
-import { PublicSiteStoreState } from 'src/redux/public_site_reducer'
-import Web3Proxy from 'src/redux/web3/util/Web3Proxy'
+import { RootState } from 'src/common/redux/reducers'
+import Web3Proxy from 'src/common/modules/web3/util/Web3Proxy'
 import * as Toast from '../../helpers/Toast'
-import { Web3Acc } from 'src/types/models/web3'
+import { Web3Acc } from 'src/common/modules/web3/web3'
 import { FundingGauge } from './FundingGauge'
 import { FundingButton } from './FundingButton'
 import { Fragment } from 'react'
@@ -538,7 +538,7 @@ export class Funding extends React.Component<Props, State> {
 }
 
 function mapStateToProps(
-  state: PublicSiteStoreState,
+  state: RootState,
   ownProps: ParentProps,
 ): Record<string, any> {
   return {

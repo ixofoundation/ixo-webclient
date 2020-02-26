@@ -1,4 +1,4 @@
-import createReducer from '../createReducer'
+import createReducer from '../../common/redux/createReducer'
 import { Quote, QuoteActions, QuoteAction } from '../../model/quote'
 import { Currency } from '../../model'
 import { toast } from 'react-toastify'
