@@ -37,3 +37,11 @@ export function getIxoWorldRoute(path: string): string {
   const origin = process.env.REACT_APP_IXO_WORLD_ORIGIN || 'https://ixo.world'
   return origin + path
 }
+
+export function thousandSeparator(number: string | number): string {
+  if (typeof number !== 'string') {
+    number = number.toString()
+  }
+
+  return number.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1’')
+}
