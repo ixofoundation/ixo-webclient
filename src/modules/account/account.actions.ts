@@ -1,4 +1,4 @@
-import { WalletAction, AccountActions } from '../../model/account'
+import { WalletAction, AccountActions } from './types'
 import { AsyncAction } from 'redux-promise-middleware'
 import KeystationService from '../../service/KeystationService'
 import Axios from 'axios'

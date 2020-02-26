@@ -82,3 +82,8 @@ export interface Header {
   image?: string
   width?: string
 }
+
+export interface Currency {
+  amount?: number
+  denom?: string
+}

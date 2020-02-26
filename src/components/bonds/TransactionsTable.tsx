@@ -5,9 +5,9 @@ import './TransactionsTable.css'
 // You can import any component you want as a named export from 'react-virtualized', eg
 import { Column, Table } from 'react-virtualized'
 import { connect } from 'react-redux'
-import { Store } from '../../model/store'
+import { RootState } from '../../common/redux/types'
 import { getTotalSupplies } from '../../modules/bond/bond.actions'
-import { currencyStr } from '../../model/account'
+import { currencyStr } from '../../modules/account/account.utils'
 import moment from 'moment'
 
 import 'react-dates/initialize'
@@ -16,7 +16,7 @@ import 'react-dates/lib/css/_datepicker.css'
 
 import checkmark from '../../assets/img/checkmark.png'
 import x from '../../assets/img/x.png'
-import { Currency } from '../../model'
+import { Currency } from '../../types/models'
 import Export from '../../assets/icons/Export'
 import SearchIcon from '../../assets/icons/Search'
 
@@ -363,7 +363,7 @@ class TransactionsTable extends Component<any> {
   }
 }
 
-const mapStateToProps = function(state: Store): Store {
+const mapStateToProps = function(state: RootState): RootState {
   return state
 }
 

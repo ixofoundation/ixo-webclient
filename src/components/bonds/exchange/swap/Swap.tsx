@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Store } from '../../../../model/store'
+import { RootState } from '../../../../common/redux/types'
 import { connect } from 'react-redux'
 import { BrowserRouter, Route, Redirect } from 'react-router-dom'
 import QuoteSwap from './QuoteSwap'
@@ -60,7 +60,7 @@ class Swap extends Component<any> {
   }
 }
 
-const mapStateToProps = function(state: Store): Store {
+const mapStateToProps = function(state: RootState): RootState {
   return state
 }
 

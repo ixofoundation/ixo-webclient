@@ -1,6 +1,6 @@
 import createReducer from '../../common/redux/createReducer'
-import { Quote, QuoteActions, QuoteAction } from '../../model/quote'
-import { Currency } from '../../model'
+import { QuoteState, QuoteActions, QuoteAction } from './types'
+import { Currency } from '../../types/models'
 import { toast } from 'react-toastify'
 
 const notify = (payload: any): void => {
@@ -92,7 +92,7 @@ export const transacting = createReducer<boolean>(false, {
   },
 })
 
-export const activeQuote = createReducer<Quote>(
+export const activeQuote = createReducer<QuoteState>(
   {},
   {
     [QuoteActions.QUOTE_BUY + '_FULFILLED'](action: QuoteAction) {
@@ -108,7 +108,7 @@ export const activeQuote = createReducer<Quote>(
       return newQuote
     },
     [QuoteActions.QUOTE_SELL + '_FULFILLED'](
-      quote: Quote,
+      quote: QuoteState,
       action: QuoteAction,
     ) {
       const newQuote = Object.assign({}, action.payload.quote)
@@ -125,7 +125,7 @@ export const activeQuote = createReducer<Quote>(
       return newQuote
     },
     [QuoteActions.QUOTE_SWAP + '_FULFILLED'](
-      quote: Quote,
+      quote: QuoteState,
       action: QuoteAction,
     ) {
       const newQuote = Object.assign({}, action.payload.quote)
@@ -142,7 +142,7 @@ export const activeQuote = createReducer<Quote>(
       return newQuote
     },
     [QuoteActions.CONFIRM_QUOTE + '_FULFILLED'](
-      quote: Quote,
+      quote: QuoteState,
       action: QuoteAction,
     ) {
       if (action.payload) return {}

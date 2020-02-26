@@ -2,16 +2,19 @@ import React from 'react'
 import useForm from 'react-hook-form'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { Store } from '../../../../model/store'
+import { RootState } from '../../../../common/redux/types'
 import { quoteBuy } from '../../../../modules/quote/quote.actions'
-import { Quote } from '../../../../model/quote'
-import { currencyStr, tokenBalance } from '../../../../model/account'
+import { QuoteState } from '../../../../modules/quote/types'
+import {
+  currencyStr,
+  tokenBalance,
+} from '../../../../modules/account/account.utils'
 
 const QuoteBuy = (props: any): JSX.Element => {
   const { register, handleSubmit, watch, errors } = useForm()
 
   const onSubmit = (formData: any): void => {
-    const quote: Quote = {}
+    const quote: QuoteState = {}
     quote.sending = { denom: formData.denom }
     quote.recieving = {
       amount: formData.amount,
@@ -115,7 +118,7 @@ const QuoteBuy = (props: any): JSX.Element => {
   }
 }
 
-const mapStateToProps = (state: Store): Store => {
+const mapStateToProps = (state: RootState): RootState => {
   return state
 }
 

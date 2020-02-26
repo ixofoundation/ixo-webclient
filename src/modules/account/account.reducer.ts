@@ -1,7 +1,6 @@
 import createReducer from '../../common/redux/createReducer'
-import { WalletAction, AccountActions } from '../../model/account'
-import { Currency } from '../../model'
-import { Account } from '../../model/account'
+import { WalletAction, AccountActions, AccountState } from './types'
+import { Currency } from '../../types/models'
 
 // export const activeQuote = createReducer({}, {
 //     [AccountActions.SIGN_ORDER](jsonTxStr: string, action: WalletAction) {
@@ -24,22 +23,22 @@ const accountInitialState = {
   address: 'cosmos1fydp860ztlyxvyys8p536hm7nzg0348xtdwgls',
   name: 'miguel',
   balances: [],
-} as Account
+} as AccountState
 
 export const account = createReducer(accountInitialState, {
   [AccountActions.INIT_PROVIDER + '_FULFILLED'](
-    account: Account,
+    account: AccountState,
     action: WalletAction,
   ) {
     const newState = Object.assign({}, action.payload)
     return newState
   },
-  [AccountActions.INIT_PROVIDER](account: Account, action: WalletAction) {
+  [AccountActions.INIT_PROVIDER](account: AccountState, action: WalletAction) {
     const newState = Object.assign({}, action.payload)
     return newState
   },
   [AccountActions.GET_ORDERS + '_FULFILLED'](
-    account: Account,
+    account: AccountState,
     action: WalletAction,
   ) {
     const newState = Object.assign({}, account)
@@ -47,7 +46,7 @@ export const account = createReducer(accountInitialState, {
     return newState
   },
   [AccountActions.GET_BALANCES + '_FULFILLED'](
-    account: Account,
+    account: AccountState,
     action: WalletAction,
   ) {
     const newState = Object.assign({}, account)
