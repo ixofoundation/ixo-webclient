@@ -1,9 +1,6 @@
-// State of the admin panel store
 import { combineReducers, Reducer } from 'redux'
-import {
-  IKeysafeModelState,
-  keysafeReducer,
-} from '../modules/keysafe/keysafe.reducer'
+import { reducer as keysafeReducer } from '../modules/keysafe/keysafe.reducer'
+import { KeysafeState } from '../modules/keysafe/types'
 import { reducer as ixoReducer } from '../modules/ixo/ixo.reducer'
 import { reducer as loginReducer } from '../../modules/login/login.reducer'
 import { LoginState } from '../../modules/login/types'
@@ -25,7 +22,7 @@ import {
 } from '../../modules/bond/bond.reducer'
 
 export interface RootState {
-  keySafe: IKeysafeModelState
+  keySafe: KeysafeState
   ixo: IxoState
   login: LoginState
   web3: any
