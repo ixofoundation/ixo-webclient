@@ -10,7 +10,7 @@ import * as Toast from '../helpers/Toast'
 import { contentType, UserInfo } from '../../types/models'
 import { ProjectsDashboard } from './ProjectsDashboard'
 import { explorerSocket } from '../helpers/explorerSocket'
-import FilterSortButtons from '../common/FilterSortButtons'
+import FilterSortButtons from '../common/AdvancedFilter/FilterSortButtons'
 
 const Container = styled.div`
   display: flex;
