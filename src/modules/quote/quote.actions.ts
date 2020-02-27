@@ -37,7 +37,7 @@ export const confirmBuy = (
   address: string,
 ): AsyncAction => {
   const maxPrices = quote
-    .maxPrices!.map((maxPrice: Currency) => currencyStr(maxPrice))
+    .maxPrices!.map((maxPrice: Currency) => currencyStr(maxPrice, false))
     .join(',')
 
   const payload = {
@@ -100,7 +100,7 @@ export const confirmSell = (
   address: string,
 ): AsyncAction => {
   const minPrices = quote
-    .minPrices!.map((minPrice: Currency) => currencyStr(minPrice))
+    .minPrices!.map((minPrice: Currency) => currencyStr(minPrice, false))
     .join(',')
 
   const payload = {
@@ -134,8 +134,6 @@ export const confirmSell = (
             )
             return true
           }
-
-          console.log('signed?', response)
         },
       )
     }),
@@ -152,7 +150,7 @@ export const quoteSwap = (quote: QuoteState): AsyncAction => {
         '/bonds/' +
         quote.bondToken +
         '/swap_return/' +
-        currencyStr(quote.sending!) +
+        currencyStr(quote.sending!, false) +
         '/' +
         quote.recieving!.denom,
     ).then(response => {
@@ -196,7 +194,6 @@ export const confirmSwap = (
             )
             return true
           }
-          console.log('signed?', response)
         },
       )
     }),

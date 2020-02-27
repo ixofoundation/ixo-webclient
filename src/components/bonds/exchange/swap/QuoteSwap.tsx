@@ -84,10 +84,10 @@ const QuoteSwap = (props: any): JSX.Element => {
           <input
             name="amount"
             placeholder="Enter the quantity of tokens you are selling."
-            ref={register({ required: true, pattern: /^[0-9]+$/i })}
+            type="number"
+            ref={register({ required: true })}
           />
         </div>
-
         <div
           style={{
             display: 'flex',

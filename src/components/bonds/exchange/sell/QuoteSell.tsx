@@ -87,7 +87,8 @@ const QuoteSell = (props: any): JSX.Element => {
         <input
           name="minAmount"
           placeholder="Enter the lowest offer you will accept"
-          ref={register({ required: true, pattern: /^[0-9]+$/i })}
+          type="number"
+          ref={register({ required: true, min: 0.001 })}
         />
         <div
           style={{
