@@ -2,7 +2,11 @@ import React, { Component } from 'react'
 import HeaderItem from './header-item/HeaderItem'
 import { connect } from 'react-redux'
 import { RootState } from '../../../common/redux/types'
-import { initProvider } from '../../../modules/account/account.actions'
+import {
+  initProvider,
+  getBalances,
+} from '../../../modules/account/account.actions'
+import { getBondBalances } from '../../../modules/bond/bond.actions'
 import { tokenBalance } from '../../../modules/account/account.utils'
 
 import styled from 'styled-components'
@@ -13,13 +17,28 @@ const StyledHeader = styled.header`
   flex-flow: row wrap;
 `
 
+const INTERVAL_LENGTH = 6000
+
 class Header extends Component<any> {
   constructor(props: any) {
     super(props)
 
+    setInterval(() => {
+      this.refreshBalances()
+    }, INTERVAL_LENGTH)
+
+    this.refreshBalances()
+
     // initialize keysafe or query account & bond balances
     if (Object.entries(this.props.account).length === 0) {
       this.props.dispatch(initProvider())
+    }
+  }
+
+  refreshBalances = (): void => {
+    if (Object.entries(this.props.account).length > 0) {
+      this.props.dispatch(getBalances(this.props.account.address))
+      this.props.dispatch(getBondBalances(this.props.activeBond.symbol))
     }
   }
 
