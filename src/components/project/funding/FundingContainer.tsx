@@ -1,7 +1,7 @@
 import * as React from 'react'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
-import { RootState } from 'src/common/redux/reducers'
+import { RootState } from 'src/common/redux/types'
 import Web3Proxy from 'src/common/modules/web3/util/Web3Proxy'
 import * as Toast from '../../helpers/Toast'
 import { Web3Acc } from 'src/common/modules/web3/web3'

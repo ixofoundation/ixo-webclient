@@ -1,6 +1,6 @@
-import { Currency } from './'
+import { Currency } from '../../types/models'
 
-export interface Bond {
+export interface BondState {
   symbol: string
   name?: string
   address?: string

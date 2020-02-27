@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
 import HeaderItem from './header-item/HeaderItem'
 import { connect } from 'react-redux'
-import { Store } from '../../../model/store'
+import { RootState } from '../../../common/redux/types'
 import {
   initProvider,
   getBalances,
 } from '../../../modules/account/account.actions'
-import { tokenBalance } from '../../../model/account'
+import { tokenBalance } from '../../../modules/account/account.utils'
 import { getBondBalances } from '../../../modules/bond/bond.actions'
 
 import styled from 'styled-components'
@@ -32,7 +32,7 @@ class Header extends Component<any> {
     this.props.dispatch(getBondBalances(props.activeBond.symbol))
   }
 
-  UNSAFE_componentWillReceiveProps(nextProps: Store): void {
+  UNSAFE_componentWillReceiveProps(nextProps: RootState): void {
     // if the user changes, get their balances
     if (this.props.account.address !== nextProps.account.address) {
       this.props.dispatch(getBalances(this.props.account.address))
@@ -54,7 +54,7 @@ class Header extends Component<any> {
     const { activeBond } = this.props
     const activeSymbol = activeBond.symbol
     const balance = tokenBalance(
-      { account: { balances: this.props.account.balances } } as Store,
+      { account: { balances: this.props.account.balances } } as RootState,
       activeBond.symbol,
     )
 
@@ -86,7 +86,7 @@ class Header extends Component<any> {
   }
 }
 
-const mapStateToProps = function(state: Store): Store {
+const mapStateToProps = function(state: RootState): RootState {
   return state
 }
 

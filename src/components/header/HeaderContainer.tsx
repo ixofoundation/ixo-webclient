@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
-import { RootState } from '../../common/redux/reducers'
+import { RootState } from '../../common/redux/types'
 import styled from 'styled-components'
 import { HeaderLeft } from './HeaderLeft'
 import { HeaderRight } from './HeaderRight'

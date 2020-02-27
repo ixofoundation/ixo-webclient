@@ -3,7 +3,7 @@ import 'react-virtualized/styles.css'
 
 // You can import any component you want as a named export from 'react-virtualized', eg
 import { connect } from 'react-redux'
-import { Store } from '../../../../model/store'
+import { RootState } from '../../../../common/redux/types'
 import { getTransactions } from '../../../../modules/bond/bond.actions'
 import TransactionsTable from '../../TransactionsTable'
 
@@ -31,7 +31,7 @@ class Trades extends Component<any> {
   }
 }
 
-const mapStateToProps = function(state: Store): Store {
+const mapStateToProps = function(state: RootState): RootState {
   return state
 }
 

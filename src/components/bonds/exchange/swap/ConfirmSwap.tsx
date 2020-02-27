@@ -2,7 +2,7 @@ import React from 'react'
 import useForm from 'react-hook-form'
 import { withRouter, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { Store } from '../../../../model/store'
+import { RootState } from '../../../../common/redux/types'
 import {
   confirmSwap,
   clearQuote,
@@ -12,7 +12,7 @@ import {
   remainingBalance,
   newBalance,
   currencyStr,
-} from '../../../../model/account'
+} from '../../../../modules/account/account.utils'
 
 const ConfirmSwap = (props: any): JSX.Element => {
   const { handleSubmit } = useForm()
@@ -121,7 +121,7 @@ const ConfirmSwap = (props: any): JSX.Element => {
   }
 }
 
-const mapStateToProps = (state: Store): Store => {
+const mapStateToProps = (state: RootState): RootState => {
   return state
 }
 

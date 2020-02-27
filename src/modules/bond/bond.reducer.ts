@@ -1,7 +1,7 @@
 import createReducer from '../../common/redux/createReducer'
-import { BondActions, BondAction } from '../../model/bond'
-import { Currency } from '../../model'
-import { Bond } from '../../model/bond'
+import { BondActions, BondAction } from './types'
+import { Currency } from '../../types/models'
+import { BondState } from './types'
 
 const activeBondInitialState = {
   symbol: 'token1',
@@ -13,11 +13,11 @@ const activeBondInitialState = {
   alpha: 0,
   alphaDate: new Date(),
   trades: [],
-} as Bond
+} as BondState
 
 export const activeBond = createReducer(activeBondInitialState, {
   [BondActions.GET_BOND_BALANCES + '_FULFILLED'](
-    activeBond: Bond,
+    activeBond: BondState,
     action: BondAction,
   ) {
     const newState = Object.assign({}, action.payload)
@@ -30,7 +30,7 @@ export const activeBond = createReducer(activeBondInitialState, {
     return newState
   },
   [BondActions.GET_TRADES + '_FULFILLED'](
-    activeBond: Bond,
+    activeBond: BondState,
     action: BondAction,
   ) {
     const newState = Object.assign({}, activeBond)

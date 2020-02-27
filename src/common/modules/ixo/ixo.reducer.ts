@@ -1,25 +1,22 @@
-import { createReducer } from '../../redux/redux.utils'
-import { IxoResult, IXO_RESULT } from './types'
+import { IxoState, IxoActionTypes, IxoActions } from './types'
 
-export type IIxoModelState = {
-  ixo: any
-  error: Record<string, any>
-}
-
-const initialState: IIxoModelState = {
+export const initialState: IxoState = {
   ixo: null,
-  error: {},
 }
 
-export const ixoReducer = createReducer<IIxoModelState>(initialState, [
-  {
-    action: IXO_RESULT,
-    handler: (state: IIxoModelState, action: IxoResult): IIxoModelState => {
-      state.ixo = action.ixo
-      state.error = action.error
+export const reducer = (
+  state = initialState,
+  action: IxoActionTypes,
+): IxoState => {
+  switch (action.type) {
+    case IxoActions.InitIxo:
       return {
         ...state,
+        ixo: action.payload.ixo,
       }
-    },
-  },
-])
+    case IxoActions.ResetIxo:
+      return initialState
+  }
+
+  return state
+}
