@@ -31,6 +31,19 @@ export const Button = styled.button`
 export const ButtonWrapper = styled.div`
   position: relative;
   display: inline-block;
+  z-index: 1;
+  :after {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background: transparent;
+    z-index: -1;
+  }
+  &.active:after {
+    content: '';
+  }
 `
 export const FilterModal = styled.div`
   position: absolute;
@@ -108,6 +121,7 @@ export const ApplyButton = styled.div`
   opacity: 0.3;
   border-radius: 4px;
 `
+
 export const DatePickerModal = styled.div`
   position: absolute;
   background: #ffffff;

@@ -1,0 +1,208 @@
+{"@context": "https://schema.ixo.foundation/project",
+ "@type": "Project",
+ "categories": [
+  {
+   "@type": "Category",
+   
+   "title": "Beneficiary",
+   "tags": [
+    {
+     "@type": "EthnicMinorities",
+     
+     "title": "{Ethnic Minorities}",
+     "icon": "ethnicminorities.png"
+    },
+    {
+     "@type": "LowIncome",
+     
+     "title": "{Low Income}",
+     "icon": "lowincome.png"
+    },
+    {
+     "@type": "Elderly",
+     "title": "{Elderly}",
+     "icon": "elderly.png"
+    },
+    {
+     "@type": "ChildAndYouth",
+     "title": "{Children & Youth}",
+     "icon": "childrenandyouth.png"
+    
+  
+ "@type": "PeopleWithDisabilities",
+     
+     "title": "{People with Disabilities}",
+     "icon": "peoplewithdisabilities.png"
+    }
+
+   ]
+  },
+  {
+   "@type": "Category",
+   "title": "Field",
+   "tags": [
+    {
+     "@type": "Education",
+     "title": "{Education}",
+     "icon": "education.png"
+    },
+    {
+     "@type": "PhysicalHealth",
+     "title": "{Physical Health}",
+     "icon": "physicalhealth.png"
+    },
+    {
+     "@type": "MentalHealth",
+     "title": "{Mental Health}",
+     "icon": "mentalhealth.png"
+    },
+    {
+     "@type": "FinancialServices",
+     "title": "{Financial Services}",
+     "icon": "financialservices.png"
+
+    {
+     "@type": "PersonalFinancing",
+     "title": "{Personal Financing}",
+     "icon": "personalfinancing.png"
+
+    {
+     "@type": "SocialAwareness",
+     "title": "{Social Awareness}",
+     "icon": "socialawareness.png"
+
+    {
+     "@type": "Housing",
+     "title": "{Housing}",
+     "icon": "housing.png"
+
+    {
+     "@type": "DiversityAndInclusion",
+     "title": "{Diversity and Inclusion}",
+     "icon": "diversityandinclusion.png"
+
+    {
+     "@type": "InterPersonalRelationship",
+     "title": "{Inter-personal Relationship}",
+     "icon": "interpersonalrelationship.png"
+    }
+   ]
+  },
+  {
+   "@type": "Category",
+   "title": "Sustainable Development Goal",
+   "tags": [
+    {
+     "@type": "SDG1",
+     "title": "{SDG 1 – No Poverty}",
+     "icon": "sdg1.png"
+    },    },
+    {
+     "@type": "SDG2",
+     "title": "{SDG2 – Zero Hunger}",
+     "icon": "sdg2.png"
+    },
+    {
+     "@type": "SDG3",
+     "title": "{SDG3 – Good Health and Well-being}",
+     "icon": "sdg3.png"
+    },
+    {
+     "@type": "SDG4",
+     "title": "{SDG4 – Quality Education}",
+     "icon": "sdg4.png"
+    },
+    {
+     "@type": "SDG5",
+     "title": "{SDG5 – Gender Equality}",
+     "icon": "sdg5.png"
+    },
+    {
+     "@type": "SDG6",
+     "title": "{SDG6 – Clean Water and Sanitation}",
+     "icon": "sdg6.png"
+    },
+    {
+     "@type": "SDG7",
+     "title": "{SDG7 – Affordable and Clean Energy}",
+     "icon": "sdg7.png"
+    },
+    {
+     "@type": "SDG8",
+     "title": "{SDG8 – Decent Work and Economic Growth}",
+     "icon": "sdg8.png"
+    },
+    {
+     "@type": "SDG9",
+     "title": "{SDG9 – Industry, Innovation and Infrastructure}",
+     "icon": "sdg9.png"
+    },
+    {
+     "@type": "SDG10",
+     "title": "{SDG10 – Reduced Inequalities}",
+     "icon": "sdg10.png"
+    },
+    {
+     "@type": "SDG11",
+     "title": "{SDG11 – Sustainable Cities and Coummunities}",
+     "icon": "sdg11.png"
+    },
+    {
+     "@type": "SDG12",
+     "title": "{SDG12 – Responsible Consumption and Production}",
+     "icon": "sdg12.png"
+    },
+    {
+     "@type": "SDG13",
+     "title": "{SDG13 – Climate Action}",
+     "icon": "sdg13.png"
+    },
+    {
+     "@type": "SDG14",
+     "title": "{SDG14 – Life Below Water}",
+     "icon": "sdg14.png"
+
+    {
+     "@type": "SDG15",
+     "title": "{SDG15 – Life on Land}",
+     "icon": "sdg15.png"
+    },
+    {
+     "@type": "SDG16",
+     "title": "{SDG16 – Peace, Justice and Strong Institutions}",
+     "icon": "sdg16.png"
+    },
+    {
+     "@type": "SDG17",
+     "title": "{SDG17 – Partnerships for Goals}",
+     "icon": "sdg17.png"
+    }
+   ]
+  },
+  {
+   "@type": "Category",
+   "title": "Stage",
+   "tags": [
+    {
+     "@type": "ApplicationStage",
+     
+     "title": "{Application Stage}",
+     "icon": "applicationstage.png"
+    },
+    {
+     "@type": "IncubationStage",
+     "title": "{Incubation Stage}",
+     "icon": "incubationstage.png"
+    },
+    {
+     "@type": "GraduatedStage",
+     "title": "{Graduated Stage}",
+     "icon": "graduatedstage.png"
+    },
+    {
+    }
+   ]
+  }
+ ]
+}
+}

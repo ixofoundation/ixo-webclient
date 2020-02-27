@@ -72,6 +72,16 @@ class FilterSortButtons extends React.Component<
     }
   }
 
+  handleClose = (e, id): void => {
+    const filterModal = e.target
+      .closest('.button-wrapper')
+      .querySelector('.filter-modal')
+    if (filterModal.contains(e.target)) {
+      return
+    }
+    this.setId(id)
+  }
+
   render(): JSX.Element {
     return (
       <PositionController>
@@ -82,12 +92,18 @@ class FilterSortButtons extends React.Component<
 
         {filterData.categories.map(filterCategory => {
           return (
-            // <Button key={filterCategory['@id']}>{filterCategory.title}</Button>
-            <ButtonWrapper key={filterCategory['@id']}>
+            <ButtonWrapper
+              key={filterCategory['@id']}
+              className={
+                filterCategory['@id'] === this.state.checkId ? 'active' : ''
+              }
+              onClick={(e): void => this.handleClose(e, filterCategory['@id'])}
+            >
               <Button onClick={(): void => this.setId(filterCategory['@id'])}>
                 {filterCategory.title}
               </Button>
               <FilterModal
+                className="filter-modal"
                 style={{
                   display:
                     filterCategory['@id'] === this.state.checkId
