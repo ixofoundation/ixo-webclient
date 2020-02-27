@@ -3,24 +3,31 @@ import { Currency } from '../../types/models'
 export interface AccountState {
   name?: string
   address?: string
-  orders?: {}[]
+  orders: {}[]
   balances: Currency[]
 }
 
 export enum AccountActions {
-  SIGN_ORDER = 'SIGN_ORDER',
-  GET_BALANCES = 'GET_BALANCES',
-  GET_ORDERS = 'GET_ORDERS',
-  INIT_PROVIDER = 'INIT_PROVIDER',
+  GetBalances = 'ixo/Account/GET_BALANCES',
+  GetBalancesSuccess = 'ixo/Account/GET_BALANCES_FULFILLED',
+  GetOrders = 'ixo/Account/GET_ORDERS',
+  GetOrdersSuccess = 'ixo/Account/GET_ORDERS_FULFILLED',
 }
 
-interface WalletActionType<T, P> {
-  type: T
-  payload?: P
+export interface GetBalancesSuccessAction {
+  type: typeof AccountActions.GetBalancesSuccess
+  payload: {
+    balances: Currency[]
+  }
 }
 
-export type WalletAction =
-  | WalletActionType<typeof AccountActions.SIGN_ORDER, string>
-  | WalletActionType<typeof AccountActions.GET_BALANCES, any>
-  | WalletActionType<typeof AccountActions.INIT_PROVIDER, any>
-  | WalletActionType<typeof AccountActions.GET_ORDERS, any>
+export interface GetOrdersSuccessAction {
+  type: typeof AccountActions.GetOrdersSuccess
+  payload: {
+    orders: {}[]
+  }
+}
+
+export type AccountActionTypes =
+  | GetBalancesSuccessAction
+  | GetOrdersSuccessAction

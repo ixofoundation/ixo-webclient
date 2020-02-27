@@ -19,7 +19,7 @@ import {
 } from '../../modules/bond/bond.reducer'
 import { RootState } from './types'
 
-export const rootReducer: Reducer<RootState> = combineReducers({
+export const rootReducer: Reducer<RootState> = combineReducers<RootState>({
   keySafe: keysafeReducer,
   ixo: ixoReducer,
   login: loginReducer,
@@ -32,4 +32,4 @@ export const rootReducer: Reducer<RootState> = combineReducers({
   balances: balancesReducer,
   activeBond: activeBondReducer,
   totalSupplies: totalSuppliesReducer,
-}) as Reducer<RootState>
+})
