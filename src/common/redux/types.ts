@@ -16,7 +16,6 @@ export interface RootState {
   signPending: boolean
   transacting: boolean
   account: AccountState
-  balances: Currency[]
   activeBond: BondState
   totalSupplies: Currency[]
 }

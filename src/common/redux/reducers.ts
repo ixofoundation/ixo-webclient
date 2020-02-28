@@ -9,10 +9,7 @@ import {
   signPending as signPendingReducer,
   transacting as transactingReducer,
 } from '../../modules/quote/quote.reducer'
-import {
-  account as accountReducer,
-  balances as balancesReducer,
-} from '../../modules/account/account.reducer'
+import { reducer as accountReducer } from '../../modules/account/account.reducer'
 import {
   activeBond as activeBondReducer,
   totalSupplies as totalSuppliesReducer,
@@ -29,7 +26,6 @@ export const rootReducer: Reducer<RootState> = combineReducers<RootState>({
   signPending: signPendingReducer,
   transacting: transactingReducer,
   account: accountReducer,
-  balances: balancesReducer,
   activeBond: activeBondReducer,
   totalSupplies: totalSuppliesReducer,
 })

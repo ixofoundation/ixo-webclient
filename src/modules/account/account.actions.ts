@@ -1,44 +1,58 @@
-import { AccountActions } from './types'
-import { AsyncAction } from 'redux-promise-middleware'
+import { AccountActions, GetBalancesAction, GetOrdersAction } from './types'
+import { ThunkDispatch } from 'redux-thunk'
 import Axios from 'axios'
+import { RootState } from '../../common/redux/types'
 
-export const getBalances = (address: string): AsyncAction => {
-  return {
+export const getBalances = (address: string) => (
+  dispatch: ThunkDispatch<RootState, void, GetBalancesAction>,
+): void => {
+  dispatch({
     type: AccountActions.GetBalances,
     payload: Axios.get(
       process.env.REACT_APP_BLOCKCHAIN_NODE_URL + '/auth/accounts/' + address,
-    ).then(response => {
-      return response.data.result.value.coins
-    }),
-  }
+      {
+        transformResponse: [
+          (data: string): any => {
+            return JSON.parse(data).result.value.coins
+          },
+        ],
+      },
+    ),
+  })
 }
 
-export const getOrders = (address: string): AsyncAction => {
+export const getOrders = (address: string) => (
+  dispatch: ThunkDispatch<RootState, void, GetOrdersAction>,
+): void => {
+  const config = {
+    transformResponse: [
+      (data: string): any => {
+        return JSON.parse(data).txs
+      },
+    ],
+  }
+
   const buyReq = Axios.get(
     process.env.REACT_APP_BLOCKCHAIN_NODE_URL +
       '/txs?message.action=buy&transfer.recipient=' +
       address,
+    config,
   )
   const sellReq = Axios.get(
     process.env.REACT_APP_BLOCKCHAIN_NODE_URL +
       '/txs?message.action=sell&message.sender=' +
       address,
+    config,
   )
   const swapReq = Axios.get(
     process.env.REACT_APP_BLOCKCHAIN_NODE_URL +
       '/txs?message.action=swap&transfer.recipient=' +
       address,
+    config,
   )
 
-  return {
+  dispatch({
     type: AccountActions.GetOrders,
-    payload: Axios.all([sellReq, buyReq, swapReq]).then(
-      Axios.spread((...responses) => {
-        const buy = responses[0].data.txs
-        const sell = responses[1].data.txs
-        const swap = responses[2].data.txs
-        return [...buy, ...sell, ...swap]
-      }),
-    ),
-  }
+    payload: Axios.all([sellReq, buyReq, swapReq]),
+  })
 }
