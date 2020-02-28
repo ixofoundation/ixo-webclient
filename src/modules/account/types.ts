@@ -41,5 +41,7 @@ export interface GetOrdersSuccessAction {
 }
 
 export type AccountActionTypes =
+  | GetBalancesAction
   | GetBalancesSuccessAction
+  | GetOrdersAction
   | GetOrdersSuccessAction

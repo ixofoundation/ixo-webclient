@@ -3,10 +3,7 @@ import mockStore from '../../common/redux/mockStore'
 import * as SUT from './account.actions'
 import { AccountActions } from './types'
 
-jest.mock('axios')
-
 const mockAxios = axios as jest.Mocked<typeof axios>
-
 let store
 
 beforeEach(() => {
@@ -43,15 +40,18 @@ describe('Account Actions', () => {
         }),
       )
 
-      // when ... we call the getBalances action creator with an address
-      await store.dispatch(SUT.getBalances('some-address'))
-      const actions = store.getActions()
+      try {
+        // when ... we call the getBalances action creator with an address
+        await store.dispatch(SUT.getBalances('some-address'))
+      } catch {
+        const actions = store.getActions()
 
-      // then we should expect it to create actions with the correct types and payload
-      expect.assertions(3)
-      expect(actions[0].type).toEqual(AccountActions.GetBalancesPending)
-      expect(actions[1].type).toEqual(AccountActions.GetBalancesFailure)
-      expect(actions[1].payload.error).toEqual(error)
+        // then we should expect it to create actions with the correct types and payload
+        expect.assertions(3)
+        expect(actions[0].type).toEqual(AccountActions.GetBalancesPending)
+        expect(actions[1].type).toEqual(AccountActions.GetBalancesFailure)
+        expect(actions[1].payload.error).toEqual(error)
+      }
     })
   })
 
@@ -85,14 +85,18 @@ describe('Account Actions', () => {
       )
 
       // when ... we call the getOrders action creator with an address
-      await store.dispatch(SUT.getOrders('some-address'))
-      const actions = store.getActions()
 
-      // then we should expect it to create actions with the correct types and payload
-      expect.assertions(3)
-      expect(actions[0].type).toEqual(AccountActions.GetOrdersPending)
-      expect(actions[1].type).toEqual(AccountActions.GetOrdersFailure)
-      expect(actions[1].payload.error).toEqual(error)
+      try {
+        await store.dispatch(SUT.getOrders('some-address'))
+      } catch {
+        const actions = store.getActions()
+
+        // then we should expect it to create actions with the correct types and payload
+        expect.assertions(3)
+        expect(actions[0].type).toEqual(AccountActions.GetOrdersPending)
+        expect(actions[1].type).toEqual(AccountActions.GetOrdersFailure)
+        expect(actions[1].payload.error).toEqual(error)
+      }
     })
   })
 })

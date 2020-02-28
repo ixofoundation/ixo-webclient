@@ -1,6 +1,6 @@
 import { AccountActionTypes, AccountActions, AccountState } from './types'
 
-export const accountInitialState: AccountState = {
+export const initialState: AccountState = {
   address: 'cosmos1fydp860ztlyxvyys8p536hm7nzg0348xtdwgls',
   name: 'miguel',
   balances: [],
@@ -8,7 +8,7 @@ export const accountInitialState: AccountState = {
 }
 
 export const reducer = (
-  state = accountInitialState,
+  state = initialState,
   action: AccountActionTypes,
 ): AccountState => {
   switch (action.type) {
