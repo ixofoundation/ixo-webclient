@@ -37,16 +37,16 @@ class Exchange extends Component<any> {
   // console.log(this.props)
   componentDidMount(): void {
     this.props.dispatch({
-      type: QuoteActions.QUOTE_BUY + '_FAILED',
+      type: QuoteActions.Buy + '_FAILED',
     })
     this.props.dispatch({
-      type: QuoteActions.QUOTE_SELL + '_FAILED',
+      type: QuoteActions.Sell + '_FAILED',
     })
     this.props.dispatch({
-      type: QuoteActions.QUOTE_SWAP + '_FAILED',
+      type: QuoteActions.Swap + '_FAILED',
     })
     this.props.dispatch({
-      type: QuoteActions.CONFIRM_QUOTE + '_FAILED',
+      type: QuoteActions.Confirm + '_FAILED',
     })
   }
 

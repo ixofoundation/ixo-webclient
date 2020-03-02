@@ -1,9 +1,25 @@
 import createReducer from '../../common/redux/createReducer'
-import { QuoteState, QuoteActions, QuoteAction } from './types'
-import { Currency } from '../../types/models'
+import { QuoteState, QuoteActions, QuoteActionTypes } from './types'
 import { toast } from 'react-toastify'
 
 // NB - the params MUST ALL be quote: Quote, action: QuoteAction, even though they may not be used
+
+export const initialState: QuoteState = {
+  sending: null,
+  receiving: null,
+  maxPrices: null,
+  minPrices: null,
+  actualPrices: null,
+  txFees: null,
+  totalPrices: null,
+  totalFees: null,
+  bondToken: null,
+  tx: null,
+  response: null,
+  quotePending: false,
+  signPending: false,
+  transacting: false,
+}
 
 const notify = (payload: any): void => {
   if (payload.response) {
@@ -14,212 +30,127 @@ const notify = (payload: any): void => {
 }
 
 export const quotePending = createReducer<boolean>(false, {
-  [QuoteActions.QUOTE_BUY + '_PENDING'](
-    quote: QuoteState,
-    action: QuoteAction,
-  ) {
+  [QuoteActions.Buy + '_PENDING'](quote: QuoteState, action: any) {
     return true
   },
-  [QuoteActions.QUOTE_SELL + '_PENDING'](
-    quote: QuoteState,
-    action: QuoteAction,
-  ) {
+  [QuoteActions.Sell + '_PENDING'](quote: QuoteState, action: any) {
     return true
   },
-  [QuoteActions.QUOTE_SWAP + '_PENDING'](
-    quote: QuoteState,
-    action: QuoteAction,
-  ) {
+  [QuoteActions.Swap + '_PENDING'](quote: QuoteState, action: any) {
     return true
   },
-  [QuoteActions.QUOTE_BUY + '_FULFILLED'](
-    quote: QuoteState,
-    action: QuoteAction,
-  ) {
+  [QuoteActions.Buy + '_FULFILLED'](quote: QuoteState, action: any) {
     return false
   },
-  [QuoteActions.QUOTE_SELL + '_FULFILLED'](
-    quote: QuoteState,
-    action: QuoteAction,
-  ) {
+  [QuoteActions.Sell + '_FULFILLED'](quote: QuoteState, action: any) {
     return false
   },
-  [QuoteActions.QUOTE_SWAP + '_FULFILLED'](
-    quote: QuoteState,
-    action: QuoteAction,
-  ) {
+  [QuoteActions.Swap + '_FULFILLED'](quote: QuoteState, action: any) {
     return false
   },
-  [QuoteActions.QUOTE_BUY + '_FAILED'](quote: QuoteState, action: QuoteAction) {
+  [QuoteActions.Buy + '_FAILED'](quote: QuoteState, action: any) {
     return false
   },
-  [QuoteActions.QUOTE_SELL + '_FAILED'](
-    quote: QuoteState,
-    action: QuoteAction,
-  ) {
+  [QuoteActions.Sell + '_FAILED'](quote: QuoteState, action: any) {
     return false
   },
-  [QuoteActions.QUOTE_SWAP + '_FAILED'](
-    quote: QuoteState,
-    action: QuoteAction,
-  ) {
+  [QuoteActions.Swap + '_FAILED'](quote: QuoteState, action: any) {
     return false
   },
-  [QuoteActions.QUOTE_BUY + '_REJECTED'](
-    quote: QuoteState,
-    action: QuoteAction,
-  ) {
+  [QuoteActions.Buy + '_REJECTED'](quote: QuoteState, action: any) {
     notify(action.payload)
     return false
   },
-  [QuoteActions.QUOTE_SELL + '_REJECTED'](
-    quote: QuoteState,
-    action: QuoteAction,
-  ) {
+  [QuoteActions.Sell + '_REJECTED'](quote: QuoteState, action: any) {
     notify(action.payload)
     return false
   },
-  [QuoteActions.QUOTE_SWAP + '_REJECTED'](
-    quote: QuoteState,
-    action: QuoteAction,
-  ) {
+  [QuoteActions.Swap + '_REJECTED'](quote: QuoteState, action: any) {
     notify(action.payload)
     return false
   },
 })
 
 export const signPending = createReducer<boolean>(false, {
-  [QuoteActions.CONFIRM_QUOTE + '_PENDING'](
-    quote: QuoteState,
-    action: QuoteAction,
-  ) {
+  [QuoteActions.Confirm + '_PENDING'](quote: QuoteState, action: any) {
     return true
   },
-  [QuoteActions.CONFIRM_QUOTE + '_FULFILLED'](
-    quote: QuoteState,
-    action: QuoteAction,
-  ) {
+  [QuoteActions.Confirm + '_FULFILLED'](quote: QuoteState, action: any) {
     return false
   },
-  [QuoteActions.CONFIRM_QUOTE + '_FAILED'](
-    quote: QuoteState,
-    action: QuoteAction,
-  ) {
+  [QuoteActions.Confirm + '_FAILED'](quote: QuoteState, action: any) {
     return false
   },
-  [QuoteActions.CONFIRM_QUOTE + '_REJECTED'](
-    quote: QuoteState,
-    action: QuoteAction,
-  ) {
+  [QuoteActions.Confirm + '_REJECTED'](quote: QuoteState, action: any) {
     return false
   },
 })
 
 export const transacting = createReducer<boolean>(false, {
-  [QuoteActions.QUOTE_BUY + '_PENDING'](
-    quote: QuoteState,
-    action: QuoteAction,
-  ) {
+  [QuoteActions.Buy + '_PENDING'](quote: QuoteState, action: any) {
     return true
   },
-  [QuoteActions.QUOTE_SELL + '_PENDING'](
-    quote: QuoteState,
-    action: QuoteAction,
-  ) {
+  [QuoteActions.Sell + '_PENDING'](quote: QuoteState, action: any) {
     return true
   },
-  [QuoteActions.QUOTE_SWAP + '_PENDING'](
-    quote: QuoteState,
-    action: QuoteAction,
-  ) {
+  [QuoteActions.Swap + '_PENDING'](quote: QuoteState, action: any) {
     return true
   },
-  [QuoteActions.CLEAR_QUOTE](quote: QuoteState, action: QuoteAction) {
+  [QuoteActions.Clear](quote: QuoteState, action: any) {
     return false
   },
-  [QuoteActions.QUOTE_BUY + '_REJECTED'](
-    quote: QuoteState,
-    action: QuoteAction,
-  ) {
+  [QuoteActions.Buy + '_REJECTED'](quote: QuoteState, action: any) {
     return false
   },
-  [QuoteActions.QUOTE_SELL + '_REJECTED'](
-    quote: QuoteState,
-    action: QuoteAction,
-  ) {
+  [QuoteActions.Sell + '_REJECTED'](quote: QuoteState, action: any) {
     return false
   },
-  [QuoteActions.QUOTE_SWAP + '_REJECTED'](
-    quote: QuoteState,
-    action: QuoteAction,
-  ) {
+  [QuoteActions.Swap + '_REJECTED'](quote: QuoteState, action: any) {
     return false
   },
 })
 
-export const activeQuote = createReducer<QuoteState>(
-  {},
-  {
-    [QuoteActions.QUOTE_BUY + '_FULFILLED'](
-      quote: QuoteState,
-      action: QuoteAction,
-    ) {
-      const newQuote = Object.assign({}, action.payload.quote)
-      const result = action.payload.result
+export const activeQuote = (
+  state = initialState,
+  action: QuoteActionTypes,
+): QuoteState => {
+  switch (action.type) {
+    case QuoteActions.BuySuccess:
+      return {
+        ...initialState,
+        sending: action.payload.data.sending,
+        receiving: action.payload.data.receiving,
+        maxPrices: action.payload.data.maxPrices,
+        actualPrices: action.payload.data.result.prices,
+        txFees: action.payload.data.result.tx_fees,
+        totalPrices: action.payload.data.result.total_prices,
+        totalFees: action.payload.data.result.total_fees,
+      }
+    case QuoteActions.SellSuccess:
+      return {
+        ...initialState,
+        sending: action.payload.data.sending,
+        maxPrices: action.payload.data.minPrices,
+        receiving: action.payload.data.result.returns[0],
+        txFees: action.payload.data.result.tx_fees,
+        totalFees: action.payload.data.result.total_fees,
+      }
+    case QuoteActions.SwapSuccess:
+      return {
+        ...initialState,
+        receiving: action.payload.data.result.total_returns[0],
+        // isSwapping: true,
+        totalFees: action.payload.data.result.total_fees,
+      }
+    case QuoteActions.ConfirmSuccess:
+      if (action.payload) return { ...initialState }
 
-      newQuote.actualPrices = result.prices as [Currency]
-      newQuote.adjustedSupply = result.adjusted_supply as [Currency]
-      newQuote.txFees = result.tx_fees as [Currency]
-      newQuote.totalPrices = result.total_prices as [Currency]
-      newQuote.totalFees = result.total_fees as [Currency]
+      return state
+    case QuoteActions.Clear:
+      return {
+        ...initialState,
+      }
+  }
 
-      return newQuote
-    },
-    [QuoteActions.QUOTE_SELL + '_FULFILLED'](
-      quote: QuoteState,
-      action: QuoteAction,
-    ) {
-      const newQuote = Object.assign({}, action.payload.quote)
-      const result = action.payload.result
-
-      newQuote.receiving = result.returns[0]
-
-      // newQuote.actualPrices = result.prices as [Currency]
-      // newQuote.totalPrices = result.total_prices as [Currency]
-      newQuote.txFees = result.tx_fees as [Currency]
-      newQuote.exitFees = result.exit_fees as [Currency]
-      newQuote.totalFees = result.total_fees as [Currency]
-
-      return newQuote
-    },
-    [QuoteActions.QUOTE_SWAP + '_FULFILLED'](
-      quote: QuoteState,
-      action: QuoteAction,
-    ) {
-      const newQuote = Object.assign({}, action.payload.quote)
-      const result = action.payload.result
-
-      newQuote.receiving = result.total_returns[0]
-      newQuote.isSwapping = true
-      // newQuote.actualPrices = result.prices as [Currency]
-      // newQuote.totalPrices = result.total_prices as [Currency]
-      // newQuote.txFees = result.tx_fees as [Currency]
-      // newQuote.exitFees = result.exit_fees as [Currency]
-      newQuote.totalFees = result.total_fees as [Currency]
-
-      return newQuote
-    },
-    [QuoteActions.CONFIRM_QUOTE + '_FULFILLED'](
-      quote: QuoteState,
-      action: QuoteAction,
-    ) {
-      if (action.payload) return {}
-
-      return quote
-    },
-
-    [QuoteActions.CLEAR_QUOTE]() {
-      return {}
-    },
-  },
-)
+  return state
+}

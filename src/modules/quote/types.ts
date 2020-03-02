@@ -12,24 +12,91 @@ export interface QuoteState {
   bondToken?: string
   tx?: {}
   response?: any
+  quotePending: boolean
+  signPending: boolean
+  transacting: boolean
 }
 
 export enum QuoteActions {
-  CLEAR_QUOTE = 'CLEAR_QUOTE',
-  QUOTE_BUY = 'QUOTE_BUY',
-  QUOTE_SELL = 'QUOTE_SELL',
-  QUOTE_SWAP = 'QUOTE_SWAP',
-  CONFIRM_QUOTE = 'CONFIRM_QUOTE',
+  Clear = 'ixo/Quote/CLEAR',
+  Buy = 'ixo/Quote/BUY',
+  BuySuccess = 'ixo/Quote/BUY_FULFILLED',
+  BuyPending = 'ixo/Quote/BUY_PENDING',
+  BuyFailure = 'ixo/Quote/BUY_REJECTED',
+  Sell = 'ixo/Quote/SELL',
+  SellSuccess = 'ixo/Quote/SELL_FULFILLED',
+  SellPending = 'ixo/Quote/SELL_PENDING',
+  SellFailure = 'ixo/Quote/SELL_REJECTED',
+  Swap = 'ixo/Quote/SWAP',
+  SwapSuccess = 'ixo/Quote/SWAP_FULFILLED',
+  SwapPending = 'ixo/Quote/SWAP_PENDING',
+  SwapFailure = 'ixo/Quote/SWAP_REJECTED',
+  Confirm = 'ixo/Quote/CONFIRM',
+  ConfirmSuccess = 'ixo/Quote/CONFIRM_FULFILLED',
+  ConfirmPending = 'ixo/Quote/CONFIRM_PENDING',
+  ConfirmFailure = 'ixo/Quote/CONFIRM_REJECTED',
+  ClearFlags = 'ixo/Quote/CLEAR_FLAGS',
 }
 
-interface QuoteActionType<T, P> {
-  type: T
-  payload?: P
+export interface ClearAction {
+  type: typeof QuoteActions.Clear
 }
 
-export type QuoteAction =
-  | QuoteActionType<typeof QuoteActions.CLEAR_QUOTE, any>
-  | QuoteActionType<typeof QuoteActions.QUOTE_BUY, QuoteState>
-  | QuoteActionType<typeof QuoteActions.QUOTE_SELL, QuoteState>
-  | QuoteActionType<typeof QuoteActions.QUOTE_SWAP, QuoteState>
-  | QuoteActionType<typeof QuoteActions.CONFIRM_QUOTE, any>
+export interface BuyAction {
+  type: typeof QuoteActions.Buy
+  payload: Promise<any>
+}
+
+export interface BuySuccessAction {
+  type: typeof QuoteActions.BuySuccess
+  payload: {
+    data: any
+  }
+}
+
+export interface SellAction {
+  type: typeof QuoteActions.Sell
+  payload: Promise<any>
+}
+
+export interface SellSuccessAction {
+  type: typeof QuoteActions.SellSuccess
+  payload: {
+    data: any
+  }
+}
+
+export interface SwapAction {
+  type: typeof QuoteActions.Swap
+  payload: Promise<any>
+}
+
+export interface SwapSuccessAction {
+  type: typeof QuoteActions.SwapSuccess
+  payload: {
+    data: any
+  }
+}
+
+export interface ConfirmAction {
+  type: typeof QuoteActions.Confirm
+  payload: Promise<any>
+}
+
+export interface ConfirmSuccessAction {
+  type: typeof QuoteActions.ConfirmSuccess
+  payload: {
+    data: Currency[]
+  }
+}
+
+export type QuoteActionTypes =
+  | ClearAction
+  | BuyAction
+  | BuySuccessAction
+  | SellAction
+  | SellSuccessAction
+  | SwapAction
+  | SwapSuccessAction
+  | ConfirmAction
+  | ConfirmSuccessAction

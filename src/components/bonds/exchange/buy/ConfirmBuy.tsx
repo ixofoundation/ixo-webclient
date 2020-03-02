@@ -4,7 +4,7 @@ import { withRouter, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { RootState } from '../../../../common/redux/types'
 
-import { confirmBuy, clearQuote } from '../../../../modules/quote/quote.actions'
+import { confirmBuy, clear } from '../../../../modules/quote/quote.actions'
 import {
   remainingBalance,
   newBalance,
@@ -30,13 +30,11 @@ const ConfirmBuy = (props: any): JSX.Element => {
     )
   } else {
     const onSubmit = (): void => {
-      props.dispatch(
-        confirmBuy(props.activeQuote, props.activeBond, props.account.address),
-      )
+      props.dispatch(confirmBuy())
     }
 
     const onBack = (): void => {
-      props.dispatch(clearQuote())
+      props.dispatch(clear())
       props.history.push('../')
     }
 

@@ -1,8 +1,7 @@
 import { Reducer } from 'redux'
-import { QuoteAction } from '../../modules/quote/types'
 import { BondAction } from '../../modules/bond/types'
 
-export type Action = QuoteAction | BondAction
+export type Action = BondAction
 
 export default function createReducer<S>(
   initialState: S,

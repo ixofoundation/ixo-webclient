@@ -1,11 +1,9 @@
 import { AccountActions, GetBalancesAction, GetOrdersAction } from './types'
 import { Dispatch } from 'redux'
-import { ThunkDispatch } from 'redux-thunk'
 import Axios from 'axios'
-import { RootState } from '../../common/redux/types'
 
 export const getBalances = (address: string) => (
-  dispatch: ThunkDispatch<RootState, void, GetBalancesAction>,
+  dispatch: Dispatch,
 ): GetBalancesAction => {
   return dispatch({
     type: AccountActions.GetBalances,
@@ -13,8 +11,8 @@ export const getBalances = (address: string) => (
       process.env.REACT_APP_BLOCKCHAIN_NODE_URL + '/auth/accounts/' + address,
       {
         transformResponse: [
-          (data: string): any => {
-            return JSON.parse(data).result.value.coins
+          (response: string): any => {
+            return JSON.parse(response).result.value.coins
           },
         ],
       },
@@ -27,8 +25,8 @@ export const getOrders = (address: string) => (
 ): GetOrdersAction => {
   const config = {
     transformResponse: [
-      (data: string): any => {
-        return JSON.parse(data).txs
+      (response: string): any => {
+        return JSON.parse(response).txs
       },
     ],
   }

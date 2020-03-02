@@ -3,10 +3,7 @@ import useForm from 'react-hook-form'
 import { withRouter, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { RootState } from '../../../../common/redux/types'
-import {
-  confirmSwap,
-  clearQuote,
-} from '../../../../modules/quote/quote.actions'
+import { confirmSwap, clear } from '../../../../modules/quote/quote.actions'
 
 import {
   remainingBalance,
@@ -29,13 +26,11 @@ const ConfirmSwap = (props: any): JSX.Element => {
     )
   } else {
     const onSubmit = (): void => {
-      props.dispatch(
-        confirmSwap(props.activeQuote, props.activeBond, props.account.address),
-      )
+      props.dispatch(confirmSwap())
     }
 
     const onBack = (): void => {
-      props.dispatch(clearQuote())
+      props.dispatch(clear())
       props.history.push('../swap')
     }
 

@@ -3,8 +3,7 @@ import useForm from 'react-hook-form'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { RootState } from '../../../../common/redux/types'
-import { quoteSwap } from '../../../../modules/quote/quote.actions'
-import { QuoteState } from '../../../../modules/quote/types'
+import { swap } from '../../../../modules/quote/quote.actions'
 import {
   currencyStr,
   tokenBalance,
@@ -47,13 +46,10 @@ const QuoteSwap = (props: any): JSX.Element => {
   // }, []);
 
   const onSubmit = (formData: any): void => {
-    const quote: QuoteState = {}
-
-    quote.bondToken = props.activeBond.symbol
-    quote.sending = { denom: formData.denom, amount: formData.amount }
-    quote.receiving = { denom: formData.receivingDenom }
+    const sending = { denom: formData.denom, amount: formData.amount }
+    const receiving = { denom: formData.receivingDenom }
     // quote.minPrices = [{ denom: formData.denom, amount: formData.minAmount }]
-    props.dispatch(quoteSwap(quote))
+    props.dispatch(swap(sending, receiving))
   }
 
   if (props.quotePending) {
