@@ -69,7 +69,7 @@ const ConfirmSwap = (props: any): JSX.Element => {
           </span>
         </div>
 
-        <div className="label">Recieve</div>
+        <div className="label">Receive</div>
         <div
           style={{
             display: 'flex',
@@ -78,6 +78,12 @@ const ConfirmSwap = (props: any): JSX.Element => {
           }}
         >
           <h3>{recieving}</h3>
+          <div className="label_subtitle">
+            * Includes a{' '}
+            <span className="label_subtitle__bold">
+              {currencyStr(props.activeQuote.total_fees[0])} fee
+            </span>
+          </div>
           <span className="label_subtitle">
             My total balance will be{' '}
             <span className="label_subtitle__bold">{newBal}</span>
