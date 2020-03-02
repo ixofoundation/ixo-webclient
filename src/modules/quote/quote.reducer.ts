@@ -182,7 +182,7 @@ export const activeQuote = createReducer<QuoteState>(
       const newQuote = Object.assign({}, action.payload.quote)
       const result = action.payload.result
 
-      newQuote.recieving = result.returns[0]
+      newQuote.receiving = result.returns[0]
 
       // newQuote.actualPrices = result.prices as [Currency]
       // newQuote.totalPrices = result.total_prices as [Currency]
@@ -199,7 +199,7 @@ export const activeQuote = createReducer<QuoteState>(
       const newQuote = Object.assign({}, action.payload.quote)
       const result = action.payload.result
 
-      newQuote.recieving = result.total_returns[0]
+      newQuote.receiving = result.total_returns[0]
       newQuote.isSwapping = true
       // newQuote.actualPrices = result.prices as [Currency]
       // newQuote.totalPrices = result.total_prices as [Currency]

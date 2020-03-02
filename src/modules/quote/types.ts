@@ -2,7 +2,7 @@ import { Currency } from '../../types/models'
 
 export interface QuoteState {
   sending?: Currency
-  recieving?: Currency
+  receiving?: Currency
   maxPrices?: [Currency]
   minPrices?: [Currency]
   actualPrices?: [Currency]

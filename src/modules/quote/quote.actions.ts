@@ -22,9 +22,9 @@ export const quoteBuy = (quote: QuoteState): AsyncAction => {
     payload: Axios.get(
       process.env.REACT_APP_BLOCKCHAIN_NODE_URL +
         '/bonds/' +
-        quote.recieving!.denom +
+        quote.receiving!.denom +
         '/buy_price/' +
-        quote.recieving!.amount,
+        quote.receiving!.amount,
     ).then(response => {
       return { quote: quote, result: response.data.result }
     }),
@@ -46,7 +46,7 @@ export const confirmBuy = (
       chain_id: process.env.REACT_APP_CHAIN_ID,
     },
     bond_token: bond.symbol,
-    bond_amount: quote.recieving!.amount,
+    bond_amount: quote.receiving!.amount,
     max_prices: maxPrices,
   }
 
@@ -109,7 +109,7 @@ export const confirmSell = (
       chain_id: process.env.REACT_APP_CHAIN_ID,
     },
     bond_token: bond.symbol,
-    bond_amount: quote.recieving!.amount,
+    bond_amount: quote.receiving!.amount,
     min_prices: minPrices,
   }
 
@@ -152,7 +152,7 @@ export const quoteSwap = (quote: QuoteState): AsyncAction => {
         '/swap_return/' +
         currencyStr(quote.sending!, false) +
         '/' +
-        quote.recieving!.denom,
+        quote.receiving!.denom,
     ).then(response => {
       return { quote: quote, result: response.data.result }
     }),
@@ -170,8 +170,8 @@ export const confirmSwap = (
       chain_id: process.env.REACT_APP_CHAIN_ID,
     },
     from_token: quote.sending!.denom,
-    to_token: quote.recieving!.denom,
-    from_amount: quote.recieving!.amount,
+    to_token: quote.receiving!.denom,
+    from_amount: quote.receiving!.amount,
   }
   return {
     type: QuoteActions.CONFIRM_QUOTE,

@@ -16,8 +16,8 @@ export default class KeystationService {
               value: {
                 buyer: address,
                 amount: {
-                  amount: quote.recieving.amount,
-                  denom: quote.recieving.denom,
+                  amount: quote.receiving.amount,
+                  denom: quote.receiving.denom,
                 },
                 max_prices: quote.maxPrices,
               },
@@ -76,7 +76,7 @@ export default class KeystationService {
                 swapper: address,
                 bond_token: quote.bondToken,
                 from: quote.sending,
-                to_token: quote.recieving.denom,
+                to_token: quote.receiving.denom,
               },
             },
           ],

@@ -24,7 +24,7 @@ const ConfirmSell = (props: any): JSX.Element => {
 
   if (props.signPending) {
     return <div>Signing Transaction</div>
-  } else if (!props.activeQuote.recieving) {
+  } else if (!props.activeQuote.receiving) {
     return (
       <Redirect
         from="/bonds/exchange/sell/confirm"
@@ -45,11 +45,11 @@ const ConfirmSell = (props: any): JSX.Element => {
     }
 
     const actualPrice = props.activeQuote.sending
-    const recieving = props.activeQuote.recieving
+    const receiving = props.activeQuote.receiving
     const estPricePer = {
       amount:
-        props.activeQuote.recieving.amount / props.activeQuote.sending.amount,
-      denom: props.activeQuote.recieving.denom,
+        props.activeQuote.receiving.amount / props.activeQuote.sending.amount,
+      denom: props.activeQuote.receiving.denom,
     }
 
     const remBal = remainingBalance(props, props.activeQuote.sending)
@@ -58,7 +58,7 @@ const ConfirmSell = (props: any): JSX.Element => {
         ? "You're attempting to sell more than your holdings."
         : undefined
 
-    const newBal = newBalance(props, props.activeQuote.recieving)
+    const newBal = newBalance(props, props.activeQuote.receiving)
     const minPrice = props.activeQuote.minPrices[0]
     const minPriceError =
       minPrice.amount < estPricePer.amount
@@ -85,7 +85,7 @@ const ConfirmSell = (props: any): JSX.Element => {
 
         <div className="label">Receive</div>
         <div>
-          <h3>{currencyStr(recieving)}</h3>
+          <h3>{currencyStr(receiving)}</h3>
           <div className="label_subtitle">
             * Includes a{' '}
             <span className="label_subtitle__bold">

@@ -21,10 +21,10 @@ class Sell extends Component<any> {
                       this.props.activeQuote &&
                       Object.prototype.hasOwnProperty.call(
                         this.props.activeQuote,
-                        'recieving',
+                        'receiving',
                       ) &&
                       Object.prototype.hasOwnProperty.call(
-                        this.props.activeQuote.recieving,
+                        this.props.activeQuote.receiving,
                         'amount',
                       )
                     ) {

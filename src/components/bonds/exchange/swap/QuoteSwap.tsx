@@ -51,7 +51,7 @@ const QuoteSwap = (props: any): JSX.Element => {
 
     quote.bondToken = props.activeBond.symbol
     quote.sending = { denom: formData.denom, amount: formData.amount }
-    quote.recieving = { denom: formData.recievingDenom }
+    quote.receiving = { denom: formData.receivingDenom }
     // quote.minPrices = [{ denom: formData.denom, amount: formData.minAmount }]
     props.dispatch(quoteSwap(quote))
   }
@@ -61,7 +61,7 @@ const QuoteSwap = (props: any): JSX.Element => {
   } else {
     watch()
     const payDenom = watch('denom') || 'res'
-    const recDenom = watch('recievingDenom') || 'res'
+    const recDenom = watch('receivingDenom') || 'res'
 
     const payOptions: [string] = props.account.balances.map(
       (balance: { denom: string }) => balance.denom,
@@ -114,7 +114,7 @@ const QuoteSwap = (props: any): JSX.Element => {
 
         {/* displays the balances of the connected Cosmos account addresses */}
         <div className="label">Recieve</div>
-        <select name="recievingDenom" ref={register({ required: true })}>
+        <select name="receivingDenom" ref={register({ required: true })}>
           {props.totalSupplies.map((supply: Currency) => (
             <option key={supply.denom} value={supply.denom}>
               {supply.denom!.toUpperCase()}

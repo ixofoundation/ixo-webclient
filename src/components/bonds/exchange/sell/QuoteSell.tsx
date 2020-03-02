@@ -15,7 +15,7 @@ const QuoteSell = (props: any): JSX.Element => {
 
   const onSubmit = (formData: any): void => {
     const quote: QuoteState = {}
-    quote.recieving = { denom: formData.denom }
+    quote.receiving = { denom: formData.denom }
     quote.sending = { amount: formData.amount, denom: props.activeBond.symbol }
     quote.minPrices = [{ denom: formData.denom, amount: formData.minAmount }]
     props.dispatch(quoteSell(quote))

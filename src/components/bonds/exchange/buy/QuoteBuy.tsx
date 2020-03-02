@@ -16,7 +16,7 @@ const QuoteBuy = (props: any): JSX.Element => {
   const onSubmit = (formData: any): void => {
     const quote: QuoteState = {}
     quote.sending = { denom: formData.denom }
-    quote.recieving = {
+    quote.receiving = {
       amount: formData.amount,
       denom: props.activeBond.symbol,
     }
