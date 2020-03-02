@@ -2,7 +2,7 @@ import * as React from 'react'
 import styled from 'styled-components'
 import { UserInfo } from '../../types/models'
 import { connect } from 'react-redux'
-import { PublicSiteStoreState } from '../../redux/public_site_reducer'
+import { RootState } from '../../common/redux/types'
 import { errorToast, successToast } from '../helpers/Toast'
 import { ModalWrapper } from '../common/ModalWrapper'
 import { AgentRoles } from '../../types/models'
@@ -415,7 +415,7 @@ class RegisterPage extends React.Component<Props, State> {
   }
 }
 
-function mapStateToProps(state: PublicSiteStoreState): Record<string, any> {
+function mapStateToProps(state: RootState): Record<string, any> {
   return {
     ixo: state.ixo.ixo,
     userInfo: state.login.userInfo,

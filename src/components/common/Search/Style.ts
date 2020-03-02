@@ -17,7 +17,8 @@ export const SearchWrapper = styled.div`
   }
   .search-input-wrapper {
     flex: 3;
-    > * {
+    > *,
+    input {
       height: 100%;
     }
   }
@@ -87,6 +88,7 @@ export const SearchModal = styled.div`
 `
 
 export const SearchHeading = styled.h3`
+  font-family: 'Roboto', sans-serif;
   font-weight: 600;
   font-size: 1.25rem;
   box-sizing: border-box;

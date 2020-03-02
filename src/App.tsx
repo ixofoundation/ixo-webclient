@@ -4,12 +4,12 @@ import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { HeaderConnected } from './components/header/HeaderContainer'
 import Footer from './components/footer/FooterContainer'
-import { PublicSiteStoreState } from './redux/public_site_reducer'
+import { RootState } from './common/redux/types'
 import styled, { ThemeProvider } from 'styled-components'
-import { initIxo } from './redux/ixo/ixo_action_creators'
-import { initKeysafe } from './redux/keysafe/keysafe_action_creators'
+import { initIxo } from './common/modules/ixo/ixo.actions'
+import { initKeysafe } from './common/modules/keysafe/keysafe.actions'
 import { UserInfo } from './types/models'
-import { initUserInfo } from './redux/login/login_action_creators'
+import { initUserInfo } from './modules/login/login.actions'
 import ScrollToTop from './components/common/ScrollToTop'
 import './assets/icons.css'
 
@@ -19,7 +19,7 @@ import { Spinner } from './components/common/Spinner'
 import { ToastContainer } from 'react-toastify'
 import * as ReactGA from 'react-ga'
 import { explorerSocket } from './components/helpers/explorerSocket'
-import { connectWeb3 } from './redux/web3/web3_action_creators'
+import { connectWeb3 } from './common/modules/web3/web3.actions'
 ReactGA.initialize('UA-106630107-5')
 
 ReactGA.pageview(window.location.pathname + window.location.search)
@@ -262,7 +262,7 @@ class App extends React.Component<Props, State> {
   }
 }
 
-function mapStateToProps(state: PublicSiteStoreState): Record<string, any> {
+function mapStateToProps(state: RootState): Record<string, any> {
   return {
     ixo: state.ixo.ixo,
     keysafe: state.keySafe.keysafe,

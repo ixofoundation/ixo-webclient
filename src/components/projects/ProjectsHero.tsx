@@ -3,7 +3,6 @@ import styled from 'styled-components'
 import { Tabs } from '../common/Tabs'
 import { SingleStatistic } from '../common/SingleStatistic'
 import { StatType, MatchType } from '../../types/models'
-import { Stats } from '../../types/models/stats'
 import { deviceWidth } from '../../lib/commonData'
 import Search from '../common/Search'
 import { contentType } from '../../types/models'
@@ -93,6 +92,20 @@ const HeroContainer = styled.div`
     height: 200px;
   }
 `
+
+export interface Stats {
+  claims: Claims
+  totalServiceProviders: number
+  totalProjects: number
+  totalEvaluationAgents: number
+}
+interface Claims {
+  total: number
+  totalSuccessful: number
+  totalSubmitted: number
+  totalPending: number
+  totalRejected: number
+}
 
 export interface State {
   statistics: Stats

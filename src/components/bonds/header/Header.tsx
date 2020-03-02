@@ -1,13 +1,13 @@
 import React, { Component } from 'react'
 import HeaderItem from './header-item/HeaderItem'
 import { connect } from 'react-redux'
-import { Store } from '../../../model/store'
+import { RootState } from '../../../common/redux/types'
 import {
   initProvider,
   getBalances,
-} from '../../../redux/account/account_action_creators'
-import { tokenBalance } from '../../../model/account'
-import { getBondBalances } from '../../../redux/bond/bond_action_creators'
+} from '../../../modules/account/account.actions'
+import { getBondBalances } from '../../../modules/bond/bond.actions'
+import { tokenBalance } from '../../../modules/account/account.utils'
 
 import styled from 'styled-components'
 
@@ -17,36 +17,28 @@ const StyledHeader = styled.header`
   flex-flow: row wrap;
 `
 
+const INTERVAL_LENGTH = 6000
+
 class Header extends Component<any> {
   constructor(props: any) {
     super(props)
 
+    setInterval(() => {
+      this.refreshBalances()
+    }, INTERVAL_LENGTH)
+
+    this.refreshBalances()
+
     // initialize keysafe or query account & bond balances
     if (Object.entries(this.props.account).length === 0) {
       this.props.dispatch(initProvider())
-    } else {
-      this.props.dispatch(getBalances(this.props.account.address))
     }
-
-    // get bond information
-    this.props.dispatch(getBondBalances(props.activeBond.symbol))
   }
 
-  UNSAFE_componentWillReceiveProps(nextProps: Store): void {
-    // if the user changes, get their balances
-    if (this.props.account.address !== nextProps.account.address) {
+  refreshBalances = (): void => {
+    if (Object.entries(this.props.account).length > 0) {
       this.props.dispatch(getBalances(this.props.account.address))
-    }
-    // if we're on a different bond, init that bond.
-    if (this.props.activeBond.symbol !== nextProps.activeBond.symbol) {
-      this.props.dispatch(getBondBalances(nextProps.activeBond.symbol))
-    }
-
-    // if there are more trades, update the bond's balances
-    if (
-      this.props.activeBond.trades.length !== nextProps.activeBond.trades.length
-    ) {
-      this.props.dispatch(getBondBalances(nextProps.activeBond.symbol))
+      this.props.dispatch(getBondBalances(this.props.activeBond.symbol))
     }
   }
 
@@ -54,7 +46,7 @@ class Header extends Component<any> {
     const { activeBond } = this.props
     const activeSymbol = activeBond.symbol
     const balance = tokenBalance(
-      { account: { balances: this.props.account.balances } } as Store,
+      { account: { balances: this.props.account.balances } } as RootState,
       activeBond.symbol,
     )
 
@@ -86,7 +78,7 @@ class Header extends Component<any> {
   }
 }
 
-const mapStateToProps = function(state: Store): Store {
+const mapStateToProps = function(state: RootState): RootState {
   return state
 }
 

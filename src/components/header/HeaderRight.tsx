@@ -1,7 +1,7 @@
 import * as React from 'react'
 import styled from 'styled-components'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
-import { getIxoWorldRoute } from 'src/utils/formatters'
+import { getIxoWorldRoute } from 'src/common/utils/formatters'
 
 // const xIcon = require('../../assets/images/oval-x-icon.png');
 

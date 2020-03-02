@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
-import { PublicSiteStoreState } from '../../redux/public_site_reducer'
+import { RootState } from '../../common/redux/types'
 import styled from 'styled-components'
 import { HeaderLeft } from './HeaderLeft'
 import { HeaderRight } from './HeaderRight'
@@ -387,7 +387,7 @@ class Header extends React.Component<Props, State> {
   }
 }
 
-function mapStateToProps(state: PublicSiteStoreState): StateProps {
+function mapStateToProps(state: RootState): StateProps {
   return {
     ixo: state.ixo.ixo,
     keysafe: state.keySafe.keysafe,

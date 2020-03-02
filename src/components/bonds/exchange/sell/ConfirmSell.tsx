@@ -2,18 +2,18 @@ import React from 'react'
 import useForm from 'react-hook-form'
 import { withRouter, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { Store } from '../../../../model/store'
+import { RootState } from '../../../../common/redux/types'
 
 import {
   confirmSell,
   clearQuote,
-} from '../../../../redux/quote/quote_action_creators'
+} from '../../../../modules/quote/quote.actions'
 
 import {
   remainingBalance,
   newBalance,
   currencyStr,
-} from '../../../../model/account'
+} from '../../../../modules/account/account.utils'
 
 const ConfirmSell = (props: any): JSX.Element => {
   const { handleSubmit } = useForm()
@@ -83,9 +83,15 @@ const ConfirmSell = (props: any): JSX.Element => {
           {error(remBalError)}
         </div>
 
-        <div className="label">Recieve</div>
+        <div className="label">Receive</div>
         <div>
           <h3>{currencyStr(recieving)}</h3>
+          <div className="label_subtitle">
+            * Includes a{' '}
+            <span className="label_subtitle__bold">
+              {currencyStr(props.activeQuote.total_fees[0])} fee
+            </span>
+          </div>
           <div className="label_subtitle">
             My total balance will be{' '}
             <span className="label_subtitle__bold">{currencyStr(newBal)}</span>
@@ -130,7 +136,7 @@ const ConfirmSell = (props: any): JSX.Element => {
   }
 }
 
-const mapStateToProps = (state: Store): Store => {
+const mapStateToProps = (state: RootState): RootState => {
   return state
 }
 
