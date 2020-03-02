@@ -3,8 +3,8 @@ import HeaderItem from './header-item/HeaderItem'
 import { connect } from 'react-redux'
 import { RootState } from '../../../common/redux/types'
 import { getBalances } from '../../../modules/account/account.actions'
-import { tokenBalance } from '../../../modules/account/account.utils'
 import { getBondBalances } from '../../../modules/bond/bond.actions'
+import { tokenBalance } from '../../../modules/account/account.utils'
 
 import styled from 'styled-components'
 
@@ -14,29 +14,23 @@ const StyledHeader = styled.header`
   flex-flow: row wrap;
 `
 
+const INTERVAL_LENGTH = 6000
+
 class Header extends Component<any> {
   constructor(props: any) {
     super(props)
 
-    this.props.dispatch(getBalances(this.props.account.address))
-    this.props.dispatch(getBondBalances(props.activeBond.symbol))
+    setInterval(() => {
+      this.refreshBalances()
+    }, INTERVAL_LENGTH)
+
+    this.refreshBalances()
   }
 
-  UNSAFE_componentWillReceiveProps(nextProps: RootState): void {
-    // if the user changes, get their balances
-    if (this.props.account.address !== nextProps.account.address) {
+  refreshBalances = (): void => {
+    if (Object.entries(this.props.account).length > 0) {
       this.props.dispatch(getBalances(this.props.account.address))
-    }
-    // if we're on a different bond, init that bond.
-    if (this.props.activeBond.symbol !== nextProps.activeBond.symbol) {
-      this.props.dispatch(getBondBalances(nextProps.activeBond.symbol))
-    }
-
-    // if there are more trades, update the bond's balances
-    if (
-      this.props.activeBond.trades.length !== nextProps.activeBond.trades.length
-    ) {
-      this.props.dispatch(getBondBalances(nextProps.activeBond.symbol))
+      this.props.dispatch(getBondBalances(this.props.activeBond.symbol))
     }
   }
 
