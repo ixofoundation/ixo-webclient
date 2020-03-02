@@ -52,7 +52,7 @@ export const FilterModal = styled.div`
   box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.15);
   border-radius: 4px;
   width: 428px;
-  height: 406px;
+  min-height: 406px;
   left: -135%;
   :after {
     content: '';

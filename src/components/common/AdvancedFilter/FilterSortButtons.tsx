@@ -1,6 +1,6 @@
 import * as React from 'react'
 import DatePicker from './DatePicker'
-import filterData from '../../../lib/json/filterData.json'
+import filterSchemaIXO from '../../../lib/json/filterSchemaIXO.json'
 import {
   PositionController,
   Button,
@@ -12,43 +12,15 @@ import {
   ApplyButton,
 } from './Style'
 
-const exampleButtons = [
-  {
-    title: 'Youth',
-    color: '#DB6169',
-    imgSrc: require('../../../assets/images/dropdown/cap.png'),
-  },
-  {
-    title: 'Ethnic Minority',
-    color: '#E0BB72',
-    imgSrc: require('../../../assets/images/dropdown/pattern.png'),
-  },
-  {
-    title: 'Low income',
-    color: '#81B276',
-    imgSrc: require('../../../assets/images/dropdown/growth.png'),
-  },
-  {
-    title: 'Disabled People',
-    color: '#7DCAE9',
-    imgSrc: require('../../../assets/images/dropdown/wheelchair.png'),
-  },
-  {
-    title: 'Elderly',
-    color: '#E17161',
-    imgSrc: require('../../../assets/images/dropdown/walking-stick.png'),
-  },
-]
-
 class FilterSortButtons extends React.Component<
   {},
-  { showDatePicker: boolean; checkId: string }
+  { showDatePicker: boolean; checkTitle: string }
 > {
   constructor(props) {
     super(props)
     this.state = {
       showDatePicker: false,
-      checkId: ' ',
+      checkTitle: ' ',
     }
   }
 
@@ -56,30 +28,30 @@ class FilterSortButtons extends React.Component<
     e.preventDefault()
     this.setState({
       showDatePicker: !this.state.showDatePicker,
-      checkId: ' ',
+      checkTitle: ' ',
     })
   }
 
-  setId = (id): void => {
+  setId = (title): void => {
     this.setState({
-      checkId: id,
+      checkTitle: title,
       showDatePicker: false,
     })
-    if (this.state.checkId === id) {
+    if (this.state.checkTitle === title) {
       this.setState({
-        checkId: ' ',
+        checkTitle: ' ',
       })
     }
   }
 
-  handleClose = (e, id): void => {
+  handleClose = (e, title): void => {
     const filterModal = e.target
       .closest('.button-wrapper')
       .querySelector('.filter-modal')
     if (filterModal.contains(e.target)) {
       return
     }
-    this.setId(id)
+    this.setId(title)
   }
 
   render(): JSX.Element {
@@ -90,39 +62,44 @@ class FilterSortButtons extends React.Component<
           Dates
         </Button>
 
-        {filterData.categories.map(filterCategory => {
+        {filterSchemaIXO.categories.map(filterCategory => {
           return (
             <ButtonWrapper
-              key={filterCategory['@id']}
-              className={
-                filterCategory['@id'] === this.state.checkId ? 'active' : ''
+              key={filterCategory['title']}
+              className={`button-wrapper ${
+                filterCategory['title'] === this.state.checkTitle
+                  ? 'active'
+                  : ''
+              }`}
+              onClick={(e): void =>
+                this.handleClose(e, filterCategory['title'])
               }
-              onClick={(e): void => this.handleClose(e, filterCategory['@id'])}
             >
-              <Button onClick={(): void => this.setId(filterCategory['@id'])}>
+              <Button onClick={(): void => this.setId(filterCategory['title'])}>
                 {filterCategory.title}
               </Button>
               <FilterModal
                 className="filter-modal"
                 style={{
                   display:
-                    filterCategory['@id'] === this.state.checkId
+                    filterCategory['title'] === this.state.checkTitle
                       ? 'block'
                       : 'none',
                 }}
               >
                 <ModalItems>
-                  {exampleButtons.map(button => {
+                  {filterCategory.tags.map(button => {
+                    //exampleButtons
                     return (
                       <FilterSelectButton
                         key={button.title}
-                        style={{ backgroundColor: button.color }}
+                        //style={{ backgroundColor: button.color }}
                       >
                         {button.title}
                         <img
                           style={{ width: 52, height: 52, margin: 'auto' }}
                           alt={button.title}
-                          src={button.imgSrc}
+                          src={require('./IXOicons/' + button.icon)}
                         />
                       </FilterSelectButton>
                     )
