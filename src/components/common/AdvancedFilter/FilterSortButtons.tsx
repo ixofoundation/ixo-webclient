@@ -14,13 +14,14 @@ import {
 
 class FilterSortButtons extends React.Component<
   {},
-  { showDatePicker: boolean; checkTitle: string }
+  { showDatePicker: boolean; checkTitle: string; selectedButtons: string[] }
 > {
   constructor(props) {
     super(props)
     this.state = {
       showDatePicker: false,
       checkTitle: ' ',
+      selectedButtons: [],
     }
   }
 
@@ -52,6 +53,20 @@ class FilterSortButtons extends React.Component<
       return
     }
     this.setId(title)
+  }
+
+  handleMultipleSelect = (button): void => {
+    const tmp = this.state.selectedButtons
+    if (this.state.selectedButtons.includes(button)) {
+      this.setState({
+        selectedButtons: this.state.selectedButtons.filter(el => el !== button),
+      })
+    } else {
+      tmp.push(button)
+      this.setState({
+        selectedButtons: tmp,
+      })
+    }
   }
 
   render(): JSX.Element {
@@ -89,10 +104,17 @@ class FilterSortButtons extends React.Component<
               >
                 <ModalItems>
                   {filterCategory.tags.map(button => {
-                    //exampleButtons
                     return (
                       <FilterSelectButton
                         key={button.title}
+                        onClick={(): void =>
+                          this.handleMultipleSelect(button.title)
+                        }
+                        className={
+                          this.state.selectedButtons.includes(button.title)
+                            ? 'buttonPressed'
+                            : 'button'
+                        }
                         //style={{ backgroundColor: button.color }}
                       >
                         {button.title}
