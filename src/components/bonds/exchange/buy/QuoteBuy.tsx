@@ -45,7 +45,8 @@ const QuoteBuy = (props: any): JSX.Element => {
         <input
           name="amount"
           placeholder="Enter your order quantity"
-          ref={register({ required: true, pattern: /^[0-9]+$/i })}
+          type="number"
+          ref={register({ required: true, min: 0.001 })}
         />
         <div
           style={{
@@ -87,8 +88,10 @@ const QuoteBuy = (props: any): JSX.Element => {
         <input
           name="maxAmount"
           placeholder="Enter the highest offer you would accept"
-          ref={register({ required: true, pattern: /^[0-9]+$/i })}
+          type="number"
+          ref={register({ required: true })}
         />
+
         <div
           style={{
             display: 'flex',

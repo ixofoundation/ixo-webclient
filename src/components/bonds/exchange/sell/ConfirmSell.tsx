@@ -83,9 +83,15 @@ const ConfirmSell = (props: any): JSX.Element => {
           {error(remBalError)}
         </div>
 
-        <div className="label">Recieve</div>
+        <div className="label">Receive</div>
         <div>
           <h3>{currencyStr(recieving)}</h3>
+          <div className="label_subtitle">
+            * Includes a{' '}
+            <span className="label_subtitle__bold">
+              {currencyStr(props.activeQuote.total_fees[0])} fee
+            </span>
+          </div>
           <div className="label_subtitle">
             My total balance will be{' '}
             <span className="label_subtitle__bold">{currencyStr(newBal)}</span>
