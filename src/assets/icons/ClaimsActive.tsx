@@ -3,12 +3,12 @@ import React from 'react'
 const ClaimsActive = (props): JSX.Element => {
   return (
     <svg
-      width={props.width || 17}
+      width={props.width || 18}
+      viewBox="0 0 18 18"
       xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 17 19.9"
     >
       <path
-        d="M15.3 0H1.7C.7 0 0 .8 0 1.7v16.5c0 .9.8 1.7 1.7 1.7h13.5c1 0 1.7-.8 1.7-1.7V1.7c.1-1-.7-1.7-1.6-1.7zm-1.4 12H3.5v-1.2h10.4V12zm0-2.9H3.5V7.9h10.4v1.2zm0-3H3.5V4.9h10.4v1.2z"
+        d="M14.85.5H3.23A1.44 1.44 0 001.78 2v14.1a1.49 1.49 0 001.45 1.4h11.53a1.43 1.43 0 001.45-1.45V2A1.32 1.32 0 0014.85.5zm-1.2 10.25H4.77v-1h8.88zm0-2.48H4.77v-1h8.88v1zm0-2.56H4.77v-1h8.88z"
         fill={props.fill || '#fff'}
       />
     </svg>

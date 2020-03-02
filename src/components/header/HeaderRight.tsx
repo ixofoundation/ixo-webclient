@@ -279,8 +279,6 @@ export class HeaderRight extends React.Component<HeaderRightProps, State> {
             onMouseLeave={(): void => this.toggleMenu()}
           >
             <MenuTop>
-              {/* <h3>{this.props.userInfo !== null && this.props.userInfo.name} <Link to="/"><i className="icon-settings1"/></Link></h3> */}
-
               <AccDID>
                 <p>
                   {this.props.userInfo !== null &&

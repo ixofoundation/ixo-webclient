@@ -3,12 +3,12 @@ import React from 'react'
 const CalendarSort = (props): JSX.Element => {
   return (
     <svg
-      width={props.width || 17}
+      width={props.width || 18}
+      viewBox="0 0 18 18"
       xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 17 18.9"
     >
       <path
-        d="M5.7 8.5H3.8v1.9h1.9V8.5zm3.7 0H7.6v1.9h1.9V8.5h-.1zm3.8 0h-1.9v1.9h1.9V8.5zm1.9-6.6h-.9V0h-1.9v1.9H4.7V0H2.8v1.9h-.9c-1 0-1.9.8-1.9 1.9V17c0 1.1.8 1.9 1.9 1.9h13.2c1 0 1.9-.8 1.9-1.9V3.8c0-1.1-.8-1.9-1.9-1.9zm0 15.1H1.9V6.6h13.2V17z"
+        d="M6.48 8.15H4.77v1.7h1.71zm3.33 0H8.19v1.7H9.9v-1.7zm3.42 0h-1.71v1.7h1.71zm1.71-5.94h-.81V.5h-1.71v1.71H5.58V.5H3.87v1.71h-.81a1.71 1.71 0 00-1.71 1.71v11.87a1.65 1.65 0 001.71 1.71h11.88a1.71 1.71 0 001.71-1.71V3.92a1.65 1.65 0 00-1.71-1.71zm0 13.58H3.06V6.44h11.88v9.35z"
         fill={props.fill || '#fff'}
       />
     </svg>

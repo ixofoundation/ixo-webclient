@@ -3,11 +3,11 @@ import React from 'react'
 const IndicatorDown = (props): JSX.Element => {
   return (
     <svg
-      width={props.width || 17}
+      width={props.width || 18}
+      viewBox="0 0 18 18"
       xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 17 12.8"
     >
-      <path d="M8.5 12.8L17 0H0l8.5 12.8z" fill={props.fill || '#fff'} />
+      <path d="M9 15.4l8.5-12.8H.5z" fill={props.fill || '#fff'} />
     </svg>
   )
 }

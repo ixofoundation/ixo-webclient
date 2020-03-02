@@ -3,12 +3,12 @@ import React from 'react'
 const Flash = (props): JSX.Element => {
   return (
     <svg
-      width={props.width || 17}
+      width={props.width || 18}
+      viewBox="0 0 18 18"
       xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 17 30"
     >
       <path
-        d="M17 10.3c-.1-.2-.3-.3-.5-.3h-5.9L16.5.8c.1-.1.1-.3 0-.5S16.2 0 16 0H8c-.2 0-.4.1-.5.3L0 15.3v.4c.1.2.3.3.5.3h5.1L0 29.3c0 .3 0 .6.2.7h.3c.1 0 .3-.1.4-.2l16-19c.1-.1.1-.3.1-.5z"
+        d="M14.1 6.18a.33.33 0 00-.3-.18h-3.54L13.8.48a.27.27 0 000-.3.33.33 0 00-.3-.18H8.7a.33.33 0 00-.3.18l-4.5 9v.24a.33.33 0 00.3.18h3.06l-3.36 8c0 .18 0 .36.12.42h.18a.45.45 0 00.24-.12L14 6.48a.45.45 0 00.06-.3z"
         fill={props.fill || '#fff'}
       />
     </svg>

@@ -49,6 +49,14 @@ import RegisterNo from '../../assets/icons/RegisterNo'
 import RegistrationYes from '../../assets/icons/RegistrationYes'
 import Rejected from '../../assets/icons/Rejected'
 import RejectedCross from '../../assets/icons/RejectedCross'
+import Search from '../../assets/icons/Search'
+import Share from '../../assets/icons/Share'
+import Telegram from '../../assets/icons/Telegram'
+import Trash from '../../assets/icons/Trash'
+import Twitter from '../../assets/icons/Twitter'
+import Upload from '../../assets/icons/Upload'
+import ServiceProviders from '../../assets/icons/ServiceProviders'
+import ServiceProvidersActive from '../../assets/icons/ServiceProvidersActive'
 
 const IconsContainer = styled.div`
   background: black;
@@ -87,512 +95,73 @@ export const Icons: React.SFC<ParentProps> = props => {
           }}
         >
           <Fingerprint width="17" fill="#fff" />
-          flash: <i className="icon-flash" />{' '}
-          <img
-            src={require('../../assets/icons/icons-as-svg/flash.svg')}
-            width="17"
-          />
           <Flash width="17" fill="#fff" />
-          <br />
-          eye: <i className="icon-eye" />{' '}
-          <img
-            src={require('../../assets/icons/icons-as-svg/eye.svg')}
-            width="17"
-          />
           <Eye width="17" fill="#fff" />
           <br />
           eyeoff: <i className="icon-eyeoff" />{' '}
-          <img
-            src={require('../../assets/icons/icons-as-svg/eyeoff.svg')}
-            width="17"
-          />
           <EyeOff width="17" fill="#fff" />
           <br />
-          lock: <i className="icon-lock" />{' '}
-          <img
-            src={require('../../assets/icons/icons-as-svg/lock.svg')}
-            width="17"
-          />
-          <Lock width="17" fill="#fff" />
+          lock: <i className="icon-lock" /> <Lock width="17" fill="#fff" />
           <br />
-          settings: <i className="icon-settings" />{' '}
-          <img
-            src={require('../../assets/icons/icons-as-svg/settings.svg')}
-            width="17"
-          />
           <Settings width="17" fill="#fff" />
-          <br />
-          internet: <i className="icon-internet" />{' '}
-          <img
-            src={require('../../assets/icons/icons-as-svg/internet.svg')}
-            width="17"
-          />
           <Internet width="17" fill="#fff" />
-          <br />
-          help: <i className="icon-help" />{' '}
-          <img
-            src={require('../../assets/icons/icons-as-svg/help.svg')}
-            width="17"
-          />
           <Help width="17" fill="#fff" />
-          <br />
-          sync-icon: <i className="icon-sync-icon" />{' '}
-          <img
-            src={require('../../assets/icons/icons-as-svg/sync.svg')}
-            width="17"
-          />
           <Sync width="17" fill="#fff" />
           <br />
-          back: <i className="icon-back" />{' '}
-          <img
-            src={require('../../assets/icons/icons-as-svg/back.svg')}
-            width="17"
-          />
-          <Back width="17" fill="#fff" />
+          back: <i className="icon-back" /> <Back width="17" fill="#fff" />
           <br />
-          menu: <i className="icon-menu" />{' '}
-          <img
-            src={require('../../assets/icons/icons-as-svg/menu.svg')}
-            width="17"
-          />
           <Menu width="17" fill="#fff" />
-          <br />
-          linkedin: <i className="icon-linkedin" />{' '}
-          <img
-            src={require('../../assets/icons/icons-as-svg/linkedin.svg')}
-            width="17"
-          />
           <Linkedin width="17" fill="#fff" />
-          <br />
-          approved: <i className="icon-approved" />{' '}
-          <img
-            src={require('../../assets/icons/icons-as-svg/approved.svg')}
-            width="17"
-          />
           <Approved width="17" fill="#fff" />
-          <br />
-          approvetick: <i className="icon-approvetick" />{' '}
-          <img
-            src={require('../../assets/icons/icons-as-svg/approvetick.svg')}
-            width="17"
-          />
           <ApprovedTick width="17" fill="#fff" />
-          <br />
-          calendar: <i className="icon-calendar" />{' '}
-          <img
-            src={require('../../assets/icons/icons-as-svg/calendar.svg')}
-            width="17"
-          />
           <Calendar width="17" fill="#fff" />
-          <br />
-          claims-active: <i className="icon-claims-active" />{' '}
-          <img
-            src={require('../../assets/icons/icons-as-svg/claimsActive.svg')}
-            width="17"
-          />
           <ClaimsActive width="17" fill="#fff" />
-          <br />
-          claims: <i className="icon-claims" />{' '}
-          <img
-            src={require('../../assets/icons/icons-as-svg/claims.svg')}
-            width="17"
-          />
           <Claims width="17" fill="#fff" />
-          <br />
-          claims2: <i className="icon-claims2" />{' '}
-          <img
-            src={require('../../assets/icons/icons-as-svg/claims2.svg')}
-            width="17"
-          />
           <Claims2 width="17" fill="#fff" />
-          <br />
-          close: <i className="icon-close" />{' '}
-          <img
-            src={require('../../assets/icons/icons-as-svg/close.svg')}
-            width="17"
-          />
           <Close width="17" fill="#fff" />
-          <br />
-          down: <i className="icon-down" />{' '}
-          <img
-            src={require('../../assets/icons/icons-as-svg/down.svg')}
-            width="17"
-          />
           <Down width="17" fill="#fff" />
-          <br />
-          evaluators-active: <i className="icon-evaluators-active" />{' '}
-          <img
-            src={require('../../assets/icons/icons-as-svg/evaluatorsActive.svg')}
-            width="17"
-          />
           <EvaluatorsActive width="17" fill="#fff" />
-          <br />
-          evaluators: <i className="icon-evaluators" />{' '}
-          <img
-            src={require('../../assets/icons/icons-as-svg/evaluators.svg')}
-            width="17"
-          />
           <Evaluators width="17" fill="#fff" />
-          <br />
-          expand: <i className="icon-expand" />{' '}
-          <img
-            src={require('../../assets/icons/icons-as-svg/expand.svg')}
-            width="17"
-          />
           <Expand width="17" fill="#fff" />
-          <br />
-          export: <i className="icon-export" />{' '}
-          <img
-            src={require('../../assets/icons/icons-as-svg/export.svg')}
-            width="17"
-          />
           <Export width="17" fill="#fff" />
-          <br />
-          facebook: <i className="icon-facebook" />{' '}
-          <img
-            src={require('../../assets/icons/icons-as-svg/facebook.svg')}
-            width="17"
-          />
           <Facebook width="17" fill="#fff" />
-          <br />
-          favourite-active: <i className="icon-favourite-active" />{' '}
-          <img
-            src={require('../../assets/icons/icons-as-svg/favouriteActive.svg')}
-            width="17"
-          />
           <FavouriteActive width="17" fill="#fff" />
-          <br />
-          funding: <i className="icon-funding" />{' '}
-          <img
-            src={require('../../assets/icons/icons-as-svg/funding.svg')}
-            width="17"
-          />
           <Funding width="17" fill="#fff" />
-          <br />
-          github: <i className="icon-github" />{' '}
-          <img
-            src={require('../../assets/icons/icons-as-svg/github.svg')}
-            width="17"
-          />
           <Github width="17" fill="#fff" />
-          <br />
-          heart: <i className="icon-heart" />{' '}
-          <img
-            src={require('../../assets/icons/icons-as-svg/heart.svg')}
-            width="17"
-          />
           <Heart width="17" fill="#fff" />
-          <br />
-          home-active: <i className="icon-home-active" />{' '}
-          <img
-            src={require('../../assets/icons/icons-as-svg/homeActive.svg')}
-            width="17"
-          />
           <HomeActive width="17" fill="#fff" />
-          <br />
-          home: <i className="icon-home" />{' '}
-          <img
-            src={require('../../assets/icons/icons-as-svg/home.svg')}
-            width="17"
-          />
           <Home width="17" fill="#fff" />
-          <br />
-          impacts: <i className="icon-impacts" />{' '}
-          <img
-            src={require('../../assets/icons/icons-as-svg/impacts.svg')}
-            width="17"
-          />
           <Impacts width="17" fill="#fff" />
-          <br />
-          indicator-down: <i className="icon-indicator-down" />{' '}
-          <img
-            src={require('../../assets/icons/icons-as-svg/indicatorDown.svg')}
-            width="17"
-          />
           <IndicatorUp width="17" fill="#fff" />
-          <br />
-          indicator-up: <i className="icon-indicator-up" />{' '}
-          <img
-            src={require('../../assets/icons/icons-as-svg/indicatorUp.svg')}
-            width="17"
-          />
           <IndicatorDown width="17" fill="#fff" />
-          <br />
-          info: <i className="icon-info" />{' '}
-          <img
-            src={require('../../assets/icons/icons-as-svg/info.svg')}
-            width="17"
-          />
           <Info width="17" fill="#fff" />
-          <br />
-          instagram: <i className="icon-instagram" />{' '}
-          <img
-            src={require('../../assets/icons/icons-as-svg/instagram.svg')}
-            width="17"
-          />
           <Instagram width="17" fill="#fff" />
-          <br />
-          logo-ixo: <i className="icon-logo-ixo" />{' '}
-          <img
-            src={require('../../assets/icons/icons-as-svg/logoIxo.svg')}
-            width="17"
-          />
           <LogoIxo width="17" fill="#fff" />
-          <br />
-          ixo-x: <i className="icon-ixo-x" />{' '}
-          <img
-            src={require('../../assets/icons/icons-as-svg/ixoX.svg')}
-            width="17"
-          />
           <IxoX width="17" fill="#fff" />
-          <br />
-          kyc: <i className="icon-kyc" />{' '}
-          <img
-            src={require('../../assets/icons/icons-as-svg/kyc.svg')}
-            width="17"
-          />
           <Kyc width="17" fill="#fff" />
-          <br />
-          linkedin: <i className="icon-linkedin" />{' '}
-          <img
-            src={require('../../assets/icons/icons-as-svg/linkedin.svg')}
-            width="17"
-          />
           <Linkedin width="17" fill="#fff" />
-          <br />
-          location: <i className="icon-location" />{' '}
-          <img
-            src={require('../../assets/icons/icons-as-svg/location.svg')}
-            width="17"
-          />
           <Location width="17" fill="#fff" />
-          <br />
-          medium: <i className="icon-medium" />{' '}
-          <img
-            src={require('../../assets/icons/icons-as-svg/medium.svg')}
-            width="17"
-          />
           <Medium width="17" fill="#fff" />
-          <br />
-          pending: <i className="icon-pending" />{' '}
-          <img
-            src={require('../../assets/icons/icons-as-svg/pending.svg')}
-            width="17"
-          />
           <Pending width="17" fill="#fff" />
-          <br />
-          plus: <i className="icon-plus" />{' '}
-          <img
-            src={require('../../assets/icons/icons-as-svg/plus.svg')}
-            width="17"
-          />
           <Plus width="17" fill="#fff" />
-          <br />
-          projects: <i className="icon-projects" />{' '}
-          <img
-            src={require('../../assets/icons/icons-as-svg/projects.svg')}
-            width="17"
-          />
           <Project width="17" fill="#fff" />
-          <br />
-          register-no: <i className="icon-register-no" />{' '}
-          <img
-            src={require('../../assets/icons/icons-as-svg/registerNo.svg')}
-            width="17"
-          />
           <RegisterNo width="17" fill="#fff" />
-          <br />
-          registration-yes: <i className="icon-registration-yes" />{' '}
-          <img
-            src={require('../../assets/icons/icons-as-svg/registrationYes.svg')}
-            width="17"
-          />
           <RegistrationYes width="17" fill="#fff" />
-          <br />
-          rejected: <i className="icon-rejected" />{' '}
-          <img
-            src={require('../../assets/icons/icons-as-svg/rejected.svg')}
-            width="17"
-          />
           <Rejected width="17" fill="#fff" />
-          <br />
-          rejectedcross: <i className="icon-rejectedcross" />{' '}
-          <img
-            src={require('../../assets/icons/icons-as-svg/rejectedcross.svg')}
-            width="17"
-          />
           <RejectedCross width="17" fill="#fff" />
-          <br />
-          sdg-affordableenergy: <i className="icon-sdg-affordableenergy" />{' '}
-          <img
-            src={require('../../assets/icons/icons-as-svg/sdgAffordableenergy.svg')}
-            width="17"
-          />
-          <br />
-          sdg-cleanwater: <i className="icon-sdg-cleanwater" />{' '}
-          <img
-            src={require('../../assets/icons/icons-as-svg/sdgCleanwater.svg')}
-            width="17"
-          />
-          <br />
-          sdg-climateaction: <i className="icon-sdg-climateaction" />{' '}
-          <img
-            src={require('../../assets/icons/icons-as-svg/sdgClimateaction.svg')}
-            width="17"
-          />
-          <br />
-          sdg-consumption: <i className="icon-sdg-consumption" />{' '}
-          <img
-            src={require('../../assets/icons/icons-as-svg/sdgConsumption.svg')}
-            width="17"
-          />
-          <br />
-          sdg-decentwork: <i className="icon-sdg-decentwork" />{' '}
-          <img
-            src={require('../../assets/icons/icons-as-svg/sdgDecentwork.svg')}
-            width="17"
-          />
-          <br />
-          sdg-genderequality: <i className="icon-sdg-genderequality" />{' '}
-          <img
-            src={require('../../assets/icons/icons-as-svg/sdgGenderequality.svg')}
-            width="17"
-          />
-          <br />
-          sdg-goodhealth: <i className="icon-sdg-goodhealth" />{' '}
-          <img
-            src={require('../../assets/icons/icons-as-svg/sdgGoodhealth.svg')}
-            width="17"
-          />
-          <br />
-          sdg-industry: <i className="icon-sdg-industry" />{' '}
-          <img
-            src={require('../../assets/icons/icons-as-svg/sdgIndustry.svg')}
-            width="17"
-          />
-          <br />
-          sdg-lifebelowwater: <i className="icon-sdg-lifebelowwater" />{' '}
-          <img
-            src={require('../../assets/icons/icons-as-svg/sdgLifebelowwater.svg')}
-            width="17"
-          />
-          <br />
-          sdg-lifeonland: <i className="icon-sdg-lifeonland" />{' '}
-          <img
-            src={require('../../assets/icons/icons-as-svg/sdgLifeonland.svg')}
-            width="17"
-          />
-          <br />
-          sdg-nopoverty: <i className="icon-sdg-nopoverty" />{' '}
-          <img
-            src={require('../../assets/icons/icons-as-svg/sdgNopoverty.svg')}
-            width="17"
-          />
-          <br />
-          sdg-partnership: <i className="icon-sdg-partnership" />{' '}
-          <img
-            src={require('../../assets/icons/icons-as-svg/sdgPartnership.svg')}
-            width="17"
-          />
-          <br />
-          sdg-peace: <i className="icon-sdg-peace" />{' '}
-          <img
-            src={require('../../assets/icons/icons-as-svg/sdgPeace.svg')}
-            width="17"
-          />
-          <br />
-          sdg-qualityeducation: <i className="icon-sdg-qualityeducation" />{' '}
-          <img
-            src={require('../../assets/icons/icons-as-svg/sdgQualityeducation.svg')}
-            width="17"
-          />
-          <br />
-          sdg-reduced: <i className="icon-sdg-reduced" />{' '}
-          <img
-            src={require('../../assets/icons/icons-as-svg/sdgReduced.svg')}
-            width="17"
-          />
-          <br />
-          sdg-sustainablecities: <i className="icon-sdg-sustainablecities" />{' '}
-          <img
-            src={require('../../assets/icons/icons-as-svg/sdgSustainablecities.svg')}
-            width="17"
-          />
-          <br />
-          sdg-zerohunger: <i className="icon-sdg-zerohunger" />{' '}
-          <img
-            src={require('../../assets/icons/icons-as-svg/sdgZerohunger.svg')}
-            width="17"
-          />
-          <br />
-          search: <i className="icon-search" />{' '}
-          <img
-            src={require('../../assets/icons/icons-as-svg/search.svg')}
-            width="17"
-          />
-          <br />
-          serviceproviders-active:{' '}
-          <i className="icon-serviceproviders-active" />{' '}
-          <img
-            src={require('../../assets/icons/icons-as-svg/serviceprovidersActive.svg')}
-            width="17"
-          />
-          <br />
-          serviceproviders: <i className="icon-serviceproviders" />{' '}
-          <img
-            src={require('../../assets/icons/icons-as-svg/serviceproviders.svg')}
-            width="17"
-          />
-          <br />
-          settings-active: <i className="icon-settings-active" />{' '}
-          <img
-            src={require('../../assets/icons/icons-as-svg/settingsActive.svg')}
-            width="17"
-          />
+          <Search width="17" fill="#fff" />
+          <ServiceProviders width="17" fill="#fff" />
+          <ServiceProvidersActive width="17" fill="#fff" />
           <SettingsActive width="17" fill="#fff" />
+          <Share width="17" fill="#fff" />
+          success: <i className="icon-success" />
           <br />
-          share: <i className="icon-share" />{' '}
-          <img
-            src={require('../../assets/icons/icons-as-svg/share.svg')}
-            width="17"
-          />
+          <Telegram width="17" fill="#fff" />
+          <Trash width="17" fill="#fff" />
+          <Twitter width="17" fill="#fff" />
+          <Upload width="17" fill="#fff" />
           <br />
-          success: <i className="icon-success" />{' '}
-          <img
-            src={require('../../assets/icons/icons-as-svg/success.svg')}
-            width="17"
-          />
-          <br />
-          telegram: <i className="icon-telegram" />{' '}
-          <img
-            src={require('../../assets/icons/icons-as-svg/telegram.svg')}
-            width="17"
-          />
-          <br />
-          trash: <i className="icon-trash" />{' '}
-          <img
-            src={require('../../assets/icons/icons-as-svg/trash.svg')}
-            width="17"
-          />
-          <br />
-          twitter: <i className="icon-twitter" />{' '}
-          <img
-            src={require('../../assets/icons/icons-as-svg/twitter.svg')}
-            width="17"
-          />
-          <br />
-          upload: <i className="icon-upload" />{' '}
-          <img
-            src={require('../../assets/icons/icons-as-svg/upload.svg')}
-            width="17"
-          />
-          <br />
-          world: <i className="icon-world" />{' '}
-          <img
-            src={require('../../assets/icons/icons-as-svg/world.svg')}
-            width="17"
-          />
-          <br />
+          world: <i className="icon-world" /> <br />
         </div>
       </div>
     </IconsContainer>

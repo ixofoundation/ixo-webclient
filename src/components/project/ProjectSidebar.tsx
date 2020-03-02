@@ -184,14 +184,6 @@ export class ProjectSidebar extends React.Component<Props, State> {
           />
           <ToolTip>Claims</ToolTip>
         </NavItem>
-        {/* <NavItem
-					exact={true}
-					title="Settings"
-					to={`/projects/${this.props.projectDid}/overview`}
-					onClick={() => this.setActiveLink('overview')}
-				>
-					<i className={this.state.activeLink === 'overview' ? 'icon-settings-active' : 'icon-settings1'} />
-				</NavItem> */}
       </Container>
     )
   }
