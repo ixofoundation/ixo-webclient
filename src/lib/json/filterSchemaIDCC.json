@@ -4,15 +4,10 @@
   "categories": [
     {
       "@type": "Category",
-<<<<<<< Updated upstream
-=======
-
->>>>>>> Stashed changes
       "title": "Beneficiary",
       "tags": [
         {
           "@type": "EthnicMinorities",
-<<<<<<< Updated upstream
           "title": "{Ethnic Minorities}",
           "icon": "ethnicminorities.svg",
           "color": "#E0BB72"
@@ -22,32 +17,16 @@
           "title": "{Low Income}",
           "icon": "lowincome.svg",
           "color": "#81B276"
-=======
-
-          "title": "{Ethnic Minorities}",
-          "icon": "ethnicminorities.png"
-        },
-        {
-          "@type": "LowIncome",
-
-          "title": "{Low Income}",
-          "icon": "lowincome.png"
->>>>>>> Stashed changes
         },
         {
           "@type": "Elderly",
           "title": "{Elderly}",
-<<<<<<< Updated upstream
           "icon": "elderly.svg",
           "color": "#E17161"
-=======
-          "icon": "elderly.png"
->>>>>>> Stashed changes
         },
         {
           "@type": "ChildAndYouth",
           "title": "{Children & Youth}",
-<<<<<<< Updated upstream
           "icon": "childrenandyouth.svg",
           "color": "#DB6169"
         },
@@ -56,15 +35,6 @@
           "title": "{People with Disabilities}",
           "icon": "peoplewithdisabilities.svg",
           "color": "#7DCAE9"
-=======
-          "icon": "childrenandyouth.png"
-        },
-        {
-          "@type": "PeopleWithDisabilities",
-
-          "title": "{People with Disabilities}",
-          "icon": "peoplewithdisabilities.png"
->>>>>>> Stashed changes
         }
       ]
     },
@@ -75,272 +45,164 @@
         {
           "@type": "Education",
           "title": "{Education}",
-<<<<<<< Updated upstream
           "icon": "education.svg",
           "color": "#7DCAE9"
-=======
-          "icon": "education.png"
->>>>>>> Stashed changes
         },
         {
           "@type": "PhysicalHealth",
           "title": "{Physical Health}",
-<<<<<<< Updated upstream
           "icon": "physicalhealth.svg",
           "color": "#7DCAE9"
-=======
-          "icon": "physicalhealth.png"
->>>>>>> Stashed changes
         },
         {
           "@type": "MentalHealth",
           "title": "{Mental Health}",
-<<<<<<< Updated upstream
           "icon": "mentalhealth.svg",
           "color": "#7DCAE9"
-=======
-          "icon": "mentalhealth.png"
->>>>>>> Stashed changes
         },
         {
           "@type": "FinancialServices",
           "title": "{Financial Services}",
-<<<<<<< Updated upstream
           "icon": "financialservices.svg",
           "color": "#7DCAE9"
-=======
-          "icon": "financialservices.png"
->>>>>>> Stashed changes
         },
         {
           "@type": "PersonalFinancing",
           "title": "{Personal Financing}",
-<<<<<<< Updated upstream
           "icon": "personalfinancing.svg",
           "color": "#7DCAE9"
-=======
-          "icon": "personalfinancing.png"
->>>>>>> Stashed changes
         },
         {
           "@type": "SocialAwareness",
           "title": "{Social Awareness}",
-<<<<<<< Updated upstream
           "icon": "socialawareness.svg",
           "color": "#7DCAE9"
-=======
-          "icon": "socialawareness.png"
->>>>>>> Stashed changes
         },
         {
           "@type": "Housing",
           "title": "{Housing}",
-<<<<<<< Updated upstream
           "icon": "housing.svg",
           "color": "#7DCAE9"
-=======
-          "icon": "housing.png"
->>>>>>> Stashed changes
         },
         {
           "@type": "DiversityAndInclusion",
           "title": "{Diversity and Inclusion}",
-<<<<<<< Updated upstream
           "icon": "diversityandinclusion.svg",
           "color": "#7DCAE9"
-=======
-          "icon": "diversityandinclusion.png"
->>>>>>> Stashed changes
         },
         {
           "@type": "InterPersonalRelationship",
           "title": "{Inter-personal Relationship}",
-<<<<<<< Updated upstream
           "icon": "interpersonalrelationship.svg",
           "color": "#7DCAE9"
-=======
-          "icon": "interpersonalrelationship.png"
->>>>>>> Stashed changes
         }
       ]
     },
     {
       "@type": "Category",
-<<<<<<< Updated upstream
       "title": "SDG",
-=======
-      "title": "Sustainable Development Goal",
->>>>>>> Stashed changes
       "tags": [
         {
           "@type": "SDG1",
           "title": "{SDG 1 – No Poverty}",
-<<<<<<< Updated upstream
           "icon": "sdg1.svg",
           "color": "#7DCAE9"
-=======
-          "icon": "sdg1.png"
->>>>>>> Stashed changes
         },
         {
           "@type": "SDG2",
           "title": "{SDG2 – Zero Hunger}",
-<<<<<<< Updated upstream
           "icon": "sdg2.svg",
           "color": "#7DCAE9"
-=======
-          "icon": "sdg2.png"
->>>>>>> Stashed changes
         },
         {
           "@type": "SDG3",
           "title": "{SDG3 – Good Health and Well-being}",
-<<<<<<< Updated upstream
           "icon": "sdg3.svg",
           "color": "#7DCAE9"
-=======
-          "icon": "sdg3.png"
->>>>>>> Stashed changes
         },
         {
           "@type": "SDG4",
           "title": "{SDG4 – Quality Education}",
-<<<<<<< Updated upstream
           "icon": "sdg4.svg",
           "color": "#7DCAE9"
-=======
-          "icon": "sdg4.png"
->>>>>>> Stashed changes
         },
         {
           "@type": "SDG5",
           "title": "{SDG5 – Gender Equality}",
-<<<<<<< Updated upstream
           "icon": "sdg5.svg",
           "color": "#7DCAE9"
-=======
-          "icon": "sdg5.png"
->>>>>>> Stashed changes
         },
         {
           "@type": "SDG6",
           "title": "{SDG6 – Clean Water and Sanitation}",
-<<<<<<< Updated upstream
           "icon": "sdg6.svg",
           "color": "#7DCAE9"
-=======
-          "icon": "sdg6.png"
->>>>>>> Stashed changes
         },
         {
           "@type": "SDG7",
           "title": "{SDG7 – Affordable and Clean Energy}",
-<<<<<<< Updated upstream
           "icon": "sdg7.svg",
           "color": "#7DCAE9"
-=======
-          "icon": "sdg7.png"
->>>>>>> Stashed changes
         },
         {
           "@type": "SDG8",
           "title": "{SDG8 – Decent Work and Economic Growth}",
-<<<<<<< Updated upstream
           "icon": "sdg8.svg",
           "color": "#7DCAE9"
-=======
-          "icon": "sdg8.png"
->>>>>>> Stashed changes
         },
         {
           "@type": "SDG9",
           "title": "{SDG9 – Industry, Innovation and Infrastructure}",
-<<<<<<< Updated upstream
           "icon": "sdg9.svg",
           "color": "#7DCAE9"
-=======
-          "icon": "sdg9.png"
->>>>>>> Stashed changes
         },
         {
           "@type": "SDG10",
           "title": "{SDG10 – Reduced Inequalities}",
-<<<<<<< Updated upstream
           "icon": "sdg10.svg",
           "color": "#7DCAE9"
-=======
-          "icon": "sdg10.png"
->>>>>>> Stashed changes
         },
         {
           "@type": "SDG11",
           "title": "{SDG11 – Sustainable Cities and Coummunities}",
-<<<<<<< Updated upstream
           "icon": "sdg11.svg",
           "color": "#7DCAE9"
-=======
-          "icon": "sdg11.png"
->>>>>>> Stashed changes
         },
         {
           "@type": "SDG12",
           "title": "{SDG12 – Responsible Consumption and Production}",
-<<<<<<< Updated upstream
           "icon": "sdg12.svg",
           "color": "#7DCAE9"
-=======
-          "icon": "sdg12.png"
->>>>>>> Stashed changes
         },
         {
           "@type": "SDG13",
           "title": "{SDG13 – Climate Action}",
-<<<<<<< Updated upstream
           "icon": "sdg13.svg",
           "color": "#7DCAE9"
-=======
-          "icon": "sdg13.png"
->>>>>>> Stashed changes
         },
         {
           "@type": "SDG14",
           "title": "{SDG14 – Life Below Water}",
-<<<<<<< Updated upstream
           "icon": "sdg14.svg",
           "color": "#7DCAE9"
-=======
-          "icon": "sdg14.png"
->>>>>>> Stashed changes
         },
         {
           "@type": "SDG15",
           "title": "{SDG15 – Life on Land}",
-<<<<<<< Updated upstream
           "icon": "sdg15.svg",
           "color": "#7DCAE9"
-=======
-          "icon": "sdg15.png"
->>>>>>> Stashed changes
         },
         {
           "@type": "SDG16",
           "title": "{SDG16 – Peace, Justice and Strong Institutions}",
-<<<<<<< Updated upstream
           "icon": "sdg16.svg",
           "color": "#7DCAE9"
-=======
-          "icon": "sdg16.png"
->>>>>>> Stashed changes
         },
         {
           "@type": "SDG17",
           "title": "{SDG17 – Partnerships for Goals}",
-<<<<<<< Updated upstream
           "icon": "sdg17.svg",
           "color": "#7DCAE9"
-=======
-          "icon": "sdg17.png"
->>>>>>> Stashed changes
         }
       ]
     },
@@ -350,38 +212,22 @@
       "tags": [
         {
           "@type": "ApplicationStage",
-<<<<<<< Updated upstream
           "title": "{Application Stage}",
           "icon": "applicationstage.svg",
           "color": "#7DCAE9"
-=======
-
-          "title": "{Application Stage}",
-          "icon": "applicationstage.png"
->>>>>>> Stashed changes
         },
         {
           "@type": "IncubationStage",
           "title": "{Incubation Stage}",
-<<<<<<< Updated upstream
           "icon": "incubationstage.svg",
           "color": "#7DCAE9"
-=======
-          "icon": "incubationstage.png"
->>>>>>> Stashed changes
         },
         {
           "@type": "GraduatedStage",
           "title": "{Graduated Stage}",
-<<<<<<< Updated upstream
           "icon": "graduatedstage.svg",
           "color": "#7DCAE9"
         }
-=======
-          "icon": "graduatedstage.png"
-        },
-        {}
->>>>>>> Stashed changes
       ]
     }
   ]

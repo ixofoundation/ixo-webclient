@@ -80,6 +80,7 @@ export const FilterSelectButton = styled.div`
   display: flex;
   flex-direction: column;
   color: white;
+  border-color: white;
   text-align: center;
   padding: 0.5rem;
 `
