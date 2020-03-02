@@ -1,6 +1,6 @@
 import * as React from 'react'
 import DatePicker from './DatePicker'
-import filterData from '../../../lib/json/filterData.json'
+import filterData from '../../../lib/json/filterSchemaIDCC.json'
 import {
   PositionController,
   Button,
@@ -11,34 +11,6 @@ import {
   ResetButton,
   ApplyButton,
 } from './Style'
-
-const exampleButtons = [
-  {
-    title: 'Youth',
-    color: '#DB6169',
-    imgSrc: require('../../../assets/images/dropdown/cap.png'),
-  },
-  {
-    title: 'Ethnic Minority',
-    color: '#E0BB72',
-    imgSrc: require('../../../assets/images/dropdown/pattern.png'),
-  },
-  {
-    title: 'Low income',
-    color: '#81B276',
-    imgSrc: require('../../../assets/images/dropdown/growth.png'),
-  },
-  {
-    title: 'Disabled People',
-    color: '#7DCAE9',
-    imgSrc: require('../../../assets/images/dropdown/wheelchair.png'),
-  },
-  {
-    title: 'Elderly',
-    color: '#E17161',
-    imgSrc: require('../../../assets/images/dropdown/walking-stick.png'),
-  },
-]
 
 class FilterSortButtons extends React.Component<
   {},
@@ -82,8 +54,12 @@ class FilterSortButtons extends React.Component<
 
         {filterData.categories.map(filterCategory => {
           return (
-            // <Button key={filterCategory['@id']}>{filterCategory.title}</Button>
-            <ButtonWrapper key={filterCategory['@id']}>
+            <ButtonWrapper
+              key={filterCategory['@id']}
+              className={`button-wrapper ${
+                filterCategory['@id'] === this.state.checkId ? 'active' : ''
+              }`}
+            >
               <Button onClick={(): void => this.setId(filterCategory['@id'])}>
                 {filterCategory.title}
               </Button>
@@ -96,18 +72,20 @@ class FilterSortButtons extends React.Component<
                 }}
               >
                 <ModalItems>
-                  {exampleButtons.map(button => {
+                  {filterCategory.tags.map(button => {
                     return (
                       <FilterSelectButton
                         key={button.title}
-                        style={{ backgroundColor: button.color }}
+                        style={{ backgroundColor: 'firebrick' }}
                       >
                         {button.title}
-                        <img
+                        {button.icon}
+                        {/* <img
                           style={{ width: 52, height: 52, margin: 'auto' }}
                           alt={button.title}
-                          src={button.imgSrc}
-                        />
+                          src={require(button.icon)}
+                          src={require(`./IDCC-icons/${button.icon}.svg`)}
+                        /> */}
                       </FilterSelectButton>
                     )
                   })}

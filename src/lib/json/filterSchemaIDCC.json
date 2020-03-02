@@ -1,0 +1,205 @@
+{
+  "@context": "https://schema.ixo.foundation/project",
+  "@type": "Project",
+  "categories": [
+    {
+      "@type": "Category",
+      "@id": "1",
+      "title": "Beneficiary",
+      "tags": [
+        {
+          "@type": "EthnicMinorities",
+          "title": "Ethnic Minorities",
+          "icon": "ethnicminorities.svg"
+        },
+        {
+          "@type": "LowIncome",
+          "title": "Low Income",
+          "icon": "lowincome.svg"
+        },
+        {
+          "@type": "Elderly",
+          "title": "Elderly",
+          "icon": "elderly.svg"
+        },
+        {
+          "@type": "ChildAndYouth",
+          "title": "Children & Youth",
+          "icon": "childrenandyouth.svg"
+        },
+        {
+          "@type": "PeopleWithDisabilities",
+          "title": "People with Disabilities",
+          "icon": "peoplewithdisabilities.svg"
+        }
+      ]
+    },
+    {
+      "@type": "Category",
+      "@id": "2",
+      "title": "Field",
+      "tags": [
+        {
+          "@type": "Education",
+          "title": "Education",
+          "icon": "education.svg"
+        },
+        {
+          "@type": "PhysicalHealth",
+          "title": "Physical Health",
+          "icon": "physicalhealth.svg"
+        },
+        {
+          "@type": "MentalHealth",
+          "title": "Mental Health",
+          "icon": "mentalhealth.svg"
+        },
+        {
+          "@type": "FinancialServices",
+          "title": "Financial Services",
+          "icon": "financialservices.svg"
+        },
+        {
+          "@type": "PersonalFinancing",
+          "title": "Personal Financing",
+          "icon": "personalfinancing.svg"
+        },
+        {
+          "@type": "SocialAwareness",
+          "title": "Social Awareness",
+          "icon": "socialawareness.svg"
+        },
+        {
+          "@type": "Housing",
+          "title": "Housing",
+          "icon": "housing.svg"
+        },
+        {
+          "@type": "DiversityAndInclusion",
+          "title": "Diversity and Inclusion",
+          "icon": "diversityandinclusion.svg"
+        },
+        {
+          "@type": "InterPersonalRelationship",
+          "title": "Inter-personal Relationship",
+          "icon": "interpersonalrelationship.svg"
+        }
+      ]
+    },
+    {
+      "@type": "Category",
+      "@id": "3",
+      "title": "Sustainable Development Goal",
+      "tags": [
+        {
+          "@type": "SDG1",
+          "title": "SDG 1 – No Poverty",
+          "icon": "sdg1.svg"
+        },
+        {
+          "@type": "SDG2",
+          "title": "SDG2 – Zero Hunger",
+          "icon": "sdg2.svg"
+        },
+        {
+          "@type": "SDG3",
+          "title": "SDG3 – Good Health and Well-being",
+          "icon": "sdg3.svg"
+        },
+        {
+          "@type": "SDG4",
+          "title": "SDG4 – Quality Education",
+          "icon": "sdg4.svg"
+        },
+        {
+          "@type": "SDG5",
+          "title": "SDG5 – Gender Equality",
+          "icon": "sdg5.svg"
+        },
+        {
+          "@type": "SDG6",
+          "title": "SDG6 – Clean Water and Sanitation",
+          "icon": "sdg6.svg"
+        },
+        {
+          "@type": "SDG7",
+          "title": "SDG7 – Affordable and Clean Energy",
+          "icon": "sdg7.svg"
+        },
+        {
+          "@type": "SDG8",
+          "title": "SDG8 – Decent Work and Economic Growth",
+          "icon": "sdg8.svg"
+        },
+        {
+          "@type": "SDG9",
+          "title": "SDG9 – Industry, Innovation and Infrastructure",
+          "icon": "sdg9.svg"
+        },
+        {
+          "@type": "SDG10",
+          "title": "SDG10 – Reduced Inequalities",
+          "icon": "sdg10.svg"
+        },
+        {
+          "@type": "SDG11",
+          "title": "SDG11 – Sustainable Cities and Coummunities",
+          "icon": "sdg11.svg"
+        },
+        {
+          "@type": "SDG12",
+          "title": "SDG12 – Responsible Consumption and Production",
+          "icon": "sdg12.svg"
+        },
+        {
+          "@type": "SDG13",
+          "title": "SDG13 – Climate Action",
+          "icon": "sdg13.svg"
+        },
+        {
+          "@type": "SDG14",
+          "title": "SDG14 – Life Below Water",
+          "icon": "sdg14.svg"
+        },
+        {
+          "@type": "SDG15",
+          "title": "SDG15 – Life on Land",
+          "icon": "sdg15.svg"
+        },
+        {
+          "@type": "SDG16",
+          "title": "SDG16 – Peace, Justice and Strong Institutions",
+          "icon": "sdg16.svg"
+        },
+        {
+          "@type": "SDG17",
+          "title": "SDG17 – Partnerships for Goals",
+          "icon": "sdg17.svg"
+        }
+      ]
+    },
+    {
+      "@type": "Category",
+      "@id": "4",
+      "title": "Stage",
+      "tags": [
+        {
+          "@type": "ApplicationStage",
+          "title": "Application Stage",
+          "icon": "applicationstage.svg"
+        },
+        {
+          "@type": "IncubationStage",
+          "title": "Incubation Stage",
+          "icon": "incubationstage.svg"
+        },
+        {
+          "@type": "GraduatedStage",
+          "title": "Graduated Stage",
+          "icon": "graduatedstage.svg"
+        },
+        {}
+      ]
+    }
+  ]
+}

@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Briefcase = (props): JSX.Element => {
+const Home = (props): JSX.Element => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -19,4 +19,4 @@ const Briefcase = (props): JSX.Element => {
   )
 }
 
-export default Briefcase
+export default Home
