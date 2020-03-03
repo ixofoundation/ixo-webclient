@@ -113,13 +113,11 @@ class FilterSortButtons extends React.Component<
                         className={
                           this.state.selectedButtons.includes(button.title)
                             ? 'buttonPressed'
-                            : 'button'
+                            : ''
                         }
-                        //style={{ backgroundColor: button.color }}
                       >
-                        {button.title}
+                        <h3>{button.title}</h3>
                         <img
-                          style={{ width: 52, height: 52, margin: 'auto' }}
                           alt={button.title}
                           src={require('./IXOicons/' + button.icon)}
                         />

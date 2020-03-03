@@ -75,14 +75,89 @@ export const ModalItems = styled.div`
 `
 
 export const FilterSelectButton = styled.div`
-  width: 7rem;
-  height: 7rem;
+  width: calc(100% / 3);
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
   color: white;
-  border-color: white;
   text-align: center;
-  padding: 0.5rem;
+  padding: 1rem;
+  h3 {
+    font-family: 'Roboto' sans-serif;
+    font-size: 0.875rem;
+    line-height: 1;
+  }
+  background: #db6169;
+  border: 2px solid #db6169;
+  img {
+    max-width: 100%;
+    width: 4rem;
+    display: block;
+  }
+  &:nth-child(2) {
+    background: #e0bb72;
+    border-color: #e0bb72;
+  }
+  &:nth-child(3) {
+    background: #81b276;
+    border-color: #81b276;
+  }
+  &:nth-child(4) {
+    background: #c75d61;
+    border-color: #c75d61;
+  }
+  &:nth-child(5) {
+    background: #e17161;
+    border-color: #e17161;
+  }
+  &:nth-child(6) {
+    background: #7dcae9;
+    border-color: #7dcae9;
+  }
+  &:nth-child(7) {
+    background: #f6d16c;
+    border-color: #f6d16c;
+  }
+  &:nth-child(8) {
+    background: #aa566b;
+    border-color: #aa566b;
+  }
+  &:nth-child(9) {
+    background: #e78f66;
+    border-color: #e78f66;
+  }
+  &:nth-child(10) {
+    background: #d75d87;
+    border-color: #d75d87;
+  }
+  &:nth-child(11) {
+    background: #eeb36d;
+    border-color: #eeb36d;
+  }
+  &:nth-child(12) {
+    background: #c7a768;
+    border-color: #c7a768;
+  }
+  &:nth-child(13) {
+    background: #739771;
+    border-color: #739771;
+  }
+  &:nth-child(14) {
+    background: #6eabd7;
+    border-color: #6eabd7;
+  }
+  &:nth-child(15) {
+    background: #5d88b0;
+    border-color: #5d88b0;
+  }
+  &:nth-child(16) {
+    background: #5d88b0;
+    border-color: #5d88b0;
+  }
+  &.buttonPressed {
+    border: 2px solid #fff;
+  }
 `
 
 export const ResetButton = styled.div`
