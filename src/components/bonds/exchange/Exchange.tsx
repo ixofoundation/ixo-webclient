@@ -37,16 +37,7 @@ class Exchange extends Component<any> {
   // console.log(this.props)
   componentDidMount(): void {
     this.props.dispatch({
-      type: QuoteActions.Buy + '_FAILED',
-    })
-    this.props.dispatch({
-      type: QuoteActions.Sell + '_FAILED',
-    })
-    this.props.dispatch({
-      type: QuoteActions.Swap + '_FAILED',
-    })
-    this.props.dispatch({
-      type: QuoteActions.Confirm + '_FAILED',
+      type: QuoteActions.QuoteFailure,
     })
   }
 
@@ -66,7 +57,9 @@ class Exchange extends Component<any> {
               <div className="BondsWrapper_panel__content"></div>*/}
           <BondsSectionNav>
             <NavLink
-              to={!this.props.transacting ? '/bonds/exchange/' : '#'}
+              to={
+                !this.props.activeQuote.transacting ? '/bonds/exchange/' : '#'
+              }
               isActive={(m, l): boolean => this.isActive(m, l, ['/buy'])}
               exact
               className="tablinks_tablink"
@@ -74,7 +67,11 @@ class Exchange extends Component<any> {
               Buy
             </NavLink>
             <NavLink
-              to={!this.props.transacting ? '/bonds/exchange/sell' : '#'}
+              to={
+                !this.props.activeQuote.transacting
+                  ? '/bonds/exchange/sell'
+                  : '#'
+              }
               isActive={(m, l): boolean => this.isActive(m, l, ['/sell'])}
               className="tablinks_tablink"
             >
@@ -82,7 +79,11 @@ class Exchange extends Component<any> {
             </NavLink>
             {this.props.activeBond.type == 'swapper_function' ? (
               <NavLink
-                to={!this.props.transacting ? '/bonds/exchange/swap' : '#'}
+                to={
+                  !this.props.activeQuote.transacting
+                    ? '/bonds/exchange/swap'
+                    : '#'
+                }
                 isActive={(m, l): boolean => this.isActive(m, l, ['/swap'])}
                 className="tablinks_tablink"
               >

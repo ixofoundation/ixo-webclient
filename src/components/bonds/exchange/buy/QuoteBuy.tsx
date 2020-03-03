@@ -23,7 +23,7 @@ const QuoteBuy = (props: any): JSX.Element => {
     props.dispatch(buy(sending, receiving, maxPrices))
   }
 
-  if (props.quotePending) {
+  if (props.activeQuote.quotePending) {
     return <div>Loading quote...</div>
   } else {
     watch()

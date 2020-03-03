@@ -19,7 +19,7 @@ const ConfirmSell = (props: any): JSX.Element => {
     return message ? <div className="error">{message}</div> : undefined
   }
 
-  if (props.signPending) {
+  if (props.activeQuote.signPending) {
     return <div>Signing Transaction</div>
   } else if (!props.activeQuote.receiving) {
     return (
@@ -84,7 +84,7 @@ const ConfirmSell = (props: any): JSX.Element => {
           <div className="label_subtitle">
             * Includes a{' '}
             <span className="label_subtitle__bold">
-              {currencyStr(props.activeQuote.total_fees[0])} fee
+              {currencyStr(props.activeQuote.totalFees[0])} fee
             </span>
           </div>
           <div className="label_subtitle">

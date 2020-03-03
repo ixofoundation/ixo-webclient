@@ -18,7 +18,7 @@ const ConfirmBuy = (props: any): JSX.Element => {
     return message ? <div className="error">{message}</div> : undefined
   }
 
-  if (props.signPending) {
+  if (props.activeQuote.signPending) {
     return <div>Signing Transaction</div>
   } else if (!props.activeQuote.receiving) {
     return (

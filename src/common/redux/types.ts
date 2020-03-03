@@ -12,9 +12,6 @@ export interface RootState {
   login: LoginState
   web3: any
   activeQuote: QuoteState
-  quotePending: boolean
-  signPending: boolean
-  transacting: boolean
   account: AccountState
   activeBond: BondState
   totalSupplies: Currency[]

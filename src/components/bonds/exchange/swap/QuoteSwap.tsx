@@ -52,7 +52,7 @@ const QuoteSwap = (props: any): JSX.Element => {
     props.dispatch(swap(sending, receiving))
   }
 
-  if (props.quotePending) {
+  if (props.activeQuote.quotePending) {
     return <div>Loading quote...</div>
   } else {
     watch()

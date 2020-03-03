@@ -24,7 +24,7 @@ const QuoteSell = (props: any): JSX.Element => {
     props.dispatch(sell(sending, minPrices))
   }
 
-  if (props.quotePending) {
+  if (props.activeQuote.quotePending) {
     return <div>Loading quote...</div>
   } else {
     watch()

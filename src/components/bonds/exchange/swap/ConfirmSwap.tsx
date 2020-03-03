@@ -14,7 +14,7 @@ import {
 const ConfirmSwap = (props: any): JSX.Element => {
   const { handleSubmit } = useForm()
 
-  if (props.signPending) {
+  if (props.activeQuote.signPending) {
     return <div>Signing Transaction</div>
   } else if (!props.activeQuote.receiving) {
     return (
@@ -76,7 +76,7 @@ const ConfirmSwap = (props: any): JSX.Element => {
           <div className="label_subtitle">
             * Includes a{' '}
             <span className="label_subtitle__bold">
-              {currencyStr(props.activeQuote.total_fees[0])} fee
+              {currencyStr(props.activeQuote.totalFees[0])} fee
             </span>
           </div>
           <span className="label_subtitle">

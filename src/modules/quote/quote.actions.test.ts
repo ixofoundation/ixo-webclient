@@ -177,7 +177,7 @@ describe('Quote Actions', () => {
         }),
       )
 
-      // when ... we call the Swap action creator with an address
+      // when ... we call the swap action creator with an address
       await store.dispatch(SUT.swap(receiving, sending))
       const actions = store.getActions()
 
@@ -224,6 +224,16 @@ describe('Quote Actions', () => {
       expect.assertions(2)
       expect(actions[0].type).toEqual(QuoteActions.ConfirmPending)
       expect(actions[1].type).toEqual(QuoteActions.ConfirmSuccess)
+    })
+  })
+
+  describe('clear', () => {
+    it('should clear data on clear', async () => {
+      // when ... we call the clear action creator with an address
+      const action = SUT.clear()
+
+      // then we should expect it to create action with the correct type
+      expect(action.type).toEqual(QuoteActions.Clear)
     })
   })
 })

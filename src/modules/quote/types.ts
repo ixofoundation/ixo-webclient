@@ -3,18 +3,19 @@ import { Currency } from '../../types/models'
 export interface QuoteState {
   sending?: Currency
   receiving?: Currency
-  maxPrices?: [Currency]
-  minPrices?: [Currency]
-  actualPrices?: [Currency]
-  txFees?: [Currency]
-  totalPrices?: [Currency]
-  totalFees?: [Currency]
+  maxPrices?: Currency[]
+  minPrices?: Currency[]
+  actualPrices?: Currency[]
+  txFees?: Currency[]
+  totalPrices?: Currency[]
+  totalFees?: Currency[]
   bondToken?: string
   tx?: {}
   response?: any
   quotePending: boolean
   signPending: boolean
   transacting: boolean
+  isSwapping: boolean
 }
 
 export enum QuoteActions {
@@ -35,7 +36,7 @@ export enum QuoteActions {
   ConfirmSuccess = 'ixo/Quote/CONFIRM_FULFILLED',
   ConfirmPending = 'ixo/Quote/CONFIRM_PENDING',
   ConfirmFailure = 'ixo/Quote/CONFIRM_REJECTED',
-  ClearFlags = 'ixo/Quote/CLEAR_FLAGS',
+  QuoteFailure = 'ixo/Quote/QUOTE_FAILED',
 }
 
 export interface ClearAction {
@@ -45,6 +46,14 @@ export interface ClearAction {
 export interface BuyAction {
   type: typeof QuoteActions.Buy
   payload: Promise<any>
+}
+
+export interface BuyPendingAction {
+  type: typeof QuoteActions.BuyPending
+}
+
+export interface BuyFailureAction {
+  type: typeof QuoteActions.BuyFailure
 }
 
 export interface BuySuccessAction {
@@ -59,6 +68,10 @@ export interface SellAction {
   payload: Promise<any>
 }
 
+export interface SellPendingAction {
+  type: typeof QuoteActions.SellPending
+}
+
 export interface SellSuccessAction {
   type: typeof QuoteActions.SellSuccess
   payload: {
@@ -66,9 +79,17 @@ export interface SellSuccessAction {
   }
 }
 
+export interface SellFailureAction {
+  type: typeof QuoteActions.SellFailure
+}
+
 export interface SwapAction {
   type: typeof QuoteActions.Swap
   payload: Promise<any>
+}
+
+export interface SwapPendingAction {
+  type: typeof QuoteActions.SwapPending
 }
 
 export interface SwapSuccessAction {
@@ -78,9 +99,17 @@ export interface SwapSuccessAction {
   }
 }
 
+export interface SwapFailureAction {
+  type: typeof QuoteActions.SwapFailure
+}
+
 export interface ConfirmAction {
   type: typeof QuoteActions.Confirm
   payload: Promise<any>
+}
+
+export interface ConfirmPendingAction {
+  type: typeof QuoteActions.ConfirmPending
 }
 
 export interface ConfirmSuccessAction {
@@ -90,13 +119,30 @@ export interface ConfirmSuccessAction {
   }
 }
 
+export interface ConfirmFailureAction {
+  type: typeof QuoteActions.ConfirmFailure
+}
+
+export interface QuoteFailureAction {
+  type: typeof QuoteActions.QuoteFailure
+}
+
 export type QuoteActionTypes =
   | ClearAction
   | BuyAction
+  | BuyPendingAction
   | BuySuccessAction
+  | BuyFailureAction
   | SellAction
+  | SellPendingAction
   | SellSuccessAction
+  | SellFailureAction
   | SwapAction
+  | SwapPendingAction
   | SwapSuccessAction
+  | SwapFailureAction
   | ConfirmAction
+  | ConfirmPendingAction
   | ConfirmSuccessAction
+  | ConfirmFailureAction
+  | QuoteFailureAction
