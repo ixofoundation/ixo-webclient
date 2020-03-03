@@ -222,15 +222,7 @@ export class HeaderLeft extends React.Component<ParentProps> {
           >
             Explore
           </HeaderLink>
-          <HeaderAnchor href={getIxoWorldRoute('/membership')}>
-            Membership
-          </HeaderAnchor>
-          <HeaderAnchor href={getIxoWorldRoute('/subscribe')}>
-            Subscribe
-          </HeaderAnchor>
-          <HeaderAnchor href={getIxoWorldRoute('/ecosystem')}>
-            Ecosystem
-          </HeaderAnchor>
+          <HeaderLink to="#">Launch a project</HeaderLink>
         </Fragment>
       )
     } else {
@@ -246,14 +238,7 @@ export class HeaderLeft extends React.Component<ParentProps> {
             </MenuHeaderLink>
           </MenuHeaderContainer>
           <MenuHeaderContainer>
-            <MenuHeaderAnchor href={getIxoWorldRoute('/membership')}>
-              Membership
-            </MenuHeaderAnchor>
-          </MenuHeaderContainer>
-          <MenuHeaderContainer>
-            <MenuHeaderAnchor href={getIxoWorldRoute('/ecosystem')}>
-              Ecosystem
-            </MenuHeaderAnchor>
+            <MenuHeaderAnchor href="#">Launch a project</MenuHeaderAnchor>
           </MenuHeaderContainer>
         </Fragment>
       )
