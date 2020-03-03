@@ -19,87 +19,87 @@
       "tags": [
         {
           "@type": "SDG1",
-          "title": "{SDG 1 – No Poverty}",
+          "title": "SDG 1 – No Poverty",
           "icon": "sdg1.svg"
         },
         {
           "@type": "SDG2",
-          "title": "{SDG2 – Zero Hunger}",
+          "title": "SDG2 – Zero Hunger",
           "icon": "sdg2.svg"
         },
         {
           "@type": "SDG3",
-          "title": "{SDG3 – Good Health and Well-being}",
+          "title": "SDG3 – Good Health and Well-being",
           "icon": "sdg3.svg"
         },
         {
           "@type": "SDG4",
-          "title": "{SDG4 – Quality Education}",
+          "title": "SDG4 – Quality Education",
           "icon": "sdg4.svg"
         },
         {
           "@type": "SDG5",
-          "title": "{SDG5 – Gender Equality}",
+          "title": "SDG5 – Gender Equality",
           "icon": "sdg5.svg"
         },
         {
           "@type": "SDG6",
-          "title": "{SDG6 – Clean Water and Sanitation}",
+          "title": "SDG6 – Clean Water and Sanitation",
           "icon": "sdg6.svg"
         },
         {
           "@type": "SDG7",
-          "title": "{SDG7 – Affordable and Clean Energy}",
+          "title": "SDG7 – Affordable and Clean Energy",
           "icon": "sdg7.svg"
         },
         {
           "@type": "SDG8",
-          "title": "{SDG8 – Decent Work and Economic Growth}",
+          "title": "SDG8 – Decent Work and Economic Growth",
           "icon": "sdg8.svg"
         },
         {
           "@type": "SDG9",
-          "title": "{SDG9 – Industry, Innovation and Infrastructure}",
+          "title": "SDG9 – Industry, Innovation and Infrastructure",
           "icon": "sdg9.svg"
         },
         {
           "@type": "SDG10",
-          "title": "{SDG10 – Reduced Inequalities}",
+          "title": "SDG10 – Reduced Inequalities",
           "icon": "sdg10.svg"
         },
         {
           "@type": "SDG11",
-          "title": "{SDG11 – Sustainable Cities and Coummunities}",
+          "title": "SDG11 – Sustainable Cities and Coummunities",
           "icon": "sdg11.svg"
         },
         {
           "@type": "SDG12",
-          "title": "{SDG12 – Responsible Consumption and Production}",
+          "title": "SDG12 – Responsible Consumption and Production",
           "icon": "sdg12.svg"
         },
         {
           "@type": "SDG13",
-          "title": "{SDG13 – Climate Action}",
+          "title": "SDG13 – Climate Action",
           "icon": "sdg13.svg"
         },
         {
           "@type": "SDG14",
-          "title": "{SDG14 – Life Below Water}",
+          "title": "SDG14 – Life Below Water",
           "icon": "sdg14.svg"
         },
         {
           "@type": "SDG15",
-          "title": "{SDG15 – Life on Land}",
+          "title": "SDG15 – Life on Land",
           "icon": "sdg15.svg"
         },
         {
           "@type": "SDG16",
-          "title": "{SDG16 – Peace, Justice and Strong Institutions}",
+          "title": "SDG16 – Peace, Justice and Strong Institutions",
           "icon": "sdg16.svg"
         },
         {
           "@type": "SDG17",
-          "title": "{SDG17 – Partnerships for Goals}",
+          "title": "SDG17 – Partnerships for Goals",
           "icon": "sdg17.svg"
         }
       ]
