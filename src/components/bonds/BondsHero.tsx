@@ -1,6 +1,7 @@
 import * as React from 'react'
 import styled from 'styled-components'
 import { deviceWidth } from '../../lib/commonData'
+import HeaderSubTabs from '../common/HeaderSubTabs'
 
 const HeroContainer = styled.div`
   background: url(${require('../../assets/images/heroBg.jpg')}) no-repeat center
@@ -90,6 +91,7 @@ export class BondsHero extends React.Component<{}, {}> {
   render(): JSX.Element {
     return (
       <HeroContainer>
+        <HeaderSubTabs />
         <div className="container">
           <div className="row">
             <StatisticContainer className="col-8">
