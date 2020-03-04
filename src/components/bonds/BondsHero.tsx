@@ -2,10 +2,10 @@ import * as React from 'react'
 import styled from 'styled-components'
 import { deviceWidth } from '../../lib/commonData'
 import HeaderSubTabs from '../common/HeaderSubTabs'
+import * as instanceSettings from '../../instance-settings'
 
 const HeroContainer = styled.div`
-  background: url(${require('../../assets/images/heroBg.jpg')}) no-repeat center
-    top;
+  background: url(${instanceSettings.getBGImageSrc()}) no-repeat center top;
   color: white;
   background-size: cover;
   margin: 0;

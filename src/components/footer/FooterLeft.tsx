@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import MediaQuery from 'react-responsive'
 import { deviceWidth } from '../../lib/commonData'
 import { getIxoWorldRoute } from '../../common/utils/formatters'
+import * as instanceSettings from '../../instance-settings'
 
 const ExternalFooterLink = styled.a`
   font-family: ${/* eslint-disable-line */ props =>
@@ -33,7 +34,7 @@ const ExternalFooterLink = styled.a`
 
 const IXOLogo = styled.img`
   margin-right: 20px;
-  width: 50px;
+  height: 40px;
   margin-top: 2px;
 `
 
@@ -91,10 +92,7 @@ export const FooterLeft: React.SFC<any> = () => {
       <div className="row">
         <MediaQuery minWidth={`${deviceWidth.tablet}px`}>
           <a href={getIxoWorldRoute('')}>
-            <IXOLogo
-              alt="IXO Logo"
-              src={require('../../assets/images/ixo-logo.svg')}
-            />
+            <IXOLogo alt="IXO Logo" src={instanceSettings.getLogoImageSrc()} />
           </a>
         </MediaQuery>
         {/* <ExternalFooterLink href={getIxoWorldRoute('/about')}>About</ExternalFooterLink> */}
