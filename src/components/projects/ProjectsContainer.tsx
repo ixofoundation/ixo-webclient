@@ -210,6 +210,7 @@ export class Projects extends React.Component<Props, State> {
       return (
         <ProjectsContainer className="container-fluid">
           <div className="container">
+            <FilterSortButtons />
             <div className="row row-eq-height">
               {projects.map((project, index) => {
                 return (
@@ -264,7 +265,6 @@ export class Projects extends React.Component<Props, State> {
           contentType={this.props.contentType}
         />
         {this.handleRenderProjectList()}
-        <FilterSortButtons />
       </Container>
     )
   }

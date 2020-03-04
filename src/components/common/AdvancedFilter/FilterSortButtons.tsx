@@ -2,7 +2,8 @@ import * as React from 'react'
 import DatePicker from './DatePicker'
 import filterSchemaIXO from '../../../lib/json/filterSchemaIXO.json'
 import {
-  PositionController,
+  FiltersWrap,
+  FilterInfo,
   Button,
   ButtonWrapper,
   FilterModal,
@@ -71,72 +72,79 @@ class FilterSortButtons extends React.Component<
 
   render(): JSX.Element {
     return (
-      <PositionController>
-        <Button onClick={this.toggleShowDatePicker}>
-          <i className="icon-calendar-sort" style={{ padding: 6 }}></i>
-          Dates
-        </Button>
+      <>
+        <FiltersWrap>
+          <FilterInfo>All Projects</FilterInfo>
+          <div className="filters">
+            <Button onClick={this.toggleShowDatePicker}>
+              <i className="icon-calendar-sort" style={{ padding: 6 }}></i>
+              Dates
+            </Button>
 
-        {filterSchemaIXO.categories.map(filterCategory => {
-          return (
-            <ButtonWrapper
-              key={filterCategory['title']}
-              className={`button-wrapper ${
-                filterCategory['title'] === this.state.checkTitle
-                  ? 'active'
-                  : ''
-              }`}
-              onClick={(e): void =>
-                this.handleClose(e, filterCategory['title'])
-              }
-            >
-              <Button onClick={(): void => this.setId(filterCategory['title'])}>
-                {filterCategory.title}
-              </Button>
-              <FilterModal
-                className="filter-modal"
-                style={{
-                  display:
+            {filterSchemaIXO.categories.map(filterCategory => {
+              return (
+                <ButtonWrapper
+                  key={filterCategory['title']}
+                  className={`button-wrapper ${
                     filterCategory['title'] === this.state.checkTitle
-                      ? 'block'
-                      : 'none',
-                }}
-              >
-                <ModalItems>
-                  {filterCategory.tags.map(button => {
-                    return (
-                      <FilterSelectButton
-                        key={button.title}
-                        onClick={(): void =>
-                          this.handleMultipleSelect(button.title)
-                        }
-                        className={
-                          this.state.selectedButtons.includes(button.title)
-                            ? 'buttonPressed'
-                            : ''
-                        }
-                      >
-                        <h3>{button.title}</h3>
-                        <img
-                          alt={button.title}
-                          src={require('./IXOicons/' + button.icon)}
-                        />
-                      </FilterSelectButton>
-                    )
-                  })}
-                </ModalItems>
-                <ResetButton>Reset</ResetButton>
-                <ApplyButton>Apply</ApplyButton>
-              </FilterModal>
-            </ButtonWrapper>
-          )
-        })}
-        <Button>
-          <i className="icon-reset" style={{ padding: 6 }}></i>
-          Reset
-        </Button>
-        {this.state.showDatePicker ? <DatePicker /> : null}
-      </PositionController>
+                      ? 'active'
+                      : ''
+                  }`}
+                  onClick={(e): void =>
+                    this.handleClose(e, filterCategory['title'])
+                  }
+                >
+                  <Button
+                    onClick={(): void => this.setId(filterCategory['title'])}
+                  >
+                    {filterCategory.title}
+                  </Button>
+                  <FilterModal
+                    className="filter-modal"
+                    style={{
+                      display:
+                        filterCategory['title'] === this.state.checkTitle
+                          ? 'block'
+                          : 'none',
+                    }}
+                  >
+                    <ModalItems>
+                      {filterCategory.tags.map(button => {
+                        return (
+                          <FilterSelectButton
+                            key={button.title}
+                            onClick={(): void =>
+                              this.handleMultipleSelect(button.title)
+                            }
+                            className={
+                              this.state.selectedButtons.includes(button.title)
+                                ? 'buttonPressed'
+                                : ''
+                            }
+                          >
+                            <h3>{button.title}</h3>
+                            <img
+                              alt={button.title}
+                              src={require('./IXOicons/' + button.icon)}
+                            />
+                          </FilterSelectButton>
+                        )
+                      })}
+                    </ModalItems>
+                    <ResetButton>Reset</ResetButton>
+                    <ApplyButton>Apply</ApplyButton>
+                  </FilterModal>
+                </ButtonWrapper>
+              )
+            })}
+            <Button>
+              <i className="icon-reset" style={{ padding: 6 }}></i>
+              Reset
+            </Button>
+            {this.state.showDatePicker ? <DatePicker /> : null}
+          </div>
+        </FiltersWrap>
+      </>
     )
   }
 }
