@@ -14,17 +14,43 @@ export interface BondState {
 }
 
 export enum BondActions {
-  GET_BOND_BALANCES = 'GET_BOND_BALANCES',
-  GET_TRADES = 'GET_TRADES',
-  GET_TOTAL_SUPPLIES = 'GET_TOTAL_SUPPLIES',
+  GetBalances = 'ixo/Bond/GET_BALANCES',
+  GetBalancesPending = 'ixo/Bond/GET_BALANCES_PENDING',
+  GetBalancesSuccess = 'ixo/Bond/GET_BALANCES_FULFILLED',
+  GetBalancesFailure = 'ixo/Bond/GET_BALANCES_REJECTED',
+  GetTrades = 'ixo/Bond/GET_TRADES',
+  GetTradesPending = 'ixo/Bond/GET_TRADES_PENDING',
+  GetTradesSuccess = 'ixo/Bond/GET_TRADES_FULFILLED',
+  GetTradesFailure = 'ixo/Bond/GET_TRADES_REJECTED',
+  // GET_TOTAL_SUPPLIES = 'GET_TOTAL_SUPPLIES',
 }
 
-interface BondActionType<T, P> {
-  type: T
-  payload?: P
+export interface GetBalancesAction {
+  type: typeof BondActions.GetBalances
+  payload: Promise<any>
 }
 
-export type BondAction =
-  | BondActionType<typeof BondActions.GET_BOND_BALANCES, any>
-  | BondActionType<typeof BondActions.GET_TRADES, any>
-  | BondActionType<typeof BondActions.GET_TOTAL_SUPPLIES, any>
+export interface GetBalancesSuccessAction {
+  type: typeof BondActions.GetBalancesSuccess
+  payload: {
+    data: any
+  }
+}
+
+export interface GetTradesAction {
+  type: typeof BondActions.GetTrades
+  payload: Promise<any>
+}
+
+export interface GetTradesSuccessAction {
+  type: typeof BondActions.GetTradesSuccess
+  payload: {
+    data: any
+  }
+}
+
+export type BondActionTypes =
+  | GetBalancesAction
+  | GetBalancesSuccessAction
+  | GetTradesAction
+  | GetTradesSuccessAction

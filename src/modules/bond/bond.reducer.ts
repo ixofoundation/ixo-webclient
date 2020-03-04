@@ -1,9 +1,9 @@
 import createReducer from '../../common/redux/createReducer'
-import { BondActions, BondAction } from './types'
+import { BondActions } from './types'
 import { Currency } from '../../types/models'
-import { BondState } from './types'
+import { BondState, BondActionTypes, BondActions } from './types'
 
-const activeBondInitialState = {
+export const activeBondInitialState = {
   symbol: 'token1',
   name: 'N/A',
   address: 'N/A',
@@ -15,11 +15,16 @@ const activeBondInitialState = {
   trades: [],
 } as BondState
 
+export const reducer = (state = activeBondInitialState, action: BondActionTypes): BondState => {
+  switch(action.type) {
+    case BondActions.GetBalancesSuccess
+      
+  }
+}
+
+/* 
 export const activeBond = createReducer(activeBondInitialState, {
-  [BondActions.GET_BOND_BALANCES + '_FULFILLED'](
-    activeBond: BondState,
-    action: BondAction,
-  ) {
+  [BondActions.GetBalances + '_FULFILLED'](activeBond: BondState, action: any) {
     const newState = Object.assign({}, action.payload)
     newState.trades = []
 
@@ -29,10 +34,7 @@ export const activeBond = createReducer(activeBondInitialState, {
     }
     return newState
   },
-  [BondActions.GET_TRADES + '_FULFILLED'](
-    activeBond: BondState,
-    action: BondAction,
-  ) {
+  [BondActions.GetTrades + '_FULFILLED'](activeBond: BondState, action: any) {
     const newState = Object.assign({}, activeBond)
     newState.trades = action.payload!
     return newState
@@ -40,14 +42,14 @@ export const activeBond = createReducer(activeBondInitialState, {
 })
 
 export const totalSupplies = createReducer([] as Currency[], {
-  [BondActions.GET_TOTAL_SUPPLIES + '_FULFILLED'](
+  ['BondActions.GET_TOTAL_SUPPLIES' + '_FULFILLED'](
     totalSupplies: [],
-    action: BondAction,
+    action: any,
   ) {
     const newState = Object.assign([], action.payload)
     return newState
   },
-})
+}) */
 
 // activeBond: Bond;
 // balances: [Currency];
