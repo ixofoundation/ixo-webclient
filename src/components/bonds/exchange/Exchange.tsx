@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import { NavLink, Route } from 'react-router-dom'
 import './Exchange.css'
-import { QuoteActions } from '../../../model/quote'
+import { QuoteActions } from '../../../modules/quote/types'
 import { connect } from 'react-redux'
-import { Store } from '../../../model/store'
+import { RootState } from '../../../common/redux/types'
 import BondsWrapper from '../BondsWrapper'
 import Buy from './buy/Buy'
 import Sell from './sell/Sell'
@@ -117,7 +117,7 @@ class Exchange extends Component<any> {
   }
 }
 
-const mapStateToProps = function(state: Store): Store {
+const mapStateToProps = function(state: RootState): RootState {
   return state
 }
 

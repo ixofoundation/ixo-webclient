@@ -2,7 +2,7 @@ import * as React from 'react'
 import { Fragment } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import { RootState } from '../../common/redux/reducers'
+import { RootState } from '../../common/redux/types'
 import { decode as base64Decode } from 'base-64'
 import {
   contentType,

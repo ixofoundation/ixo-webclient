@@ -1,6 +1,6 @@
-import { Currency } from './'
+import { Currency } from '../../types/models'
 
-export interface Quote {
+export interface QuoteState {
   sending?: Currency
   recieving?: Currency
   maxPrices?: [Currency]
@@ -29,7 +29,7 @@ interface QuoteActionType<T, P> {
 
 export type QuoteAction =
   | QuoteActionType<typeof QuoteActions.CLEAR_QUOTE, any>
-  | QuoteActionType<typeof QuoteActions.QUOTE_BUY, Quote>
-  | QuoteActionType<typeof QuoteActions.QUOTE_SELL, Quote>
-  | QuoteActionType<typeof QuoteActions.QUOTE_SWAP, Quote>
+  | QuoteActionType<typeof QuoteActions.QUOTE_BUY, QuoteState>
+  | QuoteActionType<typeof QuoteActions.QUOTE_SELL, QuoteState>
+  | QuoteActionType<typeof QuoteActions.QUOTE_SWAP, QuoteState>
   | QuoteActionType<typeof QuoteActions.CONFIRM_QUOTE, any>

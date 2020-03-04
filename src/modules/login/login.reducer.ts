@@ -1,26 +1,24 @@
-import { createReducer } from '../../common/redux/redux.utils'
-import { LoginResult, LOGIN_RESULT } from './types'
-import { UserInfo } from '../../types/models'
+import { LoginState, LoginActions, LoginActionTypes } from './types'
 
-export type ILoginModelState = {
-  userInfo: UserInfo
-  loginError: Record<string, any>
-}
-
-const initialState: ILoginModelState = {
+export const initialState: LoginState = {
   userInfo: null,
   loginError: {},
 }
 
-export const loginReducer = createReducer<ILoginModelState>(initialState, [
-  {
-    action: LOGIN_RESULT,
-    handler: (state: ILoginModelState, action: LoginResult): any => {
-      state.userInfo = action.userInfo
-      state.loginError = action.error
+export const reducer = (
+  state = initialState,
+  action: LoginActionTypes,
+): LoginState => {
+  switch (action.type) {
+    case LoginActions.InitUserInfo:
       return {
         ...state,
+        userInfo: action.payload.userInfo,
+        loginError: action.payload.loginError,
       }
-    },
-  },
-])
+    case LoginActions.ResetUserInfo:
+      return initialState
+  }
+
+  return state
+}

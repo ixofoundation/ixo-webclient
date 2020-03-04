@@ -1,35 +1,13 @@
-import { createAction } from '../../redux/redux.utils'
 import { Ixo } from 'ixo-module'
-import { IxoResult, IXO_RESULT } from './types'
+import { IxoActions, ResetIxoAction, InitIxoAction } from './types'
 
-export function initIxo(BLOCK_SYNC_URL: string) {
-  return (dispatch): void => {
-    if (BLOCK_SYNC_URL) {
-      const ixo = new Ixo(BLOCK_SYNC_URL)
-      dispatch(
-        createAction<IxoResult>(IXO_RESULT.type, {
-          ixo: ixo,
-          error: {},
-        }),
-      )
-    } else {
-      dispatch(
-        createAction<IxoResult>(IXO_RESULT.type, {
-          ixo: null,
-          error: { error: 'Environment not setup for Blockchain node' },
-        }),
-      )
-    }
-  }
-}
+export const initIxo = (BLOCK_SYNC_URL: string): InitIxoAction => ({
+  type: IxoActions.InitIxo,
+  payload: {
+    ixo: new Ixo(BLOCK_SYNC_URL),
+  },
+})
 
-export function resetIxo() {
-  return (dispatch): void => {
-    dispatch(
-      createAction<IxoResult>(IXO_RESULT.type, {
-        ixo: null,
-        error: {},
-      }),
-    )
-  }
-}
+export const resetIxo = (): ResetIxoAction => ({
+  type: IxoActions.ResetIxo,
+})

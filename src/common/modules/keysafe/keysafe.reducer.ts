@@ -1,28 +1,24 @@
-import { createReducer } from '../../redux/redux.utils'
-import { KeysafeResult, KEYSAFE_RESULT } from './types'
+import { KeysafeState, KeysafeActions, KeysafeActionTypes } from './types'
 
-export type IKeysafeModelState = {
-  keysafe: any
-  error: Record<string, any>
-}
-
-const initialState: IKeysafeModelState = {
+export const initialState: KeysafeState = {
   keysafe: null,
   error: {},
 }
 
-export const keysafeReducer = createReducer<IKeysafeModelState>(initialState, [
-  {
-    action: KEYSAFE_RESULT,
-    handler: (
-      state: IKeysafeModelState,
-      action: KeysafeResult,
-    ): IKeysafeModelState => {
-      state.keysafe = action.keysafe
-      state.error = action.error
+export const reducer = (
+  state = initialState,
+  action: KeysafeActionTypes,
+): KeysafeState => {
+  switch (action.type) {
+    case KeysafeActions.InitKeysafe:
       return {
         ...state,
+        keysafe: action.payload.keysafe,
+        error: action.payload.error,
       }
-    },
-  },
-])
+    case KeysafeActions.ResetKeysafe:
+      return initialState
+  }
+
+  return state
+}

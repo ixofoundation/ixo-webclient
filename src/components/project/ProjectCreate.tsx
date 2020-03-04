@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { ImageLoader, imageQuality } from '../common/ImageLoader'
-import { RootState } from '../../common/redux/reducers'
+import { RootState } from '../../common/redux/types'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 import { decode as base64Decode } from 'base-64'

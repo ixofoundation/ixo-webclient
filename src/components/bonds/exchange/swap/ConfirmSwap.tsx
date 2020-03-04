@@ -2,7 +2,7 @@ import React from 'react'
 import useForm from 'react-hook-form'
 import { withRouter, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { Store } from '../../../../model/store'
+import { RootState } from '../../../../common/redux/types'
 import {
   confirmSwap,
   clearQuote,
@@ -12,7 +12,7 @@ import {
   remainingBalance,
   newBalance,
   currencyStr,
-} from '../../../../model/account'
+} from '../../../../modules/account/account.utils'
 
 const ConfirmSwap = (props: any): JSX.Element => {
   const { handleSubmit } = useForm()
@@ -69,7 +69,7 @@ const ConfirmSwap = (props: any): JSX.Element => {
           </span>
         </div>
 
-        <div className="label">Recieve</div>
+        <div className="label">Receive</div>
         <div
           style={{
             display: 'flex',
@@ -78,6 +78,12 @@ const ConfirmSwap = (props: any): JSX.Element => {
           }}
         >
           <h3>{recieving}</h3>
+          <div className="label_subtitle">
+            * Includes a{' '}
+            <span className="label_subtitle__bold">
+              {currencyStr(props.activeQuote.total_fees[0])} fee
+            </span>
+          </div>
           <span className="label_subtitle">
             My total balance will be{' '}
             <span className="label_subtitle__bold">{newBal}</span>
@@ -121,7 +127,7 @@ const ConfirmSwap = (props: any): JSX.Element => {
   }
 }
 
-const mapStateToProps = (state: Store): Store => {
+const mapStateToProps = (state: RootState): RootState => {
   return state
 }
 

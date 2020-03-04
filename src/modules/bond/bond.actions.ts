@@ -1,6 +1,6 @@
 import { AsyncAction } from 'redux-promise-middleware'
 import Axios from 'axios'
-import { BondActions } from '../../model/bond'
+import { BondActions } from './types'
 
 export const getBondBalances = (symbol: string): AsyncAction => {
   const bondRequest = Axios.get(

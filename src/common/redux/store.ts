@@ -1,7 +1,8 @@
 import thunk from 'redux-thunk'
 import { applyMiddleware, createStore, Store } from 'redux'
 import { composeWithDevTools } from 'redux-devtools-extension'
-import { RootState, rootReducer } from './reducers'
+import { rootReducer } from './reducers'
+import { RootState } from './types'
 import logger from 'redux-logger'
 import promise from 'redux-promise-middleware'
 

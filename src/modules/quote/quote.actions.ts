@@ -1,9 +1,9 @@
-import { QuoteAction, Quote, QuoteActions } from '../../model/quote'
+import { QuoteAction, QuoteState, QuoteActions } from './types'
 import { AsyncAction } from 'redux-promise-middleware'
 import Axios from 'axios'
-import { Currency } from '../../model'
-import { currencyStr } from '../../model/account'
-import { Bond } from '../../model/bond'
+import { Currency } from '../../types/models'
+import { currencyStr } from '../account/account.utils'
+import { BondState } from '../bond/types'
 import KeystationService from '../../service/KeystationService'
 import { toast } from 'react-toastify'
 const ks = new KeystationService()
@@ -16,7 +16,7 @@ export function clearQuote(): QuoteAction {
 
 // BUYING
 
-export const quoteBuy = (quote: Quote): AsyncAction => {
+export const quoteBuy = (quote: QuoteState): AsyncAction => {
   return {
     type: QuoteActions.QUOTE_BUY,
     payload: Axios.get(
@@ -32,12 +32,12 @@ export const quoteBuy = (quote: Quote): AsyncAction => {
 }
 
 export const confirmBuy = (
-  quote: Quote,
-  bond: Bond,
+  quote: QuoteState,
+  bond: BondState,
   address: string,
 ): AsyncAction => {
   const maxPrices = quote
-    .maxPrices!.map((maxPrice: Currency) => currencyStr(maxPrice))
+    .maxPrices!.map((maxPrice: Currency) => currencyStr(maxPrice, false))
     .join(',')
 
   const payload = {
@@ -79,7 +79,7 @@ export const confirmBuy = (
 
 // SELLING
 
-export const quoteSell = (quote: Quote): AsyncAction => {
+export const quoteSell = (quote: QuoteState): AsyncAction => {
   return {
     type: QuoteActions.QUOTE_SELL,
     payload: Axios.get(
@@ -95,12 +95,12 @@ export const quoteSell = (quote: Quote): AsyncAction => {
 }
 
 export const confirmSell = (
-  quote: Quote,
-  bond: Bond,
+  quote: QuoteState,
+  bond: BondState,
   address: string,
 ): AsyncAction => {
   const minPrices = quote
-    .minPrices!.map((minPrice: Currency) => currencyStr(minPrice))
+    .minPrices!.map((minPrice: Currency) => currencyStr(minPrice, false))
     .join(',')
 
   const payload = {
@@ -134,8 +134,6 @@ export const confirmSell = (
             )
             return true
           }
-
-          console.log('signed?', response)
         },
       )
     }),
@@ -144,7 +142,7 @@ export const confirmSell = (
 
 // SWAPPING
 
-export const quoteSwap = (quote: Quote): AsyncAction => {
+export const quoteSwap = (quote: QuoteState): AsyncAction => {
   return {
     type: QuoteActions.QUOTE_SWAP,
     payload: Axios.get(
@@ -152,7 +150,7 @@ export const quoteSwap = (quote: Quote): AsyncAction => {
         '/bonds/' +
         quote.bondToken +
         '/swap_return/' +
-        currencyStr(quote.sending!) +
+        currencyStr(quote.sending!, false) +
         '/' +
         quote.recieving!.denom,
     ).then(response => {
@@ -162,8 +160,8 @@ export const quoteSwap = (quote: Quote): AsyncAction => {
 }
 
 export const confirmSwap = (
-  quote: Quote,
-  bond: Bond,
+  quote: QuoteState,
+  bond: BondState,
   address: string,
 ): AsyncAction => {
   const payload = {
@@ -196,7 +194,6 @@ export const confirmSwap = (
             )
             return true
           }
-          console.log('signed?', response)
         },
       )
     }),

@@ -1,11 +1,25 @@
 import { UserInfo } from '../../types/models'
 
-export interface LoginResult {
+export interface LoginState {
   userInfo: UserInfo
-  error: Record<string, any>
+  loginError: Record<string, any>
 }
 
-// eslint-disable-next-line
-export namespace LOGIN_RESULT {
-  export const type = 'LOGIN_RESULT'
+export enum LoginActions {
+  InitUserInfo = 'ixo/Login/INIT_USER_INFO',
+  ResetUserInfo = 'ixo/Login/RESET_USER_INFO',
 }
+
+export interface InitUserInfoAction {
+  type: typeof LoginActions.InitUserInfo
+  payload: {
+    userInfo: UserInfo
+    loginError: Record<string, any>
+  }
+}
+
+export interface ResetUserInfoAction {
+  type: typeof LoginActions.ResetUserInfo
+}
+
+export type LoginActionTypes = InitUserInfoAction | ResetUserInfoAction

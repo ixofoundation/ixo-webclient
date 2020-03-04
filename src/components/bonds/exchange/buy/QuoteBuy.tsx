@@ -2,16 +2,19 @@ import React from 'react'
 import useForm from 'react-hook-form'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { Store } from '../../../../model/store'
+import { RootState } from '../../../../common/redux/types'
 import { quoteBuy } from '../../../../modules/quote/quote.actions'
-import { Quote } from '../../../../model/quote'
-import { currencyStr, tokenBalance } from '../../../../model/account'
+import { QuoteState } from '../../../../modules/quote/types'
+import {
+  currencyStr,
+  tokenBalance,
+} from '../../../../modules/account/account.utils'
 
 const QuoteBuy = (props: any): JSX.Element => {
   const { register, handleSubmit, watch, errors } = useForm()
 
   const onSubmit = (formData: any): void => {
-    const quote: Quote = {}
+    const quote: QuoteState = {}
     quote.sending = { denom: formData.denom }
     quote.recieving = {
       amount: formData.amount,
@@ -42,7 +45,8 @@ const QuoteBuy = (props: any): JSX.Element => {
         <input
           name="amount"
           placeholder="Enter your order quantity"
-          ref={register({ required: true, pattern: /^[0-9]+$/i })}
+          type="number"
+          ref={register({ required: true, min: 0.001 })}
         />
         <div
           style={{
@@ -84,8 +88,10 @@ const QuoteBuy = (props: any): JSX.Element => {
         <input
           name="maxAmount"
           placeholder="Enter the highest offer you would accept"
-          ref={register({ required: true, pattern: /^[0-9]+$/i })}
+          type="number"
+          ref={register({ required: true })}
         />
+
         <div
           style={{
             display: 'flex',
@@ -115,7 +121,7 @@ const QuoteBuy = (props: any): JSX.Element => {
   }
 }
 
-const mapStateToProps = (state: Store): Store => {
+const mapStateToProps = (state: RootState): RootState => {
   return state
 }
 

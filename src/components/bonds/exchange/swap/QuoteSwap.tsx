@@ -2,11 +2,14 @@ import React from 'react'
 import useForm from 'react-hook-form'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { Store } from '../../../../model/store'
+import { RootState } from '../../../../common/redux/types'
 import { quoteSwap } from '../../../../modules/quote/quote.actions'
-import { Quote } from '../../../../model/quote'
-import { currencyStr, tokenBalance } from '../../../../model/account'
-import { Currency } from '../../../../model'
+import { QuoteState } from '../../../../modules/quote/types'
+import {
+  currencyStr,
+  tokenBalance,
+} from '../../../../modules/account/account.utils'
+import { Currency } from '../../../../types/models'
 
 const QuoteSwap = (props: any): JSX.Element => {
   const { register, handleSubmit, watch, errors } = useForm()
@@ -44,7 +47,7 @@ const QuoteSwap = (props: any): JSX.Element => {
   // }, []);
 
   const onSubmit = (formData: any): void => {
-    const quote: Quote = {}
+    const quote: QuoteState = {}
 
     quote.bondToken = props.activeBond.symbol
     quote.sending = { denom: formData.denom, amount: formData.amount }
@@ -81,10 +84,10 @@ const QuoteSwap = (props: any): JSX.Element => {
           <input
             name="amount"
             placeholder="Enter the quantity of tokens you are selling."
-            ref={register({ required: true, pattern: /^[0-9]+$/i })}
+            type="number"
+            ref={register({ required: true })}
           />
         </div>
-
         <div
           style={{
             display: 'flex',
@@ -152,7 +155,7 @@ const QuoteSwap = (props: any): JSX.Element => {
   }
 }
 
-const mapStateToProps = (state: Store): Store => {
+const mapStateToProps = (state: RootState): RootState => {
   return state
 }
 

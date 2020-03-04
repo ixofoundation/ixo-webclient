@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Store } from '../../../../model/store'
+import { RootState } from '../../../../common/redux/types'
 import { connect } from 'react-redux'
 import { BrowserRouter, Route, Redirect } from 'react-router-dom'
 import QuoteSell from './QuoteSell'
@@ -54,7 +54,7 @@ class Sell extends Component<any> {
   }
 }
 
-const mapStateToProps = function(state: Store): Store {
+const mapStateToProps = function(state: RootState): RootState {
   return state
 }
 
