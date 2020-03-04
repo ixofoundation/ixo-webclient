@@ -16,16 +16,18 @@ class FilterSortButtons extends React.Component<
   {},
   { showDatePicker: boolean; checkTitle: string; categorySelections: any[] }
 > {
+  initialCategorySelections = filterSchemaIXO.categories.map(category => ({
+    category: category.title,
+    tags: [],
+  }))
+
   constructor(props) {
     super(props)
 
     this.state = {
       showDatePicker: false,
       checkTitle: ' ',
-      categorySelections: filterSchemaIXO.categories.map(category => ({
-        category: category.title,
-        tags: [],
-      })),
+      categorySelections: this.initialCategorySelections,
     }
   }
 
@@ -59,7 +61,7 @@ class FilterSortButtons extends React.Component<
     this.setId(title)
   }
 
-  handleMultipleSelect = (category: string, tag: string): void => {
+  handleSelectCategoryTag = (category: string, tag: string): void => {
     const currentCategorySelectionTags = this.state.categorySelections.find(
       selection => selection.category === category,
     ).tags
@@ -76,27 +78,53 @@ class FilterSortButtons extends React.Component<
 
     this.setState({
       categorySelections: [
-        this.state.categorySelections.find(
-          selection => selection.category == category,
+        ...this.state.categorySelections.filter(
+          selection => selection.category !== category,
         ),
         {
           category: category,
-          tags: [newCategorySelectionTags],
+          tags: [...newCategorySelectionTags],
         },
       ],
     })
+  }
 
-    /*     const tmp = this.state.selectedButtons
-    if (this.state.selectedButtons.includes(button)) {
-      this.setState({
-        selectedButtons: this.state.selectedButtons.filter(el => el !== button),
-      })
-    } else {
-      tmp.push(button)
-      this.setState({
-        selectedButtons: tmp,
-      })
-    } */
+  categoryFilterTitle = (category: string): string => {
+    const numberOfTagsSelected = this.state.categorySelections.find(
+      selection => selection.category === category,
+    ).tags.length
+
+    return numberOfTagsSelected > 0
+      ? `${category} - ${numberOfTagsSelected}`
+      : category
+  }
+
+  resetFilters = (): void => {
+    this.setState({
+      categorySelections: this.initialCategorySelections,
+    })
+  }
+
+  resetCategoryFilter = (category: string): void => {
+    this.setState({
+      categorySelections: [
+        ...this.state.categorySelections.filter(
+          selection => selection.category !== category,
+        ),
+        {
+          category: category,
+          tags: [],
+        },
+      ],
+    })
+  }
+
+  tagClassName = (category: string, tag: string): string => {
+    const isPressed = this.state.categorySelections
+      .find(selection => selection.category === category)
+      .tags.includes(tag)
+
+    return isPressed ? 'buttonPressed' : ''
   }
 
   render(): JSX.Element {
@@ -121,7 +149,7 @@ class FilterSortButtons extends React.Component<
               }
             >
               <Button onClick={(): void => this.setId(filterCategory['title'])}>
-                {filterCategory.title} - {this.state.categorySelections.length}
+                {this.categoryFilterTitle(filterCategory.title)}
               </Button>
               <FilterModal
                 className="filter-modal"
@@ -133,39 +161,43 @@ class FilterSortButtons extends React.Component<
                 }}
               >
                 <ModalItems>
-                  {filterCategory.tags.map(button => {
+                  {filterCategory.tags.map(tag => {
                     return (
                       <FilterSelectButton
-                        key={button.title}
+                        key={tag.title}
                         onClick={(): void =>
-                          this.handleMultipleSelect(
+                          this.handleSelectCategoryTag(
                             filterCategory.title,
-                            // filterCategory,
-                            button.title,
+                            tag.title,
                           )
                         }
-                        className={
-                          this.state.categorySelections.includes(button.title)
-                            ? 'buttonPressed'
-                            : ''
-                        }
+                        className={this.tagClassName(
+                          filterCategory.title,
+                          tag.title,
+                        )}
                       >
-                        <h3>{button.title}</h3>
+                        <h3>{tag.title}</h3>
                         <img
-                          alt={button.title}
-                          src={require('./IXOicons/' + button.icon)}
+                          alt={tag.title}
+                          src={require('./IXOicons/' + tag.icon)}
                         />
                       </FilterSelectButton>
                     )
                   })}
                 </ModalItems>
-                <ResetButton>Reset</ResetButton>
+                <ResetButton
+                  onClick={(): void =>
+                    this.resetCategoryFilter(filterCategory.title)
+                  }
+                >
+                  Reset
+                </ResetButton>
                 <ApplyButton>Apply</ApplyButton>
               </FilterModal>
             </ButtonWrapper>
           )
         })}
-        <Button>
+        <Button onClick={this.resetFilters}>
           <i className="icon-reset" style={{ padding: 6 }}></i>
           Reset
         </Button>
