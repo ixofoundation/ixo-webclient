@@ -1,8 +1,8 @@
 import styled from 'styled-components'
+import { deviceWidth } from '../../../../lib/commonData'
 
 export const StyledHeaderItem = styled.div`
-  flex: 1;
-  min-height: 10vh;
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: start;
@@ -22,31 +22,56 @@ export const StyledHeaderItem = styled.div`
   &:last-child {
     margin: 0;
   }
+  @media (max-width: ${deviceWidth.tablet}px) {
+    width: calc(50% - 0.5rem);
+    margin: 0;
+    margin-bottom: 1.25em;
+  }
+  @media (min-width: ${deviceWidth.tablet}px) {
+    flex: 1;
+  }
 `
 
 export const Title = styled.div`
-  font-size: 1.1875rem;
+  font-size: 0.625rem;
   line-height: 1.25;
+  @media (min-width: 480px) {
+    font-size: 1.1875rem;
+  }
 `
 
 export const Price = styled.div`
-  font-size: 1.6875rem;
+  font-size: 1.5rem;
   line-height: 1.25;
   font-weight: bold;
+  @media (min-width: 480px) {
+    font-size: 1.6875rem;
+  }
+`
+
+export const AdditionalInfo = styled.div`
+  font-family: 'Roboto' sans-serif;
 `
 
 export const ValueContainer = styled.div`
   display: flex;
   flex-direction: column;
   padding: 0.125rem;
+  flex-grow: 1;
 `
 
 export const Token = styled.div`
-  background: #73ce99;
-  font-size: 0.8rem;
-  padding: 0.1em 0.5rem;
-  border-radius: 0.3rem;
-  margin: 0.2rem 0.5rem 0 0;
-  display: inline;
   text-align: center;
+  background: #73ce99;
+  margin: 0.2rem 0.5rem 0 0;
+  display: flex;
+  align-items: center;
+  border-radius: 0.3rem;
+  span {
+    font-size: 0.8rem;
+    padding: 0.1em 0.5rem;
+  }
+  @media (max-width: ${deviceWidth.tablet}px) {
+    align-self: stretch;
+  }
 `

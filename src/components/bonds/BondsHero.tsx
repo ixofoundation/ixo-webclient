@@ -10,14 +10,12 @@ const HeroContainer = styled.div`
   background-size: cover;
   margin: 0;
   font-weight: normal;
-
-  .container,
-  .container .row {
-    height: 100%;
-  }
-
+  padding: 2rem 1.5rem;
+  display: flex;
+  flex-flow: column wrap;
   @media (min-width: ${deviceWidth.tablet}px) {
-    height: 200px;
+    flex-flow: row wrap;
+    padding: 3.75rem 5rem;
   }
 `
 
@@ -30,12 +28,15 @@ const BondsHeroHeading = styled.h1`
 `
 
 const StatusIndicator = styled.span`
-  display: block;
+  display: none;
   width: 0.75rem;
   height: 0.75rem;
   margin-right: 0.75rem;
   border-radius: 50%;
   background: ${/* eslint-disable-line */ props => props.theme.bg.green};
+  @media (min-width: ${deviceWidth.tablet}px) {
+    display: block;
+  }
 `
 
 const StatisticContainer = styled.div`
@@ -46,13 +47,26 @@ const StatisticContainer = styled.div`
   padding: 0;
 
   &:last-child {
-    justify-content: center;
     flex-direction: column;
+    justify-content: flex-start;
+    align-content: flex-start;
+    margin-top: 1rem;
   }
   i {
     font-size: 0.8125em;
   }
+  @media (min-width: ${deviceWidth.tablet}px) {
+    &.title-section {
+      width: 70%;
+    }
+    &.description-section {
+      width: 30%;
+      justify-content: center;
+      margin-top: 0;
+    }
+  }
 `
+
 const OutcomeWrapper = styled.div`
   display: flex;
   flex-flow: row nowrap;
@@ -61,7 +75,7 @@ const OutcomeWrapper = styled.div`
 `
 
 const Outcome = styled.div`
-  font-family: Roboto Condensed;
+  font-family: 'Roboto Condensed', sans-serif;
   font-size: 0.875rem;
   line-height: 1.2;
   letter-spacing: 0.3px;
@@ -75,6 +89,11 @@ const Outcome = styled.div`
   i {
     font-size: 1.5em;
     margin-right: 0.25rem;
+  }
+  @media (max-width: ${deviceWidth.tablet}px) {
+    &:not(:first-child) {
+      display: none;
+    }
   }
 `
 
@@ -92,36 +111,32 @@ export class BondsHero extends React.Component<{}, {}> {
     return (
       <HeroContainer>
         <HeaderSubTabs />
-        <div className="container">
-          <div className="row">
-            <StatisticContainer className="col-8">
-              <BondsHeroHeading>
-                <StatusIndicator className="active" />
-                Togo water project
-              </BondsHeroHeading>
-              <OutcomeWrapper>
-                {this.outcomes.map(outcome => (
-                  <Outcome key={outcome.title}>
-                    <i className={outcome.iconClass}></i>
-                    {outcome.title}
-                  </Outcome>
-                ))}
-              </OutcomeWrapper>
-            </StatisticContainer>
-            <StatisticContainer className="col-4">
-              <div>
-                <strong>Created:</strong> 24 March 18
-              </div>
-              <div>
-                <strong>By:</strong> Water for Africa
-              </div>
-              <div>
-                <i className="icon-location" />
-                &nbsp; Uganda
-              </div>
-            </StatisticContainer>
+        <StatisticContainer className="title-section">
+          <BondsHeroHeading>
+            <StatusIndicator className="active" />
+            Togo water project
+          </BondsHeroHeading>
+          <OutcomeWrapper>
+            {this.outcomes.map(outcome => (
+              <Outcome key={outcome.title}>
+                <i className={outcome.iconClass}></i>
+                {outcome.title}
+              </Outcome>
+            ))}
+          </OutcomeWrapper>
+        </StatisticContainer>
+        <StatisticContainer className="description-section">
+          <div>
+            <strong>Created:</strong> 24 March 18
           </div>
-        </div>
+          <div>
+            <strong>By:</strong> Water for Africa
+          </div>
+          <div>
+            <i className="icon-location" />
+            &nbsp; Uganda
+          </div>
+        </StatisticContainer>
       </HeroContainer>
     )
   }
