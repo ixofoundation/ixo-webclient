@@ -14,14 +14,18 @@ import {
 
 class FilterSortButtons extends React.Component<
   {},
-  { showDatePicker: boolean; checkTitle: string; selectedButtons: string[] }
+  { showDatePicker: boolean; checkTitle: string; categorySelections: any[] }
 > {
   constructor(props) {
     super(props)
+
     this.state = {
       showDatePicker: false,
       checkTitle: ' ',
-      selectedButtons: [],
+      categorySelections: filterSchemaIXO.categories.map(category => ({
+        category: category.title,
+        tags: [],
+      })),
     }
   }
 
@@ -55,8 +59,34 @@ class FilterSortButtons extends React.Component<
     this.setId(title)
   }
 
-  handleMultipleSelect = (button): void => {
-    const tmp = this.state.selectedButtons
+  handleMultipleSelect = (category: string, tag: string): void => {
+    const currentCategorySelectionTags = this.state.categorySelections.find(
+      selection => selection.category === category,
+    ).tags
+
+    let newCategorySelectionTags
+
+    if (currentCategorySelectionTags.includes(tag)) {
+      newCategorySelectionTags = [
+        ...currentCategorySelectionTags.filter(val => val !== tag),
+      ]
+    } else {
+      newCategorySelectionTags = [...currentCategorySelectionTags, tag]
+    }
+
+    this.setState({
+      categorySelections: [
+        this.state.categorySelections.find(
+          selection => selection.category == category,
+        ),
+        {
+          category: category,
+          tags: [newCategorySelectionTags],
+        },
+      ],
+    })
+
+    /*     const tmp = this.state.selectedButtons
     if (this.state.selectedButtons.includes(button)) {
       this.setState({
         selectedButtons: this.state.selectedButtons.filter(el => el !== button),
@@ -66,7 +96,7 @@ class FilterSortButtons extends React.Component<
       this.setState({
         selectedButtons: tmp,
       })
-    }
+    } */
   }
 
   render(): JSX.Element {
@@ -91,7 +121,7 @@ class FilterSortButtons extends React.Component<
               }
             >
               <Button onClick={(): void => this.setId(filterCategory['title'])}>
-                {filterCategory.title}
+                {filterCategory.title} - {this.state.categorySelections.length}
               </Button>
               <FilterModal
                 className="filter-modal"
@@ -108,10 +138,14 @@ class FilterSortButtons extends React.Component<
                       <FilterSelectButton
                         key={button.title}
                         onClick={(): void =>
-                          this.handleMultipleSelect(button.title)
+                          this.handleMultipleSelect(
+                            filterCategory.title,
+                            // filterCategory,
+                            button.title,
+                          )
                         }
                         className={
-                          this.state.selectedButtons.includes(button.title)
+                          this.state.categorySelections.includes(button.title)
                             ? 'buttonPressed'
                             : ''
                         }
