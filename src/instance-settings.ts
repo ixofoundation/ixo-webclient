@@ -1,6 +1,6 @@
 import { StatType } from './types/models'
 import filterSchemaIDCC from '../src/lib/json/filterSchemaIDCC.json'
-//import filterSchemaIXO from '../src/lib/json/filterSchemaIXO.json'
+import filterSchemaIXO from '../src/lib/json/filterSchemaIXO.json'
 
 interface Schema {
   ['@context']: string
@@ -26,7 +26,7 @@ export const getFilterSchema = (): Schema => {
     case 'IDCC':
       return filterSchemaIDCC
   }
-  return filterSchemaIDCC
+  return filterSchemaIXO
 }
 
 export const getLogoImageSrc = (): any => {
