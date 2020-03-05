@@ -10,7 +10,7 @@ import {
 } from './Style'
 
 class DatePicker extends React.Component<
-  {},
+  { onChange },
   {
     startDate: null
     endDate: null
@@ -30,6 +30,21 @@ class DatePicker extends React.Component<
       onDatesChange: null,
       renderControls: null,
     }
+  }
+
+  onDatesChange({ startDate, endDate }): void {
+    this.props.onChange(startDate, endDate)
+    this.setState({
+      startDate: startDate,
+      endDate: endDate,
+    })
+  }
+
+  onChange = (startDate, endDate): void => {
+    this.setState({
+      startDate: startDate,
+      endDate: endDate,
+    })
   }
 
   render(): JSX.Element {

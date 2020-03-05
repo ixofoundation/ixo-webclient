@@ -18,7 +18,13 @@ const schema = getFilterSchema()
 
 class FilterSortButtons extends React.Component<
   {},
-  { showDatePicker: boolean; checkTitle: string; categorySelections: any[] }
+  {
+    showDatePicker: boolean
+    checkTitle: string
+    categorySelections: any[]
+    startDate: ''
+    endDate: ''
+  }
 > {
   initialCategorySelections = schema.categories.map(category => ({
     category: category.title,
@@ -32,7 +38,16 @@ class FilterSortButtons extends React.Component<
       showDatePicker: false,
       checkTitle: ' ',
       categorySelections: this.initialCategorySelections,
+      startDate: '',
+      endDate: '',
     }
+  }
+
+  handleDateChange = (startDate, endDate): void => {
+    this.setState({
+      startDate: startDate,
+      endDate: endDate,
+    })
   }
 
   toggleShowDatePicker = (e): void => {
@@ -196,7 +211,10 @@ class FilterSortButtons extends React.Component<
               <i className="icon-reset" style={{ padding: 6 }}></i>
               Reset
             </Button>
-            {this.state.showDatePicker ? <DatePicker /> : null}
+            {this.state.showDatePicker ? (
+              <DatePicker onChange={this.handleDateChange} />
+            ) : null}
+            {console.log(this.state.endDate)}
           </div>
         </FiltersWrap>
       </>
