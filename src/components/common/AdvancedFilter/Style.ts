@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { deviceWidth } from '../../../lib/commonData'
 
 export const FiltersWrap = styled.div`
   font-family: 'Roboto' sans-serif;
@@ -14,6 +15,11 @@ export const FiltersWrap = styled.div`
     flex-grow: 1;
     display: flex;
     align-items: flex-end;
+    @media (max-width: ${deviceWidth.tablet}px) {
+      flex-flow: row wrap;
+      width: 100%;
+      flex: 0 1 auto;
+    }
   }
 `
 
