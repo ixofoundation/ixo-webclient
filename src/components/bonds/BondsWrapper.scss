@@ -67,8 +67,12 @@ hr {
 
   .tablinks {
     background-color: $tab-title-background-color;
-    display: flex;
-    justify-content: space-between;
+    display: none;
+
+    @media screen and (min-width: 480px) {
+      display: flex;
+      justify-content: space-between;
+    }
 
     &.sidebar {
       flex-direction: column;

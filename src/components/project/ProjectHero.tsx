@@ -6,6 +6,7 @@ import MediaQuery from 'react-responsive'
 import { Link, NavLink } from 'react-router-dom'
 import { getCountryName } from '../../common/utils/formatters'
 import { MatchType, AgentRoles } from '../../types/models'
+import * as instanceSettings from '../../instance-settings'
 
 const SingleSDG = styled.a`
   &&& {
@@ -70,8 +71,7 @@ const TabsController = styled.div`
 `
 
 const HeroContainer = styled.div`
-  background: url(${require('../../assets/images/heroBg.jpg')}) no-repeat center
-    top;
+  background: url(${instanceSettings.getBGImageSrc()}) no-repeat center top;
   background-size: cover;
   margin: 0;
   position: relative;
