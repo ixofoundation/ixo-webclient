@@ -5,6 +5,7 @@ import { Fragment } from 'react'
 import { deviceWidth } from '../../lib/commonData'
 import MediaQuery from 'react-responsive'
 import { getIxoWorldRoute } from '../../common/utils/formatters'
+import * as instanceSettings from '../../instance-settings'
 
 const HeaderLink = styled(NavLink)`
 	color: white;
@@ -253,7 +254,7 @@ export class HeaderLeft extends React.Component<ParentProps> {
             <a href={getIxoWorldRoute('')}>
               <IXOLogo
                 alt="IXO Logo"
-                src={require('../../assets/images/ixo-logo.svg')}
+                src={instanceSettings.getLogoImageSrc()}
               />
             </a>
           </div>
