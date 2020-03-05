@@ -11,6 +11,7 @@ export const SearchWrapper = styled.div`
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   font-family: Roboto, sans-serif;
   font-weight: 400;
+  z-index: 9;
   > * {
     flex: 1;
     border-radius: 4px;
@@ -85,6 +86,7 @@ export const SearchModal = styled.div`
   background: white;
   width: 100%;
   padding: 1.5em 2.875em 4.5em;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 `
 
 export const SearchHeading = styled.h3`
