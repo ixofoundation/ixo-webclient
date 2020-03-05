@@ -11,6 +11,7 @@ import { contentType, UserInfo } from '../../types/models'
 import { ProjectsDashboard } from './ProjectsDashboard'
 import { explorerSocket } from '../helpers/explorerSocket'
 import FilterSortButtons from '../common/AdvancedFilter/FilterSortButtons'
+import { deviceWidth } from '../../lib/commonData'
 
 const Container = styled.div`
   display: flex;
@@ -47,7 +48,10 @@ const ProjectsContainer = styled.div`
   }
 
   > .container {
-    padding: 76px 0 50px;
+    padding: 2rem 0 3.125rem;
+    @media (min-width: ${deviceWidth.tablet}px) {
+      padding: 4.5rem 0 3.125rem;
+    }
   }
 `
 
