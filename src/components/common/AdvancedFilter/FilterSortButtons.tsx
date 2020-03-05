@@ -176,7 +176,7 @@ class FilterSortButtons extends React.Component<
                             <h3>{tag}</h3>
                             <img
                               alt={tag}
-                              src={require('./IDCCicons/' + filterTags.icon)}
+                              src={require('./icons/' + filterTags.icon)}
                             />
                           </FilterSelectButton>
                         )
