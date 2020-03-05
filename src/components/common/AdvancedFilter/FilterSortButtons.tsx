@@ -1,6 +1,5 @@
 import * as React from 'react'
 import DatePicker from './DatePicker'
-import filterSchemaIXO from '../../../lib/json/filterSchemaIXO.json'
 import {
   FiltersWrap,
   FilterInfo,
@@ -13,11 +12,15 @@ import {
   ApplyButton,
 } from './Style'
 
+import { getFilterSchema } from '../../../../src/instance-settings'
+
+const schema = getFilterSchema()
+
 class FilterSortButtons extends React.Component<
   {},
   { showDatePicker: boolean; checkTitle: string; categorySelections: any[] }
 > {
-  initialCategorySelections = filterSchemaIXO.categories.map(category => ({
+  initialCategorySelections = schema.categories.map(category => ({
     category: category.title,
     tags: [],
   }))
@@ -138,7 +141,7 @@ class FilterSortButtons extends React.Component<
               <i className="icon-calendar-sort" style={{ padding: 6 }}></i>
               Dates
             </Button>
-            {filterSchemaIXO.categories.map(filterCategory => {
+            {schema.categories.map(filterCategory => {
               const category = filterCategory.title
               return (
                 <ButtonWrapper
@@ -173,7 +176,7 @@ class FilterSortButtons extends React.Component<
                             <h3>{tag}</h3>
                             <img
                               alt={tag}
-                              src={require('./IXOicons/' + filterTags.icon)}
+                              src={require('./IDCCicons/' + filterTags.icon)}
                             />
                           </FilterSelectButton>
                         )
