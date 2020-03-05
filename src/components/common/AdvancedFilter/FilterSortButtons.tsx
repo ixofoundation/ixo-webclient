@@ -2,7 +2,8 @@ import * as React from 'react'
 import DatePicker from './DatePicker'
 import filterSchemaIXO from '../../../lib/json/filterSchemaIXO.json'
 import {
-  PositionController,
+  FiltersWrap,
+  FilterInfo,
   Button,
   ButtonWrapper,
   FilterModal,
@@ -129,69 +130,73 @@ class FilterSortButtons extends React.Component<
 
   render(): JSX.Element {
     return (
-      <PositionController>
-        <Button onClick={this.toggleShowDatePicker}>
-          <i className="icon-calendar-sort" style={{ padding: 6 }}></i>
-          Dates
-        </Button>
-
-        {filterSchemaIXO.categories.map(filterCategory => {
-          const category = filterCategory.title
-          return (
-            <ButtonWrapper
-              key={category}
-              className={`button-wrapper ${
-                category === this.state.checkTitle ? 'active' : ''
-              }`}
-              onClick={(e): void => this.handleClose(e, category)}
-            >
-              <Button onClick={(): void => this.setId(category)}>
-                {this.categoryFilterTitle(category)}
-              </Button>
-
-              <FilterModal
-                className="filter-modal"
-                style={{
-                  display:
-                    category === this.state.checkTitle ? 'block' : 'none',
-                }}
-              >
-                <ModalItems>
-                  {filterCategory.tags.map(filterTags => {
-                    const tag = filterTags.title
-                    return (
-                      <FilterSelectButton
-                        key={tag}
-                        onClick={(): void =>
-                          this.handleSelectCategoryTag(category, tag)
-                        }
-                        className={this.tagClassName(category, tag)}
-                      >
-                        <h3>{tag}</h3>
-                        <img
-                          alt={tag}
-                          src={require('./IXOicons/' + filterTags.icon)}
-                        />
-                      </FilterSelectButton>
-                    )
-                  })}
-                </ModalItems>
-                <ResetButton
-                  onClick={(): void => this.resetCategoryFilter(category)}
+      <>
+        <FiltersWrap>
+          <FilterInfo>All Projects</FilterInfo>
+          <div className="filters">
+            <Button onClick={this.toggleShowDatePicker}>
+              <i className="icon-calendar-sort" style={{ padding: 6 }}></i>
+              Dates
+            </Button>
+            {filterSchemaIXO.categories.map(filterCategory => {
+              const category = filterCategory.title
+              return (
+                <ButtonWrapper
+                  key={category}
+                  className={`button-wrapper ${
+                    category === this.state.checkTitle ? 'active' : ''
+                  }`}
+                  onClick={(e): void => this.handleClose(e, category)}
                 >
-                  Reset
-                </ResetButton>
-                <ApplyButton>Apply</ApplyButton>
-              </FilterModal>
-            </ButtonWrapper>
-          )
-        })}
-        <Button onClick={this.resetFilters}>
-          <i className="icon-reset" style={{ padding: 6 }}></i>
-          Reset
-        </Button>
-        {this.state.showDatePicker ? <DatePicker /> : null}
-      </PositionController>
+                  <Button onClick={(): void => this.setId(category)}>
+                    {this.categoryFilterTitle(category)}
+                  </Button>
+
+                  <FilterModal
+                    className="filter-modal"
+                    style={{
+                      display:
+                        category === this.state.checkTitle ? 'block' : 'none',
+                    }}
+                  >
+                    <ModalItems>
+                      {filterCategory.tags.map(filterTags => {
+                        const tag = filterTags.title
+                        return (
+                          <FilterSelectButton
+                            key={tag}
+                            onClick={(): void =>
+                              this.handleSelectCategoryTag(category, tag)
+                            }
+                            className={this.tagClassName(category, tag)}
+                          >
+                            <h3>{tag}</h3>
+                            <img
+                              alt={tag}
+                              src={require('./IXOicons/' + filterTags.icon)}
+                            />
+                          </FilterSelectButton>
+                        )
+                      })}
+                    </ModalItems>
+                    <ResetButton
+                      onClick={(): void => this.resetCategoryFilter(category)}
+                    >
+                      Reset
+                    </ResetButton>
+                    <ApplyButton>Apply</ApplyButton>
+                  </FilterModal>
+                </ButtonWrapper>
+              )
+            })}
+            <Button onClick={this.resetFilters}>
+              <i className="icon-reset" style={{ padding: 6 }}></i>
+              Reset
+            </Button>
+            {this.state.showDatePicker ? <DatePicker /> : null}
+          </div>
+        </FiltersWrap>
+      </>
     )
   }
 }
