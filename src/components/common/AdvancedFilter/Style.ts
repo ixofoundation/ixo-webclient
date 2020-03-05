@@ -94,6 +94,8 @@ export const FilterModal = styled.div`
 export const ModalItems = styled.div`
   display: flex;
   flex-flow: row wrap;
+  height: 400px;
+  overflow: scroll;
 `
 
 export const FilterSelectButton = styled.div`
