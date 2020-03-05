@@ -94,6 +94,8 @@ export const FilterModal = styled.div`
 export const ModalItems = styled.div`
   display: flex;
   flex-flow: row wrap;
+  height: 400px;
+  overflow: scroll;
 `
 
 export const FilterSelectButton = styled.div`
@@ -182,6 +184,13 @@ export const FilterSelectButton = styled.div`
   }
 `
 
+export const FilterAmount = styled.div`
+  :before {
+    content: '·';
+    margin: 0 0.25rem;
+  }
+`
+
 export const ResetButton = styled.div`
   position: absolute;
   left: 12%;
@@ -216,7 +225,6 @@ export const ApplyButton = styled.div`
   opacity: 0.3;
   border-radius: 4px;
 `
-
 export const DatePickerModal = styled.div`
   position: absolute;
   background: #ffffff;
@@ -224,7 +232,9 @@ export const DatePickerModal = styled.div`
   border-radius: 4px;
   width: 619px;
   height: 425px;
-  left: -36%;
+  left: 30%;
+  top: 41%;
+  z-index: 1;
   :after {
     content: '';
     position: absolute;
