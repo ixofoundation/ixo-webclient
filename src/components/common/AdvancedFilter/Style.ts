@@ -160,6 +160,13 @@ export const FilterSelectButton = styled.div`
   }
 `
 
+export const FilterAmount = styled.div`
+  :before {
+    content: '·';
+    margin: 0 0.25rem;
+  }
+`
+
 export const ResetButton = styled.div`
   position: absolute;
   left: 12%;

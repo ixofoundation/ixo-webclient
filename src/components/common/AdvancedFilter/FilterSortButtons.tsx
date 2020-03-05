@@ -136,59 +136,48 @@ class FilterSortButtons extends React.Component<
         </Button>
 
         {filterSchemaIXO.categories.map(filterCategory => {
+          const category = filterCategory.title
           return (
             <ButtonWrapper
-              key={filterCategory['title']}
+              key={category}
               className={`button-wrapper ${
-                filterCategory['title'] === this.state.checkTitle
-                  ? 'active'
-                  : ''
+                category === this.state.checkTitle ? 'active' : ''
               }`}
-              onClick={(e): void =>
-                this.handleClose(e, filterCategory['title'])
-              }
+              onClick={(e): void => this.handleClose(e, category)}
             >
-              <Button onClick={(): void => this.setId(filterCategory['title'])}>
-                {this.categoryFilterTitle(filterCategory.title)}
+              <Button onClick={(): void => this.setId(category)}>
+                {this.categoryFilterTitle(category)}
               </Button>
+
               <FilterModal
                 className="filter-modal"
                 style={{
                   display:
-                    filterCategory['title'] === this.state.checkTitle
-                      ? 'block'
-                      : 'none',
+                    category === this.state.checkTitle ? 'block' : 'none',
                 }}
               >
                 <ModalItems>
-                  {filterCategory.tags.map(tag => {
+                  {filterCategory.tags.map(filterTags => {
+                    const tag = filterTags.title
                     return (
                       <FilterSelectButton
-                        key={tag.title}
+                        key={tag}
                         onClick={(): void =>
-                          this.handleSelectCategoryTag(
-                            filterCategory.title,
-                            tag.title,
-                          )
+                          this.handleSelectCategoryTag(category, tag)
                         }
-                        className={this.tagClassName(
-                          filterCategory.title,
-                          tag.title,
-                        )}
+                        className={this.tagClassName(category, tag)}
                       >
-                        <h3>{tag.title}</h3>
+                        <h3>{tag}</h3>
                         <img
-                          alt={tag.title}
-                          src={require('./IXOicons/' + tag.icon)}
+                          alt={tag}
+                          src={require('./IXOicons/' + filterTags.icon)}
                         />
                       </FilterSelectButton>
                     )
                   })}
                 </ModalItems>
                 <ResetButton
-                  onClick={(): void =>
-                    this.resetCategoryFilter(filterCategory.title)
-                  }
+                  onClick={(): void => this.resetCategoryFilter(category)}
                 >
                   Reset
                 </ResetButton>
