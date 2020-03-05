@@ -8,6 +8,7 @@ import {
   FilterModal,
   ModalItems,
   FilterSelectButton,
+  ModalButtons,
   ResetButton,
   ApplyButton,
 } from './Style'
@@ -151,7 +152,16 @@ class FilterSortButtons extends React.Component<
                   }`}
                   onClick={(e): void => this.handleClose(e, category)}
                 >
-                  <Button onClick={(): void => this.setId(category)}>
+                  <Button
+                    onClick={(): void => this.setId(category)}
+                    className={
+                      this.state.categorySelections.find(
+                        selection => selection.category === category,
+                      ).tags.length > 0
+                        ? 'itemsSelected'
+                        : ''
+                    }
+                  >
                     {this.categoryFilterTitle(category)}
                   </Button>
 
@@ -182,12 +192,14 @@ class FilterSortButtons extends React.Component<
                         )
                       })}
                     </ModalItems>
-                    <ResetButton
-                      onClick={(): void => this.resetCategoryFilter(category)}
-                    >
-                      Reset
-                    </ResetButton>
-                    <ApplyButton>Apply</ApplyButton>
+                    <ModalButtons>
+                      <ResetButton
+                        onClick={(): void => this.resetCategoryFilter(category)}
+                      >
+                        Reset
+                      </ResetButton>
+                      <ApplyButton>Apply</ApplyButton>
+                    </ModalButtons>
                   </FilterModal>
                 </ButtonWrapper>
               )
