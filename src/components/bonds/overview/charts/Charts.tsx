@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import { Line } from 'react-chartjs-2'
+import styled from 'styled-components'
+import { deviceWidth } from '../../../../lib/commonData'
 
 const data = {
   labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
@@ -17,10 +19,16 @@ const data = {
   ],
 }
 
+const ChartStyles = styled.div`
+  @media (max-width: ${deviceWidth.tablet}px) {
+    display: none;
+  }
+`
+
 export class Charts extends Component {
   render(): JSX.Element {
     return (
-      <div className="BondsWrapper_panel__chrome">
+      <ChartStyles className="BondsWrapper_panel__chrome hide-on-mobile">
         <div className="BondsWrapper_panel__content">
           <b>Charts</b>
 
@@ -33,7 +41,7 @@ export class Charts extends Component {
             }}
           />
         </div>
-      </div>
+      </ChartStyles>
     )
   }
 }

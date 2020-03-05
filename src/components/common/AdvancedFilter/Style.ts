@@ -1,11 +1,33 @@
 import styled from 'styled-components'
+import { deviceWidth } from '../../../lib/commonData'
 
-export const PositionController = styled.div`
-  position: absolute;
-  right: 5%;
-  top: 35%;
-  margin: 6px;
+export const FiltersWrap = styled.div`
+  font-family: 'Roboto' sans-serif;
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 2.5rem;
+  > * {
+    flex: 1;
+  }
+  .filters {
+    flex-grow: 1;
+    display: flex;
+    align-items: flex-end;
+    @media (max-width: ${deviceWidth.tablet}px) {
+      flex-flow: row wrap;
+      width: 100%;
+      flex: 0 1 auto;
+    }
+  }
+`
+
+export const FilterInfo = styled.h3`
+  font-style: normal;
   font-weight: bold;
+  font-size: 1.5rem;
+  line-height: 1.2;
 `
 
 export const Button = styled.button`
@@ -15,7 +37,7 @@ export const Button = styled.button`
   margin: 8px;
   font-weight: 500;
   font-style: normal;
-  font-family: Roboto;
+  font-family: Roboto, sans-serif;
   font-size: 16px;
   padding: 4px 6px;
   border-radius: 4px;
@@ -167,7 +189,6 @@ export const ResetButton = styled.div`
   top: 88%;
   bottom: 62.94%;
   opacity: 0.3;
-  font-family: Roboto;
   font-style: normal;
   font-weight: 500;
   font-size: 16px;
@@ -182,7 +203,6 @@ export const ApplyButton = styled.div`
   left: 60%;
   top: 81%;
   bottom: 30.04%;
-  font-family: Roboto;
   font-style: normal;
   font-weight: bold;
   font-size: 16px;
@@ -227,7 +247,6 @@ export const ResetButtonDatePicker = styled.div`
   top: 89%;
   bottom: 62.94%;
   opacity: 0.3;
-  font-family: Roboto;
   font-style: normal;
   font-weight: 500;
   font-size: 16px;
@@ -241,7 +260,6 @@ export const ApplyButtonDatePicker = styled.div`
   left: 74%;
   top: 83%;
   bottom: 30.04%;
-  font-family: Roboto;
   font-style: normal;
   font-weight: bold;
   font-size: 16px;
