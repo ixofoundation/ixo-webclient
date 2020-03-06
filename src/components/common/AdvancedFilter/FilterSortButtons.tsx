@@ -69,7 +69,6 @@ class FilterSortButtons extends React.Component<
   }
 
   changeDateText = (): void => {
-    console.log('CLICKED')
     const { startDate, endDate } = this.state
     const dateString = `${startDate} - ${endDate}`
     !startDate && !endDate
