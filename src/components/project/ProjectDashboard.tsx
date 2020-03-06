@@ -134,6 +134,8 @@ export const ProjectDashboard: React.SFC<ParentProps> = ({
     return new LatLng(0, 0)
   }
 
+  console.log(claims)
+
   return (
     <LayoutWrapper>
       <Container className="row">

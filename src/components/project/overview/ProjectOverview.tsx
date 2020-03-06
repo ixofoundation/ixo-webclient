@@ -676,7 +676,9 @@ export const ProjectOverview: React.SFC<Props> = props => {
           </div>
         </div>
       </OverviewContainer>
-      <ProjectFounder founder={props.project.founder} />
+      {props.project.founder && props.project.founder.name !== '' && (
+        <ProjectFounder founder={props.project.founder} />
+      )}
     </div>
   )
 }

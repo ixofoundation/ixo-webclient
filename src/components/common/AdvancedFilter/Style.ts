@@ -32,13 +32,8 @@ export const FilterInfo = styled.h3`
 
 export const Button = styled.button`
   background-color: white;
-  border-color: grey;
-  border-width: 1px;
+  border: 1px solid transparent;
   margin: 8px;
-  font-weight: 500;
-  font-style: normal;
-  font-family: Roboto, sans-serif;
-  font-size: 16px;
   padding: 4px 6px;
   border-radius: 4px;
   align-items: center;
@@ -46,14 +41,17 @@ export const Button = styled.button`
   height: 40px;
   width: 100px;
   &:hover {
-    border-color: blue;
+    border-color: #000;
+  }
+  &.itemsSelected {
+    border-color: #39c3e6;
   }
 `
 
 export const ButtonWrapper = styled.div`
   position: relative;
   display: inline-block;
-  z-index: 1;
+  z-index: 3;
   :after {
     position: fixed;
     top: 0;
@@ -74,7 +72,6 @@ export const FilterModal = styled.div`
   box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.15);
   border-radius: 4px;
   width: 428px;
-  min-height: 406px;
   left: -135%;
   :after {
     content: '';
@@ -94,10 +91,13 @@ export const FilterModal = styled.div`
 export const ModalItems = styled.div`
   display: flex;
   flex-flow: row wrap;
+  max-height: 400px;
+  overflow: scroll;
 `
 
 export const FilterSelectButton = styled.div`
   width: calc(100% / 3);
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -105,13 +105,13 @@ export const FilterSelectButton = styled.div`
   color: white;
   text-align: center;
   padding: 1rem;
+  background: #db6169;
+  border: 4px solid transparent;
   h3 {
     font-family: 'Roboto' sans-serif;
     font-size: 0.875rem;
     line-height: 1;
   }
-  background: #db6169;
-  border: 2px solid #db6169;
   img {
     max-width: 100%;
     width: 4rem;
@@ -119,63 +119,48 @@ export const FilterSelectButton = styled.div`
   }
   &:nth-child(2) {
     background: #e0bb72;
-    border-color: #e0bb72;
   }
   &:nth-child(3) {
     background: #81b276;
-    border-color: #81b276;
   }
   &:nth-child(4) {
     background: #c75d61;
-    border-color: #c75d61;
   }
   &:nth-child(5) {
     background: #e17161;
-    border-color: #e17161;
   }
   &:nth-child(6) {
     background: #7dcae9;
-    border-color: #7dcae9;
   }
   &:nth-child(7) {
     background: #f6d16c;
-    border-color: #f6d16c;
   }
   &:nth-child(8) {
     background: #aa566b;
-    border-color: #aa566b;
   }
   &:nth-child(9) {
     background: #e78f66;
-    border-color: #e78f66;
   }
   &:nth-child(10) {
     background: #d75d87;
-    border-color: #d75d87;
   }
   &:nth-child(11) {
     background: #eeb36d;
-    border-color: #eeb36d;
   }
   &:nth-child(12) {
     background: #c7a768;
-    border-color: #c7a768;
   }
   &:nth-child(13) {
     background: #739771;
-    border-color: #739771;
   }
   &:nth-child(14) {
     background: #6eabd7;
-    border-color: #6eabd7;
   }
   &:nth-child(15) {
     background: #5d88b0;
-    border-color: #5d88b0;
   }
   &:nth-child(16) {
     background: #5d88b0;
-    border-color: #5d88b0;
   }
   &.buttonPressed {
     border: 2px solid #fff;
@@ -189,6 +174,7 @@ export const FilterAmount = styled.div`
   }
 `
 
+<<<<<<< HEAD
 export const ResetButton = styled.div`
   position: absolute;
   left: 12%;
@@ -200,28 +186,30 @@ export const ResetButton = styled.div`
   font-weight: 500;
   font-size: 16px;
   line-height: 19px;
+=======
+export const ModalButtons = styled.div`
+>>>>>>> dev
   display: flex;
-  align-items: center;
-  border-radius: 4px;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  margin-top: 2.25rem;
+  line-height: 1.2;
+  button {
+    border: none !important;
+    border-radius: 4px;
+  }
 `
 
-export const ApplyButton = styled.div`
-  position: absolute;
-  left: 60%;
-  top: 81%;
-  bottom: 30.04%;
-  font-style: normal;
-  font-weight: bold;
-  font-size: 16px;
-  line-height: 19px;
-  width: 120px;
-  height: 50px;
+export const ResetButton = styled.button`
+  background: transparent;
+  padding: 1rem 0;
+`
+
+export const ApplyButton = styled.button`
+  padding: 1rem 2rem;
   background: #04d0fb;
+  background: linear-gradient(180deg, #04d0fb 0%, #49bfe0 100%);
   color: white;
-  text-align: center;
-  padding: 1rem;
-  opacity: 0.3;
-  border-radius: 4px;
 `
 export const DatePickerModal = styled.div`
   position: absolute;
@@ -230,9 +218,15 @@ export const DatePickerModal = styled.div`
   border-radius: 4px;
   width: 619px;
   height: 425px;
+<<<<<<< HEAD
   left: 25%;
   top: 41%;
   z-index: 1;
+=======
+  left: 30%;
+  top: 41%;
+  z-index: 3;
+>>>>>>> dev
   :after {
     content: '';
     position: absolute;
