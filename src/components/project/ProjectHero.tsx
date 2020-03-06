@@ -200,7 +200,7 @@ export const ProjectHero: React.SFC<Props> = ({
     {
       iconClass: 'icon-impacts',
       path: `/projects/${match.params.projectDID}/detail`,
-      title: 'PERFORMNACE',
+      title: 'PERFORMANCE',
     },
     {
       iconClass: 'icon-funding',

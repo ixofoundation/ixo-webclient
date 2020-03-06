@@ -5,13 +5,19 @@ import { RootState } from '../../../common/redux/types'
 import { getBalances as getAccountBalances } from '../../../modules/account/account.actions'
 import { getBalances as getBondBalances } from '../../../modules/bond/bond.actions'
 import { tokenBalance } from '../../../modules/account/account.utils'
+import { deviceWidth } from '../../../lib/commonData'
 
 import styled from 'styled-components'
 
 const StyledHeader = styled.header`
-  margin: 2.5rem;
+  margin: 1.25rem;
   display: flex;
   flex-flow: row wrap;
+  justify-content: space-between;
+  @media (min-width: ${deviceWidth.tablet}px) {
+    justify-content: flex-start;
+    margin: 2.5rem;
+  }
 `
 
 const INTERVAL_LENGTH = 6000

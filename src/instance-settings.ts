@@ -1,4 +1,33 @@
 import { StatType } from './types/models'
+import filterSchemaIDCC from '../src/lib/json/filterSchemaIDCC.json'
+import filterSchemaIXO from '../src/lib/json/filterSchemaIXO.json'
+
+interface Schema {
+  ['@context']: string
+  ['@type']: string
+  categories: Category[]
+}
+
+interface Category {
+  ['@type']: string
+  title: string
+  tags: Tag[]
+}
+
+interface Tag {
+  ['@type']: string
+  title: string
+  icon: string
+  color?: string
+}
+
+export const getFilterSchema = (): Schema => {
+  switch (process.env.REACT_APP_NAME) {
+    case 'IDCC':
+      return filterSchemaIDCC
+  }
+  return filterSchemaIXO
+}
 
 export const getLogoImageSrc = (): any => {
   switch (process.env.REACT_APP_NAME) {
