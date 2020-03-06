@@ -170,13 +170,13 @@ class FilterSortButtons extends React.Component<
   }
 
   render(): JSX.Element {
-    //, startDate, endDate
-    const { startDate, endDate } = this.state
-    let { dateText } = this.state
-    startDate ? (dateText = ` ${startDate} - select `) : dateText
+    const { startDate, endDate, dateText } = this.state
+    startDate
+      ? this.setState({ dateText: ` ${startDate} - select ` })
+      : this.setState({ dateText })
     startDate && endDate
-      ? (dateText = ` ${startDate} - ${endDate} `)
-      : ` ${startDate} - select`
+      ? this.setState({ dateText: ` ${startDate} - ${endDate} ` })
+      : this.setState({ dateText: ` ${startDate} - select` })
 
     return (
       <>
