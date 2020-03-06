@@ -1,5 +1,6 @@
 import * as React from 'react'
 import DatePicker from './DatePicker'
+
 import {
   FiltersWrap,
   FilterInfo,
@@ -11,6 +12,8 @@ import {
   ModalButtons,
   ResetButton,
   ApplyButton,
+  ResetButtonDatePicker,
+  ApplyButtonDatePicker,
 } from './Style'
 
 import { getFilterSchema } from '../../../../src/instance-settings'
@@ -25,6 +28,7 @@ class FilterSortButtons extends React.Component<
     categorySelections: any[]
     startDate: ''
     endDate: ''
+    dateText: string
   }
 > {
   initialCategorySelections = schema.categories.map(category => ({
@@ -41,14 +45,8 @@ class FilterSortButtons extends React.Component<
       categorySelections: this.initialCategorySelections,
       startDate: '',
       endDate: '',
+      dateText: 'Dates',
     }
-  }
-
-  handleDateChange = (startDate, endDate): void => {
-    this.setState({
-      startDate: startDate,
-      endDate: endDate,
-    })
   }
 
   toggleShowDatePicker = (e): void => {
@@ -57,6 +55,30 @@ class FilterSortButtons extends React.Component<
       showDatePicker: !this.state.showDatePicker,
       checkTitle: ' ',
     })
+  }
+
+  handleDateChange = (startDate, endDate): void => {
+    endDate
+      ? this.setState({
+          startDate: startDate.format('DD-MMM-YYYY'),
+          endDate: endDate.format('DD-MMM-YYYY'),
+        })
+      : this.setState({
+          startDate: startDate.format('DD-MMM-YYYY'),
+        })
+  }
+
+  changeDateText = (): void => {
+    console.log('CLICKED')
+    const { startDate, endDate } = this.state
+    const dateString = `${startDate} - ${endDate}`
+    !startDate && !endDate
+      ? this.setState({
+          dateText: 'Select',
+        })
+      : this.setState({
+          dateText: dateString,
+        })
   }
 
   setId = (title): void => {
@@ -148,15 +170,32 @@ class FilterSortButtons extends React.Component<
   }
 
   render(): JSX.Element {
+    //, startDate, endDate
+    const { startDate, endDate } = this.state
+    let { dateText } = this.state
+    startDate ? (dateText = ` ${startDate} - select `) : dateText
+    startDate && endDate
+      ? (dateText = ` ${startDate} - ${endDate} `)
+      : ` ${startDate} - select`
+
     return (
       <>
         <FiltersWrap>
           <FilterInfo>All Projects</FilterInfo>
           <div className="filters">
-            <Button onClick={this.toggleShowDatePicker}>
+            <Button
+              onClick={(e): void => {
+                this.toggleShowDatePicker(e)
+                this.changeDateText()
+              }}
+            >
               <i className="icon-calendar-sort" style={{ padding: 6 }}></i>
-              Dates
+              {dateText}
             </Button>
+            <ApplyButtonDatePicker
+              onClick={this.changeDateText}
+            ></ApplyButtonDatePicker>
+            <ResetButtonDatePicker></ResetButtonDatePicker>
             {schema.categories.map(filterCategory => {
               const category = filterCategory.title
               return (
@@ -226,7 +265,6 @@ class FilterSortButtons extends React.Component<
             {this.state.showDatePicker ? (
               <DatePicker onChange={this.handleDateChange} />
             ) : null}
-            {console.log(this.state.endDate)}
           </div>
         </FiltersWrap>
       </>

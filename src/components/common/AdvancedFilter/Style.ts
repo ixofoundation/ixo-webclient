@@ -252,6 +252,5 @@ export const ApplyButtonDatePicker = styled.div`
   color: white;
   text-align: center;
   padding: 1rem;
-  opacity: 0.3;
   border-radius: 4px;
 `

@@ -18,6 +18,7 @@ class DatePicker extends React.Component<
     onFocusChange: null
     onDatesChange: null
     renderControls: null
+    //dateText: string
   }
 > {
   constructor(props) {
@@ -29,6 +30,7 @@ class DatePicker extends React.Component<
       onFocusChange: null,
       onDatesChange: null,
       renderControls: null,
+      //dateText: '',
     }
   }
 
@@ -47,16 +49,29 @@ class DatePicker extends React.Component<
     })
   }
 
+  // onChangeDateText = (): void => {
+  //   const { startDate, endDate } = this.state
+  //   const dateString = `${startDate} '-' ${endDate}`
+  //   this.setState({
+  //     dateText: dateString,
+  //   })
+  // }
+
   render(): JSX.Element {
     return (
-      <DatePickerModal>
+      <DatePickerModal
+      // onClick={(): void => {
+      //   this.onChangeDateText
+      // }}
+      >
         <div className="DatePicker">
           <DayPickerRangeController
             startDate={this.state.startDate}
             endDate={this.state.endDate}
             onDatesChange={({ startDate, endDate }): void =>
-              this.setState({ startDate, endDate })
+              this.onDatesChange({ startDate, endDate })
             }
+            //onChangeDateText={(): any => this.onChangeDateText}
             focusedInput={this.state.focusedInput}
             onFocusChange={(focusedInput): void =>
               this.setState({ focusedInput })
