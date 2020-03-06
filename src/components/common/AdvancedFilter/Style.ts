@@ -174,21 +174,7 @@ export const FilterAmount = styled.div`
   }
 `
 
-<<<<<<< HEAD
-export const ResetButton = styled.div`
-  position: absolute;
-  left: 12%;
-  right: 21.78%;
-  top: 88%;
-  bottom: 62.94%;
-  opacity: 0.3;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 16px;
-  line-height: 19px;
-=======
 export const ModalButtons = styled.div`
->>>>>>> dev
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-between;
@@ -218,15 +204,9 @@ export const DatePickerModal = styled.div`
   border-radius: 4px;
   width: 619px;
   height: 425px;
-<<<<<<< HEAD
-  left: 25%;
-  top: 41%;
-  z-index: 1;
-=======
   left: 30%;
   top: 41%;
   z-index: 3;
->>>>>>> dev
   :after {
     content: '';
     position: absolute;

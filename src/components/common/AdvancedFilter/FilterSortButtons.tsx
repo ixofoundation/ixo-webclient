@@ -19,7 +19,6 @@ const schema = getFilterSchema()
 
 class FilterSortButtons extends React.Component<
   {},
-<<<<<<< HEAD
   {
     showDatePicker: boolean
     checkTitle: string
@@ -27,9 +26,6 @@ class FilterSortButtons extends React.Component<
     startDate: ''
     endDate: ''
   }
-=======
-  { showDatePicker: boolean; checkTitle: string; categorySelections: any[] }
->>>>>>> dev
 > {
   initialCategorySelections = schema.categories.map(category => ({
     category: category.title,
@@ -43,11 +39,8 @@ class FilterSortButtons extends React.Component<
       showDatePicker: false,
       checkTitle: ' ',
       categorySelections: this.initialCategorySelections,
-<<<<<<< HEAD
       startDate: '',
       endDate: '',
-=======
->>>>>>> dev
     }
   }
 
@@ -174,9 +167,6 @@ class FilterSortButtons extends React.Component<
                   }`}
                   onClick={(e): void => this.handleClose(e, category)}
                 >
-<<<<<<< HEAD
-                  <Button onClick={(): void => this.setId(category)}>
-=======
                   <Button
                     onClick={(): void => this.setId(category)}
                     className={
@@ -187,7 +177,6 @@ class FilterSortButtons extends React.Component<
                         : ''
                     }
                   >
->>>>>>> dev
                     {this.categoryFilterTitle(category)}
                   </Button>
 
@@ -212,24 +201,12 @@ class FilterSortButtons extends React.Component<
                             <h3>{tag}</h3>
                             <img
                               alt={tag}
-<<<<<<< HEAD
-                              src={require('./IDCCicons/' + filterTags.icon)}
-=======
                               src={require('./icons/' + filterTags.icon)}
->>>>>>> dev
                             />
                           </FilterSelectButton>
                         )
                       })}
                     </ModalItems>
-<<<<<<< HEAD
-                    <ResetButton
-                      onClick={(): void => this.resetCategoryFilter(category)}
-                    >
-                      Reset
-                    </ResetButton>
-                    <ApplyButton>Apply</ApplyButton>
-=======
                     <ModalButtons>
                       <ResetButton
                         onClick={(): void => this.resetCategoryFilter(category)}
@@ -238,7 +215,6 @@ class FilterSortButtons extends React.Component<
                       </ResetButton>
                       <ApplyButton>Apply</ApplyButton>
                     </ModalButtons>
->>>>>>> dev
                   </FilterModal>
                 </ButtonWrapper>
               )
