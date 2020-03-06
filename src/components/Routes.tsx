@@ -29,10 +29,18 @@ export const Routes: React.SFC<{}> = props => {
         <Route exact path="/json" component={ProjectForm} />
         <Route exact path="/icons" component={Icons} />
         <Route exact path="/register" component={RegisterConnected} />
-        <Route exact path={['/bonds']} component={Overview} />
-        <Route path={['/bonds/overview']} component={Overview} />
-        <Route path="/bonds/exchange" component={Exchange} />
-        <Route path="/bonds/orders" component={Orders} />
+        <Route exact path="/projects/:projectDID/bonds" component={Overview} />
+        <Route
+          path={['/projects/:projectDID/bonds/overview']}
+          render={(routeProps): JSX.Element => (
+            <Overview {...routeProps.location} />
+          )}
+        />
+        <Route
+          path="/projects/:projectDID/bonds/exchange"
+          component={Exchange}
+        />
+        <Route path="/projects/:projectDID/bonds/orders" component={Orders} />
         <Route
           exact
           path="/"
