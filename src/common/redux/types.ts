@@ -1,6 +1,6 @@
-import { KeysafeState } from '../modules/keysafe/types'
+import { KeysafeState } from '../../modules/keysafe/types'
 import { LoginState } from '../../modules/login/types'
-import { IxoState } from '../../common/modules/ixo/types'
+import { IxoState } from '../../modules/ixo/types'
 import { QuoteState } from '../../modules/quote/types'
 import { BondState } from '../../modules/bond/types'
 import { Currency } from '../../types/models'
@@ -14,5 +14,5 @@ export interface RootState {
   activeQuote: QuoteState
   account: AccountState
   activeBond: BondState
-  totalSupplies: Currency[]
+  tokenSupply: Currency[]
 }

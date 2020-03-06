@@ -13,15 +13,11 @@ export const reducer = (
 ): AccountState => {
   switch (action.type) {
     case AccountActions.GetBalancesSuccess:
-      return { ...state, balances: action.payload.data }
+      return { ...state, balances: action.payload.balances }
     case AccountActions.GetOrdersSuccess:
       return {
         ...state,
-        orders: [
-          ...action.payload[0].data,
-          ...action.payload[1].data,
-          ...action.payload[2].data,
-        ],
+        orders: [...action.payload.orders],
       }
   }
 

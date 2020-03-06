@@ -6,7 +6,7 @@ import './TransactionsTable.css'
 import { Column, Table } from 'react-virtualized'
 import { connect } from 'react-redux'
 import { RootState } from '../../common/redux/types'
-import { getTotalSupplies } from '../../modules/bond/bond.actions'
+import { getTotalSupplies } from '../../modules/tokenSupply/tokenSupply.actions'
 import { currencyStr } from '../../modules/account/account.utils'
 import moment from 'moment'
 
@@ -205,7 +205,7 @@ class TransactionsTable extends Component<any> {
             >
               <option value="All">All Tokens</option>
 
-              {this.props.totalSupplies.map((supply: Currency) => (
+              {this.props.tokenSupply.map((supply: Currency) => (
                 <option
                   key={supply.denom}
                   selected={this.props.selectedToken == supply.denom!}

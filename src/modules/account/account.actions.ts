@@ -16,7 +16,9 @@ export const getBalances = (address: string) => (
           },
         ],
       },
-    ),
+    ).then(response => {
+      return { balances: response.data }
+    }),
   })
 }
 
@@ -52,6 +54,13 @@ export const getOrders = (address: string) => (
 
   return dispatch({
     type: AccountActions.GetOrders,
-    payload: Axios.all([sellReq, buyReq, swapReq]),
+    payload: Axios.all([sellReq, buyReq, swapReq]).then(
+      Axios.spread((...responses) => {
+        const buy = responses[0].data
+        const sell = responses[1].data
+        const swap = responses[2].data
+        return { orders: [...buy, ...sell, ...swap] }
+      }),
+    ),
   })
 }

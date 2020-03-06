@@ -22,7 +22,6 @@ export enum BondActions {
   GetTradesPending = 'ixo/Bond/GET_TRADES_PENDING',
   GetTradesSuccess = 'ixo/Bond/GET_TRADES_FULFILLED',
   GetTradesFailure = 'ixo/Bond/GET_TRADES_REJECTED',
-  // GET_TOTAL_SUPPLIES = 'GET_TOTAL_SUPPLIES',
 }
 
 export interface GetBalancesAction {
@@ -33,7 +32,15 @@ export interface GetBalancesAction {
 export interface GetBalancesSuccessAction {
   type: typeof BondActions.GetBalancesSuccess
   payload: {
-    data: any
+    symbol: string
+    name: string
+    address: string
+    type: string
+    collateral: Currency
+    totalSupply: Currency
+    price: Currency
+    alpha: 0
+    alphaDate: Date
   }
 }
 
@@ -45,7 +52,7 @@ export interface GetTradesAction {
 export interface GetTradesSuccessAction {
   type: typeof BondActions.GetTradesSuccess
   payload: {
-    data: any
+    trades: any[]
   }
 }
 

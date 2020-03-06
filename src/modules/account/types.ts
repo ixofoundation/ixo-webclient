@@ -26,7 +26,7 @@ export interface GetBalancesAction {
 export interface GetBalancesSuccessAction {
   type: typeof AccountActions.GetBalancesSuccess
   payload: {
-    data: Currency[]
+    balances: Currency[]
   }
 }
 
@@ -37,7 +37,9 @@ export interface GetOrdersAction {
 
 export interface GetOrdersSuccessAction {
   type: typeof AccountActions.GetOrdersSuccess
-  payload: any[]
+  payload: {
+    orders: any[]
+  }
 }
 
 export type AccountActionTypes =

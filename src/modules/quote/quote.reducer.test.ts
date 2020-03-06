@@ -57,80 +57,63 @@ describe('Quote Reducer', () => {
       const action: BuySuccessAction = {
         type: QuoteActions.BuySuccess,
         payload: {
-          data: {
-            result: {
-              adjusted_supply: {
-                denom: 'token1',
-                amount: '5',
-              },
-              prices: [
-                {
-                  denom: 'res',
-                  amount: 464,
-                },
-              ],
-              tx_fees: [
-                {
-                  denom: 'res',
-                  amount: 3,
-                },
-              ],
-              total_prices: [
-                {
-                  denom: 'res',
-                  amount: 467,
-                },
-              ],
-              total_fees: [
-                {
-                  denom: 'res',
-                  amount: 3,
-                },
-              ],
-            },
-            sending: { denom: 'a', amount: 1 },
-            receiving: { denom: 'b', amount: 2 },
-            maxPrices: [
-              { denom: 'a', amount: 100 },
-              { denom: 'b', amount: 200 },
-            ],
-          },
+          sending: { amount: 2, denom: 'b' },
+          receiving: { amount: 1, denom: 'a' },
+          maxPrices: [
+            { amount: 1, denom: 'a' },
+            { amount: 2, denom: 'b' },
+          ],
+          actualPrices: [
+            { amount: 3, denom: 'a' },
+            { amount: 4, denom: 'b' },
+          ],
+          adjustedSupply: [
+            { amount: 5, denom: 'a' },
+            { amount: 6, denom: 'b' },
+          ],
+          txFees: [
+            { amount: 0.7, denom: 'a' },
+            { amount: 0.8, denom: 'b' },
+          ],
+          totalPrices: [
+            { amount: 9, denom: 'a' },
+            { amount: 10, denom: 'b' },
+          ],
+          totalFees: [
+            { amount: 11, denom: 'a' },
+            { amount: 12, denom: 'b' },
+          ],
         },
       }
 
       const newState: QuoteState = {
         ...initialState,
-        sending: { denom: 'a', amount: 1 },
-        receiving: { denom: 'b', amount: 2 },
+        sending: { amount: 2, denom: 'b' },
+        receiving: { amount: 1, denom: 'a' },
         maxPrices: [
-          { denom: 'a', amount: 100 },
-          { denom: 'b', amount: 200 },
+          { amount: 1, denom: 'a' },
+          { amount: 2, denom: 'b' },
         ],
         actualPrices: [
-          {
-            denom: 'res',
-            amount: 464,
-          },
+          { amount: 3, denom: 'a' },
+          { amount: 4, denom: 'b' },
+        ],
+        adjustedSupply: [
+          { amount: 5, denom: 'a' },
+          { amount: 6, denom: 'b' },
         ],
         txFees: [
-          {
-            denom: 'res',
-            amount: 3,
-          },
+          { amount: 0.7, denom: 'a' },
+          { amount: 0.8, denom: 'b' },
         ],
         totalPrices: [
-          {
-            denom: 'res',
-            amount: 467,
-          },
+          { amount: 9, denom: 'a' },
+          { amount: 10, denom: 'b' },
         ],
         totalFees: [
-          {
-            denom: 'res',
-            amount: 3,
-          },
+          { amount: 11, denom: 'a' },
+          { amount: 12, denom: 'b' },
         ],
-        quotePending: false,
       }
 
       // when ... we run the reducer with this action
@@ -188,66 +171,39 @@ describe('Quote Reducer', () => {
       const action: SellSuccessAction = {
         type: QuoteActions.SellSuccess,
         payload: {
-          data: {
-            result: {
-              tx_fees: [
-                {
-                  denom: 'res',
-                  amount: 3,
-                },
-              ],
-              total_prices: [
-                {
-                  denom: 'res',
-                  amount: 467,
-                },
-              ],
-              total_fees: [
-                {
-                  denom: 'res',
-                  amount: 3,
-                },
-              ],
-              returns: [
-                {
-                  denom: 'res',
-                  amount: 3,
-                },
-              ],
-            },
-            sending: { denom: 'a', amount: 1 },
-            minPrices: [
-              { denom: 'a', amount: 100 },
-              { denom: 'b', amount: 200 },
-            ],
-          },
+          sending: { amount: 2, denom: 'b' },
+          minPrices: [
+            { amount: 1, denom: 'a' },
+            { amount: 2, denom: 'b' },
+          ],
+          receiving: { amount: 1, denom: 'a' },
+          txFees: [
+            { amount: 0.7, denom: 'a' },
+            { amount: 0.8, denom: 'b' },
+          ],
+          totalFees: [
+            { amount: 11, denom: 'a' },
+            { amount: 12, denom: 'b' },
+          ],
         },
       }
 
       const newState: QuoteState = {
         ...initialState,
-        sending: { denom: 'a', amount: 1 },
-        receiving: {
-          denom: 'res',
-          amount: 3,
-        },
+        sending: { amount: 2, denom: 'b' },
         minPrices: [
-          { denom: 'a', amount: 100 },
-          { denom: 'b', amount: 200 },
+          { amount: 1, denom: 'a' },
+          { amount: 2, denom: 'b' },
         ],
+        receiving: { amount: 1, denom: 'a' },
         txFees: [
-          {
-            denom: 'res',
-            amount: 3,
-          },
+          { amount: 0.7, denom: 'a' },
+          { amount: 0.8, denom: 'b' },
         ],
         totalFees: [
-          {
-            denom: 'res',
-            amount: 3,
-          },
+          { amount: 11, denom: 'a' },
+          { amount: 12, denom: 'b' },
         ],
-        quotePending: false,
       }
 
       // when ... we run the reducer with this action
@@ -305,38 +261,21 @@ describe('Quote Reducer', () => {
       const action: SwapSuccessAction = {
         type: QuoteActions.SwapSuccess,
         payload: {
-          data: {
-            result: {
-              total_fees: [
-                {
-                  denom: 'res',
-                  amount: 4,
-                },
-              ],
-              total_returns: [
-                {
-                  denom: 'res',
-                  amount: 3,
-                },
-              ],
-            },
-          },
+          receiving: { amount: 1, denom: 'a' },
+          totalFees: [
+            { amount: 11, denom: 'a' },
+            { amount: 12, denom: 'b' },
+          ],
         },
       }
 
       const newState: QuoteState = {
         ...initialState,
-        receiving: {
-          denom: 'res',
-          amount: 3,
-        },
+        receiving: { amount: 1, denom: 'a' },
         totalFees: [
-          {
-            denom: 'res',
-            amount: 4,
-          },
+          { amount: 11, denom: 'a' },
+          { amount: 12, denom: 'b' },
         ],
-        quotePending: false,
         isSwapping: true,
       }
 

@@ -29,15 +29,11 @@ export const reducer = (
       }
     case QuoteActions.BuySuccess:
       return {
-        ...initialState,
-        sending: action.payload.data.sending,
-        receiving: action.payload.data.receiving,
-        maxPrices: action.payload.data.maxPrices,
-        actualPrices: action.payload.data.result.prices,
-        txFees: action.payload.data.result.tx_fees,
-        totalPrices: action.payload.data.result.total_prices,
-        totalFees: action.payload.data.result.total_fees,
+        ...action.payload,
         quotePending: false,
+        signPending: false,
+        transacting: false,
+        isSwapping: false,
       }
     case QuoteActions.BuyFailure:
       // notify(action.payload)
@@ -54,13 +50,11 @@ export const reducer = (
       }
     case QuoteActions.SellSuccess:
       return {
-        ...initialState,
-        sending: action.payload.data.sending,
-        minPrices: action.payload.data.minPrices,
-        receiving: action.payload.data.result.returns[0],
-        txFees: action.payload.data.result.tx_fees,
-        totalFees: action.payload.data.result.total_fees,
+        ...action.payload,
         quotePending: false,
+        signPending: false,
+        transacting: false,
+        isSwapping: false,
       }
     case QuoteActions.SellFailure:
       // notify(action.payload)
@@ -77,11 +71,11 @@ export const reducer = (
       }
     case QuoteActions.SwapSuccess:
       return {
-        ...initialState,
-        receiving: action.payload.data.result.total_returns[0],
+        ...action.payload,
         isSwapping: true,
-        totalFees: action.payload.data.result.total_fees,
         quotePending: false,
+        signPending: false,
+        transacting: false,
       }
     case QuoteActions.SwapFailure:
       // notify(action.payload)

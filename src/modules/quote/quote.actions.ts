@@ -39,16 +39,22 @@ export const buy = (
       {
         transformResponse: [
           (response: string): any => {
-            return {
-              sending,
-              receiving,
-              maxPrices,
-              result: JSON.parse(response).result,
-            }
+            return JSON.parse(response).result
           },
         ],
       },
-    ),
+    ).then(response => {
+      return {
+        sending,
+        receiving,
+        maxPrices,
+        actualPrices: response.data.prices,
+        adjustedSupply: response.data.adjusted_supply,
+        txFees: response.data.tx_fees,
+        totalPrices: response.data.total_prices,
+        totalFees: response.data.total_fees,
+      }
+    }),
   })
 }
 
@@ -99,9 +105,6 @@ export const confirmBuy = () => (
   })
 }
 
-/*
- */
-
 // SELLING
 
 export const sell = (sending: Currency, minPrices: Currency[]) => (
@@ -118,15 +121,19 @@ export const sell = (sending: Currency, minPrices: Currency[]) => (
       {
         transformResponse: [
           (response: string): any => {
-            return {
-              sending,
-              minPrices,
-              result: JSON.parse(response).result,
-            }
+            return JSON.parse(response).result
           },
         ],
       },
-    ),
+    ).then(response => {
+      return {
+        sending,
+        minPrices,
+        receiving: response.data.returns[0],
+        txFees: response.data.tx_fees,
+        totalFees: response.data.total_fees,
+      }
+    }),
   })
 }
 
@@ -198,14 +205,16 @@ export const swap = (sending: Currency, receiving: Currency) => (
       {
         transformResponse: [
           (response: string): any => {
-            return {
-              sending,
-              result: JSON.parse(response).result,
-            }
+            return JSON.parse(response).result
           },
         ],
       },
-    ),
+    ).then(response => {
+      return {
+        receiving: response.data.total_returns[0],
+        totalFees: response.data.total_fees,
+      }
+    }),
   })
 }
 

@@ -13,13 +13,33 @@ beforeEach(() => {
 describe('Bond Actions', () => {
   describe('getBalances', () => {
     it('should return a data array on success', async () => {
-      const data = []
+      const alphaDate = new Date()
 
-      mockAxios.get.mockImplementationOnce(() =>
-        Promise.resolve({
-          data,
-        }),
-      )
+      const balances = {
+        symbol: 'sometoken',
+        name: 'somename',
+        address: 'someaddress',
+        function_type: 'somefunctiontype',
+        current_supply: { denom: 'a', amount: 1 },
+        totalSupply: { denom: 'a', amount: 100 },
+        price: { denom: 'a', amount: 200 },
+        alpha: 0,
+        alphaDate,
+      }
+
+      mockAxios.spread.mockReturnValue(() => {
+        return {
+          symbol: 'sometoken',
+          name: 'somename',
+          address: 'someaddress',
+          function_type: 'somefunctiontype',
+          current_supply: { denom: 'a', amount: 1 },
+          totalSupply: { denom: 'a', amount: 100 },
+          price: { denom: 'a', amount: 200 },
+          alpha: 0,
+          alphaDate,
+        }
+      })
 
       // when ... we call the getBalances action creator with an address
       await store.dispatch(SUT.getBalances('some-symbol'))
@@ -29,7 +49,7 @@ describe('Bond Actions', () => {
       expect.assertions(3)
       expect(actions[0].type).toEqual(BondActions.GetBalancesPending)
       expect(actions[1].type).toEqual(BondActions.GetBalancesSuccess)
-      expect(actions[1].payload.data).toEqual(data)
+      expect(actions[1].payload).toEqual(balances)
     })
 
     it('should return an error on failure', async () => {
@@ -57,13 +77,11 @@ describe('Bond Actions', () => {
 
   describe('getTransactions', () => {
     it('should return a data array on success', async () => {
-      const data = []
+      const trades = [{ someprop: 'someval1' }, { someprop: 'someval2' }]
 
-      mockAxios.get.mockImplementationOnce(() =>
-        Promise.resolve({
-          data,
-        }),
-      )
+      mockAxios.spread.mockReturnValue(() => {
+        return { trades: [{ someprop: 'someval1' }, { someprop: 'someval2' }] }
+      })
 
       // when ... we call the getTransactions action creator with an address
       await store.dispatch(SUT.getTransactions())
@@ -73,7 +91,7 @@ describe('Bond Actions', () => {
       expect.assertions(3)
       expect(actions[0].type).toEqual(BondActions.GetTradesPending)
       expect(actions[1].type).toEqual(BondActions.GetTradesSuccess)
-      expect(actions[1].payload.data).toEqual(data)
+      expect(actions[1].payload.trades).toEqual(trades)
     })
 
     it('should return an error on failure', async () => {

@@ -9,6 +9,7 @@ export interface QuoteState {
   txFees?: Currency[]
   totalPrices?: Currency[]
   totalFees?: Currency[]
+  adjustedSupply?: Currency[]
   bondToken?: string
   tx?: {}
   response?: any
@@ -59,7 +60,14 @@ export interface BuyFailureAction {
 export interface BuySuccessAction {
   type: typeof QuoteActions.BuySuccess
   payload: {
-    data: any
+    sending: Currency
+    receiving: Currency
+    maxPrices: Currency[]
+    actualPrices: Currency[]
+    adjustedSupply: Currency[]
+    txFees: Currency[]
+    totalPrices: Currency[]
+    totalFees: Currency[]
   }
 }
 
@@ -75,7 +83,11 @@ export interface SellPendingAction {
 export interface SellSuccessAction {
   type: typeof QuoteActions.SellSuccess
   payload: {
-    data: any
+    sending: Currency
+    minPrices: Currency[]
+    receiving: Currency
+    txFees: Currency[]
+    totalFees: Currency[]
   }
 }
 
@@ -95,7 +107,8 @@ export interface SwapPendingAction {
 export interface SwapSuccessAction {
   type: typeof QuoteActions.SwapSuccess
   payload: {
-    data: any
+    receiving: Currency
+    totalFees: Currency[]
   }
 }
 

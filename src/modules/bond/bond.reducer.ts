@@ -1,7 +1,5 @@
-import createReducer from '../../common/redux/createReducer'
 import { BondActions } from './types'
-import { Currency } from '../../types/models'
-import { BondState, BondActionTypes, BondActions } from './types'
+import { BondState, BondActionTypes } from './types'
 
 export const activeBondInitialState = {
   symbol: 'token1',
@@ -15,43 +13,26 @@ export const activeBondInitialState = {
   trades: [],
 } as BondState
 
-export const reducer = (state = activeBondInitialState, action: BondActionTypes): BondState => {
-  switch(action.type) {
-    case BondActions.GetBalancesSuccess
-      
+export const reducer = (
+  state = activeBondInitialState,
+  action: BondActionTypes,
+): BondState => {
+  switch (action.type) {
+    case BondActions.GetBalancesSuccess:
+      return {
+        ...action.payload,
+        trades:
+          state.symbol === action.payload[0].data.symbol
+            ? [...state.trades]
+            : [],
+      }
+
+    case BondActions.GetTradesSuccess:
+      return {
+        ...state,
+        trades: action.payload.trades,
+      }
   }
+
+  return state
 }
-
-/* 
-export const activeBond = createReducer(activeBondInitialState, {
-  [BondActions.GetBalances + '_FULFILLED'](activeBond: BondState, action: any) {
-    const newState = Object.assign({}, action.payload)
-    newState.trades = []
-
-    // keep old trade if the same
-    if (activeBond.symbol == action.payload.symbol) {
-      newState.trades = activeBond.trades
-    }
-    return newState
-  },
-  [BondActions.GetTrades + '_FULFILLED'](activeBond: BondState, action: any) {
-    const newState = Object.assign({}, activeBond)
-    newState.trades = action.payload!
-    return newState
-  },
-})
-
-export const totalSupplies = createReducer([] as Currency[], {
-  ['BondActions.GET_TOTAL_SUPPLIES' + '_FULFILLED'](
-    totalSupplies: [],
-    action: any,
-  ) {
-    const newState = Object.assign([], action.payload)
-    return newState
-  },
-}) */
-
-// activeBond: Bond;
-// balances: [Currency];
-// accounts: Accounts;
-// activeQuote: Quote;

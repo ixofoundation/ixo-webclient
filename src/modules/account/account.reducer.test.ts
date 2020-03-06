@@ -21,57 +21,47 @@ describe('Account Reducer', () => {
 
   describe('GetBalancesSuccess Action', () => {
     it('should return a new copy of state, with the balances set', () => {
-      const payload = {
-        data: [
-          { amount: 100, denom: 'abc' },
-          { amount: 200, denom: 'def' },
-          { amount: 300, denom: 'def' },
-        ],
-      }
+      const balances = [
+        { amount: 100, denom: 'abc' },
+        { amount: 200, denom: 'def' },
+        { amount: 300, denom: 'def' },
+      ]
       // ... we create a getBalances action
       const action: GetBalancesSuccessAction = {
         type: AccountActions.GetBalancesSuccess,
-        payload,
+        payload: {
+          balances,
+        },
       }
 
       // when ... we run the reducer and pass it our initial state and this action
       const state = SUT.reducer(initialState, action)
 
       // then the state should be set as expected
-      expect(state).toEqual({ ...initialState, balances: payload.data })
+      expect(state).toEqual({ ...initialState, balances: balances })
     })
   })
 
   describe('GetOrdersSuccess Action', () => {
     it('should return a new copy of state, with the balances set', () => {
-      const payload = [
-        {
-          data: [
-            { id: 1, prop1: 'value1' },
-            { id: 2, prop1: 'value2' },
-            { id: 3, prop1: 'value3' },
-          ],
-        },
-        {
-          data: [
-            { id: 4, prop1: 'value1' },
-            { id: 5, prop1: 'value2' },
-            { id: 6, prop1: 'value3' },
-          ],
-        },
-        {
-          data: [
-            { id: 7, prop1: 'value1' },
-            { id: 8, prop1: 'value2' },
-            { id: 9, prop1: 'value3' },
-          ],
-        },
+      const orders = [
+        { id: 1, prop1: 'value1' },
+        { id: 2, prop1: 'value2' },
+        { id: 3, prop1: 'value3' },
+        { id: 4, prop1: 'value1' },
+        { id: 5, prop1: 'value2' },
+        { id: 6, prop1: 'value3' },
+        { id: 7, prop1: 'value1' },
+        { id: 8, prop1: 'value2' },
+        { id: 9, prop1: 'value3' },
       ]
 
       // ... we create a getBalances action
       const action: GetOrdersSuccessAction = {
         type: AccountActions.GetOrdersSuccess,
-        payload,
+        payload: {
+          orders,
+        },
       }
 
       // when ... we run the reducer and pass it our initial state and this action
@@ -80,17 +70,7 @@ describe('Account Reducer', () => {
       // then the state should be set as expected
       expect(state).toEqual({
         ...initialState,
-        orders: [
-          { id: 1, prop1: 'value1' },
-          { id: 2, prop1: 'value2' },
-          { id: 3, prop1: 'value3' },
-          { id: 4, prop1: 'value1' },
-          { id: 5, prop1: 'value2' },
-          { id: 6, prop1: 'value3' },
-          { id: 7, prop1: 'value1' },
-          { id: 8, prop1: 'value2' },
-          { id: 9, prop1: 'value3' },
-        ],
+        orders,
       })
     })
   })

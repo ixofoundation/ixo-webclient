@@ -35,11 +35,51 @@ describe('Quote Actions', () => {
         { amount: 1, denom: 'a' },
         { amount: 2, denom: 'b' },
       ]
-      const data = 'some-data'
+      const actualPrices = [
+        { amount: 3, denom: 'a' },
+        { amount: 4, denom: 'b' },
+      ]
+      const adjustedSupply = [
+        { amount: 5, denom: 'a' },
+        { amount: 6, denom: 'b' },
+      ]
+      const txFees = [
+        { amount: 0.7, denom: 'a' },
+        { amount: 0.8, denom: 'b' },
+      ]
+      const totalPrices = [
+        { amount: 9, denom: 'a' },
+        { amount: 10, denom: 'b' },
+      ]
+      const totalFees = [
+        { amount: 11, denom: 'a' },
+        { amount: 12, denom: 'b' },
+      ]
 
       mockAxios.get.mockImplementationOnce(() =>
         Promise.resolve({
-          data,
+          data: {
+            prices: [
+              { amount: 3, denom: 'a' },
+              { amount: 4, denom: 'b' },
+            ],
+            adjusted_supply: [
+              { amount: 5, denom: 'a' },
+              { amount: 6, denom: 'b' },
+            ],
+            tx_fees: [
+              { amount: 0.7, denom: 'a' },
+              { amount: 0.8, denom: 'b' },
+            ],
+            total_prices: [
+              { amount: 9, denom: 'a' },
+              { amount: 10, denom: 'b' },
+            ],
+            total_fees: [
+              { amount: 11, denom: 'a' },
+              { amount: 12, denom: 'b' },
+            ],
+          },
         }),
       )
 
@@ -51,7 +91,16 @@ describe('Quote Actions', () => {
       expect.assertions(3)
       expect(actions[0].type).toEqual(QuoteActions.BuyPending)
       expect(actions[1].type).toEqual(QuoteActions.BuySuccess)
-      expect(actions[1].payload.data).toEqual(data)
+      expect(actions[1].payload).toEqual({
+        sending,
+        receiving,
+        maxPrices,
+        actualPrices,
+        adjustedSupply,
+        txFees,
+        totalPrices,
+        totalFees,
+      })
     })
 
     it('should return an error on failure', async () => {
@@ -104,11 +153,32 @@ describe('Quote Actions', () => {
         { amount: 1, denom: 'a' },
         { amount: 2, denom: 'b' },
       ]
-      const data = 'some-data'
+      const receiving = { amount: 1, denom: 'a' }
+      const txFees = [
+        { amount: 0.7, denom: 'a' },
+        { amount: 0.8, denom: 'b' },
+      ]
+      const totalFees = [
+        { amount: 11, denom: 'a' },
+        { amount: 12, denom: 'b' },
+      ]
 
       mockAxios.get.mockImplementationOnce(() =>
         Promise.resolve({
-          data,
+          data: {
+            returns: [
+              { amount: 1, denom: 'a' },
+              { amount: 2, denom: 'b' },
+            ],
+            tx_fees: [
+              { amount: 0.7, denom: 'a' },
+              { amount: 0.8, denom: 'b' },
+            ],
+            total_fees: [
+              { amount: 11, denom: 'a' },
+              { amount: 12, denom: 'b' },
+            ],
+          },
         }),
       )
 
@@ -120,7 +190,13 @@ describe('Quote Actions', () => {
       expect.assertions(3)
       expect(actions[0].type).toEqual(QuoteActions.SellPending)
       expect(actions[1].type).toEqual(QuoteActions.SellSuccess)
-      expect(actions[1].payload.data).toEqual(data)
+      expect(actions[1].payload).toEqual({
+        sending,
+        minPrices,
+        receiving,
+        txFees,
+        totalFees,
+      })
     })
 
     it('should return an error on failure', async () => {
@@ -169,11 +245,23 @@ describe('Quote Actions', () => {
     it('should return data on swap success', async () => {
       const receiving: Currency = { amount: 1, denom: 'a' }
       const sending: Currency = { amount: 2, denom: 'b' }
-      const data = 'some-data'
+      const totalFees = [
+        { amount: 11, denom: 'a' },
+        { amount: 12, denom: 'b' },
+      ]
 
       mockAxios.get.mockImplementationOnce(() =>
         Promise.resolve({
-          data,
+          data: {
+            total_returns: [
+              { amount: 1, denom: 'a' },
+              { amount: 2, denom: 'b' },
+            ],
+            total_fees: [
+              { amount: 11, denom: 'a' },
+              { amount: 12, denom: 'b' },
+            ],
+          },
         }),
       )
 
@@ -185,7 +273,7 @@ describe('Quote Actions', () => {
       expect.assertions(3)
       expect(actions[0].type).toEqual(QuoteActions.SwapPending)
       expect(actions[1].type).toEqual(QuoteActions.SwapSuccess)
-      expect(actions[1].payload.data).toEqual(data)
+      expect(actions[1].payload).toEqual({ receiving, totalFees })
     })
 
     it('should return an error on failure', async () => {

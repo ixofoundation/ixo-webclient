@@ -13,11 +13,11 @@ beforeEach(() => {
 describe('Account Actions', () => {
   describe('getBalances', () => {
     it('should return data on success', async () => {
-      const data = 'some-data'
+      const balances = [{ someprop: 'someval1' }, { someprop: 'someval2' }]
 
       mockAxios.get.mockImplementationOnce(() =>
         Promise.resolve({
-          data,
+          data: [{ someprop: 'someval1' }, { someprop: 'someval2' }],
         }),
       )
 
@@ -29,7 +29,7 @@ describe('Account Actions', () => {
       expect.assertions(3)
       expect(actions[0].type).toEqual(AccountActions.GetBalancesPending)
       expect(actions[1].type).toEqual(AccountActions.GetBalancesSuccess)
-      expect(actions[1].payload.data).toEqual(data)
+      expect(actions[1].payload.balances).toEqual(balances)
     })
 
     it('should return an error on failure', async () => {
@@ -57,13 +57,11 @@ describe('Account Actions', () => {
 
   describe('getOrders', () => {
     it('should return data on success', async () => {
-      const data = []
+      const orders = [{ someprop: 'someval1' }, { someprop: 'someval2' }]
 
-      mockAxios.get.mockImplementationOnce(() =>
-        Promise.resolve({
-          data,
-        }),
-      )
+      mockAxios.spread.mockReturnValue(() => {
+        return { orders: [{ someprop: 'someval1' }, { someprop: 'someval2' }] }
+      })
 
       // when ... we call the getOrders action creator with an address
       await store.dispatch(SUT.getOrders('some-address'))
@@ -73,7 +71,7 @@ describe('Account Actions', () => {
       expect.assertions(3)
       expect(actions[0].type).toEqual(AccountActions.GetOrdersPending)
       expect(actions[1].type).toEqual(AccountActions.GetOrdersSuccess)
-      expect(actions[1].payload.data).toEqual(data)
+      expect(actions[1].payload.orders).toEqual(orders)
     })
 
     it('should return an error on failure', async () => {
