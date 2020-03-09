@@ -10,7 +10,7 @@ import {
 } from './Style'
 
 class DatePicker extends React.Component<
-  { onChange },
+  { onChange; onReset; onApply },
   {
     startDate: null
     endDate: null
@@ -32,19 +32,20 @@ class DatePicker extends React.Component<
     }
   }
 
-  onDatesChange({ startDate, endDate }): void {
-    this.props.onChange(startDate, endDate)
-    this.setState({
-      startDate: startDate,
-      endDate: endDate,
-    })
-  }
-
   onChange = (startDate, endDate): void => {
     this.setState({
       startDate: startDate,
       endDate: endDate,
     })
+    this.props.onChange(startDate, endDate)
+  }
+
+  onReset = (): void => {
+    this.setState({
+      startDate: null,
+      endDate: null,
+    })
+    this.props.onReset()
   }
 
   render(): JSX.Element {
@@ -55,7 +56,7 @@ class DatePicker extends React.Component<
             startDate={this.state.startDate}
             endDate={this.state.endDate}
             onDatesChange={({ startDate, endDate }): void =>
-              this.onDatesChange({ startDate, endDate })
+              this.onChange(startDate, endDate)
             }
             focusedInput={this.state.focusedInput}
             onFocusChange={(focusedInput): void =>
@@ -66,8 +67,12 @@ class DatePicker extends React.Component<
             hideKeyboardShortcutsPanel
           />
         </div>
-        <ResetButtonDatePicker>Reset</ResetButtonDatePicker>
-        <ApplyButtonDatePicker>Apply</ApplyButtonDatePicker>
+        <ResetButtonDatePicker onClick={(): void => this.onReset()}>
+          Reset
+        </ResetButtonDatePicker>
+        <ApplyButtonDatePicker onClick={(): void => this.props.onApply()}>
+          Apply
+        </ApplyButtonDatePicker>
       </DatePickerModal>
     )
   }

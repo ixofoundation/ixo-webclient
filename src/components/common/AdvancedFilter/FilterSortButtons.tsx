@@ -12,12 +12,9 @@ import {
   ModalButtons,
   ResetButton,
   ApplyButton,
-  ResetButtonDatePicker,
-  ApplyButtonDatePicker,
 } from './Style'
 
 import { getFilterSchema } from '../../../../src/instance-settings'
-
 const schema = getFilterSchema()
 
 class FilterSortButtons extends React.Component<
@@ -26,8 +23,8 @@ class FilterSortButtons extends React.Component<
     showDatePicker: boolean
     checkTitle: string
     categorySelections: any[]
-    startDate: ''
-    endDate: ''
+    startDate: any
+    endDate: any
     dateText: string
   }
 > {
@@ -43,14 +40,13 @@ class FilterSortButtons extends React.Component<
       showDatePicker: false,
       checkTitle: ' ',
       categorySelections: this.initialCategorySelections,
-      startDate: '',
-      endDate: '',
+      startDate: null,
+      endDate: null,
       dateText: 'Dates',
     }
   }
 
-  toggleShowDatePicker = (e): void => {
-    e.preventDefault()
+  toggleShowDatePicker = (): void => {
     this.setState({
       showDatePicker: !this.state.showDatePicker,
       checkTitle: ' ',
@@ -58,26 +54,30 @@ class FilterSortButtons extends React.Component<
   }
 
   handleDateChange = (startDate, endDate): void => {
-    endDate
-      ? this.setState({
-          startDate: startDate.format('DD-MMM-YYYY'),
-          endDate: endDate.format('DD-MMM-YYYY'),
-        })
-      : this.setState({
-          startDate: startDate.format('DD-MMM-YYYY'),
-        })
+    let startDateFormatted
+    let endDateFormatted
+    if (startDate) {
+      startDateFormatted = startDate.format("D MMM\\'YY")
+    }
+    if (endDate) {
+      endDateFormatted = endDate.format("D MMM\\'YY")
+    }
+    if (startDate && endDate) {
+      this.setState({
+        dateText: ` ${startDateFormatted} - ${endDateFormatted} `,
+      })
+    } else if (startDate) {
+      this.setState({ dateText: ` ${startDateFormatted} - Select ` })
+    }
   }
 
   changeDateText = (): void => {
     const { startDate, endDate } = this.state
-    const dateString = `${startDate} - ${endDate}`
     !startDate && !endDate
       ? this.setState({
           dateText: 'Select',
         })
-      : this.setState({
-          dateText: dateString,
-        })
+      : null
   }
 
   setId = (title): void => {
@@ -160,6 +160,14 @@ class FilterSortButtons extends React.Component<
     })
   }
 
+  resetDateFilter = (): void => {
+    this.setState({
+      dateText: 'Dates',
+      startDate: '',
+      endDate: '',
+    })
+  }
+
   tagClassName = (category: string, tag: string): string => {
     const isPressed = this.state.categorySelections
       .find(selection => selection.category === category)
@@ -169,32 +177,20 @@ class FilterSortButtons extends React.Component<
   }
 
   render(): JSX.Element {
-    const { startDate, endDate, dateText } = this.state
-    startDate
-      ? this.setState({ dateText: ` ${startDate} - select ` })
-      : this.setState({ dateText })
-    startDate && endDate
-      ? this.setState({ dateText: ` ${startDate} - ${endDate} ` })
-      : this.setState({ dateText: ` ${startDate} - select` })
-
     return (
       <>
         <FiltersWrap>
           <FilterInfo>All Projects</FilterInfo>
           <div className="filters">
             <Button
-              onClick={(e): void => {
-                this.toggleShowDatePicker(e)
+              onClick={(): void => {
+                this.toggleShowDatePicker()
                 this.changeDateText()
               }}
             >
               <i className="icon-calendar-sort" style={{ padding: 6 }}></i>
-              {dateText}
+              {this.state.dateText}
             </Button>
-            <ApplyButtonDatePicker
-              onClick={this.changeDateText}
-            ></ApplyButtonDatePicker>
-            <ResetButtonDatePicker></ResetButtonDatePicker>
             {schema.categories.map(filterCategory => {
               const category = filterCategory.title
               return (
@@ -262,7 +258,11 @@ class FilterSortButtons extends React.Component<
               Reset
             </Button>
             {this.state.showDatePicker ? (
-              <DatePicker onChange={this.handleDateChange} />
+              <DatePicker
+                onReset={this.resetDateFilter}
+                onChange={this.handleDateChange}
+                onApply={this.toggleShowDatePicker}
+              />
             ) : null}
           </div>
         </FiltersWrap>
