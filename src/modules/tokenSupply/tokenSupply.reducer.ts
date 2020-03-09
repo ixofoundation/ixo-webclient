@@ -8,8 +8,8 @@ export const reducer = (
   action: TokenSupplyActionTypes,
 ): Currency[] => {
   switch (action.type) {
-    case TokenSupplyActions.GetTotalSuppliesSuccess:
-      return [...action.payload.data]
+    case TokenSupplyActions.GetTotalSupplySuccess:
+      return [...action.payload.tokenSupply]
   }
 
   return state

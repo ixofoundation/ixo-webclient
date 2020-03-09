@@ -1,32 +1,34 @@
+import { Currency } from 'src/types/models'
+
 export enum TokenSupplyActions {
-  GetTotalSupplies = 'ixo/TokenSupply/GET_TOTAL_SUPPLIES',
-  GetTotalSuppliesPending = 'ixo/TokenSupply/GET_TOTAL_SUPPLIES_PENDING',
-  GetTotalSuppliesSuccess = 'ixo/TokenSupply/GET_TOTAL_SUPPLIES_FULFILLED',
-  GetTotalSuppliesFailure = 'ixo/TokenSupply/GET_TOTAL_SUPPLIES_REJECTED',
+  GetTotalSupply = 'ixo/TokenSupply/GET_TOTAL_SUPPLY',
+  GetTotalSupplyPending = 'ixo/TokenSupply/GET_TOTAL_SUPPLY_PENDING',
+  GetTotalSupplySuccess = 'ixo/TokenSupply/GET_TOTAL_SUPPLY_FULFILLED',
+  GetTotalSupplyFailure = 'ixo/TokenSupply/GET_TOTAL_SUPPLY_REJECTED',
 }
 
-export interface GetTotalSuppliesAction {
-  type: typeof TokenSupplyActions.GetTotalSupplies
+export interface GetTotalSupplyAction {
+  type: typeof TokenSupplyActions.GetTotalSupply
   payload: Promise<any>
 }
 
-export interface GetTotalSuppliesPendingAction {
-  type: typeof TokenSupplyActions.GetTotalSuppliesPending
+export interface GetTotalSupplyPendingAction {
+  type: typeof TokenSupplyActions.GetTotalSupplyPending
 }
 
-export interface GetTotalSuppliesSuccessAction {
-  type: typeof TokenSupplyActions.GetTotalSuppliesSuccess
+export interface GetTotalSupplySuccessAction {
+  type: typeof TokenSupplyActions.GetTotalSupplySuccess
   payload: {
-    data: any
+    tokenSupply: Currency[]
   }
 }
 
-export interface GetTotalSuppliesFailureAction {
-  type: typeof TokenSupplyActions.GetTotalSuppliesFailure
+export interface GetTotalSupplyFailureAction {
+  type: typeof TokenSupplyActions.GetTotalSupplyFailure
 }
 
 export type TokenSupplyActionTypes =
-  | GetTotalSuppliesAction
-  | GetTotalSuppliesPendingAction
-  | GetTotalSuppliesSuccessAction
-  | GetTotalSuppliesFailureAction
+  | GetTotalSupplyAction
+  | GetTotalSupplyPendingAction
+  | GetTotalSupplySuccessAction
+  | GetTotalSupplyFailureAction

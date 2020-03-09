@@ -1,12 +1,12 @@
 import Axios from 'axios'
-import { TokenSupplyActions, GetTotalSuppliesAction } from './types'
+import { TokenSupplyActions, GetTotalSupplyAction } from './types'
 import { Dispatch } from 'redux'
 
-export const getTotalSupplies = () => (
+export const getTotalSupply = () => (
   dispatch: Dispatch,
-): GetTotalSuppliesAction => {
+): GetTotalSupplyAction => {
   return dispatch({
-    type: TokenSupplyActions.GetTotalSupplies,
+    type: TokenSupplyActions.GetTotalSupply,
     payload: Axios.get(
       process.env.REACT_APP_BLOCKCHAIN_NODE_URL + '/supply/total',
       {
@@ -16,6 +16,8 @@ export const getTotalSupplies = () => (
           },
         ],
       },
-    ),
+    ).then(response => {
+      return { tokenSupply: response.data }
+    }),
   })
 }

@@ -6,7 +6,7 @@ import './TransactionsTable.css'
 import { Column, Table } from 'react-virtualized'
 import { connect } from 'react-redux'
 import { RootState } from '../../common/redux/types'
-import { getTotalSupplies } from '../../modules/tokenSupply/tokenSupply.actions'
+import { getTotalSupply } from '../../modules/tokenSupply/tokenSupply.actions'
 import { currencyStr } from '../../modules/account/account.utils'
 import moment from 'moment'
 
@@ -101,7 +101,7 @@ class TransactionsTable extends Component<any> {
     // table size needs manual adjusting because virtualized table renders only visible items
     this.resizeTable()
     window.addEventListener('resize', () => this.resizeTable())
-    this.props.dispatch(getTotalSupplies())
+    this.props.dispatch(getTotalSupply())
   }
 
   resizeTable(): void {
