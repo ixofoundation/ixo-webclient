@@ -33,8 +33,11 @@ export const getBalances = (symbol: string) => (
     type: BondActions.GetBalances,
     payload: Axios.all([bondRequest, priceRequest]).then(
       Axios.spread((...responses) => {
-        const bond = responses[0].data.value
-        const price = responses[1].data[0]
+        const bond = responses[0].data
+        const price = responses[1].data
+
+        console.log(bond)
+        console.log(price)
 
         return {
           symbol: bond.token,
