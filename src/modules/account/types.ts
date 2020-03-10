@@ -1,26 +1,49 @@
 import { Currency } from '../../types/models'
 
 export interface AccountState {
-  name?: string
-  address?: string
-  orders?: {}[]
+  name: string
+  address: string
+  orders: any[]
   balances: Currency[]
 }
 
 export enum AccountActions {
-  SIGN_ORDER = 'SIGN_ORDER',
-  GET_BALANCES = 'GET_BALANCES',
-  GET_ORDERS = 'GET_ORDERS',
-  INIT_PROVIDER = 'INIT_PROVIDER',
+  GetBalances = 'ixo/Account/GET_BALANCES',
+  GetBalancesSuccess = 'ixo/Account/GET_BALANCES_FULFILLED',
+  GetBalancesPending = 'ixo/Account/GET_BALANCES_PENDING',
+  GetBalancesFailure = 'ixo/Account/GET_BALANCES_REJECTED',
+  GetOrders = 'ixo/Account/GET_ORDERS',
+  GetOrdersSuccess = 'ixo/Account/GET_ORDERS_FULFILLED',
+  GetOrdersPending = 'ixo/Account/GET_ORDERS_PENDING',
+  GetOrdersFailure = 'ixo/Account/GET_ORDERS_REJECTED',
 }
 
-interface WalletActionType<T, P> {
-  type: T
-  payload?: P
+export interface GetBalancesAction {
+  type: typeof AccountActions.GetBalances
+  payload: Promise<any>
 }
 
-export type WalletAction =
-  | WalletActionType<typeof AccountActions.SIGN_ORDER, string>
-  | WalletActionType<typeof AccountActions.GET_BALANCES, any>
-  | WalletActionType<typeof AccountActions.INIT_PROVIDER, any>
-  | WalletActionType<typeof AccountActions.GET_ORDERS, any>
+export interface GetBalancesSuccessAction {
+  type: typeof AccountActions.GetBalancesSuccess
+  payload: {
+    balances: Currency[]
+  }
+}
+
+export interface GetOrdersAction {
+  type: typeof AccountActions.GetOrders
+  payload: Promise<any>
+}
+
+export interface GetOrdersSuccessAction {
+  type: typeof AccountActions.GetOrdersSuccess
+  payload: {
+    orders: any[]
+  }
+}
+
+export type AccountActionTypes =
+  | GetBalancesAction
+  | GetBalancesSuccessAction
+  | GetOrdersAction
+  | GetOrdersSuccessAction

@@ -3,25 +3,28 @@ import useForm from 'react-hook-form'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { RootState } from '../../../../common/redux/types'
-import { quoteSell } from '../../../../modules/quote/quote.actions'
-import { QuoteState } from '../../../../modules/quote/types'
+import { sell } from '../../../../modules/quote/quote.actions'
 import {
   currencyStr,
   tokenBalance,
 } from '../../../../modules/account/account.utils'
+import { Currency } from 'src/types/models'
 
 const QuoteSell = (props: any): JSX.Element => {
   const { register, handleSubmit, watch, errors } = useForm()
 
   const onSubmit = (formData: any): void => {
-    const quote: QuoteState = {}
-    quote.recieving = { denom: formData.denom }
-    quote.sending = { amount: formData.amount, denom: props.activeBond.symbol }
-    quote.minPrices = [{ denom: formData.denom, amount: formData.minAmount }]
-    props.dispatch(quoteSell(quote))
+    const sending: Currency = {
+      amount: formData.amount,
+      denom: props.activeBond.symbol,
+    }
+    const minPrices: Currency[] = [
+      { denom: formData.denom, amount: formData.minAmount },
+    ]
+    props.dispatch(sell(sending, minPrices))
   }
 
-  if (props.quotePending) {
+  if (props.activeQuote.quotePending) {
     return <div>Loading quote...</div>
   } else {
     watch()

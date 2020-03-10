@@ -22,11 +22,11 @@ export function remainingBalance(
   return balance
 }
 
-export function newBalance(store: RootState, recieving: Currency): Currency {
-  const balance = tokenBalance(store, recieving.denom!)
+export function newBalance(store: RootState, receiving: Currency): Currency {
+  const balance = tokenBalance(store, receiving.denom!)
 
   balance.amount =
-    parseInt(balance.amount! as any) + parseInt(recieving.amount! as any)
+    parseInt(balance.amount! as any) + parseInt(receiving.amount! as any)
   return balance
 }
 
