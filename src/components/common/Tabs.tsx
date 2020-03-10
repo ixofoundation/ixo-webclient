@@ -65,6 +65,7 @@ const TabsContainer = styled.div`
 `
 
 export interface Button {
+  linkClass?: string
   iconClass: string
   title?: string
   path: string
@@ -82,6 +83,7 @@ export const Tabs: React.SFC<Props> = props => {
       {props.buttons.map((button, index) => {
         return (
           <NavLink
+            className={button.linkClass ? button.linkClass : ''}
             exact={props.matchType === MatchType.exact}
             strict={props.matchType === MatchType.strict}
             to={{ pathname: button.path }}
