@@ -17,17 +17,16 @@ import {
 import { getFilterSchema } from '../../../../src/instance-settings'
 const schema = getFilterSchema()
 
-class FilterSortButtons extends React.Component<
-  {},
-  {
-    showDatePicker: boolean
-    checkTitle: string
-    categorySelections: any[]
-    startDate: any
-    endDate: any
-    dateText: string
-  }
-> {
+interface State {
+  showDatePicker: boolean
+  checkTitle: string
+  categorySelections: any[]
+  startDate: any
+  endDate: any
+  dateText: string
+}
+
+class FilterSortButtons extends React.Component<{}, State> {
   initialCategorySelections = schema.categories.map(category => ({
     category: category.title,
     tags: [],
@@ -73,11 +72,11 @@ class FilterSortButtons extends React.Component<
 
   changeDateText = (): void => {
     const { startDate, endDate } = this.state
-    !startDate && !endDate
-      ? this.setState({
-          dateText: 'Select',
-        })
-      : null
+    if (!startDate && !endDate) {
+      this.setState({
+        dateText: 'Select',
+      })
+    }
   }
 
   setId = (title): void => {
@@ -163,8 +162,8 @@ class FilterSortButtons extends React.Component<
   resetDateFilter = (): void => {
     this.setState({
       dateText: 'Dates',
-      startDate: '',
-      endDate: '',
+      startDate: null,
+      endDate: null,
     })
   }
 
@@ -257,13 +256,13 @@ class FilterSortButtons extends React.Component<
               <i className="icon-reset" style={{ padding: 6 }}></i>
               Reset
             </Button>
-            {this.state.showDatePicker ? (
+            {this.state.showDatePicker && (
               <DatePicker
                 onReset={this.resetDateFilter}
                 onChange={this.handleDateChange}
                 onApply={this.toggleShowDatePicker}
               />
-            ) : null}
+            )}
           </div>
         </FiltersWrap>
       </>

@@ -9,17 +9,22 @@ import {
   ApplyButtonDatePicker,
 } from './Style'
 
-class DatePicker extends React.Component<
-  { onChange; onReset; onApply },
-  {
-    startDate: null
-    endDate: null
-    focusedInput: string
-    onFocusChange: null
-    onDatesChange: null
-    renderControls: null
-  }
-> {
+interface Props {
+  onChange: (startDate, endDate) => void
+  onReset: () => void
+  onApply: () => void
+}
+
+interface State {
+  startDate: any
+  endDate: any
+  focusedInput: string
+  onFocusChange: null
+  onDatesChange: null
+  renderControls: null
+}
+
+class DatePicker extends React.Component<Props, State> {
   constructor(props) {
     super(props)
     this.state = {
@@ -67,10 +72,10 @@ class DatePicker extends React.Component<
             hideKeyboardShortcutsPanel
           />
         </div>
-        <ResetButtonDatePicker onClick={(): void => this.onReset()}>
+        <ResetButtonDatePicker onClick={this.onReset}>
           Reset
         </ResetButtonDatePicker>
-        <ApplyButtonDatePicker onClick={(): void => this.props.onApply()}>
+        <ApplyButtonDatePicker onClick={this.props.onApply}>
           Apply
         </ApplyButtonDatePicker>
       </DatePickerModal>
