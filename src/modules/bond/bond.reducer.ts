@@ -1,12 +1,11 @@
-import createReducer from '../../common/redux/createReducer'
-import { BondActions, BondAction } from './types'
-import { Currency } from '../../types/models'
-import { BondState } from './types'
+import { BondActions } from './types'
+import { BondState, BondActionTypes } from './types'
 
-const activeBondInitialState = {
+export const initialState = {
   symbol: 'token1',
   name: 'N/A',
   address: 'N/A',
+  type: '',
   collateral: { amount: 0, denom: 'N/A' },
   totalSupply: { amount: 0, denom: 'N/A' },
   price: { amount: 0, denom: 'N/A' },
@@ -15,41 +14,23 @@ const activeBondInitialState = {
   trades: [],
 } as BondState
 
-export const activeBond = createReducer(activeBondInitialState, {
-  [BondActions.GET_BOND_BALANCES + '_FULFILLED'](
-    activeBond: BondState,
-    action: BondAction,
-  ) {
-    const newState = Object.assign({}, action.payload)
-    newState.trades = []
+export const reducer = (
+  state = initialState,
+  action: BondActionTypes,
+): BondState => {
+  switch (action.type) {
+    case BondActions.GetBalancesSuccess:
+      return {
+        ...action.payload,
+        trades: state.symbol === action.payload.symbol ? [...state.trades] : [],
+      }
 
-    // keep old trade if the same
-    if (activeBond.symbol == action.payload.symbol) {
-      newState.trades = activeBond.trades
-    }
-    return newState
-  },
-  [BondActions.GET_TRADES + '_FULFILLED'](
-    activeBond: BondState,
-    action: BondAction,
-  ) {
-    const newState = Object.assign({}, activeBond)
-    newState.trades = action.payload!
-    return newState
-  },
-})
+    case BondActions.GetTradesSuccess:
+      return {
+        ...state,
+        trades: action.payload.trades,
+      }
+  }
 
-export const totalSupplies = createReducer([] as Currency[], {
-  [BondActions.GET_TOTAL_SUPPLIES + '_FULFILLED'](
-    totalSupplies: [],
-    action: BondAction,
-  ) {
-    const newState = Object.assign([], action.payload)
-    return newState
-  },
-})
-
-// activeBond: Bond;
-// balances: [Currency];
-// accounts: Accounts;
-// activeQuote: Quote;
+  return state
+}

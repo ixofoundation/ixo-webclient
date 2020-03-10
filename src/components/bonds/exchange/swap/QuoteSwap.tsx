@@ -3,8 +3,7 @@ import useForm from 'react-hook-form'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { RootState } from '../../../../common/redux/types'
-import { quoteSwap } from '../../../../modules/quote/quote.actions'
-import { QuoteState } from '../../../../modules/quote/types'
+import { swap } from '../../../../modules/quote/quote.actions'
 import {
   currencyStr,
   tokenBalance,
@@ -47,21 +46,18 @@ const QuoteSwap = (props: any): JSX.Element => {
   // }, []);
 
   const onSubmit = (formData: any): void => {
-    const quote: QuoteState = {}
-
-    quote.bondToken = props.activeBond.symbol
-    quote.sending = { denom: formData.denom, amount: formData.amount }
-    quote.recieving = { denom: formData.recievingDenom }
+    const sending = { denom: formData.denom, amount: formData.amount }
+    const receiving = { denom: formData.receivingDenom }
     // quote.minPrices = [{ denom: formData.denom, amount: formData.minAmount }]
-    props.dispatch(quoteSwap(quote))
+    props.dispatch(swap(sending, receiving))
   }
 
-  if (props.quotePending) {
+  if (props.activeQuote.quotePending) {
     return <div>Loading quote...</div>
   } else {
     watch()
     const payDenom = watch('denom') || 'res'
-    const recDenom = watch('recievingDenom') || 'res'
+    const recDenom = watch('receivingDenom') || 'res'
 
     const payOptions: [string] = props.account.balances.map(
       (balance: { denom: string }) => balance.denom,
@@ -114,8 +110,8 @@ const QuoteSwap = (props: any): JSX.Element => {
 
         {/* displays the balances of the connected Cosmos account addresses */}
         <div className="label">Recieve</div>
-        <select name="recievingDenom" ref={register({ required: true })}>
-          {props.totalSupplies.map((supply: Currency) => (
+        <select name="receivingDenom" ref={register({ required: true })}>
+          {props.tokenSupply.map((supply: Currency) => (
             <option key={supply.denom} value={supply.denom}>
               {supply.denom!.toUpperCase()}
             </option>
