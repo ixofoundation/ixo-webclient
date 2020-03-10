@@ -26,6 +26,20 @@
     .token {
       max-width: 100px;
     }
+
+    @media (max-width: 768px) {
+      width: initial;
+      overflow-x: scroll;
+    }
+  }
+
+  .transaction-table-wrapper {
+    @media (max-width: 768px) {
+      overflow-x: scroll;
+      .transaction-table-inner {
+        width: 55rem;
+      }
+    }
   }
   .ReactVirtualized__Table__headerRow {
     font-size: 0.8rem;
@@ -33,6 +47,15 @@
     font-family: 'Roboto', sans-serif;
     color: white;
     font-weight: normal;
+  }
+  .ReactVirtualized__Table__headerRow,
+  .ReactVirtualized__Table__Grid,
+  .ReactVirtualized__Grid__innerScrollContainer,
+  .ReactVirtualized__Table__row {
+    @media (max-width: 768px) {
+      width: 100% !important;
+      max-width: 100% !important;
+    }
   }
   .ReactVirtualized__Table__row {
     color: white;

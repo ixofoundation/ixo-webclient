@@ -25,28 +25,51 @@ const BondsHomeSectionNav = styled.div`
       color: #87def6;
     }
   }
+  @media (max-width: 768px) {
+    padding: 1rem 0;
+    margin: 0;
+    width: initial;
+    overflow-x: scroll;
+  }
 `
 
-export class Overview extends Component {
+export class Overview extends Component<any> {
   render(): JSX.Element {
+    const projectDID = this.props.match.params.projectDID
     return (
-      <BondsWrapper>
+      <BondsWrapper {...this.props.match}>
         <div className="BondsWrapper_panel">
           <BondsHomeSectionNav>
-            <NavLink to="/bonds" exact>
+            <NavLink to={`/projects/${projectDID}/bonds`} exact>
               Charts
             </NavLink>
-            <NavLink to="/bonds/overview/trades">Trades</NavLink>
-            <NavLink to="/bonds/overview/events">Events</NavLink>
+            <NavLink to={`/projects/${projectDID}/bonds/overview/trades`}>
+              Trades
+            </NavLink>
+            <NavLink to={`/projects/${projectDID}/bonds/overview/events`}>
+              Events
+            </NavLink>
           </BondsHomeSectionNav>
 
           <Route
             exact
-            path={['/bonds/overview/charts', '/bonds/overview/', '/bonds']}
+            path={[
+              `/projects/${projectDID}/bonds/overview/charts`,
+              `/projects/${projectDID}/bonds/overview/`,
+              `/projects/${projectDID}/bonds`,
+            ]}
             component={Charts}
           />
-          <Route exact path="/bonds/overview/trades" component={Trades} />
-          <Route exact path="/bonds/overview/events" component={Events} />
+          <Route
+            exact
+            path={`/projects/${projectDID}/bonds/overview/trades`}
+            component={Trades}
+          />
+          <Route
+            exact
+            path={`/projects/${projectDID}/bonds/overview/events`}
+            component={Events}
+          />
         </div>
       </BondsWrapper>
     )

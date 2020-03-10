@@ -6,7 +6,7 @@ import './TransactionsTable.css'
 import { Column, Table } from 'react-virtualized'
 import { connect } from 'react-redux'
 import { RootState } from '../../common/redux/types'
-import { getTotalSupplies } from '../../modules/bond/bond.actions'
+import { getTotalSupply } from '../../modules/tokenSupply/tokenSupply.actions'
 import { currencyStr } from '../../modules/account/account.utils'
 import moment from 'moment'
 
@@ -101,7 +101,7 @@ class TransactionsTable extends Component<any> {
     // table size needs manual adjusting because virtualized table renders only visible items
     this.resizeTable()
     window.addEventListener('resize', () => this.resizeTable())
-    this.props.dispatch(getTotalSupplies())
+    this.props.dispatch(getTotalSupply())
   }
 
   resizeTable(): void {
@@ -205,7 +205,7 @@ class TransactionsTable extends Component<any> {
             >
               <option value="All">All Tokens</option>
 
-              {this.props.totalSupplies.map((supply: Currency) => (
+              {this.props.tokenSupply.map((supply: Currency) => (
                 <option
                   key={supply.denom}
                   selected={this.props.selectedToken == supply.denom!}
@@ -248,107 +248,97 @@ class TransactionsTable extends Component<any> {
             </ExportButton>
           </div>
 
-          <Table
-            width={this.state.tableWidth}
-            height={500}
-            headerHeight={40}
-            rowHeight={60}
-            rowCount={this.state.list.length}
-            rowGetter={({ index }): void => this.state.list[index]}
-          >
-            <Column
-              label="Time"
-              dataKey="timestamp"
-              width={150}
-              cellRenderer={(tcp): string => {
-                const time = moment(tcp.cellData)
-                return time.fromNow()
-              }}
-            />
+          <div className="transaction-table-wrapper">
+            <div className="transaction-table-inner">
+              <Table
+                width={this.state.tableWidth}
+                height={500}
+                headerHeight={40}
+                rowHeight={60}
+                rowCount={this.state.list.length}
+                rowGetter={({ index }): void => this.state.list[index]}
+              >
+                <Column
+                  label="Time"
+                  dataKey="timestamp"
+                  width={150}
+                  cellRenderer={(tcp): string => {
+                    const time = moment(tcp.cellData)
+                    return time.fromNow()
+                  }}
+                />
 
-            <Column
-              label="Account"
-              width={250}
-              dataKey="tx"
-              cellRenderer={(tcp): JSX.Element => {
-                const accountKey: any = {
-                  'cosmos-sdk/MsgBuy': 'buyer',
-                  'cosmos-sdk/MsgSell': 'seller',
-                  'cosmos-sdk/MsgSwap': 'swapper',
-                }
-                const msg = tcp.cellData.value.msg[0]
-                return (
-                  <span className="address">
-                    {msg.value[accountKey[msg.type]]}
-                  </span>
-                )
-              }}
-            />
-            <Column
-              label="Order Type"
-              width={150}
-              dataKey="tx"
-              cellRenderer={(tcp): string => {
-                const orderTypes: any = {
-                  'cosmos-sdk/MsgBuy': 'Buy',
-                  'cosmos-sdk/MsgSell': 'Sell',
-                  'cosmos-sdk/MsgSwap': 'Swap',
-                }
-                const msg = tcp.cellData.value.msg[0]
-                return orderTypes[msg.type]
-              }}
-            />
+                <Column
+                  label="Account"
+                  width={250}
+                  dataKey="tx"
+                  cellRenderer={(tcp): JSX.Element => {
+                    const accountKey: any = {
+                      'cosmos-sdk/MsgBuy': 'buyer',
+                      'cosmos-sdk/MsgSell': 'seller',
+                      'cosmos-sdk/MsgSwap': 'swapper',
+                    }
+                    const msg = tcp.cellData.value.msg[0]
+                    return (
+                      <span className="address">
+                        {msg.value[accountKey[msg.type]]}
+                      </span>
+                    )
+                  }}
+                />
+                <Column
+                  label="Order Type"
+                  width={150}
+                  dataKey="tx"
+                  cellRenderer={(tcp): string => {
+                    const orderTypes: any = {
+                      'cosmos-sdk/MsgBuy': 'Buy',
+                      'cosmos-sdk/MsgSell': 'Sell',
+                      'cosmos-sdk/MsgSwap': 'Swap',
+                    }
+                    const msg = tcp.cellData.value.msg[0]
+                    return orderTypes[msg.type]
+                  }}
+                />
 
-            <Column
-              label="Status"
-              width={250}
-              dataKey="logs"
-              cellRenderer={(tcp): JSX.Element =>
-                tcp.cellData[0].success ? (
-                  <>
-                    <img src={checkmark} width={15} className="icon" />
-                    Confirmed
-                  </>
-                ) : (
-                  <>
-                    <img src={x} width={15} className="icon" />
-                    Cancelled
-                  </>
-                )
-              }
-            />
+                <Column
+                  label="Status"
+                  width={250}
+                  dataKey="logs"
+                  cellRenderer={(tcp): JSX.Element =>
+                    tcp.cellData[0].success ? (
+                      <>
+                        <img src={checkmark} width={15} className="icon" />
+                        Confirmed
+                      </>
+                    ) : (
+                      <>
+                        <img src={x} width={15} className="icon" />
+                        Cancelled
+                      </>
+                    )
+                  }
+                />
 
-            <Column
-              label="Order Amount"
-              width={250}
-              dataKey="tx"
-              cellRenderer={(tcp): string =>
-                currencyStr(tcp.cellData.value.msg[0].value.amount)
-              }
-            />
-            {/* <Column label="Order Amount" width={250} dataKey="events" cellRenderer={(tcp: any) => {
-                            const type = this.txType(tcp.rowData.tx)
-                            console.log(tcp.rowData.logs[0].success)
-                            // if (isArray(tcp.cellData) && tcp.cellData.length > 1) {
-                            if (type == "Buy" && tcp.rowData.logs[0].success) {
-                                let attributes = tcp.cellData[tcp.cellData.length - 1].attributes
-                                return JSON.stringify(attributes)
-                            }
-                            // return type
-                            // return attributes[attributes.length - 1].value
-                            // } else {
-                            //     return "nil"
-                            // }
-                        }} /> */}
-            <Column
-              label="Tokens"
-              width={250}
-              dataKey="tx"
-              cellRenderer={(tcp): string =>
-                currencyStr(tcp.cellData.value.msg[0].value.amount)
-              }
-            />
-          </Table>
+                <Column
+                  label="Order Amount"
+                  width={250}
+                  dataKey="tx"
+                  cellRenderer={(tcp): string =>
+                    currencyStr(tcp.cellData.value.msg[0].value.amount)
+                  }
+                />
+                <Column
+                  label="Tokens"
+                  width={250}
+                  dataKey="tx"
+                  cellRenderer={(tcp): string =>
+                    currencyStr(tcp.cellData.value.msg[0].value.amount)
+                  }
+                />
+              </Table>
+            </div>
+          </div>
 
           <div className="pagination">
             <a className="pageNumber active">{this.state.page}</a>

@@ -4,10 +4,7 @@ import { withRouter, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { RootState } from '../../../../common/redux/types'
 
-import {
-  confirmSell,
-  clearQuote,
-} from '../../../../modules/quote/quote.actions'
+import { confirmSell, clear } from '../../../../modules/quote/quote.actions'
 
 import {
   remainingBalance,
@@ -16,40 +13,40 @@ import {
 } from '../../../../modules/account/account.utils'
 
 const ConfirmSell = (props: any): JSX.Element => {
+  const projectDID = props.match.params.projectDID
+
   const { handleSubmit } = useForm()
 
   const error = (message?: string): JSX.Element => {
     return message ? <div className="error">{message}</div> : undefined
   }
 
-  if (props.signPending) {
+  if (props.activeQuote.signPending) {
     return <div>Signing Transaction</div>
-  } else if (!props.activeQuote.recieving) {
+  } else if (!props.activeQuote.receiving) {
     return (
       <Redirect
-        from="/bonds/exchange/sell/confirm"
+        from={`/projects/${projectDID}/bonds/exchange/sell/confirm`}
         exact
-        to="/bonds/exchange/sell"
+        to={`/projects/${projectDID}/bonds/exchange/sell`}
       />
     )
   } else {
     const onSubmit = (): void => {
-      props.dispatch(
-        confirmSell(props.activeQuote, props.activeBond, props.account.address),
-      )
+      props.dispatch(confirmSell())
     }
 
     const onBack = (): void => {
-      props.dispatch(clearQuote())
+      props.dispatch(clear())
       props.history.push('../sell')
     }
 
     const actualPrice = props.activeQuote.sending
-    const recieving = props.activeQuote.recieving
+    const receiving = props.activeQuote.receiving
     const estPricePer = {
       amount:
-        props.activeQuote.recieving.amount / props.activeQuote.sending.amount,
-      denom: props.activeQuote.recieving.denom,
+        props.activeQuote.receiving.amount / props.activeQuote.sending.amount,
+      denom: props.activeQuote.receiving.denom,
     }
 
     const remBal = remainingBalance(props, props.activeQuote.sending)
@@ -58,7 +55,7 @@ const ConfirmSell = (props: any): JSX.Element => {
         ? "You're attempting to sell more than your holdings."
         : undefined
 
-    const newBal = newBalance(props, props.activeQuote.recieving)
+    const newBal = newBalance(props, props.activeQuote.receiving)
     const minPrice = props.activeQuote.minPrices[0]
     const minPriceError =
       minPrice.amount < estPricePer.amount
@@ -83,9 +80,15 @@ const ConfirmSell = (props: any): JSX.Element => {
           {error(remBalError)}
         </div>
 
-        <div className="label">Recieve</div>
+        <div className="label">Receive</div>
         <div>
-          <h3>{currencyStr(recieving)}</h3>
+          <h3>{currencyStr(receiving)}</h3>
+          <div className="label_subtitle">
+            * Includes a{' '}
+            <span className="label_subtitle__bold">
+              {currencyStr(props.activeQuote.totalFees[0])} fee
+            </span>
+          </div>
           <div className="label_subtitle">
             My total balance will be{' '}
             <span className="label_subtitle__bold">{currencyStr(newBal)}</span>

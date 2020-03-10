@@ -2,51 +2,41 @@ import React, { Component } from 'react'
 import HeaderItem from './header-item/HeaderItem'
 import { connect } from 'react-redux'
 import { RootState } from '../../../common/redux/types'
-import {
-  initProvider,
-  getBalances,
-} from '../../../modules/account/account.actions'
+import { getBalances as getAccountBalances } from '../../../modules/account/account.actions'
+import { getBalances as getBondBalances } from '../../../modules/bond/bond.actions'
 import { tokenBalance } from '../../../modules/account/account.utils'
-import { getBondBalances } from '../../../modules/bond/bond.actions'
+import { deviceWidth } from '../../../lib/commonData'
 
 import styled from 'styled-components'
 
 const StyledHeader = styled.header`
-  margin: 2.5rem;
+  margin: 1.25rem;
   display: flex;
   flex-flow: row wrap;
+  justify-content: space-between;
+  @media (min-width: ${deviceWidth.tablet}px) {
+    justify-content: flex-start;
+    margin: 2.5rem;
+  }
 `
+
+const INTERVAL_LENGTH = 6000
 
 class Header extends Component<any> {
   constructor(props: any) {
     super(props)
 
-    // initialize keysafe or query account & bond balances
-    if (Object.entries(this.props.account).length === 0) {
-      this.props.dispatch(initProvider())
-    } else {
-      this.props.dispatch(getBalances(this.props.account.address))
-    }
+    setInterval(() => {
+      this.refreshBalances()
+    }, INTERVAL_LENGTH)
 
-    // get bond information
-    this.props.dispatch(getBondBalances(props.activeBond.symbol))
+    this.refreshBalances()
   }
 
-  UNSAFE_componentWillReceiveProps(nextProps: RootState): void {
-    // if the user changes, get their balances
-    if (this.props.account.address !== nextProps.account.address) {
-      this.props.dispatch(getBalances(this.props.account.address))
-    }
-    // if we're on a different bond, init that bond.
-    if (this.props.activeBond.symbol !== nextProps.activeBond.symbol) {
-      this.props.dispatch(getBondBalances(nextProps.activeBond.symbol))
-    }
-
-    // if there are more trades, update the bond's balances
-    if (
-      this.props.activeBond.trades.length !== nextProps.activeBond.trades.length
-    ) {
-      this.props.dispatch(getBondBalances(nextProps.activeBond.symbol))
+  refreshBalances = (): void => {
+    if (Object.entries(this.props.account).length > 0) {
+      this.props.dispatch(getAccountBalances(this.props.account.address))
+      this.props.dispatch(getBondBalances(this.props.activeBond.symbol))
     }
   }
 

@@ -1,61 +1,66 @@
-import { WalletAction, AccountActions } from './types'
-import { AsyncAction } from 'redux-promise-middleware'
-import KeystationService from '../../service/KeystationService'
+import { AccountActions, GetBalancesAction, GetOrdersAction } from './types'
+import { Dispatch } from 'redux'
 import Axios from 'axios'
 
-const ks = new KeystationService()
-
-export function signOrder(txJsonStr: string): WalletAction {
-  return {
-    type: AccountActions.SIGN_ORDER,
-    payload: txJsonStr,
-  }
-}
-
-export const initProvider = (): AsyncAction => ({
-  type: AccountActions.INIT_PROVIDER,
-  payload: (ks.activate() as Promise<any>).then(response => {
-    return response
-  }),
-})
-
-export const getBalances = (address: string): AsyncAction => {
-  return {
-    type: AccountActions.GET_BALANCES,
+export const getBalances = (address: string) => (
+  dispatch: Dispatch,
+): GetBalancesAction => {
+  return dispatch({
+    type: AccountActions.GetBalances,
     payload: Axios.get(
       process.env.REACT_APP_BLOCKCHAIN_NODE_URL + '/auth/accounts/' + address,
+      {
+        transformResponse: [
+          (response: string): any => {
+            return JSON.parse(response).result.value.coins
+          },
+        ],
+      },
     ).then(response => {
-      return response.data.result.value.coins
+      return { balances: response.data }
     }),
-  }
+  })
 }
 
-export const getOrders = (address: string): AsyncAction => {
+export const getOrders = (address: string) => (
+  dispatch: Dispatch,
+): GetOrdersAction => {
+  const config = {
+    transformResponse: [
+      (response: string): any => {
+        return JSON.parse(response).txs
+      },
+    ],
+  }
+
   const buyReq = Axios.get(
     process.env.REACT_APP_BLOCKCHAIN_NODE_URL +
       '/txs?message.action=buy&transfer.recipient=' +
       address,
+    config,
   )
   const sellReq = Axios.get(
     process.env.REACT_APP_BLOCKCHAIN_NODE_URL +
       '/txs?message.action=sell&message.sender=' +
       address,
+    config,
   )
   const swapReq = Axios.get(
     process.env.REACT_APP_BLOCKCHAIN_NODE_URL +
       '/txs?message.action=swap&transfer.recipient=' +
       address,
+    config,
   )
 
-  return {
-    type: AccountActions.GET_ORDERS,
+  return dispatch({
+    type: AccountActions.GetOrders,
     payload: Axios.all([sellReq, buyReq, swapReq]).then(
       Axios.spread((...responses) => {
-        const buy = responses[0].data.txs
-        const sell = responses[1].data.txs
-        const swap = responses[2].data.txs
-        return [...buy, ...sell, ...swap]
+        const buy = responses[0].data
+        const sell = responses[1].data
+        const swap = responses[2].data
+        return { orders: [...buy, ...sell, ...swap] }
       }),
     ),
-  }
+  })
 }

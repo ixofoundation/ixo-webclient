@@ -37,16 +37,7 @@ class Exchange extends Component<any> {
   // console.log(this.props)
   componentDidMount(): void {
     this.props.dispatch({
-      type: QuoteActions.QUOTE_BUY + '_FAILED',
-    })
-    this.props.dispatch({
-      type: QuoteActions.QUOTE_SELL + '_FAILED',
-    })
-    this.props.dispatch({
-      type: QuoteActions.QUOTE_SWAP + '_FAILED',
-    })
-    this.props.dispatch({
-      type: QuoteActions.CONFIRM_QUOTE + '_FAILED',
+      type: QuoteActions.QuoteFailure,
     })
   }
 
@@ -59,14 +50,20 @@ class Exchange extends Component<any> {
   }
 
   render(): JSX.Element {
+    const projectDID = this.props.match.params.projectDID
+
     return (
-      <BondsWrapper>
+      <BondsWrapper {...this.props.match}>
         <div className="BondsWrapper_panel exchange_panel">
           {/*<b style={{fontSize: 'calc(10px + 2vmin)'}}>Balances</b>
               <div className="BondsWrapper_panel__content"></div>*/}
           <BondsSectionNav>
             <NavLink
-              to={!this.props.transacting ? '/bonds/exchange/' : '#'}
+              to={
+                !this.props.activeQuote.transacting
+                  ? `/projects/${projectDID}/bonds/exchange/`
+                  : '#'
+              }
               isActive={(m, l): boolean => this.isActive(m, l, ['/buy'])}
               exact
               className="tablinks_tablink"
@@ -74,7 +71,11 @@ class Exchange extends Component<any> {
               Buy
             </NavLink>
             <NavLink
-              to={!this.props.transacting ? '/bonds/exchange/sell' : '#'}
+              to={
+                !this.props.activeQuote.transacting
+                  ? `/projects/${projectDID}/bonds/exchange/sell`
+                  : '#'
+              }
               isActive={(m, l): boolean => this.isActive(m, l, ['/sell'])}
               className="tablinks_tablink"
             >
@@ -82,7 +83,11 @@ class Exchange extends Component<any> {
             </NavLink>
             {this.props.activeBond.type == 'swapper_function' ? (
               <NavLink
-                to={!this.props.transacting ? '/bonds/exchange/swap' : '#'}
+                to={
+                  !this.props.activeQuote.transacting
+                    ? `/projects/${projectDID}/bonds/exchange/swap`
+                    : '#'
+                }
                 isActive={(m, l): boolean => this.isActive(m, l, ['/swap'])}
                 className="tablinks_tablink"
               >
@@ -95,21 +100,27 @@ class Exchange extends Component<any> {
           <Route
             exact
             path={[
-              '/bonds/exchange/buy',
-              '/bonds/exchange/buy/confirm',
-              '/bonds/exchange/',
+              `/projects/${projectDID}/bonds/exchange/buy`,
+              `/projects/${projectDID}/bonds/exchange/buy/confirm`,
+              `/projects/${projectDID}/bonds/exchange/`,
             ]}
-            component={Buy}
+            render={(): JSX.Element => <Buy {...this.props.match.params} />}
           />
           <Route
             exact
-            path={['/bonds/exchange/sell', '/bonds/exchange/sell/confirm']}
-            component={Sell}
+            path={[
+              `/projects/${projectDID}/bonds/exchange/sell`,
+              `/projects/${projectDID}/bonds/exchange/sell/confirm`,
+            ]}
+            render={(): JSX.Element => <Sell {...this.props.match.params} />}
           />
           <Route
             exact
-            path={['/bonds/exchange/swap', '/bonds/exchange/swap/confirm']}
-            component={Swap}
+            path={[
+              `/projects/${projectDID}/bonds/exchange/swap`,
+              `/projects/${projectDID}/bonds/exchange/swap/confirm`,
+            ]}
+            render={(): JSX.Element => <Swap {...this.props.match.params} />}
           />
         </div>
       </BondsWrapper>

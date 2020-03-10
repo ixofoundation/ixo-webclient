@@ -6,7 +6,7 @@ import './BondsWrapper.css'
 import { BondsHero } from './BondsHero'
 import { TypeForm } from '../TypeForm'
 
-export default function BondsWrapper({ children }): JSX.Element {
+export default function BondsWrapper({ children, params }): JSX.Element {
   const isActive = (m: any, l: any, paths: [string]): any => {
     let active = m != undefined
 
@@ -24,18 +24,20 @@ export default function BondsWrapper({ children }): JSX.Element {
         <div className="tablinks sidebar">
           <NavLink
             exact
-            to="/bonds"
+            to={`/projects/${params.projectDID}/bonds`}
             isActive={(m, l): any => {
-              return isActive(m, l, ['/bonds/overview'])
+              return isActive(m, l, [
+                `/projects/${params.projectDID}/bonds/overview`,
+              ])
             }}
             className="tablinks_tablink icon home"
           />
           <NavLink
-            to="/bonds/exchange"
+            to={`/projects/${params.projectDID}/bonds/exchange`}
             className="tablinks_tablink icon trades"
           />
           <NavLink
-            to="/bonds/orders"
+            to={`/projects/${params.projectDID}/bonds/orders`}
             className="tablinks_tablink icon orders"
           />
           <a className="tablinks_tablink icon wallet" />

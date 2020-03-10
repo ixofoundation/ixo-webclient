@@ -5,6 +5,7 @@ import { Fragment } from 'react'
 import { deviceWidth } from '../../lib/commonData'
 import MediaQuery from 'react-responsive'
 import { getIxoWorldRoute } from '../../common/utils/formatters'
+import * as instanceSettings from '../../instance-settings'
 
 const HeaderLink = styled(NavLink)`
 	color: white;
@@ -222,15 +223,7 @@ export class HeaderLeft extends React.Component<ParentProps> {
           >
             Explore
           </HeaderLink>
-          <HeaderAnchor href={getIxoWorldRoute('/membership')}>
-            Membership
-          </HeaderAnchor>
-          <HeaderAnchor href={getIxoWorldRoute('/subscribe')}>
-            Subscribe
-          </HeaderAnchor>
-          <HeaderAnchor href={getIxoWorldRoute('/ecosystem')}>
-            Ecosystem
-          </HeaderAnchor>
+          <HeaderLink to="#">Launch a project</HeaderLink>
         </Fragment>
       )
     } else {
@@ -246,14 +239,7 @@ export class HeaderLeft extends React.Component<ParentProps> {
             </MenuHeaderLink>
           </MenuHeaderContainer>
           <MenuHeaderContainer>
-            <MenuHeaderAnchor href={getIxoWorldRoute('/membership')}>
-              Membership
-            </MenuHeaderAnchor>
-          </MenuHeaderContainer>
-          <MenuHeaderContainer>
-            <MenuHeaderAnchor href={getIxoWorldRoute('/ecosystem')}>
-              Ecosystem
-            </MenuHeaderAnchor>
+            <MenuHeaderAnchor href="#">Launch a project</MenuHeaderAnchor>
           </MenuHeaderContainer>
         </Fragment>
       )
@@ -268,7 +254,7 @@ export class HeaderLeft extends React.Component<ParentProps> {
             <a href={getIxoWorldRoute('')}>
               <IXOLogo
                 alt="IXO Logo"
-                src={require('../../assets/images/ixo-logo.svg')}
+                src={instanceSettings.getLogoImageSrc()}
               />
             </a>
           </div>

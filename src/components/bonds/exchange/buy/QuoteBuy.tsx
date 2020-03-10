@@ -3,8 +3,7 @@ import useForm from 'react-hook-form'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { RootState } from '../../../../common/redux/types'
-import { quoteBuy } from '../../../../modules/quote/quote.actions'
-import { QuoteState } from '../../../../modules/quote/types'
+import { buy } from '../../../../modules/quote/quote.actions'
 import {
   currencyStr,
   tokenBalance,
@@ -14,18 +13,17 @@ const QuoteBuy = (props: any): JSX.Element => {
   const { register, handleSubmit, watch, errors } = useForm()
 
   const onSubmit = (formData: any): void => {
-    const quote: QuoteState = {}
-    quote.sending = { denom: formData.denom }
-    quote.recieving = {
+    const sending = { denom: formData.denom }
+    const receiving = {
       amount: formData.amount,
       denom: props.activeBond.symbol,
     }
-    quote.maxPrices = [{ denom: formData.denom, amount: formData.maxAmount }]
+    const maxPrices = [{ denom: formData.denom, amount: formData.maxAmount }]
 
-    props.dispatch(quoteBuy(quote))
+    props.dispatch(buy(sending, receiving, maxPrices))
   }
 
-  if (props.quotePending) {
+  if (props.activeQuote.quotePending) {
     return <div>Loading quote...</div>
   } else {
     watch()
@@ -45,7 +43,8 @@ const QuoteBuy = (props: any): JSX.Element => {
         <input
           name="amount"
           placeholder="Enter your order quantity"
-          ref={register({ required: true, pattern: /^[0-9]+$/i })}
+          type="number"
+          ref={register({ required: true, min: 0.001 })}
         />
         <div
           style={{
@@ -87,8 +86,10 @@ const QuoteBuy = (props: any): JSX.Element => {
         <input
           name="maxAmount"
           placeholder="Enter the highest offer you would accept"
-          ref={register({ required: true, pattern: /^[0-9]+$/i })}
+          type="number"
+          ref={register({ required: true })}
         />
+
         <div
           style={{
             display: 'flex',

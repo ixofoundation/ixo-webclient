@@ -190,6 +190,7 @@ export class ProjectContainer extends React.Component<Props, State> {
   }
 
   handleGetProjectData = (autorefresh?: boolean, agentDid?: string): void => {
+    console.log(this.props.location)
     if (
       (this.gettingProjectData === false && autorefresh === true) ||
       this.state.projectPublic === null

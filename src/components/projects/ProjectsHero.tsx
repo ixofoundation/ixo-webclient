@@ -6,6 +6,7 @@ import { StatType, MatchType } from '../../types/models'
 import { deviceWidth } from '../../lib/commonData'
 import Search from '../common/Search'
 import { contentType } from '../../types/models'
+import * as instanceSettings from '../../instance-settings'
 
 const ContainerInner = styled.div`
   height: auto;
@@ -63,8 +64,7 @@ const PositionController = styled.div`
 `
 
 const HeroContainer = styled.div`
-  background: url(${require('../../assets/images/heroBg.jpg')}) no-repeat center
-    top;
+  background: url(${instanceSettings.getBGImageSrc()}) no-repeat center top;
   background-size: cover;
   margin: 0 0 0px;
   cursor: pointer;
@@ -153,9 +153,9 @@ export class ProjectsHero extends React.Component<Props, State> {
         onClick: (): void => this.props.showMyProjects(false),
       },
       {
-        title: 'TOTAL IMPACT CLAIMS',
+        title: 'VERIFIED CLAIMS',
         type: StatType.fraction,
-        descriptor: [{ class: 'text', value: 'verified to date' }],
+        descriptor: [{ class: 'text', value: ' ' }],
         amount: [
           this.state.statistics.claims.totalSuccessful,
           this.state.statistics.claims.total,
@@ -163,10 +163,7 @@ export class ProjectsHero extends React.Component<Props, State> {
         onClick: (): void => this.props.showMyProjects(false),
       },
       {
-        title: 'TOTAL IXO IN CIRCULATION',
-        type: StatType.fraction,
-        descriptor: [{ class: 'text', value: 'IXO staked to date' }],
-        amount: [0, 0],
+        ...instanceSettings.getCirculationHeroConfig(),
         onClick: (): void => this.props.showMyProjects(false),
       },
     ]

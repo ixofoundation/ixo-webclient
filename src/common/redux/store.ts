@@ -3,7 +3,6 @@ import { applyMiddleware, createStore, Store } from 'redux'
 import { composeWithDevTools } from 'redux-devtools-extension'
 import { rootReducer } from './reducers'
 import { RootState } from './types'
-import logger from 'redux-logger'
 import promise from 'redux-promise-middleware'
 
 // TODO - PERSISTENCE
@@ -17,7 +16,7 @@ export function createPublicSiteStore(
   publicStore = createStore(
     rootReducer,
     preloadedState,
-    composeWithDevTools(applyMiddleware(thunk, logger, promise)),
+    composeWithDevTools(applyMiddleware(thunk, promise)),
   )
   return publicStore
 }
