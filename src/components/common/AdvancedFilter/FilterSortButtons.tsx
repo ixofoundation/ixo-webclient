@@ -71,8 +71,7 @@ class FilterSortButtons extends React.Component<{}, State> {
   }
 
   changeDateText = (): void => {
-    const { startDate, endDate } = this.state
-    if (!startDate && !endDate) {
+    if (this.state.dateText === 'Dates') {
       this.setState({
         dateText: 'Select',
       })
@@ -142,6 +141,9 @@ class FilterSortButtons extends React.Component<{}, State> {
   resetFilters = (): void => {
     this.setState({
       categorySelections: this.initialCategorySelections,
+      dateText: 'Dates',
+      startDate: null,
+      endDate: null,
     })
   }
 
@@ -261,6 +263,8 @@ class FilterSortButtons extends React.Component<{}, State> {
                 onReset={this.resetDateFilter}
                 onChange={this.handleDateChange}
                 onApply={this.toggleShowDatePicker}
+                initialStartDate={this.state.startDate}
+                initialEndDate={this.state.endDate}
               />
             )}
           </div>

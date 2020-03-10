@@ -13,6 +13,8 @@ interface Props {
   onChange: (startDate, endDate) => void
   onReset: () => void
   onApply: () => void
+  initialStartDate: null
+  initialEndDate: null
 }
 
 interface State {
@@ -28,8 +30,8 @@ class DatePicker extends React.Component<Props, State> {
   constructor(props) {
     super(props)
     this.state = {
-      startDate: null,
-      endDate: null,
+      startDate: this.props.initialStartDate,
+      endDate: this.props.initialEndDate,
       focusedInput: 'startDate',
       onFocusChange: null,
       onDatesChange: null,
