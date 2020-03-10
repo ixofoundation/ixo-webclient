@@ -56,10 +56,10 @@ class FilterSortButtons extends React.Component<{}, State> {
     let startDateFormatted
     let endDateFormatted
     if (startDate) {
-      startDateFormatted = startDate.format("D MMM\\'YY")
+      startDateFormatted = startDate.format("D MMM \\'YY")
     }
     if (endDate) {
-      endDateFormatted = endDate.format("D MMM\\'YY")
+      endDateFormatted = endDate.format("D MMM \\'YY")
     }
     if (startDate && endDate) {
       this.setState({
