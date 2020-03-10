@@ -31,16 +31,23 @@ class HeaderSubTabs extends React.Component<Props> {
         <Tabs
           buttons={[
             {
+              linkClass: '',
               iconClass: 'icon-projects',
               path: `/projects/${match.params.projectDID}/overview`,
               title: 'PROJECT',
             },
             {
+              linkClass: '',
               iconClass: 'icon-impacts',
               path: `/projects/${match.params.projectDID}/detail`,
               title: 'PERFORMANCE',
             },
             {
+              linkClass: window.location.pathname.startsWith(
+                `/projects/${match.params.projectDID}/bonds`,
+              )
+                ? 'active'
+                : null,
               iconClass: 'icon-funding',
               path: `/projects/${match.params.projectDID}/bonds`,
               title: 'FUNDING',

@@ -22,7 +22,7 @@ class Orders extends Component<any> {
 
   render(): JSX.Element {
     return (
-      <BondsWrapper>
+      <BondsWrapper {...this.props.match}>
         <div className="BondsWrapper_panel orders_panel">
           <TransactionsTable txs={this.props.account.orders} />
         </div>

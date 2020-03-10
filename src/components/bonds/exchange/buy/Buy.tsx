@@ -7,6 +7,8 @@ import ConfirmBuy from './ConfirmBuy'
 
 class Buy extends Component<any> {
   render(): JSX.Element {
+    const projectDID = this.props.projectDID
+
     return (
       <div className="BondsWrapper_panel__chrome">
         <div className="BondsWrapper_panel__content">
@@ -15,7 +17,10 @@ class Buy extends Component<any> {
               <div className="BuySellForm_wrapper">
                 <Route
                   exact
-                  path={['/bonds/exchange/buy', '/bonds/exchange/']}
+                  path={[
+                    `/projects/${projectDID}/bonds/exchange/buy`,
+                    `/projects/${projectDID}/bonds/exchange/`,
+                  ]}
                   render={(props): JSX.Element => {
                     if (
                       Object.prototype.hasOwnProperty.call(
@@ -26,7 +31,7 @@ class Buy extends Component<any> {
                       return (
                         <Redirect
                           from="/bonds"
-                          to="/bonds/exchange/buy/confirm"
+                          to={`/projects/${projectDID}/bonds/exchange/buy/confirm`}
                         />
                       )
                     } else {
@@ -36,7 +41,7 @@ class Buy extends Component<any> {
                 />
                 <Route
                   exact
-                  path="/bonds/exchange/buy/confirm"
+                  path={`/projects/${projectDID}/bonds/exchange/buy/confirm`}
                   render={(props): JSX.Element => <ConfirmBuy {...props} />}
                 />
               </div>

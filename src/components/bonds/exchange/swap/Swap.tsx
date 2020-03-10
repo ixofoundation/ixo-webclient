@@ -8,15 +8,17 @@ import BondsWrapper from '../../BondsWrapper'
 
 class Swap extends Component<any> {
   render(): JSX.Element {
+    const projectDID = this.props.projectDID
+
     return (
-      <BondsWrapper>
+      <BondsWrapper {...this.props.match}>
         <div className="BondsWrapper_panel__chrome">
           <div className="BondsWrapper_panel__content">
             <div className="centerAll">
               <BrowserRouter>
                 <Route
                   exact
-                  path="/bonds/exchange/swap"
+                  path={`/projects/${projectDID}/bonds/exchange/swap`}
                   render={(props): JSX.Element => {
                     if (
                       Object.prototype.hasOwnProperty.call(
@@ -26,9 +28,9 @@ class Swap extends Component<any> {
                     ) {
                       return (
                         <Redirect
-                          from="/bonds/exchange/swap"
+                          from={`/projects/${projectDID}/bonds/exchange/swap`}
                           exact
-                          to="/bonds/exchange/swap/confirm"
+                          to={`/projects/${projectDID}/bonds/exchange/swap/confirm`}
                         />
                       )
                     } else if (
@@ -36,9 +38,9 @@ class Swap extends Component<any> {
                     ) {
                       return (
                         <Redirect
-                          from="/bonds/exchange/swap"
+                          from={`/projects/${projectDID}/bonds/exchange/swap`}
                           exact
-                          to="/bonds/exchange/"
+                          to={`/projects/${projectDID}/bonds/exchange/`}
                         />
                       )
                     } else {
@@ -48,7 +50,7 @@ class Swap extends Component<any> {
                 />
                 <Route
                   exact
-                  path="/bonds/exchange/swap/confirm"
+                  path={`/projects/${projectDID}/bonds/exchange/swap/confirm`}
                   render={(props): JSX.Element => <ConfirmSwap {...props} />}
                 />
               </BrowserRouter>
