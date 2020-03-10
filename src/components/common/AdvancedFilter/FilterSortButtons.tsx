@@ -53,25 +53,21 @@ class FilterSortButtons extends React.Component<{}, State> {
   }
 
   handleDateChange = (startDate, endDate): void => {
-    let startDateFormatted
-    let endDateFormatted
-    if (startDate) {
-      startDateFormatted = startDate.format("D MMM \\'YY")
-    }
-    if (endDate) {
-      endDateFormatted = endDate.format("D MMM \\'YY")
-    }
+    const DATE_FORMAT = "D MMM \\'YY"
     if (startDate && endDate) {
       this.setState({
-        dateText: ` ${startDateFormatted} - ${endDateFormatted} `,
+        dateText: ` ${startDate.format(DATE_FORMAT)} - ${endDate.format(
+          DATE_FORMAT,
+        )} `,
+        startDate,
+        endDate,
       })
     } else if (startDate) {
-      this.setState({ dateText: ` ${startDateFormatted} - Select ` })
+      this.setState({
+        dateText: ` ${startDate.format(DATE_FORMAT)} - Select `,
+        startDate,
+      })
     }
-    this.setState({
-      startDate: startDate,
-      endDate: endDate,
-    })
   }
 
   changeDateText = (): void => {
@@ -84,14 +80,9 @@ class FilterSortButtons extends React.Component<{}, State> {
 
   setId = (title): void => {
     this.setState({
-      checkTitle: title,
+      checkTitle: this.state.checkTitle !== title ? title : ' ',
       showDatePicker: false,
     })
-    if (this.state.checkTitle === title) {
-      this.setState({
-        checkTitle: ' ',
-      })
-    }
   }
 
   handleClose = (e, title): void => {

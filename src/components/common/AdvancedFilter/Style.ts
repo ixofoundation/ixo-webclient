@@ -229,6 +229,7 @@ export const ResetButtonDatePicker = styled.div`
   display: flex;
   align-items: center;
   border-radius: 4px;
+  cursor: pointer;
 `
 export const ApplyButtonDatePicker = styled.div`
   position: absolute;
@@ -246,4 +247,5 @@ export const ApplyButtonDatePicker = styled.div`
   text-align: center;
   padding: 1rem;
   border-radius: 4px;
+  cursor: pointer;
 `
