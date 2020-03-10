@@ -198,8 +198,8 @@ export const DatePickerModal = styled.div`
   border-radius: 4px;
   width: 619px;
   height: 425px;
-  left: 30%;
-  top: 41%;
+  left: 31%;
+  top: 37%;
   z-index: 3;
   :after {
     content: '';
