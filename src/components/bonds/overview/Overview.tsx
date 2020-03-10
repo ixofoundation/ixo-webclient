@@ -25,6 +25,12 @@ const BondsHomeSectionNav = styled.div`
       color: #87def6;
     }
   }
+  @media (max-width: 768px) {
+    padding: 1rem 0;
+    margin: 0;
+    width: initial;
+    overflow-x: scroll;
+  }
 `
 
 export class Overview extends Component {

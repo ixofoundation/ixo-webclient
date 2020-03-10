@@ -133,7 +133,7 @@ hr {
   border: 1px solid $body-border-color;
   border-radius: 3px;
   background-color: $body-background-color;
-  margin: 2.5rem;
+  margin: 0.75rem;
 
   &.exchange_panel {
     max-width: 40em;
@@ -146,6 +146,9 @@ hr {
 
   form {
     width: 100%;
+  }
+  @media screen and (min-width: 480px) {
+    margin: 2.5rem;
   }
 }
 
