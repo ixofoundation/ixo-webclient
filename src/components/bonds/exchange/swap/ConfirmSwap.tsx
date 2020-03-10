@@ -3,10 +3,7 @@ import useForm from 'react-hook-form'
 import { withRouter, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { RootState } from '../../../../common/redux/types'
-import {
-  confirmSwap,
-  clearQuote,
-} from '../../../../modules/quote/quote.actions'
+import { confirmSwap, clear } from '../../../../modules/quote/quote.actions'
 
 import {
   remainingBalance,
@@ -17,9 +14,9 @@ import {
 const ConfirmSwap = (props: any): JSX.Element => {
   const { handleSubmit } = useForm()
 
-  if (props.signPending) {
+  if (props.activeQuote.signPending) {
     return <div>Signing Transaction</div>
-  } else if (!props.activeQuote.recieving) {
+  } else if (!props.activeQuote.receiving) {
     return (
       <Redirect
         from="/bonds/exchange/swap/confirm"
@@ -29,28 +26,26 @@ const ConfirmSwap = (props: any): JSX.Element => {
     )
   } else {
     const onSubmit = (): void => {
-      props.dispatch(
-        confirmSwap(props.activeQuote, props.activeBond, props.account.address),
-      )
+      props.dispatch(confirmSwap())
     }
 
     const onBack = (): void => {
-      props.dispatch(clearQuote())
+      props.dispatch(clear())
       props.history.push('../swap')
     }
 
     const actualPrice = currencyStr(props.activeQuote.sending)
-    const recieving = currencyStr(props.activeQuote.recieving)
+    const receiving = currencyStr(props.activeQuote.receiving)
     const estPricePer = currencyStr({
       amount:
-        props.activeQuote.recieving.amount / props.activeQuote.sending.amount,
-      denom: props.activeQuote.recieving.denom,
+        props.activeQuote.receiving.amount / props.activeQuote.sending.amount,
+      denom: props.activeQuote.receiving.denom,
     })
 
     const remBal = currencyStr(
       remainingBalance(props, props.activeQuote.sending),
     )
-    const newBal = currencyStr(newBalance(props, props.activeQuote.recieving))
+    const newBal = currencyStr(newBalance(props, props.activeQuote.receiving))
     return (
       <form onSubmit={handleSubmit(onSubmit)}>
         {/* displays the balances of the connected Cosmos account addresses */}
@@ -77,11 +72,11 @@ const ConfirmSwap = (props: any): JSX.Element => {
             justifyContent: 'space-between',
           }}
         >
-          <h3>{recieving}</h3>
+          <h3>{receiving}</h3>
           <div className="label_subtitle">
             * Includes a{' '}
             <span className="label_subtitle__bold">
-              {currencyStr(props.activeQuote.total_fees[0])} fee
+              {currencyStr(props.activeQuote.totalFees[0])} fee
             </span>
           </div>
           <span className="label_subtitle">
