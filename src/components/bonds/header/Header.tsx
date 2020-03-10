@@ -2,11 +2,8 @@ import React, { Component } from 'react'
 import HeaderItem from './header-item/HeaderItem'
 import { connect } from 'react-redux'
 import { RootState } from '../../../common/redux/types'
-import {
-  initProvider,
-  getBalances,
-} from '../../../modules/account/account.actions'
-import { getBondBalances } from '../../../modules/bond/bond.actions'
+import { getBalances as getAccountBalances } from '../../../modules/account/account.actions'
+import { getBalances as getBondBalances } from '../../../modules/bond/bond.actions'
 import { tokenBalance } from '../../../modules/account/account.utils'
 import { deviceWidth } from '../../../lib/commonData'
 
@@ -34,16 +31,11 @@ class Header extends Component<any> {
     }, INTERVAL_LENGTH)
 
     this.refreshBalances()
-
-    // initialize keysafe or query account & bond balances
-    if (Object.entries(this.props.account).length === 0) {
-      this.props.dispatch(initProvider())
-    }
   }
 
   refreshBalances = (): void => {
     if (Object.entries(this.props.account).length > 0) {
-      this.props.dispatch(getBalances(this.props.account.address))
+      this.props.dispatch(getAccountBalances(this.props.account.address))
       this.props.dispatch(getBondBalances(this.props.activeBond.symbol))
     }
   }

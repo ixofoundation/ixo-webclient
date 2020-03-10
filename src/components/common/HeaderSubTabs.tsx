@@ -4,15 +4,18 @@ import { withRouter } from 'react-router-dom'
 import styled from 'styled-components'
 import { Tabs } from './Tabs'
 import { MatchType } from '../../types/models'
+import { deviceWidth } from '../../lib/commonData'
 
 const PositionController = styled.div`
   position: fixed;
   z-index: 9;
-  left: 53%;
-  top: 2%;
-  @media screen and (min-width: 660px) {
+  left: 50%;
+  top: 3.5rem;
+  transform: translateX(-50%);
+  @media (min-width: ${deviceWidth.desktop}px) {
+    left: initial;
     right: 190px;
-    transform: translate(0, 75%);
+    transform: none;
   }
 `
 

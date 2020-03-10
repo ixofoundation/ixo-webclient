@@ -4,7 +4,7 @@ import { withRouter, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { RootState } from '../../../../common/redux/types'
 
-import { confirmBuy, clearQuote } from '../../../../modules/quote/quote.actions'
+import { confirmBuy, clear } from '../../../../modules/quote/quote.actions'
 import {
   remainingBalance,
   newBalance,
@@ -20,9 +20,9 @@ const ConfirmBuy = (props: any): JSX.Element => {
     return message ? <div className="error">{message}</div> : undefined
   }
 
-  if (props.signPending) {
+  if (props.activeQuote.signPending) {
     return <div>Signing Transaction</div>
-  } else if (!props.activeQuote.recieving) {
+  } else if (!props.activeQuote.receiving) {
     return (
       <Redirect
         from={`/projects/${projectDID}/bonds/exchange/buy/confirm`}
@@ -32,22 +32,20 @@ const ConfirmBuy = (props: any): JSX.Element => {
     )
   } else {
     const onSubmit = (): void => {
-      props.dispatch(
-        confirmBuy(props.activeQuote, props.activeBond, props.account.address),
-      )
+      props.dispatch(confirmBuy())
     }
 
     const onBack = (): void => {
-      props.dispatch(clearQuote())
+      props.dispatch(clear())
       props.history.push('../')
     }
 
     const totalPrice = props.activeQuote.totalPrices[0]
-    const recieving = props.activeQuote.recieving
+    const receiving = props.activeQuote.receiving
     const estPricePer = {
       amount:
         props.activeQuote.actualPrices[0].amount /
-        props.activeQuote.recieving.amount,
+        props.activeQuote.receiving.amount,
       denom: props.activeQuote.actualPrices[0].denom,
     }
 
@@ -57,9 +55,9 @@ const ConfirmBuy = (props: any): JSX.Element => {
         ? 'You have insufficient funds for this transaction'
         : undefined
 
-    const newBal = newBalance(props, props.activeQuote.recieving)
+    const newBal = newBalance(props, props.activeQuote.receiving)
     const newBalError =
-      parseInt(props.activeQuote.recieving.amount) >
+      parseInt(props.activeQuote.receiving.amount) >
       parseInt(props.activeBond.totalSupply.amount)
         ? "You're attempting to buy more tokens than this bond's supply."
         : undefined
@@ -95,7 +93,7 @@ const ConfirmBuy = (props: any): JSX.Element => {
         {/* displays the balances of the connected Cosmos account addresses */}
         <div className="label">Recieve</div>
         <div>
-          <h3>{currencyStr(recieving)}</h3>
+          <h3>{currencyStr(receiving)}</h3>
           <div className="label_subtitle">
             My new balance will be{' '}
             <span className="label_subtitle__bold">{currencyStr(newBal)}</span>

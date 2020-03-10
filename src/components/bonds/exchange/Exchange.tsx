@@ -37,16 +37,7 @@ class Exchange extends Component<any> {
   // console.log(this.props)
   componentDidMount(): void {
     this.props.dispatch({
-      type: QuoteActions.QUOTE_BUY + '_FAILED',
-    })
-    this.props.dispatch({
-      type: QuoteActions.QUOTE_SELL + '_FAILED',
-    })
-    this.props.dispatch({
-      type: QuoteActions.QUOTE_SWAP + '_FAILED',
-    })
-    this.props.dispatch({
-      type: QuoteActions.CONFIRM_QUOTE + '_FAILED',
+      type: QuoteActions.QuoteFailure,
     })
   }
 
@@ -69,7 +60,7 @@ class Exchange extends Component<any> {
           <BondsSectionNav>
             <NavLink
               to={
-                !this.props.transacting
+                !this.props.activeQuote.transacting
                   ? `/projects/${projectDID}/bonds/exchange/`
                   : '#'
               }
@@ -81,7 +72,7 @@ class Exchange extends Component<any> {
             </NavLink>
             <NavLink
               to={
-                !this.props.transacting
+                !this.props.activeQuote.transacting
                   ? `/projects/${projectDID}/bonds/exchange/sell`
                   : '#'
               }
@@ -93,7 +84,7 @@ class Exchange extends Component<any> {
             {this.props.activeBond.type == 'swapper_function' ? (
               <NavLink
                 to={
-                  !this.props.transacting
+                  !this.props.activeQuote.transacting
                     ? `/projects/${projectDID}/bonds/exchange/swap`
                     : '#'
                 }
