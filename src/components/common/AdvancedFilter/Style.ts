@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 import { deviceWidth } from '../../../lib/commonData'
+import { NavLink } from 'react-router-dom'
 
 export const FiltersWrap = styled.div`
   font-family: 'Roboto' sans-serif;
@@ -59,6 +60,7 @@ export const ButtonWrapper = styled.div`
     content: '';
   }
 `
+
 export const FilterModal = styled.div`
   position: absolute;
   padding: 2.625rem;
@@ -248,4 +250,140 @@ export const ApplyButtonDatePicker = styled.div`
   padding: 1rem;
   border-radius: 4px;
   cursor: pointer;
+`
+
+const HeaderLink = styled(NavLink)`
+  color: white;
+  font-family: ${/* eslint-disable-line */ props =>
+    props.theme.fontRobotoCondensed};
+  font-weight: 400;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  border: 1px solid #49bfe0;
+  border-radius: 3px;
+  padding: 5px 10px 5px;
+  margin: 0 10px 10px;
+  font-size: 16px;
+
+  :first-child {
+    border: 1px solid #49bfe0;
+    font-weight: 400;
+  }
+
+  &:first-child.active {
+    color: ${/* eslint-disable-line */ props =>
+      props.theme.fontBlueButtonHover};
+    font-weight: 400;
+  }
+
+  transition: border 0.3s ease;
+
+  :hover {
+    text-decoration: none;
+    && {
+      color: ${/* eslint-disable-line */ props => props.theme.fontBlue};
+    }
+  }
+
+  @media (min-width: ${deviceWidth.desktop}px) {
+    margin: 0 10px;
+    font-size: 13px;
+  }
+`
+
+export const Burger = styled.div`
+  position: relative;
+  background-color: white;
+  border: 1px solid transparent;
+  margin: 8px;
+  padding: 0.66rem 1rem;
+  border-radius: 4px;
+  align-items: center;
+  line-height: 19px;
+  @media (min-width: ${deviceWidth.desktop}px) {
+    display: none;
+  }
+  .bar1,
+  .bar2,
+  .bar3 {
+    width: 35px;
+    height: 2px;
+    background-color: black;
+    margin: 6px 0;
+    transition: 0.4s;
+  }
+  .change .bar1 {
+    transform: rotate(-45deg) translate(-6px, 6px);
+    transform-origin: center;
+  }
+  .change .bar2 {
+    opacity: 0;
+  }
+  .change .bar3 {
+    transform: rotate(45deg) translate(-6px, -6px);
+    transform-origin: center;
+  }
+`
+
+export const Menu = styled.div`
+  ${HeaderLink} {
+    display: block;
+  }
+  @media (min-width: ${deviceWidth.desktop}px) {
+    max-width: none;
+    position: relative;
+    top: auto;
+    opacity: 1;
+    right: auto;
+    background: none;
+    pointer-events: auto;
+    ${HeaderLink} {
+      display: inline;
+    }
+  }
+`
+export const MobileMenu = Menu.extend`
+  &.openMenu {
+    top: 64px;
+    opacity: 1;
+    pointer-events: auto;
+  }
+  transition: all 0.8s ease;
+  position: absolute;
+  top: -100%;
+  opacity: 0;
+  right: 0;
+  background: #002c41;
+  width: 100%;
+  padding: 30px 2px 20px 30px;
+  pointer-events: none;
+  z-index: 1;
+  border-radius: 0 0 5px 5px;
+`
+export const MobileButton = styled.button`
+  color: white;
+  &:hover {
+    border-color: #000;
+  }
+  &.itemsSelected {
+    border-color: #39c3e6;
+  }
+`
+
+export const MobileButtonWrapper = styled.div`
+  position: relative;
+  display: inline-block;
+  z-index: 3;
+  :after {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background: transparent;
+    z-index: -1;
+  }
+  &.active:after {
+    content: '';
+  }
 `

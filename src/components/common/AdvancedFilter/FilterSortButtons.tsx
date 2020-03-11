@@ -1,5 +1,7 @@
 import * as React from 'react'
 import DatePicker from './DatePicker'
+import MediaQuery from 'react-responsive'
+import { deviceWidth } from '../../../lib/commonData'
 
 import {
   FiltersWrap,
@@ -12,6 +14,11 @@ import {
   ModalButtons,
   ResetButton,
   ApplyButton,
+  Burger,
+  Menu,
+  MobileMenu,
+  MobileButtonWrapper,
+  MobileButton,
 } from './Style'
 
 import { getFilterSchema } from '../../../../src/instance-settings'
@@ -24,6 +31,7 @@ interface State {
   startDate: any
   endDate: any
   dateText: string
+  menuOpen: boolean
 }
 
 class FilterSortButtons extends React.Component<{}, State> {
@@ -42,6 +50,7 @@ class FilterSortButtons extends React.Component<{}, State> {
       startDate: null,
       endDate: null,
       dateText: 'Dates',
+      menuOpen: false,
     }
   }
 
@@ -172,6 +181,152 @@ class FilterSortButtons extends React.Component<{}, State> {
     return isPressed ? 'buttonPressed' : ''
   }
 
+  handleBurgerClick = (): void => {
+    this.setState({ menuOpen: !this.state.menuOpen })
+  }
+
+  getMenuItems = (desktopView: boolean): any => {
+    if (desktopView) {
+      return (
+        <>
+          {schema.categories.map(filterCategory => {
+            const category = filterCategory.title
+            return (
+              <ButtonWrapper
+                key={category}
+                className={`button-wrapper ${
+                  category === this.state.checkTitle ? 'active' : ''
+                }`}
+                onClick={(e): void => this.handleClose(e, category)}
+              >
+                <Button
+                  onClick={(): void => this.setId(category)}
+                  className={
+                    this.state.categorySelections.find(
+                      selection => selection.category === category,
+                    ).tags.length > 0
+                      ? 'itemsSelected'
+                      : ''
+                  }
+                >
+                  {this.categoryFilterTitle(category)}
+                </Button>
+
+                <FilterModal
+                  className="filter-modal"
+                  style={{
+                    display:
+                      category === this.state.checkTitle ? 'block' : 'none',
+                  }}
+                >
+                  <ModalItems>
+                    {filterCategory.tags.map(filterTags => {
+                      const tag = filterTags.title
+                      return (
+                        <FilterSelectButton
+                          key={tag}
+                          onClick={(): void =>
+                            this.handleSelectCategoryTag(category, tag)
+                          }
+                          className={this.tagClassName(category, tag)}
+                        >
+                          <h3>{tag}</h3>
+                          <img
+                            alt={tag}
+                            src={require('./icons/' + filterTags.icon)}
+                          />
+                        </FilterSelectButton>
+                      )
+                    })}
+                  </ModalItems>
+                  <ModalButtons>
+                    <ResetButton
+                      onClick={(): void => this.resetCategoryFilter(category)}
+                    >
+                      Reset
+                    </ResetButton>
+                    <ApplyButton>Apply</ApplyButton>
+                  </ModalButtons>
+                </FilterModal>
+              </ButtonWrapper>
+            )
+          })}
+        </>
+      )
+    }
+  }
+
+  getMenuItemsTest = (desktopViewTest: boolean): any => {
+    if (desktopViewTest) {
+      return (
+        <>
+          {schema.categories.map(filterCategory => {
+            const category = filterCategory.title
+            return (
+              <MobileButtonWrapper
+                key={category}
+                className={`button-wrapper ${
+                  category === this.state.checkTitle ? 'active' : ''
+                }`}
+                onClick={(e): void => this.handleClose(e, category)}
+              >
+                <MobileButton
+                  onClick={(): void => this.setId(category)}
+                  className={
+                    this.state.categorySelections.find(
+                      selection => selection.category === category,
+                    ).tags.length > 0
+                      ? 'itemsSelected'
+                      : ''
+                  }
+                >
+                  {this.categoryFilterTitle(category)}
+                </MobileButton>
+
+                <FilterModal
+                  className="filter-modal"
+                  style={{
+                    display:
+                      category === this.state.checkTitle ? 'block' : 'none',
+                  }}
+                >
+                  <ModalItems>
+                    {filterCategory.tags.map(filterTags => {
+                      const tag = filterTags.title
+                      return (
+                        <FilterSelectButton
+                          key={tag}
+                          onClick={(): void =>
+                            this.handleSelectCategoryTag(category, tag)
+                          }
+                          className={this.tagClassName(category, tag)}
+                        >
+                          <h3>{tag}</h3>
+                          <img
+                            alt={tag}
+                            src={require('./icons/' + filterTags.icon)}
+                          />
+                        </FilterSelectButton>
+                      )
+                    })}
+                  </ModalItems>
+                  <ModalButtons>
+                    <ResetButton
+                      onClick={(): void => this.resetCategoryFilter(category)}
+                    >
+                      Reset
+                    </ResetButton>
+                    <ApplyButton>Apply</ApplyButton>
+                  </ModalButtons>
+                </FilterModal>
+              </MobileButtonWrapper>
+            )
+          })}
+        </>
+      )
+    }
+  }
+
   render(): JSX.Element {
     return (
       <>
@@ -187,72 +342,29 @@ class FilterSortButtons extends React.Component<{}, State> {
               <i className="icon-calendar-sort" style={{ padding: 6 }}></i>
               {this.state.dateText}
             </Button>
-            {schema.categories.map(filterCategory => {
-              const category = filterCategory.title
-              return (
-                <ButtonWrapper
-                  key={category}
-                  className={`button-wrapper ${
-                    category === this.state.checkTitle ? 'active' : ''
-                  }`}
-                  onClick={(e): void => this.handleClose(e, category)}
-                >
-                  <Button
-                    onClick={(): void => this.setId(category)}
-                    className={
-                      this.state.categorySelections.find(
-                        selection => selection.category === category,
-                      ).tags.length > 0
-                        ? 'itemsSelected'
-                        : ''
-                    }
-                  >
-                    {this.categoryFilterTitle(category)}
-                  </Button>
 
-                  <FilterModal
-                    className="filter-modal"
-                    style={{
-                      display:
-                        category === this.state.checkTitle ? 'block' : 'none',
-                    }}
-                  >
-                    <ModalItems>
-                      {filterCategory.tags.map(filterTags => {
-                        const tag = filterTags.title
-                        return (
-                          <FilterSelectButton
-                            key={tag}
-                            onClick={(): void =>
-                              this.handleSelectCategoryTag(category, tag)
-                            }
-                            className={this.tagClassName(category, tag)}
-                          >
-                            <h3>{tag}</h3>
-                            <img
-                              alt={tag}
-                              src={require('./icons/' + filterTags.icon)}
-                            />
-                          </FilterSelectButton>
-                        )
-                      })}
-                    </ModalItems>
-                    <ModalButtons>
-                      <ResetButton
-                        onClick={(): void => this.resetCategoryFilter(category)}
-                      >
-                        Reset
-                      </ResetButton>
-                      <ApplyButton>Apply</ApplyButton>
-                    </ModalButtons>
-                  </FilterModal>
-                </ButtonWrapper>
-              )
-            })}
+            <Burger onClick={this.handleBurgerClick}>
+              <div className={this.state.menuOpen === true ? 'change' : ''}>
+                <div className="bar1" />
+                <div className="bar2" />
+                <div className="bar3" />
+              </div>
+            </Burger>
+            <MediaQuery minWidth={`${deviceWidth.desktop}px`}>
+              <Menu>{this.getMenuItems(true)}</Menu>
+            </MediaQuery>
+            <MediaQuery maxWidth={'991px'}>
+              <MobileMenu
+                className={this.state.menuOpen === true ? 'openMenu' : ''}
+              >
+                {this.getMenuItemsTest(true)}
+              </MobileMenu>
+            </MediaQuery>
             <Button onClick={this.resetFilters}>
               <i className="icon-reset" style={{ padding: 6 }}></i>
               Reset
             </Button>
+
             {this.state.showDatePicker && (
               <DatePicker
                 onReset={this.resetDateFilter}
