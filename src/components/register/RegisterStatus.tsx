@@ -4,6 +4,8 @@ import { AgentRoles } from '../../types/models'
 import '../../assets/icons.css'
 import { ModalData } from './RegisterContainer'
 import { Link } from 'react-router-dom'
+import RegistrationYes from 'src/assets/icons/RegistrationYes'
+import RegisterNo from 'src/assets/icons/RegisterNo'
 
 const StatusContainer = styled.section`
   font-family: Roboto;
@@ -38,28 +40,10 @@ const DarkLink = WhiteLink.extend`
   color: #282828;
 `
 
-const Icon = styled.i`
-  font-size: 20px;
-  top: 2px;
-  left: 0;
-  position: absolute;
+const Icon = styled.span`
   margin-right: 15px;
-`
-
-const GreenI = Icon.extend`
-  && {
-    :before {
-      color: #4a9f46;
-    }
-  }
-`
-
-const GreyI = Icon.extend`
-  && {
-    :before {
-      color: #c6c4c4;
-    }
-  }
+  display: inline-block !important;
+  vertical-align: middle;
 `
 
 const CheckItem = styled.p`
@@ -125,9 +109,17 @@ export interface ParentProps {
 export const RegisterStatus: React.SFC<ParentProps> = props => {
   const getIcon = (condition): JSX.Element => {
     if (condition) {
-      return <GreenI className={'icon-registration-yes'} />
+      return (
+        <Icon>
+          <RegistrationYes width="20" fill="#4a9f46" />
+        </Icon>
+      )
     } else {
-      return <GreyI className={'icon-register-no'} />
+      return (
+        <Icon>
+          <RegisterNo width="20" fill="#c6c4c4" />
+        </Icon>
+      )
     }
   }
 

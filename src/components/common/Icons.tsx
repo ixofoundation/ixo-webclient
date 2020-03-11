@@ -50,13 +50,15 @@ import RegistrationYes from '../../assets/icons/RegistrationYes'
 import Rejected from '../../assets/icons/Rejected'
 import RejectedCross from '../../assets/icons/RejectedCross'
 import Search from '../../assets/icons/Search'
+import ServiceProviders from '../../assets/icons/ServiceProviders'
+import ServiceProvidersActive from '../../assets/icons/ServiceProvidersActive'
 import Share from '../../assets/icons/Share'
+import Success from '../../assets/icons/Success'
 import Telegram from '../../assets/icons/Telegram'
 import Trash from '../../assets/icons/Trash'
 import Twitter from '../../assets/icons/Twitter'
 import Upload from '../../assets/icons/Upload'
-import ServiceProviders from '../../assets/icons/ServiceProviders'
-import ServiceProvidersActive from '../../assets/icons/ServiceProvidersActive'
+import World from '../../assets/icons/World'
 
 const IconsContainer = styled.div`
   background: black;
@@ -97,19 +99,13 @@ export const Icons: React.SFC<ParentProps> = props => {
           <Fingerprint width="17" fill="#fff" />
           <Flash width="17" fill="#fff" />
           <Eye width="17" fill="#fff" />
-          <br />
-          eyeoff: <i className="icon-eyeoff" />{' '}
           <EyeOff width="17" fill="#fff" />
-          <br />
-          lock: <i className="icon-lock" /> <Lock width="17" fill="#fff" />
-          <br />
+          <Lock width="17" fill="#fff" />
           <Settings width="17" fill="#fff" />
           <Internet width="17" fill="#fff" />
           <Help width="17" fill="#fff" />
           <Sync width="17" fill="#fff" />
-          <br />
-          back: <i className="icon-back" /> <Back width="17" fill="#fff" />
-          <br />
+          <Back width="17" fill="#fff" />
           <Menu width="17" fill="#fff" />
           <Linkedin width="17" fill="#fff" />
           <Approved width="17" fill="#fff" />
@@ -154,14 +150,12 @@ export const Icons: React.SFC<ParentProps> = props => {
           <ServiceProvidersActive width="17" fill="#fff" />
           <SettingsActive width="17" fill="#fff" />
           <Share width="17" fill="#fff" />
-          success: <i className="icon-success" />
-          <br />
+          <Success width="17" fill="#fff" />
           <Telegram width="17" fill="#fff" />
           <Trash width="17" fill="#fff" />
           <Twitter width="17" fill="#fff" />
           <Upload width="17" fill="#fff" />
-          <br />
-          world: <i className="icon-world" /> <br />
+          <World width="17" fill="#fff" />
         </div>
       </div>
     </IconsContainer>

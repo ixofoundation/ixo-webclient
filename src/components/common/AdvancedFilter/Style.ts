@@ -46,6 +46,9 @@ export const Button = styled.button`
   &.itemsSelected {
     border-color: #39c3e6;
   }
+  svg {
+    margin-right: 6px;
+  }
 `
 
 export const ButtonWrapper = styled.div`

@@ -14,6 +14,8 @@ import {
 } from './Style'
 
 import { getFilterSchema } from '../../../../src/instance-settings'
+import CalendarSort from 'src/assets/icons/CalendarSort'
+import Reset from 'src/assets/icons/Reset'
 
 const schema = getFilterSchema()
 
@@ -139,7 +141,7 @@ class FilterSortButtons extends React.Component<
           <FilterInfo>All Projects</FilterInfo>
           <div className="filters">
             <Button onClick={this.toggleShowDatePicker}>
-              <i className="icon-calendar-sort" style={{ padding: 6 }}></i>
+              <CalendarSort width="16" fill="#000" />
               Dates
             </Button>
             {schema.categories.map(filterCategory => {
@@ -205,7 +207,7 @@ class FilterSortButtons extends React.Component<
               )
             })}
             <Button onClick={this.resetFilters}>
-              <i className="icon-reset" style={{ padding: 6 }}></i>
+              <Reset fill="#000" />
               Reset
             </Button>
             {this.state.showDatePicker ? <DatePicker /> : null}
