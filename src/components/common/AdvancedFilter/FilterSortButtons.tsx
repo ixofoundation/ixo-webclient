@@ -1,5 +1,6 @@
 import * as React from 'react'
 import DatePicker from './DatePicker'
+
 import {
   FiltersWrap,
   FilterInfo,
@@ -14,13 +15,18 @@ import {
 } from './Style'
 
 import { getFilterSchema } from '../../../../src/instance-settings'
-
 const schema = getFilterSchema()
 
-class FilterSortButtons extends React.Component<
-  {},
-  { showDatePicker: boolean; checkTitle: string; categorySelections: any[] }
-> {
+interface State {
+  showDatePicker: boolean
+  checkTitle: string
+  categorySelections: any[]
+  startDate: any
+  endDate: any
+  dateText: string
+}
+
+class FilterSortButtons extends React.Component<{}, State> {
   initialCategorySelections = schema.categories.map(category => ({
     category: category.title,
     tags: [],
@@ -33,27 +39,50 @@ class FilterSortButtons extends React.Component<
       showDatePicker: false,
       checkTitle: ' ',
       categorySelections: this.initialCategorySelections,
+      startDate: null,
+      endDate: null,
+      dateText: 'Dates',
     }
   }
 
-  toggleShowDatePicker = (e): void => {
-    e.preventDefault()
+  toggleShowDatePicker = (): void => {
     this.setState({
       showDatePicker: !this.state.showDatePicker,
       checkTitle: ' ',
     })
   }
 
-  setId = (title): void => {
-    this.setState({
-      checkTitle: title,
-      showDatePicker: false,
-    })
-    if (this.state.checkTitle === title) {
+  handleDateChange = (startDate, endDate): void => {
+    const DATE_FORMAT = "D MMM \\'YY"
+    if (startDate && endDate) {
       this.setState({
-        checkTitle: ' ',
+        dateText: ` ${startDate.format(DATE_FORMAT)} - ${endDate.format(
+          DATE_FORMAT,
+        )} `,
+        startDate,
+        endDate,
+      })
+    } else if (startDate) {
+      this.setState({
+        dateText: ` ${startDate.format(DATE_FORMAT)} - Select `,
+        startDate,
       })
     }
+  }
+
+  changeDateText = (): void => {
+    if (this.state.dateText === 'Dates') {
+      this.setState({
+        dateText: 'Select',
+      })
+    }
+  }
+
+  setId = (title): void => {
+    this.setState({
+      checkTitle: this.state.checkTitle !== title ? title : ' ',
+      showDatePicker: false,
+    })
   }
 
   handleClose = (e, title): void => {
@@ -107,6 +136,9 @@ class FilterSortButtons extends React.Component<
   resetFilters = (): void => {
     this.setState({
       categorySelections: this.initialCategorySelections,
+      dateText: 'Dates',
+      startDate: null,
+      endDate: null,
     })
   }
 
@@ -124,6 +156,14 @@ class FilterSortButtons extends React.Component<
     })
   }
 
+  resetDateFilter = (): void => {
+    this.setState({
+      dateText: 'Dates',
+      startDate: null,
+      endDate: null,
+    })
+  }
+
   tagClassName = (category: string, tag: string): string => {
     const isPressed = this.state.categorySelections
       .find(selection => selection.category === category)
@@ -138,9 +178,14 @@ class FilterSortButtons extends React.Component<
         <FiltersWrap>
           <FilterInfo>All Projects</FilterInfo>
           <div className="filters">
-            <Button onClick={this.toggleShowDatePicker}>
+            <Button
+              onClick={(): void => {
+                this.toggleShowDatePicker()
+                this.changeDateText()
+              }}
+            >
               <i className="icon-calendar-sort" style={{ padding: 6 }}></i>
-              Dates
+              {this.state.dateText}
             </Button>
             {schema.categories.map(filterCategory => {
               const category = filterCategory.title
@@ -208,7 +253,15 @@ class FilterSortButtons extends React.Component<
               <i className="icon-reset" style={{ padding: 6 }}></i>
               Reset
             </Button>
-            {this.state.showDatePicker ? <DatePicker /> : null}
+            {this.state.showDatePicker && (
+              <DatePicker
+                onReset={this.resetDateFilter}
+                onChange={this.handleDateChange}
+                onApply={this.toggleShowDatePicker}
+                initialStartDate={this.state.startDate}
+                initialEndDate={this.state.endDate}
+              />
+            )}
           </div>
         </FiltersWrap>
       </>
