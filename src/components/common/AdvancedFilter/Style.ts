@@ -433,7 +433,6 @@ export const HeadingItem = styled.button`
 
 export const MobileFilterModal = styled.div`
   position: fixed;
-  padding: 2.625rem;
   background: #ffffff;
   box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.15);
   left: 0;
