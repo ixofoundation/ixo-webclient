@@ -362,7 +362,7 @@ export const MobileMenu = Menu.extend`
 `
 
 export const MobileButtonWrapper = styled.div`
-  display: inline-block;
+  display: block;
 `
 export const MobileButton = styled.button`
   color: black;

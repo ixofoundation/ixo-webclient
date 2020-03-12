@@ -313,10 +313,7 @@ class FilterSortButtons extends React.Component<{}, State> {
                       }}
                     >
                       <MobileFilterHeader>
-                        <HeadingItem
-                          //onClick={(e): void => this.handleClose(e, category)}
-                          onClick={this.setId}
-                        >
+                        <HeadingItem onClick={this.setId}>
                           <Back />
                         </HeadingItem>
                         <HeadingItem
