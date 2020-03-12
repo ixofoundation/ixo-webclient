@@ -9,27 +9,50 @@ import {
   ApplyButtonDatePicker,
 } from './Style'
 
-class DatePicker extends React.Component<
-  {},
-  {
-    startDate: null
-    endDate: null
-    focusedInput: string
-    onFocusChange: null
-    onDatesChange: null
-    renderControls: null
-  }
-> {
+interface Props {
+  onChange: (startDate, endDate) => void
+  onReset: () => void
+  onApply: () => void
+  initialStartDate: null
+  initialEndDate: null
+}
+
+interface State {
+  startDate: any
+  endDate: any
+  focusedInput: string
+  onFocusChange: null
+  onDatesChange: null
+  renderControls: null
+}
+
+class DatePicker extends React.Component<Props, State> {
   constructor(props) {
     super(props)
     this.state = {
-      startDate: null,
-      endDate: null,
+      startDate: this.props.initialStartDate,
+      endDate: this.props.initialEndDate,
       focusedInput: 'startDate',
       onFocusChange: null,
       onDatesChange: null,
       renderControls: null,
     }
+  }
+
+  onChange = (startDate, endDate): void => {
+    this.setState({
+      startDate: startDate,
+      endDate: endDate,
+    })
+    this.props.onChange(startDate, endDate)
+  }
+
+  onReset = (): void => {
+    this.setState({
+      startDate: null,
+      endDate: null,
+    })
+    this.props.onReset()
   }
 
   render(): JSX.Element {
@@ -40,7 +63,7 @@ class DatePicker extends React.Component<
             startDate={this.state.startDate}
             endDate={this.state.endDate}
             onDatesChange={({ startDate, endDate }): void =>
-              this.setState({ startDate, endDate })
+              this.onChange(startDate, endDate)
             }
             focusedInput={this.state.focusedInput}
             onFocusChange={(focusedInput): void =>
@@ -51,8 +74,12 @@ class DatePicker extends React.Component<
             hideKeyboardShortcutsPanel
           />
         </div>
-        <ResetButtonDatePicker>Reset</ResetButtonDatePicker>
-        <ApplyButtonDatePicker>Apply</ApplyButtonDatePicker>
+        <ResetButtonDatePicker onClick={this.onReset}>
+          Reset
+        </ResetButtonDatePicker>
+        <ApplyButtonDatePicker onClick={this.props.onApply}>
+          Apply
+        </ApplyButtonDatePicker>
       </DatePickerModal>
     )
   }

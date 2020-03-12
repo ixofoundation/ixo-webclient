@@ -8,11 +8,7 @@ export const FiltersWrap = styled.div`
   align-items: center;
   justify-content: space-between;
   padding-bottom: 2.5rem;
-  > * {
-    flex: 1;
-  }
   .filters {
-    flex-grow: 1;
     display: flex;
     align-items: flex-end;
     @media (max-width: ${deviceWidth.tablet}px) {
@@ -34,12 +30,10 @@ export const Button = styled.button`
   background-color: white;
   border: 1px solid transparent;
   margin: 8px;
-  padding: 4px 6px;
+  padding: 0.66rem 1rem;
   border-radius: 4px;
   align-items: center;
   line-height: 19px;
-  height: 40px;
-  width: 100px;
   &:hover {
     border-color: #000;
   }
@@ -207,8 +201,8 @@ export const DatePickerModal = styled.div`
   border-radius: 4px;
   width: 619px;
   height: 425px;
-  left: 30%;
-  top: 41%;
+  left: 34%;
+  top: 42%;
   z-index: 3;
   :after {
     content: '';
@@ -231,7 +225,6 @@ export const ResetButtonDatePicker = styled.div`
   right: 21.78%;
   top: 89%;
   bottom: 62.94%;
-  opacity: 0.3;
   font-style: normal;
   font-weight: 500;
   font-size: 16px;
@@ -239,6 +232,7 @@ export const ResetButtonDatePicker = styled.div`
   display: flex;
   align-items: center;
   border-radius: 4px;
+  cursor: pointer;
 `
 export const ApplyButtonDatePicker = styled.div`
   position: absolute;
@@ -255,6 +249,6 @@ export const ApplyButtonDatePicker = styled.div`
   color: white;
   text-align: center;
   padding: 1rem;
-  opacity: 0.3;
   border-radius: 4px;
+  cursor: pointer;
 `
