@@ -19,9 +19,11 @@ import {
   MobileMenu,
   MobileButtonWrapper,
   MobileButton,
+  MobileFilterHeading,
 } from './Style'
 
 import { getFilterSchema } from '../../../../src/instance-settings'
+
 const schema = getFilterSchema()
 
 interface State {
@@ -88,6 +90,7 @@ class FilterSortButtons extends React.Component<{}, State> {
   }
 
   setId = (title): void => {
+    console.log('pressed')
     this.setState({
       checkTitle: this.state.checkTitle !== title ? title : ' ',
       showDatePicker: false,
@@ -185,7 +188,7 @@ class FilterSortButtons extends React.Component<{}, State> {
     this.setState({ menuOpen: !this.state.menuOpen })
   }
 
-  getMenuItems = (desktopView: boolean): any => {
+  getDesktopFilterButtons = (desktopView: boolean): any => {
     if (desktopView) {
       return (
         <>
@@ -256,10 +259,11 @@ class FilterSortButtons extends React.Component<{}, State> {
     }
   }
 
-  getMenuItemsTest = (desktopViewTest: boolean): any => {
-    if (desktopViewTest) {
+  getMobileFilterButtons = (mobileView: boolean): any => {
+    if (mobileView) {
       return (
         <>
+          <MobileFilterHeading>Filters</MobileFilterHeading>
           {schema.categories.map(filterCategory => {
             const category = filterCategory.title
             return (
@@ -349,15 +353,16 @@ class FilterSortButtons extends React.Component<{}, State> {
                 <div className="bar2" />
                 <div className="bar3" />
               </div>
+              Filters
             </Burger>
             <MediaQuery minWidth={`${deviceWidth.desktop}px`}>
-              <Menu>{this.getMenuItems(true)}</Menu>
+              <Menu>{this.getDesktopFilterButtons(true)}</Menu>
             </MediaQuery>
             <MediaQuery maxWidth={'991px'}>
               <MobileMenu
                 className={this.state.menuOpen === true ? 'openMenu' : ''}
               >
-                {this.getMenuItemsTest(true)}
+                {this.getMobileFilterButtons(true)}
               </MobileMenu>
             </MediaQuery>
             <Button onClick={this.resetFilters}>

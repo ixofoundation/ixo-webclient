@@ -300,6 +300,7 @@ export const Burger = styled.div`
   border-radius: 4px;
   align-items: center;
   line-height: 19px;
+  z-index: 10;
   @media (min-width: ${deviceWidth.desktop}px) {
     display: none;
   }
@@ -353,21 +354,12 @@ export const MobileMenu = Menu.extend`
   top: -100%;
   opacity: 0;
   right: 0;
-  background: #002c41;
+  background: #fff;
   width: 100%;
+  height: 100%;
   padding: 30px 2px 20px 30px;
   pointer-events: none;
-  z-index: 1;
-  border-radius: 0 0 5px 5px;
-`
-export const MobileButton = styled.button`
-  color: white;
-  &:hover {
-    border-color: #000;
-  }
-  &.itemsSelected {
-    border-color: #39c3e6;
-  }
+  z-index: 9;
 `
 
 export const MobileButtonWrapper = styled.div`
@@ -386,4 +378,20 @@ export const MobileButtonWrapper = styled.div`
   &.active:after {
     content: '';
   }
+`
+export const MobileButton = styled.button`
+  color: black;
+  &.itemsSelected {
+    border-color: #39c3e6;
+  }
+`
+export const MobileFilterHeading = styled.div`
+  position: absolute;
+  left: 5.33%;
+  top: 13.87%;
+  bottom: 80.26%;
+  font-weight: bold;
+  font-size: 1.5rem;
+  display: flex;
+  color: black;
 `
