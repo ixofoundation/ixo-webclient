@@ -14,7 +14,7 @@ import {
   ApplyButton,
 } from './Style'
 
-import { getFilterSchema } from '../../../../src/instance-settings'
+import { getFilterSchema } from '../../../instance-settings'
 const schema = getFilterSchema()
 
 interface State {

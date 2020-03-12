@@ -4,8 +4,8 @@ import { WidgetWrapper, gridSizes } from '../common/WidgetWrapper'
 import { LayoutWrapper } from '../common/LayoutWrapper'
 import { SingleStatistic } from '../common/SingleStatistic'
 import { StatType } from '../../types/models'
-import { CircleProgressbar } from '../widgets/CircleProgressbar'
-import { WorldMap } from '../widgets/WorldMap'
+import { CircleProgressbar } from '../../common/components/Widgets/CircleProgressbar/CircleProgressbar'
+import { WorldMap } from '../../common/components/Widgets/WorldMap/WorldMap'
 import { isoCountriesLatLng } from '../../lib/commonData'
 
 // import { deviceWidth } from '../../lib/commonData';

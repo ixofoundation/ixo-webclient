@@ -6,14 +6,12 @@ import { ProjectCreateConnected } from './project/ProjectCreate'
 import { contentType } from '../types/models'
 import { ProjectForm } from './project/ProjectForm'
 import { Fragment } from 'react'
-import { Widgets } from './widgets/Widgets'
 import { Icons } from './common/Icons'
 import { RegisterConnected } from './register/RegisterContainer'
 import { NotFound } from './public/NotFound'
 import { Spinner } from './common/Spinner'
 import { ProjectSignAndCreateConnected } from './project/curation/ProjectSignAndCreate'
 import { ProjectCreateUploadPublicDocsConnected } from './project/curation/ProjectCreateUploadPublicDocs'
-import { ThreeD } from './common/3D'
 import { Overview } from './bonds/overview/Overview'
 import Exchange from './bonds/exchange/Exchange'
 import Orders from './bonds/orders/Orders'
@@ -24,8 +22,6 @@ export const Routes: React.SFC<{}> = props => {
       <Switch>
         <Route exact path="/json" component={ProjectForm} />
         <Route exact path="/spinner" component={Spinner} />
-        <Route exact path="/3d" component={ThreeD} />
-        <Route exact path="/widgets" component={Widgets} />
         <Route exact path="/json" component={ProjectForm} />
         <Route exact path="/icons" component={Icons} />
         <Route exact path="/register" component={RegisterConnected} />

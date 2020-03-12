@@ -1,5 +1,5 @@
 import * as React from 'react'
-import InputText from '../../form/InputText'
+import InputText from '../../../common/components/Form/InputText/InputText'
 import { FormStyles } from 'src/types/models'
 import {
   SearchWrapper,

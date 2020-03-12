@@ -1,0 +1,133 @@
+import * as React from 'react'
+import { CopyToClipboard } from 'react-copy-to-clipboard'
+import { getIxoWorldRoute } from 'src/common/utils/formatters'
+import {
+  AccDID,
+  Inner,
+  LoginLink,
+  MenuBottom,
+  MenuTop,
+  NoPadLeft,
+  RedIcon,
+  StatusBox,
+  StatusText,
+  UserBox,
+  UserMenu,
+} from './HeaderRight.styles'
+
+interface HeaderRightProps {
+  userInfo: any
+  renderStatusIndicator: () => JSX.Element
+  simple?: boolean
+  shouldLedgerDid: boolean
+  toggleModal: (IsOpen: boolean) => void
+  keysafe: any
+}
+
+interface State {
+  showMenu: boolean
+}
+export class HeaderRight extends React.Component<HeaderRightProps, State> {
+  state = {
+    showMenu: false,
+  }
+
+  toggleMenu = (): void => {
+    this.setState(prevState => ({ showMenu: !prevState.showMenu }))
+  }
+
+  openKeysafe = (): void => {
+    this.props.keysafe.popupKeysafe()
+  }
+
+  handleLogInButton = (): JSX.Element => {
+    if (this.props.userInfo === null) {
+      return (
+        <LoginLink href={getIxoWorldRoute('/membership')}>
+          <h3>
+            <span>Log in</span>
+          </h3>
+        </LoginLink>
+      )
+    }
+    if (this.props.userInfo.loggedInKeysafe === false) {
+      return (
+        <LoginLink onClick={this.openKeysafe}>
+          <h3>
+            <span>Log in</span>
+          </h3>
+        </LoginLink>
+      )
+    }
+    return null
+  }
+
+  render(): JSX.Element {
+    if (this.props.simple === true) {
+      return <NoPadLeft className="col-md-2 col-lg-4" />
+    } else {
+      return (
+        <NoPadLeft className="col-md-2 col-lg-4">
+          <Inner className="d-flex justify-content-end">
+            {this.props.userInfo === null ||
+            this.props.userInfo.loggedInKeysafe === false ? (
+              <div>
+                <UserBox>
+                  <StatusBox>
+                    {this.props.renderStatusIndicator()}
+                    <StatusText>IXO EXPLORER STATUS</StatusText>
+                  </StatusBox>
+                  {this.handleLogInButton()}
+                </UserBox>
+              </div>
+            ) : (
+              <UserBox onClick={this.toggleMenu}>
+                <StatusBox>
+                  {this.props.renderStatusIndicator()}
+                  <StatusText>IXO EXPLORER STATUS</StatusText>
+                </StatusBox>
+                <h3>
+                  {this.props.shouldLedgerDid === true && <RedIcon />}{' '}
+                  <span>{this.props.userInfo.name}</span>{' '}
+                  <i className="icon-down" />
+                </h3>
+              </UserBox>
+            )}
+          </Inner>
+          <UserMenu
+            className={this.state.showMenu ? 'visible' : ''}
+            onMouseLeave={(): void => this.toggleMenu()}
+          >
+            <MenuTop>
+              <AccDID>
+                <p>
+                  {this.props.userInfo !== null &&
+                    this.props.userInfo.didDoc.did}
+                </p>
+                <CopyToClipboard
+                  text={
+                    this.props.userInfo !== null &&
+                    this.props.userInfo.didDoc.did
+                  }
+                >
+                  <span>Copy</span>
+                </CopyToClipboard>
+              </AccDID>
+            </MenuTop>
+            {this.props.shouldLedgerDid === true && (
+              <MenuBottom>
+                <RedIcon />
+                <p>
+                  Ledger your credentials on the ixo blockchain{' '}
+                  <span onClick={(): void => this.props.toggleModal(true)}>
+                    Sign now with the ixo Keysafe
+                  </span>
+                </p>
+              </MenuBottom>
+            )}
+          </UserMenu>
+        </NoPadLeft>
+      )
+    }
+  }
+}
