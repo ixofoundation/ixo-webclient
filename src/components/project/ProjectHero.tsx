@@ -180,6 +180,7 @@ export interface Props {
   project: any
   match: any
   isDetail: boolean
+  isLoggedIn: boolean
   isClaim?: boolean
   hasCapability: (role: [AgentRoles]) => boolean
 }
@@ -190,6 +191,7 @@ export const ProjectHero: React.SFC<Props> = ({
   isDetail,
   hasCapability,
   isClaim,
+  isLoggedIn,
 }) => {
   const buttonsArray = [
     {
@@ -202,12 +204,15 @@ export const ProjectHero: React.SFC<Props> = ({
       path: `/projects/${match.params.projectDID}/detail`,
       title: 'PERFORMANCE',
     },
-    {
+  ]
+
+  if (isLoggedIn) {
+    buttonsArray.push({
       iconClass: 'icon-funding',
       path: `/projects/${match.params.projectDID}/bonds`,
       title: 'FUNDING',
-    },
-  ]
+    })
+  }
 
   const handleSwitchDescription = (): JSX.Element => {
     if (isClaim) {

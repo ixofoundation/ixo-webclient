@@ -332,6 +332,7 @@ export class ProjectContainer extends React.Component<Props, State> {
             match={this.props.match}
             isDetail={true}
             hasCapability={this.handleHasCapability}
+            isLoggedIn={this.props.userInfo.loggedInKeysafe}
           />
           <DetailContainer>
             <ProjectSidebar
@@ -359,6 +360,7 @@ export class ProjectContainer extends React.Component<Props, State> {
             match={this.props.match}
             isDetail={true}
             hasCapability={this.handleHasCapability}
+            isLoggedIn={this.props.userInfo.loggedInKeysafe}
           />
           <DetailContainer>
             <ProjectSidebar
@@ -393,6 +395,7 @@ export class ProjectContainer extends React.Component<Props, State> {
             match={this.props.match}
             isDetail={true}
             hasCapability={this.handleHasCapability}
+            isLoggedIn={this.props.userInfo.loggedInKeysafe}
           />
           <DetailContainer>
             <ProjectSidebar
@@ -418,6 +421,7 @@ export class ProjectContainer extends React.Component<Props, State> {
             match={this.props.match}
             isDetail={true}
             hasCapability={this.handleHasCapability}
+            isLoggedIn={this.props.userInfo.loggedInKeysafe}
           />
           <DetailContainer>
             <ProjectSidebar
@@ -809,6 +813,7 @@ export class ProjectContainer extends React.Component<Props, State> {
               match={this.props.match}
               isDetail={false}
               hasCapability={this.handleHasCapability}
+              isLoggedIn={this.props.userInfo.loggedInKeysafe}
             />
             <ProjectOverview
               checkUserDid={this.checkUserDid}
@@ -842,6 +847,7 @@ export class ProjectContainer extends React.Component<Props, State> {
                 match={this.props.match}
                 isDetail={true}
                 hasCapability={this.handleHasCapability}
+                isLoggedIn={this.props.userInfo.loggedInKeysafe}
               />
               <DetailContainer>
                 <ProjectSidebar
@@ -875,6 +881,7 @@ export class ProjectContainer extends React.Component<Props, State> {
               match={this.props.match}
               isDetail={true}
               hasCapability={this.handleHasCapability}
+              isLoggedIn={this.props.userInfo.loggedInKeysafe}
             />
             {this.state.claimSubmitted ? (
               <ProjectClaimSubmitted projectDid={this.state.projectDid} />
@@ -913,6 +920,7 @@ export class ProjectContainer extends React.Component<Props, State> {
               match={this.props.match}
               isDetail={true}
               hasCapability={this.handleHasCapability}
+              isLoggedIn={this.props.userInfo.loggedInKeysafe}
             />
             <DetailContainer>
               <ProjectSidebar
