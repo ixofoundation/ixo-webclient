@@ -25,6 +25,7 @@ import {
   MobileFilterHeader,
   HeadingItem,
   DoneButtonWrapper,
+  MobileFilterModal,
 } from './Style'
 
 import { getFilterSchema } from '../../../../src/instance-settings'
@@ -304,14 +305,28 @@ class FilterSortButtons extends React.Component<{}, State> {
                     >
                       {this.categoryFilterTitle(category)}
                     </MobileButton>
-
-                    <FilterModal
+                    <MobileFilterModal
                       className="filter-modal"
                       style={{
                         display:
                           category === this.state.checkTitle ? 'block' : 'none',
                       }}
                     >
+                      <MobileFilterHeader>
+                        <HeadingItem
+                          //onClick={(e): void => this.handleClose(e, category)}
+                          onClick={this.setId}
+                        >
+                          <Back />
+                        </HeadingItem>
+                        <HeadingItem
+                          onClick={(): void =>
+                            this.resetCategoryFilter(category)
+                          }
+                        >
+                          clear
+                        </HeadingItem>
+                      </MobileFilterHeader>
                       <ModalItems>
                         {filterCategory.tags.map(filterTags => {
                           const tag = filterTags.title
@@ -332,17 +347,8 @@ class FilterSortButtons extends React.Component<{}, State> {
                           )
                         })}
                       </ModalItems>
-                      <ModalButtons>
-                        <ResetButton
-                          onClick={(): void =>
-                            this.resetCategoryFilter(category)
-                          }
-                        >
-                          Reset
-                        </ResetButton>
-                        <ApplyButton>Apply</ApplyButton>
-                      </ModalButtons>
-                    </FilterModal>
+                      <ModalButtons></ModalButtons>
+                    </MobileFilterModal>
                   </MobileButtonWrapper>
                 )
               })}
