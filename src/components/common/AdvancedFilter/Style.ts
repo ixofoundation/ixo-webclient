@@ -25,6 +25,7 @@ export const FilterInfo = styled.h3`
   font-weight: bold;
   font-size: 1.5rem;
   line-height: 1.2;
+  font-family: 'Roboto', sans-serif;
 `
 
 export const Button = styled.button`
@@ -40,6 +41,9 @@ export const Button = styled.button`
   }
   &.itemsSelected {
     border-color: #39c3e6;
+  }
+  svg {
+    margin-right: 0.375rem;
   }
 `
 
@@ -87,7 +91,6 @@ export const FilterModal = styled.div`
 export const ModalItems = styled.div`
   display: flex;
   flex-flow: row wrap;
-  max-height: 400px;
   overflow: scroll;
 `
 
@@ -343,14 +346,14 @@ export const Menu = styled.div`
     }
   }
 `
-export const MobileMenu = Menu.extend`
+export const MobileMenu = styled(Menu)`
   position: fixed;
   top: 0;
   right: 0;
   bottom: 0;
   left: 0;
   overflow-y: scroll;
-  transition: all 0.8s ease;
+  transition: all 0.5s ease;
   opacity: 0;
   background: #fff;
   pointer-events: none;
@@ -363,11 +366,19 @@ export const MobileMenu = Menu.extend`
 
 export const MobileButtonWrapper = styled.div`
   display: block;
+  margin: 1.625rem 0;
 `
 export const MobileButton = styled.button`
   color: black;
-  &.itemsSelected {
-    border-color: #39c3e6;
+  background: transparent;
+  border: none;
+  outline: none !important;
+  width: 100%;
+  text-align: left;
+  padding: 0;
+  .right-arrow {
+    transform: rotate(-90deg);
+    float: right;
   }
 `
 export const MobileFilterHeader = styled.header`
@@ -378,7 +389,7 @@ export const MobileFilterHeader = styled.header`
   align-items: center;
 `
 
-export const DoneButtonWrapper = styled.button`
+export const DoneButton = styled.button`
   position: relative;
   padding: 1rem 2rem;
   background: #04d0fb;
@@ -387,7 +398,7 @@ export const DoneButtonWrapper = styled.button`
   color: white;
   width: 100%;
   text-align: center;
-  margin: 1.5rem 0 0.75rem;
+  margin: 1.5rem 0 0;
   border: none;
   outline: none !important;
   -webkit-appearance: none;
@@ -403,20 +414,25 @@ export const DoneButtonWrapper = styled.button`
   }
 `
 
-export const MobileFilterWrapper = styled.div`
-  padding: 1.25rem;
-  min-height: calc(100% - 75px);
+export const DoneButtonWrapper = styled.div`
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  align-items: center;
+  justify-content: center;
+  ${DoneButton} {
+    margin: 1.25rem;
+  }
 `
 
 export const MobileFilterHeading = styled.h3`
+  color: #000;
   font-style: normal;
   font-weight: bold;
   font-size: 1.5rem;
   line-height: 1.2;
   margin: 2.625rem 0;
+  &.tag-select-heading {
+    margin: 2rem 0 1rem;
+  }
 `
 
 export const HeadingItem = styled.button`
@@ -431,11 +447,25 @@ export const HeadingItem = styled.button`
   padding: 0;
 `
 
+export const MobileFilterWrapper = styled.div`
+  padding: 1.25rem;
+  min-height: calc(100% - 75px);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+`
+
 export const MobileFilterModal = styled.div`
   position: fixed;
-  background: #ffffff;
-  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.15);
-  left: 0;
   top: 0;
-  height: 100%;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: #ffffff;
+  z-index: 13;
+  display: grid;
+  grid-template: 75px 1fr 75px / 1fr;
+  ${MobileFilterWrapper} {
+    justify-content: flex-start;
+  }
 `

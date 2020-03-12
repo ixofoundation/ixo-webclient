@@ -3,6 +3,7 @@ import DatePicker from './DatePicker'
 import MediaQuery from 'react-responsive'
 import { deviceWidth } from '../../../lib/commonData'
 import Back from '../../../assets/icons/Back'
+import Down from '../../../assets/icons/Down'
 
 import {
   FiltersWrap,
@@ -15,7 +16,6 @@ import {
   ModalButtons,
   ResetButton,
   ApplyButton,
-  Burger,
   Menu,
   MobileMenu,
   MobileButtonWrapper,
@@ -25,10 +25,12 @@ import {
   MobileFilterHeader,
   HeadingItem,
   DoneButtonWrapper,
+  DoneButton,
   MobileFilterModal,
 } from './Style'
 
 import { getFilterSchema } from '../../../../src/instance-settings'
+import Filter from '../../../assets/icons/Filter'
 
 const schema = getFilterSchema()
 
@@ -293,23 +295,17 @@ class FilterSortButtons extends React.Component<{}, State> {
                     }`}
                     onClick={(e): void => this.handleClose(e, category)}
                   >
-                    <MobileButton
-                      onClick={(): void => this.setId(category)}
-                      className={
-                        this.state.categorySelections.find(
-                          selection => selection.category === category,
-                        ).tags.length > 0
-                          ? 'itemsSelected'
-                          : ''
-                      }
-                    >
-                      {this.categoryFilterTitle(category)}
+                    <MobileButton onClick={(): void => this.setId(category)}>
+                      <span>{this.categoryFilterTitle(category)}</span>
+                      <span className="right-arrow">
+                        <Down width="14" fill="#000" />
+                      </span>
                     </MobileButton>
                     <MobileFilterModal
                       className="filter-modal"
                       style={{
                         display:
-                          category === this.state.checkTitle ? 'block' : 'none',
+                          category === this.state.checkTitle ? 'grid' : 'none',
                       }}
                     >
                       <MobileFilterHeader>
@@ -324,35 +320,40 @@ class FilterSortButtons extends React.Component<{}, State> {
                           clear
                         </HeadingItem>
                       </MobileFilterHeader>
-                      <ModalItems>
-                        {filterCategory.tags.map(filterTags => {
-                          const tag = filterTags.title
-                          return (
-                            <FilterSelectButton
-                              key={tag}
-                              onClick={(): void =>
-                                this.handleSelectCategoryTag(category, tag)
-                              }
-                              className={this.tagClassName(category, tag)}
-                            >
-                              <h3>{tag}</h3>
-                              <img
-                                alt={tag}
-                                src={require('./icons/' + filterTags.icon)}
-                              />
-                            </FilterSelectButton>
-                          )
-                        })}
-                      </ModalItems>
-                      <ModalButtons></ModalButtons>
+                      <MobileFilterWrapper>
+                        <MobileFilterHeading className="tag-select-heading">
+                          {this.categoryFilterTitle(category)}
+                        </MobileFilterHeading>
+                        <ModalItems>
+                          {filterCategory.tags.map(filterTags => {
+                            const tag = filterTags.title
+                            return (
+                              <FilterSelectButton
+                                key={tag}
+                                onClick={(): void =>
+                                  this.handleSelectCategoryTag(category, tag)
+                                }
+                                className={this.tagClassName(category, tag)}
+                              >
+                                <h3>{tag}</h3>
+                                <img
+                                  alt={tag}
+                                  src={require('./icons/' + filterTags.icon)}
+                                />
+                              </FilterSelectButton>
+                            )
+                          })}
+                        </ModalItems>
+                      </MobileFilterWrapper>
+                      <DoneButtonWrapper>
+                        <DoneButton onClick={this.setId}>Apply</DoneButton>
+                      </DoneButtonWrapper>
                     </MobileFilterModal>
                   </MobileButtonWrapper>
                 )
               })}
             </div>
-            <DoneButtonWrapper onClick={this.toggleMobileFilters}>
-              Done
-            </DoneButtonWrapper>
+            <DoneButton onClick={this.toggleMobileFilters}>Done</DoneButton>
           </MobileFilterWrapper>
         </>
       )
@@ -374,19 +375,10 @@ class FilterSortButtons extends React.Component<{}, State> {
               <i className="icon-calendar-sort" style={{ padding: 6 }}></i>
               {this.state.dateText}
             </Button>
-
-            <Burger onClick={this.toggleMobileFilters}>
-              <div
-                className={
-                  this.state.mobileFilterMenuOpen === true ? 'change' : ''
-                }
-              >
-                <div className="bar1" />
-                <div className="bar2" />
-                <div className="bar3" />
-              </div>
+            <Button onClick={this.toggleMobileFilters}>
+              <Filter fill="#000" />
               Filters
-            </Burger>
+            </Button>
             <MediaQuery minWidth={`${deviceWidth.desktop}px`}>
               <Menu>{this.getDesktopFilterButtons(true)}</Menu>
             </MediaQuery>
@@ -403,7 +395,6 @@ class FilterSortButtons extends React.Component<{}, State> {
               <i className="icon-reset" style={{ padding: 6 }}></i>
               Reset
             </Button>
-
             {this.state.showDatePicker && (
               <DatePicker
                 onReset={this.resetDateFilter}
