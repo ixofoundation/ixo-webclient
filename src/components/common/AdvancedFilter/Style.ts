@@ -344,40 +344,25 @@ export const Menu = styled.div`
   }
 `
 export const MobileMenu = Menu.extend`
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  overflow-y: scroll;
+  transition: all 0.8s ease;
+  opacity: 0;
+  background: #fff;
+  pointer-events: none;
+  z-index: 12;
   &.openMenu {
-    top: 64px;
     opacity: 1;
     pointer-events: auto;
   }
-  transition: all 0.8s ease;
-  position: absolute;
-  top: -100%;
-  opacity: 0;
-  right: 0;
-  background: #fff;
-  width: 100%;
-  height: 100%;
-  padding: 30px 2px 20px 30px;
-  pointer-events: none;
-  z-index: 9;
 `
 
 export const MobileButtonWrapper = styled.div`
-  position: relative;
   display: inline-block;
-  z-index: 3;
-  :after {
-    position: fixed;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    background: transparent;
-    z-index: -1;
-  }
-  &.active:after {
-    content: '';
-  }
 `
 export const MobileButton = styled.button`
   color: black;
@@ -385,13 +370,63 @@ export const MobileButton = styled.button`
     border-color: #39c3e6;
   }
 `
-export const MobileFilterHeading = styled.div`
-  position: absolute;
-  left: 5.33%;
-  top: 13.87%;
-  bottom: 80.26%;
+export const MobileFilterHeader = styled.header`
+  background: #002a3f;
+  padding: 1.625rem 1.25rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`
+
+export const DoneButtonWrapper = styled.button`
+  position: relative;
+  padding: 1rem 2rem;
+  background: #04d0fb;
+  background: linear-gradient(180deg, #04d0fb 0%, #49bfe0 100%);
+  border-radius: 4px;
+  color: white;
+  width: 100%;
+  text-align: center;
+  margin: 1.5rem 0 0.75rem;
+  border: none;
+  outline: none !important;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  &:after {
+    content: '';
+    position: absolute;
+    top: -0.75rem;
+    left: -20px;
+    height: 1px;
+    width: 100vw;
+    background-color: #e8edee;
+  }
+`
+
+export const MobileFilterWrapper = styled.div`
+  padding: 1.25rem;
+  min-height: calc(100% - 75px);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+`
+
+export const MobileFilterHeading = styled.h3`
+  font-style: normal;
   font-weight: bold;
   font-size: 1.5rem;
-  display: flex;
-  color: black;
+  line-height: 1.2;
+  margin: 2.625rem 0;
+`
+
+export const HeadingItem = styled.button`
+  cursor: pointer;
+  border: none;
+  outline: none !important;
+  text-decoration: none;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.3);
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  padding: 0;
 `

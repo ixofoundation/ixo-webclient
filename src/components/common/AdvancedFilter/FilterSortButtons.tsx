@@ -2,6 +2,7 @@ import * as React from 'react'
 import DatePicker from './DatePicker'
 import MediaQuery from 'react-responsive'
 import { deviceWidth } from '../../../lib/commonData'
+import Back from '../../../assets/icons/Back'
 
 import {
   FiltersWrap,
@@ -20,6 +21,10 @@ import {
   MobileButtonWrapper,
   MobileButton,
   MobileFilterHeading,
+  MobileFilterWrapper,
+  MobileFilterHeader,
+  HeadingItem,
+  DoneButtonWrapper,
 } from './Style'
 
 import { getFilterSchema } from '../../../../src/instance-settings'
@@ -33,7 +38,7 @@ interface State {
   startDate: any
   endDate: any
   dateText: string
-  menuOpen: boolean
+  mobileFilterMenuOpen: boolean
 }
 
 class FilterSortButtons extends React.Component<{}, State> {
@@ -52,7 +57,7 @@ class FilterSortButtons extends React.Component<{}, State> {
       startDate: null,
       endDate: null,
       dateText: 'Dates',
-      menuOpen: false,
+      mobileFilterMenuOpen: false,
     }
   }
 
@@ -184,8 +189,13 @@ class FilterSortButtons extends React.Component<{}, State> {
     return isPressed ? 'buttonPressed' : ''
   }
 
-  handleBurgerClick = (): void => {
-    this.setState({ menuOpen: !this.state.menuOpen })
+  toggleMobileFilters = (): void => {
+    if (this.state.mobileFilterMenuOpen) {
+      document.querySelector('body').classList.remove('noScroll')
+    } else {
+      document.querySelector('body').classList.add('noScroll')
+    }
+    this.setState({ mobileFilterMenuOpen: !this.state.mobileFilterMenuOpen })
   }
 
   getDesktopFilterButtons = (desktopView: boolean): any => {
@@ -263,69 +273,84 @@ class FilterSortButtons extends React.Component<{}, State> {
     if (mobileView) {
       return (
         <>
-          <MobileFilterHeading>Filters</MobileFilterHeading>
-          {schema.categories.map(filterCategory => {
-            const category = filterCategory.title
-            return (
-              <MobileButtonWrapper
-                key={category}
-                className={`button-wrapper ${
-                  category === this.state.checkTitle ? 'active' : ''
-                }`}
-                onClick={(e): void => this.handleClose(e, category)}
-              >
-                <MobileButton
-                  onClick={(): void => this.setId(category)}
-                  className={
-                    this.state.categorySelections.find(
-                      selection => selection.category === category,
-                    ).tags.length > 0
-                      ? 'itemsSelected'
-                      : ''
-                  }
-                >
-                  {this.categoryFilterTitle(category)}
-                </MobileButton>
-
-                <FilterModal
-                  className="filter-modal"
-                  style={{
-                    display:
-                      category === this.state.checkTitle ? 'block' : 'none',
-                  }}
-                >
-                  <ModalItems>
-                    {filterCategory.tags.map(filterTags => {
-                      const tag = filterTags.title
-                      return (
-                        <FilterSelectButton
-                          key={tag}
-                          onClick={(): void =>
-                            this.handleSelectCategoryTag(category, tag)
-                          }
-                          className={this.tagClassName(category, tag)}
-                        >
-                          <h3>{tag}</h3>
-                          <img
-                            alt={tag}
-                            src={require('./icons/' + filterTags.icon)}
-                          />
-                        </FilterSelectButton>
-                      )
-                    })}
-                  </ModalItems>
-                  <ModalButtons>
-                    <ResetButton
-                      onClick={(): void => this.resetCategoryFilter(category)}
+          <MobileFilterHeader>
+            <HeadingItem onClick={this.toggleMobileFilters}>
+              <Back />
+            </HeadingItem>
+            <HeadingItem onClick={this.resetFilters}>clear</HeadingItem>
+          </MobileFilterHeader>
+          <MobileFilterWrapper>
+            <div>
+              <MobileFilterHeading>Filters</MobileFilterHeading>
+              {schema.categories.map(filterCategory => {
+                const category = filterCategory.title
+                return (
+                  <MobileButtonWrapper
+                    key={category}
+                    className={`button-wrapper ${
+                      category === this.state.checkTitle ? 'active' : ''
+                    }`}
+                    onClick={(e): void => this.handleClose(e, category)}
+                  >
+                    <MobileButton
+                      onClick={(): void => this.setId(category)}
+                      className={
+                        this.state.categorySelections.find(
+                          selection => selection.category === category,
+                        ).tags.length > 0
+                          ? 'itemsSelected'
+                          : ''
+                      }
                     >
-                      Reset
-                    </ResetButton>
-                    <ApplyButton>Apply</ApplyButton>
-                  </ModalButtons>
-                </FilterModal>
-              </MobileButtonWrapper>
-            )
-          })}
+                      {this.categoryFilterTitle(category)}
+                    </MobileButton>
+
+                    <FilterModal
+                      className="filter-modal"
+                      style={{
+                        display:
+                          category === this.state.checkTitle ? 'block' : 'none',
+                      }}
+                    >
+                      <ModalItems>
+                        {filterCategory.tags.map(filterTags => {
+                          const tag = filterTags.title
+                          return (
+                            <FilterSelectButton
+                              key={tag}
+                              onClick={(): void =>
+                                this.handleSelectCategoryTag(category, tag)
+                              }
+                              className={this.tagClassName(category, tag)}
+                            >
+                              <h3>{tag}</h3>
+                              <img
+                                alt={tag}
+                                src={require('./icons/' + filterTags.icon)}
+                              />
+                            </FilterSelectButton>
+                          )
+                        })}
+                      </ModalItems>
+                      <ModalButtons>
+                        <ResetButton
+                          onClick={(): void =>
+                            this.resetCategoryFilter(category)
+                          }
+                        >
+                          Reset
+                        </ResetButton>
+                        <ApplyButton>Apply</ApplyButton>
+                      </ModalButtons>
+                    </FilterModal>
+                  </MobileButtonWrapper>
+                )
+              })}
+            </div>
+            <DoneButtonWrapper onClick={this.toggleMobileFilters}>
+              Done
+            </DoneButtonWrapper>
+          </MobileFilterWrapper>
         </>
       )
     }
@@ -347,8 +372,12 @@ class FilterSortButtons extends React.Component<{}, State> {
               {this.state.dateText}
             </Button>
 
-            <Burger onClick={this.handleBurgerClick}>
-              <div className={this.state.menuOpen === true ? 'change' : ''}>
+            <Burger onClick={this.toggleMobileFilters}>
+              <div
+                className={
+                  this.state.mobileFilterMenuOpen === true ? 'change' : ''
+                }
+              >
                 <div className="bar1" />
                 <div className="bar2" />
                 <div className="bar3" />
@@ -360,7 +389,9 @@ class FilterSortButtons extends React.Component<{}, State> {
             </MediaQuery>
             <MediaQuery maxWidth={'991px'}>
               <MobileMenu
-                className={this.state.menuOpen === true ? 'openMenu' : ''}
+                className={
+                  this.state.mobileFilterMenuOpen === true ? 'openMenu' : ''
+                }
               >
                 {this.getMobileFilterButtons(true)}
               </MobileMenu>
