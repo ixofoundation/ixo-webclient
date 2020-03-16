@@ -27,6 +27,7 @@ import {
   DoneButtonWrapper,
   DoneButton,
   MobileFilterModal,
+  BurgerMenuButton,
 } from './Style'
 
 import { getFilterSchema } from '../../../../src/instance-settings'
@@ -375,14 +376,15 @@ class FilterSortButtons extends React.Component<{}, State> {
               <i className="icon-calendar-sort" style={{ padding: 6 }}></i>
               {this.state.dateText}
             </Button>
-            <Button onClick={this.toggleMobileFilters}>
+            <BurgerMenuButton onClick={this.toggleMobileFilters}>
               <Filter fill="#000" />
               Filters
-            </Button>
+            </BurgerMenuButton>
+
             <MediaQuery minWidth={`${deviceWidth.desktop}px`}>
               <Menu>{this.getDesktopFilterButtons(true)}</Menu>
             </MediaQuery>
-            <MediaQuery maxWidth={'991px'}>
+            <MediaQuery maxWidth={`${deviceWidth.mobile}px`}>
               <MobileMenu
                 className={
                   this.state.mobileFilterMenuOpen === true ? 'openMenu' : ''
@@ -393,7 +395,9 @@ class FilterSortButtons extends React.Component<{}, State> {
             </MediaQuery>
             <Button onClick={this.resetFilters}>
               <i className="icon-reset" style={{ padding: 6 }}></i>
-              Reset
+              <MediaQuery minWidth={`${deviceWidth.mobile}px`}>
+                Reset
+              </MediaQuery>
             </Button>
             {this.state.showDatePicker && (
               <DatePicker

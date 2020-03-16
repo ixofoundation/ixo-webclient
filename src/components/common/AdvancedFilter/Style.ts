@@ -469,3 +469,10 @@ export const MobileFilterModal = styled.div`
     justify-content: flex-start;
   }
 `
+export const BurgerMenuButton = styled(Button)`
+  display: none;
+
+  @media (max-width: ${deviceWidth.mobile}px) {
+    display: block;
+  }
+`
