@@ -11,7 +11,7 @@ export const SearchWrapper = styled.div`
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   font-family: Roboto, sans-serif;
   font-weight: 400;
-  z-index: 9;
+  z-index: 4;
   > * {
     flex: 1;
     border-radius: 4px;
