@@ -1,12 +1,11 @@
 import * as React from 'react'
 import styled from 'styled-components'
-import { Tabs } from '../common/Tabs'
 import { SDGArray, deviceWidth } from '../../lib/commonData'
-import MediaQuery from 'react-responsive'
 import { Link, NavLink } from 'react-router-dom'
 import { getCountryName } from '../../common/utils/formatters'
 import { MatchType, AgentRoles } from '../../types/models'
 import * as instanceSettings from '../../instance-settings'
+import HeaderSubTabs from '../common/HeaderSubTabs'
 
 const SingleSDG = styled.a`
   &&& {
@@ -52,21 +51,6 @@ const HeroInner = styled.div`
 
   @media (min-width: ${deviceWidth.desktop + 1}px) {
     padding-top: 150px;
-  }
-`
-
-const TabsController = styled.div`
-  position: fixed;
-  display: flex;
-  justify-content: flex-end;
-  z-index: 7;
-  top: 74px;
-  right: 0;
-  width: 100%;
-
-  @media (min-width: 1450px) {
-    top: 48px;
-    z-index: 11;
   }
 `
 
@@ -302,21 +286,7 @@ export const ProjectHero: React.SFC<Props> = ({
           </ColRight>
         </div>
       </HeroInner>
-      <TabsController>
-        <MediaQuery minWidth={`${deviceWidth.desktop}px`}>
-          <div className="container">
-            <div className="row">
-              <div className="offset-md-8" />
-              <div className="col-md-4">
-                <Tabs buttons={buttonsArray} matchType={MatchType.strict} />
-              </div>
-            </div>
-          </div>
-        </MediaQuery>
-        <MediaQuery maxWidth={`${Number(deviceWidth.desktop) - 1}px`}>
-          <Tabs buttons={buttonsArray} matchType={MatchType.strict} />
-        </MediaQuery>
-      </TabsController>
+      <HeaderSubTabs buttons={buttonsArray} matchType={MatchType.strict} />
     </HeroContainer>
   )
 }
