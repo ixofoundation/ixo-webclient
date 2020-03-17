@@ -53,6 +53,9 @@ const UserBox = styled.div`
     font-size: 14px;
     margin: 1px 0 0 10px;
   }
+  svg {
+    margin-left: 10px;
+  }
 `
 
 // const BalanceContainer = styled.p`
