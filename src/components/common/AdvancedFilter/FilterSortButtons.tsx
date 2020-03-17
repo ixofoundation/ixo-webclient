@@ -4,6 +4,9 @@ import MediaQuery from 'react-responsive'
 import { deviceWidth } from '../../../lib/commonData'
 import Back from '../../../assets/icons/Back'
 import Down from '../../../assets/icons/Down'
+import Reset from 'src/assets/icons/Reset'
+import Filter from '../../../assets/icons/Filter'
+import CalendarSort from 'src/assets/icons/CalendarSort'
 
 import {
   FiltersWrap,
@@ -31,10 +34,6 @@ import {
 } from './Style'
 
 import { getFilterSchema } from '../../../../src/instance-settings'
-import Filter from '../../../assets/icons/Filter'
-import CalendarSort from 'src/assets/icons/CalendarSort'
-import Reset from 'src/assets/icons/Reset'
-
 const schema = getFilterSchema()
 
 interface State {
@@ -101,7 +100,6 @@ class FilterSortButtons extends React.Component<{}, State> {
   }
 
   setId = (title): void => {
-    console.log('pressed')
     this.setState({
       checkTitle: this.state.checkTitle !== title ? title : ' ',
       showDatePicker: false,
