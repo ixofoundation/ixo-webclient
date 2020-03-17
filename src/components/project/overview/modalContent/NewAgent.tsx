@@ -1,7 +1,7 @@
 import * as React from 'react'
 import styled from 'styled-components'
 import { FormStyles } from '../../../../types/models'
-import DynamicForm from '../../../form/DynamicForm'
+import DynamicForm from '../../../../common/components/Form/DynamicForm/DynamicForm'
 import { agentJson } from '../../../../lib/commonData'
 
 const Container = styled.div`

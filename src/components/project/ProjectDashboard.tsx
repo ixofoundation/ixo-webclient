@@ -5,9 +5,14 @@ import { LayoutWrapper } from '../common/LayoutWrapper'
 import { SingleStatistic } from '../common/SingleStatistic'
 import { StatType, AgentRoles } from '../../types/models'
 import { ProjectClaims } from './ProjectClaims'
-import { CircleProgressbar } from '../widgets/CircleProgressbar'
-import BarChart, { BarColors } from '../widgets/BarChart'
-import { WorldMap, LatLng } from '../widgets/WorldMap'
+import { CircleProgressbar } from '../../common/components/Widgets/CircleProgressbar/CircleProgressbar'
+import BarChart, {
+  BarColors,
+} from '../../common/components/Widgets/BarChart/BarChart'
+import {
+  WorldMap,
+  LatLng,
+} from '../../common/components/Widgets/WorldMap/WorldMap'
 import { isoCountriesLatLng } from '../../lib/commonData'
 
 import { deviceWidth } from '../../lib/commonData'

@@ -7,7 +7,7 @@ import { decode as base64Decode } from 'base-64'
 import { blankProjectData, testProjectData } from '../../lib/commonData'
 import { Button, ButtonTypes } from '../common/Buttons'
 import { FileLoader } from '../common/FileLoader'
-import InputImage from '../form/InputImage'
+import InputImage from '../../common/components/Form/InputImage/InputImage'
 import { successToast, errorToast } from '../helpers/Toast'
 import { ErrorTypes } from '../../types/models'
 
