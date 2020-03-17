@@ -9,6 +9,7 @@ import { ErrorTypes } from '../../../types/models'
 import * as queryString from 'query-string'
 import { Banner } from './Banner'
 import { ImageSpinner } from '../../common/ImageSpinner'
+import Success from '../../../assets/icons/Success'
 
 const CreateContainer = styled.div`
   display: flex;
@@ -43,46 +44,35 @@ const BottomContainer = styled.div`
 `
 
 const ModalContainer = styled.div`
-	font-family: ${
-    /* eslint-disable-line */ props => props.theme.fontRobotoCondensed
-  };
-	color: ${/* eslint-disable-line */ props => props.theme.fontGrey};
-	width: 550px;
-	height: 400px
-	position: relative;
-	top: -10px;
-	margin:0 auto;
-	max-width: 100%;
-	padding: 40px;
-	border-radius: 2px;
-	background-color: #FFFFFF;
-	justify-content: center;
-	display: flex;
-	align-items: center;
-	flex-direction: column;
-	text-align: center;
+  font-family: ${/* eslint-disable-line */ props =>
+    props.theme.fontRobotoCondensed};
+  color: ${/* eslint-disable-line */ props => props.theme.fontGrey};
+  width: 550px;
+  height: 400px;
+  position: relative;
+  top: -10px;
+  margin: 0 auto;
+  max-width: 100%;
+  padding: 40px;
+  border-radius: 2px;
+  background-color: #ffffff;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
 
+  p {
+    font-weight: 300;
+  }
 
-	p {
-		font-weight: 300;
-	}
-
-	a {
-		margin:30px 0;
-	}
+  a {
+    margin: 30px 0;
+  }
 `
 
 const ApprovedIcon = styled.div`
   padding-bottom: 10px;
-
-  i {
-    font-size: 64px;
-    display: block;
-    padding: 0;
-  }
-  .icon-success:before {
-    color: ${/* eslint-disable-line */ props => props.theme.bg.green};
-  }
 `
 
 const Title = styled.h2`
@@ -208,7 +198,7 @@ export class ProjectSignAndCreate extends React.Component<Props, State> {
       return (
         <ModalContainer>
           <ApprovedIcon>
-            <i className="icon-success" />
+            <Success fill="#5AB946" width="64" />
           </ApprovedIcon>
           <Title>
             Congratulations - your project has been successfully created in

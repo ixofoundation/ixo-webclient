@@ -4,6 +4,7 @@ import { LayoutWrapperClaims } from '../common/LayoutWrapperClaims'
 import { WidgetWrapperClaims } from '../common/WidgetWrapperClaims'
 import { ClaimStatus } from '../common/ClaimStatus'
 import styled from 'styled-components'
+import Plus from '../../assets/icons/Plus'
 
 const Container = styled.div`
   justify-content: center;
@@ -61,11 +62,10 @@ const EvaluateMoreButton = styled.div`
   text-decoration: none;
 `
 
-const ButtonIconLeft = styled.i`
-  font-size: 13px;
+const ButtonIconLeft = styled.span`
   padding-right: 10px;
-  i:before {
-    color: ${/* eslint-disable-line */ props => props.theme.bg.grey};
+  svg path {
+    fill: ${/* eslint-disable-line */ props => props.theme.bg.grey};
   }
 `
 
@@ -94,15 +94,12 @@ export const ProjectClaimSubmitted: React.SFC<ParentProps> = props => {
               }}
             >
               <EvaluateMoreButton>
-                <ButtonIconLeft className="icon-plus" />
+                <ButtonIconLeft>
+                  <Plus width="14" />
+                </ButtonIconLeft>
                 Submit another claim
               </EvaluateMoreButton>
             </ButtonLink>
-            {/* <a href={'www.google.com'}>
-							<EvaluateMoreButton>
-								<ButtonIconLeft className="icon-plus" />Submit another claim
-							</EvaluateMoreButton>
-						</a> */}
           </div>
           <div className="col-md-6">
             <ButtonLink to={`/projects/${props.projectDid}/overview`}>

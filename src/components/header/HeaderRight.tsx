@@ -2,6 +2,7 @@ import * as React from 'react'
 import styled from 'styled-components'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 import { getIxoWorldRoute } from 'src/common/utils/formatters'
+import Down from '../../assets/icons/Down'
 
 // const xIcon = require('../../assets/images/oval-x-icon.png');
 
@@ -51,6 +52,9 @@ const UserBox = styled.div`
   i {
     font-size: 14px;
     margin: 1px 0 0 10px;
+  }
+  svg {
+    margin-left: 10px;
   }
 `
 
@@ -251,15 +255,13 @@ export class HeaderRight extends React.Component<HeaderRightProps, State> {
           <Inner className="d-flex justify-content-end">
             {this.props.userInfo === null ||
             this.props.userInfo.loggedInKeysafe === false ? (
-              <div>
-                <UserBox>
-                  <StatusBox>
-                    {this.props.renderStatusIndicator()}
-                    <StatusText>IXO EXPLORER STATUS</StatusText>
-                  </StatusBox>
-                  {this.handleLogInButton()}
-                </UserBox>
-              </div>
+              <UserBox>
+                <StatusBox>
+                  {this.props.renderStatusIndicator()}
+                  <StatusText>IXO EXPLORER STATUS</StatusText>
+                </StatusBox>
+                {this.handleLogInButton()}
+              </UserBox>
             ) : (
               <UserBox onClick={this.toggleMenu}>
                 <StatusBox>
@@ -268,8 +270,7 @@ export class HeaderRight extends React.Component<HeaderRightProps, State> {
                 </StatusBox>
                 <h3>
                   {this.props.shouldLedgerDid === true && <RedIcon />}{' '}
-                  <span>{this.props.userInfo.name}</span>{' '}
-                  <i className="icon-down" />
+                  <span>{this.props.userInfo.name}</span> <Down width="14" />
                 </h3>
               </UserBox>
             )}
@@ -279,8 +280,6 @@ export class HeaderRight extends React.Component<HeaderRightProps, State> {
             onMouseLeave={(): void => this.toggleMenu()}
           >
             <MenuTop>
-              {/* <h3>{this.props.userInfo !== null && this.props.userInfo.name} <Link to="/"><i className="icon-settings1"/></Link></h3> */}
-
               <AccDID>
                 <p>
                   {this.props.userInfo !== null &&

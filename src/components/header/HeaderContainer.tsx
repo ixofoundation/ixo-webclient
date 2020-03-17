@@ -8,6 +8,7 @@ import MediaQuery from 'react-responsive'
 import { deviceWidth } from '../../lib/commonData'
 import { ModalWrapper } from 'src/components/common/ModalWrapper'
 import { ButtonTypes, Button } from '../common/Buttons'
+import Success from '../../assets/icons/Success'
 
 const TopBar = styled.header`
   position: sticky;
@@ -296,7 +297,7 @@ class Header extends React.Component<Props, State> {
     } else {
       return (
         <ModalData>
-          <i className="icon-success" />
+          <Success width="64" fill="#49BFE0" />
           <h3>YOU HAVE SUCCESSFULLY INSTALLED THE IXO KEYSAFE</h3>
           <p>
             <span>LAST STEP - </span>create your self-sovereign credentials on

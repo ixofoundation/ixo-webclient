@@ -13,6 +13,8 @@ import MediaQuery from 'react-responsive'
 import { Button, ButtonTypes } from '../common/Buttons'
 import { Spinner } from '../common/Spinner'
 import { Header } from '../../types/models'
+import Kyc from '../../assets/icons/Kyc'
+import Claims from '../../assets/icons/Claims'
 
 const ModalContainer = styled.div`
   width: 360px;
@@ -204,13 +206,13 @@ class RegisterPage extends React.Component<Props, State> {
     } else if (this.state.activeModal === ModalData.kyc) {
       return {
         title: 'MEMBERSHIP REGISTRATION',
-        icon: <i className="icon-kyc" />,
+        icon: <Kyc width="50" />,
         width: '365',
       }
     } else if (this.state.activeModal === ModalData.invite) {
       return {
         title: 'INTERESTED IN CREATING YOUR OWN PROJECTS?',
-        icon: <i className="icon-claims" />,
+        icon: <Claims width="50" />,
         width: '365',
       }
     } else {
