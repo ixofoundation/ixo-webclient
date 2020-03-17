@@ -1,6 +1,25 @@
-import { AccountActions, GetBalancesAction, GetOrdersAction } from './types'
+import {
+  AccountActions,
+  LoginAction,
+  LogoutAction,
+  GetBalancesAction,
+  GetOrdersAction,
+  UserInfo,
+} from './types'
 import { Dispatch } from 'redux'
 import Axios from 'axios'
+
+export const login = (userInfo: UserInfo, error: string): LoginAction => ({
+  type: AccountActions.Login,
+  payload: {
+    userInfo,
+    loginError: { error },
+  },
+})
+
+export const logout = (): LogoutAction => ({
+  type: AccountActions.Logout,
+})
 
 export const getBalances = (address: string) => (
   dispatch: Dispatch,

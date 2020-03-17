@@ -549,7 +549,7 @@ function mapStateToProps(
     projectURL: ownProps.projectURL,
     projectIxoRequired: ownProps.projectIxoRequired,
     error: state.web3.error,
-    userInfo: state.login.userInfo,
+    userInfo: state.account.userInfo,
   }
 }
 

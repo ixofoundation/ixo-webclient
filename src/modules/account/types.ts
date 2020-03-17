@@ -1,13 +1,29 @@
 import { Currency } from '../../types/models'
 
-export interface AccountState {
+export interface DidDoc {
+  did: string
+  pubKey: string
+}
+
+export interface UserInfo {
+  didDoc: DidDoc
   name: string
+  ledgered: boolean
+  loggedInKeysafe: boolean
+  hasKYC: boolean
+}
+
+export interface AccountState {
+  userInfo: UserInfo
+  loginError: Record<string, any>
   address: string
   orders: any[]
   balances: Currency[]
 }
 
 export enum AccountActions {
+  Login = 'ixo/Account/Login',
+  Logout = 'ixo/Account/Logout',
   GetBalances = 'ixo/Account/GET_BALANCES',
   GetBalancesSuccess = 'ixo/Account/GET_BALANCES_FULFILLED',
   GetBalancesPending = 'ixo/Account/GET_BALANCES_PENDING',
@@ -16,6 +32,18 @@ export enum AccountActions {
   GetOrdersSuccess = 'ixo/Account/GET_ORDERS_FULFILLED',
   GetOrdersPending = 'ixo/Account/GET_ORDERS_PENDING',
   GetOrdersFailure = 'ixo/Account/GET_ORDERS_REJECTED',
+}
+
+export interface LoginAction {
+  type: typeof AccountActions.Login
+  payload: {
+    userInfo: UserInfo
+    loginError: Record<string, any>
+  }
+}
+
+export interface LogoutAction {
+  type: typeof AccountActions.Logout
 }
 
 export interface GetBalancesAction {
@@ -43,6 +71,8 @@ export interface GetOrdersSuccessAction {
 }
 
 export type AccountActionTypes =
+  | LoginAction
+  | LogoutAction
   | GetBalancesAction
   | GetBalancesSuccessAction
   | GetOrdersAction

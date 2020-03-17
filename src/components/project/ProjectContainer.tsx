@@ -20,7 +20,7 @@ import { ProjectClaims } from './ProjectClaims'
 import styled from 'styled-components'
 import { ProjectAgents } from './ProjectAgents'
 import { Spinner } from '../common/Spinner'
-import { UserInfo } from '../../types/models'
+import { UserInfo } from '../../modules/account/types'
 import { ProjectSidebar } from './ProjectSidebar'
 import * as Toast from '../helpers/Toast'
 import { deviceWidth } from '../../lib/commonData'
@@ -1010,8 +1010,9 @@ function mapStateToProps(state: RootState): Record<string, any> {
   return {
     ixo: state.ixo.ixo,
     keysafe: state.keySafe.keysafe,
-    userInfo: state.login.userInfo,
-    isLoggedIn: state.login.userInfo && state.login.userInfo.loggedInKeysafe,
+    userInfo: state.account.userInfo,
+    isLoggedIn:
+      state.account.userInfo && state.account.userInfo.loggedInKeysafe,
   }
 }
 

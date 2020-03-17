@@ -7,7 +7,8 @@ import { connect } from 'react-redux'
 
 import { RootState } from '../../common/redux/types'
 import * as Toast from '../helpers/Toast'
-import { contentType, UserInfo } from '../../types/models'
+import { contentType } from '../../types/models'
+import { UserInfo } from '../../modules/account/types'
 import { ProjectsDashboard } from './ProjectsDashboard'
 import { explorerSocket } from '../helpers/explorerSocket'
 import FilterSortButtons from '../common/AdvancedFilter/FilterSortButtons'
@@ -277,7 +278,7 @@ export class Projects extends React.Component<Props, State> {
 function mapStateToProps(state: RootState): Record<string, any> {
   return {
     ixo: state.ixo.ixo,
-    userInfo: state.login.userInfo,
+    userInfo: state.account.userInfo,
   }
 }
 

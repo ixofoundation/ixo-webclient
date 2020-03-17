@@ -8,8 +8,8 @@ import { RootState } from './common/redux/types'
 import styled, { ThemeProvider } from 'styled-components'
 import { initIxo } from './modules/ixo/ixo.actions'
 import { initKeysafe } from './modules/keysafe/keysafe.actions'
-import { UserInfo } from './types/models'
-import { initUserInfo } from './modules/login/login.actions'
+import { UserInfo } from './modules/account/types'
+import { login } from './modules/account/account.actions'
 import ScrollToTop from './components/common/ScrollToTop'
 import './assets/icons.css'
 
@@ -241,10 +241,6 @@ class App extends React.Component<Props, State> {
               pingIxoExplorer={this.handlePingExplorer}
               simpleHeader={false}
               userInfo={this.props.userInfo}
-              refreshProjects={(): void => console.log('clicked')}
-              initUserInfo={(): void =>
-                this.props.onLoginInit(this.props.keysafe, this.props.ixo)
-              }
             />
             <ToastContainer hideProgressBar={true} />
             <ContentWrapper>
@@ -266,7 +262,7 @@ function mapStateToProps(state: RootState): Record<string, any> {
   return {
     ixo: state.ixo.ixo,
     keysafe: state.keySafe.keysafe,
-    userInfo: state.login.userInfo,
+    userInfo: state.account.userInfo,
   }
 }
 
@@ -279,7 +275,7 @@ function mapDispatchToProps(dispatch: any): DispatchProps {
       dispatch(initKeysafe())
     },
     onLoginInit: (userInfo: UserInfo, error: string): void => {
-      dispatch(initUserInfo(userInfo, error))
+      dispatch(login(userInfo, error))
     },
     onWeb3Connect: (): void => {
       dispatch(connectWeb3())

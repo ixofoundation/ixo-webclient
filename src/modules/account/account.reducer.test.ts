@@ -1,6 +1,9 @@
 import * as SUT from './account.reducer'
 import {
+  AccountState,
   AccountActions,
+  LoginAction,
+  LogoutAction,
   GetBalancesSuccessAction,
   GetOrdersSuccessAction,
 } from './types'
@@ -17,6 +20,79 @@ describe('Account Reducer', () => {
 
     // then ... the state that was passed into the function should be returned
     expect(result).toEqual(initialState)
+  })
+
+  describe('Login Action', () => {
+    it('should return a new copy of state, with the correct result set and any other info cleared', () => {
+      const userInfo = {
+        didDoc: { did: 'someDid', pubKey: 'somePubKey' },
+        name: 'someName',
+        ledgered: true,
+        loggedInKeysafe: false,
+        hasKYC: true,
+      }
+
+      const loginError = { error: 'oops' }
+
+      // ... we create a initUserInfo action
+      const action: LoginAction = {
+        type: AccountActions.Login,
+        payload: {
+          userInfo: {
+            didDoc: { did: 'someDid', pubKey: 'somePubKey' },
+            name: 'someName',
+            ledgered: true,
+            loggedInKeysafe: false,
+            hasKYC: true,
+          },
+          loginError: { error: 'oops' },
+        },
+      }
+
+      // when ... we run the reducer and pass it our initial state and this action
+      const state = SUT.reducer(
+        {
+          ...initialState,
+          orders: [{ someprop: 'someval' }],
+          balances: [{ amount: 1, denom: 'sometoken' }],
+          address: '123',
+        },
+        action,
+      )
+
+      // then the state should be set as expected
+      expect(state).toEqual({ ...initialState, userInfo, loginError })
+    })
+  })
+
+  describe('Logout Action', () => {
+    it('should return the initial state', () => {
+      // given ... we have some mock state
+      const mockState: AccountState = {
+        userInfo: {
+          didDoc: { did: 'someDid', pubKey: 'somePubKey' },
+          name: 'someName',
+          ledgered: true,
+          loggedInKeysafe: false,
+          hasKYC: true,
+        },
+        loginError: { error: 'oops' },
+        orders: [{ someprop: 'someval' }],
+        balances: [{ amount: 1, denom: 'sometoken' }],
+        address: '123',
+      }
+
+      // ... we create a resetUserInfo action
+      const action: LogoutAction = {
+        type: AccountActions.Logout,
+      }
+
+      // when ... we run the reducer and pass it our mockState state and this action
+      const state = SUT.reducer(mockState, action)
+
+      // then the state should be reset
+      expect(state).toEqual(initialState)
+    })
   })
 
   describe('GetBalancesSuccess Action', () => {

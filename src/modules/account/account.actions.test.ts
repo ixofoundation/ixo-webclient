@@ -11,6 +11,36 @@ beforeEach(() => {
 })
 
 describe('Account Actions', () => {
+  describe('login', () => {
+    it('should return an action of type LoginActions.Login', () => {
+      // when ... we call the login action creator
+      const userInfo = {
+        didDoc: { did: 'someDid', pubKey: 'somePubKey' },
+        name: 'someName',
+        ledgered: true,
+        loggedInKeysafe: false,
+        hasKYC: true,
+      }
+      const loginError = { error: null }
+      const action = SUT.login(userInfo, null)
+
+      // then we should expect it to create an action with the correct type
+      expect(action.type).toEqual(AccountActions.Login)
+      // ... the payload should be set correctly
+      expect(action.payload).toEqual({ userInfo, loginError })
+    })
+  })
+
+  describe('logout', () => {
+    it('should return an action of type LoginActions.Logout', () => {
+      // when ... we call the resetUserInfo action creator
+      const action = SUT.logout()
+
+      // then we should expect it to create an action with the correct type
+      expect(action.type).toEqual(AccountActions.Logout)
+    })
+  })
+
   describe('getBalances', () => {
     it('should return data on success', async () => {
       const balances = [{ someprop: 'someval1' }, { someprop: 'someval2' }]
