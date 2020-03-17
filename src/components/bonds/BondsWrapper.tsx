@@ -3,7 +3,7 @@ import Header from './header/Header'
 import { NavLink } from 'react-router-dom'
 import 'react-toastify/dist/ReactToastify.css'
 import './BondsWrapper.css'
-import { BondsHero } from './BondsHero'
+import BondsHero from './BondsHero'
 import { TypeForm } from '../TypeForm'
 
 export default function BondsWrapper({ children, params }): JSX.Element {

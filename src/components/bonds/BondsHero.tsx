@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { withRouter } from 'react-router-dom'
 import styled from 'styled-components'
 import { deviceWidth } from '../../lib/commonData'
 import HeaderSubTabs from '../common/HeaderSubTabs'
@@ -98,7 +99,12 @@ const Outcome = styled.div`
   }
 `
 
-export class BondsHero extends React.Component<{}, {}> {
+export interface Props {
+  location: any
+  history: any
+  match: any
+}
+class BondsHero extends React.Component<Props, {}> {
   outcomes = [
     { title: '3. good health', iconClass: 'icon-sdg-goodhealth' },
     {
@@ -109,9 +115,35 @@ export class BondsHero extends React.Component<{}, {}> {
   ]
 
   render(): JSX.Element {
+    const { match } = this.props
     return (
       <HeroContainer>
-        <HeaderSubTabs />
+        <HeaderSubTabs
+          buttons={[
+            {
+              linkClass: '',
+              iconClass: 'icon-projects',
+              path: `/projects/${match.params.projectDID}/overview`,
+              title: 'PROJECT',
+            },
+            {
+              linkClass: '',
+              iconClass: 'icon-impacts',
+              path: `/projects/${match.params.projectDID}/detail`,
+              title: 'PERFORMANCE',
+            },
+            {
+              linkClass: window.location.pathname.startsWith(
+                `/projects/${match.params.projectDID}/bonds`,
+              )
+                ? 'active'
+                : null,
+              iconClass: 'icon-funding',
+              path: `/projects/${match.params.projectDID}/bonds`,
+              title: 'FUNDING',
+            },
+          ]}
+        />
         <StatisticContainer className="title-section">
           <BondsHeroHeading>
             <StatusIndicator className="active" />
@@ -142,3 +174,5 @@ export class BondsHero extends React.Component<{}, {}> {
     )
   }
 }
+
+export default withRouter(BondsHero)
