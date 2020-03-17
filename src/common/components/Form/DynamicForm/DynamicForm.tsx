@@ -14,6 +14,7 @@ import {
   SubmitButton,
   SubmitStatus,
 } from './DynamicForm.styles'
+import ApprovedTick from 'src/assets/icons/ApprovedTick'
 
 export interface ParentProps {
   formSchema: any
@@ -95,7 +96,7 @@ export default class DynamicForm extends React.Component<Props, State> {
             <div className="col-md-6">
               <SubmitButton onClick={this.handleSubmit}>
                 {this.props.submitText ? this.props.submitText : 'Submit Form'}
-                <i className="icon-approvetick" />
+                <ApprovedTick width="22" />
               </SubmitButton>
             </div>
           </div>

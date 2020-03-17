@@ -3,6 +3,14 @@ import styled from 'styled-components'
 import { NavLink } from 'react-router-dom'
 import { deviceWidth } from '../../lib/commonData'
 import { AgentRoles } from '../../types/models'
+import Home from 'src/assets/icons/Home'
+import HomeActive from 'src/assets/icons/HomeActive'
+import ServiceProviders from 'src/assets/icons/ServiceProviders'
+import ServiceProvidersActive from 'src/assets/icons/ServiceProvidersActive'
+import Evaluators from 'src/assets/icons/Evaluators'
+import EvaluatorsActive from 'src/assets/icons/EvaluatorsActive'
+import Claims from 'src/assets/icons/Claims'
+import ClaimsActive from 'src/assets/icons/ClaimsActive'
 
 const ToolTip = styled.div`
   position: absolute;
@@ -40,6 +48,9 @@ const NavItem = styled(NavLink)`
   text-decoration: none;
   border-top: 5px solid transparent;
   position: relative;
+  svg {
+    width: 1.5rem;
+  }
 
   @media (min-width: ${deviceWidth.mobile}px) {
     margin: 30px 0;
@@ -55,13 +66,6 @@ const NavItem = styled(NavLink)`
 
   :hover {
     text-decoration: none;
-  }
-
-  i {
-    font-size: 24px;
-  }
-  i:before {
-    color: white;
   }
 `
 
@@ -129,13 +133,7 @@ export class ProjectSidebar extends React.Component<Props, State> {
           to={`/projects/${this.props.projectDid}/detail`}
           onClick={(): void => this.setActiveLink('detail')}
         >
-          <i
-            className={
-              this.state.activeLink === 'detail'
-                ? 'icon-home-active'
-                : 'icon-home'
-            }
-          />
+          {this.state.activeLink === 'detail' ? <HomeActive /> : <Home />}
           <ToolTip>Dashboard</ToolTip>
         </NavItem>
         {this.props.hasCapability([AgentRoles.owners]) ? (
@@ -145,13 +143,11 @@ export class ProjectSidebar extends React.Component<Props, State> {
               to={`/projects/${this.props.projectDid}/detail/service-providers`}
               onClick={(): void => this.setActiveLink('serviceProviders')}
             >
-              <i
-                className={
-                  this.state.activeLink === 'serviceProviders'
-                    ? 'icon-serviceproviders-active'
-                    : 'icon-serviceproviders'
-                }
-              />
+              {this.state.activeLink === 'serviceProviders' ? (
+                <ServiceProvidersActive />
+              ) : (
+                <ServiceProviders />
+              )}
               <ToolTip>Service Providers</ToolTip>
             </NavItem>
             <NavItem
@@ -159,13 +155,11 @@ export class ProjectSidebar extends React.Component<Props, State> {
               to={`/projects/${this.props.projectDid}/detail/evaluators`}
               onClick={(): void => this.setActiveLink('evaluators')}
             >
-              <i
-                className={
-                  this.state.activeLink === 'evaluators'
-                    ? 'icon-evaluators-active'
-                    : 'icon-evaluators'
-                }
-              />
+              {this.state.activeLink === 'evaluators' ? (
+                <EvaluatorsActive />
+              ) : (
+                <Evaluators />
+              )}
               <ToolTip>Evaluators</ToolTip>
             </NavItem>
           </React.Fragment>
@@ -175,23 +169,9 @@ export class ProjectSidebar extends React.Component<Props, State> {
           to={`/projects/${this.props.projectDid}/detail/claims`}
           onClick={(): void => this.setActiveLink('claims')}
         >
-          <i
-            className={
-              this.state.activeLink === 'claims'
-                ? 'icon-claims-active'
-                : 'icon-claims'
-            }
-          />
+          {this.state.activeLink === 'claims' ? <ClaimsActive /> : <Claims />}
           <ToolTip>Claims</ToolTip>
         </NavItem>
-        {/* <NavItem
-					exact={true}
-					title="Settings"
-					to={`/projects/${this.props.projectDid}/overview`}
-					onClick={() => this.setActiveLink('overview')}
-				>
-					<i className={this.state.activeLink === 'overview' ? 'icon-settings-active' : 'icon-settings1'} />
-				</NavItem> */}
       </Container>
     )
   }

@@ -14,7 +14,10 @@ import {
   ApplyButton,
 } from './Style'
 
-import { getFilterSchema } from '../../../instance-settings'
+import { getFilterSchema } from '../../../../src/instance-settings'
+import CalendarSort from 'src/assets/icons/CalendarSort'
+import Reset from 'src/assets/icons/Reset'
+
 const schema = getFilterSchema()
 
 interface State {
@@ -184,7 +187,7 @@ class FilterSortButtons extends React.Component<{}, State> {
                 this.changeDateText()
               }}
             >
-              <i className="icon-calendar-sort" style={{ padding: 6 }}></i>
+              <CalendarSort width="16" fill="#000" />
               {this.state.dateText}
             </Button>
             {schema.categories.map(filterCategory => {
@@ -250,7 +253,7 @@ class FilterSortButtons extends React.Component<{}, State> {
               )
             })}
             <Button onClick={this.resetFilters}>
-              <i className="icon-reset" style={{ padding: 6 }}></i>
+              <Reset fill="#000" />
               Reset
             </Button>
             {this.state.showDatePicker && (

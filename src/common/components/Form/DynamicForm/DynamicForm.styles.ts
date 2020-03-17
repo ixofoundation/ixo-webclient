@@ -46,12 +46,7 @@ export const SubmitButton = styled.div`
   color: white;
   text-decoration: none;
 
-  i {
-    font-size: 13px;
+  svg {
     padding-left: 10px;
-  }
-
-  i:before {
-    color: ${/*eslint-disable-line*/ props => props.theme.bg.grey};
   }
 `

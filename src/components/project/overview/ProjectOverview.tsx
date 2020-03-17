@@ -17,6 +17,11 @@ import { DesktopChrome } from './modalContent/DesktopChrome'
 import { isBrowser } from 'react-device-detect'
 import { NotLedgered } from './modalContent/NotLedgered'
 import { Header } from '../../../types/models'
+import Share from '../../../assets/icons/Share'
+import Twitter from '../../../assets/icons/Twitter'
+import Facebook from '../../../assets/icons/Facebook'
+import World from '../../../assets/icons/World'
+import Instagram from 'src/assets/icons/Instagram'
 
 const OverviewContainer = styled.section`
   margin-top: -86px;
@@ -125,20 +130,15 @@ const Social = styled.div`
     display: block;
   }
 
-  i {
-    font-size: 17px;
+  svg {
     margin-right: 28px;
-
     transition: transform 0.3s ease;
-  }
-
-  i:before {
-    color: ${/*eslint-disable-line*/ props => props.theme.fontDarkGrey};
-  }
-
-  i:hover:before {
-    cursor: pointer;
-    color: ${/*eslint-disable-line*/ props => props.theme.darkGrey};
+    path {
+      fill: #282828;
+    }
+    &:hover path {
+      fill: #656969;
+    }
   }
 
   a:hover {
@@ -157,25 +157,19 @@ const Hidden = styled.div`
   justify-content: center;
   transition: opacity 0.3s ease;
   opacity: 0;
-  i {
-    color: #282828;
-    top: auto;
+  svg {
     margin: 0 8px;
-    font-size: 20px;
-  }
-  .icon-facebook:hover:before {
-    color: #4a67ad;
-  }
-  .icon-twitter:hover:before {
-    color: #4ca0eb;
+    path {
+      fill: #282828;
+    }
+    &:hover path {
+      fill: #4ca0eb;
+    }
   }
 `
 
 const Visible = styled.div`
-  i {
-    font-size: 21px;
-    position: relative;
-    top: 3px;
+  svg {
     margin-right: 10px;
   }
   transition: opacity 0.3s ease;
@@ -200,8 +194,8 @@ const LocalButton = styled.a`
   position: relative;
   transition: all 0.3s ease;
   cursor: pointer;
-  i:before {
-    color: ${/*eslint-disable-line*/ props => props.theme.fontGrey};
+  svg path {
+    fill: ${/*eslint-disable-line*/ props => props.theme.fontGrey};
   }
   :hover {
     ${Visible} {
@@ -578,7 +572,7 @@ export const ProjectOverview: React.SFC<Props> = props => {
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    <i className="icon-instagram" />
+                    <Instagram width="17" />
                   </a>
                 )}
                 {props.project.socialMedia.twitterLink && (
@@ -587,7 +581,7 @@ export const ProjectOverview: React.SFC<Props> = props => {
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    <i className="icon-twitter" />
+                    <Twitter width="17" />
                   </a>
                 )}
                 {props.project.socialMedia.facebookLink && (
@@ -596,7 +590,7 @@ export const ProjectOverview: React.SFC<Props> = props => {
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    <i className="icon-facebook" />
+                    <Facebook width="17" />
                   </a>
                 )}
                 {props.project.socialMedia.webLink && (
@@ -605,7 +599,7 @@ export const ProjectOverview: React.SFC<Props> = props => {
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    <i className="icon-world" />
+                    <World width="17" />
                   </a>
                 )}
               </Social>
@@ -660,15 +654,13 @@ export const ProjectOverview: React.SFC<Props> = props => {
                 {handleRenderEvaluatorButton()}
                 {handleRenderServiceProviderButton()}
               </Sidebar>
-              {/* <LocalButton><i className="icon-heart"/>SAVE TO FAVOURITES</LocalButton> */}
               <LocalButton>
                 <Visible>
-                  <i className="icon-share" />
+                  <Share width="22" />
                   SHARE THIS PROJECT
                 </Visible>
                 <Hidden>
-                  <i onClick={shareToTwitter} className="icon-twitter" />
-                  {/* <i onClick={shareToFacebook} className="icon-facebook" /> */}
+                  <Twitter onClick={shareToTwitter} width="22" />
                 </Hidden>
               </LocalButton>
               <QRComponent url={location.href} />

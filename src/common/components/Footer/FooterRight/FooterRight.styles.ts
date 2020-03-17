@@ -17,18 +17,13 @@ export const Main = styled.div`
 
 export const SocialIcon = styled.a`
   padding: 10px;
-
-  :before {
-    color: #fff;
+  svg path {
+    fill: #fff;
   }
-
-  &:hover:before {
-    text-decoration: none;
-    color: ${/* eslint-disable-line */ props => props.theme.ixoBlue};
-  }
-
-  &&:hover {
-    text-decoration: none;
+  &:hover {
+    svg path {
+      fill: ${/* eslint-disable-line */ props => props.theme.ixoBlue};
+    }
   }
 `
 

@@ -47,13 +47,10 @@ export const UserBox = styled.div`
     font-size: 14px;
     margin: 1px 0 0 10px;
   }
+  svg {
+    margin-left: 10px;
+  }
 `
-
-// export const BalanceContainer = styled.p`
-// 	img {
-// 		vertical-align: baseline;
-// 	}
-// `;
 
 export const MenuTop = styled.div`
   background-color: #002233;

@@ -17,6 +17,7 @@ import {
   StatusMessage,
   TopBar,
 } from './HeaderContainer.styles'
+import Success from '../../../assets/icons/Success'
 
 export interface State {
   responseTime: number
@@ -169,7 +170,7 @@ class Header extends React.Component<Props, State> {
     } else {
       return (
         <ModalData>
-          <i className="icon-success" />
+          <Success width="64" fill="#49BFE0" />
           <h3>YOU HAVE SUCCESSFULLY INSTALLED THE IXO KEYSAFE</h3>
           <p>
             <span>LAST STEP - </span>create your self-sovereign credentials on
