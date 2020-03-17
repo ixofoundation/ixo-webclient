@@ -3,12 +3,12 @@ import React from 'react'
 const Marketplace = (props): JSX.Element => {
   return (
     <svg
-      width={props.width || 17}
-      viewBox="0 0 17 15"
+      width={props.width || 18}
+      viewBox="0 0 18 18"
       xmlns="http://www.w3.org/2000/svg"
     >
       <path
-        d="M15.736.09H1.563v1.77h14.173V.09zm.885 8.857V7.176l-.885-4.43H1.563l-.886 4.43v1.771h.886v5.315h8.858V8.947h3.543v5.315h1.772V8.947h.885zM8.65 12.491H3.334V8.947H8.65v3.544z"
+        d="M16.09 1.91H1.91v1.77h14.18zm.91 8.86V9l-.88-4.43H1.91L1 9v1.77h.88v5.32h8.86v-5.32h3.54v5.32h1.78v-5.32zm-8 3.54H3.68v-3.54H9z"
         fill={props.fill || '#fff'}
       />
     </svg>

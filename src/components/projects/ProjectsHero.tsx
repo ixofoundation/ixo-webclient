@@ -1,8 +1,8 @@
 import * as React from 'react'
 import styled from 'styled-components'
-import { Tabs } from '../common/Tabs'
+import HeaderSubTabs from '../common/HeaderSubTabs'
 import { SingleStatistic } from '../common/SingleStatistic'
-import { StatType, MatchType } from '../../types/models'
+import { StatType } from '../../types/models'
 import { deviceWidth } from '../../lib/commonData'
 import Search from '../common/Search'
 import { contentType } from '../../types/models'
@@ -51,15 +51,6 @@ const HeroInner = styled.div`
 
   :hover ${ContainerInner} > div {
     transform: scale(1.05);
-  }
-`
-
-const PositionController = styled.div`
-  position: fixed;
-  z-index: 10;
-  transform: translate(310%, -530%);
-  @media screen and (max-width: 1080px) {
-    transform: translate(143%, -530%);
   }
 `
 
@@ -224,23 +215,20 @@ export class ProjectsHero extends React.Component<Props, State> {
         <div className="container">
           <div className="row">
             <div className="col-md-12">
-              <PositionController>
-                <Tabs
-                  buttons={[
-                    {
-                      iconClass: 'icon-projects',
-                      path: '/',
-                      title: 'PROJECTS',
-                    },
-                    {
-                      iconClass: 'icon-impacts',
-                      path: '/global-statistics',
-                      title: 'IMPACTS',
-                    },
-                  ]}
-                  matchType={MatchType.exact}
-                />
-              </PositionController>
+              <HeaderSubTabs
+                buttons={[
+                  {
+                    iconClass: 'icon-projects',
+                    path: '/',
+                    title: 'PROJECTS',
+                  },
+                  {
+                    iconClass: 'icon-impacts',
+                    path: '/global-statistics',
+                    title: 'IMPACTS',
+                  },
+                ]}
+              />
             </div>
           </div>
         </div>

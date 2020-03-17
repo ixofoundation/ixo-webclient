@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { LayoutWrapperClaims } from '../common/LayoutWrapperClaims'
 import { WidgetWrapperClaims } from '../common/WidgetWrapperClaims'
-import DynamicForm from '../form/DynamicForm'
+import DynamicForm from '../../common/components/Form/DynamicForm/DynamicForm'
 import { decode as base64Decode } from 'base-64'
 import { Data } from '../../modules/project/types'
 import styled from 'styled-components'

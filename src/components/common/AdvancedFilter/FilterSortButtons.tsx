@@ -32,6 +32,8 @@ import {
 
 import { getFilterSchema } from '../../../../src/instance-settings'
 import Filter from '../../../assets/icons/Filter'
+import CalendarSort from 'src/assets/icons/CalendarSort'
+import Reset from 'src/assets/icons/Reset'
 
 const schema = getFilterSchema()
 
@@ -373,7 +375,7 @@ class FilterSortButtons extends React.Component<{}, State> {
                 this.changeDateText()
               }}
             >
-              <i className="icon-calendar-sort" style={{ padding: 6 }}></i>
+              <CalendarSort width="16" fill="#000" />
               {this.state.dateText}
             </Button>
             <BurgerMenuButton onClick={this.toggleMobileFilters}>
@@ -396,6 +398,7 @@ class FilterSortButtons extends React.Component<{}, State> {
             <Button onClick={this.resetFilters}>
               <i className="icon-reset" style={{ padding: 6 }}></i>
               <MediaQuery minWidth={`${deviceWidth.mobile}px`}>
+                <Reset fill="#000" />
                 Reset
               </MediaQuery>
             </Button>

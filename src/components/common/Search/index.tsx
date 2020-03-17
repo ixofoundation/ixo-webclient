@@ -1,5 +1,5 @@
 import * as React from 'react'
-import InputText from '../../form/InputText'
+import InputText from '../../../common/components/Form/InputText/InputText'
 import { FormStyles } from 'src/types/models'
 import {
   SearchWrapper,
@@ -17,6 +17,7 @@ import Oracle from '../../../assets/icons/Oracle'
 import Template from '../../../assets/icons/Template'
 import Marketplace from '../../../assets/icons/Marketplace'
 import SearchIcon from '../../../assets/icons/Search'
+import Down from 'src/assets/icons/Down'
 
 interface Props {
   filterChanged: (filter: string) => void
@@ -98,12 +99,14 @@ export default class Search extends React.Component<Props> {
               >
                 {this.renderFilterButtonIcon(this.state.activeFilterIcon)}
                 {this.state.activeFilterButtonText}
-                <i
-                  className="icon-down"
+                <span
+                  className="down-icon"
                   style={{
                     transform: this.state.isModalOpen ? 'rotateX(180deg)' : '',
                   }}
-                />
+                >
+                  <Down fill="#000" />
+                </span>
               </ModalButton>
               <form
                 onSubmit={(e): void => this.handleSubmit(e)}

@@ -1,7 +1,7 @@
 import * as React from 'react'
 import styled from 'styled-components'
 import { formJson } from '../../lib/commonData'
-import DynamicForm from '../form/DynamicForm'
+import DynamicForm from '../../common/components/Form/DynamicForm/DynamicForm'
 import { FormStyles } from '../../types/models'
 
 const Text = styled.textarea`
