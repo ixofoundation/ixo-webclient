@@ -1,19 +1,12 @@
 import * as React from 'react'
 import styled from 'styled-components'
 import { ButtonTypes, Button } from 'src/components/common/Buttons'
+import Success from '../../../../assets/icons/Success'
 
 const ModalData = styled.div`
   max-width: 380px;
   text-align: center;
   padding: 20px 20px 30px;
-
-  i {
-    font-size: 64px;
-
-    :before {
-      color: ${/* eslint-disable-line */ props => props.theme.ixoBlue};
-    }
-  }
 
   h3 {
     margin-top: 10px;
@@ -76,7 +69,7 @@ export const NotLedgered: React.SFC<ParentProps> = props => {
     return (
       <Container>
         <ModalData>
-          <i className="icon-success" />
+          <Success width="64" fill="#49BFE0" />
           <h3>YOU HAVE SUCCESSFULLY INSTALLED THE IXO KEYSAFE</h3>
           <p>
             <span>LAST STEP - </span>create your self-sovereign credentials on

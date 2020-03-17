@@ -9,6 +9,7 @@ import styled from 'styled-components'
 import InputImage from './InputImage'
 import { FormStyles } from '../../types/models'
 import { Button, ButtonTypes } from '../common/Buttons'
+import ApprovedTick from 'src/assets/icons/ApprovedTick'
 
 const SubmitStatus = styled.p`
   color: #0f8dab;
@@ -56,13 +57,8 @@ const SubmitButton = styled.div`
   color: white;
   text-decoration: none;
 
-  i {
-    font-size: 13px;
+  svg {
     padding-left: 10px;
-  }
-
-  i:before {
-    color: ${/*eslint-disable-line*/ props => props.theme.bg.grey};
   }
 `
 
@@ -146,7 +142,7 @@ export default class DynamicForm extends React.Component<Props, State> {
             <div className="col-md-6">
               <SubmitButton onClick={this.handleSubmit}>
                 {this.props.submitText ? this.props.submitText : 'Submit Form'}
-                <i className="icon-approvetick" />
+                <ApprovedTick width="22" />
               </SubmitButton>
             </div>
           </div>

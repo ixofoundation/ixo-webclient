@@ -3,7 +3,7 @@ import React from 'react'
 const People = (props): JSX.Element => {
   return (
     <svg
-      width={props.width || 17}
+      width={props.width || 18}
       viewBox="0 0 17 12"
       xmlns="http://www.w3.org/2000/svg"
     >

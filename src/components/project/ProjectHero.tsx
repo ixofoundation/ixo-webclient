@@ -6,6 +6,7 @@ import { getCountryName } from '../../common/utils/formatters'
 import { MatchType, AgentRoles } from '../../types/models'
 import * as instanceSettings from '../../instance-settings'
 import HeaderSubTabs from '../common/HeaderSubTabs'
+import Location from '../../assets/icons/Location'
 
 const SingleSDG = styled.a`
   &&& {
@@ -280,7 +281,7 @@ export const ProjectHero: React.SFC<Props> = ({
               <strong>By:</strong> {project.ownerName}
             </p>
             <p>
-              <i className="icon-location" />
+              <Location width="14" />
               {getCountryName(project.projectLocation)}
             </p>
           </ColRight>

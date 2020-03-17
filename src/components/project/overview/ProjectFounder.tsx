@@ -1,6 +1,8 @@
 import * as React from 'react'
 import styled from 'styled-components'
 import { getCountryName } from '../../../common/utils/formatters'
+import Location from '../../../assets/icons/Location'
+import World from '../../../assets/icons/World'
 
 const Text = styled.div`
   color: ${/*eslint-disable-line*/ props => props.theme.fontDarkGrey};
@@ -41,7 +43,12 @@ const Founder = styled.div`
     color: #333c4e;
     font-size: 14px;
     font-family: ${/*eslint-disable-line*/ props => props.theme.fontRoboto};
-
+    svg {
+      margin-right: 5px;
+      path {
+        fill: #333c4e;
+      }
+    }
     span {
       display: block;
       margin: 0 15px 10px 0;
@@ -51,19 +58,6 @@ const Founder = styled.div`
       span {
         display: inline;
       }
-    }
-
-    i {
-      margin-right: 5px;
-      color: #4c4c4c;
-    }
-
-    i:before {
-      color: #4c4c4c;
-    }
-
-    & {
-      color: #333c4e;
     }
   }
 `
@@ -100,13 +94,13 @@ export const ProjectFounder: React.SFC<ParentProps> = ({ founder }) => {
             <IconText>
               {founder.countryOfOrigin && (
                 <span>
-                  <i className="icon-location" />
+                  <Location width="14" />
                   {getCountryName(founder.countryOfOrigin)}
                 </span>
               )}
               {founder.websiteURL && (
                 <span>
-                  <i className="icon-world" />
+                  <World width="14" />
                   <a
                     href={founder.websiteURL}
                     target="_blank"

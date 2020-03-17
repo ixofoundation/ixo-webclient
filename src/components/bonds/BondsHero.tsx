@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import { deviceWidth } from '../../lib/commonData'
 import HeaderSubTabs from '../common/HeaderSubTabs'
 import * as instanceSettings from '../../instance-settings'
+import Location from '../../assets/icons/Location'
 
 const HeroContainer = styled.div`
   background: url(${instanceSettings.getBGImageSrc()}) no-repeat center top;
@@ -165,7 +166,7 @@ class BondsHero extends React.Component<Props, {}> {
             <strong>By:</strong> Water for Africa
           </div>
           <div>
-            <i className="icon-location" />
+            <Location width="14" />
             &nbsp; Uganda
           </div>
         </StatisticContainer>
