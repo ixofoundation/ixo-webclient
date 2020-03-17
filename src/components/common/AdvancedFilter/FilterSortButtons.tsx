@@ -381,7 +381,7 @@ class FilterSortButtons extends React.Component<{}, State> {
               Filters
             </BurgerMenuButton>
 
-            <MediaQuery minWidth={`${deviceWidth.desktop}px`}>
+            <MediaQuery minWidth={'577px'}>
               <Menu>{this.getDesktopFilterButtons(true)}</Menu>
             </MediaQuery>
             <MediaQuery maxWidth={`${deviceWidth.mobile}px`}>
