@@ -380,7 +380,6 @@ class FilterSortButtons extends React.Component<{}, State> {
               <Filter fill="#000" />
               Filters
             </BurgerMenuButton>
-
             <MediaQuery minWidth={'577px'}>
               <Menu>{this.getDesktopFilterButtons(true)}</Menu>
             </MediaQuery>
@@ -394,10 +393,13 @@ class FilterSortButtons extends React.Component<{}, State> {
               </MobileMenu>
             </MediaQuery>
             <Button onClick={this.resetFilters}>
-              <i className="icon-reset" style={{ padding: 6 }}></i>
+              {/* <i className="icon-reset" style={{ padding: 6 }}></i> */}
               <MediaQuery minWidth={`${deviceWidth.mobile}px`}>
                 <Reset fill="#000" />
                 Reset
+              </MediaQuery>
+              <MediaQuery maxWidth={`${deviceWidth.mobile}px`}>
+                <Reset fill="#000" />
               </MediaQuery>
             </Button>
             {this.state.showDatePicker && (
