@@ -36,9 +36,6 @@ export const getBalances = (symbol: string) => (
         const bond = responses[0].data
         const price = responses[1].data
 
-        console.log(bond)
-        console.log(price)
-
         return {
           symbol: bond.token,
           name: bond.name,

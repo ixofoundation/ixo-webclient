@@ -102,14 +102,6 @@ export class Projects extends React.Component<Props, State> {
   loadingProjects = false
 
   componentDidMount(): void {
-    explorerSocket.on('list all projects', function() {
-      // console.log('LLIST PROJECT', data);
-    })
-
-    explorerSocket.on('project status updated', function(data: any) {
-      console.log('UPDATED PROJECT STATUS', data)
-    })
-
     this.refreshAllProjects()
   }
 

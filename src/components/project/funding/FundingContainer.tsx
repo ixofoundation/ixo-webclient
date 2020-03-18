@@ -303,9 +303,6 @@ export class Funding extends React.Component<Props, State> {
         projectAccount.address = res
         this.setState({ projectAccount: projectAccount })
       })
-      .catch(err => {
-        console.log('couldnt retrieve wallet address. ', err)
-      })
   }
 
   handleFundProjectWallet = async (): Promise<void> => {
@@ -389,8 +386,6 @@ export class Funding extends React.Component<Props, State> {
         status: 'STOPPED',
       }
       this.handleUpdateProjectStatus(statusObj)
-    } else {
-      console.log(this.state.projectAccount.address)
     }
   }
 
@@ -405,8 +400,6 @@ export class Funding extends React.Component<Props, State> {
         status: 'PAIDOUT',
       }
       this.handleUpdateProjectStatus(statusObj)
-    } else {
-      console.log(this.state.projectAccount.address)
     }
   }
 

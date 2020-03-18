@@ -15,7 +15,6 @@ export interface UserInfo {
 
 export interface AccountState {
   userInfo: UserInfo
-  loginError: Record<string, any>
   address: string
   orders: any[]
   balances: Currency[]
@@ -38,7 +37,7 @@ export interface LoginAction {
   type: typeof AccountActions.Login
   payload: {
     userInfo: UserInfo
-    loginError: Record<string, any>
+    address: string
   }
 }
 

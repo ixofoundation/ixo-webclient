@@ -19,9 +19,7 @@ function updateData(): Record<string, any> {
       leaf.children = new Array(3)
       leaf.children.map(() => {
         const newEl = randomLeaf()
-        console.log('CHILD IS: ', newEl)
       })
-      console.log('after: ', leaf)
     }
     leaves.push(leaf)
   }

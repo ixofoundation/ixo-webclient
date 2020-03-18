@@ -23,7 +23,7 @@ describe('Account Reducer', () => {
   })
 
   describe('Login Action', () => {
-    it('should return a new copy of state, with the correct result set and any other info cleared', () => {
+    it('should return a new copy of state, with the correct result set', () => {
       const userInfo = {
         didDoc: { did: 'someDid', pubKey: 'somePubKey' },
         name: 'someName',
@@ -32,7 +32,7 @@ describe('Account Reducer', () => {
         hasKYC: true,
       }
 
-      const loginError = { error: 'oops' }
+      const address = 'abc'
 
       // ... we create a initUserInfo action
       const action: LoginAction = {
@@ -45,7 +45,7 @@ describe('Account Reducer', () => {
             loggedInKeysafe: false,
             hasKYC: true,
           },
-          loginError: { error: 'oops' },
+          address: 'abc',
         },
       }
 
@@ -55,13 +55,12 @@ describe('Account Reducer', () => {
           ...initialState,
           orders: [{ someprop: 'someval' }],
           balances: [{ amount: 1, denom: 'sometoken' }],
-          address: '123',
         },
         action,
       )
 
       // then the state should be set as expected
-      expect(state).toEqual({ ...initialState, userInfo, loginError })
+      expect(state).toEqual({ ...state, userInfo, address })
     })
   })
 
@@ -76,10 +75,9 @@ describe('Account Reducer', () => {
           loggedInKeysafe: false,
           hasKYC: true,
         },
-        loginError: { error: 'oops' },
+        address: 'abc',
         orders: [{ someprop: 'someval' }],
         balances: [{ amount: 1, denom: 'sometoken' }],
-        address: '123',
       }
 
       // ... we create a resetUserInfo action

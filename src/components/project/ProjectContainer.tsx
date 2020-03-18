@@ -158,10 +158,8 @@ export class ProjectContainer extends React.Component<Props, State> {
     })
 
     explorerSocket.on('project status updated', (data: any) => {
-      console.log('updated with data', data)
       if (data.projectDid === this.state.projectDid) {
         this.setState({ projectStatus: data.status })
-        console.log('state updated with new data')
       }
     })
 
@@ -191,7 +189,6 @@ export class ProjectContainer extends React.Component<Props, State> {
   }
 
   handleGetProjectData = (autorefresh?: boolean, agentDid?: string): void => {
-    console.log(this.props.location)
     if (
       (this.gettingProjectData === false && autorefresh === true) ||
       this.state.projectPublic === null
@@ -481,11 +478,8 @@ export class ProjectContainer extends React.Component<Props, State> {
                 this.gettingAgents = false
               })
               .catch((result: Error) => {
-                console.log(result)
                 this.gettingAgents = false
               })
-          } else {
-            console.log(error)
           }
         },
         'base64',
@@ -636,7 +630,6 @@ export class ProjectContainer extends React.Component<Props, State> {
             })
         } else {
           Toast.errorToast(error)
-          console.log(error)
         }
       },
       'base64',
@@ -676,7 +669,6 @@ export class ProjectContainer extends React.Component<Props, State> {
   }
 
   handleSingleClaimFetch = (project: any): void => {
-    console.log(this.gettingSingleClaim)
     if (this.gettingSingleClaim === false) {
       this.gettingSingleClaim = true
       const ProjectDIDPayload: Record<string, any> = {
@@ -716,7 +708,6 @@ export class ProjectContainer extends React.Component<Props, State> {
               },
             )
           } else {
-            console.log(error)
             this.gettingSingleClaim = false
           }
         },

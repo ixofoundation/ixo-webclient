@@ -147,7 +147,6 @@ export class ProjectSignAndCreate extends React.Component<Props, State> {
     this.props.ixo.project
       .fetchPublic(key, pdsURL)
       .then((res: any) => {
-        console.log('Fetched: ', res)
         const fileContents = base64Decode(res.data)
         return fileContents
       })

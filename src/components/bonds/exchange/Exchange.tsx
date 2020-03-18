@@ -34,7 +34,6 @@ const BondsSectionNav = styled.div`
 `
 
 class Exchange extends Component<any> {
-  // console.log(this.props)
   componentDidMount(): void {
     this.props.dispatch({
       type: QuoteActions.QuoteFailure,

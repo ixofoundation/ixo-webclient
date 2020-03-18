@@ -21,13 +21,14 @@ describe('Account Actions', () => {
         loggedInKeysafe: false,
         hasKYC: true,
       }
-      const loginError = { error: null }
-      const action = SUT.login(userInfo, null)
+      const address = 'abc'
+
+      const action = SUT.login(userInfo, address)
 
       // then we should expect it to create an action with the correct type
       expect(action.type).toEqual(AccountActions.Login)
       // ... the payload should be set correctly
-      expect(action.payload).toEqual({ userInfo, loginError })
+      expect(action.payload).toEqual({ userInfo, address })
     })
   })
 

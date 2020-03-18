@@ -225,7 +225,6 @@ class RegisterPage extends React.Component<Props, State> {
     if (this.props.keysafe && !this.state.hasKeySafe) {
       this.props.keysafe.getDidDoc((error, response) => {
         if (error) {
-          console.log(error)
           if (this.state.toastShown === false) {
             this.setState({ toastShown: true })
           }
