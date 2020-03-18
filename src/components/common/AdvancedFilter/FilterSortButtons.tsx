@@ -394,10 +394,12 @@ class FilterSortButtons extends React.Component<{}, State> {
               </MobileMenu>
             </MediaQuery>
             <Button onClick={this.resetFilters}>
-              <i className="icon-reset" style={{ padding: 6 }}></i>
               <MediaQuery minWidth={`${deviceWidth.mobile}px`}>
                 <Reset fill="#000" />
                 Reset
+              </MediaQuery>
+              <MediaQuery maxWidth={`${deviceWidth.mobile}px`}>
+                <Reset fill="#000" />
               </MediaQuery>
             </Button>
             {this.state.showDatePicker && (
