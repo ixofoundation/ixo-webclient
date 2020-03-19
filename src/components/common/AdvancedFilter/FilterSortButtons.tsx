@@ -367,15 +367,26 @@ class FilterSortButtons extends React.Component<{}, State> {
         <FiltersWrap>
           <FilterInfo>All Projects</FilterInfo>
           <div className="filters">
-            <Button
-              onClick={(): void => {
-                this.toggleShowDatePicker()
-                this.changeDateText()
-              }}
-            >
-              <CalendarSort width="16" fill="#000" />
-              {this.state.dateText}
-            </Button>
+            <ButtonWrapper>
+              <Button
+                onClick={(): void => {
+                  this.toggleShowDatePicker()
+                  this.changeDateText()
+                }}
+              >
+                <CalendarSort width="16" fill="#000" />
+                {this.state.dateText}
+                {this.state.showDatePicker && (
+                  <DatePicker
+                    onReset={this.resetDateFilter}
+                    onChange={this.handleDateChange}
+                    onApply={this.toggleShowDatePicker}
+                    initialStartDate={this.state.startDate}
+                    initialEndDate={this.state.endDate}
+                  />
+                )}
+              </Button>
+            </ButtonWrapper>
             <BurgerMenuButton onClick={this.toggleMobileFilters}>
               <Filter fill="#000" />
               Filters
@@ -402,15 +413,6 @@ class FilterSortButtons extends React.Component<{}, State> {
                 <Reset fill="#000" />
               </MediaQuery>
             </Button>
-            {this.state.showDatePicker && (
-              <DatePicker
-                onReset={this.resetDateFilter}
-                onChange={this.handleDateChange}
-                onApply={this.toggleShowDatePicker}
-                initialStartDate={this.state.startDate}
-                initialEndDate={this.state.endDate}
-              />
-            )}
           </div>
         </FiltersWrap>
       </>
