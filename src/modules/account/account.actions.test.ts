@@ -75,8 +75,6 @@ describe('Account Actions', () => {
       await store.dispatch(SUT.getAccount('some-address'))
       const actions = store.getActions()
 
-      console.log(actions[1].payload)
-
       // then we should expect it to create actions with the correct types and payload
       expect.assertions(5)
       expect(actions[0].type).toEqual(AccountActions.GetAccountPending)

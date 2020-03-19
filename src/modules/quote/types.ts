@@ -19,6 +19,27 @@ export interface QuoteState {
   isSwapping: boolean
 }
 
+export interface QuoteBuy {
+  address: string
+  receiving: Currency
+  maxPrices: Currency[]
+  txFees: Currency[]
+}
+
+export interface QuoteSell {
+  address: string
+  sending: Currency
+  txFees: Currency[]
+}
+
+export interface QuoteSwap {
+  address: string
+  receiving: Currency
+  sending: Currency
+  txFees: Currency[]
+  bondToken: string
+}
+
 export enum QuoteActions {
   Clear = 'ixo/Quote/CLEAR',
   Buy = 'ixo/Quote/BUY',
