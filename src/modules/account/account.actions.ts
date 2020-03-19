@@ -2,13 +2,15 @@ import {
   AccountActions,
   LoginAction,
   LogoutAction,
-  GetBalancesAction,
+  GetAccountAction,
   GetOrdersAction,
   UserInfo,
 } from './types'
 import { RootState } from '../../common/redux/types'
 import { Dispatch } from 'redux'
 import Axios from 'axios'
+import blocksyncApi from '../../common/api/blocksync-api/blocksync-api'
+import keysafe from '../../common/keysafe/keysafe'
 
 export const login = (userInfo: UserInfo, address: string): LoginAction => ({
   type: AccountActions.Login,
@@ -22,22 +24,26 @@ export const logout = (): LogoutAction => ({
   type: AccountActions.Logout,
 })
 
-export const getBalances = (address: string) => (
+export const getAccount = (address: string) => (
   dispatch: Dispatch,
-): GetBalancesAction => {
+): GetAccountAction => {
   return dispatch({
-    type: AccountActions.GetBalances,
+    type: AccountActions.GetAccount,
     payload: Axios.get(
       process.env.REACT_APP_BLOCKCHAIN_NODE_URL + '/auth/accounts/' + address,
       {
         transformResponse: [
           (response: string): any => {
-            return JSON.parse(response).result.value.coins
+            return JSON.parse(response).result.value
           },
         ],
       },
     ).then(response => {
-      return { balances: response.data }
+      return {
+        balances: response.data.coins,
+        sequence: response.data.sequence.toString(),
+        accountNumber: response.data.account_number.toString(),
+      }
     }),
   })
 }
@@ -91,36 +97,34 @@ export const updateLoginStatus = () => (
 ): void => {
   const {
     account: { userInfo },
-    keySafe: { keysafe },
-    ixo: { ixo },
   } = getState()
 
   keysafe.getInfo((error, response) => {
     if (response) {
       const newUserInfo = { ...response, loggedInKeysafe: true }
 
-      ixo.user.getDidDoc(newUserInfo.didDoc.did).then((didResponse: any) => {
-        if (didResponse.error) {
-          newUserInfo.ledgered = false
-          newUserInfo.hasKYC = false
-        } else {
-          newUserInfo.ledgered = true
-          newUserInfo.hasKYC = didResponse.credentials.length > 0
-        }
+      blocksyncApi.user
+        .getDidDoc(newUserInfo.didDoc.did)
+        .then((didResponse: any) => {
+          if (didResponse.error) {
+            newUserInfo.ledgered = false
+            newUserInfo.hasKYC = false
+          } else {
+            newUserInfo.ledgered = true
+            newUserInfo.hasKYC = didResponse.credentials.length > 0
+          }
 
-        if (JSON.stringify(userInfo) !== JSON.stringify(newUserInfo)) {
-          Axios.get(
-            `${process.env.REACT_APP_GAIA_URL}/didToAddr/${newUserInfo.didDoc.did}`,
-          ).then(addressResponse => {
-            const address = addressResponse.data
-            dispatch(login(newUserInfo, address))
-          })
-        }
-      })
+          if (JSON.stringify(userInfo) !== JSON.stringify(newUserInfo)) {
+            Axios.get(
+              `${process.env.REACT_APP_GAIA_URL}/didToAddr/${newUserInfo.didDoc.did}`,
+            ).then(addressResponse => {
+              const address = addressResponse.data
+              dispatch(login(newUserInfo, address))
+            })
+          }
+        })
     } else {
       dispatch(logout())
     }
   })
-
-  // return
 }

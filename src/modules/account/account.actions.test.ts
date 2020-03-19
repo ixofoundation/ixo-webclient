@@ -3,11 +3,24 @@ import mockStore from '../../common/redux/mockStore'
 import * as SUT from './account.actions'
 import { AccountActions } from './types'
 
+jest.mock('../../common/keysafe/keysafe')
+
 const mockAxios = axios as jest.Mocked<typeof axios>
 let store
+let windowSpy
 
 beforeEach(() => {
-  store = mockStore({})
+  windowSpy = jest.spyOn(global, 'window' as any, 'get')
+
+  store = mockStore({
+    account: {
+      userInfo: '',
+    },
+  })
+})
+
+afterEach(() => {
+  windowSpy.mockRestore()
 })
 
 describe('Account Actions', () => {
@@ -42,25 +55,35 @@ describe('Account Actions', () => {
     })
   })
 
-  describe('getBalances', () => {
+  describe('getAccount', () => {
     it('should return data on success', async () => {
       const balances = [{ someprop: 'someval1' }, { someprop: 'someval2' }]
+      const sequence = '123'
+      const accountNumber = '0123456'
 
       mockAxios.get.mockImplementationOnce(() =>
         Promise.resolve({
-          data: [{ someprop: 'someval1' }, { someprop: 'someval2' }],
+          data: {
+            coins: [{ someprop: 'someval1' }, { someprop: 'someval2' }],
+            sequence: '123',
+            account_number: '0123456',
+          },
         }),
       )
 
-      // when ... we call the getBalances action creator with an address
-      await store.dispatch(SUT.getBalances('some-address'))
+      // when ... we call the getAccount action creator with an address
+      await store.dispatch(SUT.getAccount('some-address'))
       const actions = store.getActions()
 
+      console.log(actions[1].payload)
+
       // then we should expect it to create actions with the correct types and payload
-      expect.assertions(3)
-      expect(actions[0].type).toEqual(AccountActions.GetBalancesPending)
-      expect(actions[1].type).toEqual(AccountActions.GetBalancesSuccess)
+      expect.assertions(5)
+      expect(actions[0].type).toEqual(AccountActions.GetAccountPending)
+      expect(actions[1].type).toEqual(AccountActions.GetAccountSuccess)
       expect(actions[1].payload.balances).toEqual(balances)
+      expect(actions[1].payload.accountNumber).toEqual(accountNumber)
+      expect(actions[1].payload.sequence).toEqual(sequence)
     })
 
     it('should return an error on failure', async () => {
@@ -73,14 +96,14 @@ describe('Account Actions', () => {
 
       try {
         // when ... we call the getBalances action creator with an address
-        await store.dispatch(SUT.getBalances('some-address'))
+        await store.dispatch(SUT.getAccount('some-address'))
       } catch {
         const actions = store.getActions()
 
         // then we should expect it to create actions with the correct types and payload
         expect.assertions(3)
-        expect(actions[0].type).toEqual(AccountActions.GetBalancesPending)
-        expect(actions[1].type).toEqual(AccountActions.GetBalancesFailure)
+        expect(actions[0].type).toEqual(AccountActions.GetAccountPending)
+        expect(actions[1].type).toEqual(AccountActions.GetAccountFailure)
         expect(actions[1].payload.error).toEqual(error)
       }
     })
@@ -128,4 +151,18 @@ describe('Account Actions', () => {
       }
     })
   })
+
+  // TODO
+  /*   describe.only('updateLoginStatus', () => {
+    it('should dispatch a login action if logged in to keysafe', async () => {
+      windowSpy.mockImplementation(() => ({
+        ixoKs: jest.fn(),
+      }))
+
+      await store.dispatch(SUT.updateLoginStatus())
+      const actions = store.getActions()
+
+      // rest of code
+    })
+  }) */
 })

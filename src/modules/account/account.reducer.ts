@@ -1,8 +1,10 @@
 import { AccountActionTypes, AccountActions, AccountState } from './types'
 
 export const initialState: AccountState = {
-  address: null,
   userInfo: null,
+  address: null,
+  accountNumber: null,
+  sequence: null,
   balances: [],
   orders: [],
 }
@@ -18,8 +20,13 @@ export const reducer = (
         userInfo: action.payload.userInfo,
         address: action.payload.address,
       }
-    case AccountActions.GetBalancesSuccess:
-      return { ...state, balances: action.payload.balances }
+    case AccountActions.GetAccountSuccess:
+      return {
+        ...state,
+        balances: action.payload.balances,
+        accountNumber: action.payload.accountNumber,
+        sequence: action.payload.sequence,
+      }
     case AccountActions.GetOrdersSuccess:
       return {
         ...state,

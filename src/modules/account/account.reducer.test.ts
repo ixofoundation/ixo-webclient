@@ -4,7 +4,7 @@ import {
   AccountActions,
   LoginAction,
   LogoutAction,
-  GetBalancesSuccessAction,
+  GetAccountSuccessAction,
   GetOrdersSuccessAction,
 } from './types'
 
@@ -78,6 +78,8 @@ describe('Account Reducer', () => {
         address: 'abc',
         orders: [{ someprop: 'someval' }],
         balances: [{ amount: 1, denom: 'sometoken' }],
+        sequence: '123',
+        accountNumber: '0123456',
       }
 
       // ... we create a resetUserInfo action
@@ -100,11 +102,18 @@ describe('Account Reducer', () => {
         { amount: 200, denom: 'def' },
         { amount: 300, denom: 'def' },
       ]
+
+      const sequence = '123'
+
+      const accountNumber = '0123456'
+
       // ... we create a getBalances action
-      const action: GetBalancesSuccessAction = {
-        type: AccountActions.GetBalancesSuccess,
+      const action: GetAccountSuccessAction = {
+        type: AccountActions.GetAccountSuccess,
         payload: {
           balances,
+          accountNumber,
+          sequence,
         },
       }
 
@@ -112,7 +121,12 @@ describe('Account Reducer', () => {
       const state = SUT.reducer(initialState, action)
 
       // then the state should be set as expected
-      expect(state).toEqual({ ...initialState, balances: balances })
+      expect(state).toEqual({
+        ...initialState,
+        balances,
+        accountNumber,
+        sequence,
+      })
     })
   })
 

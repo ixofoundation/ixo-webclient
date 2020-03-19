@@ -15,11 +15,7 @@ function updateData(): Record<string, any> {
   for (let i = 0; i < totalLeaves; i++) {
     const leaf = randomLeaf()
     if (Math.random() > 0.8) {
-      // SOMETHING NOT WORKING HERE. CHILDREN MAP FUNCTION NOT GOING
       leaf.children = new Array(3)
-      leaf.children.map(() => {
-        const newEl = randomLeaf()
-      })
     }
     leaves.push(leaf)
   }
