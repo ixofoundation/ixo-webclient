@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 import { deviceWidth } from '../../../lib/commonData'
+import { NavLink } from 'react-router-dom'
 
 export const FiltersWrap = styled.div`
   font-family: 'Roboto' sans-serif;
@@ -24,6 +25,7 @@ export const FilterInfo = styled.h3`
   font-weight: bold;
   font-size: 1.5rem;
   line-height: 1.2;
+  font-family: 'Roboto', sans-serif;
 `
 
 export const Button = styled.button`
@@ -41,7 +43,7 @@ export const Button = styled.button`
     border-color: #39c3e6;
   }
   svg {
-    margin-right: 6px;
+    margin-right: 0.375rem;
   }
 `
 
@@ -62,6 +64,7 @@ export const ButtonWrapper = styled.div`
     content: '';
   }
 `
+
 export const FilterModal = styled.div`
   position: absolute;
   padding: 2.625rem;
@@ -267,4 +270,226 @@ export const ApplyButtonDatePicker = styled.div`
   padding: 1rem;
   border-radius: 4px;
   cursor: pointer;
+`
+
+const HeaderLink = styled(NavLink)`
+  color: white;
+  font-family: ${/* eslint-disable-line */ props =>
+    props.theme.fontRobotoCondensed};
+  font-weight: 400;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  border: 1px solid #49bfe0;
+  border-radius: 3px;
+  padding: 5px 10px 5px;
+  margin: 0 10px 10px;
+  font-size: 16px;
+
+  :first-child {
+    border: 1px solid #49bfe0;
+    font-weight: 400;
+  }
+
+  &:first-child.active {
+    color: ${/* eslint-disable-line */ props =>
+      props.theme.fontBlueButtonHover};
+    font-weight: 400;
+  }
+
+  transition: border 0.3s ease;
+
+  :hover {
+    text-decoration: none;
+    && {
+      color: ${/* eslint-disable-line */ props => props.theme.fontBlue};
+    }
+  }
+
+  @media (min-width: ${deviceWidth.desktop}px) {
+    margin: 0 10px;
+    font-size: 13px;
+  }
+`
+
+export const Burger = styled.div`
+  position: relative;
+  background-color: white;
+  border: 1px solid transparent;
+  margin: 8px;
+  padding: 0.66rem 1rem;
+  border-radius: 4px;
+  align-items: center;
+  line-height: 19px;
+  z-index: 10;
+  @media (min-width: ${deviceWidth.desktop}px) {
+    display: none;
+  }
+  .bar1,
+  .bar2,
+  .bar3 {
+    width: 35px;
+    height: 2px;
+    background-color: black;
+    margin: 6px 0;
+    transition: 0.4s;
+  }
+  .change .bar1 {
+    transform: rotate(-45deg) translate(-6px, 6px);
+    transform-origin: center;
+  }
+  .change .bar2 {
+    opacity: 0;
+  }
+  .change .bar3 {
+    transform: rotate(45deg) translate(-6px, -6px);
+    transform-origin: center;
+  }
+`
+
+export const Menu = styled.div`
+  ${HeaderLink} {
+    display: block;
+  }
+  @media (min-width: ${deviceWidth.desktop}px) {
+    max-width: none;
+    position: relative;
+    top: auto;
+    opacity: 1;
+    right: auto;
+    background: none;
+    pointer-events: auto;
+    ${HeaderLink} {
+      display: inline;
+    }
+  }
+`
+export const MobileMenu = styled(Menu)`
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  overflow-y: scroll;
+  transition: all 0.5s ease;
+  opacity: 0;
+  background: #fff;
+  pointer-events: none;
+  z-index: 12;
+  &.openMenu {
+    opacity: 1;
+    pointer-events: auto;
+  }
+`
+
+export const MobileButtonWrapper = styled.div`
+  display: block;
+  margin: 1.625rem 0;
+`
+export const MobileButton = styled.button`
+  color: black;
+  background: transparent;
+  border: none;
+  outline: none !important;
+  width: 100%;
+  text-align: left;
+  padding: 0;
+  .right-arrow {
+    transform: rotate(-90deg);
+    float: right;
+  }
+`
+export const MobileFilterHeader = styled.header`
+  background: #002a3f;
+  padding: 1.625rem 1.25rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`
+
+export const DoneButton = styled.button`
+  position: relative;
+  padding: 1rem 2rem;
+  background: #04d0fb;
+  background: linear-gradient(180deg, #04d0fb 0%, #49bfe0 100%);
+  border-radius: 4px;
+  color: white;
+  width: 100%;
+  text-align: center;
+  margin: 1.5rem 0 0;
+  border: none;
+  outline: none !important;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  &:after {
+    content: '';
+    position: absolute;
+    top: -0.75rem;
+    left: -20px;
+    height: 1px;
+    width: 100vw;
+    background-color: #e8edee;
+  }
+`
+
+export const DoneButtonWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  ${DoneButton} {
+    margin: 1.25rem;
+  }
+`
+
+export const MobileFilterHeading = styled.h3`
+  color: #000;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 1.5rem;
+  line-height: 1.2;
+  margin: 2.625rem 0;
+  &.tag-select-heading {
+    margin: 2rem 0 1rem;
+  }
+`
+
+export const HeadingItem = styled.button`
+  cursor: pointer;
+  border: none;
+  outline: none !important;
+  text-decoration: none;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.3);
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  padding: 0;
+`
+
+export const MobileFilterWrapper = styled.div`
+  padding: 1.25rem;
+  min-height: calc(100% - 75px);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+`
+
+export const MobileFilterModal = styled.div`
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: #ffffff;
+  z-index: 13;
+  display: grid;
+  grid-template: 75px 1fr 75px / 1fr;
+  ${MobileFilterWrapper} {
+    justify-content: flex-start;
+  }
+`
+export const BurgerMenuButton = styled(Button)`
+  display: none;
+
+  @media (max-width: ${deviceWidth.mobile}px) {
+    display: block;
+  }
 `
