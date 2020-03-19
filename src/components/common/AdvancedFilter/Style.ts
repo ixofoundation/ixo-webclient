@@ -89,7 +89,23 @@ export const ModalItems = styled.div`
   display: flex;
   flex-flow: row wrap;
   max-height: 400px;
-  overflow: scroll;
+  overflow-y: auto;
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: rgba(155, 155, 155, 0.3);
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 6px;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 0, 0, 0.7);
+  }
 `
 
 export const FilterSelectButton = styled.div`
