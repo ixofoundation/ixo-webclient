@@ -218,6 +218,13 @@ export const DatePickerModal = styled.div`
     border-width: 0 1rem 1.1rem 1rem;
     border-color: transparent transparent white transparent;
   }
+
+  @media (max-width: ${deviceWidth.mobile}px) {
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+  }
 `
 
 export const ResetButtonDatePicker = styled.div`
@@ -358,6 +365,24 @@ export const MobileMenu = styled(Menu)`
   pointer-events: none;
   z-index: 12;
   &.openMenu {
+    opacity: 1;
+    pointer-events: auto;
+  }
+`
+
+export const MobileDatesMenu = styled(Menu)`
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  overflow-y: scroll;
+  transition: all 0.5s ease;
+  opacity: 0;
+  background: #fff;
+  pointer-events: none;
+  z-index: 12;
+  &.openDatesMenu {
     opacity: 1;
     pointer-events: auto;
   }
