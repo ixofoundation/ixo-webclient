@@ -12,6 +12,7 @@ interface Category {
   ['@type']: string
   title: string
   tags: Tag[]
+  selectedTags?: string[]
 }
 
 interface Tag {
