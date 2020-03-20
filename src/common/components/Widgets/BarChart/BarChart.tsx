@@ -252,7 +252,6 @@ export default class BarChart extends React.Component<ParentProps, {}> {
 
     for (let i = 0; i < this.state.totalBars; i += 1) {
       const theDiff = Math.round(i * hoursPerBucket)
-      // console.log('the diff in hours is: ', theDiff);
       const theTime = now.clone().subtract(theDiff, 'hours')
       if (theDiff % 24 === 0) {
         labelArray.push(theTime.format('D MMM'))

@@ -1,6 +1,6 @@
 import * as React from 'react'
 import styled from 'styled-components'
-import { UserInfo } from '../../types/models'
+import { UserInfo } from '../../modules/account/types'
 import { connect } from 'react-redux'
 import { RootState } from '../../common/redux/types'
 import { errorToast, successToast } from '../helpers/Toast'
@@ -225,7 +225,6 @@ class RegisterPage extends React.Component<Props, State> {
     if (this.props.keysafe && !this.state.hasKeySafe) {
       this.props.keysafe.getDidDoc((error, response) => {
         if (error) {
-          console.log(error)
           if (this.state.toastShown === false) {
             this.setState({ toastShown: true })
           }
@@ -420,7 +419,7 @@ class RegisterPage extends React.Component<Props, State> {
 function mapStateToProps(state: RootState): Record<string, any> {
   return {
     ixo: state.ixo.ixo,
-    userInfo: state.login.userInfo,
+    userInfo: state.account.userInfo,
     keysafe: state.keySafe.keysafe,
   }
 }

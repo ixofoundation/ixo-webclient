@@ -45,18 +45,6 @@ export interface Statistic {
   onClick?: Function
 }
 
-export interface DidDoc {
-  did: string
-  pubKey: string
-}
-export interface UserInfo {
-  didDoc: DidDoc
-  name: string
-  ledgered: boolean
-  loggedInKeysafe: boolean
-  hasKYC: boolean
-}
-
 export enum ErrorTypes {
   goBack = 'GOBACK',
   message = 'MESSAGE',

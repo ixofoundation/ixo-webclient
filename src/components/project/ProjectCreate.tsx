@@ -135,7 +135,6 @@ export class ProjectCreate extends React.Component<StateProps, State> {
           this.props.keysafe.requestSigning(
             projectObj,
             (error: any, signature: any) => {
-              console.log(JSON.parse(projectObj))
               this.props.ixo.project
                 .createProject(
                   JSON.parse(projectObj),
@@ -146,7 +145,6 @@ export class ProjectCreate extends React.Component<StateProps, State> {
                   if (res.error) {
                     errorToast(res.error.message, ErrorTypes.message)
                   } else {
-                    console.log(res)
                     successToast('Project created successfully')
                   }
                 })
@@ -179,11 +177,9 @@ export class ProjectCreate extends React.Component<StateProps, State> {
   }
 
   uploadImage = (): void => {
-    console.log(this.state.croppedImg)
     this.props.ixo.project
       .createPublic(this.state.croppedImg, this.state.project.serviceEndpoint)
       .then((res: any) => {
-        console.log('Uploaded: ', res)
         const newProject = this.state.project
         newProject.imageLink = res.result
         this.setState({
@@ -200,7 +196,6 @@ export class ProjectCreate extends React.Component<StateProps, State> {
         this.state.project.serviceEndpoint,
       )
       .then((res: any) => {
-        console.log('Fetched: ', res)
         const imageSrc = 'data:' + res.contentType + ';base64,' + res.data
         this.setState({ fetchedImage: imageSrc })
       })
@@ -227,7 +222,6 @@ export class ProjectCreate extends React.Component<StateProps, State> {
     this.props.ixo.project
       .createPublic(fileToUpload, this.state.project.serviceEndpoint)
       .then((res: any) => {
-        console.log('Uploaded: ', res)
         const newProject = this.state.project
         if (type === 'schema') {
           newProject.templates.claim.schema = res.result
@@ -249,7 +243,6 @@ export class ProjectCreate extends React.Component<StateProps, State> {
         this.state.project.serviceEndpoint,
       )
       .then((res: any) => {
-        console.log('Fetched: ', res)
         const fileContents = base64Decode(res.data)
         this.setState({ fetchedFile: fileContents })
       })
@@ -259,7 +252,6 @@ export class ProjectCreate extends React.Component<StateProps, State> {
     this.props.ixo.project
       .fetchPublic(this.state.claimFormKey, this.state.project.serviceEndpoint)
       .then((res: any) => {
-        console.log('Fetched: ', res)
         const fileContents = base64Decode(res.data)
         this.setState({ fetchedFile: fileContents })
       })

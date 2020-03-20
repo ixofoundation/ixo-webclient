@@ -20,7 +20,7 @@ import { ProjectClaims } from './ProjectClaims'
 import styled from 'styled-components'
 import { ProjectAgents } from './ProjectAgents'
 import { Spinner } from '../common/Spinner'
-import { UserInfo } from '../../types/models'
+import { UserInfo } from '../../modules/account/types'
 import { ProjectSidebar } from './ProjectSidebar'
 import * as Toast from '../helpers/Toast'
 import { deviceWidth } from '../../lib/commonData'
@@ -158,10 +158,8 @@ export class ProjectContainer extends React.Component<Props, State> {
     })
 
     explorerSocket.on('project status updated', (data: any) => {
-      console.log('updated with data', data)
       if (data.projectDid === this.state.projectDid) {
         this.setState({ projectStatus: data.status })
-        console.log('state updated with new data')
       }
     })
 
@@ -191,7 +189,6 @@ export class ProjectContainer extends React.Component<Props, State> {
   }
 
   handleGetProjectData = (autorefresh?: boolean, agentDid?: string): void => {
-    console.log(this.props.location)
     if (
       (this.gettingProjectData === false && autorefresh === true) ||
       this.state.projectPublic === null
@@ -481,11 +478,8 @@ export class ProjectContainer extends React.Component<Props, State> {
                 this.gettingAgents = false
               })
               .catch((result: Error) => {
-                console.log(result)
                 this.gettingAgents = false
               })
-          } else {
-            console.log(error)
           }
         },
         'base64',
@@ -636,7 +630,6 @@ export class ProjectContainer extends React.Component<Props, State> {
             })
         } else {
           Toast.errorToast(error)
-          console.log(error)
         }
       },
       'base64',
@@ -676,7 +669,6 @@ export class ProjectContainer extends React.Component<Props, State> {
   }
 
   handleSingleClaimFetch = (project: any): void => {
-    console.log(this.gettingSingleClaim)
     if (this.gettingSingleClaim === false) {
       this.gettingSingleClaim = true
       const ProjectDIDPayload: Record<string, any> = {
@@ -716,7 +708,6 @@ export class ProjectContainer extends React.Component<Props, State> {
               },
             )
           } else {
-            console.log(error)
             this.gettingSingleClaim = false
           }
         },
@@ -1010,8 +1001,9 @@ function mapStateToProps(state: RootState): Record<string, any> {
   return {
     ixo: state.ixo.ixo,
     keysafe: state.keySafe.keysafe,
-    userInfo: state.login.userInfo,
-    isLoggedIn: state.login.userInfo && state.login.userInfo.loggedInKeysafe,
+    userInfo: state.account.userInfo,
+    isLoggedIn:
+      state.account.userInfo && state.account.userInfo.loggedInKeysafe,
   }
 }
 

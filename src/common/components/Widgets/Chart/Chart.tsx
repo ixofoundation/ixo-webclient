@@ -252,7 +252,6 @@ export default class BarChartProjects extends React.Component<ParentProps, {}> {
     const labelArray = []
 
     for (let i = 0; i < this.state.totalBars; i += 1) {
-      // console.log('the diff in hours is: ', theDiff);
       if (i % 10 === 0) {
         const theTime = compEnd.clone().subtract(i, 'days')
         labelArray.push(theTime.format('D MMM'))
