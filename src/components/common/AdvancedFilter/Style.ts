@@ -224,6 +224,8 @@ export const DatePickerModal = styled.div`
     right: 0;
     bottom: 0;
     left: 0;
+    width: 0;
+    height: 0;
   }
 `
 
@@ -411,6 +413,42 @@ export const MobileFilterHeader = styled.header`
   display: flex;
   justify-content: space-between;
   align-items: center;
+`
+
+export const MobileDateHeader = styled.header`
+  background: #002a3f;
+  padding: 1.5rem 1.25rem;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  align-items: center;
+`
+
+export const DateDisplay = styled.div`
+  width: 100%;
+  padding-top: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  svg {
+    transform: rotate(180deg);
+  }
+`
+
+export const DateInput = styled.div`
+  position: relative;
+  padding: 1rem 1.4rem;
+  background-color: #143f54;
+  border: 1px solid #39c3e6;
+  border-radius: 4px;
+  width: 137.11px;
+  height: 50px;
+  font-style: normal;
+  font-weight: bold;
+  color: #fff;
+
+  &:hover {
+    border-color: #fff;
+  }
 `
 
 export const DoneButton = styled.button`

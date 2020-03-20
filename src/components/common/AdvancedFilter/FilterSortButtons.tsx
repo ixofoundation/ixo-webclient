@@ -26,12 +26,18 @@ import {
   MobileFilterHeading,
   MobileFilterWrapper,
   MobileFilterHeader,
+  MobileDateHeader,
+  DateInput,
   HeadingItem,
   DoneButtonWrapper,
   DoneButton,
   MobileFilterModal,
   BurgerMenuButton,
   MobileDatesMenu,
+  DatePickerModal,
+  ResetButtonDatePicker,
+  ApplyButtonDatePicker,
+  DateDisplay,
 } from './Style'
 
 import { getFilterSchema } from '../../../../src/instance-settings'
@@ -44,6 +50,8 @@ interface State {
   startDate: any
   endDate: any
   dateText: string
+  startDateDisplay: string
+  endDateDisplay: string
   mobileFilterMenuOpen: boolean
   mobileDatesMenuOpen: boolean
 }
@@ -56,7 +64,6 @@ class FilterSortButtons extends React.Component<{}, State> {
 
   constructor(props) {
     super(props)
-
     this.state = {
       showDatePicker: false,
       checkTitle: ' ',
@@ -66,6 +73,8 @@ class FilterSortButtons extends React.Component<{}, State> {
       dateText: 'Dates',
       mobileFilterMenuOpen: false,
       mobileDatesMenuOpen: false,
+      startDateDisplay: null,
+      endDateDisplay: null,
     }
   }
 
@@ -83,6 +92,8 @@ class FilterSortButtons extends React.Component<{}, State> {
         dateText: ` ${startDate.format(DATE_FORMAT)} - ${endDate.format(
           DATE_FORMAT,
         )} `,
+        startDateDisplay: `${startDate.format(DATE_FORMAT)}`,
+        endDateDisplay: `${endDate.format(DATE_FORMAT)}`,
         startDate,
         endDate,
       })
@@ -183,6 +194,14 @@ class FilterSortButtons extends React.Component<{}, State> {
   resetDateFilter = (): void => {
     this.setState({
       dateText: 'Dates',
+      startDate: null,
+      endDate: null,
+    })
+  }
+  resetDateDisplay = (): void => {
+    this.setState({
+      startDateDisplay: null,
+      endDateDisplay: null,
       startDate: null,
       endDate: null,
     })
@@ -373,64 +392,107 @@ class FilterSortButtons extends React.Component<{}, State> {
     }
   }
 
-  getDatePicker = (): JSX.Element => {
+  getDatePickerDesktop = (): JSX.Element => {
     return (
       <>
-        {this.state.showDatePicker && (
-          <DatePicker
-            onReset={this.resetDateFilter}
-            onChange={this.handleDateChange}
-            onApply={this.toggleShowDatePicker}
-            initialStartDate={this.state.startDate}
-            initialEndDate={this.state.endDate}
-          />
-        )}
+        <ButtonWrapper>
+          {this.state.showDatePicker && (
+            <DatePickerModal>
+              <DatePicker
+                onReset={this.resetDateFilter}
+                onChange={this.handleDateChange}
+                onApply={this.toggleShowDatePicker}
+                initialStartDate={this.state.startDate}
+                initialEndDate={this.state.endDate}
+                initialOrientation="horizontal"
+              />
+
+              <ResetButtonDatePicker onClick={this.resetDateFilter}>
+                Reset
+              </ResetButtonDatePicker>
+              <ApplyButtonDatePicker
+                onClick={(): void =>
+                  this.handleDateChange(
+                    this.state.startDate,
+                    this.state.endDate,
+                  )
+                }
+              >
+                Apply
+              </ApplyButtonDatePicker>
+            </DatePickerModal>
+          )}
+        </ButtonWrapper>
       </>
     )
   }
+
+  getDatePickerMobile = (): JSX.Element => {
+    return (
+      <>
+        <ButtonWrapper>
+          <div className="MobileDatePicker">
+            {this.state.showDatePicker && (
+              <DatePicker
+                onReset={this.resetDateFilter}
+                onChange={this.handleDateChange}
+                onApply={this.toggleShowDatePicker}
+                initialStartDate={this.state.startDate}
+                initialEndDate={this.state.endDate}
+                initialOrientation="vertical"
+              />
+            )}
+          </div>
+        </ButtonWrapper>
+      </>
+    )
+  }
+
   render(): JSX.Element {
     return (
       <>
         <FiltersWrap>
           <FilterInfo>All Projects</FilterInfo>
           <div className="filters">
-            <ButtonWrapper>
-              <Button
-                onClick={(): void => {
-                  this.toggleShowDatePicker()
-                  this.changeDateText()
-                  this.toggleMobileDates()
-                }}
+            <Button
+              onClick={(): void => {
+                this.toggleShowDatePicker()
+                this.changeDateText()
+                this.toggleMobileDates()
+              }}
+            >
+              <CalendarSort width="16" fill="#000" />
+              {this.state.dateText}
+            </Button>
+
+            <MediaQuery minWidth={'577px'}>
+              {this.getDatePickerDesktop()}
+            </MediaQuery>
+
+            <MediaQuery maxWidth={`${deviceWidth.mobile}px`}>
+              <MobileDatesMenu
+                className={
+                  this.state.mobileDatesMenuOpen === true ? 'openDatesMenu' : ''
+                }
               >
-                <CalendarSort width="16" fill="#000" />
-                {this.state.dateText}
+                <MobileDateHeader>
+                  <HeadingItem onClick={this.toggleMobileDates}>
+                    <Back />
+                  </HeadingItem>
+                  <HeadingItem onClick={this.resetDateDisplay}>
+                    clear
+                  </HeadingItem>
+                  <DateDisplay>
+                    <DateInput>{this.state.startDateDisplay}</DateInput>
+                    <Back fill="#436779" />
+                    <DateInput>{this.state.endDateDisplay}</DateInput>
+                  </DateDisplay>
+                </MobileDateHeader>
 
-                <MediaQuery minWidth={'577px'}>
-                  {this.getDatePicker()}
-                </MediaQuery>
+                {this.getDatePickerMobile()}
+              </MobileDatesMenu>
+            </MediaQuery>
 
-                <MediaQuery maxWidth={`${deviceWidth.mobile}px`}>
-                  <MobileDatesMenu
-                    className={
-                      this.state.mobileDatesMenuOpen === true
-                        ? 'openDatesMenu'
-                        : ''
-                    }
-                  >
-                    <MobileFilterHeader>
-                      <HeadingItem onClick={this.toggleMobileFilters}>
-                        <Back />
-                      </HeadingItem>
-                      <HeadingItem onClick={this.resetFilters}>
-                        clear
-                      </HeadingItem>
-                    </MobileFilterHeader>
-
-                    {this.getDatePicker()}
-                  </MobileDatesMenu>
-                </MediaQuery>
-              </Button>
-            </ButtonWrapper>
             <BurgerMenuButton onClick={this.toggleMobileFilters}>
               <Filter fill="#000" />
               Filters
