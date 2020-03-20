@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Route, NavLink } from 'react-router-dom'
-import { Charts } from './charts/Charts'
+import BondChartScreen from '../../../modules/BondChart/screens/BondChart'
 import Trades from './trades/Trades'
 import { Events } from './events/Events'
 import BondsWrapper from '../BondsWrapper'
@@ -58,7 +58,7 @@ export class Overview extends Component<any> {
               `/projects/${projectDID}/bonds/overview/`,
               `/projects/${projectDID}/bonds`,
             ]}
-            component={Charts}
+            component={BondChartScreen}
           />
           <Route
             exact
