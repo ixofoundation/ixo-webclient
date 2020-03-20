@@ -68,6 +68,8 @@ class DatePicker extends React.Component<Props, State> {
         numberOfMonths={2}
         hideKeyboardShortcutsPanel
         orientation={this.props.initialOrientation}
+        prevNav={null}
+        nextNav={null}
       />
     )
   }

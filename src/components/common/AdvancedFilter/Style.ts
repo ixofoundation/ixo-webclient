@@ -229,6 +229,14 @@ export const DatePickerModal = styled.div`
   }
 `
 
+export const MobileDatePicker = styled.div`
+  height: 100%;
+  .DayPicker_weekHeader__verticalScrollable {
+    background-color: #002a3f;
+    margin-top: -1px;
+  }
+`
+
 export const ResetButtonDatePicker = styled.div`
   position: absolute;
   left: 10%;
@@ -422,6 +430,7 @@ export const MobileDateHeader = styled.header`
   flex-flow: row wrap;
   justify-content: space-between;
   align-items: center;
+  background-color: #002a3f;
 `
 
 export const DateDisplay = styled.div`
@@ -529,6 +538,9 @@ export const MobileFilterModal = styled.div`
   grid-template: 75px 1fr 75px / 1fr;
   ${MobileFilterWrapper} {
     justify-content: flex-start;
+  }
+  &.dateFilterModal {
+    grid-template: 154px 1fr 75px / 1fr;
   }
 `
 export const BurgerMenuButton = styled(Button)`

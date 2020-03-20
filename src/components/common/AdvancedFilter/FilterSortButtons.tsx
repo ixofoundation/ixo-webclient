@@ -38,6 +38,7 @@ import {
   ResetButtonDatePicker,
   ApplyButtonDatePicker,
   DateDisplay,
+  MobileDatePicker,
 } from './Style'
 
 import { getFilterSchema } from '../../../../src/instance-settings'
@@ -430,20 +431,34 @@ class FilterSortButtons extends React.Component<{}, State> {
   getDatePickerMobile = (): JSX.Element => {
     return (
       <>
-        <ButtonWrapper>
-          <div className="MobileDatePicker">
-            {this.state.showDatePicker && (
+        <MobileFilterModal className="dateFilterModal">
+          <MobileDateHeader>
+            <HeadingItem onClick={this.toggleMobileDates}>
+              <Back />
+            </HeadingItem>
+            <HeadingItem onClick={this.resetDateDisplay}>clear</HeadingItem>
+            <DateDisplay>
+              <DateInput>{this.state.startDateDisplay}</DateInput>
+              <Back fill="#436779" />
+              <DateInput>{this.state.endDateDisplay}</DateInput>
+            </DateDisplay>
+          </MobileDateHeader>
+          {this.state.showDatePicker && (
+            <MobileDatePicker>
               <DatePicker
                 onReset={this.resetDateFilter}
                 onChange={this.handleDateChange}
                 onApply={this.toggleShowDatePicker}
                 initialStartDate={this.state.startDate}
                 initialEndDate={this.state.endDate}
-                initialOrientation="vertical"
+                initialOrientation="verticalScrollable"
               />
-            )}
-          </div>
-        </ButtonWrapper>
+            </MobileDatePicker>
+          )}
+          <DoneButtonWrapper>
+            <DoneButton onClick={this.toggleMobileDates}>Apply</DoneButton>
+          </DoneButtonWrapper>
+        </MobileFilterModal>
       </>
     )
   }
@@ -475,20 +490,6 @@ class FilterSortButtons extends React.Component<{}, State> {
                   this.state.mobileDatesMenuOpen === true ? 'openDatesMenu' : ''
                 }
               >
-                <MobileDateHeader>
-                  <HeadingItem onClick={this.toggleMobileDates}>
-                    <Back />
-                  </HeadingItem>
-                  <HeadingItem onClick={this.resetDateDisplay}>
-                    clear
-                  </HeadingItem>
-                  <DateDisplay>
-                    <DateInput>{this.state.startDateDisplay}</DateInput>
-                    <Back fill="#436779" />
-                    <DateInput>{this.state.endDateDisplay}</DateInput>
-                  </DateDisplay>
-                </MobileDateHeader>
-
                 {this.getDatePickerMobile()}
               </MobileDatesMenu>
             </MediaQuery>
