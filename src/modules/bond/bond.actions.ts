@@ -2,11 +2,11 @@ import Axios from 'axios'
 import { BondActions, GetBalancesAction, GetTradesAction } from './types'
 import { Dispatch } from 'redux'
 
-export const getBalances = (symbol: string) => (
+export const getBalances = (bondDid: string) => (
   dispatch: Dispatch,
 ): GetBalancesAction => {
   const bondRequest = Axios.get(
-    process.env.REACT_APP_BLOCKCHAIN_NODE_URL + '/bonds/' + symbol,
+    `${process.env.REACT_APP_BLOCKCHAIN_NODE_URL}/bonds/${bondDid}`,
     {
       transformResponse: [
         (response: string): any => {
@@ -16,10 +16,7 @@ export const getBalances = (symbol: string) => (
     },
   )
   const priceRequest = Axios.get(
-    process.env.REACT_APP_BLOCKCHAIN_NODE_URL +
-      '/bonds/' +
-      symbol +
-      '/current_price',
+    `${process.env.REACT_APP_BLOCKCHAIN_NODE_URL}/bonds/${bondDid}/current_price`,
     {
       transformResponse: [
         (response: string): any => {

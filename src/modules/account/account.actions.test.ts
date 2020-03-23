@@ -15,6 +15,7 @@ beforeEach(() => {
   store = mockStore({
     account: {
       userInfo: '',
+      address: 'abc',
     },
   })
 })
@@ -115,8 +116,8 @@ describe('Account Actions', () => {
         return { orders: [{ someprop: 'someval1' }, { someprop: 'someval2' }] }
       })
 
-      // when ... we call the getOrders action creator with an address
-      await store.dispatch(SUT.getOrders('some-address'))
+      // when ... we call the getOrders action creator
+      await store.dispatch(SUT.getOrders())
       const actions = store.getActions()
 
       // then we should expect it to create actions with the correct types and payload
@@ -134,10 +135,10 @@ describe('Account Actions', () => {
         }),
       )
 
-      // when ... we call the getOrders action creator with an address
+      // when ... we call the getOrders action creator
 
       try {
-        await store.dispatch(SUT.getOrders('some-address'))
+        await store.dispatch(SUT.getOrders())
       } catch {
         const actions = store.getActions()
 

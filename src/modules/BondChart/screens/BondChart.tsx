@@ -12,7 +12,7 @@ const BondChartScreen: React.FunctionComponent<Props> = ({ data }) => (
   <Chart data={data} />
 )
 
-const mapStateToProps = (state: RootState) => ({
+const mapStateToProps = (state: RootState): any => ({
   data: selectors.selectChartData(state),
 })
 

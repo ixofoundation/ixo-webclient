@@ -1,0 +1,199 @@
+@import url('https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css');
+
+@import '../../../../assets/styles/_colors';
+@import '../../../../assets/styles/_fonts';
+
+body {
+  background-color: #002233;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: $header-title-font;
+}
+
+hr {
+  border-top: 0.0625rem solid #828282;
+}
+
+.centerAll {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  /*animation: App-logo-spin infinite 20s linear;*/
+  height: 3vmin;
+  pointer-events: none;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.BondsWrapper {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+
+  .pane {
+    flex-grow: 1;
+    overflow-y: scroll;
+  }
+
+  .tablinks {
+    background-color: $tab-title-background-color;
+    display: none;
+
+    @media screen and (min-width: 480px) {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    &.sidebar {
+      flex-direction: column;
+      justify-content: flex-start;
+      padding: 2rem 0;
+      z-index: 2;
+    }
+
+    .tablinks_tablink {
+      // border: 1px solid #0C3549;
+      display: block;
+      flex-grow: 1;
+      text-align: center;
+      padding: 0.5rem 0 0.5rem 0;
+      text-decoration: none;
+      color: $tab-title-color;
+      font-family: $tab-title-font;
+      font-size: normal;
+      text-transform: uppercase;
+
+      &.active {
+        color: $tab-title-color-active;
+      }
+
+      &.icon {
+        &.home {
+          background-image: url(../../../../assets/img/sidebar/home.svg);
+        }
+        &.trades {
+          background-image: url(../../../../assets/img/sidebar/refresh.png);
+        }
+        &.orders {
+          background-image: url(../../../../assets/img/sidebar/history.png);
+        }
+        &.wallet {
+          background-image: url(../../../../assets/img/sidebar/wallet.png);
+        }
+        &.settings {
+          background-image: url(../../../../assets/img/sidebar/settings.png);
+        }
+
+        background-repeat: no-repeat;
+        background-size: 25px;
+        background-position: center;
+        width: 65px;
+        height: 55px;
+        flex-grow: 0;
+        margin: 0.5rem 0;
+        &.active {
+          border-left: 6px solid #00d2ff;
+        }
+      }
+    }
+  }
+}
+
+.BondsWrapper_panel {
+  border: 1px solid $body-border-color;
+  border-radius: 3px;
+  background-color: $body-background-color;
+  margin: 0.75rem;
+
+  &.exchange_panel {
+    max-width: 40em;
+    margin: 2rem auto;
+  }
+
+  &.orders_panel {
+    padding-top: 2rem;
+  }
+
+  form {
+    width: 100%;
+  }
+  @media screen and (min-width: 480px) {
+    margin: 2.5rem;
+  }
+}
+
+.BondsWrapper_panel__chrome {
+  padding: 1.25rem 3rem;
+  margin: 0 1.25rem 1.25rem 1.25rem;
+  border-radius: 0.1rem;
+  background-color: $tab-body-background-color;
+
+  &.Table {
+    background-color: transparent;
+    padding: 0;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  &.orders {
+    margin-top: 1.25rem;
+  }
+}
+
+.BondsWrapper_panel__content {
+  background-color: transparent;
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  justify-content: left;
+  font-family: 'Roboto', sans-serif;
+  font-weight: normal;
+  // padding-top: 1.25rem;
+}
+
+.active,
+.tablinks_tablink:hover {
+  text-decoration: none;
+  color: $tab-title-color-active;
+  // background-color: lighten( $tab-title-background-color, 2% );
+}
+
+.tablinks_tablink:active {
+  text-decoration: none;
+  color: green;
+}
+
+// Typeform wrapper style
+[data-qa='popup-mode-drawer_left'] {
+  width: 512px !important;
+  max-width: calc(100vw - 46px) !important;
+}

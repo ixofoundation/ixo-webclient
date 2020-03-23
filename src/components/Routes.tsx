@@ -12,9 +12,9 @@ import { NotFound } from './public/NotFound'
 import { Spinner } from './common/Spinner'
 import { ProjectSignAndCreateConnected } from './project/curation/ProjectSignAndCreate'
 import { ProjectCreateUploadPublicDocsConnected } from './project/curation/ProjectCreateUploadPublicDocs'
-import { Overview } from './bonds/overview/Overview'
-import Exchange from './bonds/exchange/Exchange'
-import Orders from './bonds/orders/Orders'
+import { Overview } from '../common/components/Bonds/OverviewWrapper/Overview'
+import Exchange from '../common/components/Bonds/ExchangeWrapper/Exchange'
+import Orders from '../modules/BondAccountOrders/screens/BondAccountOrders'
 
 export const Routes: React.SFC<{}> = props => {
   return (
