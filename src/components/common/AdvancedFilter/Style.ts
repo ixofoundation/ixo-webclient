@@ -199,23 +199,26 @@ export const ApplyButton = styled.button`
   background: linear-gradient(180deg, #04d0fb 0%, #49bfe0 100%);
   color: white;
 `
+
 export const DatePickerModal = styled.div`
   position: absolute;
   background: #ffffff;
   box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.15);
   border-radius: 4px;
+  height: 442px;
   width: 619px;
-  height: 425px;
-  left: -228%;
-  top: 96%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, 6%);
+  z-index: 3;
   :after {
     content: '';
     position: absolute;
     top: -0.5rem;
     left: 50%;
     transform: translateX(-50%);
-    width: 0;
     height: 0;
+    width: 0;
     border-radius: 4px;
     border-style: solid;
     border-width: 0 1rem 1.1rem 1rem;
@@ -255,6 +258,7 @@ export const ResetButtonDatePicker = styled.div`
   border-radius: 4px;
   cursor: pointer;
 `
+
 export const ApplyButtonDatePicker = styled.div`
   position: absolute;
   left: 74%;
@@ -370,6 +374,7 @@ export const Menu = styled.div`
     }
   }
 `
+
 export const MobileMenu = styled(Menu)`
   position: fixed;
   top: 0;

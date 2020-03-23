@@ -26,8 +26,6 @@ import {
   MobileFilterHeading,
   MobileFilterWrapper,
   MobileFilterHeader,
-  MobileDateHeader,
-  DateInput,
   HeadingItem,
   DoneButtonWrapper,
   DoneButton,
@@ -35,10 +33,12 @@ import {
   BurgerMenuButton,
   MobileDatesMenu,
   DatePickerModal,
+  MobileDateHeader,
+  MobileDatePicker,
+  DateInput,
+  DateDisplay,
   ResetButtonDatePicker,
   ApplyButtonDatePicker,
-  DateDisplay,
-  MobileDatePicker,
 } from './Style'
 
 import { getFilterSchema } from '../../../../src/instance-settings'
@@ -389,37 +389,47 @@ class FilterSortButtons extends React.Component<{}, State> {
     }
   }
 
+  getDatesButton = (): JSX.Element => {
+    return (
+      <Button
+        onClick={(): void => {
+          this.toggleShowDatePicker()
+          this.changeDateText()
+          this.toggleMobileDates()
+        }}
+      >
+        <CalendarSort width="16" fill="#000" />
+        {this.state.dateText}
+      </Button>
+    )
+  }
+
   getDesktopDatePicker = (): JSX.Element => {
     return (
       <>
         {this.state.showDatePicker && (
-          <ButtonWrapper>
-            <DatePickerModal>
-              <DatePicker
-                onReset={this.resetDateFilter}
-                onChange={this.handleDateChange}
-                onApply={this.toggleShowDatePicker}
-                initialStartDate={this.state.startDate}
-                initialEndDate={this.state.endDate}
-                initialOrientation="horizontal"
-              />
+          <DatePickerModal>
+            <DatePicker
+              onReset={this.resetDateFilter}
+              onChange={this.handleDateChange}
+              onApply={this.toggleShowDatePicker}
+              initialStartDate={this.state.startDate}
+              initialEndDate={this.state.endDate}
+              initialOrientation="horizontal"
+            />
 
-              <ResetButtonDatePicker onClick={this.resetDateFilter}>
-                Reset
-              </ResetButtonDatePicker>
-              <ApplyButtonDatePicker
-                onClick={(): void => {
-                  this.handleDateChange(
-                    this.state.startDate,
-                    this.state.endDate,
-                  )
-                  this.toggleShowDatePicker()
-                }}
-              >
-                Apply
-              </ApplyButtonDatePicker>
-            </DatePickerModal>
-          </ButtonWrapper>
+            <ResetButtonDatePicker onClick={this.resetDateFilter}>
+              Reset
+            </ResetButtonDatePicker>
+            <ApplyButtonDatePicker
+              onClick={(): void => {
+                this.handleDateChange(this.state.startDate, this.state.endDate)
+                this.toggleShowDatePicker()
+              }}
+            >
+              Apply
+            </ApplyButtonDatePicker>
+          </DatePickerModal>
         )}
       </>
     )
@@ -466,22 +476,16 @@ class FilterSortButtons extends React.Component<{}, State> {
         <FiltersWrap>
           <FilterInfo>All Projects</FilterInfo>
           <div className="filters">
-            <Button
-              onClick={(): void => {
-                this.toggleShowDatePicker()
-                this.changeDateText()
-                this.toggleMobileDates()
-              }}
-            >
-              <CalendarSort width="16" fill="#000" />
-              {this.state.dateText}
-            </Button>
-
             <MediaQuery minWidth={'577px'}>
-              {this.getDesktopDatePicker()}
+              <ButtonWrapper>
+                {this.getDatesButton()}
+
+                {this.getDesktopDatePicker()}
+              </ButtonWrapper>
             </MediaQuery>
 
             <MediaQuery maxWidth={`${deviceWidth.mobile}px`}>
+              {this.getDatesButton()}
               <MobileDatesMenu
                 className={
                   this.state.mobileDatesMenuOpen === true ? 'openDatesMenu' : ''
