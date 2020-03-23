@@ -4,12 +4,11 @@ import { ProjectCard } from './ProjectCard'
 import { ProjectsHero } from './ProjectsHero'
 import { Spinner } from '../common/Spinner'
 import { connect } from 'react-redux'
-
 import { RootState } from '../../common/redux/types'
 import * as Toast from '../helpers/Toast'
-import { contentType, UserInfo } from '../../types/models'
+import { contentType } from '../../types/models'
+import { UserInfo } from '../../modules/account/types'
 import { ProjectsDashboard } from './ProjectsDashboard'
-import { explorerSocket } from '../helpers/explorerSocket'
 import FilterSortButtons from '../common/AdvancedFilter/FilterSortButtons'
 import { deviceWidth } from '../../lib/commonData'
 
@@ -101,14 +100,6 @@ export class Projects extends React.Component<Props, State> {
   loadingProjects = false
 
   componentDidMount(): void {
-    explorerSocket.on('list all projects', function() {
-      // console.log('LLIST PROJECT', data);
-    })
-
-    explorerSocket.on('project status updated', function(data: any) {
-      console.log('UPDATED PROJECT STATUS', data)
-    })
-
     this.refreshAllProjects()
   }
 
@@ -277,7 +268,7 @@ export class Projects extends React.Component<Props, State> {
 function mapStateToProps(state: RootState): Record<string, any> {
   return {
     ixo: state.ixo.ixo,
-    userInfo: state.login.userInfo,
+    userInfo: state.account.userInfo,
   }
 }
 

@@ -188,13 +188,6 @@ export class ImageLoader extends React.Component<StateProps, State> {
     canvas.width = this.props.imageWidth
     canvas.height = imageHeight
     const ctx = canvas.getContext('2d')
-    console.log('width: ' + image.width + ' height: ' + image.height)
-    console.log(
-      'crop.width: ' +
-        this.state.crop.width +
-        ' crop.height: ' +
-        this.state.crop.height,
-    )
 
     ctx.drawImage(
       img,

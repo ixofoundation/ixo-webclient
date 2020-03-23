@@ -157,10 +157,8 @@ export class ProjectCreateUploadPublicDocs extends React.Component<
         }
         Promise.all(promises).then(() => {
           const projectObj: string = this.state.projectJson
-          console.log(this.state.projectJson)
           const projectDataURL =
             'data:application/json;base64,' + base64Encode(projectObj)
-          console.log('Here')
           this.props.ixo.project
             .createPublic(projectDataURL, this.state.project.serviceEndpoint)
             .then((res: any) => {
@@ -223,7 +221,6 @@ export class ProjectCreateUploadPublicDocs extends React.Component<
     this.props.ixo.project
       .createPublic(fileToUpload, this.state.project.serviceEndpoint)
       .then((res: any) => {
-        console.log('Uploaded: ', res)
         const newProject = this.state.project
         if (type === 'schema') {
           newProject.templates.claim.schema = res.result
@@ -245,7 +242,6 @@ export class ProjectCreateUploadPublicDocs extends React.Component<
         this.state.project.serviceEndpoint,
       )
       .then((res: any) => {
-        console.log('Fetched: ', res)
         const fileContents = base64Decode(res.data)
         this.setState({ fetchedFile: fileContents })
       })
@@ -255,7 +251,6 @@ export class ProjectCreateUploadPublicDocs extends React.Component<
     this.props.ixo.project
       .fetchPublic(this.state.claimFormKey, this.state.project.serviceEndpoint)
       .then((res: any) => {
-        console.log('Fetched: ', res)
         const fileContents = base64Decode(res.data)
         this.setState({ fetchedFile: fileContents })
       })

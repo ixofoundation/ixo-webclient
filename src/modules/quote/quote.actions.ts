@@ -5,23 +5,24 @@ import {
   ConfirmAction,
   SwapAction,
   QuoteActions,
+  QuoteBuy,
+  QuoteSell,
+  QuoteSwap,
 } from './types'
 import Axios from 'axios'
 import { Currency } from '../../types/models'
 import { currencyStr } from '../account/account.utils'
-import KeystationService from '../../service/KeystationService'
 import { toast } from 'react-toastify'
 import { Dispatch } from 'redux'
 import { RootState } from 'src/common/redux/types'
-const ks = new KeystationService()
+import * as signingUtils from './quote.signingUtils'
+import keysafe from '../../common/keysafe/keysafe'
 
 export const clear = (): ClearAction => {
   return {
     type: QuoteActions.Clear,
   }
 }
-
-// BUYING
 
 export const buy = (
   sending: Currency,
@@ -31,11 +32,9 @@ export const buy = (
   return dispatch({
     type: QuoteActions.Buy,
     payload: Axios.get(
-      process.env.REACT_APP_BLOCKCHAIN_NODE_URL +
-        '/bonds/' +
-        receiving!.denom +
-        '/buy_price/' +
-        receiving!.amount,
+      `${process.env.REACT_APP_BLOCKCHAIN_NODE_URL}/bonds/${
+        receiving!.denom
+      }/buy_price/${receiving!.amount}`,
       {
         transformResponse: [
           (response: string): any => {
@@ -65,47 +64,72 @@ export const confirmBuy = () => (
   const {
     activeQuote,
     activeBond: { symbol },
-    account: { address },
+    account: {
+      address,
+      userInfo: {
+        didDoc: { pubKey },
+      },
+    },
   } = getState()
 
-  const maxPrices = activeQuote
-    .maxPrices!.map((maxPrice: Currency) => currencyStr(maxPrice, false))
-    .join(',')
-
-  const payload = {
-    base_req: {
-      from: address,
-      chain_id: process.env.REACT_APP_CHAIN_ID,
-    },
-    bond_token: symbol,
-    bond_amount: activeQuote.receiving!.amount,
-    max_prices: maxPrices,
+  const quoteBuyPayload: QuoteBuy = {
+    address,
+    receiving: activeQuote.receiving!,
+    txFees: activeQuote.txFees!,
+    maxPrices: activeQuote.maxPrices!,
   }
 
-  return dispatch({
-    type: QuoteActions.Confirm,
-    payload: Axios.post(
-      process.env.REACT_APP_BLOCKCHAIN_NODE_URL + '/bonds/buy',
-      JSON.stringify(payload),
-    ).then(response => {
-      return (ks.signBuyTx(activeQuote, response, address) as Promise<
-        any
-      >).then(response => {
-        if (!response.logs) {
-          toast(JSON.parse(response.raw_log).message, {
-            position: toast.POSITION.BOTTOM_LEFT,
-          })
-        } else {
-          toast('Transaction submitted. Check its status in the orders tab.', {
-            position: toast.POSITION.BOTTOM_LEFT,
-          })
-        }
-      })
-    }),
-  })
-}
+  keysafe.requestSigning(
+    JSON.stringify(quoteBuyPayload),
+    (error, signature) => {
+      if (error) {
+        return null
+      }
 
-// SELLING
+      return dispatch({
+        type: QuoteActions.Confirm,
+        payload: Axios.post(
+          `${process.env.REACT_APP_BLOCKCHAIN_NODE_URL}/bonds/buy`,
+          JSON.stringify({
+            base_req: {
+              from: address,
+              chain_id: process.env.REACT_APP_CHAIN_ID,
+            },
+            bond_token: symbol,
+            bond_amount: activeQuote.receiving!.amount,
+            max_prices: activeQuote
+              .maxPrices!.map((maxPrice: Currency) =>
+                currencyStr(maxPrice, false),
+              )
+              .join(','),
+          }),
+        ).then(() => {
+          Axios.post(
+            `${process.env.REACT_APP_BLOCKCHAIN_NODE_URL}/txs`,
+            JSON.stringify(
+              signingUtils.signBuyTx(quoteBuyPayload, signature, pubKey),
+            ),
+          ).then(response => {
+            if (!response.data.logs[0].success) {
+              toast('Sale failed. Please try again.', {
+                position: toast.POSITION.BOTTOM_LEFT,
+              })
+            } else {
+              toast(
+                'Transaction submitted. Check its status in the orders tab.',
+                {
+                  position: toast.POSITION.BOTTOM_LEFT,
+                },
+              )
+            }
+          })
+        }),
+      })
+    },
+  )
+
+  return null
+}
 
 export const sell = (sending: Currency, minPrices: Currency[]) => (
   dispatch: Dispatch,
@@ -113,11 +137,9 @@ export const sell = (sending: Currency, minPrices: Currency[]) => (
   return dispatch({
     type: QuoteActions.Sell,
     payload: Axios.get(
-      process.env.REACT_APP_BLOCKCHAIN_NODE_URL +
-        '/bonds/' +
-        sending!.denom +
-        '/sell_return/' +
-        sending!.amount,
+      `${process.env.REACT_APP_BLOCKCHAIN_NODE_URL}/bonds/${
+        sending!.denom
+      }/sell_return/${sending!.amount}`,
       {
         transformResponse: [
           (response: string): any => {
@@ -144,47 +166,71 @@ export const confirmSell = () => (
   const {
     activeQuote,
     activeBond: { symbol },
-    account: { address },
+    account: {
+      address,
+      userInfo: {
+        didDoc: { pubKey },
+      },
+    },
   } = getState()
 
-  const minPrices = activeQuote
-    .minPrices!.map((minPrice: Currency) => currencyStr(minPrice, false))
-    .join(',')
-
-  const payload = {
-    base_req: {
-      from: address,
-      chain_id: process.env.REACT_APP_CHAIN_ID,
-    },
-    bond_token: symbol,
-    bond_amount: activeQuote.receiving!.amount,
-    min_prices: minPrices,
+  const quoteSellPayload: QuoteSell = {
+    address,
+    sending: activeQuote.sending!,
+    txFees: activeQuote.txFees!,
   }
 
-  return dispatch({
-    type: QuoteActions.Confirm,
-    payload: Axios.post(
-      process.env.REACT_APP_BLOCKCHAIN_NODE_URL + '/bonds/sell',
-      JSON.stringify(payload),
-    ).then(response => {
-      return (ks.signSellTx(activeQuote, response, address) as Promise<
-        any
-      >).then(response => {
-        if (!response.logs[0].success) {
-          toast('Sale failed. Please try again.', {
-            position: toast.POSITION.BOTTOM_LEFT,
-          })
-        } else {
-          toast('Transaction submitted. Check its status in the orders tab.', {
-            position: toast.POSITION.BOTTOM_LEFT,
-          })
-        }
-      })
-    }),
-  })
-}
+  keysafe.requestSigning(
+    JSON.stringify(quoteSellPayload),
+    (error, signature) => {
+      if (error) {
+        return null
+      }
 
-// SWAPPING
+      return dispatch({
+        type: QuoteActions.Confirm,
+        payload: Axios.post(
+          `${process.env.REACT_APP_BLOCKCHAIN_NODE_URL}/bonds/sell`,
+          JSON.stringify({
+            base_req: {
+              from: address,
+              chain_id: process.env.REACT_APP_CHAIN_ID,
+            },
+            bond_token: symbol,
+            bond_amount: activeQuote.receiving!.amount,
+            min_prices: activeQuote
+              .minPrices!.map((minPrice: Currency) =>
+                currencyStr(minPrice, false),
+              )
+              .join(','),
+          }),
+        ).then(() => {
+          Axios.post(
+            `${process.env.REACT_APP_BLOCKCHAIN_NODE_URL}/txs`,
+            JSON.stringify(
+              signingUtils.signSellTx(quoteSellPayload, signature, pubKey),
+            ),
+          ).then(response => {
+            if (!response.data.logs[0].success) {
+              toast('Sale failed. Please try again.', {
+                position: toast.POSITION.BOTTOM_LEFT,
+              })
+            } else {
+              toast(
+                'Transaction submitted. Check its status in the orders tab.',
+                {
+                  position: toast.POSITION.BOTTOM_LEFT,
+                },
+              )
+            }
+          })
+        }),
+      })
+    },
+  )
+
+  return null
+}
 
 export const swap = (sending: Currency, receiving: Currency) => (
   dispatch: Dispatch,
@@ -195,13 +241,11 @@ export const swap = (sending: Currency, receiving: Currency) => (
   return dispatch({
     type: QuoteActions.Swap,
     payload: Axios.get(
-      process.env.REACT_APP_BLOCKCHAIN_NODE_URL +
-        '/bonds/' +
-        symbol +
-        '/swap_return/' +
-        currencyStr(sending!, false) +
-        '/' +
-        receiving!.denom,
+      `${
+        process.env.REACT_APP_BLOCKCHAIN_NODE_URL
+      }/bonds/${symbol}/swap_return/${currencyStr(sending!, false)}/${
+        receiving!.denom
+      }`,
       {
         transformResponse: [
           (response: string): any => {
@@ -224,37 +268,66 @@ export const confirmSwap = () => (
 ): ConfirmAction => {
   const {
     activeQuote,
-    account: { address },
+    account: {
+      address,
+      userInfo: {
+        didDoc: { pubKey },
+      },
+    },
   } = getState()
 
-  const payload = {
-    base_req: {
-      from: address,
-      chain_id: process.env.REACT_APP_CHAIN_ID,
-    },
-    from_token: activeQuote.sending!.denom,
-    to_token: activeQuote.receiving!.denom,
-    from_amount: activeQuote.receiving!.amount,
+  const quoteSwapPayload: QuoteSwap = {
+    address,
+    bondToken: activeQuote.bondToken!,
+    sending: activeQuote.sending!,
+    receiving: activeQuote.receiving!,
+    txFees: activeQuote.txFees!,
   }
-  return dispatch({
-    type: QuoteActions.Confirm,
-    payload: Axios.post(
-      process.env.REACT_APP_BLOCKCHAIN_NODE_URL + '/bonds/swap',
-      JSON.stringify(payload),
-    ).then(response => {
-      return (ks.signSwapTx(activeQuote, response, address) as Promise<
-        any
-      >).then(response => {
-        if (!response.logs[0].success) {
-          toast('Trade failed. Please try again.', {
-            position: toast.POSITION.BOTTOM_LEFT,
+
+  keysafe.requestSigning(
+    JSON.stringify(quoteSwapPayload),
+    (error, signature) => {
+      if (error) {
+        return null
+      }
+
+      return dispatch({
+        type: QuoteActions.Confirm,
+        payload: Axios.post(
+          `${process.env.REACT_APP_BLOCKCHAIN_NODE_URL}/bonds/swap`,
+          JSON.stringify({
+            base_req: {
+              from: address,
+              chain_id: process.env.REACT_APP_CHAIN_ID,
+            },
+            from_token: activeQuote.sending!.denom,
+            to_token: activeQuote.receiving!.denom,
+            from_amount: activeQuote.receiving!.amount,
+          }),
+        ).then(() => {
+          Axios.post(
+            `${process.env.REACT_APP_BLOCKCHAIN_NODE_URL}/txs`,
+            JSON.stringify(
+              signingUtils.signSellTx(quoteSwapPayload, signature, pubKey),
+            ),
+          ).then(response => {
+            if (!response.data.logs[0].success) {
+              toast('Trade failed. Please try again.', {
+                position: toast.POSITION.BOTTOM_LEFT,
+              })
+            } else {
+              toast(
+                'Transaction submitted. Check its status in the orders tab.',
+                {
+                  position: toast.POSITION.BOTTOM_LEFT,
+                },
+              )
+            }
           })
-        } else {
-          toast('Transaction submitted. Check its status in the orders tab.', {
-            position: toast.POSITION.BOTTOM_LEFT,
-          })
-        }
+        }),
       })
-    }),
-  })
+    },
+  )
+
+  return null
 }

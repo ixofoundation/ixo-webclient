@@ -36,9 +36,7 @@ export interface StateProps {
 export interface ParentProps {
   userInfo: any
   simpleHeader: boolean
-  refreshProjects?: Function
   pingIxoExplorer: () => Promise<unknown>
-  initUserInfo: Function
 }
 export interface Props extends StateProps, ParentProps {}
 
@@ -241,7 +239,7 @@ class Header extends React.Component<Props, State> {
           {this.renderModalData()}
         </ModalWrapper>
         <div className="row">
-          <HeaderLeft refreshProjects={this.props.refreshProjects} />
+          <HeaderLeft />
           <MediaQuery minWidth={`${deviceWidth.desktop}px`}>
             <HeaderRight
               renderStatusIndicator={this.renderStatusIndicator}

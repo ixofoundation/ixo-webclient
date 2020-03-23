@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import HeaderItem from './header-item/HeaderItem'
 import { connect } from 'react-redux'
 import { RootState } from '../../../common/redux/types'
-import { getBalances as getAccountBalances } from '../../../modules/account/account.actions'
+import { getAccount } from '../../../modules/account/account.actions'
 import { getBalances as getBondBalances } from '../../../modules/bond/bond.actions'
 import { tokenBalance } from '../../../modules/account/account.utils'
 import { deviceWidth } from '../../../lib/commonData'
@@ -27,15 +27,15 @@ class Header extends Component<any> {
     super(props)
 
     setInterval(() => {
-      this.refreshBalances()
+      this.refreshAccount()
     }, INTERVAL_LENGTH)
 
-    this.refreshBalances()
+    this.refreshAccount()
   }
 
-  refreshBalances = (): void => {
-    if (Object.entries(this.props.account).length > 0) {
-      this.props.dispatch(getAccountBalances(this.props.account.address))
+  refreshAccount = (): void => {
+    if (this.props.account.userInfo) {
+      this.props.dispatch(getAccount(this.props.account.address))
       this.props.dispatch(getBondBalances(this.props.activeBond.symbol))
     }
   }

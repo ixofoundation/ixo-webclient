@@ -17,11 +17,7 @@ import {
   NavItems,
 } from './HeaderLeft.styles'
 
-export interface ParentProps {
-  refreshProjects: Function
-}
-
-export class HeaderLeft extends React.Component<ParentProps> {
+export class HeaderLeft extends React.Component<{}> {
   state = {
     menuOpen: false,
   }
@@ -34,11 +30,7 @@ export class HeaderLeft extends React.Component<ParentProps> {
     if (inHeader) {
       return (
         <Fragment>
-          <HeaderLink
-            exact={true}
-            onClick={(): Function => this.props.refreshProjects}
-            to="/"
-          >
+          <HeaderLink exact={true} to="/">
             Explore
           </HeaderLink>
           <HeaderLink to="#">Launch a project</HeaderLink>
@@ -48,11 +40,7 @@ export class HeaderLeft extends React.Component<ParentProps> {
       return (
         <Fragment>
           <MenuHeaderContainer>
-            <MenuHeaderLink
-              exact={true}
-              onClick={(): Function => this.props.refreshProjects}
-              to="/"
-            >
+            <MenuHeaderLink exact={true} to="/">
               Explore
             </MenuHeaderLink>
           </MenuHeaderContainer>

@@ -50,7 +50,6 @@ export class ProjectNewClaim extends React.Component<ParentProps> {
     this.props.ixo.project
       .fetchPublic(claimFormKey, pdsURL)
       .then((res: any) => {
-        console.log('Fetched: ', res)
         const fileContents = base64Decode(res.data)
         this.setState({ fetchedFile: fileContents })
       })
@@ -76,7 +75,6 @@ export class ProjectNewClaim extends React.Component<ParentProps> {
               .createPublic(claimData[field.name], pdsUrl)
               .then((res: any) => {
                 claimData[field.name] = res.result
-                // console.log(field.name + ': ' + claimData[field.name]);
                 successToast(field.name + ' successfully uploaded')
                 return res.result
               }),
