@@ -49,7 +49,10 @@ interface State {
 class FilterSortButtons extends React.Component<{}, State> {
   initialCategorySelections = schema.categories.map(category => ({
     category: category.title,
-    tags: [],
+    tags:
+      category.selectedTags && category.selectedTags.length
+        ? [...category.selectedTags]
+        : [],
   }))
 
   constructor(props) {

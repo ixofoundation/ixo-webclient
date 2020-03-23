@@ -11,6 +11,9 @@
           "title": "Index",
           "icon": "index.svg"
         }
+      ],
+      "selectedTags": [
+        "Index"
       ]
     },
     {
