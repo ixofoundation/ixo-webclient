@@ -46,12 +46,12 @@ class BondsHero extends React.Component<Props, {}> {
             },
             {
               linkClass: window.location.pathname.startsWith(
-                `/projects/${match.params.projectDID}/bonds`,
+                `/projects/${match.params.projectDID}/bonds/${match.params.bondDID}`,
               )
                 ? 'active'
                 : null,
               iconClass: 'icon-funding',
-              path: `/projects/${match.params.projectDID}/bonds`,
+              path: `/projects/${match.params.projectDID}/bonds/${match.params.bondDID}`,
               title: 'FUNDING',
             },
           ]}

@@ -7,7 +7,7 @@ import ConfirmSell from './ConfirmSell'
 
 class Sell extends Component<any> {
   render(): JSX.Element {
-    const projectDID = this.props.projectDID
+    const { projectDID, bondDID } = this.props
 
     return (
       <div className="BondsWrapper_panel__chrome">
@@ -17,7 +17,7 @@ class Sell extends Component<any> {
               <div className="BuySellForm_wrapper">
                 <Route
                   exact
-                  path={`/projects/${projectDID}/bonds/exchange/sell`}
+                  path={`/projects/${projectDID}/bonds/${bondDID}/exchange/sell`}
                   render={(props): JSX.Element => {
                     if (
                       this.props.activeQuote &&
@@ -32,9 +32,9 @@ class Sell extends Component<any> {
                     ) {
                       return (
                         <Redirect
-                          from={`/projects/${projectDID}/bonds/exchange/sell`}
+                          from={`/projects/${projectDID}/bonds/${bondDID}/exchange/sell`}
                           exact
-                          to={`/projects/${projectDID}/bonds/exchange/sell/confirm`}
+                          to={`/projects/${projectDID}/bonds/${bondDID}/exchange/sell/confirm`}
                         />
                       )
                     } else {
@@ -44,7 +44,7 @@ class Sell extends Component<any> {
                 />
                 <Route
                   exact
-                  path={`/projects/${projectDID}/bonds/exchange/sell/confirm`}
+                  path={`/projects/${projectDID}/bonds/${bondDID}/exchange/sell/confirm`}
                   render={(props): JSX.Element => <ConfirmSell {...props} />}
                 />
               </div>

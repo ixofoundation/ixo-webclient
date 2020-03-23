@@ -12,7 +12,7 @@ import {
 } from '../../account/account.utils'
 
 const ConfirmBuy = (props: any): JSX.Element => {
-  const projectDID = props.match.params.projectDID
+  const { projectDID, bondDID } = props.match.params
 
   const { handleSubmit } = useForm()
 
@@ -25,9 +25,9 @@ const ConfirmBuy = (props: any): JSX.Element => {
   } else if (!props.activeQuote.receiving) {
     return (
       <Redirect
-        from={`/projects/${projectDID}/bonds/exchange/buy/confirm`}
+        from={`/projects/${projectDID}/bonds/${bondDID}/exchange/buy/confirm`}
         exact
-        to={`/projects/${projectDID}/bonds/exchange/buy`}
+        to={`/projects/${projectDID}/bonds/${bondDID}/exchange/buy`}
       />
     )
   } else {

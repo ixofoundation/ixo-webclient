@@ -26,7 +26,7 @@ class Exchange extends Component<any> {
   }
 
   render(): JSX.Element {
-    const projectDID = this.props.match.params.projectDID
+    const { projectDID, bondDID } = this.props.match.params
 
     return (
       <BondsWrapper {...this.props.match}>
@@ -37,7 +37,7 @@ class Exchange extends Component<any> {
             <NavLink
               to={
                 !this.props.activeQuote.transacting
-                  ? `/projects/${projectDID}/bonds/exchange/`
+                  ? `/projects/${projectDID}/bonds/${bondDID}/exchange/`
                   : '#'
               }
               isActive={(m, l): boolean => this.isActive(m, l, ['/buy'])}
@@ -49,7 +49,7 @@ class Exchange extends Component<any> {
             <NavLink
               to={
                 !this.props.activeQuote.transacting
-                  ? `/projects/${projectDID}/bonds/exchange/sell`
+                  ? `/projects/${projectDID}/bonds/${bondDID}/exchange/sell`
                   : '#'
               }
               isActive={(m, l): boolean => this.isActive(m, l, ['/sell'])}
@@ -61,7 +61,7 @@ class Exchange extends Component<any> {
               <NavLink
                 to={
                   !this.props.activeQuote.transacting
-                    ? `/projects/${projectDID}/bonds/exchange/swap`
+                    ? `/projects/${projectDID}/bonds/${bondDID}/exchange/swap`
                     : '#'
                 }
                 isActive={(m, l): boolean => this.isActive(m, l, ['/swap'])}
@@ -76,25 +76,25 @@ class Exchange extends Component<any> {
           <Route
             exact
             path={[
-              `/projects/${projectDID}/bonds/exchange/buy`,
-              `/projects/${projectDID}/bonds/exchange/buy/confirm`,
-              `/projects/${projectDID}/bonds/exchange/`,
+              `/projects/${projectDID}/bonds/${bondDID}/exchange/buy`,
+              `/projects/${projectDID}/bonds/${bondDID}/exchange/buy/confirm`,
+              `/projects/${projectDID}/bonds/${bondDID}/exchange/`,
             ]}
             render={(): JSX.Element => <Buy {...this.props.match.params} />}
           />
           <Route
             exact
             path={[
-              `/projects/${projectDID}/bonds/exchange/sell`,
-              `/projects/${projectDID}/bonds/exchange/sell/confirm`,
+              `/projects/${projectDID}/bonds/${bondDID}/exchange/sell`,
+              `/projects/${projectDID}/bonds/${bondDID}/exchange/sell/confirm`,
             ]}
             render={(): JSX.Element => <Sell {...this.props.match.params} />}
           />
           <Route
             exact
             path={[
-              `/projects/${projectDID}/bonds/exchange/swap`,
-              `/projects/${projectDID}/bonds/exchange/swap/confirm`,
+              `/projects/${projectDID}/bonds/${bondDID}/exchange/swap`,
+              `/projects/${projectDID}/bonds/${bondDID}/exchange/swap/confirm`,
             ]}
             render={(): JSX.Element => <Swap {...this.props.match.params} />}
           />

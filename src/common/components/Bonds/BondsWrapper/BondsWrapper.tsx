@@ -24,20 +24,20 @@ export default function BondsWrapper({ children, params }): JSX.Element {
         <div className="tablinks sidebar">
           <NavLink
             exact
-            to={`/projects/${params.projectDID}/bonds`}
+            to={`/projects/${params.projectDID}/bonds/${params.bondDID}`}
             isActive={(m, l): any => {
               return isActive(m, l, [
-                `/projects/${params.projectDID}/bonds/overview`,
+                `/projects/${params.projectDID}/bonds/${params.bondDID}/overview`,
               ])
             }}
             className="tablinks_tablink icon home"
           />
           <NavLink
-            to={`/projects/${params.projectDID}/bonds/exchange`}
+            to={`/projects/${params.projectDID}/bonds/${params.bondDID}/exchange`}
             className="tablinks_tablink icon trades"
           />
           <NavLink
-            to={`/projects/${params.projectDID}/bonds/orders`}
+            to={`/projects/${params.projectDID}/bonds/${params.bondDID}/orders`}
             className="tablinks_tablink icon orders"
           />
           <a className="tablinks_tablink icon wallet" />

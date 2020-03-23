@@ -8,7 +8,7 @@ import BondsWrapper from '../../../common/components/Bonds/BondsWrapper/BondsWra
 
 class Swap extends Component<any> {
   render(): JSX.Element {
-    const projectDID = this.props.projectDID
+    const { projectDID, bondDID } = this.props
 
     return (
       <BondsWrapper {...this.props.match}>
@@ -18,7 +18,7 @@ class Swap extends Component<any> {
               <BrowserRouter>
                 <Route
                   exact
-                  path={`/projects/${projectDID}/bonds/exchange/swap`}
+                  path={`/projects/${projectDID}/bonds/${bondDID}/exchange/swap`}
                   render={(props): JSX.Element => {
                     if (
                       Object.prototype.hasOwnProperty.call(
@@ -28,9 +28,9 @@ class Swap extends Component<any> {
                     ) {
                       return (
                         <Redirect
-                          from={`/projects/${projectDID}/bonds/exchange/swap`}
+                          from={`/projects/${projectDID}/bonds/${bondDID}/exchange/swap`}
                           exact
-                          to={`/projects/${projectDID}/bonds/exchange/swap/confirm`}
+                          to={`/projects/${projectDID}/bonds/${bondDID}/exchange/swap/confirm`}
                         />
                       )
                     } else if (
@@ -38,9 +38,9 @@ class Swap extends Component<any> {
                     ) {
                       return (
                         <Redirect
-                          from={`/projects/${projectDID}/bonds/exchange/swap`}
+                          from={`/projects/${projectDID}/bonds/${bondDID}/exchange/swap`}
                           exact
-                          to={`/projects/${projectDID}/bonds/exchange/`}
+                          to={`/projects/${projectDID}/bonds/${bondDID}/exchange/`}
                         />
                       )
                     } else {
@@ -50,7 +50,7 @@ class Swap extends Component<any> {
                 />
                 <Route
                   exact
-                  path={`/projects/${projectDID}/bonds/exchange/swap/confirm`}
+                  path={`/projects/${projectDID}/bonds/${bondDID}/exchange/swap/confirm`}
                   render={(props): JSX.Element => <ConfirmSwap {...props} />}
                 />
               </BrowserRouter>

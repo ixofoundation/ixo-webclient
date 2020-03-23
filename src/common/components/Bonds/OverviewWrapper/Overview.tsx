@@ -8,18 +8,23 @@ import { BondsHomeSectionNav } from './Overview.styles'
 
 export class Overview extends Component<any> {
   render(): JSX.Element {
-    const projectDID = this.props.match.params.projectDID
+    const { projectDID, bondDID } = this.props.match.params
+
     return (
       <BondsWrapper {...this.props.match}>
         <div className="BondsWrapper_panel">
           <BondsHomeSectionNav>
-            <NavLink to={`/projects/${projectDID}/bonds`} exact>
+            <NavLink to={`/projects/${projectDID}/bonds/${bondDID}`} exact>
               Charts
             </NavLink>
-            <NavLink to={`/projects/${projectDID}/bonds/overview/trades`}>
+            <NavLink
+              to={`/projects/${projectDID}/bonds/${bondDID}/overview/trades`}
+            >
               Trades
             </NavLink>
-            <NavLink to={`/projects/${projectDID}/bonds/overview/events`}>
+            <NavLink
+              to={`/projects/${projectDID}/bonds/${bondDID}/overview/events`}
+            >
               Events
             </NavLink>
           </BondsHomeSectionNav>
@@ -27,20 +32,20 @@ export class Overview extends Component<any> {
           <Route
             exact
             path={[
-              `/projects/${projectDID}/bonds/overview/charts`,
-              `/projects/${projectDID}/bonds/overview/`,
-              `/projects/${projectDID}/bonds`,
+              `/projects/${projectDID}/bonds/${bondDID}/overview/charts`,
+              `/projects/${projectDID}/bonds/${bondDID}/overview/`,
+              `/projects/${projectDID}/bonds/${bondDID}`,
             ]}
             component={BondChartScreen}
           />
           <Route
             exact
-            path={`/projects/${projectDID}/bonds/overview/trades`}
+            path={`/projects/${projectDID}/bonds/${bondDID}/overview/trades`}
             component={Trades}
           />
           <Route
             exact
-            path={`/projects/${projectDID}/bonds/overview/events`}
+            path={`/projects/${projectDID}/bonds/${bondDID}/overview/events`}
             component={Events}
           />
         </div>
