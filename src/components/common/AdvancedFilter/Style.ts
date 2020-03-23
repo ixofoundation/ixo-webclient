@@ -63,6 +63,20 @@ export const ButtonWrapper = styled.div`
   &.active:after {
     content: '';
   }
+  &.active ${Button}:before {
+    content: '';
+    position: absolute;
+    top: calc(100% - 8px);
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1;
+    width: 0;
+    height: 0;
+    border-radius: 4px;
+    border-style: solid;
+    border-width: 0 1rem 1.1rem 1rem;
+    border-color: transparent transparent white transparent;
+  }
 `
 
 export const FilterModal = styled.div`
@@ -72,20 +86,9 @@ export const FilterModal = styled.div`
   box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.15);
   border-radius: 4px;
   width: 428px;
-  left: -135%;
-  :after {
-    content: '';
-    position: absolute;
-    top: -0.5rem;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 0;
-    height: 0;
-    border-radius: 4px;
-    border-style: solid;
-    border-width: 0 1rem 1.1rem 1rem;
-    border-color: transparent transparent white transparent;
-  }
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
 `
 
 export const ModalItems = styled.div`
@@ -359,6 +362,11 @@ export const Menu = styled.div`
     pointer-events: auto;
     ${HeaderLink} {
       display: inline;
+    }
+  }
+  ${ButtonWrapper} {
+    &:last-of-type ${FilterModal} {
+      transform: translateX(-75%);
     }
   }
 `
