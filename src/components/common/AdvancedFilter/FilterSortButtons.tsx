@@ -205,6 +205,7 @@ class FilterSortButtons extends React.Component<{}, State> {
       endDateDisplay: null,
       startDate: null,
       endDate: null,
+      dateText: 'Dates',
     })
   }
 
@@ -226,11 +227,6 @@ class FilterSortButtons extends React.Component<{}, State> {
   }
 
   toggleMobileDates = (): void => {
-    if (this.state.mobileDatesMenuOpen) {
-      document.querySelector('body').classList.remove('noScroll')
-    } else {
-      document.querySelector('body').classList.add('noScroll')
-    }
     this.setState({ mobileDatesMenuOpen: !this.state.mobileDatesMenuOpen })
   }
 
@@ -393,11 +389,11 @@ class FilterSortButtons extends React.Component<{}, State> {
     }
   }
 
-  getDatePickerDesktop = (): JSX.Element => {
+  getDesktopDatePicker = (): JSX.Element => {
     return (
       <>
-        <ButtonWrapper>
-          {this.state.showDatePicker && (
+        {this.state.showDatePicker && (
+          <ButtonWrapper>
             <DatePickerModal>
               <DatePicker
                 onReset={this.resetDateFilter}
@@ -412,23 +408,24 @@ class FilterSortButtons extends React.Component<{}, State> {
                 Reset
               </ResetButtonDatePicker>
               <ApplyButtonDatePicker
-                onClick={(): void =>
+                onClick={(): void => {
                   this.handleDateChange(
                     this.state.startDate,
                     this.state.endDate,
                   )
-                }
+                  this.toggleShowDatePicker()
+                }}
               >
                 Apply
               </ApplyButtonDatePicker>
             </DatePickerModal>
-          )}
-        </ButtonWrapper>
+          </ButtonWrapper>
+        )}
       </>
     )
   }
 
-  getDatePickerMobile = (): JSX.Element => {
+  getMobileDatePicker = (): JSX.Element => {
     return (
       <>
         <MobileFilterModal className="dateFilterModal">
@@ -481,7 +478,7 @@ class FilterSortButtons extends React.Component<{}, State> {
             </Button>
 
             <MediaQuery minWidth={'577px'}>
-              {this.getDatePickerDesktop()}
+              {this.getDesktopDatePicker()}
             </MediaQuery>
 
             <MediaQuery maxWidth={`${deviceWidth.mobile}px`}>
@@ -490,7 +487,7 @@ class FilterSortButtons extends React.Component<{}, State> {
                   this.state.mobileDatesMenuOpen === true ? 'openDatesMenu' : ''
                 }
               >
-                {this.getDatePickerMobile()}
+                {this.getMobileDatePicker()}
               </MobileDatesMenu>
             </MediaQuery>
 

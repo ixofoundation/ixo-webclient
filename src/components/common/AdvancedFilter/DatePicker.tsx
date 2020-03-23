@@ -3,8 +3,6 @@ import 'react-dates/initialize'
 import { DayPickerRangeController } from 'react-dates'
 import 'react-dates/lib/css/_datepicker.css'
 import moment, { Moment } from 'moment'
-//import MediaQuery from 'react-responsive'
-//import { deviceWidth } from '../../../lib/commonData'
 
 interface Props {
   onChange: (startDate, endDate) => void
@@ -68,8 +66,7 @@ class DatePicker extends React.Component<Props, State> {
         numberOfMonths={2}
         hideKeyboardShortcutsPanel
         orientation={this.props.initialOrientation}
-        prevNav={null}
-        nextNav={null}
+        noNavButtons
       />
     )
   }
