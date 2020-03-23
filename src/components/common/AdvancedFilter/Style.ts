@@ -63,22 +63,13 @@ export const ButtonWrapper = styled.div`
   &.active:after {
     content: '';
   }
-`
-
-export const FilterModal = styled.div`
-  position: absolute;
-  padding: 2.625rem;
-  background: #ffffff;
-  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.15);
-  border-radius: 4px;
-  width: 428px;
-  left: -135%;
-  :after {
+  &.active ${Button}:before {
     content: '';
     position: absolute;
-    top: -0.5rem;
+    top: calc(100% - 8px);
     left: 50%;
     transform: translateX(-50%);
+    z-index: 1;
     width: 0;
     height: 0;
     border-radius: 4px;
@@ -88,27 +79,22 @@ export const FilterModal = styled.div`
   }
 `
 
+export const FilterModal = styled.div`
+  position: absolute;
+  padding: 2.625rem;
+  background: #ffffff;
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.15);
+  border-radius: 4px;
+  width: 428px;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+`
+
 export const ModalItems = styled.div`
   display: flex;
   flex-flow: row wrap;
-  max-height: 400px;
-  overflow-y: auto;
-  &::-webkit-scrollbar {
-    width: 6px;
-  }
-
-  &::-webkit-scrollbar-track {
-    background: rgba(155, 155, 155, 0.3);
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background: rgba(0, 0, 0, 0.5);
-    border-radius: 6px;
-  }
-
-  &::-webkit-scrollbar-thumb:hover {
-    background: rgba(0, 0, 0, 0.7);
-  }
+  overflow: scroll;
 `
 
 export const FilterSelectButton = styled.div`
@@ -213,15 +199,17 @@ export const ApplyButton = styled.button`
   background: linear-gradient(180deg, #04d0fb 0%, #49bfe0 100%);
   color: white;
 `
+
 export const DatePickerModal = styled.div`
   position: absolute;
   background: #ffffff;
   box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.15);
   border-radius: 4px;
+  height: 442px;
   width: 619px;
-  height: 425px;
-  left: 34%;
-  top: 42%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, 6%);
   z-index: 3;
   :after {
     content: '';
@@ -229,12 +217,29 @@ export const DatePickerModal = styled.div`
     top: -0.5rem;
     left: 50%;
     transform: translateX(-50%);
-    width: 0;
     height: 0;
+    width: 0;
     border-radius: 4px;
     border-style: solid;
     border-width: 0 1rem 1.1rem 1rem;
     border-color: transparent transparent white transparent;
+  }
+
+  @media (max-width: ${deviceWidth.mobile}px) {
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+  }
+`
+
+export const MobileDatePicker = styled.div`
+  height: 100%;
+  .DayPicker_weekHeader__verticalScrollable {
+    background-color: #002a3f;
+    margin-top: -1px;
   }
 `
 
@@ -253,6 +258,7 @@ export const ResetButtonDatePicker = styled.div`
   border-radius: 4px;
   cursor: pointer;
 `
+
 export const ApplyButtonDatePicker = styled.div`
   position: absolute;
   left: 74%;
@@ -362,7 +368,13 @@ export const Menu = styled.div`
       display: inline;
     }
   }
+  ${ButtonWrapper} {
+    &:last-of-type ${FilterModal} {
+      transform: translateX(-75%);
+    }
+  }
 `
+
 export const MobileMenu = styled(Menu)`
   position: fixed;
   top: 0;
@@ -376,6 +388,24 @@ export const MobileMenu = styled(Menu)`
   pointer-events: none;
   z-index: 12;
   &.openMenu {
+    opacity: 1;
+    pointer-events: auto;
+  }
+`
+
+export const MobileDatesMenu = styled(Menu)`
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  overflow-y: scroll;
+  transition: all 0.5s ease;
+  opacity: 0;
+  background: #fff;
+  pointer-events: none;
+  z-index: 12;
+  &.openDatesMenu {
     opacity: 1;
     pointer-events: auto;
   }
@@ -404,6 +434,43 @@ export const MobileFilterHeader = styled.header`
   display: flex;
   justify-content: space-between;
   align-items: center;
+`
+
+export const MobileDateHeader = styled.header`
+  background: #002a3f;
+  padding: 1.5rem 1.25rem;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #002a3f;
+`
+
+export const DateDisplay = styled.div`
+  width: 100%;
+  padding-top: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  svg {
+    transform: rotate(180deg);
+  }
+`
+
+export const DateInput = styled.div`
+  position: relative;
+  padding: 1rem 1.4rem;
+  background-color: #143f54;
+  border: 1px solid #39c3e6;
+  border-radius: 4px;
+  width: 137.11px;
+  height: 50px;
+  font-style: normal;
+  font-weight: bold;
+  color: #fff;
+
+  &:hover {
+    border-color: #fff;
+  }
 `
 
 export const DoneButton = styled.button`
@@ -484,6 +551,9 @@ export const MobileFilterModal = styled.div`
   grid-template: 75px 1fr 75px / 1fr;
   ${MobileFilterWrapper} {
     justify-content: flex-start;
+  }
+  &.dateFilterModal {
+    grid-template: 154px 1fr 75px / 1fr;
   }
 `
 export const BurgerMenuButton = styled(Button)`

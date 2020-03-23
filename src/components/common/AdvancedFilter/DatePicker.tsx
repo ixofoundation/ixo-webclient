@@ -3,16 +3,12 @@ import 'react-dates/initialize'
 import { DayPickerRangeController } from 'react-dates'
 import 'react-dates/lib/css/_datepicker.css'
 import moment, { Moment } from 'moment'
-import {
-  DatePickerModal,
-  ResetButtonDatePicker,
-  ApplyButtonDatePicker,
-} from './Style'
 
 interface Props {
   onChange: (startDate, endDate) => void
   onReset: () => void
   onApply: () => void
+  initialOrientation: string
   initialStartDate: null
   initialEndDate: null
 }
@@ -29,6 +25,7 @@ interface State {
 class DatePicker extends React.Component<Props, State> {
   constructor(props) {
     super(props)
+
     this.state = {
       startDate: this.props.initialStartDate,
       endDate: this.props.initialEndDate,
@@ -57,30 +54,19 @@ class DatePicker extends React.Component<Props, State> {
 
   render(): JSX.Element {
     return (
-      <DatePickerModal>
-        <div className="DatePicker">
-          <DayPickerRangeController
-            startDate={this.state.startDate}
-            endDate={this.state.endDate}
-            onDatesChange={({ startDate, endDate }): void =>
-              this.onChange(startDate, endDate)
-            }
-            focusedInput={this.state.focusedInput}
-            onFocusChange={(focusedInput): void =>
-              this.setState({ focusedInput })
-            }
-            initialVisibleMonth={(): Moment => moment().add(2, 'M')}
-            numberOfMonths={2}
-            hideKeyboardShortcutsPanel
-          />
-        </div>
-        <ResetButtonDatePicker onClick={this.onReset}>
-          Reset
-        </ResetButtonDatePicker>
-        <ApplyButtonDatePicker onClick={this.props.onApply}>
-          Apply
-        </ApplyButtonDatePicker>
-      </DatePickerModal>
+      <DayPickerRangeController
+        startDate={this.state.startDate}
+        endDate={this.state.endDate}
+        onDatesChange={({ startDate, endDate }): void =>
+          this.onChange(startDate, endDate)
+        }
+        focusedInput={this.state.focusedInput}
+        onFocusChange={(focusedInput): void => this.setState({ focusedInput })}
+        initialVisibleMonth={(): Moment => moment().add(2, 'M')}
+        numberOfMonths={2}
+        hideKeyboardShortcutsPanel
+        orientation={this.props.initialOrientation}
+      />
     )
   }
 }
