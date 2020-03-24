@@ -1,1 +1,18 @@
-<svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><path fill="#fff" d="m256 0c-140.96875 0-256 115.050781-256 256 0 140.96875 115.050781 256 256 256 140.96875 0 256-115.050781 256-256 0-140.96875-115.050781-256-256-256zm0 482c-124.617188 0-226-101.382812-226-226s101.382812-226 226-226 226 101.382812 226 226-101.382812 226-226 226zm0 0"/><path fill="#fff" d="m181 151h210v30h-210zm0 0"/><path fill="#fff" d="m121 151h30v30h-30zm0 0"/><path fill="#fff" d="m181 211h210v30h-210zm0 0"/><path fill="#fff" d="m121 211h30v30h-30zm0 0"/><path fill="#fff" d="m181 271h210v30h-210zm0 0"/><path fill="#fff" d="m121 271h30v30h-30zm0 0"/><path fill="#fff" d="m181 331h210v30h-210zm0 0"/><path fill="#fff" d="m121 331h30v30h-30zm0 0"/></svg>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?> <!-- Created with Vectornator for iOS (http://vectornator.io/) --><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg height="100%" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="100%" xmlns:vectornator="http://vectornator.io" version="1.1" viewBox="0 0 104.895 73.71">
+<metadata>
+<vectornator:setting key="DisplayWhiteBackground" value="0"/>
+<vectornator:setting key="RulersVisible" value="1"/>
+<vectornator:setting key="SnapToEdges" value="0"/>
+<vectornator:setting key="Units" value="Millimeters"/>
+<vectornator:setting key="DynamicGuides" value="0"/>
+<vectornator:setting key="SnapToPoints" value="0"/>
+<vectornator:setting key="SnapToGrid" value="0"/>
+<vectornator:setting key="SnapToGuides" value="1"/>
+<vectornator:setting key="GridSpacing" value="36"/>
+</metadata>
+<defs/>
+<g id="Layer 1" vectornator:layerName="Layer 1">
+<path d="M38.1937+36.1229C37.3695+36.1229+36.6937+36.7986+36.6937+37.6229L36.6937+43.6229C36.6937+44.4471+37.3695+45.1229+38.1937+45.1229L46.4047+45.1229C46.8031+45.1268+47.1859+44.9549+47.4633+44.6658L50.2718+41.6971C50.8383+41.0955+50.8383+40.1463+50.2718+39.5486L47.4633+36.5838C47.1898+36.2908+46.807+36.1229+46.4047+36.1229L38.1937+36.1229ZM38.1937+37.1229L46.4086+37.1229C46.5258+37.1229+46.6429+37.1697+46.7367+37.2713L49.5453+40.2361C49.7406+40.4432+49.7406+40.8026+49.5453+41.0096L46.7367+43.9783C46.6429+44.076+46.5258+44.1268+46.4086+44.1229L38.1937+44.1229C37.9164+44.1229+37.6937+43.9002+37.6937+43.6229L37.6937+37.6229C37.6937+37.3455+37.9164+37.1229+38.1937+37.1229ZM47.1937+40.1229C46.9164+40.1229+46.6937+40.3455+46.6937+40.6229C46.6937+40.9002+46.9164+41.1229+47.1937+41.1229C47.4711+41.1229+47.6937+40.9002+47.6937+40.6229C47.6937+40.3455+47.4711+40.1229+47.1937+40.1229Z" opacity="1" fill="#ffffff"/>
+</g>
+</svg>
