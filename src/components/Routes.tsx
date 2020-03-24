@@ -12,9 +12,9 @@ import { NotFound } from './public/NotFound'
 import { Spinner } from './common/Spinner'
 import { ProjectSignAndCreateConnected } from './project/curation/ProjectSignAndCreate'
 import { ProjectCreateUploadPublicDocsConnected } from './project/curation/ProjectCreateUploadPublicDocs'
-import { Overview } from './bonds/overview/Overview'
-import Exchange from './bonds/exchange/Exchange'
-import Orders from './bonds/orders/Orders'
+import { Overview } from '../common/components/Bonds/OverviewWrapper/Overview'
+import Exchange from '../common/components/Bonds/ExchangeWrapper/Exchange'
+import Orders from '../modules/BondAccountOrders/screens/BondAccountOrders'
 
 export const Routes: React.SFC<{}> = props => {
   return (
@@ -25,16 +25,23 @@ export const Routes: React.SFC<{}> = props => {
         <Route exact path="/json" component={ProjectForm} />
         <Route exact path="/icons" component={Icons} />
         <Route exact path="/register" component={RegisterConnected} />
-        <Route exact path="/projects/:projectDID/bonds" component={Overview} />
         <Route
-          path={['/projects/:projectDID/bonds/overview']}
+          exact
+          path="/projects/:projectDID/bonds/:bondDID"
           component={Overview}
         />
         <Route
-          path="/projects/:projectDID/bonds/exchange"
+          path={['/projects/:projectDID/bonds/:bondDID/overview']}
+          component={Overview}
+        />
+        <Route
+          path="/projects/:projectDID/bonds/:bondDID/exchange"
           component={Exchange}
         />
-        <Route path="/projects/:projectDID/bonds/orders" component={Orders} />
+        <Route
+          path="/projects/:projectDID/bonds/:bondDID/orders"
+          component={Orders}
+        />
         <Route
           exact
           path="/"

@@ -306,6 +306,9 @@
           "icon": "tag.svg",
           "selected": "false"
         }
+      ],
+      "selectedTags": [
+        "Index"
       ]
     },
     {

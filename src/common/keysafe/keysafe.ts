@@ -15,8 +15,6 @@ const initKeysafe = (): any => {
     }
   }
 
-  console.log(window)
-
   return keysafe
 }
 
