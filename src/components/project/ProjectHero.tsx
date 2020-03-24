@@ -194,7 +194,7 @@ export const ProjectHero: React.SFC<Props> = ({
   if (isLoggedIn) {
     buttonsArray.push({
       iconClass: 'icon-funding',
-      path: `/projects/${match.params.projectDID}/bonds`,
+      path: `/projects/${match.params.projectDID}/bonds/${project.bondDid}`,
       title: 'FUNDING',
     })
   }
