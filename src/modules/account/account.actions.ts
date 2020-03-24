@@ -65,19 +65,19 @@ export const getOrders = () => (
   }
 
   const buyReq = Axios.get(
-    process.env.REACT_APP_GAIA_URL +
+    process.env.REACT_APP_BLOCKCHAIN_NODE_URL +
       '/txs?message.action=buy&transfer.recipient=' +
       address,
     config,
   )
   const sellReq = Axios.get(
-    process.env.REACT_APP_GAIA_URL +
+    process.env.REACT_APP_BLOCKCHAIN_NODE_URL +
       '/txs?message.action=sell&message.sender=' +
       address,
     config,
   )
   const swapReq = Axios.get(
-    process.env.REACT_APP_GAIA_URL +
+    process.env.REACT_APP_BLOCKCHAIN_NODE_URL +
       '/txs?message.action=swap&transfer.recipient=' +
       address,
     config,
