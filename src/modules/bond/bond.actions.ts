@@ -6,7 +6,7 @@ export const getBalances = (bondDid: string) => (
   dispatch: Dispatch,
 ): GetBalancesAction => {
   const bondRequest = Axios.get(
-    `${process.env.REACT_APP_BLOCKCHAIN_NODE_URL}/bonds/${bondDid}`,
+    `${process.env.REACT_APP_GAIA_URL}/bonds/${bondDid}`,
     {
       transformResponse: [
         (response: string): any => {
@@ -16,7 +16,7 @@ export const getBalances = (bondDid: string) => (
     },
   )
   const priceRequest = Axios.get(
-    `${process.env.REACT_APP_BLOCKCHAIN_NODE_URL}/bonds/${bondDid}/current_price`,
+    `${process.env.REACT_APP_GAIA_URL}/bonds/${bondDid}/current_price`,
     {
       transformResponse: [
         (response: string): any => {
@@ -62,15 +62,15 @@ export const getTransactions = () => (dispatch: Dispatch): GetTradesAction => {
   }
 
   const buyReq = Axios.get(
-    process.env.REACT_APP_BLOCKCHAIN_NODE_URL + '/txs?message.action=buy',
+    process.env.REACT_APP_GAIA_URL + '/txs?message.action=buy',
     config,
   )
   const sellReq = Axios.get(
-    process.env.REACT_APP_BLOCKCHAIN_NODE_URL + '/txs?message.action=sell',
+    process.env.REACT_APP_GAIA_URL + '/txs?message.action=sell',
     config,
   )
   const swapReq = Axios.get(
-    process.env.REACT_APP_BLOCKCHAIN_NODE_URL + '/txs?message.action=swap',
+    process.env.REACT_APP_GAIA_URL + '/txs?message.action=swap',
     config,
   )
 

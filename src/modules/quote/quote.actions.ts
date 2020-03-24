@@ -32,9 +32,9 @@ export const buy = (
   return dispatch({
     type: QuoteActions.Buy,
     payload: Axios.get(
-      `${process.env.REACT_APP_BLOCKCHAIN_NODE_URL}/bonds/${
-        receiving!.denom
-      }/buy_price/${receiving!.amount}`,
+      `${process.env.REACT_APP_GAIA_URL}/bonds/${receiving!.denom}/buy_price/${
+        receiving!.amount
+      }`,
       {
         transformResponse: [
           (response: string): any => {
@@ -89,7 +89,7 @@ export const confirmBuy = () => (
       return dispatch({
         type: QuoteActions.Confirm,
         payload: Axios.post(
-          `${process.env.REACT_APP_BLOCKCHAIN_NODE_URL}/bonds/buy`,
+          `${process.env.REACT_APP_GAIA_URL}/bonds/buy`,
           JSON.stringify({
             base_req: {
               from: address,
@@ -105,7 +105,7 @@ export const confirmBuy = () => (
           }),
         ).then(() => {
           Axios.post(
-            `${process.env.REACT_APP_BLOCKCHAIN_NODE_URL}/txs`,
+            `${process.env.REACT_APP_GAIA_URL}/txs`,
             JSON.stringify(
               signingUtils.signBuyTx(quoteBuyPayload, signature, pubKey),
             ),
@@ -137,9 +137,9 @@ export const sell = (sending: Currency, minPrices: Currency[]) => (
   return dispatch({
     type: QuoteActions.Sell,
     payload: Axios.get(
-      `${process.env.REACT_APP_BLOCKCHAIN_NODE_URL}/bonds/${
-        sending!.denom
-      }/sell_return/${sending!.amount}`,
+      `${process.env.REACT_APP_GAIA_URL}/bonds/${sending!.denom}/sell_return/${
+        sending!.amount
+      }`,
       {
         transformResponse: [
           (response: string): any => {
@@ -190,7 +190,7 @@ export const confirmSell = () => (
       return dispatch({
         type: QuoteActions.Confirm,
         payload: Axios.post(
-          `${process.env.REACT_APP_BLOCKCHAIN_NODE_URL}/bonds/sell`,
+          `${process.env.REACT_APP_GAIA_URL}/bonds/sell`,
           JSON.stringify({
             base_req: {
               from: address,
@@ -206,7 +206,7 @@ export const confirmSell = () => (
           }),
         ).then(() => {
           Axios.post(
-            `${process.env.REACT_APP_BLOCKCHAIN_NODE_URL}/txs`,
+            `${process.env.REACT_APP_GAIA_URL}/txs`,
             JSON.stringify(
               signingUtils.signSellTx(quoteSellPayload, signature, pubKey),
             ),
@@ -242,7 +242,7 @@ export const swap = (sending: Currency, receiving: Currency) => (
     type: QuoteActions.Swap,
     payload: Axios.get(
       `${
-        process.env.REACT_APP_BLOCKCHAIN_NODE_URL
+        process.env.REACT_APP_GAIA_URL
       }/bonds/${symbol}/swap_return/${currencyStr(sending!, false)}/${
         receiving!.denom
       }`,
@@ -294,7 +294,7 @@ export const confirmSwap = () => (
       return dispatch({
         type: QuoteActions.Confirm,
         payload: Axios.post(
-          `${process.env.REACT_APP_BLOCKCHAIN_NODE_URL}/bonds/swap`,
+          `${process.env.REACT_APP_GAIA_URL}/bonds/swap`,
           JSON.stringify({
             base_req: {
               from: address,
@@ -306,7 +306,7 @@ export const confirmSwap = () => (
           }),
         ).then(() => {
           Axios.post(
-            `${process.env.REACT_APP_BLOCKCHAIN_NODE_URL}/txs`,
+            `${process.env.REACT_APP_GAIA_URL}/txs`,
             JSON.stringify(
               signingUtils.signSellTx(quoteSwapPayload, signature, pubKey),
             ),

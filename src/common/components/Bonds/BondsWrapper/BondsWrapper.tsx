@@ -45,7 +45,7 @@ export default function BondsWrapper({ children, params }): JSX.Element {
         </div>
         <div className="pane">
           <TypeForm />
-          <Header />
+          <Header bondDID={params.bondDID} />
           {children}
         </div>
       </div>

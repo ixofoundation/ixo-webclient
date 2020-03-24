@@ -36,7 +36,7 @@ class Header extends Component<any> {
   refreshAccount = (): void => {
     if (this.props.account.userInfo) {
       this.props.dispatch(getAccount(this.props.account.address))
-      this.props.dispatch(getBondBalances(this.props.activeBond.symbol))
+      this.props.dispatch(getBondBalances(this.props.bondDID))
     }
   }
 
