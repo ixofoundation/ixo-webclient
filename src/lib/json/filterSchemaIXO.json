@@ -9,307 +9,255 @@
         {
           "@type": "IndexProject",
           "title": "Index",
-          "icon": "index.svg",
-          "selected": "true"
+          "icon": "index.svg"
         },
         {
           "@type": "AccreditationProject",
           "title": "Accreditation",
-          "icon": "tag.svg",
-          "selected": "false"
+          "icon": "tag.svg"
         },
         {
           "@type": "AccountabilityProject",
           "title": "Accountability",
-          "icon": "tag.svg",
-          "selected": "false"
+          "icon": "tag.svg"
         },
         {
           "@type": "BehaviourChangeProject",
           "title": "Behaviour Change",
-          "icon": "tag.svg",
-          "selected": "false"
+          "icon": "tag.svg"
         },
         {
           "@type": "BiodiversityProject",
           "title": "Biodiversity",
-          "icon": "tag.svg",
-          "selected": "false"
+          "icon": "tag.svg"
         },
         {
           "@type": "CirculareconomyProject",
           "title": "Circular Economy",
-          "icon": "tag.svg",
-          "selected": "false"
+          "icon": "tag.svg"
         },
         {
           "@type": "CivicactionProject",
           "title": "Civic Action",
-          "icon": "tag.svg",
-          "selected": "false"
+          "icon": "tag.svg"
         },
         {
           "@type": "ClimateMitigationProject",
           "title": "Climate Mitigation",
-          "icon": "tag.svg",
-          "selected": "false"
+          "icon": "tag.svg"
         },
         {
           "@type": "ClimateAdaptationtProject",
           "title": "Climate Adaptation",
-          "icon": "tag.svg",
-          "selected": "false"
+          "icon": "tag.svg"
         },
         {
           "@type": "ClinicalTrialProject",
           "title": "Clinical Trial",
-          "icon": "tag.svg",
-          "selected": "false"
+          "icon": "tag.svg"
         },
         {
           "@type": "CommunityCurrencyProject",
           "title": "Community Currency",
-          "icon": "tag.svg",
-          "selected": "false"
+          "icon": "tag.svg"
         },
         {
           "@type": "CommunityDevelopmentProject",
           "title": "Community Development",
-          "icon": "tag.svg",
-          "selected": "false"
+          "icon": "tag.svg"
         },
         {
           "@type": "CommonsProject",
           "title": "Commons",
-          "icon": "tag.svg",
-          "selected": "false"
+          "icon": "tag.svg"
         },
         {
           "@type": "ConservationProject",
           "title": "Conservation",
-          "icon": "tag.svg",
-          "selected": "false"
+          "icon": "tag.svg"
         },
         {
           "@type": "Covid19Project",
           "title": "Covid-19",
-          "icon": "covid.svg",
-          "selected": "false"
+          "icon": "covid.svg"
         },
         {
           "@type": "DecarbonisationProject",
           "title": "Decarbonisation",
-          "icon": "tag.svg",
-          "selected": "false"
+          "icon": "tag.svg"
         },
         {
           "@type": "DisasterResponseProject",
           "title": "Disaster Response",
-          "icon": "tag.svg",
-          "selected": "false"
+          "icon": "tag.svg"
         },
         {
           "@type": "EcologicalRegenerationProject",
           "title": "Ecological Regeneration",
-          "icon": "tag.svg",
-          "selected": "false"
+          "icon": "tag.svg"
         },
         {
           "@type": "EducationAwarenessProject",
           "title": "Education & Awareness",
-          "icon": "tag.svg",
-          "selected": "false"
+          "icon": "tag.svg"
         },
         {
           "@type": "EnterpriseDevelopmentProject",
           "title": "Enterprise Development",
-          "icon": "tag.svg",
-          "selected": "false"
+          "icon": "tag.svg"
         },
         {
           "@type": "EnvironmentalProtectionProject",
           "title": "Environmental Protection",
-          "icon": "tag.svg",
-          "selected": "false"
+          "icon": "tag.svg"
         },
         {
           "@type": "EpidemicResponseProject",
           "title": "Epidemic Response",
-          "icon": "tag.svg",
-          "selected": "false"
+          "icon": "tag.svg"
         },
         {
           "@type": "ESGProject",
           "title": "ESG",
-          "icon": "tag.svg",
-          "selected": "false"
+          "icon": "tag.svg"
         },
         {
           "@type": "GovernanceProject",
           "title": "Governance",
-          "icon": "tag.svg",
-          "selected": "false"
+          "icon": "tag.svg"
         },
         {
           "@type": "GreenbondProject",
           "title": "Green Bond",
-          "icon": "tag.svg",
-          "selected": "false"
+          "icon": "tag.svg"
         },
         {
           "@type": "IdentityProject",
           "title": "Identity",
-          "icon": "tag.svg",
-          "selected": "false"
+          "icon": "tag.svg"
         },
         {
           "@type": "ImpactInvestmentProject",
           "title": "Impact Investment",
-          "icon": "tag.svg",
-          "selected": "false"
+          "icon": "tag.svg"
         },
         {
           "@type": "InsuranceBondProject",
           "title": "Insurance Bond",
-          "icon": "tag.svg",
-          "selected": "false"
+          "icon": "tag.svg"
         },
         {
           "@type": "IntelligencegatheringProject",
           "title": "Intelligence-gathering",
-          "icon": "tag.svg",
-          "selected": "false"
+          "icon": "tag.svg"
         },
         {
           "@type": "MicrofinanceProject",
           "title": "Microfinance",
-          "icon": "tag.svg",
-          "selected": "false"
+          "icon": "tag.svg"
         },
         {
           "@type": "Project",
           "title": "",
-          "icon": "tag.svg",
-          "selected": "false"
+          "icon": "tag.svg"
         },
         {
           "@type": "NeedsAssessmentProject",
           "title": "Needs Assessment",
-          "icon": "tag.svg",
-          "selected": "false"
+          "icon": "tag.svg"
         },
         {
           "@type": "OpinionSurveyProject",
           "title": "Opinion Survey",
-          "icon": "tag.svg",
-          "selected": "false"
+          "icon": "tag.svg"
         },
         {
           "@type": "OracleProject",
           "title": "Oracle Development",
-          "icon": "tag.svg",
-          "selected": "false"
+          "icon": "tag.svg"
         },
         {
           "@type": "PollutionProject",
           "title": "Pollution Control",
-          "icon": "tag.svg",
-          "selected": "false"
+          "icon": "tag.svg"
         },
         {
           "@type": "RecyclingProject",
           "title": "Recycling",
-          "icon": "tag.svg",
-          "selected": "false"
+          "icon": "tag.svg"
         },
         {
           "@type": "ReforestationProject",
           "title": "Reforestation",
-          "icon": "tag.svg",
-          "selected": "false"
+          "icon": "tag.svg"
         },
         {
           "@type": "RefugeeSupportProject",
           "title": "Refugee Support",
-          "icon": "tag.svg",
-          "selected": "false"
+          "icon": "tag.svg"
         },
         {
           "@type": "RenewableEnergyProject",
           "title": "Renewable Energy",
-          "icon": "tag.svg",
-          "selected": "false"
+          "icon": "tag.svg"
         },
         {
           "@type": "ResearchDevelopmentProject",
           "title": "Research & Development",
-          "icon": "tag.svg",
-          "selected": "false"
+          "icon": "tag.svg"
         },
         {
           "@type": "SkillsDevelopmentProject",
           "title": "Skills Development",
-          "icon": "tag.svg",
-          "selected": "false"
+          "icon": "tag.svg"
         },
         {
           "@type": "SocialFinanceProject",
           "title": "Social Finance",
-          "icon": "tag.svg",
-          "selected": "false"
+          "icon": "tag.svg"
         },
         {
           "@type": "SocialInnovationProject",
           "title": "Social Innovation",
-          "icon": "tag.svg",
-          "selected": "false"
+          "icon": "tag.svg"
         },
         {
           "@type": "SustainableCapitalProject",
           "title": "Sustainable Capital",
-          "icon": "tag.svg",
-          "selected": "false"
+          "icon": "tag.svg"
         },
         {
           "@type": "SustainableConsumptionProject",
           "title": "Sustainable Consumption",
-          "icon": "tag.svg",
-          "selected": "false"
+          "icon": "tag.svg"
         },
         {
           "@type": "SustainableInfrastructureProject",
           "title": "Sustainable Infrastructure",
-          "icon": "tag.svg",
-          "selected": "false"
+          "icon": "tag.svg"
         },
         {
           "@type": "SustainableSupplyChainProject",
           "title": "Sustainable Supply Chain",
-          "icon": "tag.svg",
-          "selected": "false"
+          "icon": "tag.svg"
         },
         {
           "@type": "UniversalBasicIncomeProject",
           "title": "Universal Basic Income",
-          "icon": "tag.svg",
-          "selected": "false"
+          "icon": "tag.svg"
         },
         {
           "@type": "WasteReductionProject",
           "title": "Waste Reduction",
-          "icon": "tag.svg",
-          "selected": "false"
+          "icon": "tag.svg"
         },
         {
           "@type": "WaterMarineProject",
           "title": "Water & Marine",
-          "icon": "tag.svg",
-          "selected": "false"
+          "icon": "tag.svg"
         }
       ],
-      "selectedTags": [
-        "Index"
-      ]
+      "selectedTags": ["Index"]
     },
     {
       "@type": "Category",
@@ -318,104 +266,87 @@
         {
           "@type": "SDG1",
           "title": "SDG 1 – No Poverty",
-          "icon": "sdg1.svg",
-          "selected": "false"
+          "icon": "sdg1.svg"
         },
         {
           "@type": "SDG2",
           "title": "SDG2 – Zero Hunger",
-          "icon": "sdg2.svg",
-          "selected": "false"
+          "icon": "sdg2.svg"
         },
         {
           "@type": "SDG3",
           "title": "SDG3 – Good Health and Well-being",
-          "icon": "sdg3.svg",
-          "selected": "false"
+          "icon": "sdg3.svg"
         },
         {
           "@type": "SDG4",
           "title": "SDG4 – Quality Education",
-          "icon": "sdg4.svg",
-          "selected": "false"
+          "icon": "sdg4.svg"
         },
         {
           "@type": "SDG5",
           "title": "SDG5 – Gender Equality",
-          "icon": "sdg5.svg",
-          "selected": "false"
+          "icon": "sdg5.svg"
         },
         {
           "@type": "SDG6",
           "title": "SDG6 – Clean Water and Sanitation",
-          "icon": "sdg6.svg",
-          "selected": "false"
+          "icon": "sdg6.svg"
         },
         {
           "@type": "SDG7",
           "title": "SDG7 – Affordable and Clean Energy",
-          "icon": "sdg7.svg",
-          "selected": "false"
+          "icon": "sdg7.svg"
         },
         {
           "@type": "SDG8",
           "title": "SDG8 – Decent Work and Economic Growth",
-          "icon": "sdg8.svg",
-          "selected": "false"
+          "icon": "sdg8.svg"
         },
         {
           "@type": "SDG9",
           "title": "SDG9 – Industry, Innovation and Infrastructure",
-          "icon": "sdg9.svg",
-          "selected": "false"
+          "icon": "sdg9.svg"
         },
         {
           "@type": "SDG10",
           "title": "SDG10 – Reduced Inequalities",
-          "icon": "sdg10.svg",
-          "selected": "false"
+          "icon": "sdg10.svg"
         },
         {
           "@type": "SDG11",
           "title": "SDG11 – Sustainable Cities and Coummunities",
-          "icon": "sdg11.svg",
-          "selected": "false"
+          "icon": "sdg11.svg"
         },
         {
           "@type": "SDG12",
           "title": "SDG12 – Responsible Consumption and Production",
-          "icon": "sdg12.svg",
-          "selected": "false"
+          "icon": "sdg12.svg"
         },
         {
           "@type": "SDG13",
           "title": "SDG13 – Climate Action",
-          "icon": "sdg13.svg",
-          "selected": "false"
+          "icon": "sdg13.svg"
         },
         {
           "@type": "SDG14",
           "title": "SDG14 – Life Below Water",
-          "icon": "sdg14.svg",
-          "selected": "false"
+          "icon": "sdg14.svg"
         },
         {
           "@type": "SDG15",
           "title": "SDG15 – Life on Land",
-          "icon": "sdg15.svg",
-          "selected": "false"
+          "icon": "sdg15.svg"
         },
         {
           "@type": "SDG16",
           "title": "SDG16 – Peace, Justice and Strong Institutions",
-          "icon": "sdg16.svg",
-          "selected": "false"
+          "icon": "sdg16.svg"
         },
         {
           "@type": "SDG17",
           "title": "SDG17 – Partnerships for Goals",
-          "icon": "sdg17.svg",
-          "selected": "false"
+          "icon": "sdg17.svg"
         }
       ]
     },
@@ -426,44 +357,37 @@
         {
           "@type": "Proposal",
           "title": "Proposal",
-          "icon": "proposal.svg",
-          "selected": "false"
+          "icon": "proposal.svg"
         },
         {
           "@type": "Planning",
           "title": "Planning",
-          "icon": "planning.svg",
-          "selected": "false"
+          "icon": "planning.svg"
         },
         {
           "@type": "Delivery",
           "title": "Delivery",
-          "icon": "delivery.svg",
-          "selected": "false"
+          "icon": "delivery.svg"
         },
         {
           "@type": "Paused",
           "title": "Paused",
-          "icon": "paused.svg",
-          "selected": "false"
+          "icon": "paused.svg"
         },
         {
           "@type": "Closing",
           "title": "Closing",
-          "icon": "closing.svg",
-          "selected": "false"
+          "icon": "closing.svg"
         },
         {
           "@type": "Ended",
           "title": "Ended",
-          "icon": "ended.svg",
-          "selected": "false"
+          "icon": "ended.svg"
         },
         {
           "@type": "Archived",
           "title": "Archived",
-          "icon": "archived.svg",
-          "selected": "false"
+          "icon": "archived.svg"
         }
       ]
     }
