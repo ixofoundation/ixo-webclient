@@ -9,6 +9,7 @@ export const initialState = {
   collateral: { amount: 0, denom: 'N/A' },
   totalSupply: { amount: 0, denom: 'N/A' },
   price: { amount: 0, denom: 'N/A' },
+  reserve: { amount: 0, denom: 'N/A' },
   alpha: 0,
   alphaDate: new Date(),
   trades: [],

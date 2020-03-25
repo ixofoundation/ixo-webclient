@@ -24,10 +24,7 @@ export default class HeaderItem extends Component<any> {
           <Price>
             {this.props.tokenType ? thousandSeparator(this.props.value) : '0%'}
           </Price>
-          <AdditionalInfo>
-            {thousandSeparator(this.props.value)}{' '}
-            {this.props.tokenType ? '' : '%'}
-          </AdditionalInfo>
+          <AdditionalInfo>{this.props.additionalInfo}</AdditionalInfo>
         </ValueContainer>
       </StyledHeaderItem>
     )
