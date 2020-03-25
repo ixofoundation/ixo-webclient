@@ -46,7 +46,7 @@ const SingleSDG = styled.a`
 `
 
 const HeroInner = styled.div`
-  padding-top: 40px;
+  padding-top: 45px;
   padding-bottom: 94px;
   position: relative;
   height: 100%;
