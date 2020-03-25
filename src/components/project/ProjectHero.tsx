@@ -45,8 +45,10 @@ const SingleSDG = styled.a`
 `
 
 const HeroInner = styled.div`
-  padding-top: 80px;
-  padding-bottom: 130px;
+  /* padding-top: 80px;
+  padding-bottom: 130px; */
+  padding-top: 40px;
+  padding-bottom: 94px;
   position: relative;
   height: 100%;
 
@@ -105,8 +107,8 @@ const Title = styled.h1`
 
 const Description = styled.p`
   color: white;
-  font-size: 16px;
-  margin-top: 10px;
+  font-size: 12px;
+  margin-top: 4px;
 `
 
 const AddClaim = styled(Link)`
