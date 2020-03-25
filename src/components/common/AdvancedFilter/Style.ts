@@ -381,7 +381,6 @@ export const MobileMenu = styled(Menu)`
   right: 0;
   bottom: 0;
   left: 0;
-  overflow-y: scroll;
   transition: all 0.5s ease;
   opacity: 0;
   background: #fff;
@@ -533,7 +532,7 @@ export const HeadingItem = styled.button`
 
 export const MobileFilterWrapper = styled.div`
   padding: 1.25rem;
-  min-height: calc(100% - 75px);
+  height: calc(100vh - 150px);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
