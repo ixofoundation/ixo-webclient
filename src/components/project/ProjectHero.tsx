@@ -109,6 +109,13 @@ const Description = styled.p`
   font-size: 12px;
   margin-top: 2px;
 `
+const HeaderText = styled.text`
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 16px;
+`
 
 const AddClaim = styled(Link)`
   color: white;
@@ -160,13 +167,6 @@ const SubNavItem = styled(NavLink).attrs({
     color: white;
     text-decoration: none;
   }
-`
-const HeaderTextMobile = styled.text`
-  font-family: Roboto;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 14px;
-  line-height: 16px;
 `
 
 export interface Props {
@@ -291,7 +291,7 @@ export const ProjectHero: React.SFC<Props> = ({
           <ColRight className="col-lg-4 col-sm-12">
             <MediaQuery maxWidth={`${deviceWidth.mobile}px`}>
               <p>
-                <HeaderTextMobile>
+                <HeaderText>
                   Created by{' '}
                   <text style={{ fontWeight: 'bold' }}>
                     {project.ownerName}{' '}
@@ -300,11 +300,11 @@ export const ProjectHero: React.SFC<Props> = ({
                   <text style={{ fontWeight: 'bold' }}>
                     {project.createdOn.split('T')[0]}
                   </text>
-                </HeaderTextMobile>
+                </HeaderText>
               </p>
             </MediaQuery>
             <MediaQuery minWidth={'577px'}>
-              <HeaderTextMobile>
+              <HeaderText>
                 <p>
                   <text style={{ fontWeight: 'bold' }}>Created: </text>
                   {project.createdOn.split('T')[0]}
@@ -315,14 +315,14 @@ export const ProjectHero: React.SFC<Props> = ({
                   <text style={{ fontWeight: 'bold' }}>By: </text>{' '}
                   {project.ownerName}{' '}
                 </p>
-              </HeaderTextMobile>
+              </HeaderText>
             </MediaQuery>
 
             <p>
-              <HeaderTextMobile>
+              <HeaderText>
                 <Location width="14" style={{ fontWeight: 'bold' }} />
                 {getCountryName(project.projectLocation)}
-              </HeaderTextMobile>
+              </HeaderText>
             </p>
           </ColRight>
         </div>
