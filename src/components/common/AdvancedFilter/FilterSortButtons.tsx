@@ -293,7 +293,7 @@ class FilterSortButtons extends React.Component<{}, State> {
                     >
                       Reset
                     </ResetButton>
-                    <ApplyButton>Apply</ApplyButton>
+                    <ApplyButton onClick={this.setId}>Apply</ApplyButton>
                   </ModalButtons>
                 </FilterModal>
               </ButtonWrapper>
