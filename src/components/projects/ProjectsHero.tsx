@@ -16,6 +16,9 @@ const ContainerInner = styled.div`
   > div {
     transition: transform 0.3s ease;
   }
+  @media (max-width: ${deviceWidth.mobile}px) {
+    padding-top: 16%;
+  }
 `
 
 const StatisticContainer = styled.div`
