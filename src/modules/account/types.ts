@@ -20,6 +20,7 @@ export interface AccountState {
   sequence: string
   orders: any[]
   balances: Currency[]
+  loginStatusCheckCompleted: boolean
 }
 
 export enum AccountActions {
