@@ -43,6 +43,7 @@ export interface Props {
   onKeysafeInit: () => void
   onUpdateLoginStatus: () => void
   onWeb3Connect: () => void
+  loginStatusCheckCompleted: boolean
 }
 
 class App extends React.Component<Props, State> {
@@ -115,7 +116,9 @@ class App extends React.Component<Props, State> {
             />
             <ToastContainer hideProgressBar={true} />
             <ContentWrapper>
-              {this.props.ixo !== null ? (
+              {(this.props.ixo !== null &&
+                this.props.loginStatusCheckCompleted) ||
+              (this.props.ixo !== null && !window['ixoKs']) ? (
                 <Routes />
               ) : (
                 <Spinner info={'Loading ixo.world...'} />
@@ -133,6 +136,7 @@ const mapStateToProps = (state: RootState): Record<string, any> => ({
   ixo: state.ixo.ixo,
   keysafe: state.keySafe.keysafe,
   userInfo: state.account.userInfo,
+  loginStatusCheckCompleted: state.account.loginStatusCheckCompleted,
 })
 
 const mapDispatchToProps = (dispatch: any): any => ({
