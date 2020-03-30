@@ -308,7 +308,6 @@ export const ProjectHero: React.SFC<Props> = ({
                 <p>
                   <text style={{ fontWeight: 'bold' }}>Created: </text>
                   {project.createdOn.split('T')[0]}
-                  {console.log(project.createdOn.split(' ')[0])}
                 </p>
 
                 <p>
