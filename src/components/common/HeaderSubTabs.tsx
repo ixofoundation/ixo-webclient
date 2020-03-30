@@ -16,10 +16,6 @@ const PositionController = styled.div`
     right: 190px;
     transform: none;
   }
-  @media (max-width: ${deviceWidth.mobile}px) {
-    left: 55%;
-    top: 2.7rem;
-  }
 `
 
 export interface Props {
