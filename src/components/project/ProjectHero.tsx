@@ -267,7 +267,7 @@ export const ProjectHero: React.SFC<Props> = ({
               {handleSwitchDescription()}
               <Title>{project.title}</Title>
             </MediaQuery>
-            <MediaQuery minWidth={'577px'}>
+            <MediaQuery minWidth={`${deviceWidth.mobile}px`}>
               <Title>{project.title}</Title>
               {handleSwitchDescription()}
             </MediaQuery>
@@ -303,7 +303,7 @@ export const ProjectHero: React.SFC<Props> = ({
                 </HeaderText>
               </p>
             </MediaQuery>
-            <MediaQuery minWidth={'577px'}>
+            <MediaQuery minWidth={`${deviceWidth.mobile}px`}>
               <HeaderText>
                 <p>
                   <text style={{ fontWeight: 'bold' }}>Created: </text>
