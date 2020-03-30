@@ -78,7 +78,7 @@ export default class Search extends React.Component<Props> {
         return <People fill="#000" />
       case 'oracle':
         return <Oracle fill="#000" />
-      case 'template':
+      case 'templates':
         return <Template fill="#000" />
       case 'marketplace':
         return <Marketplace fill="#000" />
@@ -160,8 +160,8 @@ export default class Search extends React.Component<Props> {
                     Impact Oracles
                   </SearchFilterButton>
                   <SearchFilterButton className="disabled">
-                    <div>{this.renderFilterButtonIcon('template')}</div>
-                    Template
+                    <div>{this.renderFilterButtonIcon('templates')}</div>
+                    Templates
                   </SearchFilterButton>
                   <SearchFilterButton className="disabled">
                     <div>{this.renderFilterButtonIcon('marketplace')}</div>
