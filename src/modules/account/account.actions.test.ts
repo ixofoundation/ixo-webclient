@@ -108,49 +108,6 @@ describe('Account Actions', () => {
     })
   })
 
-  describe('getOrders', () => {
-    it('should return data on success', async () => {
-      const orders = [{ someprop: 'someval1' }, { someprop: 'someval2' }]
-
-      mockAxios.spread.mockReturnValue(() => {
-        return { orders: [{ someprop: 'someval1' }, { someprop: 'someval2' }] }
-      })
-
-      // when ... we call the getOrders action creator
-      await store.dispatch(SUT.getOrders())
-      const actions = store.getActions()
-
-      // then we should expect it to create actions with the correct types and payload
-      expect.assertions(3)
-      expect(actions[0].type).toEqual(AccountActions.GetOrdersPending)
-      expect(actions[1].type).toEqual(AccountActions.GetOrdersSuccess)
-      expect(actions[1].payload.orders).toEqual(orders)
-    })
-
-    it('should return an error on failure', async () => {
-      const error = 'some-error'
-      mockAxios.all.mockImplementationOnce(() =>
-        Promise.reject({
-          error,
-        }),
-      )
-
-      // when ... we call the getOrders action creator
-
-      try {
-        await store.dispatch(SUT.getOrders())
-      } catch {
-        const actions = store.getActions()
-
-        // then we should expect it to create actions with the correct types and payload
-        expect.assertions(3)
-        expect(actions[0].type).toEqual(AccountActions.GetOrdersPending)
-        expect(actions[1].type).toEqual(AccountActions.GetOrdersFailure)
-        expect(actions[1].payload.error).toEqual(error)
-      }
-    })
-  })
-
   // TODO
   /*   describe.only('updateLoginStatus', () => {
     it('should dispatch a login action if logged in to keysafe', async () => {
