@@ -73,7 +73,7 @@ class BondsHero extends React.Component<Props, {}> {
               Togo water project
             </BondsHeroHeading>
           </MediaQuery>
-          <MediaQuery minWidth={'577px'}>
+          <MediaQuery minWidth={`${deviceWidth.mobile}px`}>
             <BondsHeroHeading>
               <StatusIndicator className="active" />
               Togo water project
