@@ -26,10 +26,7 @@ export const getBalances = (bondDid: string) => (
     },
   )
   const reserveRequest = Axios.get(
-    process.env.REACT_APP_BLOCKCHAIN_NODE_URL +
-      '/bonds/' +
-      symbol +
-      '/current_reserve',
+    `${process.env.REACT_APP_GAIA_URL}/bonds/${bondDid}/current_reserve`,
     {
       transformResponse: [
         (response: string): any => {
@@ -48,6 +45,7 @@ export const getBalances = (bondDid: string) => (
         const reserve = responses[2].data
 
         return {
+          bondDid,
           symbol: bond.token,
           name: bond.name,
           address: bond.feeAddress,
