@@ -2,14 +2,13 @@ import { BondActions } from './types'
 import { BondState, BondActionTypes } from './types'
 
 export const initialState = {
-  symbol: 'token1',
-  name: 'N/A',
-  address: 'N/A',
+  symbol: '',
+  name: '',
+  address: '',
   type: '',
-  collateral: { amount: 0, denom: 'N/A' },
-  totalSupply: { amount: 0, denom: 'N/A' },
-  price: { amount: 0, denom: 'N/A' },
-  reserve: { amount: 0, denom: 'N/A' },
+  collateral: { amount: 0, denom: '' },
+  totalSupply: { amount: 0, denom: '' },
+  price: { amount: 0, denom: '' },
   alpha: 0,
   alphaDate: new Date(),
   trades: [],

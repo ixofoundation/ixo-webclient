@@ -30,7 +30,7 @@ export const getAccount = (address: string) => (
   return dispatch({
     type: AccountActions.GetAccount,
     payload: Axios.get(
-      process.env.REACT_APP_BLOCKCHAIN_NODE_URL + '/auth/accounts/' + address,
+      process.env.REACT_APP_GAIA_URL + '/auth/accounts/' + address,
       {
         transformResponse: [
           (response: string): any => {
@@ -48,9 +48,14 @@ export const getAccount = (address: string) => (
   })
 }
 
-export const getOrders = (address: string) => (
+export const getOrders = () => (
   dispatch: Dispatch,
+  getState: () => RootState,
 ): GetOrdersAction => {
+  const {
+    account: { address },
+  } = getState()
+
   const config = {
     transformResponse: [
       (response: string): any => {

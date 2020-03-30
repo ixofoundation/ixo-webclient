@@ -4,14 +4,260 @@
   "categories": [
     {
       "@type": "Category",
-      "title": "Type",
+      "title": "Project Type",
       "tags": [
         {
-          "@type": "Index",
+          "@type": "IndexProject",
           "title": "Index",
           "icon": "index.svg"
+        },
+        {
+          "@type": "AccreditationProject",
+          "title": "Accreditation",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "AccountabilityProject",
+          "title": "Accountability",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "BehaviourChangeProject",
+          "title": "Behaviour Change",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "BiodiversityProject",
+          "title": "Biodiversity",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "CirculareconomyProject",
+          "title": "Circular Economy",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "CivicactionProject",
+          "title": "Civic Action",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "ClimateMitigationProject",
+          "title": "Climate Mitigation",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "ClimateAdaptationtProject",
+          "title": "Climate Adaptation",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "ClinicalTrialProject",
+          "title": "Clinical Trial",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "CommunityCurrencyProject",
+          "title": "Community Currency",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "CommunityDevelopmentProject",
+          "title": "Community Development",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "CommonsProject",
+          "title": "Commons",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "ConservationProject",
+          "title": "Conservation",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "Covid19Project",
+          "title": "Covid-19",
+          "icon": "covid.svg"
+        },
+        {
+          "@type": "DecarbonisationProject",
+          "title": "Decarbonisation",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "DisasterResponseProject",
+          "title": "Disaster Response",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "EcologicalRegenerationProject",
+          "title": "Ecological Regeneration",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "EducationAwarenessProject",
+          "title": "Education & Awareness",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "EnterpriseDevelopmentProject",
+          "title": "Enterprise Development",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "EnvironmentalProtectionProject",
+          "title": "Environmental Protection",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "EpidemicResponseProject",
+          "title": "Epidemic Response",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "ESGProject",
+          "title": "ESG",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "GovernanceProject",
+          "title": "Governance",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "GreenbondProject",
+          "title": "Green Bond",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "IdentityProject",
+          "title": "Identity",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "ImpactInvestmentProject",
+          "title": "Impact Investment",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "InsuranceBondProject",
+          "title": "Insurance Bond",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "IntelligencegatheringProject",
+          "title": "Intelligence-gathering",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "MicrofinanceProject",
+          "title": "Microfinance",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "Project",
+          "title": "Immune Cell",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "NeedsAssessmentProject",
+          "title": "Needs Assessment",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "OpinionSurveyProject",
+          "title": "Opinion Survey",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "OracleProject",
+          "title": "Oracle Development",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "PollutionProject",
+          "title": "Pollution Control",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "RecyclingProject",
+          "title": "Recycling",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "ReforestationProject",
+          "title": "Reforestation",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "RefugeeSupportProject",
+          "title": "Refugee Support",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "RenewableEnergyProject",
+          "title": "Renewable Energy",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "ResearchDevelopmentProject",
+          "title": "Research & Development",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "SkillsDevelopmentProject",
+          "title": "Skills Development",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "SocialFinanceProject",
+          "title": "Social Finance",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "SocialInnovationProject",
+          "title": "Social Innovation",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "SustainableCapitalProject",
+          "title": "Sustainable Capital",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "SustainableConsumptionProject",
+          "title": "Sustainable Consumption",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "SustainableInfrastructureProject",
+          "title": "Sustainable Infrastructure",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "SustainableSupplyChainProject",
+          "title": "Sustainable Supply Chain",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "UniversalBasicIncomeProject",
+          "title": "Universal Basic Income",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "WasteReductionProject",
+          "title": "Waste Reduction",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "WaterMarineProject",
+          "title": "Water & Marine",
+          "icon": "tag.svg"
         }
-      ]
+      ],
+      "selectedTags": ["Index"]
     },
     {
       "@type": "Category",
