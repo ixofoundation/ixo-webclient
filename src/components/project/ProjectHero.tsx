@@ -7,6 +7,7 @@ import { MatchType, AgentRoles } from '../../types/models'
 import * as instanceSettings from '../../instance-settings'
 import HeaderSubTabs from '../common/HeaderSubTabs'
 import Location from '../../assets/icons/Location'
+import MediaQuery from 'react-responsive'
 
 const SingleSDG = styled.a`
   &&& {
@@ -45,8 +46,8 @@ const SingleSDG = styled.a`
 `
 
 const HeroInner = styled.div`
-  padding-top: 80px;
-  padding-bottom: 130px;
+  padding-top: 45px;
+  padding-bottom: 94px;
   position: relative;
   height: 100%;
 
@@ -94,7 +95,7 @@ const Title = styled.h1`
   font-size: 36px;
   font-weight: 200;
   line-height: 1;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
   font-family: ${/* eslint-disable-line */ props =>
     props.theme.fontRobotoCondensed};
 
@@ -105,8 +106,15 @@ const Title = styled.h1`
 
 const Description = styled.p`
   color: white;
-  font-size: 16px;
-  margin-top: 10px;
+  font-size: 12px;
+  margin-top: 2px;
+`
+const HeaderText = styled.text`
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 16px;
 `
 
 const AddClaim = styled(Link)`
@@ -130,7 +138,7 @@ const AddClaim = styled(Link)`
 `
 
 const SubTextContainer = styled.div`
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 
   @media (min-width: ${deviceWidth.desktop}px) {
     margin-bottom: 0;
@@ -255,8 +263,15 @@ export const ProjectHero: React.SFC<Props> = ({
       <HeroInner className={`container ${isDetail && 'detailed'}`}>
         <div className="row">
           <ColLeft className="col-lg-8 col-sm-12">
-            <Title>{project.title}</Title>
-            {handleSwitchDescription()}
+            <MediaQuery maxWidth={`${deviceWidth.mobile}px`}>
+              {handleSwitchDescription()}
+              <Title>{project.title}</Title>
+            </MediaQuery>
+            <MediaQuery minWidth={`${deviceWidth.mobile}px`}>
+              <Title>{project.title}</Title>
+              {handleSwitchDescription()}
+            </MediaQuery>
+
             {!isDetail && <Description>{project.shortDescription}</Description>}
             {!isDetail && hasCapability([AgentRoles.serviceProviders]) && (
               <AddClaim
@@ -274,15 +289,40 @@ export const ProjectHero: React.SFC<Props> = ({
             )}
           </ColLeft>
           <ColRight className="col-lg-4 col-sm-12">
+            <MediaQuery maxWidth={`${deviceWidth.mobile}px`}>
+              <p>
+                <HeaderText>
+                  Created by{' '}
+                  <text style={{ fontWeight: 'bold' }}>
+                    {project.ownerName}{' '}
+                  </text>{' '}
+                  <text style={{ fontWeight: 'bold', fontSize: 15 }}>·</text>{' '}
+                  <text style={{ fontWeight: 'bold' }}>
+                    {project.createdOn.split('T')[0]}
+                  </text>
+                </HeaderText>
+              </p>
+            </MediaQuery>
+            <MediaQuery minWidth={`${deviceWidth.mobile}px`}>
+              <HeaderText>
+                <p>
+                  <text style={{ fontWeight: 'bold' }}>Created: </text>
+                  {project.createdOn.split('T')[0]}
+                  {console.log(project.createdOn.split(' ')[0])}
+                </p>
+
+                <p>
+                  <text style={{ fontWeight: 'bold' }}>By: </text>{' '}
+                  {project.ownerName}{' '}
+                </p>
+              </HeaderText>
+            </MediaQuery>
+
             <p>
-              <strong>Created:</strong> {project.createdOn.split('T')[0]}
-            </p>
-            <p>
-              <strong>By:</strong> {project.ownerName}
-            </p>
-            <p>
-              <Location width="14" />
-              {getCountryName(project.projectLocation)}
+              <HeaderText>
+                <Location width="14" style={{ fontWeight: 'bold' }} />
+                {getCountryName(project.projectLocation)}
+              </HeaderText>
             </p>
           </ColRight>
         </div>

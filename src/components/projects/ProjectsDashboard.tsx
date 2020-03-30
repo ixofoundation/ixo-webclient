@@ -8,8 +8,6 @@ import { CircleProgressbar } from '../../common/components/Widgets/CircleProgres
 import { WorldMap } from '../../common/components/Widgets/WorldMap/WorldMap'
 import { isoCountriesLatLng } from '../../lib/commonData'
 
-// import { deviceWidth } from '../../lib/commonData';
-
 const Container = styled.div`
   color: white;
   flex: 1 1 auto;
