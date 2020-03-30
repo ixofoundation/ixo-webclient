@@ -172,6 +172,16 @@ class FilterSortButtons extends React.Component<{}, State> {
       : category
   }
 
+  mobileFilterText = (): string => {
+    let totalFilters = 0
+    this.state.categorySelections.forEach(category => {
+      totalFilters += category.tags.length
+    })
+    const buttonText =
+      totalFilters > 0 ? `Filters - ${totalFilters}` : 'Filters'
+    return buttonText
+  }
+
   resetFilters = (): void => {
     this.setState({
       categorySelections: this.initialCategorySelections,
@@ -500,7 +510,7 @@ class FilterSortButtons extends React.Component<{}, State> {
 
             <BurgerMenuButton onClick={this.toggleMobileFilters}>
               <Filter fill="#000" />
-              Filters
+              {this.mobileFilterText()}
             </BurgerMenuButton>
             <MediaQuery minWidth={'577px'}>
               <Menu>{this.getDesktopFilterButtons(true)}</Menu>
