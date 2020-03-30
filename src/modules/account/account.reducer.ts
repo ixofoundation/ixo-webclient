@@ -7,6 +7,7 @@ export const initialState: AccountState = {
   sequence: null,
   balances: [],
   orders: [],
+  loginStatusCheckCompleted: false,
 }
 
 export const reducer = (
@@ -19,6 +20,7 @@ export const reducer = (
         ...state,
         userInfo: action.payload.userInfo,
         address: action.payload.address,
+        loginStatusCheckCompleted: true,
       }
     case AccountActions.GetAccountSuccess:
       return {
@@ -33,7 +35,7 @@ export const reducer = (
         orders: [...action.payload.orders],
       }
     case AccountActions.Logout:
-      return { ...initialState }
+      return { ...initialState, loginStatusCheckCompleted: true }
   }
 
   return state
