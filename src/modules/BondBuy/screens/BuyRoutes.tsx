@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import { RootState } from '../../../common/redux/types'
 import { connect } from 'react-redux'
 import { BrowserRouter, Route, Redirect } from 'react-router-dom'
-import QuoteBuy from './QuoteBuy'
-import ConfirmBuy from './ConfirmBuy'
+import QuoteBuy from './EnterBuyOrder'
+import ConfirmBuy from './ConfirmBuyOrder'
 
 class Buy extends Component<any> {
   render(): JSX.Element {

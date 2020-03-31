@@ -1,23 +1,23 @@
-import React from 'react'
+import React, { Dispatch } from 'react'
 import useForm from 'react-hook-form'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { RootState } from '../../../common/redux/types'
-import { buy } from '../../quote/quote.actions'
+import { getQuote } from '../BondBuy.actions'
 import { currencyStr, tokenBalance } from '../../account/account.utils'
+import { Currency } from 'src/types/models'
 
-const QuoteBuy = (props: any): JSX.Element => {
+const EnterBuyOrderScreen = (props: any): JSX.Element => {
   const { register, handleSubmit, watch, errors } = useForm()
 
   const onSubmit = (formData: any): void => {
-    const sending = { denom: formData.denom }
     const receiving = {
       amount: formData.amount,
       denom: props.activeBond.symbol,
     }
     const maxPrices = [{ denom: formData.denom, amount: formData.maxAmount }]
 
-    props.dispatch(buy(sending, receiving, maxPrices))
+    props.handleGetQuote(receiving, maxPrices)
   }
 
   if (props.activeQuote.quotePending) {
@@ -120,4 +120,12 @@ const mapStateToProps = (state: RootState): RootState => {
   return state
 }
 
-export default connect(mapStateToProps)(withRouter(QuoteBuy))
+const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
+  handleGetQuote: (receiving: Currency, maxPrices: Currency[]): void =>
+    dispatch(getQuote(receiving, maxPrices)),
+})
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(withRouter(EnterBuyOrderScreen))

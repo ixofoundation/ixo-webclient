@@ -89,40 +89,23 @@ export const confirmBuy = () => (
       return dispatch({
         type: QuoteActions.Confirm,
         payload: Axios.post(
-          `${process.env.REACT_APP_GAIA_URL}/bonds/buy`,
-          JSON.stringify({
-            base_req: {
-              from: address,
-              chain_id: process.env.REACT_APP_CHAIN_ID,
-            },
-            bond_token: symbol,
-            bond_amount: activeQuote.receiving!.amount,
-            max_prices: activeQuote
-              .maxPrices!.map((maxPrice: Currency) =>
-                currencyStr(maxPrice, false),
-              )
-              .join(','),
-          }),
-        ).then(() => {
-          Axios.post(
-            `${process.env.REACT_APP_GAIA_URL}/txs`,
-            JSON.stringify(
-              signingUtils.signBuyTx(quoteBuyPayload, signature, pubKey),
-            ),
-          ).then(response => {
-            if (!response.data.logs[0].success) {
-              toast('Sale failed. Please try again.', {
+          `${process.env.REACT_APP_GAIA_URL}/txs`,
+          JSON.stringify(
+            signingUtils.signBuyTx(quoteBuyPayload, signature, pubKey),
+          ),
+        ).then(response => {
+          if (!response.data.logs[0].success) {
+            toast('Sale failed. Please try again.', {
+              position: toast.POSITION.BOTTOM_LEFT,
+            })
+          } else {
+            toast(
+              'Transaction submitted. Check its status in the orders tab.',
+              {
                 position: toast.POSITION.BOTTOM_LEFT,
-              })
-            } else {
-              toast(
-                'Transaction submitted. Check its status in the orders tab.',
-                {
-                  position: toast.POSITION.BOTTOM_LEFT,
-                },
-              )
-            }
-          })
+              },
+            )
+          }
         }),
       })
     },
