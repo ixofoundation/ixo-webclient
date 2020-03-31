@@ -80,6 +80,7 @@ describe('Account Reducer', () => {
         balances: [{ amount: 1, denom: 'sometoken' }],
         sequence: '123',
         accountNumber: '0123456',
+        loginStatusCheckCompleted: true,
       }
 
       // ... we create a resetUserInfo action
@@ -91,7 +92,10 @@ describe('Account Reducer', () => {
       const state = SUT.reducer(mockState, action)
 
       // then the state should be reset
-      expect(state).toEqual(initialState)
+      expect(state).toEqual({
+        ...initialState,
+        loginStatusCheckCompleted: true,
+      })
     })
   })
 

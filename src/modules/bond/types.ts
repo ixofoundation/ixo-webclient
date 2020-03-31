@@ -1,6 +1,7 @@
 import { Currency } from '../../types/models'
 
 export interface BondState {
+  bondDid: string
   symbol: string
   name?: string
   address?: string
@@ -8,6 +9,7 @@ export interface BondState {
   collateral?: Currency
   totalSupply?: Currency
   price?: Currency
+  reserve?: Currency
   trades: {}[]
   alpha?: number
   alphaDate?: Date
@@ -32,6 +34,7 @@ export interface GetBalancesAction {
 export interface GetBalancesSuccessAction {
   type: typeof BondActions.GetBalancesSuccess
   payload: {
+    bondDid: string
     symbol: string
     name: string
     address: string
@@ -39,6 +42,7 @@ export interface GetBalancesSuccessAction {
     collateral: Currency
     totalSupply: Currency
     price: Currency
+    reserve: Currency
     alpha: 0
     alphaDate: Date
   }

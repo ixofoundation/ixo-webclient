@@ -2,6 +2,8 @@ import * as React from 'react'
 import { withRouter } from 'react-router-dom'
 import HeaderSubTabs from '../../../../components/common/HeaderSubTabs'
 import Location from '../../../../assets/icons/Location'
+import MediaQuery from 'react-responsive'
+import { deviceWidth } from '../../../../lib/commonData'
 import {
   BondsHeroHeading,
   HeroContainer,
@@ -57,18 +59,34 @@ class BondsHero extends React.Component<Props, {}> {
           ]}
         />
         <StatisticContainer className="title-section">
-          <BondsHeroHeading>
-            <StatusIndicator className="active" />
-            Togo water project
-          </BondsHeroHeading>
-          <OutcomeWrapper>
-            {this.outcomes.map(outcome => (
-              <Outcome key={outcome.title}>
-                <i className={outcome.iconClass}></i>
-                {outcome.title}
-              </Outcome>
-            ))}
-          </OutcomeWrapper>
+          <MediaQuery maxWidth={`${deviceWidth.mobile}px`}>
+            <OutcomeWrapper>
+              {this.outcomes.map(outcome => (
+                <Outcome key={outcome.title}>
+                  <i className={outcome.iconClass}></i>
+                  {outcome.title}
+                </Outcome>
+              ))}
+            </OutcomeWrapper>
+            <BondsHeroHeading>
+              <StatusIndicator className="active" />
+              Togo water project
+            </BondsHeroHeading>
+          </MediaQuery>
+          <MediaQuery minWidth={`${deviceWidth.mobile}px`}>
+            <BondsHeroHeading>
+              <StatusIndicator className="active" />
+              Togo water project
+            </BondsHeroHeading>
+            <OutcomeWrapper>
+              {this.outcomes.map(outcome => (
+                <Outcome key={outcome.title}>
+                  <i className={outcome.iconClass}></i>
+                  {outcome.title}
+                </Outcome>
+              ))}
+            </OutcomeWrapper>
+          </MediaQuery>
         </StatisticContainer>
         <StatisticContainer className="description-section">
           <div>

@@ -211,7 +211,9 @@ class FilterSortButtons extends React.Component<{}, State> {
       startDate: null,
       endDate: null,
     })
+    this.toggleShowDatePicker()
   }
+
   resetDateDisplay = (): void => {
     this.setState({
       startDateDisplay: null,
@@ -303,7 +305,7 @@ class FilterSortButtons extends React.Component<{}, State> {
                     >
                       Reset
                     </ResetButton>
-                    <ApplyButton>Apply</ApplyButton>
+                    <ApplyButton onClick={this.setId}>Apply</ApplyButton>
                   </ModalButtons>
                 </FilterModal>
               </ButtonWrapper>
