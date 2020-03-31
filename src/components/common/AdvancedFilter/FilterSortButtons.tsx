@@ -57,7 +57,7 @@ interface State {
   mobileDatesMenuOpen: boolean
 }
 
-class FilterSortButtons extends React.Component<{}, State> {
+class ProjectsFilter extends React.Component<{}, State> {
   initialCategorySelections = schema.categories.map(category => ({
     category: category.title,
     tags:
@@ -541,4 +541,4 @@ class FilterSortButtons extends React.Component<{}, State> {
     )
   }
 }
-export default FilterSortButtons
+export default ProjectsFilter

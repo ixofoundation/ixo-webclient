@@ -9,7 +9,7 @@ import * as Toast from '../helpers/Toast'
 import { contentType } from '../../types/models'
 import { UserInfo } from '../../modules/account/types'
 import { ProjectsDashboard } from './ProjectsDashboard'
-import FilterSortButtons from '../common/AdvancedFilter/FilterSortButtons'
+import ProjectsFilter from '../common/AdvancedFilter/FilterSortButtons'
 import { deviceWidth } from '../../lib/commonData'
 
 const Container = styled.div`
@@ -205,7 +205,7 @@ export class Projects extends React.Component<Props, State> {
       return (
         <ProjectsContainer className="container-fluid">
           <div className="container">
-            <FilterSortButtons />
+            <ProjectsFilter />
             <div className="row row-eq-height">
               {projects.map((project, index) => {
                 return (
