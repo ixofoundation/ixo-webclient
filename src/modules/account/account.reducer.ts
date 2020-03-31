@@ -6,7 +6,6 @@ export const initialState: AccountState = {
   accountNumber: null,
   sequence: null,
   balances: [],
-  orders: [],
   loginStatusCheckCompleted: false,
 }
 
@@ -28,11 +27,6 @@ export const reducer = (
         balances: action.payload.balances,
         accountNumber: action.payload.accountNumber,
         sequence: action.payload.sequence,
-      }
-    case AccountActions.GetOrdersSuccess:
-      return {
-        ...state,
-        orders: [...action.payload.orders],
       }
     case AccountActions.Logout:
       return { ...initialState, loginStatusCheckCompleted: true }

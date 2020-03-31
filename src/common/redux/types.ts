@@ -11,6 +11,7 @@ export interface RootState {
   web3: any
   activeQuote: QuoteState
   account: AccountState
+  bondAccountOrders: any[]
   activeBond: BondState
   tokenSupply: Currency[]
 }
