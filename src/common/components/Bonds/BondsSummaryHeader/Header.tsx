@@ -61,7 +61,7 @@ class Header extends Component<any> {
         ></HeaderItem>
         <HeaderItem
           tokenType={activeBond.symbol}
-          title="My Token"
+          title="My Tokens"
           value={balance.amount}
           additionalInfo="--"
         ></HeaderItem>
