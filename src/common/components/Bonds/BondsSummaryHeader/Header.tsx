@@ -42,32 +42,43 @@ class Header extends Component<any> {
 
   render(): JSX.Element {
     const { activeBond } = this.props
-    const activeSymbol = activeBond.symbol
     const balance = tokenBalance(this.props.account.balances, activeBond.symbol)
+    const bondCapitalInfo = `${(activeBond.collateral.amount /
+      activeBond.totalSupply.amount || 0) * 100}% of Bond cap`
+    const reserveInfo = `${(activeBond.reserve.amount /
+      activeBond.totalSupply.amount || 0) * 100}% of Capital raise`
 
     return (
       <StyledHeader>
         <HeaderItem
+          tokenType={activeBond.price.denom}
+          title="Token Price"
+          value={activeBond.price.amount}
+          additionalInfo="--"
+        ></HeaderItem>
+        <HeaderItem
+          tokenType={activeBond.symbol}
           title="My Tokens"
           value={balance.amount}
-          tokenType={activeSymbol}
+          additionalInfo="--"
         ></HeaderItem>
         <HeaderItem
-          title="Token Supply"
-          value={activeBond.collateral.amount}
-          tokenType={activeBond.collateral.denom}
-        ></HeaderItem>
-        <HeaderItem
-          title="Price"
-          value={activeBond.price.amount}
-          tokenType={activeBond.price.denom}
-        ></HeaderItem>
-        <HeaderItem
-          title="Reserve Pool"
-          value={activeBond.totalSupply.amount}
           tokenType={activeBond.totalSupply.denom}
+          title="Bond Capital"
+          value={activeBond.collateral.amount}
+          additionalInfo={bondCapitalInfo}
         ></HeaderItem>
-        <HeaderItem title="Alpha" value={activeBond.alpha}></HeaderItem>
+        <HeaderItem
+          tokenType={activeBond.reserve.denom}
+          title="Bond Reserve"
+          value={activeBond.reserve.amount}
+          additionalInfo={reserveInfo}
+        ></HeaderItem>
+        <HeaderItem
+          title="Bond Yield"
+          value="--"
+          additionalInfo="--"
+        ></HeaderItem>
       </StyledHeader>
     )
   }

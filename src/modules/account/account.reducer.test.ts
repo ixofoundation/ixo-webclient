@@ -5,7 +5,6 @@ import {
   LoginAction,
   LogoutAction,
   GetAccountSuccessAction,
-  GetOrdersSuccessAction,
 } from './types'
 
 const initialState = SUT.initialState
@@ -53,7 +52,6 @@ describe('Account Reducer', () => {
       const state = SUT.reducer(
         {
           ...initialState,
-          orders: [{ someprop: 'someval' }],
           balances: [{ amount: 1, denom: 'sometoken' }],
         },
         action,
@@ -76,7 +74,6 @@ describe('Account Reducer', () => {
           hasKYC: true,
         },
         address: 'abc',
-        orders: [{ someprop: 'someval' }],
         balances: [{ amount: 1, denom: 'sometoken' }],
         sequence: '123',
         accountNumber: '0123456',
@@ -130,39 +127,6 @@ describe('Account Reducer', () => {
         balances,
         accountNumber,
         sequence,
-      })
-    })
-  })
-
-  describe('GetOrdersSuccess Action', () => {
-    it('should return a new copy of state, with the balances set', () => {
-      const orders = [
-        { id: 1, prop1: 'value1' },
-        { id: 2, prop1: 'value2' },
-        { id: 3, prop1: 'value3' },
-        { id: 4, prop1: 'value1' },
-        { id: 5, prop1: 'value2' },
-        { id: 6, prop1: 'value3' },
-        { id: 7, prop1: 'value1' },
-        { id: 8, prop1: 'value2' },
-        { id: 9, prop1: 'value3' },
-      ]
-
-      // ... we create a getBalances action
-      const action: GetOrdersSuccessAction = {
-        type: AccountActions.GetOrdersSuccess,
-        payload: {
-          orders,
-        },
-      }
-
-      // when ... we run the reducer and pass it our initial state and this action
-      const state = SUT.reducer(initialState, action)
-
-      // then the state should be set as expected
-      expect(state).toEqual({
-        ...initialState,
-        orders,
       })
     })
   })

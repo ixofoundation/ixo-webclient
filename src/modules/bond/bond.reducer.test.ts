@@ -27,6 +27,7 @@ describe('Bond Reducer', () => {
       ]
 
       const balances = {
+        bondDid: 'someBondDid',
         symbol: 'sometoken',
         name: 'somename',
         address: 'someaddress',
@@ -34,6 +35,7 @@ describe('Bond Reducer', () => {
         collateral: { denom: 'a', amount: 1 },
         totalSupply: { denom: 'a', amount: 100 },
         price: { denom: 'a', amount: 200 },
+        reserve: { denom: 'a', amount: 200 },
         alpha: 0,
         alphaDate: new Date(),
         trades: [],
@@ -43,6 +45,7 @@ describe('Bond Reducer', () => {
       const action: GetBalancesSuccessAction = {
         type: BondActions.GetBalancesSuccess,
         payload: {
+          bondDid: 'someBondDid',
           symbol: 'sometoken',
           name: 'somename',
           address: 'someaddress',
@@ -50,6 +53,7 @@ describe('Bond Reducer', () => {
           collateral: { denom: 'a', amount: 1 },
           totalSupply: { denom: 'a', amount: 100 },
           price: { denom: 'a', amount: 200 },
+          reserve: { denom: 'a', amount: 200 },
           alpha: 0,
           alphaDate: new Date(),
         },
@@ -69,6 +73,7 @@ describe('Bond Reducer', () => {
       ]
 
       const balances = {
+        bondDid: 'someBondDid',
         symbol: 'sometoken',
         name: 'somename',
         address: 'someaddress',
@@ -76,6 +81,7 @@ describe('Bond Reducer', () => {
         collateral: { denom: 'a', amount: 1 },
         totalSupply: { denom: 'a', amount: 100 },
         price: { denom: 'a', amount: 200 },
+        reserve: { denom: 'a', amount: 200 },
         alpha: 0,
         alphaDate: new Date(),
         trades: [
@@ -88,6 +94,7 @@ describe('Bond Reducer', () => {
       const action: GetBalancesSuccessAction = {
         type: BondActions.GetBalancesSuccess,
         payload: {
+          bondDid: 'someBondDid',
           symbol: 'sometoken',
           name: 'somename',
           address: 'someaddress',
@@ -95,6 +102,7 @@ describe('Bond Reducer', () => {
           collateral: { denom: 'a', amount: 1 },
           totalSupply: { denom: 'a', amount: 100 },
           price: { denom: 'a', amount: 200 },
+          reserve: { denom: 'a', amount: 200 },
           alpha: 0,
           alphaDate: new Date(),
         },

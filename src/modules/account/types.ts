@@ -18,7 +18,6 @@ export interface AccountState {
   address: string
   accountNumber: string
   sequence: string
-  orders: any[]
   balances: Currency[]
   loginStatusCheckCompleted: boolean
 }
@@ -30,10 +29,6 @@ export enum AccountActions {
   GetAccountSuccess = 'ixo/Account/GET_ACCOUNT_FULFILLED',
   GetAccountPending = 'ixo/Account/GET_ACCOUNT_PENDING',
   GetAccountFailure = 'ixo/Account/GET_ACCOUNT_REJECTED',
-  GetOrders = 'ixo/Account/GET_ORDERS',
-  GetOrdersSuccess = 'ixo/Account/GET_ORDERS_FULFILLED',
-  GetOrdersPending = 'ixo/Account/GET_ORDERS_PENDING',
-  GetOrdersFailure = 'ixo/Account/GET_ORDERS_REJECTED',
 }
 
 export interface LoginAction {
@@ -62,22 +57,8 @@ export interface GetAccountSuccessAction {
   }
 }
 
-export interface GetOrdersAction {
-  type: typeof AccountActions.GetOrders
-  payload: Promise<any>
-}
-
-export interface GetOrdersSuccessAction {
-  type: typeof AccountActions.GetOrdersSuccess
-  payload: {
-    orders: any[]
-  }
-}
-
 export type AccountActionTypes =
   | LoginAction
   | LogoutAction
   | GetAccountAction
   | GetAccountSuccessAction
-  | GetOrdersAction
-  | GetOrdersSuccessAction

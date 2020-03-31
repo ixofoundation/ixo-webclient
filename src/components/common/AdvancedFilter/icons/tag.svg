@@ -1,18 +1,1 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?> <!-- Created with Vectornator for iOS (http://vectornator.io/) --><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg height="100%" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="100%" xmlns:vectornator="http://vectornator.io" version="1.1" viewBox="0 0 104.895 73.71">
-<metadata>
-<vectornator:setting key="DisplayWhiteBackground" value="0"/>
-<vectornator:setting key="RulersVisible" value="1"/>
-<vectornator:setting key="SnapToEdges" value="0"/>
-<vectornator:setting key="Units" value="Millimeters"/>
-<vectornator:setting key="DynamicGuides" value="0"/>
-<vectornator:setting key="SnapToPoints" value="0"/>
-<vectornator:setting key="SnapToGrid" value="0"/>
-<vectornator:setting key="SnapToGuides" value="1"/>
-<vectornator:setting key="GridSpacing" value="36"/>
-</metadata>
-<defs/>
-<g id="Layer 1" vectornator:layerName="Layer 1">
-<path d="M38.1937+36.1229C37.3695+36.1229+36.6937+36.7986+36.6937+37.6229L36.6937+43.6229C36.6937+44.4471+37.3695+45.1229+38.1937+45.1229L46.4047+45.1229C46.8031+45.1268+47.1859+44.9549+47.4633+44.6658L50.2718+41.6971C50.8383+41.0955+50.8383+40.1463+50.2718+39.5486L47.4633+36.5838C47.1898+36.2908+46.807+36.1229+46.4047+36.1229L38.1937+36.1229ZM38.1937+37.1229L46.4086+37.1229C46.5258+37.1229+46.6429+37.1697+46.7367+37.2713L49.5453+40.2361C49.7406+40.4432+49.7406+40.8026+49.5453+41.0096L46.7367+43.9783C46.6429+44.076+46.5258+44.1268+46.4086+44.1229L38.1937+44.1229C37.9164+44.1229+37.6937+43.9002+37.6937+43.6229L37.6937+37.6229C37.6937+37.3455+37.9164+37.1229+38.1937+37.1229ZM47.1937+40.1229C46.9164+40.1229+46.6937+40.3455+46.6937+40.6229C46.6937+40.9002+46.9164+41.1229+47.1937+41.1229C47.4711+41.1229+47.6937+40.9002+47.6937+40.6229C47.6937+40.3455+47.4711+40.1229+47.1937+40.1229Z" opacity="1" fill="#ffffff"/>
-</g>
-</svg>
+<svg viewBox="0 0 44 28" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2"><path d="M4.66 0C2.1 0 0 2.1 0 4.66v18.639c0 2.56 2.1 4.66 4.66 4.66h25.507c1.237.012 2.426-.523 3.287-1.42l8.726-9.223c1.758-1.867 1.758-4.819 0-6.673l-8.726-9.21A4.494 4.494 0 0030.167 0H4.66zm0 3.106h25.52c.363 0 .727.146 1.019.46l8.723 9.211c.608.643.608 1.761 0 2.404l-8.723 9.22c-.292.305-.656.463-1.02.45H4.66A1.548 1.548 0 013.108 23.3V4.659c0-.86.69-1.553 1.553-1.553zm27.958 9.32c-.863 0-1.553.693-1.553 1.553s.69 1.553 1.553 1.553a1.55 1.55 0 001.553-1.553 1.55 1.55 0 00-1.553-1.553z" fill="#fff"/></svg>

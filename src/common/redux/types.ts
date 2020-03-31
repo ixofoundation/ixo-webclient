@@ -13,6 +13,7 @@ export interface RootState {
   activeQuote: QuoteState
   bondBuy: BondBuyState
   account: AccountState
+  bondAccountOrders: any[]
   activeBond: BondState
   tokenSupply: Currency[]
 }

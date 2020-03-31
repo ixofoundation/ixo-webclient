@@ -2,7 +2,8 @@ import React, { Dispatch } from 'react'
 import 'react-virtualized/styles.css'
 import { connect } from 'react-redux'
 import { RootState } from '../../../common/redux/types'
-import { getOrders } from '../../account/account.actions'
+import { getBondAccountOrders } from '../BondAccountOrders.actions'
+import { selectBondAccountOrders } from '../BondAccountOrders.selectors'
 import TransactionsTable from '../../../common/components/Bonds/TransactionsTable/TransactionsTable'
 import BondsWrapper from '../../../common/components/Bonds/BondsWrapper/BondsWrapper'
 
@@ -27,11 +28,11 @@ class BondAccountOrdersScreen extends React.Component<Props> {
 }
 
 const mapStateToProps = (state: RootState): any => ({
-  orders: state.account.orders,
+  orders: selectBondAccountOrders(state),
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
-  handleGetOrders: (): void => dispatch(getOrders()),
+  handleGetOrders: (): void => dispatch(getBondAccountOrders()),
 })
 
 export default connect(
