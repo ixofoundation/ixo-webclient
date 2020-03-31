@@ -9,11 +9,15 @@ import Buy from '../../../../modules/BondBuy/screens/BuyRoutes'
 import Sell from '../../../../modules/BondSell/screens/Sell'
 import Swap from '../../../../modules/BondSwap/screens/Swap'
 import { BondsSectionNav } from './Exchange.styles'
+import { BondBuyActions } from 'src/modules/BondBuy/types'
 
 class Exchange extends Component<any> {
   componentDidMount(): void {
     this.props.dispatch({
       type: QuoteActions.QuoteFailure,
+    })
+    this.props.dispatch({
+      type: BondBuyActions.InitiateQuote,
     })
   }
 
@@ -36,7 +40,7 @@ class Exchange extends Component<any> {
           <BondsSectionNav>
             <NavLink
               to={
-                !this.props.activeQuote.transacting
+                !this.props.bondBuy.transacting
                   ? `/projects/${projectDID}/bonds/${bondDID}/exchange/`
                   : '#'
               }

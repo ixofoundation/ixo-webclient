@@ -63,7 +63,6 @@ export const confirmBuy = () => (
 ): ConfirmAction => {
   const {
     activeQuote,
-    activeBond: { symbol },
     account: {
       address,
       userInfo: {

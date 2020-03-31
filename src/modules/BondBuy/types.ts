@@ -1,12 +1,13 @@
 import { Currency } from '../../types/models'
 
 export interface BondBuyState {
-  totalPrices?: Currency[]
-  signPending: boolean
+  totalPrice?: Currency
   receiving?: Currency
-  actualPrices?: Currency[]
-  maxPrices?: Currency[]
-  totalFees?: Currency[]
+  actualPrice?: Currency
+  totalFee?: Currency
+  maxPrice?: Currency
+  txFees: Currency[]
+  signPending: boolean
   quotePending: boolean
   transacting: boolean
 }
@@ -19,7 +20,7 @@ export interface BondBuy {
 }
 
 export enum BondBuyActions {
-  Initiate = 'ixo/BondBuy/INITIATE_QUOTE',
+  InitiateQuote = 'ixo/BondBuy/INITIATE_QUOTE',
   GetQuote = 'ixo/BondBuy/GET_QUOTE',
   GetQuoteSuccess = 'ixo/BondBuy/GET_QUOTE_FULFILLED',
   GetQuotePending = 'ixo/BondBuy/GET_QUOTE_PENDING',
@@ -31,8 +32,8 @@ export enum BondBuyActions {
   Clear = 'ixo/BondBuy/CLEAR',
 }
 
-export interface InitiateAction {
-  type: typeof BondBuyActions.Initiate
+export interface InitiateQuoteAction {
+  type: typeof BondBuyActions.InitiateQuote
 }
 
 export interface GetQuoteAction {
@@ -52,12 +53,11 @@ export interface GetQuoteSuccessAction {
   type: typeof BondBuyActions.GetQuoteSuccess
   payload: {
     receiving: Currency
-    maxPrices: Currency[]
-    actualPrices: Currency[]
-    adjustedSupply: Currency[]
+    actualPrice: Currency
+    totalPrice: Currency
+    totalFee: Currency
+    maxPrice: Currency
     txFees: Currency[]
-    totalPrices: Currency[]
-    totalFees: Currency[]
   }
 }
 
@@ -86,7 +86,7 @@ export interface ClearAction {
 }
 
 export type BondBuyActionTypes =
-  | InitiateAction
+  | InitiateQuoteAction
   | GetQuoteAction
   | GetQuotePendingAction
   | GetQuoteSuccessAction

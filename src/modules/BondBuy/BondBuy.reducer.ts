@@ -5,6 +5,7 @@ export const initialState: BondBuyState = {
   quotePending: false,
   signPending: false,
   transacting: false,
+  txFees: [],
 }
 
 /* const notify = (payload: any): void => {
@@ -20,7 +21,7 @@ export const reducer = (
   action: BondBuyActionTypes,
 ): BondBuyState => {
   switch (action.type) {
-    case BondBuyActions.Initiate:
+    case BondBuyActions.InitiateQuote:
       return {
         ...state,
         quotePending: false,

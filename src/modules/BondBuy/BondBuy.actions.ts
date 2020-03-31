@@ -4,6 +4,7 @@ import {
   ConfirmBuyAction,
   BondBuyActions,
   BondBuy,
+  InitiateQuoteAction,
 } from './types'
 import Axios from 'axios'
 import { Currency } from '../../types/models'
@@ -13,11 +14,11 @@ import { RootState } from 'src/common/redux/types'
 import * as signingUtils from '../quote/quote.signingUtils'
 import keysafe from '../../common/keysafe/keysafe'
 
-export const initiateQuote = (): ClearAction => ({
-  type: BondBuyActions.Clear,
+export const initiateQuote = (): InitiateQuoteAction => ({
+  type: BondBuyActions.InitiateQuote,
 })
 
-export const getQuote = (receiving: Currency, maxPrices: Currency[]) => (
+export const getQuote = (receiving: Currency, maxPrice: Currency) => (
   dispatch: Dispatch,
 ): GetQuoteAction => {
   return dispatch({
@@ -39,12 +40,11 @@ export const getQuote = (receiving: Currency, maxPrices: Currency[]) => (
     ).then(response => {
       return {
         receiving,
-        maxPrices,
-        actualPrices: response.data.prices,
-        adjustedSupply: response.data.adjusted_supply,
+        maxPrice,
+        actualPrice: response.data.prices[0],
         txFees: response.data.tx_fees,
-        totalPrices: response.data.total_prices,
-        totalFees: response.data.total_fees,
+        totalPrice: response.data.total_prices[0],
+        totalFee: response.data.total_fees[0],
       }
     }),
   })
@@ -55,7 +55,7 @@ export const confirmBuy = () => (
   getState: () => RootState,
 ): ConfirmBuyAction => {
   const {
-    activeQuote,
+    bondBuy,
     account: {
       address,
       userInfo: {
@@ -66,9 +66,11 @@ export const confirmBuy = () => (
 
   const quoteBuyPayload: BondBuy = {
     address,
-    receiving: activeQuote.receiving!,
-    txFees: activeQuote.txFees!,
-    maxPrices: activeQuote.maxPrices!,
+    receiving: bondBuy.receiving!,
+    txFees: bondBuy.txFees!,
+    maxPrices: [
+      { amount: bondBuy.maxPrice.amount, denom: bondBuy.maxPrice.denom },
+    ],
   }
 
   keysafe.requestSigning(

@@ -1,28 +1,60 @@
-import React from 'react'
+import React, { Dispatch } from 'react'
 import useForm from 'react-hook-form'
-import { withRouter, Redirect } from 'react-router-dom'
+import { withRouter, Redirect, RouteComponentProps } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { RootState } from '../../../common/redux/types'
-
+import * as bondBuySelectors from '../BondBuy.selectors'
 import { confirmBuy, clear } from '../../quote/quote.actions'
 import {
   remainingBalance,
   newBalance,
   currencyStr,
 } from '../../account/account.utils'
+import { Currency } from 'src/types/models'
 
-const ConfirmBuy = (props: any): JSX.Element => {
-  const { projectDID, bondDID } = props.match.params
+interface Props extends RouteComponentProps {
+  match: any
+  signPending: boolean
+  receiving: Currency
+  isReceiving: boolean
+  totalPrice: Currency
+  actualPrice: Currency
+  totalFee: Currency
+  estimatedPrice: Currency
+  maxPrice: Currency
+  totalSupply: Currency
+  balances: Currency[]
+  handleConfirmBuy: () => void
+  handleClear: () => void
+}
 
+const ConfirmBuyOrderScreen: React.FunctionComponent<Props> = ({
+  match: {
+    params: { projectDID, bondDID },
+  },
+  signPending,
+  receiving,
+  isReceiving,
+  totalPrice,
+  actualPrice,
+  totalFee,
+  estimatedPrice,
+  maxPrice,
+  totalSupply,
+  balances,
+  handleConfirmBuy,
+  handleClear,
+}) => {
+  console.log(estimatedPrice)
   const { handleSubmit } = useForm()
 
   const error = (message?: string): JSX.Element => {
     return message ? <div className="error">{message}</div> : undefined
   }
 
-  if (props.activeQuote.signPending) {
+  if (signPending) {
     return <div>Signing Transaction</div>
-  } else if (!props.activeQuote.receiving) {
+  } else if (!isReceiving) {
     return (
       <Redirect
         from={`/projects/${projectDID}/bonds/${bondDID}/exchange/buy/confirm`}
@@ -32,39 +64,28 @@ const ConfirmBuy = (props: any): JSX.Element => {
     )
   } else {
     const onSubmit = (): void => {
-      props.dispatch(confirmBuy())
+      handleConfirmBuy()
     }
 
     const onBack = (): void => {
-      props.dispatch(clear())
-      props.history.push('../')
+      handleClear()
+      // props.history.push('../') TODO!
     }
 
-    const totalPrice = props.activeQuote.totalPrices[0]
-    const receiving = props.activeQuote.receiving
-    const estPricePer = {
-      amount:
-        props.activeQuote.actualPrices[0].amount /
-        props.activeQuote.receiving.amount,
-      denom: props.activeQuote.actualPrices[0].denom,
-    }
-
-    const remBal = remainingBalance(props, props.activeQuote.actualPrices[0])
+    const remBal = remainingBalance(balances, actualPrice)
     const remBalError =
       remBal.amount! < 0
         ? 'You have insufficient funds for this transaction'
         : undefined
 
-    const newBal = newBalance(props, props.activeQuote.receiving)
+    const newBal = newBalance(balances, receiving)
     const newBalError =
-      parseInt(props.activeQuote.receiving.amount) >
-      parseInt(props.activeBond.totalSupply.amount)
+      receiving.amount > totalSupply.amount
         ? "You're attempting to buy more tokens than this bond's supply."
         : undefined
 
-    const maxPrice = props.activeQuote.maxPrices[0]
     const maxPriceError =
-      maxPrice.amount < estPricePer.amount
+      maxPrice.amount < estimatedPrice.amount
         ? 'Your max price is less than than the estimated price per token.'
         : undefined
 
@@ -73,16 +94,12 @@ const ConfirmBuy = (props: any): JSX.Element => {
         <div className="label">Send</div>
         <div>
           <h3>{currencyStr(totalPrice)}</h3>
-          {props.activeQuote.totalFees.length > 0 ? (
-            <div className="label_subtitle">
-              * Includes a{' '}
-              <span className="label_subtitle__bold">
-                {currencyStr(props.activeQuote.totalFees[0])} fee
-              </span>
-            </div>
-          ) : (
-            undefined
-          )}
+          <div className="label_subtitle">
+            * Includes a{' '}
+            <span className="label_subtitle__bold">
+              {currencyStr(totalFee)} fee
+            </span>
+          </div>
           <div className="label_subtitle">
             My remaining balance will be{' '}
             <span className="label_subtitle__bold">{currencyStr(remBal)}</span>
@@ -91,7 +108,7 @@ const ConfirmBuy = (props: any): JSX.Element => {
         </div>
 
         {/* displays the balances of the connected Cosmos account addresses */}
-        <div className="label">Recieve</div>
+        <div className="label">Receive</div>
         <div>
           <h3>{currencyStr(receiving)}</h3>
           <div className="label_subtitle">
@@ -103,8 +120,7 @@ const ConfirmBuy = (props: any): JSX.Element => {
 
         <div className="label">Estimated price per token</div>
         <div>
-          {/* <span style={{ marginTop: "-0.5em", padding: "0" }}>{errors.tokenAmount && <span className="error">This field requires a number value</span>}</span> */}
-          <h3>{currencyStr(estPricePer)}</h3>
+          <h3>{currencyStr(estimatedPrice)}</h3>
           <div className="label_subtitle">
             My maximum token price is{' '}
             <span className="label_subtitle__bold">
@@ -139,8 +155,25 @@ const ConfirmBuy = (props: any): JSX.Element => {
   }
 }
 
-const mapStateToProps = (state: RootState): RootState => {
-  return state
-}
+const mapStateToProps = (state: RootState): any => ({
+  receiving: bondBuySelectors.selectBondBuyReceiving(state),
+  isReceiving: bondBuySelectors.selectBondBuyIsReceiving(state),
+  signPending: bondBuySelectors.selectBondBuySignPending(state),
+  totalPrice: bondBuySelectors.selectBondBuyTotalPrice(state),
+  actualPrice: bondBuySelectors.selectBondBuyActualPrice(state),
+  totalFee: bondBuySelectors.selectBondBuyTotalFee(state),
+  maxPrice: bondBuySelectors.selectBondBuyMaxPrice(state),
+  estimatedPrice: bondBuySelectors.selectEstimatePrice(state),
+  totalSupply: state.activeBond.totalSupply, // TEMP until activeBond has selectors
+  balances: state.account.balances, // TEMP until account has selectors
+})
 
-export default connect(mapStateToProps)(withRouter(ConfirmBuy))
+const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
+  handleConfirmBuy: (): void => dispatch(confirmBuy()),
+  handleClear: (): void => dispatch(clear()),
+})
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(withRouter(ConfirmBuyOrderScreen))

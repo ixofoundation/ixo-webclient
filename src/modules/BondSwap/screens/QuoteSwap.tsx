@@ -106,7 +106,7 @@ const QuoteSwap = (props: any): JSX.Element => {
         />
 
         {/* displays the balances of the connected Cosmos account addresses */}
-        <div className="label">Recieve</div>
+        <div className="label">Receive</div>
         <select name="receivingDenom" ref={register({ required: true })}>
           {props.tokenSupply.map((supply: Currency) => (
             <option key={supply.denom} value={supply.denom}>

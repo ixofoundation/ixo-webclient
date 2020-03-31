@@ -1,41 +1,51 @@
 import React, { Dispatch } from 'react'
 import useForm from 'react-hook-form'
-import { withRouter } from 'react-router-dom'
+import { withRouter, RouteComponentProps } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { RootState } from '../../../common/redux/types'
 import { getQuote } from '../BondBuy.actions'
 import { currencyStr, tokenBalance } from '../../account/account.utils'
 import { Currency } from 'src/types/models'
+import * as bondBuySelectors from '../BondBuy.selectors'
 
-const EnterBuyOrderScreen = (props: any): JSX.Element => {
+interface Props extends RouteComponentProps {
+  balances: Currency[]
+  quotePending: boolean
+  denomination: string
+  handleGetQuote: (receiving: Currency, maxPrice: Currency) => void
+}
+
+const EnterBuyOrderScreen: React.FunctionComponent<Props> = ({
+  balances,
+  quotePending,
+  denomination,
+  handleGetQuote,
+}) => {
   const { register, handleSubmit, watch, errors } = useForm()
 
   const onSubmit = (formData: any): void => {
     const receiving = {
       amount: formData.amount,
-      denom: props.activeBond.symbol,
+      denom: denomination,
     }
-    const maxPrices = [{ denom: formData.denom, amount: formData.maxAmount }]
+    const maxPrice = { denom: formData.denom, amount: formData.maxAmount }
 
-    props.handleGetQuote(receiving, maxPrices)
+    handleGetQuote(receiving, maxPrice)
   }
 
-  if (props.activeQuote.quotePending) {
+  if (quotePending) {
     return <div>Loading quote...</div>
   } else {
     watch()
     const payDenom = watch('denom') || 'res'
-    const payOptions: [string] = props.account.balances.map(
-      (balance: { denom: string }) => balance.denom,
-    )
-
-    const curBal = currencyStr(tokenBalance(props, props.activeBond.symbol))
-    const payBal = currencyStr(tokenBalance(props, payDenom))
+    const payOptions: string[] = balances.map(balance => balance.denom)
+    const curBal = currencyStr(tokenBalance(balances, denomination))
+    const payBal = currencyStr(tokenBalance(balances, payDenom))
 
     return (
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="label">
-          Number of <b>{props.activeBond.symbol}</b> tokens to buy
+          Number of <b>{denomination}</b> tokens to buy
         </div>
         <input
           name="amount"
@@ -78,7 +88,7 @@ const EnterBuyOrderScreen = (props: any): JSX.Element => {
                 for example entering number 5 would mean to buy tokenamount of the first input field with 5 IXO per token
                 Insufficient balance should show an error - which says balance is to low */}
         <div className="label">
-          Maximum price per <b>{props.activeBond.symbol}</b> token
+          Maximum price per <b>{denomination}</b> token
         </div>
         <input
           name="maxAmount"
@@ -116,13 +126,15 @@ const EnterBuyOrderScreen = (props: any): JSX.Element => {
   }
 }
 
-const mapStateToProps = (state: RootState): RootState => {
-  return state
-}
+const mapStateToProps = (state: RootState): any => ({
+  denomination: state.activeBond.symbol, // TODO replace with selector once we have activeBondSelectors
+  balances: state.account.balances,
+  quotePending: bondBuySelectors.selectBondBuyQuotePending(state),
+})
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
-  handleGetQuote: (receiving: Currency, maxPrices: Currency[]): void =>
-    dispatch(getQuote(receiving, maxPrices)),
+  handleGetQuote: (receiving: Currency, maxPrice: Currency): void =>
+    dispatch(getQuote(receiving, maxPrice)),
 })
 
 export default connect(

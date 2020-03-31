@@ -43,10 +43,7 @@ class Header extends Component<any> {
   render(): JSX.Element {
     const { activeBond } = this.props
     const activeSymbol = activeBond.symbol
-    const balance = tokenBalance(
-      { account: { balances: this.props.account.balances } } as RootState,
-      activeBond.symbol,
-    )
+    const balance = tokenBalance(this.props.account.balances, activeBond.symbol)
 
     return (
       <StyledHeader>
