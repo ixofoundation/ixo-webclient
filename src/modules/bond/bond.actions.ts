@@ -25,15 +25,27 @@ export const getBalances = (bondDid: string) => (
       ],
     },
   )
+  const reserveRequest = Axios.get(
+    `${process.env.REACT_APP_GAIA_URL}/bonds/${bondDid}/current_reserve`,
+    {
+      transformResponse: [
+        (response: string): any => {
+          return JSON.parse(response).result[0]
+        },
+      ],
+    },
+  )
 
   return dispatch({
     type: BondActions.GetBalances,
-    payload: Axios.all([bondRequest, priceRequest]).then(
+    payload: Axios.all([bondRequest, priceRequest, reserveRequest]).then(
       Axios.spread((...responses) => {
         const bond = responses[0].data
         const price = responses[1].data
+        const reserve = responses[2].data
 
         return {
+          bondDid,
           symbol: bond.token,
           name: bond.name,
           address: bond.feeAddress,
@@ -41,6 +53,7 @@ export const getBalances = (bondDid: string) => (
           collateral: bond.current_supply,
           totalSupply: bond.max_supply,
           price: price,
+          reserve: reserve,
           alpha: 0,
           alphaDate: new Date(),
         }

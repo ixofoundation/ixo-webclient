@@ -2,6 +2,7 @@ import { BondActions } from './types'
 import { BondState, BondActionTypes } from './types'
 
 export const initialState = {
+  bondDid: '',
   symbol: '',
   name: '',
   address: '',
@@ -9,6 +10,7 @@ export const initialState = {
   collateral: { amount: 0, denom: '' },
   totalSupply: { amount: 0, denom: '' },
   price: { amount: 0, denom: '' },
+  reserve: { amount: 0, denom: '' },
   alpha: 0,
   alphaDate: new Date(),
   trades: [],
