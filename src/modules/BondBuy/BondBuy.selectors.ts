@@ -40,15 +40,6 @@ export const selectBondBuyQuotePending = createSelector(
   (bondBuy: BondBuyState): boolean => bondBuy.quotePending,
 )
 
-export const selectEstimatePrice = createSelector(
-  selectBondBuyActualPrice,
-  selectBondBuyReceiving,
-  (actualPrice: Currency, receiving: Currency) => ({
-    amount: actualPrice.amount / receiving.amount,
-    denom: actualPrice.denom,
-  }),
-)
-
 export const selectBondBuyIsReceiving = createSelector(
   selectBondBuy,
   (bondBuy: BondBuyState): boolean => !!bondBuy.receiving,
@@ -57,4 +48,13 @@ export const selectBondBuyIsReceiving = createSelector(
 export const selectBondBuyHasTotalPrice = createSelector(
   selectBondBuyTotalPrice,
   (totalPrice: Currency): boolean => !!totalPrice,
+)
+
+export const selectEstimatePrice = createSelector(
+  selectBondBuyActualPrice,
+  selectBondBuyReceiving,
+  (actualPrice: Currency, receiving: Currency) => ({
+    amount: actualPrice.amount / receiving.amount,
+    denom: actualPrice.denom,
+  }),
 )

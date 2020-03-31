@@ -20,16 +20,16 @@ export const initiateQuote = (): InitiateQuoteAction => ({
 
 export const getQuote = (receiving: Currency, maxPrice: Currency) => (
   dispatch: Dispatch,
+  getState: () => RootState,
 ): GetQuoteAction => {
+  const {
+    activeBond: { bondDid },
+  } = getState()
+
   return dispatch({
     type: BondBuyActions.GetQuote,
     payload: Axios.get(
-      `${
-        process.env.REACT_APP_GAIA_URL
-      }/bonds/U7GK8p8rVhJMKhBVRCJJ8c/buy_price/${
-        //${receiving!.denom}
-        receiving!.amount
-      }`,
+      `${process.env.REACT_APP_GAIA_URL}/bonds/${bondDid}/buy_price/${receiving.amount}`,
       {
         transformResponse: [
           (response: string): any => {
