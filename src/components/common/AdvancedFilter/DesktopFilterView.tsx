@@ -10,6 +10,7 @@ import {
   ModalButtons,
   ResetButton,
   ApplyButton,
+  Menu,
 } from './Style'
 import { Reset } from './svgs'
 
@@ -119,72 +120,74 @@ class DesktopFilterView extends React.Component<{}, State> {
   render(): JSX.Element {
     return (
       <>
-        {schema.categories.map(filterCategory => {
-          const category = filterCategory.title
-          return (
-            <ButtonWrapper
-              key={category}
-              className={`button-wrapper ${
-                category === this.state.checkTitle ? 'active' : ''
-              }`}
-              onClick={(e): void => this.handleClose(e, category)}
-            >
-              <Button
-                onClick={(): void => this.setId(category)}
-                className={
-                  this.state.categorySelections.find(
-                    selection => selection.category === category,
-                  ).tags.length > 0
-                    ? 'itemsSelected'
-                    : ''
-                }
+        <Menu>
+          {schema.categories.map(filterCategory => {
+            const category = filterCategory.title
+            return (
+              <ButtonWrapper
+                key={category}
+                className={`button-wrapper ${
+                  category === this.state.checkTitle ? 'active' : ''
+                }`}
+                onClick={(e): void => this.handleClose(e, category)}
               >
-                {this.categoryFilterTitle(category)}
-              </Button>
+                <Button
+                  onClick={(): void => this.setId(category)}
+                  className={
+                    this.state.categorySelections.find(
+                      selection => selection.category === category,
+                    ).tags.length > 0
+                      ? 'itemsSelected'
+                      : ''
+                  }
+                >
+                  {this.categoryFilterTitle(category)}
+                </Button>
 
-              <FilterModal
-                className="filter-modal"
-                style={{
-                  display:
-                    category === this.state.checkTitle ? 'block' : 'none',
-                }}
-              >
-                <ModalItems>
-                  {filterCategory.tags.map(filterTags => {
-                    const tag = filterTags.title
-                    return (
-                      <FilterSelectButton
-                        key={tag}
-                        onClick={(): void =>
-                          this.handleSelectCategoryTag(category, tag)
-                        }
-                        className={this.tagClassName(category, tag)}
-                      >
-                        <h3>{tag}</h3>
-                        <img
-                          alt={tag}
-                          src={require('./icons/' + filterTags.icon)}
-                        />
-                      </FilterSelectButton>
-                    )
-                  })}
-                </ModalItems>
-                <ModalButtons>
-                  <ResetButton
-                    onClick={(): void => this.resetCategoryFilter(category)}
-                  >
-                    Reset
-                  </ResetButton>
-                  <ApplyButton onClick={this.setId}>Apply</ApplyButton>
-                </ModalButtons>
-              </FilterModal>
-            </ButtonWrapper>
-          )
-        })}
-        <Button onClick={this.resetFilters}>
-          <Reset fill="#000" />
-          Reset
-        </Button>
+                <FilterModal
+                  className="filter-modal"
+                  style={{
+                    display:
+                      category === this.state.checkTitle ? 'block' : 'none',
+                  }}
+                >
+                  <ModalItems>
+                    {filterCategory.tags.map(filterTags => {
+                      const tag = filterTags.title
+                      return (
+                        <FilterSelectButton
+                          key={tag}
+                          onClick={(): void =>
+                            this.handleSelectCategoryTag(category, tag)
+                          }
+                          className={this.tagClassName(category, tag)}
+                        >
+                          <h3>{tag}</h3>
+                          <img
+                            alt={tag}
+                            src={require('./icons/' + filterTags.icon)}
+                          />
+                        </FilterSelectButton>
+                      )
+                    })}
+                  </ModalItems>
+                  <ModalButtons>
+                    <ResetButton
+                      onClick={(): void => this.resetCategoryFilter(category)}
+                    >
+                      Reset
+                    </ResetButton>
+                    <ApplyButton onClick={this.setId}>Apply</ApplyButton>
+                  </ModalButtons>
+                </FilterModal>
+              </ButtonWrapper>
+            )
+          })}
+          <Button onClick={this.resetFilters}>
+            <Reset fill="#000" />
+            Reset
+          </Button>
+        </Menu>
       </>
     )
   }

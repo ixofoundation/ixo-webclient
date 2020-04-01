@@ -7,7 +7,10 @@ import {
   DatePickerModal,
   ResetButtonDatePicker,
   ApplyButtonDatePicker,
+  Button,
+  ButtonWrapper,
 } from './Style'
+import { CalendarSort } from './svgs'
 
 interface State {
   checkTitle: string
@@ -185,33 +188,63 @@ class DesktopDateFilterView extends React.Component<{}, State> {
     })
   }
 
+  changeDateText = (): void => {
+    if (this.state.dateText === 'Dates') {
+      this.setState({
+        dateText: 'Select',
+      })
+    }
+  }
+
+  getDatesButton = (): JSX.Element => {
+    return (
+      <Button
+        onClick={(): void => {
+          this.toggleShowDatePicker()
+          this.changeDateText()
+          this.toggleMobileDates()
+        }}
+      >
+        <CalendarSort width="16" fill="#000" />
+        {this.state.dateText}
+      </Button>
+    )
+  }
+
   render(): JSX.Element {
     return (
       <>
-        {this.state.showDatePicker && (
-          <DatePickerModal>
-            <DatePicker
-              onReset={this.resetDateFilter}
-              onChange={this.handleDateChange}
-              onApply={this.toggleShowDatePicker}
-              initialStartDate={this.state.startDate}
-              initialEndDate={this.state.endDate}
-              initialOrientation="horizontal"
-            />
+        <ButtonWrapper>
+          {this.getDatesButton()}
 
-            <ResetButtonDatePicker onClick={this.resetDateFilter}>
-              Reset
-            </ResetButtonDatePicker>
-            <ApplyButtonDatePicker
-              onClick={(): void => {
-                this.handleDateChange(this.state.startDate, this.state.endDate)
-                this.toggleShowDatePicker()
-              }}
-            >
-              Apply
-            </ApplyButtonDatePicker>
-          </DatePickerModal>
-        )}
+          {this.state.showDatePicker && (
+            <DatePickerModal>
+              <DatePicker
+                onReset={this.resetDateFilter}
+                onChange={this.handleDateChange}
+                onApply={this.toggleShowDatePicker}
+                initialStartDate={this.state.startDate}
+                initialEndDate={this.state.endDate}
+                initialOrientation="horizontal"
+              />
+
+              <ResetButtonDatePicker onClick={this.resetDateFilter}>
+                Reset
+              </ResetButtonDatePicker>
+              <ApplyButtonDatePicker
+                onClick={(): void => {
+                  this.handleDateChange(
+                    this.state.startDate,
+                    this.state.endDate,
+                  )
+                  this.toggleShowDatePicker()
+                }}
+              >
+                Apply
+              </ApplyButtonDatePicker>
+            </DatePickerModal>
+          )}
+        </ButtonWrapper>
       </>
     )
   }
