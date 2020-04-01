@@ -2,8 +2,9 @@ import { combineReducers, Reducer } from 'redux'
 import { reducer as keysafeReducer } from '../../modules/keysafe/keysafe.reducer'
 import { reducer as ixoReducer } from '../../modules/ixo/ixo.reducer'
 import { reducer as web3Reducer } from '../../modules/web3/web3.reducer'
-import { reducer as quoteReducer } from '../../modules/quote/quote.reducer'
 import { reducer as bondBuyReducer } from '../../modules/BondBuy/BondBuy.reducer'
+import { reducer as bondSellReducer } from '../../modules/BondSell/BondSell.reducer'
+import { reducer as bondSwapReducer } from '../../modules/BondSwap/BondSwap.reducer'
 import { reducer as accountReducer } from '../../modules/account/account.reducer'
 import { reducer as bondAccountOrdersReducer } from '../../modules/BondAccountOrders/BondAccountOrders.reducer'
 import { reducer as bondReducer } from '../../modules/bond/bond.reducer'
@@ -14,8 +15,9 @@ export const rootReducer: Reducer<RootState> = combineReducers<RootState>({
   keySafe: keysafeReducer,
   ixo: ixoReducer,
   web3: web3Reducer,
-  activeQuote: quoteReducer,
   bondBuy: bondBuyReducer,
+  bondSell: bondSellReducer,
+  bondSwap: bondSwapReducer,
   account: accountReducer,
   bondAccountOrders: bondAccountOrdersReducer,
   activeBond: bondReducer,

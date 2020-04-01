@@ -1,7 +1,7 @@
 import axios from 'axios'
 import mockStore from '../../common/redux/mockStore'
-import * as SUT from './BondBuy.actions'
-import { BondBuyActions } from './types'
+import * as SUT from './BondSell.actions'
+import { BondSellActions } from './types'
 import { Currency } from 'src/types/models'
 
 const mockAxios = axios as jest.Mocked<typeof axios>
@@ -18,66 +18,60 @@ beforeEach(() => {
   })
 })
 
-describe('BondBuy Actions', () => {
+describe('BondSell Actions', () => {
   describe('initiateQuote', () => {
     it('should clear data on initiateQuote', async () => {
       // when ... we call the initiateQuote action creator
       const action = SUT.initiateQuote()
 
       // then we should expect it to create action with the correct type
-      expect(action.type).toEqual(BondBuyActions.InitiateQuote)
+      expect(action.type).toEqual(BondSellActions.InitiateQuote)
     })
   })
 
   describe('getQuote', () => {
     it('should return data on getQuote success', async () => {
-      const receiving: Currency = { amount: 1, denom: 'a' }
-      const actualPrice: Currency = { amount: 3, denom: 'a' }
-      const totalPrice: Currency = { amount: 9, denom: 'a' }
-      const totalFee: Currency = { amount: 11, denom: 'a' }
-      const maxPrice: Currency = { amount: 1, denom: 'a' }
+      const minPrice: Currency = { amount: 1, denom: 'a' }
+      const sending: Currency = { amount: 1, denom: 'a' }
+      const receiving: Currency = { amount: 3, denom: 'returns_a' }
+      const totalFee: Currency = { amount: 11, denom: 'total_fees_e' }
       const txFees = [
-        { amount: 0.7, denom: 'a' },
-        { amount: 0.8, denom: 'b' },
+        { amount: 0.7, denom: 'tx_fees_c' },
+        { amount: 0.8, denom: 'tx_fees_d' },
       ]
 
       mockAxios.get.mockImplementationOnce(() =>
         Promise.resolve({
           data: {
-            prices: [
-              { amount: 3, denom: 'a' },
-              { amount: 4, denom: 'b' },
+            returns: [
+              { amount: 3, denom: 'returns_a' },
+              { amount: 4, denom: 'returns_b' },
             ],
             tx_fees: [
-              { amount: 0.7, denom: 'a' },
-              { amount: 0.8, denom: 'b' },
-            ],
-            total_prices: [
-              { amount: 9, denom: 'a' },
-              { amount: 10, denom: 'b' },
+              { amount: 0.7, denom: 'tx_fees_c' },
+              { amount: 0.8, denom: 'tx_fees_d' },
             ],
             total_fees: [
-              { amount: 11, denom: 'a' },
-              { amount: 12, denom: 'b' },
+              { amount: 11, denom: 'total_fees_e' },
+              { amount: 12, denom: 'total_fees_f' },
             ],
           },
         }),
       )
 
       // when ... we call the getQuote action creator
-      await store.dispatch(SUT.getQuote(receiving, maxPrice))
+      await store.dispatch(SUT.getQuote(sending, minPrice))
       const actions = store.getActions()
 
       // then we should expect it to create actions with the correct types and payload
       expect.assertions(3)
-      expect(actions[0].type).toEqual(BondBuyActions.GetQuotePending)
-      expect(actions[1].type).toEqual(BondBuyActions.GetQuoteSuccess)
+      expect(actions[0].type).toEqual(BondSellActions.GetQuotePending)
+      expect(actions[1].type).toEqual(BondSellActions.GetQuoteSuccess)
       expect(actions[1].payload).toEqual({
+        sending,
+        minPrice,
         receiving,
-        maxPrice,
-        actualPrice,
         txFees,
-        totalPrice,
         totalFee,
       })
     })
@@ -101,14 +95,14 @@ describe('BondBuy Actions', () => {
 
         // then we should expect it to create actions with the correct types and payload
         expect.assertions(3)
-        expect(actions[0].type).toEqual(BondBuyActions.GetQuotePending)
-        expect(actions[1].type).toEqual(BondBuyActions.GetQuoteFailure)
+        expect(actions[0].type).toEqual(BondSellActions.GetQuotePending)
+        expect(actions[1].type).toEqual(BondSellActions.GetQuoteFailure)
         expect(actions[1].payload.error).toEqual(error)
       }
     })
   })
 
-  // TODO - confirmBuy
+  // TODO - confirmSell
 
   describe('clearQuote', () => {
     it('should clear data on clearQuote', async () => {
@@ -116,7 +110,7 @@ describe('BondBuy Actions', () => {
       const action = SUT.clear()
 
       // then we should expect it to create action with the correct type
-      expect(action.type).toEqual(BondBuyActions.Clear)
+      expect(action.type).toEqual(BondSellActions.Clear)
     })
   })
 })
