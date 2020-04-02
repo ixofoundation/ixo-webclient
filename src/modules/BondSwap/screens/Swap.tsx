@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { BrowserRouter, Route, Redirect } from 'react-router-dom'
 import QuoteSwap from './QuoteSwap'
 import ConfirmSwap from './ConfirmSwap'
-import BondsWrapper from '../../../common/components/Bonds/BondsWrapper/BondsWrapper'
+import { BondsWrapperConnected as BondsWrapper } from '../../../common/components/Bonds/BondsWrapper/BondsWrapper'
 
 class Swap extends Component<any> {
   render(): JSX.Element {

@@ -5,7 +5,7 @@ import { RootState } from '../../../common/redux/types'
 import { getBondAccountOrders } from '../BondAccountOrders.actions'
 import { selectBondAccountOrders } from '../BondAccountOrders.selectors'
 import TransactionsTable from '../../../common/components/Bonds/TransactionsTable/TransactionsTable'
-import BondsWrapper from '../../../common/components/Bonds/BondsWrapper/BondsWrapper'
+import { BondsWrapperConnected as BondsWrapper } from '../../../common/components/Bonds/BondsWrapper/BondsWrapper'
 
 interface Props {
   handleGetOrders: () => void

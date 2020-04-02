@@ -4,25 +4,18 @@ import './Exchange.css'
 import { QuoteActions } from '../../../../modules/quote/types'
 import { connect } from 'react-redux'
 import { RootState } from '../../../redux/types'
-import BondsWrapper from '../BondsWrapper/BondsWrapper'
+import { BondsWrapperConnected as BondsWrapper } from '../BondsWrapper/BondsWrapper'
 import Buy from '../../../../modules/BondBuy/screens/Buy'
 import Sell from '../../../../modules/BondSell/screens/Sell'
 import Swap from '../../../../modules/BondSwap/screens/Swap'
 import { BondsSectionNav } from './Exchange.styles'
+import { isActiveRoute } from '../.././../utils/isActiveRoute'
 
 class Exchange extends Component<any> {
   componentDidMount(): void {
     this.props.dispatch({
       type: QuoteActions.QuoteFailure,
     })
-  }
-
-  isActive = (m: any, l: any, paths: [string]): boolean => {
-    let active = m != undefined
-    paths.forEach((path: string) => {
-      active = active || l.pathname.indexOf(path) != -1
-    })
-    return active
   }
 
   render(): JSX.Element {
@@ -40,7 +33,9 @@ class Exchange extends Component<any> {
                   ? `/projects/${projectDID}/bonds/${bondDID}/exchange/`
                   : '#'
               }
-              isActive={(m, l): boolean => this.isActive(m, l, ['/buy'])}
+              isActive={(match, location): boolean =>
+                isActiveRoute(match, location, ['/buy'])
+              }
               exact
               className="tablinks_tablink"
             >
@@ -52,7 +47,9 @@ class Exchange extends Component<any> {
                   ? `/projects/${projectDID}/bonds/${bondDID}/exchange/sell`
                   : '#'
               }
-              isActive={(m, l): boolean => this.isActive(m, l, ['/sell'])}
+              isActive={(match, location): boolean =>
+                isActiveRoute(match, location, ['/sell'])
+              }
               className="tablinks_tablink"
             >
               Sell
@@ -64,7 +61,9 @@ class Exchange extends Component<any> {
                     ? `/projects/${projectDID}/bonds/${bondDID}/exchange/swap`
                     : '#'
                 }
-                isActive={(m, l): boolean => this.isActive(m, l, ['/swap'])}
+                isActive={(match, location): boolean =>
+                  isActiveRoute(match, location, ['/swap'])
+                }
                 className="tablinks_tablink"
               >
                 Swap
