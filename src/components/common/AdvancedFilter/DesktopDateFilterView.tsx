@@ -1,7 +1,7 @@
 import * as React from 'react'
-import { schema } from './schema'
-
 import DatePicker from './DatePicker'
+import { schema } from './schema'
+import { CalendarSort } from './svgs'
 
 import {
   DatePickerModal,
@@ -10,7 +10,6 @@ import {
   Button,
   ButtonWrapper,
 } from './Style'
-import { CalendarSort } from './svgs'
 
 interface State {
   checkTitle: string
@@ -49,109 +48,6 @@ class DesktopDateFilterView extends React.Component<{}, State> {
     }
   }
 
-  setId = (title): void => {
-    this.setState({
-      checkTitle: this.state.checkTitle !== title ? title : ' ',
-    })
-  }
-
-  handleClose = (e, title): void => {
-    const filterModal = e.target
-      .closest('.button-wrapper')
-      .querySelector('.filter-modal')
-    if (filterModal.contains(e.target)) {
-      return
-    }
-    this.setId(title)
-  }
-
-  handleSelectCategoryTag = (category: string, tag: string): void => {
-    const currentCategorySelectionTags = this.state.categorySelections.find(
-      selection => selection.category === category,
-    ).tags
-
-    let newCategorySelectionTags
-
-    if (currentCategorySelectionTags.includes(tag)) {
-      newCategorySelectionTags = [
-        ...currentCategorySelectionTags.filter(val => val !== tag),
-      ]
-    } else {
-      newCategorySelectionTags = [...currentCategorySelectionTags, tag]
-    }
-
-    this.setState({
-      categorySelections: [
-        ...this.state.categorySelections.filter(
-          selection => selection.category !== category,
-        ),
-        {
-          category: category,
-          tags: [...newCategorySelectionTags],
-        },
-      ],
-    })
-  }
-
-  categoryFilterTitle = (category: string): string => {
-    const numberOfTagsSelected = this.state.categorySelections.find(
-      selection => selection.category === category,
-    ).tags.length
-
-    return numberOfTagsSelected > 0
-      ? `${category} - ${numberOfTagsSelected}`
-      : category
-  }
-
-  resetCategoryFilter = (category: string): void => {
-    this.setState({
-      categorySelections: [
-        ...this.state.categorySelections.filter(
-          selection => selection.category !== category,
-        ),
-        {
-          category: category,
-          tags: [],
-        },
-      ],
-    })
-  }
-
-  tagClassName = (category: string, tag: string): string => {
-    const isPressed = this.state.categorySelections
-      .find(selection => selection.category === category)
-      .tags.includes(tag)
-
-    return isPressed ? 'buttonPressed' : ''
-  }
-
-  resetFilters = (): void => {
-    this.setState({
-      categorySelections: this.initialCategorySelections,
-    })
-  }
-  toggleMobileFilters = (): void => {
-    if (this.state.mobileFilterMenuOpen) {
-      document.querySelector('body').classList.remove('noScroll')
-    } else {
-      document.querySelector('body').classList.add('noScroll')
-    }
-    this.setState({ mobileFilterMenuOpen: !this.state.mobileFilterMenuOpen })
-  }
-
-  toggleMobileDates = (): void => {
-    this.setState({ mobileDatesMenuOpen: !this.state.mobileDatesMenuOpen })
-  }
-
-  resetDateDisplay = (): void => {
-    this.setState({
-      startDateDisplay: null,
-      endDateDisplay: null,
-      startDate: null,
-      endDate: null,
-    })
-  }
-
   resetDateFilter = (): void => {
     this.setState({
       dateText: 'Dates',
@@ -188,7 +84,7 @@ class DesktopDateFilterView extends React.Component<{}, State> {
     })
   }
 
-  changeDateText = (): void => {
+  resetDateButtonText = (): void => {
     if (this.state.dateText === 'Dates') {
       this.setState({
         dateText: 'Select',
@@ -201,8 +97,7 @@ class DesktopDateFilterView extends React.Component<{}, State> {
       <Button
         onClick={(): void => {
           this.toggleShowDatePicker()
-          this.changeDateText()
-          this.toggleMobileDates()
+          this.resetDateButtonText()
         }}
       >
         <CalendarSort width="16" fill="#000" />
