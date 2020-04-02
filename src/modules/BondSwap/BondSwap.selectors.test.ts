@@ -26,7 +26,6 @@ describe('BondSwap Selectors', () => {
         sending: { amount: 123, denom: 'sending' },
         receiving: { amount: 456, denom: 'receiving' },
         totalFee: { amount: 1011, denom: 'totalFee' },
-        minPrice: { amount: 1314, denom: 'minPrice' },
         txFees: [
           { amount: 1, denom: 'txFee1' },
           { amount: 2, denom: 'feFee2' },
