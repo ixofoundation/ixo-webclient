@@ -14,11 +14,19 @@ import {
 } from './Style'
 import { Reset } from './svgs'
 
-interface State {
+interface Props {
   checkTitle: string
   categorySelections: any[]
+  onHandleSelectCategoryTag: (category: string, tag: string) => void
+  onSetId: (title: string) => void
+  onHandleClose: (e, title: string) => void
+  onCategoryFilterTitle: (category: string) => string
+  onResetCategoryFilter: (category: string) => void
+  onTagClassName: (category: string, tag: string) => string
+  onResetFilters: () => void
+  onResetDateFilter: () => void
 }
-class DesktopFilterView extends React.Component<{}, State> {
+class DesktopFilterView extends React.Component<Props, {}> {
   initialCategorySelections = schema.categories.map(category => ({
     category: category.title,
     tags:
@@ -29,92 +37,16 @@ class DesktopFilterView extends React.Component<{}, State> {
 
   constructor(props) {
     super(props)
-    this.state = {
-      checkTitle: ' ',
-      categorySelections: this.initialCategorySelections,
-    }
+    this.state = {}
+    this.onResetFilters = this.onResetFilters.bind(this)
   }
 
-  setId = (title): void => {
-    this.setState({
-      checkTitle: this.state.checkTitle !== title ? title : ' ',
-    })
-  }
-
-  handleClose = (e, title): void => {
-    const filterModal = e.target
-      .closest('.button-wrapper')
-      .querySelector('.filter-modal')
-    if (filterModal.contains(e.target)) {
-      return
-    }
-    this.setId(title)
-  }
-
-  handleSelectCategoryTag = (category: string, tag: string): void => {
-    const currentCategorySelectionTags = this.state.categorySelections.find(
-      selection => selection.category === category,
-    ).tags
-
-    let newCategorySelectionTags
-
-    if (currentCategorySelectionTags.includes(tag)) {
-      newCategorySelectionTags = [
-        ...currentCategorySelectionTags.filter(val => val !== tag),
-      ]
-    } else {
-      newCategorySelectionTags = [...currentCategorySelectionTags, tag]
-    }
-
-    this.setState({
-      categorySelections: [
-        ...this.state.categorySelections.filter(
-          selection => selection.category !== category,
-        ),
-        {
-          category: category,
-          tags: [...newCategorySelectionTags],
-        },
-      ],
-    })
-  }
-
-  categoryFilterTitle = (category: string): string => {
-    const numberOfTagsSelected = this.state.categorySelections.find(
-      selection => selection.category === category,
-    ).tags.length
-
-    return numberOfTagsSelected > 0
-      ? `${category} - ${numberOfTagsSelected}`
-      : category
-  }
-
-  resetCategoryFilter = (category: string): void => {
-    this.setState({
-      categorySelections: [
-        ...this.state.categorySelections.filter(
-          selection => selection.category !== category,
-        ),
-        {
-          category: category,
-          tags: [],
-        },
-      ],
-    })
-  }
-
-  tagClassName = (category: string, tag: string): string => {
-    const isPressed = this.state.categorySelections
-      .find(selection => selection.category === category)
-      .tags.includes(tag)
-
-    return isPressed ? 'buttonPressed' : ''
-  }
-
-  resetFilters = (): void => {
+  onResetFilters = (): void => {
+    console.log('Reset Hit')
     this.setState({
       categorySelections: this.initialCategorySelections,
     })
+    this.props.onResetFilters()
   }
 
   render(): JSX.Element {
@@ -127,28 +59,28 @@ class DesktopFilterView extends React.Component<{}, State> {
               <ButtonWrapper
                 key={category}
                 className={`button-wrapper ${
-                  category === this.state.checkTitle ? 'active' : ''
+                  category === this.props.checkTitle ? 'active' : ''
                 }`}
-                onClick={(e): void => this.handleClose(e, category)}
+                onClick={(e): void => this.props.onHandleClose(e, category)}
               >
                 <Button
-                  onClick={(): void => this.setId(category)}
+                  onClick={(): void => this.props.onSetId(category)}
                   className={
-                    this.state.categorySelections.find(
+                    this.props.categorySelections.find(
                       selection => selection.category === category,
                     ).tags.length > 0
                       ? 'itemsSelected'
                       : ''
                   }
                 >
-                  {this.categoryFilterTitle(category)}
+                  {this.props.onCategoryFilterTitle(category)}
                 </Button>
 
                 <FilterModal
                   className="filter-modal"
                   style={{
                     display:
-                      category === this.state.checkTitle ? 'block' : 'none',
+                      category === this.props.checkTitle ? 'block' : 'none',
                   }}
                 >
                   <ModalItems>
@@ -158,9 +90,9 @@ class DesktopFilterView extends React.Component<{}, State> {
                         <FilterSelectButton
                           key={tag}
                           onClick={(): void =>
-                            this.handleSelectCategoryTag(category, tag)
+                            this.props.onHandleSelectCategoryTag(category, tag)
                           }
-                          className={this.tagClassName(category, tag)}
+                          className={this.props.onTagClassName(category, tag)}
                         >
                           <h3>{tag}</h3>
                           <img
@@ -173,17 +105,30 @@ class DesktopFilterView extends React.Component<{}, State> {
                   </ModalItems>
                   <ModalButtons>
                     <ResetButton
-                      onClick={(): void => this.resetCategoryFilter(category)}
+                      onClick={(): void =>
+                        this.props.onResetCategoryFilter(category)
+                      }
                     >
                       Reset
                     </ResetButton>
-                    <ApplyButton onClick={this.setId}>Apply</ApplyButton>
+                    <ApplyButton
+                      onClick={(): void => {
+                        this.props.onSetId('')
+                      }}
+                    >
+                      Apply
+                    </ApplyButton>
                   </ModalButtons>
                 </FilterModal>
               </ButtonWrapper>
             )
           })}
-          <Button onClick={this.resetFilters}>
+          <Button
+            onClick={(): void => {
+              this.props.onResetFilters()
+              this.props.onResetDateFilter()
+            }}
+          >
             <Reset fill="#000" />
             Reset
           </Button>

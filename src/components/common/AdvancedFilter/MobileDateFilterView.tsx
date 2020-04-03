@@ -132,6 +132,26 @@ class MobileDateFilterView extends React.Component<{}, State> {
     )
   }
 
+  getDatePicker = (): JSX.Element => {
+    const datePickerOpen = this.state.showDatePicker
+    return (
+      <>
+        {datePickerOpen && (
+          <MobileDatePicker>
+            <DatePicker
+              onReset={this.resetDateFilter}
+              onChange={this.handleDateChange}
+              onApply={this.toggleShowDatePicker}
+              initialStartDate={this.state.startDate}
+              initialEndDate={this.state.endDate}
+              initialOrientation="verticalScrollable"
+            />
+          </MobileDatePicker>
+        )}
+      </>
+    )
+  }
+
   render(): JSX.Element {
     return (
       <>
@@ -160,18 +180,7 @@ class MobileDateFilterView extends React.Component<{}, State> {
                 <DateInput>{this.state.endDateDisplay}</DateInput>
               </DateDisplay>
             </MobileDateHeader>
-            {this.state.showDatePicker && (
-              <MobileDatePicker>
-                <DatePicker
-                  onReset={this.resetDateFilter}
-                  onChange={this.handleDateChange}
-                  onApply={this.toggleShowDatePicker}
-                  initialStartDate={this.state.startDate}
-                  initialEndDate={this.state.endDate}
-                  initialOrientation="verticalScrollable"
-                />
-              </MobileDatePicker>
-            )}
+            {this.getDatePicker()}
             <DoneButtonWrapper>
               <DoneButton onClick={this.toggleMobileDates}>Apply</DoneButton>
             </DoneButtonWrapper>

@@ -19,143 +19,43 @@ import {
   Button,
 } from './Style'
 
-interface State {
+interface Props {
   checkTitle: string
   categorySelections: any[]
+  onHandleSelectCategoryTag: (category: string, tag: string) => void
+  onSetId: (title: string) => void
+  onHandleClose: (e, title: string) => void
+  onCategoryFilterTitle: (category: string) => string
+  onResetCategoryFilter: (category: string) => void
+  onTagClassName: (category: string, tag: string) => string
+  onToggleMobileFilters: () => void
+  onMobileFilterText: () => string
+  onResetFilters: () => void
+  onResetDateFilter: () => void
   mobileFilterMenuOpen: boolean
 }
-class MobileFilterView extends React.Component<{}, State> {
-  initialCategorySelections = schema.categories.map(category => ({
-    category: category.title,
-    tags:
-      category.selectedTags && category.selectedTags.length
-        ? [...category.selectedTags]
-        : [],
-  }))
 
+class MobileFilterView extends React.Component<Props, {}> {
   constructor(props) {
     super(props)
-    this.state = {
-      checkTitle: ' ',
-      categorySelections: this.initialCategorySelections,
-      mobileFilterMenuOpen: false,
-    }
-  }
-
-  setId = (title): void => {
-    this.setState({
-      checkTitle: this.state.checkTitle !== title ? title : ' ',
-    })
-  }
-
-  handleClose = (e, title): void => {
-    const filterModal = e.target
-      .closest('.button-wrapper')
-      .querySelector('.filter-modal')
-    if (filterModal.contains(e.target)) {
-      return
-    }
-    this.setId(title)
-  }
-
-  handleSelectCategoryTag = (category: string, tag: string): void => {
-    const currentCategorySelectionTags = this.state.categorySelections.find(
-      selection => selection.category === category,
-    ).tags
-
-    let newCategorySelectionTags
-
-    if (currentCategorySelectionTags.includes(tag)) {
-      newCategorySelectionTags = [
-        ...currentCategorySelectionTags.filter(val => val !== tag),
-      ]
-    } else {
-      newCategorySelectionTags = [...currentCategorySelectionTags, tag]
-    }
-
-    this.setState({
-      categorySelections: [
-        ...this.state.categorySelections.filter(
-          selection => selection.category !== category,
-        ),
-        {
-          category: category,
-          tags: [...newCategorySelectionTags],
-        },
-      ],
-    })
-  }
-
-  categoryFilterTitle = (category: string): string => {
-    const numberOfTagsSelected = this.state.categorySelections.find(
-      selection => selection.category === category,
-    ).tags.length
-
-    return numberOfTagsSelected > 0
-      ? `${category} - ${numberOfTagsSelected}`
-      : category
-  }
-
-  resetCategoryFilter = (category: string): void => {
-    this.setState({
-      categorySelections: [
-        ...this.state.categorySelections.filter(
-          selection => selection.category !== category,
-        ),
-        {
-          category: category,
-          tags: [],
-        },
-      ],
-    })
-  }
-
-  tagClassName = (category: string, tag: string): string => {
-    const isPressed = this.state.categorySelections
-      .find(selection => selection.category === category)
-      .tags.includes(tag)
-
-    return isPressed ? 'buttonPressed' : ''
-  }
-
-  resetFilters = (): void => {
-    this.setState({
-      categorySelections: this.initialCategorySelections,
-    })
-  }
-  toggleMobileFilters = (): void => {
-    if (this.state.mobileFilterMenuOpen) {
-      document.querySelector('body').classList.remove('noScroll')
-    } else {
-      document.querySelector('body').classList.add('noScroll')
-    }
-    this.setState({ mobileFilterMenuOpen: !this.state.mobileFilterMenuOpen })
-  }
-  mobileFilterText = (): string => {
-    let totalFilters = 0
-    this.state.categorySelections.forEach(category => {
-      totalFilters += category.tags.length
-    })
-    const buttonText =
-      totalFilters > 0 ? `Filters - ${totalFilters}` : 'Filters'
-    return buttonText
+    this.state = {}
   }
 
   render(): JSX.Element {
     return (
       <>
-        <BurgerMenuButton onClick={this.toggleMobileFilters}>
+        <BurgerMenuButton onClick={this.props.onToggleMobileFilters}>
           <Filter fill="#000" />
-          {this.mobileFilterText()}
+          {this.props.onMobileFilterText()}
         </BurgerMenuButton>
         <MobileMenu
-          className={this.state.mobileFilterMenuOpen === true ? 'openMenu' : ''}
+          className={this.props.mobileFilterMenuOpen === true ? 'openMenu' : ''}
         >
           <MobileFilterHeader>
-            <HeadingItem onClick={this.toggleMobileFilters}>
+            <HeadingItem onClick={this.props.onToggleMobileFilters}>
               <Back />
             </HeadingItem>
-            <HeadingItem onClick={this.resetFilters}>clear</HeadingItem>
+            <HeadingItem onClick={this.props.onResetFilters}>clear</HeadingItem>
           </MobileFilterHeader>
           <MobileFilterWrapper>
             <div>
@@ -166,12 +66,14 @@ class MobileFilterView extends React.Component<{}, State> {
                   <MobileButtonWrapper
                     key={category}
                     className={`button-wrapper ${
-                      category === this.state.checkTitle ? 'active' : ''
+                      category === this.props.checkTitle ? 'active' : ''
                     }`}
-                    onClick={(e): void => this.handleClose(e, category)}
+                    onClick={(e): void => this.props.onHandleClose(e, category)}
                   >
-                    <MobileButton onClick={(): void => this.setId(category)}>
-                      <span>{this.categoryFilterTitle(category)}</span>
+                    <MobileButton
+                      onClick={(): void => this.props.onSetId(category)}
+                    >
+                      <span>{this.props.onCategoryFilterTitle(category)}</span>
                       <span className="right-arrow">
                         <Down width="14" fill="#000" />
                       </span>
@@ -180,16 +82,20 @@ class MobileFilterView extends React.Component<{}, State> {
                       className="filter-modal"
                       style={{
                         display:
-                          category === this.state.checkTitle ? 'grid' : 'none',
+                          category === this.props.checkTitle ? 'grid' : 'none',
                       }}
                     >
                       <MobileFilterHeader>
-                        <HeadingItem onClick={this.setId}>
+                        <HeadingItem
+                          onClick={(): void => {
+                            this.props.onSetId
+                          }}
+                        >
                           <Back />
                         </HeadingItem>
                         <HeadingItem
                           onClick={(): void =>
-                            this.resetCategoryFilter(category)
+                            this.props.onResetCategoryFilter(category)
                           }
                         >
                           clear
@@ -197,7 +103,7 @@ class MobileFilterView extends React.Component<{}, State> {
                       </MobileFilterHeader>
                       <MobileFilterWrapper>
                         <MobileFilterHeading className="tag-select-heading">
-                          {this.categoryFilterTitle(category)}
+                          {this.props.onCategoryFilterTitle(category)}
                         </MobileFilterHeading>
                         <ModalItems>
                           {filterCategory.tags.map(filterTags => {
@@ -206,9 +112,15 @@ class MobileFilterView extends React.Component<{}, State> {
                               <FilterSelectButton
                                 key={tag}
                                 onClick={(): void =>
-                                  this.handleSelectCategoryTag(category, tag)
+                                  this.props.onHandleSelectCategoryTag(
+                                    category,
+                                    tag,
+                                  )
                                 }
-                                className={this.tagClassName(category, tag)}
+                                className={this.props.onTagClassName(
+                                  category,
+                                  tag,
+                                )}
                               >
                                 <h3>{tag}</h3>
                                 <img
@@ -221,17 +133,30 @@ class MobileFilterView extends React.Component<{}, State> {
                         </ModalItems>
                       </MobileFilterWrapper>
                       <DoneButtonWrapper>
-                        <DoneButton onClick={this.setId}>Apply</DoneButton>
+                        <DoneButton
+                          onClick={(): void => {
+                            this.props.onSetId('')
+                          }}
+                        >
+                          Apply
+                        </DoneButton>
                       </DoneButtonWrapper>
                     </MobileFilterModal>
                   </MobileButtonWrapper>
                 )
               })}
             </div>
-            <DoneButton onClick={this.toggleMobileFilters}>Done</DoneButton>
+            <DoneButton onClick={this.props.onToggleMobileFilters}>
+              Done
+            </DoneButton>
           </MobileFilterWrapper>
         </MobileMenu>
-        <Button onClick={this.resetFilters}>
+        <Button
+          onClick={(): void => {
+            this.props.onResetFilters()
+            this.props.onResetDateFilter()
+          }}
+        >
           <Reset fill="#000" />
         </Button>
       </>
