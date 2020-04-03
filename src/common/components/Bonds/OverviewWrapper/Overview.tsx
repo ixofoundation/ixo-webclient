@@ -3,7 +3,7 @@ import { Route, NavLink } from 'react-router-dom'
 import BondChartScreen from '../../../../modules/BondChart/BondChart.container'
 import BondOrders from '../../../../modules/BondOrders/BondOrders.container'
 import { BondEvents } from '../../../../modules/BondEvents/BondEvents.container'
-import BondsWrapper from '../BondsWrapper/BondsWrapper'
+import { BondsWrapperConnected as BondsWrapper } from '../BondsWrapper/BondsWrapper'
 import { BondsHomeSectionNav } from './Overview.styles'
 
 export class Overview extends Component<any> {
