@@ -30,7 +30,6 @@ export interface State {
 
 export class BondsWrapper extends React.Component<Props, State> {
   state = {
-    projectDid: this.props.match.params.projectDID,
     projectPublic:
       this.props.location.state && this.props.location.state.projectPublic
         ? this.props.location.state.projectPublic
@@ -39,34 +38,18 @@ export class BondsWrapper extends React.Component<Props, State> {
       this.props.location.state && this.props.location.state.projectStatus
         ? this.props.location.state.projectStatus
         : null,
-    claims: null,
-    serviceProviders: null,
-    investors: null,
-    evaluators: null,
-    userRoles: null,
-    claimSubmitted: false,
-    claimEvaluated: false,
-    singleClaimFormFile: '',
-    singleClaimDependentsFetched: false,
-    singleClaim: null,
-    ledger: {
-      modalResponse: '',
-      isLedgering: false,
-    },
   }
 
   handleGetProjectData = (): void => {
     this.props.ixo.project
       .getProjectByProjectDid(this.props.params.projectDID)
       .then((response: any) => {
-        console.log(response)
         const project: Data = response.data
         const status: string = response.status
         this.setState({
           projectPublic: project,
           projectStatus: status,
         })
-        console.log('thestate: ', this.state)
       })
       .catch(() => {})
   }
