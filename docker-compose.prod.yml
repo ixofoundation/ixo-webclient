@@ -1,12 +1,14 @@
 version: '2'
 services:
   ixo-web:
+    container_name: ixo-web-prod
+    image: trustlab/ixo-web:master
     environment:
-      - REACT_APP_GAIA_URL=http://blockchain.ixo.world:46657
-      - REACT_APP_BLOCK_SYNC_URL=https://explorer.ixo.world
+      - REACT_APP_BLOCKCHAIN_NODE_URL=http://blockchain_paris_mainnet.ixo.world:46657
+      - REACT_APP_BLOCK_SYNC_URL=https://explorer_paris_mainnet.ixo.world
       - REACT_APP_IXO_WORLD_ORIGIN=https://ixo.world
       - REACT_APP_KYC_LINK=https://signup.ixo.world
-      - REACT_APP_IXO_TOKEN_CONTRACT_ADDRESS=0x...
+      - REACT_APP_IXO_TOKEN_CONTRACT_ADDRESS=0x519D822F0832b8e8C8DfC594E718f8dfdAE74B47
       - REACT_APP_PROJECT_REGISTRY_CONTRACT_ADDRESS=0x...
       - REACT_APP_FEE_PER_CLAIM_FEE=0.6
       - REACT_APP_FEE_PER_EVALUATION=0.4
