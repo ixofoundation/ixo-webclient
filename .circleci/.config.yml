@@ -1,0 +1,72 @@
+version: 2
+
+# --------------------------------
+# common : base
+# --------------------------------
+
+base_node: &base_node
+  docker:
+    - image: circleci/node:9.6.1-browsers
+
+# --------------------------------
+# common : steps
+# --------------------------------
+
+step_cache_restore_npm: &step_cache_restore_npm
+  name: 'Restore Cache: NPM Dependencies'
+  keys:
+    - node-v1-{{ .Branch }}-{{ checksum "package-lock.json" }}
+    - node-v1-{{ .Branch }}-
+    - node-v1-
+
+step_cache_save_npm: &step_cache_save_npm
+  name: 'Save Cache: NPM Dependencies'
+  paths:
+    - ~/usr/local/lib/node_modules # location depends on npm version
+  key: node-v1-{{ .Branch }}-{{ checksum "package-lock.json" }}
+
+step_run_install_npm_dependencies: &step_run_install_npm_dependencies
+  name: 'Install NPM Dependencies'
+  shell: /bin/bash
+  command: |
+    npm install
+
+###### TODO when linting errors fixed ######
+# step_lint_js: &step_lint_js
+#name: 'Lint JS'
+#command: |
+#npm run lint:js
+
+step_test: &step_test
+  name: 'Tests'
+  command: |
+    npm run test
+
+# --------------------------------
+# jobs
+# --------------------------------
+
+jobs:
+  test:
+    <<: *base_node
+    steps:
+      - checkout
+      - restore_cache: *step_cache_restore_npm
+      - run: *step_run_install_npm_dependencies
+      - save_cache: *step_cache_save_npm
+      - run: *step_test
+
+# --------------------------------
+# workflows
+# --------------------------------
+
+workflows:
+  version: 2
+  build:
+    jobs:
+      - test:
+          filters:
+            branches:
+              ignore:
+                - master
+                - develop
