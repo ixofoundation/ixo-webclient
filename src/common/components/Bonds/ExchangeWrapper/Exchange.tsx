@@ -1,23 +1,25 @@
 import React, { Component } from 'react'
 import { NavLink, Route } from 'react-router-dom'
 import './Exchange.css'
-import { QuoteActions } from '../../../../modules/quote/types'
 import { connect } from 'react-redux'
 import { RootState } from '../../../redux/types'
 import { BondsWrapperConnected as BondsWrapper } from '../BondsWrapper/BondsWrapper'
-import Buy from '../../../../modules/BondBuy/screens/Buy'
-import Sell from '../../../../modules/BondSell/screens/Sell'
-import Swap from '../../../../modules/BondSwap/screens/Swap'
+import BondBuy from '../../../../modules/BondBuy/BondBuy.container'
+import BondSell from '../../../../modules/BondSell/BondSell.container'
+import BondSwap from '../../../../modules/BondSwap/BondSwap.container'
 import { BondsSectionNav } from './Exchange.styles'
+import * as bondBuySelectors from '../../../../modules/BondBuy/BondBuy.selectors'
+import * as bondSellSelectors from '../../../../modules/BondSell/BondSell.selectors'
+import * as bondSwapSelectors from '../../../../modules/BondSwap/BondSwap.selectors'
 import { isActiveRoute } from '../.././../utils/isActiveRoute'
 
-class Exchange extends Component<any> {
-  componentDidMount(): void {
-    this.props.dispatch({
-      type: QuoteActions.QuoteFailure,
-    })
-  }
+interface Props {
+  match: any
+  transacting: boolean
+  activeBondType: string
+}
 
+class Exchange extends Component<Props> {
   render(): JSX.Element {
     const { projectDID, bondDID } = this.props.match.params
 
@@ -29,7 +31,7 @@ class Exchange extends Component<any> {
           <BondsSectionNav>
             <NavLink
               to={
-                !this.props.activeQuote.transacting
+                !this.props.transacting
                   ? `/projects/${projectDID}/bonds/${bondDID}/exchange/`
                   : '#'
               }
@@ -43,7 +45,7 @@ class Exchange extends Component<any> {
             </NavLink>
             <NavLink
               to={
-                !this.props.activeQuote.transacting
+                !this.props.transacting
                   ? `/projects/${projectDID}/bonds/${bondDID}/exchange/sell`
                   : '#'
               }
@@ -54,10 +56,10 @@ class Exchange extends Component<any> {
             >
               Sell
             </NavLink>
-            {this.props.activeBond.type == 'swapper_function' ? (
+            {this.props.activeBondType == 'swapper_function' ? (
               <NavLink
                 to={
-                  !this.props.activeQuote.transacting
+                  !this.props.transacting
                     ? `/projects/${projectDID}/bonds/${bondDID}/exchange/swap`
                     : '#'
                 }
@@ -79,7 +81,7 @@ class Exchange extends Component<any> {
               `/projects/${projectDID}/bonds/${bondDID}/exchange/buy/confirm`,
               `/projects/${projectDID}/bonds/${bondDID}/exchange/`,
             ]}
-            render={(): JSX.Element => <Buy {...this.props.match.params} />}
+            render={(): JSX.Element => <BondBuy {...this.props.match.params} />}
           />
           <Route
             exact
@@ -87,7 +89,9 @@ class Exchange extends Component<any> {
               `/projects/${projectDID}/bonds/${bondDID}/exchange/sell`,
               `/projects/${projectDID}/bonds/${bondDID}/exchange/sell/confirm`,
             ]}
-            render={(): JSX.Element => <Sell {...this.props.match.params} />}
+            render={(): JSX.Element => (
+              <BondSell {...this.props.match.params} />
+            )}
           />
           <Route
             exact
@@ -95,7 +99,9 @@ class Exchange extends Component<any> {
               `/projects/${projectDID}/bonds/${bondDID}/exchange/swap`,
               `/projects/${projectDID}/bonds/${bondDID}/exchange/swap/confirm`,
             ]}
-            render={(): JSX.Element => <Swap {...this.props.match.params} />}
+            render={(): JSX.Element => (
+              <BondSwap {...this.props.match.params} />
+            )}
           />
         </div>
       </BondsWrapper>
@@ -103,8 +109,12 @@ class Exchange extends Component<any> {
   }
 }
 
-const mapStateToProps = function(state: RootState): RootState {
-  return state
-}
+const mapStateToProps = (state: RootState): any => ({
+  transacting:
+    bondSellSelectors.selectBondSellTransacting(state) ||
+    bondBuySelectors.selectBondBuyTransacting(state) ||
+    bondSwapSelectors.selectBondSwapTransacting(state),
+  activeBondType: state.activeBond.type,
+})
 
 export default connect(mapStateToProps)(Exchange)

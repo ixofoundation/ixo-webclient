@@ -42,10 +42,7 @@ class Header extends Component<any> {
 
   render(): JSX.Element {
     const { activeBond } = this.props
-    const balance = tokenBalance(
-      { account: { balances: this.props.account.balances } } as RootState,
-      activeBond.symbol,
-    )
+    const balance = tokenBalance(this.props.account.balances, activeBond.symbol)
     const bondCapitalInfo = `${(activeBond.collateral.amount /
       activeBond.totalSupply.amount || 0) * 100}% of Bond cap`
     const reserveInfo = `${(activeBond.reserve.amount /

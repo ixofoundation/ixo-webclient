@@ -14,7 +14,7 @@ import { ProjectSignAndCreateConnected } from './project/curation/ProjectSignAnd
 import { ProjectCreateUploadPublicDocsConnected } from './project/curation/ProjectCreateUploadPublicDocs'
 import { Overview } from '../common/components/Bonds/OverviewWrapper/Overview'
 import Exchange from '../common/components/Bonds/ExchangeWrapper/Exchange'
-import Orders from '../modules/BondAccountOrders/screens/BondAccountOrders'
+import Orders from '../modules/BondAccountOrders/BondAccountOrders.container'
 
 export const Routes: React.SFC<{}> = props => {
   return (
