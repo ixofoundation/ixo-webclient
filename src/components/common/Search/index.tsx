@@ -74,7 +74,7 @@ export default class Search extends React.Component<Props> {
         return <Globe fill="#000" />
       case 'briefcase':
         return <Briefcase fill="#000" />
-      case 'people':
+      case 'cells':
         return <People fill="#000" />
       case 'oracle':
         return <Oracle fill="#000" />
@@ -152,8 +152,8 @@ export default class Search extends React.Component<Props> {
                     My Projects
                   </SearchFilterButton>
                   <SearchFilterButton className="disabled">
-                    <div>{this.renderFilterButtonIcon('people')}</div>
-                    People
+                    <div>{this.renderFilterButtonIcon('cells')}</div>
+                    Cells
                   </SearchFilterButton>
                   <SearchFilterButton className="disabled">
                     <div>{this.renderFilterButtonIcon('oracle')}</div>
