@@ -9,7 +9,7 @@ import * as Toast from '../helpers/Toast'
 import { contentType } from '../../types/models'
 import { UserInfo } from '../../modules/account/types'
 import { ProjectsDashboard } from './ProjectsDashboard'
-import ProjectsFilter from '../common/AdvancedFilter/ProjectsFilter'
+import ProjectsFilter from '../../common/components/ProjectsFilter/ProjectsFilter'
 import { deviceWidth } from '../../lib/commonData'
 
 const Container = styled.div`

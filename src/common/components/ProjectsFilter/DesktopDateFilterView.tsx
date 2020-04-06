@@ -1,12 +1,12 @@
 import * as React from 'react'
-import DatePicker from './DatePicker'
+import DatePicker from '../DatePicker'
 
 import {
   DatePickerModal,
   ResetButtonDatePicker,
   ApplyButtonDatePicker,
   ButtonWrapper,
-} from './Style'
+} from './ProjectsFilter.style'
 
 interface Props {
   startDate: any

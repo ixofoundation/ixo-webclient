@@ -6,7 +6,7 @@ import DesktopDateFilterView from './DesktopDateFilterView'
 import DesktopFilterView from './DesktopFilterView'
 import MobileDateFilterView from './MobileDateFilterView'
 import MobileFilterView from './MobileFilterView'
-import { FiltersWrap, FilterInfo, Button } from './Style'
+import { FiltersWrap, FilterInfo, Button } from './ProjectsFilter.style'
 import { CalendarSort } from './svgs'
 
 interface State {
@@ -119,6 +119,8 @@ class ProjectsFilter extends React.Component<{}, State> {
     this.setState({
       startDate: null,
       endDate: null,
+      startDateDisplay: null,
+      endDateDisplay: null,
       showDatePicker: false,
       dateText: 'Dates',
     })

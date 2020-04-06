@@ -17,7 +17,7 @@ import {
   MobileMenu,
   BurgerMenuButton,
   Button,
-} from './Style'
+} from './ProjectsFilter.style'
 
 interface Props {
   checkTitle: string

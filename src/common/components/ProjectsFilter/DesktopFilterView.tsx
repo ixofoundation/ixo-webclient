@@ -11,7 +11,7 @@ import {
   ResetButton,
   ApplyButton,
   Menu,
-} from './Style'
+} from './ProjectsFilter.style'
 import { Reset } from './svgs'
 
 interface Props {
