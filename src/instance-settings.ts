@@ -10,14 +10,14 @@ interface Schema {
 
 interface Category {
   ['@type']: string
-  title: string
+  name: string
   tags: Tag[]
   selectedTags?: string[]
 }
 
 interface Tag {
   ['@type']: string
-  title: string
+  name: string
   icon: string
   color?: string
 }
