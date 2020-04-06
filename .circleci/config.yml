@@ -65,14 +65,9 @@ jobs:
 
 workflows:
   version: 2
-  build:
+  build_deploy:
     jobs:
-      - test:
-          filters:
-            branches:
-              ignore:
-                - master
-                - dev
+      - test
       - docker/publish:
           image: trustlab/ixo-web:$CIRCLE_BRANCH
           dockerfile: dockerfile
@@ -81,5 +76,5 @@ workflows:
           filters:
             branches:
               only:
-                - master
                 - dev
+                - master
