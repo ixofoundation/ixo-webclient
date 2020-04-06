@@ -70,7 +70,6 @@ workflows:
       - test
       - docker/publish:
           image: trustlab/ixo-web
-          dockerfile: dockerfile
           tag: $CIRCLE_BRANCH
           requires:
             - test
