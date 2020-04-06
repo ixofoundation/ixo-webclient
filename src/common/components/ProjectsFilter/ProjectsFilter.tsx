@@ -24,7 +24,7 @@ interface State {
 
 class ProjectsFilter extends React.Component<{}, State> {
   initialCategorySelections = schema.categories.map(category => ({
-    category: category.title,
+    category: category.name,
     tags:
       category.selectedTags && category.selectedTags.length
         ? [...category.selectedTags]
@@ -142,9 +142,9 @@ class ProjectsFilter extends React.Component<{}, State> {
     }
   }
 
-  setId = (title: string): void => {
+  setId = (name: string): void => {
     this.setState({
-      checkTitle: this.state.checkTitle !== title ? title : ' ',
+      checkTitle: this.state.checkTitle !== name ? name : ' ',
     })
   }
 
@@ -176,14 +176,14 @@ class ProjectsFilter extends React.Component<{}, State> {
     })
   }
 
-  handleClose = (e, title: string): void => {
+  handleClose = (e, name: string): void => {
     const filterModal = e.target
       .closest('.button-wrapper')
       .querySelector('.filter-modal')
     if (filterModal.contains(e.target)) {
       return
     }
-    this.setId(title)
+    this.setId(name)
   }
 
   categoryFilterTitle = (category: string): string => {

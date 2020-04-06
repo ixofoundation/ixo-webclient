@@ -23,8 +23,8 @@ interface Props {
   checkTitle: string
   categorySelections: any[]
   onHandleSelectCategoryTag: (category: string, tag: string) => void
-  onSetId: (title: string) => void
-  onHandleClose: (e, title: string) => void
+  onSetId: (name: string) => void
+  onHandleClose: (e, name: string) => void
   onCategoryFilterTitle: (category: string) => string
   onTagClassName: (category: string, tag: string) => string
   onToggleMobileFilters: () => void
@@ -60,7 +60,7 @@ class MobileFilterView extends React.Component<Props, {}> {
             <div>
               <MobileFilterHeading>Filters</MobileFilterHeading>
               {schema.categories.map(filterCategory => {
-                const category = filterCategory.title
+                const category = filterCategory.name
                 return (
                   <MobileButtonWrapper
                     key={category}
@@ -106,7 +106,7 @@ class MobileFilterView extends React.Component<Props, {}> {
                         </MobileFilterHeading>
                         <ModalItems>
                           {filterCategory.tags.map(filterTags => {
-                            const tag = filterTags.title
+                            const tag = filterTags.name
                             return (
                               <FilterSelectButton
                                 key={tag}

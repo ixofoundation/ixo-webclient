@@ -18,8 +18,8 @@ interface Props {
   checkTitle: string
   categorySelections: any[]
   onHandleSelectCategoryTag: (category: string, tag: string) => void
-  onSetId: (title: string) => void
-  onHandleClose: (e, title: string) => void
+  onSetId: (name: string) => void
+  onHandleClose: (e, name: string) => void
   onCategoryFilterTitle: (category: string) => string
   onTagClassName: (category: string, tag: string) => string
   onResetCategoryFilter: (category: string) => void
@@ -36,7 +36,7 @@ class DesktopFilterView extends React.Component<Props, {}> {
       <>
         <Menu>
           {schema.categories.map(filterCategory => {
-            const category = filterCategory.title
+            const category = filterCategory.name
             return (
               <ButtonWrapper
                 key={category}
@@ -67,7 +67,7 @@ class DesktopFilterView extends React.Component<Props, {}> {
                 >
                   <ModalItems>
                     {filterCategory.tags.map(filterTags => {
-                      const tag = filterTags.title
+                      const tag = filterTags.name
                       return (
                         <FilterSelectButton
                           key={tag}
