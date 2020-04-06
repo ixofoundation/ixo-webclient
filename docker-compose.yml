@@ -1,16 +1,13 @@
-version: "2"
+version: '2'
 services:
   ixo-web:
-    container_name: ixo-web
-    image: trustlab/ixo-web:dev
     environment:
       - PORT=80
     ports:
-      - "80:80"
+      - '80:80'
     restart: always
     logging:
-      driver: "json-file"
+      driver: 'json-file'
       options:
-        max-size: "1m"
-        max-file: "1"
- 
+        max-size: '1m'
+        max-file: '1'

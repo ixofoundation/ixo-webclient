@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import { Route, NavLink } from 'react-router-dom'
-import BondChartScreen from '../../../../modules/BondChart/screens/BondChart'
-import Trades from '../../../../modules/BondOrders/screens/BondOrders'
-import { Events } from '../../../../modules/BondEvents/screens/Events'
-import BondsWrapper from '../BondsWrapper/BondsWrapper'
+import BondChartScreen from '../../../../modules/BondChart/BondChart.container'
+import BondOrders from '../../../../modules/BondOrders/BondOrders.container'
+import { BondEvents } from '../../../../modules/BondEvents/BondEvents.container'
+import { BondsWrapperConnected as BondsWrapper } from '../BondsWrapper/BondsWrapper'
 import { BondsHomeSectionNav } from './Overview.styles'
 
 export class Overview extends Component<any> {
@@ -41,12 +41,12 @@ export class Overview extends Component<any> {
           <Route
             exact
             path={`/projects/${projectDID}/bonds/${bondDID}/overview/trades`}
-            component={Trades}
+            component={BondOrders}
           />
           <Route
             exact
             path={`/projects/${projectDID}/bonds/${bondDID}/overview/events`}
-            component={Events}
+            component={BondEvents}
           />
         </div>
       </BondsWrapper>

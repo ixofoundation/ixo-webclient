@@ -1,9 +1,8 @@
 import { Currency } from '../../types/models'
-import { RootState } from '../../common/redux/types'
 
-export function tokenBalance(store: RootState, symbol: string): Currency {
+export function tokenBalance(balances: Currency[], symbol: string): Currency {
   let balance: Currency = { amount: 0, denom: symbol }
-  store.account.balances.forEach((element: Currency) => {
+  balances.forEach((element: Currency) => {
     if (element.denom == symbol) {
       balance = Object.assign({}, element)
     }
@@ -12,18 +11,21 @@ export function tokenBalance(store: RootState, symbol: string): Currency {
 }
 
 export function remainingBalance(
-  store: RootState,
+  balances: Currency[],
   sending: Currency,
 ): Currency {
-  const balance = tokenBalance(store, sending.denom!)
+  const balance = tokenBalance(balances, sending.denom!)
 
   balance.amount =
     parseInt(balance.amount! as any) - parseInt(sending.amount! as any)
   return balance
 }
 
-export function newBalance(store: RootState, receiving: Currency): Currency {
-  const balance = tokenBalance(store, receiving.denom!)
+export function newBalance(
+  balances: Currency[],
+  receiving: Currency,
+): Currency {
+  const balance = tokenBalance(balances, receiving.denom!)
 
   balance.amount =
     parseInt(balance.amount! as any) + parseInt(receiving.amount! as any)
