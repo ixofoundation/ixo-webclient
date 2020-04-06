@@ -4,35 +4,35 @@
   "categories": [
     {
       "@type": "Category",
-      "title": "Beneficiary",
+      "name": "Beneficiary",
       "tags": [
         {
           "@type": "EthnicMinorities",
-          "title": "Ethnic Minorities",
+          "name": "Ethnic Minorities",
           "icon": "ethnicminorities.svg",
           "color": "#E0BB72"
         },
         {
           "@type": "LowIncome",
-          "title": "Low Income",
+          "name": "Low Income",
           "icon": "lowincome.svg",
           "color": "#81B276"
         },
         {
           "@type": "Elderly",
-          "title": "Elderly",
+          "name": "Elderly",
           "icon": "elderly.svg",
           "color": "#E17161"
         },
         {
           "@type": "ChildAndYouth",
-          "title": "Children & Youth",
+          "name": "Children & Youth",
           "icon": "childrenandyouth.svg",
           "color": "#DB6169"
         },
         {
           "@type": "PeopleWithDisabilities",
-          "title": "People with Disabilities",
+          "name": "People with Disabilities",
           "icon": "peoplewithdisabilities.svg",
           "color": "#7DCAE9"
         }
@@ -40,59 +40,59 @@
     },
     {
       "@type": "Category",
-      "title": "Field",
+      "name": "Field",
       "tags": [
         {
           "@type": "Education",
-          "title": "Education",
+          "name": "Education",
           "icon": "education.svg",
           "color": "#7DCAE9"
         },
         {
           "@type": "PhysicalHealth",
-          "title": "Physical Health",
+          "name": "Physical Health",
           "icon": "physicalhealth.svg",
           "color": "#7DCAE9"
         },
         {
           "@type": "MentalHealth",
-          "title": "Mental Health",
+          "name": "Mental Health",
           "icon": "mentalhealth.svg",
           "color": "#7DCAE9"
         },
         {
           "@type": "FinancialServices",
-          "title": "Financial Services",
+          "name": "Financial Services",
           "icon": "financialservices.svg",
           "color": "#7DCAE9"
         },
         {
           "@type": "PersonalFinancing",
-          "title": "Personal Financing",
+          "name": "Personal Financing",
           "icon": "personalfinancing.svg",
           "color": "#7DCAE9"
         },
         {
           "@type": "SocialAwareness",
-          "title": "Social Awareness",
+          "name": "Social Awareness",
           "icon": "socialawareness.svg",
           "color": "#7DCAE9"
         },
         {
           "@type": "Housing",
-          "title": "Housing",
+          "name": "Housing",
           "icon": "housing.svg",
           "color": "#7DCAE9"
         },
         {
           "@type": "DiversityAndInclusion",
-          "title": "Diversity and Inclusion",
+          "name": "Diversity and Inclusion",
           "icon": "diversityandinclusion.svg",
           "color": "#7DCAE9"
         },
         {
           "@type": "InterPersonalRelationship",
-          "title": "Inter-personal Relationship",
+          "name": "Inter-personal Relationship",
           "icon": "interpersonalrelationship.svg",
           "color": "#7DCAE9"
         }
@@ -100,107 +100,107 @@
     },
     {
       "@type": "Category",
-      "title": "SDG",
+      "name": "SDG",
       "tags": [
         {
           "@type": "SDG1",
-          "title": "SDG 1 – No Poverty",
+          "name": "SDG 1 – No Poverty",
           "icon": "sdg1.svg",
           "color": "#7DCAE9"
         },
         {
           "@type": "SDG2",
-          "title": "SDG2 – Zero Hunger",
+          "name": "SDG2 – Zero Hunger",
           "icon": "sdg2.svg",
           "color": "#7DCAE9"
         },
         {
           "@type": "SDG3",
-          "title": "SDG3 – Good Health and Well-being",
+          "name": "SDG3 – Good Health and Well-being",
           "icon": "sdg3.svg",
           "color": "#7DCAE9"
         },
         {
           "@type": "SDG4",
-          "title": "SDG4 – Quality Education",
+          "name": "SDG4 – Quality Education",
           "icon": "sdg4.svg",
           "color": "#7DCAE9"
         },
         {
           "@type": "SDG5",
-          "title": "SDG5 – Gender Equality",
+          "name": "SDG5 – Gender Equality",
           "icon": "sdg5.svg",
           "color": "#7DCAE9"
         },
         {
           "@type": "SDG6",
-          "title": "SDG6 – Clean Water and Sanitation",
+          "name": "SDG6 – Clean Water and Sanitation",
           "icon": "sdg6.svg",
           "color": "#7DCAE9"
         },
         {
           "@type": "SDG7",
-          "title": "SDG7 – Affordable and Clean Energy",
+          "name": "SDG7 – Affordable and Clean Energy",
           "icon": "sdg7.svg",
           "color": "#7DCAE9"
         },
         {
           "@type": "SDG8",
-          "title": "SDG8 – Decent Work and Economic Growth",
+          "name": "SDG8 – Decent Work and Economic Growth",
           "icon": "sdg8.svg",
           "color": "#7DCAE9"
         },
         {
           "@type": "SDG9",
-          "title": "SDG9 – Industry, Innovation and Infrastructure",
+          "name": "SDG9 – Industry, Innovation and Infrastructure",
           "icon": "sdg9.svg",
           "color": "#7DCAE9"
         },
         {
           "@type": "SDG10",
-          "title": "SDG10 – Reduced Inequalities",
+          "name": "SDG10 – Reduced Inequalities",
           "icon": "sdg10.svg",
           "color": "#7DCAE9"
         },
         {
           "@type": "SDG11",
-          "title": "SDG11 – Sustainable Cities and Coummunities",
+          "name": "SDG11 – Sustainable Cities and Coummunities",
           "icon": "sdg11.svg",
           "color": "#7DCAE9"
         },
         {
           "@type": "SDG12",
-          "title": "SDG12 – Responsible Consumption and Production",
+          "name": "SDG12 – Responsible Consumption and Production",
           "icon": "sdg12.svg",
           "color": "#7DCAE9"
         },
         {
           "@type": "SDG13",
-          "title": "SDG13 – Climate Action",
+          "name": "SDG13 – Climate Action",
           "icon": "sdg13.svg",
           "color": "#7DCAE9"
         },
         {
           "@type": "SDG14",
-          "title": "SDG14 – Life Below Water",
+          "name": "SDG14 – Life Below Water",
           "icon": "sdg14.svg",
           "color": "#7DCAE9"
         },
         {
           "@type": "SDG15",
-          "title": "SDG15 – Life on Land",
+          "name": "SDG15 – Life on Land",
           "icon": "sdg15.svg",
           "color": "#7DCAE9"
         },
         {
           "@type": "SDG16",
-          "title": "SDG16 – Peace, Justice and Strong Institutions",
+          "name": "SDG16 – Peace, Justice and Strong Institutions",
           "icon": "sdg16.svg",
           "color": "#7DCAE9"
         },
         {
           "@type": "SDG17",
-          "title": "SDG17 – Partnerships for Goals",
+          "name": "SDG17 – Partnerships for Goals",
           "icon": "sdg17.svg",
           "color": "#7DCAE9"
         }
@@ -208,23 +208,23 @@
     },
     {
       "@type": "Category",
-      "title": "Stage",
+      "name": "Stage",
       "tags": [
         {
           "@type": "ApplicationStage",
-          "title": "Application Stage",
+          "name": "Application Stage",
           "icon": "applicationstage.svg",
           "color": "#7DCAE9"
         },
         {
           "@type": "IncubationStage",
-          "title": "Incubation Stage",
+          "name": "Incubation Stage",
           "icon": "incubationstage.svg",
           "color": "#7DCAE9"
         },
         {
           "@type": "GraduatedStage",
-          "title": "Graduated Stage",
+          "name": "Graduated Stage",
           "icon": "graduatedstage.svg",
           "color": "#7DCAE9"
         }
