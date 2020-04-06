@@ -1,91 +1,17 @@
 import * as React from 'react'
-import styled from 'styled-components'
 import HeaderSubTabs from '../common/HeaderSubTabs'
 import { SingleStatistic } from '../common/SingleStatistic'
 import { StatType } from '../../types/models'
-import { deviceWidth } from '../../lib/commonData'
 import Search from '../common/Search'
 import { contentType } from '../../types/models'
 import * as instanceSettings from '../../instance-settings'
 
-const ContainerInner = styled.div`
-  height: auto;
-  width: 100%;
-  transition: border-left 0.3s ease;
-
-  > div {
-    transition: transform 0.3s ease;
-  }
-  @media (max-width: ${deviceWidth.mobile}px) {
-    padding-top: 16%;
-  }
-`
-
-const StatisticContainer = styled.div`
-  width: 100%;
-  align-items: center;
-  display: flex;
-  padding: 0;
-  justify-content: center;
-
-  @media (min-width: ${deviceWidth.tablet}px) {
-    ${ContainerInner} {
-      border-left: 1px solid rgba(73, 191, 224, 0.3);
-    }
-  }
-
-  :first-child > div {
-    border-left: 0;
-  }
-`
-
-const HeroInner = styled.div`
-  height: 100%;
-
-  > .row {
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-  }
-
-  :hover ${ContainerInner} {
-    border-left: 1px solid rgba(73, 191, 224, 0);
-  }
-
-  :hover ${ContainerInner} > div {
-    transform: scale(1.05);
-  }
-`
-
-const HeroContainer = styled.div`
-  background: url(${instanceSettings.getBGImageSrc()}) no-repeat center top;
-  background-size: cover;
-  margin: 0 0 0px;
-  cursor: pointer;
-  position: relative;
-
-  ${HeroInner}:before {
-    position: absolute;
-    content: ' ';
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 0;
-    transition: background 0.3s ease;
-
-    background-color: rgba(3, 60, 80, 0);
-  }
-
-  ${HeroInner}:hover:before {
-    background-color: rgba(3, 60, 80, 0.6);
-    cursor: normal;
-  }
-
-  @media (min-width: ${deviceWidth.tablet}px) {
-    height: 200px;
-  }
-`
+import {
+  ContainerInner,
+  StatisticContainer,
+  HeroInner,
+  HeroContainer,
+} from './Projects.styles'
 
 export interface Stats {
   claims: Claims
