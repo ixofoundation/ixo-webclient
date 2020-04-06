@@ -1,26 +1,23 @@
 import * as React from 'react'
-
 import MediaQuery from 'react-responsive'
 import { deviceWidth } from '../../../lib/commonData'
-
 import { schema } from './schema'
-import DesktopFilterView from './DesktopFilterView'
-import MobileFilterView from './MobileFilterView'
-import MobileDateFilterView from './MobileDateFilterView'
 import DesktopDateFilterView from './DesktopDateFilterView'
-
+import DesktopFilterView from './DesktopFilterView'
+import MobileDateFilterView from './MobileDateFilterView'
+import MobileFilterView from './MobileFilterView'
 import { FiltersWrap, FilterInfo, Button } from './Style'
-import { Reset } from './svgs'
+import { CalendarSort } from './svgs'
 
 interface State {
-  checkTitle: string
-  categorySelections: any[]
-  showDatePicker: boolean
   startDate: any
   endDate: any
+  showDatePicker: boolean
+  dateText: string
   startDateDisplay: string
   endDateDisplay: string
-  dateText: string
+  checkTitle: string
+  categorySelections: any[]
   mobileFilterMenuOpen: boolean
   mobileDatesMenuOpen: boolean
 }
@@ -37,23 +34,113 @@ class ProjectsFilter extends React.Component<{}, State> {
   constructor(props) {
     super(props)
     this.state = {
-      checkTitle: ' ',
-      categorySelections: this.initialCategorySelections,
-      showDatePicker: false,
       startDate: null,
       endDate: null,
+      showDatePicker: false,
       dateText: 'Dates',
-      mobileFilterMenuOpen: false,
-      mobileDatesMenuOpen: false,
       startDateDisplay: null,
       endDateDisplay: null,
+      checkTitle: ' ',
+      categorySelections: this.initialCategorySelections,
+      mobileFilterMenuOpen: false,
+      mobileDatesMenuOpen: false,
     }
-
-    this.resetFilters = this.resetFilters.bind(this)
-    this.resetDateFilter = this.resetDateFilter.bind(this)
   }
 
-  setId = (title): void => {
+  getDesktopDateButton = (): JSX.Element => {
+    return (
+      <Button
+        onClick={(): void => {
+          this.toggleShowDatePicker()
+          this.resetDateButtonText()
+        }}
+      >
+        <CalendarSort width="16" fill="#000" />
+        {this.state.dateText}
+      </Button>
+    )
+  }
+
+  getMobileDateButton = (): JSX.Element => {
+    return (
+      <Button
+        onClick={(): void => {
+          this.showMobileDatePicker()
+          this.resetDateButtonText()
+          this.toggleMobileDates()
+        }}
+      >
+        <CalendarSort width="16" fill="#000" />
+        {this.state.dateText}
+      </Button>
+    )
+  }
+
+  toggleShowDatePicker = (): void => {
+    this.setState({
+      showDatePicker: !this.state.showDatePicker,
+      checkTitle: ' ',
+    })
+  }
+
+  handleDateChange = (startDate: any, endDate: any): void => {
+    const DATE_FORMAT = "D MMM \\'YY"
+    if (startDate && endDate) {
+      this.setState({
+        dateText: ` ${startDate.format(DATE_FORMAT)} - ${endDate.format(
+          DATE_FORMAT,
+        )} `,
+        startDateDisplay: `${startDate.format(DATE_FORMAT)}`,
+        endDateDisplay: `${endDate.format(DATE_FORMAT)}`,
+        startDate,
+        endDate,
+      })
+    } else if (startDate) {
+      this.setState({
+        dateText: ` ${startDate.format(DATE_FORMAT)} - Select `,
+        startDate,
+      })
+    }
+  }
+
+  toggleMobileDates = (): void => {
+    this.setState({ mobileDatesMenuOpen: !this.state.mobileDatesMenuOpen })
+  }
+
+  resetDateButtonText = (): void => {
+    if (this.state.dateText === 'Dates') {
+      this.setState({
+        dateText: 'Select',
+      })
+    }
+  }
+
+  resetDateFilter = (): void => {
+    this.setState({
+      startDate: null,
+      endDate: null,
+      showDatePicker: false,
+      dateText: 'Dates',
+    })
+  }
+
+  resetDateDisplay = (): void => {
+    this.setState({
+      startDateDisplay: null,
+      endDateDisplay: null,
+    })
+    this.resetDateFilter()
+  }
+
+  showMobileDatePicker = (): void => {
+    if (!this.state.showDatePicker) {
+      this.setState({
+        showDatePicker: true,
+      })
+    }
+  }
+
+  setId = (title: string): void => {
     this.setState({
       checkTitle: this.state.checkTitle !== title ? title : ' ',
     })
@@ -87,7 +174,7 @@ class ProjectsFilter extends React.Component<{}, State> {
     })
   }
 
-  handleClose = (e, title): void => {
+  handleClose = (e, title: string): void => {
     const filterModal = e.target
       .closest('.button-wrapper')
       .querySelector('.filter-modal')
@@ -154,15 +241,6 @@ class ProjectsFilter extends React.Component<{}, State> {
     })
   }
 
-  resetDateFilter = (): void => {
-    this.setState({
-      startDate: null,
-      endDate: null,
-      showDatePicker: !this.state.showDatePicker,
-      dateText: 'Dates',
-    })
-  }
-
   render(): JSX.Element {
     return (
       <>
@@ -170,7 +248,17 @@ class ProjectsFilter extends React.Component<{}, State> {
           <FilterInfo>All Projects</FilterInfo>
           <div className="filters">
             <MediaQuery minWidth={`${deviceWidth.mobile}px`}>
-              <DesktopDateFilterView />
+              <DesktopDateFilterView
+                startDate={this.state.startDate}
+                endDate={this.state.endDate}
+                onGetDesktopDateButton={this.getDesktopDateButton}
+                onHandleDateChange={this.handleDateChange}
+                showDatePicker={this.state.showDatePicker}
+                onToggleShowDatePicker={this.toggleShowDatePicker}
+                dateText={this.state.dateText}
+                onResetDateButtonText={this.resetDateButtonText}
+                onResetDateFilter={this.resetDateFilter}
+              />
             </MediaQuery>
 
             <MediaQuery minWidth={`${deviceWidth.mobile}px`}>
@@ -181,15 +269,32 @@ class ProjectsFilter extends React.Component<{}, State> {
                 onSetId={this.setId}
                 onHandleClose={this.handleClose}
                 onCategoryFilterTitle={this.categoryFilterTitle}
-                onResetCategoryFilter={this.resetCategoryFilter}
-                onResetFilters={this.resetFilters}
                 onTagClassName={this.tagClassName}
                 onResetDateFilter={this.resetDateFilter}
+                onResetCategoryFilter={this.resetCategoryFilter}
+                onResetFilters={this.resetFilters}
               />
             </MediaQuery>
 
             <MediaQuery maxWidth={`${deviceWidth.mobile}px`}>
-              <MobileDateFilterView />
+              <MobileDateFilterView
+                startDate={this.state.startDate}
+                endDate={this.state.endDate}
+                onGetMobileDateButton={this.getMobileDateButton}
+                onHandleDateChange={this.handleDateChange}
+                showDatePicker={this.state.showDatePicker}
+                dateText={this.state.dateText}
+                startDateDisplay={this.state.startDateDisplay}
+                endDateDisplay={this.state.endDateDisplay}
+                mobileFilterMenuOpen={this.state.mobileFilterMenuOpen}
+                mobileDatesMenuOpen={this.state.mobileDatesMenuOpen}
+                onToggleShowDatePicker={this.toggleShowDatePicker}
+                onToggleMobileDates={this.toggleMobileDates}
+                onShowMobileDatePicker={this.showMobileDatePicker}
+                onResetDateDisplay={this.resetDateDisplay}
+                onResetDateFilter={this.resetDateFilter}
+                onResetDateButtonText={this.resetDateButtonText}
+              />
             </MediaQuery>
 
             <MediaQuery maxWidth={`${deviceWidth.mobile}px`}>
@@ -197,28 +302,17 @@ class ProjectsFilter extends React.Component<{}, State> {
                 checkTitle={this.state.checkTitle}
                 categorySelections={this.state.categorySelections}
                 onHandleSelectCategoryTag={this.handleSelectCategoryTag}
-                mobileFilterMenuOpen={this.state.mobileFilterMenuOpen}
                 onSetId={this.setId}
                 onHandleClose={this.handleClose}
+                mobileFilterMenuOpen={this.state.mobileFilterMenuOpen}
                 onCategoryFilterTitle={this.categoryFilterTitle}
-                onResetCategoryFilter={this.resetCategoryFilter}
-                onResetFilters={this.resetFilters}
                 onTagClassName={this.tagClassName}
                 onToggleMobileFilters={this.toggleMobileFilters}
                 onMobileFilterText={this.mobileFilterText}
+                onResetCategoryFilter={this.resetCategoryFilter}
+                onResetFilters={this.resetFilters}
                 onResetDateFilter={this.resetDateFilter}
               />
-            </MediaQuery>
-
-            <MediaQuery maxWidth={`${deviceWidth.mobile}px`}>
-              <Button
-                onClick={(): void => {
-                  this.resetFilters()
-                  this.resetDateFilter()
-                }}
-              >
-                <Reset fill="#000" />
-              </Button>
             </MediaQuery>
           </div>
         </FiltersWrap>

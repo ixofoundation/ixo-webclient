@@ -1,108 +1,62 @@
 import * as React from 'react'
 import DatePicker from './DatePicker'
-import { schema } from './schema'
-import { CalendarSort } from './svgs'
 
 import {
   DatePickerModal,
   ResetButtonDatePicker,
   ApplyButtonDatePicker,
-  Button,
   ButtonWrapper,
 } from './Style'
 
-interface State {
-  checkTitle: string
-  categorySelections: any[]
-  mobileFilterMenuOpen: boolean
-  showDatePicker: boolean
+interface Props {
   startDate: any
   endDate: any
-  startDateDisplay: string
-  endDateDisplay: string
-  mobileDatesMenuOpen: boolean
+  onGetDesktopDateButton: () => JSX.Element
+  showDatePicker: boolean
   dateText: string
+  onHandleDateChange: (startDate: any, endDate: any) => void
+  onToggleShowDatePicker: () => void
+  onResetDateButtonText: () => void
+  onResetDateFilter: () => void
 }
-class DesktopDateFilterView extends React.Component<{}, State> {
-  initialCategorySelections = schema.categories.map(category => ({
-    category: category.title,
-    tags:
-      category.selectedTags && category.selectedTags.length
-        ? [...category.selectedTags]
-        : [],
-  }))
 
+class DesktopDateFilterView extends React.Component<Props, {}> {
   constructor(props) {
     super(props)
-    this.state = {
-      checkTitle: ' ',
-      categorySelections: this.initialCategorySelections,
-      mobileFilterMenuOpen: false,
-      showDatePicker: false,
-      startDate: null,
-      endDate: null,
-      startDateDisplay: null,
-      endDateDisplay: null,
-      mobileDatesMenuOpen: false,
-      dateText: 'Dates',
-    }
   }
 
-  resetDateFilter = (): void => {
-    this.setState({
-      dateText: 'Dates',
-      startDate: null,
-      endDate: null,
-    })
-    this.toggleShowDatePicker()
-  }
-
-  handleDateChange = (startDate, endDate): void => {
-    const DATE_FORMAT = "D MMM \\'YY"
-    if (startDate && endDate) {
-      this.setState({
-        dateText: ` ${startDate.format(DATE_FORMAT)} - ${endDate.format(
-          DATE_FORMAT,
-        )} `,
-        startDateDisplay: `${startDate.format(DATE_FORMAT)}`,
-        endDateDisplay: `${endDate.format(DATE_FORMAT)}`,
-        startDate,
-        endDate,
-      })
-    } else if (startDate) {
-      this.setState({
-        dateText: ` ${startDate.format(DATE_FORMAT)} - Select `,
-        startDate,
-      })
-    }
-  }
-
-  toggleShowDatePicker = (): void => {
-    this.setState({
-      showDatePicker: !this.state.showDatePicker,
-      checkTitle: ' ',
-    })
-  }
-
-  resetDateButtonText = (): void => {
-    if (this.state.dateText === 'Dates') {
-      this.setState({
-        dateText: 'Select',
-      })
-    }
-  }
-
-  getDatesButton = (): JSX.Element => {
+  getDatePicker = (): JSX.Element => {
+    const datePickerOpen = this.props.showDatePicker
     return (
-      <Button
-        onClick={(): void => {
-          this.toggleShowDatePicker()
-          this.resetDateButtonText()
-        }}
-      >
-        <CalendarSort width="16" fill="#000" />
-        {this.state.dateText}
-      </Button>
+      <>
+        {datePickerOpen && (
+          <DatePickerModal>
+            <DatePicker
+              initialStartDate={this.props.startDate}
+              initialEndDate={this.props.endDate}
+              initialOrientation="horizontal"
+              onApply={this.props.onToggleShowDatePicker}
+              onChange={this.props.onHandleDateChange}
+              onReset={this.props.onResetDateFilter}
+            />
+
+            <ResetButtonDatePicker onClick={this.props.onResetDateFilter}>
+              Reset
+            </ResetButtonDatePicker>
+            <ApplyButtonDatePicker
+              onClick={(): void => {
+                this.props.onHandleDateChange(
+                  this.props.startDate,
+                  this.props.endDate,
+                )
+                this.props.onToggleShowDatePicker()
+              }}
+            >
+              Apply
+            </ApplyButtonDatePicker>
+          </DatePickerModal>
+        )}
+      </>
     )
   }
 
@@ -110,35 +64,9 @@ class DesktopDateFilterView extends React.Component<{}, State> {
     return (
       <>
         <ButtonWrapper>
-          {this.getDatesButton()}
+          {this.props.onGetDesktopDateButton()}
 
-          {this.state.showDatePicker && (
-            <DatePickerModal>
-              <DatePicker
-                onReset={this.resetDateFilter}
-                onChange={this.handleDateChange}
-                onApply={this.toggleShowDatePicker}
-                initialStartDate={this.state.startDate}
-                initialEndDate={this.state.endDate}
-                initialOrientation="horizontal"
-              />
-
-              <ResetButtonDatePicker onClick={this.resetDateFilter}>
-                Reset
-              </ResetButtonDatePicker>
-              <ApplyButtonDatePicker
-                onClick={(): void => {
-                  this.handleDateChange(
-                    this.state.startDate,
-                    this.state.endDate,
-                  )
-                  this.toggleShowDatePicker()
-                }}
-              >
-                Apply
-              </ApplyButtonDatePicker>
-            </DatePickerModal>
-          )}
+          {this.getDatePicker()}
         </ButtonWrapper>
       </>
     )

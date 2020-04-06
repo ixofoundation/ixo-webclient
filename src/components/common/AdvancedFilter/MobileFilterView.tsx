@@ -26,19 +26,18 @@ interface Props {
   onSetId: (title: string) => void
   onHandleClose: (e, title: string) => void
   onCategoryFilterTitle: (category: string) => string
-  onResetCategoryFilter: (category: string) => void
   onTagClassName: (category: string, tag: string) => string
   onToggleMobileFilters: () => void
   onMobileFilterText: () => string
+  mobileFilterMenuOpen: boolean
+  onResetCategoryFilter: (category: string) => void
   onResetFilters: () => void
   onResetDateFilter: () => void
-  mobileFilterMenuOpen: boolean
 }
 
 class MobileFilterView extends React.Component<Props, {}> {
   constructor(props) {
     super(props)
-    this.state = {}
   }
 
   render(): JSX.Element {

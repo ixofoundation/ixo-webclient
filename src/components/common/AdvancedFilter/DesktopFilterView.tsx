@@ -21,32 +21,14 @@ interface Props {
   onSetId: (title: string) => void
   onHandleClose: (e, title: string) => void
   onCategoryFilterTitle: (category: string) => string
-  onResetCategoryFilter: (category: string) => void
   onTagClassName: (category: string, tag: string) => string
+  onResetCategoryFilter: (category: string) => void
   onResetFilters: () => void
   onResetDateFilter: () => void
 }
 class DesktopFilterView extends React.Component<Props, {}> {
-  initialCategorySelections = schema.categories.map(category => ({
-    category: category.title,
-    tags:
-      category.selectedTags && category.selectedTags.length
-        ? [...category.selectedTags]
-        : [],
-  }))
-
   constructor(props) {
     super(props)
-    this.state = {}
-    this.onResetFilters = this.onResetFilters.bind(this)
-  }
-
-  onResetFilters = (): void => {
-    console.log('Reset Hit')
-    this.setState({
-      categorySelections: this.initialCategorySelections,
-    })
-    this.props.onResetFilters()
   }
 
   render(): JSX.Element {
