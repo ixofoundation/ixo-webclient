@@ -1,8 +1,11 @@
-version: 2
+version: 2.1
 
 # --------------------------------
 # common : base
 # --------------------------------
+
+orbs:
+  docker: circleci/docker@1.0.1
 
 base_node: &base_node
   docker:
@@ -69,4 +72,14 @@ workflows:
             branches:
               ignore:
                 - master
-                - develop
+                - dev
+      - docker/publish:
+          image: trustlab/ixo-web:$CIRCLE_BRANCH
+          dockerfile: dockerfile
+          requires:
+            - test
+          filters:
+            branches:
+              only:
+                - master
+                - dev
