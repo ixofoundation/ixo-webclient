@@ -7,7 +7,7 @@ version: 2.1
 orbs:
   docker: circleci/docker@1.0.1
 
-base_node: &base_node
+node_build: &node_build
   docker:
     - image: circleci/node:9.6.1-browsers
 
@@ -34,28 +34,10 @@ step_run_install_npm_dependencies: &step_run_install_npm_dependencies
   command: |
     npm install
 
-###### TODO when linting errors fixed ######
-# step_lint_js: &step_lint_js
-#name: 'Lint JS'
-#command: |
-#npm run lint:js
-
 step_test: &step_test
   name: 'Run Tests'
   command: |
     npm run test
-
-# --------------------------------
-# pandora VPN
-# --------------------------------
-
-step_install_vpn: &step_install_vpn
-  name: 'Install Global Connect VPN'
-  command: |
-    curl -o /tmp/PanGPLinux-5.1.1-c17.tgz https://ixo-web.s3-eu-west-1.amazonaws.com/PanGPLinux-5.1.1-c17.tgz
-    cd /tmp
-    sudo tar -xvf PanGPLinux-5.1.1-c17.tgz
-    sudo dpkg -i ./GlobalProtect_deb-5.1.1.0-17.deb
 
 # --------------------------------
 # jobs
@@ -63,14 +45,13 @@ step_install_vpn: &step_install_vpn
 
 jobs:
   test:
-    <<: *base_node
+    <<: *node_build
     steps:
       - checkout
-      - run: *step_install_vpn
-      # - restore_cache: *step_cache_restore_npm
-      # - run: *step_run_install_npm_dependencies
-      # - save_cache: *step_cache_save_npm
-      # - run: *step_test
+      - restore_cache: *step_cache_restore_npm
+      - run: *step_run_install_npm_dependencies
+      - save_cache: *step_cache_save_npm
+      - run: *step_test
 
 # --------------------------------
 # workflows
@@ -78,9 +59,22 @@ jobs:
 
 workflows:
   version: 2
+  build_test:
+    jobs:
+      - test:
+          filters:
+            branches:
+              ignore:
+                - dev
+                - master
   build_deploy:
     jobs:
-      - test
+      - test:
+          filters:
+            branches:
+              only:
+                - dev
+                - master
       - docker/publish:
           image: trustlab/ixo-web
           tag: $CIRCLE_BRANCH
