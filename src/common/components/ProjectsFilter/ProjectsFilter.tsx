@@ -245,7 +245,7 @@ class ProjectsFilter extends React.Component<{}, State> {
 
   render(): JSX.Element {
     return (
-      <>
+      <div data-testid="ProjectsFilter">
         <FiltersWrap>
           <FilterInfo>All Projects</FilterInfo>
           <div className="filters">
@@ -318,7 +318,7 @@ class ProjectsFilter extends React.Component<{}, State> {
             </MediaQuery>
           </div>
         </FiltersWrap>
-      </>
+      </div>
     )
   }
 }
