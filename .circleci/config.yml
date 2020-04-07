@@ -41,9 +41,21 @@ step_run_install_npm_dependencies: &step_run_install_npm_dependencies
 #npm run lint:js
 
 step_test: &step_test
-  name: 'Tests'
+  name: 'Run Tests'
   command: |
     npm run test
+
+# --------------------------------
+# pandora VPN
+# --------------------------------
+
+step_install_vpn: &step_install_vpn
+  name: 'Install Global Connect VPN'
+  command: |
+    curl -o /tmp/PanGPLinux-5.1.1-c17.tgz https://ixo-web.s3-eu-west-1.amazonaws.com/PanGPLinux-5.1.1-c17.tgz
+    cd /tmp
+    sudo tar -xvf PanGPLinux-5.1.1-c17.tgz
+    sudo dpkg -i ./GlobalProtect_deb-5.1.1.0-17.deb
 
 # --------------------------------
 # jobs
@@ -54,10 +66,11 @@ jobs:
     <<: *base_node
     steps:
       - checkout
-      - restore_cache: *step_cache_restore_npm
-      - run: *step_run_install_npm_dependencies
-      - save_cache: *step_cache_save_npm
-      - run: *step_test
+      - run: *step_install_vpn
+      # - restore_cache: *step_cache_restore_npm
+      # - run: *step_run_install_npm_dependencies
+      # - save_cache: *step_cache_save_npm
+      # - run: *step_test
 
 # --------------------------------
 # workflows
