@@ -11,6 +11,7 @@ import { UserInfo } from '../../modules/account/types'
 import { ProjectsDashboard } from './ProjectsDashboard'
 import ProjectsFilter from '../../common/components/ProjectsFilter/ProjectsFilter'
 import { deviceWidth } from '../../lib/commonData'
+import { schema } from '../../../src/common/components/ProjectsFilter/schema'
 
 const Container = styled.div`
   display: flex;
@@ -205,7 +206,7 @@ export class Projects extends React.Component<Props, State> {
       return (
         <ProjectsContainer className="container-fluid">
           <div className="container">
-            <ProjectsFilter />
+            <ProjectsFilter schema={schema} />
             <div className="row row-eq-height">
               {projects.map((project, index) => {
                 return (
