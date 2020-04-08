@@ -71,15 +71,6 @@ jobs:
       - run: *step_run_install_npm_dependencies
       - save_cache: *step_cache_save_npm
       - run: *step_test
-  uat_build:
-    <<: *node_build
-    steps:
-      - checkout
-      - run: *uat_in_app_environment
-      - restore_cache: *step_cache_restore_npm
-      - run: *step_run_install_npm_dependencies
-      - save_cache: *step_cache_save_npm
-      - run: *step_test
 
 # --------------------------------
 # workflows
@@ -102,19 +93,16 @@ workflows:
             branches:
               only:
                 - dev
-      - uat_build:
-          requires:
-            - test
-          filters:
-            branches:
-              only:
-                - dev
       - docker/publish:
+          after_checkout:
+            - run: *uat_in_app_environment
+            - restore_cache: *step_cache_restore_npm
+            - run: *step_run_install_npm_dependencies
+            - save_cache: *step_cache_save_npm
           image: trustlab/ixo-web
           tag: uat
           requires:
             - test
-            - uat_build
           filters:
             branches:
               only:
