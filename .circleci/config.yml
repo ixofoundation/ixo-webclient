@@ -103,6 +103,8 @@ workflows:
               only:
                 - dev
       - uat_build:
+          requires:
+            - test
           filters:
             branches:
               only:
@@ -112,6 +114,7 @@ workflows:
           tag: uat
           requires:
             - test
+            - uat_build
           filters:
             branches:
               only:
