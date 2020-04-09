@@ -7,26 +7,7 @@ import MobileDateFilterView from './MobileDateFilterView'
 import MobileFilterView from './MobileFilterView'
 import { FiltersWrap, FilterInfo, Button } from './ProjectsFilter.style'
 import { CalendarSort } from './svgs'
-
-interface Schema {
-  ['@context']: string
-  ['@type']: string
-  categories: Category[]
-}
-
-interface Category {
-  ['@type']: string
-  name: string
-  tags: Tag[]
-  selectedTags?: string[]
-}
-
-interface Tag {
-  ['@type']: string
-  name: string
-  icon: string
-  color?: string
-}
+import { SchemaType } from './ProjectsFilterTypes'
 
 interface State {
   startDate: any
@@ -41,7 +22,7 @@ interface State {
   mobileDatesMenuOpen: boolean
 }
 interface Props {
-  schema: Schema
+  schema: SchemaType
 }
 
 class ProjectsFilter extends React.Component<Props, State> {
