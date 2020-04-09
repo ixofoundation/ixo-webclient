@@ -3,6 +3,7 @@ import { render } from '@testing-library/react'
 import { create, act } from 'react-test-renderer'
 import ProjectsFilter from './ProjectsFilter'
 import testSchema from '../../../lib/json/projectsFilterTest.json'
+import moment from 'moment'
 
 describe('Projects filter', () => {
   it('renders correctly', () => {
@@ -48,6 +49,21 @@ describe('Projects filter', () => {
     expect(instance.state.showDatePicker).toBe(false)
     act(() => toggleShowDates())
     expect(instance.state.showDatePicker).toBe(true)
+  })
+
+  it('handles a date change', () => {
+    const testStartDay = moment('10/10/2017', 'MM/DD/YYYY')
+    const testEndDay = moment('10/21/2017', 'MM/DD/YYYY')
+    let component
+    act(() => {
+      component = create(<ProjectsFilter schema={testSchema} />)
+    })
+    const instance = component.getInstance()
+    const handleDateChange = instance.handleDateChange
+    act(() => handleDateChange(testStartDay, testEndDay))
+    expect(instance.state.startDateDisplay).toBe(`10 Oct '17`)
+    expect(instance.state.endDateDisplay).toBe(`21 Oct '17`)
+    expect(instance.state.dateText).toBe(`10 Oct '17 - 21 Oct '17`)
   })
 
   it('toggles mobile date menu', () => {

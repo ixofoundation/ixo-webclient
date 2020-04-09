@@ -110,9 +110,9 @@ class ProjectsFilter extends React.Component<Props, State> {
     const DATE_FORMAT = "D MMM \\'YY"
     if (startDate && endDate) {
       this.setState({
-        dateText: ` ${startDate.format(DATE_FORMAT)} - ${endDate.format(
+        dateText: `${startDate.format(DATE_FORMAT)} - ${endDate.format(
           DATE_FORMAT,
-        )} `,
+        )}`,
         startDateDisplay: `${startDate.format(DATE_FORMAT)}`,
         endDateDisplay: `${endDate.format(DATE_FORMAT)}`,
         startDate,
@@ -120,7 +120,7 @@ class ProjectsFilter extends React.Component<Props, State> {
       })
     } else if (startDate) {
       this.setState({
-        dateText: ` ${startDate.format(DATE_FORMAT)} - Select `,
+        dateText: `${startDate.format(DATE_FORMAT)} - Select`,
         startDate,
       })
     }
