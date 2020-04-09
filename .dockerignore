@@ -1,20 +1,4 @@
-# files
-.dockerignore
-.editorconfig
-.env-example
-.eslintignore
-.eslintrc.js
-.gitignore
-.node-version
-.prettierrc
 Dockerfile
-LICENCE
+.gitignore
 README.md
-tslint.json
-
-# folders
-.circleci
-.github
-build
 node_modules
-scripts
