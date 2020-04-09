@@ -10,7 +10,7 @@ import { UserInfo } from '../account/types'
 import { ProjectsDashboard } from './components/ProjectsDashboard'
 import FilterSortButtons from '../../components/common/AdvancedFilter/FilterSortButtons'
 import { deviceWidth } from '../../lib/commonData'
-import { fetchProjects } from './Projects.actions'
+import { getProjects } from './Projects.actions'
 import { Project } from '../project/types'
 
 const Container = styled.div`
@@ -237,7 +237,7 @@ function mapStateToProps(state: RootState): Record<string, any> {
 
 const mapDispatchToProps = (dispatch: any): any => ({
   onGetProjects: (): void => {
-    dispatch(fetchProjects())
+    dispatch(getProjects())
   },
 })
 

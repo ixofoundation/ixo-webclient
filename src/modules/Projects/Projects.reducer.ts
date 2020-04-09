@@ -9,7 +9,7 @@ export const reducer = (
   action: ProjectsActionTypes,
 ): ProjectsState => {
   switch (action.type) {
-    case ProjectsActions.GetProjects:
+    case ProjectsActions.GetProjectsSuccess:
       return {
         ...state,
         projects: action.payload.projects,
