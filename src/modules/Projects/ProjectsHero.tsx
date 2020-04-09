@@ -1,10 +1,10 @@
 import * as React from 'react'
 import styled from 'styled-components'
-import HeaderSubTabs from '../common/HeaderSubTabs'
-import { SingleStatistic } from '../common/SingleStatistic'
+import HeaderSubTabs from '../../components/common/HeaderSubTabs'
+import { SingleStatistic } from '../../components/common/SingleStatistic'
 import { StatType } from '../../types/models'
 import { deviceWidth } from '../../lib/commonData'
-import Search from '../common/Search'
+import Search from '../../components/common/Search'
 import { contentType } from '../../types/models'
 import * as instanceSettings from '../../instance-settings'
 
