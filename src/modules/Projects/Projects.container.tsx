@@ -8,7 +8,7 @@ import { RootState } from '../../common/redux/types'
 import { contentType } from '../../types/models'
 import { UserInfo } from '../account/types'
 import { ProjectsDashboard } from './components/ProjectsDashboard'
-import FilterSortButtons from '../../components/common/AdvancedFilter/FilterSortButtons'
+import ProjectsFilter from '../../common/components/ProjectsFilter/ProjectsFilter'
 import { deviceWidth } from '../../lib/commonData'
 import { getProjects } from './Projects.actions'
 import { Project } from '../project/types'
@@ -165,7 +165,7 @@ export class Projects extends React.Component<Props, State> {
       return (
         <ProjectsContainer className="container-fluid">
           <div className="container">
-            <FilterSortButtons />
+            <ProjectsFilter />
             <div className="row row-eq-height">
               {projects.map((project, index) => {
                 return (
