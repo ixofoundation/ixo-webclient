@@ -1,4 +1,4 @@
-export type ProjectsState = {
+export interface ProjectsState {
   projects: any
 }
 
