@@ -221,9 +221,9 @@ export class ProjectsHero extends React.Component<Props, State> {
               <HeaderSubTabs
                 buttons={[
                   {
-                    iconClass: 'icon-projects',
+                    iconClass: 'icon-explorer',
                     path: '/',
-                    title: 'PROJECTS',
+                    title: 'EXPLORER',
                   },
                   {
                     iconClass: 'icon-impacts',
