@@ -1,9 +1,9 @@
 import * as React from 'react'
-import { SDGArray, deviceWidth } from '../../lib/commonData'
+import { SDGArray, deviceWidth } from '../../../lib/commonData'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
-import { ProgressBar } from '../../components/common/ProgressBar'
-import { excerptText } from '../../common/utils/formatters'
+import { ProgressBar } from '../../../components/common/ProgressBar'
+import { excerptText } from '../../../common/utils/formatters'
 
 const Title = styled.h3`
   font-weight: 400;
@@ -257,7 +257,7 @@ export class ProjectCard extends React.Component<Props, {}> {
         >
           <CardTop
             style={{
-              backgroundImage: `url(${this.getImageLink()}),url(${require('../../assets/images/ixo-placeholder-large.jpg')})`,
+              backgroundImage: `url(${this.getImageLink()}),url(${require('../../../assets/images/ixo-placeholder-large.jpg')})`,
             }}
           >
             <SDGs>

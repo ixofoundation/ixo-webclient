@@ -1,12 +1,15 @@
 import * as React from 'react'
 import styled from 'styled-components'
-import { WidgetWrapper, gridSizes } from '../../components/common/WidgetWrapper'
-import { LayoutWrapper } from '../../components/common/LayoutWrapper'
-import { SingleStatistic } from '../../components/common/SingleStatistic'
-import { StatType } from '../../types/models'
-import { CircleProgressbar } from '../../common/components/Widgets/CircleProgressbar/CircleProgressbar'
-import { WorldMap } from '../../common/components/Widgets/WorldMap/WorldMap'
-import { isoCountriesLatLng } from '../../lib/commonData'
+import {
+  WidgetWrapper,
+  gridSizes,
+} from '../../../components/common/WidgetWrapper'
+import { LayoutWrapper } from '../../../components/common/LayoutWrapper'
+import { SingleStatistic } from '../../../components/common/SingleStatistic'
+import { StatType } from '../../../types/models'
+import { CircleProgressbar } from '../../../common/components/Widgets/CircleProgressbar/CircleProgressbar'
+import { WorldMap } from '../../../common/components/Widgets/WorldMap/WorldMap'
+import { isoCountriesLatLng } from '../../../lib/commonData'
 
 const Container = styled.div`
   color: white;
