@@ -10,7 +10,7 @@ import {
   DashboardContainer,
   ClaimsWidget,
   ClaimsLabels,
-} from './Projects.styles'
+} from './ProjectsDashboard.styles'
 
 export interface ParentProps {
   claims: any[]

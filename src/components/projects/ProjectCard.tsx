@@ -16,7 +16,7 @@ import {
   ProjectStatus,
   CardContainer,
   ProjectLink,
-} from './Projects.styles'
+} from './ProjectsCard.styles'
 
 export interface Props {
   project: any
