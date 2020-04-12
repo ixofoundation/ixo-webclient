@@ -11,7 +11,7 @@ import {
   StatisticContainer,
   HeroInner,
   HeroContainer,
-} from './Projects.styles'
+} from './ProjectsHero.styles'
 
 export interface Stats {
   claims: Claims
