@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { Route, Switch } from 'react-router-dom'
 import { ProjectContainerConnected } from './project/ProjectContainer'
-import { ProjectsContainerConnected } from './projects/ProjectsContainer'
+import { ProjectsContainerConnected } from '../modules/Projects/Projects.container'
 import { ProjectCreateConnected } from './project/ProjectCreate'
 import { contentType } from '../types/models'
 import { ProjectForm } from './project/ProjectForm'
