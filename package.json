@@ -45,6 +45,7 @@
     "react-scripts-ts": "^2.17.0",
     "react-scrollbar": "^0.5.6",
     "react-simple-maps": "^0.12.1",
+    "react-test-renderer": "^16.13.1",
     "react-toastify": "^4.5.2",
     "react-transition-group": "^2.9.0",
     "react-virtualized": "^9.21.2",
@@ -63,7 +64,7 @@
   },
   "scripts": {
     "dev": "npm-run-all -p watch:css start:js",
-    "start": "npm run build && serve -s build",
+    "start": "npm run build --verbose && serve -s build",
     "build:css": "node-sass src/ -o src/ ",
     "watch:css": "npm run build:css && node-sass src/ -o src/ -w -r",
     "start:js": "react-scripts-ts start",

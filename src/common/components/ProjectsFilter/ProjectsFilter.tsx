@@ -1,13 +1,13 @@
 import * as React from 'react'
 import MediaQuery from 'react-responsive'
 import { deviceWidth } from '../../../lib/commonData'
-import { schema } from './schema'
 import DesktopDateFilterView from './DesktopDateFilterView'
 import DesktopFilterView from './DesktopFilterView'
 import MobileDateFilterView from './MobileDateFilterView'
 import MobileFilterView from './MobileFilterView'
 import { FiltersWrap, FilterInfo, Button } from './ProjectsFilter.style'
 import { CalendarSort } from './svgs'
+import { SchemaType } from './ProjectsFilterTypes'
 
 interface State {
   startDate: any
@@ -21,9 +21,12 @@ interface State {
   mobileFilterMenuOpen: boolean
   mobileDatesMenuOpen: boolean
 }
+interface Props {
+  schema: SchemaType
+}
 
-class ProjectsFilter extends React.Component<{}, State> {
-  initialCategorySelections = schema.categories.map(category => ({
+class ProjectsFilter extends React.Component<Props, State> {
+  initialCategorySelections = this.props.schema.categories.map(category => ({
     category: category.name,
     tags:
       category.selectedTags && category.selectedTags.length
@@ -50,6 +53,7 @@ class ProjectsFilter extends React.Component<{}, State> {
   getDesktopDateButton = (): JSX.Element => {
     return (
       <Button
+        data-testid="DesktopDateButton"
         onClick={(): void => {
           this.toggleShowDatePicker()
           this.resetDateButtonText()
@@ -87,9 +91,9 @@ class ProjectsFilter extends React.Component<{}, State> {
     const DATE_FORMAT = "D MMM \\'YY"
     if (startDate && endDate) {
       this.setState({
-        dateText: ` ${startDate.format(DATE_FORMAT)} - ${endDate.format(
+        dateText: `${startDate.format(DATE_FORMAT)} - ${endDate.format(
           DATE_FORMAT,
-        )} `,
+        )}`,
         startDateDisplay: `${startDate.format(DATE_FORMAT)}`,
         endDateDisplay: `${endDate.format(DATE_FORMAT)}`,
         startDate,
@@ -97,7 +101,7 @@ class ProjectsFilter extends React.Component<{}, State> {
       })
     } else if (startDate) {
       this.setState({
-        dateText: ` ${startDate.format(DATE_FORMAT)} - Select `,
+        dateText: `${startDate.format(DATE_FORMAT)} - Select`,
         startDate,
       })
     }
@@ -142,7 +146,7 @@ class ProjectsFilter extends React.Component<{}, State> {
     }
   }
 
-  setId = (name: string): void => {
+  setCategoryName = (name: string): void => {
     this.setState({
       checkTitle: this.state.checkTitle !== name ? name : ' ',
     })
@@ -183,7 +187,7 @@ class ProjectsFilter extends React.Component<{}, State> {
     if (filterModal.contains(e.target)) {
       return
     }
-    this.setId(name)
+    this.setCategoryName(name)
   }
 
   categoryFilterTitle = (category: string): string => {
@@ -245,7 +249,7 @@ class ProjectsFilter extends React.Component<{}, State> {
 
   render(): JSX.Element {
     return (
-      <>
+      <div data-testid="ProjectsFilter">
         <FiltersWrap>
           <FilterInfo>All Projects</FilterInfo>
           <div className="filters">
@@ -268,7 +272,7 @@ class ProjectsFilter extends React.Component<{}, State> {
                 checkTitle={this.state.checkTitle}
                 categorySelections={this.state.categorySelections}
                 onHandleSelectCategoryTag={this.handleSelectCategoryTag}
-                onSetId={this.setId}
+                onSetCategoryName={this.setCategoryName}
                 onHandleClose={this.handleClose}
                 onCategoryFilterTitle={this.categoryFilterTitle}
                 onTagClassName={this.tagClassName}
@@ -304,7 +308,7 @@ class ProjectsFilter extends React.Component<{}, State> {
                 checkTitle={this.state.checkTitle}
                 categorySelections={this.state.categorySelections}
                 onHandleSelectCategoryTag={this.handleSelectCategoryTag}
-                onSetId={this.setId}
+                onSetCategoryName={this.setCategoryName}
                 onHandleClose={this.handleClose}
                 mobileFilterMenuOpen={this.state.mobileFilterMenuOpen}
                 onCategoryFilterTitle={this.categoryFilterTitle}
@@ -318,7 +322,7 @@ class ProjectsFilter extends React.Component<{}, State> {
             </MediaQuery>
           </div>
         </FiltersWrap>
-      </>
+      </div>
     )
   }
 }
