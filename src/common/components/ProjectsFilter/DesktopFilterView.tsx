@@ -18,7 +18,7 @@ interface Props {
   checkTitle: string
   categorySelections: any[]
   onHandleSelectCategoryTag: (category: string, tag: string) => void
-  onSetId: (name: string) => void
+  onSetCategoryName: (name: string) => void
   onHandleClose: (e, name: string) => void
   onCategoryFilterTitle: (category: string) => string
   onTagClassName: (category: string, tag: string) => string
@@ -46,7 +46,7 @@ class DesktopFilterView extends React.Component<Props, {}> {
                 onClick={(e): void => this.props.onHandleClose(e, category)}
               >
                 <Button
-                  onClick={(): void => this.props.onSetId(category)}
+                  onClick={(): void => this.props.onSetCategoryName(category)}
                   className={
                     this.props.categorySelections.find(
                       selection => selection.category === category,
@@ -95,7 +95,7 @@ class DesktopFilterView extends React.Component<Props, {}> {
                     </ResetButton>
                     <ApplyButton
                       onClick={(): void => {
-                        this.props.onSetId('')
+                        this.props.onSetCategoryName('')
                       }}
                     >
                       Apply

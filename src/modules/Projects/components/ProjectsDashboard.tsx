@@ -1,16 +1,20 @@
 import * as React from 'react'
-import { WidgetWrapper, gridSizes } from '../common/WidgetWrapper'
-import { LayoutWrapper } from '../common/LayoutWrapper'
-import { SingleStatistic } from '../common/SingleStatistic'
-import { StatType } from '../../types/models'
-import { CircleProgressbar } from '../../common/components/Widgets/CircleProgressbar/CircleProgressbar'
-import { WorldMap } from '../../common/components/Widgets/WorldMap/WorldMap'
-import { isoCountriesLatLng } from '../../lib/commonData'
+
 import {
   DashboardContainer,
   ClaimsWidget,
   ClaimsLabels,
 } from './ProjectsDashboard.styles'
+import { LayoutWrapper } from '../../../components/common/LayoutWrapper'
+import { SingleStatistic } from '../../../components/common/SingleStatistic'
+import { StatType } from '../../../types/models'
+import { CircleProgressbar } from '../../../common/components/Widgets/CircleProgressbar/CircleProgressbar'
+import { WorldMap } from '../../../common/components/Widgets/WorldMap/WorldMap'
+import { isoCountriesLatLng } from '../../../lib/commonData'
+import {
+  WidgetWrapper,
+  gridSizes,
+} from '../../../components/common/WidgetWrapper'
 
 export interface ParentProps {
   claims: any[]

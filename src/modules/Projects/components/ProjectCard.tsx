@@ -1,7 +1,7 @@
 import * as React from 'react'
-import { SDGArray } from '../../lib/commonData'
-import { ProgressBar } from '../common/ProgressBar'
-import { excerptText } from '../../common/utils/formatters'
+import { SDGArray } from '../../../lib/commonData'
+import { ProgressBar } from '../../../components/common/ProgressBar'
+import { excerptText } from '../../../common/utils/formatters'
 import {
   Title,
   Owner,
@@ -88,7 +88,7 @@ export class ProjectCard extends React.Component<Props, {}> {
         >
           <CardTop
             style={{
-              backgroundImage: `url(${this.getImageLink()}),url(${require('../../assets/images/ixo-placeholder-large.jpg')})`,
+              backgroundImage: `url(${this.getImageLink()}),url(${require('../../../assets/images/ixo-placeholder-large.jpg')})`,
             }}
           >
             <SDGs>

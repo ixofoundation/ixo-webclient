@@ -29,6 +29,7 @@ export const Icons: React.SFC<ParentProps> = props => {
           <i className="icon-flash" />
           <i className="icon-eye" />
           <i className="icon-eyeoff" />
+          <i className="icon-explorer" />
           <i className="icon-lock" />
           <i className="icon-settings" />
           <i className="icon-internet" />
