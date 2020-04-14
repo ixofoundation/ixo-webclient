@@ -23,7 +23,7 @@ interface Props {
   checkTitle: string
   categorySelections: any[]
   onHandleSelectCategoryTag: (category: string, tag: string) => void
-  onSetId: (name: string) => void
+  onSetCategoryName: (name: string) => void
   onHandleClose: (e, name: string) => void
   onCategoryFilterTitle: (category: string) => string
   onTagClassName: (category: string, tag: string) => string
@@ -70,7 +70,9 @@ class MobileFilterView extends React.Component<Props, {}> {
                     onClick={(e): void => this.props.onHandleClose(e, category)}
                   >
                     <MobileButton
-                      onClick={(): void => this.props.onSetId(category)}
+                      onClick={(): void =>
+                        this.props.onSetCategoryName(category)
+                      }
                     >
                       <span>{this.props.onCategoryFilterTitle(category)}</span>
                       <span className="right-arrow">
@@ -87,7 +89,7 @@ class MobileFilterView extends React.Component<Props, {}> {
                       <MobileFilterHeader>
                         <HeadingItem
                           onClick={(): void => {
-                            this.props.onSetId
+                            this.props.onSetCategoryName
                           }}
                         >
                           <Back />
@@ -134,7 +136,7 @@ class MobileFilterView extends React.Component<Props, {}> {
                       <DoneButtonWrapper>
                         <DoneButton
                           onClick={(): void => {
-                            this.props.onSetId('')
+                            this.props.onSetCategoryName('')
                           }}
                         >
                           Apply
