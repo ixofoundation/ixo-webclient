@@ -4,8 +4,10 @@ export interface Project {
   pubKey: string
   senderDid: string
   txHash: string
+  status: string
 }
 export interface Data {
+  [x: string]: any
   title: string
   projectDid: string
   ownerName: string
@@ -22,7 +24,7 @@ export interface Data {
   evaluatorPayPerClaim: string
   claimStats: ClaimStats
   claims: Claim[]
-  agentsStats: AgentStats
+  agentStats?: AgentStats
   agents: Agent[]
   socialMedia: SocialMedia
   ixo: Ixo
