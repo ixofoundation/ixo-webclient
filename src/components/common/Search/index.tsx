@@ -140,14 +140,7 @@ export default class Search extends React.Component<Props> {
                     <div>{this.renderFilterButtonIcon('globe')}</div>
                     Projects
                   </SearchFilterButton>
-                  <SearchFilterButton
-                    onClick={(): void =>
-                      this.handleSearchFilter('My Projects', 'briefcase')
-                    }
-                    className={
-                      this.state.activeFilter === 'my-projects' ? 'active' : ''
-                    }
-                  >
+                  <SearchFilterButton className="disabled">
                     <div>{this.renderFilterButtonIcon('funds')}</div>
                     Funds
                   </SearchFilterButton>
