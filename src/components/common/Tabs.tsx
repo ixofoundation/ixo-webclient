@@ -55,10 +55,6 @@ const TabsContainer = styled.div`
 		color:white;
 	}
 
-	a:hover i:before, a.active i:before {
-		color: ${/* eslint-disable-line */ props => props.theme.ixoBlue};
-	}
-
 	img {
 		padding:0 5px;
 	}
