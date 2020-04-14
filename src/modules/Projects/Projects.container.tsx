@@ -16,6 +16,7 @@ import ProjectsFilter from '../../common/components/ProjectsFilter/ProjectsFilte
 import { schema } from '../../../src/common/components/ProjectsFilter/schema'
 import { getProjects } from './Projects.actions'
 import { Project } from '../project/types'
+import * as ProjectsSelectors from './Projects.selectors'
 
 export interface ParentProps {
   ixo?: any
@@ -23,6 +24,11 @@ export interface ParentProps {
   contentType: contentType
   userInfo?: UserInfo
   projects?: Project[]
+  dateSortedProjects?: Project[]
+  projectCountries?: any
+  projectClaimsAgents?: any
+  projectClaims?: any
+  totalClaimsRequired: number
 }
 
 export interface State {
@@ -64,55 +70,17 @@ export class Projects extends React.Component<Props, State> {
     }
   }
   getMyProjectsList = (): Project[] => {
-    return this.getMyProjects(this.props.userInfo, this.getSortedProjectList())
-  }
-
-  getSortedProjectList = (): Project[] => {
-    return this.props.projects && this.props.projects.length
-      ? this.props.projects.sort((a, b) => {
-          return (
-            new Date(b.data.createdOn).getTime() -
-            new Date(a.data.createdOn).getTime()
-          )
-        })
-      : []
-  }
-
-  getProjectsCountries = (): any => {
-    return this.props.projects.map(project => {
-      return project.data.projectLocation
-    })
-  }
-
-  getClaimsInformation = (): Record<any, any> => {
-    const claimsArr = []
-    let reqClaims = 0
-    const agents = {
-      serviceProviders: 0,
-      evaluators: 0,
-    }
-    for (const project of this.props.projects) {
-      agents.serviceProviders += project.data.agentStats.serviceProviders
-      agents.evaluators += project.data.agentStats.evaluators
-
-      // count and sum required claims
-      reqClaims += project.data.requiredClaims
-      for (const claim of project.data.claims) {
-        claimsArr.push(claim)
-      }
-    }
-    return {
-      claims: claimsArr,
-      claimsTotalRequired: reqClaims,
-      agents: agents,
-    }
+    return this.getMyProjects(
+      this.props.userInfo,
+      this.props.dateSortedProjects,
+    )
   }
 
   renderProjects = (): JSX.Element => {
     if (this.props.projects.length > 0) {
       const projects = this.state.showOnlyMyProjects
         ? this.getMyProjectsList()
-        : this.getSortedProjectList()
+        : this.props.dateSortedProjects
       return (
         <ProjectsContainer className="container-fluid">
           <div className="container">
@@ -149,12 +117,10 @@ export class Projects extends React.Component<Props, State> {
       if (this.props.contentType === contentType.dashboard) {
         return (
           <ProjectsDashboard
-            claims={this.getClaimsInformation().claims}
-            claimsTotalRequired={
-              this.getClaimsInformation().claimsTotalRequired
-            }
-            agents={this.getClaimsInformation().agents}
-            projectCountries={this.getProjectsCountries()}
+            claims={this.props.projectClaims}
+            claimsTotalRequired={this.props.totalClaimsRequired}
+            agents={this.props.projectClaimsAgents}
+            projectCountries={this.props.projectCountries}
           />
         )
       } else {
@@ -182,7 +148,12 @@ function mapStateToProps(state: RootState): Record<string, any> {
   return {
     ixo: state.ixo.ixo,
     userInfo: state.account.userInfo,
-    projects: state.projects.projects,
+    projects: ProjectsSelectors.selectAllProjects(state),
+    dateSortedProjects: ProjectsSelectors.selectDateSortedProjects(state),
+    projectCountries: ProjectsSelectors.selectProjectCountries(state),
+    projectClaimsAgents: ProjectsSelectors.selectClaimsAgents(state),
+    projectClaims: ProjectsSelectors.selectClaims(state),
+    totalClaimsRequired: ProjectsSelectors.selectTotalClaimsRequired(state),
   }
 }
 
