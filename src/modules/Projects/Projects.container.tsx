@@ -10,6 +10,7 @@ import { UserInfo } from '../account/types'
 import { ProjectsDashboard } from './components/ProjectsDashboard'
 import ProjectsFilter from '../../common/components/ProjectsFilter/ProjectsFilter'
 import { deviceWidth } from '../../lib/commonData'
+import { schema } from '../../../src/common/components/ProjectsFilter/schema'
 import { getProjects } from './Projects.actions'
 import { Project } from '../project/types'
 
@@ -165,7 +166,7 @@ export class Projects extends React.Component<Props, State> {
       return (
         <ProjectsContainer className="container-fluid">
           <div className="container">
-            <ProjectsFilter />
+            <ProjectsFilter schema={schema} />
             <div className="row row-eq-height">
               {projects.map((project, index) => {
                 return (
