@@ -1,7 +1,6 @@
 import * as React from 'react'
 import 'react-dates/initialize'
 import { DayPickerRangeController } from 'react-dates'
-import 'react-dates/lib/css/_datepicker.css'
 import moment, { Moment } from 'moment'
 
 interface Props {
