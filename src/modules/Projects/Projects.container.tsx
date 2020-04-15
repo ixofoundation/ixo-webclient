@@ -128,7 +128,7 @@ export class Projects extends React.Component<Props, State> {
       <Container>
         <ProjectsHero
           ixo={this.props.ixo}
-          myProjectsCount={this.getMyProjectsList().length}
+          myProjectsCount={this.getMyProjects().length}
           showMyProjects={(val): void => this.showMyProjects(val)}
           contentType={this.props.contentType}
         />
