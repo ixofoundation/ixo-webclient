@@ -1,7 +1,7 @@
 import * as React from 'react'
-import { ProjectsDashboard } from './components/ProjectsDashboard'
-import { ProjectCard } from './components/ProjectCard'
-import { ProjectsHero } from './components/ProjectsHero'
+import { ProjectsDashboard } from './components/ProjectsDashboard/ProjectsDashboard'
+import { ProjectCard } from './components/ProjectCard/ProjectCard'
+import { ProjectsHero } from './components/ProjectsHero/ProjectsHero'
 import { Spinner } from '../../components/common/Spinner'
 import { connect } from 'react-redux'
 import { RootState } from '../../common/redux/types'
@@ -10,7 +10,7 @@ import {
   Container,
   ProjectsContainer,
   ErrorContainer,
-} from './components/ProjectsContainer.styles'
+} from './Projects.container.styles'
 import { UserInfo } from '../account/types'
 import ProjectsFilter from '../../common/components/ProjectsFilter/ProjectsFilter'
 import { schema } from '../../../src/common/components/ProjectsFilter/schema'

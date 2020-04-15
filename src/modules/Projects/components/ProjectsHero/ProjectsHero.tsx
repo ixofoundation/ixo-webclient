@@ -1,11 +1,11 @@
 import * as React from 'react'
-import HeaderSubTabs from '../../../components/common/HeaderSubTabs'
-import { SingleStatistic } from '../../../components/common/SingleStatistic'
-import { StatType } from '../../../types/models'
-import Search from '../../../components/common/Search'
-import { contentType } from '../../../types/models'
-import * as instanceSettings from '../../../instance-settings'
-import { Stats } from '../types'
+import HeaderSubTabs from '../../../../components/common/HeaderSubTabs'
+import { SingleStatistic } from '../../../../components/common/SingleStatistic'
+import { StatType } from '../../../../types/models'
+import Search from '../../../../components/common/Search'
+import { contentType } from '../../../../types/models'
+import * as instanceSettings from '../../../../instance-settings'
+import { Stats } from '../../types'
 import {
   ContainerInner,
   StatisticContainer,

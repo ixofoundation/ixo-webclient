@@ -1,6 +1,6 @@
 import styled from 'styled-components'
-import { deviceWidth } from '../../../lib/commonData'
-import * as instanceSettings from '../../../instance-settings'
+import { deviceWidth } from '../../../../lib/commonData'
+import * as instanceSettings from '../../../../instance-settings'
 
 export const ContainerInner = styled.div`
   height: auto;
