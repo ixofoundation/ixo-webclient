@@ -11,11 +11,11 @@ import {
   SearchFilterButton,
 } from './Style'
 import Globe from '../../../assets/icons/Globe'
-import Briefcase from '../../../assets/icons/Briefcase'
-import People from '../../../assets/icons/People'
+import Funding from '../../../assets/icons/Funding'
+import Cells from '../../../assets/icons/Cells'
 import Oracle from '../../../assets/icons/Oracle'
 import Template from '../../../assets/icons/Template'
-import Marketplace from '../../../assets/icons/Marketplace'
+import Data from '../../../assets/icons/Data'
 import SearchIcon from '../../../assets/icons/Search'
 import Down from 'src/assets/icons/Down'
 
@@ -72,16 +72,16 @@ export default class Search extends React.Component<Props> {
     switch (icon) {
       case 'globe':
         return <Globe fill="#000" />
-      case 'briefcase':
-        return <Briefcase fill="#000" />
+      case 'funds':
+        return <Funding fill="#000" />
       case 'cells':
-        return <People fill="#000" />
+        return <Cells fill="#000" />
       case 'oracle':
         return <Oracle fill="#000" />
       case 'templates':
         return <Template fill="#000" />
-      case 'marketplace':
-        return <Marketplace fill="#000" />
+      case 'data':
+        return <Data fill="#000" />
       default:
         return null
     }
@@ -138,18 +138,11 @@ export default class Search extends React.Component<Props> {
                     }
                   >
                     <div>{this.renderFilterButtonIcon('globe')}</div>
-                    All Projects
+                    Projects
                   </SearchFilterButton>
-                  <SearchFilterButton
-                    onClick={(): void =>
-                      this.handleSearchFilter('My Projects', 'briefcase')
-                    }
-                    className={
-                      this.state.activeFilter === 'my-projects' ? 'active' : ''
-                    }
-                  >
-                    <div>{this.renderFilterButtonIcon('briefcase')}</div>
-                    My Projects
+                  <SearchFilterButton className="disabled">
+                    <div>{this.renderFilterButtonIcon('funds')}</div>
+                    Funds
                   </SearchFilterButton>
                   <SearchFilterButton className="disabled">
                     <div>{this.renderFilterButtonIcon('cells')}</div>
@@ -157,15 +150,15 @@ export default class Search extends React.Component<Props> {
                   </SearchFilterButton>
                   <SearchFilterButton className="disabled">
                     <div>{this.renderFilterButtonIcon('oracle')}</div>
-                    Impact Oracles
+                    Oracles
                   </SearchFilterButton>
                   <SearchFilterButton className="disabled">
                     <div>{this.renderFilterButtonIcon('templates')}</div>
                     Templates
                   </SearchFilterButton>
                   <SearchFilterButton className="disabled">
-                    <div>{this.renderFilterButtonIcon('marketplace')}</div>
-                    Data Marketplace
+                    <div>{this.renderFilterButtonIcon('data')}</div>
+                    Data Assets
                   </SearchFilterButton>
                 </SearchButtonsWrapper>
               </SearchModal>
