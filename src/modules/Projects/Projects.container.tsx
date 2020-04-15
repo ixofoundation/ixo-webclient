@@ -55,10 +55,10 @@ export class Projects extends React.Component<Props, State> {
     this.setState({ showOnlyMyProjects: showMyProjects })
   }
 
-  getMyProjects(userInfo: UserInfo, projList: any): Array<any> {
-    if (userInfo != null) {
-      const did = userInfo.didDoc.did
-      const myProjects = projList.filter(proj => {
+  getMyProjects(): Array<any> {
+    if (this.props.userInfo != null) {
+      const did = this.props.userInfo.didDoc.did
+      const myProjects = this.props.dateSortedProjects.filter(proj => {
         return (
           proj.data.createdBy === did ||
           proj.data.agents.some(agent => agent.did === did)
@@ -69,17 +69,11 @@ export class Projects extends React.Component<Props, State> {
       return []
     }
   }
-  getMyProjectsList = (): Project[] => {
-    return this.getMyProjects(
-      this.props.userInfo,
-      this.props.dateSortedProjects,
-    )
-  }
 
   renderProjects = (): JSX.Element => {
     if (this.props.projects.length > 0) {
       const projects = this.state.showOnlyMyProjects
-        ? this.getMyProjectsList()
+        ? this.getMyProjects()
         : this.props.dateSortedProjects
       return (
         <ProjectsContainer className="container-fluid">
