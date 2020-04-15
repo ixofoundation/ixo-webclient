@@ -5,6 +5,7 @@ import { StatType } from '../../../types/models'
 import Search from '../../../components/common/Search'
 import { contentType } from '../../../types/models'
 import * as instanceSettings from '../../../instance-settings'
+import { Stats } from '../types'
 
 import {
   ContainerInner,
@@ -12,20 +13,6 @@ import {
   HeroInner,
   HeroContainer,
 } from './ProjectsHero.styles'
-
-export interface Stats {
-  claims: Claims
-  totalServiceProviders: number
-  totalProjects: number
-  totalEvaluationAgents: number
-}
-interface Claims {
-  total: number
-  totalSuccessful: number
-  totalSubmitted: number
-  totalPending: number
-  totalRejected: number
-}
 
 export interface State {
   statistics: Stats
