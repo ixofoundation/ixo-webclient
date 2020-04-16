@@ -1,14 +1,50 @@
 import styled from 'styled-components'
 import { Link, NavLink } from 'react-router-dom'
-import * as instanceSettings from '../../instance-settings'
 import { deviceWidth } from '../../lib/commonData'
+
+export const HeroContainer = styled.div`
+  margin: 0;
+  position: relative;
+  background: white;
+  color: black;
+`
+
+export const HeroInner = styled.div`
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 0.875rem;
+  line-height: 1rem;
+  position: relative;
+  padding: 4rem 0 2rem;
+  @media (min-width: ${deviceWidth.tablet}px) {
+    padding: 3rem 0 2rem;
+  }
+`
+
+export const Title = styled.h1`
+  font-family: ${(props): string => props.theme.fontRobotoCondensed};
+  font-weight: normal;
+  font-size: 2.25rem;
+  line-height: 1.25;
+
+  @media (min-width: 600px) {
+    font-size: 2.8125rem;
+  }
+`
+
+export const Description = styled.p`
+  color: #7b8285;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  margin-bottom: 0;
+`
 
 export const SingleSDG = styled.a`
   &&& {
-    color: ${/* eslint-disable-line */ props => props.theme.fontBlue};
+    color: ${(props): string => props.theme.fontBlue};
   }
-  font-family: ${/* eslint-disable-line */ props =>
-    props.theme.fontRobotoCondensed};
+  font-family: ${(props): string => props.theme.fontRobotoCondensed};
   font-weight: 300;
   font-size: 14px;
   margin: 0 10px 0 0;
@@ -35,130 +71,68 @@ export const SingleSDG = styled.a`
 
   &&&:hover,
   :hover i:before {
-    color: ${/* eslint-disable-line */ props => props.theme.fontLightBlue};
+    color: ${(props): string => props.theme.fontLightBlue};
   }
 `
 
-export const HeroInner = styled.div`
-  padding-top: 45px;
-  padding-bottom: 94px;
-  position: relative;
-  height: 100%;
-
-  @media (min-width: ${deviceWidth.desktop + 1}px) {
-    padding-top: 150px;
-  }
-`
-
-export const HeroContainer = styled.div`
-  background: url(${instanceSettings.getBGImageSrc()}) no-repeat center top;
-  background-size: cover;
-  margin: 0;
-  position: relative;
-
-  .detailed {
-    padding-bottom: 50px;
-  }
-`
-
-export const ColLeft = styled.div``
-
-export const ColRight = styled.div`
-  color: white;
-  font-weight: 200;
+export const HeroInfoItem = styled.div`
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-
-  p {
-    margin-bottom: 0;
-    line-height: 24px;
-  }
-
-  i {
-    margin-right: 8px;
-  }
-
-  i:before {
-    color: white;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: flex-start;
+  margin: 0.875rem 0.875rem 0.875rem 0;
+  * + span {
+    margin-left: 0.5rem;
+    @media (min-width: ${deviceWidth.tablet}px) {
+      margin-left: 0.875rem;
+    }
   }
 `
 
-export const Title = styled.h1`
-  color: white;
-  font-size: 36px;
-  font-weight: 200;
-  line-height: 1;
-  margin-bottom: 5px;
-  font-family: ${/* eslint-disable-line */ props =>
-    props.theme.fontRobotoCondensed};
-
-  @media (min-width: 600px) {
-    font-size: 45px;
-  }
-`
-
-export const Description = styled.p`
-  color: white;
-  font-size: 12px;
-  margin-top: 2px;
-`
-export const HeaderText = styled.text`
-  font-family: Roboto;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 14px;
-  line-height: 16px;
+export const Flag = styled.div`
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  width: 1.4rem;
+  height: 1rem;
+  border-radius: 4px;
 `
 
 export const AddClaim = styled(Link)`
   color: white;
   display: inline-block;
   text-align: center;
-  background: ${/* eslint-disable-line */ props =>
-    props.theme.bg.gradientButton};
+  background: ${(props): string => props.theme.bg.gradientButton};
   font-size: 15px;
   width: 288px;
   padding: 10px 0;
-  font-family: ${/* eslint-disable-line */ props =>
-    props.theme.fontRobotoCondensed};
+  font-family: ${(props): string => props.theme.fontRobotoCondensed};
   margin-right: 10px;
 
   :hover {
     text-decoration: none;
     color: white;
-    background: ${/* eslint-disable-line */ props => props.theme.bg.lightBlue};
-  }
-`
-
-export const SubTextContainer = styled.div`
-  margin-bottom: 10px;
-
-  @media (min-width: ${deviceWidth.desktop}px) {
-    margin-bottom: 0;
+    background: ${(props): string => props.theme.bg.lightBlue};
   }
 `
 
 export const SubNavItem = styled(NavLink).attrs({
   activeClassName: 'active',
 })`
-  color: ${/* eslint-disable-line */ props => props.theme.fontBlue};
-  font-family: ${/* eslint-disable-line */ props =>
-    props.theme.fontRobotoCondensed};
+  color: ${(props): string => props.theme.fontBlue};
+  font-family: ${(props): string => props.theme.fontRobotoCondensed};
   font-weight: 300;
   font-size: 14px;
   text-transform: uppercase;
 
-  &.active {
-    color: white;
+  &.active,
+  :hover {
+    color: ${(props): string => props.theme.fontBlue};
+    text-decoration: underline;
   }
 
   + span {
-    color: ${/* eslint-disable-line */ props => props.theme.fontBlue};
+    color: ${(props): string => props.theme.fontBlue};
     margin: 0 10px;
-  }
-  :hover {
-    color: white;
-    text-decoration: none;
   }
 `
