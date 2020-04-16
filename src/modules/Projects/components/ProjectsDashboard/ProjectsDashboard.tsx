@@ -1,56 +1,19 @@
 import * as React from 'react'
-import styled from 'styled-components'
+import {
+  DashboardContainer,
+  ClaimsWidget,
+  ClaimsLabels,
+} from './ProjectsDashboard.styles'
+import { LayoutWrapper } from '../../../../components/common/LayoutWrapper'
+import { SingleStatistic } from '../../../../components/common/SingleStatistic'
+import { StatType } from '../../../../types/models'
+import { CircleProgressbar } from '../../../../common/components/Widgets/CircleProgressbar/CircleProgressbar'
+import { WorldMap } from '../../../../common/components/Widgets/WorldMap/WorldMap'
+import { isoCountriesLatLng } from '../../../../lib/commonData'
 import {
   WidgetWrapper,
   gridSizes,
-} from '../../../components/common/WidgetWrapper'
-import { LayoutWrapper } from '../../../components/common/LayoutWrapper'
-import { SingleStatistic } from '../../../components/common/SingleStatistic'
-import { StatType } from '../../../types/models'
-import { CircleProgressbar } from '../../../common/components/Widgets/CircleProgressbar/CircleProgressbar'
-import { WorldMap } from '../../../common/components/Widgets/WorldMap/WorldMap'
-import { isoCountriesLatLng } from '../../../lib/commonData'
-
-const Container = styled.div`
-  color: white;
-  flex: 1 1 auto;
-  display: flex;
-`
-
-const ClaimsWidget = styled.div`
-  display: flex;
-  justify-content: space-between;
-  padding: 0 20px 0 0;
-  flex-wrap: wrap;
-`
-
-const ClaimsLabels = styled.div`
-  margin-top: 40px;
-
-  strong {
-    font-weight: 700;
-  }
-
-  p:before {
-    content: '';
-    width: 10px;
-    height: 10px;
-    display: inline-block;
-    margin-right: 25px;
-  }
-  p:nth-child(1):before {
-    background: ${/* eslint-disable-line */ props => props.theme.ixoBlue};
-  }
-  p:nth-child(2):before {
-    background: ${/* eslint-disable-line */ props => props.theme.ixoOrange};
-  }
-  p:nth-child(3):before {
-    background: ${/* eslint-disable-line */ props => props.theme.red};
-  }
-  p:nth-child(4):before {
-    background: #033c50;
-  }
-`
+} from '../../../../components/common/WidgetWrapper'
 
 export interface ParentProps {
   claims: any[]
@@ -88,7 +51,7 @@ export const ProjectsDashboard: React.SFC<ParentProps> = ({
 
   getProjectsLatLng()
   return (
-    <Container>
+    <DashboardContainer>
       <LayoutWrapper>
         <div className="row">
           {
@@ -168,6 +131,6 @@ export const ProjectsDashboard: React.SFC<ParentProps> = ({
           }
         </div>
       </LayoutWrapper>
-    </Container>
+    </DashboardContainer>
   )
 }
