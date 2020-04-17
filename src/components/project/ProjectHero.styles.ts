@@ -81,6 +81,7 @@ export const HeroInfoItem = styled.div`
   align-items: center;
   justify-content: flex-start;
   margin: 0.875rem 0.875rem 0.875rem 0;
+  font-weight: bold;
   * + span {
     margin-left: 0.5rem;
     @media (min-width: ${deviceWidth.tablet}px) {
