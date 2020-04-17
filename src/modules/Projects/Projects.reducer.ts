@@ -2,6 +2,7 @@ import { ProjectsState, ProjectsActionTypes, ProjectsActions } from './types'
 
 export const initialState: ProjectsState = {
   projects: null,
+  filter: null,
 }
 
 export const reducer = (

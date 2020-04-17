@@ -82,7 +82,7 @@ export const selectTotalSuccessfulClaimsCount = createSelector(
   },
 )
 
-export const selectTotalPendingClaimsCount = createSelector(
+/* export const selectTotalPendingClaimsCount = createSelector(
   selectAllProjects,
   (projects: Project[]): number => {
     return !projects
@@ -91,7 +91,7 @@ export const selectTotalPendingClaimsCount = createSelector(
           return total + project.pendingClaimsCount
         }, 0)
   },
-)
+) */
 
 export const selectTotalRejectedClaimsCount = createSelector(
   selectAllProjects,

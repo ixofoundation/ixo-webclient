@@ -124,7 +124,7 @@ describe('Projects Selectors', () => {
     })
   })
 
-  describe('selectTotalPendingClaimsCount', () => {
+  /*   describe('selectTotalPendingClaimsCount', () => {
     it('should return a the total amount of pending claims', () => {
       // when ... we call the selector
       const result = SUT.selectTotalPendingClaimsCount(state)
@@ -132,7 +132,7 @@ describe('Projects Selectors', () => {
       // then ... should return result as expected
       expect(result).toEqual(23)
     })
-  })
+  }) */
 
   describe('selectTotalRejectedClaimsCount', () => {
     it('should return a the total amount of Rejected claims', () => {

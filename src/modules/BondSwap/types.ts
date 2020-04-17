@@ -37,7 +37,7 @@ export interface InitiateQuoteAction {
 
 export interface GetQuoteAction {
   type: typeof BondSwapActions.GetQuote
-  payload: Promise<any>
+  payload: Promise<Currency[]>
 }
 
 export interface GetQuotePendingAction {
@@ -60,7 +60,7 @@ export interface GetQuoteSuccessAction {
 
 export interface ConfirmSwapAction {
   type: typeof BondSwapActions.ConfirmSwap
-  payload: Promise<any>
+  payload: Promise<Currency[]>
 }
 
 export interface ConfirmSwapPendingAction {

@@ -36,7 +36,12 @@ export interface InitiateQuoteAction {
 
 export interface GetQuoteAction {
   type: typeof BondSellActions.GetQuote
-  payload: Promise<any>
+  payload: Promise<{
+    sending: Currency
+    totalFee: Currency
+    minPrice: Currency
+    txFees: Currency[]
+  }>
 }
 
 export interface GetQuotePendingAction {
@@ -50,16 +55,16 @@ export interface GetQuoteFailureAction {
 export interface GetQuoteSuccessAction {
   type: typeof BondSellActions.GetQuoteSuccess
   payload: {
-    sending?: Currency
-    totalFee?: Currency
-    minPrice?: Currency
+    sending: Currency
+    totalFee: Currency
+    minPrice: Currency
     txFees: Currency[]
   }
 }
 
 export interface ConfirmSellAction {
   type: typeof BondSellActions.ConfirmSell
-  payload: Promise<any>
+  payload: Promise<Currency[]>
 }
 
 export interface ConfirmSellPendingAction {

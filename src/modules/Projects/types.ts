@@ -2,6 +2,7 @@ export interface Project {
   projectDid: string
   title: string
   shortDescription: string
+  longDescription: string
   dateCreated: Date
   ownerName: string
   status: string
@@ -11,9 +12,9 @@ export interface Project {
   evaluatorsCount: number
   requiredClaimsCount: number
   successfulClaimsCount: number
-  pendingClaimsCount: number
+  // pendingClaimsCount: number
   rejectedClaimsCount: number
-  sdgs: string[]
+  sdgs: number[]
 }
 
 export interface Category {
@@ -42,7 +43,9 @@ export enum ProjectsActions {
 
 export interface GetProjectsAction {
   type: typeof ProjectsActions.GetProjects
-  payload: Promise<any>
+  payload: {
+    projects: Promise<Project[]>
+  }
 }
 
 export interface GetProjectsSuccessAction {
