@@ -4,25 +4,37 @@ import Linkedin from 'src/assets/icons/Linkedin'
 import Twitter from 'src/assets/icons/Twitter'
 
 const ProfileCard = (user: Record<string, any>): JSX.Element => {
-  const { imageUrl, name, role } = user.user
+  const { imageUrl, name, role, linkedinLink, twitterLink } = user.user
   if (!name) {
     return null
   }
   return (
     <ProfileCardWrapper data-testid="ProfileCard">
-      <img
-        data-testid="ProfileCard-image"
-        className="ProfileCard-image"
-        src={imageUrl}
-      />
+      {imageUrl && (
+        <img
+          data-testid="ProfileCard-image"
+          className="ProfileCard-image"
+          src={imageUrl}
+        />
+      )}
       <div className="ProfileCard-content">
         <div className="ProfileCard-name">{name}</div>
-        <div className="ProfileCard-role">{role}</div>
+        {role && <div className="ProfileCard-role">{role}</div>}
 
-        <div className="ProfilceCard-social-links">
-          <Linkedin width="14" />
-          <Twitter width="14" />
-        </div>
+        {(linkedinLink !== '' || twitterLink !== '') && (
+          <div className="ProfileCard-social-links">
+            {linkedinLink !== '' && (
+              <a href={linkedinLink} target="_blank" rel="noopener noreferrer">
+                <Linkedin width="14" />
+              </a>
+            )}
+            {twitterLink !== '' && (
+              <a href={twitterLink} target="_blank" rel="noopener noreferrer">
+                <Twitter width="14" />
+              </a>
+            )}
+          </div>
+        )}
       </div>
     </ProfileCardWrapper>
   )

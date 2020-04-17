@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { deviceWidth } from '../../../lib/commonData'
 
 export const ProfileCardWrapper = styled.div`
   display: flex;
@@ -8,7 +9,8 @@ export const ProfileCardWrapper = styled.div`
   background: white;
   color: black;
   box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
-  margin: 1.75rem;
+  margin-right: 1.75rem;
+  margin-bottom: 1.75rem;
 
   .ProfileCard-image {
     width: 6rem;
@@ -28,7 +30,7 @@ export const ProfileCardWrapper = styled.div`
       font-size: 0.75rem;
       color: #a5adb0;
     }
-    .ProfilceCard-social-links {
+    .ProfileCard-social-links {
       margin-top: 1rem;
       svg {
         margin-right: 0.75rem;
@@ -36,6 +38,15 @@ export const ProfileCardWrapper = styled.div`
           fill: #a5adb0;
         }
       }
+      a:hover {
+        svg path {
+          fill: ${(props): string => props.theme.fontBlue};
+        }
+      }
     }
+  }
+
+  @media (min-width: ${deviceWidth.desktop}px) {
+    width: calc(50% - 1.75rem);
   }
 `
