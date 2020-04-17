@@ -1,23 +1,22 @@
 import * as React from 'react'
-import { SDGArray, deviceWidth } from '../../lib/commonData'
+import moment from 'moment'
+import { SDGArray } from '../../lib/commonData'
 import { getCountryName } from '../../common/utils/formatters'
 import { MatchType, AgentRoles } from '../../types/models'
 import HeaderSubTabs from '../common/HeaderSubTabs'
-import Location from '../../assets/icons/Location'
-import MediaQuery from 'react-responsive'
 import {
   SingleSDG,
   HeroInner,
+  Flag,
   HeroContainer,
-  ColLeft,
-  ColRight,
+  HeroInfoItem,
   Title,
   Description,
-  HeaderText,
   AddClaim,
-  SubTextContainer,
   SubNavItem,
 } from './ProjectHero.styles'
+import CalendarSort from 'src/assets/icons/CalendarSort'
+import availableFlags from '../../lib/json/availableFlags.json'
 
 export interface Props {
   project: any
@@ -57,10 +56,16 @@ export const ProjectHero: React.SFC<Props> = ({
     })
   }
 
+  const getFlagURL = (projectLocation: string): string => {
+    return availableFlags.availableFlags.includes(project.projectLocation)
+      ? `url(${require(`../../assets/images/country-flags/${projectLocation.toLowerCase()}.svg`)})`
+      : ''
+  }
+
   const handleSwitchDescription = (): JSX.Element => {
     if (isClaim) {
       return (
-        <SubTextContainer>
+        <>
           <SubNavItem exact={true} to={'/homepage'}>
             HOME
           </SubNavItem>{' '}
@@ -81,11 +86,11 @@ export const ProjectHero: React.SFC<Props> = ({
           >
             SUBMIT CLAIM
           </SubNavItem>
-        </SubTextContainer>
+        </>
       )
     } else {
       return (
-        <SubTextContainer>
+        <>
           {project.sdgs.map((SDG, index) => {
             const goal = Math.floor(SDG)
             if (goal > 0 && goal <= SDGArray.length) {
@@ -103,7 +108,7 @@ export const ProjectHero: React.SFC<Props> = ({
               return null
             }
           })}
-        </SubTextContainer>
+        </>
       )
     }
   }
@@ -112,15 +117,9 @@ export const ProjectHero: React.SFC<Props> = ({
     <HeroContainer className="container-fluid">
       <HeroInner className={`container ${isDetail && 'detailed'}`}>
         <div className="row">
-          <ColLeft className="col-lg-8 col-sm-12">
-            <MediaQuery maxWidth={`${deviceWidth.mobile}px`}>
-              {handleSwitchDescription()}
-              <Title>{project.title}</Title>
-            </MediaQuery>
-            <MediaQuery minWidth={`${deviceWidth.mobile}px`}>
-              <Title>{project.title}</Title>
-              {handleSwitchDescription()}
-            </MediaQuery>
+          <div className="col-lg-8 col-sm-12">
+            {handleSwitchDescription()}
+            <Title>{project.title}</Title>
 
             {!isDetail && <Description>{project.shortDescription}</Description>}
             {!isDetail && hasCapability([AgentRoles.serviceProviders]) && (
@@ -137,43 +136,28 @@ export const ProjectHero: React.SFC<Props> = ({
                 EVALUATE CLAIMS
               </AddClaim>
             )}
-          </ColLeft>
-          <ColRight className="col-lg-4 col-sm-12">
-            <MediaQuery maxWidth={`${deviceWidth.mobile}px`}>
-              <p>
-                <HeaderText>
-                  Created by{' '}
-                  <text style={{ fontWeight: 'bold' }}>
-                    {project.ownerName}{' '}
-                  </text>{' '}
-                  <text style={{ fontWeight: 'bold', fontSize: 15 }}>·</text>{' '}
-                  <text style={{ fontWeight: 'bold' }}>
-                    {project.createdOn.split('T')[0]}
-                  </text>
-                </HeaderText>
-              </p>
-            </MediaQuery>
-            <MediaQuery minWidth={`${deviceWidth.mobile}px`}>
-              <HeaderText>
-                <p>
-                  <text style={{ fontWeight: 'bold' }}>Created: </text>
-                  {project.createdOn.split('T')[0]}
-                </p>
-
-                <p>
-                  <text style={{ fontWeight: 'bold' }}>By: </text>{' '}
-                  {project.ownerName}{' '}
-                </p>
-              </HeaderText>
-            </MediaQuery>
-
-            <p>
-              <HeaderText>
-                <Location width="14" style={{ fontWeight: 'bold' }} />
-                {getCountryName(project.projectLocation)}
-              </HeaderText>
-            </p>
-          </ColRight>
+          </div>
+          <div className="col-lg-4 col-sm-12 info-items-wrapper">
+            <HeroInfoItem>
+              <CalendarSort fill="#A5ADB0" />
+              <span>{moment(project.createdOn).format('d MMM ‘YY')}</span>
+            </HeroInfoItem>
+            <HeroInfoItem>
+              <span>{project.ownerName}</span>
+            </HeroInfoItem>
+            {project.projectLocation && (
+              <HeroInfoItem>
+                {getFlagURL(project.projectLocation) !== '' && (
+                  <Flag
+                    style={{
+                      background: getFlagURL(project.projectLocation),
+                    }}
+                  />
+                )}
+                <span>{getCountryName(project.projectLocation)}</span>
+              </HeroInfoItem>
+            )}
+          </div>
         </div>
       </HeroInner>
       <HeaderSubTabs buttons={buttonsArray} matchType={MatchType.strict} />

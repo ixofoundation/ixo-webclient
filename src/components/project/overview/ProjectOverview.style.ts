@@ -3,9 +3,8 @@ import { deviceWidth } from '../../../lib/commonData'
 import { ProgressBar } from '../../common/ProgressBar'
 
 export const OverviewContainer = styled.section`
-  margin-top: -86px;
-  background: ${(props): string => props.theme.bg.lightGrey};
-  color: white;
+  background: white;
+  color: black;
   padding-bottom: 40px;
 `
 
