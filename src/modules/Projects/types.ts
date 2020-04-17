@@ -1,5 +1,36 @@
+export interface Project {
+  projectDid: string
+  title: string
+  shortDescription: string
+  dateCreated: Date
+  ownerName: string
+  status: string
+  country: string
+  impactAction: string
+  serviceProvidersCount: number
+  evaluatorsCount: number
+  requiredClaimsCount: number
+  successfulClaimsCount: number
+  pendingClaimsCount: number
+  rejectedClaimsCount: number
+  sdgs: string[]
+}
+
+export interface Category {
+  name: string
+  selectedTags: string[]
+}
+
+export interface Filter {
+  selectedCategories: Category[]
+  dateFrom: any
+  dateTo: any
+  userProjectsOnly: boolean
+}
+
 export interface ProjectsState {
-  projects: any
+  projects: Project[]
+  filter: Filter
 }
 
 export enum ProjectsActions {
@@ -17,7 +48,7 @@ export interface GetProjectsAction {
 export interface GetProjectsSuccessAction {
   type: typeof ProjectsActions.GetProjectsSuccess
   payload: {
-    projects: any
+    projects: Project[]
   }
 }
 

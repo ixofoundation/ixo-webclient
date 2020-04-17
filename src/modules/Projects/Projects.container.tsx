@@ -143,11 +143,13 @@ function mapStateToProps(state: RootState): Record<string, any> {
     ixo: state.ixo.ixo,
     userInfo: state.account.userInfo,
     projects: ProjectsSelectors.selectAllProjects(state),
-    dateSortedProjects: ProjectsSelectors.selectDateSortedProjects(state),
+    dateSortedProjects: ProjectsSelectors.selectedFilteredProjects(state),
     projectCountries: ProjectsSelectors.selectProjectCountries(state),
     projectClaimsAgents: ProjectsSelectors.selectClaimsAgents(state),
     projectClaims: ProjectsSelectors.selectClaims(state),
-    totalClaimsRequired: ProjectsSelectors.selectTotalClaimsRequired(state),
+    totalClaimsRequired: ProjectsSelectors.selectTotalRequiredClaimsCount(
+      state,
+    ),
   }
 }
 
