@@ -1,6 +1,16 @@
 import { Dispatch } from 'redux'
-import { ProjectsActions, GetProjectsAction } from './types'
+import {
+  ProjectsActions,
+  GetProjectsAction,
+  FilterToggleUserProjectsAction,
+  FilterDatesAction,
+  ResetDatesFilterAction,
+  FilterCategoryTagsAction,
+  ResetCategoryFilterAction,
+  ResetFiltersAction,
+} from './types'
 import blocksyncApi from '../../common/api/blocksync-api/blocksync-api'
+import { RootState } from 'src/common/redux/types'
 
 export const getProjects = () => (dispatch: Dispatch): GetProjectsAction => {
   return dispatch({
@@ -33,3 +43,58 @@ export const getProjects = () => (dispatch: Dispatch): GetProjectsAction => {
     }),
   })
 }
+
+export const filterToggleUserProjects = (
+  userProjectsOnly: boolean,
+): FilterToggleUserProjectsAction => ({
+  type: ProjectsActions.FilterToggleUserProjects,
+  payload: {
+    userProjectsOnly,
+  },
+})
+
+export const filterDates = (dateFrom: any, dateTo: any): FilterDatesAction => ({
+  type: ProjectsActions.FilterDates,
+  payload: {
+    dateFrom,
+    dateTo,
+  },
+})
+
+export const resetDatesFilter = (): ResetDatesFilterAction => ({
+  type: ProjectsActions.ResetDatesFilter,
+})
+
+export const filterCategoryTags = (
+  dispatch: Dispatch,
+  getState: () => RootState,
+) => (category: string, tag: string): FilterCategoryTagsAction => {
+  const state = getState()
+
+  const currentCategoryTags = state.projects.filter.categories.find(
+    filterCategory => filterCategory.name === category,
+  ).tags
+
+  const newCategoryTags = currentCategoryTags.includes(tag)
+    ? [...currentCategoryTags.filter(val => val !== tag)]
+    : [...currentCategoryTags, tag]
+
+  return dispatch({
+    type: ProjectsActions.FilterCategoryTags,
+    payload: {
+      category,
+      tags: newCategoryTags,
+    },
+  })
+}
+
+export const resetCategoryFilter = (
+  category: string,
+): ResetCategoryFilterAction => ({
+  type: ProjectsActions.ResetCategoryFilter,
+  payload: { category },
+})
+
+export const resetFilters = (): ResetFiltersAction => ({
+  type: ProjectsActions.ResetFilters,
+})
