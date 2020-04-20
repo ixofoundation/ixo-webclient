@@ -28,7 +28,7 @@ export default class Search extends React.Component<Props> {
   state = {
     search: '',
     isModalOpen: false,
-    activeFilterButtonText: 'All Projects',
+    activeFilterButtonText: 'Projects',
     activeFilter: 'all-projects',
     activeFilterIcon: 'globe',
   }
