@@ -131,7 +131,7 @@ export default class Search extends React.Component<Props> {
                 <SearchButtonsWrapper>
                   <SearchFilterButton
                     onClick={(): void =>
-                      this.handleSearchFilter('All Projects', 'globe')
+                      this.handleSearchFilter('Projects', 'globe')
                     }
                     className={
                       this.state.activeFilter === 'all-projects' ? 'active' : ''
