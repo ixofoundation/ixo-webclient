@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { deviceWidth } from 'src/lib/commonData'
 
 export const SearchWrapper = styled.div`
   background: white;
@@ -146,4 +147,10 @@ export const SearchFilterButton = styled.div`
       fill: #a5adb0;
     }
   }
+  &#zeroPadding{
+    @media (max-width: ${deviceWidth.mobile}px) {
+      padding: 0px
+    }
+  }
+
 `
