@@ -391,7 +391,7 @@ export const ProjectOverview: React.SFC<Props> = props => {
               </Text>
               {props.project.users && (
                 <ProfileCardsSection>
-                  <h3>Profile Card</h3>
+                  <h3>Profile section</h3>
                   <ProfileCardsWrapper>
                     {props.project.users.map(user => {
                       return <ProfileCard key={user.name} user={user} />

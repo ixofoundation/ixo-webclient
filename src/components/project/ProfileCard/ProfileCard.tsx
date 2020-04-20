@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { ProfileCardWrapper } from './ProfileCard.style'
-import Linkedin from 'src/assets/icons/Linkedin'
-import Twitter from 'src/assets/icons/Twitter'
+import Linkedin from '../../../assets/icons/Linkedin'
+import Twitter from '../../../assets/icons/Twitter'
 
 const ProfileCard = (user: Record<string, any>): JSX.Element => {
   const { imageUrl, name, role, linkedinLink, twitterLink } = user.user

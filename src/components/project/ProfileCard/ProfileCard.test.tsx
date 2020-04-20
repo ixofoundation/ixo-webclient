@@ -23,7 +23,7 @@ describe('ProfileCard Component', () => {
     // when ... the profile card renders
     const { getByTestId } = render(<ProfileCard user={user} />)
     // then ... the image should display
-    expect(getByTestId('ProfileCardImage')).toBeDefined()
+    expect(getByTestId('ProfileCard-image')).toBeDefined()
   })
 
   it("displays the user's name", () => {
@@ -32,7 +32,7 @@ describe('ProfileCard Component', () => {
     // then ... the name should be rendered
     expect(getByText(user.name)).toMatchInlineSnapshot(`
       <div
-        class="profileCard-name"
+        class="ProfileCard-name"
       >
         test name
       </div>
@@ -45,7 +45,7 @@ describe('ProfileCard Component', () => {
 
     expect(getByText(user.role)).toMatchInlineSnapshot(`
       <div
-        class="profileCard-role"
+        class="ProfileCard-role"
       >
         test role
       </div>

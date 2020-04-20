@@ -11,6 +11,7 @@ export const ProfileCardWrapper = styled.div`
   box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
   margin-right: 1.75rem;
   margin-bottom: 1.75rem;
+  width: 100%;
 
   .ProfileCard-image {
     width: 6rem;
@@ -28,6 +29,7 @@ export const ProfileCardWrapper = styled.div`
     }
     .ProfileCard-role {
       font-size: 0.75rem;
+      line-height: 1.5;
       color: #a5adb0;
     }
     .ProfileCard-social-links {
