@@ -23,11 +23,11 @@ export interface Project {
 
 export interface Category {
   name: string
-  selectedTags: string[]
+  tags: string[]
 }
 
 export interface Filter {
-  selectedCategories: Category[]
+  categories: Category[]
   dateFrom: any
   dateTo: any
   userProjectsOnly: boolean
@@ -43,6 +43,12 @@ export enum ProjectsActions {
   GetProjectsSuccess = 'ixo/Projects/GET_PROJECTS_FULFILLED',
   GetProjectsPending = 'ixo/Projects/GET_PROJECTS_PENDING',
   GetProjectsFailure = 'ixo/Projects/GET_PROJECTS_REJECTED',
+  FilterToggleUserProjects = 'ixo/Projects/FILTER_TOGGLE_USER_PROJECTS',
+  FilterDates = 'ixo/Projects/FILTER_DATES',
+  ResetDatesFilter = 'ixo/Projects/RESET_DATES_FILTER',
+  FilterCategoryTags = 'ixo/Projects/FILTER_CATEGORY_TAGS',
+  ResetCategoryFilter = 'ixo/Projects/RESET_CATEGORY_FILTER',
+  ResetFilters = 'ixo/Projects/RESET_FILTERS',
 }
 
 export interface GetProjectsAction {
@@ -55,7 +61,53 @@ export interface GetProjectsSuccessAction {
   payload: Project[]
 }
 
-export type ProjectsActionTypes = GetProjectsAction | GetProjectsSuccessAction
+export interface FilterToggleUserProjectsAction {
+  type: typeof ProjectsActions.FilterToggleUserProjects
+  payload: {
+    userProjectsOnly: boolean
+  }
+}
+
+export interface FilterDatesAction {
+  type: typeof ProjectsActions.FilterDates
+  payload: {
+    dateFrom: any
+    dateTo: any
+  }
+}
+
+export interface ResetDatesFilterAction {
+  type: typeof ProjectsActions.ResetDatesFilter
+}
+
+export interface FilterCategoryTagsAction {
+  type: typeof ProjectsActions.FilterCategoryTags
+  payload: {
+    category: string
+    tags: string[]
+  }
+}
+
+export interface ResetCategoryFilterAction {
+  type: typeof ProjectsActions.ResetCategoryFilter
+  payload: {
+    category: string
+  }
+}
+
+export interface ResetFiltersAction {
+  type: typeof ProjectsActions.ResetFilters
+}
+
+export type ProjectsActionTypes =
+  | GetProjectsAction
+  | GetProjectsSuccessAction
+  | FilterToggleUserProjectsAction
+  | FilterDatesAction
+  | ResetDatesFilterAction
+  | FilterCategoryTagsAction
+  | ResetCategoryFilterAction
+  | ResetFiltersAction
 
 export interface Stats {
   claims: Claims

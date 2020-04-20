@@ -12,7 +12,7 @@ import {
   HeroInner,
   HeroContainer,
 } from './ProjectsHero.styles'
-import blocksyncApi from '../../../../common/api/blocksync-api/blocksync-api'
+import blocksyncApi from '../../../../common/api/blocksync-api/blocksync-api' // TODO - redux
 
 export interface State {
   statistics: Stats
