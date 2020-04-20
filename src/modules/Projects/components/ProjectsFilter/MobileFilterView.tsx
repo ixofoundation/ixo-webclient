@@ -21,7 +21,6 @@ import {
 
 interface Props {
   checkTitle: string
-  categorySelections: any[]
   onHandleSelectCategoryTag: (category: string, tag: string) => void
   onSetCategoryName: (name: string) => void
   onHandleClose: (e, name: string) => void

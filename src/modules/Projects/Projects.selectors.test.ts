@@ -59,6 +59,17 @@ const state: any = {
         agentDids: ['someUserDid2'],
       },
     ],
+    filter: {
+      dateFrom: new Date('2020-04-05T13:14:13.000Z'),
+      dateTo: new Date('2020-04-10T13:14:13.000Z'),
+      categories: [
+        {
+          name: 'foo',
+          tags: ['bar'],
+        },
+      ],
+      userProjectsOnly: true,
+    },
   },
 }
 
@@ -80,6 +91,16 @@ describe('Projects Selectors', () => {
 
       // then ... should return result as expected
       expect(result).toEqual(state.projects.projects)
+    })
+  })
+
+  describe('selectProjectsFilter', () => {
+    it('should return the the projectsfilter', () => {
+      // when ... we call the selector
+      const result = SUT.selectProjectsFilter(state)
+
+      // then ... should return result as expected
+      expect(result).toEqual(state.projects.filter)
     })
   })
 
@@ -193,6 +214,51 @@ describe('Projects Selectors', () => {
 
       // then ... should return result as expected
       expect(result).toEqual(98)
+    })
+  })
+
+  describe('selectFilterDateFrom', () => {
+    it('should return the dateFrom property from the filter', () => {
+      // when .. we call the selector
+      const result = SUT.selectFilterDateFrom(state)
+
+      // then... should return result as expected
+      expect(result).toEqual(new Date('2020-04-05T13:14:13.000Z'))
+    })
+  })
+
+  describe('selectFilterDateTo', () => {
+    it('should return the dateTo property from the filter', () => {
+      // when .. we call the selector
+      const result = SUT.selectFilterDateTo(state)
+
+      // then... should return result as expected
+      expect(result).toEqual(new Date('2020-04-10T13:14:13.000Z'))
+    })
+  })
+
+  describe('selectFilterCategories', () => {
+    it('should return the categories property from the filter', () => {
+      // when .. we call the selector
+      const result = SUT.selectFilterCategories(state)
+
+      // then... should return result as expected
+      expect(result).toEqual([
+        {
+          name: 'foo',
+          tags: ['bar'],
+        },
+      ])
+    })
+  })
+
+  describe('selectFilterUserProjectsOnly', () => {
+    it('should return the userProjectsOnly property from the filter', () => {
+      // when .. we call the selector
+      const result = SUT.selectFilterUserProjectsOnly(state)
+
+      // then... should return result as expected
+      expect(result).toEqual(true)
     })
   })
 })

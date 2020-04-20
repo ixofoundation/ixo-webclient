@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { schema } from './schema'
+import { Category } from '../../types'
 
 import {
   Button,
@@ -16,7 +17,7 @@ import { Reset } from './svgs'
 
 interface Props {
   checkTitle: string
-  categorySelections: any[]
+  categorySelections: Category[]
   onHandleSelectCategoryTag: (category: string, tag: string) => void
   onSetCategoryName: (name: string) => void
   onHandleClose: (e, name: string) => void
@@ -49,7 +50,7 @@ class DesktopFilterView extends React.Component<Props, {}> {
                   onClick={(): void => this.props.onSetCategoryName(category)}
                   className={
                     this.props.categorySelections.find(
-                      selection => selection.category === category,
+                      selection => selection.name === category,
                     ).tags.length > 0
                       ? 'itemsSelected'
                       : ''

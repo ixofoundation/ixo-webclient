@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect'
 import { RootState } from '../../common/redux/types'
 import { ProjectsState } from './types'
-import { Project } from './types'
+import { Project, Filter, Category } from './types'
 import * as accountSelectors from '../Account/Account.selectors'
 
 export const selectProjectsState = (state: RootState): ProjectsState =>
@@ -11,6 +11,13 @@ export const selectAllProjects = createSelector(
   selectProjectsState,
   (projects: ProjectsState): Project[] => {
     return projects.projects
+  },
+)
+
+export const selectProjectsFilter = createSelector(
+  selectProjectsState,
+  (projects: ProjectsState): Filter => {
+    return projects.filter
   },
 )
 
@@ -130,6 +137,34 @@ export const selectIsLoadingProjects = createSelector(
   selectAllProjects,
   (projects: Project[]): boolean => {
     return projects === null
+  },
+)
+
+export const selectFilterDateFrom = createSelector(
+  selectProjectsFilter,
+  (filter: Filter): Date => {
+    return filter.dateFrom
+  },
+)
+
+export const selectFilterDateTo = createSelector(
+  selectProjectsFilter,
+  (filter: Filter): Date => {
+    return filter.dateTo
+  },
+)
+
+export const selectFilterCategories = createSelector(
+  selectProjectsFilter,
+  (filter: Filter): Category[] => {
+    return filter.categories
+  },
+)
+
+export const selectFilterUserProjectsOnly = createSelector(
+  selectProjectsFilter,
+  (filter: Filter): boolean => {
+    return filter.userProjectsOnly
   },
 )
 

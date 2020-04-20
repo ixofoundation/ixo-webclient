@@ -22,14 +22,13 @@ import {
 } from './Projects.actions'
 import ProjectsFilter from './components/ProjectsFilter/ProjectsFilter'
 import { schema } from './components/ProjectsFilter/schema'
-import { Project } from './types'
-import * as ProjectsSelectors from './Projects.selectors'
+import { Project, Category } from './types'
+import * as projectsSelectors from './Projects.selectors'
 
 export interface Props {
   location?: any
   contentType: contentType
   projects: Project[]
-  isLoadingProjects: boolean
   projectsCount: number
   userProjectsCount: number
   requiredClaimsCount: number
@@ -40,6 +39,11 @@ export interface Props {
   serviceProvidersCount: number
   evaluatorsCount: number
   countries: any[]
+  filterDateFrom: Date
+  filterDateTo: Date
+  filterCategories: Category[]
+  filterUserProjectsOnly: boolean
+  isLoadingProjects: boolean
   handleGetProjects: () => void
   handleFilterToggleUserProjects: (userProjectsOnly: boolean) => void
   handleFilterDates: (dateFrom: any, dateTo: any) => void
@@ -51,6 +55,7 @@ export interface Props {
 
 export class Projects extends React.Component<Props> {
   componentDidMount(): void {
+    console.log(this.props.filterCategories)
     this.props.handleGetProjects()
   }
 
@@ -59,7 +64,17 @@ export class Projects extends React.Component<Props> {
       return (
         <ProjectsContainer className="container-fluid">
           <div className="container">
-            <ProjectsFilter schema={schema} />
+            <ProjectsFilter
+              schema={schema}
+              startDate={this.props.filterDateFrom}
+              endDate={this.props.filterDateTo}
+              categorySelections={this.props.filterCategories}
+              handleFilterDates={this.props.handleFilterDates}
+              handleResetDatesFilter={this.props.handleResetDatesFilter}
+              handleFilterCategoryTag={this.props.handleFilterCategoryTag}
+              handleResetCategoryFilter={this.props.handleResetCategoryFilter}
+              handleResetFilters={this.props.handleResetFilters}
+            />
             <div className="row row-eq-height">
               {this.props.projects.map((project, index) => {
                 return (
@@ -132,28 +147,34 @@ export class Projects extends React.Component<Props> {
 
 function mapStateToProps(state: RootState): Record<string, any> {
   return {
-    projects: ProjectsSelectors.selectedFilteredProjects(state),
-    countries: ProjectsSelectors.selectProjectCountries(state),
-    projectsCount: ProjectsSelectors.selectFilteredProjectsCount(state),
-    userProjectsCount: ProjectsSelectors.selectUserProjectsCount(state),
-    requiredClaimsCount: ProjectsSelectors.selectTotalRequiredClaimsCount(
+    projects: projectsSelectors.selectedFilteredProjects(state),
+    countries: projectsSelectors.selectProjectCountries(state),
+    projectsCount: projectsSelectors.selectFilteredProjectsCount(state),
+    userProjectsCount: projectsSelectors.selectUserProjectsCount(state),
+    requiredClaimsCount: projectsSelectors.selectTotalRequiredClaimsCount(
       state,
     ),
-    pendingClaimsCount: ProjectsSelectors.selectTotalPendingClaimsCount(state),
-    successfulClaimsCount: ProjectsSelectors.selectTotalSuccessfulClaimsCount(
+    pendingClaimsCount: projectsSelectors.selectTotalPendingClaimsCount(state),
+    successfulClaimsCount: projectsSelectors.selectTotalSuccessfulClaimsCount(
       state,
     ),
-    rejectedClaimsCount: ProjectsSelectors.selectTotalRejectedClaimsCount(
+    rejectedClaimsCount: projectsSelectors.selectTotalRejectedClaimsCount(
       state,
     ),
-    remainingClaimsCount: ProjectsSelectors.selectTotalRemainingClaimsCount(
+    remainingClaimsCount: projectsSelectors.selectTotalRemainingClaimsCount(
       state,
     ),
-    serviceProvidersCount: ProjectsSelectors.selectTotalServiceProvidersCount(
+    serviceProvidersCount: projectsSelectors.selectTotalServiceProvidersCount(
       state,
     ),
-    evaluatorsCount: ProjectsSelectors.selectTotalEvaluatorsCount(state),
-    isLoadingProjects: ProjectsSelectors.selectIsLoadingProjects(state),
+    evaluatorsCount: projectsSelectors.selectTotalEvaluatorsCount(state),
+    filterDateFrom: projectsSelectors.selectFilterDateFrom(state),
+    filterDateTo: projectsSelectors.selectFilterDateTo(state),
+    filterCategories: projectsSelectors.selectFilterCategories(state),
+    filterUserProjectsOnly: projectsSelectors.selectFilterUserProjectsOnly(
+      state,
+    ),
+    isLoadingProjects: projectsSelectors.selectIsLoadingProjects(state),
   }
 }
 

@@ -1,11 +1,27 @@
 import { ProjectsState, ProjectsActionTypes, ProjectsActions } from './types'
+import { schema } from '../Projects/components/ProjectsFilter/schema'
+
+/*
+initialCategorySelections = this.props.schema.categories.map(category => ({
+    category: category.name,
+    tags:
+      category.selectedTags && category.selectedTags.length
+        ? [...category.selectedTags]
+        : [],
+  })) */
 
 export const initialState: ProjectsState = {
   projects: null,
   filter: {
-    categories: [],
     dateFrom: null,
     dateTo: null,
+    categories: schema.categories.map(category => ({
+      name: category.name,
+      tags:
+        category.selectedTags && category.selectedTags.length
+          ? [...category.selectedTags]
+          : [],
+    })),
     userProjectsOnly: false,
   },
 }
