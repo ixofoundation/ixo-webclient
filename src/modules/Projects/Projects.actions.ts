@@ -65,10 +65,10 @@ export const resetDatesFilter = (): ResetDatesFilterAction => ({
   type: ProjectsActions.ResetDatesFilter,
 })
 
-export const filterCategoryTags = (
+export const filterCategoryTag = (category: string, tag: string) => (
   dispatch: Dispatch,
   getState: () => RootState,
-) => (category: string, tag: string): FilterCategoryTagsAction => {
+): FilterCategoryTagsAction => {
   const state = getState()
 
   const currentCategoryTags = state.projects.filter.categories.find(
@@ -80,7 +80,7 @@ export const filterCategoryTags = (
     : [...currentCategoryTags, tag]
 
   return dispatch({
-    type: ProjectsActions.FilterCategoryTags,
+    type: ProjectsActions.FilterCategoryTag,
     payload: {
       category,
       tags: newCategoryTags,

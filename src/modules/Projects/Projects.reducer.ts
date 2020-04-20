@@ -46,7 +46,7 @@ export const reducer = (
           dateTo: null,
         },
       }
-    case ProjectsActions.FilterCategoryTags:
+    case ProjectsActions.FilterCategoryTag:
       return {
         ...state,
         filter: {

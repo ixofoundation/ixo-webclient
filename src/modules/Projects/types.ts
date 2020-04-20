@@ -46,7 +46,7 @@ export enum ProjectsActions {
   FilterToggleUserProjects = 'ixo/Projects/FILTER_TOGGLE_USER_PROJECTS',
   FilterDates = 'ixo/Projects/FILTER_DATES',
   ResetDatesFilter = 'ixo/Projects/RESET_DATES_FILTER',
-  FilterCategoryTags = 'ixo/Projects/FILTER_CATEGORY_TAGS',
+  FilterCategoryTag = 'ixo/Projects/FILTER_CATEGORY_TAG',
   ResetCategoryFilter = 'ixo/Projects/RESET_CATEGORY_FILTER',
   ResetFilters = 'ixo/Projects/RESET_FILTERS',
 }
@@ -81,7 +81,7 @@ export interface ResetDatesFilterAction {
 }
 
 export interface FilterCategoryTagsAction {
-  type: typeof ProjectsActions.FilterCategoryTags
+  type: typeof ProjectsActions.FilterCategoryTag
   payload: {
     category: string
     tags: string[]

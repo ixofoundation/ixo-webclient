@@ -313,7 +313,7 @@ describe('Projects Reducer', () => {
 
       // given... we have an action of type ResetFiltersAction
       const action: FilterCategoryTagsAction = {
-        type: ProjectsActions.FilterCategoryTags,
+        type: ProjectsActions.FilterCategoryTag,
         payload: {
           category: 'foo2',
           tags: ['bar2_1', 'bar2_2', 'bar2_3'],
@@ -384,7 +384,7 @@ describe('Projects Reducer', () => {
 
       // given... we have an action of type ResetFiltersAction
       const action: FilterCategoryTagsAction = {
-        type: ProjectsActions.FilterCategoryTags,
+        type: ProjectsActions.FilterCategoryTag,
         payload: {
           category: 'foo1',
           tags: ['bar1_1', 'bar1_2', 'bar1_3', 'bar1_4', 'bar1_5', 'bar1_6'],
