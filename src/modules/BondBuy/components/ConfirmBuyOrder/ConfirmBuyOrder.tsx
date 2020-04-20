@@ -9,7 +9,7 @@ import {
   remainingBalance,
   newBalance,
   currencyStr,
-} from '../../../account/account.utils'
+} from '../../../Account/Account.utils'
 import { Currency } from 'src/types/models'
 
 interface Props extends RouteComponentProps {

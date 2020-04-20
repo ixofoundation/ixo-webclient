@@ -1,5 +1,6 @@
 export interface Project {
   projectDid: string
+  userDid: string
   title: string
   shortDescription: string
   longDescription: string
@@ -12,9 +13,12 @@ export interface Project {
   evaluatorsCount: number
   requiredClaimsCount: number
   successfulClaimsCount: number
-  // pendingClaimsCount: number
+  pendingClaimsCount: number
   rejectedClaimsCount: number
   sdgs: number[]
+  agentDids: string[]
+  imageUrl: string
+  data: any // this is temporary until we don't have to pass projectData into the card component because of the weird link
 }
 
 export interface Category {
@@ -43,16 +47,12 @@ export enum ProjectsActions {
 
 export interface GetProjectsAction {
   type: typeof ProjectsActions.GetProjects
-  payload: {
-    projects: Promise<Project[]>
-  }
+  payload: Promise<Project[]>
 }
 
 export interface GetProjectsSuccessAction {
   type: typeof ProjectsActions.GetProjectsSuccess
-  payload: {
-    projects: Project[]
-  }
+  payload: Project[]
 }
 
 export type ProjectsActionTypes = GetProjectsAction | GetProjectsSuccessAction

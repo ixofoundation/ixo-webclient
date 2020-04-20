@@ -4,7 +4,7 @@ import { withRouter, RouteComponentProps } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { RootState } from '../../../../common/redux/types'
 import { getQuote } from '../../BondBuy.actions'
-import { currencyStr, tokenBalance } from '../../../account/account.utils'
+import { currencyStr, tokenBalance } from '../../../Account/Account.utils'
 import { Currency } from 'src/types/models'
 import * as bondBuySelectors from '../../BondBuy.selectors'
 

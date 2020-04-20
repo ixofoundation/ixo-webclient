@@ -19,58 +19,74 @@ import {
 } from './ProjectCard.styles'
 
 export interface Props {
-  project: any
-  did: string
-  ixo?: any
+  projectData: any // TEMP until projects gets it's own data from redux instead of storing it in some weird link state
+  projectDid: string
+  ownerName: string
+  title: string
+  shortDescription: string
+  requiredClaims: number
+  successfulClaims: number
+  rejectedClaims: number
+  impactAction: string
+  imageUrl: string
   status: string
+  sdgs: number[]
 }
 
 export class ProjectCard extends React.Component<Props, {}> {
-  state = {}
+  getProjectStatus = (): JSX.Element => {
+    const { status } = this.props
+    const statusType = status === 'CREATED' ? 'PENDING' : status
 
-  fetchImage = (): void => {
-    if (this.props.project.imageLink && this.props.project.imageLink !== '') {
-      this.setState({
-        imageLink:
-          this.props.project.serviceEndpoint +
-          'public/' +
-          this.props.project.imageLink,
-      })
-    }
-  }
-
-  getImageLink = (): string => {
-    return (
-      this.props.project.serviceEndpoint +
-      'public/' +
-      this.props.project.imageLink
-    )
-  }
-
-  projectStatus = (): JSX.Element => {
-    let statusType = ''
-    let shouldShow = false
-
-    if (this.props.status === 'CREATED') {
-      statusType = 'PENDING' // 'WAITING FOR FUNDS'
-      shouldShow = true
-    } else if (this.props.status === 'COMPLETED') {
-      statusType = 'COMPLETED'
-      shouldShow = true
-    }
-    if (shouldShow === true) {
+    if (status === 'CREATED' || status === 'COMPLETED') {
       return (
         <ProjectStatus className={statusType}>
           <StatusText>{statusType}</StatusText>
         </ProjectStatus>
       )
-    } else {
-      return null
     }
+
+    return null
   }
 
-  componentDidMount(): void {
-    this.fetchImage()
+  getSDGIcons = (): any => {
+    return this.props.sdgs.map((sdg, index) => {
+      if (Math.floor(sdg) > 0 && Math.floor(sdg) <= SDGArray.length) {
+        return (
+          <i
+            key={index}
+            className={`icon-sdg-${SDGArray[Math.floor(sdg) - 1].ico}`}
+          />
+        )
+      }
+
+      return null
+    })
+  }
+
+  getProgress = (): JSX.Element => {
+    const {
+      requiredClaims,
+      successfulClaims,
+      rejectedClaims,
+      impactAction,
+    } = this.props
+
+    return requiredClaims === 0 ? (
+      <p>Project is launching in 2019</p>
+    ) : (
+      <div>
+        <ProgressBar
+          total={requiredClaims}
+          approved={successfulClaims}
+          rejected={rejectedClaims}
+        />
+        <Progress>
+          {successfulClaims} / <strong>{requiredClaims}</strong>
+        </Progress>
+        <Impact>{impactAction}</Impact>
+      </div>
+    )
   }
 
   render(): JSX.Element {
@@ -78,61 +94,33 @@ export class ProjectCard extends React.Component<Props, {}> {
       <CardContainer className="col-10 offset-1 col-xl-4 col-md-6 col-sm-10 offset-sm-1 offset-md-0">
         <ProjectLink
           to={{
-            pathname: `/projects/${this.props.did}/overview`,
+            pathname: `/projects/${this.props.projectDid}/overview`,
             state: {
-              projectPublic: this.props.project,
-              imageLink: this.getImageLink(),
+              projectPublic: this.props.projectData,
+              imageLink: this.props.imageUrl,
               projectStatus: this.props.status,
             },
           }}
         >
           <CardTop
             style={{
-              backgroundImage: `url(${this.getImageLink()}),url(${require('../../../../assets/images/ixo-placeholder-large.jpg')})`,
+              backgroundImage: `url(${
+                this.props.imageUrl
+              }),url(${require('../../../../assets/images/ixo-placeholder-large.jpg')})`,
             }}
           >
-            <SDGs>
-              {this.props.project.sdgs.map((SDG, SDGi) => {
-                if (Math.floor(SDG) > 0 && Math.floor(SDG) <= SDGArray.length) {
-                  return (
-                    <i
-                      key={SDGi}
-                      className={`icon-sdg-${
-                        SDGArray[Math.floor(SDG) - 1].ico
-                      }`}
-                    />
-                  )
-                } else {
-                  return null
-                }
-              })}
-            </SDGs>
+            <SDGs>{this.getSDGIcons()}</SDGs>
             <Description>
-              <p>{excerptText(this.props.project.shortDescription, 20)}</p>
+              <p>{excerptText(this.props.shortDescription, 20)}</p>
             </Description>
           </CardTop>
           <CardBottom>
-            <StatusContainer>{this.projectStatus()}</StatusContainer>
+            <StatusContainer>{this.getProjectStatus()}</StatusContainer>
             <div>
-              <Title>{excerptText(this.props.project.title, 10)}</Title>
-              <Owner>By {this.props.project.ownerName}</Owner>
+              <Title>{excerptText(this.props.title, 10)}</Title>
+              <Owner>By {this.props.ownerName}</Owner>
             </div>
-            {this.props.project.requiredClaims === 0 ? (
-              <p>Project is launching in 2019</p>
-            ) : (
-              <div>
-                <ProgressBar
-                  total={this.props.project.requiredClaims}
-                  approved={this.props.project.claimStats.currentSuccessful}
-                  rejected={this.props.project.claimStats.currentRejected}
-                />
-                <Progress>
-                  {this.props.project.claimStats.currentSuccessful} /{' '}
-                  <strong>{this.props.project.requiredClaims}</strong>
-                </Progress>
-                <Impact>{this.props.project.impactAction}</Impact>
-              </div>
-            )}
+            {this.getProgress()}
           </CardBottom>
         </ProjectLink>
       </CardContainer>

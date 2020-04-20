@@ -37,7 +37,12 @@ export interface InitiateQuoteAction {
 
 export interface GetQuoteAction {
   type: typeof BondSwapActions.GetQuote
-  payload: Promise<Currency[]>
+  payload: Promise<{
+    sending: Currency
+    receiving: Currency
+    totalFee: Currency
+    txFees: Currency[]
+  }>
 }
 
 export interface GetQuotePendingAction {

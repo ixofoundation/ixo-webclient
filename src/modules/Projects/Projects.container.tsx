@@ -11,51 +11,41 @@ import {
   ProjectsContainer,
   ErrorContainer,
 } from './Projects.container.styles'
-import { UserInfo } from '../account/types'
 import ProjectsFilter from '../../common/components/ProjectsFilter/ProjectsFilter'
 import { schema } from '../../../src/common/components/ProjectsFilter/schema'
 import { getProjects } from './Projects.actions'
-import { Project } from '../project/types'
+import { Project } from './types'
 import * as ProjectsSelectors from './Projects.selectors'
 
-export interface ParentProps {
-  ixo?: any
+export interface Props {
   location?: any
   contentType: contentType
-  userInfo?: UserInfo
-  projects?: Project[]
-  dateSortedProjects?: Project[]
-  projectCountries?: any
-  projectClaimsAgents?: any
-  projectClaims?: any
-  totalClaimsRequired: number
+  projects: Project[]
+  isLoadingProjects: boolean
+  projectsCount: number
+  userProjectsCount: number
+  requiredClaimsCount: number
+  successfulClaimsCount: number
+  pendingClaimsCount: number
+  rejectedClaimsCount: number
+  remainingClaimsCount: number
+  serviceProvidersCount: number
+  evaluatorsCount: number
+  countries: any[]
+  handleGetProjects: () => Project[]
+  handleUserProjectsOnlyToggle: (userProjectsOnly: boolean) => void
 }
 
-export interface State {
-  showOnlyMyProjects: boolean
-}
-
-export interface StateProps {
-  ixo?: any
-  onGetProjects: () => void
-}
-
-export interface Props extends ParentProps, StateProps {}
-
-export class Projects extends React.Component<Props, State> {
-  state = {
-    showOnlyMyProjects: false,
-  }
-
+export class Projects extends React.Component<Props> {
   componentDidMount(): void {
-    this.props.onGetProjects()
+    this.props.handleGetProjects()
   }
 
-  showMyProjects(showMyProjects: boolean): void {
+  /*   showMyProjects(showMyProjects: boolean): void {
     this.setState({ showOnlyMyProjects: showMyProjects })
-  }
+  } */
 
-  getMyProjects(): Array<any> {
+  /*   getMyProjects(): Array<any> {
     if (this.props.userInfo != null) {
       const did = this.props.userInfo.didDoc.did
       const myProjects = this.props.dateSortedProjects.filter(proj => {
@@ -68,24 +58,32 @@ export class Projects extends React.Component<Props, State> {
     } else {
       return []
     }
-  }
+  } */
 
   renderProjects = (): JSX.Element => {
-    if (this.props.projects.length > 0) {
-      const projects = this.state.showOnlyMyProjects
+    if (this.props.projectsCount > 0) {
+      /*       const projects = this.state.showOnlyMyProjects
         ? this.getMyProjects()
-        : this.props.dateSortedProjects
+        : this.props.dateSortedProjects */
       return (
         <ProjectsContainer className="container-fluid">
           <div className="container">
             <ProjectsFilter schema={schema} />
             <div className="row row-eq-height">
-              {projects.map((project, index) => {
+              {this.props.projects.map((project, index) => {
                 return (
                   <ProjectCard
-                    ixo={this.props.ixo}
-                    project={project.data}
-                    did={project.projectDid}
+                    ownerName={project.ownerName}
+                    imageUrl={project.imageUrl}
+                    impactAction={project.impactAction}
+                    projectDid={project.projectDid}
+                    rejectedClaims={project.rejectedClaimsCount}
+                    successfulClaims={project.successfulClaimsCount}
+                    requiredClaims={project.requiredClaimsCount}
+                    shortDescription={project.shortDescription}
+                    title={project.title}
+                    sdgs={project.sdgs}
+                    projectData={project.data}
                     key={index}
                     status={project.status}
                   />
@@ -105,16 +103,20 @@ export class Projects extends React.Component<Props, State> {
   }
 
   handleRenderProjectList(): JSX.Element {
-    if (this.props.projects === null) {
+    if (this.props.isLoadingProjects) {
       return <Spinner info="Loading Projects" />
     } else {
       if (this.props.contentType === contentType.dashboard) {
         return (
           <ProjectsDashboard
-            claims={this.props.projectClaims}
-            claimsTotalRequired={this.props.totalClaimsRequired}
-            agents={this.props.projectClaimsAgents}
-            projectCountries={this.props.projectCountries}
+            requiredClaims={this.props.requiredClaimsCount}
+            successfulClaims={this.props.successfulClaimsCount}
+            pendingClaims={this.props.pendingClaimsCount}
+            rejectedClaims={this.props.rejectedClaimsCount}
+            remainingClaims={this.props.remainingClaimsCount}
+            serviceProviders={this.props.serviceProvidersCount}
+            evaluators={this.props.evaluatorsCount}
+            countries={this.props.countries}
           />
         )
       } else {
@@ -127,9 +129,8 @@ export class Projects extends React.Component<Props, State> {
     return (
       <Container>
         <ProjectsHero
-          ixo={this.props.ixo}
-          myProjectsCount={this.getMyProjects().length}
-          showMyProjects={(val): void => this.showMyProjects(val)}
+          myProjectsCount={this.props.userProjectsCount}
+          showMyProjects={(): void => null} //(val): void => this.showMyProjects(val)
           contentType={this.props.contentType}
         />
         {this.handleRenderProjectList()}
@@ -140,21 +141,33 @@ export class Projects extends React.Component<Props, State> {
 
 function mapStateToProps(state: RootState): Record<string, any> {
   return {
-    ixo: state.ixo.ixo,
-    userInfo: state.account.userInfo,
-    projects: ProjectsSelectors.selectAllProjects(state),
-    dateSortedProjects: ProjectsSelectors.selectedFilteredProjects(state),
-    projectCountries: ProjectsSelectors.selectProjectCountries(state),
-    projectClaimsAgents: ProjectsSelectors.selectClaimsAgents(state),
-    projectClaims: ProjectsSelectors.selectClaims(state),
-    totalClaimsRequired: ProjectsSelectors.selectTotalRequiredClaimsCount(
+    projects: ProjectsSelectors.selectedFilteredProjects(state),
+    countries: ProjectsSelectors.selectProjectCountries(state),
+    projectsCount: ProjectsSelectors.selectFilteredProjectsCount(state),
+    userProjectsCount: ProjectsSelectors.selectUserProjectsCount(state),
+    requiredClaimsCount: ProjectsSelectors.selectTotalRequiredClaimsCount(
       state,
     ),
+    pendingClaimsCount: ProjectsSelectors.selectTotalPendingClaimsCount(state),
+    successfulClaimsCount: ProjectsSelectors.selectTotalSuccessfulClaimsCount(
+      state,
+    ),
+    rejectedClaimsCount: ProjectsSelectors.selectTotalRejectedClaimsCount(
+      state,
+    ),
+    remainingClaimsCount: ProjectsSelectors.selectTotalRemainingClaimsCount(
+      state,
+    ),
+    serviceProvidersCount: ProjectsSelectors.selectTotalServiceProvidersCount(
+      state,
+    ),
+    evaluatorsCount: ProjectsSelectors.selectTotalEvaluatorsCount(state),
+    isLoadingProjects: ProjectsSelectors.selectIsLoadingProjects(state),
   }
 }
 
 const mapDispatchToProps = (dispatch: any): any => ({
-  onGetProjects: (): void => {
+  handleGetProjects: (): void => {
     dispatch(getProjects())
   },
 })

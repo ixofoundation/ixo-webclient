@@ -1,10 +1,29 @@
 import * as SUT from './Projects.selectors'
 
 const state: any = {
+  account: {
+    userInfo: {
+      didDoc: {
+        did: 'someUserDid1',
+        pubKey: 'somePubKey',
+        credentials: [],
+      },
+      name: 'SomeName',
+      loggedInKeysafe: true,
+      ledgered: true,
+      hasKYC: false,
+    },
+    address: 'abc1234',
+    accountNumber: null,
+    sequence: null,
+    balances: [],
+    loginStatusCheckCompleted: true,
+  },
   projects: {
     projects: [
       {
         projectDid: 'someDid1',
+        userDid: 'someUserDid1',
         title: 'someTitle1',
         shortDescription: 'someShortDescription1',
         dateCreated: '2020-04-09T13:14:13.000Z',
@@ -22,6 +41,7 @@ const state: any = {
       },
       {
         projectDid: 'someDid2',
+        userDid: 'someUserDid',
         title: 'someTitle2',
         shortDescription: 'someShortDescription2',
         dateCreated: '2020-04-10T13:14:13.000Z',
@@ -36,6 +56,7 @@ const state: any = {
         pendingClaimsCount: 3,
         rejectedClaimsCount: 4,
         sdgs: ['SDG1_2', 'SDG2_2', 'SDG3_2'],
+        agentDids: ['someUserDid2'],
       },
     ],
   },
@@ -84,6 +105,27 @@ describe('Projects Selectors', () => {
     })
   })
 
+  describe('selectFilteredProjectsCount', () => {
+    it('should return the count of filtered projects', () => {
+      // when ... we call the selector
+      // TODO - add filtering
+      const result = SUT.selectFilteredProjectsCount(state)
+
+      // then ... should return result as expected
+      expect(result).toEqual(2)
+    })
+  })
+
+  describe('selectUserProjectsCount', () => {
+    it('should return the count of all projects for a user', () => {
+      // when ... we call the selector
+      const result = SUT.selectUserProjectsCount(state)
+
+      // then ... should return result as expected
+      expect(result).toEqual(1)
+    })
+  })
+
   describe('selectTotalServiceProvidersCount', () => {
     it('should return the count of all service providers', () => {
       // when ... we call the selector
@@ -114,6 +156,16 @@ describe('Projects Selectors', () => {
     })
   })
 
+  describe('selectTotalPendingClaimsCount', () => {
+    it('should return a the total amount of pending claims', () => {
+      // when ... we call the selector
+      const result = SUT.selectTotalPendingClaimsCount(state)
+
+      // then ... should return result as expected
+      expect(result).toEqual(23)
+    })
+  })
+
   describe('selectTotalSuccessfulClaimsCount', () => {
     it('should return a the total amount of successful claims', () => {
       // when ... we call the selector
@@ -123,16 +175,6 @@ describe('Projects Selectors', () => {
       expect(result).toEqual(12)
     })
   })
-
-  /*   describe('selectTotalPendingClaimsCount', () => {
-    it('should return a the total amount of pending claims', () => {
-      // when ... we call the selector
-      const result = SUT.selectTotalPendingClaimsCount(state)
-
-      // then ... should return result as expected
-      expect(result).toEqual(23)
-    })
-  }) */
 
   describe('selectTotalRejectedClaimsCount', () => {
     it('should return a the total amount of Rejected claims', () => {

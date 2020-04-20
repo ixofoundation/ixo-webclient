@@ -16,28 +16,32 @@ import {
 } from '../../../../components/common/WidgetWrapper'
 
 export interface ParentProps {
-  claims: any[]
-  claimsTotalRequired: number
-  agents: any
-  projectCountries: any[]
+  requiredClaims: number
+  successfulClaims: number
+  pendingClaims: number
+  rejectedClaims: number
+  remainingClaims: number
+  serviceProviders: number
+  evaluators: number
+  countries: any[]
 }
 
 export const ProjectsDashboard: React.SFC<ParentProps> = ({
-  claims,
-  claimsTotalRequired,
-  agents,
-  projectCountries,
+  requiredClaims,
+  pendingClaims,
+  successfulClaims,
+  rejectedClaims,
+  remainingClaims,
+  serviceProviders,
+  evaluators,
+  countries,
 }) => {
-  const countClaimsOfType = (claimType: string): number => {
-    return [...claims].filter(claim => claim.status === claimType).length
-  }
-
   const getProjectsLatLng = (): Array<unknown> => {
     const coords = []
     for (const key in isoCountriesLatLng) {
       if (Object.hasOwnProperty.call(isoCountriesLatLng, key)) {
-        for (const i in projectCountries) {
-          if (projectCountries[i] === key) {
+        for (const i in countries) {
+          if (countries[i] === key) {
             coords.push([
               isoCountriesLatLng[key].lng,
               isoCountriesLatLng[key].lat,
@@ -63,7 +67,7 @@ export const ProjectsDashboard: React.SFC<ParentProps> = ({
                 <SingleStatistic
                   title="Total"
                   type={StatType.decimal}
-                  amount={agents.serviceProviders}
+                  amount={serviceProviders}
                 />
               </WidgetWrapper>
             </div>
@@ -74,7 +78,7 @@ export const ProjectsDashboard: React.SFC<ParentProps> = ({
                 <SingleStatistic
                   title="Total"
                   type={StatType.decimal}
-                  amount={agents.evaluators}
+                  amount={evaluators}
                 />
               </WidgetWrapper>
             </div>
@@ -89,26 +93,23 @@ export const ProjectsDashboard: React.SFC<ParentProps> = ({
                 <ClaimsWidget>
                   <ClaimsLabels>
                     <p>
-                      <strong>{countClaimsOfType('1')}</strong> Approved
+                      <strong>{successfulClaims}</strong> Approved
                     </p>
                     <p>
-                      <strong>{countClaimsOfType('0')}</strong> Pending Approval
+                      <strong>{pendingClaims}</strong> Pending Approval
                     </p>
                     <p>
-                      <strong>{countClaimsOfType('2')}</strong> Rejected
+                      <strong>{rejectedClaims}</strong> Rejected
                     </p>
                     <p>
-                      <strong>
-                        {claimsTotalRequired - countClaimsOfType('1')}
-                      </strong>{' '}
-                      Total remaining claims
+                      <strong>{remainingClaims}</strong> Total remaining claims
                     </p>
                   </ClaimsLabels>
                   <CircleProgressbar
-                    approved={countClaimsOfType('1')}
+                    approved={successfulClaims}
                     rejected={0}
                     pending={0}
-                    totalNeeded={claimsTotalRequired}
+                    totalNeeded={requiredClaims}
                     descriptor={'verified claims'}
                   />
                 </ClaimsWidget>

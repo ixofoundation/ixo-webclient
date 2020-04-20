@@ -13,7 +13,7 @@ export const reducer = (
     case ProjectsActions.GetProjectsSuccess:
       return {
         ...state,
-        projects: action.payload.projects,
+        projects: action.payload,
       }
   }
 
