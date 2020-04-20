@@ -1,5 +1,5 @@
 import * as React from 'react'
-import DatePicker from '../DatePicker'
+import DatePicker from '../../../../common/components/DatePicker'
 
 import {
   DatePickerModal,

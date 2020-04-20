@@ -1,6 +1,6 @@
 import * as React from 'react'
 import MediaQuery from 'react-responsive'
-import { deviceWidth } from '../../../lib/commonData'
+import { deviceWidth } from '../../../../lib/commonData'
 import DesktopDateFilterView from './DesktopDateFilterView'
 import DesktopFilterView from './DesktopFilterView'
 import MobileDateFilterView from './MobileDateFilterView'

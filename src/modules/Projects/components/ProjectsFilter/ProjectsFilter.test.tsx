@@ -2,7 +2,7 @@ import React from 'react'
 import { render } from '@testing-library/react'
 import { create, act } from 'react-test-renderer'
 import ProjectsFilter from './ProjectsFilter'
-import testSchema from '../../../lib/json/projectsFilterTest.json'
+import testSchema from '../../../../lib/json/projectsFilterTest.json'
 import moment from 'moment'
 
 describe('Projects filter', () => {

@@ -11,9 +11,17 @@ import {
   ProjectsContainer,
   ErrorContainer,
 } from './Projects.container.styles'
-import ProjectsFilter from '../../common/components/ProjectsFilter/ProjectsFilter'
-import { schema } from '../../../src/common/components/ProjectsFilter/schema'
-import { getProjects } from './Projects.actions'
+import {
+  getProjects,
+  filterToggleUserProjects,
+  filterDates,
+  resetDatesFilter,
+  filterCategoryTag,
+  resetCategoryFilter,
+  resetFilters,
+} from './Projects.actions'
+import ProjectsFilter from './components/ProjectsFilter/ProjectsFilter'
+import { schema } from './components/ProjectsFilter/schema'
 import { Project } from './types'
 import * as ProjectsSelectors from './Projects.selectors'
 
@@ -32,8 +40,13 @@ export interface Props {
   serviceProvidersCount: number
   evaluatorsCount: number
   countries: any[]
-  handleGetProjects: () => Project[]
-  handleUserProjectsOnlyToggle: (userProjectsOnly: boolean) => void
+  handleGetProjects: () => void
+  handleFilterToggleUserProjects: (userProjectsOnly: boolean) => void
+  handleFilterDates: (dateFrom: any, dateTo: any) => void
+  handleResetDatesFilter: () => void
+  handleFilterCategoryTag: (category: string, tag: string) => void
+  handleResetCategoryFilter: (category: string) => void
+  handleResetFilters: () => void
 }
 
 export class Projects extends React.Component<Props> {
@@ -41,30 +54,8 @@ export class Projects extends React.Component<Props> {
     this.props.handleGetProjects()
   }
 
-  /*   showMyProjects(showMyProjects: boolean): void {
-    this.setState({ showOnlyMyProjects: showMyProjects })
-  } */
-
-  /*   getMyProjects(): Array<any> {
-    if (this.props.userInfo != null) {
-      const did = this.props.userInfo.didDoc.did
-      const myProjects = this.props.dateSortedProjects.filter(proj => {
-        return (
-          proj.data.createdBy === did ||
-          proj.data.agents.some(agent => agent.did === did)
-        )
-      })
-      return myProjects
-    } else {
-      return []
-    }
-  } */
-
   renderProjects = (): JSX.Element => {
     if (this.props.projectsCount > 0) {
-      /*       const projects = this.state.showOnlyMyProjects
-        ? this.getMyProjects()
-        : this.props.dateSortedProjects */
       return (
         <ProjectsContainer className="container-fluid">
           <div className="container">
@@ -167,9 +158,17 @@ function mapStateToProps(state: RootState): Record<string, any> {
 }
 
 const mapDispatchToProps = (dispatch: any): any => ({
-  handleGetProjects: (): void => {
-    dispatch(getProjects())
-  },
+  handleGetProjects: (): void => dispatch(getProjects()),
+  handleFilterToggleUserProjects: (userProjectsOnly: boolean): void =>
+    dispatch(filterToggleUserProjects(userProjectsOnly)),
+  handleFilterDates: (dateFrom: any, dateTo: any): void =>
+    dispatch(filterDates(dateFrom, dateTo)),
+  handleResetDatesFilter: (): void => dispatch(resetDatesFilter()),
+  handleFilterCategoryTag: (category: string, tag: string): void =>
+    dispatch(filterCategoryTag(category, tag)),
+  handleResetCategoryFilter: (category: string): void =>
+    dispatch(resetCategoryFilter(category)),
+  handleResetFilters: (): void => dispatch(resetFilters()),
 })
 
 export const ProjectsContainerConnected = connect(

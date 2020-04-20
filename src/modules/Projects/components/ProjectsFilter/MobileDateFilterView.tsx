@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { Back } from './svgs'
-import DatePicker from '../DatePicker'
+import DatePicker from '../../../../common/components/DatePicker'
 
 import {
   MobileDateHeader,

@@ -1,7 +1,7 @@
 import { StatType } from './types/models'
 import filterSchemaIDCC from '../src/lib/json/filterSchemaIDCC.json'
 import filterSchemaIXO from '../src/lib/json/filterSchemaIXO.json'
-import { SchemaType } from '../src/common/components/ProjectsFilter/ProjectsFilterTypes'
+import { SchemaType } from './modules/Projects/components/ProjectsFilter/ProjectsFilterTypes'
 
 export const getFilterSchema = (): SchemaType => {
   switch (process.env.REACT_APP_NAME) {
