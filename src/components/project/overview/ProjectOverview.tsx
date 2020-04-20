@@ -24,16 +24,16 @@ import World from '../../../assets/icons/World'
 import Instagram from 'src/assets/icons/Instagram'
 
 const OverviewContainer = styled.section`
-  margin-top: -86px;
-  background: ${/*eslint-disable-line*/ props => props.theme.bg.lightGrey};
-  color: white;
+  background: white;
+  color: black;
   padding-bottom: 40px;
 `
 
 const ProjectImage = styled.img`
   width: 100%;
   box-shadow: 0px 10px 35px 0px rgba(0, 0, 0, 0.25);
-  margin-bottom: 22px;
+  margin-bottom: 1.375rem;
+  border-radius: 4px;
 `
 
 const DarkBar = styled(ProgressBar)``

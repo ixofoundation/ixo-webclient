@@ -1,71 +1,22 @@
 import * as React from 'react'
-import styled from 'styled-components'
-import { ProjectCard } from './components/ProjectCard'
-import { ProjectsHero } from './components/ProjectsHero'
+import { ProjectsDashboard } from './components/ProjectsDashboard/ProjectsDashboard'
+import { ProjectCard } from './components/ProjectCard/ProjectCard'
+import { ProjectsHero } from './components/ProjectsHero/ProjectsHero'
 import { Spinner } from '../../components/common/Spinner'
 import { connect } from 'react-redux'
 import { RootState } from '../../common/redux/types'
 import { contentType } from '../../types/models'
+import {
+  Container,
+  ProjectsContainer,
+  ErrorContainer,
+} from './Projects.container.styles'
 import { UserInfo } from '../account/types'
-import { ProjectsDashboard } from './components/ProjectsDashboard'
 import ProjectsFilter from '../../common/components/ProjectsFilter/ProjectsFilter'
-import { deviceWidth } from '../../lib/commonData'
 import { schema } from '../../../src/common/components/ProjectsFilter/schema'
 import { getProjects } from './Projects.actions'
 import { Project } from '../project/types'
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  flex: 1 1 auto;
-
-  .example-enter {
-    opacity: 0.01;
-  }
-
-  .example-enter.example-enter-active {
-    opacity: 1;
-    transition: opacity 1000ms ease-in;
-  }
-
-  .example-leave {
-    opacity: 1;
-  }
-
-  .example-leave.example-leave-active {
-    opacity: 0.01;
-    transition: opacity 800ms ease-in;
-  }
-`
-
-const ProjectsContainer = styled.div`
-  background: ${/* eslint-disable-line */ props => props.theme.bg.lightGrey};
-  flex: 1 1 auto;
-  min-height: 480px;
-
-  & > .row {
-    margin-top: 30px;
-    justify-content: center;
-  }
-
-  > .container {
-    padding: 2rem 0 3.125rem;
-    @media (min-width: ${deviceWidth.tablet}px) {
-      padding: 4.5rem 0 3.125rem;
-    }
-  }
-`
-
-const ErrorContainer = styled.div`
-  display: flex;
-  flex: 1;
-  justify-content: center;
-  color: white;
-  align-items: center;
-  background-color: ${/* eslint-disable-line */ props => props.theme.bg.blue};
-  height: 100%;
-  min-height: 480px;
-`
+import * as ProjectsSelectors from './Projects.selectors'
 
 export interface ParentProps {
   ixo?: any
@@ -73,6 +24,11 @@ export interface ParentProps {
   contentType: contentType
   userInfo?: UserInfo
   projects?: Project[]
+  dateSortedProjects?: Project[]
+  projectCountries?: any
+  projectClaimsAgents?: any
+  projectClaims?: any
+  totalClaimsRequired: number
 }
 
 export interface State {
@@ -99,10 +55,10 @@ export class Projects extends React.Component<Props, State> {
     this.setState({ showOnlyMyProjects: showMyProjects })
   }
 
-  getMyProjects(userInfo: UserInfo, projList: any): Array<any> {
-    if (userInfo != null) {
-      const did = userInfo.didDoc.did
-      const myProjects = projList.filter(proj => {
+  getMyProjects(): Array<any> {
+    if (this.props.userInfo != null) {
+      const did = this.props.userInfo.didDoc.did
+      const myProjects = this.props.dateSortedProjects.filter(proj => {
         return (
           proj.data.createdBy === did ||
           proj.data.agents.some(agent => agent.did === did)
@@ -113,56 +69,12 @@ export class Projects extends React.Component<Props, State> {
       return []
     }
   }
-  getMyProjectsList = (): Project[] => {
-    return this.getMyProjects(this.props.userInfo, this.getSortedProjectList())
-  }
-
-  getSortedProjectList = (): Project[] => {
-    return this.props.projects && this.props.projects.length
-      ? this.props.projects.sort((a, b) => {
-          return (
-            new Date(b.data.createdOn).getTime() -
-            new Date(a.data.createdOn).getTime()
-          )
-        })
-      : []
-  }
-
-  getProjectsCountries = (): any => {
-    return this.props.projects.map(project => {
-      return project.data.projectLocation
-    })
-  }
-
-  getClaimsInformation = (): Record<any, any> => {
-    const claimsArr = []
-    let reqClaims = 0
-    const agents = {
-      serviceProviders: 0,
-      evaluators: 0,
-    }
-    for (const project of this.props.projects) {
-      agents.serviceProviders += project.data.agentStats.serviceProviders
-      agents.evaluators += project.data.agentStats.evaluators
-
-      // count and sum required claims
-      reqClaims += project.data.requiredClaims
-      for (const claim of project.data.claims) {
-        claimsArr.push(claim)
-      }
-    }
-    return {
-      claims: claimsArr,
-      claimsTotalRequired: reqClaims,
-      agents: agents,
-    }
-  }
 
   renderProjects = (): JSX.Element => {
     if (this.props.projects.length > 0) {
       const projects = this.state.showOnlyMyProjects
-        ? this.getMyProjectsList()
-        : this.getSortedProjectList()
+        ? this.getMyProjects()
+        : this.props.dateSortedProjects
       return (
         <ProjectsContainer className="container-fluid">
           <div className="container">
@@ -199,12 +111,10 @@ export class Projects extends React.Component<Props, State> {
       if (this.props.contentType === contentType.dashboard) {
         return (
           <ProjectsDashboard
-            claims={this.getClaimsInformation().claims}
-            claimsTotalRequired={
-              this.getClaimsInformation().claimsTotalRequired
-            }
-            agents={this.getClaimsInformation().agents}
-            projectCountries={this.getProjectsCountries()}
+            claims={this.props.projectClaims}
+            claimsTotalRequired={this.props.totalClaimsRequired}
+            agents={this.props.projectClaimsAgents}
+            projectCountries={this.props.projectCountries}
           />
         )
       } else {
@@ -218,7 +128,7 @@ export class Projects extends React.Component<Props, State> {
       <Container>
         <ProjectsHero
           ixo={this.props.ixo}
-          myProjectsCount={this.getMyProjectsList().length}
+          myProjectsCount={this.getMyProjects().length}
           showMyProjects={(val): void => this.showMyProjects(val)}
           contentType={this.props.contentType}
         />
@@ -232,7 +142,12 @@ function mapStateToProps(state: RootState): Record<string, any> {
   return {
     ixo: state.ixo.ixo,
     userInfo: state.account.userInfo,
-    projects: state.projects.projects,
+    projects: ProjectsSelectors.selectAllProjects(state),
+    dateSortedProjects: ProjectsSelectors.selectDateSortedProjects(state),
+    projectCountries: ProjectsSelectors.selectProjectCountries(state),
+    projectClaimsAgents: ProjectsSelectors.selectClaimsAgents(state),
+    projectClaims: ProjectsSelectors.selectClaims(state),
+    totalClaimsRequired: ProjectsSelectors.selectTotalClaimsRequired(state),
   }
 }
 
