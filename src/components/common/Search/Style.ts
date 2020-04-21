@@ -40,6 +40,9 @@ export const ModalButton = styled.div`
   }
   svg:first-child {
     margin-right: 0.5rem;
+    @media (max-width: ${deviceWidth.mobile}px) {
+    margin-right: 0;
+  }
   }
   .down-icon {
     margin-left: auto;
@@ -147,10 +150,11 @@ export const SearchFilterButton = styled.div`
       fill: #a5adb0;
     }
   }
-  &#zeroPadding{
-    @media (max-width: ${deviceWidth.mobile}px) {
-      padding: 0px
-    }
+  @media (max-width: ${deviceWidth.mobile}px) {
+    width: calc(49.333% - 1rem);
+    padding: 0.5rem;
   }
-
+  @media (max-width: ${deviceWidth.mobileSmall}px) {
+    width: calc(105.333% - 1rem);
+  }
 `

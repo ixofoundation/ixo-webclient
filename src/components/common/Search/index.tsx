@@ -156,7 +156,7 @@ export default class Search extends React.Component<Props> {
                     <div>{this.renderFilterButtonIcon('templates')}</div>
                     Templates
                   </SearchFilterButton>
-                  <SearchFilterButton id="zeroPadding" className="disabled">
+                  <SearchFilterButton className="disabled">
                     <div>{this.renderFilterButtonIcon('data')}</div>
                     Data Assets
                   </SearchFilterButton>
