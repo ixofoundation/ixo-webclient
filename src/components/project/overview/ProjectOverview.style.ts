@@ -11,6 +11,10 @@ export const OverviewContainer = styled.section`
     margin: 3.75rem auto;
     border-radius: 2px;
   }
+  h3 {
+    font-family: ${(props): string => props.theme.fontRoboto};
+    margin: 2rem 0;
+  }
 `
 
 export const ProjectImage = styled.img`
