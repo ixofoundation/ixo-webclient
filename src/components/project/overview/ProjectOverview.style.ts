@@ -1,11 +1,16 @@
 import styled from 'styled-components'
-import { deviceWidth } from '../../../lib/commonData'
 import { ProgressBar } from '../../common/ProgressBar'
 
 export const OverviewContainer = styled.section`
   background: white;
   color: black;
   padding-bottom: 40px;
+  hr {
+    border: 1px solid #e8edee;
+    width: 7.5rem;
+    margin: 3.75rem auto;
+    border-radius: 2px;
+  }
 `
 
 export const ProjectImage = styled.img`
@@ -95,32 +100,6 @@ export const Text = styled.div`
   color: ${(props): string => props.theme.fontDarkGrey};
   font-size: 16px;
   line-height: 30px;
-`
-
-export const Social = styled.div`
-  margin: 10px 0 20px;
-  display: flex;
-  justify-content: space-evenly;
-
-  @media (min-width: ${deviceWidth.tablet}px) {
-    margin-top: 10px;
-    display: block;
-  }
-
-  svg {
-    margin-right: 28px;
-    transition: transform 0.3s ease;
-    path {
-      fill: #282828;
-    }
-    &:hover path {
-      fill: #656969;
-    }
-  }
-
-  a:hover {
-    text-decoration: none;
-  }
 `
 
 export const Hidden = styled.div`

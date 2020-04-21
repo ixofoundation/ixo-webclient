@@ -36,13 +36,13 @@ interface Ixo {
   totalStaked: number
   totalUsed: number
 }
-interface SocialMedia {
+export interface SocialMedia {
   facebookLink: string
   instagramLink: string
   twitterLink: string
   webLink: string
 }
-interface Founder {
+export interface Founder {
   name: string
   email: string
   countryOfOrigin: string
