@@ -1,3 +1,4 @@
+import moment, { Moment } from 'moment'
 import { Dispatch } from 'redux'
 import {
   ProjectsActions,
@@ -23,7 +24,7 @@ export const getProjects = () => (dispatch: Dispatch): GetProjectsAction => {
         title: project.data.title,
         shortDescription: project.data.shortDescription,
         longDescription: project.data.longDescription,
-        dateCreated: project.data.createdOn,
+        dateCreated: moment(project.data.createdOn),
         ownerName: project.data.ownerName,
         country: project.data.projectLocation,
         impactAction: project.data.impactAction,
@@ -38,6 +39,12 @@ export const getProjects = () => (dispatch: Dispatch): GetProjectsAction => {
         rejectedClaimsCount: project.data.claimStats.currentRejected,
         agentDids: project.data.agents.map(agent => agent.did),
         sdgs: project.data.sdgs,
+        categories: project.data.ddoTags
+          ? project.data.ddoTags.map(ddoTag => ({
+              name: ddoTag.category,
+              tags: ddoTag.tags,
+            }))
+          : [],
         data: project.data, // TEMP until project module not getting data from projects
       }))
     }),
@@ -53,7 +60,10 @@ export const filterToggleUserProjects = (
   },
 })
 
-export const filterDates = (dateFrom: any, dateTo: any): FilterDatesAction => ({
+export const filterDates = (
+  dateFrom: Moment,
+  dateTo: Moment,
+): FilterDatesAction => ({
   type: ProjectsActions.FilterDates,
   payload: {
     dateFrom,

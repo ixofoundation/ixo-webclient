@@ -1,10 +1,12 @@
+import { Moment } from 'moment'
+
 export interface Project {
   projectDid: string
   userDid: string
   title: string
   shortDescription: string
   longDescription: string
-  dateCreated: Date
+  dateCreated: Moment
   ownerName: string
   status: string
   country: string
@@ -18,6 +20,7 @@ export interface Project {
   sdgs: number[]
   agentDids: string[]
   imageUrl: string
+  categories: Category[]
   data: any // this is temporary until we don't have to pass projectData into the card component because of the weird link
 }
 
@@ -28,8 +31,8 @@ export interface Category {
 
 export interface Filter {
   categories: Category[]
-  dateFrom: any
-  dateTo: any
+  dateFrom: Moment
+  dateTo: Moment
   userProjectsOnly: boolean
 }
 
@@ -71,8 +74,8 @@ export interface FilterToggleUserProjectsAction {
 export interface FilterDatesAction {
   type: typeof ProjectsActions.FilterDates
   payload: {
-    dateFrom: any
-    dateTo: any
+    dateFrom: Moment
+    dateTo: Moment
   }
 }
 

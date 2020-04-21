@@ -1,77 +1,165 @@
+import moment from 'moment'
 import * as SUT from './Projects.selectors'
 
-const state: any = {
-  account: {
-    userInfo: {
-      didDoc: {
-        did: 'someUserDid1',
-        pubKey: 'somePubKey',
-        credentials: [],
+let state: any
+
+beforeEach(() => {
+  state = {
+    account: {
+      userInfo: {
+        didDoc: {
+          did: 'someUserDid1',
+          pubKey: 'somePubKey',
+          credentials: [],
+        },
+        name: 'SomeName',
+        loggedInKeysafe: true,
+        ledgered: true,
+        hasKYC: false,
       },
-      name: 'SomeName',
-      loggedInKeysafe: true,
-      ledgered: true,
-      hasKYC: false,
+      address: 'abc1234',
+      accountNumber: null,
+      sequence: null,
+      balances: [],
+      loginStatusCheckCompleted: true,
     },
-    address: 'abc1234',
-    accountNumber: null,
-    sequence: null,
-    balances: [],
-    loginStatusCheckCompleted: true,
-  },
-  projects: {
-    projects: [
-      {
-        projectDid: 'someDid1',
-        userDid: 'someUserDid1',
-        title: 'someTitle1',
-        shortDescription: 'someShortDescription1',
-        dateCreated: '2020-04-09T13:14:13.000Z',
-        ownerName: 'someOwnerName1',
-        status: 'someStatus1',
-        country: 'someCountry1',
-        impactAction: 'someImpactAction1',
-        serviceProvidersCount: 13,
-        evaluatorsCount: 1,
-        requiredClaimsCount: 100,
-        successfulClaimsCount: 10,
-        pendingClaimsCount: 20,
-        rejectedClaimsCount: 30,
-        sdgs: ['SDG1_1', 'SDG2_1', 'SDG3_1'],
-      },
-      {
-        projectDid: 'someDid2',
-        userDid: 'someUserDid',
-        title: 'someTitle2',
-        shortDescription: 'someShortDescription2',
-        dateCreated: '2020-04-10T13:14:13.000Z',
-        ownerName: 'someOwnerName2',
-        status: 'someStatus2',
-        country: 'someCountry2',
-        impactAction: 'someImpactAction2',
-        serviceProvidersCount: 11,
-        evaluatorsCount: 12,
-        requiredClaimsCount: 10,
-        successfulClaimsCount: 2,
-        pendingClaimsCount: 3,
-        rejectedClaimsCount: 4,
-        sdgs: ['SDG1_2', 'SDG2_2', 'SDG3_2'],
-        agentDids: ['someUserDid2'],
-      },
-    ],
-    filter: {
-      dateFrom: new Date('2020-04-05T13:14:13.000Z'),
-      dateTo: new Date('2020-04-10T13:14:13.000Z'),
-      categories: [
+    projects: {
+      projects: [
         {
-          name: 'foo',
-          tags: ['bar'],
+          projectDid: 'someDid1',
+          userDid: 'someUserDid1',
+          title: 'someTitle1',
+          shortDescription: 'someShortDescription1',
+          dateCreated: moment('2020-04-09T13:14:13.000Z'),
+          ownerName: 'someOwnerName1',
+          status: 'someStatus1',
+          country: 'someCountry1',
+          impactAction: 'someImpactAction1',
+          serviceProvidersCount: 13,
+          evaluatorsCount: 1,
+          requiredClaimsCount: 100,
+          successfulClaimsCount: 10,
+          pendingClaimsCount: 20,
+          rejectedClaimsCount: 30,
+          sdgs: ['SDG1_1', 'SDG2_1', 'SDG3_1'],
+          longDescription: 'someLongDescription',
+          agentDids: ['someAgentDid1'],
+          imageUrl: 'sommeImageUrl',
+          categories: [
+            {
+              name: 'someCategory1',
+              tags: [
+                'someCategory1_tag1',
+                'someCategory1_tag2',
+                'someCategory1_tag3',
+              ],
+            },
+            {
+              name: 'someCategory5',
+              tags: [
+                'someCategory5_tag1',
+                'someCategory5_tag2',
+                'someCategory5_tag3',
+              ],
+            },
+          ],
+          data: null,
+        },
+        {
+          projectDid: 'someDid2',
+          userDid: 'someUserDid',
+          title: 'someTitle2',
+          shortDescription: 'someShortDescription2',
+          dateCreated: moment('2020-04-10T13:14:13.000Z'),
+          ownerName: 'someOwnerName2',
+          status: 'someStatus2',
+          country: 'someCountry2',
+          impactAction: 'someImpactAction2',
+          serviceProvidersCount: 11,
+          evaluatorsCount: 12,
+          requiredClaimsCount: 10,
+          successfulClaimsCount: 2,
+          pendingClaimsCount: 3,
+          rejectedClaimsCount: 4,
+          sdgs: ['SDG1_2', 'SDG2_2', 'SDG3_2'],
+          longDescription: 'someLongDescription',
+          agentDids: ['someAgentDid1'],
+          imageUrl: 'sommeImageUrl',
+          categories: [
+            {
+              name: 'someCategory1',
+              tags: [
+                'someCategory1_tag1',
+                'someCategory1_tag2',
+                'someCategory1_tag3',
+              ],
+            },
+            {
+              name: 'someCategory6',
+              tags: [
+                'someCategory6_tag1',
+                'someCategory6_tag2',
+                'someCategory6_tag3',
+              ],
+            },
+          ],
+          data: null,
+        },
+        {
+          projectDid: 'someDid3',
+          userDid: 'someUserDid',
+          title: 'someTitle3',
+          shortDescription: 'someShortDescription3',
+          dateCreated: moment('2020-04-02T13:14:13.000Z'),
+          ownerName: 'someOwnerName3',
+          status: 'someStatus3',
+          country: 'someCountry3',
+          impactAction: 'someImpactAction3',
+          serviceProvidersCount: 5,
+          evaluatorsCount: 6,
+          requiredClaimsCount: 7,
+          successfulClaimsCount: 8,
+          pendingClaimsCount: 9,
+          rejectedClaimsCount: 10,
+          sdgs: ['SDG1_3', 'SDG2_3', 'SDG3_3'],
+          longDescription: 'someLongDescription',
+          agentDids: ['someAgentDid5'],
+          imageUrl: 'sommeImageUrl',
+          categories: [
+            {
+              name: 'someCategory3',
+              tags: [
+                'someCategory3_tag1',
+                'someCategory3_tag2',
+                'someCategory3_tag3',
+              ],
+            },
+            {
+              name: 'someCategory3',
+              tags: [
+                'someCategory3_tag1',
+                'someCategory3_tag2',
+                'someCategory3_tag3',
+              ],
+            },
+          ],
+          data: null,
         },
       ],
-      userProjectsOnly: true,
+      filter: {
+        dateFrom: moment('1970-01-01'),
+        dateTo: moment('2100-12-31'),
+        categories: [
+          {
+            name: 'foo',
+            tags: ['bar'],
+          },
+        ],
+        userProjectsOnly: true,
+      },
     },
-  },
-}
+  }
+})
 
 describe('Projects Selectors', () => {
   describe('selectProjectsState', () => {
@@ -105,13 +193,80 @@ describe('Projects Selectors', () => {
   })
 
   describe('selectedFilteredProjects', () => {
-    it('should return a list of filtered projects', () => {
+    it('should return a list of projects sorted when no filters are set', () => {
+      state.projects.filter = {
+        dateFrom: null,
+        dateTo: null,
+        categories: [],
+        userProjectsOnly: false,
+      }
+
       // when ... we call the selector
       const result = SUT.selectedFilteredProjects(state)
 
       // then ... should return result as expected
-      expect(result[0].dateCreated).toEqual('2020-04-10T13:14:13.000Z')
-      expect(result[1].dateCreated).toEqual('2020-04-09T13:14:13.000Z')
+      expect(result.length).toEqual(3)
+      expect(result[0].projectDid).toEqual('someDid2')
+      expect(result[1].projectDid).toEqual('someDid1')
+      expect(result[2].projectDid).toEqual('someDid3')
+    })
+
+    it('should return a list of projects filtered by user projects when the userProjectsOnly flag is true', () => {
+      state.projects.filter = {
+        dateFrom: null,
+        dateTo: null,
+        categories: [],
+        userProjectsOnly: true,
+      }
+
+      // when ... we call the selector
+      const result = SUT.selectedFilteredProjects(state)
+
+      // then ... should return result as expected
+      expect(result.length).toEqual(1)
+      expect(result[0].projectDid).toEqual('someDid1')
+    })
+
+    it('should return a list of projects filtered by date and sorted when dates are set', () => {
+      state.projects.filter = {
+        dateFrom: moment('2020-04-09'),
+        dateTo: moment('2020-04-10'),
+        categories: [],
+        userProjectsOnly: false,
+      }
+
+      // when ... we call the selector
+      const result = SUT.selectedFilteredProjects(state)
+
+      // then ... should return result as expected
+      expect(result.length).toEqual(2)
+      expect(result[0].projectDid).toEqual('someDid2')
+      expect(result[1].projectDid).toEqual('someDid1')
+    })
+
+    it('should return a list of projects filtered by categories and sorted when categories are set', () => {
+      state.projects.filter = {
+        dateFrom: null,
+        dateTo: null,
+        categories: [
+          {
+            name: 'someCategory1',
+            tags: ['someCategory1_tag1'],
+          },
+          {
+            name: 'someCategory5',
+            tags: ['someCategory5_tag1'],
+          },
+        ],
+        userProjectsOnly: false,
+      }
+
+      // when ... we call the selector
+      const result = SUT.selectedFilteredProjects(state)
+
+      // then ... should return result as expected
+      expect(result.length).toEqual(1)
+      expect(result[0].projectDid).toEqual('someDid1')
     })
   })
 
@@ -128,6 +283,12 @@ describe('Projects Selectors', () => {
 
   describe('selectFilteredProjectsCount', () => {
     it('should return the count of filtered projects', () => {
+      state.projects.filter = {
+        dateFrom: moment('2020-04-09'),
+        dateTo: moment('2020-04-10'),
+        categories: [],
+        userProjectsOnly: false,
+      }
       // when ... we call the selector
       // TODO - add filtering
       const result = SUT.selectFilteredProjectsCount(state)
@@ -137,8 +298,31 @@ describe('Projects Selectors', () => {
     })
   })
 
+  describe('selectAllProjectsCount', () => {
+    it('should return the count of all projects regardless of filters set', () => {
+      state.projects.filter = {
+        dateFrom: moment('1900-01-01'),
+        dateTo: moment('1900-01-01'),
+        categories: [],
+        userProjectsOnly: false,
+      }
+      // when ... we call the selector
+      // TODO - add filtering
+      const result = SUT.selectAllProjectsCount(state)
+
+      // then ... should return result as expected
+      expect(result).toEqual(3)
+    })
+  })
+
   describe('selectUserProjectsCount', () => {
-    it('should return the count of all projects for a user', () => {
+    it('should return the count of all projects for a user regardless of filters set', () => {
+      state.projects.filter = {
+        dateFrom: moment('1900-01-01'),
+        dateTo: moment('1900-01-01'),
+        categories: [],
+        userProjectsOnly: false,
+      }
       // when ... we call the selector
       const result = SUT.selectUserProjectsCount(state)
 
@@ -153,7 +337,7 @@ describe('Projects Selectors', () => {
       const result = SUT.selectTotalServiceProvidersCount(state)
 
       // then ... should return result as expected
-      expect(result).toEqual(24)
+      expect(result).toEqual(29)
     })
   })
 
@@ -163,7 +347,7 @@ describe('Projects Selectors', () => {
       const result = SUT.selectTotalEvaluatorsCount(state)
 
       // then ... should return result as expected
-      expect(result).toEqual(13)
+      expect(result).toEqual(19)
     })
   })
 
@@ -173,7 +357,7 @@ describe('Projects Selectors', () => {
       const result = SUT.selectTotalRequiredClaimsCount(state)
 
       // then ... should return result as expected
-      expect(result).toEqual(110)
+      expect(result).toEqual(117)
     })
   })
 
@@ -183,7 +367,7 @@ describe('Projects Selectors', () => {
       const result = SUT.selectTotalPendingClaimsCount(state)
 
       // then ... should return result as expected
-      expect(result).toEqual(23)
+      expect(result).toEqual(32)
     })
   })
 
@@ -193,7 +377,7 @@ describe('Projects Selectors', () => {
       const result = SUT.selectTotalSuccessfulClaimsCount(state)
 
       // then ... should return result as expected
-      expect(result).toEqual(12)
+      expect(result).toEqual(20)
     })
   })
 
@@ -203,7 +387,7 @@ describe('Projects Selectors', () => {
       const result = SUT.selectTotalRejectedClaimsCount(state)
 
       // then ... should return result as expected
-      expect(result).toEqual(34)
+      expect(result).toEqual(44)
     })
   })
 
@@ -213,7 +397,7 @@ describe('Projects Selectors', () => {
       const result = SUT.selectTotalRemainingClaimsCount(state)
 
       // then ... should return result as expected
-      expect(result).toEqual(98)
+      expect(result).toEqual(97)
     })
   })
 
@@ -223,7 +407,7 @@ describe('Projects Selectors', () => {
       const result = SUT.selectFilterDateFrom(state)
 
       // then... should return result as expected
-      expect(result).toEqual(new Date('2020-04-05T13:14:13.000Z'))
+      expect(result).toEqual(moment('1970-01-01'))
     })
   })
 
@@ -233,7 +417,65 @@ describe('Projects Selectors', () => {
       const result = SUT.selectFilterDateTo(state)
 
       // then... should return result as expected
-      expect(result).toEqual(new Date('2020-04-10T13:14:13.000Z'))
+      expect(result).toEqual(moment('2100-12-31'))
+    })
+  })
+
+  describe('selectFilterDateFromFormatted', () => {
+    it('should return the dateFrom property from the filter as a formatted string', () => {
+      // when .. we call the selector
+      const result = SUT.selectFilterDateFromFormatted(state)
+
+      // then... should return result as expected
+      expect(result).toEqual("1 Jan '70")
+    })
+  })
+
+  describe('selectFilterDateToFormatted', () => {
+    it('should return the dateTo property from the filter as a formatted string', () => {
+      // when .. we call the selector
+      const result = SUT.selectFilterDateToFormatted(state)
+
+      // then... should return result as expected
+      expect(result).toEqual("31 Dec '00")
+    })
+  })
+
+  describe('selectFilterSummaryFormatted', () => {
+    it('should return the correct summary of the dates when both dates have values', () => {
+      // when .. we call the selector
+      const result = SUT.selectFilterDateSummary(state)
+
+      // then... should return result as expected
+      expect(result).toEqual("1 Jan '70 - 31 Dec '00")
+    })
+
+    it('should return the correct summary of the dates when only dateFrom has a value', () => {
+      // when .. we call the selector
+      state.projects.filter.dateTo = null
+      const result = SUT.selectFilterDateSummary(state)
+
+      // then... should return result as expected
+      expect(result).toEqual("1 Jan '70 - Select")
+    })
+
+    it('should return the correct summary of the dates when only dateTo has a value', () => {
+      // when .. we call the selector
+      state.projects.filter.dateFrom = null
+      const result = SUT.selectFilterDateSummary(state)
+
+      // then... should return result as expected
+      expect(result).toEqual("Select - 31 Dec '00")
+    })
+
+    it('should return the correct summary of the dates when only neither dateTo nor dateTo have values', () => {
+      // when .. we call the selector
+      state.projects.filter.dateFrom = null
+      state.projects.filter.dateTo = null
+      const result = SUT.selectFilterDateSummary(state)
+
+      // then... should return result as expected
+      expect(result).toEqual('Dates')
     })
   })
 

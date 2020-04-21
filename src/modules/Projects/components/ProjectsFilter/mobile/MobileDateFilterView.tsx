@@ -1,6 +1,6 @@
 import * as React from 'react'
-import { Back } from './svgs'
-import DatePicker from '../../../../common/components/DatePicker'
+import { Back } from '../assets/svgs'
+import DatePicker from '../../../../../common/components/DatePicker'
 
 import {
   MobileDateHeader,
@@ -12,25 +12,20 @@ import {
   DoneButton,
   MobileDatePicker,
   MobileDatesMenu,
-} from './ProjectsFilter.style'
+} from '../ProjectsFilter.style'
 
 interface Props {
   startDate: any
   endDate: any
-  onHandleDateChange: (startDate: any, endDate: any) => void
-  onGetMobileDateButton: () => JSX.Element
   showDatePicker: boolean
-  onToggleShowDatePicker: () => void
   startDateDisplay: any
   endDateDisplay: any
-  dateText: string
-  mobileFilterMenuOpen: boolean
   mobileDatesMenuOpen: boolean
+  onHandleDateChange: (startDate: any, endDate: any) => void
+  onGetMobileDateButton: () => JSX.Element
+  onToggleShowDatePicker: () => void
   onToggleMobileDates: () => void
-  onShowMobileDatePicker: () => void
-  onResetDateButtonText: () => void
   onResetDateFilter: () => void
-  onResetDateDisplay: () => void
 }
 
 class MobileDateFilterView extends React.Component<Props, {}> {
@@ -74,7 +69,7 @@ class MobileDateFilterView extends React.Component<Props, {}> {
               </HeadingItem>
               <HeadingItem
                 onClick={(): void => {
-                  this.props.onResetDateDisplay()
+                  this.props.onResetDateFilter()
                   this.props.onToggleMobileDates()
                 }}
               >
@@ -89,7 +84,7 @@ class MobileDateFilterView extends React.Component<Props, {}> {
             {this.getDatePicker()}
             <DoneButtonWrapper>
               <DoneButton onClick={this.props.onToggleMobileDates}>
-                Apply
+                Done
               </DoneButton>
             </DoneButtonWrapper>
           </MobileFilterModal>

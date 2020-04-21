@@ -1,3 +1,4 @@
+import moment from 'moment'
 import * as SUT from './Projects.actions'
 import { ProjectsActions } from './types'
 import mockStore from '../../common/redux/mockStore'
@@ -13,7 +14,7 @@ beforeEach(() => {
           userDid: 'someUserDid1',
           title: 'someTitle1',
           shortDescription: 'someShortDescription1',
-          dateCreated: new Date('2020-04-09T13:14:13.000Z'),
+          dateCreated: moment('2020-04-09T13:14:13.000Z'),
           ownerName: 'someOwnerName1',
           status: 'someStatus1',
           country: 'someCountry1',
@@ -28,12 +29,30 @@ beforeEach(() => {
           longDescription: 'someLongDescription',
           agentDids: ['someAgentDid1'],
           imageUrl: 'sommeImageUrl',
+          categories: [
+            {
+              name: 'someCategory1',
+              tags: [
+                'someCategory1_tag1',
+                'someCategory1_tag2',
+                'someCategory1_tag3',
+              ],
+            },
+            {
+              name: 'someCategory1',
+              tags: [
+                'someCategory1_tag1',
+                'someCategory1_tag2',
+                'someCategory1_tag3',
+              ],
+            },
+          ],
           data: null,
         },
       ],
       filter: {
-        dateFrom: new Date('2020-04-09T13:14:13.000Z'),
-        dateTo: new Date('2020-04-08T13:14:13.000Z'),
+        dateFrom: moment('2020-04-09T13:14:13.000Z'),
+        dateTo: moment('2020-04-08T13:14:13.000Z'),
         categories: [
           {
             name: 'foo1',
@@ -63,15 +82,15 @@ describe('Projects Actions', () => {
     it('should create an action to set the dates filter', () => {
       // when ... we call the filterDates action creator
       const action = SUT.filterDates(
-        new Date('2020-04-03T13:14:13.000Z'),
-        new Date('2020-04-09T13:14:13.000Z'),
+        moment('2020-04-03T13:14:13.000Z'),
+        moment('2020-04-09T13:14:13.000Z'),
       )
 
       // then we should expect it to create action with the correct type and payload
       expect(action.type).toEqual(ProjectsActions.FilterDates)
       expect(action.payload).toEqual({
-        dateFrom: new Date('2020-04-03T13:14:13.000Z'),
-        dateTo: new Date('2020-04-09T13:14:13.000Z'),
+        dateFrom: moment('2020-04-03T13:14:13.000Z'),
+        dateTo: moment('2020-04-09T13:14:13.000Z'),
       })
     })
   })

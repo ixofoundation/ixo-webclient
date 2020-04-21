@@ -1,3 +1,4 @@
+import moment from 'moment'
 import * as SUT from './Projects.reducer'
 import {
   ProjectsActions,
@@ -30,8 +31,8 @@ describe('Projects Reducer', () => {
       const currentState = {
         ...initialState,
         filter: {
-          dateFrom: new Date(),
-          dateTo: new Date(),
+          dateFrom: moment(),
+          dateTo: moment(),
           categories: [
             {
               name: 'foo',
@@ -48,7 +49,7 @@ describe('Projects Reducer', () => {
           userDid: 'someUserDid1',
           title: 'someTitle1',
           shortDescription: 'someShortDescription1',
-          dateCreated: new Date('2020-04-09T13:14:13.000Z'),
+          dateCreated: moment('2020-04-09T13:14:13.000Z'),
           ownerName: 'someOwnerName1',
           status: 'someStatus1',
           country: 'someCountry1',
@@ -63,6 +64,24 @@ describe('Projects Reducer', () => {
           longDescription: 'someLongDescription',
           agentDids: ['someAgentDid1'],
           imageUrl: 'sommeImageUrl',
+          categories: [
+            {
+              name: 'someCategory1',
+              tags: [
+                'someCategory1_tag1',
+                'someCategory1_tag2',
+                'someCategory1_tag3',
+              ],
+            },
+            {
+              name: 'someCategory1',
+              tags: [
+                'someCategory1_tag1',
+                'someCategory1_tag2',
+                'someCategory1_tag3',
+              ],
+            },
+          ],
           data: null,
         },
       ]
@@ -91,7 +110,7 @@ describe('Projects Reducer', () => {
             userDid: 'someUserDid1',
             title: 'someTitle1',
             shortDescription: 'someShortDescription1',
-            dateCreated: new Date('2020-04-09T13:14:13.000Z'),
+            dateCreated: moment('2020-04-09T13:14:13.000Z'),
             ownerName: 'someOwnerName1',
             status: 'someStatus1',
             country: 'someCountry1',
@@ -106,12 +125,22 @@ describe('Projects Reducer', () => {
             longDescription: 'someLongDescription',
             agentDids: ['someAgentDid1'],
             imageUrl: 'sommeImageUrl',
+            categories: [
+              {
+                name: 'someCategory1',
+                tags: [
+                  'someCategory1_tag1',
+                  'someCategory1_tag2',
+                  'someCategory1_tag3',
+                ],
+              },
+            ],
             data: null,
           },
         ],
         filter: {
-          dateFrom: new Date(),
-          dateTo: new Date(),
+          dateFrom: moment(),
+          dateTo: moment(),
           categories: [
             {
               name: 'foo',
@@ -154,7 +183,7 @@ describe('Projects Reducer', () => {
             userDid: 'someUserDid1',
             title: 'someTitle1',
             shortDescription: 'someShortDescription1',
-            dateCreated: new Date('2020-04-09T13:14:13.000Z'),
+            dateCreated: moment('2020-04-09T13:14:13.000Z'),
             ownerName: 'someOwnerName1',
             status: 'someStatus1',
             country: 'someCountry1',
@@ -169,6 +198,16 @@ describe('Projects Reducer', () => {
             longDescription: 'someLongDescription',
             agentDids: ['someAgentDid1'],
             imageUrl: 'sommeImageUrl',
+            categories: [
+              {
+                name: 'someCategory1',
+                tags: [
+                  'someCategory1_tag1',
+                  'someCategory1_tag2',
+                  'someCategory1_tag3',
+                ],
+              },
+            ],
             data: null,
           },
         ],
@@ -189,8 +228,8 @@ describe('Projects Reducer', () => {
       const action: FilterDatesAction = {
         type: ProjectsActions.FilterDates,
         payload: {
-          dateFrom: new Date('2020-04-09T13:14:13.000Z'),
-          dateTo: new Date('2020-04-08T13:14:13.000Z'),
+          dateFrom: moment('2020-04-09T13:14:13.000Z'),
+          dateTo: moment('2020-04-08T13:14:13.000Z'),
         },
       }
 
@@ -202,8 +241,8 @@ describe('Projects Reducer', () => {
         ...currentState,
         filter: {
           ...currentState.filter,
-          dateFrom: new Date('2020-04-09T13:14:13.000Z'),
-          dateTo: new Date('2020-04-08T13:14:13.000Z'),
+          dateFrom: moment('2020-04-09T13:14:13.000Z'),
+          dateTo: moment('2020-04-08T13:14:13.000Z'),
         },
       })
     })
@@ -219,7 +258,7 @@ describe('Projects Reducer', () => {
             userDid: 'someUserDid1',
             title: 'someTitle1',
             shortDescription: 'someShortDescription1',
-            dateCreated: new Date('2020-04-09T13:14:13.000Z'),
+            dateCreated: moment('2020-04-09T13:14:13.000Z'),
             ownerName: 'someOwnerName1',
             status: 'someStatus1',
             country: 'someCountry1',
@@ -234,12 +273,22 @@ describe('Projects Reducer', () => {
             longDescription: 'someLongDescription',
             agentDids: ['someAgentDid1'],
             imageUrl: 'sommeImageUrl',
+            categories: [
+              {
+                name: 'someCategory1',
+                tags: [
+                  'someCategory1_tag1',
+                  'someCategory1_tag2',
+                  'someCategory1_tag3',
+                ],
+              },
+            ],
             data: null,
           },
         ],
         filter: {
-          dateFrom: new Date('2020-04-09T13:14:13.000Z'),
-          dateTo: new Date('2020-04-08T13:14:13.000Z'),
+          dateFrom: moment('2020-04-09T13:14:13.000Z'),
+          dateTo: moment('2020-04-08T13:14:13.000Z'),
           categories: [
             {
               name: 'foo',
@@ -280,7 +329,7 @@ describe('Projects Reducer', () => {
             userDid: 'someUserDid1',
             title: 'someTitle1',
             shortDescription: 'someShortDescription1',
-            dateCreated: new Date('2020-04-09T13:14:13.000Z'),
+            dateCreated: moment('2020-04-09T13:14:13.000Z'),
             ownerName: 'someOwnerName1',
             status: 'someStatus1',
             country: 'someCountry1',
@@ -295,12 +344,22 @@ describe('Projects Reducer', () => {
             longDescription: 'someLongDescription',
             agentDids: ['someAgentDid1'],
             imageUrl: 'sommeImageUrl',
+            categories: [
+              {
+                name: 'someCategory1',
+                tags: [
+                  'someCategory1_tag1',
+                  'someCategory1_tag2',
+                  'someCategory1_tag3',
+                ],
+              },
+            ],
             data: null,
           },
         ],
         filter: {
-          dateFrom: new Date('2020-04-09T13:14:13.000Z'),
-          dateTo: new Date('2020-04-08T13:14:13.000Z'),
+          dateFrom: moment('2020-04-09T13:14:13.000Z'),
+          dateTo: moment('2020-04-08T13:14:13.000Z'),
           categories: [
             {
               name: 'foo1',
@@ -351,7 +410,7 @@ describe('Projects Reducer', () => {
             userDid: 'someUserDid1',
             title: 'someTitle1',
             shortDescription: 'someShortDescription1',
-            dateCreated: new Date('2020-04-09T13:14:13.000Z'),
+            dateCreated: moment('2020-04-09T13:14:13.000Z'),
             ownerName: 'someOwnerName1',
             status: 'someStatus1',
             country: 'someCountry1',
@@ -366,12 +425,22 @@ describe('Projects Reducer', () => {
             longDescription: 'someLongDescription',
             agentDids: ['someAgentDid1'],
             imageUrl: 'sommeImageUrl',
+            categories: [
+              {
+                name: 'someCategory1',
+                tags: [
+                  'someCategory1_tag1',
+                  'someCategory1_tag2',
+                  'someCategory1_tag3',
+                ],
+              },
+            ],
             data: null,
           },
         ],
         filter: {
-          dateFrom: new Date('2020-04-09T13:14:13.000Z'),
-          dateTo: new Date('2020-04-08T13:14:13.000Z'),
+          dateFrom: moment('2020-04-09T13:14:13.000Z'),
+          dateTo: moment('2020-04-08T13:14:13.000Z'),
           categories: [
             {
               name: 'foo1',
@@ -427,7 +496,7 @@ describe('Projects Reducer', () => {
             userDid: 'someUserDid1',
             title: 'someTitle1',
             shortDescription: 'someShortDescription1',
-            dateCreated: new Date('2020-04-09T13:14:13.000Z'),
+            dateCreated: moment('2020-04-09T13:14:13.000Z'),
             ownerName: 'someOwnerName1',
             status: 'someStatus1',
             country: 'someCountry1',
@@ -442,12 +511,22 @@ describe('Projects Reducer', () => {
             longDescription: 'someLongDescription',
             agentDids: ['someAgentDid1'],
             imageUrl: 'sommeImageUrl',
+            categories: [
+              {
+                name: 'someCategory1',
+                tags: [
+                  'someCategory1_tag1',
+                  'someCategory1_tag2',
+                  'someCategory1_tag3',
+                ],
+              },
+            ],
             data: null,
           },
         ],
         filter: {
-          dateFrom: new Date('2020-04-09T13:14:13.000Z'),
-          dateTo: new Date('2020-04-08T13:14:13.000Z'),
+          dateFrom: moment('2020-04-09T13:14:13.000Z'),
+          dateTo: moment('2020-04-08T13:14:13.000Z'),
           categories: [
             {
               name: 'foo1',
@@ -503,7 +582,7 @@ describe('Projects Reducer', () => {
             userDid: 'someUserDid1',
             title: 'someTitle1',
             shortDescription: 'someShortDescription1',
-            dateCreated: new Date('2020-04-09T13:14:13.000Z'),
+            dateCreated: moment('2020-04-09T13:14:13.000Z'),
             ownerName: 'someOwnerName1',
             status: 'someStatus1',
             country: 'someCountry1',
@@ -518,12 +597,22 @@ describe('Projects Reducer', () => {
             longDescription: 'someLongDescription',
             agentDids: ['someAgentDid1'],
             imageUrl: 'sommeImageUrl',
+            categories: [
+              {
+                name: 'someCategory1',
+                tags: [
+                  'someCategory1_tag1',
+                  'someCategory1_tag2',
+                  'someCategory1_tag3',
+                ],
+              },
+            ],
             data: null,
           },
         ],
         filter: {
-          dateFrom: new Date('2020-04-09T13:14:13.000Z'),
-          dateTo: new Date('2020-04-08T13:14:13.000Z'),
+          dateFrom: moment('2020-04-09T13:14:13.000Z'),
+          dateTo: moment('2020-04-08T13:14:13.000Z'),
           categories: [
             {
               name: 'foo',
@@ -546,10 +635,7 @@ describe('Projects Reducer', () => {
       expect(result).toEqual({
         ...currentState,
         filter: {
-          categories: [],
-          dateFrom: null,
-          dateTo: null,
-          userProjectsOnly: false,
+          ...initialState.filter,
         },
       })
     })

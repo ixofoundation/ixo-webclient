@@ -1,22 +1,20 @@
 import * as React from 'react'
-import DatePicker from '../../../../common/components/DatePicker'
+import DatePicker from '../../../../../common/components/DatePicker'
 
 import {
   DatePickerModal,
   ResetButtonDatePicker,
   ApplyButtonDatePicker,
   ButtonWrapper,
-} from './ProjectsFilter.style'
+} from '../ProjectsFilter.style'
 
 interface Props {
   startDate: any
   endDate: any
-  onGetDesktopDateButton: () => JSX.Element
   showDatePicker: boolean
-  dateText: string
+  onGetDesktopDateButton: () => JSX.Element
   onHandleDateChange: (startDate: any, endDate: any) => void
   onToggleShowDatePicker: () => void
-  onResetDateButtonText: () => void
   onResetDateFilter: () => void
 }
 
@@ -52,7 +50,7 @@ class DesktopDateFilterView extends React.Component<Props, {}> {
                 this.props.onToggleShowDatePicker()
               }}
             >
-              Apply
+              Done
             </ApplyButtonDatePicker>
           </DatePickerModal>
         )}
@@ -65,7 +63,6 @@ class DesktopDateFilterView extends React.Component<Props, {}> {
       <>
         <ButtonWrapper>
           {this.props.onGetDesktopDateButton()}
-
           {this.getDatePicker()}
         </ButtonWrapper>
       </>

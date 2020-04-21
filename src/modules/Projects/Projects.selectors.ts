@@ -1,8 +1,11 @@
+import { Moment } from 'moment'
 import { createSelector } from 'reselect'
 import { RootState } from '../../common/redux/types'
 import { ProjectsState } from './types'
 import { Project, Filter, Category } from './types'
 import * as accountSelectors from '../Account/Account.selectors'
+
+const formatDate = (date: Moment): string => date.format("D MMM \\'YY")
 
 export const selectProjectsState = (state: RootState): ProjectsState =>
   state.projects
@@ -23,15 +26,53 @@ export const selectProjectsFilter = createSelector(
 
 export const selectedFilteredProjects = createSelector(
   selectAllProjects,
-  (projects: Project[]): Project[] => {
-    return projects && projects.length
-      ? projects.sort((a, b) => {
-          return (
-            new Date(b.dateCreated).getTime() -
-            new Date(a.dateCreated).getTime()
-          )
-        })
-      : []
+  selectProjectsFilter,
+  accountSelectors.selectUserDid,
+  (projects: Project[], filter: Filter, userDid: string): Project[] => {
+    // all projects
+    let projectsToFilter = projects && projects.length ? projects : []
+
+    // filter by current user's projects
+    if (filter.userProjectsOnly) {
+      projectsToFilter = projectsToFilter.filter(
+        project =>
+          project.userDid === userDid ||
+          project.agentDids.some(agentDid => agentDid === userDid),
+      )
+    }
+
+    // filter by date created and be sure to remove any times from the dates
+    if (filter.dateFrom && filter.dateTo) {
+      projectsToFilter = projectsToFilter.filter(
+        project =>
+          project.dateCreated.startOf('day') >= filter.dateFrom &&
+          project.dateCreated.startOf('day') <= filter.dateTo,
+      )
+    }
+
+    // filter by categories
+    if (filter.categories.length > 0) {
+      filter.categories.forEach(category => {
+        if (category.tags.length > 0) {
+          category.tags.forEach(tag => {
+            projectsToFilter = projectsToFilter.filter(project =>
+              project.categories.some(
+                projectCategory =>
+                  projectCategory.name === category.name &&
+                  projectCategory.tags.includes(tag),
+              ),
+            )
+          })
+        }
+      })
+    }
+
+    // sort the result
+    projectsToFilter = projectsToFilter.sort((a, b) => {
+      return b.dateCreated.unix() - a.dateCreated.unix()
+    })
+
+    return projectsToFilter
   },
 )
 
@@ -43,6 +84,13 @@ export const selectProjectCountries = createSelector(
           return project.country
         })
       : []
+  },
+)
+
+export const selectAllProjectsCount = createSelector(
+  selectAllProjects,
+  (projects: Project[]): number => {
+    return !projects ? 0 : projects.length
   },
 )
 
@@ -142,15 +190,42 @@ export const selectIsLoadingProjects = createSelector(
 
 export const selectFilterDateFrom = createSelector(
   selectProjectsFilter,
-  (filter: Filter): Date => {
+  (filter: Filter): Moment => {
     return filter.dateFrom
   },
 )
 
 export const selectFilterDateTo = createSelector(
   selectProjectsFilter,
-  (filter: Filter): Date => {
+  (filter: Filter): Moment => {
     return filter.dateTo
+  },
+)
+
+export const selectFilterDateFromFormatted = createSelector(
+  selectFilterDateFrom,
+  (dateFrom: Moment): string => {
+    return dateFrom ? formatDate(dateFrom) : null
+  },
+)
+
+export const selectFilterDateToFormatted = createSelector(
+  selectFilterDateTo,
+  (dateTo: Moment): string => {
+    return dateTo ? formatDate(dateTo) : null
+  },
+)
+
+export const selectFilterDateSummary = createSelector(
+  selectFilterDateFromFormatted,
+  selectFilterDateToFormatted,
+  (dateFromFormatted: string, dateToFormatted: string): string => {
+    if (dateFromFormatted || dateToFormatted) {
+      return `${dateFromFormatted ? dateFromFormatted : 'Select'} - ${
+        dateToFormatted ? dateToFormatted : 'Select'
+      }`
+    }
+    return 'Dates'
   },
 )
 

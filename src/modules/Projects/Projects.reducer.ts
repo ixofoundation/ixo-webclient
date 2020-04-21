@@ -1,26 +1,22 @@
 import { ProjectsState, ProjectsActionTypes, ProjectsActions } from './types'
-import { schema } from '../Projects/components/ProjectsFilter/schema'
+import { getFilterSchema } from '../../instance-settings'
 
-/*
-initialCategorySelections = this.props.schema.categories.map(category => ({
-    category: category.name,
-    tags:
-      category.selectedTags && category.selectedTags.length
-        ? [...category.selectedTags]
-        : [],
-  })) */
+// TODO when tags are all sorted and returning from api
+// set the tags property of the categories to below
+/* 
+schemaCategory.selectedTags && schemaCategory.selectedTags.length
+          ? [...schemaCategory.selectedTags]
+          : [], 
+*/
 
 export const initialState: ProjectsState = {
   projects: null,
   filter: {
     dateFrom: null,
     dateTo: null,
-    categories: schema.categories.map(category => ({
-      name: category.name,
-      tags:
-        category.selectedTags && category.selectedTags.length
-          ? [...category.selectedTags]
-          : [],
+    categories: getFilterSchema().categories.map(schemaCategory => ({
+      name: schemaCategory.name,
+      tags: [],
     })),
     userProjectsOnly: false,
   },
@@ -98,10 +94,7 @@ export const reducer = (
       return {
         ...state,
         filter: {
-          categories: [],
-          dateFrom: null,
-          dateTo: null,
-          userProjectsOnly: false,
+          ...initialState.filter,
         },
       }
   }
