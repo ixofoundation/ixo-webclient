@@ -151,10 +151,9 @@ export const SearchFilterButton = styled.div`
     }
   }
   @media (max-width: ${deviceWidth.mobile}px) {
-    width: calc(49.333% - 1rem);
-    padding: 0.5rem;
+    width: calc(50% - 1rem);
   }
   @media (max-width: ${deviceWidth.mobileSmall}px) {
-    width: calc(105.333% - 1rem);
+    width: calc(100% - 1rem);
   }
 `
