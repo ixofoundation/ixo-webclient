@@ -1,3 +1,5 @@
+// TODO - refactor this test when time allows (as we reduxified everything and has broken this)
+
 /* import React from 'react'
 import { render } from '@testing-library/react'
 import { create, act } from 'react-test-renderer'
