@@ -12,13 +12,13 @@ import {
   HeroInner,
   HeroContainer,
 } from './ProjectsHero.styles'
+import blocksyncApi from '../../../../common/api/blocksync-api/blocksync-api' // TODO - redux
 
 export interface State {
   statistics: Stats
 }
 
 export interface Props {
-  ixo?: any
   myProjectsCount: number
   showMyProjects: Function
   contentType: contentType
@@ -84,9 +84,9 @@ export class ProjectsHero extends React.Component<Props, State> {
   }
 
   handleGetGlobalData = (): void => {
-    if (this.props.ixo && !this.loadingStats) {
+    if (!this.loadingStats) {
       this.loadingStats = true
-      this.props.ixo.stats.getGlobalStats().then(res => {
+      blocksyncApi.stats.getGlobalStats().then(res => {
         const statistics: Stats = res
         this.setState({ statistics })
         this.loadingStats = false

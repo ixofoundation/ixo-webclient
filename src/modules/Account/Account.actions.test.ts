@@ -1,6 +1,6 @@
 import axios from 'axios'
 import mockStore from '../../common/redux/mockStore'
-import * as SUT from './account.actions'
+import * as SUT from './Account.actions'
 import { AccountActions } from './types'
 
 jest.mock('../../common/keysafe/keysafe')

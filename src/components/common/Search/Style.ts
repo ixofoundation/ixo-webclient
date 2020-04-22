@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { deviceWidth } from 'src/lib/commonData'
 
 export const SearchWrapper = styled.div`
   background: white;
@@ -39,6 +40,9 @@ export const ModalButton = styled.div`
   }
   svg:first-child {
     margin-right: 0.5rem;
+    @media (max-width: ${deviceWidth.mobile}px) {
+    margin-right: 0;
+  }
   }
   .down-icon {
     margin-left: auto;
@@ -145,5 +149,11 @@ export const SearchFilterButton = styled.div`
     svg path {
       fill: #a5adb0;
     }
+  }
+  @media (max-width: ${deviceWidth.mobile}px) {
+    width: calc(50% - 1rem);
+  }
+  @media (max-width: ${deviceWidth.mobileSmall}px) {
+    width: calc(100% - 1rem);
   }
 `

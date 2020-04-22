@@ -3,12 +3,12 @@ import { SingleStatistic } from '../../common/SingleStatistic'
 import { Statistic, StatType, AgentRoles } from '../../../types/models'
 import { ModalWrapper } from '../../common/ModalWrapper'
 import { NewAgent } from './modalContent/NewAgent'
-import { UserInfo } from '../../../modules/account/types'
+import { UserInfo } from '../../../modules/Account/types'
 import { Button, ButtonTypes } from '../../common/Buttons'
 import { Fragment } from 'react'
 import QRComponent from '../../common/QRComponent'
 import ReactMd from 'react-md-file'
-import { ProjectFounder } from './ProjectFounder'
+import { ProjectFounder } from '../ProjectFounder/ProjectFounder'
 import { NoKeysafe } from './modalContent/NoKeysafe'
 import { DesktopChrome } from './modalContent/DesktopChrome'
 import { isBrowser } from 'react-device-detect'
@@ -16,9 +16,6 @@ import { NotLedgered } from './modalContent/NotLedgered'
 import { Header } from '../../../types/models'
 import Share from '../../../assets/icons/Share'
 import Twitter from '../../../assets/icons/Twitter'
-import Facebook from '../../../assets/icons/Facebook'
-import World from '../../../assets/icons/World'
-import Instagram from 'src/assets/icons/Instagram'
 import ProfileCard from '../ProfileCard/ProfileCard'
 import {
   BlueBold,
@@ -26,7 +23,6 @@ import {
   ProjectImage,
   OverviewContainer,
   Text,
-  Social,
   Sidebar,
   BarContainer,
   Claims,
@@ -390,53 +386,28 @@ export const ProjectOverview: React.SFC<Props> = props => {
                 <ReactMd markdown={props.project.longDescription} />
               </Text>
               {props.project.users && (
-                <ProfileCardsSection>
-                  <h3>Profile section</h3>
-                  <ProfileCardsWrapper>
-                    {props.project.users.map(user => {
-                      return <ProfileCard key={user.name} user={user} />
-                    })}
-                  </ProfileCardsWrapper>
-                </ProfileCardsSection>
+                <>
+                  <hr />
+                  <ProfileCardsSection>
+                    <h3>Profile section</h3>
+                    <ProfileCardsWrapper>
+                      {props.project.users.map(user => {
+                        return <ProfileCard key={user.name} user={user} />
+                      })}
+                    </ProfileCardsWrapper>
+                  </ProfileCardsSection>
+                </>
               )}
-              <Social>
-                {props.project.socialMedia.instagramLink && (
-                  <a
-                    href={props.project.socialMedia.instagramLink}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <Instagram width="17" />
-                  </a>
-                )}
-                {props.project.socialMedia.twitterLink && (
-                  <a
-                    href={props.project.socialMedia.twitterLink}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <Twitter width="17" />
-                  </a>
-                )}
-                {props.project.socialMedia.facebookLink && (
-                  <a
-                    href={props.project.socialMedia.facebookLink}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <Facebook width="17" />
-                  </a>
-                )}
-                {props.project.socialMedia.webLink && (
-                  <a
-                    href={props.project.socialMedia.webLink}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <World width="17" />
-                  </a>
-                )}
-              </Social>
+              {props.project.founder && props.project.founder.name !== '' && (
+                <>
+                  <hr />
+                  <h3>Project Founder</h3>
+                  <ProjectFounder
+                    founder={props.project.founder}
+                    socialMedia={props.project.socialMedia}
+                  />
+                </>
+              )}
             </div>
             <div className="col-md-4">
               <Sidebar>
@@ -502,9 +473,6 @@ export const ProjectOverview: React.SFC<Props> = props => {
           </div>
         </div>
       </OverviewContainer>
-      {props.project.founder && props.project.founder.name !== '' && (
-        <ProjectFounder founder={props.project.founder} />
-      )}
     </div>
   )
 }

@@ -1,6 +1,6 @@
 import * as React from 'react'
 import styled from 'styled-components'
-import { UserInfo } from '../../modules/account/types'
+import { UserInfo } from '../../modules/Account/types'
 import { connect } from 'react-redux'
 import { RootState } from '../../common/redux/types'
 import { errorToast, successToast } from '../helpers/Toast'

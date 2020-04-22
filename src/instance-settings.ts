@@ -1,9 +1,28 @@
 import { StatType } from './types/models'
 import filterSchemaIDCC from '../src/lib/json/filterSchemaIDCC.json'
 import filterSchemaIXO from '../src/lib/json/filterSchemaIXO.json'
-import { SchemaType } from '../src/common/components/ProjectsFilter/ProjectsFilterTypes'
 
-export const getFilterSchema = (): SchemaType => {
+export interface FilterSchema {
+  ['@context']: string
+  ['@type']: string
+  categories: FilterSchemaCategory[]
+}
+
+interface FilterSchemaCategory {
+  ['@type']: string
+  name: string
+  tags: FilterSchemaTag[]
+  selectedTags?: string[]
+}
+
+interface FilterSchemaTag {
+  ['@type']: string
+  name: string
+  icon: string
+  color?: string
+}
+
+export const getFilterSchema = (): FilterSchema => {
   switch (process.env.REACT_APP_NAME) {
     case 'IDCC':
       return filterSchemaIDCC
