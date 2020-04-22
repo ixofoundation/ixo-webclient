@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { Moment } from 'moment'
 import { ProjectsDashboard } from './components/ProjectsDashboard/ProjectsDashboard'
 import { ProjectCard } from './components/ProjectCard/ProjectCard'
 import { ProjectsHero } from './components/ProjectsHero/ProjectsHero'
@@ -11,86 +12,101 @@ import {
   ProjectsContainer,
   ErrorContainer,
 } from './Projects.container.styles'
-import { UserInfo } from '../account/types'
-import ProjectsFilter from '../../common/components/ProjectsFilter/ProjectsFilter'
-import { schema } from '../../../src/common/components/ProjectsFilter/schema'
-import { getProjects } from './Projects.actions'
-import { Project } from '../project/types'
-import * as ProjectsSelectors from './Projects.selectors'
+import {
+  getProjects,
+  filterToggleUserProjects,
+  filterDates,
+  resetDatesFilter,
+  filterCategoryTag,
+  resetCategoryFilter,
+  resetFilters,
+} from './Projects.actions'
+import ProjectsFilter from './components/ProjectsFilter/ProjectsFilter'
+import { Project, Category } from './types'
+import * as projectsSelectors from './Projects.selectors'
+import { getFilterSchema, FilterSchema } from '../../instance-settings'
 
-export interface ParentProps {
-  ixo?: any
+export interface Props {
   location?: any
   contentType: contentType
-  userInfo?: UserInfo
-  projects?: Project[]
-  dateSortedProjects?: Project[]
-  projectCountries?: any
-  projectClaimsAgents?: any
-  projectClaims?: any
-  totalClaimsRequired: number
+  projects: Project[]
+  projectsCount: number
+  userProjectsCount: number
+  requiredClaimsCount: number
+  successfulClaimsCount: number
+  pendingClaimsCount: number
+  rejectedClaimsCount: number
+  remainingClaimsCount: number
+  serviceProvidersCount: number
+  evaluatorsCount: number
+  countries: any[]
+  filteredProjectsCount: number
+  filterDateFrom: Moment
+  filterDateFromFormatted: string
+  filterDateTo: Moment
+  filterDateToFormatted: string
+  filterDateSummary: string
+  filterCategories: Category[]
+  filterUserProjectsOnly: boolean
+  isLoadingProjects: boolean
+  filterSchema: FilterSchema
+  handleGetProjects: () => void
+  handleFilterToggleUserProjects: (userProjectsOnly: boolean) => void
+  handleFilterDates: (dateFrom: any, dateTo: any) => void
+  handleResetDatesFilter: () => void
+  handleFilterCategoryTag: (category: string, tag: string) => void
+  handleResetCategoryFilter: (category: string) => void
+  handleResetFilters: () => void
 }
 
-export interface State {
-  showOnlyMyProjects: boolean
-}
-
-export interface StateProps {
-  ixo?: any
-  onGetProjects: () => void
-}
-
-export interface Props extends ParentProps, StateProps {}
-
-export class Projects extends React.Component<Props, State> {
-  state = {
-    showOnlyMyProjects: false,
-  }
-
+export class Projects extends React.Component<Props> {
   componentDidMount(): void {
-    this.props.onGetProjects()
-  }
-
-  showMyProjects(showMyProjects: boolean): void {
-    this.setState({ showOnlyMyProjects: showMyProjects })
-  }
-
-  getMyProjects(): Array<any> {
-    if (this.props.userInfo != null) {
-      const did = this.props.userInfo.didDoc.did
-      const myProjects = this.props.dateSortedProjects.filter(proj => {
-        return (
-          proj.data.createdBy === did ||
-          proj.data.agents.some(agent => agent.did === did)
-        )
-      })
-      return myProjects
-    } else {
-      return []
-    }
+    this.props.handleGetProjects()
   }
 
   renderProjects = (): JSX.Element => {
-    if (this.props.projects.length > 0) {
-      const projects = this.state.showOnlyMyProjects
-        ? this.getMyProjects()
-        : this.props.dateSortedProjects
+    if (this.props.projectsCount > 0) {
       return (
         <ProjectsContainer className="container-fluid">
           <div className="container">
-            <ProjectsFilter schema={schema} />
+            <ProjectsFilter
+              startDate={this.props.filterDateFrom}
+              startDateFormatted={this.props.filterDateFromFormatted}
+              endDate={this.props.filterDateTo}
+              endDateFormatted={this.props.filterDateToFormatted}
+              dateSummary={this.props.filterDateSummary}
+              categories={this.props.filterCategories}
+              filterSchema={this.props.filterSchema}
+              handleFilterDates={this.props.handleFilterDates}
+              handleResetDatesFilter={this.props.handleResetDatesFilter}
+              handleFilterCategoryTag={this.props.handleFilterCategoryTag}
+              handleResetCategoryFilter={this.props.handleResetCategoryFilter}
+              handleResetFilters={this.props.handleResetFilters}
+            />
             <div className="row row-eq-height">
-              {projects.map((project, index) => {
-                return (
-                  <ProjectCard
-                    ixo={this.props.ixo}
-                    project={project.data}
-                    did={project.projectDid}
-                    key={index}
-                    status={project.status}
-                  />
-                )
-              })}
+              {this.props.filteredProjectsCount > 0 ? (
+                this.props.projects.map((project, index) => {
+                  return (
+                    <ProjectCard
+                      ownerName={project.ownerName}
+                      imageUrl={project.imageUrl}
+                      impactAction={project.impactAction}
+                      projectDid={project.projectDid}
+                      rejectedClaims={project.rejectedClaimsCount}
+                      successfulClaims={project.successfulClaimsCount}
+                      requiredClaims={project.requiredClaimsCount}
+                      shortDescription={project.shortDescription}
+                      title={project.title}
+                      sdgs={project.sdgs}
+                      projectData={project.data}
+                      key={index}
+                      status={project.status}
+                    />
+                  )
+                })
+              ) : (
+                <div>There are no projects that match your search criteria</div>
+              )}
             </div>
           </div>
         </ProjectsContainer>
@@ -105,16 +121,20 @@ export class Projects extends React.Component<Props, State> {
   }
 
   handleRenderProjectList(): JSX.Element {
-    if (this.props.projects === null) {
+    if (this.props.isLoadingProjects) {
       return <Spinner info="Loading Projects" />
     } else {
       if (this.props.contentType === contentType.dashboard) {
         return (
           <ProjectsDashboard
-            claims={this.props.projectClaims}
-            claimsTotalRequired={this.props.totalClaimsRequired}
-            agents={this.props.projectClaimsAgents}
-            projectCountries={this.props.projectCountries}
+            requiredClaims={this.props.requiredClaimsCount}
+            successfulClaims={this.props.successfulClaimsCount}
+            pendingClaims={this.props.pendingClaimsCount}
+            rejectedClaims={this.props.rejectedClaimsCount}
+            remainingClaims={this.props.remainingClaimsCount}
+            serviceProviders={this.props.serviceProvidersCount}
+            evaluators={this.props.evaluatorsCount}
+            countries={this.props.countries}
           />
         )
       } else {
@@ -127,9 +147,8 @@ export class Projects extends React.Component<Props, State> {
     return (
       <Container>
         <ProjectsHero
-          ixo={this.props.ixo}
-          myProjectsCount={this.getMyProjects().length}
-          showMyProjects={(val): void => this.showMyProjects(val)}
+          myProjectsCount={this.props.userProjectsCount}
+          showMyProjects={(): void => null} //(val): void => this.showMyProjects(val)
           contentType={this.props.contentType}
         />
         {this.handleRenderProjectList()}
@@ -140,21 +159,56 @@ export class Projects extends React.Component<Props, State> {
 
 function mapStateToProps(state: RootState): Record<string, any> {
   return {
-    ixo: state.ixo.ixo,
-    userInfo: state.account.userInfo,
-    projects: ProjectsSelectors.selectAllProjects(state),
-    dateSortedProjects: ProjectsSelectors.selectDateSortedProjects(state),
-    projectCountries: ProjectsSelectors.selectProjectCountries(state),
-    projectClaimsAgents: ProjectsSelectors.selectClaimsAgents(state),
-    projectClaims: ProjectsSelectors.selectClaims(state),
-    totalClaimsRequired: ProjectsSelectors.selectTotalClaimsRequired(state),
+    projects: projectsSelectors.selectedFilteredProjects(state),
+    countries: projectsSelectors.selectProjectCountries(state),
+    projectsCount: projectsSelectors.selectAllProjectsCount(state),
+    userProjectsCount: projectsSelectors.selectUserProjectsCount(state),
+    requiredClaimsCount: projectsSelectors.selectTotalRequiredClaimsCount(
+      state,
+    ),
+    pendingClaimsCount: projectsSelectors.selectTotalPendingClaimsCount(state),
+    successfulClaimsCount: projectsSelectors.selectTotalSuccessfulClaimsCount(
+      state,
+    ),
+    rejectedClaimsCount: projectsSelectors.selectTotalRejectedClaimsCount(
+      state,
+    ),
+    remainingClaimsCount: projectsSelectors.selectTotalRemainingClaimsCount(
+      state,
+    ),
+    serviceProvidersCount: projectsSelectors.selectTotalServiceProvidersCount(
+      state,
+    ),
+    evaluatorsCount: projectsSelectors.selectTotalEvaluatorsCount(state),
+    filteredProjectsCount: projectsSelectors.selectFilteredProjectsCount(state),
+    filterDateFrom: projectsSelectors.selectFilterDateFrom(state),
+    filterDateTo: projectsSelectors.selectFilterDateTo(state),
+    filterDateFromFormatted: projectsSelectors.selectFilterDateFromFormatted(
+      state,
+    ),
+    filterDateToFormatted: projectsSelectors.selectFilterDateToFormatted(state),
+    filterDateSummary: projectsSelectors.selectFilterDateSummary(state),
+    filterCategories: projectsSelectors.selectFilterCategories(state),
+    filterUserProjectsOnly: projectsSelectors.selectFilterUserProjectsOnly(
+      state,
+    ),
+    isLoadingProjects: projectsSelectors.selectIsLoadingProjects(state),
+    filterSchema: getFilterSchema(),
   }
 }
 
 const mapDispatchToProps = (dispatch: any): any => ({
-  onGetProjects: (): void => {
-    dispatch(getProjects())
-  },
+  handleGetProjects: (): void => dispatch(getProjects()),
+  handleFilterToggleUserProjects: (userProjectsOnly: boolean): void =>
+    dispatch(filterToggleUserProjects(userProjectsOnly)),
+  handleFilterDates: (dateFrom: any, dateTo: any): void =>
+    dispatch(filterDates(dateFrom, dateTo)),
+  handleResetDatesFilter: (): void => dispatch(resetDatesFilter()),
+  handleFilterCategoryTag: (category: string, tag: string): void =>
+    dispatch(filterCategoryTag(category, tag)),
+  handleResetCategoryFilter: (category: string): void =>
+    dispatch(resetCategoryFilter(category)),
+  handleResetFilters: (): void => dispatch(resetFilters()),
 })
 
 export const ProjectsContainerConnected = connect(

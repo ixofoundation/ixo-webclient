@@ -7,7 +7,7 @@ import { Column, Table } from 'react-virtualized'
 import { connect } from 'react-redux'
 import { RootState } from '../../../redux/types'
 import { getTotalSupply } from '../../../../modules/tokenSupply/tokenSupply.actions'
-import { currencyStr } from '../../../../modules/account/account.utils'
+import { currencyStr } from '../../../../modules/Account/Account.utils'
 import moment from 'moment'
 
 import 'react-dates/initialize'

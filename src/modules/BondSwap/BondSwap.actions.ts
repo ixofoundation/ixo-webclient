@@ -8,7 +8,7 @@ import {
 } from './types'
 import Axios from 'axios'
 import { Currency } from '../../types/models'
-import { currencyStr } from '../account/account.utils'
+import { currencyStr } from '../Account/Account.utils'
 import { toast } from 'react-toastify'
 import { Dispatch } from 'redux'
 import { RootState } from 'src/common/redux/types'

@@ -1,4 +1,4 @@
-import * as SUT from './account.reducer'
+import * as SUT from './Account.reducer'
 import {
   AccountState,
   AccountActions,

@@ -1,6 +1,6 @@
 import * as React from 'react'
-import { schema } from './schema'
-import { Back, Down, Filter, Reset } from './svgs'
+import { Back, Down, Filter, Reset } from '../assets/svgs'
+import { FilterSchema } from '../../../../../instance-settings'
 
 import {
   MobileButtonWrapper,
@@ -17,11 +17,12 @@ import {
   MobileMenu,
   BurgerMenuButton,
   Button,
-} from './ProjectsFilter.style'
+} from '../ProjectsFilter.style'
 
 interface Props {
+  filterSchema: FilterSchema
   checkTitle: string
-  categorySelections: any[]
+  mobileFilterMenuOpen: boolean
   onHandleSelectCategoryTag: (category: string, tag: string) => void
   onSetCategoryName: (name: string) => void
   onHandleClose: (e, name: string) => void
@@ -29,7 +30,6 @@ interface Props {
   onTagClassName: (category: string, tag: string) => string
   onToggleMobileFilters: () => void
   onMobileFilterText: () => string
-  mobileFilterMenuOpen: boolean
   onResetCategoryFilter: (category: string) => void
   onResetFilters: () => void
   onResetDateFilter: () => void
@@ -59,8 +59,8 @@ class MobileFilterView extends React.Component<Props, {}> {
           <MobileFilterWrapper>
             <div>
               <MobileFilterHeading>Filters</MobileFilterHeading>
-              {schema.categories.map(filterCategory => {
-                const category = filterCategory.name
+              {this.props.filterSchema.categories.map(schemaCategory => {
+                const category = schemaCategory.name
                 return (
                   <MobileButtonWrapper
                     key={category}
@@ -107,7 +107,7 @@ class MobileFilterView extends React.Component<Props, {}> {
                           {this.props.onCategoryFilterTitle(category)}
                         </MobileFilterHeading>
                         <ModalItems>
-                          {filterCategory.tags.map(filterTags => {
+                          {schemaCategory.tags.map(filterTags => {
                             const tag = filterTags.name
                             return (
                               <FilterSelectButton
@@ -126,7 +126,8 @@ class MobileFilterView extends React.Component<Props, {}> {
                                 <h3>{tag}</h3>
                                 <img
                                   alt={tag}
-                                  src={require('./icons/' + filterTags.icon)}
+                                  src={require('../assets/icons/' +
+                                    filterTags.icon)}
                                 />
                               </FilterSelectButton>
                             )
@@ -139,7 +140,7 @@ class MobileFilterView extends React.Component<Props, {}> {
                             this.props.onSetCategoryName('')
                           }}
                         >
-                          Apply
+                          Done
                         </DoneButton>
                       </DoneButtonWrapper>
                     </MobileFilterModal>

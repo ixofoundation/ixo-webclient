@@ -1,83 +1,251 @@
+import { Moment } from 'moment'
 import { createSelector } from 'reselect'
 import { RootState } from '../../common/redux/types'
 import { ProjectsState } from './types'
-import { Project } from '../project/types'
+import { Project, Filter, Category } from './types'
+import * as accountSelectors from '../Account/Account.selectors'
 
-export const selectProjects = (state: RootState): ProjectsState =>
+const formatDate = (date: Moment): string => date.format("D MMM \\'YY")
+
+export const selectProjectsState = (state: RootState): ProjectsState =>
   state.projects
 
 export const selectAllProjects = createSelector(
-  selectProjects,
+  selectProjectsState,
   (projects: ProjectsState): Project[] => {
     return projects.projects
   },
 )
-export const selectDateSortedProjects = createSelector(
-  selectProjects,
-  (projects: ProjectsState): Project[] => {
-    return projects.projects && projects.projects.length
-      ? projects.projects.sort((a, b) => {
-          return (
-            new Date(b.data.createdOn).getTime() -
-            new Date(a.data.createdOn).getTime()
-          )
-        })
-      : []
+
+export const selectProjectsFilter = createSelector(
+  selectProjectsState,
+  (projects: ProjectsState): Filter => {
+    return projects.filter
+  },
+)
+
+export const selectedFilteredProjects = createSelector(
+  selectAllProjects,
+  selectProjectsFilter,
+  accountSelectors.selectUserDid,
+  (projects: Project[], filter: Filter, userDid: string): Project[] => {
+    // all projects
+    let projectsToFilter = projects && projects.length ? projects : []
+
+    // filter by current user's projects
+    if (filter.userProjectsOnly) {
+      projectsToFilter = projectsToFilter.filter(
+        project =>
+          project.userDid === userDid ||
+          project.agentDids.some(agentDid => agentDid === userDid),
+      )
+    }
+
+    // filter by date created and be sure to remove any times from the dates
+    if (filter.dateFrom && filter.dateTo) {
+      projectsToFilter = projectsToFilter.filter(
+        project =>
+          project.dateCreated.startOf('day') >= filter.dateFrom &&
+          project.dateCreated.startOf('day') <= filter.dateTo,
+      )
+    }
+
+    // filter by categories
+    if (filter.categories.length > 0) {
+      filter.categories.forEach(category => {
+        if (category.tags.length > 0) {
+          category.tags.forEach(tag => {
+            projectsToFilter = projectsToFilter.filter(project =>
+              project.categories.some(
+                projectCategory =>
+                  projectCategory.name === category.name &&
+                  projectCategory.tags.includes(tag),
+              ),
+            )
+          })
+        }
+      })
+    }
+
+    // sort the result
+    projectsToFilter = projectsToFilter.sort((a, b) => {
+      return b.dateCreated.unix() - a.dateCreated.unix()
+    })
+
+    return projectsToFilter
   },
 )
 
 export const selectProjectCountries = createSelector(
-  selectProjects,
-  (projects: ProjectsState): string[] => {
-    return projects.projects && projects.projects.length
-      ? projects.projects.map(project => {
-          return project.data.projectLocation
+  selectAllProjects,
+  (projects: Project[]): string[] => {
+    return projects && projects.length
+      ? projects.map(project => {
+          return project.country
         })
       : []
   },
 )
 
-export const selectClaimsAgents = createSelector(
-  selectProjects,
-  (projects: ProjectsState): any => {
-    return !projects.projects
-      ? []
-      : {
-          serviceProviders: projects.projects.reduce(
-            (totalServiceProviders, project) => {
-              return (
-                totalServiceProviders + project.data.agentStats.serviceProviders
-              )
-            },
-            0,
-          ),
-          evaluators: projects.projects.reduce((totalEvaluators, project) => {
-            return totalEvaluators + project.data.agentStats.evaluators
-          }, 0),
-        }
+export const selectAllProjectsCount = createSelector(
+  selectAllProjects,
+  (projects: Project[]): number => {
+    return !projects ? 0 : projects.length
   },
 )
 
-export const selectClaims = createSelector(
-  selectProjects,
-  (projects: ProjectsState): any => {
-    return !projects.projects
-      ? []
-      : projects.projects.map(project => {
-          return project.data.claims.filter(claim => {
-            return claim
-          })
-        })
+export const selectUserProjectsCount = createSelector(
+  selectAllProjects,
+  accountSelectors.selectUserDid,
+  (projects: Project[], userDid: string): number => {
+    return !projects
+      ? 0
+      : projects.filter(
+          project =>
+            project.userDid === userDid ||
+            project.agentDids.some(agentDid => agentDid === userDid),
+        ).length
   },
 )
 
-export const selectTotalClaimsRequired = createSelector(
-  selectProjects,
-  (projects: ProjectsState): number => {
-    return !projects.projects
-      ? []
-      : projects.projects.reduce((total, project) => {
-          return total + project.data.requiredClaims
+export const selectFilteredProjectsCount = createSelector(
+  selectedFilteredProjects,
+  (projects: Project[]): number => {
+    return !projects ? 0 : projects.length
+  },
+)
+
+export const selectTotalServiceProvidersCount = createSelector(
+  selectAllProjects,
+  (projects: Project[]): number => {
+    return !projects
+      ? 0
+      : projects.reduce((total, project) => {
+          return total + project.serviceProvidersCount
         }, 0)
   },
+)
+
+export const selectTotalEvaluatorsCount = createSelector(
+  selectAllProjects,
+  (projects: Project[]): number => {
+    return !projects
+      ? 0
+      : projects.reduce((total, project) => {
+          return total + project.evaluatorsCount
+        }, 0)
+  },
+)
+
+export const selectTotalRequiredClaimsCount = createSelector(
+  selectAllProjects,
+  (projects: Project[]): number => {
+    return !projects
+      ? 0
+      : projects.reduce((total, project) => {
+          return total + project.requiredClaimsCount
+        }, 0)
+  },
+)
+
+export const selectTotalPendingClaimsCount = createSelector(
+  selectAllProjects,
+  (projects: Project[]): number => {
+    return !projects
+      ? 0
+      : projects.reduce((total, project) => {
+          return total + project.pendingClaimsCount
+        }, 0)
+  },
+)
+
+export const selectTotalSuccessfulClaimsCount = createSelector(
+  selectAllProjects,
+  (projects: Project[]): number => {
+    return !projects
+      ? 0
+      : projects.reduce((total, project) => {
+          return total + project.successfulClaimsCount
+        }, 0)
+  },
+)
+
+export const selectTotalRejectedClaimsCount = createSelector(
+  selectAllProjects,
+  (projects: Project[]): number => {
+    return !projects
+      ? 0
+      : projects.reduce((total, project) => {
+          return total + project.rejectedClaimsCount
+        }, 0)
+  },
+)
+
+export const selectIsLoadingProjects = createSelector(
+  selectAllProjects,
+  (projects: Project[]): boolean => {
+    return projects === null
+  },
+)
+
+export const selectFilterDateFrom = createSelector(
+  selectProjectsFilter,
+  (filter: Filter): Moment => {
+    return filter.dateFrom
+  },
+)
+
+export const selectFilterDateTo = createSelector(
+  selectProjectsFilter,
+  (filter: Filter): Moment => {
+    return filter.dateTo
+  },
+)
+
+export const selectFilterDateFromFormatted = createSelector(
+  selectFilterDateFrom,
+  (dateFrom: Moment): string => {
+    return dateFrom ? formatDate(dateFrom) : null
+  },
+)
+
+export const selectFilterDateToFormatted = createSelector(
+  selectFilterDateTo,
+  (dateTo: Moment): string => {
+    return dateTo ? formatDate(dateTo) : null
+  },
+)
+
+export const selectFilterDateSummary = createSelector(
+  selectFilterDateFromFormatted,
+  selectFilterDateToFormatted,
+  (dateFromFormatted: string, dateToFormatted: string): string => {
+    if (dateFromFormatted || dateToFormatted) {
+      return `${dateFromFormatted ? dateFromFormatted : 'Select'} - ${
+        dateToFormatted ? dateToFormatted : 'Select'
+      }`
+    }
+    return 'Dates'
+  },
+)
+
+export const selectFilterCategories = createSelector(
+  selectProjectsFilter,
+  (filter: Filter): Category[] => {
+    return filter.categories
+  },
+)
+
+export const selectFilterUserProjectsOnly = createSelector(
+  selectProjectsFilter,
+  (filter: Filter): boolean => {
+    return filter.userProjectsOnly
+  },
+)
+
+export const selectTotalRemainingClaimsCount = createSelector(
+  selectTotalRequiredClaimsCount,
+  selectTotalSuccessfulClaimsCount,
+  (totalClaimsRequired: number, totalClaimsSuccessful: number): number =>
+    totalClaimsRequired - totalClaimsSuccessful,
 )

@@ -1,5 +1,6 @@
 import * as React from 'react'
-import { schema } from './schema'
+import { Category } from '../../../types'
+import { FilterSchema } from '../../../../../instance-settings'
 
 import {
   Button,
@@ -11,12 +12,13 @@ import {
   ResetButton,
   ApplyButton,
   Menu,
-} from './ProjectsFilter.style'
-import { Reset } from './svgs'
+} from '../ProjectsFilter.style'
+import { Reset } from '../assets/svgs'
 
 interface Props {
+  filterSchema: FilterSchema
   checkTitle: string
-  categorySelections: any[]
+  categories: Category[]
   onHandleSelectCategoryTag: (category: string, tag: string) => void
   onSetCategoryName: (name: string) => void
   onHandleClose: (e, name: string) => void
@@ -35,8 +37,8 @@ class DesktopFilterView extends React.Component<Props, {}> {
     return (
       <>
         <Menu>
-          {schema.categories.map(filterCategory => {
-            const category = filterCategory.name
+          {this.props.filterSchema.categories.map(schemaCategory => {
+            const category = schemaCategory.name
             return (
               <ButtonWrapper
                 key={category}
@@ -48,8 +50,8 @@ class DesktopFilterView extends React.Component<Props, {}> {
                 <Button
                   onClick={(): void => this.props.onSetCategoryName(category)}
                   className={
-                    this.props.categorySelections.find(
-                      selection => selection.category === category,
+                    this.props.categories.find(
+                      selection => selection.name === category,
                     ).tags.length > 0
                       ? 'itemsSelected'
                       : ''
@@ -66,7 +68,7 @@ class DesktopFilterView extends React.Component<Props, {}> {
                   }}
                 >
                   <ModalItems>
-                    {filterCategory.tags.map(filterTags => {
+                    {schemaCategory.tags.map(filterTags => {
                       const tag = filterTags.name
                       return (
                         <FilterSelectButton
@@ -79,7 +81,7 @@ class DesktopFilterView extends React.Component<Props, {}> {
                           <h3>{tag}</h3>
                           <img
                             alt={tag}
-                            src={require('./icons/' + filterTags.icon)}
+                            src={require('../assets/icons/' + filterTags.icon)}
                           />
                         </FilterSelectButton>
                       )
@@ -98,7 +100,7 @@ class DesktopFilterView extends React.Component<Props, {}> {
                         this.props.onSetCategoryName('')
                       }}
                     >
-                      Apply
+                      Done
                     </ApplyButton>
                   </ModalButtons>
                 </FilterModal>

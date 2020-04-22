@@ -8,7 +8,7 @@ import {
   remainingBalance,
   newBalance,
   currencyStr,
-} from '../../../account/account.utils'
+} from '../../../Account/Account.utils'
 import { Currency } from 'src/types/models'
 import * as bondSellSelectors from '../../BondSell.selectors'
 
