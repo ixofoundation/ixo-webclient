@@ -1,4 +1,115 @@
 import * as React from 'react'
+import { Category } from '../../types'
+import { FilterSchema } from '../../../../instance-settings'
+import { FiltersWrap, FilterInfo, Menu, Button } from './ProjectsFilter.style'
+import IconListFilterDesktop from './IconListFilter/IconListFilterDesktop'
+import DateFilterDesktop from './DateFilter/DateFilterDesktop'
+import { Reset } from './assets/svgs'
+
+interface State {
+  activeFilter: string
+}
+
+interface Props {
+  filterSchema: FilterSchema
+  startDate: any
+  startDateFormatted: string
+  endDate: any
+  endDateFormatted: string
+  dateSummary: string
+  categories: Category[]
+  handleFilterDates: (dateFrom: any, dateTo: any) => void
+  handleResetDatesFilter: () => void
+  handleFilterCategoryTag: (category: string, tag: string) => void
+  handleResetCategoryFilter: (category: string) => void
+  handleResetFilters: () => void
+}
+
+class ProjectsFilter extends React.Component<Props, State> {
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      activeFilter: '',
+    }
+  }
+
+  toggleFilterShow = (isActive: boolean, filterName: string): void => {
+    this.setState({
+      activeFilter: isActive ? '' : filterName,
+    })
+  }
+
+  resetDateFilter = (): void => {
+    this.setState({ activeFilter: '' })
+    this.props.handleResetDatesFilter()
+  }
+
+  resetCategoryFilter = (filterName: string): void => {
+    this.setState({ activeFilter: '' })
+    this.props.handleResetCategoryFilter(filterName)
+  }
+
+  render(): JSX.Element {
+    return (
+      <div data-testid="ProjectsFilter">
+        <FiltersWrap>
+          <FilterInfo>Projects</FilterInfo>
+          <div className="filters">
+            <DateFilterDesktop
+              startDate={this.props.startDate}
+              endDate={this.props.endDate}
+              dateSummary={this.props.dateSummary}
+              isActive={this.state.activeFilter === 'Dates'}
+              handleFilterToggleShow={(): void =>
+                this.toggleFilterShow(
+                  this.state.activeFilter === 'Dates',
+                  'Dates',
+                )
+              }
+              handleFilterDateChange={this.props.handleFilterDates}
+              handleResetFilter={this.resetDateFilter}
+            />
+            <Menu>
+              {this.props.filterSchema.categories.map(schemaCategory => {
+                const { name: filterName, tags: schemaTags } = schemaCategory
+                const isActive = this.state.activeFilter === filterName
+                const filterItems = schemaTags.map(schemaTag => ({
+                  name: schemaTag.name,
+                  icon: schemaTag.icon,
+                  isSelected: this.props.categories
+                    .find(category => category.name === filterName)
+                    .tags.includes(schemaTag.name),
+                }))
+
+                return (
+                  <IconListFilterDesktop
+                    key={filterName}
+                    name={filterName}
+                    isActive={isActive}
+                    handleFilterReset={this.props.handleResetCategoryFilter}
+                    handleToggleFilterShow={(): void =>
+                      this.toggleFilterShow(isActive, filterName)
+                    }
+                    handleFilterItemClick={this.props.handleFilterCategoryTag}
+                    items={filterItems}
+                  />
+                )
+              })}
+              <Button onClick={this.props.handleResetFilters}>
+                <Reset fill="#000" />
+                Reset
+              </Button>
+            </Menu>
+          </div>
+        </FiltersWrap>
+      </div>
+    )
+  }
+}
+export default ProjectsFilter
+
+/* import * as React from 'react'
 import MediaQuery from 'react-responsive'
 import { deviceWidth } from '../../../../lib/commonData'
 import DesktopDateFilterView from './desktop/DesktopDateFilterView'
@@ -218,3 +329,4 @@ class ProjectsFilter extends React.Component<Props, State> {
   }
 }
 export default ProjectsFilter
+ */

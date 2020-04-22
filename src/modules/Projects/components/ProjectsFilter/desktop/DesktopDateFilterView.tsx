@@ -42,13 +42,7 @@ class DesktopDateFilterView extends React.Component<Props, {}> {
               Reset
             </ResetButtonDatePicker>
             <ApplyButtonDatePicker
-              onClick={(): void => {
-                this.props.onHandleDateChange(
-                  this.props.startDate,
-                  this.props.endDate,
-                )
-                this.props.onToggleShowDatePicker()
-              }}
+              onClick={(): void => this.props.onToggleShowDatePicker()}
             >
               Done
             </ApplyButtonDatePicker>
