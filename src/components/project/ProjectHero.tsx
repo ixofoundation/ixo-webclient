@@ -9,6 +9,7 @@ import {
   HeroInner,
   Flag,
   HeroContainer,
+  HeroInfoItemsWrapper,
   HeroInfoItem,
   Title,
   Description,
@@ -117,7 +118,7 @@ export const ProjectHero: React.SFC<Props> = ({
     <HeroContainer className="container-fluid">
       <HeroInner className={`container ${isDetail && 'detailed'}`}>
         <div className="row">
-          <div className="col-lg-8 col-sm-12">
+          <div className="col-sm-12">
             {handleSwitchDescription()}
             <Title>{project.title}</Title>
 
@@ -136,27 +137,27 @@ export const ProjectHero: React.SFC<Props> = ({
                 EVALUATE CLAIMS
               </AddClaim>
             )}
-          </div>
-          <div className="col-lg-4 col-sm-12 info-items-wrapper">
-            <HeroInfoItem>
-              <CalendarSort fill="#A5ADB0" />
-              <span>{moment(project.createdOn).format('d MMM ‘YY')}</span>
-            </HeroInfoItem>
-            <HeroInfoItem>
-              <span>{project.ownerName}</span>
-            </HeroInfoItem>
-            {project.projectLocation && (
+            <HeroInfoItemsWrapper>
               <HeroInfoItem>
-                {getFlagURL(project.projectLocation) !== '' && (
-                  <Flag
-                    style={{
-                      background: getFlagURL(project.projectLocation),
-                    }}
-                  />
-                )}
-                <span>{getCountryName(project.projectLocation)}</span>
+                <CalendarSort fill="#A5ADB0" />
+                <span>{moment(project.createdOn).format('d MMM ‘YY')}</span>
               </HeroInfoItem>
-            )}
+              <HeroInfoItem>
+                <span>{project.ownerName}</span>
+              </HeroInfoItem>
+              {project.projectLocation && (
+                <HeroInfoItem>
+                  {getFlagURL(project.projectLocation) !== '' && (
+                    <Flag
+                      style={{
+                        background: getFlagURL(project.projectLocation),
+                      }}
+                    />
+                  )}
+                  <span>{getCountryName(project.projectLocation)}</span>
+                </HeroInfoItem>
+              )}
+            </HeroInfoItemsWrapper>
           </div>
         </div>
       </HeroInner>

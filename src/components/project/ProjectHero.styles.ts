@@ -75,6 +75,13 @@ export const SingleSDG = styled.a`
   }
 `
 
+export const HeroInfoItemsWrapper = styled.div`
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+  justify-content: flex-start;
+`
+
 export const HeroInfoItem = styled.div`
   display: flex;
   flex-flow: row nowrap;
