@@ -2,7 +2,6 @@ import * as React from 'react'
 import MediaQuery from 'react-responsive'
 import { deviceWidth } from '../../../../lib/commonData'
 import { getIxoWorldRoute } from '../../../utils/formatters'
-import * as instanceSettings from '../../../../instance-settings'
 import {
   Main,
   IXOLogo,
@@ -18,7 +17,10 @@ export const FooterLeft: React.FunctionComponent<{}> = () => {
       <div className="row">
         <MediaQuery minWidth={`${deviceWidth.tablet}px`}>
           <a href={getIxoWorldRoute('')}>
-            <IXOLogo alt="IXO Logo" src={instanceSettings.getLogoImageSrc()} />
+            <IXOLogo
+              alt="IXO Logo"
+              src={require('../../../../assets/images/ixo-logo.svg')}
+            />
           </a>
         </MediaQuery>
         <ExternalFooterLink href={getIxoWorldRoute('/membership')}>

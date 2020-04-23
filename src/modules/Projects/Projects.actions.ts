@@ -4,6 +4,8 @@ import {
   ProjectsActions,
   GetProjectsAction,
   FilterToggleUserProjectsAction,
+  FilterToggleFeaturedProjectsAction,
+  FilterTogglePopularProjectsAction,
   FilterDatesAction,
   ResetDatesFilterAction,
   FilterCategoryTagsAction,
@@ -52,11 +54,29 @@ export const getProjects = () => (dispatch: Dispatch): GetProjectsAction => {
 }
 
 export const filterToggleUserProjects = (
-  userProjectsOnly: boolean,
+  userProjects: boolean,
 ): FilterToggleUserProjectsAction => ({
   type: ProjectsActions.FilterToggleUserProjects,
   payload: {
-    userProjectsOnly,
+    userProjects,
+  },
+})
+
+export const filterToggleFeaturedProjects = (
+  featuredProjects: boolean,
+): FilterToggleFeaturedProjectsAction => ({
+  type: ProjectsActions.FilterToggleFeaturedProjects,
+  payload: {
+    featuredProjects,
+  },
+})
+
+export const filterTogglePopularProjects = (
+  popularProjects: boolean,
+): FilterTogglePopularProjectsAction => ({
+  type: ProjectsActions.FilterTogglePopularProjects,
+  payload: {
+    popularProjects,
   },
 })
 

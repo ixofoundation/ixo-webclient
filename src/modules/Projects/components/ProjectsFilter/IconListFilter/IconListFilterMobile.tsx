@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { Props } from './types'
-import { Back, Down } from '../assets/svgs'
+import Back from '../../../../../assets/icons/Back'
+import Down from '../../../../../assets/icons/Down'
 import {
   MobileButtonWrapper,
   MobileButton,
@@ -13,7 +14,7 @@ import {
   HeadingItem,
   DoneButtonWrapper,
   DoneButton,
-} from '../ProjectsFilter.style'
+} from '../ProjectsFilter.styles'
 
 const IconListFilterMobile: React.FunctionComponent<Props> = ({
   name,
@@ -25,12 +26,23 @@ const IconListFilterMobile: React.FunctionComponent<Props> = ({
 }) => {
   const itemsSelectedCount = items.filter(item => item.isSelected).length
 
+  const handleButtonWrapperClick = (e: any): void => {
+    const filterModal = e.target
+      .closest('.button-wrapper')
+      .querySelector('.filter-modal')
+    if (filterModal.contains(e.target)) {
+      return
+    }
+
+    handleToggleFilterShow(name)
+  }
+
   return (
     <MobileButtonWrapper
       className={`button-wrapper ${isActive ? 'active' : ''}`}
-      onClick={handleToggleFilterShow}
+      onClick={handleButtonWrapperClick}
     >
-      <MobileButton onClick={handleToggleFilterShow}>
+      <MobileButton onClick={(): void => handleToggleFilterShow(name)}>
         <span>
           {itemsSelectedCount > 0 ? `${name} - ${itemsSelectedCount}` : name}
         </span>
@@ -43,10 +55,12 @@ const IconListFilterMobile: React.FunctionComponent<Props> = ({
         style={{ display: isActive ? 'grid' : 'none' }}
       >
         <MobileFilterHeader>
-          <HeadingItem onClick={handleToggleFilterShow}>
+          <HeadingItem onClick={(): void => handleToggleFilterShow(name)}>
             <Back />
           </HeadingItem>
-          <HeadingItem onClick={handleFilterReset}>clear</HeadingItem>
+          <HeadingItem onClick={(): void => handleFilterReset(name)}>
+            clear
+          </HeadingItem>
         </MobileFilterHeader>
         <MobileFilterWrapper>
           <MobileFilterHeading className="tag-select-heading">
@@ -64,13 +78,13 @@ const IconListFilterMobile: React.FunctionComponent<Props> = ({
               return (
                 <FilterSelectButton
                   key={itemName}
-                  onClick={(): void => handleFilterItemClick(itemName)}
+                  onClick={(): void => handleFilterItemClick(name, itemName)}
                   className={isItemActive ? 'buttonPressed' : ''}
                 >
                   <h3>{itemName}</h3>
                   <img
                     alt={itemName}
-                    src={require('../assets/icons/' + itemIcon)}
+                    src={require('./assets/icons/' + itemIcon)}
                   />
                 </FilterSelectButton>
               )
@@ -78,7 +92,9 @@ const IconListFilterMobile: React.FunctionComponent<Props> = ({
           </ModalItems>
         </MobileFilterWrapper>
         <DoneButtonWrapper>
-          <DoneButton onClick={handleToggleFilterShow}>Done</DoneButton>
+          <DoneButton onClick={(): void => handleToggleFilterShow(name)}>
+            Done
+          </DoneButton>
         </DoneButtonWrapper>
       </MobileFilterModal>
     </MobileButtonWrapper>

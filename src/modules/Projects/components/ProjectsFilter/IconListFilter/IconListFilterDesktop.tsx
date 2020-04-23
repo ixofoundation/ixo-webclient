@@ -9,7 +9,7 @@ import {
   ModalButtons,
   ResetButton,
   ApplyButton,
-} from '../ProjectsFilter.style'
+} from '../ProjectsFilter.styles'
 
 const IconListFilterDesktop: React.FunctionComponent<Props> = ({
   name,
@@ -67,7 +67,7 @@ const IconListFilterDesktop: React.FunctionComponent<Props> = ({
                 <h3>{itemName}</h3>
                 <img
                   alt={itemName}
-                  src={require('../assets/icons/' + itemIcon)}
+                  src={require('./assets/icons/' + itemIcon)}
                 />
               </FilterSelectButton>
             )

@@ -1,5 +1,5 @@
 import { ProjectsState, ProjectsActionTypes, ProjectsActions } from './types'
-import { getFilterSchema } from '../../instance-settings'
+import filterSchema from './components/ProjectsFilter/ProjectsFilter.schema.json'
 
 // TODO when tags are all sorted and returning from api
 // set the tags property of the categories to below
@@ -14,11 +14,13 @@ export const initialState: ProjectsState = {
   filter: {
     dateFrom: null,
     dateTo: null,
-    categories: getFilterSchema().categories.map(schemaCategory => ({
-      name: schemaCategory.name,
+    categories: filterSchema.ddoTags.map(ddoCategory => ({
+      name: ddoCategory.name,
       tags: [],
     })),
-    userProjectsOnly: false,
+    userProjects: false,
+    featuredProjects: false,
+    popularProjects: false,
   },
 }
 
@@ -37,7 +39,29 @@ export const reducer = (
         ...state,
         filter: {
           ...state.filter,
-          userProjectsOnly: action.payload.userProjectsOnly,
+          userProjects: action.payload.userProjects,
+          popularProjects: false,
+          featuredProjects: false,
+        },
+      }
+    case ProjectsActions.FilterToggleFeaturedProjects:
+      return {
+        ...state,
+        filter: {
+          ...state.filter,
+          featuredProjects: action.payload.featuredProjects,
+          userProjects: false,
+          popularProjects: false,
+        },
+      }
+    case ProjectsActions.FilterTogglePopularProjects:
+      return {
+        ...state,
+        filter: {
+          ...state.filter,
+          popularProjects: action.payload.popularProjects,
+          featuredProjects: false,
+          userProjects: false,
         },
       }
     case ProjectsActions.FilterDates:

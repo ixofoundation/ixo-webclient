@@ -3,7 +3,6 @@ import { Fragment } from 'react'
 import { deviceWidth } from '../../../../lib/commonData'
 import MediaQuery from 'react-responsive'
 import { getIxoWorldRoute } from '../../../utils/formatters'
-import * as instanceSettings from '../../../../instance-settings'
 import {
   Burger,
   Main,
@@ -60,7 +59,7 @@ export class HeaderLeft extends React.Component<{}> {
             <a href={getIxoWorldRoute('')}>
               <IXOLogo
                 alt="IXO Logo"
-                src={instanceSettings.getLogoImageSrc()}
+                src={require('../../../../assets/images/ixo-logo.svg')}
               />
             </a>
           </div>

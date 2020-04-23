@@ -4,6 +4,8 @@ import {
   ProjectsActions,
   GetProjectsSuccessAction,
   FilterToggleUserProjectsAction,
+  FilterToggleFeaturedProjectsAction,
+  FilterTogglePopularProjectsAction,
   FilterDatesAction,
   ResetDatesFilterAction,
   FilterCategoryTagsAction,
@@ -39,7 +41,9 @@ describe('Projects Reducer', () => {
               tags: ['bar'],
             },
           ],
-          userProjectsOnly: true,
+          userProjects: true,
+          popularProjects: false,
+          featuredProjects: false,
         },
       }
 
@@ -101,7 +105,7 @@ describe('Projects Reducer', () => {
   })
 
   describe('FilterToggleUserProjects Action', () => {
-    it('should return a new copy of state with the user flag set and the other filters and project data left in tact', () => {
+    it('should return a new copy of state with the user flag set, and the popular and featured reset and the other filters and project data left in tact', () => {
       const currentState = {
         ...initialState,
         projects: [
@@ -147,7 +151,9 @@ describe('Projects Reducer', () => {
               tags: ['bar'],
             },
           ],
-          userProjectsOnly: false,
+          userProjects: false,
+          popularProjects: true,
+          featuredProjects: true,
         },
       }
 
@@ -155,7 +161,7 @@ describe('Projects Reducer', () => {
       const action: FilterToggleUserProjectsAction = {
         type: ProjectsActions.FilterToggleUserProjects,
         payload: {
-          userProjectsOnly: true,
+          userProjects: true,
         },
       }
 
@@ -167,7 +173,163 @@ describe('Projects Reducer', () => {
         ...currentState,
         filter: {
           ...currentState.filter,
-          userProjectsOnly: true,
+          userProjects: true,
+          popularProjects: false,
+          featuredProjects: false,
+        },
+      })
+    })
+  })
+
+  describe('FilterToggleFeaturedProjects Action', () => {
+    it('should return a new copy of state with the featured flag set, and the user and popular reset and the other filters and project data left in tact', () => {
+      const currentState = {
+        ...initialState,
+        projects: [
+          {
+            projectDid: 'someDid1',
+            userDid: 'someUserDid1',
+            title: 'someTitle1',
+            shortDescription: 'someShortDescription1',
+            dateCreated: moment('2020-04-09T13:14:13.000Z'),
+            ownerName: 'someOwnerName1',
+            status: 'someStatus1',
+            country: 'someCountry1',
+            impactAction: 'someImpactAction1',
+            serviceProvidersCount: 13,
+            evaluatorsCount: 1,
+            requiredClaimsCount: 100,
+            successfulClaimsCount: 10,
+            pendingClaimsCount: 20,
+            rejectedClaimsCount: 30,
+            sdgs: [1, 2, 3],
+            longDescription: 'someLongDescription',
+            agentDids: ['someAgentDid1'],
+            imageUrl: 'sommeImageUrl',
+            categories: [
+              {
+                name: 'someCategory1',
+                tags: [
+                  'someCategory1_tag1',
+                  'someCategory1_tag2',
+                  'someCategory1_tag3',
+                ],
+              },
+            ],
+            data: null,
+          },
+        ],
+        filter: {
+          dateFrom: moment(),
+          dateTo: moment(),
+          categories: [
+            {
+              name: 'foo',
+              tags: ['bar'],
+            },
+          ],
+          featuredProjects: false,
+          popularProjects: true,
+          userProjects: true,
+        },
+      }
+
+      // given... we have an action of type FilterToggleFeaturedProjects
+      const action: FilterToggleFeaturedProjectsAction = {
+        type: ProjectsActions.FilterToggleFeaturedProjects,
+        payload: {
+          featuredProjects: true,
+        },
+      }
+
+      // when... we call the reducer with this action
+      const result = SUT.reducer(currentState, action)
+
+      // then the state should be set as expected
+      expect(result).toEqual({
+        ...currentState,
+        filter: {
+          ...currentState.filter,
+          featuredProjects: true,
+          popularProjects: false,
+          userProjects: false,
+        },
+      })
+    })
+  })
+
+  describe('FilterTogglePopularProjects Action', () => {
+    it('should return a new copy of state with the popular flag set, and the user and featured reset and the other filters and project data left in tact', () => {
+      const currentState = {
+        ...initialState,
+        projects: [
+          {
+            projectDid: 'someDid1',
+            userDid: 'someUserDid1',
+            title: 'someTitle1',
+            shortDescription: 'someShortDescription1',
+            dateCreated: moment('2020-04-09T13:14:13.000Z'),
+            ownerName: 'someOwnerName1',
+            status: 'someStatus1',
+            country: 'someCountry1',
+            impactAction: 'someImpactAction1',
+            serviceProvidersCount: 13,
+            evaluatorsCount: 1,
+            requiredClaimsCount: 100,
+            successfulClaimsCount: 10,
+            pendingClaimsCount: 20,
+            rejectedClaimsCount: 30,
+            sdgs: [1, 2, 3],
+            longDescription: 'someLongDescription',
+            agentDids: ['someAgentDid1'],
+            imageUrl: 'sommeImageUrl',
+            categories: [
+              {
+                name: 'someCategory1',
+                tags: [
+                  'someCategory1_tag1',
+                  'someCategory1_tag2',
+                  'someCategory1_tag3',
+                ],
+              },
+            ],
+            data: null,
+          },
+        ],
+        filter: {
+          dateFrom: moment(),
+          dateTo: moment(),
+          categories: [
+            {
+              name: 'foo',
+              tags: ['bar'],
+            },
+          ],
+          popularProjects: false,
+          featuredProjects: true,
+          userProjects: true,
+        },
+      }
+
+      // given... we have an action of type FilterTogglePopularProjects
+      const action: FilterTogglePopularProjectsAction = {
+        type: ProjectsActions.FilterTogglePopularProjects,
+        payload: {
+          popularProjects: true,
+        },
+      }
+
+      // when... we call the reducer with this action
+      const result = SUT.reducer(currentState, action)
+
+      // then the state should be set as expected
+      expect(result).toEqual({
+        ...currentState,
+        filter: {
+          ...currentState.filter,
+          popularProjects: true,
+          featuredProjects: false,
+          userProjects: false,
         },
       })
     })
@@ -220,7 +382,9 @@ describe('Projects Reducer', () => {
               tags: ['bar'],
             },
           ],
-          userProjectsOnly: true,
+          userProjects: true,
+          popularProjects: false,
+          featuredProjects: false,
         },
       }
 
@@ -295,7 +459,9 @@ describe('Projects Reducer', () => {
               tags: ['bar'],
             },
           ],
-          userProjectsOnly: true,
+          userProjects: true,
+          popularProjects: false,
+          featuredProjects: false,
         },
       }
 
@@ -366,7 +532,9 @@ describe('Projects Reducer', () => {
               tags: ['bar1_1', 'bar1_2', 'bar1_3'],
             },
           ],
-          userProjectsOnly: true,
+          userProjects: true,
+          popularProjects: false,
+          featuredProjects: false,
         },
       }
 
@@ -447,7 +615,9 @@ describe('Projects Reducer', () => {
               tags: ['bar1_1', 'bar1_2', 'bar1_3'],
             },
           ],
-          userProjectsOnly: true,
+          userProjects: true,
+          popularProjects: false,
+          featuredProjects: false,
         },
       }
 
@@ -537,7 +707,9 @@ describe('Projects Reducer', () => {
               tags: ['bar2'],
             },
           ],
-          userProjectsOnly: true,
+          userProjects: true,
+          popularProjects: false,
+          featuredProjects: false,
         },
       }
 
@@ -619,7 +791,9 @@ describe('Projects Reducer', () => {
               tags: ['bar'],
             },
           ],
-          userProjectsOnly: true,
+          userProjects: true,
+          popularProjects: false,
+          featuredProjects: false,
         },
       }
 

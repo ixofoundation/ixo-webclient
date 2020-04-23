@@ -1,6 +1,6 @@
 import * as React from 'react'
 import DatePicker from '../../../../../common/components/DatePicker'
-import { CalendarSort } from '../assets/svgs'
+import CalendarSort from '../../../../../assets/icons/CalendarSort'
 import { Props } from './types'
 import {
   DatePickerModal,
@@ -8,7 +8,7 @@ import {
   ApplyButtonDatePicker,
   ButtonWrapper,
   Button,
-} from '../ProjectsFilter.style'
+} from '../ProjectsFilter.styles'
 
 const DateFilterDesktop: React.FunctionComponent<Props> = ({
   startDate,
@@ -38,7 +38,7 @@ const DateFilterDesktop: React.FunctionComponent<Props> = ({
           <ResetButtonDatePicker onClick={handleResetFilter}>
             Reset
           </ResetButtonDatePicker>
-          <ApplyButtonDatePicker onClick={(): void => handleFilterToggleShow()}>
+          <ApplyButtonDatePicker onClick={handleFilterToggleShow}>
             Done
           </ApplyButtonDatePicker>
         </DatePickerModal>
