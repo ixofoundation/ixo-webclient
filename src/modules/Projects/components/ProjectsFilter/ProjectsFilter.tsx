@@ -45,6 +45,9 @@ interface Props {
   handleFilterDates: (dateFrom: any, dateTo: any) => void
   handleResetDatesFilter: () => void
   handleFilterCategoryTag: (category: string, tag: string) => void
+  handleFilterToggleUserProjects: (userProjects: boolean) => void
+  handleFilterToggleFeaturedProjects: (featuredProjects: boolean) => void
+  handleFilterTogglePopularProjects: (popularProjects: boolean) => void
   handleResetCategoryFilter: (category: string) => void
   handleResetFilters: () => void
 }
@@ -97,21 +100,39 @@ class ProjectsFilter extends React.Component<Props, State> {
       isSelected: false,
     }))
 
-    if (this.props.userProjects) {
-      filterItems.find(item => item.name === 'My Portfolio').isSelected = true
-    } else {
-      filterItems.find(item => item.name === 'Global').isSelected = true
-    }
-
-    if (this.props.featuredProjects) {
-      filterItems.find(item => item.name === 'Featured').isSelected = true
-    }
-
-    if (this.props.popularProjects) {
-      filterItems.find(item => item.name === 'Popular').isSelected = true
-    }
+    filterItems.find(
+      item => item.name === 'My Portfolio',
+    ).isSelected = this.props.userProjects
+    filterItems.find(item => item.name === 'Global').isSelected = !this.props
+      .userProjects
+    filterItems.find(
+      item => item.name === 'Featured',
+    ).isSelected = this.props.featuredProjects
+    filterItems.find(
+      item => item.name === 'Popular',
+    ).isSelected = this.props.popularProjects
 
     return filterItems
+  }
+
+  filterViewTag = (name: string, tag: string): void => {
+    console.log(tag)
+    switch (tag) {
+      case 'My Portfolio':
+      case 'Global':
+        this.props.handleFilterToggleUserProjects(!this.props.userProjects)
+        break
+      case 'Featured':
+        this.props.handleFilterToggleFeaturedProjects(
+          !this.props.featuredProjects,
+        )
+        break
+      case 'Popular':
+        this.props.handleFilterTogglePopularProjects(
+          !this.props.popularProjects,
+        )
+        break
+    }
   }
 
   resetDateFilter = (): void => {
@@ -119,9 +140,16 @@ class ProjectsFilter extends React.Component<Props, State> {
     this.props.handleResetDatesFilter()
   }
 
-  resetCategoryFilter = (filterName: string): void => {
+  resetCategoryFilter = (category: string): void => {
     this.setState({ activeFilter: '' })
-    this.props.handleResetCategoryFilter(filterName)
+    this.props.handleResetCategoryFilter(category)
+  }
+
+  resetViewFilter = (): void => {
+    this.setState({ activeFilter: '' })
+    this.props.handleFilterToggleUserProjects(false)
+    this.props.handleFilterToggleFeaturedProjects(false)
+    this.props.handleFilterTogglePopularProjects(false)
   }
 
   render(): JSX.Element {
@@ -187,7 +215,7 @@ class ProjectsFilter extends React.Component<Props, State> {
                     handleToggleFilterShow={(): void =>
                       this.toggleFilterShow(this.filterIsActive('View'), 'View')
                     }
-                    handleFilterItemClick={this.props.handleFilterCategoryTag}
+                    handleFilterItemClick={this.filterViewTag}
                     items={this.getViewFilterItems(
                       this.props.filterSchema.view.tags,
                     )}

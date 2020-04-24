@@ -58,6 +58,8 @@ export interface Props {
   filterSchema: Schema
   handleGetProjects: () => void
   handleFilterToggleUserProjects: (userProjects: boolean) => void
+  handleFilterToggleFeaturedProjects: (featuredProjects: boolean) => void
+  handleFilterTogglePopularProjects: (popularProjects: boolean) => void
   handleFilterDates: (dateFrom: any, dateTo: any) => void
   handleResetDatesFilter: () => void
   handleFilterCategoryTag: (category: string, tag: string) => void
@@ -76,6 +78,7 @@ export class Projects extends React.Component<Props> {
         <ProjectsContainer className="container-fluid">
           <div className="container">
             <ProjectsFilter
+              filterSchema={this.props.filterSchema}
               startDate={this.props.filterDateFrom}
               startDateFormatted={this.props.filterDateFromFormatted}
               endDate={this.props.filterDateTo}
@@ -83,11 +86,22 @@ export class Projects extends React.Component<Props> {
               dateSummary={this.props.filterDateSummary}
               categories={this.props.filterCategories}
               categoriesSummary={this.props.filterCategoriesSummary}
-              filterSchema={this.props.filterSchema}
+              userProjects={this.props.filterUserProjects}
+              featuredProjects={this.props.filterFeaturedProjects}
+              popularProjects={this.props.filterPopularProjects}
               handleFilterDates={this.props.handleFilterDates}
               handleResetDatesFilter={this.props.handleResetDatesFilter}
               handleFilterCategoryTag={this.props.handleFilterCategoryTag}
               handleResetCategoryFilter={this.props.handleResetCategoryFilter}
+              handleFilterToggleUserProjects={
+                this.props.handleFilterToggleUserProjects
+              }
+              handleFilterToggleFeaturedProjects={
+                this.props.handleFilterToggleFeaturedProjects
+              }
+              handleFilterTogglePopularProjects={
+                this.props.handleFilterTogglePopularProjects
+              }
               handleResetFilters={this.props.handleResetFilters}
             />
             <div className="row row-eq-height">
