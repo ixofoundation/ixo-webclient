@@ -18,7 +18,7 @@ export const initialState: ProjectsState = {
       name: ddoCategory.name,
       tags: [],
     })),
-    userProjects: false,
+    userProjects: true,
     featuredProjects: false,
     popularProjects: false,
   },

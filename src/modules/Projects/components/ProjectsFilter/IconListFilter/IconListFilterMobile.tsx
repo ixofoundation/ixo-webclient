@@ -15,8 +15,15 @@ import {
   DoneButtonWrapper,
   DoneButton,
 } from '../ProjectsFilter.styles'
+import * as utils from './IconListFilter.utils'
 
-const IconListFilterMobile: React.FunctionComponent<Props> = ({
+interface MobileProps extends Props {
+  showFilterSubMenu: boolean
+}
+
+const IconListFilterMobile: React.FunctionComponent<MobileProps> = ({
+  selectType,
+  showFilterSubMenu,
   name,
   items,
   isActive,
@@ -24,35 +31,27 @@ const IconListFilterMobile: React.FunctionComponent<Props> = ({
   handleFilterItemClick,
   handleFilterReset,
 }) => {
-  const itemsSelectedCount = items.filter(item => item.isSelected).length
-
-  const handleButtonWrapperClick = (e: any): void => {
-    const filterModal = e.target
-      .closest('.button-wrapper')
-      .querySelector('.filter-modal')
-    if (filterModal.contains(e.target)) {
-      return
-    }
-
-    handleToggleFilterShow(name)
-  }
+  const title = utils.getTitle(name, items, selectType)
+  const modalDisplay = isActive || !showFilterSubMenu ? 'grid' : 'none'
 
   return (
     <MobileButtonWrapper
       className={`button-wrapper ${isActive ? 'active' : ''}`}
-      onClick={handleButtonWrapperClick}
+      onClick={(e): void =>
+        utils.isFilterTarget(e) ? null : handleToggleFilterShow(name)
+      }
     >
-      <MobileButton onClick={(): void => handleToggleFilterShow(name)}>
-        <span>
-          {itemsSelectedCount > 0 ? `${name} - ${itemsSelectedCount}` : name}
-        </span>
-        <span className="right-arrow">
-          <Down width="14" fill="#000" />
-        </span>
-      </MobileButton>
+      {showFilterSubMenu && (
+        <MobileButton onClick={(): void => handleToggleFilterShow(name)}>
+          <span className={utils.getTitleClassName(items)}>{title}</span>
+          <span className="right-arrow">
+            <Down width="14" fill="#000" />
+          </span>
+        </MobileButton>
+      )}
       <MobileFilterModal
         className="filter-modal"
-        style={{ display: isActive ? 'grid' : 'none' }}
+        style={{ display: modalDisplay }}
       >
         <MobileFilterHeader>
           <HeadingItem onClick={(): void => handleToggleFilterShow(name)}>
@@ -64,22 +63,17 @@ const IconListFilterMobile: React.FunctionComponent<Props> = ({
         </MobileFilterHeader>
         <MobileFilterWrapper>
           <MobileFilterHeading className="tag-select-heading">
-            {itemsSelectedCount > 0 ? `${name} - ${itemsSelectedCount}` : name}
+            {title}
           </MobileFilterHeading>
           <ModalItems>
             {items.map(item => {
               const { name: itemName, icon: itemIcon } = item
 
-              const isItemActive = items
-                .filter(item => item.isSelected)
-                .map(item => item.name)
-                .includes(itemName)
-
               return (
                 <FilterSelectButton
                   key={itemName}
                   onClick={(): void => handleFilterItemClick(name, itemName)}
-                  className={isItemActive ? 'buttonPressed' : ''}
+                  className={utils.getItemClassName(items, itemName)}
                 >
                   <h3>{itemName}</h3>
                   <img

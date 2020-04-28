@@ -10,8 +10,10 @@ import {
   ResetButton,
   ApplyButton,
 } from '../ProjectsFilter.styles'
+import * as utils from './IconListFilter.utils'
 
 const IconListFilterDesktop: React.FunctionComponent<Props> = ({
+  selectType,
   name,
   items,
   isActive,
@@ -19,29 +21,18 @@ const IconListFilterDesktop: React.FunctionComponent<Props> = ({
   handleFilterItemClick,
   handleFilterReset,
 }) => {
-  const itemsSelectedCount = items.filter(item => item.isSelected).length
-
-  const handleButtonWrapperClick = (e: any): void => {
-    const filterModal = e.target
-      .closest('.button-wrapper')
-      .querySelector('.filter-modal')
-    if (filterModal.contains(e.target)) {
-      return
-    }
-
-    handleToggleFilterShow(name)
-  }
-
   return (
     <ButtonWrapper
       className={`button-wrapper ${isActive ? 'active' : ''}`}
-      onClick={handleButtonWrapperClick}
+      onClick={(e): void =>
+        utils.isFilterTarget(e) ? null : handleToggleFilterShow(name)
+      }
     >
       <Button
         onClick={(): void => handleToggleFilterShow(name)}
-        className={itemsSelectedCount > 0 ? 'itemsSelected' : ''}
+        className={utils.getTitleClassName(items)}
       >
-        {itemsSelectedCount > 0 ? `${name} - ${itemsSelectedCount}` : name}
+        {utils.getTitle(name, items, selectType)}
       </Button>
       <FilterModal
         className="filter-modal"
@@ -53,21 +44,16 @@ const IconListFilterDesktop: React.FunctionComponent<Props> = ({
           {items.map(item => {
             const { name: itemName, icon: itemIcon } = item
 
-            const isItemActive = items
-              .filter(item => item.isSelected)
-              .map(item => item.name)
-              .includes(itemName)
-
             return (
               <FilterSelectButton
                 key={itemName}
                 onClick={(): void => handleFilterItemClick(name, itemName)}
-                className={isItemActive ? 'buttonPressed' : ''}
+                className={utils.getItemClassName(items, itemName)}
               >
                 <h3>{itemName}</h3>
                 <img
                   alt={itemName}
-                  src={require('./assets/icons/' + itemIcon)}
+                  src={require(`./assets/icons/${itemIcon}`)}
                 />
               </FilterSelectButton>
             )

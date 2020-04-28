@@ -24,10 +24,12 @@ import DateFilterMobile from './DateFilter/DateFilterMobile'
 import Back from '../../../../assets/icons/Back'
 import Reset from '../../../../assets/icons/Reset'
 import Filter from '../../../../assets/icons/Filter'
+import { SelectType } from './IconListFilter/types'
+import * as iconListFilterUtils from './IconListFilter/IconListFilter.utils'
 
 interface State {
   activeFilter: string
-  mobileFilterMenuOpen: boolean
+  mobileFilterActiveMenu: string
 }
 
 interface Props {
@@ -58,7 +60,7 @@ class ProjectsFilter extends React.Component<Props, State> {
 
     this.state = {
       activeFilter: '',
-      mobileFilterMenuOpen: false,
+      mobileFilterActiveMenu: '',
     }
   }
 
@@ -71,13 +73,16 @@ class ProjectsFilter extends React.Component<Props, State> {
     })
   }
 
-  toggleMobileFilterMenu = (): void => {
-    if (this.state.mobileFilterMenuOpen) {
+  toggleMobileFilterMenuShow = (menu: string): void => {
+    if (this.state.mobileFilterActiveMenu === 'menu') {
       document.querySelector('body').classList.remove('noScroll')
     } else {
       document.querySelector('body').classList.add('noScroll')
     }
-    this.setState({ mobileFilterMenuOpen: !this.state.mobileFilterMenuOpen })
+    this.setState({
+      mobileFilterActiveMenu:
+        this.state.mobileFilterActiveMenu === menu ? '' : menu,
+    })
   }
 
   getCategoryFilterItems = (
@@ -103,8 +108,10 @@ class ProjectsFilter extends React.Component<Props, State> {
     filterItems.find(
       item => item.name === 'My Portfolio',
     ).isSelected = this.props.userProjects
-    filterItems.find(item => item.name === 'Global').isSelected = !this.props
-      .userProjects
+    filterItems.find(item => item.name === 'Global').isSelected =
+      !this.props.userProjects &&
+      !this.props.featuredProjects &&
+      !this.props.popularProjects
     filterItems.find(
       item => item.name === 'Featured',
     ).isSelected = this.props.featuredProjects
@@ -116,21 +123,18 @@ class ProjectsFilter extends React.Component<Props, State> {
   }
 
   filterViewTag = (name: string, tag: string): void => {
-    console.log(tag)
     switch (tag) {
       case 'My Portfolio':
+        this.props.handleFilterToggleUserProjects(true)
+        break
       case 'Global':
-        this.props.handleFilterToggleUserProjects(!this.props.userProjects)
+        this.props.handleFilterToggleUserProjects(false)
         break
       case 'Featured':
-        this.props.handleFilterToggleFeaturedProjects(
-          !this.props.featuredProjects,
-        )
+        this.props.handleFilterToggleFeaturedProjects(true)
         break
       case 'Popular':
-        this.props.handleFilterTogglePopularProjects(
-          !this.props.popularProjects,
-        )
+        this.props.handleFilterTogglePopularProjects(true)
         break
     }
   }
@@ -147,9 +151,7 @@ class ProjectsFilter extends React.Component<Props, State> {
 
   resetViewFilter = (): void => {
     this.setState({ activeFilter: '' })
-    this.props.handleFilterToggleUserProjects(false)
-    this.props.handleFilterToggleFeaturedProjects(false)
-    this.props.handleFilterTogglePopularProjects(false)
+    this.props.handleFilterToggleUserProjects(true)
   }
 
   render(): JSX.Element {
@@ -205,23 +207,71 @@ class ProjectsFilter extends React.Component<Props, State> {
               </>
             )}
             {this.props.filterSchema.view && (
-              <MediaQuery minWidth={`${deviceWidth.mobile}px`}>
-                <Menu>
-                  <IconListFilterDesktop
-                    key={'View'}
-                    name={'View'}
-                    isActive={this.filterIsActive('View')}
-                    handleFilterReset={this.props.handleResetCategoryFilter}
-                    handleToggleFilterShow={(): void =>
-                      this.toggleFilterShow(this.filterIsActive('View'), 'View')
+              <>
+                <MediaQuery minWidth={`${deviceWidth.mobile}px`}>
+                  <Menu>
+                    <IconListFilterDesktop
+                      selectType={SelectType.SingleSelect}
+                      key="View"
+                      name="View"
+                      isActive={this.filterIsActive('View')}
+                      handleFilterReset={this.resetViewFilter}
+                      handleToggleFilterShow={(): void =>
+                        this.toggleFilterShow(
+                          this.filterIsActive('View'),
+                          'View',
+                        )
+                      }
+                      handleFilterItemClick={this.filterViewTag}
+                      items={this.getViewFilterItems(
+                        this.props.filterSchema.view.tags,
+                      )}
+                    />
+                  </Menu>
+                </MediaQuery>
+                <MediaQuery maxWidth={`${deviceWidth.mobile}px`}>
+                  <BurgerMenuButton
+                    onClick={(): void =>
+                      this.toggleMobileFilterMenuShow('View')
                     }
-                    handleFilterItemClick={this.filterViewTag}
-                    items={this.getViewFilterItems(
-                      this.props.filterSchema.view.tags,
+                  >
+                    {iconListFilterUtils.getTitle(
+                      'View',
+                      this.getViewFilterItems(
+                        this.props.filterSchema.view.tags,
+                      ),
+                      SelectType.SingleSelect,
                     )}
-                  />
-                </Menu>
-              </MediaQuery>
+                  </BurgerMenuButton>
+                  <MobileMenu
+                    className={
+                      this.state.mobileFilterActiveMenu === 'View'
+                        ? 'openMenu'
+                        : ''
+                    }
+                  >
+                    <MobileFilterWrapper>
+                      <div>
+                        <IconListFilterMobile
+                          key="View"
+                          name="View"
+                          showFilterSubMenu={false}
+                          selectType={SelectType.SingleSelect}
+                          isActive={this.filterIsActive('View')}
+                          handleFilterReset={this.resetViewFilter}
+                          handleToggleFilterShow={(): void =>
+                            this.toggleMobileFilterMenuShow('View')
+                          }
+                          handleFilterItemClick={this.filterViewTag}
+                          items={this.getViewFilterItems(
+                            this.props.filterSchema.view.tags,
+                          )}
+                        />
+                      </div>
+                    </MobileFilterWrapper>
+                  </MobileMenu>
+                </MediaQuery>
+              </>
             )}
             {this.props.filterSchema.ddoTags && (
               <>
@@ -237,14 +287,14 @@ class ProjectsFilter extends React.Component<Props, State> {
                         filterName,
                         schemaTags,
                       )
+
                       return (
                         <IconListFilterDesktop
+                          selectType={SelectType.MultiSelect}
                           key={filterName}
                           name={filterName}
                           isActive={isActive}
-                          handleFilterReset={
-                            this.props.handleResetCategoryFilter
-                          }
+                          handleFilterReset={this.resetCategoryFilter}
                           handleToggleFilterShow={(): void =>
                             this.toggleFilterShow(isActive, filterName)
                           }
@@ -255,24 +305,30 @@ class ProjectsFilter extends React.Component<Props, State> {
                         />
                       )
                     })}
-                    <Button onClick={this.props.handleResetFilters}>
-                      <Reset fill="#000" />
-                      Reset
-                    </Button>
                   </Menu>
                 </MediaQuery>
                 <MediaQuery maxWidth={`${deviceWidth.mobile}px`}>
-                  <BurgerMenuButton onClick={this.toggleMobileFilterMenu}>
+                  <BurgerMenuButton
+                    onClick={(): void =>
+                      this.toggleMobileFilterMenuShow('Category')
+                    }
+                  >
                     <Filter fill="#000" />
                     {this.props.categoriesSummary}
                   </BurgerMenuButton>
                   <MobileMenu
                     className={
-                      this.state.mobileFilterMenuOpen ? 'openMenu' : ''
+                      this.state.mobileFilterActiveMenu === 'Category'
+                        ? 'openMenu'
+                        : ''
                     }
                   >
                     <MobileFilterHeader>
-                      <HeadingItem onClick={this.toggleMobileFilterMenu}>
+                      <HeadingItem
+                        onClick={(): void =>
+                          this.toggleMobileFilterMenuShow('Category')
+                        }
+                      >
                         <Back />
                       </HeadingItem>
                       <HeadingItem onClick={this.props.handleResetFilters}>
@@ -296,10 +352,10 @@ class ProjectsFilter extends React.Component<Props, State> {
                             <IconListFilterMobile
                               key={filterName}
                               name={filterName}
+                              selectType={SelectType.MultiSelect}
+                              showFilterSubMenu={true}
                               isActive={isActive}
-                              handleFilterReset={
-                                this.props.handleResetCategoryFilter
-                              }
+                              handleFilterReset={this.resetCategoryFilter}
                               handleToggleFilterShow={(): void =>
                                 this.toggleFilterShow(isActive, filterName)
                               }
@@ -311,17 +367,28 @@ class ProjectsFilter extends React.Component<Props, State> {
                           )
                         })}
                       </div>
-                      <DoneButton onClick={this.toggleMobileFilterMenu}>
+                      <DoneButton
+                        onClick={(): void =>
+                          this.toggleMobileFilterMenuShow('Category')
+                        }
+                      >
                         Done
                       </DoneButton>
                     </MobileFilterWrapper>
                   </MobileMenu>
-                  <Button onClick={this.props.handleResetFilters}>
-                    <Reset fill="#000" />
-                  </Button>
                 </MediaQuery>
               </>
             )}
+            <MediaQuery minWidth={`${deviceWidth.mobile}px`}>
+              <Button onClick={this.props.handleResetFilters}>
+                <Reset fill="#000" /> Reset
+              </Button>
+            </MediaQuery>
+            <MediaQuery maxWidth={`${deviceWidth.mobile}px`}>
+              <Button onClick={this.props.handleResetFilters}>
+                <Reset fill="#000" />
+              </Button>
+            </MediaQuery>
           </div>
         </FiltersWrap>
       </div>
