@@ -59,7 +59,7 @@ beforeEach(() => {
             tags: ['bar1_1', 'bar1_2', 'bar1_3'],
           },
         ],
-        userProjectsOnly: true,
+        userProjects: true,
       },
     },
   })
@@ -68,13 +68,35 @@ beforeEach(() => {
 describe('Projects Actions', () => {
   // TODO - getProjects ()
   describe('filterToggleUserProjects', () => {
-    it('should create an action to set the userProjectsOnly filter', () => {
+    it('should create an action to set the userProjects filter', () => {
       // when ... we call the filterToggleUserProjects action creator
       const action = SUT.filterToggleUserProjects(true)
 
       // then we should expect it to create action with the correct type and payload
       expect(action.type).toEqual(ProjectsActions.FilterToggleUserProjects)
-      expect(action.payload).toEqual({ userProjectsOnly: true })
+      expect(action.payload).toEqual({ userProjects: true })
+    })
+  })
+
+  describe('filterToggleFeaturedProjects', () => {
+    it('should create an action to set the featuredProjects filter', () => {
+      // when ... we call the filterToggleFeaturedProjects action creator
+      const action = SUT.filterToggleFeaturedProjects(true)
+
+      // then we should expect it to create action with the correct type and payload
+      expect(action.type).toEqual(ProjectsActions.FilterToggleFeaturedProjects)
+      expect(action.payload).toEqual({ featuredProjects: true })
+    })
+  })
+
+  describe('filterTogglePopularProjects', () => {
+    it('should create an action to set the popularProjects filter', () => {
+      // when ... we call the filterTogglePopularProjects action creator
+      const action = SUT.filterTogglePopularProjects(true)
+
+      // then we should expect it to create action with the correct type and payload
+      expect(action.type).toEqual(ProjectsActions.FilterTogglePopularProjects)
+      expect(action.payload).toEqual({ popularProjects: true })
     })
   })
 

@@ -33,13 +33,15 @@ export const selectedFilteredProjects = createSelector(
     let projectsToFilter = projects && projects.length ? projects : []
 
     // filter by current user's projects
-    if (filter.userProjectsOnly) {
+    if (filter.userProjects) {
       projectsToFilter = projectsToFilter.filter(
         project =>
           project.userDid === userDid ||
           project.agentDids.some(agentDid => agentDid === userDid),
       )
     }
+
+    // TODO - featured and popular
 
     // filter by date created and be sure to remove any times from the dates
     if (filter.dateFrom && filter.dateTo) {
@@ -236,10 +238,35 @@ export const selectFilterCategories = createSelector(
   },
 )
 
-export const selectFilterUserProjectsOnly = createSelector(
+export const selectFilterCategoriesSummary = createSelector(
+  selectFilterCategories,
+  (categories: Category[]): string => {
+    const totalFilters = categories.reduce((total, category) => {
+      return total + category.tags.length
+    }, 0)
+
+    return totalFilters > 0 ? `Filters - ${totalFilters}` : 'Filters'
+  },
+)
+
+export const selectFilterUserProjects = createSelector(
   selectProjectsFilter,
   (filter: Filter): boolean => {
-    return filter.userProjectsOnly
+    return filter.userProjects
+  },
+)
+
+export const selectFilterFeaturedProjects = createSelector(
+  selectProjectsFilter,
+  (filter: Filter): boolean => {
+    return filter.featuredProjects
+  },
+)
+
+export const selectFilterPopularProjects = createSelector(
+  selectProjectsFilter,
+  (filter: Filter): boolean => {
+    return filter.popularProjects
   },
 )
 

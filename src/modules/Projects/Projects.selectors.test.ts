@@ -155,7 +155,9 @@ beforeEach(() => {
             tags: ['bar'],
           },
         ],
-        userProjectsOnly: true,
+        userProjects: true,
+        featuredProjects: true,
+        popularProjects: true,
       },
     },
   }
@@ -198,7 +200,7 @@ describe('Projects Selectors', () => {
         dateFrom: null,
         dateTo: null,
         categories: [],
-        userProjectsOnly: false,
+        userProjects: false,
       }
 
       // when ... we call the selector
@@ -211,12 +213,12 @@ describe('Projects Selectors', () => {
       expect(result[2].projectDid).toEqual('someDid3')
     })
 
-    it('should return a list of projects filtered by user projects when the userProjectsOnly flag is true', () => {
+    it('should return a list of projects filtered by user projects when the userProjects flag is true', () => {
       state.projects.filter = {
         dateFrom: null,
         dateTo: null,
         categories: [],
-        userProjectsOnly: true,
+        userProjects: true,
       }
 
       // when ... we call the selector
@@ -232,7 +234,7 @@ describe('Projects Selectors', () => {
         dateFrom: moment('2020-04-09'),
         dateTo: moment('2020-04-10'),
         categories: [],
-        userProjectsOnly: false,
+        userProjects: false,
       }
 
       // when ... we call the selector
@@ -258,7 +260,7 @@ describe('Projects Selectors', () => {
             tags: ['someCategory5_tag1'],
           },
         ],
-        userProjectsOnly: false,
+        userProjects: false,
       }
 
       // when ... we call the selector
@@ -287,7 +289,7 @@ describe('Projects Selectors', () => {
         dateFrom: moment('2020-04-09'),
         dateTo: moment('2020-04-10'),
         categories: [],
-        userProjectsOnly: false,
+        userProjects: false,
       }
       // when ... we call the selector
       // TODO - add filtering
@@ -304,7 +306,7 @@ describe('Projects Selectors', () => {
         dateFrom: moment('1900-01-01'),
         dateTo: moment('1900-01-01'),
         categories: [],
-        userProjectsOnly: false,
+        userProjects: false,
       }
       // when ... we call the selector
       // TODO - add filtering
@@ -321,7 +323,7 @@ describe('Projects Selectors', () => {
         dateFrom: moment('1900-01-01'),
         dateTo: moment('1900-01-01'),
         categories: [],
-        userProjectsOnly: false,
+        userProjects: false,
       }
       // when ... we call the selector
       const result = SUT.selectUserProjectsCount(state)
@@ -441,7 +443,7 @@ describe('Projects Selectors', () => {
     })
   })
 
-  describe('selectFilterSummaryFormatted', () => {
+  describe('selectFilterDateSummary', () => {
     it('should return the correct summary of the dates when both dates have values', () => {
       // when .. we call the selector
       const result = SUT.selectFilterDateSummary(state)
@@ -494,10 +496,61 @@ describe('Projects Selectors', () => {
     })
   })
 
-  describe('selectFilterUserProjectsOnly', () => {
-    it('should return the userProjectsOnly property from the filter', () => {
+  describe('selectFilterCategoriesSummary', () => {
+    it('should return the correct categories summary from the filter when there are categories selected', () => {
+      state.projects.filter.categories = [
+        {
+          name: 'foo1',
+          tags: ['foo1_bar1', 'foo1_bar2'],
+        },
+        {
+          name: 'foo_2',
+          tags: ['foo_2_bar1', 'foo_2_bar2', 'foo_2_bar3'],
+        },
+      ]
+
       // when .. we call the selector
-      const result = SUT.selectFilterUserProjectsOnly(state)
+      const result = SUT.selectFilterCategoriesSummary(state)
+
+      // then... should return result as expected
+      expect(result).toEqual('Filters - 5')
+    })
+
+    it('should return the correct categories summary from the filter when there are no categories selected', () => {
+      state.projects.filter.categories = []
+
+      // when .. we call the selector
+      const result = SUT.selectFilterCategoriesSummary(state)
+
+      // then... should return result as expected
+      expect(result).toEqual('Filters')
+    })
+  })
+
+  describe('selectFilterUserProjects', () => {
+    it('should return the userProjects property from the filter', () => {
+      // when .. we call the selector
+      const result = SUT.selectFilterUserProjects(state)
+
+      // then... should return result as expected
+      expect(result).toEqual(true)
+    })
+  })
+
+  describe('selectFilterFeaturedProjects', () => {
+    it('should return the FeaturedProjects property from the filter', () => {
+      // when .. we call the selector
+      const result = SUT.selectFilterFeaturedProjects(state)
+
+      // then... should return result as expected
+      expect(result).toEqual(true)
+    })
+  })
+
+  describe('selectFilterPopularProjects', () => {
+    it('should return the PopularProjects property from the filter', () => {
+      // when .. we call the selector
+      const result = SUT.selectFilterPopularProjects(state)
 
       // then... should return result as expected
       expect(result).toEqual(true)
