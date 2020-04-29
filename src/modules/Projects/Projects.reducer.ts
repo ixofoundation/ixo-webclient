@@ -1,14 +1,6 @@
 import { ProjectsState, ProjectsActionTypes, ProjectsActions } from './types'
 import filterSchema from './components/ProjectsFilter/ProjectsFilter.schema.json'
 
-// TODO when tags are all sorted and returning from api
-// set the tags property of the categories to below
-/* 
-schemaCategory.selectedTags && schemaCategory.selectedTags.length
-          ? [...schemaCategory.selectedTags]
-          : [], 
-*/
-
 export const initialState: ProjectsState = {
   projects: null,
   filter: {
@@ -16,11 +8,14 @@ export const initialState: ProjectsState = {
     dateTo: null,
     categories: filterSchema.ddoTags.map(ddoCategory => ({
       name: ddoCategory.name,
-      tags: [],
+      tags:
+        ddoCategory.selectedTags && ddoCategory.selectedTags.length
+          ? [...ddoCategory.selectedTags]
+          : [],
     })),
-    userProjects: true,
-    featuredProjects: false,
-    popularProjects: false,
+    userEntities: true,
+    featuredEntities: false,
+    popularEntities: false,
   },
 }
 
@@ -39,9 +34,9 @@ export const reducer = (
         ...state,
         filter: {
           ...state.filter,
-          userProjects: action.payload.userProjects,
-          popularProjects: false,
-          featuredProjects: false,
+          userEntities: action.payload.userEntities,
+          popularEntities: false,
+          featuredEntities: false,
         },
       }
     case ProjectsActions.FilterToggleFeaturedProjects:
@@ -49,9 +44,9 @@ export const reducer = (
         ...state,
         filter: {
           ...state.filter,
-          featuredProjects: action.payload.featuredProjects,
-          userProjects: false,
-          popularProjects: false,
+          featuredEntities: action.payload.featuredEntities,
+          userEntities: false,
+          popularEntities: false,
         },
       }
     case ProjectsActions.FilterTogglePopularProjects:
@@ -59,9 +54,9 @@ export const reducer = (
         ...state,
         filter: {
           ...state.filter,
-          popularProjects: action.payload.popularProjects,
-          featuredProjects: false,
-          userProjects: false,
+          popularEntities: action.payload.popularEntities,
+          featuredEntities: false,
+          userEntities: false,
         },
       }
     case ProjectsActions.FilterDates:

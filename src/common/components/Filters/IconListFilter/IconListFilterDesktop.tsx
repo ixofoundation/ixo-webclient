@@ -9,7 +9,7 @@ import {
   ModalButtons,
   ResetButton,
   ApplyButton,
-} from '../ProjectsFilter.styles'
+} from '../Filters.styles'
 import * as utils from './IconListFilter.utils'
 
 const IconListFilterDesktop: React.FunctionComponent<Props> = ({

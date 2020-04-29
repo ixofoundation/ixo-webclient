@@ -6,11 +6,11 @@ import {
   FilterToggleUserProjectsAction,
   FilterToggleFeaturedProjectsAction,
   FilterTogglePopularProjectsAction,
-  FilterDatesAction,
-  ResetDatesFilterAction,
-  FilterCategoryTagsAction,
-  ResetCategoryFilterAction,
-  ResetFiltersAction,
+  FilterProjectsDatesAction,
+  ResetProjectsDatesFilterAction,
+  FilterProjectsCategoryTagsAction,
+  ResetProjectsCategoryFilterAction,
+  ResetProjectsFiltersAction,
   Project,
 } from './types'
 
@@ -41,9 +41,9 @@ describe('Projects Reducer', () => {
               tags: ['bar'],
             },
           ],
-          userProjects: true,
-          popularProjects: false,
-          featuredProjects: false,
+          userEntities: true,
+          popularEntities: false,
+          featuredEntities: false,
         },
       }
 
@@ -104,7 +104,7 @@ describe('Projects Reducer', () => {
     })
   })
 
-  describe('FilterToggleUserProjects Action', () => {
+  describe('FilterToggleuserEntities Action', () => {
     it('should return a new copy of state with the user flag set, and the popular and featured reset and the other filters and project data left in tact', () => {
       const currentState = {
         ...initialState,
@@ -151,17 +151,17 @@ describe('Projects Reducer', () => {
               tags: ['bar'],
             },
           ],
-          userProjects: false,
-          popularProjects: true,
-          featuredProjects: true,
+          userEntities: false,
+          popularEntities: true,
+          featuredEntities: true,
         },
       }
 
-      // given... we have an action of type FilterToggleUserProjects
+      // given... we have an action of type FilterToggleuserEntities
       const action: FilterToggleUserProjectsAction = {
         type: ProjectsActions.FilterToggleUserProjects,
         payload: {
-          userProjects: true,
+          userEntities: true,
         },
       }
 
@@ -173,15 +173,15 @@ describe('Projects Reducer', () => {
         ...currentState,
         filter: {
           ...currentState.filter,
-          userProjects: true,
-          popularProjects: false,
-          featuredProjects: false,
+          userEntities: true,
+          popularEntities: false,
+          featuredEntities: false,
         },
       })
     })
   })
 
-  describe('FilterToggleFeaturedProjects Action', () => {
+  describe('FilterTogglefeaturedEntities Action', () => {
     it('should return a new copy of state with the featured flag set, and the user and popular reset and the other filters and project data left in tact', () => {
       const currentState = {
         ...initialState,
@@ -228,17 +228,17 @@ describe('Projects Reducer', () => {
               tags: ['bar'],
             },
           ],
-          featuredProjects: false,
-          popularProjects: true,
-          userProjects: true,
+          featuredEntities: false,
+          popularEntities: true,
+          userEntities: true,
         },
       }
 
-      // given... we have an action of type FilterToggleFeaturedProjects
+      // given... we have an action of type FilterTogglefeaturedEntities
       const action: FilterToggleFeaturedProjectsAction = {
         type: ProjectsActions.FilterToggleFeaturedProjects,
         payload: {
-          featuredProjects: true,
+          featuredEntities: true,
         },
       }
 
@@ -250,15 +250,15 @@ describe('Projects Reducer', () => {
         ...currentState,
         filter: {
           ...currentState.filter,
-          featuredProjects: true,
-          popularProjects: false,
-          userProjects: false,
+          featuredEntities: true,
+          popularEntities: false,
+          userEntities: false,
         },
       })
     })
   })
 
-  describe('FilterTogglePopularProjects Action', () => {
+  describe('FilterTogglepopularEntities Action', () => {
     it('should return a new copy of state with the popular flag set, and the user and featured reset and the other filters and project data left in tact', () => {
       const currentState = {
         ...initialState,
@@ -305,17 +305,17 @@ describe('Projects Reducer', () => {
               tags: ['bar'],
             },
           ],
-          popularProjects: false,
-          featuredProjects: true,
-          userProjects: true,
+          popularEntities: false,
+          featuredEntities: true,
+          userEntities: true,
         },
       }
 
-      // given... we have an action of type FilterTogglePopularProjects
+      // given... we have an action of type FilterTogglepopularEntities
       const action: FilterTogglePopularProjectsAction = {
         type: ProjectsActions.FilterTogglePopularProjects,
         payload: {
-          popularProjects: true,
+          popularEntities: true,
         },
       }
 
@@ -327,9 +327,9 @@ describe('Projects Reducer', () => {
         ...currentState,
         filter: {
           ...currentState.filter,
-          popularProjects: true,
-          featuredProjects: false,
-          userProjects: false,
+          popularEntities: true,
+          featuredEntities: false,
+          userEntities: false,
         },
       })
     })
@@ -382,14 +382,14 @@ describe('Projects Reducer', () => {
               tags: ['bar'],
             },
           ],
-          userProjects: true,
-          popularProjects: false,
-          featuredProjects: false,
+          userEntities: true,
+          popularEntities: false,
+          featuredEntities: false,
         },
       }
 
       // given... we have an action of type FilterDates
-      const action: FilterDatesAction = {
+      const action: FilterProjectsDatesAction = {
         type: ProjectsActions.FilterDates,
         payload: {
           dateFrom: moment('2020-04-09T13:14:13.000Z'),
@@ -459,15 +459,16 @@ describe('Projects Reducer', () => {
               tags: ['bar'],
             },
           ],
-          userProjects: true,
-          popularProjects: false,
-          featuredProjects: false,
+          userEntities: true,
+          popularEntities: false,
+          featuredEntities: false,
         },
       }
 
       // given... we have an action of type ResetDatesFilter
-      const action: ResetDatesFilterAction = {
+      const action: ResetProjectsDatesFilterAction = {
         type: ProjectsActions.ResetDatesFilter,
+        payload: {},
       }
 
       // when... we call the reducer with this action
@@ -532,14 +533,14 @@ describe('Projects Reducer', () => {
               tags: ['bar1_1', 'bar1_2', 'bar1_3'],
             },
           ],
-          userProjects: true,
-          popularProjects: false,
-          featuredProjects: false,
+          userEntities: true,
+          popularEntities: false,
+          featuredEntities: false,
         },
       }
 
       // given... we have an action of type ResetFiltersAction
-      const action: FilterCategoryTagsAction = {
+      const action: FilterProjectsCategoryTagsAction = {
         type: ProjectsActions.FilterCategoryTag,
         payload: {
           category: 'foo2',
@@ -615,14 +616,14 @@ describe('Projects Reducer', () => {
               tags: ['bar1_1', 'bar1_2', 'bar1_3'],
             },
           ],
-          userProjects: true,
-          popularProjects: false,
-          featuredProjects: false,
+          userEntities: true,
+          popularEntities: false,
+          featuredEntities: false,
         },
       }
 
       // given... we have an action of type ResetFiltersAction
-      const action: FilterCategoryTagsAction = {
+      const action: FilterProjectsCategoryTagsAction = {
         type: ProjectsActions.FilterCategoryTag,
         payload: {
           category: 'foo1',
@@ -707,14 +708,14 @@ describe('Projects Reducer', () => {
               tags: ['bar2'],
             },
           ],
-          userProjects: true,
-          popularProjects: false,
-          featuredProjects: false,
+          userEntities: true,
+          popularEntities: false,
+          featuredEntities: false,
         },
       }
 
       // given... we have an action of type ResetFiltersAction
-      const action: ResetCategoryFilterAction = {
+      const action: ResetProjectsCategoryFilterAction = {
         type: ProjectsActions.ResetCategoryFilter,
         payload: {
           category: 'foo1',
@@ -791,15 +792,16 @@ describe('Projects Reducer', () => {
               tags: ['bar'],
             },
           ],
-          userProjects: true,
-          popularProjects: false,
-          featuredProjects: false,
+          userEntities: true,
+          popularEntities: false,
+          featuredEntities: false,
         },
       }
 
       // given... we have an action of type ResetFiltersAction
-      const action: ResetFiltersAction = {
+      const action: ResetProjectsFiltersAction = {
         type: ProjectsActions.ResetFilters,
+        payload: {},
       }
 
       // when... we call the reducer with this action

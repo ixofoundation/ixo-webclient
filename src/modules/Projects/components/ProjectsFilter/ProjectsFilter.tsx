@@ -2,7 +2,7 @@ import * as React from 'react'
 import MediaQuery from 'react-responsive'
 import { deviceWidth } from '../../../../lib/commonData'
 import { Category } from '../../types'
-import { FilterItem as IconListFilterItem } from './IconListFilter/types'
+import { FilterItem as IconListFilterItem } from '../../../../common/components/Filters/IconListFilter/types'
 import { Schema, SchemaCategoryTag } from './types'
 import {
   FiltersWrap,
@@ -16,16 +16,16 @@ import {
   MobileMenu,
   BurgerMenuButton,
   Button,
-} from './ProjectsFilter.styles'
-import IconListFilterDesktop from './IconListFilter/IconListFilterDesktop'
-import IconListFilterMobile from './IconListFilter/IconListFilterMobile'
-import DateFilterDesktop from './DateFilter/DateFilterDesktop'
-import DateFilterMobile from './DateFilter/DateFilterMobile'
+} from '../../../../common/components/Filters/Filters.styles'
+import IconListFilterDesktop from '../../../../common/components/Filters/IconListFilter/IconListFilterDesktop'
+import IconListFilterMobile from '../../../../common/components/Filters/IconListFilter/IconListFilterMobile'
+import DateFilterDesktop from '../../../../common/components/Filters/DateFilter/DateFilterDesktop'
+import DateFilterMobile from '../../../../common/components/Filters/DateFilter/DateFilterMobile'
 import Back from '../../../../assets/icons/Back'
 import Reset from '../../../../assets/icons/Reset'
 import Filter from '../../../../assets/icons/Filter'
-import { SelectType } from './IconListFilter/types'
-import * as iconListFilterUtils from './IconListFilter/IconListFilter.utils'
+import { SelectType } from '../../../../common/components/Filters/IconListFilter/types'
+import * as iconListFilterUtils from '../../../../common/components/Filters/IconListFilter/IconListFilter.utils'
 
 interface State {
   activeFilter: string

@@ -1,16 +1,26 @@
 import moment, { Moment } from 'moment'
 import { Dispatch } from 'redux'
 import {
+  filterEntitiesCategoryTag,
+  filterEntitiesDates,
+  filterToggleFeaturedEntities,
+  filterTogglePopularEntities,
+  filterToggleUserEntities,
+  resetEntitiesCategoryFilter,
+  resetEntitiesDatesFilter,
+  resetEntitiesFilters,
+} from '../../common/modules/Entities/Entities.actions'
+import {
   ProjectsActions,
   GetProjectsAction,
   FilterToggleUserProjectsAction,
   FilterToggleFeaturedProjectsAction,
   FilterTogglePopularProjectsAction,
-  FilterDatesAction,
-  ResetDatesFilterAction,
-  FilterCategoryTagsAction,
-  ResetCategoryFilterAction,
-  ResetFiltersAction,
+  FilterProjectsDatesAction,
+  ResetProjectsDatesFilterAction,
+  FilterProjectsCategoryTagsAction,
+  ResetProjectsCategoryFilterAction,
+  ResetProjectsFiltersAction,
 } from './types'
 import blocksyncApi from '../../common/api/blocksync-api/blocksync-api'
 import { RootState } from 'src/common/redux/types'
@@ -55,76 +65,51 @@ export const getProjects = () => (dispatch: Dispatch): GetProjectsAction => {
 
 export const filterToggleUserProjects = (
   userProjects: boolean,
-): FilterToggleUserProjectsAction => ({
-  type: ProjectsActions.FilterToggleUserProjects,
-  payload: {
+): FilterToggleUserProjectsAction =>
+  filterToggleUserEntities(
+    ProjectsActions.FilterToggleUserProjects,
     userProjects,
-  },
-})
+  )
 
 export const filterToggleFeaturedProjects = (
   featuredProjects: boolean,
-): FilterToggleFeaturedProjectsAction => ({
-  type: ProjectsActions.FilterToggleFeaturedProjects,
-  payload: {
+): FilterToggleFeaturedProjectsAction =>
+  filterToggleFeaturedEntities(
+    ProjectsActions.FilterToggleFeaturedProjects,
     featuredProjects,
-  },
-})
+  )
 
 export const filterTogglePopularProjects = (
   popularProjects: boolean,
-): FilterTogglePopularProjectsAction => ({
-  type: ProjectsActions.FilterTogglePopularProjects,
-  payload: {
+): FilterTogglePopularProjectsAction =>
+  filterTogglePopularEntities(
+    ProjectsActions.FilterTogglePopularProjects,
     popularProjects,
-  },
-})
+  )
 
-export const filterDates = (
+export const filterProjectDates = (
   dateFrom: Moment,
   dateTo: Moment,
-): FilterDatesAction => ({
-  type: ProjectsActions.FilterDates,
-  payload: {
-    dateFrom,
-    dateTo,
-  },
-})
+): FilterProjectsDatesAction =>
+  filterEntitiesDates(ProjectsActions.FilterDates, dateFrom, dateTo)
 
-export const resetDatesFilter = (): ResetDatesFilterAction => ({
-  type: ProjectsActions.ResetDatesFilter,
-})
+export const resetProjectsDatesFilter = (): ResetProjectsDatesFilterAction =>
+  resetEntitiesDatesFilter(ProjectsActions.ResetDatesFilter)
 
-export const filterCategoryTag = (category: string, tag: string) => (
+export const filterProjectsCategoryTag = (category: string, tag: string) => (
   dispatch: Dispatch,
   getState: () => RootState,
-): FilterCategoryTagsAction => {
-  const state = getState()
+): FilterProjectsCategoryTagsAction =>
+  filterEntitiesCategoryTag(
+    ProjectsActions.FilterCategoryTag,
+    category,
+    tag,
+  )(dispatch, getState)
 
-  const currentCategoryTags = state.projects.filter.categories.find(
-    filterCategory => filterCategory.name === category,
-  ).tags
-
-  const newCategoryTags = currentCategoryTags.includes(tag)
-    ? [...currentCategoryTags.filter(val => val !== tag)]
-    : [...currentCategoryTags, tag]
-
-  return dispatch({
-    type: ProjectsActions.FilterCategoryTag,
-    payload: {
-      category,
-      tags: newCategoryTags,
-    },
-  })
-}
-
-export const resetCategoryFilter = (
+export const resetProjectsCategoryFilter = (
   category: string,
-): ResetCategoryFilterAction => ({
-  type: ProjectsActions.ResetCategoryFilter,
-  payload: { category },
-})
+): ResetProjectsCategoryFilterAction =>
+  resetEntitiesCategoryFilter(ProjectsActions.ResetCategoryFilter, category)
 
-export const resetFilters = (): ResetFiltersAction => ({
-  type: ProjectsActions.ResetFilters,
-})
+export const resetProjectsFilters = (): ResetProjectsFiltersAction =>
+  resetEntitiesFilters(ProjectsActions.ResetFilters)

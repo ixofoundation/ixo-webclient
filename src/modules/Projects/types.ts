@@ -1,46 +1,25 @@
-import { Moment } from 'moment'
+/* eslint-disable @typescript-eslint/no-empty-interface */
+import {
+  EntitiesState,
+  Entity,
+  FilterEntitiesCategoryTagsAction,
+  FilterEntitiesDatesAction,
+  FilterToggleFeaturedEntitiesAction,
+  FilterTogglePopularEntitiesAction,
+  FilterToggleUserEntitiesAction,
+  GetEntitiesAction,
+  GetEntitiesSuccessAction,
+  ResetEntitiesCategoryFilterAction,
+  ResetEntitiesDatesFilterAction,
+  ResetEntitiesFiltersAction,
+} from '../../common/modules/Entities/types'
 
-export interface Project {
+export interface Project extends Entity {
   projectDid: string
-  userDid: string
-  title: string
-  shortDescription: string
-  longDescription: string
-  dateCreated: Moment
-  ownerName: string
-  status: string
-  country: string
-  impactAction: string
-  serviceProvidersCount: number
-  evaluatorsCount: number
-  requiredClaimsCount: number
-  successfulClaimsCount: number
-  pendingClaimsCount: number
-  rejectedClaimsCount: number
-  sdgs: number[]
-  agentDids: string[]
-  imageUrl: string
-  categories: Category[]
-  data: any // this is temporary until we don't have to pass projectData into the card component because of the weird link
 }
 
-export interface Category {
-  name: string
-  tags: string[]
-}
-
-export interface Filter {
-  categories: Category[]
-  dateFrom: Moment
-  dateTo: Moment
-  userProjects: boolean
-  featuredProjects: boolean
-  popularProjects: boolean
-}
-
-export interface ProjectsState {
+export interface ProjectsState extends EntitiesState {
   projects: Project[]
-  filter: Filter
 }
 
 export enum ProjectsActions {
@@ -58,67 +37,46 @@ export enum ProjectsActions {
   ResetFilters = 'ixo/Projects/RESET_FILTERS',
 }
 
-export interface GetProjectsAction {
-  type: typeof ProjectsActions.GetProjects
-  payload: Promise<Project[]>
-}
+export interface GetProjectsAction
+  extends GetEntitiesAction<ProjectsActions.GetProjects, Project> {}
 
-export interface GetProjectsSuccessAction {
-  type: typeof ProjectsActions.GetProjectsSuccess
-  payload: Project[]
-}
+export interface GetProjectsSuccessAction
+  extends GetEntitiesSuccessAction<
+    ProjectsActions.GetProjectsSuccess,
+    Project
+  > {}
 
-export interface FilterToggleUserProjectsAction {
-  type: typeof ProjectsActions.FilterToggleUserProjects
-  payload: {
-    userProjects: boolean
-  }
-}
+export interface FilterToggleUserProjectsAction
+  extends FilterToggleUserEntitiesAction<
+    ProjectsActions.FilterToggleUserProjects
+  > {}
 
-export interface FilterToggleFeaturedProjectsAction {
-  type: typeof ProjectsActions.FilterToggleFeaturedProjects
-  payload: {
-    featuredProjects: boolean
-  }
-}
+export interface FilterToggleFeaturedProjectsAction
+  extends FilterToggleFeaturedEntitiesAction<
+    ProjectsActions.FilterToggleFeaturedProjects
+  > {}
 
-export interface FilterTogglePopularProjectsAction {
-  type: typeof ProjectsActions.FilterTogglePopularProjects
-  payload: {
-    popularProjects: boolean
-  }
-}
+export interface FilterTogglePopularProjectsAction
+  extends FilterTogglePopularEntitiesAction<
+    ProjectsActions.FilterTogglePopularProjects
+  > {}
 
-export interface FilterDatesAction {
-  type: typeof ProjectsActions.FilterDates
-  payload: {
-    dateFrom: Moment
-    dateTo: Moment
-  }
-}
+export interface FilterProjectsDatesAction
+  extends FilterEntitiesDatesAction<ProjectsActions.FilterDates> {}
 
-export interface ResetDatesFilterAction {
-  type: typeof ProjectsActions.ResetDatesFilter
-}
+export interface ResetProjectsDatesFilterAction
+  extends ResetEntitiesDatesFilterAction<ProjectsActions.ResetDatesFilter> {}
 
-export interface FilterCategoryTagsAction {
-  type: typeof ProjectsActions.FilterCategoryTag
-  payload: {
-    category: string
-    tags: string[]
-  }
-}
+export interface FilterProjectsCategoryTagsAction
+  extends FilterEntitiesCategoryTagsAction<ProjectsActions.FilterCategoryTag> {}
 
-export interface ResetCategoryFilterAction {
-  type: typeof ProjectsActions.ResetCategoryFilter
-  payload: {
-    category: string
-  }
-}
+export interface ResetProjectsCategoryFilterAction
+  extends ResetEntitiesCategoryFilterAction<
+    ProjectsActions.ResetCategoryFilter
+  > {}
 
-export interface ResetFiltersAction {
-  type: typeof ProjectsActions.ResetFilters
-}
+export interface ResetProjectsFiltersAction
+  extends ResetEntitiesFiltersAction<ProjectsActions.ResetFilters> {}
 
 export type ProjectsActionTypes =
   | GetProjectsAction
@@ -126,22 +84,8 @@ export type ProjectsActionTypes =
   | FilterToggleUserProjectsAction
   | FilterToggleFeaturedProjectsAction
   | FilterTogglePopularProjectsAction
-  | FilterDatesAction
-  | ResetDatesFilterAction
-  | FilterCategoryTagsAction
-  | ResetCategoryFilterAction
-  | ResetFiltersAction
-
-export interface Stats {
-  claims: Claims
-  totalServiceProviders: number
-  totalProjects: number
-  totalEvaluationAgents: number
-}
-interface Claims {
-  total: number
-  totalSuccessful: number
-  totalSubmitted: number
-  totalPending: number
-  totalRejected: number
-}
+  | FilterProjectsDatesAction
+  | ResetProjectsDatesFilterAction
+  | FilterProjectsCategoryTagsAction
+  | ResetProjectsCategoryFilterAction
+  | ResetProjectsFiltersAction

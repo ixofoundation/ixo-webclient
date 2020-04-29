@@ -17,11 +17,11 @@ import {
   filterToggleUserProjects,
   filterToggleFeaturedProjects,
   filterTogglePopularProjects,
-  filterDates,
-  resetDatesFilter,
-  filterCategoryTag,
-  resetCategoryFilter,
-  resetFilters,
+  filterProjectDates,
+  resetProjectsDatesFilter,
+  filterProjectsCategoryTag,
+  resetProjectsCategoryFilter,
+  resetProjectsFilters,
 } from './Projects.actions'
 import ProjectsFilter from './components/ProjectsFilter/ProjectsFilter'
 import { Project, Category } from './types'
@@ -168,8 +168,10 @@ export class Projects extends React.Component<Props> {
     return (
       <Container>
         <ProjectsHero
-          myProjectsCount={this.props.userProjectsCount}
-          showMyProjects={(): void => null} //(val): void => this.showMyProjects(val)
+          projectsCount={this.props.projectsCount}
+          userProjectsCount={this.props.userProjectsCount}
+          requiredClaimsCount={this.props.requiredClaimsCount}
+          successfulClaimsCount={this.props.successfulClaimsCount}
           contentType={this.props.contentType}
         />
         {this.handleRenderProjectList()}
@@ -232,13 +234,13 @@ const mapDispatchToProps = (dispatch: any): any => ({
   handleFilterToggleFeaturedProjects: (featuredProjects: boolean): void =>
     dispatch(filterToggleFeaturedProjects(featuredProjects)),
   handleFilterDates: (dateFrom: any, dateTo: any): void =>
-    dispatch(filterDates(dateFrom, dateTo)),
-  handleResetDatesFilter: (): void => dispatch(resetDatesFilter()),
+    dispatch(filterProjectDates(dateFrom, dateTo)),
+  handleResetDatesFilter: (): void => dispatch(resetProjectsDatesFilter()),
   handleFilterCategoryTag: (category: string, tag: string): void =>
-    dispatch(filterCategoryTag(category, tag)),
+    dispatch(filterProjectsCategoryTag(category, tag)),
   handleResetCategoryFilter: (category: string): void =>
-    dispatch(resetCategoryFilter(category)),
-  handleResetFilters: (): void => dispatch(resetFilters()),
+    dispatch(resetProjectsCategoryFilter(category)),
+  handleResetFilters: (): void => dispatch(resetProjectsFilters()),
 })
 
 export const ProjectsContainerConnected = connect(
