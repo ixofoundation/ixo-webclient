@@ -8,6 +8,7 @@ import {
   ConnectionButtonsWrapper,
   MobileControlPanelToggle,
 } from './ControlPanel.style'
+import { Tooltip } from '../../common/Tooltip'
 import Performance from './Icons/Performance'
 import Actions from './Icons/Actions'
 import Apps from './Icons/Apps'
@@ -118,11 +119,11 @@ class ControlPanel extends React.Component<{}, State> {
       title: 'Apps',
       appData: [
         { svg: 'Riot', title: 'Riot chat', backgroundColor: '#fff' },
-        { svg: 'Gitcoin', title: 'Gitcoin', backgroundColor: '#A2DDEF' },
-        { svg: 'DAOStack', title: 'DAOStack', backgroundColor: '#000' },
-        { svg: '', title: 'Another app', backgroundColor: '#979797' },
-        { svg: '', title: 'Another app', backgroundColor: '#979797' },
-        { svg: '', title: 'Another app', backgroundColor: '#979797' },
+        // { svg: 'Gitcoin', title: 'Gitcoin', backgroundColor: '#A2DDEF' },
+        // { svg: 'DAOStack', title: 'DAOStack', backgroundColor: '#000' },
+        // { svg: '', title: 'Another app', backgroundColor: '#979797' },
+        // { svg: '', title: 'Another app', backgroundColor: '#979797' },
+        // { svg: '', title: 'Another app', backgroundColor: '#979797' },
       ],
     },
     {
@@ -157,7 +158,7 @@ class ControlPanel extends React.Component<{}, State> {
                     {this.displaySvg(section.title)}
                   </div>
                   {section.title}
-                  {section.title === 'Apps' && (
+                  {section.title === 'Apps' && section.appData.length > 3 && (
                     <div
                       className={`arrow-icon ${
                         this.state.showMoreApps ? 'active' : ''
@@ -204,9 +205,11 @@ class ControlPanel extends React.Component<{}, State> {
                   <AppButtonsWrapper>
                     {section.appData.map((sectionData, index) => {
                       return (
-                        <>
+                        <Tooltip
+                          text="Private communication channel (encrypted)"
+                          key={sectionData.title}
+                        >
                           <button
-                            key={sectionData.title}
                             className={
                               index > 3
                                 ? this.state.showMoreApps
@@ -225,7 +228,7 @@ class ControlPanel extends React.Component<{}, State> {
                             </div>
                             {sectionData.title}
                           </button>
-                        </>
+                        </Tooltip>
                       )
                     })}
                   </AppButtonsWrapper>
