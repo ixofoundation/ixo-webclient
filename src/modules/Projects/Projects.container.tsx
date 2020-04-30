@@ -11,6 +11,7 @@ import {
   Container,
   ProjectsContainer,
   ErrorContainer,
+  NoProjectsContainer,
 } from './Projects.container.styles'
 import {
   getProjects,
@@ -128,7 +129,9 @@ export class Projects extends React.Component<Props> {
                   )
                 })
               ) : (
-                <div>There are no projects that match your search criteria</div>
+                <NoProjectsContainer>
+                  <p>There are no projects that match your search criteria</p>
+                </NoProjectsContainer>
               )}
             </div>
           </div>
