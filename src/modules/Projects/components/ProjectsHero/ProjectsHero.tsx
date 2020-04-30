@@ -4,7 +4,6 @@ import { SingleStatistic } from '../../../../components/common/SingleStatistic'
 import { StatType } from '../../../../types/models'
 import Search from '../../../../components/common/Search'
 import { contentType } from '../../../../types/models'
-import * as instanceSettings from '../../../../instance-settings'
 import { Stats } from '../../types'
 import {
   ContainerInner,
@@ -69,7 +68,10 @@ export class ProjectsHero extends React.Component<Props, State> {
         onClick: (): void => this.props.showMyProjects(false),
       },
       {
-        ...instanceSettings.getCirculationHeroConfig(),
+        title: 'TOTAL IXO IN CIRCULATION',
+        type: StatType.fraction,
+        descriptor: [{ class: 'text', value: 'IXO staked to date' }],
+        amount: [0, 0],
         onClick: (): void => this.props.showMyProjects(false),
       },
     ]

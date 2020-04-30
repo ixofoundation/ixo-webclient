@@ -33,7 +33,9 @@ export interface Filter {
   categories: Category[]
   dateFrom: Moment
   dateTo: Moment
-  userProjectsOnly: boolean
+  userProjects: boolean
+  featuredProjects: boolean
+  popularProjects: boolean
 }
 
 export interface ProjectsState {
@@ -47,6 +49,8 @@ export enum ProjectsActions {
   GetProjectsPending = 'ixo/Projects/GET_PROJECTS_PENDING',
   GetProjectsFailure = 'ixo/Projects/GET_PROJECTS_REJECTED',
   FilterToggleUserProjects = 'ixo/Projects/FILTER_TOGGLE_USER_PROJECTS',
+  FilterToggleFeaturedProjects = 'ixo/Projects/FILTER_TOGGLE_FEATURED_PROJECTS',
+  FilterTogglePopularProjects = 'ixo/Projects/FILTER_TOGGLE_POPULAR_PROJECTS',
   FilterDates = 'ixo/Projects/FILTER_DATES',
   ResetDatesFilter = 'ixo/Projects/RESET_DATES_FILTER',
   FilterCategoryTag = 'ixo/Projects/FILTER_CATEGORY_TAG',
@@ -67,7 +71,21 @@ export interface GetProjectsSuccessAction {
 export interface FilterToggleUserProjectsAction {
   type: typeof ProjectsActions.FilterToggleUserProjects
   payload: {
-    userProjectsOnly: boolean
+    userProjects: boolean
+  }
+}
+
+export interface FilterToggleFeaturedProjectsAction {
+  type: typeof ProjectsActions.FilterToggleFeaturedProjects
+  payload: {
+    featuredProjects: boolean
+  }
+}
+
+export interface FilterTogglePopularProjectsAction {
+  type: typeof ProjectsActions.FilterTogglePopularProjects
+  payload: {
+    popularProjects: boolean
   }
 }
 
@@ -106,6 +124,8 @@ export type ProjectsActionTypes =
   | GetProjectsAction
   | GetProjectsSuccessAction
   | FilterToggleUserProjectsAction
+  | FilterToggleFeaturedProjectsAction
+  | FilterTogglePopularProjectsAction
   | FilterDatesAction
   | ResetDatesFilterAction
   | FilterCategoryTagsAction

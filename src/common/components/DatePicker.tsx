@@ -8,13 +8,13 @@ interface Props {
   onReset: () => void
   onApply: () => void
   initialOrientation: string
-  initialStartDate: null
-  initialEndDate: null
+  initialStartDate: Moment
+  initialEndDate: Moment
 }
 
 interface State {
-  startDate: any
-  endDate: any
+  startDate: Moment
+  endDate: Moment
   focusedInput: string
   onFocusChange: null
   onDatesChange: null

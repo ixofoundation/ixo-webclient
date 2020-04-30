@@ -15,6 +15,8 @@ import {
 import {
   getProjects,
   filterToggleUserProjects,
+  filterToggleFeaturedProjects,
+  filterTogglePopularProjects,
   filterDates,
   resetDatesFilter,
   filterCategoryTag,
@@ -23,8 +25,9 @@ import {
 } from './Projects.actions'
 import ProjectsFilter from './components/ProjectsFilter/ProjectsFilter'
 import { Project, Category } from './types'
+import { Schema } from './components/ProjectsFilter/types'
 import * as projectsSelectors from './Projects.selectors'
-import { getFilterSchema, FilterSchema } from '../../instance-settings'
+import filterSchema from './components/ProjectsFilter/ProjectsFilter.schema.json'
 
 export interface Props {
   location?: any
@@ -47,11 +50,16 @@ export interface Props {
   filterDateToFormatted: string
   filterDateSummary: string
   filterCategories: Category[]
-  filterUserProjectsOnly: boolean
+  filterCategoriesSummary: string
+  filterUserProjects: boolean
+  filterFeaturedProjects: boolean
+  filterPopularProjects: boolean
   isLoadingProjects: boolean
-  filterSchema: FilterSchema
+  filterSchema: Schema
   handleGetProjects: () => void
-  handleFilterToggleUserProjects: (userProjectsOnly: boolean) => void
+  handleFilterToggleUserProjects: (userProjects: boolean) => void
+  handleFilterToggleFeaturedProjects: (featuredProjects: boolean) => void
+  handleFilterTogglePopularProjects: (popularProjects: boolean) => void
   handleFilterDates: (dateFrom: any, dateTo: any) => void
   handleResetDatesFilter: () => void
   handleFilterCategoryTag: (category: string, tag: string) => void
@@ -70,17 +78,30 @@ export class Projects extends React.Component<Props> {
         <ProjectsContainer className="container-fluid">
           <div className="container">
             <ProjectsFilter
+              filterSchema={this.props.filterSchema}
               startDate={this.props.filterDateFrom}
               startDateFormatted={this.props.filterDateFromFormatted}
               endDate={this.props.filterDateTo}
               endDateFormatted={this.props.filterDateToFormatted}
               dateSummary={this.props.filterDateSummary}
               categories={this.props.filterCategories}
-              filterSchema={this.props.filterSchema}
+              categoriesSummary={this.props.filterCategoriesSummary}
+              userProjects={this.props.filterUserProjects}
+              featuredProjects={this.props.filterFeaturedProjects}
+              popularProjects={this.props.filterPopularProjects}
               handleFilterDates={this.props.handleFilterDates}
               handleResetDatesFilter={this.props.handleResetDatesFilter}
               handleFilterCategoryTag={this.props.handleFilterCategoryTag}
               handleResetCategoryFilter={this.props.handleResetCategoryFilter}
+              handleFilterToggleUserProjects={
+                this.props.handleFilterToggleUserProjects
+              }
+              handleFilterToggleFeaturedProjects={
+                this.props.handleFilterToggleFeaturedProjects
+              }
+              handleFilterTogglePopularProjects={
+                this.props.handleFilterTogglePopularProjects
+              }
               handleResetFilters={this.props.handleResetFilters}
             />
             <div className="row row-eq-height">
@@ -189,18 +210,27 @@ function mapStateToProps(state: RootState): Record<string, any> {
     filterDateToFormatted: projectsSelectors.selectFilterDateToFormatted(state),
     filterDateSummary: projectsSelectors.selectFilterDateSummary(state),
     filterCategories: projectsSelectors.selectFilterCategories(state),
-    filterUserProjectsOnly: projectsSelectors.selectFilterUserProjectsOnly(
+    filterCategoriesSummary: projectsSelectors.selectFilterCategoriesSummary(
       state,
     ),
+    filterUserProjects: projectsSelectors.selectFilterUserProjects(state),
+    filterFeaturedProjects: projectsSelectors.selectFilterFeaturedProjects(
+      state,
+    ),
+    filterPopularProjects: projectsSelectors.selectFilterPopularProjects(state),
     isLoadingProjects: projectsSelectors.selectIsLoadingProjects(state),
-    filterSchema: getFilterSchema(),
+    filterSchema,
   }
 }
 
 const mapDispatchToProps = (dispatch: any): any => ({
   handleGetProjects: (): void => dispatch(getProjects()),
-  handleFilterToggleUserProjects: (userProjectsOnly: boolean): void =>
-    dispatch(filterToggleUserProjects(userProjectsOnly)),
+  handleFilterToggleUserProjects: (userProjects: boolean): void =>
+    dispatch(filterToggleUserProjects(userProjects)),
+  handleFilterTogglePopularProjects: (popularProjects: boolean): void =>
+    dispatch(filterTogglePopularProjects(popularProjects)),
+  handleFilterToggleFeaturedProjects: (featuredProjects: boolean): void =>
+    dispatch(filterToggleFeaturedProjects(featuredProjects)),
   handleFilterDates: (dateFrom: any, dateTo: any): void =>
     dispatch(filterDates(dateFrom, dateTo)),
   handleResetDatesFilter: (): void => dispatch(resetDatesFilter()),
