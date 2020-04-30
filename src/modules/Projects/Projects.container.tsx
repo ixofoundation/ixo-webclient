@@ -23,11 +23,12 @@ import {
   resetProjectsCategoryFilter,
   resetProjectsFilters,
 } from './Projects.actions'
-import ProjectsFilter from './components/ProjectsFilter/ProjectsFilter'
-import { Project, Category } from './types'
-import { Schema } from './components/ProjectsFilter/types'
+import EntitiesFilter from '../../common/modules/Entities/components/EntitiesFilter/EntitiesFilter'
+import { Project } from './types'
+import { Category } from '../../common/modules/Entities/types'
+import { Schema } from '../../common/modules/Entities/components/EntitiesFilter/types'
 import * as projectsSelectors from './Projects.selectors'
-import filterSchema from './components/ProjectsFilter/ProjectsFilter.schema.json'
+import filterSchema from './ProjectsFilter.schema.json'
 
 export interface Props {
   location?: any
@@ -77,7 +78,8 @@ export class Projects extends React.Component<Props> {
       return (
         <ProjectsContainer className="container-fluid">
           <div className="container">
-            <ProjectsFilter
+            <EntitiesFilter
+              title="Projects"
               filterSchema={this.props.filterSchema}
               startDate={this.props.filterDateFrom}
               startDateFormatted={this.props.filterDateFromFormatted}
@@ -86,20 +88,20 @@ export class Projects extends React.Component<Props> {
               dateSummary={this.props.filterDateSummary}
               categories={this.props.filterCategories}
               categoriesSummary={this.props.filterCategoriesSummary}
-              userProjects={this.props.filterUserProjects}
-              featuredProjects={this.props.filterFeaturedProjects}
-              popularProjects={this.props.filterPopularProjects}
+              userEntities={this.props.filterUserProjects}
+              featuredEntities={this.props.filterFeaturedProjects}
+              popularEntities={this.props.filterPopularProjects}
               handleFilterDates={this.props.handleFilterDates}
               handleResetDatesFilter={this.props.handleResetDatesFilter}
               handleFilterCategoryTag={this.props.handleFilterCategoryTag}
               handleResetCategoryFilter={this.props.handleResetCategoryFilter}
-              handleFilterToggleUserProjects={
+              handleFilterToggleUserEntities={
                 this.props.handleFilterToggleUserProjects
               }
-              handleFilterToggleFeaturedProjects={
+              handleFilterToggleFeaturedEntities={
                 this.props.handleFilterToggleFeaturedProjects
               }
-              handleFilterTogglePopularProjects={
+              handleFilterTogglePopularEntities={
                 this.props.handleFilterTogglePopularProjects
               }
               handleResetFilters={this.props.handleResetFilters}
@@ -112,7 +114,7 @@ export class Projects extends React.Component<Props> {
                       ownerName={project.ownerName}
                       imageUrl={project.imageUrl}
                       impactAction={project.impactAction}
-                      projectDid={project.projectDid}
+                      projectDid={project.did}
                       rejectedClaims={project.rejectedClaimsCount}
                       successfulClaims={project.successfulClaimsCount}
                       requiredClaims={project.requiredClaimsCount}

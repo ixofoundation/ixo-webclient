@@ -1,8 +1,8 @@
 import * as React from 'react'
 import MediaQuery from 'react-responsive'
-import { deviceWidth } from '../../../../lib/commonData'
+import { deviceWidth } from '../../../../../lib/commonData'
 import { Category } from '../../types'
-import { FilterItem as IconListFilterItem } from '../../../../common/components/Filters/IconListFilter/types'
+import { FilterItem as IconListFilterItem } from '../../../../components/Filters/IconListFilter/types'
 import { Schema, SchemaCategoryTag } from './types'
 import {
   FiltersWrap,
@@ -16,16 +16,16 @@ import {
   MobileMenu,
   BurgerMenuButton,
   Button,
-} from '../../../../common/components/Filters/Filters.styles'
-import IconListFilterDesktop from '../../../../common/components/Filters/IconListFilter/IconListFilterDesktop'
-import IconListFilterMobile from '../../../../common/components/Filters/IconListFilter/IconListFilterMobile'
-import DateFilterDesktop from '../../../../common/components/Filters/DateFilter/DateFilterDesktop'
-import DateFilterMobile from '../../../../common/components/Filters/DateFilter/DateFilterMobile'
-import Back from '../../../../assets/icons/Back'
-import Reset from '../../../../assets/icons/Reset'
-import Filter from '../../../../assets/icons/Filter'
-import { SelectType } from '../../../../common/components/Filters/IconListFilter/types'
-import * as iconListFilterUtils from '../../../../common/components/Filters/IconListFilter/IconListFilter.utils'
+} from '../../../../components/Filters/Filters.styles'
+import IconListFilterDesktop from '../../../../components/Filters/IconListFilter/IconListFilterDesktop'
+import IconListFilterMobile from '../../../../components/Filters/IconListFilter/IconListFilterMobile'
+import DateFilterDesktop from '../../../../components/Filters/DateFilter/DateFilterDesktop'
+import DateFilterMobile from '../../../../components/Filters/DateFilter/DateFilterMobile'
+import Back from '../../../../../assets/icons/Back'
+import Reset from '../../../../../assets/icons/Reset'
+import Filter from '../../../../../assets/icons/Filter'
+import { SelectType } from '../../../../components/Filters/IconListFilter/types'
+import * as iconListFilterUtils from '../../../../components/Filters/IconListFilter/IconListFilter.utils'
 
 interface State {
   activeFilter: string
@@ -33,6 +33,7 @@ interface State {
 }
 
 interface Props {
+  title: string
   filterSchema: Schema
   startDate: any
   startDateFormatted: string
@@ -41,20 +42,20 @@ interface Props {
   dateSummary: string
   categories: Category[]
   categoriesSummary: string
-  userProjects: boolean
-  featuredProjects: boolean
-  popularProjects: boolean
+  userEntities: boolean
+  featuredEntities: boolean
+  popularEntities: boolean
   handleFilterDates: (dateFrom: any, dateTo: any) => void
   handleResetDatesFilter: () => void
   handleFilterCategoryTag: (category: string, tag: string) => void
-  handleFilterToggleUserProjects: (userProjects: boolean) => void
-  handleFilterToggleFeaturedProjects: (featuredProjects: boolean) => void
-  handleFilterTogglePopularProjects: (popularProjects: boolean) => void
+  handleFilterToggleUserEntities: (userEntities: boolean) => void
+  handleFilterToggleFeaturedEntities: (featuredEntities: boolean) => void
+  handleFilterTogglePopularEntities: (popularEntities: boolean) => void
   handleResetCategoryFilter: (category: string) => void
   handleResetFilters: () => void
 }
 
-class ProjectsFilter extends React.Component<Props, State> {
+class EntitiesFilter extends React.Component<Props, State> {
   constructor(props) {
     super(props)
 
@@ -107,17 +108,17 @@ class ProjectsFilter extends React.Component<Props, State> {
 
     filterItems.find(
       item => item.name === 'My Portfolio',
-    ).isSelected = this.props.userProjects
+    ).isSelected = this.props.userEntities
     filterItems.find(item => item.name === 'Global').isSelected =
-      !this.props.userProjects &&
-      !this.props.featuredProjects &&
-      !this.props.popularProjects
+      !this.props.userEntities &&
+      !this.props.featuredEntities &&
+      !this.props.popularEntities
     filterItems.find(
       item => item.name === 'Featured',
-    ).isSelected = this.props.featuredProjects
+    ).isSelected = this.props.featuredEntities
     filterItems.find(
       item => item.name === 'Popular',
-    ).isSelected = this.props.popularProjects
+    ).isSelected = this.props.popularEntities
 
     return filterItems
   }
@@ -125,16 +126,16 @@ class ProjectsFilter extends React.Component<Props, State> {
   filterViewTag = (name: string, tag: string): void => {
     switch (tag) {
       case 'My Portfolio':
-        this.props.handleFilterToggleUserProjects(true)
+        this.props.handleFilterToggleUserEntities(true)
         break
       case 'Global':
-        this.props.handleFilterToggleUserProjects(false)
+        this.props.handleFilterToggleUserEntities(false)
         break
       case 'Featured':
-        this.props.handleFilterToggleFeaturedProjects(true)
+        this.props.handleFilterToggleFeaturedEntities(true)
         break
       case 'Popular':
-        this.props.handleFilterTogglePopularProjects(true)
+        this.props.handleFilterTogglePopularEntities(true)
         break
     }
   }
@@ -151,14 +152,14 @@ class ProjectsFilter extends React.Component<Props, State> {
 
   resetViewFilter = (): void => {
     this.setState({ activeFilter: '' })
-    this.props.handleFilterToggleUserProjects(true)
+    this.props.handleFilterToggleUserEntities(true)
   }
 
   render(): JSX.Element {
     return (
-      <div data-testid="ProjectsFilter">
+      <div data-testid="EntitiesFilter">
         <FiltersWrap>
-          <FilterInfo>Projects</FilterInfo>
+          <FilterInfo>{this.props.title}</FilterInfo>
           <div className="filters">
             {this.props.filterSchema.dateCreated && (
               <>
@@ -395,4 +396,4 @@ class ProjectsFilter extends React.Component<Props, State> {
     )
   }
 }
-export default ProjectsFilter
+export default EntitiesFilter

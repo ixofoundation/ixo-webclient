@@ -12,10 +12,10 @@ import {
 } from './types'
 import { RootState } from 'src/common/redux/types'
 
-export function filterToggleUserEntities<T extends string>(
-  type: T,
+export function filterToggleUserEntities<TAction extends string>(
+  type: TAction,
   userEntities: boolean,
-): FilterToggleUserEntitiesAction<T> {
+): FilterToggleUserEntitiesAction<TAction> {
   return {
     type,
     payload: {
@@ -24,10 +24,10 @@ export function filterToggleUserEntities<T extends string>(
   }
 }
 
-export function filterToggleFeaturedEntities<T extends string>(
-  type: T,
+export function filterToggleFeaturedEntities<TAction extends string>(
+  type: TAction,
   featuredEntities: boolean,
-): FilterToggleFeaturedEntitiesAction<T> {
+): FilterToggleFeaturedEntitiesAction<TAction> {
   return {
     type,
     payload: {
@@ -36,10 +36,10 @@ export function filterToggleFeaturedEntities<T extends string>(
   }
 }
 
-export function filterTogglePopularEntities<T extends string>(
-  type: T,
+export function filterTogglePopularEntities<TAction extends string>(
+  type: TAction,
   popularEntities: boolean,
-): FilterTogglePopularEntitiesAction<T> {
+): FilterTogglePopularEntitiesAction<TAction> {
   return {
     type,
     payload: {
@@ -48,11 +48,11 @@ export function filterTogglePopularEntities<T extends string>(
   }
 }
 
-export function filterEntitiesDates<T extends string>(
-  type: T,
+export function filterEntitiesDates<TAction extends string>(
+  type: TAction,
   dateFrom: Moment,
   dateTo: Moment,
-): FilterEntitiesDatesAction<T> {
+): FilterEntitiesDatesAction<TAction> {
   return {
     type,
     payload: {
@@ -62,24 +62,24 @@ export function filterEntitiesDates<T extends string>(
   }
 }
 
-export function resetEntitiesDatesFilter<T extends string>(
-  type: T,
-): ResetEntitiesDatesFilterAction<T> {
+export function resetEntitiesDatesFilter<TAction extends string>(
+  type: TAction,
+): ResetEntitiesDatesFilterAction<TAction> {
   return {
     type,
     payload: {},
   }
 }
 
-export function filterEntitiesCategoryTag<T extends string>(
-  type: T,
+export function filterEntitiesCategoryTag<TAction extends string>(
+  type: TAction,
   category: string,
   tag: string,
 ) {
   return (
     dispatch: Dispatch,
     getState: () => RootState,
-  ): FilterEntitiesCategoryTagsAction<T> => {
+  ): FilterEntitiesCategoryTagsAction<TAction> => {
     const state = getState()
 
     const currentCategoryTags = state.projects.filter.categories.find(
@@ -100,19 +100,19 @@ export function filterEntitiesCategoryTag<T extends string>(
   }
 }
 
-export function resetEntitiesCategoryFilter<T extends string>(
-  type: T,
+export function resetEntitiesCategoryFilter<TAction extends string>(
+  type: TAction,
   category: string,
-): ResetEntitiesCategoryFilterAction<T> {
+): ResetEntitiesCategoryFilterAction<TAction> {
   return {
     type,
     payload: { category },
   }
 }
 
-export function resetEntitiesFilters<T extends string>(
-  type: T,
-): ResetEntitiesFiltersAction<T> {
+export function resetEntitiesFilters<TAction extends string>(
+  type: TAction,
+): ResetEntitiesFiltersAction<TAction> {
   return {
     type,
     payload: {},

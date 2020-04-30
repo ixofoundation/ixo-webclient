@@ -1,6 +1,7 @@
 import { Moment } from 'moment'
 
 export interface Entity {
+  did: string
   userDid: string
   title: string
   shortDescription: string
@@ -37,70 +38,92 @@ export interface Filter {
   popularEntities: boolean
 }
 
-export interface EntitiesState {
+export interface EntitiesState<T> {
+  entities: T[]
   filter: Filter
 }
 
-export interface GetEntitiesAction<T extends string, U extends Entity> {
-  type: T
-  payload: Promise<U[]>
+export enum EntitiesActions {
+  GetEntities = 'GET_ENTITIES',
+  GetEntitiesSuccess = 'GET_ENTITIES_FULFILLED',
+  GetEntitiesPending = 'GET_ENTITIES_PENDING',
+  GetEntitiesFailure = 'GET_ENTITIES_REJECTED',
+  FilterToggleUserEntities = 'FILTER_TOGGLE_USER_ENTITIES',
+  FilterToggleFeaturedEntities = 'FILTER_TOGGLE_FEATURED_ENTITIES',
+  FilterTogglePopularEntities = 'FILTER_TOGGLE_POPULAR_ENTITIES',
+  FilterDates = 'FILTER_DATES',
+  ResetDatesFilter = 'RESET_DATES_FILTER',
+  FilterCategoryTag = 'FILTER_CATEGORY_TAG',
+  ResetCategoryFilter = 'RESET_CATEGORY_FILTER',
+  ResetFilters = 'RESET_FILTERS',
 }
 
-export interface GetEntitiesSuccessAction<T extends string, U extends Entity> {
-  type: T
-  payload: U[]
+export interface GetEntitiesAction<
+  TAction extends string,
+  TEntity extends Entity
+> {
+  type: TAction
+  payload: Promise<TEntity[]>
 }
 
-export interface FilterToggleUserEntitiesAction<T extends string> {
-  type: T
+export interface GetEntitiesSuccessAction<
+  TAction extends string,
+  TEntity extends Entity
+> {
+  type: TAction
+  payload: TEntity[]
+}
+
+export interface FilterToggleUserEntitiesAction<TAction extends string> {
+  type: TAction
   payload: {
     userEntities: boolean
   }
 }
 
-export interface FilterToggleFeaturedEntitiesAction<T extends string> {
-  type: T
+export interface FilterToggleFeaturedEntitiesAction<TAction extends string> {
+  type: TAction
   payload: {
     featuredEntities: boolean
   }
 }
 
-export interface FilterTogglePopularEntitiesAction<T extends string> {
-  type: T
+export interface FilterTogglePopularEntitiesAction<TAction extends string> {
+  type: TAction
   payload: {
     popularEntities: boolean
   }
 }
 
-export interface FilterEntitiesDatesAction<T extends string> {
-  type: T
+export interface FilterEntitiesDatesAction<TAction extends string> {
+  type: TAction
   payload: {
     dateFrom: Moment
     dateTo: Moment
   }
 }
 
-export interface ResetEntitiesDatesFilterAction<T extends string> {
-  type: T
+export interface ResetEntitiesDatesFilterAction<TAction extends string> {
+  type: TAction
   payload: {}
 }
 
-export interface FilterEntitiesCategoryTagsAction<T extends string> {
-  type: T
+export interface FilterEntitiesCategoryTagsAction<TAction extends string> {
+  type: TAction
   payload: {
     category: string
     tags: string[]
   }
 }
 
-export interface ResetEntitiesCategoryFilterAction<T extends string> {
-  type: T
+export interface ResetEntitiesCategoryFilterAction<TAction extends string> {
+  type: TAction
   payload: {
     category: string
   }
 }
 
-export interface ResetEntitiesFiltersAction<T extends string> {
-  type: T
+export interface ResetEntitiesFiltersAction<TAction extends string> {
+  type: TAction
   payload: {}
 }

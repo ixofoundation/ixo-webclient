@@ -14,22 +14,18 @@ import {
   ResetEntitiesFiltersAction,
 } from '../../common/modules/Entities/types'
 
-export interface Project extends Entity {
-  projectDid: string
-}
+export interface Project extends Entity {}
 
-export interface ProjectsState extends EntitiesState {
-  projects: Project[]
-}
+export interface ProjectsState extends EntitiesState<Project> {}
 
 export enum ProjectsActions {
-  GetProjects = 'ixo/Projects/GET_PROJECTS',
-  GetProjectsSuccess = 'ixo/Projects/GET_PROJECTS_FULFILLED',
-  GetProjectsPending = 'ixo/Projects/GET_PROJECTS_PENDING',
-  GetProjectsFailure = 'ixo/Projects/GET_PROJECTS_REJECTED',
-  FilterToggleUserProjects = 'ixo/Projects/FILTER_TOGGLE_USER_PROJECTS',
-  FilterToggleFeaturedProjects = 'ixo/Projects/FILTER_TOGGLE_FEATURED_PROJECTS',
-  FilterTogglePopularProjects = 'ixo/Projects/FILTER_TOGGLE_POPULAR_PROJECTS',
+  GetProjects = 'ixo/Projects/GET_ENTITIES',
+  GetProjectsSuccess = 'ixo/Projects/GET_ENTITIES_FULFILLED',
+  GetProjectsPending = 'ixo/Projects/GET_ENTITIES_PENDING',
+  GetProjectsFailure = 'ixo/Projects/GET_ENTITIES_REJECTED',
+  FilterToggleUserProjects = 'ixo/Projects/FILTER_TOGGLE_USER_ENTITIES',
+  FilterToggleFeaturedProjects = 'ixo/Projects/FILTER_TOGGLE_FEATURED_ENTITIES',
+  FilterTogglePopularProjects = 'ixo/Projects/FILTER_TOGGLE_POPULAR_ENTITIES',
   FilterDates = 'ixo/Projects/FILTER_DATES',
   ResetDatesFilter = 'ixo/Projects/RESET_DATES_FILTER',
   FilterCategoryTag = 'ixo/Projects/FILTER_CATEGORY_TAG',
@@ -77,15 +73,3 @@ export interface ResetProjectsCategoryFilterAction
 
 export interface ResetProjectsFiltersAction
   extends ResetEntitiesFiltersAction<ProjectsActions.ResetFilters> {}
-
-export type ProjectsActionTypes =
-  | GetProjectsAction
-  | GetProjectsSuccessAction
-  | FilterToggleUserProjectsAction
-  | FilterToggleFeaturedProjectsAction
-  | FilterTogglePopularProjectsAction
-  | FilterProjectsDatesAction
-  | ResetProjectsDatesFilterAction
-  | FilterProjectsCategoryTagsAction
-  | ResetProjectsCategoryFilterAction
-  | ResetProjectsFiltersAction

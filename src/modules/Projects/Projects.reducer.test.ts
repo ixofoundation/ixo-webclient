@@ -49,7 +49,7 @@ describe('Projects Reducer', () => {
 
       const projects: Project[] = [
         {
-          projectDid: 'someDid1',
+          did: 'someDid1',
           userDid: 'someUserDid1',
           title: 'someTitle1',
           shortDescription: 'someShortDescription1',
@@ -100,7 +100,7 @@ describe('Projects Reducer', () => {
       const result = SUT.reducer(currentState, action)
 
       // then the state should be set as expected
-      expect(result).toEqual({ ...currentState, projects: [...projects] })
+      expect(result).toEqual({ ...currentState, entities: [...projects] })
     })
   })
 
