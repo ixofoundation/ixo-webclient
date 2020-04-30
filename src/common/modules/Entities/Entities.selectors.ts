@@ -13,7 +13,7 @@ export function selectEntitiesState<TEntity extends Entity>(key: string) {
 
 export function selectAllEntities<TEntity extends Entity>(key: string): any {
   return createSelector(
-    selectEntitiesState<TEntity>(key),
+    selectEntitiesState(key),
     (entitiesState: EntitiesState<TEntity>): TEntity[] => {
       return entitiesState.entities
     },
@@ -22,21 +22,21 @@ export function selectAllEntities<TEntity extends Entity>(key: string): any {
 
 export function selectEntitiesFilter<TEntity extends Entity>(key: string): any {
   return createSelector(
-    selectEntitiesState<TEntity>(key),
+    selectEntitiesState(key),
     (entitiesState: EntitiesState<TEntity>): Filter => {
       return entitiesState.filter
     },
   )
 }
 
-export function selectedFilteredEntities<TTEntity extends Entity>(
+export function selectedFilteredEntities<TEntity extends Entity>(
   key: string,
 ): any {
   return createSelector(
-    selectAllEntities<TTEntity>(key),
-    selectEntitiesFilter<TTEntity>(key),
+    selectAllEntities(key),
+    selectEntitiesFilter(key),
     accountSelectors.selectUserDid,
-    (entities: TTEntity[], filter: Filter, userDid: string): TTEntity[] => {
+    (entities: TEntity[], filter: Filter, userDid: string): TEntity[] => {
       // all entities
       let entitiesToFilter = entities && entities.length ? entities : []
 
@@ -91,7 +91,7 @@ export function selectEntitiesCountries<TEntity extends Entity>(
   key: string,
 ): any {
   return createSelector(
-    selectAllEntities<TEntity>(key),
+    selectAllEntities(key),
     (entities: TEntity[]): string[] => {
       return entities && entities.length
         ? entities.map(entity => {
@@ -106,7 +106,7 @@ export function selectAllEntitiesCount<TEntity extends Entity>(
   key: string,
 ): any {
   return createSelector(
-    selectAllEntities<TEntity>(key),
+    selectAllEntities(key),
     (entities: TEntity[]): number => {
       return !entities ? 0 : entities.length
     },
@@ -117,7 +117,7 @@ export function selectUserEntitiesCount<TEntity extends Entity>(
   key: string,
 ): any {
   return createSelector(
-    selectAllEntities<TEntity>(key),
+    selectAllEntities(key),
     accountSelectors.selectUserDid,
     (entities: TEntity[], userDid: string): number => {
       return !entities
@@ -135,7 +135,7 @@ export function selectFilteredEntitiesCount<TEntity extends Entity>(
   key: string,
 ): any {
   return createSelector(
-    selectedFilteredEntities<TEntity>(key),
+    selectedFilteredEntities(key),
     (entities: TEntity[]): number => {
       return !entities ? 0 : entities.length
     },
@@ -146,7 +146,7 @@ export function selectTotalServiceProvidersCount<TEntity extends Entity>(
   key: string,
 ): any {
   return createSelector(
-    selectAllEntities<TEntity>(key),
+    selectAllEntities(key),
     (entities: TEntity[]): number => {
       return !entities
         ? 0
@@ -161,7 +161,7 @@ export function selectTotalEvaluatorsCount<TEntity extends Entity>(
   key: string,
 ): any {
   return createSelector(
-    selectAllEntities<TEntity>(key),
+    selectAllEntities(key),
     (entities: TEntity[]): number => {
       return !entities
         ? 0
@@ -176,7 +176,7 @@ export function selectTotalRequiredClaimsCount<TEntity extends Entity>(
   key: string,
 ): any {
   return createSelector(
-    selectAllEntities<TEntity>(key),
+    selectAllEntities(key),
     (entities: TEntity[]): number => {
       return !entities
         ? 0
@@ -191,7 +191,7 @@ export function selectTotalPendingClaimsCount<TEntity extends Entity>(
   key: string,
 ): any {
   return createSelector(
-    selectAllEntities<TEntity>(key),
+    selectAllEntities(key),
     (entities: TEntity[]): number => {
       return !entities
         ? 0
@@ -206,7 +206,7 @@ export function selectTotalSuccessfulClaimsCount<TEntity extends Entity>(
   key: string,
 ): any {
   return createSelector(
-    selectAllEntities<TEntity>(key),
+    selectAllEntities(key),
     (entities: TEntity[]): number => {
       return !entities
         ? 0
@@ -221,7 +221,7 @@ export function selectTotalRejectedClaimsCount<TEntity extends Entity>(
   key: string,
 ): any {
   return createSelector(
-    selectAllEntities<TEntity>(key),
+    selectAllEntities(key),
     (entities: TEntity[]): number => {
       return !entities
         ? 0
@@ -236,7 +236,7 @@ export function selectIsLoadingEntities<TEntity extends Entity>(
   key: string,
 ): any {
   return createSelector(
-    selectAllEntities<TEntity>(key),
+    selectAllEntities(key),
     (entities: Entity[]): boolean => {
       return entities === null
     },
@@ -245,7 +245,7 @@ export function selectIsLoadingEntities<TEntity extends Entity>(
 
 export function selectFilterDateFrom<TEntity extends Entity>(key: string): any {
   return createSelector(
-    selectEntitiesFilter<TEntity>(key),
+    selectEntitiesFilter(key),
     (filter: Filter): Moment => {
       return filter.dateFrom
     },
@@ -254,7 +254,7 @@ export function selectFilterDateFrom<TEntity extends Entity>(key: string): any {
 
 export function selectFilterDateTo<TEntity extends Entity>(key: string): any {
   return createSelector(
-    selectEntitiesFilter<TEntity>(key),
+    selectEntitiesFilter(key),
     (filter: Filter): Moment => {
       return filter.dateTo
     },
@@ -265,7 +265,7 @@ export function selectFilterDateFromFormatted<TEntity extends Entity>(
   key: string,
 ): any {
   return createSelector(
-    selectFilterDateFrom<TEntity>(key),
+    selectFilterDateFrom(key),
     (dateFrom: Moment): string => {
       return dateFrom ? formatDate(dateFrom) : null
     },
@@ -275,20 +275,17 @@ export function selectFilterDateFromFormatted<TEntity extends Entity>(
 export function selectFilterDateToFormatted<TEntity extends Entity>(
   key: string,
 ): any {
-  return createSelector(
-    selectFilterDateTo<TEntity>(key),
-    (dateTo: Moment): string => {
-      return dateTo ? formatDate(dateTo) : null
-    },
-  )
+  return createSelector(selectFilterDateTo(key), (dateTo: Moment): string => {
+    return dateTo ? formatDate(dateTo) : null
+  })
 }
 
 export function selectFilterDateSummary<TEntity extends Entity>(
   key: string,
 ): any {
   return createSelector(
-    selectFilterDateFromFormatted<TEntity>(key),
-    selectFilterDateToFormatted<TEntity>(key),
+    selectFilterDateFromFormatted(key),
+    selectFilterDateToFormatted(key),
     (dateFromFormatted: string, dateToFormatted: string): string => {
       if (dateFromFormatted || dateToFormatted) {
         return `${dateFromFormatted ? dateFromFormatted : 'Select'} - ${
@@ -304,7 +301,7 @@ export function selectFilterCategories<TEntity extends Entity>(
   key: string,
 ): any {
   return createSelector(
-    selectEntitiesFilter<TEntity>(key),
+    selectEntitiesFilter(key),
     (filter: Filter): Category[] => {
       return filter.categories
     },
@@ -315,7 +312,7 @@ export function selectFilterCategoriesSummary<TEntity extends Entity>(
   key: string,
 ): any {
   return createSelector(
-    selectFilterCategories<TEntity>(key),
+    selectFilterCategories(key),
     (categories: Category[]): string => {
       const totalFilters = categories.reduce((total, category) => {
         return total + category.tags.length
@@ -330,7 +327,7 @@ export function selectFilterUserEntities<TEntity extends Entity>(
   key: string,
 ): any {
   return createSelector(
-    selectEntitiesFilter<TEntity>(key),
+    selectEntitiesFilter(key),
     (filter: Filter): boolean => {
       return filter.userEntities
     },
@@ -341,7 +338,7 @@ export function selectFilterFeaturedEntities<TEntity extends Entity>(
   key: string,
 ): any {
   return createSelector(
-    selectEntitiesFilter<TEntity>(key),
+    selectEntitiesFilter(key),
     (filter: Filter): boolean => {
       return filter.featuredEntities
     },
@@ -352,7 +349,7 @@ export function selectFilterPopularEntities<TEntity extends Entity>(
   key: string,
 ): any {
   return createSelector(
-    selectEntitiesFilter<TEntity>(key),
+    selectEntitiesFilter(key),
     (filter: Filter): boolean => {
       return filter.popularEntities
     },
@@ -363,8 +360,8 @@ export function selectTotalRemainingClaimsCount<TEntity extends Entity>(
   key: string,
 ): any {
   return createSelector(
-    selectTotalRequiredClaimsCount<TEntity>(key),
-    selectTotalSuccessfulClaimsCount<TEntity>(key),
+    selectTotalRequiredClaimsCount(key),
+    selectTotalSuccessfulClaimsCount(key),
     (totalClaimsRequired: number, totalClaimsSuccessful: number): number =>
       totalClaimsRequired - totalClaimsSuccessful,
   )
