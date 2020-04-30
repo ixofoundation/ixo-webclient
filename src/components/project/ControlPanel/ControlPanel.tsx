@@ -153,7 +153,10 @@ class ControlPanel extends React.Component<{}, State> {
             return (
               <ControlPanelSection key={section.title}>
                 <h4>
-                  {this.displaySvg(section.title)} {section.title}
+                  <div className="heading-icon">
+                    {this.displaySvg(section.title)}
+                  </div>
+                  {section.title}
                   {section.title === 'Apps' && (
                     <div
                       className={`arrow-icon ${
@@ -167,7 +170,9 @@ class ControlPanel extends React.Component<{}, State> {
                   {section.title === 'Connections' && (
                     <div
                       className={`arrow-icon ${
-                        this.state.showMobileLink ? 'active' : ''
+                        this.state.showMobileLink || this.state.showSharingLinks
+                          ? 'active'
+                          : ''
                       }`}
                     >
                       <Down width="16" fill="#BDBDBD" />

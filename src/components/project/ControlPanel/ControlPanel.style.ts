@@ -66,7 +66,7 @@ export const ControlPanelSection = styled.div`
     display: flex;
     align-items: center;
     text-transform: uppercase;
-    svg:not(.arrow-icon svg) {
+    .heading-icon svg {
       width: 1rem;
       padding: 2px;
       margin-right: 0.5rem;
