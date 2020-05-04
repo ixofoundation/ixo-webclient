@@ -53,3 +53,12 @@ export const ErrorContainer = styled.div`
   height: 100%;
   min-height: 480px;
 `
+
+export const NoProjectsContainer = styled.div`
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  color: black;
+  align-items: center;
+  min-height: 480px;
+`

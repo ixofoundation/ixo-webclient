@@ -1,7 +1,7 @@
 import * as React from 'react'
-import Back from '../../../../../assets/icons/Back'
-import CalendarSort from '../../../../../assets/icons/CalendarSort'
-import DatePicker from '../../../../../common/components/DatePicker'
+import Back from '../../../../assets/icons/Back'
+import CalendarSort from '../../../../assets/icons/CalendarSort'
+import DatePicker from '../../DatePicker'
 import {
   Button,
   MobileDateHeader,
@@ -13,7 +13,7 @@ import {
   DoneButton,
   MobileDatePicker,
   MobileDatesMenu,
-} from '../ProjectsFilter.styles'
+} from '../Filters.styles'
 import { Props } from './types'
 
 interface MobileProps extends Props {

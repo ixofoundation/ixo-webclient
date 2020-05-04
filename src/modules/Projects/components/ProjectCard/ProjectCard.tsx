@@ -49,19 +49,23 @@ export class ProjectCard extends React.Component<Props, {}> {
     return null
   }
 
-  getSDGIcons = (): any => {
-    return this.props.sdgs.map((sdg, index) => {
-      if (Math.floor(sdg) > 0 && Math.floor(sdg) <= SDGArray.length) {
-        return (
-          <i
-            key={index}
-            className={`icon-sdg-${SDGArray[Math.floor(sdg) - 1].ico}`}
-          />
-        )
-      }
+  getSDGIcons = (): JSX.Element => {
+    return (
+      <>
+        {this.props.sdgs.map((sdg, index) => {
+          if (Math.floor(sdg) > 0 && Math.floor(sdg) <= SDGArray.length) {
+            return (
+              <i
+                key={index}
+                className={`icon-sdg-${SDGArray[Math.floor(sdg) - 1].ico}`}
+              />
+            )
+          }
 
-      return null
-    })
+          return null
+        })}
+      </>
+    )
   }
 
   getProgress = (): JSX.Element => {
