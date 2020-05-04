@@ -11,23 +11,25 @@ import {
   Container,
   ProjectsContainer,
   ErrorContainer,
+  NoProjectsContainer,
 } from './Projects.container.styles'
 import {
   getProjects,
   filterToggleUserProjects,
   filterToggleFeaturedProjects,
   filterTogglePopularProjects,
-  filterDates,
-  resetDatesFilter,
-  filterCategoryTag,
-  resetCategoryFilter,
-  resetFilters,
+  filterProjectDates,
+  resetProjectsDatesFilter,
+  filterProjectsCategoryTag,
+  resetProjectsCategoryFilter,
+  resetProjectsFilters,
 } from './Projects.actions'
-import ProjectsFilter from './components/ProjectsFilter/ProjectsFilter'
-import { Project, Category } from './types'
-import { Schema } from './components/ProjectsFilter/types'
+import EntitiesFilter from '../../common/modules/Entities/components/EntitiesFilter/EntitiesFilter'
+import { Project } from './types'
+import { Category } from '../../common/modules/Entities/types'
+import { Schema } from '../../common/modules/Entities/components/EntitiesFilter/types'
 import * as projectsSelectors from './Projects.selectors'
-import filterSchema from './components/ProjectsFilter/ProjectsFilter.schema.json'
+import filterSchema from './ProjectsFilter.schema.json'
 
 export interface Props {
   location?: any
@@ -77,7 +79,8 @@ export class Projects extends React.Component<Props> {
       return (
         <ProjectsContainer className="container-fluid">
           <div className="container">
-            <ProjectsFilter
+            <EntitiesFilter
+              title="Projects"
               filterSchema={this.props.filterSchema}
               startDate={this.props.filterDateFrom}
               startDateFormatted={this.props.filterDateFromFormatted}
@@ -86,20 +89,20 @@ export class Projects extends React.Component<Props> {
               dateSummary={this.props.filterDateSummary}
               categories={this.props.filterCategories}
               categoriesSummary={this.props.filterCategoriesSummary}
-              userProjects={this.props.filterUserProjects}
-              featuredProjects={this.props.filterFeaturedProjects}
-              popularProjects={this.props.filterPopularProjects}
+              userEntities={this.props.filterUserProjects}
+              featuredEntities={this.props.filterFeaturedProjects}
+              popularEntities={this.props.filterPopularProjects}
               handleFilterDates={this.props.handleFilterDates}
               handleResetDatesFilter={this.props.handleResetDatesFilter}
               handleFilterCategoryTag={this.props.handleFilterCategoryTag}
               handleResetCategoryFilter={this.props.handleResetCategoryFilter}
-              handleFilterToggleUserProjects={
+              handleFilterToggleUserEntities={
                 this.props.handleFilterToggleUserProjects
               }
-              handleFilterToggleFeaturedProjects={
+              handleFilterToggleFeaturedEntities={
                 this.props.handleFilterToggleFeaturedProjects
               }
-              handleFilterTogglePopularProjects={
+              handleFilterTogglePopularEntities={
                 this.props.handleFilterTogglePopularProjects
               }
               handleResetFilters={this.props.handleResetFilters}
@@ -112,7 +115,7 @@ export class Projects extends React.Component<Props> {
                       ownerName={project.ownerName}
                       imageUrl={project.imageUrl}
                       impactAction={project.impactAction}
-                      projectDid={project.projectDid}
+                      projectDid={project.did}
                       rejectedClaims={project.rejectedClaimsCount}
                       successfulClaims={project.successfulClaimsCount}
                       requiredClaims={project.requiredClaimsCount}
@@ -126,7 +129,9 @@ export class Projects extends React.Component<Props> {
                   )
                 })
               ) : (
-                <div>There are no projects that match your search criteria</div>
+                <NoProjectsContainer>
+                  <p>There are no projects that match your search criteria</p>
+                </NoProjectsContainer>
               )}
             </div>
           </div>
@@ -168,8 +173,10 @@ export class Projects extends React.Component<Props> {
     return (
       <Container>
         <ProjectsHero
-          myProjectsCount={this.props.userProjectsCount}
-          showMyProjects={(): void => null} //(val): void => this.showMyProjects(val)
+          projectsCount={this.props.projectsCount}
+          userProjectsCount={this.props.userProjectsCount}
+          requiredClaimsCount={this.props.requiredClaimsCount}
+          successfulClaimsCount={this.props.successfulClaimsCount}
           contentType={this.props.contentType}
         />
         {this.handleRenderProjectList()}
@@ -232,13 +239,13 @@ const mapDispatchToProps = (dispatch: any): any => ({
   handleFilterToggleFeaturedProjects: (featuredProjects: boolean): void =>
     dispatch(filterToggleFeaturedProjects(featuredProjects)),
   handleFilterDates: (dateFrom: any, dateTo: any): void =>
-    dispatch(filterDates(dateFrom, dateTo)),
-  handleResetDatesFilter: (): void => dispatch(resetDatesFilter()),
+    dispatch(filterProjectDates(dateFrom, dateTo)),
+  handleResetDatesFilter: (): void => dispatch(resetProjectsDatesFilter()),
   handleFilterCategoryTag: (category: string, tag: string): void =>
-    dispatch(filterCategoryTag(category, tag)),
+    dispatch(filterProjectsCategoryTag(category, tag)),
   handleResetCategoryFilter: (category: string): void =>
-    dispatch(resetCategoryFilter(category)),
-  handleResetFilters: (): void => dispatch(resetFilters()),
+    dispatch(resetProjectsCategoryFilter(category)),
+  handleResetFilters: (): void => dispatch(resetProjectsFilters()),
 })
 
 export const ProjectsContainerConnected = connect(

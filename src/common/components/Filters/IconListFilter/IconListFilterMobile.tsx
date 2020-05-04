@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { Props } from './types'
-import Back from '../../../../../assets/icons/Back'
-import Down from '../../../../../assets/icons/Down'
+import Back from '../../../../assets/icons/Back'
+import Down from '../../../../assets/icons/Down'
 import {
   MobileButtonWrapper,
   MobileButton,
@@ -14,7 +14,7 @@ import {
   HeadingItem,
   DoneButtonWrapper,
   DoneButton,
-} from '../ProjectsFilter.styles'
+} from '../Filters.styles'
 import * as utils from './IconListFilter.utils'
 
 interface MobileProps extends Props {

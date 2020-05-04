@@ -1,6 +1,6 @@
 import * as React from 'react'
-import DatePicker from '../../../../../common/components/DatePicker'
-import CalendarSort from '../../../../../assets/icons/CalendarSort'
+import DatePicker from '../../DatePicker'
+import CalendarSort from '../../../../assets/icons/CalendarSort'
 import { Props } from './types'
 import {
   DatePickerModal,
@@ -8,7 +8,7 @@ import {
   ApplyButtonDatePicker,
   ButtonWrapper,
   Button,
-} from '../ProjectsFilter.styles'
+} from '../Filters.styles'
 
 const DateFilterDesktop: React.FunctionComponent<Props> = ({
   startDate,

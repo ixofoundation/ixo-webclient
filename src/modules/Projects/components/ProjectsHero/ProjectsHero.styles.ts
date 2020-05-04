@@ -55,7 +55,7 @@ export const HeroContainer = styled.div`
     no-repeat center top;
   background-size: cover;
   margin: 0 0 0px;
-  cursor: pointer;
+  cursor: default;
   position: relative;
 
   ${HeroInner}:before {

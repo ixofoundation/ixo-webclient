@@ -1,5 +1,5 @@
 import * as React from 'react'
-import InputText from '../../../common/components/Form/InputText/InputText'
+import InputText from '../Form/InputText/InputText'
 import { FormStyles } from 'src/types/models'
 import {
   SearchWrapper,
@@ -9,7 +9,7 @@ import {
   SearchHeading,
   SearchButtonsWrapper,
   SearchFilterButton,
-} from './Style'
+} from './Search.styles'
 import Globe from '../../../assets/icons/Globe'
 import Funding from '../../../assets/icons/Funding'
 import Cells from '../../../assets/icons/Cells'
