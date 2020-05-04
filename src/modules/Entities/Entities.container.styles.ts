@@ -25,7 +25,7 @@ export const Container = styled.div`
   }
 `
 
-export const ProjectsContainer = styled.div`
+export const EntitiesContainer = styled.div`
   background: ${/* eslint-disable-line */ props => props.theme.bg.lightGrey};
   flex: 1 1 auto;
   min-height: 480px;
@@ -54,7 +54,7 @@ export const ErrorContainer = styled.div`
   min-height: 480px;
 `
 
-export const NoProjectsContainer = styled.div`
+export const NoEntitiesContainer = styled.div`
   display: flex;
   flex: 1;
   justify-content: center;

@@ -13,7 +13,7 @@ import {
   WidgetWrapper,
   gridSizes,
 } from '../../../../components/common/WidgetWrapper'
-import { getCountryCoordinates } from '../../../../common/modules/Entities/Entities.utils'
+import { getCountryCoordinates } from '../../Entities.utils'
 
 export interface ParentProps {
   requiredClaims: number

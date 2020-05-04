@@ -1,5 +1,6 @@
 import moment from 'moment'
-import * as SUT from './Projects.selectors'
+import * as SUT from './Entities.selectors'
+import { EntityType } from './types'
 
 let state: any
 
@@ -23,7 +24,8 @@ beforeEach(() => {
       balances: [],
       loginStatusCheckCompleted: true,
     },
-    projects: {
+    entities: {
+      entityType: EntityType.Projects,
       entities: [
         {
           did: 'someDid1',
@@ -163,40 +165,50 @@ beforeEach(() => {
   }
 })
 
-describe('Projects Selectors', () => {
-  describe('selectProjectsState', () => {
-    it('should return the projects property of root state', () => {
+describe('Entities Selectors', () => {
+  describe('selectEntitiesState', () => {
+    it('should return the entities property of root state', () => {
       // when ... we call the selector
-      const result = SUT.selectProjectsState(state)
+      const result = SUT.selectEntitiesState(state)
 
       // then ... should return result as expected
-      expect(result).toEqual(state.projects)
+      expect(result).toEqual(state.entities)
     })
   })
 
-  describe('selectAllProjects', () => {
-    it('should return the all the projects', () => {
+  describe('selectAllEntities', () => {
+    it('should return the all the entities', () => {
       // when ... we call the selector
-      const result = SUT.selectAllProjects(state)
+      const result = SUT.selectAllEntities(state)
 
       // then ... should return result as expected
-      expect(result).toEqual(state.projects.entities)
+      expect(result).toEqual(state.entities.entities)
     })
   })
 
-  describe('selectProjectsFilter', () => {
-    it('should return the the projectsfilter', () => {
+  describe('selectEntitiesFilter', () => {
+    it('should return the the entities filter', () => {
       // when ... we call the selector
-      const result = SUT.selectProjectsFilter(state)
+      const result = SUT.selectEntitiesFilter(state)
 
       // then ... should return result as expected
-      expect(result).toEqual(state.projects.filter)
+      expect(result).toEqual(state.entities.filter)
     })
   })
 
-  describe('selectedFilteredProjects', () => {
-    it('should return a list of projects sorted when no filters are set', () => {
-      state.projects.filter = {
+  describe('selectEntitiesType', () => {
+    it('should return the the entities type', () => {
+      // when ... we call the selector
+      const result = SUT.selectEntitiesType(state)
+
+      // then ... should return result as expected
+      expect(result).toEqual(state.entities.entityType)
+    })
+  })
+
+  describe('selectedFilteredEntities', () => {
+    it('should return a list of entities sorted when no filters are set', () => {
+      state.entities.filter = {
         dateFrom: null,
         dateTo: null,
         categories: [],
@@ -204,7 +216,7 @@ describe('Projects Selectors', () => {
       }
 
       // when ... we call the selector
-      const result = SUT.selectedFilteredProjects(state)
+      const result = SUT.selectedFilteredEntities(state)
 
       // then ... should return result as expected
       expect(result.length).toEqual(3)
@@ -213,8 +225,8 @@ describe('Projects Selectors', () => {
       expect(result[2].did).toEqual('someDid3')
     })
 
-    it('should return a list of projects filtered by user projects when the userEntities flag is true', () => {
-      state.projects.filter = {
+    it('should return a list of entities filtered by user entities when the userEntities flag is true', () => {
+      state.entities.filter = {
         dateFrom: null,
         dateTo: null,
         categories: [],
@@ -222,15 +234,15 @@ describe('Projects Selectors', () => {
       }
 
       // when ... we call the selector
-      const result = SUT.selectedFilteredProjects(state)
+      const result = SUT.selectedFilteredEntities(state)
 
       // then ... should return result as expected
       expect(result.length).toEqual(1)
       expect(result[0].did).toEqual('someDid1')
     })
 
-    it('should return a list of projects filtered by date and sorted when dates are set', () => {
-      state.projects.filter = {
+    it('should return a list of entities filtered by date and sorted when dates are set', () => {
+      state.entities.filter = {
         dateFrom: moment('2020-04-09'),
         dateTo: moment('2020-04-10'),
         categories: [],
@@ -238,7 +250,7 @@ describe('Projects Selectors', () => {
       }
 
       // when ... we call the selector
-      const result = SUT.selectedFilteredProjects(state)
+      const result = SUT.selectedFilteredEntities(state)
 
       // then ... should return result as expected
       expect(result.length).toEqual(2)
@@ -246,8 +258,8 @@ describe('Projects Selectors', () => {
       expect(result[1].did).toEqual('someDid1')
     })
 
-    it('should return a list of projects filtered by categories and sorted when categories are set', () => {
-      state.projects.filter = {
+    it('should return a list of entities filtered by categories and sorted when categories are set', () => {
+      state.entities.filter = {
         dateFrom: null,
         dateTo: null,
         categories: [
@@ -264,7 +276,7 @@ describe('Projects Selectors', () => {
       }
 
       // when ... we call the selector
-      const result = SUT.selectedFilteredProjects(state)
+      const result = SUT.selectedFilteredEntities(state)
 
       // then ... should return result as expected
       expect(result.length).toEqual(1)
@@ -272,10 +284,10 @@ describe('Projects Selectors', () => {
     })
   })
 
-  describe('selectProjectCountries', () => {
-    it('should return a list of project countries', () => {
+  describe('selectEntityCountries', () => {
+    it('should return a list of entity countries', () => {
       // when ... we call the selector
-      const result = SUT.selectProjectCountries(state)
+      const result = SUT.selectEntitiesCountries(state)
 
       // then ... should return result as expected
       expect(result).toContain('someCountry1')
@@ -283,9 +295,9 @@ describe('Projects Selectors', () => {
     })
   })
 
-  describe('selectFilteredProjectsCount', () => {
-    it('should return the count of filtered projects', () => {
-      state.projects.filter = {
+  describe('selectFilteredEntitiesCount', () => {
+    it('should return the count of filtered Entities', () => {
+      state.entities.filter = {
         dateFrom: moment('2020-04-09'),
         dateTo: moment('2020-04-10'),
         categories: [],
@@ -293,16 +305,16 @@ describe('Projects Selectors', () => {
       }
       // when ... we call the selector
       // TODO - add filtering
-      const result = SUT.selectFilteredProjectsCount(state)
+      const result = SUT.selectFilteredEntitiesCount(state)
 
       // then ... should return result as expected
       expect(result).toEqual(2)
     })
   })
 
-  describe('selectAllProjectsCount', () => {
-    it('should return the count of all projects regardless of filters set', () => {
-      state.projects.filter = {
+  describe('selectAllEntitiesCount', () => {
+    it('should return the count of all entities regardless of filters set', () => {
+      state.entities.filter = {
         dateFrom: moment('1900-01-01'),
         dateTo: moment('1900-01-01'),
         categories: [],
@@ -310,23 +322,23 @@ describe('Projects Selectors', () => {
       }
       // when ... we call the selector
       // TODO - add filtering
-      const result = SUT.selectAllProjectsCount(state)
+      const result = SUT.selectAllEntitiesCount(state)
 
       // then ... should return result as expected
       expect(result).toEqual(3)
     })
   })
 
-  describe('selectUserProjectsCount', () => {
-    it('should return the count of all projects for a user regardless of filters set', () => {
-      state.projects.filter = {
+  describe('selectUserEntitiesCount', () => {
+    it('should return the count of all entities for a user regardless of filters set', () => {
+      state.entities.filter = {
         dateFrom: moment('1900-01-01'),
         dateTo: moment('1900-01-01'),
         categories: [],
         userEntities: false,
       }
       // when ... we call the selector
-      const result = SUT.selectUserProjectsCount(state)
+      const result = SUT.selectUserEntitiesCount(state)
 
       // then ... should return result as expected
       expect(result).toEqual(1)
@@ -454,7 +466,7 @@ describe('Projects Selectors', () => {
 
     it('should return the correct summary of the dates when only dateFrom has a value', () => {
       // when .. we call the selector
-      state.projects.filter.dateTo = null
+      state.entities.filter.dateTo = null
       const result = SUT.selectFilterDateSummary(state)
 
       // then... should return result as expected
@@ -463,7 +475,7 @@ describe('Projects Selectors', () => {
 
     it('should return the correct summary of the dates when only dateTo has a value', () => {
       // when .. we call the selector
-      state.projects.filter.dateFrom = null
+      state.entities.filter.dateFrom = null
       const result = SUT.selectFilterDateSummary(state)
 
       // then... should return result as expected
@@ -472,8 +484,8 @@ describe('Projects Selectors', () => {
 
     it('should return the correct summary of the dates when only neither dateTo nor dateTo have values', () => {
       // when .. we call the selector
-      state.projects.filter.dateFrom = null
-      state.projects.filter.dateTo = null
+      state.entities.filter.dateFrom = null
+      state.entities.filter.dateTo = null
       const result = SUT.selectFilterDateSummary(state)
 
       // then... should return result as expected
@@ -498,7 +510,7 @@ describe('Projects Selectors', () => {
 
   describe('selectFilterCategoriesSummary', () => {
     it('should return the correct categories summary from the filter when there are categories selected', () => {
-      state.projects.filter.categories = [
+      state.entities.filter.categories = [
         {
           name: 'foo1',
           tags: ['foo1_bar1', 'foo1_bar2'],
@@ -517,7 +529,7 @@ describe('Projects Selectors', () => {
     })
 
     it('should return the correct categories summary from the filter when there are no categories selected', () => {
-      state.projects.filter.categories = []
+      state.entities.filter.categories = []
 
       // when .. we call the selector
       const result = SUT.selectFilterCategoriesSummary(state)
@@ -527,30 +539,30 @@ describe('Projects Selectors', () => {
     })
   })
 
-  describe('selectFilterUserProjects', () => {
+  describe('selectFilterUserEntities', () => {
     it('should return the userEntities property from the filter', () => {
       // when .. we call the selector
-      const result = SUT.selectFilterUserProjects(state)
+      const result = SUT.selectFilterUserEntities(state)
 
       // then... should return result as expected
       expect(result).toEqual(true)
     })
   })
 
-  describe('selectFilterFeaturedProjects', () => {
-    it('should return the FeaturedProjects property from the filter', () => {
+  describe('selectFilterFeaturedEntities', () => {
+    it('should return the FeaturedEntities property from the filter', () => {
       // when .. we call the selector
-      const result = SUT.selectFilterFeaturedProjects(state)
+      const result = SUT.selectFilterFeaturedEntities(state)
 
       // then... should return result as expected
       expect(result).toEqual(true)
     })
   })
 
-  describe('selectFilterPopularProjects', () => {
-    it('should return the PopularProjects property from the filter', () => {
+  describe('selectFilterPopularEntities', () => {
+    it('should return the PopularEntities property from the filter', () => {
       // when .. we call the selector
-      const result = SUT.selectFilterPopularProjects(state)
+      const result = SUT.selectFilterPopularEntities(state)
 
       // then... should return result as expected
       expect(result).toEqual(true)

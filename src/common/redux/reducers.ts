@@ -9,7 +9,7 @@ import { reducer as accountReducer } from '../../modules/Account/Account.reducer
 import { reducer as bondAccountOrdersReducer } from '../../modules/BondAccountOrders/BondAccountOrders.reducer'
 import { reducer as bondReducer } from '../../modules/bond/bond.reducer'
 import { reducer as tokenSupplyReducer } from '../../modules/tokenSupply/tokenSupply.reducer'
-import { reducer as projectsReducer } from '../../modules/Projects/Projects.reducer'
+import { reducer as entitiesReducer } from '../../modules/Entities/Entities.reducer'
 import { RootState } from './types'
 
 export const rootReducer: Reducer<RootState> = combineReducers<RootState>({
@@ -23,5 +23,5 @@ export const rootReducer: Reducer<RootState> = combineReducers<RootState>({
   bondAccountOrders: bondAccountOrdersReducer,
   activeBond: bondReducer,
   tokenSupply: tokenSupplyReducer,
-  projects: projectsReducer,
+  entities: entitiesReducer,
 })

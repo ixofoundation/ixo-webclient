@@ -1,5 +1,5 @@
 import * as React from 'react'
-import InputText from '../Form/InputText/InputText'
+import InputText from '../../../../common/components/Form/InputText/InputText'
 import { FormStyles } from 'src/types/models'
 import {
   SearchWrapper,
@@ -10,27 +10,27 @@ import {
   SearchButtonsWrapper,
   SearchFilterButton,
 } from './Search.styles'
-import Globe from '../../../assets/icons/Globe'
-import Funding from '../../../assets/icons/Funding'
-import Cells from '../../../assets/icons/Cells'
-import Oracle from '../../../assets/icons/Oracle'
-import Template from '../../../assets/icons/Template'
-import Data from '../../../assets/icons/Data'
-import SearchIcon from '../../../assets/icons/Search'
+import Globe from '../../../../assets/icons/Globe'
+import Funding from '../../../../assets/icons/Funding'
+import Cells from '../../../../assets/icons/Cells'
+import Oracle from '../../../../assets/icons/Oracle'
+import Template from '../../../../assets/icons/Template'
+import Data from '../../../../assets/icons/Data'
+import SearchIcon from '../../../../assets/icons/Search'
 import Down from 'src/assets/icons/Down'
+import { EntityType } from '../../types'
+
+// TODO - search submitted
 
 interface Props {
-  filterChanged: (filter: string) => void
-  // TODO - search submitted
+  entityType: EntityType
+  filterChanged: (entityType: EntityType) => void
 }
 
 export default class Search extends React.Component<Props> {
   state = {
     search: '',
     isModalOpen: false,
-    activeFilterButtonText: 'Projects',
-    activeFilter: 'all-projects',
-    activeFilterIcon: 'globe',
   }
 
   handleChange = (event): void => {
@@ -50,37 +50,25 @@ export default class Search extends React.Component<Props> {
     })
   }
 
-  handleSearchFilter = (
-    activeFilterButtonText: string,
-    filterIcon: string,
-  ): void => {
-    const slug = activeFilterButtonText
-      .toLowerCase()
-      .replace(/ /g, '-')
-      .replace(/[^\w-]+/g, '')
-    this.setState({
-      activeFilterButtonText,
-      activeFilter: slug,
-      activeFilterIcon: filterIcon,
-    })
+  handleSearchFilter = (entityType: EntityType): void => {
     this.handleToggleModal()
 
-    this.props.filterChanged(slug)
+    this.props.filterChanged(entityType)
   }
 
-  renderFilterButtonIcon = (icon: string): JSX.Element => {
-    switch (icon) {
-      case 'globe':
+  renderFilterButtonIcon = (entityType: EntityType): JSX.Element => {
+    switch (entityType) {
+      case EntityType.Projects:
         return <Globe fill="#000" />
-      case 'funds':
+      case EntityType.Funds:
         return <Funding fill="#000" />
-      case 'cells':
+      case EntityType.Cells:
         return <Cells fill="#000" />
-      case 'oracle':
+      case EntityType.Oracle:
         return <Oracle fill="#000" />
-      case 'templates':
+      case EntityType.Templates:
         return <Template fill="#000" />
-      case 'data':
+      case EntityType.Data:
         return <Data fill="#000" />
       default:
         return null
@@ -97,8 +85,8 @@ export default class Search extends React.Component<Props> {
                 onClick={(): void => this.handleToggleModal()}
                 className={this.state.isModalOpen ? 'modal-open' : ''}
               >
-                {this.renderFilterButtonIcon(this.state.activeFilterIcon)}
-                {this.state.activeFilterButtonText}
+                {this.renderFilterButtonIcon(this.props.entityType)}
+                {this.props.entityType}
                 <span
                   className="down-icon"
                   style={{
@@ -116,7 +104,7 @@ export default class Search extends React.Component<Props> {
                   formStyle={FormStyles.search}
                   id="name"
                   type="text"
-                  text="Search all projects"
+                  text={`Search all ${this.props.entityType.toLowerCase()}`}
                   key="search"
                   onChange={(): void => this.handleChange(event)}
                 />
@@ -131,33 +119,46 @@ export default class Search extends React.Component<Props> {
                 <SearchButtonsWrapper>
                   <SearchFilterButton
                     onClick={(): void =>
-                      this.handleSearchFilter('Projects', 'globe')
+                      this.handleSearchFilter(EntityType.Projects)
                     }
                     className={
-                      this.state.activeFilter === 'all-projects' ? 'active' : ''
+                      this.props.entityType === EntityType.Projects
+                        ? 'active'
+                        : ''
                     }
                   >
-                    <div>{this.renderFilterButtonIcon('globe')}</div>
+                    <div>
+                      {this.renderFilterButtonIcon(EntityType.Projects)}
+                    </div>
                     Projects
                   </SearchFilterButton>
                   <SearchFilterButton className="disabled">
-                    <div>{this.renderFilterButtonIcon('funds')}</div>
+                    <div>{this.renderFilterButtonIcon(EntityType.Funds)}</div>
                     Funds
                   </SearchFilterButton>
-                  <SearchFilterButton className="disabled">
-                    <div>{this.renderFilterButtonIcon('cells')}</div>
+                  <SearchFilterButton
+                    onClick={(): void =>
+                      this.handleSearchFilter(EntityType.Cells)
+                    }
+                    className={
+                      this.props.entityType === EntityType.Cells ? 'active' : ''
+                    }
+                  >
+                    <div>{this.renderFilterButtonIcon(EntityType.Cells)}</div>
                     Cells
                   </SearchFilterButton>
                   <SearchFilterButton className="disabled">
-                    <div>{this.renderFilterButtonIcon('oracle')}</div>
+                    <div>{this.renderFilterButtonIcon(EntityType.Oracle)}</div>
                     Oracles
                   </SearchFilterButton>
                   <SearchFilterButton className="disabled">
-                    <div>{this.renderFilterButtonIcon('templates')}</div>
+                    <div>
+                      {this.renderFilterButtonIcon(EntityType.Templates)}
+                    </div>
                     Templates
                   </SearchFilterButton>
                   <SearchFilterButton className="disabled">
-                    <div>{this.renderFilterButtonIcon('data')}</div>
+                    <div>{this.renderFilterButtonIcon(EntityType.Data)}</div>
                     Data Assets
                   </SearchFilterButton>
                 </SearchButtonsWrapper>
