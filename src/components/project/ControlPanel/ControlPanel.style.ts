@@ -187,4 +187,11 @@ export const ConnectionButtonsWrapper = styled(squareButtonSection)`
       }
     }
   }
+  .show-more-container {
+    width: 100%;
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+    justify-content: center;
+  }
 `
