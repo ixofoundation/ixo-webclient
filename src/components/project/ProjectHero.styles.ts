@@ -87,7 +87,7 @@ export const HeroInfoItem = styled.div`
   flex-flow: row nowrap;
   align-items: center;
   justify-content: flex-start;
-  margin: 0.875rem 0.875rem 0.875rem 0;
+  margin: 0.875rem 2.25rem 0.875rem 0;
   font-weight: bold;
   * + span {
     margin-left: 0.5rem;
