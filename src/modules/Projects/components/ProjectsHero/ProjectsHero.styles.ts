@@ -1,6 +1,5 @@
 import styled from 'styled-components'
 import { deviceWidth } from '../../../../lib/commonData'
-import * as instanceSettings from '../../../../instance-settings'
 
 export const ContainerInner = styled.div`
   height: auto;
@@ -52,10 +51,11 @@ export const HeroInner = styled.div`
 `
 
 export const HeroContainer = styled.div`
-  background: url(${instanceSettings.getBGImageSrc()}) no-repeat center top;
+  background: url(${require('../../../../assets/images/ixo-heroBg.jpg')})
+    no-repeat center top;
   background-size: cover;
   margin: 0 0 0px;
-  cursor: pointer;
+  cursor: default;
   position: relative;
 
   ${HeroInner}:before {

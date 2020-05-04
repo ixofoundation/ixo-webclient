@@ -11,20 +11,25 @@ import {
   Container,
   ProjectsContainer,
   ErrorContainer,
+  NoProjectsContainer,
 } from './Projects.container.styles'
 import {
   getProjects,
   filterToggleUserProjects,
-  filterDates,
-  resetDatesFilter,
-  filterCategoryTag,
-  resetCategoryFilter,
-  resetFilters,
+  filterToggleFeaturedProjects,
+  filterTogglePopularProjects,
+  filterProjectDates,
+  resetProjectsDatesFilter,
+  filterProjectsCategoryTag,
+  resetProjectsCategoryFilter,
+  resetProjectsFilters,
 } from './Projects.actions'
-import ProjectsFilter from './components/ProjectsFilter/ProjectsFilter'
-import { Project, Category } from './types'
+import EntitiesFilter from '../../common/modules/Entities/components/EntitiesFilter/EntitiesFilter'
+import { Project } from './types'
+import { Category } from '../../common/modules/Entities/types'
+import { Schema } from '../../common/modules/Entities/components/EntitiesFilter/types'
 import * as projectsSelectors from './Projects.selectors'
-import { getFilterSchema, FilterSchema } from '../../instance-settings'
+import filterSchema from './ProjectsFilter.schema.json'
 
 export interface Props {
   location?: any
@@ -47,11 +52,16 @@ export interface Props {
   filterDateToFormatted: string
   filterDateSummary: string
   filterCategories: Category[]
-  filterUserProjectsOnly: boolean
+  filterCategoriesSummary: string
+  filterUserProjects: boolean
+  filterFeaturedProjects: boolean
+  filterPopularProjects: boolean
   isLoadingProjects: boolean
-  filterSchema: FilterSchema
+  filterSchema: Schema
   handleGetProjects: () => void
-  handleFilterToggleUserProjects: (userProjectsOnly: boolean) => void
+  handleFilterToggleUserProjects: (userProjects: boolean) => void
+  handleFilterToggleFeaturedProjects: (featuredProjects: boolean) => void
+  handleFilterTogglePopularProjects: (popularProjects: boolean) => void
   handleFilterDates: (dateFrom: any, dateTo: any) => void
   handleResetDatesFilter: () => void
   handleFilterCategoryTag: (category: string, tag: string) => void
@@ -69,18 +79,32 @@ export class Projects extends React.Component<Props> {
       return (
         <ProjectsContainer className="container-fluid">
           <div className="container">
-            <ProjectsFilter
+            <EntitiesFilter
+              title="Projects"
+              filterSchema={this.props.filterSchema}
               startDate={this.props.filterDateFrom}
               startDateFormatted={this.props.filterDateFromFormatted}
               endDate={this.props.filterDateTo}
               endDateFormatted={this.props.filterDateToFormatted}
               dateSummary={this.props.filterDateSummary}
               categories={this.props.filterCategories}
-              filterSchema={this.props.filterSchema}
+              categoriesSummary={this.props.filterCategoriesSummary}
+              userEntities={this.props.filterUserProjects}
+              featuredEntities={this.props.filterFeaturedProjects}
+              popularEntities={this.props.filterPopularProjects}
               handleFilterDates={this.props.handleFilterDates}
               handleResetDatesFilter={this.props.handleResetDatesFilter}
               handleFilterCategoryTag={this.props.handleFilterCategoryTag}
               handleResetCategoryFilter={this.props.handleResetCategoryFilter}
+              handleFilterToggleUserEntities={
+                this.props.handleFilterToggleUserProjects
+              }
+              handleFilterToggleFeaturedEntities={
+                this.props.handleFilterToggleFeaturedProjects
+              }
+              handleFilterTogglePopularEntities={
+                this.props.handleFilterTogglePopularProjects
+              }
               handleResetFilters={this.props.handleResetFilters}
             />
             <div className="row row-eq-height">
@@ -91,7 +115,7 @@ export class Projects extends React.Component<Props> {
                       ownerName={project.ownerName}
                       imageUrl={project.imageUrl}
                       impactAction={project.impactAction}
-                      projectDid={project.projectDid}
+                      projectDid={project.did}
                       rejectedClaims={project.rejectedClaimsCount}
                       successfulClaims={project.successfulClaimsCount}
                       requiredClaims={project.requiredClaimsCount}
@@ -105,7 +129,9 @@ export class Projects extends React.Component<Props> {
                   )
                 })
               ) : (
-                <div>There are no projects that match your search criteria</div>
+                <NoProjectsContainer>
+                  <p>There are no projects that match your search criteria</p>
+                </NoProjectsContainer>
               )}
             </div>
           </div>
@@ -147,8 +173,10 @@ export class Projects extends React.Component<Props> {
     return (
       <Container>
         <ProjectsHero
-          myProjectsCount={this.props.userProjectsCount}
-          showMyProjects={(): void => null} //(val): void => this.showMyProjects(val)
+          projectsCount={this.props.projectsCount}
+          userProjectsCount={this.props.userProjectsCount}
+          requiredClaimsCount={this.props.requiredClaimsCount}
+          successfulClaimsCount={this.props.successfulClaimsCount}
           contentType={this.props.contentType}
         />
         {this.handleRenderProjectList()}
@@ -189,26 +217,35 @@ function mapStateToProps(state: RootState): Record<string, any> {
     filterDateToFormatted: projectsSelectors.selectFilterDateToFormatted(state),
     filterDateSummary: projectsSelectors.selectFilterDateSummary(state),
     filterCategories: projectsSelectors.selectFilterCategories(state),
-    filterUserProjectsOnly: projectsSelectors.selectFilterUserProjectsOnly(
+    filterCategoriesSummary: projectsSelectors.selectFilterCategoriesSummary(
       state,
     ),
+    filterUserProjects: projectsSelectors.selectFilterUserProjects(state),
+    filterFeaturedProjects: projectsSelectors.selectFilterFeaturedProjects(
+      state,
+    ),
+    filterPopularProjects: projectsSelectors.selectFilterPopularProjects(state),
     isLoadingProjects: projectsSelectors.selectIsLoadingProjects(state),
-    filterSchema: getFilterSchema(),
+    filterSchema,
   }
 }
 
 const mapDispatchToProps = (dispatch: any): any => ({
   handleGetProjects: (): void => dispatch(getProjects()),
-  handleFilterToggleUserProjects: (userProjectsOnly: boolean): void =>
-    dispatch(filterToggleUserProjects(userProjectsOnly)),
+  handleFilterToggleUserProjects: (userProjects: boolean): void =>
+    dispatch(filterToggleUserProjects(userProjects)),
+  handleFilterTogglePopularProjects: (popularProjects: boolean): void =>
+    dispatch(filterTogglePopularProjects(popularProjects)),
+  handleFilterToggleFeaturedProjects: (featuredProjects: boolean): void =>
+    dispatch(filterToggleFeaturedProjects(featuredProjects)),
   handleFilterDates: (dateFrom: any, dateTo: any): void =>
-    dispatch(filterDates(dateFrom, dateTo)),
-  handleResetDatesFilter: (): void => dispatch(resetDatesFilter()),
+    dispatch(filterProjectDates(dateFrom, dateTo)),
+  handleResetDatesFilter: (): void => dispatch(resetProjectsDatesFilter()),
   handleFilterCategoryTag: (category: string, tag: string): void =>
-    dispatch(filterCategoryTag(category, tag)),
+    dispatch(filterProjectsCategoryTag(category, tag)),
   handleResetCategoryFilter: (category: string): void =>
-    dispatch(resetCategoryFilter(category)),
-  handleResetFilters: (): void => dispatch(resetFilters()),
+    dispatch(resetProjectsCategoryFilter(category)),
+  handleResetFilters: (): void => dispatch(resetProjectsFilters()),
 })
 
 export const ProjectsContainerConnected = connect(
