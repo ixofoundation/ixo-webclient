@@ -20,6 +20,7 @@ export const OverviewContainer = styled.section`
 export const ProjectImage = styled.img`
   width: 100%;
   box-shadow: 0px 10px 35px 0px rgba(0, 0, 0, 0.25);
+  border-radius: 4px;
   margin-bottom: 22px;
 `
 
