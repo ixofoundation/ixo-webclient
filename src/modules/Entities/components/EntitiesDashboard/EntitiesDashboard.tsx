@@ -25,7 +25,7 @@ export interface Props {
   remainingClaims: number
   serviceProviders: number
   evaluators: number
-  countries: any[]
+  countries: string[]
 }
 
 export const EntitiesDashboard: React.SFC<Props> = ({

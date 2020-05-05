@@ -1,24 +1,20 @@
-import { isoCountriesLatLng } from '../../lib/commonData'
-import { Category, EntityType } from './types'
+import countryData from '../../lib/maps/countryLatLng.json'
 import projectsFilterSchema from './components/EntitiesFilter/schema/ProjectsFilter.schema.json'
 import cellsFilterSchema from './components/EntitiesFilter/schema/CellsFilter.schema.json'
+import { Category, EntityType } from './types'
 import { Schema } from './components/EntitiesFilter/types'
 
-export const getCountryCoordinates = (countries: any[]): Array<unknown> => {
-  const coords = []
-  for (const key in isoCountriesLatLng) {
-    if (Object.hasOwnProperty.call(isoCountriesLatLng, key)) {
-      for (const i in countries) {
-        if (countries[i] === key) {
-          coords.push([
-            isoCountriesLatLng[key].lng,
-            isoCountriesLatLng[key].lat,
-          ])
-        }
-      }
+export const getCountryCoordinates = (countryCodes: string[]): any[] => {
+  const coordinates = []
+
+  countryCodes.forEach(code => {
+    const country = countryData.find(data => data.alpha2 === code)
+    if (country) {
+      coordinates.push([country.longitude, country.latitude])
     }
-  }
-  return coords
+  })
+
+  return coordinates
 }
 
 export const getSchema = (entityType: EntityType): Schema => {
