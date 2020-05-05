@@ -249,10 +249,12 @@ class ControlPanel extends React.Component<{}, State> {
                       Forum
                     </button>
                     {this.state.showConnectionsInfo === 'mobile' && (
-                      <QRComponent url={location.href} />
+                      <div className="show-more-container">
+                        <QRComponent url={location.href} />
+                      </div>
                     )}
                     {this.state.showConnectionsInfo === 'share' && (
-                      <div style={{ width: '100%' }}>
+                      <div className="show-more-container">
                         <button onClick={this.shareToTwitter}>
                           Share to twitter <Twitter width="22" fill="#47568c" />
                         </button>
