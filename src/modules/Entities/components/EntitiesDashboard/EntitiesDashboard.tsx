@@ -3,7 +3,7 @@ import {
   DashboardContainer,
   ClaimsWidget,
   ClaimsLabels,
-} from './ProjectsDashboard.styles'
+} from './EntitiesDashboard.styles'
 import { LayoutWrapper } from '../../../../components/common/LayoutWrapper'
 import { SingleStatistic } from '../../../../components/common/SingleStatistic'
 import { StatType } from '../../../../types/models'
@@ -14,8 +14,10 @@ import {
   gridSizes,
 } from '../../../../components/common/WidgetWrapper'
 import { getCountryCoordinates } from '../../Entities.utils'
+import { EntityType } from '../../types'
 
-export interface ParentProps {
+export interface Props {
+  entityType: EntityType
   requiredClaims: number
   successfulClaims: number
   pendingClaims: number
@@ -26,7 +28,8 @@ export interface ParentProps {
   countries: any[]
 }
 
-export const ProjectsDashboard: React.SFC<ParentProps> = ({
+export const EntitiesDashboard: React.SFC<Props> = ({
+  entityType,
   requiredClaims,
   pendingClaims,
   successfulClaims,
@@ -94,7 +97,7 @@ export const ProjectsDashboard: React.SFC<ParentProps> = ({
           </div>
           <div className="col-md-6">
             <WidgetWrapper
-              title="Projects location activity"
+              title={`${entityType} location activity`}
               gridHeight={gridSizes.standard}
               padding={false}
             >

@@ -1,8 +1,9 @@
 import * as React from 'react'
 import { Moment } from 'moment'
-import { ProjectsDashboard } from './components/ProjectsDashboard/ProjectsDashboard'
-import { ProjectCard } from './components/ProjectCard/ProjectCard'
-import { ProjectsHero } from './components/ProjectsHero/ProjectsHero'
+import { EntitiesDashboard } from './components/EntitiesDashboard/EntitiesDashboard'
+import { ProjectCard } from './components/EntityCards/ProjectCard/ProjectCard'
+import { CellCard } from './components/EntityCards/CellCard/CellCard'
+import { EntitiesHero } from './components/EntitiesHero/EntitiesHero'
 import { Spinner } from '../../components/common/Spinner'
 import { connect } from 'react-redux'
 import { RootState } from '../../common/redux/types'
@@ -24,12 +25,13 @@ import {
   resetEntitiesCategoryFilter,
   resetEntitiesFilters,
   changeEntityType,
-} from '../Entities/Entities.actions'
+} from './Entities.actions'
 import EntitiesFilter from './components/EntitiesFilter/EntitiesFilter'
 import { Entity, EntityType } from './types'
 import { Category } from './types'
 import { Schema } from './components/EntitiesFilter/types'
-import * as entitiesSelectors from '../Entities/Entities.selectors'
+import * as entitiesSelectors from './Entities.selectors'
+import * as accountSelectors from '../Account/Account.selectors'
 
 export interface Props {
   location?: any
@@ -58,6 +60,7 @@ export interface Props {
   filterFeaturedEntities: boolean
   filterPopularEntities: boolean
   isLoadingEntities: boolean
+  isLoggedIn: boolean
   filterSchema: Schema
   handleGetEntities: () => void
   handleChangeEntityType: (entityType: EntityType) => void
@@ -73,7 +76,64 @@ export interface Props {
 
 export class Entities extends React.Component<Props> {
   componentDidMount(): void {
+    this.setDefaultViewFilters()
     this.props.handleGetEntities()
+  }
+
+  setDefaultViewFilters = (): void => {
+    if (this.props.isLoggedIn) {
+      this.props.handleFilterToggleUserEntities(true)
+    } else {
+      this.props.handleFilterToggleFeaturedEntities(true)
+    }
+  }
+
+  resetWithDefaultViewFilters = (): void => {
+    this.props.handleResetFilters()
+    this.setDefaultViewFilters()
+  }
+
+  renderCards = (): JSX.Element[] => {
+    return this.props.entities.map((entity, index) => {
+      switch (this.props.entityType) {
+        case EntityType.Cells:
+          return (
+            <CellCard
+              ownerName={entity.ownerName}
+              imageUrl={entity.imageUrl}
+              impactAction={entity.impactAction}
+              projectDid={entity.did}
+              rejectedClaims={entity.rejectedClaimsCount}
+              successfulClaims={entity.successfulClaimsCount}
+              requiredClaims={entity.requiredClaimsCount}
+              shortDescription={entity.shortDescription}
+              title={entity.title}
+              sdgs={entity.sdgs}
+              projectData={entity.data}
+              key={index}
+              status={entity.status}
+            />
+          )
+      }
+
+      return (
+        <ProjectCard
+          ownerName={entity.ownerName}
+          imageUrl={entity.imageUrl}
+          impactAction={entity.impactAction}
+          projectDid={entity.did}
+          rejectedClaims={entity.rejectedClaimsCount}
+          successfulClaims={entity.successfulClaimsCount}
+          requiredClaims={entity.requiredClaimsCount}
+          shortDescription={entity.shortDescription}
+          title={entity.title}
+          sdgs={entity.sdgs}
+          projectData={entity.data}
+          key={index}
+          status={entity.status}
+        />
+      )
+    })
   }
 
   renderEntities = (): JSX.Element => {
@@ -107,29 +167,11 @@ export class Entities extends React.Component<Props> {
               handleFilterTogglePopularEntities={
                 this.props.handleFilterTogglePopularEntities
               }
-              handleResetFilters={this.props.handleResetFilters}
+              handleResetFilters={this.resetWithDefaultViewFilters}
             />
             <div className="row row-eq-height">
               {this.props.filteredEntitiesCount > 0 ? (
-                this.props.entities.map((entity, index) => {
-                  return (
-                    <ProjectCard
-                      ownerName={entity.ownerName}
-                      imageUrl={entity.imageUrl}
-                      impactAction={entity.impactAction}
-                      projectDid={entity.did}
-                      rejectedClaims={entity.rejectedClaimsCount}
-                      successfulClaims={entity.successfulClaimsCount}
-                      requiredClaims={entity.requiredClaimsCount}
-                      shortDescription={entity.shortDescription}
-                      title={entity.title}
-                      sdgs={entity.sdgs}
-                      projectData={entity.data}
-                      key={index}
-                      status={entity.status}
-                    />
-                  )
-                })
+                this.renderCards()
               ) : (
                 <NoEntitiesContainer>
                   <p>
@@ -157,7 +199,8 @@ export class Entities extends React.Component<Props> {
     } else {
       if (this.props.contentType === contentType.dashboard) {
         return (
-          <ProjectsDashboard
+          <EntitiesDashboard
+            entityType={this.props.entityType}
             requiredClaims={this.props.requiredClaimsCount}
             successfulClaims={this.props.successfulClaimsCount}
             pendingClaims={this.props.pendingClaimsCount}
@@ -177,10 +220,10 @@ export class Entities extends React.Component<Props> {
   render(): JSX.Element {
     return (
       <Container>
-        <ProjectsHero
+        <EntitiesHero
           entityType={this.props.entityType}
-          projectsCount={this.props.entitiesCount}
-          userProjectsCount={this.props.userEntitiesCount}
+          entitiesCount={this.props.entitiesCount}
+          userEntitiesCount={this.props.userEntitiesCount}
           requiredClaimsCount={this.props.requiredClaimsCount}
           successfulClaimsCount={this.props.successfulClaimsCount}
           contentType={this.props.contentType}
@@ -235,6 +278,7 @@ function mapStateToProps(state: RootState): Record<string, any> {
     filterPopularEntities: entitiesSelectors.selectFilterPopularEntities(state),
     isLoadingEntities: entitiesSelectors.selectIsLoadingEntities(state),
     filterSchema: entitiesSelectors.selectFilterSchema(state),
+    isLoggedIn: accountSelectors.selectUserIsLoggedIn(state),
   }
 }
 

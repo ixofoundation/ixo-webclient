@@ -34,6 +34,7 @@ export const getEntities = () => (dispatch: Dispatch): GetEntitiesAction => {
         country: entity.data.projectLocation,
         impactAction: entity.data.impactAction,
         imageUrl: `${entity.data.serviceEndpoint}public/${entity.data.imageLink}`,
+        logoUrl: entity.data.logoLink,
         serviceProvidersCount: entity.data.agentStats.serviceProviders,
         evaluatorsCount: entity.data.agentStats.evaluators,
         requiredClaimsCount: entity.data.requiredClaims,

@@ -9,23 +9,26 @@ import {
   StatisticContainer,
   HeroInner,
   HeroContainer,
-} from './ProjectsHero.styles'
+} from './EntitiesHero.styles'
 import { EntityType } from '../../types'
+
+// TODO - when we know what the other entity types headers will look like then possibly refactor this as it's messy with all the conditions
+// or whatever else is needed. For now, just doing it based on entityType
 
 export interface Props {
   entityType: EntityType
-  projectsCount: number
-  userProjectsCount: number
+  entitiesCount: number
+  userEntitiesCount: number
   requiredClaimsCount: number
   successfulClaimsCount: number
   contentType: ContentType
   handleChangeEntityType: (entityType: EntityType) => void
 }
 
-export const ProjectsHero: React.FunctionComponent<Props> = ({
+export const EntitiesHero: React.FunctionComponent<Props> = ({
   entityType,
-  projectsCount,
-  userProjectsCount,
+  entitiesCount,
+  userEntitiesCount,
   requiredClaimsCount,
   successfulClaimsCount,
   contentType,
@@ -34,16 +37,16 @@ export const ProjectsHero: React.FunctionComponent<Props> = ({
   const getStats = (): Array<Record<string, any>> => {
     return [
       {
-        title: 'MY ACTIVE PROJECTS',
+        title: `MY ACTIVE ${entityType.toUpperCase()}`,
         type: StatType.decimal,
         descriptor: [{ class: 'text', value: ' ' }],
-        amount: userProjectsCount,
+        amount: userEntitiesCount,
       },
       {
-        title: 'TOTAL PROJECTS',
+        title: `TOTAL ${entityType.toUpperCase()}`,
         type: StatType.decimal,
         descriptor: [{ class: 'text', value: ' ' }],
-        amount: projectsCount,
+        amount: entitiesCount,
       },
       {
         title: 'VERIFIED CLAIMS',
@@ -58,6 +61,31 @@ export const ProjectsHero: React.FunctionComponent<Props> = ({
         amount: [0, 0],
       },
     ]
+  }
+
+  const getHeaderTabButtons = (): any => {
+    if (entityType === EntityType.Cells) {
+      return [
+        {
+          iconClass: 'icon-explorer',
+          path: '/',
+          title: 'EXPLORER',
+        },
+      ]
+    } else {
+      return [
+        {
+          iconClass: 'icon-explorer',
+          path: '/',
+          title: 'EXPLORER',
+        },
+        {
+          iconClass: 'icon-impacts',
+          path: '/global-statistics',
+          title: 'IMPACTS',
+        },
+      ]
+    }
   }
 
   return (
@@ -86,20 +114,7 @@ export const ProjectsHero: React.FunctionComponent<Props> = ({
       <div className="container">
         <div className="row">
           <div className="col-md-12">
-            <HeaderSubTabs
-              buttons={[
-                {
-                  iconClass: 'icon-explorer',
-                  path: '/',
-                  title: 'EXPLORER',
-                },
-                {
-                  iconClass: 'icon-impacts',
-                  path: '/global-statistics',
-                  title: 'IMPACTS',
-                },
-              ]}
-            />
+            <HeaderSubTabs buttons={getHeaderTabButtons()} />
           </div>
         </div>
       </div>

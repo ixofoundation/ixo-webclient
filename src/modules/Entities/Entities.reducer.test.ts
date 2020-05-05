@@ -71,6 +71,7 @@ describe('Entities Reducer', () => {
           longDescription: 'someLongDescription',
           agentDids: ['someAgentDid1'],
           imageUrl: 'sommeImageUrl',
+          logoUrl: 'someLogoUrl',
           categories: [
             {
               name: 'someCategory1',
@@ -108,7 +109,7 @@ describe('Entities Reducer', () => {
   })
 
   describe('ChangeEntityType Action', () => {
-    it('should return a new copy of state with the entities left in tact, the filter cleared and the initial selected categories set', () => {
+    it('should return a new copy of state with the entities left in tact, some properties of the filter cleared and the initial selected categories set', () => {
       const currentState = {
         ...initialState,
         entities: [
@@ -133,6 +134,7 @@ describe('Entities Reducer', () => {
             longDescription: 'someLongDescription',
             agentDids: ['someAgentDid1'],
             imageUrl: 'sommeImageUrl',
+            logoUrl: 'someLogoUrl',
             categories: [
               {
                 name: 'someCategory1',
@@ -177,9 +179,15 @@ describe('Entities Reducer', () => {
       expect(result.entities).toEqual(currentState.entities)
       expect(result.filter.dateFrom).toEqual(null)
       expect(result.filter.dateTo).toEqual(null)
-      expect(result.filter.userEntities).toBeTruthy()
-      expect(result.filter.featuredEntities).toBeFalsy()
-      expect(result.filter.popularEntities).toBeFalsy()
+      expect(result.filter.userEntities).toEqual(
+        currentState.filter.userEntities,
+      )
+      expect(result.filter.featuredEntities).toEqual(
+        currentState.filter.featuredEntities,
+      )
+      expect(result.filter.popularEntities).toEqual(
+        currentState.filter.popularEntities,
+      )
     })
   })
 
@@ -209,6 +217,7 @@ describe('Entities Reducer', () => {
             longDescription: 'someLongDescription',
             agentDids: ['someAgentDid1'],
             imageUrl: 'sommeImageUrl',
+            logoUrl: 'someLogoUrl',
             categories: [
               {
                 name: 'someCategory1',
@@ -287,6 +296,7 @@ describe('Entities Reducer', () => {
             longDescription: 'someLongDescription',
             agentDids: ['someAgentDid1'],
             imageUrl: 'sommeImageUrl',
+            logoUrl: 'someLogoUrl',
             categories: [
               {
                 name: 'someCategory1',
@@ -365,6 +375,7 @@ describe('Entities Reducer', () => {
             longDescription: 'someLongDescription',
             agentDids: ['someAgentDid1'],
             imageUrl: 'sommeImageUrl',
+            logoUrl: 'someLogoUrl',
             categories: [
               {
                 name: 'someCategory1',
@@ -443,6 +454,7 @@ describe('Entities Reducer', () => {
             longDescription: 'someLongDescription',
             agentDids: ['someAgentDid1'],
             imageUrl: 'sommeImageUrl',
+            logoUrl: 'someLogoUrl',
             categories: [
               {
                 name: 'someCategory1',
@@ -521,6 +533,7 @@ describe('Entities Reducer', () => {
             longDescription: 'someLongDescription',
             agentDids: ['someAgentDid1'],
             imageUrl: 'sommeImageUrl',
+            logoUrl: 'someLogoUrl',
             categories: [
               {
                 name: 'someCategory1',
@@ -595,6 +608,7 @@ describe('Entities Reducer', () => {
             longDescription: 'someLongDescription',
             agentDids: ['someAgentDid1'],
             imageUrl: 'sommeImageUrl',
+            logoUrl: 'someLogoUrl',
             categories: [
               {
                 name: 'someCategory1',
@@ -679,6 +693,7 @@ describe('Entities Reducer', () => {
             longDescription: 'someLongDescription',
             agentDids: ['someAgentDid1'],
             imageUrl: 'sommeImageUrl',
+            logoUrl: 'someLogoUrl',
             categories: [
               {
                 name: 'someCategory1',
@@ -768,6 +783,7 @@ describe('Entities Reducer', () => {
             longDescription: 'someLongDescription',
             agentDids: ['someAgentDid1'],
             imageUrl: 'sommeImageUrl',
+            logoUrl: 'someLogoUrl',
             categories: [
               {
                 name: 'someCategory1',
@@ -857,6 +873,7 @@ describe('Entities Reducer', () => {
             longDescription: 'someLongDescription',
             agentDids: ['someAgentDid1'],
             imageUrl: 'sommeImageUrl',
+            logoUrl: 'someLogoUrl',
             categories: [
               {
                 name: 'someCategory1',

@@ -5,8 +5,7 @@ import { Filter, Category, EntityType } from './types'
 import * as accountSelectors from '../Account/Account.selectors'
 import { RootState } from 'src/common/redux/types'
 import { Schema } from './components/EntitiesFilter/types'
-import projectsFilterSchema from './components/EntitiesFilter/schema/ProjectsFilter.schema.json'
-import cellsFilterSchema from './components/EntitiesFilter/schema/CellsFilter.schema.json'
+import { getSchema } from './Entities.utils'
 
 const formatDate = (date: Moment): string => date.format("D MMM \\'YY")
 
@@ -290,11 +289,6 @@ export const selectTotalRemainingClaimsCount = createSelector(
 export const selectFilterSchema = createSelector(
   selectEntitiesType,
   (entityType: EntityType): Schema => {
-    switch (entityType) {
-      case EntityType.Cells:
-        return cellsFilterSchema
-    }
-
-    return projectsFilterSchema
+    return getSchema(entityType)
   },
 )

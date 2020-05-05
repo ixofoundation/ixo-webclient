@@ -2,6 +2,7 @@ import { isoCountriesLatLng } from '../../lib/commonData'
 import { Category, EntityType } from './types'
 import projectsFilterSchema from './components/EntitiesFilter/schema/ProjectsFilter.schema.json'
 import cellsFilterSchema from './components/EntitiesFilter/schema/CellsFilter.schema.json'
+import { Schema } from './components/EntitiesFilter/types'
 
 export const getCountryCoordinates = (countries: any[]): Array<unknown> => {
   const coords = []
@@ -20,20 +21,20 @@ export const getCountryCoordinates = (countries: any[]): Array<unknown> => {
   return coords
 }
 
+export const getSchema = (entityType: EntityType): Schema => {
+  switch (entityType) {
+    case EntityType.Cells:
+      return cellsFilterSchema
+  }
+  // Others here
+
+  return projectsFilterSchema
+}
+
 export const getInitialSelectedCategories = (
   entityType: EntityType = EntityType.Projects,
 ): Category[] => {
-  let schema
-
-  switch (entityType) {
-    case EntityType.Cells:
-      schema = cellsFilterSchema
-      break
-    default:
-      schema = projectsFilterSchema
-  }
-
-  return schema.ddoTags.map(ddoCategory => ({
+  return getSchema(entityType).ddoTags.map(ddoCategory => ({
     name: ddoCategory.name,
     tags:
       ddoCategory.selectedTags && ddoCategory.selectedTags.length
