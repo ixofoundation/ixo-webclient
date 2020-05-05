@@ -79,6 +79,7 @@ export const ControlPanelSection = styled.div`
       right: 0;
       transition: transform 0.3s;
       transform: translateY(-50%) rotate(-90deg);
+      cursor: pointer;
       &.active {
         transform: translateY(-50%);
       }

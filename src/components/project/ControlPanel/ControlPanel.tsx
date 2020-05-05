@@ -31,16 +31,14 @@ import QRComponent from '../../common/QRComponent'
 interface State {
   showControlPanelMobile: boolean
   showMoreApps: boolean
-  showMobileLink: boolean
-  showSharingLinks: boolean
+  showConnectionsInfo: string
 }
 
 class ControlPanel extends React.Component<{}, State> {
   state = {
     showControlPanelMobile: false,
     showMoreApps: false,
-    showMobileLink: false,
-    showSharingLinks: false,
+    showConnectionsInfo: '',
   }
 
   displaySvg = (title, width = 16): JSX.Element => {
@@ -84,14 +82,8 @@ class ControlPanel extends React.Component<{}, State> {
   toggleShowApps = (): void => {
     this.setState(prevState => ({ showMoreApps: !prevState.showMoreApps }))
   }
-  toggleMobileLink = (): void => {
-    this.setState(prevState => ({ showMobileLink: !prevState.showMobileLink }))
-  }
-
-  showSharingLinks = (): void => {
-    this.setState(prevState => ({
-      showSharingLinks: !prevState.showSharingLinks,
-    }))
+  toggleConnectionInfo = (sectionName): void => {
+    this.setState({ showConnectionsInfo: sectionName })
   }
 
   shareToTwitter = (): void => {
@@ -170,10 +162,9 @@ class ControlPanel extends React.Component<{}, State> {
                   )}
                   {section.title === 'Connections' && (
                     <div
+                      onClick={(): void => this.toggleConnectionInfo('')}
                       className={`arrow-icon ${
-                        this.state.showMobileLink || this.state.showSharingLinks
-                          ? 'active'
-                          : ''
+                        this.state.showConnectionsInfo !== '' ? 'active' : ''
                       }`}
                     >
                       <Down width="16" fill="#BDBDBD" />
@@ -235,13 +226,17 @@ class ControlPanel extends React.Component<{}, State> {
                 )}
                 {section.title == 'Connections' && (
                   <ConnectionButtonsWrapper>
-                    <button onClick={this.toggleMobileLink}>
+                    <button
+                      onClick={(): void => this.toggleConnectionInfo('mobile')}
+                    >
                       <div className="icon-wrapper">
                         {this.displaySvg('Mobile', 36)}
                       </div>
                       Mobile
                     </button>
-                    <button onClick={this.showSharingLinks}>
+                    <button
+                      onClick={(): void => this.toggleConnectionInfo('share')}
+                    >
                       <div className="icon-wrapper">
                         {this.displaySvg('Share', 36)}
                       </div>
@@ -253,13 +248,12 @@ class ControlPanel extends React.Component<{}, State> {
                       </div>
                       Forum
                     </button>
-
-                    {this.state.showMobileLink && (
+                    {this.state.showConnectionsInfo === 'mobile' && (
                       <div className="show-more-container">
                         <QRComponent url={location.href} />
                       </div>
                     )}
-                    {this.state.showSharingLinks && (
+                    {this.state.showConnectionsInfo === 'share' && (
                       <div className="show-more-container">
                         <button onClick={this.shareToTwitter}>
                           Share to twitter <Twitter width="22" fill="#47568c" />
