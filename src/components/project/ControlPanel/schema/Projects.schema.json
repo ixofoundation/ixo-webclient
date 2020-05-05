@@ -1,0 +1,48 @@
+{
+  "@context": "https://schema.ixo.foundation/project",
+  "@type": "Project",
+  "performance": {
+    "@type": "Performance",
+    "title": "Performance",
+    "shields": [
+      {
+        "@type": "Shield",
+        "field": "status"
+      }
+    ]
+  },
+  "actions": {
+    "@type": "Actions",
+    "title": "Actions",
+    "triggers": [
+      {
+        "@type": "Trigger",
+        "title": "Apply to join",
+        "icon": "AddPerson",
+        "iconColor": "#49BFE0",
+        "intent": "join"
+      },
+      {
+        "@type": "Trigger",
+        "title": "Ask for help",
+        "icon": "Message",
+        "iconColor": "#49BFE0",
+        "intent": "help"
+      },
+      {
+        "@type": "Trigger",
+        "title": "Offer oracle service",
+        "icon": "Target",
+        "iconColor": "#49BFE0",
+        "intent": "oracle"
+      },
+      {
+        "@type": "Trigger",
+        "title": "Rate this project",
+        "icon": "Start",
+        "iconColor": "#49BFE0",
+        "intent": "rate"
+      }
+    ]
+  }
+}

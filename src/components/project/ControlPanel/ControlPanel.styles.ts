@@ -118,7 +118,7 @@ export const ActionLink = styled.a`
   }
 `
 
-const squareButtonSection = styled.div`
+export const SquareButtonSection = styled.div`
   display: flex;
   flex-flow: row wrap;
   align-items: flex-start;
@@ -157,23 +157,7 @@ const squareButtonSection = styled.div`
   }
 `
 
-export const AppButtonsWrapper = styled(squareButtonSection)`
-  button {
-    .icon-wrapper {
-      width: 70px;
-      height: 70px;
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    &.hide {
-      display: none;
-    }
-  }
-`
-
-export const ConnectionButtonsWrapper = styled(squareButtonSection)`
+export const ConnectionButtonsWrapper = styled(SquareButtonSection)`
   button {
     margin-bottom: 1rem;
     .icon-wrapper {

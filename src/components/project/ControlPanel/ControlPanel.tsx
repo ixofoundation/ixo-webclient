@@ -7,22 +7,18 @@ import {
   AppButtonsWrapper,
   ConnectionButtonsWrapper,
   MobileControlPanelToggle,
-} from './ControlPanel.style'
+} from './ControlPanel.styles'
 import { Tooltip } from '../../common/Tooltip'
-import Performance from './Icons/Performance'
-import Actions from './Icons/Actions'
-import Apps from './Icons/Apps'
-import Connections from './Icons/Connections'
-import Riot from './Icons/Apps/Riot'
-import Gitcoin from './Icons/Apps/GitCoin'
-import DAOStack from './Icons/Apps/DAOStack'
+import Performance from '../../../assets/icons/Performance'
+import Actions from '../../../assets/icons/Actions'
+import Apps from '../../../assets/icons/Apps'
+import Connections from '../../../assets/icons/Connections'
+import Riot from '../../../assets/icons/Riot'
+import Gitcoin from '../../../assets/icons/GitCoin'
+import DAOStack from '../../../assets/icons/DAOStack'
 import Share from '../../../assets/icons/Share'
 import OpenOnMobile from '../../../assets/icons/OpenOnMobile'
 import Forum from '../../../assets/icons/Forum'
-import AddPerson from '../../../assets/icons/AddPerson'
-import Message from '../../../assets/icons/Message'
-import Target from '../../../assets/icons/Target'
-import Star from '../../../assets/icons/Star'
 import Down from '../../../assets/icons/Down'
 import Close from '../../../assets/icons/Close'
 import Twitter from '../../../assets/icons/Twitter'
@@ -171,27 +167,7 @@ class ControlPanel extends React.Component<{}, State> {
                     </div>
                   )}
                 </h4>
-                {section.title == 'Performance' && 'The shields will go here'}
-                {section.title == 'Actions' && (
-                  <ActionButtonsWrapper>
-                    <ActionLink href="#">
-                      <AddPerson fill="#49BFE0" />
-                      Apply to join
-                    </ActionLink>
-                    <ActionLink href="#">
-                      <Message fill="#49BFE0" />
-                      Ask for help
-                    </ActionLink>
-                    <ActionLink href="#">
-                      <Target fill="#49BFE0" />
-                      Offer oracle service
-                    </ActionLink>
-                    <ActionLink href="#">
-                      <Star fill="#49BFE0" />
-                      Rate this project
-                    </ActionLink>
-                  </ActionButtonsWrapper>
-                )}
+                // PERFORMANCE // ACTIONS
                 {section.title == 'Apps' && (
                   <AppButtonsWrapper>
                     {section.appData.map((sectionData, index) => {
