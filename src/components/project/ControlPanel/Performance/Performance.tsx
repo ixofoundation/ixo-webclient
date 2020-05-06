@@ -1,18 +1,17 @@
 import React from 'react'
-import { SchemaShield } from '../types'
+import { PerformanceSection } from '../types'
 import { ControlPanelSection } from '../ControlPanel.styles'
 import PerformanceIcon from '../../../../assets/icons/Performance'
+import Shield from './Shield/Shield'
 
 interface Props {
   entityDid: string
-  title: string
-  shields: SchemaShield[]
+  performanceSection: PerformanceSection
 }
 
 const Performance: React.FunctionComponent<Props> = ({
   entityDid,
-  title,
-  shields,
+  performanceSection: { title, shields },
 }) => {
   return (
     <ControlPanelSection key={title}>
@@ -20,16 +19,14 @@ const Performance: React.FunctionComponent<Props> = ({
         <div className="heading-icon">
           <PerformanceIcon />
         </div>
+        {title}
       </h4>
-      {title}
       {shields.map(shield => {
-        const shieldUrl = encodeURIComponent(
-          `${process.env.REACT_APP_BLOCK_SYNC_URL}/api/project/shields/${shield.field}/${entityDid}`,
-        )
         return (
-          <img
+          <Shield
             key={shield.field}
-            src={`https://img.shields.io/endpoint?url=${shieldUrl}`}
+            shieldSettings={shield}
+            entityDid={entityDid}
           />
         )
       })}

@@ -12,6 +12,7 @@ import Apps from './Apps/Apps'
 import Connections from './Connections/Connections'
 
 interface Props {
+  entityDid: string
   schema: Schema
 }
 
@@ -25,7 +26,7 @@ class ControlPanel extends React.Component<Props, State> {
   state = {
     showControlPanelMobile: false,
     showMoreApps: false,
-    connection: '',
+    connection: null,
   }
 
   toggleShowControlPanel = (): void => {
@@ -40,7 +41,6 @@ class ControlPanel extends React.Component<Props, State> {
   }
 
   toggleShowApps = (): void => {
-    // this.setState(prevState => ({ showMoreApps: !prevState.showMoreApps }))
     this.setState({ showMoreApps: !this.state.showMoreApps })
   }
 
@@ -50,7 +50,12 @@ class ControlPanel extends React.Component<Props, State> {
 
   render(): JSX.Element {
     const {
-      schema: { performanceWidgets },
+      schema: {
+        performanceSection,
+        actionsSection,
+        appsSection,
+        connectionsSection,
+      },
     } = this.props
     return (
       <>
@@ -66,10 +71,21 @@ class ControlPanel extends React.Component<Props, State> {
         <ControlPanelWrapper
           className={this.state.showControlPanelMobile ? 'open' : ''}
         >
-          <Performance title={performanceWidgets.title} shields={} />
-          <Actions />
-          <Apps />
-          <Connections />
+          <Performance
+            performanceSection={performanceSection}
+            entityDid={this.props.entityDid}
+          />
+          <Actions actionsSection={actionsSection} />
+          <Apps
+            appsSection={appsSection}
+            showMore={this.state.showMoreApps}
+            toggleShowMore={this.toggleShowApps}
+          />
+          <Connections
+            connectionsSection={connectionsSection}
+            selectedConnection={this.state.connection}
+            toggleConnection={this.toggleConnection}
+          />
         </ControlPanelWrapper>
       </>
     )

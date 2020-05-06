@@ -1,8 +1,8 @@
 {
   "@context": "https://schema.ixo.foundation/project",
   "@type": "Project",
-  "performanceWidgets": {
-    "@type": "PerformanceWidgets",
+  "performanceSection": {
+    "@type": "Performance",
     "title": "Performance",
     "shields": [
       {
@@ -11,8 +11,8 @@
       }
     ]
   },
-  "actionWidgets": {
-    "@type": "ActionWidgets",
+  "actionsSection": {
+    "@type": "Actions",
     "title": "Actions",
     "actions": [
       {
@@ -39,39 +39,40 @@
       {
         "@type": "Action",
         "title": "Rate this project",
-        "icon": "Start",
+        "icon": "Star",
         "iconColor": "#49BFE0",
         "intent": "rate"
       }
     ]
   },
-  "appWidgets": {
-    "@type": "AppWidgets",
+  "appsSection": {
+    "@type": "Apps",
     "title": "Apps",
     "apps": [
       {
         "@type": "RiotChat",
         "title": "Riot chat",
-        "description": "Encrypted chat-room"
+        "description": "Encrypted chat-room",
+        "backgroundColor": "#fff"
       }
     ]
   },
-  "connectionWidgets": {
-    "@type": "ConnectionWidgets",
-    "title": "ConnectionWidgets",
+  "connectionsSection": {
+    "@type": "Connections",
+    "title": "Connections",
     "connections": [
       {
-        "@type": "QRCodeConnection",
+        "@type": "Mobile",
         "title": "Mobile",
         "description": "QR Code"
       },
       {
-        "@type": "ShareConnection",
+        "@type": "Share",
         "title": "Share",
         "description": "Share to social media"
       },
       {
-        "@type": "ForumConnection",
+        "@type": "Forum",
         "title": "Forum",
         "description": "Join the forum"
       }

@@ -1,92 +1,69 @@
 import React from 'react'
 import Down from '../../../../assets/icons/Down'
-import Twitter from '../../../../assets/icons/Twitter'
-import Connection from '../../../../assets/icons/Connections'
-import OpenOnMobile from '../../../../assets/icons/OpenOnMobile'
-import Forum from '../../../../assets/icons/Forum'
-import Share from '../../../../assets/icons/Share'
+import ConnectionIcon from '../../../../assets/icons/Connections'
 import { ControlPanelSection } from '../ControlPanel.styles'
-import QRComponent from '../../../common/QRComponent'
 import { ConnectionButtonsWrapper } from './Connections.styles'
-import { SchemaConnection } from '../types'
+import { ConnectionType, ConnectionsSection } from '../types'
+import MobileConnection from './Mobile/Mobile'
+import ShareConnection from './Share/Share'
+import ForumConnection from './Forum/Forum'
 
 interface Props {
-  title: string
-  connections: SchemaConnection[]
+  connectionsSection: ConnectionsSection
   selectedConnection: string
-  toggleShowConnection: (connection: string) => void
-}
-
-const shareToTwitter = (): void => {
-  const url = location.href
-  const text =
-    'It’s up to all of us to start making an impact for a positive future for humanity. Check out this venture that aims to achieve the global SDGs. If you think it’s a worthy cause, then like or share this post to show your support.'
-  window.open(
-    'http://twitter.com/share?url=' +
-      encodeURIComponent(url) +
-      '&text=' +
-      encodeURIComponent(text),
-    '',
-    'left=0,top=0,width=550,height=450,personalbar=0,toolbar=0,scrollbars=0,resizable=0',
-  )
+  toggleConnection: (connection: string) => void
 }
 
 const Connections: React.FunctionComponent<Props> = ({
-  title,
-  connections,
+  connectionsSection: { connections, title },
   selectedConnection,
-  toggleShowConnection,
+  toggleConnection,
 }) => {
-  const iconWidth = 36
-
-  const mobileConnection = connections.find(conn => conn['@type'] === name)
-  const shareConnection = connections.find(conn => conn['@type'] === name)
-  const forumConnection = connections.find(conn => conn['@type'] === name)
+  const mobileConnectionSettings = connections.find(
+    conn => conn['@type'] === ConnectionType.Mobile,
+  )
+  const shareConnectionSettings = connections.find(
+    conn => conn['@type'] === ConnectionType.Share,
+  )
+  const forumConnectionSettings = connections.find(
+    conn => conn['@type'] === ConnectionType.Forum,
+  )
 
   return (
-    <ControlPanelSection key={title}>
+    <ControlPanelSection>
       <h4>
         <div className="heading-icon">
-          <Connection />
+          <ConnectionIcon />
         </div>
         {title}
         <div
-          onClick={(): void => toggleShowConnection('')}
-          className={`arrow-icon ${selectedConnection !== '' ? 'active' : ''}`}
+          onClick={(): void => toggleConnection(null)}
+          className={`arrow-icon ${selectedConnection ? 'active' : ''}`}
         >
           <Down width="16" fill="#BDBDBD" />
         </div>
       </h4>
       <ConnectionButtonsWrapper>
-        <button onClick={(): void => toggleShowConnection('mobile')}>
-          <div className="icon-wrapper">
-            <OpenOnMobile fill="#49BFE0" width={iconWidth} />
-          </div>
-          Mobile
-        </button>
-        <button onClick={(): void => toggleShowConnection('share')}>
-          <div className="icon-wrapper">
-            <Share fill="#49BFE0" width={iconWidth} />
-          </div>
-          Share
-        </button>
-        <button>
-          <div className="icon-wrapper">
-            <Forum fill="#49BFE0" width={iconWidth} />
-          </div>
-          Forum
-        </button>
-        {selectedConnection === 'mobile' && (
-          <div className="show-more-container">
-            <QRComponent url={location.href} />
-          </div>
+        {mobileConnectionSettings && (
+          <MobileConnection
+            title={mobileConnectionSettings.title}
+            show={selectedConnection === ConnectionType.Mobile}
+            toggleShow={(): void => toggleConnection(ConnectionType.Mobile)}
+          />
         )}
-        {selectedConnection === 'share' && (
-          <div className="show-more-container">
-            <button onClick={shareToTwitter}>
-              Share to twitter <Twitter width="22" fill="#47568c" />
-            </button>
-          </div>
+        {shareConnectionSettings && (
+          <ShareConnection
+            title={shareConnectionSettings.title}
+            show={selectedConnection === ConnectionType.Share}
+            toggleShow={(): void => toggleConnection(ConnectionType.Share)}
+          />
+        )}
+        {forumConnectionSettings && (
+          <ForumConnection
+            title={forumConnectionSettings.title}
+            show={selectedConnection === ConnectionType.Forum}
+            toggleShow={(): void => toggleConnection(ConnectionType.Forum)}
+          />
         )}
       </ConnectionButtonsWrapper>
     </ControlPanelSection>

@@ -1,20 +1,20 @@
-export enum AppWidgetType {
+export enum AppType {
   RiotChat = 'RiotChat',
 }
 
-export enum ConnectionWidgetType {
-  QRCodeConnection = 'QRCodeConnection',
-  ShareConnection = 'ShareConnection',
-  ForumConnection = 'ForumConnection',
+export enum ConnectionType {
+  Mobile = 'Mobile',
+  Share = 'Share',
+  Forum = 'Forum',
 }
 // we can add enums for the other widget types if/when the section will contain more than 1 type
 
-export interface SchemaShield {
+export interface ShieldSettings {
   ['@type']: string
   field: string
 }
 
-export interface SchemaAction {
+export interface ActionSettings {
   ['@type']: string
   title: string
   icon: string
@@ -22,43 +22,44 @@ export interface SchemaAction {
   intent: string
 }
 
-export interface SchemaApp {
+export interface AppSettings {
+  ['@type']: string
+  title: string
+  description: string
+  backgroundColor: string
+}
+
+export interface ConnectionSettings {
   ['@type']: string
   title: string
   description: string
 }
 
-export interface SchemaConnection {
-  ['@type']: string
+export interface PerformanceSection {
   title: string
-  description: string
+  shields: ShieldSettings[]
 }
 
-export interface PerformanceWidgets {
+export interface ActionsSection {
   title: string
-  shields: SchemaShield[]
+  actions: ActionSettings[]
 }
 
-export interface ActionWidgets {
+export interface ConnectionsSection {
   title: string
-  actions: SchemaAction[]
+  connections: ConnectionSettings[]
 }
 
-export interface ConnectionWidgets {
+export interface AppsSection {
   title: string
-  connections: SchemaConnection[]
-}
-
-export interface AppWidgets {
-  title: string
-  apps: SchemaApp[]
+  apps: AppSettings[]
 }
 
 export interface Schema {
   ['@context']: string
   ['@type']: string
-  performanceWidgets: PerformanceWidgets
-  actionWidgets: SchemaAction[]
-  appWidgets: SchemaApp[]
-  connectionWidgets: ConnectionWidgets
+  performanceSection: PerformanceSection
+  actionsSection: ActionsSection
+  appsSection: AppsSection
+  connectionsSection: ConnectionsSection
 }
