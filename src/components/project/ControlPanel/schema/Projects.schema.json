@@ -1,8 +1,8 @@
 {
   "@context": "https://schema.ixo.foundation/project",
   "@type": "Project",
-  "performance": {
-    "@type": "Performance",
+  "performanceWidgets": {
+    "@type": "PerformanceWidgets",
     "title": "Performance",
     "shields": [
       {
@@ -11,37 +11,69 @@
       }
     ]
   },
-  "actions": {
-    "@type": "Actions",
+  "actionWidgets": {
+    "@type": "ActionWidgets",
     "title": "Actions",
-    "triggers": [
+    "actions": [
       {
-        "@type": "Trigger",
+        "@type": "Action",
         "title": "Apply to join",
         "icon": "AddPerson",
         "iconColor": "#49BFE0",
         "intent": "join"
       },
       {
-        "@type": "Trigger",
+        "@type": "Action",
         "title": "Ask for help",
         "icon": "Message",
         "iconColor": "#49BFE0",
         "intent": "help"
       },
       {
-        "@type": "Trigger",
+        "@type": "Action",
         "title": "Offer oracle service",
         "icon": "Target",
         "iconColor": "#49BFE0",
         "intent": "oracle"
       },
       {
-        "@type": "Trigger",
+        "@type": "Action",
         "title": "Rate this project",
         "icon": "Start",
         "iconColor": "#49BFE0",
         "intent": "rate"
+      }
+    ]
+  },
+  "appWidgets": {
+    "@type": "AppWidgets",
+    "title": "Apps",
+    "apps": [
+      {
+        "@type": "RiotChat",
+        "title": "Riot chat",
+        "description": "Encrypted chat-room"
+      }
+    ]
+  },
+  "connectionWidgets": {
+    "@type": "ConnectionWidgets",
+    "title": "ConnectionWidgets",
+    "connections": [
+      {
+        "@type": "QRCodeConnection",
+        "title": "Mobile",
+        "description": "QR Code"
+      },
+      {
+        "@type": "ShareConnection",
+        "title": "Share",
+        "description": "Share to social media"
+      },
+      {
+        "@type": "ForumConnection",
+        "title": "Forum",
+        "description": "Join the forum"
       }
     ]
   }

@@ -9,7 +9,7 @@ interface Props {
   shields: SchemaShield[]
 }
 
-export const Performance: React.FunctionComponent<Props> = ({
+const Performance: React.FunctionComponent<Props> = ({
   entityDid,
   title,
   shields,
@@ -36,3 +36,5 @@ export const Performance: React.FunctionComponent<Props> = ({
     </ControlPanelSection>
   )
 }
+
+export default Performance

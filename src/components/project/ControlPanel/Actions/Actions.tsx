@@ -4,22 +4,16 @@ import AddPerson from '../../../../assets/icons/AddPerson'
 import Message from '../../../../assets/icons/Message'
 import Target from '../../../../assets/icons/Target'
 import Star from '../../../../assets/icons/Star'
-import { SchemaActionTrigger } from '../types'
-import {
-  ActionButtonsWrapper,
-  ActionLink,
-  ControlPanelSection,
-} from '../ControlPanel.styles'
+import { SchemaAction } from '../types'
+import { ControlPanelSection } from '../ControlPanel.styles'
+import { ActionButtonsWrapper, ActionLink } from './Actions.styles'
 
 interface Props {
   title: string
-  triggers: SchemaActionTrigger[]
+  triggers: SchemaAction[]
 }
 
-export const Actions: React.FunctionComponent<Props> = ({
-  title,
-  triggers,
-}) => {
+const Actions: React.FunctionComponent<Props> = ({ title, triggers }) => {
   return (
     <ControlPanelSection key={title}>
       <h4>
@@ -32,13 +26,17 @@ export const Actions: React.FunctionComponent<Props> = ({
             let Icon
             switch (trigger.icon) {
               case 'AddPerson':
-                return <AddPerson fill={trigger.iconColor} />
+                Icon = <AddPerson fill={trigger.iconColor} />
+                break
               case 'Message':
-                return <Message fill={trigger.iconColor} />
+                Icon = <Message fill={trigger.iconColor} />
+                break
               case 'Target':
-                return <Target fill={trigger.iconColor} />
+                Icon = <Target fill={trigger.iconColor} />
+                break
               case 'Star':
-                return <Star fill={trigger.iconColor} />
+                Icon = <Star fill={trigger.iconColor} />
+                break
             }
 
             return (
@@ -52,3 +50,5 @@ export const Actions: React.FunctionComponent<Props> = ({
     </ControlPanelSection>
   )
 }
+
+export default Actions
