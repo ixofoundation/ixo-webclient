@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { Route, Switch } from 'react-router-dom'
 import { ProjectContainerConnected } from './project/ProjectContainer'
-import { ProjectsContainerConnected } from '../modules/Projects/Projects.container'
+import { EntitiesContainerConnected } from '../modules/Entities/Entities.container'
 import { ProjectCreateConnected } from './project/ProjectCreate'
 import { contentType } from '../types/models'
 import { ProjectForm } from './project/ProjectForm'
@@ -46,7 +46,7 @@ export const Routes: React.SFC<{}> = props => {
           exact
           path="/"
           render={(routeProps): JSX.Element => (
-            <ProjectsContainerConnected
+            <EntitiesContainerConnected
               {...routeProps.location}
               // @ts-ignore
               contentType={contentType.overview}
@@ -57,7 +57,7 @@ export const Routes: React.SFC<{}> = props => {
           exact
           path="/global-statistics"
           render={(routeProps): JSX.Element => (
-            <ProjectsContainerConnected
+            <EntitiesContainerConnected
               {...routeProps.location}
               // @ts-ignore
               contentType={contentType.dashboard}

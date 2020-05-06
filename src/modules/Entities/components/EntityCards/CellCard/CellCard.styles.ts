@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { deviceWidth } from '../../../../lib/commonData'
+import { deviceWidth } from '../../../../../lib/commonData'
 import { Link } from 'react-router-dom'
 
 export const Title = styled.h3`

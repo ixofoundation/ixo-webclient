@@ -1,16 +1,16 @@
 import moment from 'moment'
-import * as SUT from './Projects.actions'
-import { ProjectsActions } from './types'
+import * as SUT from './Entities.actions'
+import { EntitiesActions, EntityType } from './types'
 import mockStore from '../../common/redux/mockStore'
 
 let store
 
 beforeEach(() => {
   store = mockStore({
-    projects: {
-      projects: [
+    entities: {
+      entities: [
         {
-          projectDid: 'someDid1',
+          did: 'someDid1',
           userDid: 'someUserDid1',
           title: 'someTitle1',
           shortDescription: 'someShortDescription1',
@@ -65,37 +65,48 @@ beforeEach(() => {
   })
 })
 
-describe('Projects Actions', () => {
-  // TODO - getProjects ()
-  describe('filterToggleUserProjects', () => {
-    it('should create an action to set the userProjects filter', () => {
-      // when ... we call the filterToggleUserProjects action creator
-      const action = SUT.filterToggleUserProjects(true)
+describe('Entities Actions', () => {
+  // TODO - getEntities ()
+  describe('changeEntityType', () => {
+    it('should create an action to set the entityType', () => {
+      // when ... we call the changeEntityType action creator
+      const action = SUT.changeEntityType(EntityType.Cells)
 
       // then we should expect it to create action with the correct type and payload
-      expect(action.type).toEqual(ProjectsActions.FilterToggleUserProjects)
+      expect(action.type).toEqual(EntitiesActions.ChangeEntityType)
+      expect(action.payload).toEqual({ entityType: EntityType.Cells })
+    })
+  })
+
+  describe('filterToggleUserEntities', () => {
+    it('should create an action to set the userEntities filter', () => {
+      // when ... we call the filterToggleUserEntities action creator
+      const action = SUT.filterToggleUserEntities(true)
+
+      // then we should expect it to create action with the correct type and payload
+      expect(action.type).toEqual(EntitiesActions.FilterToggleUserEntities)
       expect(action.payload).toEqual({ userEntities: true })
     })
   })
 
-  describe('filterToggleFeaturedProjects', () => {
-    it('should create an action to set the featuredProjects filter', () => {
-      // when ... we call the filterToggleFeaturedProjects action creator
-      const action = SUT.filterToggleFeaturedProjects(true)
+  describe('filterToggleFeaturedEntities', () => {
+    it('should create an action to set the featuredEntities filter', () => {
+      // when ... we call the filterToggleFeaturedEntities action creator
+      const action = SUT.filterToggleFeaturedEntities(true)
 
       // then we should expect it to create action with the correct type and payload
-      expect(action.type).toEqual(ProjectsActions.FilterToggleFeaturedProjects)
+      expect(action.type).toEqual(EntitiesActions.FilterToggleFeaturedEntities)
       expect(action.payload).toEqual({ featuredEntities: true })
     })
   })
 
-  describe('filterTogglePopularProjects', () => {
-    it('should create an action to set the popularProjects filter', () => {
-      // when ... we call the filterTogglePopularProjects action creator
-      const action = SUT.filterTogglePopularProjects(true)
+  describe('filterTogglePopularEntities', () => {
+    it('should create an action to set the popularEntities filter', () => {
+      // when ... we call the filterTogglePopularEntities action creator
+      const action = SUT.filterTogglePopularEntities(true)
 
       // then we should expect it to create action with the correct type and payload
-      expect(action.type).toEqual(ProjectsActions.FilterTogglePopularProjects)
+      expect(action.type).toEqual(EntitiesActions.FilterTogglePopularEntities)
       expect(action.payload).toEqual({ popularEntities: true })
     })
   })
@@ -103,13 +114,13 @@ describe('Projects Actions', () => {
   describe('filterDates', () => {
     it('should create an action to set the dates filter', () => {
       // when ... we call the filterDates action creator
-      const action = SUT.filterProjectDates(
+      const action = SUT.filterEntitiesDates(
         moment('2020-04-03T13:14:13.000Z'),
         moment('2020-04-09T13:14:13.000Z'),
       )
 
       // then we should expect it to create action with the correct type and payload
-      expect(action.type).toEqual(ProjectsActions.FilterDates)
+      expect(action.type).toEqual(EntitiesActions.FilterDates)
       expect(action.payload).toEqual({
         dateFrom: moment('2020-04-03T13:14:13.000Z'),
         dateTo: moment('2020-04-09T13:14:13.000Z'),
@@ -120,21 +131,21 @@ describe('Projects Actions', () => {
   describe('resetDatesFilter', () => {
     it('should create an action to reset the dates filter', () => {
       // when ... we call the resetDatesFilter action creator
-      const action = SUT.resetProjectsDatesFilter()
+      const action = SUT.resetEntitiesDatesFilter()
 
       // then we should expect it to create action with the correct type
-      expect(action.type).toEqual(ProjectsActions.ResetDatesFilter)
+      expect(action.type).toEqual(EntitiesActions.ResetDatesFilter)
     })
   })
 
   describe('filterCategoryTag', () => {
     it('should create an action to remove the specific category tag when it exists', () => {
       // when ... we call the filterCategoryTag action creator
-      store.dispatch(SUT.filterProjectsCategoryTag('foo1', 'bar1_3'))
+      store.dispatch(SUT.filterEntitiesCategoryTag('foo1', 'bar1_3'))
       const action = store.getActions()[0]
 
       // then we should expect it to create action with the correct type and payload
-      expect(action.type).toEqual(ProjectsActions.FilterCategoryTag)
+      expect(action.type).toEqual(EntitiesActions.FilterCategoryTag)
       expect(action.payload).toEqual({
         category: 'foo1',
         tags: ['bar1_1', 'bar1_2'],
@@ -143,11 +154,11 @@ describe('Projects Actions', () => {
 
     it('should create an action to add the specific category tag when it does not exists', () => {
       // when ... we call the filterCategoryTag action creator
-      store.dispatch(SUT.filterProjectsCategoryTag('foo1', 'bar1_4'))
+      store.dispatch(SUT.filterEntitiesCategoryTag('foo1', 'bar1_4'))
       const action = store.getActions()[0]
 
       // then we should expect it to create action with the correct type and payload
-      expect(action.type).toEqual(ProjectsActions.FilterCategoryTag)
+      expect(action.type).toEqual(EntitiesActions.FilterCategoryTag)
       expect(action.payload).toEqual({
         category: 'foo1',
         tags: ['bar1_1', 'bar1_2', 'bar1_3', 'bar1_4'],
@@ -158,10 +169,10 @@ describe('Projects Actions', () => {
   describe('resetCategoryFilter', () => {
     it('should create an action to reset the specific category filter', () => {
       // when ... we call the resetCategoryFilter action creator
-      const action = SUT.resetProjectsCategoryFilter('foo')
+      const action = SUT.resetEntitiesCategoryFilter('foo')
 
       // then we should expect it to create action with the correct type
-      expect(action.type).toEqual(ProjectsActions.ResetCategoryFilter)
+      expect(action.type).toEqual(EntitiesActions.ResetCategoryFilter)
       expect(action.payload).toEqual({ category: 'foo' })
     })
   })
@@ -169,10 +180,10 @@ describe('Projects Actions', () => {
   describe('resetFilters', () => {
     it('should create an action to reset the filter', () => {
       // when ... we call the resetFilters action creator
-      const action = SUT.resetProjectsFilters()
+      const action = SUT.resetEntitiesFilters()
 
       // then we should expect it to create action with the correct type
-      expect(action.type).toEqual(ProjectsActions.ResetFilters)
+      expect(action.type).toEqual(EntitiesActions.ResetFilters)
     })
   })
 })
