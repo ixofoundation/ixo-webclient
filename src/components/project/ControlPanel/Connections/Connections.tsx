@@ -1,6 +1,9 @@
 import React from 'react'
 import Down from '../../../../assets/icons/Down'
 import ConnectionIcon from '../../../../assets/icons/Connections'
+import ShareIcon from '../../../../assets/icons/Share'
+import MobileIcon from '../../../../assets/icons/OpenOnMobile'
+import ForumIcon from '../../../../assets/icons/Forum'
 import { ControlPanelSection } from '../ControlPanel.styles'
 import { ConnectionButtonsWrapper } from './Connections.styles'
 import { ConnectionType, ConnectionsSection } from '../types'
@@ -45,25 +48,39 @@ const Connections: React.FunctionComponent<Props> = ({
       </h4>
       <ConnectionButtonsWrapper>
         {mobileConnectionSettings && (
+          <button onClick={(): void => toggleConnection(ConnectionType.Mobile)}>
+            <div className="icon-wrapper">
+              <MobileIcon fill="#49BFE0" width="36" />
+            </div>
+            {mobileConnectionSettings.title}
+          </button>
+        )}
+        {shareConnectionSettings && (
+          <button onClick={(): void => toggleConnection(ConnectionType.Share)}>
+            <div className="icon-wrapper">
+              <ShareIcon fill="#49BFE0" width="36" />
+            </div>
+            {shareConnectionSettings.title}
+          </button>
+        )}
+        {forumConnectionSettings && (
+          <button onClick={(): void => toggleConnection(ConnectionType.Forum)}>
+            <div className="icon-wrapper">
+              <ForumIcon fill="#49BFE0" width="36" />
+            </div>
+            {forumConnectionSettings.title}
+          </button>
+        )}
+        {mobileConnectionSettings && (
           <MobileConnection
-            title={mobileConnectionSettings.title}
             show={selectedConnection === ConnectionType.Mobile}
-            toggleShow={(): void => toggleConnection(ConnectionType.Mobile)}
           />
         )}
         {shareConnectionSettings && (
-          <ShareConnection
-            title={shareConnectionSettings.title}
-            show={selectedConnection === ConnectionType.Share}
-            toggleShow={(): void => toggleConnection(ConnectionType.Share)}
-          />
+          <ShareConnection show={selectedConnection === ConnectionType.Share} />
         )}
         {forumConnectionSettings && (
-          <ForumConnection
-            title={forumConnectionSettings.title}
-            show={selectedConnection === ConnectionType.Forum}
-            toggleShow={(): void => toggleConnection(ConnectionType.Forum)}
-          />
+          <ForumConnection show={selectedConnection === ConnectionType.Forum} />
         )}
       </ConnectionButtonsWrapper>
     </ControlPanelSection>

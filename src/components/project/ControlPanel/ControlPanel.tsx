@@ -45,7 +45,9 @@ class ControlPanel extends React.Component<Props, State> {
   }
 
   toggleConnection = (connection): void => {
-    this.setState({ connection })
+    this.setState({
+      connection: this.state.connection === connection ? null : connection,
+    })
   }
 
   render(): JSX.Element {
