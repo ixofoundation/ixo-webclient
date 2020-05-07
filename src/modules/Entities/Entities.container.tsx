@@ -24,10 +24,10 @@ import {
   filterEntitiesCategoryTag,
   resetEntitiesCategoryFilter,
   resetEntitiesFilters,
-  changeEntityType,
+  changeEntitiesType,
 } from './Entities.actions'
 import EntitiesFilter from './components/EntitiesFilter/EntitiesFilter'
-import { Entity, EntityType } from './types'
+import { Entity, EntityType, EntityTypeMap } from './types'
 import { Category } from './types'
 import { Schema } from './components/EntitiesFilter/types'
 import * as entitiesSelectors from './Entities.selectors'
@@ -63,7 +63,7 @@ export interface Props {
   isLoggedIn: boolean
   filterSchema: Schema
   handleGetEntities: () => void
-  handleChangeEntityType: (entityType: EntityType) => void
+  handleChangeEntityTypes: (entityType: EntityType) => void
   handleFilterToggleUserEntities: (userEntities: boolean) => void
   handleFilterToggleFeaturedEntities: (featuredEntities: boolean) => void
   handleFilterTogglePopularEntities: (popularEntities: boolean) => void
@@ -76,27 +76,27 @@ export interface Props {
 
 export class Entities extends React.Component<Props> {
   componentDidMount(): void {
-    this.setDefaultViewFilters()
+    // this.setDefaultViewFilters()
     this.props.handleGetEntities()
   }
 
-  setDefaultViewFilters = (): void => {
+  /*   setDefaultViewFilters = (): void => {
     if (this.props.isLoggedIn) {
       this.props.handleFilterToggleUserEntities(true)
     } else {
       this.props.handleFilterToggleFeaturedEntities(true)
     }
-  }
+  } */
 
   resetWithDefaultViewFilters = (): void => {
     this.props.handleResetFilters()
-    this.setDefaultViewFilters()
+    // this.setDefaultViewFilters()
   }
 
   renderCards = (): JSX.Element[] => {
     return this.props.entities.map((entity, index) => {
       switch (this.props.entityType) {
-        case EntityType.Cells:
+        case EntityType.Cell:
           return (
             <CellCard
               ownerName={entity.ownerName}
@@ -142,7 +142,7 @@ export class Entities extends React.Component<Props> {
         <EntitiesContainer className="container-fluid">
           <div className="container">
             <EntitiesFilter
-              title={`All ${this.props.entityType}`}
+              title={`All ${EntityTypeMap[this.props.entityType].plural}`}
               filterSchema={this.props.filterSchema}
               startDate={this.props.filterDateFrom}
               startDateFormatted={this.props.filterDateFromFormatted}
@@ -175,8 +175,9 @@ export class Entities extends React.Component<Props> {
               ) : (
                 <NoEntitiesContainer>
                   <p>
-                    There are no {this.props.entityType.toLowerCase()} that
-                    match your search criteria
+                    There are no{' '}
+                    {EntityTypeMap[this.props.entityType].plural.toLowerCase()}{' '}
+                    that match your search criteria
                   </p>
                 </NoEntitiesContainer>
               )}
@@ -187,7 +188,10 @@ export class Entities extends React.Component<Props> {
     } else {
       return (
         <ErrorContainer>
-          <p>No {this.props.entityType.toLowerCase()} were found</p>
+          <p>
+            No {EntityTypeMap[this.props.entityType].plural.toLowerCase()} were
+            found
+          </p>
         </ErrorContainer>
       )
     }
@@ -195,7 +199,11 @@ export class Entities extends React.Component<Props> {
 
   handleRenderEntityList(): JSX.Element {
     if (this.props.isLoadingEntities) {
-      return <Spinner info={`Loading ${this.props.entityType}`} />
+      return (
+        <Spinner
+          info={`Loading ${EntityTypeMap[this.props.entityType].plural}`}
+        />
+      )
     } else {
       if (this.props.contentType === contentType.dashboard) {
         return (
@@ -227,7 +235,7 @@ export class Entities extends React.Component<Props> {
           requiredClaimsCount={this.props.requiredClaimsCount}
           successfulClaimsCount={this.props.successfulClaimsCount}
           contentType={this.props.contentType}
-          handleChangeEntityType={this.props.handleChangeEntityType}
+          handleChangeEntityTypes={this.props.handleChangeEntityTypes}
         />
         {this.handleRenderEntityList()}
       </Container>
@@ -238,7 +246,7 @@ export class Entities extends React.Component<Props> {
 function mapStateToProps(state: RootState): Record<string, any> {
   return {
     entities: entitiesSelectors.selectedFilteredEntities(state),
-    entityType: entitiesSelectors.selectEntitiesType(state),
+    entityType: entitiesSelectors.selectSelectedEntitiesType(state),
     countries: entitiesSelectors.selectEntitiesCountries(state),
     entitiesCount: entitiesSelectors.selectAllEntitiesCount(state),
     userEntitiesCount: entitiesSelectors.selectUserEntitiesCount(state),
@@ -284,8 +292,8 @@ function mapStateToProps(state: RootState): Record<string, any> {
 
 const mapDispatchToProps = (dispatch: any): any => ({
   handleGetEntities: (): void => dispatch(getEntities()),
-  handleChangeEntityType: (entityType: EntityType): void =>
-    dispatch(changeEntityType(entityType)),
+  handleChangeEntityTypes: (entityType: EntityType): void =>
+    dispatch(changeEntitiesType(entityType)),
   handleFilterToggleUserEntities: (userEntities: boolean): void =>
     dispatch(filterToggleUserEntities(userEntities)),
   handleFilterTogglePopularEntities: (popularEntities: boolean): void =>

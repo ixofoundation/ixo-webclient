@@ -18,7 +18,7 @@ import Template from '../../../../assets/icons/Template'
 import Data from '../../../../assets/icons/Data'
 import SearchIcon from '../../../../assets/icons/Search'
 import Down from 'src/assets/icons/Down'
-import { EntityType } from '../../types'
+import { EntityType, EntityTypeMap } from '../../types'
 
 // TODO - search submitted
 
@@ -58,15 +58,15 @@ export default class Search extends React.Component<Props> {
 
   renderFilterButtonIcon = (entityType: EntityType): JSX.Element => {
     switch (entityType) {
-      case EntityType.Projects:
+      case EntityType.Project:
         return <Globe fill="#000" />
-      case EntityType.Funds:
+      case EntityType.Fund:
         return <Funding fill="#000" />
-      case EntityType.Cells:
+      case EntityType.Cell:
         return <Cells fill="#000" />
       case EntityType.Oracle:
         return <Oracle fill="#000" />
-      case EntityType.Templates:
+      case EntityType.Template:
         return <Template fill="#000" />
       case EntityType.Data:
         return <Data fill="#000" />
@@ -86,7 +86,7 @@ export default class Search extends React.Component<Props> {
                 className={this.state.isModalOpen ? 'modal-open' : ''}
               >
                 {this.renderFilterButtonIcon(this.props.entityType)}
-                {this.props.entityType}
+                {EntityTypeMap[this.props.entityType].plural}
                 <span
                   className="down-icon"
                   style={{
@@ -104,7 +104,9 @@ export default class Search extends React.Component<Props> {
                   formStyle={FormStyles.search}
                   id="name"
                   type="text"
-                  text={`Search all ${this.props.entityType.toLowerCase()}`}
+                  text={`Search all ${EntityTypeMap[
+                    this.props.entityType
+                  ].plural.toLowerCase()}`}
                   key="search"
                   onChange={(): void => this.handleChange(event)}
                 />
@@ -119,32 +121,30 @@ export default class Search extends React.Component<Props> {
                 <SearchButtonsWrapper>
                   <SearchFilterButton
                     onClick={(): void =>
-                      this.handleSearchFilter(EntityType.Projects)
+                      this.handleSearchFilter(EntityType.Project)
                     }
                     className={
-                      this.props.entityType === EntityType.Projects
+                      this.props.entityType === EntityType.Project
                         ? 'active'
                         : ''
                     }
                   >
-                    <div>
-                      {this.renderFilterButtonIcon(EntityType.Projects)}
-                    </div>
+                    <div>{this.renderFilterButtonIcon(EntityType.Project)}</div>
                     Projects
                   </SearchFilterButton>
                   <SearchFilterButton className="disabled">
-                    <div>{this.renderFilterButtonIcon(EntityType.Funds)}</div>
+                    <div>{this.renderFilterButtonIcon(EntityType.Fund)}</div>
                     Funds
                   </SearchFilterButton>
                   <SearchFilterButton
                     onClick={(): void =>
-                      this.handleSearchFilter(EntityType.Cells)
+                      this.handleSearchFilter(EntityType.Cell)
                     }
                     className={
-                      this.props.entityType === EntityType.Cells ? 'active' : ''
+                      this.props.entityType === EntityType.Cell ? 'active' : ''
                     }
                   >
-                    <div>{this.renderFilterButtonIcon(EntityType.Cells)}</div>
+                    <div>{this.renderFilterButtonIcon(EntityType.Cell)}</div>
                     Cells
                   </SearchFilterButton>
                   <SearchFilterButton className="disabled">
@@ -153,7 +153,7 @@ export default class Search extends React.Component<Props> {
                   </SearchFilterButton>
                   <SearchFilterButton className="disabled">
                     <div>
-                      {this.renderFilterButtonIcon(EntityType.Templates)}
+                      {this.renderFilterButtonIcon(EntityType.Template)}
                     </div>
                     Templates
                   </SearchFilterButton>

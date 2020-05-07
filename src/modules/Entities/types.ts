@@ -1,12 +1,33 @@
 import { Moment } from 'moment'
 
 export enum EntityType {
-  Projects = 'Projects',
-  Cells = 'Cells',
-  Funds = 'Funds',
+  Project = 'Project',
+  Cell = 'Cell',
+  Fund = 'Fund',
   Oracle = 'Oracle',
-  Templates = 'Template',
+  Template = 'Template',
   Data = 'Data',
+}
+
+export const EntityTypeMap = {
+  [EntityType.Project]: {
+    plural: 'Projects',
+  },
+  [EntityType.Cell]: {
+    plural: 'Cells',
+  },
+  [EntityType.Fund]: {
+    plural: 'Funds',
+  },
+  [EntityType.Oracle]: {
+    plural: 'Oracles',
+  },
+  [EntityType.Template]: {
+    plural: 'Templates',
+  },
+  [EntityType.Data]: {
+    plural: 'Data',
+  },
 }
 
 export interface Entity {
@@ -50,8 +71,8 @@ export interface Filter {
 }
 
 export interface EntitiesState {
-  entityType: EntityType
   entities: Entity[]
+  selectedEntitiesType: EntityType
   filter: Filter
 }
 
@@ -60,7 +81,7 @@ export enum EntitiesActions {
   GetEntitiesSuccess = 'ixo/Entities/GET_ENTITIES_FULFILLED',
   GetEntitiesPending = 'ixo/Entities/GET_ENTITIES_PENDING',
   GetEntitiesFailure = 'ixo/Entities/GET_ENTITIES_REJECTED',
-  ChangeEntityType = 'ixo/Entities/CHANGE_ENTITY_TYPE',
+  ChangeEntitiesType = 'ixo/Entities/CHANGE_ENTITIES_TYPE',
   FilterToggleUserEntities = 'ixo/Entities/FILTER_TOGGLE_USER_ENTITIES',
   FilterToggleFeaturedEntities = 'ixo/Entities/FILTER_TOGGLE_FEATURED_ENTITIES',
   FilterTogglePopularEntities = 'ixo/Entities/FILTER_TOGGLE_POPULAR_ENTITIES',
@@ -88,8 +109,8 @@ export interface FilterToggleUserEntitiesAction {
   }
 }
 
-export interface ChangeEntityTypeAction {
-  type: typeof EntitiesActions.ChangeEntityType
+export interface ChangeEntitiesTypeAction {
+  type: typeof EntitiesActions.ChangeEntitiesType
   payload: {
     entityType: EntityType
   }
@@ -143,7 +164,7 @@ export interface ResetEntitiesFiltersAction {
 export type EntitiesActionTypes =
   | GetEntitiesAction
   | GetEntitiesSuccessAction
-  | ChangeEntityTypeAction
+  | ChangeEntitiesTypeAction
   | FilterToggleUserEntitiesAction
   | FilterToggleFeaturedEntitiesAction
   | FilterTogglePopularEntitiesAction
