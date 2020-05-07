@@ -9,6 +9,11 @@ export enum ConnectionType {
 }
 // we can add enums for the other widget types if/when the section will contain more than 1 type
 
+export interface Params {
+  name: string
+  value: string
+}
+
 export interface ShieldSettings {
   ['@type']: string
   field: string
@@ -33,6 +38,7 @@ export interface ConnectionSettings {
   ['@type']: string
   title: string
   description: string
+  params: Params[]
 }
 
 export interface PerformanceSection {

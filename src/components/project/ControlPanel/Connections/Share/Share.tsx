@@ -3,18 +3,16 @@ import TwitterIcon from '../../../../../assets/icons/Twitter'
 import { shareToTwitter } from '../../../../../common/utils/socialMedia.utils'
 
 interface Props {
+  twitterShareText: string
   show: boolean
 }
 
-const shareText =
-  'It’s up to all of us to start making an impact for a positive future for humanity. Check out this venture that aims to achieve the global SDGs. If you think it’s a worthy cause, then like or share this post to show your support.'
-
-const Share: React.FunctionComponent<Props> = ({ show }) => {
+const Share: React.FunctionComponent<Props> = ({ show, twitterShareText }) => {
   return (
     <>
       {show && (
         <div style={{ width: '100%' }}>
-          <button onClick={(): void => shareToTwitter(shareText)}>
+          <button onClick={(): void => shareToTwitter(twitterShareText)}>
             Share to twitter <TwitterIcon width="22" fill="#47568c" />
           </button>
         </div>

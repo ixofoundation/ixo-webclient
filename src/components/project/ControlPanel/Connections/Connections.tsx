@@ -22,13 +22,13 @@ const Connections: React.FunctionComponent<Props> = ({
   selectedConnection,
   toggleConnection,
 }) => {
-  const mobileConnectionSettings = connections.find(
+  const mobileSettings = connections.find(
     conn => conn['@type'] === ConnectionType.Mobile,
   )
-  const shareConnectionSettings = connections.find(
+  const shareSettings = connections.find(
     conn => conn['@type'] === ConnectionType.Share,
   )
-  const forumConnectionSettings = connections.find(
+  const forumSettings = connections.find(
     conn => conn['@type'] === ConnectionType.Forum,
   )
 
@@ -47,39 +47,45 @@ const Connections: React.FunctionComponent<Props> = ({
         </div>
       </h4>
       <ConnectionButtonsWrapper>
-        {mobileConnectionSettings && (
+        {mobileSettings && (
           <button onClick={(): void => toggleConnection(ConnectionType.Mobile)}>
             <div className="icon-wrapper">
               <MobileIcon fill="#49BFE0" width="36" />
             </div>
-            {mobileConnectionSettings.title}
+            {mobileSettings.title}
           </button>
         )}
-        {shareConnectionSettings && (
+        {shareSettings && (
           <button onClick={(): void => toggleConnection(ConnectionType.Share)}>
             <div className="icon-wrapper">
               <ShareIcon fill="#49BFE0" width="36" />
             </div>
-            {shareConnectionSettings.title}
+            {shareSettings.title}
           </button>
         )}
-        {forumConnectionSettings && (
+        {forumSettings && (
           <button onClick={(): void => toggleConnection(ConnectionType.Forum)}>
             <div className="icon-wrapper">
               <ForumIcon fill="#49BFE0" width="36" />
             </div>
-            {forumConnectionSettings.title}
+            {forumSettings.title}
           </button>
         )}
-        {mobileConnectionSettings && (
+        {mobileSettings && (
           <MobileConnection
             show={selectedConnection === ConnectionType.Mobile}
           />
         )}
-        {shareConnectionSettings && (
-          <ShareConnection show={selectedConnection === ConnectionType.Share} />
+        {shareSettings && (
+          <ShareConnection
+            show={selectedConnection === ConnectionType.Share}
+            twitterShareText={
+              shareSettings.params.find(p => p.name === 'twitterShareText')
+                .value
+            }
+          />
         )}
-        {forumConnectionSettings && (
+        {forumSettings && (
           <ForumConnection show={selectedConnection === ConnectionType.Forum} />
         )}
       </ConnectionButtonsWrapper>

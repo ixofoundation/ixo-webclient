@@ -64,17 +64,25 @@
       {
         "@type": "Mobile",
         "title": "Mobile",
-        "description": "QR Code"
+        "description": "QR Code",
+        "params": null
       },
       {
         "@type": "Share",
         "title": "Share",
-        "description": "Share to social media"
+        "description": "Share to social media",
+        "params": [
+          {
+            "name": "twitterShareText",
+            "value": "It’s up to all of us to start making an impact for a positive future for humanity. Check out this venture that aims to achieve the global SDGs. If you think it’s a worthy cause, then like or share this post to show your support."
+          }
+        ]
       },
       {
         "@type": "Forum",
         "title": "Forum",
-        "description": "Join the forum"
+        "description": "Join the forum",
+        "params": null
       }
     ]
   }
