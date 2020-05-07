@@ -9,15 +9,17 @@ import {
   SearchHeading,
   SearchButtonsWrapper,
   SearchFilterButton,
+  ButtonContent,
 } from './Search.styles'
 import Globe from '../../../assets/icons/Globe'
-import Funding from '../../../assets/icons/Funding'
+import Investments from '../../../assets/icons/Investments'
 import Cells from '../../../assets/icons/Cells'
 import Oracle from '../../../assets/icons/Oracle'
 import Template from '../../../assets/icons/Template'
-import Data from '../../../assets/icons/Data'
 import SearchIcon from '../../../assets/icons/Search'
 import Down from 'src/assets/icons/Down'
+import Projects from '../../../assets/icons/Projects'
+import DataAssets from 'src/assets/icons/DataAssets'
 
 interface Props {
   filterChanged: (filter: string) => void
@@ -29,7 +31,7 @@ export default class Search extends React.Component<Props> {
     search: '',
     isModalOpen: false,
     activeFilterButtonText: 'Projects',
-    activeFilter: 'all-projects',
+    activeFilter: 'projects',
     activeFilterIcon: 'globe',
   }
 
@@ -72,8 +74,8 @@ export default class Search extends React.Component<Props> {
     switch (icon) {
       case 'globe':
         return <Globe fill="#000" />
-      case 'funds':
-        return <Funding fill="#000" />
+      case 'investments':
+        return <Investments fill="#000" />
       case 'cells':
         return <Cells fill="#000" />
       case 'oracle':
@@ -81,7 +83,9 @@ export default class Search extends React.Component<Props> {
       case 'templates':
         return <Template fill="#000" />
       case 'data':
-        return <Data fill="#000" />
+        return <DataAssets fill="#000" />
+      case 'projects':
+        return <Projects fill="#000" />
       default:
         return null
     }
@@ -131,34 +135,93 @@ export default class Search extends React.Component<Props> {
                 <SearchButtonsWrapper>
                   <SearchFilterButton
                     onClick={(): void =>
-                      this.handleSearchFilter('Projects', 'globe')
+                      this.handleSearchFilter('Projects', 'projects')
                     }
-                    className={
-                      this.state.activeFilter === 'all-projects' ? 'active' : ''
-                    }
+                    className={`
+                      ${
+                        this.state.activeFilter === 'projects' ? 'active' : ''
+                      } projects
+                    `}
                   >
-                    <div>{this.renderFilterButtonIcon('globe')}</div>
-                    Projects
+                    <ButtonContent>
+                      {this.renderFilterButtonIcon('projects')}
+                      Projects
+                    </ButtonContent>
                   </SearchFilterButton>
-                  <SearchFilterButton className="disabled">
-                    <div>{this.renderFilterButtonIcon('funds')}</div>
-                    Funds
+                  <SearchFilterButton
+                    onClick={(): void =>
+                      this.handleSearchFilter('Oracles', 'oracle')
+                    }
+                    className={`
+                    ${
+                      this.state.activeFilter === 'oracles' ? 'active' : ''
+                    } oracles
+                  `}
+                  >
+                    <ButtonContent>
+                      {this.renderFilterButtonIcon('oracle')}
+                      Oracles
+                    </ButtonContent>
                   </SearchFilterButton>
-                  <SearchFilterButton className="disabled">
-                    <div>{this.renderFilterButtonIcon('cells')}</div>
-                    Cells
+                  <SearchFilterButton
+                    onClick={(): void =>
+                      this.handleSearchFilter('Investments', 'investments')
+                    }
+                    className={`
+                  ${
+                    this.state.activeFilter === 'investments' ? 'active' : ''
+                  } investments
+                `}
+                  >
+                    <ButtonContent>
+                      {this.renderFilterButtonIcon('investments')}
+                      Investments
+                    </ButtonContent>
                   </SearchFilterButton>
-                  <SearchFilterButton className="disabled">
-                    <div>{this.renderFilterButtonIcon('oracle')}</div>
-                    Oracles
+                  <SearchFilterButton
+                    onClick={(): void =>
+                      this.handleSearchFilter('Cells', 'cells')
+                    }
+                    className={`
+                  ${
+                    this.state.activeFilter === 'cells' ? 'active' : ''
+                  } cells disabled
+                `}
+                  >
+                    <ButtonContent>
+                      {this.renderFilterButtonIcon('cells')}
+                      Cells
+                    </ButtonContent>
                   </SearchFilterButton>
-                  <SearchFilterButton className="disabled">
-                    <div>{this.renderFilterButtonIcon('templates')}</div>
-                    Templates
+                  <SearchFilterButton
+                    onClick={(): void =>
+                      this.handleSearchFilter('Templates', 'templates')
+                    }
+                    className={`
+                  ${
+                    this.state.activeFilter === 'templates' ? 'active' : ''
+                  } templates disabled
+                `}
+                  >
+                    <ButtonContent>
+                      {this.renderFilterButtonIcon('templates')}
+                      Templates
+                    </ButtonContent>
                   </SearchFilterButton>
-                  <SearchFilterButton className="disabled">
-                    <div>{this.renderFilterButtonIcon('data')}</div>
-                    Data Assets
+                  <SearchFilterButton
+                    onClick={(): void =>
+                      this.handleSearchFilter('Data', 'data')
+                    }
+                    className={`
+                  ${
+                    this.state.activeFilter === 'templates' ? 'data' : ''
+                  } data disabled
+                `}
+                  >
+                    <ButtonContent>
+                      {this.renderFilterButtonIcon('data')}
+                      Data Assets
+                    </ButtonContent>
                   </SearchFilterButton>
                 </SearchButtonsWrapper>
               </SearchModal>
