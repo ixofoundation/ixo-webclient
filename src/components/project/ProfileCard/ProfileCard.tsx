@@ -4,35 +4,39 @@ import Linkedin from '../../../assets/icons/Linkedin'
 import Twitter from '../../../assets/icons/Twitter'
 
 const ProfileCard = (user: Record<string, any>): JSX.Element => {
-  const { imageUrl, name, role, linkedinLink, twitterLink } = user.user
-  if (!name) {
+  const { imageLink, title, subtitle, icons } = user.user
+  if (!title) {
     return null
   }
   return (
     <ProfileCardWrapper data-testid="ProfileCard">
-      {imageUrl && (
+      {imageLink && imageLink !== '' && (
         <img
           data-testid="ProfileCard-image"
           className="ProfileCard-image"
-          src={imageUrl}
+          src={imageLink}
         />
       )}
       <div className="ProfileCard-content">
-        <div className="ProfileCard-name">{name}</div>
-        {role && <div className="ProfileCard-role">{role}</div>}
+        <div className="ProfileCard-name">{title}</div>
+        {subtitle && <div className="ProfileCard-role">{subtitle}</div>}
 
-        {(linkedinLink !== '' || twitterLink !== '') && (
+        {icons.length && (
           <div className="ProfileCard-social-links">
-            {linkedinLink !== '' && (
-              <a href={linkedinLink} target="_blank" rel="noopener noreferrer">
-                <Linkedin width="14" />
+            {icons.map(icon => (
+              <a
+                key={icon.class}
+                href={icon.url}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {icon.class === 'twitter' ? (
+                  <Twitter width="14" />
+                ) : (
+                  <Linkedin width="14" />
+                )}
               </a>
-            )}
-            {twitterLink !== '' && (
-              <a href={twitterLink} target="_blank" rel="noopener noreferrer">
-                <Twitter width="14" />
-              </a>
-            )}
+            ))}
           </div>
         )}
       </div>
