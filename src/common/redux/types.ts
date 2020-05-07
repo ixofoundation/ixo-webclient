@@ -6,7 +6,7 @@ import { AccountState } from '../../modules/Account/types'
 import { BondBuyState } from 'src/modules/BondBuy/types'
 import { BondSellState } from 'src/modules/BondSell/types'
 import { BondSwapState } from 'src/modules/BondSwap/types'
-import { ProjectsState } from '../../modules/Projects/types'
+import { EntitiesState } from '../../modules/Entities/types'
 
 export interface RootState {
   keySafe: KeysafeState
@@ -19,5 +19,5 @@ export interface RootState {
   bondAccountOrders: any[]
   activeBond: BondState
   tokenSupply: Currency[]
-  projects: ProjectsState
+  entities: EntitiesState
 }
