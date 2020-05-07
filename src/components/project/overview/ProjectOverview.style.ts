@@ -15,24 +15,64 @@ export const OverviewContainer = styled.section`
   img {
     max-width: 100%;
   }
-  h3 {
-    font-family: ${(props): string => props.theme.fontRoboto};
+  h2 {
     margin: 2rem 0;
   }
-  table.table thead th,
-  table.table td {
-    border: none;
-  }
-  table.table thead th {
-    font-weight: normal;
-    color: #93979d;
-    font-size: 0.75rem;
-  }
-  table.table td {
+  h3 {
+    font-size: 1.375rem;
     font-weight: bold;
-    font-size: 0.875rem;
-    letter-spacing: 0.3px;
-    color: #000000;
+    font-family: ${(props): string => props.theme.fontRoboto};
+    margin: 0.75rem 0;
+  }
+  .content-section {
+    > p:first-of-type {
+      line-height: 2;
+      &::first-letter {
+        float: left;
+        background: #e8edee;
+        padding: 0.5rem 1.125rem;
+        border-radius: 4px;
+        font-family: ${(props): string => props.theme.fontRobotoCondensed};
+        font-weight: normal;
+        font-size: 2.8125rem;
+        line-height: 1;
+        margin-right: 0.5rem;
+      }
+    }
+  }
+  .content-section ~ .content-section {
+    background: none;
+    p {
+      color: inherit;
+      line-height: inherit;
+      &::first-letter {
+        background: none;
+        padding: 0;
+        border-radius: none;
+        font-family: inherit;
+        font-weight: inherit;
+        font-size: inherit;
+        line-height: inherit;
+        margin-right: 0;
+      }
+    }
+  }
+  .content-section {
+    table.table thead th,
+    table.table td {
+      border: none;
+    }
+    table.table thead th {
+      font-weight: normal;
+      color: #93979d;
+      font-size: 0.75rem;
+    }
+    table.table td {
+      font-weight: bold;
+      font-size: 0.875rem;
+      letter-spacing: 0.3px;
+      color: #000000;
+    }
   }
 `
 

@@ -77,7 +77,7 @@ export const ProjectOverview: React.SFC<Props> = props => {
               </Text>
               {props.project.pageContent.map(content => {
                 return (
-                  <div key={content.title}>
+                  <div className="content-section" key={content.title}>
                     {content.title && <h2>{content.title}</h2>}
                     {content.text && <p>{content.text}</p>}
                     {content.subTitle && <h3>{content.subTitle}</h3>}
