@@ -87,38 +87,7 @@ export const ControlPanelSection = styled.div`
   }
 `
 
-export const ActionButtonsWrapper = styled.div`
-  display: flex;
-  flex-flow: row wrap;
-  margin: 0 -0.5rem;
-`
-
-export const ActionLink = styled.a`
-  background: #ffffff;
-  border-radius: 0.75rem;
-  font-weight: normal;
-  font-size: 0.75rem;
-  line-height: 1.2;
-  display: flex;
-  align-items: center;
-  width: calc(50% - 1rem);
-  padding: 0.5rem 0.75rem;
-  margin: 0.5rem;
-  color: #47568c;
-  transition: all 0.3s;
-  border: 1px solid transparent;
-  svg {
-    fill: #47568c;
-    margin-right: 1rem;
-  }
-  &:hover {
-    color: #47568c;
-    text-decoration: none;
-    border: 1px solid ${(props): string => props.theme.ixoBlue};
-  }
-`
-
-const squareButtonSection = styled.div`
+export const SquareButtonSection = styled.div`
   display: flex;
   flex-flow: row wrap;
   align-items: flex-start;
@@ -154,45 +123,5 @@ const squareButtonSection = styled.div`
         border: 1px solid ${(props): string => props.theme.ixoBlue};
       }
     }
-  }
-`
-
-export const AppButtonsWrapper = styled(squareButtonSection)`
-  button {
-    .icon-wrapper {
-      width: 70px;
-      height: 70px;
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    &.hide {
-      display: none;
-    }
-  }
-`
-
-export const ConnectionButtonsWrapper = styled(squareButtonSection)`
-  button {
-    margin-bottom: 1rem;
-    .icon-wrapper {
-      border-radius: 50%;
-      padding: 1.25rem;
-      svg {
-        margin: 0 auto;
-        width: 1.875rem;
-        path {
-          fill: ${(props): string => props.theme.ixoBlue};
-        }
-      }
-    }
-  }
-  .show-more-container {
-    width: 100%;
-    display: flex;
-    flex-flow: row wrap;
-    align-items: center;
-    justify-content: center;
   }
 `

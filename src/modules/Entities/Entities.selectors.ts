@@ -15,7 +15,16 @@ export const selectEntitiesState = (state: RootState): EntitiesState =>
 export const selectAllEntities = createSelector(
   selectEntitiesState,
   (entitiesState: EntitiesState): Entity[] => {
-    return entitiesState.entities // TODO - filter by entityType when we have!
+    return entitiesState.entities
+
+    // TODO when we have some cell type entities loaded otherwise we can't work on the cells properly!
+    /*     return entitiesState.entities
+      ? entitiesState.entities.filter(
+          entity =>
+            entity.entityType.toLowerCase() ===
+            entitiesState.selectedEntitiesType.toLowerCase(),
+        )
+      : null */
   },
 )
 
@@ -26,10 +35,10 @@ export const selectEntitiesFilter = createSelector(
   },
 )
 
-export const selectEntitiesType = createSelector(
+export const selectSelectedEntitiesType = createSelector(
   selectEntitiesState,
   (entitiesState: EntitiesState): EntityType => {
-    return entitiesState.entityType
+    return entitiesState.selectedEntitiesType
   },
 )
 
@@ -287,7 +296,7 @@ export const selectTotalRemainingClaimsCount = createSelector(
 )
 
 export const selectFilterSchema = createSelector(
-  selectEntitiesType,
+  selectSelectedEntitiesType,
   (entityType: EntityType): Schema => {
     return getSchema(entityType)
   },
