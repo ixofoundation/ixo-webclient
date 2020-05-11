@@ -5,7 +5,11 @@ interface Props {
 }
 
 const Mobile: React.FunctionComponent<Props> = ({ show }) => {
-  return <>{show && <div>Coming soon</div>}</>
+  return (
+    <div className={`show-more-container ${show ? 'show' : ''}`}>
+      Coming soon
+    </div>
+  )
 }
 
 export default Mobile

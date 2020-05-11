@@ -24,6 +24,13 @@ export const ConnectionButtonsWrapper = styled(SquareButtonSection)`
     flex-flow: row wrap;
     align-items: center;
     justify-content: center;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0s ease-out;
+    &.show {
+      transition: max-height 1s ease-out;
+      max-height: 500px;
+    }
     > * {
       padding: 1rem;
     }
