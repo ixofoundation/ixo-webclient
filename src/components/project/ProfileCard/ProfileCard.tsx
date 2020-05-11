@@ -10,7 +10,7 @@ const ProfileCard = (user: Record<string, any>): JSX.Element => {
   }
   return (
     <ProfileCardWrapper data-testid="ProfileCard">
-      {imageLink && imageLink !== '' && (
+      {imageLink && (
         <img
           data-testid="ProfileCard-image"
           className="ProfileCard-image"
@@ -21,7 +21,7 @@ const ProfileCard = (user: Record<string, any>): JSX.Element => {
         <div className="ProfileCard-name">{title}</div>
         {subtitle && <div className="ProfileCard-role">{subtitle}</div>}
 
-        {icons.length && (
+        {icons.length > 0 && (
           <div className="ProfileCard-social-links">
             {icons.map(icon => (
               <a
