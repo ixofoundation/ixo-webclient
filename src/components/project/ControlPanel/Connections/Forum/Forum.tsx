@@ -5,7 +5,7 @@ interface Props {
 }
 
 const Mobile: React.FunctionComponent<Props> = ({ show }) => {
-  return <>{show && <div style={{ width: '100%' }}>Coming soon</div>}</>
+  return <>{show && <div>Coming soon</div>}</>
 }
 
 export default Mobile

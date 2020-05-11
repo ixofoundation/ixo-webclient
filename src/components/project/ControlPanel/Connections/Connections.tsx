@@ -71,23 +71,27 @@ const Connections: React.FunctionComponent<Props> = ({
             {forumSettings.title}
           </button>
         )}
-        {mobileSettings && (
-          <MobileConnection
-            show={selectedConnection === ConnectionType.Mobile}
-          />
-        )}
-        {shareSettings && (
-          <ShareConnection
-            show={selectedConnection === ConnectionType.Share}
-            twitterShareText={
-              shareSettings.params.find(p => p.name === 'twitterShareText')
-                .value
-            }
-          />
-        )}
-        {forumSettings && (
-          <ForumConnection show={selectedConnection === ConnectionType.Forum} />
-        )}
+        <div className="show-more-container">
+          {mobileSettings && (
+            <MobileConnection
+              show={selectedConnection === ConnectionType.Mobile}
+            />
+          )}
+          {shareSettings && (
+            <ShareConnection
+              show={selectedConnection === ConnectionType.Share}
+              twitterShareText={
+                shareSettings.params.find(p => p.name === 'twitterShareText')
+                  .value
+              }
+            />
+          )}
+          {forumSettings && (
+            <ForumConnection
+              show={selectedConnection === ConnectionType.Forum}
+            />
+          )}
+        </div>
       </ConnectionButtonsWrapper>
     </ControlPanelSection>
   )

@@ -11,7 +11,7 @@ const Share: React.FunctionComponent<Props> = ({ show, twitterShareText }) => {
   return (
     <>
       {show && (
-        <div style={{ width: '100%' }}>
+        <div>
           <button onClick={(): void => shareToTwitter(twitterShareText)}>
             Share to twitter <TwitterIcon width="22" fill="#47568c" />
           </button>
