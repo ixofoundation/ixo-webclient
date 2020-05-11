@@ -1,88 +1,219 @@
 {
-  "@context": "https://schema.ixo.foundation/project",
-  "@type": "Project",
-  "performanceSection": {
-    "@type": "Performance",
-    "title": "Performance",
-    "shields": [
+  "@context": "https://schema.ixo.foundation/controls",
+  "@type": "Widget",
+  "dashboard": {
+    "@type": "Dashboard",
+    "title": "Dashboard",
+    "controls": [
       {
         "@type": "Shield",
-        "field": "status"
+        "@id": "statusShield",
+        "title": null,
+        "tooltip": null,
+        "icon": null,
+        "iconColor": null,
+        "endpoint": null,
+        "accessToken": null,
+        "permissions": [
+          {
+            "credential": null,
+            "role": null
+          }
+        ],
+        "data": null,
+        "parameters": [
+          {
+            "name": "field",
+            "value": "status"
+          }
+        ]
       }
     ]
   },
-  "actionsSection": {
+  "actions": {
     "@type": "Actions",
     "title": "Actions",
-    "actions": [
+    "controls": [
       {
         "@type": "Action",
-        "title": "Apply to join",
+        "@id": "actionAgentJoin",
+        "title": "Apply to Join",
+        "tooltip": "Help to deliver this project",
         "icon": "AddPerson",
         "iconColor": "#49BFE0",
-        "intent": "join"
+        "endpoint": "/assistant",
+        "accessToken": null,
+        "permissions": [
+          {
+            "credential": null,
+            "role": null
+          }
+        ],
+        "data": null,
+        "parameters": [
+          {
+            "name": "intent",
+            "value": "join"
+          }
+        ]
       },
       {
         "@type": "Action",
+        "@id": "actionAskForHelp",
         "title": "Ask for help",
+        "tooltip": "Chat with the Assistant",
         "icon": "Message",
         "iconColor": "#49BFE0",
-        "intent": "help"
+        "endpoint": "/assistant",
+        "accessToken": null,
+        "permissions": [
+          {
+            "credential": null,
+            "role": null
+          }
+        ],
+        "data": null,
+        "parameters": [
+          {
+            "name": "intent",
+            "value": "help"
+          }
+        ]
       },
       {
         "@type": "Action",
-        "title": "Offer oracle service",
+        "@id": "actionOfferOracleService",
+        "title": "Offer Oracle service",
+        "tooltip": "Help evaluate this project",
         "icon": "Target",
         "iconColor": "#49BFE0",
-        "intent": "oracle"
+        "endpoint": "/assistant",
+        "accessToken": null,
+        "permissions": [
+          {
+            "credential": null,
+            "role": null
+          }
+        ],
+        "data": null,
+        "parameters": [
+          {
+            "name": "intent",
+            "value": "oracle"
+          }
+        ]
       },
       {
         "@type": "Action",
+        "@id": "actionRateThisProject",
         "title": "Rate this project",
+        "tooltip": "Give a star rating and review",
         "icon": "Star",
         "iconColor": "#49BFE0",
-        "intent": "rate"
+        "endpoint": "/assistant",
+        "accessToken": null,
+        "permissions": [
+          {
+            "credential": null,
+            "role": null
+          }
+        ],
+        "data": null,
+        "parameters": [
+          {
+            "name": "intent",
+            "value": "rate"
+          }
+        ]
       }
     ]
   },
-  "appsSection": {
+  "apps": {
     "@type": "Apps",
     "title": "Apps",
-    "apps": [
+    "controls": [
       {
         "@type": "RiotChat",
-        "title": "Riot chat",
-        "description": "Encrypted chat-room",
-        "backgroundColor": "#fff"
+        "@id": "appRiotchat",
+        "title": "Riot Chat",
+        "tooltip": "Encrypted chat-room",
+        "icon": null,
+        "iconColor": null,
+        "endpoint": null,
+        "accessToken": null,
+        "permissions": [
+          {
+            "credential": null,
+            "role": null
+          }
+        ],
+        "data": null,
+        "parameters": null
       }
     ]
   },
-  "connectionsSection": {
+  "connections": {
     "@type": "Connections",
     "title": "Connections",
-    "connections": [
+    "controls": [
       {
         "@type": "Mobile",
-        "title": "Mobile",
-        "description": "QR Code",
-        "params": null
+        "@id": "connectionMobileApp",
+        "title": "Connect ixo Mobile",
+        "tooltip": "Scan the QR with your mobile",
+        "icon": "Mobile",
+        "iconColor": null,
+        "endpoint": null,
+        "accessToken": null,
+        "permissions": [
+          {
+            "credential": null,
+            "role": null
+          }
+        ],
+        "data": null,
+        "parameters": null
       },
       {
         "@type": "Share",
+        "@id": "connectionShare",
         "title": "Share",
-        "description": "Share to social media",
-        "params": [
+        "tooltip": "Share to social media",
+        "icon": "Share",
+        "iconColor": "#49BFE0",
+        "endpoint": null,
+        "accessToken": null,
+        "permissions": [
+          {
+            "credential": null,
+            "role": null
+          }
+        ],
+        "data": null,
+        "parameters": [
           {
             "name": "twitterShareText",
-            "value": "It’s up to all of us to start making an impact for a positive future for humanity. Check out this venture that aims to achieve the global SDGs. If you think it’s a worthy cause, then like or share this post to show your support."
+            "value": "It's up to all of us to start making an impact for a positive future for humanity. Check out this venture that aims to achieve the global SDGs. If you think it's a worthy cause, then like or share this post to show your support."
           }
         ]
       },
       {
         "@type": "Forum",
-        "title": "Forum",
-        "description": "Join the forum",
-        "params": null
+        "@id": "connectionForum",
+        "title": "Join the forum",
+        "tooltip": "Share information about this project",
+        "icon": "Forum",
+        "iconColor": "#49BFE0",
+        "endpoint": "https://forum.ixo.world/projects/<DID>",
+        "accessToken": null,
+        "permissions": [
+          {
+            "credential": null,
+            "role": null
+          }
+        ],
+        "data": null,
+        "parameters": null
       }
     ]
   }

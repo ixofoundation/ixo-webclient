@@ -1,16 +1,16 @@
 import React from 'react'
 import ActionIcon from '../../../../assets/icons/Actions'
-import { ActionsSection } from '../types'
+import { Widget } from '../types'
 import Action from './Action/Action'
 import { ControlPanelSection } from '../ControlPanel.styles'
 import { ActionButtonsWrapper } from './Actions.styles'
 
 interface Props {
-  actionsSection: ActionsSection
+  widget: Widget
 }
 
 const Actions: React.FunctionComponent<Props> = ({
-  actionsSection: { title, actions },
+  widget: { title, controls },
 }) => {
   return (
     <ControlPanelSection key={title}>
@@ -21,8 +21,8 @@ const Actions: React.FunctionComponent<Props> = ({
         {title}
       </h4>
       <ActionButtonsWrapper>
-        {actions.map(action => {
-          return <Action key={action.intent} actionSettings={action} />
+        {controls.map((control, index) => {
+          return <Action key={index} control={control} />
         })}
       </ActionButtonsWrapper>
     </ControlPanelSection>
