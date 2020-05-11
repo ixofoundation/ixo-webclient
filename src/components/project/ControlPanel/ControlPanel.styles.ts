@@ -36,6 +36,7 @@ export const ControlPanelWrapper = styled.div`
     right: 0;
     bottom: 0;
     overflow-y: auto;
+    overflow-x: hidden;
     transform: translateX(100%);
     transition: all 0.3s;
     ::-webkit-scrollbar {
