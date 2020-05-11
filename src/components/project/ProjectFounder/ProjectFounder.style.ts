@@ -5,6 +5,7 @@ export const FounderContent = styled.div`
   color: #7b8285;
   font-size: 16px;
   line-height: 30px;
+  flex-grow: 1;
 
   h4 {
     color: black;

@@ -169,7 +169,7 @@ export const ProjectOverview: React.SFC<Props> = props => {
 
               {props.project.founder && props.project.founder.name !== '' && (
                 <>
-                  <h3>Project Founder</h3>
+                  <h2>Project Founder</h2>
                   <ProjectFounder
                     founder={props.project.founder}
                     socialMedia={props.project.socialMedia}
