@@ -41,7 +41,7 @@ export interface ConnectionSettings {
   params: Params[]
 }
 
-export interface PerformanceSection {
+export interface DashboardSection {
   title: string
   shields: ShieldSettings[]
 }
@@ -64,7 +64,7 @@ export interface AppsSection {
 export interface Schema {
   ['@context']: string
   ['@type']: string
-  performanceSection: PerformanceSection
+  dashboardSection: DashboardSection
   actionsSection: ActionsSection
   appsSection: AppsSection
   connectionsSection: ConnectionsSection

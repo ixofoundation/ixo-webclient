@@ -1,9 +1,9 @@
 {
   "@context": "https://schema.ixo.foundation/project",
   "@type": "Project",
-  "performanceSection": {
-    "@type": "Performance",
-    "title": "Performance",
+  "dashboardSection": {
+    "@type": "Dashboard",
+    "title": "Dashboard",
     "shields": [
       {
         "@type": "Shield",

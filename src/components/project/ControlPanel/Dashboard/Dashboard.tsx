@@ -1,23 +1,23 @@
 import React from 'react'
-import { PerformanceSection } from '../types'
+import { DashboardSection } from '../types'
 import { ControlPanelSection } from '../ControlPanel.styles'
-import PerformanceIcon from '../../../../assets/icons/Performance'
+import DashboardIcon from '../../../../assets/icons/Dashboard'
 import Shield from './Shield/Shield'
 
 interface Props {
   entityDid: string
-  performanceSection: PerformanceSection
+  dashboardSection: DashboardSection
 }
 
-const Performance: React.FunctionComponent<Props> = ({
+const Dashboard: React.FunctionComponent<Props> = ({
   entityDid,
-  performanceSection: { title, shields },
+  dashboardSection: { title, shields },
 }) => {
   return (
     <ControlPanelSection key={title}>
       <h4>
         <div className="heading-icon">
-          <PerformanceIcon />
+          <DashboardIcon />
         </div>
         {title}
       </h4>
@@ -34,4 +34,4 @@ const Performance: React.FunctionComponent<Props> = ({
   )
 }
 
-export default Performance
+export default Dashboard
