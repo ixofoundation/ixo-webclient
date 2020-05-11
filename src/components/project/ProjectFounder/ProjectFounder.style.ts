@@ -53,16 +53,18 @@ export const FounderContent = styled.div`
 `
 
 export const FounderImageWrapper = styled.div`
-  margin-bottom: 2.25rem;
+  margin-bottom: 2rem;
+  width: 100%;
   img {
     width: 8rem;
     height: 8rem;
     border-radius: 50%;
     object-fit: cover;
   }
-  @media (min-width: ${deviceWidth.tablet}px) {
+  @media (min-width: ${deviceWidth.mobile}px) {
     margin-bottom: 0;
     padding-right: 3.25rem;
+    width: initial;
   }
 `
 
