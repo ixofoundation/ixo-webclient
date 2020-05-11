@@ -10,7 +10,7 @@ import {
   HeroInner,
   HeroContainer,
 } from './EntitiesHero.styles'
-import { EntityType } from '../../types'
+import { EntityType, EntityTypeMap } from '../../types'
 
 // TODO - when we know what the other entity types headers will look like then possibly refactor this as it's messy with all the conditions
 // or whatever else is needed. For now, just doing it based on entityType
@@ -22,7 +22,7 @@ export interface Props {
   requiredClaimsCount: number
   successfulClaimsCount: number
   contentType: ContentType
-  handleChangeEntityType: (entityType: EntityType) => void
+  handleChangeEntityTypes: (entityType: EntityType) => void
 }
 
 export const EntitiesHero: React.FunctionComponent<Props> = ({
@@ -32,18 +32,18 @@ export const EntitiesHero: React.FunctionComponent<Props> = ({
   requiredClaimsCount,
   successfulClaimsCount,
   contentType,
-  handleChangeEntityType,
+  handleChangeEntityTypes: handleChangeEntityType,
 }) => {
   const getStats = (): Array<Record<string, any>> => {
     return [
       {
-        title: `MY ACTIVE ${entityType.toUpperCase()}`,
+        title: `MY ACTIVE ${EntityTypeMap[entityType].plural.toUpperCase()}`,
         type: StatType.decimal,
         descriptor: [{ class: 'text', value: ' ' }],
         amount: userEntitiesCount,
       },
       {
-        title: `TOTAL ${entityType.toUpperCase()}`,
+        title: `TOTAL ${EntityTypeMap[entityType].plural.toUpperCase()}`,
         type: StatType.decimal,
         descriptor: [{ class: 'text', value: ' ' }],
         amount: entitiesCount,
@@ -64,7 +64,7 @@ export const EntitiesHero: React.FunctionComponent<Props> = ({
   }
 
   const getHeaderTabButtons = (): any => {
-    if (entityType === EntityType.Cells) {
+    if (entityType === EntityType.Cell) {
       return [
         {
           iconClass: 'icon-explorer',

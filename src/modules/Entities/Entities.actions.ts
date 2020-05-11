@@ -2,7 +2,7 @@ import moment, { Moment } from 'moment'
 import { Dispatch } from 'redux'
 import {
   GetEntitiesAction,
-  ChangeEntityTypeAction,
+  ChangeEntitiesTypeAction,
   FilterToggleUserEntitiesAction,
   FilterToggleFeaturedEntitiesAction,
   FilterTogglePopularEntitiesAction,
@@ -23,7 +23,7 @@ export const getEntities = () => (dispatch: Dispatch): GetEntitiesAction => {
     payload: blocksyncApi.project.listProjects().then(response => {
       return response.map(entity => ({
         did: entity.projectDid,
-        entityType: entity.data.entityType,
+        entityType: entity.data.entityType || EntityType.Project,
         userDid: entity.data.createdBy,
         status: entity.status,
         title: entity.data.title,
@@ -57,10 +57,10 @@ export const getEntities = () => (dispatch: Dispatch): GetEntitiesAction => {
   })
 }
 
-export const changeEntityType = (
+export const changeEntitiesType = (
   entityType: EntityType,
-): ChangeEntityTypeAction => ({
-  type: EntitiesActions.ChangeEntityType,
+): ChangeEntitiesTypeAction => ({
+  type: EntitiesActions.ChangeEntitiesType,
   payload: {
     entityType,
   },

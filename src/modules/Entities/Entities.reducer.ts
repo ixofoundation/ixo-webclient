@@ -5,34 +5,45 @@ import {
   EntityType,
 } from './types'
 import { getInitialSelectedCategories } from './Entities.utils'
+import { AccountActions, AccountActionTypes } from '../Account/types'
 
 export const initialState: EntitiesState = {
-  entityType: EntityType.Projects,
+  selectedEntitiesType: EntityType.Project,
   entities: null,
   filter: {
     dateFrom: null,
     dateTo: null,
     categories: getInitialSelectedCategories(),
     userEntities: false,
-    featuredEntities: false,
+    featuredEntities: true,
     popularEntities: false,
   },
 }
 
 export const reducer = (
   state = initialState,
-  action: EntitiesActionTypes,
+  action: EntitiesActionTypes | AccountActionTypes,
 ): EntitiesState => {
   switch (action.type) {
+    case AccountActions.Login:
+      return {
+        ...state,
+        filter: {
+          ...state.filter,
+          userEntities: true,
+          popularEntities: false,
+          featuredEntities: false,
+        },
+      }
     case EntitiesActions.GetEntitiesSuccess:
       return {
         ...state,
         entities: action.payload,
       }
-    case EntitiesActions.ChangeEntityType:
+    case EntitiesActions.ChangeEntitiesType:
       return {
         ...state,
-        entityType: action.payload.entityType,
+        selectedEntitiesType: action.payload.entityType,
         filter: {
           ...state.filter,
           dateFrom: null,
@@ -124,12 +135,10 @@ export const reducer = (
       return {
         ...state,
         filter: {
-          categories: getInitialSelectedCategories(state.entityType),
+          ...state.filter,
+          categories: getInitialSelectedCategories(state.selectedEntitiesType),
           dateFrom: null,
           dateTo: null,
-          userEntities: false,
-          featuredEntities: false,
-          popularEntities: false,
         },
       }
   }

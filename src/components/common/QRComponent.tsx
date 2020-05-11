@@ -7,8 +7,8 @@ export interface ParentProps {
 }
 
 const QRImg = styled.img`
-	width: 150px
-	height: 150px;
+  width: 150px;
+  height: 150px;
 `
 
 const QRContainer = styled.div`
@@ -16,7 +16,7 @@ const QRContainer = styled.div`
   justify-content: center;
 `
 
-const QRInner = styled.div`
+export const QRInner = styled.div`
   background: white;
   box-shadow: 0px 10px 30px -5px rgba(0, 0, 0, 0.15);
   margin-bottom: 20px;
