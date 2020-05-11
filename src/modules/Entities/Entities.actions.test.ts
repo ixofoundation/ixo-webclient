@@ -70,11 +70,11 @@ describe('Entities Actions', () => {
   describe('changeEntityType', () => {
     it('should create an action to set the entityType', () => {
       // when ... we call the changeEntityType action creator
-      const action = SUT.changeEntityType(EntityType.Cells)
+      const action = SUT.changeEntitiesType(EntityType.Cell)
 
       // then we should expect it to create action with the correct type and payload
-      expect(action.type).toEqual(EntitiesActions.ChangeEntityType)
-      expect(action.payload).toEqual({ entityType: EntityType.Cells })
+      expect(action.type).toEqual(EntitiesActions.ChangeEntitiesType)
+      expect(action.payload).toEqual({ entityType: EntityType.Cell })
     })
   })
 

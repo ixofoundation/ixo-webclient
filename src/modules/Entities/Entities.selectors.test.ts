@@ -25,7 +25,7 @@ beforeEach(() => {
       loginStatusCheckCompleted: true,
     },
     entities: {
-      entityType: EntityType.Projects,
+      entityType: EntityType.Project,
       entities: [
         {
           did: 'someDid1',
@@ -199,10 +199,10 @@ describe('Entities Selectors', () => {
   describe('selectEntitiesType', () => {
     it('should return the the entities type', () => {
       // when ... we call the selector
-      const result = SUT.selectEntitiesType(state)
+      const result = SUT.selectSelectedEntitiesType(state)
 
       // then ... should return result as expected
-      expect(result).toEqual(state.entities.entityType)
+      expect(result).toEqual(state.entities.selectEntitiesType)
     })
   })
 

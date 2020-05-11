@@ -14,6 +14,8 @@ import {
   ProfileCardsSection,
   ProfileCardsWrapper,
 } from './ProjectOverview.style'
+// TODO - when we actually get the schema from the api then replace
+import ControlPanelSchema from '../ControlPanel/ControlPanel.schema.json'
 
 export interface ParentProps {
   userInfo: UserInfo
@@ -94,7 +96,10 @@ export const ProjectOverview: React.SFC<Props> = props => {
               )}
             </div>
             <div className="col-lg-5">
-              <ControlPanel />
+              <ControlPanel
+                schema={ControlPanelSchema}
+                entityDid={props.project.projectDid}
+              />
             </div>
           </div>
         </div>

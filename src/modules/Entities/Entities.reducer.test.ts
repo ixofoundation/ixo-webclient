@@ -12,7 +12,7 @@ import {
   ResetEntitiesCategoryFilterAction,
   ResetEntitiesFiltersAction,
   Entity,
-  ChangeEntityTypeAction,
+  ChangeEntitiesTypeAction,
   EntityType,
 } from './types'
 
@@ -52,7 +52,7 @@ describe('Entities Reducer', () => {
       const entities: Entity[] = [
         {
           did: 'someDid1',
-          entityType: EntityType.Projects,
+          entityType: EntityType.Project,
           userDid: 'someUserDid1',
           title: 'someTitle1',
           shortDescription: 'someShortDescription1',
@@ -115,7 +115,7 @@ describe('Entities Reducer', () => {
         entities: [
           {
             did: 'someDid1',
-            entityType: EntityType.Projects,
+            entityType: EntityType.Project,
             userDid: 'someUserDid1',
             title: 'someTitle1',
             shortDescription: 'someShortDescription1',
@@ -164,10 +164,10 @@ describe('Entities Reducer', () => {
       }
 
       // given... we have an action of type FilterToggleUserEntities
-      const action: ChangeEntityTypeAction = {
-        type: EntitiesActions.ChangeEntityType,
+      const action: ChangeEntitiesTypeAction = {
+        type: EntitiesActions.ChangeEntitiesType,
         payload: {
-          entityType: EntityType.Cells,
+          entityType: EntityType.Cell,
         },
       }
 
@@ -175,7 +175,7 @@ describe('Entities Reducer', () => {
       const result = SUT.reducer(currentState, action)
 
       // then the state should be set as expected
-      expect(result.entityType).toEqual(EntityType.Cells)
+      expect(result.selectedEntitiesType).toEqual(EntityType.Cell)
       expect(result.entities).toEqual(currentState.entities)
       expect(result.filter.dateFrom).toEqual(null)
       expect(result.filter.dateTo).toEqual(null)
@@ -198,7 +198,7 @@ describe('Entities Reducer', () => {
         entities: [
           {
             did: 'someDid1',
-            entityType: EntityType.Projects,
+            entityType: EntityType.Project,
             userDid: 'someUserDid1',
             title: 'someTitle1',
             shortDescription: 'someShortDescription1',
@@ -277,7 +277,7 @@ describe('Entities Reducer', () => {
         entities: [
           {
             did: 'someDid1',
-            entityType: EntityType.Projects,
+            entityType: EntityType.Project,
             userDid: 'someUserDid1',
             title: 'someTitle1',
             shortDescription: 'someShortDescription1',
@@ -356,7 +356,7 @@ describe('Entities Reducer', () => {
         entities: [
           {
             did: 'someDid1',
-            entityType: EntityType.Projects,
+            entityType: EntityType.Project,
             userDid: 'someUserDid1',
             title: 'someTitle1',
             shortDescription: 'someShortDescription1',
@@ -435,7 +435,7 @@ describe('Entities Reducer', () => {
         entities: [
           {
             did: 'someDid1',
-            entityType: EntityType.Projects,
+            entityType: EntityType.Project,
             userDid: 'someUserDid1',
             title: 'someTitle1',
             shortDescription: 'someShortDescription1',
@@ -514,7 +514,7 @@ describe('Entities Reducer', () => {
         entities: [
           {
             did: 'someDid1',
-            entityType: EntityType.Projects,
+            entityType: EntityType.Project,
             userDid: 'someUserDid1',
             title: 'someTitle1',
             shortDescription: 'someShortDescription1',
@@ -589,7 +589,7 @@ describe('Entities Reducer', () => {
         entities: [
           {
             did: 'someDid1',
-            entityType: EntityType.Projects,
+            entityType: EntityType.Project,
             userDid: 'someUserDid1',
             title: 'someTitle1',
             shortDescription: 'someShortDescription1',
@@ -674,7 +674,7 @@ describe('Entities Reducer', () => {
         entities: [
           {
             did: 'someDid1',
-            entityType: EntityType.Projects,
+            entityType: EntityType.Project,
             userDid: 'someUserDid1',
             title: 'someTitle1',
             shortDescription: 'someShortDescription1',
@@ -764,7 +764,7 @@ describe('Entities Reducer', () => {
         entities: [
           {
             did: 'someDid1',
-            entityType: EntityType.Projects,
+            entityType: EntityType.Project,
             userDid: 'someUserDid1',
             title: 'someTitle1',
             shortDescription: 'someShortDescription1',
@@ -848,13 +848,13 @@ describe('Entities Reducer', () => {
   })
 
   describe('ResetFilters Action', () => {
-    it('should return a new copy of state with the filter reset and entity data left in tact', () => {
+    it('should return a new copy of state with some properties of the filter reset', () => {
       const currentState = {
         ...initialState,
         entities: [
           {
             did: 'someDid1',
-            entityType: EntityType.Projects,
+            entityType: EntityType.Project,
             userDid: 'someUserDid1',
             title: 'someTitle1',
             shortDescription: 'someShortDescription1',
@@ -915,6 +915,9 @@ describe('Entities Reducer', () => {
         ...currentState,
         filter: {
           ...initialState.filter,
+          userEntities: true,
+          popularEntities: false,
+          featuredEntities: false,
         },
       })
     })
