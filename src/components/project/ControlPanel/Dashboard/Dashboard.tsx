@@ -1,6 +1,7 @@
 import React from 'react'
 import { Widget } from '../types'
 import { ControlPanelSection } from '../ControlPanel.styles'
+import { ShieldsWrapper } from './Dashboard.styles'
 import PerformanceIcon from '../../../../assets/icons/Performance'
 import Shield from './Shield/Shield'
 
@@ -21,9 +22,11 @@ const Dashboard: React.FunctionComponent<Props> = ({
         </div>
         {title}
       </h4>
-      {controls.map((control, index) => {
-        return <Shield key={index} control={control} entityDid={entityDid} />
-      })}
+      <ShieldsWrapper>
+        {controls.map((control, index) => {
+          return <Shield key={index} control={control} entityDid={entityDid} />
+        })}
+      </ShieldsWrapper>
     </ControlPanelSection>
   )
 }
