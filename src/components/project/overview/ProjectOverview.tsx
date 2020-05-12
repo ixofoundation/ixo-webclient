@@ -20,6 +20,7 @@ import {
 import ControlPanelSchema from '../ControlPanel/ControlPanel.schema.json'
 
 export interface ParentProps {
+  projectDid: string
   userInfo: UserInfo
   project: any
   isModalOpen: boolean
@@ -40,6 +41,7 @@ export interface ParentProps {
 export type Props = ParentProps
 
 export const ProjectOverview: React.SFC<Props> = props => {
+  console.log(props.project)
   const renderModalHeader = (): Header => {
     return {
       title: props.modalData.title,
@@ -182,7 +184,7 @@ export const ProjectOverview: React.SFC<Props> = props => {
             <div className="col-lg-5">
               <ControlPanel
                 schema={ControlPanelSchema}
-                entityDid={props.project.projectDid}
+                entityDid={props.projectDid}
               />
             </div>
           </div>
