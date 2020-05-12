@@ -6,29 +6,30 @@ import MobileIcon from '../../../../assets/icons/OpenOnMobile'
 import ForumIcon from '../../../../assets/icons/Forum'
 import { ControlPanelSection } from '../ControlPanel.styles'
 import { ConnectionButtonsWrapper } from './Connections.styles'
-import { ConnectionType, ConnectionsSection } from '../types'
+import { ConnectionType, Widget } from '../types'
 import MobileConnection from './Mobile/Mobile'
 import ShareConnection from './Share/Share'
 import ForumConnection from './Forum/Forum'
+import { Tooltip } from 'src/components/common/Tooltip'
 
 interface Props {
-  connectionsSection: ConnectionsSection
+  widget: Widget
   selectedConnection: string
   toggleConnection: (connection: string) => void
 }
 
 const Connections: React.FunctionComponent<Props> = ({
-  connectionsSection: { connections, title },
+  widget: { controls, title },
   selectedConnection,
   toggleConnection,
 }) => {
-  const mobileSettings = connections.find(
+  const mobileControl = controls.find(
     conn => conn['@type'] === ConnectionType.Mobile,
   )
-  const shareSettings = connections.find(
+  const shareControl = controls.find(
     conn => conn['@type'] === ConnectionType.Share,
   )
-  const forumSettings = connections.find(
+  const forumControl = controls.find(
     conn => conn['@type'] === ConnectionType.Forum,
   )
 
@@ -47,47 +48,63 @@ const Connections: React.FunctionComponent<Props> = ({
         </div>
       </h4>
       <ConnectionButtonsWrapper>
-        {mobileSettings && (
-          <button onClick={(): void => toggleConnection(ConnectionType.Mobile)}>
-            <div className="icon-wrapper">
-              <MobileIcon fill="#49BFE0" width="36" />
-            </div>
-            {mobileSettings.title}
-          </button>
+        {mobileControl && (
+          <Tooltip text={mobileControl.tooltip}>
+            <button
+              onClick={(): void => toggleConnection(ConnectionType.Mobile)}
+            >
+              <div className="icon-wrapper">
+                <MobileIcon fill="#49BFE0" width="50" />
+              </div>
+              {mobileControl.title}
+            </button>
+          </Tooltip>
         )}
-        {shareSettings && (
-          <button onClick={(): void => toggleConnection(ConnectionType.Share)}>
-            <div className="icon-wrapper">
-              <ShareIcon fill="#49BFE0" width="36" />
-            </div>
-            {shareSettings.title}
-          </button>
+        {shareControl && (
+          <Tooltip text={shareControl.tooltip}>
+            <button
+              onClick={(): void => toggleConnection(ConnectionType.Share)}
+            >
+              <div className="icon-wrapper">
+                <ShareIcon fill="#49BFE0" width="50" />
+              </div>
+              {shareControl.title}
+            </button>
+          </Tooltip>
         )}
-        {forumSettings && (
-          <button onClick={(): void => toggleConnection(ConnectionType.Forum)}>
-            <div className="icon-wrapper">
-              <ForumIcon fill="#49BFE0" width="36" />
-            </div>
-            {forumSettings.title}
-          </button>
+        {forumControl && (
+          <Tooltip text={forumControl.tooltip}>
+            <button
+              onClick={(): void => toggleConnection(ConnectionType.Forum)}
+            >
+              <div className="icon-wrapper">
+                <ForumIcon fill="#49BFE0" width="50" />
+              </div>
+              {forumControl.title}
+            </button>
+          </Tooltip>
         )}
-        {mobileSettings && (
-          <MobileConnection
-            show={selectedConnection === ConnectionType.Mobile}
-          />
-        )}
-        {shareSettings && (
-          <ShareConnection
-            show={selectedConnection === ConnectionType.Share}
-            twitterShareText={
-              shareSettings.params.find(p => p.name === 'twitterShareText')
-                .value
-            }
-          />
-        )}
-        {forumSettings && (
-          <ForumConnection show={selectedConnection === ConnectionType.Forum} />
-        )}
+        <div className="show-more-container">
+          {mobileControl && (
+            <MobileConnection
+              show={selectedConnection === ConnectionType.Mobile}
+            />
+          )}
+          {shareControl && (
+            <ShareConnection
+              show={selectedConnection === ConnectionType.Share}
+              twitterShareText={
+                shareControl.parameters.find(p => p.name === 'twitterShareText')
+                  .value
+              }
+            />
+          )}
+          {forumControl && (
+            <ForumConnection
+              show={selectedConnection === ConnectionType.Forum}
+            />
+          )}
+        </div>
       </ConnectionButtonsWrapper>
     </ControlPanelSection>
   )

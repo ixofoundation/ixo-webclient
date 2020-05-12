@@ -1,17 +1,18 @@
 import React from 'react'
-import { DashboardSection } from '../types'
+import { Widget } from '../types'
 import { ControlPanelSection } from '../ControlPanel.styles'
+import { ShieldsWrapper } from './Dashboard.styles'
 import DashboardIcon from '../../../../assets/icons/Dashboard'
 import Shield from './Shield/Shield'
 
 interface Props {
   entityDid: string
-  dashboardSection: DashboardSection
+  widget: Widget
 }
 
 const Dashboard: React.FunctionComponent<Props> = ({
   entityDid,
-  dashboardSection: { title, shields },
+  widget: { title, controls },
 }) => {
   return (
     <ControlPanelSection key={title}>
@@ -21,15 +22,11 @@ const Dashboard: React.FunctionComponent<Props> = ({
         </div>
         {title}
       </h4>
-      {shields.map(shield => {
-        return (
-          <Shield
-            key={shield.field}
-            shieldSettings={shield}
-            entityDid={entityDid}
-          />
-        )
-      })}
+      <ShieldsWrapper>
+        {controls.map((control, index) => {
+          return <Shield key={index} control={control} entityDid={entityDid} />
+        })}
+      </ShieldsWrapper>
     </ControlPanelSection>
   )
 }

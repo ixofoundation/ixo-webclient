@@ -9,63 +9,41 @@ export enum ConnectionType {
 }
 // we can add enums for the other widget types if/when the section will contain more than 1 type
 
-export interface Params {
+export interface Parameter {
   name: string
   value: string
 }
 
-export interface ShieldSettings {
-  ['@type']: string
-  field: string
+export interface Permission {
+  credential: string
+  role: string
 }
 
-export interface ActionSettings {
+export interface Control {
   ['@type']: string
+  ['@id']: string
   title: string
+  tooltip: string
   icon: string
   iconColor: string
-  intent: string
+  endpoint: string
+  accessToken: string
+  data: string
+  permissions: Permission[]
+  parameters: Parameter[]
 }
 
-export interface AppSettings {
+export interface Widget {
   ['@type']: string
   title: string
-  description: string
-  backgroundColor: string
-}
-
-export interface ConnectionSettings {
-  ['@type']: string
-  title: string
-  description: string
-  params: Params[]
-}
-
-export interface DashboardSection {
-  title: string
-  shields: ShieldSettings[]
-}
-
-export interface ActionsSection {
-  title: string
-  actions: ActionSettings[]
-}
-
-export interface ConnectionsSection {
-  title: string
-  connections: ConnectionSettings[]
-}
-
-export interface AppsSection {
-  title: string
-  apps: AppSettings[]
+  controls: Control[]
 }
 
 export interface Schema {
   ['@context']: string
   ['@type']: string
-  dashboardSection: DashboardSection
-  actionsSection: ActionsSection
-  appsSection: AppsSection
-  connectionsSection: ConnectionsSection
+  dashboard: Widget
+  actions: Widget
+  apps: Widget
+  connections: Widget
 }

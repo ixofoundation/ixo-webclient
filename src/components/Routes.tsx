@@ -15,6 +15,7 @@ import { ProjectCreateUploadPublicDocsConnected } from './project/curation/Proje
 import { Overview } from '../common/components/Bonds/OverviewWrapper/Overview'
 import Exchange from '../common/components/Bonds/ExchangeWrapper/Exchange'
 import Orders from '../modules/BondAccountOrders/BondAccountOrders.container'
+import { UnderConstruction } from './public/UnderConstruction'
 
 export const Routes: React.SFC<{}> = props => {
   return (
@@ -168,6 +169,7 @@ export const Routes: React.SFC<{}> = props => {
             <ProjectSignAndCreateConnected {...routeProps} {...props} />
           )}
         />
+        <Route exact path="/todo" component={UnderConstruction} />
         <Route path="*" component={NotFound} />
       </Switch>
     </Fragment>

@@ -53,12 +53,7 @@ class ControlPanel extends React.Component<Props, State> {
 
   render(): JSX.Element {
     const {
-      schema: {
-        dashboardSection,
-        actionsSection,
-        appsSection,
-        connectionsSection,
-      },
+      schema: { dashboard, actions, apps, connections },
     } = this.props
     return (
       <>
@@ -75,18 +70,15 @@ class ControlPanel extends React.Component<Props, State> {
           <ControlPanelWrapper
             className={this.state.showControlPanelMobile ? 'open' : ''}
           >
-            <Dashboard
-              dashboardSection={dashboardSection}
-              entityDid={this.props.entityDid}
-            />
-            <Actions actionsSection={actionsSection} />
+            <Dashboard widget={dashboard} entityDid={this.props.entityDid} />
+            <Actions widget={actions} />
             <Apps
-              appsSection={appsSection}
+              widget={apps}
               showMore={this.state.showMoreApps}
               toggleShowMore={this.toggleShowApps}
             />
             <Connections
-              connectionsSection={connectionsSection}
+              widget={connections}
               selectedConnection={this.state.connection}
               toggleConnection={this.toggleConnection}
             />

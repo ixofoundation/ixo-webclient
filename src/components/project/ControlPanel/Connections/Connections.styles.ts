@@ -5,6 +5,7 @@ import { QRInner } from '../../../common/QRComponent'
 export const ConnectionButtonsWrapper = styled(SquareButtonSection)`
   button {
     margin-bottom: 1rem;
+    max-width: 5.5rem;
     .icon-wrapper {
       border-radius: 50%;
       padding: 1.25rem;

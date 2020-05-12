@@ -3,11 +3,10 @@ import { render } from '@testing-library/react'
 import ProfileCard from './ProfileCard'
 
 const user = {
-  imageUrl: 'testUrl',
-  name: 'test name',
-  role: 'test role',
-  linkedinLink: 'testLinkedinLink',
-  twitterLink: 'testTwitterLink',
+  imageLink: 'testUrl',
+  title: 'test name',
+  subtitle: 'test role',
+  icons: [],
 }
 
 describe('ProfileCard Component', () => {
@@ -30,7 +29,7 @@ describe('ProfileCard Component', () => {
     // when ... the profile card renders
     const { getByText } = render(<ProfileCard user={user} />)
     // then ... the name should be rendered
-    expect(getByText(user.name)).toMatchInlineSnapshot(`
+    expect(getByText(user.title)).toMatchInlineSnapshot(`
       <div
         class="ProfileCard-name"
       >
@@ -43,7 +42,7 @@ describe('ProfileCard Component', () => {
     const { getByText } = render(<ProfileCard user={user} />)
     // then ... the role should be rendered
 
-    expect(getByText(user.role)).toMatchInlineSnapshot(`
+    expect(getByText(user.subtitle)).toMatchInlineSnapshot(`
       <div
         class="ProfileCard-role"
       >
