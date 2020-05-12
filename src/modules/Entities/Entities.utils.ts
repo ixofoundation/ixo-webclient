@@ -19,7 +19,7 @@ export const getCountryCoordinates = (countryCodes: string[]): any[] => {
 
 export const getSchema = (entityType: EntityType): Schema => {
   switch (entityType) {
-    case EntityType.Cells:
+    case EntityType.Cell:
       return cellsFilterSchema
   }
   // Others here
@@ -28,7 +28,7 @@ export const getSchema = (entityType: EntityType): Schema => {
 }
 
 export const getInitialSelectedCategories = (
-  entityType: EntityType = EntityType.Projects,
+  entityType: EntityType = EntityType.Project,
 ): Category[] => {
   return getSchema(entityType).ddoTags.map(ddoCategory => ({
     name: ddoCategory.name,

@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { deviceWidth } from '../../../lib/commonData'
 import { ProgressBar } from '../../common/ProgressBar'
 
 export const OverviewContainer = styled.section`
@@ -11,9 +12,67 @@ export const OverviewContainer = styled.section`
     margin: 3.75rem auto;
     border-radius: 2px;
   }
-  h3 {
-    font-family: ${(props): string => props.theme.fontRoboto};
+  img {
+    max-width: 100%;
+  }
+  h2 {
     margin: 2rem 0;
+  }
+  h3 {
+    font-size: 1.375rem;
+    font-weight: bold;
+    font-family: ${(props): string => props.theme.fontRoboto};
+    margin: 0.75rem 0;
+  }
+  .content-section {
+    > p:first-of-type {
+      line-height: 2;
+      &::first-letter {
+        float: left;
+        background: #e8edee;
+        padding: 0.5rem 1.125rem;
+        border-radius: 4px;
+        font-family: ${(props): string => props.theme.fontRobotoCondensed};
+        font-weight: normal;
+        font-size: 2.8125rem;
+        line-height: 1;
+        margin-right: 0.5rem;
+      }
+    }
+  }
+  .content-section ~ .content-section {
+    background: none;
+    p {
+      color: inherit;
+      line-height: inherit;
+      &::first-letter {
+        background: none;
+        padding: 0;
+        border-radius: none;
+        font-family: inherit;
+        font-weight: inherit;
+        font-size: inherit;
+        line-height: inherit;
+        margin-right: 0;
+      }
+    }
+  }
+  .content-section {
+    table.table thead th,
+    table.table td {
+      border: none;
+    }
+    table.table thead th {
+      font-weight: normal;
+      color: #93979d;
+      font-size: 0.75rem;
+    }
+    table.table td {
+      font-weight: bold;
+      font-size: 0.875rem;
+      letter-spacing: 0.3px;
+      color: #000000;
+    }
   }
 `
 
@@ -105,6 +164,20 @@ export const Text = styled.div`
   color: ${(props): string => props.theme.fontDarkGrey};
   font-size: 16px;
   line-height: 30px;
+  .react-md {
+    img {
+      max-width: 100%;
+    }
+    .first-letter {
+      font-size: 2em;
+      line-height: 1.75;
+      margin-right: 0.75rem;
+      padding: 0 1.125rem;
+      background: #e8edee;
+      border-radius: 4px;
+      float: left;
+    }
+  }
 `
 
 export const Hidden = styled.div`
@@ -178,14 +251,46 @@ export const AgentIcon = styled.i`
   }
 `
 
-export const ProfileCardsSection = styled.div`
-  h3 {
-    color: black;
-    margin: 1.75rem 0;
-  }
-`
 export const ProfileCardsWrapper = styled.div`
   display: flex;
   flex-flow: row wrap;
   margin: 0 -1.75rem -1.75rem 0;
+`
+export const InlineImageWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  flex-flow: row wrap;
+  img,
+  p {
+    flex: 1 1 auto;
+    width: 100%;
+  }
+  img {
+    height: auto;
+    object-fit: cover;
+    margin-bottom: 1rem;
+  }
+  p {
+    :last-child {
+      margin-bottom: 0;
+    }
+  }
+  @media (min-width: ${deviceWidth.tablet}px) {
+    img {
+      width: 50%;
+      margin-bottom: 0;
+    }
+    p {
+      width: calc(50% - 1.35rem);
+      margin-left: 1.25rem;
+    }
+  }
+`
+export const CaptionImageWrapper = styled.div`
+  p {
+    font-size: 0.75rem;
+    line-height: 2;
+    margin-top: 1rem;
+    color: #a5adb0;
+  }
 `

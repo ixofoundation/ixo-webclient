@@ -1,0 +1,89 @@
+{
+  "@context": "https://schema.ixo.foundation/project",
+  "@type": "Project",
+  "performanceSection": {
+    "@type": "Performance",
+    "title": "Performance",
+    "shields": [
+      {
+        "@type": "Shield",
+        "field": "status"
+      }
+    ]
+  },
+  "actionsSection": {
+    "@type": "Actions",
+    "title": "Actions",
+    "actions": [
+      {
+        "@type": "Action",
+        "title": "Apply to join",
+        "icon": "AddPerson",
+        "iconColor": "#49BFE0",
+        "intent": "join"
+      },
+      {
+        "@type": "Action",
+        "title": "Ask for help",
+        "icon": "Message",
+        "iconColor": "#49BFE0",
+        "intent": "help"
+      },
+      {
+        "@type": "Action",
+        "title": "Offer oracle service",
+        "icon": "Target",
+        "iconColor": "#49BFE0",
+        "intent": "oracle"
+      },
+      {
+        "@type": "Action",
+        "title": "Rate this project",
+        "icon": "Star",
+        "iconColor": "#49BFE0",
+        "intent": "rate"
+      }
+    ]
+  },
+  "appsSection": {
+    "@type": "Apps",
+    "title": "Apps",
+    "apps": [
+      {
+        "@type": "RiotChat",
+        "title": "Riot chat",
+        "description": "Encrypted chat-room",
+        "backgroundColor": "#fff"
+      }
+    ]
+  },
+  "connectionsSection": {
+    "@type": "Connections",
+    "title": "Connections",
+    "connections": [
+      {
+        "@type": "Mobile",
+        "title": "Mobile",
+        "description": "QR Code",
+        "params": null
+      },
+      {
+        "@type": "Share",
+        "title": "Share",
+        "description": "Share to social media",
+        "params": [
+          {
+            "name": "twitterShareText",
+            "value": "It’s up to all of us to start making an impact for a positive future for humanity. Check out this venture that aims to achieve the global SDGs. If you think it’s a worthy cause, then like or share this post to show your support."
+          }
+        ]
+      },
+      {
+        "@type": "Forum",
+        "title": "Forum",
+        "description": "Join the forum",
+        "params": null
+      }
+    ]
+  }
+}
