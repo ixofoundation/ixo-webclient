@@ -29,28 +29,40 @@ export const ControlPanelWrapper = styled.div`
   border-radius: 5px;
   padding: 0.75rem;
   color: #47568c;
+  overflow-y: auto;
+  overflow-x: hidden;
+  ::-webkit-scrollbar {
+    width: 0px;
+    background: transparent;
+  }
   @media (max-width: ${deviceWidth.desktop}px) {
     position: fixed;
     top: 120px;
     left: 0;
     right: 0;
     bottom: 0;
-    overflow-y: auto;
-    overflow-x: hidden;
     transform: translateX(100%);
     transition: all 0.3s;
-    ::-webkit-scrollbar {
-      width: 0px;
-      background: transparent;
-    }
     &.open {
       transform: translateX(0);
     }
   }
+`
+
+export const ControlPanelScrollWrapper = styled.div`
+  position: relative;
+  background: #dfe7f4;
+  border-radius: 5px;
+  padding-bottom: 0.75rem;
   @media (min-width: ${deviceWidth.desktop}px) {
-    display: block;
+    position: sticky;
+    top: 120px;
+    ${ControlPanelWrapper} {
+      height: calc(100vh - 136px);
+    }
   }
 `
+
 export const ControlPanelSection = styled.div`
   background: #f0f7ff;
   border-radius: 5px;

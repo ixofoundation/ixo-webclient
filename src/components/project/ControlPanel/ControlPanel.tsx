@@ -1,5 +1,6 @@
 import * as React from 'react'
 import {
+  ControlPanelScrollWrapper,
   ControlPanelWrapper,
   MobileControlPanelToggle,
 } from './ControlPanel.styles'
@@ -70,25 +71,27 @@ class ControlPanel extends React.Component<Props, State> {
             </div>
           )}
         </MobileControlPanelToggle>
-        <ControlPanelWrapper
-          className={this.state.showControlPanelMobile ? 'open' : ''}
-        >
-          <Dashboard
-            dashboardSection={dashboardSection}
-            entityDid={this.props.entityDid}
-          />
-          <Actions actionsSection={actionsSection} />
-          <Apps
-            appsSection={appsSection}
-            showMore={this.state.showMoreApps}
-            toggleShowMore={this.toggleShowApps}
-          />
-          <Connections
-            connectionsSection={connectionsSection}
-            selectedConnection={this.state.connection}
-            toggleConnection={this.toggleConnection}
-          />
-        </ControlPanelWrapper>
+        <ControlPanelScrollWrapper>
+          <ControlPanelWrapper
+            className={this.state.showControlPanelMobile ? 'open' : ''}
+          >
+            <Dashboard
+              dashboardSection={dashboardSection}
+              entityDid={this.props.entityDid}
+            />
+            <Actions actionsSection={actionsSection} />
+            <Apps
+              appsSection={appsSection}
+              showMore={this.state.showMoreApps}
+              toggleShowMore={this.toggleShowApps}
+            />
+            <Connections
+              connectionsSection={connectionsSection}
+              selectedConnection={this.state.connection}
+              toggleConnection={this.toggleConnection}
+            />
+          </ControlPanelWrapper>
+        </ControlPanelScrollWrapper>
       </>
     )
   }
