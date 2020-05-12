@@ -1,26 +1,29 @@
 import React from 'react'
 import RiotIcon from '../../../../../assets/icons/Riot'
 import { Tooltip } from '../../../../common/Tooltip'
-import { AppSettings } from '../../types'
+import { Control } from '../../types'
 
 interface Props {
   buttonClassName: string //index > 3 ? (showMore ? 'show' : 'hide') : 'show'
-  app: AppSettings
+  control: Control
 }
 
-const RiotChat: React.FunctionComponent<Props> = ({ app, buttonClassName }) => {
+const RiotChat: React.FunctionComponent<Props> = ({
+  control,
+  buttonClassName,
+}) => {
   return (
-    <Tooltip text={app.description}>
+    <Tooltip text={control.tooltip}>
       <button className={buttonClassName}>
         <div
           className="icon-wrapper"
           style={{
-            background: app.backgroundColor,
+            background: '#fff',
           }}
         >
           <RiotIcon width="36" />
         </div>
-        {app.title}
+        {control.title}
       </button>
     </Tooltip>
   )

@@ -3,35 +3,40 @@ import AddPersonIcon from '../../../../../assets/icons/AddPerson'
 import MessageIcon from '../../../../../assets/icons/Message'
 import TargetIcon from '../../../../../assets/icons/Target'
 import StarIcon from '../../../../../assets/icons/Star'
-import { ActionSettings } from '../../types'
+import { Control } from '../../types'
 import { ActionLink } from '../Actions.styles'
+import { Tooltip } from 'src/components/common/Tooltip'
 
 interface Props {
-  actionSettings: ActionSettings
+  control: Control
 }
 
-const Action: React.FunctionComponent<Props> = ({ actionSettings }) => {
+const Action: React.FunctionComponent<Props> = ({ control }) => {
+  const intent = control.parameters.find(param => param.name === 'intent').value
+
   let Icon
-  switch (actionSettings.icon) {
+  switch (control.icon) {
     case 'AddPerson':
-      Icon = <AddPersonIcon fill={actionSettings.iconColor} />
+      Icon = <AddPersonIcon fill={control.iconColor} />
       break
     case 'Message':
-      Icon = <MessageIcon fill={actionSettings.iconColor} />
+      Icon = <MessageIcon fill={control.iconColor} />
       break
     case 'Target':
-      Icon = <TargetIcon fill={actionSettings.iconColor} />
+      Icon = <TargetIcon fill={control.iconColor} />
       break
     case 'Star':
-      Icon = <StarIcon fill={actionSettings.iconColor} />
+      Icon = <StarIcon fill={control.iconColor} />
       break
   }
 
   return (
-    <ActionLink href={`#${actionSettings.intent}`}>
-      {Icon}
-      {actionSettings.title}
-    </ActionLink>
+    <Tooltip text={control.tooltip}>
+      <ActionLink href={`#${intent}`}>
+        {Icon}
+        {control.title}
+      </ActionLink>
+    </Tooltip>
   )
 }
 
