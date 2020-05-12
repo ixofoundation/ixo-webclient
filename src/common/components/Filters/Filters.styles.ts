@@ -119,6 +119,7 @@ export const FilterSelectButton = styled.div`
   img {
     max-width: 100%;
     width: 4rem;
+    height: 4rem;
     display: block;
   }
   &:nth-child(2) {
