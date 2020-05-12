@@ -1,17 +1,18 @@
 import React from 'react'
-import { PerformanceSection } from '../types'
+import { Widget } from '../types'
 import { ControlPanelSection } from '../ControlPanel.styles'
+import { ShieldsWrapper } from './Dashboard.styles'
 import PerformanceIcon from '../../../../assets/icons/Performance'
 import Shield from './Shield/Shield'
 
 interface Props {
   entityDid: string
-  performanceSection: PerformanceSection
+  widget: Widget
 }
 
-const Performance: React.FunctionComponent<Props> = ({
+const Dashboard: React.FunctionComponent<Props> = ({
   entityDid,
-  performanceSection: { title, shields },
+  widget: { title, controls },
 }) => {
   return (
     <ControlPanelSection key={title}>
@@ -21,17 +22,13 @@ const Performance: React.FunctionComponent<Props> = ({
         </div>
         {title}
       </h4>
-      {shields.map(shield => {
-        return (
-          <Shield
-            key={shield.field}
-            shieldSettings={shield}
-            entityDid={entityDid}
-          />
-        )
-      })}
+      <ShieldsWrapper>
+        {controls.map((control, index) => {
+          return <Shield key={index} control={control} entityDid={entityDid} />
+        })}
+      </ShieldsWrapper>
     </ControlPanelSection>
   )
 }
 
-export default Performance
+export default Dashboard

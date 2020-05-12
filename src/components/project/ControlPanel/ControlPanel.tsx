@@ -6,7 +6,7 @@ import {
 import Down from '../../../assets/icons/Down'
 import Close from '../../../assets/icons/Close'
 import { Schema } from './types'
-import Performance from './Performance/Performance'
+import Dashboard from './Dashboard/Dashboard'
 import Actions from './Actions/Actions'
 import Apps from './Apps/Apps'
 import Connections from './Connections/Connections'
@@ -52,12 +52,7 @@ class ControlPanel extends React.Component<Props, State> {
 
   render(): JSX.Element {
     const {
-      schema: {
-        performanceSection,
-        actionsSection,
-        appsSection,
-        connectionsSection,
-      },
+      schema: { dashboard, actions, apps, connections },
     } = this.props
     return (
       <>
@@ -73,18 +68,15 @@ class ControlPanel extends React.Component<Props, State> {
         <ControlPanelWrapper
           className={this.state.showControlPanelMobile ? 'open' : ''}
         >
-          <Performance
-            performanceSection={performanceSection}
-            entityDid={this.props.entityDid}
-          />
-          <Actions actionsSection={actionsSection} />
+          <Dashboard widget={dashboard} entityDid={this.props.entityDid} />
+          <Actions widget={actions} />
           <Apps
-            appsSection={appsSection}
+            widget={apps}
             showMore={this.state.showMoreApps}
             toggleShowMore={this.toggleShowApps}
           />
           <Connections
-            connectionsSection={connectionsSection}
+            widget={connections}
             selectedConnection={this.state.connection}
             toggleConnection={this.toggleConnection}
           />
