@@ -75,17 +75,17 @@ export default class Search extends React.Component<Props> {
       case 'globe':
         return <Globe fill="#000" />
       case 'investments':
-        return <Investments fill="#000" width="32" />
+        return <Investments fill="#000" width="26" />
       case 'cells':
-        return <Cells fill="#000" width="32" />
+        return <Cells fill="#000" width="26" />
       case 'oracle':
-        return <Oracle fill="#000" width="32" />
+        return <Oracle fill="#000" width="26" />
       case 'templates':
-        return <Template fill="#000" width="32" />
+        return <Template fill="#000" width="26" />
       case 'data':
-        return <DataAssets fill="#000" width="32" />
+        return <DataAssets fill="#000" width="26" />
       case 'projects':
-        return <Projects fill="#000" width="32" />
+        return <Projects fill="#000" width="26" />
       default:
         return null
     }
@@ -180,7 +180,7 @@ export default class Search extends React.Component<Props> {
                   </SearchFilterButton>
                   <SearchFilterButton
                     onClick={(): void =>
-                      this.handleSearchFilter('Cells', 'cells')
+                      this.handleSearchFilter('Cell Nodes', 'cells')
                     }
                     className={`
                   ${
@@ -190,7 +190,7 @@ export default class Search extends React.Component<Props> {
                   >
                     <ButtonContent>
                       {this.renderFilterButtonIcon('cells')}
-                      Cells
+                      Cell Nodes
                     </ButtonContent>
                   </SearchFilterButton>
                   <SearchFilterButton
@@ -210,7 +210,7 @@ export default class Search extends React.Component<Props> {
                   </SearchFilterButton>
                   <SearchFilterButton
                     onClick={(): void =>
-                      this.handleSearchFilter('Data', 'data')
+                      this.handleSearchFilter('Data Assets', 'data')
                     }
                     className={`
                   ${
