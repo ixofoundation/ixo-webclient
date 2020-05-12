@@ -35,10 +35,12 @@ export const ModalButton = styled.div`
   align-items: center;
   position: relative;
   overflow: visible;
+  font-size: 18px;
   > * {
     display: block;
   }
   svg:first-child {
+    width: 1em;
     margin-right: 0.5rem;
     @media (max-width: ${deviceWidth.mobile}px) {
       margin-right: 0;
@@ -116,6 +118,7 @@ export const SearchFilterButton = styled.div`
   flex-flow: row wrap;
   padding: 1.5rem;
   font-weight: 500;
+
   i {
     color: #4d4d4d;
   }
@@ -196,7 +199,7 @@ export const SearchFilterButton = styled.div`
         background: linear-gradient(180deg, #f2994a 0%, #f2994a 100%);
       }
     }
-    color: #fff;
+    color: #4d4d4d;
     i {
       color: #4d4d4d;
     }

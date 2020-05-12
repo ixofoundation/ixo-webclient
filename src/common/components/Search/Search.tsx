@@ -75,17 +75,17 @@ export default class Search extends React.Component<Props> {
       case 'globe':
         return <Globe fill="#000" />
       case 'investments':
-        return <Investments fill="#000" />
+        return <Investments fill="#000" width="32" />
       case 'cells':
-        return <Cells fill="#000" />
+        return <Cells fill="#000" width="32" />
       case 'oracle':
-        return <Oracle fill="#000" />
+        return <Oracle fill="#000" width="32" />
       case 'templates':
-        return <Template fill="#000" />
+        return <Template fill="#000" width="32" />
       case 'data':
-        return <DataAssets fill="#000" />
+        return <DataAssets fill="#000" width="32" />
       case 'projects':
-        return <Projects fill="#000" />
+        return <Projects fill="#000" width="32" />
       default:
         return null
     }
