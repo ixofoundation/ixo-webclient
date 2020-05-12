@@ -110,6 +110,7 @@ export const FilterSelectButton = styled.div`
   padding: 1rem;
   background: #db6169;
   border: 4px solid transparent;
+  cursor: default;
   h3 {
     font-family: 'Roboto' sans-serif;
     font-size: 0.875rem;

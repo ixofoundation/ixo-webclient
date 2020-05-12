@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { Route, Switch } from 'react-router-dom'
 import { ProjectContainerConnected } from './project/ProjectContainer'
-import { ProjectsContainerConnected } from '../modules/Projects/Projects.container'
+import { EntitiesContainerConnected } from '../modules/Entities/Entities.container'
 import { ProjectCreateConnected } from './project/ProjectCreate'
 import { contentType } from '../types/models'
 import { ProjectForm } from './project/ProjectForm'
@@ -15,6 +15,7 @@ import { ProjectCreateUploadPublicDocsConnected } from './project/curation/Proje
 import { Overview } from '../common/components/Bonds/OverviewWrapper/Overview'
 import Exchange from '../common/components/Bonds/ExchangeWrapper/Exchange'
 import Orders from '../modules/BondAccountOrders/BondAccountOrders.container'
+import { UnderConstruction } from './public/UnderConstruction'
 
 export const Routes: React.SFC<{}> = props => {
   return (
@@ -46,7 +47,7 @@ export const Routes: React.SFC<{}> = props => {
           exact
           path="/"
           render={(routeProps): JSX.Element => (
-            <ProjectsContainerConnected
+            <EntitiesContainerConnected
               {...routeProps.location}
               // @ts-ignore
               contentType={contentType.overview}
@@ -57,7 +58,7 @@ export const Routes: React.SFC<{}> = props => {
           exact
           path="/global-statistics"
           render={(routeProps): JSX.Element => (
-            <ProjectsContainerConnected
+            <EntitiesContainerConnected
               {...routeProps.location}
               // @ts-ignore
               contentType={contentType.dashboard}
@@ -168,6 +169,7 @@ export const Routes: React.SFC<{}> = props => {
             <ProjectSignAndCreateConnected {...routeProps} {...props} />
           )}
         />
+        <Route exact path="/todo" component={UnderConstruction} />
         <Route path="*" component={NotFound} />
       </Switch>
     </Fragment>

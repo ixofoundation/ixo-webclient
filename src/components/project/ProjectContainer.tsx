@@ -808,6 +808,7 @@ export class ProjectContainer extends React.Component<Props, State> {
               isLoggedIn={this.props.isLoggedIn}
             />
             <ProjectOverview
+              projectDid={this.state.projectDid}
               checkUserDid={this.checkUserDid}
               createAgent={this.handleCreateAgent}
               userInfo={this.props.userInfo}
