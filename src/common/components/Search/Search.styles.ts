@@ -63,8 +63,11 @@ export const ModalButton = styled.div`
     border-width: 0 1rem 1.1rem 1rem;
     border-color: transparent transparent white transparent;
   }
-  &.modal-open:after {
-    content: '';
+  &.modal-open {
+    overflow: visible;
+    :after {
+      content: '';
+    }
   }
 `
 
@@ -107,104 +110,121 @@ export const SearchButtonsWrapper = styled.div`
   margin: 0 -1.75rem;
 `
 
-export const SearchFilterButton = styled.div`
+export const SearchFilterButton = styled.button`
   color: #4d4d4d;
+  outline: none !important;
+  background: none;
   text-align: center;
   width: calc(33.333% - 1rem);
-  margin: 0.5rem;
+  margin: 0.25rem;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   flex-flow: row wrap;
   padding: 1.5rem;
   font-weight: 500;
-
-  i {
-    color: #4d4d4d;
-  }
   svg path {
     fill: #4d4d4d;
   }
-  > * {
-    display: block;
-    width: 100%;
+
+  &.active {
+    color: #4d4d4d;
+  }
+
+  &:hover:not(.disabled) {
+    color: #fff;
+    svg path {
+      fill: #fff;
+    }
   }
   &.projects {
     border: 2px solid #2f80ed;
+    &.active {
+      background: linear-gradient(
+        90deg,
+        #2f80ed 0%,
+        #2f80ed 5px,
+        transparent 6px,
+        transparent 100%
+      );
+    }
+    &:hover:not(.disabled) {
+      background: linear-gradient(90deg, #2f80ed 0%, #2f80ed 100%);
+    }
   }
   &.oracles {
     border: 2px solid #9b51e0;
+    &.active {
+      background: linear-gradient(
+        90deg,
+        #9b51e0 0%,
+        #9b51e0 5px,
+        transparent 6px,
+        transparent 100%
+      );
+    }
+    &:hover:not(.disabled) {
+      background: linear-gradient(90deg, #9b51e0 0%, #9b51e0 100%);
+    }
   }
   &.investments {
     border: 2px solid #219653;
+    &.active {
+      background: linear-gradient(
+        90deg,
+        #219653 0%,
+        #219653 5px,
+        transparent 6px,
+        transparent 100%
+      );
+    }
+    &:hover:not(.disabled) {
+      background: linear-gradient(90deg, #219653 0%, #219653 100%);
+    }
   }
   &.cells {
     border: 2px solid #f2c94c;
+    &.active {
+      background: linear-gradient(
+        90deg,
+        #f2c94c 0%,
+        #f2c94c 5px,
+        transparent 6px,
+        transparent 100%
+      );
+    }
+    &:hover:not(.disabled) {
+      background: linear-gradient(90deg, #f2c94c 0%, #f2c94c 100%);
+    }
   }
   &.templates {
     border: 2px solid #000000;
+    &.active {
+      background: linear-gradient(
+        90deg,
+        #000000 0%,
+        #000000 5px,
+        transparent 6px,
+        transparent 100%
+      );
+    }
+    &:hover:not(.disabled) {
+      background: linear-gradient(90deg, #000000 0%, #000000 100%);
+    }
   }
   &.data {
     border: 2px solid #f2994a;
-  }
-  &.active,
-  &:hover:not(.disabled) {
-    &.projects {
-      border: solid #2f80ed;
-      border-width: 2px 2px 2px 10px;
-      color: #4d4d4d;
-      &:hover {
-        border-width: 2px 2px 2px 2px;
-        background: linear-gradient(180deg, #2f80ed 0%, #2f80ed 100%);
-        color: #fff;
-      }
+    &.active {
+      background: linear-gradient(
+        90deg,
+        #f2994a 0%,
+        #f2994a 5px,
+        transparent 6px,
+        transparent 100%
+      );
     }
-    &.oracles {
-      border: solid #9b51e0;
-      border-width: 2px 2px 2px 10px;
-      &:hover {
-        border-width: 2px 2px 2px 2px;
-        background: linear-gradient(180deg, #9b51e0 0%, #9b51e0 100%);
-      }
-    }
-    &.investments {
-      border: solid #219653;
-      border-width: 2px 2px 2px 10px;
-      &:hover {
-        border-width: 2px 2px 2px 2px;
-        background: linear-gradient(180deg, #219653 0%, #219653 100%);
-      }
-    }
-    &.cells {
-      border: solid #f2c94c;
-      border-width: 2px 2px 2px 10px;
-      &:hover {
-        border-width: 2px 2px 2px 2px;
-        background: linear-gradient(180deg, #f2c94c 0%, #f2c94c 100%);
-      }
-    }
-    &.templates {
-      border: solid #000000;
-      border-width: 2px 2px 2px 10px;
-      &:hover {
-        border-width: 2px 2px 2px 2px;
-        background: linear-gradient(180deg, #000000 0%, #000000 100%);
-      }
-    }
-    &.data {
-      border: solid #f2994a;
-      border-width: 2px 2px 2px 10px;
-      &:hover {
-        border-width: 2px 2px 2px 2px;
-        background: linear-gradient(180deg, #f2994a 0%, #f2994a 100%);
-      }
-    }
-    color: #4d4d4d;
-    i {
-      color: #4d4d4d;
-    }
-    svg path {
-      fill: #4d4d4d;
+    &:hover:not(.disabled) {
+      background: linear-gradient(90deg, #f2994a 0%, #f2994a 100%);
     }
   }
   &.disabled {
@@ -225,11 +245,14 @@ export const SearchFilterButton = styled.div`
   @media (max-width: ${deviceWidth.mobile}px) {
     width: calc(100% - 1rem);
   }
+  @media (min-width: ${deviceWidth.desktop}px) {
+    padding: 1.5rem 2rem;
+  }
 `
 
 export const ButtonContent = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-evenly;
   font-size: 1rem;
+  svg {
+    margin-right: 1rem;
+  }
 `

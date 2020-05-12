@@ -32,7 +32,7 @@ export default class Search extends React.Component<Props> {
     isModalOpen: false,
     activeFilterButtonText: 'Projects',
     activeFilter: 'projects',
-    activeFilterIcon: 'globe',
+    activeFilterIcon: 'projects',
   }
 
   handleChange = (event): void => {
@@ -183,9 +183,7 @@ export default class Search extends React.Component<Props> {
                       this.handleSearchFilter('Cells', 'cells')
                     }
                     className={`
-                  ${
-                    this.state.activeFilter === 'cells' ? 'active' : ''
-                  } cells disabled
+                  ${this.state.activeFilter === 'cells' ? 'active' : ''} cells 
                 `}
                   >
                     <ButtonContent>
@@ -200,7 +198,7 @@ export default class Search extends React.Component<Props> {
                     className={`
                   ${
                     this.state.activeFilter === 'templates' ? 'active' : ''
-                  } templates disabled
+                  } templates 
                 `}
                   >
                     <ButtonContent>
@@ -213,9 +211,7 @@ export default class Search extends React.Component<Props> {
                       this.handleSearchFilter('Data', 'data')
                     }
                     className={`
-                  ${
-                    this.state.activeFilter === 'templates' ? 'data' : ''
-                  } data disabled
+                  ${this.state.activeFilter === 'data' ? 'active' : ''} data 
                 `}
                   >
                     <ButtonContent>
