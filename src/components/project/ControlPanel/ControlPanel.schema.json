@@ -8,10 +8,10 @@
       {
         "@type": "Shield",
         "@id": "statusShield",
-        "title": null,
+        "title": "Status",
         "tooltip": null,
         "icon": null,
-        "iconColor": null,
+        "iconColor": "F89D28",
         "endpoint": null,
         "accessToken": null,
         "permissions": [
