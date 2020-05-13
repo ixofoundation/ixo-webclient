@@ -13,7 +13,7 @@ export const UnderConstruction: React.SFC = () => {
       <div className="col-lg-4">
         <BannerLeft>
           <img
-            src={require('../../assets/images/underconstruction/ant-image.png')}
+            src={require('../../assets/images/underconstruction/x-outline.png')}
             alt=""
           />
         </BannerLeft>
