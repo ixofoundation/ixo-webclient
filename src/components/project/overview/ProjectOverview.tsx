@@ -82,7 +82,7 @@ export const ProjectOverview: React.SFC<Props> = props => {
       <OverviewContainer className="container-fluid">
         <div className="container">
           <div className="row">
-            <div className="col-lg-7">
+            <div className="col-lg-8">
               <ProjectImage
                 src={props.imageLink}
                 onError={onProjectImageNotFound}
@@ -193,7 +193,7 @@ export const ProjectOverview: React.SFC<Props> = props => {
                 </>
               )}
             </div>
-            <div className="col-lg-5">
+            <div className="col-lg-4">
               <ControlPanel
                 schema={controlPanelSchema}
                 entityDid={props.projectDid}

@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Performance = (props): JSX.Element => {
+const Dashboard = (props): JSX.Element => {
   return (
     <svg
       width={props.width || 18}
@@ -55,4 +55,4 @@ const Performance = (props): JSX.Element => {
   )
 }
 
-export default Performance
+export default Dashboard

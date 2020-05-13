@@ -9,15 +9,11 @@ interface Props {
 
 const Share: React.FunctionComponent<Props> = ({ show, twitterShareText }) => {
   return (
-    <>
-      {show && (
-        <div>
-          <button onClick={(): void => shareToTwitter(twitterShareText)}>
-            Share to twitter <TwitterIcon width="22" fill="#47568c" />
-          </button>
-        </div>
-      )}
-    </>
+    <div className={`show-more-container ${show ? 'show' : ''}`}>
+      <button onClick={(): void => shareToTwitter(twitterShareText)}>
+        Share to twitter <TwitterIcon width="22" fill="#47568c" />
+      </button>
+    </div>
   )
 }
 

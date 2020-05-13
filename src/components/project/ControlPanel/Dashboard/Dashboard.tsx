@@ -2,7 +2,7 @@ import React from 'react'
 import { Widget } from '../types'
 import { ControlPanelSection } from '../ControlPanel.styles'
 import { ShieldsWrapper } from './Dashboard.styles'
-import PerformanceIcon from '../../../../assets/icons/Performance'
+import DashboardIcon from '../../../../assets/icons/Dashboard'
 import Shield from './Shield/Shield'
 
 interface Props {
@@ -18,7 +18,7 @@ const Dashboard: React.FunctionComponent<Props> = ({
     <ControlPanelSection key={title}>
       <h4>
         <div className="heading-icon">
-          <PerformanceIcon />
+          <DashboardIcon />
         </div>
         {title}
       </h4>

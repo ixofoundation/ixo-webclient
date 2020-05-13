@@ -18,7 +18,7 @@ export const HeroInner = styled.div`
   position: relative;
   padding: 4rem 0 2rem;
   @media (min-width: ${deviceWidth.tablet}px) {
-    padding: 3rem 0 2rem;
+    padding: 3rem 0 1rem;
   }
 `
 
@@ -27,6 +27,7 @@ export const Title = styled.h1`
   font-weight: normal;
   font-size: 2.25rem;
   line-height: 1.25;
+  margin-bottom: 0;
 
   @media (min-width: 600px) {
     font-size: 2.8125rem;
