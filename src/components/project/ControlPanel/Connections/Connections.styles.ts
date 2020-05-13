@@ -29,8 +29,8 @@ export const ConnectionButtonsWrapper = styled(SquareButtonSection)`
     overflow: hidden;
     transition: max-height 0s ease-out;
     &.show {
-      transition: max-height 1s ease-out;
-      max-height: 500px;
+      transition: max-height 1.75s ease-out;
+      max-height: 300px;
     }
     > * {
       padding: 1rem;
