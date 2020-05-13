@@ -36,6 +36,7 @@ export const ModalButton = styled.div`
   position: relative;
   overflow: visible;
   font-size: 18px;
+  white-space: nowrap;
   > * {
     display: block;
   }
@@ -43,13 +44,16 @@ export const ModalButton = styled.div`
     width: 1em;
     margin-right: 0.5rem;
     @media (max-width: ${deviceWidth.mobile}px) {
-      margin-right: 0;
+      margin-right: 6px;
     }
   }
   .down-icon {
     margin-left: auto;
     transition: all 0.3s;
     transform-origin: center;
+    @media (max-width: ${deviceWidth.mobile}px) {
+      margin-left: 6px;
+    }
   }
   :after {
     position: absolute;
