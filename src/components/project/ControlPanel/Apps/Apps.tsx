@@ -3,24 +3,26 @@ import AppIcon from '../../../../assets/icons/Apps'
 import DownIcon from '../../../../assets/icons/Down'
 import { AppButtonsWrapper } from './Apps.styles'
 import { ControlPanelSection } from '../ControlPanel.styles'
-import { AppsSection } from '../types'
+import { Widget } from '../types'
 import RiotChat from './RiotChat/RiotChat'
 
 interface Props {
-  appsSection: AppsSection
+  widget: Widget
   showMore: boolean
   toggleShowMore: () => void
 }
 
 const Apps: React.FunctionComponent<Props> = ({
-  appsSection: { title, apps },
+  widget: { title, controls },
   showMore,
   toggleShowMore,
 }) => {
   //TODO when we have more than 3 apps then set buttonClassName of apps to...
   // showMore ? 'show' : 'hide'
 
-  const riotChatSettings = apps.find(app => app['@type'] === 'RiotChat')
+  const riotChatControl = controls.find(
+    control => control['@type'] === 'RiotChat',
+  )
 
   return (
     <ControlPanelSection>
@@ -29,7 +31,7 @@ const Apps: React.FunctionComponent<Props> = ({
           <AppIcon />
         </div>
         {title}
-        {apps.length > 3 && (
+        {controls.length > 3 && (
           <div
             className={`arrow-icon ${showMore ? 'active' : ''}`}
             onClick={toggleShowMore}
@@ -39,7 +41,9 @@ const Apps: React.FunctionComponent<Props> = ({
         )}
       </h4>
       <AppButtonsWrapper>
-        <RiotChat buttonClassName="show" app={riotChatSettings} />
+        {riotChatControl && (
+          <RiotChat buttonClassName="show" control={riotChatControl} />
+        )}
       </AppButtonsWrapper>
     </ControlPanelSection>
   )
