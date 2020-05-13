@@ -4,7 +4,7 @@ import { deviceWidth } from '../../../lib/commonData'
 export const MobileControlPanelToggle = styled.button`
   display: block;
   position: fixed;
-  top: 120px;
+  top: 136px;
   right: -1px;
   bottom: auto;
   left: auto;
@@ -29,20 +29,21 @@ export const ControlPanelWrapper = styled.div`
   border-radius: 5px;
   padding: 0.75rem;
   color: #47568c;
-  overflow-y: auto;
-  overflow-x: hidden;
+  overflow: visible scroll;
   ::-webkit-scrollbar {
     width: 0px;
     background: transparent;
   }
   @media (max-width: ${deviceWidth.desktop}px) {
     position: fixed;
-    top: 120px;
+    top: 135px;
     left: 0;
     right: 0;
     bottom: 0;
+    z-index: 99;
     transform: translateX(100%);
     transition: all 0.3s;
+    border-top-right-radius: 0;
     &.open {
       transform: translateX(0);
     }
@@ -51,12 +52,11 @@ export const ControlPanelWrapper = styled.div`
 
 export const ControlPanelScrollWrapper = styled.div`
   position: relative;
-  background: #dfe7f4;
-  border-radius: 5px;
-  padding-bottom: 0.75rem;
   @media (min-width: ${deviceWidth.desktop}px) {
     position: sticky;
     top: 120px;
+    background: #dfe7f4;
+    border-radius: 5px;
     ${ControlPanelWrapper} {
       height: calc(100vh - 136px);
     }
