@@ -27,9 +27,9 @@ export const Title = styled.h1`
   font-weight: normal;
   font-size: 2.25rem;
   line-height: 1.25;
-  margin-bottom: 0;
+  margin: 0.5rem 0;
 
-  @media (min-width: 600px) {
+  @media (min-width: ${deviceWidth.tablet}px) {
     font-size: 2.8125rem;
   }
 `
@@ -38,40 +38,31 @@ export const Description = styled.p`
   color: #7b8285;
   font-size: 0.875rem;
   line-height: 1.5;
-  margin-bottom: 0;
+  margin-bottom: 0.5rem;
 `
 
 export const SingleSDG = styled.a`
-  &&& {
-    color: ${(props): string => props.theme.fontBlue};
-  }
   font-family: ${(props): string => props.theme.fontRobotoCondensed};
+  color: ${(props): string => props.theme.fontBlue};
   font-weight: 300;
-  font-size: 14px;
-  margin: 0 10px 0 0;
+  font-size: 0.75rem;
+  margin: 0 0.625rem 0 0;
   display: inline-flex;
   align-items: center;
-  text-decoration: none;
-  cursor: pointer;
-
+  text-decoration: none !important;
   i {
-    font-size: 22px;
+    font-size: 1rem;
     margin-right: 8px;
   }
 
-  i:before {
-    width: 50px;
-    display: inline-block;
-  }
-
   @media (min-width: ${deviceWidth.tablet}px) {
-    i:before {
-      width: auto;
+    i {
+      font-size: 1.25rem;
     }
   }
 
-  &&&:hover,
-  :hover i:before {
+  &:hover,
+  &:hover i:before {
     color: ${(props): string => props.theme.fontLightBlue};
   }
 `
@@ -88,11 +79,14 @@ export const HeroInfoItem = styled.div`
   flex-flow: row nowrap;
   align-items: center;
   justify-content: flex-start;
-  margin: 0.875rem 2.25rem 0.875rem 0;
+  margin: 0.25rem 0.75rem 0.25rem 0;
   font-weight: bold;
   * + span {
     margin-left: 0.5rem;
-    @media (min-width: ${deviceWidth.tablet}px) {
+  }
+  @media (min-width: ${deviceWidth.tablet}px) {
+    margin: 0.875rem 2.25rem 0.875rem 0;
+    * + span {
       margin-left: 0.875rem;
     }
   }
@@ -105,6 +99,7 @@ export const Flag = styled.div`
   width: 1.4rem;
   height: 1rem;
   border-radius: 4px;
+  border: 0.5px solid #dfe3e8;
 `
 
 export const AddClaim = styled(Link)`

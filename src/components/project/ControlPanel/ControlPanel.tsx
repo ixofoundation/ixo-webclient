@@ -59,10 +59,10 @@ class ControlPanel extends React.Component<Props, State> {
       <>
         <MobileControlPanelToggle onClick={this.toggleShowControlPanel}>
           {this.state.showControlPanelMobile ? (
-            <Close width="16" fill="#BDBDBD" />
+            <Close width="20" fill="#fff" />
           ) : (
             <div className="down-arrow">
-              <Down width="16" fill="#BDBDBD" />
+              <Down width="20" fill="#fff" />
             </div>
           )}
         </MobileControlPanelToggle>
