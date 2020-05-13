@@ -9,15 +9,16 @@ import {
   SearchHeading,
   SearchButtonsWrapper,
   SearchFilterButton,
+  ButtonContent,
 } from './Search.styles'
-import Globe from '../../../../assets/icons/Globe'
-import Funding from '../../../../assets/icons/Funding'
+import Investments from '../../../../assets/icons/Investments'
 import Cells from '../../../../assets/icons/Cells'
 import Oracle from '../../../../assets/icons/Oracle'
 import Template from '../../../../assets/icons/Template'
-import Data from '../../../../assets/icons/Data'
 import SearchIcon from '../../../../assets/icons/Search'
 import Down from 'src/assets/icons/Down'
+import Projects from '../../../../assets/icons/Projects'
+import DataAssets from '../../../../assets/icons/DataAssets'
 import { EntityType, EntityTypeMap } from '../../types'
 
 // TODO - search submitted
@@ -56,25 +57,6 @@ export default class Search extends React.Component<Props> {
     this.props.filterChanged(entityType)
   }
 
-  renderFilterButtonIcon = (entityType: EntityType): JSX.Element => {
-    switch (entityType) {
-      case EntityType.Project:
-        return <Globe fill="#000" />
-      case EntityType.Fund:
-        return <Funding fill="#000" />
-      case EntityType.Cell:
-        return <Cells fill="#000" />
-      case EntityType.Oracle:
-        return <Oracle fill="#000" />
-      case EntityType.Template:
-        return <Template fill="#000" />
-      case EntityType.Data:
-        return <Data fill="#000" />
-      default:
-        return null
-    }
-  }
-
   render(): JSX.Element {
     return (
       <div className="container">
@@ -85,7 +67,7 @@ export default class Search extends React.Component<Props> {
                 onClick={(): void => this.handleToggleModal()}
                 className={this.state.isModalOpen ? 'modal-open' : ''}
               >
-                {this.renderFilterButtonIcon(this.props.entityType)}
+                <Projects fill="#000" width="26" />
                 {EntityTypeMap[this.props.entityType].plural}
                 <span
                   className="down-icon"
@@ -123,43 +105,97 @@ export default class Search extends React.Component<Props> {
                     onClick={(): void =>
                       this.handleSearchFilter(EntityType.Project)
                     }
-                    className={
-                      this.props.entityType === EntityType.Project
-                        ? 'active'
-                        : ''
-                    }
+                    className={`
+                      projects ${
+                        this.props.entityType === EntityType.Project
+                          ? 'active'
+                          : ''
+                      }
+                    `}
                   >
-                    <div>{this.renderFilterButtonIcon(EntityType.Project)}</div>
-                    Projects
+                    <ButtonContent>
+                      <Projects fill="#000" width="26" />
+                      {EntityTypeMap[EntityType.Project].plural}
+                    </ButtonContent>
                   </SearchFilterButton>
-                  <SearchFilterButton className="disabled">
-                    <div>{this.renderFilterButtonIcon(EntityType.Fund)}</div>
-                    Funds
+                  <SearchFilterButton
+                    onClick={(): void =>
+                      this.handleSearchFilter(EntityType.Oracle)
+                    }
+                    className={`
+                      oracles disabled ${
+                        this.props.entityType === EntityType.Oracle
+                          ? 'active'
+                          : ''
+                      }
+                    `}
+                  >
+                    <ButtonContent>
+                      <Oracle fill="#000" width="26" />
+                      {EntityTypeMap[EntityType.Oracle].plural}
+                    </ButtonContent>
+                  </SearchFilterButton>
+                  <SearchFilterButton
+                    onClick={(): void =>
+                      this.handleSearchFilter(EntityType.Investment)
+                    }
+                    className={`
+                      investments disabled ${
+                        this.props.entityType === EntityType.Investment
+                          ? 'active'
+                          : ''
+                      }
+                    `}
+                  >
+                    <ButtonContent>
+                      <Investments fill="#000" width="26" />
+                      {EntityTypeMap[EntityType.Investment].plural}
+                    </ButtonContent>
                   </SearchFilterButton>
                   <SearchFilterButton
                     onClick={(): void =>
                       this.handleSearchFilter(EntityType.Cell)
                     }
-                    className={
-                      this.props.entityType === EntityType.Cell ? 'active' : ''
-                    }
+                    className={`
+                      cells ${
+                        this.props.entityType === EntityType.Cell
+                          ? 'active'
+                          : ''
+                      }
+                    `}
                   >
-                    <div>{this.renderFilterButtonIcon(EntityType.Cell)}</div>
-                    Cells
+                    <ButtonContent>
+                      <Cells fill="#000" width="26" />
+                      {EntityTypeMap[EntityType.Cell].plural}
+                    </ButtonContent>
                   </SearchFilterButton>
-                  <SearchFilterButton className="disabled">
-                    <div>{this.renderFilterButtonIcon(EntityType.Oracle)}</div>
-                    Oracles
+                  <SearchFilterButton
+                    className={`
+                      templates disabled ${
+                        this.props.entityType === EntityType.Template
+                          ? 'active'
+                          : ''
+                      }
+                    `}
+                  >
+                    <ButtonContent>
+                      <Template fill="#000" width="26" />
+                      {EntityTypeMap[EntityType.Template].plural}
+                    </ButtonContent>
                   </SearchFilterButton>
-                  <SearchFilterButton className="disabled">
-                    <div>
-                      {this.renderFilterButtonIcon(EntityType.Template)}
-                    </div>
-                    Templates
-                  </SearchFilterButton>
-                  <SearchFilterButton className="disabled">
-                    <div>{this.renderFilterButtonIcon(EntityType.Data)}</div>
-                    Data Assets
+                  <SearchFilterButton
+                    className={`
+                      data disabled ${
+                        this.props.entityType === EntityType.Data
+                          ? 'active'
+                          : ''
+                      }
+                    `}
+                  >
+                    <ButtonContent>
+                      <DataAssets fill="#000" width="26" />
+                      {EntityTypeMap[EntityType.Data].plural}
+                    </ButtonContent>
                   </SearchFilterButton>
                 </SearchButtonsWrapper>
               </SearchModal>

@@ -6,7 +6,11 @@ interface Props {
 }
 
 const Mobile: React.FunctionComponent<Props> = ({ show }) => {
-  return <>{show && <QRComponent url={location.href} />}</>
+  return (
+    <div className={`show-more-container ${show ? 'show' : ''}`}>
+      <QRComponent url={location.href} />
+    </div>
+  )
 }
 
 export default Mobile

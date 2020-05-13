@@ -17,7 +17,10 @@ import {
   CaptionImageWrapper,
 } from './ProjectOverview.style'
 // TODO - when we actually get the schema from the api then replace
-import ControlPanelSchema from '../ControlPanel/ControlPanel.schema.json'
+import ProjectControlPanelSchema from '../ControlPanel/schema/Project.schema.json'
+import CellControlPanelSchema from '../ControlPanel/schema/Cell.schema.json'
+import { EntityType, EntityTypeMap } from '../../../modules/Entities/types'
+import { toTitleCase } from '../../../common/utils/formatters'
 
 export interface ParentProps {
   projectDid: string
@@ -41,7 +44,6 @@ export interface ParentProps {
 export type Props = ParentProps
 
 export const ProjectOverview: React.SFC<Props> = props => {
-  console.log(props.project)
   const renderModalHeader = (): Header => {
     return {
       title: props.modalData.title,
@@ -59,6 +61,15 @@ export const ProjectOverview: React.SFC<Props> = props => {
     return link.replace('https://vimeo.com/', '')
   }
 
+  const entityType = props.project.entityType
+    ? (toTitleCase(props.project.entityType) as EntityType)
+    : EntityType.Project
+
+  const controlPanelSchema =
+    entityType === EntityType.Cell
+      ? CellControlPanelSchema
+      : ProjectControlPanelSchema
+
   return (
     <div>
       <ModalWrapper
@@ -71,7 +82,7 @@ export const ProjectOverview: React.SFC<Props> = props => {
       <OverviewContainer className="container-fluid">
         <div className="container">
           <div className="row">
-            <div className="col-lg-7">
+            <div className="col-lg-8">
               <ProjectImage
                 src={props.imageLink}
                 onError={onProjectImageNotFound}
@@ -79,101 +90,102 @@ export const ProjectOverview: React.SFC<Props> = props => {
               <Text>
                 <ReactMd markdown={props.project.longDescription} />
               </Text>
-              {props.project.pageContent.map(content => {
-                return (
-                  <div className="content-section" key={content.title}>
-                    {content.title && <h2>{content.title}</h2>}
-                    {content.text && <p>{content.text}</p>}
-                    {content.subTitle && <h3>{content.subTitle}</h3>}
-                    {content.subText && <p>{content.subText}</p>}
-                    {content.media &&
-                      content.media.type === 'image' &&
-                      content.media.text && (
-                        <InlineImageWrapper>
-                          <img
-                            src={content.media.link}
-                            alt={content.media.text}
-                          />
-                          <p>{content.media.text}</p>
-                        </InlineImageWrapper>
-                      )}
-                    {content.media &&
-                      content.media.type === 'image' &&
-                      content.media.caption && (
-                        <CaptionImageWrapper>
-                          <img
-                            src={content.media.link}
-                            alt={content.media.caption}
-                          />
-                          <p>{content.media.caption}</p>
-                        </CaptionImageWrapper>
-                      )}
-                    {content.media && content.media.type === 'video' && (
-                      <>
-                        <div
-                          style={{
-                            padding: '56.25% 0 0 0',
-                            position: 'relative',
-                          }}
-                        >
-                          <iframe
-                            src={`https://player.vimeo.com/video/${getVideoID(
-                              content.media.link,
-                            )}`}
+              {props.project.pageContent &&
+                props.project.pageContent.map(content => {
+                  return (
+                    <div className="content-section" key={content.title}>
+                      {content.title && <h2>{content.title}</h2>}
+                      {content.text && <p>{content.text}</p>}
+                      {content.subTitle && <h3>{content.subTitle}</h3>}
+                      {content.subText && <p>{content.subText}</p>}
+                      {content.media &&
+                        content.media.type === 'image' &&
+                        content.media.text && (
+                          <InlineImageWrapper>
+                            <img
+                              src={content.media.link}
+                              alt={content.media.text}
+                            />
+                            <p>{content.media.text}</p>
+                          </InlineImageWrapper>
+                        )}
+                      {content.media &&
+                        content.media.type === 'image' &&
+                        content.media.caption && (
+                          <CaptionImageWrapper>
+                            <img
+                              src={content.media.link}
+                              alt={content.media.caption}
+                            />
+                            <p>{content.media.caption}</p>
+                          </CaptionImageWrapper>
+                        )}
+                      {content.media && content.media.type === 'video' && (
+                        <>
+                          <div
                             style={{
-                              position: 'absolute',
-                              top: 0,
-                              left: 0,
-                              width: '100%',
-                              height: '100%',
+                              padding: '56.25% 0 0 0',
+                              position: 'relative',
                             }}
-                            frameBorder="0"
-                            allow="autoplay; fullscreen"
-                            allowFullScreen
-                          ></iframe>
-                        </div>
-                        <script src="https://player.vimeo.com/api/player.js"></script>
-                      </>
-                    )}
+                          >
+                            <iframe
+                              src={`https://player.vimeo.com/video/${getVideoID(
+                                content.media.link,
+                              )}`}
+                              style={{
+                                position: 'absolute',
+                                top: 0,
+                                left: 0,
+                                width: '100%',
+                                height: '100%',
+                              }}
+                              frameBorder="0"
+                              allow="autoplay; fullscreen"
+                              allowFullScreen
+                            ></iframe>
+                          </div>
+                          <script src="https://player.vimeo.com/api/player.js"></script>
+                        </>
+                      )}
 
-                    {content.table && (
-                      <>
-                        <Table striped borderless hover variant="dark">
-                          <thead>
-                            <tr>
-                              {content.table.fields.map(field => (
-                                <th key={field}>{field}</th>
-                              ))}
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {content.table.data.map((rowData, index) => (
-                              <tr key={index}>
-                                {rowData.map((rowInfo, index) => (
-                                  <td key={index}>{rowInfo}</td>
+                      {content.table && (
+                        <>
+                          <Table striped borderless hover variant="dark">
+                            <thead>
+                              <tr>
+                                {content.table.fields.map(field => (
+                                  <th key={field}>{field}</th>
                                 ))}
                               </tr>
-                            ))}
-                          </tbody>
-                        </Table>
-                      </>
-                    )}
+                            </thead>
+                            <tbody>
+                              {content.table.data.map((rowData, index) => (
+                                <tr key={index}>
+                                  {rowData.map((rowInfo, index) => (
+                                    <td key={index}>{rowInfo}</td>
+                                  ))}
+                                </tr>
+                              ))}
+                            </tbody>
+                          </Table>
+                        </>
+                      )}
 
-                    {content.cards && (
-                      <ProfileCardsWrapper>
-                        {content.cards.map(user => {
-                          return <ProfileCard key={user.title} user={user} />
-                        })}
-                      </ProfileCardsWrapper>
-                    )}
-                    <hr />
-                  </div>
-                )
-              })}
+                      {content.cards && (
+                        <ProfileCardsWrapper>
+                          {content.cards.map(user => {
+                            return <ProfileCard key={user.title} user={user} />
+                          })}
+                        </ProfileCardsWrapper>
+                      )}
+                      <hr />
+                    </div>
+                  )
+                })}
 
               {props.project.founder && props.project.founder.name !== '' && (
                 <>
-                  <h2>Project Founder</h2>
+                  <h2>{EntityTypeMap[entityType].title} Founder</h2>
                   <ProjectFounder
                     founder={props.project.founder}
                     socialMedia={props.project.socialMedia}
@@ -181,9 +193,9 @@ export const ProjectOverview: React.SFC<Props> = props => {
                 </>
               )}
             </div>
-            <div className="col-lg-5">
+            <div className="col-lg-4">
               <ControlPanel
-                schema={ControlPanelSchema}
+                schema={controlPanelSchema}
                 entityDid={props.projectDid}
               />
             </div>

@@ -1,7 +1,7 @@
 import * as React from 'react'
 import moment from 'moment'
 import { SDGArray } from '../../lib/commonData'
-import { getCountryName } from '../../common/utils/formatters'
+import { getCountryName, toTitleCase } from '../../common/utils/formatters'
 import { MatchType, AgentRoles } from '../../types/models'
 import HeaderSubTabs from '../common/HeaderSubTabs'
 import {
@@ -18,6 +18,7 @@ import {
 } from './ProjectHero.styles'
 import CalendarSort from 'src/assets/icons/CalendarSort'
 import availableFlags from '../../lib/json/availableFlags.json'
+import { EntityType, EntityTypeMap } from 'src/modules/Entities/types'
 
 export interface Props {
   project: any
@@ -36,20 +37,27 @@ export const ProjectHero: React.SFC<Props> = ({
   isClaim,
   isLoggedIn,
 }) => {
+  const entityType = project.entityType
+    ? (toTitleCase(project.entityType) as EntityType)
+    : EntityType.Project
+
   const buttonsArray = [
     {
       iconClass: 'icon-projects',
       path: `/projects/${match.params.projectDID}/overview`,
-      title: 'PROJECT',
-    },
-    {
-      iconClass: 'icon-impacts',
-      path: `/projects/${match.params.projectDID}/detail`,
-      title: 'PERFORMANCE',
+      title: EntityTypeMap[entityType].title,
     },
   ]
 
-  if (isLoggedIn) {
+  if (entityType === EntityType.Project) {
+    buttonsArray.push({
+      iconClass: 'icon-impacts',
+      path: `/projects/${match.params.projectDID}/detail`,
+      title: 'PERFORMANCE',
+    })
+  }
+
+  if (isLoggedIn && project.bondDid) {
     buttonsArray.push({
       iconClass: 'icon-funding',
       path: `/projects/${match.params.projectDID}/bonds/${project.bondDid}`,
