@@ -35,14 +35,16 @@ export const ModalButton = styled.div`
   align-items: center;
   position: relative;
   overflow: visible;
+  font-size: 18px;
   > * {
     display: block;
   }
   svg:first-child {
+    width: 1em;
     margin-right: 0.5rem;
     @media (max-width: ${deviceWidth.mobile}px) {
-    margin-right: 0;
-  }
+      margin-right: 0;
+    }
   }
   .down-icon {
     margin-left: auto;
@@ -61,8 +63,11 @@ export const ModalButton = styled.div`
     border-width: 0 1rem 1.1rem 1rem;
     border-color: transparent transparent white transparent;
   }
-  &.modal-open:after {
-    content: '';
+  &.modal-open {
+    overflow: visible;
+    :after {
+      content: '';
+    }
   }
 `
 
@@ -102,41 +107,124 @@ export const SearchHeading = styled.h3`
 export const SearchButtonsWrapper = styled.div`
   display: flex;
   flex-flow: row wrap;
-  margin: 0 -0.5rem;
+  margin: 0 -1.75rem;
 `
 
-export const SearchFilterButton = styled.div`
-  border: 1px solid #39c3e6;
-  color: #39c3e6;
+export const SearchFilterButton = styled.button`
+  color: #4d4d4d;
+  outline: none !important;
+  background: none;
   text-align: center;
   width: calc(33.333% - 1rem);
-  margin: 0.5rem;
+  margin: 0.25rem;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   flex-flow: row wrap;
-  padding: 0.75rem;
-  border-radius: 6px;
+  padding: 1.5rem;
   font-weight: 500;
-  i {
-    color: #39c3e6;
-  }
   svg path {
-    fill: #39c3e6;
+    fill: #4d4d4d;
   }
-  > * {
-    display: block;
-    width: 100%;
+
+  &.active {
+    color: #4d4d4d;
   }
-  &.active,
+
   &:hover:not(.disabled) {
-    background: linear-gradient(180deg, #04d0fb 0%, #49bfe0 100%);
-    color: white;
-    i {
-      color: white;
-    }
+    color: #fff;
     svg path {
-      fill: white;
+      fill: #fff;
+    }
+  }
+  &.projects {
+    border: 2px solid #2f80ed;
+    &.active {
+      background: linear-gradient(
+        90deg,
+        #2f80ed 0%,
+        #2f80ed 5px,
+        transparent 6px,
+        transparent 100%
+      );
+    }
+    &:hover:not(.disabled) {
+      background: linear-gradient(90deg, #2f80ed 0%, #2f80ed 100%);
+    }
+  }
+  &.oracles {
+    border: 2px solid #9b51e0;
+    &.active {
+      background: linear-gradient(
+        90deg,
+        #9b51e0 0%,
+        #9b51e0 5px,
+        transparent 6px,
+        transparent 100%
+      );
+    }
+    &:hover:not(.disabled) {
+      background: linear-gradient(90deg, #9b51e0 0%, #9b51e0 100%);
+    }
+  }
+  &.investments {
+    border: 2px solid #219653;
+    &.active {
+      background: linear-gradient(
+        90deg,
+        #219653 0%,
+        #219653 5px,
+        transparent 6px,
+        transparent 100%
+      );
+    }
+    &:hover:not(.disabled) {
+      background: linear-gradient(90deg, #219653 0%, #219653 100%);
+    }
+  }
+  &.cells {
+    border: 2px solid #f2c94c;
+    &.active {
+      background: linear-gradient(
+        90deg,
+        #f2c94c 0%,
+        #f2c94c 5px,
+        transparent 6px,
+        transparent 100%
+      );
+    }
+    &:hover:not(.disabled) {
+      background: linear-gradient(90deg, #f2c94c 0%, #f2c94c 100%);
+    }
+  }
+  &.templates {
+    border: 2px solid #000000;
+    &.active {
+      background: linear-gradient(
+        90deg,
+        #000000 0%,
+        #000000 5px,
+        transparent 6px,
+        transparent 100%
+      );
+    }
+    &:hover:not(.disabled) {
+      background: linear-gradient(90deg, #000000 0%, #000000 100%);
+    }
+  }
+  &.data {
+    border: 2px solid #f2994a;
+    &.active {
+      background: linear-gradient(
+        90deg,
+        #f2994a 0%,
+        #f2994a 5px,
+        transparent 6px,
+        transparent 100%
+      );
+    }
+    &:hover:not(.disabled) {
+      background: linear-gradient(90deg, #f2994a 0%, #f2994a 100%);
     }
   }
   &.disabled {
@@ -150,10 +238,21 @@ export const SearchFilterButton = styled.div`
       fill: #a5adb0;
     }
   }
-  @media (max-width: ${deviceWidth.mobile}px) {
+
+  @media (max-width: ${deviceWidth.tablet}px) {
     width: calc(50% - 1rem);
   }
-  @media (max-width: ${deviceWidth.mobileSmall}px) {
+  @media (max-width: ${deviceWidth.mobile}px) {
     width: calc(100% - 1rem);
+  }
+  @media (min-width: ${deviceWidth.desktop}px) {
+    padding: 1.5rem 2rem;
+  }
+`
+
+export const ButtonContent = styled.div`
+  font-size: 1rem;
+  svg {
+    margin-right: 1rem;
   }
 `

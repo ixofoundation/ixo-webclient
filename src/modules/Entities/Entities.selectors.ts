@@ -12,19 +12,14 @@ const formatDate = (date: Moment): string => date.format("D MMM \\'YY")
 export const selectEntitiesState = (state: RootState): EntitiesState =>
   state.entities
 
-export const selectAllEntities = createSelector(
+export const selectAllEntitiesByType = createSelector(
   selectEntitiesState,
   (entitiesState: EntitiesState): Entity[] => {
     return entitiesState.entities
-
-    // TODO when we have some cell type entities loaded otherwise we can't work on the cells properly!
-    /*     return entitiesState.entities
       ? entitiesState.entities.filter(
-          entity =>
-            entity.entityType.toLowerCase() ===
-            entitiesState.selectedEntitiesType.toLowerCase(),
+          entity => entity.entityType === entitiesState.selectedEntitiesType,
         )
-      : null */
+      : null
   },
 )
 
@@ -43,7 +38,7 @@ export const selectSelectedEntitiesType = createSelector(
 )
 
 export const selectedFilteredEntities = createSelector(
-  selectAllEntities,
+  selectAllEntitiesByType,
   selectEntitiesFilter,
   accountSelectors.selectUserDid,
   (entities: Entity[], filter: Filter, userDid: string): Entity[] => {
@@ -97,7 +92,7 @@ export const selectedFilteredEntities = createSelector(
 )
 
 export const selectEntitiesCountries = createSelector(
-  selectAllEntities,
+  selectAllEntitiesByType,
   (entities: Entity[]): string[] => {
     return entities && entities.length
       ? entities.map(entity => {
@@ -108,14 +103,14 @@ export const selectEntitiesCountries = createSelector(
 )
 
 export const selectAllEntitiesCount = createSelector(
-  selectAllEntities,
+  selectAllEntitiesByType,
   (entities: Entity[]): number => {
     return !entities ? 0 : entities.length
   },
 )
 
 export const selectUserEntitiesCount = createSelector(
-  selectAllEntities,
+  selectAllEntitiesByType,
   accountSelectors.selectUserDid,
   (entities: Entity[], userDid: string): number => {
     return !entities
@@ -136,7 +131,7 @@ export const selectFilteredEntitiesCount = createSelector(
 )
 
 export const selectTotalServiceProvidersCount = createSelector(
-  selectAllEntities,
+  selectAllEntitiesByType,
   (entities: Entity[]): number => {
     return !entities
       ? 0
@@ -147,7 +142,7 @@ export const selectTotalServiceProvidersCount = createSelector(
 )
 
 export const selectTotalEvaluatorsCount = createSelector(
-  selectAllEntities,
+  selectAllEntitiesByType,
   (entities: Entity[]): number => {
     return !entities
       ? 0
@@ -158,7 +153,7 @@ export const selectTotalEvaluatorsCount = createSelector(
 )
 
 export const selectTotalRequiredClaimsCount = createSelector(
-  selectAllEntities,
+  selectAllEntitiesByType,
   (entities: Entity[]): number => {
     return !entities
       ? 0
@@ -169,7 +164,7 @@ export const selectTotalRequiredClaimsCount = createSelector(
 )
 
 export const selectTotalPendingClaimsCount = createSelector(
-  selectAllEntities,
+  selectAllEntitiesByType,
   (entities: Entity[]): number => {
     return !entities
       ? 0
@@ -180,7 +175,7 @@ export const selectTotalPendingClaimsCount = createSelector(
 )
 
 export const selectTotalSuccessfulClaimsCount = createSelector(
-  selectAllEntities,
+  selectAllEntitiesByType,
   (entities: Entity[]): number => {
     return !entities
       ? 0
@@ -191,7 +186,7 @@ export const selectTotalSuccessfulClaimsCount = createSelector(
 )
 
 export const selectTotalRejectedClaimsCount = createSelector(
-  selectAllEntities,
+  selectAllEntitiesByType,
   (entities: Entity[]): number => {
     return !entities
       ? 0
@@ -202,7 +197,7 @@ export const selectTotalRejectedClaimsCount = createSelector(
 )
 
 export const selectIsLoadingEntities = createSelector(
-  selectAllEntities,
+  selectAllEntitiesByType,
   (entities: Entity[]): boolean => {
     return entities === null
   },

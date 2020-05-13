@@ -16,6 +16,7 @@ import {
 } from './types'
 import { RootState } from 'src/common/redux/types'
 import blocksyncApi from '../../common/api/blocksync-api/blocksync-api'
+import { toTitleCase } from '../../common/utils/formatters'
 
 export const getEntities = () => (dispatch: Dispatch): GetEntitiesAction => {
   return dispatch({
@@ -23,7 +24,9 @@ export const getEntities = () => (dispatch: Dispatch): GetEntitiesAction => {
     payload: blocksyncApi.project.listProjects().then(response => {
       return response.map(entity => ({
         did: entity.projectDid,
-        entityType: entity.data.entityType || EntityType.Project,
+        entityType: entity.data.entityType
+          ? toTitleCase(entity.data.entityType)
+          : EntityType.Project,
         userDid: entity.data.createdBy,
         status: entity.status,
         title: entity.data.title,

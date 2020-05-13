@@ -3,7 +3,7 @@ import { Moment } from 'moment'
 export enum EntityType {
   Project = 'Project',
   Cell = 'Cell',
-  Fund = 'Fund',
+  Investment = 'Investment',
   Oracle = 'Oracle',
   Template = 'Template',
   Data = 'Data',
@@ -11,22 +11,28 @@ export enum EntityType {
 
 export const EntityTypeMap = {
   [EntityType.Project]: {
+    title: 'Project',
     plural: 'Projects',
   },
   [EntityType.Cell]: {
-    plural: 'Cells',
+    title: 'Cell Node',
+    plural: 'Cell Nodes',
   },
-  [EntityType.Fund]: {
-    plural: 'Funds',
+  [EntityType.Investment]: {
+    title: 'Investment',
+    plural: 'Investments',
   },
   [EntityType.Oracle]: {
+    title: 'Oracle',
     plural: 'Oracles',
   },
   [EntityType.Template]: {
+    title: 'Template',
     plural: 'Templates',
   },
   [EntityType.Data]: {
-    plural: 'Data',
+    title: 'Data Asset',
+    plural: 'Data Assets',
   },
 }
 

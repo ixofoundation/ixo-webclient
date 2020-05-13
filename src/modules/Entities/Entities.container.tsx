@@ -76,21 +76,11 @@ export interface Props {
 
 export class Entities extends React.Component<Props> {
   componentDidMount(): void {
-    // this.setDefaultViewFilters()
     this.props.handleGetEntities()
   }
 
-  /*   setDefaultViewFilters = (): void => {
-    if (this.props.isLoggedIn) {
-      this.props.handleFilterToggleUserEntities(true)
-    } else {
-      this.props.handleFilterToggleFeaturedEntities(true)
-    }
-  } */
-
   resetWithDefaultViewFilters = (): void => {
     this.props.handleResetFilters()
-    // this.setDefaultViewFilters()
   }
 
   renderCards = (): JSX.Element[] => {

@@ -25,10 +25,11 @@ beforeEach(() => {
       loginStatusCheckCompleted: true,
     },
     entities: {
-      entityType: EntityType.Project,
+      selectedEntitiesType: EntityType.Project,
       entities: [
         {
           did: 'someDid1',
+          entityType: EntityType.Project,
           userDid: 'someUserDid1',
           title: 'someTitle1',
           shortDescription: 'someShortDescription1',
@@ -69,6 +70,7 @@ beforeEach(() => {
         },
         {
           did: 'someDid2',
+          entityType: EntityType.Project,
           userDid: 'someUserDid',
           title: 'someTitle2',
           shortDescription: 'someShortDescription2',
@@ -109,6 +111,7 @@ beforeEach(() => {
         },
         {
           did: 'someDid3',
+          entityType: EntityType.Project,
           userDid: 'someUserDid',
           title: 'someTitle3',
           shortDescription: 'someShortDescription3',
@@ -147,6 +150,47 @@ beforeEach(() => {
           ],
           data: null,
         },
+        {
+          did: 'someDid4',
+          entityType: EntityType.Cell,
+          userDid: 'someUserDid',
+          title: 'someTitle4',
+          shortDescription: 'someShortDescription4',
+          dateCreated: moment('2020-04-02T14:14:14.000Z'),
+          ownerName: 'someOwnerName4',
+          status: 'someStatus4',
+          country: 'someCountry4',
+          impactAction: 'someImpactAction4',
+          serviceProvidersCount: 5,
+          evaluatorsCount: 6,
+          requiredClaimsCount: 7,
+          successfulClaimsCount: 8,
+          pendingClaimsCount: 9,
+          rejectedClaimsCount: 10,
+          sdgs: ['SDG1_4', 'SDG2_4', 'SDG4_4'],
+          longDescription: 'someLongDescription',
+          agentDids: ['someAgentDid5'],
+          imageUrl: 'sommeImageUrl',
+          categories: [
+            {
+              name: 'someCategory4',
+              tags: [
+                'someCategory4_tag1',
+                'someCategory4_tag2',
+                'someCategory4_tag4',
+              ],
+            },
+            {
+              name: 'someCategory4',
+              tags: [
+                'someCategory4_tag1',
+                'someCategory4_tag2',
+                'someCategory4_tag3',
+              ],
+            },
+          ],
+          data: null,
+        },
       ],
       filter: {
         dateFrom: moment('1970-01-01'),
@@ -177,12 +221,29 @@ describe('Entities Selectors', () => {
   })
 
   describe('selectAllEntities', () => {
-    it('should return the all the entities', () => {
+    it('should return the all the projects entities', () => {
       // when ... we call the selector
-      const result = SUT.selectAllEntities(state)
+      const result = SUT.selectAllEntitiesByType(state)
 
       // then ... should return result as expected
-      expect(result).toEqual(state.entities.entities)
+      expect(result).toEqual(
+        state.entities.entities.filter(
+          entity => entity.entityType === EntityType.Project,
+        ),
+      )
+    })
+
+    it('should return the all the cells entities', () => {
+      state.entities.selectedEntitiesType = EntityType.Cell
+      // when ... we call the selector
+      const result = SUT.selectAllEntitiesByType(state)
+
+      // then ... should return result as expected
+      expect(result).toEqual(
+        state.entities.entities.filter(
+          entity => entity.entityType === EntityType.Cell,
+        ),
+      )
     })
   })
 
@@ -202,7 +263,7 @@ describe('Entities Selectors', () => {
       const result = SUT.selectSelectedEntitiesType(state)
 
       // then ... should return result as expected
-      expect(result).toEqual(state.entities.selectEntitiesType)
+      expect(result).toEqual(state.entities.selectedEntitiesType)
     })
   })
 
