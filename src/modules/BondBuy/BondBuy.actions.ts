@@ -7,11 +7,11 @@ import {
 } from './types'
 import Axios from 'axios'
 import { Currency } from '../../types/models'
-import { toast } from 'react-toastify'
 import { Dispatch } from 'redux'
 import { RootState } from 'src/common/redux/types'
 import * as signingUtils from '../../common/utils/bond.signingUtils'
 import keysafe from '../../common/keysafe/keysafe'
+import * as Toast from '../../components/helpers/Toast'
 
 export const initiateQuote = (): InitiateQuoteAction => ({
   type: BondBuyActions.InitiateQuote,
@@ -83,13 +83,11 @@ export const confirmBuy = () => (
         JSON.stringify(signingUtils.generateBuyTx(bondBuyPayload, signature)),
       ).then(response => {
         if (!response.data.logs[0].success) {
-          toast('Sale failed. Please try again.', {
-            position: toast.POSITION.BOTTOM_LEFT,
-          })
+          Toast.errorToast('Sale failed. Please try again.')
         } else {
-          toast('Transaction submitted. Check its status in the orders tab.', {
-            position: toast.POSITION.BOTTOM_LEFT,
-          })
+          Toast.successToast(
+            'Transaction submitted. Check its status in the orders tab.',
+          )
         }
       }),
     })
