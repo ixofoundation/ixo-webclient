@@ -120,6 +120,7 @@ export const FilterSelectButton = styled.div`
     max-width: 100%;
     width: 4rem;
     height: 4rem;
+    object-fit: contain;
     display: block;
   }
   &:nth-child(2) {
