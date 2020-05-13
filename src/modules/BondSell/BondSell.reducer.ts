@@ -51,16 +51,13 @@ export const reducer = (
         ...state,
         signPending: true,
       }
-    case BondSellActions.ConfirmSellSuccess:
-      if (action.payload) return { ...initialState }
-
-      return { ...state, signPending: false }
     case BondSellActions.ConfirmSellFailure:
       return {
         ...state,
         signPending: false,
       }
     case BondSellActions.Clear:
+    case BondSellActions.ConfirmSellSuccess:
       return {
         ...initialState,
       }

@@ -111,3 +111,9 @@ select {
   color: #555;
   margin-right: 3rem;
 }
+
+.button_buy[disabled] {
+  background-color: #808080;
+  background: linear-gradient(180deg, #808080 0%, #808080 100%);
+  cursor: not-allowed;
+}

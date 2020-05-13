@@ -8,14 +8,6 @@ export const initialState: BondBuyState = {
   txFees: [],
 }
 
-/* const notify = (payload: any): void => {
-  if (payload.response) {
-    toast.info(JSON.parse(payload.response.data.error).message, {
-      position: toast.POSITION.BOTTOM_LEFT,
-    })
-  }
-} */
-
 export const reducer = (
   state = initialState,
   action: BondBuyActionTypes,
@@ -40,7 +32,6 @@ export const reducer = (
         transacting: false,
       }
     case BondBuyActions.GetQuoteFailure:
-      // notify(action.payload)
       return {
         ...state,
         transacting: false,
@@ -51,16 +42,13 @@ export const reducer = (
         ...state,
         signPending: true,
       }
-    case BondBuyActions.ConfirmBuySuccess:
-      if (action.payload) return { ...initialState }
-
-      return { ...state, signPending: false }
     case BondBuyActions.ConfirmBuyFailure:
       return {
         ...state,
         signPending: false,
       }
     case BondBuyActions.Clear:
+    case BondBuyActions.ConfirmBuySuccess:
       return {
         ...initialState,
       }
