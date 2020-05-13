@@ -11,21 +11,27 @@ export enum EntityType {
 
 export const EntityTypeMap = {
   [EntityType.Project]: {
+    title: 'Project',
     plural: 'Projects',
   },
   [EntityType.Cell]: {
-    plural: 'Cells',
+    title: 'Cell Node',
+    plural: 'Cell Nodes',
   },
   [EntityType.Fund]: {
+    title: 'Fund',
     plural: 'Funds',
   },
   [EntityType.Oracle]: {
+    title: 'Oracle',
     plural: 'Oracles',
   },
   [EntityType.Template]: {
+    title: 'Template',
     plural: 'Templates',
   },
   [EntityType.Data]: {
+    title: 'Data',
     plural: 'Data',
   },
 }
