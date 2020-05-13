@@ -45,7 +45,6 @@ const ConfirmBuyOrder: React.FunctionComponent<Props> = ({
   handleConfirmBuy,
   handleClear,
 }) => {
-  console.log(estimatedPrice)
   const { handleSubmit } = useForm()
 
   const error = (message?: string): JSX.Element => {
