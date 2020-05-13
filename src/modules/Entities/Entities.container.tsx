@@ -89,8 +89,9 @@ export class Entities extends React.Component<Props> {
         case EntityType.Cell:
           return (
             <CellCard
-              ownerName={entity.ownerName}
+              dateCreated={entity.dateCreated}
               imageUrl={entity.imageUrl}
+              founderLogoUrl={entity.foundLogoUrl}
               impactAction={entity.impactAction}
               projectDid={entity.did}
               rejectedClaims={entity.rejectedClaimsCount}

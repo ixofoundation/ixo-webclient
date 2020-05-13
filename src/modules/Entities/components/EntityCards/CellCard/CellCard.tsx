@@ -1,10 +1,14 @@
 import * as React from 'react'
 import { SDGArray } from '../../../../../lib/commonData'
 import { ProgressBar } from '../../../../../components/common/ProgressBar'
-import { excerptText } from '../../../../../common/utils/formatters'
+import {
+  excerptText,
+  toTitleCase,
+} from '../../../../../common/utils/formatters'
 import {
   Title,
-  Owner,
+  Founded,
+  FoundedDate,
   Description,
   Progress,
   Impact,
@@ -13,15 +17,25 @@ import {
   CardBottom,
   StatusContainer,
   StatusText,
-  ProjectStatus,
+  Status,
+  StatusLabel,
   CardContainer,
-  ProjectLink,
+  CardLink,
+  CardBottomTopContainer,
+  Logo,
+  LogoContainer,
+  CardBottomMiddleContainer,
+  StatisticsContainer,
+  Statistic,
+  StatisticLabel,
+  StatisticValue,
 } from './CellCard.styles'
+import { Moment } from 'moment'
 
 export interface Props {
   projectData: any // TEMP until projects gets it's own data from redux instead of storing it in some weird link state
   projectDid: string
-  ownerName: string
+  dateCreated: Moment
   title: string
   shortDescription: string
   requiredClaims: number
@@ -29,6 +43,7 @@ export interface Props {
   rejectedClaims: number
   impactAction: string
   imageUrl: string
+  founderLogoUrl: string
   status: string
   sdgs: number[]
 }
@@ -40,9 +55,14 @@ export class CellCard extends React.Component<Props, {}> {
 
     if (status === 'CREATED' || status === 'COMPLETED') {
       return (
-        <ProjectStatus className={statusType}>
-          <StatusText>{statusType}</StatusText>
-        </ProjectStatus>
+        <StatusContainer>
+          <StatusLabel>
+            <StatusText>Status</StatusText>
+          </StatusLabel>
+          <Status className={statusType}>
+            <StatusText>{toTitleCase(statusType)}</StatusText>
+          </Status>
+        </StatusContainer>
       )
     }
 
@@ -96,7 +116,7 @@ export class CellCard extends React.Component<Props, {}> {
   render(): JSX.Element {
     return (
       <CardContainer className="col-10 offset-1 col-xl-4 col-md-6 col-sm-10 offset-sm-1 offset-md-0">
-        <ProjectLink
+        <CardLink
           to={{
             pathname: `/projects/${this.props.projectDid}/overview`,
             state: {
@@ -119,14 +139,33 @@ export class CellCard extends React.Component<Props, {}> {
             </Description>
           </CardTop>
           <CardBottom>
-            <StatusContainer>{this.getProjectStatus()}</StatusContainer>
-            <div>
+            <CardBottomTopContainer>
+              {this.getProjectStatus()}
+              <LogoContainer>
+                <Logo src={this.props.founderLogoUrl} width="34" />
+              </LogoContainer>
+            </CardBottomTopContainer>
+            <CardBottomMiddleContainer>
               <Title>{excerptText(this.props.title, 10)}</Title>
-              <Owner>By {this.props.ownerName}</Owner>
-            </div>
-            {this.getProgress()}
+              <Founded>
+                Founded in{' '}
+                <FoundedDate>
+                  {this.props.dateCreated.format('DD MMM YYYY')}
+                </FoundedDate>
+              </Founded>
+            </CardBottomMiddleContainer>
+            <StatisticsContainer>
+              <Statistic>
+                <StatisticValue>162</StatisticValue>{' '}
+                <StatisticLabel>members</StatisticLabel>
+              </Statistic>
+              <Statistic>
+                <StatisticValue>3</StatisticValue>{' '}
+                <StatisticLabel>projects</StatisticLabel>
+              </Statistic>
+            </StatisticsContainer>
           </CardBottom>
-        </ProjectLink>
+        </CardLink>
       </CardContainer>
     )
   }

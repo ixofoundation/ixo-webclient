@@ -6,14 +6,18 @@ export const Title = styled.h3`
   font-weight: 400;
   font-size: 21px;
   box-sizing: border-box;
-  margin: 12px 0;
+  margin-bottom: 6px;
   color: ${/* eslint-disable-line */ props => props.theme.fontDarkGrey};
   line-height: 1.2;
 `
 
-export const Owner = styled.p`
-  font-size: 11px;
-  margin-bottom: 15px;
+export const Founded = styled.p`
+  font-size: 12px;
+  margin-bottom: 0;
+`
+
+export const FoundedDate = styled.span`
+  font-weight: 400;
 `
 
 export const Description = styled.div`
@@ -113,18 +117,55 @@ export const CardBottom = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-
+  margin-top: 12px;
   p {
     font-weight: 300;
     color: ${/* eslint-disable-line */ props => props.theme.fontDarkGrey};
   }
 `
 
+export const CardBottomTopContainer = styled.div`
+  display: flex;
+  align-items: flex-start;
+`
+
+export const CardBottomMiddleContainer = styled.div`
+  margin: 26px 0;
+`
+
+export const StatisticsContainer = styled.div`
+  display: flex;
+  margin-bottom: 26px;
+`
+
+export const Statistic = styled.div`
+  flex: 0.5;
+  font-size: 24px;
+`
+
+export const StatisticLabel = styled.span`
+  color: grey;
+`
+
+export const StatisticValue = styled.span`
+  color: #000;
+  font-weight: 400;
+`
+
+export const LogoContainer = styled.div`
+  display: flex;
+  flex: 1;
+  justify-content: flex-end;
+`
+
+export const Logo = styled.img`
+  width: 34px;
+  border-radius: 17px;
+`
+
 export const StatusContainer = styled.div`
   display: flex;
-  height: 40px;
-  justify-content: flex-end;
-  align-items: center;
+  box-shadow: 0px 3px 15px rgba(0, 0, 0, 0.15);
 `
 
 export const StatusText = styled.p`
@@ -132,13 +173,14 @@ export const StatusText = styled.p`
   font-size: 12px;
 `
 
-export const ProjectStatus = styled.div`
+export const Status = styled.div`
   &.PENDING {
     ${StatusText} {
       color: white;
-      font-weight: 400;
+      font-weight: bold;
       padding: 2px 10px;
-      border-radius: 2px;
+      border-top-right-radius: 4px;
+      border-bottom-right-radius: 4px;
       background: ${/* eslint-disable-line */ props => props.theme.ixoOrange};
       font-family: ${/* eslint-disable-line */ props =>
         props.theme.fontRobotoCondensed};
@@ -152,11 +194,21 @@ export const ProjectStatus = styled.div`
   }
 `
 
+export const StatusLabel = styled.div`
+  color: black;
+  font-weight: 400;
+  padding: 2px 10px;
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+  font-family: ${/* eslint-disable-line */ props =>
+    props.theme.fontRobotoCondensed};
+`
+
 export const CardContainer = styled.div`
   margin-bottom: 34px;
 `
 
-export const ProjectLink = styled(Link)`
+export const CardLink = styled(Link)`
   display: flex;
   flex-direction: column;
   box-shadow: 0px 10px 25px 0px rgba(0, 0, 0, 0);
