@@ -59,7 +59,7 @@ export const FounderImageWrapper = styled.div`
     width: 8rem;
     height: 8rem;
     border-radius: 50%;
-    object-fit: cover;
+    object-fit: contain;
   }
   @media (min-width: ${deviceWidth.mobile}px) {
     margin-bottom: 0;

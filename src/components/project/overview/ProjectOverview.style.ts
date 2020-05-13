@@ -2,10 +2,13 @@ import styled from 'styled-components'
 import { deviceWidth } from '../../../lib/commonData'
 import { ProgressBar } from '../../common/ProgressBar'
 
+export const CaptionImageWrapper = styled.div``
+
 export const OverviewContainer = styled.section`
   background: white;
   color: black;
   padding-bottom: 40px;
+  line-height: 2;
   hr {
     border: 1px solid #e8edee;
     width: 7.5rem;
@@ -25,19 +28,16 @@ export const OverviewContainer = styled.section`
     margin: 0.75rem 0;
   }
   .content-section {
-    > p:first-of-type {
-      line-height: 2;
-      &::first-letter {
-        float: left;
-        background: #e8edee;
-        padding: 0.5rem 1.125rem;
-        border-radius: 4px;
-        font-family: ${(props): string => props.theme.fontRobotoCondensed};
-        font-weight: normal;
-        font-size: 2.8125rem;
-        line-height: 1;
-        margin-right: 0.5rem;
-      }
+    > p:first-of-type::first-letter {
+      float: left;
+      background: #e8edee;
+      padding: 0.5rem 1.125rem;
+      border-radius: 4px;
+      font-family: ${(props): string => props.theme.fontRobotoCondensed};
+      font-weight: normal;
+      font-size: 2.8125rem;
+      line-height: 1;
+      margin-right: 0.5rem;
     }
   }
   .content-section ~ .content-section {
@@ -58,6 +58,13 @@ export const OverviewContainer = styled.section`
     }
   }
   .content-section {
+    .table-wrapper {
+      overflow-x: scroll;
+      table.table {
+        width: max-content;
+        max-width: none;
+      }
+    }
     table.table thead th,
     table.table td {
       border: none;
@@ -72,6 +79,14 @@ export const OverviewContainer = styled.section`
       font-size: 0.875rem;
       letter-spacing: 0.3px;
       color: #000000;
+    }
+    ${CaptionImageWrapper} {
+      p {
+        font-size: 0.75rem;
+        line-height: 2;
+        margin-top: 1rem;
+        color: #a5adb0;
+      }
     }
   }
 `
@@ -266,7 +281,7 @@ export const InlineImageWrapper = styled.div`
     width: 100%;
   }
   img {
-    height: auto;
+    height: intrinsic;
     object-fit: cover;
     margin-bottom: 1rem;
   }
@@ -284,13 +299,5 @@ export const InlineImageWrapper = styled.div`
       width: calc(50% - 1.35rem);
       margin-left: 1.25rem;
     }
-  }
-`
-export const CaptionImageWrapper = styled.div`
-  p {
-    font-size: 0.75rem;
-    line-height: 2;
-    margin-top: 1rem;
-    color: #a5adb0;
   }
 `

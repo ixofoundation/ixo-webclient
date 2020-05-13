@@ -15,6 +15,7 @@ export const ProfileCardWrapper = styled.div`
 
   .ProfileCard-image {
     width: 6rem;
+    max-height: 6rem;
     object-fit: cover;
   }
 

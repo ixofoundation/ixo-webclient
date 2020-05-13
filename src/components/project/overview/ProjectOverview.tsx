@@ -149,7 +149,7 @@ export const ProjectOverview: React.SFC<Props> = props => {
                       )}
 
                       {content.table && (
-                        <>
+                        <div className="table-wrapper">
                           <Table striped borderless hover variant="dark">
                             <thead>
                               <tr>
@@ -168,7 +168,7 @@ export const ProjectOverview: React.SFC<Props> = props => {
                               ))}
                             </tbody>
                           </Table>
-                        </>
+                        </div>
                       )}
 
                       {content.cards && (
