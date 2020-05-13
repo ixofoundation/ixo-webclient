@@ -989,7 +989,7 @@ export class ProjectContainer extends React.Component<Props, State> {
     return (
       <Fragment>
         {this.state.projectPublic === null || this.state.userRoles === null ? (
-          <Spinner info="Loading Project..." />
+          <Spinner info="Loading Entity..." />
         ) : (
           this.handleRenderProject()
         )}
