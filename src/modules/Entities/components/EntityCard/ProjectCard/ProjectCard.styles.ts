@@ -11,7 +11,7 @@ export const Title = styled.h3`
   margin-bottom: 2px;
   color: ${/* eslint-disable-line */ props => props.theme.fontDarkGrey};
   line-height: 1.2;
-  height: 28px;
+  height: 34px;
 `
 
 export const Progress = styled.div`

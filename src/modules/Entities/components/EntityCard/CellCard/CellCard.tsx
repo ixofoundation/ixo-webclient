@@ -1,5 +1,8 @@
 import * as React from 'react'
-import { excerptText } from '../../../../../common/utils/formatters'
+import {
+  excerptText,
+  toTitleCase,
+} from '../../../../../common/utils/formatters'
 import {
   Title,
   Founded,
@@ -12,6 +15,7 @@ import {
 } from './CellCard.styles'
 import { Moment } from 'moment'
 import { EntityCardContainer } from '../EntityCardContainer'
+import { ShieldColor } from '../EntityCardContainer.styles'
 
 export interface Props {
   dateCreated: Moment
@@ -40,6 +44,18 @@ export const CellCard: React.FunctionComponent<Props> = ({
   status,
   sdgs,
 }) => {
+  const shield = toTitleCase(status)
+
+  let shieldColor
+  switch (shield) {
+    case 'Created':
+      shieldColor = ShieldColor.Orange
+      break
+    case 'Completed':
+      shieldColor = ShieldColor.Grey
+      break
+  }
+
   return (
     <EntityCardContainer
       projectData={projectData}
@@ -50,6 +66,9 @@ export const CellCard: React.FunctionComponent<Props> = ({
       founderLogoUrl={founderLogoUrl}
       status={status}
       sdgs={sdgs}
+      shieldColor={shieldColor}
+      shield={shield}
+      shieldLabel="Status"
     >
       <MainContent>
         <Title>{excerptText(title, 10)}</Title>

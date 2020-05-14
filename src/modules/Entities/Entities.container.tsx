@@ -117,7 +117,6 @@ export class Entities extends React.Component<Props> {
               sdgs={entity.sdgs}
               projectData={entity.data}
               key={index}
-              status={entity.status}
               founderLogoUrl={entity.foundLogoUrl}
               version={0.2} // TODO
               activeUsage={16} // TODO

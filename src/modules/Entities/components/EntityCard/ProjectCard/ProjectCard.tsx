@@ -16,6 +16,8 @@ import {
   StatisticLabel,
   StatisticValue,
 } from './ProjectCard.styles'
+import { ShieldColor } from '../EntityCardContainer.styles'
+import Star from 'src/assets/icons/Star'
 
 export interface Props {
   projectData: any
@@ -24,7 +26,6 @@ export interface Props {
   shortDescription: string
   imageUrl: string
   founderLogoUrl: string
-  status: string
   sdgs: number[]
   requiredClaims: number
   successfulClaims: number
@@ -43,7 +44,6 @@ export const ProjectCard: React.FunctionComponent<Props> = ({
   shortDescription,
   imageUrl,
   founderLogoUrl,
-  status,
   sdgs,
   requiredClaims,
   successfulClaims,
@@ -64,6 +64,9 @@ export const ProjectCard: React.FunctionComponent<Props> = ({
       founderLogoUrl={founderLogoUrl}
       status={status}
       sdgs={sdgs}
+      shield="Project"
+      shieldLabel="Template"
+      shieldColor={ShieldColor.Blue}
     >
       <MainContent>
         <Title>{excerptText(title, 10)}</Title>
@@ -78,7 +81,10 @@ export const ProjectCard: React.FunctionComponent<Props> = ({
           <StatisticLabel>Active Usage</StatisticLabel>
         </Statistic>
         <Statistic>
-          <StatisticValue>{ratingScore}</StatisticValue>
+          <StatisticValue>
+            {ratingScore}
+            <Star fill="#E8EDEE" width="20" />
+          </StatisticValue>
           <StatisticLabel>Rating ({ratingCount})</StatisticLabel>
         </Statistic>
       </StatisticsContainer>

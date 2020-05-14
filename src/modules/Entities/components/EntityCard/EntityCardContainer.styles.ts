@@ -2,6 +2,13 @@ import styled from 'styled-components'
 import { deviceWidth } from '../../../../lib/commonData'
 import { Link } from 'react-router-dom'
 
+export enum ShieldColor {
+  Grey = 'grey',
+  Orange = 'orange',
+  Green = 'green',
+  Red = 'red',
+  Blue = 'blue',
+}
 export const CardTop = styled.div`
   overflow: hidden;
 `
@@ -102,39 +109,61 @@ export const CardBottomHeadingContainer = styled.div`
   align-items: flex-start;
 `
 
-export const StatusContainer = styled.div`
+export const ShieldContainer = styled.div`
   display: flex;
   box-shadow: 0px 3px 15px rgba(0, 0, 0, 0.15);
   border-radius: 4px;
 `
 
-export const StatusText = styled.p`
+export const ShieldText = styled.p`
   margin: 0;
   font-size: 12px;
 `
 
-export const Status = styled.div`
-  &.PENDING {
-    ${StatusText} {
-      color: white;
-      font-weight: bold;
-      padding: 2px 10px;
-      border-top-right-radius: 4px;
-      border-bottom-right-radius: 4px;
-      background: ${/* eslint-disable-line */ props => props.theme.ixoOrange};
-      font-family: ${/* eslint-disable-line */ props => props.theme.fontRoboto};
+export const Shield = styled.div`
+  p {
+    color: white;
+    font-weight: bold;
+    padding: 2px 10px;
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+    background: ${/* eslint-disable-line */ props => props.theme.ixoOrange};
+    font-family: ${/* eslint-disable-line */ props => props.theme.fontRoboto};
+  }
+
+  &.${ShieldColor.Orange} {
+    ${ShieldText} {
+      background-color: #f89d28;
     }
   }
 
-  &.COMPLETED {
-    ${StatusText} {
-      color: #b6b6b6;
+  &.${ShieldColor.Grey} {
+    ${ShieldText} {
+      background-color: #b6b6b6;
+    }
+  }
+
+  &.${ShieldColor.Green} {
+    ${ShieldText} {
+      background-color: #b6b6b6;
+    }
+  }
+
+  &.${ShieldColor.Red} {
+    ${ShieldText} {
+      background-color: #e2223b;
+    }
+  }
+
+  &.${ShieldColor.Blue} {
+    ${ShieldText} {
+      background-color: #39c3e6;
     }
   }
 `
 
-export const StatusLabel = styled.div`
-  ${StatusText} {
+export const ShieldLabel = styled.div`
+  ${ShieldText} {
     color: black;
     font-weight: 400;
     padding: 2px 10px;

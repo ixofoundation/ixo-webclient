@@ -7,15 +7,16 @@ import {
   CardTop,
   CardTopContainer,
   CardBottom,
-  StatusContainer,
-  StatusText,
-  Status,
-  StatusLabel,
+  ShieldContainer,
+  ShieldText,
+  Shield,
+  ShieldLabel,
   CardContainer,
   CardLink,
   CardBottomHeadingContainer,
   Logo,
   LogoContainer,
+  ShieldColor,
 } from './EntityCardContainer.styles'
 
 export interface Props {
@@ -28,6 +29,9 @@ export interface Props {
   founderLogoUrl: string
   status: string
   sdgs: number[]
+  shieldColor: ShieldColor
+  shieldLabel: string
+  shield: string
 }
 
 export const EntityCardContainer: React.FunctionComponent<Props> = ({
@@ -39,26 +43,10 @@ export const EntityCardContainer: React.FunctionComponent<Props> = ({
   founderLogoUrl,
   status,
   sdgs,
+  shieldColor,
+  shieldLabel,
+  shield,
 }) => {
-  const getStatus = (): JSX.Element => {
-    const statusType = status === 'CREATED' ? 'PENDING' : status
-
-    if (status) {
-      return (
-        <StatusContainer>
-          <StatusLabel>
-            <StatusText>Status</StatusText>
-          </StatusLabel>
-          <Status className={statusType}>
-            <StatusText>{toTitleCase(statusType)}</StatusText>
-          </Status>
-        </StatusContainer>
-      )
-    }
-
-    return null
-  }
-
   const getSDGIcons = (): JSX.Element => (
     <>
       {sdgs.map((sdg, index) => {
@@ -101,7 +89,14 @@ export const EntityCardContainer: React.FunctionComponent<Props> = ({
         </CardTop>
         <CardBottom>
           <CardBottomHeadingContainer>
-            {getStatus()}
+            <ShieldContainer>
+              <ShieldLabel>
+                <ShieldText>{shieldLabel}</ShieldText>
+              </ShieldLabel>
+              <Shield className={shieldColor}>
+                <ShieldText>{toTitleCase(shield)}</ShieldText>
+              </Shield>
+            </ShieldContainer>
             <LogoContainer>
               <Logo src={founderLogoUrl} width="34" height="34" />
             </LogoContainer>
