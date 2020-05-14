@@ -53,7 +53,6 @@ export default class Search extends React.Component<Props> {
 
   handleSearchFilter = (entityType: EntityType): void => {
     this.handleToggleModal()
-
     this.props.filterChanged(entityType)
   }
 
@@ -68,7 +67,9 @@ export default class Search extends React.Component<Props> {
                 className={this.state.isModalOpen ? 'modal-open' : ''}
               >
                 <Projects fill="#000" width="26" />
-                {EntityTypeMap[this.props.entityType].plural}
+                <span className="modal-text">
+                  {EntityTypeMap[this.props.entityType].plural}
+                </span>
                 <span
                   className="down-icon"
                   style={{

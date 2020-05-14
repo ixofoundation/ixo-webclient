@@ -47,6 +47,15 @@ export const ModalButton = styled.div`
       margin-right: 6px;
     }
   }
+
+  span {
+    &.modal-text {
+      @media (max-width: ${deviceWidth.mobile}px) {
+        display: none;
+      }
+    }
+  }
+
   .down-icon {
     margin-left: auto;
     transition: all 0.3s;
