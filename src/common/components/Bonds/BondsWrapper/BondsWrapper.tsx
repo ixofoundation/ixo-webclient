@@ -1,6 +1,5 @@
 import * as React from 'react'
 import Header from '../BondsSummaryHeader/Header'
-import 'react-toastify/dist/ReactToastify.css'
 import './BondsWrapper.css'
 import BondsSidebar from '../BondsSidebar/BondsSidebar'
 import { Spinner } from '../../../../components/common/Spinner'
