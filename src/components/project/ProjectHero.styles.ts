@@ -16,9 +16,11 @@ export const HeroInner = styled.div`
   font-size: 0.875rem;
   line-height: 1rem;
   position: relative;
-  padding: 4rem 0 2rem;
+  padding-top: 4rem;
+  padding-bottom: 2rem;
   @media (min-width: ${deviceWidth.tablet}px) {
-    padding: 3rem 0 1rem;
+    padding-top: 3rem;
+    padding-bottom: 1rem;
   }
 `
 
