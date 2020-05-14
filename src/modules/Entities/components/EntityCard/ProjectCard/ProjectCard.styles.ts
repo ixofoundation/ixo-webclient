@@ -20,11 +20,13 @@ export const Progress = styled.div`
 
 export const ProgressSuccessful = styled.span`
   font-size: 36px;
+  line-height: 36px;
   color: black;
 `
 
 export const ProgressRequired = styled.span`
   font-size: 36px;
+  line-height: 36px;
   color: grey;
 `
 
