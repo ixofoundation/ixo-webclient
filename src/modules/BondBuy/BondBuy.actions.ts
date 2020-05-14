@@ -3,16 +3,15 @@ import {
   GetQuoteAction,
   ConfirmBuyAction,
   BondBuyActions,
-  BondBuy,
   InitiateQuoteAction,
 } from './types'
 import Axios from 'axios'
 import { Currency } from '../../types/models'
-import { toast } from 'react-toastify'
 import { Dispatch } from 'redux'
 import { RootState } from 'src/common/redux/types'
-import * as signingUtils from '../../common/utils/quote.signingUtils'
+import * as signingUtils from '../../common/utils/bond.signingUtils'
 import keysafe from '../../common/keysafe/keysafe'
+import * as Toast from '../../components/helpers/Toast'
 
 export const initiateQuote = (): InitiateQuoteAction => ({
   type: BondBuyActions.InitiateQuote,
@@ -55,20 +54,21 @@ export const confirmBuy = () => (
   getState: () => RootState,
 ): ConfirmBuyAction => {
   const {
-    bondBuy: { receiving, txFees, maxPrice },
+    activeBond: { bondDid },
+    bondBuy: { receiving: amount, maxPrice },
     account: {
-      address,
       userInfo: {
-        didDoc: { pubKey },
+        didDoc: { did, pubKey },
       },
     },
   } = getState()
 
-  const bondBuyPayload: BondBuy = {
-    address,
-    receiving,
-    txFees,
-    maxPrices: [{ amount: maxPrice.amount, denom: maxPrice.denom }],
+  const bondBuyPayload = {
+    pub_key: pubKey,
+    buyer_did: did,
+    bond_did: bondDid,
+    amount,
+    max_prices: [maxPrice],
   }
 
   keysafe.requestSigning(JSON.stringify(bondBuyPayload), (error, signature) => {
@@ -80,18 +80,14 @@ export const confirmBuy = () => (
       type: BondBuyActions.ConfirmBuy,
       payload: Axios.post(
         `${process.env.REACT_APP_GAIA_URL}/txs`,
-        JSON.stringify(
-          signingUtils.signBuyTx(bondBuyPayload, signature, pubKey),
-        ),
+        JSON.stringify(signingUtils.generateBuyTx(bondBuyPayload, signature)),
       ).then(response => {
         if (!response.data.logs[0].success) {
-          toast('Sale failed. Please try again.', {
-            position: toast.POSITION.BOTTOM_LEFT,
-          })
+          Toast.errorToast('Sale failed. Please try again.')
         } else {
-          toast('Transaction submitted. Check its status in the orders tab.', {
-            position: toast.POSITION.BOTTOM_LEFT,
-          })
+          Toast.successToast(
+            'Transaction submitted. Check its status in the orders tab.',
+          )
         }
       }),
     })

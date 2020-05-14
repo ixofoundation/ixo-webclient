@@ -12,13 +12,6 @@ export interface BondBuyState {
   transacting: boolean
 }
 
-export interface BondBuy {
-  address: string
-  receiving: Currency
-  maxPrices: Currency[]
-  txFees: Currency[]
-}
-
 export enum BondBuyActions {
   InitiateQuote = 'ixo/BondBuy/INITIATE_QUOTE',
   GetQuote = 'ixo/BondBuy/GET_QUOTE',

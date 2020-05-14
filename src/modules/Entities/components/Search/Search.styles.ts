@@ -7,6 +7,7 @@ export const SearchWrapper = styled.div`
   top: 0;
   left: 0;
   display: flex;
+  align-items: center;
   border-radius: 4px;
   transform: translateY(-50%);
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
@@ -19,6 +20,9 @@ export const SearchWrapper = styled.div`
   }
   .search-input-wrapper {
     flex: 3;
+    .form-control {
+      margin: 0;
+    }
     > *,
     input {
       height: 100%;
@@ -36,6 +40,8 @@ export const ModalButton = styled.div`
   position: relative;
   overflow: visible;
   font-size: 18px;
+  height: 50px;
+  line-height: 50px;
   > * {
     display: block;
   }
