@@ -1,6 +1,5 @@
 import * as React from 'react'
 import { SDGArray } from '../../../../../lib/commonData'
-import { ProgressBar } from '../../../../../components/common/ProgressBar'
 import {
   excerptText,
   toTitleCase,
@@ -10,10 +9,9 @@ import {
   Founded,
   FoundedDate,
   Description,
-  Progress,
-  Impact,
   SDGs,
   CardTop,
+  CardTopContainer,
   CardBottom,
   StatusContainer,
   StatusText,
@@ -88,31 +86,6 @@ export class CellCard extends React.Component<Props, {}> {
     )
   }
 
-  getProgress = (): JSX.Element => {
-    const {
-      requiredClaims,
-      successfulClaims,
-      rejectedClaims,
-      impactAction,
-    } = this.props
-
-    return requiredClaims === 0 ? (
-      <p>Project is launching in 2019</p>
-    ) : (
-      <div>
-        <ProgressBar
-          total={requiredClaims}
-          approved={successfulClaims}
-          rejected={rejectedClaims}
-        />
-        <Progress>
-          {successfulClaims} / <strong>{requiredClaims}</strong>
-        </Progress>
-        <Impact>{impactAction}</Impact>
-      </div>
-    )
-  }
-
   render(): JSX.Element {
     return (
       <CardContainer className="col-10 offset-1 col-xl-4 col-md-6 col-sm-10 offset-sm-1 offset-md-0">
@@ -126,17 +99,19 @@ export class CellCard extends React.Component<Props, {}> {
             },
           }}
         >
-          <CardTop
-            style={{
-              backgroundImage: `url(${
-                this.props.imageUrl
-              }),url(${require('../../../../../assets/images/ixo-placeholder-large.jpg')})`,
-            }}
-          >
-            <SDGs>{this.getSDGIcons()}</SDGs>
-            <Description>
-              <p>{excerptText(this.props.shortDescription, 20)}</p>
-            </Description>
+          <CardTop>
+            <CardTopContainer
+              style={{
+                backgroundImage: `url(${
+                  this.props.imageUrl
+                }),url(${require('../../../../../assets/images/ixo-placeholder-large.jpg')})`,
+              }}
+            >
+              <SDGs>{this.getSDGIcons()}</SDGs>
+              <Description>
+                <p>{excerptText(this.props.shortDescription, 20)}</p>
+              </Description>
+            </CardTopContainer>
           </CardTop>
           <CardBottom>
             <CardBottomTopContainer>
