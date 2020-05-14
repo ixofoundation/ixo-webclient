@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { deviceWidth } from '../../../../../lib/commonData'
+import { deviceWidth } from '../../../../lib/commonData'
 import { Link } from 'react-router-dom'
 
 export const CardTop = styled.div`
@@ -14,7 +14,7 @@ export const CardTopContainer = styled.div`
   background-repeat: no-repeat;
   background-position: center;
   position: relative;
-  transition: all 0.3s ease;
+  transition: transform 0.5s ease;
 
   @media (min-width: ${deviceWidth.tablet}px) {
     height: 225px;
@@ -76,8 +76,6 @@ export const Description = styled.div`
     color: white;
     position: relative;
     top: -15px;
-    text-align: center;
-    width: 100%;
 
     transition: top 0.6s ease;
   }
@@ -99,7 +97,7 @@ export const CardBottom = styled.div`
   }
 `
 
-export const CardBottomTopContainer = styled.div`
+export const CardBottomHeadingContainer = styled.div`
   display: flex;
   align-items: flex-start;
 `
@@ -152,48 +150,8 @@ export const LogoContainer = styled.div`
 
 export const Logo = styled.img`
   width: 34px;
+  height: 34px;
   border-radius: 17px;
-`
-
-export const CardBottomMiddleContainer = styled.div`
-  margin: 30px 0 26px;
-`
-
-export const Title = styled.h3`
-  font-weight: bold;
-  font-size: 21px;
-  box-sizing: border-box;
-  margin-bottom: 2px;
-  color: ${/* eslint-disable-line */ props => props.theme.fontDarkGrey};
-  line-height: 1.2;
-`
-
-export const Founded = styled.p`
-  font-size: 12px;
-  margin-bottom: 0;
-`
-
-export const FoundedDate = styled.span`
-  font-weight: bold;
-`
-
-export const StatisticsContainer = styled.div`
-  display: flex;
-  margin-bottom: 26px;
-`
-
-export const Statistic = styled.div`
-  flex: 0.5;
-  font-size: 24px;
-`
-
-export const StatisticLabel = styled.span`
-  color: grey;
-`
-
-export const StatisticValue = styled.span`
-  color: #000;
-  font-weight: bold;
 `
 
 export const CardContainer = styled.div`
