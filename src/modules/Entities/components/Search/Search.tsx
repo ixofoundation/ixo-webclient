@@ -66,7 +66,24 @@ export default class Search extends React.Component<Props> {
                 onClick={(): void => this.handleToggleModal()}
                 className={this.state.isModalOpen ? 'modal-open' : ''}
               >
-                <Projects fill="#000" width="26" />
+                {this.props.entityType === EntityType.Project && (
+                  <Projects fill="#000" width="26" />
+                )}
+                {this.props.entityType === EntityType.Oracle && (
+                  <Oracle fill="#000" width="26" />
+                )}
+                {this.props.entityType === EntityType.Investment && (
+                  <Investments fill="#000" width="26" />
+                )}
+                {this.props.entityType === EntityType.Cell && (
+                  <Cells fill="#000" width="26" />
+                )}
+                {this.props.entityType === EntityType.Template && (
+                  <Template fill="#000" width="26" />
+                )}
+                {this.props.entityType === EntityType.Data && (
+                  <DataAssets fill="#000" width="26" />
+                )}
                 <span className="modal-text">
                   {EntityTypeMap[this.props.entityType].plural}
                 </span>
