@@ -49,8 +49,11 @@ export const selectBondSellIsSending = createSelector(
 export const selectBondSellPriceEstimate = createSelector(
   selectBondSellReceiving,
   selectBondSellSending,
-  (receiving: Currency, sending: Currency) => ({
-    amount: receiving.amount / sending.amount,
-    denom: receiving.denom,
-  }),
+  (receiving: Currency, sending: Currency) =>
+    receiving && sending
+      ? {
+          amount: receiving.amount / sending.amount,
+          denom: receiving.denom,
+        }
+      : {},
 )

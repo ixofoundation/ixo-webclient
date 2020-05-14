@@ -53,8 +53,11 @@ export const selectBondBuyIsReceiving = createSelector(
 export const selectBondBuyPriceEstimate = createSelector(
   selectBondBuyActualPrice,
   selectBondBuyReceiving,
-  (actualPrice: Currency, receiving: Currency) => ({
-    amount: actualPrice.amount / receiving.amount,
-    denom: actualPrice.denom,
-  }),
+  (actualPrice: Currency, receiving: Currency) =>
+    actualPrice && receiving
+      ? {
+          amount: actualPrice.amount / receiving.amount,
+          denom: actualPrice.denom,
+        }
+      : {},
 )

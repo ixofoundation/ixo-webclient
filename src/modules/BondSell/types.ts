@@ -11,12 +11,6 @@ export interface BondSellState {
   transacting: boolean
 }
 
-export interface BondSell {
-  address: string
-  sending: Currency
-  txFees: Currency[]
-}
-
 export enum BondSellActions {
   InitiateQuote = 'ixo/BondSell/INITIATE_QUOTE',
   GetQuote = 'ixo/BondSell/GET_QUOTE',
