@@ -3,17 +3,13 @@ import {
   GetQuoteAction,
   ConfirmSwapAction,
   BondSwapActions,
-  BondSwap,
   InitiateQuoteAction,
 } from './types'
 import Axios from 'axios'
 import { Currency } from '../../types/models'
 import { currencyStr } from '../Account/Account.utils'
-import { toast } from 'react-toastify'
 import { Dispatch } from 'redux'
 import { RootState } from 'src/common/redux/types'
-import * as signingUtils from '../../common/utils/quote.signingUtils'
-import keysafe from '../../common/keysafe/keysafe'
 
 export const initiateQuote = (): InitiateQuoteAction => ({
   type: BondSwapActions.InitiateQuote,
@@ -53,61 +49,11 @@ export const getQuote = (sending: Currency, receiving: Currency) => (
   })
 }
 
+// TODO
 export const confirmSwap = () => (
   dispatch: Dispatch,
   getState: () => RootState,
 ): ConfirmSwapAction => {
-  const {
-    activeBond: { symbol: bondToken },
-    bondSwap: { sending, receiving, txFees },
-    account: {
-      address,
-      userInfo: {
-        didDoc: { pubKey },
-      },
-    },
-  } = getState()
-
-  const quoteSwapPayload: BondSwap = {
-    address,
-    bondToken,
-    sending,
-    receiving,
-    txFees,
-  }
-
-  keysafe.requestSigning(
-    JSON.stringify(quoteSwapPayload),
-    (error, signature) => {
-      if (error) {
-        return null
-      }
-
-      return dispatch({
-        type: BondSwapActions.ConfirmSwap,
-        payload: Axios.post(
-          `${process.env.REACT_APP_GAIA_URL}/txs`,
-          JSON.stringify(
-            signingUtils.signSwapTx(quoteSwapPayload, signature, pubKey),
-          ),
-        ).then(response => {
-          if (!response.data.logs[0].success) {
-            toast('Trade failed. Please try again.', {
-              position: toast.POSITION.BOTTOM_LEFT,
-            })
-          } else {
-            toast(
-              'Transaction submitted. Check its status in the orders tab.',
-              {
-                position: toast.POSITION.BOTTOM_LEFT,
-              },
-            )
-          }
-        }),
-      })
-    },
-  )
-
   return null
 }
 

@@ -154,7 +154,7 @@ describe('BondBuy Reducer', () => {
   })
 
   describe('ConfirmBuySuccess Action', () => {
-    it('should return a new copy of state, with ConfirmBuySuccess flags set if there is no payload', () => {
+    it('should return a new copy of state', () => {
       // given .. we have an action of type BondBuyActions.ConfirmBuySuccess
       const action: ConfirmBuySuccessAction = {
         type: BondBuyActions.ConfirmBuySuccess,
@@ -162,27 +162,12 @@ describe('BondBuy Reducer', () => {
       }
 
       // when ... we run the reducer with this action
-      const result = SUT.reducer({ ...initialState, signPending: true }, action)
-
-      // then the state flags should be set as expected
-      expect(result).toEqual({
-        ...initialState,
-        signPending: false,
-      })
-    })
-
-    it('should return a copy of the initialState, with ConfirmBuySuccess flags set if there is a payload', () => {
-      // given .. we have an action of type BondBuyActions.ConfirmBuySuccess
-      const action: ConfirmBuySuccessAction = {
-        type: BondBuyActions.ConfirmBuySuccess,
-        payload: {
-          data: [{ denom: 'a', amount: 1 }],
-        },
-      }
-
-      // when ... we run the reducer with this action
       const result = SUT.reducer(
-        { ...initialState, signPending: true, transacting: true },
+        {
+          ...initialState,
+          signPending: true,
+          receiving: { amount: 1, denom: '2' },
+        },
         action,
       )
 

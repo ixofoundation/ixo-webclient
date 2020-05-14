@@ -1,6 +1,6 @@
 import React, { Dispatch } from 'react'
 import useForm from 'react-hook-form'
-import { withRouter, Redirect, RouteComponentProps } from 'react-router-dom'
+import { withRouter, RouteComponentProps } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { RootState } from '../../../../common/redux/types'
 import { confirmSell, clear } from '../../BondSell.actions'
@@ -14,6 +14,7 @@ import * as bondSellSelectors from '../../BondSell.selectors'
 
 interface Props extends RouteComponentProps {
   match: any
+  history: any
   signPending: boolean
   sending: Currency
   receiving: Currency
@@ -28,9 +29,7 @@ interface Props extends RouteComponentProps {
 }
 
 const ConfirmSellOrder: React.FunctionComponent<Props> = ({
-  match: {
-    params: { projectDID, bondDID },
-  },
+  history,
   signPending,
   sending,
   receiving,
@@ -52,13 +51,9 @@ const ConfirmSellOrder: React.FunctionComponent<Props> = ({
   if (signPending) {
     return <div>Signing Transaction</div>
   } else if (!isSending) {
-    return (
-      <Redirect
-        from={`/projects/${projectDID}/bonds/${bondDID}/exchange/sell/confirm`}
-        exact
-        to={`/projects/${projectDID}/bonds/${bondDID}/exchange/sell`}
-      />
-    )
+    history.push('../sell')
+
+    return null
   } else {
     const onSubmit = (): void => {
       handleConfirmSell()
@@ -66,7 +61,7 @@ const ConfirmSellOrder: React.FunctionComponent<Props> = ({
 
     const onBack = (): void => {
       handleClear()
-      // props.history.push('../sell')
+      history.push('../sell')
     }
 
     const remBal = remainingBalance(balances, sending)
@@ -84,6 +79,8 @@ const ConfirmSellOrder: React.FunctionComponent<Props> = ({
       sending.amount > collateral.amount
         ? "You're attempting to sell more than this bond's supply."
         : undefined
+
+    const hasErrors = !!remBalError || !!minPriceError || !!maxSupplyError
 
     return (
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -142,6 +139,7 @@ const ConfirmSellOrder: React.FunctionComponent<Props> = ({
           </button>
 
           <input
+            disabled={hasErrors}
             type="submit"
             value="confirm &amp; sign"
             className="button button_buy button_buy_confirm"

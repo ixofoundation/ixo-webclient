@@ -3,15 +3,14 @@ import {
   GetQuoteAction,
   ConfirmSellAction,
   BondSellActions,
-  BondSell,
   InitiateQuoteAction,
 } from './types'
 import Axios from 'axios'
 import { Currency } from '../../types/models'
-import { toast } from 'react-toastify'
+import * as Toast from '../../components/helpers/Toast'
 import { Dispatch } from 'redux'
 import { RootState } from 'src/common/redux/types'
-import * as signingUtils from '../../common/utils/quote.signingUtils'
+import * as signingUtils from '../../common/utils/bond.signingUtils'
 import keysafe from '../../common/keysafe/keysafe'
 
 export const initiateQuote = (): InitiateQuoteAction => ({
@@ -53,19 +52,20 @@ export const confirmSell = () => (
   getState: () => RootState,
 ): ConfirmSellAction => {
   const {
-    bondSell: { sending, txFees },
+    activeBond: { bondDid },
+    bondSell: { sending },
     account: {
-      address,
       userInfo: {
-        didDoc: { pubKey },
+        didDoc: { did, pubKey },
       },
     },
   } = getState()
 
-  const bondSellPayload: BondSell = {
-    address,
-    sending,
-    txFees,
+  const bondSellPayload = {
+    pub_key: pubKey,
+    seller_did: did,
+    bond_did: bondDid,
+    amount: sending,
   }
 
   keysafe.requestSigning(
@@ -80,19 +80,14 @@ export const confirmSell = () => (
         payload: Axios.post(
           `${process.env.REACT_APP_GAIA_URL}/txs`,
           JSON.stringify(
-            signingUtils.signSellTx(bondSellPayload, signature, pubKey),
+            signingUtils.generateSellTx(bondSellPayload, signature),
           ),
         ).then(response => {
           if (!response.data.logs[0].success) {
-            toast('Sale failed. Please try again.', {
-              position: toast.POSITION.BOTTOM_LEFT,
-            })
+            Toast.errorToast('Sale failed. Please try again.')
           } else {
-            toast(
+            Toast.successToast(
               'Transaction submitted. Check its status in the orders tab.',
-              {
-                position: toast.POSITION.BOTTOM_LEFT,
-              },
             )
           }
         }),
