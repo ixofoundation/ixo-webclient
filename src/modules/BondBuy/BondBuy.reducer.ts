@@ -1,5 +1,4 @@
 import { BondBuyState, BondBuyActions, BondBuyActionTypes } from './types'
-// import { toast } from 'react-toastify'
 
 export const initialState: BondBuyState = {
   quotePending: false,
@@ -7,14 +6,6 @@ export const initialState: BondBuyState = {
   transacting: false,
   txFees: [],
 }
-
-/* const notify = (payload: any): void => {
-  if (payload.response) {
-    toast.info(JSON.parse(payload.response.data.error).message, {
-      position: toast.POSITION.BOTTOM_LEFT,
-    })
-  }
-} */
 
 export const reducer = (
   state = initialState,
@@ -40,7 +31,6 @@ export const reducer = (
         transacting: false,
       }
     case BondBuyActions.GetQuoteFailure:
-      // notify(action.payload)
       return {
         ...state,
         transacting: false,
@@ -51,16 +41,13 @@ export const reducer = (
         ...state,
         signPending: true,
       }
-    case BondBuyActions.ConfirmBuySuccess:
-      if (action.payload) return { ...initialState }
-
-      return { ...state, signPending: false }
     case BondBuyActions.ConfirmBuyFailure:
       return {
         ...state,
         signPending: false,
       }
     case BondBuyActions.Clear:
+    case BondBuyActions.ConfirmBuySuccess:
       return {
         ...initialState,
       }

@@ -24,6 +24,10 @@ export class TypeForm extends React.Component {
   }
 
   render(): JSX.Element {
-    return <button id="bt-left-drawer">Add Alpha bond</button>
+    return (
+      <button id="bt-left-drawer" style={{ display: 'none' }}>
+        Add Alpha bond
+      </button>
+    )
   }
 }

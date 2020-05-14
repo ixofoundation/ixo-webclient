@@ -1,5 +1,4 @@
 import { BondSwapState, BondSwapActions, BondSwapActionTypes } from './types'
-// import { toast } from 'react-toastify'
 
 export const initialState: BondSwapState = {
   quotePending: false,
@@ -7,14 +6,6 @@ export const initialState: BondSwapState = {
   transacting: false,
   txFees: [],
 }
-
-/* const notify = (payload: any): void => {
-  if (payload.response) {
-    toast.info(JSON.parse(payload.response.data.error).message, {
-      position: toast.POSITION.BOTTOM_LEFT,
-    })
-  }
-} */
 
 export const reducer = (
   state = initialState,

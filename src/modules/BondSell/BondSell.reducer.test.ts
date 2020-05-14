@@ -157,27 +157,12 @@ describe('BondSell Reducer', () => {
       }
 
       // when ... we run the reducer with this action
-      const result = SUT.reducer({ ...initialState, signPending: true }, action)
-
-      // then the state flags should be set as expected
-      expect(result).toEqual({
-        ...initialState,
-        signPending: false,
-      })
-    })
-
-    it('should return a copy of the initialState, with ConfirmSellSuccess flags set if there is a payload', () => {
-      // given .. we have an action of type BondSellActions.ConfirmSellSuccess
-      const action: ConfirmSellSuccessAction = {
-        type: BondSellActions.ConfirmSellSuccess,
-        payload: {
-          data: [{ denom: 'a', amount: 1 }],
-        },
-      }
-
-      // when ... we run the reducer with this action
       const result = SUT.reducer(
-        { ...initialState, signPending: true, transacting: true },
+        {
+          ...initialState,
+          signPending: true,
+          sending: { amount: 1, denom: '2' },
+        },
         action,
       )
 

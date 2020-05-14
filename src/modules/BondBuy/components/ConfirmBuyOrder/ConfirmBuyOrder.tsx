@@ -1,6 +1,6 @@
 import React, { Dispatch } from 'react'
 import useForm from 'react-hook-form'
-import { withRouter, Redirect, RouteComponentProps } from 'react-router-dom'
+import { withRouter, RouteComponentProps } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { RootState } from '../../../../common/redux/types'
 import * as bondBuySelectors from '../../BondBuy.selectors'
@@ -14,6 +14,7 @@ import { Currency } from 'src/types/models'
 
 interface Props extends RouteComponentProps {
   match: any
+  history: any
   signPending: boolean
   receiving: Currency
   isReceiving: boolean
@@ -29,9 +30,7 @@ interface Props extends RouteComponentProps {
 }
 
 const ConfirmBuyOrder: React.FunctionComponent<Props> = ({
-  match: {
-    params: { projectDID, bondDID },
-  },
+  history,
   signPending,
   receiving,
   isReceiving,
@@ -45,7 +44,6 @@ const ConfirmBuyOrder: React.FunctionComponent<Props> = ({
   handleConfirmBuy,
   handleClear,
 }) => {
-  console.log(estimatedPrice)
   const { handleSubmit } = useForm()
 
   const error = (message?: string): JSX.Element => {
@@ -55,13 +53,8 @@ const ConfirmBuyOrder: React.FunctionComponent<Props> = ({
   if (signPending) {
     return <div>Signing Transaction</div>
   } else if (!isReceiving) {
-    return (
-      <Redirect
-        from={`/projects/${projectDID}/bonds/${bondDID}/exchange/buy/confirm`}
-        exact
-        to={`/projects/${projectDID}/bonds/${bondDID}/exchange/buy`}
-      />
-    )
+    history.push('../')
+    return null
   } else {
     const onSubmit = (): void => {
       handleConfirmBuy()
@@ -69,7 +62,7 @@ const ConfirmBuyOrder: React.FunctionComponent<Props> = ({
 
     const onBack = (): void => {
       handleClear()
-      // props.history.push('../') TODO!
+      history.push('../')
     }
 
     const remBal = remainingBalance(balances, actualPrice)
@@ -88,6 +81,8 @@ const ConfirmBuyOrder: React.FunctionComponent<Props> = ({
       maxPrice.amount < estimatedPrice.amount
         ? 'Your max price is less than than the estimated price per token.'
         : undefined
+
+    const hasErrors = !!remBalError || !!newBalError || !!maxPriceError
 
     return (
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -145,6 +140,7 @@ const ConfirmBuyOrder: React.FunctionComponent<Props> = ({
             go back
           </button>
           <input
+            disabled={hasErrors}
             type="submit"
             value="confirm & sign"
             className="button button_buy button_buy_confirm"
