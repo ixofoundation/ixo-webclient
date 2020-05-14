@@ -40,6 +40,7 @@ export const ModalButton = styled.div`
   position: relative;
   overflow: visible;
   font-size: 18px;
+  white-space: nowrap;
   height: 50px;
   line-height: 50px;
   > * {
@@ -49,13 +50,25 @@ export const ModalButton = styled.div`
     width: 1em;
     margin-right: 0.5rem;
     @media (max-width: ${deviceWidth.mobile}px) {
-      margin-right: 0;
+      margin-right: 6px;
     }
   }
+
+  span {
+    &.modal-text {
+      @media (max-width: ${deviceWidth.mobile}px) {
+        display: none;
+      }
+    }
+  }
+
   .down-icon {
     margin-left: auto;
     transition: all 0.3s;
     transform-origin: center;
+    @media (max-width: ${deviceWidth.mobile}px) {
+      margin-left: 6px;
+    }
   }
   :after {
     position: absolute;
@@ -159,78 +172,78 @@ export const SearchFilterButton = styled.button`
     }
   }
   &.oracles {
-    border: 2px solid #9b51e0;
+    border: 2px solid #ad245c;
     &.active {
       background: linear-gradient(
         90deg,
-        #9b51e0 0%,
-        #9b51e0 5px,
+        #ad245c 0%,
+        #ad245c 5px,
         transparent 6px,
         transparent 100%
       );
     }
     &:hover:not(.disabled) {
-      background: linear-gradient(90deg, #9b51e0 0%, #9b51e0 100%);
+      background: linear-gradient(90deg, #ad245c 0%, #ad245c 100%);
     }
   }
   &.investments {
-    border: 2px solid #219653;
+    border: 2px solid #e4bc3d;
     &.active {
       background: linear-gradient(
         90deg,
-        #219653 0%,
-        #219653 5px,
+        #e4bc3d 0%,
+        #e4bc3d 5px,
         transparent 6px,
         transparent 100%
       );
     }
     &:hover:not(.disabled) {
-      background: linear-gradient(90deg, #219653 0%, #219653 100%);
+      background: linear-gradient(90deg, #e4bc3d 0%, #e4bc3d 100%);
     }
   }
   &.cells {
-    border: 2px solid #f2c94c;
+    border: 2px solid #79af50;
     &.active {
       background: linear-gradient(
         90deg,
-        #f2c94c 0%,
-        #f2c94c 5px,
+        #79af50 0%,
+        #79af50 5px,
         transparent 6px,
         transparent 100%
       );
     }
     &:hover:not(.disabled) {
-      background: linear-gradient(90deg, #f2c94c 0%, #f2c94c 100%);
+      background: linear-gradient(90deg, #79af50 0%, #79af50 100%);
     }
   }
   &.templates {
-    border: 2px solid #000000;
+    border: 2px solid #7c2740;
     &.active {
       background: linear-gradient(
         90deg,
-        #000000 0%,
-        #000000 5px,
+        #7c2740 0%,
+        #7c2740 5px,
         transparent 6px,
         transparent 100%
       );
     }
     &:hover:not(.disabled) {
-      background: linear-gradient(90deg, #000000 0%, #000000 100%);
+      background: linear-gradient(90deg, #7c2740 0%, #7c2740 100%);
     }
   }
   &.data {
-    border: 2px solid #f2994a;
+    border: 2px solid #f89d28;
     &.active {
       background: linear-gradient(
         90deg,
-        #f2994a 0%,
-        #f2994a 5px,
+        #f89d28 0%,
+        #f89d28 5px,
         transparent 6px,
         transparent 100%
       );
     }
     &:hover:not(.disabled) {
-      background: linear-gradient(90deg, #f2994a 0%, #f2994a 100%);
+      background: linear-gradient(90deg, #f89d28 0%, #f89d28 100%);
     }
   }
   &.disabled {
