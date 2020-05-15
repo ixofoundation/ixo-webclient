@@ -91,7 +91,7 @@ export class Entities extends React.Component<Props> {
             <CellCard
               dateCreated={entity.dateCreated}
               imageUrl={entity.imageUrl}
-              founderLogoUrl={entity.foundLogoUrl}
+              founderLogoUrl={entity.founderLogoUrl}
               projectDid={entity.did}
               shortDescription={entity.shortDescription}
               title={entity.title}
@@ -117,7 +117,7 @@ export class Entities extends React.Component<Props> {
               sdgs={entity.sdgs}
               projectData={entity.data}
               key={index}
-              founderLogoUrl={entity.foundLogoUrl}
+              founderLogoUrl={entity.founderLogoUrl}
               version={0.2} // TODO
               activeUsage={16} // TODO
               ratingScore={4.5}

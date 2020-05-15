@@ -71,7 +71,7 @@ describe('Entities Reducer', () => {
           longDescription: 'someLongDescription',
           agentDids: ['someAgentDid1'],
           imageUrl: 'sommeImageUrl',
-          foundLogoUrl: 'sommeLogoUrl',
+          founderLogoUrl: 'sommeLogoUrl',
           logoUrl: 'someLogoUrl',
           categories: [
             {
@@ -136,7 +136,7 @@ describe('Entities Reducer', () => {
             agentDids: ['someAgentDid1'],
             imageUrl: 'sommeImageUrl',
             logoUrl: 'someLogoUrl',
-            foundLogoUrl: 'sommeLogoUrl',
+            founderLogoUrl: 'sommeLogoUrl',
             categories: [
               {
                 name: 'someCategory1',
@@ -219,7 +219,7 @@ describe('Entities Reducer', () => {
             longDescription: 'someLongDescription',
             agentDids: ['someAgentDid1'],
             imageUrl: 'sommeImageUrl',
-            foundLogoUrl: 'sommeLogoUrl',
+            founderLogoUrl: 'sommeLogoUrl',
             logoUrl: 'someLogoUrl',
             categories: [
               {
@@ -300,7 +300,7 @@ describe('Entities Reducer', () => {
             agentDids: ['someAgentDid1'],
             imageUrl: 'sommeImageUrl',
             logoUrl: 'someLogoUrl',
-            foundLogoUrl: 'sommeLogoUrl',
+            founderLogoUrl: 'sommeLogoUrl',
             categories: [
               {
                 name: 'someCategory1',
@@ -380,7 +380,7 @@ describe('Entities Reducer', () => {
             agentDids: ['someAgentDid1'],
             imageUrl: 'sommeImageUrl',
             logoUrl: 'someLogoUrl',
-            foundLogoUrl: 'sommeLogoUrl',
+            founderLogoUrl: 'sommeLogoUrl',
             categories: [
               {
                 name: 'someCategory1',
@@ -459,7 +459,7 @@ describe('Entities Reducer', () => {
             longDescription: 'someLongDescription',
             agentDids: ['someAgentDid1'],
             imageUrl: 'sommeImageUrl',
-            foundLogoUrl: 'sommeLogoUrl',
+            founderLogoUrl: 'sommeLogoUrl',
             logoUrl: 'someLogoUrl',
             categories: [
               {
@@ -540,7 +540,7 @@ describe('Entities Reducer', () => {
             agentDids: ['someAgentDid1'],
             imageUrl: 'sommeImageUrl',
             logoUrl: 'someLogoUrl',
-            foundLogoUrl: 'sommeLogoUrl',
+            founderLogoUrl: 'sommeLogoUrl',
             categories: [
               {
                 name: 'someCategory1',
@@ -616,7 +616,7 @@ describe('Entities Reducer', () => {
             agentDids: ['someAgentDid1'],
             imageUrl: 'sommeImageUrl',
             logoUrl: 'someLogoUrl',
-            foundLogoUrl: 'sommeLogoUrl',
+            founderLogoUrl: 'sommeLogoUrl',
             categories: [
               {
                 name: 'someCategory1',
@@ -702,7 +702,7 @@ describe('Entities Reducer', () => {
             agentDids: ['someAgentDid1'],
             imageUrl: 'sommeImageUrl',
             logoUrl: 'someLogoUrl',
-            foundLogoUrl: 'sommeLogoUrl',
+            founderLogoUrl: 'sommeLogoUrl',
             categories: [
               {
                 name: 'someCategory1',
@@ -792,7 +792,7 @@ describe('Entities Reducer', () => {
             longDescription: 'someLongDescription',
             agentDids: ['someAgentDid1'],
             imageUrl: 'sommeImageUrl',
-            foundLogoUrl: 'sommeLogoUrl',
+            founderLogoUrl: 'sommeLogoUrl',
             logoUrl: 'someLogoUrl',
             categories: [
               {
@@ -884,7 +884,7 @@ describe('Entities Reducer', () => {
             agentDids: ['someAgentDid1'],
             imageUrl: 'sommeImageUrl',
             logoUrl: 'someLogoUrl',
-            foundLogoUrl: 'sommeLogoUrl',
+            founderLogoUrl: 'sommeLogoUrl',
             categories: [
               {
                 name: 'someCategory1',

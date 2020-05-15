@@ -54,7 +54,7 @@ export const getEntities = () => (dispatch: Dispatch): GetEntitiesAction => {
               tags: ddoTag.tags,
             }))
           : [],
-        foundLogoUrl: entity.data.founder.logoLink,
+        founderLogoUrl: entity.data.founder.logoLink,
         data: entity.data, // TEMP until project module not getting data from projects
       }))
     }),

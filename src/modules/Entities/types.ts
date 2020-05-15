@@ -59,7 +59,7 @@ export interface Entity {
   imageUrl: string
   logoUrl: string
   categories: Category[]
-  foundLogoUrl: string
+  founderLogoUrl: string
   data: any // this is temporary until we don't have to pass projectData into the card component because of the weird link
 }
 
