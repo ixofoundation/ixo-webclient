@@ -1,5 +1,5 @@
 import * as React from 'react'
-import HeaderSubTabs from '../../../../components/common/HeaderSubTabs'
+import HeaderTabs from '../../../../common/components/HeaderTabs/HeaderTabs'
 import { SingleStatistic } from '../../../../components/common/SingleStatistic'
 import { StatType } from '../../../../types/models'
 import Search from '../Search/Search'
@@ -64,28 +64,25 @@ export const EntitiesHero: React.FunctionComponent<Props> = ({
   }
 
   const getHeaderTabButtons = (): any => {
-    if (entityType === EntityType.Cell) {
-      return [
-        {
-          iconClass: 'icon-explorer',
-          path: '/',
-          title: 'EXPLORER',
-        },
-      ]
-    } else {
-      return [
-        {
-          iconClass: 'icon-explorer',
-          path: '/',
-          title: 'EXPLORER',
-        },
-        {
-          iconClass: 'icon-impacts',
-          path: '/global-statistics',
-          title: 'IMPACTS',
-        },
-      ]
+    const tabButtons = [
+      {
+        iconClass: `icon-${entityType.toLowerCase()}`,
+        linkClass: entityType.toLowerCase(),
+        path: '/',
+        title: EntityTypeMap[entityType].plural.toUpperCase(),
+      },
+    ]
+
+    if (entityType === EntityType.Project) {
+      tabButtons.push({
+        iconClass: 'icon-impacts',
+        linkClass: null,
+        path: '/global-statistics',
+        title: 'IMPACTS',
+      })
     }
+
+    return tabButtons
   }
 
   return (
@@ -114,7 +111,7 @@ export const EntitiesHero: React.FunctionComponent<Props> = ({
       <div className="container">
         <div className="row">
           <div className="col-md-12">
-            <HeaderSubTabs buttons={getHeaderTabButtons()} />
+            <HeaderTabs buttons={getHeaderTabButtons()} />
           </div>
         </div>
       </div>

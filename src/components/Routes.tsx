@@ -6,7 +6,6 @@ import { ProjectCreateConnected } from './project/ProjectCreate'
 import { contentType } from '../types/models'
 import { ProjectForm } from './project/ProjectForm'
 import { Fragment } from 'react'
-import { Icons } from './common/Icons'
 import { RegisterConnected } from './register/RegisterContainer'
 import { NotFound } from './public/NotFound'
 import { Spinner } from './common/Spinner'
@@ -24,7 +23,6 @@ export const Routes: React.SFC<{}> = props => {
         <Route exact path="/json" component={ProjectForm} />
         <Route exact path="/spinner" component={Spinner} />
         <Route exact path="/json" component={ProjectForm} />
-        <Route exact path="/icons" component={Icons} />
         <Route exact path="/register" component={RegisterConnected} />
         <Route
           exact

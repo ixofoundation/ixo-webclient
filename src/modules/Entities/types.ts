@@ -15,8 +15,8 @@ export const EntityTypeMap = {
     plural: 'Projects',
   },
   [EntityType.Cell]: {
-    title: 'Cell Node',
-    plural: 'Cell Nodes',
+    title: 'Cell',
+    plural: 'Cells',
   },
   [EntityType.Investment]: {
     title: 'Investment',
