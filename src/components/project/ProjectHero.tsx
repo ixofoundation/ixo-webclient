@@ -169,7 +169,11 @@ export const ProjectHero: React.SFC<Props> = ({
           </div>
         </div>
       </HeroInner>
-      <HeaderTabs buttons={buttonsArray} matchType={MatchType.strict} />
+      <HeaderTabs
+        buttons={buttonsArray}
+        matchType={MatchType.strict}
+        activeTabColor={EntityTypeMap[entityType].themeColor}
+      />
     </HeroContainer>
   )
 }

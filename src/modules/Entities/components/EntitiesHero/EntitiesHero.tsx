@@ -111,7 +111,10 @@ export const EntitiesHero: React.FunctionComponent<Props> = ({
       <div className="container">
         <div className="row">
           <div className="col-md-12">
-            <HeaderTabs buttons={getHeaderTabButtons()} />
+            <HeaderTabs
+              buttons={getHeaderTabButtons()}
+              activeTabColor={EntityTypeMap[entityType].themeColor}
+            />
           </div>
         </div>
       </div>

@@ -5,15 +5,21 @@ import { PositionController } from './HeaderTabs.styles'
 
 export interface Props {
   buttons: any[]
-  matchType: any
+  matchType?: any
+  activeTabColor?: string
 }
 
-const HeaderTabs = (props): JSX.Element => {
+const HeaderTabs: React.FunctionComponent<Props> = ({
+  buttons,
+  matchType,
+  activeTabColor,
+}): JSX.Element => {
   return (
     <PositionController>
       <Tabs
-        buttons={props.buttons}
-        matchType={props.matchType || MatchType.exact}
+        activeTabColor={activeTabColor}
+        buttons={buttons}
+        matchType={matchType || MatchType.exact}
       />
     </PositionController>
   )
