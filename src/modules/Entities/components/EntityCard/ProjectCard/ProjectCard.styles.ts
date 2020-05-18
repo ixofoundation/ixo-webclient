@@ -1,56 +1,33 @@
 import styled from 'styled-components'
+import {
+  MainContent as MainContentBase,
+  Title as TitleBase,
+  Progress as ProgressBase,
+  ProgressSuccessful as ProgressSuccessfulBase,
+  ProgressRequired as ProgressRequiredBase,
+  Impact as ImpactBase,
+  StatisticsContainer as StatisticsContainerBase,
+  Statistic as StatisticBase,
+  StatisticLabel as StatisticLabelBase,
+  StatisticValue as StatisticValueBase,
+} from '../EntityCard.styles'
 
-export const MainContent = styled.div`
-  margin: 30px 0 26px;
+export const MainContent = styled(MainContentBase)``
+export const Title = styled(TitleBase)``
+export const Progress = styled(ProgressBase)``
+export const ProgressSuccessful = styled(ProgressSuccessfulBase)``
+export const ProgressRequired = styled(ProgressRequiredBase)``
+export const Impact = styled(ImpactBase)``
+export const StatisticsContainer = styled(StatisticsContainerBase)`
+  justify-content: space-between;
 `
-
-export const Title = styled.h3`
-  font-weight: bold;
-  font-size: 21px;
-  box-sizing: border-box;
-  margin-bottom: 2px;
-  color: ${/* eslint-disable-line */ props => props.theme.fontDarkGrey};
-  line-height: 1.2;
-  height: 34px;
-`
-
-export const Progress = styled.div`
-  margin-top: 16px;
-`
-
-export const ProgressSuccessful = styled.span`
-  font-size: 36px;
-  line-height: 36px;
-  color: black;
-`
-
-export const ProgressRequired = styled.span`
-  font-size: 36px;
-  line-height: 36px;
-  color: grey;
-`
-
-export const Impact = styled.p`
-  font-size: 12px;
-  font-weight: 400;
-`
-
-export const StatisticsContainer = styled.div`
-  display: flex;
-  margin-bottom: 26px;
-`
-
-export const Statistic = styled.div`
-  flex: 0.33;
-`
-
-export const StatisticLabel = styled.div`
-  color: grey;
+export const Statistic = styled(StatisticBase)``
+export const StatisticLabel = styled(StatisticLabelBase)`
+  display: block;
   font-size: 12px;
 `
-
-export const StatisticValue = styled.div`
-  color: #000;
+export const StatisticValue = styled(StatisticValueBase)`
+  display: block;
   font-weight: normal;
   font-size: 36px;
   line-height: 36px;

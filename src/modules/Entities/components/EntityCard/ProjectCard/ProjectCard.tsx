@@ -2,20 +2,18 @@ import * as React from 'react'
 import { ProgressBar } from '../../../../../components/common/ProgressBar'
 import { excerptText } from '../../../../../common/utils/formatters'
 import {
+  MainContent,
   Title,
   Progress,
   ProgressSuccessful,
   ProgressRequired,
   Impact,
-} from './ProjectCard.styles'
-import { EntityCardContainer } from '../EntityCardContainer'
-import {
-  MainContent,
   StatisticsContainer,
   Statistic,
   StatisticLabel,
   StatisticValue,
 } from './ProjectCard.styles'
+import { EntityCardContainer } from '../EntityCardContainer'
 import { ShieldColor } from '../EntityCardContainer.styles'
 import Star from 'src/assets/icons/Star'
 
