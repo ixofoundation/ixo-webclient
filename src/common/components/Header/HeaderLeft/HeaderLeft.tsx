@@ -33,7 +33,7 @@ export class HeaderLeft extends React.Component<{}> {
           <HeaderLink exact={true} to="/">
             Explorer
           </HeaderLink>
-          <HeaderAnchor href="https://developers.ixo.world/">
+          <HeaderAnchor target="_blank" href="https://developers.ixo.world/">
             Build
           </HeaderAnchor>
           <HeaderLink exact={true} to="/getixowallet/deliver">
@@ -51,12 +51,32 @@ export class HeaderLeft extends React.Component<{}> {
       return (
         <Fragment>
           <MenuHeaderContainer>
-            <MenuHeaderLink exact={true} to="/">
-              Explore
+            <MenuHeaderLink className="first-mobile" exact={true} to="/">
+              Explorer
             </MenuHeaderLink>
           </MenuHeaderContainer>
           <MenuHeaderContainer>
-            <MenuHeaderAnchor href="#">Launch a project</MenuHeaderAnchor>
+            <MenuHeaderAnchor
+              target="_blank"
+              href="https://developers.ixo.world/"
+            >
+              Build
+            </MenuHeaderAnchor>
+          </MenuHeaderContainer>
+          <MenuHeaderContainer>
+            <MenuHeaderLink exact={true} to="/getixowallet/deliver">
+              Deliver
+            </MenuHeaderLink>
+          </MenuHeaderContainer>
+          <MenuHeaderContainer>
+            <MenuHeaderLink exact={true} to="/getixowallet/invest">
+              Invest
+            </MenuHeaderLink>
+          </MenuHeaderContainer>
+          <MenuHeaderContainer>
+            <MenuHeaderLink exact={true} to="/todo">
+              Learn
+            </MenuHeaderLink>
           </MenuHeaderContainer>
         </Fragment>
       )

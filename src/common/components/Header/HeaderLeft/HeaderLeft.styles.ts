@@ -18,6 +18,12 @@ export const HeaderLink = styled(NavLink)`
     border: 1px solid #49bfe0;
     font-weight: 400;
     margin-left: 0px;
+    @media (max-width: ${deviceWidth.desktop}px) {
+      border: none;
+      &.first-mobile {
+        border: 1px solid #49bfe0;
+      }
+    }
   }
 
   &:first-child.active {
@@ -52,6 +58,7 @@ export const MenuHeaderContainer = styled.div`
 
 export const MenuHeaderLink = styled(HeaderLink)`
   border: 0px solid #000000;
+  margin: 3px 10px;
 `
 
 export const HeaderAnchor = styled.a`
