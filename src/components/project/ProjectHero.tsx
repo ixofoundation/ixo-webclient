@@ -3,7 +3,7 @@ import moment from 'moment'
 import { SDGArray } from '../../lib/commonData'
 import { getCountryName, toTitleCase } from '../../common/utils/formatters'
 import { MatchType, AgentRoles } from '../../types/models'
-import HeaderSubTabs from '../common/HeaderSubTabs'
+import HeaderTabs from '../../common/components/HeaderTabs/HeaderTabs'
 import {
   SingleSDG,
   HeroInner,
@@ -43,9 +43,9 @@ export const ProjectHero: React.SFC<Props> = ({
 
   const buttonsArray = [
     {
-      iconClass: 'icon-projects',
+      iconClass: `icon-${entityType.toLowerCase()}`,
       path: `/projects/${match.params.projectDID}/overview`,
-      title: EntityTypeMap[entityType].title,
+      title: EntityTypeMap[entityType].plural,
     },
   ]
 
@@ -169,7 +169,11 @@ export const ProjectHero: React.SFC<Props> = ({
           </div>
         </div>
       </HeroInner>
-      <HeaderSubTabs buttons={buttonsArray} matchType={MatchType.strict} />
+      <HeaderTabs
+        buttons={buttonsArray}
+        matchType={MatchType.strict}
+        activeTabColor={EntityTypeMap[entityType].themeColor}
+      />
     </HeroContainer>
   )
 }

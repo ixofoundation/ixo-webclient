@@ -1,5 +1,5 @@
 import React from 'react'
-import QRComponent from '../../../../common/QRComponent'
+import QRCode from '../../../../../common/components/QRCode/QRCode'
 
 interface Props {
   show: boolean
@@ -8,7 +8,7 @@ interface Props {
 const Mobile: React.FunctionComponent<Props> = ({ show }) => {
   return (
     <div className={`show-more-container ${show ? 'show' : ''}`}>
-      <QRComponent url={location.href} />
+      <QRCode url={location.href} />
     </div>
   )
 }

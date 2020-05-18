@@ -13,26 +13,32 @@ export const EntityTypeMap = {
   [EntityType.Project]: {
     title: 'Project',
     plural: 'Projects',
+    themeColor: '#2f80ed',
   },
   [EntityType.Cell]: {
-    title: 'Cell Node',
-    plural: 'Cell Nodes',
+    title: 'Cell',
+    plural: 'Cells',
+    themeColor: '#79af50',
   },
   [EntityType.Investment]: {
     title: 'Investment',
     plural: 'Investments',
+    themeColor: '#e4bc3d',
   },
   [EntityType.Oracle]: {
     title: 'Oracle',
     plural: 'Oracles',
+    themeColor: '#ad245c',
   },
   [EntityType.Template]: {
     title: 'Template',
     plural: 'Templates',
+    themeColor: '#7c2740',
   },
   [EntityType.Data]: {
     title: 'Data Asset',
     plural: 'Data Assets',
+    themeColor: '#f89d28',
   },
 }
 

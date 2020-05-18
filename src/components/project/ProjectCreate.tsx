@@ -8,7 +8,7 @@ import { blankProjectData, testProjectData } from '../../lib/commonData'
 import { Button, ButtonTypes } from '../common/Buttons'
 import { FileLoader } from '../common/FileLoader'
 import InputImage from '../../common/components/Form/InputImage/InputImage'
-import { successToast, errorToast } from '../helpers/Toast'
+import { successToast, errorToast } from '../../common/utils/Toast'
 import { ErrorTypes } from '../../types/models'
 
 const Text = styled.input`

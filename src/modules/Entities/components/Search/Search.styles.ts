@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 import { deviceWidth } from 'src/lib/commonData'
+import { EntityType, EntityTypeMap } from '../../types'
 
 export const SearchWrapper = styled.div`
   background: white;
@@ -156,96 +157,26 @@ export const SearchFilterButton = styled.button`
       fill: #fff;
     }
   }
-  &.projects {
-    border: 2px solid #2f80ed;
-    &.active {
-      background: linear-gradient(
-        90deg,
-        #2f80ed 0%,
-        #2f80ed 5px,
-        transparent 6px,
-        transparent 100%
-      );
-    }
-    &:hover:not(.disabled) {
-      background: linear-gradient(90deg, #2f80ed 0%, #2f80ed 100%);
-    }
-  }
-  &.oracles {
-    border: 2px solid #ad245c;
-    &.active {
-      background: linear-gradient(
-        90deg,
-        #ad245c 0%,
-        #ad245c 5px,
-        transparent 6px,
-        transparent 100%
-      );
-    }
-    &:hover:not(.disabled) {
-      background: linear-gradient(90deg, #ad245c 0%, #ad245c 100%);
-    }
-  }
-  &.investments {
-    border: 2px solid #e4bc3d;
-    &.active {
-      background: linear-gradient(
-        90deg,
-        #e4bc3d 0%,
-        #e4bc3d 5px,
-        transparent 6px,
-        transparent 100%
-      );
-    }
-    &:hover:not(.disabled) {
-      background: linear-gradient(90deg, #e4bc3d 0%, #e4bc3d 100%);
-    }
-  }
-  &.cells {
-    border: 2px solid #79af50;
-    &.active {
-      background: linear-gradient(
-        90deg,
-        #79af50 0%,
-        #79af50 5px,
-        transparent 6px,
-        transparent 100%
-      );
-    }
-    &:hover:not(.disabled) {
-      background: linear-gradient(90deg, #79af50 0%, #79af50 100%);
-    }
-  }
-  &.templates {
-    border: 2px solid #7c2740;
-    &.active {
-      background: linear-gradient(
-        90deg,
-        #7c2740 0%,
-        #7c2740 5px,
-        transparent 6px,
-        transparent 100%
-      );
-    }
-    &:hover:not(.disabled) {
-      background: linear-gradient(90deg, #7c2740 0%, #7c2740 100%);
-    }
-  }
-  &.data {
-    border: 2px solid #f89d28;
-    &.active {
-      background: linear-gradient(
-        90deg,
-        #f89d28 0%,
-        #f89d28 5px,
-        transparent 6px,
-        transparent 100%
-      );
-    }
-    &:hover:not(.disabled) {
-      background: linear-gradient(90deg, #f89d28 0%, #f89d28 100%);
-    }
-  }
+  ${Object.keys(EntityType).map(key => {
+    const className = key.toLowerCase()
+    const color = EntityTypeMap[key].themeColor
+
+    return `&.${className} {
+          border: 2px solid ${color};
+          &.active {
+            background: linear-gradient(
+              90deg,
+              ${color} 0%,
+              ${color} 5px,
+              transparent 6px,
+              transparent 100%
+            );
+          }
+          &:hover:not(.disabled) {
+            background: linear-gradient(90deg, ${color} 0%, ${color} 100%);
+          }
+        }`
+  })}
   &.disabled {
     border-color: #a5adb0;
     color: #a5adb0;
