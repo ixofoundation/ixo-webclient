@@ -45,7 +45,7 @@ export const ProjectHero: React.SFC<Props> = ({
     {
       iconClass: `icon-${entityType.toLowerCase()}`,
       path: `/projects/${match.params.projectDID}/overview`,
-      title: EntityTypeMap[entityType].title,
+      title: EntityTypeMap[entityType].plural,
     },
   ]
 
