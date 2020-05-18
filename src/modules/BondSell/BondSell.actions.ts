@@ -7,7 +7,7 @@ import {
 } from './types'
 import Axios from 'axios'
 import { Currency } from '../../types/models'
-import * as Toast from '../../components/helpers/Toast'
+import * as Toast from '../../common/utils/Toast'
 import { Dispatch } from 'redux'
 import { RootState } from 'src/common/redux/types'
 import * as signingUtils from '../../common/utils/bond.signingUtils'

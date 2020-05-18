@@ -124,11 +124,11 @@ export default class Search extends React.Component<Props> {
                       this.handleSearchFilter(EntityType.Project)
                     }
                     className={`
-                      projects ${
-                        this.props.entityType === EntityType.Project
-                          ? 'active'
-                          : ''
-                      }
+                    ${EntityType.Project.toLowerCase()} ${
+                      this.props.entityType === EntityType.Project
+                        ? 'active'
+                        : ''
+                    }
                     `}
                   >
                     <ButtonContent>
@@ -141,11 +141,11 @@ export default class Search extends React.Component<Props> {
                       this.handleSearchFilter(EntityType.Oracle)
                     }
                     className={`
-                      oracles disabled ${
-                        this.props.entityType === EntityType.Oracle
-                          ? 'active'
-                          : ''
-                      }
+                    ${EntityType.Oracle.toLowerCase()} disabled ${
+                      this.props.entityType === EntityType.Oracle
+                        ? 'active'
+                        : ''
+                    }
                     `}
                   >
                     <ButtonContent>
@@ -158,11 +158,11 @@ export default class Search extends React.Component<Props> {
                       this.handleSearchFilter(EntityType.Investment)
                     }
                     className={`
-                      investments disabled ${
-                        this.props.entityType === EntityType.Investment
-                          ? 'active'
-                          : ''
-                      }
+                    ${EntityType.Investment.toLowerCase()} disabled ${
+                      this.props.entityType === EntityType.Investment
+                        ? 'active'
+                        : ''
+                    }
                     `}
                   >
                     <ButtonContent>
@@ -175,11 +175,9 @@ export default class Search extends React.Component<Props> {
                       this.handleSearchFilter(EntityType.Cell)
                     }
                     className={`
-                      cells ${
-                        this.props.entityType === EntityType.Cell
-                          ? 'active'
-                          : ''
-                      }
+                    ${EntityType.Cell.toLowerCase()} ${
+                      this.props.entityType === EntityType.Cell ? 'active' : ''
+                    }
                     `}
                   >
                     <ButtonContent>
@@ -189,11 +187,11 @@ export default class Search extends React.Component<Props> {
                   </SearchFilterButton>
                   <SearchFilterButton
                     className={`
-                      templates disabled ${
-                        this.props.entityType === EntityType.Template
-                          ? 'active'
-                          : ''
-                      }
+                    ${EntityType.Template.toLowerCase()} disabled ${
+                      this.props.entityType === EntityType.Template
+                        ? 'active'
+                        : ''
+                    }
                     `}
                   >
                     <ButtonContent>
@@ -203,11 +201,9 @@ export default class Search extends React.Component<Props> {
                   </SearchFilterButton>
                   <SearchFilterButton
                     className={`
-                      data disabled ${
-                        this.props.entityType === EntityType.Data
-                          ? 'active'
-                          : ''
-                      }
+                    ${EntityType.Data.toLowerCase()} disabled ${
+                      this.props.entityType === EntityType.Data ? 'active' : ''
+                    }
                     `}
                   >
                     <ButtonContent>
