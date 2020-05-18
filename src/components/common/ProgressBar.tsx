@@ -6,7 +6,7 @@ const Bar = styled.div`
   display: flex;
   justify-content: flex-start;
   width: 100%;
-  height: 4px;
+  height: 6px;
   border-radius: 2px;
 `
 
