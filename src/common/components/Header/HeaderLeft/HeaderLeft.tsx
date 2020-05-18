@@ -14,6 +14,7 @@ import {
   MenuHeaderLink,
   MobileMenu,
   NavItems,
+  HeaderAnchor,
 } from './HeaderLeft.styles'
 
 export class HeaderLeft extends React.Component<{}> {
@@ -30,9 +31,20 @@ export class HeaderLeft extends React.Component<{}> {
       return (
         <Fragment>
           <HeaderLink exact={true} to="/">
-            Explore
+            Explorer
           </HeaderLink>
-          <HeaderLink to="#">Launch a project</HeaderLink>
+          <HeaderAnchor href="https://developers.ixo.world/">
+            Build
+          </HeaderAnchor>
+          <HeaderLink exact={true} to="/getixowallet/deliver">
+            Deliver
+          </HeaderLink>
+          <HeaderLink exact={true} to="/getixowallet/invest">
+            Invest
+          </HeaderLink>
+          <HeaderLink exact={true} to="/todo">
+            Learn
+          </HeaderLink>
         </Fragment>
       )
     } else {
