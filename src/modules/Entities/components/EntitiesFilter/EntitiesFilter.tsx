@@ -75,7 +75,7 @@ class EntitiesFilter extends React.Component<Props, State> {
   }
 
   toggleMobileFilterMenuShow = (menu: string): void => {
-    if (this.state.mobileFilterActiveMenu === 'menu') {
+    if (this.state.mobileFilterActiveMenu !== '') {
       document.querySelector('body').classList.remove('noScroll')
     } else {
       document.querySelector('body').classList.add('noScroll')
