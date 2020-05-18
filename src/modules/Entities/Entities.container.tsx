@@ -1,8 +1,8 @@
 import * as React from 'react'
 import { Moment } from 'moment'
 import { EntitiesDashboard } from './components/EntitiesDashboard/EntitiesDashboard'
-import { ProjectCard } from './components/EntityCards/ProjectCard/ProjectCard'
-import { CellCard } from './components/EntityCards/CellCard/CellCard'
+import { ProjectCard } from './components/EntityCard/ProjectCard/ProjectCard'
+import { CellCard } from './components/EntityCard/CellCard/CellCard'
 import { EntitiesHero } from './components/EntitiesHero/EntitiesHero'
 import { Spinner } from '../../components/common/Spinner'
 import { connect } from 'react-redux'
@@ -89,7 +89,23 @@ export class Entities extends React.Component<Props> {
         case EntityType.Cell:
           return (
             <CellCard
-              ownerName={entity.ownerName}
+              dateCreated={entity.dateCreated}
+              imageUrl={entity.imageUrl}
+              founderLogoUrl={entity.founderLogoUrl}
+              projectDid={entity.did}
+              shortDescription={entity.shortDescription}
+              title={entity.title}
+              sdgs={entity.sdgs}
+              projectData={entity.data}
+              key={index}
+              status={entity.status}
+              memberCount={162} // TODO
+              projectCount={3} // TODO
+            />
+          )
+        default:
+          return (
+            <ProjectCard
               imageUrl={entity.imageUrl}
               impactAction={entity.impactAction}
               projectDid={entity.did}
@@ -101,28 +117,14 @@ export class Entities extends React.Component<Props> {
               sdgs={entity.sdgs}
               projectData={entity.data}
               key={index}
-              status={entity.status}
+              founderLogoUrl={entity.founderLogoUrl}
+              version={0.2} // TODO
+              activeUsage={16} // TODO
+              ratingScore={4.5}
+              ratingCount={380}
             />
           )
       }
-
-      return (
-        <ProjectCard
-          ownerName={entity.ownerName}
-          imageUrl={entity.imageUrl}
-          impactAction={entity.impactAction}
-          projectDid={entity.did}
-          rejectedClaims={entity.rejectedClaimsCount}
-          successfulClaims={entity.successfulClaimsCount}
-          requiredClaims={entity.requiredClaimsCount}
-          shortDescription={entity.shortDescription}
-          title={entity.title}
-          sdgs={entity.sdgs}
-          projectData={entity.data}
-          key={index}
-          status={entity.status}
-        />
-      )
     })
   }
 

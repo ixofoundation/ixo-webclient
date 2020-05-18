@@ -11,7 +11,7 @@ import { Dispatch } from 'redux'
 import { RootState } from 'src/common/redux/types'
 import * as signingUtils from '../../common/utils/bond.signingUtils'
 import keysafe from '../../common/keysafe/keysafe'
-import * as Toast from '../../components/helpers/Toast'
+import * as Toast from '../../common/utils/Toast'
 
 export const initiateQuote = (): InitiateQuoteAction => ({
   type: BondBuyActions.InitiateQuote,

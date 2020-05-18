@@ -313,9 +313,9 @@ export const DatePickerModal = styled.div`
   border-radius: 4px;
   height: 442px;
   width: 619px;
-  top: 50%;
+  top: 100%;
   left: 50%;
-  transform: translate(-50%, 6%);
+  transform: translate(-50%);
   z-index: 3;
   :after {
     content: '';
