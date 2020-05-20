@@ -161,19 +161,17 @@ export class Entities extends React.Component<Props> {
               }
               handleResetFilters={this.resetWithDefaultViewFilters}
             />
-            <div className="row row-eq-height">
-              {this.props.filteredEntitiesCount > 0 ? (
-                this.renderCards()
-              ) : (
-                <NoEntitiesContainer>
-                  <p>
-                    There are no{' '}
-                    {EntityTypeMap[this.props.entityType].plural.toLowerCase()}{' '}
-                    that match your search criteria
-                  </p>
-                </NoEntitiesContainer>
-              )}
-            </div>
+            {this.props.filteredEntitiesCount > 0 ? (
+              <div className="row row-eq-height">{this.renderCards()}</div>
+            ) : (
+              <NoEntitiesContainer>
+                <p>
+                  There are no{' '}
+                  {EntityTypeMap[this.props.entityType].plural.toLowerCase()}{' '}
+                  that match your search criteria
+                </p>
+              </NoEntitiesContainer>
+            )}
           </div>
         </EntitiesContainer>
       )
