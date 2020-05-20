@@ -40,12 +40,12 @@ export const Button = styled.button`
     outline: none;
   }
   &:hover {
-    border-color: #000;
+    border-color: #a5adb0;
   }
   &.itemsSelected {
     border-color: #39c3e6;
     &:hover {
-      border-color: #000;
+      border-color: #a5adb0;
     }
   }
   svg {
@@ -68,6 +68,9 @@ export const ButtonWrapper = styled.div`
   }
   &.active:after {
     content: '';
+  }
+  &.active ${Button} {
+    border-color: #000;
   }
   &.active ${Button}:before {
     content: '';

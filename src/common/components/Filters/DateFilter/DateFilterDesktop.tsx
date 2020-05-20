@@ -20,7 +20,7 @@ const DateFilterDesktop: React.FunctionComponent<Props> = ({
   handleResetFilter,
 }) => {
   return (
-    <ButtonWrapper>
+    <ButtonWrapper className={isActive ? 'active' : ''}>
       <Button
         className={startDate && endDate ? 'itemsSelected' : ''}
         data-testid="DesktopDateButton"
