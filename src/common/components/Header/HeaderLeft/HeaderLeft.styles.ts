@@ -167,7 +167,7 @@ export const MobileMenu = Menu.extend`
   right: 0;
   background: #002c41;
   width: 100%;
-  padding: 30px 2px 20px 30px;
+  padding: 64px 2px 20px 30px;
   pointer-events: none;
   z-index: 1;
   border-radius: 0 0 5px 5px;
