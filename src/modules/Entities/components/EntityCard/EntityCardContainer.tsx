@@ -64,7 +64,7 @@ export const EntityCardContainer: React.FunctionComponent<Props> = ({
   )
 
   return (
-    <CardContainer className="col-10 offset-1 col-xl-4 col-md-6 col-sm-10 offset-sm-1 offset-md-0">
+    <CardContainer className="col-xl-4 col-md-6 col-sm-12 col-12">
       <CardLink
         to={{
           pathname: `/projects/${projectDid}/overview`,
