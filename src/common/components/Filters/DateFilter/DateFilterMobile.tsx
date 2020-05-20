@@ -40,7 +40,7 @@ const DateFilterMobile: React.FunctionComponent<MobileProps> = ({
       </Button>
       {isActive && (
         <MobileDatesMenu className="openDatesMenu">
-          <MobileFilterModal className="dateFilterModal">
+          <MobileFilterModal>
             <MobileDateHeader>
               <HeadingItem onClick={handleFilterToggleShow}>
                 <Back />
