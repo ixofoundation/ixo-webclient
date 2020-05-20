@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { deviceWidth } from '../../../lib/commonData'
 
 export const createTabsContainer = (activeTabColor: string): any => styled.div`
   background: ${/* eslint-disable-line */ props => props.theme.bg.gradientBlue};
@@ -21,6 +22,10 @@ export const createTabsContainer = (activeTabColor: string): any => styled.div`
     text-decoration: none;
     transition: all 0.3s ease;
     min-width: 156px;
+
+    @media (max-width: ${deviceWidth.mobile}px) {
+      flex-direction: column;
+    }
   }
 
   a:last-child {
@@ -28,8 +33,11 @@ export const createTabsContainer = (activeTabColor: string): any => styled.div`
   }
 
   a i {
-    margin: 0 10px 0 0;
+    margin-right: 10px;
     font-size: 18px;
+    @media (max-width: ${deviceWidth.mobile}px) {
+      margin-right: 0;
+    }
   }
 
   i:before {
@@ -38,6 +46,15 @@ export const createTabsContainer = (activeTabColor: string): any => styled.div`
 
   a p {
     margin-bottom: 0;
+    @media (max-width: ${deviceWidth.mobile}px) {
+      margin-top: 2px;
+    }
+  }
+
+  a:not(.active) p {
+    @media (max-width: ${deviceWidth.mobile}px) {
+      display: none;
+    }
   }
 
   a:hover {
