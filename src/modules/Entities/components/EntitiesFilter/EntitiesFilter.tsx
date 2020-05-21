@@ -75,7 +75,7 @@ class EntitiesFilter extends React.Component<Props, State> {
   }
 
   toggleMobileFilterMenuShow = (menu: string): void => {
-    if (this.state.mobileFilterActiveMenu === 'menu') {
+    if (this.state.mobileFilterActiveMenu !== '') {
       document.querySelector('body').classList.remove('noScroll')
     } else {
       document.querySelector('body').classList.add('noScroll')
@@ -161,139 +161,167 @@ class EntitiesFilter extends React.Component<Props, State> {
         <FiltersWrap>
           <FilterInfo>{this.props.title}</FilterInfo>
           <div className="filters">
-            {this.props.filterSchema.dateCreated && (
-              <>
-                <MediaQuery minWidth={`${deviceWidth.mobile}px`}>
-                  <DateFilterDesktop
-                    startDate={this.props.startDate}
-                    endDate={this.props.endDate}
-                    dateSummary={this.props.dateSummary}
-                    isActive={
-                      this.state.activeFilter ===
-                      this.props.filterSchema.dateCreated.name
-                    }
-                    handleFilterToggleShow={(): void =>
-                      this.toggleFilterShow(
-                        this.state.activeFilter ===
-                          this.props.filterSchema.dateCreated.name,
-                        this.props.filterSchema.dateCreated.name,
-                      )
-                    }
-                    handleFilterDateChange={this.props.handleFilterDates}
-                    handleResetFilter={this.resetDateFilter}
-                  />
-                </MediaQuery>
-                <MediaQuery maxWidth={`${deviceWidth.mobile}px`} y>
-                  <DateFilterMobile
-                    startDate={this.props.startDate}
-                    endDate={this.props.endDate}
-                    startDateDisplay={this.props.startDateFormatted}
-                    endDateDisplay={this.props.endDateFormatted}
-                    dateSummary={this.props.dateSummary}
-                    isActive={
-                      this.state.activeFilter ===
-                      this.props.filterSchema.dateCreated.name
-                    }
-                    handleFilterToggleShow={(): void =>
-                      this.toggleFilterShow(
-                        this.state.activeFilter ===
-                          this.props.filterSchema.dateCreated.name,
-                        this.props.filterSchema.dateCreated.name,
-                      )
-                    }
-                    handleFilterDateChange={this.props.handleFilterDates}
-                    handleResetFilter={this.resetDateFilter}
-                  />
-                </MediaQuery>
-              </>
-            )}
-            {this.props.filterSchema.view && (
-              <>
-                <MediaQuery minWidth={`${deviceWidth.mobile}px`}>
-                  <Menu>
+            <MediaQuery minWidth={`${deviceWidth.desktop}px`}>
+              <DateFilterDesktop
+                startDate={this.props.startDate}
+                endDate={this.props.endDate}
+                dateSummary={this.props.dateSummary}
+                isActive={
+                  this.state.activeFilter ===
+                  this.props.filterSchema.dateCreated.name
+                }
+                handleFilterToggleShow={(): void =>
+                  this.toggleFilterShow(
+                    this.state.activeFilter ===
+                      this.props.filterSchema.dateCreated.name,
+                    this.props.filterSchema.dateCreated.name,
+                  )
+                }
+                handleFilterDateChange={this.props.handleFilterDates}
+                handleResetFilter={this.resetDateFilter}
+              />
+            </MediaQuery>
+            <MediaQuery maxWidth={`${deviceWidth.desktop - 1}px`} y>
+              <DateFilterMobile
+                startDate={this.props.startDate}
+                endDate={this.props.endDate}
+                startDateDisplay={this.props.startDateFormatted}
+                endDateDisplay={this.props.endDateFormatted}
+                dateSummary={this.props.dateSummary}
+                isActive={
+                  this.state.activeFilter ===
+                  this.props.filterSchema.dateCreated.name
+                }
+                handleFilterToggleShow={(): void =>
+                  this.toggleFilterShow(
+                    this.state.activeFilter ===
+                      this.props.filterSchema.dateCreated.name,
+                    this.props.filterSchema.dateCreated.name,
+                  )
+                }
+                handleFilterDateChange={this.props.handleFilterDates}
+                handleResetFilter={this.resetDateFilter}
+              />
+            </MediaQuery>
+            <MediaQuery minWidth={`${deviceWidth.desktop}px`}>
+              <Menu>
+                <IconListFilterDesktop
+                  selectType={SelectType.SingleSelect}
+                  key="View"
+                  name="View"
+                  isActive={this.filterIsActive('View')}
+                  handleFilterReset={this.resetViewFilter}
+                  handleToggleFilterShow={(): void =>
+                    this.toggleFilterShow(this.filterIsActive('View'), 'View')
+                  }
+                  handleFilterItemClick={this.filterViewTag}
+                  items={this.getViewFilterItems(
+                    this.props.filterSchema.view.tags,
+                  )}
+                />
+                {this.props.filterSchema.ddoTags.map(schemaCategory => {
+                  const { name: filterName, tags: schemaTags } = schemaCategory
+                  const isActive = this.filterIsActive(filterName)
+                  const items = this.getCategoryFilterItems(
+                    filterName,
+                    schemaTags,
+                  )
+
+                  return (
                     <IconListFilterDesktop
-                      selectType={SelectType.SingleSelect}
+                      selectType={SelectType.MultiSelect}
+                      key={filterName}
+                      name={filterName}
+                      isActive={isActive}
+                      handleFilterReset={this.resetCategoryFilter}
+                      handleToggleFilterShow={(): void =>
+                        this.toggleFilterShow(isActive, filterName)
+                      }
+                      handleFilterItemClick={this.props.handleFilterCategoryTag}
+                      items={items}
+                    />
+                  )
+                })}
+              </Menu>
+            </MediaQuery>
+            <MediaQuery maxWidth={`${deviceWidth.desktop - 1}px`}>
+              <BurgerMenuButton
+                onClick={(): void => this.toggleMobileFilterMenuShow('View')}
+              >
+                {iconListFilterUtils.getTitle(
+                  'View',
+                  this.getViewFilterItems(this.props.filterSchema.view.tags),
+                  SelectType.SingleSelect,
+                )}
+              </BurgerMenuButton>
+              <MobileMenu
+                className={
+                  this.state.mobileFilterActiveMenu === 'View' ? 'openMenu' : ''
+                }
+              >
+                <MobileFilterWrapper>
+                  <div>
+                    <IconListFilterMobile
                       key="View"
                       name="View"
+                      showFilterSubMenu={false}
+                      selectType={SelectType.SingleSelect}
                       isActive={this.filterIsActive('View')}
                       handleFilterReset={this.resetViewFilter}
                       handleToggleFilterShow={(): void =>
-                        this.toggleFilterShow(
-                          this.filterIsActive('View'),
-                          'View',
-                        )
+                        this.toggleMobileFilterMenuShow('View')
                       }
                       handleFilterItemClick={this.filterViewTag}
                       items={this.getViewFilterItems(
                         this.props.filterSchema.view.tags,
                       )}
                     />
-                  </Menu>
-                </MediaQuery>
-                <MediaQuery maxWidth={`${deviceWidth.mobile}px`}>
-                  <BurgerMenuButton
+                  </div>
+                </MobileFilterWrapper>
+              </MobileMenu>
+              <BurgerMenuButton
+                onClick={(): void =>
+                  this.toggleMobileFilterMenuShow('Category')
+                }
+              >
+                <Filter fill="#000" />
+                {this.props.categoriesSummary}
+              </BurgerMenuButton>
+              <MobileMenu
+                className={
+                  this.state.mobileFilterActiveMenu === 'Category'
+                    ? 'openMenu'
+                    : ''
+                }
+              >
+                <MobileFilterHeader>
+                  <HeadingItem
                     onClick={(): void =>
-                      this.toggleMobileFilterMenuShow('View')
+                      this.toggleMobileFilterMenuShow('Category')
                     }
                   >
-                    {iconListFilterUtils.getTitle(
-                      'View',
-                      this.getViewFilterItems(
-                        this.props.filterSchema.view.tags,
-                      ),
-                      SelectType.SingleSelect,
-                    )}
-                  </BurgerMenuButton>
-                  <MobileMenu
-                    className={
-                      this.state.mobileFilterActiveMenu === 'View'
-                        ? 'openMenu'
-                        : ''
-                    }
-                  >
-                    <MobileFilterWrapper>
-                      <div>
-                        <IconListFilterMobile
-                          key="View"
-                          name="View"
-                          showFilterSubMenu={false}
-                          selectType={SelectType.SingleSelect}
-                          isActive={this.filterIsActive('View')}
-                          handleFilterReset={this.resetViewFilter}
-                          handleToggleFilterShow={(): void =>
-                            this.toggleMobileFilterMenuShow('View')
-                          }
-                          handleFilterItemClick={this.filterViewTag}
-                          items={this.getViewFilterItems(
-                            this.props.filterSchema.view.tags,
-                          )}
-                        />
-                      </div>
-                    </MobileFilterWrapper>
-                  </MobileMenu>
-                </MediaQuery>
-              </>
-            )}
-            {this.props.filterSchema.ddoTags && (
-              <>
-                <MediaQuery minWidth={`${deviceWidth.mobile}px`}>
-                  <Menu>
-                    {this.props.filterSchema.ddoTags.map(schemaCategory => {
-                      const {
-                        name: filterName,
-                        tags: schemaTags,
-                      } = schemaCategory
+                    <Back />
+                  </HeadingItem>
+                  <HeadingItem onClick={this.props.handleResetFilters}>
+                    clear
+                  </HeadingItem>
+                </MobileFilterHeader>
+                <MobileFilterWrapper>
+                  <div>
+                    <MobileFilterHeading>Filters</MobileFilterHeading>
+                    {this.props.filterSchema.ddoTags.map(ddoCategory => {
+                      const { name: filterName, tags: schemaTags } = ddoCategory
                       const isActive = this.filterIsActive(filterName)
                       const items = this.getCategoryFilterItems(
                         filterName,
                         schemaTags,
                       )
-
                       return (
-                        <IconListFilterDesktop
-                          selectType={SelectType.MultiSelect}
+                        <IconListFilterMobile
                           key={filterName}
                           name={filterName}
+                          selectType={SelectType.MultiSelect}
+                          showFilterSubMenu={true}
                           isActive={isActive}
                           handleFilterReset={this.resetCategoryFilter}
                           handleToggleFilterShow={(): void =>
@@ -306,90 +334,21 @@ class EntitiesFilter extends React.Component<Props, State> {
                         />
                       )
                     })}
-                  </Menu>
-                </MediaQuery>
-                <MediaQuery maxWidth={`${deviceWidth.mobile}px`}>
-                  <BurgerMenuButton
+                  </div>
+                  <DoneButton
                     onClick={(): void =>
                       this.toggleMobileFilterMenuShow('Category')
                     }
                   >
-                    <Filter fill="#000" />
-                    {this.props.categoriesSummary}
-                  </BurgerMenuButton>
-                  <MobileMenu
-                    className={
-                      this.state.mobileFilterActiveMenu === 'Category'
-                        ? 'openMenu'
-                        : ''
-                    }
-                  >
-                    <MobileFilterHeader>
-                      <HeadingItem
-                        onClick={(): void =>
-                          this.toggleMobileFilterMenuShow('Category')
-                        }
-                      >
-                        <Back />
-                      </HeadingItem>
-                      <HeadingItem onClick={this.props.handleResetFilters}>
-                        clear
-                      </HeadingItem>
-                    </MobileFilterHeader>
-                    <MobileFilterWrapper>
-                      <div>
-                        <MobileFilterHeading>Filters</MobileFilterHeading>
-                        {this.props.filterSchema.ddoTags.map(ddoCategory => {
-                          const {
-                            name: filterName,
-                            tags: schemaTags,
-                          } = ddoCategory
-                          const isActive = this.filterIsActive(filterName)
-                          const items = this.getCategoryFilterItems(
-                            filterName,
-                            schemaTags,
-                          )
-                          return (
-                            <IconListFilterMobile
-                              key={filterName}
-                              name={filterName}
-                              selectType={SelectType.MultiSelect}
-                              showFilterSubMenu={true}
-                              isActive={isActive}
-                              handleFilterReset={this.resetCategoryFilter}
-                              handleToggleFilterShow={(): void =>
-                                this.toggleFilterShow(isActive, filterName)
-                              }
-                              handleFilterItemClick={
-                                this.props.handleFilterCategoryTag
-                              }
-                              items={items}
-                            />
-                          )
-                        })}
-                      </div>
-                      <DoneButton
-                        onClick={(): void =>
-                          this.toggleMobileFilterMenuShow('Category')
-                        }
-                      >
-                        Done
-                      </DoneButton>
-                    </MobileFilterWrapper>
-                  </MobileMenu>
-                </MediaQuery>
-              </>
-            )}
-            <MediaQuery minWidth={`${deviceWidth.mobile}px`}>
-              <Button onClick={this.props.handleResetFilters}>
-                <Reset fill="#000" /> Reset
-              </Button>
+                    Done
+                  </DoneButton>
+                </MobileFilterWrapper>
+              </MobileMenu>
             </MediaQuery>
-            <MediaQuery maxWidth={`${deviceWidth.mobile}px`}>
-              <Button onClick={this.props.handleResetFilters}>
-                <Reset fill="#000" />
-              </Button>
-            </MediaQuery>
+            <Button onClick={this.props.handleResetFilters}>
+              <Reset fill="#000" />
+              Reset
+            </Button>
           </div>
         </FiltersWrap>
       </div>

@@ -3,39 +3,46 @@ import styled from 'styled-components'
 import { deviceWidth } from '../../../../lib/commonData'
 
 export const HeaderLink = styled(NavLink)`
-	color: white;
-	font-family: ${(props): string => props.theme.fontRobotoCondensed};
-	font-weight: 400;
-	letter-spacing: 1px;
-	text-transform: uppercase;
-	border:1px solid #49bfe0;
-	border-radius:3px;
-	padding:5px 10px 5px;
-	margin:0 10px 10px;
-	font-size: 16px;
+  color: white;
+  font-family: ${(props): string => props.theme.fontRobotoCondensed};
+  font-weight: 400;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  border: 1px solid #49bfe0;
+  border-radius: 3px;
+  padding: 5px 10px 5px;
+  margin: 0 10px 10px;
+  font-size: 16px;
+  transition: border 0.3s ease;
 
-	:first-child {
-		border:1px solid #49bfe0;
-		font-weight: 400;
-	}
+  &:first-child {
+    border: 1px solid #49bfe0;
+    font-weight: 400;
+    margin-left: 0px;
+    @media (max-width: ${deviceWidth.desktop}px) {
+      border: none;
+      &.first-mobile {
+        border: 1px solid #49bfe0;
+      }
+    }
+  }
 
-	&:first-child.active {
-		color: ${(props): string => props.theme.fontBlueButtonHover};
-		font-weight: 400;
-	}
+  &:first-child.active {
+    color: ${(props): string => props.theme.fontBlueButtonHover};
+    font-weight: 400;
+  }
 
-	transition:border 0.3s ease;
-
-	:hover {
-		text-decoration:none;
-		&& {
+  &:hover {
+    text-decoration: none;
+    && {
       color: ${(props): string => props.theme.fontBlue};
-	}
+    }
+  }
 
-	@media (min-width: ${deviceWidth.desktop}px) {
-		margin: 0 10px;
-		font-size: 13px;
-	}
+  @media (min-width: ${deviceWidth.desktop}px) {
+    margin: 0 20px;
+    font-size: 13px;
+  }
 `
 
 export const MenuHeaderContainer = styled.div`
@@ -49,25 +56,27 @@ export const MenuHeaderContainer = styled.div`
 
 export const MenuHeaderLink = styled(HeaderLink)`
   border: 0px solid #000000;
+  margin: 3px 10px;
 `
 
-const HeaderAnchor = styled.a`
-	color: white;
-	font-family: ${(props): string => props.theme.fontRobotoCondensed};
-	font-size: 13px;
-	font-weight: 400;
-	letter-spacing: 1px;
-	text-transform: uppercase;
-	border-radius:3px;
-	padding:5px 10px 5px;
-	margin: 0 10px;
+export const HeaderAnchor = styled.a`
+  color: white;
+  font-family: ${(props): string => props.theme.fontRobotoCondensed};
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  border-radius: 3px;
+  padding: 5px 10px 5px;
+  margin: 0 20px;
+  transition: border 0.3s ease;
 
-	transition:border 0.3s ease;
-
-	:hover {
- 		text-decoration:none;
- 		&&{color: ${(props): string => props.theme.fontBlue};}}
-	}
+  &:hover {
+    text-decoration: none;
+    && {
+      color: ${(props): string => props.theme.fontBlue};
+    }
+  }
 `
 
 export const MenuHeaderAnchor = styled(HeaderAnchor)`
@@ -154,7 +163,7 @@ export const MobileMenu = Menu.extend`
   right: 0;
   background: #002c41;
   width: 100%;
-  padding: 30px 2px 20px 30px;
+  padding: 64px 2px 20px 30px;
   pointer-events: none;
   z-index: 1;
   border-radius: 0 0 5px 5px;

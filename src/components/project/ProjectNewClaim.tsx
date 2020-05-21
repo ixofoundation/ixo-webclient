@@ -7,7 +7,7 @@ import { Data } from '../../modules/project/types'
 import styled from 'styled-components'
 import { FormStyles } from '../../types/models'
 import { Spinner } from '../common/Spinner'
-import { successToast } from '../helpers/Toast'
+import { successToast } from '../../common/utils/Toast'
 
 const FormContainer = styled.div`
   max-width: 640px;

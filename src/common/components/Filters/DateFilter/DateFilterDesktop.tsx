@@ -20,8 +20,12 @@ const DateFilterDesktop: React.FunctionComponent<Props> = ({
   handleResetFilter,
 }) => {
   return (
-    <ButtonWrapper>
-      <Button data-testid="DesktopDateButton" onClick={handleFilterToggleShow}>
+    <ButtonWrapper className={isActive ? 'active' : ''}>
+      <Button
+        className={startDate && endDate ? 'itemsSelected' : ''}
+        data-testid="DesktopDateButton"
+        onClick={handleFilterToggleShow}
+      >
         <CalendarSort width="16" fill="#000" />
         {dateSummary}
       </Button>

@@ -14,6 +14,7 @@ import {
   MenuHeaderLink,
   MobileMenu,
   NavItems,
+  HeaderAnchor,
 } from './HeaderLeft.styles'
 
 export interface ParentProps {
@@ -27,21 +28,52 @@ export class HeaderLeft extends React.Component<ParentProps> {
       return (
         <Fragment>
           <HeaderLink exact={true} to="/">
-            Explore
+            Explorer
           </HeaderLink>
-          <HeaderLink to="#">Launch a project</HeaderLink>
+          <HeaderAnchor target="_blank" href="https://developers.ixo.world/">
+            Build
+          </HeaderAnchor>
+          <HeaderLink exact={true} to="/getixowallet/deliver">
+            Deliver
+          </HeaderLink>
+          <HeaderLink exact={true} to="/getixowallet/invest">
+            Invest
+          </HeaderLink>
+          <HeaderLink exact={true} to="/todo">
+            Learn
+          </HeaderLink>
         </Fragment>
       )
     } else {
       return (
         <Fragment>
           <MenuHeaderContainer>
-            <MenuHeaderLink exact={true} to="/">
-              Explore
+            <MenuHeaderLink className="first-mobile" exact={true} to="/">
+              Explorer
             </MenuHeaderLink>
           </MenuHeaderContainer>
           <MenuHeaderContainer>
-            <MenuHeaderAnchor href="#">Launch a project</MenuHeaderAnchor>
+            <MenuHeaderAnchor
+              target="_blank"
+              href="https://developers.ixo.world/"
+            >
+              Build
+            </MenuHeaderAnchor>
+          </MenuHeaderContainer>
+          <MenuHeaderContainer>
+            <MenuHeaderLink exact={true} to="/getixowallet/deliver">
+              Deliver
+            </MenuHeaderLink>
+          </MenuHeaderContainer>
+          <MenuHeaderContainer>
+            <MenuHeaderLink exact={true} to="/getixowallet/invest">
+              Invest
+            </MenuHeaderLink>
+          </MenuHeaderContainer>
+          <MenuHeaderContainer>
+            <MenuHeaderLink exact={true} to="/todo">
+              Learn
+            </MenuHeaderLink>
           </MenuHeaderContainer>
         </Fragment>
       )
