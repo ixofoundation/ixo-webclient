@@ -129,8 +129,7 @@ export const ProjectHero: React.SFC<Props> = ({
           <div className="col-sm-12">
             {handleSwitchDescription()}
             <Title>{project.title}</Title>
-
-            {!isDetail && <Description>{project.shortDescription}</Description>}
+            <Description>{project.shortDescription}</Description>
             {!isDetail && hasCapability([AgentRoles.serviceProviders]) && (
               <AddClaim
                 to={`/projects/${match.params.projectDID}/detail/new-claim`}

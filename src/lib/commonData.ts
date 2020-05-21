@@ -97,11 +97,11 @@ export const SDGArray = [
 ]
 
 export const deviceWidth = {
-  mobileSmall: '320',
-  mobile: '576',
-  tablet: '768',
-  desktop: '992',
-  desktopLarge: '1200',
+  mobileSmall: 320,
+  mobile: 576,
+  tablet: 768,
+  desktop: 992,
+  desktopLarge: 1200,
 }
 export const imgArray = (): Array<string> => {
   const tempArray: string[] = []

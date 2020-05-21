@@ -36,11 +36,17 @@ export const Button = styled.button`
   border-radius: 4px;
   align-items: center;
   line-height: 19px;
+  &:focus {
+    outline: none;
+  }
   &:hover {
-    border-color: #000;
+    border-color: #a5adb0;
   }
   &.itemsSelected {
     border-color: #39c3e6;
+    &:hover {
+      border-color: #a5adb0;
+    }
   }
   svg {
     margin-right: 0.375rem;
@@ -62,6 +68,9 @@ export const ButtonWrapper = styled.div`
   }
   &.active:after {
     content: '';
+  }
+  &.active ${Button} {
+    border-color: #000;
   }
   &.active ${Button}:before {
     content: '';
@@ -331,7 +340,7 @@ export const DatePickerModal = styled.div`
     border-color: transparent transparent white transparent;
   }
 
-  @media (max-width: ${deviceWidth.mobile}px) {
+  @media (max-width: ${deviceWidth.tablet}px) {
     top: 0;
     right: 0;
     bottom: 0;
@@ -664,7 +673,7 @@ export const MobileFilterModal = styled.div`
 export const BurgerMenuButton = styled(Button)`
   display: none;
 
-  @media (max-width: ${deviceWidth.mobile}px) {
+  @media (max-width: ${deviceWidth.desktop - 1}px) {
     display: block;
   }
 `
