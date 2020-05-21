@@ -4,9 +4,7 @@ import { deviceWidth } from '../../../../lib/commonData'
 
 export const HeaderLink = styled(NavLink)`
 	color: white;
-	font-family: ${
-    /* eslint-disable-line */ props => props.theme.fontRobotoCondensed
-  };
+	font-family: ${(props): string => props.theme.fontRobotoCondensed};
 	font-weight: 400;
 	letter-spacing: 1px;
 	text-transform: uppercase;
@@ -22,7 +20,7 @@ export const HeaderLink = styled(NavLink)`
 	}
 
 	&:first-child.active {
-		color: ${/* eslint-disable-line */ props => props.theme.fontBlueButtonHover};
+		color: ${(props): string => props.theme.fontBlueButtonHover};
 		font-weight: 400;
 	}
 
@@ -30,7 +28,8 @@ export const HeaderLink = styled(NavLink)`
 
 	:hover {
 		text-decoration:none;
-		&&{color: ${/* eslint-disable-line */ props => props.theme.fontBlue};}}
+		&& {
+      color: ${(props): string => props.theme.fontBlue};
 	}
 
 	@media (min-width: ${deviceWidth.desktop}px) {
@@ -54,9 +53,7 @@ export const MenuHeaderLink = styled(HeaderLink)`
 
 const HeaderAnchor = styled.a`
 	color: white;
-	font-family: ${
-    /* eslint-disable-line */ props => props.theme.fontRobotoCondensed
-  };
+	font-family: ${(props): string => props.theme.fontRobotoCondensed};
 	font-size: 13px;
 	font-weight: 400;
 	letter-spacing: 1px;
@@ -69,7 +66,7 @@ const HeaderAnchor = styled.a`
 
 	:hover {
  		text-decoration:none;
- 		&&{color: ${/* eslint-disable-line */ props => props.theme.fontBlue};}}
+ 		&&{color: ${(props): string => props.theme.fontBlue};}}
 	}
 `
 
