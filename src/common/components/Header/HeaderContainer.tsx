@@ -57,7 +57,6 @@ class Header extends React.Component<Props, State> {
   }
 
   handleBurgerClick = (): void => {
-    console.log('clicked')
     this.setState({ isMobileMenuOpen: !this.state.isMobileMenuOpen })
   }
 
