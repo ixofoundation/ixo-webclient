@@ -7,10 +7,12 @@ import { ActionButtonsWrapper } from './Actions.styles'
 
 interface Props {
   widget: Widget
+  handleActionClick: (intent: string) => void
 }
 
 const Actions: React.FunctionComponent<Props> = ({
   widget: { title, controls },
+  handleActionClick,
 }) => {
   return (
     <ControlPanelSection key={title}>
@@ -22,7 +24,9 @@ const Actions: React.FunctionComponent<Props> = ({
       </h4>
       <ActionButtonsWrapper>
         {controls.map((control, index) => {
-          return <Action key={index} control={control} />
+          return (
+            <Action key={index} control={control} onClick={handleActionClick} />
+          )
         })}
       </ActionButtonsWrapper>
     </ControlPanelSection>

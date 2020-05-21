@@ -9,7 +9,7 @@ export const ActionButtonsWrapper = styled.div`
   }
 `
 
-export const ActionLink = styled.a`
+export const ActionLink = styled.button`
   background: #ffffff;
   border-radius: 0.75rem;
   font-weight: normal;
@@ -31,5 +31,8 @@ export const ActionLink = styled.a`
     color: #47568c;
     text-decoration: none;
     border: 1px solid ${(props): string => props.theme.ixoBlue};
+  }
+  &:focus {
+    outline: none;
   }
 `

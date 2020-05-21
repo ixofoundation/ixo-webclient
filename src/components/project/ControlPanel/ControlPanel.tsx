@@ -11,6 +11,7 @@ import Dashboard from './Dashboard/Dashboard'
 import Actions from './Actions/Actions'
 import Apps from './Apps/Apps'
 import Connections from './Connections/Connections'
+import { Widget } from 'ixo-assistant'
 
 interface Props {
   entityDid: string
@@ -51,6 +52,10 @@ class ControlPanel extends React.Component<Props, State> {
     })
   }
 
+  handleAction = (action: string): void => {
+    console.log(action)
+  }
+
   render(): JSX.Element {
     const {
       schema: { dashboard, actions, apps, connections },
@@ -71,7 +76,7 @@ class ControlPanel extends React.Component<Props, State> {
             className={this.state.showControlPanelMobile ? 'open' : ''}
           >
             <Dashboard widget={dashboard} entityDid={this.props.entityDid} />
-            <Actions widget={actions} />
+            <Actions widget={actions} handleActionClick={this.handleAction} />
             <Apps
               widget={apps}
               showMore={this.state.showMoreApps}
@@ -84,6 +89,12 @@ class ControlPanel extends React.Component<Props, State> {
             />
           </ControlPanelWrapper>
         </ControlPanelScrollWrapper>
+        <Widget
+          socketUrl={process.env.REACT_APP_ASSISTANT_URL}
+          socketPath={'/socket.io/'}
+          initPayload={'hello'}
+          title="IXO Assistant"
+        />
       </>
     )
   }

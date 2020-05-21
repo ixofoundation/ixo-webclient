@@ -9,9 +9,10 @@ import { Tooltip } from 'src/components/common/Tooltip'
 
 interface Props {
   control: Control
+  onClick: (intent: string) => void
 }
 
-const Action: React.FunctionComponent<Props> = ({ control }) => {
+const Action: React.FunctionComponent<Props> = ({ control, onClick }) => {
   const intent = control.parameters.find(param => param.name === 'intent').value
 
   let Icon
@@ -32,7 +33,7 @@ const Action: React.FunctionComponent<Props> = ({ control }) => {
 
   return (
     <Tooltip text={control.tooltip}>
-      <ActionLink href={`#${intent}`}>
+      <ActionLink onClick={(): void => onClick(intent)}>
         {Icon}
         {control.title}
       </ActionLink>
