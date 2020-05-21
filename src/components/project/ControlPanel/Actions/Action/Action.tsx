@@ -4,7 +4,7 @@ import MessageIcon from '../../../../../assets/icons/Message'
 import TargetIcon from '../../../../../assets/icons/Target'
 import StarIcon from '../../../../../assets/icons/Star'
 import { Control } from '../../types'
-import { ActionLink } from '../Actions.styles'
+import { ActionButton } from '../Actions.styles'
 import { Tooltip } from 'src/components/common/Tooltip'
 
 interface Props {
@@ -33,10 +33,10 @@ const Action: React.FunctionComponent<Props> = ({ control, onClick }) => {
 
   return (
     <Tooltip text={control.tooltip}>
-      <ActionLink onClick={(): void => onClick(intent)}>
+      <ActionButton onClick={(): void => onClick(intent)}>
         {Icon}
         {control.title}
-      </ActionLink>
+      </ActionButton>
     </Tooltip>
   )
 }

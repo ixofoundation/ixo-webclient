@@ -11,7 +11,7 @@ import Dashboard from './Dashboard/Dashboard'
 import Actions from './Actions/Actions'
 import Apps from './Apps/Apps'
 import Connections from './Connections/Connections'
-import { Widget } from 'ixo-assistant'
+import { Widget, send, open } from 'ixo-assistant'
 
 interface Props {
   entityDid: string
@@ -22,6 +22,14 @@ interface State {
   showControlPanelMobile: boolean
   showMoreApps: boolean
   connection: string
+}
+
+interface BotUtter {
+  text: string
+}
+
+const onSocketEvent = {
+  bot_uttered: (utter: BotUtter): void => console.log('bot uttered', utter),
 }
 
 class ControlPanel extends React.Component<Props, State> {
@@ -52,8 +60,9 @@ class ControlPanel extends React.Component<Props, State> {
     })
   }
 
-  handleAction = (action: string): void => {
-    console.log(action)
+  handleAction = (intent: string): void => {
+    open()
+    send(`/${intent}`)
   }
 
   render(): JSX.Element {
@@ -92,8 +101,8 @@ class ControlPanel extends React.Component<Props, State> {
         <Widget
           socketUrl={process.env.REACT_APP_ASSISTANT_URL}
           socketPath={'/socket.io/'}
-          initPayload={'hello'}
           title="IXO Assistant"
+          onSocketEvent={onSocketEvent}
         />
       </>
     )

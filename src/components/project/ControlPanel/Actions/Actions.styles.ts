@@ -9,7 +9,7 @@ export const ActionButtonsWrapper = styled.div`
   }
 `
 
-export const ActionLink = styled.button`
+export const ActionButton = styled.button`
   background: #ffffff;
   border-radius: 0.75rem;
   font-weight: normal;
