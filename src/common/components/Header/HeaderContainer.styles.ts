@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { deviceWidth } from '../../../lib/commonData'
 
 export const TopBar = styled.header`
   position: sticky;
@@ -11,11 +12,16 @@ export const TopBar = styled.header`
   && {
     width: 100%;
   }
+  @media (max-width: ${deviceWidth.tablet}px) {
+    &.openMenu {
+      z-index: 13;
+    }
+  }
 `
 
 export const StatusMessage = styled.div`
   opacity: 0;
-  background: ${/*eslint-disable-line*/ props => props.theme.bg.lightBlue};
+  background: ${(props): string => props.theme.bg.lightBlue};
   position: absolute;
   color: white;
   top: 15px;
@@ -39,8 +45,7 @@ export const StatusMessage = styled.div`
     height: 0;
     border-left: 10px solid transparent;
     border-right: 10px solid transparent;
-    border-bottom: 10px solid
-      ${/*eslint-disable-line*/ props => props.theme.bg.lightBlue};
+    border-bottom: 10px solid ${(props): string => props.theme.bg.lightBlue};
     position: absolute;
     top: -10px;
     right: 20px;
@@ -104,15 +109,14 @@ export const ModalData = styled.div`
     font-size: 64px;
 
     :before {
-      color: ${/*eslint-disable-line*/ props => props.theme.ixoBlue};
+      color: ${(props): string => props.theme.ixoBlue};
     }
   }
 
   h3 {
     margin-top: 10px;
     font-size: 18px;
-    font-family: ${/*eslint-disable-line*/ props =>
-      props.theme.fontRobotoCondensed};
+    font-family: ${(props): string => props.theme.fontRobotoCondensed};
   }
 
   p {
@@ -120,7 +124,7 @@ export const ModalData = styled.div`
     font-weight: 300;
 
     span {
-      color: ${/*eslint-disable-line*/ props => props.theme.ixoBlue};
+      color: ${(props): string => props.theme.ixoBlue};
     }
   }
 `
@@ -131,6 +135,6 @@ export const InfoLink = styled.a`
   text-decoration: underline;
 
   :hover {
-    color: ${/*eslint-disable-line*/ props => props.theme.ixoBlue};
+    color: ${(props): string => props.theme.ixoBlue};
   }
 `
