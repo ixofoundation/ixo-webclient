@@ -2,14 +2,15 @@ import styled from 'styled-components'
 import { deviceWidth } from '../../../lib/commonData'
 
 export const createTabsContainer = (activeTabColor: string): any => styled.div`
-  background: ${(props): string => props.theme.bg.gradientBlue};
-  border-radius: 4px;
   overflow: hidden;
   display: flex;
-  box-shadow: 0px 10px 50px 0px rgba(0, 0, 0, 0.35);
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  width: 100%;
 
   a {
-    flex: 1;
+    background: ${(props): string => props.theme.bg.gradientBlue};
+    box-shadow: 0px 10px 50px 0px rgba(0, 0, 0, 0.35);
     font-family: ${(props): string => props.theme.fontRobotoCondensed};
     color: white;
     text-transform: uppercase;
@@ -22,7 +23,6 @@ export const createTabsContainer = (activeTabColor: string): any => styled.div`
     justify-content: center;
     text-decoration: none;
     transition: all 0.3s ease;
-    min-width: 156px;
 
     i {
       margin-right: 10px;
@@ -35,8 +35,15 @@ export const createTabsContainer = (activeTabColor: string): any => styled.div`
       }
     }
 
+    &:first-child {
+      border-top-left-radius: 4px;
+      border-bottom-left-radius: 4px;
+    }
+
     &:last-child {
       border-left: 1px solid rgba(1, 116, 146, 0.5);
+      border-top-right-radius: 4px;
+      border-bottom-right-radius: 4px;
     }
 
     p {
@@ -68,9 +75,17 @@ export const createTabsContainer = (activeTabColor: string): any => styled.div`
     padding: 0 5px;
   }
 
-  @media (max-width: ${deviceWidth.mobile}px) {
+  @media (min-width: ${deviceWidth.tablet}px) {
+    a {
+      width: calc(100% / 3);
+      min-width: 156px;
+    }
+  }
+  @media (max-width: ${deviceWidth.tablet}px) {
     width: calc(100vw - 30px);
     a {
+      flex: 1;
+      width: initial;
       height: 40px;
       flex-direction: column;
       font-size: 11px;
