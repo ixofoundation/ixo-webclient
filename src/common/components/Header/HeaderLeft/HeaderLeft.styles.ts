@@ -14,6 +14,7 @@ export const HeaderLink = styled(NavLink)`
 
   &:first-child {
     border: 1px solid #49bfe0;
+    border-radius: 3px;
     font-weight: 400;
     margin-left: 0px;
     @media (max-width: ${deviceWidth.desktop}px) {
