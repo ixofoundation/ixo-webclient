@@ -78,7 +78,7 @@ export const EntitiesHero: React.FunctionComponent<Props> = ({
         iconClass: 'icon-impacts',
         linkClass: null,
         path: '/global-statistics',
-        title: 'IMPACTS',
+        title: 'IMPACT',
       })
     }
 

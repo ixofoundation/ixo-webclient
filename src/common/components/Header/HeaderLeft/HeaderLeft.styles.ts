@@ -8,15 +8,13 @@ export const HeaderLink = styled(NavLink)`
   font-weight: 400;
   letter-spacing: 1px;
   text-transform: uppercase;
-  border: 1px solid #49bfe0;
-  border-radius: 3px;
   padding: 5px 10px 5px;
   margin: 0 10px 10px;
   font-size: 16px;
-  transition: border 0.3s ease;
 
   &:first-child {
     border: 1px solid #49bfe0;
+    border-radius: 3px;
     font-weight: 400;
     margin-left: 0px;
     @media (max-width: ${deviceWidth.desktop}px) {
@@ -95,16 +93,8 @@ export const Main = styled.div`
   padding: 15px 20px;
   justify-content: flex-end;
 
-  a:first-child {
-    margin-right: auto;
-  }
-
   @media (min-width: ${deviceWidth.tablet}px) {
     justify-content: flex-start;
-
-    a:first-child {
-      margin-right: inherit;
-    }
   }
 
   a {
@@ -163,7 +153,7 @@ export const MobileMenu = Menu.extend`
   right: 0;
   background: #002c41;
   width: 100%;
-  padding: 64px 2px 20px 30px;
+  padding: 32px 30px;
   pointer-events: none;
   z-index: 1;
   border-radius: 0 0 5px 5px;
