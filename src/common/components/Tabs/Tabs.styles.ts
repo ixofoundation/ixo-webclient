@@ -9,6 +9,7 @@ export const createTabsContainer = (activeTabColor: string): any => styled.div`
   width: 100%;
 
   a {
+    width: calc(100% / 3);
     background: ${(props): string => props.theme.bg.gradientBlue};
     box-shadow: 0px 10px 50px 0px rgba(0, 0, 0, 0.35);
     font-family: ${(props): string => props.theme.fontRobotoCondensed};
@@ -77,15 +78,12 @@ export const createTabsContainer = (activeTabColor: string): any => styled.div`
 
   @media (min-width: ${deviceWidth.tablet}px) {
     a {
-      width: calc(100% / 3);
       min-width: 156px;
     }
   }
   @media (max-width: ${deviceWidth.tablet}px) {
     width: calc(100vw - 30px);
     a {
-      flex: 1;
-      width: initial;
       height: 40px;
       flex-direction: column;
       font-size: 11px;
