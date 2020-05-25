@@ -8,12 +8,9 @@ export const HeaderLink = styled(NavLink)`
   font-weight: 400;
   letter-spacing: 1px;
   text-transform: uppercase;
-  border: 1px solid #49bfe0;
-  border-radius: 3px;
   padding: 5px 10px 5px;
   margin: 0 10px 10px;
   font-size: 16px;
-  transition: border 0.3s ease;
 
   &:first-child {
     border: 1px solid #49bfe0;
