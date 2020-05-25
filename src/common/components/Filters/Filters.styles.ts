@@ -348,6 +348,9 @@ export const MobileDatePicker = styled.div`
     background-color: #002a3f;
     margin-top: -1px;
   }
+  .DayPicker_transitionContainer__verticalScrollable {
+    height: 120%;
+  }
 `
 
 export const ResetButtonDatePicker = styled.div`
@@ -590,7 +593,7 @@ export const DoneButton = styled.button`
   color: white;
   width: 100%;
   text-align: center;
-  margin: 1.5rem 0 0;
+  margin: 6.5rem 0 0;
   border: none;
   outline: none !important;
   -webkit-appearance: none;
