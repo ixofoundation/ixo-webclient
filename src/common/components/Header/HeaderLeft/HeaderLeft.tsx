@@ -17,15 +17,12 @@ import {
   HeaderAnchor,
 } from './HeaderLeft.styles'
 
-export class HeaderLeft extends React.Component<{}> {
-  state = {
-    menuOpen: false,
-  }
+export interface ParentProps {
+  openMenu: boolean
+  handleBurgerClick: any
+}
 
-  handleBurgerClick = (): void => {
-    this.setState({ menuOpen: !this.state.menuOpen })
-  }
-
+export class HeaderLeft extends React.Component<ParentProps> {
   getMenuItems = (inHeader: boolean): JSX.Element => {
     if (inHeader) {
       return (
@@ -96,8 +93,8 @@ export class HeaderLeft extends React.Component<{}> {
             </a>
           </div>
           <NavItems>
-            <Burger onClick={this.handleBurgerClick}>
-              <div className={this.state.menuOpen === true ? 'change' : ''}>
+            <Burger onClick={this.props.handleBurgerClick}>
+              <div className={this.props.openMenu === true ? 'change' : ''}>
                 <div className="bar1" />
                 <div className="bar2" />
                 <div className="bar3" />
@@ -110,7 +107,7 @@ export class HeaderLeft extends React.Component<{}> {
         </Main>
         <MediaQuery maxWidth={'991px'}>
           <MobileMenu
-            className={this.state.menuOpen === true ? 'openMenu' : ''}
+            className={this.props.openMenu === true ? 'openMenu' : ''}
           >
             {this.getMenuItems(false)}
           </MobileMenu>

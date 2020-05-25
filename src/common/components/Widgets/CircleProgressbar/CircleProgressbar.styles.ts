@@ -4,7 +4,7 @@ export const WidgetContainer = styled.div`
   position: relative;
 
   .progress {
-    width: 250px;
+    width: 100%;
     height: 100%;
     transform: rotate(-90deg);
     background: none;

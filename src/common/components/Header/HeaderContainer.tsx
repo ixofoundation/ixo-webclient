@@ -26,6 +26,7 @@ export interface State {
   modalResponse: string
   isLedgering: boolean
   ledgerPopupShown: boolean
+  isMobileMenuOpen: boolean
 }
 
 export interface StateProps {
@@ -48,10 +49,15 @@ class Header extends React.Component<Props, State> {
     modalResponse: '',
     isLedgering: false,
     ledgerPopupShown: false,
+    isMobileMenuOpen: false,
   }
 
   componentDidMount(): void {
     this.pingExplorer()
+  }
+
+  handleBurgerClick = (): void => {
+    this.setState({ isMobileMenuOpen: !this.state.isMobileMenuOpen })
   }
 
   componentDidUpdate(prevProps: Props): void {
@@ -230,7 +236,11 @@ class Header extends React.Component<Props, State> {
 
   render(): JSX.Element {
     return (
-      <TopBar className="container-fluid text-white">
+      <TopBar
+        className={`container-fluid text-white ${
+          this.state.isMobileMenuOpen === true ? 'openMenu' : ''
+        }`}
+      >
         <ModalWrapper
           isModalOpen={this.state.isModalOpen}
           handleToggleModal={this.handleToggleModal}
@@ -239,7 +249,10 @@ class Header extends React.Component<Props, State> {
           {this.renderModalData()}
         </ModalWrapper>
         <div className="row">
-          <HeaderLeft />
+          <HeaderLeft
+            openMenu={this.state.isMobileMenuOpen}
+            handleBurgerClick={this.handleBurgerClick}
+          />
           <MediaQuery minWidth={`${deviceWidth.desktop}px`}>
             <HeaderRight
               renderStatusIndicator={this.renderStatusIndicator}
