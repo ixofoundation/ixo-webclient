@@ -81,6 +81,22 @@ class ControlPanel extends React.Component<Props, State> {
           )}
         </MobileControlPanelToggle>
         <ControlPanelScrollWrapper>
+          <div
+            style={{
+              position: 'absolute',
+              width: '100%',
+              height: '100%',
+              top: 0,
+            }}
+          >
+            <Widget
+              socketUrl={process.env.REACT_APP_ASSISTANT_URL}
+              socketPath={'/socket.io/'}
+              title="IXO Assistant"
+              onSocketEvent={onSocketEvent}
+              // embedded={true}
+            />
+          </div>
           <ControlPanelWrapper
             className={this.state.showControlPanelMobile ? 'open' : ''}
           >
@@ -98,12 +114,6 @@ class ControlPanel extends React.Component<Props, State> {
             />
           </ControlPanelWrapper>
         </ControlPanelScrollWrapper>
-        <Widget
-          socketUrl={process.env.REACT_APP_ASSISTANT_URL}
-          socketPath={'/socket.io/'}
-          title="IXO Assistant"
-          onSocketEvent={onSocketEvent}
-        />
       </>
     )
   }

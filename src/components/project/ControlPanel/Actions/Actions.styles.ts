@@ -9,7 +9,7 @@ export const ActionButtonsWrapper = styled.div`
   }
 `
 
-export const ActionButton = styled.button`
+export const ActionLink = styled.a`
   background: #ffffff;
   border-radius: 0.75rem;
   font-weight: normal;
@@ -23,6 +23,7 @@ export const ActionButton = styled.button`
   color: #47568c;
   transition: all 0.3s;
   border: 1px solid transparent;
+  cursor: pointer;
   svg {
     fill: #47568c;
     margin-right: 1rem;
