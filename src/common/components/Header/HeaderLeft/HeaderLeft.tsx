@@ -28,7 +28,7 @@ export class HeaderLeft extends React.Component<ParentProps> {
       return (
         <Fragment>
           <HeaderLink exact={true} to="/">
-            Explorer
+            Explore
           </HeaderLink>
           <HeaderAnchor target="_blank" href="https://developers.ixo.world/">
             Build
@@ -49,7 +49,7 @@ export class HeaderLeft extends React.Component<ParentProps> {
         <Fragment>
           <MenuHeaderContainer>
             <MenuHeaderLink className="first-mobile" exact={true} to="/">
-              Explorer
+              Explore
             </MenuHeaderLink>
           </MenuHeaderContainer>
           <MenuHeaderContainer>
