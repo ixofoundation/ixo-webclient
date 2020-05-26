@@ -11,7 +11,6 @@ export const createTabsContainer = (activeTabColor: string): any => styled.div`
   a {
     width: calc(100% / 3);
     background: ${(props): string => props.theme.bg.gradientBlue};
-    box-shadow: 0px 10px 50px 0px rgba(0, 0, 0, 0.35);
     font-family: ${(props): string => props.theme.fontRobotoCondensed};
     color: white;
     text-transform: uppercase;
