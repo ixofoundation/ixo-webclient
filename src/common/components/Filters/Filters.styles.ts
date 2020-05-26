@@ -102,9 +102,9 @@ export const FilterModal = styled.div`
 
 export const ModalItems = styled.div`
   display: flex;
-  max-height: 400px;
   overflow-y: auto;
   flex-flow: row wrap;
+  max-height: 100%;
 `
 
 export const FilterSelectButton = styled.div`
@@ -350,11 +350,24 @@ export const DatePickerModal = styled.div`
   }
 `
 
+export const DoneButtonWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`
+
 export const MobileDatePicker = styled.div`
   height: 100%;
+  max-height: calc(100vh - 306px);
   .DayPicker_weekHeader__verticalScrollable {
     background-color: #002a3f;
     margin-top: -1px;
+  }
+  .DayPicker__withBorder {
+    box-shadow: none;
+  }
+  ${DoneButtonWrapper} {
+    padding: 1.25rem;
   }
 `
 
@@ -565,7 +578,9 @@ export const DateDisplay = styled.div`
   padding-top: 1.5rem;
   display: flex;
   justify-content: space-between;
+  align-items: center;
   svg {
+    max-height: 100%;
     transform: rotate(180deg);
   }
 `
@@ -596,7 +611,6 @@ export const DoneButton = styled.button`
   color: white;
   width: 100%;
   text-align: center;
-  margin: 1.5rem 0 0;
   border: none;
   outline: none !important;
   -webkit-appearance: none;
@@ -612,15 +626,6 @@ export const DoneButton = styled.button`
   }
 `
 
-export const DoneButtonWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  ${DoneButton} {
-    margin: 1.25rem;
-  }
-`
-
 export const MobileFilterHeading = styled.h3`
   color: #000;
   font-style: normal;
@@ -628,8 +633,10 @@ export const MobileFilterHeading = styled.h3`
   font-size: 1.5rem;
   line-height: 1.2;
   margin: 2.625rem 0;
-  &.tag-select-heading {
-    margin: 2rem 0 1rem;
+  display: block;
+  width: 100%;
+  @media (max-width: ${deviceWidth.mobile}px) {
+    margin: 0.5rem 0 1rem;
   }
 `
 
@@ -647,7 +654,7 @@ export const HeadingItem = styled.button`
 
 export const MobileFilterWrapper = styled.div`
   padding: 1.25rem;
-  height: calc(100vh - 150px);
+  height: calc(100% - 75px);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -661,14 +668,6 @@ export const MobileFilterModal = styled.div`
   left: 0;
   background: #ffffff;
   z-index: 13;
-  display: grid;
-  grid-template: 75px 1fr 75px / 1fr;
-  ${MobileFilterWrapper} {
-    justify-content: flex-start;
-  }
-  &.dateFilterModal {
-    grid-template: 154px 1fr 75px / 1fr;
-  }
 `
 export const BurgerMenuButton = styled(Button)`
   display: none;

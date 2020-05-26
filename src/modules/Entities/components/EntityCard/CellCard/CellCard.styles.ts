@@ -18,9 +18,15 @@ export const StatisticsContainer = styled(StatisticsContainerBase)``
 export const Statistic = styled(StatisticBase)`
   flex: 0.5;
   font-size: 24px;
+  display: flex;
+  flex-flow: row nowrap;
+  &:not(:last-child) {
+    margin-right: 2rem;
+  }
 `
 export const StatisticLabel = styled(StatisticLabelBase)``
 
 export const StatisticValue = styled(StatisticValueBase)`
+  margin-right: 0.5rem;
   font-weight: bold;
 `

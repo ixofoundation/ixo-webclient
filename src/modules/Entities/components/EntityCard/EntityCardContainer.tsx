@@ -15,7 +15,6 @@ import {
   CardLink,
   CardBottomHeadingContainer,
   Logo,
-  LogoContainer,
   ShieldColor,
 } from './EntityCardContainer.styles'
 
@@ -97,9 +96,7 @@ export const EntityCardContainer: React.FunctionComponent<Props> = ({
                 <ShieldText>{toTitleCase(shield)}</ShieldText>
               </Shield>
             </ShieldContainer>
-            <LogoContainer>
-              <Logo src={founderLogoUrl} width="34" height="34" />
-            </LogoContainer>
+            <Logo src={founderLogoUrl} width="34" height="34" />
           </CardBottomHeadingContainer>
           {children}
         </CardBottom>
