@@ -37,3 +37,38 @@ export const ActionLink = styled.a`
     outline: none;
   }
 `
+
+export const AssistantWrapper = styled.div`
+  position: absolute;
+  width: calc(100% + 30px);
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  opacity: 0;
+  transform: translateX(0);
+  transition: all 0.3s;
+  &.open {
+    opacity: 1;
+    transform: translateX(-100%);
+  }
+`
+
+export const SummaryWrapper = styled.div`
+  background: white;
+  position: absolute;
+  width: calc(200% + 60px);
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  opacity: 0;
+  transform: translateX(0);
+  transition: all 0.3s;
+  &.open {
+    opacity: 1;
+    transform: translateX(-100%);
+  }
+`

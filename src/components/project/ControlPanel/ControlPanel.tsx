@@ -3,16 +3,14 @@ import {
   ControlPanelScrollWrapper,
   ControlPanelWrapper,
   MobileControlPanelToggle,
-  AssistantWrapper,
 } from './ControlPanel.styles'
 import Down from '../../../assets/icons/Down'
 import Close from '../../../assets/icons/Close'
 import { Schema } from './types'
 import Dashboard from './Dashboard/Dashboard'
-import Actions from './Actions/Actions'
+import Actions, { triggerAction } from './Actions/Actions'
 import Apps from './Apps/Apps'
 import Connections from './Connections/Connections'
-import { Widget, send, open } from 'ixo-assistant'
 
 interface Props {
   entityDid: string
@@ -22,24 +20,16 @@ interface Props {
 interface State {
   showControlPanelMobile: boolean
   showMoreApps: boolean
-  action: string
-  connection: string
-}
-
-interface BotUtter {
-  text: string
-}
-
-const onSocketEvent = {
-  bot_uttered: (utter: BotUtter): void => console.log('bot uttered', utter),
+  currentAction: string
+  currentConnection: string
 }
 
 class ControlPanel extends React.Component<Props, State> {
   state = {
     showControlPanelMobile: false,
     showMoreApps: false,
-    connection: null,
-    action: null,
+    currentAction: null,
+    currentConnection: null,
   }
 
   toggleShowControlPanel = (): void => {
@@ -57,25 +47,25 @@ class ControlPanel extends React.Component<Props, State> {
     this.setState({ showMoreApps: !this.state.showMoreApps })
   }
 
-  toggleConnection = (connection): void => {
+  handleConnectionClick = (connection): void => {
     this.setState({
-      connection: this.state.connection === connection ? null : connection,
+      currentConnection:
+        this.state.currentConnection === connection ? null : connection,
+      currentAction: null,
     })
   }
 
-  handleAction = (intent: string): void => {
-    // temp
-    if (intent !== 'fuel_my_entity') {
-      return
+  handleInititateActionClick = (intent: string): void => {
+    if (intent !== this.state.currentAction) {
+      this.setState({ currentAction: intent, currentConnection: null }, () => {
+        triggerAction(intent)
+      })
+    } else {
+      this.setState({ currentAction: null })
     }
-
-    this.setState({ action: intent })
-    open()
-    send(`/${intent}`)
   }
 
   render(): JSX.Element {
-    console.log('rerender')
     const {
       schema: { dashboard, actions, apps, connections },
     } = this.props
@@ -91,20 +81,15 @@ class ControlPanel extends React.Component<Props, State> {
           )}
         </MobileControlPanelToggle>
         <ControlPanelScrollWrapper>
-          <AssistantWrapper>
-            <Widget
-              socketUrl={process.env.REACT_APP_ASSISTANT_URL}
-              socketPath={'/socket.io/'}
-              title="IXO Assistant"
-              onSocketEvent={onSocketEvent}
-              embedded={true}
-            />
-          </AssistantWrapper>
           <ControlPanelWrapper
             className={this.state.showControlPanelMobile ? 'open' : ''}
           >
             <Dashboard widget={dashboard} entityDid={this.props.entityDid} />
-            <Actions widget={actions} handleActionClick={this.handleAction} />
+            <Actions
+              currentAction={this.state.currentAction}
+              widget={actions}
+              handleInititateActionClick={this.handleInititateActionClick}
+            />
             <Apps
               widget={apps}
               showMore={this.state.showMoreApps}
@@ -112,8 +97,8 @@ class ControlPanel extends React.Component<Props, State> {
             />
             <Connections
               widget={connections}
-              selectedConnection={this.state.connection}
-              toggleConnection={this.toggleConnection}
+              selectedConnection={this.state.currentConnection}
+              handleConnectionClick={this.handleConnectionClick}
             />
           </ControlPanelWrapper>
         </ControlPanelScrollWrapper>

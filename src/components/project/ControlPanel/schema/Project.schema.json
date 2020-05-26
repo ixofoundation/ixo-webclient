@@ -131,7 +131,7 @@
         "@id": "actionFuelThisProject",
         "title": "Fuel this project",
         "tooltip": "Fuel this project",
-        "icon": "Star",
+        "icon": "Fuel",
         "iconColor": "#49BFE0",
         "endpoint": "/assistant",
         "accessToken": null,

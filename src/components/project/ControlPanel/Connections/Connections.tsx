@@ -15,13 +15,13 @@ import { Tooltip } from 'src/components/common/Tooltip'
 interface Props {
   widget: Widget
   selectedConnection: string
-  toggleConnection: (connection: string) => void
+  handleConnectionClick: (connection: string) => void
 }
 
 const Connections: React.FunctionComponent<Props> = ({
   widget: { controls, title },
   selectedConnection,
-  toggleConnection,
+  handleConnectionClick,
 }) => {
   const mobileControl = controls.find(
     conn => conn['@type'] === ConnectionType.Mobile,
@@ -41,7 +41,7 @@ const Connections: React.FunctionComponent<Props> = ({
         </div>
         {title}
         <div
-          onClick={(): void => toggleConnection(null)}
+          onClick={(): void => handleConnectionClick(null)}
           className={`arrow-icon ${selectedConnection ? 'active' : ''}`}
         >
           <Down width="16" fill="#BDBDBD" />
@@ -51,7 +51,7 @@ const Connections: React.FunctionComponent<Props> = ({
         {mobileControl && (
           <Tooltip text={mobileControl.tooltip}>
             <button
-              onClick={(): void => toggleConnection(ConnectionType.Mobile)}
+              onClick={(): void => handleConnectionClick(ConnectionType.Mobile)}
             >
               <div className="icon-wrapper">
                 <MobileIcon fill="#49BFE0" width="50" />
@@ -63,7 +63,7 @@ const Connections: React.FunctionComponent<Props> = ({
         {shareControl && (
           <Tooltip text={shareControl.tooltip}>
             <button
-              onClick={(): void => toggleConnection(ConnectionType.Share)}
+              onClick={(): void => handleConnectionClick(ConnectionType.Share)}
             >
               <div className="icon-wrapper">
                 <ShareIcon fill="#49BFE0" width="50" />
@@ -75,7 +75,7 @@ const Connections: React.FunctionComponent<Props> = ({
         {forumControl && (
           <Tooltip text={forumControl.tooltip}>
             <button
-              onClick={(): void => toggleConnection(ConnectionType.Forum)}
+              onClick={(): void => handleConnectionClick(ConnectionType.Forum)}
             >
               <div className="icon-wrapper">
                 <ForumIcon fill="#49BFE0" width="50" />

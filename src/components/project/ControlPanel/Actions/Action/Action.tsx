@@ -3,6 +3,7 @@ import AddPersonIcon from '../../../../../assets/icons/AddPerson'
 import MessageIcon from '../../../../../assets/icons/Message'
 import TargetIcon from '../../../../../assets/icons/Target'
 import StarIcon from '../../../../../assets/icons/Star'
+import FuelIcon from '../../../../../assets/icons/Fuel'
 import { Control } from '../../types'
 import { ActionLink } from '../Actions.styles'
 import { Tooltip } from 'src/components/common/Tooltip'
@@ -28,6 +29,9 @@ const Action: React.FunctionComponent<Props> = ({ control, onClick }) => {
       break
     case 'Star':
       Icon = <StarIcon fill={control.iconColor} />
+      break
+    case 'Fuel':
+      Icon = <FuelIcon fill={control.iconColor} />
       break
   }
 
