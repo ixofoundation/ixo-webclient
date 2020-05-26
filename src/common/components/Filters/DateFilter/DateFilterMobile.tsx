@@ -40,7 +40,7 @@ const DateFilterMobile: React.FunctionComponent<MobileProps> = ({
       </Button>
       {isActive && (
         <MobileDatesMenu className="openDatesMenu">
-          <MobileFilterModal className="dateFilterModal">
+          <MobileFilterModal>
             <MobileDateHeader>
               <HeadingItem onClick={handleFilterToggleShow}>
                 <Back />
@@ -68,10 +68,10 @@ const DateFilterMobile: React.FunctionComponent<MobileProps> = ({
                 onChange={handleFilterDateChange}
                 onReset={handleResetFilter}
               />
+              <DoneButtonWrapper>
+                <DoneButton onClick={handleFilterToggleShow}>Done</DoneButton>
+              </DoneButtonWrapper>
             </MobileDatePicker>
-            <DoneButtonWrapper>
-              <DoneButton onClick={handleFilterToggleShow}>Done</DoneButton>
-            </DoneButtonWrapper>
           </MobileFilterModal>
         </MobileDatesMenu>
       )}

@@ -32,7 +32,7 @@ const IconListFilterMobile: React.FunctionComponent<MobileProps> = ({
   handleFilterReset,
 }) => {
   const title = utils.getTitle(name, items, selectType)
-  const modalDisplay = isActive || !showFilterSubMenu ? 'grid' : 'none'
+  const modalDisplay = isActive || !showFilterSubMenu ? 'block' : 'none'
 
   return (
     <MobileButtonWrapper
@@ -62,10 +62,9 @@ const IconListFilterMobile: React.FunctionComponent<MobileProps> = ({
           </HeadingItem>
         </MobileFilterHeader>
         <MobileFilterWrapper>
-          <MobileFilterHeading className="tag-select-heading">
-            {title}
-          </MobileFilterHeading>
           <ModalItems>
+            <MobileFilterHeading>{title}</MobileFilterHeading>
+
             {items.map(item => {
               const { name: itemName, icon: itemIcon } = item
 
@@ -84,12 +83,12 @@ const IconListFilterMobile: React.FunctionComponent<MobileProps> = ({
               )
             })}
           </ModalItems>
+          <DoneButtonWrapper>
+            <DoneButton onClick={(): void => handleToggleFilterShow(name)}>
+              Done
+            </DoneButton>
+          </DoneButtonWrapper>
         </MobileFilterWrapper>
-        <DoneButtonWrapper>
-          <DoneButton onClick={(): void => handleToggleFilterShow(name)}>
-            Done
-          </DoneButton>
-        </DoneButtonWrapper>
       </MobileFilterModal>
     </MobileButtonWrapper>
   )
