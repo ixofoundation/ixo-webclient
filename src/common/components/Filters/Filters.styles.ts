@@ -341,6 +341,12 @@ export const DatePickerModal = styled.div`
   }
 `
 
+export const DoneButtonWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`
+
 export const MobileDatePicker = styled.div`
   height: 100%;
   max-height: calc(100vh - 306px);
@@ -348,8 +354,11 @@ export const MobileDatePicker = styled.div`
     background-color: #002a3f;
     margin-top: -1px;
   }
-  .DayPicker_transitionContainer__verticalScrollable {
-    height: 120%;
+  .DayPicker__withBorder {
+    box-shadow: none;
+  }
+  ${DoneButtonWrapper} {
+    padding: 1.25rem;
   }
 `
 
@@ -593,7 +602,6 @@ export const DoneButton = styled.button`
   color: white;
   width: 100%;
   text-align: center;
-  margin: 6.5rem 0 0;
   border: none;
   outline: none !important;
   -webkit-appearance: none;
@@ -607,12 +615,6 @@ export const DoneButton = styled.button`
     width: 100vw;
     background-color: #e8edee;
   }
-`
-
-export const DoneButtonWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
 `
 
 export const MobileFilterHeading = styled.h3`
