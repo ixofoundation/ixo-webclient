@@ -92,21 +92,20 @@ export const CardBottom = styled.div`
   border-bottom-left-radius: 4px;
   border-bottom-right-radius: 4px;
   flex: 1;
-  padding: 0 14px 0;
+  padding: 14px 18px 18px;
   background: white;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding-top: 16px;
   p {
-    font-weight: 300;
-    color: ${/* eslint-disable-line */ props => props.theme.fontDarkGrey};
+    color: ${(props): string => props.theme.fontDarkGrey};
   }
 `
 
 export const CardBottomHeadingContainer = styled.div`
   display: flex;
-  align-items: flex-start;
+  align-items: center;
+  justify-content: space-between;
 `
 
 export const ShieldContainer = styled.div`
@@ -127,8 +126,8 @@ export const Shield = styled.div`
     padding: 2px 10px;
     border-top-right-radius: 4px;
     border-bottom-right-radius: 4px;
-    background: ${/* eslint-disable-line */ props => props.theme.ixoOrange};
-    font-family: ${/* eslint-disable-line */ props => props.theme.fontRoboto};
+    background: ${(props): string => props.theme.ixoOrange};
+    font-family: ${(props): string => props.theme.fontRoboto};
   }
 
   &.${ShieldColor.Orange} {
@@ -167,14 +166,8 @@ export const ShieldLabel = styled.div`
     color: black;
     font-weight: 400;
     padding: 2px 10px;
-    font-family: ${/* eslint-disable-line */ props => props.theme.fontRoboto};
+    font-family: ${(props): string => props.theme.fontRoboto};
   }
-`
-
-export const LogoContainer = styled.div`
-  display: flex;
-  flex: 1;
-  justify-content: flex-end;
 `
 
 export const Logo = styled.img`
@@ -185,7 +178,7 @@ export const Logo = styled.img`
 
 export const CardContainer = styled.div`
   margin-bottom: 34px;
-  font-family: ${/* eslint-disable-line */ props => props.theme.fontRoboto};
+  font-family: ${(props): string => props.theme.fontRoboto};
 `
 
 export const CardLink = styled(Link)`
