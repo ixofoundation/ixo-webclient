@@ -145,7 +145,7 @@
         "parameters": [
           {
             "name": "intent",
-            "value": "fuel_my_entities"
+            "value": "fuel_my_entity"
           }
         ]
       }

@@ -3,6 +3,7 @@ import {
   ControlPanelScrollWrapper,
   ControlPanelWrapper,
   MobileControlPanelToggle,
+  AssistantWrapper,
 } from './ControlPanel.styles'
 import Down from '../../../assets/icons/Down'
 import Close from '../../../assets/icons/Close'
@@ -21,6 +22,7 @@ interface Props {
 interface State {
   showControlPanelMobile: boolean
   showMoreApps: boolean
+  action: string
   connection: string
 }
 
@@ -37,6 +39,7 @@ class ControlPanel extends React.Component<Props, State> {
     showControlPanelMobile: false,
     showMoreApps: false,
     connection: null,
+    action: null,
   }
 
   toggleShowControlPanel = (): void => {
@@ -61,11 +64,18 @@ class ControlPanel extends React.Component<Props, State> {
   }
 
   handleAction = (intent: string): void => {
+    // temp
+    if (intent !== 'fuel_my_entity') {
+      return
+    }
+
+    this.setState({ action: intent })
     open()
     send(`/${intent}`)
   }
 
   render(): JSX.Element {
+    console.log('rerender')
     const {
       schema: { dashboard, actions, apps, connections },
     } = this.props
@@ -81,22 +91,15 @@ class ControlPanel extends React.Component<Props, State> {
           )}
         </MobileControlPanelToggle>
         <ControlPanelScrollWrapper>
-          <div
-            style={{
-              position: 'absolute',
-              width: '100%',
-              height: '100%',
-              top: 0,
-            }}
-          >
+          <AssistantWrapper>
             <Widget
               socketUrl={process.env.REACT_APP_ASSISTANT_URL}
               socketPath={'/socket.io/'}
               title="IXO Assistant"
               onSocketEvent={onSocketEvent}
-              // embedded={true}
+              embedded={true}
             />
-          </div>
+          </AssistantWrapper>
           <ControlPanelWrapper
             className={this.state.showControlPanelMobile ? 'open' : ''}
           >

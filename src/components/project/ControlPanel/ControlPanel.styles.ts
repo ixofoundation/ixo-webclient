@@ -138,3 +138,14 @@ export const SquareButtonSection = styled.div`
     }
   }
 `
+
+export const AssistantWrapper = styled.div`
+position: absolute,
+width: 0,
+height: 100%,
+top: 0;
+left: 0;
+right: 0;
+bottom: 0;
+
+`
