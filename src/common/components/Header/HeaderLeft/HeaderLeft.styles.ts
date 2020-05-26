@@ -93,6 +93,10 @@ export const Main = styled.div`
   padding: 15px 20px;
   justify-content: flex-end;
 
+  @media (max-width: ${deviceWidth.tablet}px) {
+    padding: 15px 20px 30px;
+  }
+
   @media (min-width: ${deviceWidth.tablet}px) {
     justify-content: flex-start;
   }
