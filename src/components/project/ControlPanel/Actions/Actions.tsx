@@ -1,21 +1,23 @@
 import React from 'react'
 import ActionIcon from '../../../../assets/icons/Actions'
-import { Widget } from '../types'
+import { Widget, ActionType } from '../types'
 import Action from './Action/Action'
 import { ControlPanelSection } from '../ControlPanel.styles'
 import {
   ActionButtonsWrapper,
+  ActionWrapper,
   AssistantWrapper,
   SummaryWrapper,
 } from './Actions.styles'
 import Assistant, {
   triggerIntent,
 } from '../../../../common/components/Assistant/Assistant'
+import FuelProjectSummary from './Summary/FuelProjectSummary'
 
 interface Props {
-  currentAction: string
+  currentAction: ActionType
   widget: Widget
-  handleInititateActionClick: (action: string) => void
+  handleInititateActionClick: (action: ActionType, intent: string) => void
 }
 
 enum ActionStatus {
@@ -25,24 +27,27 @@ enum ActionStatus {
 
 interface State {
   status: ActionStatus
+  summaryData: any
 }
 
 class Actions extends React.Component<Props, State> {
   state = {
     status: ActionStatus.InProgress,
+    summaryData: null,
   }
 
-  handleInititateAction = (intent: string): void => {
+  handleInititateAction = (action: ActionType, intent: string): void => {
     // temp
-    if (intent !== 'fuel_my_entity') {
+    if (action !== ActionType.FuelProject) {
       return
     }
 
     this.setState({ status: ActionStatus.InProgress })
-    this.props.handleInititateActionClick(intent)
+    this.props.handleInititateActionClick(action, intent)
   }
 
   onBotUttered = (text: string): void => {
+    // temp
     if (text !== 'Hi, how can I help you?') {
       this.setState({ status: ActionStatus.Completed })
     }
@@ -55,22 +60,23 @@ class Actions extends React.Component<Props, State> {
     } = this.props
 
     const { status } = this.state
+
     return (
       <>
-        <SummaryWrapper
-          className={
-            currentAction && status === ActionStatus.Completed ? 'open' : ''
-          }
-        >
-          this is the summary!
-        </SummaryWrapper>
-        <AssistantWrapper
-          className={
-            currentAction && status === ActionStatus.InProgress ? 'open' : ''
-          }
-        >
-          <Assistant onBotUttered={this.onBotUttered} />
-        </AssistantWrapper>
+        <ActionWrapper className={currentAction ? 'open' : ''}>
+          <AssistantWrapper
+            className={status === ActionStatus.InProgress ? 'open' : ''}
+          >
+            <Assistant onBotUttered={this.onBotUttered} />
+          </AssistantWrapper>
+          <SummaryWrapper
+            className={status === ActionStatus.Completed ? 'open' : ''}
+          >
+            {this.props.currentAction === ActionType.FuelProject && (
+              <FuelProjectSummary />
+            )}
+          </SummaryWrapper>
+        </ActionWrapper>
         <ControlPanelSection key={title}>
           <h4>
             <div className="heading-icon">
@@ -95,53 +101,6 @@ class Actions extends React.Component<Props, State> {
   }
 }
 
-/* const Actions: React.FunctionComponent<Props> = ({
-  currentAction,
-  widget: { title, controls },
-  handleInititateActionClick,
-}) => {
-  const handleInititateAction = (intent: string): void => {
-    // temp
-    if (intent !== 'fuel_my_entity') {
-      return
-    }
-
-    handleInititateActionClick(intent)
-  }
-
-  const onBotUttered = (text: string): void => {
-    console.log(text)
-  }
-
-  return (
-    <>
-      <SummaryWrapper>this is the summary!</SummaryWrapper>
-      <AssistantWrapper className={currentAction ? 'open' : ''}>
-        <Assistant onBotUttered={onBotUttered} />
-      </AssistantWrapper>
-      <ControlPanelSection key={title}>
-        <h4>
-          <div className="heading-icon">
-            <ActionIcon />
-          </div>
-          {title}
-        </h4>
-        <ActionButtonsWrapper>
-          {controls.map((control, index) => {
-            return (
-              <Action
-                key={index}
-                control={control}
-                onClick={handleInititateAction}
-              />
-            )
-          })}
-        </ActionButtonsWrapper>
-      </ControlPanelSection>
-    </>
-  )
-} */
-
-export const triggerAction = (action: string): void => triggerIntent(action)
+export const triggerAction = (intent: string): void => triggerIntent(intent)
 
 export default Actions

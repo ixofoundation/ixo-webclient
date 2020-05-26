@@ -6,7 +6,7 @@ import {
 } from './ControlPanel.styles'
 import Down from '../../../assets/icons/Down'
 import Close from '../../../assets/icons/Close'
-import { Schema } from './types'
+import { Schema, ConnectionType, ActionType } from './types'
 import Dashboard from './Dashboard/Dashboard'
 import Actions, { triggerAction } from './Actions/Actions'
 import Apps from './Apps/Apps'
@@ -20,8 +20,8 @@ interface Props {
 interface State {
   showControlPanelMobile: boolean
   showMoreApps: boolean
-  currentAction: string
-  currentConnection: string
+  currentAction: ActionType
+  currentConnection: ConnectionType
 }
 
 class ControlPanel extends React.Component<Props, State> {
@@ -47,7 +47,7 @@ class ControlPanel extends React.Component<Props, State> {
     this.setState({ showMoreApps: !this.state.showMoreApps })
   }
 
-  handleConnectionClick = (connection): void => {
+  handleConnectionClick = (connection: ConnectionType): void => {
     this.setState({
       currentConnection:
         this.state.currentConnection === connection ? null : connection,
@@ -55,9 +55,9 @@ class ControlPanel extends React.Component<Props, State> {
     })
   }
 
-  handleInititateActionClick = (intent: string): void => {
-    if (intent !== this.state.currentAction) {
-      this.setState({ currentAction: intent, currentConnection: null }, () => {
+  handleInititateActionClick = (action: ActionType, intent: string): void => {
+    if (action !== this.state.currentAction) {
+      this.setState({ currentAction: action, currentConnection: null }, () => {
         triggerAction(intent)
       })
     } else {

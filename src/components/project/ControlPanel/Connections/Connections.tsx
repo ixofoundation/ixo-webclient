@@ -14,8 +14,8 @@ import { Tooltip } from 'src/components/common/Tooltip'
 
 interface Props {
   widget: Widget
-  selectedConnection: string
-  handleConnectionClick: (connection: string) => void
+  selectedConnection: ConnectionType
+  handleConnectionClick: (connection: ConnectionType) => void
 }
 
 const Connections: React.FunctionComponent<Props> = ({

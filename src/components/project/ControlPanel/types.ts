@@ -1,3 +1,11 @@
+export enum ActionType {
+  Join = 'Join',
+  Help = 'Help',
+  OracleService = 'OracleService',
+  RateProject = 'RateProject',
+  FuelProject = 'FuelProject',
+}
+
 export enum AppType {
   RiotChat = 'RiotChat',
 }
@@ -7,6 +15,7 @@ export enum ConnectionType {
   Share = 'Share',
   Forum = 'Forum',
 }
+
 // we can add enums for the other widget types if/when the section will contain more than 1 type
 
 export interface Parameter {
