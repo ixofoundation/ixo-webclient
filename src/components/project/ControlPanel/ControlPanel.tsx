@@ -6,28 +6,31 @@ import {
 } from './ControlPanel.styles'
 import Down from '../../../assets/icons/Down'
 import Close from '../../../assets/icons/Close'
-import { Schema } from './types'
+import { Schema, ConnectionType, ActionType } from './types'
 import Dashboard from './Dashboard/Dashboard'
-import Actions from './Actions/Actions'
+import Actions, { triggerAction } from './Actions/Actions'
 import Apps from './Apps/Apps'
 import Connections from './Connections/Connections'
 
 interface Props {
   entityDid: string
+  userDid: string
   schema: Schema
 }
 
 interface State {
   showControlPanelMobile: boolean
   showMoreApps: boolean
-  connection: string
+  currentAction: ActionType
+  currentConnection: ConnectionType
 }
 
 class ControlPanel extends React.Component<Props, State> {
   state = {
     showControlPanelMobile: false,
     showMoreApps: false,
-    connection: null,
+    currentAction: null,
+    currentConnection: null,
   }
 
   toggleShowControlPanel = (): void => {
@@ -45,10 +48,22 @@ class ControlPanel extends React.Component<Props, State> {
     this.setState({ showMoreApps: !this.state.showMoreApps })
   }
 
-  toggleConnection = (connection): void => {
+  handleConnectionClick = (connection: ConnectionType): void => {
     this.setState({
-      connection: this.state.connection === connection ? null : connection,
+      currentConnection:
+        this.state.currentConnection === connection ? null : connection,
+      currentAction: null,
     })
+  }
+
+  handleInititateActionClick = (action: ActionType, intent: string): void => {
+    if (action !== this.state.currentAction) {
+      this.setState({ currentAction: action, currentConnection: null }, () => {
+        triggerAction(intent)
+      })
+    } else {
+      this.setState({ currentAction: null })
+    }
   }
 
   render(): JSX.Element {
@@ -71,7 +86,13 @@ class ControlPanel extends React.Component<Props, State> {
             className={this.state.showControlPanelMobile ? 'open' : ''}
           >
             <Dashboard widget={dashboard} entityDid={this.props.entityDid} />
-            <Actions widget={actions} />
+            <Actions
+              entityDid={this.props.entityDid}
+              userDid={this.props.userDid}
+              currentAction={this.state.currentAction}
+              widget={actions}
+              handleInititateActionClick={this.handleInititateActionClick}
+            />
             <Apps
               widget={apps}
               showMore={this.state.showMoreApps}
@@ -79,8 +100,8 @@ class ControlPanel extends React.Component<Props, State> {
             />
             <Connections
               widget={connections}
-              selectedConnection={this.state.connection}
-              toggleConnection={this.toggleConnection}
+              selectedConnection={this.state.currentConnection}
+              handleConnectionClick={this.handleConnectionClick}
             />
           </ControlPanelWrapper>
         </ControlPanelScrollWrapper>
