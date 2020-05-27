@@ -1,6 +1,6 @@
 import * as React from 'react'
 import HeaderTabs from '../../../../common/components/HeaderTabs/HeaderTabs'
-import { SingleStatistic } from '../../../../components/common/SingleStatistic'
+import { SingleStatistic } from '../../../../components/common/SingleStatistic/SingleStatistic'
 import { StatType } from '../../../../types/models'
 import Search from '../Search/Search'
 import { contentType as ContentType } from '../../../../types/models'
