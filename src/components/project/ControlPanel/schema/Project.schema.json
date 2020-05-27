@@ -35,7 +35,7 @@
     "title": "Actions",
     "controls": [
       {
-        "@type": "Action",
+        "@type": "Join",
         "@id": "actionAgentJoin",
         "title": "Apply to Join",
         "tooltip": "Help to deliver this project",
@@ -58,7 +58,7 @@
         ]
       },
       {
-        "@type": "Action",
+        "@type": "Help",
         "@id": "actionAskForHelp",
         "title": "Ask for help",
         "tooltip": "Chat with the Assistant",
@@ -81,7 +81,7 @@
         ]
       },
       {
-        "@type": "Action",
+        "@type": "OracleService",
         "@id": "actionOfferOracleService",
         "title": "Offer Oracle service",
         "tooltip": "Help evaluate this project",
@@ -104,7 +104,7 @@
         ]
       },
       {
-        "@type": "Action",
+        "@type": "Rate",
         "@id": "actionRateThisProject",
         "title": "Rate this project",
         "tooltip": "Give a star rating and review",
@@ -125,6 +125,29 @@
             "value": "rate"
           }
         ]
+      },
+      {
+        "@type": "Fuel",
+        "@id": "actionFuelThisProject",
+        "title": "Fuel this project",
+        "tooltip": "Fuel this project",
+        "icon": "Fuel",
+        "iconColor": "#49BFE0",
+        "endpoint": "/assistant",
+        "accessToken": null,
+        "permissions": [
+          {
+            "credential": null,
+            "role": null
+          }
+        ],
+        "data": null,
+        "parameters": [
+          {
+            "name": "intent",
+            "value": "fuel_my_entity"
+          }
+        ]
       }
     ]
   },
@@ -137,7 +160,7 @@
         "@id": "appRiotchat",
         "title": "Riot Chat",
         "tooltip": "Encrypted chat-room",
-        "icon": null,
+        "icon": "RiotChat",
         "iconColor": null,
         "endpoint": null,
         "accessToken": null,

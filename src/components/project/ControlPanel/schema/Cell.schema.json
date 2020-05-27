@@ -35,7 +35,7 @@
     "title": "Actions",
     "controls": [
       {
-        "@type": "Action",
+        "@type": "Join",
         "@id": "actionAgentJoin",
         "title": "Apply to Join",
         "tooltip": "Help to deliver this cell node",
@@ -58,7 +58,7 @@
         ]
       },
       {
-        "@type": "Action",
+        "@type": "Help",
         "@id": "actionAskForHelp",
         "title": "Ask for help",
         "tooltip": "Chat with the Assistant",
@@ -81,7 +81,7 @@
         ]
       },
       {
-        "@type": "Action",
+        "@type": "OracleService",
         "@id": "actionOfferOracleService",
         "title": "Offer Oracle service",
         "tooltip": "Help evaluate this cell node",
@@ -104,7 +104,7 @@
         ]
       },
       {
-        "@type": "Action",
+        "@type": "Rate",
         "@id": "actionRateThisCellNode",
         "title": "Rate this cell node",
         "tooltip": "Give a star rating and review",
@@ -123,6 +123,29 @@
           {
             "name": "intent",
             "value": "rate"
+          }
+        ]
+      },
+      {
+        "@type": "Fuel",
+        "@id": "actionFuelThisCell",
+        "title": "Fuel this cell",
+        "tooltip": "Fuel this cell",
+        "icon": "Fuel",
+        "iconColor": "#49BFE0",
+        "endpoint": "/assistant",
+        "accessToken": null,
+        "permissions": [
+          {
+            "credential": null,
+            "role": null
+          }
+        ],
+        "data": null,
+        "parameters": [
+          {
+            "name": "intent",
+            "value": "fuel_my_entity"
           }
         ]
       }
