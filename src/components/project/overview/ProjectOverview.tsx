@@ -197,6 +197,7 @@ export const ProjectOverview: React.SFC<Props> = props => {
               <ControlPanel
                 schema={controlPanelSchema}
                 entityDid={props.projectDid}
+                userDid={props.userInfo ? props.userInfo.didDoc.did : null}
               />
             </div>
           </div>

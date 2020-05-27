@@ -1,81 +1,13 @@
 import * as React from 'react'
-import { StatType, Statistic } from '../../types/models'
-import styled from 'styled-components'
-
-const Container = styled.div`
-  text-align: center;
-  padding: 20px 15px;
-  font-family: ${/* eslint-disable-line */ props =>
-    props.theme.fontRobotoCondensed};
-`
-
-const Title = styled.h3`
-  text-transform: uppercase;
-  color: white;
-  font-size: 15px;
-  margin-bottom: 4px;
-  font-weight: 300;
-`
-
-const Amount = styled.p`
-  color: ${/* eslint-disable-line */ props => props.theme.fontLightBlue};
-  font-size: 29px;
-  line-height: 38px;
-  margin-bottom: 4px;
-  font-weight: 300;
-
-  i:before {
-    font-size: 19px;
-    top: -2px;
-    right: 5px;
-    position: relative;
-  }
-`
-
-const Error = styled.p`
-  color: ${/* eslint-disable-line */ props => props.theme.red};
-  font-size: 16px;
-`
-
-const Warning = styled(Error)`
-  color: ${/* eslint-disable-line */ props => props.theme.ixoOrange};
-`
-
-const Description = styled.p`
-  color: white;
-  font-weight: 300;
-  font-size: 13px;
-  font-family: ${/* eslint-disable-line */ props => props.theme.fontRoboto};
-  .text {
-    color: white;
-  }
-
-  .text-block {
-    display: block;
-    color: white;
-  }
-
-  .number {
-    color: ${/* eslint-disable-line */ props => props.theme.fontBlue};
-    display: inline-block;
-    background: ${/* eslint-disable-line */ props =>
-      props.theme.bg.gradientBlue};
-    padding: 2px 8px;
-    margin: 0 5px;
-    border-radius: 3px;
-  }
-
-  .number-orange {
-    color: ${/* eslint-disable-line */ props => props.theme.ixoOrange};
-    background: #012232;
-    display: inline-block;
-    padding: 2px 15px;
-    margin: 10px 5px;
-    border-radius: 3px;
-    font-size: 30px;
-    font-weight: bold;
-  }
-`
+import { StatType, Statistic } from '../../../types/models'
+import {
+  Container,
+  Title,
+  Amount,
+  Error,
+  Warning,
+  Description,
+} from './SingleStatistic.styles'
 
 export const SingleStatistic: React.SFC<Statistic> = ({
   type,

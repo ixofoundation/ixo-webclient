@@ -9,16 +9,13 @@ export const ContainerInner = styled.div`
   > div {
     transition: transform 0.3s ease;
   }
-  @media (max-width: ${deviceWidth.mobile}px) {
-    padding-top: 16%;
-  }
 `
 
 export const StatisticContainer = styled.div`
   width: 100%;
   align-items: center;
   display: flex;
-  padding: 0;
+  padding: 0.5rem;
   justify-content: center;
 
   @media (min-width: ${deviceWidth.tablet}px) {
@@ -36,9 +33,14 @@ export const HeroInner = styled.div`
   height: 100%;
 
   > .row {
+    margin: -0.5rem -15px;
     justify-content: center;
     align-items: center;
     height: 100%;
+    @media (max-width: ${deviceWidth.tablet}px) {
+      align-items: flex-start;
+      padding: 56px 0;
+    }
   }
 
   :hover ${ContainerInner} {
