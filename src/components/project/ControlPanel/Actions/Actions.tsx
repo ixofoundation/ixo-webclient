@@ -1,7 +1,7 @@
 import React from 'react'
 import ActionIcon from '../../../../assets/icons/Actions'
 import { Widget, ActionType } from '../types'
-import Action from './Action/Action'
+import ActionButton from './ActionButton/ActionButton'
 import { ControlPanelSection } from '../ControlPanel.styles'
 import {
   ActionButtonsWrapper,
@@ -12,9 +12,13 @@ import {
 import Assistant, {
   triggerIntent,
 } from '../../../../common/components/Assistant/Assistant'
-import FuelProjectSummary from './Summary/FuelProjectSummary'
+import FuelProjectSummary, {
+  Props as FuelSummaryProps,
+} from './FuelProjectSummary/FuelProjectSummary'
 
 interface Props {
+  entityDid: string
+  userDid: string
   currentAction: ActionType
   widget: Widget
   handleInititateActionClick: (action: ActionType, intent: string) => void
@@ -27,13 +31,13 @@ enum ActionStatus {
 
 interface State {
   status: ActionStatus
-  summaryData: any
+  fuelSummary: FuelSummaryProps
 }
 
 class Actions extends React.Component<Props, State> {
   state = {
     status: ActionStatus.InProgress,
-    summaryData: null,
+    fuelSummary: null,
   }
 
   handleInititateAction = (action: ActionType, intent: string): void => {
@@ -46,10 +50,26 @@ class Actions extends React.Component<Props, State> {
     this.props.handleInititateActionClick(action, intent)
   }
 
-  onBotUttered = (text: string): void => {
+  onAssistantMessageReceive = (text: string): void => {
     // temp
     if (text !== 'Hi, how can I help you?') {
       this.setState({ status: ActionStatus.Completed })
+
+      switch (this.props.currentAction) {
+        case ActionType.FuelProject:
+          this.setState({
+            fuelSummary: {
+              feeCurrency: 'Euros',
+              ixoAmount: 1200,
+              ixoCurrencyConversion: 10,
+              ixoTransactionFee: 10,
+              offerDescription: '12-months standard hosting',
+            },
+          })
+          break
+        default:
+          break
+      }
     }
   }
 
@@ -67,13 +87,13 @@ class Actions extends React.Component<Props, State> {
           <AssistantWrapper
             className={status === ActionStatus.InProgress ? 'open' : ''}
           >
-            <Assistant onBotUttered={this.onBotUttered} />
+            <Assistant onMessageReceive={this.onAssistantMessageReceive} />
           </AssistantWrapper>
           <SummaryWrapper
             className={status === ActionStatus.Completed ? 'open' : ''}
           >
             {this.props.currentAction === ActionType.FuelProject && (
-              <FuelProjectSummary />
+              <FuelProjectSummary {...this.state.fuelSummary} />
             )}
           </SummaryWrapper>
         </ActionWrapper>
@@ -87,7 +107,7 @@ class Actions extends React.Component<Props, State> {
           <ActionButtonsWrapper>
             {controls.map((control, index) => {
               return (
-                <Action
+                <ActionButton
                   key={index}
                   control={control}
                   onClick={this.handleInititateAction}

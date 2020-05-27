@@ -1,12 +1,12 @@
 import React from 'react'
 import Down from '../../../../assets/icons/Down'
 import ConnectionIcon from '../../../../assets/icons/Connections'
-import ShareIcon from '../../../../assets/icons/Share'
-import MobileIcon from '../../../../assets/icons/OpenOnMobile'
-import ForumIcon from '../../../../assets/icons/Forum'
+import Share from '../../../../assets/icons/Share'
+import Mobile from '../../../../assets/icons/OpenOnMobile'
+import Forum from '../../../../assets/icons/Forum'
 import { ControlPanelSection } from '../ControlPanel.styles'
 import { ConnectionButtonsWrapper } from './Connections.styles'
-import { ConnectionType, Widget } from '../types'
+import { ConnectionType, Widget, Control } from '../types'
 import MobileConnection from './Mobile/Mobile'
 import ShareConnection from './Share/Share'
 import ForumConnection from './Forum/Forum'
@@ -18,20 +18,19 @@ interface Props {
   handleConnectionClick: (connection: ConnectionType) => void
 }
 
+const icons = {
+  Share,
+  Mobile,
+  Forum,
+}
+
 const Connections: React.FunctionComponent<Props> = ({
   widget: { controls, title },
   selectedConnection,
   handleConnectionClick,
 }) => {
-  const mobileControl = controls.find(
-    conn => conn['@type'] === ConnectionType.Mobile,
-  )
-  const shareControl = controls.find(
-    conn => conn['@type'] === ConnectionType.Share,
-  )
-  const forumControl = controls.find(
-    conn => conn['@type'] === ConnectionType.Forum,
-  )
+  const findControl = (type: ConnectionType): Control =>
+    controls.find(conn => conn['@type'] === type)
 
   return (
     <ControlPanelSection>
@@ -48,57 +47,41 @@ const Connections: React.FunctionComponent<Props> = ({
         </div>
       </h4>
       <ConnectionButtonsWrapper>
-        {mobileControl && (
-          <Tooltip text={mobileControl.tooltip}>
-            <button
-              onClick={(): void => handleConnectionClick(ConnectionType.Mobile)}
-            >
-              <div className="icon-wrapper">
-                <MobileIcon fill="#49BFE0" width="50" />
-              </div>
-              {mobileControl.title}
-            </button>
-          </Tooltip>
-        )}
-        {shareControl && (
-          <Tooltip text={shareControl.tooltip}>
-            <button
-              onClick={(): void => handleConnectionClick(ConnectionType.Share)}
-            >
-              <div className="icon-wrapper">
-                <ShareIcon fill="#49BFE0" width="50" />
-              </div>
-              {shareControl.title}
-            </button>
-          </Tooltip>
-        )}
-        {forumControl && (
-          <Tooltip text={forumControl.tooltip}>
-            <button
-              onClick={(): void => handleConnectionClick(ConnectionType.Forum)}
-            >
-              <div className="icon-wrapper">
-                <ForumIcon fill="#49BFE0" width="50" />
-              </div>
-              {forumControl.title}
-            </button>
-          </Tooltip>
-        )}
-        {mobileControl && (
+        {Object.keys(ConnectionType).map(key => {
+          const connectionType = ConnectionType[key]
+          const control = findControl(connectionType)
+          return control ? (
+            <Tooltip key={key} text={control.tooltip}>
+              <button
+                onClick={(): void => handleConnectionClick(connectionType)}
+              >
+                <div className="icon-wrapper">
+                  {React.createElement(icons[control.icon], {
+                    fill: control.iconColor,
+                    width: 50,
+                  })}
+                </div>
+                {control.title}
+              </button>
+            </Tooltip>
+          ) : null
+        })}
+        {findControl(ConnectionType.Mobile) && (
           <MobileConnection
             show={selectedConnection === ConnectionType.Mobile}
           />
         )}
-        {shareControl && (
+        {findControl(ConnectionType.Share) && (
           <ShareConnection
             show={selectedConnection === ConnectionType.Share}
             twitterShareText={
-              shareControl.parameters.find(p => p.name === 'twitterShareText')
-                .value
+              findControl(ConnectionType.Share).parameters.find(
+                p => p.name === 'twitterShareText',
+              ).value
             }
           />
         )}
-        {forumControl && (
+        {findControl(ConnectionType.Forum) && (
           <ForumConnection show={selectedConnection === ConnectionType.Forum} />
         )}
       </ConnectionButtonsWrapper>

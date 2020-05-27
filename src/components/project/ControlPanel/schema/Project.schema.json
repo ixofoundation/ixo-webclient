@@ -160,7 +160,7 @@
         "@id": "appRiotchat",
         "title": "Riot Chat",
         "tooltip": "Encrypted chat-room",
-        "icon": null,
+        "icon": "RiotChat",
         "iconColor": null,
         "endpoint": null,
         "accessToken": null,

@@ -2,16 +2,16 @@ import React from 'react'
 import { Widget, send, open } from 'ixo-assistant'
 
 interface Props {
-  onBotUttered: (text: string) => void
+  onMessageReceive: (text: string) => void
 }
 
 interface BotUtter {
   text: string
 }
 
-const Assistant: React.FunctionComponent<Props> = ({ onBotUttered }) => {
+const Assistant: React.FunctionComponent<Props> = ({ onMessageReceive }) => {
   const onSocketEvent = {
-    bot_uttered: (utter: BotUtter): void => onBotUttered(utter.text),
+    bot_uttered: (utter: BotUtter): void => onMessageReceive(utter.text),
     connect: (): void => localStorage.clear(),
     disconnect: (): void => localStorage.clear(),
   }

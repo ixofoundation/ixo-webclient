@@ -14,6 +14,7 @@ import Connections from './Connections/Connections'
 
 interface Props {
   entityDid: string
+  userDid: string
   schema: Schema
 }
 
@@ -86,6 +87,8 @@ class ControlPanel extends React.Component<Props, State> {
           >
             <Dashboard widget={dashboard} entityDid={this.props.entityDid} />
             <Actions
+              entityDid={this.props.entityDid}
+              userDid={this.props.userDid}
               currentAction={this.state.currentAction}
               widget={actions}
               handleInititateActionClick={this.handleInititateActionClick}
