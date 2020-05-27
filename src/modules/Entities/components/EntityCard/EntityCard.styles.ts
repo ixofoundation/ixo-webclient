@@ -1,32 +1,28 @@
 import styled from 'styled-components'
 
 export const MainContent = styled.div`
-  margin: 30px 0 26px;
+  margin: 30px 0 24px;
 `
 
 export const Title = styled.h3`
   font-weight: bold;
-  font-size: 21px;
-  box-sizing: border-box;
-  margin-bottom: 2px;
-  color: ${(props): string => props.theme.fontDarkGrey};
+  font-size: 1.5rem;
   line-height: 1.2;
-  height: 34px;
+  color: ${(props): string => props.theme.fontDarkGrey};
 `
 
 export const Progress = styled.div`
-  margin-top: 16px;
+  margin-top: 1rem;
+  font-size: 36px;
+  line-height: 1.2;
+  font-weight: normal;
 `
 
 export const ProgressSuccessful = styled.span`
-  font-size: 36px;
-  line-height: 36px;
   color: black;
 `
 
 export const ProgressRequired = styled.span`
-  font-size: 36px;
-  line-height: 36px;
   color: grey;
 `
 
@@ -42,11 +38,12 @@ export const FoundedDate = styled.span`
 export const Impact = styled.p`
   font-size: 12px;
   font-weight: 400;
+  margin-bottom: 0;
 `
 
 export const StatisticsContainer = styled.div`
   display: flex;
-  margin-bottom: 26px;
+  margin-bottom: 18px;
 `
 
 export const Statistic = styled.div``
