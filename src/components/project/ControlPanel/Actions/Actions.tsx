@@ -42,7 +42,7 @@ class Actions extends React.Component<Props, State> {
 
   handleInititateAction = (action: ActionType, intent: string): void => {
     // temp
-    if (action !== ActionType.FuelProject) {
+    if (action !== ActionType.Fuel) {
       return
     }
 
@@ -56,7 +56,8 @@ class Actions extends React.Component<Props, State> {
       this.setState({ status: ActionStatus.Completed })
 
       switch (this.props.currentAction) {
-        case ActionType.FuelProject:
+        case ActionType.Fuel:
+          // todo - get actual values from bot when this is ready
           this.setState({
             fuelSummary: {
               feeCurrency: 'Euros',
@@ -92,7 +93,7 @@ class Actions extends React.Component<Props, State> {
           <SummaryWrapper
             className={status === ActionStatus.Completed ? 'open' : ''}
           >
-            {this.props.currentAction === ActionType.FuelProject && (
+            {this.props.currentAction === ActionType.Fuel && (
               <FuelProjectSummary {...this.state.fuelSummary} />
             )}
           </SummaryWrapper>

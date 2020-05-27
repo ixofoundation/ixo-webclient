@@ -2,8 +2,8 @@ export enum ActionType {
   Join = 'Join',
   Help = 'Help',
   OracleService = 'OracleService',
-  RateProject = 'RateProject',
-  FuelProject = 'FuelProject',
+  Rate = 'Rate',
+  Fuel = 'Fuel',
 }
 
 export enum AppType {

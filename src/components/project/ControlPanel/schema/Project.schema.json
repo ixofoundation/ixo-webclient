@@ -104,7 +104,7 @@
         ]
       },
       {
-        "@type": "RateProject",
+        "@type": "Rate",
         "@id": "actionRateThisProject",
         "title": "Rate this project",
         "tooltip": "Give a star rating and review",
@@ -127,7 +127,7 @@
         ]
       },
       {
-        "@type": "FuelProject",
+        "@type": "Fuel",
         "@id": "actionFuelThisProject",
         "title": "Fuel this project",
         "tooltip": "Fuel this project",
