@@ -62,7 +62,7 @@ class DatePicker extends React.Component<Props, State> {
         }
         focusedInput={this.state.focusedInput}
         onFocusChange={(focusedInput): void => this.setState({ focusedInput })}
-        initialVisibleMonth={(): Moment => moment().add(2, 'M')}
+        initialVisibleMonth={(): Moment => moment()}
         numberOfMonths={this.props.numberOfMonths}
         hideKeyboardShortcutsPanel
         orientation={this.props.initialOrientation}

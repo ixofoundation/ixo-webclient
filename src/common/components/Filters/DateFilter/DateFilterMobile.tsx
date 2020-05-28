@@ -63,7 +63,7 @@ const DateFilterMobile: React.FunctionComponent<MobileProps> = ({
               <DatePicker
                 initialStartDate={startDate}
                 initialEndDate={endDate}
-                numberOfMonths={2}
+                numberOfMonths={4}
                 initialOrientation="verticalScrollable"
                 onApply={handleFilterToggleShow}
                 onChange={handleFilterDateChange}
