@@ -5,7 +5,7 @@ import {
   ClaimsLabels,
 } from './EntitiesDashboard.styles'
 import { LayoutWrapper } from '../../../../components/common/LayoutWrapper'
-import { SingleStatistic } from '../../../../components/common/SingleStatistic'
+import { SingleStatistic } from '../../../../components/common/SingleStatistic/SingleStatistic'
 import { StatType } from '../../../../types/models'
 import { CircleProgressbar } from '../../../../common/components/Widgets/CircleProgressbar/CircleProgressbar'
 import { WorldMap } from '../../../../common/components/Widgets/WorldMap/WorldMap'
