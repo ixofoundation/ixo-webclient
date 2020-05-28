@@ -40,7 +40,7 @@ export const ControlPanelWrapper = styled.div`
     left: 0;
     right: 0;
     bottom: 0;
-    z-index: 99;
+    z-index: 12;
     transform: translateX(100%);
     transition: all 0.3s;
     border-top-right-radius: 0;
