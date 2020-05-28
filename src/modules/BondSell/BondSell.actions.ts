@@ -10,8 +10,9 @@ import { Currency } from '../../types/models'
 import * as Toast from '../../common/utils/Toast'
 import { Dispatch } from 'redux'
 import { RootState } from 'src/common/redux/types'
-import * as signingUtils from '../../common/utils/bond.signingUtils'
+import * as transactionUtils from '../../common/utils/transaction.utils'
 import keysafe from '../../common/keysafe/keysafe'
+import { BondSellTx } from '../BondSell/types'
 
 export const initiateQuote = (): InitiateQuoteAction => ({
   type: BondSellActions.InitiateQuote,
@@ -61,39 +62,36 @@ export const confirmSell = () => (
     },
   } = getState()
 
-  const bondSellPayload = {
+  const tx: BondSellTx = {
     pub_key: pubKey,
     seller_did: did,
     bond_did: bondDid,
     amount: sending,
   }
 
-  keysafe.requestSigning(
-    JSON.stringify(bondSellPayload),
-    (error, signature) => {
-      if (error) {
-        return null
-      }
+  keysafe.requestSigning(JSON.stringify(tx), (error, signature) => {
+    if (error) {
+      return null
+    }
 
-      return dispatch({
-        type: BondSellActions.ConfirmSell,
-        payload: Axios.post(
-          `${process.env.REACT_APP_GAIA_URL}/txs`,
-          JSON.stringify(
-            signingUtils.generateSellTx(bondSellPayload, signature),
-          ),
-        ).then(response => {
-          if (!response.data.logs[0].success) {
-            Toast.errorToast('Sale failed. Please try again.')
-          } else {
-            Toast.successToast(
-              'Transaction submitted. Check its status in the orders tab.',
-            )
-          }
-        }),
-      })
-    },
-  )
+    return dispatch({
+      type: BondSellActions.ConfirmSell,
+      payload: Axios.post(
+        `${process.env.REACT_APP_GAIA_URL}/txs`,
+        JSON.stringify(
+          transactionUtils.generateTx('cosmos-sdk/MsgSell', tx, signature),
+        ),
+      ).then(response => {
+        if (!response.data.logs[0].success) {
+          Toast.errorToast('Sale failed. Please try again.')
+        } else {
+          Toast.successToast(
+            'Transaction submitted. Check its status in the orders tab.',
+          )
+        }
+      }),
+    })
+  })
 
   return null
 }

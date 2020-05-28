@@ -4,12 +4,13 @@ import {
   ConfirmBuyAction,
   BondBuyActions,
   InitiateQuoteAction,
+  BondBuyTx,
 } from './types'
 import Axios from 'axios'
 import { Currency } from '../../types/models'
 import { Dispatch } from 'redux'
 import { RootState } from 'src/common/redux/types'
-import * as signingUtils from '../../common/utils/bond.signingUtils'
+import * as transactionUtils from '../../common/utils/transaction.utils'
 import keysafe from '../../common/keysafe/keysafe'
 import * as Toast from '../../common/utils/Toast'
 
@@ -63,7 +64,7 @@ export const confirmBuy = () => (
     },
   } = getState()
 
-  const bondBuyPayload = {
+  const tx: BondBuyTx = {
     pub_key: pubKey,
     buyer_did: did,
     bond_did: bondDid,
@@ -71,7 +72,7 @@ export const confirmBuy = () => (
     max_prices: [maxPrice],
   }
 
-  keysafe.requestSigning(JSON.stringify(bondBuyPayload), (error, signature) => {
+  keysafe.requestSigning(JSON.stringify(tx), (error, signature) => {
     if (error) {
       return null
     }
@@ -80,7 +81,9 @@ export const confirmBuy = () => (
       type: BondBuyActions.ConfirmBuy,
       payload: Axios.post(
         `${process.env.REACT_APP_GAIA_URL}/txs`,
-        JSON.stringify(signingUtils.generateBuyTx(bondBuyPayload, signature)),
+        JSON.stringify(
+          transactionUtils.generateTx('cosmos-sdk/MsgBuy', tx, signature),
+        ),
       ).then(response => {
         if (!response.data.logs[0].success) {
           Toast.errorToast('Sale failed. Please try again.')

@@ -12,6 +12,14 @@ export interface BondBuyState {
   transacting: boolean
 }
 
+export interface BondBuyTx {
+  pub_key: string
+  buyer_did: string
+  bond_did: string
+  amount: Currency
+  max_prices: Currency[]
+}
+
 export enum BondBuyActions {
   InitiateQuote = 'ixo/BondBuy/INITIATE_QUOTE',
   GetQuote = 'ixo/BondBuy/GET_QUOTE',
