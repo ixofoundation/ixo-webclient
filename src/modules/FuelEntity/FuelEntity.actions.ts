@@ -23,6 +23,7 @@ export const getOrder = (assistantResponse: any): GetOrderAction => ({
       amount: 1200,
       currencyConversion: 10,
       transactionFee: 10,
+      gasFee: 1,
     },
   },
 })

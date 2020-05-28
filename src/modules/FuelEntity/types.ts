@@ -7,6 +7,7 @@ export interface FuelEntityOrder {
   amount: number
   currencyConversion: number
   transactionFee: number
+  gasFee: number
 }
 
 export interface FuelEntityState {
