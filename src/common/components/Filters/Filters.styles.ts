@@ -358,7 +358,7 @@ export const DoneButtonWrapper = styled.div`
 
 export const MobileDatePicker = styled.div`
   height: 100%;
-  max-height: calc(100vh - 306px);
+  max-height: calc(100% - 262px);
   .DayPicker_weekHeader__verticalScrollable {
     background-color: #002a3f;
     margin-top: -1px;

@@ -34,6 +34,7 @@ const DateFilterDesktop: React.FunctionComponent<Props> = ({
           <DatePicker
             initialStartDate={startDate}
             initialEndDate={endDate}
+            numberOfMonths={2}
             initialOrientation="horizontal"
             onApply={handleFilterToggleShow}
             onChange={handleFilterDateChange}
