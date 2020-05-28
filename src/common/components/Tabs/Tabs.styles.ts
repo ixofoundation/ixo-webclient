@@ -9,12 +9,11 @@ export const createTabsContainer = (activeTabColor: string): any => styled.div`
   width: 100%;
 
   a {
-    width: calc(100% / 3);
     background: ${(props): string => props.theme.bg.gradientBlue};
-    font-family: ${(props): string => props.theme.fontRobotoCondensed};
+    font-family: ${(props): string => props.theme.fontRoboto};
     color: white;
     text-transform: uppercase;
-    font-weight: 300;
+    font-weight: 500;
     font-size: 14px;
     padding: 10px 20px;
     display: flex;
@@ -29,9 +28,6 @@ export const createTabsContainer = (activeTabColor: string): any => styled.div`
       font-size: 18px;
       &:before {
         transition: all 0.3s ease;
-      }
-      @media (max-width: ${deviceWidth.mobile}px) {
-        margin-right: 0;
       }
     }
 
@@ -48,15 +44,6 @@ export const createTabsContainer = (activeTabColor: string): any => styled.div`
 
     p {
       margin-bottom: 0;
-      @media (max-width: ${deviceWidth.mobile}px) {
-        margin-top: 2px;
-      }
-    }
-
-    &:not(.active) p {
-      @media (max-width: ${deviceWidth.mobile}px) {
-        display: none;
-      }
     }
 
     &:hover {
@@ -78,17 +65,29 @@ export const createTabsContainer = (activeTabColor: string): any => styled.div`
   @media (min-width: ${deviceWidth.tablet}px) {
     a {
       min-width: 156px;
+      width: calc(100% / 3);
     }
   }
   @media (max-width: ${deviceWidth.tablet}px) {
     width: calc(100vw - 30px);
     a {
+      flex: 1;
       height: 40px;
-      flex-direction: column;
-      font-size: 11px;
+      font-size: 10px;
+      line-height: 1.4;
       font-weight: bold;
       i {
-        font-size: 12px;
+        display: none;
+        font-size: 16px;
+      }
+
+      &:not(.active) {
+        i {
+          display: block;
+        }
+        p {
+          display: none;
+        }
       }
     }
   }

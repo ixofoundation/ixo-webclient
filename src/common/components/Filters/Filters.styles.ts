@@ -104,7 +104,7 @@ export const ModalItems = styled.div`
   display: flex;
   overflow-y: auto;
   flex-flow: row wrap;
-  max-height: 100%;
+  max-height: calc(100% - 6.15rem);
 `
 
 export const FilterSelectButton = styled.div`
@@ -615,10 +615,11 @@ export const DoneButton = styled.button`
   outline: none !important;
   -webkit-appearance: none;
   -moz-appearance: none;
+  margin-top: 1.25rem;
   &:after {
     content: '';
     position: absolute;
-    top: -0.75rem;
+    top: -1.25rem;
     left: -20px;
     height: 1px;
     width: 100vw;
