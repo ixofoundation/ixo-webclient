@@ -23,6 +23,7 @@ import { EntityType, EntityTypeMap } from '../../../modules/Entities/types'
 import { toTitleCase } from '../../../common/utils/formatters'
 
 export interface ParentProps {
+  match: any
   projectDid: string
   userInfo: UserInfo
   project: any

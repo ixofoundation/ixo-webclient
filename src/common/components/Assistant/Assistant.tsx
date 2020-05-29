@@ -30,7 +30,7 @@ const Assistant: React.FunctionComponent<Props> = ({ onMessageReceive }) => {
   )
 }
 
-export const triggerIntent = (intent: string): void => {
+export const startAssistant = (intent: string): void => {
   send(`/${intent}`)
   open()
 }

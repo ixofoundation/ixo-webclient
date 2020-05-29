@@ -109,7 +109,7 @@ describe('Entities Selectors', () => {
       const result = SUT.selectOrderGasFee(state)
 
       // then ... should return result as expected
-      expect(result).toEqual('1.0045')
+      expect(result).toEqual('1.00450000 IXO')
     })
   })
 
@@ -153,16 +153,6 @@ describe('Entities Selectors', () => {
     })
   })
 
-  describe('selectOrderTokenFiatConversion', () => {
-    it('should return the token formatted order conversion property of fuelEntity state', () => {
-      // when ... we call the selector
-      const result = SUT.selectOrderTokenFiatConversion(state)
-
-      // then ... should return result as expected
-      expect(result).toEqual('16.00000000 IXO')
-    })
-  })
-
   describe('selectOrderTokenAmount', () => {
     it('should return the token formatted order amount property of fuelEntity state', () => {
       // when ... we call the selector
@@ -186,7 +176,7 @@ describe('Entities Selectors', () => {
   describe('selecOrderTokenTotal', () => {
     it('should return the calculated token formatted order total property of fuelEntity state', () => {
       // when ... we call the selector
-      const result = SUT.selecOrderTokenTotal(state)
+      const result = SUT.selectOrderTokenTotal(state)
 
       // then ... should return result as expected
       expect(result).toEqual('1,276.35500020 IXO')
