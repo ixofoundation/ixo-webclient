@@ -52,7 +52,7 @@ class Actions extends React.Component<Props, State> {
 
   onAssistantMessageReceive = (text: string): void => {
     // temp
-    if (text !== 'Hi, how can I help you?') {
+    if (text === "Sorry, I didn't get that. Could you rephrase?") {
       this.setState({ status: ActionStatus.Completed })
 
       switch (this.props.currentAction) {

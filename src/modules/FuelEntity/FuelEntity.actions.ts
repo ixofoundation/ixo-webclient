@@ -17,13 +17,14 @@ export const getOrder = (assistantResponse: any): GetOrderAction => ({
   type: FuelEntityActions.GetOrder,
   payload: {
     order: {
+      symbol: 'IXO',
       subscription: '12-months standard hosting',
-      currency: 'Euros',
-      currencySymbol: '€',
-      amount: 1200,
-      currencyConversion: 10,
-      transactionFee: 10,
-      gasFee: 1,
+      fiat: 'EUR',
+      fiatSymbol: '€',
+      amount: '1267.91000001',
+      fiatConversion: '10.00399181',
+      transactionFee: '8.44500019',
+      gasFee: '1.0045',
     },
   },
 })
@@ -36,7 +37,7 @@ export const confirmOrder = (entityDid: string) => (
 ): ConfirmOrderAction => {
   const {
     fuelEntity: {
-      order: { amount },
+      order: { amount: amount },
     },
     account: {
       userInfo: {

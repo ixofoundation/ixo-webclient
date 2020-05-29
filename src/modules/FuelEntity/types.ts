@@ -1,13 +1,12 @@
-import { Currency } from 'src/types/models'
-
 export interface FuelEntityOrder {
+  symbol: string
   subscription: string
-  currency: string
-  currencySymbol: string
-  amount: number
-  currencyConversion: number
-  transactionFee: number
-  gasFee: number
+  amount: string
+  transactionFee: string
+  gasFee: string
+  fiat: string
+  fiatSymbol: string
+  fiatConversion: string
 }
 
 export interface FuelEntityState {
@@ -20,7 +19,12 @@ export interface FuelEntityOrderTx {
   pubKey: string
   fromDid: string
   toDid: string
-  amount: Currency[]
+  amount: [
+    {
+      denom: string
+      amount: string
+    },
+  ]
 }
 
 export enum FuelEntityActions {

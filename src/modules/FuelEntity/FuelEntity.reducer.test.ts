@@ -5,6 +5,7 @@ import {
   ConfirmOrderPendingAction,
   ConfirmOrderSuccessAction,
   ConfirmOrderFailureAction,
+  FuelEntityOrder,
 } from './types'
 
 const initialState = SUT.initialState
@@ -24,14 +25,15 @@ describe('FuelEntity Reducer', () => {
   describe('GetOrder Action', () => {
     it('should return a new copy of state, with order set', () => {
       // given .. we have an action of type FuelEntityActions.GetOrder and an order
-      const order = {
+      const order: FuelEntityOrder = {
         subscription: '12-months standard hosting',
-        currency: 'Euros',
-        currencySymbol: '€',
-        amount: 1200,
-        currencyConversion: 10,
-        transactionFee: 10,
-        gasFee: 1,
+        fiat: 'Euros',
+        fiatSymbol: '€',
+        amount: '1200',
+        fiatConversion: '10',
+        transactionFee: '10',
+        gasFee: '1',
+        symbol: 'IXO',
       }
 
       const action: GetOrderAction = {
@@ -97,12 +99,13 @@ describe('FuelEntity Reducer', () => {
         error: null,
         order: {
           subscription: '12-months standard hosting',
-          currency: 'Euros',
-          currencySymbol: '€',
-          amount: 1200,
-          currencyConversion: 10,
-          transactionFee: 10,
-          gasFee: 1,
+          fiat: 'Euros',
+          fiatSymbol: '€',
+          amount: '1200',
+          fiatConversion: '10',
+          transactionFee: '10',
+          gasFee: '1',
+          symbol: 'IXO',
         },
       }
 
