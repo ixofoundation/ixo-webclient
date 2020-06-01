@@ -59,6 +59,8 @@ class ControlPanel extends React.Component<Props, State> {
   render(): JSX.Element {
     const {
       schema: { dashboard, actions, apps, connections },
+      entityDid,
+      userDid,
     } = this.props
     return (
       <>
@@ -75,8 +77,8 @@ class ControlPanel extends React.Component<Props, State> {
           <ControlPanelWrapper
             className={this.state.showControlPanelMobile ? 'open' : ''}
           >
-            <Dashboard widget={dashboard} entityDid={this.props.entityDid} />
-            <Actions widget={actions} entityDid={this.props.entityDid} />
+            <Dashboard widget={dashboard} entityDid={entityDid} />
+            <Actions widget={actions} entityDid={entityDid} userDid={userDid} />
             <Apps
               widget={apps}
               showMore={this.state.showMoreApps}

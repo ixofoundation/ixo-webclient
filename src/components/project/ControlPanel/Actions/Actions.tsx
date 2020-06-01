@@ -21,12 +21,14 @@ const icons = {
 }
 
 interface Props {
+  userDid: string
   entityDid: string
   widget: Widget
 }
 
 const Actions: React.FunctionComponent<Props> = ({
   widget: { title, controls },
+  userDid,
   entityDid,
 }) => {
   return (
@@ -45,6 +47,10 @@ const Actions: React.FunctionComponent<Props> = ({
         </h4>
         <ActionLinksWrapper>
           {controls.map(control => {
+            if (control.permissions[0].role === 'user' && !userDid) {
+              return null
+            }
+
             const intent = control.parameters.find(
               param => param.name === 'intent',
             ).value
