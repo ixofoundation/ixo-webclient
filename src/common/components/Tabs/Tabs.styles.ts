@@ -2,7 +2,6 @@ import styled from 'styled-components'
 import { deviceWidth } from '../../../lib/commonData'
 
 export const createTabsContainer = (activeTabColor: string): any => styled.div`
-  overflow: hidden;
   display: flex;
   flex-flow: row nowrap;
   justify-content: flex-start;
