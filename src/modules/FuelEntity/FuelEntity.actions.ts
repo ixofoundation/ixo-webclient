@@ -41,14 +41,14 @@ export const confirmOrder = (entityDid: string) => (
     },
     account: {
       userInfo: {
-        didDoc: { did: fromDid, pubKey },
+        didDoc: { did: projectDid, pubKey },
       },
     },
   } = getState()
 
   const tx: FuelEntityOrderTx = {
     pubKey,
-    fromDid,
+    fromDid: `${projectDid}/${projectDid}`,
     toDid: entityDid,
     amount: [{ denom: 'ixo', amount }],
   }
@@ -65,13 +65,22 @@ export const confirmOrder = (entityDid: string) => (
         JSON.stringify(
           transactionUtils.generateTx('treasury/MsgSend', tx, signature),
         ),
-      ).then(response => {
-        if (!response.data.logs[0].success) {
-          Toast.errorToast('Order submission failed. Please try again.')
-        } else {
-          Toast.successToast('Order submitted!')
-        }
-      }),
+      )
+        .then(response => {
+          if (
+            !response.data ||
+            !response.data.logs ||
+            response.data.logs.length === 0 ||
+            !response.data.logs[0].success
+          ) {
+            Toast.errorToast('Order submission failed. Please try again.')
+          } else {
+            Toast.successToast('Order submitted!')
+          }
+        })
+        .catch(error => {
+          Toast.errorToast(`Error: ${error.message}`)
+        }),
     })
   })
 

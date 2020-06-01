@@ -84,15 +84,19 @@ export const confirmBuy = () => (
         JSON.stringify(
           transactionUtils.generateTx('cosmos-sdk/MsgBuy', tx, signature),
         ),
-      ).then(response => {
-        if (!response.data.logs[0].success) {
-          Toast.errorToast('Sale failed. Please try again.')
-        } else {
-          Toast.successToast(
-            'Transaction submitted. Check its status in the orders tab.',
-          )
-        }
-      }),
+      )
+        .then(response => {
+          if (!response.data.logs[0].success) {
+            Toast.errorToast('Sale failed. Please try again.')
+          } else {
+            Toast.successToast(
+              'Transaction submitted. Check its status in the orders tab.',
+            )
+          }
+        })
+        .catch(error => {
+          Toast.errorToast(`Error: ${error.message}`)
+        }),
     })
   })
 
