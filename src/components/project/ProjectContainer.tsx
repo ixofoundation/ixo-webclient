@@ -26,7 +26,7 @@ import * as Toast from '../../common/utils/Toast'
 import { deviceWidth } from '../../lib/commonData'
 import { ProjectClaimSubmitted } from './ProjectClaimSubmitted'
 import { explorerSocket } from '../../common/utils/explorerSocket'
-import { FundingContainer } from './funding/FundingContainer'
+// import { FundingContainer } from './funding/FundingContainer'
 import { NotLedgered } from './overview/modalContent/NotLedgered'
 
 const Loading = styled.div`
@@ -960,7 +960,7 @@ export class ProjectContainer extends React.Component<Props, State> {
     return (
       <Fragment>
         {theContent}
-        {this.props.userInfo &&
+        {/*         {this.props.userInfo &&
           this.props.userInfo.didDoc.did ===
             this.state.projectPublic.createdBy && (
             <FundingContainer
@@ -971,7 +971,7 @@ export class ProjectContainer extends React.Component<Props, State> {
               projectURL={this.state.projectPublic.serviceEndpoint}
               projectStatus={this.state.projectStatus}
             />
-          )}
+          )} */}
       </Fragment>
     )
   }
