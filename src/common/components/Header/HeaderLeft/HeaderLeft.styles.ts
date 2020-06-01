@@ -118,7 +118,6 @@ export const NavItems = styled.div`
   display: flex;
   justify-content: flex-end;
   flex: 1;
-  margin-right: 10px;
 
   @media (min-width: ${deviceWidth.desktop}px) {
     display: block;

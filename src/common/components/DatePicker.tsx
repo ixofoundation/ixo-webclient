@@ -7,6 +7,7 @@ interface Props {
   onChange: (startDate, endDate) => void
   onReset: () => void
   onApply: () => void
+  numberOfMonths: number
   initialOrientation: string
   initialStartDate: Moment
   initialEndDate: Moment
@@ -61,8 +62,8 @@ class DatePicker extends React.Component<Props, State> {
         }
         focusedInput={this.state.focusedInput}
         onFocusChange={(focusedInput): void => this.setState({ focusedInput })}
-        initialVisibleMonth={(): Moment => moment().add(2, 'M')}
-        numberOfMonths={2}
+        initialVisibleMonth={(): Moment => moment()}
+        numberOfMonths={this.props.numberOfMonths}
         hideKeyboardShortcutsPanel
         orientation={this.props.initialOrientation}
       />
