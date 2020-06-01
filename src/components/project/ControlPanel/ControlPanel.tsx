@@ -76,7 +76,7 @@ class ControlPanel extends React.Component<Props, State> {
             className={this.state.showControlPanelMobile ? 'open' : ''}
           >
             <Dashboard widget={dashboard} entityDid={this.props.entityDid} />
-            <Actions entityDid={this.props.entityDid} widget={actions} />
+            <Actions widget={actions} />
             <Apps
               widget={apps}
               showMore={this.state.showMoreApps}

@@ -21,19 +21,17 @@ const icons = {
 }
 
 interface Props {
-  entityDid: string
   widget: Widget
 }
 
 const Actions: React.FunctionComponent<Props> = ({
-  entityDid,
   widget: { title, controls },
 }) => {
   return (
     <>
       <Route
         exact
-        path={`/projects/${entityDid}/overview/action/fuel_my_entity`}
+        path={`/projects/:projectDID/overview/action/fuel_my_entity`}
         component={FuelEntity}
       />
       <ControlPanelSection key={title}>
@@ -51,9 +49,7 @@ const Actions: React.FunctionComponent<Props> = ({
 
             return (
               <Tooltip text={control.tooltip} key={control['@id']}>
-                <NavLink
-                  to={`/projects/${entityDid}/overview/action/${intent}`}
-                >
+                <NavLink to={`/projects/:projectDID/overview/action/${intent}`}>
                   {React.createElement(icons[control.icon], {
                     fill: control.iconColor,
                   })}

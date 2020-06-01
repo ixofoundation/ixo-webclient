@@ -21,7 +21,7 @@ export const getOrder = (assistantResponse: any): GetOrderAction => ({
       subscription: '12-months standard hosting',
       fiat: 'EUR',
       fiatSymbol: '€',
-      amount: '1267.91000001',
+      amount: '1267',
       fiatConversion: '10.00399181',
       transactionFee: '8.44500019',
       gasFee: '1.0045',
@@ -41,15 +41,15 @@ export const confirmOrder = (entityDid: string) => (
     },
     account: {
       userInfo: {
-        didDoc: { did: projectDid, pubKey },
+        didDoc: { did: userDid, pubKey },
       },
     },
   } = getState()
 
   const tx: FuelEntityOrderTx = {
     pubKey,
-    fromDid: `${projectDid}/${projectDid}`,
-    toDid: entityDid,
+    fromDid: userDid,
+    toDid: `${entityDid}/${entityDid}`,
     amount: [{ denom: 'ixo', amount }],
   }
 
