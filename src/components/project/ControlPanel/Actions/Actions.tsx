@@ -21,11 +21,13 @@ const icons = {
 }
 
 interface Props {
+  entityDid: string
   widget: Widget
 }
 
 const Actions: React.FunctionComponent<Props> = ({
   widget: { title, controls },
+  entityDid,
 }) => {
   return (
     <>
@@ -49,7 +51,9 @@ const Actions: React.FunctionComponent<Props> = ({
 
             return (
               <Tooltip text={control.tooltip} key={control['@id']}>
-                <NavLink to={`/projects/:projectDID/overview/action/${intent}`}>
+                <NavLink
+                  to={`/projects/${entityDid}/overview/action/${intent}`}
+                >
                   {React.createElement(icons[control.icon], {
                     fill: control.iconColor,
                   })}

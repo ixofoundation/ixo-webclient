@@ -50,9 +50,9 @@ class FuelEntity extends React.Component<Props & RouteProps, State> {
     startAssistant('fuel_my_entity')
   }
 
-  onAssistantMessageReceive = (text: string): void => {
+  onAssistantMessageReceive = (utter: any): void => {
     // TODO - actual event to trigger end
-    if (text === "Sorry, I didn't get that. Could you rephrase?") {
+    if (utter.text === "Sorry, I didn't get that. Could you rephrase?") {
       this.setState({ isInfoComplete: true })
       // TODO - actual response to pass to handleGetOrder
       this.props.handleGetOrder(null)
