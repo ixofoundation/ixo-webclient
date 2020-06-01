@@ -44,24 +44,30 @@ export const ProjectHero: React.SFC<Props> = ({
   const buttonsArray = [
     {
       iconClass: `icon-${entityType.toLowerCase()}`,
+      linkClass: null,
       path: `/projects/${match.params.projectDID}/overview`,
       title: EntityTypeMap[entityType].plural,
+      toolTip: null,
     },
   ]
 
   if (entityType === EntityType.Project) {
     buttonsArray.push({
       iconClass: 'icon-impacts',
+      linkClass: null,
       path: `/projects/${match.params.projectDID}/detail`,
       title: 'PERFORMANCE',
+      toolTip: null,
     })
   }
 
   if (isLoggedIn && project.bondDid) {
     buttonsArray.push({
       iconClass: 'icon-funding',
+      linkClass: null,
       path: `/projects/${match.params.projectDID}/bonds/${project.bondDid}`,
       title: 'FUNDING',
+      toolTip: null,
     })
   }
 
