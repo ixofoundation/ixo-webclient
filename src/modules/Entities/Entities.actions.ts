@@ -13,6 +13,8 @@ import {
   ResetEntitiesFiltersAction,
   EntitiesActions,
   EntityType,
+  ChangeEntitiesTypeAndFilterAction,
+  Filter,
 } from './types'
 import { RootState } from 'src/common/redux/types'
 import blocksyncApi from '../../common/api/blocksync-api/blocksync-api'
@@ -54,7 +56,7 @@ export const getEntities = () => (dispatch: Dispatch): GetEntitiesAction => {
               tags: ddoTag.tags,
             }))
           : [],
-        founderLogoUrl: entity.data.founder.logoLink,
+        founderLogoUrl: entity.data.founder ? entity.data.founder.logoLink : '',
         data: entity.data, // TEMP until project module not getting data from projects
       }))
     }),
@@ -134,6 +136,14 @@ export const filterEntitiesCategoryTag = (category: string, tag: string) => (
     },
   })
 }
+
+export const changeEntitiesTypeAndFilter = (
+  entityType: EntityType,
+  filter: Filter,
+): ChangeEntitiesTypeAndFilterAction => ({
+  type: EntitiesActions.ChangeEntitiesTypeAndFilter,
+  payload: { entityType, filter },
+})
 
 export const resetEntitiesCategoryFilter = (
   category: string,

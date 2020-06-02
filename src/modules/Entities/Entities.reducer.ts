@@ -40,6 +40,13 @@ export const reducer = (
         ...state,
         entities: action.payload,
       }
+
+    case EntitiesActions.ChangeEntitiesTypeAndFilter:
+      return {
+        ...state,
+        selectedEntitiesType: action.payload.entityType,
+        filter: action.payload.filter,
+      }
     case EntitiesActions.ChangeEntitiesType:
       return {
         ...state,
