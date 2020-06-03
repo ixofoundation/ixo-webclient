@@ -6,8 +6,13 @@ export const Main = styled.div`
   flex-direction: column;
   justify-content: space-between;
   text-align: right;
+  max-width: unset;
   i:before {
     color: #fff;
+  }
+
+  @media (min-width: ${deviceWidth.tablet}px) {
+    justify-content: flex-end;
   }
 
   @media (max-width: ${deviceWidth.tablet}px) {
@@ -17,22 +22,28 @@ export const Main = styled.div`
 
 export const SocialIcon = styled.a`
   padding: 10px;
-  svg path {
-    fill: #fff;
+
+  :before {
+    color: #fff;
   }
-  &:hover {
-    svg path {
-      fill: ${/* eslint-disable-line */ props => props.theme.ixoBlue};
-    }
+
+  &:hover:before {
+    text-decoration: none;
+    color: ${(props): string => props.theme.ixoBlue};
+  }
+
+  &&:hover {
+    text-decoration: none;
   }
 `
 
 export const SocialIconContainer = styled.div`
   margin-top: 20px;
-  margin-bottom: 10px;
+  margin-bottom: 36px;
 
   @media (min-width: ${deviceWidth.tablet}px) {
     margin: 0;
-    padding-right: 60px;
+    padding-bottom: 1rem;
+    margin-left: -3rem;
   }
 `
