@@ -100,7 +100,7 @@ export enum EntitiesActions {
   FilterTogglePopularEntities = 'ixo/Entities/FILTER_TOGGLE_POPULAR_ENTITIES',
   FilterDates = 'ixo/Entities/FILTER_DATES',
   FilterCategoryTag = 'ixo/Entities/FILTER_CATEGORY_TAG',
-  ChangeEntitiesTypeAndFilter = 'ixo/Entities/CHANGE_ENTITIES_TYPE_AND_FILTER',
+  FilterCategories = 'ixo/Entities/FILTER_CATEGORIES',
   ResetDatesFilter = 'ixo/Entities/RESET_DATES_FILTER',
   ResetCategoryFilter = 'ixo/Entities/RESET_CATEGORY_FILTER',
   ResetFilters = 'ixo/Entities/RESET_FILTERS',
@@ -164,11 +164,10 @@ export interface FilterEntitiesCategoryTagsAction {
   }
 }
 
-export interface ChangeEntitiesTypeAndFilterAction {
-  type: typeof EntitiesActions.ChangeEntitiesTypeAndFilter
+export interface FilterCategoriesAction {
+  type: typeof EntitiesActions.FilterCategories
   payload: {
-    entityType: EntityType
-    filter: Filter
+    categories: Category[]
   }
 }
 
@@ -192,7 +191,7 @@ export type EntitiesActionTypes =
   | FilterTogglePopularEntitiesAction
   | FilterEntitiesDatesAction
   | FilterEntitiesCategoryTagsAction
-  | ChangeEntitiesTypeAndFilterAction
+  | FilterCategoriesAction
   | ResetEntitiesDatesFilterAction
   | ResetEntitiesCategoryFilterAction
   | ResetEntitiesFiltersAction

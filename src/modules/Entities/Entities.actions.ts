@@ -13,8 +13,8 @@ import {
   ResetEntitiesFiltersAction,
   EntitiesActions,
   EntityType,
-  ChangeEntitiesTypeAndFilterAction,
-  Filter,
+  FilterCategoriesAction,
+  Category,
 } from './types'
 import { RootState } from 'src/common/redux/types'
 import blocksyncApi from '../../common/api/blocksync-api/blocksync-api'
@@ -99,7 +99,7 @@ export const filterTogglePopularEntities = (
   },
 })
 
-export const filterEntitiesDates = (
+export const filterDates = (
   dateFrom: Moment,
   dateTo: Moment,
 ): FilterEntitiesDatesAction => ({
@@ -110,11 +110,11 @@ export const filterEntitiesDates = (
   },
 })
 
-export const resetEntitiesDatesFilter = (): ResetEntitiesDatesFilterAction => ({
+export const resetDatesFilter = (): ResetEntitiesDatesFilterAction => ({
   type: EntitiesActions.ResetDatesFilter,
 })
 
-export const filterEntitiesCategoryTag = (category: string, tag: string) => (
+export const filterCategoryTag = (category: string, tag: string) => (
   dispatch: Dispatch,
   getState: () => RootState,
 ): FilterEntitiesCategoryTagsAction => {
@@ -137,21 +137,20 @@ export const filterEntitiesCategoryTag = (category: string, tag: string) => (
   })
 }
 
-export const changeEntitiesTypeAndFilter = (
-  entityType: EntityType,
-  filter: Filter,
-): ChangeEntitiesTypeAndFilterAction => ({
-  type: EntitiesActions.ChangeEntitiesTypeAndFilter,
-  payload: { entityType, filter },
+export const filterCategories = (
+  categories: Category[],
+): FilterCategoriesAction => ({
+  type: EntitiesActions.FilterCategories,
+  payload: { categories },
 })
 
-export const resetEntitiesCategoryFilter = (
+export const resetCategoryFilter = (
   category: string,
 ): ResetEntitiesCategoryFilterAction => ({
   type: EntitiesActions.ResetCategoryFilter,
   payload: { category },
 })
 
-export const resetEntitiesFilters = (): ResetEntitiesFiltersAction => ({
+export const resetFilters = (): ResetEntitiesFiltersAction => ({
   type: EntitiesActions.ResetFilters,
 })

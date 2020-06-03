@@ -40,13 +40,6 @@ export const reducer = (
         ...state,
         entities: action.payload,
       }
-
-    case EntitiesActions.ChangeEntitiesTypeAndFilter:
-      return {
-        ...state,
-        selectedEntitiesType: action.payload.entityType,
-        filter: action.payload.filter,
-      }
     case EntitiesActions.ChangeEntitiesType:
       return {
         ...state,
@@ -120,6 +113,14 @@ export const reducer = (
               tags: [...action.payload.tags],
             },
           ],
+        },
+      }
+    case EntitiesActions.FilterCategories:
+      return {
+        ...state,
+        filter: {
+          ...state.filter,
+          categories: action.payload.categories,
         },
       }
     case EntitiesActions.ResetCategoryFilter:

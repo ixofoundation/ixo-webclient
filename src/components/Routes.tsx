@@ -53,10 +53,7 @@ export const Routes: React.SFC<{}> = props => {
             />
           )}
         />
-        <Route
-          path="/entities/select/:type/:categories"
-          component={EntitiesSelectConnected}
-        />
+        <Route path="/entities/select" component={EntitiesSelectConnected} />
         <Route
           exact
           path="/global-statistics"
