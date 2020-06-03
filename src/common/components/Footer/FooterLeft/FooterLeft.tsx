@@ -37,61 +37,78 @@ export const FooterLeft: React.SFC<any> = () => {
             <FooterMenu>
               <h4>Products</h4>
               <div>
-                <FooterLink target="_blank" exact={true} to="#">
+                <FooterLink
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  exact={true}
+                  to="#"
+                >
                   Explorer
-                </FooterLink>
-                <FooterLink target="_blank" exact={true} to="#">
-                  Mobile
                 </FooterLink>
                 <FooterLink
                   target="_blank"
+                  rel="noopener noreferrer"
+                  exact={true}
+                  to="#"
+                >
+                  Mobile
+                </FooterLink>
+                <FooterLink
                   className="nowrap"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   exact={true}
                   to="#"
                 >
                   AI Assistant
                 </FooterLink>
-                <FooterLink
+                <ExternalFooterLink
                   target="_blank"
-                  exact={true}
-                  to="/getixowallet/deliver#Steps"
+                  href="https://uat.ixo.world/getixowallet/deliver#Steps"
                 >
                   Keysafe
-                </FooterLink>
+                </ExternalFooterLink>
                 <FooterLink
-                  target="_blank"
                   className="nowrap"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   exact={true}
-                  to=""
+                  to="#"
                 >
                   Blockchain SDK
                 </FooterLink>
                 <FooterLink className="nowrap" exact={true} to="/todo">
                   Oracle Launchpad
                 </FooterLink>
-                <ExternalFooterLink href="https://app.ixo.world/cells">
+                <FooterLink
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  to='/entities/select?type=Cell&categories=[{"name": "Cell Type", "tags": ["Relayer"]}]'
+                >
                   Relayer Nodes
-                </ExternalFooterLink>
+                </FooterLink>
               </div>
             </FooterMenu>
             <FooterMenu>
               <h4>Ecosystem</h4>
               <div>
-                <ExternalFooterLink
+                <FooterLink
                   target="_blank"
-                  href="https://app.ixo.world/cells"
+                  rel="noopener noreferrer"
+                  to='/entities/select?type=Cell&categories=[{"name": "Cell Type", "tags": ["Portals"]}]'
                 >
                   Portals
-                </ExternalFooterLink>
+                </FooterLink>
                 <FooterLink exact={true} to="/todo">
                   Funds
                 </FooterLink>
-                <ExternalFooterLink
+                <FooterLink
                   target="_blank"
-                  href="https://app.ixo.world/cells"
+                  rel="noopener noreferrer"
+                  to='/entities/select?type=Cell&categories=[{"name": "Cell Type", "tags": ["Relayer"]}]'
                 >
                   Relayers
-                </ExternalFooterLink>
+                </FooterLink>
                 <FooterLink exact={true} to="/todo">
                   Oracles
                 </FooterLink>
@@ -108,27 +125,35 @@ export const FooterLeft: React.SFC<any> = () => {
               <div>
                 <ExternalFooterLink
                   target="_blank"
+                  rel="noopener noreferrer"
                   href="https://forum.ixo.world"
                 >
                   Forums
                 </ExternalFooterLink>
                 <ExternalFooterLink
                   target="_blank"
+                  rel="noopener noreferrer"
                   href="https://docs.ixo.world"
                 >
                   Documentation
                 </ExternalFooterLink>
-                {/* <FooterLink target="_blank" exact={true} to="/todo">Presentations</FooterLink> */}
+                {/* Add later: <FooterLink target="_blank" exact={true} to="/todo">Presentations</FooterLink> */}
               </div>
             </FooterMenu>
             <FooterMenu style={{ zIndex: 10 }}>
               <h4>About</h4>
               <div>
-                <FooterLink target="_blank" exact={true} to="/">
+                <FooterLink
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  exact={true}
+                  to="/"
+                >
                   IXO.world
                 </FooterLink>
                 <ExternalFooterLink
                   target="_blank"
+                  rel="noopener noreferrer"
                   href="https://ixo.foundation"
                 >
                   IXO.foundation

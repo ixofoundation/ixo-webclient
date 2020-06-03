@@ -75,22 +75,13 @@ export const EntitiesHero: React.FunctionComponent<Props> = ({
     ]
 
     if (entityType === EntityType.Project) {
-      tabButtons.push(
-        {
-          iconClass: 'icon-impacts',
-          linkClass: null,
-          path: '/global-statistics',
-          title: 'IMPACT',
-          toolTip: null,
-        },
-        {
-          iconClass: 'icon-economy',
-          linkClass: 'in-active',
-          path: '/economy',
-          title: 'ECONOMY',
-          toolTip: 'Coming Soon',
-        },
-      )
+      tabButtons.push({
+        iconClass: 'icon-impacts',
+        linkClass: null,
+        path: '/global-statistics',
+        title: 'IMPACT',
+        toolTip: null,
+      })
     }
 
     return tabButtons
