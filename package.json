@@ -22,7 +22,7 @@
     "npm": "^6.13.7",
     "parallelshell": "^3.0.2",
     "qrcode": "^1.4.4",
-    "query-string": "^6.10.1",
+    "query-string": "^6.12.1",
     "rc-progress": "^2.5.2",
     "react": "^16.12.0",
     "react-awesome-countdowntimer": "^1.1.1",

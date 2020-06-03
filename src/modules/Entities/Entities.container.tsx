@@ -19,11 +19,11 @@ import {
   filterToggleUserEntities,
   filterToggleFeaturedEntities,
   filterTogglePopularEntities,
-  filterEntitiesDates,
-  resetEntitiesDatesFilter,
-  filterEntitiesCategoryTag,
-  resetEntitiesCategoryFilter,
-  resetEntitiesFilters,
+  filterDates,
+  resetDatesFilter,
+  filterCategoryTag,
+  resetCategoryFilter,
+  resetFilters,
   changeEntitiesType,
 } from './Entities.actions'
 import EntitiesFilter from './components/EntitiesFilter/EntitiesFilter'
@@ -291,13 +291,13 @@ const mapDispatchToProps = (dispatch: any): any => ({
   handleFilterToggleFeaturedEntities: (featuredEntities: boolean): void =>
     dispatch(filterToggleFeaturedEntities(featuredEntities)),
   handleFilterDates: (dateFrom: any, dateTo: any): void =>
-    dispatch(filterEntitiesDates(dateFrom, dateTo)),
-  handleResetDatesFilter: (): void => dispatch(resetEntitiesDatesFilter()),
+    dispatch(filterDates(dateFrom, dateTo)),
+  handleResetDatesFilter: (): void => dispatch(resetDatesFilter()),
   handleFilterCategoryTag: (category: string, tag: string): void =>
-    dispatch(filterEntitiesCategoryTag(category, tag)),
+    dispatch(filterCategoryTag(category, tag)),
   handleResetCategoryFilter: (category: string): void =>
-    dispatch(resetEntitiesCategoryFilter(category)),
-  handleResetFilters: (): void => dispatch(resetEntitiesFilters()),
+    dispatch(resetCategoryFilter(category)),
+  handleResetFilters: (): void => dispatch(resetFilters()),
 })
 
 export const EntitiesContainerConnected = connect(

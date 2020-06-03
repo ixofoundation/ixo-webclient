@@ -114,7 +114,7 @@ describe('Entities Actions', () => {
   describe('filterDates', () => {
     it('should create an action to set the dates filter', () => {
       // when ... we call the filterDates action creator
-      const action = SUT.filterEntitiesDates(
+      const action = SUT.filterDates(
         moment('2020-04-03T13:14:13.000Z'),
         moment('2020-04-09T13:14:13.000Z'),
       )
@@ -131,7 +131,7 @@ describe('Entities Actions', () => {
   describe('resetDatesFilter', () => {
     it('should create an action to reset the dates filter', () => {
       // when ... we call the resetDatesFilter action creator
-      const action = SUT.resetEntitiesDatesFilter()
+      const action = SUT.resetDatesFilter()
 
       // then we should expect it to create action with the correct type
       expect(action.type).toEqual(EntitiesActions.ResetDatesFilter)
@@ -141,7 +141,7 @@ describe('Entities Actions', () => {
   describe('filterCategoryTag', () => {
     it('should create an action to remove the specific category tag when it exists', () => {
       // when ... we call the filterCategoryTag action creator
-      store.dispatch(SUT.filterEntitiesCategoryTag('foo1', 'bar1_3'))
+      store.dispatch(SUT.filterCategoryTag('foo1', 'bar1_3'))
       const action = store.getActions()[0]
 
       // then we should expect it to create action with the correct type and payload
@@ -154,7 +154,7 @@ describe('Entities Actions', () => {
 
     it('should create an action to add the specific category tag when it does not exists', () => {
       // when ... we call the filterCategoryTag action creator
-      store.dispatch(SUT.filterEntitiesCategoryTag('foo1', 'bar1_4'))
+      store.dispatch(SUT.filterCategoryTag('foo1', 'bar1_4'))
       const action = store.getActions()[0]
 
       // then we should expect it to create action with the correct type and payload
@@ -166,10 +166,32 @@ describe('Entities Actions', () => {
     })
   })
 
+  describe('filterCategories', () => {
+    it('should create an action to set the entity type and filter', () => {
+      // when ... we call the filterCategoryTag action creator
+      store.dispatch(
+        SUT.filterCategories([
+          { name: 'Cell Type', tags: ['Index', 'Relayer', 'Portal'] },
+          { name: 'Stage', tags: ['Forming'] },
+        ]),
+      )
+      const action = store.getActions()[0]
+
+      // then we should expect it to create action with the correct type and payload
+      expect(action.type).toEqual(EntitiesActions.FilterCategories)
+      expect(action.payload).toEqual({
+        categories: [
+          { name: 'Cell Type', tags: ['Index', 'Relayer', 'Portal'] },
+          { name: 'Stage', tags: ['Forming'] },
+        ],
+      })
+    })
+  })
+
   describe('resetCategoryFilter', () => {
     it('should create an action to reset the specific category filter', () => {
       // when ... we call the resetCategoryFilter action creator
-      const action = SUT.resetEntitiesCategoryFilter('foo')
+      const action = SUT.resetCategoryFilter('foo')
 
       // then we should expect it to create action with the correct type
       expect(action.type).toEqual(EntitiesActions.ResetCategoryFilter)
@@ -180,7 +202,7 @@ describe('Entities Actions', () => {
   describe('resetFilters', () => {
     it('should create an action to reset the filter', () => {
       // when ... we call the resetFilters action creator
-      const action = SUT.resetEntitiesFilters()
+      const action = SUT.resetFilters()
 
       // then we should expect it to create action with the correct type
       expect(action.type).toEqual(EntitiesActions.ResetFilters)
