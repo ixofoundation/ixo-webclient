@@ -56,8 +56,35 @@ export const createTabsContainer = (activeTabColor: string): any => styled.div`
         activeTabColor || props.theme.bg.lightBlue};
       color: white;
     }
-  }
 
+    &.in-active {
+      i {
+        opacity: 0.3;
+      }
+      p {
+        opacity: 0.3;
+      }
+    }
+
+    &.tooltip {
+      position: relative;
+      display: inline-block;
+      &.tooltip-text {
+        visibility: hidden;
+        width: 120px;
+        background-color: black;
+        color: #fff;
+        text-align: center;
+        border-radius: 6px;
+        padding: 5px 0;
+        position: absolute;
+        z-index: 1;
+      }
+      :hover .tooltip-text {
+        visibility: visible;
+      }
+    }
+  }
   img {
     padding: 0 5px;
   }

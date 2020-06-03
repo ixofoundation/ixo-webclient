@@ -70,6 +70,7 @@ export const EntitiesHero: React.FunctionComponent<Props> = ({
         linkClass: entityType.toLowerCase(),
         path: '/',
         title: EntityTypeMap[entityType].plural.toUpperCase(),
+        toolTip: null,
       },
     ]
 
@@ -79,6 +80,7 @@ export const EntitiesHero: React.FunctionComponent<Props> = ({
         linkClass: null,
         path: '/global-statistics',
         title: 'IMPACT',
+        toolTip: null,
       })
     }
 
