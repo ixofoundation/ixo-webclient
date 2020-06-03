@@ -25,6 +25,7 @@ import { EntityType, EntityTypeMap } from '../../types'
 
 interface Props {
   entityType: EntityType
+  entityColor?: string
   filterChanged: (entityType: EntityType) => void
 }
 
@@ -112,7 +113,7 @@ export default class Search extends React.Component<Props> {
                 />
               </form>
               <SearchIconWrapper onClick={this.handleSubmit}>
-                <SearchIcon />
+                <SearchIcon fill={this.props.entityColor || '#83d9f2'} />
               </SearchIconWrapper>
               <SearchModal
                 style={{ display: this.state.isModalOpen ? 'block' : 'none' }}

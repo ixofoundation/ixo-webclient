@@ -100,9 +100,6 @@ export const SearchIconWrapper = styled.div`
   line-height: 50px;
   flex: initial;
   text-align: center;
-  svg path {
-    fill: #83d9f2;
-  }
 `
 
 export const SearchModal = styled.div`
