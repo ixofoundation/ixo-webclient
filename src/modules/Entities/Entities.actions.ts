@@ -13,6 +13,8 @@ import {
   ResetEntitiesFiltersAction,
   EntitiesActions,
   EntityType,
+  FilterCategoriesAction,
+  Category,
 } from './types'
 import { RootState } from 'src/common/redux/types'
 import blocksyncApi from '../../common/api/blocksync-api/blocksync-api'
@@ -54,7 +56,7 @@ export const getEntities = () => (dispatch: Dispatch): GetEntitiesAction => {
               tags: ddoTag.tags,
             }))
           : [],
-        founderLogoUrl: entity.data.founder.logoLink,
+        founderLogoUrl: entity.data.founder ? entity.data.founder.logoLink : '',
         data: entity.data, // TEMP until project module not getting data from projects
       }))
     }),
@@ -97,7 +99,7 @@ export const filterTogglePopularEntities = (
   },
 })
 
-export const filterEntitiesDates = (
+export const filterDates = (
   dateFrom: Moment,
   dateTo: Moment,
 ): FilterEntitiesDatesAction => ({
@@ -108,11 +110,11 @@ export const filterEntitiesDates = (
   },
 })
 
-export const resetEntitiesDatesFilter = (): ResetEntitiesDatesFilterAction => ({
+export const resetDatesFilter = (): ResetEntitiesDatesFilterAction => ({
   type: EntitiesActions.ResetDatesFilter,
 })
 
-export const filterEntitiesCategoryTag = (category: string, tag: string) => (
+export const filterCategoryTag = (category: string, tag: string) => (
   dispatch: Dispatch,
   getState: () => RootState,
 ): FilterEntitiesCategoryTagsAction => {
@@ -135,13 +137,20 @@ export const filterEntitiesCategoryTag = (category: string, tag: string) => (
   })
 }
 
-export const resetEntitiesCategoryFilter = (
+export const filterCategories = (
+  categories: Category[],
+): FilterCategoriesAction => ({
+  type: EntitiesActions.FilterCategories,
+  payload: { categories },
+})
+
+export const resetCategoryFilter = (
   category: string,
 ): ResetEntitiesCategoryFilterAction => ({
   type: EntitiesActions.ResetCategoryFilter,
   payload: { category },
 })
 
-export const resetEntitiesFilters = (): ResetEntitiesFiltersAction => ({
+export const resetFilters = (): ResetEntitiesFiltersAction => ({
   type: EntitiesActions.ResetFilters,
 })

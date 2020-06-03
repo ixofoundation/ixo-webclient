@@ -115,6 +115,14 @@ export const reducer = (
           ],
         },
       }
+    case EntitiesActions.FilterCategories:
+      return {
+        ...state,
+        filter: {
+          ...state.filter,
+          categories: action.payload.categories,
+        },
+      }
     case EntitiesActions.ResetCategoryFilter:
       return {
         ...state,

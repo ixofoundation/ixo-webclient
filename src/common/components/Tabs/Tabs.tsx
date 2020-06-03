@@ -9,7 +9,6 @@ export interface Button {
   iconClass: string
   title?: string
   path: string
-  toolTip: string
 }
 
 export interface Props {
