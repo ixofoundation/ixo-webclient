@@ -97,7 +97,7 @@ export const FooterLeft: React.SFC<any> = () => {
                 </FooterLink>
                 <ExternalFooterLink
                   className="mailto"
-                  href="ixo@ixo.world?subject=I am interested in becoming a Relayer"
+                  href="mailto:ixo@ixo.world?subject=I am interested in becoming a Relayer"
                 >
                   Become A Relayer
                 </ExternalFooterLink>
