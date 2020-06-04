@@ -17,6 +17,7 @@ beforeEach(() => {
         gasFee: '1.0045',
       },
       sending: true,
+      sent: true,
       error: 'Oops an error occured',
     },
   }
@@ -123,6 +124,16 @@ describe('Entities Selectors', () => {
     })
   })
 
+  describe('selectSent', () => {
+    it('should return the sent property of fuelEntity state', () => {
+      // when ... we call the selector
+      const result = SUT.selectSent(state)
+
+      // then ... should return result as expected
+      expect(result).toEqual(true)
+    })
+  })
+
   describe('selectError', () => {
     it('should return the error property of fuelEntity state', () => {
       // when ... we call the selector
@@ -220,6 +231,16 @@ describe('Entities Selectors', () => {
 
       // then ... should return result as expected
       expect(result).toEqual('€ 79.77')
+    })
+  })
+
+  describe('selectHasOrder', () => {
+    it('should return the a boolean value of whether there is an order in fuelEntity state', () => {
+      // when ... we call the selector
+      const result = SUT.selectHasOrder(state)
+
+      // then ... should return result as expected
+      expect(result).toEqual(true)
     })
   })
 })
