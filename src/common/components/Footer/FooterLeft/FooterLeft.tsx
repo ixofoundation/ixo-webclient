@@ -2,53 +2,186 @@ import * as React from 'react'
 import MediaQuery from 'react-responsive'
 import { deviceWidth } from '../../../../lib/commonData'
 import { getIxoWorldRoute } from '../../../utils/formatters'
+
 import {
   Main,
-  IXOLogo,
+  FooterMenuPosition,
+  FooterMenuWrapper,
+  FooterMenu,
+  FooterLink,
   ExternalFooterLink,
   FooterText,
-  FooterTextBlue,
   ByLine,
+  FooterTextBlue,
+  IXOLogo,
 } from './FooterLeft.styles'
+import { Link } from 'react-router-dom'
 
-export const FooterLeft: React.FunctionComponent<{}> = () => {
+export const FooterLeft: React.SFC<any> = () => {
   return (
     <Main className="col-md-8">
       <div className="row">
         <MediaQuery minWidth={`${deviceWidth.tablet}px`}>
-          <a href={getIxoWorldRoute('')}>
+          <Link
+            style={{ position: 'relative', top: '45px', left: '42px' }}
+            to={getIxoWorldRoute('')}
+          >
             <IXOLogo
               alt="IXO Logo"
               src={require('../../../../assets/images/ixo-logo.svg')}
             />
-          </a>
+          </Link>
         </MediaQuery>
-        <ExternalFooterLink href={getIxoWorldRoute('/membership')}>
-          Membership
-        </ExternalFooterLink>
-        <ExternalFooterLink href={getIxoWorldRoute('/ecosystem')}>
-          Ecosystem
-        </ExternalFooterLink>
-        <ExternalFooterLink target="_blank" href="https://ixo.foundation">
-          ixo.Foundation
-        </ExternalFooterLink>
+        <FooterMenuPosition>
+          <FooterMenuWrapper>
+            <FooterMenu>
+              <h4>Products</h4>
+              <div>
+                <FooterLink
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  exact={true}
+                  to="#"
+                >
+                  Explorer
+                </FooterLink>
+                <FooterLink
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  exact={true}
+                  to="#"
+                >
+                  Mobile
+                </FooterLink>
+                <FooterLink
+                  className="nowrap"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  exact={true}
+                  to="#"
+                >
+                  AI Assistant
+                </FooterLink>
+                <ExternalFooterLink
+                  target="_blank"
+                  href="https://uat.ixo.world/getixowallet/deliver#Steps"
+                >
+                  Keysafe
+                </ExternalFooterLink>
+                <FooterLink
+                  className="nowrap"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  exact={true}
+                  to="#"
+                >
+                  Blockchain SDK
+                </FooterLink>
+                <FooterLink className="nowrap" exact={true} to="/todo">
+                  Oracle Launchpad
+                </FooterLink>
+                <FooterLink
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  to='/entities/select?type=Cell&categories=[{"name": "Cell Type", "tags": ["Relayer"]}]'
+                >
+                  Relayer Nodes
+                </FooterLink>
+              </div>
+            </FooterMenu>
+            <FooterMenu>
+              <h4>Ecosystem</h4>
+              <div>
+                <FooterLink
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  to='/entities/select?type=Cell&categories=[{"name": "Cell Type", "tags": ["Portals"]}]'
+                >
+                  Portals
+                </FooterLink>
+                <FooterLink exact={true} to="/todo">
+                  Funds
+                </FooterLink>
+                <FooterLink
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  to='/entities/select?type=Cell&categories=[{"name": "Cell Type", "tags": ["Relayer"]}]'
+                >
+                  Relayers
+                </FooterLink>
+                <FooterLink exact={true} to="/todo">
+                  Oracles
+                </FooterLink>
+                <ExternalFooterLink
+                  className="mailto"
+                  href="mailto:ixo@ixo.world?subject=I am interested in becoming a Relayer"
+                >
+                  Become A Relayer
+                </ExternalFooterLink>
+              </div>
+            </FooterMenu>
+            <FooterMenu>
+              <h4>Resources</h4>
+              <div>
+                <ExternalFooterLink
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href="https://forum.ixo.world"
+                >
+                  Forums
+                </ExternalFooterLink>
+                <ExternalFooterLink
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href="https://docs.ixo.world"
+                >
+                  Documentation
+                </ExternalFooterLink>
+                {/* Add later: <FooterLink target="_blank" exact={true} to="/todo">Presentations</FooterLink> */}
+              </div>
+            </FooterMenu>
+            <FooterMenu style={{ zIndex: 10 }}>
+              <h4>About</h4>
+              <div>
+                <FooterLink
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  exact={true}
+                  to="/"
+                >
+                  IXO.world
+                </FooterLink>
+                <ExternalFooterLink
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href="https://ixo.foundation"
+                >
+                  IXO.foundation
+                </ExternalFooterLink>
+              </div>
+            </FooterMenu>
+          </FooterMenuWrapper>
+        </FooterMenuPosition>
       </div>
+      <hr />
       <div className="row">
-        <FooterText className="col-md-10">
+        <FooterText>
           <div className="row">
             <a href="mailto:info@ixo.world">
               <FooterTextBlue>info@ixo.world</FooterTextBlue>
             </a>
           </div>
           <ByLine className="row">
-            <p>
-              ixo.world AG, Heiligkreuz 6, 9490 Vaduz, Liechtenstein
+            <p className="loc">
+              ixo.world AG, Industriering 10, 9491, Ruggel, Liechtenstein
+            </p>
+            <p className="legalInfo">
               <a
                 href="https://github.com/ixofoundation/Legal-Documents/raw/master/Terms%20%26%20Conditions.pdf#page=2"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                Terms &amp; conditions
+                T&apos;s & C&apos;s
               </a>
               <a
                 href="https://github.com/ixofoundation/Legal-Documents/raw/master/Privacy%20Policy.pdf"
