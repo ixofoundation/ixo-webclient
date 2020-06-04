@@ -48,15 +48,11 @@ export const HeroInner = styled.div`
 
 export const HeroContainer = styled.div`
   background: white;
-  /* padding: 25px 15px; */
   background-size: cover;
   background-blend-mode: multiply;
   position: relative;
-  /* min-height: 200px; */
   color: #143f54;
-  /* display: flex;
-  align-items: center;
-  justify-content: center; */
+
   @media (min-width: ${deviceWidth.tablet}px) {
     height: 200px;
   }
