@@ -142,7 +142,7 @@ export default class Search extends React.Component<Props> {
                       this.handleSearchFilter(EntityType.Oracle)
                     }
                     className={`
-                    ${EntityType.Oracle.toLowerCase()} disabled ${
+                    ${EntityType.Oracle.toLowerCase()} ${
                       this.props.entityType === EntityType.Oracle
                         ? 'active'
                         : ''
@@ -159,7 +159,7 @@ export default class Search extends React.Component<Props> {
                       this.handleSearchFilter(EntityType.Investment)
                     }
                     className={`
-                    ${EntityType.Investment.toLowerCase()} disabled ${
+                    ${EntityType.Investment.toLowerCase()} ${
                       this.props.entityType === EntityType.Investment
                         ? 'active'
                         : ''
@@ -187,8 +187,11 @@ export default class Search extends React.Component<Props> {
                     </ButtonContent>
                   </SearchFilterButton>
                   <SearchFilterButton
+                    onClick={(): void =>
+                      this.handleSearchFilter(EntityType.Template)
+                    }
                     className={`
-                    ${EntityType.Template.toLowerCase()} disabled ${
+                    ${EntityType.Template.toLowerCase()} ${
                       this.props.entityType === EntityType.Template
                         ? 'active'
                         : ''
@@ -201,8 +204,11 @@ export default class Search extends React.Component<Props> {
                     </ButtonContent>
                   </SearchFilterButton>
                   <SearchFilterButton
+                    onClick={(): void =>
+                      this.handleSearchFilter(EntityType.Data)
+                    }
                     className={`
-                    ${EntityType.Data.toLowerCase()} disabled ${
+                    ${EntityType.Data.toLowerCase()} ${
                       this.props.entityType === EntityType.Data ? 'active' : ''
                     }
                     `}
