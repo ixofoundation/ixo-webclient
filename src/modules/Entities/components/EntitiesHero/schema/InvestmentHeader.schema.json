@@ -1,0 +1,28 @@
+{
+  "@context": "https://schema.ixo.foundation/investment",
+  "@type": "Investment",
+  "header": {
+    "color": "",
+    "image": null,
+    "title": "Sustainability Hub",
+    "subTitle": "Template Library Explorer",
+    "indicators": [
+      {
+        "indicatorLabel": "",
+        "indicatorSource": ""
+      },
+      {
+        "indicatorLabel": "",
+        "indicatorSource": ""
+      },
+      {
+        "indicatorLabel": "",
+        "indicatorSource": ""
+      },
+      {
+        "indicatorLabel": "",
+        "indicatorSource": ""
+      }
+    ]
+  }
+}

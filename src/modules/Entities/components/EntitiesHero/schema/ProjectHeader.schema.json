@@ -1,0 +1,28 @@
+{
+  "@context": "https://schema.ixo.foundation/project",
+  "@type": "Project",
+  "header": {
+    "color": "#2f80ed",
+    "image": null,
+    "title": "Sustainability Hub",
+    "subTitle": "Template Library Explorer",
+    "indicators": [
+      {
+        "indicatorLabel": "Test",
+        "indicatorSource": 0
+      },
+      {
+        "indicatorLabel": "Test",
+        "indicatorSource": 0
+      },
+      {
+        "indicatorLabel": "Test",
+        "indicatorSource": 0
+      },
+      {
+        "indicatorLabel": "",
+        "indicatorSource": ""
+      }
+    ]
+  }
+}
