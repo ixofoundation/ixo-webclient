@@ -8,7 +8,6 @@ export interface Button {
   iconClass: string
   title?: string
   path: string
-  toolTip: string
 }
 
 export interface Props {
@@ -37,11 +36,6 @@ export const Tabs: React.SFC<Props> = ({
           >
             {button.iconClass && <i className={button.iconClass} />}
             {button.title && <p>{button.title}</p>}
-            {button.toolTip && (
-              <div className="tooltip">
-                <span className="tooltip-text">{button.toolTip}</span>
-              </div>
-            )}
           </NavLink>
         )
       })}
