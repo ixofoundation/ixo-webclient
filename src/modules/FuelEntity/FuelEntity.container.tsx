@@ -55,6 +55,9 @@ class FuelEntity extends React.Component<Props & RouteProps> {
 
   render(): JSX.Element {
     const {
+      match: {
+        params: { projectDID },
+      },
       subscription,
       symbol,
       amount,
@@ -96,9 +99,7 @@ class FuelEntity extends React.Component<Props & RouteProps> {
               fiat={fiat}
               total={total}
               fiatTotal={fiatTotal}
-              handleConfirmOrder={(): void =>
-                handleConfirmOrder(this.props.match.params.projectDID)
-              }
+              handleConfirmOrder={(): void => handleConfirmOrder(projectDID)}
             />
           </SummaryWrapper>
         )}
