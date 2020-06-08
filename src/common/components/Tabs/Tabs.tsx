@@ -27,9 +27,7 @@ export const Tabs: React.SFC<Props> = ({
   return (
     <TabsContainer>
       {buttons.map((button, index) => {
-        console.log('linkClass: ', button.linkClass)
-        console.log('linkClass: ', button.linkClass)
-        return button.linkClass === null ? (
+        return button.linkClass !== 'in-active' ? (
           <NavLink
             className={button.linkClass ? button.linkClass : ''}
             exact={matchType === MatchType.exact}

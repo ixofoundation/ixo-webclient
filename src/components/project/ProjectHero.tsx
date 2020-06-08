@@ -47,7 +47,18 @@ export const ProjectHero: React.SFC<Props> = ({
       linkClass: null,
       path: `/projects/${match.params.projectDID}/overview`,
       title: EntityTypeMap[entityType].plural,
-      toolTip: null,
+    },
+    {
+      iconClass: 'icon-funding',
+      linkClass: 'in-active',
+      path: '/funding',
+      title: 'FUNDING',
+    },
+    {
+      iconClass: 'icon-impacts',
+      linkClass: 'in-active',
+      path: '/performace',
+      title: 'PERFORMANCE',
     },
   ]
 
@@ -57,7 +68,6 @@ export const ProjectHero: React.SFC<Props> = ({
       linkClass: null,
       path: `/projects/${match.params.projectDID}/detail`,
       title: 'PERFORMANCE',
-      toolTip: null,
     })
   }
 
@@ -67,7 +77,6 @@ export const ProjectHero: React.SFC<Props> = ({
       linkClass: null,
       path: `/projects/${match.params.projectDID}/bonds/${project.bondDid}`,
       title: 'FUNDING',
-      toolTip: null,
     })
   }
 

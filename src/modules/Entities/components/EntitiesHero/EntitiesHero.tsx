@@ -73,7 +73,7 @@ export const EntitiesHero: React.FunctionComponent<Props> = ({
       },
     ]
 
-    if (entityType === EntityType.Project) {
+    if (entityType === EntityType.Project || entityType === EntityType.Cell) {
       tabButtons.push(
         {
           iconClass: 'icon-impacts',
