@@ -1,7 +1,7 @@
 import * as React from 'react'
 import MediaQuery from 'react-responsive'
 import { deviceWidth } from '../../../../lib/commonData'
-import { getIxoWorldRoute } from '../../../utils/formatters'
+import { getIxoWorldRoute, getDeliverPage } from '../../../utils/formatters'
 
 import {
   Main,
@@ -64,7 +64,7 @@ export const FooterLeft: React.SFC<any> = () => {
                 </FooterLink>
                 <ExternalFooterLink
                   target="_blank"
-                  href="https://uat.ixo.world/getixowallet/deliver#Steps"
+                  href={getDeliverPage('/#Steps')}
                 >
                   Keysafe
                 </ExternalFooterLink>
