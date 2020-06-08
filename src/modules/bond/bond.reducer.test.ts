@@ -37,7 +37,7 @@ describe('Bond Reducer', () => {
         price: { denom: 'a', amount: 200 },
         reserve: { denom: 'a', amount: 200 },
         alpha: 0,
-        alphaDate: new Date(),
+        alphaDate: new Date('2000/01/01'),
         trades: [],
       }
 
@@ -55,7 +55,7 @@ describe('Bond Reducer', () => {
           price: { denom: 'a', amount: 200 },
           reserve: { denom: 'a', amount: 200 },
           alpha: 0,
-          alphaDate: new Date(),
+          alphaDate: new Date('2000/01/01'),
         },
       }
 
@@ -83,7 +83,7 @@ describe('Bond Reducer', () => {
         price: { denom: 'a', amount: 200 },
         reserve: { denom: 'a', amount: 200 },
         alpha: 0,
-        alphaDate: new Date(),
+        alphaDate: new Date('2000/01/01'),
         trades: [
           { someprop1: 1, someprop2: 2 },
           { someprop1: 3, someprop: 4 },
@@ -104,7 +104,7 @@ describe('Bond Reducer', () => {
           price: { denom: 'a', amount: 200 },
           reserve: { denom: 'a', amount: 200 },
           alpha: 0,
-          alphaDate: new Date(),
+          alphaDate: new Date('2000/01/01'),
         },
       }
 

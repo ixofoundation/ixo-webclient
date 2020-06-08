@@ -113,7 +113,7 @@ class App extends React.Component<Props, State> {
               simpleHeader={false}
               userInfo={this.props.userInfo}
             />
-            <ToastContainer hideProgressBar={true} />
+            <ToastContainer hideProgressBar={true} position="top-right" />
             <ContentWrapper>
               {(this.props.ixo !== null &&
                 this.props.loginStatusCheckCompleted) ||

@@ -8,7 +8,7 @@ import Down from '../../../assets/icons/Down'
 import Close from '../../../assets/icons/Close'
 import { Schema, ConnectionType, ActionType } from './types'
 import Dashboard from './Dashboard/Dashboard'
-import Actions, { triggerAction } from './Actions/Actions'
+import Actions from './Actions/Actions' //, { triggerAction }
 import Apps from './Apps/Apps'
 import Connections from './Connections/Connections'
 
@@ -56,19 +56,11 @@ class ControlPanel extends React.Component<Props, State> {
     })
   }
 
-  handleInititateActionClick = (action: ActionType, intent: string): void => {
-    if (action !== this.state.currentAction) {
-      this.setState({ currentAction: action, currentConnection: null }, () => {
-        triggerAction(intent)
-      })
-    } else {
-      this.setState({ currentAction: null })
-    }
-  }
-
   render(): JSX.Element {
     const {
       schema: { dashboard, actions, apps, connections },
+      entityDid,
+      userDid,
     } = this.props
     return (
       <>
@@ -85,14 +77,8 @@ class ControlPanel extends React.Component<Props, State> {
           <ControlPanelWrapper
             className={this.state.showControlPanelMobile ? 'open' : ''}
           >
-            <Dashboard widget={dashboard} entityDid={this.props.entityDid} />
-            <Actions
-              entityDid={this.props.entityDid}
-              userDid={this.props.userDid}
-              currentAction={this.state.currentAction}
-              widget={actions}
-              handleInititateActionClick={this.handleInititateActionClick}
-            />
+            <Dashboard widget={dashboard} entityDid={entityDid} />
+            <Actions widget={actions} entityDid={entityDid} userDid={userDid} />
             <Apps
               widget={apps}
               showMore={this.state.showMoreApps}

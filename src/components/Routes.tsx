@@ -2,6 +2,7 @@ import * as React from 'react'
 import { Route, Switch } from 'react-router-dom'
 import { ProjectContainerConnected } from './project/ProjectContainer'
 import { EntitiesContainerConnected } from '../modules/Entities/Entities.container'
+import { EntitiesSelectConnected } from '../modules/Entities/Entities.container.select'
 import { ProjectCreateConnected } from './project/ProjectCreate'
 import { contentType } from '../types/models'
 import { ProjectForm } from './project/ProjectForm'
@@ -52,6 +53,7 @@ export const Routes: React.SFC<{}> = props => {
             />
           )}
         />
+        <Route path="/entities/select" component={EntitiesSelectConnected} />
         <Route
           exact
           path="/global-statistics"
@@ -64,7 +66,6 @@ export const Routes: React.SFC<{}> = props => {
           )}
         />
         <Route
-          exact
           path="/projects/:projectDID/overview"
           render={(): JSX.Element => (
             <ProjectContainerConnected

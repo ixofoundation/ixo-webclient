@@ -31,7 +31,6 @@ export const reducer = (
         transacting: false,
       }
     case BondSellActions.GetQuoteFailure:
-      // notify(action.payload)
       return {
         ...state,
         transacting: false,
