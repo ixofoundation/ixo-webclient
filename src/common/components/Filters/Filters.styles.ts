@@ -104,7 +104,9 @@ export const ModalItems = styled.div`
   display: flex;
   overflow-y: auto;
   flex-flow: row wrap;
-  max-height: 380px;
+  @media (min-width: ${deviceWidth.tablet}px) {
+    max-height: 380px;
+  }
 `
 
 export const FilterSelectButton = styled.div`
