@@ -10,6 +10,8 @@ export const createTabsContainer = (activeTabColor: string): any => styled.div`
   > * {
     :first-child {
       overflow: hidden;
+      border-top-left-radius: 4px;
+      border-bottom-left-radius: 4px;
     }
 
     &:not(:first-child) {
@@ -22,6 +24,7 @@ export const createTabsContainer = (activeTabColor: string): any => styled.div`
       border-bottom-right-radius: 4px;
     }
   }
+
   a {
     background: ${(props): string => props.theme.bg.gradientBlue};
     font-family: ${(props): string => props.theme.fontRoboto};
@@ -36,11 +39,6 @@ export const createTabsContainer = (activeTabColor: string): any => styled.div`
     justify-content: center;
     text-decoration: none;
     transition: all 0.3s ease;
-
-    :first-child {
-      border-top-left-radius: 4px;
-      border-bottom-left-radius: 4px;
-    }
 
     i {
       margin-right: 10px;
