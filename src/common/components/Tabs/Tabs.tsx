@@ -37,7 +37,7 @@ export const Tabs: React.SFC<Props> = ({
             {button.iconClass && <i className={button.iconClass} />}
             {button.title && <p>{button.title}</p>}
           </NavLink>
-        ) : button.linkClass === 'in-active' ? (
+        ) : (
           <Tooltip
             text="Coming Soon"
             key={index}
@@ -53,7 +53,7 @@ export const Tabs: React.SFC<Props> = ({
               {button.title && <p>{button.title}</p>}
             </NavLink>
           </Tooltip>
-        ) : null
+        )
       })}
     </TabsContainer>
   )

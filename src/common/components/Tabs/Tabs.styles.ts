@@ -12,15 +12,6 @@ export const createTabsContainer = (activeTabColor: string): any => styled.div`
       overflow: hidden;
     }
 
-    a:first-child {
-      border-top-left-radius: 4px;
-      border-bottom-left-radius: 4px;
-    }
-    div:first-child a {
-      border-top-left-radius: 4px;
-      border-bottom-left-radius: 4px;
-    }
-
     &:not(:first-child) {
       border-left: 1px solid rgba(1, 116, 146, 0.5);
     }
@@ -46,6 +37,11 @@ export const createTabsContainer = (activeTabColor: string): any => styled.div`
     text-decoration: none;
     transition: all 0.3s ease;
 
+    :first-child {
+      border-top-left-radius: 4px;
+      border-bottom-left-radius: 4px;
+    }
+
     i {
       margin-right: 10px;
       font-size: 18px;
@@ -70,8 +66,8 @@ export const createTabsContainer = (activeTabColor: string): any => styled.div`
     }
 
     &.in-active {
-      /* pointer-events: none;
-      cursor: default; */
+      pointer-events: none;
+      cursor: default;
       i {
         opacity: 0.3;
       }
