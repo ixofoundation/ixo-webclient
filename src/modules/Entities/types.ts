@@ -1,4 +1,6 @@
 import { Moment } from 'moment'
+import { Schema as FilterSchema } from './components/EntitiesFilter/schema/types'
+import { Schema as HeaderSchema } from './components/EntitiesHero/schema/types'
 
 export enum EntityType {
   Project = 'Project',
@@ -7,39 +9,6 @@ export enum EntityType {
   Oracle = 'Oracle',
   Template = 'Template',
   Data = 'Data',
-}
-
-export const EntityTypeMap = {
-  [EntityType.Project]: {
-    title: 'Project',
-    plural: 'Projects',
-    themeColor: '#2f80ed',
-  },
-  [EntityType.Cell]: {
-    title: 'Cell',
-    plural: 'Cells',
-    themeColor: '#79af50',
-  },
-  [EntityType.Investment]: {
-    title: 'Investment',
-    plural: 'Investments',
-    themeColor: '#e4bc3d',
-  },
-  [EntityType.Oracle]: {
-    title: 'Oracle',
-    plural: 'Oracles',
-    themeColor: '#ad245c',
-  },
-  [EntityType.Template]: {
-    title: 'Template',
-    plural: 'Templates',
-    themeColor: '#7c2740',
-  },
-  [EntityType.Data]: {
-    title: 'Data Asset',
-    plural: 'Data Assets',
-    themeColor: '#f89d28',
-  },
 }
 
 export interface Entity {
@@ -87,6 +56,16 @@ export interface EntitiesState {
   entities: Entity[]
   selectedEntitiesType: EntityType
   filter: Filter
+}
+
+export type StrategyMap = {
+  [TKey in EntityType]: {
+    title: string
+    plural: string
+    themeColor: string
+    headerSchema: HeaderSchema
+    filterSchema: FilterSchema
+  }
 }
 
 export enum EntitiesActions {

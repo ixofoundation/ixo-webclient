@@ -19,7 +19,8 @@ import SearchIcon from '../../../../assets/icons/Search'
 import Down from 'src/assets/icons/Down'
 import Projects from '../../../../assets/icons/Projects'
 import DataAssets from '../../../../assets/icons/DataAssets'
-import { EntityType, EntityTypeMap } from '../../types'
+import { EntityType } from '../../types'
+import { strategyMap } from '../../strategy-map'
 
 // TODO - search submitted
 
@@ -86,7 +87,7 @@ export default class Search extends React.Component<Props> {
                   <DataAssets fill="#000" width="26" />
                 )}
                 <span className="modal-text">
-                  {EntityTypeMap[this.props.entityType].plural}
+                  {strategyMap[this.props.entityType].plural}
                 </span>
                 <span
                   className="down-icon"
@@ -105,7 +106,7 @@ export default class Search extends React.Component<Props> {
                   formStyle={FormStyles.search}
                   id="name"
                   type="text"
-                  text={`Search all ${EntityTypeMap[
+                  text={`Search all ${strategyMap[
                     this.props.entityType
                   ].plural.toLowerCase()}`}
                   key="search"
@@ -134,7 +135,7 @@ export default class Search extends React.Component<Props> {
                   >
                     <ButtonContent>
                       <Projects fill="#000" width="26" />
-                      {EntityTypeMap[EntityType.Project].plural}
+                      {strategyMap[EntityType.Project].plural}
                     </ButtonContent>
                   </SearchFilterButton>
                   <SearchFilterButton
@@ -151,7 +152,7 @@ export default class Search extends React.Component<Props> {
                   >
                     <ButtonContent>
                       <Oracle fill="#000" width="26" />
-                      {EntityTypeMap[EntityType.Oracle].plural}
+                      {strategyMap[EntityType.Oracle].plural}
                     </ButtonContent>
                   </SearchFilterButton>
                   <SearchFilterButton
@@ -168,7 +169,7 @@ export default class Search extends React.Component<Props> {
                   >
                     <ButtonContent>
                       <Investments fill="#000" width="26" />
-                      {EntityTypeMap[EntityType.Investment].plural}
+                      {strategyMap[EntityType.Investment].plural}
                     </ButtonContent>
                   </SearchFilterButton>
                   <SearchFilterButton
@@ -183,7 +184,7 @@ export default class Search extends React.Component<Props> {
                   >
                     <ButtonContent>
                       <Cells fill="#000" width="26" />
-                      {EntityTypeMap[EntityType.Cell].plural}
+                      {strategyMap[EntityType.Cell].plural}
                     </ButtonContent>
                   </SearchFilterButton>
                   <SearchFilterButton
@@ -200,7 +201,7 @@ export default class Search extends React.Component<Props> {
                   >
                     <ButtonContent>
                       <Template fill="#000" width="26" />
-                      {EntityTypeMap[EntityType.Template].plural}
+                      {strategyMap[EntityType.Template].plural}
                     </ButtonContent>
                   </SearchFilterButton>
                   <SearchFilterButton
@@ -215,7 +216,7 @@ export default class Search extends React.Component<Props> {
                   >
                     <ButtonContent>
                       <DataAssets fill="#000" width="26" />
-                      {EntityTypeMap[EntityType.Data].plural}
+                      {strategyMap[EntityType.Data].plural}
                     </ButtonContent>
                   </SearchFilterButton>
                 </SearchButtonsWrapper>

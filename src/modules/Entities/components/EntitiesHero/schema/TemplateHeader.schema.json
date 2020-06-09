@@ -2,26 +2,31 @@
   "@context": "https://schema.ixo.foundation/template",
   "@type": "Template",
   "header": {
+    "@type": "Header",
     "color": "",
     "image": null,
     "title": "Sustainability Hub",
     "subTitle": "Template Library Explorer",
     "indicators": [
       {
-        "indicatorLabel": "",
-        "indicatorSource": ""
+        "@type": "Indicator",
+        "indicatorLabel": "My Cells",
+        "indicatorSource": "0"
       },
       {
-        "indicatorLabel": "",
-        "indicatorSource": ""
+        "@type": "Indicator",
+        "indicatorLabel": "Nodes",
+        "indicatorSource": "234"
       },
       {
-        "indicatorLabel": "",
-        "indicatorSource": ""
+        "@type": "Indicator",
+        "indicatorLabel": "Projects",
+        "indicatorSource": "234"
       },
       {
-        "indicatorLabel": "",
-        "indicatorSource": ""
+        "@type": "Indicator",
+        "indicatorLabel": "Agents",
+        "indicatorSource": "234"
       }
     ]
   }
