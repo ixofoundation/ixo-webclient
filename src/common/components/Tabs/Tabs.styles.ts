@@ -44,6 +44,7 @@ export const createTabsContainer = (activeTabColor: string): any => styled.div`
 
     p {
       margin-bottom: 0;
+      white-space: nowrap;
     }
 
     &:hover {

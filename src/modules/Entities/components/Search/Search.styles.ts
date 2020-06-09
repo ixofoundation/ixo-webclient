@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 import { deviceWidth } from 'src/lib/commonData'
-import { EntityType, EntityTypeMap } from '../../types'
+import { EntityType } from '../../types'
+import { strategyMap } from '../../strategy-map'
 
 export const SearchWrapper = styled.div`
   background: white;
@@ -57,6 +58,7 @@ export const ModalButton = styled.div`
 
   span {
     &.modal-text {
+      cursor: default;
       @media (max-width: ${deviceWidth.mobile}px) {
         display: none;
       }
@@ -100,9 +102,6 @@ export const SearchIconWrapper = styled.div`
   line-height: 50px;
   flex: initial;
   text-align: center;
-  svg path {
-    fill: #83d9f2;
-  }
 `
 
 export const SearchModal = styled.div`
@@ -159,7 +158,7 @@ export const SearchFilterButton = styled.button`
   }
   ${Object.keys(EntityType).map(key => {
     const className = key.toLowerCase()
-    const color = EntityTypeMap[key].themeColor
+    const color = strategyMap[key].themeColor
 
     return `&.${className} {
           border: 2px solid ${color};

@@ -27,23 +27,17 @@ interface Props {
   fiat: string
   total: string
   fiatTotal: string
+  hasOrder: boolean
   sending: boolean
+  sent: boolean
   error: string
   handleGetOrder: (assistantResponse: any) => void
   handleConfirmOrder: (entityDid: string) => void
 }
 
-interface State {
-  isInfoComplete: boolean
-}
-
-class FuelEntity extends React.Component<Props & RouteProps, State> {
+class FuelEntity extends React.Component<Props & RouteProps> {
   constructor(props) {
     super(props)
-
-    this.state = {
-      isInfoComplete: false,
-    }
   }
 
   componentDidMount(): void {
@@ -60,8 +54,10 @@ class FuelEntity extends React.Component<Props & RouteProps, State> {
   }
 
   render(): JSX.Element {
-    const { isInfoComplete } = this.state
     const {
+      match: {
+        params: { projectDID },
+      },
       subscription,
       symbol,
       amount,
@@ -73,32 +69,43 @@ class FuelEntity extends React.Component<Props & RouteProps, State> {
       fiat,
       total,
       fiatTotal,
+      hasOrder,
+      sending,
+      sent,
+      error,
       handleConfirmOrder,
     } = this.props
 
+    const hasError = !!error
+
     return (
       <ActionWrapper className="open">
-        <AssistantWrapper className={!isInfoComplete ? 'open' : ''}>
-          <Assistant onMessageReceive={this.onAssistantMessageReceive} />
-        </AssistantWrapper>
-        <SummaryWrapper className={isInfoComplete ? 'open' : ''}>
-          <FuelEntityConfirmOrder
-            subscription={subscription}
-            symbol={symbol}
-            amount={amount}
-            fiatAmount={fiatAmount}
-            fiatConversionRate={fiatConversionRate}
-            transactionFee={transactionFee}
-            fiatTransactionFee={fiatTransactionFee}
-            gasFee={gasFee}
-            fiat={fiat}
-            total={total}
-            fiatTotal={fiatTotal}
-            handleConfirmOrder={(): void =>
-              handleConfirmOrder(this.props.match.params.projectDID)
-            }
-          />
-        </SummaryWrapper>
+        {!sending && !sent && !hasOrder && (
+          <AssistantWrapper>
+            <Assistant onMessageReceive={this.onAssistantMessageReceive} />
+          </AssistantWrapper>
+        )}
+        {!sending && !sent && hasOrder && !hasError && (
+          <SummaryWrapper>
+            <FuelEntityConfirmOrder
+              subscription={subscription}
+              symbol={symbol}
+              amount={amount}
+              fiatAmount={fiatAmount}
+              fiatConversionRate={fiatConversionRate}
+              transactionFee={transactionFee}
+              fiatTransactionFee={fiatTransactionFee}
+              gasFee={gasFee}
+              fiat={fiat}
+              total={total}
+              fiatTotal={fiatTotal}
+              handleConfirmOrder={(): void => handleConfirmOrder(projectDID)}
+            />
+          </SummaryWrapper>
+        )}
+        {sending && <div>Sending</div>}
+        {sent && <div>Sent</div>}
+        {hasError && <div>{error}</div>}
       </ActionWrapper>
     )
   }
@@ -116,8 +123,10 @@ const mapStateToProps = (state: RootState): any => ({
   fiat: fuelEntitySelectors.selectOrderFiat(state),
   total: fuelEntitySelectors.selectOrderTokenTotal(state),
   fiatTotal: fuelEntitySelectors.selectOrderFiatTotal(state),
+  hasOrder: fuelEntitySelectors.selectHasOrder(state),
   sending: fuelEntitySelectors.selectSending(state),
   error: fuelEntitySelectors.selectError(state),
+  sent: fuelEntitySelectors.selectSent(state),
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({

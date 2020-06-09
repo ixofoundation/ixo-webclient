@@ -9,7 +9,6 @@ import {
 import { Dispatch } from 'redux'
 import { RootState } from 'src/common/redux/types'
 import * as transactionUtils from '../../common/utils/transaction.utils'
-import * as Toast from '../../common/utils/Toast'
 
 export const getOrder = (assistantResponse: any): GetOrderAction => ({
   // TODO read from the actual response when assistant ready
@@ -65,22 +64,7 @@ export const confirmOrder = (entityDid: string) => (
         JSON.stringify(
           transactionUtils.generateTx('treasury/MsgSend', tx, signature),
         ),
-      )
-        .then(response => {
-          if (
-            !response.data ||
-            !response.data.logs ||
-            response.data.logs.length === 0 ||
-            !response.data.logs[0].success
-          ) {
-            Toast.errorToast('Order submission failed. Please try again.')
-          } else {
-            Toast.successToast('Order submitted!')
-          }
-        })
-        .catch(error => {
-          Toast.errorToast(`Error: ${error.message}`)
-        }),
+      ),
     })
   })
 
