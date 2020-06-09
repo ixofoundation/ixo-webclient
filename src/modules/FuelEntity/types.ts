@@ -12,6 +12,7 @@ export interface FuelEntityOrder {
 export interface FuelEntityState {
   order: FuelEntityOrder
   sending: boolean
+  sent: boolean
   error?: string
 }
 
@@ -31,8 +32,8 @@ export enum FuelEntityActions {
   GetOrder = 'ixo/FuelEntity/GET_ORDER',
   ConfirmOrder = 'ixo/FuelEntity/CONFIRM_ORDER',
   ConfirmOrderPending = 'ixo/FuelEntity/CONFIRM_ORDER_PENDING',
-  ConfirmOrderSuccess = 'ixo/FuelEntity/CONFIRM_ORDER_SUCCESS',
-  ConfirmOrderFailure = 'ixo/FuelEntity/CONFIRM_ORDER_FAILURE',
+  ConfirmOrderSuccess = 'ixo/FuelEntity/CONFIRM_ORDER_FULFILLED',
+  ConfirmOrderFailure = 'ixo/FuelEntity/CONFIRM_ORDER_REJECTED',
 }
 
 export interface GetOrderAction {

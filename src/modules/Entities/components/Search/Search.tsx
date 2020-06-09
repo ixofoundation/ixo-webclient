@@ -19,12 +19,14 @@ import SearchIcon from '../../../../assets/icons/Search'
 import Down from 'src/assets/icons/Down'
 import Projects from '../../../../assets/icons/Projects'
 import DataAssets from '../../../../assets/icons/DataAssets'
-import { EntityType, EntityTypeMap } from '../../types'
+import { EntityType } from '../../types'
+import { strategyMap } from '../../strategy-map'
 
 // TODO - search submitted
 
 interface Props {
   entityType: EntityType
+  entityColor?: string
   filterChanged: (entityType: EntityType) => void
 }
 
@@ -85,7 +87,7 @@ export default class Search extends React.Component<Props> {
                   <DataAssets fill="#000" width="26" />
                 )}
                 <span className="modal-text">
-                  {EntityTypeMap[this.props.entityType].plural}
+                  {strategyMap[this.props.entityType].plural}
                 </span>
                 <span
                   className="down-icon"
@@ -104,7 +106,7 @@ export default class Search extends React.Component<Props> {
                   formStyle={FormStyles.search}
                   id="name"
                   type="text"
-                  text={`Search all ${EntityTypeMap[
+                  text={`Search all ${strategyMap[
                     this.props.entityType
                   ].plural.toLowerCase()}`}
                   key="search"
@@ -112,7 +114,7 @@ export default class Search extends React.Component<Props> {
                 />
               </form>
               <SearchIconWrapper onClick={this.handleSubmit}>
-                <SearchIcon />
+                <SearchIcon fill={this.props.entityColor || '#83d9f2'} />
               </SearchIconWrapper>
               <SearchModal
                 style={{ display: this.state.isModalOpen ? 'block' : 'none' }}
@@ -133,7 +135,7 @@ export default class Search extends React.Component<Props> {
                   >
                     <ButtonContent>
                       <Projects fill="#000" width="26" />
-                      {EntityTypeMap[EntityType.Project].plural}
+                      {strategyMap[EntityType.Project].plural}
                     </ButtonContent>
                   </SearchFilterButton>
                   <SearchFilterButton
@@ -141,7 +143,7 @@ export default class Search extends React.Component<Props> {
                       this.handleSearchFilter(EntityType.Oracle)
                     }
                     className={`
-                    ${EntityType.Oracle.toLowerCase()} disabled ${
+                    ${EntityType.Oracle.toLowerCase()} ${
                       this.props.entityType === EntityType.Oracle
                         ? 'active'
                         : ''
@@ -150,7 +152,7 @@ export default class Search extends React.Component<Props> {
                   >
                     <ButtonContent>
                       <Oracle fill="#000" width="26" />
-                      {EntityTypeMap[EntityType.Oracle].plural}
+                      {strategyMap[EntityType.Oracle].plural}
                     </ButtonContent>
                   </SearchFilterButton>
                   <SearchFilterButton
@@ -158,7 +160,7 @@ export default class Search extends React.Component<Props> {
                       this.handleSearchFilter(EntityType.Investment)
                     }
                     className={`
-                    ${EntityType.Investment.toLowerCase()} disabled ${
+                    ${EntityType.Investment.toLowerCase()} ${
                       this.props.entityType === EntityType.Investment
                         ? 'active'
                         : ''
@@ -167,7 +169,7 @@ export default class Search extends React.Component<Props> {
                   >
                     <ButtonContent>
                       <Investments fill="#000" width="26" />
-                      {EntityTypeMap[EntityType.Investment].plural}
+                      {strategyMap[EntityType.Investment].plural}
                     </ButtonContent>
                   </SearchFilterButton>
                   <SearchFilterButton
@@ -182,12 +184,15 @@ export default class Search extends React.Component<Props> {
                   >
                     <ButtonContent>
                       <Cells fill="#000" width="26" />
-                      {EntityTypeMap[EntityType.Cell].plural}
+                      {strategyMap[EntityType.Cell].plural}
                     </ButtonContent>
                   </SearchFilterButton>
                   <SearchFilterButton
+                    onClick={(): void =>
+                      this.handleSearchFilter(EntityType.Template)
+                    }
                     className={`
-                    ${EntityType.Template.toLowerCase()} disabled ${
+                    ${EntityType.Template.toLowerCase()} ${
                       this.props.entityType === EntityType.Template
                         ? 'active'
                         : ''
@@ -196,19 +201,22 @@ export default class Search extends React.Component<Props> {
                   >
                     <ButtonContent>
                       <Template fill="#000" width="26" />
-                      {EntityTypeMap[EntityType.Template].plural}
+                      {strategyMap[EntityType.Template].plural}
                     </ButtonContent>
                   </SearchFilterButton>
                   <SearchFilterButton
+                    onClick={(): void =>
+                      this.handleSearchFilter(EntityType.Data)
+                    }
                     className={`
-                    ${EntityType.Data.toLowerCase()} disabled ${
+                    ${EntityType.Data.toLowerCase()} ${
                       this.props.entityType === EntityType.Data ? 'active' : ''
                     }
                     `}
                   >
                     <ButtonContent>
                       <DataAssets fill="#000" width="26" />
-                      {EntityTypeMap[EntityType.Data].plural}
+                      {strategyMap[EntityType.Data].plural}
                     </ButtonContent>
                   </SearchFilterButton>
                 </SearchButtonsWrapper>

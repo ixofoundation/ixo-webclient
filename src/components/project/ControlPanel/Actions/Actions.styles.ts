@@ -65,10 +65,6 @@ export const ActionWrapper = styled.div`
 
 export const AssistantWrapper = styled.div`
   height: 100%;
-  display: none;
-  &.open {
-    display: block;
-  }
   .rw-conversation-container {
     box-shadow: none;
   }
@@ -77,8 +73,4 @@ export const AssistantWrapper = styled.div`
 export const SummaryWrapper = styled.div`
   height: 100%;
   background-color: white;
-  display: none;
-  &.open {
-    display: block;
-  }
 `

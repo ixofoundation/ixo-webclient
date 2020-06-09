@@ -75,6 +75,13 @@ export const selectSending = createSelector(
   },
 )
 
+export const selectSent = createSelector(
+  selectFuelEntity,
+  (fuelEntity: FuelEntityState): boolean => {
+    return fuelEntity.sent
+  },
+)
+
 export const selectError = createSelector(
   selectFuelEntity,
   (fuelEntity: FuelEntityState): string => {
@@ -169,5 +176,12 @@ export const selectOrderFiatTotal = createSelector(
       total.times(conversionRate),
       fiatSymbol,
     )
+  },
+)
+
+export const selectHasOrder = createSelector(
+  selectFuelEntity,
+  (fuelEntity: FuelEntityState): boolean => {
+    return !!fuelEntity.order
   },
 )

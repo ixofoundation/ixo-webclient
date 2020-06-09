@@ -3,7 +3,7 @@ import MediaQuery from 'react-responsive'
 import { deviceWidth } from '../../../../lib/commonData'
 import { Category } from '../../types'
 import { FilterItem as IconListFilterItem } from '../../../../common/components/Filters/IconListFilter/types'
-import { Schema, SchemaCategoryTag } from './types'
+import { Schema, SchemaCategoryTag } from './schema/types'
 import {
   FiltersWrap,
   FilterInfo,
