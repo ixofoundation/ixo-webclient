@@ -5,10 +5,6 @@ interface Props {
   onMessageReceive: (text: any) => void
 }
 
-/* interface BotUtter {
-  text: string
-} */
-
 const Assistant: React.FunctionComponent<Props> = ({ onMessageReceive }) => {
   const onSocketEvent = {
     bot_uttered: (utter: any): void => onMessageReceive(utter),
