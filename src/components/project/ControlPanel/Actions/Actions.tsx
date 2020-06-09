@@ -55,11 +55,15 @@ const Actions: React.FunctionComponent<Props> = ({
               param => param.name === 'intent',
             ).value
 
+            const to = `/projects/${entityDid}/overview/action/${intent}`
+
+            const interceptNavClick = (e: any): void => {
+              if (to === window.location.pathname) e.preventDefault()
+            }
+
             return (
               <Tooltip text={control.tooltip} key={control['@id']}>
-                <NavLink
-                  to={`/projects/${entityDid}/overview/action/${intent}`}
-                >
+                <NavLink to={to} onClick={interceptNavClick}>
                   {React.createElement(icons[control.icon], {
                     fill: control.iconColor,
                   })}

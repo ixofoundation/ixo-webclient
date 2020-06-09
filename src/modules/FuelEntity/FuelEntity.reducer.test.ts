@@ -96,6 +96,7 @@ describe('FuelEntity Reducer', () => {
       // given .. we have an action of type FuelEntityActions.ConfirmOrderSuccess
       const currentState = {
         sending: true,
+        sent: false,
         error: null,
         order: {
           subscription: '12-months standard hosting',
@@ -117,7 +118,7 @@ describe('FuelEntity Reducer', () => {
       const result = SUT.reducer(currentState, action)
 
       // then the state should be set as expected
-      expect(result).toEqual(initialState)
+      expect(result).toEqual({ ...initialState, sent: true })
     })
   })
 })
