@@ -19,7 +19,8 @@ import {
 // TODO - when we actually get the schema from the api then replace
 import ProjectControlPanelSchema from '../ControlPanel/schema/Project.schema.json'
 import CellControlPanelSchema from '../ControlPanel/schema/Cell.schema.json'
-import { EntityType, EntityTypeMap } from '../../../modules/Entities/types'
+import { EntityType } from '../../../modules/Entities/types'
+import { strategyMap } from '../../../modules/Entities/strategy-map'
 import { toTitleCase } from '../../../common/utils/formatters'
 
 export interface ParentProps {
@@ -186,7 +187,7 @@ export const ProjectOverview: React.SFC<Props> = props => {
 
               {props.project.founder && props.project.founder.name !== '' && (
                 <>
-                  <h2>{EntityTypeMap[entityType].title} Founder</h2>
+                  <h2>{strategyMap[entityType].title} Founder</h2>
                   <ProjectFounder
                     founder={props.project.founder}
                     socialMedia={props.project.socialMedia}

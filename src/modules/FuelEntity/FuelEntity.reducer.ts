@@ -5,9 +5,10 @@ import {
 } from './types'
 
 export const initialState: FuelEntityState = {
-  order: null,
   sending: false,
+  sent: false,
   error: null,
+  order: null,
 }
 
 export const reducer = (
@@ -17,7 +18,7 @@ export const reducer = (
   switch (action.type) {
     case FuelEntityActions.GetOrder:
       return {
-        ...state,
+        ...initialState,
         order: action.payload.order,
       }
     case FuelEntityActions.ConfirmOrderPending:
@@ -25,7 +26,7 @@ export const reducer = (
     case FuelEntityActions.ConfirmOrderFailure:
       return { ...state, sending: false, error: 'Api error' }
     case FuelEntityActions.ConfirmOrderSuccess:
-      return { ...initialState }
+      return { ...initialState, sent: true }
   }
 
   return state
