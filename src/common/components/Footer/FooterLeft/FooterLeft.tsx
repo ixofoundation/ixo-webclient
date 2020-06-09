@@ -64,7 +64,7 @@ export const FooterLeft: React.SFC<any> = () => {
                 </FooterLink>
                 <ExternalFooterLink
                   target="_blank"
-                  href="https://uat.ixo.world/getixowallet/deliver#Steps"
+                  href={getIxoWorldRoute('/getixowallet/deliver/#Steps')}
                 >
                   Keysafe
                 </ExternalFooterLink>
