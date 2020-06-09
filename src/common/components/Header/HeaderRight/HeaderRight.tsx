@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
-import { getDeliverPage } from 'src/common/utils/formatters'
+import { getIxoWorldRoute } from 'src/common/utils/formatters'
 import {
   AccDID,
   Inner,
@@ -44,7 +44,7 @@ export class HeaderRight extends React.Component<HeaderRightProps, State> {
   handleLogInButton = (): JSX.Element => {
     if (!this.props.keysafe) {
       return (
-        <LoginLink href={getDeliverPage('/#Steps')}>
+        <LoginLink href={getIxoWorldRoute('/getixowallet/deliver/#Steps')}>
           <h3>
             <span>Log in</span>
           </h3>

@@ -38,11 +38,6 @@ export function getIxoWorldRoute(path: string): string {
   return origin + path
 }
 
-export function getDeliverPage(path: string): string {
-  const origin = process.env.REACT_WEB_DELIVER || 'https://ixo.world/deliver'
-  return origin + path
-}
-
 export function thousandSeparator(number: string | number): string {
   if (typeof number !== 'string') {
     number = number.toString()
