@@ -8,21 +8,21 @@ export const createTabsContainer = (activeTabColor: string): any => styled.div`
   width: 100%;
 
   > * {
-    :first-child {
-      overflow: hidden;
-      border-top-left-radius: 4px;
-      border-bottom-left-radius: 4px;
-    }
-
     &:not(:first-child) {
       border-left: 1px solid rgba(1, 116, 146, 0.5);
     }
+  }
 
-    &:last-child {
-      overflow: hidden;
-      border-top-right-radius: 4px;
-      border-bottom-right-radius: 4px;
-    }
+  > div:first-child a,
+  > a:first-child {
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+  }
+
+  > div:last-child a,
+  > a:last-child {
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
   }
 
   a {
