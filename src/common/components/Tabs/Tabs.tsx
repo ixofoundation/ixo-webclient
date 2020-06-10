@@ -44,7 +44,7 @@ export const Tabs: React.SFC<Props> = ({
             position={TooltipPositions.bottom}
           >
             <NavLink
-              className={button.linkClass ? button.linkClass : ''}
+              className={button.linkClass}
               exact={matchType === MatchType.exact}
               strict={matchType === MatchType.strict}
               to={{ pathname: button.path }}
