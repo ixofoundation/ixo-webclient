@@ -7,6 +7,7 @@ import { BondBuyState } from 'src/modules/BondBuy/types'
 import { BondSellState } from 'src/modules/BondSell/types'
 import { BondSwapState } from 'src/modules/BondSwap/types'
 import { EntitiesState } from '../../modules/Entities/types'
+import { FuelEntityState } from 'src/modules/FuelEntity/types'
 
 export interface RootState {
   keySafe: KeysafeState
@@ -20,4 +21,5 @@ export interface RootState {
   activeBond: BondState
   tokenSupply: Currency[]
   entities: EntitiesState
+  fuelEntity: FuelEntityState
 }

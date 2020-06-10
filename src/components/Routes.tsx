@@ -66,7 +66,6 @@ export const Routes: React.SFC<{}> = props => {
           )}
         />
         <Route
-          exact
           path="/projects/:projectDID/overview"
           render={(): JSX.Element => (
             <ProjectContainerConnected
