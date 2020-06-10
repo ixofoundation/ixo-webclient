@@ -42,21 +42,23 @@ export const EntitiesHero: React.FunctionComponent<Props> = ({
         path: '/',
         title: entityStrategyMap.plural.toUpperCase(),
       },
-      {
-        iconClass: 'icon-economy',
-        linkClass: 'in-active',
-        path: '/economy',
-        title: 'ECONOMY',
-      },
     ]
 
     if (entityType === EntityType.Project || entityType === EntityType.Cell) {
-      tabButtons.push({
-        iconClass: 'icon-impacts',
-        linkClass: null,
-        path: '/global-statistics',
-        title: 'IMPACT',
-      })
+      tabButtons.push(
+        {
+          iconClass: 'icon-impacts',
+          linkClass: null,
+          path: '/global-statistics',
+          title: 'IMPACT',
+        },
+        {
+          iconClass: 'icon-economy',
+          linkClass: 'in-active',
+          path: '/economy',
+          title: 'ECONOMY',
+        },
+      )
     }
 
     return tabButtons
