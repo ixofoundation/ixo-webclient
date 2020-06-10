@@ -42,16 +42,16 @@ export class HeaderRight extends React.Component<HeaderRightProps, State> {
   }
 
   handleLogInButton = (): JSX.Element => {
-    if (this.props.userInfo === null) {
+    if (!this.props.keysafe) {
       return (
-        <LoginLink href={getIxoWorldRoute('/membership')}>
+        <LoginLink href={getIxoWorldRoute('/getixowallet/deliver/#Steps')}>
           <h3>
             <span>Log in</span>
           </h3>
         </LoginLink>
       )
     }
-    if (this.props.userInfo.loggedInKeysafe === false) {
+    if (!this.props.userInfo || !this.props.userInfo.loggedInKeysafe) {
       return (
         <LoginLink onClick={this.openKeysafe}>
           <h3>

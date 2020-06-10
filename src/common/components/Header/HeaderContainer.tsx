@@ -269,10 +269,11 @@ class Header extends React.Component<Props, State> {
   }
 }
 
-function mapStateToProps(state: RootState): StateProps {
+function mapStateToProps(state: RootState): any {
   return {
     ixo: state.ixo.ixo,
     keysafe: state.keySafe.keysafe,
+    userInfo: state.account.userInfo,
   }
 }
 
