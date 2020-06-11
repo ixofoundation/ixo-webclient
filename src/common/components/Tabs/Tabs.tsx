@@ -2,6 +2,7 @@ import * as React from 'react'
 import { NavLink } from 'react-router-dom'
 import { MatchType } from '../../../types/models'
 import { createTabsContainer } from './Tabs.styles'
+import { Tooltip, TooltipPositions } from '../../../components/common/Tooltip'
 
 export interface Button {
   linkClass?: string
@@ -26,17 +27,32 @@ export const Tabs: React.SFC<Props> = ({
   return (
     <TabsContainer>
       {buttons.map((button, index) => {
-        return (
+        return button.linkClass !== 'in-active' ? (
           <NavLink
             className={button.linkClass ? button.linkClass : ''}
             exact={matchType === MatchType.exact}
             strict={matchType === MatchType.strict}
             to={{ pathname: button.path }}
-            key={index}
           >
             {button.iconClass && <i className={button.iconClass} />}
             {button.title && <p>{button.title}</p>}
           </NavLink>
+        ) : (
+          <Tooltip
+            text="Coming Soon"
+            key={index}
+            position={TooltipPositions.bottom}
+          >
+            <NavLink
+              className={button.linkClass}
+              exact={matchType === MatchType.exact}
+              strict={matchType === MatchType.strict}
+              to={{ pathname: button.path }}
+            >
+              {button.iconClass && <i className={button.iconClass} />}
+              {button.title && <p>{button.title}</p>}
+            </NavLink>
+          </Tooltip>
         )
       })}
     </TabsContainer>

@@ -49,6 +49,12 @@ export const ProjectHero: React.SFC<Props> = ({
       path: `/projects/${match.params.projectDID}/overview`,
       title: strategyMap[entityType].plural,
     },
+    {
+      iconClass: 'icon-impacts',
+      linkClass: 'in-active',
+      path: '/performace',
+      title: 'PERFORMANCE',
+    },
   ]
 
   if (entityType === EntityType.Project) {
@@ -65,6 +71,13 @@ export const ProjectHero: React.SFC<Props> = ({
       iconClass: 'icon-funding',
       linkClass: null,
       path: `/projects/${match.params.projectDID}/bonds/${project.bondDid}`,
+      title: 'FUNDING',
+    })
+  } else {
+    buttonsArray.push({
+      iconClass: 'icon-funding',
+      linkClass: 'in-active',
+      path: '/funding',
       title: 'FUNDING',
     })
   }
