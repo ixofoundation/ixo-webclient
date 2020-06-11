@@ -9,7 +9,7 @@ export const createTabsContainer = (activeTabColor: string): any => styled.div`
 
   > * {
     &:not(:first-child) {
-      border-left: 1px solid rgba(1, 116, 146, 0.5);
+      border-left: 1px solid rgba(1, 116, 146, 1);
     }
   }
 
