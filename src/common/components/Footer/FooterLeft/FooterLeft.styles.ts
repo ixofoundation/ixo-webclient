@@ -180,6 +180,7 @@ export const Main = styled.div`
 `
 
 export const ByLine = styled.div`
+  align-items: baseline;
   a {
     color: #7b8285;
   }
@@ -204,12 +205,7 @@ export const ByLine = styled.div`
   @media (min-width: ${deviceWidth.mobile}px) {
     p {
       &.loc {
-        :after {
-          content: '.';
-          font-size: 16px;
-          margin: 0 15px;
-          color: #808080;
-        }
+        margin-right: 2rem;
       }
       &.legalInfo {
         margin-top: 0;
