@@ -48,6 +48,7 @@ interface Props {
   handleFilterDates: (dateFrom: any, dateTo: any) => void
   handleResetDatesFilter: () => void
   handleFilterCategoryTag: (category: string, tag: string) => void
+  handleFilterAddCategoryTag: (category: string, tag: string) => void
   handleFilterToggleUserEntities: (userEntities: boolean) => void
   handleFilterToggleFeaturedEntities: (featuredEntities: boolean) => void
   handleFilterTogglePopularEntities: (popularEntities: boolean) => void
@@ -140,6 +141,18 @@ class EntitiesFilter extends React.Component<Props, State> {
     }
   }
 
+  filterCategoryTag = (
+    category: string,
+    tag: string,
+    multiSelect: boolean,
+  ): void => {
+    if (multiSelect) {
+      this.props.handleFilterAddCategoryTag(category, tag)
+    } else {
+      this.props.handleFilterCategoryTag(category, tag)
+    }
+  }
+
   resetDateFilter = (): void => {
     this.setState({ activeFilter: '' })
     this.props.handleResetDatesFilter()
@@ -220,7 +233,11 @@ class EntitiesFilter extends React.Component<Props, State> {
                   )}
                 />
                 {this.props.filterSchema.ddoTags.map(schemaCategory => {
-                  const { name: filterName, tags: schemaTags } = schemaCategory
+                  const {
+                    name: filterName,
+                    tags: schemaTags,
+                    multiSelect,
+                  } = schemaCategory
                   const isActive = this.filterIsActive(filterName)
                   const items = this.getCategoryFilterItems(
                     filterName,
@@ -229,7 +246,11 @@ class EntitiesFilter extends React.Component<Props, State> {
 
                   return (
                     <IconListFilterDesktop
-                      selectType={SelectType.MultiSelect}
+                      selectType={
+                        multiSelect
+                          ? SelectType.MultiSelect
+                          : SelectType.SingleSelect
+                      }
                       key={filterName}
                       name={filterName}
                       isActive={isActive}
@@ -237,7 +258,9 @@ class EntitiesFilter extends React.Component<Props, State> {
                       handleToggleFilterShow={(): void =>
                         this.toggleFilterShow(isActive, filterName)
                       }
-                      handleFilterItemClick={this.props.handleFilterCategoryTag}
+                      handleFilterItemClick={(category, tag): void =>
+                        this.filterCategoryTag(category, tag, multiSelect)
+                      }
                       items={items}
                     />
                   )
@@ -310,7 +333,11 @@ class EntitiesFilter extends React.Component<Props, State> {
                   <div>
                     <MobileFilterHeading>Filters</MobileFilterHeading>
                     {this.props.filterSchema.ddoTags.map(ddoCategory => {
-                      const { name: filterName, tags: schemaTags } = ddoCategory
+                      const {
+                        name: filterName,
+                        tags: schemaTags,
+                        multiSelect,
+                      } = ddoCategory
                       const isActive = this.filterIsActive(filterName)
                       const items = this.getCategoryFilterItems(
                         filterName,
@@ -320,15 +347,19 @@ class EntitiesFilter extends React.Component<Props, State> {
                         <IconListFilterMobile
                           key={filterName}
                           name={filterName}
-                          selectType={SelectType.MultiSelect}
+                          selectType={
+                            multiSelect
+                              ? SelectType.MultiSelect
+                              : SelectType.SingleSelect
+                          }
                           showFilterSubMenu={true}
                           isActive={isActive}
                           handleFilterReset={this.resetCategoryFilter}
                           handleToggleFilterShow={(): void =>
                             this.toggleFilterShow(isActive, filterName)
                           }
-                          handleFilterItemClick={
-                            this.props.handleFilterCategoryTag
+                          handleFilterItemClick={(category, tag): void =>
+                            this.filterCategoryTag(category, tag, multiSelect)
                           }
                           items={items}
                         />

@@ -79,6 +79,7 @@ export enum EntitiesActions {
   FilterTogglePopularEntities = 'ixo/Entities/FILTER_TOGGLE_POPULAR_ENTITIES',
   FilterDates = 'ixo/Entities/FILTER_DATES',
   FilterCategoryTag = 'ixo/Entities/FILTER_CATEGORY_TAG',
+  FilterAddCategoryTag = 'ixo/Entities/FILTER_ADD_CATEGORY_TAG',
   FilterCategories = 'ixo/Entities/FILTER_CATEGORIES',
   ResetDatesFilter = 'ixo/Entities/RESET_DATES_FILTER',
   ResetCategoryFilter = 'ixo/Entities/RESET_CATEGORY_FILTER',
@@ -123,7 +124,7 @@ export interface FilterTogglePopularEntitiesAction {
   }
 }
 
-export interface FilterEntitiesDatesAction {
+export interface FilterDatesAction {
   type: typeof EntitiesActions.FilterDates
   payload: {
     dateFrom: Moment
@@ -131,12 +132,20 @@ export interface FilterEntitiesDatesAction {
   }
 }
 
-export interface ResetEntitiesDatesFilterAction {
+export interface ResetDatesFilterAction {
   type: typeof EntitiesActions.ResetDatesFilter
 }
 
-export interface FilterEntitiesCategoryTagsAction {
+export interface FilterCategoryTagAction {
   type: typeof EntitiesActions.FilterCategoryTag
+  payload: {
+    category: string
+    tag: string
+  }
+}
+
+export interface FilterAddCategoryTagAction {
+  type: typeof EntitiesActions.FilterAddCategoryTag
   payload: {
     category: string
     tags: string[]
@@ -150,14 +159,14 @@ export interface FilterCategoriesAction {
   }
 }
 
-export interface ResetEntitiesCategoryFilterAction {
+export interface ResetCategoryFilterAction {
   type: typeof EntitiesActions.ResetCategoryFilter
   payload: {
     category: string
   }
 }
 
-export interface ResetEntitiesFiltersAction {
+export interface ResetFiltersAction {
   type: typeof EntitiesActions.ResetFilters
 }
 
@@ -168,9 +177,10 @@ export type EntitiesActionTypes =
   | FilterToggleUserEntitiesAction
   | FilterToggleFeaturedEntitiesAction
   | FilterTogglePopularEntitiesAction
-  | FilterEntitiesDatesAction
-  | FilterEntitiesCategoryTagsAction
+  | FilterDatesAction
+  | FilterCategoryTagAction
+  | FilterAddCategoryTagAction
   | FilterCategoriesAction
-  | ResetEntitiesDatesFilterAction
-  | ResetEntitiesCategoryFilterAction
-  | ResetEntitiesFiltersAction
+  | ResetDatesFilterAction
+  | ResetCategoryFilterAction
+  | ResetFiltersAction

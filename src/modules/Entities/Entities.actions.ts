@@ -6,15 +6,16 @@ import {
   FilterToggleUserEntitiesAction,
   FilterToggleFeaturedEntitiesAction,
   FilterTogglePopularEntitiesAction,
-  FilterEntitiesDatesAction,
-  ResetEntitiesDatesFilterAction,
-  FilterEntitiesCategoryTagsAction,
-  ResetEntitiesCategoryFilterAction,
-  ResetEntitiesFiltersAction,
+  FilterDatesAction,
+  ResetDatesFilterAction,
+  FilterAddCategoryTagAction,
+  ResetCategoryFilterAction,
+  ResetFiltersAction,
   EntitiesActions,
   EntityType,
   FilterCategoriesAction,
   Category,
+  FilterCategoryTagAction,
 } from './types'
 import { RootState } from 'src/common/redux/types'
 import blocksyncApi from '../../common/api/blocksync-api/blocksync-api'
@@ -102,7 +103,7 @@ export const filterTogglePopularEntities = (
 export const filterDates = (
   dateFrom: Moment,
   dateTo: Moment,
-): FilterEntitiesDatesAction => ({
+): FilterDatesAction => ({
   type: EntitiesActions.FilterDates,
   payload: {
     dateFrom,
@@ -110,14 +111,22 @@ export const filterDates = (
   },
 })
 
-export const resetDatesFilter = (): ResetEntitiesDatesFilterAction => ({
+export const resetDatesFilter = (): ResetDatesFilterAction => ({
   type: EntitiesActions.ResetDatesFilter,
 })
 
-export const filterCategoryTag = (category: string, tag: string) => (
+export const filterCategoryTag = (
+  category: string,
+  tag: string,
+): FilterCategoryTagAction => ({
+  type: EntitiesActions.FilterCategoryTag,
+  payload: { category, tag },
+})
+
+export const filterAddCategoryTag = (category: string, tag: string) => (
   dispatch: Dispatch,
   getState: () => RootState,
-): FilterEntitiesCategoryTagsAction => {
+): FilterAddCategoryTagAction => {
   const state = getState()
 
   const currentCategoryTags = state.entities.filter.categories.find(
@@ -129,7 +138,7 @@ export const filterCategoryTag = (category: string, tag: string) => (
     : [...currentCategoryTags, tag]
 
   return dispatch({
-    type: EntitiesActions.FilterCategoryTag,
+    type: EntitiesActions.FilterAddCategoryTag,
     payload: {
       category,
       tags: newCategoryTags,
@@ -146,11 +155,11 @@ export const filterCategories = (
 
 export const resetCategoryFilter = (
   category: string,
-): ResetEntitiesCategoryFilterAction => ({
+): ResetCategoryFilterAction => ({
   type: EntitiesActions.ResetCategoryFilter,
   payload: { category },
 })
 
-export const resetFilters = (): ResetEntitiesFiltersAction => ({
+export const resetFilters = (): ResetFiltersAction => ({
   type: EntitiesActions.ResetFilters,
 })

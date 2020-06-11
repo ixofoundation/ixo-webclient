@@ -110,6 +110,22 @@ export const reducer = (
             ),
             {
               name: action.payload.category,
+              tags: [action.payload.tag],
+            },
+          ],
+        },
+      }
+    case EntitiesActions.FilterAddCategoryTag:
+      return {
+        ...state,
+        filter: {
+          ...state.filter,
+          categories: [
+            ...state.filter.categories.filter(
+              category => category.name !== action.payload.category,
+            ),
+            {
+              name: action.payload.category,
               tags: [...action.payload.tags],
             },
           ],

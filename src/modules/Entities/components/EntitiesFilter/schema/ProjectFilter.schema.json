@@ -8,6 +8,7 @@
   "view": {
     "@type": "Category",
     "name": "View",
+    "multiSelect": false,
     "tags": [
       {
         "@type": "Tag",
@@ -35,6 +36,7 @@
     {
       "@type": "Category",
       "name": "Project Type",
+      "multiSelect": true,
       "tags": [
         {
           "@type": "Tag",
@@ -292,6 +294,7 @@
     {
       "@type": "Category",
       "name": "SDG",
+      "multiSelect": true,
       "tags": [
         {
           "@type": "Tag",
@@ -383,6 +386,7 @@
     {
       "@type": "Category",
       "name": "Stage",
+      "multiSelect": true,
       "tags": [
         {
           "@type": "Tag",

@@ -21,10 +21,11 @@ import {
   filterTogglePopularEntities,
   filterDates,
   resetDatesFilter,
-  filterCategoryTag,
+  filterAddCategoryTag,
   resetCategoryFilter,
   resetFilters,
   changeEntitiesType,
+  filterCategoryTag,
 } from './Entities.actions'
 import EntitiesFilter from './components/EntitiesFilter/EntitiesFilter'
 import { Entity, EntityType } from './types'
@@ -71,6 +72,7 @@ export interface Props {
   handleFilterDates: (dateFrom: any, dateTo: any) => void
   handleResetDatesFilter: () => void
   handleFilterCategoryTag: (category: string, tag: string) => void
+  handleFilterAddCategoryTag: (category: string, tag: string) => void
   handleResetCategoryFilter: (category: string) => void
   handleResetFilters: () => void
 }
@@ -150,6 +152,7 @@ export class Entities extends React.Component<Props> {
               handleFilterDates={this.props.handleFilterDates}
               handleResetDatesFilter={this.props.handleResetDatesFilter}
               handleFilterCategoryTag={this.props.handleFilterCategoryTag}
+              handleFilterAddCategoryTag={this.props.handleFilterAddCategoryTag}
               handleResetCategoryFilter={this.props.handleResetCategoryFilter}
               handleFilterToggleUserEntities={
                 this.props.handleFilterToggleUserEntities
@@ -293,6 +296,8 @@ const mapDispatchToProps = (dispatch: any): any => ({
   handleResetDatesFilter: (): void => dispatch(resetDatesFilter()),
   handleFilterCategoryTag: (category: string, tag: string): void =>
     dispatch(filterCategoryTag(category, tag)),
+  handleFilterAddCategoryTag: (category: string, tag: string): void =>
+    dispatch(filterAddCategoryTag(category, tag)),
   handleResetCategoryFilter: (category: string): void =>
     dispatch(resetCategoryFilter(category)),
   handleResetFilters: (): void => dispatch(resetFilters()),
