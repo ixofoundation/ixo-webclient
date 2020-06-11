@@ -1,33 +1,60 @@
 {
   "@context": "https://schema.ixo.foundation/cell",
-  "@type": "Cell",
-  "header": {
-    "@type": "Header",
-    "color": "",
-    "image": null,
-    "title": "Sustainability Hub",
-    "subTitle": "Cells Explorer",
-    "indicators": [
-      {
-        "@type": "Indicator",
-        "indicatorLabel": "My Cells",
-        "indicatorSource": "0"
-      },
-      {
-        "@type": "Indicator",
-        "indicatorLabel": "Nodes",
-        "indicatorSource": "234"
-      },
-      {
-        "@type": "Indicator",
-        "indicatorLabel": "Projects",
-        "indicatorSource": "234"
-      },
-      {
-        "@type": "Indicator",
-        "indicatorLabel": "Agents",
-        "indicatorSource": "234"
-      }
-    ]
-  }
+  "@type": "Header",
+  "color": "",
+  "image": null,
+  "title": "Sustainability Hub",
+  "subTitle": "Cells Explorer",
+  "indicators": [
+    {
+      "@type": "Indicator",
+      "indicatorLabel": "My Cells",
+      "indicatorSource": "0"
+    },
+    {
+      "@type": "Indicator",
+      "indicatorLabel": "Nodes",
+      "indicatorSource": "234"
+    },
+    {
+      "@type": "Indicator",
+      "indicatorLabel": "Projects",
+      "indicatorSource": "234"
+    },
+    {
+      "@type": "Indicator",
+      "indicatorLabel": "Agents",
+      "indicatorSource": "234"
+    }
+  ],
+  "overrides": [
+    {
+      "@context": "https://schema.ixo.foundation/cell",
+      "id": "",
+      "@type": "HeaderOverride",
+      "ddoCategory": "Stage",
+      "ddoTag": "Performing",
+      "color": "#000",
+      "image": null,
+      "title": "Title OVERRIDE",
+      "subTitle": "Subtitle OVERRIDE",
+      "indicators": [
+        {
+          "@type": "Indicator",
+          "indicatorLabel": "My Cells X",
+          "indicatorSource": "567"
+        },
+        {
+          "@type": "Indicator",
+          "indicatorLabel": "Nodes X",
+          "indicatorSource": "890"
+        },
+        {
+          "@type": "Indicator",
+          "indicatorLabel": "Projects X",
+          "indicatorSource": "123"
+        }
+      ]
+    }
+  ]
 }
