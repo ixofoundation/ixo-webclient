@@ -140,7 +140,7 @@ export interface FilterCategoryTagAction {
   type: typeof EntitiesActions.FilterCategoryTag
   payload: {
     category: string
-    tag: string
+    tags: string[]
   }
 }
 

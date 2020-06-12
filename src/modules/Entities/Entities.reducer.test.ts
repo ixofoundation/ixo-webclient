@@ -652,7 +652,7 @@ describe('Entities Reducer', () => {
         type: EntitiesActions.FilterCategoryTag,
         payload: {
           category: 'foo2',
-          tag: 'bar2_1',
+          tags: ['bar2_1'],
         },
       }
 

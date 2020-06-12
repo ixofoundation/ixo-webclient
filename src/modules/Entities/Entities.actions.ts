@@ -115,13 +115,34 @@ export const resetDatesFilter = (): ResetDatesFilterAction => ({
   type: EntitiesActions.ResetDatesFilter,
 })
 
+/* // TODO - check if tag exists for category, if so then set to null
 export const filterCategoryTag = (
   category: string,
   tag: string,
 ): FilterCategoryTagAction => ({
   type: EntitiesActions.FilterCategoryTag,
   payload: { category, tag },
-})
+}) */
+
+export const filterCategoryTag = (category: string, tag: string) => (
+  dispatch: Dispatch,
+  getState: () => RootState,
+): FilterCategoryTagAction => {
+  const state = getState()
+
+  const isCurrentlySelected = state.entities.filter.categories.find(
+    filterCategory =>
+      filterCategory.name === category && filterCategory.tags.includes(tag),
+  )
+
+  return dispatch({
+    type: EntitiesActions.FilterCategoryTag,
+    payload: {
+      category,
+      tags: isCurrentlySelected ? [] : [tag],
+    },
+  })
+}
 
 export const filterAddCategoryTag = (category: string, tag: string) => (
   dispatch: Dispatch,

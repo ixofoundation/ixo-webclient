@@ -27,6 +27,8 @@ import Filter from '../../../../assets/icons/Filter'
 import { SelectType } from '../../../../common/components/Filters/IconListFilter/types'
 import * as iconListFilterUtils from '../../../../common/components/Filters/IconListFilter/IconListFilter.utils'
 
+// TODO - make this 2 separate components - Desktop and Mobile
+
 interface State {
   activeFilter: string
   mobileFilterActiveMenu: string
