@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import {
   ActionWrapper,
   AssistantWrapper,
+  AssistantHeader,
   SummaryWrapper,
 } from '../../components/project/ControlPanel/Actions/Actions.styles'
 import Assistant, {
@@ -12,7 +13,9 @@ import Assistant, {
 import FuelEntityConfirmOrder from './components/FuelEntityConfirmOrder/FuelEntityConfirmOrder'
 import { RootState } from 'src/common/redux/types'
 import * as fuelEntitySelectors from './FuelEntity.selectors'
-import { getOrder, confirmOrder } from './FuelEntity.actions'
+import { getOrder, confirmOrder, cancelOrder } from './FuelEntity.actions'
+import Back from '../../assets/icons/Back'
+import Chatbot from '../../assets/icons/Chatbot'
 
 interface Props {
   match: any
@@ -33,6 +36,7 @@ interface Props {
   error: string
   handleGetOrder: (assistantResponse: any) => void
   handleConfirmOrder: (entityDid: string) => void
+  handleCancelOrder: () => void
 }
 
 class FuelEntity extends React.Component<Props & RouteProps> {
@@ -46,11 +50,11 @@ class FuelEntity extends React.Component<Props & RouteProps> {
 
   onAssistantMessageReceive = (utter: any): void => {
     // TODO - actual event to trigger end
-    if (utter.text === "Sorry, I didn't get that. Could you rephrase?") {
-      this.setState({ isInfoComplete: true })
-      // TODO - actual response to pass to handleGetOrder
-      this.props.handleGetOrder(null)
-    }
+    // if (utter.text === "Sorry, I didn't get that. Could you rephrase?") {
+
+    // TODO - actual response to pass to handleGetOrder
+    this.props.handleGetOrder(null)
+    // }
   }
 
   render(): JSX.Element {
@@ -74,14 +78,36 @@ class FuelEntity extends React.Component<Props & RouteProps> {
       sent,
       error,
       handleConfirmOrder,
+      handleCancelOrder,
     } = this.props
 
     const hasError = !!error
+
+    const backLink = window.location.pathname.replace(
+      '/action/fuel_my_entity',
+      '',
+    )
 
     return (
       <ActionWrapper className="open">
         {!sending && !sent && !hasOrder && (
           <AssistantWrapper>
+            <AssistantHeader>
+              <h3 className="assistant-heading">
+                <span className="chatbot-icon">
+                  <Chatbot />
+                </span>
+                Pixo
+              </h3>
+              <span
+                className="back-icon"
+                onClick={(): void => {
+                  window.location.pathname = backLink
+                }}
+              >
+                <Back width="18" />
+              </span>
+            </AssistantHeader>
             <Assistant onMessageReceive={this.onAssistantMessageReceive} />
           </AssistantWrapper>
         )}
@@ -100,6 +126,7 @@ class FuelEntity extends React.Component<Props & RouteProps> {
               total={total}
               fiatTotal={fiatTotal}
               handleConfirmOrder={(): void => handleConfirmOrder(projectDID)}
+              handleCancelOrder={(): void => handleCancelOrder()}
             />
           </SummaryWrapper>
         )}
@@ -134,6 +161,7 @@ const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
     dispatch(getOrder(assistantResponse)),
   handleConfirmOrder: (entityDid: string): void =>
     dispatch(confirmOrder(entityDid)), // TODO remove entityDid once projects refactored
+  handleCancelOrder: (): void => dispatch(cancelOrder()),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(FuelEntity)

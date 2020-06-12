@@ -5,6 +5,7 @@ import {
   FuelEntityActions,
   ConfirmOrderAction,
   FuelEntityOrderTx,
+  CancelOrderAction,
 } from './types'
 import { Dispatch } from 'redux'
 import { RootState } from 'src/common/redux/types'
@@ -70,3 +71,7 @@ export const confirmOrder = (entityDid: string) => (
 
   return null
 }
+
+export const cancelOrder = (): CancelOrderAction => ({
+  type: FuelEntityActions.CancelOrder,
+})
