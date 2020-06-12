@@ -33,12 +33,18 @@ export class HeaderLeft extends React.Component<ParentProps> {
           <HeaderAnchor target="_blank" href="https://developers.ixo.world/">
             Build
           </HeaderAnchor>
-          <HeaderLink exact={true} to="/getixowallet/deliver">
+          <HeaderAnchor
+            target="_blank"
+            href={getIxoWorldRoute('/getixowallet/deliver')}
+          >
             Deliver
-          </HeaderLink>
-          <HeaderLink exact={true} to="/getixowallet/invest">
+          </HeaderAnchor>
+          <HeaderAnchor
+            target="_blank"
+            href={getIxoWorldRoute('/getixowallet/invest')}
+          >
             Invest
-          </HeaderLink>
+          </HeaderAnchor>
           <HeaderLink exact={true} to="/todo">
             Learn
           </HeaderLink>
@@ -61,14 +67,20 @@ export class HeaderLeft extends React.Component<ParentProps> {
             </MenuHeaderAnchor>
           </MenuHeaderContainer>
           <MenuHeaderContainer>
-            <MenuHeaderLink exact={true} to="/getixowallet/deliver">
+            <MenuHeaderAnchor
+              target="_blank"
+              href={getIxoWorldRoute('/getixowallet/deliver')}
+            >
               Deliver
-            </MenuHeaderLink>
+            </MenuHeaderAnchor>
           </MenuHeaderContainer>
           <MenuHeaderContainer>
-            <MenuHeaderLink exact={true} to="/getixowallet/invest">
+            <MenuHeaderAnchor
+              target="_blank"
+              href={getIxoWorldRoute('/getixowallet/invest')}
+            >
               Invest
-            </MenuHeaderLink>
+            </MenuHeaderAnchor>
           </MenuHeaderContainer>
           <MenuHeaderContainer>
             <MenuHeaderLink exact={true} to="/todo">

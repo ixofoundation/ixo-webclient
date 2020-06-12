@@ -18,6 +18,13 @@ import {
 import { Link } from 'react-router-dom'
 
 export const FooterLeft: React.SFC<any> = () => {
+  let IxoAppDownloadURL = ''
+  if (navigator.userAgent.indexOf('Chrome') !== -1) {
+    IxoAppDownloadURL =
+      'https://play.google.com/store/apps/details?id=com.ixo&hl=en_ZA'
+  } else if (navigator.userAgent.indexOf('Safari') !== -1) {
+    IxoAppDownloadURL = 'https://apps.apple.com/za/app/ixo/id1441394401'
+  }
   return (
     <Main className="col-md-8">
       <div className="row">
@@ -45,14 +52,13 @@ export const FooterLeft: React.SFC<any> = () => {
                 >
                   Explorer
                 </FooterLink>
-                <FooterLink
+                <ExternalFooterLink
                   target="_blank"
                   rel="noopener noreferrer"
-                  exact={true}
-                  to="#"
+                  href={IxoAppDownloadURL}
                 >
                   Mobile
-                </FooterLink>
+                </ExternalFooterLink>
                 <FooterLink
                   className="nowrap"
                   target="_blank"
@@ -149,14 +155,14 @@ export const FooterLeft: React.SFC<any> = () => {
                   exact={true}
                   to="/"
                 >
-                  IXO.world
+                  ixo.world
                 </FooterLink>
                 <ExternalFooterLink
                   target="_blank"
                   rel="noopener noreferrer"
                   href="https://ixo.foundation"
                 >
-                  IXO.foundation
+                  ixo.foundation
                 </ExternalFooterLink>
               </div>
             </FooterMenu>
@@ -181,7 +187,7 @@ export const FooterLeft: React.SFC<any> = () => {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                T&apos;s & C&apos;s
+                Terms
               </a>
               <a
                 href="https://github.com/ixofoundation/Legal-Documents/raw/master/Privacy%20Policy.pdf"
