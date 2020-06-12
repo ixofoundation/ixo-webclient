@@ -2,11 +2,28 @@ import styled from 'styled-components'
 import { deviceWidth } from '../../../lib/commonData'
 
 export const createTabsContainer = (activeTabColor: string): any => styled.div`
-  overflow: hidden;
   display: flex;
   flex-flow: row nowrap;
   justify-content: flex-start;
   width: 100%;
+
+  > * {
+    &:not(:first-child) {
+      border-left: 1px solid rgba(1, 116, 146, 1);
+    }
+  }
+
+  > div:first-child a,
+  > a:first-child {
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+  }
+
+  > div:last-child a,
+  > a:last-child {
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+  }
 
   a {
     background: ${(props): string => props.theme.bg.gradientBlue};
@@ -31,19 +48,9 @@ export const createTabsContainer = (activeTabColor: string): any => styled.div`
       }
     }
 
-    &:first-child {
-      border-top-left-radius: 4px;
-      border-bottom-left-radius: 4px;
-    }
-
-    &:last-child {
-      border-left: 1px solid rgba(1, 116, 146, 0.5);
-      border-top-right-radius: 4px;
-      border-bottom-right-radius: 4px;
-    }
-
     p {
       margin-bottom: 0;
+      white-space: nowrap;
     }
 
     &:hover {
@@ -58,6 +65,8 @@ export const createTabsContainer = (activeTabColor: string): any => styled.div`
     }
 
     &.in-active {
+      pointer-events: none;
+      cursor: default;
       i {
         opacity: 0.3;
       }
@@ -65,33 +74,15 @@ export const createTabsContainer = (activeTabColor: string): any => styled.div`
         opacity: 0.3;
       }
     }
-
-    &.tooltip {
-      position: relative;
-      display: inline-block;
-      &.tooltip-text {
-        visibility: hidden;
-        width: 120px;
-        background-color: black;
-        color: #fff;
-        text-align: center;
-        border-radius: 6px;
-        padding: 5px 0;
-        position: absolute;
-        z-index: 1;
-      }
-      :hover .tooltip-text {
-        visibility: visible;
-      }
-    }
   }
+
   img {
     padding: 0 5px;
   }
 
   @media (min-width: ${deviceWidth.tablet}px) {
     a {
-      min-width: 156px;
+      min-width: 168px;
       width: calc(100% / 3);
     }
   }

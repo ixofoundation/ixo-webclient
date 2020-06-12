@@ -1,0 +1,33 @@
+{
+  "@context": "https://schema.ixo.foundation/cell",
+  "@type": "Cell",
+  "header": {
+    "@type": "Header",
+    "color": "",
+    "image": null,
+    "title": "Sustainability Hub",
+    "subTitle": "Cells Explorer",
+    "indicators": [
+      {
+        "@type": "Indicator",
+        "indicatorLabel": "My Cells",
+        "indicatorSource": "0"
+      },
+      {
+        "@type": "Indicator",
+        "indicatorLabel": "Nodes",
+        "indicatorSource": "234"
+      },
+      {
+        "@type": "Indicator",
+        "indicatorLabel": "Projects",
+        "indicatorSource": "234"
+      },
+      {
+        "@type": "Indicator",
+        "indicatorLabel": "Agents",
+        "indicatorSource": "234"
+      }
+    ]
+  }
+}

@@ -1,7 +1,5 @@
 import * as React from 'react'
 import HeaderTabs from '../../../../common/components/HeaderTabs/HeaderTabs'
-import { SingleStatistic } from '../../../../components/common/SingleStatistic/SingleStatistic'
-import { StatType } from '../../../../types/models'
 import Search from '../Search/Search'
 import { contentType as ContentType } from '../../../../types/models'
 import {
@@ -9,8 +7,12 @@ import {
   StatisticContainer,
   HeroInner,
   HeroContainer,
+  HeroTextWrapper,
+  HeroIndicatorsWrapper,
+  ColorOverlay,
 } from './EntitiesHero.styles'
-import { EntityType, EntityTypeMap } from '../../types'
+import { EntityType } from '../../types'
+import { strategyMap } from '../../strategy-map'
 
 // TODO - when we know what the other entity types headers will look like then possibly refactor this as it's messy with all the conditions
 // or whatever else is needed. For now, just doing it based on entityType
@@ -27,41 +29,10 @@ export interface Props {
 
 export const EntitiesHero: React.FunctionComponent<Props> = ({
   entityType,
-  entitiesCount,
-  userEntitiesCount,
-  requiredClaimsCount,
-  successfulClaimsCount,
   contentType,
   handleChangeEntityTypes: handleChangeEntityType,
 }) => {
-  const getStats = (): Array<Record<string, any>> => {
-    return [
-      {
-        title: `MY ACTIVE ${EntityTypeMap[entityType].plural.toUpperCase()}`,
-        type: StatType.decimal,
-        descriptor: [{ class: 'text', value: ' ' }],
-        amount: userEntitiesCount,
-      },
-      {
-        title: `TOTAL ${EntityTypeMap[entityType].plural.toUpperCase()}`,
-        type: StatType.decimal,
-        descriptor: [{ class: 'text', value: ' ' }],
-        amount: entitiesCount,
-      },
-      {
-        title: 'VERIFIED CLAIMS',
-        type: StatType.fraction,
-        descriptor: [{ class: 'text', value: ' ' }],
-        amount: [successfulClaimsCount, requiredClaimsCount],
-      },
-      {
-        title: 'TOTAL IXO IN CIRCULATION',
-        type: StatType.fraction,
-        descriptor: [{ class: 'text', value: 'IXO staked to date' }],
-        amount: [0, 0],
-      },
-    ]
-  }
+  const entityStrategyMap = strategyMap[entityType]
 
   const getHeaderTabButtons = (): any => {
     const tabButtons = [
@@ -69,59 +40,99 @@ export const EntitiesHero: React.FunctionComponent<Props> = ({
         iconClass: `icon-${entityType.toLowerCase()}`,
         linkClass: entityType.toLowerCase(),
         path: '/',
-        title: EntityTypeMap[entityType].plural.toUpperCase(),
-        toolTip: null,
+        title: entityStrategyMap.plural.toUpperCase(),
       },
     ]
 
-    if (entityType === EntityType.Project) {
-      tabButtons.push({
-        iconClass: 'icon-impacts',
-        linkClass: null,
-        path: '/global-statistics',
-        title: 'IMPACT',
-        toolTip: null,
-      })
+    if (entityType === EntityType.Project || entityType === EntityType.Cell) {
+      tabButtons.push(
+        {
+          iconClass: 'icon-impacts',
+          linkClass: null,
+          path: '/global-statistics',
+          title: 'IMPACT',
+        },
+        {
+          iconClass: 'icon-economy',
+          linkClass: 'in-active',
+          path: '/economy',
+          title: 'ECONOMY',
+        },
+      )
     }
 
     return tabButtons
   }
 
   return (
-    <HeroContainer>
+    <HeroContainer
+      style={{
+        backgroundImage:
+          (entityStrategyMap.headerSchema.header &&
+            entityStrategyMap.headerSchema.header.image) ||
+          '',
+      }}
+    >
+      <ColorOverlay
+        style={{
+          backgroundColor:
+            (entityStrategyMap.headerSchema.header &&
+              entityStrategyMap.headerSchema.header.color) ||
+            entityStrategyMap.themeColor,
+        }}
+      ></ColorOverlay>
       <HeroInner className="container">
         <div className="row">
-          {getStats().map((statistic, index) => {
-            return (
-              <StatisticContainer
-                key={index}
-                className="col-md-3 col-sm-6 col-6"
-              >
-                <ContainerInner>
-                  <SingleStatistic
-                    title={statistic.title}
-                    type={statistic.type}
-                    amount={statistic.amount}
-                    descriptor={statistic.descriptor}
-                  />
-                </ContainerInner>
-              </StatisticContainer>
-            )
-          })}
+          <HeroTextWrapper className="col-md-5 col-sm-12 col-12">
+            <h1>
+              {entityStrategyMap.headerSchema.header &&
+                entityStrategyMap.headerSchema.header.title}
+            </h1>
+            <h3>
+              {entityStrategyMap.headerSchema.header &&
+                entityStrategyMap.headerSchema.header.subTitle}
+            </h3>
+          </HeroTextWrapper>
+          <HeroIndicatorsWrapper className="col-md-7 col-sm-12 col-12">
+            <div className="row">
+              {entityStrategyMap.headerSchema.header &&
+                entityStrategyMap.headerSchema.header.indicators.map(
+                  (indicator, index) => {
+                    return indicator.indicatorLabel ? (
+                      <StatisticContainer
+                        key={index}
+                        className="col-md-3 col-sm-6 col-6"
+                      >
+                        <ContainerInner
+                          style={{
+                            borderColor:
+                              (entityStrategyMap.headerSchema.header &&
+                                entityStrategyMap.headerSchema.header.color) ||
+                              entityStrategyMap.themeColor,
+                            color:
+                              (entityStrategyMap.headerSchema.header &&
+                                entityStrategyMap.headerSchema.header.color) ||
+                              entityStrategyMap.themeColor,
+                          }}
+                        >
+                          <h3>{indicator.indicatorSource}</h3>
+                          <p>{indicator.indicatorLabel}</p>
+                        </ContainerInner>
+                      </StatisticContainer>
+                    ) : null
+                  },
+                )}
+            </div>
+          </HeroIndicatorsWrapper>
         </div>
       </HeroInner>
-      <div className="container">
-        <div className="row">
-          <div className="col-md-12">
-            <HeaderTabs
-              buttons={getHeaderTabButtons()}
-              activeTabColor={EntityTypeMap[entityType].themeColor}
-            />
-          </div>
-        </div>
-      </div>
+      <HeaderTabs
+        buttons={getHeaderTabButtons()}
+        activeTabColor={entityStrategyMap.themeColor}
+      />
       {contentType !== ContentType.dashboard && (
         <Search
+          entityColor={entityStrategyMap.themeColor}
           entityType={entityType}
           filterChanged={handleChangeEntityType}
         />

@@ -2,31 +2,33 @@ import styled from 'styled-components'
 import { deviceWidth } from '../../../../lib/commonData'
 
 export const ContainerInner = styled.div`
-  height: auto;
+  height: 100%;
   width: 100%;
-  transition: border-left 0.3s ease;
-
-  > div {
-    transition: transform 0.3s ease;
+  h3 {
+    font-size: 36px;
+    line-height: 42px;
+    color: #143f54;
+    text-align: center;
+    font-family: ${(props): string => props.theme.fontRoboto};
+    margin: 0;
+  }
+  p {
+    font-size: 14px;
+    font-weight: 300;
+    color: inherit;
+    margin: 0;
+  }
+  @media (min-width: ${deviceWidth.tablet}px) {
+    border-left: 1px solid black;
   }
 `
 
 export const StatisticContainer = styled.div`
-  width: 100%;
-  align-items: center;
   display: flex;
-  padding: 0.5rem;
+  align-items: center;
   justify-content: center;
-
-  @media (min-width: ${deviceWidth.tablet}px) {
-    ${ContainerInner} {
-      border-left: 1px solid rgba(73, 191, 224, 0.3);
-    }
-  }
-
-  :first-child > div {
-    border-left: 0;
-  }
+  text-align: center;
+  padding: 0 !important;
 `
 
 export const HeroInner = styled.div`
@@ -42,43 +44,48 @@ export const HeroInner = styled.div`
       padding: 56px 0;
     }
   }
-
-  :hover ${ContainerInner} {
-    border-left: 1px solid rgba(73, 191, 224, 0);
-  }
-
-  :hover ${ContainerInner} > div {
-    transform: scale(1.05);
-  }
 `
 
 export const HeroContainer = styled.div`
-  background: url(${require('../../../../assets/images/ixo-heroBg.jpg')})
-    no-repeat center top;
+  background: white;
   background-size: cover;
-  margin: 0 0 0px;
-  cursor: default;
+  background-blend-mode: multiply;
   position: relative;
-
-  ${HeroInner}:before {
-    position: absolute;
-    content: ' ';
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 0;
-    transition: background 0.3s ease;
-
-    background-color: rgba(3, 60, 80, 0);
-  }
-
-  ${HeroInner}:hover:before {
-    background-color: rgba(3, 60, 80, 0.6);
-    cursor: normal;
-  }
+  color: #143f54;
 
   @media (min-width: ${deviceWidth.tablet}px) {
     height: 200px;
+  }
+`
+
+export const ColorOverlay = styled.div`
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  opacity: 0.1;
+  z-index: 0;
+`
+
+export const HeroTextWrapper = styled.div`
+  font-family: ${(props): string => props.theme.fontRoboto};
+  h1 {
+    font-family: ${(props): string => props.theme.fontRoboto};
+    font-size: 36px;
+    line-height: 42px;
+    color: #143f54;
+    margin: 0;
+  }
+  h3 {
+    font-family: ${(props): string => props.theme.fontRoboto};
+    font-size: 18px;
+    line-height: 21px;
+    color: black;
+  }
+`
+export const HeroIndicatorsWrapper = styled.div`
+  > .row {
+    justify-content: flex-end;
   }
 `

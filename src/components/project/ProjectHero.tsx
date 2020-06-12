@@ -18,7 +18,8 @@ import {
 } from './ProjectHero.styles'
 import CalendarSort from 'src/assets/icons/CalendarSort'
 import availableFlags from '../../lib/json/availableFlags.json'
-import { EntityType, EntityTypeMap } from 'src/modules/Entities/types'
+import { EntityType } from '../../modules/Entities/types'
+import { strategyMap } from '../../modules/Entities/strategy-map'
 
 export interface Props {
   project: any
@@ -46,7 +47,13 @@ export const ProjectHero: React.SFC<Props> = ({
       iconClass: `icon-${entityType.toLowerCase()}`,
       linkClass: null,
       path: `/projects/${match.params.projectDID}/overview`,
-      title: EntityTypeMap[entityType].plural,
+      title: strategyMap[entityType].plural,
+    },
+    {
+      iconClass: 'icon-impacts',
+      linkClass: 'in-active',
+      path: '/performace',
+      title: 'PERFORMANCE',
     },
   ]
 
@@ -64,6 +71,13 @@ export const ProjectHero: React.SFC<Props> = ({
       iconClass: 'icon-funding',
       linkClass: null,
       path: `/projects/${match.params.projectDID}/bonds/${project.bondDid}`,
+      title: 'FUNDING',
+    })
+  } else {
+    buttonsArray.push({
+      iconClass: 'icon-funding',
+      linkClass: 'in-active',
+      path: '/funding',
       title: 'FUNDING',
     })
   }
@@ -174,7 +188,7 @@ export const ProjectHero: React.SFC<Props> = ({
       <HeaderTabs
         buttons={buttonsArray}
         matchType={MatchType.strict}
-        activeTabColor={EntityTypeMap[entityType].themeColor}
+        activeTabColor={strategyMap[entityType].themeColor}
       />
     </HeroContainer>
   )

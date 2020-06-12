@@ -14,7 +14,8 @@ import {
   gridSizes,
 } from '../../../../components/common/WidgetWrapper'
 import { getCountryCoordinates } from '../../Entities.utils'
-import { EntityType, EntityTypeMap } from '../../types'
+import { EntityType } from '../../types'
+import { strategyMap } from '../../strategy-map'
 
 export interface Props {
   entityType: EntityType
@@ -97,7 +98,7 @@ export const EntitiesDashboard: React.SFC<Props> = ({
           </div>
           <div className="col-md-6">
             <WidgetWrapper
-              title={`${EntityTypeMap[entityType].plural} location activity`}
+              title={`${strategyMap[entityType].plural} location activity`}
               gridHeight={gridSizes.standard}
               padding={false}
             >

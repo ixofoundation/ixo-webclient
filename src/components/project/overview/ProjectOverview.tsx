@@ -19,7 +19,7 @@ import {
 // TODO - when we actually get the schema from the api then replace
 import ProjectControlPanelSchema from '../ControlPanel/schema/Project.schema.json'
 import CellControlPanelSchema from '../ControlPanel/schema/Cell.schema.json'
-import { EntityType, EntityTypeMap } from '../../../modules/Entities/types'
+import { EntityType } from '../../../modules/Entities/types'
 import { toTitleCase } from '../../../common/utils/formatters'
 
 export interface ParentProps {
@@ -89,7 +89,9 @@ export const ProjectOverview: React.SFC<Props> = props => {
                 onError={onProjectImageNotFound}
               />
               <Text>
-                <ReactMd markdown={props.project.longDescription} />
+                {props.project.longDescription && (
+                  <ReactMd markdown={props.project.longDescription} />
+                )}
               </Text>
               {props.project.pageContent &&
                 props.project.pageContent.map(content => {
@@ -185,13 +187,10 @@ export const ProjectOverview: React.SFC<Props> = props => {
                 })}
 
               {props.project.founder && props.project.founder.name !== '' && (
-                <>
-                  <h2>{EntityTypeMap[entityType].title} Founder</h2>
-                  <ProjectFounder
-                    founder={props.project.founder}
-                    socialMedia={props.project.socialMedia}
-                  />
-                </>
+                <ProjectFounder
+                  founder={props.project.founder}
+                  socialMedia={props.project.socialMedia}
+                />
               )}
             </div>
             <div className="col-lg-4">

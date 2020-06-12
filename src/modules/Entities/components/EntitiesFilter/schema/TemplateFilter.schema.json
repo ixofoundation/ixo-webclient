@@ -1,0 +1,35 @@
+{
+  "@context": "https://schema.ixo.foundation/template",
+  "@type": "Template",
+  "dateCreated": {
+    "@type": "Date",
+    "name": "Dates"
+  },
+  "view": {
+    "@type": "Category",
+    "name": "View",
+    "tags": [
+      {
+        "@type": "Tag",
+        "name": "My Portfolio",
+        "icon": "portfolio.svg"
+      },
+      {
+        "@type": "Tag",
+        "name": "Global",
+        "icon": "global.svg"
+      },
+      {
+        "@type": "Tag",
+        "name": "Featured",
+        "icon": "featured.svg"
+      },
+      {
+        "@type": "Tag",
+        "name": "Popular",
+        "icon": "popular.svg"
+      }
+    ]
+  },
+  "ddoTags": []
+}

@@ -56,14 +56,14 @@ export const FounderImageWrapper = styled.div`
   margin-bottom: 2rem;
   width: 100%;
   img {
-    width: 8rem;
-    height: 8rem;
+    width: 5.5rem;
+    height: 5.5rem;
     border-radius: 50%;
     object-fit: contain;
   }
   @media (min-width: ${deviceWidth.mobile}px) {
     margin-bottom: 0;
-    padding-right: 3.25rem;
+    padding-right: 2.5rem;
     width: initial;
   }
 `
