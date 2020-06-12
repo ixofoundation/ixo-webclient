@@ -90,7 +90,9 @@ export const ProjectOverview: React.SFC<Props> = props => {
                 onError={onProjectImageNotFound}
               />
               <Text>
-                <ReactMd markdown={props.project.longDescription} />
+                {props.project.longDescription && (
+                  <ReactMd markdown={props.project.longDescription} />
+                )}
               </Text>
               {props.project.pageContent &&
                 props.project.pageContent.map(content => {
