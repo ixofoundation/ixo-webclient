@@ -1,8 +1,8 @@
 export interface SubmitEntityClaimState {
-  claimTemplate: any
-  answers: any[]
+  questions: any[]
   currentQuestionNo: number
-  isDataComplete: boolean
+  answers: any[]
+  answersComplete: boolean
   sending: boolean
   sent: boolean
   error?: string
@@ -21,20 +21,25 @@ export enum SubmitEntityClaimActions {
 export interface SaveAnswerAction {
   type: typeof SubmitEntityClaimActions.SaveAnswer
   payload: {
-    questionNo: number
     answer: any
   }
 }
 
 export interface GoToNextQuestionAction {
   type: typeof SubmitEntityClaimActions.GoToNextQuestion
+  payload: {
+    nextQuestionNo
+  }
 }
 
 export interface GoToPreviousQuestionAction {
   type: typeof SubmitEntityClaimActions.GoToPreviousQuestion
+  payload: {
+    previousQuestionNo
+  }
 }
 
-export type SubmitEntityClaimTypes =
+export type SubmitEntityClaimActionTypes =
   | SaveAnswerAction
   | GoToNextQuestionAction
   | GoToPreviousQuestionAction
