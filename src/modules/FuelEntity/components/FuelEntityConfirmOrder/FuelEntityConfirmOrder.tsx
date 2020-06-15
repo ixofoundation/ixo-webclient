@@ -1,4 +1,21 @@
 import React from 'react'
+import {
+  FuelEntityConfirmOrderWrapper,
+  FuelEntityConfirmOrderHeader,
+  FuelEntityConfirmOrderTitle,
+  FuelEntityConfirmOrderSubTitle,
+  FuelEntityConfirmOrderPrice,
+  FuelEntityConfirmOrderCaption,
+  FuelEntityConfirmOrderHR,
+  ChatBotIconWrapper,
+  ButtonWrapper,
+  CancelOrderButton,
+  ContinueOrderButton,
+  BackButton,
+} from './FuelEntityConfirmOrder.styles'
+import IxoX from '../../../../assets/icons/IxoX'
+import ChatbotIcon from '../../../../assets/icons/Chatbot'
+import BackIcon from '../../../../assets/icons/Back'
 
 export interface Props {
   subscription: string
@@ -9,10 +26,10 @@ export interface Props {
   transactionFee: string
   fiatTransactionFee: string
   gasFee: string
-  fiat: string
   total: string
   fiatTotal: string
   handleConfirmOrder: () => void
+  handleCancelOrder: () => void
 }
 
 const FuelEntityConfirmOrder: React.FunctionComponent<Props> = ({
@@ -24,68 +41,135 @@ const FuelEntityConfirmOrder: React.FunctionComponent<Props> = ({
   transactionFee,
   fiatTransactionFee,
   gasFee,
-  fiat,
   total,
   fiatTotal,
   handleConfirmOrder,
+  handleCancelOrder,
 }) => {
   return (
-    <div>
-      <h1>Order Summary</h1>
-      <div className="row">
-        <div className="col-8">
-          <small>Subscription</small>
+    <FuelEntityConfirmOrderWrapper>
+      <BackButton onClick={handleCancelOrder}>
+        <BackIcon width="18" fill="#A5ADB0" />
+      </BackButton>
+      <div className="row header-section">
+        <div className="col-12">
+          <FuelEntityConfirmOrderHeader>
+            Order Summary
+          </FuelEntityConfirmOrderHeader>
         </div>
-        <div className="col-4">
-          <small>Standard Hosting Service</small>
+        <div className="col-6 col-lg-4">
+          <FuelEntityConfirmOrderTitle>
+            {subscription}
+          </FuelEntityConfirmOrderTitle>
+          <FuelEntityConfirmOrderCaption>
+            Subscription
+          </FuelEntityConfirmOrderCaption>
+        </div>
+        <div className="col-6 col-lg-4">
+          <FuelEntityConfirmOrderTitle>Included</FuelEntityConfirmOrderTitle>
+          <FuelEntityConfirmOrderCaption>
+            Standard Hosting Service
+          </FuelEntityConfirmOrderCaption>
         </div>
       </div>
-      <div className="row">
-        <div className="col-8">{subscription}</div>
-        <div className="col-4">Included</div>
-      </div>
-      <div className="row">
-        <div className="col-8">
-          <small>{symbol} Credits</small>
-        </div>
+
+      <div className="row transaction-details-header">
         <div className="col-4">
-          <small>
+          <FuelEntityConfirmOrderCaption>
+            Description
+          </FuelEntityConfirmOrderCaption>
+        </div>
+        <div className="col-5">
+          <FuelEntityConfirmOrderCaption>
+            Price ({symbol})
+          </FuelEntityConfirmOrderCaption>
+        </div>
+        <div className="col-3">
+          <FuelEntityConfirmOrderCaption>Rate</FuelEntityConfirmOrderCaption>
+        </div>
+      </div>
+
+      <div className="row transaction-detail">
+        <div className="col-12 col-lg-4">
+          <FuelEntityConfirmOrderSubTitle>
+            {symbol} Credits
+          </FuelEntityConfirmOrderSubTitle>
+        </div>
+        <div className="col-6 col-lg-5">
+          <FuelEntityConfirmOrderPrice>
+            <IxoX width="20" fill="#49BFE0" />
+            {amount}
+            <ChatBotIconWrapper onClick={handleCancelOrder}>
+              <ChatbotIcon />
+            </ChatBotIconWrapper>
+          </FuelEntityConfirmOrderPrice>
+        </div>
+        <div className="col-6 col-lg-3">
+          <FuelEntityConfirmOrderSubTitle>
+            {fiatAmount}
+          </FuelEntityConfirmOrderSubTitle>
+          <FuelEntityConfirmOrderCaption>
             1 {symbol} = {fiatConversionRate}
-          </small>
+          </FuelEntityConfirmOrderCaption>
         </div>
       </div>
-      <div className="row">
-        <div className="col-8">{amount}</div>
-        <div className="col-4">{fiatAmount}</div>
-      </div>
-      <div className="row">
-        <div className="col-8">
-          <small>Fee</small>
+
+      <div className="row transaction-detail">
+        <div className="col-12 col-lg-4">
+          <FuelEntityConfirmOrderSubTitle>
+            Additional Fees
+          </FuelEntityConfirmOrderSubTitle>
         </div>
-        <div className="col-4">
-          <small>{gasFee} per transaction</small>
+        <div className="col-6 col-lg-5">
+          <FuelEntityConfirmOrderSubTitle>
+            <IxoX width="20" fill="#49BFE0" />
+            {gasFee}
+          </FuelEntityConfirmOrderSubTitle>
         </div>
-      </div>
-      <div className="row">
-        <div className="col-8">{transactionFee}</div>
-        <div className="col-4">{fiatTransactionFee}</div>
-      </div>
-      <div className="row">
-        <div className="col-8">
-          <small>Amount due today</small>
-        </div>
-        <div className="col-4">
-          <small>{total}</small>
+        <div className="col-6 col-lg-3">
+          <FuelEntityConfirmOrderSubTitle>
+            {transactionFee}
+          </FuelEntityConfirmOrderSubTitle>
+          <FuelEntityConfirmOrderCaption>
+            {fiatTransactionFee}
+          </FuelEntityConfirmOrderCaption>
         </div>
       </div>
-      <div className="row">
-        <div className="col-8">{fiat} TOTAL</div>
-        <div className="col-4">{fiatTotal}</div>
+      <FuelEntityConfirmOrderHR />
+
+      <div className="row total-wrapper">
+        <div className="col-6 col-lg-4">
+          <FuelEntityConfirmOrderTitle>Today</FuelEntityConfirmOrderTitle>
+          <FuelEntityConfirmOrderCaption>
+            Amount due
+          </FuelEntityConfirmOrderCaption>
+        </div>
+        <div className="col-6 col-lg-4">
+          <FuelEntityConfirmOrderTitle>{total}</FuelEntityConfirmOrderTitle>
+          <FuelEntityConfirmOrderCaption>
+            Total {symbol}
+          </FuelEntityConfirmOrderCaption>
+        </div>
+        <div className="col-6 col-lg-4">
+          <FuelEntityConfirmOrderHeader className="total">
+            {fiatTotal}
+          </FuelEntityConfirmOrderHeader>
+          <FuelEntityConfirmOrderCaption>Total</FuelEntityConfirmOrderCaption>
+        </div>
       </div>
-      <div>
-        <button onClick={handleConfirmOrder}>Confirm</button>
-      </div>
-    </div>
+      <ButtonWrapper className="row">
+        <div className="col-6">
+          <CancelOrderButton onClick={handleCancelOrder}>
+            Cancel Order
+          </CancelOrderButton>
+        </div>
+        <div className="col-6 select-button-wrapper">
+          <ContinueOrderButton onClick={handleConfirmOrder}>
+            Select Payment
+          </ContinueOrderButton>
+        </div>
+      </ButtonWrapper>
+    </FuelEntityConfirmOrderWrapper>
   )
 }
 

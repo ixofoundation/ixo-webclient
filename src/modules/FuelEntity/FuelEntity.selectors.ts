@@ -60,10 +60,7 @@ export const selectOrderGasFee = createSelector(
   selectFuelEntity,
   (fuelEntity: FuelEntityState): string => {
     return fuelEntity.order
-      ? currencyUtils.displayTokenAmount(
-          new BigNumber(fuelEntity.order.gasFee),
-          fuelEntity.order.symbol,
-        )
+      ? currencyUtils.displayTokenAmount(new BigNumber(fuelEntity.order.gasFee))
       : '0'
   },
 )
@@ -107,27 +104,24 @@ export const selectOrderTotal = createSelector(
 export const selectOrderTokenAmount = createSelector(
   selectOrderAmount,
   selectOrderSymbol,
-  (amount: string, tokenSymbol: string): string => {
-    return currencyUtils.displayTokenAmount(new BigNumber(amount), tokenSymbol)
+  (amount: string): string => {
+    return currencyUtils.displayTokenAmount(new BigNumber(amount))
   },
 )
 
 export const selectOrderTokenTransactionFee = createSelector(
   selectOrderTransactionFee,
   selectOrderSymbol,
-  (transactionFee: string, tokenSymbol: string): string => {
-    return currencyUtils.displayTokenAmount(
-      new BigNumber(transactionFee),
-      tokenSymbol,
-    )
+  (transactionFee: string): string => {
+    return currencyUtils.displayTokenAmount(new BigNumber(transactionFee))
   },
 )
 
 export const selectOrderTokenTotal = createSelector(
   selectOrderTotal,
   selectOrderSymbol,
-  (total: BigNumber, tokenSymbol): string => {
-    return currencyUtils.displayTokenAmount(total, tokenSymbol)
+  (total: BigNumber): string => {
+    return currencyUtils.displayTokenAmount(total)
   },
 )
 

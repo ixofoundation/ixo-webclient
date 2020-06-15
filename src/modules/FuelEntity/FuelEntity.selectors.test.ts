@@ -8,7 +8,7 @@ beforeEach(() => {
     fuelEntity: {
       order: {
         symbol: 'IXO',
-        subscription: '12-months standard hosting',
+        subscription: '12 months',
         fiat: 'EUR',
         fiatSymbol: '€',
         amount: '1267.91000001',
@@ -50,7 +50,7 @@ describe('Entities Selectors', () => {
       const result = SUT.selectOrderSubscription(state)
 
       // then ... should return result as expected
-      expect(result).toEqual('12-months standard hosting')
+      expect(result).toEqual('12 months')
     })
   })
 
@@ -110,7 +110,7 @@ describe('Entities Selectors', () => {
       const result = SUT.selectOrderGasFee(state)
 
       // then ... should return result as expected
-      expect(result).toEqual('1.00450000 IXO')
+      expect(result).toEqual('1.004500')
     })
   })
 
@@ -170,7 +170,7 @@ describe('Entities Selectors', () => {
       const result = SUT.selectOrderTokenAmount(state)
 
       // then ... should return result as expected
-      expect(result).toEqual('1,267.91000001 IXO')
+      expect(result).toEqual('1,267.910000')
     })
   })
 
@@ -180,7 +180,7 @@ describe('Entities Selectors', () => {
       const result = SUT.selectOrderTokenTransactionFee(state)
 
       // then ... should return result as expected
-      expect(result).toEqual('8.44500019 IXO')
+      expect(result).toEqual('8.445000')
     })
   })
 
@@ -190,7 +190,7 @@ describe('Entities Selectors', () => {
       const result = SUT.selectOrderTokenTotal(state)
 
       // then ... should return result as expected
-      expect(result).toEqual('1,276.35500020 IXO')
+      expect(result).toEqual('1,276.355000')
     })
   })
 
