@@ -18,6 +18,10 @@ export const Container = styled.div`
     padding: 2.5rem 3.75rem;
   }
 
+  @media (min-width: ${deviceWidth.desktopLarge}px) {
+    transform: translateX(30%);
+  }
+
   h1 {
     font-size: 36px;
     line-height: 42px;
@@ -98,8 +102,14 @@ export const StartButton = styled.button`
   border-radius: 4px;
   border-color: transparent;
   color: #fff;
-  margin-left: 1rem;
+  margin-left: 0.5rem;
+  @media (min-width: ${deviceWidth.mobileSmall}px) {
+    margin-left: 3rem;
+  }
   @media (min-width: ${deviceWidth.mobile}px) {
+    margin-left: 13rem;
+  }
+  @media (min-width: ${deviceWidth.tablet}px) {
     margin-left: 24rem;
   }
 `

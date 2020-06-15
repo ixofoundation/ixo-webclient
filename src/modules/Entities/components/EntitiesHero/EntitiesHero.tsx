@@ -12,14 +12,10 @@ import {
 } from './EntitiesHero.styles'
 import { EntityType, Category } from '../../types'
 import { strategyMap } from '../../strategy-map'
-<<<<<<< HEAD
-import { ClaimInfoPage } from '../../../../common/components/SubmitClaimInfo/ClaimInfoPage'
 
 // TODO - when we know what the other entity types headers will look like then possibly refactor this as it's messy with all the conditions
 // or whatever else is needed. For now, just doing it based on entityType
-=======
 import { getHeaderSchema, getHeaderTabButtons } from './EntitiesHero.utils'
->>>>>>> dev
 
 export interface Props {
   entityType: EntityType
@@ -97,7 +93,6 @@ export const EntitiesHero: React.FunctionComponent<Props> = ({
           filterChanged={handleChangeEntitiesType}
         />
       )}
-      <ClaimInfoPage />
     </HeroContainer>
   )
 }
