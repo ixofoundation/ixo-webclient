@@ -29,7 +29,7 @@ export const Container = styled.div`
     line-height: 36px;
     color: #7b8285;
     max-width: 77%;
-    margin-bottom: 2.5rem;
+    margin-bottom: 3rem;
     @media (min-width: ${deviceWidth.mobile}px) {
       max-width: 100%;
     }
