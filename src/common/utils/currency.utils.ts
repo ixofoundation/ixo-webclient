@@ -9,16 +9,13 @@ export const displayFiatAmount = (
     .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`
 }
 
-export const displayTokenAmount = (
-  amount: BigNumber | number,
-  tokenSymbol: string,
-): string => {
-  const amountParts = amount.toFixed(8).split('.')
+export const displayTokenAmount = (amount: BigNumber | number): string => {
+  const amountParts = amount.toFixed(6).split('.')
   const intAmountPart = amountParts[0]
   const decAmountPart = amountParts[1]
 
   return `${intAmountPart.replace(
     /\B(?=(\d{3})+(?!\d))/g,
     ',',
-  )}.${decAmountPart} ${tokenSymbol}`
+  )}.${decAmountPart}`
 }

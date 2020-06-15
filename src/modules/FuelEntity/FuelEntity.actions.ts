@@ -5,6 +5,7 @@ import {
   FuelEntityActions,
   ConfirmOrderAction,
   FuelEntityOrderTx,
+  CancelOrderAction,
 } from './types'
 import { Dispatch } from 'redux'
 import { RootState } from 'src/common/redux/types'
@@ -17,7 +18,7 @@ export const getOrder = (assistantResponse: any): GetOrderAction => ({
   payload: {
     order: {
       symbol: 'IXO',
-      subscription: '12-months standard hosting',
+      subscription: '12 months',
       fiat: 'EUR',
       fiatSymbol: '€',
       amount: '1267',
@@ -70,3 +71,7 @@ export const confirmOrder = (entityDid: string) => (
 
   return null
 }
+
+export const cancelOrder = (): CancelOrderAction => ({
+  type: FuelEntityActions.CancelOrder,
+})

@@ -27,6 +27,8 @@ export const reducer = (
       return { ...state, sending: false, error: 'Api error' }
     case FuelEntityActions.ConfirmOrderSuccess:
       return { ...initialState, sent: true }
+    case FuelEntityActions.CancelOrder:
+      return { ...initialState, order: null }
   }
 
   return state

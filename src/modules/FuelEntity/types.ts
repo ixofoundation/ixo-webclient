@@ -34,6 +34,7 @@ export enum FuelEntityActions {
   ConfirmOrderPending = 'ixo/FuelEntity/CONFIRM_ORDER_PENDING',
   ConfirmOrderSuccess = 'ixo/FuelEntity/CONFIRM_ORDER_FULFILLED',
   ConfirmOrderFailure = 'ixo/FuelEntity/CONFIRM_ORDER_REJECTED',
+  CancelOrder = 'ixo/FuelEntity/CANCEL_ORDER',
 }
 
 export interface GetOrderAction {
@@ -60,9 +61,14 @@ export interface ConfirmOrderFailureAction {
   type: typeof FuelEntityActions.ConfirmOrderFailure
 }
 
+export interface CancelOrderAction {
+  type: typeof FuelEntityActions.CancelOrder
+}
+
 export type FuelEntityActionTypes =
   | GetOrderAction
   | ConfirmOrderAction
   | ConfirmOrderPendingAction
   | ConfirmOrderFailureAction
   | ConfirmOrderSuccessAction
+  | CancelOrderAction

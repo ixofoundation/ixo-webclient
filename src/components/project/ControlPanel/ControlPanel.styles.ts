@@ -37,15 +37,14 @@ export const ControlPanelWrapper = styled.div`
   @media (max-width: ${deviceWidth.desktop}px) {
     position: fixed;
     top: 135px;
-    left: 0;
+    left: 100%;
     right: 0;
     bottom: 0;
     z-index: 12;
-    transform: translateX(100%);
     transition: all 0.3s;
     border-top-right-radius: 0;
     &.open {
-      transform: translateX(0);
+      left: 0;
     }
   }
 `
