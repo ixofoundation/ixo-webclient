@@ -100,6 +100,7 @@ export const reducer = (
         },
       }
     case EntitiesActions.FilterCategoryTag:
+    case EntitiesActions.FilterAddCategoryTag:
       return {
         ...state,
         filter: {
