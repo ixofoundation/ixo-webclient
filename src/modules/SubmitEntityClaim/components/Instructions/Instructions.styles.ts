@@ -102,8 +102,10 @@ export const StartButton = styled.button`
   border-radius: 4px;
   border-color: transparent;
   color: #fff;
-  margin-left: 0.5rem;
   @media (min-width: ${deviceWidth.mobileSmall}px) {
+    margin-left: 0.5rem;
+  }
+  @media (min-width: 400px) {
     margin-left: 3rem;
   }
   @media (min-width: ${deviceWidth.mobile}px) {
