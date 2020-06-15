@@ -11,6 +11,7 @@ import { reducer as bondReducer } from '../../modules/bond/bond.reducer'
 import { reducer as tokenSupplyReducer } from '../../modules/tokenSupply/tokenSupply.reducer'
 import { reducer as entitiesReducer } from '../../modules/Entities/Entities.reducer'
 import { reducer as fuelEntityReducer } from '../../modules/FuelEntity/FuelEntity.reducer'
+import { reducer as submitEntityClaimReducer } from '../../modules/SubmitEntityClaim/SubmitEntityClaim.reducer'
 import { RootState } from './types'
 
 export const rootReducer: Reducer<RootState> = combineReducers<RootState>({
@@ -26,4 +27,5 @@ export const rootReducer: Reducer<RootState> = combineReducers<RootState>({
   tokenSupply: tokenSupplyReducer,
   entities: entitiesReducer,
   fuelEntity: fuelEntityReducer,
+  submitEntityClaim: submitEntityClaimReducer,
 })
