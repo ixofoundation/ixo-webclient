@@ -14,7 +14,7 @@ export const getTitle = (
         : name
       : selectedItems.length === 0
       ? name
-      : selectedItems[0].name
+      : `${name} - ${selectedItems[0].name}`
 
   return title
 }

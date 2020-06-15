@@ -21,10 +21,11 @@ import {
   filterTogglePopularEntities,
   filterDates,
   resetDatesFilter,
-  filterCategoryTag,
+  filterAddCategoryTag,
   resetCategoryFilter,
   resetFilters,
   changeEntitiesType,
+  filterCategoryTag,
 } from './Entities.actions'
 import EntitiesFilter from './components/EntitiesFilter/EntitiesFilter'
 import { Entity, EntityType } from './types'
@@ -64,13 +65,14 @@ export interface Props {
   isLoggedIn: boolean
   filterSchema: FilterSchema
   handleGetEntities: () => void
-  handleChangeEntityTypes: (entityType: EntityType) => void
+  handleChangeEntitiesType: (entityType: EntityType) => void
   handleFilterToggleUserEntities: (userEntities: boolean) => void
   handleFilterToggleFeaturedEntities: (featuredEntities: boolean) => void
   handleFilterTogglePopularEntities: (popularEntities: boolean) => void
   handleFilterDates: (dateFrom: any, dateTo: any) => void
   handleResetDatesFilter: () => void
   handleFilterCategoryTag: (category: string, tag: string) => void
+  handleFilterAddCategoryTag: (category: string, tag: string) => void
   handleResetCategoryFilter: (category: string) => void
   handleResetFilters: () => void
 }
@@ -150,6 +152,7 @@ export class Entities extends React.Component<Props> {
               handleFilterDates={this.props.handleFilterDates}
               handleResetDatesFilter={this.props.handleResetDatesFilter}
               handleFilterCategoryTag={this.props.handleFilterCategoryTag}
+              handleFilterAddCategoryTag={this.props.handleFilterAddCategoryTag}
               handleResetCategoryFilter={this.props.handleResetCategoryFilter}
               handleFilterToggleUserEntities={
                 this.props.handleFilterToggleUserEntities
@@ -221,12 +224,9 @@ export class Entities extends React.Component<Props> {
       <Container>
         <EntitiesHero
           entityType={this.props.entityType}
-          entitiesCount={this.props.entitiesCount}
-          userEntitiesCount={this.props.userEntitiesCount}
-          requiredClaimsCount={this.props.requiredClaimsCount}
-          successfulClaimsCount={this.props.successfulClaimsCount}
-          contentType={this.props.contentType}
-          handleChangeEntityTypes={this.props.handleChangeEntityTypes}
+          filterCategories={this.props.filterCategories}
+          showSearch={this.props.contentType !== contentType.dashboard}
+          handleChangeEntitiesType={this.props.handleChangeEntitiesType}
         />
         {this.handleRenderEntityList()}
       </Container>
@@ -283,7 +283,7 @@ function mapStateToProps(state: RootState): Record<string, any> {
 
 const mapDispatchToProps = (dispatch: any): any => ({
   handleGetEntities: (): void => dispatch(getEntities()),
-  handleChangeEntityTypes: (entityType: EntityType): void =>
+  handleChangeEntitiesType: (entityType: EntityType): void =>
     dispatch(changeEntitiesType(entityType)),
   handleFilterToggleUserEntities: (userEntities: boolean): void =>
     dispatch(filterToggleUserEntities(userEntities)),
@@ -296,6 +296,8 @@ const mapDispatchToProps = (dispatch: any): any => ({
   handleResetDatesFilter: (): void => dispatch(resetDatesFilter()),
   handleFilterCategoryTag: (category: string, tag: string): void =>
     dispatch(filterCategoryTag(category, tag)),
+  handleFilterAddCategoryTag: (category: string, tag: string): void =>
+    dispatch(filterAddCategoryTag(category, tag)),
   handleResetCategoryFilter: (category: string): void =>
     dispatch(resetCategoryFilter(category)),
   handleResetFilters: (): void => dispatch(resetFilters()),
