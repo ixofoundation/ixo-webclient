@@ -147,9 +147,7 @@ const FuelEntityConfirmOrder: React.FunctionComponent<Props> = ({
           </FuelEntityConfirmOrderCaption>
         </div>
         <div className="col-6 col-lg-4">
-          <FuelEntityConfirmOrderTitle>
-            {total} {symbol}
-          </FuelEntityConfirmOrderTitle>
+          <FuelEntityConfirmOrderTitle>{total}</FuelEntityConfirmOrderTitle>
           <FuelEntityConfirmOrderCaption>
             Total {symbol}
           </FuelEntityConfirmOrderCaption>

@@ -26,7 +26,7 @@ describe('FuelEntity Reducer', () => {
     it('should return a new copy of state, with order set', () => {
       // given .. we have an action of type FuelEntityActions.GetOrder and an order
       const order: FuelEntityOrder = {
-        subscription: '12-months standard hosting',
+        subscription: '12 months',
         fiat: 'Euros',
         fiatSymbol: '€',
         amount: '1200',
@@ -99,7 +99,7 @@ describe('FuelEntity Reducer', () => {
         sent: false,
         error: null,
         order: {
-          subscription: '12-months standard hosting',
+          subscription: '12 months',
           fiat: 'Euros',
           fiatSymbol: '€',
           amount: '1200',

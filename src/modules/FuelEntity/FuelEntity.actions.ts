@@ -18,7 +18,7 @@ export const getOrder = (assistantResponse: any): GetOrderAction => ({
   payload: {
     order: {
       symbol: 'IXO',
-      subscription: '12-months standard hosting',
+      subscription: '12 months',
       fiat: 'EUR',
       fiatSymbol: '€',
       amount: '1267',

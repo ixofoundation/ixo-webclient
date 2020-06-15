@@ -8,7 +8,7 @@ beforeEach(() => {
     fuelEntity: {
       order: {
         symbol: 'IXO',
-        subscription: '12-months standard hosting',
+        subscription: '12 months',
         fiat: 'EUR',
         fiatSymbol: '€',
         amount: '1267.91000001',
@@ -50,7 +50,7 @@ describe('Entities Selectors', () => {
       const result = SUT.selectOrderSubscription(state)
 
       // then ... should return result as expected
-      expect(result).toEqual('12-months standard hosting')
+      expect(result).toEqual('12 months')
     })
   })
 
