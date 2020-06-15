@@ -139,7 +139,7 @@ describe('Entities Actions', () => {
   })
 
   describe('filterCategoryTag', () => {
-    it('should create an action to remove the specific category tag when it exists', () => {
+    it('should create an action to remove all tags when when it exists', () => {
       // when ... we call the filterCategoryTag action creator
       store.dispatch(SUT.filterCategoryTag('foo1', 'bar1_3'))
       const action = store.getActions()[0]
@@ -148,17 +148,45 @@ describe('Entities Actions', () => {
       expect(action.type).toEqual(EntitiesActions.FilterCategoryTag)
       expect(action.payload).toEqual({
         category: 'foo1',
+        tags: [],
+      })
+    })
+
+    it('should create an action to remove all tags when when it doesnt exist', () => {
+      // when ... we call the filterCategoryTag action creator
+      store.dispatch(SUT.filterCategoryTag('foo1', 'bar1_3_new'))
+      const action = store.getActions()[0]
+
+      // then we should expect it to create action with the correct type and payload
+      expect(action.type).toEqual(EntitiesActions.FilterCategoryTag)
+      expect(action.payload).toEqual({
+        category: 'foo1',
+        tags: ['bar1_3_new'],
+      })
+    })
+  })
+
+  describe('filterAddCategoryTag', () => {
+    it('should create an action to remove the specific category tag when it exists', () => {
+      // when ... we call the filterAddCategoryTag action creator
+      store.dispatch(SUT.filterAddCategoryTag('foo1', 'bar1_3'))
+      const action = store.getActions()[0]
+
+      // then we should expect it to create action with the correct type and payload
+      expect(action.type).toEqual(EntitiesActions.FilterAddCategoryTag)
+      expect(action.payload).toEqual({
+        category: 'foo1',
         tags: ['bar1_1', 'bar1_2'],
       })
     })
 
     it('should create an action to add the specific category tag when it does not exists', () => {
-      // when ... we call the filterCategoryTag action creator
-      store.dispatch(SUT.filterCategoryTag('foo1', 'bar1_4'))
+      // when ... we call the filterAddCategoryTag action creator
+      store.dispatch(SUT.filterAddCategoryTag('foo1', 'bar1_4'))
       const action = store.getActions()[0]
 
       // then we should expect it to create action with the correct type and payload
-      expect(action.type).toEqual(EntitiesActions.FilterCategoryTag)
+      expect(action.type).toEqual(EntitiesActions.FilterAddCategoryTag)
       expect(action.payload).toEqual({
         category: 'foo1',
         tags: ['bar1_1', 'bar1_2', 'bar1_3', 'bar1_4'],
@@ -168,7 +196,7 @@ describe('Entities Actions', () => {
 
   describe('filterCategories', () => {
     it('should create an action to set the entity type and filter', () => {
-      // when ... we call the filterCategoryTag action creator
+      // when ... we call the filterAddCategoryTag action creator
       store.dispatch(
         SUT.filterCategories([
           { name: 'Cell Type', tags: ['Index', 'Relayer', 'Portal'] },
