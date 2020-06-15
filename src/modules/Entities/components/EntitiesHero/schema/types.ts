@@ -1,16 +1,21 @@
-export interface Schema {
+export interface SchemaBase {
   ['@context']: string
-  ['@type']: string
-  header: SchemaHeader
-}
-
-export interface SchemaHeader {
   ['@type']: string
   color: string
   image: string
   title: string
   subTitle: string
   indicators: SchemaIndicator[]
+}
+
+export interface Schema extends SchemaBase {
+  overrides: SchemaOverride[]
+}
+
+export interface SchemaOverride extends SchemaBase {
+  id: string
+  ddoCategory: string
+  ddoTag: string
 }
 
 export interface SchemaIndicator {

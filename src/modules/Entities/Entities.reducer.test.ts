@@ -6,15 +6,16 @@ import {
   FilterToggleUserEntitiesAction,
   FilterToggleFeaturedEntitiesAction,
   FilterTogglePopularEntitiesAction,
-  FilterEntitiesDatesAction,
-  ResetEntitiesDatesFilterAction,
-  FilterEntitiesCategoryTagsAction,
-  ResetEntitiesCategoryFilterAction,
-  ResetEntitiesFiltersAction,
+  FilterDatesAction,
+  ResetDatesFilterAction,
+  FilterAddCategoryTagAction,
+  ResetCategoryFilterAction,
+  ResetFiltersAction,
   Entity,
   ChangeEntitiesTypeAction,
   EntityType,
   FilterCategoriesAction,
+  FilterCategoryTagAction,
 } from './types'
 
 const initialState = SUT.initialState
@@ -491,7 +492,7 @@ describe('Entities Reducer', () => {
       }
 
       // given... we have an action of type FilterDates
-      const action: FilterEntitiesDatesAction = {
+      const action: FilterDatesAction = {
         type: EntitiesActions.FilterDates,
         payload: {
           dateFrom: moment('2020-04-09T13:14:13.000Z'),
@@ -571,7 +572,7 @@ describe('Entities Reducer', () => {
       }
 
       // given... we have an action of type ResetDatesFilter
-      const action: ResetEntitiesDatesFilterAction = {
+      const action: ResetDatesFilterAction = {
         type: EntitiesActions.ResetDatesFilter,
       }
 
@@ -590,7 +591,95 @@ describe('Entities Reducer', () => {
     })
   })
 
-  describe('FilterCategoryTags Action', () => {
+  describe('FilterCategoryTag Action', () => {
+    it('should return a new copy of state with the relevant filter category added and all other categories left in tact', () => {
+      const currentState = {
+        ...initialState,
+        entities: [
+          {
+            did: 'someDid1',
+            entityType: EntityType.Project,
+            userDid: 'someUserDid1',
+            title: 'someTitle1',
+            shortDescription: 'someShortDescription1',
+            dateCreated: moment('2020-04-09T13:14:13.000Z'),
+            ownerName: 'someOwnerName1',
+            status: 'someStatus1',
+            country: 'someCountry1',
+            impactAction: 'someImpactAction1',
+            serviceProvidersCount: 13,
+            evaluatorsCount: 1,
+            requiredClaimsCount: 100,
+            successfulClaimsCount: 10,
+            pendingClaimsCount: 20,
+            rejectedClaimsCount: 30,
+            sdgs: [1, 2, 3],
+            longDescription: 'someLongDescription',
+            agentDids: ['someAgentDid1'],
+            imageUrl: 'sommeImageUrl',
+            logoUrl: 'someLogoUrl',
+            founderLogoUrl: 'sommeLogoUrl',
+            categories: [
+              {
+                name: 'someCategory1',
+                tags: [
+                  'someCategory1_tag1',
+                  'someCategory1_tag2',
+                  'someCategory1_tag3',
+                ],
+              },
+            ],
+            data: null,
+          },
+        ],
+        filter: {
+          dateFrom: moment('2020-04-09T13:14:13.000Z'),
+          dateTo: moment('2020-04-08T13:14:13.000Z'),
+          categories: [
+            {
+              name: 'foo1',
+              tags: ['bar1_1', 'bar1_2', 'bar1_3'],
+            },
+          ],
+          userEntities: true,
+          popularEntities: false,
+          featuredEntities: false,
+        },
+      }
+
+      // given... we have an action of type ResetFiltersAction
+      const action: FilterCategoryTagAction = {
+        type: EntitiesActions.FilterCategoryTag,
+        payload: {
+          category: 'foo2',
+          tags: ['bar2_1'],
+        },
+      }
+
+      // when... we call the reducer with this action
+      const result = SUT.reducer(currentState, action)
+
+      // then the state should be set as expected
+      expect(result).toEqual({
+        ...currentState,
+        filter: {
+          ...currentState.filter,
+          categories: [
+            {
+              name: 'foo1',
+              tags: ['bar1_1', 'bar1_2', 'bar1_3'],
+            },
+            {
+              name: 'foo2',
+              tags: ['bar2_1'],
+            },
+          ],
+        },
+      })
+    })
+  })
+
+  describe('FilterAddCategoryTag Action', () => {
     it('should return a new copy of state with the relevant filter category added and everything else left in tact', () => {
       const currentState = {
         ...initialState,
@@ -647,8 +736,8 @@ describe('Entities Reducer', () => {
       }
 
       // given... we have an action of type ResetFiltersAction
-      const action: FilterEntitiesCategoryTagsAction = {
-        type: EntitiesActions.FilterCategoryTag,
+      const action: FilterAddCategoryTagAction = {
+        type: EntitiesActions.FilterAddCategoryTag,
         payload: {
           category: 'foo2',
           tags: ['bar2_1', 'bar2_2', 'bar2_3'],
@@ -733,8 +822,8 @@ describe('Entities Reducer', () => {
       }
 
       // given... we have an action of type ResetFiltersAction
-      const action: FilterEntitiesCategoryTagsAction = {
-        type: EntitiesActions.FilterCategoryTag,
+      const action: FilterAddCategoryTagAction = {
+        type: EntitiesActions.FilterAddCategoryTag,
         payload: {
           category: 'foo1',
           tags: ['bar1_1', 'bar1_2', 'bar1_3', 'bar1_4', 'bar1_5', 'bar1_6'],
@@ -914,7 +1003,7 @@ describe('Entities Reducer', () => {
       }
 
       // given... we have an action of type ResetFiltersAction
-      const action: ResetEntitiesCategoryFilterAction = {
+      const action: ResetCategoryFilterAction = {
         type: EntitiesActions.ResetCategoryFilter,
         payload: {
           category: 'foo1',
@@ -1001,7 +1090,7 @@ describe('Entities Reducer', () => {
       }
 
       // given... we have an action of type ResetFiltersAction
-      const action: ResetEntitiesFiltersAction = {
+      const action: ResetFiltersAction = {
         type: EntitiesActions.ResetFilters,
       }
 

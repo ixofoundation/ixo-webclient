@@ -9,6 +9,7 @@ export interface Schema {
 export interface SchemaCategory {
   ['@type']: string
   name: string
+  multiSelect: boolean
   tags: SchemaCategoryTag[]
   selectedTags?: string[]
 }

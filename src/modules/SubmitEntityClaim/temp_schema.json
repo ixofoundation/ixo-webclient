@@ -1,0 +1,15 @@
+{
+  "properties": {
+    "shortTextQuestion": {
+      "type": "string"
+    },
+    "longTextQuestion": {
+      "type": "string"
+    },
+    "datePicker": {
+      "type": "string",
+      "format": "date"
+    }
+  },
+  "required": ["shortTextQuestion", "longTextQuestion", "datePicker"]
+}

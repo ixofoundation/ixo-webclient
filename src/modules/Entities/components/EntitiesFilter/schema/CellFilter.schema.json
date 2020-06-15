@@ -8,6 +8,7 @@
   "view": {
     "@type": "Category",
     "name": "View",
+    "multiSelect": false,
     "tags": [
       {
         "@type": "Tag",
@@ -35,6 +36,7 @@
     {
       "@type": "Category",
       "name": "Cell Type",
+      "multiSelect": true,
       "tags": [
         {
           "@type": "Tag",
@@ -123,6 +125,7 @@
     {
       "@type": "Category",
       "name": "SDG",
+      "multiSelect": true,
       "tags": [
         {
           "@type": "Tag",
@@ -214,6 +217,7 @@
     {
       "@type": "Category",
       "name": "Stage",
+      "multiSelect": false,
       "tags": [
         {
           "@type": "Tag",
