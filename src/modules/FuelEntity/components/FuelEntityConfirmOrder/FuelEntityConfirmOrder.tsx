@@ -14,8 +14,8 @@ import {
   BackButton,
 } from './FuelEntityConfirmOrder.styles'
 import IxoX from '../../../../assets/icons/IxoX'
-import Chatbot from '../../../../assets/icons/Chatbot'
-import Back from '../../../../assets/icons/Back'
+import ChatbotIcon from '../../../../assets/icons/Chatbot'
+import BackIcon from '../../../../assets/icons/Back'
 
 export interface Props {
   subscription: string
@@ -26,7 +26,6 @@ export interface Props {
   transactionFee: string
   fiatTransactionFee: string
   gasFee: string
-  fiat: string
   total: string
   fiatTotal: string
   handleConfirmOrder: () => void
@@ -42,7 +41,6 @@ const FuelEntityConfirmOrder: React.FunctionComponent<Props> = ({
   transactionFee,
   fiatTransactionFee,
   gasFee,
-  fiat,
   total,
   fiatTotal,
   handleConfirmOrder,
@@ -51,7 +49,7 @@ const FuelEntityConfirmOrder: React.FunctionComponent<Props> = ({
   return (
     <FuelEntityConfirmOrderWrapper>
       <BackButton onClick={handleCancelOrder}>
-        <Back width="18" fill="#A5ADB0" />
+        <BackIcon width="18" fill="#A5ADB0" />
       </BackButton>
       <div className="row header-section">
         <div className="col-12">
@@ -102,7 +100,7 @@ const FuelEntityConfirmOrder: React.FunctionComponent<Props> = ({
             <IxoX width="20" fill="#49BFE0" />
             {amount}
             <ChatBotIconWrapper onClick={handleCancelOrder}>
-              <Chatbot />
+              <ChatbotIcon />
             </ChatBotIconWrapper>
           </FuelEntityConfirmOrderPrice>
         </div>

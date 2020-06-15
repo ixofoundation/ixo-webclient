@@ -1,5 +1,6 @@
 import React, { Dispatch } from 'react'
 import { RouteProps } from 'react-router'
+import { NavLink } from 'react-router-dom'
 import { connect } from 'react-redux'
 import {
   ActionWrapper,
@@ -14,8 +15,8 @@ import FuelEntityConfirmOrder from './components/FuelEntityConfirmOrder/FuelEnti
 import { RootState } from 'src/common/redux/types'
 import * as fuelEntitySelectors from './FuelEntity.selectors'
 import { getOrder, confirmOrder, cancelOrder } from './FuelEntity.actions'
-import Back from '../../assets/icons/Back'
-import Chatbot from '../../assets/icons/Chatbot'
+import BackIcon from '../../assets/icons/Back'
+import ChatbotIcon from '../../assets/icons/Chatbot'
 
 interface Props {
   match: any
@@ -27,7 +28,6 @@ interface Props {
   transactionFee: string
   fiatTransactionFee: string
   gasFee: string
-  fiat: string
   total: string
   fiatTotal: string
   hasOrder: boolean
@@ -70,7 +70,6 @@ class FuelEntity extends React.Component<Props & RouteProps> {
       transactionFee,
       fiatTransactionFee,
       gasFee,
-      fiat,
       total,
       fiatTotal,
       hasOrder,
@@ -83,11 +82,6 @@ class FuelEntity extends React.Component<Props & RouteProps> {
 
     const hasError = !!error
 
-    const backLink = window.location.pathname.replace(
-      '/action/fuel_my_entity',
-      '',
-    )
-
     return (
       <ActionWrapper className="open">
         {!sending && !sent && !hasOrder && (
@@ -95,18 +89,16 @@ class FuelEntity extends React.Component<Props & RouteProps> {
             <AssistantHeader>
               <h3 className="assistant-heading">
                 <span className="chatbot-icon">
-                  <Chatbot />
+                  <ChatbotIcon />
                 </span>
                 Pixo
               </h3>
-              <span
+              <NavLink
+                to={`/projects/${projectDID}/overview`}
                 className="back-icon"
-                onClick={(): void => {
-                  window.location.pathname = backLink
-                }}
               >
-                <Back width="18" />
-              </span>
+                <BackIcon width="18" />
+              </NavLink>
             </AssistantHeader>
             <Assistant onMessageReceive={this.onAssistantMessageReceive} />
           </AssistantWrapper>
@@ -122,7 +114,6 @@ class FuelEntity extends React.Component<Props & RouteProps> {
               transactionFee={transactionFee}
               fiatTransactionFee={fiatTransactionFee}
               gasFee={gasFee}
-              fiat={fiat}
               total={total}
               fiatTotal={fiatTotal}
               handleConfirmOrder={(): void => handleConfirmOrder(projectDID)}
@@ -147,7 +138,6 @@ const mapStateToProps = (state: RootState): any => ({
   transactionFee: fuelEntitySelectors.selectOrderTokenTransactionFee(state),
   fiatTransactionFee: fuelEntitySelectors.selectOrderFiatTransactionFee(state),
   gasFee: fuelEntitySelectors.selectOrderGasFee(state),
-  fiat: fuelEntitySelectors.selectOrderFiat(state),
   total: fuelEntitySelectors.selectOrderTokenTotal(state),
   fiatTotal: fuelEntitySelectors.selectOrderFiatTotal(state),
   hasOrder: fuelEntitySelectors.selectHasOrder(state),

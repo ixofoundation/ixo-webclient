@@ -66,6 +66,7 @@ export const FuelEntityConfirmOrderWrapper = styled.div`
     font-weight: normal;
     font-size: 1.125rem;
     line-height: 1.75;
+    padding: 6px 12px;
     color: black;
     margin: 0;
     > svg {
@@ -143,8 +144,9 @@ export const FuelEntityConfirmOrderWrapper = styled.div`
 `
 
 export const BackButton = styled.div`
+  cursor: pointer;
   position: absolute;
-  top: 1.625rem;
-  right: 1.625rem;
+  top: 1.2rem;
+  right: 1rem;
   transform: rotate(180deg);
 `
