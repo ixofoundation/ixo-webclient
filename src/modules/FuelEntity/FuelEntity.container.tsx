@@ -1,9 +1,11 @@
 import React, { Dispatch } from 'react'
 import { RouteProps } from 'react-router'
+import { NavLink } from 'react-router-dom'
 import { connect } from 'react-redux'
 import {
   ActionWrapper,
   AssistantWrapper,
+  AssistantHeader,
   SummaryWrapper,
 } from '../../components/project/ControlPanel/Actions/Actions.styles'
 import Assistant, {
@@ -12,7 +14,9 @@ import Assistant, {
 import FuelEntityConfirmOrder from './components/FuelEntityConfirmOrder/FuelEntityConfirmOrder'
 import { RootState } from 'src/common/redux/types'
 import * as fuelEntitySelectors from './FuelEntity.selectors'
-import { getOrder, confirmOrder } from './FuelEntity.actions'
+import { getOrder, confirmOrder, cancelOrder } from './FuelEntity.actions'
+import BackIcon from '../../assets/icons/Back'
+import ChatbotIcon from '../../assets/icons/Chatbot'
 
 interface Props {
   match: any
@@ -24,7 +28,6 @@ interface Props {
   transactionFee: string
   fiatTransactionFee: string
   gasFee: string
-  fiat: string
   total: string
   fiatTotal: string
   hasOrder: boolean
@@ -33,6 +36,7 @@ interface Props {
   error: string
   handleGetOrder: (assistantResponse: any) => void
   handleConfirmOrder: (entityDid: string) => void
+  handleCancelOrder: () => void
 }
 
 class FuelEntity extends React.Component<Props & RouteProps> {
@@ -46,11 +50,11 @@ class FuelEntity extends React.Component<Props & RouteProps> {
 
   onAssistantMessageReceive = (utter: any): void => {
     // TODO - actual event to trigger end
-    if (utter.text === "Sorry, I didn't get that. Could you rephrase?") {
-      this.setState({ isInfoComplete: true })
-      // TODO - actual response to pass to handleGetOrder
-      this.props.handleGetOrder(null)
-    }
+    // if (utter.text === "Sorry, I didn't get that. Could you rephrase?") {
+
+    // TODO - actual response to pass to handleGetOrder
+    this.props.handleGetOrder(null)
+    // }
   }
 
   render(): JSX.Element {
@@ -66,7 +70,6 @@ class FuelEntity extends React.Component<Props & RouteProps> {
       transactionFee,
       fiatTransactionFee,
       gasFee,
-      fiat,
       total,
       fiatTotal,
       hasOrder,
@@ -74,6 +77,7 @@ class FuelEntity extends React.Component<Props & RouteProps> {
       sent,
       error,
       handleConfirmOrder,
+      handleCancelOrder,
     } = this.props
 
     const hasError = !!error
@@ -82,6 +86,20 @@ class FuelEntity extends React.Component<Props & RouteProps> {
       <ActionWrapper className="open">
         {!sending && !sent && !hasOrder && (
           <AssistantWrapper>
+            <AssistantHeader>
+              <h3 className="assistant-heading">
+                <span className="chatbot-icon">
+                  <ChatbotIcon />
+                </span>
+                Pixo
+              </h3>
+              <NavLink
+                to={`/projects/${projectDID}/overview`}
+                className="back-icon"
+              >
+                <BackIcon width="18" />
+              </NavLink>
+            </AssistantHeader>
             <Assistant onMessageReceive={this.onAssistantMessageReceive} />
           </AssistantWrapper>
         )}
@@ -96,10 +114,10 @@ class FuelEntity extends React.Component<Props & RouteProps> {
               transactionFee={transactionFee}
               fiatTransactionFee={fiatTransactionFee}
               gasFee={gasFee}
-              fiat={fiat}
               total={total}
               fiatTotal={fiatTotal}
               handleConfirmOrder={(): void => handleConfirmOrder(projectDID)}
+              handleCancelOrder={(): void => handleCancelOrder()}
             />
           </SummaryWrapper>
         )}
@@ -120,7 +138,6 @@ const mapStateToProps = (state: RootState): any => ({
   transactionFee: fuelEntitySelectors.selectOrderTokenTransactionFee(state),
   fiatTransactionFee: fuelEntitySelectors.selectOrderFiatTransactionFee(state),
   gasFee: fuelEntitySelectors.selectOrderGasFee(state),
-  fiat: fuelEntitySelectors.selectOrderFiat(state),
   total: fuelEntitySelectors.selectOrderTokenTotal(state),
   fiatTotal: fuelEntitySelectors.selectOrderFiatTotal(state),
   hasOrder: fuelEntitySelectors.selectHasOrder(state),
@@ -134,6 +151,7 @@ const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
     dispatch(getOrder(assistantResponse)),
   handleConfirmOrder: (entityDid: string): void =>
     dispatch(confirmOrder(entityDid)), // TODO remove entityDid once projects refactored
+  handleCancelOrder: (): void => dispatch(cancelOrder()),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(FuelEntity)
