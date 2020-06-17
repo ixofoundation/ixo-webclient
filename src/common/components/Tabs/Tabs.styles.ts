@@ -9,7 +9,7 @@ export const createTabsContainer = (activeTabColor: string): any => styled.div`
 
   > * {
     &:not(:first-child) {
-      border-left: 1px solid rgba(1, 116, 146, 1);
+      border-left: 1px solid #3c3d3d;
     }
   }
 
@@ -80,14 +80,19 @@ export const createTabsContainer = (activeTabColor: string): any => styled.div`
     padding: 0 5px;
   }
 
-  @media (min-width: ${deviceWidth.tablet}px) {
+  @media (min-width: ${deviceWidth.mobileSmall}px) {
+    a {
+      min-width: 110px;
+      width: calc(100% / 3);
+    }
+  }
+  @media (min-width: ${deviceWidth.mobile}px) {
     a {
       min-width: 168px;
       width: calc(100% / 3);
     }
   }
   @media (max-width: ${deviceWidth.tablet}px) {
-    width: calc(100vw - 30px);
     a {
       flex: 1;
       height: 40px;

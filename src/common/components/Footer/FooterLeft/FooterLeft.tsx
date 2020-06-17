@@ -18,13 +18,6 @@ import {
 import { Link } from 'react-router-dom'
 
 export const FooterLeft: React.SFC<any> = () => {
-  let IxoAppDownloadURL = ''
-  if (navigator.userAgent.indexOf('Chrome') !== -1) {
-    IxoAppDownloadURL =
-      'https://play.google.com/store/apps/details?id=com.ixo&hl=en_ZA'
-  } else if (navigator.userAgent.indexOf('Safari') !== -1) {
-    IxoAppDownloadURL = 'https://apps.apple.com/za/app/ixo/id1441394401'
-  }
   return (
     <Main className="col-md-8">
       <div className="row">
@@ -55,9 +48,18 @@ export const FooterLeft: React.SFC<any> = () => {
                 <ExternalFooterLink
                   target="_blank"
                   rel="noopener noreferrer"
-                  href={IxoAppDownloadURL}
+                  href={
+                    'https://play.google.com/store/apps/details?id=com.ixo&hl=en_ZA'
+                  }
                 >
-                  Mobile
+                  Mobile Android
+                </ExternalFooterLink>
+                <ExternalFooterLink
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href={'https://apps.apple.com/za/app/ixo/id1441394401'}
+                >
+                  Mobile iOs
                 </ExternalFooterLink>
                 <FooterLink
                   className="nowrap"
