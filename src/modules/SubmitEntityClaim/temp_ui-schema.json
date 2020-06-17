@@ -49,10 +49,7 @@
             {
               "type": "Control",
               "scope": "#/properties/datePicker",
-              "label": "Select Date",
-              "options": {
-                "multi": true
-              }
+              "label": "Select Date"
             }
           ]
         }
