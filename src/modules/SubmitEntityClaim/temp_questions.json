@@ -1,0 +1,32 @@
+[
+  {
+    "questionId": "a",
+    "title": "Short Text Question",
+    "description": "This will be a short description or explainer text explaining the question. ",
+    "label": "Short Answer",
+    "required": true,
+    "type": "string",
+    "control": "text",
+    "placeholder": "Start Typing here"
+  },
+  {
+    "questionId": "b",
+    "title": "Long Text Question",
+    "description": "This will be a short description or explainer text explaining the question. ",
+    "label": "Long Answer",
+    "required": true,
+    "type": "string",
+    "control": "textarea",
+    "placeholder": "Start Typing here"
+  },
+  {
+    "questionId": "c",
+    "title": "Some other question",
+    "description": "This will be a short description or explainer text explaining the question. ",
+    "label": "Some Answer",
+    "required": false,
+    "type": "string",
+    "control": "textarea",
+    "placeholder": "Start entering text here"
+  }
+]

@@ -13,8 +13,6 @@ import {
   HeroInfoItem,
   Title,
   Description,
-  AddClaim,
-  SubNavItem,
 } from './ProjectHero.styles'
 import CalendarSort from 'src/assets/icons/CalendarSort'
 import availableFlags from '../../lib/json/availableFlags.json'
@@ -34,8 +32,6 @@ export const ProjectHero: React.SFC<Props> = ({
   project,
   match,
   isDetail,
-  hasCapability,
-  isClaim,
   isLoggedIn,
 }) => {
   const entityType = project.entityType
@@ -83,60 +79,37 @@ export const ProjectHero: React.SFC<Props> = ({
   }
 
   const getFlagURL = (projectLocation: string): string => {
-    return availableFlags.availableFlags.includes(project.projectLocation)
-      ? `url(${require(`../../assets/images/country-flags/${projectLocation.toLowerCase()}.svg`)})`
-      : ''
+    if (availableFlags.availableFlags.includes(project.projectLocation)) {
+      return `url(${require(`../../assets/images/country-flags/${projectLocation.toLowerCase()}.svg`)})`
+    } else if (project.projectLocation === 'AA') {
+      return `url(${require('../../assets/images/country-flags/global.svg')})`
+    }
+
+    return ''
   }
 
-  const handleSwitchDescription = (): JSX.Element => {
-    if (isClaim) {
-      return (
-        <>
-          <SubNavItem exact={true} to={'/homepage'}>
-            HOME
-          </SubNavItem>{' '}
-          <span>|</span>
-          <SubNavItem exact={true} to={'/projects/'}>
-            PROJECTS
-          </SubNavItem>{' '}
-          <span>|</span>
-          <SubNavItem
-            exact={true}
-            to={`/projects/${match.params.projectDID}/overview/`}
-          >
-            {project.title}
-          </SubNavItem>{' '}
-          <span>|</span>
-          <SubNavItem
-            to={`/projects/${match.params.projectDID}/detail/new-claim`}
-          >
-            SUBMIT CLAIM
-          </SubNavItem>
-        </>
-      )
-    } else {
-      return (
-        <>
-          {project.sdgs.map((SDG, index) => {
-            const goal = Math.floor(SDG)
-            if (goal > 0 && goal <= SDGArray.length) {
-              return (
-                <SingleSDG
-                  target="_blank"
-                  href={SDGArray[goal - 1].url}
-                  key={index}
-                >
-                  <i className={`icon-sdg-${SDGArray[goal - 1].ico}`} />
-                  {goal}. {SDGArray[goal - 1].title}
-                </SingleSDG>
-              )
-            } else {
-              return null
-            }
-          })}
-        </>
-      )
-    }
+  const renderSDGs = (): JSX.Element => {
+    return (
+      <>
+        {project.sdgs.map((SDG, index) => {
+          const goal = Math.floor(SDG)
+          if (goal > 0 && goal <= SDGArray.length) {
+            return (
+              <SingleSDG
+                target="_blank"
+                href={SDGArray[goal - 1].url}
+                key={index}
+              >
+                <i className={`icon-sdg-${SDGArray[goal - 1].ico}`} />
+                {goal}. {SDGArray[goal - 1].title}
+              </SingleSDG>
+            )
+          } else {
+            return null
+          }
+        })}
+      </>
+    )
   }
 
   return (
@@ -144,23 +117,9 @@ export const ProjectHero: React.SFC<Props> = ({
       <HeroInner className={`container ${isDetail && 'detailed'}`}>
         <div className="row">
           <div className="col-sm-12">
-            {handleSwitchDescription()}
+            {renderSDGs()}
             <Title>{project.title}</Title>
             <Description>{project.shortDescription}</Description>
-            {!isDetail && hasCapability([AgentRoles.serviceProviders]) && (
-              <AddClaim
-                to={`/projects/${match.params.projectDID}/detail/new-claim`}
-              >
-                + CAPTURE CLAIM
-              </AddClaim>
-            )}
-            {!isDetail && hasCapability([AgentRoles.evaluators]) && (
-              <AddClaim
-                to={`/projects/${match.params.projectDID}/detail/claims`}
-              >
-                EVALUATE CLAIMS
-              </AddClaim>
-            )}
             <HeroInfoItemsWrapper>
               <HeroInfoItem>
                 <CalendarSort fill="#A5ADB0" />

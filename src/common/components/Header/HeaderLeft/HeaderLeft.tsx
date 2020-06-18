@@ -30,7 +30,10 @@ export class HeaderLeft extends React.Component<ParentProps> {
           <HeaderLink exact={true} to="/">
             Explore
           </HeaderLink>
-          <HeaderAnchor target="_blank" href="https://developers.ixo.world/">
+          <HeaderAnchor
+            target="_blank"
+            href="https://developers.ixo.foundation/"
+          >
             Build
           </HeaderAnchor>
           <HeaderAnchor

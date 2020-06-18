@@ -15,7 +15,7 @@ import {
   Container,
   ListItems,
   PositionButtons,
-  ReturnButton,
+  // ReturnButton,
   StartButton,
 } from './Instructions.styles'
 
@@ -95,7 +95,8 @@ export const Instructions: React.FunctionComponent<Props> = ({
       </ListItems>
       <hr />
       <PositionButtons>
-        <ReturnButton>Come back later</ReturnButton>
+        {/*         <ReturnButton>Come back later</ReturnButton>
+         */}{' '}
         <StartButton onClick={toggleInstructions}>Start</StartButton>
       </PositionButtons>
     </Container>

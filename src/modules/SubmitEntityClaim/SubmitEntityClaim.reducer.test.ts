@@ -1,5 +1,10 @@
 import * as SUT from './SubmitEntityClaim.reducer'
-import { SaveAnswerAction, SubmitEntityClaimActions } from './types'
+import {
+  SaveAnswerAction,
+  SubmitEntityClaimActions,
+  GoToNextQuestionAction,
+  GoToPreviousQuestionAction,
+} from './types'
 
 const initialState = SUT.initialState
 
@@ -70,6 +75,42 @@ describe('SubmitEntityClaim Reducer', () => {
           { questionId: 'abc', foo: 'bar' },
           { questionId: 'xyz', foo1: 'bar5' },
         ],
+      })
+    })
+  })
+
+  describe('GoToNextQuestion Action', () => {
+    it('should update the currentQuestionNo', () => {
+      const action: GoToNextQuestionAction = {
+        type: SubmitEntityClaimActions.GoToNextQuestion,
+        payload: {
+          nextQuestionNo: 3,
+        },
+      }
+
+      const result = SUT.reducer(initialState, action)
+
+      expect(result).toEqual({
+        ...initialState,
+        currentQuestionNo: 3,
+      })
+    })
+  })
+
+  describe('GoToPreviousQuestion Action', () => {
+    it('should update the currentQuestionNo', () => {
+      const action: GoToPreviousQuestionAction = {
+        type: SubmitEntityClaimActions.GoToPreviousQuestion,
+        payload: {
+          previousQuestionNo: 2,
+        },
+      }
+
+      const result = SUT.reducer(initialState, action)
+
+      expect(result).toEqual({
+        ...initialState,
+        currentQuestionNo: 2,
       })
     })
   })
