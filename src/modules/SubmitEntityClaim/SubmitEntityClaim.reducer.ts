@@ -3,9 +3,10 @@ import {
   SubmitEntityClaimActionTypes,
   SubmitEntityClaimActions,
 } from './types'
+import tempQuestions from './temp_questions.json'
 
 export const initialState: SubmitEntityClaimState = {
-  questions: [],
+  questions: tempQuestions,
   currentQuestionNo: 1,
   answers: [],
   answersComplete: false,
@@ -28,6 +29,16 @@ export const reducer = (
           ) || []),
           action.payload.answer,
         ],
+      }
+    case SubmitEntityClaimActions.GoToPreviousQuestion:
+      return {
+        ...state,
+        currentQuestionNo: action.payload.previousQuestionNo,
+      }
+    case SubmitEntityClaimActions.GoToNextQuestion:
+      return {
+        ...state,
+        currentQuestionNo: action.payload.nextQuestionNo,
       }
   }
 

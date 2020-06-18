@@ -1,5 +1,16 @@
+export interface Question {
+  questionId: string
+  title: string
+  description: string
+  required: boolean
+  type: string
+  label: string
+  control: string
+  placeholder: string
+}
+
 export interface SubmitEntityClaimState {
-  questions: any[]
+  questions: Question[]
   currentQuestionNo: number
   answers: any[]
   answersComplete: boolean
