@@ -186,5 +186,6 @@ export const AssistantProgress = styled.div`
     font-weight: bold;
     font-size: 16px;
     line-height: 1.2;
+    color: #a5adb0;
   }
 `

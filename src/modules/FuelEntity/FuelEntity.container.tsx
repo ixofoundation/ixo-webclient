@@ -139,10 +139,10 @@ class FuelEntity extends React.Component<Props & RouteProps> {
           <AssistantContentWrapper>
             <AssistantProgress>
               <div className="icon-pulse-wrapper">
-                <PaymentSuccessIcon width="80" fill="#6FCF97" />
+                <PaymentSuccessIcon width="132" fill="#6FCF97" />
               </div>
               <h2>Payment Successful</h2>
-              <button onClick={(): void => handleCancelOrder()}>close</button>
+              <button onClick={(): void => handleCancelOrder()}>Close</button>
             </AssistantProgress>
           </AssistantContentWrapper>
         )}
