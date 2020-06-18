@@ -7,6 +7,10 @@ export interface Question {
   label: string
   control: string
   placeholder: string
+  itemIds: string[]
+  itemLabels: string[]
+  minItems?: number
+  maxItems?: number
 }
 
 export interface SubmitEntityClaimState {

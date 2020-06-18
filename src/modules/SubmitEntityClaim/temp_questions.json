@@ -6,8 +6,12 @@
     "label": "Short Answer",
     "required": true,
     "type": "string",
+    "minItems": null,
+    "maxItems": null,
     "control": "text",
-    "placeholder": "Start Typing here"
+    "placeholder": "Start Typing here",
+    "itemIds": null,
+    "itemLabels": null
   },
   {
     "questionId": "b",
@@ -17,16 +21,68 @@
     "required": true,
     "type": "string",
     "control": "textarea",
-    "placeholder": "Start Typing here"
+    "placeholder": "Start Typing here",
+    "itemIds": null,
+    "itemLabels": null
   },
   {
     "questionId": "c",
-    "title": "Some other question",
+    "title": "Select some of the text items below",
     "description": "This will be a short description or explainer text explaining the question. ",
-    "label": "Some Answer",
-    "required": false,
-    "type": "string",
-    "control": "textarea",
-    "placeholder": "Start entering text here"
+    "label": "Select 3 options",
+    "required": true,
+    "type": "array",
+    "minItems": 3,
+    "maxItems": 3,
+    "control": "checkboxes",
+    "placeholder": null,
+    "itemIds": [
+      "Option1",
+      "Option2",
+      "Option3",
+      "Option4",
+      "Option5",
+      "Option6",
+      "Option7"
+    ],
+    "itemLabels": [
+      "Option 1",
+      "Option 2",
+      "Option 3",
+      "Option 4",
+      "Option 5",
+      "Option 6",
+      "Option 7"
+    ]
+  },
+  {
+    "questionId": "d",
+    "title": "Select some of the image items below",
+    "description": "This will be a short description or explainer text explaining the question. ",
+    "label": "Select 2 options",
+    "required": true,
+    "type": "array",
+    "minItems": 3,
+    "maxItems": 3,
+    "control": "checkboxes",
+    "placeholder": null,
+    "itemIds": [
+      "Option1",
+      "Option2",
+      "Option3",
+      "Option4",
+      "Option5",
+      "Option6",
+      "Option7"
+    ],
+    "itemLabels": [
+      "Option 1",
+      "Option 2",
+      "Option 3",
+      "Option 4",
+      "Option 5",
+      "Option 6",
+      "Option 7"
+    ]
   }
 ]

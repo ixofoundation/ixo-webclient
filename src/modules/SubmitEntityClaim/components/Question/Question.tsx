@@ -11,6 +11,10 @@ interface Props {
   type: string
   control: string
   placeholder: string
+  itemIds: string[]
+  itemLabels: string[]
+  minItems: number
+  maxItems: number
   nextButtonText: string
   showPreviousButton: boolean
   handlePreviousClick: () => void
@@ -28,6 +32,10 @@ const Question: React.FunctionComponent<Props> = ({
   placeholder,
   nextButtonText,
   showPreviousButton,
+  itemIds,
+  itemLabels,
+  minItems,
+  maxItems,
   handlePreviousClick,
   handleNextClick,
 }) => {
@@ -37,7 +45,14 @@ const Question: React.FunctionComponent<Props> = ({
     type: 'object',
     required: required ? [questionId] : [],
     properties: {
-      shortTextQuestion: { type, title: label },
+      [questionId]: {
+        type,
+        title: label,
+        items: { type: 'string', enum: itemIds, enumNames: itemLabels },
+        uniqueItems: true,
+        minItems,
+        maxItems,
+      },
     },
   } as any
 

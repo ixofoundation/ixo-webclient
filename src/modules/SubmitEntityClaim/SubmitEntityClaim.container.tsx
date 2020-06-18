@@ -48,6 +48,10 @@ class SubmitEntityClaim extends React.Component<Props, State> {
         type,
         required,
         control,
+        itemIds,
+        itemLabels,
+        minItems,
+        maxItems,
         placeholder,
       },
       currentQuestionNo,
@@ -72,6 +76,10 @@ class SubmitEntityClaim extends React.Component<Props, State> {
               required={required}
               control={control}
               placeholder={placeholder}
+              itemIds={itemIds}
+              itemLabels={itemLabels}
+              minItems={minItems}
+              maxItems={maxItems}
               showPreviousButton={currentQuestionNo > 1}
               nextButtonText={
                 questionCount === currentQuestionNo ? 'Finalise' : 'Next'
