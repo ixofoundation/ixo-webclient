@@ -2,26 +2,6 @@ import styled from 'styled-components'
 import { deviceWidth } from 'src/lib/commonData'
 
 export const Container = styled.div`
-  position: relative;
-  z-index: 10;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  left: 0;
-
-  max-width: 760px;
-  background: white;
-  border-radius: 4px;
-  padding: 2rem 2.5rem;
-  overflow: hidden;
-  @media (min-width: ${deviceWidth.mobile}px) {
-    padding: 2.5rem 3.75rem;
-  }
-
-  @media (min-width: ${deviceWidth.desktopLarge}px) {
-    transform: translateX(30%);
-  }
-
   h1 {
     font-size: 36px;
     line-height: 42px;

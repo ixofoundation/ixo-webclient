@@ -3,7 +3,6 @@ import { Route, Switch } from 'react-router-dom'
 import { ProjectContainerConnected } from './project/ProjectContainer'
 import { EntitiesContainerConnected } from '../modules/Entities/Entities.container'
 import { EntitiesSelectConnected } from '../modules/Entities/Entities.container.select'
-import { SubmitEntityClaimConnected } from '../modules/SubmitEntityClaim/SubmitEntityClaim.container'
 import { ProjectCreateConnected } from './project/ProjectCreate'
 import { contentType } from '../types/models'
 import { ProjectForm } from './project/ProjectForm'
@@ -74,10 +73,6 @@ export const Routes: React.SFC<{}> = props => {
               contentType={contentType.overview}
             />
           )}
-        />
-        <Route
-          path="/projects/:projectDID/claims/new-claim"
-          component={SubmitEntityClaimConnected}
         />
         {/* Old claims related screens - remove when new claims is ready */}
         {/*        <Route
