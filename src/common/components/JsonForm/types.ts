@@ -3,6 +3,7 @@ export interface FormControl {
   title: string
   description: string
   required: boolean
+  inline?: boolean
   type: string
   label: string
   control: string

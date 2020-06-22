@@ -29,6 +29,7 @@ const SingleControlForm: React.FunctionComponent<Props> = ({
     description,
     label,
     required,
+    inline,
     type,
     control,
     placeholder,
@@ -67,6 +68,9 @@ const SingleControlForm: React.FunctionComponent<Props> = ({
         : control,
       ['ui:placeholder']: placeholder,
       ['ui:images']: itemImages,
+      ['ui:options']: {
+        inline,
+      },
     },
   }
 
