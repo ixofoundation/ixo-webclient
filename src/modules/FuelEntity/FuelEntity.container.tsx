@@ -142,7 +142,12 @@ class FuelEntity extends React.Component<Props & RouteProps> {
                 <PaymentSuccessIcon width="132" fill="#6FCF97" />
               </div>
               <h2>Payment Successful</h2>
-              <button onClick={(): void => handleCancelOrder()}>Close</button>
+              <NavLink
+                className="close-button"
+                to={`/projects/${projectDID}/overview`}
+              >
+                Close
+              </NavLink>
             </AssistantProgress>
           </AssistantContentWrapper>
         )}

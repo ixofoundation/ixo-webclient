@@ -179,6 +179,7 @@ export const AssistantProgress = styled.div`
     color: firebrick;
   }
 
+  .close-button,
   button {
     background: none;
     border: none;
@@ -187,5 +188,6 @@ export const AssistantProgress = styled.div`
     font-size: 16px;
     line-height: 1.2;
     color: #a5adb0;
+    text-decoration: none;
   }
 `
