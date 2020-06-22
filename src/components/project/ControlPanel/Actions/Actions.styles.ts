@@ -89,7 +89,7 @@ export const ActionWrapper = styled.div`
       animation: fadeInSummary 1s ease-in-out;
     }
   }
-  @media (max-width: ${deviceWidth.tablet}px) {
+  @media (max-width: ${deviceWidth.desktop}px) {
     background: white;
     position: fixed;
     top: 0;
