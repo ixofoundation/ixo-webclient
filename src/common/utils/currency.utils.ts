@@ -10,7 +10,7 @@ export const displayFiatAmount = (
 }
 
 export const displayTokenAmount = (amount: BigNumber | number): string => {
-  const amountParts = amount.toFixed(6).split('.')
+  const amountParts = amount.toFixed(3).split('.')
   const intAmountPart = amountParts[0]
   const decAmountPart = amountParts[1]
 
