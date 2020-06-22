@@ -7,6 +7,8 @@ import {
   AssistantWrapper,
   AssistantHeader,
   SummaryWrapper,
+  AssistantContentWrapper,
+  AssistantProgress,
 } from '../../components/project/ControlPanel/Actions/Actions.styles'
 import Assistant, {
   startAssistant,
@@ -17,6 +19,8 @@ import * as fuelEntitySelectors from './FuelEntity.selectors'
 import { getOrder, confirmOrder, cancelOrder } from './FuelEntity.actions'
 import BackIcon from '../../assets/icons/Back'
 import ChatbotIcon from '../../assets/icons/Chatbot'
+import PaymentSuccessIcon from '../../assets/icons/PaymentSuccess'
+import SendIcon from '../../assets/icons/Send'
 
 interface Props {
   match: any
@@ -83,7 +87,11 @@ class FuelEntity extends React.Component<Props & RouteProps> {
     const hasError = !!error
 
     return (
-      <ActionWrapper className="open">
+      <ActionWrapper
+        className={`open ${
+          !sending && !sent && hasOrder && !hasError ? 'summary' : ''
+        }`}
+      >
         {!sending && !sent && !hasOrder && (
           <AssistantWrapper>
             <AssistantHeader>
@@ -121,9 +129,41 @@ class FuelEntity extends React.Component<Props & RouteProps> {
             />
           </SummaryWrapper>
         )}
-        {sending && <div>Sending</div>}
-        {sent && <div>Sent</div>}
-        {hasError && <div>{error}</div>}
+        {sending && (
+          <AssistantContentWrapper>
+            <AssistantProgress>
+              <div className="icon-pulse-wrapper repeat">
+                <SendIcon width="80" fill="#49BFE0" />
+              </div>
+              <h2>Sending...</h2>
+            </AssistantProgress>
+          </AssistantContentWrapper>
+        )}
+        {sent && (
+          <AssistantContentWrapper>
+            <AssistantProgress>
+              <div className="icon-pulse-wrapper">
+                <PaymentSuccessIcon width="132" fill="#6FCF97" />
+              </div>
+              <h2>Payment Successful</h2>
+              <NavLink
+                className="close-button"
+                to={`/projects/${projectDID}/overview`}
+              >
+                Close
+              </NavLink>
+            </AssistantProgress>
+          </AssistantContentWrapper>
+        )}
+        {hasError && (
+          <AssistantContentWrapper>
+            <AssistantProgress>
+              <h2>Oops an error occured</h2>
+              <div className="error">{error}</div>
+              <button onClick={(): void => handleCancelOrder()}>Go back</button>
+            </AssistantProgress>
+          </AssistantContentWrapper>
+        )}
       </ActionWrapper>
     )
   }

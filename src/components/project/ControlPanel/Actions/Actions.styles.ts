@@ -39,10 +39,19 @@ export const ActionLinksWrapper = styled.div`
   }
 `
 
+export const AssistantContentWrapper = styled.div`
+  height: 100%;
+  background: white;
+`
+
+export const SummaryWrapper = styled(AssistantContentWrapper)`
+  position: relative;
+`
+
 export const ActionWrapper = styled.div`
   background: #dfe7f4;
   position: absolute;
-  width: calc(200% + 60px);
+  width: 375px;
   height: 100%;
   top: 0;
   left: 0;
@@ -62,6 +71,23 @@ export const ActionWrapper = styled.div`
   &.open {
     opacity: 1;
     transform: translateX(-100%);
+  }
+  &.summary {
+    width: calc(200% + 60px);
+    @keyframes fadeInSummary {
+      0% {
+        opacity: 0;
+      }
+      50% {
+        opacity: 0;
+      }
+      100% {
+        opacity: 1;
+      }
+    }
+    ${SummaryWrapper} > * {
+      animation: fadeInSummary 1s ease-in-out;
+    }
   }
   @media (max-width: ${deviceWidth.tablet}px) {
     background: white;
@@ -114,10 +140,4 @@ export const AssistantHeader = styled.div`
   .back-icon {
     transform: rotate(180deg);
   }
-`
-
-export const SummaryWrapper = styled.div`
-  height: 100%;
-  background-color: white;
-  position: relative;
 `
