@@ -35,7 +35,8 @@ const SingleControlForm: React.FunctionComponent<Props> = ({
     placeholder,
     minItems,
     maxItems,
-    itemIds,
+    values,
+    itemValues,
     itemLabels,
     itemImages,
   } = formControl
@@ -49,9 +50,10 @@ const SingleControlForm: React.FunctionComponent<Props> = ({
       [id]: {
         type,
         title: label,
+        enum: values,
         items: {
           type: 'string',
-          enum: itemIds,
+          enum: itemValues,
           enumNames: itemLabels,
         },
         uniqueItems: true,

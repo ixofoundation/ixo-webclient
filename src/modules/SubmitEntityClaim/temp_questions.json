@@ -29,7 +29,7 @@
     "minItems": 1,
     "maxItems": 2,
     "control": "checkboxes",
-    "itemIds": [
+    "itemValues": [
       "Option1",
       "Option2",
       "Option3",
@@ -58,7 +58,7 @@
     "minItems": 3,
     "maxItems": 3,
     "control": "imagecheckboxes",
-    "itemIds": ["Option1", "Option2", "Option3", "Option4"],
+    "itemValues": ["Option1", "Option2", "Option3", "Option4"],
     "itemLabels": [
       "Picture Option 1",
       "Picture Option 2",
@@ -81,7 +81,6 @@
     "inline": true,
     "type": "number",
     "control": "radio",
-    "itemIds": ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"],
-    "itemLabels": ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"]
+    "values": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
   }
 ]

@@ -8,7 +8,8 @@ export interface FormControl {
   label: string
   control: string
   placeholder?: string
-  itemIds?: string[]
+  values?: any[]
+  itemValues?: any[]
   itemLabels?: string[]
   itemImages?: string[]
   minItems?: number
