@@ -23,7 +23,7 @@ interface Props {
   toggleInstructions: () => void
 }
 
-export const Instructions: React.FunctionComponent<Props> = ({
+const Instructions: React.FunctionComponent<Props> = ({
   toggleInstructions,
 }) => {
   const listItems = [

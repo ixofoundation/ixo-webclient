@@ -1,10 +1,10 @@
 import React, { Dispatch } from 'react'
 import { connect } from 'react-redux'
 import { RootState } from 'src/common/redux/types'
-import { Instructions } from './components/Instructions/Instructions'
+import Instructions from './components/Instructions/Instructions'
+import Question from './components/Question/Question'
 import { Container } from './SubmitEntityClaim.container.styles'
-import QuestionComponent from './components/Question/Question'
-import { Question } from './types'
+import { FormControl } from '../../common/components/JsonForm/types'
 import * as submitEntityClaimSelectors from './SubmitEntityClaim.selectors'
 import {
   goToNextQuestion,
@@ -13,7 +13,7 @@ import {
 import { ActionWrapper } from '../../components/project/ControlPanel/Actions/Actions.styles'
 
 interface Props {
-  currentQuestion: Question
+  currentQuestion: FormControl
   currentQuestionNo: number
   questionCount: number
   handlePreviousClick: () => void
@@ -40,21 +40,7 @@ class SubmitEntityClaim extends React.Component<Props, State> {
 
   render(): JSX.Element {
     const {
-      currentQuestion: {
-        questionId,
-        title,
-        description,
-        label,
-        type,
-        required,
-        control,
-        itemIds,
-        itemLabels,
-        itemImages,
-        minItems,
-        maxItems,
-        placeholder,
-      },
+      currentQuestion,
       currentQuestionNo,
       questionCount,
       handlePreviousClick,
@@ -66,26 +52,12 @@ class SubmitEntityClaim extends React.Component<Props, State> {
           {this.state.showInstructions ? (
             <Instructions toggleInstructions={this.handleToggleInstructions} />
           ) : (
-            <QuestionComponent
+            <Question
               handlePreviousClick={handlePreviousClick}
               handleNextClick={handleNextClick}
-              questionId={questionId}
-              title={title}
-              description={description}
-              label={label}
-              type={type}
-              required={required}
-              control={control}
-              placeholder={placeholder}
-              itemIds={itemIds}
-              itemLabels={itemLabels}
-              itemImages={itemImages}
-              minItems={minItems}
-              maxItems={maxItems}
-              showPreviousButton={currentQuestionNo > 1}
-              nextButtonText={
-                questionCount === currentQuestionNo ? 'Finalise' : 'Next'
-              }
+              question={currentQuestion}
+              currentQuestionNo={currentQuestionNo}
+              questionCount={questionCount}
             />
           )}
         </Container>
