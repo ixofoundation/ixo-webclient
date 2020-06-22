@@ -1,6 +1,7 @@
 import React from 'react'
 import Form from '@rjsf/core'
 import { QuestionContainer } from './Question.styles'
+import ImageCheckboxes from '../../../../common/components/ReactJsonForm/CustomWidgets/ImageCheckboxes/ImageCheckboxes'
 
 interface Props {
   questionId: string
@@ -58,7 +59,8 @@ const Question: React.FunctionComponent<Props> = ({
 
   const uiSchema = {
     [questionId]: {
-      ['ui:widget']: control,
+      ['ui:widget']:
+        control === 'custom_imagecheckboxes' ? ImageCheckboxes : control,
       ['ui:placeholder']: placeholder,
     },
   }

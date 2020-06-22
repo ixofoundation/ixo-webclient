@@ -64,7 +64,7 @@
     "type": "array",
     "minItems": 3,
     "maxItems": 3,
-    "control": "checkboxes",
+    "control": "custom_imagecheckboxes",
     "placeholder": null,
     "itemIds": [
       "Option1",
