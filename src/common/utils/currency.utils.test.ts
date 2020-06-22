@@ -44,40 +44,38 @@ describe('Currency Utils', () => {
 
   describe('displayTokenAmount', () => {
     it('should return an token formatted amount for an amount less than 10', () => {
-      const displayAmount = SUT.displayTokenAmount(new BigNumber(1.109203))
-      expect(displayAmount).toEqual('1.109203')
+      const displayAmount = SUT.displayTokenAmount(new BigNumber(1.109))
+      expect(displayAmount).toEqual('1.109')
     })
 
     it('should return an token formatted amount for an amount less than 100', () => {
-      const displayAmount = SUT.displayTokenAmount(new BigNumber(89.133084))
-      expect(displayAmount).toEqual('89.133084')
+      const displayAmount = SUT.displayTokenAmount(new BigNumber(89.133))
+      expect(displayAmount).toEqual('89.133')
     })
 
     it('should return an token formatted amount for an amount less than 1000', () => {
-      const displayAmount = SUT.displayTokenAmount(new BigNumber(786.15029))
-      expect(displayAmount).toEqual('786.150290')
+      const displayAmount = SUT.displayTokenAmount(new BigNumber(786.15))
+      expect(displayAmount).toEqual('786.150')
     })
 
     it('should return an token formatted amount for an amount less than 10000', () => {
-      const displayAmount = SUT.displayTokenAmount(new BigNumber(9992.092193))
-      expect(displayAmount).toEqual('9,992.092193')
+      const displayAmount = SUT.displayTokenAmount(new BigNumber(9992.092))
+      expect(displayAmount).toEqual('9,992.092')
     })
 
     it('should return an token formatted amount for an amount less than 100000', () => {
-      const displayAmount = SUT.displayTokenAmount(new BigNumber(99924.028283))
-      expect(displayAmount).toEqual('99,924.028283')
+      const displayAmount = SUT.displayTokenAmount(new BigNumber(99924.028))
+      expect(displayAmount).toEqual('99,924.028')
     })
 
     it('should return an token formatted amount for an amount less than 1000000', () => {
       const displayAmount = SUT.displayTokenAmount(new BigNumber(997924))
-      expect(displayAmount).toEqual('997,924.000000')
+      expect(displayAmount).toEqual('997,924.000')
     })
 
     it('should return an token formatted amount for an amount less than 10000000', () => {
-      const displayAmount = SUT.displayTokenAmount(
-        new BigNumber(3829282.789239),
-      )
-      expect(displayAmount).toEqual('3,829,282.789239')
+      const displayAmount = SUT.displayTokenAmount(new BigNumber(3829282.789))
+      expect(displayAmount).toEqual('3,829,282.789')
     })
   })
 })

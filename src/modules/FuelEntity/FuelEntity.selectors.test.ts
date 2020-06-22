@@ -110,7 +110,7 @@ describe('Entities Selectors', () => {
       const result = SUT.selectOrderGasFee(state)
 
       // then ... should return result as expected
-      expect(result).toEqual('1.004500')
+      expect(result).toEqual('1.005')
     })
   })
 
@@ -170,7 +170,7 @@ describe('Entities Selectors', () => {
       const result = SUT.selectOrderTokenAmount(state)
 
       // then ... should return result as expected
-      expect(result).toEqual('1,267.910000')
+      expect(result).toEqual('1,267.910')
     })
   })
 
@@ -180,7 +180,7 @@ describe('Entities Selectors', () => {
       const result = SUT.selectOrderTokenTransactionFee(state)
 
       // then ... should return result as expected
-      expect(result).toEqual('8.445000')
+      expect(result).toEqual('8.445')
     })
   })
 
@@ -190,7 +190,7 @@ describe('Entities Selectors', () => {
       const result = SUT.selectOrderTokenTotal(state)
 
       // then ... should return result as expected
-      expect(result).toEqual('1,276.355000')
+      expect(result).toEqual('1,276.355')
     })
   })
 
