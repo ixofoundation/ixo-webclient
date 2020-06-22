@@ -13,9 +13,10 @@ import UploadVideo from '../../../../assets/icons/UploadVideo'
 import QRcode from '../../../../assets/icons/QRcode'
 import {
   Container,
+  ContentWrapper,
   ListItems,
-  PositionButtons,
-  // ReturnButton,
+  ButtonWrapper,
+  ReturnButton,
   StartButton,
 } from './Instructions.styles'
 
@@ -77,28 +78,34 @@ const Instructions: React.FunctionComponent<Props> = ({
 
   return (
     <Container>
-      <h1>Submit a claim</h1>
-      <h3>
-        Thank you for being interested in our project. In order to complete the
-        claim you’ll need to complete the following:
-      </h3>
-      <ListItems>
-        {listItems.map(
-          (item, index): JSX.Element => {
-            return (
-              <div key={index}>
-                {renderIcon(item.icon)} {item.description}
-              </div>
-            )
-          },
-        )}
-      </ListItems>
-      <hr />
-      <PositionButtons>
-        {/*         <ReturnButton>Come back later</ReturnButton>
-         */}{' '}
+      <ContentWrapper>
+        <h1>Submit a claim</h1>
+        <h3
+          style={{
+            fontSize: '18px',
+            marginBottom: '3rem',
+            marginRight: '3.75rem',
+          }}
+        >
+          Thank you for being interested in our project. In order to complete
+          the claim you’ll need to complete the following:
+        </h3>
+        <ListItems>
+          {listItems.map(
+            (item, index): JSX.Element => {
+              return (
+                <div key={index}>
+                  {renderIcon(item.icon)} {item.description}
+                </div>
+              )
+            },
+          )}
+        </ListItems>
+      </ContentWrapper>
+      <ButtonWrapper>
+        <ReturnButton>Come back later</ReturnButton>
         <StartButton onClick={toggleInstructions}>Start</StartButton>
-      </PositionButtons>
+      </ButtonWrapper>
     </Container>
   )
 }
