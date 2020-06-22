@@ -24,7 +24,7 @@ interface Props {
 const CheckboxesWidget: React.FunctionComponent<Props> = ({
   id,
   disabled,
-  options: { enumOptions, enumDisabled, inline },
+  options: { enumOptions, enumDisabled, inline, images },
   value,
   autofocus,
   readonly,
@@ -38,6 +38,7 @@ const CheckboxesWidget: React.FunctionComponent<Props> = ({
           enumDisabled && enumDisabled.indexOf(option.value) != -1
         const disabledCls =
           disabled || itemDisabled || readonly ? 'disabled' : ''
+        const image = images[index]
         const checkbox = (
           <span>
             <input
@@ -56,6 +57,7 @@ const CheckboxesWidget: React.FunctionComponent<Props> = ({
               }}
             />
             <span>{option.label}</span>
+            <img src={image} />
           </span>
         )
         return inline ? (

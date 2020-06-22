@@ -14,6 +14,7 @@ interface Props {
   placeholder: string
   itemIds: string[]
   itemLabels: string[]
+  itemImages: string[]
   minItems: number
   maxItems: number
   nextButtonText: string
@@ -35,6 +36,7 @@ const Question: React.FunctionComponent<Props> = ({
   showPreviousButton,
   itemIds,
   itemLabels,
+  itemImages,
   minItems,
   maxItems,
   handlePreviousClick,
@@ -49,7 +51,11 @@ const Question: React.FunctionComponent<Props> = ({
       [questionId]: {
         type,
         title: label,
-        items: { type: 'string', enum: itemIds, enumNames: itemLabels },
+        items: {
+          type: 'string',
+          enum: itemIds,
+          enumNames: itemLabels,
+        },
         uniqueItems: true,
         minItems,
         maxItems,
@@ -62,6 +68,7 @@ const Question: React.FunctionComponent<Props> = ({
       ['ui:widget']:
         control === 'custom_imagecheckboxes' ? ImageCheckboxes : control,
       ['ui:placeholder']: placeholder,
+      ['ui:images']: itemImages,
     },
   }
 

@@ -50,6 +50,7 @@ class SubmitEntityClaim extends React.Component<Props, State> {
         control,
         itemIds,
         itemLabels,
+        itemImages,
         minItems,
         maxItems,
         placeholder,
@@ -78,6 +79,7 @@ class SubmitEntityClaim extends React.Component<Props, State> {
               placeholder={placeholder}
               itemIds={itemIds}
               itemLabels={itemLabels}
+              itemImages={itemImages}
               minItems={minItems}
               maxItems={maxItems}
               showPreviousButton={currentQuestionNo > 1}

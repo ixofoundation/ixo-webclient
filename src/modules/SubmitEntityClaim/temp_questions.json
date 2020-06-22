@@ -6,12 +6,8 @@
     "label": "Short Answer",
     "required": true,
     "type": "string",
-    "minItems": null,
-    "maxItems": null,
     "control": "text",
-    "placeholder": "Start Typing here",
-    "itemIds": null,
-    "itemLabels": null
+    "placeholder": "Start Typing here"
   },
   {
     "questionId": "b",
@@ -21,21 +17,18 @@
     "required": true,
     "type": "string",
     "control": "textarea",
-    "placeholder": "Start Typing here",
-    "itemIds": null,
-    "itemLabels": null
+    "placeholder": "Start Typing here"
   },
   {
     "questionId": "c",
     "title": "Select some of the text items below",
     "description": "This will be a short description or explainer text explaining the question. ",
-    "label": "Select 3 options",
+    "label": "Select 1 to 2 options",
     "required": true,
     "type": "array",
-    "minItems": 3,
-    "maxItems": 3,
+    "minItems": 1,
+    "maxItems": 2,
     "control": "checkboxes",
-    "placeholder": null,
     "itemIds": [
       "Option1",
       "Option2",
@@ -59,30 +52,24 @@
     "questionId": "d",
     "title": "Select some of the image items below",
     "description": "This will be a short description or explainer text explaining the question. ",
-    "label": "Select 2 options",
+    "label": "Select 3 options",
     "required": true,
     "type": "array",
     "minItems": 3,
     "maxItems": 3,
     "control": "custom_imagecheckboxes",
-    "placeholder": null,
-    "itemIds": [
-      "Option1",
-      "Option2",
-      "Option3",
-      "Option4",
-      "Option5",
-      "Option6",
-      "Option7"
-    ],
+    "itemIds": ["Option1", "Option2", "Option3", "Option4"],
     "itemLabels": [
-      "Option 1",
-      "Option 2",
-      "Option 3",
-      "Option 4",
-      "Option 5",
-      "Option 6",
-      "Option 7"
+      "Picture Option 1",
+      "Picture Option 2",
+      "Picture Option 3",
+      "Picture Option 4"
+    ],
+    "itemImages": [
+      "https://claimformtemp.s3-eu-west-1.amazonaws.com/PictureOption1.png",
+      "https://claimformtemp.s3-eu-west-1.amazonaws.com/PictureOption2.png",
+      "https://claimformtemp.s3-eu-west-1.amazonaws.com/PictureOption3.png",
+      "https://claimformtemp.s3-eu-west-1.amazonaws.com/PictureOption4.png"
     ]
   }
 ]
