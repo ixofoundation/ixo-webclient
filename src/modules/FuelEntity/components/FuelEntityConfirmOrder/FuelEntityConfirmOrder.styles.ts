@@ -66,7 +66,7 @@ export const FuelEntityConfirmOrderWrapper = styled.div`
     font-weight: normal;
     font-size: 1.125rem;
     line-height: 1.75;
-    padding: 6px 12px;
+    padding: 6px 0;
     color: black;
     margin: 0;
     > svg {
@@ -79,6 +79,7 @@ export const FuelEntityConfirmOrderWrapper = styled.div`
     color: black;
     border-radius: 4px;
     padding: 6px 12px;
+    margin: 0 -12px;
     display: flex;
     align-items: center;
     justify-content: center;
