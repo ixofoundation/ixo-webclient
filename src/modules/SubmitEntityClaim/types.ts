@@ -1,16 +1,7 @@
-export interface Question {
-  questionId: string
-  title: string
-  description: string
-  required: boolean
-  type: string
-  label: string
-  control: string
-  placeholder: string
-}
+import { FormControl } from '../../common/components/JsonForm/types'
 
 export interface SubmitEntityClaimState {
-  questions: Question[]
+  questions: FormControl[]
   currentQuestionNo: number
   answers: any[]
   answersComplete: boolean
