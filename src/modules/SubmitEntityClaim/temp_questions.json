@@ -6,7 +6,7 @@
     "label": "Date of pickup",
     "required": true,
     "type": "string",
-    "control": "singledatepicker",
+    "control": "singledateselector",
     "placeholder": "Select Date"
   },
   {
