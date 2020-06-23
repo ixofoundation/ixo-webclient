@@ -201,31 +201,47 @@ class Header extends React.Component<Props, State> {
   handleLedgerDid = (): void => {
     if (this.props.userInfo.didDoc) {
       const payload = { didDoc: this.props.userInfo.didDoc }
-      this.props.keysafe.requestSigning(
-        JSON.stringify(payload),
-        (error, signature) => {
-          this.setState({ isLedgering: true })
-          if (!error) {
-            this.props.ixo.user
-              .registerUserDid(payload, signature)
-              .then((response: any) => {
-                if (response.code === 0) {
-                  this.setState({
-                    shouldLedgerDid: false,
-                    modalResponse:
-                      'Your credentials have been registered on the ixo blockchain. This will take a few seconds in the background, you can continue using the site.',
-                  })
-                } else {
-                  this.setState({
-                    modalResponse:
-                      'Unable to ledger did at this time, please contact our support at support@ixo.world',
-                  })
+      this.props.ixo.utils.getSignData(payload, 'did/AddDid')
+        .then((response: any) => {
+          if (response.sign_bytes && response.fee) {
+            this.props.keysafe.requestSigning(
+              response.sign_bytes,
+              (error, signature) => {
+                this.setState({ isLedgering: true })
+                if (!error) {
+                  this.props.ixo.user
+                    .registerUserDid(payload, signature, response.fee)
+                    .then((response: any) => {
+                      if (response.code === 0) {
+                        this.setState({
+                          shouldLedgerDid: false,
+                          modalResponse:
+                            'Your credentials have been registered on the ixo blockchain. This will take a few seconds in the background, you can continue using the site.',
+                        })
+                      } else {
+                        this.setState({
+                          modalResponse:
+                            'Unable to ledger did at this time, please contact our support at support@ixo.world',
+                        })
+                      }
+                    })
                 }
-              })
+              },
+              'base64',
+            )
+          } else {
+            this.setState({
+              modalResponse:
+                'Unable to ledger did at this time, please contact our support at support@ixo.world',
+            })
           }
-        },
-        'base64',
-      )
+        })
+        .catch(() => {
+          this.setState({
+            modalResponse:
+              'Unable to ledger did at this time, please contact our support at support@ixo.world',
+          })
+        })
     } else {
       this.setState({
         modalResponse:
