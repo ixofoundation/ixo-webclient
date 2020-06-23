@@ -29,12 +29,14 @@ const SingleControlForm: React.FunctionComponent<Props> = ({
     description,
     label,
     required,
+    inline,
     type,
     control,
     placeholder,
     minItems,
     maxItems,
-    itemIds,
+    values,
+    itemValues,
     itemLabels,
     itemImages,
   } = formControl
@@ -48,9 +50,10 @@ const SingleControlForm: React.FunctionComponent<Props> = ({
       [id]: {
         type,
         title: label,
+        enum: values,
         items: {
           type: 'string',
-          enum: itemIds,
+          enum: itemValues,
           enumNames: itemLabels,
         },
         uniqueItems: true,
@@ -67,6 +70,9 @@ const SingleControlForm: React.FunctionComponent<Props> = ({
         : control,
       ['ui:placeholder']: placeholder,
       ['ui:images']: itemImages,
+      ['ui:options']: {
+        inline,
+      },
     },
   }
 
