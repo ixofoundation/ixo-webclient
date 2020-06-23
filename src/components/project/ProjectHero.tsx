@@ -48,7 +48,7 @@ export const ProjectHero: React.SFC<Props> = ({
     {
       iconClass: 'icon-impacts',
       linkClass: 'in-active',
-      path: '/',
+      path: '/performace',
       title: 'DASHBOARD',
     },
   ]
