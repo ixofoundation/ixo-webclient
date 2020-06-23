@@ -57,7 +57,7 @@ export const ActionWrapper = styled.div`
   padding: 15px;
   transform: translateX(0);
   transition: all 0.5s;
-  z-index: -9;
+  z-index: 0;
   overflow: hidden auto;
   &.open {
     opacity: 1;

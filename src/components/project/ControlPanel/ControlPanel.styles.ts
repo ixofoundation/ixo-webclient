@@ -51,6 +51,7 @@ export const ControlPanelWrapper = styled.div`
 
 export const ControlPanelScrollWrapper = styled.div`
   position: relative;
+  transition: 0.3s all;
   @media (min-width: ${deviceWidth.desktop}px) {
     position: sticky;
     top: 120px;
@@ -58,6 +59,10 @@ export const ControlPanelScrollWrapper = styled.div`
     border-radius: 5px;
     ${ControlPanelWrapper} {
       height: calc(100vh - 136px);
+    }
+    &.fixed {
+      position: absolute;
+      top: -170px;
     }
   }
 `
