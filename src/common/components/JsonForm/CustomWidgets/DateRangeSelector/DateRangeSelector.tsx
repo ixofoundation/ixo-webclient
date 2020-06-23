@@ -22,6 +22,7 @@ class SingleDateSelector extends React.Component<Props, State> {
   }
 
   handleDatesChange = (startDate: Moment, endDate: Moment): void => {
+    // persist the dates in jsonforms as a pipe delimited string
     const value = `${startDate ? startDate.format('DD-MMM-YYYY') : ''}|${
       endDate ? endDate.format('DD-MMM-YYYY') : ''
     }`
@@ -31,6 +32,7 @@ class SingleDateSelector extends React.Component<Props, State> {
   render(): JSX.Element {
     const { id, value } = this.props
 
+    // extract start and end date from the piped value
     let startDate
     let endDate
     if (value) {
