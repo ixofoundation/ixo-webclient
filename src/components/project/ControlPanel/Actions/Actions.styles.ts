@@ -104,6 +104,9 @@ export const ActionWrapper = styled.div`
     &.open {
       transform: translateX(0);
     }
+    &.summary {
+      width: 100vw;
+    }
   }
 `
 
