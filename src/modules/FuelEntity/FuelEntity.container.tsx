@@ -87,7 +87,11 @@ class FuelEntity extends React.Component<Props & RouteProps> {
     const hasError = !!error
 
     return (
-      <ActionWrapper className="open">
+      <ActionWrapper
+        className={`open ${
+          !sending && !sent && hasOrder && !hasError ? 'summary' : ''
+        }`}
+      >
         {!sending && !sent && !hasOrder && (
           <AssistantWrapper>
             <AssistantHeader>
