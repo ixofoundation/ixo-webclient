@@ -1,13 +1,13 @@
 import * as React from 'react'
-import CalendarSort from '../../../../assets/icons/CalendarSort'
-import Location from '../../../../assets/icons/Location'
-import UploadFile from '../../../../assets/icons/UploadFile'
-import Validation from '../../../../assets/icons/Validation'
 import ShortText from '../../../../assets/icons/ShortText'
+import DatePicker from '../../../../assets/icons/DatePicker'
 import LongText from '../../../../assets/icons/LongText'
 import Selection from '../../../../assets/icons/Selection'
 import UploadImage from '../../../../assets/icons/UploadImage'
 import UploadAudio from '../../../../assets/icons/UploadAudio'
+import UploadFile from '../../../../assets/icons/UploadFile'
+import Validation from '../../../../assets/icons/Validation'
+import Location from '../../../../assets/icons/Location'
 import SelectPicture from '../../../../assets/icons/SelectPicture'
 import UploadVideo from '../../../../assets/icons/UploadVideo'
 import QRcode from '../../../../assets/icons/QRcode'
@@ -18,6 +18,7 @@ import {
   ButtonWrapper,
   ReturnButton,
   StartButton,
+  SubHeader,
 } from './Instructions.styles'
 
 interface Props {
@@ -48,7 +49,7 @@ const Instructions: React.FunctionComponent<Props> = ({
       case 'short':
         return <ShortText fill="#C3D0E5" />
       case 'date':
-        return <CalendarSort fill="#C3D0E5" />
+        return <DatePicker fill="#C3D0E5" />
       case 'long':
         return <LongText fill="#C3D0E5" />
       case 'selection':
@@ -80,17 +81,10 @@ const Instructions: React.FunctionComponent<Props> = ({
     <Container>
       <ContentWrapper>
         <h1>Submit a claim</h1>
-        <h3
-          style={{
-            fontWeight: 'normal',
-            fontSize: '18px',
-            marginBottom: '2.0625rem',
-            marginRight: '3.75rem',
-          }}
-        >
+        <SubHeader>
           Thank you for being interested in our project. In order to complete
           the claim you’ll need to complete the following:
-        </h3>
+        </SubHeader>
         <ListItems>
           {listItems.map(
             (item, index): JSX.Element => {

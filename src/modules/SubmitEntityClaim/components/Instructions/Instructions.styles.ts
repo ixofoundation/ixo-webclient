@@ -17,12 +17,15 @@ export const ContentWrapper = styled.div`
     letter-spacing: 0.3px;
     color: #000;
   }
-
-  h3 {
-    line-height: 36px;
-    color: #7b8285;
-    width: 94%;
-  }
+`
+export const SubHeader = styled.h4`
+  line-height: 36px;
+  color: #7b8285;
+  width: 94%;
+  font-weight: normal;
+  font-size: 18px;
+  margin-bottom: 2.0625rem;
+  margin-right: 3.75rem;
 `
 
 export const ListWrapper = styled.div`
