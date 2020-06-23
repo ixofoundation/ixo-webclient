@@ -1,6 +1,6 @@
 import React from 'react'
 import { SingleDatePicker } from 'react-dates'
-import moment, { Moment } from 'moment'
+import moment from 'moment'
 
 interface Props {
   id: string
@@ -28,7 +28,7 @@ class SingleDateSelector extends React.Component<Props, State> {
       <SingleDatePicker
         date={value ? moment(value) : null}
         displayFormat="DD-MMM-YYYY"
-        onDateChange={(date: Moment): void =>
+        onDateChange={(date): void =>
           onChange(date ? date.format('DD-MMM-YYYY') : null)
         }
         focused={this.state.focused}
