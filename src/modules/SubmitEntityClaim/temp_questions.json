@@ -1,6 +1,16 @@
 [
   {
     "id": "a",
+    "title": "Date Picker",
+    "description": "This will be a short description or explainer text explaining the question. ",
+    "label": "Date of pickup",
+    "required": true,
+    "type": "string",
+    "control": "singledatepicker",
+    "placeholder": "Select Date"
+  },
+  {
+    "id": "a",
     "title": "Short Text Question",
     "description": "This will be a short description or explainer text explaining the question. ",
     "label": "Short Answer",

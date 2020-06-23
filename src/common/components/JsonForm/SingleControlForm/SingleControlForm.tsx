@@ -2,6 +2,7 @@ import React from 'react'
 import Form from '@rjsf/core'
 import { FormContainer } from './SingleControlForm.styles'
 import ImageCheckboxes from '../CustomWidgets/ImageCheckboxes/ImageCheckboxes'
+import SingleDatePicker from '../CustomWidgets/SingleDatePicker/SingleDatePicker'
 import { FormControl } from '../types'
 
 interface Props {
@@ -14,6 +15,7 @@ interface Props {
 
 const customControls = {
   ['imagecheckboxes']: ImageCheckboxes,
+  ['singledatepicker']: SingleDatePicker,
 }
 
 const SingleControlForm: React.FunctionComponent<Props> = ({
