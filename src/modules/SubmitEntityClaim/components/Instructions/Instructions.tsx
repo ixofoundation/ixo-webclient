@@ -28,7 +28,7 @@ const Instructions: React.FunctionComponent<Props> = ({
   toggleInstructions,
 }) => {
   const listItems = [
-    { icon: 'short', description: 'Fill in short answer' },
+    { icon: 'short', description: 'Fill in a short answer' },
     { icon: 'date', description: 'Date Picker' },
     { icon: 'long', description: 'Give a long text answer' },
     { icon: 'selection', description: 'Selector rate out of 10' },
@@ -82,8 +82,9 @@ const Instructions: React.FunctionComponent<Props> = ({
         <h1>Submit a claim</h1>
         <h3
           style={{
+            fontWeight: 'normal',
             fontSize: '18px',
-            marginBottom: '3rem',
+            marginBottom: '2.0625rem',
             marginRight: '3.75rem',
           }}
         >

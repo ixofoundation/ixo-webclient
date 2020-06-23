@@ -9,11 +9,13 @@ export const Container = styled.div`
 `
 
 export const ContentWrapper = styled.div`
-  padding: 3rem 0 0.5rem 3.75rem;
+  padding: 3.75rem 0 0.5rem 4.375rem;
   h1 {
     font-size: 36px;
     line-height: 42px;
     margin: 10px 0;
+    letter-spacing: 0.3px;
+    color: #000;
   }
 
   h3 {
@@ -44,7 +46,7 @@ export const ListItems = styled.div`
     margin-bottom: 1.175rem;
     margin-right: 7.5rem;
     svg {
-      margin-right: 0.5rem;
+      margin-right: 1rem;
     }
   }
   @media (min-width: ${deviceWidth.mobile}px) {
@@ -54,7 +56,7 @@ export const ListItems = styled.div`
 export const ButtonWrapper = styled.div`
   display: inline-block;
   align-items: center;
-  padding: 0 0 2rem 3.75rem;
+  padding: 0 0 2rem 4.375rem;
 `
 export const ReturnButton = styled.button`
   pointer-events: none;
@@ -77,7 +79,7 @@ export const StartButton = styled.button`
   line-height: 19px;
   background: linear-gradient(180deg, #04d0fb 0%, #49bfe0 100%);
   border-radius: 4px;
-  border-color: transparent;
+  border: none;
   color: #fff;
   margin-top: 3.625rem;
 
@@ -90,7 +92,13 @@ export const StartButton = styled.button`
   @media (min-width: ${deviceWidth.mobile}px) {
     margin-left: 13rem;
   }
+
+  @media (min-width: ${deviceWidth.desktop}px) {
+    margin-top: 6rem;
+  }
+
   @media (min-width: ${deviceWidth.desktopLarge}px) {
     margin-left: 23.5rem;
+    margin-top: 3.625rem;
   }
 `
