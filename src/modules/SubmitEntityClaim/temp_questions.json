@@ -1,6 +1,26 @@
 [
   {
     "id": "a",
+    "title": "Date Picker",
+    "description": "This will be a short description or explainer text explaining the question. ",
+    "label": "Dates",
+    "required": true,
+    "type": "string",
+    "control": "daterangeselector",
+    "placeholder": "Select Date"
+  },
+  {
+    "id": "a",
+    "title": "Date Picker",
+    "description": "This will be a short description or explainer text explaining the question. ",
+    "label": "Date of pickup",
+    "required": true,
+    "type": "string",
+    "control": "singledateselector",
+    "placeholder": "Select Date"
+  },
+  {
+    "id": "a",
     "title": "Short Text Question",
     "description": "This will be a short description or explainer text explaining the question. ",
     "label": "Short Answer",
@@ -29,7 +49,7 @@
     "minItems": 1,
     "maxItems": 2,
     "control": "checkboxes",
-    "itemIds": [
+    "itemValues": [
       "Option1",
       "Option2",
       "Option3",
@@ -58,7 +78,7 @@
     "minItems": 3,
     "maxItems": 3,
     "control": "imagecheckboxes",
-    "itemIds": ["Option1", "Option2", "Option3", "Option4"],
+    "itemValues": ["Option1", "Option2", "Option3", "Option4"],
     "itemLabels": [
       "Picture Option 1",
       "Picture Option 2",
@@ -71,5 +91,16 @@
       "https://claimformtemp.s3-eu-west-1.amazonaws.com/PictureOption3.png",
       "https://claimformtemp.s3-eu-west-1.amazonaws.com/PictureOption4.png"
     ]
+  },
+  {
+    "id": "e",
+    "title": "Selector Rate out of 10",
+    "description": "This will be a short description or explainer text explaining the question. ",
+    "label": "Rate the below from 1 to 10 with 1 bring terrible and 10 being excellent",
+    "required": true,
+    "inline": true,
+    "type": "number",
+    "control": "radio",
+    "values": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
   }
 ]

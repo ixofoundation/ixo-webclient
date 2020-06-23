@@ -2,6 +2,8 @@ import React from 'react'
 import Form from '@rjsf/core'
 import { FormContainer } from './SingleControlForm.styles'
 import ImageCheckboxes from '../CustomWidgets/ImageCheckboxes/ImageCheckboxes'
+import SingleDateSelector from '../CustomWidgets/SingleDateSelector/SingleDateSelector'
+import DateRangeSelector from '../CustomWidgets/DateRangeSelector/DateRangeSelector'
 import { FormControl } from '../types'
 
 interface Props {
@@ -14,6 +16,8 @@ interface Props {
 
 const customControls = {
   ['imagecheckboxes']: ImageCheckboxes,
+  ['singledateselector']: SingleDateSelector,
+  ['daterangeselector']: DateRangeSelector,
 }
 
 const SingleControlForm: React.FunctionComponent<Props> = ({
@@ -29,12 +33,14 @@ const SingleControlForm: React.FunctionComponent<Props> = ({
     description,
     label,
     required,
+    inline,
     type,
     control,
     placeholder,
     minItems,
     maxItems,
-    itemIds,
+    values,
+    itemValues,
     itemLabels,
     itemImages,
   } = formControl
@@ -48,9 +54,10 @@ const SingleControlForm: React.FunctionComponent<Props> = ({
       [id]: {
         type,
         title: label,
+        enum: values,
         items: {
           type: 'string',
-          enum: itemIds,
+          enum: itemValues,
           enumNames: itemLabels,
         },
         uniqueItems: true,
@@ -67,6 +74,9 @@ const SingleControlForm: React.FunctionComponent<Props> = ({
         : control,
       ['ui:placeholder']: placeholder,
       ['ui:images']: itemImages,
+      ['ui:options']: {
+        inline,
+      },
     },
   }
 
