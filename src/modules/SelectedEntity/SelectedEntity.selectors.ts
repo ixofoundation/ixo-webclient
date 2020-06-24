@@ -8,21 +8,28 @@ export const selectSelectedEntity = (state: RootState): Entity =>
 export const selectEntityDid = createSelector(
   selectSelectedEntity,
   (entity: Entity) => {
-    return entity.did
+    return entity ? entity.did : null
   },
 )
 
 export const selectEntityTitle = createSelector(
   selectSelectedEntity,
   (entity: Entity) => {
-    return entity.title
+    return entity ? entity.title : null
   },
 )
 
 export const selectEntityType = createSelector(
   selectSelectedEntity,
   (entity: Entity) => {
-    return entity.entityType
+    return entity ? entity.entityType : null
+  },
+)
+
+export const entityIsLoading = createSelector(
+  selectSelectedEntity,
+  (entity: Entity) => {
+    return !entity
   },
 )
 

@@ -16,7 +16,7 @@ import { Overview } from '../common/components/Bonds/OverviewWrapper/Overview'
 import Exchange from '../common/components/Bonds/ExchangeWrapper/Exchange'
 import Orders from '../modules/BondAccountOrders/BondAccountOrders.container'
 import { UnderConstruction } from './public/UnderConstruction'
-import { SelectedEntityContainerConnected } from 'src/modules/SelectedEntity/SelectedEntity.container'
+import { SubmitEntityClaimConnected } from 'src/modules/SubmitEntityClaim/SubmitEntityClaim.container'
 
 export const Routes: React.SFC<{}> = props => {
   return (
@@ -67,6 +67,11 @@ export const Routes: React.SFC<{}> = props => {
           )}
         />
         <Route
+          exact
+          path={`/projects/:projectDID/overview/action/new_claim`}
+          component={SubmitEntityClaimConnected}
+        />
+        <Route
           path="/projects/:projectDID/overview"
           render={(): JSX.Element => (
             <ProjectContainerConnected
@@ -74,10 +79,6 @@ export const Routes: React.SFC<{}> = props => {
               contentType={contentType.overview}
             />
           )}
-        />
-        <Route
-          path="/entity/:entityDid"
-          component={SelectedEntityContainerConnected}
         />
         {/* Old claims related screens - remove when new claims is ready */}
         {/*        <Route
