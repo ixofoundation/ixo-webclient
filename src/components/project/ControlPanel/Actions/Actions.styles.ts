@@ -39,10 +39,19 @@ export const ActionLinksWrapper = styled.div`
   }
 `
 
+export const AssistantContentWrapper = styled.div`
+  height: 100%;
+  background: white;
+`
+
+export const SummaryWrapper = styled(AssistantContentWrapper)`
+  position: relative;
+`
+
 export const ActionWrapper = styled.div`
   background: #dfe7f4;
   position: absolute;
-  width: calc(200% + 60px);
+  width: 375px;
   height: 100%;
   top: 0;
   left: 0;
@@ -63,7 +72,24 @@ export const ActionWrapper = styled.div`
     opacity: 1;
     transform: translateX(-100%);
   }
-  @media (max-width: ${deviceWidth.tablet}px) {
+  &.summary {
+    width: calc(200% + 60px);
+    @keyframes fadeInSummary {
+      0% {
+        opacity: 0;
+      }
+      50% {
+        opacity: 0;
+      }
+      100% {
+        opacity: 1;
+      }
+    }
+    ${SummaryWrapper} > * {
+      animation: fadeInSummary 1s ease-in-out;
+    }
+  }
+  @media (max-width: ${deviceWidth.desktop}px) {
     background: white;
     position: fixed;
     top: 0;
@@ -77,6 +103,9 @@ export const ActionWrapper = styled.div`
     border-radius: 0;
     &.open {
       transform: translateX(0);
+    }
+    &.summary {
+      width: 100vw;
     }
   }
 `
@@ -114,15 +143,6 @@ export const AssistantHeader = styled.div`
   .back-icon {
     transform: rotate(180deg);
   }
-`
-
-export const AssistantContentWrapper = styled.div`
-  height: 100%;
-  background: white;
-`
-
-export const SummaryWrapper = styled(AssistantContentWrapper)`
-  position: relative;
 `
 
 export const AssistantProgress = styled.div`
