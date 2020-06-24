@@ -13,11 +13,11 @@ import {
 } from './SubmitEntityClaim.actions'
 import ControlPanel from '../../common/components/ControlPanel/ControlPanel'
 import CellControlPanelSchema from '../../common/components/ControlPanel/schema/Cell.schema.json'
-
-// TODO - hookup redux for project data
+import { Entity } from '../Entities/types'
 
 interface Props {
   userDid: string
+  entity: Entity
   currentQuestion: FormControl
   currentQuestionNo: number
   questionCount: number
