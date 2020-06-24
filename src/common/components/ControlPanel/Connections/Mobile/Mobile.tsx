@@ -1,5 +1,5 @@
 import React from 'react'
-import QRCode from '../../../../../common/components/QRCode/QRCode'
+import QRCode from '../../../QRCode/QRCode'
 
 interface Props {
   show: boolean

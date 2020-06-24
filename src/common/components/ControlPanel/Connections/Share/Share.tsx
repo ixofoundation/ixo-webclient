@@ -1,6 +1,6 @@
 import React from 'react'
 import TwitterIcon from '../../../../../assets/icons/Twitter'
-import { shareToTwitter } from '../../../../../common/utils/socialMedia.utils'
+import { shareToTwitter } from '../../../../utils/socialMedia.utils'
 
 interface Props {
   twitterShareText: string
