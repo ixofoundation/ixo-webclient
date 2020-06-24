@@ -7,7 +7,7 @@ import { Table } from 'react-bootstrap'
 import { ProjectFounder } from '../ProjectFounder/ProjectFounder'
 import { Header } from '../../../types/models'
 import ProfileCard from '../ProfileCard/ProfileCard'
-import ControlPanel from '../ControlPanel/ControlPanel'
+import ControlPanel from '../../../common/components/ControlPanel/ControlPanel'
 import {
   ProjectImage,
   OverviewContainer,
@@ -17,8 +17,8 @@ import {
   CaptionImageWrapper,
 } from './ProjectOverview.style'
 // TODO - when we actually get the schema from the api then replace
-import ProjectControlPanelSchema from '../ControlPanel/schema/Project.schema.json'
-import CellControlPanelSchema from '../ControlPanel/schema/Cell.schema.json'
+import ProjectControlPanelSchema from '../../../common/components/ControlPanel/schema/Project.schema.json'
+import CellControlPanelSchema from '../../../common/components/ControlPanel/schema/Cell.schema.json'
 import { EntityType } from '../../../modules/Entities/types'
 import { toTitleCase } from '../../../common/utils/formatters'
 

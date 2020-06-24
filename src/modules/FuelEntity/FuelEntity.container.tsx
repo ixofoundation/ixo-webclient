@@ -9,7 +9,7 @@ import {
   SummaryWrapper,
   AssistantContentWrapper,
   AssistantProgress,
-} from '../../components/project/ControlPanel/Actions/Actions.styles'
+} from '../../common/components/ControlPanel/Actions/Actions.styles'
 import Assistant, {
   startAssistant,
 } from '../../common/components/Assistant/Assistant'
