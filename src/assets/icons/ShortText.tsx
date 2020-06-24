@@ -3,12 +3,12 @@ import React from 'react'
 const ShortText = (props): JSX.Element => {
   return (
     <svg
-      width={props.width || 18}
-      viewBox="0 0 18 18"
+      width={props.width || 24}
+      viewBox="0 0 34 34"
       xmlns="http://www.w3.org/2000/svg"
     >
       <path
-        d="M0.724854 0.914642V2.91464H18.7249V0.914642H0.724854ZM0.724854 7.91464H12.7249V5.91464H0.724854V7.91464Z"
+        d="M8.00024 13.5V15.5H26.0002V13.5H8.00024ZM8.00024 20.5H20.0002V18.5H8.00024V20.5Z"
         fill={props.fill || '#fff'}
       />
     </svg>

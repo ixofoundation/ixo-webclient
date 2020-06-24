@@ -3,12 +3,12 @@ import React from 'react'
 const UploadFile = (props): JSX.Element => {
   return (
     <svg
-      width={props.width || 22}
-      viewBox="0 0 22 11"
+      width={props.width || 24}
+      viewBox="0 0 34 34"
       xmlns="http://www.w3.org/2000/svg"
     >
       <path
-        d="M12.8274 0.0818634H0.827393V2.08186H12.8274V0.0818634ZM0.827393 6.08186H8.82739V4.08186H0.827393V6.08186ZM20.3274 1.58186L21.8274 3.08186L14.8374 10.0819L10.3274 5.58186L11.8274 4.08186L14.8374 7.08186L20.3274 1.58186Z"
+        d="M19.239 12H7.23901V14H19.239V12ZM7.23901 18H15.239V16H7.23901V18ZM26.739 13.5L28.239 15L21.249 22L16.739 17.5L18.239 16L21.249 19L26.739 13.5Z"
         fill={props.fill || '#fff'}
       />
     </svg>
