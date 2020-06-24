@@ -2,29 +2,30 @@ import styled from 'styled-components'
 import { deviceWidth } from 'src/lib/commonData'
 
 export const Container = styled.div`
+  border-radius: 4px;
+  @media (min-width: ${deviceWidth.mobile}px) {
+    max-width: 100%;
+  }
+`
+
+export const ContentWrapper = styled.div`
+  padding: 3.75rem 0 0.5rem 4.375rem;
   h1 {
     font-size: 36px;
     line-height: 42px;
     margin: 10px 0;
+    letter-spacing: 0.3px;
+    color: #000;
   }
-
-  h3 {
-    font-size: 18px;
-    line-height: 36px;
-    color: #7b8285;
-    max-width: 77%;
-    margin-bottom: 3rem;
-    @media (min-width: ${deviceWidth.mobile}px) {
-      max-width: 100%;
-    }
-  }
-
-  hr {
-    border: 1px solid #dfe3e8;
-    width: 500%;
-    margin-left: -200%;
-    margin-top: 2.5rem;
-  }
+`
+export const SubHeader = styled.h4`
+  line-height: 36px;
+  color: #7b8285;
+  width: 94%;
+  font-weight: normal;
+  font-size: 18px;
+  margin-bottom: 2.0625rem;
+  margin-right: 3.75rem;
 `
 
 export const ListWrapper = styled.div`
@@ -48,19 +49,21 @@ export const ListItems = styled.div`
     margin-bottom: 1.175rem;
     margin-right: 7.5rem;
     svg {
-      margin-right: 0.5rem;
+      margin-right: 1rem;
     }
   }
   @media (min-width: ${deviceWidth.mobile}px) {
     height: 300px;
   }
 `
-export const PositionButtons = styled.div`
+export const ButtonWrapper = styled.div`
   display: inline-block;
   align-items: center;
-  margin-top: 2.5rem;
+  padding: 0 0 2rem 4.375rem;
 `
 export const ReturnButton = styled.button`
+  pointer-events: none;
+  cursor: default;
   font-weight: bold;
   font-size: 16px;
   line-height: 19px;
@@ -69,7 +72,6 @@ export const ReturnButton = styled.button`
   border: none;
   margin: 0;
   padding: 0;
-  cursor: pointer;
 `
 
 export const StartButton = styled.button`
@@ -80,8 +82,10 @@ export const StartButton = styled.button`
   line-height: 19px;
   background: linear-gradient(180deg, #04d0fb 0%, #49bfe0 100%);
   border-radius: 4px;
-  border-color: transparent;
+  border: none;
   color: #fff;
+  margin-top: 3.625rem;
+
   @media (min-width: ${deviceWidth.mobileSmall}px) {
     margin-left: 0.5rem;
   }
@@ -91,7 +95,13 @@ export const StartButton = styled.button`
   @media (min-width: ${deviceWidth.mobile}px) {
     margin-left: 13rem;
   }
-  @media (min-width: ${deviceWidth.tablet}px) {
-    margin-left: 24rem;
+
+  @media (min-width: ${deviceWidth.desktop}px) {
+    margin-top: 6rem;
+  }
+
+  @media (min-width: ${deviceWidth.desktopLarge}px) {
+    margin-left: 23.5rem;
+    margin-top: 3.625rem;
   }
 `
