@@ -18,19 +18,18 @@ class SelectedEntity extends React.Component<Props, {}> {
       handleGetEntity,
     } = this.props
 
-    console.log(entityDid)
     handleGetEntity(entityDid)
   }
 
   render(): JSX.Element {
+    // TODO - place ALL /entity/:entityDid paths here
     return (
       <>
         <Route
           exact
-          path={`/entity/did:ixo:31WeCwxRwHCJWT5QXrF2d5/claim`}
+          path={`/entity/:entityDid/claims/new-claim`}
           component={SubmitEntityClaimConnected}
         />
-        <div>Hello</div>
       </>
     )
   }

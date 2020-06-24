@@ -76,7 +76,6 @@ export const Routes: React.SFC<{}> = props => {
           )}
         />
         <Route
-          exact
           path="/entity/:entityDid"
           component={SelectedEntityContainerConnected}
         />

@@ -11,9 +11,8 @@ import {
   goToNextQuestion,
   goToPreviousQuestion,
 } from './SubmitEntityClaim.actions'
-import ControlPanel from '../../common/components/ControlPanel/ControlPanel'
-import CellControlPanelSchema from '../../common/components/ControlPanel/schema/Cell.schema.json'
 import { Entity } from '../Entities/types'
+import ControlPanel from '../../common/components/ControlPanel/ControlPanel'
 
 interface Props {
   userDid: string
