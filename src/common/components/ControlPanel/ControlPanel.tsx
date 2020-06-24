@@ -73,7 +73,7 @@ class ControlPanel extends React.Component<Props, State> {
             </div>
           )}
         </MobileControlPanelToggle>
-        <ControlPanelScrollWrapper>
+        <ControlPanelScrollWrapper id="ControlPanelWrapper">
           <ControlPanelWrapper
             className={this.state.showControlPanelMobile ? 'open' : ''}
           >
