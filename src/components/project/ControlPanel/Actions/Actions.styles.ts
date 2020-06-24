@@ -66,9 +66,26 @@ export const ActionWrapper = styled.div`
   padding: 15px;
   transform: translateX(0);
   transition: all 0.5s;
-  z-index: 0;
+  z-index: -1;
   overflow: hidden auto;
   &.open {
+    @keyframes openSection {
+      0% {
+        opacity: 0;
+        transform: translateX(0);
+      }
+      50% {
+        opacity: 0;
+        transform: translateX(-20%);
+      }
+      75% {
+        opacity: 1;
+      }
+      100% {
+        transform: translateX(-100%);
+      }
+    }
+    animation: openSection 1s ease;
     opacity: 1;
     transform: translateX(-100%);
   }
@@ -80,6 +97,8 @@ export const ActionWrapper = styled.div`
       }
       50% {
         opacity: 0;
+      }
+      90% {
       }
       100% {
         opacity: 1;
