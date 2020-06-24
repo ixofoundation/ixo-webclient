@@ -1,22 +1,24 @@
 import * as React from 'react'
-import CalendarSort from '../../../../assets/icons/CalendarSort'
-import Location from '../../../../assets/icons/Location'
-import UploadFile from '../../../../assets/icons/UploadFile'
-import Validation from '../../../../assets/icons/Validation'
 import ShortText from '../../../../assets/icons/ShortText'
+import DatePicker from '../../../../assets/icons/DatePicker'
 import LongText from '../../../../assets/icons/LongText'
 import Selection from '../../../../assets/icons/Selection'
 import UploadImage from '../../../../assets/icons/UploadImage'
 import UploadAudio from '../../../../assets/icons/UploadAudio'
+import UploadFile from '../../../../assets/icons/UploadFile'
+import Validation from '../../../../assets/icons/Validation'
+import Location from '../../../../assets/icons/Location'
 import SelectPicture from '../../../../assets/icons/SelectPicture'
 import UploadVideo from '../../../../assets/icons/UploadVideo'
 import QRcode from '../../../../assets/icons/QRcode'
 import {
   Container,
+  ContentWrapper,
   ListItems,
-  PositionButtons,
-  // ReturnButton,
+  ButtonWrapper,
+  ReturnButton,
   StartButton,
+  SubHeader,
 } from './Instructions.styles'
 
 interface Props {
@@ -27,7 +29,7 @@ const Instructions: React.FunctionComponent<Props> = ({
   toggleInstructions,
 }) => {
   const listItems = [
-    { icon: 'short', description: 'Fill in short answer' },
+    { icon: 'short', description: 'Fill in a short answer' },
     { icon: 'date', description: 'Date Picker' },
     { icon: 'long', description: 'Give a long text answer' },
     { icon: 'selection', description: 'Selector rate out of 10' },
@@ -47,7 +49,7 @@ const Instructions: React.FunctionComponent<Props> = ({
       case 'short':
         return <ShortText fill="#C3D0E5" />
       case 'date':
-        return <CalendarSort fill="#C3D0E5" />
+        return <DatePicker fill="#C3D0E5" />
       case 'long':
         return <LongText fill="#C3D0E5" />
       case 'selection':
@@ -77,28 +79,28 @@ const Instructions: React.FunctionComponent<Props> = ({
 
   return (
     <Container>
-      <h1>Submit a claim</h1>
-      <h3>
-        Thank you for being interested in our project. In order to complete the
-        claim you’ll need to complete the following:
-      </h3>
-      <ListItems>
-        {listItems.map(
-          (item, index): JSX.Element => {
-            return (
-              <div key={index}>
-                {renderIcon(item.icon)} {item.description}
-              </div>
-            )
-          },
-        )}
-      </ListItems>
-      <hr />
-      <PositionButtons>
-        {/*         <ReturnButton>Come back later</ReturnButton>
-         */}{' '}
+      <ContentWrapper>
+        <h1>Submit a claim</h1>
+        <SubHeader>
+          Thank you for being interested in our project. In order to complete
+          the claim you’ll need to complete the following:
+        </SubHeader>
+        <ListItems>
+          {listItems.map(
+            (item, index): JSX.Element => {
+              return (
+                <div key={index}>
+                  {renderIcon(item.icon)} {item.description}
+                </div>
+              )
+            },
+          )}
+        </ListItems>
+      </ContentWrapper>
+      <ButtonWrapper>
+        <ReturnButton>Come back later</ReturnButton>
         <StartButton onClick={toggleInstructions}>Start</StartButton>
-      </PositionButtons>
+      </ButtonWrapper>
     </Container>
   )
 }

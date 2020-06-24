@@ -49,7 +49,7 @@ export const ProjectHero: React.SFC<Props> = ({
       iconClass: 'icon-impacts',
       linkClass: 'in-active',
       path: '/performace',
-      title: 'PERFORMANCE',
+      title: 'DASHBOARD',
     },
   ]
 
@@ -58,7 +58,7 @@ export const ProjectHero: React.SFC<Props> = ({
       iconClass: 'icon-impacts',
       linkClass: null,
       path: `/projects/${match.params.projectDID}/detail`,
-      title: 'PERFORMANCE',
+      title: 'DASHBOARD',
     })
   }
 
