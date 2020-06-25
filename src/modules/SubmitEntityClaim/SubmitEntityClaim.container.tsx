@@ -69,6 +69,7 @@ class SubmitEntityClaim extends React.Component<Props, State> {
       entityIsLoading,
       entityDid,
       entityType,
+      entityTitle,
       currentQuestion,
       currentQuestionNo,
       questionCount,
@@ -82,7 +83,11 @@ class SubmitEntityClaim extends React.Component<Props, State> {
 
     return (
       <>
-        <Hero />
+        <Hero
+          entityTitle={entityTitle}
+          claimName="Claim Name"
+          claimDescription="This would be a short description of the claim."
+        />
         <div className="container-fluid">
           <div className="container">
             <div className="row">
