@@ -2,6 +2,7 @@ import React, { Dispatch } from 'react'
 import { connect } from 'react-redux'
 import { RootState } from 'src/common/redux/types'
 import Instructions from './components/Instructions/Instructions'
+import { Hero } from './components/Hero/Hero'
 import Question from './components/Question/Question'
 import { Container } from './SubmitEntityClaim.container.styles'
 import { FormControl } from '../../common/components/JsonForm/types'
@@ -53,36 +54,39 @@ class SubmitEntityClaim extends React.Component<Props, State> {
       handleNextClick,
     } = this.props
     return (
-      <div className="container-fluid">
-        <div className="container">
-          <div className="row">
-            <div className="col-lg-8">
-              <Container>
-                {this.state.showInstructions ? (
-                  <Instructions
-                    toggleInstructions={this.handleToggleInstructions}
-                  />
-                ) : (
-                  <Question
-                    handlePreviousClick={handlePreviousClick}
-                    handleNextClick={handleNextClick}
-                    question={currentQuestion}
-                    currentQuestionNo={currentQuestionNo}
-                    questionCount={questionCount}
-                  />
-                )}
-              </Container>
-            </div>
-            <div className="col-lg-4">
-              <ControlPanel
-                schema={CellControlPanelSchema}
-                entityDid={'123'}
-                userDid={userDid}
-              />
+      <>
+        <Hero />
+        <div className="container-fluid">
+          <div className="container">
+            <div className="row">
+              <div className="col-lg-8">
+                <Container>
+                  {this.state.showInstructions ? (
+                    <Instructions
+                      toggleInstructions={this.handleToggleInstructions}
+                    />
+                  ) : (
+                    <Question
+                      handlePreviousClick={handlePreviousClick}
+                      handleNextClick={handleNextClick}
+                      question={currentQuestion}
+                      currentQuestionNo={currentQuestionNo}
+                      questionCount={questionCount}
+                    />
+                  )}
+                </Container>
+              </div>
+              <div className="col-lg-4">
+                <ControlPanel
+                  schema={CellControlPanelSchema}
+                  entityDid={'123'}
+                  userDid={userDid}
+                />
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      </>
     )
   }
 }
