@@ -60,20 +60,14 @@ export const ButtonWrapper = styled.div`
   display: inline-block;
   align-items: center;
   padding: 0 0 2rem 4.375rem;
-`
-export const ReturnButton = styled.button`
-  pointer-events: none;
-  cursor: default;
-  font-weight: bold;
-  font-size: 16px;
-  line-height: 19px;
-  color: #a5adb0;
-  background: none;
-  border: none;
-  margin: 0;
-  padding: 0;
-`
 
+  .close-button {
+    font-weight: bold;
+    font-size: 16px;
+    line-height: 19px;
+    color: #a5adb0;
+  }
+`
 export const StartButton = styled.button`
   width: 120px;
   height: 50px;
