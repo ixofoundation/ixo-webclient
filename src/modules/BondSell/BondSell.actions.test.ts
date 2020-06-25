@@ -36,8 +36,8 @@ describe('BondSell Actions', () => {
       const receiving: Currency = { amount: 3, denom: 'returns_a' }
       const totalFee: Currency = { amount: 11, denom: 'total_fees_e' }
       const txFees = [
-        { amount: 0.7, denom: 'tx_fees_c' },
-        { amount: 0.8, denom: 'tx_fees_d' },
+        { amount: 1, denom: 'tx_fees_c' },
+        { amount: 2, denom: 'tx_fees_d' },
       ]
 
       mockAxios.get.mockImplementationOnce(() =>
@@ -48,8 +48,8 @@ describe('BondSell Actions', () => {
               { amount: 4, denom: 'returns_b' },
             ],
             tx_fees: [
-              { amount: 0.7, denom: 'tx_fees_c' },
-              { amount: 0.8, denom: 'tx_fees_d' },
+              { amount: 1, denom: 'tx_fees_c' },
+              { amount: 2, denom: 'tx_fees_d' },
             ],
             total_fees: [
               { amount: 11, denom: 'total_fees_e' },
