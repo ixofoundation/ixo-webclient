@@ -45,6 +45,7 @@ const SingleControlForm: React.FunctionComponent<Props> = ({
     itemValues,
     itemLabels,
     itemImages,
+    initialValue,
   } = formControl
 
   const schema = {
@@ -57,6 +58,7 @@ const SingleControlForm: React.FunctionComponent<Props> = ({
         type,
         title: label,
         enum: values,
+        default: initialValue,
         items: {
           type: 'string',
           enum: itemValues,
