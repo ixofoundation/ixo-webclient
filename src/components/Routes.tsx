@@ -68,6 +68,10 @@ export const Routes: React.SFC<{}> = props => {
         />
         <Route
           exact
+          path={`/projects/:projectDID/overview/action/new_claim`}
+          component={SubmitEntityClaimConnected}
+        />
+        <Route
           path="/projects/:projectDID/overview"
           render={(): JSX.Element => (
             <ProjectContainerConnected
@@ -75,11 +79,6 @@ export const Routes: React.SFC<{}> = props => {
               contentType={contentType.overview}
             />
           )}
-        />
-        <Route
-          exact
-          path={`/projects/:projectDID/overview/action/new_claim`}
-          component={SubmitEntityClaimConnected}
         />
         {/* Old claims related screens - remove when new claims is ready */}
         {/*        <Route
