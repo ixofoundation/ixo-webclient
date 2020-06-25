@@ -26,6 +26,18 @@ export default class QRCodeComponent extends React.Component<Props> {
   render(): JSX.Element {
     const { url } = this.state
 
-    return <img src={url} width="150" height="150" />
+    return (
+      <div>
+        <img src={url} width="150" height="150" />
+        <div>
+          Go to settings - scan QR code on your IXO mobile APP
+          <br />
+          Scan the QR code by placing your camera over the QR code on the left
+          to acces claim
+          <br />
+          View scan history
+        </div>
+      </div>
+    )
   }
 }
