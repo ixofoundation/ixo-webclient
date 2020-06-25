@@ -9,7 +9,7 @@ import {
   SummaryWrapper,
   AssistantContentWrapper,
   AssistantProgress,
-} from '../../components/project/ControlPanel/Actions/Actions.styles'
+} from '../../common/components/ControlPanel/Actions/Actions.styles'
 import Assistant, {
   startAssistant,
 } from '../../common/components/Assistant/Assistant'
@@ -50,6 +50,15 @@ class FuelEntity extends React.Component<Props & RouteProps> {
 
   componentDidMount(): void {
     startAssistant('fuel_my_entity')
+    if (!document.querySelector('body').classList.contains('noScroll')) {
+      document.querySelector('body').classList.add('noScroll')
+    }
+    document.querySelector('#ControlPanelWrapper').classList.add('fixed')
+  }
+
+  componentWillUnmount(): void {
+    document.querySelector('body').classList.remove('noScroll')
+    document.querySelector('#ControlPanelWrapper').classList.remove('fixed')
   }
 
   onAssistantMessageReceive = (utter: any): void => {
@@ -87,7 +96,9 @@ class FuelEntity extends React.Component<Props & RouteProps> {
     const hasError = !!error
 
     return (
-      <ActionWrapper className="open">
+      <ActionWrapper
+        className={`open ${hasOrder || sent || hasError ? 'summary' : ''}`}
+      >
         {!sending && !sent && !hasOrder && (
           <AssistantWrapper>
             <AssistantHeader>

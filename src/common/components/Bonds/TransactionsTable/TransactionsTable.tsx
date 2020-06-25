@@ -163,9 +163,9 @@ class TransactionsTable extends Component<any> {
 
   txType(tx: any): any {
     const orderTypes: any = {
-      'cosmos-sdk/MsgBuy': 'Buy',
-      'cosmos-sdk/MsgSell': 'Sell',
-      'cosmos-sdk/MsgSwap': 'Swap',
+      'bonds/MsgBuy': 'Buy',
+      'bonds/MsgSell': 'Sell',
+      'bonds/MsgSwap': 'Swap',
     }
     const msg = tx.value.msg[0].type
     return orderTypes[msg]
@@ -274,9 +274,9 @@ class TransactionsTable extends Component<any> {
                   dataKey="tx"
                   cellRenderer={(tcp): JSX.Element => {
                     const accountKey: any = {
-                      'cosmos-sdk/MsgBuy': 'buyer',
-                      'cosmos-sdk/MsgSell': 'seller',
-                      'cosmos-sdk/MsgSwap': 'swapper',
+                      'bonds/MsgBuy': 'buyer',
+                      'bonds/MsgSell': 'seller',
+                      'bonds/MsgSwap': 'swapper',
                     }
                     const msg = tcp.cellData.value.msg[0]
                     return (
@@ -292,9 +292,9 @@ class TransactionsTable extends Component<any> {
                   dataKey="tx"
                   cellRenderer={(tcp): string => {
                     const orderTypes: any = {
-                      'cosmos-sdk/MsgBuy': 'Buy',
-                      'cosmos-sdk/MsgSell': 'Sell',
-                      'cosmos-sdk/MsgSwap': 'Swap',
+                      'bonds/MsgBuy': 'Buy',
+                      'bonds/MsgSell': 'Sell',
+                      'bonds/MsgSwap': 'Swap',
                     }
                     const msg = tcp.cellData.value.msg[0]
                     return orderTypes[msg.type]
