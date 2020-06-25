@@ -27,6 +27,7 @@ interface Props {
   entityType: EntityType
   currentQuestion: FormControl
   currentQuestionNo: number
+  questions: FormControl[]
   questionCount: number
   match: any
   handleGetEntity: (entityDid: string) => void
@@ -70,6 +71,7 @@ class SubmitEntityClaim extends React.Component<Props, State> {
       entityDid,
       entityType,
       entityTitle,
+      questions,
       currentQuestion,
       currentQuestionNo,
       questionCount,
@@ -95,7 +97,12 @@ class SubmitEntityClaim extends React.Component<Props, State> {
                 <Container>
                   {this.state.showInstructions ? (
                     <Instructions
+                      backLink={`/projects/${entityDid}/overview`}
                       toggleInstructions={this.handleToggleInstructions}
+                      listItems={questions.map(question => ({
+                        title: question.title,
+                        control: question.control,
+                      }))}
                     />
                   ) : (
                     <Question
@@ -124,6 +131,7 @@ class SubmitEntityClaim extends React.Component<Props, State> {
 }
 
 const mapStateToProps = (state: RootState): Record<string, any> => ({
+  questions: submitEntityClaimSelectors.selectQuestions(state),
   currentQuestion: submitEntityClaimSelectors.selectCurrentQuestion(state),
   currentQuestionNo: submitEntityClaimSelectors.selectCurrentQuestionNo(state),
   questionCount: submitEntityClaimSelectors.selectQuestionCount(state),
