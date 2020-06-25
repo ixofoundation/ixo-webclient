@@ -25,10 +25,13 @@ const EnterBuyOrder: React.FunctionComponent<Props> = ({
 
   const onSubmit = (formData: any): void => {
     const receiving = {
-      amount: formData.amount,
+      amount: parseInt(formData.amount, 10),
       denom: denomination,
     }
-    const maxPrice = { denom: formData.denom, amount: formData.maxAmount }
+    const maxPrice = {
+      denom: formData.denom,
+      amount: parseInt(formData.maxAmount, 10),
+    }
 
     handleGetQuote(receiving, maxPrice)
   }

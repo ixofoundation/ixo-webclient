@@ -58,14 +58,20 @@ describe('Account Actions', () => {
 
   describe('getAccount', () => {
     it('should return data on success', async () => {
-      const balances = [{ someprop: 'someval1' }, { someprop: 'someval2' }]
+      const balances = [
+        { denom: 'someval1', amount: 2 },
+        { denom: 'someval2', amount: 3 },
+      ]
       const sequence = '123'
       const accountNumber = '0123456'
 
       mockAxios.get.mockImplementationOnce(() =>
         Promise.resolve({
           data: {
-            coins: [{ someprop: 'someval1' }, { someprop: 'someval2' }],
+            coins: [
+              { denom: 'someval1', amount: 2 },
+              { denom: 'someval2', amount: 3 },
+            ],
             sequence: '123',
             account_number: '0123456',
           },

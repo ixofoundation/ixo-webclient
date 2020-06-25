@@ -41,8 +41,8 @@ describe('BondBuy Reducer', () => {
         totalFee: { amount: 11, denom: 'a' },
         maxPrice: { amount: 1, denom: 'a' },
         txFees: [
-          { amount: 0.7, denom: 'a' },
-          { amount: 0.8, denom: 'b' },
+          { amount: 1, denom: 'a' },
+          { amount: 2, denom: 'b' },
         ],
         quotePending: true,
       }
@@ -86,8 +86,8 @@ describe('BondBuy Reducer', () => {
           totalFee: { amount: 11, denom: 'a' },
           maxPrice: { amount: 1, denom: 'a' },
           txFees: [
-            { amount: 0.7, denom: 'a' },
-            { amount: 0.8, denom: 'b' },
+            { amount: 1, denom: 'a' },
+            { amount: 2, denom: 'b' },
           ],
         },
       }
@@ -100,8 +100,8 @@ describe('BondBuy Reducer', () => {
         totalFee: { amount: 11, denom: 'a' },
         maxPrice: { amount: 1, denom: 'a' },
         txFees: [
-          { amount: 0.7, denom: 'a' },
-          { amount: 0.8, denom: 'b' },
+          { amount: 1, denom: 'a' },
+          { amount: 2, denom: 'b' },
         ],
       }
 
