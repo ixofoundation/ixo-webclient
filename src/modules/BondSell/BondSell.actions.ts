@@ -13,6 +13,10 @@ import { RootState } from 'src/common/redux/types'
 import * as transactionUtils from '../../common/utils/transaction.utils'
 import keysafe from '../../common/keysafe/keysafe'
 import { BondSellTx } from '../BondSell/types'
+import {
+  currencyToApiCurrency,
+  apiCurrencyToCurrency,
+} from '../Account/Account.utils'
 
 export const initiateQuote = (): InitiateQuoteAction => ({
   type: BondSellActions.InitiateQuote,
@@ -40,9 +44,11 @@ export const getQuote = (sending: Currency, minPrice: Currency) => (
       return {
         sending,
         minPrice,
-        receiving: response.data.returns[0],
-        txFees: response.data.tx_fees,
-        totalFee: response.data.total_fees[0],
+        receiving: apiCurrencyToCurrency(response.data.returns[0]),
+        txFees: response.data.tx_fees.map(txFee =>
+          apiCurrencyToCurrency(txFee),
+        ),
+        totalFee: apiCurrencyToCurrency(response.data.total_fees[0]),
       }
     }),
   })
@@ -66,7 +72,7 @@ export const confirmSell = () => (
     pub_key: pubKey,
     seller_did: did,
     bond_did: bondDid,
-    amount: sending,
+    amount: currencyToApiCurrency(sending),
   }
 
   keysafe.requestSigning(JSON.stringify(tx), (error, signature) => {

@@ -56,7 +56,7 @@ export const selectBondBuyPriceEstimate = createSelector(
   (actualPrice: Currency, receiving: Currency) =>
     actualPrice && receiving
       ? {
-          amount: actualPrice.amount / receiving.amount,
+          amount: (actualPrice.amount / receiving.amount).toFixed(2),
           denom: actualPrice.denom,
         }
       : {},
