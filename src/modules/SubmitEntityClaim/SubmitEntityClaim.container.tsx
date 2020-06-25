@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { RootState } from 'src/common/redux/types'
 import Instructions from './components/Instructions/Instructions'
 import Question from './components/Question/Question'
+import { Progress } from './components/Progress/Progress'
 import { Container } from './SubmitEntityClaim.container.styles'
 import { FormControl } from '../../common/components/JsonForm/types'
 import * as submitEntityClaimSelectors from './SubmitEntityClaim.selectors'
@@ -10,6 +11,7 @@ import * as accountSelectors from '../Account/Account.selectors'
 import {
   goToNextQuestion,
   goToPreviousQuestion,
+  goToQuestionNumber,
 } from './SubmitEntityClaim.actions'
 import ControlPanel from '../../common/components/ControlPanel/ControlPanel'
 import CellControlPanelSchema from '../../common/components/ControlPanel/schema/Cell.schema.json'
@@ -23,6 +25,7 @@ interface Props {
   questionCount: number
   handlePreviousClick: () => void
   handleNextClick: () => void
+  handleJumpToQuestion: (questionNo: number) => void
 }
 
 interface State {
@@ -51,12 +54,19 @@ class SubmitEntityClaim extends React.Component<Props, State> {
       questionCount,
       handlePreviousClick,
       handleNextClick,
+      handleJumpToQuestion,
     } = this.props
     return (
       <div className="container-fluid">
         <div className="container">
           <div className="row">
             <div className="col-lg-8">
+              <Progress
+                question={currentQuestion}
+                currentQuestionNo={currentQuestionNo}
+                questionCount={questionCount}
+                handleJumpToQuestion={handleJumpToQuestion}
+              />
               <Container>
                 {this.state.showInstructions ? (
                   <Instructions
@@ -97,6 +107,8 @@ const mapStateToProps = (state: RootState): Record<string, any> => ({
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
   handlePreviousClick: (): void => dispatch(goToPreviousQuestion()),
   handleNextClick: (): void => dispatch(goToNextQuestion()),
+  handleJumpToQuestion: (QuestionNo: number): void =>
+    dispatch(goToQuestionNumber(QuestionNo)),
 })
 
 export const SubmitEntityClaimConnected = connect(
