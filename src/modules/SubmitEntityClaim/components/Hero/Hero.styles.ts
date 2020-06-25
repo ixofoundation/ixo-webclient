@@ -42,6 +42,7 @@ export const HeroContainer = styled.div`
 export const HeroActionsWrapper = styled.div`
   display: flex;
   align-items: flex-end;
+  justify-content: flex-end;
 
   button {
     background: none;
