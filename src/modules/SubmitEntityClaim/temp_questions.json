@@ -1,5 +1,12 @@
 [
   {
+    "id": "f",
+    "title": "QR Code",
+    "description": "This will be a short description or explainer text explaining the question. ",
+    "type": "string",
+    "control": "qrcode"
+  },
+  {
     "id": "a",
     "title": "Date Picker",
     "description": "This will be a short description or explainer text explaining the question. ",
