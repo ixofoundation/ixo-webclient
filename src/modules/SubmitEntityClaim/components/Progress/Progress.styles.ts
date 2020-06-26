@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 export const ProgressWrapper = styled.div`
-  margin: 2rem auto;
+  margin: 0 auto 2rem;
   display: flex;
   align-items: center;
   justify-content: center;

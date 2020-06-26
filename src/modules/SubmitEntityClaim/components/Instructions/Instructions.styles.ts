@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { deviceWidth } from 'src/lib/commonData'
+import { deviceWidth } from '../../../../lib/commonData'
 
 export const Container = styled.div`
   border-radius: 4px;
@@ -65,6 +65,7 @@ export const ButtonWrapper = styled.div`
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
+  justify-content: space-between;
 
   .close-button {
     font-weight: bold;

@@ -1,7 +1,9 @@
 import styled from 'styled-components'
+import { deviceWidth } from '../../lib/commonData'
 
 export const SubmitEntityClaimWrapper = styled.div`
   background-color: #fff;
+  padding: 2rem;
 `
 
 export const Container = styled.div`
@@ -10,7 +12,10 @@ export const Container = styled.div`
     border: 1px solid #39c3e6;
     border-radius: 4px;
     margin-top: 1.75rem;
-    padding: 3.5rem 4.5rem;
+    padding: 3.125rem 1.375rem;
+    @media (min-width: ${deviceWidth.tablet}px) {
+      padding: 2.625rem 3.75rem;
+    }
   }
 
   #root {
@@ -294,7 +299,11 @@ export const Container = styled.div`
     }
   }
 
-  .ighGkb form .buttons {
+  form .buttons {
+    width: 100%;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
     button[type='submit'] {
       width: 120px;
       height: 50px;
@@ -305,7 +314,6 @@ export const Container = styled.div`
       border-radius: 4px;
       border: none;
       color: #fff;
-      margin-left: 1.25rem;
       :focus {
         outline-style: none;
         box-shadow: none;
