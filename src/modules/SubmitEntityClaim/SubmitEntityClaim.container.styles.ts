@@ -6,25 +6,25 @@ export const SubmitEntityClaimWrapper = styled.div`
 `
 
 export const Container = styled.div`
-  > * {
+  .form-group.field-object {
+    background: #f7f8f9;
+    border: 1px solid #39c3e6;
+    border-radius: 4px;
+    margin-top: 1.75rem;
+    padding: 3.5rem 4.5rem;
   }
 
   #root {
     --focus-outline-style: none;
     --focus-box-shadow: none;
     --focus-standard-border: 1px solid #39c3e6;
-    padding: 0 4.5rem 4.75rem 4.5rem;
-    background: #f7f8f9;
-    border-radius: 4px;
-    border: 1px solid #39c3e6;
 
     #root__title {
-      font-family: Roboto Condensed;
+      font-family: ${(props): string => props.theme.fontRobotoCondensed};
+      font-size: 2.25rem;
       font-weight: normal;
-      font-size: 36px;
-      line-height: 42px;
+      line-height: 1.2;
       letter-spacing: 0.3px;
-      padding-top: 3.625rem;
     }
 
     #root__description {
