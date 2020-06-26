@@ -4,6 +4,7 @@ import ShortText from '../../../../assets/icons/ShortText'
 import DatePicker from '../../../../assets/icons/DatePicker'
 import LongText from '../../../../assets/icons/LongText'
 import Selection from '../../../../assets/icons/Selection'
+import QRcode from '../../../../assets/icons/QRcode'
 // When we add more types then add the relevant icons
 /*
 import UploadImage from '../../../../assets/icons/UploadImage'
@@ -12,7 +13,6 @@ import UploadFile from '../../../../assets/icons/UploadFile'
 import Validation from '../../../../assets/icons/Validation'
 import Location from '../../../../assets/icons/Location'
 import UploadVideo from '../../../../assets/icons/UploadVideo'
-import QRcode from '../../../../assets/icons/QRcode'
 */
 import SelectPicture from '../../../../assets/icons/SelectPicture'
 import {
@@ -43,6 +43,7 @@ const Instructions: React.FunctionComponent<Props> = ({
     ['radio']: Selection,
     ['singledateselector']: DatePicker,
     ['daterangeselector']: DatePicker,
+    ['qrcode']: QRcode,
   }
 
   return (
