@@ -1,9 +1,23 @@
 import styled from 'styled-components'
-import { deviceWidth } from 'src/lib/commonData'
+// import { deviceWidth } from 'src/lib/commonData'
 
 export const SubmitEntityClaimWrapper = styled.div`
   background-color: #fff;
 `
+
+// export const Arrow = styled.div`
+//   position: absolute;
+//   border: 1px solid #000;
+//   border-width: 0 0 2px 2px;
+//   width: 8px;
+//   height: 8px;
+//   line-height: 0;
+//   font-size: 0;
+//   -webkit-transform: rotate(-45deg);
+//   -ms-transform: rotate(-45deg);
+//   -o-transform: rotate(-45deg);
+//   transform: rotate(-45deg);
+// `
 
 export const Container = styled.div`
   .form-group.field-object {
@@ -31,16 +45,16 @@ export const Container = styled.div`
       font-family: Roboto;
       font-style: normal;
       font-weight: normal;
-      font-size: 18px;
-      line-height: 36px;
+      font-size: 1.125rem;
+      line-height: 2;
       color: #7b8285;
     }
 
     label {
       display: block;
       font-weight: normal;
-      font-size: 12px;
-      line-height: 14px;
+      font-size: 0.75rem;
+      line-height: 1.2;
       letter-spacing: 0.3px;
       color: #436779;
     }
@@ -60,8 +74,8 @@ export const Container = styled.div`
           font-family: Roboto;
           font-style: normal;
           font-weight: normal;
-          font-size: 16px;
-          line-height: 24px;
+          font-size: 1rem;
+          line-height: 1.5;
           color: #a5adb0;
         }
       }
@@ -83,8 +97,8 @@ export const Container = styled.div`
           font-family: Roboto;
           font-style: normal;
           font-weight: normal;
-          font-size: 16px;
-          line-height: 24px;
+          font-size: 1rem;
+          line-height: 1.5;
           color: #a5adb0;
         }
       }
@@ -93,35 +107,40 @@ export const Container = styled.div`
     .form-group .image-checkboxes {
       display: flex;
       flex-flow: row wrap;
-      div label span {
-        display: flex;
-        flex-direction: column;
-        div {
+      div {
+        width: calc(100% / 3 - 1rem);
+        label span {
           display: flex;
-          justify-content: space-evenly;
-          order: 2;
-          input {
-            width: 1.1em;
-            height: 1.1em;
-            background-color: white;
-            border-radius: 50%;
-            vertical-align: middle;
-            border: 1px solid #ddd;
-            -webkit-appearance: none;
-            outline: none;
-            cursor: pointer;
-            &:checked {
-              background-color: gray;
+          flex-direction: column;
+          div {
+            width: 100%;
+            display: flex;
+            justify-content: space-evenly;
+            order: 2;
+            input {
+              width: 1.1em;
+              height: 1.1em;
+              background-color: white;
+              border-radius: 50%;
+              vertical-align: middle;
+              border: 1px solid #ddd;
+              -webkit-appearance: none;
+              outline: none;
+              cursor: pointer;
+              &:checked {
+                background-color: gray;
+              }
+            }
+            span {
             }
           }
-          span {
+          img {
+            order: 1;
           }
-        }
-        img {
-          order: 1;
         }
       }
     }
+
     .field-radio-group {
       display: flex;
       justify-content: space-evenly;
@@ -166,7 +185,7 @@ export const Container = styled.div`
           font-family: Roboto;
           font-style: normal;
           font-weight: normal;
-          font-size: 16px;
+          font-size: 1rem;
           line-height: 24px;
           display: flex;
           align-items: center;
@@ -179,29 +198,49 @@ export const Container = styled.div`
     .SingleDatePicker .SingleDatePickerInput__withBorder {
       border: none;
       .DateInput {
+        width: 20rem;
+        position: relative;
         background: #f7f8f9;
+        width: 100%;
+        &:after {
+          content: '';
+          display: block;
+          position: absolute;
+          top: 50%;
+          right: 0.5rem;
+          transform: translateY(-50%);
+          border: 1px solid #000;
+          border-width: 0 0 2px 2px;
+          width: 8px;
+          height: 8px;
+          line-height: 0;
+          font-size: 0;
+          -webkit-transform: rotate(-45deg);
+          -ms-transform: rotate(-45deg);
+          -o-transform: rotate(-45deg);
+          transform: rotate(-45deg);
+        }
       }
       .DateInput_input {
-        max-width: fit-content;
+        width: 100%;
         background: #e8edee;
         border-radius: 4px;
         font-family: Roboto;
         font-style: normal;
         font-weight: normal;
-        font-size: 16px;
-        @media (min-width: ${deviceWidth.mobile}px) {
-          width: 20rem;
-        }
+        font-size: 1rem;
 
         ::placeholder {
-          line-height: 24px;
+          line-height: 1.5;
           color: #a5adb0;
         }
       }
+
       .DateInput .DateInput_input__focused {
         border: var(--focus-standard-border);
       }
     }
+
     .DateRangePicker .DateRangePicker_picker {
       z-index: 4;
     }
@@ -218,10 +257,13 @@ export const Container = styled.div`
         font-family: Roboto;
         font-style: normal;
         font-weight: normal;
-        font-size: 16px;
+        font-size: 1rem;
         ::placeholder {
           color: #a5adb0;
           line-height: 24px;
+        }
+        &:after {
+          content: '';
         }
       }
       .DateInput .DateInput_input__focused {
@@ -247,7 +289,7 @@ export const Container = styled.div`
       width: 120px;
       height: 50px;
       font-weight: bold;
-      font-size: 16px;
+      font-size: 1rem;
       line-height: 19px;
       background: linear-gradient(180deg, #04d0fb 0%, #49bfe0 100%);
       border-radius: 4px;
@@ -264,16 +306,15 @@ export const Container = styled.div`
       width: 120px;
       height: 50px;
       font-weight: bold;
-      font-size: 16px;
+      font-size: 1rem;
       line-height: 19px;
       background: #fff;
       border-radius: 4px;
-      border: none;
+      border: 1px solid #39c3e6;
       color: #39c3e6;
       :focus {
         outline-style: var(--focus-outline-style);
         box-shadow: var(--focus-box-shadow);
-        border: var(--focus-standard-border);
       }
     }
   }
