@@ -37,8 +37,8 @@ describe('BondBuy Actions', () => {
       const totalFee: Currency = { amount: 11, denom: 'a' }
       const maxPrice: Currency = { amount: 1, denom: 'a' }
       const txFees = [
-        { amount: 0.7, denom: 'a' },
-        { amount: 0.8, denom: 'b' },
+        { amount: 1, denom: 'a' },
+        { amount: 2, denom: 'b' },
       ]
 
       mockAxios.get.mockImplementationOnce(() =>
@@ -49,8 +49,8 @@ describe('BondBuy Actions', () => {
               { amount: 4, denom: 'b' },
             ],
             tx_fees: [
-              { amount: 0.7, denom: 'a' },
-              { amount: 0.8, denom: 'b' },
+              { amount: 1, denom: 'a' },
+              { amount: 2, denom: 'b' },
             ],
             total_prices: [
               { amount: 9, denom: 'a' },

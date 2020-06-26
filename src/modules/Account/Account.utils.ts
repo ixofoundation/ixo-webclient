@@ -40,12 +40,22 @@ export function currencyStr(currency: Currency, pretty = true): string {
   }
 
   if (pretty) {
-    return (
-      newCurr.amount!.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.') +
-      ' ' +
-      newCurr.denom!.toUpperCase()
-    )
+    return `${newCurr.amount!.toString()} ${newCurr.denom!.toUpperCase()}`
   } else {
-    return newCurr.amount!.toString() + newCurr.denom!
+    return `${newCurr.amount!.toString()}${newCurr.denom!}`
+  }
+}
+
+export function apiCurrencyToCurrency(currency: any): Currency {
+  return {
+    amount: currency.amount ? parseInt(currency.amount, 10) : 0,
+    denom: currency.denom,
+  }
+}
+
+export function currencyToApiCurrency(currency: any): any {
+  return {
+    amount: currency.amount.toString(),
+    denom: currency.denom,
   }
 }
