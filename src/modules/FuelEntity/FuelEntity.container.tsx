@@ -50,6 +50,15 @@ class FuelEntity extends React.Component<Props & RouteProps> {
 
   componentDidMount(): void {
     startAssistant('fuel_my_entity')
+    if (!document.querySelector('body').classList.contains('noScroll')) {
+      document.querySelector('body').classList.add('noScroll')
+    }
+    document.querySelector('#ControlPanelWrapper').classList.add('fixed')
+  }
+
+  componentWillUnmount(): void {
+    document.querySelector('body').classList.remove('noScroll')
+    document.querySelector('#ControlPanelWrapper').classList.remove('fixed')
   }
 
   onAssistantMessageReceive = (utter: any): void => {
@@ -88,9 +97,7 @@ class FuelEntity extends React.Component<Props & RouteProps> {
 
     return (
       <ActionWrapper
-        className={`open ${
-          !sending && !sent && hasOrder && !hasError ? 'summary' : ''
-        }`}
+        className={`open ${hasOrder || sent || hasError ? 'summary' : ''}`}
       >
         {!sending && !sent && !hasOrder && (
           <AssistantWrapper>

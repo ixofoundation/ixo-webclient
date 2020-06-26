@@ -3,6 +3,7 @@ import {
   SubmitEntityClaimActions,
   GoToPreviousQuestionAction,
   GoToNextQuestionAction,
+  GoToQuestionNumberAction,
 } from './types'
 import { Dispatch } from 'redux'
 import { RootState } from 'src/common/redux/types'
@@ -48,6 +49,30 @@ export const goToNextQuestion = () => (
       type: SubmitEntityClaimActions.GoToNextQuestion,
       payload: {
         nextQuestionNo: currentQuestionNo + 1,
+      },
+    })
+  }
+
+  return null
+}
+
+export const goToQuestionNumber = (newQuestionNumber: number) => (
+  dispatch: Dispatch,
+  getState: () => RootState,
+): GoToQuestionNumberAction => {
+  const {
+    submitEntityClaim: { questions, currentQuestionNo },
+  } = getState()
+  const totalQuestions = questions.length
+
+  if (
+    newQuestionNumber <= totalQuestions &&
+    newQuestionNumber < currentQuestionNo
+  ) {
+    return dispatch({
+      type: SubmitEntityClaimActions.GoToQuestionNumber,
+      payload: {
+        questionNo: newQuestionNumber,
       },
     })
   }

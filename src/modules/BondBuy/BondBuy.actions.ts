@@ -13,6 +13,10 @@ import { RootState } from 'src/common/redux/types'
 import * as transactionUtils from '../../common/utils/transaction.utils'
 import keysafe from '../../common/keysafe/keysafe'
 import * as Toast from '../../common/utils/Toast'
+import {
+  apiCurrencyToCurrency,
+  currencyToApiCurrency,
+} from '../Account/Account.utils'
 
 export const initiateQuote = (): InitiateQuoteAction => ({
   type: BondBuyActions.InitiateQuote,
@@ -41,10 +45,12 @@ export const getQuote = (receiving: Currency, maxPrice: Currency) => (
       return {
         receiving,
         maxPrice,
-        actualPrice: response.data.prices[0],
-        txFees: response.data.tx_fees,
-        totalPrice: response.data.total_prices[0],
-        totalFee: response.data.total_fees[0],
+        actualPrice: apiCurrencyToCurrency(response.data.prices[0]),
+        txFees: response.data.tx_fees.map(txFee =>
+          apiCurrencyToCurrency(txFee),
+        ),
+        totalPrice: apiCurrencyToCurrency(response.data.total_prices[0]),
+        totalFee: apiCurrencyToCurrency(response.data.total_fees[0]),
       }
     }),
   })
@@ -68,9 +74,11 @@ export const confirmBuy = () => (
     pub_key: pubKey,
     buyer_did: did,
     bond_did: bondDid,
-    amount,
-    max_prices: [maxPrice],
+    amount: currencyToApiCurrency(amount),
+    max_prices: [currencyToApiCurrency(maxPrice)],
   }
+
+  console.log(JSON.stringify(tx))
 
   keysafe.requestSigning(JSON.stringify(tx), (error, signature) => {
     if (error) {

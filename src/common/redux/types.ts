@@ -9,6 +9,7 @@ import { BondSwapState } from 'src/modules/BondSwap/types'
 import { EntitiesState } from '../../modules/Entities/types'
 import { FuelEntityState } from 'src/modules/FuelEntity/types'
 import { SubmitEntityClaimState } from 'src/modules/SubmitEntityClaim/types'
+import { Entity } from '../../modules/Entities/types'
 
 export interface RootState {
   keySafe: KeysafeState
@@ -24,4 +25,5 @@ export interface RootState {
   entities: EntitiesState
   fuelEntity: FuelEntityState
   submitEntityClaim: SubmitEntityClaimState
+  selectedEntity: Entity
 }

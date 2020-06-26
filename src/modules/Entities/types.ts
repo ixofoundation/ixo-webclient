@@ -1,6 +1,7 @@
 import { Moment } from 'moment'
 import { Schema as FilterSchema } from './components/EntitiesFilter/schema/types'
 import { Schema as HeaderSchema } from './components/EntitiesHero/schema/types'
+import { Schema as ControlPanelSchema } from '../../common/components/ControlPanel/types'
 
 export enum EntityType {
   Project = 'Project',
@@ -65,6 +66,7 @@ export type StrategyMap = {
     themeColor: string
     headerSchema: HeaderSchema
     filterSchema: FilterSchema
+    controlPanelSchema: ControlPanelSchema
   }
 }
 
