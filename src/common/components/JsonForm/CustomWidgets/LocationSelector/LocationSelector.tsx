@@ -8,25 +8,22 @@ import {
 } from 'react-google-maps'
 import Autocomplete from 'react-google-autocomplete'
 import Geocode from 'react-geocode'
+import { GeoLocation } from './types'
 
 Geocode.setApiKey(process.env.REACT_APP_GOOGLE_API_KEY)
 Geocode.enableDebug()
 
-interface State {
-  address: string
-  city: string
-  area: string
-  state: string
-  lat: number
-  lng: number
-}
-
 interface Props {
   zoom: number
   height: number
-  lat: number
-  lng: number
+  initialLat: number
+  initialLng: number
+  onLocationChange: (location: GeoLocation) => void
 }
+
+// State is the same as the GeoLocation
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+interface State extends GeoLocation {}
 
 class LocationSelector extends React.Component<Props, State> {
   constructor(props) {
@@ -37,13 +34,28 @@ class LocationSelector extends React.Component<Props, State> {
       city: '',
       area: '',
       state: '',
-      lat: this.props.lat,
-      lng: this.props.lng,
+      lat: this.props.initialLat,
+      lng: this.props.initialLng,
     }
   }
 
   componentDidMount(): void {
     this.geoCodeFromLatLng(this.state.lat, this.state.lng)
+  }
+
+  shouldComponentUpdate(nextProps, nextState): boolean {
+    return (
+      this.state.lat !== this.props.initialLat ||
+      this.state.address !== nextState.address ||
+      this.state.city !== nextState.city ||
+      this.state.area !== nextState.area ||
+      this.state.state !== nextState.state
+    )
+  }
+
+  componentDidUpdate(): void {
+    console.log('it did update')
+    this.props.onLocationChange(this.state)
   }
 
   geoCodeFromLatLng = (lat: number, lng: number): void => {
@@ -64,16 +76,6 @@ class LocationSelector extends React.Component<Props, State> {
     )
   }
 
-  shouldComponentUpdate(nextProps, nextState): boolean {
-    return (
-      this.state.lat !== this.props.lat ||
-      this.state.address !== nextState.address ||
-      this.state.city !== nextState.city ||
-      this.state.area !== nextState.area ||
-      this.state.state !== nextState.state
-    )
-  }
-
   getCity = (addressArray: any[]): string => {
     const administrativeAreaL2 = addressArray.find(
       address => address.types[0] === 'administrative_area_level_2',
@@ -83,20 +85,11 @@ class LocationSelector extends React.Component<Props, State> {
   }
 
   getArea = (addressArray: any[]): string => {
-    for (let i = 0; i < addressArray.length; i++) {
-      if (addressArray[i].types[0]) {
-        for (let j = 0; j < addressArray[i].types.length; j++) {
-          if (
-            'sublocality_level_1' === addressArray[i].types[j] ||
-            'locality' === addressArray[i].types[j]
-          ) {
-            return addressArray[i].long_name
-          }
-        }
-      }
-    }
+    const locality = addressArray.find(address =>
+      address.types.includes('sublocality_level_1', 'locality'),
+    )
 
-    return null
+    return locality ? locality.long_name : null
   }
 
   getState = (addressArray: any[]): string => {
@@ -123,6 +116,7 @@ class LocationSelector extends React.Component<Props, State> {
   }
 
   onMarkerDragEnd = (event): void => {
+    console.log('hi')
     this.geoCodeFromLatLng(event.latLng.lat(), event.latLng.lng())
   }
 

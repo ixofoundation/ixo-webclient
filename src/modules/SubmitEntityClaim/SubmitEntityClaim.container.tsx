@@ -98,7 +98,15 @@ class SubmitEntityClaim extends React.Component<Props, State> {
                 <Container>
                   {this.state.showInstructions ? (
                     <>
-                      <LocationSelector lat={50} lng={0} />
+                      <LocationSelector
+                        initialLat={51.596692}
+                        initialLng={-0.153783}
+                        zoom={15}
+                        height={300}
+                        onLocationChange={(geoLocation): void =>
+                          console.log(geoLocation)
+                        }
+                      />
                       <Instructions
                         backLink={`/projects/${entityDid}/overview`}
                         toggleInstructions={this.handleToggleInstructions}
