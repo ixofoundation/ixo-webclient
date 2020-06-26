@@ -300,7 +300,7 @@ export const Container = styled.div`
     }
   }
 
-  .ighGkb form .buttons {
+  form .buttons {
     button[type='submit'] {
       width: 120px;
       height: 50px;
