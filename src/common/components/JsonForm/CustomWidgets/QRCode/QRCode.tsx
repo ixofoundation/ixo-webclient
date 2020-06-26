@@ -34,8 +34,6 @@ export default class QRCodeComponent extends React.Component<Props> {
           <br />
           Scan the QR code by placing your camera over the QR code on the left
           to acces claim
-          <br />
-          View scan history
         </div>
       </div>
     )
