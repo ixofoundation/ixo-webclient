@@ -125,4 +125,55 @@ describe('SubmitEntityClaim Actions', () => {
       expect(actions).toEqual([])
     })
   })
+
+  describe('goToQuestionNumber', () => {
+    it('should dispatch an action to go to the new question when the currentQuestionNo is great than the questionNo', () => {
+      state = {
+        ...state,
+        submitEntityClaim: {
+          ...state.submitEntityClaim,
+          currentQuestionNo: 2,
+        },
+      }
+
+      // when ... we call goToQuestionNumber
+      store.dispatch(SUT.goToQuestionNumber(1))
+      const action = store.getActions()[0]
+
+      expect(action.type).toEqual(SubmitEntityClaimActions.GoToQuestionNumber)
+      expect(action.payload).toEqual({ questionNo: 1 })
+    })
+
+    it('should not dispatch any action when the questionNo is equal to the currentQuestionNo', () => {
+      state = {
+        ...state,
+        submitEntityClaim: {
+          ...state.submitEntityClaim,
+          currentQuestionNo: 2,
+        },
+      }
+
+      // when ... we call saveAnswer
+      store.dispatch(SUT.goToQuestionNumber(2))
+      const actions = store.getActions()
+
+      expect(actions).toEqual([])
+    })
+
+    it('should not dispatch any action when the questionNo is great than the currentQuestionNo', () => {
+      state = {
+        ...state,
+        submitEntityClaim: {
+          ...state.submitEntityClaim,
+          currentQuestionNo: 2,
+        },
+      }
+
+      // when ... we call saveAnswer
+      store.dispatch(SUT.goToQuestionNumber(4))
+      const actions = store.getActions()
+
+      expect(actions).toEqual([])
+    })
+  })
 })

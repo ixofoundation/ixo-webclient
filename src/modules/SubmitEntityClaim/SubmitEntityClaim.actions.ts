@@ -61,11 +61,14 @@ export const goToQuestionNumber = (newQuestionNumber: number) => (
   getState: () => RootState,
 ): GoToQuestionNumberAction => {
   const {
-    submitEntityClaim: { questions },
+    submitEntityClaim: { questions, currentQuestionNo },
   } = getState()
   const totalQuestions = questions.length
 
-  if (newQuestionNumber <= totalQuestions) {
+  if (
+    newQuestionNumber <= totalQuestions &&
+    newQuestionNumber < currentQuestionNo
+  ) {
     return dispatch({
       type: SubmitEntityClaimActions.GoToQuestionNumber,
       payload: {

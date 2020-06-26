@@ -98,12 +98,14 @@ class SubmitEntityClaim extends React.Component<Props, State> {
           <div className="container">
             <div className="row">
               <div className="col-lg-8">
-                <Progress
-                  question={currentQuestion}
-                  currentQuestionNo={currentQuestionNo}
-                  questionCount={questionCount}
-                  handleJumpToQuestion={handleJumpToQuestion}
-                />
+                {!this.state.showInstructions && (
+                  <Progress
+                    question={currentQuestion}
+                    currentQuestionNo={currentQuestionNo}
+                    questionCount={questionCount}
+                    handleJumpToQuestion={handleJumpToQuestion}
+                  />
+                )}
                 <Container>
                   {this.state.showInstructions ? (
                     <Instructions
