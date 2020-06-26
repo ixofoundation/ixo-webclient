@@ -31,7 +31,7 @@ const CheckboxesWidget: React.FunctionComponent<Props> = ({
   onChange,
 }) => {
   return (
-    <div className="checkboxes" id={id}>
+    <div className="image-checkboxes" id={id}>
       {enumOptions.map((option, index) => {
         const checked = value.indexOf(option.value) !== -1
         const itemDisabled =
@@ -41,22 +41,24 @@ const CheckboxesWidget: React.FunctionComponent<Props> = ({
         const image = images[index]
         const checkbox = (
           <span>
-            <input
-              type="checkbox"
-              id={`${id}_${index}`}
-              checked={checked}
-              disabled={disabled || itemDisabled || readonly}
-              autoFocus={autofocus && index === 0}
-              onChange={(event: any): void => {
-                const all = enumOptions.map(({ value }) => value)
-                if (event.target.checked) {
-                  onChange(selectValue(option.value, value, all))
-                } else {
-                  onChange(deselectValue(option.value, value))
-                }
-              }}
-            />
-            <span>{option.label}</span>
+            <div>
+              <input
+                type="checkbox"
+                id={`${id}_${index}`}
+                checked={checked}
+                disabled={disabled || itemDisabled || readonly}
+                autoFocus={autofocus && index === 0}
+                onChange={(event: any): void => {
+                  const all = enumOptions.map(({ value }) => value)
+                  if (event.target.checked) {
+                    onChange(selectValue(option.value, value, all))
+                  } else {
+                    onChange(deselectValue(option.value, value))
+                  }
+                }}
+              />
+              <span>{option.label}</span>
+            </div>
             <img src={image} />
           </span>
         )

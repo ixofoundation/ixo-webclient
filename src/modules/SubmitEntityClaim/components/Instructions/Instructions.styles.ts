@@ -9,7 +9,6 @@ export const Container = styled.div`
 `
 
 export const ContentWrapper = styled.div`
-  padding: 3.75rem 0 0.5rem 4.375rem;
   h1 {
     font-size: 36px;
     line-height: 42px;
@@ -48,10 +47,17 @@ export const ListItems = styled.div`
     white-space: nowrap;
     margin-bottom: 1.175rem;
     margin-right: 7.5rem;
+    @media (min-width: ${deviceWidth.mobile}px) {
+      margin-right: 0.5rem;
+    }
+    @media (min-width: ${deviceWidth.tablet}px) {
+      margin-right: 5.5rem;
+    }
     svg {
       margin-right: 1rem;
     }
   }
+
   @media (min-width: ${deviceWidth.mobile}px) {
     height: 300px;
   }
@@ -59,7 +65,6 @@ export const ListItems = styled.div`
 export const ButtonWrapper = styled.div`
   display: inline-block;
   align-items: center;
-  padding: 0 0 2rem 4.375rem;
 `
 export const ReturnButton = styled.button`
   pointer-events: none;
@@ -101,7 +106,7 @@ export const StartButton = styled.button`
   }
 
   @media (min-width: ${deviceWidth.desktopLarge}px) {
-    margin-left: 23.5rem;
+    margin-left: 19.5rem;
     margin-top: 3.625rem;
   }
 `
