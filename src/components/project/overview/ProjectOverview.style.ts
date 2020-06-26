@@ -2,8 +2,6 @@ import styled from 'styled-components'
 import { deviceWidth } from '../../../lib/commonData'
 import { ProgressBar } from '../../../common/components/ProgressBar'
 
-export const CaptionImageWrapper = styled.div``
-
 export const OverviewContainer = styled.section`
   background: white;
   color: black;
@@ -79,14 +77,6 @@ export const OverviewContainer = styled.section`
       font-size: 0.875rem;
       letter-spacing: 0.3px;
       color: #000000;
-    }
-    ${CaptionImageWrapper} {
-      p {
-        font-size: 0.75rem;
-        line-height: 2;
-        margin-top: 1rem;
-        color: #a5adb0;
-      }
     }
   }
 `
@@ -289,6 +279,13 @@ export const InlineImageWrapper = styled.div`
     :last-child {
       margin-bottom: 0;
     }
+  }
+  p.caption {
+    font-size: 0.75rem;
+    line-height: 2;
+    margin-top: 1rem;
+    color: #a5adb0;
+    margin-left: 0;
   }
   @media (min-width: ${deviceWidth.tablet}px) {
     img {
