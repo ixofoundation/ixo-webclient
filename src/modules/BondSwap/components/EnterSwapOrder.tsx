@@ -56,7 +56,10 @@ const EnterSwapOrder: React.FunctionComponent<Props> = ({
   // }, []);
 
   const onSubmit = (formData: any): void => {
-    const sending = { denom: formData.denom, amount: formData.amount }
+    const sending = {
+      denom: formData.denom,
+      amount: parseInt(formData.amount, 10),
+    }
     const receiving = { denom: formData.receivingDenom }
 
     handleGetQuote(sending, receiving)

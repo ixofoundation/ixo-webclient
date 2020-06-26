@@ -1,6 +1,7 @@
 import Axios from 'axios'
 import { BondActions, GetBalancesAction, GetTradesAction } from './types'
 import { Dispatch } from 'redux'
+import { apiCurrencyToCurrency } from '../Account/Account.utils'
 
 export const getBalances = (bondDid: string) => (
   dispatch: Dispatch,
@@ -50,10 +51,10 @@ export const getBalances = (bondDid: string) => (
           name: bond.name,
           address: bond.feeAddress,
           type: bond.function_type,
-          collateral: bond.current_supply,
-          totalSupply: bond.max_supply,
-          price: price,
-          reserve: reserve,
+          collateral: apiCurrencyToCurrency(bond.current_supply),
+          totalSupply: apiCurrencyToCurrency(bond.max_supply),
+          price: apiCurrencyToCurrency(price),
+          reserve: apiCurrencyToCurrency(reserve),
           alpha: 0,
           alphaDate: new Date(),
         }
