@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import { deviceWidth } from '../../../lib/commonData'
-import { ProgressBar } from '../../common/ProgressBar'
+import { ProgressBar } from '../../../common/components/ProgressBar'
 
 export const CaptionImageWrapper = styled.div``
 

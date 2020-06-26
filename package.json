@@ -9,7 +9,6 @@
     "@jsonforms/core": "^2.3.2",
     "@jsonforms/react": "^2.3.2",
     "@rjsf/core": "^2.1.0",
-    "@typeform/embed": "^0.16.0",
     "ajv": "^6.11.0",
     "axios": "^0.19.2",
     "base-64": "^0.1.0",

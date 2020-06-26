@@ -2,8 +2,7 @@ import * as React from 'react'
 import Header from '../BondsSummaryHeader/Header'
 import './BondsWrapper.css'
 import BondsSidebar from '../BondsSidebar/BondsSidebar'
-import { Spinner } from '../../../../components/common/Spinner'
-import { TypeForm } from '../../../../components/TypeForm'
+import { Spinner } from '../../Spinner'
 import { ProjectHero } from '../../../../components/project/ProjectHero'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
@@ -50,7 +49,6 @@ export class BondsWrapper extends React.Component<Props, State> {
           projectStatus: status,
         })
       })
-      .catch(() => {})
   }
 
   handleHasCapability = (roles: AgentRoles[]): boolean => {
@@ -107,7 +105,6 @@ export class BondsWrapper extends React.Component<Props, State> {
               bondDID={params.bondDID}
             />
             <div className="pane">
-              <TypeForm />
               <Header bondDID={params.bondDID} />
               {children}
             </div>

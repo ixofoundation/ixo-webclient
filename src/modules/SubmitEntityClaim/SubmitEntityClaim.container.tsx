@@ -16,7 +16,7 @@ import {
 import { EntityType } from '../Entities/types'
 import { strategyMap } from '../Entities/strategy-map'
 import ControlPanel from '../../common/components/ControlPanel/ControlPanel'
-import { Spinner } from '../../components/common/Spinner'
+import { Spinner } from '../../common/components/Spinner'
 import { getEntity } from '../SelectedEntity/SelectedEntity.actions'
 
 interface Props {
