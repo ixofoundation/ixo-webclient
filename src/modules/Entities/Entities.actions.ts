@@ -1,4 +1,4 @@
-import moment, { Moment } from 'moment'
+import { Moment } from 'moment'
 import { Dispatch } from 'redux'
 import {
   GetEntitiesAction,
@@ -19,47 +19,13 @@ import {
 } from './types'
 import { RootState } from 'src/common/redux/types'
 import blocksyncApi from '../../common/api/blocksync-api/blocksync-api'
-import { toTitleCase } from '../../common/utils/formatters'
+import { mapApiEntityToEntity } from './Entities.utils'
 
 export const getEntities = () => (dispatch: Dispatch): GetEntitiesAction => {
   return dispatch({
     type: EntitiesActions.GetEntities,
     payload: blocksyncApi.project.listProjects().then(response => {
-      return response.map(entity => ({
-        did: entity.projectDid,
-        entityType: entity.data.entityType
-          ? toTitleCase(entity.data.entityType)
-          : EntityType.Project,
-        userDid: entity.data.createdBy,
-        status: entity.status,
-        title: entity.data.title,
-        shortDescription: entity.data.shortDescription,
-        longDescription: entity.data.longDescription,
-        dateCreated: moment(entity.data.createdOn),
-        ownerName: entity.data.ownerName,
-        country: entity.data.projectLocation,
-        impactAction: entity.data.impactAction,
-        imageUrl: `${entity.data.serviceEndpoint}public/${entity.data.imageLink}`,
-        logoUrl: entity.data.logoLink,
-        serviceProvidersCount: entity.data.agentStats.serviceProviders,
-        evaluatorsCount: entity.data.agentStats.evaluators,
-        requiredClaimsCount: entity.data.requiredClaims,
-        pendingClaimsCount: [entity.data.claims].filter(
-          claim => claim.status === '0',
-        ).length, // due to pendingClaims not existing in the claimStats we have to look in the claims itself!
-        successfulClaimsCount: entity.data.claimStats.currentSuccessful,
-        rejectedClaimsCount: entity.data.claimStats.currentRejected,
-        agentDids: entity.data.agents.map(agent => agent.did),
-        sdgs: entity.data.sdgs,
-        categories: entity.data.ddoTags
-          ? entity.data.ddoTags.map(ddoTag => ({
-              name: ddoTag.category,
-              tags: ddoTag.tags,
-            }))
-          : [],
-        founderLogoUrl: entity.data.founder ? entity.data.founder.logoLink : '',
-        data: entity.data, // TEMP until project module not getting data from projects
-      }))
+      return response.map(apiEntity => mapApiEntityToEntity(apiEntity))
     }),
   })
 }
@@ -114,15 +80,6 @@ export const filterDates = (
 export const resetDatesFilter = (): ResetDatesFilterAction => ({
   type: EntitiesActions.ResetDatesFilter,
 })
-
-/* // TODO - check if tag exists for category, if so then set to null
-export const filterCategoryTag = (
-  category: string,
-  tag: string,
-): FilterCategoryTagAction => ({
-  type: EntitiesActions.FilterCategoryTag,
-  payload: { category, tag },
-}) */
 
 export const filterCategoryTag = (category: string, tag: string) => (
   dispatch: Dispatch,

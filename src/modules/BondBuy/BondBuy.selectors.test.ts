@@ -122,13 +122,13 @@ describe('BondBuy Selectors', () => {
   })
 
   describe('selectEstimatePrice', () => {
-    it('should return the calculated estimated price', () => {
+    it('should return the calculated estimated price rounded to 2 decimal places', () => {
       // when ... we call the selector
       const result = SUT.selectBondBuyPriceEstimate(state)
 
       // then ... should return the slice of state as expected
       expect(result).toEqual({
-        amount: 1.730263157894737,
+        amount: '1.73',
         denom: 'actual',
       })
     })

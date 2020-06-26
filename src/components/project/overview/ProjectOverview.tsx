@@ -16,11 +16,9 @@ import {
   InlineImageWrapper,
   CaptionImageWrapper,
 } from './ProjectOverview.style'
-// TODO - when we actually get the schema from the api then replace
-import ProjectControlPanelSchema from '../../../common/components/ControlPanel/schema/Project.schema.json'
-import CellControlPanelSchema from '../../../common/components/ControlPanel/schema/Cell.schema.json'
 import { EntityType } from '../../../modules/Entities/types'
 import { toTitleCase } from '../../../common/utils/formatters'
+import { strategyMap } from 'src/modules/Entities/strategy-map'
 
 export interface ParentProps {
   match: any
@@ -65,11 +63,6 @@ export const ProjectOverview: React.SFC<Props> = props => {
   const entityType = props.project.entityType
     ? (toTitleCase(props.project.entityType) as EntityType)
     : EntityType.Project
-
-  const controlPanelSchema =
-    entityType === EntityType.Cell
-      ? CellControlPanelSchema
-      : ProjectControlPanelSchema
 
   return (
     <div>
@@ -195,7 +188,7 @@ export const ProjectOverview: React.SFC<Props> = props => {
             </div>
             <div className="col-lg-4">
               <ControlPanel
-                schema={controlPanelSchema}
+                schema={strategyMap[entityType].controlPanelSchema}
                 entityDid={props.projectDid}
                 userDid={props.userInfo ? props.userInfo.didDoc.did : null}
               />
