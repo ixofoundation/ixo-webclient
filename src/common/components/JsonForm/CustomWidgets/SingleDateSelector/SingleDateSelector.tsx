@@ -6,6 +6,8 @@ interface Props {
   id: string
   value: string
   onChange: (value: string) => void
+  numberOfMonths: number
+  initialOrientation: string
 }
 
 interface State {
@@ -35,9 +37,10 @@ class SingleDateSelector extends React.Component<Props, State> {
         onFocusChange={({ focused }): void => this.setState({ focused })}
         id={id}
         isOutsideRange={(): boolean => false}
+        numberOfMonths={this.props.numberOfMonths}
+        orientation={this.props.initialOrientation}
       />
     )
   }
 }
-
 export default SingleDateSelector
