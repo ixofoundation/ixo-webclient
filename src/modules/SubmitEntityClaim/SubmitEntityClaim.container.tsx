@@ -4,6 +4,7 @@ import { RootState } from 'src/common/redux/types'
 import Instructions from './components/Instructions/Instructions'
 import { Hero } from './components/Hero/Hero'
 import Question from './components/Question/Question'
+import { Progress } from './components/Progress/Progress'
 import { Container } from './SubmitEntityClaim.container.styles'
 import { FormControl } from '../../common/components/JsonForm/types'
 import * as submitEntityClaimSelectors from './SubmitEntityClaim.selectors'
@@ -12,6 +13,7 @@ import * as selectedEntitySelectors from '../SelectedEntity/SelectedEntity.selec
 import {
   goToNextQuestion,
   goToPreviousQuestion,
+  goToQuestionNumber,
 } from './SubmitEntityClaim.actions'
 import { EntityType } from '../Entities/types'
 import { strategyMap } from '../Entities/strategy-map'
@@ -33,6 +35,7 @@ interface Props {
   handleGetEntity: (entityDid: string) => void
   handlePreviousClick: () => void
   handleNextClick: () => void
+  handleJumpToQuestion: (questionNo: number) => void
 }
 
 interface State {
@@ -77,6 +80,7 @@ class SubmitEntityClaim extends React.Component<Props, State> {
       questionCount,
       handlePreviousClick,
       handleNextClick,
+      handleJumpToQuestion,
     } = this.props
 
     if (entityIsLoading) {
@@ -94,6 +98,14 @@ class SubmitEntityClaim extends React.Component<Props, State> {
           <div className="container">
             <div className="row">
               <div className="col-lg-8">
+                {!this.state.showInstructions && (
+                  <Progress
+                    question={currentQuestion}
+                    currentQuestionNo={currentQuestionNo}
+                    questionCount={questionCount}
+                    handleJumpToQuestion={handleJumpToQuestion}
+                  />
+                )}
                 <Container>
                   {this.state.showInstructions ? (
                     <Instructions
@@ -145,6 +157,8 @@ const mapStateToProps = (state: RootState): Record<string, any> => ({
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
   handlePreviousClick: (): void => dispatch(goToPreviousQuestion()),
   handleNextClick: (): void => dispatch(goToNextQuestion()),
+  handleJumpToQuestion: (QuestionNo: number): void =>
+    dispatch(goToQuestionNumber(QuestionNo)),
   handleGetEntity: (entityDid): void => dispatch(getEntity(entityDid)),
 })
 
