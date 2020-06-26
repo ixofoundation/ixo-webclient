@@ -6,7 +6,6 @@ import Question from './components/Question/Question'
 import {
   Container,
   SubmitEntityClaimWrapper,
-  // Arrow,
 } from './SubmitEntityClaim.container.styles'
 import { FormControl } from '../../common/components/JsonForm/types'
 import * as submitEntityClaimSelectors from './SubmitEntityClaim.selectors'
@@ -75,7 +74,6 @@ class SubmitEntityClaim extends React.Component<Props, State> {
                     questionCount={questionCount}
                   />
                 )}
-                {/* <Arrow /> */}
               </Container>
             </div>
             <div className="col-lg-4">
