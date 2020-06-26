@@ -4,6 +4,7 @@ import { FormContainer } from './SingleControlForm.styles'
 import ImageCheckboxes from '../CustomWidgets/ImageCheckboxes/ImageCheckboxes'
 import SingleDateSelector from '../CustomWidgets/SingleDateSelector/SingleDateSelector'
 import DateRangeSelector from '../CustomWidgets/DateRangeSelector/DateRangeSelector'
+import QRCode from '../CustomWidgets/QRCode/QRCode'
 import { FormControl } from '../types'
 
 interface Props {
@@ -18,6 +19,7 @@ const customControls = {
   ['imagecheckboxes']: ImageCheckboxes,
   ['singledateselector']: SingleDateSelector,
   ['daterangeselector']: DateRangeSelector,
+  ['qrcode']: QRCode,
 }
 
 const SingleControlForm: React.FunctionComponent<Props> = ({
@@ -43,6 +45,7 @@ const SingleControlForm: React.FunctionComponent<Props> = ({
     itemValues,
     itemLabels,
     itemImages,
+    initialValue,
   } = formControl
 
   const schema = {
@@ -55,6 +58,7 @@ const SingleControlForm: React.FunctionComponent<Props> = ({
         type,
         title: label,
         enum: values,
+        default: initialValue,
         items: {
           type: 'string',
           enum: itemValues,
