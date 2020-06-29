@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { deviceWidth } from '../../lib/commonData'
+import { deviceWidth } from '../../../src/lib/commonData'
 
 export const SubmitEntityClaimWrapper = styled.div`
   background-color: #fff;
@@ -12,9 +12,9 @@ export const Container = styled.div`
     border: 1px solid #39c3e6;
     border-radius: 4px;
     margin-top: 1.75rem;
-    padding: 3.125rem 1.375rem;
-    @media (min-width: ${deviceWidth.tablet}px) {
-      padding: 2.625rem 3.75rem;
+    padding: 0.5rem 1.5rem;
+    @media (min-width: ${deviceWidth.mobile}px) {
+      padding: 3.5rem 4.5rem;
     }
   }
 
@@ -161,6 +161,7 @@ export const Container = styled.div`
         justify-content: flex-start;
         align-items: flex-start;
         margin-right: 6rem;
+        white-space: nowrap;
         input {
           width: 1.1em;
           height: 1.1em;
@@ -191,7 +192,10 @@ export const Container = styled.div`
       }
     }
 
-    .SingleDatePicker .SingleDatePickerInput__withBorder {
+    .SingleDatePicker {
+      z-index: 4;
+    }
+    .SingleDatePickerInput__withBorder {
       border: none;
       .DateInput {
         width: 20rem;
