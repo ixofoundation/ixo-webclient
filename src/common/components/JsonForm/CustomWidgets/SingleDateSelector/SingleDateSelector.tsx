@@ -37,7 +37,7 @@ class SingleDateSelector extends React.Component<Props, State> {
     return (
       <>
         <MediaQuery maxWidth={`${deviceWidth.desktop - 1}px`}>
-          <MobileWrapper>
+          <MobileWrapper className={this.state.focused ? 'active' : ''}>
             {this.state.focused && (
               <MobileDateHeader>
                 <HeadingItem onClick={(): void => console.log('clicked back')}>

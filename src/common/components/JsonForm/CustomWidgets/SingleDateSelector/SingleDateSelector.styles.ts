@@ -1,13 +1,16 @@
 import styled from 'styled-components'
 
 export const MobileWrapper = styled.div`
-  display: flex;
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  left: 0;
-  z-index: 9;
+  &.active {
+    display: flex;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    z-index: 9;
+  }
+
   /* background: firebrick; */
   .SingleDatePicker .SingleDatePickerInput .SingleDatePicker_picker {
     top: 30px;
@@ -17,6 +20,7 @@ export const MobileWrapper = styled.div`
   }
 `
 export const MobileDateHeader = styled.header`
+  width: 100vw;
   background: #002a3f;
   padding: 1.5rem 1.25rem;
   display: flex;
