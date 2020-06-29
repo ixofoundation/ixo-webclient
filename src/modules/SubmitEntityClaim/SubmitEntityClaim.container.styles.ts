@@ -12,9 +12,9 @@ export const Container = styled.div`
     border: 1px solid #39c3e6;
     border-radius: 4px;
     margin-top: 1.75rem;
-    padding: 0.5rem 1.5rem;
+    padding: 2.125rem 1.25rem;
     @media (min-width: ${deviceWidth.mobile}px) {
-      padding: 3.5rem 4.5rem;
+      padding: 3.5rem 4.25rem;
     }
   }
 
@@ -25,10 +25,13 @@ export const Container = styled.div`
 
     #root__title {
       font-family: ${(props): string => props.theme.fontRobotoCondensed};
-      font-size: 2.25rem;
       font-weight: normal;
+      font-size: 1.5rem;
       line-height: 1.2;
       letter-spacing: 0.3px;
+      @media (min-width: ${deviceWidth.mobile}px) {
+        font-size: 2.25rem;
+      }
     }
 
     #root__description {
@@ -97,35 +100,52 @@ export const Container = styled.div`
     .form-group .image-checkboxes {
       display: flex;
       flex-flow: row wrap;
+      margin-right: -1rem;
+      @media (min-width: ${deviceWidth.mobile}px) {
+        margin-right: -3rem;
+      }
+      .checkbox {
+        width: calc(100% / 2 - 1rem);
+        margin-right: 1rem;
+        @media (min-width: ${deviceWidth.mobile}px) {
+          width: calc(100% / 3 - 3rem);
+          margin-right: 3rem;
+        }
+      }
       div {
-        width: calc(100% / 3 - 1rem);
         label span {
           display: flex;
           flex-direction: column;
           div {
             width: 100%;
             display: flex;
-            justify-content: space-evenly;
+            justify-content: flex-start;
             order: 2;
             input {
               width: 1.1em;
               height: 1.1em;
-              background-color: white;
+              margin-right: 1.125rem;
+              background-color: #dfe3e8;
               border-radius: 50%;
               vertical-align: middle;
-              border: 1px solid #ddd;
+              border: none;
               -webkit-appearance: none;
               outline: none;
               cursor: pointer;
               &:checked {
-                background-color: gray;
+                background-color: #39c3e6;
               }
-            }
-            span {
             }
           }
           img {
+            width: 100%;
+            height: initial;
+            object-fit: cover;
             order: 1;
+            background: white; /* @todo remove this when we have proper images */
+            box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.05);
+            border-radius: 4px;
+            margin-bottom: 1.25rem;
           }
         }
       }
@@ -314,15 +334,17 @@ export const Container = styled.div`
     display: flex;
     flex-flow: row nowrap;
     justify-content: space-between;
-    button[type='submit'] {
+    button {
       width: 120px;
       height: 50px;
       font-weight: bold;
       font-size: 1rem;
       line-height: 19px;
-      background: linear-gradient(180deg, #04d0fb 0%, #49bfe0 100%);
       border-radius: 4px;
       border: none;
+    }
+    button[type='submit'] {
+      background: linear-gradient(180deg, #04d0fb 0%, #49bfe0 100%);
       color: #fff;
       :focus {
         outline-style: none;
@@ -331,15 +353,9 @@ export const Container = styled.div`
       }
     }
     button[type='button'] {
-      width: 120px;
-      height: 50px;
-      font-weight: bold;
-      font-size: 1rem;
-      line-height: 19px;
       background: #fff;
-      border-radius: 4px;
-      border: 1px solid #39c3e6;
       color: #39c3e6;
+      border: 1px solid #39c3e6;
       :focus {
         outline-style: var(--focus-outline-style);
         box-shadow: var(--focus-box-shadow);

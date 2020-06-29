@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { deviceWidth } from '../../../../lib/commonData'
 
 export const ProgressWrapper = styled.div`
   margin: 0 auto 2rem;
@@ -59,6 +60,9 @@ export const ProgressWrapper = styled.div`
       color: black;
       text-align: center;
       display: block;
+      @media (max-width: ${deviceWidth.mobile}px) {
+        display: none;
+      }
     }
   }
 `
