@@ -10,6 +10,7 @@ import {
 import { Dispatch } from 'redux'
 import { RootState } from 'src/common/redux/types'
 import * as transactionUtils from '../../common/utils/transaction.utils'
+import * as Toast from '../../common/utils/Toast'
 
 export const getOrder = (assistantResponse: any): GetOrderAction => ({
   // TODO read from the actual response when assistant ready
@@ -44,6 +45,7 @@ export const confirmOrder = (entityDid: string) => (
         didDoc: { did: userDid, pubKey },
       },
     },
+    ixo: { ixo },
   } = getState()
 
   const tx: FuelEntityOrderTx = {
@@ -53,20 +55,28 @@ export const confirmOrder = (entityDid: string) => (
     amount: [{ denom: 'ixo', amount }],
   }
 
-  keysafe.requestSigning(JSON.stringify(tx), (error, signature) => {
-    if (error) {
-      return null
-    }
+  ixo.utils.getSignData(tx, 'treasury/MsgSend')
+    .then((response: any) => {
+      if (response.sign_bytes && response.fee) {
+        keysafe.requestSigning(JSON.stringify(tx), (error, signature) => {
+          if (error) {
+            return null
+          }
 
-    return dispatch({
-      type: FuelEntityActions.ConfirmOrder,
-      payload: Axios.post(
-        `${process.env.REACT_APP_GAIA_URL}/txs`,
-        JSON.stringify(
-          transactionUtils.generateTx('treasury/MsgSend', tx, signature),
-        ),
-      ),
+          return dispatch({
+            type: FuelEntityActions.ConfirmOrder,
+            payload: Axios.post(
+              `${process.env.REACT_APP_GAIA_URL}/txs`,
+              JSON.stringify(
+                transactionUtils.generateTx('treasury/MsgSend', tx, signature, response.fee),
+              ),
+            ),
+          })
+        })
+      }
     })
+  .catch(() => {
+    Toast.errorToast('Sale failed. Please try again.')
   })
 
   return null

@@ -92,7 +92,7 @@ export const confirmBuy = () => (
             payload: Axios.post(
               `${process.env.REACT_APP_GAIA_URL}/txs`,
               JSON.stringify(
-                transactionUtils.generateTx('bonds/MsgBuy', tx, signature),
+                transactionUtils.generateTx('bonds/MsgBuy', tx, signature, response.fee),
               ),
             )
               .then(response => {

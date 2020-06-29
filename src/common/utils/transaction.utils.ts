@@ -7,6 +7,7 @@ export const generateTx = (
   type: string,
   value: any,
   signature: any,
+  fee: any,
 ): Transaction => {
   const ledger = {
     payload: [{ type, value }],
@@ -18,6 +19,7 @@ export const generateTx = (
         created: signature.created,
       },
     ],
+    fee: fee,
   }
 
   return {
