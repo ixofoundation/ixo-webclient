@@ -15,7 +15,7 @@ export const Progress: React.FunctionComponent<Props> = props => {
     .map((u, i) => i + 1)
 
   return (
-    <ProgressWrapper className="progress-wrapper">
+    <ProgressWrapper>
       {questions.map(question => {
         return question === props.currentQuestionNo ? (
           <div key={question} className="progress-item active">

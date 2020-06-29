@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { deviceWidth } from 'src/lib/commonData'
+import { deviceWidth } from '../../../../lib/commonData'
 
 export const Container = styled.div`
   border-radius: 4px;
