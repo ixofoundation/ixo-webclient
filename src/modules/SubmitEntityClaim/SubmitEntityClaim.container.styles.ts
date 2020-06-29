@@ -146,6 +146,12 @@ export const Container = styled.div`
           order: 1;
         }
       }
+      &:before {
+        content: 'From first';
+      }
+      &:after {
+        content: 'To last';
+      }
     }
     .checkboxes {
       display: flex;
