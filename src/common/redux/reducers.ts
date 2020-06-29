@@ -12,6 +12,7 @@ import { reducer as tokenSupplyReducer } from '../../modules/tokenSupply/tokenSu
 import { reducer as entitiesReducer } from '../../modules/Entities/Entities.reducer'
 import { reducer as fuelEntityReducer } from '../../modules/FuelEntity/FuelEntity.reducer'
 import { reducer as submitEntityClaimReducer } from '../../modules/SubmitEntityClaim/SubmitEntityClaim.reducer'
+import { reducer as selectedEntityReducer } from '../../modules/SelectedEntity/SelectedEntity.reducer'
 import { RootState } from './types'
 
 export const rootReducer: Reducer<RootState> = combineReducers<RootState>({
@@ -28,4 +29,5 @@ export const rootReducer: Reducer<RootState> = combineReducers<RootState>({
   entities: entitiesReducer,
   fuelEntity: fuelEntityReducer,
   submitEntityClaim: submitEntityClaimReducer,
+  selectedEntity: selectedEntityReducer,
 })

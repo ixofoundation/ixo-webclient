@@ -10,6 +10,7 @@ import { Dispatch } from 'redux'
 import Axios from 'axios'
 import blocksyncApi from '../../common/api/blocksync-api/blocksync-api'
 import keysafe from '../../common/keysafe/keysafe'
+import { apiCurrencyToCurrency } from './Account.utils'
 
 export const login = (userInfo: UserInfo, address: string): LoginAction => ({
   type: AccountActions.Login,
@@ -39,7 +40,7 @@ export const getAccount = (address: string) => (
       },
     ).then(response => {
       return {
-        balances: response.data.coins,
+        balances: response.data.coins.map(coin => apiCurrencyToCurrency(coin)),
         sequence: response.data.sequence.toString(),
         accountNumber: response.data.account_number.toString(),
       }

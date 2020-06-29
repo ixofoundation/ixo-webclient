@@ -25,12 +25,12 @@ const EnterSellOrder: React.FunctionComponent<Props> = ({
 
   const onSubmit = (formData: any): void => {
     const sending: Currency = {
-      amount: formData.amount,
+      amount: parseInt(formData.amount, 10),
       denom: denomination,
     }
     const minPrice: Currency = {
       denom: formData.denom,
-      amount: formData.minAmount,
+      amount: parseInt(formData.minAmount, 10),
     }
 
     handleGetQuote(sending, minPrice)

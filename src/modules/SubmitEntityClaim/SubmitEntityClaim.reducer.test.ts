@@ -4,6 +4,7 @@ import {
   SubmitEntityClaimActions,
   GoToNextQuestionAction,
   GoToPreviousQuestionAction,
+  GoToQuestionNumberAction,
 } from './types'
 
 const initialState = SUT.initialState
@@ -103,6 +104,24 @@ describe('SubmitEntityClaim Reducer', () => {
         type: SubmitEntityClaimActions.GoToPreviousQuestion,
         payload: {
           previousQuestionNo: 2,
+        },
+      }
+
+      const result = SUT.reducer(initialState, action)
+
+      expect(result).toEqual({
+        ...initialState,
+        currentQuestionNo: 2,
+      })
+    })
+  })
+
+  describe('GoToQuestionNumber Action', () => {
+    it('should update the currentQuestionNo', () => {
+      const action: GoToQuestionNumberAction = {
+        type: SubmitEntityClaimActions.GoToQuestionNumber,
+        payload: {
+          questionNo: 2,
         },
       }
 

@@ -1,23 +1,13 @@
 [
   {
-    "id": "a",
-    "title": "Date Picker",
+    "id": "f",
+    "title": "QR Code",
     "description": "This will be a short description or explainer text explaining the question. ",
-    "label": "Dates",
+    "label": "QR Code",
     "required": true,
     "type": "string",
-    "control": "daterangeselector",
-    "placeholder": "Select Date"
-  },
-  {
-    "id": "a",
-    "title": "Date Picker",
-    "description": "This will be a short description or explainer text explaining the question. ",
-    "label": "Date of pickup",
-    "required": true,
-    "type": "string",
-    "control": "singledateselector",
-    "placeholder": "Select Date"
+    "control": "qrcode",
+    "initialValue": "https://www.google.com/"
   },
   {
     "id": "a",
@@ -102,5 +92,25 @@
     "type": "number",
     "control": "radio",
     "values": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+  },
+  {
+    "id": "a",
+    "title": "Date Picker",
+    "description": "This will be a short description or explainer text explaining the question. ",
+    "label": "Dates",
+    "required": true,
+    "type": "string",
+    "control": "daterangeselector",
+    "placeholder": "Select Date"
+  },
+  {
+    "id": "a",
+    "title": "Date Picker",
+    "description": "This will be a short description or explainer text explaining the question. ",
+    "label": "Date of pickup",
+    "required": true,
+    "type": "string",
+    "control": "singledateselector",
+    "placeholder": "Select Date"
   }
 ]

@@ -1,15 +1,25 @@
 import * as React from 'react'
 import { HeroContainer, HeroActionsWrapper } from './Hero.styles'
 
-export const Hero: React.FunctionComponent = () => {
+interface Props {
+  entityTitle: string
+  claimName: string
+  claimDescription: string
+}
+
+export const Hero: React.FunctionComponent<Props> = ({
+  entityTitle,
+  claimName,
+  claimDescription,
+}) => {
   return (
     <HeroContainer>
       <div className="container">
         <div className="row">
           <div className="col-md-8 col-12">
-            <h6>Quality Primary Education</h6>
-            <h1>Claim Name</h1>
-            <p>This would be a short description of the claim.</p>
+            <h6>{entityTitle}</h6>
+            <h1>{claimName}</h1>
+            <p>{claimDescription}</p>
           </div>
           <HeroActionsWrapper className="col-md-4 col-12">
             <button>Save</button>

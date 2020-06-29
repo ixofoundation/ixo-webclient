@@ -78,8 +78,8 @@ const ConfirmBuyOrder: React.FunctionComponent<Props> = ({
         : undefined
 
     const maxPriceError =
-      maxPrice.amount < estimatedPrice.amount
-        ? 'Your max price is less than than the estimated price per token.'
+      maxPrice.amount <= estimatedPrice.amount
+        ? 'Your max price must be above than the estimated price per token.'
         : undefined
 
     const hasErrors = !!remBalError || !!newBalError || !!maxPriceError

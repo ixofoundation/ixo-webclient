@@ -14,4 +14,5 @@ export interface FormControl {
   itemImages?: string[]
   minItems?: number
   maxItems?: number
+  initialValue?: string
 }
