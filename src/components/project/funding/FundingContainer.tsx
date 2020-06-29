@@ -428,7 +428,7 @@ export class Funding extends React.Component<Props, State> {
                       if (response.code === 0) {
                         successToast('Withdraw requested successfully')
                       } else {
-                        errorToast('Unable to request a withdrawel at this time')
+                        errorToast('Unable to request a withdrawal at this time')
                       }
                     })
                 }
@@ -436,11 +436,11 @@ export class Funding extends React.Component<Props, State> {
               'base64',
             )
           } else {
-            errorToast('Unable to request a withdrawel at this time')
+            errorToast('Unable to request a withdrawal at this time')
           }
         })
         .catch(() => {
-          errorToast('Unable to request a withdrawel at this time')
+          errorToast('Unable to request a withdrawal at this time')
         })
     } else {
       errorToast('we not find your did')
