@@ -52,7 +52,12 @@ export const HeadingItem = styled.button`
 `
 
 export const DesktopWrapper = styled.div`
-  &.active .SingleDatePicker .SingleDatePickerInput .SingleDatePicker_picker {
+  &.active .SingleDatePicker .SingleDatePickerInput {
+    .DateInput .DateInput_fang {
+      display: none;
+    }
+  }
+  .SingleDatePicker_picker {
     position: absolute;
     width: 619px;
     height: 400px;
@@ -63,6 +68,19 @@ export const DesktopWrapper = styled.div`
     border-radius: 4px;
     transform: translate(-50%);
     z-index: 4;
+    :after {
+      content: '';
+      position: absolute;
+      top: -0.5rem;
+      left: 8%;
+      transform: translateX(-50%);
+      height: 0;
+      width: 0;
+      border-radius: 4px;
+      border-style: solid;
+      border-width: 0 1rem 1.1rem 1rem;
+      border-color: transparent transparent white transparent;
+    }
   }
 `
 export const ButtonContainer = styled.div`

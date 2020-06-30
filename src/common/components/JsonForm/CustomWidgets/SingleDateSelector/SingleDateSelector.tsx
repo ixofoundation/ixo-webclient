@@ -46,7 +46,7 @@ class SingleDateSelector extends React.Component<Props, State> {
                 </HeadingItem>
                 <HeadingItem
                   onClick={(): void => {
-                    console.log('clear')
+                    onChange(null)
                   }}
                 >
                   clear
