@@ -1,8 +1,8 @@
 import * as React from 'react'
 import { Link } from 'react-router-dom'
-import { LayoutWrapperClaims } from '../common/LayoutWrapperClaims'
-import { WidgetWrapperClaims } from '../common/WidgetWrapperClaims'
-import { ClaimStatus } from '../common/ClaimStatus'
+import { LayoutWrapperClaims } from '../../common/components/Wrappers/LayoutWrapperClaims'
+import { WidgetWrapperClaims } from '../../common/components/Wrappers/WidgetWrapperClaims'
+import { ClaimStatus } from '../../common/components/ClaimStatus'
 import styled from 'styled-components'
 import Plus from '../../assets/icons/Plus'
 

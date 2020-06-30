@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { AgentRoles } from '../../../types/models'
-import { ModalWrapper } from '../../common/ModalWrapper'
+import { ModalWrapper } from '../../../common/components/Wrappers/ModalWrapper'
 import { UserInfo } from '../../../modules/Account/types'
 import ReactMd from 'react-md-file'
 import { Table } from 'react-bootstrap'

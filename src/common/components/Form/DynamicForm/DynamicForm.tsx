@@ -7,7 +7,7 @@ import CountrySelect from '../CountrySelect/CountrySelect'
 import TemplateSelect from '../TemplateSelect/TemplateSelect'
 import InputImage from '../InputImage/InputImage'
 import { FormStyles } from '../../../../types/models'
-import { Button, ButtonTypes } from '../../../../components/common/Buttons'
+import { Button, ButtonTypes } from '../Buttons'
 import {
   ButtonContainer,
   ReturnButton,

@@ -4,7 +4,7 @@ import { EntitiesDashboard } from './components/EntitiesDashboard/EntitiesDashbo
 import { ProjectCard } from './components/EntityCard/ProjectCard/ProjectCard'
 import { CellCard } from './components/EntityCard/CellCard/CellCard'
 import { EntitiesHero } from './components/EntitiesHero/EntitiesHero'
-import { Spinner } from '../../components/common/Spinner'
+import { Spinner } from '../../common/components/Spinner'
 import { connect } from 'react-redux'
 import { RootState } from '../../common/redux/types'
 import { contentType } from '../../types/models'

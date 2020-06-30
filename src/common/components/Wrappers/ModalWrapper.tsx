@@ -1,7 +1,7 @@
 import * as React from 'react'
 import * as Modal from 'react-modal'
 import styled from 'styled-components'
-import { Header } from '../../types/models'
+import { Header } from '../../../types/models'
 
 const modalStyles = {
   overlay: {
