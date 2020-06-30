@@ -80,3 +80,40 @@ export const ApplyButton = styled.button`
     background-color: #e8edee;
   }
 `
+
+export const DesktopWrapper = styled.div`
+  &.active .SingleDatePicker .SingleDatePickerInput .SingleDatePicker_picker {
+    position: absolute;
+    width: 619px;
+    height: 400px;
+    top: 66px;
+    left: 300px !important;
+    background: #ffffff;
+    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.15);
+    border-radius: 4px;
+    transform: translate(-50%);
+    z-index: 4;
+  }
+`
+export const ButtonContainer = styled.div`
+  position: relative;
+  top: 360px;
+  left: 10px;
+  z-index: 5;
+`
+
+export const ResetButtonDesktop = styled.button`
+  background: transparent;
+  padding: 0.5rem 0;
+  border: none;
+`
+
+export const ApplyButtonDesktop = styled.button`
+  position: absolute;
+  padding: 0.5rem 2rem;
+  background: linear-gradient(180deg, #04d0fb 0%, #49bfe0 100%);
+  left: 489px;
+  border: none;
+  border-radius: 4px;
+  color: white;
+`
