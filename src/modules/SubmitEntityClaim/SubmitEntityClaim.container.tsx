@@ -23,7 +23,6 @@ import { strategyMap } from '../Entities/strategy-map'
 import ControlPanel from '../../common/components/ControlPanel/ControlPanel'
 import { Spinner } from '../../common/components/Spinner'
 import { getEntity } from '../SelectedEntity/SelectedEntity.actions'
-import LocationSelector from '../../common/components/JsonForm/CustomWidgets/LocationSelector/LocationSelector'
 
 interface Props {
   userDid: string
@@ -112,25 +111,14 @@ class SubmitEntityClaim extends React.Component<Props, State> {
                 )}
                 <Container>
                   {this.state.showInstructions ? (
-                    <>
-                      <LocationSelector
-                        initialLat={51.596692}
-                        initialLng={-0.153783}
-                        zoom={15}
-                        height={300}
-                        onLocationChange={(geoLocation): void =>
-                          console.log(geoLocation)
-                        }
-                      />
-                      <Instructions
-                        backLink={`/projects/${entityDid}/overview`}
-                        toggleInstructions={this.handleToggleInstructions}
-                        listItems={questions.map(question => ({
-                          title: question.title,
-                          control: question.control,
-                        }))}
-                      />
-                    </>
+                    <Instructions
+                      backLink={`/projects/${entityDid}/overview`}
+                      toggleInstructions={this.handleToggleInstructions}
+                      listItems={questions.map(question => ({
+                        title: question.title,
+                        control: question.control,
+                      }))}
+                    />
                   ) : (
                     <Question
                       handlePreviousClick={handlePreviousClick}
