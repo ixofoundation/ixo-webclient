@@ -5,8 +5,8 @@ import { HeaderLeft } from './HeaderLeft/HeaderLeft'
 import { HeaderRight } from './HeaderRight/HeaderRight'
 import MediaQuery from 'react-responsive'
 import { deviceWidth } from '../../../lib/commonData'
-import { ModalWrapper } from 'src/components/common/ModalWrapper'
-import { ButtonTypes, Button } from '../../../components/common/Buttons'
+import { ModalWrapper } from 'src/common/components/Wrappers/ModalWrapper'
+import { ButtonTypes, Button } from '../Form/Buttons'
 import {
   InfoLink,
   Light,

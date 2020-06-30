@@ -1,5 +1,14 @@
 [
   {
+    "id": "g",
+    "title": "Enter Location",
+    "description": "This will be a short description or explainer text explaining the question. ",
+    "label": "Location",
+    "required": true,
+    "type": "string",
+    "control": "locationselector"
+  },
+  {
     "id": "f",
     "title": "QR Code",
     "description": "This will be a short description or explainer text explaining the question. ",
@@ -104,7 +113,7 @@
     "placeholder": "Select Date"
   },
   {
-    "id": "a",
+    "id": "aa",
     "title": "Date Picker",
     "description": "This will be a short description or explainer text explaining the question. ",
     "label": "Date of pickup",

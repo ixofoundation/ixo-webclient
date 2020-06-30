@@ -10,7 +10,7 @@ import { ConnectionType, Widget, Control } from '../types'
 import MobileConnection from './Mobile/Mobile'
 import ShareConnection from './Share/Share'
 import ForumConnection from './Forum/Forum'
-import { Tooltip } from 'src/components/common/Tooltip'
+import { Tooltip } from 'src/common/components/Tooltip'
 
 interface Props {
   widget: Widget

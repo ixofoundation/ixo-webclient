@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { ProgressBar } from '../../../../../components/common/ProgressBar'
+import { ProgressBar } from '../../../../../common/components/ProgressBar'
 import { excerptText } from '../../../../../common/utils/formatters'
 import {
   MainContent,

@@ -1,9 +1,9 @@
 import * as React from 'react'
-import { Button, ButtonTypes } from 'src/components/common/Buttons'
+import { Button, ButtonTypes } from 'src/common/components/Form/Buttons'
 import { deviceWidth } from '../../../lib/commonData'
 import styled from 'styled-components'
 import { Web3Acc } from 'src/modules/web3/web3'
-import { Spinner } from 'src/components/common/Spinner'
+import { Spinner } from 'src/common/components/Spinner'
 import { BigNumber } from 'bignumber.js'
 
 const ButtonWrapper = styled.div`
