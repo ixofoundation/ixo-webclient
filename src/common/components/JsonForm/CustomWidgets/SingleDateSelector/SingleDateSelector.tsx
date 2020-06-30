@@ -7,11 +7,8 @@ import {
   MobileWrapper,
   MobileDateHeader,
   HeadingItem,
-  ApplyButtonWrapper,
-  ApplyButton,
   DesktopWrapper,
   ResetButtonDesktop,
-  ApplyButtonDesktop,
   ButtonContainer,
 } from './SingleDateSelector.styles'
 import Back from '../../../../../assets/icons/Back'
@@ -67,18 +64,11 @@ class SingleDateSelector extends React.Component<Props, State> {
               onFocusChange={({ focused }): void => this.setState({ focused })}
               id={id}
               isOutsideRange={(): boolean => false}
-              numberOfMonths={4}
+              numberOfMonths={2}
               orientation="vertical"
-              verticalHeight={625}
+              verticalHeight={675}
               hideKeyboardShortcutsPanel={true}
             />
-            {this.state.focused && (
-              <ApplyButtonWrapper>
-                <ApplyButton onClick={(): void => console.log('apply')}>
-                  Apply
-                </ApplyButton>
-              </ApplyButtonWrapper>
-            )}
           </MobileWrapper>
         </MediaQuery>
         <MediaQuery minWidth={`${deviceWidth.tablet}px`}>
@@ -99,12 +89,9 @@ class SingleDateSelector extends React.Component<Props, State> {
             />
             {this.state.focused && (
               <ButtonContainer>
-                <ResetButtonDesktop onClick={(): void => console.log('reset')}>
+                <ResetButtonDesktop onClick={(): void => onChange(null)}>
                   Reset
                 </ResetButtonDesktop>
-                <ApplyButtonDesktop onClick={(): void => console.log('apply')}>
-                  Apply
-                </ApplyButtonDesktop>
               </ButtonContainer>
             )}
           </DesktopWrapper>
