@@ -70,6 +70,7 @@ class SingleDateSelector extends React.Component<Props, State> {
               numberOfMonths={4}
               orientation="vertical"
               verticalHeight={625}
+              hideKeyboardShortcutsPanel={true}
             />
             {this.state.focused && (
               <ApplyButtonWrapper>
@@ -94,6 +95,7 @@ class SingleDateSelector extends React.Component<Props, State> {
               isOutsideRange={(): boolean => false}
               numberOfMonths={2}
               orientation="horizontal"
+              hideKeyboardShortcutsPanel={true}
             />
             {this.state.focused && (
               <ButtonContainer>
