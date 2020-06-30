@@ -66,7 +66,7 @@ class SingleDateSelector extends React.Component<Props, State> {
               isOutsideRange={(): boolean => false}
               numberOfMonths={2}
               orientation="vertical"
-              verticalHeight={675}
+              verticalHeight={685}
               hideKeyboardShortcutsPanel={true}
             />
           </MobileWrapper>
