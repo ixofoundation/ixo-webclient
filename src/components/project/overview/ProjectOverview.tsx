@@ -14,7 +14,6 @@ import {
   Text,
   ProfileCardsWrapper,
   InlineImageWrapper,
-  CaptionImageWrapper,
 } from './ProjectOverview.style'
 import { EntityType } from '../../../modules/Entities/types'
 import { toTitleCase } from '../../../common/utils/formatters'
@@ -94,28 +93,18 @@ export const ProjectOverview: React.SFC<Props> = props => {
                       {content.text && <p>{content.text}</p>}
                       {content.subTitle && <h3>{content.subTitle}</h3>}
                       {content.subText && <p>{content.subText}</p>}
-                      {content.media &&
-                        content.media.type === 'image' &&
-                        content.media.text && (
-                          <InlineImageWrapper>
-                            <img
-                              src={content.media.link}
-                              alt={content.media.text}
-                            />
-                            <p>{content.media.text}</p>
-                          </InlineImageWrapper>
-                        )}
-                      {content.media &&
-                        content.media.type === 'image' &&
-                        content.media.caption && (
-                          <CaptionImageWrapper>
-                            <img
-                              src={content.media.link}
-                              alt={content.media.caption}
-                            />
-                            <p>{content.media.caption}</p>
-                          </CaptionImageWrapper>
-                        )}
+                      {content.media && content.media.type === 'image' && (
+                        <InlineImageWrapper>
+                          <img
+                            src={content.media.link}
+                            alt={content.media.text}
+                          />
+                          {content.media.text && <p>{content.media.text}</p>}
+                          {content.media.caption && (
+                            <p className="caption">{content.media.caption}</p>
+                          )}
+                        </InlineImageWrapper>
+                      )}
                       {content.media && content.media.type === 'video' && (
                         <>
                           <div

@@ -80,8 +80,7 @@ export const Routes: React.SFC<{}> = props => {
             />
           )}
         />
-        {/* Old claims related screens - remove when new claims is ready */}
-        {/*        <Route
+        <Route
           exact
           path="/projects/:projectDID/detail/"
           render={(): JSX.Element => (
@@ -91,6 +90,8 @@ export const Routes: React.SFC<{}> = props => {
             />
           )}
         />
+        {/* Old claims related screens - remove when new claims is ready */}
+        {/*        
         <Route
           exact
           path="/projects/:projectDID/detail/evaluators"

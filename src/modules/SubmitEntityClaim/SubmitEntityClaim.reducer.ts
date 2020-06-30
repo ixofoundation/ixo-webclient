@@ -40,6 +40,11 @@ export const reducer = (
         ...state,
         currentQuestionNo: action.payload.nextQuestionNo,
       }
+    case SubmitEntityClaimActions.GoToQuestionNumber:
+      return {
+        ...state,
+        currentQuestionNo: action.payload.questionNo,
+      }
   }
 
   return state
