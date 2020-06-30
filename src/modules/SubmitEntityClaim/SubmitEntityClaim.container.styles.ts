@@ -151,7 +151,6 @@ export const Container = styled.div`
             height: initial;
             object-fit: cover;
             order: 1;
-            background: white; /* @todo remove this when we have proper images */
             box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.05);
             border-radius: 4px;
             margin-bottom: 1.25rem;
@@ -162,26 +161,67 @@ export const Container = styled.div`
 
     .field-radio-group {
       display: flex;
-      justify-content: space-evenly;
-
+      justify-content: space-between;
+      align-items: flex-end;
+      position: relative;
       label span {
         display: flex;
         flex-direction: column;
+        margin-bottom: 2px;
         input {
           width: 0.75rem;
+          height: 0.75rem;
           order: 2;
+          margin: 0 auto;
+          background-color: #dfe3e8;
+          border: none;
+          -webkit-appearance: none;
+          outline: none;
+          &:checked {
+            background-color: #39c3e6;
+          }
         }
         span {
           order: 1;
+          margin-bottom: 0.625rem;
+          @media (min-width: ${deviceWidth.mobile}px) {
+            margin-bottom: 1.25rem;
+          }
         }
       }
+      &:before,
+      &:after {
+        line-height: 1;
+        font-weight: normal;
+        letter-spacing: 0.3px;
+      }
+
       &:before {
         content: 'From first';
+        left: 0;
       }
       &:after {
         content: 'To last';
+        right: 0;
+      }
+      .radio-inline {
+        text-align: center;
+        color: black;
+        font-size: 1rem;
+        margin: 0;
+      }
+      @media (max-width: ${deviceWidth.mobile}px) {
+        padding-bottom: 1.5rem;
+        &:before,
+        &:after {
+          font-size: 0.75rem;
+          position: absolute;
+          top: 100%;
+          transform: translateY(-100%);
+        }
       }
     }
+
     .checkboxes {
       display: flex;
       flex-flow: row wrap;
