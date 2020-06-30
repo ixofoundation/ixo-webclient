@@ -10,7 +10,7 @@ import { Widget } from '../types'
 import { ControlPanelSection } from '../ControlPanel.styles'
 import { ActionLinksWrapper } from './Actions.styles'
 import FuelEntity from '../../../../modules/FuelEntity/FuelEntity.container'
-import { Tooltip } from '../../../../components/common/Tooltip'
+import { Tooltip } from '../../Tooltip'
 
 const icons = {
   AddPerson,

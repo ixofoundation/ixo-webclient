@@ -1,8 +1,5 @@
 import * as React from 'react'
-import {
-  ImageLoader,
-  imageQuality,
-} from '../../../../components/common/ImageLoader'
+import { ImageLoader, imageQuality } from '../ImageLoader'
 import {
   CloseButton,
   InputContainer,

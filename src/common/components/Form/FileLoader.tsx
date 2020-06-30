@@ -1,6 +1,6 @@
 import * as React from 'react'
 import Dropzone from 'react-dropzone'
-import { iconUpload } from '../../lib/commonData'
+import { iconUpload } from '../../../lib/commonData'
 
 import styled from 'styled-components'
 

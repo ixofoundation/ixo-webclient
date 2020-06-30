@@ -1,8 +1,11 @@
 import * as React from 'react'
 import styled from 'styled-components'
-import { WidgetWrapper, gridSizes } from '../common/WidgetWrapper'
-import { LayoutWrapper } from '../common/LayoutWrapper'
-import { SingleStatistic } from '../common/SingleStatistic/SingleStatistic'
+import {
+  WidgetWrapper,
+  gridSizes,
+} from '../../common/components/Wrappers/WidgetWrapper'
+import { LayoutWrapper } from '../../common/components/Wrappers/LayoutWrapper'
+import { SingleStatistic } from '../../common/components/SingleStatistic/SingleStatistic'
 import { StatType, AgentRoles } from '../../types/models'
 import { ProjectClaims } from './ProjectClaims'
 import { CircleProgressbar } from '../../common/components/Widgets/CircleProgressbar/CircleProgressbar'
@@ -16,7 +19,10 @@ import {
 import { isoCountriesLatLng } from '../../lib/commonData'
 
 import { deviceWidth } from '../../lib/commonData'
-import { LinkButton, ButtonTypes } from '../common/LinkButtons'
+import {
+  LinkButton,
+  ButtonTypes,
+} from '../../common/components/Form/LinkButtons'
 import { isBrowser } from 'react-device-detect'
 
 const Container = styled.div`
