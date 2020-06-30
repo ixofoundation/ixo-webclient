@@ -4,8 +4,11 @@ import { RootState } from 'src/common/redux/types'
 import Instructions from './components/Instructions/Instructions'
 import { Hero } from './components/Hero/Hero'
 import Question from './components/Question/Question'
+import {
+  Container,
+  SubmitEntityClaimWrapper,
+} from './SubmitEntityClaim.container.styles'
 import { Progress } from './components/Progress/Progress'
-import { Container } from './SubmitEntityClaim.container.styles'
 import { FormControl } from '../../common/components/JsonForm/types'
 import * as submitEntityClaimSelectors from './SubmitEntityClaim.selectors'
 import * as accountSelectors from '../Account/Account.selectors'
@@ -94,7 +97,7 @@ class SubmitEntityClaim extends React.Component<Props, State> {
           claimName="Claim Name"
           claimDescription="This would be a short description of the claim."
         />
-        <div className="container-fluid">
+        <SubmitEntityClaimWrapper className="container-fluid">
           <div className="container">
             <div className="row">
               <div className="col-lg-8">
@@ -136,7 +139,7 @@ class SubmitEntityClaim extends React.Component<Props, State> {
               </div>
             </div>
           </div>
-        </div>
+        </SubmitEntityClaimWrapper>
       </>
     )
   }

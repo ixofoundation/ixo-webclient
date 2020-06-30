@@ -6,13 +6,15 @@ interface Props {
   id: string
   value: string
   onChange: (value: string) => void
+  numberOfMonths: number
+  initialOrientation: string
 }
 
 interface State {
   focusedInput: string
 }
 
-class SingleDateSelector extends React.Component<Props, State> {
+class DateRangeSelector extends React.Component<Props, State> {
   constructor(props) {
     super(props)
 
@@ -52,9 +54,11 @@ class SingleDateSelector extends React.Component<Props, State> {
         }
         focusedInput={this.state.focusedInput}
         onFocusChange={(focusedInput): void => this.setState({ focusedInput })}
+        numberOfMonths={this.props.numberOfMonths}
+        orientation={this.props.initialOrientation}
       />
     )
   }
 }
 
-export default SingleDateSelector
+export default DateRangeSelector
