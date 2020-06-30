@@ -1,6 +1,6 @@
 import React from 'react'
 import RiotIcon from '../../../../../assets/icons/Riot'
-import { Tooltip } from '../../../../../components/common/Tooltip'
+import { Tooltip } from '../../../Tooltip'
 import { Control } from '../../types'
 
 interface Props {

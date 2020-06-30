@@ -1,9 +1,9 @@
 import * as React from 'react'
-import { ModalWrapper } from './ModalWrapper'
+import { ModalWrapper } from '../Wrappers/ModalWrapper'
 import ReactCrop, { makeAspectCrop } from 'react-image-crop/dist/ReactCrop'
 import 'react-image-crop/dist/ReactCrop.css'
 import Dropzone from 'react-dropzone'
-import { iconUpload } from '../../lib/commonData'
+import { iconUpload } from '../../../lib/commonData'
 import { Button, ButtonTypes } from './Buttons'
 
 import styled from 'styled-components'

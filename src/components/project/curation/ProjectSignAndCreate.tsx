@@ -8,7 +8,7 @@ import { successToast, errorToast } from '../../../common/utils/Toast'
 import { ErrorTypes } from '../../../types/models'
 import * as queryString from 'query-string'
 import { Banner } from './Banner'
-import { ImageSpinner } from '../../common/ImageSpinner'
+import { ImageSpinner } from '../../../common/components/Form/ImageSpinner'
 import Success from '../../../assets/icons/Success'
 
 const CreateContainer = styled.div`

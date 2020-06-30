@@ -4,15 +4,15 @@ import {
   ClaimsWidget,
   ClaimsLabels,
 } from './EntitiesDashboard.styles'
-import { LayoutWrapper } from '../../../../components/common/LayoutWrapper'
-import { SingleStatistic } from '../../../../components/common/SingleStatistic/SingleStatistic'
+import { LayoutWrapper } from '../../../../common/components/Wrappers/LayoutWrapper'
+import { SingleStatistic } from '../../../../common/components/SingleStatistic/SingleStatistic'
 import { StatType } from '../../../../types/models'
 import { CircleProgressbar } from '../../../../common/components/Widgets/CircleProgressbar/CircleProgressbar'
 import { WorldMap } from '../../../../common/components/Widgets/WorldMap/WorldMap'
 import {
   WidgetWrapper,
   gridSizes,
-} from '../../../../components/common/WidgetWrapper'
+} from '../../../../common/components/Wrappers/WidgetWrapper'
 import { getCountryCoordinates } from '../../Entities.utils'
 import { EntityType } from '../../types'
 import { strategyMap } from '../../strategy-map'

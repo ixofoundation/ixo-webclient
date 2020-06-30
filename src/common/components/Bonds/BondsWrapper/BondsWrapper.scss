@@ -191,9 +191,3 @@ hr {
   text-decoration: none;
   color: green;
 }
-
-// Typeform wrapper style
-[data-qa='popup-mode-drawer_left'] {
-  width: 512px !important;
-  max-width: calc(100vw - 46px) !important;
-}
