@@ -51,7 +51,7 @@ class SingleDateSelector extends React.Component<Props, State> {
                 </HeadingItem>
                 <HeadingItem
                   onClick={(): void => {
-                    this.resetValue
+                    this.resetValue()
                   }}
                 >
                   clear
@@ -99,7 +99,7 @@ class SingleDateSelector extends React.Component<Props, State> {
               <ButtonContainer>
                 <ResetButtonDesktop
                   onClick={(): void => {
-                    this.resetValue
+                    this.resetValue()
                   }}
                 >
                   Reset
