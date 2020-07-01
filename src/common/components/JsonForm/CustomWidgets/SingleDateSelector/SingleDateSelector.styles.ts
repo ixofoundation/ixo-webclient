@@ -138,6 +138,9 @@ export const DesktopWrapper = styled.div`
       border-color: transparent transparent white transparent;
     }
   }
+  .DayPicker .DayPicker_transitionContainer__horizontal {
+    border-bottom: 1px solid #e8edee;
+  }
   .DayPicker__withBorder {
     -webkit-box-shadow: none;
     box-shadow: none;
@@ -145,10 +148,9 @@ export const DesktopWrapper = styled.div`
 `
 export const ButtonContainer = styled.div`
   position: relative;
-  top: 360px;
-  left: 0px;
+  top: 376px;
+  left: 16px;
   z-index: 5;
-  border-top: 1px solid #e8edee;
 `
 
 export const ResetButtonDesktop = styled.button`
