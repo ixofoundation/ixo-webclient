@@ -56,7 +56,6 @@ export const Container = styled.div`
 
 export const MobileWrapper = styled.div`
   &.active {
-    display: flex;
     position: fixed;
     top: 22px;
     bottom: 0;
