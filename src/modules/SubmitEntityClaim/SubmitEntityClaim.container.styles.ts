@@ -98,22 +98,43 @@ export const Container = styled.div`
       .checkbox {
         width: calc(100% / 2 - 1rem);
         margin-right: 1rem;
+        margin-bottom: 1.25rem;
         @media (min-width: ${deviceWidth.mobile}px) {
           width: calc(100% / 3 - 3rem);
           margin-right: 3rem;
+          margin-bottom: 2.5rem;
         }
       }
       div {
         label span {
           display: flex;
           flex-direction: column;
+          font-size: 1rem;
+          color: black;
+          font-weight: normal;
           div {
             width: 100%;
             display: flex;
             justify-content: flex-start;
+            align-items: center;
             order: 2;
+            font-weight: normal;
             input {
+              width: 0.9375rem;
+              height: 0.9375rem;
               margin-right: 1.125rem;
+              margin-bottom: 0;
+              background-color: #dfe3e8;
+              border-radius: 50%;
+              vertical-align: middle;
+              border: none;
+              -webkit-appearance: none;
+              outline: none;
+              cursor: pointer;
+              flex: 0 0 auto;
+              &:checked {
+                background-color: #39c3e6;
+              }
             }
           }
           img {
