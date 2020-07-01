@@ -33,10 +33,6 @@ class SingleDateSelector extends React.Component<Props, State> {
     }
   }
 
-  resetValue = (): void => {
-    console.log('RESET')
-  }
-
   render(): JSX.Element {
     const { id, value, onChange } = this.props
 
@@ -49,11 +45,7 @@ class SingleDateSelector extends React.Component<Props, State> {
                 <HeadingItem onClick={(): void => console.log('back')}>
                   <Back />
                 </HeadingItem>
-                <HeadingItem
-                  onClick={(): void => {
-                    this.resetValue()
-                  }}
-                >
+                <HeadingItem onClick={(): void => console.log('reset')}>
                   clear
                 </HeadingItem>
               </MobileDateHeader>
@@ -97,11 +89,7 @@ class SingleDateSelector extends React.Component<Props, State> {
             />
             {this.state.focused && (
               <ButtonContainer>
-                <ResetButtonDesktop
-                  onClick={(): void => {
-                    this.resetValue()
-                  }}
-                >
+                <ResetButtonDesktop onClick={(): void => console.log('reset')}>
                   Reset
                 </ResetButtonDesktop>
               </ButtonContainer>
