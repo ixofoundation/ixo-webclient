@@ -302,7 +302,10 @@ export const Container = styled.div`
     width: 100%;
     display: flex;
     flex-flow: row nowrap;
-    justify-content: flex-end;
+    justify-content: center;
+    @media (min-width: ${deviceWidth.mobileSmall}px) {
+      justify-content: flex-end;
+    }
     button {
       width: 120px;
       height: 50px;
@@ -315,7 +318,7 @@ export const Container = styled.div`
     button[type='submit'] {
       background: linear-gradient(180deg, #04d0fb 0%, #49bfe0 100%);
       color: #fff;
-      margin-left: auto;
+      margin-left: 1.25rem;
       &:focus {
         outline-style: none;
         box-shadow: none;

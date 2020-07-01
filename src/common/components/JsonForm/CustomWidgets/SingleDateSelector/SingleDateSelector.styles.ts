@@ -1,8 +1,6 @@
 import styled from 'styled-components'
 
 export const Container = styled.div`
-  --focus-outline-style: none;
-  --focus-box-shadow: none;
   --focus-standard-border: 1px solid #39c3e6;
   .SingleDatePicker {
     z-index: 4;
@@ -57,7 +55,7 @@ export const Container = styled.div`
 export const MobileWrapper = styled.div`
   &.active {
     position: fixed;
-    top: 22px;
+    top: 0;
     bottom: 0;
     right: 0;
     left: 0;
@@ -76,7 +74,7 @@ export const MobileWrapper = styled.div`
     position: relative;
   }
   .DayPicker .DayPicker_transitionContainer__vertical {
-    height: calc(100vh - 122px) !important;
+    height: calc(100vh - 100px) !important;
   }
 `
 export const MobileDateHeader = styled.header`
@@ -90,7 +88,7 @@ export const MobileDateHeader = styled.header`
   background-color: #002a3f;
   position: absolute;
   z-index: 5;
-  top: -30px;
+  top: 0;
   right: 100px;
   left: 0;
 `
