@@ -58,7 +58,6 @@ export const MobileWrapper = styled.div`
   &.active {
     display: flex;
     position: fixed;
-    height: 100vh;
     top: 22px;
     bottom: 0;
     right: 0;
@@ -76,6 +75,9 @@ export const MobileWrapper = styled.div`
     width: 100vw;
     left: 0px;
     position: relative;
+  }
+  .DayPicker .DayPicker_transitionContainer__vertical {
+    height: calc(100vh - 122px) !important;
   }
 `
 export const MobileDateHeader = styled.header`
@@ -136,12 +138,17 @@ export const DesktopWrapper = styled.div`
       border-color: transparent transparent white transparent;
     }
   }
+  .DayPicker__withBorder {
+    -webkit-box-shadow: none;
+    box-shadow: none;
+  }
 `
 export const ButtonContainer = styled.div`
   position: relative;
   top: 360px;
-  left: 10px;
+  left: 0px;
   z-index: 5;
+  border-top: 1px solid #e8edee;
 `
 
 export const ResetButtonDesktop = styled.button`
