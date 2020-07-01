@@ -33,6 +33,10 @@ class SingleDateSelector extends React.Component<Props, State> {
     }
   }
 
+  resetValue = (): void => {
+    console.log('RESET')
+  }
+
   render(): JSX.Element {
     const { id, value, onChange } = this.props
 
@@ -47,7 +51,7 @@ class SingleDateSelector extends React.Component<Props, State> {
                 </HeadingItem>
                 <HeadingItem
                   onClick={(): void => {
-                    onChange(null)
+                    this.resetValue
                   }}
                 >
                   clear
@@ -69,9 +73,11 @@ class SingleDateSelector extends React.Component<Props, State> {
               orientation="vertical"
               verticalHeight={685}
               hideKeyboardShortcutsPanel={true}
+              showClearDate={false}
             />
           </MobileWrapper>
         </MediaQuery>
+
         <MediaQuery minWidth={`${deviceWidth.tablet}px`}>
           <DesktopWrapper className={this.state.focused ? 'active' : null}>
             <SingleDatePicker
@@ -87,10 +93,15 @@ class SingleDateSelector extends React.Component<Props, State> {
               numberOfMonths={2}
               orientation="horizontal"
               hideKeyboardShortcutsPanel={true}
+              showClearDate={false}
             />
             {this.state.focused && (
               <ButtonContainer>
-                <ResetButtonDesktop onClick={(): void => onChange(null)}>
+                <ResetButtonDesktop
+                  onClick={(): void => {
+                    this.resetValue
+                  }}
+                >
                   Reset
                 </ResetButtonDesktop>
               </ButtonContainer>
