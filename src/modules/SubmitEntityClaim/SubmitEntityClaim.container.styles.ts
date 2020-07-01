@@ -18,6 +18,14 @@ export const Container = styled.div`
     }
   }
 
+  ::placeholder {
+    font-family: ${(props): string => props.theme.fontRoboto};
+    font-weight: normal;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #a5adb0;
+  }
+
   #root {
     --focus-outline-style: none;
     --focus-box-shadow: none;
@@ -35,8 +43,7 @@ export const Container = styled.div`
     }
 
     #root__description {
-      font-family: Roboto;
-      font-style: normal;
+      font-family: ${(props): string => props.theme.fontRoboto};
       font-weight: normal;
       font-size: 1.125rem;
       line-height: 2;
@@ -63,14 +70,6 @@ export const Container = styled.div`
         max-width: 100%;
         background: #e8edee;
         border-radius: 4px;
-        ::placeholder {
-          font-family: Roboto;
-          font-style: normal;
-          font-weight: normal;
-          font-size: 1rem;
-          line-height: 1.5;
-          color: #a5adb0;
-        }
       }
     }
 
@@ -86,14 +85,6 @@ export const Container = styled.div`
         max-width: 100%;
         background: #e8edee;
         border-radius: 4px;
-        ::placeholder {
-          font-family: Roboto;
-          font-style: normal;
-          font-weight: normal;
-          font-size: 1rem;
-          line-height: 1.5;
-          color: #a5adb0;
-        }
       }
     }
 
@@ -107,34 +98,30 @@ export const Container = styled.div`
       .checkbox {
         width: calc(100% / 2 - 1rem);
         margin-right: 1rem;
+        margin-bottom: 1.25rem;
         @media (min-width: ${deviceWidth.mobile}px) {
           width: calc(100% / 3 - 3rem);
           margin-right: 3rem;
+          margin-bottom: 2.5rem;
         }
       }
       div {
         label span {
           display: flex;
           flex-direction: column;
+          font-size: 1rem;
+          color: black;
+          font-weight: normal;
           div {
             width: 100%;
             display: flex;
             justify-content: flex-start;
+            align-items: center;
             order: 2;
+            font-weight: normal;
             input {
-              width: 1.1em;
-              height: 1.1em;
               margin-right: 1.125rem;
-              background-color: #dfe3e8;
-              border-radius: 50%;
-              vertical-align: middle;
-              border: none;
-              -webkit-appearance: none;
-              outline: none;
-              cursor: pointer;
-              &:checked {
-                background-color: #39c3e6;
-              }
+              flex: 0 0 auto;
             }
           }
           img {
@@ -160,17 +147,8 @@ export const Container = styled.div`
         flex-direction: column;
         margin-bottom: 2px;
         input {
-          width: 0.75rem;
-          height: 0.75rem;
           order: 2;
           margin: 0 auto;
-          background-color: #dfe3e8;
-          border: none;
-          -webkit-appearance: none;
-          outline: none;
-          &:checked {
-            background-color: #39c3e6;
-          }
         }
         span {
           order: 1;
@@ -216,39 +194,42 @@ export const Container = styled.div`
     .checkboxes {
       display: flex;
       flex-flow: row wrap;
-      .checkbox label span {
-        display: flex;
-        justify-content: flex-start;
-        align-items: flex-start;
-        margin-right: 6rem;
-        white-space: nowrap;
-        input {
-          width: 1.1em;
-          height: 1.1em;
-          background-color: white;
-          border-radius: 50%;
-          vertical-align: middle;
-          border: 1px solid #ddd;
-          -webkit-appearance: none;
-          outline: none;
-          cursor: pointer;
-          margin-right: 1rem;
-          &:checked {
-            background-color: gray;
+      align-items: center;
+      justify-content: flex-start;
+      .checkbox {
+        margin-bottom: 1.75rem;
+        width: 100%;
+        @media (min-width: ${deviceWidth.mobile}px) {
+          width: 50%;
+        }
+        label {
+          margin: 0;
+          span {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            font-size: 1rem;
+            line-height: 1.5;
+            letter-spacing: 0.3px;
+            color: black;
           }
         }
+      }
+    }
 
-        span {
-          font-family: Roboto;
-          font-style: normal;
-          font-weight: normal;
-          font-size: 1rem;
-          line-height: 24px;
-          display: flex;
-          align-items: center;
-          letter-spacing: 0.3px;
-          color: #000000;
-        }
+    input[type='radio'],
+    input[type='checkbox'] {
+      width: 0.9375rem;
+      height: 0.9375rem;
+      background-color: #dfe3e8;
+      -webkit-appearance: none;
+      outline: none;
+      border: none;
+      margin: 0;
+      border-radius: 50%;
+      margin-right: 1rem;
+      &:checked {
+        background-color: #39c3e6;
       }
     }
 
@@ -294,10 +275,7 @@ export const Container = styled.div`
         font-style: normal;
         font-weight: normal;
         font-size: 1rem;
-        ::placeholder {
-          color: #a5adb0;
-          line-height: 24px;
-        }
+
         &:after {
           content: '';
         }
@@ -337,8 +315,8 @@ export const Container = styled.div`
     button[type='submit'] {
       background: linear-gradient(180deg, #04d0fb 0%, #49bfe0 100%);
       color: #fff;
-      margin-left: 1.25rem;
-      :focus {
+      margin-left: auto;
+      &:focus {
         outline-style: none;
         box-shadow: none;
         border: 1px solid #fff;
@@ -348,7 +326,7 @@ export const Container = styled.div`
       background: #fff;
       color: #39c3e6;
       border: 1px solid #39c3e6;
-      :focus {
+      &:focus {
         outline-style: var(--focus-outline-style);
         box-shadow: var(--focus-box-shadow);
       }
