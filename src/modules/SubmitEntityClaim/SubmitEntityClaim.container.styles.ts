@@ -120,21 +120,8 @@ export const Container = styled.div`
             order: 2;
             font-weight: normal;
             input {
-              width: 0.9375rem;
-              height: 0.9375rem;
               margin-right: 1.125rem;
-              margin-bottom: 0;
-              background-color: #dfe3e8;
-              border-radius: 50%;
-              vertical-align: middle;
-              border: none;
-              -webkit-appearance: none;
-              outline: none;
-              cursor: pointer;
               flex: 0 0 auto;
-              &:checked {
-                background-color: #39c3e6;
-              }
             }
           }
           img {
