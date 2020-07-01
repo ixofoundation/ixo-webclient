@@ -2,6 +2,7 @@ import * as React from 'react'
 import QRCode from 'qrcode'
 import Phone from '../../../../../assets/icons/Phone'
 import PhoneQR from '../../../../../assets/icons/PhoneQR'
+import { QRWrapper, ExplainerText } from './QRCode.styles'
 export interface Props {
   value: string
 }
@@ -28,23 +29,31 @@ export default class QRCodeComponent extends React.Component<Props> {
     const { url } = this.state
 
     return (
-      <div className="row">
+      <QRWrapper className="row">
         <div className="col-12 col-md-6">
           <img src={url} width="150" height="150" />
         </div>
-        <div className="col-12 col-md-6">
-          <div>
-            <Phone fill="#000" />
-            Go to <strong>settings - scan QR code</strong> on your{' '}
-            <strong>IXO mobile APP</strong>
-            <br />
-            <PhoneQR />
-            <strong>Scan</strong> the QR code by{' '}
-            <strong>placing your camera over</strong> the{' '}
-            <strong>QR code</strong> on the left to acces claim
+        <ExplainerText className="col-12 col-md-6">
+          <div className="explainer-text-wrapper">
+            <div className="explainer-text-item">
+              <Phone fill="#000" />
+              <div>
+                Go to <strong>settings - scan QR code</strong> on your{' '}
+                <strong>IXO mobile APP</strong>
+              </div>
+            </div>
+            <div className="explainer-text-item">
+              <PhoneQR />
+              <div>
+                <strong>Scan</strong> the QR code by{' '}
+                <strong>placing your camera over</strong> the{' '}
+                <strong>QR code</strong> on the left to acces claim
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
+          <button>View scan history</button>
+        </ExplainerText>
+      </QRWrapper>
     )
   }
 }
