@@ -95,13 +95,3 @@ export const ResetButtonDesktop = styled.button`
   padding: 0.5rem 0;
   border: none;
 `
-
-export const ApplyButtonDesktop = styled.button`
-  position: absolute;
-  padding: 0.5rem 2rem;
-  background: linear-gradient(180deg, #04d0fb 0%, #49bfe0 100%);
-  left: 489px;
-  border: none;
-  border-radius: 4px;
-  color: white;
-`
