@@ -4,6 +4,7 @@ import moment from 'moment'
 import MediaQuery from 'react-responsive'
 import { deviceWidth } from '../../../../../lib/commonData'
 import {
+  Container,
   MobileWrapper,
   MobileDateHeader,
   HeadingItem,
@@ -36,7 +37,7 @@ class SingleDateSelector extends React.Component<Props, State> {
     const { id, value, onChange } = this.props
 
     return (
-      <>
+      <Container>
         <MediaQuery maxWidth={`${deviceWidth.tablet - 1}px`}>
           <MobileWrapper className={this.state.focused ? 'active' : ''}>
             {this.state.focused && (
@@ -96,7 +97,7 @@ class SingleDateSelector extends React.Component<Props, State> {
             )}
           </DesktopWrapper>
         </MediaQuery>
-      </>
+      </Container>
     )
   }
 }

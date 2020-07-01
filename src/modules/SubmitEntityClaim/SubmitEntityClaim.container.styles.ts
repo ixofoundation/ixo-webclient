@@ -252,55 +252,6 @@ export const Container = styled.div`
       }
     }
 
-    .SingleDatePicker {
-      z-index: 4;
-    }
-    .SingleDatePickerInput__withBorder {
-      border: none;
-      .DateInput {
-        width: 20rem;
-        position: relative;
-        background: #f7f8f9;
-        width: 100%;
-        &:after {
-          content: '';
-          display: block;
-          position: absolute;
-          top: 50%;
-          right: 0.5rem;
-          border: 1px solid #000;
-          border-width: 0 0 2px 2px;
-          width: 8px;
-          height: 8px;
-          line-height: 0;
-          font-size: 0;
-          -webkit-transform: rotate(-45deg);
-          -ms-transform: rotate(-45deg);
-          -o-transform: rotate(-45deg);
-          transform: translateY(-50%) rotate(-45deg);
-        }
-      }
-      .DateInput_input {
-        margin: 0;
-        width: 100%;
-        background: #e8edee;
-        border-radius: 4px;
-        font-family: Roboto;
-        font-style: normal;
-        font-weight: normal;
-        font-size: 1rem;
-
-        ::placeholder {
-          line-height: 1.5;
-          color: #a5adb0;
-        }
-      }
-
-      .DateInput .DateInput_input__focused {
-        border: var(--focus-standard-border);
-      }
-    }
-
     .DateRangePicker .DateRangePicker_picker {
       z-index: 4;
     }
@@ -373,7 +324,7 @@ export const Container = styled.div`
     width: 100%;
     display: flex;
     flex-flow: row nowrap;
-    justify-content: space-between;
+    justify-content: flex-end;
     button {
       width: 120px;
       height: 50px;
@@ -386,6 +337,7 @@ export const Container = styled.div`
     button[type='submit'] {
       background: linear-gradient(180deg, #04d0fb 0%, #49bfe0 100%);
       color: #fff;
+      margin-left: 1.25rem;
       :focus {
         outline-style: none;
         box-shadow: none;
