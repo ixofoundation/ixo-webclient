@@ -10,10 +10,12 @@ import { FormControl } from '../types'
 
 interface Props {
   formControl: FormControl
+  formData: {}
   nextButtonText: string
   showPreviousButton: boolean
   handlePreviousClick: () => void
   handleNextClick: () => void
+  handleFormDataChange: (formData: any) => void
 }
 
 const customControls = {
@@ -26,10 +28,12 @@ const customControls = {
 
 const SingleControlForm: React.FunctionComponent<Props> = ({
   formControl,
+  formData,
   nextButtonText,
   showPreviousButton,
   handlePreviousClick,
   handleNextClick,
+  handleFormDataChange,
 }) => {
   const {
     id,
@@ -90,6 +94,8 @@ const SingleControlForm: React.FunctionComponent<Props> = ({
     <FormContainer>
       <div>
         <Form
+          formData={formData}
+          onChange={(control): void => handleFormDataChange(control.formData)}
           liveValidate
           noHtml5Validate
           showErrorList={false}

@@ -20,7 +20,8 @@ export interface UploadDocumentPendingActionType {
 }
 
 export interface UploadDocumentSuccessActionType {
-  type: typeof DocumentStoreUploadActions.UploadDocument
+  type: typeof DocumentStoreUploadActions.UploadDocumentSuccess
+  payload: string
 }
 
 export interface UploadDocumentFailureActionType {

@@ -27,13 +27,16 @@ describe('SubmitEntityClaim Reducer', () => {
       const action: SaveAnswerAction = {
         type: SubmitEntityClaimActions.SaveAnswer,
         payload: {
-          answer: { questionId: 'xyz', foo1: 'bar1' },
+          answer: { foo3: 'bar3' },
         },
       }
 
       const currentState = {
         ...initialState,
-        answers: [{ questionId: 'abc', foo: 'bar' }],
+        answers: {
+          foo1: 'bar1',
+          foo2: 'bar2',
+        },
       }
 
       // when ... we run the reducer with this action
@@ -42,10 +45,11 @@ describe('SubmitEntityClaim Reducer', () => {
       // then the state should be set as expected
       expect(result).toEqual({
         ...initialState,
-        answers: [
-          { questionId: 'abc', foo: 'bar' },
-          { questionId: 'xyz', foo1: 'bar1' },
-        ],
+        answers: {
+          foo1: 'bar1',
+          foo2: 'bar2',
+          foo3: 'bar3',
+        },
       })
     })
 
@@ -54,16 +58,17 @@ describe('SubmitEntityClaim Reducer', () => {
       const action: SaveAnswerAction = {
         type: SubmitEntityClaimActions.SaveAnswer,
         payload: {
-          answer: { questionId: 'xyz', foo1: 'bar5' },
+          answer: { foo1: 'bar123' },
         },
       }
 
       const currentState = {
         ...initialState,
-        answers: [
-          { questionId: 'abc', foo: 'bar' },
-          { questionId: 'xyz', foo1: 'bar1' },
-        ],
+        answers: {
+          foo1: 'bar1',
+          foo2: 'bar2',
+          foo3: 'bar3',
+        },
       }
 
       // when ... we run the reducer with this action
@@ -72,10 +77,11 @@ describe('SubmitEntityClaim Reducer', () => {
       // then the state should be set as expected
       expect(result).toEqual({
         ...initialState,
-        answers: [
-          { questionId: 'abc', foo: 'bar' },
-          { questionId: 'xyz', foo1: 'bar5' },
-        ],
+        answers: {
+          foo1: 'bar123',
+          foo2: 'bar2',
+          foo3: 'bar3',
+        },
       })
     })
   })

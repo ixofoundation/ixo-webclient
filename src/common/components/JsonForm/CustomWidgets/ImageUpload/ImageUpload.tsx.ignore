@@ -14,3 +14,5 @@ const ImageUpload: React.FunctionComponent<Props> = ({ value, onChange }) => {
     />
   )
 }
+
+export default ImageUpload

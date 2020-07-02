@@ -17,13 +17,13 @@ import {
   goToNextQuestion,
   goToPreviousQuestion,
   goToQuestionNumber,
+  saveAnswer,
 } from './SubmitEntityClaim.actions'
 import { EntityType } from '../Entities/types'
 import { strategyMap } from '../Entities/strategy-map'
 import ControlPanel from '../../common/components/ControlPanel/ControlPanel'
 import { Spinner } from '../../common/components/Spinner'
 import { getEntity } from '../SelectedEntity/SelectedEntity.actions'
-import ImageLoader from '../../common/components/DropZone/ImageLoader/ImageLoader'
 
 interface Props {
   userDid: string
@@ -35,11 +35,13 @@ interface Props {
   currentQuestionNo: number
   questions: FormControl[]
   questionCount: number
+  currentAnswer: {}
   match: any
   handleGetEntity: (entityDid: string) => void
   handlePreviousClick: () => void
   handleNextClick: () => void
-  handleJumpToQuestion: (questionNo: number) => void
+  handleGoToQuestionClick: (questionNo: number) => void
+  handleFormDataChange: (formData: any) => void
 }
 
 interface State {
@@ -82,9 +84,11 @@ class SubmitEntityClaim extends React.Component<Props, State> {
       currentQuestion,
       currentQuestionNo,
       questionCount,
+      currentAnswer,
       handlePreviousClick,
       handleNextClick,
-      handleJumpToQuestion,
+      handleGoToQuestionClick,
+      handleFormDataChange,
     } = this.props
 
     if (entityIsLoading) {
@@ -107,7 +111,7 @@ class SubmitEntityClaim extends React.Component<Props, State> {
                     question={currentQuestion}
                     currentQuestionNo={currentQuestionNo}
                     questionCount={questionCount}
-                    handleJumpToQuestion={handleJumpToQuestion}
+                    handleGoToQuestionClick={handleGoToQuestionClick}
                   />
                 )}
                 <Container>
@@ -124,6 +128,8 @@ class SubmitEntityClaim extends React.Component<Props, State> {
                     </>
                   ) : (
                     <Question
+                      answer={currentAnswer}
+                      handleFormDataChange={handleFormDataChange}
                       handlePreviousClick={handlePreviousClick}
                       handleNextClick={handleNextClick}
                       question={currentQuestion}
@@ -153,6 +159,7 @@ const mapStateToProps = (state: RootState): Record<string, any> => ({
   currentQuestion: submitEntityClaimSelectors.selectCurrentQuestion(state),
   currentQuestionNo: submitEntityClaimSelectors.selectCurrentQuestionNo(state),
   questionCount: submitEntityClaimSelectors.selectQuestionCount(state),
+  currentAnswer: submitEntityClaimSelectors.selectCurrentAnswer(state),
   userDid: accountSelectors.selectUserDid(state),
   entityDid: selectedEntitySelectors.selectEntityDid(state),
   entityType: selectedEntitySelectors.selectEntityType(state),
@@ -163,9 +170,10 @@ const mapStateToProps = (state: RootState): Record<string, any> => ({
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
   handlePreviousClick: (): void => dispatch(goToPreviousQuestion()),
   handleNextClick: (): void => dispatch(goToNextQuestion()),
-  handleJumpToQuestion: (QuestionNo: number): void =>
+  handleGoToQuestionClick: (QuestionNo: number): void =>
     dispatch(goToQuestionNumber(QuestionNo)),
   handleGetEntity: (entityDid): void => dispatch(getEntity(entityDid)),
+  handleFormDataChange: (formData): void => dispatch(saveAnswer(formData)),
 })
 
 export const SubmitEntityClaimConnected = connect(

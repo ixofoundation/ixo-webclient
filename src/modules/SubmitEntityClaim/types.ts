@@ -1,9 +1,13 @@
 import { FormControl } from '../../common/components/JsonForm/types'
 
+export type Answers = {
+  [key: string]: string
+}
+
 export interface SubmitEntityClaimState {
   questions: FormControl[]
   currentQuestionNo: number
-  answers: any[]
+  answers: Answers
   answersComplete: boolean
   sending: boolean
   sent: boolean
