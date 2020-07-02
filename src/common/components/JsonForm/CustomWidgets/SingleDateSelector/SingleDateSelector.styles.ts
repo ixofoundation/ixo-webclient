@@ -105,7 +105,27 @@ export const HeadingItem = styled.button`
 `
 
 export const DesktopWrapper = styled.div`
+  .SingleDatePicker {
+    .SingleDatePickerInput_showClearDate {
+      padding-right: 0;
+    }
+  }
   &.active .SingleDatePicker .SingleDatePickerInput {
+    .SingleDatePickerInput_clearDate {
+      background: transparent;
+      padding: 0.5rem 0;
+      border: none;
+      position: absolute;
+      top: calc(100% + 400px);
+      left: 0;
+      z-index: 4;
+      ::after {
+        svg {
+          display: none;
+        }
+        content: 'Reset';
+      }
+    }
     .DateInput .DateInput_fang {
       display: none;
     }
@@ -142,16 +162,4 @@ export const DesktopWrapper = styled.div`
     -webkit-box-shadow: none;
     box-shadow: none;
   }
-`
-export const ButtonContainer = styled.div`
-  position: relative;
-  top: 376px;
-  left: 16px;
-  z-index: 5;
-`
-
-export const ResetButtonDesktop = styled.button`
-  background: transparent;
-  padding: 0.5rem 0;
-  border: none;
 `

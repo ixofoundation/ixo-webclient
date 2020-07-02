@@ -9,8 +9,8 @@ import {
   MobileDateHeader,
   HeadingItem,
   DesktopWrapper,
-  ResetButtonDesktop,
-  ButtonContainer,
+  // ResetButtonDesktop,
+  // ButtonContainer,
 } from './SingleDateSelector.styles'
 import Back from '../../../../../assets/icons/Back'
 
@@ -45,7 +45,7 @@ class SingleDateSelector extends React.Component<Props, State> {
                 <HeadingItem onClick={(): void => console.log('back')}>
                   <Back />
                 </HeadingItem>
-                <HeadingItem onClick={(): void => console.log('reset')}>
+                <HeadingItem onClick={(): void => onChange(null)}>
                   clear
                 </HeadingItem>
               </MobileDateHeader>
@@ -85,15 +85,8 @@ class SingleDateSelector extends React.Component<Props, State> {
               numberOfMonths={2}
               orientation="horizontal"
               hideKeyboardShortcutsPanel={true}
-              showClearDate={false}
+              showClearDate={true}
             />
-            {this.state.focused && (
-              <ButtonContainer>
-                <ResetButtonDesktop onClick={(): void => console.log('reset')}>
-                  Reset
-                </ResetButtonDesktop>
-              </ButtonContainer>
-            )}
           </DesktopWrapper>
         </MediaQuery>
       </Container>
