@@ -7,12 +7,13 @@ import {
   ImageContainer,
   ModalWrapper,
   DropZoneStyles,
-} from './ImageUpload.styles'
+} from './ImageLoader.styles'
 
 export interface Props {
-  imageCallback: Function
+  uploading: boolean
   imageWidth: number
   aspect?: number
+  handleSave: (base64EncodedImage: string) => void
 }
 
 export interface State {
@@ -31,7 +32,7 @@ const initialState = {
   pixelCrop: null,
 }
 
-class ImageUpload extends React.Component<Props, State> {
+class ImageLoader extends React.Component<Props, State> {
   state = initialState
 
   reset = (): void => {
@@ -89,7 +90,7 @@ class ImageUpload extends React.Component<Props, State> {
       base64EncodedImage = this.getUncroppedImg(image)
     }
 
-    this.props.imageCallback(base64EncodedImage)
+    this.props.handleSave(base64EncodedImage)
     this.reset()
   }
 
@@ -166,6 +167,11 @@ class ImageUpload extends React.Component<Props, State> {
 
   render(): JSX.Element {
     const { isModalOpen, imgSrc, crop } = this.state
+    const { uploading } = this.props
+
+    if (uploading) {
+      return <div>Uploading...</div>
+    }
 
     return (
       <div>
@@ -209,4 +215,4 @@ class ImageUpload extends React.Component<Props, State> {
   }
 }
 
-export default ImageUpload
+export default ImageLoader

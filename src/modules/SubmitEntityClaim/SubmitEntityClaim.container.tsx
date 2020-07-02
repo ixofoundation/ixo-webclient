@@ -23,7 +23,7 @@ import { strategyMap } from '../Entities/strategy-map'
 import ControlPanel from '../../common/components/ControlPanel/ControlPanel'
 import { Spinner } from '../../common/components/Spinner'
 import { getEntity } from '../SelectedEntity/SelectedEntity.actions'
-import ImageUpload from '../../common/components/Upload/ImageUpload/ImageUpload'
+import ImageLoader from '../../common/components/DropZone/ImageLoader/ImageLoader'
 
 interface Props {
   userDid: string
@@ -113,10 +113,6 @@ class SubmitEntityClaim extends React.Component<Props, State> {
                 <Container>
                   {this.state.showInstructions ? (
                     <>
-                      <ImageUpload
-                        imageCallback={() => null}
-                        imageWidth={100}
-                      />
                       <Instructions
                         backLink={`/projects/${entityDid}/overview`}
                         toggleInstructions={this.handleToggleInstructions}
