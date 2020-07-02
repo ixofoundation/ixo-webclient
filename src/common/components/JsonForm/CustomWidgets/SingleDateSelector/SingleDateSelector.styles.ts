@@ -60,9 +60,50 @@ export const MobileWrapper = styled.div`
     right: 0;
     left: 0;
     z-index: 9;
+    .SingleDatePicker .SingleDatePickerInput {
+      .SingleDatePicker_picker {
+        top: 0px !important;
+      }
+    }
+    .DateInput {
+      display: none;
+    }
+    .SingleDatePickerInput_clearDate {
+      position: fixed;
+      z-index: 10;
+      right: 0px;
+      top: 0;
+      transform: translateY(50%);
+      svg {
+        &.SingleDatePickerInput_clearDate_svg {
+          display: none;
+        }
+      }
+      ::after {
+        content: 'Clear';
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 19px;
+        color: #a5adb0;
+      }
+    }
   }
 
-  .SingleDatePicker .SingleDatePickerInput {
+  .SingleDatePicker {
+    z-index: 6;
+  }
+  .SingleDatePickerInput__showClearDate {
+    padding-right: 0;
+    .SingleDatePickerInput_clearDate svg {
+      &.SingleDatePickerInput_clearDate_svg {
+        display: none;
+        pointer-events: none;
+        cursor: not-allowed;
+      }
+    }
+  }
+
+  .SingleDatePickerInput {
     .DateInput_fangStroke {
       display: none;
     }
@@ -74,7 +115,7 @@ export const MobileWrapper = styled.div`
     position: relative;
   }
   .DayPicker .DayPicker_transitionContainer__vertical {
-    height: calc(100vh - 100px) !important;
+    height: calc(100vh - 70px) !important;
   }
 `
 export const MobileDateHeader = styled.header`
@@ -86,7 +127,7 @@ export const MobileDateHeader = styled.header`
   justify-content: space-between;
   align-items: center;
   background-color: #002a3f;
-  position: absolute;
+  position: relative;
   z-index: 5;
   top: 0;
   right: 100px;
@@ -106,24 +147,38 @@ export const HeadingItem = styled.button`
 
 export const DesktopWrapper = styled.div`
   .SingleDatePicker {
-    .SingleDatePickerInput_showClearDate {
+    .SingleDatePickerInput__showClearDate {
       padding-right: 0;
+      .SingleDatePickerInput_clearDate {
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+      }
+      svg {
+        &.SingleDatePickerInput_clearDate_svg {
+          display: none;
+          pointer-events: none;
+          cursor: not-allowed;
+        }
+      }
     }
   }
+
   &.active .SingleDatePicker .SingleDatePickerInput {
     .SingleDatePickerInput_clearDate {
       background: transparent;
       padding: 0.5rem 0;
       border: none;
       position: absolute;
-      top: calc(100% + 400px);
-      left: 0;
+      top: calc(100% + 395px);
+      left: 0.5rem;
       z-index: 4;
       ::after {
-        svg {
-          display: none;
-        }
         content: 'Reset';
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 19px;
+        color: #000;
       }
     }
     .DateInput .DateInput_fang {
