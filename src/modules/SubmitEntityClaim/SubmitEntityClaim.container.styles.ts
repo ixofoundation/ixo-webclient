@@ -60,6 +60,7 @@ export const Container = styled.div`
     }
 
     input {
+      margin-bottom: 0.375rem;
       :focus {
         outline-style: var(--focus-outline-style);
         box-shadow: var(--focus-box-shadow);
@@ -74,6 +75,7 @@ export const Container = styled.div`
     }
 
     textarea {
+      margin-bottom: 0.375rem;
       :focus {
         outline-style: var(--focus-outline-style);
         box-shadow: var(--focus-box-shadow);
@@ -329,15 +331,29 @@ export const Container = styled.div`
       }
     }
 
-    div ul li {
-      &.text-danger {
-        font-family: Roboto;
-        font-style: normal;
+    .has-error {
+      input,
+      textarea {
+        border-color: #e2223b;
+      }
+      .control-label {
+        color: #e2223b;
+      }
+      .field-radio-group + div .error-detail .text-danger {
+        margin-top: 0.375rem;
+      }
+    }
+
+    .error-detail {
+      list-style: none;
+      padding-left: 0;
+
+      .text-danger {
         font-weight: normal;
-        font-size: 10px;
-        line-height: 24px;
+        font-size: 0.75rem;
+        line-height: 1.2;
         letter-spacing: 0.3px;
-        color: #436779 !important;
+        color: #e2223b;
       }
     }
   }
