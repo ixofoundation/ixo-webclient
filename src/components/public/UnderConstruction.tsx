@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { ButtonTypes, Button } from '../common/Buttons'
+import { ButtonTypes, Button } from '../../common/components/Form/Buttons'
 import {
   Banner,
   BannerLeft,

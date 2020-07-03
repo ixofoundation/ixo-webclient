@@ -1,15 +1,17 @@
 import styled from 'styled-components'
-import { deviceWidth } from 'src/lib/commonData'
+import { deviceWidth } from '../../../../lib/commonData'
 
 export const Container = styled.div`
   border-radius: 4px;
-  @media (min-width: ${deviceWidth.mobile}px) {
-    max-width: 100%;
+  border: 1px solid #39c3e6;
+  padding: 3.125rem 1.375rem;
+  max-width: 100%;
+  @media (min-width: ${deviceWidth.tablet}px) {
+    padding: 2.625rem 3.75rem;
   }
 `
 
 export const ContentWrapper = styled.div`
-  padding: 3.75rem 0 0.5rem 4.375rem;
   h1 {
     font-size: 36px;
     line-height: 42px;
@@ -19,13 +21,12 @@ export const ContentWrapper = styled.div`
   }
 `
 export const SubHeader = styled.h4`
-  line-height: 36px;
+  font-family: ${(props): string => props.theme.fontRoboto};
+  font-size: 1.125rem;
+  line-height: 2;
   color: #7b8285;
-  width: 94%;
   font-weight: normal;
-  font-size: 18px;
   margin-bottom: 2.0625rem;
-  margin-right: 3.75rem;
 `
 
 export const ListWrapper = styled.div`
@@ -38,28 +39,33 @@ export const ListItems = styled.div`
   flex-flow: column wrap;
   justify-content: flex-start;
   align-content: flex-start;
-  max-width: calc(100% / 2 - 2.5rem);
   > * {
-    font-size: 16px;
+    font-size: 1rem;
+    line-height: 1.5;
     font-weight: normal;
-    line-height: 24px;
     display: flex;
+    flex-flow: row nowrap;
     color: #000000;
-    white-space: nowrap;
     margin-bottom: 1.175rem;
-    margin-right: 7.5rem;
+    @media (min-width: ${deviceWidth.tablet}px) {
+      width: calc(100% / 2 - 0.5rem);
+    }
     svg {
-      margin-right: 1rem;
+      width: 24px;
+      height: 24px;
+      margin-right: 0.5rem;
     }
   }
+
   @media (min-width: ${deviceWidth.mobile}px) {
-    height: 300px;
+    max-height: 300px;
   }
 `
 export const ButtonWrapper = styled.div`
-  display: inline-block;
+  display: flex;
+  flex-flow: row nowrap;
   align-items: center;
-  padding: 0 0 2rem 4.375rem;
+  justify-content: space-between;
 
   .close-button {
     font-weight: bold;
@@ -78,24 +84,4 @@ export const StartButton = styled.button`
   border-radius: 4px;
   border: none;
   color: #fff;
-  margin-top: 3.625rem;
-
-  @media (min-width: ${deviceWidth.mobileSmall}px) {
-    margin-left: 0.5rem;
-  }
-  @media (min-width: 400px) {
-    margin-left: 3rem;
-  }
-  @media (min-width: ${deviceWidth.mobile}px) {
-    margin-left: 13rem;
-  }
-
-  @media (min-width: ${deviceWidth.desktop}px) {
-    margin-top: 6rem;
-  }
-
-  @media (min-width: ${deviceWidth.desktopLarge}px) {
-    margin-left: 23.5rem;
-    margin-top: 3.625rem;
-  }
 `

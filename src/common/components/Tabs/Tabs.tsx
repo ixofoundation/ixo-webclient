@@ -2,7 +2,7 @@ import * as React from 'react'
 import { NavLink } from 'react-router-dom'
 import { MatchType } from '../../../types/models'
 import { createTabsContainer } from './Tabs.styles'
-import { Tooltip, TooltipPositions } from '../../../components/common/Tooltip'
+import { Tooltip, TooltipPositions } from '../Tooltip'
 
 export interface Button {
   linkClass?: string
