@@ -76,7 +76,7 @@ export const confirmSell = () => (
     amount: currencyToApiCurrency(sending),
   }
 
-  ixo.utils.getSignData(tx, 'bonds/MsgSell')
+  ixo.utils.getSignData(tx, 'bonds/MsgSell', pubKey)
     .then((response: any) => {
       if (response.sign_bytes && response.fee) {
         keysafe.requestSigning(response.sign_bytes, (error, signature) => {

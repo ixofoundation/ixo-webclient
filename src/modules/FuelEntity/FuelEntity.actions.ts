@@ -48,35 +48,41 @@ export const confirmOrder = (entityDid: string) => (
     ixo: { ixo },
   } = getState()
 
-  const tx: FuelEntityOrderTx = {
-    pubKey,
-    fromDid: userDid,
-    toDid: `${entityDid}/${entityDid}`,
-    amount: [{ denom: 'ixo', amount }],
-  }
+  Axios.get(
+    `${process.env.REACT_APP_GAIA_URL}/projectAccounts/${entityDid}`,
+  ).then(projectAccounts => {
+    const projectAddr = projectAccounts.data.entityDid
 
-  ixo.utils.getSignData(tx, 'treasury/MsgSend')
-    .then((response: any) => {
-      if (response.sign_bytes && response.fee) {
-        keysafe.requestSigning(JSON.stringify(tx), (error, signature) => {
-          if (error) {
-            return null
-          }
+    const tx: FuelEntityOrderTx = {
+      pubKey,
+      fromDid: userDid,
+      toDidOrAddr: `${projectAddr}`,
+      amount: [{ denom: 'ixo', amount }],
+    }
 
-          return dispatch({
-            type: FuelEntityActions.ConfirmOrder,
-            payload: Axios.post(
-              `${process.env.REACT_APP_GAIA_URL}/txs`,
-              JSON.stringify(
-                transactionUtils.generateTx('treasury/MsgSend', tx, signature, response.fee),
+    ixo.utils.getSignData(tx, 'treasury/MsgSend', pubKey)
+      .then((response: any) => {
+        if (response.sign_bytes && response.fee) {
+          keysafe.requestSigning(JSON.stringify(tx), (error, signature) => {
+            if (error) {
+              return null
+            }
+
+            return dispatch({
+              type: FuelEntityActions.ConfirmOrder,
+              payload: Axios.post(
+                `${process.env.REACT_APP_GAIA_URL}/txs`,
+                JSON.stringify(
+                  transactionUtils.generateTx('treasury/MsgSend', tx, signature, response.fee),
+                ),
               ),
-            ),
+            })
           })
-        })
-      }
-    })
-  .catch(() => {
-    Toast.errorToast('Sale failed. Please try again.')
+        }
+      })
+      .catch(() => {
+        Toast.errorToast('Sale failed. Please try again.')
+      })
   })
 
   return null

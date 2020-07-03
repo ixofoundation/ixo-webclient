@@ -287,7 +287,7 @@ class RegisterPage extends React.Component<Props, State> {
   ledgerDid = (): void => {
     if (this.state.didDoc && !this.busyLedgering) {
       const payload = { didDoc: this.state.didDoc }
-      this.props.ixo.utils.getSignData(payload, 'did/AddDid')
+      this.props.ixo.utils.getSignData(payload, 'did/AddDid', this.state.didDoc.verifyKey)
         .then((response: any) => {
           if (response.sign_bytes && response.fee) {
             this.busyLedgering = true

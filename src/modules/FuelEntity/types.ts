@@ -19,7 +19,7 @@ export interface FuelEntityState {
 export interface FuelEntityOrderTx {
   pubKey: string
   fromDid: string
-  toDid: string
+  toDidOrAddr: string
   amount: [
     {
       denom: string

@@ -79,7 +79,7 @@ export const confirmBuy = () => (
     max_prices: [currencyToApiCurrency(maxPrice)],
   }
 
-  ixo.utils.getSignData(tx, 'bonds/MsgBuy')
+  ixo.utils.getSignData(tx, 'bonds/MsgBuy', pubKey)
     .then((response: any) => {
       if (response.sign_bytes && response.fee) {
         keysafe.requestSigning(response.sign_bytes, (error, signature) => {

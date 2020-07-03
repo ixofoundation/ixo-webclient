@@ -745,7 +745,7 @@ export class ProjectContainer extends React.Component<Props, State> {
         isLedgering: true,
         modalResponse: '',
       }
-      this.props.ixo.utils.getSignData(payload, 'did/AddDid')
+      this.props.ixo.utils.getSignData(payload, 'did/AddDid', this.props.userInfo.didDoc.pubKey)
         .then((response: any) => {
           if (response.sign_bytes && response.fee) {
             this.props.keysafe.requestSigning(
