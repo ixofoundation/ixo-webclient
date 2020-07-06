@@ -1,10 +1,11 @@
-import { FormControl } from '../../common/components/JsonForm/types'
+import { FormControl, FormData } from '../../common/components/JsonForm/types'
 
 export interface SubmitEntityClaimState {
   questions: FormControl[]
   currentQuestionNo: number
-  answers: any[]
+  answers: FormData
   answersComplete: boolean
+  savingAnswer: boolean
   sending: boolean
   sent: boolean
   error?: string
@@ -12,6 +13,9 @@ export interface SubmitEntityClaimState {
 
 export enum SubmitEntityClaimActions {
   SaveAnswer = 'ixo/SubmitEntityClaim/SAVE_ANSWER',
+  SaveAnswerPending = 'ixo/SubmitEntityClaim/SAVE_ANSWER_PENDING',
+  SaveAnswerSuccess = 'ixo/SubmitEntityClaim/SAVE_ANSWER_FULFILLED',
+  SaveAnswerFailure = 'ixo/SubmitEntityClaim/SAVE_ANSWER_REJECTED',
   GoToNextQuestion = 'ixo/SubmitEntityClaim/GOTO_NEXT_QUESTION',
   GoToPreviousQuestion = 'ixo/SubmitEntityClaim/GOTO_PREVIOUS_QUESTION',
   GoToQuestionNumber = 'ixo/SubmitEntityClaim/GOTO_QUESTION_NUMBER',
@@ -23,9 +27,20 @@ export enum SubmitEntityClaimActions {
 
 export interface SaveAnswerAction {
   type: typeof SubmitEntityClaimActions.SaveAnswer
-  payload: {
-    answer: any
-  }
+  payload: Promise<FormData>
+}
+
+export interface SaveAnswerSuccessAction {
+  type: typeof SubmitEntityClaimActions.SaveAnswerSuccess
+  payload: FormData
+}
+
+export interface SaveAnswerPendingAction {
+  type: typeof SubmitEntityClaimActions.SaveAnswerPending
+}
+
+export interface SaveAnswerFailureAction {
+  type: typeof SubmitEntityClaimActions.SaveAnswerFailure
 }
 
 export interface GoToNextQuestionAction {
@@ -51,6 +66,9 @@ export interface GoToQuestionNumberAction {
 
 export type SubmitEntityClaimActionTypes =
   | SaveAnswerAction
+  | SaveAnswerSuccessAction
+  | SaveAnswerPendingAction
+  | SaveAnswerFailureAction
   | GoToNextQuestionAction
   | GoToPreviousQuestionAction
   | GoToQuestionNumberAction

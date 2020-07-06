@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect'
 import { RootState } from 'src/common/redux/types'
 import { SubmitEntityClaimState } from './types'
-import { FormControl } from '../../common/components/JsonForm/types'
+import { FormControl, FormData } from '../../common/components/JsonForm/types'
 
 export const selectSubmitEntityClaim = (
   state: RootState,
@@ -33,5 +33,27 @@ export const selectQuestionCount = createSelector(
   selectQuestions,
   (questions: FormControl[]) => {
     return questions.length
+  },
+)
+
+export const selectAnswers = createSelector(
+  selectSubmitEntityClaim,
+  (submitEntityClaim: SubmitEntityClaimState) => {
+    return submitEntityClaim.answers
+  },
+)
+
+export const selectCurrentAnswer = createSelector(
+  selectCurrentQuestion,
+  selectAnswers,
+  (question: FormControl, answers: FormData) => {
+    return answers[question.id] ? { [question.id]: answers[question.id] } : {}
+  },
+)
+
+export const selectSavingAnswer = createSelector(
+  selectSubmitEntityClaim,
+  (submitEntityClaim: SubmitEntityClaimState) => {
+    return submitEntityClaim.savingAnswer
   },
 )

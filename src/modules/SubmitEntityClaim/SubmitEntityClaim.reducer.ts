@@ -8,7 +8,8 @@ import tempQuestions from './temp_questions.json'
 export const initialState: SubmitEntityClaimState = {
   questions: tempQuestions,
   currentQuestionNo: 1,
-  answers: [],
+  answers: {},
+  savingAnswer: false,
   answersComplete: false,
   sending: false,
   sent: false,
@@ -20,15 +21,24 @@ export const reducer = (
   action: SubmitEntityClaimActionTypes,
 ): SubmitEntityClaimState => {
   switch (action.type) {
-    case SubmitEntityClaimActions.SaveAnswer:
+    case SubmitEntityClaimActions.SaveAnswerPending:
       return {
         ...state,
-        answers: [
-          ...(state.answers.filter(
-            answer => answer.questionId !== action.payload.answer.questionId,
-          ) || []),
-          action.payload.answer,
-        ],
+        savingAnswer: true,
+      }
+    case SubmitEntityClaimActions.SaveAnswerSuccess:
+      return {
+        ...state,
+        answers: {
+          ...state.answers,
+          ...action.payload,
+        },
+        savingAnswer: false,
+      }
+    case SubmitEntityClaimActions.SaveAnswerFailure:
+      return {
+        ...state,
+        savingAnswer: false,
       }
     case SubmitEntityClaimActions.GoToPreviousQuestion:
       return {
