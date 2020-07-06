@@ -16,7 +16,7 @@ export const Container = styled.div`
         content: '';
         display: block;
         position: absolute;
-        top: 50%;
+        top: calc(50% - 0.1875rem);
         right: 0.5rem;
         border: 1px solid #000;
         border-width: 0 0 2px 2px;
@@ -30,7 +30,8 @@ export const Container = styled.div`
         transform: translateY(-50%) rotate(-45deg);
       }
     }
-    .DateInput_input {
+    input.DateInput_input {
+      border: none;
       margin: 0;
       width: 100%;
       background: #e8edee;
@@ -74,6 +75,7 @@ export const MobileWrapper = styled.div`
       right: 0px;
       top: 0;
       transform: translateY(50%);
+      background: none;
       svg {
         &.SingleDatePickerInput_clearDate_svg {
           display: none;
@@ -170,9 +172,11 @@ export const DesktopWrapper = styled.div`
       padding: 0.5rem 0;
       border: none;
       position: absolute;
-      top: calc(100% + 395px);
+      top: calc(100% + 390px);
       left: 0.5rem;
       z-index: 4;
+      text-align: left;
+      border-radius: 0;
       ::after {
         content: 'Reset';
         font-weight: 500;
