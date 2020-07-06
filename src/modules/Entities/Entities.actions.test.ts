@@ -47,6 +47,7 @@ beforeEach(() => {
               ],
             },
           ],
+          pdsUrl: 'somePsdUrl',
           data: null,
         },
       ],

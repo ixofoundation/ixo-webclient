@@ -66,6 +66,8 @@ beforeEach(() => {
               ],
             },
           ],
+          pdsUrl: 'somePsdUrl',
+
           data: null,
         },
         {
@@ -107,6 +109,8 @@ beforeEach(() => {
               ],
             },
           ],
+          pdsUrl: 'somePsdUrl',
+
           data: null,
         },
         {
@@ -148,6 +152,8 @@ beforeEach(() => {
               ],
             },
           ],
+          pdsUrl: 'somePsdUrl',
+
           data: null,
         },
         {
@@ -189,6 +195,8 @@ beforeEach(() => {
               ],
             },
           ],
+          pdsUrl: 'somePsdUrl',
+
           data: null,
         },
       ],

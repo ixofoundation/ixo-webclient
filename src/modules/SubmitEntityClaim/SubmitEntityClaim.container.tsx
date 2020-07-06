@@ -9,7 +9,7 @@ import {
   SubmitEntityClaimWrapper,
 } from './SubmitEntityClaim.container.styles'
 import { Progress } from './components/Progress/Progress'
-import { FormControl } from '../../common/components/JsonForm/types'
+import { FormControl, FormData } from '../../common/components/JsonForm/types'
 import * as submitEntityClaimSelectors from './SubmitEntityClaim.selectors'
 import * as accountSelectors from '../Account/Account.selectors'
 import * as selectedEntitySelectors from '../SelectedEntity/SelectedEntity.selectors'
@@ -17,6 +17,7 @@ import {
   goToNextQuestion,
   goToPreviousQuestion,
   goToQuestionNumber,
+  saveAnswer,
 } from './SubmitEntityClaim.actions'
 import { EntityType } from '../Entities/types'
 import { strategyMap } from '../Entities/strategy-map'
@@ -34,11 +35,14 @@ interface Props {
   currentQuestionNo: number
   questions: FormControl[]
   questionCount: number
+  currentAnswer: FormData
+  savingAnswer: boolean
   match: any
   handleGetEntity: (entityDid: string) => void
   handlePreviousClick: () => void
   handleNextClick: () => void
-  handleJumpToQuestion: (questionNo: number) => void
+  handleGoToQuestionClick: (questionNo: number) => void
+  handleFormDataChange: (formData: any) => void
 }
 
 interface State {
@@ -81,9 +85,12 @@ class SubmitEntityClaim extends React.Component<Props, State> {
       currentQuestion,
       currentQuestionNo,
       questionCount,
+      currentAnswer,
+      savingAnswer,
       handlePreviousClick,
       handleNextClick,
-      handleJumpToQuestion,
+      handleGoToQuestionClick,
+      handleFormDataChange,
     } = this.props
 
     if (entityIsLoading) {
@@ -106,21 +113,26 @@ class SubmitEntityClaim extends React.Component<Props, State> {
                     question={currentQuestion}
                     currentQuestionNo={currentQuestionNo}
                     questionCount={questionCount}
-                    handleJumpToQuestion={handleJumpToQuestion}
+                    handleGoToQuestionClick={handleGoToQuestionClick}
                   />
                 )}
                 <Container>
                   {this.state.showInstructions ? (
-                    <Instructions
-                      backLink={`/projects/${entityDid}/overview`}
-                      toggleInstructions={this.handleToggleInstructions}
-                      listItems={questions.map(question => ({
-                        title: question.title,
-                        control: question.control,
-                      }))}
-                    />
+                    <>
+                      <Instructions
+                        backLink={`/projects/${entityDid}/overview`}
+                        toggleInstructions={this.handleToggleInstructions}
+                        listItems={questions.map(question => ({
+                          title: question.title,
+                          control: question.control,
+                        }))}
+                      />
+                    </>
                   ) : (
                     <Question
+                      answer={currentAnswer}
+                      savingAnswer={savingAnswer}
+                      handleFormDataChange={handleFormDataChange}
                       handlePreviousClick={handlePreviousClick}
                       handleNextClick={handleNextClick}
                       question={currentQuestion}
@@ -150,6 +162,8 @@ const mapStateToProps = (state: RootState): Record<string, any> => ({
   currentQuestion: submitEntityClaimSelectors.selectCurrentQuestion(state),
   currentQuestionNo: submitEntityClaimSelectors.selectCurrentQuestionNo(state),
   questionCount: submitEntityClaimSelectors.selectQuestionCount(state),
+  currentAnswer: submitEntityClaimSelectors.selectCurrentAnswer(state),
+  savingAnswer: submitEntityClaimSelectors.selectSavingAnswer(state),
   userDid: accountSelectors.selectUserDid(state),
   entityDid: selectedEntitySelectors.selectEntityDid(state),
   entityType: selectedEntitySelectors.selectEntityType(state),
@@ -160,9 +174,10 @@ const mapStateToProps = (state: RootState): Record<string, any> => ({
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
   handlePreviousClick: (): void => dispatch(goToPreviousQuestion()),
   handleNextClick: (): void => dispatch(goToNextQuestion()),
-  handleJumpToQuestion: (QuestionNo: number): void =>
+  handleGoToQuestionClick: (QuestionNo: number): void =>
     dispatch(goToQuestionNumber(QuestionNo)),
   handleGetEntity: (entityDid): void => dispatch(getEntity(entityDid)),
+  handleFormDataChange: (formData): void => dispatch(saveAnswer(formData)),
 })
 
 export const SubmitEntityClaimConnected = connect(

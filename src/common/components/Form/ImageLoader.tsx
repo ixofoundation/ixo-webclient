@@ -28,7 +28,6 @@ Example:
 */
 const ImageContainer = styled.div`
   height: 400px;
-  align: center;
   margin-bottom: 5px;
 `
 
