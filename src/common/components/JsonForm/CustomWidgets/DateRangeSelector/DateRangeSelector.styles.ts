@@ -65,12 +65,67 @@ export const MobileWrapper = styled.div`
     .DateRangePicker .DateRangePickerInput .DateInput {
       display: none;
     }
+    .DateRangePickerInput_clearDates {
+      position: fixed;
+      z-index: 10;
+      right: 0px;
+      top: 0;
+      transform: translateY(50%);
+      background: none;
+      svg {
+        &.DateRangePickerInput_clearDates_svg {
+          display: none;
+        }
+      }
+      ::after {
+        content: 'Clear';
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 19px;
+        color: #a5adb0;
+      }
+    }
   }
   .DateRangePicker .DateRangePickerInput .DateRangePicker_picker {
     position: relative;
-    top: 0 !important;
     width: 100vw;
     height: 100vh;
-    left: 0px;
+    top: 4px !important;
+    left: 0px !important;
   }
+  .DayPicker .DayPicker_weekHeaders {
+    .DayPicker_weekHeader {
+      top: 122px;
+    }
+  }
+  .DayPicker_transitionContainer__vertical {
+    height: calc(100vh - 0px) !important;
+    top: 4rem;
+  }
+`
+export const MobileDateHeader = styled.header`
+  width: 100vw;
+  background: #002a3f;
+  padding: 1.5rem 1.25rem;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #002a3f;
+  position: absolute;
+  z-index: 5;
+  top: 0;
+  right: 100px;
+  left: 0;
+`
+export const HeadingItem = styled.button`
+  cursor: pointer;
+  border: none;
+  outline: none !important;
+  text-decoration: none;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.3);
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  padding: 0;
 `

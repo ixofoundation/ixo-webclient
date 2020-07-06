@@ -1,9 +1,15 @@
 import React from 'react'
 import { DateRangePicker } from 'react-dates'
 import moment, { Moment } from 'moment'
-import { Container, MobileWrapper } from './DateRangeSelector.styles'
+import {
+  Container,
+  MobileWrapper,
+  MobileDateHeader,
+  HeadingItem,
+} from './DateRangeSelector.styles'
 import MediaQuery from 'react-responsive'
 import { deviceWidth } from '../../../../../lib/commonData'
+import Back from '../../../../../assets/icons/Back'
 
 interface Props {
   id: string
@@ -61,6 +67,7 @@ class DateRangeSelector extends React.Component<Props, State> {
         onFocusChange={(focusedInput): void => this.setState({ focusedInput })}
         numberOfMonths={numberOfMonths}
         orientation={orientation}
+        showClearDates={true}
       />
     )
   }
@@ -68,12 +75,19 @@ class DateRangeSelector extends React.Component<Props, State> {
   render(): JSX.Element {
     return (
       <Container>
-        <MediaQuery maxWidth={`${deviceWidth.desktop - 1}px`}>
+        <MediaQuery maxWidth={`${deviceWidth.tablet - 1}px`}>
           <MobileWrapper className={this.state.focusedInput ? 'active' : ''}>
+            {this.state.focusedInput && (
+              <MobileDateHeader>
+                <HeadingItem onClick={(): void => console.log('back')}>
+                  <Back />
+                </HeadingItem>
+              </MobileDateHeader>
+            )}
             {this.renderDateRangePicker(4, 'vertical')}
           </MobileWrapper>
         </MediaQuery>
-        <MediaQuery minWidth={`${deviceWidth.desktop}px`}>
+        <MediaQuery minWidth={`${deviceWidth.tablet}px`}>
           {this.renderDateRangePicker(2, 'horizontal')}
         </MediaQuery>
       </Container>
