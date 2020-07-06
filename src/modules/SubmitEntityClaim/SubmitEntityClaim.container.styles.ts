@@ -60,6 +60,7 @@ export const Container = styled.div`
     }
 
     input {
+      margin-bottom: 0.375rem;
       :focus {
         outline-style: var(--focus-outline-style);
         box-shadow: var(--focus-box-shadow);
@@ -74,6 +75,7 @@ export const Container = styled.div`
     }
 
     textarea {
+      margin-bottom: 0.375rem;
       :focus {
         outline-style: var(--focus-outline-style);
         box-shadow: var(--focus-box-shadow);
@@ -233,59 +235,29 @@ export const Container = styled.div`
       }
     }
 
-    .SingleDatePicker {
-      z-index: 4;
-    }
-    .SingleDatePickerInput__withBorder {
-      border: none;
-      .DateInput {
-        width: 20rem;
-        position: relative;
-        background: #f7f8f9;
-        width: 100%;
-        &:after {
-          content: '';
-          display: block;
-          position: absolute;
-          top: 50%;
-          right: 0.5rem;
-          border: 1px solid #000;
-          border-width: 0 0 2px 2px;
-          width: 8px;
-          height: 8px;
-          line-height: 0;
-          font-size: 0;
-          -webkit-transform: rotate(-45deg);
-          -ms-transform: rotate(-45deg);
-          -o-transform: rotate(-45deg);
-          transform: translateY(-50%) rotate(-45deg);
-        }
+    .has-error {
+      input,
+      textarea {
+        border-color: #e2223b;
       }
-      .DateInput_input {
-        margin: 0;
-        width: 100%;
-        background: #e8edee;
-        border-radius: 4px;
-        font-family: Roboto;
-        font-style: normal;
-        font-weight: normal;
-        font-size: 1rem;
+      .control-label {
+        color: #e2223b;
       }
-
-      .DateInput .DateInput_input__focused {
-        border: var(--focus-standard-border);
+      .field-radio-group + div .error-detail .text-danger {
+        margin-top: 0.375rem;
       }
     }
 
-    div ul li {
-      &.text-danger {
-        font-family: Roboto;
-        font-style: normal;
+    .error-detail {
+      list-style: none;
+      padding-left: 0;
+
+      .text-danger {
         font-weight: normal;
-        font-size: 10px;
-        line-height: 24px;
+        font-size: 0.75rem;
+        line-height: 1.2;
         letter-spacing: 0.3px;
-        color: #436779 !important;
+        color: #e2223b;
       }
     }
   }
@@ -294,7 +266,10 @@ export const Container = styled.div`
     width: 100%;
     display: flex;
     flex-flow: row nowrap;
-    justify-content: space-between;
+    justify-content: center;
+    @media (min-width: ${deviceWidth.mobileSmall}px) {
+      justify-content: flex-end;
+    }
     button {
       width: 120px;
       height: 50px;
@@ -307,7 +282,7 @@ export const Container = styled.div`
     button[type='submit'] {
       background: linear-gradient(180deg, #04d0fb 0%, #49bfe0 100%);
       color: #fff;
-      margin-left: auto;
+      margin-left: 1.25rem;
       &:focus {
         outline-style: none;
         box-shadow: none;
