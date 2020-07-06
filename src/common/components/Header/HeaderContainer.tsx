@@ -201,7 +201,7 @@ class Header extends React.Component<Props, State> {
   handleLedgerDid = (): void => {
     if (this.props.userInfo.didDoc) {
       const payload = { didDoc: this.props.userInfo.didDoc }
-      this.props.ixo.utils.getSignData(payload, 'did/AddDid')
+      this.props.ixo.utils.getSignData(payload, 'did/AddDid', this.props.userInfo.didDoc.pubKey)
         .then((response: any) => {
           if (response.sign_bytes && response.fee) {
             this.props.keysafe.requestSigning(
