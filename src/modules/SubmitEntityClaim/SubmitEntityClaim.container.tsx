@@ -9,7 +9,7 @@ import {
   SubmitEntityClaimWrapper,
 } from './SubmitEntityClaim.container.styles'
 import { Progress } from './components/Progress/Progress'
-import { FormControl } from '../../common/components/JsonForm/types'
+import { FormControl, FormData } from '../../common/components/JsonForm/types'
 import * as submitEntityClaimSelectors from './SubmitEntityClaim.selectors'
 import * as accountSelectors from '../Account/Account.selectors'
 import * as selectedEntitySelectors from '../SelectedEntity/SelectedEntity.selectors'
@@ -35,7 +35,7 @@ interface Props {
   currentQuestionNo: number
   questions: FormControl[]
   questionCount: number
-  currentAnswer: {}
+  currentAnswer: FormData
   match: any
   handleGetEntity: (entityDid: string) => void
   handlePreviousClick: () => void

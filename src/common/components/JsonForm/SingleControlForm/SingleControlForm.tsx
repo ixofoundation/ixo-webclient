@@ -6,11 +6,11 @@ import SingleDateSelector from '../CustomWidgets/SingleDateSelector/SingleDateSe
 import DateRangeSelector from '../CustomWidgets/DateRangeSelector/DateRangeSelector'
 import LocationSelector from '../CustomWidgets/LocationSelector/LocationSelector'
 import QRCode from '../CustomWidgets/QRCode/QRCode'
-import { FormControl } from '../types'
+import { FormControl, FormData } from '../types'
 
 interface Props {
   formControl: FormControl
-  formData: {}
+  formData: FormData
   nextButtonText: string
   showPreviousButton: boolean
   handlePreviousClick: () => void

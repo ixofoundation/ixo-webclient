@@ -1,13 +1,9 @@
-import { FormControl } from '../../common/components/JsonForm/types'
-
-export type Answers = {
-  [key: string]: string
-}
+import { FormControl, FormData } from '../../common/components/JsonForm/types'
 
 export interface SubmitEntityClaimState {
   questions: FormControl[]
   currentQuestionNo: number
-  answers: Answers
+  answers: FormData
   answersComplete: boolean
   sending: boolean
   sent: boolean
