@@ -36,6 +36,7 @@ interface Props {
   questions: FormControl[]
   questionCount: number
   currentAnswer: FormData
+  savingAnswer: boolean
   match: any
   handleGetEntity: (entityDid: string) => void
   handlePreviousClick: () => void
@@ -85,6 +86,7 @@ class SubmitEntityClaim extends React.Component<Props, State> {
       currentQuestionNo,
       questionCount,
       currentAnswer,
+      savingAnswer,
       handlePreviousClick,
       handleNextClick,
       handleGoToQuestionClick,
@@ -129,6 +131,7 @@ class SubmitEntityClaim extends React.Component<Props, State> {
                   ) : (
                     <Question
                       answer={currentAnswer}
+                      savingAnswer={savingAnswer}
                       handleFormDataChange={handleFormDataChange}
                       handlePreviousClick={handlePreviousClick}
                       handleNextClick={handleNextClick}
@@ -160,6 +163,7 @@ const mapStateToProps = (state: RootState): Record<string, any> => ({
   currentQuestionNo: submitEntityClaimSelectors.selectCurrentQuestionNo(state),
   questionCount: submitEntityClaimSelectors.selectQuestionCount(state),
   currentAnswer: submitEntityClaimSelectors.selectCurrentAnswer(state),
+  savingAnswer: submitEntityClaimSelectors.selectSavingAnswer(state),
   userDid: accountSelectors.selectUserDid(state),
   entityDid: selectedEntitySelectors.selectEntityDid(state),
   entityType: selectedEntitySelectors.selectEntityType(state),

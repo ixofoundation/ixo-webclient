@@ -9,6 +9,7 @@ export const initialState: SubmitEntityClaimState = {
   questions: tempQuestions,
   currentQuestionNo: 1,
   answers: {},
+  savingAnswer: false,
   answersComplete: false,
   sending: false,
   sent: false,
@@ -20,13 +21,24 @@ export const reducer = (
   action: SubmitEntityClaimActionTypes,
 ): SubmitEntityClaimState => {
   switch (action.type) {
-    case SubmitEntityClaimActions.SaveAnswer:
+    case SubmitEntityClaimActions.SaveAnswerPending:
+      return {
+        ...state,
+        savingAnswer: true,
+      }
+    case SubmitEntityClaimActions.SaveAnswerSuccess:
       return {
         ...state,
         answers: {
           ...state.answers,
-          ...action.payload.answer,
+          ...action.payload,
         },
+        savingAnswer: false,
+      }
+    case SubmitEntityClaimActions.SaveAnswerFailure:
+      return {
+        ...state,
+        savingAnswer: false,
       }
     case SubmitEntityClaimActions.GoToPreviousQuestion:
       return {

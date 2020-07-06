@@ -50,3 +50,10 @@ export const selectCurrentAnswer = createSelector(
     return answers[question.id] ? { [question.id]: answers[question.id] } : {}
   },
 )
+
+export const selectSavingAnswer = createSelector(
+  selectSubmitEntityClaim,
+  (submitEntityClaim: SubmitEntityClaimState) => {
+    return submitEntityClaim.savingAnswer
+  },
+)

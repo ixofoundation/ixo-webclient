@@ -5,6 +5,7 @@ import { FormControl } from '../../../../common/components/JsonForm/types'
 interface Props {
   question: FormControl
   answer: {}
+  savingAnswer: boolean
   currentQuestionNo: number
   questionCount: number
   handlePreviousClick: () => void
@@ -17,6 +18,7 @@ const Question: React.FunctionComponent<Props> = ({
   currentQuestionNo,
   questionCount,
   answer,
+  savingAnswer,
   handlePreviousClick,
   handleNextClick,
   handleFormDataChange,
@@ -24,6 +26,7 @@ const Question: React.FunctionComponent<Props> = ({
   return (
     <SingleControlForm
       formData={answer}
+      savingFormData={savingAnswer}
       handleFormDataChange={handleFormDataChange}
       handlePreviousClick={handlePreviousClick}
       handleNextClick={handleNextClick}

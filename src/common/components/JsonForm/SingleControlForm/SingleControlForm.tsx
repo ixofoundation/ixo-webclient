@@ -7,10 +7,12 @@ import DateRangeSelector from '../CustomWidgets/DateRangeSelector/DateRangeSelec
 import LocationSelector from '../CustomWidgets/LocationSelector/LocationSelector'
 import QRCode from '../CustomWidgets/QRCode/QRCode'
 import { FormControl, FormData } from '../types'
+import ImageUpload from '../CustomWidgets/ImageUpload/ImageUpload'
 
 interface Props {
   formControl: FormControl
   formData: FormData
+  savingFormData: boolean
   nextButtonText: string
   showPreviousButton: boolean
   handlePreviousClick: () => void
@@ -24,11 +26,13 @@ const customControls = {
   ['daterangeselector']: DateRangeSelector,
   ['qrcode']: QRCode,
   ['locationselector']: LocationSelector,
+  ['imageupload']: ImageUpload,
 }
 
 const SingleControlForm: React.FunctionComponent<Props> = ({
   formControl,
   formData,
+  savingFormData,
   nextButtonText,
   showPreviousButton,
   handlePreviousClick,
@@ -87,6 +91,7 @@ const SingleControlForm: React.FunctionComponent<Props> = ({
       ['ui:options']: {
         inline,
       },
+      ['ui:savingFormData']: savingFormData,
     },
   }
 

@@ -11,6 +11,7 @@ import {
 
 export interface Props {
   uploading: boolean
+  uploadedImageSrc: string
   imageWidth: number
   aspect?: number
   handleSave: (base64EncodedImage: string) => void
@@ -167,10 +168,14 @@ class ImageLoader extends React.Component<Props, State> {
 
   render(): JSX.Element {
     const { isModalOpen, imgSrc, crop } = this.state
-    const { uploading } = this.props
+    const { uploading, uploadedImageSrc } = this.props
 
     if (uploading) {
       return <div>Uploading...</div>
+    }
+
+    if (uploadedImageSrc) {
+      return <img src={uploadedImageSrc} />
     }
 
     return (

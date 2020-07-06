@@ -1,6 +1,8 @@
 import * as SUT from './SubmitEntityClaim.reducer'
 import {
-  SaveAnswerAction,
+  SaveAnswerSuccessAction,
+  SaveAnswerPendingAction,
+  SaveAnswerFailureAction,
   SubmitEntityClaimActions,
   GoToNextQuestionAction,
   GoToPreviousQuestionAction,
@@ -21,14 +23,29 @@ describe('SubmitEntityClaim Reducer', () => {
     expect(result).toEqual(initialState)
   })
 
-  describe('SaveAnswer Action', () => {
+  describe('SaveAnswerPending Action', () => {
+    it('should set the savingAnswer flag to true', () => {
+      // given .. we have an action of type SubmitEntityActions.SaveAnswerPending with an answer
+      const action: SaveAnswerPendingAction = {
+        type: SubmitEntityClaimActions.SaveAnswerPending,
+      }
+
+      // when ... we run the reducer with this action and initialState
+      const result = SUT.reducer(initialState, action)
+
+      expect(result).toEqual({
+        ...initialState,
+        savingAnswer: true,
+      })
+    })
+  })
+
+  describe('SaveAnswerSuccess Action', () => {
     it('should add the new answer to the answers array and leave other answers in tact', () => {
-      // given .. we have an action of type SubmitEntityActions.SaveAnswer with an answer
-      const action: SaveAnswerAction = {
-        type: SubmitEntityClaimActions.SaveAnswer,
-        payload: {
-          answer: { foo3: 'bar3' },
-        },
+      // given .. we have an action of type SubmitEntityActions.SaveAnswerSuccess with an answer
+      const action: SaveAnswerSuccessAction = {
+        type: SubmitEntityClaimActions.SaveAnswerSuccess,
+        payload: { foo3: 'bar3' },
       }
 
       const currentState = {
@@ -37,6 +54,7 @@ describe('SubmitEntityClaim Reducer', () => {
           foo1: 'bar1',
           foo2: 'bar2',
         },
+        savingAnswer: true,
       }
 
       // when ... we run the reducer with this action
@@ -50,16 +68,15 @@ describe('SubmitEntityClaim Reducer', () => {
           foo2: 'bar2',
           foo3: 'bar3',
         },
+        savingAnswer: false,
       })
     })
 
     it('should update the existing answer in the answers array and leave other answers in tact', () => {
-      // given .. we have an action of type SubmitEntityActions.SaveAnswer with an answer
-      const action: SaveAnswerAction = {
-        type: SubmitEntityClaimActions.SaveAnswer,
-        payload: {
-          answer: { foo1: 'bar123' },
-        },
+      // given .. we have an action of type SubmitEntityActions.SaveAnswerSuccess with an answer
+      const action: SaveAnswerSuccessAction = {
+        type: SubmitEntityClaimActions.SaveAnswerSuccess,
+        payload: { foo1: 'bar123' },
       }
 
       const currentState = {
@@ -69,6 +86,7 @@ describe('SubmitEntityClaim Reducer', () => {
           foo2: 'bar2',
           foo3: 'bar3',
         },
+        savingAnswer: true,
       }
 
       // when ... we run the reducer with this action
@@ -82,6 +100,27 @@ describe('SubmitEntityClaim Reducer', () => {
           foo2: 'bar2',
           foo3: 'bar3',
         },
+        savingAnswer: false,
+      })
+    })
+  })
+
+  describe('SaveAnswerFailure Action', () => {
+    it('should set the savingAnswer flag to false', () => {
+      // given .. we have an action of type SubmitEntityActions.SaveAnswerFailure with an answer
+      const action: SaveAnswerFailureAction = {
+        type: SubmitEntityClaimActions.SaveAnswerFailure,
+      }
+
+      // when ... we run the reducer with this action and initialState
+      const result = SUT.reducer(
+        { ...initialState, savingAnswer: true },
+        action,
+      )
+
+      expect(result).toEqual({
+        ...initialState,
+        savingAnswer: false,
       })
     })
   })
