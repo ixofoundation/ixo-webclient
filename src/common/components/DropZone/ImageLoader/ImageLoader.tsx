@@ -196,6 +196,7 @@ class ImageLoader extends React.Component<Props, State> {
             <div className="row">
               <ImageContainer className="col-md-12">
                 <ReactCrop
+                  circularCrop
                   src={imgSrc}
                   onComplete={this.onComplete}
                   onImageLoaded={this.onImageLoaded}

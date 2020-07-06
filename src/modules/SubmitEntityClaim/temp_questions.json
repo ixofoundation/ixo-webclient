@@ -1,6 +1,15 @@
 [
   {
     "id": "h",
+    "title": "Upload an Avatar/Profile Pic",
+    "description": "This will be a short description or explainer text explaining the question. ",
+    "label": "Select an avatar to upload",
+    "required": true,
+    "type": "string",
+    "control": "avatarupload"
+  },
+  {
+    "id": "h",
     "title": "Upload an Image",
     "description": "This will be a short description or explainer text explaining the question. ",
     "label": "Select an image to upload",
