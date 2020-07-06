@@ -1,5 +1,25 @@
 [
   {
+    "id": "a",
+    "title": "Date Picker",
+    "description": "This will be a short description or explainer text explaining the question. ",
+    "label": "Dates",
+    "required": true,
+    "type": "string",
+    "control": "daterangeselector",
+    "placeholder": "Select Date"
+  },
+  {
+    "id": "aa",
+    "title": "Date Picker",
+    "description": "This will be a short description or explainer text explaining the question. ",
+    "label": "Date of pickup",
+    "required": true,
+    "type": "string",
+    "control": "singledateselector",
+    "placeholder": "Select Date"
+  },
+  {
     "id": "g",
     "title": "Enter Location",
     "description": "This will be a short description or explainer text explaining the question. ",
@@ -101,25 +121,5 @@
     "type": "number",
     "control": "radio",
     "values": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-  },
-  {
-    "id": "a",
-    "title": "Date Picker",
-    "description": "This will be a short description or explainer text explaining the question. ",
-    "label": "Dates",
-    "required": true,
-    "type": "string",
-    "control": "daterangeselector",
-    "placeholder": "Select Date"
-  },
-  {
-    "id": "aa",
-    "title": "Date Picker",
-    "description": "This will be a short description or explainer text explaining the question. ",
-    "label": "Date of pickup",
-    "required": true,
-    "type": "string",
-    "control": "singledateselector",
-    "placeholder": "Select Date"
   }
 ]

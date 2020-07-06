@@ -53,3 +53,24 @@ export const Container = styled.div`
     }
   }
 `
+export const MobileWrapper = styled.div`
+  &.active {
+    display: flex;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    z-index: 9;
+    .DateRangePicker .DateRangePickerInput .DateInput {
+      display: none;
+    }
+  }
+  .DateRangePicker .DateRangePickerInput .DateRangePicker_picker {
+    position: relative;
+    top: 0 !important;
+    width: 100vw;
+    height: 100vh;
+    left: 0px;
+  }
+`
