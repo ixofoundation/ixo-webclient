@@ -6,14 +6,18 @@ import SingleDateSelector from '../CustomWidgets/SingleDateSelector/SingleDateSe
 import DateRangeSelector from '../CustomWidgets/DateRangeSelector/DateRangeSelector'
 import LocationSelector from '../CustomWidgets/LocationSelector/LocationSelector'
 import QRCode from '../CustomWidgets/QRCode/QRCode'
-import { FormControl } from '../types'
+import { FormControl, FormData } from '../types'
+import ImageUpload from '../CustomWidgets/ImageUpload/ImageUpload'
 
 interface Props {
   formControl: FormControl
+  formData: FormData
+  savingFormData: boolean
   nextButtonText: string
   showPreviousButton: boolean
   handlePreviousClick: () => void
   handleNextClick: () => void
+  handleFormDataChange: (formData: any) => void
 }
 
 const customControls = {
@@ -22,14 +26,18 @@ const customControls = {
   ['daterangeselector']: DateRangeSelector,
   ['qrcode']: QRCode,
   ['locationselector']: LocationSelector,
+  ['imageupload']: ImageUpload,
 }
 
 const SingleControlForm: React.FunctionComponent<Props> = ({
   formControl,
+  formData,
+  savingFormData,
   nextButtonText,
   showPreviousButton,
   handlePreviousClick,
   handleNextClick,
+  handleFormDataChange,
 }) => {
   const {
     id,
@@ -83,6 +91,7 @@ const SingleControlForm: React.FunctionComponent<Props> = ({
       ['ui:options']: {
         inline,
       },
+      ['ui:savingFormData']: savingFormData,
     },
   }
 
@@ -90,6 +99,8 @@ const SingleControlForm: React.FunctionComponent<Props> = ({
     <FormContainer>
       <div>
         <Form
+          formData={formData}
+          onChange={(control): void => handleFormDataChange(control.formData)}
           liveValidate
           noHtml5Validate
           showErrorList={false}

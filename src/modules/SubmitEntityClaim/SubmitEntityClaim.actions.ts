@@ -7,13 +7,35 @@ import {
 } from './types'
 import { Dispatch } from 'redux'
 import { RootState } from 'src/common/redux/types'
+import blocksyncApi from '../../common/api/blocksync-api/blocksync-api'
 
-export const saveAnswer = (answer: any): SaveAnswerAction => ({
-  type: SubmitEntityClaimActions.SaveAnswer,
-  payload: {
-    answer,
-  },
-})
+export const saveAnswer = (formData: FormData) => (
+  dispatch: Dispatch,
+  getState: () => RootState,
+): SaveAnswerAction => {
+  const {
+    submitEntityClaim: { questions, currentQuestionNo },
+    selectedEntity: { pdsUrl },
+  } = getState()
+  const formControl = questions[currentQuestionNo - 1]
+  const { control, id } = formControl
+
+  if (control.includes('upload')) {
+    return dispatch({
+      type: SubmitEntityClaimActions.SaveAnswer,
+      payload: blocksyncApi.project
+        .createPublic(formData[id], pdsUrl)
+        .then((response: any) => ({
+          [id]: `${pdsUrl}public/${response.result}`,
+        })),
+    })
+  }
+
+  return dispatch({
+    type: SubmitEntityClaimActions.SaveAnswer,
+    payload: Promise.resolve({ [id]: formData[id] }),
+  })
+}
 
 export const goToPreviousQuestion = () => (
   dispatch: Dispatch,

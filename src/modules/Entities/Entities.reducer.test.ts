@@ -93,6 +93,7 @@ describe('Entities Reducer', () => {
               ],
             },
           ],
+          pdsUrl: 'somePsdUrl',
           data: null,
         },
       ]
@@ -149,6 +150,7 @@ describe('Entities Reducer', () => {
                 ],
               },
             ],
+            pdsUrl: 'somePsdUrl',
             data: null,
           },
         ],
@@ -233,6 +235,8 @@ describe('Entities Reducer', () => {
                 ],
               },
             ],
+            pdsUrl: 'somePsdUrl',
+
             data: null,
           },
         ],
@@ -313,6 +317,8 @@ describe('Entities Reducer', () => {
                 ],
               },
             ],
+            pdsUrl: 'somePsdUrl',
+
             data: null,
           },
         ],
@@ -393,6 +399,8 @@ describe('Entities Reducer', () => {
                 ],
               },
             ],
+            pdsUrl: 'somePsdUrl',
+
             data: null,
           },
         ],
@@ -473,6 +481,8 @@ describe('Entities Reducer', () => {
                 ],
               },
             ],
+            pdsUrl: 'somePsdUrl',
+
             data: null,
           },
         ],
@@ -553,6 +563,8 @@ describe('Entities Reducer', () => {
                 ],
               },
             ],
+            pdsUrl: 'somePsdUrl',
+
             data: null,
           },
         ],
@@ -629,6 +641,8 @@ describe('Entities Reducer', () => {
                 ],
               },
             ],
+            pdsUrl: 'somePsdUrl',
+
             data: null,
           },
         ],
@@ -717,6 +731,8 @@ describe('Entities Reducer', () => {
                 ],
               },
             ],
+            pdsUrl: 'somePsdUrl',
+
             data: null,
           },
         ],
@@ -803,6 +819,8 @@ describe('Entities Reducer', () => {
                 ],
               },
             ],
+            pdsUrl: 'somePsdUrl',
+
             data: null,
           },
         ],
@@ -894,6 +912,8 @@ describe('Entities Reducer', () => {
                 ],
               },
             ],
+            pdsUrl: 'somePsdUrl',
+
             data: null,
           },
         ],
@@ -980,6 +1000,8 @@ describe('Entities Reducer', () => {
                 ],
               },
             ],
+            pdsUrl: 'somePsdUrl',
+
             data: null,
           },
         ],
@@ -1071,6 +1093,8 @@ describe('Entities Reducer', () => {
                 ],
               },
             ],
+            pdsUrl: 'somePsdUrl',
+
             data: null,
           },
         ],

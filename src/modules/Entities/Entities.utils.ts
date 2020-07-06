@@ -40,6 +40,7 @@ export const mapApiEntityToEntity = (apiEntity: any): Entity => {
     founderLogoUrl: apiEntity.data.founder
       ? apiEntity.data.founder.logoLink
       : '',
+    pdsUrl: apiEntity.data.serviceEndpoint,
     data: apiEntity.data, // TEMP until project module not getting data from projects
   }
 }
