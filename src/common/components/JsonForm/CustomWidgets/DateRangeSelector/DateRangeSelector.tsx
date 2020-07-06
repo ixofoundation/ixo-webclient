@@ -10,13 +10,12 @@ import {
 import MediaQuery from 'react-responsive'
 import { deviceWidth } from '../../../../../lib/commonData'
 import Back from '../../../../../assets/icons/Back'
+import { DesktopWrapper } from './DateRangeSelector.styles'
 
 interface Props {
   id: string
   value: string
   onChange: (value: string) => void
-  // numberOfMonths: number
-  // initialOrientation: string
 }
 
 interface State {
@@ -68,6 +67,7 @@ class DateRangeSelector extends React.Component<Props, State> {
         numberOfMonths={numberOfMonths}
         orientation={orientation}
         showClearDates={true}
+        hideKeyboardShortcutsPanel={true}
       />
     )
   }
@@ -88,7 +88,9 @@ class DateRangeSelector extends React.Component<Props, State> {
           </MobileWrapper>
         </MediaQuery>
         <MediaQuery minWidth={`${deviceWidth.tablet}px`}>
-          {this.renderDateRangePicker(2, 'horizontal')}
+          <DesktopWrapper className={this.state.focusedInput ? 'active' : ''}>
+            {this.renderDateRangePicker(2, 'horizontal')}
+          </DesktopWrapper>
         </MediaQuery>
       </Container>
     )

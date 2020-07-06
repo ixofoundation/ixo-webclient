@@ -61,6 +61,7 @@ export const Container = styled.div`
 
     input {
       margin-bottom: 0.375rem;
+      border: none;
       :focus {
         outline-style: var(--focus-outline-style);
         box-shadow: var(--focus-box-shadow);
