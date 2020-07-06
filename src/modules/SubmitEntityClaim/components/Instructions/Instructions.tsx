@@ -6,9 +6,9 @@ import LongText from '../../../../assets/icons/LongText'
 import Selection from '../../../../assets/icons/Selection'
 import QRcode from '../../../../assets/icons/QRcode'
 import Location from '../../../../assets/icons/Location'
+import UploadImage from '../../../../assets/icons/UploadImage'
 // When we add more types then add the relevant icons
 /*
-import UploadImage from '../../../../assets/icons/UploadImage'
 import UploadAudio from '../../../../assets/icons/UploadAudio'
 import UploadFile from '../../../../assets/icons/UploadFile'
 import Validation from '../../../../assets/icons/Validation'
@@ -45,6 +45,7 @@ const Instructions: React.FunctionComponent<Props> = ({
     ['daterangeselector']: DatePicker,
     ['qrcode']: QRcode,
     ['locationselector']: Location,
+    ['imageupload']: UploadImage,
   }
 
   return (

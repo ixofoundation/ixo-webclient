@@ -67,6 +67,7 @@ describe('SelectedEntity Reducer', () => {
             ],
           },
         ],
+        pdsUrl: 'somePdsUrl',
         data: null,
       }
 
@@ -127,6 +128,7 @@ describe('SelectedEntity Reducer', () => {
             ],
           },
         ],
+        pdsUrl: 'somePdsUrl',
         data: null,
       }
 

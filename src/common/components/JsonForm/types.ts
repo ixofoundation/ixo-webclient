@@ -1,3 +1,7 @@
+export type FormData = {
+  [id: string]: string
+}
+
 export interface FormControl {
   id: string
   title: string

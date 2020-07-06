@@ -6,7 +6,7 @@ interface Props {
   question: any
   currentQuestionNo: any
   questionCount: any
-  handleJumpToQuestion: (questionNo: number) => void
+  handleGoToQuestionClick: (questionNo: number) => void
 }
 
 export const Progress: React.FunctionComponent<Props> = props => {
@@ -26,7 +26,7 @@ export const Progress: React.FunctionComponent<Props> = props => {
           <div
             key={question}
             className="progress-item completed"
-            onClick={(): void => props.handleJumpToQuestion(question)}
+            onClick={(): void => props.handleGoToQuestionClick(question)}
           >
             <ApprovedTick width="8px" fill="#fff" />
           </div>
