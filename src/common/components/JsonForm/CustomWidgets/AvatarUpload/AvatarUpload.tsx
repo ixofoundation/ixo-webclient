@@ -14,6 +14,9 @@ const AvatarUpload: React.FunctionComponent<Props> = ({
 }) => {
   return (
     <ImageLoader
+      keepCropSelection={false}
+      circularCrop={true}
+      aspect={1}
       uploadedImageSrc={value}
       uploading={savingFormData}
       handleSave={(base64EncodedImage): void => onChange(base64EncodedImage)}

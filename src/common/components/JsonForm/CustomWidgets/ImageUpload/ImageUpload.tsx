@@ -14,6 +14,8 @@ const ImageUpload: React.FunctionComponent<Props> = ({
 }) => {
   return (
     <ImageLoader
+      keepCropSelection={true}
+      circularCrop={false}
       uploadedImageSrc={value}
       uploading={savingFormData}
       handleSave={(base64EncodedImage): void => onChange(base64EncodedImage)}
