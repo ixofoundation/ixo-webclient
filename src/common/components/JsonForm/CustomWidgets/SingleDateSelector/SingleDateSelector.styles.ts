@@ -24,9 +24,6 @@ export const Container = styled.div`
         height: 8px;
         line-height: 0;
         font-size: 0;
-        -webkit-transform: rotate(-45deg);
-        -ms-transform: rotate(-45deg);
-        -o-transform: rotate(-45deg);
         transform: translateY(-50%) rotate(-45deg);
       }
     }
@@ -40,7 +37,6 @@ export const Container = styled.div`
       font-style: normal;
       font-weight: normal;
       font-size: 1rem;
-
       ::placeholder {
         line-height: 1.5;
         color: #a5adb0;
@@ -77,7 +73,7 @@ export const MobileWrapper = styled.div`
     .SingleDatePickerInput_clearDate {
       position: fixed;
       z-index: 10;
-      right: 0px;
+      right: 0;
       top: 0;
       transform: translateY(50%);
       background: none;
@@ -89,8 +85,8 @@ export const MobileWrapper = styled.div`
       ::after {
         content: 'Clear';
         font-weight: 500;
-        font-size: 16px;
-        line-height: 19px;
+        font-size: 1rem;
+        line-height: 1.2;
         color: #a5adb0;
       }
     }
@@ -116,20 +112,18 @@ export const MobileWrapper = styled.div`
     }
   }
   .SingleDatePicker_picker {
-    top: 30px;
+    top: 1.875rem;
     width: 100vw;
     left: 0px;
     position: relative;
   }
   .DayPicker .DayPicker_transitionContainer__vertical {
-    height: calc(100vh - 70px) !important;
+    height: calc(100vh - 4.375rem) !important;
   }
   .CalendarMonthGrid .CalendarMonth .CalendarMonth_caption {
-    font-family: Roboto;
-    font-style: normal;
     font-weight: bold;
-    font-size: 16px;
-    line-height: 19px;
+    font-size: 1rem;
+    line-height: 1.2;
     color: #000000;
     margin-top: 2rem;
   }
@@ -146,7 +140,7 @@ export const MobileDateHeader = styled.header`
   position: relative;
   z-index: 5;
   top: 0;
-  right: 100px;
+  right: 6.25rem;
   left: 0;
 `
 export const HeadingItem = styled.button`
@@ -192,13 +186,10 @@ export const DesktopWrapper = styled.div`
         right: 0.5rem;
         border: 1px solid #000;
         border-width: 0 0 2px 2px;
-        width: 8px;
-        height: 8px;
+        width: 0.5rem;
+        height: 0.5rem;
         line-height: 0;
         font-size: 0;
-        -webkit-transform: rotate(-45deg);
-        -ms-transform: rotate(-45deg);
-        -o-transform: rotate(-45deg);
         transform: translateY(-50%) rotate(45deg);
       }
     }
@@ -211,13 +202,10 @@ export const DesktopWrapper = styled.div`
         right: 0.5rem;
         border: 1px solid #000;
         border-width: 0 0 2px 2px;
-        width: 8px;
-        height: 8px;
+        width: 0.5rem;
+        height: 0.5rem;
         line-height: 0;
         font-size: 0;
-        -webkit-transform: rotate(-45deg);
-        -ms-transform: rotate(-45deg);
-        -o-transform: rotate(-45deg);
         transform: translateY(-50%) rotate(225deg);
       }
     }
@@ -229,11 +217,9 @@ export const DesktopWrapper = styled.div`
     }
 
     .CalendarMonthGrid .CalendarMonth_caption {
-      font-family: Roboto;
-      font-style: normal;
       font-weight: bold;
-      font-size: 16px;
-      line-height: 19px;
+      font-size: 1rem;
+      line-height: 1.2;
       color: #000000;
       margin-top: 0.5rem;
     }
@@ -253,8 +239,8 @@ export const DesktopWrapper = styled.div`
       ::after {
         content: 'Reset';
         font-weight: 500;
-        font-size: 16px;
-        line-height: 19px;
+        font-size: 1rem;
+        line-height: 1.2;
         color: #000;
       }
     }
@@ -264,10 +250,10 @@ export const DesktopWrapper = styled.div`
   }
   .SingleDatePicker_picker {
     position: absolute;
-    width: 619px;
-    height: 400px;
-    top: 66px;
-    left: 300px !important;
+    width: 38.75rem;
+    height: 25rem;
+    top: 4.125rem;
+    left: 18.75rem !important;
     background: #ffffff;
     box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.15);
     border-radius: 4px;
