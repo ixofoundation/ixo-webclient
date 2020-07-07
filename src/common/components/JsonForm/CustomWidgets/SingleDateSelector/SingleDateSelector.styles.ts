@@ -65,6 +65,11 @@ export const MobileWrapper = styled.div`
       .SingleDatePicker_picker {
         top: 0px !important;
       }
+      .DayPicker .DayPicker_weekHeaders {
+        .DayPicker_weekHeader {
+          top: 1rem;
+        }
+      }
     }
     .DateInput {
       display: none;
@@ -119,6 +124,15 @@ export const MobileWrapper = styled.div`
   .DayPicker .DayPicker_transitionContainer__vertical {
     height: calc(100vh - 70px) !important;
   }
+  .CalendarMonthGrid .CalendarMonth .CalendarMonth_caption {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 16px;
+    line-height: 19px;
+    color: #000000;
+    margin-top: 2rem;
+  }
 `
 export const MobileDateHeader = styled.header`
   width: 100vw;
@@ -163,6 +177,65 @@ export const DesktopWrapper = styled.div`
           cursor: not-allowed;
         }
       }
+    }
+
+    .SingleDatePicker_picker
+      .DayPicker
+      .DayPicker_focusRegion
+      .DayPickerNavigation
+      .DayPickerNavigation_leftButton__horizontalDefault {
+      &:after {
+        content: '';
+        display: block;
+        position: absolute;
+        top: calc(50% + 0.75rem);
+        right: 0.5rem;
+        border: 1px solid #000;
+        border-width: 0 0 2px 2px;
+        width: 8px;
+        height: 8px;
+        line-height: 0;
+        font-size: 0;
+        -webkit-transform: rotate(-45deg);
+        -ms-transform: rotate(-45deg);
+        -o-transform: rotate(-45deg);
+        transform: translateY(-50%) rotate(45deg);
+      }
+    }
+    .DayPickerNavigation_rightButton__horizontalDefault {
+      &:after {
+        content: '';
+        display: block;
+        position: absolute;
+        top: calc(50% + 0.75rem);
+        right: 0.5rem;
+        border: 1px solid #000;
+        border-width: 0 0 2px 2px;
+        width: 8px;
+        height: 8px;
+        line-height: 0;
+        font-size: 0;
+        -webkit-transform: rotate(-45deg);
+        -ms-transform: rotate(-45deg);
+        -o-transform: rotate(-45deg);
+        transform: translateY(-50%) rotate(225deg);
+      }
+    }
+    .DayPickerNavigation_button__default {
+      border: none;
+      .DayPickerNavigation_svg__horizontal {
+        display: none;
+      }
+    }
+
+    .CalendarMonthGrid .CalendarMonth_caption {
+      font-family: Roboto;
+      font-style: normal;
+      font-weight: bold;
+      font-size: 16px;
+      line-height: 19px;
+      color: #000000;
+      margin-top: 0.5rem;
     }
   }
 
