@@ -6,14 +6,18 @@ export const UploadingWrapper = styled.div``
 export const ModalWrapper = styled.div`
   position: absolute;
   top: 50%;
-  left: 0;
+  left: -50px;
   z-index: 10;
   background: #f7f8f9;
-  max-width: 100%;
-  height: 50vh;
+  min-width: 320px;
+  min-height: 50vh;
   padding: 2.125rem 1.25rem;
   box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.25);
   transform: translateY(-50%);
+
+  > div {
+    text-align: center;
+  }
 
   .ReactCrop {
     margin: 0 left;
@@ -128,6 +132,7 @@ export const ImageLoaderWrapper = styled.div`
 
   .image-example {
     margin-bottom: 1.25rem;
+    max-width: 600px;
   }
 
   ${UploadingWrapper} {

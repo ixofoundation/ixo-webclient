@@ -216,6 +216,7 @@ class ImageLoader extends React.Component<Props, State> {
                 onChange={this.onCropChange}
                 crop={crop}
                 keepSelection={keepCropSelection}
+                imageStyle={{ maxWidth: '600px', maxHeight: '600px' }}
               />
             </div>
             <div className="button-wrapper">
@@ -279,9 +280,9 @@ class ImageLoader extends React.Component<Props, State> {
             <UploadFlat width={32} fill="#39C3E6" />
           </div>
           <p className="desktop-upload-item">Drag files to upload, or</p>
-          <p className="mobile-upload-item">Take a photo, or</p>
+          {/* <p className="mobile-upload-item">Take a photo, or</p> */}
           <button>Choose an image</button>
-          <small>jpeg/png. Smaller than 2,3mb</small>
+          <small>jpeg/png</small>
         </Dropzone>
         {this.renderCroppingModal()}
       </ImageLoaderWrapper>
