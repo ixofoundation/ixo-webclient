@@ -6,8 +6,8 @@ import {
   ModalWrapper,
   ImageLoaderWrapper,
   UploadingWrapper,
-  DropZoneStyles,
 } from './ImageLoader.styles'
+import { DropZoneStyles } from '../Loader.styles'
 import UploadFlat from 'src/assets/icons/UploadFlat'
 import UploadCamera from 'src/assets/icons/UploadCamera'
 

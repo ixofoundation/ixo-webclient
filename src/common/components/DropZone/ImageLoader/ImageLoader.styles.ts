@@ -53,15 +53,6 @@ export const ModalWrapper = styled.div`
   }
 `
 
-export const DropZoneStyles = {
-  width: '100%',
-  textAlign: 'center',
-  display: 'flex',
-  flexDirection: 'column',
-  justifyContent: 'center',
-  alignItems: 'center',
-}
-
 export const ImageLoaderWrapper = styled.div`
   position: relative;
   font-weight: normal;
