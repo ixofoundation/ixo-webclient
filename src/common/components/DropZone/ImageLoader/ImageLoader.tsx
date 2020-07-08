@@ -206,7 +206,7 @@ class ImageLoader extends React.Component<Props, State> {
     return (
       <>
         {isModalOpen && (
-          <ModalWrapper style={{ display: isModalOpen ? 'block' : 'none' }}>
+          <ModalWrapper>
             <div>
               <ReactCrop
                 circularCrop={circularCrop}
