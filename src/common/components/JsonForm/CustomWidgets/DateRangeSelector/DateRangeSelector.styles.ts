@@ -1,17 +1,21 @@
 import styled from 'styled-components'
 
 export const Container = styled.div`
-  --focus-standard-border: 1px solid #39c3e6;
-  .SingleDatePicker {
+  .DateRangePicker .DateRangePicker_picker {
     z-index: 4;
   }
-  .SingleDatePickerInput__withBorder {
+  .DateRangePickerInput__withBorder {
     border: none;
+    background: #f7f8f9;
+
+    .DateRangePickerInput_arrow {
+      visibility: hidden;
+      width: 1rem;
+    }
     .DateInput {
-      width: 20rem;
+      width: 100%;
       position: relative;
       background: #f7f8f9;
-      width: 100%;
       &:after {
         content: '';
         display: block;
@@ -24,11 +28,13 @@ export const Container = styled.div`
         height: 8px;
         line-height: 0;
         font-size: 0;
+        -webkit-transform: rotate(-45deg);
+        -ms-transform: rotate(-45deg);
+        -o-transform: rotate(-45deg);
         transform: translateY(-50%) rotate(-45deg);
       }
     }
     input.DateInput_input {
-      border: none;
       margin: 0;
       width: 100%;
       background: #e8edee;
@@ -38,92 +44,82 @@ export const Container = styled.div`
       font-weight: normal;
       font-size: 1rem;
       ::placeholder {
-        line-height: 1.5;
         color: #a5adb0;
+        line-height: 1.5;
+      }
+      &:after {
+        content: '';
       }
     }
-
     .DateInput .DateInput_input__focused {
       border: var(--focus-standard-border);
     }
   }
 `
-
 export const MobileWrapper = styled.div`
   &.active {
+    display: flex;
     position: fixed;
     top: 0;
     bottom: 0;
     right: 0;
     left: 0;
     z-index: 9;
-    .SingleDatePicker .SingleDatePickerInput {
-      .SingleDatePicker_picker {
-        top: 0px !important;
-      }
-      .DayPicker .DayPicker_weekHeaders {
-        .DayPicker_weekHeader {
-          top: 1rem;
-        }
-      }
-    }
-    .DateInput {
+    .DateRangePicker .DateRangePickerInput .DateInput {
       display: none;
     }
-    .SingleDatePickerInput_clearDate {
+    .DateRangePickerInput_clearDates {
       position: fixed;
       z-index: 10;
-      right: 0;
+      right: 0px;
       top: 0;
       transform: translateY(50%);
       background: none;
       svg {
-        &.SingleDatePickerInput_clearDate_svg {
+        &.DateRangePickerInput_clearDates_svg {
           display: none;
         }
       }
       ::after {
         content: 'Clear';
         font-weight: 500;
-        font-size: 1rem;
-        line-height: 1.2;
+        font-size: 16px;
+        line-height: 19px;
         color: #a5adb0;
       }
     }
   }
 
-  .SingleDatePicker {
-    z-index: 6;
-  }
-  .SingleDatePickerInput__showClearDate {
+  .DateRangePicker .DateRangePickerInput__showClearDates {
     padding-right: 0;
-    .SingleDatePickerInput_clearDate svg {
-      &.SingleDatePickerInput_clearDate_svg {
-        display: none;
-        pointer-events: none;
-        cursor: not-allowed;
-      }
-    }
   }
-
-  .SingleDatePickerInput {
-    .DateInput_fangStroke {
+  .DateRangePickerInput .DateRangePickerInput_clearDates svg {
+    &.DateRangePickerInput_clearDates_svg {
       display: none;
     }
   }
-  .SingleDatePicker_picker {
-    top: 1.875rem;
-    width: 100vw;
-    left: 0px;
+  .DateRangePicker_picker {
     position: relative;
+    width: 100vw;
+    height: 100vh;
+    top: 4px !important;
+    left: 0px !important;
   }
-  .DayPicker .DayPicker_transitionContainer__vertical {
-    height: calc(100vh - 4.375rem) !important;
+  .DayPicker .DayPicker_weekHeaders {
+    .DayPicker_weekHeader {
+      top: 5rem;
+    }
+  }
+  .DayPicker_transitionContainer__vertical {
+    height: calc(100vh - 0px) !important;
+    top: 4rem;
   }
   .CalendarMonthGrid .CalendarMonth .CalendarMonth_caption {
+    font-family: Roboto;
+    font-style: normal;
     font-weight: bold;
-    font-size: 1rem;
-    line-height: 1.2;
+    font-size: 16px;
+    line-height: 19px;
     color: #000000;
     margin-top: 2rem;
   }
@@ -137,10 +133,10 @@ export const MobileDateHeader = styled.header`
   justify-content: space-between;
   align-items: center;
   background-color: #002a3f;
-  position: relative;
+  position: absolute;
   z-index: 5;
   top: 0;
-  right: 6.25rem;
+  right: 100px;
   left: 0;
 `
 export const HeadingItem = styled.button`
@@ -156,24 +152,23 @@ export const HeadingItem = styled.button`
 `
 
 export const DesktopWrapper = styled.div`
-  .SingleDatePicker {
-    .SingleDatePickerInput__showClearDate {
+  .DateRangePicker {
+    .DateRangePickerInput__showClearDates {
       padding-right: 0;
-      .SingleDatePickerInput_clearDate {
+      .DateRangePickerInput_clearDates {
         position: absolute;
         top: -9999px;
         left: -9999px;
       }
       svg {
-        &.SingleDatePickerInput_clearDate_svg {
+        &.DateRangePickerInput_clearDates_svg {
           display: none;
           pointer-events: none;
           cursor: not-allowed;
         }
       }
     }
-
-    .SingleDatePicker_picker
+    .DateRangePicker_picker
       .DayPicker
       .DayPicker_focusRegion
       .DayPickerNavigation
@@ -186,10 +181,13 @@ export const DesktopWrapper = styled.div`
         right: 0.5rem;
         border: 1px solid #000;
         border-width: 0 0 2px 2px;
-        width: 0.5rem;
-        height: 0.5rem;
+        width: 8px;
+        height: 8px;
         line-height: 0;
         font-size: 0;
+        -webkit-transform: rotate(-45deg);
+        -ms-transform: rotate(-45deg);
+        -o-transform: rotate(-45deg);
         transform: translateY(-50%) rotate(45deg);
       }
     }
@@ -202,10 +200,13 @@ export const DesktopWrapper = styled.div`
         right: 0.5rem;
         border: 1px solid #000;
         border-width: 0 0 2px 2px;
-        width: 0.5rem;
-        height: 0.5rem;
+        width: 8px;
+        height: 8px;
         line-height: 0;
         font-size: 0;
+        -webkit-transform: rotate(-45deg);
+        -ms-transform: rotate(-45deg);
+        -o-transform: rotate(-45deg);
         transform: translateY(-50%) rotate(225deg);
       }
     }
@@ -217,21 +218,22 @@ export const DesktopWrapper = styled.div`
     }
 
     .CalendarMonthGrid .CalendarMonth_caption {
+      font-family: Roboto;
+      font-style: normal;
       font-weight: bold;
-      font-size: 1rem;
-      line-height: 1.2;
+      font-size: 16px;
+      line-height: 19px;
       color: #000000;
       margin-top: 0.5rem;
     }
   }
-
-  &.active .SingleDatePicker .SingleDatePickerInput {
-    .SingleDatePickerInput_clearDate {
+  &.active .DateRangePicker .DateRangePickerInput {
+    .DateRangePickerInput_clearDates {
       background: transparent;
       padding: 0.5rem 0;
       border: none;
       position: absolute;
-      top: calc(100% + 390px);
+      top: calc(100% + 320px);
       left: 0.5rem;
       z-index: 4;
       text-align: left;
@@ -239,8 +241,8 @@ export const DesktopWrapper = styled.div`
       ::after {
         content: 'Reset';
         font-weight: 500;
-        font-size: 1rem;
-        line-height: 1.2;
+        font-size: 16px;
+        line-height: 19px;
         color: #000;
       }
     }
@@ -248,12 +250,12 @@ export const DesktopWrapper = styled.div`
       display: none;
     }
   }
-  .SingleDatePicker_picker {
+  .DateRangePicker_picker {
     position: absolute;
-    width: 38.75rem;
-    height: 25rem;
-    top: 4.125rem;
-    left: 18.75rem !important;
+    width: 619px;
+    height: 400px;
+    top: 66px;
+    left: 300px !important;
     background: #ffffff;
     box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.15);
     border-radius: 4px;
