@@ -9,6 +9,7 @@ import {
 import Autocomplete from 'react-google-autocomplete'
 import Geocode from 'react-geocode'
 import { GeoLocation } from './types'
+import { GoogleMapWrapper, InputWrapper } from './LocationMap.styles'
 
 Geocode.setApiKey(process.env.REACT_APP_GOOGLE_API_KEY)
 Geocode.enableDebug()
@@ -122,13 +123,12 @@ class LocationMap extends React.Component<Props, State> {
     const AsyncMap = withScriptjs<any>(
       withGoogleMap(() => (
         <>
-          <div style={{ position: 'absolute', top: 0, width: '100%' }}>
+          <InputWrapper>
             <Autocomplete
-              style={{ borderRadius: 0 }}
               onPlaceSelected={this.onPlaceSelected}
               types={['(regions)']}
             />
-          </div>
+          </InputWrapper>
           <GoogleMap
             defaultZoom={15}
             defaultCenter={{
@@ -166,7 +166,7 @@ class LocationMap extends React.Component<Props, State> {
     )
 
     return (
-      <div style={{ position: 'relative' }}>
+      <GoogleMapWrapper>
         <AsyncMap
           googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${process.env.REACT_APP_GOOGLE_API_KEY}&libraries=places`}
           loadingElement={<div style={{ height: '100%' }} />}
@@ -175,7 +175,7 @@ class LocationMap extends React.Component<Props, State> {
           }
           mapElement={<div style={{ height: '100%' }} />}
         />
-      </div>
+      </GoogleMapWrapper>
     )
   }
 }
