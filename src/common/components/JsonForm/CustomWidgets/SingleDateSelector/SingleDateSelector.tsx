@@ -34,6 +34,7 @@ class SingleDateSelector extends React.Component<Props, State> {
   renderSingleDatePicker = (
     orientation: string,
     height: number,
+    numberOfMonths: number,
   ): JSX.Element => {
     const { id, value, onChange } = this.props
     return (
@@ -47,7 +48,7 @@ class SingleDateSelector extends React.Component<Props, State> {
         onFocusChange={({ focused }): void => this.setState({ focused })}
         id={id}
         isOutsideRange={(): boolean => false}
-        numberOfMonths={2}
+        numberOfMonths={numberOfMonths}
         orientation={orientation}
         verticalHeight={height}
         hideKeyboardShortcutsPanel={true}
@@ -68,12 +69,12 @@ class SingleDateSelector extends React.Component<Props, State> {
                 </HeadingItem>
               </MobileDateHeader>
             )}
-            {this.renderSingleDatePicker('vertical', 685)}
+            {this.renderSingleDatePicker('vertical', 685, 3)}
           </MobileWrapper>
         </MediaQuery>
         <MediaQuery minWidth={`${deviceWidth.tablet}px`}>
           <DesktopWrapper className={this.state.focused ? 'active' : null}>
-            {this.renderSingleDatePicker('horizontal', null)}
+            {this.renderSingleDatePicker('horizontal', null, 2)}
           </DesktopWrapper>
         </MediaQuery>
       </Container>
