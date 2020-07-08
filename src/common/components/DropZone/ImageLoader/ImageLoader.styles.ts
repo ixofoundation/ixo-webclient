@@ -10,7 +10,7 @@ export const ModalWrapper = styled.div`
   z-index: 10;
   background: #f7f8f9;
   max-width: 100%;
-  height: 200vh;
+  height: 50vh;
   padding: 2.125rem 1.25rem;
   box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.25);
   transform: translateY(-50%);
