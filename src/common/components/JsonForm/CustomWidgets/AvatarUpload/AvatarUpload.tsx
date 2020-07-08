@@ -7,15 +7,16 @@ interface Props {
   onChange: (value: string) => void
 }
 
-const ImageUpload: React.FunctionComponent<Props> = ({
+const AvatarUpload: React.FunctionComponent<Props> = ({
   options: { savingFormData },
   value,
   onChange,
 }) => {
   return (
     <ImageLoader
-      keepCropSelection={true}
-      circularCrop={false}
+      keepCropSelection={false}
+      circularCrop={true}
+      aspect={1}
       uploadedImageSrc={value}
       uploading={savingFormData}
       handleSave={(base64EncodedImage): void => onChange(base64EncodedImage)}
@@ -24,4 +25,4 @@ const ImageUpload: React.FunctionComponent<Props> = ({
   )
 }
 
-export default ImageUpload
+export default AvatarUpload

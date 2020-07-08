@@ -9,19 +9,26 @@ interface Props {
   handleSave: (base64EncodedFile: string) => void
 }
 
-const FileLoader: React.FunctionComponent<Props> = ({
-  uploading,
-  uploadedFileSrc,
-  acceptedFileTypes,
-  handleSave,
-}) => {
-  return (
-    <Dropzone
-      accept={acceptedFileTypes}
-      onDropAccepted={this.onDropAccepted}
-      style={DropZoneStyles}
-    >
-      <button>Update Image</button>
-    </Dropzone>
-  )
+class FileLoader extends React.Component<Props> {
+  constructor(props) {
+    super(props)
+  }
+
+  onDropAccepted = () => {
+    return false
+  }
+
+  render() {
+    const { acceptedFileTypes } = this.props
+
+    return (
+      <Dropzone
+        accept={acceptedFileTypes}
+        onDropAccepted={this.onDropAccepted}
+        style={DropZoneStyles}
+      >
+        <button>Update File</button>
+      </Dropzone>
+    )
+  }
 }
