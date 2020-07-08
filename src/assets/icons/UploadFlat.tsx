@@ -1,6 +1,6 @@
 import React from 'react'
 
-const UploadImage = (props): JSX.Element => {
+const UploadFlat = (props): JSX.Element => {
   return (
     <svg
       width={props.width || 24}
@@ -15,4 +15,4 @@ const UploadImage = (props): JSX.Element => {
   )
 }
 
-export default UploadImage
+export default UploadFlat

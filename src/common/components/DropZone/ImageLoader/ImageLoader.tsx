@@ -2,12 +2,14 @@ import * as React from 'react'
 import ReactCrop, { makeAspectCrop } from 'react-image-crop/dist/ReactCrop'
 import 'react-image-crop/dist/ReactCrop.css'
 import Dropzone from 'react-dropzone'
-import ImageUploadCircle from '../../../../assets/icons/ImageUploadCircle'
 import {
-  ImageContainer,
   ModalWrapper,
+  ImageLoaderWrapper,
+  UploadingWrapper,
   DropZoneStyles,
 } from './ImageLoader.styles'
+import UploadFlat from 'src/assets/icons/UploadFlat'
+import UploadCamera from 'src/assets/icons/UploadCamera'
 
 export interface Props {
   uploading: boolean
@@ -166,56 +168,85 @@ class ImageLoader extends React.Component<Props, State> {
     reader.readAsDataURL(file)
   }
 
+  renderCroppingModal = (isModalOpen, imgSrc, crop): JSX.Element => {
+    return (
+      <ModalWrapper style={{ display: isModalOpen ? 'block' : 'none' }}>
+        <div>
+          <ReactCrop
+            src={imgSrc}
+            onComplete={this.onComplete}
+            onImageLoaded={this.onImageLoaded}
+            onChange={this.onCropChange}
+            crop={crop}
+            keepSelection={true}
+          />
+        </div>
+        <div className="button-wrapper">
+          <button onClick={(): void => this.cancel()}>Cancel</button>
+          <button className="submit" onClick={(): void => this.save()}>
+            Submit
+          </button>
+        </div>
+      </ModalWrapper>
+    )
+  }
+
   render(): JSX.Element {
     const { isModalOpen, imgSrc, crop } = this.state
     const { uploading, uploadedImageSrc } = this.props
 
     if (uploading) {
-      return <div>Uploading...</div>
+      return (
+        <ImageLoaderWrapper>
+          <UploadingWrapper>
+            <div className="icon-pulse-wrapper repeat mobile-upload-item">
+              <UploadCamera width={32} fill="#39C3E6" />
+            </div>
+            <div className="icon-pulse-wrapper repeat desktop-upload-item">
+              <UploadFlat width={32} fill="#39C3E6" />
+            </div>
+            <p>Uploading...</p>
+          </UploadingWrapper>
+        </ImageLoaderWrapper>
+      )
     }
 
     if (uploadedImageSrc) {
-      return <img src={uploadedImageSrc} />
+      return (
+        <ImageLoaderWrapper>
+          <img className="image-example" src={uploadedImageSrc} />
+          <Dropzone
+            accept="image/*"
+            onDropAccepted={this.onDropAccepted}
+            style={DropZoneStyles}
+          >
+            <button>Update Image</button>
+          </Dropzone>
+          {this.renderCroppingModal(isModalOpen, imgSrc, crop)}
+        </ImageLoaderWrapper>
+      )
     }
 
     return (
-      <div>
+      <ImageLoaderWrapper>
         <Dropzone
           accept="image/*"
           onDropAccepted={this.onDropAccepted}
           style={DropZoneStyles}
         >
-          <ImageUploadCircle width={102} fill="#39C3E6" />
-          Drag files to upload
-          <br />
-          <br />
-          jpeg/png. Smaller than 2,3mb
-        </Dropzone>
-        <ModalWrapper style={{ display: isModalOpen ? 'block' : 'none' }}>
-          <div className="container">
-            <div className="row">
-              <ImageContainer className="col-md-12">
-                <ReactCrop
-                  src={imgSrc}
-                  onComplete={this.onComplete}
-                  onImageLoaded={this.onImageLoaded}
-                  onChange={this.onCropChange}
-                  crop={crop}
-                  keepSelection={true}
-                />
-              </ImageContainer>
-            </div>
-            <div className="row">
-              <div className="col-md-6">
-                <button onClick={(): void => this.cancel()}>Cancel</button>
-              </div>
-              <div className="col-md-6">
-                <button onClick={(): void => this.save()}>Submit</button>
-              </div>
-            </div>
+          <div className="icon-wrapper mobile-upload-item">
+            <UploadCamera width={32} fill="#39C3E6" />
           </div>
-        </ModalWrapper>
-      </div>
+          <div className="icon-wrapper desktop-upload-item">
+            <UploadFlat width={32} fill="#39C3E6" />
+          </div>
+          <p className="desktop-upload-item">Drag files to upload, or</p>
+          <p className="mobile-upload-item">Take a photo, or</p>
+          <button>Choose an image</button>
+          <small>jpeg/png. Smaller than 2,3mb</small>
+        </Dropzone>
+        {this.renderCroppingModal(isModalOpen, imgSrc, crop)}
+      </ImageLoaderWrapper>
     )
   }
 }
