@@ -20,20 +20,19 @@ import {
   ContentWrapper,
   ListItems,
   ButtonWrapper,
-  StartButton,
   SubHeader,
 } from './Instructions.styles'
 
 interface Props {
   backLink: string
   listItems: { control: string; title: string }[]
-  toggleInstructions: () => void
+  formLink: string
 }
 
 const Instructions: React.FunctionComponent<Props> = ({
   backLink,
   listItems,
-  toggleInstructions,
+  formLink,
 }) => {
   const icons = {
     ['text']: ShortText,
@@ -76,7 +75,9 @@ const Instructions: React.FunctionComponent<Props> = ({
         <NavLink className="close-button" to={backLink}>
           Come back later
         </NavLink>
-        <StartButton onClick={toggleInstructions}>Start</StartButton>
+        <NavLink className="start-button" to={formLink}>
+          Start
+        </NavLink>
       </ButtonWrapper>
     </Container>
   )

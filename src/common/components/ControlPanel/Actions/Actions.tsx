@@ -41,7 +41,7 @@ const Actions: React.FunctionComponent<Props> = ({
       />
       <Route
         exact
-        path={`/projects/:projectDID/overview/action/new_claim_instructions`}
+        path={`/projects/:projectDID/overview/action/new_claim`}
         component={InstructionsContainerConnected}
       />
       <ControlPanelSection key={title}>

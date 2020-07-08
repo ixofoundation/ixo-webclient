@@ -3,7 +3,7 @@ import { deviceWidth } from '../../../../lib/commonData'
 
 export const Container = styled.div`
   border-radius: 4px;
-  border: 1px solid #39c3e6;
+  background: white;
   padding: 3.125rem 1.375rem;
   max-width: 100%;
   @media (min-width: ${deviceWidth.tablet}px) {
@@ -73,15 +73,16 @@ export const ButtonWrapper = styled.div`
     line-height: 19px;
     color: #a5adb0;
   }
-`
-export const StartButton = styled.button`
-  width: 120px;
-  height: 50px;
-  font-weight: bold;
-  font-size: 16px;
-  line-height: 19px;
-  background: linear-gradient(180deg, #04d0fb 0%, #49bfe0 100%);
-  border-radius: 4px;
-  border: none;
-  color: #fff;
+
+  .start-button {
+    width: 120px;
+    height: 50px;
+    font-weight: bold;
+    font-size: 16px;
+    line-height: 19px;
+    background: linear-gradient(180deg, #04d0fb 0%, #49bfe0 100%);
+    border-radius: 4px;
+    border: none;
+    color: #fff;
+  }
 `
