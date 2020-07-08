@@ -16,7 +16,6 @@ import { Overview } from '../components/Bonds/OverviewWrapper/Overview'
 import Exchange from '../components/Bonds/ExchangeWrapper/Exchange'
 import Orders from '../../modules/BondAccountOrders/BondAccountOrders.container'
 import { UnderConstruction } from '../../components/public/UnderConstruction'
-import { SubmitEntityClaimConnected } from 'src/modules/SubmitEntityClaim/SubmitEntityClaim.container'
 
 export const Routes: React.SFC<{}> = props => {
   return (
@@ -65,11 +64,6 @@ export const Routes: React.SFC<{}> = props => {
               contentType={contentType.dashboard}
             />
           )}
-        />
-        <Route
-          exact
-          path={`/projects/:projectDID/overview/action/new_claim`}
-          component={SubmitEntityClaimConnected}
         />
         <Route
           path="/projects/:projectDID/overview"

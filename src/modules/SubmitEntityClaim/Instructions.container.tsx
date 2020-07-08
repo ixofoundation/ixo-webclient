@@ -50,7 +50,7 @@ interface State {
   showInstructions: boolean
 }
 
-class SubmitEntityClaim extends React.Component<Props, State> {
+class InstructionsContainer extends React.Component<Props, State> {
   constructor(props) {
     super(props)
     this.state = {
@@ -189,7 +189,7 @@ const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
   handleFormDataChange: (formData): void => dispatch(saveAnswer(formData)),
 })
 
-export const SubmitEntityClaimConnected = connect(
+export const InstructionsContainerConnected = connect(
   mapStateToProps,
   mapDispatchToProps,
-)(SubmitEntityClaim)
+)(InstructionsContainer)

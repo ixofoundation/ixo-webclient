@@ -11,6 +11,7 @@ import { ControlPanelSection } from '../ControlPanel.styles'
 import { ActionLinksWrapper } from './Actions.styles'
 import FuelEntity from '../../../../modules/FuelEntity/FuelEntity.container'
 import { Tooltip } from '../../Tooltip'
+import { InstructionsContainerConnected } from '../../../../modules/SubmitEntityClaim/Instructions.container'
 
 const icons = {
   AddPerson,
@@ -37,6 +38,11 @@ const Actions: React.FunctionComponent<Props> = ({
         exact
         path={`/projects/:projectDID/overview/action/fuel_my_entity`}
         component={FuelEntity}
+      />
+      <Route
+        exact
+        path={`/projects/:projectDID/overview/action/new_claim_instructions`}
+        component={InstructionsContainerConnected}
       />
       <ControlPanelSection key={title}>
         <h4>
