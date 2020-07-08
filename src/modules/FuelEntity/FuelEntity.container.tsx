@@ -49,6 +49,8 @@ class FuelEntity extends React.Component<Props & RouteProps> {
   }
 
   componentDidMount(): void {
+    document.getElementById('fuel-entity-action-wrapper').scrollTo(0, 0)
+
     startAssistant('fuel_my_entity')
     if (!document.querySelector('body').classList.contains('noScroll')) {
       document.querySelector('body').classList.add('noScroll')
@@ -97,6 +99,7 @@ class FuelEntity extends React.Component<Props & RouteProps> {
 
     return (
       <ActionWrapper
+        id="fuel-entity-action-wrapper"
         className={`open ${hasOrder || sent || hasError ? 'summary' : ''}`}
       >
         {!sending && !sent && !hasOrder && (
