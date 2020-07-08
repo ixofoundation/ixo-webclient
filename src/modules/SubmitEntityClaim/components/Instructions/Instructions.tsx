@@ -46,6 +46,7 @@ const Instructions: React.FunctionComponent<Props> = ({
     ['qrcode']: QRcode,
     ['locationselector']: Location,
     ['imageupload']: UploadImage,
+    ['avatarupload']: UploadImage,
   }
 
   return (
