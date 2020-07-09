@@ -2,8 +2,8 @@
   "@context": "https://schema.ixo.foundation/controls",
   "@type": "Widget",
   "dashboard": {
-    "@type": "Dashboard",
-    "title": "Dashboard",
+    "@type": "Performance",
+    "title": "Performance",
     "controls": [
       {
         "@type": "Shield",
