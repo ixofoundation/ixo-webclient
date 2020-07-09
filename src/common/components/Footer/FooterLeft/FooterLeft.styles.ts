@@ -4,7 +4,7 @@ import { deviceWidth } from '../../../../lib/commonData'
 
 export const FooterMenuPosition = styled.div`
   position: relative;
-  margin-left: 4rem;
+  margin-left: 3rem;
   @media (min-width: ${deviceWidth.tablet}px) {
     left: 9rem;
   }
@@ -43,7 +43,7 @@ export const FooterMenu = styled.div`
     font-weight: normal;
     font-size: 1rem;
     line-height: 1.5rem;
-    margin-right: 0.625rem;
+    margin-right: 1.625rem;
     margin-top: 2rem;
   }
 
@@ -56,7 +56,7 @@ export const FooterMenu = styled.div`
 
   @media (min-width: 420px) {
     h4 {
-      margin-right: 5rem;
+      margin-right: 6rem;
     }
   }
 
@@ -144,7 +144,7 @@ export const FooterTextBlue = styled.span`
 `
 
 export const FooterText = styled.div`
-  padding: 10px 0px 10px 64px;
+  padding: 10px 0px 10px 48px;
   color: #808080;
   font-family: Roboto;
   font-size: 14px;
