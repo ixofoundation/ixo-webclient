@@ -75,7 +75,7 @@ export const updateLoginStatus = () => (
             Axios.get(
               `${process.env.REACT_APP_GAIA_URL}/pubKeyToAddr/${newUserInfo.didDoc.pubKey}`,
             ).then(addressResponse => {
-              const address = addressResponse.data
+              const address = addressResponse.data.result
               dispatch(login(newUserInfo, address))
             })
           }

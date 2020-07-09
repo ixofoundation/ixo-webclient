@@ -60,7 +60,8 @@ export const confirmOrder = (entityDid: string) => (
       amount: [{ denom: 'ixo', amount }],
     }
 
-    ixo.utils.getSignData(tx, 'treasury/MsgSend', pubKey)
+    const msgType = 'treasury/MsgSend'
+    ixo.utils.getSignData(tx, msgType, pubKey)
       .then((response: any) => {
         if (response.sign_bytes && response.fee) {
           keysafe.requestSigning(JSON.stringify(tx), (error, signature) => {
@@ -72,12 +73,10 @@ export const confirmOrder = (entityDid: string) => (
               type: FuelEntityActions.ConfirmOrder,
               payload: Axios.post(
                 `${process.env.REACT_APP_GAIA_URL}/txs`,
-                JSON.stringify(
-                  transactionUtils.generateTx('treasury/MsgSend', tx, signature, response.fee),
-                ),
+                transactionUtils.generateTx(msgType, tx, signature, response.fee),
               ),
             })
-          })
+          }, 'base64')
         }
       })
       .catch(() => {

@@ -286,8 +286,8 @@ class RegisterPage extends React.Component<Props, State> {
 
   ledgerDid = (): void => {
     if (this.state.didDoc && !this.busyLedgering) {
-      const payload = { didDoc: this.state.didDoc }
-      this.props.ixo.utils.getSignData(payload, 'did/AddDid', this.state.didDoc.verifyKey)
+      const payload = this.state.didDoc
+      this.props.ixo.utils.getSignData(payload, 'did/AddDid', payload.verifyKey)
         .then((response: any) => {
           if (response.sign_bytes && response.fee) {
             this.busyLedgering = true
@@ -296,9 +296,9 @@ class RegisterPage extends React.Component<Props, State> {
               (error, signature) => {
                 if (!error) {
                   this.props.ixo.user
-                    .registerUserDid(payload, signature, response.fee)
+                    .registerUserDid(payload, signature, response.fee, 'sync')
                     .then((response: any) => {
-                      if (response.code === 0) {
+                      if ((response.code || 0) == 0) {
                         successToast('Did document was ledgered successfully')
                       } else {
                         errorToast('Unable to ledger did at this time')
