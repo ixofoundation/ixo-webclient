@@ -7,7 +7,7 @@ export const Container = styled.div`
   padding: 3.125rem 1.375rem;
   max-width: 100%;
   @media (min-width: ${deviceWidth.tablet}px) {
-    padding: 2.625rem 3.75rem;
+    padding: 4rem 3.75rem;
   }
 `
 
@@ -26,7 +26,7 @@ export const SubHeader = styled.h4`
   line-height: 2;
   color: #7b8285;
   font-weight: normal;
-  margin-bottom: 2.0625rem;
+  margin-bottom: 3rem;
 `
 
 export const ListWrapper = styled.div`
@@ -46,7 +46,7 @@ export const ListItems = styled.div`
     display: flex;
     flex-flow: row nowrap;
     color: #000000;
-    margin-bottom: 1.175rem;
+    margin-bottom: 1.375rem;
     @media (min-width: ${deviceWidth.tablet}px) {
       width: calc(100% / 2 - 0.5rem);
     }
@@ -66,6 +66,7 @@ export const ButtonWrapper = styled.div`
   flex-flow: row nowrap;
   align-items: center;
   justify-content: space-between;
+  padding-top: 2.5rem;
 
   .close-button {
     font-weight: bold;
@@ -75,6 +76,9 @@ export const ButtonWrapper = styled.div`
   }
 
   .start-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: 120px;
     height: 50px;
     font-weight: bold;
