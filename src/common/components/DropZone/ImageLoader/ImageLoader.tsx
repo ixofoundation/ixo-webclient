@@ -250,7 +250,7 @@ class ImageLoader extends React.Component<Props, State> {
     if (uploadedImageSrc) {
       return (
         <LoaderWrapper>
-          <img className="image-example" src={uploadedImageSrc} />
+          <img className="file-preview" src={uploadedImageSrc} />
           <Dropzone
             accept={strategyMap[FileType.Image].mimeType}
             onDropAccepted={this.onDropAccepted}
@@ -275,7 +275,7 @@ class ImageLoader extends React.Component<Props, State> {
           </PulseLoader>
           <p className="desktop-upload-item">Drag files to upload, or</p>
           <button>{strategyMap[FileType.Image].uploadButtonText}</button>
-          <small>jpeg/png</small>
+          <small>{strategyMap[FileType.Image].fileTypesText}</small>
         </Dropzone>
         {this.renderCroppingModal()}
       </LoaderWrapper>

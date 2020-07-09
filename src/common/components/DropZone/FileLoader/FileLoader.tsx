@@ -6,6 +6,7 @@ import {
   UploadingWrapper,
 } from '../Loader.styles'
 import UploadFlat from 'src/assets/icons/UploadFlat'
+import PulseLoader from '../../PulseLoader/PulseLoader'
 import { strategyMap } from '../strategy-map'
 import { FileType } from '../types'
 
@@ -24,7 +25,7 @@ const FileLoader: React.FunctionComponent<Props> = ({
   maxFileSize,
   handleSave,
 }) => {
-  const maxFileSizeInMB = maxFileSize / 100000
+  const maxFileSizeInMB = maxFileSize / 1000000
 
   const onDropAccepted = (files): void => {
     const file = files[0]
@@ -42,9 +43,9 @@ const FileLoader: React.FunctionComponent<Props> = ({
     return (
       <LoaderWrapper>
         <UploadingWrapper>
-          <div className="icon-pulse-wrapper repeat">
+          <PulseLoader repeat={true}>
             <UploadFlat width={32} fill="#39C3E6" />
-          </div>
+          </PulseLoader>
           <p>Uploading...</p>
         </UploadingWrapper>
       </LoaderWrapper>
@@ -54,14 +55,16 @@ const FileLoader: React.FunctionComponent<Props> = ({
   if (uploadedFileSrc) {
     return (
       <LoaderWrapper>
-        <a href={uploadedFileSrc} target="_blank" rel="noopener noreferrer">
-          <div className="icon-wrapper">
-            {React.createElement(strategyMap[fileType].downloadIcon, {
-              fill: '#39C3E6',
-              width: 32,
-            })}
-          </div>
-        </a>
+        <span className="file-preview">
+          <PulseLoader repeat={false}>
+            <a href={uploadedFileSrc} target="_blank" rel="noopener noreferrer">
+              {React.createElement(strategyMap[fileType].downloadIcon, {
+                fill: '#39C3E6',
+                width: 32,
+              })}
+            </a>
+          </PulseLoader>
+        </span>
         <Dropzone
           accept={strategyMap[fileType].mimeType}
           onDropAccepted={onDropAccepted}
@@ -81,12 +84,14 @@ const FileLoader: React.FunctionComponent<Props> = ({
         onDropAccepted={onDropAccepted}
         style={DropZoneStyles}
       >
-        <div className="icon-wrapper">
+        <PulseLoader repeat={false}>
           <UploadFlat width={32} fill="#39C3E6" />
-        </div>
+        </PulseLoader>
         <p className="desktop-upload-item">Drag files to upload, or</p>
         <button>{strategyMap[fileType].uploadButtonText}</button>
-        <small>jpeg/png, max size {maxFileSizeInMB}mb</small>
+        <small>
+          {strategyMap[fileType].fileTypesText}, max size {maxFileSizeInMB}mb
+        </small>
       </Dropzone>
     </LoaderWrapper>
   )

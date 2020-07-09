@@ -44,7 +44,7 @@ export const LoaderWrapper = styled.div`
     color: #7b8285;
   }
 
-  .image-example {
+  .file-preview {
     margin: 0 auto 1.25rem;
     max-width: 600px;
     max-width: 100%;
