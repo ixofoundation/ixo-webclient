@@ -8,6 +8,7 @@ import LocationSelector from '../CustomWidgets/LocationSelector/LocationSelector
 import QRCode from '../CustomWidgets/QRCode/QRCode'
 import { FormControl, FormData } from '../types'
 import ImageUpload from '../CustomWidgets/ImageUpload/ImageUpload'
+import AvatarUpload from '../CustomWidgets/AvatarUpload/AvatarUpload'
 
 interface Props {
   formControl: FormControl
@@ -27,6 +28,7 @@ const customControls = {
   ['qrcode']: QRCode,
   ['locationselector']: LocationSelector,
   ['imageupload']: ImageUpload,
+  ['avatarupload']: AvatarUpload,
 }
 
 const SingleControlForm: React.FunctionComponent<Props> = ({
