@@ -9,7 +9,7 @@ import {
   DropZoneStyles,
 } from './ImageLoader.styles'
 import UploadFlat from 'src/assets/icons/UploadFlat'
-import UploadCamera from 'src/assets/icons/UploadCamera'
+import PulseLoader from '../../PulseLoader/PulseLoader'
 
 export interface Props {
   uploading: boolean
@@ -238,12 +238,9 @@ class ImageLoader extends React.Component<Props, State> {
       return (
         <ImageLoaderWrapper>
           <UploadingWrapper>
-            <div className="icon-pulse-wrapper repeat mobile-upload-item">
-              <UploadCamera width={32} fill="#39C3E6" />
-            </div>
-            <div className="icon-pulse-wrapper repeat desktop-upload-item">
+            <PulseLoader repeat={true}>
               <UploadFlat width={32} fill="#39C3E6" />
-            </div>
+            </PulseLoader>
             <p>Uploading...</p>
           </UploadingWrapper>
         </ImageLoaderWrapper>
@@ -273,12 +270,9 @@ class ImageLoader extends React.Component<Props, State> {
           onDropAccepted={this.onDropAccepted}
           style={DropZoneStyles}
         >
-          <div className="icon-wrapper mobile-upload-item">
-            <UploadCamera width={32} fill="#39C3E6" />
-          </div>
-          <div className="icon-wrapper desktop-upload-item">
+          <PulseLoader repeat={false}>
             <UploadFlat width={32} fill="#39C3E6" />
-          </div>
+          </PulseLoader>
           <p className="desktop-upload-item">Drag files to upload, or</p>
           {/* <p className="mobile-upload-item">Take a photo, or</p> */}
           <button>Choose an image</button>
