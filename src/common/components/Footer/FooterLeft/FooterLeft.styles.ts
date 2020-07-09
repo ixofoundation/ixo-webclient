@@ -4,7 +4,7 @@ import { deviceWidth } from '../../../../lib/commonData'
 
 export const FooterMenuPosition = styled.div`
   position: relative;
-  margin-left: 2.5rem;
+  margin-left: 3rem;
   @media (min-width: ${deviceWidth.tablet}px) {
     left: 9rem;
   }
@@ -144,7 +144,7 @@ export const FooterTextBlue = styled.span`
 `
 
 export const FooterText = styled.div`
-  padding: 10px 0px 10px 40px;
+  padding: 10px 0px 10px 48px;
   color: #808080;
   font-family: Roboto;
   font-size: 14px;
