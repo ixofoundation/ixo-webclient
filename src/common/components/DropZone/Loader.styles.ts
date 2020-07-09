@@ -44,41 +44,11 @@ export const LoaderWrapper = styled.div`
     color: #7b8285;
   }
 
-  .icon-wrapper {
-    display: flex;
-    flex-flow: row nowrap;
-    align-items: center;
-    justify-content: center;
-    padding: 1rem;
-    width: 5.25rem;
-    height: 5.25rem;
-    border-radius: 50%;
-    /* border: 2px solid #dfe3e8; */
-    border: 2px solid #39c3e6;
-    svg {
-      margin: 0;
-    }
-  }
-
-  .mobile-upload-item {
-    display: none;
-  }
-
-  @media (max-width: ${deviceWidth.mobile}px) {
-    .mobile-upload-item {
-      display: flex;
-    }
-    .desktop-upload-item {
-      display: none;
-    }
-    button {
-      width: 100%;
-    }
-  }
-
   .image-example {
-    margin-bottom: 1.25rem;
+    margin: 0 auto 1.25rem;
     max-width: 600px;
+    max-width: 100%;
+    display: block;
   }
 
   ${UploadingWrapper} {
@@ -86,50 +56,11 @@ export const LoaderWrapper = styled.div`
     flex-flow: column wrap;
     justify-content: center;
     align-items: center;
+  }
 
-    .icon-pulse-wrapper {
-      padding: 1rem;
-      border-radius: 50%;
-      width: 5.25rem;
-      height: 5.25rem;
-      position: relative;
-      z-index: 1;
-      flex-flow: row nowrap;
-      align-items: center;
-      justify-content: center;
-      @keyframes iconPulse {
-        0% {
-          transform: scale(1.1);
-          opacity: 1;
-        }
-        100% {
-          transform: scale(1.5);
-          opacity: 0;
-        }
-      }
-      &:after {
-        content: '';
-        display: block;
-        position: absolute;
-        z-index: -1;
-        top: -1px;
-        left: -1px;
-        width: calc(100% + 2px);
-        height: calc(100% + 2px);
-        border-radius: 50%;
-        border: 2px solid #dfe3e8;
-        opacity: 0;
-        animation-delay: 1s;
-        animation: iconPulse 1s ease-in-out;
-        transform-origin: center;
-      }
-      &.repeat:after {
-        animation-delay: 0;
-        animation: iconPulse 1s infinite ease-in-out;
-      }
-      svg {
-        margin: 0;
-      }
+  @media (max-width: ${deviceWidth.mobile}px) {
+    button {
+      width: 100%;
     }
   }
 `
