@@ -1,4 +1,5 @@
 import React from 'react'
+import { debounce } from 'debounce'
 import SingleControlForm from '../../../../common/components/JsonForm/SingleControlForm/SingleControlForm'
 import { FormControl } from '../../../../common/components/JsonForm/types'
 
@@ -23,11 +24,15 @@ const Question: React.FunctionComponent<Props> = ({
   handleNextClick,
   handleFormDataChange,
 }) => {
+  const handleFormDataChangeDebounce = debounce(handleFormDataChange, 500)
+
   return (
     <SingleControlForm
       formData={answer}
       savingFormData={savingAnswer}
-      handleFormDataChange={handleFormDataChange}
+      handleFormDataChange={(formData): void =>
+        handleFormDataChangeDebounce(formData)
+      }
       handlePreviousClick={handlePreviousClick}
       handleNextClick={handleNextClick}
       formControl={question}
