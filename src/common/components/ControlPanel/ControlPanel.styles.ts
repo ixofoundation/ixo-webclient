@@ -62,7 +62,7 @@ export const ControlPanelScrollWrapper = styled.div`
     }
     &.fixed {
       position: absolute;
-      top: -170px;
+      top: -190px;
       z-index: 99;
     }
   }
