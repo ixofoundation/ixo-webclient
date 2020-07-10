@@ -23,6 +23,7 @@ import { strategyMap } from '../Entities/strategy-map'
 import ControlPanel from '../../common/components/ControlPanel/ControlPanel'
 import { Spinner } from '../../common/components/Spinner'
 import { getEntity } from '../SelectedEntity/SelectedEntity.actions'
+import EmailVerification from '../../common/components/Verification/EmailVerification/EmailVerification'
 
 interface Props {
   userDid: string
@@ -99,8 +100,11 @@ class SubmitEntityClaim extends React.Component<Props> {
                   questionCount={questionCount}
                   handleGoToQuestionClick={handleGoToQuestionClick}
                 />
-
                 <Container>
+                  <EmailVerification
+                    otpLength={6}
+                    handleSubmit={(): void => null}
+                  />
                   <Question
                     answer={currentAnswer}
                     savingAnswer={savingAnswer}
