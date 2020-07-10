@@ -7,7 +7,7 @@ export const Container = styled.div`
   padding: 3.125rem 1.375rem;
   max-width: 100%;
   @media (min-width: ${deviceWidth.tablet}px) {
-    padding: 4rem 3.75rem;
+    padding: 2rem 3.75rem;
   }
 `
 
@@ -58,7 +58,7 @@ export const ListItems = styled.div`
   }
 
   @media (min-width: ${deviceWidth.mobile}px) {
-    max-height: 300px;
+    max-height: 368px;
   }
 `
 export const ButtonWrapper = styled.div`
@@ -66,7 +66,7 @@ export const ButtonWrapper = styled.div`
   flex-flow: row nowrap;
   align-items: center;
   justify-content: space-between;
-  padding-top: 2.5rem;
+  padding-top: 1rem;
   > * {
     &:hover {
       text-decoration: none;
