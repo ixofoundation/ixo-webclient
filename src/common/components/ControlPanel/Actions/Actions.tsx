@@ -10,6 +10,7 @@ import { Widget } from '../types'
 import { ControlPanelSection } from '../ControlPanel.styles'
 import { ActionLinksWrapper } from './Actions.styles'
 import FuelEntity from '../../../../modules/FuelEntity/FuelEntity.container'
+import ClaimSummary from '../../../../modules/SubmitEntityClaim/components/Summary/Summary'
 import { Tooltip } from '../../Tooltip'
 
 const icons = {
@@ -37,6 +38,11 @@ const Actions: React.FunctionComponent<Props> = ({
         exact
         path={`/projects/:projectDID/overview/action/fuel_my_entity`}
         component={FuelEntity}
+      />
+      <Route
+        exact
+        path={`/projects/:projectDID/overview/action/new_claim_summary`}
+        component={ClaimSummary}
       />
       <ControlPanelSection key={title}>
         <h4>
