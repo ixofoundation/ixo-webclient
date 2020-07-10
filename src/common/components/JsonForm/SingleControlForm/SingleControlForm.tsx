@@ -9,6 +9,9 @@ import QRCode from '../CustomWidgets/QRCode/QRCode'
 import { FormControl, FormData } from '../types'
 import ImageUpload from '../CustomWidgets/ImageUpload/ImageUpload'
 import AvatarUpload from '../CustomWidgets/AvatarUpload/AvatarUpload'
+import DocumentUpload from '../CustomWidgets/DocumentUpload/DocumentUpload'
+import AudioUpload from '../CustomWidgets/AudioUpload/AudioUpload'
+import VideoUpload from '../CustomWidgets/VideoUpload/VideoUpload'
 
 interface Props {
   formControl: FormControl
@@ -29,6 +32,9 @@ const customControls = {
   ['locationselector']: LocationSelector,
   ['imageupload']: ImageUpload,
   ['avatarupload']: AvatarUpload,
+  ['documentupload']: DocumentUpload,
+  ['audioupload']: AudioUpload,
+  ['videoupload']: VideoUpload,
 }
 
 const SingleControlForm: React.FunctionComponent<Props> = ({
