@@ -7,12 +7,12 @@ import Selection from '../../../../assets/icons/Selection'
 import QRcode from '../../../../assets/icons/QRcode'
 import Location from '../../../../assets/icons/Location'
 import UploadImage from '../../../../assets/icons/UploadImage'
+import UploadFile from '../../../../assets/icons/UploadFile'
+import UploadAudio from '../../../../assets/icons/UploadAudio'
+import UploadVideo from '../../../../assets/icons/UploadVideo'
 // When we add more types then add the relevant icons
 /*
-import UploadAudio from '../../../../assets/icons/UploadAudio'
-import UploadFile from '../../../../assets/icons/UploadFile'
 import Validation from '../../../../assets/icons/Validation'
-import UploadVideo from '../../../../assets/icons/UploadVideo'
 */
 import SelectPicture from '../../../../assets/icons/SelectPicture'
 import {
@@ -47,6 +47,9 @@ const Instructions: React.FunctionComponent<Props> = ({
     ['locationselector']: Location,
     ['imageupload']: UploadImage,
     ['avatarupload']: UploadImage,
+    ['documentupload']: UploadFile,
+    ['videoupload']: UploadVideo,
+    ['audioupload']: UploadAudio,
   }
 
   return (
