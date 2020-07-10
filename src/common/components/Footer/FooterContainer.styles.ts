@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 export const BottomBar = styled.footer`
   && {
-    padding: 15px 15px 15px 63px;
+    padding: 19px 15px 8px 54px;
     overflow: hidden;
     z-index: 3;
     background: black;
