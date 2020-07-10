@@ -56,7 +56,7 @@ export const Routes: React.SFC<{}> = props => {
         />
         <Route path="/entities/select" component={EntitiesSelectConnected} />
         <Route
-          path="/projects/:projectDID/overview/new_claim/form"
+          path="/projects/:projectDID/overview/action/new_claim/form"
           component={SubmitEntityClaimConnected}
         />
         <Route

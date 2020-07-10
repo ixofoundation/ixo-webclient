@@ -67,7 +67,11 @@ export const ButtonWrapper = styled.div`
   align-items: center;
   justify-content: space-between;
   padding-top: 2.5rem;
-
+  > * {
+    &:hover {
+      text-decoration: none;
+    }
+  }
   .close-button {
     font-weight: bold;
     font-size: 16px;

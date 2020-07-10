@@ -40,7 +40,7 @@ class InstructionsContainer extends React.Component<Props> {
         <Container>
           <Instructions
             backLink={`/projects/${entityDid}/overview`}
-            formLink={`/projects/${entityDid}/overview/new_claim/form`}
+            formLink={`/projects/${entityDid}/overview/action/new_claim/form`}
             listItems={questions.map(question => ({
               title: question.title,
               control: question.control,
