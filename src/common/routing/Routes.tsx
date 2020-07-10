@@ -56,6 +56,10 @@ export const Routes: React.SFC<{}> = props => {
         />
         <Route path="/entities/select" component={EntitiesSelectConnected} />
         <Route
+          path="/projects/:projectDID/overview/action/new_claim/form"
+          component={SubmitEntityClaimConnected}
+        />
+        <Route
           exact
           path="/global-statistics"
           render={(routeProps): JSX.Element => (
@@ -65,11 +69,6 @@ export const Routes: React.SFC<{}> = props => {
               contentType={contentType.dashboard}
             />
           )}
-        />
-        <Route
-          exact
-          path={`/projects/:projectDID/overview/action/new_claim`}
-          component={SubmitEntityClaimConnected}
         />
         <Route
           path="/projects/:projectDID/overview"
@@ -91,7 +90,7 @@ export const Routes: React.SFC<{}> = props => {
           )}
         />
         {/* Old claims related screens - remove when new claims is ready */}
-        {/*        
+        {/*
         <Route
           exact
           path="/projects/:projectDID/detail/evaluators"

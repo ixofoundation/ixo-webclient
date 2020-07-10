@@ -2,13 +2,15 @@ import * as React from 'react'
 import ReactCrop from 'react-image-crop'
 import 'react-image-crop/dist/ReactCrop.css'
 import Dropzone from 'react-dropzone'
+import { ModalWrapper } from './ImageLoader.styles'
 import {
-  ModalWrapper,
-  ImageLoaderWrapper,
-  UploadingWrapper,
   DropZoneStyles,
-} from './ImageLoader.styles'
+  LoaderWrapper,
+  UploadingWrapper,
+} from '../Loader.styles'
 import UploadFlat from 'src/assets/icons/UploadFlat'
+import { strategyMap } from '../strategy-map'
+import { FileType } from '../types'
 import PulseLoader from '../../PulseLoader/PulseLoader'
 
 export interface Props {
@@ -184,9 +186,7 @@ class ImageLoader extends React.Component<Props, State> {
 
   onDropAccepted = (files): void => {
     const file = files[0]
-    if (!file || !/^image\//.test(file.type)) {
-      return
-    }
+
     const reader = new FileReader()
 
     reader.onload = (e2): void => {
@@ -236,35 +236,35 @@ class ImageLoader extends React.Component<Props, State> {
 
     if (uploading) {
       return (
-        <ImageLoaderWrapper>
+        <LoaderWrapper>
           <UploadingWrapper>
             <PulseLoader repeat={true}>
               <UploadFlat width={32} fill="#39C3E6" />
             </PulseLoader>
             <p>Uploading...</p>
           </UploadingWrapper>
-        </ImageLoaderWrapper>
+        </LoaderWrapper>
       )
     }
 
     if (uploadedImageSrc) {
       return (
-        <ImageLoaderWrapper>
-          <img className="image-example" src={uploadedImageSrc} />
+        <LoaderWrapper>
+          <img className="file-preview" src={uploadedImageSrc} />
           <Dropzone
-            accept="image/*"
+            accept={strategyMap[FileType.Image].mimeType}
             onDropAccepted={this.onDropAccepted}
             style={DropZoneStyles}
           >
-            <button>Update Image</button>
+            <button>{strategyMap[FileType.Image].replaceButtonText}</button>
           </Dropzone>
           {this.renderCroppingModal()}
-        </ImageLoaderWrapper>
+        </LoaderWrapper>
       )
     }
 
     return (
-      <ImageLoaderWrapper>
+      <LoaderWrapper>
         <Dropzone
           accept="image/*"
           onDropAccepted={this.onDropAccepted}
@@ -274,12 +274,11 @@ class ImageLoader extends React.Component<Props, State> {
             <UploadFlat width={32} fill="#39C3E6" />
           </PulseLoader>
           <p className="desktop-upload-item">Drag files to upload, or</p>
-          {/* <p className="mobile-upload-item">Take a photo, or</p> */}
-          <button>Choose an image</button>
-          <small>jpeg/png</small>
+          <button>{strategyMap[FileType.Image].uploadButtonText}</button>
+          <small>{strategyMap[FileType.Image].fileTypesText}</small>
         </Dropzone>
         {this.renderCroppingModal()}
-      </ImageLoaderWrapper>
+      </LoaderWrapper>
     )
   }
 }
