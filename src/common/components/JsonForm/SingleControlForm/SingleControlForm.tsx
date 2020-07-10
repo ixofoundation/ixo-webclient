@@ -97,17 +97,42 @@ const SingleControlForm: React.FunctionComponent<Props> = ({
     },
   }
 
+  const isFormDataEmpty = Object.keys(formData).length === 0
+
+  const transformErrors = (errors): any => {
+    // don't validate if the form data is empty or the errors aren't relevant to the formData
+    if (
+      isFormDataEmpty ||
+      !errors.some(
+        error => error.property.substring(1, error.property.length) === id,
+      )
+    ) {
+      return []
+    }
+
+    return errors.map(error => {
+      if (error) {
+        return {
+          ...error,
+          message: `This field ${error.message}`,
+        }
+      }
+      return error
+    })
+  }
+
   return (
     <FormContainer>
       <div>
         <Form
           formData={formData}
           onChange={(control): void => handleFormDataChange(control.formData)}
-          liveValidate
           noHtml5Validate
+          liveValidate
           showErrorList={false}
           schema={schema}
           uiSchema={uiSchema}
+          transformErrors={transformErrors}
         >
           <div className="buttons">
             {showPreviousButton && (
