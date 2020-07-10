@@ -64,7 +64,9 @@ const Actions: React.FunctionComponent<Props> = ({
             const to = `/projects/${entityDid}/overview/action/${intent}`
 
             const interceptNavClick = (e: any): void => {
-              if (to === window.location.pathname) e.preventDefault()
+              if (to === window.location.pathname) {
+                e.preventDefault()
+              }
             }
 
             return (
