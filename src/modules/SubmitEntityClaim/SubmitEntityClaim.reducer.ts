@@ -8,7 +8,7 @@ import tempQuestions from './temp_questions.json'
 export const initialState: SubmitEntityClaimState = {
   questions: tempQuestions,
   currentQuestionNo: 1,
-  answers: {},
+  answers: undefined,
   savingAnswer: false,
   answersComplete: false,
   sending: false,

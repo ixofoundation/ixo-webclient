@@ -34,7 +34,7 @@ const Question: React.FunctionComponent<Props> = ({
         handleFormDataChangeDebounce(formData)
       }
       handlePreviousClick={handlePreviousClick}
-      handleNextClick={handleNextClick}
+      handleSubmit={handleNextClick}
       formControl={question}
       showPreviousButton={currentQuestionNo > 1}
       nextButtonText={questionCount === currentQuestionNo ? 'Finalise' : 'Next'}

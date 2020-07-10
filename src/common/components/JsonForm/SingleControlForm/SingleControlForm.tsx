@@ -17,7 +17,7 @@ interface Props {
   nextButtonText: string
   showPreviousButton: boolean
   handlePreviousClick: () => void
-  handleNextClick: () => void
+  handleSubmit: () => void
   handleFormDataChange: (formData: any) => void
 }
 
@@ -38,7 +38,7 @@ const SingleControlForm: React.FunctionComponent<Props> = ({
   nextButtonText,
   showPreviousButton,
   handlePreviousClick,
-  handleNextClick,
+  handleSubmit,
   handleFormDataChange,
 }) => {
   const {
@@ -97,19 +97,7 @@ const SingleControlForm: React.FunctionComponent<Props> = ({
     },
   }
 
-  const isFormDataEmpty = Object.keys(formData).length === 0
-
   const transformErrors = (errors): any => {
-    // don't validate if the form data is empty or the errors aren't relevant to the formData
-    if (
-      isFormDataEmpty ||
-      !errors.some(
-        error => error.property.substring(1, error.property.length) === id,
-      )
-    ) {
-      return []
-    }
-
     return errors.map(error => {
       if (error) {
         return {
@@ -125,6 +113,7 @@ const SingleControlForm: React.FunctionComponent<Props> = ({
     <FormContainer>
       <div>
         <Form
+          onSubmit={handleSubmit}
           formData={formData}
           onChange={(control): void => handleFormDataChange(control.formData)}
           noHtml5Validate
@@ -140,9 +129,7 @@ const SingleControlForm: React.FunctionComponent<Props> = ({
                 Previous
               </button>
             )}
-            <button type="submit" onClick={handleNextClick}>
-              {nextButtonText}
-            </button>
+            <button type="submit">{nextButtonText}</button>
           </div>
         </Form>
       </div>
