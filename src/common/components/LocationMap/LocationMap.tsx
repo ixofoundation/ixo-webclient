@@ -12,7 +12,6 @@ import { GeoLocation } from './types'
 import { GoogleMapWrapper, InputWrapper } from './LocationMap.styles'
 
 Geocode.setApiKey(process.env.REACT_APP_GOOGLE_API_KEY)
-Geocode.enableDebug()
 
 interface Props {
   zoom: number
@@ -101,6 +100,10 @@ class LocationMap extends React.Component<Props, State> {
   }
 
   onPlaceSelected = (place): void => {
+    if (!place || !place.address_components || !place.geometry) {
+      return
+    }
+
     const addressArray = place.address_components
     const latValue = place.geometry.location.lat()
     const lngValue = place.geometry.location.lng()
@@ -116,7 +119,19 @@ class LocationMap extends React.Component<Props, State> {
   }
 
   onMarkerDragEnd = (event): void => {
-    this.geoCodeFromLatLng(event.latLng.lat(), event.latLng.lng())
+    const lat = event.latLng.lat()
+    const lng = event.latLng.lng()
+
+    this.geoCodeFromLatLng(lat, lng)
+
+    this.setState({
+      address: '',
+      area: '',
+      city: '',
+      state: '',
+      lat: lat,
+      lng: lng,
+    })
   }
 
   render(): JSX.Element {
@@ -126,7 +141,7 @@ class LocationMap extends React.Component<Props, State> {
           <InputWrapper>
             <Autocomplete
               onPlaceSelected={this.onPlaceSelected}
-              types={['(regions)']}
+              types={['address']}
             />
           </InputWrapper>
           <GoogleMap

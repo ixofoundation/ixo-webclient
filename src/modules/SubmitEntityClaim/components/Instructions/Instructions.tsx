@@ -10,10 +10,10 @@ import UploadImage from '../../../../assets/icons/UploadImage'
 import UploadFile from '../../../../assets/icons/UploadFile'
 import UploadAudio from '../../../../assets/icons/UploadAudio'
 import UploadVideo from '../../../../assets/icons/UploadVideo'
+import Validation from '../../../../assets/icons/Validation'
 // When we add more types then add the relevant icons
 /*
-import Validation from '../../../../assets/icons/Validation'
-*/
+ */
 import SelectPicture from '../../../../assets/icons/SelectPicture'
 import {
   Container,
@@ -49,6 +49,8 @@ const Instructions: React.FunctionComponent<Props> = ({
     ['documentupload']: UploadFile,
     ['videoupload']: UploadVideo,
     ['audioupload']: UploadAudio,
+    ['emailvalidation']: Validation,
+    ['phonevalidation']: Validation,
   }
 
   return (
