@@ -47,7 +47,13 @@ export const selectCurrentAnswer = createSelector(
   selectCurrentQuestion,
   selectAnswers,
   (question: FormControl, answers: FormData) => {
-    return answers[question.id] ? { [question.id]: answers[question.id] } : {}
+    if (answers && Object.keys(answers).length > 0) {
+      return answers[question.id]
+        ? { [question.id]: answers[question.id] }
+        : undefined
+    }
+
+    return undefined
   },
 )
 
