@@ -72,5 +72,5 @@ export const verifyEmailOTP = async (
   })
 
   // TODO some proper logic here to check if valid
-  return true
+  return otp === '123456'
 }

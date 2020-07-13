@@ -7,11 +7,12 @@ interface Props {
 }
 
 const EmailValidation: React.FunctionComponent<Props> = ({
-  // value,
+  value,
   onChange,
 }) => {
   return (
     <EmailVerification
+      email={value}
       handleCompleted={(email): void => onChange(email)}
       handleReset={(): void => onChange('')}
     />
