@@ -100,6 +100,10 @@ class LocationMap extends React.Component<Props, State> {
   }
 
   onPlaceSelected = (place): void => {
+    if (!place || !place.address_components || !place.geometry) {
+      return
+    }
+
     const addressArray = place.address_components
     const latValue = place.geometry.location.lat()
     const lngValue = place.geometry.location.lng()
