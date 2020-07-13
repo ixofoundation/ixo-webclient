@@ -12,6 +12,7 @@ import AvatarUpload from '../CustomWidgets/AvatarUpload/AvatarUpload'
 import DocumentUpload from '../CustomWidgets/DocumentUpload/DocumentUpload'
 import AudioUpload from '../CustomWidgets/AudioUpload/AudioUpload'
 import VideoUpload from '../CustomWidgets/VideoUpload/VideoUpload'
+import EmailVerification from '../Verification/EmailVerification/EmailVerification'
 
 interface Props {
   formControl: FormControl
@@ -35,6 +36,7 @@ const customControls = {
   ['documentupload']: DocumentUpload,
   ['audioupload']: AudioUpload,
   ['videoupload']: VideoUpload,
+  ['emailverification']: EmailVerification,
 }
 
 const SingleControlForm: React.FunctionComponent<Props> = ({
