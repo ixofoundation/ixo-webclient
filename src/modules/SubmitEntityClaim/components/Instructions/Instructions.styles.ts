@@ -3,11 +3,11 @@ import { deviceWidth } from '../../../../lib/commonData'
 
 export const Container = styled.div`
   border-radius: 4px;
-  border: 1px solid #39c3e6;
+  background: white;
   padding: 3.125rem 1.375rem;
   max-width: 100%;
   @media (min-width: ${deviceWidth.tablet}px) {
-    padding: 2.625rem 3.75rem;
+    padding: 2rem 3.75rem;
   }
 `
 
@@ -26,7 +26,7 @@ export const SubHeader = styled.h4`
   line-height: 2;
   color: #7b8285;
   font-weight: normal;
-  margin-bottom: 2.0625rem;
+  margin-bottom: 3rem;
 `
 
 export const ListWrapper = styled.div`
@@ -46,7 +46,7 @@ export const ListItems = styled.div`
     display: flex;
     flex-flow: row nowrap;
     color: #000000;
-    margin-bottom: 1.175rem;
+    margin-bottom: 1.375rem;
     @media (min-width: ${deviceWidth.tablet}px) {
       width: calc(100% / 2 - 0.5rem);
     }
@@ -58,7 +58,7 @@ export const ListItems = styled.div`
   }
 
   @media (min-width: ${deviceWidth.mobile}px) {
-    max-height: 300px;
+    max-height: 368px;
   }
 `
 export const ButtonWrapper = styled.div`
@@ -66,22 +66,31 @@ export const ButtonWrapper = styled.div`
   flex-flow: row nowrap;
   align-items: center;
   justify-content: space-between;
-
+  padding-top: 1rem;
+  > * {
+    &:hover {
+      text-decoration: none;
+    }
+  }
   .close-button {
     font-weight: bold;
     font-size: 16px;
     line-height: 19px;
     color: #a5adb0;
   }
-`
-export const StartButton = styled.button`
-  width: 120px;
-  height: 50px;
-  font-weight: bold;
-  font-size: 16px;
-  line-height: 19px;
-  background: linear-gradient(180deg, #04d0fb 0%, #49bfe0 100%);
-  border-radius: 4px;
-  border: none;
-  color: #fff;
+
+  .start-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 120px;
+    height: 50px;
+    font-weight: bold;
+    font-size: 16px;
+    line-height: 19px;
+    background: linear-gradient(180deg, #04d0fb 0%, #49bfe0 100%);
+    border-radius: 4px;
+    border: none;
+    color: #fff;
+  }
 `

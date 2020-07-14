@@ -1,6 +1,6 @@
 [
   {
-    "id": "i",
+    "id": "iewewxds",
     "title": "Upload an Avatar/Profile Pic",
     "description": "This will be a short description or explainer text explaining the question. ",
     "label": "Select an avatar to upload",
@@ -9,7 +9,7 @@
     "control": "avatarupload"
   },
   {
-    "id": "h",
+    "id": "hdsfds",
     "title": "Upload an Image",
     "description": "This will be a short description or explainer text explaining the question. ",
     "label": "Select an image to upload",
@@ -18,7 +18,7 @@
     "control": "imageupload"
   },
   {
-    "id": "g",
+    "id": "gewr",
     "title": "Enter Location",
     "description": "This will be a short description or explainer text explaining the question. ",
     "label": "Location",
@@ -27,7 +27,7 @@
     "control": "locationselector"
   },
   {
-    "id": "f",
+    "id": "ffdg",
     "title": "QR Code",
     "description": "This will be a short description or explainer text explaining the question. ",
     "label": "QR Code",
@@ -37,7 +37,7 @@
     "initialValue": "https://www.google.com/"
   },
   {
-    "id": "a",
+    "id": "asddf",
     "title": "Short Text Question",
     "description": "This will be a short description or explainer text explaining the question. ",
     "label": "Short Answer",
@@ -47,7 +47,7 @@
     "placeholder": "Start Typing here"
   },
   {
-    "id": "b",
+    "id": "bert",
     "title": "Long Text Question",
     "description": "This will be a short description or explainer text explaining the question. ",
     "label": "Long Answer",
@@ -57,11 +57,11 @@
     "placeholder": "Start Typing here"
   },
   {
-    "id": "c",
+    "id": "cerrf",
     "title": "Select some of the text items below",
     "description": "This will be a short description or explainer text explaining the question. ",
     "label": "Select 1 to 2 options",
-    "required": true,
+    "required": false,
     "type": "array",
     "minItems": 1,
     "maxItems": 2,
@@ -86,11 +86,11 @@
     ]
   },
   {
-    "id": "d",
+    "id": "dertv",
     "title": "Select some of the image items below",
     "description": "This will be a short description or explainer text explaining the question. ",
     "label": "Select 3 options",
-    "required": true,
+    "required": false,
     "type": "array",
     "minItems": 3,
     "maxItems": 3,
@@ -110,7 +110,7 @@
     ]
   },
   {
-    "id": "e",
+    "id": "edsfdsr",
     "title": "Selector Rate out of 10",
     "description": "This will be a short description or explainer text explaining the question. ",
     "label": "Rate the below from 1 to 10 with 1 bring terrible and 10 being excellent",
@@ -121,7 +121,7 @@
     "values": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
   },
   {
-    "id": "a",
+    "id": "aertbh",
     "title": "Date Picker",
     "description": "This will be a short description or explainer text explaining the question. ",
     "label": "Dates",
@@ -131,7 +131,7 @@
     "placeholder": "Select Date"
   },
   {
-    "id": "aa",
+    "id": "aasdft",
     "title": "Date Picker",
     "description": "This will be a short description or explainer text explaining the question. ",
     "label": "Date of pickup",

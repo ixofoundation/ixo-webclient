@@ -13,6 +13,10 @@ export const saveAnswer = (formData: FormData) => (
   dispatch: Dispatch,
   getState: () => RootState,
 ): SaveAnswerAction => {
+  if (!formData) {
+    return null
+  }
+
   const {
     submitEntityClaim: { questions, currentQuestionNo },
     selectedEntity: { pdsUrl },
@@ -20,7 +24,7 @@ export const saveAnswer = (formData: FormData) => (
   const formControl = questions[currentQuestionNo - 1]
   const { control, id } = formControl
 
-  if (control.includes('upload')) {
+  if (control.includes('upload') && Object.keys(formData).length > 0) {
     return dispatch({
       type: SubmitEntityClaimActions.SaveAnswer,
       payload: blocksyncApi.project

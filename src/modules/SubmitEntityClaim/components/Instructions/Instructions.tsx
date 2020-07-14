@@ -7,33 +7,32 @@ import Selection from '../../../../assets/icons/Selection'
 import QRcode from '../../../../assets/icons/QRcode'
 import Location from '../../../../assets/icons/Location'
 import UploadImage from '../../../../assets/icons/UploadImage'
+import UploadFile from '../../../../assets/icons/UploadFile'
+import UploadAudio from '../../../../assets/icons/UploadAudio'
+import UploadVideo from '../../../../assets/icons/UploadVideo'
+import Validation from '../../../../assets/icons/Validation'
 // When we add more types then add the relevant icons
 /*
-import UploadAudio from '../../../../assets/icons/UploadAudio'
-import UploadFile from '../../../../assets/icons/UploadFile'
-import Validation from '../../../../assets/icons/Validation'
-import UploadVideo from '../../../../assets/icons/UploadVideo'
-*/
+ */
 import SelectPicture from '../../../../assets/icons/SelectPicture'
 import {
   Container,
   ContentWrapper,
   ListItems,
   ButtonWrapper,
-  StartButton,
   SubHeader,
 } from './Instructions.styles'
 
 interface Props {
   backLink: string
   listItems: { control: string; title: string }[]
-  toggleInstructions: () => void
+  formLink: string
 }
 
 const Instructions: React.FunctionComponent<Props> = ({
   backLink,
   listItems,
-  toggleInstructions,
+  formLink,
 }) => {
   const icons = {
     ['text']: ShortText,
@@ -47,6 +46,11 @@ const Instructions: React.FunctionComponent<Props> = ({
     ['locationselector']: Location,
     ['imageupload']: UploadImage,
     ['avatarupload']: UploadImage,
+    ['documentupload']: UploadFile,
+    ['videoupload']: UploadVideo,
+    ['audioupload']: UploadAudio,
+    ['emailvalidation']: Validation,
+    ['phonevalidation']: Validation,
   }
 
   return (
@@ -77,7 +81,9 @@ const Instructions: React.FunctionComponent<Props> = ({
         <NavLink className="close-button" to={backLink}>
           Come back later
         </NavLink>
-        <StartButton onClick={toggleInstructions}>Start</StartButton>
+        <NavLink className="start-button" to={formLink}>
+          Start
+        </NavLink>
       </ButtonWrapper>
     </Container>
   )
