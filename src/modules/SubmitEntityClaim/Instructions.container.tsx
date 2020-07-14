@@ -22,6 +22,10 @@ class InstructionsContainer extends React.Component<Props> {
   }
 
   componentDidMount(): void {
+    if (!document.querySelector('body').classList.contains('noScroll')) {
+      document.querySelector('body').classList.add('noScroll')
+    }
+    document.querySelector('#ControlPanelWrapper').classList.add('fixed')
     const {
       match: {
         params: { projectDID: entityDid },
@@ -30,6 +34,11 @@ class InstructionsContainer extends React.Component<Props> {
     } = this.props
 
     handleGetEntity(entityDid)
+  }
+
+  componentWillUnmount(): void {
+    document.querySelector('body').classList.remove('noScroll')
+    document.querySelector('#ControlPanelWrapper').classList.remove('fixed')
   }
 
   render(): JSX.Element {
