@@ -1,18 +1,24 @@
 import Axios from 'axios'
 
-// *** fake the api calls until we get real api ***
+// WIP using fake API
+
+export enum Channel {
+  Email = 'email',
+  Sms = 'sms',
+}
 
 const token = 'UQFHlmbzapeX6AhtcEJ9aQ'
 
-export const sendVerificationEmail = async (
-  email: string,
+export const sendVerificationNotification = async (
+  to: string,
+  channel: Channel,
 ): Promise<boolean> => {
   const payload = {
     sid: 'VEXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
     service_sid: 'VAXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
     account_sid: 'ACXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
-    to: email,
-    channel: 'email',
+    to,
+    channel,
     status: 'pending',
     valid: false,
     date_created: '2015-07-30T20:00:00Z',
@@ -48,16 +54,17 @@ export const sendVerificationEmail = async (
   return true
 }
 
-export const verifyEmailOTP = async (
-  email: string,
+export const verifyOTP = async (
+  to: string,
   otp: string,
+  channel: Channel,
 ): Promise<boolean> => {
   const payload = {
     sid: 'VEXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
     service_sid: 'VAXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
     account_sid: 'ACXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
-    to: email,
-    channel: 'email',
+    to,
+    channel,
     status: 'approved',
     valid: true,
     amount: null,

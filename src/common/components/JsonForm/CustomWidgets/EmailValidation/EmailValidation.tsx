@@ -12,7 +12,7 @@ const EmailValidation: React.FunctionComponent<Props> = ({
 }) => {
   return (
     <EmailVerification
-      email={value}
+      to={value}
       handleCompleted={(email): void => onChange(email)}
       handleReset={(): void => onChange('')}
     />

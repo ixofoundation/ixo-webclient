@@ -1,14 +1,5 @@
 [
   {
-    "id": "efwrwer",
-    "title": "Email Validation Field",
-    "description": "This will be a short description or explainer text explaining the question. Correct OTP code will be 123456",
-    "label": "Enter an email and a verification code",
-    "required": true,
-    "type": "string",
-    "control": "emailvalidation"
-  },
-  {
     "id": "iewewxds",
     "title": "Upload an Avatar/Profile Pic",
     "description": "This will be a short description or explainer text explaining the question. ",
