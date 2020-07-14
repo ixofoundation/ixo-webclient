@@ -1,16 +1,10 @@
 import React from 'react'
 import OtpInput from 'react-otp-input'
 import * as verificationApi from '../../../api/verification-api/verification-api'
-import { OTPContainer } from './EmailVerification.styles'
+import { OTPContainer } from '../Verification.styles'
 import * as validationUtils from '../../../utils/validationUtils'
 
-interface Props {
-  email: string
-  handleCompleted: (email: string, otp: string) => void
-  handleReset: () => void
-}
-
-enum VerificationStatus {
+enum Status {
   SendingEmail = 'SendingEmail',
   EmailSent = 'EmailSent',
   VerifyingOTP = 'VerifyingOTP',
@@ -18,8 +12,14 @@ enum VerificationStatus {
   OTPFailure = 'OTPFailure',
 }
 
+interface Props {
+  email: string
+  handleCompleted: (email: string, otp: string) => void
+  handleReset: () => void
+}
+
 interface State {
-  status: VerificationStatus
+  status: Status
   email: string
   otp: string
 }
@@ -31,49 +31,47 @@ class EmailVerification extends React.Component<Props, State> {
     this.state = {
       email: this.props.email,
       otp: null,
-      status: !this.props.email ? null : VerificationStatus.OTPSuccess,
+      status: !this.props.email ? null : Status.OTPSuccess,
     }
   }
 
-  handleEmailChange = (e): void => this.setState({ email: e.target.value })
-
-  handleOTPChange = (otp): void => this.setState({ otp })
-
   handleReset = (): void => {
+    const { handleReset } = this.props
     this.setState({ otp: null, status: null })
 
-    this.props.handleReset()
+    handleReset()
   }
 
   handleEmailSubmit = (): void => {
-    this.setState({ status: VerificationStatus.SendingEmail })
+    const { email } = this.state
+    this.setState({ status: Status.SendingEmail })
 
-    verificationApi.sendVerificationEmail(this.state.email).then(() => {
-      this.setState({ status: VerificationStatus.EmailSent })
+    verificationApi.sendVerificationEmail(email).then(() => {
+      this.setState({ status: Status.EmailSent })
     })
   }
 
   handleOTPSubmit = (): void => {
-    this.setState({ status: VerificationStatus.VerifyingOTP })
+    const { email, otp } = this.state
+    this.setState({ status: Status.VerifyingOTP })
 
-    verificationApi
-      .verifyEmailOTP(this.state.email, this.state.otp)
-      .then(isValid => {
-        if (isValid) {
-          this.setState({ status: VerificationStatus.OTPSuccess })
-          this.props.handleCompleted(this.state.email, this.state.otp)
-        } else {
-          this.setState({ status: VerificationStatus.OTPFailure })
-        }
-      })
+    verificationApi.verifyEmailOTP(email, otp).then(isValid => {
+      if (isValid) {
+        this.setState({ status: Status.OTPSuccess })
+        this.props.handleCompleted(email, otp)
+      } else {
+        this.setState({ status: Status.OTPFailure })
+      }
+    })
   }
 
   render(): JSX.Element {
-    const { email, status } = this.state
+    const { email, status, otp } = this.state
 
     return (
       <div className="form-group">
-        {status}
+        {status === Status.SendingEmail && <div>Sending email</div>}
+        {status === Status.EmailSent && <div>Email Sent</div>}
         <div className="input-group">
           <input
             type="email"
@@ -84,10 +82,10 @@ class EmailVerification extends React.Component<Props, State> {
             autoCapitalize="off"
             spellCheck="false"
             value={email}
-            onChange={this.handleEmailChange}
-            disabled={status === VerificationStatus.OTPSuccess}
+            onChange={(e): void => this.setState({ email: e.target.value })}
+            disabled={status === Status.OTPSuccess}
           />
-          {status !== VerificationStatus.OTPSuccess && (
+          {status !== Status.OTPSuccess && (
             <div className="input-group-append">
               <button
                 className="btn btn-outline-secondary"
@@ -100,18 +98,18 @@ class EmailVerification extends React.Component<Props, State> {
             </div>
           )}
         </div>
-        {(status === VerificationStatus.EmailSent ||
-          status === VerificationStatus.VerifyingOTP ||
-          status === VerificationStatus.OTPFailure) && (
+        {(status === Status.EmailSent ||
+          status === Status.VerifyingOTP ||
+          status === Status.OTPFailure) && (
           <OTPContainer className="input-group">
             <OtpInput
-              isDisabled={!this.state.email}
-              value={this.state.otp}
+              isDisabled={!validationUtils.isEmail(email)}
+              value={otp}
               numInputs={6}
               isInputNum
-              onChange={this.handleOTPChange}
+              onChange={(otp): void => this.setState({ otp })}
               separator=""
-              hasErrored={status === VerificationStatus.OTPFailure}
+              hasErrored={status === Status.OTPFailure}
               errorStyle={{
                 borderColor: 'red',
                 borderWidth: '3px',
@@ -119,16 +117,17 @@ class EmailVerification extends React.Component<Props, State> {
               }}
             />
             <button
-              disabled={!this.state.otp || this.state.otp.length < 6}
+              disabled={!otp || otp.length < 6}
               className="btn btn-outline-secondary"
               type="button"
               onClick={this.handleOTPSubmit}
             >
               &gt;
             </button>
+            {status === Status.OTPFailure && <div>Wrong OTP</div>}
           </OTPContainer>
         )}
-        {status === VerificationStatus.OTPSuccess && (
+        {status === Status.OTPSuccess && (
           <>
             <span>Email validated</span>
             <button onClick={this.handleReset}>Change email address</button>
