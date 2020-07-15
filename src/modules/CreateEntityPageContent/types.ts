@@ -30,6 +30,7 @@ export interface ImagePageContent {
 }
 
 export interface VideoPageContent {
+  ID: string
   title: string
   content: string
   videoDid: string
@@ -42,6 +43,7 @@ export interface TablePageContent {
 }
 
 export interface ProfilePageContent {
+  id: string
   name: string
   position: string
   linkedInUrl: string
@@ -90,50 +92,50 @@ export interface PageContentState {
 
 export enum CreateEntityPageContentActions {
   // Header
-  UpdateHeader = 'ixo/CreateEntity/UPDATE_HEADER',
-  UploadHeaderImage = 'ixo/CreateEntity/UPLOAD_HEADER_IMAGE',
-  UploadHeaderImagePending = 'ixo/CreateEntity/UPLOAD_HEADER_IMAGE_PENDING',
+  UpdateHeaderContent = 'ixo/CreateEntity/UPDATE_HEADER',
+  UploadHeaderContentImage = 'ixo/CreateEntity/UPLOAD_HEADER_IMAGE',
+  UploadHeaderContentImagePending = 'ixo/CreateEntity/UPLOAD_HEADER_IMAGE_PENDING',
   UploadHeaderImageSuccess = 'ixo/CreateEntity/UPLOAD_HEADER_IMAGE_FULFILLED',
-  UploadHeaderImageFailure = 'ixo/CreateEntity/UPLOAD_HEADER_IMAGE_REJECTED',
+  UploadHeaderContentImageFailure = 'ixo/CreateEntity/UPLOAD_HEADER_IMAGE_REJECTED',
   // Body
   AddBodySection = 'ixo/CreateEntity/ADD_BODY_SECTION',
-  UpdateBody = 'ixo/CreateEntity/UPDATE_BODY',
-  UploadBodyImage = 'ixo/CreateEntity/UPLOAD_BODY_IMAGE',
-  UploadBodyImagePending = 'ixo/CreateEntity/UPLOAD_BODY_IMAGE_PENDING',
-  UploadBodyImageSuccess = 'ixo/CreateEntity/UPLOAD_BODY_IMAGE_FULFILLED',
-  UploadBodyImageFailure = 'ixo/CreateEntity/UPLOAD_BODY_IMAGE_REJECTED',
+  UpdateBodyContent = 'ixo/CreateEntity/UPDATE_BODY',
+  UploadBodyContentImage = 'ixo/CreateEntity/UPLOAD_BODY_IMAGE',
+  UploadBodyContentImagePending = 'ixo/CreateEntity/UPLOAD_BODY_IMAGE_PENDING',
+  UploadBodyContentImageSuccess = 'ixo/CreateEntity/UPLOAD_BODY_IMAGE_FULFILLED',
+  UploadBodyContentImageFailure = 'ixo/CreateEntity/UPLOAD_BODY_IMAGE_REJECTED',
   // Image
   AddImageSection = 'ixo/CreateEntity/ADD_IMAGE_SECTION',
-  UpdateImage = 'ixo/CreateEntity/UPDATE_IMAGE',
-  UploadImageImage = 'ixo/CreateEntity/UPLOAD_IMAGE_IMAGE',
-  UploadImageImagePending = 'ixo/CreateEntity/UPLOAD_IMAGE_IMAGE_PENDING',
-  UploadImageImageSuccess = 'ixo/CreateEntity/UPLOAD_IMAGE_IMAGE_FULFILLED',
-  UploadImageImageFailure = 'ixo/CreateEntity/UPLOAD_IMAGE_IMAGE_REJECTED',
+  UpdateImageContent = 'ixo/CreateEntity/UPDATE_IMAGE',
+  UploadImageContentImage = 'ixo/CreateEntity/UPLOAD_IMAGE_IMAGE',
+  UploadImageContentImagePending = 'ixo/CreateEntity/UPLOAD_IMAGE_IMAGE_PENDING',
+  UploadImageContentImageSuccess = 'ixo/CreateEntity/UPLOAD_IMAGE_IMAGE_FULFILLED',
+  UploadImageContentImageFailure = 'ixo/CreateEntity/UPLOAD_IMAGE_IMAGE_REJECTED',
   // Video
   AddVideoSection = 'ixo/CreateEntity/ADD_VIDEO_SECTION',
-  UpdateVideo = 'ixo/CreateEntity/UPDATE_VIDEO',
-  UploadVideoVideo = 'ixo/CreateEntity/UPLOAD_VIDEO_VIDEO',
-  UploadVideoVideoPending = 'ixo/CreateEntity/UPLOAD_VIDEO_VIDEO_PENDING',
-  UploadVideoVideoSuccess = 'ixo/CreateEntity/UPLOAD_VIDEO_VIDEO_FULFILLED',
-  UploadVideoVideoFailure = 'ixo/CreateEntity/UPLOAD_VIDEO_VIDEO_REJECTED',
+  UpdateVideoContent = 'ixo/CreateEntity/UPDATE_VIDEO',
+  UploadVideoContentVideo = 'ixo/CreateEntity/UPLOAD_VIDEO_VIDEO',
+  UploadVideoContentVideoPending = 'ixo/CreateEntity/UPLOAD_VIDEO_VIDEO_PENDING',
+  UploadVideoContentVideoSuccess = 'ixo/CreateEntity/UPLOAD_VIDEO_VIDEO_FULFILLED',
+  UploadVideoContentVideoFailure = 'ixo/CreateEntity/UPLOAD_VIDEO_VIDEO_REJECTED',
   // Profile
   AddProfileSection = 'ixo/CreateEntity/ADD_PROFILE_SECTION',
-  UpdateProfile = 'ixo/CreateEntity/UPDATE_PROFILE',
-  UploadProfileImage = 'ixo/CreateEntity/UPLOAD_PROFILE_IMAGE',
-  UploadProfileImagePending = 'ixo/CreateEntity/UPLOAD_PROFILE_IMAGE_PENDING',
-  UploadProfileImageSuccess = 'ixo/CreateEntity/UPLOAD_PROFILE_IMAGE_FULFILLED',
-  UploadProfileImageFailure = 'ixo/CreateEntity/UPLOAD_PROFILE_IMAGE_REJECTED',
-  // Table
-  UpdateTable = 'ixo/CreateEntity/ADD_TABLE',
+  UpdateProfileContent = 'ixo/CreateEntity/UPDATE_PROFILE',
+  UploadProfileContentImage = 'ixo/CreateEntity/UPLOAD_PROFILE_IMAGE',
+  UploadProfileContentImagePending = 'ixo/CreateEntity/UPLOAD_PROFILE_IMAGE_PENDING',
+  UploadProfileContentImageSuccess = 'ixo/CreateEntity/UPLOAD_PROFILE_IMAGE_FULFILLED',
+  UploadProfileContentImageFailure = 'ixo/CreateEntity/UPLOAD_PROFILE_IMAGE_REJECTED',
   // Social
-  UpdateSocial = 'ixo/CreateEntity/UPDATE_SOCIAL',
+  UpdateSocialContent = 'ixo/CreateEntity/UPDATE_SOCIAL',
   // Embedded
   AddEmbeddedSection = 'ixo/CreateEntity/ADD_EMBEDDED_SECTION',
   UpdateEmbedded = 'ixo/CreateEntity/UPDATE_EMBEDDED',
+  // Table
+  UpdateTable = 'ixo/CreateEntity/ADD_TABLE',
 }
 
-export interface UpdateHeaderAction {
-  type: typeof CreateEntityPageContentActions.UpdateHeader
+export interface UpdateHeaderContentAction {
+  type: typeof CreateEntityPageContentActions.UpdateHeaderContent
   payload: {
     title: string
     shortDescription: string
@@ -144,7 +146,7 @@ export interface UpdateHeaderAction {
 }
 
 export interface UploadHeaderImageAction {
-  type: typeof CreateEntityPageContentActions.UploadHeaderImage
+  type: typeof CreateEntityPageContentActions.UploadHeaderContentImage
   payload: Promise<string>
 }
 
@@ -156,7 +158,7 @@ export interface AddBodySectionAction {
 }
 
 export interface UpdateBodyContentAction {
-  type: typeof CreateEntityPageContentActions.UpdateBody
+  type: typeof CreateEntityPageContentActions.UpdateBodyContent
   payload: {
     id: string
     title: string
@@ -164,8 +166,8 @@ export interface UpdateBodyContentAction {
   }
 }
 
-export interface UploadBodyImageAction {
-  type: typeof CreateEntityPageContentActions.UploadBodyImage
+export interface UploadBodyContentImageAction {
+  type: typeof CreateEntityPageContentActions.UploadBodyContentImage
   payload: Promise<{
     id: string
     did: string
@@ -179,8 +181,8 @@ export interface AddImageSectionAction {
   }
 }
 
-export interface UpdateImageAction {
-  type: typeof CreateEntityPageContentActions.UpdateImage
+export interface UpdateImageContentAction {
+  type: typeof CreateEntityPageContentActions.UpdateImageContent
   payload: {
     id: string
     title: string
@@ -189,10 +191,78 @@ export interface UpdateImageAction {
   }
 }
 
-export interface UploadImageAction {
-  type: typeof CreateEntityPageContentActions.UploadImageImage
+export interface UploadImageContentImageAction {
+  type: typeof CreateEntityPageContentActions.UploadImageContentImage
   payload: Promise<{
     id: string
     did: string
   }>
 }
+
+export interface AddVideoSectionAction {
+  type: typeof CreateEntityPageContentActions.AddVideoSection
+  payload: {
+    id: string
+  }
+}
+
+export interface UpdateVideoContentAction {
+  type: typeof CreateEntityPageContentActions.UpdateVideoContent
+  payload: {
+    id: string
+    title: string
+    content: string
+  }
+}
+
+export interface UploadVideoContentVideoAction {
+  type: typeof CreateEntityPageContentActions.UploadVideoContentVideo
+  payload: Promise<{
+    id: string
+    did: string
+  }>
+}
+
+export interface AddProfileSectionAction {
+  type: typeof CreateEntityPageContentActions.AddProfileSection
+  payload: {
+    id: string
+  }
+}
+
+export interface UpdateProfileContentAction {
+  type: typeof CreateEntityPageContentActions.UpdateProfileContent
+  payload: {
+    id: string
+    name: string
+    position: string
+    linkedInUrl: string
+    twitterUrl: string
+  }
+}
+
+export interface UploadProfileContentImageAction {
+  type: typeof CreateEntityPageContentActions.UploadProfileContentImage
+  payload: Promise<{
+    id: string
+    did: string
+  }>
+}
+
+export interface UpdateSocialContentAction {
+  type: typeof CreateEntityPageContentActions.UpdateSocialContent
+  payload: {
+    linkedInUrl: string
+    facebookInUrl: string
+    twitterInUrl: string
+    discourseInUrl: string
+    instagramUrl: string
+    telegramUrl: string
+    githubUrl: string
+    otherUrl: string
+  }
+}
+
+// TODO - embedded
+
+// TODO - table
