@@ -38,7 +38,7 @@ const Question: React.FunctionComponent<Props> = ({
       handlePreviousClick={handlePreviousClick}
       handleSubmit={handleNextClick}
       formControl={question}
-      showPreviousButton={currentQuestionNo > 1}
+      showPreviousButton={currentQuestionNo > 1 && !answersComplete}
       nextButtonText={
         answersComplete
           ? 'Update'
