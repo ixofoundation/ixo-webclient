@@ -81,11 +81,12 @@ class SubmitEntityClaim extends React.Component<Props, State> {
       handleNextClick,
     } = this.props
 
-    if (currentQuestionNo === questionCount && !answersComplete) {
-      finaliseQuestions()
-    }
     if (!answersComplete && currentQuestionNo !== questionCount) {
       handleNextClick()
+      return
+    }
+    if (!answersComplete && currentQuestionNo === questionCount) {
+      finaliseQuestions()
     }
     this.setState({ showSummary: true })
   }
