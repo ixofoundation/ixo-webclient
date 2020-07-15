@@ -19,6 +19,7 @@ export enum SubmitEntityClaimActions {
   GoToNextQuestion = 'ixo/SubmitEntityClaim/GOTO_NEXT_QUESTION',
   GoToPreviousQuestion = 'ixo/SubmitEntityClaim/GOTO_PREVIOUS_QUESTION',
   GoToQuestionNumber = 'ixo/SubmitEntityClaim/GOTO_QUESTION_NUMBER',
+  FinaliseQuestions = 'ixo/SubmitEntityClaim/FINALISE_QUESTIONS',
   ConfirmClaim = 'ixo/FuelEntity/CONFIRM_CLAIM',
   ConfirmClaimPending = 'ixo/FuelEntity/CONFIRM_CLAIM_PENDING',
   ConfirmClaimSuccess = 'ixo/FuelEntity/CONFIRM_CLAIM_FULFILLED',
@@ -63,6 +64,9 @@ export interface GoToQuestionNumberAction {
     questionNo
   }
 }
+export interface FinaliseQuestionsAction {
+  type: typeof SubmitEntityClaimActions.FinaliseQuestions
+}
 
 export type SubmitEntityClaimActionTypes =
   | SaveAnswerAction
@@ -72,3 +76,4 @@ export type SubmitEntityClaimActionTypes =
   | GoToNextQuestionAction
   | GoToPreviousQuestionAction
   | GoToQuestionNumberAction
+  | FinaliseQuestionsAction

@@ -63,3 +63,10 @@ export const selectSavingAnswer = createSelector(
     return submitEntityClaim.savingAnswer
   },
 )
+
+export const selectAnswersComplete = createSelector(
+  selectSubmitEntityClaim,
+  (submitEntityClaim: SubmitEntityClaimState) => {
+    return submitEntityClaim.answersComplete
+  },
+)
