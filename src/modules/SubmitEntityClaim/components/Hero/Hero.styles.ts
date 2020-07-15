@@ -38,26 +38,3 @@ export const HeroContainer = styled.div`
     margin: 0;
   }
 `
-
-export const HeroActionsWrapper = styled.div`
-  display: flex;
-  align-items: flex-end;
-  justify-content: flex-end;
-
-  button {
-    background: none;
-    border: none;
-    outline: none !important;
-    font-weight: bold;
-    font-size: 1rem;
-    line-height: 1.2;
-    color: #39c3e6;
-    border: 1px solid #39c3e6;
-    border-radius: 4px;
-    padding: 1rem 2rem;
-    @media (max-width: ${deviceWidth.mobile}px) {
-      width: 100%;
-      margin-top: 1rem;
-    }
-  }
-`
