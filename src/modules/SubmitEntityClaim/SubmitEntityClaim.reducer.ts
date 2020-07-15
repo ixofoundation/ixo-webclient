@@ -55,6 +55,11 @@ export const reducer = (
         ...state,
         currentQuestionNo: action.payload.questionNo,
       }
+    case SubmitEntityClaimActions.FinaliseQuestions:
+      return {
+        ...state,
+        answersComplete: true,
+      }
   }
 
   return state
