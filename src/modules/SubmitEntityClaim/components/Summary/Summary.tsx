@@ -1,7 +1,6 @@
 import * as React from 'react'
 import { NavLink } from 'react-router-dom'
 import ApprovedTick from '../../../../assets/icons/ApprovedTick'
-// import Query from '../../../../assets/icons/Query'
 import {
   ActionWrapper,
   SummaryWrapper,
@@ -55,12 +54,6 @@ class ClaimSummary extends React.Component<Props> {
                 return (
                   <li key={index}>
                     <div>
-                      {/* @TODO Add conditional to check for answer status */}
-                      {/* {item.title === 'Date Picker' ? (
-                        <Query width="13" fill="#F89D28" />
-                      ) : (
-                        <ApprovedTick width="13" fill="#6FCF97" />
-                        )} */}
                       <ApprovedTick width="13" fill="#6FCF97" />
                       {item.title}
                     </div>

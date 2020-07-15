@@ -15,7 +15,7 @@ interface Props {
   match: any
   answersComplete: boolean
   handleGetEntity: (entityDid: string) => void
-  handleGoToQuestionClick: (questionNumber: number) => void
+  handleGoToQuestionClick: (questionNo: number) => void
 }
 
 interface State {
@@ -42,10 +42,9 @@ class SummaryContainer extends React.Component<Props, State> {
     handleGetEntity(entityDid)
   }
 
-  handleGoToQuestion = (questionNumber: number): void => {
+  handleGoToQuestion = (questionNo: number): void => {
     const { handleGoToQuestionClick } = this.props
-    console.log('firing', questionNumber)
-    handleGoToQuestionClick(questionNumber)
+    handleGoToQuestionClick(questionNo)
     this.setState({ showForm: true })
   }
 
@@ -69,9 +68,7 @@ class SummaryContainer extends React.Component<Props, State> {
             title: question.title,
             control: question.control,
           }))}
-          handleNavigatetoQuestion={(questionNumber: number): void =>
-            this.handleGoToQuestion(questionNumber)
-          }
+          handleNavigatetoQuestion={this.handleGoToQuestion}
         />
       </>
     )
@@ -86,8 +83,8 @@ const mapStateToProps = (state: RootState): Record<string, any> => ({
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
   handleGetEntity: (entityDid): void => dispatch(getEntity(entityDid)),
-  handleGoToQuestionClick: (QuestionNo: number): void =>
-    dispatch(goToQuestionNumber(QuestionNo)),
+  handleGoToQuestionClick: (questionNo: number): void =>
+    dispatch(goToQuestionNumber(questionNo)),
 })
 
 export const SummaryContainerConnected = connect(
