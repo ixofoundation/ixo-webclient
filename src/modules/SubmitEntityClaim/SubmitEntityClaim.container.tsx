@@ -137,7 +137,6 @@ class SubmitEntityClaim extends React.Component<Props, State> {
                   questionCount={questionCount}
                   handleGoToQuestionClick={handleGoToQuestionClick}
                 />
-
                 <Container>
                   <Question
                     answer={currentAnswer}

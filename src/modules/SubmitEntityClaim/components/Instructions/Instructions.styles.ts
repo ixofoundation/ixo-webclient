@@ -26,7 +26,7 @@ export const SubHeader = styled.h4`
   line-height: 2;
   color: #7b8285;
   font-weight: normal;
-  margin-bottom: 3rem;
+  margin-bottom: 2.375rem;
 `
 
 export const ListWrapper = styled.div`
@@ -58,7 +58,7 @@ export const ListItems = styled.div`
   }
 
   @media (min-width: ${deviceWidth.mobile}px) {
-    max-height: 368px;
+    max-height: 300px;
   }
 `
 export const ButtonWrapper = styled.div`
