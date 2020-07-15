@@ -1,14 +1,11 @@
 import styled from 'styled-components'
 import { deviceWidth } from '../../../../lib/commonData'
-import {
-  ActionWrapper as ActionWrapperBase,
-  SummaryWrapper as SummaryWrapperBase,
-} from '../../../../common/components/ControlPanel/Actions/Actions.styles'
-
+import { ActionWrapper as ActionWrapperBase } from '../../../../common/components/ControlPanel/Actions/Actions.styles'
 export const ActionWrapper = styled(ActionWrapperBase)``
 export const ClaimSummaryList = styled.ul``
 
-export const SummaryWrapper = styled(SummaryWrapperBase)`
+export const SummaryWrapper = styled.div`
+  background: white;
   padding: 3.125rem 1.375rem;
   color: black;
   display: flex;
@@ -88,8 +85,6 @@ export const SummaryWrapper = styled(SummaryWrapperBase)`
   }
 `
 
-export const CancelButton = styled.div``
-export const SubmitButton = styled.div``
 export const ButtonWrapper = styled.div`
   margin-top: 2.75rem;
   .select-button-wrapper {
@@ -97,8 +92,9 @@ export const ButtonWrapper = styled.div`
     align-items: center;
     justify-content: flex-end;
   }
-  ${CancelButton},
-  ${SubmitButton} {
+  .button-cancel,
+  .button-submit {
+    text-decoration: none !important;
     border-radius: 4px;
     border: none;
     outline: none !important;
@@ -106,12 +102,12 @@ export const ButtonWrapper = styled.div`
     font-size: 16px;
     line-height: 1.2;
   }
-  ${CancelButton} {
+  .button-cancel {
     background: none;
     color: black;
     padding: 1rem 0;
   }
-  ${SubmitButton} {
+  .button-submit {
     padding: 1rem 2rem;
     color: white;
     background: #04d0fb;
