@@ -73,7 +73,9 @@ export const confirmOrder = (entityDid: string) => (
               type: FuelEntityActions.ConfirmOrder,
               payload: Axios.post(
                 `${process.env.REACT_APP_GAIA_URL}/txs`,
-                transactionUtils.generateTx(msgType, tx, signature, response.fee),
+                JSON.stringify(
+                  transactionUtils.generateTx(msgType, tx, signature, response.fee),
+                ),
               ),
             })
           }, 'base64')

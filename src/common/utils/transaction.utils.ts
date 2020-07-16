@@ -1,4 +1,4 @@
-import { bs58 } from 'bs58'
+import bs58 from 'bs58'
 
 export interface Transaction {
   mode: string
