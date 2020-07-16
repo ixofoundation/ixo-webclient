@@ -6,7 +6,7 @@
   "license": "MIT",
   "dependencies": {
     "@cosmostation/cosmosjs": "^0.5.2",
-    "@ixo/ixo-apimodule": "^1.0.4-draft-3",
+    "@ixo/ixo-apimodule": "^1.0.4-draft-4",
     "@jsonforms/core": "^2.3.2",
     "@jsonforms/react": "^2.3.2",
     "@rjsf/core": "^2.1.0",
