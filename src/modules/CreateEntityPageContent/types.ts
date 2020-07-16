@@ -68,7 +68,7 @@ export interface EmbeddedPageContent {
   urls: string[]
 }
 
-export interface PageContentState {
+export interface CreateEntityPageContentState {
   header: HeaderPageContent
   body: {
     [id: string]: BodyPageContent

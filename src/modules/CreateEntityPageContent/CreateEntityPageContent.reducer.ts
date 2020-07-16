@@ -1,10 +1,10 @@
 import {
-  PageContentState,
+  CreateEntityPageContentState,
   CreateEntityPageContentActionTypes,
   CreateEntityPageContentActions,
 } from './types'
 
-export const initialState: PageContentState = {
+export const initialState: CreateEntityPageContentState = {
   header: {
     title: null,
     shortDescription: null,
@@ -35,7 +35,7 @@ export const initialState: PageContentState = {
 export const reducer = (
   state = initialState,
   action: CreateEntityPageContentActionTypes,
-): PageContentState => {
+): CreateEntityPageContentState => {
   switch (action.type) {
     case CreateEntityPageContentActions.UpdateHeaderContent:
       return {
@@ -339,9 +339,7 @@ export const reducer = (
         ...state,
         embedded: {
           ...state.embedded,
-          ...{
-            [action.payload.id]: action.payload,
-          },
+          ...{ [action.payload.id]: action.payload },
         },
       }
     case CreateEntityPageContentActions.UpdateEmbeddedContent:
