@@ -1,5 +1,10 @@
+import { v4 } from 'uuid'
+jest.mock('uuid')
 import * as SUT from './CreateEntityPageContent.actions'
-import { CreateEntityPageContentActions } from './types'
+import {
+  CreateEntityPageContentActions,
+  EmbeddedPageContentType,
+} from './types'
 import mockStore from '../../common/redux/mockStore'
 
 let store
@@ -17,6 +22,7 @@ describe('CreateEntityPageContent Actions', () => {
         const shortDescription = 'someShortDescription'
         const imageDescription = 'someImageDescription'
         const sdgs = ['sdg1', 'sdg2', 'sdg3']
+        const company = 'someCompany'
         const country = 'ZA'
 
         // when ... we call the updateHeader action creator
@@ -25,6 +31,7 @@ describe('CreateEntityPageContent Actions', () => {
           shortDescription,
           imageDescription,
           sdgs,
+          company,
           country,
         )
 
@@ -38,6 +45,7 @@ describe('CreateEntityPageContent Actions', () => {
           imageDescription,
           sdgs,
           country,
+          company,
         })
       })
     })
@@ -57,9 +65,9 @@ describe('CreateEntityPageContent Actions', () => {
           CreateEntityPageContentActions.UploadHeaderContentImagePending,
         )
         expect(actions[1].type).toEqual(
-          CreateEntityPageContentActions.UploadHeaderImageSuccess,
+          CreateEntityPageContentActions.UploadHeaderContentImageSuccess,
         )
-        expect(actions[1].payload).toEqual('somePublicDid')
+        expect(actions[1].payload).toEqual({ did: 'somePublicDid' })
       })
     })
   })
@@ -67,12 +75,20 @@ describe('CreateEntityPageContent Actions', () => {
   describe('bodyContent', () => {
     describe('addBodySection', () => {
       it('should add a new body content section', () => {
+        const id = 'newBodyContentId'
+        v4.mockImplementationOnce(() => id)
         // when ... we call the addBodySection
         const action = SUT.addBodySection()
-        // then ...
+        // then ... we should expect it to create an action with the correct type
         expect(action.type).toEqual(
           CreateEntityPageContentActions.AddBodySection,
         )
+        expect(action.payload).toEqual({
+          id,
+          title: null,
+          content: null,
+          imageDid: null,
+        })
       })
     })
 
@@ -125,12 +141,21 @@ describe('CreateEntityPageContent Actions', () => {
   describe('imageContent', () => {
     describe('addImageSection', () => {
       it('should add a new image content section', () => {
+        const id = 'newImageContentId'
+        v4.mockImplementationOnce(() => id)
         // when ... we call the addImageSection
         const action = SUT.addImageSection()
-        // then ...
+        // then ... we should expect it to create an action with the correct type
         expect(action.type).toEqual(
           CreateEntityPageContentActions.AddImageSection,
         )
+        expect(action.payload).toEqual({
+          id,
+          title: null,
+          content: null,
+          imageDid: null,
+          imageDescription: null,
+        })
       })
     })
 
@@ -138,7 +163,7 @@ describe('CreateEntityPageContent Actions', () => {
       it('should update the image content', () => {
         // given ... some content
         const id = 'someImageId'
-        const title = 'someImageitle'
+        const title = 'someImageTitle'
         const content = 'someImageContent'
         const imageDescription = 'someImageDescription'
 
@@ -190,12 +215,20 @@ describe('CreateEntityPageContent Actions', () => {
   describe('videoContent', () => {
     describe('addVideoSection', () => {
       it('should add a new video content section', () => {
+        const id = 'newVideoContentId'
+        v4.mockImplementationOnce(() => id)
         // when ... we call the addVideoSection
         const action = SUT.addVideoSection()
-        // then ...
+        // then ... we should expect it to create an action with the correct type
         expect(action.type).toEqual(
           CreateEntityPageContentActions.AddVideoSection,
         )
+        expect(action.payload).toEqual({
+          id,
+          title: null,
+          content: null,
+          videoDid: null,
+        })
       })
     })
 
@@ -250,12 +283,22 @@ describe('CreateEntityPageContent Actions', () => {
   describe('profileContent', () => {
     describe('addProfileSection', () => {
       it('should add a new profile content section', () => {
+        const id = 'newVideoContentId'
+        v4.mockImplementationOnce(() => id)
         // when ... we call the addProfileSection
         const action = SUT.addProfileSection()
-        // then ...
+        // then ... we should expect it to create an action with the correct type
         expect(action.type).toEqual(
           CreateEntityPageContentActions.AddProfileSection,
         )
+        expect(action.payload).toEqual({
+          id,
+          name: null,
+          position: null,
+          linkedInUrl: null,
+          twitterUrl: null,
+          imageDid: null,
+        })
       })
     })
 
@@ -353,6 +396,51 @@ describe('CreateEntityPageContent Actions', () => {
           telegramUrl,
           githubUrl,
           otherUrl,
+        })
+      })
+    })
+  })
+
+  describe('embeddedContent', () => {
+    describe('addEmbeddedSection', () => {
+      it('should add a new embedded content section', () => {
+        const id = 'newVideoContentId'
+        v4.mockImplementationOnce(() => id)
+        // when ... we call the addEmbeddedSection action creator
+        const action = SUT.addEmbeddedSection()
+        // then ... we should expect it to create an action with the correct type
+        expect(action.type).toEqual(
+          CreateEntityPageContentActions.AddEmbeddedSection,
+        )
+        expect(action.payload).toEqual({
+          id,
+          title: null,
+          type: null,
+          urls: [],
+        })
+      })
+    })
+
+    describe('updateEmbeddedContent', () => {
+      it('should update the embedded content', () => {
+        // given ... some content
+        const id = 'someEmbeddedId'
+        const title = 'someEmbeddedTitle'
+        const type = EmbeddedPageContentType.Blog
+        const urls = ['someUrl1', 'someUrl2']
+
+        // when ... we call the updateEmbeddedContent action creator
+        const action = SUT.updateEmbeddedContent(id, title, type, urls)
+
+        // then ... we should expect it to create the action with correct type and payload
+        expect(action.type).toEqual(
+          CreateEntityPageContentActions.UpdateEmbeddedContent,
+        )
+        expect(action.payload).toEqual({
+          id,
+          title,
+          type,
+          urls,
         })
       })
     })

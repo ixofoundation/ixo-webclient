@@ -1,3 +1,5 @@
+// TODO - Table
+
 export enum EmbeddedPageContentType {
   Blog = 'blog',
 }
@@ -8,6 +10,7 @@ export interface HeaderPageContent {
   imageDid: string
   imageDescription: string
   sdgs: string[]
+  company: string
   country: string
   uploadingImage: boolean
 }
@@ -37,11 +40,6 @@ export interface VideoPageContent {
   uploadingVideo: boolean
 }
 
-export interface TablePageContent {
-  row: string[]
-  columns: string[][]
-}
-
 export interface ProfilePageContent {
   id: string
   name: string
@@ -64,9 +62,10 @@ export interface SocialPageContent {
 }
 
 export interface EmbeddedPageContent {
+  id: string
   title: string
   type: EmbeddedPageContentType
-  url: string
+  urls: string[]
 }
 
 export interface PageContentState {
@@ -80,7 +79,6 @@ export interface PageContentState {
   videos: {
     [id: string]: VideoPageContent
   }
-  table: TablePageContent
   profiles: {
     [id: string]: ProfilePageContent
   }
@@ -95,7 +93,7 @@ export enum CreateEntityPageContentActions {
   UpdateHeaderContent = 'ixo/CreateEntity/UPDATE_HEADER',
   UploadHeaderContentImage = 'ixo/CreateEntity/UPLOAD_HEADER_IMAGE',
   UploadHeaderContentImagePending = 'ixo/CreateEntity/UPLOAD_HEADER_IMAGE_PENDING',
-  UploadHeaderImageSuccess = 'ixo/CreateEntity/UPLOAD_HEADER_IMAGE_FULFILLED',
+  UploadHeaderContentImageSuccess = 'ixo/CreateEntity/UPLOAD_HEADER_IMAGE_FULFILLED',
   UploadHeaderContentImageFailure = 'ixo/CreateEntity/UPLOAD_HEADER_IMAGE_REJECTED',
   // Body
   AddBodySection = 'ixo/CreateEntity/ADD_BODY_SECTION',
@@ -129,9 +127,7 @@ export enum CreateEntityPageContentActions {
   UpdateSocialContent = 'ixo/CreateEntity/UPDATE_SOCIAL',
   // Embedded
   AddEmbeddedSection = 'ixo/CreateEntity/ADD_EMBEDDED_SECTION',
-  UpdateEmbedded = 'ixo/CreateEntity/UPDATE_EMBEDDED',
-  // Table
-  UpdateTable = 'ixo/CreateEntity/ADD_TABLE',
+  UpdateEmbeddedContent = 'ixo/CreateEntity/UPDATE_EMBEDDED',
 }
 
 export interface UpdateHeaderContentAction {
@@ -141,19 +137,40 @@ export interface UpdateHeaderContentAction {
     shortDescription: string
     imageDescription: string
     sdgs: string[]
+    company: string
     country: string
   }
 }
 
 export interface UploadHeaderImageAction {
   type: typeof CreateEntityPageContentActions.UploadHeaderContentImage
-  payload: Promise<string>
+  payload: Promise<{
+    did: string
+  }>
+}
+
+export interface UploadHeaderImagePendingAction {
+  type: typeof CreateEntityPageContentActions.UploadHeaderContentImagePending
+}
+
+export interface UploadHeaderImageSuccessAction {
+  type: typeof CreateEntityPageContentActions.UploadHeaderContentImageSuccess
+  payload: {
+    did: string
+  }
+}
+
+export interface UploadHeaderImageFailureAction {
+  type: typeof CreateEntityPageContentActions.UploadHeaderContentImageFailure
 }
 
 export interface AddBodySectionAction {
   type: typeof CreateEntityPageContentActions.AddBodySection
   payload: {
     id: string
+    title: string
+    content: string
+    imageDid: string
   }
 }
 
@@ -174,10 +191,36 @@ export interface UploadBodyContentImageAction {
   }>
 }
 
+export interface UploadBodyContentImagePendingAction {
+  type: typeof CreateEntityPageContentActions.UploadBodyContentImagePending
+  payload: {
+    id: string
+  }
+}
+
+export interface UploadBodyContentImageSuccessAction {
+  type: typeof CreateEntityPageContentActions.UploadBodyContentImageSuccess
+  payload: {
+    id: string
+    did: string
+  }
+}
+
+export interface UploadBodyContentImageFailureAction {
+  type: typeof CreateEntityPageContentActions.UploadBodyContentImageFailure
+  payload: {
+    id: string
+  }
+}
+
 export interface AddImageSectionAction {
   type: typeof CreateEntityPageContentActions.AddImageSection
   payload: {
     id: string
+    title: string
+    content: string
+    imageDid: string
+    imageDescription: string
   }
 }
 
@@ -203,6 +246,9 @@ export interface AddVideoSectionAction {
   type: typeof CreateEntityPageContentActions.AddVideoSection
   payload: {
     id: string
+    title: string
+    content: string
+    videoDid: string
   }
 }
 
@@ -227,6 +273,11 @@ export interface AddProfileSectionAction {
   type: typeof CreateEntityPageContentActions.AddProfileSection
   payload: {
     id: string
+    name: string
+    position: string
+    linkedInUrl: string
+    twitterUrl: string
+    imageDid: string
   }
 }
 
@@ -263,6 +314,47 @@ export interface UpdateSocialContentAction {
   }
 }
 
-// TODO - embedded
+export interface AddEmbeddedSectionAction {
+  type: typeof CreateEntityPageContentActions.AddEmbeddedSection
+  payload: {
+    id: string
+    title: string
+    type: EmbeddedPageContentType
+    urls: string[]
+  }
+}
 
-// TODO - table
+export interface UpdateEmbeddedContentAction {
+  type: typeof CreateEntityPageContentActions.UpdateEmbeddedContent
+  payload: {
+    id: string
+    title: string
+    type: EmbeddedPageContentType
+    urls: string[]
+  }
+}
+
+export type CreateEntityPageContentActionTypes =
+  | UpdateHeaderContentAction
+  | UploadHeaderImageAction
+  | UploadHeaderImagePendingAction
+  | UploadHeaderImageSuccessAction
+  | UploadHeaderImageFailureAction
+  | AddBodySectionAction
+  | UpdateBodyContentAction
+  | UploadBodyContentImageAction
+  | UploadBodyContentImagePendingAction
+  | UploadBodyContentImageSuccessAction
+  | UploadBodyContentImageFailureAction
+  | AddImageSectionAction
+  | UpdateImageContentAction
+  | UploadImageContentImageAction
+  | AddVideoSectionAction
+  | UpdateVideoContentAction
+  | UploadVideoContentVideoAction
+  | AddProfileSectionAction
+  | UpdateProfileContentAction
+  | UploadProfileContentImageAction
+  | UpdateSocialContentAction
+  | AddEmbeddedSectionAction
+  | UpdateEmbeddedContentAction

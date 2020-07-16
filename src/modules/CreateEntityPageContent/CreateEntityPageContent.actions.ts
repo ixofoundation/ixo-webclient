@@ -18,6 +18,9 @@ import {
   UpdateProfileContentAction,
   UploadProfileContentImageAction,
   UpdateSocialContentAction,
+  AddEmbeddedSectionAction,
+  EmbeddedPageContentType,
+  UpdateEmbeddedContentAction,
 } from './types'
 
 const PDS_URL = process.env.REACT_APP_PDS_URL
@@ -27,6 +30,7 @@ export const updateHeaderContent = (
   shortDescription: string,
   imageDescription: string,
   sdgs: string[],
+  company: string,
   country: string,
 ): UpdateHeaderContentAction => ({
   type: CreateEntityPageContentActions.UpdateHeaderContent,
@@ -35,6 +39,7 @@ export const updateHeaderContent = (
     shortDescription,
     imageDescription,
     sdgs,
+    company,
     country,
   },
 })
@@ -46,7 +51,7 @@ export const uploadHeaderContentImage = (base64ImageData: string) => (
     type: CreateEntityPageContentActions.UploadHeaderContentImage,
     payload: blocksyncApi.project
       .createPublic(base64ImageData, PDS_URL)
-      .then((response: any) => response.result),
+      .then((response: any) => ({ did: response.result })),
   })
 }
 
@@ -54,6 +59,9 @@ export const addBodySection = (): AddBodySectionAction => ({
   type: CreateEntityPageContentActions.AddBodySection,
   payload: {
     id: uuidv4(),
+    title: null,
+    content: null,
+    imageDid: null,
   },
 })
 
@@ -85,6 +93,10 @@ export const addImageSection = (): AddImageSectionAction => ({
   type: CreateEntityPageContentActions.AddImageSection,
   payload: {
     id: uuidv4(),
+    title: null,
+    content: null,
+    imageDid: null,
+    imageDescription: null,
   },
 })
 
@@ -119,6 +131,9 @@ export const addVideoSection = (): AddVideoSectionAction => ({
   type: CreateEntityPageContentActions.AddVideoSection,
   payload: {
     id: uuidv4(),
+    title: null,
+    content: null,
+    videoDid: null,
   },
 })
 
@@ -151,6 +166,11 @@ export const addProfileSection = (): AddProfileSectionAction => ({
   type: CreateEntityPageContentActions.AddProfileSection,
   payload: {
     id: uuidv4(),
+    name: null,
+    position: null,
+    linkedInUrl: null,
+    twitterUrl: null,
+    imageDid: null,
   },
 })
 
@@ -203,5 +223,30 @@ export const updateSocialContent = (
     telegramUrl,
     githubUrl,
     otherUrl,
+  },
+})
+
+export const addEmbeddedSection = (): AddEmbeddedSectionAction => ({
+  type: CreateEntityPageContentActions.AddEmbeddedSection,
+  payload: {
+    id: uuidv4(),
+    title: null,
+    type: null,
+    urls: [],
+  },
+})
+
+export const updateEmbeddedContent = (
+  id: string,
+  title: string,
+  type: EmbeddedPageContentType,
+  urls: string[],
+): UpdateEmbeddedContentAction => ({
+  type: CreateEntityPageContentActions.UpdateEmbeddedContent,
+  payload: {
+    id,
+    title,
+    type,
+    urls,
   },
 })
