@@ -4,6 +4,7 @@ import {
   GoToPreviousQuestionAction,
   GoToNextQuestionAction,
   GoToQuestionNumberAction,
+  FinaliseQuestionsAction,
 } from './types'
 import { Dispatch } from 'redux'
 import { RootState } from 'src/common/redux/types'
@@ -87,13 +88,14 @@ export const goToQuestionNumber = (newQuestionNumber: number) => (
   getState: () => RootState,
 ): GoToQuestionNumberAction => {
   const {
-    submitEntityClaim: { questions, currentQuestionNo },
+    submitEntityClaim: { questions, currentQuestionNo, answersComplete },
   } = getState()
   const totalQuestions = questions.length
 
   if (
-    newQuestionNumber <= totalQuestions &&
-    newQuestionNumber < currentQuestionNo
+    answersComplete ||
+    (newQuestionNumber <= totalQuestions &&
+      newQuestionNumber < currentQuestionNo)
   ) {
     return dispatch({
       type: SubmitEntityClaimActions.GoToQuestionNumber,
@@ -104,4 +106,9 @@ export const goToQuestionNumber = (newQuestionNumber: number) => (
   }
 
   return null
+}
+export const finaliseQuestions = (): FinaliseQuestionsAction => {
+  return {
+    type: SubmitEntityClaimActions.FinaliseQuestions,
+  }
 }
