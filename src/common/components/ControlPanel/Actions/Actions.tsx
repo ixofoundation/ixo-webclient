@@ -10,7 +10,9 @@ import { Widget } from '../types'
 import { ControlPanelSection } from '../ControlPanel.styles'
 import { ActionLinksWrapper } from './Actions.styles'
 import FuelEntity from '../../../../modules/FuelEntity/FuelEntity.container'
+import ClaimSummary from '../../../../modules/SubmitEntityClaim/components/Summary/Summary'
 import { Tooltip } from '../../Tooltip'
+import { InstructionsContainerConnected } from '../../../../modules/SubmitEntityClaim/Instructions.container'
 
 const icons = {
   AddPerson,
@@ -38,6 +40,16 @@ const Actions: React.FunctionComponent<Props> = ({
         path={`/projects/:projectDID/overview/action/fuel_my_entity`}
         component={FuelEntity}
       />
+      <Route
+        exact
+        path={`/projects/:projectDID/overview/action/new_claim_summary`}
+        component={ClaimSummary}
+      />
+      <Route
+        exact
+        path={`/projects/:projectDID/overview/action/new_claim`}
+        component={InstructionsContainerConnected}
+      />
       <ControlPanelSection key={title}>
         <h4>
           <div className="heading-icon">
@@ -58,7 +70,9 @@ const Actions: React.FunctionComponent<Props> = ({
             const to = `/projects/${entityDid}/overview/action/${intent}`
 
             const interceptNavClick = (e: any): void => {
-              if (to === window.location.pathname) e.preventDefault()
+              if (window.location.pathname.startsWith(to)) {
+                e.preventDefault()
+              }
             }
 
             return (

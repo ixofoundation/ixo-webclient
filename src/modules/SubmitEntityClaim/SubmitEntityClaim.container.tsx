@@ -1,7 +1,6 @@
 import React, { Dispatch } from 'react'
 import { connect } from 'react-redux'
 import { RootState } from 'src/common/redux/types'
-import Instructions from './components/Instructions/Instructions'
 import { Hero } from './components/Hero/Hero'
 import Question from './components/Question/Question'
 import {
@@ -45,16 +44,9 @@ interface Props {
   handleFormDataChange: (formData: any) => void
 }
 
-interface State {
-  showInstructions: boolean
-}
-
-class SubmitEntityClaim extends React.Component<Props, State> {
+class SubmitEntityClaim extends React.Component<Props> {
   constructor(props) {
     super(props)
-    this.state = {
-      showInstructions: true, // temp
-    }
   }
 
   componentDidMount(): void {
@@ -68,12 +60,6 @@ class SubmitEntityClaim extends React.Component<Props, State> {
     handleGetEntity(entityDid)
   }
 
-  handleToggleInstructions = (): void => {
-    this.setState({
-      showInstructions: !this.state.showInstructions,
-    })
-  }
-
   render(): JSX.Element {
     const {
       userDid,
@@ -81,7 +67,6 @@ class SubmitEntityClaim extends React.Component<Props, State> {
       entityDid,
       entityType,
       entityTitle,
-      questions,
       currentQuestion,
       currentQuestionNo,
       questionCount,
@@ -108,38 +93,23 @@ class SubmitEntityClaim extends React.Component<Props, State> {
           <div className="container">
             <div className="row">
               <div className="col-lg-8">
-                {!this.state.showInstructions && (
-                  <Progress
+                <Progress
+                  question={currentQuestion}
+                  currentQuestionNo={currentQuestionNo}
+                  questionCount={questionCount}
+                  handleGoToQuestionClick={handleGoToQuestionClick}
+                />
+                <Container>
+                  <Question
+                    answer={currentAnswer}
+                    savingAnswer={savingAnswer}
+                    handleFormDataChange={handleFormDataChange}
+                    handlePreviousClick={handlePreviousClick}
+                    handleNextClick={handleNextClick}
                     question={currentQuestion}
                     currentQuestionNo={currentQuestionNo}
                     questionCount={questionCount}
-                    handleGoToQuestionClick={handleGoToQuestionClick}
                   />
-                )}
-                <Container>
-                  {this.state.showInstructions ? (
-                    <>
-                      <Instructions
-                        backLink={`/projects/${entityDid}/overview`}
-                        toggleInstructions={this.handleToggleInstructions}
-                        listItems={questions.map(question => ({
-                          title: question.title,
-                          control: question.control,
-                        }))}
-                      />
-                    </>
-                  ) : (
-                    <Question
-                      answer={currentAnswer}
-                      savingAnswer={savingAnswer}
-                      handleFormDataChange={handleFormDataChange}
-                      handlePreviousClick={handlePreviousClick}
-                      handleNextClick={handleNextClick}
-                      question={currentQuestion}
-                      currentQuestionNo={currentQuestionNo}
-                      questionCount={questionCount}
-                    />
-                  )}
                 </Container>
               </div>
               <div className="col-lg-4">
