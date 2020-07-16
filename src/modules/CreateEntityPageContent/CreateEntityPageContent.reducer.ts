@@ -158,6 +158,200 @@ export const reducer = (
           },
         },
       }
+    case CreateEntityPageContentActions.UploadImageContentImagePending:
+      return {
+        ...state,
+        images: {
+          ...state.images,
+          ...{
+            [action.payload.id]: {
+              ...state.images[action.payload.id],
+              uploadingImage: true,
+            },
+          },
+        },
+      }
+    case CreateEntityPageContentActions.UploadImageContentImageSuccess:
+      return {
+        ...state,
+        images: {
+          ...state.images,
+          ...{
+            [action.payload.id]: {
+              ...state.images[action.payload.id],
+              imageDid: action.payload.did,
+              uploadingImage: false,
+            },
+          },
+        },
+      }
+    case CreateEntityPageContentActions.UploadImageContentImageFailure:
+      return {
+        ...state,
+        images: {
+          ...state.images,
+          ...{
+            [action.payload.id]: {
+              ...state.images[action.payload.id],
+              uploadingImage: false,
+            },
+          },
+        },
+      }
+    case CreateEntityPageContentActions.AddVideoSection:
+      return {
+        ...state,
+        videos: {
+          ...state.videos,
+          ...{
+            [action.payload.id]: { ...action.payload, uploadingVideo: false },
+          },
+        },
+      }
+    case CreateEntityPageContentActions.UpdateVideoContent:
+      return {
+        ...state,
+        videos: {
+          ...state.videos,
+          ...{
+            [action.payload.id]: {
+              ...action.payload,
+              videoDid: state.videos[action.payload.id].videoDid,
+              uploadingVideo: false,
+            },
+          },
+        },
+      }
+    case CreateEntityPageContentActions.UploadVideoContentVideoPending:
+      return {
+        ...state,
+        videos: {
+          ...state.videos,
+          ...{
+            [action.payload.id]: {
+              ...state.videos[action.payload.id],
+              uploadingVideo: true,
+            },
+          },
+        },
+      }
+    case CreateEntityPageContentActions.UploadVideoContentVideoSuccess:
+      return {
+        ...state,
+        videos: {
+          ...state.videos,
+          ...{
+            [action.payload.id]: {
+              ...state.videos[action.payload.id],
+              videoDid: action.payload.did,
+              uploadingVideo: false,
+            },
+          },
+        },
+      }
+    case CreateEntityPageContentActions.UploadVideoContentVideoFailure:
+      return {
+        ...state,
+        videos: {
+          ...state.videos,
+          ...{
+            [action.payload.id]: {
+              ...state.videos[action.payload.id],
+              uploadingVideo: false,
+            },
+          },
+        },
+      }
+    case CreateEntityPageContentActions.AddProfileSection:
+      return {
+        ...state,
+        profiles: {
+          ...state.profiles,
+          ...{
+            [action.payload.id]: { ...action.payload, uploadingImage: false },
+          },
+        },
+      }
+    case CreateEntityPageContentActions.UpdateProfileContent:
+      return {
+        ...state,
+        profiles: {
+          ...state.profiles,
+          ...{
+            [action.payload.id]: {
+              ...action.payload,
+              imageDid: state.profiles[action.payload.id].imageDid,
+              uploadingImage: false,
+            },
+          },
+        },
+      }
+    case CreateEntityPageContentActions.UploadProfileContentImagePending:
+      return {
+        ...state,
+        profiles: {
+          ...state.profiles,
+          ...{
+            [action.payload.id]: {
+              ...state.profiles[action.payload.id],
+              uploadingImage: true,
+            },
+          },
+        },
+      }
+    case CreateEntityPageContentActions.UploadProfileContentImageSuccess:
+      return {
+        ...state,
+        profiles: {
+          ...state.profiles,
+          ...{
+            [action.payload.id]: {
+              ...state.profiles[action.payload.id],
+              imageDid: action.payload.did,
+              uploadingImage: false,
+            },
+          },
+        },
+      }
+    case CreateEntityPageContentActions.UploadProfileContentImageFailure:
+      return {
+        ...state,
+        profiles: {
+          ...state.profiles,
+          ...{
+            [action.payload.id]: {
+              ...state.profiles[action.payload.id],
+              uploadingImage: false,
+            },
+          },
+        },
+      }
+    case CreateEntityPageContentActions.UpdateSocialContent:
+      return {
+        ...state,
+        social: {
+          ...state.social,
+          ...action.payload,
+        },
+      }
+    case CreateEntityPageContentActions.AddEmbeddedSection:
+      return {
+        ...state,
+        embedded: {
+          ...state.embedded,
+          ...{
+            [action.payload.id]: action.payload,
+          },
+        },
+      }
+    case CreateEntityPageContentActions.UpdateEmbeddedContent:
+      return {
+        ...state,
+        embedded: {
+          ...state.embedded,
+          ...{ [action.payload.id]: action.payload },
+        },
+      }
   }
 
   return state

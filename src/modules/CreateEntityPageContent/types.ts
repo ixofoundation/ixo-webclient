@@ -33,7 +33,7 @@ export interface ImagePageContent {
 }
 
 export interface VideoPageContent {
-  ID: string
+  id: string
   title: string
   content: string
   videoDid: string
@@ -242,6 +242,28 @@ export interface UploadImageContentImageAction {
   }>
 }
 
+export interface UploadImageContentImagePendingAction {
+  type: typeof CreateEntityPageContentActions.UploadImageContentImagePending
+  payload: {
+    id: string
+  }
+}
+
+export interface UploadImageContentImageSuccessAction {
+  type: typeof CreateEntityPageContentActions.UploadImageContentImageSuccess
+  payload: {
+    id: string
+    did: string
+  }
+}
+
+export interface UploadImageContentImageFailureAction {
+  type: typeof CreateEntityPageContentActions.UploadImageContentImageFailure
+  payload: {
+    id: string
+  }
+}
+
 export interface AddVideoSectionAction {
   type: typeof CreateEntityPageContentActions.AddVideoSection
   payload: {
@@ -267,6 +289,28 @@ export interface UploadVideoContentVideoAction {
     id: string
     did: string
   }>
+}
+
+export interface UploadVideoContentVideoPendingAction {
+  type: typeof CreateEntityPageContentActions.UploadVideoContentVideoPending
+  payload: {
+    id: string
+  }
+}
+
+export interface UploadVideoContentVideoSuccessAction {
+  type: typeof CreateEntityPageContentActions.UploadVideoContentVideoSuccess
+  payload: {
+    id: string
+    did: string
+  }
+}
+
+export interface UploadVideoContentVideoFailureAction {
+  type: typeof CreateEntityPageContentActions.UploadVideoContentVideoFailure
+  payload: {
+    id: string
+  }
 }
 
 export interface AddProfileSectionAction {
@@ -298,6 +342,28 @@ export interface UploadProfileContentImageAction {
     id: string
     did: string
   }>
+}
+
+export interface UploadProfileContentImagePendingAction {
+  type: typeof CreateEntityPageContentActions.UploadProfileContentImagePending
+  payload: {
+    id: string
+  }
+}
+
+export interface UploadProfileContentImageSuccessAction {
+  type: typeof CreateEntityPageContentActions.UploadProfileContentImageSuccess
+  payload: {
+    id: string
+    did: string
+  }
+}
+
+export interface UploadProfileContentImageFailureAction {
+  type: typeof CreateEntityPageContentActions.UploadProfileContentImageFailure
+  payload: {
+    id: string
+  }
 }
 
 export interface UpdateSocialContentAction {
@@ -349,12 +415,21 @@ export type CreateEntityPageContentActionTypes =
   | AddImageSectionAction
   | UpdateImageContentAction
   | UploadImageContentImageAction
+  | UploadImageContentImagePendingAction
+  | UploadImageContentImageSuccessAction
+  | UploadImageContentImageFailureAction
   | AddVideoSectionAction
   | UpdateVideoContentAction
   | UploadVideoContentVideoAction
+  | UploadVideoContentVideoPendingAction
+  | UploadVideoContentVideoSuccessAction
+  | UploadVideoContentVideoFailureAction
   | AddProfileSectionAction
   | UpdateProfileContentAction
   | UploadProfileContentImageAction
+  | UploadProfileContentImagePendingAction
+  | UploadProfileContentImageSuccessAction
+  | UploadProfileContentImageFailureAction
   | UpdateSocialContentAction
   | AddEmbeddedSectionAction
   | UpdateEmbeddedContentAction
