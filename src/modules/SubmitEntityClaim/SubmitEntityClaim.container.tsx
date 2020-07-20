@@ -8,7 +8,7 @@ import {
   Container,
   SubmitEntityClaimWrapper,
 } from './SubmitEntityClaim.container.styles'
-import { Progress } from './components/Progress/Progress'
+import { Steps } from '../../common/components/Steps/Steps'
 import { FormControl, FormData } from '../../common/components/JsonForm/types'
 import * as submitEntityClaimSelectors from './SubmitEntityClaim.selectors'
 import * as accountSelectors from '../Account/Account.selectors'
@@ -132,11 +132,11 @@ class SubmitEntityClaim extends React.Component<Props, State> {
           <div className="container">
             <div className="row">
               <div className="col-lg-8">
-                <Progress
-                  question={currentQuestion}
-                  currentQuestionNo={currentQuestionNo}
-                  questionCount={questionCount}
-                  handleGoToQuestionClick={handleGoToQuestionClick}
+                <Steps
+                  currentStepTitle={currentQuestion.title}
+                  currentStepNo={currentQuestionNo}
+                  totalSteps={questionCount}
+                  handleGoToStepClick={handleGoToQuestionClick}
                 />
                 <Container>
                   <Question
