@@ -1,5 +1,5 @@
-import { Ixo } from 'ixo-module'
-import { IxoActions, ResetIxoAction, InitIxoAction } from './types'
+import { Ixo } from '@ixo/ixo-apimodule'
+import { InitIxoAction, IxoActions, ResetIxoAction } from './types'
 
 export const initIxo = (BLOCK_SYNC_URL: string): InitIxoAction => ({
   type: IxoActions.InitIxo,

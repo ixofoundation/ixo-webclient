@@ -287,28 +287,38 @@ class RegisterPage extends React.Component<Props, State> {
   ledgerDid = (): void => {
     if (this.state.didDoc && !this.busyLedgering) {
       const payload = { didDoc: this.state.didDoc }
-      this.busyLedgering = true
-      this.props.keysafe.requestSigning(
-        JSON.stringify(payload),
-        (error, signature) => {
-          if (!error) {
-            this.props.ixo.user
-              .registerUserDid(payload, signature)
-              .then((response: any) => {
-                if (response.code === 0) {
-                  successToast('Did document was ledgered successfully')
+      this.props.ixo.utils.getSignData(payload, 'did/AddDid', this.state.didDoc.verifyKey)
+        .then((response: any) => {
+          if (response.sign_bytes && response.fee) {
+            this.busyLedgering = true
+            this.props.keysafe.requestSigning(
+              response.sign_bytes,
+              (error, signature) => {
+                if (!error) {
+                  this.props.ixo.user
+                    .registerUserDid(payload, signature, response.fee)
+                    .then((response: any) => {
+                      if (response.code === 0) {
+                        successToast('Did document was ledgered successfully')
+                      } else {
+                        errorToast('Unable to ledger did at this time')
+                      }
+                      // Delay the update here to allow Explorer to sync
+                      setTimeout(() => (this.busyLedgering = false), 3000)
+                    })
                 } else {
-                  errorToast('Unable to ledger did at this time')
+                  this.busyLedgering = false
                 }
-                // Delay the update here to allow Explorer to sync
-                setTimeout(() => (this.busyLedgering = false), 3000)
-              })
+              },
+              'base64',
+            )
           } else {
-            this.busyLedgering = false
+            errorToast('Unable to ledger did at this time')
           }
-        },
-        'base64',
-      )
+        })
+        .catch(() => {
+          errorToast('Unable to ledger did at this time')
+        })
     } else {
       if (this.state.toastShown === false) {
         // warningToast('Please log into the IXO Keysafe');

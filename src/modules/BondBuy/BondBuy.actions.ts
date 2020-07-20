@@ -68,6 +68,7 @@ export const confirmBuy = () => (
         didDoc: { did, pubKey },
       },
     },
+    ixo: { ixo },
   } = getState()
 
   const tx: BondBuyTx = {
@@ -78,35 +79,41 @@ export const confirmBuy = () => (
     max_prices: [currencyToApiCurrency(maxPrice)],
   }
 
-  console.log(JSON.stringify(tx))
-
-  keysafe.requestSigning(JSON.stringify(tx), (error, signature) => {
-    if (error) {
-      return null
-    }
-
-    return dispatch({
-      type: BondBuyActions.ConfirmBuy,
-      payload: Axios.post(
-        `${process.env.REACT_APP_GAIA_URL}/txs`,
-        JSON.stringify(
-          transactionUtils.generateTx('bonds/MsgBuy', tx, signature),
-        ),
-      )
-        .then(response => {
-          if (!response.data.logs[0].success) {
-            Toast.errorToast('Sale failed. Please try again.')
-          } else {
-            Toast.successToast(
-              'Transaction submitted. Check its status in the orders tab.',
-            )
+  ixo.utils.getSignData(tx, 'bonds/MsgBuy', pubKey)
+    .then((response: any) => {
+      if (response.sign_bytes && response.fee) {
+        keysafe.requestSigning(response.sign_bytes, (error, signature) => {
+          if (error) {
+            return null
           }
+
+          return dispatch({
+            type: BondBuyActions.ConfirmBuy,
+            payload: Axios.post(
+              `${process.env.REACT_APP_GAIA_URL}/txs`,
+              JSON.stringify(
+                transactionUtils.generateTx('bonds/MsgBuy', tx, signature, response.fee),
+              ),
+            )
+              .then(response => {
+                if (!response.data.logs[0].success) {
+                  Toast.errorToast('Buy failed. Please try again.')
+                } else {
+                  Toast.successToast(
+                    'Transaction submitted. Check its status in the orders tab.',
+                  )
+                }
+              })
+              .catch(error => {
+                Toast.errorToast(`Error: ${error.message}`)
+              }),
+          })
         })
-        .catch(error => {
-          Toast.errorToast(`Error: ${error.message}`)
-        }),
+      }
     })
-  })
+    .catch(() => {
+      Toast.errorToast('Buy failed. Please try again.')
+    })
 
   return null
 }
