@@ -76,7 +76,8 @@ export const confirmSell = () => (
     amount: currencyToApiCurrency(sending),
   }
 
-  ixo.utils.getSignData(tx, 'bonds/MsgSell', pubKey)
+  const msgType = 'bonds/MsgSell'
+  ixo.utils.getSignData(tx, msgType, pubKey)
     .then((response: any) => {
       if (response.sign_bytes && response.fee) {
         keysafe.requestSigning(response.sign_bytes, (error, signature) => {
@@ -89,7 +90,7 @@ export const confirmSell = () => (
             payload: Axios.post(
               `${process.env.REACT_APP_GAIA_URL}/txs`,
               JSON.stringify(
-                transactionUtils.generateTx('bonds/MsgSell', tx, signature, response.fee),
+                transactionUtils.generateTx(msgType, tx, signature, response.fee),
               ),
             )
               .then(response => {
@@ -105,7 +106,7 @@ export const confirmSell = () => (
                 Toast.errorToast(`Error: ${error.message}`)
               }),
           })
-        })
+        }, 'base64')
       }
     })
     .catch(() => {

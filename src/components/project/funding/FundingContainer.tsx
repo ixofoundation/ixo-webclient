@@ -415,7 +415,8 @@ export class Funding extends React.Component<Props, State> {
       }
       // need to add amount: ethAmt property for withdrawal
 
-      this.props.ixo.utils.getSignData(payload, 'project/WithdrawFunds', this.props.userInfo.didDoc.pubKey)
+      const msgType = 'project/WithdrawFunds'
+      this.props.ixo.utils.getSignData(payload, msgType, this.props.userInfo.didDoc.pubKey)
         .then((response: any) => {
           if (response.sign_bytes && response.fee) {
             this.props.keysafe.requestSigning(
@@ -423,9 +424,9 @@ export class Funding extends React.Component<Props, State> {
               (error, signature) => {
                 if (!error) {
                   this.props.ixo.project
-                    .payOutToEthWallet(payload, signature)
+                    .payOutToEthWallet(payload, signature, 'sync')
                     .then((response: any) => {
-                      if (response.code === 0) {
+                      if ((response.code || 0) === 0) {
                         successToast('Withdraw requested successfully')
                       } else {
                         errorToast('Unable to request a withdrawal at this time')

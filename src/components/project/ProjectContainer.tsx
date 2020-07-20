@@ -740,12 +740,12 @@ export class ProjectContainer extends React.Component<Props, State> {
 
   handleLedgerDid = (): void => {
     if (this.props.userInfo.didDoc) {
-      const payload = { didDoc: this.props.userInfo.didDoc }
+      const payload = this.props.userInfo.didDoc
       let ledgerObj = {
         isLedgering: true,
         modalResponse: '',
       }
-      this.props.ixo.utils.getSignData(payload, 'did/AddDid', this.props.userInfo.didDoc.pubKey)
+      this.props.ixo.utils.getSignData(payload, 'did/AddDid', payload.pubKey)
         .then((response: any) => {
           if (response.sign_bytes && response.fee) {
             this.props.keysafe.requestSigning(
@@ -753,9 +753,9 @@ export class ProjectContainer extends React.Component<Props, State> {
               (error, signature) => {
                 if (!error) {
                   this.props.ixo.user
-                    .registerUserDid(payload, signature, response.fee)
+                    .registerUserDid(payload, signature, response.fee, 'sync')
                     .then((response: any) => {
-                      if (response.code === 0) {
+                      if ((response.code || 0) == 0) {
                         ledgerObj = {
                           isLedgering: false,
                           modalResponse:
