@@ -6,13 +6,13 @@ import {
 
 export const initialState: CreateEntityPageContentState = {
   header: {
-    title: null,
-    shortDescription: null,
-    imageDescription: null,
+    title: undefined,
+    shortDescription: undefined,
+    imageDescription: undefined,
     sdgs: [],
-    company: null,
-    country: null,
-    imageDid: null,
+    company: undefined,
+    country: undefined,
+    imageDid: undefined,
     uploadingImage: false,
   },
   body: {},

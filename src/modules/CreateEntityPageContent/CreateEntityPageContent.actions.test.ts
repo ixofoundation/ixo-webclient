@@ -25,15 +25,17 @@ describe('CreateEntityPageContent Actions', () => {
         const company = 'someCompany'
         const country = 'ZA'
 
-        // when ... we call the updateHeader action creator
-        const action = SUT.updateHeaderContent(
+        const formData = {
           title,
           shortDescription,
           imageDescription,
           sdgs,
           company,
           country,
-        )
+        }
+
+        // when ... we call the updateHeader action creator
+        const action = SUT.updateHeaderContent(formData)
 
         // then ... we should expect it to create the action with correct type and payload
         expect(action.type).toEqual(

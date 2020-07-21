@@ -2,7 +2,7 @@ import React, { Dispatch } from 'react'
 import { connect } from 'react-redux'
 import { RootState } from 'src/common/redux/types'
 import Instructions from './components/Instructions/Instructions'
-import { Container } from './SubmitEntityClaim.container.styles'
+import { FormContainer } from '../../common/components/JsonForm/JsonForm.styles'
 import { FormControl } from '../../common/components/JsonForm/types'
 import * as submitEntityClaimSelectors from './SubmitEntityClaim.selectors'
 import * as selectedEntitySelectors from '../SelectedEntity/SelectedEntity.selectors'
@@ -46,7 +46,7 @@ class InstructionsContainer extends React.Component<Props> {
 
     return (
       <ActionWrapper className="open summary">
-        <Container>
+        <FormContainer>
           <Instructions
             backLink={`/projects/${entityDid}/overview`}
             formLink={`/projects/${entityDid}/overview/action/new_claim/form`}
@@ -55,7 +55,7 @@ class InstructionsContainer extends React.Component<Props> {
               control: question.control,
             }))}
           />
-        </Container>
+        </FormContainer>
       </ActionWrapper>
     )
   }

@@ -22,27 +22,34 @@ import {
   EmbeddedPageContentType,
   UpdateEmbeddedContentAction,
 } from './types'
+import { FormData } from 'src/common/components/JsonForm/types'
 
 const PDS_URL = process.env.REACT_APP_PDS_URL
 
 export const updateHeaderContent = (
-  title: string,
-  shortDescription: string,
-  imageDescription: string,
-  sdgs: string[],
-  company: string,
-  country: string,
-): UpdateHeaderContentAction => ({
-  type: CreateEntityPageContentActions.UpdateHeaderContent,
-  payload: {
+  formData: FormData,
+): UpdateHeaderContentAction => {
+  const {
     title,
     shortDescription,
     imageDescription,
     sdgs,
     company,
     country,
-  },
-})
+  } = formData
+
+  return {
+    type: CreateEntityPageContentActions.UpdateHeaderContent,
+    payload: {
+      title,
+      shortDescription,
+      imageDescription,
+      sdgs,
+      company,
+      country,
+    },
+  }
+}
 
 export const uploadHeaderContentImage = (base64ImageData: string) => (
   dispatch: Dispatch,

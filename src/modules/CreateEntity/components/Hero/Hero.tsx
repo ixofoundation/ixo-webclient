@@ -11,7 +11,7 @@ export const Hero: React.FunctionComponent<Props> = ({ title }) => {
       <div className="container">
         <div className="row">
           <div className="col-12">
-            <h6>{title}</h6>
+            <h1>{title}</h1>
           </div>
         </div>
       </div>

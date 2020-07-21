@@ -4,10 +4,7 @@ import { connect } from 'react-redux'
 import { RootState } from 'src/common/redux/types'
 import { Hero } from './components/Hero/Hero'
 import Question from './components/Question/Question'
-import {
-  Container,
-  SubmitEntityClaimWrapper,
-} from './SubmitEntityClaim.container.styles'
+import { SubmitEntityClaimWrapper } from './SubmitEntityClaim.container.styles'
 import { Steps } from '../../common/components/Steps/Steps'
 import { FormControl, FormData } from '../../common/components/JsonForm/types'
 import * as submitEntityClaimSelectors from './SubmitEntityClaim.selectors'
@@ -138,19 +135,17 @@ class SubmitEntityClaim extends React.Component<Props, State> {
                   totalSteps={questionCount}
                   handleGoToStepClick={handleGoToQuestionClick}
                 />
-                <Container>
-                  <Question
-                    answer={currentAnswer}
-                    savingAnswer={savingAnswer}
-                    handleFormDataChange={handleFormDataChange}
-                    handlePreviousClick={handlePreviousClick}
-                    handleNextClick={this.handleNext}
-                    question={currentQuestion}
-                    currentQuestionNo={currentQuestionNo}
-                    questionCount={questionCount}
-                    answersComplete={answersComplete}
-                  />
-                </Container>
+                <Question
+                  answer={currentAnswer}
+                  savingAnswer={savingAnswer}
+                  handleFormDataChange={handleFormDataChange}
+                  handlePreviousClick={handlePreviousClick}
+                  handleNextClick={this.handleNext}
+                  question={currentQuestion}
+                  currentQuestionNo={currentQuestionNo}
+                  questionCount={questionCount}
+                  answersComplete={answersComplete}
+                />
               </div>
               <div className="col-lg-4">
                 <ControlPanel
