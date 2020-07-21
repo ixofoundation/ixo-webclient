@@ -217,6 +217,20 @@ describe('Entities Actions', () => {
     })
   })
 
+  describe('filterSector', () => {
+    it('should create an action to set the sector', () => {
+      // when ... we call the filterAddCategoryTag action creator
+      store.dispatch(SUT.filterSector('Oracle Launchpad'))
+      const action = store.getActions()[0]
+
+      // then we should expect it to create action with the correct type and payload
+      expect(action.type).toEqual(EntitiesActions.FilterSector)
+      expect(action.payload).toEqual({
+        sector: 'Oracle Launchpad',
+      })
+    })
+  })
+
   describe('resetCategoryFilter', () => {
     it('should create an action to reset the specific category filter', () => {
       // when ... we call the resetCategoryFilter action creator
