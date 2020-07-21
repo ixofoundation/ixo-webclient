@@ -10,6 +10,7 @@ import AudioUpload from './CustomWidgets/AudioUpload/AudioUpload'
 import VideoUpload from './CustomWidgets/VideoUpload/VideoUpload'
 import EmailValidation from './CustomWidgets/EmailValidation/EmailValidation'
 import CountrySelector from './CustomWidgets/CountrySelector/CountrySelector'
+import SDGSelector from './CustomWidgets/SDGSelector/SDGSelector'
 
 export type FormData = {
   [id: string]: any
@@ -39,6 +40,7 @@ export const customControls = {
   ['singledateselector']: SingleDateSelector,
   ['daterangeselector']: DateRangeSelector,
   ['countryselector']: CountrySelector,
+  ['sdgselector']: SDGSelector,
   ['locationselector']: LocationSelector,
   ['imageupload']: ImageUpload,
   ['avatarupload']: AvatarUpload,

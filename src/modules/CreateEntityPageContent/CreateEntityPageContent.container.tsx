@@ -26,6 +26,7 @@ class CreateEntityPageContent extends React.Component<Props> {
         imageDid,
         company,
         country,
+        sdgs,
         uploadingImage,
       },
       handleUpdateHeaderContent,
@@ -42,6 +43,7 @@ class CreateEntityPageContent extends React.Component<Props> {
         imageDid={imageDid}
         company={company}
         country={country}
+        sdgs={sdgs}
         uploadingImage={uploadingImage}
       />
     )

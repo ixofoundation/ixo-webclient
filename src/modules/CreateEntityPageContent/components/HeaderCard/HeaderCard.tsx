@@ -16,7 +16,7 @@ interface Props {
   imageDid: string
   imageDescription: string
   company: string
-  // sdgs: string[]
+  sdgs: string[]
   country: string
   uploadingImage: boolean
   handleUpdateContent: (formData: FormData) => void
@@ -31,7 +31,7 @@ const HeaderCard: React.FunctionComponent<Props> = ({
   country,
   imageDid,
   uploadingImage,
-  // sdgs,
+  sdgs,
   handleUpdateContent,
   handleUploadImage,
 }) => {
@@ -43,6 +43,7 @@ const HeaderCard: React.FunctionComponent<Props> = ({
     country,
     imageDid,
     uploadingImage,
+    sdgs: sdgs[0], // TODO - make this work for multiple SDGS!
   }
 
   const schema = {
@@ -53,6 +54,7 @@ const HeaderCard: React.FunctionComponent<Props> = ({
       shortDescription: { type: 'string', title: 'Short Description' },
       company: { type: 'string', title: 'Organisation' },
       country: { type: 'string', title: 'Country' },
+      sdgs: { type: 'string', title: 'Tag' },
       imageDescription: { type: 'string', title: 'Header Image Description' },
     },
   } as any
@@ -72,6 +74,9 @@ const HeaderCard: React.FunctionComponent<Props> = ({
     },
     country: {
       ['ui:widget']: customControls['countryselector'],
+    },
+    sdgs: {
+      ['ui:widget']: customControls['sdgselector'],
     },
     imageDescription: {
       ['ui:widget']: 'text',
