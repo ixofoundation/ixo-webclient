@@ -413,25 +413,36 @@ export class Funding extends React.Component<Props, State> {
         },
         senderDid: this.props.userInfo.didDoc.did,
       }
-      // need to add amount: ethAmt property for withdrawel
+      // need to add amount: ethAmt property for withdrawal
 
-      this.props.keysafe.requestSigning(
-        JSON.stringify(payload),
-        (error, signature) => {
-          if (!error) {
-            this.props.ixo.project
-              .payOutToEthWallet(payload, signature)
-              .then((response: any) => {
-                if (response.code === 0) {
-                  successToast('Withdraw requested successfully')
-                } else {
-                  errorToast('Unable to request a withdrawel at this time')
+      const msgType = 'project/WithdrawFunds'
+      this.props.ixo.utils.getSignData(payload, msgType, this.props.userInfo.didDoc.pubKey)
+        .then((response: any) => {
+          if (response.sign_bytes && response.fee) {
+            this.props.keysafe.requestSigning(
+              JSON.stringify(payload),
+              (error, signature) => {
+                if (!error) {
+                  this.props.ixo.project
+                    .payOutToEthWallet(payload, signature, 'sync')
+                    .then((response: any) => {
+                      if ((response.code || 0) === 0) {
+                        successToast('Withdraw requested successfully')
+                      } else {
+                        errorToast('Unable to request a withdrawal at this time')
+                      }
+                    })
                 }
-              })
+              },
+              'base64',
+            )
+          } else {
+            errorToast('Unable to request a withdrawal at this time')
           }
-        },
-        'base64',
-      )
+        })
+        .catch(() => {
+          errorToast('Unable to request a withdrawal at this time')
+        })
     } else {
       errorToast('we not find your did')
     }
