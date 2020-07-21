@@ -1,6 +1,6 @@
 import * as SUT from './ixo.actions'
 import { IxoActions } from './types'
-import { Ixo } from 'ixo-module'
+import { Ixo } from '@ixo/ixo-apimodule'
 
 describe('Ixo Actions', () => {
   describe('initIxo', () => {

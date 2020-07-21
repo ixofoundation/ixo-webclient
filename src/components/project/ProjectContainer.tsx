@@ -740,49 +740,67 @@ export class ProjectContainer extends React.Component<Props, State> {
 
   handleLedgerDid = (): void => {
     if (this.props.userInfo.didDoc) {
-      const payload = { didDoc: this.props.userInfo.didDoc }
-      this.props.keysafe.requestSigning(
-        JSON.stringify(payload),
-        (error, signature) => {
-          let ledgerObj = {
-            isLedgering: true,
-            modalResponse: '',
-          }
-          if (!error) {
-            this.props.ixo.user
-              .registerUserDid(payload, signature)
-              .then((response: any) => {
-                if (response.code === 0) {
-                  ledgerObj = {
-                    isLedgering: false,
-                    modalResponse:
-                      'Your credentials have been registered on the ixo blockchain. This will take a few seconds in the background, you can continue using the site.',
-                  }
-                } else {
-                  ledgerObj = {
-                    isLedgering: false,
-                    modalResponse:
-                      'Unable to ledger did at this time, please contact our support at support@ixo.world',
-                  }
+      const payload = this.props.userInfo.didDoc
+      let ledgerObj = {
+        isLedgering: true,
+        modalResponse: '',
+      }
+      this.props.ixo.utils.getSignData(payload, 'did/AddDid', payload.pubKey)
+        .then((response: any) => {
+          if (response.sign_bytes && response.fee) {
+            this.props.keysafe.requestSigning(
+              response.sign_bytes,
+              (error, signature) => {
+                if (!error) {
+                  this.props.ixo.user
+                    .registerUserDid(payload, signature, response.fee, 'sync')
+                    .then((response: any) => {
+                      if ((response.code || 0) == 0) {
+                        ledgerObj = {
+                          isLedgering: false,
+                          modalResponse:
+                            'Your credentials have been registered on the ixo blockchain. This will take a few seconds in the background, you can continue using the site.',
+                        }
+                      } else {
+                        ledgerObj = {
+                          isLedgering: false,
+                          modalResponse:
+                            'Unable to ledger did at this time, please contact our support at support@ixo.world',
+                        }
+                      }
+                    })
                 }
-                const content = (
-                  <NotLedgered
-                    ledgerDid={this.handleLedgerDid}
-                    modalResponse={ledgerObj.modalResponse}
-                    closeModal={(): void => this.handleToggleModal(null, false)}
-                  />
-                )
-                const modalData = {
-                  title: `Hi, ${this.props.userInfo.name}`,
-                  titleNoCaps: true,
-                  content: content,
-                }
-                this.setState({ ledger: ledgerObj, modalData: modalData })
-              })
+              },
+              'base64',
+            )
+          } else {
+            ledgerObj = {
+              isLedgering: false,
+              modalResponse:
+                'Unable to ledger did at this time, please contact our support at support@ixo.world',
+            }
           }
-        },
-        'base64',
+        })
+        .catch(() => {
+          ledgerObj = {
+            isLedgering: false,
+            modalResponse:
+              'Unable to ledger did at this time, please contact our support at support@ixo.world',
+          }
+        })
+      const content = (
+        <NotLedgered
+          ledgerDid={this.handleLedgerDid}
+          modalResponse={ledgerObj.modalResponse}
+          closeModal={(): void => this.handleToggleModal(null, false)}
+        />
       )
+      const modalData = {
+        title: `Hi, ${this.props.userInfo.name}`,
+        titleNoCaps: true,
+        content: content,
+      }
+      this.setState({ ledger: ledgerObj, modalData: modalData })
     } else {
       const ledgerObj = {
         isLedgering: false,
