@@ -5,6 +5,7 @@ import {
   filterCategories,
   filterSector,
   changeEntitiesType,
+  resetSectorFilter,
 } from './Entities.actions'
 import { EntityType, Category } from './types'
 import * as entitiesUtils from './Entities.utils'
@@ -16,6 +17,7 @@ interface Props {
   handleChangeEntitiesType: (entityType: EntityType) => void
   handleFilterCategories: (categories: Category[]) => void
   handleFilterSector: (tag: string) => void
+  handleResetSectorFilter: () => void
 }
 
 const EntitiesSelect: React.FunctionComponent<Props> = ({
@@ -23,6 +25,7 @@ const EntitiesSelect: React.FunctionComponent<Props> = ({
   handleChangeEntitiesType,
   handleFilterCategories,
   handleFilterSector,
+  handleResetSectorFilter,
 }) => {
   const params = queryString.parse(search)
   const entityTypes = Object.values(EntityType)
@@ -43,7 +46,11 @@ const EntitiesSelect: React.FunctionComponent<Props> = ({
     }
 
     if (params.sector) {
-      handleFilterSector(params.sector as string)
+      if (params.sector === 'all') {
+        handleResetSectorFilter()
+      } else {
+        handleFilterSector(params.sector as string)
+      }
     }
 
     // Other filters can be handled here in the future
@@ -67,6 +74,7 @@ const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
   handleFilterCategories: (categories: Category[]): void =>
     dispatch(filterCategories(categories)),
   handleFilterSector: (tag: string): void => dispatch(filterSector(tag)),
+  handleResetSectorFilter: (): void => dispatch(resetSectorFilter()),
 })
 
 export const EntitiesSelectConnected = connect(
