@@ -220,8 +220,14 @@ class ImageLoader extends React.Component<Props, State> {
               />
             </div>
             <div className="button-wrapper">
-              <button onClick={(): void => this.cancel()}>Cancel</button>
-              <button className="submit" onClick={(): void => this.save()}>
+              <button type="button" onClick={(): void => this.cancel()}>
+                Cancel
+              </button>
+              <button
+                type="button"
+                className="submit"
+                onClick={(): void => this.save()}
+              >
                 Submit
               </button>
             </div>
@@ -256,7 +262,9 @@ class ImageLoader extends React.Component<Props, State> {
             onDropAccepted={this.onDropAccepted}
             style={DropZoneStyles}
           >
-            <button>{strategyMap[FileType.Image].replaceButtonText}</button>
+            <button type="button">
+              {strategyMap[FileType.Image].replaceButtonText}
+            </button>
           </Dropzone>
           {this.renderCroppingModal()}
         </LoaderWrapper>
@@ -274,7 +282,9 @@ class ImageLoader extends React.Component<Props, State> {
             <UploadFlat width={32} fill="#39C3E6" />
           </PulseLoader>
           <p className="desktop-upload-item">Drag files to upload, or</p>
-          <button>{strategyMap[FileType.Image].uploadButtonText}</button>
+          <button type="button">
+            {strategyMap[FileType.Image].uploadButtonText}
+          </button>
           <small>{strategyMap[FileType.Image].fileTypesText}</small>
         </Dropzone>
         {this.renderCroppingModal()}

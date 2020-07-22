@@ -1,6 +1,8 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
 import { RootState } from '../../redux/types'
+import { EntityType } from '../../../modules/Entities/types'
+import * as entitiesSelectors from '../../../modules/Entities/Entities.selectors'
 import { HeaderLeft } from './HeaderLeft/HeaderLeft'
 import { HeaderRight } from './HeaderRight/HeaderRight'
 import MediaQuery from 'react-responsive'
@@ -32,6 +34,7 @@ export interface State {
 export interface StateProps {
   ixo?: any
   keysafe?: any
+  entityType?: EntityType
 }
 
 export interface ParentProps {
@@ -200,8 +203,9 @@ class Header extends React.Component<Props, State> {
 
   handleLedgerDid = (): void => {
     if (this.props.userInfo.didDoc) {
-      const payload = this.props.userInfo.didDoc;
-      this.props.ixo.utils.getSignData(payload, 'did/AddDid', payload.pubKey)
+      const payload = this.props.userInfo.didDoc
+      this.props.ixo.utils
+        .getSignData(payload, 'did/AddDid', payload.pubKey)
         .then((response: any) => {
           if (response.sign_bytes && response.fee) {
             this.props.keysafe.requestSigning(
@@ -266,6 +270,7 @@ class Header extends React.Component<Props, State> {
         </ModalWrapper>
         <div className="row">
           <HeaderLeft
+            currentEntity={this.props.entityType}
             openMenu={this.state.isMobileMenuOpen}
             handleBurgerClick={this.handleBurgerClick}
           />
@@ -285,12 +290,11 @@ class Header extends React.Component<Props, State> {
   }
 }
 
-function mapStateToProps(state: RootState): any {
-  return {
-    ixo: state.ixo.ixo,
-    keysafe: state.keySafe.keysafe,
-    userInfo: state.account.userInfo,
-  }
-}
+const mapStateToProps = (state: RootState): Record<string, any> => ({
+  ixo: state.ixo.ixo,
+  keysafe: state.keySafe.keysafe,
+  userInfo: state.account.userInfo,
+  entityType: entitiesSelectors.selectSelectedEntitiesType(state),
+})
 
 export const HeaderConnected = connect(mapStateToProps)(Header)

@@ -51,12 +51,12 @@ export const confirmOrder = (entityDid: string) => (
   Axios.get(
     `${process.env.REACT_APP_GAIA_URL}/projectAccounts/${entityDid}`,
   ).then(projectAccounts => {
-    const projectAddr = projectAccounts.data.entityDid
+    const projectAddr = projectAccounts.data[entityDid]
 
     const tx: FuelEntityOrderTx = {
       pubKey,
-      fromDid: userDid,
-      toDidOrAddr: `${projectAddr}`,
+      from_did: userDid,
+      to_did: `${projectAddr}`,
       amount: [{ denom: 'ixo', amount }],
     }
 
@@ -64,7 +64,7 @@ export const confirmOrder = (entityDid: string) => (
     ixo.utils.getSignData(tx, msgType, pubKey)
       .then((response: any) => {
         if (response.sign_bytes && response.fee) {
-          keysafe.requestSigning(JSON.stringify(tx), (error, signature) => {
+          keysafe.requestSigning(response.sign_bytes, (error, signature) => {
             if (error) {
               return null
             }

@@ -70,7 +70,9 @@ const FileLoader: React.FunctionComponent<Props> = ({
           onDropAccepted={onDropAccepted}
           style={DropZoneStyles}
         >
-          <button>{strategyMap[fileType].replaceButtonText} </button>
+          <button type="button">
+            {strategyMap[fileType].replaceButtonText}{' '}
+          </button>
         </Dropzone>
       </LoaderWrapper>
     )
@@ -88,7 +90,7 @@ const FileLoader: React.FunctionComponent<Props> = ({
           <UploadFlat width={32} fill="#39C3E6" />
         </PulseLoader>
         <p className="desktop-upload-item">Drag files to upload, or</p>
-        <button>{strategyMap[fileType].uploadButtonText}</button>
+        <button type="button">{strategyMap[fileType].uploadButtonText}</button>
         <small>
           {strategyMap[fileType].fileTypesText}, max size {maxFileSizeInMB}mb
         </small>

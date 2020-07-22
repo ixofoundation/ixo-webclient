@@ -3,12 +3,13 @@ import { IxoState } from '../../modules/ixo/types'
 import { BondState } from '../../modules/bond/types'
 import { Currency } from '../../types/models'
 import { AccountState } from '../../modules/Account/types'
-import { BondBuyState } from 'src/modules/BondBuy/types'
-import { BondSellState } from 'src/modules/BondSell/types'
-import { BondSwapState } from 'src/modules/BondSwap/types'
+import { BondBuyState } from '../../modules/BondBuy/types'
+import { BondSellState } from '../../modules/BondSell/types'
+import { BondSwapState } from '../../modules/BondSwap/types'
 import { EntitiesState } from '../../modules/Entities/types'
-import { FuelEntityState } from 'src/modules/FuelEntity/types'
-import { SubmitEntityClaimState } from 'src/modules/SubmitEntityClaim/types'
+import { FuelEntityState } from '../../modules/FuelEntity/types'
+import { SubmitEntityClaimState } from '../../modules/SubmitEntityClaim/types'
+import { CreateEntityPageContentState } from '../../modules/CreateEntityPageContent/types'
 import { Entity } from '../../modules/Entities/types'
 
 export interface RootState {
@@ -26,4 +27,5 @@ export interface RootState {
   fuelEntity: FuelEntityState
   submitEntityClaim: SubmitEntityClaimState
   selectedEntity: Entity
+  createEntityPageContent: CreateEntityPageContentState
 }

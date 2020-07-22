@@ -10,7 +10,7 @@ import {
   HeroIndicatorsWrapper,
   ColorOverlay,
 } from './EntitiesHero.styles'
-import { EntityType, Category } from '../../types'
+import { EntityType } from '../../types'
 import { strategyMap } from '../../strategy-map'
 
 // TODO - when we know what the other entity types headers will look like then possibly refactor this as it's messy with all the conditions
@@ -20,21 +20,18 @@ import { getHeaderSchema, getHeaderTabButtons } from './EntitiesHero.utils'
 export interface Props {
   entityType: EntityType
   showSearch: boolean
-  filterCategories: Category[]
+  filterSector: string
   handleChangeEntitiesType: (entityType: EntityType) => void
 }
 
 export const EntitiesHero: React.FunctionComponent<Props> = ({
   entityType,
   showSearch,
-  filterCategories,
+  filterSector,
   handleChangeEntitiesType,
 }) => {
   const entityStrategyMap = strategyMap[entityType]
-  const header = getHeaderSchema(
-    filterCategories,
-    entityStrategyMap.headerSchema,
-  )
+  const header = getHeaderSchema(filterSector, entityStrategyMap.headerSchema)
   const headerTabButtons = getHeaderTabButtons(
     entityType,
     entityStrategyMap.plural.toUpperCase(),

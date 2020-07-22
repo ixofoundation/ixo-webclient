@@ -1,13 +1,13 @@
 import styled from 'styled-components'
-import { deviceWidth } from '../../../../lib/commonData'
+import { deviceWidth } from '../../../lib/commonData'
 
-export const ProgressWrapper = styled.div`
+export const StepsWrapper = styled.div`
   margin: 0 auto 2rem;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-flow: row nowrap;
-  .progress-item {
+  .step-item {
     position: relative;
     background: #e8edee;
     color: #a5adb0;

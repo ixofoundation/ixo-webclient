@@ -209,6 +209,7 @@ beforeEach(() => {
             tags: ['bar'],
           },
         ],
+        sector: 'foo',
         userEntities: true,
         featuredEntities: true,
         popularEntities: true,
@@ -574,6 +575,16 @@ describe('Entities Selectors', () => {
           tags: ['bar'],
         },
       ])
+    })
+  })
+
+  describe('selectFilterSector', () => {
+    it('should return the sector property from the filter', () => {
+      // when .. we call the selector
+      const result = SUT.selectFilterSector(state)
+
+      // then... should return result as expected
+      expect(result).toEqual('foo')
     })
   })
 
