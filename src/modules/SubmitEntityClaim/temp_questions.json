@@ -18,6 +18,24 @@
     "control": "imageupload"
   },
   {
+    "id": "hdsfds1",
+    "title": "Upload a Video",
+    "description": "This will be a short description or explainer text explaining the question. ",
+    "label": "Select a video to upload",
+    "required": true,
+    "type": "string",
+    "control": "videoupload"
+  },
+  {
+    "id": "hdsfds2",
+    "title": "Upload a Document",
+    "description": "This will be a short description or explainer text explaining the question. ",
+    "label": "Select a document to upload",
+    "required": true,
+    "type": "string",
+    "control": "documentupload"
+  },
+  {
     "id": "gewr",
     "title": "Enter Location",
     "description": "This will be a short description or explainer text explaining the question. ",

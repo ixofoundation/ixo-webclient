@@ -51,7 +51,7 @@ export default class QRCodeComponent extends React.Component<Props> {
               </div>
             </div>
           </div>
-          <button>View scan history</button>
+          <button type="button">View scan history</button>
         </ExplainerText>
       </QRWrapper>
     )

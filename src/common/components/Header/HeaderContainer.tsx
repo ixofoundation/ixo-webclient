@@ -1,6 +1,8 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
 import { RootState } from '../../redux/types'
+import { EntityType } from '../../../modules/Entities/types'
+import * as entitiesSelectors from '../../../modules/Entities/Entities.selectors'
 import { HeaderLeft } from './HeaderLeft/HeaderLeft'
 import { HeaderRight } from './HeaderRight/HeaderRight'
 import MediaQuery from 'react-responsive'
@@ -32,6 +34,7 @@ export interface State {
 export interface StateProps {
   ixo?: any
   keysafe?: any
+  entityType?: EntityType
 }
 
 export interface ParentProps {
@@ -200,32 +203,49 @@ class Header extends React.Component<Props, State> {
 
   handleLedgerDid = (): void => {
     if (this.props.userInfo.didDoc) {
-      const payload = { didDoc: this.props.userInfo.didDoc }
-      this.props.keysafe.requestSigning(
-        JSON.stringify(payload),
-        (error, signature) => {
-          this.setState({ isLedgering: true })
-          if (!error) {
-            this.props.ixo.user
-              .registerUserDid(payload, signature)
-              .then((response: any) => {
-                if (response.code === 0) {
-                  this.setState({
-                    shouldLedgerDid: false,
-                    modalResponse:
-                      'Your credentials have been registered on the ixo blockchain. This will take a few seconds in the background, you can continue using the site.',
-                  })
-                } else {
-                  this.setState({
-                    modalResponse:
-                      'Unable to ledger did at this time, please contact our support at support@ixo.world',
-                  })
+      const payload = this.props.userInfo.didDoc
+      this.props.ixo.utils
+        .getSignData(payload, 'did/AddDid', payload.pubKey)
+        .then((response: any) => {
+          if (response.sign_bytes && response.fee) {
+            this.props.keysafe.requestSigning(
+              response.sign_bytes,
+              (error, signature) => {
+                this.setState({ isLedgering: true })
+                if (!error) {
+                  this.props.ixo.user
+                    .registerUserDid(payload, signature, response.fee, 'sync')
+                    .then((response: any) => {
+                      if ((response.code || 0) == 0) {
+                        this.setState({
+                          shouldLedgerDid: false,
+                          modalResponse:
+                            'Your credentials have been registered on the ixo blockchain. This will take a few seconds in the background, you can continue using the site.',
+                        })
+                      } else {
+                        this.setState({
+                          modalResponse:
+                            'Unable to ledger did at this time, please contact our support at support@ixo.world',
+                        })
+                      }
+                    })
                 }
-              })
+              },
+              'base64',
+            )
+          } else {
+            this.setState({
+              modalResponse:
+                'Unable to ledger did at this time, please contact our support at support@ixo.world',
+            })
           }
-        },
-        'base64',
-      )
+        })
+        .catch(() => {
+          this.setState({
+            modalResponse:
+              'Unable to ledger did at this time, please contact our support at support@ixo.world',
+          })
+        })
     } else {
       this.setState({
         modalResponse:
@@ -250,6 +270,7 @@ class Header extends React.Component<Props, State> {
         </ModalWrapper>
         <div className="row">
           <HeaderLeft
+            currentEntity={this.props.entityType}
             openMenu={this.state.isMobileMenuOpen}
             handleBurgerClick={this.handleBurgerClick}
           />
@@ -269,12 +290,11 @@ class Header extends React.Component<Props, State> {
   }
 }
 
-function mapStateToProps(state: RootState): any {
-  return {
-    ixo: state.ixo.ixo,
-    keysafe: state.keySafe.keysafe,
-    userInfo: state.account.userInfo,
-  }
-}
+const mapStateToProps = (state: RootState): Record<string, any> => ({
+  ixo: state.ixo.ixo,
+  keysafe: state.keySafe.keysafe,
+  userInfo: state.account.userInfo,
+  entityType: entitiesSelectors.selectSelectedEntitiesType(state),
+})
 
 export const HeaderConnected = connect(mapStateToProps)(Header)

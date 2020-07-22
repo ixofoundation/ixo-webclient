@@ -7,6 +7,7 @@
   },
   "view": {
     "@type": "Category",
+    "hidden": false,
     "name": "View",
     "multiSelect": false,
     "tags": [
@@ -35,6 +36,7 @@
   "ddoTags": [
     {
       "@type": "Category",
+      "hidden": false,
       "name": "Cell Type",
       "multiSelect": true,
       "tags": [
@@ -48,7 +50,6 @@
           "name": "Relayer",
           "icon": "tag.svg"
         },
-
         {
           "@type": "Tag",
           "name": "Portal",
@@ -120,10 +121,13 @@
           "icon": "tag.svg"
         }
       ],
-      "selectedTags": ["Index"]
+      "selectedTags": [
+        "Index"
+      ]
     },
     {
       "@type": "Category",
+      "hidden": false,
       "name": "SDG",
       "multiSelect": true,
       "tags": [
@@ -216,6 +220,7 @@
     },
     {
       "@type": "Category",
+      "hidden": false,
       "name": "Stage",
       "multiSelect": false,
       "tags": [
@@ -256,5 +261,23 @@
         }
       ]
     }
-  ]
+  ],
+  "sector": {
+    "@type": "Category",
+    "name": "Sector",
+    "hidden": false,
+    "multiSelect": false,
+    "tags": [
+      {
+        "@type": "sector",
+        "name": "Oracle Launchpad",
+        "icon": "portfolio.svg"
+      },
+      {
+        "@type": "sector",
+        "name": "Oracle Marketplace",
+        "icon": "portfolio.svg"
+      }
+    ]
+  }
 }

@@ -251,6 +251,13 @@ export const selectFilterCategories = createSelector(
   },
 )
 
+export const selectFilterSector = createSelector(
+  selectEntitiesFilter,
+  (filter: Filter): string => {
+    return filter.sector
+  },
+)
+
 export const selectFilterCategoriesSummary = createSelector(
   selectFilterCategories,
   (categories: Category[]): string => {

@@ -18,6 +18,7 @@ import {
 } from './HeaderLeft.styles'
 
 export interface ParentProps {
+  currentEntity: string
   openMenu: boolean
   handleBurgerClick: any
 }
@@ -27,7 +28,10 @@ export class HeaderLeft extends React.Component<ParentProps> {
     if (inHeader) {
       return (
         <Fragment>
-          <HeaderLink exact={true} to="/">
+          <HeaderLink
+            exact={true}
+            to={`/entities/select?type=${this.props.currentEntity}&sector=all`}
+          >
             Explore
           </HeaderLink>
           <HeaderAnchor

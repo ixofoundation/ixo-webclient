@@ -1,17 +1,9 @@
 import React from 'react'
 import Form from '@rjsf/core'
-import { FormContainer } from './SingleControlForm.styles'
-import ImageCheckboxes from '../CustomWidgets/ImageCheckboxes/ImageCheckboxes'
-import SingleDateSelector from '../CustomWidgets/SingleDateSelector/SingleDateSelector'
-import DateRangeSelector from '../CustomWidgets/DateRangeSelector/DateRangeSelector'
-import LocationSelector from '../CustomWidgets/LocationSelector/LocationSelector'
-import QRCode from '../CustomWidgets/QRCode/QRCode'
-import { FormControl, FormData } from '../types'
-import ImageUpload from '../CustomWidgets/ImageUpload/ImageUpload'
-import AvatarUpload from '../CustomWidgets/AvatarUpload/AvatarUpload'
-import DocumentUpload from '../CustomWidgets/DocumentUpload/DocumentUpload'
-import AudioUpload from '../CustomWidgets/AudioUpload/AudioUpload'
-import VideoUpload from '../CustomWidgets/VideoUpload/VideoUpload'
+import { FormContainer } from '../JsonForm.styles'
+import { FormControl, FormData, customControls } from '../types'
+import * as formUtils from '../JsonForm.utils'
+import { ControlContainer } from './SingleControlForm.styles'
 
 interface Props {
   formControl: FormControl
@@ -22,19 +14,6 @@ interface Props {
   handlePreviousClick: () => void
   handleSubmit: () => void
   handleFormDataChange: (formData: any) => void
-}
-
-const customControls = {
-  ['imagecheckboxes']: ImageCheckboxes,
-  ['singledateselector']: SingleDateSelector,
-  ['daterangeselector']: DateRangeSelector,
-  ['qrcode']: QRCode,
-  ['locationselector']: LocationSelector,
-  ['imageupload']: ImageUpload,
-  ['avatarupload']: AvatarUpload,
-  ['documentupload']: DocumentUpload,
-  ['audioupload']: AudioUpload,
-  ['videoupload']: VideoUpload,
 }
 
 const SingleControlForm: React.FunctionComponent<Props> = ({
@@ -103,21 +82,9 @@ const SingleControlForm: React.FunctionComponent<Props> = ({
     },
   }
 
-  const transformErrors = (errors): any => {
-    return errors.map(error => {
-      if (error) {
-        return {
-          ...error,
-          message: `This field ${error.message}`,
-        }
-      }
-      return error
-    })
-  }
-
   return (
     <FormContainer>
-      <div>
+      <ControlContainer>
         <Form
           onSubmit={handleSubmit}
           formData={formData}
@@ -127,7 +94,7 @@ const SingleControlForm: React.FunctionComponent<Props> = ({
           showErrorList={false}
           schema={schema}
           uiSchema={uiSchema}
-          transformErrors={transformErrors}
+          transformErrors={formUtils.transformErrors}
         >
           <div className="buttons">
             {showPreviousButton && (
@@ -135,10 +102,12 @@ const SingleControlForm: React.FunctionComponent<Props> = ({
                 Previous
               </button>
             )}
-            <button type="submit">{nextButtonText}</button>
+            <button type="submit" className="submitForm">
+              {nextButtonText}
+            </button>
           </div>
         </Form>
-      </div>
+      </ControlContainer>
     </FormContainer>
   )
 }

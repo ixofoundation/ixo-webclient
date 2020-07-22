@@ -2,7 +2,7 @@ import React, { Dispatch } from 'react'
 import { connect } from 'react-redux'
 import { RootState } from 'src/common/redux/types'
 import Instructions from './components/Instructions/Instructions'
-import { Container } from './SubmitEntityClaim.container.styles'
+import { FormContainer } from '../../common/components/JsonForm/JsonForm.styles'
 import { FormControl } from '../../common/components/JsonForm/types'
 import * as submitEntityClaimSelectors from './SubmitEntityClaim.selectors'
 import * as selectedEntitySelectors from '../SelectedEntity/SelectedEntity.selectors'
@@ -22,6 +22,10 @@ class InstructionsContainer extends React.Component<Props> {
   }
 
   componentDidMount(): void {
+    if (!document.querySelector('body').classList.contains('noScroll')) {
+      document.querySelector('body').classList.add('noScroll')
+    }
+    document.querySelector('#ControlPanelWrapper').classList.add('fixed')
     const {
       match: {
         params: { projectDID: entityDid },
@@ -32,12 +36,17 @@ class InstructionsContainer extends React.Component<Props> {
     handleGetEntity(entityDid)
   }
 
+  componentWillUnmount(): void {
+    document.querySelector('body').classList.remove('noScroll')
+    document.querySelector('#ControlPanelWrapper').classList.remove('fixed')
+  }
+
   render(): JSX.Element {
     const { entityDid, questions } = this.props
 
     return (
       <ActionWrapper className="open summary">
-        <Container>
+        <FormContainer>
           <Instructions
             backLink={`/projects/${entityDid}/overview`}
             formLink={`/projects/${entityDid}/overview/action/new_claim/form`}
@@ -46,7 +55,7 @@ class InstructionsContainer extends React.Component<Props> {
               control: question.control,
             }))}
           />
-        </Container>
+        </FormContainer>
       </ActionWrapper>
     )
   }

@@ -17,6 +17,7 @@ export const initialState: EntitiesState = {
     userEntities: false,
     featuredEntities: true,
     popularEntities: false,
+    sector: null,
   },
 }
 
@@ -138,6 +139,22 @@ export const reducer = (
               tags: [],
             },
           ],
+        },
+      }
+    case EntitiesActions.ResetSectorFilter:
+      return {
+        ...state,
+        filter: {
+          ...state.filter,
+          sector: '',
+        },
+      }
+    case EntitiesActions.FilterSector:
+      return {
+        ...state,
+        filter: {
+          ...state.filter,
+          sector: action.payload.sector,
         },
       }
     case EntitiesActions.ResetFilters:

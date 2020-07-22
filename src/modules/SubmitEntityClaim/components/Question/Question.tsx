@@ -9,6 +9,7 @@ interface Props {
   savingAnswer: boolean
   currentQuestionNo: number
   questionCount: number
+  answersComplete: boolean
   handlePreviousClick: () => void
   handleNextClick: () => void
   handleFormDataChange: (formData: any) => void
@@ -20,6 +21,7 @@ const Question: React.FunctionComponent<Props> = ({
   questionCount,
   answer,
   savingAnswer,
+  answersComplete,
   handlePreviousClick,
   handleNextClick,
   handleFormDataChange,
@@ -36,8 +38,14 @@ const Question: React.FunctionComponent<Props> = ({
       handlePreviousClick={handlePreviousClick}
       handleSubmit={handleNextClick}
       formControl={question}
-      showPreviousButton={currentQuestionNo > 1}
-      nextButtonText={questionCount === currentQuestionNo ? 'Finalise' : 'Next'}
+      showPreviousButton={currentQuestionNo > 1 && !answersComplete}
+      nextButtonText={
+        answersComplete
+          ? 'Update'
+          : questionCount === currentQuestionNo
+          ? 'Finalise'
+          : 'Next'
+      }
     />
   )
 }

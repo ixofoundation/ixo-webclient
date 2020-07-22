@@ -10,6 +10,7 @@ import {
 import { Dispatch } from 'redux'
 import { RootState } from 'src/common/redux/types'
 import * as transactionUtils from '../../common/utils/transaction.utils'
+import * as Toast from '../../common/utils/Toast'
 
 export const getOrder = (assistantResponse: any): GetOrderAction => ({
   // TODO read from the actual response when assistant ready
@@ -44,29 +45,45 @@ export const confirmOrder = (entityDid: string) => (
         didDoc: { did: userDid, pubKey },
       },
     },
+    ixo: { ixo },
   } = getState()
 
-  const tx: FuelEntityOrderTx = {
-    pubKey,
-    fromDid: userDid,
-    toDid: `${entityDid}/${entityDid}`,
-    amount: [{ denom: 'ixo', amount }],
-  }
+  Axios.get(
+    `${process.env.REACT_APP_GAIA_URL}/projectAccounts/${entityDid}`,
+  ).then(projectAccounts => {
+    const projectAddr = projectAccounts.data[entityDid]
 
-  keysafe.requestSigning(JSON.stringify(tx), (error, signature) => {
-    if (error) {
-      return null
+    const tx: FuelEntityOrderTx = {
+      pubKey,
+      from_did: userDid,
+      to_did: `${projectAddr}`,
+      amount: [{ denom: 'ixo', amount }],
     }
 
-    return dispatch({
-      type: FuelEntityActions.ConfirmOrder,
-      payload: Axios.post(
-        `${process.env.REACT_APP_GAIA_URL}/txs`,
-        JSON.stringify(
-          transactionUtils.generateTx('treasury/MsgSend', tx, signature),
-        ),
-      ),
-    })
+    const msgType = 'treasury/MsgSend'
+    ixo.utils.getSignData(tx, msgType, pubKey)
+      .then((response: any) => {
+        if (response.sign_bytes && response.fee) {
+          keysafe.requestSigning(response.sign_bytes, (error, signature) => {
+            if (error) {
+              return null
+            }
+
+            return dispatch({
+              type: FuelEntityActions.ConfirmOrder,
+              payload: Axios.post(
+                `${process.env.REACT_APP_GAIA_URL}/txs`,
+                JSON.stringify(
+                  transactionUtils.generateTx(msgType, tx, signature, response.fee),
+                ),
+              ),
+            })
+          }, 'base64')
+        }
+      })
+      .catch(() => {
+        Toast.errorToast('Sale failed. Please try again.')
+      })
   })
 
   return null

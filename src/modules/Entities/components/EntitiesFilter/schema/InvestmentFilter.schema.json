@@ -7,6 +7,7 @@
   },
   "view": {
     "@type": "Category",
+    "hidden": false,
     "name": "View",
     "multiSelect": false,
     "tags": [
@@ -31,6 +32,13 @@
         "icon": "popular.svg"
       }
     ]
+  },
+  "sector": {
+    "@type": "Category",
+    "name": "Sector",
+    "hidden": true,
+    "multiSelect": false,
+    "tags": []
   },
   "ddoTags": []
 }

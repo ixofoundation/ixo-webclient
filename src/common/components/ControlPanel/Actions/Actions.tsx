@@ -10,7 +10,7 @@ import { Widget } from '../types'
 import { ControlPanelSection } from '../ControlPanel.styles'
 import { ActionLinksWrapper } from './Actions.styles'
 import FuelEntity from '../../../../modules/FuelEntity/FuelEntity.container'
-import ClaimSummary from '../../../../modules/SubmitEntityClaim/components/Summary/Summary'
+import { SummaryContainerConnected } from '../../../../modules/SubmitEntityClaim/Summary.container'
 import { Tooltip } from '../../Tooltip'
 import { InstructionsContainerConnected } from '../../../../modules/SubmitEntityClaim/Instructions.container'
 
@@ -42,8 +42,8 @@ const Actions: React.FunctionComponent<Props> = ({
       />
       <Route
         exact
-        path={`/projects/:projectDID/overview/action/new_claim_summary`}
-        component={ClaimSummary}
+        path="/projects/:projectDID/overview/action/new_claim/summary"
+        component={SummaryContainerConnected}
       />
       <Route
         exact

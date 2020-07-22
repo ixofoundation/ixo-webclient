@@ -1,4 +1,4 @@
-import { Ixo } from 'ixo-module'
+import { Ixo } from '@ixo/ixo-apimodule'
 import * as SUT from './ixo.reducer'
 import * as fromActions from './ixo.actions'
 import { IxoState } from './types'

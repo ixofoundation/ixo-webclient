@@ -14,7 +14,7 @@ export interface Schema extends SchemaBase {
 
 export interface SchemaOverride extends SchemaBase {
   id: string
-  ddoCategory: string
+  ddoSector: string
   ddoTag: string
 }
 
