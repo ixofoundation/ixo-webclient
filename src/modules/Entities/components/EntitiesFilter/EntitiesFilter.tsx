@@ -47,14 +47,17 @@ interface Props {
   userEntities: boolean
   featuredEntities: boolean
   popularEntities: boolean
+  sector: string
   handleFilterDates: (dateFrom: any, dateTo: any) => void
   handleResetDatesFilter: () => void
   handleFilterCategoryTag: (category: string, tag: string) => void
+  handleFilterSector: (tag: string) => void
   handleFilterAddCategoryTag: (category: string, tag: string) => void
   handleFilterToggleUserEntities: (userEntities: boolean) => void
   handleFilterToggleFeaturedEntities: (featuredEntities: boolean) => void
   handleFilterTogglePopularEntities: (popularEntities: boolean) => void
   handleResetCategoryFilter: (category: string) => void
+  handleResetSectorFilter: () => void
   handleResetFilters: () => void
 }
 
@@ -99,6 +102,14 @@ class EntitiesFilter extends React.Component<Props, State> {
       isSelected: this.props.categories
         .find(category => category.name === filterName)
         .tags.includes(ddoTag.name),
+    }))
+  }
+
+  getSectorFilterItems = (tags: SchemaCategoryTag[]): IconListFilterItem[] => {
+    return tags.map(tag => ({
+      name: tag.name,
+      icon: tag.icon,
+      isSelected: this.props.sector === tag.name,
     }))
   }
 
@@ -155,6 +166,15 @@ class EntitiesFilter extends React.Component<Props, State> {
     }
   }
 
+  filterSector = (tag: string): void => {
+    this.props.handleFilterSector(tag)
+  }
+
+  resetSectorFilter = (): void => {
+    this.setState({ activeFilter: '' })
+    this.props.handleResetSectorFilter()
+  }
+
   resetDateFilter = (): void => {
     this.setState({ activeFilter: '' })
     this.props.handleResetDatesFilter()
@@ -171,50 +191,57 @@ class EntitiesFilter extends React.Component<Props, State> {
   }
 
   render(): JSX.Element {
+    const {
+      title,
+      filterSchema,
+      startDate,
+      endDate,
+      dateSummary,
+      startDateFormatted,
+      endDateFormatted,
+      handleFilterDates,
+      handleResetFilters,
+    } = this.props
     return (
       <div data-testid="EntitiesFilter">
         <FiltersWrap>
-          <FilterInfo>{this.props.title}</FilterInfo>
+          <FilterInfo>{title}</FilterInfo>
           <div className="filters">
             <MediaQuery minWidth={`${deviceWidth.desktop}px`}>
               <DateFilterDesktop
-                startDate={this.props.startDate}
-                endDate={this.props.endDate}
-                dateSummary={this.props.dateSummary}
+                startDate={startDate}
+                endDate={endDate}
+                dateSummary={dateSummary}
                 isActive={
-                  this.state.activeFilter ===
-                  this.props.filterSchema.dateCreated.name
+                  this.state.activeFilter === filterSchema.dateCreated.name
                 }
                 handleFilterToggleShow={(): void =>
                   this.toggleFilterShow(
-                    this.state.activeFilter ===
-                      this.props.filterSchema.dateCreated.name,
-                    this.props.filterSchema.dateCreated.name,
+                    this.state.activeFilter === filterSchema.dateCreated.name,
+                    filterSchema.dateCreated.name,
                   )
                 }
-                handleFilterDateChange={this.props.handleFilterDates}
+                handleFilterDateChange={handleFilterDates}
                 handleResetFilter={this.resetDateFilter}
               />
             </MediaQuery>
             <MediaQuery maxWidth={`${deviceWidth.desktop - 1}px`} y>
               <DateFilterMobile
-                startDate={this.props.startDate}
-                endDate={this.props.endDate}
-                startDateDisplay={this.props.startDateFormatted}
-                endDateDisplay={this.props.endDateFormatted}
-                dateSummary={this.props.dateSummary}
+                startDate={startDate}
+                endDate={endDate}
+                startDateDisplay={startDateFormatted}
+                endDateDisplay={endDateFormatted}
+                dateSummary={dateSummary}
                 isActive={
-                  this.state.activeFilter ===
-                  this.props.filterSchema.dateCreated.name
+                  this.state.activeFilter === filterSchema.dateCreated.name
                 }
                 handleFilterToggleShow={(): void =>
                   this.toggleFilterShow(
-                    this.state.activeFilter ===
-                      this.props.filterSchema.dateCreated.name,
-                    this.props.filterSchema.dateCreated.name,
+                    this.state.activeFilter === filterSchema.dateCreated.name,
+                    filterSchema.dateCreated.name,
                   )
                 }
-                handleFilterDateChange={this.props.handleFilterDates}
+                handleFilterDateChange={handleFilterDates}
                 handleResetFilter={this.resetDateFilter}
               />
             </MediaQuery>
@@ -230,11 +257,9 @@ class EntitiesFilter extends React.Component<Props, State> {
                     this.toggleFilterShow(this.filterIsActive('View'), 'View')
                   }
                   handleFilterItemClick={this.filterViewTag}
-                  items={this.getViewFilterItems(
-                    this.props.filterSchema.view.tags,
-                  )}
+                  items={this.getViewFilterItems(filterSchema.view.tags)}
                 />
-                {this.props.filterSchema.ddoTags.map(schemaCategory => {
+                {filterSchema.ddoTags.map(schemaCategory => {
                   const {
                     name: filterName,
                     tags: schemaTags,
@@ -267,6 +292,30 @@ class EntitiesFilter extends React.Component<Props, State> {
                     />
                   )
                 })}
+
+                {!filterSchema.sector.hidden && (
+                  <IconListFilterDesktop
+                    selectType={
+                      filterSchema.sector.multiSelect
+                        ? SelectType.MultiSelect
+                        : SelectType.SingleSelect
+                    }
+                    key={filterSchema.sector.name}
+                    name={filterSchema.sector.name}
+                    isActive={this.filterIsActive(filterSchema.sector.name)}
+                    handleFilterReset={this.resetSectorFilter}
+                    handleToggleFilterShow={(): void =>
+                      this.toggleFilterShow(
+                        this.filterIsActive(filterSchema.sector.name),
+                        filterSchema.sector.name,
+                      )
+                    }
+                    handleFilterItemClick={(category, tag): void => {
+                      this.filterSector(tag)
+                    }}
+                    items={this.getSectorFilterItems(filterSchema.sector.tags)}
+                  />
+                )}
               </Menu>
             </MediaQuery>
             <MediaQuery maxWidth={`${deviceWidth.desktop - 1}px`}>
@@ -275,7 +324,7 @@ class EntitiesFilter extends React.Component<Props, State> {
               >
                 {iconListFilterUtils.getTitle(
                   'View',
-                  this.getViewFilterItems(this.props.filterSchema.view.tags),
+                  this.getViewFilterItems(filterSchema.view.tags),
                   SelectType.SingleSelect,
                 )}
               </BurgerMenuButton>
@@ -297,9 +346,7 @@ class EntitiesFilter extends React.Component<Props, State> {
                         this.toggleMobileFilterMenuShow('View')
                       }
                       handleFilterItemClick={this.filterViewTag}
-                      items={this.getViewFilterItems(
-                        this.props.filterSchema.view.tags,
-                      )}
+                      items={this.getViewFilterItems(filterSchema.view.tags)}
                     />
                   </div>
                 </MobileFilterWrapper>
@@ -327,14 +374,12 @@ class EntitiesFilter extends React.Component<Props, State> {
                   >
                     <Back />
                   </HeadingItem>
-                  <HeadingItem onClick={this.props.handleResetFilters}>
-                    clear
-                  </HeadingItem>
+                  <HeadingItem onClick={handleResetFilters}>clear</HeadingItem>
                 </MobileFilterHeader>
                 <MobileFilterWrapper>
                   <div>
                     <MobileFilterHeading>Filters</MobileFilterHeading>
-                    {this.props.filterSchema.ddoTags.map(ddoCategory => {
+                    {filterSchema.ddoTags.map(ddoCategory => {
                       const {
                         name: filterName,
                         tags: schemaTags,
@@ -367,6 +412,33 @@ class EntitiesFilter extends React.Component<Props, State> {
                         />
                       )
                     })}
+
+                    {!filterSchema.sector.hidden && (
+                      <IconListFilterMobile
+                        selectType={
+                          filterSchema.sector.multiSelect
+                            ? SelectType.MultiSelect
+                            : SelectType.SingleSelect
+                        }
+                        key={filterSchema.sector.name}
+                        name={filterSchema.sector.name}
+                        showFilterSubMenu={true}
+                        isActive={this.filterIsActive(filterSchema.sector.name)}
+                        handleToggleFilterShow={(): void =>
+                          this.toggleFilterShow(
+                            this.filterIsActive(filterSchema.sector.name),
+                            filterSchema.sector.name,
+                          )
+                        }
+                        handleFilterReset={this.resetSectorFilter}
+                        handleFilterItemClick={(category, tag): void => {
+                          this.filterSector(tag)
+                        }}
+                        items={this.getSectorFilterItems(
+                          filterSchema.sector.tags,
+                        )}
+                      />
+                    )}
                   </div>
                   <DoneButton
                     onClick={(): void =>
@@ -378,7 +450,7 @@ class EntitiesFilter extends React.Component<Props, State> {
                 </MobileFilterWrapper>
               </MobileMenu>
             </MediaQuery>
-            <Button onClick={this.props.handleResetFilters}>
+            <Button onClick={handleResetFilters}>
               <Reset fill="#000" />
               Reset
             </Button>

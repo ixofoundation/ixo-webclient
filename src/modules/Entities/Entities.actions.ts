@@ -10,12 +10,14 @@ import {
   ResetDatesFilterAction,
   FilterAddCategoryTagAction,
   ResetCategoryFilterAction,
+  ResetSectorFilterAction,
   ResetFiltersAction,
   EntitiesActions,
   EntityType,
   FilterCategoriesAction,
   Category,
   FilterCategoryTagAction,
+  FilterSectorAction,
 } from './types'
 import { RootState } from 'src/common/redux/types'
 import blocksyncApi from '../../common/api/blocksync-api/blocksync-api'
@@ -130,12 +132,20 @@ export const filterCategories = (
   type: EntitiesActions.FilterCategories,
   payload: { categories },
 })
+export const filterSector = (sector: string): FilterSectorAction => ({
+  type: EntitiesActions.FilterSector,
+  payload: { sector },
+})
 
 export const resetCategoryFilter = (
   category: string,
 ): ResetCategoryFilterAction => ({
   type: EntitiesActions.ResetCategoryFilter,
   payload: { category },
+})
+
+export const resetSectorFilter = (): ResetSectorFilterAction => ({
+  type: EntitiesActions.ResetSectorFilter,
 })
 
 export const resetFilters = (): ResetFiltersAction => ({
