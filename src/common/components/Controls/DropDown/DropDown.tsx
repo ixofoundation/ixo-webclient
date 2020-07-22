@@ -15,15 +15,14 @@ const DropDown: React.FunctionComponent<Props> = ({
   onChange,
 }) => {
   return (
-    <select onChange={(e): void => onChange(e.target.value)}>
+    <select
+      defaultValue={value}
+      onChange={(e): void => onChange(e.target.value)}
+    >
       <option value="">{selectText}</option>
       {options.map(opt => (
         // TODO - icon
-        <option
-          selected={value && value === opt.value}
-          key={opt.value}
-          value={opt.value}
-        >
+        <option key={opt.value} value={opt.value}>
           {opt.text}
         </option>
       ))}
