@@ -43,7 +43,7 @@ const HeaderCard: React.FunctionComponent<Props> = ({
     country,
     imageDid,
     uploadingImage,
-    sdgs: sdgs[0], // TODO - make this work for multiple SDGS!
+    sdgs, // TODO - make this work for multiple SDGS!
   }
 
   const schema = {
