@@ -6,6 +6,7 @@ export const StepsWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-flow: row nowrap;
   .step-item {
     position: relative;
     background: #e8edee;
@@ -60,7 +61,24 @@ export const StepsWrapper = styled.div`
       color: black;
       text-align: center;
       display: block;
-      @media (max-width: ${deviceWidth.mobile}px) {
+    }
+  }
+  @media (max-width: ${deviceWidth.mobile}px) {
+    flex-flow: row wrap;
+    .progress-item {
+      &.active {
+        width: 1.25rem;
+        height: 1.25rem;
+        font-size: 0.75rem;
+        line-height: 1.25rem;
+      }
+      &:not(:last-child) {
+        margin-right: 0.75rem;
+        &:after {
+          width: 1rem;
+        }
+      }
+      .step-text {
         display: none;
       }
     }
