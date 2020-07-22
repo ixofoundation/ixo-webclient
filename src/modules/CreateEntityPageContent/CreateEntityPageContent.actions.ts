@@ -74,16 +74,18 @@ export const addBodySection = (): AddBodySectionAction => ({
 
 export const updateBodyContent = (
   id: string,
-  title: string,
-  content: string,
-): UpdateBodyContentAction => ({
-  type: CreateEntityPageContentActions.UpdateBodyContent,
-  payload: {
-    id,
-    title,
-    content,
-  },
-})
+  formData: FormData,
+): UpdateBodyContentAction => {
+  const { title, content } = formData
+  return {
+    type: CreateEntityPageContentActions.UpdateBodyContent,
+    payload: {
+      id,
+      title,
+      content,
+    },
+  }
+}
 
 export const uploadBodyContentImage = (id: string, base64ImageData: string) => (
   dispatch: Dispatch,

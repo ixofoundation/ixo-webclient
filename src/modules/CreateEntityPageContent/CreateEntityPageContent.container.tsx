@@ -2,18 +2,24 @@ import React, { Dispatch } from 'react'
 import { connect } from 'react-redux'
 import * as pageContentSelectors from './CreateEntityPageContent.selectors'
 import { RootState } from 'src/common/redux/types'
-import { HeaderPageContent } from './types'
+import { HeaderPageContent, BodyPageContent } from './types'
 import HeaderCard from './components/HeaderCard/HeaderCard'
+import BodyContentCard from './components/BodyContentCard/BodyContentCard'
 import {
   updateHeaderContent,
   uploadHeaderContentImage,
+  updateBodyContent,
+  uploadBodyContentImage,
 } from './CreateEntityPageContent.actions'
 import { FormData } from 'src/common/components/JsonForm/types'
 
 interface Props {
   header: HeaderPageContent
+  body: BodyPageContent[]
   handleUpdateHeaderContent: (formData: FormData) => void
   handleUploadHeaderContentImage: (base64EncodedImage: string) => void
+  handleUpdateBodyContent: (id: string, formData: FormData) => void
+  handleUploadBodyContentImage: (id: string, base64EncodedImage: string) => void
 }
 
 class CreateEntityPageContent extends React.Component<Props> {
@@ -49,6 +55,38 @@ class CreateEntityPageContent extends React.Component<Props> {
     )
   }
 
+  renderBodyContent = (): JSX.Element => {
+    const {
+      body,
+      handleUpdateBodyContent,
+      handleUploadBodyContentImage,
+    } = this.props
+
+    return (
+      <>
+        {body.map(section => {
+          const { id, title, content, imageDid, uploadingImage } = section
+
+          return (
+            <BodyContentCard
+              key={section.id}
+              title={title}
+              content={content}
+              imageDid={imageDid}
+              uploadingImage={uploadingImage}
+              handleUpdateContent={(formData): void =>
+                handleUpdateBodyContent(id, formData)
+              }
+              handleUploadImage={(base64EncodedImage): void =>
+                handleUploadBodyContentImage(id, base64EncodedImage)
+              }
+            />
+          )
+        })}
+      </>
+    )
+  }
+
   render(): JSX.Element {
     return this.renderHeader()
   }
@@ -56,6 +94,7 @@ class CreateEntityPageContent extends React.Component<Props> {
 
 const mapStateToProps = (state: RootState): any => ({
   header: pageContentSelectors.selectHeaderContent(state),
+  body: pageContentSelectors.selectBodyContentSections(state),
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
@@ -63,6 +102,12 @@ const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
     dispatch(updateHeaderContent(formData)),
   handleUploadHeaderContentImage: (base64EncodedImage: string): void =>
     dispatch(uploadHeaderContentImage(base64EncodedImage)),
+  handleUpdateBodyContent: (id: string, formData: FormData): void =>
+    dispatch(updateBodyContent(id, formData)),
+  handleUploadBodyContentImage: (
+    id: string,
+    base64EncodedImage: string,
+  ): void => dispatch(uploadBodyContentImage(id, base64EncodedImage)),
 })
 
 export const CreateEntityPageContentConnected = connect(

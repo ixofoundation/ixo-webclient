@@ -4,20 +4,13 @@ import { debounce } from 'debounce'
 import { FormContainer } from '../../../../common/components/JsonForm/JsonForm.styles'
 import * as formUtils from '../../../../common/components/JsonForm/JsonForm.utils'
 import FormCardWrapper from '../../../../common/components/Wrappers/FormCardWrapper/FormCardWrapper'
-import {
-  FormData,
-  customControls,
-} from '../../../../common/components/JsonForm/types'
+import { FormData } from '../../../../common/components/JsonForm/types'
 import ImageLoader from '../../../../common/components/DropZone/ImageLoader/ImageLoader'
 
 interface Props {
   title: string
-  shortDescription: string
+  content: string
   imageDid: string
-  imageDescription: string
-  company: string
-  sdgs: string[]
-  country: string
   uploadingImage: boolean
   handleUpdateContent: (formData: FormData) => void
   handleUploadImage: (base64EncodedImage: string) => void
@@ -25,35 +18,23 @@ interface Props {
 
 const HeaderCard: React.FunctionComponent<Props> = ({
   title,
-  shortDescription,
-  imageDescription,
-  company,
-  country,
+  content,
   imageDid,
   uploadingImage,
-  sdgs,
   handleUpdateContent,
   handleUploadImage,
 }) => {
   const formData = {
     title,
-    shortDescription,
-    sdgs: sdgs[0], // TODO - make this work for multiple SDGS!
-    company,
-    country,
-    imageDescription,
+    content,
   }
 
   const schema = {
     type: 'object',
-    required: ['title', 'shortDescription', 'company', 'country'],
+    required: ['title', 'content'],
     properties: {
       title: { type: 'string', title: 'Title' },
-      shortDescription: { type: 'string', title: 'Short Description' },
-      company: { type: 'string', title: 'Organisation' },
-      country: { type: 'string', title: 'Country' },
-      sdgs: { type: 'string', title: 'Tag' },
-      imageDescription: { type: 'string', title: 'Header Image Description' },
+      content: { type: 'string', title: 'Body Content' },
     },
   } as any
 
@@ -62,23 +43,9 @@ const HeaderCard: React.FunctionComponent<Props> = ({
       ['ui:widget']: 'text',
       ['ui:placeholder']: 'Enter Title',
     },
-    shortDescription: {
+    content: {
       ['ui:widget']: 'textarea',
       ['ui:placeholder']: 'Start Typing Here',
-    },
-    company: {
-      ['ui:widget']: 'text',
-      ['ui:placeholder']: 'Enter Organisation',
-    },
-    country: {
-      ['ui:widget']: customControls['countryselector'],
-    },
-    sdgs: {
-      ['ui:widget']: customControls['sdgselector'],
-    },
-    imageDescription: {
-      ['ui:widget']: 'text',
-      ['ui:placeholder']: 'Enter Title',
     },
   }
 
@@ -86,14 +53,14 @@ const HeaderCard: React.FunctionComponent<Props> = ({
 
   return (
     <FormCardWrapper
-      title="Header Card"
-      description="The information in this card displays on the Explorer card."
+      title="Body Content Card"
+      description="Accepts Markdown formatting such as **bold**, *italic* and ***bold italic***."
     >
       <FormContainer className="row">
         <div className="col-lg-6">
           <div className="form-group">
             <label className="control-label">
-              Header Image<span className="required">*</span>
+              In Article Image<span className="required">*</span>
             </label>
             <ImageLoader
               keepCropSelection={true}

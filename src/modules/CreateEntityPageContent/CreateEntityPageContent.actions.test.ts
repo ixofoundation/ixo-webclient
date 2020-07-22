@@ -101,8 +101,13 @@ describe('CreateEntityPageContent Actions', () => {
         const title = 'someBodyTitle'
         const content = 'someBodyContent'
 
+        const formData = {
+          title,
+          content,
+        }
+
         // when ... we call the updateBodyContent action creator
-        const action = SUT.updateBodyContent(id, title, content)
+        const action = SUT.updateBodyContent(id, formData)
 
         // then ... we should expect it to create the action with correct type and payload
         expect(action.type).toEqual(
