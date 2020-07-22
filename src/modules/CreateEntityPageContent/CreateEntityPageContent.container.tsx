@@ -2,10 +2,16 @@ import React, { Dispatch } from 'react'
 import { connect } from 'react-redux'
 import * as pageContentSelectors from './CreateEntityPageContent.selectors'
 import { RootState } from '../../common/redux/types'
-import { HeaderPageContent, BodyPageContent, ImagePageContent } from './types'
+import {
+  HeaderPageContent,
+  BodyPageContent,
+  ImagePageContent,
+  VideoPageContent,
+} from './types'
 import HeaderCard from './components/HeaderCard/HeaderCard'
 import BodyContentCard from './components/BodyContentCard/BodyContentCard'
 import ImageContentCard from './components/ImageContentCard/ImageContentCard'
+import VideoContentCard from './components/VideoContentCard/VideoContentCard'
 import {
   updateHeaderContent,
   uploadHeaderContentImage,
@@ -15,6 +21,9 @@ import {
   addImageSection,
   updateImageContent,
   uploadImageContentImage,
+  addVideoSection,
+  updateVideoContent,
+  uploadVideoContentVideo,
 } from './CreateEntityPageContent.actions'
 import { FormData } from 'src/common/components/JsonForm/types'
 import FormCardWrapper from '../../common/components/Wrappers/FormCardWrapper/FormCardWrapper'
@@ -23,6 +32,7 @@ interface Props {
   header: HeaderPageContent
   body: BodyPageContent[]
   images: ImagePageContent[]
+  videos: VideoPageContent[]
   handleUpdateHeaderContent: (formData: FormData) => void
   handleUploadHeaderContentImage: (base64EncodedImage: string) => void
   handleAddBodySection: () => void
@@ -33,6 +43,12 @@ interface Props {
   handleUploadImageContentImage: (
     id: string,
     base64EncodedImage: string,
+  ) => void
+  handleAddVideoSection: () => void
+  handleUpdateVideoContent: (id: string, formData: FormData) => void
+  handleUploadVideoContentVideo: (
+    id: string,
+    base64EncodedVideo: string,
   ) => void
 }
 
@@ -159,12 +175,51 @@ class CreateEntityPageContent extends React.Component<Props> {
     )
   }
 
+  renderVideoSections = (): JSX.Element => {
+    const {
+      videos,
+      handleUpdateVideoContent,
+      handleUploadVideoContentVideo,
+      handleAddVideoSection,
+    } = this.props
+
+    return (
+      <FormCardWrapper
+        title="Video Content Card"
+        description="Accepts Markdown formatting such as **bold**, *italic* and ***bold italic***."
+        showAddSection
+        onAddSection={handleAddVideoSection}
+      >
+        {videos.map(section => {
+          const { id, title, content, videoDid, uploadingVideo } = section
+
+          return (
+            <VideoContentCard
+              key={section.id}
+              title={title}
+              content={content}
+              videoDid={videoDid}
+              uploadingVideo={uploadingVideo}
+              handleUpdateContent={(formData): void =>
+                handleUpdateVideoContent(id, formData)
+              }
+              handleUploadVideo={(base64EncodedVideo): void =>
+                handleUploadVideoContentVideo(id, base64EncodedVideo)
+              }
+            />
+          )
+        })}
+      </FormCardWrapper>
+    )
+  }
+
   render(): JSX.Element {
     return (
       <>
         {this.renderHeader()}
         {this.renderBodySections()}
         {this.renderImageSections()}
+        {this.renderVideoSections()}
       </>
     )
   }
@@ -174,6 +229,7 @@ const mapStateToProps = (state: RootState): any => ({
   header: pageContentSelectors.selectHeaderContent(state),
   body: pageContentSelectors.selectBodyContentSections(state),
   images: pageContentSelectors.selectImageContentSections(state),
+  videos: pageContentSelectors.selectVideoContentSections(state),
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
@@ -195,6 +251,13 @@ const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
     id: string,
     base64EncodedImage: string,
   ): void => dispatch(uploadImageContentImage(id, base64EncodedImage)),
+  handleAddVideoSection: (): void => dispatch(addVideoSection()),
+  handleUpdateVideoContent: (id: string, formData: FormData): void =>
+    dispatch(updateVideoContent(id, formData)),
+  handleUploadVideoContentVideo: (
+    id: string,
+    base64EncodedVideo: string,
+  ): void => dispatch(uploadVideoContentVideo(id, base64EncodedVideo)),
 })
 
 export const CreateEntityPageContentConnected = connect(

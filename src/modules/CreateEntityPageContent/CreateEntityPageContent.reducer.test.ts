@@ -734,7 +734,7 @@ describe('CreateEntityPageContent Reducer', () => {
         // given .. we have an action of type CreateEntityPageContentActions.UploadVideoContentVideoPending
         const action: UploadVideoContentVideoPendingAction = {
           type: CreateEntityPageContentActions.UploadVideoContentVideoPending,
-          payload: {
+          meta: {
             id,
           },
         }

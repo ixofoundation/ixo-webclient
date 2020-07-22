@@ -228,8 +228,8 @@ export const reducer = (
         videos: {
           ...state.videos,
           ...{
-            [action.payload.id]: {
-              ...state.videos[action.payload.id],
+            [action.meta.id]: {
+              ...state.videos[action.meta.id],
               uploadingVideo: true,
             },
           },

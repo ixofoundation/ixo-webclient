@@ -293,7 +293,7 @@ export interface UploadVideoContentVideoAction {
 
 export interface UploadVideoContentVideoPendingAction {
   type: typeof CreateEntityPageContentActions.UploadVideoContentVideoPending
-  payload: {
+  meta: {
     id: string
   }
 }

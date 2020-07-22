@@ -152,16 +152,19 @@ export const addVideoSection = (): AddVideoSectionAction => ({
 
 export const updateVideoContent = (
   id: string,
-  title: string,
-  content: string,
-): UpdateVideoContentAction => ({
-  type: CreateEntityPageContentActions.UpdateVideoContent,
-  payload: {
-    id,
-    title,
-    content,
-  },
-})
+  formData: FormData,
+): UpdateVideoContentAction => {
+  const { title, content } = formData
+
+  return {
+    type: CreateEntityPageContentActions.UpdateVideoContent,
+    payload: {
+      id,
+      title,
+      content,
+    },
+  }
+}
 
 export const uploadVideoContentVideo = (
   id: string,
@@ -169,6 +172,7 @@ export const uploadVideoContentVideo = (
 ) => (dispatch: Dispatch): UploadVideoContentVideoAction => {
   return dispatch({
     type: CreateEntityPageContentActions.UploadVideoContentVideo,
+    meta: { id },
     payload: blocksyncApi.project
       .createPublic(base64VideoData, PDS_URL)
       .then((response: any) => ({ id, did: response.result })),

@@ -249,8 +249,13 @@ describe('CreateEntityPageContent Actions', () => {
         const title = 'someVideoTitle'
         const content = 'someVideoContent'
 
+        const formData = {
+          title,
+          content,
+        }
+
         // when ... we call the updateVideoContent action creator
-        const action = SUT.updateVideoContent(id, title, content)
+        const action = SUT.updateVideoContent(id, formData)
 
         // then ... we should expect it to create the action with correct type and payload
         expect(action.type).toEqual(
@@ -279,6 +284,7 @@ describe('CreateEntityPageContent Actions', () => {
         expect(actions[0].type).toEqual(
           CreateEntityPageContentActions.UploadVideoContentVideoPending,
         )
+        expect(actions[0].meta.id).toEqual(id)
         expect(actions[1].type).toEqual(
           CreateEntityPageContentActions.UploadVideoContentVideoSuccess,
         )
