@@ -23,9 +23,11 @@ import {
   resetDatesFilter,
   filterAddCategoryTag,
   resetCategoryFilter,
+  resetSectorFilter,
   resetFilters,
   changeEntitiesType,
   filterCategoryTag,
+  filterSector,
 } from './Entities.actions'
 import EntitiesFilter from './components/EntitiesFilter/EntitiesFilter'
 import { Entity, EntityType } from './types'
@@ -64,6 +66,7 @@ export interface Props {
   isLoadingEntities: boolean
   isLoggedIn: boolean
   filterSchema: FilterSchema
+  filterSector: string
   handleGetEntities: () => void
   handleChangeEntitiesType: (entityType: EntityType) => void
   handleFilterToggleUserEntities: (userEntities: boolean) => void
@@ -73,7 +76,9 @@ export interface Props {
   handleResetDatesFilter: () => void
   handleFilterCategoryTag: (category: string, tag: string) => void
   handleFilterAddCategoryTag: (category: string, tag: string) => void
+  handleFilterSector: (category: string) => void
   handleResetCategoryFilter: (category: string) => void
+  handleResetSectorFilter: () => void
   handleResetFilters: () => void
 }
 
@@ -149,11 +154,14 @@ export class Entities extends React.Component<Props> {
               userEntities={this.props.filterUserEntities}
               featuredEntities={this.props.filterFeaturedEntities}
               popularEntities={this.props.filterPopularEntities}
+              sector={this.props.filterSector}
               handleFilterDates={this.props.handleFilterDates}
               handleResetDatesFilter={this.props.handleResetDatesFilter}
               handleFilterCategoryTag={this.props.handleFilterCategoryTag}
+              handleFilterSector={this.props.handleFilterSector}
               handleFilterAddCategoryTag={this.props.handleFilterAddCategoryTag}
               handleResetCategoryFilter={this.props.handleResetCategoryFilter}
+              handleResetSectorFilter={this.props.handleResetSectorFilter}
               handleFilterToggleUserEntities={
                 this.props.handleFilterToggleUserEntities
               }
@@ -224,7 +232,7 @@ export class Entities extends React.Component<Props> {
       <Container>
         <EntitiesHero
           entityType={this.props.entityType}
-          filterCategories={this.props.filterCategories}
+          filterSector={this.props.filterSector}
           showSearch={this.props.contentType !== contentType.dashboard}
           handleChangeEntitiesType={this.props.handleChangeEntitiesType}
         />
@@ -270,6 +278,7 @@ function mapStateToProps(state: RootState): Record<string, any> {
     filterCategoriesSummary: entitiesSelectors.selectFilterCategoriesSummary(
       state,
     ),
+    filterSector: entitiesSelectors.selectFilterSector(state),
     filterUserEntities: entitiesSelectors.selectFilterUserEntities(state),
     filterFeaturedEntities: entitiesSelectors.selectFilterFeaturedEntities(
       state,
@@ -296,10 +305,12 @@ const mapDispatchToProps = (dispatch: any): any => ({
   handleResetDatesFilter: (): void => dispatch(resetDatesFilter()),
   handleFilterCategoryTag: (category: string, tag: string): void =>
     dispatch(filterCategoryTag(category, tag)),
+  handleFilterSector: (tag: string): void => dispatch(filterSector(tag)),
   handleFilterAddCategoryTag: (category: string, tag: string): void =>
     dispatch(filterAddCategoryTag(category, tag)),
   handleResetCategoryFilter: (category: string): void =>
     dispatch(resetCategoryFilter(category)),
+  handleResetSectorFilter: (): void => dispatch(resetSectorFilter()),
   handleResetFilters: (): void => dispatch(resetFilters()),
 })
 

@@ -3,6 +3,7 @@ export interface Schema {
   ['@type']: string
   ddoTags: SchemaCategory[]
   view: SchemaCategory
+  sector: SchemaCategory
   dateCreated: SchemaDate
 }
 
@@ -12,6 +13,7 @@ export interface SchemaCategory {
   multiSelect: boolean
   tags: SchemaCategoryTag[]
   selectedTags?: string[]
+  hidden: boolean
 }
 
 export interface SchemaCategoryTag {

@@ -7,6 +7,7 @@
   },
   "view": {
     "@type": "Category",
+    "hidden": false,
     "name": "View",
     "multiSelect": false,
     "tags": [
@@ -35,6 +36,7 @@
   "ddoTags": [
     {
       "@type": "Category",
+      "hidden": false,
       "name": "Project Type",
       "multiSelect": true,
       "tags": [
@@ -289,10 +291,13 @@
           "icon": "tag.svg"
         }
       ],
-      "selectedTags": ["Index"]
+      "selectedTags": [
+        "Index"
+      ]
     },
     {
       "@type": "Category",
+      "hidden": false,
       "name": "SDG",
       "multiSelect": true,
       "tags": [
@@ -385,6 +390,7 @@
     },
     {
       "@type": "Category",
+      "hidden": false,
       "name": "Stage",
       "multiSelect": true,
       "tags": [
@@ -425,5 +431,23 @@
         }
       ]
     }
-  ]
+  ],
+  "sector": {
+    "@type": "Category",
+    "name": "Sector",
+    "hidden": true,
+    "multiSelect": false,
+    "tags": [
+      {
+        "@type": "sector",
+        "name": "Oracle Launchpad",
+        "icon": "portfolio.svg"
+      },
+      {
+        "@type": "sector",
+        "name": "Oracle Marketplace",
+        "icon": "portfolio.svg"
+      }
+    ]
+  }
 }

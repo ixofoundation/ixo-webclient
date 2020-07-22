@@ -47,6 +47,7 @@ export interface Category {
 
 export interface Filter {
   categories: Category[]
+  sector: string
   dateFrom: Moment
   dateTo: Moment
   userEntities: boolean
@@ -85,7 +86,9 @@ export enum EntitiesActions {
   FilterAddCategoryTag = 'ixo/Entities/FILTER_ADD_CATEGORY_TAG',
   FilterCategories = 'ixo/Entities/FILTER_CATEGORIES',
   ResetDatesFilter = 'ixo/Entities/RESET_DATES_FILTER',
+  FilterSector = 'ixo/Entities/FILTER_SECTOR',
   ResetCategoryFilter = 'ixo/Entities/RESET_CATEGORY_FILTER',
+  ResetSectorFilter = 'ixo/Entities/RESET_SECTOR_FILTER',
   ResetFilters = 'ixo/Entities/RESET_FILTERS',
 }
 
@@ -168,6 +171,15 @@ export interface ResetCategoryFilterAction {
     category: string
   }
 }
+export interface FilterSectorAction {
+  type: typeof EntitiesActions.FilterSector
+  payload: {
+    sector: string
+  }
+}
+export interface ResetSectorFilterAction {
+  type: typeof EntitiesActions.ResetSectorFilter
+}
 
 export interface ResetFiltersAction {
   type: typeof EntitiesActions.ResetFilters
@@ -184,6 +196,8 @@ export type EntitiesActionTypes =
   | FilterCategoryTagAction
   | FilterAddCategoryTagAction
   | FilterCategoriesAction
+  | FilterSectorAction
   | ResetDatesFilterAction
   | ResetCategoryFilterAction
+  | ResetSectorFilterAction
   | ResetFiltersAction

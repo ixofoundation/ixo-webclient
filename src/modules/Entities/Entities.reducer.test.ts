@@ -16,6 +16,7 @@ import {
   EntityType,
   FilterCategoriesAction,
   FilterCategoryTagAction,
+  FilterSectorAction,
 } from './types'
 
 const initialState = SUT.initialState
@@ -48,6 +49,7 @@ describe('Entities Reducer', () => {
           userEntities: true,
           popularEntities: false,
           featuredEntities: false,
+          sector: 'test',
         },
       }
 
@@ -166,6 +168,7 @@ describe('Entities Reducer', () => {
           userEntities: false,
           popularEntities: true,
           featuredEntities: true,
+          sector: 'test',
         },
       }
 
@@ -252,6 +255,7 @@ describe('Entities Reducer', () => {
           userEntities: false,
           popularEntities: true,
           featuredEntities: true,
+          sector: 'test',
         },
       }
 
@@ -334,6 +338,7 @@ describe('Entities Reducer', () => {
           featuredEntities: false,
           popularEntities: true,
           userEntities: true,
+          sector: 'test',
         },
       }
 
@@ -416,6 +421,7 @@ describe('Entities Reducer', () => {
           popularEntities: false,
           featuredEntities: true,
           userEntities: true,
+          sector: 'test',
         },
       }
 
@@ -498,6 +504,7 @@ describe('Entities Reducer', () => {
           userEntities: true,
           popularEntities: false,
           featuredEntities: false,
+          sector: 'test',
         },
       }
 
@@ -580,6 +587,7 @@ describe('Entities Reducer', () => {
           userEntities: true,
           popularEntities: false,
           featuredEntities: false,
+          sector: 'test',
         },
       }
 
@@ -658,6 +666,7 @@ describe('Entities Reducer', () => {
           userEntities: true,
           popularEntities: false,
           featuredEntities: false,
+          sector: 'test',
         },
       }
 
@@ -748,6 +757,7 @@ describe('Entities Reducer', () => {
           userEntities: true,
           popularEntities: false,
           featuredEntities: false,
+          sector: 'test',
         },
       }
 
@@ -836,6 +846,7 @@ describe('Entities Reducer', () => {
           userEntities: true,
           popularEntities: false,
           featuredEntities: false,
+          sector: 'test',
         },
       }
 
@@ -933,6 +944,7 @@ describe('Entities Reducer', () => {
           userEntities: true,
           popularEntities: false,
           featuredEntities: false,
+          sector: 'test',
         },
       }
 
@@ -957,6 +969,91 @@ describe('Entities Reducer', () => {
           categories: [
             { name: 'Cell Type', tags: ['Index', 'Relayer', 'Portal'] },
           ],
+        },
+      })
+    })
+  })
+
+  describe('FilerSector Action', () => {
+    it('should return a new copy of state with the sector set and everything else left in tact', () => {
+      const currentState = {
+        ...initialState,
+        entities: [
+          {
+            did: 'someDid1',
+            entityType: EntityType.Project,
+            userDid: 'someUserDid1',
+            title: 'someTitle1',
+            shortDescription: 'someShortDescription1',
+            dateCreated: moment('2020-04-09T13:14:13.000Z'),
+            ownerName: 'someOwnerName1',
+            status: 'someStatus1',
+            country: 'someCountry1',
+            impactAction: 'someImpactAction1',
+            serviceProvidersCount: 13,
+            evaluatorsCount: 1,
+            requiredClaimsCount: 100,
+            successfulClaimsCount: 10,
+            pendingClaimsCount: 20,
+            rejectedClaimsCount: 30,
+            sdgs: [1, 2, 3],
+            longDescription: 'someLongDescription',
+            agentDids: ['someAgentDid1'],
+            imageUrl: 'sommeImageUrl',
+            founderLogoUrl: 'sommeLogoUrl',
+            logoUrl: 'someLogoUrl',
+            categories: [
+              {
+                name: 'someCategory1',
+                tags: [
+                  'someCategory1_tag1',
+                  'someCategory1_tag2',
+                  'someCategory1_tag3',
+                ],
+              },
+            ],
+            pdsUrl: 'somePsdUrl',
+
+            data: null,
+          },
+        ],
+        filter: {
+          dateFrom: moment('2020-04-09T13:14:13.000Z'),
+          dateTo: moment('2020-04-08T13:14:13.000Z'),
+          categories: [
+            {
+              name: 'foo1',
+              tags: ['bar1'],
+            },
+            {
+              name: 'foo2',
+              tags: ['bar2'],
+            },
+          ],
+          userEntities: true,
+          popularEntities: false,
+          featuredEntities: false,
+          sector: 'test',
+        },
+      }
+
+      // given... we have an action of type ResetFiltersAction
+      const action: FilterSectorAction = {
+        type: EntitiesActions.FilterSector,
+        payload: {
+          sector: 'test',
+        },
+      }
+
+      // when... we call the reducer with this action
+      const result = SUT.reducer(currentState, action)
+
+      // then the state should be set as expected
+      expect(result).toEqual({
+        ...currentState,
+        filter: {
+          ...currentState.filter,
+          sector: 'test',
         },
       })
     })
@@ -1021,6 +1118,7 @@ describe('Entities Reducer', () => {
           userEntities: true,
           popularEntities: false,
           featuredEntities: false,
+          sector: 'test',
         },
       }
 
@@ -1110,6 +1208,7 @@ describe('Entities Reducer', () => {
           userEntities: true,
           popularEntities: false,
           featuredEntities: false,
+          sector: 'test',
         },
       }
 
@@ -1129,6 +1228,7 @@ describe('Entities Reducer', () => {
           userEntities: true,
           popularEntities: false,
           featuredEntities: false,
+          sector: 'test',
         },
       })
     })

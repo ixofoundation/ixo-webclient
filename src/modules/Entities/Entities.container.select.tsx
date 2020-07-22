@@ -1,7 +1,12 @@
 import React, { Dispatch } from 'react'
 import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { filterCategories, changeEntitiesType } from './Entities.actions'
+import {
+  filterCategories,
+  filterSector,
+  changeEntitiesType,
+  resetSectorFilter,
+} from './Entities.actions'
 import { EntityType, Category } from './types'
 import * as entitiesUtils from './Entities.utils'
 import * as queryString from 'query-string'
@@ -11,12 +16,16 @@ interface Props {
   location: any
   handleChangeEntitiesType: (entityType: EntityType) => void
   handleFilterCategories: (categories: Category[]) => void
+  handleFilterSector: (tag: string) => void
+  handleResetSectorFilter: () => void
 }
 
 const EntitiesSelect: React.FunctionComponent<Props> = ({
   location: { search },
   handleChangeEntitiesType,
   handleFilterCategories,
+  handleFilterSector,
+  handleResetSectorFilter,
 }) => {
   const params = queryString.parse(search)
   const entityTypes = Object.values(EntityType)
@@ -35,6 +44,15 @@ const EntitiesSelect: React.FunctionComponent<Props> = ({
 
       handleFilterCategories(categories)
     }
+
+    if (params.sector) {
+      if (params.sector === 'all') {
+        handleResetSectorFilter()
+      } else {
+        handleFilterSector(params.sector as string)
+      }
+    }
+
     // Other filters can be handled here in the future
   } else {
     return (
@@ -55,6 +73,8 @@ const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
     dispatch(changeEntitiesType(entityType)),
   handleFilterCategories: (categories: Category[]): void =>
     dispatch(filterCategories(categories)),
+  handleFilterSector: (tag: string): void => dispatch(filterSector(tag)),
+  handleResetSectorFilter: (): void => dispatch(resetSectorFilter()),
 })
 
 export const EntitiesSelectConnected = connect(

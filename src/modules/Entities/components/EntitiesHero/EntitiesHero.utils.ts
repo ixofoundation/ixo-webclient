@@ -1,18 +1,12 @@
 import { Schema, SchemaBase } from './schema/types'
-import { Category, EntityType } from '../../types'
+import { EntityType } from '../../types'
 
 export const getHeaderSchema = (
-  filterCategories: Category[],
+  filterSector: string,
   headerSchema: Schema,
 ): SchemaBase => {
-  // is there a selected category and tag that matches an override
-  const headerOverride = headerSchema.overrides.find(override =>
-    filterCategories.some(
-      category =>
-        category.name === override.ddoCategory &&
-        category.tags.length === 1 &&
-        category.tags.includes(override.ddoTag),
-    ),
+  const headerOverride = headerSchema.overrides.find(
+    override => filterSector === override.ddoTag,
   )
 
   return headerOverride || headerSchema
