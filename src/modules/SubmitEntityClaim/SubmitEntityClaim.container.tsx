@@ -4,11 +4,8 @@ import { connect } from 'react-redux'
 import { RootState } from 'src/common/redux/types'
 import { Hero } from './components/Hero/Hero'
 import Question from './components/Question/Question'
-import {
-  Container,
-  SubmitEntityClaimWrapper,
-} from './SubmitEntityClaim.container.styles'
-import { Progress } from './components/Progress/Progress'
+import { SubmitEntityClaimWrapper } from './SubmitEntityClaim.container.styles'
+import { Steps } from '../../common/components/Steps/Steps'
 import { FormControl, FormData } from '../../common/components/JsonForm/types'
 import * as submitEntityClaimSelectors from './SubmitEntityClaim.selectors'
 import * as accountSelectors from '../Account/Account.selectors'
@@ -132,25 +129,23 @@ class SubmitEntityClaim extends React.Component<Props, State> {
           <div className="container">
             <div className="row">
               <div className="col-lg-8">
-                <Progress
+                <Steps
+                  currentStepTitle={currentQuestion.title}
+                  currentStepNo={currentQuestionNo}
+                  totalSteps={questionCount}
+                  handleGoToStepClick={handleGoToQuestionClick}
+                />
+                <Question
+                  answer={currentAnswer}
+                  savingAnswer={savingAnswer}
+                  handleFormDataChange={handleFormDataChange}
+                  handlePreviousClick={handlePreviousClick}
+                  handleNextClick={this.handleNext}
                   question={currentQuestion}
                   currentQuestionNo={currentQuestionNo}
                   questionCount={questionCount}
-                  handleGoToQuestionClick={handleGoToQuestionClick}
+                  answersComplete={answersComplete}
                 />
-                <Container>
-                  <Question
-                    answer={currentAnswer}
-                    savingAnswer={savingAnswer}
-                    handleFormDataChange={handleFormDataChange}
-                    handlePreviousClick={handlePreviousClick}
-                    handleNextClick={this.handleNext}
-                    question={currentQuestion}
-                    currentQuestionNo={currentQuestionNo}
-                    questionCount={questionCount}
-                    answersComplete={answersComplete}
-                  />
-                </Container>
               </div>
               <div className="col-lg-4">
                 <ControlPanel

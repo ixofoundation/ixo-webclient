@@ -17,6 +17,7 @@ import Exchange from '../components/Bonds/ExchangeWrapper/Exchange'
 import Orders from '../../modules/BondAccountOrders/BondAccountOrders.container'
 import { UnderConstruction } from '../../components/public/UnderConstruction'
 import { SubmitEntityClaimConnected } from '../../modules/SubmitEntityClaim/SubmitEntityClaim.container'
+import { CreateEntityConnected } from '../../modules/CreateEntity/CreateEntity.container'
 
 export const Routes: React.SFC<{}> = props => {
   return (
@@ -60,6 +61,7 @@ export const Routes: React.SFC<{}> = props => {
           path="/projects/:projectDID/overview/action/new_claim/form"
           component={SubmitEntityClaimConnected}
         />
+        <Route path="/:entityType/new" component={CreateEntityConnected} />
         <Route
           exact
           path="/global-statistics"
