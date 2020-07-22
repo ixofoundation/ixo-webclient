@@ -193,20 +193,21 @@ export const addProfileSection = (): AddProfileSectionAction => ({
 
 export const updateProfileContent = (
   id: string,
-  name: string,
-  position: string,
-  linkedInUrl: string,
-  twitterUrl: string,
-): UpdateProfileContentAction => ({
-  type: CreateEntityPageContentActions.UpdateProfileContent,
-  payload: {
-    id,
-    name,
-    position,
-    linkedInUrl,
-    twitterUrl,
-  },
-})
+  formData: FormData,
+): UpdateProfileContentAction => {
+  const { name, position, linkedInUrl, twitterUrl } = formData
+
+  return {
+    type: CreateEntityPageContentActions.UpdateProfileContent,
+    payload: {
+      id,
+      name,
+      position,
+      linkedInUrl,
+      twitterUrl,
+    },
+  }
+}
 
 export const uploadProfileContentImage = (
   id: string,
@@ -214,6 +215,7 @@ export const uploadProfileContentImage = (
 ) => (dispatch: Dispatch): UploadProfileContentImageAction => {
   return dispatch({
     type: CreateEntityPageContentActions.UploadProfileContentImage,
+    meta: { id },
     payload: blocksyncApi.project
       .createPublic(base64ImageData, PDS_URL)
       .then((response: any) => ({ id, did: response.result })),

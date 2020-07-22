@@ -7,11 +7,13 @@ import {
   BodyPageContent,
   ImagePageContent,
   VideoPageContent,
+  ProfilePageContent,
 } from './types'
 import HeaderCard from './components/HeaderCard/HeaderCard'
 import BodyContentCard from './components/BodyContentCard/BodyContentCard'
 import ImageContentCard from './components/ImageContentCard/ImageContentCard'
 import VideoContentCard from './components/VideoContentCard/VideoContentCard'
+import ProfileContentCard from './components/ProfileContentCard/ProfileContentCard'
 import {
   updateHeaderContent,
   uploadHeaderContentImage,
@@ -24,6 +26,9 @@ import {
   addVideoSection,
   updateVideoContent,
   uploadVideoContentVideo,
+  addProfileSection,
+  updateProfileContent,
+  uploadProfileContentImage,
 } from './CreateEntityPageContent.actions'
 import { FormData } from 'src/common/components/JsonForm/types'
 import FormCardWrapper from '../../common/components/Wrappers/FormCardWrapper/FormCardWrapper'
@@ -33,6 +38,7 @@ interface Props {
   body: BodyPageContent[]
   images: ImagePageContent[]
   videos: VideoPageContent[]
+  profiles: ProfilePageContent[]
   handleUpdateHeaderContent: (formData: FormData) => void
   handleUploadHeaderContentImage: (base64EncodedImage: string) => void
   handleAddBodySection: () => void
@@ -49,6 +55,12 @@ interface Props {
   handleUploadVideoContentVideo: (
     id: string,
     base64EncodedVideo: string,
+  ) => void
+  handleAddProfileSection: () => void
+  handleUpdateProfileContent: (id: string, formData: FormData) => void
+  handleUploadProfileContentImage: (
+    id: string,
+    base64EncodedImage: string,
   ) => void
 }
 
@@ -213,6 +225,54 @@ class CreateEntityPageContent extends React.Component<Props> {
     )
   }
 
+  renderProfileSections = (): JSX.Element => {
+    const {
+      profiles,
+      handleUpdateProfileContent,
+      handleUploadProfileContentImage,
+      handleAddProfileSection,
+    } = this.props
+
+    return (
+      <FormCardWrapper
+        title="Profile Card"
+        description="Accepts Markdown formatting such as **bold**, *italic* and ***bold italic***."
+        showAddSection
+        onAddSection={handleAddProfileSection}
+      >
+        {profiles.map(section => {
+          const {
+            id,
+            name,
+            position,
+            imageDid,
+            linkedInUrl,
+            twitterUrl,
+            uploadingImage,
+          } = section
+
+          return (
+            <ProfileContentCard
+              key={section.id}
+              name={name}
+              position={position}
+              linkedInUrl={linkedInUrl}
+              twitterUrl={twitterUrl}
+              imageDid={imageDid}
+              uploadingImage={uploadingImage}
+              handleUpdateContent={(formData): void =>
+                handleUpdateProfileContent(id, formData)
+              }
+              handleUploadImage={(base64EncodedImage): void =>
+                handleUploadProfileContentImage(id, base64EncodedImage)
+              }
+            />
+          )
+        })}
+      </FormCardWrapper>
+    )
+  }
+
   render(): JSX.Element {
     return (
       <>
@@ -220,6 +280,7 @@ class CreateEntityPageContent extends React.Component<Props> {
         {this.renderBodySections()}
         {this.renderImageSections()}
         {this.renderVideoSections()}
+        {this.renderProfileSections()}
       </>
     )
   }
@@ -229,6 +290,7 @@ const mapStateToProps = (state: RootState): any => ({
   header: pageContentSelectors.selectHeaderContent(state),
   body: pageContentSelectors.selectBodyContentSections(state),
   images: pageContentSelectors.selectImageContentSections(state),
+  profiles: pageContentSelectors.selectProfileContentSections(state),
   videos: pageContentSelectors.selectVideoContentSections(state),
 })
 
@@ -258,6 +320,13 @@ const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
     id: string,
     base64EncodedVideo: string,
   ): void => dispatch(uploadVideoContentVideo(id, base64EncodedVideo)),
+  handleAddProfileSection: (): void => dispatch(addProfileSection()),
+  handleUpdateProfileContent: (id: string, formData: FormData): void =>
+    dispatch(updateProfileContent(id, formData)),
+  handleUploadProfileContentImage: (
+    id: string,
+    base64EncodedImage: string,
+  ): void => dispatch(uploadProfileContentImage(id, base64EncodedImage)),
 })
 
 export const CreateEntityPageContentConnected = connect(

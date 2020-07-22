@@ -972,7 +972,7 @@ describe('CreateEntityPageContent Reducer', () => {
         // given .. we have an action of type CreateEntityPageContentActions.UploadProfileContentImagePending
         const action: UploadProfileContentImagePendingAction = {
           type: CreateEntityPageContentActions.UploadProfileContentImagePending,
-          payload: {
+          meta: {
             id,
           },
         }

@@ -292,8 +292,8 @@ export const reducer = (
         profiles: {
           ...state.profiles,
           ...{
-            [action.payload.id]: {
-              ...state.profiles[action.payload.id],
+            [action.meta.id]: {
+              ...state.profiles[action.meta.id],
               uploadingImage: true,
             },
           },

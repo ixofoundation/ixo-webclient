@@ -327,14 +327,15 @@ describe('CreateEntityPageContent Actions', () => {
         const linkedInUrl = 'someLinkedInUrl'
         const twitterUrl = 'someTwitterUrl'
 
-        // when ... we call the updateProfileContent action creator
-        const action = SUT.updateProfileContent(
-          id,
+        const formData = {
           name,
           position,
           linkedInUrl,
           twitterUrl,
-        )
+        }
+
+        // when ... we call the updateProfileContent action creator
+        const action = SUT.updateProfileContent(id, formData)
 
         // then ... we should expect it to create the action with correct type and payload
         expect(action.type).toEqual(

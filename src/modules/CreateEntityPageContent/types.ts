@@ -346,7 +346,7 @@ export interface UploadProfileContentImageAction {
 
 export interface UploadProfileContentImagePendingAction {
   type: typeof CreateEntityPageContentActions.UploadProfileContentImagePending
-  payload: {
+  meta: {
     id: string
   }
 }
