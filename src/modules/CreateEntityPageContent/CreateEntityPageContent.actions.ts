@@ -92,6 +92,7 @@ export const uploadBodyContentImage = (id: string, base64ImageData: string) => (
 ): UploadBodyContentImageAction => {
   return dispatch({
     type: CreateEntityPageContentActions.UploadBodyContentImage,
+    meta: { id },
     payload: blocksyncApi.project
       .createPublic(base64ImageData, PDS_URL)
       .then((response: any) => ({ id, did: response.result })),
@@ -111,18 +112,20 @@ export const addImageSection = (): AddImageSectionAction => ({
 
 export const updateImageContent = (
   id: string,
-  title: string,
-  content: string,
-  imageDescription: string,
-): UpdateImageContentAction => ({
-  type: CreateEntityPageContentActions.UpdateImageContent,
-  payload: {
-    id,
-    title,
-    content,
-    imageDescription,
-  },
-})
+  formData: FormData,
+): UpdateImageContentAction => {
+  const { title, content, imageDescription } = formData
+
+  return {
+    type: CreateEntityPageContentActions.UpdateImageContent,
+    payload: {
+      id,
+      title,
+      content,
+      imageDescription,
+    },
+  }
+}
 
 export const uploadImageContentImage = (
   id: string,
@@ -130,6 +133,7 @@ export const uploadImageContentImage = (
 ) => (dispatch: Dispatch): UploadImageContentImageAction => {
   return dispatch({
     type: CreateEntityPageContentActions.UploadImageContentImage,
+    meta: { id },
     payload: blocksyncApi.project
       .createPublic(base64ImageData, PDS_URL)
       .then((response: any) => ({ id, did: response.result })),

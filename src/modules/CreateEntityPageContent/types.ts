@@ -193,7 +193,7 @@ export interface UploadBodyContentImageAction {
 
 export interface UploadBodyContentImagePendingAction {
   type: typeof CreateEntityPageContentActions.UploadBodyContentImagePending
-  payload: {
+  meta: {
     id: string
   }
 }
@@ -244,7 +244,7 @@ export interface UploadImageContentImageAction {
 
 export interface UploadImageContentImagePendingAction {
   type: typeof CreateEntityPageContentActions.UploadImageContentImagePending
-  payload: {
+  meta: {
     id: string
   }
 }

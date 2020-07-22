@@ -271,7 +271,7 @@ describe('CreateEntityPageContent Reducer', () => {
         // given .. we have an action of type CreateEntityPageContentActions.UploadBodyContentImagePending
         const action: UploadBodyContentImagePendingAction = {
           type: CreateEntityPageContentActions.UploadBodyContentImagePending,
-          payload: {
+          meta: {
             id,
           },
         }
@@ -502,7 +502,7 @@ describe('CreateEntityPageContent Reducer', () => {
         // given .. we have an action of type CreateEntityPageContentActions.UploadImageContentImagePending
         const action: UploadImageContentImagePendingAction = {
           type: CreateEntityPageContentActions.UploadImageContentImagePending,
-          payload: {
+          meta: {
             id,
           },
         }

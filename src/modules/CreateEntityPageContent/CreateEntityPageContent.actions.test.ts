@@ -136,6 +136,7 @@ describe('CreateEntityPageContent Actions', () => {
         expect(actions[0].type).toEqual(
           CreateEntityPageContentActions.UploadBodyContentImagePending,
         )
+        expect(actions[0].meta.id).toEqual(id)
         expect(actions[1].type).toEqual(
           CreateEntityPageContentActions.UploadBodyContentImageSuccess,
         )
@@ -174,13 +175,14 @@ describe('CreateEntityPageContent Actions', () => {
         const content = 'someImageContent'
         const imageDescription = 'someImageDescription'
 
-        // when ... we call the updateImageContent action creator
-        const action = SUT.updateImageContent(
-          id,
+        const formData = {
           title,
           content,
           imageDescription,
-        )
+        }
+
+        // when ... we call the updateImageContent action creator
+        const action = SUT.updateImageContent(id, formData)
 
         // then ... we should expect it to create the action with correct type and payload
         expect(action.type).toEqual(
@@ -210,6 +212,7 @@ describe('CreateEntityPageContent Actions', () => {
         expect(actions[0].type).toEqual(
           CreateEntityPageContentActions.UploadImageContentImagePending,
         )
+        expect(actions[0].meta.id).toEqual(id)
         expect(actions[1].type).toEqual(
           CreateEntityPageContentActions.UploadImageContentImageSuccess,
         )

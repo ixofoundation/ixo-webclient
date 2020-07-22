@@ -100,8 +100,8 @@ export const reducer = (
         body: {
           ...state.body,
           ...{
-            [action.payload.id]: {
-              ...state.body[action.payload.id],
+            [action.meta.id]: {
+              ...state.body[action.meta.id],
               uploadingImage: true,
             },
           },
@@ -164,8 +164,8 @@ export const reducer = (
         images: {
           ...state.images,
           ...{
-            [action.payload.id]: {
-              ...state.images[action.payload.id],
+            [action.meta.id]: {
+              ...state.images[action.meta.id],
               uploadingImage: true,
             },
           },
