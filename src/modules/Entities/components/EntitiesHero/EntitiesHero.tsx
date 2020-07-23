@@ -37,10 +37,17 @@ export const EntitiesHero: React.FunctionComponent<Props> = ({
     entityStrategyMap.plural.toUpperCase(),
   )
 
+  const getHeaderBackgroundUrl = (imagePath: string): string => {
+    if (imagePath !== null) {
+      return `url(${require(`../../../../assets/images/header-overrides/${imagePath}`)})`
+    }
+    return ''
+  }
+
   return (
     <HeroContainer
       style={{
-        backgroundImage: header.image || '',
+        backgroundImage: getHeaderBackgroundUrl(header.image),
       }}
     >
       <ColorOverlay

@@ -265,7 +265,7 @@
   "sector": {
     "@type": "Category",
     "name": "Sector",
-    "hidden": false,
+    "hidden": true,
     "multiSelect": false,
     "tags": [
       {
