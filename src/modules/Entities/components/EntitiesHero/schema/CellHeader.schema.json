@@ -34,10 +34,10 @@
       "@type": "HeaderOverride",
       "ddoSector": "Sector",
       "ddoTag": "Oracle Launchpad",
-      "color": "#000",
-      "image": null,
-      "title": "Title OVERRIDE",
-      "subTitle": "Subtitle OVERRIDE",
+      "color": "#FF00A8",
+      "image": "otherdots.jpg",
+      "title": "Otherdots",
+      "subTitle": "Foundation",
       "indicators": [
         {
           "@type": "Indicator",
