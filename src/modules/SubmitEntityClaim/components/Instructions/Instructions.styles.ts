@@ -58,7 +58,7 @@ export const ListItems = styled.div`
   }
 
   @media (min-width: ${deviceWidth.mobile}px) {
-    max-height: 300px;
+    max-height: 328px;
   }
 `
 export const ButtonWrapper = styled.div`
