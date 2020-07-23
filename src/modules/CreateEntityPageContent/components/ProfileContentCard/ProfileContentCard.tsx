@@ -3,7 +3,10 @@ import Form from '@rjsf/core'
 import { debounce } from 'debounce'
 import { FormContainer } from '../../../../common/components/JsonForm/JsonForm.styles'
 import * as formUtils from '../../../../common/components/JsonForm/JsonForm.utils'
-import { FormData } from '../../../../common/components/JsonForm/types'
+import {
+  FormData,
+  customControls,
+} from '../../../../common/components/JsonForm/types'
 import ImageLoader from '../../../../common/components/DropZone/ImageLoader/ImageLoader'
 
 interface Props {
@@ -55,11 +58,13 @@ const HeaderCard: React.FunctionComponent<Props> = ({
       ['ui:placeholder']: 'Enter Title',
     },
     linkedInUrl: {
-      ['ui:widget']: 'text',
+      ['ui:widget']: customControls['socialtextbox'],
+      ['ui:socialIcon']: 'LinkedIn',
       ['ui:placeholder']: 'Paste Url',
     },
     twitterUrl: {
-      ['ui:widget']: 'text',
+      ['ui:widget']: customControls['socialtextbox'],
+      ['ui:socialIcon']: 'Twitter',
       ['ui:placeholder']: 'Paste Url',
     },
   }

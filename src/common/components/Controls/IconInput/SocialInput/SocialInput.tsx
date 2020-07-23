@@ -1,0 +1,38 @@
+import React from 'react'
+import IconInput from '../IconInput'
+
+export enum Type {
+  Discourse = 'Discourse',
+  Facebook = 'Facebook',
+  Github = 'Github',
+  Instagram = 'Instagram',
+  LinkedIn = 'LinkedIn',
+  Telegram = 'Telegram',
+  Twitter = 'Twitter',
+  Other = 'other',
+}
+
+interface Props {
+  type: Type
+  value: string
+  placeholder: string
+  onChange: (value: string) => void
+}
+
+const SocialInput: React.FunctionComponent<Props> = ({
+  type,
+  value,
+  placeholder,
+  onChange,
+}) => {
+  return (
+    <IconInput
+      onChange={onChange}
+      value={value}
+      iconAssetPath={`/images/social/${type.toString().toLowerCase()}.svg`}
+      placeholder={placeholder}
+    />
+  )
+}
+
+export default SocialInput
