@@ -9,7 +9,7 @@ export enum Type {
   LinkedIn = 'LinkedIn',
   Telegram = 'Telegram',
   Twitter = 'Twitter',
-  Other = 'other',
+  Other = 'Other',
 }
 
 interface Props {

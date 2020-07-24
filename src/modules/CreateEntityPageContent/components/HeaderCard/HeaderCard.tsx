@@ -37,7 +37,7 @@ const HeaderCard: React.FunctionComponent<Props> = ({
   const formData = {
     title,
     shortDescription,
-    sdgs, // TODO - make this work for multiple SDGS!
+    sdgs: sdgs.join('|'),
     company,
     country,
     imageDescription,

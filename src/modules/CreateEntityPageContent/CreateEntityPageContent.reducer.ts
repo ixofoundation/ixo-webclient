@@ -3,6 +3,7 @@ import {
   CreateEntityPageContentActionTypes,
   CreateEntityPageContentActions,
 } from './types'
+import * as reduxUtils from '../../common/redux/utils'
 
 export const initialState: CreateEntityPageContentState = {
   header: {
@@ -21,9 +22,9 @@ export const initialState: CreateEntityPageContentState = {
   profiles: {},
   social: {
     linkedInUrl: null,
-    facebookInUrl: null,
-    twitterInUrl: null,
-    discourseInUrl: null,
+    facebookUrl: null,
+    twitterUrl: null,
+    discourseUrl: null,
     instagramUrl: null,
     telegramUrl: null,
     githubUrl: null,
@@ -79,6 +80,11 @@ export const reducer = (
             [action.payload.id]: { ...action.payload, uploadingImage: false },
           },
         },
+      }
+    case CreateEntityPageContentActions.RemoveBodySection:
+      return {
+        ...state,
+        body: reduxUtils.omitKey(state.body, action.payload.id),
       }
     case CreateEntityPageContentActions.UpdateBodyContent:
       return {
@@ -144,6 +150,11 @@ export const reducer = (
           },
         },
       }
+    case CreateEntityPageContentActions.RemoveImageSection:
+      return {
+        ...state,
+        images: reduxUtils.omitKey(state.images, action.payload.id),
+      }
     case CreateEntityPageContentActions.UpdateImageContent:
       return {
         ...state,
@@ -208,6 +219,11 @@ export const reducer = (
           },
         },
       }
+    case CreateEntityPageContentActions.RemoveVideoSection:
+      return {
+        ...state,
+        videos: reduxUtils.omitKey(state.videos, action.payload.id),
+      }
     case CreateEntityPageContentActions.UpdateVideoContent:
       return {
         ...state,
@@ -271,6 +287,11 @@ export const reducer = (
             [action.payload.id]: { ...action.payload, uploadingImage: false },
           },
         },
+      }
+    case CreateEntityPageContentActions.RemoveProfileSection:
+      return {
+        ...state,
+        profiles: reduxUtils.omitKey(state.profiles, action.payload.id),
       }
     case CreateEntityPageContentActions.UpdateProfileContent:
       return {
@@ -341,6 +362,11 @@ export const reducer = (
           ...state.embedded,
           ...{ [action.payload.id]: action.payload },
         },
+      }
+    case CreateEntityPageContentActions.RemoveEmbeddedSection:
+      return {
+        ...state,
+        embedded: reduxUtils.omitKey(state.embedded, action.payload.id),
       }
     case CreateEntityPageContentActions.UpdateEmbeddedContent:
       return {

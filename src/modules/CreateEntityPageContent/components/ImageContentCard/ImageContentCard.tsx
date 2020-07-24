@@ -7,16 +7,19 @@ import { FormData } from '../../../../common/components/JsonForm/types'
 import ImageLoader from '../../../../common/components/DropZone/ImageLoader/ImageLoader'
 
 interface Props {
+  id: string
   title: string
   content: string
   imageDid: string
   imageDescription: string
   uploadingImage: boolean
-  handleUpdateContent: (formData: FormData) => void
-  handleUploadImage: (base64EncodedImage: string) => void
+  handleUpdateContent: (id: string, formData: FormData) => void
+  handleUploadImage: (id: string, base64EncodedImage: string) => void
+  handleRemoveCard: (id: string) => void
 }
 
 const HeaderCard: React.FunctionComponent<Props> = ({
+  id,
   title,
   content,
   imageDid,
@@ -24,6 +27,7 @@ const HeaderCard: React.FunctionComponent<Props> = ({
   uploadingImage,
   handleUpdateContent,
   handleUploadImage,
+  handleRemoveCard,
 }) => {
   const formData = {
     title,
@@ -75,7 +79,7 @@ const HeaderCard: React.FunctionComponent<Props> = ({
             }
             uploading={uploadingImage}
             handleSave={(base64EncodedImage): void =>
-              handleUploadImage(base64EncodedImage)
+              handleUploadImage(id, base64EncodedImage)
             }
             imageWidth={100}
           />
@@ -85,7 +89,7 @@ const HeaderCard: React.FunctionComponent<Props> = ({
         <Form
           formData={formData}
           onChange={(control): void =>
-            handleUpdateContentDebounce(control.formData)
+            handleUpdateContentDebounce(id, control.formData)
           }
           noHtml5Validate
           liveValidate
@@ -96,6 +100,11 @@ const HeaderCard: React.FunctionComponent<Props> = ({
         >
           &nbsp;
         </Form>
+      </div>
+      <div className="col-lg-12 text-right">
+        <button type="button" onClick={(): void => handleRemoveCard(id)}>
+          Remove
+        </button>
       </div>
     </FormContainer>
   )

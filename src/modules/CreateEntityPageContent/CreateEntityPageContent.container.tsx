@@ -8,12 +8,14 @@ import {
   ImagePageContent,
   VideoPageContent,
   ProfilePageContent,
+  SocialPageContent,
 } from './types'
 import HeaderCard from './components/HeaderCard/HeaderCard'
 import BodyContentCard from './components/BodyContentCard/BodyContentCard'
 import ImageContentCard from './components/ImageContentCard/ImageContentCard'
 import VideoContentCard from './components/VideoContentCard/VideoContentCard'
 import ProfileContentCard from './components/ProfileContentCard/ProfileContentCard'
+import SocialContentCard from './components/SocialContentCard/SocialContentCard'
 import {
   updateHeaderContent,
   uploadHeaderContentImage,
@@ -29,6 +31,11 @@ import {
   addProfileSection,
   updateProfileContent,
   uploadProfileContentImage,
+  updateSocialContent,
+  removeBodySection,
+  removeImageSection,
+  removeVideoSection,
+  removeProfileSection,
 } from './CreateEntityPageContent.actions'
 import { FormData } from 'src/common/components/JsonForm/types'
 import FormCardWrapper from '../../common/components/Wrappers/FormCardWrapper/FormCardWrapper'
@@ -39,29 +46,35 @@ interface Props {
   images: ImagePageContent[]
   videos: VideoPageContent[]
   profiles: ProfilePageContent[]
+  social: SocialPageContent
   handleUpdateHeaderContent: (formData: FormData) => void
   handleUploadHeaderContentImage: (base64EncodedImage: string) => void
   handleAddBodySection: () => void
+  handleRemoveBodySection: (id: string) => void
   handleUpdateBodyContent: (id: string, formData: FormData) => void
   handleUploadBodyContentImage: (id: string, base64EncodedImage: string) => void
   handleAddImageSection: () => void
+  handleRemoveImageSection: (id: string) => void
   handleUpdateImageContent: (id: string, formData: FormData) => void
   handleUploadImageContentImage: (
     id: string,
     base64EncodedImage: string,
   ) => void
   handleAddVideoSection: () => void
+  handleRemoveVideoSection: (id: string) => void
   handleUpdateVideoContent: (id: string, formData: FormData) => void
   handleUploadVideoContentVideo: (
     id: string,
     base64EncodedVideo: string,
   ) => void
   handleAddProfileSection: () => void
+  handleRemoveProfileSection: (id: string) => void
   handleUpdateProfileContent: (id: string, formData: FormData) => void
   handleUploadProfileContentImage: (
     id: string,
     base64EncodedImage: string,
   ) => void
+  handleUpdateSocialContent: (formData: FormData) => void
 }
 
 class CreateEntityPageContent extends React.Component<Props> {
@@ -109,6 +122,7 @@ class CreateEntityPageContent extends React.Component<Props> {
       handleUpdateBodyContent,
       handleUploadBodyContentImage,
       handleAddBodySection,
+      handleRemoveBodySection,
     } = this.props
 
     return (
@@ -123,17 +137,15 @@ class CreateEntityPageContent extends React.Component<Props> {
 
           return (
             <BodyContentCard
-              key={section.id}
+              id={id}
+              key={id}
               title={title}
               content={content}
               imageDid={imageDid}
               uploadingImage={uploadingImage}
-              handleUpdateContent={(formData): void =>
-                handleUpdateBodyContent(id, formData)
-              }
-              handleUploadImage={(base64EncodedImage): void =>
-                handleUploadBodyContentImage(id, base64EncodedImage)
-              }
+              handleUpdateContent={handleUpdateBodyContent}
+              handleUploadImage={handleUploadBodyContentImage}
+              handleRemoveCard={handleRemoveBodySection}
             />
           )
         })}
@@ -147,6 +159,7 @@ class CreateEntityPageContent extends React.Component<Props> {
       handleUpdateImageContent,
       handleUploadImageContentImage,
       handleAddImageSection,
+      handleRemoveImageSection,
     } = this.props
 
     return (
@@ -168,18 +181,16 @@ class CreateEntityPageContent extends React.Component<Props> {
 
           return (
             <ImageContentCard
-              key={section.id}
+              id={id}
+              key={id}
               title={title}
               content={content}
               imageDid={imageDid}
               imageDescription={imageDescription}
               uploadingImage={uploadingImage}
-              handleUpdateContent={(formData): void =>
-                handleUpdateImageContent(id, formData)
-              }
-              handleUploadImage={(base64EncodedImage): void =>
-                handleUploadImageContentImage(id, base64EncodedImage)
-              }
+              handleUpdateContent={handleUpdateImageContent}
+              handleUploadImage={handleUploadImageContentImage}
+              handleRemoveCard={handleRemoveImageSection}
             />
           )
         })}
@@ -207,7 +218,7 @@ class CreateEntityPageContent extends React.Component<Props> {
 
           return (
             <VideoContentCard
-              key={section.id}
+              key={id}
               title={title}
               content={content}
               videoDid={videoDid}
@@ -253,7 +264,7 @@ class CreateEntityPageContent extends React.Component<Props> {
 
           return (
             <ProfileContentCard
-              key={section.id}
+              key={id}
               name={name}
               position={position}
               linkedInUrl={linkedInUrl}
@@ -273,6 +284,42 @@ class CreateEntityPageContent extends React.Component<Props> {
     )
   }
 
+  renderSocialContent = (): JSX.Element => {
+    const {
+      social: {
+        linkedInUrl,
+        facebookUrl,
+        twitterUrl,
+        discourseUrl,
+        instagramUrl,
+        telegramUrl,
+        githubUrl,
+        otherUrl,
+      },
+      handleUpdateSocialContent,
+    } = this.props
+
+    return (
+      <FormCardWrapper
+        title="Social Card"
+        description="The information in this card displays on the Explorer card."
+        showAddSection={false}
+      >
+        <SocialContentCard
+          handleUpdateContent={handleUpdateSocialContent}
+          linkedInUrl={linkedInUrl}
+          facebookUrl={facebookUrl}
+          twitterUrl={twitterUrl}
+          discourseUrl={discourseUrl}
+          instagramUrl={instagramUrl}
+          telegramUrl={telegramUrl}
+          githubUrl={githubUrl}
+          otherUrl={otherUrl}
+        />
+      </FormCardWrapper>
+    )
+  }
+
   render(): JSX.Element {
     return (
       <>
@@ -281,6 +328,7 @@ class CreateEntityPageContent extends React.Component<Props> {
         {this.renderImageSections()}
         {this.renderVideoSections()}
         {this.renderProfileSections()}
+        {this.renderSocialContent()}
       </>
     )
   }
@@ -292,6 +340,7 @@ const mapStateToProps = (state: RootState): any => ({
   images: pageContentSelectors.selectImageContentSections(state),
   profiles: pageContentSelectors.selectProfileContentSections(state),
   videos: pageContentSelectors.selectVideoContentSections(state),
+  social: pageContentSelectors.selectSocialContent(state),
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
@@ -300,6 +349,8 @@ const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
   handleUploadHeaderContentImage: (base64EncodedImage: string): void =>
     dispatch(uploadHeaderContentImage(base64EncodedImage)),
   handleAddBodySection: (): void => dispatch(addBodySection()),
+  handleRemoveBodySection: (id: string): void =>
+    dispatch(removeBodySection(id)),
   handleUpdateBodyContent: (id: string, formData: FormData): void =>
     dispatch(updateBodyContent(id, formData)),
   handleUploadBodyContentImage: (
@@ -307,6 +358,8 @@ const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
     base64EncodedImage: string,
   ): void => dispatch(uploadBodyContentImage(id, base64EncodedImage)),
   handleAddImageSection: (): void => dispatch(addImageSection()),
+  handleRemoveImageSection: (id: string): void =>
+    dispatch(removeImageSection(id)),
   handleUpdateImageContent: (id: string, formData: FormData): void =>
     dispatch(updateImageContent(id, formData)),
   handleUploadImageContentImage: (
@@ -314,6 +367,8 @@ const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
     base64EncodedImage: string,
   ): void => dispatch(uploadImageContentImage(id, base64EncodedImage)),
   handleAddVideoSection: (): void => dispatch(addVideoSection()),
+  handleRemoveVideoSection: (id: string): void =>
+    dispatch(removeVideoSection(id)),
   handleUpdateVideoContent: (id: string, formData: FormData): void =>
     dispatch(updateVideoContent(id, formData)),
   handleUploadVideoContentVideo: (
@@ -321,12 +376,16 @@ const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
     base64EncodedVideo: string,
   ): void => dispatch(uploadVideoContentVideo(id, base64EncodedVideo)),
   handleAddProfileSection: (): void => dispatch(addProfileSection()),
+  handleRemoveProfileSection: (id: string): void =>
+    dispatch(removeProfileSection(id)),
   handleUpdateProfileContent: (id: string, formData: FormData): void =>
     dispatch(updateProfileContent(id, formData)),
   handleUploadProfileContentImage: (
     id: string,
     base64EncodedImage: string,
   ): void => dispatch(uploadProfileContentImage(id, base64EncodedImage)),
+  handleUpdateSocialContent: (formData: FormData): void =>
+    dispatch(updateSocialContent(formData)),
 })
 
 export const CreateEntityPageContentConnected = connect(

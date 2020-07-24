@@ -21,6 +21,11 @@ import {
   AddEmbeddedSectionAction,
   EmbeddedPageContentType,
   UpdateEmbeddedContentAction,
+  RemoveBodySectionAction,
+  RemoveImageSectionAction,
+  RemoveVideoSectionAction,
+  RemoveProfileSectionAction,
+  RemoveEmbeddedSectionAction,
 } from './types'
 import { FormData } from 'src/common/components/JsonForm/types'
 
@@ -44,7 +49,7 @@ export const updateHeaderContent = (
       title,
       shortDescription,
       imageDescription,
-      sdgs,
+      sdgs: sdgs.split('|'),
       company,
       country,
     },
@@ -69,6 +74,13 @@ export const addBodySection = (): AddBodySectionAction => ({
     title: null,
     content: null,
     imageDid: null,
+  },
+})
+
+export const removeBodySection = (id: string): RemoveBodySectionAction => ({
+  type: CreateEntityPageContentActions.RemoveBodySection,
+  payload: {
+    id,
   },
 })
 
@@ -110,6 +122,13 @@ export const addImageSection = (): AddImageSectionAction => ({
   },
 })
 
+export const removeImageSection = (id: string): RemoveImageSectionAction => ({
+  type: CreateEntityPageContentActions.RemoveImageSection,
+  payload: {
+    id,
+  },
+})
+
 export const updateImageContent = (
   id: string,
   formData: FormData,
@@ -147,6 +166,13 @@ export const addVideoSection = (): AddVideoSectionAction => ({
     title: null,
     content: null,
     videoDid: null,
+  },
+})
+
+export const removeVideoSection = (id: string): RemoveVideoSectionAction => ({
+  type: CreateEntityPageContentActions.RemoveVideoSection,
+  payload: {
+    id,
   },
 })
 
@@ -191,6 +217,15 @@ export const addProfileSection = (): AddProfileSectionAction => ({
   },
 })
 
+export const removeProfileSection = (
+  id: string,
+): RemoveProfileSectionAction => ({
+  type: CreateEntityPageContentActions.RemoveProfileSection,
+  payload: {
+    id,
+  },
+})
+
 export const updateProfileContent = (
   id: string,
   formData: FormData,
@@ -223,27 +258,33 @@ export const uploadProfileContentImage = (
 }
 
 export const updateSocialContent = (
-  linkedInUrl: string,
-  facebookInUrl: string,
-  twitterInUrl: string,
-  discourseInUrl: string,
-  instagramUrl: string,
-  telegramUrl: string,
-  githubUrl: string,
-  otherUrl: string,
-): UpdateSocialContentAction => ({
-  type: CreateEntityPageContentActions.UpdateSocialContent,
-  payload: {
+  formData: FormData,
+): UpdateSocialContentAction => {
+  const {
     linkedInUrl,
-    facebookInUrl,
-    twitterInUrl,
-    discourseInUrl,
+    facebookUrl,
+    twitterUrl,
+    discourseUrl,
     instagramUrl,
     telegramUrl,
     githubUrl,
     otherUrl,
-  },
-})
+  } = formData
+
+  return {
+    type: CreateEntityPageContentActions.UpdateSocialContent,
+    payload: {
+      linkedInUrl,
+      facebookUrl,
+      twitterUrl,
+      discourseUrl,
+      instagramUrl,
+      telegramUrl,
+      githubUrl,
+      otherUrl,
+    },
+  }
+}
 
 export const addEmbeddedSection = (): AddEmbeddedSectionAction => ({
   type: CreateEntityPageContentActions.AddEmbeddedSection,
@@ -252,6 +293,15 @@ export const addEmbeddedSection = (): AddEmbeddedSectionAction => ({
     title: null,
     type: null,
     urls: [],
+  },
+})
+
+export const removeEmbeddedSection = (
+  id: string,
+): RemoveEmbeddedSectionAction => ({
+  type: CreateEntityPageContentActions.RemoveEmbeddedSection,
+  payload: {
+    id,
   },
 })
 
