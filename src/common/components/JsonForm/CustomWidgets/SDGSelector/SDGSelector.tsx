@@ -31,7 +31,7 @@ const SDGSelector: React.FunctionComponent<Props> = ({ value, onChange }) => {
     <>
       {sdgs.map((sdg, i) => {
         return (
-          <>
+          <div key={`sdg_container_${i}`}>
             <SDGDropDown
               value={sdg}
               onChange={(sdg): void => handleSDGOnChange(sdg, i)}
@@ -42,7 +42,7 @@ const SDGSelector: React.FunctionComponent<Props> = ({ value, onChange }) => {
                 -
               </button>
             )}
-          </>
+          </div>
         )
       })}
       <br />
