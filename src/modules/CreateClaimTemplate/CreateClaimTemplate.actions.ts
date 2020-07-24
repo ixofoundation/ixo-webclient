@@ -3,6 +3,7 @@ import {
   CreateClaimTemplateActions,
   AddAttestationAction,
   Attestation,
+  RemoveAttestationAction,
 } from './types'
 import { Dispatch } from 'redux'
 import { RootState } from 'src/common/redux/types'
@@ -30,5 +31,14 @@ export const addAttestation = (newAttestation: Attestation) => (
   return dispatch({
     type: CreateClaimTemplateActions.addAttestation,
     payload: newAttestation,
+  })
+}
+
+export const removeAttestation = (attestationID: string) => (
+  dispatch: Dispatch,
+): RemoveAttestationAction => {
+  return dispatch({
+    type: CreateClaimTemplateActions.removeAttestation,
+    payload: attestationID,
   })
 }

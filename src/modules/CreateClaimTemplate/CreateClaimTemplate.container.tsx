@@ -2,9 +2,12 @@ import React, { Dispatch } from 'react'
 import { connect } from 'react-redux'
 import { Hero } from '../CreateEntity/components/Hero/Hero'
 import { RootState } from 'src/common/redux/types'
-// import Question from './components/Question/Question'
 import { Steps } from '../../common/components/Steps/Steps'
-import { updateActiveStep, addAttestation } from './CreateClaimTemplate.actions'
+import {
+  updateActiveStep,
+  addAttestation,
+  removeAttestation,
+} from './CreateClaimTemplate.actions'
 import {
   CreateClaimTemplateWrapper,
   ClaimQuestionCard,
@@ -16,11 +19,15 @@ interface Props {
   attestations: Record<string, any>
   updateActiveStep: (newStepNo) => void
   addAttestation: (question) => void
+  removeAttestation: (id) => void
 }
 
 class CreateClaimTemplate extends React.Component<Props> {
   handleAddAttestation(type): void {
     this.props.addAttestation(createAttestation(type))
+  }
+  handleDeleteAttestation(id): void {
+    this.props.removeAttestation(id)
   }
 
   getStepTitle(activeStep): string {
@@ -65,6 +72,13 @@ class CreateClaimTemplate extends React.Component<Props> {
                           <ClaimQuestionCard key={attestation.title}>
                             <h2>{attestation.title}</h2>
                             <input type="text" value={attestation.type} />
+                            <button
+                              onClick={(): void =>
+                                this.handleDeleteAttestation(attestation.id)
+                              }
+                            >
+                              delete
+                            </button>
                           </ClaimQuestionCard>
                         )
                       })}
@@ -149,6 +163,7 @@ const mapStateToProps = (state: RootState): Record<string, any> => ({
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
   updateActiveStep: (newStepNo): void => dispatch(updateActiveStep(newStepNo)),
   addAttestation: (attestation): void => dispatch(addAttestation(attestation)),
+  removeAttestation: (id): void => dispatch(removeAttestation(id)),
 })
 
 export const CreateClaimTemplateConnected = connect(

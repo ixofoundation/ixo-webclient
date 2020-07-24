@@ -26,6 +26,13 @@ export const reducer = (
         ...state,
         attestations: [...state.attestations, action.payload],
       }
+    case CreateClaimTemplateActions.removeAttestation:
+      return {
+        ...state,
+        attestations: state.attestations.filter(
+          attestation => attestation.id !== action.payload,
+        ),
+      }
   }
 
   return state

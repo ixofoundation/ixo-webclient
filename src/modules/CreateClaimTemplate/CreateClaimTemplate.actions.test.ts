@@ -6,7 +6,7 @@ let store
 let state = {
   createClaimTemplate: {
     activeStep: 1,
-    questions: [],
+    attestations: [],
   },
 }
 
@@ -66,13 +66,13 @@ describe('CreateClaimTemplate Actions', () => {
     })
   })
 
-  describe('addQuestion', () => {
+  describe('addAttestation', () => {
     it('should dispatch an action to add a question to the list', () => {
       state = {
         ...state,
         createClaimTemplate: {
           ...state.createClaimTemplate,
-          questions: [],
+          attestations: [],
         },
       }
 
@@ -100,6 +100,35 @@ describe('CreateClaimTemplate Actions', () => {
         type: 'string',
         control: 'string',
       })
+    })
+  })
+
+  describe('removeAttestation', () => {
+    it('should dispatch an action to remove an attestation from the list', () => {
+      state = {
+        ...state,
+        createClaimTemplate: {
+          ...state.createClaimTemplate,
+          attestations: [
+            {
+              id: 'string',
+              title: 'string',
+              description: 'string',
+              label: 'string',
+              required: true,
+              type: 'string',
+              control: 'string',
+            },
+          ],
+        },
+      }
+
+      // when ... we call goToQuestionNumber
+      store.dispatch(SUT.removeAttestation('string'))
+      const action = store.getActions()[0]
+
+      expect(action.type).toEqual(CreateClaimTemplateActions.removeAttestation)
+      expect(action.payload).toEqual('string')
     })
   })
 })

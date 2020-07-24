@@ -3,6 +3,7 @@ import {
   UpdateActiveStepAction,
   CreateClaimTemplateActions,
   AddAttestationAction,
+  RemoveAttestationAction,
 } from './types'
 
 const initialState = SUT.initialState
@@ -35,7 +36,7 @@ describe('CreateClaimTemplate Reducer', () => {
     })
   })
 
-  describe('AddQuestionAction Action', () => {
+  describe('AddAttestationAction Action', () => {
     it('should update the activeStep number', () => {
       const action: AddAttestationAction = {
         type: CreateClaimTemplateActions.addAttestation,
@@ -65,6 +66,22 @@ describe('CreateClaimTemplate Reducer', () => {
             control: 'string',
           },
         ],
+      })
+    })
+  })
+
+  describe('RemoveAttestation Action', () => {
+    it('should update the activeStep number', () => {
+      const action: RemoveAttestationAction = {
+        type: CreateClaimTemplateActions.removeAttestation,
+        payload: 'string',
+      }
+
+      const result = SUT.reducer(initialState, action)
+
+      expect(result).toEqual({
+        ...initialState,
+        attestations: [],
       })
     })
   })
