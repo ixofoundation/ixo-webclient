@@ -29,7 +29,7 @@ describe('CreateClaimTemplate Actions', () => {
       store.dispatch(SUT.updateActiveStep(2))
       const action = store.getActions()[0]
 
-      expect(action.type).toEqual(CreateClaimTemplateActions.updateActiveStep)
+      expect(action.type).toEqual(CreateClaimTemplateActions.UpdateActiveStep)
       expect(action.payload).toEqual(2)
     })
 
@@ -90,7 +90,7 @@ describe('CreateClaimTemplate Actions', () => {
       )
       const action = store.getActions()[0]
 
-      expect(action.type).toEqual(CreateClaimTemplateActions.addAttestation)
+      expect(action.type).toEqual(CreateClaimTemplateActions.AddAttestation)
       expect(action.payload).toEqual({
         id: 'string',
         title: 'string',
@@ -127,7 +127,7 @@ describe('CreateClaimTemplate Actions', () => {
       store.dispatch(SUT.removeAttestation('string'))
       const action = store.getActions()[0]
 
-      expect(action.type).toEqual(CreateClaimTemplateActions.removeAttestation)
+      expect(action.type).toEqual(CreateClaimTemplateActions.RemoveAttestation)
       expect(action.payload).toEqual('string')
     })
   })
