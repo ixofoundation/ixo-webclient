@@ -19,7 +19,7 @@ export const updateActiveStep = (newStepNo: number) => (
 
   if (activeStep !== newStepNo && newStepNo <= totalSteps && newStepNo > 0)
     return dispatch({
-      type: CreateClaimTemplateActions.updateActiveStep,
+      type: CreateClaimTemplateActions.UpdateActiveStep,
       payload: newStepNo,
     })
   return null
@@ -29,7 +29,7 @@ export const addAttestation = (newAttestation: Attestation) => (
   dispatch: Dispatch,
 ): AddAttestationAction => {
   return dispatch({
-    type: CreateClaimTemplateActions.addAttestation,
+    type: CreateClaimTemplateActions.AddAttestation,
     payload: newAttestation,
   })
 }
@@ -38,7 +38,7 @@ export const removeAttestation = (attestationID: string) => (
   dispatch: Dispatch,
 ): RemoveAttestationAction => {
   return dispatch({
-    type: CreateClaimTemplateActions.removeAttestation,
+    type: CreateClaimTemplateActions.RemoveAttestation,
     payload: attestationID,
   })
 }
