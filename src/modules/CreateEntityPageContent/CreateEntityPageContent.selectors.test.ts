@@ -88,9 +88,9 @@ beforeEach(() => {
       },
       social: {
         linkedInUrl: 'someSocialLinkedInUrl',
-        facebookInUrl: 'someSocialFacebookUrl',
-        twitterInUrl: 'someSocialTwitterUrl',
-        discourseInUrl: 'someSocialDiscourseUrl',
+        facebookUrl: 'someSocialFacebookUrl',
+        twitterUrl: 'someSocialTwitterUrl',
+        discourseUrl: 'someSocialDiscourseUrl',
         instagramUrl: 'someSocialInstagramUrl',
         telegramUrl: 'someSocialTelegramUrl',
         githubUrl: 'someSocialGithubUrl',
@@ -233,9 +233,9 @@ describe('CreateEntityPageContent Selectors', () => {
       // then ... should return result as expected
       expect(result).toEqual({
         linkedInUrl: 'someSocialLinkedInUrl',
-        facebookInUrl: 'someSocialFacebookUrl',
-        twitterInUrl: 'someSocialTwitterUrl',
-        discourseInUrl: 'someSocialDiscourseUrl',
+        facebookUrl: 'someSocialFacebookUrl',
+        twitterUrl: 'someSocialTwitterUrl',
+        discourseUrl: 'someSocialDiscourseUrl',
         instagramUrl: 'someSocialInstagramUrl',
         telegramUrl: 'someSocialTelegramUrl',
         githubUrl: 'someSocialGithubUrl',

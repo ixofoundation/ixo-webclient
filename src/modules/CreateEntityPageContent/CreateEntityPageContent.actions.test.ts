@@ -21,7 +21,8 @@ describe('CreateEntityPageContent Actions', () => {
         const title = 'someHeaderTitle'
         const shortDescription = 'someShortDescription'
         const imageDescription = 'someImageDescription'
-        const sdgs = ['sdg1', 'sdg2', 'sdg3']
+        const sdgs = 'sdg1|sdg2|sdg3'
+        const sdgsArr = ['sdg1', 'sdg2', 'sdg3']
         const company = 'someCompany'
         const country = 'ZA'
 
@@ -45,7 +46,7 @@ describe('CreateEntityPageContent Actions', () => {
           title,
           shortDescription,
           imageDescription,
-          sdgs,
+          sdgs: sdgsArr,
           country,
           company,
         })
@@ -94,6 +95,21 @@ describe('CreateEntityPageContent Actions', () => {
       })
     })
 
+    describe('removeBodySection', () => {
+      it('should remove a body content section', () => {
+        const id = 'existingBodyContentId'
+        // when ... we call the removeBodySection
+        const action = SUT.removeBodySection(id)
+        // then ... we should expect it to create an action with the correct type
+        expect(action.type).toEqual(
+          CreateEntityPageContentActions.RemoveBodySection,
+        )
+        expect(action.payload).toEqual({
+          id,
+        })
+      })
+    })
+
     describe('updateBodyContent', () => {
       it('should update the body content', () => {
         // given ... some content
@@ -101,8 +117,13 @@ describe('CreateEntityPageContent Actions', () => {
         const title = 'someBodyTitle'
         const content = 'someBodyContent'
 
+        const formData = {
+          title,
+          content,
+        }
+
         // when ... we call the updateBodyContent action creator
-        const action = SUT.updateBodyContent(id, title, content)
+        const action = SUT.updateBodyContent(id, formData)
 
         // then ... we should expect it to create the action with correct type and payload
         expect(action.type).toEqual(
@@ -131,6 +152,7 @@ describe('CreateEntityPageContent Actions', () => {
         expect(actions[0].type).toEqual(
           CreateEntityPageContentActions.UploadBodyContentImagePending,
         )
+        expect(actions[0].meta.id).toEqual(id)
         expect(actions[1].type).toEqual(
           CreateEntityPageContentActions.UploadBodyContentImageSuccess,
         )
@@ -161,6 +183,21 @@ describe('CreateEntityPageContent Actions', () => {
       })
     })
 
+    describe('removeImageSection', () => {
+      it('should remove an image content section', () => {
+        const id = 'existingImageContentId'
+        // when ... we call the removeImageSection
+        const action = SUT.removeImageSection(id)
+        // then ... we should expect it to create an action with the correct type
+        expect(action.type).toEqual(
+          CreateEntityPageContentActions.RemoveImageSection,
+        )
+        expect(action.payload).toEqual({
+          id,
+        })
+      })
+    })
+
     describe('updateImageContent', () => {
       it('should update the image content', () => {
         // given ... some content
@@ -169,13 +206,14 @@ describe('CreateEntityPageContent Actions', () => {
         const content = 'someImageContent'
         const imageDescription = 'someImageDescription'
 
-        // when ... we call the updateImageContent action creator
-        const action = SUT.updateImageContent(
-          id,
+        const formData = {
           title,
           content,
           imageDescription,
-        )
+        }
+
+        // when ... we call the updateImageContent action creator
+        const action = SUT.updateImageContent(id, formData)
 
         // then ... we should expect it to create the action with correct type and payload
         expect(action.type).toEqual(
@@ -205,6 +243,7 @@ describe('CreateEntityPageContent Actions', () => {
         expect(actions[0].type).toEqual(
           CreateEntityPageContentActions.UploadImageContentImagePending,
         )
+        expect(actions[0].meta.id).toEqual(id)
         expect(actions[1].type).toEqual(
           CreateEntityPageContentActions.UploadImageContentImageSuccess,
         )
@@ -234,6 +273,21 @@ describe('CreateEntityPageContent Actions', () => {
       })
     })
 
+    describe('removeVideoSection', () => {
+      it('should remove a video content section', () => {
+        const id = 'existingVideoContentId'
+        // when ... we call the removeVideoSection
+        const action = SUT.removeVideoSection(id)
+        // then ... we should expect it to create an action with the correct type
+        expect(action.type).toEqual(
+          CreateEntityPageContentActions.RemoveVideoSection,
+        )
+        expect(action.payload).toEqual({
+          id,
+        })
+      })
+    })
+
     describe('updateVideoContent', () => {
       it('should update the video content', () => {
         // given ... some content
@@ -241,8 +295,13 @@ describe('CreateEntityPageContent Actions', () => {
         const title = 'someVideoTitle'
         const content = 'someVideoContent'
 
+        const formData = {
+          title,
+          content,
+        }
+
         // when ... we call the updateVideoContent action creator
-        const action = SUT.updateVideoContent(id, title, content)
+        const action = SUT.updateVideoContent(id, formData)
 
         // then ... we should expect it to create the action with correct type and payload
         expect(action.type).toEqual(
@@ -271,6 +330,7 @@ describe('CreateEntityPageContent Actions', () => {
         expect(actions[0].type).toEqual(
           CreateEntityPageContentActions.UploadVideoContentVideoPending,
         )
+        expect(actions[0].meta.id).toEqual(id)
         expect(actions[1].type).toEqual(
           CreateEntityPageContentActions.UploadVideoContentVideoSuccess,
         )
@@ -279,8 +339,6 @@ describe('CreateEntityPageContent Actions', () => {
       })
     })
   })
-
-  ///
 
   describe('profileContent', () => {
     describe('addProfileSection', () => {
@@ -304,6 +362,21 @@ describe('CreateEntityPageContent Actions', () => {
       })
     })
 
+    describe('removeProfileSection', () => {
+      it('should remove a profile content section', () => {
+        const id = 'existingProfileContentId'
+        // when ... we call the removeProfileSection
+        const action = SUT.removeProfileSection(id)
+        // then ... we should expect it to create an action with the correct type
+        expect(action.type).toEqual(
+          CreateEntityPageContentActions.RemoveProfileSection,
+        )
+        expect(action.payload).toEqual({
+          id,
+        })
+      })
+    })
+
     describe('updateProfileContent', () => {
       it('should update the profile content', () => {
         // given ... some content
@@ -313,14 +386,15 @@ describe('CreateEntityPageContent Actions', () => {
         const linkedInUrl = 'someLinkedInUrl'
         const twitterUrl = 'someTwitterUrl'
 
-        // when ... we call the updateProfileContent action creator
-        const action = SUT.updateProfileContent(
-          id,
+        const formData = {
           name,
           position,
           linkedInUrl,
           twitterUrl,
-        )
+        }
+
+        // when ... we call the updateProfileContent action creator
+        const action = SUT.updateProfileContent(id, formData)
 
         // then ... we should expect it to create the action with correct type and payload
         expect(action.type).toEqual(
@@ -365,25 +439,27 @@ describe('CreateEntityPageContent Actions', () => {
       it('should update the video content', () => {
         // given ... some content
         const linkedInUrl = 'someLinkedInUrl'
-        const facebookInUrl = 'someFacebookUrl'
-        const twitterInUrl = 'someTwitterUrl'
-        const discourseInUrl = 'someDiscourseUrl'
+        const facebookUrl = 'someFacebookUrl'
+        const twitterUrl = 'someTwitterUrl'
+        const discourseUrl = 'someDiscourseUrl'
         const instagramUrl = 'someInstagramUrl'
         const telegramUrl = 'someTelegramUrl'
         const githubUrl = 'someGithubUrl'
         const otherUrl = 'someOtherUrl'
 
-        // when ... we call the updateSocialContent action creator
-        const action = SUT.updateSocialContent(
+        const formData = {
           linkedInUrl,
-          facebookInUrl,
-          twitterInUrl,
-          discourseInUrl,
+          facebookUrl,
+          twitterUrl,
+          discourseUrl,
           instagramUrl,
           telegramUrl,
           githubUrl,
           otherUrl,
-        )
+        }
+
+        // when ... we call the updateSocialContent action creator
+        const action = SUT.updateSocialContent(formData)
 
         // then ... we should expect it to create the action with correct type and payload
         expect(action.type).toEqual(
@@ -391,9 +467,9 @@ describe('CreateEntityPageContent Actions', () => {
         )
         expect(action.payload).toEqual({
           linkedInUrl,
-          facebookInUrl,
-          twitterInUrl,
-          discourseInUrl,
+          facebookUrl,
+          twitterUrl,
+          discourseUrl,
           instagramUrl,
           telegramUrl,
           githubUrl,
@@ -419,6 +495,21 @@ describe('CreateEntityPageContent Actions', () => {
           title: null,
           type: null,
           urls: [],
+        })
+      })
+    })
+
+    describe('removeEmbeddedSection', () => {
+      it('should remove an embedded content section', () => {
+        const id = 'existingEmbeddedContentId'
+        // when ... we call the removeEmbeddedSection
+        const action = SUT.removeEmbeddedSection(id)
+        // then ... we should expect it to create an action with the correct type
+        expect(action.type).toEqual(
+          CreateEntityPageContentActions.RemoveEmbeddedSection,
+        )
+        expect(action.payload).toEqual({
+          id,
         })
       })
     })

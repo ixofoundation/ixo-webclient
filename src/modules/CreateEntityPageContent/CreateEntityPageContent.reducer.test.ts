@@ -29,6 +29,11 @@ import {
   AddEmbeddedSectionAction,
   EmbeddedPageContentType,
   UpdateEmbeddedContentAction,
+  RemoveBodySectionAction,
+  RemoveImageSectionAction,
+  RemoveVideoSectionAction,
+  RemoveProfileSectionAction,
+  RemoveEmbeddedSectionAction,
 } from './types'
 
 const initialState = SUT.initialState
@@ -212,6 +217,54 @@ describe('CreateEntityPageContent Reducer', () => {
         })
       })
 
+      it('should remove body content section', () => {
+        const id = 'existingBodySectionId'
+        // given ... we have an action of type CreateEntityPageContentActions.RemoveBodySection
+        const action: RemoveBodySectionAction = {
+          type: CreateEntityPageContentActions.RemoveBodySection,
+          payload: {
+            id,
+          },
+        }
+        // when ... we run the reducer with this action
+        const result = SUT.reducer(
+          {
+            ...initialState,
+            body: {
+              [id]: {
+                id,
+                title: 'title1',
+                content: 'content1',
+                imageDid: 'imageDid1',
+                uploadingImage: false,
+              },
+              ['anotherid']: {
+                id: 'anotherid',
+                title: 'title2',
+                content: 'content2',
+                imageDid: 'imageDid2',
+                uploadingImage: false,
+              },
+            },
+          },
+          action,
+        )
+
+        // then ... the state should be set as expected
+        expect(result).toEqual({
+          ...initialState,
+          body: {
+            ['anotherid']: {
+              id: 'anotherid',
+              title: 'title2',
+              content: 'content2',
+              imageDid: 'imageDid2',
+              uploadingImage: false,
+            },
+          },
+        })
+      })
+
       it('should update the content', () => {
         const id = 'someBodyContentId'
         const title = 'someNewBodyTitle'
@@ -271,7 +324,7 @@ describe('CreateEntityPageContent Reducer', () => {
         // given .. we have an action of type CreateEntityPageContentActions.UploadBodyContentImagePending
         const action: UploadBodyContentImagePendingAction = {
           type: CreateEntityPageContentActions.UploadBodyContentImagePending,
-          payload: {
+          meta: {
             id,
           },
         }
@@ -438,6 +491,57 @@ describe('CreateEntityPageContent Reducer', () => {
         })
       })
 
+      it('should remove image content section', () => {
+        const id = 'existingImageSectionId'
+        // given ... we have an action of type CreateEntityPageContentActions.RemoveImageSection
+        const action: RemoveImageSectionAction = {
+          type: CreateEntityPageContentActions.RemoveImageSection,
+          payload: {
+            id,
+          },
+        }
+        // when ... we run the reducer with this action
+        const result = SUT.reducer(
+          {
+            ...initialState,
+            images: {
+              [id]: {
+                id,
+                title: 'title1',
+                content: 'content1',
+                imageDid: 'imageDid1',
+                imageDescription: 'imageDescription1',
+                uploadingImage: false,
+              },
+              ['anotherid']: {
+                id: 'anotherid',
+                title: 'title2',
+                content: 'content2',
+                imageDid: 'imageDid2',
+                imageDescription: 'imageDescription2',
+                uploadingImage: false,
+              },
+            },
+          },
+          action,
+        )
+
+        // then ... the state should be set as expected
+        expect(result).toEqual({
+          ...initialState,
+          images: {
+            ['anotherid']: {
+              id: 'anotherid',
+              title: 'title2',
+              content: 'content2',
+              imageDid: 'imageDid2',
+              imageDescription: 'imageDescription2',
+              uploadingImage: false,
+            },
+          },
+        })
+      })
+
       it('should update the content', () => {
         const id = 'someImageContentId'
         const title = 'someNewImageTitle'
@@ -502,7 +606,7 @@ describe('CreateEntityPageContent Reducer', () => {
         // given .. we have an action of type CreateEntityPageContentActions.UploadImageContentImagePending
         const action: UploadImageContentImagePendingAction = {
           type: CreateEntityPageContentActions.UploadImageContentImagePending,
-          payload: {
+          meta: {
             id,
           },
         }
@@ -675,6 +779,54 @@ describe('CreateEntityPageContent Reducer', () => {
         })
       })
 
+      it('should remove video content section', () => {
+        const id = 'existingVideoSectionId'
+        // given ... we have an action of type CreateEntityPageContentActions.RemoveVideoSection
+        const action: RemoveVideoSectionAction = {
+          type: CreateEntityPageContentActions.RemoveVideoSection,
+          payload: {
+            id,
+          },
+        }
+        // when ... we run the reducer with this action
+        const result = SUT.reducer(
+          {
+            ...initialState,
+            videos: {
+              [id]: {
+                id,
+                title: 'title1',
+                content: 'content1',
+                videoDid: 'videoDid1',
+                uploadingVideo: false,
+              },
+              ['anotherid']: {
+                id: 'anotherid',
+                title: 'title2',
+                content: 'content2',
+                videoDid: 'videoDid2',
+                uploadingVideo: false,
+              },
+            },
+          },
+          action,
+        )
+
+        // then ... the state should be set as expected
+        expect(result).toEqual({
+          ...initialState,
+          videos: {
+            ['anotherid']: {
+              id: 'anotherid',
+              title: 'title2',
+              content: 'content2',
+              videoDid: 'videoDid2',
+              uploadingVideo: false,
+            },
+          },
+        })
+      })
+
       it('should update the content', () => {
         const id = 'someVideoContentId'
         const title = 'someNewVideoTitle'
@@ -734,7 +886,7 @@ describe('CreateEntityPageContent Reducer', () => {
         // given .. we have an action of type CreateEntityPageContentActions.UploadVideoContentVideoPending
         const action: UploadVideoContentVideoPendingAction = {
           type: CreateEntityPageContentActions.UploadVideoContentVideoPending,
-          payload: {
+          meta: {
             id,
           },
         }
@@ -903,6 +1055,60 @@ describe('CreateEntityPageContent Reducer', () => {
         })
       })
 
+      it('should remove profile content section', () => {
+        const id = 'existingProfileSectionId'
+        // given ... we have an action of type CreateEntityPageContentActions.RemoveProfileSection
+        const action: RemoveProfileSectionAction = {
+          type: CreateEntityPageContentActions.RemoveProfileSection,
+          payload: {
+            id,
+          },
+        }
+        // when ... we run the reducer with this action
+        const result = SUT.reducer(
+          {
+            ...initialState,
+            profiles: {
+              [id]: {
+                id,
+                name: 'someProfileName1',
+                position: 'someProfilePosition1',
+                linkedInUrl: 'someProfileLinkedInUrl1',
+                twitterUrl: 'someProfileTwitterUrl1',
+                imageDid: 'someProfileImageDid1',
+                uploadingImage: false,
+              },
+              ['anotherid']: {
+                id: 'anotherid',
+                name: 'someProfileName2',
+                position: 'someProfilePosition2',
+                linkedInUrl: 'someProfileLinkedInUrl2',
+                twitterUrl: 'someProfileTwitterUrl2',
+                imageDid: 'someProfileImageDid2',
+                uploadingImage: false,
+              },
+            },
+          },
+          action,
+        )
+
+        // then ... the state should be set as expected
+        expect(result).toEqual({
+          ...initialState,
+          profiles: {
+            ['anotherid']: {
+              id: 'anotherid',
+              name: 'someProfileName2',
+              position: 'someProfilePosition2',
+              linkedInUrl: 'someProfileLinkedInUrl2',
+              twitterUrl: 'someProfileTwitterUrl2',
+              imageDid: 'someProfileImageDid2',
+              uploadingImage: false,
+            },
+          },
+        })
+      })
+
       it('should update the content', () => {
         const id = 'someProfileContentId'
         const name = 'someNewProfileName'
@@ -972,7 +1178,7 @@ describe('CreateEntityPageContent Reducer', () => {
         // given .. we have an action of type CreateEntityPageContentActions.UploadProfileContentImagePending
         const action: UploadProfileContentImagePendingAction = {
           type: CreateEntityPageContentActions.UploadProfileContentImagePending,
-          payload: {
+          meta: {
             id,
           },
         }
@@ -1123,9 +1329,9 @@ describe('CreateEntityPageContent Reducer', () => {
   describe('UpdateSocialContent Action', () => {
     it('should update the content', () => {
       const linkedInUrl = 'someNewLinkedInUrl'
-      const facebookInUrl = 'someNewFacebookInUrl'
-      const twitterInUrl = 'someNewTwitterInUrl'
-      const discourseInUrl = 'someNewDiscourseInUrl'
+      const facebookUrl = 'someNewFacebookInUrl'
+      const twitterUrl = 'someNewTwitterInUrl'
+      const discourseUrl = 'someNewDiscourseInUrl'
       const instagramUrl = 'someNewInstagramUrl'
       const telegramUrl = 'someNewTelegramUrl'
       const githubUrl = 'someNewGithubUrl'
@@ -1136,9 +1342,9 @@ describe('CreateEntityPageContent Reducer', () => {
         type: CreateEntityPageContentActions.UpdateSocialContent,
         payload: {
           linkedInUrl,
-          facebookInUrl,
-          twitterInUrl,
-          discourseInUrl,
+          facebookUrl,
+          twitterUrl,
+          discourseUrl,
           instagramUrl,
           telegramUrl,
           githubUrl,
@@ -1152,9 +1358,9 @@ describe('CreateEntityPageContent Reducer', () => {
           ...initialState,
           social: {
             linkedInUrl: 'someOldLinkedInUrl',
-            facebookInUrl: 'someOldFacebookUrl',
-            twitterInUrl: 'someOldTwitterUrl',
-            discourseInUrl: 'someOldDiscourseUrl',
+            facebookUrl: 'someOldFacebookUrl',
+            twitterUrl: 'someOldTwitterUrl',
+            discourseUrl: 'someOldDiscourseUrl',
             instagramUrl: 'someOldInstagramUrl',
             telegramUrl: 'someOldTelegramUrl',
             githubUrl: 'someOldGithubUrl',
@@ -1169,9 +1375,9 @@ describe('CreateEntityPageContent Reducer', () => {
         ...initialState,
         social: {
           linkedInUrl,
-          facebookInUrl,
-          twitterInUrl,
-          discourseInUrl,
+          facebookUrl,
+          twitterUrl,
+          discourseUrl,
           instagramUrl,
           telegramUrl,
           githubUrl,
@@ -1208,6 +1414,51 @@ describe('CreateEntityPageContent Reducer', () => {
               title: null,
               type: null,
               urls: [],
+            },
+          },
+        })
+      })
+
+      it('should remove embedded content section', () => {
+        const id = 'existingEmbeddedSectionId'
+        // given ... we have an action of type CreateEntityPageContentActions.RemoveEmbeddedSection
+        const action: RemoveEmbeddedSectionAction = {
+          type: CreateEntityPageContentActions.RemoveEmbeddedSection,
+          payload: {
+            id,
+          },
+        }
+        // when ... we run the reducer with this action
+        const result = SUT.reducer(
+          {
+            ...initialState,
+            embedded: {
+              [id]: {
+                id,
+                title: 'someTitle1',
+                type: EmbeddedPageContentType.Blog,
+                urls: ['url1', 'url2'],
+              },
+              ['anotherid']: {
+                id: 'anotherid',
+                title: 'someTitle2',
+                type: EmbeddedPageContentType.Blog,
+                urls: ['url3', 'url4'],
+              },
+            },
+          },
+          action,
+        )
+
+        // then ... the state should be set as expected
+        expect(result).toEqual({
+          ...initialState,
+          embedded: {
+            ['anotherid']: {
+              id: 'anotherid',
+              title: 'someTitle2',
+              type: EmbeddedPageContentType.Blog,
+              urls: ['url3', 'url4'],
             },
           },
         })

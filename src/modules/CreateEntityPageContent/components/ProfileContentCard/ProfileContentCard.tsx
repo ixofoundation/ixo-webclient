@@ -10,74 +10,66 @@ import {
 import ImageLoader from '../../../../common/components/DropZone/ImageLoader/ImageLoader'
 
 interface Props {
-  title: string
-  shortDescription: string
+  id: string
+  name: string
+  position: string
+  linkedInUrl: string
+  twitterUrl: string
   imageDid: string
-  imageDescription: string
-  company: string
-  sdgs: string[]
-  country: string
   uploadingImage: boolean
-  handleUpdateContent: (formData: FormData) => void
-  handleUploadImage: (base64EncodedImage: string) => void
+  handleUpdateContent: (id: string, formData: FormData) => void
+  handleUploadImage: (id: string, base64EncodedImage: string) => void
+  handleRemoveSection: (id: string) => void
 }
 
 const HeaderCard: React.FunctionComponent<Props> = ({
-  title,
-  shortDescription,
-  imageDescription,
-  company,
-  country,
+  id,
+  name,
+  position,
+  linkedInUrl,
+  twitterUrl,
   imageDid,
   uploadingImage,
-  sdgs,
   handleUpdateContent,
   handleUploadImage,
+  handleRemoveSection,
 }) => {
   const formData = {
-    title,
-    shortDescription,
-    sdgs: sdgs.join('|'),
-    company,
-    country,
-    imageDescription,
+    name,
+    position,
+    linkedInUrl,
+    twitterUrl,
   }
 
   const schema = {
     type: 'object',
-    required: ['title', 'shortDescription', 'company', 'country'],
+    required: ['name', 'position'],
     properties: {
-      title: { type: 'string', title: 'Title' },
-      shortDescription: { type: 'string', title: 'Short Description' },
-      company: { type: 'string', title: 'Organisation' },
-      country: { type: 'string', title: 'Country' },
-      sdgs: { type: 'string', title: 'Tag' },
-      imageDescription: { type: 'string', title: 'Header Image Description' },
+      name: { type: 'string', title: 'Name' },
+      position: { type: 'string', title: 'Position' },
+      linkedInUrl: { type: 'string', title: 'Linked In' },
+      twitterUrl: { type: 'string', title: 'Twitter' },
     },
   } as any
 
   const uiSchema = {
-    title: {
+    name: {
       ['ui:widget']: 'text',
       ['ui:placeholder']: 'Enter Title',
     },
-    shortDescription: {
-      ['ui:widget']: 'textarea',
-      ['ui:placeholder']: 'Start Typing Here',
-    },
-    company: {
-      ['ui:widget']: 'text',
-      ['ui:placeholder']: 'Enter Organisation',
-    },
-    country: {
-      ['ui:widget']: customControls['countryselector'],
-    },
-    sdgs: {
-      ['ui:widget']: customControls['sdgselector'],
-    },
-    imageDescription: {
+    position: {
       ['ui:widget']: 'text',
       ['ui:placeholder']: 'Enter Title',
+    },
+    linkedInUrl: {
+      ['ui:widget']: customControls['socialtextbox'],
+      ['ui:socialIcon']: 'LinkedIn',
+      ['ui:placeholder']: 'Paste Url',
+    },
+    twitterUrl: {
+      ['ui:widget']: customControls['socialtextbox'],
+      ['ui:socialIcon']: 'Twitter',
+      ['ui:placeholder']: 'Paste Url',
     },
   }
 
@@ -88,7 +80,7 @@ const HeaderCard: React.FunctionComponent<Props> = ({
       <div className="col-lg-6">
         <div className="form-group">
           <label className="control-label">
-            Header Image<span className="required">*</span>
+            Profile Image<span className="required">*</span>
           </label>
           <ImageLoader
             keepCropSelection={true}
@@ -100,7 +92,7 @@ const HeaderCard: React.FunctionComponent<Props> = ({
             }
             uploading={uploadingImage}
             handleSave={(base64EncodedImage): void =>
-              handleUploadImage(base64EncodedImage)
+              handleUploadImage(id, base64EncodedImage)
             }
             imageWidth={100}
           />
@@ -110,7 +102,7 @@ const HeaderCard: React.FunctionComponent<Props> = ({
         <Form
           formData={formData}
           onChange={(control): void =>
-            handleUpdateContentDebounce(control.formData)
+            handleUpdateContentDebounce(id, control.formData)
           }
           noHtml5Validate
           liveValidate
@@ -121,6 +113,11 @@ const HeaderCard: React.FunctionComponent<Props> = ({
         >
           &nbsp;
         </Form>
+      </div>
+      <div className="col-lg-12 text-right">
+        <button type="button" onClick={(): void => handleRemoveSection(id)}>
+          Remove
+        </button>
       </div>
     </FormContainer>
   )
