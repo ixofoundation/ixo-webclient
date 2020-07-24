@@ -9,6 +9,7 @@ import {
   VideoPageContent,
   ProfilePageContent,
   SocialPageContent,
+  EmbeddedPageContent,
 } from './types'
 import HeaderCard from './components/HeaderCard/HeaderCard'
 import BodyContentCard from './components/BodyContentCard/BodyContentCard'
@@ -16,6 +17,7 @@ import ImageContentCard from './components/ImageContentCard/ImageContentCard'
 import VideoContentCard from './components/VideoContentCard/VideoContentCard'
 import ProfileContentCard from './components/ProfileContentCard/ProfileContentCard'
 import SocialContentCard from './components/SocialContentCard/SocialContentCard'
+import EmbeddedContentCard from './components/EmbeddedContentCard/EmbeddedContentCard'
 import {
   updateHeaderContent,
   uploadHeaderContentImage,
@@ -36,6 +38,9 @@ import {
   removeImageSection,
   removeVideoSection,
   removeProfileSection,
+  updateEmbeddedContent,
+  addEmbeddedSection,
+  removeEmbeddedSection,
 } from './CreateEntityPageContent.actions'
 import { FormData } from 'src/common/components/JsonForm/types'
 import FormCardWrapper from '../../common/components/Wrappers/FormCardWrapper/FormCardWrapper'
@@ -47,6 +52,7 @@ interface Props {
   videos: VideoPageContent[]
   profiles: ProfilePageContent[]
   social: SocialPageContent
+  embedded: EmbeddedPageContent[]
   handleUpdateHeaderContent: (formData: FormData) => void
   handleUploadHeaderContentImage: (base64EncodedImage: string) => void
   handleAddBodySection: () => void
@@ -75,6 +81,9 @@ interface Props {
     base64EncodedImage: string,
   ) => void
   handleUpdateSocialContent: (formData: FormData) => void
+  handleAddEmbeddedSection: () => void
+  handleRemoveEmbeddedSection: (id: string) => void
+  handleUpdateEmbeddedContent: (id: string, formData: FormData) => void
 }
 
 class CreateEntityPageContent extends React.Component<Props> {
@@ -318,6 +327,39 @@ class CreateEntityPageContent extends React.Component<Props> {
     )
   }
 
+  renderEmbeddedSections = (): JSX.Element => {
+    const {
+      embedded,
+      handleUpdateEmbeddedContent,
+      handleAddEmbeddedSection,
+      handleRemoveEmbeddedSection,
+    } = this.props
+
+    return (
+      <FormCardWrapper
+        title="Embedded Content"
+        description={null}
+        showAddSection
+        onAddSection={handleAddEmbeddedSection}
+      >
+        {embedded.map(section => {
+          const { id, title, urls } = section
+
+          return (
+            <EmbeddedContentCard
+              id={id}
+              key={id}
+              title={title}
+              urls={urls}
+              handleUpdateContent={handleUpdateEmbeddedContent}
+              handleRemoveSection={handleRemoveEmbeddedSection}
+            />
+          )
+        })}
+      </FormCardWrapper>
+    )
+  }
+
   render(): JSX.Element {
     return (
       <>
@@ -327,6 +369,7 @@ class CreateEntityPageContent extends React.Component<Props> {
         {this.renderVideoSections()}
         {this.renderProfileSections()}
         {this.renderSocialContent()}
+        {this.renderEmbeddedSections()}
       </>
     )
   }
@@ -339,6 +382,7 @@ const mapStateToProps = (state: RootState): any => ({
   profiles: pageContentSelectors.selectProfileContentSections(state),
   videos: pageContentSelectors.selectVideoContentSections(state),
   social: pageContentSelectors.selectSocialContent(state),
+  embedded: pageContentSelectors.selectEmbeddedContentSections(state),
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
@@ -384,6 +428,11 @@ const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
   ): void => dispatch(uploadProfileContentImage(id, base64EncodedImage)),
   handleUpdateSocialContent: (formData: FormData): void =>
     dispatch(updateSocialContent(formData)),
+  handleUpdateEmbeddedContent: (id: string, formData: FormData): void =>
+    dispatch(updateEmbeddedContent(id, formData)),
+  handleAddEmbeddedSection: (): void => dispatch(addEmbeddedSection()),
+  handleRemoveEmbeddedSection: (id: string): void =>
+    dispatch(removeEmbeddedSection(id)),
 })
 
 export const CreateEntityPageContentConnected = connect(

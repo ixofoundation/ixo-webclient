@@ -27,7 +27,6 @@ import {
   UploadProfileContentImageFailureAction,
   UpdateSocialContentAction,
   AddEmbeddedSectionAction,
-  EmbeddedPageContentType,
   UpdateEmbeddedContentAction,
   RemoveBodySectionAction,
   RemoveImageSectionAction,
@@ -1397,7 +1396,6 @@ describe('CreateEntityPageContent Reducer', () => {
           payload: {
             id,
             title: null,
-            type: null,
             urls: [],
           },
         }
@@ -1412,7 +1410,6 @@ describe('CreateEntityPageContent Reducer', () => {
             [id]: {
               id,
               title: null,
-              type: null,
               urls: [],
             },
           },
@@ -1436,13 +1433,11 @@ describe('CreateEntityPageContent Reducer', () => {
               [id]: {
                 id,
                 title: 'someTitle1',
-                type: EmbeddedPageContentType.Blog,
                 urls: ['url1', 'url2'],
               },
               ['anotherid']: {
                 id: 'anotherid',
                 title: 'someTitle2',
-                type: EmbeddedPageContentType.Blog,
                 urls: ['url3', 'url4'],
               },
             },
@@ -1457,7 +1452,6 @@ describe('CreateEntityPageContent Reducer', () => {
             ['anotherid']: {
               id: 'anotherid',
               title: 'someTitle2',
-              type: EmbeddedPageContentType.Blog,
               urls: ['url3', 'url4'],
             },
           },
@@ -1467,7 +1461,6 @@ describe('CreateEntityPageContent Reducer', () => {
       it('should update the content', () => {
         const id = 'someBodyContentId'
         const title = 'someNewBodyTitle'
-        const type = EmbeddedPageContentType.Blog
         const urls = ['foo', 'bar']
 
         // given .. we have an action of type CreateEntityPageContentActions.UpdateEmbeddedContent
@@ -1476,7 +1469,6 @@ describe('CreateEntityPageContent Reducer', () => {
           payload: {
             id,
             title,
-            type,
             urls,
           },
         }
@@ -1489,7 +1481,6 @@ describe('CreateEntityPageContent Reducer', () => {
               [id]: {
                 id,
                 title: 'someOldEmbeddedTitle',
-                type: null,
                 urls: ['old', 'stuff'],
               },
             },
@@ -1504,7 +1495,6 @@ describe('CreateEntityPageContent Reducer', () => {
             [id]: {
               id,
               title,
-              type,
               urls,
             },
           },

@@ -1,9 +1,5 @@
 // TODO - Table
 
-export enum EmbeddedPageContentType {
-  Blog = 'blog',
-}
-
 export interface HeaderPageContent {
   title: string
   shortDescription: string
@@ -64,7 +60,6 @@ export interface SocialPageContent {
 export interface EmbeddedPageContent {
   id: string
   title: string
-  type: EmbeddedPageContentType
   urls: string[]
 }
 
@@ -418,7 +413,6 @@ export interface AddEmbeddedSectionAction {
   payload: {
     id: string
     title: string
-    type: EmbeddedPageContentType
     urls: string[]
   }
 }
@@ -435,7 +429,6 @@ export interface UpdateEmbeddedContentAction {
   payload: {
     id: string
     title: string
-    type: EmbeddedPageContentType
     urls: string[]
   }
 }

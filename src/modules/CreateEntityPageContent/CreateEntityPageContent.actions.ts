@@ -19,7 +19,6 @@ import {
   UploadProfileContentImageAction,
   UpdateSocialContentAction,
   AddEmbeddedSectionAction,
-  EmbeddedPageContentType,
   UpdateEmbeddedContentAction,
   RemoveBodySectionAction,
   RemoveImageSectionAction,
@@ -291,8 +290,7 @@ export const addEmbeddedSection = (): AddEmbeddedSectionAction => ({
   payload: {
     id: uuidv4(),
     title: null,
-    type: null,
-    urls: [],
+    urls: [''],
   },
 })
 
@@ -307,15 +305,16 @@ export const removeEmbeddedSection = (
 
 export const updateEmbeddedContent = (
   id: string,
-  title: string,
-  type: EmbeddedPageContentType,
-  urls: string[],
-): UpdateEmbeddedContentAction => ({
-  type: CreateEntityPageContentActions.UpdateEmbeddedContent,
-  payload: {
-    id,
-    title,
-    type,
-    urls,
-  },
-})
+  formData: FormData,
+): UpdateEmbeddedContentAction => {
+  const { title, urls } = formData
+
+  return {
+    type: CreateEntityPageContentActions.UpdateEmbeddedContent,
+    payload: {
+      id,
+      title,
+      urls: urls.split('|'),
+    },
+  }
+}

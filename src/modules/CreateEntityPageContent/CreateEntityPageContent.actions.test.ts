@@ -1,10 +1,7 @@
 import { v4 } from 'uuid'
 jest.mock('uuid')
 import * as SUT from './CreateEntityPageContent.actions'
-import {
-  CreateEntityPageContentActions,
-  EmbeddedPageContentType,
-} from './types'
+import { CreateEntityPageContentActions } from './types'
 import mockStore from '../../common/redux/mockStore'
 
 let store
@@ -493,8 +490,7 @@ describe('CreateEntityPageContent Actions', () => {
         expect(action.payload).toEqual({
           id,
           title: null,
-          type: null,
-          urls: [],
+          urls: [''],
         })
       })
     })
@@ -519,11 +515,16 @@ describe('CreateEntityPageContent Actions', () => {
         // given ... some content
         const id = 'someEmbeddedId'
         const title = 'someEmbeddedTitle'
-        const type = EmbeddedPageContentType.Blog
-        const urls = ['someUrl1', 'someUrl2']
+        const urls = 'someUrl1|someUrl2'
+        const urlsArr = ['someUrl1', 'someUrl2']
+
+        const formData = {
+          title,
+          urls,
+        }
 
         // when ... we call the updateEmbeddedContent action creator
-        const action = SUT.updateEmbeddedContent(id, title, type, urls)
+        const action = SUT.updateEmbeddedContent(id, formData)
 
         // then ... we should expect it to create the action with correct type and payload
         expect(action.type).toEqual(
@@ -532,8 +533,7 @@ describe('CreateEntityPageContent Actions', () => {
         expect(action.payload).toEqual({
           id,
           title,
-          type,
-          urls,
+          urls: urlsArr,
         })
       })
     })
