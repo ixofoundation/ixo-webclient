@@ -145,7 +145,7 @@ class CreateEntityPageContent extends React.Component<Props> {
               uploadingImage={uploadingImage}
               handleUpdateContent={handleUpdateBodyContent}
               handleUploadImage={handleUploadBodyContentImage}
-              handleRemoveCard={handleRemoveBodySection}
+              handleRemoveSection={handleRemoveBodySection}
             />
           )
         })}
@@ -190,7 +190,7 @@ class CreateEntityPageContent extends React.Component<Props> {
               uploadingImage={uploadingImage}
               handleUpdateContent={handleUpdateImageContent}
               handleUploadImage={handleUploadImageContentImage}
-              handleRemoveCard={handleRemoveImageSection}
+              handleRemoveSection={handleRemoveImageSection}
             />
           )
         })}
@@ -204,6 +204,7 @@ class CreateEntityPageContent extends React.Component<Props> {
       handleUpdateVideoContent,
       handleUploadVideoContentVideo,
       handleAddVideoSection,
+      handleRemoveVideoSection,
     } = this.props
 
     return (
@@ -218,17 +219,15 @@ class CreateEntityPageContent extends React.Component<Props> {
 
           return (
             <VideoContentCard
+              id={id}
               key={id}
               title={title}
               content={content}
               videoDid={videoDid}
               uploadingVideo={uploadingVideo}
-              handleUpdateContent={(formData): void =>
-                handleUpdateVideoContent(id, formData)
-              }
-              handleUploadVideo={(base64EncodedVideo): void =>
-                handleUploadVideoContentVideo(id, base64EncodedVideo)
-              }
+              handleUpdateContent={handleUpdateVideoContent}
+              handleUploadVideo={handleUploadVideoContentVideo}
+              handleRemoveSection={handleRemoveVideoSection}
             />
           )
         })}
@@ -242,6 +241,7 @@ class CreateEntityPageContent extends React.Component<Props> {
       handleUpdateProfileContent,
       handleUploadProfileContentImage,
       handleAddProfileSection,
+      handleRemoveProfileSection,
     } = this.props
 
     return (
@@ -264,6 +264,7 @@ class CreateEntityPageContent extends React.Component<Props> {
 
           return (
             <ProfileContentCard
+              id={id}
               key={id}
               name={name}
               position={position}
@@ -271,12 +272,9 @@ class CreateEntityPageContent extends React.Component<Props> {
               twitterUrl={twitterUrl}
               imageDid={imageDid}
               uploadingImage={uploadingImage}
-              handleUpdateContent={(formData): void =>
-                handleUpdateProfileContent(id, formData)
-              }
-              handleUploadImage={(base64EncodedImage): void =>
-                handleUploadProfileContentImage(id, base64EncodedImage)
-              }
+              handleUpdateContent={handleUpdateProfileContent}
+              handleUploadImage={handleUploadProfileContentImage}
+              handleRemoveSection={handleRemoveProfileSection}
             />
           )
         })}

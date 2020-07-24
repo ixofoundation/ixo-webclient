@@ -8,21 +8,25 @@ import VideoLoader from '../../../../common/components/DropZone/FileLoader/FileL
 import { FileType } from 'src/common/components/DropZone/types'
 
 interface Props {
+  id: string
   title: string
   content: string
   videoDid: string
   uploadingVideo: boolean
-  handleUpdateContent: (formData: FormData) => void
-  handleUploadVideo: (base64EncodedVideo: string) => void
+  handleUpdateContent: (id: string, formData: FormData) => void
+  handleUploadVideo: (id: string, base64EncodedVideo: string) => void
+  handleRemoveSection: (id: string) => void
 }
 
 const HeaderCard: React.FunctionComponent<Props> = ({
+  id,
   title,
   content,
   videoDid,
   uploadingVideo,
   handleUpdateContent,
   handleUploadVideo,
+  handleRemoveSection,
 }) => {
   const formData = {
     title,
@@ -66,7 +70,7 @@ const HeaderCard: React.FunctionComponent<Props> = ({
             }
             uploading={uploadingVideo}
             handleSave={(base64EncodedVideo): void =>
-              handleUploadVideo(base64EncodedVideo)
+              handleUploadVideo(id, base64EncodedVideo)
             }
             maxFileSize={20000000}
             fileType={FileType.Video}
@@ -77,7 +81,7 @@ const HeaderCard: React.FunctionComponent<Props> = ({
         <Form
           formData={formData}
           onChange={(control): void =>
-            handleUpdateContentDebounce(control.formData)
+            handleUpdateContentDebounce(id, control.formData)
           }
           noHtml5Validate
           liveValidate
@@ -88,6 +92,11 @@ const HeaderCard: React.FunctionComponent<Props> = ({
         >
           &nbsp;
         </Form>
+      </div>
+      <div className="col-lg-12 text-right">
+        <button type="button" onClick={(): void => handleRemoveSection(id)}>
+          Remove
+        </button>
       </div>
     </FormContainer>
   )

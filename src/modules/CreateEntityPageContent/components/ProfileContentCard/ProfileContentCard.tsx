@@ -10,17 +10,20 @@ import {
 import ImageLoader from '../../../../common/components/DropZone/ImageLoader/ImageLoader'
 
 interface Props {
+  id: string
   name: string
   position: string
   linkedInUrl: string
   twitterUrl: string
   imageDid: string
   uploadingImage: boolean
-  handleUpdateContent: (formData: FormData) => void
-  handleUploadImage: (base64EncodedImage: string) => void
+  handleUpdateContent: (id: string, formData: FormData) => void
+  handleUploadImage: (id: string, base64EncodedImage: string) => void
+  handleRemoveSection: (id: string) => void
 }
 
 const HeaderCard: React.FunctionComponent<Props> = ({
+  id,
   name,
   position,
   linkedInUrl,
@@ -29,6 +32,7 @@ const HeaderCard: React.FunctionComponent<Props> = ({
   uploadingImage,
   handleUpdateContent,
   handleUploadImage,
+  handleRemoveSection,
 }) => {
   const formData = {
     name,
@@ -49,7 +53,7 @@ const HeaderCard: React.FunctionComponent<Props> = ({
   } as any
 
   const uiSchema = {
-    title: {
+    name: {
       ['ui:widget']: 'text',
       ['ui:placeholder']: 'Enter Title',
     },
@@ -88,7 +92,7 @@ const HeaderCard: React.FunctionComponent<Props> = ({
             }
             uploading={uploadingImage}
             handleSave={(base64EncodedImage): void =>
-              handleUploadImage(base64EncodedImage)
+              handleUploadImage(id, base64EncodedImage)
             }
             imageWidth={100}
           />
@@ -98,7 +102,7 @@ const HeaderCard: React.FunctionComponent<Props> = ({
         <Form
           formData={formData}
           onChange={(control): void =>
-            handleUpdateContentDebounce(control.formData)
+            handleUpdateContentDebounce(id, control.formData)
           }
           noHtml5Validate
           liveValidate
@@ -109,6 +113,11 @@ const HeaderCard: React.FunctionComponent<Props> = ({
         >
           &nbsp;
         </Form>
+      </div>
+      <div className="col-lg-12 text-right">
+        <button type="button" onClick={(): void => handleRemoveSection(id)}>
+          Remove
+        </button>
       </div>
     </FormContainer>
   )

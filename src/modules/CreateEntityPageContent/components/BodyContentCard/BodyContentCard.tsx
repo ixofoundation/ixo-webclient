@@ -14,7 +14,7 @@ interface Props {
   uploadingImage: boolean
   handleUpdateContent: (id: string, formData: FormData) => void
   handleUploadImage: (id: string, base64EncodedImage: string) => void
-  handleRemoveCard: (id: string) => void
+  handleRemoveSection: (id: string) => void
 }
 
 const HeaderCard: React.FunctionComponent<Props> = ({
@@ -25,7 +25,7 @@ const HeaderCard: React.FunctionComponent<Props> = ({
   uploadingImage,
   handleUpdateContent,
   handleUploadImage,
-  handleRemoveCard,
+  handleRemoveSection,
 }) => {
   const formData = {
     title,
@@ -94,7 +94,7 @@ const HeaderCard: React.FunctionComponent<Props> = ({
         </Form>
       </div>
       <div className="col-lg-12 text-right">
-        <button type="button" onClick={(): void => handleRemoveCard(id)}>
+        <button type="button" onClick={(): void => handleRemoveSection(id)}>
           Remove
         </button>
       </div>
