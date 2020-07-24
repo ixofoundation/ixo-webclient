@@ -1,11 +1,32 @@
+export interface Question {
+  id: string
+  title: string
+  description: string
+  label: string
+  required: boolean
+  type: string
+  minItems?: number
+  maxItems?: number
+  control: string
+  values?: any[]
+  itemValues?: string[]
+  itemLabels?: string[]
+  itemImages?: string[]
+  placeholder?: string
+  initialValue?: string
+}
+
+export type Attestation = Question
 export interface CreateClaimTemplateState {
   activeStep: number
-  questions: Record<string, any>[]
+  attestations: Attestation[]
+  evaluation: any // @todo create interface
+  approval: any // @todo create interface
 }
 
 export enum CreateClaimTemplateActions {
   updateActiveStep = 'ixo/CreateClaimTemplate/UPDATE_STEP',
-  addQuestion = 'ixo/CreateClaimTemplate/ADD_QUESTION',
+  addAttestation = 'ixo/CreateClaimTemplate/ADD_ATTESTATION',
 }
 
 export interface UpdateActiveStepAction {
@@ -13,11 +34,11 @@ export interface UpdateActiveStepAction {
   payload: number
 }
 
-export interface AddQuestionAction {
-  type: typeof CreateClaimTemplateActions.addQuestion
-  payload: Record<string, any>
+export interface AddAttestationAction {
+  type: typeof CreateClaimTemplateActions.addAttestation
+  payload: Attestation
 }
 
 export type CreateClaimTemplateActionTypes =
   | UpdateActiveStepAction
-  | AddQuestionAction
+  | AddAttestationAction

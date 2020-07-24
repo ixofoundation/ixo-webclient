@@ -6,7 +6,9 @@ import {
 
 export const initialState: CreateClaimTemplateState = {
   activeStep: 1,
-  questions: [],
+  attestations: [],
+  evaluation: [],
+  approval: [],
 }
 
 export const reducer = (
@@ -19,10 +21,10 @@ export const reducer = (
         ...state,
         activeStep: action.payload,
       }
-    case CreateClaimTemplateActions.addQuestion:
+    case CreateClaimTemplateActions.addAttestation:
       return {
         ...state,
-        questions: [...state.questions, action.payload],
+        attestations: [...state.attestations, action.payload],
       }
   }
 

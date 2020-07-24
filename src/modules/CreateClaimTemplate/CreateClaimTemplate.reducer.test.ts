@@ -2,7 +2,7 @@ import * as SUT from './CreateClaimTemplate.reducer'
 import {
   UpdateActiveStepAction,
   CreateClaimTemplateActions,
-  AddQuestionAction,
+  AddAttestationAction,
 } from './types'
 
 const initialState = SUT.initialState
@@ -37,16 +37,34 @@ describe('CreateClaimTemplate Reducer', () => {
 
   describe('AddQuestionAction Action', () => {
     it('should update the activeStep number', () => {
-      const action: AddQuestionAction = {
-        type: CreateClaimTemplateActions.addQuestion,
-        payload: { foo: 'bar' },
+      const action: AddAttestationAction = {
+        type: CreateClaimTemplateActions.addAttestation,
+        payload: {
+          id: 'string',
+          title: 'string',
+          description: 'string',
+          label: 'string',
+          required: true,
+          type: 'string',
+          control: 'string',
+        },
       }
 
       const result = SUT.reducer(initialState, action)
 
       expect(result).toEqual({
         ...initialState,
-        questions: [{ foo: 'bar' }],
+        attestations: [
+          {
+            id: 'string',
+            title: 'string',
+            description: 'string',
+            label: 'string',
+            required: true,
+            type: 'string',
+            control: 'string',
+          },
+        ],
       })
     })
   })

@@ -1,7 +1,8 @@
 import {
   UpdateActiveStepAction,
   CreateClaimTemplateActions,
-  AddQuestionAction,
+  AddAttestationAction,
+  Attestation,
 } from './types'
 import { Dispatch } from 'redux'
 import { RootState } from 'src/common/redux/types'
@@ -13,8 +14,9 @@ export const updateActiveStep = (newStepNo: number) => (
   const {
     createClaimTemplate: { activeStep },
   } = getState()
+  const totalSteps = 3 // @todo set this more dynamically
 
-  if (activeStep !== newStepNo)
+  if (activeStep !== newStepNo && newStepNo <= totalSteps && newStepNo > 0)
     return dispatch({
       type: CreateClaimTemplateActions.updateActiveStep,
       payload: newStepNo,
@@ -22,11 +24,11 @@ export const updateActiveStep = (newStepNo: number) => (
   return null
 }
 
-export const addQuestion = (newQuestion: Record<string, any>) => (
+export const addAttestation = (newAttestation: Attestation) => (
   dispatch: Dispatch,
-): AddQuestionAction => {
+): AddAttestationAction => {
   return dispatch({
-    type: CreateClaimTemplateActions.addQuestion,
-    payload: newQuestion,
+    type: CreateClaimTemplateActions.addAttestation,
+    payload: newAttestation,
   })
 }

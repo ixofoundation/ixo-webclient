@@ -48,6 +48,22 @@ describe('CreateClaimTemplate Actions', () => {
 
       expect(actions).toEqual([])
     })
+
+    it('should not dispatch any action when the new step is greater than the total steps', () => {
+      state = {
+        ...state,
+        createClaimTemplate: {
+          ...state.createClaimTemplate,
+          activeStep: 3,
+        },
+      }
+
+      // when ... we call saveAnswer
+      store.dispatch(SUT.updateActiveStep(4))
+      const actions = store.getActions()
+
+      expect(actions).toEqual([])
+    })
   })
 
   describe('addQuestion', () => {
@@ -61,11 +77,29 @@ describe('CreateClaimTemplate Actions', () => {
       }
 
       // when ... we call goToQuestionNumber
-      store.dispatch(SUT.addQuestion({ foo: 'bar' }))
+      store.dispatch(
+        SUT.addAttestation({
+          id: 'string',
+          title: 'string',
+          description: 'string',
+          label: 'string',
+          required: true,
+          type: 'string',
+          control: 'string',
+        }),
+      )
       const action = store.getActions()[0]
 
-      expect(action.type).toEqual(CreateClaimTemplateActions.addQuestion)
-      expect(action.payload).toEqual({ foo: 'bar' })
+      expect(action.type).toEqual(CreateClaimTemplateActions.addAttestation)
+      expect(action.payload).toEqual({
+        id: 'string',
+        title: 'string',
+        description: 'string',
+        label: 'string',
+        required: true,
+        type: 'string',
+        control: 'string',
+      })
     })
   })
 })
