@@ -3,56 +3,41 @@ import Form from '@rjsf/core'
 import { debounce } from 'debounce'
 import { FormContainer } from '../../../../common/components/JsonForm/JsonForm.styles'
 import * as formUtils from '../../../../common/components/JsonForm/JsonForm.utils'
-import {
-  FormData,
-  customControls,
-} from '../../../../common/components/JsonForm/types'
+import { FormData } from '../../../../common/components/JsonForm/types'
 import ImageLoader from '../../../../common/components/DropZone/ImageLoader/ImageLoader'
 
 interface Props {
+  id: string
   title: string
-  shortDescription: string
+  content: string
   imageDid: string
-  imageDescription: string
-  company: string
-  sdgs: string[]
-  country: string
   uploadingImage: boolean
-  handleUpdateContent: (formData: FormData) => void
-  handleUploadImage: (base64EncodedImage: string) => void
+  handleUpdateContent: (id: string, formData: FormData) => void
+  handleUploadImage: (id: string, base64EncodedImage: string) => void
+  handleRemoveSection: (id: string) => void
 }
 
 const HeaderCard: React.FunctionComponent<Props> = ({
+  id,
   title,
-  shortDescription,
-  imageDescription,
-  company,
-  country,
+  content,
   imageDid,
   uploadingImage,
-  sdgs,
   handleUpdateContent,
   handleUploadImage,
+  handleRemoveSection,
 }) => {
   const formData = {
     title,
-    shortDescription,
-    sdgs: sdgs.join('|'),
-    company,
-    country,
-    imageDescription,
+    content,
   }
 
   const schema = {
     type: 'object',
-    required: ['title', 'shortDescription', 'company', 'country'],
+    required: ['title', 'content'],
     properties: {
       title: { type: 'string', title: 'Title' },
-      shortDescription: { type: 'string', title: 'Short Description' },
-      company: { type: 'string', title: 'Organisation' },
-      country: { type: 'string', title: 'Country' },
-      sdgs: { type: 'string', title: 'Tag' },
-      imageDescription: { type: 'string', title: 'Header Image Description' },
+      content: { type: 'string', title: 'Body Content' },
     },
   } as any
 
@@ -61,23 +46,9 @@ const HeaderCard: React.FunctionComponent<Props> = ({
       ['ui:widget']: 'text',
       ['ui:placeholder']: 'Enter Title',
     },
-    shortDescription: {
+    content: {
       ['ui:widget']: 'textarea',
       ['ui:placeholder']: 'Start Typing Here',
-    },
-    company: {
-      ['ui:widget']: 'text',
-      ['ui:placeholder']: 'Enter Organisation',
-    },
-    country: {
-      ['ui:widget']: customControls['countryselector'],
-    },
-    sdgs: {
-      ['ui:widget']: customControls['sdgselector'],
-    },
-    imageDescription: {
-      ['ui:widget']: 'text',
-      ['ui:placeholder']: 'Enter Title',
     },
   }
 
@@ -88,7 +59,7 @@ const HeaderCard: React.FunctionComponent<Props> = ({
       <div className="col-lg-6">
         <div className="form-group">
           <label className="control-label">
-            Header Image<span className="required">*</span>
+            In Article Image<span className="required">*</span>
           </label>
           <ImageLoader
             keepCropSelection={true}
@@ -100,7 +71,7 @@ const HeaderCard: React.FunctionComponent<Props> = ({
             }
             uploading={uploadingImage}
             handleSave={(base64EncodedImage): void =>
-              handleUploadImage(base64EncodedImage)
+              handleUploadImage(id, base64EncodedImage)
             }
             imageWidth={100}
           />
@@ -110,7 +81,7 @@ const HeaderCard: React.FunctionComponent<Props> = ({
         <Form
           formData={formData}
           onChange={(control): void =>
-            handleUpdateContentDebounce(control.formData)
+            handleUpdateContentDebounce(id, control.formData)
           }
           noHtml5Validate
           liveValidate
@@ -121,6 +92,11 @@ const HeaderCard: React.FunctionComponent<Props> = ({
         >
           &nbsp;
         </Form>
+      </div>
+      <div className="col-lg-12 text-right">
+        <button type="button" onClick={(): void => handleRemoveSection(id)}>
+          Remove
+        </button>
       </div>
     </FormContainer>
   )
