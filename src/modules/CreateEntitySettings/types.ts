@@ -268,3 +268,26 @@ export interface UpdateDisplayCredentialAction {
     badge: string
   }
 }
+
+export type CreateEntitySettingsActionTypes =
+  | UpdateOwnerAction
+  | UploadOwnerImageAction
+  | UploadOwnerImagePendingAction
+  | UploadOwnerImageSuccessAction
+  | UploadOwnerImageFailureAction
+  | UpdateCreatorAction
+  | UploadCreatorImageAction
+  | UploadCreatorImagePendingAction
+  | UploadCreatorImageSuccessAction
+  | UploadCreatorImageFailureAction
+  | UpdateStatusAction
+  | UpdatePrivacyAction
+  | AddRequiredCredentialSectionAction
+  | RemoveRequiredCredentialSectionAction
+  | UpdateRequiredCredentialAction
+  | AddFilterSectionAction
+  | RemoveFilterSectionAction
+  | UpdateFilterAction
+  | AddDisplayCredentialSectionAction
+  | RemoveDisplayCredentialSectionAction
+  | UpdateDisplayCredentialAction
