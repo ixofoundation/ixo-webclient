@@ -1,5 +1,5 @@
 import * as SUT from './CreateEntityPageContent.selectors'
-import { CreateEntityPageContentState, EmbeddedPageContentType } from './types'
+import { CreateEntityPageContentState } from './types'
 
 let state: any
 
@@ -88,9 +88,9 @@ beforeEach(() => {
       },
       social: {
         linkedInUrl: 'someSocialLinkedInUrl',
-        facebookInUrl: 'someSocialFacebookUrl',
-        twitterInUrl: 'someSocialTwitterUrl',
-        discourseInUrl: 'someSocialDiscourseUrl',
+        facebookUrl: 'someSocialFacebookUrl',
+        twitterUrl: 'someSocialTwitterUrl',
+        discourseUrl: 'someSocialDiscourseUrl',
         instagramUrl: 'someSocialInstagramUrl',
         telegramUrl: 'someSocialTelegramUrl',
         githubUrl: 'someSocialGithubUrl',
@@ -100,13 +100,11 @@ beforeEach(() => {
         'db1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d': {
           id: 'db1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d',
           title: 'someEmbeddedTitle1',
-          type: EmbeddedPageContentType.Blog,
           urls: ['url1', 'url2'],
         },
         'db9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed': {
           id: 'db9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed',
           title: 'someEmbeddedTitle2',
-          type: EmbeddedPageContentType.Blog,
           urls: ['url3', 'url4'],
         },
       },
@@ -233,9 +231,9 @@ describe('CreateEntityPageContent Selectors', () => {
       // then ... should return result as expected
       expect(result).toEqual({
         linkedInUrl: 'someSocialLinkedInUrl',
-        facebookInUrl: 'someSocialFacebookUrl',
-        twitterInUrl: 'someSocialTwitterUrl',
-        discourseInUrl: 'someSocialDiscourseUrl',
+        facebookUrl: 'someSocialFacebookUrl',
+        twitterUrl: 'someSocialTwitterUrl',
+        discourseUrl: 'someSocialDiscourseUrl',
         instagramUrl: 'someSocialInstagramUrl',
         telegramUrl: 'someSocialTelegramUrl',
         githubUrl: 'someSocialGithubUrl',
@@ -254,13 +252,11 @@ describe('CreateEntityPageContent Selectors', () => {
         {
           id: 'db1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d',
           title: 'someEmbeddedTitle1',
-          type: 'blog',
           urls: ['url1', 'url2'],
         },
         {
           id: 'db9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed',
           title: 'someEmbeddedTitle2',
-          type: 'blog',
           urls: ['url3', 'url4'],
         },
       ])
