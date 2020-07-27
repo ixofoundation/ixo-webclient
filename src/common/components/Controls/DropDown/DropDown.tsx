@@ -36,16 +36,7 @@ const DropDown: React.FunctionComponent<Props> = ({
     <SelectContainer
       defaultValue={value}
       onChange={(e): void => onChange(e.target.value)}
-      className={
-        value
-          ? value.length > 0 &&
-            value !== '' &&
-            value !== null &&
-            value !== undefined
-            ? 'active'
-            : null
-          : null
-      }
+      className={value && value.length > 0 ? 'active' : null}
       id="symbol"
       style={{
         backgroundImage:
