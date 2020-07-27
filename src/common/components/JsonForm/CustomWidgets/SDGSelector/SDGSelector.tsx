@@ -12,7 +12,6 @@ const SDGSelector: React.FunctionComponent<Props> = ({ value, onChange }) => {
   const handleSDGOnChange = (sdg: string, index: number): void => {
     const newSDGS = [...sdgs]
     newSDGS[index] = sdg
-
     onChange(newSDGS.join('|'))
   }
 
@@ -23,7 +22,6 @@ const SDGSelector: React.FunctionComponent<Props> = ({ value, onChange }) => {
 
   const handleSDGOnRemove = (index: number): void => {
     const newSDGS = [...sdgs].filter((sdg, i) => i !== index)
-
     onChange(newSDGS.join('|'))
   }
 
@@ -31,11 +29,10 @@ const SDGSelector: React.FunctionComponent<Props> = ({ value, onChange }) => {
     <>
       {sdgs.map((sdg, i) => {
         return (
-          <div key={`sdg_container_${i}`}>
+          <div key={i}>
             <SDGDropDown
               value={sdg}
               onChange={(sdg): void => handleSDGOnChange(sdg, i)}
-              key={i}
             />
             {i > 0 && (
               <button type="button" onClick={(): void => handleSDGOnRemove(i)}>

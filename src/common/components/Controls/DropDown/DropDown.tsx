@@ -15,10 +15,7 @@ const DropDown: React.FunctionComponent<Props> = ({
   onChange,
 }) => {
   return (
-    <select
-      defaultValue={value}
-      onChange={(e): void => onChange(e.target.value)}
-    >
+    <select value={value} onChange={(e): void => onChange(e.target.value)}>
       <option value="">{selectText}</option>
       {options.map(opt => (
         // TODO - icon
