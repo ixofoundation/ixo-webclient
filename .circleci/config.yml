@@ -60,6 +60,7 @@ uat_in_app_environment: &uat_in_app_environment
     echo 'REACT_APP_GAIA_URL=https://ixo-testnet-validator-mt.simply-vc.com.mt/api' >> .env
     echo 'REACT_APP_GOOGLE_API_KEY=AIzaSyDpFiV_PlNEos214wqgOCUpkezMStOyheA' >> .env
     echo 'REACT_APP_PDS_URL=https://pds_pandora.ixo.world/' >> .env
+    echo 'REACT_APP_EMBEDLY_KEY=fa2749f731a54587820cf4fcfaa53d30' >> .env
 
 prod_in_app_environment: &prod_in_app_environment
   name: 'Prod in app env variables'
