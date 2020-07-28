@@ -15,7 +15,6 @@ const DropDown: React.FunctionComponent<Props> = ({
   value,
   onChange,
 }) => {
-  console.log(value)
   return (
     <div>
       <SelectContainer
