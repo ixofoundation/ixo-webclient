@@ -1,7 +1,8 @@
 import React from 'react'
-import DropDown from '../DropDown'
 import countries from '../../../../../lib/maps/countryLatLng.json'
 import { DropDownOption } from '../types'
+import IconDropDownSelect from '../IconDropDownSelect'
+import { Container } from './CountryDropDown.styles'
 
 interface Props {
   value: string
@@ -30,12 +31,14 @@ const CountryDropDown: React.FunctionComponent<Props> = ({
   ]
 
   return (
-    <DropDown
-      selectText="Select Country"
-      value={value}
-      options={options}
-      onChange={onChange}
-    />
+    <Container>
+      <IconDropDownSelect
+        options={options}
+        value={value}
+        onChange={onChange}
+        selectText={'Select Country'}
+      />
+    </Container>
   )
 }
 
