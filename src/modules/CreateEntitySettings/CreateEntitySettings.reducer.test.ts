@@ -42,143 +42,6 @@ describe('CreateEntitySettings Reducer', () => {
     expect(result).toEqual(initialState)
   })
 
-  describe('Owner Actions', () => {
-    describe('owner', () => {
-      it('should update the owner', () => {
-        const name = 'someOwnerName'
-        const country = 'someOwnerCountry'
-        const email = 'someOwnerEmail'
-        const website = 'someOwnerWebsite'
-        const mission = 'someOwnerMission'
-        const identifier = 'someOwnerIdentifier'
-        const credentialTokenId = 'someOwnerTokenId'
-        const imageDid = 'someExistingImageDid'
-
-        // given .. we have an action of type CreateEntitySettingsActions.UpdateOwner
-        const action: UpdateOwnerAction = {
-          type: CreateEntitySettingsActions.UpdateOwner,
-          payload: {
-            name,
-            country,
-            email,
-            website,
-            mission,
-            identifier,
-            credentialTokenId,
-          },
-        }
-
-        // when ... we run the reducer with this action
-        const result = SUT.reducer(
-          {
-            ...initialState,
-            owner: { ...initialState.owner, imageDid },
-          },
-          action,
-        )
-
-        // then ... the state should be set as expected
-        expect(result).toEqual({
-          ...initialState,
-          owner: {
-            name,
-            country,
-            email,
-            website,
-            mission,
-            identifier,
-            credentialTokenId,
-            imageDid,
-            uploadingImage: false,
-          },
-        })
-      })
-    })
-
-    describe('ownerImage', () => {
-      it('should update the owner uploadingImage flag to true when upload has started', () => {
-        // given .. we have an action of type CreateEntitySettingsActions.UploadOwnerImagePending
-        const action: UploadOwnerImagePendingAction = {
-          type: CreateEntitySettingsActions.UploadOwnerImagePending,
-        }
-
-        // when ... we run the reducer with this action
-        const result = SUT.reducer(initialState, action)
-
-        // then ... the state should be set as expected
-        expect(result).toEqual({
-          ...initialState,
-          owner: {
-            ...initialState.owner,
-            uploadingImage: true,
-          },
-        })
-      })
-
-      it('should update the owner uploadingImage flag to false and set the imageDid when upload has succeeded', () => {
-        const imageDid = 'someImageDid'
-
-        // given .. we have an action of type CreateEntitySettingsActions.UploadOwnerImageSuccess
-        const action: UploadOwnerImageSuccessAction = {
-          type: CreateEntitySettingsActions.UploadOwnerImageSuccess,
-          payload: {
-            did: imageDid,
-          },
-        }
-
-        // when ... we run the reducer with this action
-        const result = SUT.reducer(
-          {
-            ...initialState,
-            owner: {
-              ...initialState.owner,
-              uploadingImage: true,
-            },
-          },
-          action,
-        )
-
-        // then ... the state should be set as expected
-        expect(result).toEqual({
-          ...initialState,
-          owner: {
-            ...initialState.owner,
-            imageDid,
-            uploadingImage: false,
-          },
-        })
-      })
-
-      it('should update the owner uploadingImage flag to false and set the imageDid when upload has failed', () => {
-        // given .. we have an action of type CreateEntitySettingsActions.UploadOwnerImageFailure
-        const action: UploadOwnerImageFailureAction = {
-          type: CreateEntitySettingsActions.UploadOwnerImageFailure,
-        }
-
-        // when ... we run the reducer with this action
-        const result = SUT.reducer(
-          {
-            ...initialState,
-            owner: {
-              ...initialState.owner,
-              uploadingImage: true,
-            },
-          },
-          action,
-        )
-
-        // then ... the state should be set as expected
-        expect(result).toEqual({
-          ...initialState,
-          owner: {
-            ...initialState.owner,
-            uploadingImage: false,
-          },
-        })
-      })
-    })
-  })
-
   describe('Creator Actions', () => {
     describe('creator', () => {
       it('should update the creator', () => {
@@ -188,7 +51,7 @@ describe('CreateEntitySettings Reducer', () => {
         const website = 'someCreatorWebsite'
         const mission = 'someCreatorMission'
         const identifier = 'someCreatorIdentifier'
-        const matrixId = 'someCreatorMatrixid'
+        const credentialTokenId = 'someCreatorCredentialTokenId'
         const imageDid = 'someExistingImageDid'
 
         // given .. we have an action of type CreateEntitySettingsActions.UpdateCreator
@@ -201,7 +64,7 @@ describe('CreateEntitySettings Reducer', () => {
             website,
             mission,
             identifier,
-            matrixId,
+            credentialTokenId,
           },
         }
 
@@ -224,7 +87,7 @@ describe('CreateEntitySettings Reducer', () => {
             website,
             mission,
             identifier,
-            matrixId,
+            credentialTokenId,
             imageDid,
             uploadingImage: false,
           },
@@ -309,6 +172,143 @@ describe('CreateEntitySettings Reducer', () => {
           ...initialState,
           creator: {
             ...initialState.creator,
+            uploadingImage: false,
+          },
+        })
+      })
+    })
+  })
+
+  describe('Owner Actions', () => {
+    describe('owner', () => {
+      it('should update the owner', () => {
+        const name = 'someOwnerName'
+        const country = 'someOwnerCountry'
+        const email = 'someOwnerEmail'
+        const website = 'someOwnerWebsite'
+        const mission = 'someOwnerMission'
+        const identifier = 'someOwnerIdentifier'
+        const matrixId = 'someOwneMatrixId'
+        const imageDid = 'someExistingImageDid'
+
+        // given .. we have an action of type CreateEntitySettingsActions.UpdateOwner
+        const action: UpdateOwnerAction = {
+          type: CreateEntitySettingsActions.UpdateOwner,
+          payload: {
+            name,
+            country,
+            email,
+            website,
+            mission,
+            identifier,
+            matrixId,
+          },
+        }
+
+        // when ... we run the reducer with this action
+        const result = SUT.reducer(
+          {
+            ...initialState,
+            owner: { ...initialState.owner, imageDid },
+          },
+          action,
+        )
+
+        // then ... the state should be set as expected
+        expect(result).toEqual({
+          ...initialState,
+          owner: {
+            name,
+            country,
+            email,
+            website,
+            mission,
+            identifier,
+            matrixId,
+            imageDid,
+            uploadingImage: false,
+          },
+        })
+      })
+    })
+
+    describe('ownerImage', () => {
+      it('should update the owner uploadingImage flag to true when upload has started', () => {
+        // given .. we have an action of type CreateEntitySettingsActions.UploadOwnerImagePending
+        const action: UploadOwnerImagePendingAction = {
+          type: CreateEntitySettingsActions.UploadOwnerImagePending,
+        }
+
+        // when ... we run the reducer with this action
+        const result = SUT.reducer(initialState, action)
+
+        // then ... the state should be set as expected
+        expect(result).toEqual({
+          ...initialState,
+          owner: {
+            ...initialState.owner,
+            uploadingImage: true,
+          },
+        })
+      })
+
+      it('should update the owner uploadingImage flag to false and set the imageDid when upload has succeeded', () => {
+        const imageDid = 'someImageDid'
+
+        // given .. we have an action of type CreateEntitySettingsActions.UploadOwnerImageSuccess
+        const action: UploadOwnerImageSuccessAction = {
+          type: CreateEntitySettingsActions.UploadOwnerImageSuccess,
+          payload: {
+            did: imageDid,
+          },
+        }
+
+        // when ... we run the reducer with this action
+        const result = SUT.reducer(
+          {
+            ...initialState,
+            owner: {
+              ...initialState.owner,
+              uploadingImage: true,
+            },
+          },
+          action,
+        )
+
+        // then ... the state should be set as expected
+        expect(result).toEqual({
+          ...initialState,
+          owner: {
+            ...initialState.owner,
+            imageDid,
+            uploadingImage: false,
+          },
+        })
+      })
+
+      it('should update the owner uploadingImage flag to false and set the imageDid when upload has failed', () => {
+        // given .. we have an action of type CreateEntitySettingsActions.UploadOwnerImageFailure
+        const action: UploadOwnerImageFailureAction = {
+          type: CreateEntitySettingsActions.UploadOwnerImageFailure,
+        }
+
+        // when ... we run the reducer with this action
+        const result = SUT.reducer(
+          {
+            ...initialState,
+            owner: {
+              ...initialState.owner,
+              uploadingImage: true,
+            },
+          },
+          action,
+        )
+
+        // then ... the state should be set as expected
+        expect(result).toEqual({
+          ...initialState,
+          owner: {
+            ...initialState.owner,
             uploadingImage: false,
           },
         })

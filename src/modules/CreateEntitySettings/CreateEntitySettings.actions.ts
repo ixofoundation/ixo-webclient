@@ -23,7 +23,7 @@ import { FormData } from 'src/common/components/JsonForm/types'
 
 const PDS_URL = process.env.REACT_APP_PDS_URL
 
-export const updateOwner = (formData: FormData): UpdateOwnerAction => {
+export const updateCreator = (formData: FormData): UpdateCreatorAction => {
   const {
     name,
     country,
@@ -35,7 +35,7 @@ export const updateOwner = (formData: FormData): UpdateOwnerAction => {
   } = formData
 
   return {
-    type: CreateEntitySettingsActions.UpdateOwner,
+    type: CreateEntitySettingsActions.UpdateCreator,
     payload: {
       name,
       country,
@@ -48,18 +48,18 @@ export const updateOwner = (formData: FormData): UpdateOwnerAction => {
   }
 }
 
-export const uploadOwnerImage = (base64ImageData: string) => (
+export const uploadCreatorImage = (base64ImageData: string) => (
   dispatch: Dispatch,
-): UploadOwnerImageAction => {
+): UploadCreatorImageAction => {
   return dispatch({
-    type: CreateEntitySettingsActions.UploadOwnerImage,
+    type: CreateEntitySettingsActions.UploadCreatorImage,
     payload: blocksyncApi.project
       .createPublic(base64ImageData, PDS_URL)
       .then((response: any) => ({ did: response.result })),
   })
 }
 
-export const updateCreator = (formData: FormData): UpdateCreatorAction => {
+export const updateOwner = (formData: FormData): UpdateOwnerAction => {
   const {
     name,
     country,
@@ -71,24 +71,24 @@ export const updateCreator = (formData: FormData): UpdateCreatorAction => {
   } = formData
 
   return {
-    type: CreateEntitySettingsActions.UpdateCreator,
+    type: CreateEntitySettingsActions.UpdateOwner,
     payload: {
       name,
       country,
       email,
       website,
       mission,
-      identifier,
       matrixId,
+      identifier,
     },
   }
 }
 
-export const uploadCreatorImage = (base64ImageData: string) => (
+export const uploadOwnerImage = (base64ImageData: string) => (
   dispatch: Dispatch,
-): UploadCreatorImageAction => {
+): UploadOwnerImageAction => {
   return dispatch({
-    type: CreateEntitySettingsActions.UploadCreatorImage,
+    type: CreateEntitySettingsActions.UploadOwnerImage,
     payload: blocksyncApi.project
       .createPublic(base64ImageData, PDS_URL)
       .then((response: any) => ({ did: response.result })),

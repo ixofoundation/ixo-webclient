@@ -29,7 +29,9 @@ import {
   Filter,
   DisplayCredential,
 } from './types'
-// import FormCardWrapper from '../../common/components/Wrappers/FormCardWrapper/FormCardWrapper'
+import FormCardWrapper from '../../common/components/Wrappers/FormCardWrapper/FormCardWrapper'
+import OwnerCard from './components/OwnerCard/OwnerCard'
+import CreatorCard from './components/CreatorCard/CreatorCard'
 
 interface Props {
   owner: Owner
@@ -57,8 +59,85 @@ interface Props {
 }
 
 class CreateEntitySettings extends React.Component<Props> {
+  renderCreator = (): JSX.Element => {
+    const {
+      creator: {
+        name,
+        country,
+        email,
+        website,
+        mission,
+        identifier,
+        credentialTokenId,
+        imageDid,
+        uploadingImage,
+      },
+      handleUpdateCreator,
+      handleUploadCreatorImage,
+    } = this.props
+
+    return (
+      <FormCardWrapper showAddSection={false} title="Project Creator">
+        <CreatorCard
+          name={name}
+          country={country}
+          email={email}
+          website={website}
+          mission={mission}
+          identifier={identifier}
+          credentialTokenId={credentialTokenId}
+          imageDid={imageDid}
+          uploadingImage={uploadingImage}
+          handleUpdate={handleUpdateCreator}
+          handleUploadImage={handleUploadCreatorImage}
+        />
+      </FormCardWrapper>
+    )
+  }
+
+  renderOwner = (): JSX.Element => {
+    const {
+      owner: {
+        name,
+        country,
+        email,
+        website,
+        mission,
+        identifier,
+        matrixId,
+        imageDid,
+        uploadingImage,
+      },
+      handleUpdateOwner,
+      handleUploadOwnerImage,
+    } = this.props
+
+    return (
+      <FormCardWrapper showAddSection={false} title="Project Owner">
+        <OwnerCard
+          name={name}
+          country={country}
+          email={email}
+          website={website}
+          mission={mission}
+          identifier={identifier}
+          matrixId={matrixId}
+          imageDid={imageDid}
+          uploadingImage={uploadingImage}
+          handleUpdate={handleUpdateOwner}
+          handleUploadImage={handleUploadOwnerImage}
+        />
+      </FormCardWrapper>
+    )
+  }
+
   render(): JSX.Element {
-    return <></>
+    return (
+      <>
+        {this.renderCreator()}
+        {this.renderOwner()}
+      </>
+    )
   }
 }
 

@@ -6,7 +6,7 @@ import {
 import * as reduxUtils from '../../common/redux/utils'
 
 export const initialState: CreateEntitySettingsState = {
-  owner: {
+  creator: {
     name: null,
     country: null,
     email: null,
@@ -17,7 +17,7 @@ export const initialState: CreateEntitySettingsState = {
     imageDid: null,
     uploadingImage: false,
   },
-  creator: {
+  owner: {
     name: null,
     country: null,
     email: null,

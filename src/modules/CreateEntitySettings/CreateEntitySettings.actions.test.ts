@@ -17,67 +17,6 @@ beforeEach(() => {
 })
 
 describe('CreateEntitySettings Actions', () => {
-  describe('owner', () => {
-    describe('updateOwner', () => {
-      it('should update the owner', () => {
-        // given ... some data
-        const name = 'someOwnerName'
-        const country = 'someOwnerCountry'
-        const email = 'someOwnerEmail'
-        const website = 'someOwnerWebsite'
-        const mission = 'someOwnerMission'
-        const identifier = 'someOwnerIdentifier'
-        const credentialTokenId = 'someOwnerTokenId'
-
-        const formData = {
-          name,
-          country,
-          email,
-          website,
-          mission,
-          identifier,
-          credentialTokenId,
-        }
-
-        // when ... we call the updateOwner action creator
-        const action = SUT.updateOwner(formData)
-
-        // then ... we should expect it to create the action with correct type and payload
-        expect(action.type).toEqual(CreateEntitySettingsActions.UpdateOwner)
-        expect(action.payload).toEqual({
-          name,
-          country,
-          email,
-          website,
-          mission,
-          identifier,
-          credentialTokenId,
-        })
-      })
-    })
-
-    describe('uploadOwnerImage', () => {
-      it('should upload the image and dispatch the correct action', async () => {
-        // given ... we have base64 image data
-        const base64ImageData = 'someImageData'
-
-        // when ... we call the uploadOwnerImage action creator
-        await store.dispatch(SUT.uploadOwnerImage(base64ImageData))
-        const actions = store.getActions()
-
-        // then ... it should dispatch the correct actions
-        expect(actions.length).toEqual(2)
-        expect(actions[0].type).toEqual(
-          CreateEntitySettingsActions.UploadOwnerImagePending,
-        )
-        expect(actions[1].type).toEqual(
-          CreateEntitySettingsActions.UploadOwnerImageSuccess,
-        )
-        expect(actions[1].payload).toEqual({ did: 'somePublicDid' })
-      })
-    })
-  })
-
   describe('creator', () => {
     describe('updateCreator', () => {
       it('should update the creator', () => {
@@ -88,7 +27,7 @@ describe('CreateEntitySettings Actions', () => {
         const website = 'someCreatorWebsite'
         const mission = 'someCreatorMission'
         const identifier = 'someCreatorIdentifier'
-        const matrixId = 'someMatrixId'
+        const credentialTokenId = 'someCreatorCredentialTokenId'
 
         const formData = {
           name,
@@ -97,7 +36,7 @@ describe('CreateEntitySettings Actions', () => {
           website,
           mission,
           identifier,
-          matrixId,
+          credentialTokenId,
         }
 
         // when ... we call the updateCreator action creator
@@ -112,7 +51,7 @@ describe('CreateEntitySettings Actions', () => {
           website,
           mission,
           identifier,
-          matrixId,
+          credentialTokenId,
         })
       })
     })
@@ -133,6 +72,67 @@ describe('CreateEntitySettings Actions', () => {
         )
         expect(actions[1].type).toEqual(
           CreateEntitySettingsActions.UploadCreatorImageSuccess,
+        )
+        expect(actions[1].payload).toEqual({ did: 'somePublicDid' })
+      })
+    })
+  })
+
+  describe('owner', () => {
+    describe('updateOwner', () => {
+      it('should update the owner', () => {
+        // given ... some data
+        const name = 'someOwnerName'
+        const country = 'someOwnerCountry'
+        const email = 'someOwnerEmail'
+        const website = 'someOwnerWebsite'
+        const mission = 'someOwnerMission'
+        const identifier = 'someOwnerIdentifier'
+        const matrixId = 'someOwnerMatrixId'
+
+        const formData = {
+          name,
+          country,
+          email,
+          website,
+          mission,
+          identifier,
+          matrixId,
+        }
+
+        // when ... we call the updateOwner action creator
+        const action = SUT.updateOwner(formData)
+
+        // then ... we should expect it to create the action with correct type and payload
+        expect(action.type).toEqual(CreateEntitySettingsActions.UpdateOwner)
+        expect(action.payload).toEqual({
+          name,
+          country,
+          email,
+          website,
+          mission,
+          identifier,
+          matrixId,
+        })
+      })
+    })
+
+    describe('uploadOwnerImage', () => {
+      it('should upload the image and dispatch the correct action', async () => {
+        // given ... we have base64 image data
+        const base64ImageData = 'someImageData'
+
+        // when ... we call the uploadOwnerImage action creator
+        await store.dispatch(SUT.uploadOwnerImage(base64ImageData))
+        const actions = store.getActions()
+
+        // then ... it should dispatch the correct actions
+        expect(actions.length).toEqual(2)
+        expect(actions[0].type).toEqual(
+          CreateEntitySettingsActions.UploadOwnerImagePending,
+        )
+        expect(actions[1].type).toEqual(
+          CreateEntitySettingsActions.UploadOwnerImageSuccess,
         )
         expect(actions[1].payload).toEqual({ did: 'somePublicDid' })
       })

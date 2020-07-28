@@ -12,17 +12,6 @@ let state: any
 beforeEach(() => {
   state = {
     createEntitySettings: {
-      owner: {
-        name: 'someOwnerName',
-        country: 'someOwnerCountry',
-        email: 'someOwnerEmail',
-        website: 'someOwnerWebsite',
-        mission: 'someOwnerMission',
-        identifier: 'someOwnerIdentifier',
-        credentialTokenId: 'someOwnerCredentialTokenId',
-        imageDid: 'someImageDid',
-        uploadingImage: false,
-      },
       creator: {
         name: 'someCreatorName',
         country: 'someCreatorCountry',
@@ -30,7 +19,18 @@ beforeEach(() => {
         website: 'someCreatorWebsite',
         mission: 'someCreatorMission',
         identifier: 'someCreatorIdentifier',
-        matrixId: 'someCreatoMatrixId',
+        credentialTokenId: 'someCreatorCredentialTokenId',
+        imageDid: 'someImageDid',
+        uploadingImage: false,
+      },
+      owner: {
+        name: 'someOwnerName',
+        country: 'someOwnerCountry',
+        email: 'someOwnerEmail',
+        website: 'someOwnerWebsite',
+        mission: 'someOwnerMission',
+        matrixId: 'someOwnerMatrixId',
+        identifier: 'someOwnerIdentifier',
         imageDid: 'someImageDid',
         uploadingImage: false,
       },
@@ -108,7 +108,7 @@ describe('CreateEntitySettings Selectors', () => {
         website: 'someOwnerWebsite',
         mission: 'someOwnerMission',
         identifier: 'someOwnerIdentifier',
-        credentialTokenId: 'someOwnerCredentialTokenId',
+        matrixId: 'someOwnerMatrixId',
         imageDid: 'someImageDid',
         uploadingImage: false,
       })
@@ -128,7 +128,7 @@ describe('CreateEntitySettings Selectors', () => {
         website: 'someCreatorWebsite',
         mission: 'someCreatorMission',
         identifier: 'someCreatorIdentifier',
-        matrixId: 'someCreatoMatrixId',
+        credentialTokenId: 'someCreatorCredentialTokenId',
         imageDid: 'someImageDid',
         uploadingImage: false,
       })

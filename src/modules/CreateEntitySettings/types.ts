@@ -5,7 +5,7 @@ import {
   EntityView,
 } from '../Entities/types'
 
-export interface Owner {
+export interface Creator {
   name: string
   country: string
   email: string
@@ -17,7 +17,7 @@ export interface Owner {
   uploadingImage: boolean
 }
 
-export interface Creator {
+export interface Owner {
   name: string
   country: string
   email: string
@@ -106,41 +106,6 @@ export enum CreateEntitySettingsActions {
   UpdateDisplayCredential = 'ixo/CreateEntitySettings/UPDATE_DISPLAY_CREDENTIALS',
 }
 
-export interface UpdateOwnerAction {
-  type: typeof CreateEntitySettingsActions.UpdateOwner
-  payload: {
-    name: string
-    country: string
-    email: string
-    website: string
-    mission: string
-    identifier: string
-    credentialTokenId: string
-  }
-}
-
-export interface UploadOwnerImageAction {
-  type: typeof CreateEntitySettingsActions.UploadOwnerImage
-  payload: Promise<{
-    did: string
-  }>
-}
-
-export interface UploadOwnerImagePendingAction {
-  type: typeof CreateEntitySettingsActions.UploadOwnerImagePending
-}
-
-export interface UploadOwnerImageSuccessAction {
-  type: typeof CreateEntitySettingsActions.UploadOwnerImageSuccess
-  payload: {
-    did: string
-  }
-}
-
-export interface UploadOwnerImageFailureAction {
-  type: typeof CreateEntitySettingsActions.UploadOwnerImageFailure
-}
-
 export interface UpdateCreatorAction {
   type: typeof CreateEntitySettingsActions.UpdateCreator
   payload: {
@@ -150,7 +115,7 @@ export interface UpdateCreatorAction {
     website: string
     mission: string
     identifier: string
-    matrixId: string
+    credentialTokenId: string
   }
 }
 
@@ -174,6 +139,41 @@ export interface UploadCreatorImageSuccessAction {
 
 export interface UploadCreatorImageFailureAction {
   type: typeof CreateEntitySettingsActions.UploadCreatorImageFailure
+}
+
+export interface UpdateOwnerAction {
+  type: typeof CreateEntitySettingsActions.UpdateOwner
+  payload: {
+    name: string
+    country: string
+    email: string
+    website: string
+    mission: string
+    identifier: string
+    matrixId: string
+  }
+}
+
+export interface UploadOwnerImageAction {
+  type: typeof CreateEntitySettingsActions.UploadOwnerImage
+  payload: Promise<{
+    did: string
+  }>
+}
+
+export interface UploadOwnerImagePendingAction {
+  type: typeof CreateEntitySettingsActions.UploadOwnerImagePending
+}
+
+export interface UploadOwnerImageSuccessAction {
+  type: typeof CreateEntitySettingsActions.UploadOwnerImageSuccess
+  payload: {
+    did: string
+  }
+}
+
+export interface UploadOwnerImageFailureAction {
+  type: typeof CreateEntitySettingsActions.UploadOwnerImageFailure
 }
 
 export interface UpdateStatusAction {
