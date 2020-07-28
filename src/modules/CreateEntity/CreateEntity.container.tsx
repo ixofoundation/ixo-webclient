@@ -6,6 +6,7 @@ import { Hero } from './components/Hero/Hero'
 import { CreateEntityWrapper } from './CreateEntity.container.styles'
 import { Steps } from '../../common/components/Steps/Steps'
 import { CreateEntityPageContentConnected } from '../CreateEntityPageContent/CreateEntityPageContent.container'
+import { CreateEntitySettingsConnected } from '../CreateEntitySettings/CreateEntitySettings.container'
 
 interface Props {
   match: any
@@ -27,8 +28,8 @@ class CreateEntity extends React.Component<Props> {
             <div className="row">
               <div className="col-lg-12">
                 <Steps
-                  currentStepTitle="Page"
-                  currentStepNo={1}
+                  currentStepTitle="Settings"
+                  currentStepNo={2}
                   totalSteps={4}
                   handleGoToStepClick={(): void => null}
                 />
@@ -36,6 +37,11 @@ class CreateEntity extends React.Component<Props> {
                   exact
                   path={`/${entityType}/new/page-content`}
                   component={CreateEntityPageContentConnected}
+                />
+                <Route
+                  exact
+                  path={`/${entityType}/new/settings`}
+                  component={CreateEntitySettingsConnected}
                 />
               </div>
             </div>
