@@ -32,6 +32,7 @@ import {
 import FormCardWrapper from '../../common/components/Wrappers/FormCardWrapper/FormCardWrapper'
 import OwnerCard from './components/OwnerCard/OwnerCard'
 import CreatorCard from './components/CreatorCard/CreatorCard'
+import StatusCard from './components/StatusCard/StatusCard'
 
 interface Props {
   owner: Owner
@@ -131,11 +132,31 @@ class CreateEntitySettings extends React.Component<Props> {
     )
   }
 
+  renderStatus = (): JSX.Element => {
+    const {
+      status: { startDate, endDate, stage, status },
+      handleUpdateStatus,
+    } = this.props
+
+    return (
+      <FormCardWrapper showAddSection={false} title="Project Status">
+        <StatusCard
+          startDate={startDate}
+          endDate={endDate}
+          stage={stage}
+          status={status}
+          handleUpdate={handleUpdateStatus}
+        />
+      </FormCardWrapper>
+    )
+  }
+
   render(): JSX.Element {
     return (
       <>
         {this.renderCreator()}
         {this.renderOwner()}
+        {this.renderStatus()}
       </>
     )
   }
