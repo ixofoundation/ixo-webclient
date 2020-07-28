@@ -1,7 +1,8 @@
 import React from 'react'
 import { DropDownOption } from '../types'
 import { SDGArray } from '../../../../../lib/commonData'
-import DropDownImageSelect from '../DropDownImageSelect'
+import IconDropDownSelect from '../IconDropDownSelect'
+import { Container } from './SDGDropDown.styles'
 
 interface Props {
   value: string
@@ -16,12 +17,14 @@ const SDGDropDown: React.FunctionComponent<Props> = ({ value, onChange }) => {
   }))
 
   return (
-    <DropDownImageSelect
-      options={options}
-      value={value}
-      onChange={onChange}
-      selectText={'Select Tag'}
-    />
+    <Container>
+      <IconDropDownSelect
+        options={options}
+        value={value}
+        onChange={onChange}
+        selectText={'Select Tag'}
+      />
+    </Container>
   )
 }
 

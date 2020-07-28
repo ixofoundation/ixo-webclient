@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
-import DropDown from './DropDown'
 import { DropDownOption } from './types'
-import { Container } from './DropDownImageSelect.styles'
+import { Container, SelectContainer } from './IconDropDownSelect.styles'
 
 interface Props {
   options: DropDownOption[]
@@ -30,17 +29,24 @@ const DropDownImageSelect: React.FunctionComponent<Props> = ({
     }
     onChange(value)
   }
+
   return (
     <Container>
-      <DropDown
-        selectText={selectText}
-        value={value}
-        options={options}
-        onChange={onChangeHandler}
-      />
+      <SelectContainer
+        defaultValue={value}
+        onChange={(e): void => onChangeHandler(e.target.value)}
+        className={value && value.length > 0 ? 'active' : null}
+        id="symbol"
+      >
+        <option value="">{selectText}</option>
+        {options.map(opt => (
+          <option key={opt.value} value={opt.value}>
+            {opt.text}
+          </option>
+        ))}
+      </SelectContainer>
       {selectedIconSRC && (
         <img
-          className={selectText === 'Select Country' ? 'country' : 'sdg'}
           src={require(`../../../../assets${selectedIconSRC.toLowerCase()}`)}
           alt="icon"
         />
