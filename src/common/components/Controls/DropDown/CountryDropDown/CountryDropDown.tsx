@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
-import DropDown from '../DropDown'
+import React from 'react'
 import countries from '../../../../../lib/maps/countryLatLng.json'
 import { DropDownOption } from '../types'
+import DropDownImageSelect from '../DropDownImageSelect'
 
 interface Props {
   value: string
@@ -12,8 +12,6 @@ const CountryDropDown: React.FunctionComponent<Props> = ({
   value,
   onChange,
 }) => {
-  const [selectedImageSRC, setSelectedImageSRC] = useState(null)
-
   const countryOptions: DropDownOption[] = countries.map(country => ({
     text: country.country,
     value: country.alpha2,
@@ -31,43 +29,13 @@ const CountryDropDown: React.FunctionComponent<Props> = ({
     ...countryOptions,
   ]
 
-  const onChangeHandler = (value: string): void => {
-    if (!!value && value.length > 0) {
-      const selectedOption = options.find(option => option.value === value)
-      if (!selectedOption) {
-        setSelectedImageSRC(null)
-      } else {
-        setSelectedImageSRC(selectedOption.iconAssetPath)
-      }
-    } else {
-      setSelectedImageSRC(null)
-    }
-    onChange(value)
-  }
-
   return (
-    <div style={{ position: 'relative' }}>
-      <DropDown
-        selectText="Select Country"
-        value={value}
-        options={options}
-        onChange={onChangeHandler}
-      />
-      {selectedImageSRC && (
-        <img
-          style={{
-            width: '2rem',
-            position: 'absolute',
-            top: 'calc(50% - 1rem)',
-            left: '10px',
-            border: '1px solid transparent',
-            borderRadius: '4px',
-          }}
-          src={require(`../../../../../assets${selectedImageSRC.toLowerCase()}`)}
-          alt="flag"
-        />
-      )}
-    </div>
+    <DropDownImageSelect
+      options={options}
+      value={value}
+      onChange={onChange}
+      selectText={'Select Country'}
+    />
   )
 }
 
