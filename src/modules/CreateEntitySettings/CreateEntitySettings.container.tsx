@@ -33,6 +33,7 @@ import FormCardWrapper from '../../common/components/Wrappers/FormCardWrapper/Fo
 import OwnerCard from './components/OwnerCard/OwnerCard'
 import CreatorCard from './components/CreatorCard/CreatorCard'
 import StatusCard from './components/StatusCard/StatusCard'
+import PrivacyCard from './components/PrivacyCard/PrivacyCard'
 
 interface Props {
   owner: Owner
@@ -151,12 +152,30 @@ class CreateEntitySettings extends React.Component<Props> {
     )
   }
 
+  renderPrivacy = (): JSX.Element => {
+    const {
+      privacy: { entityView, pageView },
+      handleUpdatePrivacy,
+    } = this.props
+
+    return (
+      <FormCardWrapper showAddSection={false} title="Project Privacy Settings">
+        <PrivacyCard
+          pageView={pageView}
+          entityView={entityView}
+          handleUpdate={handleUpdatePrivacy}
+        />
+      </FormCardWrapper>
+    )
+  }
+
   render(): JSX.Element {
     return (
       <>
         {this.renderCreator()}
         {this.renderOwner()}
         {this.renderStatus()}
+        {this.renderPrivacy()}
       </>
     )
   }
