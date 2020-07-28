@@ -1,9 +1,5 @@
 // TODO - Table
 
-export enum EmbeddedPageContentType {
-  Blog = 'blog',
-}
-
 export interface HeaderPageContent {
   title: string
   shortDescription: string
@@ -52,9 +48,9 @@ export interface ProfilePageContent {
 
 export interface SocialPageContent {
   linkedInUrl: string
-  facebookInUrl: string
-  twitterInUrl: string
-  discourseInUrl: string
+  facebookUrl: string
+  twitterUrl: string
+  discourseUrl: string
   instagramUrl: string
   telegramUrl: string
   githubUrl: string
@@ -64,7 +60,6 @@ export interface SocialPageContent {
 export interface EmbeddedPageContent {
   id: string
   title: string
-  type: EmbeddedPageContentType
   urls: string[]
 }
 
@@ -97,6 +92,7 @@ export enum CreateEntityPageContentActions {
   UploadHeaderContentImageFailure = 'ixo/CreateEntity/UPLOAD_HEADER_IMAGE_REJECTED',
   // Body
   AddBodySection = 'ixo/CreateEntity/ADD_BODY_SECTION',
+  RemoveBodySection = 'ixo/CreateEntity/REMOVE_BODY_SECTION',
   UpdateBodyContent = 'ixo/CreateEntity/UPDATE_BODY',
   UploadBodyContentImage = 'ixo/CreateEntity/UPLOAD_BODY_IMAGE',
   UploadBodyContentImagePending = 'ixo/CreateEntity/UPLOAD_BODY_IMAGE_PENDING',
@@ -104,6 +100,7 @@ export enum CreateEntityPageContentActions {
   UploadBodyContentImageFailure = 'ixo/CreateEntity/UPLOAD_BODY_IMAGE_REJECTED',
   // Image
   AddImageSection = 'ixo/CreateEntity/ADD_IMAGE_SECTION',
+  RemoveImageSection = 'ixo/CreateEntity/REMOVE_IMAGE_SECTION',
   UpdateImageContent = 'ixo/CreateEntity/UPDATE_IMAGE',
   UploadImageContentImage = 'ixo/CreateEntity/UPLOAD_IMAGE_IMAGE',
   UploadImageContentImagePending = 'ixo/CreateEntity/UPLOAD_IMAGE_IMAGE_PENDING',
@@ -111,6 +108,7 @@ export enum CreateEntityPageContentActions {
   UploadImageContentImageFailure = 'ixo/CreateEntity/UPLOAD_IMAGE_IMAGE_REJECTED',
   // Video
   AddVideoSection = 'ixo/CreateEntity/ADD_VIDEO_SECTION',
+  RemoveVideoSection = 'ixo/CreateEntity/REMOVE_VIDEO_SECTION',
   UpdateVideoContent = 'ixo/CreateEntity/UPDATE_VIDEO',
   UploadVideoContentVideo = 'ixo/CreateEntity/UPLOAD_VIDEO_VIDEO',
   UploadVideoContentVideoPending = 'ixo/CreateEntity/UPLOAD_VIDEO_VIDEO_PENDING',
@@ -118,6 +116,7 @@ export enum CreateEntityPageContentActions {
   UploadVideoContentVideoFailure = 'ixo/CreateEntity/UPLOAD_VIDEO_VIDEO_REJECTED',
   // Profile
   AddProfileSection = 'ixo/CreateEntity/ADD_PROFILE_SECTION',
+  RemoveProfileSection = 'ixo/CreateEntity/REMOVE_PROFILE_SECTION',
   UpdateProfileContent = 'ixo/CreateEntity/UPDATE_PROFILE',
   UploadProfileContentImage = 'ixo/CreateEntity/UPLOAD_PROFILE_IMAGE',
   UploadProfileContentImagePending = 'ixo/CreateEntity/UPLOAD_PROFILE_IMAGE_PENDING',
@@ -127,6 +126,7 @@ export enum CreateEntityPageContentActions {
   UpdateSocialContent = 'ixo/CreateEntity/UPDATE_SOCIAL',
   // Embedded
   AddEmbeddedSection = 'ixo/CreateEntity/ADD_EMBEDDED_SECTION',
+  RemoveEmbeddedSection = 'ixo/CreateEntity/REMOVE_EMBEDDED_SECTION',
   UpdateEmbeddedContent = 'ixo/CreateEntity/UPDATE_EMBEDDED',
 }
 
@@ -174,6 +174,13 @@ export interface AddBodySectionAction {
   }
 }
 
+export interface RemoveBodySectionAction {
+  type: typeof CreateEntityPageContentActions.RemoveBodySection
+  payload: {
+    id: string
+  }
+}
+
 export interface UpdateBodyContentAction {
   type: typeof CreateEntityPageContentActions.UpdateBodyContent
   payload: {
@@ -193,7 +200,7 @@ export interface UploadBodyContentImageAction {
 
 export interface UploadBodyContentImagePendingAction {
   type: typeof CreateEntityPageContentActions.UploadBodyContentImagePending
-  payload: {
+  meta: {
     id: string
   }
 }
@@ -224,6 +231,13 @@ export interface AddImageSectionAction {
   }
 }
 
+export interface RemoveImageSectionAction {
+  type: typeof CreateEntityPageContentActions.RemoveImageSection
+  payload: {
+    id: string
+  }
+}
+
 export interface UpdateImageContentAction {
   type: typeof CreateEntityPageContentActions.UpdateImageContent
   payload: {
@@ -244,7 +258,7 @@ export interface UploadImageContentImageAction {
 
 export interface UploadImageContentImagePendingAction {
   type: typeof CreateEntityPageContentActions.UploadImageContentImagePending
-  payload: {
+  meta: {
     id: string
   }
 }
@@ -274,6 +288,13 @@ export interface AddVideoSectionAction {
   }
 }
 
+export interface RemoveVideoSectionAction {
+  type: typeof CreateEntityPageContentActions.RemoveVideoSection
+  payload: {
+    id: string
+  }
+}
+
 export interface UpdateVideoContentAction {
   type: typeof CreateEntityPageContentActions.UpdateVideoContent
   payload: {
@@ -293,7 +314,7 @@ export interface UploadVideoContentVideoAction {
 
 export interface UploadVideoContentVideoPendingAction {
   type: typeof CreateEntityPageContentActions.UploadVideoContentVideoPending
-  payload: {
+  meta: {
     id: string
   }
 }
@@ -325,6 +346,13 @@ export interface AddProfileSectionAction {
   }
 }
 
+export interface RemoveProfileSectionAction {
+  type: typeof CreateEntityPageContentActions.RemoveProfileSection
+  payload: {
+    id: string
+  }
+}
+
 export interface UpdateProfileContentAction {
   type: typeof CreateEntityPageContentActions.UpdateProfileContent
   payload: {
@@ -346,7 +374,7 @@ export interface UploadProfileContentImageAction {
 
 export interface UploadProfileContentImagePendingAction {
   type: typeof CreateEntityPageContentActions.UploadProfileContentImagePending
-  payload: {
+  meta: {
     id: string
   }
 }
@@ -370,9 +398,9 @@ export interface UpdateSocialContentAction {
   type: typeof CreateEntityPageContentActions.UpdateSocialContent
   payload: {
     linkedInUrl: string
-    facebookInUrl: string
-    twitterInUrl: string
-    discourseInUrl: string
+    facebookUrl: string
+    twitterUrl: string
+    discourseUrl: string
     instagramUrl: string
     telegramUrl: string
     githubUrl: string
@@ -385,8 +413,14 @@ export interface AddEmbeddedSectionAction {
   payload: {
     id: string
     title: string
-    type: EmbeddedPageContentType
     urls: string[]
+  }
+}
+
+export interface RemoveEmbeddedSectionAction {
+  type: typeof CreateEntityPageContentActions.RemoveEmbeddedSection
+  payload: {
+    id: string
   }
 }
 
@@ -395,7 +429,6 @@ export interface UpdateEmbeddedContentAction {
   payload: {
     id: string
     title: string
-    type: EmbeddedPageContentType
     urls: string[]
   }
 }
@@ -407,24 +440,28 @@ export type CreateEntityPageContentActionTypes =
   | UploadHeaderImageSuccessAction
   | UploadHeaderImageFailureAction
   | AddBodySectionAction
+  | RemoveBodySectionAction
   | UpdateBodyContentAction
   | UploadBodyContentImageAction
   | UploadBodyContentImagePendingAction
   | UploadBodyContentImageSuccessAction
   | UploadBodyContentImageFailureAction
   | AddImageSectionAction
+  | RemoveImageSectionAction
   | UpdateImageContentAction
   | UploadImageContentImageAction
   | UploadImageContentImagePendingAction
   | UploadImageContentImageSuccessAction
   | UploadImageContentImageFailureAction
   | AddVideoSectionAction
+  | RemoveVideoSectionAction
   | UpdateVideoContentAction
   | UploadVideoContentVideoAction
   | UploadVideoContentVideoPendingAction
   | UploadVideoContentVideoSuccessAction
   | UploadVideoContentVideoFailureAction
   | AddProfileSectionAction
+  | RemoveProfileSectionAction
   | UpdateProfileContentAction
   | UploadProfileContentImageAction
   | UploadProfileContentImagePendingAction
@@ -432,4 +469,5 @@ export type CreateEntityPageContentActionTypes =
   | UploadProfileContentImageFailureAction
   | UpdateSocialContentAction
   | AddEmbeddedSectionAction
+  | RemoveEmbeddedSectionAction
   | UpdateEmbeddedContentAction

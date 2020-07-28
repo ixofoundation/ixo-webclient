@@ -25,22 +25,22 @@ export interface CreateClaimTemplateState {
 }
 
 export enum CreateClaimTemplateActions {
-  updateActiveStep = 'ixo/CreateClaimTemplate/UPDATE_STEP',
-  addAttestation = 'ixo/CreateClaimTemplate/ADD_ATTESTATION',
-  removeAttestation = 'ixo/CreateClaimTemplate/REMOVE_ATTESTATION',
+  UpdateActiveStep = 'ixo/CreateClaimTemplate/UPDATE_STEP',
+  AddAttestation = 'ixo/CreateClaimTemplate/ADD_ATTESTATION',
+  RemoveAttestation = 'ixo/CreateClaimTemplate/REMOVE_ATTESTATION',
 }
 
 export interface UpdateActiveStepAction {
-  type: typeof CreateClaimTemplateActions.updateActiveStep
+  type: typeof CreateClaimTemplateActions.UpdateActiveStep
   payload: number
 }
 
 export interface AddAttestationAction {
-  type: typeof CreateClaimTemplateActions.addAttestation
+  type: typeof CreateClaimTemplateActions.AddAttestation
   payload: Attestation
 }
 export interface RemoveAttestationAction {
-  type: typeof CreateClaimTemplateActions.removeAttestation
+  type: typeof CreateClaimTemplateActions.RemoveAttestation
   payload: string
 }
 

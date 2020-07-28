@@ -23,7 +23,7 @@ describe('CreateClaimTemplate Reducer', () => {
   describe('UpdateActiveStep Action', () => {
     it('should update the activeStep number', () => {
       const action: UpdateActiveStepAction = {
-        type: CreateClaimTemplateActions.updateActiveStep,
+        type: CreateClaimTemplateActions.UpdateActiveStep,
         payload: 3,
       }
 
@@ -39,7 +39,7 @@ describe('CreateClaimTemplate Reducer', () => {
   describe('AddAttestationAction Action', () => {
     it('should update the activeStep number', () => {
       const action: AddAttestationAction = {
-        type: CreateClaimTemplateActions.addAttestation,
+        type: CreateClaimTemplateActions.AddAttestation,
         payload: {
           id: 'string',
           title: 'string',
@@ -73,7 +73,7 @@ describe('CreateClaimTemplate Reducer', () => {
   describe('RemoveAttestation Action', () => {
     it('should update the activeStep number', () => {
       const action: RemoveAttestationAction = {
-        type: CreateClaimTemplateActions.removeAttestation,
+        type: CreateClaimTemplateActions.RemoveAttestation,
         payload: 'string',
       }
 

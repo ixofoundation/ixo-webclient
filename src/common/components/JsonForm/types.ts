@@ -11,6 +11,8 @@ import VideoUpload from './CustomWidgets/VideoUpload/VideoUpload'
 import EmailValidation from './CustomWidgets/EmailValidation/EmailValidation'
 import CountrySelector from './CustomWidgets/CountrySelector/CountrySelector'
 import SDGSelector from './CustomWidgets/SDGSelector/SDGSelector'
+import SocialTextBox from './CustomWidgets/SocialTextBox/SocialTextBox'
+import EmbeddedUrlTextBox from './CustomWidgets/EmbeddedUrlTextBox/EmbeddedUrlTextBox'
 
 export type FormData = {
   [id: string]: any
@@ -42,6 +44,8 @@ export const customControls = {
   ['countryselector']: CountrySelector,
   ['sdgselector']: SDGSelector,
   ['locationselector']: LocationSelector,
+  ['socialtextbox']: SocialTextBox,
+  ['embeddedtextbox']: EmbeddedUrlTextBox,
   ['imageupload']: ImageUpload,
   ['avatarupload']: AvatarUpload,
   ['documentupload']: DocumentUpload,

@@ -16,17 +16,17 @@ export const reducer = (
   action: CreateClaimTemplateActionTypes,
 ): CreateClaimTemplateState => {
   switch (action.type) {
-    case CreateClaimTemplateActions.updateActiveStep:
+    case CreateClaimTemplateActions.UpdateActiveStep:
       return {
         ...state,
         activeStep: action.payload,
       }
-    case CreateClaimTemplateActions.addAttestation:
+    case CreateClaimTemplateActions.AddAttestation:
       return {
         ...state,
         attestations: [...state.attestations, action.payload],
       }
-    case CreateClaimTemplateActions.removeAttestation:
+    case CreateClaimTemplateActions.RemoveAttestation:
       return {
         ...state,
         attestations: state.attestations.filter(
