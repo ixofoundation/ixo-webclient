@@ -13,7 +13,8 @@ import {
   ClaimQuestionCard,
 } from './CreateClaimTemplate.styles'
 import { createAttestation } from './CreateClaimTemplate.utils'
-import questions from './question_types.json'
+import AddFieldBar from './components/AddFieldBar/AddFieldBar'
+
 interface Props {
   activeStep: number
   attestations: Record<string, any>
@@ -82,20 +83,12 @@ class CreateClaimTemplate extends React.Component<Props> {
                           </ClaimQuestionCard>
                         )
                       })}
-                      {questions.questions.map(
-                        (question): JSX.Element => {
-                          return (
-                            <button
-                              key={question.title}
-                              onClick={(): void =>
-                                this.handleAddAttestation(question.control)
-                              }
-                            >
-                              Add {question.title}
-                            </button>
-                          )
-                        },
-                      )}
+
+                      <AddFieldBar
+                        addField={(question): void =>
+                          this.handleAddAttestation(question)
+                        }
+                      />
                     </>
                   )}
 
