@@ -34,6 +34,8 @@ import OwnerCard from './components/OwnerCard/OwnerCard'
 import CreatorCard from './components/CreatorCard/CreatorCard'
 import StatusCard from './components/StatusCard/StatusCard'
 import PrivacyCard from './components/PrivacyCard/PrivacyCard'
+import RequiredCredentialCard from './components/RequiredCredentialCard/RequiredCredentialCard'
+import DisplayCredentialCard from './components/DisplayCredentialCard/DisplayCredentialCard'
 
 interface Props {
   owner: Owner
@@ -169,6 +171,72 @@ class CreateEntitySettings extends React.Component<Props> {
     )
   }
 
+  renderRequiredCredentials = (): JSX.Element => {
+    const {
+      requiredCredentials,
+      handleUpdateRequiredCredential,
+      handleAddRequiredCredentialSection,
+      handlerRemoveRequiredCredentialSection,
+    } = this.props
+
+    return (
+      <FormCardWrapper
+        showAddSection={true}
+        title="Required Privacy Credentials"
+        addSectionText="Add Credential"
+        onAddSection={handleAddRequiredCredentialSection}
+      >
+        {requiredCredentials.map(requiredCredential => {
+          const { id, credential, issuer } = requiredCredential
+
+          return (
+            <RequiredCredentialCard
+              key={id}
+              id={id}
+              credential={credential}
+              issuer={issuer}
+              handleUpdate={handleUpdateRequiredCredential}
+              handleRemoveSection={handlerRemoveRequiredCredentialSection}
+            />
+          )
+        })}
+      </FormCardWrapper>
+    )
+  }
+
+  renderDisplayCredentials = (): JSX.Element => {
+    const {
+      displayCredentials,
+      handleUpdateDisplayCredential,
+      handleAddDisplayCredentialSection,
+      handlerRemoveDisplayCredentialSection,
+    } = this.props
+
+    return (
+      <FormCardWrapper
+        showAddSection={true}
+        title="Display Credentials"
+        addSectionText="Add Credential"
+        onAddSection={handleAddDisplayCredentialSection}
+      >
+        {displayCredentials.map(displayCredential => {
+          const { id, credential, badge } = displayCredential
+
+          return (
+            <DisplayCredentialCard
+              key={id}
+              id={id}
+              credential={credential}
+              badge={badge}
+              handleUpdate={handleUpdateDisplayCredential}
+              handleRemoveSection={handlerRemoveDisplayCredentialSection}
+            />
+          )
+        })}
+      </FormCardWrapper>
+    )
+  }
+
   render(): JSX.Element {
     return (
       <>
@@ -176,6 +244,8 @@ class CreateEntitySettings extends React.Component<Props> {
         {this.renderOwner()}
         {this.renderStatus()}
         {this.renderPrivacy()}
+        {this.renderRequiredCredentials()}
+        {this.renderDisplayCredentials()}
       </>
     )
   }
