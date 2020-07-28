@@ -1,5 +1,5 @@
 import React from 'react'
-import SDGDropDown from '../../../Controls/DropDown/SDGDropDown/SDGDropDown'
+import SDGDropDown from '../../../Controls/IconDropDown/SDGDropDown/SDGDropDown'
 
 interface Props {
   value: string
