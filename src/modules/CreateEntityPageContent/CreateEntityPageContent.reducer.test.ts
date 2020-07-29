@@ -49,7 +49,7 @@ describe('CreateEntityPageContent Reducer', () => {
     expect(result).toEqual(initialState)
   })
 
-  describe('UpdateHeaderContent Action', () => {
+  describe('HeaderContent Actions', () => {
     describe('headerContent', () => {
       it('should update the content', () => {
         const title = 'someHeaderTitle'
@@ -183,7 +183,7 @@ describe('CreateEntityPageContent Reducer', () => {
     })
   })
 
-  describe('UpdateBodyContent Action', () => {
+  describe('BodyContent Actions', () => {
     describe('bodyContent', () => {
       it('should add a new body content section', () => {
         const id = 'someBodySectionId'
@@ -455,7 +455,7 @@ describe('CreateEntityPageContent Reducer', () => {
     })
   })
 
-  describe('UpdateImageContent Action', () => {
+  describe('ImageContent Actions', () => {
     describe('imageContent', () => {
       it('should add a new image content section', () => {
         const id = 'someImageSectionId'
@@ -745,7 +745,7 @@ describe('CreateEntityPageContent Reducer', () => {
     })
   })
 
-  describe('UpdateVideoContent Action', () => {
+  describe('VideoContent Actions', () => {
     describe('videoContent', () => {
       it('should add a new video content section', () => {
         const id = 'someVideoSectionId'
@@ -1017,7 +1017,7 @@ describe('CreateEntityPageContent Reducer', () => {
     })
   })
 
-  describe('UpdateProfileContent Action', () => {
+  describe('ProfileContent Actions', () => {
     describe('profileContent', () => {
       it('should add a new profile content section', () => {
         const id = 'someProfileSectionId'
@@ -1325,7 +1325,7 @@ describe('CreateEntityPageContent Reducer', () => {
     })
   })
 
-  describe('UpdateSocialContent Action', () => {
+  describe('SocialContent Actions', () => {
     it('should update the content', () => {
       const linkedInUrl = 'someNewLinkedInUrl'
       const facebookUrl = 'someNewFacebookInUrl'
@@ -1386,7 +1386,7 @@ describe('CreateEntityPageContent Reducer', () => {
     })
   })
 
-  describe('UpdateEmbeddedContent Action', () => {
+  describe('EmbeddedContent Actions', () => {
     describe('embeddedContent', () => {
       it('should add a new embedded content section', () => {
         const id = 'someEmbeddedSectionId'
