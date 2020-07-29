@@ -12,6 +12,35 @@ export enum EntityType {
   Data = 'Data',
 }
 
+export enum EntityStatus {
+  Pending = 'Pending',
+  Live = 'Live',
+  Stopped = 'Stopped',
+  Sealed = 'Sealed',
+  Deleted = 'Deleted',
+}
+
+export enum EntityStage {
+  Proposal = 'Proposal',
+  Planning = 'Planning',
+  Delivery = 'Delivery',
+  Paused = 'Paused',
+  Closing = 'Closing',
+  Ended = 'Ended',
+  Archived = 'Archived',
+}
+
+export enum EntityView {
+  Visible = 'Visible',
+  Encrypted = 'Encrypted',
+}
+
+export enum PageView {
+  Public = 'Public',
+  Private = 'Private',
+  Secret = 'Secret',
+}
+
 export interface Entity {
   entityType: EntityType
   did: string
