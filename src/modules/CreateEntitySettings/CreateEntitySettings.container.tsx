@@ -3,14 +3,12 @@ import { connect } from 'react-redux'
 import { RootState } from '../../common/redux/types'
 import {
   addDisplayCredentialSection,
-  addFilterSection,
   addRequiredCredentialSection,
   removeDisplayCredentialSection,
-  removeFilterSection,
   removeRequiredCredentialSection,
   updateCreator,
   updateDisplayCredential,
-  updateFilter,
+  updateFilters,
   updateOwner,
   updatePrivacy,
   updateRequiredCredential,
@@ -26,7 +24,6 @@ import {
   Status,
   Privacy,
   RequiredCredential,
-  Filter,
   DisplayCredential,
 } from './types'
 import FormCardWrapper from '../../common/components/Wrappers/FormCardWrapper/FormCardWrapper'
@@ -36,14 +33,18 @@ import StatusCard from './components/StatusCard/StatusCard'
 import PrivacyCard from './components/PrivacyCard/PrivacyCard'
 import RequiredCredentialCard from './components/RequiredCredentialCard/RequiredCredentialCard'
 import DisplayCredentialCard from './components/DisplayCredentialCard/DisplayCredentialCard'
+import FilterCard from './components/FilterCard/FilterCard'
+import { EntityType } from '../Entities/types'
+import { strategyMap } from '../Entities/strategy-map'
 
 interface Props {
+  entityType: EntityType
   owner: Owner
   creator: Creator
   status: Status
   privacy: Privacy
   requiredCredentials: RequiredCredential[]
-  filters: Filter[]
+  filters: { [name: string]: string[] }
   displayCredentials: DisplayCredential[]
   handleAddDisplayCredentialSection: () => void
   handleAddFilterSection: () => void
@@ -53,7 +54,7 @@ interface Props {
   handlerRemoveRequiredCredentialSection: (id: string) => void
   handleUpdateCreator: (formData: FormData) => void
   handleUpdateDisplayCredential: (id: string, formData: FormData) => void
-  handleUpdateFilter: (id: string, formData: FormData) => void
+  handleUpdateFilters: (formData: FormData) => void
   handleUpdateOwner: (formData: FormData) => void
   handleUpdatePrivacy: (formData: FormData) => void
   handleUpdateRequiredCredential: (id: string, formData: FormData) => void
@@ -63,6 +64,13 @@ interface Props {
 }
 
 class CreateEntitySettings extends React.Component<Props> {
+  entityTitle
+  constructor(props) {
+    super(props)
+
+    this.entityTitle = strategyMap[this.props.entityType].title
+  }
+
   renderCreator = (): JSX.Element => {
     const {
       creator: {
@@ -81,7 +89,10 @@ class CreateEntitySettings extends React.Component<Props> {
     } = this.props
 
     return (
-      <FormCardWrapper showAddSection={false} title="Project Creator">
+      <FormCardWrapper
+        showAddSection={false}
+        title={`${this.entityTitle} Creator`}
+      >
         <CreatorCard
           name={name}
           country={country}
@@ -117,7 +128,10 @@ class CreateEntitySettings extends React.Component<Props> {
     } = this.props
 
     return (
-      <FormCardWrapper showAddSection={false} title="Project Owner">
+      <FormCardWrapper
+        showAddSection={false}
+        title={`${this.entityTitle} Owner`}
+      >
         <OwnerCard
           name={name}
           country={country}
@@ -142,7 +156,10 @@ class CreateEntitySettings extends React.Component<Props> {
     } = this.props
 
     return (
-      <FormCardWrapper showAddSection={false} title="Project Status">
+      <FormCardWrapper
+        showAddSection={false}
+        title={`${this.entityTitle} Status`}
+      >
         <StatusCard
           startDate={startDate}
           endDate={endDate}
@@ -161,7 +178,10 @@ class CreateEntitySettings extends React.Component<Props> {
     } = this.props
 
     return (
-      <FormCardWrapper showAddSection={false} title="Project Privacy Settings">
+      <FormCardWrapper
+        showAddSection={false}
+        title={`${this.entityTitle} Privacy Settings`}
+      >
         <PrivacyCard
           pageView={pageView}
           entityView={entityView}
@@ -200,6 +220,24 @@ class CreateEntitySettings extends React.Component<Props> {
             />
           )
         })}
+      </FormCardWrapper>
+    )
+  }
+
+  renderFilters = (): JSX.Element => {
+    const { entityType, filters, handleUpdateFilters } = this.props
+
+    return (
+      <FormCardWrapper
+        showAddSection={false}
+        title={`${this.entityTitle} Filters`}
+        description="Use Ctrl (Windows) or Cmd (Mac) to select and deselect the filter tags"
+      >
+        <FilterCard
+          entityType={entityType}
+          filters={filters}
+          handleUpdate={handleUpdateFilters}
+        />
       </FormCardWrapper>
     )
   }
@@ -245,6 +283,7 @@ class CreateEntitySettings extends React.Component<Props> {
         {this.renderStatus()}
         {this.renderPrivacy()}
         {this.renderRequiredCredentials()}
+        {this.renderFilters()}
         {this.renderDisplayCredentials()}
       </>
     )
@@ -264,21 +303,18 @@ const mapStateToProps = (state: RootState): any => ({
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
   handleAddDisplayCredentialSection: (): void =>
     dispatch(addDisplayCredentialSection()),
-  handleAddFilterSection: (): void => dispatch(addFilterSection()),
   handleAddRequiredCredentialSection: (): void =>
     dispatch(addRequiredCredentialSection()),
   handlerRemoveDisplayCredentialSection: (id: string): void =>
     dispatch(removeDisplayCredentialSection(id)),
-  handlerRemoveFilterSection: (id: string): void =>
-    dispatch(removeFilterSection(id)),
   handlerRemoveRequiredCredentialSection: (id: string): void =>
     dispatch(removeRequiredCredentialSection(id)),
   handleUpdateCreator: (formData: FormData): void =>
     dispatch(updateCreator(formData)),
   handleUpdateDisplayCredential: (id: string, formData: FormData): void =>
     dispatch(updateDisplayCredential(id, formData)),
-  handleUpdateFilter: (id: string, formData: FormData): void =>
-    dispatch(updateFilter(id, formData)),
+  handleUpdateFilters: (formData: FormData): void =>
+    dispatch(updateFilters(formData)),
   handleUpdateOwner: (formData: FormData): void =>
     dispatch(updateOwner(formData)),
   handleUpdatePrivacy: (formData: FormData): void =>

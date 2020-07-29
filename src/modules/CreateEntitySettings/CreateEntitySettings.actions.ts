@@ -13,11 +13,9 @@ import {
   RemoveRequiredCredentialSectionAction,
   AddDisplayCredentialSectionAction,
   RemoveDisplayCredentialSectionAction,
-  AddFilterSectionAction,
-  RemoveFilterSectionAction,
   UpdateRequiredCredentialAction,
   UpdateDisplayCredentialAction,
-  UpdateFilterAction,
+  UpdateFiltersAction,
 } from './types'
 import { FormData } from 'src/common/components/JsonForm/types'
 
@@ -160,39 +158,10 @@ export const updateRequiredCredential = (
   }
 }
 
-export const addFilterSection = (): AddFilterSectionAction => {
+export const updateFilters = (formData: FormData): UpdateFiltersAction => {
   return {
-    type: CreateEntitySettingsActions.AddFilterSection,
-    payload: {
-      id: uuidv4(),
-      name: null,
-      tags: [],
-    },
-  }
-}
-
-export const removeFilterSection = (id: string): RemoveFilterSectionAction => {
-  return {
-    type: CreateEntitySettingsActions.RemoveFilterSection,
-    payload: {
-      id,
-    },
-  }
-}
-
-export const updateFilter = (
-  id: string,
-  formData: FormData,
-): UpdateFilterAction => {
-  const { name, tags } = formData
-
-  return {
-    type: CreateEntitySettingsActions.UpdateFilter,
-    payload: {
-      id,
-      name,
-      tags,
-    },
+    type: CreateEntitySettingsActions.UpdateFilters,
+    payload: formData,
   }
 }
 

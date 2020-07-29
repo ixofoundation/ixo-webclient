@@ -148,26 +148,10 @@ export const reducer = (
           ...{ [action.payload.id]: action.payload },
         },
       }
-    case CreateEntitySettingsActions.AddFilterSection:
+    case CreateEntitySettingsActions.UpdateFilters:
       return {
         ...state,
-        filters: {
-          ...state.filters,
-          ...{ [action.payload.id]: action.payload },
-        },
-      }
-    case CreateEntitySettingsActions.RemoveFilterSection:
-      return {
-        ...state,
-        filters: reduxUtils.omitKey(state.filters, action.payload.id),
-      }
-    case CreateEntitySettingsActions.UpdateFilter:
-      return {
-        ...state,
-        filters: {
-          ...state.filters,
-          ...{ [action.payload.id]: action.payload },
-        },
+        filters: action.payload,
       }
     case CreateEntitySettingsActions.AddDisplayCredentialSection:
       return {

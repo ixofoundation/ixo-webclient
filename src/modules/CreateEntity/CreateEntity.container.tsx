@@ -7,6 +7,9 @@ import { CreateEntityWrapper } from './CreateEntity.container.styles'
 import { Steps } from '../../common/components/Steps/Steps'
 import { CreateEntityPageContentConnected } from '../CreateEntityPageContent/CreateEntityPageContent.container'
 import { CreateEntitySettingsConnected } from '../CreateEntitySettings/CreateEntitySettings.container'
+import { strategyMap } from '../Entities/strategy-map'
+import { toTitleCase } from 'src/common/utils/formatters'
+import { EntityType } from '../Entities/types'
 
 interface Props {
   match: any
@@ -16,13 +19,16 @@ class CreateEntity extends React.Component<Props> {
   render(): JSX.Element {
     const {
       match: {
-        params: { entityType },
+        params: { entityType: entityTypeAsString },
       },
     } = this.props
 
+    const entityType = toTitleCase(entityTypeAsString) as EntityType
+    const { title } = strategyMap[toTitleCase(entityType)]
+
     return (
       <>
-        <Hero title="Create a Project" />
+        <Hero title={`Create a ${title}`} />
         <CreateEntityWrapper className="container-fluid">
           <div className="container">
             <div className="row">
@@ -41,7 +47,12 @@ class CreateEntity extends React.Component<Props> {
                 <Route
                   exact
                   path={`/${entityType}/new/settings`}
-                  component={CreateEntitySettingsConnected}
+                  render={(props): JSX.Element => (
+                    <CreateEntitySettingsConnected
+                      {...(props as any)}
+                      entityType={entityType}
+                    />
+                  )}
                 />
               </div>
             </div>

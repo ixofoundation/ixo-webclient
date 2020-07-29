@@ -47,12 +47,6 @@ export interface RequiredCredential {
   issuer: string
 }
 
-export interface Filter {
-  id: string
-  name: string
-  tags: string[]
-}
-
 export interface DisplayCredential {
   id: string
   credential: string
@@ -68,7 +62,7 @@ export interface CreateEntitySettingsState {
     [id: string]: RequiredCredential
   }
   filters: {
-    [id: string]: Filter
+    [name: string]: string[]
   }
   displayCredentials: {
     [id: string]: DisplayCredential
@@ -97,9 +91,7 @@ export enum CreateEntitySettingsActions {
   RemoveRequiredCredentialSection = 'ixo/CreateEntitySettings/REMOVE_REQUIRED_CREDENTIAL_SECTION',
   UpdateRequiredCredential = 'ixo/CreateEntitySettings/UPDATE_REQUIRED_CREDENTIALS',
   // Filter
-  AddFilterSection = 'ixo/CreateEntitySettings/ADD_FILTER_SECTION',
-  RemoveFilterSection = 'ixo/CreateEntitySettings/REMOVE_FILTER_SECTION',
-  UpdateFilter = 'ixo/CreateEntitySettings/UPDATE_FILTER',
+  UpdateFilters = 'ixo/CreateEntitySettings/UPDATE_FIL',
   // DisplayCredentials
   AddDisplayCredentialSection = 'ixo/CreateEntitySettings/ADD_DISPLAY_CREDENTIAL_SECTION',
   RemoveDisplayCredentialSection = 'ixo/CreateEntitySettings/REMOVE_DISPLAY_CREDENTIAL_SECTION',
@@ -219,28 +211,10 @@ export interface UpdateRequiredCredentialAction {
   }
 }
 
-export interface AddFilterSectionAction {
-  type: typeof CreateEntitySettingsActions.AddFilterSection
+export interface UpdateFiltersAction {
+  type: typeof CreateEntitySettingsActions.UpdateFilters
   payload: {
-    id: string
-    name: string
-    tags: string[]
-  }
-}
-
-export interface RemoveFilterSectionAction {
-  type: typeof CreateEntitySettingsActions.RemoveFilterSection
-  payload: {
-    id: string
-  }
-}
-
-export interface UpdateFilterAction {
-  type: typeof CreateEntitySettingsActions.UpdateFilter
-  payload: {
-    id: string
-    name: string
-    tags: string[]
+    [name: string]: string[]
   }
 }
 
@@ -285,9 +259,7 @@ export type CreateEntitySettingsActionTypes =
   | AddRequiredCredentialSectionAction
   | RemoveRequiredCredentialSectionAction
   | UpdateRequiredCredentialAction
-  | AddFilterSectionAction
-  | RemoveFilterSectionAction
-  | UpdateFilterAction
+  | UpdateFiltersAction
   | AddDisplayCredentialSectionAction
   | RemoveDisplayCredentialSectionAction
   | UpdateDisplayCredentialAction

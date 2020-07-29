@@ -17,9 +17,7 @@ import {
   AddDisplayCredentialSectionAction,
   RemoveDisplayCredentialSectionAction,
   UpdateDisplayCredentialAction,
-  AddFilterSectionAction,
-  RemoveFilterSectionAction,
-  UpdateFilterAction,
+  UpdateFiltersAction,
 } from './types'
 import {
   EntityStage,
@@ -608,89 +606,16 @@ describe('CreateEntitySettings Reducer', () => {
   })
 
   describe('Filter Actions', () => {
-    it('should add a new filter section', () => {
-      const id = 'someFilterSectionId'
-      // given ... we have an action of type CreateEntitySettingsActions.AddFilterSection
-      const action: AddFilterSectionAction = {
-        type: CreateEntitySettingsActions.AddFilterSection,
-        payload: {
-          id,
-          name: null,
-          tags: [],
-        },
+    it('should update the filters', () => {
+      const filters = {
+        newName1: ['aa', 'bb', 'cc'],
+        newName2: ['11', '22', '33'],
       }
-
-      // when ... we run the reducer with this action
-      const result = SUT.reducer(initialState, action)
-
-      // then ... the state should be set as expected
-      expect(result).toEqual({
-        ...initialState,
-        filters: {
-          [id]: {
-            id,
-            name: null,
-            tags: [],
-          },
-        },
-      })
-    })
-
-    it('should remove filter section', () => {
-      const id = 'existingFilterSectionId'
-      // given ... we have an action of type CreateEntitySettingsActions.RemoveFilterSection
-      const action: RemoveFilterSectionAction = {
-        type: CreateEntitySettingsActions.RemoveFilterSection,
-        payload: {
-          id,
-        },
-      }
-      // when ... we run the reducer with this action
-      const result = SUT.reducer(
-        {
-          ...initialState,
-          filters: {
-            [id]: {
-              id,
-              name: 'someFilter1',
-              tags: ['someTag1', 'someTag2'],
-            },
-            ['anotherid']: {
-              id: 'anotherid',
-              name: 'someFilter2',
-              tags: ['someTag3', 'someTag3'],
-            },
-          },
-        },
-        action,
-      )
-
-      // then ... the state should be set as expected
-      expect(result).toEqual({
-        ...initialState,
-        filters: {
-          ['anotherid']: {
-            id: 'anotherid',
-            name: 'someFilter2',
-            tags: ['someTag3', 'someTag3'],
-          },
-        },
-      })
-    })
-
-    it('should update the filter', () => {
-      const id = 'someId'
-      const name = 'someFilterName'
-      const tags = ['newTag1', 'newTag2']
 
       // given .. we have an action of type CreateEntitySettingsActions.UpdateFilter
-      const action: UpdateFilterAction = {
-        type: CreateEntitySettingsActions.UpdateFilter,
-        payload: {
-          id,
-          name,
-          tags,
-        },
+      const action: UpdateFiltersAction = {
+        type: CreateEntitySettingsActions.UpdateFilters,
+        payload: filters,
       }
 
       // when ... we run the reducer with this action
@@ -698,11 +623,8 @@ describe('CreateEntitySettings Reducer', () => {
         {
           ...initialState,
           filters: {
-            [id]: {
-              id,
-              name: 'someOldFilterName',
-              tags: ['some', 'old', 'tags'],
-            },
+            oldName1: ['a', 'b', 'c'],
+            oldName2: ['1', '2', '3'],
           },
         },
         action,
@@ -711,13 +633,7 @@ describe('CreateEntitySettings Reducer', () => {
       // then ... the state should be set as expected
       expect(result).toEqual({
         ...initialState,
-        filters: {
-          [id]: {
-            id,
-            name,
-            tags,
-          },
-        },
+        filters,
       })
     })
   })

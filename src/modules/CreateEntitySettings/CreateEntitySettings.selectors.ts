@@ -30,8 +30,9 @@ export const selectRequiredCredentials = createSelector(
   settings => Object.values(settings.requiredCredentials),
 )
 
-export const selectFilters = createSelector(selectSettings, settings =>
-  Object.values(settings.filters),
+export const selectFilters = createSelector(
+  selectSettings,
+  settings => settings.filters,
 )
 
 export const selectDisplayCredentials = createSelector(

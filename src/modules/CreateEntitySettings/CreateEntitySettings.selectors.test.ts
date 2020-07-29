@@ -57,16 +57,8 @@ beforeEach(() => {
         },
       },
       filters: {
-        '8c1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d': {
-          id: '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d',
-          name: 'someDisplayCredential1',
-          tags: ['tag1', 'tag2'],
-        },
-        '1n9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed': {
-          id: '1b9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed',
-          name: 'someDisplayCredential2',
-          tags: ['tag3', 'tag4'],
-        },
+        '8c1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d': ['tag1', 'tag2'],
+        '1n9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed': ['tag3', 'tag4'],
       },
       displayCredentials: {
         '01deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d': {
@@ -190,18 +182,10 @@ describe('CreateEntitySettings Selectors', () => {
       const result = SUT.selectFilters(state)
 
       // then ... should return result as expected
-      expect(result).toEqual([
-        {
-          id: '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d',
-          name: 'someDisplayCredential1',
-          tags: ['tag1', 'tag2'],
-        },
-        {
-          id: '1b9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed',
-          name: 'someDisplayCredential2',
-          tags: ['tag3', 'tag4'],
-        },
-      ])
+      expect(result).toEqual({
+        '8c1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d': ['tag1', 'tag2'],
+        '1n9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed': ['tag3', 'tag4'],
+      })
     })
   })
 
