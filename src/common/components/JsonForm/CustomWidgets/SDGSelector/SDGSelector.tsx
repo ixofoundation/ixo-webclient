@@ -1,5 +1,6 @@
 import React from 'react'
 import SDGDropDown from '../../../Controls/IconDropDown/SDGDropDown/SDGDropDown'
+import { AddButton, RemoveButton } from './SDGSelector.styles'
 
 interface Props {
   value: string
@@ -35,17 +36,20 @@ const SDGSelector: React.FunctionComponent<Props> = ({ value, onChange }) => {
               onChange={(sdg): void => handleSDGOnChange(sdg, i)}
             />
             {i > 0 && (
-              <button type="button" onClick={(): void => handleSDGOnRemove(i)}>
-                -
-              </button>
+              <RemoveButton
+                type="button"
+                onClick={(): void => handleSDGOnRemove(i)}
+              >
+                - Remove Tag
+              </RemoveButton>
             )}
           </div>
         )
       })}
       <br />
-      <button type="button" onClick={handleSDGOnAdd}>
+      <AddButton type="button" onClick={handleSDGOnAdd}>
         + Add Tag
-      </button>
+      </AddButton>
     </>
   )
 }

@@ -8,6 +8,7 @@ import {
   FormData,
   customControls,
 } from '../../../../common/components/JsonForm/types'
+import { RemoveButton } from './EmbeddedContentCard.styles'
 
 interface Props {
   id: string
@@ -72,9 +73,12 @@ const EmbeddedContentCard: React.FunctionComponent<Props> = ({
         </Form>
       </div>
       <div className="col-lg-12 text-right">
-        <button type="button" onClick={(): void => handleRemoveSection(id)}>
+        <RemoveButton
+          type="button"
+          onClick={(): void => handleRemoveSection(id)}
+        >
           Remove
-        </button>
+        </RemoveButton>
       </div>
     </FormContainer>
   )

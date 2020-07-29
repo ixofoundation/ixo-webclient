@@ -6,6 +6,7 @@ import * as formUtils from '../../../../common/components/JsonForm/JsonForm.util
 import { FormData } from '../../../../common/components/JsonForm/types'
 import VideoLoader from '../../../../common/components/DropZone/FileLoader/FileLoader'
 import { FileType } from 'src/common/components/DropZone/types'
+import { RemoveButton } from './VideoContentCard.styles'
 
 interface Props {
   id: string
@@ -94,9 +95,12 @@ const HeaderCard: React.FunctionComponent<Props> = ({
         </Form>
       </div>
       <div className="col-lg-12 text-right">
-        <button type="button" onClick={(): void => handleRemoveSection(id)}>
+        <RemoveButton
+          type="button"
+          onClick={(): void => handleRemoveSection(id)}
+        >
           Remove
-        </button>
+        </RemoveButton>
       </div>
     </FormContainer>
   )

@@ -4,6 +4,7 @@ import IconInput, {
   Type,
 } from '../../../Controls/IconInput/SocialInput/SocialInput'
 import { isHttpsUrl } from 'src/common/utils/validationUtils'
+import { RemoveButton } from './EmbeddedUrlTextBox.styles'
 
 interface Props {
   value: string
@@ -61,9 +62,9 @@ const EmbeddedUrlTextBox: React.FunctionComponent<Props> = ({
         )
       })}
       <br />
-      <button type="button" onClick={handleUrlOnAdd}>
+      <RemoveButton type="button" onClick={handleUrlOnAdd}>
         + Add Link
-      </button>
+      </RemoveButton>
     </>
   )
 }

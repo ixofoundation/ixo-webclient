@@ -1,5 +1,5 @@
 import React from 'react'
-import { Container } from './FormCardWrapper.styles'
+import { Container, AddSectionButton } from './FormCardWrapper.styles'
 
 interface Props {
   title: string
@@ -25,9 +25,9 @@ const FormCardWrapper: React.FunctionComponent<Props> = ({
       {showAddSection && (
         <div style={{ textAlign: 'center' }}>
           <hr />
-          <button type="button" onClick={onAddSection}>
+          <AddSectionButton type="button" onClick={onAddSection}>
             + {addSectionText || 'Add Section'}
-          </button>
+          </AddSectionButton>
         </div>
       )}
     </Container>

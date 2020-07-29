@@ -8,6 +8,7 @@ import {
   customControls,
 } from '../../../../common/components/JsonForm/types'
 import ImageLoader from '../../../../common/components/DropZone/ImageLoader/ImageLoader'
+import { RemoveButton } from './ProfileContentCard.styles'
 
 interface Props {
   id: string
@@ -115,9 +116,12 @@ const HeaderCard: React.FunctionComponent<Props> = ({
         </Form>
       </div>
       <div className="col-lg-12 text-right">
-        <button type="button" onClick={(): void => handleRemoveSection(id)}>
+        <RemoveButton
+          type="button"
+          onClick={(): void => handleRemoveSection(id)}
+        >
           Remove
-        </button>
+        </RemoveButton>
       </div>
     </FormContainer>
   )
