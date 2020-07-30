@@ -1,9 +1,12 @@
 import {
   UpdateActiveStepAction,
+  UpdateClaimInfoAction,
   CreateClaimTemplateActions,
   AddAttestationAction,
   Attestation,
   RemoveAttestationAction,
+  UpdateAttestationAction,
+  ClaimInfo,
 } from './types'
 import { Dispatch } from 'redux'
 import { RootState } from 'src/common/redux/types'
@@ -25,6 +28,15 @@ export const updateActiveStep = (newStepNo: number) => (
   return null
 }
 
+export const updateClaimInfo = (claimInfo: ClaimInfo) => (
+  dispatch: Dispatch,
+): UpdateClaimInfoAction => {
+  return dispatch({
+    type: CreateClaimTemplateActions.UpdateClaimInfo,
+    payload: claimInfo,
+  })
+}
+
 export const addAttestation = (newAttestation: Attestation) => (
   dispatch: Dispatch,
 ): AddAttestationAction => {
@@ -40,5 +52,14 @@ export const removeAttestation = (attestationID: string) => (
   return dispatch({
     type: CreateClaimTemplateActions.RemoveAttestation,
     payload: attestationID,
+  })
+}
+
+export const updateAttestation = (attestation: Attestation) => (
+  dispatch: Dispatch,
+): UpdateAttestationAction => {
+  return dispatch({
+    type: CreateClaimTemplateActions.UpdateAttestation,
+    payload: attestation,
   })
 }
