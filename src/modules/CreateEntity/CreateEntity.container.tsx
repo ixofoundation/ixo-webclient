@@ -7,6 +7,7 @@ import { CreateEntityWrapper } from './CreateEntity.container.styles'
 import { Steps } from '../../common/components/Steps/Steps'
 import { CreateEntityPageContentConnected } from '../CreateEntityPageContent/CreateEntityPageContent.container'
 import { CreateEntitySettingsConnected } from '../CreateEntitySettings/CreateEntitySettings.container'
+import { CreateEntityAdvancedConnected } from '../CreateEntityAdvanced/CreateEntityAdvanced.container'
 import { entityTypeMap } from '../Entities/strategy-map'
 import { toTitleCase } from 'src/common/utils/formatters'
 import { EntityType } from '../Entities/types'
@@ -34,8 +35,8 @@ class CreateEntity extends React.Component<Props> {
             <div className="row">
               <div className="col-lg-12">
                 <Steps
-                  currentStepTitle="Settings"
-                  currentStepNo={2}
+                  currentStepTitle="Advanced"
+                  currentStepNo={4}
                   totalSteps={4}
                   handleGoToStepClick={(): void => null}
                 />
@@ -53,6 +54,11 @@ class CreateEntity extends React.Component<Props> {
                       entityType={entityType}
                     />
                   )}
+                />
+                <Route
+                  exact
+                  path={`/${entityType}/new/advanced`}
+                  component={CreateEntityAdvancedConnected}
                 />
               </div>
             </div>

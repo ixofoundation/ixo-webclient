@@ -2,7 +2,6 @@ import { v4 } from 'uuid'
 jest.mock('uuid')
 import * as SUT from './CreateEntityAdvanced.actions'
 import { CreateEntityAdvancedActions } from './types'
-import mockStore from '../../common/redux/mockStore'
 import {
   EntityType,
   PaymentType,
@@ -16,12 +15,6 @@ import {
   NodeType,
   FundSource,
 } from '../Entities/types'
-
-let store
-
-beforeEach(() => {
-  store = mockStore({})
-})
 
 describe('CreateEntityAdvanced Actions', () => {
   describe('linkedEntity', () => {
