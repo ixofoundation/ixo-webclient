@@ -107,7 +107,7 @@ const HeaderCard: React.FunctionComponent<Props> = ({
           type="button"
           onClick={(): void => handleRemoveSection(id)}
         >
-          Remove
+          - Remove
         </RemoveButton>
       </div>
     </FormContainer>

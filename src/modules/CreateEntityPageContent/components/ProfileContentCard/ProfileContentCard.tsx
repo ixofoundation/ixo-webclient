@@ -8,7 +8,7 @@ import {
   customControls,
 } from '../../../../common/components/JsonForm/types'
 import ImageLoader from '../../../../common/components/DropZone/ImageLoader/ImageLoader'
-import { RemoveButton } from './ProfileContentCard.styles'
+import { FormWrapper, RemoveButton } from './ProfileContentCard.styles'
 
 interface Props {
   id: string
@@ -100,27 +100,29 @@ const HeaderCard: React.FunctionComponent<Props> = ({
         </div>
       </div>
       <div className="col-lg-6">
-        <Form
-          formData={formData}
-          onChange={(control): void =>
-            handleUpdateContentDebounce(id, control.formData)
-          }
-          noHtml5Validate
-          liveValidate
-          showErrorList={false}
-          schema={schema}
-          uiSchema={uiSchema}
-          transformErrors={formUtils.transformErrors}
-        >
-          &nbsp;
-        </Form>
+        <FormWrapper>
+          <Form
+            formData={formData}
+            onChange={(control): void =>
+              handleUpdateContentDebounce(id, control.formData)
+            }
+            noHtml5Validate
+            liveValidate
+            showErrorList={false}
+            schema={schema}
+            uiSchema={uiSchema}
+            transformErrors={formUtils.transformErrors}
+          >
+            &nbsp;
+          </Form>
+        </FormWrapper>
       </div>
       <div className="col-lg-12 text-right">
         <RemoveButton
           type="button"
           onClick={(): void => handleRemoveSection(id)}
         >
-          Remove
+          - Remove
         </RemoveButton>
       </div>
     </FormContainer>
