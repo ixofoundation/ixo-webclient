@@ -37,7 +37,6 @@ export interface Stake {
   maxSlashAmount: number
   unbondingPeriod: number
 }
-
 export interface Node {
   id: string
   type: NodeType
@@ -140,7 +139,7 @@ export interface UpdatePaymentAction {
   }
 }
 
-export interface AddStakeAction {
+export interface AddStakeSectionAction {
   type: typeof CreateEntityAdvancedActions.AddStake
   payload: {
     id: string
@@ -155,7 +154,7 @@ export interface AddStakeAction {
     unbondingPeriod: number
   }
 }
-export interface RemoveStakeAction {
+export interface RemoveStakeSectionAction {
   type: typeof CreateEntityAdvancedActions.RemoveStake
   payload: {
     id: string
@@ -166,7 +165,7 @@ export interface UpdateStakeAction {
   type: typeof CreateEntityAdvancedActions.UpdateStake
   payload: {
     id: string
-    type: string
+    type: StakeType
     stakeId: string
     denomination: PaymentDenomination
     depositAddress: string
@@ -178,7 +177,7 @@ export interface UpdateStakeAction {
   }
 }
 
-export interface AddNodeAction {
+export interface AddNodeSectionAction {
   type: typeof CreateEntityAdvancedActions.AddNode
   payload: {
     id: string
@@ -186,7 +185,7 @@ export interface AddNodeAction {
     nodeId: string
   }
 }
-export interface RemoveNodeAction {
+export interface RemoveNodeSectionAction {
   type: typeof CreateEntityAdvancedActions.RemoveNode
   payload: {
     id: string
@@ -202,7 +201,7 @@ export interface UpdateNodeAction {
   }
 }
 
-export interface AddFundAction {
+export interface AddFundSectionAction {
   type: typeof CreateEntityAdvancedActions.AddFund
   payload: {
     id: string
@@ -211,7 +210,7 @@ export interface AddFundAction {
   }
 }
 
-export interface RemoveFundAction {
+export interface RemoveFundSectionAction {
   type: typeof CreateEntityAdvancedActions.RemoveFund
   payload: {
     id: string
@@ -250,7 +249,7 @@ export interface UpdateServiceAction {
   }
 }
 
-export interface AddFundAction {
+export interface AddFundSectionAction {
   type: typeof CreateEntityAdvancedActions.AddFund
   payload: {
     id: string
@@ -259,14 +258,14 @@ export interface AddFundAction {
   }
 }
 
-export interface RemoveFundAction {
+export interface RemoveFundSectionAction {
   type: typeof CreateEntityAdvancedActions.RemoveFund
   payload: {
     id: string
   }
 }
 
-export interface AddDataResourceAction {
+export interface AddDataResourceSectionAction {
   type: typeof CreateEntityAdvancedActions.AddDataResource
   payload: {
     id: string
@@ -277,7 +276,7 @@ export interface AddDataResourceAction {
   }
 }
 
-export interface RemoveDataResourceAction {
+export interface RemoveDataResourceSectionAction {
   type: typeof CreateEntityAdvancedActions.RemoveDataResource
   payload: {
     id: string
@@ -298,15 +297,17 @@ export interface UpdateDataResourceAction {
 export type CreateEntityAdvancedActionTypes =
   | UpdateLinkedEntityAction
   | UpdatePaymentAction
-  | AddStakeAction
-  | RemoveStakeAction
+  | AddStakeSectionAction
+  | RemoveStakeSectionAction
   | UpdateStakeAction
-  | AddNodeAction
-  | RemoveNodeAction
+  | AddNodeSectionAction
+  | RemoveNodeSectionAction
   | UpdateNodeAction
-  | AddFundAction
-  | RemoveFundAction
+  | AddFundSectionAction
+  | RemoveFundSectionAction
   | UpdateFundAction
   | UpdateKeyAction
   | UpdateServiceAction
+  | AddDataResourceSectionAction
+  | RemoveDataResourceSectionAction
   | UpdateDataResourceAction
