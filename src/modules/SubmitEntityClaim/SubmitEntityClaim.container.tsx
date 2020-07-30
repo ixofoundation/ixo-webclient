@@ -1,7 +1,7 @@
 import React, { Dispatch } from 'react'
 import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { RootState } from 'src/common/redux/types'
+import { RootState } from 'common/redux/types'
 import { Hero } from './components/Hero/Hero'
 import Question from './components/Question/Question'
 import { SubmitEntityClaimWrapper } from './SubmitEntityClaim.container.styles'

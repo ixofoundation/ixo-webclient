@@ -6,7 +6,7 @@ import {
   RemoveAttestationAction,
 } from './types'
 import { Dispatch } from 'redux'
-import { RootState } from 'src/common/redux/types'
+import { RootState } from 'common/redux/types'
 
 export const updateActiveStep = (newStepNo: number) => (
   dispatch: Dispatch,

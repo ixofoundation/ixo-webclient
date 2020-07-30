@@ -3,7 +3,7 @@ import { createSelector } from 'reselect'
 import { Entity, EntitiesState } from './types'
 import { Filter, Category, EntityType } from './types'
 import * as accountSelectors from '../Account/Account.selectors'
-import { RootState } from 'src/common/redux/types'
+import { RootState } from 'common/redux/types'
 import { Schema as FilterSchema } from './components/EntitiesFilter/schema/types'
 import { strategyMap } from './strategy-map'
 

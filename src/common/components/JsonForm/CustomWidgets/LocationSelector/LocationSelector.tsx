@@ -1,6 +1,6 @@
 import React from 'react'
-import LocationMap from 'src/common/components/LocationMap/LocationMap'
-import { GeoLocation } from 'src/common/components/LocationMap/types'
+import LocationMap from 'common/components/LocationMap/LocationMap'
+import { GeoLocation } from 'common/components/LocationMap/types'
 
 interface Props {
   value: string

@@ -1,7 +1,7 @@
 import React, { Dispatch } from 'react'
 import { Route } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { RootState } from 'src/common/redux/types'
+import { RootState } from 'common/redux/types'
 import { Hero } from './components/Hero/Hero'
 import { CreateEntityWrapper } from './CreateEntity.container.styles'
 import { Steps } from '../../common/components/Steps/Steps'

@@ -92,19 +92,20 @@ export class BondsWrapper extends React.Component<Props, State> {
     } else {
       return (
         <div>
-          <ProjectHero
-            project={this.state.projectPublic}
-            match={match}
-            isDetail={true}
-            hasCapability={this.handleHasCapability}
-            isLoggedIn={isLoggedIn}
-          />
           <div className="BondsWrapper">
             <BondsSidebar
               projectDID={params.projectDID}
               bondDID={params.bondDID}
             />
             <div className="pane">
+              <ProjectHero
+                project={this.state.projectPublic}
+                match={match}
+                isDetail={true}
+                onlyTitle
+                hasCapability={this.handleHasCapability}
+                isLoggedIn={isLoggedIn}
+              />
               <Header bondDID={params.bondDID} />
               {children}
             </div>

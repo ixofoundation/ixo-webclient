@@ -18,8 +18,11 @@
     "strict": true,
     "strictNullChecks": false,
     "suppressImplicitAnyIndexErrors": true,
-    "noUnusedLocals": true,
-    "baseUrl": "."
+    "noUnusedLocals": false,
+    "baseUrl": ".",
+    "paths": {
+      "*": ["./src/*"]
+    }
   },
   "include": ["src/**/*"],
   "exclude": [

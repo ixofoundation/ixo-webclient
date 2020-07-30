@@ -9,18 +9,18 @@ import {
   SummaryWrapper,
   AssistantContentWrapper,
   AssistantProgress,
-} from '../../common/components/ControlPanel/Actions/Actions.styles'
+} from 'common/components/ControlPanel/Actions/Actions.styles'
 import Assistant, {
   startAssistant,
-} from '../../common/components/Assistant/Assistant'
+} from 'common/components/Assistant/Assistant'
 import FuelEntityConfirmOrder from './components/FuelEntityConfirmOrder/FuelEntityConfirmOrder'
-import { RootState } from 'src/common/redux/types'
+import { RootState } from 'common/redux/types'
 import * as fuelEntitySelectors from './FuelEntity.selectors'
 import { getOrder, confirmOrder, cancelOrder } from './FuelEntity.actions'
-import BackIcon from '../../assets/icons/Back'
-import ChatbotIcon from '../../assets/icons/Chatbot'
-import PaymentSuccessIcon from '../../assets/icons/PaymentSuccess'
-import SendIcon from '../../assets/icons/Send'
+import BackIcon from 'assets/icons/Back'
+import ChatbotIcon from 'assets/icons/Chatbot'
+import PaymentSuccessIcon from 'assets/icons/PaymentSuccess'
+import SendIcon from 'assets/icons/Send'
 
 interface Props {
   match: any

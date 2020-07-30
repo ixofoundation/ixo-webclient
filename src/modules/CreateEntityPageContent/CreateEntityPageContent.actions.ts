@@ -26,7 +26,7 @@ import {
   RemoveProfileSectionAction,
   RemoveEmbeddedSectionAction,
 } from './types'
-import { FormData } from 'src/common/components/JsonForm/types'
+import { FormData } from 'common/components/JsonForm/types'
 
 const PDS_URL = process.env.REACT_APP_PDS_URL
 

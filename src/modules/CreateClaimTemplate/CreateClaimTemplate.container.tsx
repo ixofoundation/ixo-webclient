@@ -1,8 +1,8 @@
 import React, { Dispatch } from 'react'
 import { connect } from 'react-redux'
 import { Hero } from '../CreateEntity/components/Hero/Hero'
-import { RootState } from 'src/common/redux/types'
-import { Steps } from '../../common/components/Steps/Steps'
+import { RootState } from 'common/redux/types'
+import { Steps } from 'common/components/Steps/Steps'
 import {
   updateActiveStep,
   addAttestation,

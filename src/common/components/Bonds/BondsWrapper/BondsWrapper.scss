@@ -62,7 +62,6 @@ hr {
 
   .pane {
     flex-grow: 1;
-    overflow-y: scroll;
   }
 
   .tablinks {
@@ -153,10 +152,10 @@ hr {
 }
 
 .BondsWrapper_panel__chrome {
-  padding: 1.25rem 3rem;
-  margin: 0 1.25rem 1.25rem 1.25rem;
+  margin: 0 2.5rem;
   border-radius: 0.1rem;
-  background-color: $tab-body-background-color;
+  background: linear-gradient(357.98deg, #002d42 2.22%, #012639 96.94%);
+  border: 1px solid #0c3549;
 
   &.Table {
     background-color: transparent;

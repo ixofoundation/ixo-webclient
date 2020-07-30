@@ -7,12 +7,12 @@ import {
   BondBuyTx,
 } from './types'
 import Axios from 'axios'
-import { Currency } from '../../types/models'
+import { Currency } from 'types/models'
 import { Dispatch } from 'redux'
-import { RootState } from 'src/common/redux/types'
-import * as transactionUtils from '../../common/utils/transaction.utils'
-import keysafe from '../../common/keysafe/keysafe'
-import * as Toast from '../../common/utils/Toast'
+import { RootState } from 'common/redux/types'
+import * as transactionUtils from 'common/utils/transaction.utils'
+import keysafe from 'common/keysafe/keysafe'
+import * as Toast from 'common/utils/Toast'
 import {
   apiCurrencyToCurrency,
   currencyToApiCurrency,
@@ -80,36 +80,46 @@ export const confirmBuy = () => (
   }
 
   const msgType = 'bonds/MsgBuy'
-  ixo.utils.getSignData(tx, msgType, pubKey)
+  ixo.utils
+    .getSignData(tx, msgType, pubKey)
     .then((response: any) => {
       if (response.sign_bytes && response.fee) {
-        keysafe.requestSigning(response.sign_bytes, (error, signature) => {
-          if (error) {
-            return null
-          }
+        keysafe.requestSigning(
+          response.sign_bytes,
+          (error, signature) => {
+            if (error) {
+              return null
+            }
 
-          return dispatch({
-            type: BondBuyActions.ConfirmBuy,
-            payload: Axios.post(
-              `${process.env.REACT_APP_GAIA_URL}/txs`,
-              JSON.stringify(
-                transactionUtils.generateTx(msgType, tx, signature, response.fee),
-              ),
-            )
-              .then(response => {
-                if (!response.data.logs[0].success) {
-                  Toast.errorToast('Buy failed. Please try again.')
-                } else {
-                  Toast.successToast(
-                    'Transaction submitted. Check its status in the orders tab.',
-                  )
-                }
-              })
-              .catch(error => {
-                Toast.errorToast(`Error: ${error.message}`)
-              }),
-          })
-        }, 'base64')
+            return dispatch({
+              type: BondBuyActions.ConfirmBuy,
+              payload: Axios.post(
+                `${process.env.REACT_APP_GAIA_URL}/txs`,
+                JSON.stringify(
+                  transactionUtils.generateTx(
+                    msgType,
+                    tx,
+                    signature,
+                    response.fee,
+                  ),
+                ),
+              )
+                .then(response => {
+                  if (!response.data.logs[0].success) {
+                    Toast.errorToast('Buy failed. Please try again.')
+                  } else {
+                    Toast.successToast(
+                      'Transaction submitted. Check its status in the orders tab.',
+                    )
+                  }
+                })
+                .catch(error => {
+                  Toast.errorToast(`Error: ${error.message}`)
+                }),
+            })
+          },
+          'base64',
+        )
       }
     })
     .catch(() => {

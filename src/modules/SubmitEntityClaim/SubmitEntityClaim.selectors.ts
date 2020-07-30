@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect'
-import { RootState } from 'src/common/redux/types'
+import { RootState } from 'common/redux/types'
 import { SubmitEntityClaimState } from './types'
-import { FormControl, FormData } from '../../common/components/JsonForm/types'
+import { FormControl, FormData } from 'common/components/JsonForm/types'
 
 export const selectSubmitEntityClaim = (
   state: RootState,

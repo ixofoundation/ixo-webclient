@@ -6,7 +6,7 @@ import {
   GetEntityAction,
   ClearEntityAction,
 } from './types'
-import { RootState } from 'src/common/redux/types'
+import { RootState } from 'common/redux/types'
 
 export const clearEntity = (): ClearEntityAction => ({
   type: SelectedEntityActions.ClearEntity,

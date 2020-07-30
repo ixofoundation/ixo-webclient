@@ -2,15 +2,15 @@ import React, { Dispatch } from 'react'
 import useForm from 'react-hook-form'
 import { withRouter, RouteComponentProps } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { RootState } from '../../../../common/redux/types'
+import { RootState } from 'common/redux/types'
 import * as bondBuySelectors from '../../BondBuy.selectors'
 import { confirmBuy, clear } from '../../BondBuy.actions'
 import {
   remainingBalance,
   newBalance,
   currencyStr,
-} from '../../../Account/Account.utils'
-import { Currency } from 'src/types/models'
+} from 'modules/Account/Account.utils'
+import { Currency } from 'types/models'
 
 interface Props extends RouteComponentProps {
   match: any

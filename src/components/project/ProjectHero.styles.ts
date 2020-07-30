@@ -2,11 +2,15 @@ import styled from 'styled-components'
 import { Link, NavLink } from 'react-router-dom'
 import { deviceWidth } from '../../lib/commonData'
 
-export const HeroContainer = styled.div`
+interface HeroContainerProps {
+  readonly onlyTitle: boolean
+}
+
+export const HeroContainer = styled.div<HeroContainerProps>`
   margin: 0;
   position: relative;
-  background: white;
-  color: black;
+  background: ${(props): string => (props.onlyTitle ? 'transparent' : 'white')};
+  color: ${(props): string => (props.onlyTitle ? 'white' : 'black')};
 `
 
 export const HeroInner = styled.div`
@@ -34,6 +38,15 @@ export const Title = styled.h1`
   @media (min-width: ${deviceWidth.tablet}px) {
     font-size: 2.8125rem;
   }
+`
+
+export const StyledFundingTitle = styled.h1`
+  font-family: ${(props): string => props.theme.fontRobotoCondensed};
+  font-weight: normal;
+  font-size: 2.25rem;
+  line-height: 1.25;
+  color: white;
+  margin: 2.5rem;
 `
 
 export const Description = styled.p`

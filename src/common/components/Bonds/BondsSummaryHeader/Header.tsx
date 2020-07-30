@@ -22,10 +22,16 @@ const StyledHeader = styled.header`
 
 const INTERVAL_LENGTH = 6000
 
-class Header extends Component<any> {
+interface HeaderState {
+  selected: number
+}
+
+class Header extends Component<any, HeaderState> {
   constructor(props: any) {
     super(props)
-
+    this.state = {
+      selected: null,
+    }
     setInterval(() => {
       this.refreshAccount()
     }, INTERVAL_LENGTH)
@@ -38,6 +44,11 @@ class Header extends Component<any> {
       this.props.dispatch(getAccount(this.props.account.address))
       this.props.dispatch(getBondBalances(this.props.bondDID))
     }
+  }
+
+  setActiveHeaderItem = (order: number): void => {
+    console.log('this.state.selected', this.state.selected)
+    this.setState({ selected: order })
   }
 
   render(): JSX.Element {
@@ -54,32 +65,46 @@ class Header extends Component<any> {
       <StyledHeader>
         <HeaderItem
           tokenType={activeBond.price.denom}
-          title="Token Price"
+          title="Price"
           value={activeBond.price.amount}
           additionalInfo="--"
+          priceColor="#39C3E6"
+          setActiveHeaderItem={(): void => this.setActiveHeaderItem(0)}
+          selected={this.state.selected === 0}
         ></HeaderItem>
         <HeaderItem
           tokenType={activeBond.symbol}
-          title="My Tokens"
+          title="My Stake"
           value={balance.amount}
           additionalInfo="--"
+          priceColor="#6FCF97"
+          setActiveHeaderItem={(): void => this.setActiveHeaderItem(1)}
+          selected={this.state.selected === 1}
         ></HeaderItem>
         <HeaderItem
           tokenType={activeBond.totalSupply.denom}
-          title="Bond Capital"
+          title="Capital Raised"
           value={activeBond.collateral.amount}
           additionalInfo={bondCapitalInfo}
+          priceColor="#39C3E6"
+          setActiveHeaderItem={(): void => this.setActiveHeaderItem(2)}
+          selected={this.state.selected === 2}
         ></HeaderItem>
         <HeaderItem
           tokenType={activeBond.reserve.denom}
-          title="Bond Reserve"
+          title="Reverse Funds"
           value={activeBond.reserve.amount}
           additionalInfo={reserveInfo}
+          priceColor="#39C3E6"
+          setActiveHeaderItem={(): void => this.setActiveHeaderItem(3)}
+          selected={this.state.selected === 3}
         ></HeaderItem>
         <HeaderItem
-          title="Bond Yield"
+          title="Alpha"
           value="--"
           additionalInfo="--"
+          setActiveHeaderItem={(): void => this.setActiveHeaderItem(4)}
+          selected={this.state.selected === 4}
         ></HeaderItem>
       </StyledHeader>
     )
