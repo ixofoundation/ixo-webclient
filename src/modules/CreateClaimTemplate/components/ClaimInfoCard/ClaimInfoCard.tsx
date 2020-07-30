@@ -62,7 +62,7 @@ const ClaimInfoCard: React.FunctionComponent<Props> = ({
           transformErrors={formUtils.transformErrors}
           ObjectFieldTemplate={ObjectFieldTemplate2Column}
         >
-          &nbsp;
+          <span className="hide">&nbsp;</span>
         </Form>
       </ClaimQuestionCardWrapper>
     </FormContainer>
