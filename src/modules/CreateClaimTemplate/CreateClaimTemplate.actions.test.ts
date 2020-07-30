@@ -6,6 +6,7 @@ let store
 let state = {
   createClaimTemplate: {
     activeStep: 1,
+    claimInfo: null,
     attestations: [],
   },
 }
@@ -63,6 +64,33 @@ describe('CreateClaimTemplate Actions', () => {
       const actions = store.getActions()
 
       expect(actions).toEqual([])
+    })
+  })
+
+  describe('updateClaimInfo', () => {
+    it('should dispatch an action to add a update the claim info', () => {
+      state = {
+        ...state,
+        createClaimTemplate: {
+          ...state.createClaimTemplate,
+          claimInfo: null,
+        },
+      }
+
+      // when ... we call goToQuestionNumber
+      store.dispatch(
+        SUT.updateClaimInfo({
+          claimName: 'string',
+          shortDescription: 'string',
+        }),
+      )
+      const action = store.getActions()[0]
+
+      expect(action.type).toEqual(CreateClaimTemplateActions.UpdateClaimInfo)
+      expect(action.payload).toEqual({
+        claimName: 'string',
+        shortDescription: 'string',
+      })
     })
   })
 
@@ -129,6 +157,52 @@ describe('CreateClaimTemplate Actions', () => {
 
       expect(action.type).toEqual(CreateClaimTemplateActions.RemoveAttestation)
       expect(action.payload).toEqual('string')
+    })
+  })
+
+  describe('updateAttestation', () => {
+    it('should dispatch an action to duplicate an attestation in the list', () => {
+      state = {
+        ...state,
+        createClaimTemplate: {
+          ...state.createClaimTemplate,
+          attestations: [
+            {
+              id: 'string',
+              title: 'string',
+              description: 'string',
+              label: 'string',
+              required: true,
+              type: 'string',
+              control: 'string',
+            },
+          ],
+        },
+      }
+
+      store.dispatch(
+        SUT.updateAttestation({
+          id: 'string',
+          title: 'newstring',
+          description: 'newstring',
+          label: 'newstring',
+          required: true,
+          type: 'newstring',
+          control: 'newstring',
+        }),
+      )
+      const action = store.getActions()[0]
+
+      expect(action.type).toEqual(CreateClaimTemplateActions.UpdateAttestation)
+      expect(action.payload).toEqual({
+        id: 'string',
+        title: 'newstring',
+        description: 'newstring',
+        label: 'newstring',
+        required: true,
+        type: 'newstring',
+        control: 'newstring',
+      })
     })
   })
 })
