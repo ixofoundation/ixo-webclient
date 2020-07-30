@@ -4,7 +4,13 @@ export const RemoveButton = styled.button`
   border: none;
   color: #39c3e6;
   background: transparent;
-  font-size: 1rem;
+  font-size: 0.75rem;
   font-weight: bold;
   line-height: 1.2;
+`
+
+export const AddButton = RemoveButton.extend`
+  &:focus {
+    outline: none;
+  }
 `

@@ -4,7 +4,7 @@ import IconInput, {
   Type,
 } from '../../../Controls/IconInput/SocialInput/SocialInput'
 import { isHttpsUrl } from 'src/common/utils/validationUtils'
-import { RemoveButton } from './EmbeddedUrlTextBox.styles'
+import { RemoveButton, AddButton } from './EmbeddedUrlTextBox.styles'
 
 interface Props {
   value: string
@@ -54,17 +54,20 @@ const EmbeddedUrlTextBox: React.FunctionComponent<Props> = ({
             )}
             {url && isHttpsUrl(url) && <Embedly url={url} />}
             {i > 0 && (
-              <button type="button" onClick={(): void => handleUrlOnRemove(i)}>
-                -
-              </button>
+              <RemoveButton
+                type="button"
+                onClick={(): void => handleUrlOnRemove(i)}
+              >
+                - Remove Link
+              </RemoveButton>
             )}
           </div>
         )
       })}
       <br />
-      <RemoveButton type="button" onClick={handleUrlOnAdd}>
+      <AddButton type="button" onClick={handleUrlOnAdd}>
         + Add Link
-      </RemoveButton>
+      </AddButton>
     </>
   )
 }
