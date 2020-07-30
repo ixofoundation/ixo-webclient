@@ -1,4 +1,11 @@
-import { EntityType, StrategyMap } from './types'
+import {
+  EntityType,
+  EntityTypeStrategyMap,
+  PaymentTypeStrategyMap,
+  PaymentType,
+  PaymentDenominationStrategyMap,
+  PaymentDenomination,
+} from './types'
 import ProjectFilterSchema from './components/EntitiesFilter/schema/ProjectFilter.schema.json'
 import CellFilterSchema from './components/EntitiesFilter/schema/CellFilter.schema.json'
 import DataFilterSchema from './components/EntitiesFilter/schema/DataFilter.schema.json'
@@ -18,7 +25,7 @@ import OracleControlPanelSchema from '../../common/components/ControlPanel/schem
 import TemplateControlPanelSchema from '../../common/components/ControlPanel/schema/Template.schema.json'
 import DataControlPanelSchema from '../../common/components/ControlPanel/schema/Data.schema.json'
 
-export const entityTypeMap: StrategyMap = {
+export const entityTypeMap: EntityTypeStrategyMap = {
   [EntityType.Project]: {
     title: 'Project',
     plural: 'Projects',
@@ -67,4 +74,22 @@ export const entityTypeMap: StrategyMap = {
     filterSchema: DataFilterSchema,
     controlPanelSchema: DataControlPanelSchema,
   },
+}
+
+export const paymentTypeMap: PaymentTypeStrategyMap = {
+  [PaymentType.FeeforService]: { title: 'Fee for Service' },
+  [PaymentType.Subscription]: { title: 'Subscription' },
+  [PaymentType.RentalFee]: { title: 'Rental Fee' },
+  [PaymentType.OutcomePayment]: { title: 'Outcome Payment' },
+  [PaymentType.InterestRepayment]: { title: 'Interest Repayment' },
+  [PaymentType.LoanRepayment]: { title: 'Loan Repayment' },
+  [PaymentType.IncomeDistribution]: { title: 'Income Distribution' },
+  [PaymentType.DisputeSettlement]: { title: 'Dispute Settlement' },
+}
+
+export const paymentDenominationMap: PaymentDenominationStrategyMap = {
+  [PaymentDenomination.IXO]: { title: 'IXO' },
+  [PaymentDenomination.eEUR]: { title: 'eEUR' },
+  [PaymentDenomination.eCHF]: { title: 'eCHF' },
+  [PaymentDenomination.eUSD]: { title: 'eUSD' },
 }

@@ -175,7 +175,7 @@ export interface EntitiesState {
   filter: Filter
 }
 
-export type StrategyMap = {
+export type EntityTypeStrategyMap = {
   [TKey in EntityType]: {
     title: string
     plural: string
@@ -183,6 +183,19 @@ export type StrategyMap = {
     headerSchema: HeaderSchema
     filterSchema: FilterSchema
     controlPanelSchema: ControlPanelSchema
+  }
+}
+
+// these types an potentially go in a different module
+export type PaymentTypeStrategyMap = {
+  [TKey in PaymentType]: {
+    title: string
+  }
+}
+
+export type PaymentDenominationStrategyMap = {
+  [TKey in PaymentDenomination]: {
+    title: string
   }
 }
 
