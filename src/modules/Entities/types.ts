@@ -41,6 +41,91 @@ export enum PageView {
   Secret = 'Secret',
 }
 
+// some of these enums not not be best suited to be in this file
+
+export enum PaymentDenomination {
+  IXO = 'IXO',
+  eEUR = 'eEUR',
+  eCHF = 'eCHF',
+  eUSD = 'eUSD',
+}
+
+export enum PaymentType {
+  FeeforService = 'FeeforService',
+  Subscription = 'Subscription',
+  RentalFee = 'RentalFee',
+  OutcomePayment = 'OutcomePayment',
+  InterestRepayment = 'InterestRepayment',
+  LoanRepayment = 'LoanRepayment',
+  IncomeDistribution = 'IncomeDistribution',
+  DisputeSettlement = 'DisputeSettlement',
+}
+
+export enum StakeType {
+  SecurityGuarantee = 'SecurityGuarantee',
+  PerformanceGuarantee = 'PerformanceGuarantee',
+  LoanGuarantee = 'LoanGuarantee',
+  ClaimGuarantee = 'ClaimGuarantee',
+  DisputeGuarantee = 'DisputeGuarantee',
+  VotingProposalDeposit = 'VotingProposalDeposit',
+  MembershipDeposit = 'MembershipDeposit',
+  ServicesDeposit = 'ServicesDeposit',
+  InsuranceGuarantee = 'InsuranceGuarantee',
+}
+
+export enum SlashingCondition {
+  FailedService = 'FailedService',
+  FailedSecurity = 'FailedSecurity',
+  LoanDefault = 'LoanDefault',
+  FailedProposal = 'FailedProposal',
+  FailedDispute = 'FailedDispute',
+  InsuredEvent = 'InsuredEvent',
+  FailedMembership = 'FailedMembership',
+}
+
+export enum KeyType {
+  Ed25519VerificationKey2018 = 'Ed25519VerificationKey2018',
+  JwsVerificationKey2020 = 'JwsVerificationKey2020',
+  Secp256k1VerificationKey2018 = 'Secp256k1VerificationKey2018',
+}
+
+export enum KeyPurpose {
+  Authentication = 'Authentication',
+  Encryption = 'Encryption',
+  Verification = 'Verification',
+  Identification = 'Identification',
+}
+
+export enum ServiceType {
+  DIDAgent = 'DIDAgent',
+  CosmosWeb3 = 'CosmosWeb3',
+  EthereumWeb3 = 'EthereumWeb3',
+  Web2 = 'Web2',
+}
+
+export enum DataResourceType {
+  SchemaOverlay = 'SchemaOverlay',
+  MobileIdentityWallet = 'MobileIdentityWallet',
+  PersonalDataPod = 'PersonalDataPod',
+  CellNodeDB = 'CellNodeDB',
+  EnterpriseDB = 'EnterpriseDB',
+  InterplanetaryFileStore = 'InterplanetaryFileStore',
+}
+
+export enum NodeType {
+  RelayerNode = 'RelayerNode',
+  CellNode = 'CellNode',
+  IBCNode = 'IBCNode',
+}
+
+export enum FundSource {
+  AlphaBond = 'AlphaBond',
+  WalletAddress = 'WalletAddress',
+  BankAccount = 'BankAccount',
+  PaymentContract = 'PaymentContract',
+  NFTAsset = 'NFTAsset',
+}
+
 export interface Entity {
   entityType: EntityType
   did: string

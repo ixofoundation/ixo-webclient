@@ -7,7 +7,7 @@ import { CreateEntityWrapper } from './CreateEntity.container.styles'
 import { Steps } from '../../common/components/Steps/Steps'
 import { CreateEntityPageContentConnected } from '../CreateEntityPageContent/CreateEntityPageContent.container'
 import { CreateEntitySettingsConnected } from '../CreateEntitySettings/CreateEntitySettings.container'
-import { strategyMap } from '../Entities/strategy-map'
+import { entityTypeMap } from '../Entities/strategy-map'
 import { toTitleCase } from 'src/common/utils/formatters'
 import { EntityType } from '../Entities/types'
 
@@ -24,7 +24,7 @@ class CreateEntity extends React.Component<Props> {
     } = this.props
 
     const entityType = toTitleCase(entityTypeAsString) as EntityType
-    const { title } = strategyMap[toTitleCase(entityType)]
+    const { title } = entityTypeMap[toTitleCase(entityType)]
 
     return (
       <>

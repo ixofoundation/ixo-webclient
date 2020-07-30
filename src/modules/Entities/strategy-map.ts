@@ -18,7 +18,7 @@ import OracleControlPanelSchema from '../../common/components/ControlPanel/schem
 import TemplateControlPanelSchema from '../../common/components/ControlPanel/schema/Template.schema.json'
 import DataControlPanelSchema from '../../common/components/ControlPanel/schema/Data.schema.json'
 
-export const strategyMap: StrategyMap = {
+export const entityTypeMap: StrategyMap = {
   [EntityType.Project]: {
     title: 'Project',
     plural: 'Projects',
