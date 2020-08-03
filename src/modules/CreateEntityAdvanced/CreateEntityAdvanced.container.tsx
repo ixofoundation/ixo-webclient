@@ -38,6 +38,7 @@ import StakeCard from './components/StakeCard/StakeCard'
 import NodeCard from './components/NodeCard/NodeCard'
 import FundCard from './components/FundCard/FundCard'
 import KeyCard from './components/KeyCard/KeyCard'
+import ServiceCard from './components/ServiceCard/ServiceCard'
 
 interface Props {
   linkedEntity: LinkedEntity
@@ -246,6 +247,25 @@ class CreateEntityAdvanced extends React.Component<Props> {
     )
   }
 
+  renderService = (): JSX.Element => {
+    const { service, handleUpdateService } = this.props
+
+    const { type, shortDescription, endpoint, publicKey, otherParams } = service
+
+    return (
+      <FormCardWrapper showAddSection={false} title="Services">
+        <ServiceCard
+          type={type}
+          shortDescription={shortDescription}
+          endpoint={endpoint}
+          publicKey={publicKey}
+          otherParams={otherParams}
+          handleUpdate={handleUpdateService}
+        />
+      </FormCardWrapper>
+    )
+  }
+
   render(): JSX.Element {
     return (
       <>
@@ -255,6 +275,7 @@ class CreateEntityAdvanced extends React.Component<Props> {
         {this.renderNodes()}
         {this.renderFunding()}
         {this.renderKey()}
+        {this.renderService()}
       </>
     )
   }

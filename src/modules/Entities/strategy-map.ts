@@ -25,6 +25,8 @@ import {
   KeyPurpose,
   KeyType,
   KeyPurposeStrategyMap,
+  ServiceTypeStrategyMap,
+  ServiceType,
 } from './types'
 import ProjectFilterSchema from './components/EntitiesFilter/schema/ProjectFilter.schema.json'
 import CellFilterSchema from './components/EntitiesFilter/schema/CellFilter.schema.json'
@@ -192,4 +194,11 @@ export const keyPurposeMap: KeyPurposeStrategyMap = {
   [KeyPurpose.Encryption]: { title: 'Encryption' },
   [KeyPurpose.Verification]: { title: 'Verification' },
   [KeyPurpose.Identification]: { title: 'Identification' },
+}
+
+export const serviceTypeMap: ServiceTypeStrategyMap = {
+  [ServiceType.DIDAgent]: { title: 'DIDAgent' },
+  [ServiceType.CosmosWeb3]: { title: 'CosmosWeb3' },
+  [ServiceType.EthereumWeb3]: { title: 'EthereumWeb3' },
+  [ServiceType.Web2]: { title: 'Web2' },
 }
