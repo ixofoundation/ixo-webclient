@@ -223,6 +223,18 @@ export type PaymentDenominationStrategyMap = {
   }
 }
 
+export type StakeTypeStrategyMap = {
+  [TKey in StakeType]: {
+    title: string
+  }
+}
+
+export type SlashingConditionStrategyMap = {
+  [TKey in SlashingCondition]: {
+    title: string
+  }
+}
+
 export enum EntitiesActions {
   GetEntities = 'ixo/Entities/GET_ENTITIES',
   GetEntitiesSuccess = 'ixo/Entities/GET_ENTITIES_FULFILLED',

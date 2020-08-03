@@ -34,6 +34,7 @@ import { FormData } from 'src/common/components/JsonForm/types'
 import FormCardWrapper from 'src/common/components/Wrappers/FormCardWrapper/FormCardWrapper'
 import LinkedEntityCard from './components/LinkedEntityCard/LinkedEntityCard'
 import PaymentCard from './components/PaymentCard/PaymentCard'
+import StakeCard from './components/StakeCard/StakeCard'
 
 interface Props {
   linkedEntity: LinkedEntity
@@ -98,11 +99,63 @@ class CreateEntityAdvanced extends React.Component<Props> {
     )
   }
 
+  renderStaking = (): JSX.Element => {
+    const {
+      staking,
+      handleUpdateStake,
+      handleAddStake,
+      handleRemoveStake,
+    } = this.props
+
+    return (
+      <FormCardWrapper
+        showAddSection={true}
+        title="Staking"
+        addSectionText="Add Stake"
+        onAddSection={handleAddStake}
+      >
+        {staking.map(stake => {
+          const {
+            id,
+            type,
+            stakeId,
+            denomination,
+            depositAddress,
+            minStake,
+            slashingCondition,
+            slashFactor,
+            maxSlashAmount,
+            unbondingPeriod,
+          } = stake
+
+          return (
+            <StakeCard
+              key={id}
+              id={id}
+              type={type}
+              stakeId={stakeId}
+              denomination={denomination}
+              depositAddress={depositAddress}
+              minStake={minStake}
+              slashingCondition={slashingCondition}
+              slashFactor={slashFactor}
+              maxSlashAmount={maxSlashAmount}
+              unbondingPeriod={unbondingPeriod}
+              handleUpdate={handleUpdateStake}
+              handleRemoveSection={handleRemoveStake}
+            />
+          )
+        })}
+      </FormCardWrapper>
+    )
+  }
+
   render(): JSX.Element {
     return (
       <>
         {this.renderLinkedEntity()}
         {this.renderPayment()}
+        {this.renderStaking()}
       </>
     )
   }

@@ -13,6 +13,10 @@ import {
   EntityView,
   PageViewStrategyMap,
   PageView,
+  SlashingConditionStrategyMap,
+  StakeTypeStrategyMap,
+  StakeType,
+  SlashingCondition,
 } from './types'
 import ProjectFilterSchema from './components/EntitiesFilter/schema/ProjectFilter.schema.json'
 import CellFilterSchema from './components/EntitiesFilter/schema/CellFilter.schema.json'
@@ -129,4 +133,26 @@ export const paymentDenominationMap: PaymentDenominationStrategyMap = {
   [PaymentDenomination.eEUR]: { title: 'eEUR' },
   [PaymentDenomination.eCHF]: { title: 'eCHF' },
   [PaymentDenomination.eUSD]: { title: 'eUSD' },
+}
+
+export const stakeTypeMap: StakeTypeStrategyMap = {
+  [StakeType.SecurityGuarantee]: { title: 'Security Guarantee' },
+  [StakeType.PerformanceGuarantee]: { title: 'Performanc eGuarantee' },
+  [StakeType.LoanGuarantee]: { title: 'Loan Guarantee' },
+  [StakeType.ClaimGuarantee]: { title: 'Claim Guarantee' },
+  [StakeType.DisputeGuarantee]: { title: 'Dispute Guarantee' },
+  [StakeType.VotingProposalDeposit]: { title: 'Voting Proposal Deposit' },
+  [StakeType.MembershipDeposit]: { title: 'Membership Deposit' },
+  [StakeType.ServicesDeposit]: { title: 'Services Deposit' },
+  [StakeType.InsuranceGuarantee]: { title: 'Insurance Guarantee' },
+}
+
+export const slashingConditionMap: SlashingConditionStrategyMap = {
+  [SlashingCondition.FailedService]: { title: 'Failed Service' },
+  [SlashingCondition.FailedSecurity]: { title: 'Failed Security' },
+  [SlashingCondition.LoanDefault]: { title: 'Loan Default' },
+  [SlashingCondition.FailedProposal]: { title: 'Failed Proposal' },
+  [SlashingCondition.FailedDispute]: { title: 'Failed Dispute' },
+  [SlashingCondition.InsuredEvent]: { title: 'Insured Event' },
+  [SlashingCondition.FailedMembership]: { title: 'Failed Membership' },
 }
