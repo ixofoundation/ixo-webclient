@@ -5,50 +5,50 @@ import { FormContainer } from '../../../../common/components/JsonForm/JsonForm.s
 import * as formUtils from '../../../../common/components/JsonForm/JsonForm.utils'
 import { FormData } from '../../../../common/components/JsonForm/types'
 import { ObjectFieldTemplate2Column } from '../../../../common/components/JsonForm/CustomTemplates/ObjectFieldTemplate'
-import { NodeType } from '../../../Entities/types'
-import { nodeTypeMap } from '../../../Entities/strategy-map'
+import { FundSource } from '../../../Entities/types'
+import { fundSourceMap } from '../../../Entities/strategy-map'
 
 interface Props {
   id: string
-  type: NodeType
-  nodeId: string
+  source: FundSource
+  fundId: string
   handleUpdate: (id: string, formData: FormData) => void
   handleRemoveSection: (id: string) => void
 }
 
-const NodeCard: React.FunctionComponent<Props> = ({
+const FundCard: React.FunctionComponent<Props> = ({
   id,
-  type,
-  nodeId,
+  source,
+  fundId,
   handleUpdate,
   handleRemoveSection,
 }) => {
   const formData = {
-    type,
-    nodeId,
+    source,
+    fundId,
   }
 
   const schema = {
     type: 'object',
-    required: ['type', 'nodeId'],
+    required: ['source', 'fundId'],
     properties: {
-      type: {
+      source: {
         type: 'string',
-        title: 'Node Type',
-        enum: Object.keys(NodeType).map(key => NodeType[key]),
-        enumNames: Object.keys(NodeType).map(
-          key => nodeTypeMap[NodeType[key]].title,
+        title: 'Source of Funding',
+        enum: Object.keys(FundSource).map(key => FundSource[key]),
+        enumNames: Object.keys(FundSource).map(
+          key => fundSourceMap[FundSource[key]].title,
         ),
       },
-      nodeId: { type: 'string', title: 'Node ID' },
+      fundId: { type: 'string', title: 'Identity of Funding Source' },
     },
   } as any
 
   const uiSchema = {
-    type: {
-      ['ui:placeholder']: 'Select Node Type',
+    source: {
+      ['ui:placeholder']: 'Select a Funding Source',
     },
-    nodeId: { ['ui:placeholder']: 'Enter Node ID' },
+    fundId: { ['ui:placeholder']: 'Enter DID or !name' },
   }
 
   const handleUpdateDebounce = debounce(handleUpdate, 500)
@@ -81,4 +81,4 @@ const NodeCard: React.FunctionComponent<Props> = ({
   )
 }
 
-export default NodeCard
+export default FundCard

@@ -19,6 +19,8 @@ import {
   SlashingCondition,
   NodeTypeStrategyMap,
   NodeType,
+  FundSourceStrategyMap,
+  FundSource,
 } from './types'
 import ProjectFilterSchema from './components/EntitiesFilter/schema/ProjectFilter.schema.json'
 import CellFilterSchema from './components/EntitiesFilter/schema/CellFilter.schema.json'
@@ -163,4 +165,12 @@ export const nodeTypeMap: NodeTypeStrategyMap = {
   [NodeType.RelayerNode]: { title: 'Relayer Node' },
   [NodeType.CellNode]: { title: 'Cell Node' },
   [NodeType.IBCNode]: { title: 'IBC Node' },
+}
+
+export const fundSourceMap: FundSourceStrategyMap = {
+  [FundSource.AlphaBond]: { title: 'Alpha Bond' },
+  [FundSource.WalletAddress]: { title: 'Wallet Address' },
+  [FundSource.BankAccount]: { title: 'Bank Account' },
+  [FundSource.PaymentContract]: { title: 'Payment Contract' },
+  [FundSource.NFTAsset]: { title: 'NFT Asset' },
 }

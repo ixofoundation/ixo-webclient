@@ -241,6 +241,12 @@ export type NodeTypeStrategyMap = {
   }
 }
 
+export type FundSourceStrategyMap = {
+  [TKey in FundSource]: {
+    title: string
+  }
+}
+
 export enum EntitiesActions {
   GetEntities = 'ixo/Entities/GET_ENTITIES',
   GetEntitiesSuccess = 'ixo/Entities/GET_ENTITIES_FULFILLED',

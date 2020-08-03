@@ -36,6 +36,7 @@ import LinkedEntityCard from './components/LinkedEntityCard/LinkedEntityCard'
 import PaymentCard from './components/PaymentCard/PaymentCard'
 import StakeCard from './components/StakeCard/StakeCard'
 import NodeCard from './components/NodeCard/NodeCard'
+import FundCard from './components/FundCard/FundCard'
 
 interface Props {
   linkedEntity: LinkedEntity
@@ -184,6 +185,39 @@ class CreateEntityAdvanced extends React.Component<Props> {
     )
   }
 
+  renderFunding = (): JSX.Element => {
+    const {
+      funding,
+      handleUpdateFund,
+      handleAddFund,
+      handleRemoveFund,
+    } = this.props
+
+    return (
+      <FormCardWrapper
+        showAddSection={true}
+        title="Funding"
+        addSectionText="Add a funding source"
+        onAddSection={handleAddFund}
+      >
+        {funding.map(fund => {
+          const { id, source, fundId } = fund
+
+          return (
+            <FundCard
+              key={id}
+              id={id}
+              source={source}
+              fundId={fundId}
+              handleUpdate={handleUpdateFund}
+              handleRemoveSection={handleRemoveFund}
+            />
+          )
+        })}
+      </FormCardWrapper>
+    )
+  }
+
   render(): JSX.Element {
     return (
       <>
@@ -191,6 +225,7 @@ class CreateEntityAdvanced extends React.Component<Props> {
         {this.renderPayment()}
         {this.renderStaking()}
         {this.renderNodes()}
+        {this.renderFunding()}
       </>
     )
   }
