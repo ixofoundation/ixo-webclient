@@ -5,6 +5,7 @@ import { FormContainer } from '../../../../common/components/JsonForm/JsonForm.s
 import * as formUtils from '../../../../common/components/JsonForm/JsonForm.utils'
 import { FormData } from '../../../../common/components/JsonForm/types'
 import { ObjectFieldTemplate2Column } from '../../../../common/components/JsonForm/CustomTemplates/ObjectFieldTemplate'
+import { RemoveButton } from '../DisplayCredentialCard/DisplayCredentialCard.styles'
 
 interface Props {
   id: string
@@ -72,9 +73,12 @@ const RequiredCredential: React.FunctionComponent<Props> = ({
         </Form>
       </div>
       <div className="col-lg-12 text-right">
-        <button type="button" onClick={(): void => handleRemoveSection(id)}>
-          Remove
-        </button>
+        <RemoveButton
+          type="button"
+          onClick={(): void => handleRemoveSection(id)}
+        >
+          - Remove
+        </RemoveButton>
       </div>
     </FormContainer>
   )

@@ -7,6 +7,7 @@ import { FormData } from '../../../../common/components/JsonForm/types'
 import { ObjectFieldTemplate2Column } from '../../../../common/components/JsonForm/CustomTemplates/ObjectFieldTemplate'
 import { EntityType } from 'src/modules/Entities/types'
 import { strategyMap } from 'src/modules/Entities/strategy-map'
+import { FormWrapper } from './FilterCard.styles'
 
 interface Props {
   filters: { [name: string]: string[] }
@@ -52,18 +53,20 @@ const DisplayCredential: React.FunctionComponent<Props> = ({
   return (
     <FormContainer className="row">
       <div className="col-lg-12">
-        <Form
-          formData={filters}
-          onChange={(control): void => handleUpdateDebounce(control.formData)}
-          noHtml5Validate
-          liveValidate
-          showErrorList={false}
-          schema={schema}
-          transformErrors={formUtils.transformErrors}
-          ObjectFieldTemplate={ObjectFieldTemplate2Column}
-        >
-          &nbsp;
-        </Form>
+        <FormWrapper>
+          <Form
+            formData={filters}
+            onChange={(control): void => handleUpdateDebounce(control.formData)}
+            noHtml5Validate
+            liveValidate
+            showErrorList={false}
+            schema={schema}
+            transformErrors={formUtils.transformErrors}
+            ObjectFieldTemplate={ObjectFieldTemplate2Column}
+          >
+            &nbsp;
+          </Form>
+        </FormWrapper>
       </div>
     </FormContainer>
   )
