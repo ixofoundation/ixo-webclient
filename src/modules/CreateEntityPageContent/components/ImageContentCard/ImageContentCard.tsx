@@ -5,7 +5,7 @@ import { FormContainer } from '../../../../common/components/JsonForm/JsonForm.s
 import * as formUtils from '../../../../common/components/JsonForm/JsonForm.utils'
 import { FormData } from '../../../../common/components/JsonForm/types'
 import ImageLoader from '../../../../common/components/DropZone/ImageLoader/ImageLoader'
-import { RemoveButton } from './ImageContentCard.styles'
+import { RemoveButton } from '../PageContent.styles'
 
 interface Props {
   id: string

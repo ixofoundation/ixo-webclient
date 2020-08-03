@@ -8,7 +8,7 @@ import {
   FormData,
   customControls,
 } from '../../../../common/components/JsonForm/types'
-import { FormWrapper, RemoveButton } from './EmbeddedContentCard.styles'
+import { FormWrapper, RemoveButton } from '../PageContent.styles'
 
 interface Props {
   id: string

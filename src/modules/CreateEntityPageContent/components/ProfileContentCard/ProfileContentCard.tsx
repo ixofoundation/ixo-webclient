@@ -8,7 +8,7 @@ import {
   customControls,
 } from '../../../../common/components/JsonForm/types'
 import ImageLoader from '../../../../common/components/DropZone/ImageLoader/ImageLoader'
-import { FormWrapper, RemoveButton } from './ProfileContentCard.styles'
+import { FormWrapper, RemoveButton } from '../PageContent.styles'
 
 interface Props {
   id: string
