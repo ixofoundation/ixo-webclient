@@ -48,7 +48,7 @@ const NodeCard: React.FunctionComponent<Props> = ({
     type: {
       ['ui:placeholder']: 'Select Node Type',
     },
-    nodeId: { ['ui:placeholder']: 'Enter Node ID' },
+    nodeId: { ['ui:placeholder']: 'Enter !Name or DID' },
   }
 
   const handleUpdateDebounce = debounce(handleUpdate, 500)

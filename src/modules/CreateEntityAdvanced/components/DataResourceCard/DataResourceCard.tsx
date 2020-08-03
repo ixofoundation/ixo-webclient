@@ -47,7 +47,7 @@ const FundCard: React.FunctionComponent<Props> = ({
         ),
       },
       dataId: { type: 'string', title: 'Data Identifier' },
-      resourceLocator: { type: 'string', title: 'Enter URL' },
+      resourceLocator: { type: 'string', title: 'Resouce Locator' },
       otherParams: { type: 'string', title: 'Other Parameters' },
     },
   } as any
@@ -55,8 +55,8 @@ const FundCard: React.FunctionComponent<Props> = ({
   const uiSchema = {
     type: { ['ui:placeholder']: 'Select Resource' },
     dataId: { ['ui:placeholder']: 'Enter DID or !name' },
-    resourceLocator: { ['ui:placeholder']: 'Enter DID or !name' },
-    otherParams: { ['ui:placeholder']: 'Paste a valid parameter string' },
+    resourceLocator: { ['ui:placeholder']: 'Enter URL' },
+    otherParams: { ['ui:placeholder']: 'Paste a Valid Parameter String' },
   }
 
   const handleUpdateDebounce = debounce(handleUpdate, 500)

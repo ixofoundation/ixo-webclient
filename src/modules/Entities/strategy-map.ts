@@ -206,12 +206,12 @@ export const serviceTypeMap: ServiceTypeStrategyMap = {
 }
 
 export const dataResourceTypeMap: DataResourceTypeStrategyMap = {
-  [DataResourceType.SchemaOverlay]: { title: 'SchemaOverlay' },
-  [DataResourceType.MobileIdentityWallet]: { title: 'MobileIdentityWallet' },
-  [DataResourceType.PersonalDataPod]: { title: 'PersonalDataPod' },
-  [DataResourceType.CellNodeDB]: { title: 'CellNodeDB' },
-  [DataResourceType.EnterpriseDB]: { title: 'EnterpriseDB' },
+  [DataResourceType.SchemaOverlay]: { title: 'Schema Overlay' },
+  [DataResourceType.MobileIdentityWallet]: { title: 'Mobile Identity Wallet' },
+  [DataResourceType.PersonalDataPod]: { title: 'Personal DataPod' },
+  [DataResourceType.CellNodeDB]: { title: 'Cell NodeDB' },
+  [DataResourceType.EnterpriseDB]: { title: 'Enterprise DB' },
   [DataResourceType.InterplanetaryFileStore]: {
-    title: 'InterplanetaryFileStore',
+    title: 'Interplanetary File Store',
   },
 }

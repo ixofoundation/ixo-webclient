@@ -82,7 +82,7 @@ const StakeCard: React.FunctionComponent<Props> = ({
       stakeId: { type: 'string', title: 'Stake ID' },
       denomination: {
         type: 'string',
-        title: 'Payment Denomination',
+        title: 'Deposit Denomination',
         enum: Object.keys(PaymentDenomination).map(
           key => PaymentDenomination[key],
         ),
@@ -111,7 +111,7 @@ const StakeCard: React.FunctionComponent<Props> = ({
       ['ui:placeholder']: 'Select Stake Type',
     },
     stakeId: { ['ui:placeholder']: 'Enter Stake ID' },
-    denomination: { ['ui:placeholder']: 'Enter Denomination' },
+    denomination: { ['ui:placeholder']: 'Select Denomination' },
     depositAddress: { ['ui:placeholder']: 'Enter Address' },
     minStake: { ['ui:placeholder']: 'Enter Value' },
     slashingCondition: { ['ui:placeholder']: 'Select Condition' },
