@@ -8,6 +8,7 @@ import {
   FormData,
   customControls,
 } from '../../../../common/components/JsonForm/types'
+import { FormWrapper, RemoveButton } from '../PageContent.styles'
 
 interface Props {
   id: string
@@ -55,26 +56,31 @@ const EmbeddedContentCard: React.FunctionComponent<Props> = ({
   return (
     <FormContainer className="row">
       <div className="col-lg-12">
-        <Form
-          formData={formData}
-          onChange={(control): void =>
-            handleUpdateContentDebounce(id, control.formData)
-          }
-          noHtml5Validate
-          liveValidate
-          showErrorList={false}
-          schema={schema}
-          uiSchema={uiSchema}
-          transformErrors={formUtils.transformErrors}
-          ObjectFieldTemplate={ObjectFieldTemplate2Column}
-        >
-          &nbsp;
-        </Form>
+        <FormWrapper>
+          <Form
+            formData={formData}
+            onChange={(control): void =>
+              handleUpdateContentDebounce(id, control.formData)
+            }
+            noHtml5Validate
+            liveValidate
+            showErrorList={false}
+            schema={schema}
+            uiSchema={uiSchema}
+            transformErrors={formUtils.transformErrors}
+            ObjectFieldTemplate={ObjectFieldTemplate2Column}
+          >
+            &nbsp;
+          </Form>
+        </FormWrapper>
       </div>
       <div className="col-lg-12 text-right">
-        <button type="button" onClick={(): void => handleRemoveSection(id)}>
-          Remove
-        </button>
+        <RemoveButton
+          type="button"
+          onClick={(): void => handleRemoveSection(id)}
+        >
+          - Remove
+        </RemoveButton>
       </div>
     </FormContainer>
   )
