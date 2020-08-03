@@ -21,4 +21,18 @@ export const Container = styled.div`
       font-size: 2.25rem;
     }
   }
+  div hr {
+    border-top: 0.0625rem solid #e8edee;
+  }
+`
+export const AddSectionButton = styled.button`
+  &:focus {
+    outline: none;
+  }
+  border: none;
+  color: #39c3e6;
+  background: transparent;
+  font-size: 1rem;
+  font-weight: bold;
+  line-height: 1.2;
 `
