@@ -3,58 +3,49 @@
     {
       "title": "Upload Avatar/Profile pic",
       "control": "avatarupload",
-      "label": "Select an avatar to upload",
       "type": "string"
     },
     {
       "title": "Picture selection",
       "control": "imageupload",
-      "label": "Select an image to upload",
       "type": "string"
     },
     {
       "title": "Upload/Take an Image",
       "control": "videoupload",
-      "label": "Select a video to upload",
       "type": "string"
     },
     {
       "title": "Upload a document",
       "control": "documentupload",
-      "label": "Select a document to upload",
       "type": "string"
     },
     {
       "title": "Select a location",
       "control": "locationselector",
-      "label": "Location",
       "type": "string"
     },
     {
       "title": "Qr Code",
       "control": "qrcode",
-      "label": "QR Code",
       "type": "string",
       "initialValue": ""
     },
     {
       "title": "Short text",
       "control": "text",
-      "label": "Short Answer",
       "type": "string",
       "placeholder": "Start Typing here"
     },
     {
       "title": "Long text",
       "control": "textarea",
-      "label": "Long Answer",
       "type": "string",
       "placeholder": "Start Typing here"
     },
     {
       "title": "Multiple select",
       "control": "checkboxes",
-      "label": "Select 1 to 2 options",
       "type": "array",
       "minItems": null,
       "maxItems": null,
@@ -64,7 +55,6 @@
     {
       "title": "Image Checkboxes",
       "control": "imagecheckboxes",
-      "label": "Select 3 options",
       "type": "array",
       "minItems": null,
       "maxItems": null,
@@ -75,21 +65,18 @@
     {
       "title": "Single Select",
       "control": "radio",
-      "label": "'Rate' the below from 1 to 10 with 1 bring terrible and 10 being excellent",
       "type": "number",
       "values": []
     },
     {
       "title": "Date range selector",
       "control": "daterangeselector",
-      "label": "Dates",
       "type": "string",
       "placeholder": "Select Date"
     },
     {
       "title": "Single date selector",
       "control": "singledateselector",
-      "label": "Date of pickup",
       "type": "string",
       "placeholder": "Select Date"
     }

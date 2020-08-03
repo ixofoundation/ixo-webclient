@@ -11,6 +11,8 @@ export const createAttestation = (type: string): Attestation => {
     id: uuidv4(),
     required: false,
     description: '',
+    label: '',
+    type: type,
     ...questionDetails,
   }
 }
