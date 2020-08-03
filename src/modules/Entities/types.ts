@@ -35,13 +35,13 @@ export enum EntityView {
   Encrypted = 'Encrypted',
 }
 
+// some of these enums not not be best suited to be in this file
+
 export enum PageView {
   Public = 'Public',
   Private = 'Private',
   Secret = 'Secret',
 }
-
-// some of these enums not not be best suited to be in this file
 
 export enum PaymentDenomination {
   IXO = 'IXO',
@@ -186,7 +186,31 @@ export type EntityTypeStrategyMap = {
   }
 }
 
+export type EntityStatusStrategyMap = {
+  [TKey in EntityStatus]: {
+    title: string
+  }
+}
+
+export type EntityStageStrategyMap = {
+  [TKey in EntityStage]: {
+    title: string
+  }
+}
+
+export type EntityViewStrategyMap = {
+  [TKey in EntityView]: {
+    title: string
+  }
+}
+
 // these types an potentially go in a different module
+export type PageViewStrategyMap = {
+  [TKey in PageView]: {
+    title: string
+  }
+}
+
 export type PaymentTypeStrategyMap = {
   [TKey in PaymentType]: {
     title: string

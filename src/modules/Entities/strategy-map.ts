@@ -5,6 +5,14 @@ import {
   PaymentType,
   PaymentDenominationStrategyMap,
   PaymentDenomination,
+  EntityStatus,
+  EntityStatusStrategyMap,
+  EntityStageStrategyMap,
+  EntityStage,
+  EntityViewStrategyMap,
+  EntityView,
+  PageViewStrategyMap,
+  PageView,
 } from './types'
 import ProjectFilterSchema from './components/EntitiesFilter/schema/ProjectFilter.schema.json'
 import CellFilterSchema from './components/EntitiesFilter/schema/CellFilter.schema.json'
@@ -74,6 +82,35 @@ export const entityTypeMap: EntityTypeStrategyMap = {
     filterSchema: DataFilterSchema,
     controlPanelSchema: DataControlPanelSchema,
   },
+}
+
+export const entityStatusMap: EntityStatusStrategyMap = {
+  [EntityStatus.Pending]: { title: 'Pending' },
+  [EntityStatus.Live]: { title: 'Live' },
+  [EntityStatus.Stopped]: { title: 'Stopped' },
+  [EntityStatus.Sealed]: { title: 'Sealed' },
+  [EntityStatus.Deleted]: { title: 'Deleted' },
+}
+
+export const entityStageMap: EntityStageStrategyMap = {
+  [EntityStage.Proposal]: { title: 'Proposal' },
+  [EntityStage.Planning]: { title: 'Planning' },
+  [EntityStage.Delivery]: { title: 'Delivery' },
+  [EntityStage.Paused]: { title: 'Paused' },
+  [EntityStage.Closing]: { title: 'Closing' },
+  [EntityStage.Ended]: { title: 'Ended' },
+  [EntityStage.Archived]: { title: 'Archived' },
+}
+
+export const entityViewMap: EntityViewStrategyMap = {
+  [EntityView.Visible]: { title: 'Visible' },
+  [EntityView.Encrypted]: { title: 'Encrypted' },
+}
+
+export const pageViewMap: PageViewStrategyMap = {
+  [PageView.Public]: { title: 'Public' },
+  [PageView.Private]: { title: 'Private' },
+  [PageView.Secret]: { title: 'Secret' },
 }
 
 export const paymentTypeMap: PaymentTypeStrategyMap = {
