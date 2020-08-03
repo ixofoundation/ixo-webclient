@@ -265,6 +265,12 @@ export type ServiceTypeStrategyMap = {
   }
 }
 
+export type DataResourceTypeStrategyMap = {
+  [TKey in DataResourceType]: {
+    title: string
+  }
+}
+
 export enum EntitiesActions {
   GetEntities = 'ixo/Entities/GET_ENTITIES',
   GetEntitiesSuccess = 'ixo/Entities/GET_ENTITIES_FULFILLED',

@@ -39,6 +39,7 @@ import NodeCard from './components/NodeCard/NodeCard'
 import FundCard from './components/FundCard/FundCard'
 import KeyCard from './components/KeyCard/KeyCard'
 import ServiceCard from './components/ServiceCard/ServiceCard'
+import DataResourceCard from './components/DataResourceCard/DataResourceCard'
 
 interface Props {
   linkedEntity: LinkedEntity
@@ -266,6 +267,47 @@ class CreateEntityAdvanced extends React.Component<Props> {
     )
   }
 
+  renderDataResources = (): JSX.Element => {
+    const {
+      dataResources,
+      handleUpdateDataResource,
+      handleAddDataResource,
+      handleRemoveDataResource,
+    } = this.props
+
+    return (
+      <FormCardWrapper
+        showAddSection={true}
+        title="Data"
+        addSectionText="Add a Data Resource"
+        onAddSection={handleAddDataResource}
+      >
+        {dataResources.map(dataResource => {
+          const {
+            id,
+            type,
+            dataId,
+            resourceLocator,
+            otherParams,
+          } = dataResource
+
+          return (
+            <DataResourceCard
+              key={id}
+              id={id}
+              type={type}
+              dataId={dataId}
+              resourceLocator={resourceLocator}
+              otherParams={otherParams}
+              handleUpdate={handleUpdateDataResource}
+              handleRemoveSection={handleRemoveDataResource}
+            />
+          )
+        })}
+      </FormCardWrapper>
+    )
+  }
+
   render(): JSX.Element {
     return (
       <>
@@ -276,6 +318,7 @@ class CreateEntityAdvanced extends React.Component<Props> {
         {this.renderFunding()}
         {this.renderKey()}
         {this.renderService()}
+        {this.renderDataResources()}
       </>
     )
   }

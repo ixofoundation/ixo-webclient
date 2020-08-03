@@ -27,6 +27,8 @@ import {
   KeyPurposeStrategyMap,
   ServiceTypeStrategyMap,
   ServiceType,
+  DataResourceTypeStrategyMap,
+  DataResourceType,
 } from './types'
 import ProjectFilterSchema from './components/EntitiesFilter/schema/ProjectFilter.schema.json'
 import CellFilterSchema from './components/EntitiesFilter/schema/CellFilter.schema.json'
@@ -197,8 +199,19 @@ export const keyPurposeMap: KeyPurposeStrategyMap = {
 }
 
 export const serviceTypeMap: ServiceTypeStrategyMap = {
-  [ServiceType.DIDAgent]: { title: 'DIDAgent' },
-  [ServiceType.CosmosWeb3]: { title: 'CosmosWeb3' },
-  [ServiceType.EthereumWeb3]: { title: 'EthereumWeb3' },
+  [ServiceType.DIDAgent]: { title: 'DID Agent' },
+  [ServiceType.CosmosWeb3]: { title: 'Cosmos Web3' },
+  [ServiceType.EthereumWeb3]: { title: 'Ethereum Web3' },
   [ServiceType.Web2]: { title: 'Web2' },
+}
+
+export const dataResourceTypeMap: DataResourceTypeStrategyMap = {
+  [DataResourceType.SchemaOverlay]: { title: 'SchemaOverlay' },
+  [DataResourceType.MobileIdentityWallet]: { title: 'MobileIdentityWallet' },
+  [DataResourceType.PersonalDataPod]: { title: 'PersonalDataPod' },
+  [DataResourceType.CellNodeDB]: { title: 'CellNodeDB' },
+  [DataResourceType.EnterpriseDB]: { title: 'EnterpriseDB' },
+  [DataResourceType.InterplanetaryFileStore]: {
+    title: 'InterplanetaryFileStore',
+  },
 }
