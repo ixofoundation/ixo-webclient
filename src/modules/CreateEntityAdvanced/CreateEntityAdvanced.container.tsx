@@ -35,6 +35,7 @@ import FormCardWrapper from 'src/common/components/Wrappers/FormCardWrapper/Form
 import LinkedEntityCard from './components/LinkedEntityCard/LinkedEntityCard'
 import PaymentCard from './components/PaymentCard/PaymentCard'
 import StakeCard from './components/StakeCard/StakeCard'
+import NodeCard from './components/NodeCard/NodeCard'
 
 interface Props {
   linkedEntity: LinkedEntity
@@ -150,12 +151,46 @@ class CreateEntityAdvanced extends React.Component<Props> {
     )
   }
 
+  renderNodes = (): JSX.Element => {
+    const {
+      nodes,
+      handleUpdateNode,
+      handleAddNode,
+      handleRemoveNode,
+    } = this.props
+
+    return (
+      <FormCardWrapper
+        showAddSection={true}
+        title="Nodes"
+        addSectionText="Add Node"
+        onAddSection={handleAddNode}
+      >
+        {nodes.map(stake => {
+          const { id, type, nodeId } = stake
+
+          return (
+            <NodeCard
+              key={id}
+              id={id}
+              type={type}
+              nodeId={nodeId}
+              handleUpdate={handleUpdateNode}
+              handleRemoveSection={handleRemoveNode}
+            />
+          )
+        })}
+      </FormCardWrapper>
+    )
+  }
+
   render(): JSX.Element {
     return (
       <>
         {this.renderLinkedEntity()}
         {this.renderPayment()}
         {this.renderStaking()}
+        {this.renderNodes()}
       </>
     )
   }

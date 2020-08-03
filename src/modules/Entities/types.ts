@@ -235,6 +235,12 @@ export type SlashingConditionStrategyMap = {
   }
 }
 
+export type NodeTypeStrategyMap = {
+  [TKey in NodeType]: {
+    title: string
+  }
+}
+
 export enum EntitiesActions {
   GetEntities = 'ixo/Entities/GET_ENTITIES',
   GetEntitiesSuccess = 'ixo/Entities/GET_ENTITIES_FULFILLED',

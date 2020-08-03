@@ -17,6 +17,8 @@ import {
   StakeTypeStrategyMap,
   StakeType,
   SlashingCondition,
+  NodeTypeStrategyMap,
+  NodeType,
 } from './types'
 import ProjectFilterSchema from './components/EntitiesFilter/schema/ProjectFilter.schema.json'
 import CellFilterSchema from './components/EntitiesFilter/schema/CellFilter.schema.json'
@@ -155,4 +157,10 @@ export const slashingConditionMap: SlashingConditionStrategyMap = {
   [SlashingCondition.FailedDispute]: { title: 'Failed Dispute' },
   [SlashingCondition.InsuredEvent]: { title: 'Insured Event' },
   [SlashingCondition.FailedMembership]: { title: 'Failed Membership' },
+}
+
+export const nodeTypeMap: NodeTypeStrategyMap = {
+  [NodeType.RelayerNode]: { title: 'Relayer Node' },
+  [NodeType.CellNode]: { title: 'Cell Node' },
+  [NodeType.IBCNode]: { title: 'IBC Node' },
 }
