@@ -21,6 +21,10 @@ import {
   NodeType,
   FundSourceStrategyMap,
   FundSource,
+  KeyTypeStrategyMap,
+  KeyPurpose,
+  KeyType,
+  KeyPurposeStrategyMap,
 } from './types'
 import ProjectFilterSchema from './components/EntitiesFilter/schema/ProjectFilter.schema.json'
 import CellFilterSchema from './components/EntitiesFilter/schema/CellFilter.schema.json'
@@ -173,4 +177,19 @@ export const fundSourceMap: FundSourceStrategyMap = {
   [FundSource.BankAccount]: { title: 'Bank Account' },
   [FundSource.PaymentContract]: { title: 'Payment Contract' },
   [FundSource.NFTAsset]: { title: 'NFT Asset' },
+}
+
+export const keyTypeMap: KeyTypeStrategyMap = {
+  [KeyType.Ed25519VerificationKey2018]: { title: 'Ed25519VerificationKey2018' },
+  [KeyType.JwsVerificationKey2020]: { title: 'JwsVerificationKey2020' },
+  [KeyType.Secp256k1VerificationKey2018]: {
+    title: 'Secp256k1VerificationKey2018',
+  },
+}
+
+export const keyPurposeMap: KeyPurposeStrategyMap = {
+  [KeyPurpose.Authentication]: { title: 'Authentication' },
+  [KeyPurpose.Encryption]: { title: 'Encryption' },
+  [KeyPurpose.Verification]: { title: 'Verification' },
+  [KeyPurpose.Identification]: { title: 'Identification' },
 }

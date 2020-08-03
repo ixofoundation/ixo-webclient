@@ -3,55 +3,80 @@ import Form from '@rjsf/core'
 import { debounce } from 'debounce'
 import { FormContainer } from '../../../../common/components/JsonForm/JsonForm.styles'
 import * as formUtils from '../../../../common/components/JsonForm/JsonForm.utils'
-import { FormData } from '../../../../common/components/JsonForm/types'
-import { ObjectFieldTemplate2Column } from '../../../../common/components/JsonForm/CustomTemplates/ObjectFieldTemplate'
-import { PaymentType, PaymentDenomination } from '../../../Entities/types'
 import {
-  paymentTypeMap,
+  FormData,
+  customControls,
+} from '../../../../common/components/JsonForm/types'
+import { ObjectFieldTemplate2Column } from '../../../../common/components/JsonForm/CustomTemplates/ObjectFieldTemplate'
+import {
+  PaymentDenomination,
+  KeyPurpose,
+  KeyType,
+} from '../../../Entities/types'
+import {
   paymentDenominationMap,
+  keyPurposeMap,
+  keyTypeMap,
 } from '../../../Entities/strategy-map'
 
 interface Props {
-  type: PaymentType
-  paymentId: string
+  purpose: KeyPurpose
+  type: KeyType
   denomination: PaymentDenomination
-  maxAmount: number
-  maxUnits: number
+  controllerId: string
+  dateCreated: string
+  dateUpdated: string
   handleUpdate: (formData: FormData) => void
 }
 
-const PaymentCard: React.FunctionComponent<Props> = ({
+const KeyCard: React.FunctionComponent<Props> = ({
+  purpose,
   type,
-  paymentId,
   denomination,
-  maxAmount,
-  maxUnits,
+  controllerId,
+  dateCreated,
+  dateUpdated,
   handleUpdate,
 }) => {
   const formData = {
+    purpose,
     type,
-    paymentId,
     denomination,
-    maxAmount,
-    maxUnits,
+    controllerId,
+    dateCreated,
+    dateUpdated,
   }
 
   const schema = {
     type: 'object',
-    required: ['type', 'paymentId', 'denomination', 'maxAmount', 'maxUnits'],
+    required: [
+      'purpose',
+      'type',
+      'denomination',
+      'controllerId',
+      'dateCreated',
+      'dateUpdated',
+    ],
     properties: {
-      type: {
+      purpose: {
         type: 'string',
-        title: 'Payment Type',
-        enum: Object.keys(PaymentType).map(key => PaymentType[key]),
-        enumNames: Object.keys(PaymentType).map(
-          key => paymentTypeMap[PaymentType[key]].title,
+        title: 'Purpose of the Key',
+        enum: Object.keys(KeyPurpose).map(key => KeyPurpose[key]),
+        enumNames: Object.keys(KeyPurpose).map(
+          key => keyPurposeMap[KeyPurpose[key]].title,
         ),
       },
-      paymentId: { type: 'string', title: 'Payment ID' },
+      type: {
+        type: 'string',
+        title: 'Key Type',
+        enum: Object.keys(KeyType).map(key => KeyType[key]),
+        enumNames: Object.keys(KeyType).map(
+          key => keyTypeMap[KeyType[key]].title,
+        ),
+      },
       denomination: {
         type: 'string',
-        title: 'Payment Denomination',
+        title: 'Key Value or Token',
         enum: Object.keys(PaymentDenomination).map(
           key => PaymentDenomination[key],
         ),
@@ -59,29 +84,39 @@ const PaymentCard: React.FunctionComponent<Props> = ({
           key => paymentDenominationMap[PaymentDenomination[key]].title,
         ),
       },
-      maxAmount: {
-        type: 'number',
-        title: 'Maximum Payment Amount',
+      controllerId: {
+        type: 'string',
+        title: 'Enter DID or !name',
       },
-      maxUnits: { type: 'number', title: 'Maximum Quantity' },
+      dateCreated: {
+        type: 'string',
+        title: 'Key Creation Date',
+      },
+      dateUpdated: {
+        type: 'string',
+        title: 'Latest Update',
+      },
     },
   } as any
 
   const uiSchema = {
-    type: {
-      ['ui:placeholder']: 'Select Payment',
+    purpose: {
+      ['ui:placeholder']: 'Select Purpose',
     },
-    paymentId: {
-      ['ui:placeholder']: 'Enter ID',
+    type: {
+      ['ui:placeholder']: 'Select Key',
     },
     denomination: {
       ['ui:placeholder']: 'Select Denomination',
     },
-    maxAmount: {
-      ['ui:placeholder']: 'Enter Amount',
+    controllerId: {
+      ['ui:placeholder']: 'Enter DID or !name',
     },
-    maxUnits: {
-      ['ui:placeholder']: 'Enter Number of Units',
+    dateCreated: {
+      ['ui:widget']: customControls['singledateselector'],
+    },
+    dateUpdated: {
+      ['ui:widget']: customControls['singledateselector'],
     },
   }
 
@@ -108,4 +143,4 @@ const PaymentCard: React.FunctionComponent<Props> = ({
   )
 }
 
-export default PaymentCard
+export default KeyCard

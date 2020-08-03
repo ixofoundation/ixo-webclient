@@ -235,14 +235,26 @@ export type SlashingConditionStrategyMap = {
   }
 }
 
+export type FundSourceStrategyMap = {
+  [TKey in FundSource]: {
+    title: string
+  }
+}
+
 export type NodeTypeStrategyMap = {
   [TKey in NodeType]: {
     title: string
   }
 }
 
-export type FundSourceStrategyMap = {
-  [TKey in FundSource]: {
+export type KeyTypeStrategyMap = {
+  [TKey in KeyType]: {
+    title: string
+  }
+}
+
+export type KeyPurposeStrategyMap = {
+  [TKey in KeyPurpose]: {
     title: string
   }
 }

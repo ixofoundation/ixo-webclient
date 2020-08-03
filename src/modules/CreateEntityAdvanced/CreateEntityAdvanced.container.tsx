@@ -37,6 +37,7 @@ import PaymentCard from './components/PaymentCard/PaymentCard'
 import StakeCard from './components/StakeCard/StakeCard'
 import NodeCard from './components/NodeCard/NodeCard'
 import FundCard from './components/FundCard/FundCard'
+import KeyCard from './components/KeyCard/KeyCard'
 
 interface Props {
   linkedEntity: LinkedEntity
@@ -44,7 +45,7 @@ interface Props {
   staking: Stake[]
   nodes: Node[]
   funding: Fund[]
-  key: Key
+  entityKey: Key // to avoid name conflict with component key
   service: Service
   dataResources: DataResource[]
   handleUpdateLinkedEntity: (formData: FormData) => void
@@ -218,6 +219,33 @@ class CreateEntityAdvanced extends React.Component<Props> {
     )
   }
 
+  renderKey = (): JSX.Element => {
+    const { entityKey, handleUpdateKey } = this.props
+
+    const {
+      purpose,
+      type,
+      denomination,
+      controllerId,
+      dateCreated,
+      dateUpdated,
+    } = entityKey
+
+    return (
+      <FormCardWrapper showAddSection={false} title="Keys">
+        <KeyCard
+          purpose={purpose}
+          type={type}
+          denomination={denomination}
+          controllerId={controllerId}
+          dateCreated={dateCreated}
+          dateUpdated={dateUpdated}
+          handleUpdate={handleUpdateKey}
+        />
+      </FormCardWrapper>
+    )
+  }
+
   render(): JSX.Element {
     return (
       <>
@@ -226,6 +254,7 @@ class CreateEntityAdvanced extends React.Component<Props> {
         {this.renderStaking()}
         {this.renderNodes()}
         {this.renderFunding()}
+        {this.renderKey()}
       </>
     )
   }
@@ -237,7 +266,7 @@ const mapStateToProps = (state: RootState): any => ({
   staking: createEntityAdvancedSelectors.selectStaking(state),
   nodes: createEntityAdvancedSelectors.selectNodes(state),
   funding: createEntityAdvancedSelectors.selectFunding(state),
-  key: createEntityAdvancedSelectors.selectKey(state),
+  entityKey: createEntityAdvancedSelectors.selectKey(state),
   service: createEntityAdvancedSelectors.selectService(state),
   dataResources: createEntityAdvancedSelectors.selectDataResources(state),
 })
