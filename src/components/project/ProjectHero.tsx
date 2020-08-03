@@ -17,7 +17,7 @@ import {
 import CalendarSort from 'src/assets/icons/CalendarSort'
 import availableFlags from '../../lib/json/availableFlags.json'
 import { EntityType } from '../../modules/Entities/types'
-import { strategyMap } from '../../modules/Entities/strategy-map'
+import { entityTypeMap } from '../../modules/Entities/strategy-map'
 
 export interface Props {
   project: any
@@ -43,7 +43,7 @@ export const ProjectHero: React.SFC<Props> = ({
       iconClass: `icon-${entityType.toLowerCase()}`,
       linkClass: null,
       path: `/projects/${match.params.projectDID}/overview`,
-      title: strategyMap[entityType].plural,
+      title: entityTypeMap[entityType].plural,
     },
   ]
 
@@ -148,7 +148,7 @@ export const ProjectHero: React.SFC<Props> = ({
       <HeaderTabs
         buttons={buttonsArray}
         matchType={MatchType.strict}
-        activeTabColor={strategyMap[entityType].themeColor}
+        activeTabColor={entityTypeMap[entityType].themeColor}
       />
     </HeroContainer>
   )

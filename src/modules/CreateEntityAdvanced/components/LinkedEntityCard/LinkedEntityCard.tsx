@@ -9,43 +9,45 @@ import { EntityType } from 'src/modules/Entities/types'
 import { entityTypeMap } from 'src/modules/Entities/strategy-map'
 
 interface Props {
-  filters: { [name: string]: string[] }
-  entityType: EntityType
+  type: EntityType
+  entityId: string
   handleUpdate: (formData: FormData) => void
 }
 
-const convertArrayToObject = (array, key): {} => {
-  const initialValue = {}
-  return array.reduce((obj, item) => {
-    return {
-      ...obj,
-      [item[key]]: item,
-    }
-  }, initialValue)
-}
-
-const DisplayCredential: React.FunctionComponent<Props> = ({
-  filters,
-  entityType,
+const LinkedEntityCard: React.FunctionComponent<Props> = ({
+  type,
+  entityId,
   handleUpdate,
 }) => {
-  const propertiesArray = entityTypeMap[entityType].filterSchema.ddoTags.map(
-    category => ({
-      type: 'array',
-      title: category.name,
-      items: {
-        type: 'string',
-        enum: category.tags.map(tag => tag.name),
-      },
-      uniqueItems: true,
-    }),
-  )
+  const formData = {
+    type,
+    entityId,
+  }
 
   const schema = {
     type: 'object',
-    required: [],
-    properties: convertArrayToObject(propertiesArray, 'title'),
+    required: ['type', 'entityId'],
+    properties: {
+      type: {
+        type: 'string',
+        title: 'Entity Type',
+        enum: Object.keys(EntityType).map(key => EntityType[key]),
+        enumNames: Object.keys(EntityType).map(
+          key => entityTypeMap[EntityType[key]].title,
+        ),
+      },
+      entityId: { type: 'string', title: 'Entity ID' },
+    },
   } as any
+
+  const uiSchema = {
+    type: {
+      ['ui:placeholder']: 'Select Entity',
+    },
+    entityId: {
+      ['ui:placeholder']: 'Enter DID or !name',
+    },
+  }
 
   const handleUpdateDebounce = debounce(handleUpdate, 500)
 
@@ -53,12 +55,13 @@ const DisplayCredential: React.FunctionComponent<Props> = ({
     <FormContainer className="row">
       <div className="col-lg-12">
         <Form
-          formData={filters}
+          formData={formData}
           onChange={(control): void => handleUpdateDebounce(control.formData)}
           noHtml5Validate
           liveValidate
           showErrorList={false}
           schema={schema}
+          uiSchema={uiSchema}
           transformErrors={formUtils.transformErrors}
           ObjectFieldTemplate={ObjectFieldTemplate2Column}
         >
@@ -69,4 +72,4 @@ const DisplayCredential: React.FunctionComponent<Props> = ({
   )
 }
 
-export default DisplayCredential
+export default LinkedEntityCard

@@ -35,7 +35,7 @@ import RequiredCredentialCard from './components/RequiredCredentialCard/Required
 import DisplayCredentialCard from './components/DisplayCredentialCard/DisplayCredentialCard'
 import FilterCard from './components/FilterCard/FilterCard'
 import { EntityType } from '../Entities/types'
-import { strategyMap } from '../Entities/strategy-map'
+import { entityTypeMap } from '../Entities/strategy-map'
 
 interface Props {
   entityType: EntityType
@@ -68,7 +68,7 @@ class CreateEntitySettings extends React.Component<Props> {
   constructor(props) {
     super(props)
 
-    this.entityTitle = strategyMap[this.props.entityType].title
+    this.entityTitle = entityTypeMap[this.props.entityType].title
   }
 
   renderCreator = (): JSX.Element => {

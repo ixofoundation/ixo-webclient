@@ -5,55 +5,50 @@ import { FormContainer } from '../../../../common/components/JsonForm/JsonForm.s
 import * as formUtils from '../../../../common/components/JsonForm/JsonForm.utils'
 import { FormData } from '../../../../common/components/JsonForm/types'
 import { ObjectFieldTemplate2Column } from '../../../../common/components/JsonForm/CustomTemplates/ObjectFieldTemplate'
-import { PageView, EntityView } from 'src/modules/Entities/types'
-import { pageViewMap, entityViewMap } from 'src/modules/Entities/strategy-map'
+import { FundSource } from '../../../Entities/types'
+import { fundSourceMap } from '../../../Entities/strategy-map'
 
 interface Props {
-  pageView: PageView
-  entityView: EntityView
-  handleUpdate: (formData: FormData) => void
+  id: string
+  source: FundSource
+  fundId: string
+  handleUpdate: (id: string, formData: FormData) => void
+  handleRemoveSection: (id: string) => void
 }
 
-const PrivacyCard: React.FunctionComponent<Props> = ({
-  pageView,
-  entityView,
+const FundCard: React.FunctionComponent<Props> = ({
+  id,
+  source,
+  fundId,
   handleUpdate,
+  handleRemoveSection,
 }) => {
   const formData = {
-    pageView,
-    entityView,
+    source,
+    fundId,
   }
 
   const schema = {
     type: 'object',
-    required: ['pageView', 'entityView'],
+    required: ['source', 'fundId'],
     properties: {
-      pageView: {
+      source: {
         type: 'string',
-        title: 'Page View',
-        enum: Object.keys(PageView).map(key => PageView[key]),
-        enumNames: Object.keys(PageView).map(
-          key => pageViewMap[PageView[key]].title,
+        title: 'Source of Funding',
+        enum: Object.keys(FundSource).map(key => FundSource[key]),
+        enumNames: Object.keys(FundSource).map(
+          key => fundSourceMap[FundSource[key]].title,
         ),
       },
-      entityView: {
-        type: 'string',
-        title: 'Entity View',
-        enum: Object.keys(EntityView).map(key => EntityView[key]),
-        enumNames: Object.keys(EntityView).map(
-          key => entityViewMap[EntityView[key]].title,
-        ),
-      },
+      fundId: { type: 'string', title: 'Identity of Funding Source' },
     },
   } as any
 
   const uiSchema = {
-    pageView: {
-      ['ui:placeholder']: 'Select Page View',
+    source: {
+      ['ui:placeholder']: 'Select a Funding Source',
     },
-    entityView: {
-      ['ui:placeholder']: 'Select Entity View',
-    },
+    fundId: { ['ui:placeholder']: 'Enter DID or !name' },
   }
 
   const handleUpdateDebounce = debounce(handleUpdate, 500)
@@ -63,7 +58,9 @@ const PrivacyCard: React.FunctionComponent<Props> = ({
       <div className="col-lg-12">
         <Form
           formData={formData}
-          onChange={(control): void => handleUpdateDebounce(control.formData)}
+          onChange={(control): void =>
+            handleUpdateDebounce(id, control.formData)
+          }
           noHtml5Validate
           liveValidate
           showErrorList={false}
@@ -75,8 +72,13 @@ const PrivacyCard: React.FunctionComponent<Props> = ({
           &nbsp;
         </Form>
       </div>
+      <div className="col-lg-12 text-right">
+        <button type="button" onClick={(): void => handleRemoveSection(id)}>
+          Remove
+        </button>
+      </div>
     </FormContainer>
   )
 }
 
-export default PrivacyCard
+export default FundCard

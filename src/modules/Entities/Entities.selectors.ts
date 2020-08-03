@@ -5,7 +5,7 @@ import { Filter, Category, EntityType } from './types'
 import * as accountSelectors from '../Account/Account.selectors'
 import { RootState } from 'src/common/redux/types'
 import { Schema as FilterSchema } from './components/EntitiesFilter/schema/types'
-import { strategyMap } from './strategy-map'
+import { entityTypeMap } from './strategy-map'
 
 const formatDate = (date: Moment): string => date.format("D MMM \\'YY")
 
@@ -300,6 +300,6 @@ export const selectTotalRemainingClaimsCount = createSelector(
 export const selectFilterSchema = createSelector(
   selectSelectedEntitiesType,
   (entityType: EntityType): FilterSchema => {
-    return strategyMap[entityType].filterSchema
+    return entityTypeMap[entityType].filterSchema
   },
 )

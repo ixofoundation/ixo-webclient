@@ -5,55 +5,50 @@ import { FormContainer } from '../../../../common/components/JsonForm/JsonForm.s
 import * as formUtils from '../../../../common/components/JsonForm/JsonForm.utils'
 import { FormData } from '../../../../common/components/JsonForm/types'
 import { ObjectFieldTemplate2Column } from '../../../../common/components/JsonForm/CustomTemplates/ObjectFieldTemplate'
-import { PageView, EntityView } from 'src/modules/Entities/types'
-import { pageViewMap, entityViewMap } from 'src/modules/Entities/strategy-map'
+import { NodeType } from '../../../Entities/types'
+import { nodeTypeMap } from '../../../Entities/strategy-map'
 
 interface Props {
-  pageView: PageView
-  entityView: EntityView
-  handleUpdate: (formData: FormData) => void
+  id: string
+  type: NodeType
+  nodeId: string
+  handleUpdate: (id: string, formData: FormData) => void
+  handleRemoveSection: (id: string) => void
 }
 
-const PrivacyCard: React.FunctionComponent<Props> = ({
-  pageView,
-  entityView,
+const NodeCard: React.FunctionComponent<Props> = ({
+  id,
+  type,
+  nodeId,
   handleUpdate,
+  handleRemoveSection,
 }) => {
   const formData = {
-    pageView,
-    entityView,
+    type,
+    nodeId,
   }
 
   const schema = {
     type: 'object',
-    required: ['pageView', 'entityView'],
+    required: ['type', 'nodeId'],
     properties: {
-      pageView: {
+      type: {
         type: 'string',
-        title: 'Page View',
-        enum: Object.keys(PageView).map(key => PageView[key]),
-        enumNames: Object.keys(PageView).map(
-          key => pageViewMap[PageView[key]].title,
+        title: 'Node Type',
+        enum: Object.keys(NodeType).map(key => NodeType[key]),
+        enumNames: Object.keys(NodeType).map(
+          key => nodeTypeMap[NodeType[key]].title,
         ),
       },
-      entityView: {
-        type: 'string',
-        title: 'Entity View',
-        enum: Object.keys(EntityView).map(key => EntityView[key]),
-        enumNames: Object.keys(EntityView).map(
-          key => entityViewMap[EntityView[key]].title,
-        ),
-      },
+      nodeId: { type: 'string', title: 'Node ID' },
     },
   } as any
 
   const uiSchema = {
-    pageView: {
-      ['ui:placeholder']: 'Select Page View',
+    type: {
+      ['ui:placeholder']: 'Select Node Type',
     },
-    entityView: {
-      ['ui:placeholder']: 'Select Entity View',
-    },
+    nodeId: { ['ui:placeholder']: 'Enter !Name or DID' },
   }
 
   const handleUpdateDebounce = debounce(handleUpdate, 500)
@@ -63,7 +58,9 @@ const PrivacyCard: React.FunctionComponent<Props> = ({
       <div className="col-lg-12">
         <Form
           formData={formData}
-          onChange={(control): void => handleUpdateDebounce(control.formData)}
+          onChange={(control): void =>
+            handleUpdateDebounce(id, control.formData)
+          }
           noHtml5Validate
           liveValidate
           showErrorList={false}
@@ -75,8 +72,13 @@ const PrivacyCard: React.FunctionComponent<Props> = ({
           &nbsp;
         </Form>
       </div>
+      <div className="col-lg-12 text-right">
+        <button type="button" onClick={(): void => handleRemoveSection(id)}>
+          Remove
+        </button>
+      </div>
     </FormContainer>
   )
 }
 
-export default PrivacyCard
+export default NodeCard

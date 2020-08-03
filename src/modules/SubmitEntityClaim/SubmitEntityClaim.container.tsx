@@ -18,7 +18,7 @@ import {
   finaliseQuestions,
 } from './SubmitEntityClaim.actions'
 import { EntityType } from '../Entities/types'
-import { strategyMap } from '../Entities/strategy-map'
+import { entityTypeMap } from '../Entities/strategy-map'
 import ControlPanel from '../../common/components/ControlPanel/ControlPanel'
 import { Spinner } from '../../common/components/Spinner'
 import { getEntity } from '../SelectedEntity/SelectedEntity.actions'
@@ -149,7 +149,7 @@ class SubmitEntityClaim extends React.Component<Props, State> {
               </div>
               <div className="col-lg-4">
                 <ControlPanel
-                  schema={strategyMap[entityType].controlPanelSchema}
+                  schema={entityTypeMap[entityType].controlPanelSchema}
                   entityDid={entityDid}
                   userDid={userDid}
                 />

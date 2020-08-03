@@ -2,7 +2,7 @@ import moment from 'moment'
 import countryData from '../../lib/maps/countryLatLng.json'
 import { toTitleCase } from '../../common/utils/formatters'
 import { Category, EntityType, Entity } from './types'
-import { strategyMap } from './strategy-map'
+import { entityTypeMap } from './strategy-map'
 
 export const mapApiEntityToEntity = (apiEntity: any): Entity => {
   return {
@@ -61,7 +61,7 @@ export const getCountryCoordinates = (countryCodes: string[]): any[] => {
 export const getInitialSelectedCategories = (
   entityType: EntityType = EntityType.Project,
 ): Category[] => {
-  return strategyMap[entityType].filterSchema.ddoTags.map(ddoCategory => ({
+  return entityTypeMap[entityType].filterSchema.ddoTags.map(ddoCategory => ({
     name: ddoCategory.name,
     tags:
       ddoCategory.selectedTags && ddoCategory.selectedTags.length
