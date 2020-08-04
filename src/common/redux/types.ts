@@ -13,6 +13,7 @@ import { CreateEntityPageContentState } from '../../modules/CreateEntityPageCont
 import { CreateClaimTemplateState } from '../../modules/CreateClaimTemplate/types'
 import { Entity } from '../../modules/Entities/types'
 import { CreateEntitySettingsState } from 'src/modules/CreateEntitySettings/types'
+import { CreateEntityAdvancedState } from 'src/modules/CreateEntityAdvanced/types'
 
 export interface RootState {
   keySafe: KeysafeState
@@ -32,4 +33,5 @@ export interface RootState {
   selectedEntity: Entity
   createEntityPageContent: CreateEntityPageContentState
   createEntitySettings: CreateEntitySettingsState
+  createEntityAdvanced: CreateEntityAdvancedState
 }

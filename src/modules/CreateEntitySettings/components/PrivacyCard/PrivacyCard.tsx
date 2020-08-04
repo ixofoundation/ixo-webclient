@@ -7,6 +7,7 @@ import { FormData } from '../../../../common/components/JsonForm/types'
 import { ObjectFieldTemplate2Column } from '../../../../common/components/JsonForm/CustomTemplates/ObjectFieldTemplate'
 import { PageView, EntityView } from 'src/modules/Entities/types'
 import { FormWrapper } from './PrivacyCard.styles'
+import { pageViewMap, entityViewMap } from 'src/modules/Entities/strategy-map'
 
 interface Props {
   pageView: PageView
@@ -32,11 +33,17 @@ const PrivacyCard: React.FunctionComponent<Props> = ({
         type: 'string',
         title: 'Page View',
         enum: Object.keys(PageView).map(key => PageView[key]),
+        enumNames: Object.keys(PageView).map(
+          key => pageViewMap[PageView[key]].title,
+        ),
       },
       entityView: {
         type: 'string',
         title: 'Entity View',
         enum: Object.keys(EntityView).map(key => EntityView[key]),
+        enumNames: Object.keys(EntityView).map(
+          key => entityViewMap[EntityView[key]].title,
+        ),
       },
     },
   } as any

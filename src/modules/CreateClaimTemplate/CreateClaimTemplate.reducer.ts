@@ -40,7 +40,6 @@ export const reducer = (
         ),
       }
     case CreateClaimTemplateActions.UpdateAttestation:
-      console.log(action.payload)
       return {
         ...state,
         attestations: [

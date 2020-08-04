@@ -6,8 +6,8 @@ import * as formUtils from '../../../../common/components/JsonForm/JsonForm.util
 import { FormData } from '../../../../common/components/JsonForm/types'
 import { ObjectFieldTemplate2Column } from '../../../../common/components/JsonForm/CustomTemplates/ObjectFieldTemplate'
 import { EntityType } from 'src/modules/Entities/types'
-import { strategyMap } from 'src/modules/Entities/strategy-map'
 import { FormWrapper } from './FilterCard.styles'
+import { entityTypeMap } from 'src/modules/Entities/strategy-map'
 
 interface Props {
   filters: { [name: string]: string[] }
@@ -30,7 +30,7 @@ const DisplayCredential: React.FunctionComponent<Props> = ({
   entityType,
   handleUpdate,
 }) => {
-  const propertiesArray = strategyMap[entityType].filterSchema.ddoTags.map(
+  const propertiesArray = entityTypeMap[entityType].filterSchema.ddoTags.map(
     category => ({
       type: 'array',
       title: category.name,

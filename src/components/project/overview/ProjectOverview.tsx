@@ -17,7 +17,7 @@ import {
 } from './ProjectOverview.style'
 import { EntityType } from '../../../modules/Entities/types'
 import { toTitleCase } from '../../../common/utils/formatters'
-import { strategyMap } from 'src/modules/Entities/strategy-map'
+import { entityTypeMap } from 'src/modules/Entities/strategy-map'
 
 export interface ParentProps {
   match: any
@@ -177,7 +177,7 @@ export const ProjectOverview: React.SFC<Props> = props => {
             </div>
             <div className="col-lg-4">
               <ControlPanel
-                schema={strategyMap[entityType].controlPanelSchema}
+                schema={entityTypeMap[entityType].controlPanelSchema}
                 entityDid={props.projectDid}
                 userDid={props.userInfo ? props.userInfo.didDoc.did : null}
               />

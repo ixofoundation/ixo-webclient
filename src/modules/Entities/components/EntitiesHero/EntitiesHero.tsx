@@ -11,7 +11,7 @@ import {
   ColorOverlay,
 } from './EntitiesHero.styles'
 import { EntityType } from '../../types'
-import { strategyMap } from '../../strategy-map'
+import { entityTypeMap } from '../../strategy-map'
 
 // TODO - when we know what the other entity types headers will look like then possibly refactor this as it's messy with all the conditions
 // or whatever else is needed. For now, just doing it based on entityType
@@ -30,7 +30,7 @@ export const EntitiesHero: React.FunctionComponent<Props> = ({
   filterSector,
   handleChangeEntitiesType,
 }) => {
-  const entityStrategyMap = strategyMap[entityType]
+  const entityStrategyMap = entityTypeMap[entityType]
   const header = getHeaderSchema(filterSector, entityStrategyMap.headerSchema)
   const headerTabButtons = getHeaderTabButtons(
     entityType,

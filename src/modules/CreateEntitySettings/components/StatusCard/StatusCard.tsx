@@ -8,6 +8,10 @@ import { ObjectFieldTemplate2Column } from '../../../../common/components/JsonFo
 import { customControls } from '../../../../common/components/JsonForm/types'
 import { EntityStage, EntityStatus } from 'src/modules/Entities/types'
 import { FormWrapper } from '../StatusCard/StatusCard.styles'
+import {
+  entityStageMap,
+  entityStatusMap,
+} from 'src/modules/Entities/strategy-map'
 
 interface Props {
   startDate: string
@@ -39,11 +43,17 @@ const StatusCard: React.FunctionComponent<Props> = ({
         type: 'string',
         title: 'Stage',
         enum: Object.keys(EntityStage).map(key => EntityStage[key]),
+        enumNames: Object.keys(EntityStage).map(
+          key => entityStageMap[EntityStage[key]].title,
+        ),
       },
       status: {
         type: 'string',
         title: 'Status',
         enum: Object.keys(EntityStatus).map(key => EntityStatus[key]),
+        enumNames: Object.keys(EntityStatus).map(
+          key => entityStatusMap[EntityStatus[key]].title,
+        ),
       },
     },
   } as any
