@@ -6,6 +6,7 @@ import {
 
 export const initialState: CreateClaimTemplateState = {
   activeStep: 1,
+  claimInfo: { claimName: '', shortDescription: '' },
   attestations: [],
   evaluation: [],
   approval: [],
@@ -21,6 +22,11 @@ export const reducer = (
         ...state,
         activeStep: action.payload,
       }
+    case CreateClaimTemplateActions.UpdateClaimInfo:
+      return {
+        ...state,
+        claimInfo: { ...action.payload },
+      }
     case CreateClaimTemplateActions.AddAttestation:
       return {
         ...state,
@@ -32,6 +38,17 @@ export const reducer = (
         attestations: state.attestations.filter(
           attestation => attestation.id !== action.payload,
         ),
+      }
+    case CreateClaimTemplateActions.UpdateAttestation:
+      return {
+        ...state,
+        attestations: [
+          ...state.attestations.map(attestation => {
+            return attestation.id === action.payload.id
+              ? action.payload
+              : attestation
+          }),
+        ],
       }
   }
 

@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import { deviceWidth } from 'lib/commonData'
 import { EntityType } from '../../types'
-import { strategyMap } from '../../strategy-map'
+import { entityTypeMap } from '../../strategy-map'
 
 export const SearchWrapper = styled.div`
   background: white;
@@ -158,7 +158,7 @@ export const SearchFilterButton = styled.button`
   }
   ${Object.keys(EntityType).map(key => {
     const className = key.toLowerCase()
-    const color = strategyMap[key].themeColor
+    const color = entityTypeMap[key].themeColor
 
     return `&.${className} {
           border: 2px solid ${color};

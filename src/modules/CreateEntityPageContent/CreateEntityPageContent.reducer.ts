@@ -7,13 +7,13 @@ import * as reduxUtils from '../../common/redux/utils'
 
 export const initialState: CreateEntityPageContentState = {
   header: {
-    title: undefined,
-    shortDescription: undefined,
-    imageDescription: undefined,
+    title: null,
+    shortDescription: null,
+    imageDescription: null,
     sdgs: [],
-    company: undefined,
-    country: undefined,
-    imageDid: undefined,
+    company: null,
+    country: null,
+    imageDid: null,
     uploadingImage: false,
   },
   body: {},

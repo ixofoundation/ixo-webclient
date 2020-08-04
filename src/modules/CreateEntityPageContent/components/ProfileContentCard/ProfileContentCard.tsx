@@ -8,6 +8,7 @@ import {
   customControls,
 } from '../../../../common/components/JsonForm/types'
 import ImageLoader from '../../../../common/components/DropZone/ImageLoader/ImageLoader'
+import { FormWrapper, RemoveButton } from '../PageContent.styles'
 
 interface Props {
   id: string
@@ -99,25 +100,30 @@ const HeaderCard: React.FunctionComponent<Props> = ({
         </div>
       </div>
       <div className="col-lg-6">
-        <Form
-          formData={formData}
-          onChange={(control): void =>
-            handleUpdateContentDebounce(id, control.formData)
-          }
-          noHtml5Validate
-          liveValidate
-          showErrorList={false}
-          schema={schema}
-          uiSchema={uiSchema}
-          transformErrors={formUtils.transformErrors}
-        >
-          &nbsp;
-        </Form>
+        <FormWrapper>
+          <Form
+            formData={formData}
+            onChange={(control): void =>
+              handleUpdateContentDebounce(id, control.formData)
+            }
+            noHtml5Validate
+            liveValidate
+            showErrorList={false}
+            schema={schema}
+            uiSchema={uiSchema}
+            transformErrors={formUtils.transformErrors}
+          >
+            &nbsp;
+          </Form>
+        </FormWrapper>
       </div>
       <div className="col-lg-12 text-right">
-        <button type="button" onClick={(): void => handleRemoveSection(id)}>
-          Remove
-        </button>
+        <RemoveButton
+          type="button"
+          onClick={(): void => handleRemoveSection(id)}
+        >
+          - Remove
+        </RemoveButton>
       </div>
     </FormContainer>
   )

@@ -35,7 +35,7 @@ import { Category } from './types'
 import { Schema as FilterSchema } from './components/EntitiesFilter/schema/types'
 import * as entitiesSelectors from './Entities.selectors'
 import * as accountSelectors from '../Account/Account.selectors'
-import { strategyMap } from './strategy-map'
+import { entityTypeMap } from './strategy-map'
 
 export interface Props {
   location?: any
@@ -142,7 +142,7 @@ export class Entities extends React.Component<Props> {
         <EntitiesContainer className="container-fluid">
           <div className="container">
             <EntitiesFilter
-              title={`All ${strategyMap[this.props.entityType].plural}`}
+              title={`All ${entityTypeMap[this.props.entityType].plural}`}
               filterSchema={this.props.filterSchema}
               startDate={this.props.filterDateFrom}
               startDateFormatted={this.props.filterDateFromFormatted}
@@ -179,8 +179,8 @@ export class Entities extends React.Component<Props> {
               <NoEntitiesContainer>
                 <p>
                   There are no{' '}
-                  {strategyMap[this.props.entityType].plural.toLowerCase()} that
-                  match your search criteria
+                  {entityTypeMap[this.props.entityType].plural.toLowerCase()}{' '}
+                  that match your search criteria
                 </p>
               </NoEntitiesContainer>
             )}
@@ -191,7 +191,7 @@ export class Entities extends React.Component<Props> {
       return (
         <ErrorContainer>
           <p>
-            No {strategyMap[this.props.entityType].plural.toLowerCase()} were
+            No {entityTypeMap[this.props.entityType].plural.toLowerCase()} were
             found
           </p>
         </ErrorContainer>
@@ -203,7 +203,7 @@ export class Entities extends React.Component<Props> {
     if (this.props.isLoadingEntities) {
       return (
         <Spinner
-          info={`Loading ${strategyMap[this.props.entityType].plural}`}
+          info={`Loading ${entityTypeMap[this.props.entityType].plural}`}
         />
       )
     } else {

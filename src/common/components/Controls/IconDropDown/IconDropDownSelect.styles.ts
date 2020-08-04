@@ -12,8 +12,13 @@ export const Container = styled.div`
 export const SelectContainer = styled.select`
   background: #e8edee;
   padding: 0.313rem 2.188rem 0.313rem 0.313rem;
+  border: none;
+  color: gray;
   &.active {
     padding: 0rem 3rem;
     color: #000;
+    &:focus {
+      outline: none;
+    }
   }
 `
