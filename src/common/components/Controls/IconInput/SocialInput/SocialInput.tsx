@@ -17,6 +17,8 @@ interface Props {
   value: string
   placeholder: string
   onChange: (value: string) => void
+  onBlur: (value: string) => void
+  onFocus: (value: string) => void
 }
 
 const SocialInput: React.FunctionComponent<Props> = ({
@@ -24,9 +26,13 @@ const SocialInput: React.FunctionComponent<Props> = ({
   value,
   placeholder,
   onChange,
+  onBlur,
+  onFocus,
 }) => {
   return (
     <IconInput
+      onBlur={onBlur}
+      onFocus={onFocus}
       onChange={onChange}
       value={value}
       iconAssetPath={`/images/social/${type.toString().toLowerCase()}.svg`}

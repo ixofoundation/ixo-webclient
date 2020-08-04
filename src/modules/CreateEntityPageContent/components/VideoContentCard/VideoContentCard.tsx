@@ -1,12 +1,9 @@
 import React from 'react'
-import Form from '@rjsf/core'
-import { debounce } from 'debounce'
-import { FormContainer } from '../../../../common/components/JsonForm/JsonForm.styles'
-import * as formUtils from '../../../../common/components/JsonForm/JsonForm.utils'
 import { FormData } from '../../../../common/components/JsonForm/types'
 import VideoLoader from '../../../../common/components/DropZone/FileLoader/FileLoader'
 import { FileType } from 'src/common/components/DropZone/types'
 import { RemoveButton } from '../PageContent.styles'
+import MultiControlForm from 'src/common/components/JsonForm/MultiControlForm/MultiControlForm'
 
 interface Props {
   id: string
@@ -54,10 +51,8 @@ const HeaderCard: React.FunctionComponent<Props> = ({
     },
   }
 
-  const handleUpdateContentDebounce = debounce(handleUpdateContent, 500)
-
   return (
-    <FormContainer className="row">
+    <div className="row">
       <div className="col-lg-6">
         <div className="form-group">
           <label className="control-label">
@@ -79,20 +74,17 @@ const HeaderCard: React.FunctionComponent<Props> = ({
         </div>
       </div>
       <div className="col-lg-6">
-        <Form
-          formData={formData}
-          onChange={(control): void =>
-            handleUpdateContentDebounce(id, control.formData)
+        <MultiControlForm
+          handleSubmit={(): void => null}
+          handleFormDataChange={(formData): void =>
+            handleUpdateContent(id, formData)
           }
-          noHtml5Validate
-          liveValidate
-          showErrorList={false}
+          formData={formData}
           schema={schema}
           uiSchema={uiSchema}
-          transformErrors={formUtils.transformErrors}
         >
           &nbsp;
-        </Form>
+        </MultiControlForm>
       </div>
       <div className="col-lg-12 text-right">
         <RemoveButton
@@ -102,7 +94,7 @@ const HeaderCard: React.FunctionComponent<Props> = ({
           - Remove
         </RemoveButton>
       </div>
-    </FormContainer>
+    </div>
   )
 }
 

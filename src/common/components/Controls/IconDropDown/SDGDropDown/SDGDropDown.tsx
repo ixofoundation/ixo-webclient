@@ -7,9 +7,16 @@ import { Container } from './SDGDropDown.styles'
 interface Props {
   value: string
   onChange: (value: string) => void
+  onBlur: (value: string) => void
+  onFocus: (value: string) => void
 }
 
-const SDGDropDown: React.FunctionComponent<Props> = ({ value, onChange }) => {
+const SDGDropDown: React.FunctionComponent<Props> = ({
+  value,
+  onChange,
+  onBlur,
+  onFocus,
+}) => {
   const options: DropDownOption[] = SDGArray.map((sdg, index) => ({
     text: sdg.title,
     value: (index + 1).toString(),
@@ -22,6 +29,8 @@ const SDGDropDown: React.FunctionComponent<Props> = ({ value, onChange }) => {
         options={options}
         value={value}
         onChange={onChange}
+        onBlur={onBlur}
+        onFocus={onFocus}
         selectText={'Select Tag'}
       />
     </Container>

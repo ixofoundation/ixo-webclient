@@ -1,12 +1,10 @@
-import React, { useState } from 'react'
-import Form from '@rjsf/core'
-import { FormContainer } from '../../../../common/components/JsonForm/JsonForm.styles'
-import * as formUtils from '../../../../common/components/JsonForm/JsonForm.utils'
+import React from 'react'
 import {
   FormData,
   customControls,
 } from '../../../../common/components/JsonForm/types'
 import ImageLoader from '../../../../common/components/DropZone/ImageLoader/ImageLoader'
+import MultiControlForm from 'src/common/components/JsonForm/MultiControlForm/MultiControlForm'
 
 interface Props {
   title: string
@@ -33,8 +31,6 @@ const HeaderCard: React.FunctionComponent<Props> = ({
   handleUpdateContent,
   handleUploadImage,
 }) => {
-  const [touched, setTouched] = useState({})
-
   const formData = {
     title,
     shortDescription,
@@ -83,7 +79,7 @@ const HeaderCard: React.FunctionComponent<Props> = ({
   }
 
   return (
-    <FormContainer className="row">
+    <div className="row">
       <div className="col-lg-6">
         <div className="form-group">
           <label className="control-label">
@@ -106,25 +102,17 @@ const HeaderCard: React.FunctionComponent<Props> = ({
         </div>
       </div>
       <div className="col-lg-6">
-        <Form
+        <MultiControlForm
+          handleSubmit={(): void => null}
+          handleFormDataChange={handleUpdateContent}
           formData={formData}
-          onChange={(control): void => handleUpdateContent(control.formData)}
-          noHtml5Validate
-          liveValidate
-          showErrorList={false}
           schema={schema}
           uiSchema={uiSchema}
-          transformErrors={errors =>
-            formUtils.transformErrors2(errors, touched)
-          }
-          onBlur={(id, val) =>
-            setTouched({ ...touched, [id.replace('root_', '.')]: true })
-          }
         >
           &nbsp;
-        </Form>
+        </MultiControlForm>
       </div>
-    </FormContainer>
+    </div>
   )
 }
 

@@ -1,14 +1,10 @@
 import React from 'react'
-import Form from '@rjsf/core'
-import { debounce } from 'debounce'
-import { FormContainer } from '../../../../common/components/JsonForm/JsonForm.styles'
-import * as formUtils from '../../../../common/components/JsonForm/JsonForm.utils'
-import { ObjectFieldTemplate2Column } from '../../../../common/components/JsonForm/CustomTemplates/ObjectFieldTemplate'
 import {
   FormData,
   customControls,
 } from '../../../../common/components/JsonForm/types'
 import { FormWrapper, RemoveButton } from '../PageContent.styles'
+import MultiControlForm from 'src/common/components/JsonForm/MultiControlForm/MultiControlForm'
 
 interface Props {
   id: string
@@ -32,7 +28,7 @@ const EmbeddedContentCard: React.FunctionComponent<Props> = ({
 
   const schema = {
     type: 'object',
-    required: [],
+    required: ['title', 'urls'],
     properties: {
       title: { type: 'string', title: 'Title' },
       urls: { type: 'string', title: 'Url Links' },
@@ -40,7 +36,7 @@ const EmbeddedContentCard: React.FunctionComponent<Props> = ({
   } as any
 
   const uiSchema = {
-    linkedInUrl: {
+    title: {
       ['ui:widget']: 'text',
       ['ui:placeholder']: 'Enter Title',
     },
@@ -51,27 +47,22 @@ const EmbeddedContentCard: React.FunctionComponent<Props> = ({
     },
   }
 
-  const handleUpdateContentDebounce = debounce(handleUpdateContent, 500)
-
   return (
-    <FormContainer className="row">
+    <div className="row">
       <div className="col-lg-12">
         <FormWrapper>
-          <Form
-            formData={formData}
-            onChange={(control): void =>
-              handleUpdateContentDebounce(id, control.formData)
+          <MultiControlForm
+            multiColumn={true}
+            handleSubmit={(): void => null}
+            handleFormDataChange={(formData): void =>
+              handleUpdateContent(id, formData)
             }
-            noHtml5Validate
-            liveValidate
-            showErrorList={false}
+            formData={formData}
             schema={schema}
             uiSchema={uiSchema}
-            transformErrors={formUtils.transformErrors}
-            ObjectFieldTemplate={ObjectFieldTemplate2Column}
           >
             &nbsp;
-          </Form>
+          </MultiControlForm>
         </FormWrapper>
       </div>
       <div className="col-lg-12 text-right">
@@ -82,7 +73,7 @@ const EmbeddedContentCard: React.FunctionComponent<Props> = ({
           - Remove
         </RemoveButton>
       </div>
-    </FormContainer>
+    </div>
   )
 }
 

@@ -35,18 +35,24 @@ const Question: React.FunctionComponent<Props> = ({
       handleFormDataChange={(formData): void =>
         handleFormDataChangeDebounce(formData)
       }
-      handlePreviousClick={handlePreviousClick}
       handleSubmit={handleNextClick}
       formControl={question}
-      showPreviousButton={currentQuestionNo > 1 && !answersComplete}
-      nextButtonText={
-        answersComplete
-          ? 'Update'
-          : questionCount === currentQuestionNo
-          ? 'Finalise'
-          : 'Next'
-      }
-    />
+    >
+      <div className="buttons">
+        {currentQuestionNo > 1 && !answersComplete && (
+          <button type="button" onClick={handlePreviousClick}>
+            Previous
+          </button>
+        )}
+        <button type="submit" className="submitForm">
+          {answersComplete
+            ? 'Update'
+            : questionCount === currentQuestionNo
+            ? 'Finalise'
+            : 'Next'}
+        </button>
+      </div>
+    </SingleControlForm>
   )
 }
 

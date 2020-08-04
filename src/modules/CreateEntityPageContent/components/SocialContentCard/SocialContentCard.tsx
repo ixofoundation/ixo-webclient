@@ -1,14 +1,10 @@
 import React from 'react'
-import Form from '@rjsf/core'
-import { debounce } from 'debounce'
-import { FormContainer } from '../../../../common/components/JsonForm/JsonForm.styles'
-import * as formUtils from '../../../../common/components/JsonForm/JsonForm.utils'
-import { ObjectFieldTemplate2Column } from '../../../../common/components/JsonForm/CustomTemplates/ObjectFieldTemplate'
 import {
   FormData,
   customControls,
 } from '../../../../common/components/JsonForm/types'
 import { FormWrapper } from './SocialContentCard.styles'
+import MultiControlForm from 'src/common/components/JsonForm/MultiControlForm/MultiControlForm'
 
 interface Props {
   linkedInUrl: string
@@ -102,30 +98,23 @@ const HeaderCard: React.FunctionComponent<Props> = ({
     },
   }
 
-  const handleUpdateContentDebounce = debounce(handleUpdateContent, 500)
-
   return (
-    <FormContainer className="row">
+    <div className="row">
       <div className="col-lg-12">
         <FormWrapper>
-          <Form
+          <MultiControlForm
+            multiColumn={true}
+            handleSubmit={(): void => null}
+            handleFormDataChange={handleUpdateContent}
             formData={formData}
-            onChange={(control): void =>
-              handleUpdateContentDebounce(control.formData)
-            }
-            noHtml5Validate
-            liveValidate
-            showErrorList={false}
             schema={schema}
             uiSchema={uiSchema}
-            transformErrors={formUtils.transformErrors}
-            ObjectFieldTemplate={ObjectFieldTemplate2Column}
           >
             &nbsp;
-          </Form>
+          </MultiControlForm>
         </FormWrapper>
       </div>
-    </FormContainer>
+    </div>
   )
 }
 

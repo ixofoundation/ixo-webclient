@@ -7,11 +7,15 @@ import { Container } from './CountryDropDown.styles'
 interface Props {
   value: string
   onChange: (value: string) => void
+  onBlur: (value: string) => void
+  onFocus: (value: string) => void
 }
 
 const CountryDropDown: React.FunctionComponent<Props> = ({
   value,
   onChange,
+  onBlur,
+  onFocus,
 }) => {
   const countryOptions: DropDownOption[] = countries.map(country => ({
     text: country.country,
@@ -36,6 +40,8 @@ const CountryDropDown: React.FunctionComponent<Props> = ({
         options={options}
         value={value}
         onChange={onChange}
+        onBlur={onBlur}
+        onFocus={onFocus}
         selectText={'Select Country'}
       />
     </Container>
