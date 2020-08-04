@@ -1,6 +1,5 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Form from '@rjsf/core'
-import { debounce } from 'debounce'
 import { FormContainer } from '../../../../common/components/JsonForm/JsonForm.styles'
 import * as formUtils from '../../../../common/components/JsonForm/JsonForm.utils'
 import {
@@ -34,6 +33,8 @@ const HeaderCard: React.FunctionComponent<Props> = ({
   handleUpdateContent,
   handleUploadImage,
 }) => {
+  const [touched, setTouched] = useState({})
+
   const formData = {
     title,
     shortDescription,
@@ -81,8 +82,6 @@ const HeaderCard: React.FunctionComponent<Props> = ({
     },
   }
 
-  const handleUpdateContentDebounce = debounce(handleUpdateContent, 500)
-
   return (
     <FormContainer className="row">
       <div className="col-lg-6">
@@ -109,15 +108,18 @@ const HeaderCard: React.FunctionComponent<Props> = ({
       <div className="col-lg-6">
         <Form
           formData={formData}
-          onChange={(control): void =>
-            handleUpdateContentDebounce(control.formData)
-          }
+          onChange={(control): void => handleUpdateContent(control.formData)}
           noHtml5Validate
           liveValidate
           showErrorList={false}
           schema={schema}
           uiSchema={uiSchema}
-          transformErrors={formUtils.transformErrors}
+          transformErrors={errors =>
+            formUtils.transformErrors2(errors, touched)
+          }
+          onBlur={(id, val) =>
+            setTouched({ ...touched, [id.replace('root_', '.')]: true })
+          }
         >
           &nbsp;
         </Form>
