@@ -16,9 +16,11 @@ import {
   StyledFundingTitle,
 } from './ProjectHero.styles'
 import CalendarSort from 'assets/icons/CalendarSort'
-import availableFlags from '../../lib/json/availableFlags.json'
-import { EntityType } from '../../modules/Entities/types'
-import { strategyMap } from '../../modules/Entities/strategy-map'
+import availableFlags from 'lib/json/availableFlags.json'
+import { EntityType } from 'modules/Entities/types'
+import { strategyMap } from 'modules/Entities/strategy-map'
+import { useWindowSize } from 'common/hooks'
+import { deviceWidth } from 'lib/commonData'
 
 export interface Props {
   project: any
@@ -37,6 +39,8 @@ export const ProjectHero: React.SFC<Props> = ({
   isLoggedIn,
   onlyTitle,
 }) => {
+  const windowSize = useWindowSize()
+
   const entityType = project.entityType
     ? (toTitleCase(project.entityType) as EntityType)
     : EntityType.Project
@@ -118,9 +122,11 @@ export const ProjectHero: React.SFC<Props> = ({
 
   return (
     <React.Fragment>
-      {onlyTitle && <StyledFundingTitle>{project.title}</StyledFundingTitle>}
+      {onlyTitle && windowSize.width > deviceWidth.tablet && (
+        <StyledFundingTitle>{project.title}</StyledFundingTitle>
+      )}
       <HeroContainer className="container-fluid" onlyTitle>
-        {!onlyTitle && (
+        {!onlyTitle && windowSize.width > deviceWidth.tablet && (
           <HeroInner className={`container ${isDetail && 'detailed'}`}>
             <div className="row">
               <div className="col-sm-12">

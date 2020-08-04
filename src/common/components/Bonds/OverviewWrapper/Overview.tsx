@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import BondChartScreen from 'modules/BondChart/BondChart.container'
+import BondTable from 'modules/BondTable'
 // import BondOrders from 'modules/BondOrders/BondOrders.container'
 // import { BondEvents } from 'modules/BondEvents/BondEvents.container'
 import { BondsWrapperConnected as BondsWrapper } from '../BondsWrapper/BondsWrapper'
@@ -11,6 +12,7 @@ export class Overview extends Component<any> {
     return (
       <BondsWrapper {...this.props.match}>
         <BondChartScreen />
+        <BondTable />
         {/* <div className="BondsWrapper_panel">
           <Route
             exact

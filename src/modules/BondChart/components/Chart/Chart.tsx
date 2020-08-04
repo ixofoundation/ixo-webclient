@@ -1,8 +1,8 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import { Line } from 'react-chartjs-2'
 import ReactApexChart from 'react-apexcharts'
 
-import { ChartContainer } from './Chart.styles'
+import { ChartContainer, StyledHeader } from './Chart.styles'
 
 interface Props {
   data: any
@@ -322,15 +322,16 @@ export const Chart: React.FunctionComponent<Props> = ({ data }) => {
   }
 
   return (
-    <ChartContainer className="BondsWrapper_panel__chrome hide-on-mobile">
-      <div className="BondsWrapper_panel__content">
-        <ReactApexChart
-          options={options}
-          series={series}
-          type="candlestick"
-          height={290}
-        />
-        <div>
+    <Fragment>
+      <StyledHeader>Price of EDU</StyledHeader>
+      <ChartContainer className="BondsWrapper_panel__chrome hide-on-mobile">
+        <div className="BondsWrapper_panel__content">
+          <ReactApexChart
+            options={options}
+            series={series}
+            type="candlestick"
+            height={290}
+          />
           <ReactApexChart
             options={optionsBar}
             series={seriesBar}
@@ -338,7 +339,7 @@ export const Chart: React.FunctionComponent<Props> = ({ data }) => {
             height={160}
           />
         </div>
-      </div>
-    </ChartContainer>
+      </ChartContainer>
+    </Fragment>
   )
 }

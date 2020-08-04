@@ -46,7 +46,6 @@ export const StyledFundingTitle = styled.h1`
   font-size: 2.25rem;
   line-height: 1.25;
   color: white;
-  margin: 2.5rem;
 `
 
 export const Description = styled.p`

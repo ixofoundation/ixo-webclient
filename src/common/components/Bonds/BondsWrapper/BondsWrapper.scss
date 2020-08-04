@@ -57,19 +57,22 @@ hr {
 
 .BondsWrapper {
   display: flex;
-  height: 100vh;
   overflow: hidden;
+
+  @media screen and (max-width: 768px) {
+    flex-direction: column;
+  }
 
   .pane {
     flex-grow: 1;
+    padding: 2.5rem;
   }
 
   .tablinks {
     background-color: $tab-title-background-color;
-    display: none;
+    display: flex;
 
     @media screen and (min-width: 480px) {
-      display: flex;
       justify-content: space-between;
     }
 
@@ -78,6 +81,12 @@ hr {
       justify-content: flex-start;
       padding: 2rem 0;
       z-index: 2;
+
+      @media screen and (max-width: 768px) {
+        flex-direction: row;
+        justify-content: space-between;
+        padding: 0;
+      }
     }
 
     .tablinks_tablink {
@@ -123,7 +132,26 @@ hr {
         &.active {
           border-left: 6px solid #00d2ff;
         }
+        @media screen and (max-width: 768px) {
+          margin: 0;
+          &.active {
+            border-left: none;
+            border-top: 6px solid #00d2ff;
+          }
+        }
       }
+    }
+  }
+
+  .mobile-header {
+    display: none;
+    @media screen and (max-width: 768px) {
+      display: block;
+      font-weight: normal;
+      font-size: 2.25rem;
+      line-height: 1.25;
+      color: white;
+      margin-top: 2em;
     }
   }
 }
@@ -152,7 +180,6 @@ hr {
 }
 
 .BondsWrapper_panel__chrome {
-  margin: 0 2.5rem;
   border-radius: 0.1rem;
   background: linear-gradient(357.98deg, #002d42 2.22%, #012639 96.94%);
   border: 1px solid #0c3549;

@@ -38,12 +38,12 @@ export const StyledHeaderItem = styled.div<StyledHeaderItemProps>`
   &:last-child {
     margin: 0;
   }
-  @media (max-width: ${deviceWidth.tablet}px) {
+  @media (max-width: ${deviceWidth.desktopLarge}px) {
     width: calc(50% - 0.5rem);
     margin: 0;
     margin-bottom: 1.25em;
   }
-  @media (min-width: ${deviceWidth.tablet}px) {
+  @media (min-width: ${deviceWidth.desktopLarge}px) {
     flex: 1;
   }
 `
@@ -91,6 +91,9 @@ export const Token = styled.div<TokenProps>`
   }
   font-weight: bold;
   @media (max-width: ${deviceWidth.tablet}px) {
-    align-self: stretch;
+    margin: 0 0.5rem 0 0;
+    span {
+      font-size: 1rem;
+    }
   }
 `

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import HeaderItem from './SummaryCard/SummaryCard'
 import { connect } from 'react-redux'
+import { Row, Col } from 'react-bootstrap'
 import { RootState } from '../../../redux/types'
 import { getAccount } from '../../../../modules/Account/Account.actions'
 import { getBalances as getBondBalances } from '../../../../modules/bond/bond.actions'
@@ -10,13 +11,12 @@ import { deviceWidth } from '../../../../lib/commonData'
 import styled from 'styled-components'
 
 const StyledHeader = styled.header`
-  margin: 1.25rem;
+  margin: 1.25rem 0;
   display: flex;
   flex-flow: row wrap;
   justify-content: space-between;
-  @media (min-width: ${deviceWidth.tablet}px) {
+  @media (min-width: ${deviceWidth.desktopLarge}px) {
     justify-content: flex-start;
-    margin: 2.5rem;
   }
 `
 
@@ -71,7 +71,7 @@ class Header extends Component<any, HeaderState> {
           priceColor="#39C3E6"
           setActiveHeaderItem={(): void => this.setActiveHeaderItem(0)}
           selected={this.state.selected === 0}
-        ></HeaderItem>
+        />
         <HeaderItem
           tokenType={activeBond.symbol}
           title="My Stake"
@@ -80,7 +80,7 @@ class Header extends Component<any, HeaderState> {
           priceColor="#6FCF97"
           setActiveHeaderItem={(): void => this.setActiveHeaderItem(1)}
           selected={this.state.selected === 1}
-        ></HeaderItem>
+        />
         <HeaderItem
           tokenType={activeBond.totalSupply.denom}
           title="Capital Raised"
@@ -89,7 +89,7 @@ class Header extends Component<any, HeaderState> {
           priceColor="#39C3E6"
           setActiveHeaderItem={(): void => this.setActiveHeaderItem(2)}
           selected={this.state.selected === 2}
-        ></HeaderItem>
+        />
         <HeaderItem
           tokenType={activeBond.reserve.denom}
           title="Reverse Funds"
@@ -98,14 +98,14 @@ class Header extends Component<any, HeaderState> {
           priceColor="#39C3E6"
           setActiveHeaderItem={(): void => this.setActiveHeaderItem(3)}
           selected={this.state.selected === 3}
-        ></HeaderItem>
+        />
         <HeaderItem
           title="Alpha"
           value="--"
           additionalInfo="--"
           setActiveHeaderItem={(): void => this.setActiveHeaderItem(4)}
           selected={this.state.selected === 4}
-        ></HeaderItem>
+        />
       </StyledHeader>
     )
   }
