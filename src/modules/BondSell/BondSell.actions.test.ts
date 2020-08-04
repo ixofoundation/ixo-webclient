@@ -1,5 +1,5 @@
 import axios from 'axios'
-import mockStore from 'common/redux/mockStore'
+import mockStore from '../../common/redux/mockStore'
 import * as SUT from './BondSell.actions'
 import { BondSellActions } from './types'
 import { Currency } from 'types/models'

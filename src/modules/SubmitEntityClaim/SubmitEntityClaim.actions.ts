@@ -8,7 +8,7 @@ import {
 } from './types'
 import { Dispatch } from 'redux'
 import { RootState } from 'common/redux/types'
-import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
+import blocksyncApi from '../../common/api/blocksync-api/blocksync-api'
 
 export const saveAnswer = (formData: FormData) => (
   dispatch: Dispatch,

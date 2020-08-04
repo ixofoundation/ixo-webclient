@@ -42,6 +42,7 @@ export const StyledHeaderItem = styled.div<StyledHeaderItemProps>`
     width: calc(50% - 0.5rem);
     margin: 0;
     margin-bottom: 1.25em;
+    min-height: 150px;
   }
   @media (min-width: ${deviceWidth.desktopLarge}px) {
     flex: 1;

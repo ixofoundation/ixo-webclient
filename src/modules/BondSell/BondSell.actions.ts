@@ -7,11 +7,11 @@ import {
 } from './types'
 import Axios from 'axios'
 import { Currency } from 'types/models'
-import * as Toast from 'common/utils/Toast'
+import * as Toast from '../../common/utils/Toast'
 import { Dispatch } from 'redux'
-import { RootState } from 'common/redux/types'
-import * as transactionUtils from 'common/utils/transaction.utils'
-import keysafe from 'common/keysafe/keysafe'
+import { RootState } from '../../common/redux/types'
+import * as transactionUtils from '../../common/utils/transaction.utils'
+import keysafe from '../../common/keysafe/keysafe'
 import { BondSellTx } from '../BondSell/types'
 import {
   currencyToApiCurrency,

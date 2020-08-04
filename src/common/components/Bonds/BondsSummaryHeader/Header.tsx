@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import HeaderItem from './SummaryCard/SummaryCard'
 import { connect } from 'react-redux'
-import { Row, Col } from 'react-bootstrap'
 import { RootState } from '../../../redux/types'
 import { getAccount } from '../../../../modules/Account/Account.actions'
 import { getBalances as getBondBalances } from '../../../../modules/bond/bond.actions'
