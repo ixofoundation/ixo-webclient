@@ -7,7 +7,7 @@ import { FormData } from '../../../../common/components/JsonForm/types'
 import { ObjectFieldTemplate2Column } from '../../../../common/components/JsonForm/CustomTemplates/ObjectFieldTemplate'
 import { customControls } from '../../../../common/components/JsonForm/types'
 import { EntityStage, EntityStatus } from 'src/modules/Entities/types'
-import { FormWrapper } from '../StatusCard/StatusCard.styles'
+import { FormWrapper } from '../CreateEntitySettings.styles'
 import {
   entityStageMap,
   entityStatusMap,

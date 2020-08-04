@@ -6,7 +6,7 @@ import * as formUtils from '../../../../common/components/JsonForm/JsonForm.util
 import { FormData } from '../../../../common/components/JsonForm/types'
 import { ObjectFieldTemplate2Column } from '../../../../common/components/JsonForm/CustomTemplates/ObjectFieldTemplate'
 import { customControls } from '../../../../common/components/JsonForm/types'
-import { RemoveButton, FormWrapper } from './DisplayCredentialCard.styles'
+import { RemoveButton, FormWrapper } from '../CreateEntitySettings.styles'
 
 interface Props {
   id: string

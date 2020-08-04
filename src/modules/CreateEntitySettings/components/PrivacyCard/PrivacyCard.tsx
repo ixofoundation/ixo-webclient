@@ -6,7 +6,7 @@ import * as formUtils from '../../../../common/components/JsonForm/JsonForm.util
 import { FormData } from '../../../../common/components/JsonForm/types'
 import { ObjectFieldTemplate2Column } from '../../../../common/components/JsonForm/CustomTemplates/ObjectFieldTemplate'
 import { PageView, EntityView } from 'src/modules/Entities/types'
-import { FormWrapper } from './PrivacyCard.styles'
+import { FormWrapper } from '../CreateEntitySettings.styles'
 import { pageViewMap, entityViewMap } from 'src/modules/Entities/strategy-map'
 
 interface Props {
