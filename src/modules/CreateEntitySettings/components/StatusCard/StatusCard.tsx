@@ -6,12 +6,9 @@ import * as formUtils from '../../../../common/components/JsonForm/JsonForm.util
 import { FormData } from '../../../../common/components/JsonForm/types'
 import { ObjectFieldTemplate2Column } from '../../../../common/components/JsonForm/CustomTemplates/ObjectFieldTemplate'
 import { customControls } from '../../../../common/components/JsonForm/types'
-import { EntityStage, EntityStatus } from 'src/modules/Entities/types'
+import { EntityStage, EntityStatus } from 'modules/Entities/types'
 import { FormWrapper } from '../StatusCard/StatusCard.styles'
-import {
-  entityStageMap,
-  entityStatusMap,
-} from 'src/modules/Entities/strategy-map'
+import { entityStageMap, entityStatusMap } from 'modules/Entities/strategy-map'
 
 interface Props {
   startDate: string

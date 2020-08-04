@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect'
-import { RootState } from 'src/common/redux/types'
+import { RootState } from 'common/redux/types'
 import { CreateEntityAdvancedState } from './types'
 
 export const selectAdvanced = (state: RootState): CreateEntityAdvancedState =>

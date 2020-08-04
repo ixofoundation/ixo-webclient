@@ -9,7 +9,7 @@ import { CreateEntityPageContentConnected } from '../CreateEntityPageContent/Cre
 import { CreateEntitySettingsConnected } from '../CreateEntitySettings/CreateEntitySettings.container'
 import { CreateEntityAdvancedConnected } from '../CreateEntityAdvanced/CreateEntityAdvanced.container'
 import { entityTypeMap } from '../Entities/strategy-map'
-import { toTitleCase } from 'src/common/utils/formatters'
+import { toTitleCase } from 'common/utils/formatters'
 import { EntityType } from '../Entities/types'
 
 interface Props {
