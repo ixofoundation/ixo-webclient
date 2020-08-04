@@ -1,5 +1,4 @@
 import React, { Fragment } from 'react'
-import { Line } from 'react-chartjs-2'
 import ReactApexChart from 'react-apexcharts'
 
 import { ChartContainer, StyledHeader } from './Chart.styles'
