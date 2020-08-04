@@ -18,6 +18,7 @@ import {
   keyPurposeMap,
   keyTypeMap,
 } from '../../../Entities/strategy-map'
+import { FormWrapper } from '../CreateEntityAdvanced.styles'
 
 interface Props {
   purpose: KeyPurpose
@@ -125,19 +126,21 @@ const KeyCard: React.FunctionComponent<Props> = ({
   return (
     <FormContainer className="row">
       <div className="col-lg-12">
-        <Form
-          formData={formData}
-          onChange={(control): void => handleUpdateDebounce(control.formData)}
-          noHtml5Validate
-          liveValidate
-          showErrorList={false}
-          schema={schema}
-          uiSchema={uiSchema}
-          transformErrors={formUtils.transformErrors}
-          ObjectFieldTemplate={ObjectFieldTemplate2Column}
-        >
-          &nbsp;
-        </Form>
+        <FormWrapper>
+          <Form
+            formData={formData}
+            onChange={(control): void => handleUpdateDebounce(control.formData)}
+            noHtml5Validate
+            liveValidate
+            showErrorList={false}
+            schema={schema}
+            uiSchema={uiSchema}
+            transformErrors={formUtils.transformErrors}
+            ObjectFieldTemplate={ObjectFieldTemplate2Column}
+          >
+            &nbsp;
+          </Form>
+        </FormWrapper>
       </div>
     </FormContainer>
   )

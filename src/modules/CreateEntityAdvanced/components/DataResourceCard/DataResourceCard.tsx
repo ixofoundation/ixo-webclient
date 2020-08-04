@@ -7,6 +7,7 @@ import { FormData } from '../../../../common/components/JsonForm/types'
 import { ObjectFieldTemplate2Column } from '../../../../common/components/JsonForm/CustomTemplates/ObjectFieldTemplate'
 import { DataResourceType } from '../../../Entities/types'
 import { dataResourceTypeMap } from '../../../Entities/strategy-map'
+import { FormWrapper, RemoveButton } from '../CreateEntityAdvanced.styles'
 
 interface Props {
   id: string
@@ -64,26 +65,31 @@ const FundCard: React.FunctionComponent<Props> = ({
   return (
     <FormContainer className="row">
       <div className="col-lg-12">
-        <Form
-          formData={formData}
-          onChange={(control): void =>
-            handleUpdateDebounce(id, control.formData)
-          }
-          noHtml5Validate
-          liveValidate
-          showErrorList={false}
-          schema={schema}
-          uiSchema={uiSchema}
-          transformErrors={formUtils.transformErrors}
-          ObjectFieldTemplate={ObjectFieldTemplate2Column}
-        >
-          &nbsp;
-        </Form>
+        <FormWrapper>
+          <Form
+            formData={formData}
+            onChange={(control): void =>
+              handleUpdateDebounce(id, control.formData)
+            }
+            noHtml5Validate
+            liveValidate
+            showErrorList={false}
+            schema={schema}
+            uiSchema={uiSchema}
+            transformErrors={formUtils.transformErrors}
+            ObjectFieldTemplate={ObjectFieldTemplate2Column}
+          >
+            &nbsp;
+          </Form>
+        </FormWrapper>
       </div>
       <div className="col-lg-12 text-right">
-        <button type="button" onClick={(): void => handleRemoveSection(id)}>
+        <RemoveButton
+          type="button"
+          onClick={(): void => handleRemoveSection(id)}
+        >
           Remove
-        </button>
+        </RemoveButton>
       </div>
     </FormContainer>
   )
