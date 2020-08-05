@@ -13,7 +13,11 @@ import {
 } from './types'
 import { connect } from 'react-redux'
 import {
+  addLinkedEntity,
+  removeLinkedEntity,
   updateLinkedEntity,
+  addPayment,
+  removePayment,
   updatePayment,
   addStake,
   removeStake,
@@ -24,7 +28,11 @@ import {
   addFund,
   removeFund,
   updateFund,
+  addKey,
+  removeKey,
   updateKey,
+  addService,
+  removeService,
   updateService,
   addDataResource,
   removeDataResource,
@@ -42,16 +50,20 @@ import ServiceCard from './components/ServiceCard/ServiceCard'
 import DataResourceCard from './components/DataResourceCard/DataResourceCard'
 
 interface Props {
-  linkedEntity: LinkedEntity
-  payment: Payment
+  linkedEntities: LinkedEntity[]
+  payments: Payment[]
   staking: Stake[]
   nodes: Node[]
   funding: Fund[]
-  entityKey: Key // to avoid name conflict with component key
-  service: Service
+  keys: Key[]
+  services: Service[]
   dataResources: DataResource[]
-  handleUpdateLinkedEntity: (formData: FormData) => void
-  handleUpdatePayment: (formData: FormData) => void
+  handleAddLinkedEntity: () => void
+  handleRemoveLinkedEntity: (id: string) => void
+  handleUpdateLinkedEntity: (id: string, formData: FormData) => void
+  handleAddPayment: () => void
+  handleRemovePayment: (id: string) => void
+  handleUpdatePayment: (id: string, formData: FormData) => void
   handleAddStake: () => void
   handleRemoveStake: (id: string) => void
   handleUpdateStake: (id: string, formData: FormData) => void
@@ -61,45 +73,73 @@ interface Props {
   handleAddFund: () => void
   handleRemoveFund: (id: string) => void
   handleUpdateFund: (id: string, formData: FormData) => void
-  handleUpdateKey: (formData: FormData) => void
-  handleUpdateService: (formData: FormData) => void
+  handleAddKey: () => void
+  handleRemoveKey: (id: string) => void
+  handleUpdateKey: (id: string, formData: FormData) => void
+  handleAddService: () => void
+  handleRemoveService: (id: string) => void
+  handleUpdateService: (id: string, formData: FormData) => void
   handleAddDataResource: () => void
   handleRemoveDataResource: (id: string) => void
   handleUpdateDataResource: (id: string, formData: FormData) => void
 }
 
 class CreateEntityAdvanced extends React.Component<Props> {
-  renderLinkedEntity = (): JSX.Element => {
-    const { linkedEntity, handleUpdateLinkedEntity } = this.props
-
-    const { entityId, type } = linkedEntity
+  renderLinkedEntities = (): JSX.Element => {
+    const {
+      linkedEntities,
+      handleUpdateLinkedEntity,
+      handleRemoveLinkedEntity,
+    } = this.props
 
     return (
       <FormCardWrapper showAddSection={false} title="Linked Entities">
-        <LinkedEntityCard
-          entityId={entityId}
-          type={type}
-          handleUpdate={handleUpdateLinkedEntity}
-        />
+        {linkedEntities.map(linkedEntity => {
+          const { id, entityId, type } = linkedEntity
+
+          return (
+            <LinkedEntityCard
+              key={id}
+              id={id}
+              entityId={entityId}
+              type={type}
+              handleUpdate={handleUpdateLinkedEntity}
+              handleRemoveSection={handleRemoveLinkedEntity}
+            />
+          )
+        })}
       </FormCardWrapper>
     )
   }
 
-  renderPayment = (): JSX.Element => {
-    const { payment, handleUpdatePayment } = this.props
-
-    const { type, paymentId, denomination, maxAmount, maxUnits } = payment
-
+  renderPayments = (): JSX.Element => {
+    const { payments, handleUpdatePayment, handleRemovePayment } = this.props
     return (
       <FormCardWrapper showAddSection={false} title="Payments">
-        <PaymentCard
-          type={type}
-          paymentId={paymentId}
-          denomination={denomination}
-          maxAmount={maxAmount}
-          maxUnits={maxUnits}
-          handleUpdate={handleUpdatePayment}
-        />
+        {payments.map(payment => {
+          const {
+            id,
+            type,
+            paymentId,
+            denomination,
+            maxAmount,
+            maxUnits,
+          } = payment
+
+          return (
+            <PaymentCard
+              key={id}
+              id={id}
+              type={type}
+              paymentId={paymentId}
+              denomination={denomination}
+              maxAmount={maxAmount}
+              maxUnits={maxUnits}
+              handleUpdate={handleUpdatePayment}
+              handleRemoveSection={handleRemovePayment}
+            />
+          )
+        })}
       </FormCardWrapper>
     )
   }
@@ -221,48 +261,70 @@ class CreateEntityAdvanced extends React.Component<Props> {
     )
   }
 
-  renderKey = (): JSX.Element => {
-    const { entityKey, handleUpdateKey } = this.props
-
-    const {
-      purpose,
-      type,
-      denomination,
-      controllerId,
-      dateCreated,
-      dateUpdated,
-    } = entityKey
+  renderKeys = (): JSX.Element => {
+    const { keys, handleUpdateKey, handleRemoveKey } = this.props
 
     return (
       <FormCardWrapper showAddSection={false} title="Keys">
-        <KeyCard
-          purpose={purpose}
-          type={type}
-          denomination={denomination}
-          controllerId={controllerId}
-          dateCreated={dateCreated}
-          dateUpdated={dateUpdated}
-          handleUpdate={handleUpdateKey}
-        />
+        {keys.map(key => {
+          const {
+            id,
+            purpose,
+            type,
+            denomination,
+            controllerId,
+            dateCreated,
+            dateUpdated,
+          } = key
+
+          return (
+            <KeyCard
+              key={id}
+              id={id}
+              purpose={purpose}
+              type={type}
+              denomination={denomination}
+              controllerId={controllerId}
+              dateCreated={dateCreated}
+              dateUpdated={dateUpdated}
+              handleUpdate={handleUpdateKey}
+              handleRemoveSection={handleRemoveKey}
+            />
+          )
+        })}
       </FormCardWrapper>
     )
   }
 
-  renderService = (): JSX.Element => {
-    const { service, handleUpdateService } = this.props
-
-    const { type, shortDescription, endpoint, publicKey, otherParams } = service
+  renderServices = (): JSX.Element => {
+    const { services, handleUpdateService, handleRemoveService } = this.props
 
     return (
       <FormCardWrapper showAddSection={false} title="Services">
-        <ServiceCard
-          type={type}
-          shortDescription={shortDescription}
-          endpoint={endpoint}
-          publicKey={publicKey}
-          otherParams={otherParams}
-          handleUpdate={handleUpdateService}
-        />
+        {services.map(service => {
+          const {
+            id,
+            type,
+            shortDescription,
+            endpoint,
+            publicKey,
+            otherParams,
+          } = service
+
+          return (
+            <ServiceCard
+              key={id}
+              id={id}
+              type={type}
+              shortDescription={shortDescription}
+              endpoint={endpoint}
+              publicKey={publicKey}
+              otherParams={otherParams}
+              handleUpdate={handleUpdateService}
+              handleRemoveSection={handleRemoveService}
+            />
+          )
+        })}
       </FormCardWrapper>
     )
   }
@@ -311,13 +373,13 @@ class CreateEntityAdvanced extends React.Component<Props> {
   render(): JSX.Element {
     return (
       <>
-        {this.renderLinkedEntity()}
-        {this.renderPayment()}
+        {this.renderLinkedEntities()}
+        {this.renderPayments()}
         {this.renderStaking()}
         {this.renderNodes()}
         {this.renderFunding()}
-        {this.renderKey()}
-        {this.renderService()}
+        {this.renderKeys()}
+        {this.renderServices()}
         {this.renderDataResources()}
       </>
     )
@@ -325,21 +387,26 @@ class CreateEntityAdvanced extends React.Component<Props> {
 }
 
 const mapStateToProps = (state: RootState): any => ({
-  linkedEntity: createEntityAdvancedSelectors.selectLinkedEntity(state),
-  payment: createEntityAdvancedSelectors.selectPayment(state),
+  linkedEntities: createEntityAdvancedSelectors.selectLinkedEntities(state),
+  payments: createEntityAdvancedSelectors.selectPayments(state),
   staking: createEntityAdvancedSelectors.selectStaking(state),
   nodes: createEntityAdvancedSelectors.selectNodes(state),
   funding: createEntityAdvancedSelectors.selectFunding(state),
-  entityKey: createEntityAdvancedSelectors.selectKey(state),
-  service: createEntityAdvancedSelectors.selectService(state),
+  keys: createEntityAdvancedSelectors.selectKeys(state),
+  services: createEntityAdvancedSelectors.selectServices(state),
   dataResources: createEntityAdvancedSelectors.selectDataResources(state),
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
-  handleUpdateLinkedEntity: (formData: FormData): void =>
-    dispatch(updateLinkedEntity(formData)),
-  handleUpdatePayment: (formData: FormData): void =>
-    dispatch(updatePayment(formData)),
+  handleAddLinkedEntity: (): void => dispatch(addLinkedEntity()),
+  handleRemoveLinkedEntity: (id: string): void =>
+    dispatch(removeLinkedEntity(id)),
+  handleUpdateLinkedEntity: (id: string, formData: FormData): void =>
+    dispatch(updateLinkedEntity(id, formData)),
+  handleAddPayment: (): void => dispatch(addPayment()),
+  handleRemovePayment: (id: string): void => dispatch(removePayment(id)),
+  handleUpdatePayment: (id: string, formData: FormData): void =>
+    dispatch(updatePayment(id, formData)),
   handleAddStake: (): void => dispatch(addStake()),
   handleRemoveStake: (id: string): void => dispatch(removeStake(id)),
   handleUpdateStake: (id: string, formData: FormData): void =>
@@ -352,9 +419,14 @@ const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
   handleRemoveFund: (id: string): void => dispatch(removeFund(id)),
   handleUpdateFund: (id: string, formData: FormData): void =>
     dispatch(updateFund(id, formData)),
-  handleUpdateKey: (formData: FormData): void => dispatch(updateKey(formData)),
-  handleUpdateService: (formData: FormData): void =>
-    dispatch(updateService(formData)),
+  handleAddKey: (): void => dispatch(addKey()),
+  handleRemoveKey: (id: string): void => dispatch(removeKey(id)),
+  handleUpdateKey: (id: string, formData: FormData): void =>
+    dispatch(updateKey(id, formData)),
+  handleAddService: (): void => dispatch(addService()),
+  handleRemoveService: (id: string): void => dispatch(removeService(id)),
+  handleUpdateService: (id: string, formData: FormData): void =>
+    dispatch(updateService(id, formData)),
   handleAddDataResource: (): void => dispatch(addDataResource()),
   handleRemoveDataResource: (id: string): void =>
     dispatch(removeDataResource(id)),

@@ -52,7 +52,7 @@ const LinkedEntityCard: React.FunctionComponent<Props> = ({
   }
 
   return (
-    <div>
+    <>
       <FormWrapper>
         <MultiControlForm
           handleSubmit={(): void => null}
@@ -73,7 +73,7 @@ const LinkedEntityCard: React.FunctionComponent<Props> = ({
           - Remove
         </RemoveButton>
       </div>
-    </div>
+    </>
   )
 }
 

@@ -1,12 +1,10 @@
 import React from 'react'
-import Form from '@rjsf/core'
-import { debounce } from 'debounce'
-import { FormContainer } from '../../../../common/components/JsonForm/JsonForm.styles'
-import * as formUtils from '../../../../common/components/JsonForm/JsonForm.utils'
 import { FormData } from '../../../../common/components/JsonForm/types'
-import { ObjectFieldTemplate2Column } from '../../../../common/components/JsonForm/CustomTemplates/ObjectFieldTemplate'
 import { FundSource } from '../../../Entities/types'
 import { fundSourceMap } from '../../../Entities/strategy-map'
+import { FormWrapper } from '../../../CreateEntityPageContent/components/PageContent.styles'
+import MultiControlForm from '../../../..//common/components/JsonForm/MultiControlForm/MultiControlForm'
+import { RemoveButton } from '../../../..//common/components/JsonForm/CustomWidgets/SDGSelector/SDGSelector.styles'
 
 interface Props {
   id: string
@@ -51,33 +49,29 @@ const FundCard: React.FunctionComponent<Props> = ({
     fundId: { ['ui:placeholder']: 'Enter DID or !name' },
   }
 
-  const handleUpdateDebounce = debounce(handleUpdate, 500)
-
   return (
-    <FormContainer className="row">
-      <div className="col-lg-12">
-        <Form
+    <>
+      <FormWrapper>
+        <MultiControlForm
+          handleSubmit={(): void => null}
+          handleFormDataChange={(formData): void => handleUpdate(id, formData)}
           formData={formData}
-          onChange={(control): void =>
-            handleUpdateDebounce(id, control.formData)
-          }
-          noHtml5Validate
-          liveValidate
-          showErrorList={false}
           schema={schema}
           uiSchema={uiSchema}
-          transformErrors={formUtils.transformErrors}
-          ObjectFieldTemplate={ObjectFieldTemplate2Column}
+          multiColumn
         >
           &nbsp;
-        </Form>
+        </MultiControlForm>
+      </FormWrapper>
+      <div className="text-right">
+        <RemoveButton
+          type="button"
+          onClick={(): void => handleRemoveSection(id)}
+        >
+          - Remove
+        </RemoveButton>
       </div>
-      <div className="col-lg-12 text-right">
-        <button type="button" onClick={(): void => handleRemoveSection(id)}>
-          Remove
-        </button>
-      </div>
-    </FormContainer>
+    </>
   )
 }
 

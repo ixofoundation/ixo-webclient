@@ -123,7 +123,7 @@ const KeyCard: React.FunctionComponent<Props> = ({
   }
 
   return (
-    <div>
+    <>
       <FormWrapper>
         <MultiControlForm
           handleSubmit={(): void => null}
@@ -144,7 +144,7 @@ const KeyCard: React.FunctionComponent<Props> = ({
           - Remove
         </RemoveButton>
       </div>
-    </div>
+    </>
   )
 }
 
