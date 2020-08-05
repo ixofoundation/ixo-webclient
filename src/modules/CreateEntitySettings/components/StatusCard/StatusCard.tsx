@@ -1,10 +1,5 @@
 import React from 'react'
-import Form from '@rjsf/core'
-import { debounce } from 'debounce'
-import { FormContainer } from '../../../../common/components/JsonForm/JsonForm.styles'
-import * as formUtils from '../../../../common/components/JsonForm/JsonForm.utils'
 import { FormData } from '../../../../common/components/JsonForm/types'
-import { ObjectFieldTemplate2Column } from '../../../../common/components/JsonForm/CustomTemplates/ObjectFieldTemplate'
 import { customControls } from '../../../../common/components/JsonForm/types'
 import { EntityStage, EntityStatus } from 'src/modules/Entities/types'
 import { FormWrapper } from '../StatusCard/StatusCard.styles'
@@ -12,6 +7,7 @@ import {
   entityStageMap,
   entityStatusMap,
 } from 'src/modules/Entities/strategy-map'
+import MultiControlForm from 'src/common/components/JsonForm/MultiControlForm/MultiControlForm'
 
 interface Props {
   startDate: string
@@ -70,28 +66,21 @@ const StatusCard: React.FunctionComponent<Props> = ({
     },
   }
 
-  const handleUpdateDebounce = debounce(handleUpdate, 500)
-
   return (
-    <div className="row">
-      <div className="col-lg-12">
-        <FormWrapper>
-          <Form
-            formData={formData}
-            onChange={(control): void => handleUpdateDebounce(control.formData)}
-            noHtml5Validate
-            liveValidate
-            showErrorList={false}
-            schema={schema}
-            uiSchema={uiSchema}
-            transformErrors={formUtils.transformErrors}
-            ObjectFieldTemplate={ObjectFieldTemplate2Column}
-          >
-            &nbsp;
-          </Form>
-        </FormWrapper>
-      </div>
-    </div>
+    <>
+      <FormWrapper>
+        <MultiControlForm
+          handleSubmit={(): void => null}
+          handleFormDataChange={handleUpdate}
+          formData={formData}
+          schema={schema}
+          uiSchema={uiSchema}
+          multiColumn
+        >
+          &nbsp;
+        </MultiControlForm>
+      </FormWrapper>
+    </>
   )
 }
 

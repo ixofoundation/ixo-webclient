@@ -19,16 +19,35 @@ let state: any
 beforeEach(() => {
   state = {
     createEntityAdvanced: {
-      linkedEntity: {
-        entityId: 'someEntityId',
-        type: EntityType.Investment,
+      linkedEntities: {
+        '9b1deb4d-3b7d-4bad-9abc-2b0d7b3dcb6d': {
+          id: '9b1deb4d-3b7d-4bad-9abc-2b0d7b3dcb6d',
+          entityId: 'someEntityId',
+          type: EntityType.Investment,
+        },
+        '9b1deb4d-3b7d-4ggg-9abc-2b0d7b3dcb6d': {
+          id: '9b1deb4d-3b7d-4ggg-9abc-2b0d7b3dcb6d',
+          entityId: 'someEntityId',
+          type: EntityType.Investment,
+        },
       },
-      payment: {
-        denomination: PaymentDenomination.eCHF,
-        maxAmount: 123,
-        maxUnits: 456,
-        paymentId: 'somePaymentId',
-        type: PaymentType.IncomeDistribution,
+      payments: {
+        '9b1deb4d-3hhh-4bad-9bdd-2b0d7b3dcb6d': {
+          id: '9b1deb4d-3hhh-4bad-9bdd-2b0d7b3dcb6d',
+          denomination: PaymentDenomination.eCHF,
+          maxAmount: 123,
+          maxUnits: 456,
+          paymentId: 'somePaymentId',
+          type: PaymentType.IncomeDistribution,
+        },
+        '9b1deb4d-3aaa-4bad-9bdd-2b0d7b3dcb6d': {
+          id: '9b1deb4d-3aaa-4bad-9bdd-2b0d7b3dcb6d',
+          denomination: PaymentDenomination.eCHF,
+          maxAmount: 123,
+          maxUnits: 456,
+          paymentId: 'somePaymentId',
+          type: PaymentType.IncomeDistribution,
+        },
       },
       staking: {
         '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d': {
@@ -80,20 +99,43 @@ beforeEach(() => {
           fundId: 'someOtherFundId2',
         },
       },
-      key: {
-        controllerId: 'someKeyControllerId',
-        dateCreated: 'someKeyDateCreated',
-        dateUpdated: 'someKeyDateUpdated',
-        denomination: PaymentDenomination.eUSD,
-        purpose: KeyPurpose.Identification,
-        type: KeyType.Secp256k1VerificationKey2018,
+      keys: {
+        '8c1dejjj-3b7d-4bad-9bdd-2b0d7b3dcb6d': {
+          id: '8c1dejjj-3b7d-4bad-9bdd-2b0d7b3dcb6d',
+          controllerId: 'someKeyControllerId',
+          dateCreated: 'someKeyDateCreated',
+          dateUpdated: 'someKeyDateUpdated',
+          denomination: PaymentDenomination.eUSD,
+          purpose: KeyPurpose.Identification,
+          type: KeyType.Secp256k1VerificationKey2018,
+        },
+        '8c1dejjj-3b7d-4bad-9bdd-2b0d7b3dgggg': {
+          id: '8c1dejjj-3b7d-4bad-9bdd-2b0d7b3dgggg',
+          controllerId: 'someKeyControllerId',
+          dateCreated: 'someKeyDateCreated',
+          dateUpdated: 'someKeyDateUpdated',
+          denomination: PaymentDenomination.eUSD,
+          purpose: KeyPurpose.Identification,
+          type: KeyType.Secp256k1VerificationKey2018,
+        },
       },
-      service: {
-        endpoint: 'someServiceEndpoint',
-        otherParams: 'someServiceOtherParams',
-        publicKey: 'someServicePublicKey',
-        shortDescription: 'someServiceShortDescription',
-        type: ServiceType.EthereumWeb3,
+      services: {
+        '8c1debff-3b7d-4yasy-9bdd-2b0d7b3dcb6d': {
+          id: '8c1debff-3b7d-4yasy-9bdd-2b0d7b3dcb6d',
+          endpoint: 'someServiceEndpoint',
+          otherParams: 'someServiceOtherParams',
+          publicKey: 'someServicePublicKey',
+          shortDescription: 'someServiceShortDescription',
+          type: ServiceType.EthereumWeb3,
+        },
+        '8c1debff-3b7d-4yasy-9bdd-2b0d7b3dxxxx': {
+          id: '8c1debff-3b7d-4yasy-9bdd-2b0d7b3dxxxx',
+          endpoint: 'someServiceEndpoint2',
+          otherParams: 'someServiceOtherParams2',
+          publicKey: 'someServicePublicKe2y',
+          shortDescription: 'someServiceShortDescription',
+          type: ServiceType.DIDAgent,
+        },
       },
       dataResources: {
         '8c1debff-3b7d-4bad-9bdd-2b0d7b3dcb6d': {
@@ -126,32 +168,51 @@ describe('CreateEntityAdvanced Selectors', () => {
     })
   })
 
-  describe('selectLinkedEntity', () => {
-    it('should return the linkedEntity property of createEntityAdvanced state', () => {
+  describe('selectLinkedEntities', () => {
+    it('should return the linkedEntities property of createEntityAdvanced state', () => {
       // when ... we call the selector
-      const result = SUT.selectLinkedEntity(state)
+      const result = SUT.selectLinkedEntities(state)
 
       // then ... should return result as expected
-      expect(result).toEqual({
-        entityId: 'someEntityId',
-        type: EntityType.Investment,
-      })
+      expect(result).toEqual([
+        {
+          id: '9b1deb4d-3b7d-4bad-9abc-2b0d7b3dcb6d',
+          entityId: 'someEntityId',
+          type: EntityType.Investment,
+        },
+        {
+          id: '9b1deb4d-3b7d-4ggg-9abc-2b0d7b3dcb6d',
+          entityId: 'someEntityId',
+          type: EntityType.Investment,
+        },
+      ])
     })
   })
 
-  describe('selectPayment', () => {
-    it('should return the payment property of createEntityAdvanced state', () => {
+  describe('selectPayments', () => {
+    it('should return the payments property of createEntityAdvanced state', () => {
       // when ... we call the selector
-      const result = SUT.selectPayment(state)
+      const result = SUT.selectPayments(state)
 
       // then ... should return result as expected
-      expect(result).toEqual({
-        denomination: PaymentDenomination.eCHF,
-        maxAmount: 123,
-        maxUnits: 456,
-        paymentId: 'somePaymentId',
-        type: PaymentType.IncomeDistribution,
-      })
+      expect(result).toEqual([
+        {
+          id: '9b1deb4d-3hhh-4bad-9bdd-2b0d7b3dcb6d',
+          denomination: PaymentDenomination.eCHF,
+          maxAmount: 123,
+          maxUnits: 456,
+          paymentId: 'somePaymentId',
+          type: PaymentType.IncomeDistribution,
+        },
+        {
+          id: '9b1deb4d-3aaa-4bad-9bdd-2b0d7b3dcb6d',
+          denomination: PaymentDenomination.eCHF,
+          maxAmount: 123,
+          maxUnits: 456,
+          paymentId: 'somePaymentId',
+          type: PaymentType.IncomeDistribution,
+        },
+      ])
     })
   })
 
@@ -232,36 +293,59 @@ describe('CreateEntityAdvanced Selectors', () => {
     })
   })
 
-  describe('selectKey', () => {
-    it('should return the key property of createEntityAdvanced state', () => {
+  describe('selectKeys', () => {
+    it('should return the keys property of createEntityAdvanced state', () => {
       // when ... we call the selector
-      const result = SUT.selectKey(state)
+      const result = SUT.selectKeys(state)
 
       // then ... should return result as expected
-      expect(result).toEqual({
-        controllerId: 'someKeyControllerId',
-        dateCreated: 'someKeyDateCreated',
-        dateUpdated: 'someKeyDateUpdated',
-        denomination: PaymentDenomination.eUSD,
-        purpose: KeyPurpose.Identification,
-        type: KeyType.Secp256k1VerificationKey2018,
-      })
+      expect(result).toEqual([
+        {
+          id: '8c1dejjj-3b7d-4bad-9bdd-2b0d7b3dcb6d',
+          controllerId: 'someKeyControllerId',
+          dateCreated: 'someKeyDateCreated',
+          dateUpdated: 'someKeyDateUpdated',
+          denomination: PaymentDenomination.eUSD,
+          purpose: KeyPurpose.Identification,
+          type: KeyType.Secp256k1VerificationKey2018,
+        },
+        {
+          id: '8c1dejjj-3b7d-4bad-9bdd-2b0d7b3dgggg',
+          controllerId: 'someKeyControllerId',
+          dateCreated: 'someKeyDateCreated',
+          dateUpdated: 'someKeyDateUpdated',
+          denomination: PaymentDenomination.eUSD,
+          purpose: KeyPurpose.Identification,
+          type: KeyType.Secp256k1VerificationKey2018,
+        },
+      ])
     })
   })
 
-  describe('selectService', () => {
-    it('should return the service property of createEntityAdvanced state', () => {
+  describe('selectServices', () => {
+    it('should return the services property of createEntityAdvanced state', () => {
       // when ... we call the selector
-      const result = SUT.selectService(state)
+      const result = SUT.selectServices(state)
 
       // then ... should return result as expected
-      expect(result).toEqual({
-        endpoint: 'someServiceEndpoint',
-        otherParams: 'someServiceOtherParams',
-        publicKey: 'someServicePublicKey',
-        shortDescription: 'someServiceShortDescription',
-        type: ServiceType.EthereumWeb3,
-      })
+      expect(result).toEqual([
+        {
+          id: '8c1debff-3b7d-4yasy-9bdd-2b0d7b3dcb6d',
+          endpoint: 'someServiceEndpoint',
+          otherParams: 'someServiceOtherParams',
+          publicKey: 'someServicePublicKey',
+          shortDescription: 'someServiceShortDescription',
+          type: ServiceType.EthereumWeb3,
+        },
+        {
+          id: '8c1debff-3b7d-4yasy-9bdd-2b0d7b3dxxxx',
+          endpoint: 'someServiceEndpoint2',
+          otherParams: 'someServiceOtherParams2',
+          publicKey: 'someServicePublicKe2y',
+          shortDescription: 'someServiceShortDescription',
+          type: ServiceType.DIDAgent,
+        },
+      ])
     })
   })
 

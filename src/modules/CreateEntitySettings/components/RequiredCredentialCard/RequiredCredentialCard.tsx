@@ -1,11 +1,6 @@
 import React from 'react'
-import Form from '@rjsf/core'
-import { debounce } from 'debounce'
-import { FormContainer } from '../../../../common/components/JsonForm/JsonForm.styles'
-import * as formUtils from '../../../../common/components/JsonForm/JsonForm.utils'
-import { FormData } from '../../../../common/components/JsonForm/types'
-import { ObjectFieldTemplate2Column } from '../../../../common/components/JsonForm/CustomTemplates/ObjectFieldTemplate'
 import { RemoveButton } from '../DisplayCredentialCard/DisplayCredentialCard.styles'
+import MultiControlForm from 'src/common/components/JsonForm/MultiControlForm/MultiControlForm'
 
 interface Props {
   id: string
@@ -51,28 +46,19 @@ const RequiredCredential: React.FunctionComponent<Props> = ({
     },
   }
 
-  const handleUpdateDebounce = debounce(handleUpdate, 500)
-
   return (
-    <FormContainer className="row">
-      <div className="col-lg-12">
-        <Form
-          formData={formData}
-          onChange={(control): void =>
-            handleUpdateDebounce(id, control.formData)
-          }
-          noHtml5Validate
-          liveValidate
-          showErrorList={false}
-          schema={schema}
-          uiSchema={uiSchema}
-          transformErrors={formUtils.transformErrors}
-          ObjectFieldTemplate={ObjectFieldTemplate2Column}
-        >
-          &nbsp;
-        </Form>
-      </div>
-      <div className="col-lg-12 text-right">
+    <div>
+      <MultiControlForm
+        handleSubmit={(): void => null}
+        handleFormDataChange={(formData): void => handleUpdate(id, formData)}
+        formData={formData}
+        schema={schema}
+        uiSchema={uiSchema}
+        multiColumn
+      >
+        &nbsp;
+      </MultiControlForm>
+      <div className="text-right">
         <RemoveButton
           type="button"
           onClick={(): void => handleRemoveSection(id)}
@@ -80,7 +66,7 @@ const RequiredCredential: React.FunctionComponent<Props> = ({
           - Remove
         </RemoveButton>
       </div>
-    </FormContainer>
+    </div>
   )
 }
 

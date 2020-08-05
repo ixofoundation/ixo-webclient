@@ -1,5 +1,4 @@
 import React from 'react'
-import { FormContainer } from '../../../../common/components/JsonForm/JsonForm.styles'
 import { FormData } from '../../../../common/components/JsonForm/types'
 import { PageView, EntityView } from 'src/modules/Entities/types'
 import { FormWrapper } from './PrivacyCard.styles'
@@ -55,22 +54,18 @@ const PrivacyCard: React.FunctionComponent<Props> = ({
   }
 
   return (
-    <FormContainer className="row">
-      <div className="col-lg-12">
-        <FormWrapper>
-          <MultiControlForm
-            handleSubmit={(): void => null}
-            handleFormDataChange={handleUpdate}
-            formData={formData}
-            schema={schema}
-            uiSchema={uiSchema}
-            multiColumn
-          >
-            &nbsp;
-          </MultiControlForm>
-        </FormWrapper>
-      </div>
-    </FormContainer>
+    <FormWrapper>
+      <MultiControlForm
+        handleSubmit={(): void => null}
+        handleFormDataChange={handleUpdate}
+        formData={formData}
+        schema={schema}
+        uiSchema={uiSchema}
+        multiColumn
+      >
+        &nbsp;
+      </MultiControlForm>
+    </FormWrapper>
   )
 }
 

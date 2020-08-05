@@ -30,6 +30,14 @@ import {
   AddDataResourceSectionAction,
   RemoveDataResourceSectionAction,
   UpdateDataResourceAction,
+  AddServiceSectionAction,
+  RemoveServiceSectionAction,
+  RemoveLinkedEntitySectionAction,
+  AddLinkedEntitySectionAction,
+  AddPaymentSectionAction,
+  RemovePaymentSectionAction,
+  AddKeySectionAction,
+  RemoveKeySectionAction,
 } from './types'
 
 const initialState = SUT.initialState
@@ -46,8 +54,82 @@ describe('CreateEntityAdvanced Reducer', () => {
     expect(result).toEqual(initialState)
   })
 
-  describe('LinkedEntity Actions', () => {
+  describe('LinkedEntities Actions', () => {
+    it('should add a new linkedEntity section', () => {
+      const id = 'someId'
+      const type = EntityType.Investment
+      const entityId = 'someEntityId'
+
+      // given ... we have an action of type CreateEntityAdvancedActions.AddLinkedEntity
+      const action: AddLinkedEntitySectionAction = {
+        type: CreateEntityAdvancedActions.AddLinkedEntity,
+        payload: {
+          id,
+          type,
+          entityId,
+        },
+      }
+
+      // when ... we run the reducer with this action
+      const result = SUT.reducer(initialState, action)
+
+      // then ... the state should be set as expected
+      expect(result).toEqual({
+        ...initialState,
+        linkedEntities: {
+          [id]: {
+            id,
+            type,
+            entityId,
+          },
+        },
+      })
+    })
+
+    it('should remove linked entity section', () => {
+      const id = 'existingSectionId'
+      // given ... we have an action of type CreateEntityAdvancedActions.RemoveLinkedEntity
+      const action: RemoveLinkedEntitySectionAction = {
+        type: CreateEntityAdvancedActions.RemoveLinkedEntity,
+        payload: {
+          id,
+        },
+      }
+      // when ... we run the reducer with this action
+      const result = SUT.reducer(
+        {
+          ...initialState,
+          linkedEntities: {
+            [id]: {
+              id,
+              type: EntityType.Investment,
+              entityId: 'someEntityId',
+            },
+            ['anotherid']: {
+              id: 'anotherid',
+              type: EntityType.Project,
+              entityId: 'someEntityId2',
+            },
+          },
+        },
+        action,
+      )
+
+      // then ... the state should be set as expected
+      expect(result).toEqual({
+        ...initialState,
+        linkedEntities: {
+          ['anotherid']: {
+            id: 'anotherid',
+            type: EntityType.Project,
+            entityId: 'someEntityId2',
+          },
+        },
+      })
+    })
+
     it('should update the linkedEntity', () => {
+      const id = 'someId'
       const type = EntityType.Investment
       const entityId = 'someEntityId'
 
@@ -55,26 +137,134 @@ describe('CreateEntityAdvanced Reducer', () => {
       const action: UpdateLinkedEntityAction = {
         type: CreateEntityAdvancedActions.UpdateLinkedEntity,
         payload: {
+          id,
           entityId,
           type,
         },
       }
 
       // when ... we run the reducer with this action
-      const result = SUT.reducer(initialState, action)
+      const result = SUT.reducer(
+        {
+          ...initialState,
+          linkedEntities: {
+            [id]: {
+              id,
+              type: EntityType.Data,
+              entityId: 'someOldLinkedEntityId',
+            },
+          },
+        },
+        action,
+      )
 
       expect(result).toEqual({
         ...initialState,
-        linkedEntity: {
-          type,
-          entityId,
+        linkedEntities: {
+          [id]: {
+            id,
+            type,
+            entityId,
+          },
         },
       })
     })
   })
 
-  describe('Payment Actions', () => {
+  describe('Payments Actions', () => {
+    it('should add a new payment section', () => {
+      const id = 'someId'
+      const type = PaymentType.FeeforService
+      const paymentId = 'somePaymentId'
+      const denomination = PaymentDenomination.eCHF
+      const maxAmount = 123
+      const maxUnits = 456
+
+      // given ... we have an action of type CreateEntityAdvancedActions.AddPayment
+      const action: AddPaymentSectionAction = {
+        type: CreateEntityAdvancedActions.AddPayment,
+        payload: {
+          id,
+          type,
+          paymentId,
+          denomination,
+          maxAmount,
+          maxUnits,
+        },
+      }
+
+      // when ... we run the reducer with this action
+      const result = SUT.reducer(initialState, action)
+
+      // then ... the state should be set as expected
+      expect(result).toEqual({
+        ...initialState,
+        payments: {
+          [id]: {
+            id,
+            type,
+            paymentId,
+            denomination,
+            maxAmount,
+            maxUnits,
+          },
+        },
+      })
+    })
+
+    it('should remove payment section', () => {
+      const id = 'existingPaymentSectionId'
+      // given ... we have an action of type CreateEntityAdvancedActions.RemovePayment
+      const action: RemovePaymentSectionAction = {
+        type: CreateEntityAdvancedActions.RemovePayment,
+        payload: {
+          id,
+        },
+      }
+      // when ... we run the reducer with this action
+      const result = SUT.reducer(
+        {
+          ...initialState,
+          payments: {
+            [id]: {
+              id,
+              type: PaymentType.LoanRepayment,
+              paymentId: 'someOldPaymentId',
+              denomination: PaymentDenomination.IXO,
+              maxAmount: 1,
+              maxUnits: 2,
+            },
+            ['anotherid']: {
+              id: 'anotherid',
+              type: PaymentType.OutcomePayment,
+              paymentId: 'somePaymentId',
+              denomination: PaymentDenomination.eCHF,
+              maxAmount: 12,
+              maxUnits: 22,
+            },
+          },
+        },
+        action,
+      )
+
+      // then ... the state should be set as expected
+      expect(result).toEqual({
+        ...initialState,
+        payments: {
+          ['anotherid']: {
+            id: 'anotherid',
+            type: PaymentType.OutcomePayment,
+            paymentId: 'somePaymentId',
+            denomination: PaymentDenomination.eCHF,
+            maxAmount: 12,
+            maxUnits: 22,
+          },
+        },
+      })
+    })
+
     it('should update the payment', () => {
+      const id = 'someId'
       const type = PaymentType.FeeforService
       const paymentId = 'somePaymentId'
       const denomination = PaymentDenomination.eCHF
@@ -85,6 +275,7 @@ describe('CreateEntityAdvanced Reducer', () => {
       const action: UpdatePaymentAction = {
         type: CreateEntityAdvancedActions.UpdatePayment,
         payload: {
+          id,
           type,
           paymentId,
           denomination,
@@ -94,16 +285,34 @@ describe('CreateEntityAdvanced Reducer', () => {
       }
 
       // when ... we run the reducer with this action
-      const result = SUT.reducer(initialState, action)
+      const result = SUT.reducer(
+        {
+          ...initialState,
+          payments: {
+            [id]: {
+              id,
+              type: PaymentType.IncomeDistribution,
+              paymentId: 'someOldPaymentId',
+              denomination: PaymentDenomination.eUSD,
+              maxAmount: 1,
+              maxUnits: 2,
+            },
+          },
+        },
+        action,
+      )
 
       expect(result).toEqual({
         ...initialState,
-        payment: {
-          type,
-          paymentId,
-          denomination,
-          maxAmount,
-          maxUnits,
+        payments: {
+          [id]: {
+            id,
+            type,
+            paymentId,
+            denomination,
+            maxAmount,
+            maxUnits,
+          },
         },
       })
     })
@@ -533,21 +742,23 @@ describe('CreateEntityAdvanced Reducer', () => {
     })
   })
 
-  describe('Key Actions', () => {
-    it('should update the key', () => {
-      const purpose = KeyPurpose.Encryption
+  describe('Keys Actions', () => {
+    it('should add a new key section', () => {
+      const id = 'someId'
       const type = KeyType.JwsVerificationKey2020
-      const denomination = PaymentDenomination.eEUR
+      const purpose = KeyPurpose.Encryption
+      const denomination = PaymentDenomination.eCHF
       const controllerId = 'someControllerId'
       const dateCreated = 'someDateCreated'
       const dateUpdated = 'someDateUpdated'
 
-      // given .. we have an action of type CreateEntityAdvancedActions.UpdateKey
-      const action: UpdateKeyAction = {
-        type: CreateEntityAdvancedActions.UpdateKey,
+      // given ... we have an action of type CreateEntityAdvancedActions.AddKey
+      const action: AddKeySectionAction = {
+        type: CreateEntityAdvancedActions.AddKey,
         payload: {
-          purpose,
+          id,
           type,
+          purpose,
           denomination,
           controllerId,
           dateCreated,
@@ -558,22 +769,230 @@ describe('CreateEntityAdvanced Reducer', () => {
       // when ... we run the reducer with this action
       const result = SUT.reducer(initialState, action)
 
+      // then ... the state should be set as expected
       expect(result).toEqual({
         ...initialState,
-        key: {
-          purpose,
+        keys: {
+          [id]: {
+            id,
+            type,
+            purpose,
+            denomination,
+            controllerId,
+            dateCreated,
+            dateUpdated,
+          },
+        },
+      })
+    })
+
+    it('should remove key section', () => {
+      const id = 'existingSectionId'
+      // given ... we have an action of type CreateEntityAdvancedActions.RemoveKey
+      const action: RemoveKeySectionAction = {
+        type: CreateEntityAdvancedActions.RemoveKey,
+        payload: {
+          id,
+        },
+      }
+      // when ... we run the reducer with this action
+      const result = SUT.reducer(
+        {
+          ...initialState,
+          keys: {
+            [id]: {
+              id,
+              type: KeyType.Secp256k1VerificationKey2018,
+              purpose: KeyPurpose.Identification,
+              denomination: PaymentDenomination.IXO,
+              controllerId: 'someOldControllerId',
+              dateCreated: 'someOldDateCreated',
+              dateUpdated: 'someOldDateUpdated',
+            },
+            ['anotherid']: {
+              id: 'anotherid',
+              type: KeyType.Ed25519VerificationKey2018,
+              purpose: KeyPurpose.Identification,
+              denomination: PaymentDenomination.IXO,
+              controllerId: 'someControllerId',
+              dateCreated: 'someDateCreated',
+              dateUpdated: 'someDateUpdated',
+            },
+          },
+        },
+        action,
+      )
+
+      // then ... the state should be set as expected
+      expect(result).toEqual({
+        ...initialState,
+        keys: {
+          ['anotherid']: {
+            id: 'anotherid',
+            type: KeyType.Ed25519VerificationKey2018,
+            purpose: KeyPurpose.Identification,
+            denomination: PaymentDenomination.IXO,
+            controllerId: 'someControllerId',
+            dateCreated: 'someDateCreated',
+            dateUpdated: 'someDateUpdated',
+          },
+        },
+      })
+    })
+
+    it('should update the key', () => {
+      const id = 'someId'
+      const type = KeyType.JwsVerificationKey2020
+      const purpose = KeyPurpose.Encryption
+      const denomination = PaymentDenomination.eCHF
+      const controllerId = 'someControllerId'
+      const dateCreated = 'someDateCreated'
+      const dateUpdated = 'someDateUpdated'
+
+      // given .. we have an action of type CreateEntityAdvancedActions.UpdateKey
+      const action: UpdateKeyAction = {
+        type: CreateEntityAdvancedActions.UpdateKey,
+        payload: {
+          id,
           type,
+          purpose,
           denomination,
           controllerId,
           dateCreated,
           dateUpdated,
+        },
+      }
+
+      // when ... we run the reducer with this action
+      const result = SUT.reducer(
+        {
+          ...initialState,
+          keys: {
+            [id]: {
+              id,
+              type: KeyType.JwsVerificationKey2020,
+              purpose: KeyPurpose.Verification,
+              denomination: PaymentDenomination.eUSD,
+              controllerId: 'someOldControllerId',
+              dateCreated: 'someOldDateCreated',
+              dateUpdated: 'someOldDateUpdated',
+            },
+          },
+        },
+        action,
+      )
+
+      expect(result).toEqual({
+        ...initialState,
+        keys: {
+          [id]: {
+            id,
+            type,
+            purpose,
+            denomination,
+            controllerId,
+            dateCreated,
+            dateUpdated,
+          },
         },
       })
     })
   })
 
   describe('Service Actions', () => {
+    it('should add a new service section', () => {
+      const id = 'someId'
+      const type = ServiceType.DIDAgent
+      const shortDescription = 'someShortDescription'
+      const endpoint = 'someEndPoint'
+      const publicKey = 'somePublicKey'
+      const otherParams = 'someOtherParams'
+
+      // given ... we have an action of type CreateEntityAdvancedActions.AddService
+      const action: AddServiceSectionAction = {
+        type: CreateEntityAdvancedActions.AddService,
+        payload: {
+          id,
+          type,
+          shortDescription,
+          endpoint,
+          publicKey,
+          otherParams,
+        },
+      }
+
+      // when ... we run the reducer with this action
+      const result = SUT.reducer(initialState, action)
+
+      // then ... the state should be set as expected
+      expect(result).toEqual({
+        ...initialState,
+        services: {
+          [id]: {
+            id,
+            type,
+            shortDescription,
+            endpoint,
+            publicKey,
+            otherParams,
+          },
+        },
+      })
+    })
+
+    it('should remove service section', () => {
+      const id = 'existingSectionId'
+      // given ... we have an action of type CreateEntityAdvancedActions.RemoveService
+      const action: RemoveServiceSectionAction = {
+        type: CreateEntityAdvancedActions.RemoveService,
+        payload: {
+          id,
+        },
+      }
+      // when ... we run the reducer with this action
+      const result = SUT.reducer(
+        {
+          ...initialState,
+          services: {
+            [id]: {
+              id,
+              type: ServiceType.EthereumWeb3,
+              shortDescription: 'someShortDescription',
+              endpoint: 'someEndpoint',
+              publicKey: 'somePublicKey',
+              otherParams: 'someOtherParams',
+            },
+            ['anotherid']: {
+              id: 'anotherid',
+              type: ServiceType.Web2,
+              shortDescription: 'someOtherShortDescription',
+              endpoint: 'someOtherEndpoint',
+              publicKey: 'someOtherPublicKey',
+              otherParams: 'someOtherOtherParams',
+            },
+          },
+        },
+        action,
+      )
+
+      // then ... the state should be set as expected
+      expect(result).toEqual({
+        ...initialState,
+        services: {
+          ['anotherid']: {
+            id: 'anotherid',
+            type: ServiceType.Web2,
+            shortDescription: 'someOtherShortDescription',
+            endpoint: 'someOtherEndpoint',
+            publicKey: 'someOtherPublicKey',
+            otherParams: 'someOtherOtherParams',
+          },
+        },
+      })
+    })
+
     it('should update the service', () => {
+      const id = 'someId'
       const type = ServiceType.DIDAgent
       const shortDescription = 'someShortDescription'
       const endpoint = 'someEndPoint'
@@ -584,6 +1003,7 @@ describe('CreateEntityAdvanced Reducer', () => {
       const action: UpdateServiceAction = {
         type: CreateEntityAdvancedActions.UpdateService,
         payload: {
+          id,
           type,
           shortDescription,
           endpoint,
@@ -593,16 +1013,34 @@ describe('CreateEntityAdvanced Reducer', () => {
       }
 
       // when ... we run the reducer with this action
-      const result = SUT.reducer(initialState, action)
+      const result = SUT.reducer(
+        {
+          ...initialState,
+          services: {
+            [id]: {
+              id,
+              type: ServiceType.EthereumWeb3,
+              shortDescription: 'someOldShortDescription',
+              endpoint: 'someOldEndpoint',
+              publicKey: 'someOldPublicKey',
+              otherParams: 'someOldOtherParams',
+            },
+          },
+        },
+        action,
+      )
 
       expect(result).toEqual({
         ...initialState,
-        service: {
-          type,
-          shortDescription,
-          endpoint,
-          publicKey,
-          otherParams,
+        services: {
+          [id]: {
+            id,
+            type,
+            shortDescription,
+            endpoint,
+            publicKey,
+            otherParams,
+          },
         },
       })
     })

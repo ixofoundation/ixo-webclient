@@ -13,11 +13,13 @@ import {
 } from '../Entities/types'
 
 export interface LinkedEntity {
+  id: string
   type: EntityType
   entityId: string
 }
 
 export interface Payment {
+  id: string
   type: PaymentType
   paymentId: string
   denomination: PaymentDenomination
@@ -50,6 +52,7 @@ export interface Fund {
 }
 
 export interface Key {
+  id: string
   purpose: KeyPurpose
   type: KeyType
   denomination: PaymentDenomination
@@ -59,6 +62,7 @@ export interface Key {
 }
 
 export interface Service {
+  id: string
   type: ServiceType
   shortDescription: string
   endpoint: string
@@ -75,8 +79,12 @@ export interface DataResource {
 }
 
 export interface CreateEntityAdvancedState {
-  linkedEntity: LinkedEntity
-  payment: Payment
+  linkedEntities: {
+    [id: string]: LinkedEntity
+  }
+  payments: {
+    [id: string]: Payment
+  }
   staking: {
     [id: string]: Stake
   }
@@ -86,8 +94,12 @@ export interface CreateEntityAdvancedState {
   funding: {
     [id: string]: Fund
   }
-  key: Key
-  service: Service
+  keys: {
+    [id: string]: Key
+  }
+  services: {
+    [id: string]: Service
+  }
   dataResources: {
     [id: string]: DataResource
   }
@@ -95,8 +107,12 @@ export interface CreateEntityAdvancedState {
 
 export enum CreateEntityAdvancedActions {
   // Linked Entity
+  AddLinkedEntity = 'ixo/CreateEntityAdvanced/ADD_LINKED_ENTITY',
+  RemoveLinkedEntity = 'ixo/CreateEntityAdvanced/REMOVE_LINKED_ENTITY',
   UpdateLinkedEntity = 'ixo/CreateEntityAdvanced/UPDATE_LINKED_ENTITY',
   // Payment
+  AddPayment = 'ixo/CreateEntityAdvanced/ADD_PAYMENT',
+  RemovePayment = 'ixo/CreateEntityAdvanced/REMOVE_PAYMENT',
   UpdatePayment = 'ixo/CreateEntityAdvanced/UPDATE_PAYMENT',
   // Staking
   AddStake = 'ixo/CreateEntityAdvanced/ADD_STAKE',
@@ -111,8 +127,12 @@ export enum CreateEntityAdvancedActions {
   RemoveFund = 'ixo/CreateEntityAdvanced/REMOVE_FUND',
   UpdateFund = 'ixo/CreateEntityAdvanced/UPDATE_FUND',
   // Key
+  AddKey = 'ixo/CreateEntityAdvanced/ADD_KEY',
+  RemoveKey = 'ixo/CreateEntityAdvanced/REMOVE_KEY',
   UpdateKey = 'ixo/CreateEntityAdvanced/UPDATE_KEY',
   // Service
+  AddService = 'ixo/CreateEntityAdvanced/ADD_SERVICE',
+  RemoveService = 'ixo/CreateEntityAdvanced/REMOVE_SERVICE',
   UpdateService = 'ixo/CreateEntityAdvanced/UPDATE_SERVICE',
   // Data Resource
   AddDataResource = 'ixo/CreateEntityAdvanced/ADD_DATA_RESOURCE',
@@ -123,14 +143,49 @@ export enum CreateEntityAdvancedActions {
 export interface UpdateLinkedEntityAction {
   type: typeof CreateEntityAdvancedActions.UpdateLinkedEntity
   payload: {
+    id: string
     type: EntityType
     entityId: string
+  }
+}
+
+export interface AddLinkedEntitySectionAction {
+  type: typeof CreateEntityAdvancedActions.AddLinkedEntity
+  payload: {
+    id: string
+    type: EntityType
+    entityId: string
+  }
+}
+export interface RemoveLinkedEntitySectionAction {
+  type: typeof CreateEntityAdvancedActions.RemoveLinkedEntity
+  payload: {
+    id: string
+  }
+}
+
+export interface AddPaymentSectionAction {
+  type: typeof CreateEntityAdvancedActions.AddPayment
+  payload: {
+    id: string
+    type: PaymentType
+    paymentId: string
+    denomination: PaymentDenomination
+    maxAmount: number
+    maxUnits: number
+  }
+}
+export interface RemovePaymentSectionAction {
+  type: typeof CreateEntityAdvancedActions.RemovePayment
+  payload: {
+    id: string
   }
 }
 
 export interface UpdatePaymentAction {
   type: typeof CreateEntityAdvancedActions.UpdatePayment
   payload: {
+    id: string
     type: PaymentType
     paymentId: string
     denomination: PaymentDenomination
@@ -226,9 +281,29 @@ export interface UpdateFundAction {
   }
 }
 
+export interface AddKeySectionAction {
+  type: typeof CreateEntityAdvancedActions.AddKey
+  payload: {
+    id: string
+    purpose: KeyPurpose
+    type: KeyType
+    denomination: PaymentDenomination
+    controllerId: string
+    dateCreated: string
+    dateUpdated: string
+  }
+}
+export interface RemoveKeySectionAction {
+  type: typeof CreateEntityAdvancedActions.RemoveKey
+  payload: {
+    id: string
+  }
+}
+
 export interface UpdateKeyAction {
   type: typeof CreateEntityAdvancedActions.UpdateKey
   payload: {
+    id: string
     purpose: KeyPurpose
     type: KeyType
     denomination: PaymentDenomination
@@ -238,9 +313,29 @@ export interface UpdateKeyAction {
   }
 }
 
+export interface AddServiceSectionAction {
+  type: typeof CreateEntityAdvancedActions.AddService
+  payload: {
+    id: string
+    type: ServiceType
+    shortDescription: string
+    endpoint: string
+    publicKey: string
+    otherParams: string
+  }
+}
+
+export interface RemoveServiceSectionAction {
+  type: typeof CreateEntityAdvancedActions.RemoveService
+  payload: {
+    id: string
+  }
+}
+
 export interface UpdateServiceAction {
   type: typeof CreateEntityAdvancedActions.UpdateService
   payload: {
+    id: string
     type: ServiceType
     shortDescription: string
     endpoint: string
@@ -295,7 +390,11 @@ export interface UpdateDataResourceAction {
 }
 
 export type CreateEntityAdvancedActionTypes =
+  | AddLinkedEntitySectionAction
+  | RemoveLinkedEntitySectionAction
   | UpdateLinkedEntityAction
+  | AddPaymentSectionAction
+  | RemovePaymentSectionAction
   | UpdatePaymentAction
   | AddStakeSectionAction
   | RemoveStakeSectionAction
@@ -306,7 +405,11 @@ export type CreateEntityAdvancedActionTypes =
   | AddFundSectionAction
   | RemoveFundSectionAction
   | UpdateFundAction
+  | AddKeySectionAction
+  | RemoveKeySectionAction
   | UpdateKeyAction
+  | AddServiceSectionAction
+  | RemoveServiceSectionAction
   | UpdateServiceAction
   | AddDataResourceSectionAction
   | RemoveDataResourceSectionAction

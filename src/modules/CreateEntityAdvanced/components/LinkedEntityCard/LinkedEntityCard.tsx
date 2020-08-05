@@ -1,23 +1,25 @@
 import React from 'react'
-import Form from '@rjsf/core'
-import { debounce } from 'debounce'
-import { FormContainer } from '../../../../common/components/JsonForm/JsonForm.styles'
-import * as formUtils from '../../../../common/components/JsonForm/JsonForm.utils'
 import { FormData } from '../../../../common/components/JsonForm/types'
-import { ObjectFieldTemplate2Column } from '../../../../common/components/JsonForm/CustomTemplates/ObjectFieldTemplate'
-import { EntityType } from 'src/modules/Entities/types'
-import { entityTypeMap } from 'src/modules/Entities/strategy-map'
+import { EntityType } from '../../../../modules/Entities/types'
+import { entityTypeMap } from '../../../../modules/Entities/strategy-map'
+import { RemoveButton } from '../../../../common/components/JsonForm/CustomWidgets/SDGSelector/SDGSelector.styles'
+import { FormWrapper } from '../../../../modules/CreateEntityPageContent/components/PageContent.styles'
+import MultiControlForm from '../../../../common/components/JsonForm/MultiControlForm/MultiControlForm'
 
 interface Props {
+  id: string
   type: EntityType
   entityId: string
-  handleUpdate: (formData: FormData) => void
+  handleUpdate: (id: string, formData: FormData) => void
+  handleRemoveSection: (id: string) => void
 }
 
 const LinkedEntityCard: React.FunctionComponent<Props> = ({
+  id,
   type,
   entityId,
   handleUpdate,
+  handleRemoveSection,
 }) => {
   const formData = {
     type,
@@ -49,26 +51,29 @@ const LinkedEntityCard: React.FunctionComponent<Props> = ({
     },
   }
 
-  const handleUpdateDebounce = debounce(handleUpdate, 500)
-
   return (
-    <FormContainer className="row">
-      <div className="col-lg-12">
-        <Form
+    <div>
+      <FormWrapper>
+        <MultiControlForm
+          handleSubmit={(): void => null}
+          handleFormDataChange={(formData): void => handleUpdate(id, formData)}
           formData={formData}
-          onChange={(control): void => handleUpdateDebounce(control.formData)}
-          noHtml5Validate
-          liveValidate
-          showErrorList={false}
           schema={schema}
           uiSchema={uiSchema}
-          transformErrors={formUtils.transformErrors}
-          ObjectFieldTemplate={ObjectFieldTemplate2Column}
+          multiColumn
         >
           &nbsp;
-        </Form>
+        </MultiControlForm>
+      </FormWrapper>
+      <div className="text-right">
+        <RemoveButton
+          type="button"
+          onClick={(): void => handleRemoveSection(id)}
+        >
+          - Remove
+        </RemoveButton>
       </div>
-    </FormContainer>
+    </div>
   )
 }
 

@@ -5,17 +5,17 @@ import { CreateEntityAdvancedState } from './types'
 export const selectAdvanced = (state: RootState): CreateEntityAdvancedState =>
   state.createEntityAdvanced
 
-export const selectLinkedEntity = createSelector(
+export const selectLinkedEntities = createSelector(
   selectAdvanced,
   (advanced: CreateEntityAdvancedState) => {
-    return advanced.linkedEntity
+    return Object.values(advanced.linkedEntities)
   },
 )
 
-export const selectPayment = createSelector(
+export const selectPayments = createSelector(
   selectAdvanced,
   (advanced: CreateEntityAdvancedState) => {
-    return advanced.payment
+    return Object.values(advanced.payments)
   },
 )
 
@@ -40,17 +40,17 @@ export const selectFunding = createSelector(
   },
 )
 
-export const selectKey = createSelector(
+export const selectKeys = createSelector(
   selectAdvanced,
   (advanced: CreateEntityAdvancedState) => {
-    return advanced.key
+    return Object.values(advanced.keys)
   },
 )
 
-export const selectService = createSelector(
+export const selectServices = createSelector(
   selectAdvanced,
   (advanced: CreateEntityAdvancedState) => {
-    return advanced.service
+    return Object.values(advanced.services)
   },
 )
 

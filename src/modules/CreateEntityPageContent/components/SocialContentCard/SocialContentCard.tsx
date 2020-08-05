@@ -18,7 +18,7 @@ interface Props {
   handleUpdateContent: (formData: FormData) => void
 }
 
-const HeaderCard: React.FunctionComponent<Props> = ({
+const SocialContentCard: React.FunctionComponent<Props> = ({
   linkedInUrl,
   facebookUrl,
   twitterUrl,
@@ -99,22 +99,19 @@ const HeaderCard: React.FunctionComponent<Props> = ({
   }
 
   return (
-    <div className="row">
-      <div className="col-lg-12">
-        <FormWrapper>
-          <MultiControlForm
-            handleSubmit={(): void => null}
-            handleFormDataChange={handleUpdateContent}
-            formData={formData}
-            schema={schema}
-            uiSchema={uiSchema}
-          >
-            &nbsp;
-          </MultiControlForm>
-        </FormWrapper>
-      </div>
-    </div>
+    <FormWrapper>
+      <MultiControlForm
+        handleSubmit={(): void => null}
+        handleFormDataChange={handleUpdateContent}
+        formData={formData}
+        schema={schema}
+        uiSchema={uiSchema}
+        multiColumn
+      >
+        &nbsp;
+      </MultiControlForm>
+    </FormWrapper>
   )
 }
 
-export default HeaderCard
+export default SocialContentCard

@@ -18,9 +18,41 @@ import {
 
 describe('CreateEntityAdvanced Actions', () => {
   describe('linkedEntity', () => {
+    describe('addLinkedEntity', () => {
+      it('should add a new linkedEntity section', () => {
+        const id = 'newId'
+        v4.mockImplementationOnce(() => id)
+        // when ... we call the addLinkedEntity action
+        const action = SUT.addLinkedEntity()
+        // then ... we should expect it to create an action with the correct type
+        expect(action.type).toEqual(CreateEntityAdvancedActions.AddLinkedEntity)
+        expect(action.payload).toEqual({
+          id,
+          type: null,
+          entityId: null,
+        })
+      })
+    })
+
+    describe('removeLinkedEntity', () => {
+      it('should remove linkedEntity section', () => {
+        const id = 'existingId'
+        // when ... we call the removeLinkedEntity action
+        const action = SUT.removeLinkedEntity(id)
+        // then ... we should expect it to create an action with the correct type
+        expect(action.type).toEqual(
+          CreateEntityAdvancedActions.RemoveLinkedEntity,
+        )
+        expect(action.payload).toEqual({
+          id,
+        })
+      })
+    })
+
     describe('updatedLinkedEntity', () => {
       it('should update the linked entity', () => {
         // given ... some data
+        const id = 'existingId'
         const type = EntityType.Investment
         const entityId = 'someEntityId'
         const formData = {
@@ -29,21 +61,54 @@ describe('CreateEntityAdvanced Actions', () => {
         }
 
         // when ... we call the action
-        const action = SUT.updateLinkedEntity(formData)
+        const action = SUT.updateLinkedEntity(id, formData)
 
         // then ... we should expect it to create the action as expected
         expect(action.type).toEqual(
           CreateEntityAdvancedActions.UpdateLinkedEntity,
         )
-        expect(action.payload).toEqual({ type, entityId })
+        expect(action.payload).toEqual({ id, type, entityId })
       })
     })
   })
 
   describe('payment', () => {
+    describe('addPayment', () => {
+      it('should add a new payment section', () => {
+        const id = 'newId'
+        v4.mockImplementationOnce(() => id)
+        // when ... we call the addPayment action
+        const action = SUT.addPayment()
+        // then ... we should expect it to create an action with the correct type
+        expect(action.type).toEqual(CreateEntityAdvancedActions.AddPayment)
+        expect(action.payload).toEqual({
+          id,
+          type: null,
+          paymentId: null,
+          denomination: null,
+          maxAmount: null,
+          maxUnits: null,
+        })
+      })
+    })
+
+    describe('removePayment', () => {
+      it('should remove payment section', () => {
+        const id = 'existingId'
+        // when ... we call the removePayment action
+        const action = SUT.removePayment(id)
+        // then ... we should expect it to create an action with the correct type
+        expect(action.type).toEqual(CreateEntityAdvancedActions.RemovePayment)
+        expect(action.payload).toEqual({
+          id,
+        })
+      })
+    })
+
     describe('updatePayment', () => {
       it('should update the payment', () => {
         // given ... some data
+        const id = 'someId'
         const type = PaymentType.FeeforService
         const paymentId = 'somePaymentId'
         const denomination = PaymentDenomination.eCHF
@@ -59,11 +124,12 @@ describe('CreateEntityAdvanced Actions', () => {
         }
 
         // when ... we call the action
-        const action = SUT.updatePayment(formData)
+        const action = SUT.updatePayment(id, formData)
 
         // then ... we should expect it to create the action as expected
         expect(action.type).toEqual(CreateEntityAdvancedActions.UpdatePayment)
         expect(action.payload).toEqual({
+          id,
           type,
           paymentId,
           denomination,
@@ -189,7 +255,7 @@ describe('CreateEntityAdvanced Actions', () => {
     })
 
     describe('updateNode', () => {
-      it('should update the node resource', () => {
+      it('should update the node', () => {
         // given ... some node
         const id = 'someId'
         const type = NodeType.IBCNode
@@ -273,9 +339,43 @@ describe('CreateEntityAdvanced Actions', () => {
   })
 
   describe('key', () => {
+    describe('addKey', () => {
+      it('should add a new key section', () => {
+        const id = 'newId'
+        v4.mockImplementationOnce(() => id)
+        // when ... we call the addKey action
+        const action = SUT.addKey()
+        // then ... we should expect it to create an action with the correct type
+        expect(action.type).toEqual(CreateEntityAdvancedActions.AddKey)
+        expect(action.payload).toEqual({
+          id,
+          purpose: null,
+          type: null,
+          controllerId: null,
+          dateCreated: null,
+          dateUpdated: null,
+          denomination: null,
+        })
+      })
+    })
+
+    describe('removeKey', () => {
+      it('should remove key section', () => {
+        const id = 'existingId'
+        // when ... we call the removeKey action
+        const action = SUT.removeKey(id)
+        // then ... we should expect it to create an action with the correct type
+        expect(action.type).toEqual(CreateEntityAdvancedActions.RemoveKey)
+        expect(action.payload).toEqual({
+          id,
+        })
+      })
+    })
+
     describe('updateKey', () => {
       it('should update the key', () => {
         // given ... some data
+        const id = 'someId'
         const purpose = KeyPurpose.Encryption
         const type = KeyType.JwsVerificationKey2020
         const denomination = PaymentDenomination.eEUR
@@ -284,6 +384,7 @@ describe('CreateEntityAdvanced Actions', () => {
         const dateUpdated = 'someDateUpdated'
 
         const formData = {
+          id,
           purpose,
           type,
           denomination,
@@ -293,11 +394,12 @@ describe('CreateEntityAdvanced Actions', () => {
         }
 
         // when ... we call the action
-        const action = SUT.updateKey(formData)
+        const action = SUT.updateKey(id, formData)
 
         // then ... we should expect it to create the action as expected
         expect(action.type).toEqual(CreateEntityAdvancedActions.UpdateKey)
         expect(action.payload).toEqual({
+          id,
           purpose,
           type,
           denomination,
@@ -310,9 +412,42 @@ describe('CreateEntityAdvanced Actions', () => {
   })
 
   describe('service', () => {
+    describe('addService', () => {
+      it('should add a new service section', () => {
+        const id = 'newId'
+        v4.mockImplementationOnce(() => id)
+        // when ... we call the addService action
+        const action = SUT.addService()
+        // then ... we should expect it to create an action with the correct type
+        expect(action.type).toEqual(CreateEntityAdvancedActions.AddService)
+        expect(action.payload).toEqual({
+          id,
+          type: null,
+          shortDescription: null,
+          endpoint: null,
+          otherParams: null,
+          publicKey: null,
+        })
+      })
+    })
+
+    describe('removeService', () => {
+      it('should remove service section', () => {
+        const id = 'existingId'
+        // when ... we call the removeService action
+        const action = SUT.removeService(id)
+        // then ... we should expect it to create an action with the correct type
+        expect(action.type).toEqual(CreateEntityAdvancedActions.RemoveService)
+        expect(action.payload).toEqual({
+          id,
+        })
+      })
+    })
+
     describe('updateService', () => {
       it('should update the service', () => {
         // given ... some data
+        const id = 'someId'
         const type = ServiceType.DIDAgent
         const shortDescription = 'someShortDescription'
         const endpoint = 'someEndPoint'
@@ -320,6 +455,7 @@ describe('CreateEntityAdvanced Actions', () => {
         const otherParams = 'someOtherParams'
 
         const formData = {
+          id,
           type,
           shortDescription,
           endpoint,
@@ -328,11 +464,12 @@ describe('CreateEntityAdvanced Actions', () => {
         }
 
         // when ... we call the action
-        const action = SUT.updateService(formData)
+        const action = SUT.updateService(id, formData)
 
         // then ... we should expect it to create the action as expected
         expect(action.type).toEqual(CreateEntityAdvancedActions.UpdateService)
         expect(action.payload).toEqual({
+          id,
           type,
           shortDescription,
           endpoint,
