@@ -1,7 +1,7 @@
 import React, { Dispatch } from 'react'
 import { Route } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { RootState } from 'src/common/redux/types'
+import { RootState } from '../../common/redux/types'
 import { Hero } from './components/Hero/Hero'
 import { CreateEntityWrapper } from './CreateEntity.container.styles'
 import { Steps } from '../../common/components/Steps/Steps'
@@ -9,7 +9,7 @@ import { CreateEntityPageContentConnected } from '../CreateEntityPageContent/Cre
 import { CreateEntitySettingsConnected } from '../CreateEntitySettings/CreateEntitySettings.container'
 import { CreateEntityAdvancedConnected } from '../CreateEntityAdvanced/CreateEntityAdvanced.container'
 import { entityTypeMap } from '../Entities/strategy-map'
-import { toTitleCase } from 'src/common/utils/formatters'
+import { toTitleCase } from '../../common//utils/formatters'
 import { EntityType } from '../Entities/types'
 
 interface Props {
@@ -37,7 +37,7 @@ class CreateEntity extends React.Component<Props> {
                 <Steps
                   currentStepTitle="Advanced"
                   currentStepNo={4}
-                  totalSteps={4}
+                  totalSteps={3}
                   handleGoToStepClick={(): void => null}
                 />
                 <Route

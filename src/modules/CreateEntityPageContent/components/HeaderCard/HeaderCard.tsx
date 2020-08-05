@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import {
   FormData,
   customControls,
@@ -78,6 +78,8 @@ const HeaderCard: React.FunctionComponent<Props> = ({
     },
   }
 
+  const multiFormRef = useRef() as any
+
   return (
     <>
       <div className="justify-content-center">
@@ -104,13 +106,16 @@ const HeaderCard: React.FunctionComponent<Props> = ({
         </div>
       </div>
       <MultiControlForm
-        handleSubmit={(): void => null}
+        ref={multiFormRef}
+        handleSubmit={(): void => console.log('submitted')}
         handleFormDataChange={handleUpdateContent}
         formData={formData}
         schema={schema}
         uiSchema={uiSchema}
       >
-        &nbsp;
+        <div onClick={(): void => multiFormRef.current.validateAndSubmit()}>
+          Submit
+        </div>
       </MultiControlForm>
     </>
   )

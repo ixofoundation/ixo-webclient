@@ -42,8 +42,9 @@ import {
   addEmbeddedSection,
   removeEmbeddedSection,
 } from './CreateEntityPageContent.actions'
-import { FormData } from 'src/common/components/JsonForm/types'
+import { FormData } from '../../common/components/JsonForm/types'
 import FormCardWrapper from '../../common/components/Wrappers/FormCardWrapper/FormCardWrapper'
+import { ButtonGroup } from '../../common/components/JsonForm/JsonForm.styles'
 
 interface Props {
   header: HeaderPageContent
@@ -371,6 +372,11 @@ class CreateEntityPageContent extends React.Component<Props> {
         {this.renderProfileSections()}
         {this.renderSocialContent()}
         {this.renderEmbeddedSections()}
+        <ButtonGroup className="buttons-group">
+          <button type="submit" className="submitForm">
+            Next
+          </button>
+        </ButtonGroup>
       </>
     )
   }

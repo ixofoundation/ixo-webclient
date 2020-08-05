@@ -2,6 +2,7 @@ import React from 'react'
 import { debounce } from 'debounce'
 import SingleControlForm from '../../../../common/components/JsonForm/SingleControlForm/SingleControlForm'
 import { FormControl } from '../../../../common/components/JsonForm/types'
+import { ButtonGroup } from '../../../../common/components/JsonForm/JsonForm.styles'
 
 interface Props {
   question: FormControl
@@ -38,7 +39,7 @@ const Question: React.FunctionComponent<Props> = ({
       handleSubmit={handleNextClick}
       formControl={question}
     >
-      <div className="buttons">
+      <ButtonGroup>
         {currentQuestionNo > 1 && !answersComplete && (
           <button type="button" onClick={handlePreviousClick}>
             Previous
@@ -51,7 +52,7 @@ const Question: React.FunctionComponent<Props> = ({
             ? 'Finalise'
             : 'Next'}
         </button>
-      </div>
+      </ButtonGroup>
     </SingleControlForm>
   )
 }

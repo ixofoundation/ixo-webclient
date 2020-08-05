@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useImperativeHandle, useEffect } from 'react'
 import Form from '@rjsf/core'
 import { FormData } from '../types'
 import { FormContainer } from '../JsonForm.styles'
@@ -6,6 +6,7 @@ import * as formUtils from '../JsonForm.utils'
 import { ObjectFieldTemplate2Column } from '../CustomTemplates/ObjectFieldTemplate'
 
 interface Props {
+  ref?: any
   multiColumn?: boolean
   formData: FormData
   schema: any
@@ -14,45 +15,68 @@ interface Props {
   handleSubmit: () => void
 }
 
-const MultiControlForm: React.FunctionComponent<Props> = ({
-  children,
-  formData,
-  multiColumn,
-  schema,
-  uiSchema,
-  handleFormDataChange,
-  handleSubmit,
-}) => {
-  const [touched, setTouched] = useState({})
+const MultiControlForm: React.FunctionComponent<Props> = React.forwardRef(
+  (
+    {
+      children,
+      formData,
+      multiColumn,
+      schema,
+      uiSchema,
+      handleFormDataChange,
+      handleSubmit,
+    },
+    ref,
+  ) => {
+    const jsonFormRef = React.createRef<Form<any>>()
+    const [touched, setTouched] = useState({})
+    const [validated, setValidated] = useState(false)
 
-  const handleTouched = (id): void =>
-    setTouched({ ...touched, [id.replace('root_', '.')]: true })
+    useEffect(() => {
+      if (validated) {
+        jsonFormRef.current.submit()
+      }
+    }, [validated])
 
-  return (
-    <FormContainer>
-      <Form
-        formData={formData}
-        onChange={(e): void => handleFormDataChange(e.formData)}
-        onSubmit={handleSubmit}
-        noHtml5Validate
-        liveValidate
-        showErrorList={false}
-        schema={schema}
-        uiSchema={uiSchema}
-        transformErrors={(errors): any =>
-          formUtils.transformErrorsTouched(errors, touched)
-        }
-        onBlur={handleTouched}
-        onFocus={handleTouched}
-        ObjectFieldTemplate={
-          multiColumn ? ObjectFieldTemplate2Column : undefined
-        }
-      >
-        {children}
-      </Form>
-    </FormContainer>
-  )
-}
+    useImperativeHandle(ref, () => ({
+      validateAndSubmit: (): void => {
+        setValidated(true)
+      },
+    }))
+
+    const handleTouched = (id): void =>
+      setTouched({ ...touched, [id.replace('root_', '.')]: true })
+
+    return (
+      <FormContainer>
+        <Form
+          ref={jsonFormRef}
+          formData={formData}
+          onChange={(e): void => handleFormDataChange(e.formData)}
+          onSubmit={handleSubmit}
+          noHtml5Validate
+          liveValidate
+          showErrorList={false}
+          schema={schema}
+          uiSchema={uiSchema}
+          transformErrors={(errors): any =>
+            validated
+              ? formUtils.transformErrors(errors)
+              : formUtils.transformErrorsTouched(errors, touched)
+          }
+          onBlur={handleTouched}
+          onFocus={handleTouched}
+          onError={(e): void => console.log(e)}
+          ObjectFieldTemplate={
+            multiColumn ? ObjectFieldTemplate2Column : undefined
+          }
+        >
+          {children}
+        </Form>
+      </FormContainer>
+    )
+  },
+)
 
 MultiControlForm.defaultProps = {
   multiColumn: false,

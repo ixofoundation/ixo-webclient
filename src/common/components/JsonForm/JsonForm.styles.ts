@@ -231,44 +231,6 @@ export const FormContainer = styled.div`
     }
   }
 
-  form .buttons {
-    width: 100%;
-    display: flex;
-    flex-flow: row nowrap;
-    justify-content: center;
-    @media (min-width: ${deviceWidth.mobileSmall}px) {
-      justify-content: flex-end;
-    }
-    button {
-      width: 120px;
-      height: 50px;
-      font-weight: bold;
-      font-size: 1rem;
-      line-height: 19px;
-      border-radius: 4px;
-      border: none;
-    }
-    button[type='submit'] {
-      background: linear-gradient(180deg, #04d0fb 0%, #49bfe0 100%);
-      color: #fff;
-      margin-left: 1.25rem;
-      &:focus {
-        outline-style: none;
-        box-shadow: none;
-        border: 1px solid #fff;
-      }
-    }
-    button[type='button'] {
-      background: #fff;
-      color: #39c3e6;
-      border: 1px solid #39c3e6;
-      &:focus {
-        outline-style: var(--focus-outline-style);
-        box-shadow: var(--focus-box-shadow);
-      }
-    }
-  }
-
   .input-group input {
     width: initial;
     border-radius: 4px !important;
@@ -306,6 +268,44 @@ export const FormContainer = styled.div`
     background-color: #e8edee;
     box-shadow: none;
     border: none;
+  }
+`
+
+export const ButtonGroup = styled.div`
+  width: 100%;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  @media (min-width: ${deviceWidth.mobileSmall}px) {
+    justify-content: flex-end;
+  }
+  button {
+    width: 120px;
+    height: 50px;
+    font-weight: bold;
+    font-size: 1rem;
+    line-height: 19px;
+    border-radius: 4px;
+    border: none;
+  }
+  button[type='submit'] {
+    background: linear-gradient(180deg, #04d0fb 0%, #49bfe0 100%);
+    color: #fff;
+    margin-left: 1.25rem;
+    &:focus {
+      outline-style: none;
+      box-shadow: none;
+      border: 1px solid #fff;
+    }
+  }
+  button[type='button'] {
+    background: #fff;
+    color: #39c3e6;
+    border: 1px solid #39c3e6;
+    &:focus {
+      outline-style: var(--focus-outline-style);
+      box-shadow: var(--focus-box-shadow);
+    }
   }
 `
 
