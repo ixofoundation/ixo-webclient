@@ -70,7 +70,7 @@ const HeaderCard: React.FunctionComponent<Props> = ({
               handleUploadImage(id, base64EncodedImage)
             }
             aspect={1}
-            maxDimension={440}
+            maxDimension={960}
             previewWidth={440}
           />
         </div>

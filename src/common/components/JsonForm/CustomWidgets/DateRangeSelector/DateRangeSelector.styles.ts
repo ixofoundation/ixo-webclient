@@ -43,10 +43,6 @@ export const Container = styled.div`
       font-style: normal;
       font-weight: normal;
       font-size: 1rem;
-      ::placeholder {
-        color: #a5adb0;
-        line-height: 1.5;
-      }
       &:after {
         content: '';
       }

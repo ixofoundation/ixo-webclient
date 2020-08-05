@@ -1,5 +1,4 @@
 import React from 'react'
-import { FormContainer } from '../../../../common/components/JsonForm/JsonForm.styles'
 import { FormData } from '../../../../common/components/JsonForm/types'
 import ImageLoader from '../../../../common/components/DropZone/ImageLoader/ImageLoader'
 import { RemoveButton } from '../PageContent.styles'
@@ -60,8 +59,8 @@ const HeaderCard: React.FunctionComponent<Props> = ({
   }
 
   return (
-    <FormContainer className="row">
-      <div className="col-lg-6">
+    <>
+      <div className="justify-content-center">
         <div className="form-group">
           <label className="control-label">
             Image<span className="required">*</span>
@@ -84,7 +83,7 @@ const HeaderCard: React.FunctionComponent<Props> = ({
           />
         </div>
       </div>
-      <div className="col-lg-6">
+      <div>
         <MultiControlForm
           handleSubmit={(): void => null}
           handleFormDataChange={(formData): void =>
@@ -97,7 +96,7 @@ const HeaderCard: React.FunctionComponent<Props> = ({
           &nbsp;
         </MultiControlForm>
       </div>
-      <div className="col-lg-12 text-right">
+      <div className="text-right">
         <RemoveButton
           type="button"
           onClick={(): void => handleRemoveSection(id)}
@@ -105,7 +104,7 @@ const HeaderCard: React.FunctionComponent<Props> = ({
           - Remove
         </RemoveButton>
       </div>
-    </FormContainer>
+    </>
   )
 }
 

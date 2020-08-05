@@ -14,7 +14,7 @@ import {
 import HeaderCard from './components/HeaderCard/HeaderCard'
 import BodyContentCard from './components/BodyContentCard/BodyContentCard'
 import ImageContentCard from './components/ImageContentCard/ImageContentCard'
-import VideoContentCard from './components/VideoContentCard/VideoContentCard'
+//  import VideoContentCard from './components/VideoContentCard/VideoContentCard'
 import ProfileContentCard from './components/ProfileContentCard/ProfileContentCard'
 import SocialContentCard from './components/SocialContentCard/SocialContentCard'
 import EmbeddedContentCard from './components/EmbeddedContentCard/EmbeddedContentCard'
@@ -207,7 +207,8 @@ class CreateEntityPageContent extends React.Component<Props> {
     )
   }
 
-  renderVideoSections = (): JSX.Element => {
+  // Disable for now until proper video processing
+  /*   renderVideoSections = (): JSX.Element => {
     const {
       videos,
       handleUpdateVideoContent,
@@ -242,7 +243,7 @@ class CreateEntityPageContent extends React.Component<Props> {
         })}
       </FormCardWrapper>
     )
-  }
+  } */
 
   renderProfileSections = (): JSX.Element => {
     const {
@@ -366,7 +367,7 @@ class CreateEntityPageContent extends React.Component<Props> {
         {this.renderHeader()}
         {this.renderBodySections()}
         {this.renderImageSections()}
-        {this.renderVideoSections()}
+        {/* {this.renderVideoSections()} */}
         {this.renderProfileSections()}
         {this.renderSocialContent()}
         {this.renderEmbeddedSections()}

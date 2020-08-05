@@ -48,11 +48,10 @@ const EmbeddedContentCard: React.FunctionComponent<Props> = ({
   }
 
   return (
-    <div className="row">
-      <div className="col-lg-12">
+    <div>
+      <div>
         <FormWrapper>
           <MultiControlForm
-            multiColumn={true}
             handleSubmit={(): void => null}
             handleFormDataChange={(formData): void =>
               handleUpdateContent(id, formData)
@@ -65,7 +64,7 @@ const EmbeddedContentCard: React.FunctionComponent<Props> = ({
           </MultiControlForm>
         </FormWrapper>
       </div>
-      <div className="col-lg-12 text-right">
+      <div>
         <RemoveButton
           type="button"
           onClick={(): void => handleRemoveSection(id)}
