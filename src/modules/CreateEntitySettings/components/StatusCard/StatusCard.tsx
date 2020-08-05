@@ -73,7 +73,7 @@ const StatusCard: React.FunctionComponent<Props> = ({
   const handleUpdateDebounce = debounce(handleUpdate, 500)
 
   return (
-    <FormContainer className="row">
+    <div className="row">
       <div className="col-lg-12">
         <FormWrapper>
           <Form
@@ -91,7 +91,7 @@ const StatusCard: React.FunctionComponent<Props> = ({
           </Form>
         </FormWrapper>
       </div>
-    </FormContainer>
+    </div>
   )
 }
 

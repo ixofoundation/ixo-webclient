@@ -1,11 +1,8 @@
 import React from 'react'
-import Form from '@rjsf/core'
-import { debounce } from 'debounce'
-import { FormContainer } from '../../../../common/components/JsonForm/JsonForm.styles'
-import * as formUtils from '../../../../common/components/JsonForm/JsonForm.utils'
 import { FormData } from '../../../../common/components/JsonForm/types'
 import ImageLoader from '../../../../common/components/DropZone/ImageLoader/ImageLoader'
 import { customControls } from '../../../../common/components/JsonForm/types'
+import MultiControlForm from 'src/common/components/JsonForm/MultiControlForm/MultiControlForm'
 
 interface Props {
   name: string
@@ -46,15 +43,7 @@ const OwnerCard: React.FunctionComponent<Props> = ({
 
   const schema = {
     type: 'object',
-    required: [
-      'name',
-      'country',
-      'email',
-      'website',
-      'mission',
-      'identifier',
-      'credentialTokenId',
-    ],
+    required: ['name', 'country', 'email', 'website', 'mission', 'identifier'],
     properties: {
       name: { type: 'string', title: 'Display Name' },
       country: { type: 'string', title: 'Country of Origin' },
@@ -96,10 +85,8 @@ const OwnerCard: React.FunctionComponent<Props> = ({
     },
   }
 
-  const handleUpdateDebounce = debounce(handleUpdate, 500)
-
   return (
-    <FormContainer className="row">
+    <div className="row">
       <div className="col-lg-6">
         <div className="form-group">
           <label className="control-label">
@@ -117,26 +104,23 @@ const OwnerCard: React.FunctionComponent<Props> = ({
             handleSave={(base64EncodedImage): void =>
               handleUploadImage(base64EncodedImage)
             }
-            maxDimension={150}
-            previewWidth={150}
+            maxDimension={440}
+            previewWidth={440}
           />
         </div>
       </div>
       <div className="col-lg-6">
-        <Form
+        <MultiControlForm
+          handleSubmit={(): void => null}
+          handleFormDataChange={handleUpdate}
           formData={formData}
-          onChange={(control): void => handleUpdateDebounce(control.formData)}
-          noHtml5Validate
-          liveValidate
-          showErrorList={false}
           schema={schema}
           uiSchema={uiSchema}
-          transformErrors={formUtils.transformErrors}
         >
           &nbsp;
-        </Form>
+        </MultiControlForm>
       </div>
-    </FormContainer>
+    </div>
   )
 }
 

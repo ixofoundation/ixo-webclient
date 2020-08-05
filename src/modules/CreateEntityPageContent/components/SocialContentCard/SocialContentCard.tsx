@@ -103,7 +103,6 @@ const HeaderCard: React.FunctionComponent<Props> = ({
       <div className="col-lg-12">
         <FormWrapper>
           <MultiControlForm
-            multiColumn={true}
             handleSubmit={(): void => null}
             handleFormDataChange={handleUpdateContent}
             formData={formData}
