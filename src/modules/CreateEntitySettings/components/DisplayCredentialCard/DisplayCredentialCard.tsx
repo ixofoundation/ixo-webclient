@@ -53,18 +53,16 @@ const DisplayCredential: React.FunctionComponent<Props> = ({
 
   return (
     <>
-      <div>
-        <MultiControlForm
-          handleSubmit={(): void => null}
-          handleFormDataChange={(formData): void => handleUpdate(id, formData)}
-          formData={formData}
-          schema={schema}
-          uiSchema={uiSchema}
-          multiColumn
-        >
-          &nbsp;
-        </MultiControlForm>
-      </div>
+      <MultiControlForm
+        handleSubmit={(): void => null}
+        handleFormDataChange={(formData): void => handleUpdate(id, formData)}
+        formData={formData}
+        schema={schema}
+        uiSchema={uiSchema}
+        multiColumn
+      >
+        &nbsp;
+      </MultiControlForm>
       <div className="text-right">
         <LinkButton type="button" onClick={(): void => handleRemoveSection(id)}>
           - Remove

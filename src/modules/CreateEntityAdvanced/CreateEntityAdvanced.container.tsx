@@ -89,11 +89,17 @@ class CreateEntityAdvanced extends React.Component<Props> {
     const {
       linkedEntities,
       handleUpdateLinkedEntity,
+      handleAddLinkedEntity,
       handleRemoveLinkedEntity,
     } = this.props
 
     return (
-      <FormCardWrapper showAddSection={false} title="Linked Entities">
+      <FormCardWrapper
+        showAddSection={true}
+        title="Linked Entities"
+        onAddSection={handleAddLinkedEntity}
+        addSectionText="Add Linked Entity"
+      >
         {linkedEntities.map(linkedEntity => {
           const { id, entityId, type } = linkedEntity
 
@@ -113,9 +119,19 @@ class CreateEntityAdvanced extends React.Component<Props> {
   }
 
   renderPayments = (): JSX.Element => {
-    const { payments, handleUpdatePayment, handleRemovePayment } = this.props
+    const {
+      payments,
+      handleUpdatePayment,
+      handleAddPayment,
+      handleRemovePayment,
+    } = this.props
     return (
-      <FormCardWrapper showAddSection={false} title="Payments">
+      <FormCardWrapper
+        showAddSection={true}
+        title="Payments"
+        onAddSection={handleAddPayment}
+        addSectionText="Add Payment"
+      >
         {payments.map(payment => {
           const {
             id,
@@ -240,7 +256,7 @@ class CreateEntityAdvanced extends React.Component<Props> {
       <FormCardWrapper
         showAddSection={true}
         title="Funding"
-        addSectionText="Add a funding source"
+        addSectionText="Add a Funding Source"
         onAddSection={handleAddFund}
       >
         {funding.map(fund => {
@@ -262,10 +278,15 @@ class CreateEntityAdvanced extends React.Component<Props> {
   }
 
   renderKeys = (): JSX.Element => {
-    const { keys, handleUpdateKey, handleRemoveKey } = this.props
+    const { keys, handleUpdateKey, handleAddKey, handleRemoveKey } = this.props
 
     return (
-      <FormCardWrapper showAddSection={false} title="Keys">
+      <FormCardWrapper
+        showAddSection={true}
+        title="Keys"
+        onAddSection={handleAddKey}
+        addSectionText="Add Key"
+      >
         {keys.map(key => {
           const {
             id,
@@ -297,10 +318,20 @@ class CreateEntityAdvanced extends React.Component<Props> {
   }
 
   renderServices = (): JSX.Element => {
-    const { services, handleUpdateService, handleRemoveService } = this.props
+    const {
+      services,
+      handleUpdateService,
+      handleAddService,
+      handleRemoveService,
+    } = this.props
 
     return (
-      <FormCardWrapper showAddSection={false} title="Services">
+      <FormCardWrapper
+        showAddSection={true}
+        title="Services"
+        onAddSection={handleAddService}
+        addSectionText="Add Service"
+      >
         {services.map(service => {
           const {
             id,

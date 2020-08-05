@@ -83,19 +83,17 @@ const HeaderCard: React.FunctionComponent<Props> = ({
           />
         </div>
       </div>
-      <div>
-        <MultiControlForm
-          handleSubmit={(): void => null}
-          handleFormDataChange={(formData): void =>
-            handleUpdateContent(id, formData)
-          }
-          formData={formData}
-          schema={schema}
-          uiSchema={uiSchema}
-        >
-          &nbsp;
-        </MultiControlForm>
-      </div>
+      <MultiControlForm
+        handleSubmit={(): void => null}
+        handleFormDataChange={(formData): void =>
+          handleUpdateContent(id, formData)
+        }
+        formData={formData}
+        schema={schema}
+        uiSchema={uiSchema}
+      >
+        &nbsp;
+      </MultiControlForm>
       <div className="text-right">
         <LinkButton type="button" onClick={(): void => handleRemoveSection(id)}>
           - Remove
