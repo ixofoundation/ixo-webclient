@@ -2,6 +2,9 @@ import styled from 'styled-components'
 import { deviceWidth } from '../../../lib/commonData'
 
 export const FormContainer = styled.div`
+  --focus-outline-style: none;
+  --focus-box-shadow: none;
+  --focus-standard-border: 1px solid #39c3e6;
   form {
     width: 100%;
 
@@ -265,6 +268,45 @@ export const FormContainer = styled.div`
       }
     }
   }
+
+  .input-group input {
+    width: initial;
+    border-radius: 4px !important;
+    @media (min-width: ${deviceWidth.mobileSmall}px) {
+      margin-left: 0.625rem;
+    }
+  }
+
+  .form-group .form-control {
+    background-color: #e8edee !important;
+    box-shadow: none;
+  }
+  .form-group .DateRangePicker .DateRangePickerInput__showClearDates {
+    display: flex;
+  }
+  .form-group
+    .active
+    .DateRangePicker
+    .DateRangePickerInput
+    .DateRangePickerInput_clearDates {
+    top: calc(100% + 396px);
+  }
+
+  @media (min-width: ${deviceWidth.tablet}px) and (max-width: ${deviceWidth.desktop}px) {
+    .form-group .active .SingleDatePicker .SingleDatePicker_picker {
+      top: 120px !important;
+      left: 15rem !important;
+    }
+    .SingleDatePickerInput .SingleDatePickerInput_clearDate {
+      top: calc(100% + 448px) !important;
+      left: -3.5rem !important;
+    }
+  }
+  .form-group select {
+    background-color: #e8edee;
+    box-shadow: none;
+    border: none;
+  }
 `
 
 export const FormWrapper = styled.div`
@@ -297,6 +339,7 @@ export const FormWrapper = styled.div`
       left: 15rem !important;
     }
   }
+
   .form-group select {
     background-color: #e8edee;
     box-shadow: none;

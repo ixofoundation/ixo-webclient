@@ -3,7 +3,6 @@ import Form from '@rjsf/core'
 import { debounce } from 'debounce'
 import {
   FormContainer,
-  FormWrapper,
   LinkButton,
 } from '../../../../common/components/JsonForm/JsonForm.styles'
 import * as formUtils from '../../../../common/components/JsonForm/JsonForm.utils'
@@ -103,22 +102,20 @@ const HeaderCard: React.FunctionComponent<Props> = ({
         </div>
       </div>
       <div className="col-lg-6">
-        <FormWrapper>
-          <Form
-            formData={formData}
-            onChange={(control): void =>
-              handleUpdateContentDebounce(id, control.formData)
-            }
-            noHtml5Validate
-            liveValidate
-            showErrorList={false}
-            schema={schema}
-            uiSchema={uiSchema}
-            transformErrors={formUtils.transformErrors}
-          >
-            &nbsp;
-          </Form>
-        </FormWrapper>
+        <Form
+          formData={formData}
+          onChange={(control): void =>
+            handleUpdateContentDebounce(id, control.formData)
+          }
+          noHtml5Validate
+          liveValidate
+          showErrorList={false}
+          schema={schema}
+          uiSchema={uiSchema}
+          transformErrors={formUtils.transformErrors}
+        >
+          &nbsp;
+        </Form>
       </div>
       <div className="col-lg-12 text-right">
         <LinkButton type="button" onClick={(): void => handleRemoveSection(id)}>

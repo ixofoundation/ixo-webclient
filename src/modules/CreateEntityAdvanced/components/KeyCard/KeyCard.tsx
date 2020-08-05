@@ -1,10 +1,7 @@
 import React from 'react'
 import Form from '@rjsf/core'
 import { debounce } from 'debounce'
-import {
-  FormContainer,
-  FormWrapper,
-} from '../../../../common/components/JsonForm/JsonForm.styles'
+import { FormContainer } from '../../../../common/components/JsonForm/JsonForm.styles'
 import * as formUtils from '../../../../common/components/JsonForm/JsonForm.utils'
 import {
   FormData,
@@ -128,21 +125,19 @@ const KeyCard: React.FunctionComponent<Props> = ({
   return (
     <FormContainer className="row">
       <div className="col-lg-12">
-        <FormWrapper>
-          <Form
-            formData={formData}
-            onChange={(control): void => handleUpdateDebounce(control.formData)}
-            noHtml5Validate
-            liveValidate
-            showErrorList={false}
-            schema={schema}
-            uiSchema={uiSchema}
-            transformErrors={formUtils.transformErrors}
-            ObjectFieldTemplate={ObjectFieldTemplate2Column}
-          >
-            &nbsp;
-          </Form>
-        </FormWrapper>
+        <Form
+          formData={formData}
+          onChange={(control): void => handleUpdateDebounce(control.formData)}
+          noHtml5Validate
+          liveValidate
+          showErrorList={false}
+          schema={schema}
+          uiSchema={uiSchema}
+          transformErrors={formUtils.transformErrors}
+          ObjectFieldTemplate={ObjectFieldTemplate2Column}
+        >
+          &nbsp;
+        </Form>
       </div>
     </FormContainer>
   )
