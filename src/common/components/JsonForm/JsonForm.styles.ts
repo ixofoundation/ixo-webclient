@@ -275,6 +275,21 @@ export const FormWrapper = styled.div`
       margin-left: 0.625rem;
     }
   }
+
+  .form-group .form-control {
+    background-color: #e8edee;
+    box-shadow: none;
+  }
+  .form-group .DateRangePicker .DateRangePickerInput__showClearDates {
+    display: flex;
+  }
+  .form-group
+    .active
+    .DateRangePicker
+    .DateRangePickerInput
+    .DateRangePickerInput_clearDates {
+    top: calc(100% + 396px);
+  }
 `
 
 export const LinkButton = styled.button`
