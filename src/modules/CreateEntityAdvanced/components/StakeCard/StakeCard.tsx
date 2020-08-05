@@ -1,7 +1,10 @@
 import React from 'react'
 import Form from '@rjsf/core'
 import { debounce } from 'debounce'
-import { FormContainer } from '../../../../common/components/JsonForm/JsonForm.styles'
+import {
+  FormContainer,
+  LinkButton,
+} from '../../../../common/components/JsonForm/JsonForm.styles'
 import * as formUtils from '../../../../common/components/JsonForm/JsonForm.utils'
 import { FormData } from '../../../../common/components/JsonForm/types'
 import { ObjectFieldTemplate2Column } from '../../../../common/components/JsonForm/CustomTemplates/ObjectFieldTemplate'
@@ -142,9 +145,9 @@ const StakeCard: React.FunctionComponent<Props> = ({
         </Form>
       </div>
       <div className="col-lg-12 text-right">
-        <button type="button" onClick={(): void => handleRemoveSection(id)}>
-          Remove
-        </button>
+        <LinkButton type="button" onClick={(): void => handleRemoveSection(id)}>
+          - Remove
+        </LinkButton>
       </div>
     </FormContainer>
   )

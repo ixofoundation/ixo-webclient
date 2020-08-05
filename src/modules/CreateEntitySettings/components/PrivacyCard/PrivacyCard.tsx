@@ -6,7 +6,6 @@ import * as formUtils from '../../../../common/components/JsonForm/JsonForm.util
 import { FormData } from '../../../../common/components/JsonForm/types'
 import { ObjectFieldTemplate2Column } from '../../../../common/components/JsonForm/CustomTemplates/ObjectFieldTemplate'
 import { PageView, EntityView } from 'src/modules/Entities/types'
-import { FormWrapper } from './PrivacyCard.styles'
 import { pageViewMap, entityViewMap } from 'src/modules/Entities/strategy-map'
 
 interface Props {
@@ -62,21 +61,19 @@ const PrivacyCard: React.FunctionComponent<Props> = ({
   return (
     <FormContainer className="row">
       <div className="col-lg-12">
-        <FormWrapper>
-          <Form
-            formData={formData}
-            onChange={(control): void => handleUpdateDebounce(control.formData)}
-            noHtml5Validate
-            liveValidate
-            showErrorList={false}
-            schema={schema}
-            uiSchema={uiSchema}
-            transformErrors={formUtils.transformErrors}
-            ObjectFieldTemplate={ObjectFieldTemplate2Column}
-          >
-            &nbsp;
-          </Form>
-        </FormWrapper>
+        <Form
+          formData={formData}
+          onChange={(control): void => handleUpdateDebounce(control.formData)}
+          noHtml5Validate
+          liveValidate
+          showErrorList={false}
+          schema={schema}
+          uiSchema={uiSchema}
+          transformErrors={formUtils.transformErrors}
+          ObjectFieldTemplate={ObjectFieldTemplate2Column}
+        >
+          &nbsp;
+        </Form>
       </div>
     </FormContainer>
   )
