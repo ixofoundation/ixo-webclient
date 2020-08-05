@@ -78,7 +78,9 @@ const HeaderCard: React.FunctionComponent<Props> = ({
             handleSave={(base64EncodedImage): void =>
               handleUploadImage(id, base64EncodedImage)
             }
-            imageWidth={100}
+            aspect={16 / 9}
+            maxDimension={960}
+            previewWidth={960}
           />
         </div>
       </div>

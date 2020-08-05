@@ -20,7 +20,7 @@ const AvatarUpload: React.FunctionComponent<Props> = ({
       uploadedImageSrc={value}
       uploading={savingFormData}
       handleSave={(base64EncodedImage): void => onChange(base64EncodedImage)}
-      imageWidth={100}
+      maxDimension={600}
     />
   )
 }

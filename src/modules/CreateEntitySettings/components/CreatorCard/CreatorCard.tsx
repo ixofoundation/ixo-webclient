@@ -117,7 +117,8 @@ const OwnerCard: React.FunctionComponent<Props> = ({
             handleSave={(base64EncodedImage): void =>
               handleUploadImage(base64EncodedImage)
             }
-            imageWidth={100}
+            maxDimension={150}
+            previewWidth={150}
           />
         </div>
       </div>

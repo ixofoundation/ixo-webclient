@@ -16,8 +16,9 @@ import PulseLoader from '../../PulseLoader/PulseLoader'
 export interface Props {
   uploading: boolean
   uploadedImageSrc: string
-  imageWidth: number
   aspect?: number
+  maxDimension: number
+  previewWidth?: number
   circularCrop: boolean
   keepCropSelection: boolean
   handleSave: (base64EncodedImage: string) => void
@@ -201,7 +202,7 @@ class ImageLoader extends React.Component<Props, State> {
 
   renderCroppingModal = (): JSX.Element => {
     const { isModalOpen, imgSrc, crop } = this.state
-    const { circularCrop, keepCropSelection } = this.props
+    const { circularCrop, keepCropSelection, maxDimension } = this.props
 
     return (
       <>
@@ -210,13 +211,18 @@ class ImageLoader extends React.Component<Props, State> {
             <div>
               <ReactCrop
                 circularCrop={circularCrop}
+                minHeight={50}
+                minWidth={50}
                 src={imgSrc}
                 onComplete={this.onComplete}
                 onImageLoaded={this.onImageLoaded}
                 onChange={this.onCropChange}
                 crop={crop}
                 keepSelection={keepCropSelection}
-                imageStyle={{ maxWidth: '600px', maxHeight: '600px' }}
+                imageStyle={{
+                  maxWidth: `${maxDimension}px`,
+                  maxHeight: `${maxDimension}px`,
+                }}
               />
             </div>
             <div className="button-wrapper">
@@ -238,7 +244,7 @@ class ImageLoader extends React.Component<Props, State> {
   }
 
   render(): JSX.Element {
-    const { uploading, uploadedImageSrc } = this.props
+    const { uploading, uploadedImageSrc, previewWidth } = this.props
 
     if (uploading) {
       return (
@@ -256,7 +262,11 @@ class ImageLoader extends React.Component<Props, State> {
     if (uploadedImageSrc) {
       return (
         <LoaderWrapper>
-          <img className="file-preview" src={uploadedImageSrc} />
+          <img
+            className="file-preview"
+            src={uploadedImageSrc}
+            width={previewWidth}
+          />
           <Dropzone
             accept={strategyMap[FileType.Image].mimeType}
             onDropAccepted={this.onDropAccepted}

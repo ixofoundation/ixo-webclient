@@ -79,8 +79,8 @@ const HeaderCard: React.FunctionComponent<Props> = ({
   }
 
   return (
-    <div className="row">
-      <div className="col-lg-6">
+    <>
+      <div className="justify-content-center">
         <div className="form-group">
           <label className="control-label">
             Header Image<span className="required">*</span>
@@ -88,6 +88,7 @@ const HeaderCard: React.FunctionComponent<Props> = ({
           <ImageLoader
             keepCropSelection={true}
             circularCrop={false}
+            aspect={16 / 9}
             uploadedImageSrc={
               imageDid
                 ? `${process.env.REACT_APP_PDS_URL}public/${imageDid}`
@@ -97,11 +98,12 @@ const HeaderCard: React.FunctionComponent<Props> = ({
             handleSave={(base64EncodedImage): void =>
               handleUploadImage(base64EncodedImage)
             }
-            imageWidth={100}
+            maxDimension={960}
+            previewWidth={960}
           />
         </div>
       </div>
-      <div className="col-lg-6">
+      <div>
         <MultiControlForm
           handleSubmit={(): void => null}
           handleFormDataChange={handleUpdateContent}
@@ -112,7 +114,7 @@ const HeaderCard: React.FunctionComponent<Props> = ({
           &nbsp;
         </MultiControlForm>
       </div>
-    </div>
+    </>
   )
 }
 
