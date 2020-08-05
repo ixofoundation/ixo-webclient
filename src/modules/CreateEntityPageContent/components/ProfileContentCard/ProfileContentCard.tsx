@@ -1,14 +1,17 @@
 import React from 'react'
 import Form from '@rjsf/core'
 import { debounce } from 'debounce'
-import { FormContainer } from '../../../../common/components/JsonForm/JsonForm.styles'
+import {
+  FormContainer,
+  FormWrapper,
+  LinkButton,
+} from '../../../../common/components/JsonForm/JsonForm.styles'
 import * as formUtils from '../../../../common/components/JsonForm/JsonForm.utils'
 import {
   FormData,
   customControls,
 } from '../../../../common/components/JsonForm/types'
 import ImageLoader from '../../../../common/components/DropZone/ImageLoader/ImageLoader'
-import { FormWrapper, RemoveButton } from '../PageContent.styles'
 
 interface Props {
   id: string
@@ -118,12 +121,9 @@ const HeaderCard: React.FunctionComponent<Props> = ({
         </FormWrapper>
       </div>
       <div className="col-lg-12 text-right">
-        <RemoveButton
-          type="button"
-          onClick={(): void => handleRemoveSection(id)}
-        >
+        <LinkButton type="button" onClick={(): void => handleRemoveSection(id)}>
           - Remove
-        </RemoveButton>
+        </LinkButton>
       </div>
     </FormContainer>
   )
