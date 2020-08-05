@@ -1,12 +1,11 @@
 import React from 'react'
+import { LinkButton } from '../../../../common/components/JsonForm/JsonForm.styles'
 import {
   FormData,
   customControls,
 } from '../../../../common/components/JsonForm/types'
 import ImageLoader from '../../../../common/components/DropZone/ImageLoader/ImageLoader'
-import { FormWrapper, RemoveButton } from '../PageContent.styles'
-import MultiControlForm from 'src/common/components/JsonForm/MultiControlForm/MultiControlForm'
-
+import MultiControlForm from '../../../../common/components/JsonForm/MultiControlForm/MultiControlForm'
 interface Props {
   id: string
   name: string
@@ -97,27 +96,22 @@ const HeaderCard: React.FunctionComponent<Props> = ({
         </div>
       </div>
       <div className="col-lg-6">
-        <FormWrapper>
-          <MultiControlForm
-            handleSubmit={(): void => null}
-            handleFormDataChange={(formData): void =>
-              handleUpdateContent(id, formData)
-            }
-            formData={formData}
-            schema={schema}
-            uiSchema={uiSchema}
-          >
-            &nbsp;
-          </MultiControlForm>
-        </FormWrapper>
+        <MultiControlForm
+          handleSubmit={(): void => null}
+          handleFormDataChange={(formData): void =>
+            handleUpdateContent(id, formData)
+          }
+          formData={formData}
+          schema={schema}
+          uiSchema={uiSchema}
+        >
+          &nbsp;
+        </MultiControlForm>
       </div>
       <div className="col-lg-12 text-right">
-        <RemoveButton
-          type="button"
-          onClick={(): void => handleRemoveSection(id)}
-        >
+        <LinkButton type="button" onClick={(): void => handleRemoveSection(id)}>
           - Remove
-        </RemoveButton>
+        </LinkButton>
       </div>
     </div>
   )

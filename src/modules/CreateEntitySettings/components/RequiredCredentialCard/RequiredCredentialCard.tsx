@@ -1,6 +1,7 @@
 import React from 'react'
-import { RemoveButton } from '../DisplayCredentialCard/DisplayCredentialCard.styles'
 import MultiControlForm from 'src/common/components/JsonForm/MultiControlForm/MultiControlForm'
+import { LinkButton } from '../../../../common/components/JsonForm/JsonForm.styles'
+import { FormData } from '../../../../common/components/JsonForm/types'
 
 interface Props {
   id: string
@@ -47,7 +48,7 @@ const RequiredCredential: React.FunctionComponent<Props> = ({
   }
 
   return (
-    <div>
+    <>
       <MultiControlForm
         handleSubmit={(): void => null}
         handleFormDataChange={(formData): void => handleUpdate(id, formData)}
@@ -59,14 +60,11 @@ const RequiredCredential: React.FunctionComponent<Props> = ({
         &nbsp;
       </MultiControlForm>
       <div className="text-right">
-        <RemoveButton
-          type="button"
-          onClick={(): void => handleRemoveSection(id)}
-        >
+        <LinkButton type="button" onClick={(): void => handleRemoveSection(id)}>
           - Remove
-        </RemoveButton>
+        </LinkButton>
       </div>
-    </div>
+    </>
   )
 }
 

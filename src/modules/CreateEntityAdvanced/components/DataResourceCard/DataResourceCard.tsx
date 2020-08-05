@@ -1,10 +1,9 @@
 import React from 'react'
+import { LinkButton } from '../../../../common/components/JsonForm/JsonForm.styles'
 import { FormData } from '../../../../common/components/JsonForm/types'
 import { DataResourceType } from '../../../Entities/types'
 import { dataResourceTypeMap } from '../../../Entities/strategy-map'
-import { FormWrapper } from '../../../CreateEntityPageContent/components/PageContent.styles'
 import MultiControlForm from '../../../..//common/components/JsonForm/MultiControlForm/MultiControlForm'
-import { RemoveButton } from '../../../..//common/components/JsonForm/CustomWidgets/SDGSelector/SDGSelector.styles'
 
 interface Props {
   id: string
@@ -59,25 +58,20 @@ const FundCard: React.FunctionComponent<Props> = ({
 
   return (
     <>
-      <FormWrapper>
-        <MultiControlForm
-          handleSubmit={(): void => null}
-          handleFormDataChange={(formData): void => handleUpdate(id, formData)}
-          formData={formData}
-          schema={schema}
-          uiSchema={uiSchema}
-          multiColumn
-        >
-          &nbsp;
-        </MultiControlForm>
-      </FormWrapper>
+      <MultiControlForm
+        handleSubmit={(): void => null}
+        handleFormDataChange={(formData): void => handleUpdate(id, formData)}
+        formData={formData}
+        schema={schema}
+        uiSchema={uiSchema}
+        multiColumn
+      >
+        &nbsp;
+      </MultiControlForm>
       <div className="text-right">
-        <RemoveButton
-          type="button"
-          onClick={(): void => handleRemoveSection(id)}
-        >
+        <LinkButton type="button" onClick={(): void => handleRemoveSection(id)}>
           - Remove
-        </RemoveButton>
+        </LinkButton>
       </div>
     </>
   )

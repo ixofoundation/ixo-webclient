@@ -1,9 +1,9 @@
 import React from 'react'
+import { FileType } from '../../../../common/components/DropZone/types'
+import MultiControlForm from '../../../../common/components/JsonForm/MultiControlForm/MultiControlForm'
+import { LinkButton } from '../../../../common/components/JsonForm/JsonForm.styles'
 import { FormData } from '../../../../common/components/JsonForm/types'
 import VideoLoader from '../../../../common/components/DropZone/FileLoader/FileLoader'
-import { FileType } from 'src/common/components/DropZone/types'
-import { RemoveButton } from '../PageContent.styles'
-import MultiControlForm from 'src/common/components/JsonForm/MultiControlForm/MultiControlForm'
 
 interface Props {
   id: string
@@ -87,12 +87,9 @@ const HeaderCard: React.FunctionComponent<Props> = ({
         </MultiControlForm>
       </div>
       <div className="col-lg-12 text-right">
-        <RemoveButton
-          type="button"
-          onClick={(): void => handleRemoveSection(id)}
-        >
+        <LinkButton type="button" onClick={(): void => handleRemoveSection(id)}>
           - Remove
-        </RemoveButton>
+        </LinkButton>
       </div>
     </div>
   )

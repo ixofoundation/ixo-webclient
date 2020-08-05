@@ -2,7 +2,6 @@ import React from 'react'
 import { FormData } from '../../../../common/components/JsonForm/types'
 import { customControls } from '../../../../common/components/JsonForm/types'
 import { EntityStage, EntityStatus } from 'src/modules/Entities/types'
-import { FormWrapper } from '../StatusCard/StatusCard.styles'
 import {
   entityStageMap,
   entityStatusMap,
@@ -67,20 +66,16 @@ const StatusCard: React.FunctionComponent<Props> = ({
   }
 
   return (
-    <>
-      <FormWrapper>
-        <MultiControlForm
-          handleSubmit={(): void => null}
-          handleFormDataChange={handleUpdate}
-          formData={formData}
-          schema={schema}
-          uiSchema={uiSchema}
-          multiColumn
-        >
-          &nbsp;
-        </MultiControlForm>
-      </FormWrapper>
-    </>
+    <MultiControlForm
+      handleSubmit={(): void => null}
+      handleFormDataChange={handleUpdate}
+      formData={formData}
+      schema={schema}
+      uiSchema={uiSchema}
+      multiColumn
+    >
+      &nbsp;
+    </MultiControlForm>
   )
 }
 

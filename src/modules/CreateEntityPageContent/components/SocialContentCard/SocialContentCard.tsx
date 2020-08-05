@@ -3,7 +3,6 @@ import {
   FormData,
   customControls,
 } from '../../../../common/components/JsonForm/types'
-import { FormWrapper } from './SocialContentCard.styles'
 import MultiControlForm from 'src/common/components/JsonForm/MultiControlForm/MultiControlForm'
 
 interface Props {
@@ -99,18 +98,16 @@ const SocialContentCard: React.FunctionComponent<Props> = ({
   }
 
   return (
-    <FormWrapper>
-      <MultiControlForm
-        handleSubmit={(): void => null}
-        handleFormDataChange={handleUpdateContent}
-        formData={formData}
-        schema={schema}
-        uiSchema={uiSchema}
-        multiColumn
-      >
-        &nbsp;
-      </MultiControlForm>
-    </FormWrapper>
+    <MultiControlForm
+      handleSubmit={(): void => null}
+      handleFormDataChange={handleUpdateContent}
+      formData={formData}
+      schema={schema}
+      uiSchema={uiSchema}
+      multiColumn
+    >
+      &nbsp;
+    </MultiControlForm>
   )
 }
 

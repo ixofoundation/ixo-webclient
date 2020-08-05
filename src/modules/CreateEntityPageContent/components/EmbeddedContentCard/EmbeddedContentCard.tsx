@@ -1,10 +1,10 @@
 import React from 'react'
+import { LinkButton } from '../../../../common/components/JsonForm/JsonForm.styles'
 import {
   FormData,
   customControls,
 } from '../../../../common/components/JsonForm/types'
-import { FormWrapper, RemoveButton } from '../PageContent.styles'
-import MultiControlForm from 'src/common/components/JsonForm/MultiControlForm/MultiControlForm'
+import MultiControlForm from '../../../../common/components/JsonForm/MultiControlForm/MultiControlForm'
 
 interface Props {
   id: string
@@ -50,27 +50,22 @@ const EmbeddedContentCard: React.FunctionComponent<Props> = ({
   return (
     <div>
       <div>
-        <FormWrapper>
-          <MultiControlForm
-            handleSubmit={(): void => null}
-            handleFormDataChange={(formData): void =>
-              handleUpdateContent(id, formData)
-            }
-            formData={formData}
-            schema={schema}
-            uiSchema={uiSchema}
-          >
-            &nbsp;
-          </MultiControlForm>
-        </FormWrapper>
-      </div>
-      <div>
-        <RemoveButton
-          type="button"
-          onClick={(): void => handleRemoveSection(id)}
+        <MultiControlForm
+          handleSubmit={(): void => null}
+          handleFormDataChange={(formData): void =>
+            handleUpdateContent(id, formData)
+          }
+          formData={formData}
+          schema={schema}
+          uiSchema={uiSchema}
         >
+          &nbsp;
+        </MultiControlForm>
+      </div>
+      <div className="text-right">
+        <LinkButton type="button" onClick={(): void => handleRemoveSection(id)}>
           - Remove
-        </RemoveButton>
+        </LinkButton>
       </div>
     </div>
   )

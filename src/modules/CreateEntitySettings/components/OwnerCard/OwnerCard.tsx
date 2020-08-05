@@ -1,5 +1,4 @@
 import React from 'react'
-import { FormContainer } from '../../../../common/components/JsonForm/JsonForm.styles'
 import { FormData } from '../../../../common/components/JsonForm/types'
 import ImageLoader from '../../../../common/components/DropZone/ImageLoader/ImageLoader'
 import { customControls } from '../../../../common/components/JsonForm/types'
@@ -87,7 +86,7 @@ const OwnerCard: React.FunctionComponent<Props> = ({
   }
 
   return (
-    <FormContainer className="row">
+    <div className="row">
       <div className="col-lg-6">
         <div className="form-group">
           <label className="control-label">Logo or Profile Pic</label>
@@ -119,7 +118,7 @@ const OwnerCard: React.FunctionComponent<Props> = ({
           &nbsp;
         </MultiControlForm>
       </div>
-    </FormContainer>
+    </div>
   )
 }
 

@@ -1,7 +1,6 @@
 import React from 'react'
 import { FormData } from '../../../../common/components/JsonForm/types'
 import { EntityType } from 'src/modules/Entities/types'
-import { FormWrapper } from './FilterCard.styles'
 import { entityTypeMap } from 'src/modules/Entities/strategy-map'
 import MultiControlForm from 'src/common/components/JsonForm/MultiControlForm/MultiControlForm'
 
@@ -45,18 +44,16 @@ const DisplayCredential: React.FunctionComponent<Props> = ({
   } as any
 
   return (
-    <FormWrapper>
-      <MultiControlForm
-        handleSubmit={(): void => null}
-        handleFormDataChange={(formData): void => handleUpdate(formData)}
-        formData={filters}
-        schema={schema}
-        uiSchema={{}}
-        multiColumn
-      >
-        &nbsp;
-      </MultiControlForm>
-    </FormWrapper>
+    <MultiControlForm
+      handleSubmit={(): void => null}
+      handleFormDataChange={(formData): void => handleUpdate(formData)}
+      formData={filters}
+      schema={schema}
+      uiSchema={{}}
+      multiColumn
+    >
+      &nbsp;
+    </MultiControlForm>
   )
 }
 

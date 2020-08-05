@@ -1,7 +1,6 @@
 import React from 'react'
 import { FormData } from '../../../../common/components/JsonForm/types'
 import { PageView, EntityView } from 'src/modules/Entities/types'
-import { FormWrapper } from './PrivacyCard.styles'
 import { pageViewMap, entityViewMap } from 'src/modules/Entities/strategy-map'
 import MultiControlForm from 'src/common/components/JsonForm/MultiControlForm/MultiControlForm'
 
@@ -54,18 +53,16 @@ const PrivacyCard: React.FunctionComponent<Props> = ({
   }
 
   return (
-    <FormWrapper>
-      <MultiControlForm
-        handleSubmit={(): void => null}
-        handleFormDataChange={handleUpdate}
-        formData={formData}
-        schema={schema}
-        uiSchema={uiSchema}
-        multiColumn
-      >
-        &nbsp;
-      </MultiControlForm>
-    </FormWrapper>
+    <MultiControlForm
+      handleSubmit={(): void => null}
+      handleFormDataChange={handleUpdate}
+      formData={formData}
+      schema={schema}
+      uiSchema={uiSchema}
+      multiColumn
+    >
+      &nbsp;
+    </MultiControlForm>
   )
 }
 
