@@ -1,14 +1,16 @@
 import React from 'react'
 import Form from '@rjsf/core'
 import { debounce } from 'debounce'
-import { FormContainer } from '../../../../common/components/JsonForm/JsonForm.styles'
+import {
+  FormContainer,
+  LinkButton,
+} from '../../../../common/components/JsonForm/JsonForm.styles'
 import * as formUtils from '../../../../common/components/JsonForm/JsonForm.utils'
 import { ObjectFieldTemplate2Column } from '../../../../common/components/JsonForm/CustomTemplates/ObjectFieldTemplate'
 import {
   FormData,
   customControls,
 } from '../../../../common/components/JsonForm/types'
-import { FormWrapper, RemoveButton } from '../PageContent.styles'
 
 interface Props {
   id: string
@@ -56,31 +58,26 @@ const EmbeddedContentCard: React.FunctionComponent<Props> = ({
   return (
     <FormContainer className="row">
       <div className="col-lg-12">
-        <FormWrapper>
-          <Form
-            formData={formData}
-            onChange={(control): void =>
-              handleUpdateContentDebounce(id, control.formData)
-            }
-            noHtml5Validate
-            liveValidate
-            showErrorList={false}
-            schema={schema}
-            uiSchema={uiSchema}
-            transformErrors={formUtils.transformErrors}
-            ObjectFieldTemplate={ObjectFieldTemplate2Column}
-          >
-            &nbsp;
-          </Form>
-        </FormWrapper>
+        <Form
+          formData={formData}
+          onChange={(control): void =>
+            handleUpdateContentDebounce(id, control.formData)
+          }
+          noHtml5Validate
+          liveValidate
+          showErrorList={false}
+          schema={schema}
+          uiSchema={uiSchema}
+          transformErrors={formUtils.transformErrors}
+          ObjectFieldTemplate={ObjectFieldTemplate2Column}
+        >
+          &nbsp;
+        </Form>
       </div>
       <div className="col-lg-12 text-right">
-        <RemoveButton
-          type="button"
-          onClick={(): void => handleRemoveSection(id)}
-        >
+        <LinkButton type="button" onClick={(): void => handleRemoveSection(id)}>
           - Remove
-        </RemoveButton>
+        </LinkButton>
       </div>
     </FormContainer>
   )

@@ -7,7 +7,6 @@ import { FormData } from '../../../../common/components/JsonForm/types'
 import { ObjectFieldTemplate2Column } from '../../../../common/components/JsonForm/CustomTemplates/ObjectFieldTemplate'
 import { customControls } from '../../../../common/components/JsonForm/types'
 import { EntityStage, EntityStatus } from 'modules/Entities/types'
-import { FormWrapper } from '../StatusCard/StatusCard.styles'
 import { entityStageMap, entityStatusMap } from 'modules/Entities/strategy-map'
 
 interface Props {
@@ -72,21 +71,19 @@ const StatusCard: React.FunctionComponent<Props> = ({
   return (
     <FormContainer className="row">
       <div className="col-lg-12">
-        <FormWrapper>
-          <Form
-            formData={formData}
-            onChange={(control): void => handleUpdateDebounce(control.formData)}
-            noHtml5Validate
-            liveValidate
-            showErrorList={false}
-            schema={schema}
-            uiSchema={uiSchema}
-            transformErrors={formUtils.transformErrors}
-            ObjectFieldTemplate={ObjectFieldTemplate2Column}
-          >
-            &nbsp;
-          </Form>
-        </FormWrapper>
+        <Form
+          formData={formData}
+          onChange={(control): void => handleUpdateDebounce(control.formData)}
+          noHtml5Validate
+          liveValidate
+          showErrorList={false}
+          schema={schema}
+          uiSchema={uiSchema}
+          transformErrors={formUtils.transformErrors}
+          ObjectFieldTemplate={ObjectFieldTemplate2Column}
+        >
+          &nbsp;
+        </Form>
       </div>
     </FormContainer>
   )
