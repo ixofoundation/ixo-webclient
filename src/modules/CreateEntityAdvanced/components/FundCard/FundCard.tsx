@@ -1,13 +1,16 @@
 import React from 'react'
 import Form from '@rjsf/core'
 import { debounce } from 'debounce'
-import { FormContainer } from '../../../../common/components/JsonForm/JsonForm.styles'
+import {
+  FormContainer,
+  FormWrapper,
+  LinkButton,
+} from '../../../../common/components/JsonForm/JsonForm.styles'
 import * as formUtils from '../../../../common/components/JsonForm/JsonForm.utils'
 import { FormData } from '../../../../common/components/JsonForm/types'
 import { ObjectFieldTemplate2Column } from '../../../../common/components/JsonForm/CustomTemplates/ObjectFieldTemplate'
 import { FundSource } from '../../../Entities/types'
 import { fundSourceMap } from '../../../Entities/strategy-map'
-import { FormWrapper, RemoveButton } from '../CreateEntityAdvanced.styles'
 
 interface Props {
   id: string
@@ -76,12 +79,9 @@ const FundCard: React.FunctionComponent<Props> = ({
         </FormWrapper>
       </div>
       <div className="col-lg-12 text-right">
-        <RemoveButton
-          type="button"
-          onClick={(): void => handleRemoveSection(id)}
-        >
-          Remove
-        </RemoveButton>
+        <LinkButton type="button" onClick={(): void => handleRemoveSection(id)}>
+          - Remove
+        </LinkButton>
       </div>
     </FormContainer>
   )

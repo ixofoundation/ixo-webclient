@@ -1,7 +1,10 @@
 import React from 'react'
 import Form from '@rjsf/core'
 import { debounce } from 'debounce'
-import { FormContainer } from '../../../../common/components/JsonForm/JsonForm.styles'
+import {
+  FormContainer,
+  FormWrapper,
+} from '../../../../common/components/JsonForm/JsonForm.styles'
 import * as formUtils from '../../../../common/components/JsonForm/JsonForm.utils'
 import {
   FormData,
@@ -18,7 +21,6 @@ import {
   keyPurposeMap,
   keyTypeMap,
 } from '../../../Entities/strategy-map'
-import { FormWrapper } from '../CreateEntityAdvanced.styles'
 
 interface Props {
   purpose: KeyPurpose

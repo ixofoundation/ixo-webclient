@@ -290,6 +290,18 @@ export const FormWrapper = styled.div`
     .DateRangePickerInput_clearDates {
     top: calc(100% + 396px);
   }
+
+  .form-group .active .SingleDatePicker .SingleDatePicker_picker {
+    @media (min-width: ${deviceWidth.tablet}px) and (max-width: ${deviceWidth.desktop}px) {
+      top: 120px !important;
+      left: 15rem !important;
+    }
+  }
+  .form-group select {
+    background-color: #e8edee;
+    box-shadow: none;
+    border: none;
+  }
 `
 
 export const LinkButton = styled.button`
