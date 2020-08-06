@@ -27,10 +27,10 @@ const TextArea = styled.textarea`
   height: 150px;
 `
 
-const SmallTextArea = TextArea.extend`
+const SmallTextArea = styled(TextArea)`
   height: 50px;
 `
-const BigTextArea = TextArea.extend`
+const BigTextArea = styled(TextArea)`
   height: 150px;
 `
 

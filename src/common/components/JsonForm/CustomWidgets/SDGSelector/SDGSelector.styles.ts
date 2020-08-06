@@ -8,7 +8,7 @@ export const RemoveButton = styled.button`
   font-weight: bold;
 `
 
-export const AddButton = RemoveButton.extend`
+export const AddButton = styled(RemoveButton)`
   &:focus {
     outline: none;
   }

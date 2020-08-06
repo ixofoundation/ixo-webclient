@@ -36,7 +36,7 @@ const WhiteLink = styled(Link)`
   text-decoration: underline;
 `
 
-const DarkLink = WhiteLink.extend`
+const DarkLink = styled(WhiteLink)`
   color: #282828;
 `
 

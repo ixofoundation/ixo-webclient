@@ -62,7 +62,7 @@ const ButtonWrapper = styled.div`
   }
 `
 
-const ButtonWrapperLoading = ButtonWrapper.extend`
+const ButtonWrapperLoading = styled(ButtonWrapper)`
   a {
     i {
       right: auto;

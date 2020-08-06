@@ -149,6 +149,7 @@ export const Routes: React.SFC<{}> = props => {
           exact
           path="/create-project"
           render={(routeProps): JSX.Element => (
+            // @ts-ignore
             <ProjectCreateConnected {...routeProps} {...props} />
           )}
         />
@@ -156,6 +157,7 @@ export const Routes: React.SFC<{}> = props => {
           exact
           path="/upload-project"
           render={(routeProps): JSX.Element => (
+            // @ts-ignore
             <ProjectCreateUploadPublicDocsConnected
               {...routeProps}
               {...props}
