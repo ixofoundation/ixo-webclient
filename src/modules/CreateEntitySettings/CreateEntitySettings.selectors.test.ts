@@ -20,7 +20,7 @@ beforeEach(() => {
         mission: 'someCreatorMission',
         identifier: 'someCreatorIdentifier',
         credentialTokenId: 'someCreatorCredentialTokenId',
-        imageDid: 'someImageDid',
+        imageSrc: 'someimageSrc',
         uploadingImage: false,
       },
       owner: {
@@ -31,7 +31,7 @@ beforeEach(() => {
         mission: 'someOwnerMission',
         matrixId: 'someOwnerMatrixId',
         identifier: 'someOwnerIdentifier',
-        imageDid: 'someImageDid',
+        imageSrc: 'someimageSrc',
         uploadingImage: false,
       },
       status: {
@@ -101,7 +101,7 @@ describe('CreateEntitySettings Selectors', () => {
         mission: 'someOwnerMission',
         identifier: 'someOwnerIdentifier',
         matrixId: 'someOwnerMatrixId',
-        imageDid: 'someImageDid',
+        imageSrc: 'someimageSrc',
         uploadingImage: false,
       })
     })
@@ -121,7 +121,7 @@ describe('CreateEntitySettings Selectors', () => {
         mission: 'someCreatorMission',
         identifier: 'someCreatorIdentifier',
         credentialTokenId: 'someCreatorCredentialTokenId',
-        imageDid: 'someImageDid',
+        imageSrc: 'someimageSrc',
         uploadingImage: false,
       })
     })

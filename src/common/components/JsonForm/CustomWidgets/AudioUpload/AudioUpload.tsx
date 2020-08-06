@@ -9,7 +9,7 @@ interface Props {
 }
 
 const AudioUpload: React.FunctionComponent<Props> = ({
-  options: { savingFormData },
+  options: { uploading },
   value,
   onChange,
 }) => {
@@ -18,7 +18,7 @@ const AudioUpload: React.FunctionComponent<Props> = ({
       maxFileSize={3000000}
       fileType={FileType.Audio}
       uploadedFileSrc={value}
-      uploading={savingFormData}
+      uploading={uploading}
       handleSave={(base64EncodedFile): void => onChange(base64EncodedFile)}
     />
   )

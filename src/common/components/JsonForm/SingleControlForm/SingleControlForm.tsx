@@ -8,7 +8,7 @@ import { ControlContainer } from './SingleControlForm.styles'
 interface Props {
   formControl: FormControl
   formData: FormData
-  savingFormData: boolean
+  uploading: boolean
   handleSubmit: () => void
   handleFormDataChange: (formData: any) => void
 }
@@ -17,7 +17,7 @@ const SingleControlForm: React.FunctionComponent<Props> = ({
   children,
   formControl,
   formData,
-  savingFormData,
+  uploading,
   handleSubmit,
   handleFormDataChange,
 }) => {
@@ -73,8 +73,12 @@ const SingleControlForm: React.FunctionComponent<Props> = ({
       ['ui:options']: {
         inline,
       },
-      ['ui:savingFormData']: savingFormData,
+      ['ui:uploading']: uploading,
     },
+  }
+
+  if (control.includes('upload')) {
+    TODO
   }
 
   return (

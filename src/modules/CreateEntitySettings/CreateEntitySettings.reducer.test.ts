@@ -50,7 +50,7 @@ describe('CreateEntitySettings Reducer', () => {
         const mission = 'someCreatorMission'
         const identifier = 'someCreatorIdentifier'
         const credentialTokenId = 'someCreatorCredentialTokenId'
-        const imageDid = 'someExistingImageDid'
+        const imageSrc = 'someExistingimageSrc'
 
         // given .. we have an action of type CreateEntitySettingsActions.UpdateCreator
         const action: UpdateCreatorAction = {
@@ -70,7 +70,7 @@ describe('CreateEntitySettings Reducer', () => {
         const result = SUT.reducer(
           {
             ...initialState,
-            creator: { ...initialState.creator, imageDid },
+            creator: { ...initialState.creator, imageSrc },
           },
           action,
         )
@@ -86,7 +86,7 @@ describe('CreateEntitySettings Reducer', () => {
             mission,
             identifier,
             credentialTokenId,
-            imageDid,
+            imageSrc,
             uploadingImage: false,
           },
         })
@@ -113,14 +113,14 @@ describe('CreateEntitySettings Reducer', () => {
         })
       })
 
-      it('should update the creator uploadingImage flag to false and set the imageDid when upload has succeeded', () => {
-        const imageDid = 'someImageDid'
+      it('should update the creator uploadingImage flag to false and set the imageSrc when upload has succeeded', () => {
+        const imageSrc = 'someimageSrc'
 
         // given .. we have an action of type CreateEntitySettingsActions.UploadCreatorImageSuccess
         const action: UploadCreatorImageSuccessAction = {
           type: CreateEntitySettingsActions.UploadCreatorImageSuccess,
           payload: {
-            did: imageDid,
+            did: imageSrc,
           },
         }
 
@@ -141,13 +141,13 @@ describe('CreateEntitySettings Reducer', () => {
           ...initialState,
           creator: {
             ...initialState.creator,
-            imageDid,
+            imageSrc,
             uploadingImage: false,
           },
         })
       })
 
-      it('should update the creator uploadingImage flag to false and set the imageDid when upload has failed', () => {
+      it('should update the creator uploadingImage flag to false and set the imageSrc when upload has failed', () => {
         // given .. we have an action of type CreateEntitySettingsActions.UploadCreatorImageFailure
         const action: UploadCreatorImageFailureAction = {
           type: CreateEntitySettingsActions.UploadCreatorImageFailure,
@@ -187,7 +187,7 @@ describe('CreateEntitySettings Reducer', () => {
         const mission = 'someOwnerMission'
         const identifier = 'someOwnerIdentifier'
         const matrixId = 'someOwneMatrixId'
-        const imageDid = 'someExistingImageDid'
+        const imageSrc = 'someExistingimageSrc'
 
         // given .. we have an action of type CreateEntitySettingsActions.UpdateOwner
         const action: UpdateOwnerAction = {
@@ -207,7 +207,7 @@ describe('CreateEntitySettings Reducer', () => {
         const result = SUT.reducer(
           {
             ...initialState,
-            owner: { ...initialState.owner, imageDid },
+            owner: { ...initialState.owner, imageSrc },
           },
           action,
         )
@@ -223,7 +223,7 @@ describe('CreateEntitySettings Reducer', () => {
             mission,
             identifier,
             matrixId,
-            imageDid,
+            imageSrc,
             uploadingImage: false,
           },
         })
@@ -250,14 +250,14 @@ describe('CreateEntitySettings Reducer', () => {
         })
       })
 
-      it('should update the owner uploadingImage flag to false and set the imageDid when upload has succeeded', () => {
-        const imageDid = 'someImageDid'
+      it('should update the owner uploadingImage flag to false and set the imageSrc when upload has succeeded', () => {
+        const imageSrc = 'someimageSrc'
 
         // given .. we have an action of type CreateEntitySettingsActions.UploadOwnerImageSuccess
         const action: UploadOwnerImageSuccessAction = {
           type: CreateEntitySettingsActions.UploadOwnerImageSuccess,
           payload: {
-            did: imageDid,
+            did: imageSrc,
           },
         }
 
@@ -278,13 +278,13 @@ describe('CreateEntitySettings Reducer', () => {
           ...initialState,
           owner: {
             ...initialState.owner,
-            imageDid,
+            imageSrc,
             uploadingImage: false,
           },
         })
       })
 
-      it('should update the owner uploadingImage flag to false and set the imageDid when upload has failed', () => {
+      it('should update the owner uploadingImage flag to false and set the imageSrc when upload has failed', () => {
         // given .. we have an action of type CreateEntitySettingsActions.UploadOwnerImageFailure
         const action: UploadOwnerImageFailureAction = {
           type: CreateEntitySettingsActions.UploadOwnerImageFailure,

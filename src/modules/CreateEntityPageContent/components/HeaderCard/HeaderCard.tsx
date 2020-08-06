@@ -3,20 +3,19 @@ import {
   FormData,
   customControls,
 } from '../../../../common/components/JsonForm/types'
-import ImageLoader from '../../../../common/components/DropZone/ImageLoader/ImageLoader'
 import MultiControlForm from 'src/common/components/JsonForm/MultiControlForm/MultiControlForm'
 
 interface Props {
   title: string
   shortDescription: string
-  imageDid: string
+  imageSrc: string
   imageDescription: string
   company: string
   sdgs: string[]
   country: string
   uploadingImage: boolean
   handleUpdateContent: (formData: FormData) => void
-  handleUploadImage: (base64EncodedImage: string) => void
+  handleError: (errors: string[]) => void
 }
 
 const HeaderCard: React.FunctionComponent<Props> = ({
@@ -25,11 +24,11 @@ const HeaderCard: React.FunctionComponent<Props> = ({
   imageDescription,
   company,
   country,
-  imageDid,
+  imageSrc,
   uploadingImage,
   sdgs,
   handleUpdateContent,
-  handleUploadImage,
+  handleError,
 }) => {
   const formData = {
     title,
@@ -42,8 +41,9 @@ const HeaderCard: React.FunctionComponent<Props> = ({
 
   const schema = {
     type: 'object',
-    required: ['title', 'shortDescription', 'company', 'country'],
+    required: ['image', 'title', 'shortDescription', 'company', 'country'],
     properties: {
+      image: { type: 'string', title: 'Header Image' },
       title: { type: 'string', title: 'Title' },
       shortDescription: { type: 'string', title: 'Short Description' },
       company: { type: 'string', title: 'Organisation' },
@@ -54,6 +54,11 @@ const HeaderCard: React.FunctionComponent<Props> = ({
   } as any
 
   const uiSchema = {
+    image: {
+      ['ui:widget']: customControls['imageupload'],
+      ['ui:uploading']: uploadingImage,
+      ['ui:imageSrc']: imageSrc,
+    },
     title: {
       ['ui:widget']: 'text',
       ['ui:placeholder']: 'Enter Title',
@@ -82,7 +87,7 @@ const HeaderCard: React.FunctionComponent<Props> = ({
 
   return (
     <>
-      <div className="justify-content-center">
+      {/*       <div className="justify-content-center">
         <div className="form-group">
           <label className="control-label">
             Header Image<span className="required">*</span>
@@ -92,8 +97,8 @@ const HeaderCard: React.FunctionComponent<Props> = ({
             circularCrop={false}
             aspect={16 / 9}
             uploadedImageSrc={
-              imageDid
-                ? `${process.env.REACT_APP_PDS_URL}public/${imageDid}`
+              imageSrc
+                ? `${process.env.REACT_APP_PDS_URL}public/${imageSrc}`
                 : null
             }
             uploading={uploadingImage}
@@ -104,11 +109,12 @@ const HeaderCard: React.FunctionComponent<Props> = ({
             previewWidth={960}
           />
         </div>
-      </div>
+      </div> */}
       <MultiControlForm
         ref={multiFormRef}
         handleSubmit={(): void => console.log('submitted')}
         handleFormDataChange={handleUpdateContent}
+        handleError={handleError}
         formData={formData}
         schema={schema}
         uiSchema={uiSchema}

@@ -13,7 +13,7 @@ export interface Creator {
   mission: string
   identifier: string
   credentialTokenId: string
-  imageDid: string
+  imageSrc: string
   uploadingImage: boolean
 }
 
@@ -25,7 +25,7 @@ export interface Owner {
   mission: string
   identifier: string
   matrixId: string
-  imageDid: string
+  imageSrc: string
   uploadingImage: boolean
 }
 

@@ -13,7 +13,7 @@ beforeEach(() => {
 describe('CreateEntityPageContent Actions', () => {
   describe('header', () => {
     describe('updateHeaderContent', () => {
-      it('should update the header content', () => {
+      it('should update the content', async () => {
         // given ... some content
         const title = 'someHeaderTitle'
         const shortDescription = 'someShortDescription'
@@ -32,14 +32,13 @@ describe('CreateEntityPageContent Actions', () => {
           country,
         }
 
-        // when ... we call the updateHeader action creator
-        const action = SUT.updateHeaderContent(formData)
+        // when ... we call the uploadHeaderContentImage action creator
+        await store.dispatch(SUT.updateHeaderContent(formData))
+        const actions = store.getActions()
 
-        // then ... we should expect it to create the action with correct type and payload
-        expect(action.type).toEqual(
-          CreateEntityPageContentActions.UpdateHeaderContent,
-        )
-        expect(action.payload).toEqual({
+        // then ... it should dispatch the correct actions
+        expect(actions.length).toEqual(1)
+        expect(actions[0].payload).toEqual({
           title,
           shortDescription,
           imageDescription,
@@ -50,25 +49,30 @@ describe('CreateEntityPageContent Actions', () => {
       })
     })
 
-    describe('uploadHeaderContentImage', () => {
-      it('should upload the image and dispatch the correct action', async () => {
-        // given ... we have base64 image data
-        const base64ImageData = 'someImageData'
+    it('should upload the image', async () => {
+      // given ... some content
+      const image = 'someImageData'
 
-        // when ... we call the uploadHeaderContentImage action creator
-        await store.dispatch(SUT.uploadHeaderContentImage(base64ImageData))
-        const actions = store.getActions()
+      const formData = {
+        image,
+      }
 
-        // then ... it should dispatch the correct actions
-        expect(actions.length).toEqual(2)
-        expect(actions[0].type).toEqual(
-          CreateEntityPageContentActions.UploadHeaderContentImagePending,
-        )
-        expect(actions[1].type).toEqual(
-          CreateEntityPageContentActions.UploadHeaderContentImageSuccess,
-        )
-        expect(actions[1].payload).toEqual({ did: 'somePublicDid' })
-      })
+      // when ... we call the uploadHeaderContentImage action creator
+      await store.dispatch(SUT.updateHeaderContent(formData))
+      const actions = store.getActions()
+
+      console.log(actions)
+
+      // then ... it should dispatch the correct actions
+      expect(actions.length).toEqual(2)
+
+      expect(actions[0].type).toEqual(
+        CreateEntityPageContentActions.UploadHeaderContentImagePending,
+      )
+      expect(actions[1].type).toEqual(
+        CreateEntityPageContentActions.UploadHeaderContentImageSuccess,
+      )
+      expect(actions[1].payload).toEqual({ did: 'somePublicDid' })
     })
   })
 
@@ -85,9 +89,6 @@ describe('CreateEntityPageContent Actions', () => {
         )
         expect(action.payload).toEqual({
           id,
-          title: null,
-          content: null,
-          imageDid: null,
         })
       })
     })
@@ -108,7 +109,7 @@ describe('CreateEntityPageContent Actions', () => {
     })
 
     describe('updateBodyContent', () => {
-      it('should update the body content', () => {
+      it('should update the content', async () => {
         // given ... some content
         const id = 'someId'
         const title = 'someBodyTitle'
@@ -120,13 +121,15 @@ describe('CreateEntityPageContent Actions', () => {
         }
 
         // when ... we call the updateBodyContent action creator
-        const action = SUT.updateBodyContent(id, formData)
+        await store.dispatch(SUT.updateBodyContent(id, formData))
+        const actions = store.getActions()
 
         // then ... we should expect it to create the action with correct type and payload
-        expect(action.type).toEqual(
+        expect(actions.length).toEqual(1)
+        expect(actions[0].type).toEqual(
           CreateEntityPageContentActions.UpdateBodyContent,
         )
-        expect(action.payload).toEqual({
+        expect(actions[0].payload).toEqual({
           id,
           title,
           content,
@@ -134,28 +137,31 @@ describe('CreateEntityPageContent Actions', () => {
       })
     })
 
-    describe('uploadBodyContentImage', () => {
-      it('should upload the image and dispatch the correct action', async () => {
-        // given ... we have base64 image data and an id
-        const id = 'someBodyId'
-        const base64ImageData = 'someImageData'
+    it('should upload the image', async () => {
+      // given ... we have base64 image data and an id
+      const id = 'someId'
+      const image = 'someImageData'
 
-        // when ... we call the uploadBodyContentImage action creator
-        await store.dispatch(SUT.uploadBodyContentImage(id, base64ImageData))
-        const actions = store.getActions()
+      const formData = {
+        image,
+      }
 
-        // then ... it should dispatch the correct actions
-        expect(actions.length).toEqual(2)
-        expect(actions[0].type).toEqual(
-          CreateEntityPageContentActions.UploadBodyContentImagePending,
-        )
-        expect(actions[0].meta.id).toEqual(id)
-        expect(actions[1].type).toEqual(
-          CreateEntityPageContentActions.UploadBodyContentImageSuccess,
-        )
-        expect(actions[1].payload.did).toEqual('somePublicDid')
-        expect(actions[1].payload.id).toEqual('someBodyId')
-      })
+      // when ... we call the uploadHeaderContentImage action creator
+      await store.dispatch(SUT.updateBodyContent(id, formData))
+      const actions = store.getActions()
+
+      console.log(actions)
+
+      // then ... it should dispatch the correct actions
+      expect(actions.length).toEqual(2)
+
+      expect(actions[0].type).toEqual(
+        CreateEntityPageContentActions.UploadBodyContentImagePending,
+      )
+      expect(actions[1].type).toEqual(
+        CreateEntityPageContentActions.UploadBodyContentImageSuccess,
+      )
+      expect(actions[1].payload).toEqual({ id, did: 'somePublicDid' })
     })
   })
 
@@ -172,10 +178,6 @@ describe('CreateEntityPageContent Actions', () => {
         )
         expect(action.payload).toEqual({
           id,
-          title: null,
-          content: null,
-          imageDid: null,
-          imageDescription: null,
         })
       })
     })
@@ -196,7 +198,7 @@ describe('CreateEntityPageContent Actions', () => {
     })
 
     describe('updateImageContent', () => {
-      it('should update the image content', () => {
+      it('should update the image content', async () => {
         // given ... some content
         const id = 'someImageId'
         const title = 'someImageTitle'
@@ -204,53 +206,58 @@ describe('CreateEntityPageContent Actions', () => {
         const imageDescription = 'someImageDescription'
 
         const formData = {
+          id,
           title,
           content,
           imageDescription,
         }
 
         // when ... we call the updateImageContent action creator
-        const action = SUT.updateImageContent(id, formData)
+        await store.dispatch(SUT.updateImageContent(id, formData))
+        const actions = store.getActions()
 
-        // then ... we should expect it to create the action with correct type and payload
-        expect(action.type).toEqual(
+        // then ... it should dispatch the correct actions
+        expect(actions.length).toEqual(1)
+
+        expect(actions[0].type).toEqual(
           CreateEntityPageContentActions.UpdateImageContent,
         )
-        expect(action.payload).toEqual({
+        expect(actions[0].payload).toEqual({
           id,
           title,
           content,
           imageDescription,
         })
       })
-    })
 
-    describe('uploadImageContentImage', () => {
-      it('should upload the image and dispatch the correct action', async () => {
-        // given ... we have base64 image data and an id
+      it('should upload the image content image', async () => {
+        // given ... some content
+        const image = 'someImageData'
         const id = 'someImageId'
-        const base64ImageData = 'someImageData'
 
-        // when ... we call the uploadImageContentImage action creator
-        await store.dispatch(SUT.uploadImageContentImage(id, base64ImageData))
+        const formData = {
+          image,
+        }
+
+        // when ... we call the updateImageContent action creator
+        await store.dispatch(SUT.updateImageContent(id, formData))
         const actions = store.getActions()
 
         // then ... it should dispatch the correct actions
         expect(actions.length).toEqual(2)
+
         expect(actions[0].type).toEqual(
           CreateEntityPageContentActions.UploadImageContentImagePending,
         )
-        expect(actions[0].meta.id).toEqual(id)
         expect(actions[1].type).toEqual(
           CreateEntityPageContentActions.UploadImageContentImageSuccess,
         )
-        expect(actions[1].payload.did).toEqual('somePublicDid')
-        expect(actions[1].payload.id).toEqual('someImageId')
+        expect(actions[1].payload).toEqual({ id, did: 'somePublicDid' })
       })
     })
   })
 
-  describe('videoContent', () => {
+  /* describe('videoContent', () => {
     describe('addVideoSection', () => {
       it('should add a new video content section', () => {
         const id = 'newVideoContentId'
@@ -335,12 +342,12 @@ describe('CreateEntityPageContent Actions', () => {
         expect(actions[1].payload.id).toEqual('someVideoId')
       })
     })
-  })
+  }) */
 
   describe('profileContent', () => {
     describe('addProfileSection', () => {
       it('should add a new profile content section', () => {
-        const id = 'newVideoContentId'
+        const id = 'newProfileContentId'
         v4.mockImplementationOnce(() => id)
         // when ... we call the addProfileSection
         const action = SUT.addProfileSection()
@@ -350,11 +357,6 @@ describe('CreateEntityPageContent Actions', () => {
         )
         expect(action.payload).toEqual({
           id,
-          name: null,
-          position: null,
-          linkedInUrl: null,
-          twitterUrl: null,
-          imageDid: null,
         })
       })
     })
@@ -375,7 +377,7 @@ describe('CreateEntityPageContent Actions', () => {
     })
 
     describe('updateProfileContent', () => {
-      it('should update the profile content', () => {
+      it('should update the profile content', async () => {
         // given ... some content
         const id = 'someProfileId'
         const name = 'someProfileName'
@@ -391,13 +393,16 @@ describe('CreateEntityPageContent Actions', () => {
         }
 
         // when ... we call the updateProfileContent action creator
-        const action = SUT.updateProfileContent(id, formData)
+        await store.dispatch(SUT.updateProfileContent(id, formData))
+        const actions = store.getActions()
 
-        // then ... we should expect it to create the action with correct type and payload
-        expect(action.type).toEqual(
+        // then ... it should dispatch the correct actions
+        expect(actions.length).toEqual(1)
+
+        expect(actions[0].type).toEqual(
           CreateEntityPageContentActions.UpdateProfileContent,
         )
-        expect(action.payload).toEqual({
+        expect(actions[0].payload).toEqual({
           id,
           name,
           position,
@@ -405,16 +410,16 @@ describe('CreateEntityPageContent Actions', () => {
           twitterUrl,
         })
       })
-    })
 
-    describe('uploadProfileContentProfile', () => {
-      it('should upload the image and dispatch the correct action', async () => {
+      it('should upload the profile image', async () => {
         // given ... we have base64 image data and an id
         const id = 'someProfileId'
-        const base64ImageData = 'someProfileData'
+        const image = 'someImageData'
 
-        // when ... we call the uploadProfileContentImage action creator
-        await store.dispatch(SUT.uploadProfileContentImage(id, base64ImageData))
+        const formData = { image }
+
+        // when ... we call the updateProfileContent action creator
+        await store.dispatch(SUT.updateProfileContent(id, formData))
         const actions = store.getActions()
 
         // then ... it should dispatch the correct actions
@@ -425,8 +430,7 @@ describe('CreateEntityPageContent Actions', () => {
         expect(actions[1].type).toEqual(
           CreateEntityPageContentActions.UploadProfileContentImageSuccess,
         )
-        expect(actions[1].payload.did).toEqual('somePublicDid')
-        expect(actions[1].payload.id).toEqual('someProfileId')
+        expect(actions[1].payload).toEqual({ id, did: 'somePublicDid' })
       })
     })
   })
@@ -489,8 +493,6 @@ describe('CreateEntityPageContent Actions', () => {
         )
         expect(action.payload).toEqual({
           id,
-          title: null,
-          urls: [''],
         })
       })
     })

@@ -8,7 +8,7 @@ interface Props {
 }
 
 const AvatarUpload: React.FunctionComponent<Props> = ({
-  options: { savingFormData },
+  options: { uploading },
   value,
   onChange,
 }) => {
@@ -18,7 +18,7 @@ const AvatarUpload: React.FunctionComponent<Props> = ({
       circularCrop={true}
       aspect={1}
       uploadedImageSrc={value}
-      uploading={savingFormData}
+      uploading={uploading}
       handleSave={(base64EncodedImage): void => onChange(base64EncodedImage)}
       maxDimension={600}
     />

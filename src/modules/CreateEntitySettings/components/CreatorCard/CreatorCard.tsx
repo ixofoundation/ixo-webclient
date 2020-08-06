@@ -12,7 +12,7 @@ interface Props {
   mission: string
   identifier: string
   credentialTokenId: string
-  imageDid: string
+  imageSrc: string
   uploadingImage: boolean
   handleUpdate: (formData: FormData) => void
   handleUploadImage: (base64EncodedImage: string) => void
@@ -26,7 +26,7 @@ const OwnerCard: React.FunctionComponent<Props> = ({
   mission,
   identifier,
   credentialTokenId,
-  imageDid,
+  imageSrc,
   uploadingImage,
   handleUpdate,
   handleUploadImage,
@@ -96,8 +96,8 @@ const OwnerCard: React.FunctionComponent<Props> = ({
             keepCropSelection={true}
             circularCrop={false}
             uploadedImageSrc={
-              imageDid
-                ? `${process.env.REACT_APP_PDS_URL}public/${imageDid}`
+              imageSrc
+                ? `${process.env.REACT_APP_PDS_URL}public/${imageSrc}`
                 : null
             }
             uploading={uploadingImage}

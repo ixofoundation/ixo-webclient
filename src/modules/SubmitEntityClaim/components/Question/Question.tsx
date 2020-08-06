@@ -32,7 +32,7 @@ const Question: React.FunctionComponent<Props> = ({
   return (
     <SingleControlForm
       formData={answer}
-      savingFormData={savingAnswer}
+      uploading={savingAnswer}
       handleFormDataChange={(formData): void =>
         handleFormDataChangeDebounce(formData)
       }

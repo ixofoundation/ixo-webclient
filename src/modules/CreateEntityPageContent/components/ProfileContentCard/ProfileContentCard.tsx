@@ -12,7 +12,7 @@ interface Props {
   position: string
   linkedInUrl: string
   twitterUrl: string
-  imageDid: string
+  imageSrc: string
   uploadingImage: boolean
   handleUpdateContent: (id: string, formData: FormData) => void
   handleUploadImage: (id: string, base64EncodedImage: string) => void
@@ -25,7 +25,7 @@ const HeaderCard: React.FunctionComponent<Props> = ({
   position,
   linkedInUrl,
   twitterUrl,
-  imageDid,
+  imageSrc,
   uploadingImage,
   handleUpdateContent,
   handleUploadImage,
@@ -81,8 +81,8 @@ const HeaderCard: React.FunctionComponent<Props> = ({
             keepCropSelection={true}
             circularCrop={false}
             uploadedImageSrc={
-              imageDid
-                ? `${process.env.REACT_APP_PDS_URL}public/${imageDid}`
+              imageSrc
+                ? `${process.env.REACT_APP_PDS_URL}public/${imageSrc}`
                 : null
             }
             uploading={uploadingImage}

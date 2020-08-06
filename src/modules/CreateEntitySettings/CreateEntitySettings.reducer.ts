@@ -14,7 +14,7 @@ export const initialState: CreateEntitySettingsState = {
     mission: null,
     identifier: null,
     credentialTokenId: null,
-    imageDid: null,
+    imageSrc: null,
     uploadingImage: false,
   },
   owner: {
@@ -25,7 +25,7 @@ export const initialState: CreateEntitySettingsState = {
     mission: null,
     identifier: null,
     matrixId: null,
-    imageDid: null,
+    imageSrc: null,
     uploadingImage: false,
   },
   status: {
@@ -70,7 +70,7 @@ export const reducer = (
         owner: {
           ...state.owner,
           uploadingImage: false,
-          imageDid: action.payload.did,
+          imageSrc: action.payload.did,
         },
       }
     case CreateEntitySettingsActions.UploadOwnerImageFailure:
@@ -103,7 +103,7 @@ export const reducer = (
         creator: {
           ...state.creator,
           uploadingImage: false,
-          imageDid: action.payload.did,
+          imageSrc: action.payload.did,
         },
       }
     case CreateEntitySettingsActions.UploadCreatorImageFailure:

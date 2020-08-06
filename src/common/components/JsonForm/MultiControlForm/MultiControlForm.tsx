@@ -13,6 +13,7 @@ interface Props {
   uiSchema: any
   handleFormDataChange: (formData: any) => void
   handleSubmit: () => void
+  handleError?: (fields: string[]) => void
 }
 
 const MultiControlForm: React.FunctionComponent<Props> = React.forwardRef(
@@ -25,6 +26,7 @@ const MultiControlForm: React.FunctionComponent<Props> = React.forwardRef(
       uiSchema,
       handleFormDataChange,
       handleSubmit,
+      handleError,
     },
     ref,
   ) => {
@@ -35,6 +37,7 @@ const MultiControlForm: React.FunctionComponent<Props> = React.forwardRef(
     useEffect(() => {
       if (validated) {
         jsonFormRef.current.submit()
+        setValidated(false)
       }
     }, [validated])
 
@@ -46,6 +49,10 @@ const MultiControlForm: React.FunctionComponent<Props> = React.forwardRef(
 
     const handleTouched = (id): void =>
       setTouched({ ...touched, [id.replace('root_', '.')]: true })
+
+    const onError = (errors: any[]): void => {
+      handleError(errors.map(error => error.property.replace('.', '')))
+    }
 
     return (
       <FormContainer>
@@ -66,7 +73,7 @@ const MultiControlForm: React.FunctionComponent<Props> = React.forwardRef(
           }
           onBlur={handleTouched}
           onFocus={handleTouched}
-          onError={(e): void => console.log(e)}
+          onError={onError}
           ObjectFieldTemplate={
             multiColumn ? ObjectFieldTemplate2Column : undefined
           }

@@ -81,7 +81,7 @@ class CreateEntitySettings extends React.Component<Props> {
         mission,
         identifier,
         credentialTokenId,
-        imageDid,
+        imageSrc,
         uploadingImage,
       },
       handleUpdateCreator,
@@ -101,7 +101,7 @@ class CreateEntitySettings extends React.Component<Props> {
           mission={mission}
           identifier={identifier}
           credentialTokenId={credentialTokenId}
-          imageDid={imageDid}
+          imageSrc={imageSrc}
           uploadingImage={uploadingImage}
           handleUpdate={handleUpdateCreator}
           handleUploadImage={handleUploadCreatorImage}
@@ -120,7 +120,7 @@ class CreateEntitySettings extends React.Component<Props> {
         mission,
         identifier,
         matrixId,
-        imageDid,
+        imageSrc,
         uploadingImage,
       },
       handleUpdateOwner,
@@ -140,7 +140,7 @@ class CreateEntitySettings extends React.Component<Props> {
           mission={mission}
           identifier={identifier}
           matrixId={matrixId}
-          imageDid={imageDid}
+          imageSrc={imageSrc}
           uploadingImage={uploadingImage}
           handleUpdate={handleUpdateOwner}
           handleUploadImage={handleUploadOwnerImage}

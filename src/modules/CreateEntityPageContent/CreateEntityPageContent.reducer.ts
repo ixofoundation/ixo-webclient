@@ -13,8 +13,8 @@ export const initialState: CreateEntityPageContentState = {
     sdgs: [],
     company: null,
     country: null,
-    imageDid: null,
-    uploadingImage: false,
+    fileSrc: null,
+    uploading: false,
   },
   body: {},
   images: {},
@@ -51,7 +51,7 @@ export const reducer = (
         ...state,
         header: {
           ...state.header,
-          uploadingImage: true,
+          uploading: true,
         },
       }
     case CreateEntityPageContentActions.UploadHeaderContentImageSuccess:
@@ -59,8 +59,8 @@ export const reducer = (
         ...state,
         header: {
           ...state.header,
-          uploadingImage: false,
-          imageDid: action.payload.did,
+          uploading: false,
+          fileSrc: action.payload.fileSrc,
         },
       }
     case CreateEntityPageContentActions.UploadHeaderContentImageFailure:
@@ -68,7 +68,7 @@ export const reducer = (
         ...state,
         header: {
           ...state.header,
-          uploadingImage: false,
+          uploading: false,
         },
       }
     case CreateEntityPageContentActions.AddBodySection:
@@ -77,7 +77,13 @@ export const reducer = (
         body: {
           ...state.body,
           ...{
-            [action.payload.id]: { ...action.payload, uploadingImage: false },
+            [action.payload.id]: {
+              ...action.payload,
+              title: null,
+              content: null,
+              uploading: false,
+              fileSrc: null,
+            },
           },
         },
       }
@@ -93,9 +99,9 @@ export const reducer = (
           ...state.body,
           ...{
             [action.payload.id]: {
+              ...state.body[action.payload.id],
               ...action.payload,
-              imageDid: state.body[action.payload.id].imageDid,
-              uploadingImage: false,
+              uploading: false,
             },
           },
         },
@@ -108,7 +114,7 @@ export const reducer = (
           ...{
             [action.meta.id]: {
               ...state.body[action.meta.id],
-              uploadingImage: true,
+              uploading: true,
             },
           },
         },
@@ -121,8 +127,8 @@ export const reducer = (
           ...{
             [action.payload.id]: {
               ...state.body[action.payload.id],
-              imageDid: action.payload.did,
-              uploadingImage: false,
+              fileSrc: action.payload.fileSrc,
+              uploading: false,
             },
           },
         },
@@ -135,7 +141,7 @@ export const reducer = (
           ...{
             [action.payload.id]: {
               ...state.body[action.payload.id],
-              uploadingImage: false,
+              uploading: false,
             },
           },
         },
@@ -146,7 +152,14 @@ export const reducer = (
         images: {
           ...state.images,
           ...{
-            [action.payload.id]: { ...action.payload, uploadingImage: false },
+            [action.payload.id]: {
+              ...action.payload,
+              title: null,
+              content: null,
+              imageDescription: null,
+              uploading: false,
+              fileSrc: null,
+            },
           },
         },
       }
@@ -162,9 +175,9 @@ export const reducer = (
           ...state.images,
           ...{
             [action.payload.id]: {
+              ...state.images[action.payload.id],
               ...action.payload,
-              imageDid: state.images[action.payload.id].imageDid,
-              uploadingImage: false,
+              uploading: false,
             },
           },
         },
@@ -177,7 +190,7 @@ export const reducer = (
           ...{
             [action.meta.id]: {
               ...state.images[action.meta.id],
-              uploadingImage: true,
+              uploading: true,
             },
           },
         },
@@ -190,8 +203,8 @@ export const reducer = (
           ...{
             [action.payload.id]: {
               ...state.images[action.payload.id],
-              imageDid: action.payload.did,
-              uploadingImage: false,
+              fileSrc: action.payload.fileSrc,
+              uploading: false,
             },
           },
         },
@@ -204,7 +217,7 @@ export const reducer = (
           ...{
             [action.payload.id]: {
               ...state.images[action.payload.id],
-              uploadingImage: false,
+              uploading: false,
             },
           },
         },
@@ -215,7 +228,13 @@ export const reducer = (
         videos: {
           ...state.videos,
           ...{
-            [action.payload.id]: { ...action.payload, uploadingVideo: false },
+            [action.payload.id]: {
+              ...action.payload,
+              uploading: false,
+              title: null,
+              content: null,
+              fileSrc: null,
+            },
           },
         },
       }
@@ -231,9 +250,9 @@ export const reducer = (
           ...state.videos,
           ...{
             [action.payload.id]: {
+              ...state.videos[action.payload.id],
               ...action.payload,
-              videoDid: state.videos[action.payload.id].videoDid,
-              uploadingVideo: false,
+              uploading: false,
             },
           },
         },
@@ -246,7 +265,7 @@ export const reducer = (
           ...{
             [action.meta.id]: {
               ...state.videos[action.meta.id],
-              uploadingVideo: true,
+              uploading: true,
             },
           },
         },
@@ -259,8 +278,8 @@ export const reducer = (
           ...{
             [action.payload.id]: {
               ...state.videos[action.payload.id],
-              videoDid: action.payload.did,
-              uploadingVideo: false,
+              fileSrc: action.payload.fileSrc,
+              uploading: false,
             },
           },
         },
@@ -273,7 +292,7 @@ export const reducer = (
           ...{
             [action.payload.id]: {
               ...state.videos[action.payload.id],
-              uploadingVideo: false,
+              uploading: false,
             },
           },
         },
@@ -284,7 +303,15 @@ export const reducer = (
         profiles: {
           ...state.profiles,
           ...{
-            [action.payload.id]: { ...action.payload, uploadingImage: false },
+            [action.payload.id]: {
+              ...action.payload,
+              name: null,
+              position: null,
+              linkedInUrl: null,
+              twitterUrl: null,
+              uploading: false,
+              fileSrc: null,
+            },
           },
         },
       }
@@ -300,9 +327,9 @@ export const reducer = (
           ...state.profiles,
           ...{
             [action.payload.id]: {
+              ...state.profiles[action.payload.id],
               ...action.payload,
-              imageDid: state.profiles[action.payload.id].imageDid,
-              uploadingImage: false,
+              uploading: false,
             },
           },
         },
@@ -315,7 +342,7 @@ export const reducer = (
           ...{
             [action.meta.id]: {
               ...state.profiles[action.meta.id],
-              uploadingImage: true,
+              uploading: true,
             },
           },
         },
@@ -328,8 +355,8 @@ export const reducer = (
           ...{
             [action.payload.id]: {
               ...state.profiles[action.payload.id],
-              imageDid: action.payload.did,
-              uploadingImage: false,
+              fileSrc: action.payload.fileSrc,
+              uploading: false,
             },
           },
         },
@@ -342,7 +369,7 @@ export const reducer = (
           ...{
             [action.payload.id]: {
               ...state.profiles[action.payload.id],
-              uploadingImage: false,
+              uploading: false,
             },
           },
         },
@@ -360,7 +387,9 @@ export const reducer = (
         ...state,
         embedded: {
           ...state.embedded,
-          ...{ [action.payload.id]: action.payload },
+          ...{
+            [action.payload.id]: { ...action.payload, title: null, urls: [] },
+          },
         },
       }
     case CreateEntityPageContentActions.RemoveEmbeddedSection:

@@ -8,7 +8,7 @@ interface Props {
   id: string
   title: string
   content: string
-  imageDid: string
+  imageSrc: string
   imageDescription: string
   uploadingImage: boolean
   handleUpdateContent: (id: string, formData: FormData) => void
@@ -20,7 +20,7 @@ const HeaderCard: React.FunctionComponent<Props> = ({
   id,
   title,
   content,
-  imageDid,
+  imageSrc,
   imageDescription,
   uploadingImage,
   handleUpdateContent,
@@ -69,8 +69,8 @@ const HeaderCard: React.FunctionComponent<Props> = ({
             keepCropSelection={true}
             circularCrop={false}
             uploadedImageSrc={
-              imageDid
-                ? `${process.env.REACT_APP_PDS_URL}public/${imageDid}`
+              imageSrc
+                ? `${process.env.REACT_APP_PDS_URL}public/${imageSrc}`
                 : null
             }
             uploading={uploadingImage}

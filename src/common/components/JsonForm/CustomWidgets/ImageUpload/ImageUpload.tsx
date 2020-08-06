@@ -3,21 +3,19 @@ import ImageLoader from '../../../DropZone/ImageLoader/ImageLoader'
 
 interface Props {
   options: any
-  value: string
   onChange: (value: string) => void
 }
 
 const ImageUpload: React.FunctionComponent<Props> = ({
-  options: { savingFormData },
-  value,
+  options: { uploading, imageSrc },
   onChange,
 }) => {
   return (
     <ImageLoader
       keepCropSelection={true}
       circularCrop={false}
-      uploadedImageSrc={value}
-      uploading={savingFormData}
+      uploadedImageSrc={imageSrc}
+      uploading={uploading}
       handleSave={(base64EncodedImage): void => onChange(base64EncodedImage)}
       maxDimension={600}
     />
