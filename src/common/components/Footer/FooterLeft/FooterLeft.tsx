@@ -111,7 +111,10 @@ export const FooterLeft: React.SFC<any> = () => {
                 >
                   Portals
                 </FooterLink>
-                <FooterLink exact={true} to="/todo">
+                <FooterLink
+                  exact={true}
+                  to='/entities/select?type=Investment&categories=[{"name": "View", "tags": ["Featured"]}]'
+                >
                   Funds
                 </FooterLink>
                 <FooterLink
@@ -121,7 +124,10 @@ export const FooterLeft: React.SFC<any> = () => {
                 >
                   Relayers
                 </FooterLink>
-                <FooterLink exact={true} to="/todo">
+                <FooterLink
+                  exact={true}
+                  to='/entities/select?type=Oracle&categories=[{"name": "View", "tags": ["Featured"]}]'
+                >
                   Oracles
                 </FooterLink>
                 <ExternalFooterLink
@@ -152,7 +158,7 @@ export const FooterLeft: React.SFC<any> = () => {
                 <ExternalFooterLink
                   target="_blank"
                   rel="noopener noreferrer"
-                  href="https://developers.ixo.world"
+                  href="https://build.ixo.world"
                 >
                   Developers
                 </ExternalFooterLink>
