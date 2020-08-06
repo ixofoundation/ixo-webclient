@@ -107,7 +107,7 @@ export const FooterLeft: React.SFC<any> = () => {
                 <FooterLink
                   target="_blank"
                   rel="noopener noreferrer"
-                  to='/entities/select?type=Cell&categories=[{"name": "Cell Type", "tags": ["Portals"]}]'
+                  to='/entities/select?type=Cell&categories=[{"name": "Cell Type", "tags": ["Portal"]}]'
                 >
                   Portals
                 </FooterLink>
