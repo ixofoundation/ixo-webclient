@@ -4,8 +4,9 @@ import {
   PageView,
   EntityView,
 } from '../Entities/types'
+import { FileContent, Validation } from 'modules/CreateEntity/types'
 
-export interface Creator {
+export interface Creator extends FileContent {
   name: string
   country: string
   email: string
@@ -13,11 +14,9 @@ export interface Creator {
   mission: string
   identifier: string
   credentialTokenId: string
-  imageSrc: string
-  uploadingImage: boolean
 }
 
-export interface Owner {
+export interface Owner extends FileContent {
   name: string
   country: string
   email: string
@@ -25,8 +24,6 @@ export interface Owner {
   mission: string
   identifier: string
   matrixId: string
-  imageSrc: string
-  uploadingImage: boolean
 }
 
 export interface Status {
@@ -66,6 +63,9 @@ export interface CreateEntitySettingsState {
   }
   displayCredentials: {
     [id: string]: DisplayCredential
+  }
+  validation: {
+    [identifier: string]: Validation
   }
 }
 
@@ -114,7 +114,7 @@ export interface UpdateCreatorAction {
 export interface UploadCreatorImageAction {
   type: typeof CreateEntitySettingsActions.UploadCreatorImage
   payload: Promise<{
-    did: string
+    fileSrc: string
   }>
 }
 
@@ -125,7 +125,7 @@ export interface UploadCreatorImagePendingAction {
 export interface UploadCreatorImageSuccessAction {
   type: typeof CreateEntitySettingsActions.UploadCreatorImageSuccess
   payload: {
-    did: string
+    fileSrc: string
   }
 }
 
@@ -149,7 +149,7 @@ export interface UpdateOwnerAction {
 export interface UploadOwnerImageAction {
   type: typeof CreateEntitySettingsActions.UploadOwnerImage
   payload: Promise<{
-    did: string
+    fileSrc: string
   }>
 }
 
@@ -160,7 +160,7 @@ export interface UploadOwnerImagePendingAction {
 export interface UploadOwnerImageSuccessAction {
   type: typeof CreateEntitySettingsActions.UploadOwnerImageSuccess
   payload: {
-    did: string
+    fileSrc: string
   }
 }
 
@@ -190,8 +190,6 @@ export interface AddRequiredCredentialSectionAction {
   type: typeof CreateEntitySettingsActions.AddRequiredCredentialSection
   payload: {
     id: string
-    credential: string
-    issuer: string
   }
 }
 
@@ -222,8 +220,6 @@ export interface AddDisplayCredentialSectionAction {
   type: typeof CreateEntitySettingsActions.AddDisplayCredentialSection
   payload: {
     id: string
-    credential: string
-    badge: string
   }
 }
 

@@ -50,7 +50,7 @@ describe('CreateEntitySettings Reducer', () => {
         const mission = 'someCreatorMission'
         const identifier = 'someCreatorIdentifier'
         const credentialTokenId = 'someCreatorCredentialTokenId'
-        const imageSrc = 'someExistingimageSrc'
+        const fileSrc = 'someExistingfileSrc'
 
         // given .. we have an action of type CreateEntitySettingsActions.UpdateCreator
         const action: UpdateCreatorAction = {
@@ -70,7 +70,7 @@ describe('CreateEntitySettings Reducer', () => {
         const result = SUT.reducer(
           {
             ...initialState,
-            creator: { ...initialState.creator, imageSrc },
+            creator: { ...initialState.creator, fileSrc },
           },
           action,
         )
@@ -86,15 +86,15 @@ describe('CreateEntitySettings Reducer', () => {
             mission,
             identifier,
             credentialTokenId,
-            imageSrc,
-            uploadingImage: false,
+            fileSrc,
+            uploading: false,
           },
         })
       })
     })
 
     describe('creatorImage', () => {
-      it('should update the creator uploadingImage flag to true when upload has started', () => {
+      it('should update the creator uploading flag to true when upload has started', () => {
         // given .. we have an action of type CreateEntitySettingsActions.UploadCreatorImagePending
         const action: UploadCreatorImagePendingAction = {
           type: CreateEntitySettingsActions.UploadCreatorImagePending,
@@ -108,19 +108,19 @@ describe('CreateEntitySettings Reducer', () => {
           ...initialState,
           creator: {
             ...initialState.creator,
-            uploadingImage: true,
+            uploading: true,
           },
         })
       })
 
-      it('should update the creator uploadingImage flag to false and set the imageSrc when upload has succeeded', () => {
-        const imageSrc = 'someimageSrc'
+      it('should update the creator uploading flag to false and set the fileSrc when upload has succeeded', () => {
+        const fileSrc = 'somefileSrc'
 
         // given .. we have an action of type CreateEntitySettingsActions.UploadCreatorImageSuccess
         const action: UploadCreatorImageSuccessAction = {
           type: CreateEntitySettingsActions.UploadCreatorImageSuccess,
           payload: {
-            did: imageSrc,
+            fileSrc,
           },
         }
 
@@ -130,7 +130,7 @@ describe('CreateEntitySettings Reducer', () => {
             ...initialState,
             creator: {
               ...initialState.creator,
-              uploadingImage: true,
+              uploading: true,
             },
           },
           action,
@@ -141,13 +141,13 @@ describe('CreateEntitySettings Reducer', () => {
           ...initialState,
           creator: {
             ...initialState.creator,
-            imageSrc,
-            uploadingImage: false,
+            fileSrc,
+            uploading: false,
           },
         })
       })
 
-      it('should update the creator uploadingImage flag to false and set the imageSrc when upload has failed', () => {
+      it('should update the creator uploading flag to false and set the fileSrc when upload has failed', () => {
         // given .. we have an action of type CreateEntitySettingsActions.UploadCreatorImageFailure
         const action: UploadCreatorImageFailureAction = {
           type: CreateEntitySettingsActions.UploadCreatorImageFailure,
@@ -159,7 +159,7 @@ describe('CreateEntitySettings Reducer', () => {
             ...initialState,
             creator: {
               ...initialState.creator,
-              uploadingImage: true,
+              uploading: true,
             },
           },
           action,
@@ -170,7 +170,7 @@ describe('CreateEntitySettings Reducer', () => {
           ...initialState,
           creator: {
             ...initialState.creator,
-            uploadingImage: false,
+            uploading: false,
           },
         })
       })
@@ -187,7 +187,7 @@ describe('CreateEntitySettings Reducer', () => {
         const mission = 'someOwnerMission'
         const identifier = 'someOwnerIdentifier'
         const matrixId = 'someOwneMatrixId'
-        const imageSrc = 'someExistingimageSrc'
+        const fileSrc = 'someExistingfileSrc'
 
         // given .. we have an action of type CreateEntitySettingsActions.UpdateOwner
         const action: UpdateOwnerAction = {
@@ -207,7 +207,7 @@ describe('CreateEntitySettings Reducer', () => {
         const result = SUT.reducer(
           {
             ...initialState,
-            owner: { ...initialState.owner, imageSrc },
+            owner: { ...initialState.owner, fileSrc },
           },
           action,
         )
@@ -223,15 +223,15 @@ describe('CreateEntitySettings Reducer', () => {
             mission,
             identifier,
             matrixId,
-            imageSrc,
-            uploadingImage: false,
+            fileSrc,
+            uploading: false,
           },
         })
       })
     })
 
     describe('ownerImage', () => {
-      it('should update the owner uploadingImage flag to true when upload has started', () => {
+      it('should update the owner uploading flag to true when upload has started', () => {
         // given .. we have an action of type CreateEntitySettingsActions.UploadOwnerImagePending
         const action: UploadOwnerImagePendingAction = {
           type: CreateEntitySettingsActions.UploadOwnerImagePending,
@@ -245,19 +245,19 @@ describe('CreateEntitySettings Reducer', () => {
           ...initialState,
           owner: {
             ...initialState.owner,
-            uploadingImage: true,
+            uploading: true,
           },
         })
       })
 
-      it('should update the owner uploadingImage flag to false and set the imageSrc when upload has succeeded', () => {
-        const imageSrc = 'someimageSrc'
+      it('should update the owner uploading flag to false and set the fileSrc when upload has succeeded', () => {
+        const fileSrc = 'somefileSrc'
 
         // given .. we have an action of type CreateEntitySettingsActions.UploadOwnerImageSuccess
         const action: UploadOwnerImageSuccessAction = {
           type: CreateEntitySettingsActions.UploadOwnerImageSuccess,
           payload: {
-            did: imageSrc,
+            fileSrc,
           },
         }
 
@@ -267,7 +267,7 @@ describe('CreateEntitySettings Reducer', () => {
             ...initialState,
             owner: {
               ...initialState.owner,
-              uploadingImage: true,
+              uploading: true,
             },
           },
           action,
@@ -278,13 +278,13 @@ describe('CreateEntitySettings Reducer', () => {
           ...initialState,
           owner: {
             ...initialState.owner,
-            imageSrc,
-            uploadingImage: false,
+            fileSrc,
+            uploading: false,
           },
         })
       })
 
-      it('should update the owner uploadingImage flag to false and set the imageSrc when upload has failed', () => {
+      it('should update the owner uploading flag to false and set the fileSrc when upload has failed', () => {
         // given .. we have an action of type CreateEntitySettingsActions.UploadOwnerImageFailure
         const action: UploadOwnerImageFailureAction = {
           type: CreateEntitySettingsActions.UploadOwnerImageFailure,
@@ -296,7 +296,7 @@ describe('CreateEntitySettings Reducer', () => {
             ...initialState,
             owner: {
               ...initialState.owner,
-              uploadingImage: true,
+              uploading: true,
             },
           },
           action,
@@ -307,7 +307,7 @@ describe('CreateEntitySettings Reducer', () => {
           ...initialState,
           owner: {
             ...initialState.owner,
-            uploadingImage: false,
+            uploading: false,
           },
         })
       })
@@ -383,8 +383,6 @@ describe('CreateEntitySettings Reducer', () => {
         type: CreateEntitySettingsActions.AddRequiredCredentialSection,
         payload: {
           id,
-          credential: null,
-          issuer: null,
         },
       }
 
@@ -397,8 +395,8 @@ describe('CreateEntitySettings Reducer', () => {
         requiredCredentials: {
           [id]: {
             id,
-            credential: null,
-            issuer: null,
+            credential: undefined,
+            issuer: undefined,
           },
         },
       })
@@ -498,8 +496,6 @@ describe('CreateEntitySettings Reducer', () => {
         type: CreateEntitySettingsActions.AddDisplayCredentialSection,
         payload: {
           id,
-          credential: null,
-          badge: null,
         },
       }
 
@@ -512,8 +508,8 @@ describe('CreateEntitySettings Reducer', () => {
         displayCredentials: {
           [id]: {
             id,
-            credential: null,
-            badge: null,
+            credential: undefined,
+            badge: undefined,
           },
         },
       })

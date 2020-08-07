@@ -1,72 +1,74 @@
 import React from 'react'
-import { FormData } from '../../../../common/components/JsonForm/types'
 import { PageView, EntityView } from '../../../../modules/Entities/types'
 import {
   pageViewMap,
   entityViewMap,
 } from '../../../../modules/Entities/strategy-map'
 import MultiControlForm from '../../../../common/components/JsonForm/MultiControlForm/MultiControlForm'
+import { FormCardProps } from '../../../CreateEntity/types'
 
-interface Props {
+interface Props extends FormCardProps {
   pageView: PageView
   entityView: EntityView
-  handleUpdate: (formData: FormData) => void
 }
 
-const PrivacyCard: React.FunctionComponent<Props> = ({
-  pageView,
-  entityView,
-  handleUpdate,
-}) => {
-  const formData = {
-    pageView,
-    entityView,
-  }
+const PrivacyCard: React.FunctionComponent<Props> = React.forwardRef(
+  (
+    { pageView, entityView, handleUpdateContent, handleSubmitted, handleError },
+    ref,
+  ) => {
+    const formData = {
+      pageView,
+      entityView,
+    }
 
-  const schema = {
-    type: 'object',
-    required: [],
-    properties: {
+    const schema = {
+      type: 'object',
+      required: [],
+      properties: {
+        pageView: {
+          type: 'string',
+          title: 'Page View',
+          enum: Object.keys(PageView).map(key => PageView[key]),
+          enumNames: Object.keys(PageView).map(
+            key => pageViewMap[PageView[key]].title,
+          ),
+        },
+        entityView: {
+          type: 'string',
+          title: 'Entity View',
+          enum: Object.keys(EntityView).map(key => EntityView[key]),
+          enumNames: Object.keys(EntityView).map(
+            key => entityViewMap[EntityView[key]].title,
+          ),
+        },
+      },
+    } as any
+
+    const uiSchema = {
       pageView: {
-        type: 'string',
-        title: 'Page View',
-        enum: Object.keys(PageView).map(key => PageView[key]),
-        enumNames: Object.keys(PageView).map(
-          key => pageViewMap[PageView[key]].title,
-        ),
+        ['ui:placeholder']: 'Select Page View',
       },
       entityView: {
-        type: 'string',
-        title: 'Entity View',
-        enum: Object.keys(EntityView).map(key => EntityView[key]),
-        enumNames: Object.keys(EntityView).map(
-          key => entityViewMap[EntityView[key]].title,
-        ),
+        ['ui:placeholder']: 'Select Entity View',
       },
-    },
-  } as any
+    }
 
-  const uiSchema = {
-    pageView: {
-      ['ui:placeholder']: 'Select Page View',
-    },
-    entityView: {
-      ['ui:placeholder']: 'Select Entity View',
-    },
-  }
-
-  return (
-    <MultiControlForm
-      onSubmit={(): void => null}
-      onFormDataChange={handleUpdate}
-      formData={formData}
-      schema={schema}
-      uiSchema={uiSchema}
-      multiColumn
-    >
-      &nbsp;
-    </MultiControlForm>
-  )
-}
+    return (
+      <MultiControlForm
+        ref={ref}
+        onSubmit={handleSubmitted}
+        onFormDataChange={handleUpdateContent}
+        onError={handleError}
+        formData={formData}
+        schema={schema}
+        uiSchema={uiSchema}
+        multiColumn
+      >
+        &nbsp;
+      </MultiControlForm>
+    )
+  },
+)
 
 export default PrivacyCard

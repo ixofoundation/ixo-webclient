@@ -7,40 +7,41 @@ import * as reduxUtils from '../../common/redux/utils'
 
 export const initialState: CreateEntitySettingsState = {
   creator: {
-    name: null,
-    country: null,
-    email: null,
-    website: null,
-    mission: null,
-    identifier: null,
-    credentialTokenId: null,
-    imageSrc: null,
-    uploadingImage: false,
+    name: undefined,
+    country: undefined,
+    email: undefined,
+    website: undefined,
+    mission: undefined,
+    identifier: undefined,
+    credentialTokenId: undefined,
+    fileSrc: undefined,
+    uploading: false,
   },
   owner: {
-    name: null,
-    country: null,
-    email: null,
-    website: null,
-    mission: null,
-    identifier: null,
-    matrixId: null,
-    imageSrc: null,
-    uploadingImage: false,
+    name: undefined,
+    country: undefined,
+    email: undefined,
+    website: undefined,
+    mission: undefined,
+    identifier: undefined,
+    matrixId: undefined,
+    fileSrc: undefined,
+    uploading: false,
   },
   status: {
-    startDate: null,
-    endDate: null,
-    stage: null,
-    status: null,
+    startDate: undefined,
+    endDate: undefined,
+    stage: undefined,
+    status: undefined,
   },
   privacy: {
-    entityView: null,
-    pageView: null,
+    entityView: undefined,
+    pageView: undefined,
   },
   requiredCredentials: {},
   filters: {},
   displayCredentials: {},
+  validation: {},
 }
 
 export const reducer = (
@@ -61,7 +62,7 @@ export const reducer = (
         ...state,
         owner: {
           ...state.owner,
-          uploadingImage: true,
+          uploading: true,
         },
       }
     case CreateEntitySettingsActions.UploadOwnerImageSuccess:
@@ -69,8 +70,8 @@ export const reducer = (
         ...state,
         owner: {
           ...state.owner,
-          uploadingImage: false,
-          imageSrc: action.payload.did,
+          uploading: false,
+          fileSrc: action.payload.fileSrc,
         },
       }
     case CreateEntitySettingsActions.UploadOwnerImageFailure:
@@ -78,7 +79,7 @@ export const reducer = (
         ...state,
         owner: {
           ...state.owner,
-          uploadingImage: false,
+          uploading: false,
         },
       }
     case CreateEntitySettingsActions.UpdateCreator:
@@ -94,7 +95,7 @@ export const reducer = (
         ...state,
         creator: {
           ...state.creator,
-          uploadingImage: true,
+          uploading: true,
         },
       }
     case CreateEntitySettingsActions.UploadCreatorImageSuccess:
@@ -102,8 +103,8 @@ export const reducer = (
         ...state,
         creator: {
           ...state.creator,
-          uploadingImage: false,
-          imageSrc: action.payload.did,
+          uploading: false,
+          fileSrc: action.payload.fileSrc,
         },
       }
     case CreateEntitySettingsActions.UploadCreatorImageFailure:
@@ -111,7 +112,7 @@ export const reducer = (
         ...state,
         creator: {
           ...state.creator,
-          uploadingImage: false,
+          uploading: false,
         },
       }
     case CreateEntitySettingsActions.UpdateStatus:
@@ -129,7 +130,13 @@ export const reducer = (
         ...state,
         requiredCredentials: {
           ...state.requiredCredentials,
-          ...{ [action.payload.id]: action.payload },
+          ...{
+            [action.payload.id]: {
+              ...action.payload,
+              credential: undefined,
+              issuer: undefined,
+            },
+          },
         },
       }
     case CreateEntitySettingsActions.RemoveRequiredCredentialSection:
@@ -158,7 +165,13 @@ export const reducer = (
         ...state,
         displayCredentials: {
           ...state.displayCredentials,
-          ...{ [action.payload.id]: action.payload },
+          ...{
+            [action.payload.id]: {
+              ...action.payload,
+              credential: undefined,
+              badge: undefined,
+            },
+          },
         },
       }
     case CreateEntitySettingsActions.RemoveDisplayCredentialSection:

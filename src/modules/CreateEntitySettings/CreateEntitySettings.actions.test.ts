@@ -19,7 +19,7 @@ beforeEach(() => {
 describe('CreateEntitySettings Actions', () => {
   describe('creator', () => {
     describe('updateCreator', () => {
-      it('should update the creator', () => {
+      it('should update the creator', async () => {
         // given ... some data
         const name = 'someCreatorName'
         const country = 'someCreatorCountry'
@@ -40,11 +40,15 @@ describe('CreateEntitySettings Actions', () => {
         }
 
         // when ... we call the updateCreator action creator
-        const action = SUT.updateCreator(formData)
+        await store.dispatch(SUT.updateCreator(formData))
+        const actions = store.getActions()
 
-        // then ... we should expect it to create the action with correct type and payload
-        expect(action.type).toEqual(CreateEntitySettingsActions.UpdateCreator)
-        expect(action.payload).toEqual({
+        // then ... it should dispatch the correct actions
+        expect(actions.length).toEqual(1)
+        expect(actions[0].type).toEqual(
+          CreateEntitySettingsActions.UpdateCreator,
+        )
+        expect(actions[0].payload).toEqual({
           name,
           country,
           email,
@@ -54,15 +58,17 @@ describe('CreateEntitySettings Actions', () => {
           credentialTokenId,
         })
       })
-    })
 
-    describe('uploadCreatorImage', () => {
       it('should upload the image and dispatch the correct action', async () => {
         // given ... we have base64 image data
-        const base64ImageData = 'someImageData'
+        const fileSrc = 'data:someImageData'
 
-        // when ... we call the uploadCreatorImage action creator
-        await store.dispatch(SUT.uploadCreatorImage(base64ImageData))
+        const formData = {
+          fileSrc,
+        }
+
+        // when ... we call the updateCreator action creator
+        await store.dispatch(SUT.updateCreator(formData))
         const actions = store.getActions()
 
         // then ... it should dispatch the correct actions
@@ -73,14 +79,16 @@ describe('CreateEntitySettings Actions', () => {
         expect(actions[1].type).toEqual(
           CreateEntitySettingsActions.UploadCreatorImageSuccess,
         )
-        expect(actions[1].payload).toEqual({ did: 'somePublicDid' })
+        expect(actions[1].payload).toEqual({
+          fileSrc: `${process.env.REACT_APP_PDS_URL}public/somePublicDid`,
+        })
       })
     })
   })
 
   describe('owner', () => {
     describe('updateOwner', () => {
-      it('should update the owner', () => {
+      it('should update the owner', async () => {
         // given ... some data
         const name = 'someOwnerName'
         const country = 'someOwnerCountry'
@@ -100,12 +108,14 @@ describe('CreateEntitySettings Actions', () => {
           matrixId,
         }
 
-        // when ... we call the updateOwner action creator
-        const action = SUT.updateOwner(formData)
+        // when ... we call the updateCreator action creator
+        await store.dispatch(SUT.updateOwner(formData))
+        const actions = store.getActions()
 
-        // then ... we should expect it to create the action with correct type and payload
-        expect(action.type).toEqual(CreateEntitySettingsActions.UpdateOwner)
-        expect(action.payload).toEqual({
+        // then ... it should dispatch the correct actions
+        expect(actions.length).toEqual(1)
+        expect(actions[0].type).toEqual(CreateEntitySettingsActions.UpdateOwner)
+        expect(actions[0].payload).toEqual({
           name,
           country,
           email,
@@ -115,15 +125,17 @@ describe('CreateEntitySettings Actions', () => {
           matrixId,
         })
       })
-    })
 
-    describe('uploadOwnerImage', () => {
       it('should upload the image and dispatch the correct action', async () => {
         // given ... we have base64 image data
-        const base64ImageData = 'someImageData'
+        const fileSrc = 'data:someImageData'
 
-        // when ... we call the uploadOwnerImage action creator
-        await store.dispatch(SUT.uploadOwnerImage(base64ImageData))
+        const formData = {
+          fileSrc,
+        }
+
+        // when ... we call the updateOwner action creator
+        await store.dispatch(SUT.updateOwner(formData))
         const actions = store.getActions()
 
         // then ... it should dispatch the correct actions
@@ -134,7 +146,9 @@ describe('CreateEntitySettings Actions', () => {
         expect(actions[1].type).toEqual(
           CreateEntitySettingsActions.UploadOwnerImageSuccess,
         )
-        expect(actions[1].payload).toEqual({ did: 'somePublicDid' })
+        expect(actions[1].payload).toEqual({
+          fileSrc: `${process.env.REACT_APP_PDS_URL}public/somePublicDid`,
+        })
       })
     })
   })
@@ -206,8 +220,6 @@ describe('CreateEntitySettings Actions', () => {
         )
         expect(action.payload).toEqual({
           id,
-          credential: null,
-          issuer: null,
         })
       })
     })
@@ -285,8 +297,6 @@ describe('displayCredential', () => {
       )
       expect(action.payload).toEqual({
         id,
-        credential: null,
-        badge: null,
       })
     })
   })

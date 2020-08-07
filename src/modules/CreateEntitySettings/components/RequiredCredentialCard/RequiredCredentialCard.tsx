@@ -1,71 +1,76 @@
 import React from 'react'
 import MultiControlForm from '../../../../common/components/JsonForm/MultiControlForm/MultiControlForm'
 import { LinkButton } from '../../../../common/components/JsonForm/JsonForm.styles'
-import { FormData } from '../../../../common/components/JsonForm/types'
+import { FormCardProps } from '../../../CreateEntity/types'
 
-interface Props {
-  id: string
+interface Props extends FormCardProps {
   credential: string
   issuer: string
-  handleUpdate: (id: string, formData: FormData) => void
-  handleRemoveSection: (id: string) => void
 }
 
-const RequiredCredential: React.FunctionComponent<Props> = ({
-  id,
-  credential,
-  issuer,
-  handleUpdate,
-  handleRemoveSection,
-}) => {
-  const formData = {
-    credential,
-    issuer,
-  }
+const RequiredCredential: React.FunctionComponent<Props> = React.forwardRef(
+  (
+    {
+      credential,
+      issuer,
+      handleUpdateContent,
+      handleSubmitted,
+      handleError,
+      handleRemoveSection,
+    },
+    ref,
+  ) => {
+    const formData = {
+      credential,
+      issuer,
+    }
 
-  const schema = {
-    type: 'object',
-    required: ['credential', 'issuer'],
-    properties: {
+    const schema = {
+      type: 'object',
+      required: ['credential', 'issuer'],
+      properties: {
+        credential: {
+          type: 'string',
+          title: 'Credential',
+        },
+        issuer: {
+          type: 'string',
+          title: 'Credential Issuer',
+        },
+      },
+    } as any
+
+    const uiSchema = {
       credential: {
-        type: 'string',
-        title: 'Credential',
+        ['ui:placeholder']: 'Enter Identifier',
       },
       issuer: {
-        type: 'string',
-        title: 'Credential Issuer',
+        ['ui:placeholder']: 'Enter DID or !name',
       },
-    },
-  } as any
+    }
 
-  const uiSchema = {
-    credential: {
-      ['ui:placeholder']: 'Enter Identifier',
-    },
-    issuer: {
-      ['ui:placeholder']: 'Enter DID or !name',
-    },
-  }
-
-  return (
-    <>
-      <MultiControlForm
-        onSubmit={(): void => null}
-        onFormDataChange={(formData): void => handleUpdate(id, formData)}
-        formData={formData}
-        schema={schema}
-        uiSchema={uiSchema}
-        multiColumn
-      >
-        &nbsp;
-      </MultiControlForm>
-      <div className="text-right">
-        <LinkButton type="button" onClick={(): void => handleRemoveSection(id)}>
-          - Remove
-        </LinkButton>
-      </div>
-    </>
-  )
-}
+    return (
+      <>
+        <MultiControlForm
+          ref={ref}
+          onSubmit={handleSubmitted}
+          onFormDataChange={handleUpdateContent}
+          onError={handleError}
+          formData={formData}
+          schema={schema}
+          uiSchema={uiSchema}
+          multiColumn
+        >
+          &nbsp;
+        </MultiControlForm>
+        <div className="text-right">
+          <LinkButton type="button" onClick={handleRemoveSection}>
+            - Remove
+          </LinkButton>
+        </div>
+      </>
+    )
+  },
+)
 
 export default RequiredCredential

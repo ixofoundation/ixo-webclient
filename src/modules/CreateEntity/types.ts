@@ -1,5 +1,7 @@
 import { EntityType } from '../Entities/types'
 
+export const PDS_URL = process.env.REACT_APP_PDS_URL
+
 export enum Step {
   PageContent = 1,
   Settings = 2,

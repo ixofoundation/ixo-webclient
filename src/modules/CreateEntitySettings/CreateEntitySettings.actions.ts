@@ -21,7 +21,9 @@ import { FormData } from 'common/components/JsonForm/types'
 
 const PDS_URL = process.env.REACT_APP_PDS_URL
 
-export const updateCreator = (formData: FormData): UpdateCreatorAction => {
+export const updateCreator = (formData: FormData) => (
+  dispatch: Dispatch,
+): UpdateCreatorAction | UploadCreatorImageAction => {
   const {
     name,
     country,
@@ -30,9 +32,21 @@ export const updateCreator = (formData: FormData): UpdateCreatorAction => {
     mission,
     identifier,
     credentialTokenId,
+    fileSrc,
   } = formData
 
-  return {
+  if (fileSrc && fileSrc.startsWith('data:')) {
+    return dispatch({
+      type: CreateEntitySettingsActions.UploadCreatorImage,
+      payload: blocksyncApi.project
+        .createPublic(fileSrc, PDS_URL)
+        .then((response: any) => ({
+          fileSrc: `${PDS_URL}public/${response.result}`,
+        })),
+    })
+  }
+
+  return dispatch({
     type: CreateEntitySettingsActions.UpdateCreator,
     payload: {
       name,
@@ -43,21 +57,12 @@ export const updateCreator = (formData: FormData): UpdateCreatorAction => {
       identifier,
       credentialTokenId,
     },
-  }
-}
-
-export const uploadCreatorImage = (base64ImageData: string) => (
-  dispatch: Dispatch,
-): UploadCreatorImageAction => {
-  return dispatch({
-    type: CreateEntitySettingsActions.UploadCreatorImage,
-    payload: blocksyncApi.project
-      .createPublic(base64ImageData, PDS_URL)
-      .then((response: any) => ({ did: response.result })),
   })
 }
 
-export const updateOwner = (formData: FormData): UpdateOwnerAction => {
+export const updateOwner = (formData: FormData) => (
+  dispatch: Dispatch,
+): UpdateOwnerAction | UploadOwnerImageAction => {
   const {
     name,
     country,
@@ -66,9 +71,21 @@ export const updateOwner = (formData: FormData): UpdateOwnerAction => {
     mission,
     identifier,
     matrixId,
+    fileSrc,
   } = formData
 
-  return {
+  if (fileSrc && fileSrc.startsWith('data:')) {
+    return dispatch({
+      type: CreateEntitySettingsActions.UploadOwnerImage,
+      payload: blocksyncApi.project
+        .createPublic(fileSrc, PDS_URL)
+        .then((response: any) => ({
+          fileSrc: `${PDS_URL}public/${response.result}`,
+        })),
+    })
+  }
+
+  return dispatch({
     type: CreateEntitySettingsActions.UpdateOwner,
     payload: {
       name,
@@ -79,20 +96,8 @@ export const updateOwner = (formData: FormData): UpdateOwnerAction => {
       matrixId,
       identifier,
     },
-  }
-}
-
-export const uploadOwnerImage = (base64ImageData: string) => (
-  dispatch: Dispatch,
-): UploadOwnerImageAction => {
-  return dispatch({
-    type: CreateEntitySettingsActions.UploadOwnerImage,
-    payload: blocksyncApi.project
-      .createPublic(base64ImageData, PDS_URL)
-      .then((response: any) => ({ did: response.result })),
   })
 }
-
 export const updateStatus = (formData: FormData): UpdateStatusAction => {
   const { dates, stage, status } = formData
   const dateParts = dates.split('|')
@@ -125,8 +130,6 @@ export const addRequiredCredentialSection = (): AddRequiredCredentialSectionActi
     type: CreateEntitySettingsActions.AddRequiredCredentialSection,
     payload: {
       id: uuidv4(),
-      credential: null,
-      issuer: null,
     },
   }
 }
@@ -170,8 +173,6 @@ export const addDisplayCredentialSection = (): AddDisplayCredentialSectionAction
     type: CreateEntitySettingsActions.AddDisplayCredentialSection,
     payload: {
       id: uuidv4(),
-      credential: null,
-      badge: null,
     },
   }
 }
