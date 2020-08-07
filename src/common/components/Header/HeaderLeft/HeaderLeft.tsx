@@ -34,10 +34,7 @@ export class HeaderLeft extends React.Component<ParentProps> {
           >
             Explore
           </HeaderLink>
-          <HeaderAnchor
-            target="_blank"
-            href="https://developers.ixo.foundation/"
-          >
+          <HeaderAnchor target="_blank" href="https://build.ixo.foundation/">
             Build
           </HeaderAnchor>
           <HeaderAnchor
@@ -52,9 +49,9 @@ export class HeaderLeft extends React.Component<ParentProps> {
           >
             Invest
           </HeaderAnchor>
-          <HeaderLink exact={true} to="/todo">
+          <HeaderAnchor target="_blank" href="https://docs.ixo.world/">
             Learn
-          </HeaderLink>
+          </HeaderAnchor>
         </Fragment>
       )
     } else {
@@ -66,10 +63,7 @@ export class HeaderLeft extends React.Component<ParentProps> {
             </MenuHeaderLink>
           </MenuHeaderContainer>
           <MenuHeaderContainer>
-            <MenuHeaderAnchor
-              target="_blank"
-              href="https://developers.ixo.world/"
-            >
+            <MenuHeaderAnchor target="_blank" href="https://build.ixo.world/">
               Build
             </MenuHeaderAnchor>
           </MenuHeaderContainer>
@@ -90,9 +84,9 @@ export class HeaderLeft extends React.Component<ParentProps> {
             </MenuHeaderAnchor>
           </MenuHeaderContainer>
           <MenuHeaderContainer>
-            <MenuHeaderLink exact={true} to="/todo">
+            <MenuHeaderAnchor target="_blank" href="https://docs.ixo.world/">
               Learn
-            </MenuHeaderLink>
+            </MenuHeaderAnchor>
           </MenuHeaderContainer>
         </Fragment>
       )
