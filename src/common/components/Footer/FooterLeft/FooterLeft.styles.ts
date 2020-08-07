@@ -86,6 +86,10 @@ export const FooterLink = styled(NavLink)`
     white-space: nowrap;
   }
 
+  &.disabled {
+    pointer-events: none;
+  }
+
   :hover {
     text-decoration: none;
     color: ${(props): string => props.theme.fontBlue};

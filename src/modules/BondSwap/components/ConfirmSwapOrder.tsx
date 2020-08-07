@@ -9,7 +9,7 @@ import {
   newBalance,
   currencyStr,
 } from '../../Account/Account.utils'
-import { Currency } from 'src/types/models'
+import { Currency } from 'types/models'
 import * as bondSwapSelectors from '../BondSwap.selectors'
 
 interface Props extends RouteComponentProps {

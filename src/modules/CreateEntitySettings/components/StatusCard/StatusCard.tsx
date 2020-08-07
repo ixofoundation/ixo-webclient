@@ -1,12 +1,12 @@
 import React from 'react'
 import { FormData } from '../../../../common/components/JsonForm/types'
 import { customControls } from '../../../../common/components/JsonForm/types'
-import { EntityStage, EntityStatus } from 'src/modules/Entities/types'
+import { EntityStage, EntityStatus } from '../../../../modules/Entities/types'
 import {
   entityStageMap,
   entityStatusMap,
-} from 'src/modules/Entities/strategy-map'
-import MultiControlForm from 'src/common/components/JsonForm/MultiControlForm/MultiControlForm'
+} from '../../../../modules/Entities/strategy-map'
+import MultiControlForm from '../../../../common/components/JsonForm/MultiControlForm/MultiControlForm'
 
 interface Props {
   startDate: string

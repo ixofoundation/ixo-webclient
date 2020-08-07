@@ -2,7 +2,7 @@ import React from 'react'
 import { FormData } from '../../../../common/components/JsonForm/types'
 import ImageLoader from '../../../../common/components/DropZone/ImageLoader/ImageLoader'
 import { customControls } from '../../../../common/components/JsonForm/types'
-import MultiControlForm from 'src/common/components/JsonForm/MultiControlForm/MultiControlForm'
+import MultiControlForm from '../../../../common/components/JsonForm/MultiControlForm/MultiControlForm'
 
 interface Props {
   name: string

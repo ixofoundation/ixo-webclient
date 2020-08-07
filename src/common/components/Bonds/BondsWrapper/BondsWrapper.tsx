@@ -91,23 +91,23 @@ export class BondsWrapper extends React.Component<Props, State> {
       return <Spinner info="Loading..." />
     } else {
       return (
-        <div>
-          <ProjectHero
-            project={this.state.projectPublic}
-            match={match}
-            isDetail={true}
-            hasCapability={this.handleHasCapability}
-            isLoggedIn={isLoggedIn}
+        <div className="BondsWrapper">
+          <h1 className="mobile-header">{this.state.projectPublic.title}</h1>
+          <BondsSidebar
+            projectDID={params.projectDID}
+            bondDID={params.bondDID}
           />
-          <div className="BondsWrapper">
-            <BondsSidebar
-              projectDID={params.projectDID}
-              bondDID={params.bondDID}
+          <div className="pane">
+            <ProjectHero
+              project={this.state.projectPublic}
+              match={match}
+              isDetail={true}
+              onlyTitle
+              hasCapability={this.handleHasCapability}
+              isLoggedIn={isLoggedIn}
             />
-            <div className="pane">
-              <Header bondDID={params.bondDID} />
-              {children}
-            </div>
+            <Header bondDID={params.bondDID} />
+            {children}
           </div>
         </div>
       )

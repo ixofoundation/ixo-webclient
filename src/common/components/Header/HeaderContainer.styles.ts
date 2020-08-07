@@ -76,7 +76,7 @@ export const Light = styled.span`
   box-shadow: 0px 0px 5px 0px rgb(255, 0, 0);
 `
 
-export const LightLoading = Light.extend`
+export const LightLoading = styled(Light)`
   box-shadow: 0px 0px 5px 0px rgba(255, 165, 0, 1);
   background: rgb(255, 165, 0);
   animation: flashing 1s infinite;
@@ -95,7 +95,7 @@ export const LightLoading = Light.extend`
   }
 `
 
-export const LightReady = Light.extend`
+export const LightReady = styled(Light)`
   background: #5ab946;
   box-shadow: 0px 0px 5px 0px rgb(0, 255, 64);
 `

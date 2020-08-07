@@ -1,16 +1,16 @@
 import React from 'react'
-import Down from '../../../../assets/icons/Down'
-import ConnectionIcon from '../../../../assets/icons/Connections'
-import Share from '../../../../assets/icons/Share'
-import Mobile from '../../../../assets/icons/OpenOnMobile'
-import Forum from '../../../../assets/icons/Forum'
+import Down from 'assets/icons/Down'
+import ConnectionIcon from 'assets/icons/Connections'
+import Share from 'assets/icons/Share'
+import Mobile from 'assets/icons/OpenOnMobile'
+import Forum from 'assets/icons/Forum'
 import { ControlPanelSection } from '../ControlPanel.styles'
 import { ConnectionButtonsWrapper } from './Connections.styles'
 import { ConnectionType, Widget, Control } from '../types'
 import MobileConnection from './Mobile/Mobile'
 import ShareConnection from './Share/Share'
 import ForumConnection from './Forum/Forum'
-import { Tooltip } from 'src/common/components/Tooltip'
+import { Tooltip } from 'common/components/Tooltip'
 
 interface Props {
   widget: Widget

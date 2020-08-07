@@ -1,6 +1,6 @@
-import DownloadDocument from 'src/assets/icons/DownloadDocument'
-import DownloadAudio from 'src/assets/icons/DownloadAudio'
-import DownloadVideo from 'src/assets/icons/DownloadVideo'
+import DownloadDocument from 'assets/icons/DownloadDocument'
+import DownloadAudio from 'assets/icons/DownloadAudio'
+import DownloadVideo from 'assets/icons/DownloadVideo'
 import { FileType } from './types'
 
 export const strategyMap = {

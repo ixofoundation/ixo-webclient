@@ -8,7 +8,7 @@ import {
   CancelOrderAction,
 } from './types'
 import { Dispatch } from 'redux'
-import { RootState } from 'src/common/redux/types'
+import { RootState } from 'common/redux/types'
 import * as transactionUtils from '../../common/utils/transaction.utils'
 import * as Toast from '../../common/utils/Toast'
 
@@ -61,24 +61,34 @@ export const confirmOrder = (entityDid: string) => (
     }
 
     const msgType = 'treasury/MsgSend'
-    ixo.utils.getSignData(tx, msgType, pubKey)
+    ixo.utils
+      .getSignData(tx, msgType, pubKey)
       .then((response: any) => {
         if (response.sign_bytes && response.fee) {
-          keysafe.requestSigning(response.sign_bytes, (error, signature) => {
-            if (error) {
-              return null
-            }
+          keysafe.requestSigning(
+            response.sign_bytes,
+            (error, signature) => {
+              if (error) {
+                return null
+              }
 
-            return dispatch({
-              type: FuelEntityActions.ConfirmOrder,
-              payload: Axios.post(
-                `${process.env.REACT_APP_GAIA_URL}/txs`,
-                JSON.stringify(
-                  transactionUtils.generateTx(msgType, tx, signature, response.fee),
+              return dispatch({
+                type: FuelEntityActions.ConfirmOrder,
+                payload: Axios.post(
+                  `${process.env.REACT_APP_GAIA_URL}/txs`,
+                  JSON.stringify(
+                    transactionUtils.generateTx(
+                      msgType,
+                      tx,
+                      signature,
+                      response.fee,
+                    ),
+                  ),
                 ),
-              ),
-            })
-          }, 'base64')
+              })
+            },
+            'base64',
+          )
         }
       })
       .catch(() => {

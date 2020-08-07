@@ -1,6 +1,6 @@
 import * as React from 'react'
-import { ProgressBar } from '../../../../../common/components/ProgressBar'
-import { excerptText } from '../../../../../common/utils/formatters'
+import { ProgressBar } from 'common/components/ProgressBar'
+import { excerptText } from 'common/utils/formatters'
 import {
   MainContent,
   Title,
@@ -15,7 +15,7 @@ import {
 } from './ProjectCard.styles'
 import { EntityCardContainer } from '../EntityCardContainer'
 import { ShieldColor } from '../EntityCardContainer.styles'
-import Star from 'src/assets/icons/Star'
+import Star from 'assets/icons/Star'
 
 export interface Props {
   projectData: any

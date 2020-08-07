@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import { RootState } from '../../../../common/redux/types'
 import { getQuote } from '../../BondBuy.actions'
 import { currencyStr, tokenBalance } from '../../../Account/Account.utils'
-import { Currency } from 'src/types/models'
+import { Currency } from 'types/models'
 import * as bondBuySelectors from '../../BondBuy.selectors'
 
 interface Props extends RouteComponentProps {

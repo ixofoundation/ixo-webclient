@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect'
-import { RootState } from '../../common/redux/types'
+import { RootState } from 'common/redux/types'
 import { BondSwapState } from './types'
-import { Currency } from 'src/types/models'
+import { Currency } from 'types/models'
 
 export const selectBondSwap = (state: RootState): BondSwapState =>
   state.bondSwap

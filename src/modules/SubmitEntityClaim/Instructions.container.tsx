@@ -1,13 +1,13 @@
 import React, { Dispatch } from 'react'
 import { connect } from 'react-redux'
-import { RootState } from 'src/common/redux/types'
+import { RootState } from 'common/redux/types'
 import Instructions from './components/Instructions/Instructions'
-import { FormContainer } from '../../common/components/JsonForm/JsonForm.styles'
-import { FormControl } from '../../common/components/JsonForm/types'
+import { FormContainer } from 'common/components/JsonForm/JsonForm.styles'
+import { FormControl } from 'common/components/JsonForm/types'
 import * as submitEntityClaimSelectors from './SubmitEntityClaim.selectors'
 import * as selectedEntitySelectors from '../SelectedEntity/SelectedEntity.selectors'
 import { getEntity } from '../SelectedEntity/SelectedEntity.actions'
-import { ActionWrapper } from '../../common/components/ControlPanel/Actions/Actions.styles'
+import { ActionWrapper } from 'common/components/ControlPanel/Actions/Actions.styles'
 
 interface Props {
   entityDid: string

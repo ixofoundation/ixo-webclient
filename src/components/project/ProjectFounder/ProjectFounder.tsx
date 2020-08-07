@@ -1,7 +1,7 @@
 import * as React from 'react'
-import Twitter from '../../../assets/icons/Twitter'
-import Facebook from '../../../assets/icons/Facebook'
-import Instagram from 'src/assets/icons/Instagram'
+import Twitter from 'assets/icons/Twitter'
+import Facebook from 'assets/icons/Facebook'
+import Instagram from 'assets/icons/Instagram'
 import {
   FounderWrapper,
   FounderImageWrapper,

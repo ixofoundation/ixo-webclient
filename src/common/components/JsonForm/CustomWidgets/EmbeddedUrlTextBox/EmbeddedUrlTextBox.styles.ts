@@ -9,7 +9,7 @@ export const RemoveButton = styled.button`
   line-height: 1.2;
 `
 
-export const AddButton = RemoveButton.extend`
+export const AddButton = styled(RemoveButton)`
   &:focus {
     outline: none;
   }

@@ -1,8 +1,8 @@
 import React from 'react'
 import { FormData } from '../../../../common/components/JsonForm/types'
-import { EntityType } from 'src/modules/Entities/types'
-import { entityTypeMap } from 'src/modules/Entities/strategy-map'
-import MultiControlForm from 'src/common/components/JsonForm/MultiControlForm/MultiControlForm'
+import { EntityType } from '../../../../modules/Entities/types'
+import { entityTypeMap } from '../../../../modules/Entities/strategy-map'
+import MultiControlForm from '../../../../common/components/JsonForm/MultiControlForm/MultiControlForm'
 
 interface Props {
   filters: { [name: string]: string[] }

@@ -1,5 +1,5 @@
 import React from 'react'
-import MultiControlForm from 'src/common/components/JsonForm/MultiControlForm/MultiControlForm'
+import MultiControlForm from '../../../../common/components/JsonForm/MultiControlForm/MultiControlForm'
 import { LinkButton } from '../../../../common/components/JsonForm/JsonForm.styles'
 import { FormData } from '../../../../common/components/JsonForm/types'
 

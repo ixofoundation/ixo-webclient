@@ -1,7 +1,7 @@
 import * as React from 'react'
 import styled from 'styled-components'
-import { ButtonTypes, Button } from 'src/common/components/Form/Buttons'
-import { getIxoWorldRoute } from 'src/common/utils/formatters'
+import { ButtonTypes, Button } from 'common/components/Form/Buttons'
+import { getIxoWorldRoute } from 'common/utils/formatters'
 
 const BorderBox = styled.div`
   border: 1px solid #004c61;

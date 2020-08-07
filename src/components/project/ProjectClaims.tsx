@@ -138,7 +138,7 @@ const ClaimLink = styled(Link)`
   }
 `
 
-const ViewAllLink = ClaimLink.extend`
+const ViewAllLink = styled(ClaimLink)`
   text-align: center;
 `
 

@@ -17,7 +17,7 @@ import {
   uploadOwnerImage,
 } from './CreateEntitySettings.actions'
 import * as entitySettingsSelectors from './CreateEntitySettings.selectors'
-import { FormData } from 'src/common/components/JsonForm/types'
+import { FormData } from 'common/components/JsonForm/types'
 import {
   Owner,
   Creator,

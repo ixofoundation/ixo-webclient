@@ -2,7 +2,7 @@ import axios from 'axios'
 import mockStore from '../../common/redux/mockStore'
 import * as SUT from './BondSell.actions'
 import { BondSellActions } from './types'
-import { Currency } from 'src/types/models'
+import { Currency } from 'types/models'
 
 const mockAxios = axios as jest.Mocked<typeof axios>
 let store

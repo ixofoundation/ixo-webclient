@@ -38,9 +38,11 @@ export const FooterLeft: React.SFC<any> = () => {
               <h4>Products</h4>
               <div>
                 <FooterLink
+                  className="disabled"
                   target="_blank"
                   rel="noopener noreferrer"
                   exact={true}
+                  onClick={(e): void => e.preventDefault()}
                   to="#"
                 >
                   Explorer
@@ -59,13 +61,14 @@ export const FooterLeft: React.SFC<any> = () => {
                   rel="noopener noreferrer"
                   href={'https://apps.apple.com/za/app/ixo/id1441394401'}
                 >
-                  Mobile iOs
+                  Mobile iOS
                 </ExternalFooterLink>
                 <FooterLink
-                  className="nowrap"
+                  className="nowrap disabled"
                   target="_blank"
                   rel="noopener noreferrer"
                   exact={true}
+                  onClick={(e): void => e.preventDefault()}
                   to="#"
                 >
                   AI Assistant
@@ -77,10 +80,11 @@ export const FooterLeft: React.SFC<any> = () => {
                   Keysafe
                 </ExternalFooterLink>
                 <FooterLink
-                  className="nowrap"
+                  className="nowrap disabled"
                   target="_blank"
                   rel="noopener noreferrer"
                   exact={true}
+                  onClick={(e): void => e.preventDefault()}
                   to="#"
                 >
                   Blockchain SDK
@@ -103,11 +107,14 @@ export const FooterLeft: React.SFC<any> = () => {
                 <FooterLink
                   target="_blank"
                   rel="noopener noreferrer"
-                  to='/entities/select?type=Cell&categories=[{"name": "Cell Type", "tags": ["Portals"]}]'
+                  to='/entities/select?type=Cell&categories=[{"name": "Cell Type", "tags": ["Portal"]}]'
                 >
                   Portals
                 </FooterLink>
-                <FooterLink exact={true} to="/todo">
+                <FooterLink
+                  exact={true}
+                  to='/entities/select?type=Investment&categories=[{"name": "View", "tags": ["Featured"]}]'
+                >
                   Funds
                 </FooterLink>
                 <FooterLink
@@ -117,7 +124,10 @@ export const FooterLeft: React.SFC<any> = () => {
                 >
                   Relayers
                 </FooterLink>
-                <FooterLink exact={true} to="/todo">
+                <FooterLink
+                  exact={true}
+                  to='/entities/select?type=Oracle&categories=[{"name": "View", "tags": ["Featured"]}]'
+                >
                   Oracles
                 </FooterLink>
                 <ExternalFooterLink
@@ -136,7 +146,7 @@ export const FooterLeft: React.SFC<any> = () => {
                   rel="noopener noreferrer"
                   href="https://forum.ixo.world"
                 >
-                  Forums
+                  Forum
                 </ExternalFooterLink>
                 <ExternalFooterLink
                   target="_blank"
@@ -145,7 +155,13 @@ export const FooterLeft: React.SFC<any> = () => {
                 >
                   Documentation
                 </ExternalFooterLink>
-                {/* Add later: <FooterLink target="_blank" exact={true} to="/todo">Presentations</FooterLink> */}
+                <ExternalFooterLink
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href="https://build.ixo.world"
+                >
+                  Developers
+                </ExternalFooterLink>
               </div>
             </FooterMenu>
             <FooterMenu style={{ zIndex: 10 }}>

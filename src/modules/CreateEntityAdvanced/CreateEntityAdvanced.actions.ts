@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from 'uuid'
-import { FormData } from 'src/common/components/JsonForm/types'
+import { FormData } from 'common/components/JsonForm/types'
 import {
   CreateEntityAdvancedActions,
   UpdateLinkedEntityAction,

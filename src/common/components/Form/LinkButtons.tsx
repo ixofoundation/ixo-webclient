@@ -20,7 +20,7 @@ const BaseButton = styled(Link)`
   transition: all 0.3s ease;
 `
 
-const EnabledGradient = BaseButton.extend`
+const EnabledGradient = styled(BaseButton)`
   background: ${/* eslint-disable-line */ props =>
     props.theme.bg.gradientButton};
   &&& {
@@ -40,7 +40,7 @@ const EnabledGradient = BaseButton.extend`
   }
 `
 
-const EnabledDark = BaseButton.extend`
+const EnabledDark = styled(BaseButton)`
   background: #002d42;
   &&& {
     color: ${/* eslint-disable-line */ props =>
@@ -59,7 +59,7 @@ const EnabledDark = BaseButton.extend`
   }
 `
 
-const Disabled = BaseButton.extend`
+const Disabled = styled(BaseButton)`
   &&& {
     color: ${/* eslint-disable-line */ props => props.theme.ixoBlue};
   }

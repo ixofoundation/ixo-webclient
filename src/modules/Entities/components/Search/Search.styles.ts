@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { deviceWidth } from 'src/lib/commonData'
+import { deviceWidth } from 'lib/commonData'
 import { EntityType } from '../../types'
 import { entityTypeMap } from '../../strategy-map'
 

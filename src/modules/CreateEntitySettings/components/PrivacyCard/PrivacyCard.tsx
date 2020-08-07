@@ -1,8 +1,11 @@
 import React from 'react'
 import { FormData } from '../../../../common/components/JsonForm/types'
-import { PageView, EntityView } from 'src/modules/Entities/types'
-import { pageViewMap, entityViewMap } from 'src/modules/Entities/strategy-map'
-import MultiControlForm from 'src/common/components/JsonForm/MultiControlForm/MultiControlForm'
+import { PageView, EntityView } from '../../../../modules/Entities/types'
+import {
+  pageViewMap,
+  entityViewMap,
+} from '../../../../modules/Entities/strategy-map'
+import MultiControlForm from '../../../../common/components/JsonForm/MultiControlForm/MultiControlForm'
 
 interface Props {
   pageView: PageView
