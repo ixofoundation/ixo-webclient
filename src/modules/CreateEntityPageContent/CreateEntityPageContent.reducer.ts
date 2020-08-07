@@ -7,13 +7,13 @@ import * as reduxUtils from '../../common/redux/utils'
 
 export const initialState: CreateEntityPageContentState = {
   header: {
-    title: null,
-    shortDescription: null,
-    imageDescription: null,
+    title: undefined,
+    shortDescription: undefined,
+    imageDescription: undefined,
     sdgs: [],
-    company: null,
-    country: null,
-    fileSrc: null,
+    company: undefined,
+    country: undefined,
+    fileSrc: undefined,
     uploading: false,
   },
   body: {},
@@ -21,14 +21,14 @@ export const initialState: CreateEntityPageContentState = {
   videos: {},
   profiles: {},
   social: {
-    linkedInUrl: null,
-    facebookUrl: null,
-    twitterUrl: null,
-    discourseUrl: null,
-    instagramUrl: null,
-    telegramUrl: null,
-    githubUrl: null,
-    otherUrl: null,
+    linkedInUrl: undefined,
+    facebookUrl: undefined,
+    twitterUrl: undefined,
+    discourseUrl: undefined,
+    instagramUrl: undefined,
+    telegramUrl: undefined,
+    githubUrl: undefined,
+    otherUrl: undefined,
   },
   embedded: {},
 }
@@ -79,10 +79,10 @@ export const reducer = (
           ...{
             [action.payload.id]: {
               ...action.payload,
-              title: null,
-              content: null,
+              title: undefined,
+              content: undefined,
               uploading: false,
-              fileSrc: null,
+              fileSrc: undefined,
             },
           },
         },
@@ -154,11 +154,11 @@ export const reducer = (
           ...{
             [action.payload.id]: {
               ...action.payload,
-              title: null,
-              content: null,
-              imageDescription: null,
+              title: undefined,
+              content: undefined,
+              imageDescription: undefined,
               uploading: false,
-              fileSrc: null,
+              fileSrc: undefined,
             },
           },
         },
@@ -231,9 +231,9 @@ export const reducer = (
             [action.payload.id]: {
               ...action.payload,
               uploading: false,
-              title: null,
-              content: null,
-              fileSrc: null,
+              title: undefined,
+              content: undefined,
+              fileSrc: undefined,
             },
           },
         },
@@ -305,12 +305,12 @@ export const reducer = (
           ...{
             [action.payload.id]: {
               ...action.payload,
-              name: null,
-              position: null,
-              linkedInUrl: null,
-              twitterUrl: null,
+              name: undefined,
+              position: undefined,
+              linkedInUrl: undefined,
+              twitterUrl: undefined,
               uploading: false,
-              fileSrc: null,
+              fileSrc: undefined,
             },
           },
         },
@@ -388,7 +388,11 @@ export const reducer = (
         embedded: {
           ...state.embedded,
           ...{
-            [action.payload.id]: { ...action.payload, title: null, urls: [] },
+            [action.payload.id]: {
+              ...action.payload,
+              title: undefined,
+              urls: [],
+            },
           },
         },
       }

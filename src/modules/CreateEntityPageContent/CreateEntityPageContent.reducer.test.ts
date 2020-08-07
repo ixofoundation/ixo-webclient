@@ -198,9 +198,9 @@ describe('CreateEntityPageContent Reducer', () => {
           body: {
             [id]: {
               id,
-              title: null,
-              content: null,
-              fileSrc: null,
+              title: undefined,
+              content: undefined,
+              fileSrc: undefined,
               uploading: false,
             },
           },
@@ -467,10 +467,10 @@ describe('CreateEntityPageContent Reducer', () => {
           images: {
             [id]: {
               id,
-              title: null,
-              content: null,
-              fileSrc: null,
-              imageDescription: null,
+              title: undefined,
+              content: undefined,
+              fileSrc: undefined,
+              imageDescription: undefined,
               uploading: false,
             },
           },
@@ -741,9 +741,9 @@ describe('CreateEntityPageContent Reducer', () => {
           type: CreateEntityPageContentActions.AddVideoSection,
           payload: {
             id,
-            title: null,
-            content: null,
-            videoDid: null,
+            title: undefined,
+            content: undefined,
+            videoDid: undefined,
           },
         }
 
@@ -756,9 +756,9 @@ describe('CreateEntityPageContent Reducer', () => {
           videos: {
             [id]: {
               id,
-              title: null,
-              content: null,
-              videoDid: null,
+              title: undefined,
+              content: undefined,
+              videoDid: undefined,
               uploading: false,
             },
           },
@@ -1025,11 +1025,11 @@ describe('CreateEntityPageContent Reducer', () => {
           profiles: {
             [id]: {
               id,
-              name: null,
-              position: null,
-              linkedInUrl: null,
-              twitterUrl: null,
-              fileSrc: null,
+              name: undefined,
+              position: undefined,
+              linkedInUrl: undefined,
+              twitterUrl: undefined,
+              fileSrc: undefined,
               uploading: false,
             },
           },
@@ -1389,7 +1389,7 @@ describe('CreateEntityPageContent Reducer', () => {
           embedded: {
             [id]: {
               id,
-              title: null,
+              title: undefined,
               urls: [],
             },
           },

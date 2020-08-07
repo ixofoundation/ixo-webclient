@@ -93,7 +93,7 @@ class CreateEntityPageContent extends React.Component<Props> {
           title={title}
           shortDescription={shortDescription}
           imageDescription={imageDescription}
-          imageSrc={fileSrc}
+          fileSrc={fileSrc}
           company={company}
           country={country}
           sdgs={sdgs}

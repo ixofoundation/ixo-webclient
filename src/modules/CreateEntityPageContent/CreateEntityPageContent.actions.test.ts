@@ -51,10 +51,10 @@ describe('CreateEntityPageContent Actions', () => {
 
     it('should upload the image', async () => {
       // given ... some content
-      const image = 'someImageData'
+      const fileSrc = 'someImageData'
 
       const formData = {
-        image,
+        fileSrc,
       }
 
       // when ... we call the uploadHeaderContentImage action creator
@@ -140,10 +140,10 @@ describe('CreateEntityPageContent Actions', () => {
     it('should upload the image', async () => {
       // given ... we have base64 image data and an id
       const id = 'someId'
-      const image = 'someImageData'
+      const fileSrc = 'someImageData'
 
       const formData = {
-        image,
+        fileSrc,
       }
 
       // when ... we call the uploadHeaderContentImage action creator
@@ -232,11 +232,11 @@ describe('CreateEntityPageContent Actions', () => {
 
       it('should upload the image content image', async () => {
         // given ... some content
-        const image = 'someImageData'
+        const fileSrc = 'someImageData'
         const id = 'someImageId'
 
         const formData = {
-          image,
+          fileSrc,
         }
 
         // when ... we call the updateImageContent action creator
@@ -414,9 +414,9 @@ describe('CreateEntityPageContent Actions', () => {
       it('should upload the profile image', async () => {
         // given ... we have base64 image data and an id
         const id = 'someProfileId'
-        const image = 'someImageData'
+        const fileSrc = 'someImageData'
 
-        const formData = { image }
+        const formData = { fileSrc }
 
         // when ... we call the updateProfileContent action creator
         await store.dispatch(SUT.updateProfileContent(id, formData))

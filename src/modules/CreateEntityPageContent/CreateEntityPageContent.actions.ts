@@ -38,14 +38,14 @@ export const updateHeaderContent = (formData: FormData) => (
     sdgs,
     company,
     country,
-    image,
+    fileSrc,
   } = formData
 
-  if (image) {
+  if (fileSrc && fileSrc.startsWith('data:')) {
     return dispatch({
       type: CreateEntityPageContentActions.UploadHeaderContentImage,
       payload: blocksyncApi.project
-        .createPublic(image, PDS_URL)
+        .createPublic(fileSrc, PDS_URL)
         .then((response: any) => ({
           fileSrc: `${PDS_URL}public/${response.result}`,
         })),
@@ -82,14 +82,14 @@ export const removeBodySection = (id: string): RemoveBodySectionAction => ({
 export const updateBodyContent = (id: string, formData: FormData) => (
   dispatch: Dispatch,
 ): UpdateBodyContentAction | UploadBodyContentImageAction => {
-  const { title, content, image } = formData
+  const { title, content, fileSrc } = formData
 
-  if (image) {
+  if (fileSrc && fileSrc.startsWith('data:')) {
     return dispatch({
       type: CreateEntityPageContentActions.UploadBodyContentImage,
       meta: { id },
       payload: blocksyncApi.project
-        .createPublic(image, PDS_URL)
+        .createPublic(fileSrc, PDS_URL)
         .then((response: any) => ({
           id,
           fileSrc: `${PDS_URL}public/${response.result}`,
@@ -124,14 +124,14 @@ export const removeImageSection = (id: string): RemoveImageSectionAction => ({
 export const updateImageContent = (id: string, formData: FormData) => (
   dispatch: Dispatch,
 ): UpdateImageContentAction | UploadImageContentImageAction => {
-  const { title, content, imageDescription, image } = formData
+  const { title, content, imageDescription, fileSrc } = formData
 
-  if (image) {
+  if (fileSrc && fileSrc.startsWith('data:')) {
     return dispatch({
       type: CreateEntityPageContentActions.UploadImageContentImage,
       meta: { id },
       payload: blocksyncApi.project
-        .createPublic(image, PDS_URL)
+        .createPublic(fileSrc, PDS_URL)
         .then((response: any) => ({
           id,
           fileSrc: `${PDS_URL}public/${response.result}`,
@@ -183,14 +183,14 @@ export const removeProfileSection = (
 export const updateProfileContent = (id: string, formData: FormData) => (
   dispatch: Dispatch,
 ): UpdateProfileContentAction | UploadProfileContentImageAction => {
-  const { name, position, linkedInUrl, twitterUrl, image } = formData
+  const { name, position, linkedInUrl, twitterUrl, fileSrc } = formData
 
-  if (image) {
+  if (fileSrc && fileSrc.startsWith('data:')) {
     return dispatch({
       type: CreateEntityPageContentActions.UploadProfileContentImage,
       meta: { id },
       payload: blocksyncApi.project
-        .createPublic(image, PDS_URL)
+        .createPublic(fileSrc, PDS_URL)
         .then((response: any) => ({
           id,
           fileSrc: `${PDS_URL}public/${response.result}`,

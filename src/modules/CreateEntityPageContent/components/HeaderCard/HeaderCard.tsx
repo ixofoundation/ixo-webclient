@@ -8,7 +8,7 @@ import MultiControlForm from 'src/common/components/JsonForm/MultiControlForm/Mu
 interface Props {
   title: string
   shortDescription: string
-  imageSrc: string
+  fileSrc: string
   imageDescription: string
   company: string
   sdgs: string[]
@@ -24,26 +24,27 @@ const HeaderCard: React.FunctionComponent<Props> = ({
   imageDescription,
   company,
   country,
-  imageSrc,
+  fileSrc,
   uploadingImage,
   sdgs,
   handleUpdateContent,
   handleError,
 }) => {
   const formData = {
+    fileSrc,
     title,
     shortDescription,
-    sdgs: sdgs.join('|'),
     company,
     country,
+    sdgs: sdgs.join('|'),
     imageDescription,
   }
 
   const schema = {
     type: 'object',
-    required: ['image', 'title', 'shortDescription', 'company', 'country'],
+    required: ['fileSrc', 'title', 'shortDescription', 'company', 'country'],
     properties: {
-      image: { type: 'string', title: 'Header Image' },
+      fileSrc: { type: 'string', title: 'Header Image' },
       title: { type: 'string', title: 'Title' },
       shortDescription: { type: 'string', title: 'Short Description' },
       company: { type: 'string', title: 'Organisation' },
@@ -54,10 +55,12 @@ const HeaderCard: React.FunctionComponent<Props> = ({
   } as any
 
   const uiSchema = {
-    image: {
+    fileSrc: {
       ['ui:widget']: customControls['imageupload'],
       ['ui:uploading']: uploadingImage,
-      ['ui:imageSrc']: imageSrc,
+      ['ui:maxDimension']: 960,
+      ['ui:aspect']: 16 / 9,
+      ['ui:circularCrop']: false,
     },
     title: {
       ['ui:widget']: 'text',
@@ -87,29 +90,6 @@ const HeaderCard: React.FunctionComponent<Props> = ({
 
   return (
     <>
-      {/*       <div className="justify-content-center">
-        <div className="form-group">
-          <label className="control-label">
-            Header Image<span className="required">*</span>
-          </label>
-          <ImageLoader
-            keepCropSelection={true}
-            circularCrop={false}
-            aspect={16 / 9}
-            uploadedImageSrc={
-              imageSrc
-                ? `${process.env.REACT_APP_PDS_URL}public/${imageSrc}`
-                : null
-            }
-            uploading={uploadingImage}
-            handleSave={(base64EncodedImage): void =>
-              handleUploadImage(base64EncodedImage)
-            }
-            maxDimension={960}
-            previewWidth={960}
-          />
-        </div>
-      </div> */}
       <MultiControlForm
         ref={multiFormRef}
         handleSubmit={(): void => console.log('submitted')}

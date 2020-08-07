@@ -77,10 +77,6 @@ const SingleControlForm: React.FunctionComponent<Props> = ({
     },
   }
 
-  if (control.includes('upload')) {
-    TODO
-  }
-
   return (
     <FormContainer>
       <ControlContainer>
