@@ -42,7 +42,7 @@ import {
   addEmbeddedSection,
   removeEmbeddedSection,
 } from './CreateEntityPageContent.actions'
-import { FormData } from 'src/common/components/JsonForm/types'
+import { FormData } from 'common/components/JsonForm/types'
 import FormCardWrapper from '../../common/components/Wrappers/FormCardWrapper/FormCardWrapper'
 
 interface Props {

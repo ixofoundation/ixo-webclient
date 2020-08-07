@@ -1,6 +1,6 @@
 import * as React from 'react'
 import InputText from '../../../../common/components/Form/InputText/InputText'
-import { FormStyles } from 'src/types/models'
+import { FormStyles } from 'types/models'
 import {
   SearchWrapper,
   ModalButton,
@@ -11,14 +11,14 @@ import {
   SearchFilterButton,
   ButtonContent,
 } from './Search.styles'
-import Investments from '../../../../assets/icons/Investments'
-import Cells from '../../../../assets/icons/Cells'
-import Oracle from '../../../../assets/icons/Oracle'
-import Template from '../../../../assets/icons/Template'
-import SearchIcon from '../../../../assets/icons/Search'
-import Down from 'src/assets/icons/Down'
-import Projects from '../../../../assets/icons/Projects'
-import DataAssets from '../../../../assets/icons/DataAssets'
+import Investments from 'assets/icons/Investments'
+import Cells from 'assets/icons/Cells'
+import Oracle from 'assets/icons/Oracle'
+import Template from 'assets/icons/Template'
+import SearchIcon from 'assets/icons/Search'
+import Down from 'assets/icons/Down'
+import Projects from 'assets/icons/Projects'
+import DataAssets from 'assets/icons/DataAssets'
 import { EntityType } from '../../types'
 import { entityTypeMap } from '../../strategy-map'
 

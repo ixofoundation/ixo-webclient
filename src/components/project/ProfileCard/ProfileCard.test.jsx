@@ -10,6 +10,9 @@ const user = {
 }
 
 describe('ProfileCard Component', () => {
+  beforeEach(() => {
+    jest.useFakeTimers()
+  })
   it('renders correctly', () => {
     // when ... we create the component
     const { getByTestId } = render(<ProfileCard user={user} />)

@@ -6,10 +6,10 @@ import {
   InitiateQuoteAction,
 } from './types'
 import Axios from 'axios'
-import { Currency } from '../../types/models'
+import { Currency } from 'types/models'
 import { currencyStr } from '../Account/Account.utils'
 import { Dispatch } from 'redux'
-import { RootState } from 'src/common/redux/types'
+import { RootState } from 'common/redux/types'
 
 export const initiateQuote = (): InitiateQuoteAction => ({
   type: BondSwapActions.InitiateQuote,

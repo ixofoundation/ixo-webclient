@@ -19,7 +19,7 @@ import {
   FilterCategoryTagAction,
   FilterSectorAction,
 } from './types'
-import { RootState } from 'src/common/redux/types'
+import { RootState } from 'common/redux/types'
 import blocksyncApi from '../../common/api/blocksync-api/blocksync-api'
 import { mapApiEntityToEntity } from './Entities.utils'
 

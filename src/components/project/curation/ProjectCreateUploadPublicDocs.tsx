@@ -26,7 +26,7 @@ const TextArea = styled.textarea`
   height: 150px;
 `
 
-const BigTextArea = TextArea.extend`
+const BigTextArea = styled(TextArea)`
   height: 150px;
 `
 

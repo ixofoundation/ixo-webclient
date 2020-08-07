@@ -13,11 +13,14 @@ import {
   HeroInfoItem,
   Title,
   Description,
+  StyledFundingTitle,
 } from './ProjectHero.styles'
-import CalendarSort from 'src/assets/icons/CalendarSort'
-import availableFlags from '../../lib/json/availableFlags.json'
-import { EntityType } from '../../modules/Entities/types'
-import { entityTypeMap } from '../../modules/Entities/strategy-map'
+import CalendarSort from 'assets/icons/CalendarSort'
+import availableFlags from 'lib/json/availableFlags.json'
+import { EntityType } from 'modules/Entities/types'
+import { entityTypeMap } from 'modules/Entities/strategy-map'
+import { useWindowSize } from 'common/hooks'
+import { deviceWidth } from 'lib/commonData'
 
 export interface Props {
   project: any
@@ -26,6 +29,7 @@ export interface Props {
   isLoggedIn: boolean
   isClaim?: boolean
   hasCapability: (role: [AgentRoles]) => boolean
+  onlyTitle?: boolean
 }
 
 export const ProjectHero: React.SFC<Props> = ({
@@ -33,7 +37,10 @@ export const ProjectHero: React.SFC<Props> = ({
   match,
   isDetail,
   isLoggedIn,
+  onlyTitle,
 }) => {
+  const windowSize = useWindowSize()
+
   const entityType = project.entityType
     ? (toTitleCase(project.entityType) as EntityType)
     : EntityType.Project
@@ -114,42 +121,49 @@ export const ProjectHero: React.SFC<Props> = ({
   }
 
   return (
-    <HeroContainer className="container-fluid">
-      <HeroInner className={`container ${isDetail && 'detailed'}`}>
-        <div className="row">
-          <div className="col-sm-12">
-            {renderSDGs()}
-            <Title>{project.title}</Title>
-            <Description>{project.shortDescription}</Description>
-            <HeroInfoItemsWrapper>
-              <HeroInfoItem>
-                <CalendarSort fill="#A5ADB0" />
-                <span>{moment(project.createdOn).format('d MMM ‘YY')}</span>
-              </HeroInfoItem>
-              <HeroInfoItem>
-                <span>{project.ownerName}</span>
-              </HeroInfoItem>
-              {project.projectLocation && (
-                <HeroInfoItem>
-                  {getFlagURL(project.projectLocation) !== '' && (
-                    <Flag
-                      style={{
-                        background: getFlagURL(project.projectLocation),
-                      }}
-                    />
+    <React.Fragment>
+      {onlyTitle && windowSize.width > deviceWidth.tablet && (
+        <StyledFundingTitle>{project.title}</StyledFundingTitle>
+      )}
+      <HeroContainer className="container-fluid" onlyTitle>
+        {!onlyTitle && windowSize.width > deviceWidth.tablet && (
+          <HeroInner className={`container ${isDetail && 'detailed'}`}>
+            <div className="row">
+              <div className="col-sm-12">
+                {renderSDGs()}
+                <Title>{project.title}</Title>
+                <Description>{project.shortDescription}</Description>
+                <HeroInfoItemsWrapper>
+                  <HeroInfoItem>
+                    <CalendarSort fill="#A5ADB0" />
+                    <span>{moment(project.createdOn).format('d MMM ‘YY')}</span>
+                  </HeroInfoItem>
+                  <HeroInfoItem>
+                    <span>{project.ownerName}</span>
+                  </HeroInfoItem>
+                  {project.projectLocation && (
+                    <HeroInfoItem>
+                      {getFlagURL(project.projectLocation) !== '' && (
+                        <Flag
+                          style={{
+                            background: getFlagURL(project.projectLocation),
+                          }}
+                        />
+                      )}
+                      <span>{getCountryName(project.projectLocation)}</span>
+                    </HeroInfoItem>
                   )}
-                  <span>{getCountryName(project.projectLocation)}</span>
-                </HeroInfoItem>
-              )}
-            </HeroInfoItemsWrapper>
-          </div>
-        </div>
-      </HeroInner>
-      <HeaderTabs
-        buttons={buttonsArray}
-        matchType={MatchType.strict}
-        activeTabColor={entityTypeMap[entityType].themeColor}
-      />
-    </HeroContainer>
+                </HeroInfoItemsWrapper>
+              </div>
+            </div>
+          </HeroInner>
+        )}
+        <HeaderTabs
+          buttons={buttonsArray}
+          matchType={MatchType.strict}
+          activeTabColor={entityTypeMap[entityType].themeColor}
+        />
+      </HeroContainer>
+    </React.Fragment>
   )
 }

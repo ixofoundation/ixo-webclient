@@ -143,7 +143,7 @@ export const Menu = styled.div`
   }
 `
 
-export const MobileMenu = Menu.extend`
+export const MobileMenu = styled(Menu)`
   &.openMenu {
     top: 64px;
     opacity: 1;

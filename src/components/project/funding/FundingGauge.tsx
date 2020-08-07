@@ -1,7 +1,7 @@
 import * as React from 'react'
 import styled from 'styled-components'
-import { deviceWidth } from 'src/lib/commonData'
-import { Web3Acc } from 'src/modules/web3/web3'
+import { deviceWidth } from 'lib/commonData'
+import { Web3Acc } from 'modules/web3/web3'
 import { Fragment } from 'react'
 import { BigNumber } from 'bignumber.js'
 

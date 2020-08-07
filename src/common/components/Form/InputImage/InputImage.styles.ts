@@ -7,7 +7,7 @@ export const InputContainer = styled.div`
   text-transform: uppercase;
 `
 
-export const InputImageContainer = InputContainer.extend`
+export const InputImageContainer = styled(InputContainer)`
   display: inline-block;
   position: relative;
 `

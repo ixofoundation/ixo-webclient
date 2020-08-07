@@ -7,21 +7,24 @@ import {
   Price,
   AdditionalInfo,
 } from './SummaryCard.styles'
-import { thousandSeparator } from '../../../../utils/formatters'
+import { thousandSeparator } from 'common/utils/formatters'
 
 export default class HeaderItem extends Component<any> {
   render(): JSX.Element {
     return (
-      <StyledHeaderItem>
-        {this.props.tokenType ? (
-          <Token>
+      <StyledHeaderItem
+        selected={this.props.selected}
+        onClick={this.props.setActiveHeaderItem}
+      >
+        {this.props.tokenType && (
+          <Token backgroundColor={this.props.priceColor}>
             <span>{this.props.tokenType}</span>
           </Token>
-        ) : null}
+        )}
 
         <ValueContainer>
           <Title>{this.props.title}</Title>
-          <Price>
+          <Price priceColor={this.props.priceColor}>
             {this.props.tokenType ? thousandSeparator(this.props.value) : '0%'}
           </Price>
           <AdditionalInfo>{this.props.additionalInfo}</AdditionalInfo>

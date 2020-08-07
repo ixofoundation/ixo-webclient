@@ -1,11 +1,11 @@
 import * as React from 'react'
 import styled from 'styled-components'
-import { AgentRoles } from '../../types/models'
-import '../../assets/icons.css'
-import { ModalData } from './RegisterContainer'
 import { Link } from 'react-router-dom'
-import RegistrationYes from 'src/assets/icons/RegistrationYes'
-import RegisterNo from 'src/assets/icons/RegisterNo'
+import { AgentRoles } from 'types/models'
+import 'assets/icons.css'
+import { ModalData } from './RegisterContainer'
+import RegistrationYes from 'assets/icons/RegistrationYes'
+import RegisterNo from 'assets/icons/RegisterNo'
 
 const StatusContainer = styled.section`
   font-family: Roboto;
@@ -36,7 +36,7 @@ const WhiteLink = styled(Link)`
   text-decoration: underline;
 `
 
-const DarkLink = WhiteLink.extend`
+const DarkLink = styled(WhiteLink)`
   color: #282828;
 `
 

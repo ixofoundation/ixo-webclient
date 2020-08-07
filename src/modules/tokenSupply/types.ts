@@ -1,4 +1,4 @@
-import { Currency } from 'src/types/models'
+import { Currency } from 'types/models'
 
 export enum TokenSupplyActions {
   GetTotalSupply = 'ixo/TokenSupply/GET_TOTAL_SUPPLY',

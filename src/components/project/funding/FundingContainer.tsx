@@ -1,16 +1,16 @@
 import * as React from 'react'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
-import { RootState } from 'src/common/redux/types'
-import Web3Proxy from 'src/modules/web3/util/Web3Proxy'
+import { RootState } from 'common/redux/types'
+import Web3Proxy from 'modules/web3/util/Web3Proxy'
 import * as Toast from '../../../common/utils/Toast'
-import { Web3Acc } from 'src/modules/web3/web3'
+import { Web3Acc } from 'modules/web3/web3'
 import { FundingGauge } from './FundingGauge'
 import { FundingButton } from './FundingButton'
 import { Fragment } from 'react'
-import { ModalWrapper } from 'src/common/components/Wrappers/ModalWrapper'
+import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
 import { successToast, errorToast } from '../../../common/utils/Toast'
-import { Button, ButtonTypes } from 'src/common/components/Form/Buttons'
+import { Button, ButtonTypes } from 'common/components/Form/Buttons'
 import { BigNumber } from 'bignumber.js'
 import { Header } from '../../../types/models'
 
@@ -416,7 +416,8 @@ export class Funding extends React.Component<Props, State> {
       // need to add amount: ethAmt property for withdrawal
 
       const msgType = 'project/WithdrawFunds'
-      this.props.ixo.utils.getSignData(payload, msgType, this.props.userInfo.didDoc.pubKey)
+      this.props.ixo.utils
+        .getSignData(payload, msgType, this.props.userInfo.didDoc.pubKey)
         .then((response: any) => {
           if (response.sign_bytes && response.fee) {
             this.props.keysafe.requestSigning(
@@ -429,7 +430,9 @@ export class Funding extends React.Component<Props, State> {
                       if ((response.code || 0) === 0) {
                         successToast('Withdraw requested successfully')
                       } else {
-                        errorToast('Unable to request a withdrawal at this time')
+                        errorToast(
+                          'Unable to request a withdrawal at this time',
+                        )
                       }
                     })
                 }

@@ -1,7 +1,7 @@
 import * as React from 'react'
 import styled from 'styled-components'
-import { ButtonTypes, Button } from 'src/common/components/Form/Buttons'
-import Success from '../../../../assets/icons/Success'
+import { ButtonTypes, Button } from 'common/components/Form/Buttons'
+import Success from 'assets/icons/Success'
 
 const ModalData = styled.div`
   max-width: 380px;

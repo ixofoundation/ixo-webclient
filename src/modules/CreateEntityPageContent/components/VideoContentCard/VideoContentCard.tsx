@@ -4,11 +4,11 @@ import { debounce } from 'debounce'
 import {
   FormContainer,
   LinkButton,
-} from '../../../../common/components/JsonForm/JsonForm.styles'
-import * as formUtils from '../../../../common/components/JsonForm/JsonForm.utils'
-import { FormData } from '../../../../common/components/JsonForm/types'
-import VideoLoader from '../../../../common/components/DropZone/FileLoader/FileLoader'
-import { FileType } from 'src/common/components/DropZone/types'
+} from 'common/components/JsonForm/JsonForm.styles'
+import * as formUtils from 'common/components/JsonForm/JsonForm.utils'
+import { FormData } from 'common/components/JsonForm/types'
+import VideoLoader from 'common/components/DropZone/FileLoader/FileLoader'
+import { FileType } from 'common/components/DropZone/types'
 
 interface Props {
   id: string

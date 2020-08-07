@@ -1,7 +1,7 @@
 import React, { Dispatch } from 'react'
 import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { RootState } from 'src/common/redux/types'
+import { RootState } from 'common/redux/types'
 import Summary from './components/Summary/Summary'
 import { FormControl } from '../../common/components/JsonForm/types'
 import * as submitEntityClaimSelectors from './SubmitEntityClaim.selectors'

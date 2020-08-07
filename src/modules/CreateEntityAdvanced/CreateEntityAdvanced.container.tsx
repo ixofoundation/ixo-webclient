@@ -1,5 +1,5 @@
 import React, { Dispatch } from 'react'
-import { RootState } from 'src/common/redux/types'
+import { RootState } from 'common/redux/types'
 import * as createEntityAdvancedSelectors from './CreateEntityAdvanced.selectors'
 import {
   LinkedEntity,
@@ -30,8 +30,8 @@ import {
   removeDataResource,
   updateDataResource,
 } from './CreateEntityAdvanced.actions'
-import { FormData } from 'src/common/components/JsonForm/types'
-import FormCardWrapper from 'src/common/components/Wrappers/FormCardWrapper/FormCardWrapper'
+import { FormData } from 'common/components/JsonForm/types'
+import FormCardWrapper from 'common/components/Wrappers/FormCardWrapper/FormCardWrapper'
 import LinkedEntityCard from './components/LinkedEntityCard/LinkedEntityCard'
 import PaymentCard from './components/PaymentCard/PaymentCard'
 import StakeCard from './components/StakeCard/StakeCard'

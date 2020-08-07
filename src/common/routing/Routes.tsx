@@ -12,13 +12,11 @@ import { NotFound } from '../../components/public/NotFound'
 import { Spinner } from '../components/Spinner'
 import { ProjectSignAndCreateConnected } from '../../components/project/curation/ProjectSignAndCreate'
 import { ProjectCreateUploadPublicDocsConnected } from '../../components/project/curation/ProjectCreateUploadPublicDocs'
-import { Overview } from '../components/Bonds/OverviewWrapper/Overview'
-import Exchange from '../components/Bonds/ExchangeWrapper/Exchange'
-import Orders from '../../modules/BondAccountOrders/BondAccountOrders.container'
 import { UnderConstruction } from '../../components/public/UnderConstruction'
 import { SubmitEntityClaimConnected } from '../../modules/SubmitEntityClaim/SubmitEntityClaim.container'
 import { CreateEntityConnected } from '../../modules/CreateEntity/CreateEntity.container'
 import { CreateClaimTemplateConnected } from '../../modules/CreateClaimTemplate/CreateClaimTemplate.container'
+import BondRoutes from './Bond_Routes'
 
 export const Routes: React.SFC<{}> = props => {
   return (
@@ -29,21 +27,8 @@ export const Routes: React.SFC<{}> = props => {
         <Route exact path="/json" component={ProjectForm} />
         <Route exact path="/register" component={RegisterConnected} />
         <Route
-          exact
           path="/projects/:projectDID/bonds/:bondDID"
-          component={Overview}
-        />
-        <Route
-          path={['/projects/:projectDID/bonds/:bondDID/overview']}
-          component={Overview}
-        />
-        <Route
-          path="/projects/:projectDID/bonds/:bondDID/exchange"
-          component={Exchange}
-        />
-        <Route
-          path="/projects/:projectDID/bonds/:bondDID/orders"
-          component={Orders}
+          component={BondRoutes}
         />
         <Route
           exact
@@ -164,6 +149,7 @@ export const Routes: React.SFC<{}> = props => {
           exact
           path="/create-project"
           render={(routeProps): JSX.Element => (
+            // @ts-ignore
             <ProjectCreateConnected {...routeProps} {...props} />
           )}
         />
@@ -171,6 +157,7 @@ export const Routes: React.SFC<{}> = props => {
           exact
           path="/upload-project"
           render={(routeProps): JSX.Element => (
+            // @ts-ignore
             <ProjectCreateUploadPublicDocsConnected
               {...routeProps}
               {...props}

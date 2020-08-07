@@ -2,10 +2,10 @@ import React, { Dispatch } from 'react'
 import useForm from 'react-hook-form'
 import { withRouter, RouteComponentProps } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { RootState } from '../../../../common/redux/types'
+import { RootState } from 'common/redux/types'
 import { getQuote } from '../../BondSell.actions'
 import { currencyStr, tokenBalance } from '../../../Account/Account.utils'
-import { Currency } from 'src/types/models'
+import { Currency } from 'types/models'
 import * as bondSellSelectors from '../../BondSell.selectors'
 
 interface Props extends RouteComponentProps {

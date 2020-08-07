@@ -14,7 +14,7 @@ import {
   SubmitButton,
   SubmitStatus,
 } from './DynamicForm.styles'
-import ApprovedTick from 'src/assets/icons/ApprovedTick'
+import ApprovedTick from 'assets/icons/ApprovedTick'
 
 export interface ParentProps {
   formSchema: any

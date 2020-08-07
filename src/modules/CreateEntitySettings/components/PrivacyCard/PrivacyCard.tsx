@@ -5,8 +5,8 @@ import { FormContainer } from '../../../../common/components/JsonForm/JsonForm.s
 import * as formUtils from '../../../../common/components/JsonForm/JsonForm.utils'
 import { FormData } from '../../../../common/components/JsonForm/types'
 import { ObjectFieldTemplate2Column } from '../../../../common/components/JsonForm/CustomTemplates/ObjectFieldTemplate'
-import { PageView, EntityView } from 'src/modules/Entities/types'
-import { pageViewMap, entityViewMap } from 'src/modules/Entities/strategy-map'
+import { PageView, EntityView } from 'modules/Entities/types'
+import { pageViewMap, entityViewMap } from 'modules/Entities/strategy-map'
 
 interface Props {
   pageView: PageView

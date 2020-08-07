@@ -17,7 +17,7 @@ import {
 } from './ProjectOverview.style'
 import { EntityType } from '../../../modules/Entities/types'
 import { toTitleCase } from '../../../common/utils/formatters'
-import { entityTypeMap } from 'src/modules/Entities/strategy-map'
+import { entityTypeMap } from 'modules/Entities/strategy-map'
 
 export interface ParentProps {
   match: any

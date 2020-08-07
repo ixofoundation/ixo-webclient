@@ -5,7 +5,7 @@ import {
   LoaderWrapper,
   UploadingWrapper,
 } from '../Loader.styles'
-import UploadFlat from 'src/assets/icons/UploadFlat'
+import UploadFlat from 'assets/icons/UploadFlat'
 import PulseLoader from '../../PulseLoader/PulseLoader'
 import { strategyMap } from '../strategy-map'
 import { FileType } from '../types'
