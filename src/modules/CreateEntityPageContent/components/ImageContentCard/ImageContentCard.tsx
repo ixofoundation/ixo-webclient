@@ -1,104 +1,93 @@
 import React from 'react'
 import MultiControlForm from '../../../../common/components/JsonForm/MultiControlForm/MultiControlForm'
 import { LinkButton } from '../../../../common/components/JsonForm/JsonForm.styles'
-import { FormData } from '../../../../common/components/JsonForm/types'
-import ImageLoader from '../../../../common/components/DropZone/ImageLoader/ImageLoader'
+import { customControls } from '../../../../common/components/JsonForm/types'
+import { FormCardProps } from '../../../CreateEntity/types'
 
-interface Props {
-  id: string
+interface Props extends FormCardProps {
   title: string
   content: string
-  imageSrc: string
+  fileSrc: string
   imageDescription: string
   uploadingImage: boolean
-  handleUpdateContent: (id: string, formData: FormData) => void
-  handleUploadImage: (id: string, base64EncodedImage: string) => void
-  handleRemoveSection: (id: string) => void
 }
 
-const HeaderCard: React.FunctionComponent<Props> = ({
-  id,
-  title,
-  content,
-  imageSrc,
-  imageDescription,
-  uploadingImage,
-  handleUpdateContent,
-  handleUploadImage,
-  handleRemoveSection,
-}) => {
-  const formData = {
-    title,
-    content,
-    imageDescription,
-  }
+const HeaderCard: React.FunctionComponent<Props> = React.forwardRef(
+  (
+    {
+      title,
+      content,
+      fileSrc,
+      imageDescription,
+      uploadingImage,
+      handleUpdateContent,
+      handleSubmitted,
+      handleError,
+      handleRemoveSection,
+    },
+    ref,
+  ) => {
+    const formData = {
+      title,
+      content,
+      imageDescription,
+      fileSrc,
+    }
 
-  const schema = {
-    type: 'object',
-    required: ['title', 'content'],
-    properties: {
-      title: { type: 'string', title: 'Title' },
-      content: { type: 'string', title: 'Body Content' },
-      imageDescription: { type: 'string', title: 'Image Description' },
-    },
-  } as any
+    const schema = {
+      type: 'object',
+      required: ['title', 'content'],
+      properties: {
+        title: { type: 'string', title: 'Title' },
+        content: { type: 'string', title: 'Body Content' },
+        fileSrc: { type: 'string', title: 'Image' },
+        imageDescription: { type: 'string', title: 'Image Description' },
+      },
+    } as any
 
-  const uiSchema = {
-    title: {
-      ['ui:widget']: 'text',
-      ['ui:placeholder']: 'Enter Title',
-    },
-    content: {
-      ['ui:widget']: 'textarea',
-      ['ui:placeholder']: 'Start Typing Here',
-    },
-    imageDescription: {
-      ['ui:widget']: 'text',
-      ['ui:placeholder']: 'Start Typing',
-    },
-  }
+    const uiSchema = {
+      title: {
+        ['ui:widget']: 'text',
+        ['ui:placeholder']: 'Enter Title',
+      },
+      content: {
+        ['ui:widget']: 'textarea',
+        ['ui:placeholder']: 'Start Typing Here',
+      },
+      fileSrc: {
+        ['ui:widget']: customControls['imageupload'],
+        ['ui:uploading']: uploadingImage,
+        ['ui:maxDimension']: 960,
+        ['ui:aspect']: 16 / 9,
+        ['ui:circularCrop']: false,
+      },
+      imageDescription: {
+        ['ui:widget']: 'text',
+        ['ui:placeholder']: 'Start Typing',
+      },
+    }
 
-  return (
-    <>
-      <div className="justify-content-center">
-        <div className="form-group">
-          <label className="control-label">
-            Image<span className="required">*</span>
-          </label>
-          <ImageLoader
-            keepCropSelection={true}
-            circularCrop={false}
-            uploadedImageSrc={
-              imageSrc
-                ? `${process.env.REACT_APP_PDS_URL}public/${imageSrc}`
-                : null
-            }
-            uploading={uploadingImage}
-            handleSave={(base64EncodedImage): void =>
-              handleUploadImage(id, base64EncodedImage)
-            }
-            aspect={16 / 9}
-            maxDimension={960}
-            previewWidth={960}
-          />
+    return (
+      <>
+        <MultiControlForm
+          ref={ref}
+          onSubmit={handleSubmitted}
+          onFormDataChange={handleUpdateContent}
+          onError={handleError}
+          formData={formData}
+          schema={schema}
+          uiSchema={uiSchema}
+        >
+          &nbsp;
+        </MultiControlForm>
+        <div className="text-right">
+          <LinkButton type="button" onClick={handleRemoveSection}>
+            - Remove
+          </LinkButton>
         </div>
-      </div>
-      <MultiControlForm
-        onSubmit={(): void => null}
-        onFormDataChange={(formData): void => handleUpdateContent(id, formData)}
-        formData={formData}
-        schema={schema}
-        uiSchema={uiSchema}
-      >
-        &nbsp;
-      </MultiControlForm>
-      <div className="text-right">
-        <LinkButton type="button" onClick={(): void => handleRemoveSection(id)}>
-          - Remove
-        </LinkButton>
-      </div>
-    </>
-  )
-}
+      </>
+    )
+  },
+)
 
 export default HeaderCard

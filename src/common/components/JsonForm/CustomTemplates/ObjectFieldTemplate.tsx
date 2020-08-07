@@ -3,6 +3,7 @@ import React from 'react'
 export const ObjectFieldTemplate2Column: React.FunctionComponent = (
   props: any,
 ) => {
+  console.log(props)
   const totalRows = Math.ceil(props.properties.length / 2)
   const rowArray = new Array(totalRows).fill(null)
 

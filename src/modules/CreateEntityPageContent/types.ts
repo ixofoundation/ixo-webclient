@@ -1,15 +1,4 @@
-// TODO - Table
-
-interface FileContent {
-  fileSrc: string
-  uploading: boolean
-}
-
-interface Validation {
-  identifier: string
-  validated: boolean
-  errors: string[]
-}
+import { FileContent, Validation } from '../CreateEntity/types'
 
 export interface HeaderPageContent extends FileContent {
   title: string

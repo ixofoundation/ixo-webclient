@@ -1,4 +1,4 @@
-import React, { useState, useImperativeHandle } from 'react'
+import React, { useState, useImperativeHandle, useEffect } from 'react'
 import Form from '@rjsf/core'
 import { FormData } from '../types'
 import { FormContainer } from '../JsonForm.styles'
@@ -34,10 +34,19 @@ const MultiControlForm: React.FunctionComponent<Props> = React.forwardRef(
     const [touched, setTouched] = useState({})
     const [validationComplete, setValidatedComplete] = useState(false)
 
+    useEffect(() => {
+      if (validationComplete) {
+        jsonFormRef.current.submit()
+      }
+    }, [validationComplete])
+
     useImperativeHandle(ref, () => ({
       validateAndSubmit: (): void => {
-        jsonFormRef.current.submit()
-        setValidatedComplete(true)
+        if (validationComplete) {
+          jsonFormRef.current.submit()
+        } else {
+          setValidatedComplete(true)
+        }
       },
     }))
 

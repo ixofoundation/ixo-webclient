@@ -14,3 +14,22 @@ export interface CreateEntityState {
 export enum CreateEntityActions {
   GoToStep = 'ixo/CreateEntity/GO_TO_STEP',
 }
+
+export interface FileContent {
+  fileSrc: string
+  uploading: boolean
+}
+
+export interface Validation {
+  identifier: string
+  validated: boolean
+  errors: string[]
+}
+
+export interface FormCardProps {
+  ref: any
+  handleUpdateContent: (formData: FormData) => void
+  handleError: (errors: string[]) => void
+  handleSubmitted: () => void
+  handleRemoveSection?: () => void
+}

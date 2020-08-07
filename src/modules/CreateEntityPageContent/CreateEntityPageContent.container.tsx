@@ -11,9 +11,9 @@ import {
   EmbeddedPageContent,
 } from './types'
 import HeaderCard from './components/HeaderCard/HeaderCard'
-// import BodyContentCard from './components/BodyContentCard/BodyContentCard'
-// import ImageContentCard from './components/ImageContentCard/ImageContentCard'
-// import ProfileContentCard from './components/ProfileContentCard/ProfileContentCard'
+import BodyContentCard from './components/BodyContentCard/BodyContentCard'
+import ImageContentCard from './components/ImageContentCard/ImageContentCard'
+import ProfileContentCard from './components/ProfileContentCard/ProfileContentCard'
 import SocialContentCard from './components/SocialContentCard/SocialContentCard'
 import EmbeddedContentCard from './components/EmbeddedContentCard/EmbeddedContentCard'
 import {
@@ -65,14 +65,11 @@ interface Props {
 }
 
 class CreateEntityPageContent extends React.Component<Props> {
-  headerCard
-  constructor(props) {
-    super(props)
-
-    this.headerCard = React.createRef()
-  }
+  cardRefs = {}
 
   renderHeader = (): JSX.Element => {
+    this.cardRefs['header'] = React.createRef()
+
     const {
       header: {
         title,
@@ -94,7 +91,7 @@ class CreateEntityPageContent extends React.Component<Props> {
         showAddSection={false}
       >
         <HeaderCard
-          ref={this.headerCard}
+          ref={this.cardRefs['header']}
           handleUpdateContent={handleUpdateHeaderContent}
           handleSubmitted={(): void => this.props.handleValidated('header')}
           handleError={(errors): void =>
@@ -113,7 +110,7 @@ class CreateEntityPageContent extends React.Component<Props> {
     )
   }
 
-  /* renderBodySections = (): JSX.Element => {
+  renderBodySections = (): JSX.Element => {
     const {
       body,
       handleUpdateBodyContent,
@@ -129,18 +126,28 @@ class CreateEntityPageContent extends React.Component<Props> {
         onAddSection={handleAddBodySection}
       >
         {body.map(section => {
+          this.cardRefs[section.id] = React.createRef()
+
           const { id, title, content, fileSrc, uploading } = section
 
           return (
             <BodyContentCard
-              id={id}
+              ref={this.cardRefs[section.id]}
               key={id}
               title={title}
               content={content}
-              imageSrc={fileSrc}
+              fileSrc={fileSrc}
               uploadingImage={uploading}
-              handleUpdateContent={handleUpdateBodyContent}
-              handleRemoveSection={handleRemoveBodySection}
+              handleUpdateContent={(formData): void =>
+                handleUpdateBodyContent(id, formData)
+              }
+              handleRemoveSection={(): void => handleRemoveBodySection(id)}
+              handleSubmitted={(): void =>
+                this.props.handleValidated(section.id)
+              }
+              handleError={(errors): void =>
+                this.props.handleValidationError(section.id, errors)
+              }
             />
           )
         })}
@@ -152,7 +159,6 @@ class CreateEntityPageContent extends React.Component<Props> {
     const {
       images,
       handleUpdateImageContent,
-      handleUploadImageContentImage,
       handleAddImageSection,
       handleRemoveImageSection,
     } = this.props
@@ -165,77 +171,47 @@ class CreateEntityPageContent extends React.Component<Props> {
         onAddSection={handleAddImageSection}
       >
         {images.map(section => {
+          this.cardRefs[section.id] = React.createRef()
+
           const {
             id,
             title,
             content,
-            imageSrc,
+            fileSrc,
             imageDescription,
-            uploadingImage,
+            uploading,
           } = section
 
           return (
             <ImageContentCard
-              id={id}
+              ref={this.cardRefs[section.id]}
               key={id}
               title={title}
               content={content}
-              imageSrc={imageSrc}
+              fileSrc={fileSrc}
               imageDescription={imageDescription}
-              uploadingImage={uploadingImage}
-              handleUpdateContent={handleUpdateImageContent}
-              handleUploadImage={handleUploadImageContentImage}
-              handleRemoveSection={handleRemoveImageSection}
+              uploadingImage={uploading}
+              handleUpdateContent={(formData): void =>
+                handleUpdateImageContent(id, formData)
+              }
+              handleRemoveSection={(): void => handleRemoveImageSection(id)}
+              handleSubmitted={(): void =>
+                this.props.handleValidated(section.id)
+              }
+              handleError={(errors): void =>
+                this.props.handleValidationError(section.id, errors)
+              }
             />
           )
         })}
       </FormCardWrapper>
     )
-  } */
+  }
 
-  // Disable for now until proper video processing
-  /*   renderVideoSections = (): JSX.Element => {
-    const {
-      videos,
-      handleUpdateVideoContent,
-      handleUploadVideoContentVideo,
-      handleAddVideoSection,
-      handleRemoveVideoSection,
-    } = this.props
-
-    return (
-      <FormCardWrapper
-        title="Video Content Card"
-        description="Accepts Markdown formatting such as **bold**, *italic* and ***bold italic***."
-        showAddSection
-        onAddSection={handleAddVideoSection}
-      >
-        {videos.map(section => {
-          const { id, title, content, videoDid, uploadingVideo } = section
-
-          return (
-            <VideoContentCard
-              id={id}
-              key={id}
-              title={title}
-              content={content}
-              videoDid={videoDid}
-              uploadingVideo={uploadingVideo}
-              handleUpdateContent={handleUpdateVideoContent}
-              handleUploadVideo={handleUploadVideoContentVideo}
-              handleRemoveSection={handleRemoveVideoSection}
-            />
-          )
-        })}
-      </FormCardWrapper>
-    )
-  } */
-
-  /*  renderProfileSections = (): JSX.Element => {
+  renderProfileSections = (): JSX.Element => {
     const {
       profiles,
       handleUpdateProfileContent,
-      handleUploadProfileContentImage,
       handleAddProfileSection,
       handleRemoveProfileSection,
     } = this.props
@@ -248,37 +224,48 @@ class CreateEntityPageContent extends React.Component<Props> {
         onAddSection={handleAddProfileSection}
       >
         {profiles.map(section => {
+          this.cardRefs[section.id] = React.createRef()
+
           const {
             id,
             name,
             position,
-            imageSrc,
+            fileSrc,
             linkedInUrl,
             twitterUrl,
-            uploadingImage,
+            uploading,
           } = section
 
           return (
             <ProfileContentCard
-              id={id}
+              ref={this.cardRefs[section.id]}
               key={id}
               name={name}
               position={position}
               linkedInUrl={linkedInUrl}
               twitterUrl={twitterUrl}
-              imageSrc={imageSrc}
-              uploadingImage={uploadingImage}
-              handleUpdateContent={handleUpdateProfileContent}
-              handleUploadImage={handleUploadProfileContentImage}
-              handleRemoveSection={handleRemoveProfileSection}
+              fileSrc={fileSrc}
+              uploadingImage={uploading}
+              handleUpdateContent={(formData): void =>
+                handleUpdateProfileContent(id, formData)
+              }
+              handleRemoveSection={(): void => handleRemoveProfileSection(id)}
+              handleSubmitted={(): void =>
+                this.props.handleValidated(section.id)
+              }
+              handleError={(errors): void =>
+                this.props.handleValidationError(section.id, errors)
+              }
             />
           )
         })}
       </FormCardWrapper>
     )
-  } */
+  }
 
   renderSocialContent = (): JSX.Element => {
+    this.cardRefs['social'] = React.createRef()
+
     const {
       social: {
         linkedInUrl,
@@ -300,7 +287,12 @@ class CreateEntityPageContent extends React.Component<Props> {
         showAddSection={false}
       >
         <SocialContentCard
+          ref={this.cardRefs['social']}
           handleUpdateContent={handleUpdateSocialContent}
+          handleSubmitted={(): void => this.props.handleValidated('social')}
+          handleError={(errors): void =>
+            this.props.handleValidationError('social', errors)
+          }
           linkedInUrl={linkedInUrl}
           facebookUrl={facebookUrl}
           twitterUrl={twitterUrl}
@@ -330,16 +322,26 @@ class CreateEntityPageContent extends React.Component<Props> {
         onAddSection={handleAddEmbeddedSection}
       >
         {embedded.map(section => {
+          this.cardRefs[section.id] = React.createRef()
+
           const { id, title, urls } = section
 
           return (
             <EmbeddedContentCard
-              id={id}
+              ref={this.cardRefs[section.id]}
               key={id}
               title={title}
               urls={urls}
-              handleUpdateContent={handleUpdateEmbeddedContent}
-              handleRemoveSection={handleRemoveEmbeddedSection}
+              handleUpdateContent={(formData): void =>
+                handleUpdateEmbeddedContent(id, formData)
+              }
+              handleRemoveSection={(): void => handleRemoveEmbeddedSection(id)}
+              handleSubmitted={(): void =>
+                this.props.handleValidated(section.id)
+              }
+              handleError={(errors): void =>
+                this.props.handleValidationError(section.id, errors)
+              }
             />
           )
         })}
@@ -347,18 +349,32 @@ class CreateEntityPageContent extends React.Component<Props> {
     )
   }
 
-  handleSubmit = () => {
-    this.headerCard.current.validateAndSubmit()
+  handleSubmit = (): void => {
+    const { body, images, profiles, embedded } = this.props
+
+    this.cardRefs['header'].current.validateAndSubmit()
+    this.cardRefs['social'].current.validateAndSubmit()
+    body.forEach(section => {
+      this.cardRefs[section.id].current.validateAndSubmit()
+    })
+    images.forEach(section => {
+      this.cardRefs[section.id].current.validateAndSubmit()
+    })
+    profiles.forEach(section => {
+      this.cardRefs[section.id].current.validateAndSubmit()
+    })
+    embedded.forEach(section => {
+      this.cardRefs[section.id].current.validateAndSubmit()
+    })
   }
 
   render(): JSX.Element {
     return (
       <>
         {this.renderHeader()}
-        {/*         {this.renderBodySections()}
-        {this.renderImageSections()} */}
-        {/* {this.renderVideoSections()} */}
-        {/*         {this.renderProfileSections()} */}
+        {this.renderBodySections()}
+        {this.renderImageSections()}
+        {this.renderProfileSections()}
         {this.renderSocialContent()}
         {this.renderEmbeddedSections()}
         <ButtonGroup className="buttons-group">

@@ -1,11 +1,9 @@
 import React from 'react'
-import {
-  FormData,
-  customControls,
-} from '../../../../common/components/JsonForm/types'
+import { customControls } from '../../../../common/components/JsonForm/types'
 import MultiControlForm from '../../../../common/components/JsonForm/MultiControlForm/MultiControlForm'
+import { FormCardProps } from '../../../CreateEntity/types'
 
-interface Props {
+interface Props extends FormCardProps {
   linkedInUrl: string
   facebookUrl: string
   twitterUrl: string
@@ -17,98 +15,107 @@ interface Props {
   handleUpdateContent: (formData: FormData) => void
 }
 
-const SocialContentCard: React.FunctionComponent<Props> = ({
-  linkedInUrl,
-  facebookUrl,
-  twitterUrl,
-  discourseUrl,
-  instagramUrl,
-  telegramUrl,
-  githubUrl,
-  otherUrl,
-  handleUpdateContent,
-}) => {
-  const formData = {
-    linkedInUrl,
-    facebookUrl,
-    twitterUrl,
-    discourseUrl,
-    instagramUrl,
-    telegramUrl,
-    githubUrl,
-    otherUrl,
-  }
+const SocialContentCard: React.FunctionComponent<Props> = React.forwardRef(
+  (
+    {
+      linkedInUrl,
+      facebookUrl,
+      twitterUrl,
+      discourseUrl,
+      instagramUrl,
+      telegramUrl,
+      githubUrl,
+      otherUrl,
+      handleUpdateContent,
+      handleSubmitted,
+      handleError,
+    },
+    ref,
+  ) => {
+    const formData = {
+      linkedInUrl,
+      facebookUrl,
+      twitterUrl,
+      discourseUrl,
+      instagramUrl,
+      telegramUrl,
+      githubUrl,
+      otherUrl,
+    }
 
-  const schema = {
-    type: 'object',
-    required: [],
-    properties: {
-      linkedInUrl: { type: 'string', title: 'Linked In' },
-      facebookUrl: { type: 'string', title: 'Facebook' },
-      twitterUrl: { type: 'string', title: 'Twitter' },
-      discourseUrl: { type: 'string', title: 'Discourse' },
-      instagramUrl: { type: 'string', title: 'Instagram' },
-      telegramUrl: { type: 'string', title: 'Telegram' },
-      githubUrl: { type: 'string', title: 'Github' },
-      otherUrl: { type: 'string', title: 'Other' },
-    },
-  } as any
+    const schema = {
+      type: 'object',
+      required: [],
+      properties: {
+        linkedInUrl: { type: 'string', title: 'Linked In' },
+        facebookUrl: { type: 'string', title: 'Facebook' },
+        twitterUrl: { type: 'string', title: 'Twitter' },
+        discourseUrl: { type: 'string', title: 'Discourse' },
+        instagramUrl: { type: 'string', title: 'Instagram' },
+        telegramUrl: { type: 'string', title: 'Telegram' },
+        githubUrl: { type: 'string', title: 'Github' },
+        otherUrl: { type: 'string', title: 'Other' },
+      },
+    } as any
 
-  const uiSchema = {
-    linkedInUrl: {
-      ['ui:widget']: customControls['socialtextbox'],
-      ['ui:socialIcon']: 'LinkedIn',
-      ['ui:placeholder']: 'Paste Url',
-    },
-    facebookUrl: {
-      ['ui:widget']: customControls['socialtextbox'],
-      ['ui:socialIcon']: 'Facebook',
-      ['ui:placeholder']: 'Paste Url',
-    },
-    twitterUrl: {
-      ['ui:widget']: customControls['socialtextbox'],
-      ['ui:socialIcon']: 'Twitter',
-      ['ui:placeholder']: 'Paste Url',
-    },
-    discourseUrl: {
-      ['ui:widget']: customControls['socialtextbox'],
-      ['ui:socialIcon']: 'Discourse',
-      ['ui:placeholder']: 'Paste Url',
-    },
-    instagramUrl: {
-      ['ui:widget']: customControls['socialtextbox'],
-      ['ui:socialIcon']: 'Instagram',
-      ['ui:placeholder']: 'Paste Url',
-    },
-    telegramUrl: {
-      ['ui:widget']: customControls['socialtextbox'],
-      ['ui:socialIcon']: 'Telegram',
-      ['ui:placeholder']: 'Paste Url',
-    },
-    githubUrl: {
-      ['ui:widget']: customControls['socialtextbox'],
-      ['ui:socialIcon']: 'Github',
-      ['ui:placeholder']: 'Paste Url',
-    },
-    otherUrl: {
-      ['ui:widget']: customControls['socialtextbox'],
-      ['ui:socialIcon']: 'Other',
-      ['ui:placeholder']: 'Paste Url',
-    },
-  }
+    const uiSchema = {
+      linkedInUrl: {
+        ['ui:widget']: customControls['socialtextbox'],
+        ['ui:socialIcon']: 'LinkedIn',
+        ['ui:placeholder']: 'Paste Url',
+      },
+      facebookUrl: {
+        ['ui:widget']: customControls['socialtextbox'],
+        ['ui:socialIcon']: 'Facebook',
+        ['ui:placeholder']: 'Paste Url',
+      },
+      twitterUrl: {
+        ['ui:widget']: customControls['socialtextbox'],
+        ['ui:socialIcon']: 'Twitter',
+        ['ui:placeholder']: 'Paste Url',
+      },
+      discourseUrl: {
+        ['ui:widget']: customControls['socialtextbox'],
+        ['ui:socialIcon']: 'Discourse',
+        ['ui:placeholder']: 'Paste Url',
+      },
+      instagramUrl: {
+        ['ui:widget']: customControls['socialtextbox'],
+        ['ui:socialIcon']: 'Instagram',
+        ['ui:placeholder']: 'Paste Url',
+      },
+      telegramUrl: {
+        ['ui:widget']: customControls['socialtextbox'],
+        ['ui:socialIcon']: 'Telegram',
+        ['ui:placeholder']: 'Paste Url',
+      },
+      githubUrl: {
+        ['ui:widget']: customControls['socialtextbox'],
+        ['ui:socialIcon']: 'Github',
+        ['ui:placeholder']: 'Paste Url',
+      },
+      otherUrl: {
+        ['ui:widget']: customControls['socialtextbox'],
+        ['ui:socialIcon']: 'Other',
+        ['ui:placeholder']: 'Paste Url',
+      },
+    }
 
-  return (
-    <MultiControlForm
-      onSubmit={(): void => null}
-      onFormDataChange={handleUpdateContent}
-      formData={formData}
-      schema={schema}
-      uiSchema={uiSchema}
-      multiColumn
-    >
-      &nbsp;
-    </MultiControlForm>
-  )
-}
+    return (
+      <MultiControlForm
+        ref={ref}
+        onSubmit={handleSubmitted}
+        onFormDataChange={handleUpdateContent}
+        onError={handleError}
+        formData={formData}
+        schema={schema}
+        uiSchema={uiSchema}
+        multiColumn
+      >
+        &nbsp;
+      </MultiControlForm>
+    )
+  },
+)
 
 export default SocialContentCard

@@ -30,6 +30,10 @@ export const FormContainer = styled.div`
     color: #436779;
   }
 
+  .form-group.field-null label {
+    display: none;
+  }
+
   input {
     margin-bottom: 0.375rem;
     border: none;
@@ -54,7 +58,7 @@ export const FormContainer = styled.div`
     }
     &.form-control {
       width: 100%;
-      height: 2.5rem;
+      height: 170px;
       background: #e8edee;
       border-radius: 4px;
     }

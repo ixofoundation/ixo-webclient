@@ -9,7 +9,7 @@ interface Props {
 
 const ImageUpload: React.FunctionComponent<Props> = ({
   value,
-  options: { uploading, maxDimension, aspect, circularCrop },
+  options: { uploading, maxDimension, aspect, circularCrop, previewWidth },
   onChange,
 }) => {
   return (
@@ -21,6 +21,7 @@ const ImageUpload: React.FunctionComponent<Props> = ({
       maxDimension={maxDimension || 600}
       aspect={aspect || undefined}
       circularCrop={!!circularCrop}
+      previewWidth={previewWidth || undefined}
     />
   )
 }

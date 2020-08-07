@@ -1,12 +1,9 @@
 import React from 'react'
-import {
-  FormData,
-  customControls,
-} from '../../../../common/components/JsonForm/types'
+import { customControls } from '../../../../common/components/JsonForm/types'
 import MultiControlForm from '../../../../common/components/JsonForm/MultiControlForm/MultiControlForm'
+import { FormCardProps } from '../../../CreateEntity/types'
 
-interface Props {
-  ref: any
+interface Props extends FormCardProps {
   title: string
   shortDescription: string
   fileSrc: string
@@ -15,9 +12,6 @@ interface Props {
   sdgs: string[]
   country: string
   uploadingImage: boolean
-  handleUpdateContent: (formData: FormData) => void
-  handleError: (errors: string[]) => void
-  handleSubmitted: () => void
 }
 
 const HeaderCard: React.FunctionComponent<Props> = React.forwardRef(
@@ -92,8 +86,6 @@ const HeaderCard: React.FunctionComponent<Props> = React.forwardRef(
         ['ui:placeholder']: 'Enter Title',
       },
     }
-
-    console.log('iam form')
 
     return (
       <MultiControlForm
