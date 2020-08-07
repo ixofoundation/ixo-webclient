@@ -7,14 +7,12 @@ import {
   UpdateImageContentAction,
   AddImageSectionAction,
   UploadImageContentImageAction,
-  AddVideoSectionAction,
   AddProfileSectionAction,
   UpdateSocialContentAction,
   AddEmbeddedSectionAction,
   UpdateEmbeddedContentAction,
   RemoveBodySectionAction,
   RemoveImageSectionAction,
-  RemoveVideoSectionAction,
   RemoveProfileSectionAction,
   RemoveEmbeddedSectionAction,
   UpdateHeaderContentAction,
@@ -23,6 +21,7 @@ import {
   UploadBodyContentImageAction,
   UpdateProfileContentAction,
   UploadProfileContentImageAction,
+  SetValidatedAction,
 } from './types'
 import { FormData } from 'src/common/components/JsonForm/types'
 
@@ -150,20 +149,6 @@ export const updateImageContent = (id: string, formData: FormData) => (
   })
 }
 
-export const addVideoSection = (): AddVideoSectionAction => ({
-  type: CreateEntityPageContentActions.AddVideoSection,
-  payload: {
-    id: uuidv4(),
-  },
-})
-
-export const removeVideoSection = (id: string): RemoveVideoSectionAction => ({
-  type: CreateEntityPageContentActions.RemoveVideoSection,
-  payload: {
-    id,
-  },
-})
-
 export const addProfileSection = (): AddProfileSectionAction => ({
   type: CreateEntityPageContentActions.AddProfileSection,
   payload: {
@@ -271,32 +256,15 @@ export const updateEmbeddedContent = (
   }
 }
 
-// TODO when we have video processing
-/* export const updateVideoContent = (
-  id: string,
-  formData: FormData,
-): UpdateVideoContentAction => {
-  const { title, content } = formData
-
-  return {
-    type: CreateEntityPageContentActions.UpdateVideoContent,
-    payload: {
-      id,
-      title,
-      content,
-    },
-  }
-}
-
-export const uploadVideoContentVideo = (
-  id: string,
-  base64VideoData: string,
-) => (dispatch: Dispatch): UploadVideoContentVideoAction => {
-  return dispatch({
-    type: CreateEntityPageContentActions.UploadVideoContentVideo,
-    meta: { id },
-    payload: blocksyncApi.project
-      .createPublic(base64VideoData, PDS_URL)
-      .then((response: any) => ({ id, did: response.result })),
-  })
-} */
+export const setValidated = (
+  identifier: string,
+  validated: boolean,
+  errors: string[],
+): SetValidatedAction => ({
+  type: CreateEntityPageContentActions.SetValidated,
+  payload: {
+    identifier,
+    validated,
+    errors,
+  },
+})

@@ -75,8 +75,8 @@ const HeaderCard: React.FunctionComponent<Props> = ({
       </div>
       <div className="col-lg-6">
         <MultiControlForm
-          handleSubmit={(): void => null}
-          handleFormDataChange={(formData): void =>
+          onSubmit={(): void => null}
+          onFormDataChange={(formData): void =>
             handleUpdateContent(id, formData)
           }
           formData={formData}

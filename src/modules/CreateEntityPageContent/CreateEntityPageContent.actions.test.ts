@@ -51,7 +51,7 @@ describe('CreateEntityPageContent Actions', () => {
 
     it('should upload the image', async () => {
       // given ... some content
-      const fileSrc = 'someImageData'
+      const fileSrc = 'data:someImageData'
 
       const formData = {
         fileSrc,
@@ -60,8 +60,6 @@ describe('CreateEntityPageContent Actions', () => {
       // when ... we call the uploadHeaderContentImage action creator
       await store.dispatch(SUT.updateHeaderContent(formData))
       const actions = store.getActions()
-
-      console.log(actions)
 
       // then ... it should dispatch the correct actions
       expect(actions.length).toEqual(2)
@@ -72,7 +70,9 @@ describe('CreateEntityPageContent Actions', () => {
       expect(actions[1].type).toEqual(
         CreateEntityPageContentActions.UploadHeaderContentImageSuccess,
       )
-      expect(actions[1].payload).toEqual({ did: 'somePublicDid' })
+      expect(actions[1].payload).toEqual({
+        fileSrc: `${process.env.REACT_APP_PDS_URL}public/somePublicDid`,
+      })
     })
   })
 
@@ -140,7 +140,7 @@ describe('CreateEntityPageContent Actions', () => {
     it('should upload the image', async () => {
       // given ... we have base64 image data and an id
       const id = 'someId'
-      const fileSrc = 'someImageData'
+      const fileSrc = 'data:someImageData'
 
       const formData = {
         fileSrc,
@@ -149,8 +149,6 @@ describe('CreateEntityPageContent Actions', () => {
       // when ... we call the uploadHeaderContentImage action creator
       await store.dispatch(SUT.updateBodyContent(id, formData))
       const actions = store.getActions()
-
-      console.log(actions)
 
       // then ... it should dispatch the correct actions
       expect(actions.length).toEqual(2)
@@ -161,7 +159,10 @@ describe('CreateEntityPageContent Actions', () => {
       expect(actions[1].type).toEqual(
         CreateEntityPageContentActions.UploadBodyContentImageSuccess,
       )
-      expect(actions[1].payload).toEqual({ id, did: 'somePublicDid' })
+      expect(actions[1].payload).toEqual({
+        id,
+        fileSrc: `${process.env.REACT_APP_PDS_URL}public/somePublicDid`,
+      })
     })
   })
 
@@ -232,7 +233,7 @@ describe('CreateEntityPageContent Actions', () => {
 
       it('should upload the image content image', async () => {
         // given ... some content
-        const fileSrc = 'someImageData'
+        const fileSrc = 'data:someImageData'
         const id = 'someImageId'
 
         const formData = {
@@ -252,7 +253,10 @@ describe('CreateEntityPageContent Actions', () => {
         expect(actions[1].type).toEqual(
           CreateEntityPageContentActions.UploadImageContentImageSuccess,
         )
-        expect(actions[1].payload).toEqual({ id, did: 'somePublicDid' })
+        expect(actions[1].payload).toEqual({
+          id,
+          fileSrc: `${process.env.REACT_APP_PDS_URL}public/somePublicDid`,
+        })
       })
     })
   })
@@ -338,7 +342,7 @@ describe('CreateEntityPageContent Actions', () => {
         expect(actions[1].type).toEqual(
           CreateEntityPageContentActions.UploadVideoContentVideoSuccess,
         )
-        expect(actions[1].payload.did).toEqual('somePublicDid')
+        expect(actions[1].payload.did).toEqual(`${process.env.REACT_APP_PDS_URL}public/somePublicDid`)
         expect(actions[1].payload.id).toEqual('someVideoId')
       })
     })
@@ -414,7 +418,7 @@ describe('CreateEntityPageContent Actions', () => {
       it('should upload the profile image', async () => {
         // given ... we have base64 image data and an id
         const id = 'someProfileId'
-        const fileSrc = 'someImageData'
+        const fileSrc = 'data:someImageData'
 
         const formData = { fileSrc }
 
@@ -430,7 +434,10 @@ describe('CreateEntityPageContent Actions', () => {
         expect(actions[1].type).toEqual(
           CreateEntityPageContentActions.UploadProfileContentImageSuccess,
         )
-        expect(actions[1].payload).toEqual({ id, did: 'somePublicDid' })
+        expect(actions[1].payload).toEqual({
+          id,
+          fileSrc: `${process.env.REACT_APP_PDS_URL}public/somePublicDid`,
+        })
       })
     })
   })
@@ -537,6 +544,24 @@ describe('CreateEntityPageContent Actions', () => {
           title,
           urls: urlsArr,
         })
+      })
+    })
+  })
+  describe('validation', () => {
+    it('should set the correct validation', () => {
+      const identifier = 'someIdentifier'
+      const validated = false
+      const errors = ['error1', 'error1', 'error3']
+
+      // when ... we call the setValidated action creator
+      const action = SUT.setValidated(identifier, validated, errors)
+
+      // then ... we should expect it to create an action with the correct type and payload
+      expect(action.type).toEqual(CreateEntityPageContentActions.SetValidated)
+      expect(action.payload).toEqual({
+        identifier,
+        validated,
+        errors,
       })
     })
   })

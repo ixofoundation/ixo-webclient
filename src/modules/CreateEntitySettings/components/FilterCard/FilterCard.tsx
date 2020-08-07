@@ -45,8 +45,8 @@ const DisplayCredential: React.FunctionComponent<Props> = ({
 
   return (
     <MultiControlForm
-      handleSubmit={(): void => null}
-      handleFormDataChange={(formData): void => handleUpdate(formData)}
+      onSubmit={(): void => null}
+      onFormDataChange={(formData): void => handleUpdate(formData)}
       formData={filters}
       schema={schema}
       uiSchema={{}}

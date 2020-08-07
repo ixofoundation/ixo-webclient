@@ -11,9 +11,9 @@ interface Props {
   formData: FormData
   schema: any
   uiSchema: any
-  handleFormDataChange: (formData: any) => void
-  handleSubmit: () => void
-  handleError?: (fields: string[]) => void
+  onFormDataChange: (formData: any) => void
+  onSubmit: () => void
+  onError?: (fields: string[]) => void
 }
 
 const MultiControlForm: React.FunctionComponent<Props> = React.forwardRef(
@@ -24,26 +24,26 @@ const MultiControlForm: React.FunctionComponent<Props> = React.forwardRef(
       multiColumn,
       schema,
       uiSchema,
-      handleFormDataChange,
-      handleSubmit,
-      handleError,
+      onFormDataChange: handleFormDataChange,
+      onSubmit: handleSubmit,
+      onError: handleError,
     },
     ref,
   ) => {
     const jsonFormRef = React.createRef<Form<any>>()
     const [touched, setTouched] = useState({})
-    const [validated, setValidated] = useState(false)
+    const [validationComplete, setValidatedComplete] = useState(false)
 
     useEffect(() => {
-      if (validated) {
+      if (validationComplete) {
         jsonFormRef.current.submit()
-        setValidated(false)
+        setValidatedComplete(false)
       }
-    }, [validated])
+    }, [validationComplete])
 
     useImperativeHandle(ref, () => ({
       validateAndSubmit: (): void => {
-        setValidated(true)
+        setValidatedComplete(true)
       },
     }))
 
@@ -67,7 +67,7 @@ const MultiControlForm: React.FunctionComponent<Props> = React.forwardRef(
           schema={schema}
           uiSchema={uiSchema}
           transformErrors={(errors): any =>
-            validated
+            validationComplete
               ? formUtils.transformErrors(errors)
               : formUtils.transformErrorsTouched(errors, touched)
           }

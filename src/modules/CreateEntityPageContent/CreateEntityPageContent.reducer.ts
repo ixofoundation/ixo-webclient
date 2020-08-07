@@ -18,7 +18,6 @@ export const initialState: CreateEntityPageContentState = {
   },
   body: {},
   images: {},
-  videos: {},
   profiles: {},
   social: {
     linkedInUrl: undefined,
@@ -31,6 +30,7 @@ export const initialState: CreateEntityPageContentState = {
     otherUrl: undefined,
   },
   embedded: {},
+  validation: {},
 }
 
 export const reducer = (
@@ -222,81 +222,6 @@ export const reducer = (
           },
         },
       }
-    case CreateEntityPageContentActions.AddVideoSection:
-      return {
-        ...state,
-        videos: {
-          ...state.videos,
-          ...{
-            [action.payload.id]: {
-              ...action.payload,
-              uploading: false,
-              title: undefined,
-              content: undefined,
-              fileSrc: undefined,
-            },
-          },
-        },
-      }
-    case CreateEntityPageContentActions.RemoveVideoSection:
-      return {
-        ...state,
-        videos: reduxUtils.omitKey(state.videos, action.payload.id),
-      }
-    case CreateEntityPageContentActions.UpdateVideoContent:
-      return {
-        ...state,
-        videos: {
-          ...state.videos,
-          ...{
-            [action.payload.id]: {
-              ...state.videos[action.payload.id],
-              ...action.payload,
-              uploading: false,
-            },
-          },
-        },
-      }
-    case CreateEntityPageContentActions.UploadVideoContentVideoPending:
-      return {
-        ...state,
-        videos: {
-          ...state.videos,
-          ...{
-            [action.meta.id]: {
-              ...state.videos[action.meta.id],
-              uploading: true,
-            },
-          },
-        },
-      }
-    case CreateEntityPageContentActions.UploadVideoContentVideoSuccess:
-      return {
-        ...state,
-        videos: {
-          ...state.videos,
-          ...{
-            [action.payload.id]: {
-              ...state.videos[action.payload.id],
-              fileSrc: action.payload.fileSrc,
-              uploading: false,
-            },
-          },
-        },
-      }
-    case CreateEntityPageContentActions.UploadVideoContentVideoFailure:
-      return {
-        ...state,
-        videos: {
-          ...state.videos,
-          ...{
-            [action.payload.id]: {
-              ...state.videos[action.payload.id],
-              uploading: false,
-            },
-          },
-        },
-      }
     case CreateEntityPageContentActions.AddProfileSection:
       return {
         ...state,
@@ -407,6 +332,16 @@ export const reducer = (
         embedded: {
           ...state.embedded,
           ...{ [action.payload.id]: action.payload },
+        },
+      }
+    case CreateEntityPageContentActions.SetValidated:
+      return {
+        ...state,
+        validation: {
+          ...state.validation,
+          ...{
+            [action.payload.identifier]: action.payload,
+          },
         },
       }
   }

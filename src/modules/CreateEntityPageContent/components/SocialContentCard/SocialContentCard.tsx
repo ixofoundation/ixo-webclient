@@ -99,8 +99,8 @@ const SocialContentCard: React.FunctionComponent<Props> = ({
 
   return (
     <MultiControlForm
-      handleSubmit={(): void => null}
-      handleFormDataChange={handleUpdateContent}
+      onSubmit={(): void => null}
+      onFormDataChange={handleUpdateContent}
       formData={formData}
       schema={schema}
       uiSchema={uiSchema}

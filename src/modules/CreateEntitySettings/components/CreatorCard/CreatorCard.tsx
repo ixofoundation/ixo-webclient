@@ -111,8 +111,8 @@ const OwnerCard: React.FunctionComponent<Props> = ({
       </div>
       <div className="col-lg-6">
         <MultiControlForm
-          handleSubmit={(): void => null}
-          handleFormDataChange={handleUpdate}
+          onSubmit={(): void => null}
+          onFormDataChange={handleUpdate}
           formData={formData}
           schema={schema}
           uiSchema={uiSchema}

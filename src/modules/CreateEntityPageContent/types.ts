@@ -5,6 +5,12 @@ interface FileContent {
   uploading: boolean
 }
 
+interface Validation {
+  identifier: string
+  validated: boolean
+  errors: string[]
+}
+
 export interface HeaderPageContent extends FileContent {
   title: string
   shortDescription: string
@@ -66,15 +72,15 @@ export interface CreateEntityPageContentState {
   images: {
     [id: string]: ImagePageContent
   }
-  videos: {
-    [id: string]: VideoPageContent
-  }
   profiles: {
     [id: string]: ProfilePageContent
   }
   social: SocialPageContent
   embedded: {
     [id: string]: EmbeddedPageContent
+  }
+  validation: {
+    [identifier: string]: Validation
   }
 }
 
@@ -123,6 +129,8 @@ export enum CreateEntityPageContentActions {
   AddEmbeddedSection = 'ixo/CreateEntityPageContent/ADD_EMBEDDED_SECTION',
   RemoveEmbeddedSection = 'ixo/CreateEntityPageContent/REMOVE_EMBEDDED_SECTION',
   UpdateEmbeddedContent = 'ixo/CreateEntityPageContent/UPDATE_EMBEDDED',
+  // Validation
+  SetValidated = 'ixo/CreateEntityPageContent/SET_VALIDATED',
 }
 
 export interface UpdateHeaderContentAction {
@@ -411,6 +419,15 @@ export interface UpdateEmbeddedContentAction {
   }
 }
 
+export interface SetValidatedAction {
+  type: typeof CreateEntityPageContentActions.SetValidated
+  payload: {
+    identifier: string
+    validated: boolean
+    errors: string[]
+  }
+}
+
 export type CreateEntityPageContentActionTypes =
   | UpdateHeaderContentAction
   | UploadHeaderImageAction
@@ -449,3 +466,4 @@ export type CreateEntityPageContentActionTypes =
   | AddEmbeddedSectionAction
   | RemoveEmbeddedSectionAction
   | UpdateEmbeddedContentAction
+  | SetValidatedAction

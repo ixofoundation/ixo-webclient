@@ -50,8 +50,8 @@ const RequiredCredential: React.FunctionComponent<Props> = ({
   return (
     <>
       <MultiControlForm
-        handleSubmit={(): void => null}
-        handleFormDataChange={(formData): void => handleUpdate(id, formData)}
+        onSubmit={(): void => null}
+        onFormDataChange={(formData): void => handleUpdate(id, formData)}
         formData={formData}
         schema={schema}
         uiSchema={uiSchema}

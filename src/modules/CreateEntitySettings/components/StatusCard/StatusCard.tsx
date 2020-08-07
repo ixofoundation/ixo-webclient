@@ -67,8 +67,8 @@ const StatusCard: React.FunctionComponent<Props> = ({
 
   return (
     <MultiControlForm
-      handleSubmit={(): void => null}
-      handleFormDataChange={handleUpdate}
+      onSubmit={(): void => null}
+      onFormDataChange={handleUpdate}
       formData={formData}
       schema={schema}
       uiSchema={uiSchema}

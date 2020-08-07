@@ -3,7 +3,7 @@ import {
   FormData,
   customControls,
 } from '../../../../common/components/JsonForm/types'
-import MultiControlForm from 'src/common/components/JsonForm/MultiControlForm/MultiControlForm'
+import MultiControlForm from '../../../../common/components/JsonForm/MultiControlForm/MultiControlForm'
 
 interface Props {
   title: string
@@ -89,21 +89,24 @@ const HeaderCard: React.FunctionComponent<Props> = ({
   const multiFormRef = useRef() as any
 
   return (
-    <>
-      <MultiControlForm
-        ref={multiFormRef}
-        handleSubmit={(): void => console.log('submitted')}
-        handleFormDataChange={handleUpdateContent}
-        handleError={handleError}
-        formData={formData}
-        schema={schema}
-        uiSchema={uiSchema}
+    <MultiControlForm
+      ref={multiFormRef}
+      onSubmit={(): void => console.log('submitted')}
+      onFormDataChange={handleUpdateContent}
+      onError={handleError}
+      formData={formData}
+      schema={schema}
+      uiSchema={uiSchema}
+    >
+      <div
+        onClick={(): void => {
+          console.log(multiFormRef)
+          multiFormRef.current.validateAndSubmit()
+        }}
       >
-        <div onClick={(): void => multiFormRef.current.validateAndSubmit()}>
-          Submit
-        </div>
-      </MultiControlForm>
-    </>
+        Submit
+      </div>
+    </MultiControlForm>
   )
 }
 

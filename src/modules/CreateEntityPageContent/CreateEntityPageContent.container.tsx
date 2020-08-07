@@ -66,6 +66,19 @@ interface Props {
 }
 
 class CreateEntityPageContent extends React.Component<Props> {
+  // const validated[]..
+  // const errors[]..
+  // const submitting..
+  /*
+  x.submit() => onsubmit - yes, onerror = no
+  x.submit()
+  x.submit()
+  x.submit()
+  x.submit()
+  x.submit()
+  x.submit()
+  */
+
   renderHeader = (): JSX.Element => {
     const {
       header: {

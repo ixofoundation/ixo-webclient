@@ -27,6 +27,7 @@ import {
   RemoveImageSectionAction,
   RemoveProfileSectionAction,
   RemoveEmbeddedSectionAction,
+  SetValidatedAction,
 } from './types'
 
 const initialState = SUT.initialState
@@ -732,278 +733,6 @@ describe('CreateEntityPageContent Reducer', () => {
     })
   })
 
-  /* describe('VideoContent Actions', () => {
-    describe('videoContent', () => {
-      it('should add a new video content section', () => {
-        const id = 'someVideoSectionId'
-        // given ... we have an action of type CreateEntityPageContentActions.AddVideoSection
-        const action: AddVideoSectionAction = {
-          type: CreateEntityPageContentActions.AddVideoSection,
-          payload: {
-            id,
-            title: undefined,
-            content: undefined,
-            videoDid: undefined,
-          },
-        }
-
-        // when ... we run the reducer with this action
-        const result = SUT.reducer(initialState, action)
-
-        // then ... the state should be set as expected
-        expect(result).toEqual({
-          ...initialState,
-          videos: {
-            [id]: {
-              id,
-              title: undefined,
-              content: undefined,
-              videoDid: undefined,
-              uploading: false,
-            },
-          },
-        })
-      })
-
-      it('should remove video content section', () => {
-        const id = 'existingVideoSectionId'
-        // given ... we have an action of type CreateEntityPageContentActions.RemoveVideoSection
-        const action: RemoveVideoSectionAction = {
-          type: CreateEntityPageContentActions.RemoveVideoSection,
-          payload: {
-            id,
-          },
-        }
-        // when ... we run the reducer with this action
-        const result = SUT.reducer(
-          {
-            ...initialState,
-            videos: {
-              [id]: {
-                id,
-                title: 'title1',
-                content: 'content1',
-                videoDid: 'videoDid1',
-                uploading: false,
-              },
-              ['anotherid']: {
-                id: 'anotherid',
-                title: 'title2',
-                content: 'content2',
-                videoDid: 'videoDid2',
-                uploading: false,
-              },
-            },
-          },
-          action,
-        )
-
-        // then ... the state should be set as expected
-        expect(result).toEqual({
-          ...initialState,
-          videos: {
-            ['anotherid']: {
-              id: 'anotherid',
-              title: 'title2',
-              content: 'content2',
-              videoDid: 'videoDid2',
-              uploading: false,
-            },
-          },
-        })
-      })
-
-      it('should update the content', () => {
-        const id = 'someVideoContentId'
-        const title = 'someNewVideoTitle'
-        const content = 'someNewVideoContent'
-        const videoDid = 'someExistingVideoDid'
-
-        // given .. we have an action of type CreateEntityPageContentActions.UpdateVideoContent
-        const action: UpdateVideoContentAction = {
-          type: CreateEntityPageContentActions.UpdateVideoContent,
-          payload: {
-            id,
-            title,
-            content,
-          },
-        }
-
-        // when ... we run the reducer with this action
-        const result = SUT.reducer(
-          {
-            ...initialState,
-            videos: {
-              [id]: {
-                id,
-                title: 'someOldVideoTitle',
-                content: 'someOldContent',
-                videoDid,
-                uploading: false,
-              },
-            },
-          },
-          action,
-        )
-
-        // then ... the state should be set as expected
-        expect(result).toEqual({
-          ...initialState,
-          videos: {
-            [id]: {
-              id,
-              title,
-              content,
-              videoDid,
-              uploading: false,
-            },
-          },
-        })
-      })
-    })
-
-    describe('videoContentVideo', () => {
-      it('should update the specific video uploading flag to true when upload has started', () => {
-        const id = 'someVideoContentId'
-        const title = 'someVideoTitle'
-        const content = 'someVideoContent'
-        const videoDid = 'someNewVideoDid'
-
-        // given .. we have an action of type CreateEntityPageContentActions.UploadVideoContentVideoPending
-        const action: UploadVideoContentVideoPendingAction = {
-          type: CreateEntityPageContentActions.UploadVideoContentVideoPending,
-          meta: {
-            id,
-          },
-        }
-
-        // when ... we run the reducer with this action
-        const result = SUT.reducer(
-          {
-            ...initialState,
-            videos: {
-              [id]: {
-                id,
-                title,
-                content,
-                videoDid,
-                uploading: false,
-              },
-            },
-          },
-          action,
-        )
-
-        // then ... the state should be set as expected
-        expect(result).toEqual({
-          ...initialState,
-          videos: {
-            [id]: {
-              id,
-              title,
-              content,
-              videoDid,
-              uploading: true,
-            },
-          },
-        })
-      })
-
-      it('should update the specific video uploading flag to false and set the videoDid when upload has succeeded', () => {
-        const id = 'someBodyContentId'
-        const title = 'someBodyTitle'
-        const content = 'someBodyContent'
-        const videoDid = 'someNewVideoDid'
-
-        // given .. we have an action of type CreateEntityPageContentActions.UploadVideoContentVideoSuccessAction
-        const action: UploadVideoContentVideoSuccessAction = {
-          type: CreateEntityPageContentActions.UploadVideoContentVideoSuccess,
-          payload: {
-            id,
-            did: videoDid,
-          },
-        }
-
-        // when ... we run the reducer with this action
-        const result = SUT.reducer(
-          {
-            ...initialState,
-            videos: {
-              [id]: {
-                id,
-                title,
-                content,
-                videoDid: 'someOldVideoDid',
-                uploading: true,
-              },
-            },
-          },
-          action,
-        )
-
-        // then ... the state should be set as expected
-        expect(result).toEqual({
-          ...initialState,
-          videos: {
-            [id]: {
-              id,
-              title,
-              content,
-              videoDid,
-              uploading: false,
-            },
-          },
-        })
-      })
-
-      it('should update the specific video uploading flag to false and set the videoDid when upload has failed', () => {
-        const id = 'someVideoContentId'
-        const title = 'someVideoTitle'
-        const content = 'someVideoContent'
-        const videoDid = 'someVideoDid'
-
-        // given .. we have an action of type CreateEntityPageContentActions.UploadVideoContentVideoFailureAction
-        const action: UploadVideoContentVideoFailureAction = {
-          type: CreateEntityPageContentActions.UploadVideoContentVideoFailure,
-          payload: {
-            id,
-          },
-        }
-
-        // when ... we run the reducer with this action
-        const result = SUT.reducer(
-          {
-            ...initialState,
-            videos: {
-              [id]: {
-                id,
-                title,
-                content,
-                videoDid,
-                uploading: true,
-              },
-            },
-          },
-          action,
-        )
-
-        // then ... the state should be set as expected
-        expect(result).toEqual({
-          ...initialState,
-          videos: {
-            [id]: {
-              id,
-              title,
-              content,
-              videoDid,
-              uploading: false,
-            },
-          },
-        })
-      })
-    })
-  }) */
-
   describe('ProfileContent Actions', () => {
     describe('profileContent', () => {
       it('should add a new profile content section', () => {
@@ -1479,6 +1208,38 @@ describe('CreateEntityPageContent Reducer', () => {
             },
           },
         })
+      })
+    })
+  })
+
+  describe('validation', () => {
+    it('should set the validation for an identifier', () => {
+      const identifier = 'someBodySectionId'
+      const validated = false
+      const errors = ['error1', 'error2']
+      // given ... we have an action of type CreateEntityPageContentActions.SetValidated
+      const action: SetValidatedAction = {
+        type: CreateEntityPageContentActions.SetValidated,
+        payload: {
+          identifier,
+          validated,
+          errors,
+        },
+      }
+
+      // when ... we run the reducer with this action
+      const result = SUT.reducer(initialState, action)
+
+      // then ... the state should be set as expected
+      expect(result).toEqual({
+        ...initialState,
+        validation: {
+          [identifier]: {
+            identifier,
+            validated,
+            errors,
+          },
+        },
       })
     })
   })

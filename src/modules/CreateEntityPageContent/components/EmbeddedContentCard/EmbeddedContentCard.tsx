@@ -50,10 +50,8 @@ const EmbeddedContentCard: React.FunctionComponent<Props> = ({
   return (
     <>
       <MultiControlForm
-        handleSubmit={(): void => null}
-        handleFormDataChange={(formData): void =>
-          handleUpdateContent(id, formData)
-        }
+        onSubmit={(): void => null}
+        onFormDataChange={(formData): void => handleUpdateContent(id, formData)}
         formData={formData}
         schema={schema}
         uiSchema={uiSchema}

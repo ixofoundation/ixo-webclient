@@ -50,22 +50,6 @@ beforeEach(() => {
           uploading: false,
         },
       },
-      videos: {
-        'bb1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d': {
-          id: 'bb1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d',
-          title: 'someVideo1Title',
-          content: 'someVideo1Content',
-          fileSrc: 'someVideo1fileSrc',
-          uploading: false,
-        },
-        'bb9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed': {
-          id: 'bb9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed',
-          title: 'someVideo2Title',
-          content: 'someVideo2Content',
-          fileSrc: 'someVideo2fileSrc',
-          uploading: false,
-        },
-      },
       profiles: {
         'cb1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d': {
           id: 'cb1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d',
@@ -106,6 +90,18 @@ beforeEach(() => {
           id: 'db9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed',
           title: 'someEmbeddedTitle2',
           urls: ['url3', 'url4'],
+        },
+      },
+      validation: {
+        'db1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d': {
+          identifier: 'db1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d',
+          validated: true,
+          errors: [],
+        },
+        'db9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed': {
+          identifier: 'db9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed',
+          validated: false,
+          errors: ['error1', 'error2'],
         },
       },
     } as CreateEntityPageContentState,
@@ -260,6 +256,235 @@ describe('CreateEntityPageContent Selectors', () => {
           urls: ['url3', 'url4'],
         },
       ])
+    })
+  })
+
+  describe('selectValidation', () => {
+    it('should return the validation property', () => {
+      // when ... we call the selector
+      const result = SUT.selectValidation(state)
+
+      // then ... should return result as expected
+      expect(result).toEqual({
+        'db1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d': {
+          identifier: 'db1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d',
+          validated: true,
+          errors: [],
+        },
+        'db9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed': {
+          identifier: 'db9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed',
+          validated: false,
+          errors: ['error1', 'error2'],
+        },
+      })
+    })
+  })
+
+  describe('selectValidationComplete', () => {
+    it('should return false if not every section has completed validation', () => {
+      // when ... we call the selector
+      state = {
+        ...state,
+        createEntityPageContent: {
+          ...state.createEntityPageContent,
+          validation: {
+            '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d': {},
+            'db1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d': {},
+            'db9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed': {},
+          },
+        },
+      }
+
+      const result = SUT.selectValidationComplete(state)
+
+      // then ... should return result as expected
+      expect(result).toEqual(false)
+    })
+
+    it('should return true if every section has completed validation', () => {
+      // when ... we call the selector
+      state = {
+        ...state,
+        createEntityPageContent: {
+          ...state.createEntityPageContent,
+          validation: {
+            'social': {},
+            'header': {},
+            '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d': {},
+            '1b9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed': {},
+            'ab1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d': {},
+            'ab9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed': {},
+            'cb1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d': {},
+            'cb9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed': {},
+            'db1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d': {},
+            'db9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed': {},
+          },
+        },
+      }
+
+      const result = SUT.selectValidationComplete(state)
+
+      // then ... should return result as expected
+      expect(result).toEqual(true)
+    })
+  })
+
+  describe('selectValidated', () => {
+    it('should return false if any section has not completed validation', () => {
+      // when ... we call the selector
+      state = {
+        ...state,
+        createEntityPageContent: {
+          ...state.createEntityPageContent,
+          validation: {
+            'social': {},
+            'header': {},
+            '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d': {},
+            'ab1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d': {},
+            'ab9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed': {},
+            'cb1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d': {},
+            'cb9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed': {},
+          },
+        },
+      }
+
+      const result = SUT.selectValidated(state)
+
+      // then ... should return result as expected
+      expect(result).toEqual(false)
+    })
+    it('should return false if any section has not been validated successfully', () => {
+      // when ... we call the selector
+      state = {
+        ...state,
+        createEntityPageContent: {
+          ...state.createEntityPageContent,
+          validation: {
+            'social': {
+              identifier: 'social',
+              validated: true,
+              errors: [],
+            },
+            'header': {
+              identifier: 'header',
+              validated: false,
+              errors: ['error1', 'error2'],
+            },
+            '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d': {
+              identifier: '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d',
+              validated: false,
+              errors: ['error1', 'error2'],
+            },
+            '1b9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed': {
+              identifier: '1b9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed',
+              validated: true,
+              errors: [],
+            },
+            'ab1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d': {
+              identifier: 'ab1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d',
+              validated: true,
+              errors: [],
+            },
+            'ab9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed': {
+              identifier: 'ab9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed',
+              validated: true,
+              errors: [],
+            },
+            'cb1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d': {
+              identifier: 'cb1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d',
+              validated: true,
+              errors: [],
+            },
+            'cb9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed': {
+              identifier: 'cb9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed',
+              validated: true,
+              errors: [],
+            },
+            'db1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d': {
+              identifier: 'db1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d',
+              validated: true,
+              errors: [],
+            },
+            'db9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed': {
+              identifier: 'db9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed',
+              validated: true,
+              errors: [],
+            },
+          },
+        },
+      }
+
+      const result = SUT.selectValidated(state)
+
+      // then ... should return result as expected
+      expect(result).toEqual(false)
+    })
+
+    it('should return true if every section has been validated successfully', () => {
+      // when ... we call the selector
+      state = {
+        ...state,
+        createEntityPageContent: {
+          ...state.createEntityPageContent,
+          validation: {
+            'social': {
+              identifier: 'social',
+              validated: true,
+              errors: [],
+            },
+            'header': {
+              identifier: 'header',
+              validated: true,
+              errors: [],
+            },
+            '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d': {
+              identifier: '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d',
+              validated: true,
+              errors: [],
+            },
+            '1b9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed': {
+              identifier: '1b9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed',
+              validated: true,
+              errors: [],
+            },
+            'ab1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d': {
+              identifier: 'ab1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d',
+              validated: true,
+              errors: [],
+            },
+            'ab9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed': {
+              identifier: 'ab9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed',
+              validated: true,
+              errors: [],
+            },
+            'cb1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d': {
+              identifier: 'cb1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d',
+              validated: true,
+              errors: [],
+            },
+            'cb9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed': {
+              identifier: 'cb9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed',
+              validated: true,
+              errors: [],
+            },
+            'db1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d': {
+              identifier: 'db1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d',
+              validated: true,
+              errors: [],
+            },
+            'db9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed': {
+              identifier: 'db9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed',
+              validated: true,
+              errors: [],
+            },
+          },
+        },
+      }
+
+      const result = SUT.selectValidated(state)
+
+      // then ... should return result as expected
+      expect(result).toEqual(true)
     })
   })
 })
