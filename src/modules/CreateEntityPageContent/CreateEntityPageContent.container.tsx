@@ -6,7 +6,6 @@ import {
   HeaderPageContent,
   BodyPageContent,
   ImagePageContent,
-  VideoPageContent,
   ProfilePageContent,
   SocialPageContent,
   EmbeddedPageContent,
@@ -15,7 +14,6 @@ import HeaderCard from './components/HeaderCard/HeaderCard'
 // import BodyContentCard from './components/BodyContentCard/BodyContentCard'
 // import ImageContentCard from './components/ImageContentCard/ImageContentCard'
 // import ProfileContentCard from './components/ProfileContentCard/ProfileContentCard'
-//  import VideoContentCard from './components/VideoContentCard/VideoContentCard'
 import SocialContentCard from './components/SocialContentCard/SocialContentCard'
 import EmbeddedContentCard from './components/EmbeddedContentCard/EmbeddedContentCard'
 import {
@@ -33,16 +31,18 @@ import {
   updateEmbeddedContent,
   addEmbeddedSection,
   removeEmbeddedSection,
+  validated,
+  validationError,
 } from './CreateEntityPageContent.actions'
 import { FormData } from '../../common/components/JsonForm/types'
 import FormCardWrapper from '../../common/components/Wrappers/FormCardWrapper/FormCardWrapper'
 import { ButtonGroup } from '../../common/components/JsonForm/JsonForm.styles'
 
 interface Props {
+  validated: boolean
   header: HeaderPageContent
   body: BodyPageContent[]
   images: ImagePageContent[]
-  videos: VideoPageContent[]
   profiles: ProfilePageContent[]
   social: SocialPageContent
   embedded: EmbeddedPageContent[]
@@ -53,9 +53,6 @@ interface Props {
   handleAddImageSection: () => void
   handleRemoveImageSection: (id: string) => void
   handleUpdateImageContent: (id: string, formData: FormData) => void
-  handleAddVideoSection: () => void
-  handleRemoveVideoSection: (id: string) => void
-  handleUpdateVideoContent: (id: string, formData: FormData) => void
   handleAddProfileSection: () => void
   handleRemoveProfileSection: (id: string) => void
   handleUpdateProfileContent: (id: string, formData: FormData) => void
@@ -63,21 +60,17 @@ interface Props {
   handleAddEmbeddedSection: () => void
   handleRemoveEmbeddedSection: (id: string) => void
   handleUpdateEmbeddedContent: (id: string, formData: FormData) => void
+  handleValidated: (identifier: string) => void
+  handleValidationError: (identifier: string, errors: string[]) => void
 }
 
 class CreateEntityPageContent extends React.Component<Props> {
-  // const validated[]..
-  // const errors[]..
-  // const submitting..
-  /*
-  x.submit() => onsubmit - yes, onerror = no
-  x.submit()
-  x.submit()
-  x.submit()
-  x.submit()
-  x.submit()
-  x.submit()
-  */
+  headerCard
+  constructor(props) {
+    super(props)
+
+    this.headerCard = React.createRef()
+  }
 
   renderHeader = (): JSX.Element => {
     const {
@@ -101,8 +94,12 @@ class CreateEntityPageContent extends React.Component<Props> {
         showAddSection={false}
       >
         <HeaderCard
+          ref={this.headerCard}
           handleUpdateContent={handleUpdateHeaderContent}
-          handleError={(errors): void => console.log(errors)}
+          handleSubmitted={(): void => this.props.handleValidated('header')}
+          handleError={(errors): void =>
+            this.props.handleValidationError('header', errors)
+          }
           title={title}
           shortDescription={shortDescription}
           imageDescription={imageDescription}
@@ -350,6 +347,10 @@ class CreateEntityPageContent extends React.Component<Props> {
     )
   }
 
+  handleSubmit = () => {
+    this.headerCard.current.validateAndSubmit()
+  }
+
   render(): JSX.Element {
     return (
       <>
@@ -361,7 +362,11 @@ class CreateEntityPageContent extends React.Component<Props> {
         {this.renderSocialContent()}
         {this.renderEmbeddedSections()}
         <ButtonGroup className="buttons-group">
-          <button type="submit" className="submitForm">
+          <button
+            type="submit"
+            className="submitForm"
+            onClick={this.handleSubmit}
+          >
             Next
           </button>
         </ButtonGroup>
@@ -375,9 +380,9 @@ const mapStateToProps = (state: RootState): any => ({
   body: pageContentSelectors.selectBodyContentSections(state),
   images: pageContentSelectors.selectImageContentSections(state),
   profiles: pageContentSelectors.selectProfileContentSections(state),
-  videos: pageContentSelectors.selectVideoContentSections(state),
   social: pageContentSelectors.selectSocialContent(state),
   embedded: pageContentSelectors.selectEmbeddedContentSections(state),
+  validated: pageContentSelectors.selectValidated(state),
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
@@ -405,6 +410,10 @@ const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
   handleAddEmbeddedSection: (): void => dispatch(addEmbeddedSection()),
   handleRemoveEmbeddedSection: (id: string): void =>
     dispatch(removeEmbeddedSection(id)),
+  handleValidated: (identifier: string): void =>
+    dispatch(validated(identifier)),
+  handleValidationError: (identifier: string, errors: string[]): void =>
+    dispatch(validationError(identifier, errors)),
 })
 
 export const CreateEntityPageContentConnected = connect(

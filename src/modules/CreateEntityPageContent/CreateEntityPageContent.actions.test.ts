@@ -548,19 +548,31 @@ describe('CreateEntityPageContent Actions', () => {
     })
   })
   describe('validation', () => {
-    it('should set the correct validation', () => {
+    it('should set validated to true', () => {
       const identifier = 'someIdentifier'
-      const validated = false
-      const errors = ['error1', 'error1', 'error3']
-
-      // when ... we call the setValidated action creator
-      const action = SUT.setValidated(identifier, validated, errors)
+      // when ... we call the validated action creator
+      const action = SUT.validated(identifier)
 
       // then ... we should expect it to create an action with the correct type and payload
-      expect(action.type).toEqual(CreateEntityPageContentActions.SetValidated)
+      expect(action.type).toEqual(CreateEntityPageContentActions.Validated)
       expect(action.payload).toEqual({
         identifier,
-        validated,
+      })
+    })
+  })
+  describe('validationError', () => {
+    it('should set validated to false with any errors', () => {
+      const identifier = 'someIdentifier'
+      const errors = ['error1', 'error2']
+      // when ... we call the validated action creator
+      const action = SUT.validationError(identifier, errors)
+
+      // then ... we should expect it to create an action with the correct type and payload
+      expect(action.type).toEqual(
+        CreateEntityPageContentActions.ValidationError,
+      )
+      expect(action.payload).toEqual({
+        identifier,
         errors,
       })
     })

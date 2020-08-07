@@ -334,13 +334,31 @@ export const reducer = (
           ...{ [action.payload.id]: action.payload },
         },
       }
-    case CreateEntityPageContentActions.SetValidated:
+    case CreateEntityPageContentActions.Validated:
       return {
         ...state,
         validation: {
           ...state.validation,
           ...{
-            [action.payload.identifier]: action.payload,
+            [action.payload.identifier]: {
+              identifier: action.payload.identifier,
+              validated: true,
+              errors: [],
+            },
+          },
+        },
+      }
+    case CreateEntityPageContentActions.ValidationError:
+      return {
+        ...state,
+        validation: {
+          ...state.validation,
+          ...{
+            [action.payload.identifier]: {
+              identifier: action.payload.identifier,
+              validated: false,
+              errors: action.payload.errors,
+            },
           },
         },
       }

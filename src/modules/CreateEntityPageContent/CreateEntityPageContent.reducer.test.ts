@@ -27,7 +27,8 @@ import {
   RemoveImageSectionAction,
   RemoveProfileSectionAction,
   RemoveEmbeddedSectionAction,
-  SetValidatedAction,
+  ValidatedAction,
+  ValidationErrorAction,
 } from './types'
 
 const initialState = SUT.initialState
@@ -1213,22 +1214,31 @@ describe('CreateEntityPageContent Reducer', () => {
   })
 
   describe('validation', () => {
-    it('should set the validation for an identifier', () => {
+    it('should set validated to true and clear any errors', () => {
       const identifier = 'someBodySectionId'
-      const validated = false
       const errors = ['error1', 'error2']
       // given ... we have an action of type CreateEntityPageContentActions.SetValidated
-      const action: SetValidatedAction = {
-        type: CreateEntityPageContentActions.SetValidated,
+      const action: ValidatedAction = {
+        type: CreateEntityPageContentActions.Validated,
         payload: {
           identifier,
-          validated,
-          errors,
         },
       }
 
       // when ... we run the reducer with this action
-      const result = SUT.reducer(initialState, action)
+      const result = SUT.reducer(
+        {
+          ...initialState,
+          validation: {
+            [identifier]: {
+              identifier,
+              validated: false,
+              errors,
+            },
+          },
+        },
+        action,
+      )
 
       // then ... the state should be set as expected
       expect(result).toEqual({
@@ -1236,11 +1246,51 @@ describe('CreateEntityPageContent Reducer', () => {
         validation: {
           [identifier]: {
             identifier,
-            validated,
-            errors,
+            validated: true,
+            errors: [],
           },
         },
       })
+    })
+  })
+
+  it('should set validated to false and add any errors', () => {
+    const identifier = 'someBodySectionId'
+    const errors = ['error1', 'error2']
+    // given ... we have an action of type CreateEntityPageContentActions.SetValidated
+    const action: ValidationErrorAction = {
+      type: CreateEntityPageContentActions.ValidationError,
+      payload: {
+        errors,
+        identifier,
+      },
+    }
+
+    // when ... we run the reducer with this action
+    const result = SUT.reducer(
+      {
+        ...initialState,
+        validation: {
+          [identifier]: {
+            identifier,
+            validated: true,
+            errors: [],
+          },
+        },
+      },
+      action,
+    )
+
+    // then ... the state should be set as expected
+    expect(result).toEqual({
+      ...initialState,
+      validation: {
+        [identifier]: {
+          identifier,
+          validated: false,
+          errors,
+        },
+      },
     })
   })
 })

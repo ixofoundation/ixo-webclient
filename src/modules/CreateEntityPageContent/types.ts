@@ -130,7 +130,8 @@ export enum CreateEntityPageContentActions {
   RemoveEmbeddedSection = 'ixo/CreateEntityPageContent/REMOVE_EMBEDDED_SECTION',
   UpdateEmbeddedContent = 'ixo/CreateEntityPageContent/UPDATE_EMBEDDED',
   // Validation
-  SetValidated = 'ixo/CreateEntityPageContent/SET_VALIDATED',
+  Validated = 'ixo/CreateEntityPageContent/SET_VALIDATED',
+  ValidationError = 'ixo/CreateEntityPageContent/VALIDATION_ERROR',
 }
 
 export interface UpdateHeaderContentAction {
@@ -419,11 +420,17 @@ export interface UpdateEmbeddedContentAction {
   }
 }
 
-export interface SetValidatedAction {
-  type: typeof CreateEntityPageContentActions.SetValidated
+export interface ValidatedAction {
+  type: typeof CreateEntityPageContentActions.Validated
   payload: {
     identifier: string
-    validated: boolean
+  }
+}
+
+export interface ValidationErrorAction {
+  type: typeof CreateEntityPageContentActions.ValidationError
+  payload: {
+    identifier: string
     errors: string[]
   }
 }
@@ -466,4 +473,5 @@ export type CreateEntityPageContentActionTypes =
   | AddEmbeddedSectionAction
   | RemoveEmbeddedSectionAction
   | UpdateEmbeddedContentAction
-  | SetValidatedAction
+  | ValidatedAction
+  | ValidationErrorAction

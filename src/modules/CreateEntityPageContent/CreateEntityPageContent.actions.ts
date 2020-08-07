@@ -21,7 +21,8 @@ import {
   UploadBodyContentImageAction,
   UpdateProfileContentAction,
   UploadProfileContentImageAction,
-  SetValidatedAction,
+  ValidatedAction,
+  ValidationErrorAction,
 } from './types'
 import { FormData } from 'src/common/components/JsonForm/types'
 
@@ -256,15 +257,20 @@ export const updateEmbeddedContent = (
   }
 }
 
-export const setValidated = (
-  identifier: string,
-  validated: boolean,
-  errors: string[],
-): SetValidatedAction => ({
-  type: CreateEntityPageContentActions.SetValidated,
+export const validated = (identifier: string): ValidatedAction => ({
+  type: CreateEntityPageContentActions.Validated,
   payload: {
     identifier,
-    validated,
+  },
+})
+
+export const validationError = (
+  identifier: string,
+  errors: string[],
+): ValidationErrorAction => ({
+  type: CreateEntityPageContentActions.ValidationError,
+  payload: {
+    identifier,
     errors,
   },
 })

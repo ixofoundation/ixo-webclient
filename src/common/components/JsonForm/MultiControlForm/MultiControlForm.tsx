@@ -1,4 +1,4 @@
-import React, { useState, useImperativeHandle, useEffect } from 'react'
+import React, { useState, useImperativeHandle } from 'react'
 import Form from '@rjsf/core'
 import { FormData } from '../types'
 import { FormContainer } from '../JsonForm.styles'
@@ -24,9 +24,9 @@ const MultiControlForm: React.FunctionComponent<Props> = React.forwardRef(
       multiColumn,
       schema,
       uiSchema,
-      onFormDataChange: handleFormDataChange,
-      onSubmit: handleSubmit,
-      onError: handleError,
+      onFormDataChange,
+      onSubmit,
+      onError,
     },
     ref,
   ) => {
@@ -34,15 +34,9 @@ const MultiControlForm: React.FunctionComponent<Props> = React.forwardRef(
     const [touched, setTouched] = useState({})
     const [validationComplete, setValidatedComplete] = useState(false)
 
-    useEffect(() => {
-      if (validationComplete) {
-        jsonFormRef.current.submit()
-        setValidatedComplete(false)
-      }
-    }, [validationComplete])
-
     useImperativeHandle(ref, () => ({
       validateAndSubmit: (): void => {
+        jsonFormRef.current.submit()
         setValidatedComplete(true)
       },
     }))
@@ -50,8 +44,8 @@ const MultiControlForm: React.FunctionComponent<Props> = React.forwardRef(
     const handleTouched = (id): void =>
       setTouched({ ...touched, [id.replace('root_', '.')]: true })
 
-    const onError = (errors: any[]): void => {
-      handleError(errors.map(error => error.property.replace('.', '')))
+    const handleError = (errors: any[]): void => {
+      onError(errors.map(error => error.property.replace('.', '')))
     }
 
     return (
@@ -59,8 +53,8 @@ const MultiControlForm: React.FunctionComponent<Props> = React.forwardRef(
         <Form
           ref={jsonFormRef}
           formData={formData}
-          onChange={(e): void => handleFormDataChange(e.formData)}
-          onSubmit={handleSubmit}
+          onChange={(e): void => onFormDataChange(e.formData)}
+          onSubmit={onSubmit}
           noHtml5Validate
           liveValidate
           showErrorList={false}
@@ -73,7 +67,7 @@ const MultiControlForm: React.FunctionComponent<Props> = React.forwardRef(
           }
           onBlur={handleTouched}
           onFocus={handleTouched}
-          onError={onError}
+          onError={handleError}
           ObjectFieldTemplate={
             multiColumn ? ObjectFieldTemplate2Column : undefined
           }
