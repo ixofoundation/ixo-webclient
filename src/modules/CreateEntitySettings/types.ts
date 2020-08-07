@@ -96,6 +96,9 @@ export enum CreateEntitySettingsActions {
   AddDisplayCredentialSection = 'ixo/CreateEntitySettings/ADD_DISPLAY_CREDENTIAL_SECTION',
   RemoveDisplayCredentialSection = 'ixo/CreateEntitySettings/REMOVE_DISPLAY_CREDENTIAL_SECTION',
   UpdateDisplayCredential = 'ixo/CreateEntitySettings/UPDATE_DISPLAY_CREDENTIALS',
+  // Validation
+  Validated = 'ixo/CreateEntitySettings/SET_VALIDATED',
+  ValidationError = 'ixo/CreateEntitySettings/VALIDATION_ERROR',
 }
 
 export interface UpdateCreatorAction {
@@ -236,6 +239,21 @@ export interface UpdateDisplayCredentialAction {
     id: string
     credential: string
     badge: string
+  }
+}
+
+export interface ValidatedAction {
+  type: typeof CreateEntitySettingsActions.Validated
+  payload: {
+    identifier: string
+  }
+}
+
+export interface ValidationErrorAction {
+  type: typeof CreateEntitySettingsActions.ValidationError
+  payload: {
+    identifier: string
+    errors: string[]
   }
 }
 

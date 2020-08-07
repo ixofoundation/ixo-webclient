@@ -57,6 +57,7 @@ const CreatorCard: React.FunctionComponent<Props> = React.forwardRef(
       ],
       properties: {
         fileSrc: { type: 'string', title: 'Logo or Profile Pic' },
+        empty: { type: 'null' },
         name: { type: 'string', title: 'Display Name' },
         country: { type: 'string', title: 'Country of Origin' },
         email: { type: 'string', title: 'Public Email', format: 'email' },
@@ -94,7 +95,7 @@ const CreatorCard: React.FunctionComponent<Props> = React.forwardRef(
         ['ui:placeholder']: 'Enter /Paste URL',
       },
       mission: {
-        ['ui:widget']: 'textarea',
+        ['ui:widget']: 'text',
         ['ui:placeholder']: 'Short Description',
       },
       identifier: {

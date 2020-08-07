@@ -16,6 +16,8 @@ import {
   UpdateRequiredCredentialAction,
   UpdateDisplayCredentialAction,
   UpdateFiltersAction,
+  ValidatedAction,
+  ValidationErrorAction,
 } from './types'
 import { FormData } from 'common/components/JsonForm/types'
 
@@ -203,3 +205,21 @@ export const updateDisplayCredential = (
     },
   }
 }
+
+export const validated = (identifier: string): ValidatedAction => ({
+  type: CreateEntitySettingsActions.Validated,
+  payload: {
+    identifier,
+  },
+})
+
+export const validationError = (
+  identifier: string,
+  errors: string[],
+): ValidationErrorAction => ({
+  type: CreateEntitySettingsActions.ValidationError,
+  payload: {
+    identifier,
+    errors,
+  },
+})
