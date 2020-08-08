@@ -1,8 +1,8 @@
-import * as React from "react";
-import Dropzone from "react-dropzone";
-import { iconUpload } from "../../../lib/commonData";
+import * as React from 'react'
+import Dropzone from 'react-dropzone'
+import { iconUpload } from '../../../lib/commonData'
 
-import styled from "styled-components";
+import styled from 'styled-components'
 
 /*
 Creates a dropzone to drop or select files.
@@ -19,22 +19,7 @@ Example:
 const IconImage = styled.img`
   padding: 3px;
   margin-top: 10px;
-`;
-
-const styles = {
-  dropzone: {
-    width: "100%",
-    height: "150px",
-    backgroundColor: "lightgrey",
-    borderWidth: "2px",
-    textAlign: "center",
-    alignVertical: "middle",
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    borderRadius: "5px",
-  },
-};
+`
 
 const StyledDropZone = styled(Dropzone)`
   width: 100%;
@@ -47,45 +32,45 @@ const StyledDropZone = styled(Dropzone)`
   flex-direction: column;
   justify-content: center;
   border-radius: 5px;
-`;
+`
 
 export interface StateProps {
-  selectedCallback: Function;
-  acceptType: string;
-  placeholder?: string;
+  selectedCallback: Function
+  acceptType: string
+  placeholder?: string
 }
 
 export interface State {
-  filename: string | null;
+  filename: string | null
 }
 
 export class FileLoader extends React.Component<StateProps, State> {
   state = {
     filename: null,
-  };
+  }
 
   onDropAccepted = (files: any): void => {
-    const file = files[0];
+    const file = files[0]
     if (!file) {
-      return;
+      return
     }
 
-    this.setState({ filename: file.name });
-    const reader = new FileReader();
+    this.setState({ filename: file.name })
+    const reader = new FileReader()
 
     reader.onload = (e2): void => {
-      this.props.selectedCallback(e2?.target?.result);
-    };
+      this.props.selectedCallback(e2?.target?.result)
+    }
 
-    reader.readAsDataURL(file);
-  };
+    reader.readAsDataURL(file)
+  }
 
   showFilename = (): string => {
     if (this.state.filename !== null) {
-      return ': "' + this.state.filename + '"';
+      return ': "' + this.state.filename + '"'
     }
-    return "";
-  };
+    return ''
+  }
 
   render(): JSX.Element {
     return (
@@ -99,13 +84,13 @@ export class FileLoader extends React.Component<StateProps, State> {
             <React.Fragment>
               <IconImage src={iconUpload()} />
               <p>
-                {this.props.placeholder || "Choose file"}
+                {this.props.placeholder || 'Choose file'}
                 {this.showFilename()}
               </p>
             </React.Fragment>
           )}
         </StyledDropZone>
       </div>
-    );
+    )
   }
 }
