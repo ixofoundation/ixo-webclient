@@ -1,79 +1,79 @@
-import React from 'react'
+import React from "react";
 import {
   sendVerificationNotification,
   verifyOTP,
   Channel,
-} from '../../../api/verification-api/verification-api'
-import OtpInput from '../OTPInput/OTPInput'
-import * as validationUtils from '../../../utils/validationUtils'
+} from "../../../api/verification-api/verification-api";
+import OtpInput from "../OTPInput/OTPInput";
+import * as validationUtils from "../../../utils/validationUtils";
 
 // This is a WIP
 // This can be completed when required
 // Phone validation can work very similar to below
 
 enum Status {
-  SendingNotification = 'SendingNotification',
-  NotificationSent = 'NotificationSent',
-  VerifyingOTP = 'VerifyingOTP',
-  OTPSuccess = 'OTPSuccess',
-  OTPFailure = 'OTPFailure',
+  SendingNotification = "SendingNotification",
+  NotificationSent = "NotificationSent",
+  VerifyingOTP = "VerifyingOTP",
+  OTPSuccess = "OTPSuccess",
+  OTPFailure = "OTPFailure",
 }
 
 interface Props {
-  to: string
-  handleCompleted: (email: string, otp: string) => void
-  handleReset: () => void
+  to: string;
+  handleCompleted: (email: string, otp: string) => void;
+  handleReset: () => void;
 }
 
 interface State {
-  status: Status
-  to: string
-  otp: string
+  status: Status;
+  to: string;
+  otp: string;
 }
 
 class EmailVerification extends React.Component<Props, State> {
-  constructor(props) {
-    super(props)
+  constructor(props: any) {
+    super(props);
 
     this.state = {
       to: this.props.to,
       otp: null,
       status: !this.props.to ? null : Status.OTPSuccess,
-    }
+    };
   }
 
   handleReset = (): void => {
-    const { handleReset } = this.props
-    this.setState({ otp: null, status: null })
+    const { handleReset } = this.props;
+    this.setState({ otp: null, status: null });
 
-    handleReset()
-  }
+    handleReset();
+  };
 
   handleEmailSubmit = (): void => {
-    const { to } = this.state
-    this.setState({ status: Status.SendingNotification })
+    const { to } = this.state;
+    this.setState({ status: Status.SendingNotification });
 
     sendVerificationNotification(to, Channel.Email).then(() => {
-      this.setState({ status: Status.NotificationSent })
-    })
-  }
+      this.setState({ status: Status.NotificationSent });
+    });
+  };
 
   handleOTPSubmit = (): void => {
-    const { to, otp } = this.state
-    this.setState({ status: Status.VerifyingOTP })
+    const { to, otp } = this.state;
+    this.setState({ status: Status.VerifyingOTP });
 
-    verifyOTP(to, otp, Channel.Email).then(isValid => {
+    verifyOTP(to, otp, Channel.Email).then((isValid) => {
       if (isValid) {
-        this.setState({ status: Status.OTPSuccess })
-        this.props.handleCompleted(to, otp)
+        this.setState({ status: Status.OTPSuccess });
+        this.props.handleCompleted(to, otp);
       } else {
-        this.setState({ status: Status.OTPFailure })
+        this.setState({ status: Status.OTPFailure });
       }
-    })
-  }
+    });
+  };
 
   render(): JSX.Element {
-    const { to, status, otp } = this.state
+    const { to, status, otp } = this.state;
 
     return (
       <div className="form-group">
@@ -123,8 +123,8 @@ class EmailVerification extends React.Component<Props, State> {
           </>
         )}
       </div>
-    )
+    );
   }
 }
 
-export default EmailVerification
+export default EmailVerification;

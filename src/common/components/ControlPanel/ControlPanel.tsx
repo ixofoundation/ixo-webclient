@@ -1,28 +1,28 @@
-import * as React from 'react'
+import * as React from "react";
 import {
   ControlPanelScrollWrapper,
   ControlPanelWrapper,
   MobileControlPanelToggle,
-} from './ControlPanel.styles'
-import Down from '../../../assets/icons/Down'
-import Close from '../../../assets/icons/Close'
-import { Schema, ConnectionType, ActionType } from './types'
-import Dashboard from './Dashboard/Dashboard'
-import Actions from './Actions/Actions' //, { triggerAction }
-import Apps from './Apps/Apps'
-import Connections from './Connections/Connections'
+} from "./ControlPanel.styles";
+import Down from "../../../assets/icons/Down";
+import Close from "../../../assets/icons/Close";
+import { Schema, ConnectionType, ActionType } from "./types";
+import Dashboard from "./Dashboard/Dashboard";
+import Actions from "./Actions/Actions"; //, { triggerAction }
+import Apps from "./Apps/Apps";
+import Connections from "./Connections/Connections";
 
 interface Props {
-  entityDid: string
-  userDid: string
-  schema: Schema
+  entityDid: string;
+  userDid: string;
+  schema: Schema;
 }
 
 interface State {
-  showControlPanelMobile: boolean
-  showMoreApps: boolean
-  currentAction: ActionType
-  currentConnection: ConnectionType
+  showControlPanelMobile: boolean;
+  showMoreApps: boolean;
+  currentAction: ActionType | null;
+  currentConnection: ConnectionType | null;
 }
 
 class ControlPanel extends React.Component<Props, State> {
@@ -31,37 +31,37 @@ class ControlPanel extends React.Component<Props, State> {
     showMoreApps: false,
     currentAction: null,
     currentConnection: null,
-  }
+  };
 
   toggleShowControlPanel = (): void => {
     if (this.state.showControlPanelMobile) {
-      document.querySelector('body').classList.remove('noScroll')
+      document?.querySelector("body")?.classList?.remove("noScroll");
     } else {
-      document.querySelector('body').classList.add('noScroll')
+      document?.querySelector("body")?.classList.add("noScroll");
     }
     this.setState({
       showControlPanelMobile: !this.state.showControlPanelMobile,
-    })
-  }
+    });
+  };
 
   toggleShowApps = (): void => {
-    this.setState({ showMoreApps: !this.state.showMoreApps })
-  }
+    this.setState({ showMoreApps: !this.state.showMoreApps });
+  };
 
   handleConnectionClick = (connection: ConnectionType): void => {
     this.setState({
       currentConnection:
         this.state.currentConnection === connection ? null : connection,
       currentAction: null,
-    })
-  }
+    });
+  };
 
   render(): JSX.Element {
     const {
       schema: { dashboard, actions, apps, connections },
       entityDid,
       userDid,
-    } = this.props
+    } = this.props;
     return (
       <>
         <MobileControlPanelToggle onClick={this.toggleShowControlPanel}>
@@ -75,7 +75,7 @@ class ControlPanel extends React.Component<Props, State> {
         </MobileControlPanelToggle>
         <ControlPanelScrollWrapper id="ControlPanelWrapper">
           <ControlPanelWrapper
-            className={this.state.showControlPanelMobile ? 'open' : ''}
+            className={this.state.showControlPanelMobile ? "open" : ""}
           >
             <Dashboard widget={dashboard} entityDid={entityDid} />
             <Actions widget={actions} entityDid={entityDid} userDid={userDid} />
@@ -92,8 +92,8 @@ class ControlPanel extends React.Component<Props, State> {
           </ControlPanelWrapper>
         </ControlPanelScrollWrapper>
       </>
-    )
+    );
   }
 }
 
-export default ControlPanel
+export default ControlPanel;

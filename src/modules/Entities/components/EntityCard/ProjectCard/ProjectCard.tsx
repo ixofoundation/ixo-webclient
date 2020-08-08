@@ -1,6 +1,6 @@
-import * as React from 'react'
-import { ProgressBar } from 'common/components/ProgressBar'
-import { excerptText } from 'common/utils/formatters'
+import * as React from "react";
+import { ProgressBar } from "common/components/ProgressBar";
+import { excerptText } from "common/utils/formatters";
 import {
   MainContent,
   Title,
@@ -12,27 +12,27 @@ import {
   Statistic,
   StatisticLabel,
   StatisticValue,
-} from './ProjectCard.styles'
-import { EntityCardContainer } from '../EntityCardContainer'
-import { ShieldColor } from '../EntityCardContainer.styles'
-import Star from 'assets/icons/Star'
+} from "./ProjectCard.styles";
+import { EntityCardContainer } from "../EntityCardContainer";
+import { ShieldColor } from "../EntityCardContainer.styles";
+import Star from "assets/icons/Star";
 
 export interface Props {
-  projectData: any
-  projectDid: string
-  title: string
-  shortDescription: string
-  imageUrl: string
-  founderLogoUrl: string
-  sdgs: number[]
-  requiredClaims: number
-  successfulClaims: number
-  rejectedClaims: number
-  impactAction: string
-  version: number
-  activeUsage: number
-  ratingScore: number
-  ratingCount: number
+  projectData: any;
+  projectDid: string;
+  title: string;
+  shortDescription: string;
+  imageUrl: string;
+  founderLogoUrl: string;
+  sdgs: number[];
+  requiredClaims: number;
+  successfulClaims: number;
+  rejectedClaims: number;
+  impactAction: string;
+  version: number;
+  activeUsage: number;
+  ratingScore: number;
+  ratingCount: number;
 }
 
 export const ProjectCard: React.FunctionComponent<Props> = ({
@@ -60,7 +60,7 @@ export const ProjectCard: React.FunctionComponent<Props> = ({
       shortDescription={shortDescription}
       imageUrl={imageUrl}
       founderLogoUrl={founderLogoUrl}
-      status={status}
+      status=""
       sdgs={sdgs}
       shield="Project"
       shieldLabel="Template"
@@ -97,5 +97,5 @@ export const ProjectCard: React.FunctionComponent<Props> = ({
       </Progress>
       <Impact>{impactAction}</Impact>
     </EntityCardContainer>
-  )
-}
+  );
+};

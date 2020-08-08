@@ -1,6 +1,6 @@
-import React from 'react'
+import React from "react";
 
-const GitCoin = (width): JSX.Element => {
+const GitCoin = (width: number): JSX.Element => {
   return (
     <svg
       width={width || 18}
@@ -24,7 +24,7 @@ const GitCoin = (width): JSX.Element => {
         fill="#15003e"
       />
     </svg>
-  )
-}
+  );
+};
 
-export default GitCoin
+export default GitCoin;

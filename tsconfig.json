@@ -1,38 +1,20 @@
 {
   "compilerOptions": {
-    "resolveJsonModule": true,
-    "esModuleInterop": true,
-    "outDir": "build/dist",
-    "module": "esnext",
     "target": "es5",
-    "lib": ["es6", "dom"],
-    "sourceMap": true,
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
-    "jsx": "react",
-    "moduleResolution": "node",
-    "rootDir": "src",
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": false,
     "forceConsistentCasingInFileNames": true,
-    "noImplicitReturns": true,
-    "noImplicitThis": true,
-    "noImplicitAny": false,
-    "strict": true,
-    "strictNullChecks": false,
-    "suppressImplicitAnyIndexErrors": true,
-    "noUnusedLocals": false,
-    "baseUrl": ".",
-    "paths": {
-      "*": ["./src/*"]
-    }
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react",
+    "baseUrl": "src"
   },
-  "include": ["src/**/*"],
-  "exclude": [
-    "node_modules",
-    "src/ixoearth",
-    "build",
-    "scripts",
-    "acceptance-tests",
-    "webpack",
-    "jest",
-    "src/setupTests.ts"
-  ]
+  "include": ["src"]
 }

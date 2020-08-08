@@ -1,11 +1,11 @@
-import React from 'react'
-import FileLoader from '../../../DropZone/FileLoader/FileLoader'
-import { FileType } from '../../../DropZone/types'
+import React from "react";
+import FileLoader from "../../../DropZone/FileLoader/FileLoader";
+import { FileType } from "../../../DropZone/types";
 
 interface Props {
-  options: any
-  value: string
-  onChange: (value: string) => void
+  options: any;
+  value: string;
+  onChange: (value: string | undefined) => void;
 }
 
 const DocumentUpload: React.FunctionComponent<Props> = ({
@@ -21,7 +21,7 @@ const DocumentUpload: React.FunctionComponent<Props> = ({
       uploading={savingFormData}
       handleSave={(base64EncodedFile): void => onChange(base64EncodedFile)}
     />
-  )
-}
+  );
+};
 
-export default DocumentUpload
+export default DocumentUpload;

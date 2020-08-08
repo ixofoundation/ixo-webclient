@@ -1,21 +1,21 @@
-import * as React from 'react'
-import Dropzone from 'react-dropzone'
+import * as React from "react";
+import Dropzone from "react-dropzone";
 import {
   DropZoneStyles,
   LoaderWrapper,
   UploadingWrapper,
-} from '../Loader.styles'
-import UploadFlat from 'assets/icons/UploadFlat'
-import PulseLoader from '../../PulseLoader/PulseLoader'
-import { strategyMap } from '../strategy-map'
-import { FileType } from '../types'
+} from "../Loader.styles";
+import UploadFlat from "assets/icons/UploadFlat";
+import PulseLoader from "../../PulseLoader/PulseLoader";
+import { strategyMap } from "../strategy-map";
+import { FileType } from "../types";
 
 interface Props {
-  maxFileSize: number
-  fileType: FileType
-  uploading: boolean
-  uploadedFileSrc: string
-  handleSave: (base64EncodedFile: string) => void
+  maxFileSize: number;
+  fileType: FileType;
+  uploading: boolean;
+  uploadedFileSrc: string;
+  handleSave: (base64EncodedFile: string | undefined) => void;
 }
 
 const FileLoader: React.FunctionComponent<Props> = ({
@@ -25,19 +25,19 @@ const FileLoader: React.FunctionComponent<Props> = ({
   maxFileSize,
   handleSave,
 }) => {
-  const maxFileSizeInMB = maxFileSize / 1000000
+  const maxFileSizeInMB = maxFileSize / 1000000;
 
-  const onDropAccepted = (files): void => {
-    const file = files[0]
+  const onDropAccepted = (files: any): void => {
+    const file = files[0];
 
-    const reader = new FileReader()
+    const reader = new FileReader();
 
-    reader.readAsDataURL(file)
+    reader.readAsDataURL(file);
 
     reader.onload = (): void => {
-      handleSave(reader.result.toString())
-    }
-  }
+      handleSave(reader?.result?.toString());
+    };
+  };
 
   if (uploading) {
     return (
@@ -49,7 +49,7 @@ const FileLoader: React.FunctionComponent<Props> = ({
           <p>Uploading...</p>
         </UploadingWrapper>
       </LoaderWrapper>
-    )
+    );
   }
 
   if (uploadedFileSrc) {
@@ -59,7 +59,7 @@ const FileLoader: React.FunctionComponent<Props> = ({
           <PulseLoader repeat={false}>
             <a href={uploadedFileSrc} target="_blank" rel="noopener noreferrer">
               {React.createElement(strategyMap[fileType].downloadIcon, {
-                fill: '#39C3E6',
+                fill: "#39C3E6",
                 width: 32,
               })}
             </a>
@@ -68,14 +68,16 @@ const FileLoader: React.FunctionComponent<Props> = ({
         <Dropzone
           accept={strategyMap[fileType].mimeType}
           onDropAccepted={onDropAccepted}
-          style={DropZoneStyles}
+          // style={DropZoneStyles}
         >
-          <button type="button">
-            {strategyMap[fileType].replaceButtonText}{' '}
-          </button>
+          {() => (
+            <button type="button">
+              {strategyMap[fileType].replaceButtonText}{" "}
+            </button>
+          )}
         </Dropzone>
       </LoaderWrapper>
-    )
+    );
   }
 
   return (
@@ -84,19 +86,26 @@ const FileLoader: React.FunctionComponent<Props> = ({
         maxSize={maxFileSize}
         accept={strategyMap[fileType].mimeType}
         onDropAccepted={onDropAccepted}
-        style={DropZoneStyles}
+        // style={DropZoneStyles}
       >
-        <PulseLoader repeat={false}>
-          <UploadFlat width={32} fill="#39C3E6" />
-        </PulseLoader>
-        <p className="desktop-upload-item">Drag files to upload, or</p>
-        <button type="button">{strategyMap[fileType].uploadButtonText}</button>
-        <small>
-          {strategyMap[fileType].fileTypesText}, max size {maxFileSizeInMB}mb
-        </small>
+        {() => (
+          <React.Fragment>
+            <PulseLoader repeat={false}>
+              <UploadFlat width={32} fill="#39C3E6" />
+            </PulseLoader>
+            <p className="desktop-upload-item">Drag files to upload, or</p>
+            <button type="button">
+              {strategyMap[fileType].uploadButtonText}
+            </button>
+            <small>
+              {strategyMap[fileType].fileTypesText}, max size {maxFileSizeInMB}
+              mb
+            </small>
+          </React.Fragment>
+        )}
       </Dropzone>
     </LoaderWrapper>
-  )
-}
+  );
+};
 
-export default FileLoader
+export default FileLoader;

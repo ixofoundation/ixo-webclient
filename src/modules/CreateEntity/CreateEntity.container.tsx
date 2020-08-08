@@ -1,19 +1,19 @@
-import React, { Dispatch } from 'react'
-import { Route } from 'react-router-dom'
-import { connect } from 'react-redux'
-import { RootState } from 'common/redux/types'
-import { Hero } from './components/Hero/Hero'
-import { CreateEntityWrapper } from './CreateEntity.container.styles'
-import { Steps } from '../../common/components/Steps/Steps'
-import { CreateEntityPageContentConnected } from '../CreateEntityPageContent/CreateEntityPageContent.container'
-import { CreateEntitySettingsConnected } from '../CreateEntitySettings/CreateEntitySettings.container'
-import { CreateEntityAdvancedConnected } from '../CreateEntityAdvanced/CreateEntityAdvanced.container'
-import { entityTypeMap } from '../Entities/strategy-map'
-import { toTitleCase } from 'common/utils/formatters'
-import { EntityType } from '../Entities/types'
+import React, { Dispatch } from "react";
+import { Route } from "react-router-dom";
+import { connect } from "react-redux";
+import { RootState } from "common/redux/types";
+import { Hero } from "./components/Hero/Hero";
+import { CreateEntityWrapper } from "./CreateEntity.container.styles";
+import { Steps } from "../../common/components/Steps/Steps";
+import { CreateEntityPageContentConnected } from "../CreateEntityPageContent/CreateEntityPageContent.container";
+import { CreateEntitySettingsConnected } from "../CreateEntitySettings/CreateEntitySettings.container";
+import { CreateEntityAdvancedConnected } from "../CreateEntityAdvanced/CreateEntityAdvanced.container";
+import { entityTypeMap } from "../Entities/strategy-map";
+import { toTitleCase } from "common/utils/formatters";
+import { EntityType } from "../Entities/types";
 
 interface Props {
-  match: any
+  match: any;
 }
 
 class CreateEntity extends React.Component<Props> {
@@ -22,10 +22,10 @@ class CreateEntity extends React.Component<Props> {
       match: {
         params: { entityType: entityTypeAsString },
       },
-    } = this.props
+    } = this.props;
 
-    const entityType = toTitleCase(entityTypeAsString) as EntityType
-    const { title } = entityTypeMap[toTitleCase(entityType)]
+    const entityType = toTitleCase(entityTypeAsString) as EntityType;
+    const { title } = entityTypeMap[toTitleCase(entityType)];
 
     return (
       <>
@@ -48,7 +48,7 @@ class CreateEntity extends React.Component<Props> {
                 <Route
                   exact
                   path={`/${entityType}/new/settings`}
-                  render={(props): JSX.Element => (
+                  render={(props: any): JSX.Element => (
                     <CreateEntitySettingsConnected
                       {...(props as any)}
                       entityType={entityType}
@@ -65,15 +65,15 @@ class CreateEntity extends React.Component<Props> {
           </div>
         </CreateEntityWrapper>
       </>
-    )
+    );
   }
 }
 
-const mapStateToProps = (state: RootState): Record<string, any> => ({})
+const mapStateToProps = (state: RootState): Record<string, any> => ({});
 
-const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({})
+const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({});
 
 export const CreateEntityConnected = connect(
   mapStateToProps,
-  mapDispatchToProps,
-)(CreateEntity)
+  mapDispatchToProps
+)(CreateEntity);

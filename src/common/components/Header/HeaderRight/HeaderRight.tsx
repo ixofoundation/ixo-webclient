@@ -1,6 +1,6 @@
-import * as React from 'react'
-import { CopyToClipboard } from 'react-copy-to-clipboard'
-import { getIxoWorldRoute } from 'common/utils/formatters'
+import * as React from "react";
+import CopyToClipboard from "react-copy-to-clipboard";
+import { getIxoWorldRoute } from "common/utils/formatters";
 import {
   AccDID,
   Inner,
@@ -13,43 +13,43 @@ import {
   StatusText,
   UserBox,
   UserMenu,
-} from './HeaderRight.styles'
-import Down from '../../../../assets/icons/Down'
+} from "./HeaderRight.styles";
+import Down from "../../../../assets/icons/Down";
 
 interface HeaderRightProps {
-  userInfo: any
-  renderStatusIndicator: () => JSX.Element
-  simple?: boolean
-  shouldLedgerDid: boolean
-  toggleModal: (IsOpen: boolean) => void
-  keysafe: any
+  userInfo: any;
+  renderStatusIndicator: () => JSX.Element;
+  simple?: boolean;
+  shouldLedgerDid: boolean;
+  toggleModal: (IsOpen: boolean) => void;
+  keysafe: any;
 }
 
 interface State {
-  showMenu: boolean
+  showMenu: boolean;
 }
 export class HeaderRight extends React.Component<HeaderRightProps, State> {
   state = {
     showMenu: false,
-  }
+  };
 
   toggleMenu = (): void => {
-    this.setState(prevState => ({ showMenu: !prevState.showMenu }))
-  }
+    this.setState((prevState) => ({ showMenu: !prevState.showMenu }));
+  };
 
   openKeysafe = (): void => {
-    this.props.keysafe.popupKeysafe()
-  }
+    this.props.keysafe.popupKeysafe();
+  };
 
   handleLogInButton = (): JSX.Element => {
     if (!this.props.keysafe) {
       return (
-        <LoginLink href={getIxoWorldRoute('/getixowallet/deliver/#Steps')}>
+        <LoginLink href={getIxoWorldRoute("/getixowallet/deliver/#Steps")}>
           <h3>
             <span>Log in</span>
           </h3>
         </LoginLink>
-      )
+      );
     }
     if (!this.props.userInfo || !this.props.userInfo.loggedInKeysafe) {
       return (
@@ -58,14 +58,14 @@ export class HeaderRight extends React.Component<HeaderRightProps, State> {
             <span>Log in</span>
           </h3>
         </LoginLink>
-      )
+      );
     }
-    return null
-  }
+    return <></>;
+  };
 
   render(): JSX.Element {
     if (this.props.simple === true) {
-      return <NoPadLeft className="col-md-2 col-lg-4" />
+      return <NoPadLeft className="col-md-2 col-lg-4" />;
     } else {
       return (
         <NoPadLeft className="col-md-2 col-lg-4">
@@ -86,14 +86,14 @@ export class HeaderRight extends React.Component<HeaderRightProps, State> {
                   <StatusText>IXO EXPLORER STATUS</StatusText>
                 </StatusBox>
                 <h3>
-                  {this.props.shouldLedgerDid === true && <RedIcon />}{' '}
+                  {this.props.shouldLedgerDid === true && <RedIcon />}{" "}
                   <span>{this.props.userInfo.name}</span> <Down width="14" />
                 </h3>
               </UserBox>
             )}
           </Inner>
           <UserMenu
-            className={this.state.showMenu ? 'visible' : ''}
+            className={this.state.showMenu ? "visible" : ""}
             onMouseLeave={(): void => this.toggleMenu()}
           >
             <MenuTop>
@@ -116,7 +116,7 @@ export class HeaderRight extends React.Component<HeaderRightProps, State> {
               <MenuBottom>
                 <RedIcon />
                 <p>
-                  Ledger your credentials on the ixo blockchain{' '}
+                  Ledger your credentials on the ixo blockchain{" "}
                   <span onClick={(): void => this.props.toggleModal(true)}>
                     Sign now with the ixo Keysafe
                   </span>
@@ -125,7 +125,7 @@ export class HeaderRight extends React.Component<HeaderRightProps, State> {
             )}
           </UserMenu>
         </NoPadLeft>
-      )
+      );
     }
   }
 }

@@ -1,18 +1,18 @@
-import React, { Dispatch } from 'react'
-import useForm from 'react-hook-form'
-import { withRouter, RouteComponentProps } from 'react-router-dom'
-import { connect } from 'react-redux'
-import { RootState } from '../../../../common/redux/types'
-import { getQuote } from '../../BondBuy.actions'
-import { currencyStr, tokenBalance } from '../../../Account/Account.utils'
-import { Currency } from 'types/models'
-import * as bondBuySelectors from '../../BondBuy.selectors'
+import React, { Dispatch } from "react";
+import { useForm } from "react-hook-form";
+import { withRouter, RouteComponentProps } from "react-router-dom";
+import { connect } from "react-redux";
+import { RootState } from "../../../../common/redux/types";
+import { getQuote } from "../../BondBuy.actions";
+import { currencyStr, tokenBalance } from "../../../Account/Account.utils";
+import { Currency } from "types/models";
+import * as bondBuySelectors from "../../BondBuy.selectors";
 
 interface Props extends RouteComponentProps {
-  balances: Currency[]
-  quotePending: boolean
-  denomination: string
-  handleGetQuote: (receiving: Currency, maxPrice: Currency) => void
+  balances: Currency[];
+  quotePending: boolean;
+  denomination: string;
+  handleGetQuote: (receiving: Currency, maxPrice: Currency) => void;
 }
 
 const EnterBuyOrder: React.FunctionComponent<Props> = ({
@@ -21,29 +21,29 @@ const EnterBuyOrder: React.FunctionComponent<Props> = ({
   denomination,
   handleGetQuote,
 }) => {
-  const { register, handleSubmit, watch, errors } = useForm()
+  const { register, handleSubmit, watch, errors } = useForm();
 
   const onSubmit = (formData: any): void => {
     const receiving = {
       amount: parseInt(formData.amount, 10),
       denom: denomination,
-    }
+    };
     const maxPrice = {
       denom: formData.denom,
       amount: parseInt(formData.maxAmount, 10),
-    }
+    };
 
-    handleGetQuote(receiving, maxPrice)
-  }
+    handleGetQuote(receiving, maxPrice);
+  };
 
   if (quotePending) {
-    return <div>Loading quote...</div>
+    return <div>Loading quote...</div>;
   } else {
-    watch()
-    const payDenom = watch('denom') || 'res'
-    const payOptions: string[] = balances.map(balance => balance.denom)
-    const curBal = currencyStr(tokenBalance(balances, denomination))
-    const payBal = currencyStr(tokenBalance(balances, payDenom))
+    watch();
+    const payDenom = watch("denom") || "res";
+    const payOptions: string[] = balances.map((balance) => balance.denom);
+    const curBal = currencyStr(tokenBalance(balances, denomination));
+    const payBal = currencyStr(tokenBalance(balances, payDenom));
 
     return (
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -58,32 +58,32 @@ const EnterBuyOrder: React.FunctionComponent<Props> = ({
         />
         <div
           style={{
-            display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'flex-end',
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "flex-end",
           }}
         >
-          <span style={{ marginTop: '-0.5em', padding: '0' }}>
+          <span style={{ marginTop: "-0.5em", padding: "0" }}>
             {errors.tokenAmount && (
               <span className="error">This field requires a number value</span>
             )}
           </span>
           <div className="label_subtitle">
-            My current balance is{' '}
+            My current balance is{" "}
             <span className="label_subtitle__bold">{curBal}</span>
           </div>
         </div>
 
         <div className="label">Payment token</div>
         <select name="denom" ref={register({ required: true })}>
-          {payOptions.map(option => (
+          {payOptions.map((option) => (
             <option key={option} value={option}>
               {option.toUpperCase()}
             </option>
           ))}
         </select>
         <div className="label_subtitle">
-          My current balance is{' '}
+          My current balance is{" "}
           <span className="label_subtitle__bold">{payBal}</span>
         </div>
 
@@ -102,12 +102,12 @@ const EnterBuyOrder: React.FunctionComponent<Props> = ({
 
         <div
           style={{
-            display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'space-between',
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-between",
           }}
         >
-          <span style={{ marginTop: '-0.5em', padding: '0' }}>
+          <span style={{ marginTop: "-0.5em", padding: "0" }}>
             {errors.maxPricePerToken && (
               <span className="error">This field requires a number value</span>
             )}
@@ -125,22 +125,22 @@ const EnterBuyOrder: React.FunctionComponent<Props> = ({
           />
         </div>
       </form>
-    )
+    );
   }
-}
+};
 
 const mapStateToProps = (state: RootState): any => ({
   denomination: state.activeBond.symbol, // TODO replace with selector once we have activeBondSelectors
   balances: state.account.balances,
   quotePending: bondBuySelectors.selectBondBuyQuotePending(state),
-})
+});
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
   handleGetQuote: (receiving: Currency, maxPrice: Currency): void =>
     dispatch(getQuote(receiving, maxPrice)),
-})
+});
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps,
-)(withRouter(EnterBuyOrder))
+  mapDispatchToProps
+)(withRouter(EnterBuyOrder));

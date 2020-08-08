@@ -1,21 +1,21 @@
-import * as React from 'react'
-import { Input, RadioButton } from './Radio.styles'
+import * as React from "react";
+import { Input, RadioButton } from "./Radio.styles";
 
 export interface ParentProps {
-  text?: string
-  id: string
-  options?: any
+  text?: string;
+  id: string;
+  options?: any;
 }
 
 export interface Callbacks {
-  onChange: (event: any) => void
+  onChange: (event: any) => void;
 }
 
 export interface Props extends ParentProps, Callbacks {}
 
-const Radio: React.FunctionComponent<Props> = props => {
+const Radio: React.FunctionComponent<Props> = (props) => {
   const generateButtons = (): JSX.Element => {
-    return props.options.map((option, index) => {
+    return props.options.map((option: any, index: number) => {
       return (
         <RadioButton className="form-group" key={index}>
           <input
@@ -27,9 +27,9 @@ const Radio: React.FunctionComponent<Props> = props => {
           />
           <label>{option.label}</label>
         </RadioButton>
-      )
-    })
-  }
+      );
+    });
+  };
 
   return (
     <Input className="input-group">
@@ -40,7 +40,7 @@ const Radio: React.FunctionComponent<Props> = props => {
         {generateButtons()}
       </div>
     </Input>
-  )
-}
+  );
+};
 
-export default Radio
+export default Radio;

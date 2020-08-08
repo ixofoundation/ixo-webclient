@@ -1,6 +1,6 @@
-import React from 'react'
+import React from "react";
 
-const Dashboard = (props): JSX.Element => {
+const Dashboard = (props: any): JSX.Element => {
   return (
     <svg
       width={props.width || 18}
@@ -52,7 +52,7 @@ const Dashboard = (props): JSX.Element => {
         fill="#00345c"
       />
     </svg>
-  )
-}
+  );
+};
 
-export default Dashboard
+export default Dashboard;

@@ -1,6 +1,6 @@
-import React from 'react'
+import React from "react";
 
-const Connections = (props): JSX.Element => {
+const Connections = (props: any): JSX.Element => {
   return (
     <svg
       width={props.width || 18}
@@ -32,7 +32,7 @@ const Connections = (props): JSX.Element => {
         fill="#91cbd7"
       />
     </svg>
-  )
-}
+  );
+};
 
-export default Connections
+export default Connections;
