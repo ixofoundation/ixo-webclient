@@ -67,7 +67,7 @@ const Actions: React.FunctionComponent<Props> = ({
               return null
             }
 
-            const intent = control?.parameters.find(
+            const intent = control.parameters.find(
               (param) => param?.name === 'intent',
             )?.value
 
