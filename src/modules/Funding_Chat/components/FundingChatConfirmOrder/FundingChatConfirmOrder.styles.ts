@@ -14,7 +14,7 @@ export const ContinueOrderButton = styled.button``
 
 export const FuelEntityConfirmOrderWrapper = styled.div`
   font-family: ${(props: any): string => props.theme.fontRoboto};
-  background: white;
+  background: #f0f3f9;
   padding: 25px 0;
   position: relative;
   @media (min-width: ${deviceWidth.desktop}px) {

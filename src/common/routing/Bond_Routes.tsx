@@ -13,6 +13,7 @@ export const BondRoutes: React.SFC<Pick<RouteComponentProps, 'match'>> = ({
       <Route exact path={`${match.path}/overview`} component={Overview} />
       <Route exact path={`${match.path}/exchange`} component={Exchange} />
       <Route exact path={`${match.path}/orders`} component={Orders} />
+      <Route path={`${match.path}/assistant`} component={Overview} />
       <Route path={`${match.path}`} component={Overview} />
     </Switch>
   )

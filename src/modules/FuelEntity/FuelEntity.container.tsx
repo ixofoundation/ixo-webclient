@@ -1,7 +1,7 @@
-import React, { Dispatch } from "react";
-import { RouteProps } from "react-router";
-import { NavLink } from "react-router-dom";
-import { connect } from "react-redux";
+import React, { Dispatch } from 'react'
+import { RouteProps } from 'react-router'
+import { NavLink } from 'react-router-dom'
+import { connect } from 'react-redux'
 import {
   ActionWrapper,
   AssistantWrapper,
@@ -9,58 +9,58 @@ import {
   SummaryWrapper,
   AssistantContentWrapper,
   AssistantProgress,
-} from "common/components/ControlPanel/Actions/Actions.styles";
+} from 'common/components/ControlPanel/Actions/Actions.styles'
 import Assistant, {
   startAssistant,
-} from "common/components/Assistant/Assistant";
-import FuelEntityConfirmOrder from "./components/FuelEntityConfirmOrder/FuelEntityConfirmOrder";
-import { RootState } from "common/redux/types";
-import * as fuelEntitySelectors from "./FuelEntity.selectors";
-import { getOrder, confirmOrder, cancelOrder } from "./FuelEntity.actions";
-import BackIcon from "assets/icons/Back";
-import ChatbotIcon from "assets/icons/Chatbot";
-import PaymentSuccessIcon from "assets/icons/PaymentSuccess";
-import SendIcon from "assets/icons/Send";
+} from 'common/components/Assistant/Assistant'
+import FuelEntityConfirmOrder from './components/FuelEntityConfirmOrder/FuelEntityConfirmOrder'
+import { RootState } from 'common/redux/types'
+import * as fuelEntitySelectors from './FuelEntity.selectors'
+import { getOrder, confirmOrder, cancelOrder } from './FuelEntity.actions'
+import BackIcon from 'assets/icons/Back'
+import ChatbotIcon from 'assets/icons/Chatbot'
+import PaymentSuccessIcon from 'assets/icons/PaymentSuccess'
+import SendIcon from 'assets/icons/Send'
 
 interface Props {
-  match: any;
-  subscription: string;
-  symbol: string;
-  amount: string;
-  fiatAmount: string;
-  fiatConversionRate: string;
-  transactionFee: string;
-  fiatTransactionFee: string;
-  gasFee: string;
-  total: string;
-  fiatTotal: string;
-  hasOrder: boolean;
-  sending: boolean;
-  sent: boolean;
-  error: string;
-  handleGetOrder: (assistantResponse: any) => void;
-  handleConfirmOrder: (entityDid: string) => void;
-  handleCancelOrder: () => void;
+  match: any
+  subscription: string
+  symbol: string
+  amount: string
+  fiatAmount: string
+  fiatConversionRate: string
+  transactionFee: string
+  fiatTransactionFee: string
+  gasFee: string
+  total: string
+  fiatTotal: string
+  hasOrder: boolean
+  sending: boolean
+  sent: boolean
+  error: string
+  handleGetOrder: (assistantResponse: any) => void
+  handleConfirmOrder: (entityDid: string) => void
+  handleCancelOrder: () => void
 }
 
 class FuelEntity extends React.Component<Props & RouteProps> {
   constructor(props: any) {
-    super(props);
+    super(props)
   }
 
   componentDidMount(): void {
-    document.getElementById("fuel-entity-action-wrapper").scrollTo(0, 0);
+    document.getElementById('fuel-entity-action-wrapper').scrollTo(0, 0)
 
-    startAssistant("fuel_my_entity");
-    if (!document.querySelector("body").classList.contains("noScroll")) {
-      document.querySelector("body").classList.add("noScroll");
+    startAssistant('fuel_my_entity')
+    if (!document.querySelector('body').classList.contains('noScroll')) {
+      document.querySelector('body').classList.add('noScroll')
     }
-    document.querySelector("#ControlPanelWrapper").classList.add("fixed");
+    document.querySelector('#ControlPanelWrapper').classList.add('fixed')
   }
 
   componentWillUnmount(): void {
-    document.querySelector("body").classList.remove("noScroll");
-    document.querySelector("#ControlPanelWrapper").classList.remove("fixed");
+    document.querySelector('body').classList.remove('noScroll')
+    document.querySelector('#ControlPanelWrapper').classList.remove('fixed')
   }
 
   onAssistantMessageReceive = (utter: any): void => {
@@ -68,9 +68,9 @@ class FuelEntity extends React.Component<Props & RouteProps> {
     // if (utter.text === "Sorry, I didn't get that. Could you rephrase?") {
 
     // TODO - actual response to pass to handleGetOrder
-    this.props.handleGetOrder(null);
+    this.props.handleGetOrder(null)
     // }
-  };
+  }
 
   render(): JSX.Element {
     const {
@@ -93,14 +93,14 @@ class FuelEntity extends React.Component<Props & RouteProps> {
       error,
       handleConfirmOrder,
       handleCancelOrder,
-    } = this.props;
+    } = this.props
 
-    const hasError = !!error;
+    const hasError = !!error
 
     return (
       <ActionWrapper
         id="fuel-entity-action-wrapper"
-        className={`open ${hasOrder || sent || hasError ? "summary" : ""}`}
+        className={`open ${hasOrder || sent || hasError ? 'summary' : ''}`}
       >
         {!sending && !sent && !hasOrder && (
           <AssistantWrapper>
@@ -175,7 +175,7 @@ class FuelEntity extends React.Component<Props & RouteProps> {
           </AssistantContentWrapper>
         )}
       </ActionWrapper>
-    );
+    )
   }
 }
 
@@ -194,7 +194,7 @@ const mapStateToProps = (state: RootState): any => ({
   sending: fuelEntitySelectors.selectSending(state),
   error: fuelEntitySelectors.selectError(state),
   sent: fuelEntitySelectors.selectSent(state),
-});
+})
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
   handleGetOrder: (assistantResponse: any): void =>
@@ -202,6 +202,6 @@ const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
   handleConfirmOrder: (entityDid: string): void =>
     dispatch(confirmOrder(entityDid)), // TODO remove entityDid once projects refactored
   handleCancelOrder: (): void => dispatch(cancelOrder()),
-});
+})
 
-export default connect(mapStateToProps, mapDispatchToProps)(FuelEntity);
+export default connect(mapStateToProps, mapDispatchToProps)(FuelEntity)

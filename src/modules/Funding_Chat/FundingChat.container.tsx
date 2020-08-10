@@ -49,24 +49,13 @@ class FundingChat extends React.Component<Props & RouteProps> {
   }
 
   componentDidMount(): void {
-    // document.getElementById('funding-project-action-wrapper').scrollTo(0, 0)
-
-    startAssistant('funding_project')
-    // if (!document.querySelector('body').classList.contains('noScroll')) {
-    //   document.querySelector('body').classList.add('noScroll')
-    // }
-    // document.querySelector('#ControlPanelWrapper').classList.add('fixed')
-  }
-
-  componentWillUnmount(): void {
-    document.querySelector('body').classList.remove('noScroll')
-    document.querySelector('#ControlPanelWrapper').classList.remove('fixed')
+    startAssistant('fuel_my_entity')
   }
 
   onAssistantMessageReceive = (utter: any): void => {
     // TODO - actual event to trigger end
     // if (utter.text === "Sorry, I didn't get that. Could you rephrase?") {
-
+    console.log('onAssistantMessageReceive')
     // TODO - actual response to pass to handleGetOrder
     this.props.handleGetOrder(null)
     // }

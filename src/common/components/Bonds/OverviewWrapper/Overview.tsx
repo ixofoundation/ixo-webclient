@@ -14,13 +14,18 @@ const StyledContainer = styled.div`
 `
 
 export const Overview: FunctionComponent<any> = ({ match }) => {
-  const [assistantPanelActive, setAssistantPanelActive] = useState(false)
+  const assistant =
+    match.path.split('/')[match.path.split('/').length - 1] === 'assistant'
+      ? true
+      : false
+  const [assistantPanelActive, setAssistantPanelActive] = useState(assistant)
   const [resizeMain, setResizeMain] = useSpring(() => ({
-    width: '100%',
+    width: assistant ? '80%' : '100%',
   }))
   const [resizeAssistantPanel, setResizeAssistantPanel] = useSpring(() => ({
-    width: '0%',
-    display: 'none',
+    width: assistant ? '20%' : '0%',
+    display: assistant ? 'block' : 'none',
+    maxHeight: '800px',
   }))
   const assistantPanelToggle = () => {
     setResizeMain({
@@ -29,7 +34,6 @@ export const Overview: FunctionComponent<any> = ({ match }) => {
     setResizeAssistantPanel({
       width: assistantPanelActive ? '0%' : '20%',
       display: assistantPanelActive ? 'none' : 'block',
-      max-height: '800px',
     })
     setAssistantPanelActive(!assistantPanelActive)
   }
