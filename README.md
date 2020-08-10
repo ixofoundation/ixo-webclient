@@ -36,6 +36,7 @@
 
 <h2>Architecture & flow</h2>
 
+
 <h3>Styling </h3>
 IXO-Web is styled using styled components. all styling information is kept within a component. The main file - App.tsx contains theme information, where you can add variables for use through the Web App.
 
