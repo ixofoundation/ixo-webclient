@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { useSelector } from 'react-redux'
 import moment from 'moment'
 import { SDGArray } from '../../lib/commonData'
 import { getCountryName, toTitleCase } from '../../common/utils/formatters'
@@ -21,6 +22,7 @@ import { EntityType } from 'modules/Entities/types'
 import { entityTypeMap } from 'modules/Entities/strategy-map'
 import { useWindowSize } from 'common/hooks'
 import { deviceWidth } from 'lib/commonData'
+import { selectPathnameProps } from 'modules/Router/router.selector'
 
 export interface Props {
   project: any
@@ -30,6 +32,7 @@ export interface Props {
   isClaim?: boolean
   hasCapability: (role: [AgentRoles]) => boolean
   onlyTitle?: boolean
+  assistantPanelToggle?: () => void
 }
 
 export const ProjectHero: React.SFC<Props> = ({
@@ -38,9 +41,11 @@ export const ProjectHero: React.SFC<Props> = ({
   isDetail,
   isLoggedIn,
   onlyTitle,
+  assistantPanelToggle,
 }) => {
   const windowSize = useWindowSize()
-
+  const pathName = useSelector(selectPathnameProps)
+  const transformedPath = pathName.split('/')
   const entityType = project.entityType
     ? (toTitleCase(project.entityType) as EntityType)
     : EntityType.Project
@@ -119,7 +124,6 @@ export const ProjectHero: React.SFC<Props> = ({
       </>
     )
   }
-
   return (
     <React.Fragment>
       {onlyTitle && windowSize.width > deviceWidth.tablet && (
@@ -161,6 +165,7 @@ export const ProjectHero: React.SFC<Props> = ({
         <HeaderTabs
           buttons={buttonsArray}
           matchType={MatchType.strict}
+          assistantPanelToggle={() => assistantPanelToggle()}
           activeTabColor={entityTypeMap[entityType].themeColor}
         />
       </HeroContainer>

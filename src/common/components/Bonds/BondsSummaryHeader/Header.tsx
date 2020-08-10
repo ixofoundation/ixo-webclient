@@ -31,15 +31,11 @@ class Header extends Component<any, HeaderState> {
     this.state = {
       selected: 0,
     }
-    this.intervalID = setInterval(() => {
+    setInterval(() => {
       this.refreshAccount()
-    }, INTERVAL_LENGTH)
+    }, INTERVAL_LENGTH) // deepscan-disable-line
 
     this.refreshAccount()
-  }
-
-  componentWillUnmount() {
-    clearInterval(this.intervalID)
   }
 
   refreshAccount = (): void => {
