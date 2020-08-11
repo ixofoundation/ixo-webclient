@@ -1,6 +1,6 @@
 import * as React from "react";
 import Header from "../BondsSummaryHeader/Header";
-import "./BondsWrapper.css";
+import "./BondsWrapper.scss";
 import BondsSidebar from "../BondsSidebar/BondsSidebar";
 import { Spinner } from "../../Spinner";
 import { ProjectHero } from "../../../../components/project/ProjectHero";
