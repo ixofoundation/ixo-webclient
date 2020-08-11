@@ -33,7 +33,7 @@ class Header extends Component<any, HeaderState> {
     }
     setInterval(() => {
       this.refreshAccount()
-    }, INTERVAL_LENGTH)
+    }, INTERVAL_LENGTH) // deepscan-disable-line
 
     this.refreshAccount()
   }
