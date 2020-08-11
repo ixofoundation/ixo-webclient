@@ -1,5 +1,5 @@
 # base image
-FROM node:14
+FROM node:9.6.1
 
 # set working directory
 RUN mkdir /usr/src/app
@@ -12,6 +12,7 @@ ENV PATH /usr/src/app/node_modules/.bin:$PATH
 COPY package.json /usr/src/app/package.json
 COPY . /usr/src/app/
 RUN npm install --silent
+RUN npm install react-scripts-ts -g --silent
 
 # start app
 CMD ["npm", "start"]

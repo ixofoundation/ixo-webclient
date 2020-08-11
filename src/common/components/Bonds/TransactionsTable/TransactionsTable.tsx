@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import 'react-virtualized/styles.css'
-import './TransactionsTable.css'
+import './TransactionsTable.scss'
 
 // You can import any component you want as a named export from 'react-virtualized', eg
 import { Column, Table } from 'react-virtualized'
@@ -312,11 +312,11 @@ class TransactionsTable extends Component<any> {
                         Confirmed
                       </>
                     ) : (
-                      <>
-                        <img src={x} width={15} className="icon" />
+                        <>
+                          <img src={x} width={15} className="icon" />
                         Cancelled
                       </>
-                    )
+                      )
                   }
                 />
 
