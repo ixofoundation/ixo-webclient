@@ -97,7 +97,6 @@ workflows:
   build_test:
     jobs:
       - test:
-          <<: *node_build
           filters:
             branches:
               ignore:
@@ -113,6 +112,7 @@ workflows:
                 - dev
       - docker/publish:
           after_checkout:
+            - run: node --version
             - run: *uat_in_app_environment
             - restore_cache: *step_cache_restore_yarn
             - run: *step_run_install_yarn_dependencies
