@@ -13,6 +13,7 @@ import { reducer as entitiesReducer } from '../../modules/Entities/Entities.redu
 import { reducer as fuelEntityReducer } from '../../modules/FuelEntity/FuelEntity.reducer'
 import { reducer as submitEntityClaimReducer } from '../../modules/SubmitEntityClaim/SubmitEntityClaim.reducer'
 import { reducer as selectedEntityReducer } from '../../modules/SelectedEntity/SelectedEntity.reducer'
+import { reducer as createEntityReducer } from '../../modules/CreateEntity/CreateEntity.reducer'
 import { reducer as createEntityPageContentReducer } from '../../modules/CreateEntityPageContent/CreateEntityPageContent.reducer'
 import { reducer as createEntitySettingsReducer } from '../../modules/CreateEntitySettings/CreateEntitySettings.reducer'
 import { reducer as createEntityAdvancedReducer } from '../../modules/CreateEntityAdvanced/CreateEntityAdvanced.reducer'
@@ -34,6 +35,7 @@ export const rootReducer: Reducer<RootState> = combineReducers<RootState>({
   fuelEntity: fuelEntityReducer,
   submitEntityClaim: submitEntityClaimReducer,
   selectedEntity: selectedEntityReducer,
+  createEntity: createEntityReducer,
   createEntityPageContent: createEntityPageContentReducer,
   createEntitySettings: createEntitySettingsReducer,
   createEntityAdvanced: createEntityAdvancedReducer,

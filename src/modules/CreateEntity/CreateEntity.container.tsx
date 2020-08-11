@@ -36,7 +36,7 @@ class CreateEntity extends React.Component<Props> {
               <div className="col-lg-12">
                 <Steps
                   currentStepTitle="Advanced"
-                  currentStepNo={4}
+                  currentStepNo={1}
                   totalSteps={3}
                   handleGoToStepClick={(): void => null}
                 />

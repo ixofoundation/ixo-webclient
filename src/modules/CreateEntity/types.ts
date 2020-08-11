@@ -9,12 +9,13 @@ export enum Step {
 }
 
 export interface CreateEntityState {
-  currentStep: Step
+  step: Step
   entityType: EntityType
 }
 
 export enum CreateEntityActions {
   GoToStep = 'ixo/CreateEntity/GO_TO_STEP',
+  SetEntityType = 'ixo/CreateEntity/SET_ENTITY_TYPE',
 }
 
 export interface FileContent {
@@ -28,6 +29,12 @@ export interface Validation {
   errors: string[]
 }
 
+export type StepNameStrategyMap = {
+  [TKey in Step]: {
+    name: string
+  }
+}
+
 export interface FormCardProps {
   ref: any
   handleUpdateContent: (formData: FormData) => void
@@ -35,3 +42,19 @@ export interface FormCardProps {
   handleSubmitted: () => void
   handleRemoveSection?: () => void
 }
+
+export interface GoToStepAction {
+  type: typeof CreateEntityActions.GoToStep
+  payload: {
+    step: Step
+  }
+}
+
+export interface SetEntityTypeAction {
+  type: typeof CreateEntityActions.SetEntityType
+  payload: {
+    entityType: EntityType
+  }
+}
+
+export type CreateEntityActionTypes = GoToStepAction | SetEntityTypeAction

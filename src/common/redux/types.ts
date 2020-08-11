@@ -12,6 +12,7 @@ import { SubmitEntityClaimState } from '../../modules/SubmitEntityClaim/types'
 import { CreateEntityPageContentState } from '../../modules/CreateEntityPageContent/types'
 import { CreateClaimTemplateState } from '../../modules/CreateClaimTemplate/types'
 import { Entity } from '../../modules/Entities/types'
+import { CreateEntityState } from '../../modules/CreateEntity/types'
 import { CreateEntitySettingsState } from 'modules/CreateEntitySettings/types'
 import { CreateEntityAdvancedState } from 'modules/CreateEntityAdvanced/types'
 
@@ -31,6 +32,7 @@ export interface RootState {
   submitEntityClaim: SubmitEntityClaimState
   createClaimTemplate: CreateClaimTemplateState
   selectedEntity: Entity
+  createEntity: CreateEntityState
   createEntityPageContent: CreateEntityPageContentState
   createEntitySettings: CreateEntitySettingsState
   createEntityAdvanced: CreateEntityAdvancedState
