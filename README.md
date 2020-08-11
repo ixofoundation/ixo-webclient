@@ -1,44 +1,64 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+<h1>IXO Web </h1>
+<p>This project serves as the Front-end Web platform for the IXO ecosystem.</p>
+<h2>Built Using </h2>
+<ul>
+	<li><a href="https://github.com/wmonk/create-react-app-typescript">Create React App - TypeScript</a></li>
+	<li><a href="https://www.styled-components.com/">Styled Components</a></li>
+	<li><a href="https://redux.js.org/">Redux</a></li>
+</ul>
 
-## Available Scripts
+<h2>Built to work with </h2>
+<p>Back-end for all API calls and DID management</p>
 
-In the project directory, you can run:
+<ul>
+	<li><a href="https://github.com/wmonk/create-react-app-typescript">IXO Module</a></li>
+	<li><a href="https://github.com/wmonk/create-react-app-typescript">IXO Key Extension</a></li>
+</ul>
 
-### `yarn start`
+<h2>Setup</h2>
+<code>
+	npm install
+</code>
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+<h2>Running</h2>
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+<h3>Development</h3>
+<code>
+	npm run dev
+</code>
 
-### `yarn test`
+<h3>Build & production</h3>
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+<code>npm run build</code>
+<br/>
+<code>npm start</code>
+ 
 
-### `yarn build`
+<h2>Architecture & flow</h2>
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+<h3>Styling </h3>
+IXO-Web is styled using styled components. all styling information is kept within a component. The main file - App.tsx contains theme information, where you can add variables for use through the Web App.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+<h3>Container Components </h3>
 
-### `yarn eject`
+<ul>
+ <li>
+	<strong>App</strong> <br/>
+	Displays state-based views for projects lists (eg. Overivew, Loading, Dashboard)
+</li>
+ <li>
+	<strong>ProjectContainer</strong><br/></li>
+	Contains logic for all single-project data and views (eg. Overview, Dashboard, List Providers)
+ <li>
+	 <strong>ProjectsContainer</strong><br/>
+	 Contains logic for listing projects and initiation of IXO-Module & IXO-Keysafe Objects.
+</li>
+ <li>
+	 <strong>HeaderContainer</strong><br/>
+	 Contains logic related to network status
+</li>
+    
+<h1>License</h1>
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+Apache 2.0 license
