@@ -67,8 +67,8 @@ setup_node: &setup_node
     set +e
     touch $BASH_ENV
     curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.5/install.sh | bash
-    echo 'nvm install v14.4.0' >> $BASH_ENV
-    echo 'nvm alias default v14.4.0' >> $BASH_ENV
+    echo 'nvm install v14.4.0'
+    echo 'nvm alias default v14.4.0'
 
 prod_in_app_environment: &prod_in_app_environment
   name: 'Prod in app env variables'
