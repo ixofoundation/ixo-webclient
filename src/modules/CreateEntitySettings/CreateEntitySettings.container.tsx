@@ -19,6 +19,8 @@ import {
   validated,
   validationError,
 } from './CreateEntitySettings.actions'
+import { goToStep } from '../CreateEntity/CreateEntity.actions'
+import * as createEntitySelectors from '../CreateEntity/CreateEntity.selectors'
 import * as entitySettingsSelectors from './CreateEntitySettings.selectors'
 import { FormData } from 'common/components/JsonForm/types'
 import {
@@ -39,6 +41,7 @@ import DisplayCredentialCard from './components/DisplayCredentialCard/DisplayCre
 import FilterCard from './components/FilterCard/FilterCard'
 import { EntityType } from '../Entities/types'
 import { entityTypeMap } from '../Entities/strategy-map'
+import { Step } from '../CreateEntity/types'
 
 interface Props extends CreateEntityBaseProps {
   entityType: EntityType
@@ -332,6 +335,14 @@ class CreateEntitySettings extends CreateEntityBase<Props> {
     )
   }
 
+  onSubmitted = (): void => {
+    this.props.handleGoToStep(Step.Advanced)
+  }
+
+  onBack = (): void => {
+    this.props.handleGoToStep(Step.PageContent)
+  }
+
   render(): JSX.Element {
     const { requiredCredentials, displayCredentials } = this.props
     const identifiers: string[] = []
@@ -358,13 +369,14 @@ class CreateEntitySettings extends CreateEntityBase<Props> {
         {this.renderRequiredCredentials()}
         {this.renderFilters()}
         {this.renderDisplayCredentials()}
-        {this.renderButtonGroup(identifiers)}
+        {this.renderButtonGroup(identifiers, true)}
       </>
     )
   }
 }
 
 const mapStateToProps = (state: RootState): any => ({
+  entityType: createEntitySelectors.selectEntityType(state),
   owner: entitySettingsSelectors.selectOwner(state),
   creator: entitySettingsSelectors.selectCreator(state),
   status: entitySettingsSelectors.selectStatus(state),
@@ -403,6 +415,7 @@ const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
     dispatch(validated(identifier)),
   handleValidationError: (identifier: string, errors: string[]): void =>
     dispatch(validationError(identifier, errors)),
+  handleGoToStep: (step: Step): void => dispatch(goToStep(step)),
 })
 
 export const CreateEntitySettingsConnected = connect(

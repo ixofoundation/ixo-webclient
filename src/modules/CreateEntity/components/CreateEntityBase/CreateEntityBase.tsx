@@ -2,12 +2,14 @@ import React from 'react'
 import { animateScroll as scroll } from 'react-scroll'
 import { ButtonGroup } from '../../../../common/components/JsonForm/JsonForm.styles'
 import * as Toast from '../../../../common/utils/Toast'
+import { Step } from 'modules/CreateEntity/types'
 
 export interface CreateEntityBaseProps {
   validationComplete: boolean
   validated: boolean
   handleValidated: (identifier: string) => void
   handleValidationError: (identifier: string, errors: string[]) => void
+  handleGoToStep: (step: Step) => void
 }
 
 interface State {
@@ -28,13 +30,19 @@ class CreateEntityBase<T extends CreateEntityBaseProps> extends React.Component<
     }
   }
 
+  onSubmitted = (): void => {
+    throw new Error('Not implemented')
+  }
+
+  onBack = (): void => {
+    throw new Error('Not implemented')
+  }
+
   componentDidUpdate(): void {
     const { submitting } = this.state
     const { validated, validationComplete } = this.props
 
     if (submitting && validationComplete && !validated) {
-      this.setState({ submitting: false })
-
       scroll.scrollToTop()
 
       Toast.errorToast(
@@ -42,12 +50,25 @@ class CreateEntityBase<T extends CreateEntityBaseProps> extends React.Component<
         null,
         true,
       )
+
+      this.setState({ submitting: false })
+    } else if (submitting && validationComplete && validated) {
+      this.onSubmitted()
+      this.setState({ submitting: false })
     }
   }
 
-  renderButtonGroup = (formIdentifiers: string[]): JSX.Element => {
+  renderButtonGroup = (
+    formIdentifiers: string[],
+    showBackButton: boolean,
+  ): JSX.Element => {
     return (
       <ButtonGroup className="buttons-group">
+        {showBackButton && (
+          <button className="submitForm" onClick={this.onBack}>
+            Previous
+          </button>
+        )}
         <button
           type="submit"
           className="submitForm"

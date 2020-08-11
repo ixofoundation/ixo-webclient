@@ -1,6 +1,6 @@
 import React, { Dispatch } from 'react'
-import { Route } from 'react-router-dom'
 import { connect } from 'react-redux'
+import { Route, Redirect } from 'react-router-dom'
 import { RootState } from '../../common/redux/types'
 import { Hero } from './components/Hero/Hero'
 import { CreateEntityWrapper } from './CreateEntity.container.styles'
@@ -11,54 +11,100 @@ import { CreateEntityAdvancedConnected } from '../CreateEntityAdvanced/CreateEnt
 import { entityTypeMap } from '../Entities/strategy-map'
 import { toTitleCase } from '../../common//utils/formatters'
 import { EntityType } from '../Entities/types'
+import * as createEntitySelectors from './CreateEntity.selectors'
+import { setEntityType } from './CreateEntity.actions'
+import { Step } from './types'
+import { stepNameMap } from './strategy-map'
 
 interface Props {
   match: any
+  entityType: EntityType
+  step: Step
+  handleSetEntityType: (entityType: EntityType) => void
 }
 
 class CreateEntity extends React.Component<Props> {
-  render(): JSX.Element {
+  componentDidMount(): void {
     const {
       match: {
         params: { entityType: entityTypeAsString },
       },
+      handleSetEntityType,
     } = this.props
 
-    const entityType = toTitleCase(entityTypeAsString) as EntityType
-    const { title } = entityTypeMap[toTitleCase(entityType)]
+    handleSetEntityType(toTitleCase(entityTypeAsString) as EntityType)
+  }
+
+  redirectToCurrentStep = (): JSX.Element => {
+    const { entityType, step } = this.props
+
+    switch (step) {
+      case Step.Settings:
+        return <Redirect to={`/${entityType.toLowerCase()}/new/settings`} />
+      case Step.Advanced:
+        return <Redirect to={`/${entityType.toLowerCase()}/new/advanced`} />
+    }
+
+    return <Redirect to={`/${entityType.toLowerCase()}/new/page-content`} />
+  }
+
+  render(): JSX.Element {
+    const { step, entityType } = this.props
+
+    if (!entityType) {
+      return <></>
+    }
 
     return (
       <>
-        <Hero title={`Create a ${title}`} />
+        <Hero
+          title={`Create a ${entityTypeMap[toTitleCase(entityType)].title}`}
+        />
         <CreateEntityWrapper className="container-fluid">
           <div className="container">
             <div className="row">
               <div className="col-lg-12">
                 <Steps
-                  currentStepTitle="Advanced"
-                  currentStepNo={1}
+                  currentStepTitle={stepNameMap[step].name}
+                  currentStepNo={step}
                   totalSteps={3}
                   handleGoToStepClick={(): void => null}
                 />
                 <Route
                   exact
-                  path={`/${entityType}/new/page-content`}
-                  component={CreateEntityPageContentConnected}
+                  path={[
+                    `/${entityType}/new/page-content`,
+                    `/${entityType}/new`,
+                  ]}
+                  render={(props: any): JSX.Element => {
+                    if (step === Step.PageContent) {
+                      return <CreateEntityPageContentConnected {...props} />
+                    } else {
+                      return this.redirectToCurrentStep()
+                    }
+                  }}
                 />
                 <Route
                   exact
                   path={`/${entityType}/new/settings`}
-                  render={(props): JSX.Element => (
-                    <CreateEntitySettingsConnected
-                      {...(props as any)}
-                      entityType={entityType}
-                    />
-                  )}
+                  render={(props: any): JSX.Element => {
+                    if (step === Step.Settings) {
+                      return <CreateEntitySettingsConnected {...props} />
+                    } else {
+                      return this.redirectToCurrentStep()
+                    }
+                  }}
                 />
                 <Route
                   exact
                   path={`/${entityType}/new/advanced`}
-                  component={CreateEntityAdvancedConnected}
+                  render={(props: any): JSX.Element => {
+                    if (step === Step.Advanced) {
+                      return <CreateEntityAdvancedConnected {...props} />
+                    } else {
+                      return this.redirectToCurrentStep()
+                    }
+                  }}
                 />
               </div>
             </div>
@@ -69,9 +115,15 @@ class CreateEntity extends React.Component<Props> {
   }
 }
 
-const mapStateToProps = (state: RootState): Record<string, any> => ({})
+const mapStateToProps = (state: RootState): Record<string, any> => ({
+  step: createEntitySelectors.selectStep(state),
+  entityType: createEntitySelectors.selectEntityType(state),
+})
 
-const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({})
+const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
+  handleSetEntityType: (entityType: EntityType): void =>
+    dispatch(setEntityType(entityType)),
+})
 
 export const CreateEntityConnected = connect(
   mapStateToProps,

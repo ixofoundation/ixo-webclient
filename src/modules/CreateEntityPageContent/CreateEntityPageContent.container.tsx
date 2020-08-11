@@ -37,8 +37,10 @@ import {
   validated,
   validationError,
 } from './CreateEntityPageContent.actions'
+import { goToStep } from '../CreateEntity/CreateEntity.actions'
 import { FormData } from '../../common/components/JsonForm/types'
 import FormCardWrapper from '../../common/components/Wrappers/FormCardWrapper/FormCardWrapper'
+import { Step } from '../CreateEntity/types'
 
 interface Props extends CreateEntityBaseProps {
   header: HeaderPageContent
@@ -346,6 +348,10 @@ class CreateEntityPageContent extends CreateEntityBase<Props> {
     )
   }
 
+  onSubmitted = (): void => {
+    this.props.handleGoToStep(Step.Settings)
+  }
+
   render(): JSX.Element {
     const { body, images, profiles, embedded } = this.props
 
@@ -374,7 +380,7 @@ class CreateEntityPageContent extends CreateEntityBase<Props> {
         {this.renderProfileSections()}
         {this.renderSocialContent()}
         {this.renderEmbeddedSections()}
-        {this.renderButtonGroup(identifiers)}
+        {this.renderButtonGroup(identifiers, false)}
       </>
     )
   }
@@ -420,6 +426,7 @@ const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
     dispatch(validated(identifier)),
   handleValidationError: (identifier: string, errors: string[]): void =>
     dispatch(validationError(identifier, errors)),
+  handleGoToStep: (step: Step): void => dispatch(goToStep(step)),
 })
 
 export const CreateEntityPageContentConnected = connect(
