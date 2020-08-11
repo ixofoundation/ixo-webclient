@@ -9,27 +9,28 @@ orbs:
 
 node_build: &node_build
   docker:
-    - image: circleci/node:latest
+    - image: circleci/node:9.6.1-browsers
 
 # --------------------------------
 # common : steps
 # --------------------------------
 
-step_cache_restore_yarn: &step_cache_restore_yarn
-  name: 'Restore Cache: YARN Dependencies'
+step_cache_restore_npm: &step_cache_restore_npm
+  name: 'Restore Cache: NPM Dependencies'
   keys:
-    - yarn-packages-{{ checksum "yarn.lock" }}
+    - node-v1-{{ .Branch }}-{{ checksum "package-lock.json" }}
     - node-v1-{{ .Branch }}-
     - node-v1-
 
-step_cache_save_yarn: &step_cache_save_yarn
-  name: 'Save Cache: YARN Dependencies'
+step_cache_save_npm: &step_cache_save_npm
+  name: 'Save Cache: NPM Dependencies'
   paths:
-    - ~/.cache/yarn # location depends on yarn version
-  key: yarn-packages-{{ checksum "yarn.lock" }}
+    - ~/usr/local/lib/node_modules # location depends on npm version
+  key: node-v1-{{ .Branch }}-{{ checksum "package-lock.json" }}
 
-step_run_install_yarn_dependencies: &step_run_install_yarn_dependencies
-  name: 'Install YARN Dependencies'
+step_run_install_npm_dependencies: &step_run_install_npm_dependencies
+  name: 'Install NPM Dependencies'
+  shell: /bin/bash
   command: |
     npm install
 
@@ -61,16 +62,6 @@ uat_in_app_environment: &uat_in_app_environment
     echo 'REACT_APP_PDS_URL=https://pds_pandora.ixo.world/' >> .env
     echo 'REACT_APP_EMBEDLY_KEY=fa2749f731a54587820cf4fcfaa53d30' >> .env
 
-setup_node: &setup_node
-  name: 'Setup node'
-  command: |
-    set +e
-    touch $BASH_ENV
-    curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.5/install.sh | bash
-    echo 'nvm install v14.4.0'
-    echo 'nvm alias default v14.4.0'
-    echo 'curl -o- -L https://yarnpkg.com/install.sh | bash'
-
 prod_in_app_environment: &prod_in_app_environment
   name: 'Prod in app env variables'
   command: |
@@ -93,9 +84,9 @@ jobs:
     <<: *node_build
     steps:
       - checkout
-      - restore_cache: *step_cache_restore_yarn
-      - run: *step_run_install_yarn_dependencies
-      - save_cache: *step_cache_save_yarn
+      - restore_cache: *step_cache_restore_npm
+      - run: *step_run_install_npm_dependencies
+      - save_cache: *step_cache_save_npm
       - run: *step_test
 
 # --------------------------------
@@ -112,7 +103,6 @@ workflows:
               ignore:
                 - dev
                 - master
-
   uat_publish_docker:
     jobs:
       - test:
@@ -122,11 +112,10 @@ workflows:
                 - dev
       - docker/publish:
           after_checkout:
-            - run: *setup_node
             - run: *uat_in_app_environment
-            - restore_cache: *step_cache_restore_yarn
-            - run: *step_run_install_yarn_dependencies
-            - save_cache: *step_cache_save_yarn
+            - restore_cache: *step_cache_restore_npm
+            - run: *step_run_install_npm_dependencies
+            - save_cache: *step_cache_save_npm
           image: trustlab/ixo-web
           tag: uat
           requires:
@@ -145,9 +134,9 @@ workflows:
       - docker/publish:
           after_checkout:
             - run: *prod_in_app_environment
-            - restore_cache: *step_cache_restore_yarn
-            - run: *step_run_install_yarn_dependencies
-            - save_cache: *step_cache_save_yarn
+            - restore_cache: *step_cache_restore_npm
+            - run: *step_run_install_npm_dependencies
+            - save_cache: *step_cache_save_npm
           image: trustlab/ixo-web
           tag: prod
           # requires:
