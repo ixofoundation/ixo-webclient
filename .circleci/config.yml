@@ -93,6 +93,7 @@ jobs:
 # --------------------------------
 
 workflows:
+  <<: *node_build
   version: 2
   build_test:
     jobs:
@@ -110,7 +111,6 @@ workflows:
               only:
                 - dev
       - docker/publish:
-          <<: *node_build
           after_checkout:
             - run: *uat_in_app_environment
             - restore_cache: *step_cache_restore_yarn
@@ -132,7 +132,6 @@ workflows:
       #      only:
       #       - dev
       - docker/publish:
-          <<: *node_build
           after_checkout:
             - run: *prod_in_app_environment
             - restore_cache: *step_cache_restore_yarn
