@@ -18,15 +18,15 @@ node_build: &node_build
 step_cache_restore_yarn: &step_cache_restore_yarn
   name: 'Restore Cache: YARN Dependencies'
   keys:
-    - node-v1-{{ .Branch }}-{{ checksum "yarn.lock" }}
+    - yarn-packages-{{ checksum "yarn.lock" }}
     - node-v1-{{ .Branch }}-
     - node-v1-
 
 step_cache_save_yarn: &step_cache_save_yarn
   name: 'Save Cache: YARN Dependencies'
   paths:
-    - ~/usr/local/lib/node_modules # location depends on yarn version
-  key: node-v1-{{ .Branch }}-{{ checksum "yarn.lock" }}
+    - ~/.cache/yarn # location depends on yarn version
+  key: yarn-packages-{{ checksum "yarn.lock" }}
 
 step_run_install_yarn_dependencies: &step_run_install_yarn_dependencies
   name: 'Install YARN Dependencies'
@@ -105,13 +105,12 @@ workflows:
   uat_publish_docker:
     jobs:
       - test:
-        <<: *node_build
           filters:
             branches:
               only:
                 - dev
       - docker/publish:
-        <<: *node_build
+          <<: *node_build
           after_checkout:
             - run: *uat_in_app_environment
             - restore_cache: *step_cache_restore_yarn
@@ -133,7 +132,7 @@ workflows:
       #      only:
       #       - dev
       - docker/publish:
-        <<: *node_build
+          <<: *node_build
           after_checkout:
             - run: *prod_in_app_environment
             - restore_cache: *step_cache_restore_yarn
