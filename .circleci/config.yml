@@ -44,7 +44,7 @@ step_test: &step_test
 yarn_install: &yarn_install
   name: 'YARN setup'
   command: |
-  curl -o- -L https://yarnpkg.com/install.sh | bash
+  npm install -g yarn
 
 uat_in_app_environment: &uat_in_app_environment
   name: 'UAT in app env variables'
