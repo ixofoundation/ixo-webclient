@@ -26,16 +26,24 @@ interface HeaderState {
 }
 
 class Header extends Component<any, HeaderState> {
+  intervalID = null
   constructor(props: any) {
     super(props)
+    this.intervalID = null;
     this.state = {
       selected: 0,
     }
-    setInterval(() => {
-      this.refreshAccount()
-    }, INTERVAL_LENGTH) // deepscan-disable-line
+  }
 
+  componentDidMount() {
+    this.intervalID = setInterval(() => {
+      this.refreshAccount()
+    }, INTERVAL_LENGTH)
     this.refreshAccount()
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.intervalID)
   }
 
   refreshAccount = (): void => {
