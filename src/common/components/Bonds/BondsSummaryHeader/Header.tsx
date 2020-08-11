@@ -26,15 +26,19 @@ interface HeaderState {
 }
 
 class Header extends Component<any, HeaderState> {
+  intervalID = null
   constructor(props: any) {
     super(props)
+    this.intervalID = null;
     this.state = {
       selected: 0,
     }
+  }
+
+  componentDidMount() {
     this.intervalID = setInterval(() => {
       this.refreshAccount()
     }, INTERVAL_LENGTH)
-
     this.refreshAccount()
   }
 
