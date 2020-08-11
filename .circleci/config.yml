@@ -9,35 +9,35 @@ orbs:
 
 node_build: &node_build
   docker:
-    - image: circleci/node:9.6.1-browsers
+    - image: circleci/node:latest
 
 # --------------------------------
 # common : steps
 # --------------------------------
 
-step_cache_restore_npm: &step_cache_restore_npm
-  name: 'Restore Cache: NPM Dependencies'
+step_cache_restore_yarn: &step_cache_restore_yarn
+  name: 'Restore Cache: YARN Dependencies'
   keys:
-    - node-v1-{{ .Branch }}-{{ checksum "package-lock.json" }}
+    - node-v1-{{ .Branch }}-{{ checksum "yarn.lock" }}
     - node-v1-{{ .Branch }}-
     - node-v1-
 
-step_cache_save_npm: &step_cache_save_npm
-  name: 'Save Cache: NPM Dependencies'
+step_cache_save_yarn: &step_cache_save_yarn
+  name: 'Save Cache: YARN Dependencies'
   paths:
-    - ~/usr/local/lib/node_modules # location depends on npm version
-  key: node-v1-{{ .Branch }}-{{ checksum "package-lock.json" }}
+    - ~/usr/local/lib/node_modules # location depends on yarn version
+  key: node-v1-{{ .Branch }}-{{ checksum "yarn.lock" }}
 
-step_run_install_npm_dependencies: &step_run_install_npm_dependencies
-  name: 'Install NPM Dependencies'
+step_run_install_yarn_dependencies: &step_run_install_yarn_dependencies
+  name: 'Install YARN Dependencies'
   shell: /bin/bash
   command: |
-    npm install
+    yarn install
 
 step_test: &step_test
   name: 'Run Tests'
   command: |
-    npm run test
+    yarn run test
 
 # --------------------------------
 # env
@@ -84,9 +84,9 @@ jobs:
     <<: *node_build
     steps:
       - checkout
-      - restore_cache: *step_cache_restore_npm
-      - run: *step_run_install_npm_dependencies
-      - save_cache: *step_cache_save_npm
+      - restore_cache: *step_cache_restore_yarn
+      - run: *step_run_install_yarn_dependencies
+      - save_cache: *step_cache_save_yarn
       - run: *step_test
 
 # --------------------------------
@@ -113,9 +113,9 @@ workflows:
       - docker/publish:
           after_checkout:
             - run: *uat_in_app_environment
-            - restore_cache: *step_cache_restore_npm
-            - run: *step_run_install_npm_dependencies
-            - save_cache: *step_cache_save_npm
+            - restore_cache: *step_cache_restore_yarn
+            - run: *step_run_install_yarn_dependencies
+            - save_cache: *step_cache_save_yarn
           image: trustlab/ixo-web
           tag: uat
           requires:
@@ -134,9 +134,9 @@ workflows:
       - docker/publish:
           after_checkout:
             - run: *prod_in_app_environment
-            - restore_cache: *step_cache_restore_npm
-            - run: *step_run_install_npm_dependencies
-            - save_cache: *step_cache_save_npm
+            - restore_cache: *step_cache_restore_yarn
+            - run: *step_run_install_yarn_dependencies
+            - save_cache: *step_cache_save_yarn
           image: trustlab/ixo-web
           tag: prod
           # requires:
