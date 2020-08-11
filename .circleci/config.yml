@@ -69,7 +69,7 @@ setup_node: &setup_node
     curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.5/install.sh | bash
     echo 'nvm install v14.4.0'
     echo 'nvm alias default v14.4.0'
-    echo 'npm install yarn -g'
+    echo 'curl -o- -L https://yarnpkg.com/install.sh | bash'
 
 prod_in_app_environment: &prod_in_app_environment
   name: 'Prod in app env variables'
