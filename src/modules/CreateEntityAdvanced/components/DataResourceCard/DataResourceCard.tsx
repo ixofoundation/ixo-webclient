@@ -1,80 +1,85 @@
 import React from 'react'
 import { LinkButton } from '../../../../common/components/JsonForm/JsonForm.styles'
-import { FormData } from '../../../../common/components/JsonForm/types'
 import { DataResourceType } from '../../../Entities/types'
 import { dataResourceTypeMap } from '../../../Entities/strategy-map'
+import { FormCardProps } from '../../../CreateEntity/types'
 import MultiControlForm from '../../../..//common/components/JsonForm/MultiControlForm/MultiControlForm'
 
-interface Props {
-  id: string
+interface Props extends FormCardProps {
   type: DataResourceType
   dataId: string
   resourceLocator: string
   otherParams: string
-  handleUpdate: (id: string, formData: FormData) => void
-  handleRemoveSection: (id: string) => void
 }
 
-const FundCard: React.FunctionComponent<Props> = ({
-  id,
-  type,
-  dataId,
-  resourceLocator,
-  otherParams,
-  handleUpdate,
-  handleRemoveSection,
-}) => {
-  const formData = {
-    type,
-    dataId,
-    resourceLocator,
-    otherParams,
-  }
-
-  const schema = {
-    type: 'object',
-    required: ['type', 'dataId', 'resourceLocator', 'otherParams'],
-    properties: {
-      type: {
-        type: 'string',
-        title: 'Data Resource',
-        enum: Object.keys(DataResourceType).map(key => DataResourceType[key]),
-        enumNames: Object.keys(DataResourceType).map(
-          key => dataResourceTypeMap[DataResourceType[key]].title,
-        ),
-      },
-      dataId: { type: 'string', title: 'Data Identifier' },
-      resourceLocator: { type: 'string', title: 'Resouce Locator' },
-      otherParams: { type: 'string', title: 'Other Parameters' },
+const FundCard: React.FunctionComponent<Props> = React.forwardRef(
+  (
+    {
+      type,
+      dataId,
+      resourceLocator,
+      otherParams,
+      handleUpdateContent,
+      handleSubmitted,
+      handleError,
+      handleRemoveSection,
     },
-  } as any
+    ref,
+  ) => {
+    const formData = {
+      type,
+      dataId,
+      resourceLocator,
+      otherParams,
+    }
 
-  const uiSchema = {
-    type: { ['ui:placeholder']: 'Select Resource' },
-    dataId: { ['ui:placeholder']: 'Enter DID or !name' },
-    resourceLocator: { ['ui:placeholder']: 'Enter URL' },
-    otherParams: { ['ui:placeholder']: 'Paste a Valid Parameter String' },
-  }
+    const schema = {
+      type: 'object',
+      required: ['type', 'dataId', 'resourceLocator', 'otherParams'],
+      properties: {
+        type: {
+          type: 'string',
+          title: 'Data Resource',
+          enum: Object.keys(DataResourceType).map(key => DataResourceType[key]),
+          enumNames: Object.keys(DataResourceType).map(
+            key => dataResourceTypeMap[DataResourceType[key]].title,
+          ),
+        },
+        dataId: { type: 'string', title: 'Data Identifier' },
+        resourceLocator: { type: 'string', title: 'Resouce Locator' },
+        otherParams: { type: 'string', title: 'Other Parameters' },
+      },
+    } as any
 
-  return (
-    <>
-      <MultiControlForm
-        onSubmit={(): void => null}
-        onFormDataChange={(formData): void => handleUpdate(id, formData)}
-        formData={formData}
-        schema={schema}
-        uiSchema={uiSchema}
-        multiColumn
-      >
-        &nbsp;
-      </MultiControlForm>
-      <div className="text-right">
-        <LinkButton type="button" onClick={(): void => handleRemoveSection(id)}>
-          - Remove
-        </LinkButton>
-      </div>
-    </>
-  )
-}
+    const uiSchema = {
+      type: { ['ui:placeholder']: 'Select Resource' },
+      dataId: { ['ui:placeholder']: 'Enter DID or !name' },
+      resourceLocator: { ['ui:placeholder']: 'Enter URL' },
+      otherParams: { ['ui:placeholder']: 'Paste a Valid Parameter String' },
+    }
+
+    return (
+      <>
+        <MultiControlForm
+          ref={ref}
+          onSubmit={handleSubmitted}
+          onFormDataChange={handleUpdateContent}
+          onError={handleError}
+          formData={formData}
+          schema={schema}
+          uiSchema={uiSchema}
+          multiColumn
+        >
+          &nbsp;
+        </MultiControlForm>
+        <div className="text-right">
+          <LinkButton type="button" onClick={handleRemoveSection}>
+            - Remove
+          </LinkButton>
+        </div>
+      </>
+    )
+  },
+)
 
 export default FundCard

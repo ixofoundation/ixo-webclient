@@ -28,8 +28,6 @@ describe('CreateEntityAdvanced Actions', () => {
         expect(action.type).toEqual(CreateEntityAdvancedActions.AddLinkedEntity)
         expect(action.payload).toEqual({
           id,
-          type: null,
-          entityId: null,
         })
       })
     })
@@ -83,11 +81,6 @@ describe('CreateEntityAdvanced Actions', () => {
         expect(action.type).toEqual(CreateEntityAdvancedActions.AddPayment)
         expect(action.payload).toEqual({
           id,
-          type: null,
-          paymentId: null,
-          denomination: null,
-          maxAmount: null,
-          maxUnits: null,
         })
       })
     })
@@ -151,15 +144,6 @@ describe('CreateEntityAdvanced Actions', () => {
         expect(action.type).toEqual(CreateEntityAdvancedActions.AddStake)
         expect(action.payload).toEqual({
           id,
-          type: null,
-          stakeId: null,
-          denomination: null,
-          depositAddress: null,
-          minStake: null,
-          slashingCondition: null,
-          slashFactor: null,
-          maxSlashAmount: null,
-          unbondingPeriod: null,
         })
       })
     })
@@ -235,8 +219,6 @@ describe('CreateEntityAdvanced Actions', () => {
         expect(action.type).toEqual(CreateEntityAdvancedActions.AddNode)
         expect(action.payload).toEqual({
           id,
-          type: null,
-          nodeId: null,
         })
       })
     })
@@ -292,8 +274,6 @@ describe('CreateEntityAdvanced Actions', () => {
         expect(action.type).toEqual(CreateEntityAdvancedActions.AddFund)
         expect(action.payload).toEqual({
           id,
-          source: null,
-          fundId: null,
         })
       })
     })
@@ -349,12 +329,6 @@ describe('CreateEntityAdvanced Actions', () => {
         expect(action.type).toEqual(CreateEntityAdvancedActions.AddKey)
         expect(action.payload).toEqual({
           id,
-          purpose: null,
-          type: null,
-          controllerId: null,
-          dateCreated: null,
-          dateUpdated: null,
-          denomination: null,
         })
       })
     })
@@ -422,11 +396,6 @@ describe('CreateEntityAdvanced Actions', () => {
         expect(action.type).toEqual(CreateEntityAdvancedActions.AddService)
         expect(action.payload).toEqual({
           id,
-          type: null,
-          shortDescription: null,
-          endpoint: null,
-          otherParams: null,
-          publicKey: null,
         })
       })
     })
@@ -491,10 +460,6 @@ describe('CreateEntityAdvanced Actions', () => {
         expect(action.type).toEqual(CreateEntityAdvancedActions.AddDataResource)
         expect(action.payload).toEqual({
           id,
-          type: null,
-          dataId: null,
-          resourceLocator: null,
-          otherParams: null,
         })
       })
     })
@@ -544,6 +509,35 @@ describe('CreateEntityAdvanced Actions', () => {
           resourceLocator,
           otherParams,
         })
+      })
+    })
+  })
+
+  describe('validation', () => {
+    it('should set validated to true', () => {
+      const identifier = 'someIdentifier'
+      // when ... we call the validated action creator
+      const action = SUT.validated(identifier)
+
+      // then ... we should expect it to create an action with the correct type and payload
+      expect(action.type).toEqual(CreateEntityAdvancedActions.Validated)
+      expect(action.payload).toEqual({
+        identifier,
+      })
+    })
+  })
+  describe('validationError', () => {
+    it('should set validated to false with any errors', () => {
+      const identifier = 'someIdentifier'
+      const errors = ['error1', 'error2']
+      // when ... we call the validated action creator
+      const action = SUT.validationError(identifier, errors)
+
+      // then ... we should expect it to create an action with the correct type and payload
+      expect(action.type).toEqual(CreateEntityAdvancedActions.ValidationError)
+      expect(action.payload).toEqual({
+        identifier,
+        errors,
       })
     })
   })

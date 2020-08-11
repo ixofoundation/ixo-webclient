@@ -26,6 +26,8 @@ import {
   RemoveKeySectionAction,
   AddServiceSectionAction,
   RemoveServiceSectionAction,
+  ValidatedAction,
+  ValidationErrorAction,
 } from './types'
 
 export const addLinkedEntity = (): AddLinkedEntitySectionAction => {
@@ -33,8 +35,6 @@ export const addLinkedEntity = (): AddLinkedEntitySectionAction => {
     type: CreateEntityAdvancedActions.AddLinkedEntity,
     payload: {
       id: uuidv4(),
-      type: null,
-      entityId: null,
     },
   }
 }
@@ -71,11 +71,6 @@ export const addPayment = (): AddPaymentSectionAction => {
     type: CreateEntityAdvancedActions.AddPayment,
     payload: {
       id: uuidv4(),
-      type: null,
-      paymentId: null,
-      denomination: null,
-      maxAmount: null,
-      maxUnits: null,
     },
   }
 }
@@ -112,15 +107,6 @@ export const addStake = (): AddStakeSectionAction => ({
   type: CreateEntityAdvancedActions.AddStake,
   payload: {
     id: uuidv4(),
-    type: null,
-    stakeId: null,
-    denomination: null,
-    depositAddress: null,
-    minStake: null,
-    slashingCondition: null,
-    slashFactor: null,
-    maxSlashAmount: null,
-    unbondingPeriod: null,
   },
 })
 
@@ -168,8 +154,6 @@ export const addNode = (): AddNodeSectionAction => ({
   type: CreateEntityAdvancedActions.AddNode,
   payload: {
     id: uuidv4(),
-    type: null,
-    nodeId: null,
   },
 })
 
@@ -200,8 +184,6 @@ export const addFund = (): AddFundSectionAction => ({
   type: CreateEntityAdvancedActions.AddFund,
   payload: {
     id: uuidv4(),
-    source: null,
-    fundId: null,
   },
 })
 
@@ -232,12 +214,6 @@ export const addKey = (): AddKeySectionAction => ({
   type: CreateEntityAdvancedActions.AddKey,
   payload: {
     id: uuidv4(),
-    purpose: null,
-    type: null,
-    controllerId: null,
-    dateCreated: null,
-    dateUpdated: null,
-    denomination: null,
   },
 })
 
@@ -276,11 +252,6 @@ export const addService = (): AddServiceSectionAction => ({
   type: CreateEntityAdvancedActions.AddService,
   payload: {
     id: uuidv4(),
-    type: null,
-    shortDescription: null,
-    endpoint: null,
-    otherParams: null,
-    publicKey: null,
   },
 })
 
@@ -314,10 +285,6 @@ export const addDataResource = (): AddDataResourceSectionAction => ({
   type: CreateEntityAdvancedActions.AddDataResource,
   payload: {
     id: uuidv4(),
-    type: null,
-    dataId: null,
-    resourceLocator: null,
-    otherParams: null,
   },
 })
 
@@ -347,3 +314,21 @@ export const updateDataResource = (
     },
   }
 }
+
+export const validated = (identifier: string): ValidatedAction => ({
+  type: CreateEntityAdvancedActions.Validated,
+  payload: {
+    identifier,
+  },
+})
+
+export const validationError = (
+  identifier: string,
+  errors: string[],
+): ValidationErrorAction => ({
+  type: CreateEntityAdvancedActions.ValidationError,
+  payload: {
+    identifier,
+    errors,
+  },
+})

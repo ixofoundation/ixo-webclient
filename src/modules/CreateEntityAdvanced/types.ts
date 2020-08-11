@@ -1,3 +1,5 @@
+import { Validation } from '../CreateEntity/types'
+
 import {
   EntityType,
   PaymentType,
@@ -103,6 +105,9 @@ export interface CreateEntityAdvancedState {
   dataResources: {
     [id: string]: DataResource
   }
+  validation: {
+    [identifier: string]: Validation
+  }
 }
 
 export enum CreateEntityAdvancedActions {
@@ -138,6 +143,9 @@ export enum CreateEntityAdvancedActions {
   AddDataResource = 'ixo/CreateEntityAdvanced/ADD_DATA_RESOURCE',
   RemoveDataResource = 'ixo/CreateEntityAdvanced/REMOVE_DATA_RESOURCE',
   UpdateDataResource = 'ixo/CreateEntityAdvanced/UPDATE_DATA_RESOURCE',
+  // Validation
+  Validated = 'ixo/CreateEntityAdvanced/SET_VALIDATED',
+  ValidationError = 'ixo/CreateEntityAdvanced/VALIDATION_ERROR',
 }
 
 export interface UpdateLinkedEntityAction {
@@ -153,8 +161,6 @@ export interface AddLinkedEntitySectionAction {
   type: typeof CreateEntityAdvancedActions.AddLinkedEntity
   payload: {
     id: string
-    type: EntityType
-    entityId: string
   }
 }
 export interface RemoveLinkedEntitySectionAction {
@@ -168,11 +174,6 @@ export interface AddPaymentSectionAction {
   type: typeof CreateEntityAdvancedActions.AddPayment
   payload: {
     id: string
-    type: PaymentType
-    paymentId: string
-    denomination: PaymentDenomination
-    maxAmount: number
-    maxUnits: number
   }
 }
 export interface RemovePaymentSectionAction {
@@ -198,15 +199,6 @@ export interface AddStakeSectionAction {
   type: typeof CreateEntityAdvancedActions.AddStake
   payload: {
     id: string
-    type: StakeType
-    stakeId: string
-    denomination: PaymentDenomination
-    depositAddress: string
-    minStake: number
-    slashingCondition: SlashingCondition
-    slashFactor: number
-    maxSlashAmount: number
-    unbondingPeriod: number
   }
 }
 export interface RemoveStakeSectionAction {
@@ -236,8 +228,6 @@ export interface AddNodeSectionAction {
   type: typeof CreateEntityAdvancedActions.AddNode
   payload: {
     id: string
-    type: NodeType
-    nodeId: string
   }
 }
 export interface RemoveNodeSectionAction {
@@ -260,8 +250,6 @@ export interface AddFundSectionAction {
   type: typeof CreateEntityAdvancedActions.AddFund
   payload: {
     id: string
-    source: FundSource
-    fundId: string
   }
 }
 
@@ -285,12 +273,6 @@ export interface AddKeySectionAction {
   type: typeof CreateEntityAdvancedActions.AddKey
   payload: {
     id: string
-    purpose: KeyPurpose
-    type: KeyType
-    denomination: PaymentDenomination
-    controllerId: string
-    dateCreated: string
-    dateUpdated: string
   }
 }
 export interface RemoveKeySectionAction {
@@ -317,11 +299,6 @@ export interface AddServiceSectionAction {
   type: typeof CreateEntityAdvancedActions.AddService
   payload: {
     id: string
-    type: ServiceType
-    shortDescription: string
-    endpoint: string
-    publicKey: string
-    otherParams: string
   }
 }
 
@@ -348,8 +325,6 @@ export interface AddFundSectionAction {
   type: typeof CreateEntityAdvancedActions.AddFund
   payload: {
     id: string
-    source: FundSource
-    fundId: string
   }
 }
 
@@ -364,10 +339,6 @@ export interface AddDataResourceSectionAction {
   type: typeof CreateEntityAdvancedActions.AddDataResource
   payload: {
     id: string
-    type: DataResourceType
-    dataId: string
-    resourceLocator: string
-    otherParams: string
   }
 }
 
@@ -386,6 +357,21 @@ export interface UpdateDataResourceAction {
     dataId: string
     resourceLocator: string
     otherParams: string
+  }
+}
+
+export interface ValidatedAction {
+  type: typeof CreateEntityAdvancedActions.Validated
+  payload: {
+    identifier: string
+  }
+}
+
+export interface ValidationErrorAction {
+  type: typeof CreateEntityAdvancedActions.ValidationError
+  payload: {
+    identifier: string
+    errors: string[]
   }
 }
 
@@ -414,3 +400,5 @@ export type CreateEntityAdvancedActionTypes =
   | AddDataResourceSectionAction
   | RemoveDataResourceSectionAction
   | UpdateDataResourceAction
+  | ValidatedAction
+  | ValidationErrorAction

@@ -57,16 +57,12 @@ describe('CreateEntityAdvanced Reducer', () => {
   describe('LinkedEntities Actions', () => {
     it('should add a new linkedEntity section', () => {
       const id = 'someId'
-      const type = EntityType.Investment
-      const entityId = 'someEntityId'
 
       // given ... we have an action of type CreateEntityAdvancedActions.AddLinkedEntity
       const action: AddLinkedEntitySectionAction = {
         type: CreateEntityAdvancedActions.AddLinkedEntity,
         payload: {
           id,
-          type,
-          entityId,
         },
       }
 
@@ -79,8 +75,8 @@ describe('CreateEntityAdvanced Reducer', () => {
         linkedEntities: {
           [id]: {
             id,
-            type,
-            entityId,
+            type: undefined,
+            entityId: undefined,
           },
         },
       })
@@ -174,22 +170,12 @@ describe('CreateEntityAdvanced Reducer', () => {
   describe('Payments Actions', () => {
     it('should add a new payment section', () => {
       const id = 'someId'
-      const type = PaymentType.FeeforService
-      const paymentId = 'somePaymentId'
-      const denomination = PaymentDenomination.eCHF
-      const maxAmount = 123
-      const maxUnits = 456
 
       // given ... we have an action of type CreateEntityAdvancedActions.AddPayment
       const action: AddPaymentSectionAction = {
         type: CreateEntityAdvancedActions.AddPayment,
         payload: {
           id,
-          type,
-          paymentId,
-          denomination,
-          maxAmount,
-          maxUnits,
         },
       }
 
@@ -202,11 +188,11 @@ describe('CreateEntityAdvanced Reducer', () => {
         payments: {
           [id]: {
             id,
-            type,
-            paymentId,
-            denomination,
-            maxAmount,
-            maxUnits,
+            type: undefined,
+            paymentId: undefined,
+            denomination: undefined,
+            maxAmount: undefined,
+            maxUnits: undefined,
           },
         },
       })
@@ -321,30 +307,12 @@ describe('CreateEntityAdvanced Reducer', () => {
   describe('Staking Actions', () => {
     it('should add a new stake section', () => {
       const id = 'someId'
-      const type = StakeType.ClaimGuarantee
-      const stakeId = 'someStakeId'
-      const denomination = PaymentDenomination.eEUR
-      const depositAddress = 'someDepositAddress'
-      const minStake = 123
-      const slashingCondition = SlashingCondition.FailedDispute
-      const slashFactor = 456
-      const maxSlashAmount = 789
-      const unbondingPeriod = 10
 
       // given ... we have an action of type CreateEntityAdvancedActions.AddStake
       const action: AddStakeSectionAction = {
         type: CreateEntityAdvancedActions.AddStake,
         payload: {
           id,
-          type,
-          stakeId,
-          denomination,
-          depositAddress,
-          minStake,
-          slashingCondition,
-          slashFactor,
-          maxSlashAmount,
-          unbondingPeriod,
         },
       }
 
@@ -357,15 +325,15 @@ describe('CreateEntityAdvanced Reducer', () => {
         staking: {
           [id]: {
             id,
-            type,
-            stakeId,
-            denomination,
-            depositAddress,
-            minStake,
-            slashingCondition,
-            slashFactor,
-            maxSlashAmount,
-            unbondingPeriod,
+            type: undefined,
+            stakeId: undefined,
+            denomination: undefined,
+            depositAddress: undefined,
+            minStake: undefined,
+            slashingCondition: undefined,
+            slashFactor: undefined,
+            maxSlashAmount: undefined,
+            unbondingPeriod: undefined,
           },
         },
       })
@@ -509,16 +477,12 @@ describe('CreateEntityAdvanced Reducer', () => {
   describe('Node Actions', () => {
     it('should add a new node section', () => {
       const id = 'someId'
-      const type = NodeType.RelayerNode
-      const nodeId = 'someNodeId'
 
       // given ... we have an action of type CreateEntityAdvancedActions.AddNode
       const action: AddNodeSectionAction = {
         type: CreateEntityAdvancedActions.AddNode,
         payload: {
           id,
-          type,
-          nodeId,
         },
       }
 
@@ -531,8 +495,8 @@ describe('CreateEntityAdvanced Reducer', () => {
         nodes: {
           [id]: {
             id,
-            type,
-            nodeId,
+            type: undefined,
+            nodeId: undefined,
           },
         },
       })
@@ -627,16 +591,12 @@ describe('CreateEntityAdvanced Reducer', () => {
   describe('Funding Actions', () => {
     it('should add a new funding section', () => {
       const id = 'someId'
-      const source = FundSource.NFTAsset
-      const fundId = 'someFundId'
 
       // given ... we have an action of type CreateEntityAdvancedActions.AddFund
       const action: AddFundSectionAction = {
         type: CreateEntityAdvancedActions.AddFund,
         payload: {
           id,
-          source,
-          fundId,
         },
       }
 
@@ -649,8 +609,8 @@ describe('CreateEntityAdvanced Reducer', () => {
         funding: {
           [id]: {
             id,
-            source,
-            fundId,
+            source: undefined,
+            fundId: undefined,
           },
         },
       })
@@ -745,24 +705,12 @@ describe('CreateEntityAdvanced Reducer', () => {
   describe('Keys Actions', () => {
     it('should add a new key section', () => {
       const id = 'someId'
-      const type = KeyType.JwsVerificationKey2020
-      const purpose = KeyPurpose.Encryption
-      const denomination = PaymentDenomination.eCHF
-      const controllerId = 'someControllerId'
-      const dateCreated = 'someDateCreated'
-      const dateUpdated = 'someDateUpdated'
 
       // given ... we have an action of type CreateEntityAdvancedActions.AddKey
       const action: AddKeySectionAction = {
         type: CreateEntityAdvancedActions.AddKey,
         payload: {
           id,
-          type,
-          purpose,
-          denomination,
-          controllerId,
-          dateCreated,
-          dateUpdated,
         },
       }
 
@@ -775,12 +723,12 @@ describe('CreateEntityAdvanced Reducer', () => {
         keys: {
           [id]: {
             id,
-            type,
-            purpose,
-            denomination,
-            controllerId,
-            dateCreated,
-            dateUpdated,
+            type: undefined,
+            purpose: undefined,
+            denomination: undefined,
+            controllerId: undefined,
+            dateCreated: undefined,
+            dateUpdated: undefined,
           },
         },
       })
@@ -902,22 +850,12 @@ describe('CreateEntityAdvanced Reducer', () => {
   describe('Service Actions', () => {
     it('should add a new service section', () => {
       const id = 'someId'
-      const type = ServiceType.DIDAgent
-      const shortDescription = 'someShortDescription'
-      const endpoint = 'someEndPoint'
-      const publicKey = 'somePublicKey'
-      const otherParams = 'someOtherParams'
 
       // given ... we have an action of type CreateEntityAdvancedActions.AddService
       const action: AddServiceSectionAction = {
         type: CreateEntityAdvancedActions.AddService,
         payload: {
           id,
-          type,
-          shortDescription,
-          endpoint,
-          publicKey,
-          otherParams,
         },
       }
 
@@ -930,11 +868,11 @@ describe('CreateEntityAdvanced Reducer', () => {
         services: {
           [id]: {
             id,
-            type,
-            shortDescription,
-            endpoint,
-            publicKey,
-            otherParams,
+            type: undefined,
+            shortDescription: undefined,
+            endpoint: undefined,
+            publicKey: undefined,
+            otherParams: undefined,
           },
         },
       })
@@ -1049,20 +987,12 @@ describe('CreateEntityAdvanced Reducer', () => {
   describe('DataResources Actions', () => {
     it('should add a new data resource section', () => {
       const id = 'someId'
-      const type = DataResourceType.CellNodeDB
-      const dataId = 'someDataId'
-      const resourceLocator = 'someResourceLocator'
-      const otherParams = 'someOtherParams'
 
       // given ... we have an action of type CreateEntityAdvancedActions.AddDataResource
       const action: AddDataResourceSectionAction = {
         type: CreateEntityAdvancedActions.AddDataResource,
         payload: {
           id,
-          type,
-          dataId,
-          resourceLocator,
-          otherParams,
         },
       }
 
@@ -1075,10 +1005,10 @@ describe('CreateEntityAdvanced Reducer', () => {
         dataResources: {
           [id]: {
             id,
-            type,
-            dataId,
-            resourceLocator,
-            otherParams,
+            type: undefined,
+            dataId: undefined,
+            resourceLocator: undefined,
+            otherParams: undefined,
           },
         },
       })

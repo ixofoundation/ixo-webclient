@@ -14,6 +14,7 @@ export const initialState: CreateEntityAdvancedState = {
   keys: {},
   services: {},
   dataResources: {},
+  validation: {},
 }
 
 export const reducer = (
@@ -26,7 +27,13 @@ export const reducer = (
         ...state,
         linkedEntities: {
           ...state.linkedEntities,
-          ...{ [action.payload.id]: action.payload },
+          ...{
+            [action.payload.id]: {
+              ...action.payload,
+              type: undefined,
+              entityId: undefined,
+            },
+          },
         },
       }
     case CreateEntityAdvancedActions.RemoveLinkedEntity:
@@ -50,7 +57,16 @@ export const reducer = (
         ...state,
         payments: {
           ...state.payments,
-          ...{ [action.payload.id]: action.payload },
+          ...{
+            [action.payload.id]: {
+              ...action.payload,
+              type: undefined,
+              paymentId: undefined,
+              denomination: undefined,
+              maxAmount: undefined,
+              maxUnits: undefined,
+            },
+          },
         },
       }
     case CreateEntityAdvancedActions.RemovePayment:
@@ -71,7 +87,20 @@ export const reducer = (
         ...state,
         staking: {
           ...state.staking,
-          ...{ [action.payload.id]: action.payload },
+          ...{
+            [action.payload.id]: {
+              ...action.payload,
+              type: undefined,
+              stakeId: undefined,
+              denomination: undefined,
+              depositAddress: undefined,
+              minStake: undefined,
+              slashingCondition: undefined,
+              slashFactor: undefined,
+              maxSlashAmount: undefined,
+              unbondingPeriod: undefined,
+            },
+          },
         },
       }
     case CreateEntityAdvancedActions.RemoveStake:
@@ -92,7 +121,13 @@ export const reducer = (
         ...state,
         nodes: {
           ...state.nodes,
-          ...{ [action.payload.id]: action.payload },
+          ...{
+            [action.payload.id]: {
+              ...action.payload,
+              type: undefined,
+              nodeId: undefined,
+            },
+          },
         },
       }
     case CreateEntityAdvancedActions.RemoveNode:
@@ -113,7 +148,13 @@ export const reducer = (
         ...state,
         funding: {
           ...state.funding,
-          ...{ [action.payload.id]: action.payload },
+          ...{
+            [action.payload.id]: {
+              ...action.payload,
+              source: undefined,
+              fundId: undefined,
+            },
+          },
         },
       }
     case CreateEntityAdvancedActions.RemoveFund:
@@ -134,7 +175,17 @@ export const reducer = (
         ...state,
         keys: {
           ...state.keys,
-          ...{ [action.payload.id]: action.payload },
+          ...{
+            [action.payload.id]: {
+              ...action.payload,
+              purpose: undefined,
+              type: undefined,
+              controllerId: undefined,
+              dateCreated: undefined,
+              dateUpdated: undefined,
+              denomination: undefined,
+            },
+          },
         },
       }
     case CreateEntityAdvancedActions.RemoveKey:
@@ -155,7 +206,16 @@ export const reducer = (
         ...state,
         services: {
           ...state.services,
-          ...{ [action.payload.id]: action.payload },
+          ...{
+            [action.payload.id]: {
+              ...action.payload,
+              type: undefined,
+              shortDescription: undefined,
+              endpoint: undefined,
+              otherParams: undefined,
+              publicKey: undefined,
+            },
+          },
         },
       }
     case CreateEntityAdvancedActions.RemoveService:
@@ -176,7 +236,15 @@ export const reducer = (
         ...state,
         dataResources: {
           ...state.dataResources,
-          ...{ [action.payload.id]: action.payload },
+          ...{
+            [action.payload.id]: {
+              ...action.payload,
+              type: undefined,
+              dataId: undefined,
+              resourceLocator: undefined,
+              otherParams: undefined,
+            },
+          },
         },
       }
     case CreateEntityAdvancedActions.RemoveDataResource:

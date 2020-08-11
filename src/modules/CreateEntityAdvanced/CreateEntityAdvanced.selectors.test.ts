@@ -153,6 +153,18 @@ beforeEach(() => {
           otherParams: 'someOtherParams2',
         },
       },
+      validation: {
+        '8c1debff-3b7d-4bad-9bdd-2b0d7b3dcb6d': {
+          identifier: '8c1debff-3b7d-4bad-9bdd-2b0d7b3dcb6d',
+          validated: true,
+          errors: [],
+        },
+        '8c1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d': {
+          identifier: '8c1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d',
+          validated: false,
+          errors: ['error1', 'error2'],
+        },
+      },
     } as CreateEntityAdvancedState,
   }
 })
@@ -371,6 +383,82 @@ describe('CreateEntityAdvanced Selectors', () => {
           otherParams: 'someOtherParams2',
         },
       ])
+    })
+  })
+  describe('selectValidation', () => {
+    it('should return the validation property', () => {
+      // when ... we call the selector
+      const result = SUT.selectValidation(state)
+
+      // then ... should return result as expected
+      expect(result).toEqual({
+        '8c1debff-3b7d-4bad-9bdd-2b0d7b3dcb6d': {
+          identifier: '8c1debff-3b7d-4bad-9bdd-2b0d7b3dcb6d',
+          validated: true,
+          errors: [],
+        },
+        '8c1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d': {
+          identifier: '8c1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d',
+          validated: false,
+          errors: ['error1', 'error2'],
+        },
+      })
+    })
+  })
+
+  describe('selectValidationComplete', () => {
+    it('should return false if not every section has completed validation', () => {
+      // when ... we call the selector
+      state = {
+        ...state,
+        createEntityAdvanced: {
+          ...state.createEntityAdvanced,
+          validation: {
+            '9b1deb4d-3b7d-4bad-9abc-2b0d7b3dcb6d': {},
+            '9b1deb4d-3b7d-4ggg-9abc-2b0d7b3dcb6d': {},
+            '9b1deb4d-3hhh-4bad-9bdd-2b0d7b3dcb6d': {},
+            '8c1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d': {},
+          },
+        },
+      }
+
+      const result = SUT.selectValidationComplete(state)
+
+      // then ... should return result as expected
+      expect(result).toEqual(false)
+    })
+
+    it('should return true if every section has completed validation', () => {
+      // when ... we call the selector
+      state = {
+        ...state,
+        createEntityAdvanced: {
+          ...state.createEntityAdvanced,
+          validation: {
+            '9b1deb4d-3b7d-4bad-9abc-2b0d7b3dcb6d': {},
+            '9b1deb4d-3b7d-4ggg-9abc-2b0d7b3dcb6d': {},
+            '9b1deb4d-3hhh-4bad-9bdd-2b0d7b3dcb6d': {},
+            '9b1deb4d-3aaa-4bad-9bdd-2b0d7b3dcb6d': {},
+            '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d': {},
+            '9b1deb4x-3b7d-4bad-9bdd-2b0d7b3dcb6d': {},
+            '1b9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed': {},
+            '1b9d6bef-bbfd-4b2d-9b5d-ab8dfbbd4bed': {},
+            '01deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d': {},
+            '01debxy-3b7d-4bad-9bdd-2b0d7b3dcb6d': {},
+            '8c1dejjj-3b7d-4bad-9bdd-2b0d7b3dcb6d': {},
+            '8c1dejjj-3b7d-4bad-9bdd-2b0d7b3dgggg': {},
+            '8c1debff-3b7d-4yasy-9bdd-2b0d7b3dcb6d': {},
+            '8c1debff-3b7d-4yasy-9bdd-2b0d7b3dxxxx': {},
+            '8c1debff-3b7d-4bad-9bdd-2b0d7b3dcb6d': {},
+            '8c1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d': {},
+          },
+        },
+      }
+
+      const result = SUT.selectValidationComplete(state)
+
+      // then ... should return result as expected
+      expect(result).toEqual(true)
     })
   })
 })
