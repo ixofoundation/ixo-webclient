@@ -30,7 +30,6 @@ step_cache_save_yarn: &step_cache_save_yarn
 
 step_run_install_yarn_dependencies: &step_run_install_yarn_dependencies
   name: 'Install YARN Dependencies'
-  shell: /bin/bash
   command: |
     yarn install
 
@@ -39,10 +38,6 @@ step_test: &step_test
   command: |
     yarn run test
 
-step_node_version_check: &step_node_version_check
-    name: 'Node Version check'
-    command: |
-      node --version
 # --------------------------------
 # env
 # --------------------------------
@@ -119,7 +114,6 @@ workflows:
             - run: *uat_in_app_environment
             - restore_cache: *step_cache_restore_yarn
             - run: *step_run_install_yarn_dependencies
-            - run: *step_node_version_check
             - save_cache: *step_cache_save_yarn
           image: trustlab/ixo-web
           tag: uat
