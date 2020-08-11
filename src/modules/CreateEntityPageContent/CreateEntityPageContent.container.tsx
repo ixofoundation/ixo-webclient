@@ -1,5 +1,8 @@
 import React, { Dispatch } from 'react'
 import { connect } from 'react-redux'
+import CreateEntityBase, {
+  CreateEntityBaseProps,
+} from '../CreateEntity/components/CreateEntityBase/CreateEntityBase'
 import * as pageContentSelectors from './CreateEntityPageContent.selectors'
 import { RootState } from '../../common/redux/types'
 import {
@@ -36,10 +39,8 @@ import {
 } from './CreateEntityPageContent.actions'
 import { FormData } from '../../common/components/JsonForm/types'
 import FormCardWrapper from '../../common/components/Wrappers/FormCardWrapper/FormCardWrapper'
-import { ButtonGroup } from '../../common/components/JsonForm/JsonForm.styles'
 
-interface Props {
-  validated: boolean
+interface Props extends CreateEntityBaseProps {
   header: HeaderPageContent
   body: BodyPageContent[]
   images: ImagePageContent[]
@@ -60,13 +61,9 @@ interface Props {
   handleAddEmbeddedSection: () => void
   handleRemoveEmbeddedSection: (id: string) => void
   handleUpdateEmbeddedContent: (id: string, formData: FormData) => void
-  handleValidated: (identifier: string) => void
-  handleValidationError: (identifier: string, errors: string[]) => void
 }
 
-class CreateEntityPageContent extends React.Component<Props> {
-  cardRefs = {}
-
+class CreateEntityPageContent extends CreateEntityBase<Props> {
   renderHeader = (): JSX.Element => {
     this.cardRefs['header'] = React.createRef()
 
@@ -349,26 +346,26 @@ class CreateEntityPageContent extends React.Component<Props> {
     )
   }
 
-  handleSubmit = (): void => {
+  render(): JSX.Element {
     const { body, images, profiles, embedded } = this.props
 
-    this.cardRefs['header'].current.validateAndSubmit()
-    this.cardRefs['social'].current.validateAndSubmit()
+    const identifiers: string[] = []
+    identifiers.push('header')
+    identifiers.push('social')
+
     body.forEach(section => {
-      this.cardRefs[section.id].current.validateAndSubmit()
+      identifiers.push(section.id)
     })
     images.forEach(section => {
-      this.cardRefs[section.id].current.validateAndSubmit()
+      identifiers.push(section.id)
     })
     profiles.forEach(section => {
-      this.cardRefs[section.id].current.validateAndSubmit()
+      identifiers.push(section.id)
     })
     embedded.forEach(section => {
-      this.cardRefs[section.id].current.validateAndSubmit()
+      identifiers.push(section.id)
     })
-  }
 
-  render(): JSX.Element {
     return (
       <>
         {this.renderHeader()}
@@ -377,15 +374,7 @@ class CreateEntityPageContent extends React.Component<Props> {
         {this.renderProfileSections()}
         {this.renderSocialContent()}
         {this.renderEmbeddedSections()}
-        <ButtonGroup className="buttons-group">
-          <button
-            type="submit"
-            className="submitForm"
-            onClick={this.handleSubmit}
-          >
-            Next
-          </button>
-        </ButtonGroup>
+        {this.renderButtonGroup(identifiers)}
       </>
     )
   }
@@ -398,6 +387,7 @@ const mapStateToProps = (state: RootState): any => ({
   profiles: pageContentSelectors.selectProfileContentSections(state),
   social: pageContentSelectors.selectSocialContent(state),
   embedded: pageContentSelectors.selectEmbeddedContentSections(state),
+  validationComplete: pageContentSelectors.selectValidationComplete(state),
   validated: pageContentSelectors.selectValidated(state),
 })
 

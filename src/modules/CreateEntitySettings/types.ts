@@ -277,3 +277,5 @@ export type CreateEntitySettingsActionTypes =
   | AddDisplayCredentialSectionAction
   | RemoveDisplayCredentialSectionAction
   | UpdateDisplayCredentialAction
+  | ValidatedAction
+  | ValidationErrorAction

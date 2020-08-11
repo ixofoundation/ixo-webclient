@@ -50,8 +50,9 @@ const MultiControlForm: React.FunctionComponent<Props> = React.forwardRef(
       },
     }))
 
-    const handleTouched = (id): void =>
+    const handleTouched = (id): void => {
       setTouched({ ...touched, [id.replace('root_', '.')]: true })
+    }
 
     const handleError = (errors: any[]): void => {
       onError(errors.map(error => error.property.replace('.', '')))

@@ -1,5 +1,8 @@
 import React, { Dispatch } from 'react'
 import { connect } from 'react-redux'
+import CreateEntityBase, {
+  CreateEntityBaseProps,
+} from '../CreateEntity/components/CreateEntityBase/CreateEntityBase'
 import { RootState } from '../../common/redux/types'
 import {
   addDisplayCredentialSection,
@@ -36,9 +39,8 @@ import DisplayCredentialCard from './components/DisplayCredentialCard/DisplayCre
 import FilterCard from './components/FilterCard/FilterCard'
 import { EntityType } from '../Entities/types'
 import { entityTypeMap } from '../Entities/strategy-map'
-import { ButtonGroup } from '../../common/components/JsonForm/JsonForm.styles'
 
-interface Props {
+interface Props extends CreateEntityBaseProps {
   entityType: EntityType
   owner: Owner
   creator: Creator
@@ -60,13 +62,10 @@ interface Props {
   handleUpdatePrivacy: (formData: FormData) => void
   handleUpdateRequiredCredential: (id: string, formData: FormData) => void
   handleUpdateStatus: (formData: FormData) => void
-  handleValidated: (identifier: string) => void
-  handleValidationError: (identifier: string, errors: string[]) => void
 }
 
-class CreateEntitySettings extends React.Component<Props> {
+class CreateEntitySettings extends CreateEntityBase<Props> {
   entityTitle
-  cardRefs = {}
 
   constructor(props) {
     super(props)
@@ -333,24 +332,23 @@ class CreateEntitySettings extends React.Component<Props> {
     )
   }
 
-  handleSubmit = (): void => {
+  render(): JSX.Element {
     const { requiredCredentials, displayCredentials } = this.props
+    const identifiers: string[] = []
 
-    this.cardRefs['owner'].current.validateAndSubmit()
-    this.cardRefs['creator'].current.validateAndSubmit()
-    this.cardRefs['status'].current.validateAndSubmit()
-    this.cardRefs['privacy'].current.validateAndSubmit()
-    this.cardRefs['filter'].current.validateAndSubmit()
+    identifiers.push('owner')
+    identifiers.push('creator')
+    identifiers.push('status')
+    identifiers.push('privacy')
+    identifiers.push('filter')
 
     requiredCredentials.forEach(section => {
-      this.cardRefs[section.id].current.validateAndSubmit()
+      identifiers.push(section.id)
     })
     displayCredentials.forEach(section => {
-      this.cardRefs[section.id].current.validateAndSubmit()
+      identifiers.push(section.id)
     })
-  }
 
-  render(): JSX.Element {
     return (
       <>
         {this.renderCreator()}
@@ -360,15 +358,7 @@ class CreateEntitySettings extends React.Component<Props> {
         {this.renderRequiredCredentials()}
         {this.renderFilters()}
         {this.renderDisplayCredentials()}
-        <ButtonGroup className="buttons-group">
-          <button
-            type="submit"
-            className="submitForm"
-            onClick={this.handleSubmit}
-          >
-            Next
-          </button>
-        </ButtonGroup>
+        {this.renderButtonGroup(identifiers)}
       </>
     )
   }
@@ -382,6 +372,8 @@ const mapStateToProps = (state: RootState): any => ({
   requiredCredentials: entitySettingsSelectors.selectRequiredCredentials(state),
   filters: entitySettingsSelectors.selectFilters(state),
   displayCredentials: entitySettingsSelectors.selectDisplayCredentials(state),
+  validationComplete: entitySettingsSelectors.selectValidationComplete(state),
+  validated: entitySettingsSelectors.selectValidated(state),
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({

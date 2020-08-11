@@ -5,10 +5,9 @@ import { CreateEntitySettingsState } from './types'
 export const selectSettings = (state: RootState): CreateEntitySettingsState =>
   state.createEntitySettings
 
-export const selectOwner = createSelector(
-  selectSettings,
-  settings => settings.owner,
-)
+export const selectOwner = createSelector(selectSettings, settings => {
+  return settings.owner
+})
 
 export const selectCreator = createSelector(
   selectSettings,

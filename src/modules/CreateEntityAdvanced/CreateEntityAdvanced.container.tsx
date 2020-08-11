@@ -1,5 +1,8 @@
 import React, { Dispatch } from 'react'
 import { RootState } from 'common/redux/types'
+import CreateEntityBase, {
+  CreateEntityBaseProps,
+} from '../CreateEntity/components/CreateEntityBase/CreateEntityBase'
 import * as createEntityAdvancedSelectors from './CreateEntityAdvanced.selectors'
 import {
   LinkedEntity,
@@ -51,7 +54,7 @@ import KeyCard from './components/KeyCard/KeyCard'
 import ServiceCard from './components/ServiceCard/ServiceCard'
 import DataResourceCard from './components/DataResourceCard/DataResourceCard'
 
-interface Props {
+interface Props extends CreateEntityBaseProps {
   linkedEntities: LinkedEntity[]
   payments: Payment[]
   staking: Stake[]
@@ -84,13 +87,9 @@ interface Props {
   handleAddDataResource: () => void
   handleRemoveDataResource: (id: string) => void
   handleUpdateDataResource: (id: string, formData: FormData) => void
-  handleValidated: (identifier: string) => void
-  handleValidationError: (identifier: string, errors: string[]) => void
 }
 
-class CreateEntityAdvanced extends React.Component<Props> {
-  cardRefs = {}
-
+class CreateEntityAdvanced extends CreateEntityBase<Props> {
   renderLinkedEntities = (): JSX.Element => {
     const {
       linkedEntities,
@@ -480,6 +479,44 @@ class CreateEntityAdvanced extends React.Component<Props> {
   }
 
   render(): JSX.Element {
+    const {
+      linkedEntities,
+      payments,
+      staking,
+      nodes,
+      funding,
+      keys,
+      services,
+      dataResources,
+    } = this.props
+
+    const identifiers: string[] = []
+
+    linkedEntities.forEach(section => {
+      identifiers.push(section.id)
+    })
+    payments.forEach(section => {
+      identifiers.push(section.id)
+    })
+    staking.forEach(section => {
+      identifiers.push(section.id)
+    })
+    nodes.forEach(section => {
+      identifiers.push(section.id)
+    })
+    funding.forEach(section => {
+      identifiers.push(section.id)
+    })
+    keys.forEach(section => {
+      identifiers.push(section.id)
+    })
+    services.forEach(section => {
+      identifiers.push(section.id)
+    })
+    dataResources.forEach(section => {
+      identifiers.push(section.id)
+    })
+
     return (
       <>
         {this.renderLinkedEntities()}
@@ -490,6 +527,7 @@ class CreateEntityAdvanced extends React.Component<Props> {
         {this.renderKeys()}
         {this.renderServices()}
         {this.renderDataResources()}
+        {this.renderButtonGroup(identifiers)}
       </>
     )
   }
@@ -504,6 +542,10 @@ const mapStateToProps = (state: RootState): any => ({
   keys: createEntityAdvancedSelectors.selectKeys(state),
   services: createEntityAdvancedSelectors.selectServices(state),
   dataResources: createEntityAdvancedSelectors.selectDataResources(state),
+  validationComplete: createEntityAdvancedSelectors.selectValidationComplete(
+    state,
+  ),
+  validated: createEntityAdvancedSelectors.selectValidated(state),
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({

@@ -263,6 +263,34 @@ export const reducer = (
           ...{ [action.payload.id]: action.payload },
         },
       }
+    case CreateEntityAdvancedActions.Validated:
+      return {
+        ...state,
+        validation: {
+          ...state.validation,
+          ...{
+            [action.payload.identifier]: {
+              identifier: action.payload.identifier,
+              validated: true,
+              errors: [],
+            },
+          },
+        },
+      }
+    case CreateEntityAdvancedActions.ValidationError:
+      return {
+        ...state,
+        validation: {
+          ...state.validation,
+          ...{
+            [action.payload.identifier]: {
+              identifier: action.payload.identifier,
+              validated: false,
+              errors: action.payload.errors,
+            },
+          },
+        },
+      }
   }
 
   return state

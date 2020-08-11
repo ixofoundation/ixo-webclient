@@ -24,8 +24,8 @@ import {
   ValidatedAction,
   ValidationErrorAction,
 } from './types'
-import { FormData } from 'common/components/JsonForm/types'
-import { PDS_URL } from 'modules/CreateEntity/types'
+import { FormData } from '../../common/components/JsonForm/types'
+import { PDS_URL } from '../../modules/CreateEntity/types'
 
 export const updateHeaderContent = (formData: FormData) => (
   dispatch: Dispatch,

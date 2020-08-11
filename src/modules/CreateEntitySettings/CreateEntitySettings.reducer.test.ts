@@ -18,6 +18,8 @@ import {
   RemoveDisplayCredentialSectionAction,
   UpdateDisplayCredentialAction,
   UpdateFiltersAction,
+  ValidatedAction,
+  ValidationErrorAction,
 } from './types'
 import {
   EntityStage,
@@ -631,6 +633,87 @@ describe('CreateEntitySettings Reducer', () => {
         ...initialState,
         filters,
       })
+    })
+  })
+
+  describe('validation', () => {
+    it('should set validated to true and clear any errors', () => {
+      const identifier = 'someBodySectionId'
+      const errors = ['error1', 'error2']
+      // given ... we have an action of type CreateEntityPageContentActions.SetValidated
+      const action: ValidatedAction = {
+        type: CreateEntitySettingsActions.Validated,
+        payload: {
+          identifier,
+        },
+      }
+
+      // when ... we run the reducer with this action
+      const result = SUT.reducer(
+        {
+          ...initialState,
+          validation: {
+            [identifier]: {
+              identifier,
+              validated: false,
+              errors,
+            },
+          },
+        },
+        action,
+      )
+
+      // then ... the state should be set as expected
+      expect(result).toEqual({
+        ...initialState,
+        validation: {
+          [identifier]: {
+            identifier,
+            validated: true,
+            errors: [],
+          },
+        },
+      })
+    })
+  })
+
+  it('should set validated to false and add any errors', () => {
+    const identifier = 'someBodySectionId'
+    const errors = ['error1', 'error2']
+    // given ... we have an action of type CreateEntityPageContentActions.SetValidated
+    const action: ValidationErrorAction = {
+      type: CreateEntitySettingsActions.ValidationError,
+      payload: {
+        errors,
+        identifier,
+      },
+    }
+
+    // when ... we run the reducer with this action
+    const result = SUT.reducer(
+      {
+        ...initialState,
+        validation: {
+          [identifier]: {
+            identifier,
+            validated: true,
+            errors: [],
+          },
+        },
+      },
+      action,
+    )
+
+    // then ... the state should be set as expected
+    expect(result).toEqual({
+      ...initialState,
+      validation: {
+        [identifier]: {
+          identifier,
+          validated: false,
+          errors,
+        },
+      },
     })
   })
 })
