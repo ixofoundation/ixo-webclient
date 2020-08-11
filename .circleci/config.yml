@@ -97,6 +97,7 @@ workflows:
   build_test:
     jobs:
       - test:
+          <<: *node_build
           filters:
             branches:
               ignore:
@@ -105,7 +106,6 @@ workflows:
 
   uat_publish_docker:
     jobs:
-        <<: *node_build
       - test:
           filters:
             branches:
