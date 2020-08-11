@@ -80,6 +80,7 @@ export const Spinner: React.SFC<Props> = ({ info, transparentBg, scale }) => {
     align-items: center;
     flex-direction: column;
     transform: scale(${scale});
+    height: 100%;
     ${bgString}
     flex:1 1 auto;
     p {

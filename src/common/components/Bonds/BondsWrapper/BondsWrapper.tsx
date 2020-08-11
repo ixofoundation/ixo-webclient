@@ -1,6 +1,6 @@
 import * as React from 'react'
 import Header from '../BondsSummaryHeader/Header'
-import './BondsWrapper.css'
+import './BondsWrapper.scss'
 import BondsSidebar from '../BondsSidebar/BondsSidebar'
 import { Spinner } from '../../Spinner'
 import { ProjectHero } from '../../../../components/project/ProjectHero'
@@ -26,6 +26,8 @@ export interface State {
   projectPublic: Record<string, any>
   projectStatus: string
 }
+
+const MemorizedSpinner = React.memo(() => <Spinner info="Loading..." />, (a, b) => true)
 
 export class BondsWrapper extends React.Component<Props, State> {
   state = {
@@ -94,7 +96,7 @@ export class BondsWrapper extends React.Component<Props, State> {
     } = this.props
     if (this.state.projectPublic === null) {
       this.handleGetProjectData()
-      return <Spinner info="Loading..." />
+      return <MemorizedSpinner />
     } else {
       return (
         <div className="BondsWrapper">

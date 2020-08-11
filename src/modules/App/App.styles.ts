@@ -39,7 +39,7 @@ export const theme = {
 export const Container = styled.div`
   display: flex;
   flex-flow: column;
-  min-height: 100%;
+  min-height: 100vh;
   font-family: roboto;
 
   h1,

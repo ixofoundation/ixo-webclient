@@ -11,6 +11,7 @@ import { BondsWrapperConnected as BondsWrapper } from '../BondsWrapper/BondsWrap
 
 const StyledContainer = styled.div`
   display: flex;
+  flex: 1;
 `
 
 export const Overview: FunctionComponent<any> = ({ match }) => {
