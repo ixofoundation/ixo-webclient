@@ -1,5 +1,5 @@
-import styled from 'styled-components'
-import { deviceWidth } from '../../../../lib/commonData'
+import styled from "styled-components";
+import { deviceWidth } from "../../../../lib/commonData";
 
 export const Main = styled.div`
   display: flex;
@@ -18,7 +18,7 @@ export const Main = styled.div`
   @media (max-width: ${deviceWidth.tablet}px) {
     text-align: center;
   }
-`
+`;
 
 export const SocialIcon = styled.a`
   padding: 10px;
@@ -29,13 +29,13 @@ export const SocialIcon = styled.a`
 
   &:hover:before {
     text-decoration: none;
-    color: ${(props): string => props.theme.ixoBlue};
+    color: ${(props: any): string => props.theme.ixoBlue};
   }
 
   &&:hover {
     text-decoration: none;
   }
-`
+`;
 
 export const SocialIconContainer = styled.div`
   margin-top: 20px;
@@ -46,4 +46,4 @@ export const SocialIconContainer = styled.div`
     padding-bottom: 1rem;
     margin-left: -3rem;
   }
-`
+`;

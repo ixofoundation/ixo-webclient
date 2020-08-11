@@ -1,47 +1,47 @@
-import * as React from 'react'
-import { FileContainer } from './InputFile.styles'
+import * as React from "react";
+import { FileContainer } from "./InputFile.styles";
 
 export interface ParentProps {
-  text?: string
-  imgSrc?: string
-  id: string
+  text?: string;
+  imgSrc?: string;
+  id: string;
 }
 
 export interface State {
-  imgSrc: string | ArrayBuffer | null
+  imgSrc: string | ArrayBuffer | null;
 }
 
 export interface Callbacks {
-  onChange: (event: Event) => void
+  onChange: (event: Event) => void;
 }
 
 export interface Props extends ParentProps, Callbacks {}
 
 export default class InputFile extends React.Component<Props, State> {
   state = {
-    imgSrc: '',
-  }
+    imgSrc: "",
+  };
 
-  handleChange = (e): void => {
-    e.preventDefault()
-    this.props.onChange(e)
-    const reader = new FileReader()
-    const file = e.target.files[0]
+  handleChange = (e: any): void => {
+    e.preventDefault();
+    this.props.onChange(e);
+    const reader = new FileReader();
+    const file = e.target.files[0];
 
     reader.onloadend = (): void => {
       this.setState({
         imgSrc: reader.result,
-      })
-    }
+      });
+    };
 
-    reader.readAsDataURL(file)
-  }
+    reader.readAsDataURL(file);
+  };
 
   render(): JSX.Element {
-    const { imgSrc } = this.state
-    let imgPreview = null
+    const { imgSrc } = this.state;
+    let imgPreview = null;
     if (imgSrc) {
-      imgPreview = <img src={imgSrc} />
+      imgPreview = <img src={imgSrc} />;
     }
     return (
       <FileContainer className="custom-file">
@@ -56,6 +56,6 @@ export default class InputFile extends React.Component<Props, State> {
         </label>
         {imgPreview}
       </FileContainer>
-    )
+    );
   }
 }

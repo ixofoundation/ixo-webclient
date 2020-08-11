@@ -1,6 +1,6 @@
-import React from 'react'
+import React from "react";
 
-const DAOStack = (width): JSX.Element => {
+const DAOStack = (width: number): JSX.Element => {
   return (
     <svg
       width={width || 18}
@@ -12,7 +12,7 @@ const DAOStack = (width): JSX.Element => {
         fill="#f2f2f2"
       />
     </svg>
-  )
-}
+  );
+};
 
-export default DAOStack
+export default DAOStack;

@@ -1,6 +1,6 @@
-import React from 'react'
+import React from "react";
 
-const Down = (props): JSX.Element => {
+const Down = (props: any): JSX.Element => {
   return (
     <svg
       width={props.width || 18}
@@ -9,10 +9,10 @@ const Down = (props): JSX.Element => {
     >
       <path
         d="M9 13.85a1.14 1.14 0 01-.8-.3L.8 6.15a1.21 1.21 0 010-1.6 1.12 1.12 0 011.6 0l6.6 6.6 6.6-6.7a1.21 1.21 0 011.6 0 1.21 1.21 0 010 1.6l-7.4 7.4a.91.91 0 01-.8.4z"
-        fill={props.fill || '#fff'}
+        fill={props.fill || "#fff"}
       />
     </svg>
-  )
-}
+  );
+};
 
-export default Down
+export default Down;

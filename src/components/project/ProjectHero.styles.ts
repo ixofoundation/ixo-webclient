@@ -1,17 +1,18 @@
-import styled from 'styled-components'
-import { Link, NavLink } from 'react-router-dom'
-import { deviceWidth } from '../../lib/commonData'
+import styled from "styled-components";
+import { Link, NavLink } from "react-router-dom";
+import { deviceWidth } from "../../lib/commonData";
 
 interface HeroContainerProps {
-  readonly onlyTitle: boolean
+  readonly onlyTitle: boolean;
 }
 
 export const HeroContainer = styled.div<HeroContainerProps>`
   margin: 0;
   position: relative;
-  background: ${(props): string => (props.onlyTitle ? 'transparent' : 'white')};
-  color: ${(props): string => (props.onlyTitle ? 'white' : 'black')};
-`
+  background: ${(props: any): string =>
+    props.onlyTitle ? "transparent" : "white"};
+  color: ${(props: any): string => (props.onlyTitle ? "white" : "black")};
+`;
 
 export const HeroInner = styled.div`
   font-family: Roboto;
@@ -26,10 +27,10 @@ export const HeroInner = styled.div`
     padding-top: 3rem;
     padding-bottom: 1rem;
   }
-`
+`;
 
 export const Title = styled.h1`
-  font-family: ${(props): string => props.theme.fontRobotoCondensed};
+  font-family: ${(props: any): string => props.theme.fontRobotoCondensed};
   font-weight: normal;
   font-size: 2.25rem;
   line-height: 1.25;
@@ -38,26 +39,26 @@ export const Title = styled.h1`
   @media (min-width: ${deviceWidth.tablet}px) {
     font-size: 2.8125rem;
   }
-`
+`;
 
 export const StyledFundingTitle = styled.h1`
-  font-family: ${(props): string => props.theme.fontRobotoCondensed};
+  font-family: ${(props: any): string => props.theme.fontRobotoCondensed};
   font-weight: normal;
   font-size: 2.25rem;
   line-height: 1.25;
   color: white;
-`
+`;
 
 export const Description = styled.p`
   color: #7b8285;
   font-size: 0.875rem;
   line-height: 1.5;
   margin-bottom: 0.5rem;
-`
+`;
 
 export const SingleSDG = styled.a`
-  font-family: ${(props): string => props.theme.fontRobotoCondensed};
-  color: ${(props): string => props.theme.fontBlue};
+  font-family: ${(props: any): string => props.theme.fontRobotoCondensed};
+  color: ${(props: any): string => props.theme.fontBlue};
   font-weight: 300;
   font-size: 0.75rem;
   margin: 0 0.625rem 0 0;
@@ -77,16 +78,16 @@ export const SingleSDG = styled.a`
 
   &:hover,
   &:hover i:before {
-    color: ${(props): string => props.theme.fontLightBlue};
+    color: ${(props: any): string => props.theme.fontLightBlue};
   }
-`
+`;
 
 export const HeroInfoItemsWrapper = styled.div`
   display: flex;
   flex-flow: row wrap;
   align-items: center;
   justify-content: flex-start;
-`
+`;
 
 export const HeroInfoItem = styled.div`
   display: flex;
@@ -104,7 +105,7 @@ export const HeroInfoItem = styled.div`
       margin-left: 0.875rem;
     }
   }
-`
+`;
 
 export const Flag = styled.div`
   background-size: contain;
@@ -114,43 +115,43 @@ export const Flag = styled.div`
   height: 1rem;
   border-radius: 4px;
   border: 0.5px solid #dfe3e8;
-`
+`;
 
 export const AddClaim = styled(Link)`
   color: white;
   display: inline-block;
   text-align: center;
-  background: ${(props): string => props.theme.bg.gradientButton};
+  background: ${(props: any): string => props.theme.bg.gradientButton};
   font-size: 15px;
   width: 288px;
   padding: 10px 0;
-  font-family: ${(props): string => props.theme.fontRobotoCondensed};
+  font-family: ${(props: any): string => props.theme.fontRobotoCondensed};
   margin-right: 10px;
 
   :hover {
     text-decoration: none;
     color: white;
-    background: ${(props): string => props.theme.bg.lightBlue};
+    background: ${(props: any): string => props.theme.bg.lightBlue};
   }
-`
+`;
 
 export const SubNavItem = styled(NavLink).attrs({
-  activeClassName: 'active',
+  activeClassName: "active",
 })`
-  color: ${(props): string => props.theme.fontBlue};
-  font-family: ${(props): string => props.theme.fontRobotoCondensed};
+  color: ${(props: any): string => props.theme.fontBlue};
+  font-family: ${(props: any): string => props.theme.fontRobotoCondensed};
   font-weight: 300;
   font-size: 14px;
   text-transform: uppercase;
 
   &.active,
   :hover {
-    color: ${(props): string => props.theme.fontBlue};
+    color: ${(props: any): string => props.theme.fontBlue};
     text-decoration: underline;
   }
 
   + span {
-    color: ${(props): string => props.theme.fontBlue};
+    color: ${(props: any): string => props.theme.fontBlue};
     margin: 0 10px;
   }
-`
+`;

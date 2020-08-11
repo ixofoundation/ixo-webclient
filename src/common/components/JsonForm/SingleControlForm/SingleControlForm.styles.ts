@@ -1,5 +1,5 @@
-import styled from 'styled-components'
-import { deviceWidth } from '../../../../lib/commonData'
+import styled from "styled-components";
+import { deviceWidth } from "../../../../lib/commonData";
 
 export const ControlContainer = styled.div`
   .form-group.field-object {
@@ -19,7 +19,7 @@ export const ControlContainer = styled.div`
     --focus-standard-border: 1px solid #39c3e6;
 
     #root__title {
-      font-family: ${(props): string => props.theme.fontRobotoCondensed};
+      font-family: ${(props: any): string => props.theme.fontRobotoCondensed};
       font-weight: normal;
       font-size: 1.5rem;
       line-height: 1.2;
@@ -30,11 +30,11 @@ export const ControlContainer = styled.div`
     }
 
     #root__description {
-      font-family: ${(props): string => props.theme.fontRoboto};
+      font-family: ${(props: any): string => props.theme.fontRoboto};
       font-weight: normal;
       font-size: 1.125rem;
       line-height: 2;
       color: #7b8285;
     }
   }
-`
+`;

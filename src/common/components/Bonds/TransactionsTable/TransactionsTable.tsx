@@ -100,7 +100,7 @@ class TransactionsTable extends Component<any> {
   componentDidMount(): void {
     // table size needs manual adjusting because virtualized table renders only visible items
     this.resizeTable()
-    window.addEventListener('resize', () => this.resizeTable())
+    window.addEventListener('resize', () => this.resizeTable()) // deepscan-disable-line
     this.props.dispatch(getTotalSupply())
   }
 
@@ -353,7 +353,7 @@ class TransactionsTable extends Component<any> {
   }
 }
 
-const mapStateToProps = function(state: RootState): RootState {
+const mapStateToProps = function (state: RootState): RootState {
   return state
 }
 

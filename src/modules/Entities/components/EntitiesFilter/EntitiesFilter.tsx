@@ -1,9 +1,9 @@
-import * as React from 'react'
-import MediaQuery from 'react-responsive'
-import { deviceWidth } from '../../../../lib/commonData'
-import { Category } from '../../types'
-import { FilterItem as IconListFilterItem } from '../../../../common/components/Filters/IconListFilter/types'
-import { Schema, SchemaCategoryTag } from './schema/types'
+import * as React from "react";
+import MediaQuery from "react-responsive";
+import { deviceWidth } from "../../../../lib/commonData";
+import { Category } from "../../types";
+import { FilterItem as IconListFilterItem } from "../../../../common/components/Filters/IconListFilter/types";
+import { Schema, SchemaCategoryTag } from "./schema/types";
 import {
   FiltersWrap,
   FilterInfo,
@@ -16,179 +16,179 @@ import {
   MobileMenu,
   BurgerMenuButton,
   Button,
-} from '../../../../common/components/Filters/Filters.styles'
-import IconListFilterDesktop from '../../../../common/components/Filters/IconListFilter/IconListFilterDesktop'
-import IconListFilterMobile from '../../../../common/components/Filters/IconListFilter/IconListFilterMobile'
-import DateFilterDesktop from '../../../../common/components/Filters/DateFilter/DateFilterDesktop'
-import DateFilterMobile from '../../../../common/components/Filters/DateFilter/DateFilterMobile'
-import Back from '../../../../assets/icons/Back'
-import Reset from '../../../../assets/icons/Reset'
-import Filter from '../../../../assets/icons/Filter'
-import { SelectType } from '../../../../common/components/Filters/IconListFilter/types'
-import * as iconListFilterUtils from '../../../../common/components/Filters/IconListFilter/IconListFilter.utils'
+} from "../../../../common/components/Filters/Filters.styles";
+import IconListFilterDesktop from "../../../../common/components/Filters/IconListFilter/IconListFilterDesktop";
+import IconListFilterMobile from "../../../../common/components/Filters/IconListFilter/IconListFilterMobile";
+import DateFilterDesktop from "../../../../common/components/Filters/DateFilter/DateFilterDesktop";
+import DateFilterMobile from "../../../../common/components/Filters/DateFilter/DateFilterMobile";
+import Back from "../../../../assets/icons/Back";
+import Reset from "../../../../assets/icons/Reset";
+import Filter from "../../../../assets/icons/Filter";
+import { SelectType } from "../../../../common/components/Filters/IconListFilter/types";
+import * as iconListFilterUtils from "../../../../common/components/Filters/IconListFilter/IconListFilter.utils";
 
 // TODO - make this 2 separate components - Desktop and Mobile
 
 interface State {
-  activeFilter: string
-  mobileFilterActiveMenu: string
+  activeFilter: string;
+  mobileFilterActiveMenu: string;
 }
 
 interface Props {
-  title: string
-  filterSchema: Schema
-  startDate: any
-  startDateFormatted: string
-  endDate: any
-  endDateFormatted: string
-  dateSummary: string
-  categories: Category[]
-  categoriesSummary: string
-  userEntities: boolean
-  featuredEntities: boolean
-  popularEntities: boolean
-  sector: string
-  handleFilterDates: (dateFrom: any, dateTo: any) => void
-  handleResetDatesFilter: () => void
-  handleFilterCategoryTag: (category: string, tag: string) => void
-  handleFilterSector: (tag: string) => void
-  handleFilterAddCategoryTag: (category: string, tag: string) => void
-  handleFilterToggleUserEntities: (userEntities: boolean) => void
-  handleFilterToggleFeaturedEntities: (featuredEntities: boolean) => void
-  handleFilterTogglePopularEntities: (popularEntities: boolean) => void
-  handleResetCategoryFilter: (category: string) => void
-  handleResetSectorFilter: () => void
-  handleResetFilters: () => void
+  title: string;
+  filterSchema: Schema;
+  startDate: any;
+  startDateFormatted: string;
+  endDate: any;
+  endDateFormatted: string;
+  dateSummary: string;
+  categories: Category[];
+  categoriesSummary: string;
+  userEntities: boolean;
+  featuredEntities: boolean;
+  popularEntities: boolean;
+  sector: string;
+  handleFilterDates: (dateFrom: any, dateTo: any) => void;
+  handleResetDatesFilter: () => void;
+  handleFilterCategoryTag: (category: string, tag: string) => void;
+  handleFilterSector: (tag: string) => void;
+  handleFilterAddCategoryTag: (category: string, tag: string) => void;
+  handleFilterToggleUserEntities: (userEntities: boolean) => void;
+  handleFilterToggleFeaturedEntities: (featuredEntities: boolean) => void;
+  handleFilterTogglePopularEntities: (popularEntities: boolean) => void;
+  handleResetCategoryFilter: (category: string) => void;
+  handleResetSectorFilter: () => void;
+  handleResetFilters: () => void;
 }
 
 class EntitiesFilter extends React.Component<Props, State> {
-  constructor(props) {
-    super(props)
+  constructor(props: any) {
+    super(props);
 
     this.state = {
-      activeFilter: '',
-      mobileFilterActiveMenu: '',
-    }
+      activeFilter: "",
+      mobileFilterActiveMenu: "",
+    };
   }
 
   filterIsActive = (filterName: string): boolean =>
-    this.state.activeFilter === filterName
+    this.state.activeFilter === filterName;
 
   toggleFilterShow = (isActive: boolean, filterName: string): void => {
     this.setState({
-      activeFilter: isActive ? '' : filterName,
-    })
-  }
+      activeFilter: isActive ? "" : filterName,
+    });
+  };
 
   toggleMobileFilterMenuShow = (menu: string): void => {
-    if (this.state.mobileFilterActiveMenu !== '') {
-      document.querySelector('body').classList.remove('noScroll')
+    if (this.state.mobileFilterActiveMenu !== "") {
+      document.querySelector("body").classList.remove("noScroll");
     } else {
-      document.querySelector('body').classList.add('noScroll')
+      document.querySelector("body").classList.add("noScroll");
     }
     this.setState({
       mobileFilterActiveMenu:
-        this.state.mobileFilterActiveMenu === menu ? '' : menu,
-    })
-  }
+        this.state.mobileFilterActiveMenu === menu ? "" : menu,
+    });
+  };
 
   getCategoryFilterItems = (
     filterName: string,
-    ddoTags: SchemaCategoryTag[],
+    ddoTags: SchemaCategoryTag[]
   ): IconListFilterItem[] => {
-    return ddoTags.map(ddoTag => ({
+    return ddoTags.map((ddoTag) => ({
       name: ddoTag.name,
       icon: ddoTag.icon,
       isSelected: this.props.categories
-        .find(category => category.name === filterName)
+        .find((category) => category.name === filterName)
         .tags.includes(ddoTag.name),
-    }))
-  }
+    }));
+  };
 
   getSectorFilterItems = (tags: SchemaCategoryTag[]): IconListFilterItem[] => {
-    return tags.map(tag => ({
+    return tags.map((tag) => ({
       name: tag.name,
       icon: tag.icon,
       isSelected: this.props.sector === tag.name,
-    }))
-  }
+    }));
+  };
 
   getViewFilterItems = (tags: SchemaCategoryTag[]): IconListFilterItem[] => {
-    const filterItems = tags.map(tag => ({
+    const filterItems = tags.map((tag) => ({
       name: tag.name,
       icon: tag.icon,
       isSelected: false,
-    }))
+    }));
 
     filterItems.find(
-      item => item.name === 'My Portfolio',
-    ).isSelected = this.props.userEntities
-    filterItems.find(item => item.name === 'Global').isSelected =
+      (item) => item.name === "My Portfolio"
+    ).isSelected = this.props.userEntities;
+    filterItems.find((item) => item.name === "Global").isSelected =
       !this.props.userEntities &&
       !this.props.featuredEntities &&
-      !this.props.popularEntities
+      !this.props.popularEntities;
     filterItems.find(
-      item => item.name === 'Featured',
-    ).isSelected = this.props.featuredEntities
+      (item) => item.name === "Featured"
+    ).isSelected = this.props.featuredEntities;
     filterItems.find(
-      item => item.name === 'Popular',
-    ).isSelected = this.props.popularEntities
+      (item) => item.name === "Popular"
+    ).isSelected = this.props.popularEntities;
 
-    return filterItems
-  }
+    return filterItems;
+  };
 
   filterViewTag = (name: string, tag: string): void => {
     switch (tag) {
-      case 'My Portfolio':
-        this.props.handleFilterToggleUserEntities(true)
-        break
-      case 'Global':
-        this.props.handleFilterToggleUserEntities(false)
-        break
-      case 'Featured':
-        this.props.handleFilterToggleFeaturedEntities(true)
-        break
-      case 'Popular':
-        this.props.handleFilterTogglePopularEntities(true)
-        break
+      case "My Portfolio":
+        this.props.handleFilterToggleUserEntities(true);
+        break;
+      case "Global":
+        this.props.handleFilterToggleUserEntities(false);
+        break;
+      case "Featured":
+        this.props.handleFilterToggleFeaturedEntities(true);
+        break;
+      case "Popular":
+        this.props.handleFilterTogglePopularEntities(true);
+        break;
     }
-  }
+  };
 
   filterCategoryTag = (
     category: string,
     tag: string,
-    multiSelect: boolean,
+    multiSelect: boolean
   ): void => {
     if (multiSelect) {
-      this.props.handleFilterAddCategoryTag(category, tag)
+      this.props.handleFilterAddCategoryTag(category, tag);
     } else {
-      this.props.handleFilterCategoryTag(category, tag)
+      this.props.handleFilterCategoryTag(category, tag);
     }
-  }
+  };
 
   filterSector = (tag: string): void => {
-    this.props.handleFilterSector(tag)
-  }
+    this.props.handleFilterSector(tag);
+  };
 
   resetSectorFilter = (): void => {
-    this.setState({ activeFilter: '' })
-    this.props.handleResetSectorFilter()
-  }
+    this.setState({ activeFilter: "" });
+    this.props.handleResetSectorFilter();
+  };
 
   resetDateFilter = (): void => {
-    this.setState({ activeFilter: '' })
-    this.props.handleResetDatesFilter()
-  }
+    this.setState({ activeFilter: "" });
+    this.props.handleResetDatesFilter();
+  };
 
   resetCategoryFilter = (category: string): void => {
-    this.setState({ activeFilter: '' })
-    this.props.handleResetCategoryFilter(category)
-  }
+    this.setState({ activeFilter: "" });
+    this.props.handleResetCategoryFilter(category);
+  };
 
   resetViewFilter = (): void => {
-    this.setState({ activeFilter: '' })
-    this.props.handleFilterToggleUserEntities(true)
-  }
+    this.setState({ activeFilter: "" });
+    this.props.handleFilterToggleUserEntities(true);
+  };
 
   render(): JSX.Element {
     const {
@@ -201,7 +201,7 @@ class EntitiesFilter extends React.Component<Props, State> {
       endDateFormatted,
       handleFilterDates,
       handleResetFilters,
-    } = this.props
+    } = this.props;
     return (
       <div data-testid="EntitiesFilter">
         <FiltersWrap>
@@ -218,14 +218,14 @@ class EntitiesFilter extends React.Component<Props, State> {
                 handleFilterToggleShow={(): void =>
                   this.toggleFilterShow(
                     this.state.activeFilter === filterSchema.dateCreated.name,
-                    filterSchema.dateCreated.name,
+                    filterSchema.dateCreated.name
                   )
                 }
                 handleFilterDateChange={handleFilterDates}
                 handleResetFilter={this.resetDateFilter}
               />
             </MediaQuery>
-            <MediaQuery maxWidth={`${deviceWidth.desktop - 1}px`} y>
+            <MediaQuery maxWidth={`${deviceWidth.desktop - 1}px`}>
               <DateFilterMobile
                 startDate={startDate}
                 endDate={endDate}
@@ -238,7 +238,7 @@ class EntitiesFilter extends React.Component<Props, State> {
                 handleFilterToggleShow={(): void =>
                   this.toggleFilterShow(
                     this.state.activeFilter === filterSchema.dateCreated.name,
-                    filterSchema.dateCreated.name,
+                    filterSchema.dateCreated.name
                   )
                 }
                 handleFilterDateChange={handleFilterDates}
@@ -251,25 +251,25 @@ class EntitiesFilter extends React.Component<Props, State> {
                   selectType={SelectType.SingleSelect}
                   key="View"
                   name="View"
-                  isActive={this.filterIsActive('View')}
+                  isActive={this.filterIsActive("View")}
                   handleFilterReset={this.resetViewFilter}
                   handleToggleFilterShow={(): void =>
-                    this.toggleFilterShow(this.filterIsActive('View'), 'View')
+                    this.toggleFilterShow(this.filterIsActive("View"), "View")
                   }
                   handleFilterItemClick={this.filterViewTag}
                   items={this.getViewFilterItems(filterSchema.view.tags)}
                 />
-                {filterSchema.ddoTags.map(schemaCategory => {
+                {filterSchema.ddoTags.map((schemaCategory) => {
                   const {
                     name: filterName,
                     tags: schemaTags,
                     multiSelect,
-                  } = schemaCategory
-                  const isActive = this.filterIsActive(filterName)
+                  } = schemaCategory;
+                  const isActive = this.filterIsActive(filterName);
                   const items = this.getCategoryFilterItems(
                     filterName,
-                    schemaTags,
-                  )
+                    schemaTags
+                  );
 
                   return (
                     <IconListFilterDesktop
@@ -290,7 +290,7 @@ class EntitiesFilter extends React.Component<Props, State> {
                       }
                       items={items}
                     />
-                  )
+                  );
                 })}
 
                 {!filterSchema.sector.hidden && (
@@ -307,11 +307,11 @@ class EntitiesFilter extends React.Component<Props, State> {
                     handleToggleFilterShow={(): void =>
                       this.toggleFilterShow(
                         this.filterIsActive(filterSchema.sector.name),
-                        filterSchema.sector.name,
+                        filterSchema.sector.name
                       )
                     }
                     handleFilterItemClick={(category, tag): void => {
-                      this.filterSector(tag)
+                      this.filterSector(tag);
                     }}
                     items={this.getSectorFilterItems(filterSchema.sector.tags)}
                   />
@@ -320,17 +320,17 @@ class EntitiesFilter extends React.Component<Props, State> {
             </MediaQuery>
             <MediaQuery maxWidth={`${deviceWidth.desktop - 1}px`}>
               <BurgerMenuButton
-                onClick={(): void => this.toggleMobileFilterMenuShow('View')}
+                onClick={(): void => this.toggleMobileFilterMenuShow("View")}
               >
                 {iconListFilterUtils.getTitle(
-                  'View',
+                  "View",
                   this.getViewFilterItems(filterSchema.view.tags),
-                  SelectType.SingleSelect,
+                  SelectType.SingleSelect
                 )}
               </BurgerMenuButton>
               <MobileMenu
                 className={
-                  this.state.mobileFilterActiveMenu === 'View' ? 'openMenu' : ''
+                  this.state.mobileFilterActiveMenu === "View" ? "openMenu" : ""
                 }
               >
                 <MobileFilterWrapper>
@@ -340,10 +340,10 @@ class EntitiesFilter extends React.Component<Props, State> {
                       name="View"
                       showFilterSubMenu={false}
                       selectType={SelectType.SingleSelect}
-                      isActive={this.filterIsActive('View')}
+                      isActive={this.filterIsActive("View")}
                       handleFilterReset={this.resetViewFilter}
                       handleToggleFilterShow={(): void =>
-                        this.toggleMobileFilterMenuShow('View')
+                        this.toggleMobileFilterMenuShow("View")
                       }
                       handleFilterItemClick={this.filterViewTag}
                       items={this.getViewFilterItems(filterSchema.view.tags)}
@@ -353,7 +353,7 @@ class EntitiesFilter extends React.Component<Props, State> {
               </MobileMenu>
               <BurgerMenuButton
                 onClick={(): void =>
-                  this.toggleMobileFilterMenuShow('Category')
+                  this.toggleMobileFilterMenuShow("Category")
                 }
               >
                 <Filter fill="#000" />
@@ -361,15 +361,15 @@ class EntitiesFilter extends React.Component<Props, State> {
               </BurgerMenuButton>
               <MobileMenu
                 className={
-                  this.state.mobileFilterActiveMenu === 'Category'
-                    ? 'openMenu'
-                    : ''
+                  this.state.mobileFilterActiveMenu === "Category"
+                    ? "openMenu"
+                    : ""
                 }
               >
                 <MobileFilterHeader>
                   <HeadingItem
                     onClick={(): void =>
-                      this.toggleMobileFilterMenuShow('Category')
+                      this.toggleMobileFilterMenuShow("Category")
                     }
                   >
                     <Back />
@@ -379,17 +379,17 @@ class EntitiesFilter extends React.Component<Props, State> {
                 <MobileFilterWrapper>
                   <div>
                     <MobileFilterHeading>Filters</MobileFilterHeading>
-                    {filterSchema.ddoTags.map(ddoCategory => {
+                    {filterSchema.ddoTags.map((ddoCategory) => {
                       const {
                         name: filterName,
                         tags: schemaTags,
                         multiSelect,
-                      } = ddoCategory
-                      const isActive = this.filterIsActive(filterName)
+                      } = ddoCategory;
+                      const isActive = this.filterIsActive(filterName);
                       const items = this.getCategoryFilterItems(
                         filterName,
-                        schemaTags,
-                      )
+                        schemaTags
+                      );
                       return (
                         <IconListFilterMobile
                           key={filterName}
@@ -410,7 +410,7 @@ class EntitiesFilter extends React.Component<Props, State> {
                           }
                           items={items}
                         />
-                      )
+                      );
                     })}
 
                     {!filterSchema.sector.hidden && (
@@ -427,22 +427,22 @@ class EntitiesFilter extends React.Component<Props, State> {
                         handleToggleFilterShow={(): void =>
                           this.toggleFilterShow(
                             this.filterIsActive(filterSchema.sector.name),
-                            filterSchema.sector.name,
+                            filterSchema.sector.name
                           )
                         }
                         handleFilterReset={this.resetSectorFilter}
                         handleFilterItemClick={(category, tag): void => {
-                          this.filterSector(tag)
+                          this.filterSector(tag);
                         }}
                         items={this.getSectorFilterItems(
-                          filterSchema.sector.tags,
+                          filterSchema.sector.tags
                         )}
                       />
                     )}
                   </div>
                   <DoneButton
                     onClick={(): void =>
-                      this.toggleMobileFilterMenuShow('Category')
+                      this.toggleMobileFilterMenuShow("Category")
                     }
                   >
                     Done
@@ -457,7 +457,7 @@ class EntitiesFilter extends React.Component<Props, State> {
           </div>
         </FiltersWrap>
       </div>
-    )
+    );
   }
 }
-export default EntitiesFilter
+export default EntitiesFilter;

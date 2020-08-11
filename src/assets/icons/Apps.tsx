@@ -1,6 +1,6 @@
-import React from 'react'
+import React from "react";
 
-const Apps = (props): JSX.Element => {
+const Apps = (props: any): JSX.Element => {
   return (
     <svg
       width={props.width || 18}
@@ -25,7 +25,7 @@ const Apps = (props): JSX.Element => {
       />
       <path fill="#00c6ff" d="M9 4.94L5.12 8.99l3.87 4.06L12.88 9 9 4.94z" />
     </svg>
-  )
-}
+  );
+};
 
-export default Apps
+export default Apps;

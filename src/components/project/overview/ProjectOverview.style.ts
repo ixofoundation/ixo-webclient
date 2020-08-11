@@ -1,6 +1,6 @@
-import styled from 'styled-components'
-import { deviceWidth } from '../../../lib/commonData'
-import { ProgressBar } from '../../../common/components/ProgressBar'
+import styled from "styled-components";
+import { deviceWidth } from "../../../lib/commonData";
+import { ProgressBar } from "../../../common/components/ProgressBar";
 
 export const OverviewContainer = styled.section`
   background: white;
@@ -22,7 +22,7 @@ export const OverviewContainer = styled.section`
   h3 {
     font-size: 1.375rem;
     font-weight: bold;
-    font-family: ${(props): string => props.theme.fontRoboto};
+    font-family: ${(props: any): string => props.theme.fontRoboto};
     margin: 0.75rem 0;
   }
   .content-section {
@@ -31,7 +31,7 @@ export const OverviewContainer = styled.section`
       background: #e8edee;
       padding: 0.5rem 1.125rem;
       border-radius: 4px;
-      font-family: ${(props): string => props.theme.fontRobotoCondensed};
+      font-family: ${(props: any): string => props.theme.fontRobotoCondensed};
       font-weight: normal;
       font-size: 2.8125rem;
       line-height: 1;
@@ -79,16 +79,16 @@ export const OverviewContainer = styled.section`
       color: #000000;
     }
   }
-`
+`;
 
 export const ProjectImage = styled.img`
   width: 100%;
   box-shadow: 0px 10px 35px 0px rgba(0, 0, 0, 0.25);
   border-radius: 4px;
   margin-bottom: 22px;
-`
+`;
 
-export const DarkBar = styled(ProgressBar)``
+export const DarkBar = styled(ProgressBar)``;
 
 export const BarContainer = styled.div`
   text-align: right;
@@ -109,17 +109,17 @@ export const BarContainer = styled.div`
     font-size: 15px;
     color: white;
     font-weight: 400;
-    background: ${(props): string => props.theme.ixoOrange};
-    font-family: ${(props): string => props.theme.fontRobotoCondensed};
+    background: ${(props: any): string => props.theme.ixoOrange};
+    font-family: ${(props: any): string => props.theme.fontRobotoCondensed};
     padding: 0px 20px;
     border-radius: 3px;
     display: inline-flex;
     margin-bottom: 14px;
   }
-`
+`;
 
 export const Sidebar = styled.div`
-  background: ${(props): string => props.theme.bg.gradientBlue};
+  background: ${(props: any): string => props.theme.bg.gradientBlue};
   padding: 14px 15px 15px;
   box-shadow: 0px 15px 35px 0px rgba(0, 0, 0, 0.35);
   margin-bottom: 35px;
@@ -129,7 +129,7 @@ export const Sidebar = styled.div`
     border-radius: 2px;
     background-color: #033c50;
   }
-`
+`;
 
 export const StatisticsContainer = styled.div`
   div {
@@ -138,7 +138,7 @@ export const StatisticsContainer = styled.div`
   span {
     font-size: 15px;
   }
-`
+`;
 
 export const Claims = styled.h4`
   font-weight: 100;
@@ -149,11 +149,11 @@ export const Claims = styled.h4`
   strong {
     font-weight: 500;
   }
-`
+`;
 export const ImpactAction = styled.p`
   font-size: 18px;
   margin-bottom: 10px;
-`
+`;
 
 export const Disputed = styled.p`
   font-size: 14px;
@@ -163,10 +163,10 @@ export const Disputed = styled.p`
   strong {
     font-weight: bold;
   }
-`
+`;
 
 export const Text = styled.div`
-  color: ${(props): string => props.theme.fontDarkGrey};
+  color: ${(props: any): string => props.theme.fontDarkGrey};
   font-size: 16px;
   line-height: 30px;
   .react-md {
@@ -183,7 +183,7 @@ export const Text = styled.div`
       float: left;
     }
   }
-`
+`;
 
 export const Hidden = styled.div`
   position: absolute;
@@ -205,19 +205,19 @@ export const Hidden = styled.div`
       fill: #4ca0eb;
     }
   }
-`
+`;
 
 export const Visible = styled.div`
   svg {
     margin-right: 10px;
   }
   transition: opacity 0.3s ease;
-`
+`;
 
 export const LocalButton = styled.a`
   border: 1px solid #b8b8b8;
   &&& {
-    color: ${(props): string => props.theme.fontGrey};
+    color: ${(props: any): string => props.theme.fontGrey};
   }
   font-size: 16px;
   text-transform: uppercase;
@@ -225,7 +225,7 @@ export const LocalButton = styled.a`
   background: none;
   margin: 0 0 30px;
   width: 100%;
-  font-family: ${/*eslint-disable-line*/ props =>
+  font-family: ${/*eslint-disable-line*/ (props) =>
     props.theme.fontRobotoCondensed};
   font-weight: 500;
   display: inline-block;
@@ -234,7 +234,7 @@ export const LocalButton = styled.a`
   transition: all 0.3s ease;
   cursor: pointer;
   svg path {
-    fill: ${(props): string => props.theme.fontGrey};
+    fill: ${(props: any): string => props.theme.fontGrey};
   }
   :hover {
     ${Visible} {
@@ -244,23 +244,23 @@ export const LocalButton = styled.a`
       opacity: 1;
     }
   }
-`
+`;
 
 export const BlueBold = styled.strong`
-  color: ${(props): string => props.theme.ixoBlue};
-`
+  color: ${(props: any): string => props.theme.ixoBlue};
+`;
 
 export const AgentIcon = styled.i`
   :before {
-    color: ${(props): string => props.theme.ixoBlue};
+    color: ${(props: any): string => props.theme.ixoBlue};
   }
-`
+`;
 
 export const ProfileCardsWrapper = styled.div`
   display: flex;
   flex-flow: row wrap;
   margin: 0 -1.75rem -1.75rem 0;
-`
+`;
 export const InlineImageWrapper = styled.div`
   display: flex;
   justify-content: center;
@@ -297,4 +297,4 @@ export const InlineImageWrapper = styled.div`
       margin-left: 1.25rem;
     }
   }
-`
+`;

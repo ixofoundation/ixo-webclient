@@ -1,5 +1,5 @@
-import styled from 'styled-components'
-import { deviceWidth } from '../../../../lib/commonData'
+import styled from "styled-components";
+import { deviceWidth } from "../../../../lib/commonData";
 
 export const Container = styled.div`
   border-radius: 4px;
@@ -9,7 +9,7 @@ export const Container = styled.div`
   @media (min-width: ${deviceWidth.tablet}px) {
     padding: 2rem 3.75rem;
   }
-`
+`;
 
 export const ContentWrapper = styled.div`
   h1 {
@@ -19,20 +19,20 @@ export const ContentWrapper = styled.div`
     letter-spacing: 0.3px;
     color: #000;
   }
-`
+`;
 export const SubHeader = styled.h4`
-  font-family: ${(props): string => props.theme.fontRoboto};
+  font-family: ${(props: any): string => props.theme.fontRoboto};
   font-size: 1.125rem;
   line-height: 2;
   color: #7b8285;
   font-weight: normal;
   margin-bottom: 2.375rem;
-`
+`;
 
 export const ListWrapper = styled.div`
   display: flex;
   flex-flow: row wrap;
-`
+`;
 export const ListItems = styled.div`
   height: unset;
   display: flex;
@@ -60,7 +60,7 @@ export const ListItems = styled.div`
   @media (min-width: ${deviceWidth.mobile}px) {
     max-height: 328px;
   }
-`
+`;
 export const ButtonWrapper = styled.div`
   display: flex;
   flex-flow: row nowrap;
@@ -93,4 +93,4 @@ export const ButtonWrapper = styled.div`
     border: none;
     color: #fff;
   }
-`
+`;

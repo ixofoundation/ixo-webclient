@@ -1,17 +1,17 @@
-import styled from 'styled-components'
-import { deviceWidth } from '../../../../lib/commonData'
-import { Link } from 'react-router-dom'
+import styled from "styled-components";
+import { deviceWidth } from "../../../../lib/commonData";
+import { Link } from "react-router-dom";
 
 export enum ShieldColor {
-  Grey = 'grey',
-  Orange = 'orange',
-  Green = 'green',
-  Red = 'red',
-  Blue = 'blue',
+  Grey = "grey",
+  Orange = "orange",
+  Green = "green",
+  Red = "red",
+  Blue = "blue",
 }
 export const CardTop = styled.div`
   overflow: hidden;
-`
+`;
 
 export const CardTopContainer = styled.div`
   padding: 10px;
@@ -28,7 +28,7 @@ export const CardTopContainer = styled.div`
   }
 
   :before {
-    content: '';
+    content: "";
     position: absolute;
     width: 100%;
     height: 33%;
@@ -51,14 +51,14 @@ export const CardTopContainer = styled.div`
     margin: 10px 5px;
     display: inline-flex;
   }
-`
+`;
 
 export const SDGs = styled.div`
   display: flex;
   flex-wrap: wrap;
   align-content: flex-start;
   justify-content: flex-end;
-`
+`;
 
 export const Description = styled.div`
   height: 100%;
@@ -86,7 +86,7 @@ export const Description = styled.div`
 
     transition: top 0.6s ease;
   }
-`
+`;
 
 export const CardBottom = styled.div`
   border-bottom-left-radius: 4px;
@@ -98,26 +98,26 @@ export const CardBottom = styled.div`
   flex-direction: column;
   justify-content: space-between;
   p {
-    color: ${(props): string => props.theme.fontDarkGrey};
+    color: ${(props: any): string => props.theme.fontDarkGrey};
   }
-`
+`;
 
 export const CardBottomHeadingContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-`
+`;
 
 export const ShieldContainer = styled.div`
   display: flex;
   box-shadow: 0px 3px 15px rgba(0, 0, 0, 0.15);
   border-radius: 4px;
-`
+`;
 
 export const ShieldText = styled.p`
   margin: 0;
   font-size: 12px;
-`
+`;
 
 export const Shield = styled.div`
   p {
@@ -126,8 +126,8 @@ export const Shield = styled.div`
     padding: 2px 10px;
     border-top-right-radius: 4px;
     border-bottom-right-radius: 4px;
-    background: ${(props): string => props.theme.ixoOrange};
-    font-family: ${(props): string => props.theme.fontRoboto};
+    background: ${(props: any): string => props.theme.ixoOrange};
+    font-family: ${(props: any): string => props.theme.fontRoboto};
   }
 
   &.${ShieldColor.Orange} {
@@ -159,27 +159,27 @@ export const Shield = styled.div`
       background-color: #39c3e6;
     }
   }
-`
+`;
 
 export const ShieldLabel = styled.div`
   ${ShieldText} {
     color: black;
     font-weight: 400;
     padding: 2px 10px;
-    font-family: ${(props): string => props.theme.fontRoboto};
+    font-family: ${(props: any): string => props.theme.fontRoboto};
   }
-`
+`;
 
 export const Logo = styled.img`
   width: 34px;
   height: 34px;
   border-radius: 17px;
-`
+`;
 
 export const CardContainer = styled.div`
   margin-bottom: 34px;
-  font-family: ${(props): string => props.theme.fontRoboto};
-`
+  font-family: ${(props: any): string => props.theme.fontRoboto};
+`;
 
 export const CardLink = styled(Link)`
   display: flex;
@@ -204,4 +204,4 @@ export const CardLink = styled(Link)`
   :hover ${Description} p {
     top: 0;
   }
-`
+`;

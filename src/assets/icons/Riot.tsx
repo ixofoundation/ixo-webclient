@@ -1,6 +1,10 @@
-import React from 'react'
+import React from "react";
 
-const Apps = (width): JSX.Element => {
+interface Prop {
+  width: number;
+}
+
+const Apps = ({ width }: Prop): JSX.Element => {
   return (
     <svg
       width={width || 18}
@@ -24,7 +28,7 @@ const Apps = (width): JSX.Element => {
         fill="#368bd6"
       />
     </svg>
-  )
-}
+  );
+};
 
-export default Apps
+export default Apps;

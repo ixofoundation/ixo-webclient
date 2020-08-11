@@ -1,5 +1,5 @@
-import styled from 'styled-components'
-import { deviceWidth } from '../../../../lib/commonData'
+import styled from "styled-components";
+import { deviceWidth } from "../../../../lib/commonData";
 
 export const ActionLinksWrapper = styled.div`
   display: flex;
@@ -31,22 +31,22 @@ export const ActionLinksWrapper = styled.div`
     &:hover {
       color: #47568c;
       text-decoration: none;
-      border: 1px solid ${(props): string => props.theme.ixoBlue};
+      border: 1px solid ${(props: any): string => props.theme.ixoBlue};
     }
     &:focus {
       outline: none;
     }
   }
-`
+`;
 
 export const AssistantContentWrapper = styled.div`
   height: 100%;
   background: white;
-`
+`;
 
 export const SummaryWrapper = styled(AssistantContentWrapper)`
   position: relative;
-`
+`;
 
 export const ActionWrapper = styled.div`
   background: #dfe7f4;
@@ -128,14 +128,14 @@ export const ActionWrapper = styled.div`
       width: 100vw;
     }
   }
-`
+`;
 
 export const AssistantWrapper = styled.div`
   height: calc(100% - 72px);
   .rw-conversation-container {
     box-shadow: none;
   }
-`
+`;
 
 export const AssistantHeader = styled.div`
   background: #143f54;
@@ -163,7 +163,7 @@ export const AssistantHeader = styled.div`
   .back-icon {
     transform: rotate(180deg);
   }
-`
+`;
 
 export const AssistantProgress = styled.div`
   height: 100%;
@@ -194,7 +194,7 @@ export const AssistantProgress = styled.div`
       }
     }
     &:after {
-      content: '';
+      content: "";
       display: block;
       position: absolute;
       z-index: -1;
@@ -230,4 +230,4 @@ export const AssistantProgress = styled.div`
     color: #a5adb0;
     text-decoration: none;
   }
-`
+`;

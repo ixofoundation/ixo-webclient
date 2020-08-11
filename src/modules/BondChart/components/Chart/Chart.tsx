@@ -1,10 +1,10 @@
-import React, { Fragment } from 'react'
-import ReactApexChart from 'react-apexcharts'
+import React, { Fragment } from "react";
+import ReactApexChart from "react-apexcharts";
 
-import { ChartContainer, StyledHeader } from './Chart.styles'
+import { ChartContainer, StyledHeader } from "./Chart.styles";
 
 interface Props {
-  data: any
+  data: any;
 }
 
 const seriesData = [
@@ -100,7 +100,7 @@ const seriesData = [
     x: new Date(2017, 11, 1),
     y: [61.71, 64.15, 61.29, 63.04],
   },
-]
+];
 
 const seriesDataLinear = [
   {
@@ -195,98 +195,98 @@ const seriesDataLinear = [
     x: new Date(2017, 11, 1),
     y: 43.04,
   },
-]
+];
 
 export const Chart: React.FunctionComponent<Props> = ({ data }) => {
   const series = [
     {
       data: seriesData,
     },
-  ]
+  ];
   const seriesBar = [
     {
-      name: 'volume',
+      name: "volume",
       data: seriesDataLinear,
     },
-  ]
+  ];
   const options = {
     chart: {
-      type: 'candlestick',
+      type: "candlestick",
       height: 290,
-      id: 'candles',
+      id: "candles",
       toolbar: {
-        autoSelected: 'pan',
+        autoSelected: "pan",
         show: false,
       },
       zoom: {
         enabled: false,
       },
-      foreColor: '#2A7597',
+      foreColor: "#2A7597",
     },
     plotOptions: {
       candlestick: {
         colors: {
-          upward: '#39C3E6',
-          downward: '#F89D28',
+          upward: "#39C3E6",
+          downward: "#F89D28",
         },
       },
     },
     xaxis: {
-      type: 'datetime',
+      type: "datetime",
       axisBorder: {
         show: false,
       },
       axisTicks: {
-        color: '#436779',
+        color: "#436779",
       },
     },
     grid: {
-      borderColor: '#436779',
+      borderColor: "#436779",
       strokeDashArray: 2,
     },
-  }
+  };
 
   const optionsBar = {
     chart: {
       height: 160,
-      type: 'bar',
+      type: "bar",
       brush: {
         enabled: true,
-        target: 'candles',
+        target: "candles",
       },
       selection: {
         enabled: true,
         xaxis: {
-          min: new Date('20 Jan 2017').getTime(),
-          max: new Date('10 Dec 2017').getTime(),
+          min: new Date("20 Jan 2017").getTime(),
+          max: new Date("10 Dec 2017").getTime(),
         },
         fill: {
-          color: '#C4C4C4',
+          color: "#C4C4C4",
           opacity: 0.1,
         },
         stroke: {
-          color: '#0D47A1',
+          color: "#0D47A1",
         },
       },
-      foreColor: '#2A7597',
+      foreColor: "#2A7597",
     },
     dataLabels: {
       enabled: false,
     },
     plotOptions: {
       bar: {
-        columnWidth: '80%',
+        columnWidth: "80%",
         colors: {
           ranges: [
             {
               from: -1000,
               to: 0,
-              color: '#F89D28',
+              color: "#F89D28",
             },
             {
               from: 1,
               to: 10000,
-              color: '#39C3E6',
+              color: "#39C3E6",
             },
           ],
         },
@@ -296,10 +296,10 @@ export const Chart: React.FunctionComponent<Props> = ({ data }) => {
       width: 0,
     },
     xaxis: {
-      type: 'datetime',
+      type: "datetime",
       axisBorder: {
         offsetX: 13,
-        color: '#436779',
+        color: "#436779",
         show: false,
       },
       axisTicks: {
@@ -315,10 +315,10 @@ export const Chart: React.FunctionComponent<Props> = ({ data }) => {
       },
     },
     grid: {
-      borderColor: '#436779',
+      borderColor: "#436779",
       strokeDashArray: 1,
     },
-  }
+  };
 
   return (
     <Fragment>
@@ -340,5 +340,5 @@ export const Chart: React.FunctionComponent<Props> = ({ data }) => {
         </div>
       </ChartContainer>
     </Fragment>
-  )
-}
+  );
+};
