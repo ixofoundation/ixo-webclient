@@ -31,12 +31,12 @@ step_cache_save_yarn: &step_cache_save_yarn
 step_run_install_yarn_dependencies: &step_run_install_yarn_dependencies
   name: 'Install YARN Dependencies'
   command: |
-    yarn install
+    npm install
 
 step_test: &step_test
   name: 'Run Tests'
   command: |
-    yarn run test
+    npm run test
 
 # --------------------------------
 # env
