@@ -41,6 +41,10 @@ step_test: &step_test
 # --------------------------------
 # env
 # --------------------------------
+yarn_install: &yarn_install
+  name: 'YARN setup'
+  command: |
+  curl -o- -L https://yarnpkg.com/install.sh | bash
 
 uat_in_app_environment: &uat_in_app_environment
   name: 'UAT in app env variables'
@@ -93,7 +97,6 @@ jobs:
 # --------------------------------
 
 workflows:
-  <<: *node_build
   version: 2
   build_test:
     jobs:
@@ -112,6 +115,7 @@ workflows:
                 - dev
       - docker/publish:
           after_checkout:
+            - run: *yarn_install
             - run: *uat_in_app_environment
             - restore_cache: *step_cache_restore_yarn
             - run: *step_run_install_yarn_dependencies
