@@ -105,7 +105,6 @@ workflows:
 
   uat_publish_docker:
     jobs:
-      - install:
         <<: *node_build
       - test:
           filters:
