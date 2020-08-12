@@ -1,5 +1,4 @@
 import * as React from 'react'
-import { useSelector } from 'react-redux'
 import moment from 'moment'
 import { SDGArray } from '../../lib/commonData'
 import { getCountryName, toTitleCase } from '../../common/utils/formatters'
@@ -22,7 +21,6 @@ import { EntityType } from 'modules/Entities/types'
 import { entityTypeMap } from 'modules/Entities/strategy-map'
 import { useWindowSize } from 'common/hooks'
 import { deviceWidth } from 'lib/commonData'
-import { selectPathnameProps } from 'modules/Router/router.selector'
 
 export interface Props {
   project: any
