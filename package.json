@@ -78,7 +78,8 @@
     "build": "react-scripts --max_old_space_size=4096 build",
     "lint": "eslint --ext=jsx,ts,tsx src",
     "lint:fix": "eslint --ext=jsx,ts,tsx src --fix",
-    "test": "react-scripts test"
+    "test": "react-scripts test --watchAll=false",
+    "test:watch": "react-scripts test"
   },
   "eslintConfig": {
     "extends": "react-app"
