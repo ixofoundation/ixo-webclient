@@ -1,10 +1,10 @@
-import styled from 'styled-components'
-import { deviceWidth } from '../../../../lib/commonData'
+import styled from "styled-components";
+import { deviceWidth } from "../../../../lib/commonData";
 
 export const HeroContainer = styled.div`
   background: #f7f8f9;
   color: #7b8285;
-  font-family: ${(props): string => props.theme.fontRoboto};
+  font-family: ${(props: any): string => props.theme.fontRoboto};
   display: flex;
   flex-flow: row wrap;
   align-items: center;
@@ -15,7 +15,7 @@ export const HeroContainer = styled.div`
   }
 
   h1 {
-    font-family: ${(props): string => props.theme.fontRobotoCondensed};
+    font-family: ${(props: any): string => props.theme.fontRobotoCondensed};
     font-size: 45px;
     line-height: 1;
     color: black;
@@ -24,7 +24,7 @@ export const HeroContainer = styled.div`
   }
 
   h6 {
-    font-family: ${(props): string => props.theme.fontRoboto};
+    font-family: ${(props: any): string => props.theme.fontRoboto};
     font-size: 14px;
     line-height: 2.5;
     color: #7b8285;
@@ -37,4 +37,4 @@ export const HeroContainer = styled.div`
     color: #7b8285;
     margin: 0;
   }
-`
+`;

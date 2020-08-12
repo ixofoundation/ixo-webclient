@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { NavLink, Route } from 'react-router-dom'
-import './Exchange.css'
+import './Exchange.scss'
 import { connect } from 'react-redux'
 import { RootState } from '../../../redux/types'
 import { BondsWrapperConnected as BondsWrapper } from '../BondsWrapper/BondsWrapper'
@@ -71,8 +71,8 @@ class Exchange extends Component<Props> {
                 Swap
               </NavLink>
             ) : (
-              undefined
-            )}
+                undefined
+              )}
           </BondsSectionNav>
           <Route
             exact

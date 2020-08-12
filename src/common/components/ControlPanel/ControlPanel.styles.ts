@@ -1,5 +1,5 @@
-import styled from 'styled-components'
-import { deviceWidth } from '../../../lib/commonData'
+import styled from "styled-components";
+import { deviceWidth } from "../../../lib/commonData";
 
 export const MobileControlPanelToggle = styled.button`
   display: block;
@@ -20,7 +20,7 @@ export const MobileControlPanelToggle = styled.button`
   @media (min-width: ${deviceWidth.desktop}px) {
     display: none;
   }
-`
+`;
 
 export const ControlPanelWrapper = styled.div`
   background: #dfe7f4;
@@ -47,7 +47,7 @@ export const ControlPanelWrapper = styled.div`
       left: 0;
     }
   }
-`
+`;
 
 export const ControlPanelScrollWrapper = styled.div`
   position: relative;
@@ -66,7 +66,7 @@ export const ControlPanelScrollWrapper = styled.div`
       z-index: 99;
     }
   }
-`
+`;
 
 export const ControlPanelSection = styled.div`
   background: #f0f7ff;
@@ -103,7 +103,7 @@ export const ControlPanelSection = styled.div`
       }
     }
   }
-`
+`;
 
 export const SquareButtonSection = styled.div`
   display: flex;
@@ -138,8 +138,8 @@ export const SquareButtonSection = styled.div`
     }
     &:hover {
       .icon-wrapper {
-        border: 1px solid ${(props): string => props.theme.ixoBlue};
+        border: 1px solid ${(props: any): string => props.theme.ixoBlue};
       }
     }
   }
-`
+`;

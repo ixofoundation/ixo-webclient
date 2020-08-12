@@ -29,11 +29,11 @@ class Header extends Component<any, HeaderState> {
   constructor(props: any) {
     super(props)
     this.state = {
-      selected: null,
+      selected: 0,
     }
     setInterval(() => {
       this.refreshAccount()
-    }, INTERVAL_LENGTH)
+    }, INTERVAL_LENGTH) // deepscan-disable-line
 
     this.refreshAccount()
   }
@@ -110,7 +110,7 @@ class Header extends Component<any, HeaderState> {
   }
 }
 
-const mapStateToProps = function(state: RootState): RootState {
+const mapStateToProps = function (state: RootState): RootState {
   return state
 }
 

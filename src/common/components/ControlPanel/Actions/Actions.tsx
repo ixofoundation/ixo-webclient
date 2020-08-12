@@ -14,7 +14,11 @@ import { SummaryContainerConnected } from '../../../../modules/SubmitEntityClaim
 import { Tooltip } from '../../Tooltip'
 import { InstructionsContainerConnected } from '../../../../modules/SubmitEntityClaim/Instructions.container'
 
-const icons = {
+interface IconTypes {
+  [key: string]: any
+}
+
+const icons: IconTypes = {
   AddPerson,
   Message,
   Target,
@@ -58,14 +62,14 @@ const Actions: React.FunctionComponent<Props> = ({
           {title}
         </h4>
         <ActionLinksWrapper>
-          {controls.map(control => {
+          {controls?.map((control) => {
             if (control.permissions[0].role === 'user' && !userDid) {
               return null
             }
 
             const intent = control.parameters.find(
-              param => param.name === 'intent',
-            ).value
+              (param) => param?.name === 'intent',
+            )?.value
 
             const to = `/projects/${entityDid}/overview/action/${intent}`
 

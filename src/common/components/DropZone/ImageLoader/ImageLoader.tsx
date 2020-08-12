@@ -4,7 +4,7 @@ import 'react-image-crop/dist/ReactCrop.css'
 import Dropzone from 'react-dropzone'
 import { ModalWrapper } from './ImageLoader.styles'
 import {
-  DropZoneStyles,
+  // DropZoneStyles,
   LoaderWrapper,
   UploadingWrapper,
 } from '../Loader.styles'
@@ -31,7 +31,7 @@ export interface State {
 }
 
 class ImageLoader extends React.Component<Props, State> {
-  constructor(props) {
+  constructor(props: any) {
     super(props)
 
     this.state = {
@@ -51,11 +51,11 @@ class ImageLoader extends React.Component<Props, State> {
     })
   }
 
-  onCropChange = (crop): void => {
+  onCropChange = (crop: any): void => {
     this.setState({ crop })
   }
 
-  onImageLoaded = (image): false => {
+  onImageLoaded = (image: any): false => {
     const { width: imageWidth, height: imageHeight } = image
     const { aspect } = this.props
     const imageAspect = imageWidth / imageHeight
@@ -122,7 +122,7 @@ class ImageLoader extends React.Component<Props, State> {
     this.reset()
   }
 
-  onComplete = (crop): void => {
+  onComplete = (crop: any): void => {
     this.setState({ crop })
   }
 
@@ -140,20 +140,20 @@ class ImageLoader extends React.Component<Props, State> {
     const ctx = canvas.getContext('2d')
 
     if (circularCrop) {
-      ctx.beginPath()
-      ctx.arc(
+      ctx?.beginPath()
+      ctx?.arc(
         crop.width / 2,
         crop.height / 2,
         crop.width / 2,
         0,
         2 * Math.PI, // 4 radians is the entire circumference
       ) // draw the circle
-      ctx.clip() //call the clip method so the next render is clipped in last path
-      ctx.stroke()
-      ctx.closePath()
+      ctx?.clip() //call the clip method so the next render is clipped in last path
+      ctx?.stroke()
+      ctx?.closePath()
     }
 
-    ctx.drawImage(
+    ctx?.drawImage(
       image,
       crop.x * scaleX,
       crop.y * scaleY,
@@ -179,19 +179,19 @@ class ImageLoader extends React.Component<Props, State> {
     canvas.height = image.height
 
     const ctx = canvas.getContext('2d')
-    ctx.drawImage(image, 0, 0)
+    ctx?.drawImage(image, 0, 0)
 
     return canvas.toDataURL()
   }
 
-  onDropAccepted = (files): void => {
+  onDropAccepted = (files: any): void => {
     const file = files[0]
 
     const reader = new FileReader()
 
     reader.onload = (e2): void => {
       this.setState({
-        imgSrc: e2.target.result,
+        imgSrc: e2?.target?.result,
         isModalOpen: true,
       })
     }
@@ -260,11 +260,13 @@ class ImageLoader extends React.Component<Props, State> {
           <Dropzone
             accept={strategyMap[FileType.Image].mimeType}
             onDropAccepted={this.onDropAccepted}
-            style={DropZoneStyles}
+            // style={DropZoneStyles}
           >
-            <button type="button">
-              {strategyMap[FileType.Image].replaceButtonText}
-            </button>
+            {() => (
+              <button type="button">
+                {strategyMap[FileType.Image].replaceButtonText}
+              </button>
+            )}
           </Dropzone>
           {this.renderCroppingModal()}
         </LoaderWrapper>
@@ -276,16 +278,20 @@ class ImageLoader extends React.Component<Props, State> {
         <Dropzone
           accept="image/*"
           onDropAccepted={this.onDropAccepted}
-          style={DropZoneStyles}
+          // style={DropZoneStyles}
         >
-          <PulseLoader repeat={false}>
-            <UploadFlat width={32} fill="#39C3E6" />
-          </PulseLoader>
-          <p className="desktop-upload-item">Drag files to upload, or</p>
-          <button type="button">
-            {strategyMap[FileType.Image].uploadButtonText}
-          </button>
-          <small>{strategyMap[FileType.Image].fileTypesText}</small>
+          {() => (
+            <React.Fragment>
+              <PulseLoader repeat={false}>
+                <UploadFlat width={32} fill="#39C3E6" />
+              </PulseLoader>
+              <p className="desktop-upload-item">Drag files to upload, or</p>
+              <button type="button">
+                {strategyMap[FileType.Image].uploadButtonText}
+              </button>
+              <small>{strategyMap[FileType.Image].fileTypesText}</small>
+            </React.Fragment>
+          )}
         </Dropzone>
         {this.renderCroppingModal()}
       </LoaderWrapper>

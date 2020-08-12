@@ -1,24 +1,24 @@
-import React from 'react'
+import React from "react";
 
-const selectValue = (value: string, selected, all): any[] => {
-  const at = all.indexOf(value)
-  const updated = selected.slice(0, at).concat(value, selected.slice(at))
+const selectValue = (value: string, selected: any, all: any): any[] => {
+  const at = all.indexOf(value);
+  const updated = selected.slice(0, at).concat(value, selected.slice(at));
 
-  return updated.sort((a, b) => all.indexOf(a) > all.indexOf(b))
-}
+  return updated.sort((a: any, b: any) => all.indexOf(a) > all.indexOf(b));
+};
 
-const deselectValue = (value: string, selected): any[] => {
-  return selected.filter(v => v !== value)
-}
+const deselectValue = (value: string, selected: any): any[] => {
+  return selected.filter((v: any) => v !== value);
+};
 
 interface Props {
-  id: string
-  disabled: boolean
-  options: any
-  value: string
-  autofocus: boolean
-  readonly: boolean
-  onChange: (value: any) => void
+  id: string;
+  disabled: boolean;
+  options: any;
+  value: string;
+  autofocus: boolean;
+  readonly: boolean;
+  onChange: (value: any) => void;
 }
 
 const CheckboxesWidget: React.FunctionComponent<Props> = ({
@@ -32,13 +32,13 @@ const CheckboxesWidget: React.FunctionComponent<Props> = ({
 }) => {
   return (
     <div className="image-checkboxes" id={id}>
-      {enumOptions.map((option, index) => {
-        const checked = value.indexOf(option.value) !== -1
+      {enumOptions.map((option: any, index: any) => {
+        const checked = value.indexOf(option.value) !== -1;
         const itemDisabled =
-          enumDisabled && enumDisabled.indexOf(option.value) != -1
+          enumDisabled && enumDisabled.indexOf(option.value) != -1;
         const disabledCls =
-          disabled || itemDisabled || readonly ? 'disabled' : ''
-        const image = images[index]
+          disabled || itemDisabled || readonly ? "disabled" : "";
+        const image = images[index];
         const checkbox = (
           <span>
             <div>
@@ -49,11 +49,11 @@ const CheckboxesWidget: React.FunctionComponent<Props> = ({
                 disabled={disabled || itemDisabled || readonly}
                 autoFocus={autofocus && index === 0}
                 onChange={(event: any): void => {
-                  const all = enumOptions.map(({ value }) => value)
+                  const all = enumOptions.map(({ value }: any) => value);
                   if (event.target.checked) {
-                    onChange(selectValue(option.value, value, all))
+                    onChange(selectValue(option.value, value, all));
                   } else {
-                    onChange(deselectValue(option.value, value))
+                    onChange(deselectValue(option.value, value));
                   }
                 }}
               />
@@ -61,7 +61,7 @@ const CheckboxesWidget: React.FunctionComponent<Props> = ({
             </div>
             <img src={image} />
           </span>
-        )
+        );
         return inline ? (
           <label key={index} className={`checkbox-inline ${disabledCls}`}>
             {checkbox}
@@ -70,10 +70,10 @@ const CheckboxesWidget: React.FunctionComponent<Props> = ({
           <div key={index} className={`checkbox ${disabledCls}`}>
             <label>{checkbox}</label>
           </div>
-        )
+        );
       })}
     </div>
-  )
-}
+  );
+};
 
-export default CheckboxesWidget
+export default CheckboxesWidget;

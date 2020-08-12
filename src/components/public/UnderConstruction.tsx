@@ -1,19 +1,23 @@
-import * as React from 'react'
-import { ButtonTypes, Button } from '../../common/components/Form/Buttons'
+import * as React from "react";
+import { useHistory } from "react-router-dom";
+
+import { ButtonTypes, Button } from "../../common/components/Form/Buttons";
 import {
   Banner,
   BannerLeft,
   BannerRight,
   ButtonContainer,
-} from './ErrorPages.styles'
+} from "./ErrorPages.styles";
 
 export const UnderConstruction: React.SFC = () => {
+  let history = useHistory();
+
   return (
     <Banner className="row">
       <div className="col-lg-4">
         <BannerLeft>
           <img
-            src={require('../../assets/images/underconstruction/x-outline.png')}
+            src={require("../../assets/images/underconstruction/x-outline.png")}
             alt=""
           />
         </BannerLeft>
@@ -24,12 +28,12 @@ export const UnderConstruction: React.SFC = () => {
             <h2>Under construction.</h2>
             <p>
               This page is currently being built and should be available to view
-              soon. Please come back another day.{' '}
+              soon. Please come back another day.{" "}
             </p>
             <ButtonContainer>
               <Button
                 type={ButtonTypes.dark}
-                onClick={(): void => history.back()}
+                onClick={(): void => history.goBack()}
               >
                 Back to previous page
               </Button>
@@ -38,5 +42,5 @@ export const UnderConstruction: React.SFC = () => {
         </BannerRight>
       </div>
     </Banner>
-  )
-}
+  );
+};

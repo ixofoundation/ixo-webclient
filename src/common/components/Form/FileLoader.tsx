@@ -21,20 +21,18 @@ const IconImage = styled.img`
   margin-top: 10px;
 `
 
-const styles = {
-  dropzone: {
-    width: '100%',
-    height: '150px',
-    backgroundColor: 'lightgrey',
-    borderWidth: '2px',
-    textAlign: 'center',
-    alignVertical: 'middle',
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    borderRadius: '5px',
-  },
-}
+const StyledDropZone = styled(Dropzone)`
+  width: 100%;
+  height: 150px;
+  background-color: lightgrey;
+  border-width: 2px;
+  text-align: center;
+  vertical-align: middle;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-radius: 5px;
+`
 
 export interface StateProps {
   selectedCallback: Function
@@ -43,7 +41,7 @@ export interface StateProps {
 }
 
 export interface State {
-  filename: string
+  filename: string | null
 }
 
 export class FileLoader extends React.Component<StateProps, State> {
@@ -51,7 +49,7 @@ export class FileLoader extends React.Component<StateProps, State> {
     filename: null,
   }
 
-  onDropAccepted = (files): void => {
+  onDropAccepted = (files: any): void => {
     const file = files[0]
     if (!file) {
       return
@@ -61,7 +59,7 @@ export class FileLoader extends React.Component<StateProps, State> {
     const reader = new FileReader()
 
     reader.onload = (e2): void => {
-      this.props.selectedCallback(e2.target.result)
+      this.props.selectedCallback(e2?.target?.result)
     }
 
     reader.readAsDataURL(file)
@@ -77,17 +75,21 @@ export class FileLoader extends React.Component<StateProps, State> {
   render(): JSX.Element {
     return (
       <div>
-        <Dropzone
+        <StyledDropZone
           accept={this.props.acceptType}
           onDropAccepted={this.onDropAccepted}
-          style={styles.dropzone}
+          // style={styles.dropzone}
         >
-          <IconImage src={iconUpload()} />
-          <p>
-            {this.props.placeholder || 'Choose file'}
-            {this.showFilename()}
-          </p>
-        </Dropzone>
+          {() => (
+            <React.Fragment>
+              <IconImage src={iconUpload()} />
+              <p>
+                {this.props.placeholder || 'Choose file'}
+                {this.showFilename()}
+              </p>
+            </React.Fragment>
+          )}
+        </StyledDropZone>
       </div>
     )
   }

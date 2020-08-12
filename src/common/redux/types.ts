@@ -34,4 +34,5 @@ export interface RootState {
   createEntityPageContent: CreateEntityPageContentState
   createEntitySettings: CreateEntitySettingsState
   createEntityAdvanced: CreateEntityAdvancedState
+  router: any
 }

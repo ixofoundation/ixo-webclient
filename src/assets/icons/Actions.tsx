@@ -1,6 +1,6 @@
-import React from 'react'
+import React from "react";
 
-const Actions = (props): JSX.Element => {
+const Actions = (props: any): JSX.Element => {
   return (
     <svg
       width={props.width || 18}
@@ -48,7 +48,7 @@ const Actions = (props): JSX.Element => {
         fill="#334a5e"
       />
     </svg>
-  )
-}
+  );
+};
 
-export default Actions
+export default Actions;

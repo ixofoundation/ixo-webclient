@@ -1,5 +1,5 @@
-import styled from 'styled-components'
-import { deviceWidth } from '../../../lib/commonData'
+import styled from "styled-components";
+import { deviceWidth } from "../../../lib/commonData";
 
 export const TopBar = styled.header`
   position: sticky;
@@ -17,11 +17,11 @@ export const TopBar = styled.header`
       z-index: 13;
     }
   }
-`
+`;
 
 export const StatusMessage = styled.div`
   opacity: 0;
-  background: ${(props): string => props.theme.bg.lightBlue};
+  background: ${(props: any): string => props.theme.bg.lightBlue};
   position: absolute;
   color: white;
   top: 15px;
@@ -40,19 +40,20 @@ export const StatusMessage = styled.div`
   }
 
   &:after {
-    content: '';
+    content: "";
     width: 0;
     height: 0;
     border-left: 10px solid transparent;
     border-right: 10px solid transparent;
-    border-bottom: 10px solid ${(props): string => props.theme.bg.lightBlue};
+    border-bottom: 10px solid
+      ${(props: any): string => props.theme.bg.lightBlue};
     position: absolute;
     top: -10px;
     right: 20px;
     pointer-events: none;
     transition: opacity 0.3s ease;
   }
-`
+`;
 
 export const Ping = styled.div`
   position: relative;
@@ -65,7 +66,7 @@ export const Ping = styled.div`
   &:hover ${StatusMessage}, &:hover ${StatusMessage} {
     opacity: 1;
   }
-`
+`;
 
 export const Light = styled.span`
   display: block;
@@ -74,7 +75,7 @@ export const Light = styled.span`
   background: rgb(240, 0, 0);
   border-radius: 0 0 2px 2px;
   box-shadow: 0px 0px 5px 0px rgb(255, 0, 0);
-`
+`;
 
 export const LightLoading = styled(Light)`
   box-shadow: 0px 0px 5px 0px rgba(255, 165, 0, 1);
@@ -93,12 +94,12 @@ export const LightLoading = styled(Light)`
       box-shadow: 0px 0px 5px 0px rgba(255, 165, 0, 1);
     }
   }
-`
+`;
 
 export const LightReady = styled(Light)`
   background: #5ab946;
   box-shadow: 0px 0px 5px 0px rgb(0, 255, 64);
-`
+`;
 
 export const ModalData = styled.div`
   max-width: 380px;
@@ -109,14 +110,14 @@ export const ModalData = styled.div`
     font-size: 64px;
 
     :before {
-      color: ${(props): string => props.theme.ixoBlue};
+      color: ${(props: any): string => props.theme.ixoBlue};
     }
   }
 
   h3 {
     margin-top: 10px;
     font-size: 18px;
-    font-family: ${(props): string => props.theme.fontRobotoCondensed};
+    font-family: ${(props: any): string => props.theme.fontRobotoCondensed};
   }
 
   p {
@@ -124,10 +125,10 @@ export const ModalData = styled.div`
     font-weight: 300;
 
     span {
-      color: ${(props): string => props.theme.ixoBlue};
+      color: ${(props: any): string => props.theme.ixoBlue};
     }
   }
-`
+`;
 
 export const InfoLink = styled.a`
   color: white;
@@ -135,6 +136,6 @@ export const InfoLink = styled.a`
   text-decoration: underline;
 
   :hover {
-    color: ${(props): string => props.theme.ixoBlue};
+    color: ${(props: any): string => props.theme.ixoBlue};
   }
-`
+`;

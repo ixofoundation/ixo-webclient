@@ -14,13 +14,15 @@ export interface Button {
 export interface Props {
   buttons: Button[]
   matchType: MatchType
-  activeTabColor: string
+  activeTabColor: string | undefined
+  assistantPanelToggle: () => void
 }
 
 export const Tabs: React.SFC<Props> = ({
   buttons,
   matchType,
   activeTabColor,
+  assistantPanelToggle,
 }) => {
   const TabsContainer = createTabsContainer(activeTabColor)
 
@@ -38,23 +40,28 @@ export const Tabs: React.SFC<Props> = ({
             {button.title && <p>{button.title}</p>}
           </NavLink>
         ) : (
-          <Tooltip
-            text="Coming Soon"
-            key={index}
-            position={TooltipPositions.bottom}
-          >
-            <NavLink
-              className={button.linkClass}
-              exact={matchType === MatchType.exact}
-              strict={matchType === MatchType.strict}
-              to={{ pathname: button.path }}
+            <Tooltip
+              text="Coming Soon"
+              key={index}
+              position={TooltipPositions.bottom}
             >
-              {button.iconClass && <i className={button.iconClass} />}
-              {button.title && <p>{button.title}</p>}
-            </NavLink>
-          </Tooltip>
-        )
+              <NavLink
+                className={button.linkClass}
+                exact={matchType === MatchType.exact}
+                strict={matchType === MatchType.strict}
+                to={{ pathname: button.path }}
+              >
+                {button.iconClass && <i className={button.iconClass} />}
+                {button.title && <p>{button.title}</p>}
+              </NavLink>
+            </Tooltip>
+          )
       })}
+      {
+        typeof assistantPanelToggle === "function" && (
+          <button onClick={() => assistantPanelToggle()}>pluse</button>
+        )
+      }
     </TabsContainer>
   )
 }
