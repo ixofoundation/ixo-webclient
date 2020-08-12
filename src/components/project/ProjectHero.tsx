@@ -44,7 +44,6 @@ export const ProjectHero: React.SFC<Props> = ({
   assistantPanelToggle,
 }) => {
   const windowSize = useWindowSize()
-  const pathName = useSelector(selectPathnameProps)
   const entityType = project.entityType
     ? (toTitleCase(project.entityType) as EntityType)
     : EntityType.Project

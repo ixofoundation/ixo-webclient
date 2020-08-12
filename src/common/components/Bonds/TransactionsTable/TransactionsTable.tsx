@@ -99,8 +99,6 @@ class TransactionsTable extends Component<any> {
   }
 
   sortItems(list: any): any {
-    Object.assign([], list)
-
     // sort by key. timestamp for default
     list = list.sort((a: any, b: any) => {
       return new Date(a.timestamp) > new Date(b.timestamp) ? -1 : 1
