@@ -1,12 +1,12 @@
 import React from 'react'
 import {
-  FuelEntityConfirmOrderWrapper,
-  FuelEntityConfirmOrderHeader,
-  FuelEntityConfirmOrderTitle,
-  FuelEntityConfirmOrderSubTitle,
-  FuelEntityConfirmOrderPrice,
-  FuelEntityConfirmOrderCaption,
-  FuelEntityConfirmOrderHR,
+  FundingChatOrderWrapper,
+  FundingChatOrderSummaryWrapper,
+  FundingChatOrderHeader,
+  FundingChatOrderTitle,
+  FundingChatOrderSubTitle,
+  FundingChatPriceWrapper,
+  FundingChatOrderCaption,
   ChatBotIconWrapper,
   ButtonWrapper,
   CancelOrderButton,
@@ -32,7 +32,7 @@ export interface Props {
   handleCancelOrder: () => void
 }
 
-const FuelEntityConfirmOrder: React.FunctionComponent<Props> = ({
+const FundingChatOrder: React.FunctionComponent<Props> = ({
   subscription,
   symbol,
   amount,
@@ -47,114 +47,163 @@ const FuelEntityConfirmOrder: React.FunctionComponent<Props> = ({
   handleCancelOrder,
 }) => {
   return (
-    <FuelEntityConfirmOrderWrapper>
+    <FundingChatOrderWrapper className="container">
       <BackButton onClick={handleCancelOrder}>
         <BackIcon width="18" fill="#A5ADB0" />
       </BackButton>
       <div className="row header-section">
         <div className="col-12">
-          <FuelEntityConfirmOrderHeader>
+          <FundingChatOrderHeader>
             Order Summary
-          </FuelEntityConfirmOrderHeader>
+          </FundingChatOrderHeader>
         </div>
-        <div className="col-6">
-          <FuelEntityConfirmOrderTitle>
-            {subscription}
-          </FuelEntityConfirmOrderTitle>
-          <FuelEntityConfirmOrderCaption>
-            Subscription
-          </FuelEntityConfirmOrderCaption>
-        </div>
-        <div className="col-6">
-          <FuelEntityConfirmOrderTitle>Included</FuelEntityConfirmOrderTitle>
-          <FuelEntityConfirmOrderCaption>
-            Standard Hosting Service
-          </FuelEntityConfirmOrderCaption>
-        </div>
+        <FundingChatOrderSummaryWrapper className="col-12">
+          <div className="col-6">
+            <FundingChatOrderTitle>
+              {subscription}
+            </FundingChatOrderTitle>
+            <FundingChatOrderCaption>
+              Subscription
+            </FundingChatOrderCaption>
+          </div>
+          <div className="col-6">
+            <FundingChatOrderTitle>Included</FundingChatOrderTitle>
+            <FundingChatOrderCaption>
+              Standard Hosting Service
+            </FundingChatOrderCaption>
+          </div>
+        </FundingChatOrderSummaryWrapper>
       </div>
 
-      <div className="row transaction-details-header">
-        <div className="col-4">
-          <FuelEntityConfirmOrderCaption>
-            Description
-          </FuelEntityConfirmOrderCaption>
+      <div className="row transaction-detail">
+        <div className="col-12">
+          <div className="row">
+            <FundingChatOrderSubTitle>
+              {symbol} Credits
+            </FundingChatOrderSubTitle>
+          </div>
         </div>
-        <div className="col-5">
-          <FuelEntityConfirmOrderCaption>
-            Price ({symbol})
-          </FuelEntityConfirmOrderCaption>
-        </div>
-        <div className="col-3">
-          <FuelEntityConfirmOrderCaption>Rate</FuelEntityConfirmOrderCaption>
+        <div className="col-12">
+          <div className="row align-items-center">
+            <div className="col-8">
+              <div className="row align-items-center">
+                <div className="col-4 p-0">
+                  <FundingChatOrderCaption>
+                    Price ({symbol})
+                  </FundingChatOrderCaption>
+                </div>
+                <div className="col-8">
+                  <FundingChatPriceWrapper>
+                    <IxoX width="20" fill="#49BFE0" />
+                    {amount}
+                  </FundingChatPriceWrapper>
+                </div>
+              </div>
+            </div>
+            <div className="col-4">
+              <ChatBotIconWrapper onClick={handleCancelOrder}>
+                <ChatbotIcon />
+              </ChatBotIconWrapper>
+            </div>
+          </div>
+
+          <div className="row align-items-center">
+            <div className="col-8">
+              <div className="row align-items-center">
+                <div className="col-4">
+                  <FundingChatOrderCaption>
+                    Rate
+                  </FundingChatOrderCaption>
+                </div>
+                <div className="col-8">
+                  <FundingChatOrderSubTitle>
+                    {fiatAmount}
+                  </FundingChatOrderSubTitle>
+                </div>
+              </div>
+            </div>
+            <div className="col-4">
+              <FundingChatOrderCaption>
+                1 {symbol} = {fiatConversionRate}
+              </FundingChatOrderCaption>
+            </div>
+          </div>
         </div>
       </div>
 
       <div className="row transaction-detail">
-        <div className="col-12 col-lg-4">
-          <FuelEntityConfirmOrderSubTitle>
-            {symbol} Credits
-          </FuelEntityConfirmOrderSubTitle>
+        <div className="col-12">
+          <div className="row">
+            <FundingChatOrderSubTitle>
+              Additional Fees
+            </FundingChatOrderSubTitle>
+          </div>
         </div>
-        <div className="col-6 col-lg-5">
-          <FuelEntityConfirmOrderPrice>
-            <IxoX width="20" fill="#49BFE0" />
-            {amount}
-            <ChatBotIconWrapper onClick={handleCancelOrder}>
-              <ChatbotIcon />
-            </ChatBotIconWrapper>
-          </FuelEntityConfirmOrderPrice>
-        </div>
-        <div className="col-6 col-lg-3">
-          <FuelEntityConfirmOrderSubTitle>
-            {fiatAmount}
-          </FuelEntityConfirmOrderSubTitle>
-          <FuelEntityConfirmOrderCaption>
-            1 {symbol} = {fiatConversionRate}
-          </FuelEntityConfirmOrderCaption>
+        <div className="col-12">
+          <div className="row align-items-center">
+            <div className="col-8">
+              <div className="row align-items-center">
+                <div className="col-4 p-0">
+                  <FundingChatOrderCaption>
+                    Price ({symbol})
+                  </FundingChatOrderCaption>
+                </div>
+                <div className="col-8">
+                  <FundingChatPriceWrapper>
+                    <IxoX width="20" fill="#49BFE0" />
+                    {gasFee}
+                  </FundingChatPriceWrapper>
+                </div>
+              </div>
+            </div>
+            <div className="col-4">
+            </div>
+          </div>
+
+          <div className="row align-items-center">
+            <div className="col-7 p-0">
+              <div className="row align-items-center">
+                <div className="col-4">
+                  <FundingChatOrderCaption>
+                    Rate
+                  </FundingChatOrderCaption>
+                </div>
+                <div className="col-8">
+                  <FundingChatOrderSubTitle>
+                    {fiatTransactionFee}
+                  </FundingChatOrderSubTitle>
+                </div>
+              </div>
+            </div>
+            <div className="col-5 p-0">
+              <FundingChatPriceWrapper>
+                <IxoX width="10" fill="#49BFE0" />
+                  10 per transaction
+              </FundingChatPriceWrapper>
+            </div>
+          </div>
         </div>
       </div>
-
-      <div className="row transaction-detail">
-        <div className="col-12 col-lg-4">
-          <FuelEntityConfirmOrderSubTitle>
-            Additional Fees
-          </FuelEntityConfirmOrderSubTitle>
-        </div>
-        <div className="col-6 col-lg-5">
-          <FuelEntityConfirmOrderSubTitle>
-            <IxoX width="20" fill="#49BFE0" />
-            {gasFee}
-          </FuelEntityConfirmOrderSubTitle>
-        </div>
-        <div className="col-6 col-lg-3">
-          <FuelEntityConfirmOrderSubTitle>
-            {transactionFee}
-          </FuelEntityConfirmOrderSubTitle>
-          <FuelEntityConfirmOrderCaption>
-            {fiatTransactionFee}
-          </FuelEntityConfirmOrderCaption>
-        </div>
-      </div>
-      <FuelEntityConfirmOrderHR />
-
-      <div className="row total-wrapper">
-        <div className="col-6 col-lg-4">
-          <FuelEntityConfirmOrderTitle>Today</FuelEntityConfirmOrderTitle>
-          <FuelEntityConfirmOrderCaption>
+      <div className="row total-wrapper pl-0 pr-0">
+        <div className="col-12">
+          <FundingChatOrderSubTitle>
             Amount due
-          </FuelEntityConfirmOrderCaption>
+          </FundingChatOrderSubTitle>
         </div>
-        <div className="col-6 col-lg-4">
-          <FuelEntityConfirmOrderTitle>{total}</FuelEntityConfirmOrderTitle>
-          <FuelEntityConfirmOrderCaption>
+        <div className="col-6">
+          <FundingChatOrderTitle>
+            <IxoX width="20" fill="#49BFE0" />
+            <span className="ml-2">{total}</span>
+          </FundingChatOrderTitle>
+          <FundingChatOrderCaption>
             Total {symbol}
-          </FuelEntityConfirmOrderCaption>
+          </FundingChatOrderCaption>
         </div>
-        <div className="col-6 col-lg-4">
-          <FuelEntityConfirmOrderHeader className="total">
+        <div className="col-6">
+          <FundingChatOrderTitle>
             {fiatTotal}
-          </FuelEntityConfirmOrderHeader>
-          <FuelEntityConfirmOrderCaption>Total</FuelEntityConfirmOrderCaption>
+          </FundingChatOrderTitle>
+          <FundingChatOrderCaption>Total</FundingChatOrderCaption>
         </div>
       </div>
       <ButtonWrapper className="row">
@@ -169,8 +218,8 @@ const FuelEntityConfirmOrder: React.FunctionComponent<Props> = ({
           </ContinueOrderButton>
         </div>
       </ButtonWrapper>
-    </FuelEntityConfirmOrderWrapper>
+    </FundingChatOrderWrapper>
   )
 }
 
-export default FuelEntityConfirmOrder
+export default FundingChatOrder

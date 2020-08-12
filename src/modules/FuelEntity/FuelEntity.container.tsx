@@ -49,19 +49,19 @@ class FuelEntity extends React.Component<Props & RouteProps> {
   }
 
   componentDidMount(): void {
-    document.getElementById('fuel-entity-action-wrapper').scrollTo(0, 0)
+    // document.getElementById('fuel-entity-action-wrapper').scrollTo(0, 0)
 
     startAssistant('fuel_my_entity')
-    if (!document.querySelector('body').classList.contains('noScroll')) {
-      document.querySelector('body').classList.add('noScroll')
-    }
-    document.querySelector('#ControlPanelWrapper').classList.add('fixed')
+    // if (!document.querySelector('body').classList.contains('noScroll')) {
+    //   document.querySelector('body').classList.add('noScroll')
+    // }
+    // document.querySelector('#ControlPanelWrapper').classList.add('fixed')
   }
 
-  componentWillUnmount(): void {
-    document.querySelector('body').classList.remove('noScroll')
-    document.querySelector('#ControlPanelWrapper').classList.remove('fixed')
-  }
+  // componentWillUnmount(): void {
+  //   document.querySelector('body').classList.remove('noScroll')
+  //   document.querySelector('#ControlPanelWrapper').classList.remove('fixed')
+  // }
 
   onAssistantMessageReceive = (utter: any): void => {
     // TODO - actual event to trigger end

@@ -55,7 +55,6 @@ class FundingChat extends React.Component<Props & RouteProps> {
   onAssistantMessageReceive = (utter: any): void => {
     // TODO - actual event to trigger end
     // if (utter.text === "Sorry, I didn't get that. Could you rephrase?") {
-    console.log('onAssistantMessageReceive')
     // TODO - actual response to pass to handleGetOrder
     this.props.handleGetOrder(null)
     // }

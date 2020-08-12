@@ -40,24 +40,28 @@ export const Tabs: React.SFC<Props> = ({
             {button.title && <p>{button.title}</p>}
           </NavLink>
         ) : (
-          <Tooltip
-            text="Coming Soon"
-            key={index}
-            position={TooltipPositions.bottom}
-          >
-            <NavLink
-              className={button.linkClass}
-              exact={matchType === MatchType.exact}
-              strict={matchType === MatchType.strict}
-              to={{ pathname: button.path }}
+            <Tooltip
+              text="Coming Soon"
+              key={index}
+              position={TooltipPositions.bottom}
             >
-              {button.iconClass && <i className={button.iconClass} />}
-              {button.title && <p>{button.title}</p>}
-            </NavLink>
-          </Tooltip>
-        )
+              <NavLink
+                className={button.linkClass}
+                exact={matchType === MatchType.exact}
+                strict={matchType === MatchType.strict}
+                to={{ pathname: button.path }}
+              >
+                {button.iconClass && <i className={button.iconClass} />}
+                {button.title && <p>{button.title}</p>}
+              </NavLink>
+            </Tooltip>
+          )
       })}
-      <button onClick={() => assistantPanelToggle()}>pluse</button>
+      {
+        typeof assistantPanelToggle === "function" && (
+          <button onClick={() => assistantPanelToggle()}>pluse</button>
+        )
+      }
     </TabsContainer>
   )
 }

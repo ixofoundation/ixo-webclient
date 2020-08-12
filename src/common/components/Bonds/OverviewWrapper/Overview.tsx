@@ -21,19 +21,19 @@ export const Overview: FunctionComponent<any> = ({ match }) => {
       : false
   const [assistantPanelActive, setAssistantPanelActive] = useState(assistant)
   const [resizeMain, setResizeMain] = useSpring(() => ({
-    width: assistant ? '80%' : '100%',
+    width: assistant ? '75%' : '100%',
   }))
   const [resizeAssistantPanel, setResizeAssistantPanel] = useSpring(() => ({
-    width: assistant ? '20%' : '0%',
+    width: assistant ? '25%' : '0%',
     display: assistant ? 'block' : 'none',
     maxHeight: '800px',
   }))
   const assistantPanelToggle = () => {
     setResizeMain({
-      width: assistantPanelActive ? '100%' : '80%',
+      width: assistantPanelActive ? '100%' : '75%',
     })
     setResizeAssistantPanel({
-      width: assistantPanelActive ? '0%' : '20%',
+      width: assistantPanelActive ? '0%' : '25%',
       display: assistantPanelActive ? 'none' : 'block',
     })
     setAssistantPanelActive(!assistantPanelActive)
