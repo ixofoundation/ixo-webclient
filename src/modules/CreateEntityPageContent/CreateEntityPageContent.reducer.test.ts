@@ -52,8 +52,8 @@ describe('CreateEntityPageContent Reducer', () => {
         const shortDescription = 'someHeaderShortDescription'
         const imageDescription = 'someHeaderImageDescription'
         const sdgs = ['sdg1', 'sdg2', 'sdg3']
-        const company = 'someHeaderCompany'
-        const country = 'ZA'
+        const organisation = 'someHeaderCompany'
+        const location = 'ZA'
         const fileSrc = 'someExistingfileSrc'
 
         // given .. we have an action of type CreateEntityPageContentActions.UpdateHeaderContent
@@ -64,8 +64,8 @@ describe('CreateEntityPageContent Reducer', () => {
             shortDescription,
             imageDescription,
             sdgs,
-            company,
-            country,
+            organisation,
+            location,
           },
         }
 
@@ -86,8 +86,8 @@ describe('CreateEntityPageContent Reducer', () => {
             shortDescription,
             imageDescription,
             sdgs,
-            company,
-            country,
+            organisation,
+            location,
             fileSrc,
             uploading: false,
           },

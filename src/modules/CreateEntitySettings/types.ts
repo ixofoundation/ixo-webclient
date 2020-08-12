@@ -7,23 +7,22 @@ import {
 import { FileContent, Validation } from 'modules/CreateEntity/types'
 
 export interface Creator extends FileContent {
-  name: string
-  country: string
+  displayName: string
+  location: string
   email: string
   website: string
   mission: string
-  identifier: string
+  creatorId: string
   credentialTokenId: string
 }
 
 export interface Owner extends FileContent {
-  name: string
-  country: string
+  displayName: string
+  location: string
   email: string
   website: string
   mission: string
-  identifier: string
-  matrixId: string
+  ownerId: string
 }
 
 export interface Status {
@@ -104,12 +103,12 @@ export enum CreateEntitySettingsActions {
 export interface UpdateCreatorAction {
   type: typeof CreateEntitySettingsActions.UpdateCreator
   payload: {
-    name: string
-    country: string
+    displayName: string
+    location: string
     email: string
     website: string
     mission: string
-    identifier: string
+    creatorId: string
     credentialTokenId: string
   }
 }
@@ -139,13 +138,12 @@ export interface UploadCreatorImageFailureAction {
 export interface UpdateOwnerAction {
   type: typeof CreateEntitySettingsActions.UpdateOwner
   payload: {
-    name: string
-    country: string
+    displayName: string
+    location: string
     email: string
     website: string
     mission: string
-    identifier: string
-    matrixId: string
+    ownerId: string
   }
 }
 

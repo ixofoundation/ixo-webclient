@@ -4,12 +4,12 @@ import { FormCardProps } from '../../../CreateEntity/types'
 import MultiControlForm from '../../../../common/components/JsonForm/MultiControlForm/MultiControlForm'
 
 interface Props extends FormCardProps {
-  name: string
-  country: string
+  displayName: string
+  location: string
   email: string
   website: string
   mission: string
-  identifier: string
+  creatorId: string
   credentialTokenId: string
   fileSrc: string
   uploadingImage: boolean
@@ -18,12 +18,12 @@ interface Props extends FormCardProps {
 const CreatorCard: React.FunctionComponent<Props> = React.forwardRef(
   (
     {
-      name,
-      country,
+      displayName,
+      location,
       email,
       website,
       mission,
-      identifier,
+      creatorId,
       credentialTokenId,
       fileSrc,
       uploadingImage,
@@ -34,12 +34,12 @@ const CreatorCard: React.FunctionComponent<Props> = React.forwardRef(
     ref,
   ) => {
     const formData = {
-      name,
-      country,
+      displayName,
+      location,
       email,
       website,
       mission,
-      identifier,
+      creatorId,
       credentialTokenId,
       fileSrc,
     }
@@ -48,25 +48,25 @@ const CreatorCard: React.FunctionComponent<Props> = React.forwardRef(
       type: 'object',
       required: [
         'fileSrc',
-        'name',
-        'country',
+        'displayName',
+        'location',
         'email',
         'website',
         'mission',
-        'identifier',
+        'creatorId',
       ],
       properties: {
         fileSrc: { type: 'string', title: 'Logo or Profile Pic' },
         empty: { type: 'null' },
-        name: { type: 'string', title: 'Display Name' },
-        country: { type: 'string', title: 'Country of Origin' },
+        displayName: { type: 'string', title: 'Display Name' },
+        location: { type: 'string', title: 'Country of Origin' },
         email: { type: 'string', title: 'Public Email', format: 'email' },
         website: { type: 'string', title: 'Public Website', format: 'uri' },
         mission: { type: 'string', title: 'Mission' },
-        identifier: { type: 'string', title: 'Identifier' },
+        creatorId: { type: 'string', title: 'Identifier' },
         credentialTokenId: {
           type: 'string',
-          title: 'Paste Credential Token ID',
+          title: 'Credential ID',
         },
       },
     } as any
@@ -79,11 +79,11 @@ const CreatorCard: React.FunctionComponent<Props> = React.forwardRef(
         ['ui:previewWidth']: 440,
         ['ui:circularCrop']: false,
       },
-      name: {
+      displayName: {
         ['ui:widget']: 'text',
         ['ui:placeholder']: 'Enter Title',
       },
-      country: {
+      location: {
         ['ui:widget']: customControls['countryselector'],
       },
       email: {
@@ -98,7 +98,7 @@ const CreatorCard: React.FunctionComponent<Props> = React.forwardRef(
         ['ui:widget']: 'text',
         ['ui:placeholder']: 'Short Description',
       },
-      identifier: {
+      creatorId: {
         ['ui:widget']: 'text',
         ['ui:placeholder']: 'Enter ID or !name',
       },

@@ -5,8 +5,8 @@ export interface HeaderPageContent extends FileContent {
   shortDescription: string
   imageDescription: string
   sdgs: string[]
-  company: string
-  country: string
+  organisation: string
+  location: string
 }
 
 export interface BodyPageContent extends FileContent {
@@ -130,8 +130,8 @@ export interface UpdateHeaderContentAction {
     shortDescription: string
     imageDescription: string
     sdgs: string[]
-    company: string
-    country: string
+    organisation: string
+    location: string
   }
 }
 

@@ -45,12 +45,12 @@ describe('CreateEntitySettings Reducer', () => {
   describe('Creator Actions', () => {
     describe('creator', () => {
       it('should update the creator', () => {
-        const name = 'someCreatorName'
-        const country = 'someCreatorCountry'
+        const displayName = 'someCreatorName'
+        const location = 'someCreatorCountry'
         const email = 'someCreatorEmail'
         const website = 'someCreatorWebsite'
         const mission = 'someCreatorMission'
-        const identifier = 'someCreatorIdentifier'
+        const creatorId = 'someCreatorIdentifier'
         const credentialTokenId = 'someCreatorCredentialTokenId'
         const fileSrc = 'someExistingfileSrc'
 
@@ -58,12 +58,12 @@ describe('CreateEntitySettings Reducer', () => {
         const action: UpdateCreatorAction = {
           type: CreateEntitySettingsActions.UpdateCreator,
           payload: {
-            name,
-            country,
+            displayName,
+            location,
             email,
             website,
             mission,
-            identifier,
+            creatorId,
             credentialTokenId,
           },
         }
@@ -81,12 +81,12 @@ describe('CreateEntitySettings Reducer', () => {
         expect(result).toEqual({
           ...initialState,
           creator: {
-            name,
-            country,
+            displayName,
+            location,
             email,
             website,
             mission,
-            identifier,
+            creatorId,
             credentialTokenId,
             fileSrc,
             uploading: false,
@@ -182,26 +182,24 @@ describe('CreateEntitySettings Reducer', () => {
   describe('Owner Actions', () => {
     describe('owner', () => {
       it('should update the owner', () => {
-        const name = 'someOwnerName'
-        const country = 'someOwnerCountry'
+        const displayName = 'someOwnerName'
+        const location = 'someOwnerCountry'
         const email = 'someOwnerEmail'
         const website = 'someOwnerWebsite'
         const mission = 'someOwnerMission'
-        const identifier = 'someOwnerIdentifier'
-        const matrixId = 'someOwneMatrixId'
+        const ownerId = 'someOwnerIdentifier'
         const fileSrc = 'someExistingfileSrc'
 
         // given .. we have an action of type CreateEntitySettingsActions.UpdateOwner
         const action: UpdateOwnerAction = {
           type: CreateEntitySettingsActions.UpdateOwner,
           payload: {
-            name,
-            country,
+            displayName,
+            location,
             email,
             website,
             mission,
-            identifier,
-            matrixId,
+            ownerId,
           },
         }
 
@@ -218,13 +216,12 @@ describe('CreateEntitySettings Reducer', () => {
         expect(result).toEqual({
           ...initialState,
           owner: {
-            name,
-            country,
+            displayName,
+            location,
             email,
             website,
             mission,
-            identifier,
-            matrixId,
+            ownerId,
             fileSrc,
             uploading: false,
           },

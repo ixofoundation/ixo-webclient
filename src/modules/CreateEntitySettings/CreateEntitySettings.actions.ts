@@ -27,12 +27,12 @@ export const updateCreator = (formData: FormData) => (
   dispatch: Dispatch,
 ): UpdateCreatorAction | UploadCreatorImageAction => {
   const {
-    name,
-    country,
+    displayName,
+    location,
     email,
     website,
     mission,
-    identifier,
+    creatorId,
     credentialTokenId,
     fileSrc,
   } = formData
@@ -51,12 +51,12 @@ export const updateCreator = (formData: FormData) => (
   return dispatch({
     type: CreateEntitySettingsActions.UpdateCreator,
     payload: {
-      name,
-      country,
+      displayName,
+      location,
       email,
       website,
       mission,
-      identifier,
+      creatorId,
       credentialTokenId,
     },
   })
@@ -66,13 +66,12 @@ export const updateOwner = (formData: FormData) => (
   dispatch: Dispatch,
 ): UpdateOwnerAction | UploadOwnerImageAction => {
   const {
-    name,
-    country,
+    displayName,
+    location,
     email,
     website,
     mission,
-    identifier,
-    matrixId,
+    ownerId,
     fileSrc,
   } = formData
 
@@ -90,13 +89,12 @@ export const updateOwner = (formData: FormData) => (
   return dispatch({
     type: CreateEntitySettingsActions.UpdateOwner,
     payload: {
-      name,
-      country,
+      displayName,
+      location,
       email,
       website,
       mission,
-      matrixId,
-      identifier,
+      ownerId,
     },
   })
 }

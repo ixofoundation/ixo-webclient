@@ -21,21 +21,21 @@ describe('CreateEntitySettings Actions', () => {
     describe('updateCreator', () => {
       it('should update the creator', async () => {
         // given ... some data
-        const name = 'someCreatorName'
-        const country = 'someCreatorCountry'
+        const displayName = 'someCreatorName'
+        const location = 'someCreatorCountry'
         const email = 'someCreatorEmail'
         const website = 'someCreatorWebsite'
         const mission = 'someCreatorMission'
-        const identifier = 'someCreatorIdentifier'
+        const creatorId = 'someCreatorIdentifier'
         const credentialTokenId = 'someCreatorCredentialTokenId'
 
         const formData = {
-          name,
-          country,
+          displayName,
+          location,
           email,
           website,
           mission,
-          identifier,
+          creatorId,
           credentialTokenId,
         }
 
@@ -49,12 +49,12 @@ describe('CreateEntitySettings Actions', () => {
           CreateEntitySettingsActions.UpdateCreator,
         )
         expect(actions[0].payload).toEqual({
-          name,
-          country,
+          displayName,
+          location,
           email,
           website,
           mission,
-          identifier,
+          creatorId,
           credentialTokenId,
         })
       })
@@ -90,22 +90,20 @@ describe('CreateEntitySettings Actions', () => {
     describe('updateOwner', () => {
       it('should update the owner', async () => {
         // given ... some data
-        const name = 'someOwnerName'
-        const country = 'someOwnerCountry'
+        const displayName = 'someOwnerName'
+        const location = 'someOwnerCountry'
         const email = 'someOwnerEmail'
         const website = 'someOwnerWebsite'
         const mission = 'someOwnerMission'
-        const identifier = 'someOwnerIdentifier'
-        const matrixId = 'someOwnerMatrixId'
+        const ownerId = 'someOwnerIdentifier'
 
         const formData = {
-          name,
-          country,
+          displayName,
+          location,
           email,
           website,
           mission,
-          identifier,
-          matrixId,
+          ownerId,
         }
 
         // when ... we call the updateCreator action creator
@@ -116,13 +114,12 @@ describe('CreateEntitySettings Actions', () => {
         expect(actions.length).toEqual(1)
         expect(actions[0].type).toEqual(CreateEntitySettingsActions.UpdateOwner)
         expect(actions[0].payload).toEqual({
-          name,
-          country,
+          displayName,
+          location,
           email,
           website,
           mission,
-          identifier,
-          matrixId,
+          ownerId,
         })
       })
 

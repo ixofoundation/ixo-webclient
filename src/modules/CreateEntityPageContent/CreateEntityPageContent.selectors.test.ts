@@ -12,8 +12,8 @@ beforeEach(() => {
         fileSrc: 'someHeaderfileSrc',
         imageDescription: 'someHeaderImageDescription',
         sdgs: ['sdg1', 'sdg2', 'sdg3'],
-        company: 'someHeaderCompany',
-        country: 'ZA',
+        organisation: 'someHeaderCompany',
+        location: 'ZA',
         uploading: false,
       },
       body: {
@@ -131,8 +131,8 @@ describe('CreateEntityPageContent Selectors', () => {
         fileSrc: 'someHeaderfileSrc',
         imageDescription: 'someHeaderImageDescription',
         sdgs: ['sdg1', 'sdg2', 'sdg3'],
-        company: 'someHeaderCompany',
-        country: 'ZA',
+        organisation: 'someHeaderCompany',
+        location: 'ZA',
         uploading: false,
       })
     })

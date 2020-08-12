@@ -20,16 +20,16 @@ describe('CreateEntityPageContent Actions', () => {
         const imageDescription = 'someImageDescription'
         const sdgs = 'sdg1|sdg2|sdg3'
         const sdgsArr = ['sdg1', 'sdg2', 'sdg3']
-        const company = 'someCompany'
-        const country = 'ZA'
+        const organisation = 'someCompany'
+        const location = 'ZA'
 
         const formData = {
           title,
           shortDescription,
           imageDescription,
           sdgs,
-          company,
-          country,
+          organisation,
+          location,
         }
 
         // when ... we call the uploadHeaderContentImage action creator
@@ -43,8 +43,8 @@ describe('CreateEntityPageContent Actions', () => {
           shortDescription,
           imageDescription,
           sdgs: sdgsArr,
-          country,
-          company,
+          location,
+          organisation,
         })
       })
     })

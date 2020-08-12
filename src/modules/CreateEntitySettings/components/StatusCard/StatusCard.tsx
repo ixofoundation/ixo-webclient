@@ -38,7 +38,7 @@ const StatusCard: React.FunctionComponent<Props> = React.forwardRef(
       type: 'object',
       required: ['dates', 'stage', 'status'],
       properties: {
-        dates: { type: 'string', title: 'Dates' },
+        dates: { type: 'string', title: 'Implementation Period' },
         stage: {
           type: 'string',
           title: 'Stage',

@@ -35,8 +35,8 @@ export const updateHeaderContent = (formData: FormData) => (
     shortDescription,
     imageDescription,
     sdgs,
-    company,
-    country,
+    organisation,
+    location,
     fileSrc,
   } = formData
 
@@ -58,8 +58,8 @@ export const updateHeaderContent = (formData: FormData) => (
       shortDescription,
       imageDescription,
       sdgs: sdgs.split('|'),
-      company,
-      country,
+      organisation,
+      location,
     },
   })
 }

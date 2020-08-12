@@ -4,13 +4,12 @@ import MultiControlForm from '../../../../common/components/JsonForm/MultiContro
 import { FormCardProps } from '../../../CreateEntity/types'
 
 interface Props extends FormCardProps {
-  name: string
-  country: string
+  displayName: string
+  location: string
   email: string
   website: string
   mission: string
-  identifier: string
-  matrixId: string
+  ownerId: string
   fileSrc: string
   uploadingImage: boolean
 }
@@ -18,13 +17,12 @@ interface Props extends FormCardProps {
 const OwnerCard: React.FunctionComponent<Props> = React.forwardRef(
   (
     {
-      name,
-      country,
+      displayName,
+      location,
       email,
       website,
       mission,
-      identifier,
-      matrixId,
+      ownerId,
       fileSrc,
       uploadingImage,
       handleUpdateContent,
@@ -34,29 +32,27 @@ const OwnerCard: React.FunctionComponent<Props> = React.forwardRef(
     ref,
   ) => {
     const formData = {
-      name,
-      country,
+      displayName,
+      location,
       email,
       website,
       mission,
-      identifier,
-      matrixId,
+      ownerId,
       fileSrc,
     }
 
     const schema = {
       type: 'object',
-      required: ['identifier'],
+      required: ['ownerId'],
       properties: {
         fileSrc: { type: 'string', title: 'Logo or Profile Pic' },
         empty: { type: 'null' },
-        name: { type: 'string', title: 'Display Name' },
-        country: { type: 'string', title: 'Country of Origin' },
+        displayName: { type: 'string', title: 'Display Name' },
+        location: { type: 'string', title: 'Country of Origin' },
         email: { type: 'string', title: 'Public Email', format: 'email' },
         website: { type: 'string', title: 'Public Website', format: 'uri' },
         mission: { type: 'string', title: 'Mission' },
-        identifier: { type: 'string', title: 'Identifier' },
-        matrixId: { type: 'string', title: 'Public MatrixID' },
+        ownerId: { type: 'string', title: 'Identifier' },
       },
     } as any
 
@@ -69,11 +65,11 @@ const OwnerCard: React.FunctionComponent<Props> = React.forwardRef(
         ['ui:aspect']: 1,
         ['ui:circularCrop']: false,
       },
-      name: {
+      displayName: {
         ['ui:widget']: 'text',
         ['ui:placeholder']: 'Enter Title',
       },
-      country: {
+      location: {
         ['ui:widget']: customControls['countryselector'],
       },
       email: {
@@ -88,13 +84,9 @@ const OwnerCard: React.FunctionComponent<Props> = React.forwardRef(
         ['ui:widget']: 'text',
         ['ui:placeholder']: 'Short Description',
       },
-      identifier: {
+      ownerId: {
         ['ui:widget']: 'text',
         ['ui:placeholder']: 'Enter ID or !name',
-      },
-      matrixId: {
-        ['ui:widget']: 'text',
-        ['ui:placeholder']: 'Enter MatrixID',
       },
     }
 

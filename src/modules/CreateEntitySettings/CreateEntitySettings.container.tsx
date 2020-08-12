@@ -81,12 +81,12 @@ class CreateEntitySettings extends CreateEntityBase<Props> {
 
     const {
       creator: {
-        name,
-        country,
+        displayName,
+        location,
         email,
         website,
         mission,
-        identifier,
+        creatorId,
         credentialTokenId,
         fileSrc,
         uploading,
@@ -101,12 +101,12 @@ class CreateEntitySettings extends CreateEntityBase<Props> {
       >
         <CreatorCard
           ref={this.cardRefs['creator']}
-          name={name}
-          country={country}
+          displayName={displayName}
+          location={location}
           email={email}
           website={website}
           mission={mission}
-          identifier={identifier}
+          creatorId={creatorId}
           credentialTokenId={credentialTokenId}
           fileSrc={fileSrc}
           uploadingImage={uploading}
@@ -125,13 +125,12 @@ class CreateEntitySettings extends CreateEntityBase<Props> {
 
     const {
       owner: {
-        name,
-        country,
+        displayName,
+        location,
         email,
         website,
         mission,
-        identifier,
-        matrixId,
+        ownerId,
         fileSrc,
         uploading,
       },
@@ -145,13 +144,12 @@ class CreateEntitySettings extends CreateEntityBase<Props> {
       >
         <OwnerCard
           ref={this.cardRefs['owner']}
-          name={name}
-          country={country}
+          displayName={displayName}
+          location={location}
           email={email}
           website={website}
           mission={mission}
-          identifier={identifier}
-          matrixId={matrixId}
+          ownerId={ownerId}
           fileSrc={fileSrc}
           uploadingImage={uploading}
           handleUpdateContent={handleUpdateOwner}

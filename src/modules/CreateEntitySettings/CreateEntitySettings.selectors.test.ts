@@ -13,24 +13,23 @@ beforeEach(() => {
   state = {
     createEntitySettings: {
       creator: {
-        name: 'someCreatorName',
-        country: 'someCreatorCountry',
+        displayName: 'someCreatorName',
+        location: 'someCreatorCountry',
         email: 'someCreatorEmail',
         website: 'someCreatorWebsite',
         mission: 'someCreatorMission',
-        identifier: 'someCreatorIdentifier',
+        creatorId: 'someCreatorIdentifier',
         credentialTokenId: 'someCreatorCredentialTokenId',
         fileSrc: 'somefileSrc',
         uploading: false,
       },
       owner: {
-        name: 'someOwnerName',
-        country: 'someOwnerCountry',
+        displayName: 'someOwnerName',
+        location: 'someOwnerCountry',
         email: 'someOwnerEmail',
         website: 'someOwnerWebsite',
         mission: 'someOwnerMission',
-        matrixId: 'someOwnerMatrixId',
-        identifier: 'someOwnerIdentifier',
+        ownerId: 'someOwnerIdentifier',
         fileSrc: 'somefileSrc',
         uploading: false,
       },
@@ -106,13 +105,12 @@ describe('CreateEntitySettings Selectors', () => {
 
       // then ... should return result as expected
       expect(result).toEqual({
-        name: 'someOwnerName',
-        country: 'someOwnerCountry',
+        displayName: 'someOwnerName',
+        location: 'someOwnerCountry',
         email: 'someOwnerEmail',
         website: 'someOwnerWebsite',
         mission: 'someOwnerMission',
-        identifier: 'someOwnerIdentifier',
-        matrixId: 'someOwnerMatrixId',
+        ownerId: 'someOwnerIdentifier',
         fileSrc: 'somefileSrc',
         uploading: false,
       })
@@ -126,12 +124,12 @@ describe('CreateEntitySettings Selectors', () => {
 
       // then ... should return result as expected
       expect(result).toEqual({
-        name: 'someCreatorName',
-        country: 'someCreatorCountry',
+        displayName: 'someCreatorName',
+        location: 'someCreatorCountry',
         email: 'someCreatorEmail',
         website: 'someCreatorWebsite',
         mission: 'someCreatorMission',
-        identifier: 'someCreatorIdentifier',
+        creatorId: 'someCreatorIdentifier',
         credentialTokenId: 'someCreatorCredentialTokenId',
         fileSrc: 'somefileSrc',
         uploading: false,

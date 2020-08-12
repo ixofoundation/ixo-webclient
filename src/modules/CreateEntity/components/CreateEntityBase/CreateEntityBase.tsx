@@ -65,7 +65,7 @@ class CreateEntityBase<T extends CreateEntityBaseProps> extends React.Component<
     return (
       <ButtonGroup className="buttons-group">
         {showBackButton && (
-          <button className="submitForm" onClick={this.onBack}>
+          <button type="button" onClick={this.onBack}>
             Previous
           </button>
         )}

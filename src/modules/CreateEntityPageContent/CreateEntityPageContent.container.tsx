@@ -75,8 +75,8 @@ class CreateEntityPageContent extends CreateEntityBase<Props> {
         shortDescription,
         imageDescription,
         fileSrc,
-        company,
-        country,
+        organisation,
+        location,
         sdgs,
         uploading,
       },
@@ -100,8 +100,8 @@ class CreateEntityPageContent extends CreateEntityBase<Props> {
           shortDescription={shortDescription}
           imageDescription={imageDescription}
           fileSrc={fileSrc}
-          company={company}
-          country={country}
+          organisation={organisation}
+          location={location}
           sdgs={sdgs}
           uploadingImage={uploading}
         />
