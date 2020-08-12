@@ -58,7 +58,7 @@ export enum SortDirection {
   DESC,
 }
 
-class TransactionsTable extends Component<any> {
+class TransactionsTable extends Component<any, any> {
   constructor(props: any) {
     super(props)
     this.state = {
