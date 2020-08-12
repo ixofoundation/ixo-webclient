@@ -1,4 +1,4 @@
-import { combineReducers, Reducer } from 'redux'
+import { combineReducers } from 'redux'
 import { connectRouter } from 'connected-react-router'
 
 import { reducer as keysafeReducer } from '../../modules/keysafe/keysafe.reducer'

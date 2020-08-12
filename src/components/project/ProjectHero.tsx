@@ -45,7 +45,6 @@ export const ProjectHero: React.SFC<Props> = ({
 }) => {
   const windowSize = useWindowSize()
   const pathName = useSelector(selectPathnameProps)
-  const transformedPath = pathName.split('/')
   const entityType = project.entityType
     ? (toTitleCase(project.entityType) as EntityType)
     : EntityType.Project

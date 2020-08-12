@@ -3,7 +3,6 @@ import { RouteProps } from 'react-router'
 import { NavLink } from 'react-router-dom'
 import { connect } from 'react-redux'
 import {
-  ActionWrapper,
   AssistantWrapper,
   AssistantHeader,
   SummaryWrapper,
@@ -17,8 +16,6 @@ import FundingChatConfirmOrder from './components/FundingChatConfirmOrder/Fundin
 import { RootState } from 'common/redux/types'
 import * as fundingChatSelectors from './FundingChat.selectors'
 import { getOrder, confirmOrder, cancelOrder } from './FundingChat.actions'
-import BackIcon from 'assets/icons/Back'
-import ChatbotIcon from 'assets/icons/Chatbot'
 import PaymentSuccessIcon from 'assets/icons/PaymentSuccess'
 import SendIcon from 'assets/icons/Send'
 
