@@ -16,6 +16,7 @@ import FundingChatConfirmOrder from './components/FundingChatConfirmOrder/Fundin
 import { RootState } from 'common/redux/types'
 import * as fundingChatSelectors from './FundingChat.selectors'
 import { getOrder, confirmOrder, cancelOrder } from './FundingChat.actions'
+import ChatbotIcon from 'assets/icons/Chatbot'
 import PaymentSuccessIcon from 'assets/icons/PaymentSuccess'
 import SendIcon from 'assets/icons/Send'
 
