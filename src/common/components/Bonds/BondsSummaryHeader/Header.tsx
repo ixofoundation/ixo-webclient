@@ -26,8 +26,10 @@ interface HeaderState {
 }
 
 class Header extends Component<any, HeaderState> {
+  intervalID = null
   constructor(props: any) {
     super(props)
+    this.intervalID = null
     this.state = {
       selected: 0,
     }
@@ -110,7 +112,7 @@ class Header extends Component<any, HeaderState> {
   }
 }
 
-const mapStateToProps = function (state: RootState): RootState {
+const mapStateToProps = function(state: RootState): RootState {
   return state
 }
 

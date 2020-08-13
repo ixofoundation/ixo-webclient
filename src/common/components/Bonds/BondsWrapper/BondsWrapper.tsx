@@ -27,7 +27,10 @@ export interface State {
   projectStatus: string
 }
 
-const MemorizedSpinner = React.memo(() => <Spinner info="Loading..." />, (a, b) => true)
+const MemorizedSpinner = React.memo(
+  () => <Spinner info="Loading..." />,
+  (a, b) => true,
+)
 
 export class BondsWrapper extends React.Component<Props, State> {
   state = {
@@ -60,7 +63,7 @@ export class BondsWrapper extends React.Component<Props, State> {
     if (userInfo) {
       if (this.state.projectPublic.createdBy === userInfo.didDoc.did) {
         if (
-          roles.some((val) => {
+          roles.some(val => {
             return val === AgentRoles.owners
           })
         ) {
@@ -70,7 +73,7 @@ export class BondsWrapper extends React.Component<Props, State> {
       this.state.projectPublic.agents.forEach((agent: any) => {
         if (agent.did === userInfo.didDoc.did) {
           if (
-            roles.some((val) => {
+            roles.some(val => {
               return val === agent.role
             })
           ) {
