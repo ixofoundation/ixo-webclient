@@ -19,7 +19,7 @@ beforeEach(() => {
         website: 'someCreatorWebsite',
         mission: 'someCreatorMission',
         creatorId: 'someCreatorIdentifier',
-        credentialTokenId: 'someCreatorCredentialTokenId',
+        credential: 'someCreatorCredentialTokenId',
         fileSrc: 'somefileSrc',
         uploading: false,
       },
@@ -130,7 +130,7 @@ describe('CreateEntitySettings Selectors', () => {
         website: 'someCreatorWebsite',
         mission: 'someCreatorMission',
         creatorId: 'someCreatorIdentifier',
-        credentialTokenId: 'someCreatorCredentialTokenId',
+        credential: 'someCreatorCredentialTokenId',
         fileSrc: 'somefileSrc',
         uploading: false,
       })

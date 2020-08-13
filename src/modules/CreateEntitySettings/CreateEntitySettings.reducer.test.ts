@@ -51,7 +51,7 @@ describe('CreateEntitySettings Reducer', () => {
         const website = 'someCreatorWebsite'
         const mission = 'someCreatorMission'
         const creatorId = 'someCreatorIdentifier'
-        const credentialTokenId = 'someCreatorCredentialTokenId'
+        const credential = 'someCreatorCredentialTokenId'
         const fileSrc = 'someExistingfileSrc'
 
         // given .. we have an action of type CreateEntitySettingsActions.UpdateCreator
@@ -64,7 +64,7 @@ describe('CreateEntitySettings Reducer', () => {
             website,
             mission,
             creatorId,
-            credentialTokenId,
+            credential,
           },
         }
 
@@ -87,7 +87,7 @@ describe('CreateEntitySettings Reducer', () => {
             website,
             mission,
             creatorId,
-            credentialTokenId,
+            credential,
             fileSrc,
             uploading: false,
           },

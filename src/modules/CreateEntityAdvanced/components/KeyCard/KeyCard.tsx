@@ -17,8 +17,9 @@ import { LinkButton } from '../../../../common/components/JsonForm/JsonForm.styl
 interface Props extends FormCardProps {
   purpose: KeyPurpose
   type: KeyType
-  denomination: PaymentDenomination
-  controllerId: string
+  keyValue: string
+  signature: string
+  controller: string
   dateCreated: string
   dateUpdated: string
 }
@@ -28,8 +29,9 @@ const KeyCard: React.FunctionComponent<Props> = React.forwardRef(
     {
       purpose,
       type,
-      denomination,
-      controllerId,
+      keyValue,
+      signature,
+      controller,
       dateCreated,
       dateUpdated,
       handleUpdateContent,
@@ -42,8 +44,9 @@ const KeyCard: React.FunctionComponent<Props> = React.forwardRef(
     const formData = {
       purpose,
       type,
-      denomination,
-      controllerId,
+      keyValue,
+      signature,
+      controller,
       dateCreated,
       dateUpdated,
     }
@@ -53,10 +56,11 @@ const KeyCard: React.FunctionComponent<Props> = React.forwardRef(
       required: [
         'purpose',
         'type',
-        'denomination',
-        'controllerId',
+        'keyValue',
+        'controller',
         'dateCreated',
         'dateUpdated',
+        'signature',
       ],
       properties: {
         purpose: {
@@ -75,7 +79,7 @@ const KeyCard: React.FunctionComponent<Props> = React.forwardRef(
             key => keyTypeMap[KeyType[key]].title,
           ),
         },
-        denomination: {
+        keyValue: {
           type: 'string',
           title: 'Key Value or Token',
           enum: Object.keys(PaymentDenomination).map(
@@ -85,7 +89,7 @@ const KeyCard: React.FunctionComponent<Props> = React.forwardRef(
             key => paymentDenominationMap[PaymentDenomination[key]].title,
           ),
         },
-        controllerId: {
+        controller: {
           type: 'string',
           title: 'Enter DID or !name',
         },
@@ -97,6 +101,10 @@ const KeyCard: React.FunctionComponent<Props> = React.forwardRef(
           type: 'string',
           title: 'Latest Update',
         },
+        signature: {
+          type: 'string',
+          title: 'Signature',
+        },
       },
     } as any
 
@@ -107,10 +115,10 @@ const KeyCard: React.FunctionComponent<Props> = React.forwardRef(
       type: {
         ['ui:placeholder']: 'Select Key',
       },
-      denomination: {
+      keyValue: {
         ['ui:placeholder']: 'Select Denomination',
       },
-      controllerId: {
+      controller: {
         ['ui:placeholder']: 'Enter DID or !name',
       },
       dateCreated: {
@@ -118,6 +126,9 @@ const KeyCard: React.FunctionComponent<Props> = React.forwardRef(
       },
       dateUpdated: {
         ['ui:widget']: customControls['singledateselector'],
+      },
+      signature: {
+        ['ui:placeholder']: 'Enter signature',
       },
     }
 

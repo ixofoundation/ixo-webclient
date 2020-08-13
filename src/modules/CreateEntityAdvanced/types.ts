@@ -24,22 +24,22 @@ export interface Payment {
   id: string
   type: PaymentType
   paymentId: string
-  denomination: PaymentDenomination
-  maxAmount: number
-  maxUnits: number
+  denom: PaymentDenomination
+  maxFee: number
+  maxQty: number
 }
 
 export interface Stake {
   id: string
   type: StakeType
   stakeId: string
-  denomination: PaymentDenomination
-  depositAddress: string
+  denom: PaymentDenomination
+  stakeAddress: string
   minStake: number
-  slashingCondition: SlashingCondition
+  slashCondition: SlashingCondition
   slashFactor: number
-  maxSlashAmount: number
-  unbondingPeriod: number
+  slashAmount: number
+  unbondPeriod: number
 }
 export interface Node {
   id: string
@@ -57,8 +57,9 @@ export interface Key {
   id: string
   purpose: KeyPurpose
   type: KeyType
-  denomination: PaymentDenomination
-  controllerId: string
+  keyValue: string
+  controller: string
+  signature: string
   dateCreated: string
   dateUpdated: string
 }
@@ -67,17 +68,17 @@ export interface Service {
   id: string
   type: ServiceType
   shortDescription: string
-  endpoint: string
+  serviceEndpoint: string
   publicKey: string
-  otherParams: string
+  properties: string
 }
 
 export interface DataResource {
   id: string
   type: DataResourceType
   dataId: string
-  resourceLocator: string
-  otherParams: string
+  serviceEndpoint: string
+  properties: string
 }
 
 export interface CreateEntityAdvancedState {
@@ -189,9 +190,9 @@ export interface UpdatePaymentAction {
     id: string
     type: PaymentType
     paymentId: string
-    denomination: PaymentDenomination
-    maxAmount: number
-    maxUnits: number
+    denom: PaymentDenomination
+    maxFee: number
+    maxQty: number
   }
 }
 
@@ -214,13 +215,13 @@ export interface UpdateStakeAction {
     id: string
     type: StakeType
     stakeId: string
-    denomination: PaymentDenomination
-    depositAddress: string
+    denom: PaymentDenomination
+    stakeAddress: string
     minStake: number
-    slashingCondition: SlashingCondition
+    slashCondition: SlashingCondition
     slashFactor: number
-    maxSlashAmount: number
-    unbondingPeriod: number
+    slashAmount: number
+    unbondPeriod: number
   }
 }
 
@@ -288,8 +289,9 @@ export interface UpdateKeyAction {
     id: string
     purpose: KeyPurpose
     type: KeyType
-    denomination: PaymentDenomination
-    controllerId: string
+    keyValue: string
+    controller: string
+    signature: string
     dateCreated: string
     dateUpdated: string
   }
@@ -315,9 +317,9 @@ export interface UpdateServiceAction {
     id: string
     type: ServiceType
     shortDescription: string
-    endpoint: string
+    serviceEndpoint: string
     publicKey: string
-    otherParams: string
+    properties: string
   }
 }
 
@@ -355,8 +357,8 @@ export interface UpdateDataResourceAction {
     id: string
     type: DataResourceType
     dataId: string
-    resourceLocator: string
-    otherParams: string
+    serviceEndpoint: string
+    properties: string
   }
 }
 

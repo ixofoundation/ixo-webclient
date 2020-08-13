@@ -13,7 +13,7 @@ export const initialState: CreateEntitySettingsState = {
     website: undefined,
     mission: undefined,
     creatorId: undefined,
-    credentialTokenId: undefined,
+    credential: undefined,
     fileSrc: undefined,
     uploading: false,
   },

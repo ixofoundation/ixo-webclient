@@ -45,7 +45,7 @@ class CreateEntity extends React.Component<Props> {
         return <Redirect to={`/${entityType.toLowerCase()}/new/advanced`} />
     }
 
-    return <Redirect to={`/${entityType.toLowerCase()}/new/page-content`} />
+    return <Redirect to={`/${entityType.toLowerCase()}/new/page`} />
   }
 
   render(): JSX.Element {
@@ -72,10 +72,7 @@ class CreateEntity extends React.Component<Props> {
                 />
                 <Route
                   exact
-                  path={[
-                    `/${entityType}/new/page-content`,
-                    `/${entityType}/new`,
-                  ]}
+                  path={[`/${entityType}/new/page`, `/${entityType}/new`]}
                   render={(props: any): JSX.Element => {
                     if (step === Step.PageContent) {
                       return <CreateEntityPageContentConnected {...props} />

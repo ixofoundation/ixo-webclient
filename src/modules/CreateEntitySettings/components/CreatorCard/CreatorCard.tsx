@@ -10,7 +10,7 @@ interface Props extends FormCardProps {
   website: string
   mission: string
   creatorId: string
-  credentialTokenId: string
+  credential: string
   fileSrc: string
   uploadingImage: boolean
 }
@@ -24,7 +24,7 @@ const CreatorCard: React.FunctionComponent<Props> = React.forwardRef(
       website,
       mission,
       creatorId,
-      credentialTokenId,
+      credential,
       fileSrc,
       uploadingImage,
       handleUpdateContent,
@@ -40,7 +40,7 @@ const CreatorCard: React.FunctionComponent<Props> = React.forwardRef(
       website,
       mission,
       creatorId,
-      credentialTokenId,
+      credential,
       fileSrc,
     }
 
@@ -64,7 +64,7 @@ const CreatorCard: React.FunctionComponent<Props> = React.forwardRef(
         website: { type: 'string', title: 'Public Website', format: 'uri' },
         mission: { type: 'string', title: 'Mission' },
         creatorId: { type: 'string', title: 'Identifier' },
-        credentialTokenId: {
+        credential: {
           type: 'string',
           title: 'Credential ID',
         },
@@ -102,7 +102,7 @@ const CreatorCard: React.FunctionComponent<Props> = React.forwardRef(
         ['ui:widget']: 'text',
         ['ui:placeholder']: 'Enter ID or !name',
       },
-      credentialTokenId: {
+      credential: {
         ['ui:widget']: 'text',
         ['ui:placeholder']: 'Paste Credential',
       },

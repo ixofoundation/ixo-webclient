@@ -104,16 +104,16 @@ describe('CreateEntityAdvanced Actions', () => {
         const id = 'someId'
         const type = PaymentType.FeeforService
         const paymentId = 'somePaymentId'
-        const denomination = PaymentDenomination.eCHF
-        const maxAmount = 123
-        const maxUnits = 456
+        const denom = PaymentDenomination.eCHF
+        const maxFee = 123
+        const maxQty = 456
 
         const formData = {
           type,
           paymentId,
-          denomination,
-          maxAmount,
-          maxUnits,
+          denom,
+          maxFee,
+          maxQty,
         }
 
         // when ... we call the action
@@ -125,9 +125,9 @@ describe('CreateEntityAdvanced Actions', () => {
           id,
           type,
           paymentId,
-          denomination,
-          maxAmount,
-          maxUnits,
+          denom,
+          maxFee,
+          maxQty,
         })
       })
     })
@@ -167,24 +167,24 @@ describe('CreateEntityAdvanced Actions', () => {
         const id = 'someId'
         const type = StakeType.ClaimGuarantee
         const stakeId = 'someStakeId'
-        const denomination = PaymentDenomination.eEUR
-        const depositAddress = 'someDepositAddress'
+        const denom = PaymentDenomination.eEUR
+        const stakeAddress = 'someDepositAddress'
         const minStake = 123
-        const slashingCondition = SlashingCondition.FailedDispute
+        const slashCondition = SlashingCondition.FailedDispute
         const slashFactor = 456
-        const maxSlashAmount = 789
-        const unbondingPeriod = 10
+        const slashAmount = 789
+        const unbondPeriod = 10
 
         const formData = {
           type,
           stakeId,
-          denomination,
-          depositAddress,
+          denom,
+          stakeAddress,
           minStake,
-          slashingCondition,
+          slashCondition,
           slashFactor,
-          maxSlashAmount,
-          unbondingPeriod,
+          slashAmount,
+          unbondPeriod,
         }
 
         // when ... we call the action
@@ -196,13 +196,13 @@ describe('CreateEntityAdvanced Actions', () => {
           id,
           type,
           stakeId,
-          denomination,
-          depositAddress,
+          denom,
+          stakeAddress,
           minStake,
-          slashingCondition,
+          slashCondition,
           slashFactor,
-          maxSlashAmount,
-          unbondingPeriod,
+          slashAmount,
+          unbondPeriod,
         })
       })
     })
@@ -352,8 +352,9 @@ describe('CreateEntityAdvanced Actions', () => {
         const id = 'someId'
         const purpose = KeyPurpose.Encryption
         const type = KeyType.JwsVerificationKey2020
-        const denomination = PaymentDenomination.eEUR
-        const controllerId = 'someControllerId'
+        const keyValue = PaymentDenomination.eEUR
+        const signature = 'someSignature'
+        const controller = 'someControllerId'
         const dateCreated = 'someDateCreated'
         const dateUpdated = 'someDateUpdated'
 
@@ -361,8 +362,9 @@ describe('CreateEntityAdvanced Actions', () => {
           id,
           purpose,
           type,
-          denomination,
-          controllerId,
+          keyValue,
+          signature,
+          controller,
           dateCreated,
           dateUpdated,
         }
@@ -376,8 +378,9 @@ describe('CreateEntityAdvanced Actions', () => {
           id,
           purpose,
           type,
-          denomination,
-          controllerId,
+          keyValue,
+          signature,
+          controller,
           dateCreated,
           dateUpdated,
         })
@@ -419,17 +422,17 @@ describe('CreateEntityAdvanced Actions', () => {
         const id = 'someId'
         const type = ServiceType.DIDAgent
         const shortDescription = 'someShortDescription'
-        const endpoint = 'someEndPoint'
+        const serviceEndpoint = 'someEndPoint'
         const publicKey = 'somePublicKey'
-        const otherParams = 'someOtherParams'
+        const properties = 'someOtherParams'
 
         const formData = {
           id,
           type,
           shortDescription,
-          endpoint,
+          serviceEndpoint,
           publicKey,
-          otherParams,
+          properties,
         }
 
         // when ... we call the action
@@ -441,9 +444,9 @@ describe('CreateEntityAdvanced Actions', () => {
           id,
           type,
           shortDescription,
-          endpoint,
+          serviceEndpoint,
           publicKey,
-          otherParams,
+          properties,
         })
       })
     })
@@ -485,14 +488,14 @@ describe('CreateEntityAdvanced Actions', () => {
         const id = 'someId'
         const type = DataResourceType.CellNodeDB
         const dataId = 'someDataId'
-        const resourceLocator = 'someResourceLocator'
-        const otherParams = 'someOtherParams'
+        const serviceEndpoint = 'someResourceLocator'
+        const properties = 'someOtherParams'
 
         const formData = {
           type,
           dataId,
-          resourceLocator,
-          otherParams,
+          serviceEndpoint,
+          properties,
         }
 
         // when ... we call the action
@@ -506,8 +509,8 @@ describe('CreateEntityAdvanced Actions', () => {
           id,
           type,
           dataId,
-          resourceLocator,
-          otherParams,
+          serviceEndpoint,
+          properties,
         })
       })
     })

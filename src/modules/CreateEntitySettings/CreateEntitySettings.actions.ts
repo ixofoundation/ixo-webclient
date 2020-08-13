@@ -33,7 +33,7 @@ export const updateCreator = (formData: FormData) => (
     website,
     mission,
     creatorId,
-    credentialTokenId,
+    credential,
     fileSrc,
   } = formData
 
@@ -57,7 +57,7 @@ export const updateCreator = (formData: FormData) => (
       website,
       mission,
       creatorId,
-      credentialTokenId,
+      credential,
     },
   })
 }

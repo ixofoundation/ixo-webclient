@@ -13,7 +13,7 @@ export interface Creator extends FileContent {
   website: string
   mission: string
   creatorId: string
-  credentialTokenId: string
+  credential: string
 }
 
 export interface Owner extends FileContent {
@@ -109,7 +109,7 @@ export interface UpdateCreatorAction {
     website: string
     mission: string
     creatorId: string
-    credentialTokenId: string
+    credential: string
   }
 }
 

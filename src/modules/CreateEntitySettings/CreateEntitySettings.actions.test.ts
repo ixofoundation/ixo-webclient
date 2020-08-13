@@ -27,7 +27,7 @@ describe('CreateEntitySettings Actions', () => {
         const website = 'someCreatorWebsite'
         const mission = 'someCreatorMission'
         const creatorId = 'someCreatorIdentifier'
-        const credentialTokenId = 'someCreatorCredentialTokenId'
+        const credential = 'someCreatorCredentialTokenId'
 
         const formData = {
           displayName,
@@ -36,7 +36,7 @@ describe('CreateEntitySettings Actions', () => {
           website,
           mission,
           creatorId,
-          credentialTokenId,
+          credential,
         }
 
         // when ... we call the updateCreator action creator
@@ -55,7 +55,7 @@ describe('CreateEntitySettings Actions', () => {
           website,
           mission,
           creatorId,
-          credentialTokenId,
+          credential,
         })
       })
 

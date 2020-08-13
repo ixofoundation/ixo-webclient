@@ -11,9 +11,9 @@ import { LinkButton } from '../../../../common/components/JsonForm/JsonForm.styl
 interface Props extends FormCardProps {
   type: PaymentType
   paymentId: string
-  denomination: PaymentDenomination
-  maxAmount: number
-  maxUnits: number
+  denom: PaymentDenomination
+  maxFee: number
+  maxQty: number
 }
 
 const PaymentCard: React.FunctionComponent<Props> = React.forwardRef(
@@ -21,9 +21,9 @@ const PaymentCard: React.FunctionComponent<Props> = React.forwardRef(
     {
       type,
       paymentId,
-      denomination,
-      maxAmount,
-      maxUnits,
+      denom,
+      maxFee,
+      maxQty,
       handleUpdateContent,
       handleSubmitted,
       handleError,
@@ -34,14 +34,14 @@ const PaymentCard: React.FunctionComponent<Props> = React.forwardRef(
     const formData = {
       type,
       paymentId,
-      denomination,
-      maxAmount,
-      maxUnits,
+      denom,
+      maxFee,
+      maxQty,
     }
 
     const schema = {
       type: 'object',
-      required: ['type', 'paymentId', 'denomination', 'maxAmount', 'maxUnits'],
+      required: ['type', 'paymentId', 'denom', 'maxFee', 'maxQty'],
       properties: {
         type: {
           type: 'string',
@@ -52,7 +52,7 @@ const PaymentCard: React.FunctionComponent<Props> = React.forwardRef(
           ),
         },
         paymentId: { type: 'string', title: 'Payment ID' },
-        denomination: {
+        denom: {
           type: 'string',
           title: 'Payment Denomination',
           enum: Object.keys(PaymentDenomination).map(
@@ -62,11 +62,11 @@ const PaymentCard: React.FunctionComponent<Props> = React.forwardRef(
             key => paymentDenominationMap[PaymentDenomination[key]].title,
           ),
         },
-        maxAmount: {
+        maxFee: {
           type: 'number',
           title: 'Maximum Payment Amount',
         },
-        maxUnits: { type: 'number', title: 'Maximum Quantity' },
+        maxQty: { type: 'number', title: 'Maximum Quantity' },
       },
     } as any
 
@@ -77,13 +77,13 @@ const PaymentCard: React.FunctionComponent<Props> = React.forwardRef(
       paymentId: {
         ['ui:placeholder']: 'Enter ID',
       },
-      denomination: {
+      denom: {
         ['ui:placeholder']: 'Select Denomination',
       },
-      maxAmount: {
+      maxFee: {
         ['ui:placeholder']: 'Enter Amount',
       },
-      maxUnits: {
+      maxQty: {
         ['ui:placeholder']: 'Enter Number of Units',
       },
     }

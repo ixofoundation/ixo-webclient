@@ -87,7 +87,7 @@ class CreateEntitySettings extends CreateEntityBase<Props> {
         website,
         mission,
         creatorId,
-        credentialTokenId,
+        credential,
         fileSrc,
         uploading,
       },
@@ -107,7 +107,7 @@ class CreateEntitySettings extends CreateEntityBase<Props> {
           website={website}
           mission={mission}
           creatorId={creatorId}
-          credentialTokenId={credentialTokenId}
+          credential={credential}
           fileSrc={fileSrc}
           uploadingImage={uploading}
           handleUpdateContent={handleUpdateCreator}

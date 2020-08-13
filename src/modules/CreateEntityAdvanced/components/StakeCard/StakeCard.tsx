@@ -16,13 +16,13 @@ import MultiControlForm from '../../../..//common/components/JsonForm/MultiContr
 interface Props extends FormCardProps {
   type: StakeType
   stakeId: string
-  denomination: PaymentDenomination
-  depositAddress: string
+  denom: PaymentDenomination
+  stakeAddress: string
   minStake: number
-  slashingCondition: SlashingCondition
+  slashCondition: SlashingCondition
   slashFactor: number
-  maxSlashAmount: number
-  unbondingPeriod: number
+  slashAmount: number
+  unbondPeriod: number
 }
 
 const StakeCard: React.FunctionComponent<Props> = React.forwardRef(
@@ -30,13 +30,13 @@ const StakeCard: React.FunctionComponent<Props> = React.forwardRef(
     {
       type,
       stakeId,
-      denomination,
-      depositAddress,
+      denom,
+      stakeAddress,
       minStake,
-      slashingCondition,
+      slashCondition,
       slashFactor,
-      maxSlashAmount,
-      unbondingPeriod,
+      slashAmount,
+      unbondPeriod,
       handleUpdateContent,
       handleSubmitted,
       handleError,
@@ -47,13 +47,13 @@ const StakeCard: React.FunctionComponent<Props> = React.forwardRef(
     const formData = {
       type,
       stakeId,
-      denomination,
-      depositAddress,
+      denom,
+      stakeAddress,
       minStake,
-      slashingCondition,
+      slashCondition,
       slashFactor,
-      maxSlashAmount,
-      unbondingPeriod,
+      slashAmount,
+      unbondPeriod,
     }
 
     const schema = {
@@ -61,13 +61,13 @@ const StakeCard: React.FunctionComponent<Props> = React.forwardRef(
       required: [
         'type',
         'stakeId',
-        'denomination',
-        'depositAddress',
+        'denom',
+        'stakeAddress',
         'minStake',
-        'slashingCondition',
+        'slashCondition',
         'slashFactor',
-        'maxSlashAmount',
-        'unbondingPeriod',
+        'slashAmount',
+        'unbondPeriod',
       ],
       properties: {
         type: {
@@ -79,7 +79,7 @@ const StakeCard: React.FunctionComponent<Props> = React.forwardRef(
           ),
         },
         stakeId: { type: 'string', title: 'Stake ID' },
-        denomination: {
+        denom: {
           type: 'string',
           title: 'Deposit Denomination',
           enum: Object.keys(PaymentDenomination).map(
@@ -89,9 +89,9 @@ const StakeCard: React.FunctionComponent<Props> = React.forwardRef(
             key => paymentDenominationMap[PaymentDenomination[key]].title,
           ),
         },
-        depositAddress: { type: 'string', title: 'Stake Deposit Address' },
+        stakeAddress: { type: 'string', title: 'Stake Deposit Address' },
         minStake: { type: 'number', title: 'Minimum Stake' },
-        slashingCondition: {
+        slashCondition: {
           type: 'string',
           title: 'Slashing Condition',
           enum: Object.keys(SlashingCondition).map(
@@ -102,8 +102,8 @@ const StakeCard: React.FunctionComponent<Props> = React.forwardRef(
           ),
         },
         slashFactor: { type: 'number', title: 'Slash Factor' },
-        maxSlashAmount: { type: 'number', title: 'Maximum Slash Amount' },
-        unbondingPeriod: { type: 'number', title: 'Unbonding Period (Days)' },
+        slashAmount: { type: 'number', title: 'Maximum Slash Amount' },
+        unbondPeriod: { type: 'number', title: 'Unbonding Period (Days)' },
       },
     } as any
 
@@ -112,13 +112,13 @@ const StakeCard: React.FunctionComponent<Props> = React.forwardRef(
         ['ui:placeholder']: 'Select Stake Type',
       },
       stakeId: { ['ui:placeholder']: 'Enter Stake ID' },
-      denomination: { ['ui:placeholder']: 'Select Denomination' },
-      depositAddress: { ['ui:placeholder']: 'Enter Address' },
+      denom: { ['ui:placeholder']: 'Select Denomination' },
+      stakeAddress: { ['ui:placeholder']: 'Enter Address' },
       minStake: { ['ui:placeholder']: 'Enter Value' },
-      slashingCondition: { ['ui:placeholder']: 'Select Condition' },
+      slashCondition: { ['ui:placeholder']: 'Select Condition' },
       slashFactor: { ['ui:placeholder']: 'Enter Factor' },
-      maxSlashAmount: { ['ui:placeholder']: 'Enter Amount' },
-      unbondingPeriod: { ['ui:placeholder']: 'Enter Days' },
+      slashAmount: { ['ui:placeholder']: 'Enter Amount' },
+      unbondPeriod: { ['ui:placeholder']: 'Enter Days' },
     }
 
     return (

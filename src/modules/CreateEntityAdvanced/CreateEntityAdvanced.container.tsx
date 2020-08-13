@@ -152,14 +152,7 @@ class CreateEntityAdvanced extends CreateEntityBase<Props> {
         {payments.map(payment => {
           this.cardRefs[payment.id] = React.createRef()
 
-          const {
-            id,
-            type,
-            paymentId,
-            denomination,
-            maxAmount,
-            maxUnits,
-          } = payment
+          const { id, type, paymentId, denom, maxFee, maxQty } = payment
 
           return (
             <PaymentCard
@@ -167,9 +160,9 @@ class CreateEntityAdvanced extends CreateEntityBase<Props> {
               key={id}
               type={type}
               paymentId={paymentId}
-              denomination={denomination}
-              maxAmount={maxAmount}
-              maxUnits={maxUnits}
+              denom={denom}
+              maxFee={maxFee}
+              maxQty={maxQty}
               handleUpdateContent={(formData): void =>
                 handleUpdatePayment(id, formData)
               }
@@ -209,13 +202,13 @@ class CreateEntityAdvanced extends CreateEntityBase<Props> {
             id,
             type,
             stakeId,
-            denomination,
-            depositAddress,
+            denom,
+            stakeAddress,
             minStake,
-            slashingCondition,
+            slashCondition,
             slashFactor,
-            maxSlashAmount,
-            unbondingPeriod,
+            slashAmount,
+            unbondPeriod,
           } = stake
 
           return (
@@ -224,13 +217,13 @@ class CreateEntityAdvanced extends CreateEntityBase<Props> {
               key={id}
               type={type}
               stakeId={stakeId}
-              denomination={denomination}
-              depositAddress={depositAddress}
+              denom={denom}
+              stakeAddress={stakeAddress}
               minStake={minStake}
-              slashingCondition={slashingCondition}
+              slashCondition={slashCondition}
               slashFactor={slashFactor}
-              maxSlashAmount={maxSlashAmount}
-              unbondingPeriod={unbondingPeriod}
+              slashAmount={slashAmount}
+              unbondPeriod={unbondPeriod}
               handleUpdateContent={(formData): void =>
                 handleUpdateStake(id, formData)
               }
@@ -345,8 +338,9 @@ class CreateEntityAdvanced extends CreateEntityBase<Props> {
             id,
             purpose,
             type,
-            denomination,
-            controllerId,
+            keyValue,
+            signature,
+            controller,
             dateCreated,
             dateUpdated,
           } = key
@@ -357,8 +351,9 @@ class CreateEntityAdvanced extends CreateEntityBase<Props> {
               key={id}
               purpose={purpose}
               type={type}
-              denomination={denomination}
-              controllerId={controllerId}
+              keyValue={keyValue}
+              signature={signature}
+              controller={controller}
               dateCreated={dateCreated}
               dateUpdated={dateUpdated}
               handleUpdateContent={(formData): void =>
@@ -398,9 +393,9 @@ class CreateEntityAdvanced extends CreateEntityBase<Props> {
             id,
             type,
             shortDescription,
-            endpoint,
+            serviceEndpoint,
             publicKey,
-            otherParams,
+            properties,
           } = service
 
           return (
@@ -409,9 +404,9 @@ class CreateEntityAdvanced extends CreateEntityBase<Props> {
               key={id}
               type={type}
               shortDescription={shortDescription}
-              endpoint={endpoint}
+              serviceEndpoint={serviceEndpoint}
               publicKey={publicKey}
-              otherParams={otherParams}
+              properties={properties}
               handleUpdateContent={(formData): void =>
                 handleUpdateService(id, formData)
               }
@@ -447,13 +442,7 @@ class CreateEntityAdvanced extends CreateEntityBase<Props> {
         {dataResources.map(dataResource => {
           this.cardRefs[dataResource.id] = React.createRef()
 
-          const {
-            id,
-            type,
-            dataId,
-            resourceLocator,
-            otherParams,
-          } = dataResource
+          const { id, type, dataId, serviceEndpoint, properties } = dataResource
 
           return (
             <DataResourceCard
@@ -461,8 +450,8 @@ class CreateEntityAdvanced extends CreateEntityBase<Props> {
               key={id}
               type={type}
               dataId={dataId}
-              resourceLocator={resourceLocator}
-              otherParams={otherParams}
+              serviceEndpoint={serviceEndpoint}
+              properties={properties}
               handleUpdateContent={(formData): void =>
                 handleUpdateDataResource(id, formData)
               }

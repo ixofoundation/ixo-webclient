@@ -192,9 +192,9 @@ describe('CreateEntityAdvanced Reducer', () => {
             id,
             type: undefined,
             paymentId: undefined,
-            denomination: undefined,
-            maxAmount: undefined,
-            maxUnits: undefined,
+            denom: undefined,
+            maxFee: undefined,
+            maxQty: undefined,
           },
         },
       })
@@ -218,17 +218,17 @@ describe('CreateEntityAdvanced Reducer', () => {
               id,
               type: PaymentType.LoanRepayment,
               paymentId: 'someOldPaymentId',
-              denomination: PaymentDenomination.IXO,
-              maxAmount: 1,
-              maxUnits: 2,
+              denom: PaymentDenomination.IXO,
+              maxFee: 1,
+              maxQty: 2,
             },
             ['anotherid']: {
               id: 'anotherid',
               type: PaymentType.OutcomePayment,
               paymentId: 'somePaymentId',
-              denomination: PaymentDenomination.eCHF,
-              maxAmount: 12,
-              maxUnits: 22,
+              denom: PaymentDenomination.eCHF,
+              maxFee: 12,
+              maxQty: 22,
             },
           },
         },
@@ -243,9 +243,9 @@ describe('CreateEntityAdvanced Reducer', () => {
             id: 'anotherid',
             type: PaymentType.OutcomePayment,
             paymentId: 'somePaymentId',
-            denomination: PaymentDenomination.eCHF,
-            maxAmount: 12,
-            maxUnits: 22,
+            denom: PaymentDenomination.eCHF,
+            maxFee: 12,
+            maxQty: 22,
           },
         },
       })
@@ -255,9 +255,9 @@ describe('CreateEntityAdvanced Reducer', () => {
       const id = 'someId'
       const type = PaymentType.FeeforService
       const paymentId = 'somePaymentId'
-      const denomination = PaymentDenomination.eCHF
-      const maxAmount = 123
-      const maxUnits = 456
+      const denom = PaymentDenomination.eCHF
+      const maxFee = 123
+      const maxQty = 456
 
       // given .. we have an action of type CreateEntityAdvancedActions.UpdatePayment
       const action: UpdatePaymentAction = {
@@ -266,9 +266,9 @@ describe('CreateEntityAdvanced Reducer', () => {
           id,
           type,
           paymentId,
-          denomination,
-          maxAmount,
-          maxUnits,
+          denom,
+          maxFee,
+          maxQty,
         },
       }
 
@@ -281,9 +281,9 @@ describe('CreateEntityAdvanced Reducer', () => {
               id,
               type: PaymentType.IncomeDistribution,
               paymentId: 'someOldPaymentId',
-              denomination: PaymentDenomination.eUSD,
-              maxAmount: 1,
-              maxUnits: 2,
+              denom: PaymentDenomination.eUSD,
+              maxFee: 1,
+              maxQty: 2,
             },
           },
         },
@@ -297,9 +297,9 @@ describe('CreateEntityAdvanced Reducer', () => {
             id,
             type,
             paymentId,
-            denomination,
-            maxAmount,
-            maxUnits,
+            denom,
+            maxFee,
+            maxQty,
           },
         },
       })
@@ -329,13 +329,13 @@ describe('CreateEntityAdvanced Reducer', () => {
             id,
             type: undefined,
             stakeId: undefined,
-            denomination: undefined,
-            depositAddress: undefined,
+            denom: undefined,
+            stakeAddress: undefined,
             minStake: undefined,
-            slashingCondition: undefined,
+            slashCondition: undefined,
             slashFactor: undefined,
-            maxSlashAmount: undefined,
-            unbondingPeriod: undefined,
+            slashAmount: undefined,
+            unbondPeriod: undefined,
           },
         },
       })
@@ -359,25 +359,25 @@ describe('CreateEntityAdvanced Reducer', () => {
               id,
               type: StakeType.ClaimGuarantee,
               stakeId: 'someStakeId',
-              denomination: PaymentDenomination.eEUR,
-              depositAddress: 'someDepositAddress',
+              denom: PaymentDenomination.eEUR,
+              stakeAddress: 'someDepositAddress',
               minStake: 123,
-              slashingCondition: SlashingCondition.FailedDispute,
+              slashCondition: SlashingCondition.FailedDispute,
               slashFactor: 456,
-              maxSlashAmount: 789,
-              unbondingPeriod: 10,
+              slashAmount: 789,
+              unbondPeriod: 10,
             },
             ['anotherid']: {
               id: 'anotherid',
               type: StakeType.InsuranceGuarantee,
               stakeId: 'someStakeId2',
-              denomination: PaymentDenomination.eUSD,
-              depositAddress: 'someDepositAddress2',
+              denom: PaymentDenomination.eUSD,
+              stakeAddress: 'someDepositAddress2',
               minStake: 123,
-              slashingCondition: SlashingCondition.FailedProposal,
+              slashCondition: SlashingCondition.FailedProposal,
               slashFactor: 456,
-              maxSlashAmount: 789,
-              unbondingPeriod: 10,
+              slashAmount: 789,
+              unbondPeriod: 10,
             },
           },
         },
@@ -392,13 +392,13 @@ describe('CreateEntityAdvanced Reducer', () => {
             id: 'anotherid',
             type: StakeType.InsuranceGuarantee,
             stakeId: 'someStakeId2',
-            denomination: PaymentDenomination.eUSD,
-            depositAddress: 'someDepositAddress2',
+            denom: PaymentDenomination.eUSD,
+            stakeAddress: 'someDepositAddress2',
             minStake: 123,
-            slashingCondition: SlashingCondition.FailedProposal,
+            slashCondition: SlashingCondition.FailedProposal,
             slashFactor: 456,
-            maxSlashAmount: 789,
-            unbondingPeriod: 10,
+            slashAmount: 789,
+            unbondPeriod: 10,
           },
         },
       })
@@ -408,13 +408,13 @@ describe('CreateEntityAdvanced Reducer', () => {
       const id = 'someId'
       const type = StakeType.LoanGuarantee
       const stakeId = 'someNewStakeId'
-      const denomination = PaymentDenomination.IXO
-      const depositAddress = 'someNewDepositAddress'
+      const denom = PaymentDenomination.IXO
+      const stakeAddress = 'someNewDepositAddress'
       const minStake = 1234
-      const slashingCondition = SlashingCondition.FailedSecurity
+      const slashCondition = SlashingCondition.FailedSecurity
       const slashFactor = 4564
-      const maxSlashAmount = 7894
-      const unbondingPeriod = 104
+      const slashAmount = 7894
+      const unbondPeriod = 104
 
       // given .. we have an action of type CreateEntityAdvancedActions.UpdateStake
       const action: UpdateStakeAction = {
@@ -423,13 +423,13 @@ describe('CreateEntityAdvanced Reducer', () => {
           id,
           type,
           stakeId,
-          denomination,
-          depositAddress,
+          denom,
+          stakeAddress,
           minStake,
-          slashingCondition,
+          slashCondition,
           slashFactor,
-          maxSlashAmount,
-          unbondingPeriod,
+          slashAmount,
+          unbondPeriod,
         },
       }
 
@@ -442,13 +442,13 @@ describe('CreateEntityAdvanced Reducer', () => {
               id,
               type: StakeType.ClaimGuarantee,
               stakeId: 'someStakeId',
-              denomination: PaymentDenomination.eEUR,
-              depositAddress: 'someDepositAddress',
+              denom: PaymentDenomination.eEUR,
+              stakeAddress: 'someDepositAddress',
               minStake: 123,
-              slashingCondition: SlashingCondition.FailedDispute,
+              slashCondition: SlashingCondition.FailedDispute,
               slashFactor: 456,
-              maxSlashAmount: 789,
-              unbondingPeriod: 10,
+              slashAmount: 789,
+              unbondPeriod: 10,
             },
           },
         },
@@ -463,13 +463,13 @@ describe('CreateEntityAdvanced Reducer', () => {
             id,
             type,
             stakeId,
-            denomination,
-            depositAddress,
+            denom,
+            stakeAddress,
             minStake,
-            slashingCondition,
+            slashCondition,
             slashFactor,
-            maxSlashAmount,
-            unbondingPeriod,
+            slashAmount,
+            unbondPeriod,
           },
         },
       })
@@ -727,8 +727,8 @@ describe('CreateEntityAdvanced Reducer', () => {
             id,
             type: undefined,
             purpose: undefined,
-            denomination: undefined,
-            controllerId: undefined,
+            keyValue: undefined,
+            controller: undefined,
             dateCreated: undefined,
             dateUpdated: undefined,
           },
@@ -754,8 +754,9 @@ describe('CreateEntityAdvanced Reducer', () => {
               id,
               type: KeyType.Secp256k1VerificationKey2018,
               purpose: KeyPurpose.Identification,
-              denomination: PaymentDenomination.IXO,
-              controllerId: 'someOldControllerId',
+              keyValue: 'someOldKeyValue',
+              signature: 'someOldSignature',
+              controller: 'someOldControllerId',
               dateCreated: 'someOldDateCreated',
               dateUpdated: 'someOldDateUpdated',
             },
@@ -763,8 +764,9 @@ describe('CreateEntityAdvanced Reducer', () => {
               id: 'anotherid',
               type: KeyType.Ed25519VerificationKey2018,
               purpose: KeyPurpose.Identification,
-              denomination: PaymentDenomination.IXO,
-              controllerId: 'someControllerId',
+              keyValue: 'someKeyValue',
+              signature: 'someSignature',
+              controller: 'someControllerId',
               dateCreated: 'someDateCreated',
               dateUpdated: 'someDateUpdated',
             },
@@ -781,8 +783,9 @@ describe('CreateEntityAdvanced Reducer', () => {
             id: 'anotherid',
             type: KeyType.Ed25519VerificationKey2018,
             purpose: KeyPurpose.Identification,
-            denomination: PaymentDenomination.IXO,
-            controllerId: 'someControllerId',
+            keyValue: 'someKeyValue',
+            signature: 'someSignature',
+            controller: 'someControllerId',
             dateCreated: 'someDateCreated',
             dateUpdated: 'someDateUpdated',
           },
@@ -794,8 +797,9 @@ describe('CreateEntityAdvanced Reducer', () => {
       const id = 'someId'
       const type = KeyType.JwsVerificationKey2020
       const purpose = KeyPurpose.Encryption
-      const denomination = PaymentDenomination.eCHF
-      const controllerId = 'someControllerId'
+      const keyValue = PaymentDenomination.eCHF
+      const signature = 'someSignature'
+      const controller = 'someControllerId'
       const dateCreated = 'someDateCreated'
       const dateUpdated = 'someDateUpdated'
 
@@ -806,8 +810,9 @@ describe('CreateEntityAdvanced Reducer', () => {
           id,
           type,
           purpose,
-          denomination,
-          controllerId,
+          keyValue,
+          signature,
+          controller,
           dateCreated,
           dateUpdated,
         },
@@ -822,8 +827,9 @@ describe('CreateEntityAdvanced Reducer', () => {
               id,
               type: KeyType.JwsVerificationKey2020,
               purpose: KeyPurpose.Verification,
-              denomination: PaymentDenomination.eUSD,
-              controllerId: 'someOldControllerId',
+              keyValue: 'someOldKeyValue',
+              signature: 'someOldSignature',
+              controller: 'someOldControllerId',
               dateCreated: 'someOldDateCreated',
               dateUpdated: 'someOldDateUpdated',
             },
@@ -839,8 +845,9 @@ describe('CreateEntityAdvanced Reducer', () => {
             id,
             type,
             purpose,
-            denomination,
-            controllerId,
+            keyValue,
+            signature,
+            controller,
             dateCreated,
             dateUpdated,
           },
@@ -872,9 +879,9 @@ describe('CreateEntityAdvanced Reducer', () => {
             id,
             type: undefined,
             shortDescription: undefined,
-            endpoint: undefined,
+            serviceEndpoint: undefined,
             publicKey: undefined,
-            otherParams: undefined,
+            properties: undefined,
           },
         },
       })
@@ -898,17 +905,17 @@ describe('CreateEntityAdvanced Reducer', () => {
               id,
               type: ServiceType.EthereumWeb3,
               shortDescription: 'someShortDescription',
-              endpoint: 'someEndpoint',
+              serviceEndpoint: 'someEndpoint',
               publicKey: 'somePublicKey',
-              otherParams: 'someOtherParams',
+              properties: 'someOtherParams',
             },
             ['anotherid']: {
               id: 'anotherid',
               type: ServiceType.Web2,
               shortDescription: 'someOtherShortDescription',
-              endpoint: 'someOtherEndpoint',
+              serviceEndpoint: 'someOtherEndpoint',
               publicKey: 'someOtherPublicKey',
-              otherParams: 'someOtherOtherParams',
+              properties: 'someOtherOtherParams',
             },
           },
         },
@@ -923,9 +930,9 @@ describe('CreateEntityAdvanced Reducer', () => {
             id: 'anotherid',
             type: ServiceType.Web2,
             shortDescription: 'someOtherShortDescription',
-            endpoint: 'someOtherEndpoint',
+            serviceEndpoint: 'someOtherEndpoint',
             publicKey: 'someOtherPublicKey',
-            otherParams: 'someOtherOtherParams',
+            properties: 'someOtherOtherParams',
           },
         },
       })
@@ -935,9 +942,9 @@ describe('CreateEntityAdvanced Reducer', () => {
       const id = 'someId'
       const type = ServiceType.DIDAgent
       const shortDescription = 'someShortDescription'
-      const endpoint = 'someEndPoint'
+      const serviceEndpoint = 'someEndPoint'
       const publicKey = 'somePublicKey'
-      const otherParams = 'someOtherParams'
+      const properties = 'someOtherParams'
 
       // given .. we have an action of type CreateEntityAdvancedActions.UpdateService
       const action: UpdateServiceAction = {
@@ -946,9 +953,9 @@ describe('CreateEntityAdvanced Reducer', () => {
           id,
           type,
           shortDescription,
-          endpoint,
+          serviceEndpoint,
           publicKey,
-          otherParams,
+          properties,
         },
       }
 
@@ -961,9 +968,9 @@ describe('CreateEntityAdvanced Reducer', () => {
               id,
               type: ServiceType.EthereumWeb3,
               shortDescription: 'someOldShortDescription',
-              endpoint: 'someOldEndpoint',
+              serviceEndpoint: 'someOldEndpoint',
               publicKey: 'someOldPublicKey',
-              otherParams: 'someOldOtherParams',
+              properties: 'someOldOtherParams',
             },
           },
         },
@@ -977,9 +984,9 @@ describe('CreateEntityAdvanced Reducer', () => {
             id,
             type,
             shortDescription,
-            endpoint,
+            serviceEndpoint,
             publicKey,
-            otherParams,
+            properties,
           },
         },
       })
@@ -1009,8 +1016,8 @@ describe('CreateEntityAdvanced Reducer', () => {
             id,
             type: undefined,
             dataId: undefined,
-            resourceLocator: undefined,
-            otherParams: undefined,
+            serviceEndpoint: undefined,
+            properties: undefined,
           },
         },
       })
@@ -1034,15 +1041,15 @@ describe('CreateEntityAdvanced Reducer', () => {
               id,
               type: DataResourceType.CellNodeDB,
               dataId: 'someDataId',
-              resourceLocator: 'someResourceLocator',
-              otherParams: 'someOtherParams',
+              serviceEndpoint: 'someResourceLocator',
+              properties: 'someOtherParams',
             },
             ['anotherid']: {
               id: 'anotherid',
               type: DataResourceType.MobileIdentityWallet,
               dataId: 'someDataId2',
-              resourceLocator: 'someResourceLocator2',
-              otherParams: 'someOtherParams2',
+              serviceEndpoint: 'someResourceLocator2',
+              properties: 'someOtherParams2',
             },
           },
         },
@@ -1057,8 +1064,8 @@ describe('CreateEntityAdvanced Reducer', () => {
             id: 'anotherid',
             type: DataResourceType.MobileIdentityWallet,
             dataId: 'someDataId2',
-            resourceLocator: 'someResourceLocator2',
-            otherParams: 'someOtherParams2',
+            serviceEndpoint: 'someResourceLocator2',
+            properties: 'someOtherParams2',
           },
         },
       })
@@ -1068,8 +1075,8 @@ describe('CreateEntityAdvanced Reducer', () => {
       const id = 'someId'
       const type = DataResourceType.CellNodeDB
       const dataId = 'someDataId'
-      const resourceLocator = 'someResourceLocator'
-      const otherParams = 'someOtherParams'
+      const serviceEndpoint = 'someResourceLocator'
+      const properties = 'someOtherParams'
 
       // given .. we have an action of type CreateEntityAdvancedActions.UpdateDataResource
       const action: UpdateDataResourceAction = {
@@ -1078,8 +1085,8 @@ describe('CreateEntityAdvanced Reducer', () => {
           id,
           type,
           dataId,
-          resourceLocator,
-          otherParams,
+          serviceEndpoint,
+          properties,
         },
       }
 
@@ -1092,8 +1099,8 @@ describe('CreateEntityAdvanced Reducer', () => {
               id,
               type: DataResourceType.PersonalDataPod,
               dataId: 'someOldDataId',
-              resourceLocator: 'someOldResourceLocator',
-              otherParams: 'someOldOtherParams',
+              serviceEndpoint: 'someOldResourceLocator',
+              properties: 'someOldOtherParams',
             },
           },
         },
@@ -1108,8 +1115,8 @@ describe('CreateEntityAdvanced Reducer', () => {
             id,
             type,
             dataId,
-            resourceLocator,
-            otherParams,
+            serviceEndpoint,
+            properties,
           },
         },
       })

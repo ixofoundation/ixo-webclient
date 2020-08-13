@@ -88,7 +88,7 @@ export const updatePayment = (
   id: string,
   formData: FormData,
 ): UpdatePaymentAction => {
-  const { type, paymentId, denomination, maxAmount, maxUnits } = formData
+  const { type, paymentId, denom, maxFee, maxQty } = formData
 
   return {
     type: CreateEntityAdvancedActions.UpdatePayment,
@@ -96,9 +96,9 @@ export const updatePayment = (
       id,
       type,
       paymentId,
-      denomination,
-      maxAmount,
-      maxUnits,
+      denom,
+      maxFee,
+      maxQty,
     },
   }
 }
@@ -124,13 +124,13 @@ export const updateStake = (
   const {
     type,
     stakeId,
-    denomination,
-    depositAddress,
+    denom,
+    stakeAddress,
     minStake,
-    slashingCondition,
+    slashCondition,
     slashFactor,
-    maxSlashAmount,
-    unbondingPeriod,
+    slashAmount,
+    unbondPeriod,
   } = formData
 
   return {
@@ -139,13 +139,13 @@ export const updateStake = (
       id,
       type,
       stakeId,
-      denomination,
-      depositAddress,
+      denom,
+      stakeAddress,
       minStake,
-      slashingCondition,
+      slashCondition,
       slashFactor,
-      maxSlashAmount,
-      unbondingPeriod,
+      slashAmount,
+      unbondPeriod,
     },
   }
 }
@@ -228,8 +228,9 @@ export const updateKey = (id: string, formData: FormData): UpdateKeyAction => {
   const {
     purpose,
     type,
-    denomination,
-    controllerId,
+    keyValue,
+    signature,
+    controller,
     dateCreated,
     dateUpdated,
   } = formData
@@ -240,8 +241,9 @@ export const updateKey = (id: string, formData: FormData): UpdateKeyAction => {
       id,
       purpose,
       type,
-      denomination,
-      controllerId,
+      keyValue,
+      signature,
+      controller,
       dateCreated,
       dateUpdated,
     },
@@ -266,7 +268,13 @@ export const updateService = (
   id: string,
   formData: FormData,
 ): UpdateServiceAction => {
-  const { type, shortDescription, endpoint, publicKey, otherParams } = formData
+  const {
+    type,
+    shortDescription,
+    serviceEndpoint,
+    publicKey,
+    properties,
+  } = formData
 
   return {
     type: CreateEntityAdvancedActions.UpdateService,
@@ -274,9 +282,9 @@ export const updateService = (
       id,
       type,
       shortDescription,
-      endpoint,
+      serviceEndpoint,
       publicKey,
-      otherParams,
+      properties,
     },
   }
 }
@@ -301,7 +309,7 @@ export const updateDataResource = (
   id: string,
   formData: FormData,
 ): UpdateDataResourceAction => {
-  const { type, dataId, resourceLocator, otherParams } = formData
+  const { type, dataId, serviceEndpoint, properties } = formData
 
   return {
     type: CreateEntityAdvancedActions.UpdateDataResource,
@@ -309,8 +317,8 @@ export const updateDataResource = (
       id,
       type,
       dataId,
-      resourceLocator,
-      otherParams,
+      serviceEndpoint,
+      properties,
     },
   }
 }

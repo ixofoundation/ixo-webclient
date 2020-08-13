@@ -8,9 +8,9 @@ import { LinkButton } from '../../../../common/components/JsonForm/JsonForm.styl
 interface Props extends FormCardProps {
   type: ServiceType
   shortDescription: string
-  endpoint: string
+  serviceEndpoint: string
   publicKey: string
-  otherParams: string
+  properties: string
 }
 
 const ServiceCard: React.FunctionComponent<Props> = React.forwardRef(
@@ -18,9 +18,9 @@ const ServiceCard: React.FunctionComponent<Props> = React.forwardRef(
     {
       type,
       shortDescription,
-      endpoint,
+      serviceEndpoint,
       publicKey,
-      otherParams,
+      properties,
       handleUpdateContent,
       handleSubmitted,
       handleError,
@@ -31,9 +31,9 @@ const ServiceCard: React.FunctionComponent<Props> = React.forwardRef(
     const formData = {
       type,
       shortDescription,
-      endpoint,
+      serviceEndpoint,
       publicKey,
-      otherParams,
+      properties,
     }
 
     const schema = {
@@ -41,9 +41,9 @@ const ServiceCard: React.FunctionComponent<Props> = React.forwardRef(
       required: [
         'type',
         'shortDescription',
-        'endpoint',
+        'serviceEndpoint',
         'publicKey',
-        'otherParams',
+        'properties',
       ],
       properties: {
         type: {
@@ -54,7 +54,7 @@ const ServiceCard: React.FunctionComponent<Props> = React.forwardRef(
             key => serviceTypeMap[ServiceType[key]].title,
           ),
         },
-        endpoint: {
+        serviceEndpoint: {
           type: 'string',
           title: 'Service Endpoint',
         },
@@ -62,7 +62,7 @@ const ServiceCard: React.FunctionComponent<Props> = React.forwardRef(
           type: 'string',
           title: 'Public Key / Token',
         },
-        otherParams: {
+        properties: {
           type: 'string',
           title: 'Other Parameters',
         },
@@ -77,13 +77,13 @@ const ServiceCard: React.FunctionComponent<Props> = React.forwardRef(
       type: {
         ['ui:placeholder']: 'Select Service',
       },
-      endpoint: {
+      serviceEndpoint: {
         ['ui:placeholder']: 'Enter URL',
       },
       publicKey: {
         ['ui:placeholder']: 'Enter Value',
       },
-      otherParams: {
+      properties: {
         ['ui:placeholder']: 'Paste a Valid String',
       },
       shortDescription: {

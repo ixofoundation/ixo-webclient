@@ -8,8 +8,8 @@ import MultiControlForm from '../../../..//common/components/JsonForm/MultiContr
 interface Props extends FormCardProps {
   type: DataResourceType
   dataId: string
-  resourceLocator: string
-  otherParams: string
+  serviceEndpoint: string
+  properties: string
 }
 
 const FundCard: React.FunctionComponent<Props> = React.forwardRef(
@@ -17,8 +17,8 @@ const FundCard: React.FunctionComponent<Props> = React.forwardRef(
     {
       type,
       dataId,
-      resourceLocator,
-      otherParams,
+      serviceEndpoint,
+      properties,
       handleUpdateContent,
       handleSubmitted,
       handleError,
@@ -29,13 +29,13 @@ const FundCard: React.FunctionComponent<Props> = React.forwardRef(
     const formData = {
       type,
       dataId,
-      resourceLocator,
-      otherParams,
+      serviceEndpoint,
+      properties,
     }
 
     const schema = {
       type: 'object',
-      required: ['type', 'dataId', 'resourceLocator', 'otherParams'],
+      required: ['type', 'dataId', 'serviceEndpoint', 'properties'],
       properties: {
         type: {
           type: 'string',
@@ -46,16 +46,16 @@ const FundCard: React.FunctionComponent<Props> = React.forwardRef(
           ),
         },
         dataId: { type: 'string', title: 'Data Identifier' },
-        resourceLocator: { type: 'string', title: 'Resouce Locator' },
-        otherParams: { type: 'string', title: 'Other Parameters' },
+        serviceEndpoint: { type: 'string', title: 'Resouce Locator' },
+        properties: { type: 'string', title: 'Other Parameters' },
       },
     } as any
 
     const uiSchema = {
       type: { ['ui:placeholder']: 'Select Resource' },
       dataId: { ['ui:placeholder']: 'Enter DID or !name' },
-      resourceLocator: { ['ui:placeholder']: 'Enter URL' },
-      otherParams: { ['ui:placeholder']: 'Paste a Valid Parameter String' },
+      serviceEndpoint: { ['ui:placeholder']: 'Enter URL' },
+      properties: { ['ui:placeholder']: 'Paste a Valid Parameter String' },
     }
 
     return (
