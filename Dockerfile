@@ -16,4 +16,4 @@ RUN npm install --silent
 ENTRYPOINT ["npm", "start"]
 
 # start app
-CMD ["npm", "start"]
+# CMD ["npm", "start"]
