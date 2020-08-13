@@ -75,7 +75,7 @@
   },
   "scripts": {
     "dev": "react-scripts start",
-    "start": "react-scripts --max_old_space_size=4096 build --verbose && serve -s build",
+    "start": "serve -s build",
     "build": "react-scripts --max_old_space_size=4096 build",
     "lint": "eslint --ext=jsx,ts,tsx src",
     "lint:fix": "eslint --ext=jsx,ts,tsx src --fix",
