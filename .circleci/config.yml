@@ -18,15 +18,15 @@ node_build: &node_build
 step_cache_restore_npm: &step_cache_restore_npm
   name: 'Restore Cache: NPM Dependencies'
   keys:
-    - node-v2-{{ .Branch }}-{{ checksum "package-lock.json" }}
-    - node-v2-{{ .Branch }}-
-    - node-v2-
+    - node-v1-{{ .Branch }}-{{ checksum "package-lock.json" }}
+    - node-v1-{{ .Branch }}-
+    - node-v1-
 
 step_cache_save_npm: &step_cache_save_npm
   name: 'Save Cache: NPM Dependencies'
   paths:
     - ~/usr/local/lib/node_modules # location depends on npm version
-  key: node-v2-{{ .Branch }}-{{ checksum "package-lock.json" }}
+  key: node-v1-{{ .Branch }}-{{ checksum "package-lock.json" }}
 
 step_run_install_npm_dependencies: &step_run_install_npm_dependencies
   name: 'Install NPM Dependencies'
@@ -109,7 +109,7 @@ workflows:
           filters:
             branches:
               only:
-                - dev
+                - temp-dev-for-deploy
       - docker/publish:
           after_checkout:
             - run: *uat_in_app_environment
@@ -123,7 +123,7 @@ workflows:
           filters:
             branches:
               only:
-                - dev
+                - temp-dev-for-deploy
   prod_publish_docker:
     jobs:
       #- test:
