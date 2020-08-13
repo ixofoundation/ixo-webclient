@@ -109,7 +109,7 @@ workflows:
           filters:
             branches:
               only:
-                - temp-dev-for-deploy
+                - dev
       - docker/publish:
           after_checkout:
             - run: *uat_in_app_environment
@@ -123,7 +123,7 @@ workflows:
           filters:
             branches:
               only:
-                - temp-dev-for-deploy
+                - dev
   prod_publish_docker:
     jobs:
       #- test:
