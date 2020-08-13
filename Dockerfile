@@ -13,7 +13,7 @@ COPY package.json /usr/src/app/package.json
 COPY . /usr/src/app/
 RUN npm install --silent
 # RUN npm install react-scripts -g --silent
-ENTRYPOINT ["npm", "start"]
+# ENTRYPOINT ["npm", "start"]
 
 # start app
-# CMD ["npm", "start"]
+CMD ["npm", "start"]
