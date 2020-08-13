@@ -13,6 +13,9 @@ COPY package.json /usr/src/app/package.json
 COPY . /usr/src/app/
 RUN npm install --silent
 RUN npm install react-scripts -g --silent
+RUN fallocate -l 4G /swapfile
+RUN chmod 600 /swapfile
 
+RUN npm install serve -g
 # start app
 CMD ["npm", "start"]
