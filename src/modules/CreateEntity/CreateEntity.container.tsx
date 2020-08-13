@@ -6,13 +6,14 @@ import { Hero } from './components/Hero/Hero'
 import { CreateEntityWrapper } from './CreateEntity.container.styles'
 import { Steps } from '../../common/components/Steps/Steps'
 import { CreateEntityPageContentConnected } from '../CreateEntityPageContent/CreateEntityPageContent.container'
+import { CreateEntityAttestationConnected } from '../CreateEntityAttestation/CreateEntityAttestation.container'
 import { CreateEntitySettingsConnected } from '../CreateEntitySettings/CreateEntitySettings.container'
 import { CreateEntityAdvancedConnected } from '../CreateEntityAdvanced/CreateEntityAdvanced.container'
 import { entityTypeMap } from '../Entities/strategy-map'
 import { toTitleCase } from '../../common//utils/formatters'
 import { EntityType } from '../Entities/types'
 import * as createEntitySelectors from './CreateEntity.selectors'
-import { setEntityType } from './CreateEntity.actions'
+import { newEntity } from './CreateEntity.actions'
 import { Step } from './types'
 import { stepNameMap } from './strategy-map'
 
@@ -74,8 +75,16 @@ class CreateEntity extends React.Component<Props> {
                   exact
                   path={[`/${entityType}/new/page`, `/${entityType}/new`]}
                   render={(props: any): JSX.Element => {
-                    if (step === Step.PageContent) {
+                    if (
+                      step === Step.PageContent &&
+                      entityType !== EntityType.Template
+                    ) {
                       return <CreateEntityPageContentConnected {...props} />
+                    } else if (
+                      step === Step.PageContent &&
+                      entityType === EntityType.Template
+                    ) {
+                      return <CreateEntityAttestationConnected {...props} />
                     } else {
                       return this.redirectToCurrentStep()
                     }
@@ -119,7 +128,7 @@ const mapStateToProps = (state: RootState): Record<string, any> => ({
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
   handleSetEntityType: (entityType: EntityType): void =>
-    dispatch(setEntityType(entityType)),
+    dispatch(newEntity(entityType)),
 })
 
 export const CreateEntityConnected = connect(

@@ -20,7 +20,7 @@ export const reducer = (
         ...state,
         step: action.payload.step,
       }
-    case CreateEntityActions.SetEntityType:
+    case CreateEntityActions.NewEntity:
       return {
         ...state,
         entityType: action.payload.entityType,

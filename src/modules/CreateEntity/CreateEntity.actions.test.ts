@@ -17,16 +17,16 @@ describe('CreateEntity Actions', () => {
     })
   })
 
-  describe('setEntityType', () => {
+  describe('newEntity', () => {
     it('should set the entity type', () => {
       // given ... some content
       const entityType = EntityType.Cell
 
-      // when ... we call the goToStep action creator
-      const action = SUT.setEntityType(entityType)
+      // when ... we call the newEntity action creator
+      const action = SUT.newEntity(entityType)
 
       // then ... it should dispatch the correct action
-      expect(action.type).toEqual(CreateEntityActions.SetEntityType)
+      expect(action.type).toEqual(CreateEntityActions.NewEntity)
       expect(action.payload).toEqual({ entityType })
     })
   })

@@ -3,7 +3,7 @@ import {
   Step,
   GoToStepAction,
   CreateEntityActions,
-  SetEntityTypeAction,
+  NewEntityAction,
 } from './types'
 import { EntityType } from '../Entities/types'
 
@@ -47,8 +47,8 @@ describe('CreateEntity Reducer', () => {
       const entityType = EntityType.Investment
 
       // given .. we have an action of type CreateEntityActions.SetEntityType
-      const action: SetEntityTypeAction = {
-        type: CreateEntityActions.SetEntityType,
+      const action: NewEntityAction = {
+        type: CreateEntityActions.NewEntity,
         payload: { entityType },
       }
 

@@ -18,6 +18,7 @@ import { reducer as createEntityPageContentReducer } from '../../modules/CreateE
 import { reducer as createEntitySettingsReducer } from '../../modules/CreateEntitySettings/CreateEntitySettings.reducer'
 import { reducer as createEntityAdvancedReducer } from '../../modules/CreateEntityAdvanced/CreateEntityAdvanced.reducer'
 import { reducer as createClaimTemplateReducer } from '../../modules/CreateClaimTemplate/CreateClaimTemplate.reducer'
+import { reducer as createEntityAttestationReducer } from '../../modules/CreateEntityAttestation/CreateEntityAttestation.reducer'
 import { RootState } from './types'
 
 export const rootReducer: Reducer<RootState> = combineReducers<RootState>({
@@ -37,6 +38,7 @@ export const rootReducer: Reducer<RootState> = combineReducers<RootState>({
   selectedEntity: selectedEntityReducer,
   createEntity: createEntityReducer,
   createEntityPageContent: createEntityPageContentReducer,
+  createEntityAttestation: createEntityAttestationReducer,
   createEntitySettings: createEntitySettingsReducer,
   createEntityAdvanced: createEntityAdvancedReducer,
   createClaimTemplate: createClaimTemplateReducer,

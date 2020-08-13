@@ -4,6 +4,8 @@ export const PDS_URL = process.env.REACT_APP_PDS_URL
 
 export enum Step {
   PageContent = 1,
+  // Attestation = 'Attestation',
+  // Evaluation = 'Evaluation',
   Settings = 2,
   Advanced = 3,
 }
@@ -15,7 +17,7 @@ export interface CreateEntityState {
 
 export enum CreateEntityActions {
   GoToStep = 'ixo/CreateEntity/GO_TO_STEP',
-  SetEntityType = 'ixo/CreateEntity/SET_ENTITY_TYPE',
+  NewEntity = 'ixo/CreateEntity/NEW_ENTITY',
 }
 
 export interface FileContent {
@@ -35,6 +37,12 @@ export type StepNameStrategyMap = {
   }
 }
 
+/* export type EntityStepStrategyMap = {
+  [TKey in EntityType]: {
+    stepCount: string
+  }
+} */
+
 export interface FormCardProps {
   ref: any
   handleUpdateContent: (formData: FormData) => void
@@ -50,11 +58,11 @@ export interface GoToStepAction {
   }
 }
 
-export interface SetEntityTypeAction {
-  type: typeof CreateEntityActions.SetEntityType
+export interface NewEntityAction {
+  type: typeof CreateEntityActions.NewEntity
   payload: {
     entityType: EntityType
   }
 }
 
-export type CreateEntityActionTypes = GoToStepAction | SetEntityTypeAction
+export type CreateEntityActionTypes = GoToStepAction | NewEntityAction

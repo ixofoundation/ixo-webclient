@@ -9,9 +9,10 @@ import { BondSwapState } from '../../modules/BondSwap/types'
 import { EntitiesState } from '../../modules/Entities/types'
 import { FuelEntityState } from '../../modules/FuelEntity/types'
 import { SubmitEntityClaimState } from '../../modules/SubmitEntityClaim/types'
-import { CreateEntityPageContentState } from '../../modules/CreateEntityPageContent/types'
-import { CreateClaimTemplateState } from '../../modules/CreateClaimTemplate/types'
 import { Entity } from '../../modules/Entities/types'
+import { CreateEntityPageContentState } from '../../modules/CreateEntityPageContent/types'
+import { CreateEntityAttestationState } from '../../modules/CreateEntityAttestation/types'
+import { CreateClaimTemplateState } from '../../modules/CreateClaimTemplate/types'
 import { CreateEntityState } from '../../modules/CreateEntity/types'
 import { CreateEntitySettingsState } from 'modules/CreateEntitySettings/types'
 import { CreateEntityAdvancedState } from 'modules/CreateEntityAdvanced/types'
@@ -34,6 +35,7 @@ export interface RootState {
   selectedEntity: Entity
   createEntity: CreateEntityState
   createEntityPageContent: CreateEntityPageContentState
+  createEntityAttestation: CreateEntityAttestationState
   createEntitySettings: CreateEntitySettingsState
   createEntityAdvanced: CreateEntityAdvancedState
 }

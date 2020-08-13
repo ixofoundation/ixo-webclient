@@ -2,7 +2,7 @@ import {
   GoToStepAction,
   CreateEntityActions,
   Step,
-  SetEntityTypeAction,
+  NewEntityAction,
 } from './types'
 import { EntityType } from 'modules/Entities/types'
 
@@ -13,8 +13,10 @@ export const goToStep = (step: Step): GoToStepAction => ({
   },
 })
 
-export const setEntityType = (entityType: EntityType): SetEntityTypeAction => ({
-  type: CreateEntityActions.SetEntityType,
+// TODO - clear any existing entity setup here IF existing entityType is different to current
+
+export const newEntity = (entityType: EntityType): NewEntityAction => ({
+  type: CreateEntityActions.NewEntity,
   payload: {
     entityType,
   },
