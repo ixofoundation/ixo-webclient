@@ -1,10 +1,11 @@
-import React, { Fragment } from "react";
-import ReactApexChart from "react-apexcharts";
+import React, { Fragment } from 'react'
+import ReactApexChart from 'react-apexcharts'
 
-import { ChartContainer, StyledHeader } from "./Chart.styles";
+import { ChartContainer, StyledHeader } from './Chart.styles'
 
 interface Props {
-  data: any;
+  data: any
+  token?: string
 }
 
 const seriesData = [
@@ -100,7 +101,7 @@ const seriesData = [
     x: new Date(2017, 11, 1),
     y: [61.71, 64.15, 61.29, 63.04],
   },
-];
+]
 
 const seriesDataLinear = [
   {
@@ -195,134 +196,136 @@ const seriesDataLinear = [
     x: new Date(2017, 11, 1),
     y: 43.04,
   },
-];
+]
 
-export const Chart: React.FunctionComponent<Props> = ({ data }) => {
-  const series = [
-    {
-      data: seriesData,
+const series = [
+  {
+    data: seriesData,
+  },
+]
+const seriesBar = [
+  {
+    name: 'volume',
+    data: seriesDataLinear,
+  },
+]
+const options = {
+  chart: {
+    type: 'candlestick',
+    height: 290,
+    id: 'candles',
+    toolbar: {
+      autoSelected: 'pan',
+      show: false,
     },
-  ];
-  const seriesBar = [
-    {
-      name: "volume",
-      data: seriesDataLinear,
-    },
-  ];
-  const options = {
-    chart: {
-      type: "candlestick",
-      height: 290,
-      id: "candles",
-      toolbar: {
-        autoSelected: "pan",
-        show: false,
-      },
-      zoom: {
-        enabled: false,
-      },
-      foreColor: "#2A7597",
-    },
-    plotOptions: {
-      candlestick: {
-        colors: {
-          upward: "#39C3E6",
-          downward: "#F89D28",
-        },
-      },
-    },
-    xaxis: {
-      type: "datetime",
-      axisBorder: {
-        show: false,
-      },
-      axisTicks: {
-        color: "#436779",
-      },
-    },
-    grid: {
-      borderColor: "#436779",
-      strokeDashArray: 2,
-    },
-  };
-
-  const optionsBar = {
-    chart: {
-      height: 160,
-      type: "bar",
-      brush: {
-        enabled: true,
-        target: "candles",
-      },
-      selection: {
-        enabled: true,
-        xaxis: {
-          min: new Date("20 Jan 2017").getTime(),
-          max: new Date("10 Dec 2017").getTime(),
-        },
-        fill: {
-          color: "#C4C4C4",
-          opacity: 0.1,
-        },
-        stroke: {
-          color: "#0D47A1",
-        },
-      },
-      foreColor: "#2A7597",
-    },
-    dataLabels: {
+    zoom: {
       enabled: false,
     },
-    plotOptions: {
-      bar: {
-        columnWidth: "80%",
-        colors: {
-          ranges: [
-            {
-              from: -1000,
-              to: 0,
-              color: "#F89D28",
-            },
-            {
-              from: 1,
-              to: 10000,
-              color: "#39C3E6",
-            },
-          ],
-        },
+    foreColor: '#2A7597',
+    redrawOnParentResize: true,
+  },
+  plotOptions: {
+    candlestick: {
+      colors: {
+        upward: '#39C3E6',
+        downward: '#F89D28',
       },
     },
-    stroke: {
-      width: 0,
+  },
+  xaxis: {
+    type: 'datetime',
+    axisBorder: {
+      show: false,
     },
-    xaxis: {
-      type: "datetime",
-      axisBorder: {
-        offsetX: 13,
-        color: "#436779",
-        show: false,
+    axisTicks: {
+      color: '#436779',
+    },
+  },
+  grid: {
+    borderColor: '#436779',
+    strokeDashArray: 2,
+  },
+}
+
+const optionsBar = {
+  chart: {
+    height: 160,
+    type: 'bar',
+    brush: {
+      enabled: true,
+      target: 'candles',
+    },
+    redrawOnParentResize: true,
+    selection: {
+      enabled: true,
+      xaxis: {
+        min: new Date('20 Jan 2017').getTime(),
+        max: new Date('10 Dec 2017').getTime(),
       },
-      axisTicks: {
-        show: false,
+      fill: {
+        color: '#C4C4C4',
+        opacity: 0.1,
       },
-      labels: {
-        show: false,
+      stroke: {
+        color: '#0D47A1',
       },
     },
-    yaxis: {
-      labels: {
-        show: false,
+    foreColor: '#2A7597',
+  },
+  dataLabels: {
+    enabled: false,
+  },
+  plotOptions: {
+    bar: {
+      columnWidth: '80%',
+      colors: {
+        ranges: [
+          {
+            from: -1000,
+            to: 0,
+            color: '#F89D28',
+          },
+          {
+            from: 1,
+            to: 10000,
+            color: '#39C3E6',
+          },
+        ],
       },
     },
-    grid: {
-      borderColor: "#436779",
-      strokeDashArray: 1,
+  },
+  stroke: {
+    width: 0,
+  },
+  xaxis: {
+    type: 'datetime',
+    axisBorder: {
+      offsetX: 13,
+      color: '#436779',
+      show: false,
     },
-  };
+    axisTicks: {
+      show: false,
+    },
+    labels: {
+      show: false,
+    },
+  },
+  yaxis: {
+    labels: {
+      show: false,
+    },
+  },
+  grid: {
+    borderColor: '#436779',
+    strokeDashArray: 1,
+  },
+}
+export const Chart: React.FunctionComponent<Props> = ({ data, token }) => {
 
   return (
     <Fragment>
-      <StyledHeader>Price of EDU</StyledHeader>
+      <StyledHeader>Price of {token}</StyledHeader>
       <ChartContainer className="BondsWrapper_panel__chrome hide-on-mobile">
         <div className="BondsWrapper_panel__content">
           <ReactApexChart
@@ -340,5 +343,9 @@ export const Chart: React.FunctionComponent<Props> = ({ data }) => {
         </div>
       </ChartContainer>
     </Fragment>
-  );
-};
+  )
+}
+
+Chart.defaultProps = {
+  token: 'EDU'
+}

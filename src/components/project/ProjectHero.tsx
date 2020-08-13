@@ -30,6 +30,7 @@ export interface Props {
   isClaim?: boolean
   hasCapability: (role: [AgentRoles]) => boolean
   onlyTitle?: boolean
+  assistantPanelToggle?: () => void
 }
 
 export const ProjectHero: React.SFC<Props> = ({
@@ -38,9 +39,9 @@ export const ProjectHero: React.SFC<Props> = ({
   isDetail,
   isLoggedIn,
   onlyTitle,
+  assistantPanelToggle,
 }) => {
   const windowSize = useWindowSize()
-
   const entityType = project.entityType
     ? (toTitleCase(project.entityType) as EntityType)
     : EntityType.Project
@@ -119,7 +120,6 @@ export const ProjectHero: React.SFC<Props> = ({
       </>
     )
   }
-
   return (
     <React.Fragment>
       {onlyTitle && windowSize.width > deviceWidth.tablet && (
@@ -161,6 +161,7 @@ export const ProjectHero: React.SFC<Props> = ({
         <HeaderTabs
           buttons={buttonsArray}
           matchType={MatchType.strict}
+          assistantPanelToggle={() => assistantPanelToggle()}
           activeTabColor={entityTypeMap[entityType].themeColor}
         />
       </HeroContainer>

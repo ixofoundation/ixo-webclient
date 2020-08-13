@@ -7,12 +7,14 @@ export interface Props {
   buttons: Button[]
   matchType?: any
   activeTabColor?: string
+  assistantPanelToggle?: () => void
 }
 
 const HeaderTabs: React.FunctionComponent<Props> = ({
   buttons,
   matchType,
   activeTabColor,
+  assistantPanelToggle,
 }): JSX.Element => {
   return (
     <PositionController>
@@ -20,6 +22,7 @@ const HeaderTabs: React.FunctionComponent<Props> = ({
         activeTabColor={activeTabColor}
         buttons={buttons}
         matchType={matchType || MatchType.exact}
+        assistantPanelToggle={assistantPanelToggle}
       />
     </PositionController>
   )

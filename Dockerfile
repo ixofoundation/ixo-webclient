@@ -12,7 +12,9 @@ ENV PATH /usr/src/app/node_modules/.bin:$PATH
 COPY package.json /usr/src/app/package.json
 COPY . /usr/src/app/
 RUN npm install --silent
-RUN npm install react-scripts-ts -g --silent
+# RUN npm install react-scripts -g --silent
+
+ENTRYPOINT ["echo", "'hello world'"]
 
 # start app
 CMD ["npm", "start"]

@@ -35,12 +35,13 @@ const Loading = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  background: ${/* eslint-disable-line */ props => props.theme.bg.blue};
+  background: ${/* eslint-disable-line */ (props) => props.theme.bg.blue};
   padding: 50px 20px;
 `
 
 const DetailContainer = styled.div`
-  background: ${/* eslint-disable-line */ props => props.theme.bg.gradientBlue};
+  background: ${/* eslint-disable-line */ (props) =>
+    props.theme.bg.gradientBlue};
   display: block;
   flex: 1 1 auto;
 
@@ -202,7 +203,7 @@ export class ProjectContainer extends React.Component<Props, State> {
           const status: string = response.status
           if (agentDid) {
             const theAgent = project.agents.find(
-              agent => agent.did === agentDid,
+              (agent) => agent.did === agentDid,
             )
             if (theAgent) {
               this.handleListAgents(theAgent.role, true)
@@ -230,7 +231,7 @@ export class ProjectContainer extends React.Component<Props, State> {
     const userRoles = []
     const userInfo: UserInfo = this.props.userInfo
     if (userInfo) {
-      this.state.projectPublic.agents.map(agent => {
+      this.state.projectPublic.agents.map((agent) => {
         if (agent.did === userInfo.didDoc.did) {
           userRoles.push(agent.role)
         }
@@ -248,17 +249,17 @@ export class ProjectContainer extends React.Component<Props, State> {
     if (userInfo) {
       if (this.state.projectPublic.createdBy === userInfo.didDoc.did) {
         if (
-          roles.some(val => {
+          roles.some((val) => {
             return val === AgentRoles.owners
           })
         ) {
           return true
         }
       }
-      this.state.projectPublic.agents.forEach(agent => {
+      this.state.projectPublic.agents.forEach((agent) => {
         if (agent.did === userInfo.didDoc.did) {
           if (
-            roles.some(val => {
+            roles.some((val) => {
               return val === agent.role
             })
           ) {
@@ -517,7 +518,7 @@ export class ProjectContainer extends React.Component<Props, State> {
               signature,
               this.state.projectPublic.serviceEndpoint,
             )
-            .then(res => {
+            .then((res) => {
               if (res.error !== undefined) {
                 Toast.errorToast(res.error.message)
               } else {
@@ -556,7 +557,7 @@ export class ProjectContainer extends React.Component<Props, State> {
               signature,
               this.state.projectPublic.serviceEndpoint,
             )
-            .then(res => {
+            .then((res) => {
               if (res.error !== undefined) {
                 Toast.errorToast(res.error.message)
               } else {
@@ -592,7 +593,7 @@ export class ProjectContainer extends React.Component<Props, State> {
               signature,
               this.state.projectPublic.serviceEndpoint,
             )
-            .then(res => {
+            .then((res) => {
               if (res.error !== undefined) {
                 Toast.errorToast(res.error.message)
               } else {
@@ -637,7 +638,7 @@ export class ProjectContainer extends React.Component<Props, State> {
   }
 
   handleGetClaim(ProjectDIDPayload: object, signature: string): Promise<any> {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       this.props.ixo.claim
         .listClaimsForProject(
           ProjectDIDPayload,
@@ -649,7 +650,7 @@ export class ProjectContainer extends React.Component<Props, State> {
             Toast.errorToast(response.error.message, ErrorTypes.goBack)
           } else {
             const claimFound = response.result.filter(
-              theClaim => theClaim.txHash === this.props.match.params.claimID,
+              (theClaim) => theClaim.txHash === this.props.match.params.claimID,
             )[0]
             return resolve(claimFound)
           }
@@ -658,7 +659,7 @@ export class ProjectContainer extends React.Component<Props, State> {
   }
 
   handleFetchFormFile(claimFormKey: string, pdsURL: string): Promise<any> {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       this.props.ixo.project
         .fetchPublic(claimFormKey, pdsURL)
         .then((res: any) => {
@@ -719,7 +720,7 @@ export class ProjectContainer extends React.Component<Props, State> {
   handleFetchClaimImages = (formFile: any, claim: any): void => {
     const { fields = [] } = JSON.parse(formFile)
     const promises = []
-    fields.forEach(field => {
+    fields.forEach((field) => {
       if (field.type === 'image') {
         promises.push(
           this.props.ixo.project
@@ -745,7 +746,8 @@ export class ProjectContainer extends React.Component<Props, State> {
         isLedgering: true,
         modalResponse: '',
       }
-      this.props.ixo.utils.getSignData(payload, 'did/AddDid', payload.pubKey)
+      this.props.ixo.utils
+        .getSignData(payload, 'did/AddDid', payload.pubKey)
         .then((response: any) => {
           if (response.sign_bytes && response.fee) {
             this.props.keysafe.requestSigning(

@@ -2,7 +2,6 @@
   "name": "new-ixo-webclient",
   "version": "0.1.0",
   "private": true,
-  "homepage": ".",
   "dependencies": {
     "@ixo/ixo-apimodule": "^1.0.4",
     "@rjsf/core": "^2.2.2",
@@ -21,6 +20,7 @@
     "base-64": "^0.1.0",
     "bignumber.js": "^9.0.0",
     "chart.js": "^2.9.3",
+    "connected-react-router": "^6.8.0",
     "debounce": "^1.2.0",
     "dotenv": "^8.2.0",
     "ixo-assistant": "^0.9.0",
@@ -73,10 +73,13 @@
     "@types/react-router-dom": "^5.1.5"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "dev": "react-scripts start",
+    "start": "react-scripts --max_old_space_size=4096 build --verbose && serve -s build",
     "build": "react-scripts --max_old_space_size=4096 build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "lint": "eslint --ext=jsx,ts,tsx src",
+    "lint:fix": "eslint --ext=jsx,ts,tsx src --fix",
+    "test": "react-scripts test --watchAll=false",
+    "test:watch": "react-scripts test"
   },
   "eslintConfig": {
     "extends": "react-app"

@@ -1,30 +1,36 @@
-import * as React from "react";
-import Header from "../BondsSummaryHeader/Header";
-import "./BondsWrapper.scss";
-import BondsSidebar from "../BondsSidebar/BondsSidebar";
-import { Spinner } from "../../Spinner";
-import { ProjectHero } from "../../../../components/project/ProjectHero";
-import { connect } from "react-redux";
-import { withRouter } from "react-router-dom";
-import { Data } from "../../../../modules/project/types";
-import { UserInfo } from "../../../../modules/Account/types";
-import { RootState } from "../../../redux/types";
-import { AgentRoles } from "../../../../types/models";
+import * as React from 'react'
+import Header from '../BondsSummaryHeader/Header'
+import './BondsWrapper.scss'
+import BondsSidebar from '../BondsSidebar/BondsSidebar'
+import { Spinner } from '../../Spinner'
+import { ProjectHero } from '../../../../components/project/ProjectHero'
+import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
+import { Data } from '../../../../modules/project/types'
+import { UserInfo } from '../../../../modules/Account/types'
+import { RootState } from '../../../redux/types'
+import { AgentRoles } from '../../../../types/models'
 
 export interface Props {
-  children: JSX.Element;
-  params: any;
-  ixo?: any;
-  isLoggedIn: boolean;
-  location: any;
-  match: any;
-  userInfo?: UserInfo;
+  children: JSX.Element
+  params: any
+  ixo?: any
+  isLoggedIn: boolean
+  location: any
+  match: any
+  userInfo?: UserInfo
+  assistantPanelToggle: () => void
 }
 
 export interface State {
-  projectPublic: Record<string, any>;
-  projectStatus: string;
+  projectPublic: Record<string, any>
+  projectStatus: string
 }
+
+const MemorizedSpinner = React.memo(
+  () => <Spinner info="Loading..." />,
+  (a, b) => true,
+)
 
 export class BondsWrapper extends React.Component<Props, State> {
   state = {
@@ -36,59 +42,64 @@ export class BondsWrapper extends React.Component<Props, State> {
       this.props.location.state && this.props.location.state.projectStatus
         ? this.props.location.state.projectStatus
         : null,
-  };
+  }
 
   handleGetProjectData = (): void => {
     this.props.ixo.project
       .getProjectByProjectDid(this.props.params.projectDID)
       .then((response: any) => {
-        const project: Data = response.data;
-        const status: string = response.status;
+        const project: Data = response.data
+        const status: string = response.status
         this.setState({
           projectPublic: project,
           projectStatus: status,
-        });
-      });
-  };
+        })
+      })
+  }
 
   handleHasCapability = (roles: AgentRoles[]): boolean => {
-    const userInfo: UserInfo | undefined = this.props.userInfo;
-    let found = false;
+    const userInfo: UserInfo | undefined = this.props.userInfo
+    let found = false
     if (userInfo) {
       if (this.state.projectPublic.createdBy === userInfo.didDoc.did) {
         if (
-          roles.some((val) => {
-            return val === AgentRoles.owners;
+          roles.some(val => {
+            return val === AgentRoles.owners
           })
         ) {
-          return true;
+          return true
         }
       }
       this.state.projectPublic.agents.forEach((agent: any) => {
         if (agent.did === userInfo.didDoc.did) {
           if (
-            roles.some((val) => {
-              return val === agent.role;
+            roles.some(val => {
+              return val === agent.role
             })
           ) {
-            found = true;
+            found = true
           }
         }
-      });
+      })
     }
-    return found;
-  };
+    return found
+  }
 
   componentDidMount(): void {
-    this.handleGetProjectData();
+    this.handleGetProjectData()
   }
 
   render(): JSX.Element {
-    const { children, params, isLoggedIn, match } = this.props;
-
+    const {
+      children,
+      params,
+      isLoggedIn,
+      match,
+      assistantPanelToggle,
+    } = this.props
     if (this.state.projectPublic === null) {
-      this.handleGetProjectData();
-      return <Spinner info="Loading..." />;
+      this.handleGetProjectData()
+      return <MemorizedSpinner />
     } else {
       return (
         <div className="BondsWrapper">
@@ -105,12 +116,13 @@ export class BondsWrapper extends React.Component<Props, State> {
               onlyTitle
               hasCapability={this.handleHasCapability}
               isLoggedIn={isLoggedIn}
+              assistantPanelToggle={assistantPanelToggle}
             />
             <Header bondDID={params.bondDID} />
             {children}
           </div>
         </div>
-      );
+      )
     }
   }
 }
@@ -121,9 +133,9 @@ function mapStateToProps(state: RootState): Record<string, any> {
     userInfo: state.account.userInfo,
     isLoggedIn:
       state.account.userInfo && state.account.userInfo.loggedInKeysafe,
-  };
+  }
 }
 
 export const BondsWrapperConnected = withRouter(
-  connect(mapStateToProps)(BondsWrapper as any) as any
-);
+  connect(mapStateToProps)(BondsWrapper as any) as any,
+)

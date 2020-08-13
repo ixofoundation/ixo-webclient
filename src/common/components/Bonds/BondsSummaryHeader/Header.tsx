@@ -29,21 +29,15 @@ class Header extends Component<any, HeaderState> {
   intervalID = null
   constructor(props: any) {
     super(props)
-    this.intervalID = null;
+    this.intervalID = null
     this.state = {
       selected: 0,
     }
-  }
-
-  componentDidMount() {
-    this.intervalID = setInterval(() => {
+    setInterval(() => {
       this.refreshAccount()
-    }, INTERVAL_LENGTH)
-    this.refreshAccount()
-  }
+    }, INTERVAL_LENGTH) // deepscan-disable-line
 
-  componentWillUnmount() {
-    clearInterval(this.intervalID)
+    this.refreshAccount()
   }
 
   refreshAccount = (): void => {
@@ -118,7 +112,7 @@ class Header extends Component<any, HeaderState> {
   }
 }
 
-const mapStateToProps = function (state: RootState): RootState {
+const mapStateToProps = function(state: RootState): RootState {
   return state
 }
 
