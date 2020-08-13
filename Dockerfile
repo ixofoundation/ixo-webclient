@@ -14,7 +14,5 @@ COPY . /usr/src/app/
 RUN npm install --silent
 # RUN npm install react-scripts -g --silent
 
-ENTRYPOINT ["echo", "'hello world'"]
-
 # start app
 CMD ["npm", "start"]
