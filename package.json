@@ -2,6 +2,7 @@
   "name": "new-ixo-webclient",
   "version": "0.1.0",
   "private": true,
+  "homepage": ".",
   "dependencies": {
     "@ixo/ixo-apimodule": "^1.0.4",
     "@rjsf/core": "^2.2.2",

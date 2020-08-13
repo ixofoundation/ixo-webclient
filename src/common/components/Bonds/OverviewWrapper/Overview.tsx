@@ -26,7 +26,7 @@ export const Overview: FunctionComponent<any> = ({ match }) => {
   const [resizeAssistantPanel, setResizeAssistantPanel] = useSpring(() => ({
     width: assistant ? '25%' : '0%',
     display: assistant ? 'block' : 'none',
-    maxHeight: '800px',
+    background: '#F0F3F9'
   }))
   const assistantPanelToggle = () => {
     setResizeMain({
@@ -68,7 +68,7 @@ export const Overview: FunctionComponent<any> = ({ match }) => {
         </BondsWrapper>
       </animated.div>
       <animated.div style={resizeAssistantPanel}>
-        <FundingChat match={match} />
+        <FundingChat match={match} assistantPanelToggle={assistantPanelToggle} />
       </animated.div>
     </StyledContainer>
   )
