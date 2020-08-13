@@ -131,15 +131,19 @@ export const ActionWrapper = styled.div`
 `;
 
 export const AssistantWrapper = styled.div`
+  position: fixed;
   height: calc(100% - 72px);
+  width: inherit;
+  max-height: 700px;
+  padding: 10px;
   .rw-conversation-container {
     box-shadow: none;
   }
 `;
 
 export const AssistantHeader = styled.div`
-  background: #143f54;
   padding: 18px 12px;
+  margin-top: 16px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -147,18 +151,19 @@ export const AssistantHeader = styled.div`
   border-top-right-radius: 4px;
   height: 72px;
   h3.assistant-heading {
-    color: white;
+    color: #436779;
     margin: 0;
-    .chatbot-icon {
-      width: 2.25rem;
-      height: 2.25rem;
-      background: #002a3f;
-      margin-right: 1rem;
-      border-radius: 50%;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-    }
+    font-size: 18px;
+
+  }
+  .close-icon {
+    width: 1.5rem;
+    height: 1.5rem;
+    margin-right: 1rem;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
   }
   .back-icon {
     transform: rotate(180deg);

@@ -16,7 +16,7 @@ import FundingChatConfirmOrder from './components/FundingChatConfirmOrder/Fundin
 import { RootState } from 'common/redux/types'
 import * as fundingChatSelectors from './FundingChat.selectors'
 import { getOrder, confirmOrder, cancelOrder } from './FundingChat.actions'
-import ChatbotIcon from 'assets/icons/Chatbot'
+import CloseIcon from 'assets/icons/CloseStroke'
 import PaymentSuccessIcon from 'assets/icons/PaymentSuccess'
 import SendIcon from 'assets/icons/Send'
 
@@ -39,6 +39,7 @@ interface Props {
   handleGetOrder?: (assistantResponse: any) => void
   handleConfirmOrder?: (entityDid: string) => void
   handleCancelOrder?: () => void
+  assistantPanelToggle: () => void
 }
 
 class FundingChat extends React.Component<Props & RouteProps> {
@@ -79,6 +80,7 @@ class FundingChat extends React.Component<Props & RouteProps> {
       error,
       handleConfirmOrder,
       handleCancelOrder,
+      assistantPanelToggle
     } = this.props
 
     const hasError = !!error
@@ -89,11 +91,11 @@ class FundingChat extends React.Component<Props & RouteProps> {
           <AssistantWrapper>
             <AssistantHeader>
               <h3 className="assistant-heading">
-                <span className="chatbot-icon">
-                  <ChatbotIcon />
-                </span>
-                Pixo
+                Assistant
               </h3>
+              <span className="close-icon" onClick={assistantPanelToggle}>
+                <CloseIcon />
+              </span>
             </AssistantHeader>
             <Assistant onMessageReceive={this.onAssistantMessageReceive} />
           </AssistantWrapper>
