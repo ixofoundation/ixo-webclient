@@ -58,7 +58,7 @@ export const FormContainer = styled.div`
     }
     &.form-control {
       width: 100%;
-      height: 170px;
+      height: 100px;
       background: #e8edee;
       border-radius: 4px;
     }

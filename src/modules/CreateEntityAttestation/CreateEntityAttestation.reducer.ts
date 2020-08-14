@@ -69,6 +69,19 @@ export const reducer = (
           },
         },
       }
+    case CreateEntityAttestationActions.UpdateAnswerRequired:
+      return {
+        ...state,
+        questions: {
+          ...state.questions,
+          ...{
+            [action.payload.id]: {
+              ...state.questions[action.payload.id],
+              required: action.payload.required,
+            },
+          },
+        },
+      }
   }
 
   return state

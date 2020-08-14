@@ -19,77 +19,77 @@ const commands = [
   {
     icon: ShortText,
     title: 'Short Text',
-    type: ControlType.Text,
+    controlType: ControlType.Text,
   },
   {
     icon: LongText,
     title: 'Long Text',
-    type: ControlType.TextArea,
+    controlType: ControlType.TextArea,
   },
   {
     icon: Selection,
     title: 'Multiple Select',
-    type: ControlType.CheckBoxes,
+    controlType: ControlType.CheckBoxes,
   },
   {
     icon: SelectPicture,
     title: 'Multiple Image Select',
-    type: ControlType.ImageCheckboxes,
+    controlType: ControlType.ImageCheckboxes,
   },
   {
     icon: Selection,
     title: 'Rating',
-    type: ControlType.Rating,
+    controlType: ControlType.Rating,
   },
   {
     icon: DatePicker,
     title: 'Single Date Selector',
-    type: ControlType.SingleDateSelector,
+    controlType: ControlType.SingleDateSelector,
   },
   {
     icon: DatePicker,
     title: 'Date Range Selector',
-    type: ControlType.DateRangeSelector,
+    controlType: ControlType.DateRangeSelector,
   },
   {
     icon: QRcode,
     title: 'QR Code',
-    type: ControlType.QRCode,
+    controlType: ControlType.QRCode,
   },
   {
     icon: Location,
     title: 'Location Selector',
-    type: ControlType.LocationSelector,
+    controlType: ControlType.LocationSelector,
   },
   {
     icon: UploadImage,
     title: 'Image Upload',
-    type: ControlType.ImageUpload,
+    controlType: ControlType.ImageUpload,
   },
   {
     icon: UploadImage,
     title: 'Avatar Upload',
-    type: ControlType.AvatarUpload,
+    controlType: ControlType.AvatarUpload,
   },
   {
     icon: UploadFile,
     title: 'Document Upload',
-    type: ControlType.DocumentUpload,
+    controlType: ControlType.DocumentUpload,
   },
   {
     icon: UploadVideo,
     title: 'Video Upload',
-    type: ControlType.VideoUpload,
+    controlType: ControlType.VideoUpload,
   },
   {
     icon: UploadAudio,
     title: 'Audio Upload',
-    type: ControlType.AudioUpload,
+    controlType: ControlType.AudioUpload,
   },
 ]
 
 interface Props {
-  addQuestion(type: ControlType): void
+  addQuestion(controlType: ControlType): void
 }
 
 const AddQuestionBar: React.FunctionComponent<Props> = ({ addQuestion }) => {
@@ -100,8 +100,8 @@ const AddQuestionBar: React.FunctionComponent<Props> = ({ addQuestion }) => {
           return (
             <Tooltip text={`Add ${command.title}`} key={command.title}>
               <button
-                key={command.type}
-                onClick={(): void => addQuestion(command.type)}
+                key={command.controlType}
+                onClick={(): void => addQuestion(command.controlType)}
               >
                 {React.createElement(command.icon, {
                   fill: '#C3D0E5',
