@@ -76,7 +76,7 @@
   },
   "scripts": {
     "dev": "react-scripts start",
-    "start": "serve -s build -p 8002",
+    "start": "serve -s build",
     "build": "react-scripts --max_old_space_size=4096 build",
     "lint": "eslint --ext=jsx,ts,tsx src",
     "lint:fix": "eslint --ext=jsx,ts,tsx src --fix",
