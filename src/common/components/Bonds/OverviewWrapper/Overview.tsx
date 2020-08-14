@@ -41,7 +41,7 @@ export const Overview: FunctionComponent<any> = ({ match }) => {
   return (
     <StyledContainer>
       <animated.div style={resizeMain}>
-        <BondsWrapper {...match} assistantPanelToggle={assistantPanelToggle}>
+        <BondsWrapper {...match} assistantPanelToggle={assistantPanelToggle} enableAssistantButton>
           <BondChartScreen />
           <BondTable />
           {/* <div className="BondsWrapper_panel">

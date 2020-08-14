@@ -31,6 +31,7 @@ export interface Props {
   hasCapability: (role: [AgentRoles]) => boolean
   onlyTitle?: boolean
   assistantPanelToggle?: () => void
+  enableAssistantButton?: boolean
 }
 
 export const ProjectHero: React.SFC<Props> = ({
@@ -40,6 +41,7 @@ export const ProjectHero: React.SFC<Props> = ({
   isLoggedIn,
   onlyTitle,
   assistantPanelToggle,
+  enableAssistantButton
 }) => {
   const windowSize = useWindowSize()
   const entityType = project.entityType
@@ -162,6 +164,7 @@ export const ProjectHero: React.SFC<Props> = ({
           buttons={buttonsArray}
           matchType={MatchType.strict}
           assistantPanelToggle={() => assistantPanelToggle()}
+          enableAssistantButton={enableAssistantButton}
           activeTabColor={entityTypeMap[entityType].themeColor}
         />
       </HeroContainer>
