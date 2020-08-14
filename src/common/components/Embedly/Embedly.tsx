@@ -1,12 +1,12 @@
-import React from 'react'
-import { importScript } from '../../utils/customHook.utils'
+import React from "react";
+import { ImportScript } from "../../utils/customHook.utils";
 
 interface Props {
-  url: string
+  url: string;
 }
 
 const Embedly: React.FunctionComponent<Props> = ({ url }) => {
-  importScript('https://cdn.embedly.com/widgets/platform.js')
+  ImportScript("https://cdn.embedly.com/widgets/platform.js");
 
   return (
     <a
@@ -17,7 +17,7 @@ const Embedly: React.FunctionComponent<Props> = ({ url }) => {
       data-card-controls="0"
       data-card-width="100%"
     />
-  )
-}
+  );
+};
 
-export default Embedly
+export default Embedly;

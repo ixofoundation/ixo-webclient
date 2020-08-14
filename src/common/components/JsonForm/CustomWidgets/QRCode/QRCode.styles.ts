@@ -1,7 +1,7 @@
-import styled from 'styled-components'
-import { deviceWidth } from '../../../../../lib/commonData'
+import styled from "styled-components";
+import { deviceWidth } from "../../../../../lib/commonData";
 
-export const QRWrapper = styled.div``
+export const QRWrapper = styled.div``;
 export const ExplainerText = styled.div`
   display: flex;
   flex-flow: column nowrap;
@@ -41,6 +41,6 @@ export const ExplainerText = styled.div`
     outline: none;
     background: transparent;
     font-weight: bold;
-    color: ${(props): string => props.theme.ixoBlue};
+    color: ${(props: any): string => props.theme.ixoBlue};
   }
-`
+`;

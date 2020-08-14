@@ -56,7 +56,7 @@ export const confirmOrder = (entityDid: string) => (
     const tx: FuelEntityOrderTx = {
       pubKey,
       from_did: userDid,
-      to_did: `${projectAddr}`,
+      to_did_or_addr: `${projectAddr}`,
       amount: [{ denom: 'ixo', amount }],
     }
 

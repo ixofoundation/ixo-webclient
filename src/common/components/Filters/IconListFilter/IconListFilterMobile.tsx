@@ -1,7 +1,7 @@
-import * as React from 'react'
-import { Props } from './types'
-import Back from '../../../../assets/icons/Back'
-import Down from '../../../../assets/icons/Down'
+import * as React from "react";
+import { Props } from "./types";
+import Back from "../../../../assets/icons/Back";
+import Down from "../../../../assets/icons/Down";
 import {
   MobileButtonWrapper,
   MobileButton,
@@ -14,11 +14,11 @@ import {
   HeadingItem,
   DoneButtonWrapper,
   DoneButton,
-} from '../Filters.styles'
-import * as utils from './IconListFilter.utils'
+} from "../Filters.styles";
+import * as utils from "./IconListFilter.utils";
 
 interface MobileProps extends Props {
-  showFilterSubMenu: boolean
+  showFilterSubMenu: boolean;
 }
 
 const IconListFilterMobile: React.FunctionComponent<MobileProps> = ({
@@ -31,14 +31,14 @@ const IconListFilterMobile: React.FunctionComponent<MobileProps> = ({
   handleFilterItemClick,
   handleFilterReset,
 }) => {
-  const title = utils.getTitle(name, items, selectType)
-  const modalDisplay = isActive || !showFilterSubMenu ? 'block' : 'none'
+  const title = utils.getTitle(name, items, selectType);
+  const modalDisplay = isActive || !showFilterSubMenu ? "block" : "none";
 
   return (
     <MobileButtonWrapper
-      className={`button-wrapper ${isActive ? 'active' : ''}`}
-      onClick={(e): void =>
-        utils.isFilterTarget(e) ? null : handleToggleFilterShow(name)
+      className={`button-wrapper ${isActive ? "active" : ""}`}
+      onClick={(e): void | null =>
+        utils?.isFilterTarget(e) ? null : handleToggleFilterShow(name)
       }
     >
       {showFilterSubMenu && (
@@ -65,8 +65,8 @@ const IconListFilterMobile: React.FunctionComponent<MobileProps> = ({
           <ModalItems>
             <MobileFilterHeading>{title}</MobileFilterHeading>
 
-            {items.map(item => {
-              const { name: itemName, icon: itemIcon } = item
+            {items.map((item) => {
+              const { name: itemName, icon: itemIcon } = item;
 
               return (
                 <FilterSelectButton
@@ -77,10 +77,10 @@ const IconListFilterMobile: React.FunctionComponent<MobileProps> = ({
                   <h3>{itemName}</h3>
                   <img
                     alt={itemName}
-                    src={require('./assets/icons/' + itemIcon)}
+                    src={require("./assets/icons/" + itemIcon)}
                   />
                 </FilterSelectButton>
-              )
+              );
             })}
           </ModalItems>
           <DoneButtonWrapper>
@@ -91,7 +91,7 @@ const IconListFilterMobile: React.FunctionComponent<MobileProps> = ({
         </MobileFilterWrapper>
       </MobileFilterModal>
     </MobileButtonWrapper>
-  )
-}
+  );
+};
 
-export default IconListFilterMobile
+export default IconListFilterMobile;

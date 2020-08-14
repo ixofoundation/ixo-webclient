@@ -1,12 +1,27 @@
 import * as React from 'react'
+
 import { ModalWrapper } from '../Wrappers/ModalWrapper'
-import ReactCrop, { makeAspectCrop } from 'react-image-crop/dist/ReactCrop'
+import ReactCrop, { makeAspectCrop } from 'react-image-crop'
 import 'react-image-crop/dist/ReactCrop.css'
 import Dropzone from 'react-dropzone'
 import { iconUpload } from '../../../lib/commonData'
 import { Button, ButtonTypes } from './Buttons'
 
 import styled from 'styled-components'
+
+const StyledDropZone = styled(Dropzone)`
+  width: 100%;
+  height: 150px;
+  background-color: lightgrey;
+  color: black;
+  border-width: 2px;
+  text-align: center;
+  vertical-align: middle;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-radius: 5px;
+`
 
 /*
 Creates a dropzone to drop or select images. It then allows for cropping of image based on parameters
@@ -32,29 +47,13 @@ const ImageContainer = styled.div`
 `
 
 const OverviewContainer = styled.div`
-  background: ${/* eslint-disable-line */ props => props.theme.bg.ixoBlue};
+  background: ${/* eslint-disable-line */ (props) => props.theme.bg.ixoBlue};
 `
 
 const IconImage = styled.img`
   padding: 3px;
   margin-top: 10px;
 `
-
-const styles = {
-  dropzone: {
-    width: '100%',
-    height: '150px',
-    backgroundColor: 'lightgrey',
-    color: 'black',
-    borderWidth: '2px',
-    textAlign: 'center',
-    alignVertical: 'middle',
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    borderRadius: '5px',
-  },
-}
 
 const imageType = /^image\//
 
@@ -71,12 +70,12 @@ export interface StateProps {
 }
 
 export interface State {
-  projectImgSrc: string | ArrayBuffer | null
+  projectImgSrc: string | ArrayBuffer | null | undefined
   isModalOpen: boolean
   image: any
   crop: any
   pixelCrop: any
-  filename: string
+  filename: string | null
 }
 
 export class ImageLoader extends React.Component<StateProps, State> {
@@ -85,7 +84,7 @@ export class ImageLoader extends React.Component<StateProps, State> {
     projectImgSrc: '',
     isModalOpen: false,
     image: null,
-    crop: ReactCrop.defaultCrop,
+    crop: {},
     pixelCrop: null,
   }
 
@@ -94,19 +93,19 @@ export class ImageLoader extends React.Component<StateProps, State> {
       projectImgSrc: '',
       isModalOpen: false,
       image: null,
-      crop: ReactCrop.defaultCrop,
+      crop: {},
       pixelCrop: null,
     })
   }
 
-  onCropChange = (crop): void => {
+  onCropChange = (crop: any): void => {
     if (this.props.aspect) {
       crop.aspect = this.props.aspect
     }
     this.setState({ crop: crop })
   }
 
-  onImageLoaded = (image): void => {
+  onImageLoaded = (image: any): void => {
     let crop = {}
     if (this.props.aspect) {
       crop = makeAspectCrop(
@@ -116,7 +115,8 @@ export class ImageLoader extends React.Component<StateProps, State> {
           aspect: this.props.aspect,
           width: 50,
         },
-        image.width / image.height,
+        image.width,
+        image.height,
       )
     }
     this.setState({
@@ -145,11 +145,11 @@ export class ImageLoader extends React.Component<StateProps, State> {
     this.reset()
   }
 
-  onComplete = (crop, pixelCrop): void => {
+  onComplete = (crop: any, pixelCrop: any): void => {
     this.setState({ crop: crop, pixelCrop: pixelCrop })
   }
 
-  getCroppedImg = (image, pixelCrop): string => {
+  getCroppedImg = (image: any, pixelCrop: any): string => {
     const canvas = document.createElement('canvas')
     const aspect = pixelCrop.width / pixelCrop.height
     const imageHeight = this.props.imageWidth / aspect
@@ -158,7 +158,7 @@ export class ImageLoader extends React.Component<StateProps, State> {
     canvas.height = imageHeight
     const ctx = canvas.getContext('2d')
 
-    ctx.drawImage(
+    ctx?.drawImage(
       image,
       pixelCrop.x,
       pixelCrop.y,
@@ -177,7 +177,7 @@ export class ImageLoader extends React.Component<StateProps, State> {
     }
   }
 
-  getUncroppedImg = (image): string => {
+  getUncroppedImg = (image: any): string => {
     const canvas = document.createElement('canvas')
     const img = document.createElement('img')
     img.src = this.state.projectImgSrc
@@ -188,7 +188,7 @@ export class ImageLoader extends React.Component<StateProps, State> {
     canvas.height = imageHeight
     const ctx = canvas.getContext('2d')
 
-    ctx.drawImage(
+    ctx?.drawImage(
       img,
       0,
       0,
@@ -204,7 +204,7 @@ export class ImageLoader extends React.Component<StateProps, State> {
     return canvas.toDataURL()
   }
 
-  onDropAccepted = (files): void => {
+  onDropAccepted = (files: any): void => {
     const file = files[0]
     if (!file || !imageType.test(file.type)) {
       return
@@ -214,7 +214,7 @@ export class ImageLoader extends React.Component<StateProps, State> {
 
     reader.onload = (e2): void => {
       this.setState({
-        projectImgSrc: e2.target.result,
+        projectImgSrc: e2?.target?.result,
         isModalOpen: true,
       })
     }
@@ -232,17 +232,21 @@ export class ImageLoader extends React.Component<StateProps, State> {
   render(): JSX.Element {
     return (
       <div>
-        <Dropzone
+        <StyledDropZone
           accept="image/*"
           onDropAccepted={this.onDropAccepted}
-          style={styles.dropzone}
+          // style={styles.dropzone}
         >
-          <IconImage src={iconUpload()} />
-          <p>
-            {this.props.placeholder || 'Choose file'}
-            {this.showFilename()}
-          </p>
-        </Dropzone>
+          {() => (
+            <React.Fragment>
+              <IconImage src={iconUpload()} />
+              <p>
+                {this.props.placeholder || 'Choose file'}
+                {this.showFilename()}
+              </p>
+            </React.Fragment>
+          )}
+        </StyledDropZone>
         <ModalWrapper
           isModalOpen={this.state.isModalOpen}
           handleToggleModal={(): void => this.cancel()}

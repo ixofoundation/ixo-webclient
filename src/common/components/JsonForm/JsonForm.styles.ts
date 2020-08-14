@@ -1,5 +1,5 @@
-import styled from 'styled-components'
-import { deviceWidth } from '../../../lib/commonData'
+import styled from "styled-components";
+import { deviceWidth } from "../../../lib/commonData";
 
 export const FormContainer = styled.div`
   --focus-outline-style: none;
@@ -14,7 +14,7 @@ export const FormContainer = styled.div`
   }
 
   ::placeholder {
-    font-family: ${(props): string => props.theme.fontRoboto};
+    font-family: ${(props: any): string => props.theme.fontRoboto};
     font-weight: normal;
     font-size: 1rem;
     line-height: 1.5;
@@ -142,11 +142,11 @@ export const FormContainer = styled.div`
     }
 
     &:before {
-      content: 'From first';
+      content: "From first";
       left: 0;
     }
     &:after {
-      content: 'To last';
+      content: "To last";
       right: 0;
     }
     .radio-inline {
@@ -193,8 +193,8 @@ export const FormContainer = styled.div`
     }
   }
 
-  input[type='radio'],
-  input[type='checkbox'] {
+  input[type="radio"],
+  input[type="checkbox"] {
     width: 0.9375rem;
     height: 0.9375rem;
     background-color: #dfe3e8;
@@ -273,7 +273,7 @@ export const FormContainer = styled.div`
     box-shadow: none;
     border: none;
   }
-`
+`;
 
 export const ButtonGroup = styled.div`
   width: 100%;
@@ -349,7 +349,7 @@ export const FormWrapper = styled.div`
     box-shadow: none;
     border: none;
   }
-`
+`;
 
 export const LinkButton = styled.button`
   border: none;
@@ -357,4 +357,4 @@ export const LinkButton = styled.button`
   background: transparent;
   font-size: 1rem;
   font-weight: bold;
-`
+`;

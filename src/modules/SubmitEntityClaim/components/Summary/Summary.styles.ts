@@ -1,8 +1,8 @@
-import styled from 'styled-components'
-import { deviceWidth } from '../../../../lib/commonData'
-import { ActionWrapper as ActionWrapperBase } from '../../../../common/components/ControlPanel/Actions/Actions.styles'
-export const ActionWrapper = styled(ActionWrapperBase)``
-export const ClaimSummaryList = styled.ul``
+import styled from "styled-components";
+import { deviceWidth } from "../../../../lib/commonData";
+import { ActionWrapper as ActionWrapperBase } from "../../../../common/components/ControlPanel/Actions/Actions.styles";
+export const ActionWrapper = styled(ActionWrapperBase)``;
+export const ClaimSummaryList = styled.ul``;
 
 export const SummaryWrapper = styled.div`
   background: white;
@@ -27,7 +27,7 @@ export const SummaryWrapper = styled.div`
     margin: 1.25rem 0 1rem;
   }
   h6 {
-    font-family: ${(props): string => props.theme.fontRoboto};
+    font-family: ${(props: any): string => props.theme.fontRoboto};
     font-size: 0.75rem;
     letter-spacing: 0.3px;
     color: #436779;
@@ -83,7 +83,7 @@ export const SummaryWrapper = styled.div`
   @media (min-width: ${deviceWidth.tablet}px) {
     padding: 2.625rem 3.75rem;
   }
-`
+`;
 
 export const ButtonWrapper = styled.div`
   margin-top: 2.75rem;
@@ -114,4 +114,4 @@ export const ButtonWrapper = styled.div`
     background: linear-gradient(180deg, #04d0fb 0%, #49bfe0 100%);
     text-align: center;
   }
-`
+`;

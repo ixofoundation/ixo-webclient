@@ -1,5 +1,5 @@
-import styled from 'styled-components'
-import { deviceWidth } from '../../../lib/commonData'
+import styled from "styled-components";
+import { deviceWidth } from "../../../lib/commonData";
 
 export const ProfileCardWrapper = styled.div`
   display: flex;
@@ -43,7 +43,7 @@ export const ProfileCardWrapper = styled.div`
       }
       a:hover {
         svg path {
-          fill: ${(props): string => props.theme.fontBlue};
+          fill: ${(props: any): string => props.theme.fontBlue};
         }
       }
     }
@@ -52,4 +52,4 @@ export const ProfileCardWrapper = styled.div`
   @media (min-width: ${deviceWidth.desktop}px) {
     width: calc(50% - 1.75rem);
   }
-`
+`;

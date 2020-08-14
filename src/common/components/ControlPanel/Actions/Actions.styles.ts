@@ -1,5 +1,5 @@
-import styled from 'styled-components'
-import { deviceWidth } from '../../../../lib/commonData'
+import styled from "styled-components";
+import { deviceWidth } from "../../../../lib/commonData";
 
 export const ActionLinksWrapper = styled.div`
   display: flex;
@@ -31,22 +31,22 @@ export const ActionLinksWrapper = styled.div`
     &:hover {
       color: #47568c;
       text-decoration: none;
-      border: 1px solid ${(props): string => props.theme.ixoBlue};
+      border: 1px solid ${(props: any): string => props.theme.ixoBlue};
     }
     &:focus {
       outline: none;
     }
   }
-`
+`;
 
 export const AssistantContentWrapper = styled.div`
   height: 100%;
   background: white;
-`
+`;
 
 export const SummaryWrapper = styled(AssistantContentWrapper)`
   position: relative;
-`
+`;
 
 export const ActionWrapper = styled.div`
   background: #dfe7f4;
@@ -128,18 +128,22 @@ export const ActionWrapper = styled.div`
       width: 100vw;
     }
   }
-`
+`;
 
 export const AssistantWrapper = styled.div`
+  position: fixed;
   height: calc(100% - 72px);
+  width: inherit;
+  max-height: 700px;
+  padding: 10px;
   .rw-conversation-container {
     box-shadow: none;
   }
-`
+`;
 
 export const AssistantHeader = styled.div`
-  background: #143f54;
   padding: 18px 12px;
+  margin-top: 16px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -147,23 +151,24 @@ export const AssistantHeader = styled.div`
   border-top-right-radius: 4px;
   height: 72px;
   h3.assistant-heading {
-    color: white;
+    color: #436779;
     margin: 0;
-    .chatbot-icon {
-      width: 2.25rem;
-      height: 2.25rem;
-      background: #002a3f;
-      margin-right: 1rem;
-      border-radius: 50%;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-    }
+    font-size: 18px;
+
+  }
+  .close-icon {
+    width: 1.5rem;
+    height: 1.5rem;
+    margin-right: 1rem;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
   }
   .back-icon {
     transform: rotate(180deg);
   }
-`
+`;
 
 export const AssistantProgress = styled.div`
   height: 100%;
@@ -194,7 +199,7 @@ export const AssistantProgress = styled.div`
       }
     }
     &:after {
-      content: '';
+      content: "";
       display: block;
       position: absolute;
       z-index: -1;
@@ -230,4 +235,4 @@ export const AssistantProgress = styled.div`
     color: #a5adb0;
     text-decoration: none;
   }
-`
+`;

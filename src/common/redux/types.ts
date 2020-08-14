@@ -38,4 +38,5 @@ export interface RootState {
   createEntityAttestation: CreateEntityAttestationState
   createEntitySettings: CreateEntitySettingsState
   createEntityAdvanced: CreateEntityAdvancedState
+  router: any
 }

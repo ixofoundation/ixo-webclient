@@ -1,6 +1,6 @@
-import styled from 'styled-components'
-import { SquareButtonSection } from '../ControlPanel.styles'
-import { QRInner } from '../../QRCode/QRCode.styles'
+import styled from "styled-components";
+import { SquareButtonSection } from "../ControlPanel.styles";
+import { QRInner } from "../../QRCode/QRCode.styles";
 
 export const ConnectionButtonsWrapper = styled(SquareButtonSection)`
   button {
@@ -13,7 +13,7 @@ export const ConnectionButtonsWrapper = styled(SquareButtonSection)`
         margin: 0 auto;
         width: 1.875rem;
         path {
-          fill: ${(props): string => props.theme.ixoBlue};
+          fill: ${(props: any): string => props.theme.ixoBlue};
         }
       }
     }
@@ -46,4 +46,4 @@ export const ConnectionButtonsWrapper = styled(SquareButtonSection)`
       height: initial;
     }
   }
-`
+`;

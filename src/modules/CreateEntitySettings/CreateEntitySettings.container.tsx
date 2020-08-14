@@ -73,7 +73,7 @@ class CreateEntitySettings extends CreateEntityBase<Props> {
   constructor(props) {
     super(props)
 
-    this.entityTitle = entityTypeMap[this.props.entityType].title
+    this.entityTitle = entityTypeMap[this.props.entityType].title;
   }
 
   renderCreator = (): JSX.Element => {
@@ -117,8 +117,8 @@ class CreateEntitySettings extends CreateEntityBase<Props> {
           }
         />
       </FormCardWrapper>
-    )
-  }
+    );
+  };
 
   renderOwner = (): JSX.Element => {
     this.cardRefs['owner'] = React.createRef()
@@ -159,8 +159,8 @@ class CreateEntitySettings extends CreateEntityBase<Props> {
           }
         />
       </FormCardWrapper>
-    )
-  }
+    );
+  };
 
   renderStatus = (): JSX.Element => {
     this.cardRefs['status'] = React.createRef()
@@ -168,7 +168,7 @@ class CreateEntitySettings extends CreateEntityBase<Props> {
     const {
       status: { startDate, endDate, stage, status },
       handleUpdateStatus,
-    } = this.props
+    } = this.props;
 
     return (
       <FormCardWrapper
@@ -188,8 +188,8 @@ class CreateEntitySettings extends CreateEntityBase<Props> {
           }
         />
       </FormCardWrapper>
-    )
-  }
+    );
+  };
 
   renderPrivacy = (): JSX.Element => {
     this.cardRefs['privacy'] = React.createRef()
@@ -197,7 +197,7 @@ class CreateEntitySettings extends CreateEntityBase<Props> {
     const {
       privacy: { entityView, pageView },
       handleUpdatePrivacy,
-    } = this.props
+    } = this.props;
 
     return (
       <FormCardWrapper
@@ -215,8 +215,8 @@ class CreateEntitySettings extends CreateEntityBase<Props> {
           }
         />
       </FormCardWrapper>
-    )
-  }
+    );
+  };
 
   renderRequiredCredentials = (): JSX.Element => {
     const {
@@ -257,11 +257,11 @@ class CreateEntitySettings extends CreateEntityBase<Props> {
                 this.props.handleValidationError(requiredCredential.id, errors)
               }
             />
-          )
+          );
         })}
       </FormCardWrapper>
-    )
-  }
+    );
+  };
 
   renderFilters = (): JSX.Element => {
     this.cardRefs['filter'] = React.createRef()
@@ -285,8 +285,8 @@ class CreateEntitySettings extends CreateEntityBase<Props> {
           }
         />
       </FormCardWrapper>
-    )
-  }
+    );
+  };
 
   renderDisplayCredentials = (): JSX.Element => {
     const {
@@ -327,11 +327,11 @@ class CreateEntitySettings extends CreateEntityBase<Props> {
                 this.props.handleValidationError(displayCredential.id, errors)
               }
             />
-          )
+          );
         })}
       </FormCardWrapper>
-    )
-  }
+    );
+  };
 
   onSubmitted = (): void => {
     this.props.handleGoToStep(Step.Advanced)
@@ -369,7 +369,7 @@ class CreateEntitySettings extends CreateEntityBase<Props> {
         {this.renderDisplayCredentials()}
         {this.renderButtonGroup(identifiers, true)}
       </>
-    )
+    );
   }
 }
 
@@ -418,5 +418,5 @@ const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
 
 export const CreateEntitySettingsConnected = connect(
   mapStateToProps,
-  mapDispatchToProps,
-)(CreateEntitySettings)
+  mapDispatchToProps
+)(CreateEntitySettings);

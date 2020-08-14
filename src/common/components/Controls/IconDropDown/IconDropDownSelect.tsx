@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
-import { DropDownOption } from './types'
-import { Container, SelectContainer } from './IconDropDownSelect.styles'
+import React, { useState } from "react";
+import { DropDownOption } from "./types";
+import { Container, SelectContainer } from "./IconDropDownSelect.styles";
 
 interface Props {
   options: DropDownOption[]
@@ -19,17 +19,17 @@ const DropDownImageSelect: React.FunctionComponent<Props> = ({
   onBlur,
   onFocus,
 }) => {
-  const [selectedIconSRC, setSelectedIconSRC] = useState(null)
+  const [selectedIconSRC, setSelectedIconSRC] = useState<string | null>("");
   const onChangeHandler = (value: string): void => {
     if (!!value && value.length > 0) {
-      const selectedOption = options.find(option => option.value === value)
+      const selectedOption = options.find((option) => option.value === value);
       if (!selectedOption) {
-        setSelectedIconSRC(null)
+        setSelectedIconSRC(null);
       } else {
-        setSelectedIconSRC(selectedOption.iconAssetPath)
+        setSelectedIconSRC(selectedOption.iconAssetPath);
       }
     } else {
-      setSelectedIconSRC(null)
+      setSelectedIconSRC(null);
     }
     onChange(value || null)
   }
@@ -45,7 +45,7 @@ const DropDownImageSelect: React.FunctionComponent<Props> = ({
         id="symbol"
       >
         <option value="">{selectText}</option>
-        {options.map(opt => (
+        {options.map((opt) => (
           <option key={opt.value} value={opt.value}>
             {opt.text}
           </option>
@@ -58,7 +58,7 @@ const DropDownImageSelect: React.FunctionComponent<Props> = ({
         />
       )}
     </Container>
-  )
-}
+  );
+};
 
-export default DropDownImageSelect
+export default DropDownImageSelect;

@@ -1,6 +1,6 @@
-import { v4 as uuidv4 } from 'uuid'
-import { Dispatch } from 'redux'
-import blocksyncApi from '../../common/api/blocksync-api/blocksync-api'
+import { v4 as uuidv4 } from "uuid";
+import { Dispatch } from "redux";
+import blocksyncApi from "../../common/api/blocksync-api/blocksync-api";
 import {
   CreateEntityPageContentActions,
   AddBodySectionAction,
@@ -69,14 +69,14 @@ export const addBodySection = (): AddBodySectionAction => ({
   payload: {
     id: uuidv4(),
   },
-})
+});
 
 export const removeBodySection = (id: string): RemoveBodySectionAction => ({
   type: CreateEntityPageContentActions.RemoveBodySection,
   payload: {
     id,
   },
-})
+});
 
 export const updateBodyContent = (id: string, formData: FormData) => (
   dispatch: Dispatch,
@@ -111,14 +111,14 @@ export const addImageSection = (): AddImageSectionAction => ({
   payload: {
     id: uuidv4(),
   },
-})
+});
 
 export const removeImageSection = (id: string): RemoveImageSectionAction => ({
   type: CreateEntityPageContentActions.RemoveImageSection,
   payload: {
     id,
   },
-})
+});
 
 export const updateImageContent = (id: string, formData: FormData) => (
   dispatch: Dispatch,
@@ -154,16 +154,16 @@ export const addProfileSection = (): AddProfileSectionAction => ({
   payload: {
     id: uuidv4(),
   },
-})
+});
 
 export const removeProfileSection = (
-  id: string,
+  id: string
 ): RemoveProfileSectionAction => ({
   type: CreateEntityPageContentActions.RemoveProfileSection,
   payload: {
     id,
   },
-})
+});
 
 export const updateProfileContent = (id: string, formData: FormData) => (
   dispatch: Dispatch,
@@ -196,7 +196,7 @@ export const updateProfileContent = (id: string, formData: FormData) => (
 }
 
 export const updateSocialContent = (
-  formData: FormData,
+  formData: FormData
 ): UpdateSocialContentAction => {
   const {
     linkedInUrl,
@@ -207,7 +207,7 @@ export const updateSocialContent = (
     telegramUrl,
     githubUrl,
     otherUrl,
-  } = formData
+  } = formData;
 
   return {
     type: CreateEntityPageContentActions.UpdateSocialContent,
@@ -221,37 +221,37 @@ export const updateSocialContent = (
       githubUrl,
       otherUrl,
     },
-  }
-}
+  };
+};
 
 export const addEmbeddedSection = (): AddEmbeddedSectionAction => ({
   type: CreateEntityPageContentActions.AddEmbeddedSection,
   payload: {
     id: uuidv4(),
   },
-})
+});
 
 export const removeEmbeddedSection = (
-  id: string,
+  id: string
 ): RemoveEmbeddedSectionAction => ({
   type: CreateEntityPageContentActions.RemoveEmbeddedSection,
   payload: {
     id,
   },
-})
+});
 
 export const updateEmbeddedContent = (
   id: string,
-  formData: FormData,
+  formData: FormData
 ): UpdateEmbeddedContentAction => {
-  const { title, urls } = formData
+  const { title, urls } = formData;
 
   return {
     type: CreateEntityPageContentActions.UpdateEmbeddedContent,
     payload: {
       id,
       title,
-      urls: urls.split('|'),
+      urls: urls.split("|"),
     },
   }
 }

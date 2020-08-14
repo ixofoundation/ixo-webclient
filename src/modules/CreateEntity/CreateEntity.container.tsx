@@ -117,7 +117,7 @@ class CreateEntity extends React.Component<Props> {
           </div>
         </CreateEntityWrapper>
       </>
-    )
+    );
   }
 }
 
@@ -133,5 +133,5 @@ const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
 
 export const CreateEntityConnected = connect(
   mapStateToProps,
-  mapDispatchToProps,
-)(CreateEntity)
+  mapDispatchToProps
+)(CreateEntity);

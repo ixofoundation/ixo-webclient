@@ -1,5 +1,5 @@
-import * as React from 'react'
-import { Props } from './types'
+import * as React from "react";
+import { Props } from "./types";
 import {
   Button,
   ButtonWrapper,
@@ -9,8 +9,8 @@ import {
   ModalButtons,
   ResetButton,
   ApplyButton,
-} from '../Filters.styles'
-import * as utils from './IconListFilter.utils'
+} from "../Filters.styles";
+import * as utils from "./IconListFilter.utils";
 
 const IconListFilterDesktop: React.FunctionComponent<Props> = ({
   selectType,
@@ -23,9 +23,9 @@ const IconListFilterDesktop: React.FunctionComponent<Props> = ({
 }) => {
   return (
     <ButtonWrapper
-      className={`button-wrapper ${isActive ? 'active' : ''}`}
-      onClick={(e): void =>
-        utils.isFilterTarget(e) ? null : handleToggleFilterShow(name)
+      className={`button-wrapper ${isActive ? "active" : ""}`}
+      onClick={(e): void | null =>
+        utils?.isFilterTarget(e) ? null : handleToggleFilterShow(name)
       }
     >
       <Button
@@ -37,12 +37,12 @@ const IconListFilterDesktop: React.FunctionComponent<Props> = ({
       <FilterModal
         className="filter-modal"
         style={{
-          display: isActive ? 'block' : 'none',
+          display: isActive ? "block" : "none",
         }}
       >
         <ModalItems>
-          {items.map(item => {
-            const { name: itemName, icon: itemIcon } = item
+          {items.map((item) => {
+            const { name: itemName, icon: itemIcon } = item;
 
             return (
               <FilterSelectButton
@@ -56,7 +56,7 @@ const IconListFilterDesktop: React.FunctionComponent<Props> = ({
                   src={require(`./assets/icons/${itemIcon}`)}
                 />
               </FilterSelectButton>
-            )
+            );
           })}
         </ModalItems>
         <ModalButtons>
@@ -69,7 +69,7 @@ const IconListFilterDesktop: React.FunctionComponent<Props> = ({
         </ModalButtons>
       </FilterModal>
     </ButtonWrapper>
-  )
-}
+  );
+};
 
-export default IconListFilterDesktop
+export default IconListFilterDesktop;

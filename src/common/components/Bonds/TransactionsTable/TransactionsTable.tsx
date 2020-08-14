@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import 'react-virtualized/styles.css'
-import './TransactionsTable.css'
+import './TransactionsTable.scss'
 
 // You can import any component you want as a named export from 'react-virtualized', eg
 import { Column, Table } from 'react-virtualized'
@@ -58,25 +58,7 @@ export enum SortDirection {
   DESC,
 }
 
-class TransactionsTable extends Component<any> {
-  state = {
-    list: [],
-    sortBy: 'timestamp',
-    sortDirection: SortDirection.ASC,
-    tableWidth: 500,
-    page: 0,
-    totalPages: 'N/A',
-    focusedInput: null,
-    filters: {
-      startDate: moment().subtract(1, 'year'),
-      endDate: moment(),
-      orderType: 'All',
-      token: 'All',
-      query: '',
-    },
-  }
-  // state = {}
-
+class TransactionsTable extends Component<any, any> {
   constructor(props: any) {
     super(props)
     this.state = {
@@ -95,13 +77,18 @@ class TransactionsTable extends Component<any> {
         query: '',
       },
     }
+    this.resizeTable = this.resizeTable.bind(this)
   }
 
   componentDidMount(): void {
     // table size needs manual adjusting because virtualized table renders only visible items
     this.resizeTable()
-    window.addEventListener('resize', () => this.resizeTable())
+    window.addEventListener('resize', this.resizeTable, false)
     this.props.dispatch(getTotalSupply())
+  }
+
+  componentWillUnmount(): void {
+    window.removeEventListener('resize', this.resizeTable, false)
   }
 
   resizeTable(): void {
@@ -112,8 +99,6 @@ class TransactionsTable extends Component<any> {
   }
 
   sortItems(list: any): any {
-    Object.assign([], list)
-
     // sort by key. timestamp for default
     list = list.sort((a: any, b: any) => {
       return new Date(a.timestamp) > new Date(b.timestamp) ? -1 : 1
@@ -312,11 +297,11 @@ class TransactionsTable extends Component<any> {
                         Confirmed
                       </>
                     ) : (
-                      <>
-                        <img src={x} width={15} className="icon" />
+                        <>
+                          <img src={x} width={15} className="icon" />
                         Cancelled
                       </>
-                    )
+                      )
                   }
                 />
 
@@ -353,7 +338,7 @@ class TransactionsTable extends Component<any> {
   }
 }
 
-const mapStateToProps = function(state: RootState): RootState {
+const mapStateToProps = function (state: RootState): RootState {
   return state
 }
 

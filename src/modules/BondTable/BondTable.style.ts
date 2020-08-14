@@ -1,8 +1,8 @@
-import styled from 'styled-components'
+import styled from "styled-components";
 
 interface StyledTableCellProps {
-  header: string
-  type: boolean
+  header: string;
+  type: boolean;
 }
 
 export const TableContainer = styled.div`
@@ -19,7 +19,7 @@ export const TableContainer = styled.div`
     border-spacing: 0 0.5em;
 
     tbody:before {
-      content: '@';
+      content: "@";
       display: block;
       line-height: 10px;
       text-indent: -99999px;
@@ -43,7 +43,7 @@ export const TableContainer = styled.div`
       }
     }
   }
-`
+`;
 
 export const StyledTableHeader = styled.th`
   color: #688ea0;
@@ -51,15 +51,15 @@ export const StyledTableHeader = styled.th`
   &:first-child {
     padding-left: 2em;
   }
-`
+`;
 
 export const StyledTableCell = styled.td<StyledTableCellProps>`
-  color: ${(props): string =>
-    props.header === 'buySell'
+  color: ${(props: any): string =>
+    props.header === "buySell"
       ? props.type
-        ? '#6FCF97'
-        : '#E2223B'
-      : 'white'};
+        ? "#6FCF97"
+        : "#E2223B"
+      : "white"};
   font-weight: bold;
   &:first-child {
     padding-left: 2em;
@@ -68,13 +68,13 @@ export const StyledTableCell = styled.td<StyledTableCellProps>`
     padding: 0;
     height: 100%;
   }
-`
+`;
 
 export const StyledTableRow = styled.tr`
   background-color: #023044;
   line-height: 1em;
   height: 4em;
-`
+`;
 
 export const DateContainer = styled.div`
   display: flex;
@@ -85,7 +85,7 @@ export const DateContainer = styled.div`
       font-weight: normal;
     }
   }
-`
+`;
 
 export const StyledMobileRow = styled.div`
   display: flex;
@@ -93,17 +93,17 @@ export const StyledMobileRow = styled.div`
   background: #023044;
   padding: 10px;
   font-weight: bold;
-`
+`;
 
 export const StyledMobileBuyCell = styled.div<StyledTableCellProps>`
-  color: ${(props): string =>
-    props.header === 'buySell'
+  color: ${(props: any): string =>
+    props.header === "buySell"
       ? props.type
-        ? '#6FCF97'
-        : '#E2223B'
-      : 'white'};
+        ? "#6FCF97"
+        : "#E2223B"
+      : "white"};
   font-weight: bold;
-`
+`;
 
 export const StyledDateWrapper = styled.div`
   display: flex;
@@ -121,7 +121,7 @@ export const StyledDateWrapper = styled.div`
       }
     }
   }
-`
+`;
 
 export const StyledAmountWrapper = styled.div`
   display: flex;
@@ -135,9 +135,9 @@ export const StyledAmountWrapper = styled.div`
   &:last-child {
     margin-left: 30px;
   }
-`
+`;
 
 export const StyledHeader = styled.h2`
   color: white;
   margin-top: 2em;
-`
+`;

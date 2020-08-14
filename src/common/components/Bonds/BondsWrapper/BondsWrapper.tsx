@@ -1,6 +1,6 @@
 import * as React from 'react'
 import Header from '../BondsSummaryHeader/Header'
-import './BondsWrapper.css'
+import './BondsWrapper.scss'
 import BondsSidebar from '../BondsSidebar/BondsSidebar'
 import { Spinner } from '../../Spinner'
 import { ProjectHero } from '../../../../components/project/ProjectHero'
@@ -19,12 +19,19 @@ export interface Props {
   location: any
   match: any
   userInfo?: UserInfo
+  assistantPanelToggle: () => void
+  enableAssistantButton?: boolean
 }
 
 export interface State {
   projectPublic: Record<string, any>
   projectStatus: string
 }
+
+const MemorizedSpinner = React.memo(
+  () => <Spinner info="Loading..." />,
+  (a, b) => true,
+)
 
 export class BondsWrapper extends React.Component<Props, State> {
   state = {
@@ -52,7 +59,7 @@ export class BondsWrapper extends React.Component<Props, State> {
   }
 
   handleHasCapability = (roles: AgentRoles[]): boolean => {
-    const userInfo: UserInfo = this.props.userInfo
+    const userInfo: UserInfo | undefined = this.props.userInfo
     let found = false
     if (userInfo) {
       if (this.state.projectPublic.createdBy === userInfo.didDoc.did) {
@@ -64,7 +71,7 @@ export class BondsWrapper extends React.Component<Props, State> {
           return true
         }
       }
-      this.state.projectPublic.agents.forEach(agent => {
+      this.state.projectPublic.agents.forEach((agent: any) => {
         if (agent.did === userInfo.didDoc.did) {
           if (
             roles.some(val => {
@@ -84,11 +91,16 @@ export class BondsWrapper extends React.Component<Props, State> {
   }
 
   render(): JSX.Element {
-    const { children, params, isLoggedIn, match } = this.props
-
+    const {
+      children,
+      params,
+      isLoggedIn,
+      match,
+      assistantPanelToggle,
+    } = this.props
     if (this.state.projectPublic === null) {
       this.handleGetProjectData()
-      return <Spinner info="Loading..." />
+      return <MemorizedSpinner />
     } else {
       return (
         <div className="BondsWrapper">
@@ -105,6 +117,8 @@ export class BondsWrapper extends React.Component<Props, State> {
               onlyTitle
               hasCapability={this.handleHasCapability}
               isLoggedIn={isLoggedIn}
+              assistantPanelToggle={assistantPanelToggle}
+              enableAssistantButton
             />
             <Header bondDID={params.bondDID} />
             {children}

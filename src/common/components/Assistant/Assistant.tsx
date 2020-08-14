@@ -29,6 +29,7 @@ const Assistant: React.FunctionComponent<Props> = ({ onMessageReceive }) => {
 export const startAssistant = (intent: string): void => {
   send(`/${intent}`)
   open()
+  console.log('chatbot open')
 }
 
 export default Assistant

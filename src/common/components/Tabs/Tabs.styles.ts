@@ -1,7 +1,9 @@
-import styled from 'styled-components'
-import { deviceWidth } from '../../../lib/commonData'
+import styled from "styled-components";
+import { deviceWidth } from "../../../lib/commonData";
 
-export const createTabsContainer = (activeTabColor: string): any => styled.div`
+export const createTabsContainer = (
+  activeTabColor: string | undefined
+): any => styled.div`
   display: flex;
   flex-flow: row nowrap;
   justify-content: flex-start;
@@ -26,8 +28,8 @@ export const createTabsContainer = (activeTabColor: string): any => styled.div`
   }
 
   a {
-    background: ${(props): string => props.theme.bg.gradientBlue};
-    font-family: ${(props): string => props.theme.fontRoboto};
+    background: ${(props: any): string => props.theme.bg.gradientBlue};
+    font-family: ${(props: any): string => props.theme.fontRoboto};
     color: white;
     text-transform: uppercase;
     font-weight: 500;
@@ -55,11 +57,11 @@ export const createTabsContainer = (activeTabColor: string): any => styled.div`
 
     &:hover {
       text-decoration: none;
-      color: ${(props): string => props.theme.ixoBlue};
+      color: ${(props: any): string => props.theme.ixoBlue};
     }
 
     &.active {
-      background: ${(props): string =>
+      background: ${(props: any): string =>
         activeTabColor || props.theme.bg.lightBlue};
       color: white;
     }
@@ -114,4 +116,4 @@ export const createTabsContainer = (activeTabColor: string): any => styled.div`
       }
     }
   }
-`
+`;

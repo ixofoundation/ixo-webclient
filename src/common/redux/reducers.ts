@@ -1,4 +1,5 @@
-import { combineReducers, Reducer } from 'redux'
+import { combineReducers } from 'redux'
+import { connectRouter } from 'connected-react-router'
 import { reducer as keysafeReducer } from '../../modules/keysafe/keysafe.reducer'
 import { reducer as ixoReducer } from '../../modules/ixo/ixo.reducer'
 import { reducer as web3Reducer } from '../../modules/web3/web3.reducer'
@@ -21,25 +22,27 @@ import { reducer as createClaimTemplateReducer } from '../../modules/CreateClaim
 import { reducer as createEntityAttestationReducer } from '../../modules/CreateEntityAttestation/CreateEntityAttestation.reducer'
 import { RootState } from './types'
 
-export const rootReducer: Reducer<RootState> = combineReducers<RootState>({
-  keySafe: keysafeReducer,
-  ixo: ixoReducer,
-  web3: web3Reducer,
-  bondBuy: bondBuyReducer,
-  bondSell: bondSellReducer,
-  bondSwap: bondSwapReducer,
-  account: accountReducer,
-  bondAccountOrders: bondAccountOrdersReducer,
-  activeBond: bondReducer,
-  tokenSupply: tokenSupplyReducer,
-  entities: entitiesReducer,
-  fuelEntity: fuelEntityReducer,
-  submitEntityClaim: submitEntityClaimReducer,
-  selectedEntity: selectedEntityReducer,
-  createEntity: createEntityReducer,
-  createEntityPageContent: createEntityPageContentReducer,
-  createEntityAttestation: createEntityAttestationReducer,
-  createEntitySettings: createEntitySettingsReducer,
-  createEntityAdvanced: createEntityAdvancedReducer,
-  createClaimTemplate: createClaimTemplateReducer,
-})
+export const rootReducer: any = (history) =>
+  combineReducers<RootState>({
+    keySafe: keysafeReducer,
+    ixo: ixoReducer,
+    web3: web3Reducer,
+    bondBuy: bondBuyReducer,
+    bondSell: bondSellReducer,
+    bondSwap: bondSwapReducer,
+    account: accountReducer,
+    bondAccountOrders: bondAccountOrdersReducer,
+    activeBond: bondReducer,
+    tokenSupply: tokenSupplyReducer,
+    entities: entitiesReducer,
+    fuelEntity: fuelEntityReducer,
+    submitEntityClaim: submitEntityClaimReducer,
+    selectedEntity: selectedEntityReducer,
+    createEntity: createEntityReducer,
+    createEntityPageContent: createEntityPageContentReducer,
+    createEntityAttestation: createEntityAttestationReducer,
+    createEntitySettings: createEntitySettingsReducer,
+    createEntityAdvanced: createEntityAdvancedReducer,
+    createClaimTemplate: createClaimTemplateReducer,
+    router: connectRouter(history),
+  })

@@ -1,5 +1,5 @@
-import styled from 'styled-components'
-import { deviceWidth } from '../../../../lib/commonData'
+import styled from "styled-components";
+import { deviceWidth } from "../../../../lib/commonData";
 
 export const Container = styled.div`
   background: #f7f8f9;
@@ -12,7 +12,7 @@ export const Container = styled.div`
   }
 
   h2 {
-    font-family: ${(props): string => props.theme.fontRobotoCondensed};
+    font-family: ${(props: any): string => props.theme.fontRobotoCondensed};
     font-weight: normal;
     font-size: 1.5rem;
     line-height: 1.2;
@@ -24,7 +24,7 @@ export const Container = styled.div`
   div hr {
     border-top: 0.0625rem solid #e8edee;
   }
-`
+`;
 export const AddSectionButton = styled.button`
   &:focus {
     outline: none;
@@ -35,4 +35,4 @@ export const AddSectionButton = styled.button`
   font-size: 1rem;
   font-weight: bold;
   line-height: 1.2;
-`
+`;

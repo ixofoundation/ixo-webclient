@@ -1,36 +1,36 @@
-import React from 'react'
-import Down from 'assets/icons/Down'
-import ConnectionIcon from 'assets/icons/Connections'
-import Share from 'assets/icons/Share'
-import Mobile from 'assets/icons/OpenOnMobile'
-import Forum from 'assets/icons/Forum'
-import { ControlPanelSection } from '../ControlPanel.styles'
-import { ConnectionButtonsWrapper } from './Connections.styles'
-import { ConnectionType, Widget, Control } from '../types'
-import MobileConnection from './Mobile/Mobile'
-import ShareConnection from './Share/Share'
-import ForumConnection from './Forum/Forum'
-import { Tooltip } from 'common/components/Tooltip'
+import React from "react";
+import Down from "assets/icons/Down";
+import ConnectionIcon from "assets/icons/Connections";
+import Share from "assets/icons/Share";
+import Mobile from "assets/icons/OpenOnMobile";
+import Forum from "assets/icons/Forum";
+import { ControlPanelSection } from "../ControlPanel.styles";
+import { ConnectionButtonsWrapper } from "./Connections.styles";
+import { ConnectionType, Widget, Control } from "../types";
+import MobileConnection from "./Mobile/Mobile";
+import ShareConnection from "./Share/Share";
+import ForumConnection from "./Forum/Forum";
+import { Tooltip } from "common/components/Tooltip";
 
 interface Props {
-  widget: Widget
-  selectedConnection: ConnectionType
-  handleConnectionClick: (connection: ConnectionType) => void
+  widget: Widget;
+  selectedConnection: ConnectionType | null;
+  handleConnectionClick: (connection: ConnectionType) => void;
 }
 
-const icons = {
+const icons: { [key: string]: any } = {
   Share,
   Mobile,
   Forum,
-}
+};
 
 const Connections: React.FunctionComponent<Props> = ({
   widget: { controls, title },
   selectedConnection,
   handleConnectionClick,
 }) => {
-  const findControl = (type: ConnectionType): Control =>
-    controls.find(conn => conn['@type'] === type)
+  const findControl = (type: ConnectionType): Control | undefined =>
+    controls?.find((conn) => conn["@type"] === type);
 
   return (
     <ControlPanelSection>
@@ -40,16 +40,17 @@ const Connections: React.FunctionComponent<Props> = ({
         </div>
         {title}
         <div
-          onClick={(): void => handleConnectionClick(null)}
-          className={`arrow-icon ${selectedConnection ? 'active' : ''}`}
+          onClick={(): void => handleConnectionClick(ConnectionType.Forum)}
+          className={`arrow-icon ${selectedConnection ? "active" : ""}`}
         >
           <Down width="16" fill="#BDBDBD" />
         </div>
       </h4>
       <ConnectionButtonsWrapper>
-        {Object.keys(ConnectionType).map(key => {
-          const connectionType = ConnectionType[key]
-          const control = findControl(connectionType)
+        {Object.keys(ConnectionType).map((key: string) => {
+          /* @ts-ignore */
+          const connectionType = ConnectionType[key];
+          const control = findControl(connectionType);
           return control ? (
             <Tooltip key={key} text={control.tooltip}>
               <button
@@ -64,7 +65,7 @@ const Connections: React.FunctionComponent<Props> = ({
                 {control.title}
               </button>
             </Tooltip>
-          ) : null
+          ) : null;
         })}
         {findControl(ConnectionType.Mobile) && (
           <MobileConnection
@@ -75,9 +76,9 @@ const Connections: React.FunctionComponent<Props> = ({
           <ShareConnection
             show={selectedConnection === ConnectionType.Share}
             twitterShareText={
-              findControl(ConnectionType.Share).parameters.find(
-                p => p.name === 'twitterShareText',
-              ).value
+              findControl(ConnectionType?.Share)?.parameters.find(
+                (p) => p.name === "twitterShareText"
+              )?.value!
             }
           />
         )}
@@ -86,7 +87,7 @@ const Connections: React.FunctionComponent<Props> = ({
         )}
       </ConnectionButtonsWrapper>
     </ControlPanelSection>
-  )
-}
+  );
+};
 
-export default Connections
+export default Connections;
