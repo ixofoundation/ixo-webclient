@@ -69,7 +69,7 @@ export const ControlPanelScrollWrapper = styled.div`
 `;
 
 export const ControlPanelSection = styled.div`
-  background: #f0f7ff;
+  background: #FCFDFF;
   border-radius: 5px;
   padding: 0.5rem 1rem;
   &:not(:first-child) {

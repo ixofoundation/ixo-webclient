@@ -820,13 +820,6 @@ export class ProjectContainer extends React.Component<Props, State> {
       case contentType.overview:
         theContent = (
           <Fragment>
-            <ProjectHero
-              project={project}
-              match={this.props.match}
-              isDetail={false}
-              hasCapability={this.handleHasCapability}
-              isLoggedIn={this.props.isLoggedIn}
-            />
             <ProjectOverview
               match={this.props.match}
               projectDid={this.state.projectDid}
@@ -842,6 +835,8 @@ export class ProjectContainer extends React.Component<Props, State> {
               projectStatus={this.state.projectStatus}
               ledger={this.state.ledger}
               ledgerDid={this.handleLedgerDid}
+              isDetail={false}
+              isLoggedIn={this.props.isLoggedIn}
             />
           </Fragment>
         )
