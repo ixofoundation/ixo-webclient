@@ -18,9 +18,39 @@ import {
 
 describe('CreateEntityAdvanced Actions', () => {
   describe('linkedEntity', () => {
+    describe('addLinkedEntity', () => {
+      it('should add a new linkedEntity section', () => {
+        const id = 'newId'
+        v4.mockImplementationOnce(() => id)
+        // when ... we call the addLinkedEntity action
+        const action = SUT.addLinkedEntity()
+        // then ... we should expect it to create an action with the correct type
+        expect(action.type).toEqual(CreateEntityAdvancedActions.AddLinkedEntity)
+        expect(action.payload).toEqual({
+          id,
+        })
+      })
+    })
+
+    describe('removeLinkedEntity', () => {
+      it('should remove linkedEntity section', () => {
+        const id = 'existingId'
+        // when ... we call the removeLinkedEntity action
+        const action = SUT.removeLinkedEntity(id)
+        // then ... we should expect it to create an action with the correct type
+        expect(action.type).toEqual(
+          CreateEntityAdvancedActions.RemoveLinkedEntity,
+        )
+        expect(action.payload).toEqual({
+          id,
+        })
+      })
+    })
+
     describe('updatedLinkedEntity', () => {
       it('should update the linked entity', () => {
         // given ... some data
+        const id = 'existingId'
         const type = EntityType.Investment
         const entityId = 'someEntityId'
         const formData = {
@@ -29,46 +59,75 @@ describe('CreateEntityAdvanced Actions', () => {
         }
 
         // when ... we call the action
-        const action = SUT.updateLinkedEntity(formData)
+        const action = SUT.updateLinkedEntity(id, formData)
 
         // then ... we should expect it to create the action as expected
         expect(action.type).toEqual(
           CreateEntityAdvancedActions.UpdateLinkedEntity,
         )
-        expect(action.payload).toEqual({ type, entityId })
+        expect(action.payload).toEqual({ id, type, entityId })
       })
     })
   })
 
   describe('payment', () => {
+    describe('addPayment', () => {
+      it('should add a new payment section', () => {
+        const id = 'newId'
+        v4.mockImplementationOnce(() => id)
+        // when ... we call the addPayment action
+        const action = SUT.addPayment()
+        // then ... we should expect it to create an action with the correct type
+        expect(action.type).toEqual(CreateEntityAdvancedActions.AddPayment)
+        expect(action.payload).toEqual({
+          id,
+        })
+      })
+    })
+
+    describe('removePayment', () => {
+      it('should remove payment section', () => {
+        const id = 'existingId'
+        // when ... we call the removePayment action
+        const action = SUT.removePayment(id)
+        // then ... we should expect it to create an action with the correct type
+        expect(action.type).toEqual(CreateEntityAdvancedActions.RemovePayment)
+        expect(action.payload).toEqual({
+          id,
+        })
+      })
+    })
+
     describe('updatePayment', () => {
       it('should update the payment', () => {
         // given ... some data
+        const id = 'someId'
         const type = PaymentType.FeeforService
         const paymentId = 'somePaymentId'
-        const denomination = PaymentDenomination.eCHF
-        const maxAmount = 123
-        const maxUnits = 456
+        const denom = PaymentDenomination.eCHF
+        const maxFee = 123
+        const maxQty = 456
 
         const formData = {
           type,
           paymentId,
-          denomination,
-          maxAmount,
-          maxUnits,
+          denom,
+          maxFee,
+          maxQty,
         }
 
         // when ... we call the action
-        const action = SUT.updatePayment(formData)
+        const action = SUT.updatePayment(id, formData)
 
         // then ... we should expect it to create the action as expected
         expect(action.type).toEqual(CreateEntityAdvancedActions.UpdatePayment)
         expect(action.payload).toEqual({
+          id,
           type,
           paymentId,
-          denomination,
-          maxAmount,
-          maxUnits,
+          denom,
+          maxFee,
+          maxQty,
         })
       })
     })
@@ -85,15 +144,6 @@ describe('CreateEntityAdvanced Actions', () => {
         expect(action.type).toEqual(CreateEntityAdvancedActions.AddStake)
         expect(action.payload).toEqual({
           id,
-          type: null,
-          stakeId: null,
-          denomination: null,
-          depositAddress: null,
-          minStake: null,
-          slashingCondition: null,
-          slashFactor: null,
-          maxSlashAmount: null,
-          unbondingPeriod: null,
         })
       })
     })
@@ -117,24 +167,24 @@ describe('CreateEntityAdvanced Actions', () => {
         const id = 'someId'
         const type = StakeType.ClaimGuarantee
         const stakeId = 'someStakeId'
-        const denomination = PaymentDenomination.eEUR
-        const depositAddress = 'someDepositAddress'
+        const denom = PaymentDenomination.eEUR
+        const stakeAddress = 'someDepositAddress'
         const minStake = 123
-        const slashingCondition = SlashingCondition.FailedDispute
+        const slashCondition = SlashingCondition.FailedDispute
         const slashFactor = 456
-        const maxSlashAmount = 789
-        const unbondingPeriod = 10
+        const slashAmount = 789
+        const unbondPeriod = 10
 
         const formData = {
           type,
           stakeId,
-          denomination,
-          depositAddress,
+          denom,
+          stakeAddress,
           minStake,
-          slashingCondition,
+          slashCondition,
           slashFactor,
-          maxSlashAmount,
-          unbondingPeriod,
+          slashAmount,
+          unbondPeriod,
         }
 
         // when ... we call the action
@@ -146,13 +196,13 @@ describe('CreateEntityAdvanced Actions', () => {
           id,
           type,
           stakeId,
-          denomination,
-          depositAddress,
+          denom,
+          stakeAddress,
           minStake,
-          slashingCondition,
+          slashCondition,
           slashFactor,
-          maxSlashAmount,
-          unbondingPeriod,
+          slashAmount,
+          unbondPeriod,
         })
       })
     })
@@ -169,8 +219,6 @@ describe('CreateEntityAdvanced Actions', () => {
         expect(action.type).toEqual(CreateEntityAdvancedActions.AddNode)
         expect(action.payload).toEqual({
           id,
-          type: null,
-          nodeId: null,
         })
       })
     })
@@ -189,7 +237,7 @@ describe('CreateEntityAdvanced Actions', () => {
     })
 
     describe('updateNode', () => {
-      it('should update the node resource', () => {
+      it('should update the node', () => {
         // given ... some node
         const id = 'someId'
         const type = NodeType.IBCNode
@@ -226,8 +274,6 @@ describe('CreateEntityAdvanced Actions', () => {
         expect(action.type).toEqual(CreateEntityAdvancedActions.AddFund)
         expect(action.payload).toEqual({
           id,
-          source: null,
-          fundId: null,
         })
       })
     })
@@ -273,35 +319,68 @@ describe('CreateEntityAdvanced Actions', () => {
   })
 
   describe('key', () => {
+    describe('addKey', () => {
+      it('should add a new key section', () => {
+        const id = 'newId'
+        v4.mockImplementationOnce(() => id)
+        // when ... we call the addKey action
+        const action = SUT.addKey()
+        // then ... we should expect it to create an action with the correct type
+        expect(action.type).toEqual(CreateEntityAdvancedActions.AddKey)
+        expect(action.payload).toEqual({
+          id,
+        })
+      })
+    })
+
+    describe('removeKey', () => {
+      it('should remove key section', () => {
+        const id = 'existingId'
+        // when ... we call the removeKey action
+        const action = SUT.removeKey(id)
+        // then ... we should expect it to create an action with the correct type
+        expect(action.type).toEqual(CreateEntityAdvancedActions.RemoveKey)
+        expect(action.payload).toEqual({
+          id,
+        })
+      })
+    })
+
     describe('updateKey', () => {
       it('should update the key', () => {
         // given ... some data
+        const id = 'someId'
         const purpose = KeyPurpose.Encryption
         const type = KeyType.JwsVerificationKey2020
-        const denomination = PaymentDenomination.eEUR
-        const controllerId = 'someControllerId'
+        const keyValue = PaymentDenomination.eEUR
+        const signature = 'someSignature'
+        const controller = 'someControllerId'
         const dateCreated = 'someDateCreated'
         const dateUpdated = 'someDateUpdated'
 
         const formData = {
+          id,
           purpose,
           type,
-          denomination,
-          controllerId,
+          keyValue,
+          signature,
+          controller,
           dateCreated,
           dateUpdated,
         }
 
         // when ... we call the action
-        const action = SUT.updateKey(formData)
+        const action = SUT.updateKey(id, formData)
 
         // then ... we should expect it to create the action as expected
         expect(action.type).toEqual(CreateEntityAdvancedActions.UpdateKey)
         expect(action.payload).toEqual({
+          id,
           purpose,
           type,
-          denomination,
-          controllerId,
+          keyValue,
+          signature,
+          controller,
           dateCreated,
           dateUpdated,
         })
@@ -310,34 +389,64 @@ describe('CreateEntityAdvanced Actions', () => {
   })
 
   describe('service', () => {
+    describe('addService', () => {
+      it('should add a new service section', () => {
+        const id = 'newId'
+        v4.mockImplementationOnce(() => id)
+        // when ... we call the addService action
+        const action = SUT.addService()
+        // then ... we should expect it to create an action with the correct type
+        expect(action.type).toEqual(CreateEntityAdvancedActions.AddService)
+        expect(action.payload).toEqual({
+          id,
+        })
+      })
+    })
+
+    describe('removeService', () => {
+      it('should remove service section', () => {
+        const id = 'existingId'
+        // when ... we call the removeService action
+        const action = SUT.removeService(id)
+        // then ... we should expect it to create an action with the correct type
+        expect(action.type).toEqual(CreateEntityAdvancedActions.RemoveService)
+        expect(action.payload).toEqual({
+          id,
+        })
+      })
+    })
+
     describe('updateService', () => {
       it('should update the service', () => {
         // given ... some data
+        const id = 'someId'
         const type = ServiceType.DIDAgent
         const shortDescription = 'someShortDescription'
-        const endpoint = 'someEndPoint'
+        const serviceEndpoint = 'someEndPoint'
         const publicKey = 'somePublicKey'
-        const otherParams = 'someOtherParams'
+        const properties = 'someOtherParams'
 
         const formData = {
+          id,
           type,
           shortDescription,
-          endpoint,
+          serviceEndpoint,
           publicKey,
-          otherParams,
+          properties,
         }
 
         // when ... we call the action
-        const action = SUT.updateService(formData)
+        const action = SUT.updateService(id, formData)
 
         // then ... we should expect it to create the action as expected
         expect(action.type).toEqual(CreateEntityAdvancedActions.UpdateService)
         expect(action.payload).toEqual({
+          id,
           type,
           shortDescription,
-          endpoint,
+          serviceEndpoint,
           publicKey,
-          otherParams,
+          properties,
         })
       })
     })
@@ -354,10 +463,6 @@ describe('CreateEntityAdvanced Actions', () => {
         expect(action.type).toEqual(CreateEntityAdvancedActions.AddDataResource)
         expect(action.payload).toEqual({
           id,
-          type: null,
-          dataId: null,
-          resourceLocator: null,
-          otherParams: null,
         })
       })
     })
@@ -383,14 +488,14 @@ describe('CreateEntityAdvanced Actions', () => {
         const id = 'someId'
         const type = DataResourceType.CellNodeDB
         const dataId = 'someDataId'
-        const resourceLocator = 'someResourceLocator'
-        const otherParams = 'someOtherParams'
+        const serviceEndpoint = 'someResourceLocator'
+        const properties = 'someOtherParams'
 
         const formData = {
           type,
           dataId,
-          resourceLocator,
-          otherParams,
+          serviceEndpoint,
+          properties,
         }
 
         // when ... we call the action
@@ -404,9 +509,38 @@ describe('CreateEntityAdvanced Actions', () => {
           id,
           type,
           dataId,
-          resourceLocator,
-          otherParams,
+          serviceEndpoint,
+          properties,
         })
+      })
+    })
+  })
+
+  describe('validation', () => {
+    it('should set validated to true', () => {
+      const identifier = 'someIdentifier'
+      // when ... we call the validated action creator
+      const action = SUT.validated(identifier)
+
+      // then ... we should expect it to create an action with the correct type and payload
+      expect(action.type).toEqual(CreateEntityAdvancedActions.Validated)
+      expect(action.payload).toEqual({
+        identifier,
+      })
+    })
+  })
+  describe('validationError', () => {
+    it('should set validated to false with any errors', () => {
+      const identifier = 'someIdentifier'
+      const errors = ['error1', 'error2']
+      // when ... we call the validated action creator
+      const action = SUT.validationError(identifier, errors)
+
+      // then ... we should expect it to create an action with the correct type and payload
+      expect(action.type).toEqual(CreateEntityAdvancedActions.ValidationError)
+      expect(action.payload).toEqual({
+        identifier,
+        errors,
       })
     })
   })

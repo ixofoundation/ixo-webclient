@@ -1,129 +1,106 @@
 import React from 'react'
-import Form from '@rjsf/core'
-import { debounce } from 'debounce'
-import {
-  FormContainer,
-  LinkButton,
-} from '../../../../common/components/JsonForm/JsonForm.styles'
-import * as formUtils from '../../../../common/components/JsonForm/JsonForm.utils'
-import {
-  FormData,
-  customControls,
-} from '../../../../common/components/JsonForm/types'
-import ImageLoader from '../../../../common/components/DropZone/ImageLoader/ImageLoader'
+import { LinkButton } from '../../../../common/components/JsonForm/JsonForm.styles'
+import { customControls } from '../../../../common/components/JsonForm/types'
+import MultiControlForm from '../../../../common/components/JsonForm/MultiControlForm/MultiControlForm'
+import { FormCardProps } from '../../../CreateEntity/types'
 
-interface Props {
-  id: string
+interface Props extends FormCardProps {
   name: string
   position: string
   linkedInUrl: string
   twitterUrl: string
-  imageDid: string
+  fileSrc: string
   uploadingImage: boolean
-  handleUpdateContent: (id: string, formData: FormData) => void
-  handleUploadImage: (id: string, base64EncodedImage: string) => void
-  handleRemoveSection: (id: string) => void
 }
 
-const HeaderCard: React.FunctionComponent<Props> = ({
-  id,
-  name,
-  position,
-  linkedInUrl,
-  twitterUrl,
-  imageDid,
-  uploadingImage,
-  handleUpdateContent,
-  handleUploadImage,
-  handleRemoveSection,
-}) => {
-  const formData = {
-    name,
-    position,
-    linkedInUrl,
-    twitterUrl,
-  }
+const HeaderCard: React.FunctionComponent<Props> = React.forwardRef(
+  (
+    {
+      name,
+      position,
+      linkedInUrl,
+      twitterUrl,
+      fileSrc,
+      uploadingImage,
+      handleUpdateContent,
+      handleSubmitted,
+      handleError,
+      handleRemoveSection,
+    },
+    ref,
+  ) => {
+    const formData = {
+      name,
+      position,
+      linkedInUrl,
+      twitterUrl,
+      fileSrc,
+    }
 
-  const schema = {
-    type: 'object',
-    required: ['name', 'position'],
-    properties: {
-      name: { type: 'string', title: 'Name' },
-      position: { type: 'string', title: 'Position' },
-      linkedInUrl: { type: 'string', title: 'Linked In' },
-      twitterUrl: { type: 'string', title: 'Twitter' },
-    },
-  } as any
+    const schema = {
+      type: 'object',
+      required: ['name', 'position'],
+      properties: {
+        fileSrc: { type: 'string', title: 'Image' },
+        empty: { type: 'null' },
+        name: { type: 'string', title: 'Name' },
+        position: { type: 'string', title: 'Position' },
+        linkedInUrl: { type: 'string', title: 'Linked In' },
+        twitterUrl: { type: 'string', title: 'Twitter' },
+      },
+    } as any
 
-  const uiSchema = {
-    name: {
-      ['ui:widget']: 'text',
-      ['ui:placeholder']: 'Enter Title',
-    },
-    position: {
-      ['ui:widget']: 'text',
-      ['ui:placeholder']: 'Enter Title',
-    },
-    linkedInUrl: {
-      ['ui:widget']: customControls['socialtextbox'],
-      ['ui:socialIcon']: 'LinkedIn',
-      ['ui:placeholder']: 'Paste Url',
-    },
-    twitterUrl: {
-      ['ui:widget']: customControls['socialtextbox'],
-      ['ui:socialIcon']: 'Twitter',
-      ['ui:placeholder']: 'Paste Url',
-    },
-  }
+    const uiSchema = {
+      fileSrc: {
+        ['ui:widget']: customControls['imageupload'],
+        ['ui:uploading']: uploadingImage,
+        ['ui:maxDimension']: 440,
+        ['ui:previewWidth']: 100,
+        ['ui:aspect']: 1,
+        ['ui:circularCrop']: false,
+      },
+      name: {
+        ['ui:widget']: 'text',
+        ['ui:placeholder']: 'Enter Title',
+      },
+      position: {
+        ['ui:widget']: 'text',
+        ['ui:placeholder']: 'Enter Title',
+      },
+      linkedInUrl: {
+        ['ui:widget']: customControls['socialtextbox'],
+        ['ui:socialIcon']: 'LinkedIn',
+        ['ui:placeholder']: 'Paste Url',
+      },
+      twitterUrl: {
+        ['ui:widget']: customControls['socialtextbox'],
+        ['ui:socialIcon']: 'Twitter',
+        ['ui:placeholder']: 'Paste Url',
+      },
+    }
 
-  const handleUpdateContentDebounce = debounce(handleUpdateContent, 500)
-
-  return (
-    <FormContainer className="row">
-      <div className="col-lg-6">
-        <div className="form-group">
-          <label className="control-label">
-            Profile Image<span className="required">*</span>
-          </label>
-          <ImageLoader
-            keepCropSelection={true}
-            circularCrop={false}
-            uploadedImageSrc={
-              imageDid
-                ? `${process.env.REACT_APP_PDS_URL}public/${imageDid}`
-                : null
-            }
-            uploading={uploadingImage}
-            handleSave={(base64EncodedImage): void =>
-              handleUploadImage(id, base64EncodedImage)
-            }
-            imageWidth={100}
-          />
-        </div>
-      </div>
-      <div className="col-lg-6">
-        <Form
+    return (
+      <>
+        <MultiControlForm
+          ref={ref}
+          onSubmit={handleSubmitted}
+          onFormDataChange={handleUpdateContent}
+          onError={handleError}
           formData={formData}
-          onChange={(control): void =>
-            handleUpdateContentDebounce(id, control.formData)
-          }
-          noHtml5Validate
-          liveValidate
-          showErrorList={false}
           schema={schema}
           uiSchema={uiSchema}
-          transformErrors={formUtils.transformErrors}
+          multiColumn
         >
           &nbsp;
-        </Form>
-      </div>
-      <div className="col-lg-12 text-right">
-        <LinkButton type="button" onClick={(): void => handleRemoveSection(id)}>
-          - Remove
-        </LinkButton>
-      </div>
-    </FormContainer>
-  )
-}
+        </MultiControlForm>
+        <div className="col-lg-12 text-right">
+          <LinkButton type="button" onClick={handleRemoveSection}>
+            - Remove
+          </LinkButton>
+        </div>
+      </>
+    )
+  },
+)
 
 export default HeaderCard

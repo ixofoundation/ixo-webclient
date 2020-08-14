@@ -46,8 +46,6 @@ export const LoaderWrapper = styled.div`
 
   .file-preview {
     margin: 0 auto 1.25rem;
-    max-width: 600px;
-    max-width: 100%;
     display: block;
   }
 

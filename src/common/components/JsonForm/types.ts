@@ -37,20 +37,48 @@ export interface FormControl {
   initialValue?: string
 }
 
+export enum Type {
+  String = 'string',
+  Number = 'number',
+  Array = 'array',
+}
+
+export enum ControlType {
+  Text = 'text',
+  TextArea = 'textarea',
+  Rating = 'radio',
+  CheckBoxes = 'checkboxes',
+  ImageCheckboxes = 'imagecheckboxes',
+  AvatarUpload = 'avatarupload',
+  AudioUpload = 'audioupload',
+  ImageUpload = 'imageupload',
+  VideoUpload = 'videoupload',
+  DocumentUpload = 'documentupload',
+  LocationSelector = 'locationselector',
+  CountrySelector = 'countryselector',
+  SDGSelector = 'sdgselector',
+  DateRangeSelector = 'daterangeselector',
+  SingleDateSelector = 'singledateselector',
+  SocialTextBox = 'socialtextbox',
+  EmbeddedTextBox = 'embeddedtextbox',
+  QRCode = 'qrcode',
+  EmailValidation = 'emailvalidation',
+}
+
 export const customControls = {
-  ['imagecheckboxes']: ImageCheckboxes,
-  ['singledateselector']: SingleDateSelector,
-  ['daterangeselector']: DateRangeSelector,
-  ['countryselector']: CountrySelector,
-  ['sdgselector']: SDGSelector,
-  ['locationselector']: LocationSelector,
-  ['socialtextbox']: SocialTextBox,
-  ['embeddedtextbox']: EmbeddedUrlTextBox,
-  ['imageupload']: ImageUpload,
-  ['avatarupload']: AvatarUpload,
-  ['documentupload']: DocumentUpload,
-  ['audioupload']: AudioUpload,
-  ['videoupload']: VideoUpload,
-  ['emailvalidation']: EmailValidation,
-  ['qrcode']: QRCode,
+  [ControlType.ImageCheckboxes]: ImageCheckboxes,
+  [ControlType.SingleDateSelector]: SingleDateSelector,
+  [ControlType.DateRangeSelector]: DateRangeSelector,
+  [ControlType.CountrySelector]: CountrySelector,
+  [ControlType.SDGSelector]: SDGSelector,
+  [ControlType.LocationSelector]: LocationSelector,
+  [ControlType.SocialTextBox]: SocialTextBox,
+  [ControlType.EmbeddedTextBox]: EmbeddedUrlTextBox,
+  [ControlType.ImageUpload]: ImageUpload,
+  [ControlType.AvatarUpload]: AvatarUpload,
+  [ControlType.DocumentUpload]: DocumentUpload,
+  [ControlType.AudioUpload]: AudioUpload,
+  [ControlType.VideoUpload]: VideoUpload,
+  [ControlType.EmailValidation]: EmailValidation,
+  [ControlType.QRCode]: QRCode,
 }

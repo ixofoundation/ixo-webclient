@@ -1,142 +1,128 @@
 import React from 'react'
-import Form from '@rjsf/core'
-import { debounce } from 'debounce'
-import { FormContainer } from '../../../../common/components/JsonForm/JsonForm.styles'
-import * as formUtils from '../../../../common/components/JsonForm/JsonForm.utils'
-import { FormData } from '../../../../common/components/JsonForm/types'
-import ImageLoader from '../../../../common/components/DropZone/ImageLoader/ImageLoader'
 import { customControls } from '../../../../common/components/JsonForm/types'
+import { FormCardProps } from '../../../CreateEntity/types'
+import MultiControlForm from '../../../../common/components/JsonForm/MultiControlForm/MultiControlForm'
 
-interface Props {
-  name: string
-  country: string
+interface Props extends FormCardProps {
+  displayName: string
+  location: string
   email: string
   website: string
   mission: string
-  identifier: string
-  credentialTokenId: string
-  imageDid: string
+  creatorId: string
+  credential: string
+  fileSrc: string
   uploadingImage: boolean
-  handleUpdate: (formData: FormData) => void
-  handleUploadImage: (base64EncodedImage: string) => void
 }
 
-const OwnerCard: React.FunctionComponent<Props> = ({
-  name,
-  country,
-  email,
-  website,
-  mission,
-  identifier,
-  credentialTokenId,
-  imageDid,
-  uploadingImage,
-  handleUpdate,
-  handleUploadImage,
-}) => {
-  const formData = {
-    name,
-    country,
-    email,
-    website,
-    mission,
-    identifier,
-    credentialTokenId,
-  }
+const CreatorCard: React.FunctionComponent<Props> = React.forwardRef(
+  (
+    {
+      displayName,
+      location,
+      email,
+      website,
+      mission,
+      creatorId,
+      credential,
+      fileSrc,
+      uploadingImage,
+      handleUpdateContent,
+      handleSubmitted,
+      handleError,
+    },
+    ref,
+  ) => {
+    const formData = {
+      displayName,
+      location,
+      email,
+      website,
+      mission,
+      creatorId,
+      credential,
+      fileSrc,
+    }
 
-  const schema = {
-    type: 'object',
-    required: [
-      'name',
-      'country',
-      'email',
-      'website',
-      'mission',
-      'identifier',
-      'credentialTokenId',
-    ],
-    properties: {
-      name: { type: 'string', title: 'Display Name' },
-      country: { type: 'string', title: 'Country of Origin' },
-      email: { type: 'string', title: 'Public Email', format: 'email' },
-      website: { type: 'string', title: 'Public Website', format: 'uri' },
-      mission: { type: 'string', title: 'Mission' },
-      identifier: { type: 'string', title: 'Identifier' },
-      credentialTokenId: { type: 'string', title: 'Paste Credential Token ID' },
-    },
-  } as any
+    const schema = {
+      type: 'object',
+      required: [
+        'fileSrc',
+        'displayName',
+        'location',
+        'email',
+        'website',
+        'mission',
+        'creatorId',
+      ],
+      properties: {
+        fileSrc: { type: 'string', title: 'Logo or Profile Pic' },
+        empty: { type: 'null' },
+        displayName: { type: 'string', title: 'Display Name' },
+        location: { type: 'string', title: 'Country of Origin' },
+        email: { type: 'string', title: 'Public Email', format: 'email' },
+        website: { type: 'string', title: 'Public Website', format: 'uri' },
+        mission: { type: 'string', title: 'Mission' },
+        creatorId: { type: 'string', title: 'Identifier' },
+        credential: {
+          type: 'string',
+          title: 'Credential ID',
+        },
+      },
+    } as any
 
-  const uiSchema = {
-    name: {
-      ['ui:widget']: 'text',
-      ['ui:placeholder']: 'Enter Title',
-    },
-    country: {
-      ['ui:widget']: customControls['countryselector'],
-    },
-    email: {
-      ['ui:widget']: 'text',
-      ['ui:placeholder']: 'Enter Email',
-    },
-    website: {
-      ['ui:widget']: 'text',
-      ['ui:placeholder']: 'Enter /Paste URL',
-    },
-    mission: {
-      ['ui:widget']: 'textarea',
-      ['ui:placeholder']: 'Short Description',
-    },
-    identifier: {
-      ['ui:widget']: 'text',
-      ['ui:placeholder']: 'Enter ID or !name',
-    },
-    credentialTokenId: {
-      ['ui:widget']: 'text',
-      ['ui:placeholder']: 'Paste Credential',
-    },
-  }
+    const uiSchema = {
+      fileSrc: {
+        ['ui:widget']: customControls['imageupload'],
+        ['ui:uploading']: uploadingImage,
+        ['ui:maxDimension']: 440,
+        ['ui:previewWidth']: 440,
+        ['ui:circularCrop']: false,
+      },
+      displayName: {
+        ['ui:widget']: 'text',
+        ['ui:placeholder']: 'Enter Title',
+      },
+      location: {
+        ['ui:widget']: customControls['countryselector'],
+      },
+      email: {
+        ['ui:widget']: 'text',
+        ['ui:placeholder']: 'Enter Email',
+      },
+      website: {
+        ['ui:widget']: 'text',
+        ['ui:placeholder']: 'Enter /Paste URL',
+      },
+      mission: {
+        ['ui:widget']: 'text',
+        ['ui:placeholder']: 'Short Description',
+      },
+      creatorId: {
+        ['ui:widget']: 'text',
+        ['ui:placeholder']: 'Enter ID or !name',
+      },
+      credential: {
+        ['ui:widget']: 'text',
+        ['ui:placeholder']: 'Paste Credential',
+      },
+    }
 
-  const handleUpdateDebounce = debounce(handleUpdate, 500)
+    return (
+      <MultiControlForm
+        ref={ref}
+        onSubmit={handleSubmitted}
+        onFormDataChange={handleUpdateContent}
+        onError={handleError}
+        formData={formData}
+        schema={schema}
+        uiSchema={uiSchema}
+        multiColumn
+      >
+        &nbsp;
+      </MultiControlForm>
+    )
+  },
+)
 
-  return (
-    <FormContainer className="row">
-      <div className="col-lg-6">
-        <div className="form-group">
-          <label className="control-label">
-            Logo or Profile Pic<span className="required">*</span>
-          </label>
-          <ImageLoader
-            keepCropSelection={true}
-            circularCrop={false}
-            uploadedImageSrc={
-              imageDid
-                ? `${process.env.REACT_APP_PDS_URL}public/${imageDid}`
-                : null
-            }
-            uploading={uploadingImage}
-            handleSave={(base64EncodedImage): void =>
-              handleUploadImage(base64EncodedImage)
-            }
-            imageWidth={100}
-          />
-        </div>
-      </div>
-      <div className="col-lg-6">
-        <Form
-          formData={formData}
-          onChange={(control): void => handleUpdateDebounce(control.formData)}
-          noHtml5Validate
-          liveValidate
-          showErrorList={false}
-          schema={schema}
-          uiSchema={uiSchema}
-          transformErrors={formUtils.transformErrors}
-        >
-          &nbsp;
-        </Form>
-      </div>
-    </FormContainer>
-  )
-}
-
-export default OwnerCard
+export default CreatorCard

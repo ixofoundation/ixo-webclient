@@ -16,54 +16,60 @@ beforeEach(() => {
   store = mockStore({});
 });
 
-describe("CreateEntitySettings Actions", () => {
-  describe("creator", () => {
-    describe("updateCreator", () => {
-      it("should update the creator", () => {
+describe('CreateEntitySettings Actions', () => {
+  describe('creator', () => {
+    describe('updateCreator', () => {
+      it('should update the creator', async () => {
         // given ... some data
-        const name = "someCreatorName";
-        const country = "someCreatorCountry";
-        const email = "someCreatorEmail";
-        const website = "someCreatorWebsite";
-        const mission = "someCreatorMission";
-        const identifier = "someCreatorIdentifier";
-        const credentialTokenId = "someCreatorCredentialTokenId";
+        const displayName = 'someCreatorName'
+        const location = 'someCreatorCountry'
+        const email = 'someCreatorEmail'
+        const website = 'someCreatorWebsite'
+        const mission = 'someCreatorMission'
+        const creatorId = 'someCreatorIdentifier'
+        const credential = 'someCreatorCredentialTokenId'
 
         const formData = {
-          name,
-          country,
+          displayName,
+          location,
           email,
           website,
           mission,
-          identifier,
-          credentialTokenId,
-        };
+          creatorId,
+          credential,
+        }
 
         // when ... we call the updateCreator action creator
-        const action = SUT.updateCreator(formData);
+        await store.dispatch(SUT.updateCreator(formData))
+        const actions = store.getActions()
 
-        // then ... we should expect it to create the action with correct type and payload
-        expect(action.type).toEqual(CreateEntitySettingsActions.UpdateCreator);
-        expect(action.payload).toEqual({
-          name,
-          country,
+        // then ... it should dispatch the correct actions
+        expect(actions.length).toEqual(1)
+        expect(actions[0].type).toEqual(
+          CreateEntitySettingsActions.UpdateCreator,
+        )
+        expect(actions[0].payload).toEqual({
+          displayName,
+          location,
           email,
           website,
           mission,
-          identifier,
-          credentialTokenId,
-        });
-      });
-    });
+          creatorId,
+          credential,
+        })
+      })
 
-    describe("uploadCreatorImage", () => {
-      it("should upload the image and dispatch the correct action", async () => {
+      it('should upload the image and dispatch the correct action', async () => {
         // given ... we have base64 image data
-        const base64ImageData = "someImageData";
+        const fileSrc = 'data:someImageData'
 
-        // when ... we call the uploadCreatorImage action creator
-        await store.dispatch(SUT.uploadCreatorImage(base64ImageData));
-        const actions = store.getActions();
+        const formData = {
+          fileSrc,
+        }
+
+        // when ... we call the updateCreator action creator
+        await store.dispatch(SUT.updateCreator(formData))
+        const actions = store.getActions()
 
         // then ... it should dispatch the correct actions
         expect(actions.length).toEqual(2);
@@ -71,77 +77,82 @@ describe("CreateEntitySettings Actions", () => {
           CreateEntitySettingsActions.UploadCreatorImagePending
         );
         expect(actions[1].type).toEqual(
-          CreateEntitySettingsActions.UploadCreatorImageSuccess
-        );
-        expect(actions[1].payload).toEqual({ did: "somePublicDid" });
-      });
-    });
-  });
+          CreateEntitySettingsActions.UploadCreatorImageSuccess,
+        )
+        expect(actions[1].payload).toEqual({
+          fileSrc: `${process.env.REACT_APP_PDS_URL}public/somePublicDid`,
+        })
+      })
+    })
+  })
 
-  describe("owner", () => {
-    describe("updateOwner", () => {
-      it("should update the owner", () => {
+  describe('owner', () => {
+    describe('updateOwner', () => {
+      it('should update the owner', async () => {
         // given ... some data
-        const name = "someOwnerName";
-        const country = "someOwnerCountry";
-        const email = "someOwnerEmail";
-        const website = "someOwnerWebsite";
-        const mission = "someOwnerMission";
-        const identifier = "someOwnerIdentifier";
-        const matrixId = "someOwnerMatrixId";
+        const displayName = 'someOwnerName'
+        const location = 'someOwnerCountry'
+        const email = 'someOwnerEmail'
+        const website = 'someOwnerWebsite'
+        const mission = 'someOwnerMission'
+        const ownerId = 'someOwnerIdentifier'
 
         const formData = {
-          name,
-          country,
+          displayName,
+          location,
           email,
           website,
           mission,
-          identifier,
-          matrixId,
-        };
+          ownerId,
+        }
+
+        // when ... we call the updateCreator action creator
+        await store.dispatch(SUT.updateOwner(formData))
+        const actions = store.getActions()
+
+        // then ... it should dispatch the correct actions
+        expect(actions.length).toEqual(1)
+        expect(actions[0].type).toEqual(CreateEntitySettingsActions.UpdateOwner)
+        expect(actions[0].payload).toEqual({
+          displayName,
+          location,
+          email,
+          website,
+          mission,
+          ownerId,
+        })
+      })
+
+      it('should upload the image and dispatch the correct action', async () => {
+        // given ... we have base64 image data
+        const fileSrc = 'data:someImageData'
+
+        const formData = {
+          fileSrc,
+        }
 
         // when ... we call the updateOwner action creator
-        const action = SUT.updateOwner(formData);
+        await store.dispatch(SUT.updateOwner(formData))
+        const actions = store.getActions()
 
-        // then ... we should expect it to create the action with correct type and payload
-        expect(action.type).toEqual(CreateEntitySettingsActions.UpdateOwner);
-        expect(action.payload).toEqual({
-          name,
-          country,
-          email,
-          website,
-          mission,
-          identifier,
-          matrixId,
-        });
-      });
-    });
-
-    describe("uploadOwnerImage", () => {
-      it("should upload the image and dispatch the correct action", async () => {
-        // given ... we have base64 image data
-        const base64ImageData = "someImageData";
-
-        // when ... we call the uploadOwnerImage action creator
-        await store.dispatch(SUT.uploadOwnerImage(base64ImageData));
-        const actions = store.getActions();
-        console.log("actions", actions);
         // then ... it should dispatch the correct actions
         expect(actions.length).toEqual(2);
         expect(actions[0].type).toEqual(
           CreateEntitySettingsActions.UploadOwnerImagePending
         );
         expect(actions[1].type).toEqual(
-          CreateEntitySettingsActions.UploadOwnerImageSuccess
-        );
-        expect(actions[1].payload).toEqual({ did: "somePublicDid" });
-      });
-    });
-  });
+          CreateEntitySettingsActions.UploadOwnerImageSuccess,
+        )
+        expect(actions[1].payload).toEqual({
+          fileSrc: `${process.env.REACT_APP_PDS_URL}public/somePublicDid`,
+        })
+      })
+    })
+  })
 
-  describe("status", () => {
-    describe("updateStatus", () => {
-      it("should update the status", () => {
+  describe('status', () => {
+    describe('updateStatus', () => {
+      it('should update the status', () => {
         // given ... some data
         const dates = "someFromData|someToDate";
         const stage = EntityStage.Delivery;
@@ -206,11 +217,9 @@ describe("CreateEntitySettings Actions", () => {
         );
         expect(action.payload).toEqual({
           id,
-          credential: null,
-          issuer: null,
-        });
-      });
-    });
+        })
+      })
+    })
 
     describe("removeRequiredCredentialSection", () => {
       it("should remove a required credential section", () => {
@@ -285,11 +294,9 @@ describe("displayCredential", () => {
       );
       expect(action.payload).toEqual({
         id,
-        credential: null,
-        badge: null,
-      });
-    });
-  });
+      })
+    })
+  })
 
   describe("removeDisplayCredentialSection", () => {
     it("should remove a display credential section", () => {
@@ -329,7 +336,36 @@ describe("displayCredential", () => {
         id,
         credential,
         badge,
-      });
-    });
-  });
-});
+      })
+    })
+  })
+
+  describe('validation', () => {
+    it('should set validated to true', () => {
+      const identifier = 'someIdentifier'
+      // when ... we call the validated action creator
+      const action = SUT.validated(identifier)
+
+      // then ... we should expect it to create an action with the correct type and payload
+      expect(action.type).toEqual(CreateEntitySettingsActions.Validated)
+      expect(action.payload).toEqual({
+        identifier,
+      })
+    })
+  })
+  describe('validationError', () => {
+    it('should set validated to false with any errors', () => {
+      const identifier = 'someIdentifier'
+      const errors = ['error1', 'error2']
+      // when ... we call the validated action creator
+      const action = SUT.validationError(identifier, errors)
+
+      // then ... we should expect it to create an action with the correct type and payload
+      expect(action.type).toEqual(CreateEntitySettingsActions.ValidationError)
+      expect(action.payload).toEqual({
+        identifier,
+        errors,
+      })
+    })
+  })
+})

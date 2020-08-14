@@ -1,82 +1,74 @@
 import React from 'react'
-import Form from '@rjsf/core'
-import { debounce } from 'debounce'
-import { FormContainer } from '../../../../common/components/JsonForm/JsonForm.styles'
-import * as formUtils from '../../../../common/components/JsonForm/JsonForm.utils'
-import { FormData } from '../../../../common/components/JsonForm/types'
-import { ObjectFieldTemplate2Column } from '../../../../common/components/JsonForm/CustomTemplates/ObjectFieldTemplate'
-import { PageView, EntityView } from 'modules/Entities/types'
-import { pageViewMap, entityViewMap } from 'modules/Entities/strategy-map'
+import { PageView, EntityView } from '../../../../modules/Entities/types'
+import {
+  pageViewMap,
+  entityViewMap,
+} from '../../../../modules/Entities/strategy-map'
+import MultiControlForm from '../../../../common/components/JsonForm/MultiControlForm/MultiControlForm'
+import { FormCardProps } from '../../../CreateEntity/types'
 
-interface Props {
+interface Props extends FormCardProps {
   pageView: PageView
   entityView: EntityView
-  handleUpdate: (formData: FormData) => void
 }
 
-const PrivacyCard: React.FunctionComponent<Props> = ({
-  pageView,
-  entityView,
-  handleUpdate,
-}) => {
-  const formData = {
-    pageView,
-    entityView,
-  }
+const PrivacyCard: React.FunctionComponent<Props> = React.forwardRef(
+  (
+    { pageView, entityView, handleUpdateContent, handleSubmitted, handleError },
+    ref,
+  ) => {
+    const formData = {
+      pageView,
+      entityView,
+    }
 
-  const schema = {
-    type: 'object',
-    required: ['pageView', 'entityView'],
-    properties: {
+    const schema = {
+      type: 'object',
+      required: [],
+      properties: {
+        pageView: {
+          type: 'string',
+          title: 'Page View',
+          enum: Object.keys(PageView).map(key => PageView[key]),
+          enumNames: Object.keys(PageView).map(
+            key => pageViewMap[PageView[key]].title,
+          ),
+        },
+        entityView: {
+          type: 'string',
+          title: 'Entity View',
+          enum: Object.keys(EntityView).map(key => EntityView[key]),
+          enumNames: Object.keys(EntityView).map(
+            key => entityViewMap[EntityView[key]].title,
+          ),
+        },
+      },
+    } as any
+
+    const uiSchema = {
       pageView: {
-        type: 'string',
-        title: 'Page View',
-        enum: Object.keys(PageView).map(key => PageView[key]),
-        enumNames: Object.keys(PageView).map(
-          key => pageViewMap[PageView[key]].title,
-        ),
+        ['ui:placeholder']: 'Select Page View',
       },
       entityView: {
-        type: 'string',
-        title: 'Entity View',
-        enum: Object.keys(EntityView).map(key => EntityView[key]),
-        enumNames: Object.keys(EntityView).map(
-          key => entityViewMap[EntityView[key]].title,
-        ),
+        ['ui:placeholder']: 'Select Entity View',
       },
-    },
-  } as any
+    }
 
-  const uiSchema = {
-    pageView: {
-      ['ui:placeholder']: 'Select Page View',
-    },
-    entityView: {
-      ['ui:placeholder']: 'Select Entity View',
-    },
-  }
-
-  const handleUpdateDebounce = debounce(handleUpdate, 500)
-
-  return (
-    <FormContainer className="row">
-      <div className="col-lg-12">
-        <Form
-          formData={formData}
-          onChange={(control): void => handleUpdateDebounce(control.formData)}
-          noHtml5Validate
-          liveValidate
-          showErrorList={false}
-          schema={schema}
-          uiSchema={uiSchema}
-          transformErrors={formUtils.transformErrors}
-          ObjectFieldTemplate={ObjectFieldTemplate2Column}
-        >
-          &nbsp;
-        </Form>
-      </div>
-    </FormContainer>
-  )
-}
+    return (
+      <MultiControlForm
+        ref={ref}
+        onSubmit={handleSubmitted}
+        onFormDataChange={handleUpdateContent}
+        onError={handleError}
+        formData={formData}
+        schema={schema}
+        uiSchema={uiSchema}
+        multiColumn
+      >
+        &nbsp;
+      </MultiControlForm>
+    )
+  },
+)
 
 export default PrivacyCard

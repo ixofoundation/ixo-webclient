@@ -1,90 +1,80 @@
 import React from 'react'
-import Form from '@rjsf/core'
-import { debounce } from 'debounce'
-import {
-  FormContainer,
-  LinkButton,
-} from '../../../../common/components/JsonForm/JsonForm.styles'
-import * as formUtils from '../../../../common/components/JsonForm/JsonForm.utils'
-import { FormData } from '../../../../common/components/JsonForm/types'
-import { ObjectFieldTemplate2Column } from '../../../../common/components/JsonForm/CustomTemplates/ObjectFieldTemplate'
+import { LinkButton } from '../../../../common/components/JsonForm/JsonForm.styles'
 import { customControls } from '../../../../common/components/JsonForm/types'
+import { FormCardProps } from '../../../CreateEntity/types'
+import MultiControlForm from '../../../../common/components/JsonForm/MultiControlForm/MultiControlForm'
 
-interface Props {
-  id: string
+interface Props extends FormCardProps {
   credential: string
   badge: string
-  handleUpdate: (id: string, formData: FormData) => void
-  handleRemoveSection: (id: string) => void
 }
 
-const DisplayCredential: React.FunctionComponent<Props> = ({
-  id,
-  credential,
-  badge,
-  handleUpdate,
-  handleRemoveSection,
-}) => {
-  const formData = {
-    credential,
-    badge,
-  }
+const DisplayCredential: React.FunctionComponent<Props> = React.forwardRef(
+  (
+    {
+      credential,
+      badge,
+      handleUpdateContent,
+      handleSubmitted,
+      handleError,
+      handleRemoveSection,
+    },
+    ref,
+  ) => {
+    const formData = {
+      credential,
+      badge,
+    }
 
-  const schema = {
-    type: 'object',
-    required: ['credential', 'badge'],
-    properties: {
+    const schema = {
+      type: 'object',
+      required: ['credential', 'badge'],
+      properties: {
+        credential: {
+          type: 'string',
+          title: 'Credential',
+        },
+        badge: {
+          type: 'string',
+          title: 'Credential Badge',
+          format: 'uri',
+        },
+      },
+    } as any
+
+    const uiSchema = {
       credential: {
-        type: 'string',
-        title: 'Credential',
+        ['ui:placeholder']: 'Enter a Credential ID',
       },
       badge: {
-        type: 'string',
-        title: 'Credential Badge',
-        format: 'uri',
+        ['ui:widget']: customControls['socialtextbox'],
+        ['ui:socialIcon']: 'Other',
+        ['ui:placeholder']: 'Paste Url',
       },
-    },
-  } as any
+    }
 
-  const uiSchema = {
-    credential: {
-      ['ui:placeholder']: 'Enter a Credential ID',
-    },
-    badge: {
-      ['ui:widget']: customControls['socialtextbox'],
-      ['ui:socialIcon']: 'Other',
-      ['ui:placeholder']: 'Paste Url',
-    },
-  }
-
-  const handleUpdateDebounce = debounce(handleUpdate, 500)
-
-  return (
-    <FormContainer className="row">
-      <div className="col-lg-12">
-        <Form
+    return (
+      <>
+        <MultiControlForm
+          ref={ref}
+          onSubmit={handleSubmitted}
+          onFormDataChange={handleUpdateContent}
+          onError={handleError}
           formData={formData}
-          onChange={(control): void =>
-            handleUpdateDebounce(id, control.formData)
-          }
-          noHtml5Validate
-          liveValidate
-          showErrorList={false}
           schema={schema}
           uiSchema={uiSchema}
-          transformErrors={formUtils.transformErrors}
-          ObjectFieldTemplate={ObjectFieldTemplate2Column}
+          multiColumn
         >
           &nbsp;
-        </Form>
-      </div>
-      <div className="col-lg-12 text-right">
-        <LinkButton type="button" onClick={(): void => handleRemoveSection(id)}>
-          - Remove
-        </LinkButton>
-      </div>
-    </FormContainer>
-  )
-}
+        </MultiControlForm>
+        <div className="text-right">
+          <LinkButton type="button" onClick={handleRemoveSection}>
+            - Remove
+          </LinkButton>
+        </div>
+      </>
+    )
+  },
+)
 
 export default DisplayCredential

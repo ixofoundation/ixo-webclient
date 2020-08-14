@@ -1,49 +1,39 @@
-// TODO - Table
+import { FileContent, Validation } from '../CreateEntity/types'
 
-export interface HeaderPageContent {
+export interface HeaderPageContent extends FileContent {
   title: string
   shortDescription: string
-  imageDid: string
   imageDescription: string
   sdgs: string[]
-  company: string
-  country: string
-  uploadingImage: boolean
+  organisation: string
+  location: string
 }
 
-export interface BodyPageContent {
+export interface BodyPageContent extends FileContent {
   id: string
   title: string
   content: string
-  imageDid: string
-  uploadingImage: boolean
 }
 
-export interface ImagePageContent {
+export interface ImagePageContent extends FileContent {
   id: string
   title: string
   content: string
-  imageDid: string
   imageDescription: string
-  uploadingImage: boolean
 }
 
-export interface VideoPageContent {
+export interface VideoPageContent extends FileContent {
   id: string
   title: string
   content: string
-  videoDid: string
-  uploadingVideo: boolean
 }
 
-export interface ProfilePageContent {
+export interface ProfilePageContent extends FileContent {
   id: string
   name: string
   position: string
   linkedInUrl: string
   twitterUrl: string
-  imageDid: string
-  uploadingImage: boolean
 }
 
 export interface SocialPageContent {
@@ -71,15 +61,15 @@ export interface CreateEntityPageContentState {
   images: {
     [id: string]: ImagePageContent
   }
-  videos: {
-    [id: string]: VideoPageContent
-  }
   profiles: {
     [id: string]: ProfilePageContent
   }
   social: SocialPageContent
   embedded: {
     [id: string]: EmbeddedPageContent
+  }
+  validation: {
+    [identifier: string]: Validation
   }
 }
 
@@ -128,6 +118,9 @@ export enum CreateEntityPageContentActions {
   AddEmbeddedSection = 'ixo/CreateEntityPageContent/ADD_EMBEDDED_SECTION',
   RemoveEmbeddedSection = 'ixo/CreateEntityPageContent/REMOVE_EMBEDDED_SECTION',
   UpdateEmbeddedContent = 'ixo/CreateEntityPageContent/UPDATE_EMBEDDED',
+  // Validation
+  Validated = 'ixo/CreateEntityPageContent/SET_VALIDATED',
+  ValidationError = 'ixo/CreateEntityPageContent/VALIDATION_ERROR',
 }
 
 export interface UpdateHeaderContentAction {
@@ -137,15 +130,15 @@ export interface UpdateHeaderContentAction {
     shortDescription: string
     imageDescription: string
     sdgs: string[]
-    company: string
-    country: string
+    organisation: string
+    location: string
   }
 }
 
 export interface UploadHeaderImageAction {
   type: typeof CreateEntityPageContentActions.UploadHeaderContentImage
   payload: Promise<{
-    did: string
+    fileSrc: string
   }>
 }
 
@@ -156,7 +149,7 @@ export interface UploadHeaderImagePendingAction {
 export interface UploadHeaderImageSuccessAction {
   type: typeof CreateEntityPageContentActions.UploadHeaderContentImageSuccess
   payload: {
-    did: string
+    fileSrc: string
   }
 }
 
@@ -168,9 +161,6 @@ export interface AddBodySectionAction {
   type: typeof CreateEntityPageContentActions.AddBodySection
   payload: {
     id: string
-    title: string
-    content: string
-    imageDid: string
   }
 }
 
@@ -194,7 +184,7 @@ export interface UploadBodyContentImageAction {
   type: typeof CreateEntityPageContentActions.UploadBodyContentImage
   payload: Promise<{
     id: string
-    did: string
+    fileSrc: string
   }>
 }
 
@@ -209,7 +199,7 @@ export interface UploadBodyContentImageSuccessAction {
   type: typeof CreateEntityPageContentActions.UploadBodyContentImageSuccess
   payload: {
     id: string
-    did: string
+    fileSrc: string
   }
 }
 
@@ -224,10 +214,6 @@ export interface AddImageSectionAction {
   type: typeof CreateEntityPageContentActions.AddImageSection
   payload: {
     id: string
-    title: string
-    content: string
-    imageDid: string
-    imageDescription: string
   }
 }
 
@@ -252,7 +238,7 @@ export interface UploadImageContentImageAction {
   type: typeof CreateEntityPageContentActions.UploadImageContentImage
   payload: Promise<{
     id: string
-    did: string
+    fileSrc: string
   }>
 }
 
@@ -267,7 +253,7 @@ export interface UploadImageContentImageSuccessAction {
   type: typeof CreateEntityPageContentActions.UploadImageContentImageSuccess
   payload: {
     id: string
-    did: string
+    fileSrc: string
   }
 }
 
@@ -282,9 +268,6 @@ export interface AddVideoSectionAction {
   type: typeof CreateEntityPageContentActions.AddVideoSection
   payload: {
     id: string
-    title: string
-    content: string
-    videoDid: string
   }
 }
 
@@ -308,7 +291,7 @@ export interface UploadVideoContentVideoAction {
   type: typeof CreateEntityPageContentActions.UploadVideoContentVideo
   payload: Promise<{
     id: string
-    did: string
+    fileSrc: string
   }>
 }
 
@@ -323,7 +306,7 @@ export interface UploadVideoContentVideoSuccessAction {
   type: typeof CreateEntityPageContentActions.UploadVideoContentVideoSuccess
   payload: {
     id: string
-    did: string
+    fileSrc: string
   }
 }
 
@@ -338,11 +321,6 @@ export interface AddProfileSectionAction {
   type: typeof CreateEntityPageContentActions.AddProfileSection
   payload: {
     id: string
-    name: string
-    position: string
-    linkedInUrl: string
-    twitterUrl: string
-    imageDid: string
   }
 }
 
@@ -368,7 +346,7 @@ export interface UploadProfileContentImageAction {
   type: typeof CreateEntityPageContentActions.UploadProfileContentImage
   payload: Promise<{
     id: string
-    did: string
+    fileSrc: string
   }>
 }
 
@@ -383,7 +361,7 @@ export interface UploadProfileContentImageSuccessAction {
   type: typeof CreateEntityPageContentActions.UploadProfileContentImageSuccess
   payload: {
     id: string
-    did: string
+    fileSrc: string
   }
 }
 
@@ -412,8 +390,6 @@ export interface AddEmbeddedSectionAction {
   type: typeof CreateEntityPageContentActions.AddEmbeddedSection
   payload: {
     id: string
-    title: string
-    urls: string[]
   }
 }
 
@@ -430,6 +406,21 @@ export interface UpdateEmbeddedContentAction {
     id: string
     title: string
     urls: string[]
+  }
+}
+
+export interface ValidatedAction {
+  type: typeof CreateEntityPageContentActions.Validated
+  payload: {
+    identifier: string
+  }
+}
+
+export interface ValidationErrorAction {
+  type: typeof CreateEntityPageContentActions.ValidationError
+  payload: {
+    identifier: string
+    errors: string[]
   }
 }
 
@@ -471,3 +462,5 @@ export type CreateEntityPageContentActionTypes =
   | AddEmbeddedSectionAction
   | RemoveEmbeddedSectionAction
   | UpdateEmbeddedContentAction
+  | ValidatedAction
+  | ValidationErrorAction

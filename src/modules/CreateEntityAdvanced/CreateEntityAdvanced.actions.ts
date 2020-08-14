@@ -18,9 +18,40 @@ import {
   AddFundSectionAction,
   RemoveFundSectionAction,
   UpdateFundAction,
+  AddLinkedEntitySectionAction,
+  RemoveLinkedEntitySectionAction,
+  AddPaymentSectionAction,
+  RemovePaymentSectionAction,
+  AddKeySectionAction,
+  RemoveKeySectionAction,
+  AddServiceSectionAction,
+  RemoveServiceSectionAction,
+  ValidatedAction,
+  ValidationErrorAction,
 } from './types'
 
+export const addLinkedEntity = (): AddLinkedEntitySectionAction => {
+  return {
+    type: CreateEntityAdvancedActions.AddLinkedEntity,
+    payload: {
+      id: uuidv4(),
+    },
+  }
+}
+
+export const removeLinkedEntity = (
+  id: string,
+): RemoveLinkedEntitySectionAction => {
+  return {
+    type: CreateEntityAdvancedActions.RemoveLinkedEntity,
+    payload: {
+      id,
+    },
+  }
+}
+
 export const updateLinkedEntity = (
+  id: string,
   formData: FormData,
 ): UpdateLinkedEntityAction => {
   const { type, entityId } = formData
@@ -28,23 +59,46 @@ export const updateLinkedEntity = (
   return {
     type: CreateEntityAdvancedActions.UpdateLinkedEntity,
     payload: {
+      id,
       type,
       entityId,
     },
   }
 }
 
-export const updatePayment = (formData: FormData): UpdatePaymentAction => {
-  const { type, paymentId, denomination, maxAmount, maxUnits } = formData
+export const addPayment = (): AddPaymentSectionAction => {
+  return {
+    type: CreateEntityAdvancedActions.AddPayment,
+    payload: {
+      id: uuidv4(),
+    },
+  }
+}
+
+export const removePayment = (id: string): RemovePaymentSectionAction => {
+  return {
+    type: CreateEntityAdvancedActions.RemovePayment,
+    payload: {
+      id,
+    },
+  }
+}
+
+export const updatePayment = (
+  id: string,
+  formData: FormData,
+): UpdatePaymentAction => {
+  const { type, paymentId, denom, maxFee, maxQty } = formData
 
   return {
     type: CreateEntityAdvancedActions.UpdatePayment,
     payload: {
+      id,
       type,
       paymentId,
-      denomination,
-      maxAmount,
-      maxUnits,
+      denom,
+      maxFee,
+      maxQty,
     },
   }
 }
@@ -53,15 +107,6 @@ export const addStake = (): AddStakeSectionAction => ({
   type: CreateEntityAdvancedActions.AddStake,
   payload: {
     id: uuidv4(),
-    type: null,
-    stakeId: null,
-    denomination: null,
-    depositAddress: null,
-    minStake: null,
-    slashingCondition: null,
-    slashFactor: null,
-    maxSlashAmount: null,
-    unbondingPeriod: null,
   },
 })
 
@@ -79,13 +124,13 @@ export const updateStake = (
   const {
     type,
     stakeId,
-    denomination,
-    depositAddress,
+    denom,
+    stakeAddress,
     minStake,
-    slashingCondition,
+    slashCondition,
     slashFactor,
-    maxSlashAmount,
-    unbondingPeriod,
+    slashAmount,
+    unbondPeriod,
   } = formData
 
   return {
@@ -94,13 +139,13 @@ export const updateStake = (
       id,
       type,
       stakeId,
-      denomination,
-      depositAddress,
+      denom,
+      stakeAddress,
       minStake,
-      slashingCondition,
+      slashCondition,
       slashFactor,
-      maxSlashAmount,
-      unbondingPeriod,
+      slashAmount,
+      unbondPeriod,
     },
   }
 }
@@ -109,8 +154,6 @@ export const addNode = (): AddNodeSectionAction => ({
   type: CreateEntityAdvancedActions.AddNode,
   payload: {
     id: uuidv4(),
-    type: null,
-    nodeId: null,
   },
 })
 
@@ -141,8 +184,6 @@ export const addFund = (): AddFundSectionAction => ({
   type: CreateEntityAdvancedActions.AddFund,
   payload: {
     id: uuidv4(),
-    source: null,
-    fundId: null,
   },
 })
 
@@ -169,12 +210,27 @@ export const updateFund = (
   }
 }
 
-export const updateKey = (formData: FormData): UpdateKeyAction => {
+export const addKey = (): AddKeySectionAction => ({
+  type: CreateEntityAdvancedActions.AddKey,
+  payload: {
+    id: uuidv4(),
+  },
+})
+
+export const removeKey = (id: string): RemoveKeySectionAction => ({
+  type: CreateEntityAdvancedActions.RemoveKey,
+  payload: {
+    id,
+  },
+})
+
+export const updateKey = (id: string, formData: FormData): UpdateKeyAction => {
   const {
     purpose,
     type,
-    denomination,
-    controllerId,
+    keyValue,
+    signature,
+    controller,
     dateCreated,
     dateUpdated,
   } = formData
@@ -182,27 +238,53 @@ export const updateKey = (formData: FormData): UpdateKeyAction => {
   return {
     type: CreateEntityAdvancedActions.UpdateKey,
     payload: {
+      id,
       purpose,
       type,
-      denomination,
-      controllerId,
+      keyValue,
+      signature,
+      controller,
       dateCreated,
       dateUpdated,
     },
   }
 }
 
-export const updateService = (formData: FormData): UpdateServiceAction => {
-  const { type, shortDescription, endpoint, publicKey, otherParams } = formData
+export const addService = (): AddServiceSectionAction => ({
+  type: CreateEntityAdvancedActions.AddService,
+  payload: {
+    id: uuidv4(),
+  },
+})
+
+export const removeService = (id: string): RemoveServiceSectionAction => ({
+  type: CreateEntityAdvancedActions.RemoveService,
+  payload: {
+    id,
+  },
+})
+
+export const updateService = (
+  id: string,
+  formData: FormData,
+): UpdateServiceAction => {
+  const {
+    type,
+    shortDescription,
+    serviceEndpoint,
+    publicKey,
+    properties,
+  } = formData
 
   return {
     type: CreateEntityAdvancedActions.UpdateService,
     payload: {
+      id,
       type,
       shortDescription,
-      endpoint,
+      serviceEndpoint,
       publicKey,
-      otherParams,
+      properties,
     },
   }
 }
@@ -211,10 +293,6 @@ export const addDataResource = (): AddDataResourceSectionAction => ({
   type: CreateEntityAdvancedActions.AddDataResource,
   payload: {
     id: uuidv4(),
-    type: null,
-    dataId: null,
-    resourceLocator: null,
-    otherParams: null,
   },
 })
 
@@ -231,7 +309,7 @@ export const updateDataResource = (
   id: string,
   formData: FormData,
 ): UpdateDataResourceAction => {
-  const { type, dataId, resourceLocator, otherParams } = formData
+  const { type, dataId, serviceEndpoint, properties } = formData
 
   return {
     type: CreateEntityAdvancedActions.UpdateDataResource,
@@ -239,8 +317,26 @@ export const updateDataResource = (
       id,
       type,
       dataId,
-      resourceLocator,
-      otherParams,
+      serviceEndpoint,
+      properties,
     },
   }
 }
+
+export const validated = (identifier: string): ValidatedAction => ({
+  type: CreateEntityAdvancedActions.Validated,
+  payload: {
+    identifier,
+  },
+})
+
+export const validationError = (
+  identifier: string,
+  errors: string[],
+): ValidationErrorAction => ({
+  type: CreateEntityAdvancedActions.ValidationError,
+  payload: {
+    identifier,
+    errors,
+  },
+})

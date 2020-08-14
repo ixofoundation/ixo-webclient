@@ -12,10 +12,14 @@ import { deviceWidth } from "../../../../../lib/commonData";
 import Back from "../../../../../assets/icons/Back";
 import { DesktopWrapper } from "./DateRangeSelector.styles";
 
+// TODO - validation with onfocus and onblur
+
 interface Props {
-  id: string;
-  value: string;
-  onChange: (value: string) => void;
+  id: string
+  value: string
+  onChange: (value: string) => void
+  onBlur: (id: string, value: string) => void
+  onFocus: (id: string, value: string) => void
 }
 
 interface State {

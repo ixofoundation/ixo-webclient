@@ -30,6 +30,16 @@ import {
   AddDataResourceSectionAction,
   RemoveDataResourceSectionAction,
   UpdateDataResourceAction,
+  AddServiceSectionAction,
+  RemoveServiceSectionAction,
+  RemoveLinkedEntitySectionAction,
+  AddLinkedEntitySectionAction,
+  AddPaymentSectionAction,
+  RemovePaymentSectionAction,
+  AddKeySectionAction,
+  RemoveKeySectionAction,
+  ValidatedAction,
+  ValidationErrorAction,
 } from './types'
 
 const initialState = SUT.initialState
@@ -46,8 +56,78 @@ describe('CreateEntityAdvanced Reducer', () => {
     expect(result).toEqual(initialState)
   })
 
-  describe('LinkedEntity Actions', () => {
+  describe('LinkedEntities Actions', () => {
+    it('should add a new linkedEntity section', () => {
+      const id = 'someId'
+
+      // given ... we have an action of type CreateEntityAdvancedActions.AddLinkedEntity
+      const action: AddLinkedEntitySectionAction = {
+        type: CreateEntityAdvancedActions.AddLinkedEntity,
+        payload: {
+          id,
+        },
+      }
+
+      // when ... we run the reducer with this action
+      const result = SUT.reducer(initialState, action)
+
+      // then ... the state should be set as expected
+      expect(result).toEqual({
+        ...initialState,
+        linkedEntities: {
+          [id]: {
+            id,
+            type: undefined,
+            entityId: undefined,
+          },
+        },
+      })
+    })
+
+    it('should remove linked entity section', () => {
+      const id = 'existingSectionId'
+      // given ... we have an action of type CreateEntityAdvancedActions.RemoveLinkedEntity
+      const action: RemoveLinkedEntitySectionAction = {
+        type: CreateEntityAdvancedActions.RemoveLinkedEntity,
+        payload: {
+          id,
+        },
+      }
+      // when ... we run the reducer with this action
+      const result = SUT.reducer(
+        {
+          ...initialState,
+          linkedEntities: {
+            [id]: {
+              id,
+              type: EntityType.Investment,
+              entityId: 'someEntityId',
+            },
+            ['anotherid']: {
+              id: 'anotherid',
+              type: EntityType.Project,
+              entityId: 'someEntityId2',
+            },
+          },
+        },
+        action,
+      )
+
+      // then ... the state should be set as expected
+      expect(result).toEqual({
+        ...initialState,
+        linkedEntities: {
+          ['anotherid']: {
+            id: 'anotherid',
+            type: EntityType.Project,
+            entityId: 'someEntityId2',
+          },
+        },
+      })
+    })
+
     it('should update the linkedEntity', () => {
+      const id = 'someId'
       const type = EntityType.Investment
       const entityId = 'someEntityId'
 
@@ -55,55 +135,172 @@ describe('CreateEntityAdvanced Reducer', () => {
       const action: UpdateLinkedEntityAction = {
         type: CreateEntityAdvancedActions.UpdateLinkedEntity,
         payload: {
+          id,
           entityId,
           type,
         },
       }
 
       // when ... we run the reducer with this action
-      const result = SUT.reducer(initialState, action)
+      const result = SUT.reducer(
+        {
+          ...initialState,
+          linkedEntities: {
+            [id]: {
+              id,
+              type: EntityType.Data,
+              entityId: 'someOldLinkedEntityId',
+            },
+          },
+        },
+        action,
+      )
 
       expect(result).toEqual({
         ...initialState,
-        linkedEntity: {
-          type,
-          entityId,
+        linkedEntities: {
+          [id]: {
+            id,
+            type,
+            entityId,
+          },
         },
       })
     })
   })
 
-  describe('Payment Actions', () => {
-    it('should update the payment', () => {
-      const type = PaymentType.FeeforService
-      const paymentId = 'somePaymentId'
-      const denomination = PaymentDenomination.eCHF
-      const maxAmount = 123
-      const maxUnits = 456
+  describe('Payments Actions', () => {
+    it('should add a new payment section', () => {
+      const id = 'someId'
 
-      // given .. we have an action of type CreateEntityAdvancedActions.UpdatePayment
-      const action: UpdatePaymentAction = {
-        type: CreateEntityAdvancedActions.UpdatePayment,
+      // given ... we have an action of type CreateEntityAdvancedActions.AddPayment
+      const action: AddPaymentSectionAction = {
+        type: CreateEntityAdvancedActions.AddPayment,
         payload: {
-          type,
-          paymentId,
-          denomination,
-          maxAmount,
-          maxUnits,
+          id,
         },
       }
 
       // when ... we run the reducer with this action
       const result = SUT.reducer(initialState, action)
 
+      // then ... the state should be set as expected
       expect(result).toEqual({
         ...initialState,
-        payment: {
+        payments: {
+          [id]: {
+            id,
+            type: undefined,
+            paymentId: undefined,
+            denom: undefined,
+            maxFee: undefined,
+            maxQty: undefined,
+          },
+        },
+      })
+    })
+
+    it('should remove payment section', () => {
+      const id = 'existingPaymentSectionId'
+      // given ... we have an action of type CreateEntityAdvancedActions.RemovePayment
+      const action: RemovePaymentSectionAction = {
+        type: CreateEntityAdvancedActions.RemovePayment,
+        payload: {
+          id,
+        },
+      }
+      // when ... we run the reducer with this action
+      const result = SUT.reducer(
+        {
+          ...initialState,
+          payments: {
+            [id]: {
+              id,
+              type: PaymentType.LoanRepayment,
+              paymentId: 'someOldPaymentId',
+              denom: PaymentDenomination.IXO,
+              maxFee: 1,
+              maxQty: 2,
+            },
+            ['anotherid']: {
+              id: 'anotherid',
+              type: PaymentType.OutcomePayment,
+              paymentId: 'somePaymentId',
+              denom: PaymentDenomination.eCHF,
+              maxFee: 12,
+              maxQty: 22,
+            },
+          },
+        },
+        action,
+      )
+
+      // then ... the state should be set as expected
+      expect(result).toEqual({
+        ...initialState,
+        payments: {
+          ['anotherid']: {
+            id: 'anotherid',
+            type: PaymentType.OutcomePayment,
+            paymentId: 'somePaymentId',
+            denom: PaymentDenomination.eCHF,
+            maxFee: 12,
+            maxQty: 22,
+          },
+        },
+      })
+    })
+
+    it('should update the payment', () => {
+      const id = 'someId'
+      const type = PaymentType.FeeforService
+      const paymentId = 'somePaymentId'
+      const denom = PaymentDenomination.eCHF
+      const maxFee = 123
+      const maxQty = 456
+
+      // given .. we have an action of type CreateEntityAdvancedActions.UpdatePayment
+      const action: UpdatePaymentAction = {
+        type: CreateEntityAdvancedActions.UpdatePayment,
+        payload: {
+          id,
           type,
           paymentId,
-          denomination,
-          maxAmount,
-          maxUnits,
+          denom,
+          maxFee,
+          maxQty,
+        },
+      }
+
+      // when ... we run the reducer with this action
+      const result = SUT.reducer(
+        {
+          ...initialState,
+          payments: {
+            [id]: {
+              id,
+              type: PaymentType.IncomeDistribution,
+              paymentId: 'someOldPaymentId',
+              denom: PaymentDenomination.eUSD,
+              maxFee: 1,
+              maxQty: 2,
+            },
+          },
+        },
+        action,
+      )
+
+      expect(result).toEqual({
+        ...initialState,
+        payments: {
+          [id]: {
+            id,
+            type,
+            paymentId,
+            denom,
+            maxFee,
+            maxQty,
+          },
         },
       })
     })
@@ -112,30 +309,12 @@ describe('CreateEntityAdvanced Reducer', () => {
   describe('Staking Actions', () => {
     it('should add a new stake section', () => {
       const id = 'someId'
-      const type = StakeType.ClaimGuarantee
-      const stakeId = 'someStakeId'
-      const denomination = PaymentDenomination.eEUR
-      const depositAddress = 'someDepositAddress'
-      const minStake = 123
-      const slashingCondition = SlashingCondition.FailedDispute
-      const slashFactor = 456
-      const maxSlashAmount = 789
-      const unbondingPeriod = 10
 
       // given ... we have an action of type CreateEntityAdvancedActions.AddStake
       const action: AddStakeSectionAction = {
         type: CreateEntityAdvancedActions.AddStake,
         payload: {
           id,
-          type,
-          stakeId,
-          denomination,
-          depositAddress,
-          minStake,
-          slashingCondition,
-          slashFactor,
-          maxSlashAmount,
-          unbondingPeriod,
         },
       }
 
@@ -148,15 +327,15 @@ describe('CreateEntityAdvanced Reducer', () => {
         staking: {
           [id]: {
             id,
-            type,
-            stakeId,
-            denomination,
-            depositAddress,
-            minStake,
-            slashingCondition,
-            slashFactor,
-            maxSlashAmount,
-            unbondingPeriod,
+            type: undefined,
+            stakeId: undefined,
+            denom: undefined,
+            stakeAddress: undefined,
+            minStake: undefined,
+            slashCondition: undefined,
+            slashFactor: undefined,
+            slashAmount: undefined,
+            unbondPeriod: undefined,
           },
         },
       })
@@ -180,25 +359,25 @@ describe('CreateEntityAdvanced Reducer', () => {
               id,
               type: StakeType.ClaimGuarantee,
               stakeId: 'someStakeId',
-              denomination: PaymentDenomination.eEUR,
-              depositAddress: 'someDepositAddress',
+              denom: PaymentDenomination.eEUR,
+              stakeAddress: 'someDepositAddress',
               minStake: 123,
-              slashingCondition: SlashingCondition.FailedDispute,
+              slashCondition: SlashingCondition.FailedDispute,
               slashFactor: 456,
-              maxSlashAmount: 789,
-              unbondingPeriod: 10,
+              slashAmount: 789,
+              unbondPeriod: 10,
             },
             ['anotherid']: {
               id: 'anotherid',
               type: StakeType.InsuranceGuarantee,
               stakeId: 'someStakeId2',
-              denomination: PaymentDenomination.eUSD,
-              depositAddress: 'someDepositAddress2',
+              denom: PaymentDenomination.eUSD,
+              stakeAddress: 'someDepositAddress2',
               minStake: 123,
-              slashingCondition: SlashingCondition.FailedProposal,
+              slashCondition: SlashingCondition.FailedProposal,
               slashFactor: 456,
-              maxSlashAmount: 789,
-              unbondingPeriod: 10,
+              slashAmount: 789,
+              unbondPeriod: 10,
             },
           },
         },
@@ -213,13 +392,13 @@ describe('CreateEntityAdvanced Reducer', () => {
             id: 'anotherid',
             type: StakeType.InsuranceGuarantee,
             stakeId: 'someStakeId2',
-            denomination: PaymentDenomination.eUSD,
-            depositAddress: 'someDepositAddress2',
+            denom: PaymentDenomination.eUSD,
+            stakeAddress: 'someDepositAddress2',
             minStake: 123,
-            slashingCondition: SlashingCondition.FailedProposal,
+            slashCondition: SlashingCondition.FailedProposal,
             slashFactor: 456,
-            maxSlashAmount: 789,
-            unbondingPeriod: 10,
+            slashAmount: 789,
+            unbondPeriod: 10,
           },
         },
       })
@@ -229,13 +408,13 @@ describe('CreateEntityAdvanced Reducer', () => {
       const id = 'someId'
       const type = StakeType.LoanGuarantee
       const stakeId = 'someNewStakeId'
-      const denomination = PaymentDenomination.IXO
-      const depositAddress = 'someNewDepositAddress'
+      const denom = PaymentDenomination.IXO
+      const stakeAddress = 'someNewDepositAddress'
       const minStake = 1234
-      const slashingCondition = SlashingCondition.FailedSecurity
+      const slashCondition = SlashingCondition.FailedSecurity
       const slashFactor = 4564
-      const maxSlashAmount = 7894
-      const unbondingPeriod = 104
+      const slashAmount = 7894
+      const unbondPeriod = 104
 
       // given .. we have an action of type CreateEntityAdvancedActions.UpdateStake
       const action: UpdateStakeAction = {
@@ -244,13 +423,13 @@ describe('CreateEntityAdvanced Reducer', () => {
           id,
           type,
           stakeId,
-          denomination,
-          depositAddress,
+          denom,
+          stakeAddress,
           minStake,
-          slashingCondition,
+          slashCondition,
           slashFactor,
-          maxSlashAmount,
-          unbondingPeriod,
+          slashAmount,
+          unbondPeriod,
         },
       }
 
@@ -263,13 +442,13 @@ describe('CreateEntityAdvanced Reducer', () => {
               id,
               type: StakeType.ClaimGuarantee,
               stakeId: 'someStakeId',
-              denomination: PaymentDenomination.eEUR,
-              depositAddress: 'someDepositAddress',
+              denom: PaymentDenomination.eEUR,
+              stakeAddress: 'someDepositAddress',
               minStake: 123,
-              slashingCondition: SlashingCondition.FailedDispute,
+              slashCondition: SlashingCondition.FailedDispute,
               slashFactor: 456,
-              maxSlashAmount: 789,
-              unbondingPeriod: 10,
+              slashAmount: 789,
+              unbondPeriod: 10,
             },
           },
         },
@@ -284,13 +463,13 @@ describe('CreateEntityAdvanced Reducer', () => {
             id,
             type,
             stakeId,
-            denomination,
-            depositAddress,
+            denom,
+            stakeAddress,
             minStake,
-            slashingCondition,
+            slashCondition,
             slashFactor,
-            maxSlashAmount,
-            unbondingPeriod,
+            slashAmount,
+            unbondPeriod,
           },
         },
       })
@@ -300,16 +479,12 @@ describe('CreateEntityAdvanced Reducer', () => {
   describe('Node Actions', () => {
     it('should add a new node section', () => {
       const id = 'someId'
-      const type = NodeType.RelayerNode
-      const nodeId = 'someNodeId'
 
       // given ... we have an action of type CreateEntityAdvancedActions.AddNode
       const action: AddNodeSectionAction = {
         type: CreateEntityAdvancedActions.AddNode,
         payload: {
           id,
-          type,
-          nodeId,
         },
       }
 
@@ -322,8 +497,8 @@ describe('CreateEntityAdvanced Reducer', () => {
         nodes: {
           [id]: {
             id,
-            type,
-            nodeId,
+            type: undefined,
+            nodeId: undefined,
           },
         },
       })
@@ -418,16 +593,12 @@ describe('CreateEntityAdvanced Reducer', () => {
   describe('Funding Actions', () => {
     it('should add a new funding section', () => {
       const id = 'someId'
-      const source = FundSource.NFTAsset
-      const fundId = 'someFundId'
 
       // given ... we have an action of type CreateEntityAdvancedActions.AddFund
       const action: AddFundSectionAction = {
         type: CreateEntityAdvancedActions.AddFund,
         payload: {
           id,
-          source,
-          fundId,
         },
       }
 
@@ -440,8 +611,8 @@ describe('CreateEntityAdvanced Reducer', () => {
         funding: {
           [id]: {
             id,
-            source,
-            fundId,
+            source: undefined,
+            fundId: undefined,
           },
         },
       })
@@ -533,12 +704,102 @@ describe('CreateEntityAdvanced Reducer', () => {
     })
   })
 
-  describe('Key Actions', () => {
+  describe('Keys Actions', () => {
+    it('should add a new key section', () => {
+      const id = 'someId'
+
+      // given ... we have an action of type CreateEntityAdvancedActions.AddKey
+      const action: AddKeySectionAction = {
+        type: CreateEntityAdvancedActions.AddKey,
+        payload: {
+          id,
+        },
+      }
+
+      // when ... we run the reducer with this action
+      const result = SUT.reducer(initialState, action)
+
+      // then ... the state should be set as expected
+      expect(result).toEqual({
+        ...initialState,
+        keys: {
+          [id]: {
+            id,
+            type: undefined,
+            purpose: undefined,
+            keyValue: undefined,
+            controller: undefined,
+            dateCreated: undefined,
+            dateUpdated: undefined,
+          },
+        },
+      })
+    })
+
+    it('should remove key section', () => {
+      const id = 'existingSectionId'
+      // given ... we have an action of type CreateEntityAdvancedActions.RemoveKey
+      const action: RemoveKeySectionAction = {
+        type: CreateEntityAdvancedActions.RemoveKey,
+        payload: {
+          id,
+        },
+      }
+      // when ... we run the reducer with this action
+      const result = SUT.reducer(
+        {
+          ...initialState,
+          keys: {
+            [id]: {
+              id,
+              type: KeyType.Secp256k1VerificationKey2018,
+              purpose: KeyPurpose.Identification,
+              keyValue: 'someOldKeyValue',
+              signature: 'someOldSignature',
+              controller: 'someOldControllerId',
+              dateCreated: 'someOldDateCreated',
+              dateUpdated: 'someOldDateUpdated',
+            },
+            ['anotherid']: {
+              id: 'anotherid',
+              type: KeyType.Ed25519VerificationKey2018,
+              purpose: KeyPurpose.Identification,
+              keyValue: 'someKeyValue',
+              signature: 'someSignature',
+              controller: 'someControllerId',
+              dateCreated: 'someDateCreated',
+              dateUpdated: 'someDateUpdated',
+            },
+          },
+        },
+        action,
+      )
+
+      // then ... the state should be set as expected
+      expect(result).toEqual({
+        ...initialState,
+        keys: {
+          ['anotherid']: {
+            id: 'anotherid',
+            type: KeyType.Ed25519VerificationKey2018,
+            purpose: KeyPurpose.Identification,
+            keyValue: 'someKeyValue',
+            signature: 'someSignature',
+            controller: 'someControllerId',
+            dateCreated: 'someDateCreated',
+            dateUpdated: 'someDateUpdated',
+          },
+        },
+      })
+    })
+
     it('should update the key', () => {
-      const purpose = KeyPurpose.Encryption
+      const id = 'someId'
       const type = KeyType.JwsVerificationKey2020
-      const denomination = PaymentDenomination.eEUR
-      const controllerId = 'someControllerId'
+      const purpose = KeyPurpose.Encryption
+      const keyValue = PaymentDenomination.eCHF
+      const signature = 'someSignature'
+      const controller = 'someControllerId'
       const dateCreated = 'someDateCreated'
       const dateUpdated = 'someDateUpdated'
 
@@ -546,63 +807,187 @@ describe('CreateEntityAdvanced Reducer', () => {
       const action: UpdateKeyAction = {
         type: CreateEntityAdvancedActions.UpdateKey,
         payload: {
-          purpose,
+          id,
           type,
-          denomination,
-          controllerId,
+          purpose,
+          keyValue,
+          signature,
+          controller,
           dateCreated,
           dateUpdated,
         },
       }
 
       // when ... we run the reducer with this action
-      const result = SUT.reducer(initialState, action)
+      const result = SUT.reducer(
+        {
+          ...initialState,
+          keys: {
+            [id]: {
+              id,
+              type: KeyType.JwsVerificationKey2020,
+              purpose: KeyPurpose.Verification,
+              keyValue: 'someOldKeyValue',
+              signature: 'someOldSignature',
+              controller: 'someOldControllerId',
+              dateCreated: 'someOldDateCreated',
+              dateUpdated: 'someOldDateUpdated',
+            },
+          },
+        },
+        action,
+      )
 
       expect(result).toEqual({
         ...initialState,
-        key: {
-          purpose,
-          type,
-          denomination,
-          controllerId,
-          dateCreated,
-          dateUpdated,
+        keys: {
+          [id]: {
+            id,
+            type,
+            purpose,
+            keyValue,
+            signature,
+            controller,
+            dateCreated,
+            dateUpdated,
+          },
         },
       })
     })
   })
 
   describe('Service Actions', () => {
-    it('should update the service', () => {
-      const type = ServiceType.DIDAgent
-      const shortDescription = 'someShortDescription'
-      const endpoint = 'someEndPoint'
-      const publicKey = 'somePublicKey'
-      const otherParams = 'someOtherParams'
+    it('should add a new service section', () => {
+      const id = 'someId'
 
-      // given .. we have an action of type CreateEntityAdvancedActions.UpdateService
-      const action: UpdateServiceAction = {
-        type: CreateEntityAdvancedActions.UpdateService,
+      // given ... we have an action of type CreateEntityAdvancedActions.AddService
+      const action: AddServiceSectionAction = {
+        type: CreateEntityAdvancedActions.AddService,
         payload: {
-          type,
-          shortDescription,
-          endpoint,
-          publicKey,
-          otherParams,
+          id,
         },
       }
 
       // when ... we run the reducer with this action
       const result = SUT.reducer(initialState, action)
 
+      // then ... the state should be set as expected
       expect(result).toEqual({
         ...initialState,
-        service: {
+        services: {
+          [id]: {
+            id,
+            type: undefined,
+            shortDescription: undefined,
+            serviceEndpoint: undefined,
+            publicKey: undefined,
+            properties: undefined,
+          },
+        },
+      })
+    })
+
+    it('should remove service section', () => {
+      const id = 'existingSectionId'
+      // given ... we have an action of type CreateEntityAdvancedActions.RemoveService
+      const action: RemoveServiceSectionAction = {
+        type: CreateEntityAdvancedActions.RemoveService,
+        payload: {
+          id,
+        },
+      }
+      // when ... we run the reducer with this action
+      const result = SUT.reducer(
+        {
+          ...initialState,
+          services: {
+            [id]: {
+              id,
+              type: ServiceType.EthereumWeb3,
+              shortDescription: 'someShortDescription',
+              serviceEndpoint: 'someEndpoint',
+              publicKey: 'somePublicKey',
+              properties: 'someOtherParams',
+            },
+            ['anotherid']: {
+              id: 'anotherid',
+              type: ServiceType.Web2,
+              shortDescription: 'someOtherShortDescription',
+              serviceEndpoint: 'someOtherEndpoint',
+              publicKey: 'someOtherPublicKey',
+              properties: 'someOtherOtherParams',
+            },
+          },
+        },
+        action,
+      )
+
+      // then ... the state should be set as expected
+      expect(result).toEqual({
+        ...initialState,
+        services: {
+          ['anotherid']: {
+            id: 'anotherid',
+            type: ServiceType.Web2,
+            shortDescription: 'someOtherShortDescription',
+            serviceEndpoint: 'someOtherEndpoint',
+            publicKey: 'someOtherPublicKey',
+            properties: 'someOtherOtherParams',
+          },
+        },
+      })
+    })
+
+    it('should update the service', () => {
+      const id = 'someId'
+      const type = ServiceType.DIDAgent
+      const shortDescription = 'someShortDescription'
+      const serviceEndpoint = 'someEndPoint'
+      const publicKey = 'somePublicKey'
+      const properties = 'someOtherParams'
+
+      // given .. we have an action of type CreateEntityAdvancedActions.UpdateService
+      const action: UpdateServiceAction = {
+        type: CreateEntityAdvancedActions.UpdateService,
+        payload: {
+          id,
           type,
           shortDescription,
-          endpoint,
+          serviceEndpoint,
           publicKey,
-          otherParams,
+          properties,
+        },
+      }
+
+      // when ... we run the reducer with this action
+      const result = SUT.reducer(
+        {
+          ...initialState,
+          services: {
+            [id]: {
+              id,
+              type: ServiceType.EthereumWeb3,
+              shortDescription: 'someOldShortDescription',
+              serviceEndpoint: 'someOldEndpoint',
+              publicKey: 'someOldPublicKey',
+              properties: 'someOldOtherParams',
+            },
+          },
+        },
+        action,
+      )
+
+      expect(result).toEqual({
+        ...initialState,
+        services: {
+          [id]: {
+            id,
+            type,
+            shortDescription,
+            serviceEndpoint,
+            publicKey,
+            properties,
+          },
         },
       })
     })
@@ -611,20 +996,12 @@ describe('CreateEntityAdvanced Reducer', () => {
   describe('DataResources Actions', () => {
     it('should add a new data resource section', () => {
       const id = 'someId'
-      const type = DataResourceType.CellNodeDB
-      const dataId = 'someDataId'
-      const resourceLocator = 'someResourceLocator'
-      const otherParams = 'someOtherParams'
 
       // given ... we have an action of type CreateEntityAdvancedActions.AddDataResource
       const action: AddDataResourceSectionAction = {
         type: CreateEntityAdvancedActions.AddDataResource,
         payload: {
           id,
-          type,
-          dataId,
-          resourceLocator,
-          otherParams,
         },
       }
 
@@ -637,10 +1014,10 @@ describe('CreateEntityAdvanced Reducer', () => {
         dataResources: {
           [id]: {
             id,
-            type,
-            dataId,
-            resourceLocator,
-            otherParams,
+            type: undefined,
+            dataId: undefined,
+            serviceEndpoint: undefined,
+            properties: undefined,
           },
         },
       })
@@ -664,15 +1041,15 @@ describe('CreateEntityAdvanced Reducer', () => {
               id,
               type: DataResourceType.CellNodeDB,
               dataId: 'someDataId',
-              resourceLocator: 'someResourceLocator',
-              otherParams: 'someOtherParams',
+              serviceEndpoint: 'someResourceLocator',
+              properties: 'someOtherParams',
             },
             ['anotherid']: {
               id: 'anotherid',
               type: DataResourceType.MobileIdentityWallet,
               dataId: 'someDataId2',
-              resourceLocator: 'someResourceLocator2',
-              otherParams: 'someOtherParams2',
+              serviceEndpoint: 'someResourceLocator2',
+              properties: 'someOtherParams2',
             },
           },
         },
@@ -687,8 +1064,8 @@ describe('CreateEntityAdvanced Reducer', () => {
             id: 'anotherid',
             type: DataResourceType.MobileIdentityWallet,
             dataId: 'someDataId2',
-            resourceLocator: 'someResourceLocator2',
-            otherParams: 'someOtherParams2',
+            serviceEndpoint: 'someResourceLocator2',
+            properties: 'someOtherParams2',
           },
         },
       })
@@ -698,8 +1075,8 @@ describe('CreateEntityAdvanced Reducer', () => {
       const id = 'someId'
       const type = DataResourceType.CellNodeDB
       const dataId = 'someDataId'
-      const resourceLocator = 'someResourceLocator'
-      const otherParams = 'someOtherParams'
+      const serviceEndpoint = 'someResourceLocator'
+      const properties = 'someOtherParams'
 
       // given .. we have an action of type CreateEntityAdvancedActions.UpdateDataResource
       const action: UpdateDataResourceAction = {
@@ -708,8 +1085,8 @@ describe('CreateEntityAdvanced Reducer', () => {
           id,
           type,
           dataId,
-          resourceLocator,
-          otherParams,
+          serviceEndpoint,
+          properties,
         },
       }
 
@@ -722,8 +1099,8 @@ describe('CreateEntityAdvanced Reducer', () => {
               id,
               type: DataResourceType.PersonalDataPod,
               dataId: 'someOldDataId',
-              resourceLocator: 'someOldResourceLocator',
-              otherParams: 'someOldOtherParams',
+              serviceEndpoint: 'someOldResourceLocator',
+              properties: 'someOldOtherParams',
             },
           },
         },
@@ -738,11 +1115,92 @@ describe('CreateEntityAdvanced Reducer', () => {
             id,
             type,
             dataId,
-            resourceLocator,
-            otherParams,
+            serviceEndpoint,
+            properties,
           },
         },
       })
+    })
+  })
+
+  describe('validation', () => {
+    it('should set validated to true and clear any errors', () => {
+      const identifier = 'someBodySectionId'
+      const errors = ['error1', 'error2']
+      // given ... we have an action of type CreateEntityPageContentActions.SetValidated
+      const action: ValidatedAction = {
+        type: CreateEntityAdvancedActions.Validated,
+        payload: {
+          identifier,
+        },
+      }
+
+      // when ... we run the reducer with this action
+      const result = SUT.reducer(
+        {
+          ...initialState,
+          validation: {
+            [identifier]: {
+              identifier,
+              validated: false,
+              errors,
+            },
+          },
+        },
+        action,
+      )
+
+      // then ... the state should be set as expected
+      expect(result).toEqual({
+        ...initialState,
+        validation: {
+          [identifier]: {
+            identifier,
+            validated: true,
+            errors: [],
+          },
+        },
+      })
+    })
+  })
+
+  it('should set validated to false and add any errors', () => {
+    const identifier = 'someBodySectionId'
+    const errors = ['error1', 'error2']
+    // given ... we have an action of type CreateEntityPageContentActions.SetValidated
+    const action: ValidationErrorAction = {
+      type: CreateEntityAdvancedActions.ValidationError,
+      payload: {
+        errors,
+        identifier,
+      },
+    }
+
+    // when ... we run the reducer with this action
+    const result = SUT.reducer(
+      {
+        ...initialState,
+        validation: {
+          [identifier]: {
+            identifier,
+            validated: true,
+            errors: [],
+          },
+        },
+      },
+      action,
+    )
+
+    // then ... the state should be set as expected
+    expect(result).toEqual({
+      ...initialState,
+      validation: {
+        [identifier]: {
+          identifier,
+          validated: false,
+          errors,
+        },
+      },
     })
   })
 })

@@ -1,87 +1,77 @@
 import React from 'react'
-import Form from '@rjsf/core'
-import { debounce } from 'debounce'
-import {
-  FormContainer,
-  LinkButton,
-} from '../../../../common/components/JsonForm/JsonForm.styles'
-import * as formUtils from '../../../../common/components/JsonForm/JsonForm.utils'
-import { FormData } from '../../../../common/components/JsonForm/types'
-import { ObjectFieldTemplate2Column } from '../../../../common/components/JsonForm/CustomTemplates/ObjectFieldTemplate'
+import { LinkButton } from '../../../../common/components/JsonForm/JsonForm.styles'
 import { NodeType } from '../../../Entities/types'
 import { nodeTypeMap } from '../../../Entities/strategy-map'
+import { FormCardProps } from '../../../CreateEntity/types'
+import MultiControlForm from '../../../..//common/components/JsonForm/MultiControlForm/MultiControlForm'
 
-interface Props {
-  id: string
+interface Props extends FormCardProps {
   type: NodeType
   nodeId: string
-  handleUpdate: (id: string, formData: FormData) => void
-  handleRemoveSection: (id: string) => void
 }
 
-const NodeCard: React.FunctionComponent<Props> = ({
-  id,
-  type,
-  nodeId,
-  handleUpdate,
-  handleRemoveSection,
-}) => {
-  const formData = {
-    type,
-    nodeId,
-  }
+const NodeCard: React.FunctionComponent<Props> = React.forwardRef(
+  (
+    {
+      type,
+      nodeId,
+      handleUpdateContent,
+      handleSubmitted,
+      handleError,
+      handleRemoveSection,
+    },
+    ref,
+  ) => {
+    const formData = {
+      type,
+      nodeId,
+    }
 
-  const schema = {
-    type: 'object',
-    required: ['type', 'nodeId'],
-    properties: {
-      type: {
-        type: 'string',
-        title: 'Node Type',
-        enum: Object.keys(NodeType).map(key => NodeType[key]),
-        enumNames: Object.keys(NodeType).map(
-          key => nodeTypeMap[NodeType[key]].title,
-        ),
+    const schema = {
+      type: 'object',
+      required: ['type', 'nodeId'],
+      properties: {
+        type: {
+          type: 'string',
+          title: 'Node Type',
+          enum: Object.keys(NodeType).map(key => NodeType[key]),
+          enumNames: Object.keys(NodeType).map(
+            key => nodeTypeMap[NodeType[key]].title,
+          ),
+        },
+        nodeId: { type: 'string', title: 'Node ID' },
       },
-      nodeId: { type: 'string', title: 'Node ID' },
-    },
-  } as any
+    } as any
 
-  const uiSchema = {
-    type: {
-      ['ui:placeholder']: 'Select Node Type',
-    },
-    nodeId: { ['ui:placeholder']: 'Enter !Name or DID' },
-  }
+    const uiSchema = {
+      type: {
+        ['ui:placeholder']: 'Select Node Type',
+      },
+      nodeId: { ['ui:placeholder']: 'Enter !Name or DID' },
+    }
 
-  const handleUpdateDebounce = debounce(handleUpdate, 500)
-
-  return (
-    <FormContainer className="row">
-      <div className="col-lg-12">
-        <Form
+    return (
+      <>
+        <MultiControlForm
+          ref={ref}
+          onSubmit={handleSubmitted}
+          onFormDataChange={handleUpdateContent}
+          onError={handleError}
           formData={formData}
-          onChange={(control): void =>
-            handleUpdateDebounce(id, control.formData)
-          }
-          noHtml5Validate
-          liveValidate
-          showErrorList={false}
           schema={schema}
           uiSchema={uiSchema}
-          transformErrors={formUtils.transformErrors}
-          ObjectFieldTemplate={ObjectFieldTemplate2Column}
+          multiColumn
         >
           &nbsp;
-        </Form>
-      </div>
-      <div className="col-lg-12 text-right">
-        <LinkButton type="button" onClick={(): void => handleRemoveSection(id)}>
-          - Remove
-        </LinkButton>
-      </div>
-    </FormContainer>
-  )
-}
+        </MultiControlForm>
+        <div className="text-right">
+          <LinkButton type="button" onClick={handleRemoveSection}>
+            - Remove
+          </LinkButton>
+        </div>
+      </>
+    )
+  },
+)
 
 export default NodeCard

@@ -1,86 +1,76 @@
 import React from 'react'
-import Form from '@rjsf/core'
-import { debounce } from 'debounce'
-import {
-  FormContainer,
-  LinkButton,
-} from '../../../../common/components/JsonForm/JsonForm.styles'
-import * as formUtils from '../../../../common/components/JsonForm/JsonForm.utils'
-import { FormData } from '../../../../common/components/JsonForm/types'
-import { ObjectFieldTemplate2Column } from '../../../../common/components/JsonForm/CustomTemplates/ObjectFieldTemplate'
+import MultiControlForm from '../../../../common/components/JsonForm/MultiControlForm/MultiControlForm'
+import { LinkButton } from '../../../../common/components/JsonForm/JsonForm.styles'
+import { FormCardProps } from '../../../CreateEntity/types'
 
-interface Props {
-  id: string
+interface Props extends FormCardProps {
   credential: string
   issuer: string
-  handleUpdate: (id: string, formData: FormData) => void
-  handleRemoveSection: (id: string) => void
 }
 
-const RequiredCredential: React.FunctionComponent<Props> = ({
-  id,
-  credential,
-  issuer,
-  handleUpdate,
-  handleRemoveSection,
-}) => {
-  const formData = {
-    credential,
-    issuer,
-  }
+const RequiredCredential: React.FunctionComponent<Props> = React.forwardRef(
+  (
+    {
+      credential,
+      issuer,
+      handleUpdateContent,
+      handleSubmitted,
+      handleError,
+      handleRemoveSection,
+    },
+    ref,
+  ) => {
+    const formData = {
+      credential,
+      issuer,
+    }
 
-  const schema = {
-    type: 'object',
-    required: ['credential', 'issuer'],
-    properties: {
+    const schema = {
+      type: 'object',
+      required: ['credential', 'issuer'],
+      properties: {
+        credential: {
+          type: 'string',
+          title: 'Credential',
+        },
+        issuer: {
+          type: 'string',
+          title: 'Credential Issuer',
+        },
+      },
+    } as any
+
+    const uiSchema = {
       credential: {
-        type: 'string',
-        title: 'Credential',
+        ['ui:placeholder']: 'Enter Identifier',
       },
       issuer: {
-        type: 'string',
-        title: 'Credential Issuer',
+        ['ui:placeholder']: 'Enter DID or !name',
       },
-    },
-  } as any
+    }
 
-  const uiSchema = {
-    credential: {
-      ['ui:placeholder']: 'Enter Identifier',
-    },
-    issuer: {
-      ['ui:placeholder']: 'Enter DID or !name',
-    },
-  }
-
-  const handleUpdateDebounce = debounce(handleUpdate, 500)
-
-  return (
-    <FormContainer className="row">
-      <div className="col-lg-12">
-        <Form
+    return (
+      <>
+        <MultiControlForm
+          ref={ref}
+          onSubmit={handleSubmitted}
+          onFormDataChange={handleUpdateContent}
+          onError={handleError}
           formData={formData}
-          onChange={(control): void =>
-            handleUpdateDebounce(id, control.formData)
-          }
-          noHtml5Validate
-          liveValidate
-          showErrorList={false}
           schema={schema}
           uiSchema={uiSchema}
-          transformErrors={formUtils.transformErrors}
-          ObjectFieldTemplate={ObjectFieldTemplate2Column}
+          multiColumn
         >
           &nbsp;
-        </Form>
-      </div>
-      <div className="col-lg-12 text-right">
-        <LinkButton type="button" onClick={(): void => handleRemoveSection(id)}>
-          - Remove
-        </LinkButton>
-      </div>
-    </FormContainer>
-  )
-}
+        </MultiControlForm>
+        <div className="text-right">
+          <LinkButton type="button" onClick={handleRemoveSection}>
+            - Remove
+          </LinkButton>
+        </div>
+      </>
+    )
+  },
+)
 
 export default RequiredCredential

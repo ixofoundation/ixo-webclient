@@ -1,13 +1,5 @@
 import React from 'react'
-import Form from '@rjsf/core'
-import { debounce } from 'debounce'
-import { FormContainer } from '../../../../common/components/JsonForm/JsonForm.styles'
-import * as formUtils from '../../../../common/components/JsonForm/JsonForm.utils'
-import {
-  FormData,
-  customControls,
-} from '../../../../common/components/JsonForm/types'
-import { ObjectFieldTemplate2Column } from '../../../../common/components/JsonForm/CustomTemplates/ObjectFieldTemplate'
+import { customControls } from '../../../../common/components/JsonForm/types'
 import {
   PaymentDenomination,
   KeyPurpose,
@@ -18,129 +10,150 @@ import {
   keyPurposeMap,
   keyTypeMap,
 } from '../../../Entities/strategy-map'
+import MultiControlForm from '../../../../common/components/JsonForm/MultiControlForm/MultiControlForm'
+import { FormCardProps } from '../../../CreateEntity/types'
+import { LinkButton } from '../../../../common/components/JsonForm/JsonForm.styles'
 
-interface Props {
+interface Props extends FormCardProps {
   purpose: KeyPurpose
   type: KeyType
-  denomination: PaymentDenomination
-  controllerId: string
+  keyValue: string
+  signature: string
+  controller: string
   dateCreated: string
   dateUpdated: string
-  handleUpdate: (formData: FormData) => void
 }
 
-const KeyCard: React.FunctionComponent<Props> = ({
-  purpose,
-  type,
-  denomination,
-  controllerId,
-  dateCreated,
-  dateUpdated,
-  handleUpdate,
-}) => {
-  const formData = {
-    purpose,
-    type,
-    denomination,
-    controllerId,
-    dateCreated,
-    dateUpdated,
-  }
+const KeyCard: React.FunctionComponent<Props> = React.forwardRef(
+  (
+    {
+      purpose,
+      type,
+      keyValue,
+      signature,
+      controller,
+      dateCreated,
+      dateUpdated,
+      handleUpdateContent,
+      handleSubmitted,
+      handleError,
+      handleRemoveSection,
+    },
+    ref,
+  ) => {
+    const formData = {
+      purpose,
+      type,
+      keyValue,
+      signature,
+      controller,
+      dateCreated,
+      dateUpdated,
+    }
 
-  const schema = {
-    type: 'object',
-    required: [
-      'purpose',
-      'type',
-      'denomination',
-      'controllerId',
-      'dateCreated',
-      'dateUpdated',
-    ],
-    properties: {
+    const schema = {
+      type: 'object',
+      required: [
+        'purpose',
+        'type',
+        'keyValue',
+        'controller',
+        'dateCreated',
+        'dateUpdated',
+        'signature',
+      ],
+      properties: {
+        purpose: {
+          type: 'string',
+          title: 'Purpose of the Key',
+          enum: Object.keys(KeyPurpose).map(key => KeyPurpose[key]),
+          enumNames: Object.keys(KeyPurpose).map(
+            key => keyPurposeMap[KeyPurpose[key]].title,
+          ),
+        },
+        type: {
+          type: 'string',
+          title: 'Key Type',
+          enum: Object.keys(KeyType).map(key => KeyType[key]),
+          enumNames: Object.keys(KeyType).map(
+            key => keyTypeMap[KeyType[key]].title,
+          ),
+        },
+        keyValue: {
+          type: 'string',
+          title: 'Key Value or Token',
+          enum: Object.keys(PaymentDenomination).map(
+            key => PaymentDenomination[key],
+          ),
+          enumNames: Object.keys(PaymentDenomination).map(
+            key => paymentDenominationMap[PaymentDenomination[key]].title,
+          ),
+        },
+        controller: {
+          type: 'string',
+          title: 'Enter DID or !name',
+        },
+        dateCreated: {
+          type: 'string',
+          title: 'Key Creation Date',
+        },
+        dateUpdated: {
+          type: 'string',
+          title: 'Latest Update',
+        },
+        signature: {
+          type: 'string',
+          title: 'Signature',
+        },
+      },
+    } as any
+
+    const uiSchema = {
       purpose: {
-        type: 'string',
-        title: 'Purpose of the Key',
-        enum: Object.keys(KeyPurpose).map(key => KeyPurpose[key]),
-        enumNames: Object.keys(KeyPurpose).map(
-          key => keyPurposeMap[KeyPurpose[key]].title,
-        ),
+        ['ui:placeholder']: 'Select Purpose',
       },
       type: {
-        type: 'string',
-        title: 'Key Type',
-        enum: Object.keys(KeyType).map(key => KeyType[key]),
-        enumNames: Object.keys(KeyType).map(
-          key => keyTypeMap[KeyType[key]].title,
-        ),
+        ['ui:placeholder']: 'Select Key',
       },
-      denomination: {
-        type: 'string',
-        title: 'Key Value or Token',
-        enum: Object.keys(PaymentDenomination).map(
-          key => PaymentDenomination[key],
-        ),
-        enumNames: Object.keys(PaymentDenomination).map(
-          key => paymentDenominationMap[PaymentDenomination[key]].title,
-        ),
+      keyValue: {
+        ['ui:placeholder']: 'Select Denomination',
       },
-      controllerId: {
-        type: 'string',
-        title: 'Enter DID or !name',
+      controller: {
+        ['ui:placeholder']: 'Enter DID or !name',
       },
       dateCreated: {
-        type: 'string',
-        title: 'Key Creation Date',
+        ['ui:widget']: customControls['singledateselector'],
       },
       dateUpdated: {
-        type: 'string',
-        title: 'Latest Update',
+        ['ui:widget']: customControls['singledateselector'],
       },
-    },
-  } as any
+      signature: {
+        ['ui:placeholder']: 'Enter signature',
+      },
+    }
 
-  const uiSchema = {
-    purpose: {
-      ['ui:placeholder']: 'Select Purpose',
-    },
-    type: {
-      ['ui:placeholder']: 'Select Key',
-    },
-    denomination: {
-      ['ui:placeholder']: 'Select Denomination',
-    },
-    controllerId: {
-      ['ui:placeholder']: 'Enter DID or !name',
-    },
-    dateCreated: {
-      ['ui:widget']: customControls['singledateselector'],
-    },
-    dateUpdated: {
-      ['ui:widget']: customControls['singledateselector'],
-    },
-  }
-
-  const handleUpdateDebounce = debounce(handleUpdate, 500)
-
-  return (
-    <FormContainer className="row">
-      <div className="col-lg-12">
-        <Form
+    return (
+      <>
+        <MultiControlForm
+          ref={ref}
+          onSubmit={handleSubmitted}
+          onFormDataChange={handleUpdateContent}
+          onError={handleError}
           formData={formData}
-          onChange={(control): void => handleUpdateDebounce(control.formData)}
-          noHtml5Validate
-          liveValidate
-          showErrorList={false}
           schema={schema}
           uiSchema={uiSchema}
-          transformErrors={formUtils.transformErrors}
-          ObjectFieldTemplate={ObjectFieldTemplate2Column}
+          multiColumn
         >
           &nbsp;
-        </Form>
-      </div>
-    </FormContainer>
-  )
-}
+        </MultiControlForm>
+        <div className="text-right">
+          <LinkButton type="button" onClick={handleRemoveSection}>
+            - Remove
+          </LinkButton>
+        </div>
+      </>
+    )
+  },
+)
 
 export default KeyCard

@@ -6,36 +6,15 @@ import {
 import * as reduxUtils from '../../common/redux/utils'
 
 export const initialState: CreateEntityAdvancedState = {
-  linkedEntity: {
-    entityId: null,
-    type: null,
-  },
-  payment: {
-    denomination: null,
-    maxAmount: null,
-    maxUnits: null,
-    paymentId: null,
-    type: null,
-  },
+  linkedEntities: {},
+  payments: {},
   staking: {},
   nodes: {},
   funding: {},
-  key: {
-    controllerId: null,
-    dateCreated: null,
-    dateUpdated: null,
-    denomination: null,
-    purpose: null,
-    type: null,
-  },
-  service: {
-    endpoint: null,
-    otherParams: null,
-    publicKey: null,
-    shortDescription: null,
-    type: null,
-  },
+  keys: {},
+  services: {},
   dataResources: {},
+  validation: {},
 }
 
 export const reducer = (
@@ -43,22 +22,85 @@ export const reducer = (
   action: CreateEntityAdvancedActionTypes,
 ): CreateEntityAdvancedState => {
   switch (action.type) {
+    case CreateEntityAdvancedActions.AddLinkedEntity:
+      return {
+        ...state,
+        linkedEntities: {
+          ...state.linkedEntities,
+          ...{
+            [action.payload.id]: {
+              ...action.payload,
+              type: undefined,
+              entityId: undefined,
+            },
+          },
+        },
+      }
+    case CreateEntityAdvancedActions.RemoveLinkedEntity:
+      return {
+        ...state,
+        linkedEntities: reduxUtils.omitKey(
+          state.linkedEntities,
+          action.payload.id,
+        ),
+      }
     case CreateEntityAdvancedActions.UpdateLinkedEntity:
       return {
         ...state,
-        linkedEntity: action.payload,
+        linkedEntities: {
+          ...state.linkedEntities,
+          ...{ [action.payload.id]: action.payload },
+        },
+      }
+    case CreateEntityAdvancedActions.AddPayment:
+      return {
+        ...state,
+        payments: {
+          ...state.payments,
+          ...{
+            [action.payload.id]: {
+              ...action.payload,
+              type: undefined,
+              paymentId: undefined,
+              denom: undefined,
+              maxFee: undefined,
+              maxQty: undefined,
+            },
+          },
+        },
+      }
+    case CreateEntityAdvancedActions.RemovePayment:
+      return {
+        ...state,
+        payments: reduxUtils.omitKey(state.payments, action.payload.id),
       }
     case CreateEntityAdvancedActions.UpdatePayment:
       return {
         ...state,
-        payment: action.payload,
+        payments: {
+          ...state.payments,
+          ...{ [action.payload.id]: action.payload },
+        },
       }
     case CreateEntityAdvancedActions.AddStake:
       return {
         ...state,
         staking: {
           ...state.staking,
-          ...{ [action.payload.id]: action.payload },
+          ...{
+            [action.payload.id]: {
+              ...action.payload,
+              type: undefined,
+              stakeId: undefined,
+              denom: undefined,
+              stakeAddress: undefined,
+              minStake: undefined,
+              slashCondition: undefined,
+              slashFactor: undefined,
+              slashAmount: undefined,
+              unbondPeriod: undefined,
+            },
+          },
         },
       }
     case CreateEntityAdvancedActions.RemoveStake:
@@ -79,7 +121,13 @@ export const reducer = (
         ...state,
         nodes: {
           ...state.nodes,
-          ...{ [action.payload.id]: action.payload },
+          ...{
+            [action.payload.id]: {
+              ...action.payload,
+              type: undefined,
+              nodeId: undefined,
+            },
+          },
         },
       }
     case CreateEntityAdvancedActions.RemoveNode:
@@ -100,7 +148,13 @@ export const reducer = (
         ...state,
         funding: {
           ...state.funding,
-          ...{ [action.payload.id]: action.payload },
+          ...{
+            [action.payload.id]: {
+              ...action.payload,
+              source: undefined,
+              fundId: undefined,
+            },
+          },
         },
       }
     case CreateEntityAdvancedActions.RemoveFund:
@@ -116,22 +170,82 @@ export const reducer = (
           ...{ [action.payload.id]: action.payload },
         },
       }
+    case CreateEntityAdvancedActions.AddKey:
+      return {
+        ...state,
+        keys: {
+          ...state.keys,
+          ...{
+            [action.payload.id]: {
+              ...action.payload,
+              purpose: undefined,
+              type: undefined,
+              controller: undefined,
+              dateCreated: undefined,
+              dateUpdated: undefined,
+              keyValue: undefined,
+              signature: undefined,
+            },
+          },
+        },
+      }
+    case CreateEntityAdvancedActions.RemoveKey:
+      return {
+        ...state,
+        keys: reduxUtils.omitKey(state.keys, action.payload.id),
+      }
     case CreateEntityAdvancedActions.UpdateKey:
       return {
         ...state,
-        key: action.payload,
+        keys: {
+          ...state.keys,
+          ...{ [action.payload.id]: action.payload },
+        },
+      }
+    case CreateEntityAdvancedActions.AddService:
+      return {
+        ...state,
+        services: {
+          ...state.services,
+          ...{
+            [action.payload.id]: {
+              ...action.payload,
+              type: undefined,
+              shortDescription: undefined,
+              serviceEndpoint: undefined,
+              properties: undefined,
+              publicKey: undefined,
+            },
+          },
+        },
+      }
+    case CreateEntityAdvancedActions.RemoveService:
+      return {
+        ...state,
+        services: reduxUtils.omitKey(state.services, action.payload.id),
       }
     case CreateEntityAdvancedActions.UpdateService:
       return {
         ...state,
-        service: action.payload,
+        services: {
+          ...state.services,
+          ...{ [action.payload.id]: action.payload },
+        },
       }
     case CreateEntityAdvancedActions.AddDataResource:
       return {
         ...state,
         dataResources: {
           ...state.dataResources,
-          ...{ [action.payload.id]: action.payload },
+          ...{
+            [action.payload.id]: {
+              ...action.payload,
+              type: undefined,
+              dataId: undefined,
+              serviceEndpoint: undefined,
+              properties: undefined,
+            },
+          },
         },
       }
     case CreateEntityAdvancedActions.RemoveDataResource:
@@ -148,6 +262,34 @@ export const reducer = (
         dataResources: {
           ...state.dataResources,
           ...{ [action.payload.id]: action.payload },
+        },
+      }
+    case CreateEntityAdvancedActions.Validated:
+      return {
+        ...state,
+        validation: {
+          ...state.validation,
+          ...{
+            [action.payload.identifier]: {
+              identifier: action.payload.identifier,
+              validated: true,
+              errors: [],
+            },
+          },
+        },
+      }
+    case CreateEntityAdvancedActions.ValidationError:
+      return {
+        ...state,
+        validation: {
+          ...state.validation,
+          ...{
+            [action.payload.identifier]: {
+              identifier: action.payload.identifier,
+              validated: false,
+              errors: action.payload.errors,
+            },
+          },
         },
       }
   }

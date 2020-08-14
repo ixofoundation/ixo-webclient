@@ -1,13 +1,5 @@
 import React from 'react'
-import Form from '@rjsf/core'
-import { debounce } from 'debounce'
-import {
-  FormContainer,
-  LinkButton,
-} from '../../../../common/components/JsonForm/JsonForm.styles'
-import * as formUtils from '../../../../common/components/JsonForm/JsonForm.utils'
-import { FormData } from '../../../../common/components/JsonForm/types'
-import { ObjectFieldTemplate2Column } from '../../../../common/components/JsonForm/CustomTemplates/ObjectFieldTemplate'
+import { LinkButton } from '../../../../common/components/JsonForm/JsonForm.styles'
 import {
   PaymentDenomination,
   StakeType,
@@ -18,139 +10,139 @@ import {
   stakeTypeMap,
   slashingConditionMap,
 } from '../../../Entities/strategy-map'
+import { FormCardProps } from '../../../CreateEntity/types'
+import MultiControlForm from '../../../..//common/components/JsonForm/MultiControlForm/MultiControlForm'
 
-interface Props {
-  id: string
+interface Props extends FormCardProps {
   type: StakeType
   stakeId: string
-  denomination: PaymentDenomination
-  depositAddress: string
+  denom: PaymentDenomination
+  stakeAddress: string
   minStake: number
-  slashingCondition: SlashingCondition
+  slashCondition: SlashingCondition
   slashFactor: number
-  maxSlashAmount: number
-  unbondingPeriod: number
-  handleUpdate: (id: string, formData: FormData) => void
-  handleRemoveSection: (id: string) => void
+  slashAmount: number
+  unbondPeriod: number
 }
 
-const StakeCard: React.FunctionComponent<Props> = ({
-  id,
-  type,
-  stakeId,
-  denomination,
-  depositAddress,
-  minStake,
-  slashingCondition,
-  slashFactor,
-  maxSlashAmount,
-  unbondingPeriod,
-  handleUpdate,
-  handleRemoveSection,
-}) => {
-  const formData = {
-    type,
-    stakeId,
-    denomination,
-    depositAddress,
-    minStake,
-    slashingCondition,
-    slashFactor,
-    maxSlashAmount,
-    unbondingPeriod,
-  }
+const StakeCard: React.FunctionComponent<Props> = React.forwardRef(
+  (
+    {
+      type,
+      stakeId,
+      denom,
+      stakeAddress,
+      minStake,
+      slashCondition,
+      slashFactor,
+      slashAmount,
+      unbondPeriod,
+      handleUpdateContent,
+      handleSubmitted,
+      handleError,
+      handleRemoveSection,
+    },
+    ref,
+  ) => {
+    const formData = {
+      type,
+      stakeId,
+      denom,
+      stakeAddress,
+      minStake,
+      slashCondition,
+      slashFactor,
+      slashAmount,
+      unbondPeriod,
+    }
 
-  const schema = {
-    type: 'object',
-    required: [
-      'type',
-      'stakeId',
-      'denomination',
-      'depositAddress',
-      'minStake',
-      'slashingCondition',
-      'slashFactor',
-      'maxSlashAmount',
-      'unbondingPeriod',
-    ],
-    properties: {
+    const schema = {
+      type: 'object',
+      required: [
+        'type',
+        'stakeId',
+        'denom',
+        'stakeAddress',
+        'minStake',
+        'slashCondition',
+        'slashFactor',
+        'slashAmount',
+        'unbondPeriod',
+      ],
+      properties: {
+        type: {
+          type: 'string',
+          title: 'Stake Type',
+          enum: Object.keys(StakeType).map(key => StakeType[key]),
+          enumNames: Object.keys(StakeType).map(
+            key => stakeTypeMap[StakeType[key]].title,
+          ),
+        },
+        stakeId: { type: 'string', title: 'Stake ID' },
+        denom: {
+          type: 'string',
+          title: 'Deposit Denomination',
+          enum: Object.keys(PaymentDenomination).map(
+            key => PaymentDenomination[key],
+          ),
+          enumNames: Object.keys(PaymentDenomination).map(
+            key => paymentDenominationMap[PaymentDenomination[key]].title,
+          ),
+        },
+        stakeAddress: { type: 'string', title: 'Stake Deposit Address' },
+        minStake: { type: 'number', title: 'Minimum Stake' },
+        slashCondition: {
+          type: 'string',
+          title: 'Slashing Condition',
+          enum: Object.keys(SlashingCondition).map(
+            key => SlashingCondition[key],
+          ),
+          enumNames: Object.keys(SlashingCondition).map(
+            key => slashingConditionMap[SlashingCondition[key]].title,
+          ),
+        },
+        slashFactor: { type: 'number', title: 'Slash Factor' },
+        slashAmount: { type: 'number', title: 'Maximum Slash Amount' },
+        unbondPeriod: { type: 'number', title: 'Unbonding Period (Days)' },
+      },
+    } as any
+
+    const uiSchema = {
       type: {
-        type: 'string',
-        title: 'Stake Type',
-        enum: Object.keys(StakeType).map(key => StakeType[key]),
-        enumNames: Object.keys(StakeType).map(
-          key => stakeTypeMap[StakeType[key]].title,
-        ),
+        ['ui:placeholder']: 'Select Stake Type',
       },
-      stakeId: { type: 'string', title: 'Stake ID' },
-      denomination: {
-        type: 'string',
-        title: 'Deposit Denomination',
-        enum: Object.keys(PaymentDenomination).map(
-          key => PaymentDenomination[key],
-        ),
-        enumNames: Object.keys(PaymentDenomination).map(
-          key => paymentDenominationMap[PaymentDenomination[key]].title,
-        ),
-      },
-      depositAddress: { type: 'string', title: 'Stake Deposit Address' },
-      minStake: { type: 'number', title: 'Minimum Stake' },
-      slashingCondition: {
-        type: 'string',
-        title: 'Slashing Condition',
-        enum: Object.keys(SlashingCondition).map(key => SlashingCondition[key]),
-        enumNames: Object.keys(SlashingCondition).map(
-          key => slashingConditionMap[SlashingCondition[key]].title,
-        ),
-      },
-      slashFactor: { type: 'number', title: 'Slash Factor' },
-      maxSlashAmount: { type: 'number', title: 'Maximum Slash Amount' },
-      unbondingPeriod: { type: 'number', title: 'Unbonding Period (Days)' },
-    },
-  } as any
+      stakeId: { ['ui:placeholder']: 'Enter Stake ID' },
+      denom: { ['ui:placeholder']: 'Select Denomination' },
+      stakeAddress: { ['ui:placeholder']: 'Enter Address' },
+      minStake: { ['ui:placeholder']: 'Enter Value' },
+      slashCondition: { ['ui:placeholder']: 'Select Condition' },
+      slashFactor: { ['ui:placeholder']: 'Enter Factor' },
+      slashAmount: { ['ui:placeholder']: 'Enter Amount' },
+      unbondPeriod: { ['ui:placeholder']: 'Enter Days' },
+    }
 
-  const uiSchema = {
-    type: {
-      ['ui:placeholder']: 'Select Stake Type',
-    },
-    stakeId: { ['ui:placeholder']: 'Enter Stake ID' },
-    denomination: { ['ui:placeholder']: 'Select Denomination' },
-    depositAddress: { ['ui:placeholder']: 'Enter Address' },
-    minStake: { ['ui:placeholder']: 'Enter Value' },
-    slashingCondition: { ['ui:placeholder']: 'Select Condition' },
-    slashFactor: { ['ui:placeholder']: 'Enter Factor' },
-    maxSlashAmount: { ['ui:placeholder']: 'Enter Amount' },
-    unbondingPeriod: { ['ui:placeholder']: 'Enter Days' },
-  }
-
-  const handleUpdateDebounce = debounce(handleUpdate, 500)
-
-  return (
-    <FormContainer className="row">
-      <div className="col-lg-12">
-        <Form
+    return (
+      <>
+        <MultiControlForm
+          ref={ref}
+          onSubmit={handleSubmitted}
+          onFormDataChange={handleUpdateContent}
+          onError={handleError}
           formData={formData}
-          onChange={(control): void =>
-            handleUpdateDebounce(id, control.formData)
-          }
-          noHtml5Validate
-          liveValidate
-          showErrorList={false}
           schema={schema}
           uiSchema={uiSchema}
-          transformErrors={formUtils.transformErrors}
-          ObjectFieldTemplate={ObjectFieldTemplate2Column}
+          multiColumn
         >
           &nbsp;
-        </Form>
-      </div>
-      <div className="col-lg-12 text-right">
-        <LinkButton type="button" onClick={(): void => handleRemoveSection(id)}>
-          - Remove
-        </LinkButton>
-      </div>
-    </FormContainer>
-  )
-}
+        </MultiControlForm>
+        <div className="text-right">
+          <LinkButton type="button" onClick={handleRemoveSection}>
+            - Remove
+          </LinkButton>
+        </div>
+      </>
+    )
+  },
+)
 
 export default StakeCard

@@ -2,6 +2,7 @@ import React from 'react'
 import { debounce } from 'debounce'
 import SingleControlForm from '../../../../common/components/JsonForm/SingleControlForm/SingleControlForm'
 import { FormControl } from '../../../../common/components/JsonForm/types'
+import { ButtonGroup } from '../../../../common/components/JsonForm/JsonForm.styles'
 
 interface Props {
   question: FormControl
@@ -31,22 +32,28 @@ const Question: React.FunctionComponent<Props> = ({
   return (
     <SingleControlForm
       formData={answer}
-      savingFormData={savingAnswer}
+      uploading={savingAnswer}
       handleFormDataChange={(formData): void =>
         handleFormDataChangeDebounce(formData)
       }
-      handlePreviousClick={handlePreviousClick}
       handleSubmit={handleNextClick}
       formControl={question}
-      showPreviousButton={currentQuestionNo > 1 && !answersComplete}
-      nextButtonText={
-        answersComplete
-          ? 'Update'
-          : questionCount === currentQuestionNo
-          ? 'Finalise'
-          : 'Next'
-      }
-    />
+    >
+      <ButtonGroup>
+        {currentQuestionNo > 1 && !answersComplete && (
+          <button type="button" onClick={handlePreviousClick}>
+            Previous
+          </button>
+        )}
+        <button type="submit" className="submitForm">
+          {answersComplete
+            ? 'Update'
+            : questionCount === currentQuestionNo
+            ? 'Finalise'
+            : 'Next'}
+        </button>
+      </ButtonGroup>
+    </SingleControlForm>
   )
 }
 

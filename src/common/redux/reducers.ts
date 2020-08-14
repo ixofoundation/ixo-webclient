@@ -1,6 +1,5 @@
 import { combineReducers } from 'redux'
 import { connectRouter } from 'connected-react-router'
-
 import { reducer as keysafeReducer } from '../../modules/keysafe/keysafe.reducer'
 import { reducer as ixoReducer } from '../../modules/ixo/ixo.reducer'
 import { reducer as web3Reducer } from '../../modules/web3/web3.reducer'
@@ -15,10 +14,12 @@ import { reducer as entitiesReducer } from '../../modules/Entities/Entities.redu
 import { reducer as fuelEntityReducer } from '../../modules/FuelEntity/FuelEntity.reducer'
 import { reducer as submitEntityClaimReducer } from '../../modules/SubmitEntityClaim/SubmitEntityClaim.reducer'
 import { reducer as selectedEntityReducer } from '../../modules/SelectedEntity/SelectedEntity.reducer'
+import { reducer as createEntityReducer } from '../../modules/CreateEntity/CreateEntity.reducer'
 import { reducer as createEntityPageContentReducer } from '../../modules/CreateEntityPageContent/CreateEntityPageContent.reducer'
 import { reducer as createEntitySettingsReducer } from '../../modules/CreateEntitySettings/CreateEntitySettings.reducer'
 import { reducer as createEntityAdvancedReducer } from '../../modules/CreateEntityAdvanced/CreateEntityAdvanced.reducer'
 import { reducer as createClaimTemplateReducer } from '../../modules/CreateClaimTemplate/CreateClaimTemplate.reducer'
+import { reducer as createEntityAttestationReducer } from '../../modules/CreateEntityAttestation/CreateEntityAttestation.reducer'
 import { RootState } from './types'
 
 export const rootReducer: any = (history) =>
@@ -37,7 +38,9 @@ export const rootReducer: any = (history) =>
     fuelEntity: fuelEntityReducer,
     submitEntityClaim: submitEntityClaimReducer,
     selectedEntity: selectedEntityReducer,
+    createEntity: createEntityReducer,
     createEntityPageContent: createEntityPageContentReducer,
+    createEntityAttestation: createEntityAttestationReducer,
     createEntitySettings: createEntitySettingsReducer,
     createEntityAdvanced: createEntityAdvancedReducer,
     createClaimTemplate: createClaimTemplateReducer,

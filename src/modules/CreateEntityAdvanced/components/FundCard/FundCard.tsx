@@ -1,87 +1,77 @@
 import React from 'react'
-import Form from '@rjsf/core'
-import { debounce } from 'debounce'
-import {
-  FormContainer,
-  LinkButton,
-} from '../../../../common/components/JsonForm/JsonForm.styles'
-import * as formUtils from '../../../../common/components/JsonForm/JsonForm.utils'
-import { FormData } from '../../../../common/components/JsonForm/types'
-import { ObjectFieldTemplate2Column } from '../../../../common/components/JsonForm/CustomTemplates/ObjectFieldTemplate'
+import { LinkButton } from '../../../../common/components/JsonForm/JsonForm.styles'
 import { FundSource } from '../../../Entities/types'
 import { fundSourceMap } from '../../../Entities/strategy-map'
+import { FormCardProps } from '../../../CreateEntity/types'
+import MultiControlForm from '../../../..//common/components/JsonForm/MultiControlForm/MultiControlForm'
 
-interface Props {
-  id: string
+interface Props extends FormCardProps {
   source: FundSource
   fundId: string
-  handleUpdate: (id: string, formData: FormData) => void
-  handleRemoveSection: (id: string) => void
 }
 
-const FundCard: React.FunctionComponent<Props> = ({
-  id,
-  source,
-  fundId,
-  handleUpdate,
-  handleRemoveSection,
-}) => {
-  const formData = {
-    source,
-    fundId,
-  }
+const FundCard: React.FunctionComponent<Props> = React.forwardRef(
+  (
+    {
+      source,
+      fundId,
+      handleUpdateContent,
+      handleSubmitted,
+      handleError,
+      handleRemoveSection,
+    },
+    ref,
+  ) => {
+    const formData = {
+      source,
+      fundId,
+    }
 
-  const schema = {
-    type: 'object',
-    required: ['source', 'fundId'],
-    properties: {
-      source: {
-        type: 'string',
-        title: 'Source of Funding',
-        enum: Object.keys(FundSource).map(key => FundSource[key]),
-        enumNames: Object.keys(FundSource).map(
-          key => fundSourceMap[FundSource[key]].title,
-        ),
+    const schema = {
+      type: 'object',
+      required: ['source', 'fundId'],
+      properties: {
+        source: {
+          type: 'string',
+          title: 'Source of Funding',
+          enum: Object.keys(FundSource).map(key => FundSource[key]),
+          enumNames: Object.keys(FundSource).map(
+            key => fundSourceMap[FundSource[key]].title,
+          ),
+        },
+        fundId: { type: 'string', title: 'Identity of Funding Source' },
       },
-      fundId: { type: 'string', title: 'Identity of Funding Source' },
-    },
-  } as any
+    } as any
 
-  const uiSchema = {
-    source: {
-      ['ui:placeholder']: 'Select a Funding Source',
-    },
-    fundId: { ['ui:placeholder']: 'Enter DID or !name' },
-  }
+    const uiSchema = {
+      source: {
+        ['ui:placeholder']: 'Select a Funding Source',
+      },
+      fundId: { ['ui:placeholder']: 'Enter DID or !name' },
+    }
 
-  const handleUpdateDebounce = debounce(handleUpdate, 500)
-
-  return (
-    <FormContainer className="row">
-      <div className="col-lg-12">
-        <Form
+    return (
+      <>
+        <MultiControlForm
+          ref={ref}
+          onSubmit={handleSubmitted}
+          onFormDataChange={handleUpdateContent}
+          onError={handleError}
           formData={formData}
-          onChange={(control): void =>
-            handleUpdateDebounce(id, control.formData)
-          }
-          noHtml5Validate
-          liveValidate
-          showErrorList={false}
           schema={schema}
           uiSchema={uiSchema}
-          transformErrors={formUtils.transformErrors}
-          ObjectFieldTemplate={ObjectFieldTemplate2Column}
+          multiColumn
         >
           &nbsp;
-        </Form>
-      </div>
-      <div className="col-lg-12 text-right">
-        <LinkButton type="button" onClick={(): void => handleRemoveSection(id)}>
-          - Remove
-        </LinkButton>
-      </div>
-    </FormContainer>
-  )
-}
+        </MultiControlForm>
+        <div className="text-right">
+          <LinkButton type="button" onClick={handleRemoveSection}>
+            - Remove
+          </LinkButton>
+        </div>
+      </>
+    )
+  },
+)
 
 export default FundCard

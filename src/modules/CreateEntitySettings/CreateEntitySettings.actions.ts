@@ -16,83 +16,88 @@ import {
   UpdateRequiredCredentialAction,
   UpdateDisplayCredentialAction,
   UpdateFiltersAction,
+  ValidatedAction,
+  ValidationErrorAction,
 } from './types'
 import { FormData } from 'common/components/JsonForm/types'
 
 const PDS_URL = process.env.REACT_APP_PDS_URL
 
-export const updateCreator = (formData: FormData): UpdateCreatorAction => {
+export const updateCreator = (formData: FormData) => (
+  dispatch: Dispatch,
+): UpdateCreatorAction | UploadCreatorImageAction => {
   const {
-    name,
-    country,
+    displayName,
+    location,
     email,
     website,
     mission,
-    identifier,
-    credentialTokenId,
+    creatorId,
+    credential,
+    fileSrc,
   } = formData
 
-  return {
+  if (fileSrc && fileSrc.startsWith('data:')) {
+    return dispatch({
+      type: CreateEntitySettingsActions.UploadCreatorImage,
+      payload: blocksyncApi.project
+        .createPublic(fileSrc, PDS_URL)
+        .then((response: any) => ({
+          fileSrc: `${PDS_URL}public/${response.result}`,
+        })),
+    })
+  }
+
+  return dispatch({
     type: CreateEntitySettingsActions.UpdateCreator,
     payload: {
-      name,
-      country,
+      displayName,
+      location,
       email,
       website,
       mission,
-      identifier,
-      credentialTokenId,
+      creatorId,
+      credential,
     },
-  }
-}
-
-export const uploadCreatorImage = (base64ImageData: string) => (
-  dispatch: Dispatch,
-): UploadCreatorImageAction => {
-  return dispatch({
-    type: CreateEntitySettingsActions.UploadCreatorImage,
-    payload: blocksyncApi.project
-      .createPublic(base64ImageData, PDS_URL)
-      .then((response: any) => ({ did: response.result })),
   })
 }
 
-export const updateOwner = (formData: FormData): UpdateOwnerAction => {
+export const updateOwner = (formData: FormData) => (
+  dispatch: Dispatch,
+): UpdateOwnerAction | UploadOwnerImageAction => {
   const {
-    name,
-    country,
+    displayName,
+    location,
     email,
     website,
     mission,
-    identifier,
-    matrixId,
+    ownerId,
+    fileSrc,
   } = formData
 
-  return {
+  if (fileSrc && fileSrc.startsWith('data:')) {
+    return dispatch({
+      type: CreateEntitySettingsActions.UploadOwnerImage,
+      payload: blocksyncApi.project
+        .createPublic(fileSrc, PDS_URL)
+        .then((response: any) => ({
+          fileSrc: `${PDS_URL}public/${response.result}`,
+        })),
+    })
+  }
+
+  return dispatch({
     type: CreateEntitySettingsActions.UpdateOwner,
     payload: {
-      name,
-      country,
+      displayName,
+      location,
       email,
       website,
       mission,
-      matrixId,
-      identifier,
+      ownerId,
     },
-  }
-}
-
-export const uploadOwnerImage = (base64ImageData: string) => (
-  dispatch: Dispatch,
-): UploadOwnerImageAction => {
-  return dispatch({
-    type: CreateEntitySettingsActions.UploadOwnerImage,
-    payload: blocksyncApi.project
-      .createPublic(base64ImageData, PDS_URL)
-      .then((response: any) => ({ did: response.result })),
   })
 }
-
 export const updateStatus = (formData: FormData): UpdateStatusAction => {
   const { dates, stage, status } = formData
   const dateParts = dates.split('|')
@@ -125,8 +130,6 @@ export const addRequiredCredentialSection = (): AddRequiredCredentialSectionActi
     type: CreateEntitySettingsActions.AddRequiredCredentialSection,
     payload: {
       id: uuidv4(),
-      credential: null,
-      issuer: null,
     },
   }
 }
@@ -170,8 +173,6 @@ export const addDisplayCredentialSection = (): AddDisplayCredentialSectionAction
     type: CreateEntitySettingsActions.AddDisplayCredentialSection,
     payload: {
       id: uuidv4(),
-      credential: null,
-      badge: null,
     },
   }
 }
@@ -202,3 +203,21 @@ export const updateDisplayCredential = (
     },
   }
 }
+
+export const validated = (identifier: string): ValidatedAction => ({
+  type: CreateEntitySettingsActions.Validated,
+  payload: {
+    identifier,
+  },
+})
+
+export const validationError = (
+  identifier: string,
+  errors: string[],
+): ValidationErrorAction => ({
+  type: CreateEntitySettingsActions.ValidationError,
+  payload: {
+    identifier,
+    errors,
+  },
+})

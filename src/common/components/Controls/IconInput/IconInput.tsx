@@ -5,6 +5,8 @@ interface Props {
   iconAssetPath: string
   placeholder: string
   onChange: (value: string) => void
+  onBlur: (value: string) => void
+  onFocus: (value: string) => void
 }
 
 const IconInput: React.FunctionComponent<Props> = ({
@@ -12,6 +14,8 @@ const IconInput: React.FunctionComponent<Props> = ({
   iconAssetPath,
   placeholder,
   onChange,
+  onBlur,
+  onFocus,
 }) => {
   return (
     <div className="input-group">
@@ -21,6 +25,8 @@ const IconInput: React.FunctionComponent<Props> = ({
       <input
         value={value}
         onChange={(e): void => onChange(e.target.value)}
+        onBlur={(): void => onBlur(value)}
+        onFocus={(): void => onFocus(value)}
         placeholder={placeholder}
         className="form-control"
       />

@@ -8,21 +8,16 @@ import { ControlContainer } from './SingleControlForm.styles'
 interface Props {
   formControl: FormControl
   formData: FormData
-  savingFormData: boolean
-  nextButtonText: string
-  showPreviousButton: boolean
-  handlePreviousClick: () => void
+  uploading: boolean
   handleSubmit: () => void
   handleFormDataChange: (formData: any) => void
 }
 
 const SingleControlForm: React.FunctionComponent<Props> = ({
+  children,
   formControl,
   formData,
-  savingFormData,
-  nextButtonText,
-  showPreviousButton,
-  handlePreviousClick,
+  uploading,
   handleSubmit,
   handleFormDataChange,
 }) => {
@@ -78,7 +73,7 @@ const SingleControlForm: React.FunctionComponent<Props> = ({
       ['ui:options']: {
         inline,
       },
-      ['ui:savingFormData']: savingFormData,
+      ['ui:uploading']: uploading,
     },
   }
 
@@ -96,16 +91,7 @@ const SingleControlForm: React.FunctionComponent<Props> = ({
           uiSchema={uiSchema}
           transformErrors={formUtils.transformErrors}
         >
-          <div className="buttons">
-            {showPreviousButton && (
-              <button type="button" onClick={handlePreviousClick}>
-                Previous
-              </button>
-            )}
-            <button type="submit" className="submitForm">
-              {nextButtonText}
-            </button>
-          </div>
+          {children}
         </Form>
       </ControlContainer>
     </FormContainer>

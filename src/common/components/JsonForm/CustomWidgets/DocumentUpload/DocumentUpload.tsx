@@ -9,7 +9,7 @@ interface Props {
 }
 
 const DocumentUpload: React.FunctionComponent<Props> = ({
-  options: { savingFormData },
+  options: { uploading },
   value,
   onChange,
 }) => {
@@ -18,7 +18,7 @@ const DocumentUpload: React.FunctionComponent<Props> = ({
       maxFileSize={5000000}
       fileType={FileType.Document}
       uploadedFileSrc={value}
-      uploading={savingFormData}
+      uploading={uploading}
       handleSave={(base64EncodedFile): void => onChange(base64EncodedFile)}
     />
   );

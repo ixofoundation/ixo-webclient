@@ -3,17 +3,21 @@ import { DropDownOption } from "./types";
 import { Container, SelectContainer } from "./IconDropDownSelect.styles";
 
 interface Props {
-  options: DropDownOption[];
-  value: string;
-  onChange: (value: string) => void;
-  selectText: string;
+  options: DropDownOption[]
+  value: string
+  selectText: string
+  onChange: (value: string) => void
+  onBlur: (value: string) => void
+  onFocus: (value: string) => void
 }
 
 const DropDownImageSelect: React.FunctionComponent<Props> = ({
   options,
   value,
-  onChange,
   selectText,
+  onChange,
+  onBlur,
+  onFocus,
 }) => {
   const [selectedIconSRC, setSelectedIconSRC] = useState<string | null>("");
   const onChangeHandler = (value: string): void => {
@@ -27,15 +31,17 @@ const DropDownImageSelect: React.FunctionComponent<Props> = ({
     } else {
       setSelectedIconSRC(null);
     }
-    onChange(value);
-  };
+    onChange(value || null)
+  }
 
   return (
     <Container>
       <SelectContainer
         defaultValue={value}
         onChange={(e): void => onChangeHandler(e.target.value)}
-        className={value && value.length > 0 ? "active" : ""}
+        onBlur={(): void => onBlur(value)}
+        onFocus={(): void => onFocus(value)}
+        className={value && value.length > 0 ? 'active' : null}
         id="symbol"
       >
         <option value="">{selectText}</option>

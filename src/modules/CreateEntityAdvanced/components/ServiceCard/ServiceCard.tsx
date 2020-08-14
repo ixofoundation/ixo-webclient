@@ -1,115 +1,119 @@
 import React from 'react'
-import Form from '@rjsf/core'
-import { debounce } from 'debounce'
-import { FormContainer } from '../../../../common/components/JsonForm/JsonForm.styles'
-import * as formUtils from '../../../../common/components/JsonForm/JsonForm.utils'
-import { FormData } from '../../../../common/components/JsonForm/types'
-import { ObjectFieldTemplate2Column } from '../../../../common/components/JsonForm/CustomTemplates/ObjectFieldTemplate'
 import { ServiceType } from '../../../Entities/types'
 import { serviceTypeMap } from '../../../Entities/strategy-map'
+import MultiControlForm from '../../../../common/components/JsonForm/MultiControlForm/MultiControlForm'
+import { FormCardProps } from '../../../CreateEntity/types'
+import { LinkButton } from '../../../../common/components/JsonForm/JsonForm.styles'
 
-interface Props {
+interface Props extends FormCardProps {
   type: ServiceType
   shortDescription: string
-  endpoint: string
+  serviceEndpoint: string
   publicKey: string
-  otherParams: string
-  handleUpdate: (formData: FormData) => void
+  properties: string
 }
 
-const ServiceCard: React.FunctionComponent<Props> = ({
-  type,
-  shortDescription,
-  endpoint,
-  publicKey,
-  otherParams,
-  handleUpdate,
-}) => {
-  const formData = {
-    type,
-    shortDescription,
-    endpoint,
-    publicKey,
-    otherParams,
-  }
+const ServiceCard: React.FunctionComponent<Props> = React.forwardRef(
+  (
+    {
+      type,
+      shortDescription,
+      serviceEndpoint,
+      publicKey,
+      properties,
+      handleUpdateContent,
+      handleSubmitted,
+      handleError,
+      handleRemoveSection,
+    },
+    ref,
+  ) => {
+    const formData = {
+      type,
+      shortDescription,
+      serviceEndpoint,
+      publicKey,
+      properties,
+    }
 
-  const schema = {
-    type: 'object',
-    required: [
-      'type',
-      'shortDescription',
-      'endpoint',
-      'publicKey',
-      'otherParams',
-    ],
-    properties: {
+    const schema = {
+      type: 'object',
+      required: [
+        'type',
+        'shortDescription',
+        'serviceEndpoint',
+        'publicKey',
+        'properties',
+      ],
+      properties: {
+        type: {
+          type: 'string',
+          title: 'Service Type',
+          enum: Object.keys(ServiceType).map(key => ServiceType[key]),
+          enumNames: Object.keys(ServiceType).map(
+            key => serviceTypeMap[ServiceType[key]].title,
+          ),
+        },
+        serviceEndpoint: {
+          type: 'string',
+          title: 'Service Endpoint',
+        },
+        publicKey: {
+          type: 'string',
+          title: 'Public Key / Token',
+        },
+        properties: {
+          type: 'string',
+          title: 'Other Parameters',
+        },
+        shortDescription: {
+          type: 'string',
+          title: 'Short Description',
+        },
+      },
+    } as any
+
+    const uiSchema = {
       type: {
-        type: 'string',
-        title: 'Service Type',
-        enum: Object.keys(ServiceType).map(key => ServiceType[key]),
-        enumNames: Object.keys(ServiceType).map(
-          key => serviceTypeMap[ServiceType[key]].title,
-        ),
+        ['ui:placeholder']: 'Select Service',
       },
-      shortDescription: {
-        type: 'string',
-        title: 'Short Description',
-      },
-      endpoint: {
-        type: 'string',
-        title: 'Service Endpoint',
+      serviceEndpoint: {
+        ['ui:placeholder']: 'Enter URL',
       },
       publicKey: {
-        type: 'string',
-        title: 'Public Key / Token',
+        ['ui:placeholder']: 'Enter Value',
       },
-      otherParams: {
-        type: 'string',
-        title: 'Other Parameters',
+      properties: {
+        ['ui:placeholder']: 'Paste a Valid String',
       },
-    },
-  } as any
+      shortDescription: {
+        ['ui:widget']: 'textarea',
+        ['ui:placeholder']: 'Start Typing Here',
+      },
+    }
 
-  const uiSchema = {
-    type: {
-      ['ui:placeholder']: 'Select Service',
-    },
-    shortDescription: {
-      ['ui:widget']: 'textarea',
-      ['ui:placeholder']: 'Start Typing Here',
-    },
-    endpoint: {
-      ['ui:placeholder']: 'Enter URL',
-    },
-    publicKey: {
-      ['ui:placeholder']: 'Enter Value',
-    },
-    otherParams: {
-      ['ui:placeholder']: 'Paste a Valid String',
-    },
-  }
-
-  const handleUpdateDebounce = debounce(handleUpdate, 500)
-
-  return (
-    <FormContainer className="row">
-      <div className="col-lg-12">
-        <Form
+    return (
+      <>
+        <MultiControlForm
+          ref={ref}
+          onSubmit={handleSubmitted}
+          onFormDataChange={handleUpdateContent}
+          onError={handleError}
           formData={formData}
-          onChange={(control): void => handleUpdateDebounce(control.formData)}
-          noHtml5Validate
-          liveValidate
-          showErrorList={false}
           schema={schema}
           uiSchema={uiSchema}
-          transformErrors={formUtils.transformErrors}
-          ObjectFieldTemplate={ObjectFieldTemplate2Column}
+          multiColumn
         >
           &nbsp;
-        </Form>
-      </div>
-    </FormContainer>
-  )
-}
+        </MultiControlForm>
+        <div className="text-right">
+          <LinkButton type="button" onClick={handleRemoveSection}>
+            - Remove
+          </LinkButton>
+        </div>
+      </>
+    )
+  },
+)
 
 export default ServiceCard

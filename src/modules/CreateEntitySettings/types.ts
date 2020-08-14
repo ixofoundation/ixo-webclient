@@ -4,29 +4,25 @@ import {
   PageView,
   EntityView,
 } from '../Entities/types'
+import { FileContent, Validation } from 'modules/CreateEntity/types'
 
-export interface Creator {
-  name: string
-  country: string
+export interface Creator extends FileContent {
+  displayName: string
+  location: string
   email: string
   website: string
   mission: string
-  identifier: string
-  credentialTokenId: string
-  imageDid: string
-  uploadingImage: boolean
+  creatorId: string
+  credential: string
 }
 
-export interface Owner {
-  name: string
-  country: string
+export interface Owner extends FileContent {
+  displayName: string
+  location: string
   email: string
   website: string
   mission: string
-  identifier: string
-  matrixId: string
-  imageDid: string
-  uploadingImage: boolean
+  ownerId: string
 }
 
 export interface Status {
@@ -67,6 +63,9 @@ export interface CreateEntitySettingsState {
   displayCredentials: {
     [id: string]: DisplayCredential
   }
+  validation: {
+    [identifier: string]: Validation
+  }
 }
 
 export enum CreateEntitySettingsActions {
@@ -96,25 +95,28 @@ export enum CreateEntitySettingsActions {
   AddDisplayCredentialSection = 'ixo/CreateEntitySettings/ADD_DISPLAY_CREDENTIAL_SECTION',
   RemoveDisplayCredentialSection = 'ixo/CreateEntitySettings/REMOVE_DISPLAY_CREDENTIAL_SECTION',
   UpdateDisplayCredential = 'ixo/CreateEntitySettings/UPDATE_DISPLAY_CREDENTIALS',
+  // Validation
+  Validated = 'ixo/CreateEntitySettings/SET_VALIDATED',
+  ValidationError = 'ixo/CreateEntitySettings/VALIDATION_ERROR',
 }
 
 export interface UpdateCreatorAction {
   type: typeof CreateEntitySettingsActions.UpdateCreator
   payload: {
-    name: string
-    country: string
+    displayName: string
+    location: string
     email: string
     website: string
     mission: string
-    identifier: string
-    credentialTokenId: string
+    creatorId: string
+    credential: string
   }
 }
 
 export interface UploadCreatorImageAction {
   type: typeof CreateEntitySettingsActions.UploadCreatorImage
   payload: Promise<{
-    did: string
+    fileSrc: string
   }>
 }
 
@@ -125,7 +127,7 @@ export interface UploadCreatorImagePendingAction {
 export interface UploadCreatorImageSuccessAction {
   type: typeof CreateEntitySettingsActions.UploadCreatorImageSuccess
   payload: {
-    did: string
+    fileSrc: string
   }
 }
 
@@ -136,20 +138,19 @@ export interface UploadCreatorImageFailureAction {
 export interface UpdateOwnerAction {
   type: typeof CreateEntitySettingsActions.UpdateOwner
   payload: {
-    name: string
-    country: string
+    displayName: string
+    location: string
     email: string
     website: string
     mission: string
-    identifier: string
-    matrixId: string
+    ownerId: string
   }
 }
 
 export interface UploadOwnerImageAction {
   type: typeof CreateEntitySettingsActions.UploadOwnerImage
   payload: Promise<{
-    did: string
+    fileSrc: string
   }>
 }
 
@@ -160,7 +161,7 @@ export interface UploadOwnerImagePendingAction {
 export interface UploadOwnerImageSuccessAction {
   type: typeof CreateEntitySettingsActions.UploadOwnerImageSuccess
   payload: {
-    did: string
+    fileSrc: string
   }
 }
 
@@ -190,8 +191,6 @@ export interface AddRequiredCredentialSectionAction {
   type: typeof CreateEntitySettingsActions.AddRequiredCredentialSection
   payload: {
     id: string
-    credential: string
-    issuer: string
   }
 }
 
@@ -222,8 +221,6 @@ export interface AddDisplayCredentialSectionAction {
   type: typeof CreateEntitySettingsActions.AddDisplayCredentialSection
   payload: {
     id: string
-    credential: string
-    badge: string
   }
 }
 
@@ -240,6 +237,21 @@ export interface UpdateDisplayCredentialAction {
     id: string
     credential: string
     badge: string
+  }
+}
+
+export interface ValidatedAction {
+  type: typeof CreateEntitySettingsActions.Validated
+  payload: {
+    identifier: string
+  }
+}
+
+export interface ValidationErrorAction {
+  type: typeof CreateEntitySettingsActions.ValidationError
+  payload: {
+    identifier: string
+    errors: string[]
   }
 }
 
@@ -263,3 +275,5 @@ export type CreateEntitySettingsActionTypes =
   | AddDisplayCredentialSectionAction
   | RemoveDisplayCredentialSectionAction
   | UpdateDisplayCredentialAction
+  | ValidatedAction
+  | ValidationErrorAction

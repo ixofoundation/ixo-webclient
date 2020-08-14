@@ -1,95 +1,85 @@
 import React from 'react'
-import Form from '@rjsf/core'
-import { debounce } from 'debounce'
-import {
-  FormContainer,
-  LinkButton,
-} from '../../../../common/components/JsonForm/JsonForm.styles'
-import * as formUtils from '../../../../common/components/JsonForm/JsonForm.utils'
-import { FormData } from '../../../../common/components/JsonForm/types'
-import { ObjectFieldTemplate2Column } from '../../../../common/components/JsonForm/CustomTemplates/ObjectFieldTemplate'
+import { LinkButton } from '../../../../common/components/JsonForm/JsonForm.styles'
 import { DataResourceType } from '../../../Entities/types'
 import { dataResourceTypeMap } from '../../../Entities/strategy-map'
+import { FormCardProps } from '../../../CreateEntity/types'
+import MultiControlForm from '../../../..//common/components/JsonForm/MultiControlForm/MultiControlForm'
 
-interface Props {
-  id: string
+interface Props extends FormCardProps {
   type: DataResourceType
   dataId: string
-  resourceLocator: string
-  otherParams: string
-  handleUpdate: (id: string, formData: FormData) => void
-  handleRemoveSection: (id: string) => void
+  serviceEndpoint: string
+  properties: string
 }
 
-const FundCard: React.FunctionComponent<Props> = ({
-  id,
-  type,
-  dataId,
-  resourceLocator,
-  otherParams,
-  handleUpdate,
-  handleRemoveSection,
-}) => {
-  const formData = {
-    type,
-    dataId,
-    resourceLocator,
-    otherParams,
-  }
-
-  const schema = {
-    type: 'object',
-    required: ['type', 'dataId', 'resourceLocator', 'otherParams'],
-    properties: {
-      type: {
-        type: 'string',
-        title: 'Data Resource',
-        enum: Object.keys(DataResourceType).map(key => DataResourceType[key]),
-        enumNames: Object.keys(DataResourceType).map(
-          key => dataResourceTypeMap[DataResourceType[key]].title,
-        ),
-      },
-      dataId: { type: 'string', title: 'Data Identifier' },
-      resourceLocator: { type: 'string', title: 'Resouce Locator' },
-      otherParams: { type: 'string', title: 'Other Parameters' },
+const FundCard: React.FunctionComponent<Props> = React.forwardRef(
+  (
+    {
+      type,
+      dataId,
+      serviceEndpoint,
+      properties,
+      handleUpdateContent,
+      handleSubmitted,
+      handleError,
+      handleRemoveSection,
     },
-  } as any
+    ref,
+  ) => {
+    const formData = {
+      type,
+      dataId,
+      serviceEndpoint,
+      properties,
+    }
 
-  const uiSchema = {
-    type: { ['ui:placeholder']: 'Select Resource' },
-    dataId: { ['ui:placeholder']: 'Enter DID or !name' },
-    resourceLocator: { ['ui:placeholder']: 'Enter URL' },
-    otherParams: { ['ui:placeholder']: 'Paste a Valid Parameter String' },
-  }
+    const schema = {
+      type: 'object',
+      required: ['type', 'dataId', 'serviceEndpoint', 'properties'],
+      properties: {
+        type: {
+          type: 'string',
+          title: 'Data Resource',
+          enum: Object.keys(DataResourceType).map(key => DataResourceType[key]),
+          enumNames: Object.keys(DataResourceType).map(
+            key => dataResourceTypeMap[DataResourceType[key]].title,
+          ),
+        },
+        dataId: { type: 'string', title: 'Data Identifier' },
+        serviceEndpoint: { type: 'string', title: 'Resouce Locator' },
+        properties: { type: 'string', title: 'Other Parameters' },
+      },
+    } as any
 
-  const handleUpdateDebounce = debounce(handleUpdate, 500)
+    const uiSchema = {
+      type: { ['ui:placeholder']: 'Select Resource' },
+      dataId: { ['ui:placeholder']: 'Enter DID or !name' },
+      serviceEndpoint: { ['ui:placeholder']: 'Enter URL' },
+      properties: { ['ui:placeholder']: 'Paste a Valid Parameter String' },
+    }
 
-  return (
-    <FormContainer className="row">
-      <div className="col-lg-12">
-        <Form
+    return (
+      <>
+        <MultiControlForm
+          ref={ref}
+          onSubmit={handleSubmitted}
+          onFormDataChange={handleUpdateContent}
+          onError={handleError}
           formData={formData}
-          onChange={(control): void =>
-            handleUpdateDebounce(id, control.formData)
-          }
-          noHtml5Validate
-          liveValidate
-          showErrorList={false}
           schema={schema}
           uiSchema={uiSchema}
-          transformErrors={formUtils.transformErrors}
-          ObjectFieldTemplate={ObjectFieldTemplate2Column}
+          multiColumn
         >
           &nbsp;
-        </Form>
-      </div>
-      <div className="col-lg-12 text-right">
-        <LinkButton type="button" onClick={(): void => handleRemoveSection(id)}>
-          - Remove
-        </LinkButton>
-      </div>
-    </FormContainer>
-  )
-}
+        </MultiControlForm>
+        <div className="text-right">
+          <LinkButton type="button" onClick={handleRemoveSection}>
+            - Remove
+          </LinkButton>
+        </div>
+      </>
+    )
+  },
+)
 
 export default FundCard

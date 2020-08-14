@@ -19,41 +19,60 @@ let state: any
 beforeEach(() => {
   state = {
     createEntityAdvanced: {
-      linkedEntity: {
-        entityId: 'someEntityId',
-        type: EntityType.Investment,
+      linkedEntities: {
+        '9b1deb4d-3b7d-4bad-9abc-2b0d7b3dcb6d': {
+          id: '9b1deb4d-3b7d-4bad-9abc-2b0d7b3dcb6d',
+          entityId: 'someEntityId',
+          type: EntityType.Investment,
+        },
+        '9b1deb4d-3b7d-4ggg-9abc-2b0d7b3dcb6d': {
+          id: '9b1deb4d-3b7d-4ggg-9abc-2b0d7b3dcb6d',
+          entityId: 'someEntityId',
+          type: EntityType.Investment,
+        },
       },
-      payment: {
-        denomination: PaymentDenomination.eCHF,
-        maxAmount: 123,
-        maxUnits: 456,
-        paymentId: 'somePaymentId',
-        type: PaymentType.IncomeDistribution,
+      payments: {
+        '9b1deb4d-3hhh-4bad-9bdd-2b0d7b3dcb6d': {
+          id: '9b1deb4d-3hhh-4bad-9bdd-2b0d7b3dcb6d',
+          denom: PaymentDenomination.eCHF,
+          maxFee: 123,
+          maxQty: 456,
+          paymentId: 'somePaymentId',
+          type: PaymentType.IncomeDistribution,
+        },
+        '9b1deb4d-3aaa-4bad-9bdd-2b0d7b3dcb6d': {
+          id: '9b1deb4d-3aaa-4bad-9bdd-2b0d7b3dcb6d',
+          denom: PaymentDenomination.eCHF,
+          maxFee: 123,
+          maxQty: 456,
+          paymentId: 'somePaymentId',
+          type: PaymentType.IncomeDistribution,
+        },
       },
       staking: {
         '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d': {
           id: '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d',
           type: StakeType.ClaimGuarantee,
           stakeId: 'someStakeId',
-          denomination: PaymentDenomination.eEUR,
-          depositAddress: 'someDepositAddress',
+          denom: PaymentDenomination.eEUR,
+          stakeAddress: 'someDepositAddress',
           minStake: 123,
-          slashingCondition: SlashingCondition.FailedDispute,
+          slashCondition: SlashingCondition.FailedDispute,
           slashFactor: 456,
-          maxSlashAmount: 789,
-          unbondingPeriod: 10,
+          slashAmount: 789,
+          unbondPeriod: 10,
         },
         '9b1deb4x-3b7d-4bad-9bdd-2b0d7b3dcb6d': {
           id: '9b1deb4x-3b7d-4bad-9bdd-2b0d7b3dcb6d',
           type: StakeType.InsuranceGuarantee,
           stakeId: 'someStakeId2',
-          denomination: PaymentDenomination.eCHF,
-          depositAddress: 'someDepositAddress2',
+          denom: PaymentDenomination.eCHF,
+          stakeAddress: 'someDepositAddress2',
           minStake: 1230,
-          slashingCondition: SlashingCondition.FailedProposal,
+          slashCondition: SlashingCondition.FailedProposal,
           slashFactor: 4560,
-          maxSlashAmount: 7890,
-          unbondingPeriod: 100,
+          slashAmount: 7890,
+          unbondPeriod: 100,
         },
       },
       nodes: {
@@ -80,35 +99,72 @@ beforeEach(() => {
           fundId: 'someOtherFundId2',
         },
       },
-      key: {
-        controllerId: 'someKeyControllerId',
-        dateCreated: 'someKeyDateCreated',
-        dateUpdated: 'someKeyDateUpdated',
-        denomination: PaymentDenomination.eUSD,
-        purpose: KeyPurpose.Identification,
-        type: KeyType.Secp256k1VerificationKey2018,
+      keys: {
+        '8c1dejjj-3b7d-4bad-9bdd-2b0d7b3dcb6d': {
+          id: '8c1dejjj-3b7d-4bad-9bdd-2b0d7b3dcb6d',
+          controller: 'someKeyControllerId',
+          dateCreated: 'someKeyDateCreated',
+          dateUpdated: 'someKeyDateUpdated',
+          keyValue: 'someKeyValue',
+          purpose: KeyPurpose.Identification,
+          type: KeyType.Secp256k1VerificationKey2018,
+          signature: 'someSignature',
+        },
+        '8c1dejjj-3b7d-4bad-9bdd-2b0d7b3dgggg': {
+          id: '8c1dejjj-3b7d-4bad-9bdd-2b0d7b3dgggg',
+          controller: 'someKeyControllerId',
+          dateCreated: 'someKeyDateCreated',
+          dateUpdated: 'someKeyDateUpdated',
+          keyValue: 'someKeyValue',
+          purpose: KeyPurpose.Identification,
+          type: KeyType.Secp256k1VerificationKey2018,
+          signature: 'someSignature',
+        },
       },
-      service: {
-        endpoint: 'someServiceEndpoint',
-        otherParams: 'someServiceOtherParams',
-        publicKey: 'someServicePublicKey',
-        shortDescription: 'someServiceShortDescription',
-        type: ServiceType.EthereumWeb3,
+      services: {
+        '8c1debff-3b7d-4yasy-9bdd-2b0d7b3dcb6d': {
+          id: '8c1debff-3b7d-4yasy-9bdd-2b0d7b3dcb6d',
+          serviceEndpoint: 'someServiceEndpoint',
+          properties: 'someServiceOtherParams',
+          publicKey: 'someServicePublicKey',
+          shortDescription: 'someServiceShortDescription',
+          type: ServiceType.EthereumWeb3,
+        },
+        '8c1debff-3b7d-4yasy-9bdd-2b0d7b3dxxxx': {
+          id: '8c1debff-3b7d-4yasy-9bdd-2b0d7b3dxxxx',
+          serviceEndpoint: 'someServiceEndpoint2',
+          properties: 'someServiceOtherParams2',
+          publicKey: 'someServicePublicKe2y',
+          shortDescription: 'someServiceShortDescription',
+          type: ServiceType.DIDAgent,
+        },
       },
       dataResources: {
         '8c1debff-3b7d-4bad-9bdd-2b0d7b3dcb6d': {
           id: '8c1debff-3b7d-4bad-9bdd-2b0d7b3dcb6d',
           type: DataResourceType.SchemaOverlay,
           dataId: 'someDataId',
-          resourceLocator: 'someResourceLocator',
-          otherParams: 'someOtherParams',
+          serviceEndpoint: 'someResourceLocator',
+          properties: 'someOtherParams',
         },
         '8c1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d': {
           id: '8c1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d',
           type: DataResourceType.MobileIdentityWallet,
           dataId: 'someDataId2',
-          resourceLocator: 'someResourceLocator2',
-          otherParams: 'someOtherParams2',
+          serviceEndpoint: 'someResourceLocator2',
+          properties: 'someOtherParams2',
+        },
+      },
+      validation: {
+        '8c1debff-3b7d-4bad-9bdd-2b0d7b3dcb6d': {
+          identifier: '8c1debff-3b7d-4bad-9bdd-2b0d7b3dcb6d',
+          validated: true,
+          errors: [],
+        },
+        '8c1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d': {
+          identifier: '8c1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d',
+          validated: false,
+          errors: ['error1', 'error2'],
         },
       },
     } as CreateEntityAdvancedState,
@@ -126,32 +182,51 @@ describe('CreateEntityAdvanced Selectors', () => {
     })
   })
 
-  describe('selectLinkedEntity', () => {
-    it('should return the linkedEntity property of createEntityAdvanced state', () => {
+  describe('selectLinkedEntities', () => {
+    it('should return the linkedEntities property of createEntityAdvanced state', () => {
       // when ... we call the selector
-      const result = SUT.selectLinkedEntity(state)
+      const result = SUT.selectLinkedEntities(state)
 
       // then ... should return result as expected
-      expect(result).toEqual({
-        entityId: 'someEntityId',
-        type: EntityType.Investment,
-      })
+      expect(result).toEqual([
+        {
+          id: '9b1deb4d-3b7d-4bad-9abc-2b0d7b3dcb6d',
+          entityId: 'someEntityId',
+          type: EntityType.Investment,
+        },
+        {
+          id: '9b1deb4d-3b7d-4ggg-9abc-2b0d7b3dcb6d',
+          entityId: 'someEntityId',
+          type: EntityType.Investment,
+        },
+      ])
     })
   })
 
-  describe('selectPayment', () => {
-    it('should return the payment property of createEntityAdvanced state', () => {
+  describe('selectPayments', () => {
+    it('should return the payments property of createEntityAdvanced state', () => {
       // when ... we call the selector
-      const result = SUT.selectPayment(state)
+      const result = SUT.selectPayments(state)
 
       // then ... should return result as expected
-      expect(result).toEqual({
-        denomination: PaymentDenomination.eCHF,
-        maxAmount: 123,
-        maxUnits: 456,
-        paymentId: 'somePaymentId',
-        type: PaymentType.IncomeDistribution,
-      })
+      expect(result).toEqual([
+        {
+          id: '9b1deb4d-3hhh-4bad-9bdd-2b0d7b3dcb6d',
+          denom: PaymentDenomination.eCHF,
+          maxFee: 123,
+          maxQty: 456,
+          paymentId: 'somePaymentId',
+          type: PaymentType.IncomeDistribution,
+        },
+        {
+          id: '9b1deb4d-3aaa-4bad-9bdd-2b0d7b3dcb6d',
+          denom: PaymentDenomination.eCHF,
+          maxFee: 123,
+          maxQty: 456,
+          paymentId: 'somePaymentId',
+          type: PaymentType.IncomeDistribution,
+        },
+      ])
     })
   })
 
@@ -166,25 +241,25 @@ describe('CreateEntityAdvanced Selectors', () => {
           id: '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d',
           type: StakeType.ClaimGuarantee,
           stakeId: 'someStakeId',
-          denomination: PaymentDenomination.eEUR,
-          depositAddress: 'someDepositAddress',
+          denom: PaymentDenomination.eEUR,
+          stakeAddress: 'someDepositAddress',
           minStake: 123,
-          slashingCondition: SlashingCondition.FailedDispute,
+          slashCondition: SlashingCondition.FailedDispute,
           slashFactor: 456,
-          maxSlashAmount: 789,
-          unbondingPeriod: 10,
+          slashAmount: 789,
+          unbondPeriod: 10,
         },
         {
           id: '9b1deb4x-3b7d-4bad-9bdd-2b0d7b3dcb6d',
           type: StakeType.InsuranceGuarantee,
           stakeId: 'someStakeId2',
-          denomination: PaymentDenomination.eCHF,
-          depositAddress: 'someDepositAddress2',
+          denom: PaymentDenomination.eCHF,
+          stakeAddress: 'someDepositAddress2',
           minStake: 1230,
-          slashingCondition: SlashingCondition.FailedProposal,
+          slashCondition: SlashingCondition.FailedProposal,
           slashFactor: 4560,
-          maxSlashAmount: 7890,
-          unbondingPeriod: 100,
+          slashAmount: 7890,
+          unbondPeriod: 100,
         },
       ])
     })
@@ -232,36 +307,61 @@ describe('CreateEntityAdvanced Selectors', () => {
     })
   })
 
-  describe('selectKey', () => {
-    it('should return the key property of createEntityAdvanced state', () => {
+  describe('selectKeys', () => {
+    it('should return the keys property of createEntityAdvanced state', () => {
       // when ... we call the selector
-      const result = SUT.selectKey(state)
+      const result = SUT.selectKeys(state)
 
       // then ... should return result as expected
-      expect(result).toEqual({
-        controllerId: 'someKeyControllerId',
-        dateCreated: 'someKeyDateCreated',
-        dateUpdated: 'someKeyDateUpdated',
-        denomination: PaymentDenomination.eUSD,
-        purpose: KeyPurpose.Identification,
-        type: KeyType.Secp256k1VerificationKey2018,
-      })
+      expect(result).toEqual([
+        {
+          id: '8c1dejjj-3b7d-4bad-9bdd-2b0d7b3dcb6d',
+          controller: 'someKeyControllerId',
+          dateCreated: 'someKeyDateCreated',
+          dateUpdated: 'someKeyDateUpdated',
+          keyValue: 'someKeyValue',
+          signature: 'someSignature',
+          purpose: KeyPurpose.Identification,
+          type: KeyType.Secp256k1VerificationKey2018,
+        },
+        {
+          id: '8c1dejjj-3b7d-4bad-9bdd-2b0d7b3dgggg',
+          controller: 'someKeyControllerId',
+          dateCreated: 'someKeyDateCreated',
+          dateUpdated: 'someKeyDateUpdated',
+          keyValue: 'someKeyValue',
+          signature: 'someSignature',
+          purpose: KeyPurpose.Identification,
+          type: KeyType.Secp256k1VerificationKey2018,
+        },
+      ])
     })
   })
 
-  describe('selectService', () => {
-    it('should return the service property of createEntityAdvanced state', () => {
+  describe('selectServices', () => {
+    it('should return the services property of createEntityAdvanced state', () => {
       // when ... we call the selector
-      const result = SUT.selectService(state)
+      const result = SUT.selectServices(state)
 
       // then ... should return result as expected
-      expect(result).toEqual({
-        endpoint: 'someServiceEndpoint',
-        otherParams: 'someServiceOtherParams',
-        publicKey: 'someServicePublicKey',
-        shortDescription: 'someServiceShortDescription',
-        type: ServiceType.EthereumWeb3,
-      })
+      expect(result).toEqual([
+        {
+          id: '8c1debff-3b7d-4yasy-9bdd-2b0d7b3dcb6d',
+          serviceEndpoint: 'someServiceEndpoint',
+          properties: 'someServiceOtherParams',
+          publicKey: 'someServicePublicKey',
+          shortDescription: 'someServiceShortDescription',
+          type: ServiceType.EthereumWeb3,
+        },
+        {
+          id: '8c1debff-3b7d-4yasy-9bdd-2b0d7b3dxxxx',
+          serviceEndpoint: 'someServiceEndpoint2',
+          properties: 'someServiceOtherParams2',
+          publicKey: 'someServicePublicKe2y',
+          shortDescription: 'someServiceShortDescription',
+          type: ServiceType.DIDAgent,
+        },
+      ])
     })
   })
 
@@ -276,17 +376,93 @@ describe('CreateEntityAdvanced Selectors', () => {
           id: '8c1debff-3b7d-4bad-9bdd-2b0d7b3dcb6d',
           type: DataResourceType.SchemaOverlay,
           dataId: 'someDataId',
-          resourceLocator: 'someResourceLocator',
-          otherParams: 'someOtherParams',
+          serviceEndpoint: 'someResourceLocator',
+          properties: 'someOtherParams',
         },
         {
           id: '8c1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d',
           type: DataResourceType.MobileIdentityWallet,
           dataId: 'someDataId2',
-          resourceLocator: 'someResourceLocator2',
-          otherParams: 'someOtherParams2',
+          serviceEndpoint: 'someResourceLocator2',
+          properties: 'someOtherParams2',
         },
       ])
+    })
+  })
+  describe('selectValidation', () => {
+    it('should return the validation property', () => {
+      // when ... we call the selector
+      const result = SUT.selectValidation(state)
+
+      // then ... should return result as expected
+      expect(result).toEqual({
+        '8c1debff-3b7d-4bad-9bdd-2b0d7b3dcb6d': {
+          identifier: '8c1debff-3b7d-4bad-9bdd-2b0d7b3dcb6d',
+          validated: true,
+          errors: [],
+        },
+        '8c1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d': {
+          identifier: '8c1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d',
+          validated: false,
+          errors: ['error1', 'error2'],
+        },
+      })
+    })
+  })
+
+  describe('selectValidationComplete', () => {
+    it('should return false if not every section has completed validation', () => {
+      // when ... we call the selector
+      state = {
+        ...state,
+        createEntityAdvanced: {
+          ...state.createEntityAdvanced,
+          validation: {
+            '9b1deb4d-3b7d-4bad-9abc-2b0d7b3dcb6d': {},
+            '9b1deb4d-3b7d-4ggg-9abc-2b0d7b3dcb6d': {},
+            '9b1deb4d-3hhh-4bad-9bdd-2b0d7b3dcb6d': {},
+            '8c1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d': {},
+          },
+        },
+      }
+
+      const result = SUT.selectValidationComplete(state)
+
+      // then ... should return result as expected
+      expect(result).toEqual(false)
+    })
+
+    it('should return true if every section has completed validation', () => {
+      // when ... we call the selector
+      state = {
+        ...state,
+        createEntityAdvanced: {
+          ...state.createEntityAdvanced,
+          validation: {
+            '9b1deb4d-3b7d-4bad-9abc-2b0d7b3dcb6d': {},
+            '9b1deb4d-3b7d-4ggg-9abc-2b0d7b3dcb6d': {},
+            '9b1deb4d-3hhh-4bad-9bdd-2b0d7b3dcb6d': {},
+            '9b1deb4d-3aaa-4bad-9bdd-2b0d7b3dcb6d': {},
+            '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d': {},
+            '9b1deb4x-3b7d-4bad-9bdd-2b0d7b3dcb6d': {},
+            '1b9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed': {},
+            '1b9d6bef-bbfd-4b2d-9b5d-ab8dfbbd4bed': {},
+            '01deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d': {},
+            '01debxy-3b7d-4bad-9bdd-2b0d7b3dcb6d': {},
+            '8c1dejjj-3b7d-4bad-9bdd-2b0d7b3dcb6d': {},
+            '8c1dejjj-3b7d-4bad-9bdd-2b0d7b3dgggg': {},
+            '8c1debff-3b7d-4yasy-9bdd-2b0d7b3dcb6d': {},
+            '8c1debff-3b7d-4yasy-9bdd-2b0d7b3dxxxx': {},
+            '8c1debff-3b7d-4bad-9bdd-2b0d7b3dcb6d': {},
+            '8c1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d': {},
+          },
+        },
+      }
+
+      const result = SUT.selectValidationComplete(state)
+
+      // then ... should return result as expected
+      expect(result).toEqual(true)
     })
   })
 })
