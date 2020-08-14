@@ -20,6 +20,7 @@ export interface Props {
   match: any
   userInfo?: UserInfo
   assistantPanelToggle: () => void
+  enableAssistantButton?: boolean
 }
 
 export interface State {
@@ -117,6 +118,7 @@ export class BondsWrapper extends React.Component<Props, State> {
               hasCapability={this.handleHasCapability}
               isLoggedIn={isLoggedIn}
               assistantPanelToggle={assistantPanelToggle}
+              enableAssistantButton
             />
             <Header bondDID={params.bondDID} />
             {children}
