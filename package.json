@@ -92,7 +92,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "pretty-quick --staged"
+      "pre-commit": "npm run pretty-quick && npm run lint:fix"
     }
   },
   "browserslist": {
