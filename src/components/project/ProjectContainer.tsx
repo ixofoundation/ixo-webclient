@@ -88,7 +88,7 @@ export interface ParentProps {
   match: any
 }
 
-export interface Props extends ParentProps, StateProps {}
+export interface Props extends ParentProps, StateProps { }
 
 export class ProjectContainer extends React.Component<Props, State> {
   state = {
@@ -820,13 +820,6 @@ export class ProjectContainer extends React.Component<Props, State> {
       case contentType.overview:
         theContent = (
           <Fragment>
-            <ProjectHero
-              project={project}
-              match={this.props.match}
-              isDetail={false}
-              hasCapability={this.handleHasCapability}
-              isLoggedIn={this.props.isLoggedIn}
-            />
             <ProjectOverview
               match={this.props.match}
               projectDid={this.state.projectDid}
@@ -842,6 +835,8 @@ export class ProjectContainer extends React.Component<Props, State> {
               projectStatus={this.state.projectStatus}
               ledger={this.state.ledger}
               ledgerDid={this.handleLedgerDid}
+              isDetail={false}
+              isLoggedIn={this.props.isLoggedIn}
             />
           </Fragment>
         )
@@ -900,24 +895,24 @@ export class ProjectContainer extends React.Component<Props, State> {
             {this.state.claimSubmitted ? (
               <ProjectClaimSubmitted projectDid={this.state.projectDid} />
             ) : (
-              <DetailContainer>
-                <ProjectSidebar
-                  match={'claims'}
-                  projectDid={this.state.projectDid}
-                  hasCapability={this.handleHasCapability}
-                  singleClaimDependentsFetchedCallback={
-                    this.singleClaimDependentsFetchedCallback
-                  }
-                />
-                <ProjectNewClaim
-                  projectData={project}
-                  ixo={this.props.ixo}
-                  submitClaim={(claimData): void =>
-                    this.handleSubmitClaim(claimData)
-                  }
-                />
-              </DetailContainer>
-            )}
+                <DetailContainer>
+                  <ProjectSidebar
+                    match={'claims'}
+                    projectDid={this.state.projectDid}
+                    hasCapability={this.handleHasCapability}
+                    singleClaimDependentsFetchedCallback={
+                      this.singleClaimDependentsFetchedCallback
+                    }
+                  />
+                  <ProjectNewClaim
+                    projectData={project}
+                    ixo={this.props.ixo}
+                    submitClaim={(claimData): void =>
+                      this.handleSubmitClaim(claimData)
+                    }
+                  />
+                </DetailContainer>
+              )}
           </Fragment>
         )
         break
@@ -1012,8 +1007,8 @@ export class ProjectContainer extends React.Component<Props, State> {
         {this.state.projectPublic === null || this.state.userRoles === null ? (
           <Spinner info="Loading Entity..." />
         ) : (
-          this.handleRenderProject()
-        )}
+            this.handleRenderProject()
+          )}
       </Fragment>
     )
   }

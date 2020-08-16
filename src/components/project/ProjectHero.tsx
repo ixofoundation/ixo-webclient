@@ -127,7 +127,7 @@ export const ProjectHero: React.SFC<Props> = ({
       {onlyTitle && windowSize.width > deviceWidth.tablet && (
         <StyledFundingTitle>{project.title}</StyledFundingTitle>
       )}
-      <HeroContainer className="container-fluid" onlyTitle>
+      <HeroContainer className="container-fluid" onlyTitle={false}>
         {!onlyTitle && windowSize.width > deviceWidth.tablet && (
           <HeroInner className={`container ${isDetail && 'detailed'}`}>
             <div className="row">
