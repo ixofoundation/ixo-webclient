@@ -59,14 +59,17 @@ hr {
   display: flex;
   overflow: hidden;
 
-  @media screen and (max-width: 768px) {
-    flex-direction: column;
-  }
-
   .pane {
     padding: 2.5rem;
     width: 90%;
     flex: 1;
+  }
+
+  @media screen and (max-width: 768px) {
+    flex-direction: column;
+    .pane {
+      width: 100%;
+    }
   }
 
   .tablinks {
