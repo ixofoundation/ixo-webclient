@@ -15,10 +15,9 @@ import { ProjectCreateUploadPublicDocsConnected } from '../../components/project
 import { UnderConstruction } from '../../components/public/UnderConstruction'
 import { SubmitEntityClaimConnected } from '../../modules/SubmitEntityClaim/SubmitEntityClaim.container'
 import { CreateEntityConnected } from '../../modules/CreateEntity/CreateEntity.container'
-import { CreateClaimTemplateConnected } from '../../modules/CreateClaimTemplate/CreateClaimTemplate.container'
 import BondRoutes from './Bond_Routes'
 
-export const Routes: React.SFC<{}> = props => {
+export const Routes: React.SFC<{}> = (props) => {
   return (
     <Fragment>
       <Switch>
@@ -42,11 +41,6 @@ export const Routes: React.SFC<{}> = props => {
           )}
         />
         <Route path="/entities/select" component={EntitiesSelectConnected} />
-        <Route
-          exact
-          path="/claim_template/create"
-          component={CreateClaimTemplateConnected}
-        />
         <Route
           exact
           path="/projects/:projectDID/overview/action/new_claim/form"

@@ -12,7 +12,6 @@ import { SubmitEntityClaimState } from '../../modules/SubmitEntityClaim/types'
 import { Entity } from '../../modules/Entities/types'
 import { CreateEntityPageContentState } from '../../modules/CreateEntityPageContent/types'
 import { CreateEntityAttestationState } from '../../modules/CreateEntityAttestation/types'
-import { CreateClaimTemplateState } from '../../modules/CreateClaimTemplate/types'
 import { CreateEntityState } from '../../modules/CreateEntity/types'
 import { CreateEntitySettingsState } from 'modules/CreateEntitySettings/types'
 import { CreateEntityAdvancedState } from 'modules/CreateEntityAdvanced/types'
@@ -31,7 +30,6 @@ export interface RootState {
   entities: EntitiesState
   fuelEntity: FuelEntityState
   submitEntityClaim: SubmitEntityClaimState
-  createClaimTemplate: CreateClaimTemplateState
   selectedEntity: Entity
   createEntity: CreateEntityState
   createEntityPageContent: CreateEntityPageContentState
