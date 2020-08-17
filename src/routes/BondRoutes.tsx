@@ -1,9 +1,9 @@
 import React from 'react'
 import { Route, Switch, RouteComponentProps } from 'react-router-dom'
 
-import { Overview } from '../components/Bonds/OverviewWrapper/Overview'
-import Exchange from '../components/Bonds/ExchangeWrapper/Exchange'
-import Orders from '../../modules/BondAccountOrders/BondAccountOrders.container'
+import { Overview } from '../common/components/Bonds/OverviewWrapper/Overview'
+import Exchange from '../common/components/Bonds/ExchangeWrapper/Exchange'
+import Orders from '../modules/BondAccountOrders/BondAccountOrders.container'
 
 export const BondRoutes: React.SFC<Pick<RouteComponentProps, 'match'>> = ({
   match,
