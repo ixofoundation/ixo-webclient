@@ -138,6 +138,58 @@ describe('CreateEntityAttestation Actions', () => {
     })
   })
 
+  describe('singleDateSelectorQuestion', () => {
+    describe('addSingleDateSelectorQuestion', () => {
+      it('should add a new single date selector question', () => {
+        // given ... an id
+        const id = 'newId'
+        v4.mockImplementationOnce(() => id)
+
+        // when ... we call the action
+        const action = SUT.addSingleDateSelectorQuestion()
+
+        // then ... we should expect it to create an action with the correct type
+        expect(action.type).toEqual(
+          CreateEntityAttestationActions.AddSingleDateSelectorQuestion,
+        )
+        expect(action.payload).toEqual({
+          id,
+          title: undefined,
+          description: undefined,
+          label: undefined,
+          required: true,
+          type: Type.String,
+          control: ControlType.SingleDateSelector,
+        })
+      })
+    })
+
+    describe('updatedSingleDateSelectorQuestion', () => {
+      it('should update the singleDateSelectort question', () => {
+        // given ... some data
+        const id = 'existingId'
+        const title = 'someNewTitle'
+        const description = 'someDescription'
+        const label = 'someLabel'
+
+        const formData = {
+          title,
+          description,
+          label,
+        }
+
+        // when ... we call the action
+        const action = SUT.updateSingleDateSelectorQuestion(id, formData)
+
+        // then ... we should expect it to create the action as expected
+        expect(action.type).toEqual(
+          CreateEntityAttestationActions.UpdateSingleDateSelectorQuestion,
+        )
+        expect(action.payload).toEqual({ id, title, description, label })
+      })
+    })
+  })
+
   describe('updateAnswerRequired', () => {
     it('should flag the answer as required or not required', () => {
       // given ... an id and the required flag

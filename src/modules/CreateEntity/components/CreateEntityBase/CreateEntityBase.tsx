@@ -81,7 +81,7 @@ class CreateEntityBase<T extends CreateEntityBaseProps> extends React.Component<
   }
 
   handleSubmit = (formIdentifiers: string[]): void => {
-    formIdentifiers.forEach(identifier => {
+    formIdentifiers.forEach((identifier) => {
       this.cardRefs[identifier].current.validateAndSubmit()
     })
 

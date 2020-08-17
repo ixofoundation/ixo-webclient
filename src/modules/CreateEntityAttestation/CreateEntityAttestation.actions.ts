@@ -5,6 +5,8 @@ import {
   AddLongTextQuestionAction,
   UpdateShortTextQuestionAction,
   UpdateLongTextQuestionAction,
+  AddSingleDateSelectorQuestionAction,
+  UpdateSingleDateSelectorQuestionAction,
   CreateEntityAttestationActions,
   UpdateAnswerRequiredAction,
   ValidatedAction,
@@ -83,6 +85,36 @@ export const updateLongTextQuestion = (
 
   return {
     type: CreateEntityAttestationActions.UpdateLongTextQuestion,
+    payload: {
+      id,
+      title,
+      description,
+      label,
+    },
+  }
+}
+
+export const addSingleDateSelectorQuestion = (): AddSingleDateSelectorQuestionAction => ({
+  type: CreateEntityAttestationActions.AddSingleDateSelectorQuestion,
+  payload: {
+    id: uuidv4(),
+    title: undefined,
+    description: undefined,
+    label: undefined,
+    required: true,
+    type: Type.String,
+    control: ControlType.SingleDateSelector,
+  },
+})
+
+export const updateSingleDateSelectorQuestion = (
+  id: string,
+  formData: FormData,
+): UpdateSingleDateSelectorQuestionAction => {
+  const { title, description, label } = formData
+
+  return {
+    type: CreateEntityAttestationActions.UpdateSingleDateSelectorQuestion,
     payload: {
       id,
       title,

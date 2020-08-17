@@ -77,6 +77,32 @@ export const reducer = (
           },
         },
       }
+    case CreateEntityAttestationActions.AddSingleDateSelectorQuestion:
+      return {
+        ...state,
+        questions: {
+          ...state.questions,
+          ...{
+            [action.payload.id]: {
+              ...action.payload,
+              order: utils.orderForNewQuestion(state.questions),
+            },
+          },
+        },
+      }
+    case CreateEntityAttestationActions.UpdateSingleDateSelectorQuestion:
+      return {
+        ...state,
+        questions: {
+          ...state.questions,
+          ...{
+            [action.payload.id]: {
+              ...state.questions[action.payload.id],
+              ...action.payload,
+            },
+          },
+        },
+      }
     case CreateEntityAttestationActions.UpdateAnswerRequired:
       return {
         ...state,

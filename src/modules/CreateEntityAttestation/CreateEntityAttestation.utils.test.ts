@@ -173,7 +173,7 @@ describe('CreateEntityAttestation Reducer', () => {
 
       const newIncrementedQuestions = SUT.questionsWithIncrementedOrder(
         2,
-        1,
+        -1,
         existingQuestions,
       )
 
@@ -187,7 +187,7 @@ describe('CreateEntityAttestation Reducer', () => {
           type: Type.String,
           control: ControlType.Text,
           placeholder: 'Start Typing here',
-          order: 4,
+          order: 2,
         },
         someId2: {
           id: 'someId2',
@@ -209,7 +209,7 @@ describe('CreateEntityAttestation Reducer', () => {
           type: Type.String,
           control: ControlType.Text,
           placeholder: 'Start Typing here',
-          order: 3,
+          order: 1,
         },
       })
     })

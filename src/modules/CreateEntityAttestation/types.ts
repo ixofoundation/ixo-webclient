@@ -161,6 +161,33 @@ export interface UpdateLongTextQuestionAction
   }
 }
 
+export interface AddSingleDateSelectorQuestionAction
+  extends AddQuestionAction<
+    typeof CreateEntityAttestationActions.AddSingleDateSelectorQuestion
+  > {
+  payload: {
+    id: string
+    title: string
+    description: string
+    label: string
+    required: boolean
+    type: Type
+    control: ControlType
+  }
+}
+
+export interface UpdateSingleDateSelectorQuestionAction
+  extends UpdateQuestionAction<
+    typeof CreateEntityAttestationActions.UpdateSingleDateSelectorQuestion
+  > {
+  payload: {
+    id: string
+    title: string
+    description: string
+    label: string
+  }
+}
+
 export interface UpdateAnswerRequiredAction {
   type: typeof CreateEntityAttestationActions.UpdateAnswerRequired
   payload: {
@@ -205,6 +232,8 @@ export type CreateEntityAttestationActionTypes =
   | AddLongTextQuestionAction
   | UpdateShortTextQuestionAction
   | UpdateLongTextQuestionAction
+  | AddSingleDateSelectorQuestionAction
+  | UpdateSingleDateSelectorQuestionAction
   | UpdateAnswerRequiredAction
   | RemoveQuestionAction
   | CopyQuestionAction
