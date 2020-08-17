@@ -24,7 +24,6 @@ export const Routes: React.SFC<{}> = props => {
       <Switch>
         <Route exact path="/json" component={ProjectForm} />
         <Route exact path="/spinner" component={Spinner} />
-        <Route exact path="/json" component={ProjectForm} />
         <Route exact path="/register" component={RegisterConnected} />
         <Route
           path="/projects/:projectDID/bonds/:bondDID"
