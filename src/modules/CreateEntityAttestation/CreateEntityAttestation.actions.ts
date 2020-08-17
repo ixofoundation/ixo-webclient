@@ -27,6 +27,8 @@ import {
   CopyQuestionAction,
   AddLocationSelectorQuestionAction,
   UpdateLocationSelectorQuestionAction,
+  AddQRCodeQuestionAction,
+  UpdateQRCodeQuestionAction,
 } from './types'
 import {
   Type,
@@ -344,6 +346,38 @@ export const updateLocationSelectorQuestion = (
       title,
       description,
       label,
+    },
+  }
+}
+
+export const addQRCodeQuestion = (): AddQRCodeQuestionAction => ({
+  type: CreateEntityAttestationActions.AddQRCodeQuestion,
+  payload: {
+    id: uuidv4(),
+    title: undefined,
+    description: undefined,
+    label: undefined,
+    required: true,
+    type: Type.String,
+    control: ControlType.QRCode,
+    initialValue: undefined,
+  },
+})
+
+export const updateQRCodeQuestion = (
+  id: string,
+  formData: FormData,
+): UpdateQRCodeQuestionAction => {
+  const { title, description, label, initialValue } = formData
+
+  return {
+    type: CreateEntityAttestationActions.UpdateQRCodeQuestion,
+    payload: {
+      id,
+      title,
+      description,
+      label,
+      initialValue,
     },
   }
 }

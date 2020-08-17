@@ -377,6 +377,35 @@ export interface UpdateLocationSelectorQuestionAction
   }
 }
 
+export interface AddQRCodeQuestionAction
+  extends AddQuestionAction<
+    typeof CreateEntityAttestationActions.AddQRCodeQuestion
+  > {
+  payload: {
+    id: string
+    title: string
+    description: string
+    label: string
+    required: boolean
+    type: Type
+    control: ControlType
+    initialValue: string
+  }
+}
+
+export interface UpdateQRCodeQuestionAction
+  extends UpdateQuestionAction<
+    typeof CreateEntityAttestationActions.UpdateQRCodeQuestion
+  > {
+  payload: {
+    id: string
+    title: string
+    description: string
+    label: string
+    initialValue: string
+  }
+}
+
 export interface UpdateAnswerRequiredAction {
   type: typeof CreateEntityAttestationActions.UpdateAnswerRequired
   payload: {
@@ -437,6 +466,8 @@ export type CreateEntityAttestationActionTypes =
   | UpdateDocumentUploadQuestionAction
   | AddLocationSelectorQuestionAction
   | UpdateLocationSelectorQuestionAction
+  | AddQRCodeQuestionAction
+  | UpdateQRCodeQuestionAction
   | UpdateAnswerRequiredAction
   | RemoveQuestionAction
   | CopyQuestionAction

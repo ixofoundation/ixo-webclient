@@ -554,6 +554,67 @@ describe('CreateEntityAttestation Actions', () => {
     })
   })
 
+  describe('qrCodeQuestion', () => {
+    describe('addQRCodeQuestion', () => {
+      it('should add a new qrcode question', () => {
+        // given ... an id
+        const id = 'newId'
+        v4.mockImplementationOnce(() => id)
+
+        // when ... we call the action
+        const action = SUT.addQRCodeQuestion()
+
+        // then ... we should expect it to create an action with the correct type
+        expect(action.type).toEqual(
+          CreateEntityAttestationActions.AddQRCodeQuestion,
+        )
+        expect(action.payload).toEqual({
+          id,
+          title: undefined,
+          description: undefined,
+          label: undefined,
+          required: true,
+          type: Type.String,
+          control: ControlType.QRCode,
+          initialValue: undefined,
+        })
+      })
+    })
+
+    describe('updateQRCodeQuestion', () => {
+      it('should update the qr code question', () => {
+        // given ... some data
+        const id = 'existingId'
+        const title = 'someNewTitle'
+        const description = 'someDescription'
+        const label = 'someLabel'
+        const initialValue = 'https://www.someurl.com/'
+
+        const formData = {
+          title,
+          description,
+          label,
+          initialValue,
+        }
+
+        // when ... we call the action
+        const action = SUT.updateQRCodeQuestion(id, formData)
+
+        // then ... we should expect it to create the action as expected
+        expect(action.type).toEqual(
+          CreateEntityAttestationActions.UpdateQRCodeQuestion,
+        )
+        expect(action.payload).toEqual({
+          id,
+          title,
+          description,
+          label,
+          initialValue,
+        })
+      })
+    })
+  })
+
   describe('updateAnswerRequired', () => {
     it('should flag the answer as required or not required', () => {
       // given ... an id and the required flag

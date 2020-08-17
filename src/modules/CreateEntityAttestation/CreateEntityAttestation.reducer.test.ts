@@ -27,6 +27,8 @@ import {
   AddDocumentUploadQuestionAction,
   UpdateLocationSelectorQuestionAction,
   AddLocationSelectorQuestionAction,
+  AddQRCodeQuestionAction,
+  UpdateQRCodeQuestionAction,
 } from './types'
 import { Type, ControlType } from 'common/components/JsonForm/types'
 
@@ -1306,6 +1308,136 @@ describe('CreateEntityAttestation Reducer', () => {
             required: true,
             type: Type.String,
             control: ControlType.LocationSelector,
+            order: 20,
+          },
+        },
+      })
+    })
+  })
+
+  describe('QRCode Actions', () => {
+    it('should add a new qr code question and set the correct order', () => {
+      const id = 'someId'
+
+      // given ... we have an action of type CreateEntityAttestationActions.AddQRCodeQuestion
+      const action: AddQRCodeQuestionAction = {
+        type: CreateEntityAttestationActions.AddQRCodeQuestion,
+        payload: {
+          id,
+          title: undefined,
+          description: undefined,
+          label: undefined,
+          required: true,
+          type: Type.String,
+          control: ControlType.QRCode,
+          initialValue: undefined,
+        },
+      }
+
+      // when ... we run the reducer with this action
+      const result = SUT.reducer(
+        {
+          ...initialState,
+          questions: {
+            ['someExistingId']: {
+              id,
+              title: undefined,
+              description: undefined,
+              label: undefined,
+              required: true,
+              type: Type.String,
+              control: ControlType.QRCode,
+              initialValue: 'https://www.something.com/',
+              order: 1,
+            },
+          },
+        },
+        action,
+      )
+
+      // then ... the state should be set as expected
+      expect(result).toEqual({
+        ...initialState,
+        questions: {
+          ['someExistingId']: {
+            id,
+            title: undefined,
+            description: undefined,
+            label: undefined,
+            required: true,
+            type: Type.String,
+            control: ControlType.QRCode,
+            initialValue: 'https://www.something.com/',
+            order: 1,
+          },
+          [id]: {
+            id,
+            title: undefined,
+            description: undefined,
+            label: undefined,
+            required: true,
+            type: Type.String,
+            control: ControlType.QRCode,
+            initialValue: undefined,
+            order: 2,
+          },
+        },
+      })
+    })
+
+    it('should update the qr code question and leave other properties in tact', () => {
+      const id = 'someId'
+      const title = 'someNewTitle'
+      const label = 'someNewLabel'
+      const description = 'someNewDescription'
+      const initialValue = 'https://www.somenewurl.com/'
+
+      // given .. we have an action of type CreateEntityAttestationActions.UpdateLocationSelectorQuestion
+      const action: UpdateQRCodeQuestionAction = {
+        type: CreateEntityAttestationActions.UpdateQRCodeQuestion,
+        payload: {
+          id,
+          title,
+          label,
+          description,
+          initialValue,
+        },
+      }
+
+      // when ... we run the reducer with this action
+      const result = SUT.reducer(
+        {
+          ...initialState,
+          questions: {
+            [id]: {
+              id,
+              title: 'someOldTitle',
+              label: 'someOldLabel',
+              description: 'someOldDescription',
+              initialValue: 'https://www.someoldurl.com/',
+              required: true,
+              type: Type.String,
+              control: ControlType.QRCode,
+              order: 20,
+            },
+          },
+        },
+        action,
+      )
+
+      // then ... the state should be set as expected
+      expect(result).toEqual({
+        ...initialState,
+        questions: {
+          [id]: {
+            id,
+            title,
+            label,
+            description,
+            initialValue,
+            required: true,
+            type: Type.String,
+            control: ControlType.QRCode,
             order: 20,
           },
         },

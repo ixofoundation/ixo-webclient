@@ -36,6 +36,8 @@ import {
   updateVideoUploadQuestion,
   addLocationSelectorQuestion,
   updateLocationSelectorQuestion,
+  addQRCodeQuestion,
+  updateQRCodeQuestion,
 } from './CreateEntityAttestation.actions'
 import * as attestationSelectors from './CreateEntityAttestation.selectors'
 import AddQuestionBar from './components/AddQuestionBar/AddQuestionBar'
@@ -49,6 +51,7 @@ import VideoUploadQuestion from './components/VideoUploadQuestion/VideoUploadQue
 import AudioUploadQuestion from './components/AudioUploadQuestion/AudioUploadQuestion'
 import DocumentUploadQuestion from './components/DocumentUploadQuestion/DocumentUploadQuestion'
 import LocationSelectorQuestion from './components/LocationSelectorQuestion/LocationSelectorQuestion'
+import QRCodeQuestion from './components/QRCodeQuestion/QRCodeQuestion'
 
 interface Props extends CreateEntityBaseProps {
   claimInfo: ClaimInfo
@@ -80,6 +83,8 @@ interface Props extends CreateEntityBaseProps {
   handleUpdateDocumentUploadQuestion: (id: string, formData: FormData) => void
   handleAddLocationSelectorQuestion: () => void
   handleUpdateLocationSelectorQuestion: (id: string, formData: FormData) => void
+  handleAddQRCodeQuestion: () => void
+  handleUpdateQRCodeQuestion: (id: string, formData: FormData) => void
   handleUpdateAnswerRequired: (id: string, required: boolean) => void
   handleCopyQuestion: (id: string) => void
   handleRemoveQuestion: (id: string) => void
@@ -163,6 +168,10 @@ class CreateEntityAttestation extends CreateEntityBase<Props> {
             case ControlType.LocationSelector:
               questionElem = this.renderLocationSelectorQuestion(question)
               title = questionTypeMap[ControlType.LocationSelector].title
+              break
+            case ControlType.QRCode:
+              questionElem = this.renderQRCodeQuestion(question)
+              title = questionTypeMap[ControlType.QRCode].title
               break
           }
 
@@ -394,6 +403,28 @@ class CreateEntityAttestation extends CreateEntityBase<Props> {
     )
   }
 
+  renderQRCodeQuestion = (question: Question): JSX.Element => {
+    const { handleUpdateQRCodeQuestion } = this.props
+    const { id, title, description, label, initialValue } = question
+
+    return (
+      <QRCodeQuestion
+        ref={this.cardRefs[id]}
+        handleUpdateContent={(formData): void =>
+          handleUpdateQRCodeQuestion(id, formData)
+        }
+        handleSubmitted={(): void => this.props.handleValidated(id)}
+        handleError={(errors): void =>
+          this.props.handleValidationError(id, errors)
+        }
+        title={title}
+        description={description}
+        label={label}
+        initialValue={initialValue}
+      />
+    )
+  }
+
   addQuestion = (controlType: ControlType): void => {
     const {
       handleAddShortTextQuestion,
@@ -406,6 +437,7 @@ class CreateEntityAttestation extends CreateEntityBase<Props> {
       handleAddAudioUploadQuestion,
       handleAddDocumentUploadQuestion,
       handleAddLocationSelectorQuestion,
+      handleAddQRCodeQuestion,
     } = this.props
 
     switch (controlType) {
@@ -438,6 +470,9 @@ class CreateEntityAttestation extends CreateEntityBase<Props> {
         break
       case ControlType.LocationSelector:
         handleAddLocationSelectorQuestion()
+        break
+      case ControlType.QRCode:
+        handleAddQRCodeQuestion()
         break
     }
   }
@@ -518,6 +553,9 @@ const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
     id: string,
     formData: FormData,
   ): void => dispatch(updateLocationSelectorQuestion(id, formData)),
+  handleAddQRCodeQuestion: (): void => dispatch(addQRCodeQuestion()),
+  handleUpdateQRCodeQuestion: (id: string, formData: FormData): void =>
+    dispatch(updateQRCodeQuestion(id, formData)),
   handleUpdateAnswerRequired: (id: string, required: boolean): void =>
     dispatch(updateAnswerRequired(id, required)),
   handleCopyQuestion: (id: string): void => dispatch(copyQuestion(id)),
