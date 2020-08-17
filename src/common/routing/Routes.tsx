@@ -16,7 +16,7 @@ import { UnderConstruction } from '../../components/public/UnderConstruction'
 import { SubmitEntityClaimConnected } from '../../modules/SubmitEntityClaim/SubmitEntityClaim.container'
 import { CreateEntityConnected } from '../../modules/CreateEntity/CreateEntity.container'
 import { CreateClaimTemplateConnected } from '../../modules/CreateClaimTemplate/CreateClaimTemplate.container'
-import BondRoutes from './Bond_Routes'
+import BondRoutes from './BondRoutes'
 
 export const Routes: React.SFC<{}> = props => {
   return (
