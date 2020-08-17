@@ -1,5 +1,14 @@
 [
   {
+    "id": "gewr",
+    "title": "Enter Location",
+    "description": "This will be a short description or explainer text explaining the question. ",
+    "label": "Location",
+    "required": true,
+    "type": "string",
+    "control": "locationselector"
+  },
+  {
     "id": "aertbh",
     "title": "Date Picker",
     "description": "This will be a short description or explainer text explaining the question. ",
@@ -44,15 +53,6 @@
     "required": true,
     "type": "string",
     "control": "documentupload"
-  },
-  {
-    "id": "gewr",
-    "title": "Enter Location",
-    "description": "This will be a short description or explainer text explaining the question. ",
-    "label": "Location",
-    "required": true,
-    "type": "string",
-    "control": "locationselector"
   },
   {
     "id": "ffdg",

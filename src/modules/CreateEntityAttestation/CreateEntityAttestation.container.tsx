@@ -34,6 +34,8 @@ import {
   updateDocumentUploadQuestion,
   updateImageUploadQuestion,
   updateVideoUploadQuestion,
+  addLocationSelectorQuestion,
+  updateLocationSelectorQuestion,
 } from './CreateEntityAttestation.actions'
 import * as attestationSelectors from './CreateEntityAttestation.selectors'
 import AddQuestionBar from './components/AddQuestionBar/AddQuestionBar'
@@ -46,6 +48,7 @@ import ImageUploadQuestion from './components/ImageUploadQuestion/ImageUploadQue
 import VideoUploadQuestion from './components/VideoUploadQuestion/VideoUploadQuestion'
 import AudioUploadQuestion from './components/AudioUploadQuestion/AudioUploadQuestion'
 import DocumentUploadQuestion from './components/DocumentUploadQuestion/DocumentUploadQuestion'
+import LocationSelectorQuestion from './components/LocationSelectorQuestion/LocationSelectorQuestion'
 
 interface Props extends CreateEntityBaseProps {
   claimInfo: ClaimInfo
@@ -75,6 +78,8 @@ interface Props extends CreateEntityBaseProps {
   handleUpdateAudioUploadQuestion: (id: string, formData: FormData) => void
   handleAddDocumentUploadQuestion: () => void
   handleUpdateDocumentUploadQuestion: (id: string, formData: FormData) => void
+  handleAddLocationSelectorQuestion: () => void
+  handleUpdateLocationSelectorQuestion: (id: string, formData: FormData) => void
   handleUpdateAnswerRequired: (id: string, required: boolean) => void
   handleCopyQuestion: (id: string) => void
   handleRemoveQuestion: (id: string) => void
@@ -154,6 +159,10 @@ class CreateEntityAttestation extends CreateEntityBase<Props> {
             case ControlType.DocumentUpload:
               questionElem = this.renderDocumentUploadQuestion(question)
               title = questionTypeMap[ControlType.DocumentUpload].title
+              break
+            case ControlType.LocationSelector:
+              questionElem = this.renderLocationSelectorQuestion(question)
+              title = questionTypeMap[ControlType.LocationSelector].title
               break
           }
 
@@ -364,6 +373,27 @@ class CreateEntityAttestation extends CreateEntityBase<Props> {
     )
   }
 
+  renderLocationSelectorQuestion = (question: Question): JSX.Element => {
+    const { handleUpdateLocationSelectorQuestion } = this.props
+    const { id, title, description, label } = question
+
+    return (
+      <LocationSelectorQuestion
+        ref={this.cardRefs[id]}
+        handleUpdateContent={(formData): void =>
+          handleUpdateLocationSelectorQuestion(id, formData)
+        }
+        handleSubmitted={(): void => this.props.handleValidated(id)}
+        handleError={(errors): void =>
+          this.props.handleValidationError(id, errors)
+        }
+        title={title}
+        description={description}
+        label={label}
+      />
+    )
+  }
+
   addQuestion = (controlType: ControlType): void => {
     const {
       handleAddShortTextQuestion,
@@ -375,6 +405,7 @@ class CreateEntityAttestation extends CreateEntityBase<Props> {
       handleAddVideoUploadQuestion,
       handleAddAudioUploadQuestion,
       handleAddDocumentUploadQuestion,
+      handleAddLocationSelectorQuestion,
     } = this.props
 
     switch (controlType) {
@@ -404,6 +435,9 @@ class CreateEntityAttestation extends CreateEntityBase<Props> {
         break
       case ControlType.DocumentUpload:
         handleAddDocumentUploadQuestion()
+        break
+      case ControlType.LocationSelector:
+        handleAddLocationSelectorQuestion()
         break
     }
   }
@@ -478,6 +512,12 @@ const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
     dispatch(addDocumentUploadQuestion()),
   handleUpdateDocumentUploadQuestion: (id: string, formData: FormData): void =>
     dispatch(updateDocumentUploadQuestion(id, formData)),
+  handleAddLocationSelectorQuestion: (): void =>
+    dispatch(addLocationSelectorQuestion()),
+  handleUpdateLocationSelectorQuestion: (
+    id: string,
+    formData: FormData,
+  ): void => dispatch(updateLocationSelectorQuestion(id, formData)),
   handleUpdateAnswerRequired: (id: string, required: boolean): void =>
     dispatch(updateAnswerRequired(id, required)),
   handleCopyQuestion: (id: string): void => dispatch(copyQuestion(id)),

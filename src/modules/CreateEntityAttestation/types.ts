@@ -350,6 +350,33 @@ export interface UpdateDocumentUploadQuestionAction
   }
 }
 
+export interface AddLocationSelectorQuestionAction
+  extends AddQuestionAction<
+    typeof CreateEntityAttestationActions.AddLocationSelectorQuestion
+  > {
+  payload: {
+    id: string
+    title: string
+    description: string
+    label: string
+    required: boolean
+    type: Type
+    control: ControlType
+  }
+}
+
+export interface UpdateLocationSelectorQuestionAction
+  extends UpdateQuestionAction<
+    typeof CreateEntityAttestationActions.UpdateLocationSelectorQuestion
+  > {
+  payload: {
+    id: string
+    title: string
+    description: string
+    label: string
+  }
+}
+
 export interface UpdateAnswerRequiredAction {
   type: typeof CreateEntityAttestationActions.UpdateAnswerRequired
   payload: {
@@ -408,6 +435,8 @@ export type CreateEntityAttestationActionTypes =
   | UpdateAudioUploadQuestionAction
   | AddDocumentUploadQuestionAction
   | UpdateDocumentUploadQuestionAction
+  | AddLocationSelectorQuestionAction
+  | UpdateLocationSelectorQuestionAction
   | UpdateAnswerRequiredAction
   | RemoveQuestionAction
   | CopyQuestionAction

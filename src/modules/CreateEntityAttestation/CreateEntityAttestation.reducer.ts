@@ -259,6 +259,32 @@ export const reducer = (
           },
         },
       }
+    case CreateEntityAttestationActions.AddLocationSelectorQuestion:
+      return {
+        ...state,
+        questions: {
+          ...state.questions,
+          ...{
+            [action.payload.id]: {
+              ...action.payload,
+              order: utils.orderForNewQuestion(state.questions),
+            },
+          },
+        },
+      }
+    case CreateEntityAttestationActions.UpdateLocationSelectorQuestion:
+      return {
+        ...state,
+        questions: {
+          ...state.questions,
+          ...{
+            [action.payload.id]: {
+              ...state.questions[action.payload.id],
+              ...action.payload,
+            },
+          },
+        },
+      }
     case CreateEntityAttestationActions.UpdateAnswerRequired:
       return {
         ...state,

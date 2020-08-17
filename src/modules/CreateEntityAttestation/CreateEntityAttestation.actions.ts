@@ -25,6 +25,8 @@ import {
   ValidationErrorAction,
   RemoveQuestionAction,
   CopyQuestionAction,
+  AddLocationSelectorQuestionAction,
+  UpdateLocationSelectorQuestionAction,
 } from './types'
 import {
   Type,
@@ -307,6 +309,36 @@ export const updateDocumentUploadQuestion = (
 
   return {
     type: CreateEntityAttestationActions.UpdateDocumentUploadQuestion,
+    payload: {
+      id,
+      title,
+      description,
+      label,
+    },
+  }
+}
+
+export const addLocationSelectorQuestion = (): AddLocationSelectorQuestionAction => ({
+  type: CreateEntityAttestationActions.AddLocationSelectorQuestion,
+  payload: {
+    id: uuidv4(),
+    title: undefined,
+    description: undefined,
+    label: undefined,
+    required: true,
+    type: Type.String,
+    control: ControlType.LocationSelector,
+  },
+})
+
+export const updateLocationSelectorQuestion = (
+  id: string,
+  formData: FormData,
+): UpdateLocationSelectorQuestionAction => {
+  const { title, description, label } = formData
+
+  return {
+    type: CreateEntityAttestationActions.UpdateLocationSelectorQuestion,
     payload: {
       id,
       title,

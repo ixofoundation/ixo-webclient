@@ -502,6 +502,58 @@ describe('CreateEntityAttestation Actions', () => {
     })
   })
 
+  describe('locationSelectorQuestion', () => {
+    describe('addLocationSelectorQuestion', () => {
+      it('should add a new location selector question', () => {
+        // given ... an id
+        const id = 'newId'
+        v4.mockImplementationOnce(() => id)
+
+        // when ... we call the action
+        const action = SUT.addLocationSelectorQuestion()
+
+        // then ... we should expect it to create an action with the correct type
+        expect(action.type).toEqual(
+          CreateEntityAttestationActions.AddLocationSelectorQuestion,
+        )
+        expect(action.payload).toEqual({
+          id,
+          title: undefined,
+          description: undefined,
+          label: undefined,
+          required: true,
+          type: Type.String,
+          control: ControlType.LocationSelector,
+        })
+      })
+    })
+
+    describe('updateLocationSelectorQuestion', () => {
+      it('should update the location selector question', () => {
+        // given ... some data
+        const id = 'existingId'
+        const title = 'someNewTitle'
+        const description = 'someDescription'
+        const label = 'someLabel'
+
+        const formData = {
+          title,
+          description,
+          label,
+        }
+
+        // when ... we call the action
+        const action = SUT.updateLocationSelectorQuestion(id, formData)
+
+        // then ... we should expect it to create the action as expected
+        expect(action.type).toEqual(
+          CreateEntityAttestationActions.UpdateLocationSelectorQuestion,
+        )
+        expect(action.payload).toEqual({ id, title, description, label })
+      })
+    })
+  })
+
   describe('updateAnswerRequired', () => {
     it('should flag the answer as required or not required', () => {
       // given ... an id and the required flag
