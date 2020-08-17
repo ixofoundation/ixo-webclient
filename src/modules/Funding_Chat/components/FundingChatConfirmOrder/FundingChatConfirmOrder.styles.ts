@@ -1,20 +1,24 @@
 import styled from 'styled-components'
 import { deviceWidth } from '../../../../lib/commonData'
 
-export const FundingChatOrderHeader = styled.h2`
-&&& {
-  color: #436779;
-  font-size: 18px;
-  margin: 0 0 1.75rem;
-  font-weight: 500;
-  font-family: inherit;
-  background: #F0F3F9;
-  &.total {
-    font-family: ${(props: any): string => props.theme.fontRoboto};
-    font-weight: bold;
-    margin: 0;
-  }
+interface FundingChatPriceWrapperTypes {
+  flexEnd?: boolean
 }
+
+export const FundingChatOrderHeader = styled.h2`
+  &&& {
+    color: #436779;
+    font-size: 18px;
+    margin: 0 0 1.75rem;
+    font-weight: 500;
+    font-family: inherit;
+    background: #f0f3f9;
+    &.total {
+      font-family: ${(props: any): string => props.theme.fontRoboto};
+      font-weight: bold;
+      margin: 0;
+    }
+  }
 `
 
 export const FundingChatOrderSummaryWrapper = styled.div`
@@ -22,14 +26,17 @@ export const FundingChatOrderSummaryWrapper = styled.div`
   padding: 1rem 0;
   border-radius: 5px;
   & div:first-child {
-    border-right: 1px solid #DDDDDD;
+    border-right: 1px solid #dddddd;
   }
   & div {
     display: inline-block;
   }
 `
 
-export const FundingChatPriceWrapper = styled.div`
+export const FundingChatPriceWrapper = styled.div<FundingChatPriceWrapperTypes>`
+  font-size: 15px;
+  justify-content: ${(props: any): string =>
+    props.flexEnd ? 'flex-end' : undefined};
   svg {
     margin-right: 5px;
   }
@@ -38,7 +45,7 @@ export const FundingChatPriceWrapper = styled.div`
 export const FundingChatOrderTitle = styled.h3`
   font-family: inherit;
   font-weight: bold;
-  font-size: 20px;
+  font-size: 28px;
   line-height: 1.5;
   display: flex;
   align-items: center;
@@ -102,7 +109,7 @@ export const FundingChatOrderWrapper = styled.div`
   background: #f0f3f9;
   position: relative;
   padding: 50px 25px 0 25px;
-  
+
   height: 100%;
   .header-section {
     margin-bottom: 2rem;
