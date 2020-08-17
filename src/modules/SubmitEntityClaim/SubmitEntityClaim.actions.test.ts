@@ -1,8 +1,8 @@
-import * as SUT from './SubmitEntityClaim.actions'
-import { SubmitEntityClaimActions } from './types'
-import mockStore from '../../common/redux/mockStore'
+import * as SUT from './SubmitEntityClaim.actions';
+import { SubmitEntityClaimActions } from './types';
+import mockStore from '../../common/redux/mockStore';
 
-let store
+let store;
 let state = {
   submitEntityClaim: {
     questions: [
@@ -20,11 +20,11 @@ let state = {
     error: null,
     savingAnswer: false,
   },
-}
+};
 
 beforeEach(() => {
-  store = mockStore(() => state)
-})
+  store = mockStore(() => state);
+});
 
 describe('SubmitEntityClaim Actions', () => {
   /*   describe('saveAnswer', () => {
@@ -49,15 +49,15 @@ describe('SubmitEntityClaim Actions', () => {
           ...state.submitEntityClaim,
           currentQuestionNo: 2,
         },
-      }
+      };
 
       // when ... we call saveAnswer
-      store.dispatch(SUT.goToPreviousQuestion())
-      const action = store.getActions()[0]
+      store.dispatch(SUT.goToPreviousQuestion());
+      const action = store.getActions()[0];
 
-      expect(action.type).toEqual(SubmitEntityClaimActions.GoToPreviousQuestion)
-      expect(action.payload).toEqual({ previousQuestionNo: 1 })
-    })
+      expect(action.type).toEqual(SubmitEntityClaimActions.GoToPreviousQuestion);
+      expect(action.payload).toEqual({ previousQuestionNo: 1 });
+    });
 
     it('should not dispatch any action when the currentQuestionNo is less than 2', () => {
       state = {
@@ -66,15 +66,15 @@ describe('SubmitEntityClaim Actions', () => {
           ...state.submitEntityClaim,
           currentQuestionNo: 1,
         },
-      }
+      };
 
       // when ... we call saveAnswer
-      store.dispatch(SUT.goToPreviousQuestion())
-      const actions = store.getActions()
+      store.dispatch(SUT.goToPreviousQuestion());
+      const actions = store.getActions();
 
-      expect(actions).toEqual([])
-    })
-  })
+      expect(actions).toEqual([]);
+    });
+  });
 
   describe('goToNextQuestion', () => {
     it('should dispatch an action to go to the next question when the currentQuestionNo is less than the total question count', () => {
@@ -84,15 +84,15 @@ describe('SubmitEntityClaim Actions', () => {
           ...state.submitEntityClaim,
           currentQuestionNo: 1,
         },
-      }
+      };
 
       // when ... we call saveAnswer
-      store.dispatch(SUT.goToNextQuestion())
-      const action = store.getActions()[0]
+      store.dispatch(SUT.goToNextQuestion());
+      const action = store.getActions()[0];
 
-      expect(action.type).toEqual(SubmitEntityClaimActions.GoToNextQuestion)
-      expect(action.payload).toEqual({ nextQuestionNo: 2 })
-    })
+      expect(action.type).toEqual(SubmitEntityClaimActions.GoToNextQuestion);
+      expect(action.payload).toEqual({ nextQuestionNo: 2 });
+    });
 
     it('should not dispatch any action when the currentQuestionNo is equal to the total question count', () => {
       state = {
@@ -101,14 +101,14 @@ describe('SubmitEntityClaim Actions', () => {
           ...state.submitEntityClaim,
           currentQuestionNo: 2,
         },
-      }
+      };
 
       // when ... we call saveAnswer
-      store.dispatch(SUT.goToNextQuestion())
-      const actions = store.getActions()
+      store.dispatch(SUT.goToNextQuestion());
+      const actions = store.getActions();
 
-      expect(actions).toEqual([])
-    })
+      expect(actions).toEqual([]);
+    });
 
     it('should not dispatch any action when the currentQuestionNo is greater than the total question count', () => {
       state = {
@@ -117,15 +117,15 @@ describe('SubmitEntityClaim Actions', () => {
           ...state.submitEntityClaim,
           currentQuestionNo: 3,
         },
-      }
+      };
 
       // when ... we call saveAnswer
-      store.dispatch(SUT.goToNextQuestion())
-      const actions = store.getActions()
+      store.dispatch(SUT.goToNextQuestion());
+      const actions = store.getActions();
 
-      expect(actions).toEqual([])
-    })
-  })
+      expect(actions).toEqual([]);
+    });
+  });
 
   describe('goToQuestionNumber', () => {
     it('should dispatch an action to go to the new question when the currentQuestionNo is great than the questionNo', () => {
@@ -135,15 +135,15 @@ describe('SubmitEntityClaim Actions', () => {
           ...state.submitEntityClaim,
           currentQuestionNo: 2,
         },
-      }
+      };
 
       // when ... we call goToQuestionNumber
-      store.dispatch(SUT.goToQuestionNumber(1))
-      const action = store.getActions()[0]
+      store.dispatch(SUT.goToQuestionNumber(1));
+      const action = store.getActions()[0];
 
-      expect(action.type).toEqual(SubmitEntityClaimActions.GoToQuestionNumber)
-      expect(action.payload).toEqual({ questionNo: 1 })
-    })
+      expect(action.type).toEqual(SubmitEntityClaimActions.GoToQuestionNumber);
+      expect(action.payload).toEqual({ questionNo: 1 });
+    });
 
     it('should not dispatch any action when the questionNo is equal to the currentQuestionNo', () => {
       state = {
@@ -152,14 +152,14 @@ describe('SubmitEntityClaim Actions', () => {
           ...state.submitEntityClaim,
           currentQuestionNo: 2,
         },
-      }
+      };
 
       // when ... we call saveAnswer
-      store.dispatch(SUT.goToQuestionNumber(2))
-      const actions = store.getActions()
+      store.dispatch(SUT.goToQuestionNumber(2));
+      const actions = store.getActions();
 
-      expect(actions).toEqual([])
-    })
+      expect(actions).toEqual([]);
+    });
 
     it('should not dispatch any action when the questionNo is great than the currentQuestionNo', () => {
       state = {
@@ -168,13 +168,13 @@ describe('SubmitEntityClaim Actions', () => {
           ...state.submitEntityClaim,
           currentQuestionNo: 2,
         },
-      }
+      };
 
       // when ... we call saveAnswer
-      store.dispatch(SUT.goToQuestionNumber(4))
-      const actions = store.getActions()
+      store.dispatch(SUT.goToQuestionNumber(4));
+      const actions = store.getActions();
 
-      expect(actions).toEqual([])
-    })
-  })
-})
+      expect(actions).toEqual([]);
+    });
+  });
+});

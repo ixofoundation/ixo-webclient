@@ -1,9 +1,9 @@
-import React from 'react'
-import { Route, Switch, RouteComponentProps } from 'react-router-dom'
+import React from 'react';
+import { Route, Switch, RouteComponentProps } from 'react-router-dom';
 
-import { Overview } from '../components/Bonds/OverviewWrapper/Overview'
-import Exchange from '../components/Bonds/ExchangeWrapper/Exchange'
-import Orders from '../../modules/BondAccountOrders/BondAccountOrders.container'
+import { Overview } from '../components/Bonds/OverviewWrapper/Overview';
+import Exchange from '../components/Bonds/ExchangeWrapper/Exchange';
+import Orders from '../../modules/BondAccountOrders/BondAccountOrders.container';
 
 export const BondRoutes: React.SFC<Pick<RouteComponentProps, 'match'>> = ({
   match,
@@ -16,7 +16,7 @@ export const BondRoutes: React.SFC<Pick<RouteComponentProps, 'match'>> = ({
       <Route path={`${match.path}/assistant`} component={Overview} />
       <Route path={`${match.path}`} component={Overview} />
     </Switch>
-  )
-}
+  );
+};
 
-export default BondRoutes
+export default BondRoutes;

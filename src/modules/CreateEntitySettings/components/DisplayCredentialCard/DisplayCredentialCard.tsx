@@ -1,8 +1,8 @@
-import React from 'react'
-import { LinkButton } from '../../../../common/components/JsonForm/JsonForm.styles'
-import { customControls } from '../../../../common/components/JsonForm/types'
-import { FormCardProps } from '../../../CreateEntity/types'
-import MultiControlForm from '../../../../common/components/JsonForm/MultiControlForm/MultiControlForm'
+import React from 'react';
+import { LinkButton } from '../../../../common/components/JsonForm/JsonForm.styles';
+import { customControls } from '../../../../common/components/JsonForm/types';
+import { FormCardProps } from '../../../CreateEntity/types';
+import MultiControlForm from '../../../../common/components/JsonForm/MultiControlForm/MultiControlForm';
 
 interface Props extends FormCardProps {
   credential: string
@@ -24,7 +24,7 @@ const DisplayCredential: React.FunctionComponent<Props> = React.forwardRef(
     const formData = {
       credential,
       badge,
-    }
+    };
 
     const schema = {
       type: 'object',
@@ -40,18 +40,18 @@ const DisplayCredential: React.FunctionComponent<Props> = React.forwardRef(
           format: 'uri',
         },
       },
-    } as any
+    } as any;
 
     const uiSchema = {
       credential: {
-        ['ui:placeholder']: 'Enter a Credential ID',
+        'ui:placeholder': 'Enter a Credential ID',
       },
       badge: {
-        ['ui:widget']: customControls['socialtextbox'],
-        ['ui:socialIcon']: 'Other',
-        ['ui:placeholder']: 'Paste Url',
+        'ui:widget': customControls.socialtextbox,
+        'ui:socialIcon': 'Other',
+        'ui:placeholder': 'Paste Url',
       },
-    }
+    };
 
     return (
       <>
@@ -73,8 +73,8 @@ const DisplayCredential: React.FunctionComponent<Props> = React.forwardRef(
           </LinkButton>
         </div>
       </>
-    )
+    );
   },
-)
+);
 
-export default DisplayCredential
+export default DisplayCredential;

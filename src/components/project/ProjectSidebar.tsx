@@ -1,16 +1,16 @@
-import * as React from 'react'
-import styled from 'styled-components'
-import { NavLink } from 'react-router-dom'
-import { deviceWidth } from '../../lib/commonData'
-import { AgentRoles } from '../../types/models'
-import Home from 'assets/icons/Home'
-import HomeActive from 'assets/icons/HomeActive'
-import ServiceProviders from 'assets/icons/ServiceProviders'
-import ServiceProvidersActive from 'assets/icons/ServiceProvidersActive'
-import Evaluators from 'assets/icons/Evaluators'
-import EvaluatorsActive from 'assets/icons/EvaluatorsActive'
-import Claims from 'assets/icons/Claims'
-import ClaimsActive from 'assets/icons/ClaimsActive'
+import * as React from 'react';
+import styled from 'styled-components';
+import { NavLink } from 'react-router-dom';
+import Home from 'assets/icons/Home';
+import HomeActive from 'assets/icons/HomeActive';
+import ServiceProviders from 'assets/icons/ServiceProviders';
+import ServiceProvidersActive from 'assets/icons/ServiceProvidersActive';
+import Evaluators from 'assets/icons/Evaluators';
+import EvaluatorsActive from 'assets/icons/EvaluatorsActive';
+import Claims from 'assets/icons/Claims';
+import ClaimsActive from 'assets/icons/ClaimsActive';
+import { AgentRoles } from '../../types/models';
+import { deviceWidth } from '../../lib/commonData';
 
 const ToolTip = styled.div`
   position: absolute;
@@ -36,7 +36,7 @@ const ToolTip = styled.div`
     border-right: 8px solid #001926;
     top: 8px;
   }
-`
+`;
 
 const NavItem = styled(NavLink)`
   color: white;
@@ -67,7 +67,7 @@ const NavItem = styled(NavLink)`
   :hover {
     text-decoration: none;
   }
-`
+`;
 
 const Container = styled.div`
   width: 100%;
@@ -98,7 +98,7 @@ const Container = styled.div`
         ${/* eslint-disable-line */ props => props.theme.ixoBlue};
     }
   }
-`
+`;
 
 export interface Props {
   match: string
@@ -114,16 +114,16 @@ export interface State {
 export class ProjectSidebar extends React.Component<Props, State> {
   state = {
     activeLink: 'detail',
-  }
+  };
 
   componentDidMount(): void {
-    this.setState({ activeLink: this.props.match })
+    this.setState({ activeLink: this.props.match });
   }
 
   setActiveLink = (name: string): void => {
-    this.setState({ activeLink: name })
-    this.props.singleClaimDependentsFetchedCallback()
-  }
+    this.setState({ activeLink: name });
+    this.props.singleClaimDependentsFetchedCallback();
+  };
 
   render(): JSX.Element {
     return (
@@ -137,7 +137,7 @@ export class ProjectSidebar extends React.Component<Props, State> {
           <ToolTip>Dashboard</ToolTip>
         </NavItem>
         {this.props.hasCapability([AgentRoles.owners]) ? (
-          <React.Fragment>
+          <>
             <NavItem
               exact={true}
               to={`/projects/${this.props.projectDid}/detail/service-providers`}
@@ -162,7 +162,7 @@ export class ProjectSidebar extends React.Component<Props, State> {
               )}
               <ToolTip>Evaluators</ToolTip>
             </NavItem>
-          </React.Fragment>
+          </>
         ) : null}
         <NavItem
           exact={true}
@@ -173,6 +173,6 @@ export class ProjectSidebar extends React.Component<Props, State> {
           <ToolTip>Claims</ToolTip>
         </NavItem>
       </Container>
-    )
+    );
   }
 }

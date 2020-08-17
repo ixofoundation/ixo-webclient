@@ -1,7 +1,7 @@
-import * as React from 'react'
-import * as Modal from 'react-modal'
-import styled from 'styled-components'
-import { Header } from '../../../types/models'
+import * as React from 'react';
+import * as Modal from 'react-modal';
+import styled from 'styled-components';
+import { Header } from '../../../types/models';
 
 const modalStyles = {
   overlay: {
@@ -22,14 +22,14 @@ const modalStyles = {
     borderRadius: '2px',
     backgroundColor: 'black',
   },
-}
+};
 
 const ModalInner = styled.div`
   background: ${/* eslint-disable-line */ props => props.theme.bg.blue};
   color: white;
   padding: 10px 30px;
   font-family: ${/* eslint-disable-line */ props => props.theme.fontRoboto};
-`
+`;
 
 const CloseModal = styled.button`
   color: white;
@@ -42,7 +42,7 @@ const CloseModal = styled.button`
   cursor: pointer;
   font-weight: 100;
   position: absolute;
-`
+`;
 
 const FlexContainer = styled.div`
   display: flex;
@@ -65,7 +65,7 @@ const FlexContainer = styled.div`
     text-transform: uppercase;
     margin: 0;
     font-family: ${/* eslint-disable-line */ props =>
-      props.theme.fontRobotoCondensed};
+    props.theme.fontRobotoCondensed};
   }
 
   h3.noCaps {
@@ -79,20 +79,20 @@ const FlexContainer = styled.div`
     color: ${/* eslint-disable-line */ props => props.theme.fontLightBlue};
     font-family: ${/* eslint-disable-line */ props => props.theme.fontRoboto};
   }
-`
+`;
 
 const Line = styled.div`
   background: ${/* eslint-disable-line */ props => props.theme.widgetBorder};
   width: calc(100% + 60px);
   margin: 10px -30px 25px;
   height: 1px;
-`
+`;
 
 const TitleContainer = styled.div`
   display: flex;
   justify-content: center;
   flex-direction: column;
-`
+`;
 
 interface ParentProps {
   isModalOpen: boolean
@@ -107,7 +107,7 @@ export interface Props extends ParentProps, Callbacks {}
 export const ModalWrapper: React.SFC<Props> = props => {
   const renderHeader = (): JSX.Element => {
     return (
-      <React.Fragment>
+      <>
         <FlexContainer
           style={props.header.width && { width: `${props.header.width}px` }}
           className="modal-heading"
@@ -124,9 +124,9 @@ export const ModalWrapper: React.SFC<Props> = props => {
           </TitleContainer>
         </FlexContainer>
         <Line />
-      </React.Fragment>
-    )
-  }
+      </>
+    );
+  };
 
   return (
     <Modal
@@ -145,5 +145,5 @@ export const ModalWrapper: React.SFC<Props> = props => {
         <div>{props.children}</div>
       </ModalInner>
     </Modal>
-  )
-}
+  );
+};

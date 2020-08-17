@@ -1,5 +1,5 @@
-import * as React from 'react'
-import styled from 'styled-components'
+import * as React from 'react';
+import styled from 'styled-components';
 
 const Container = styled.div`
   display: flex;
@@ -16,7 +16,7 @@ const Container = styled.div`
     display: block;
     margin-top: 10px;
   }
-`
+`;
 
 const LoaderContainer = styled.div`
   height: 80px;
@@ -24,7 +24,7 @@ const LoaderContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-`
+`;
 
 const LoaderWrapper = styled.div`
   padding: 0;
@@ -36,7 +36,7 @@ const LoaderWrapper = styled.div`
   background: #00c2e4;
   justify-content: center;
   align-items: center;
-`
+`;
 
 const Pulse = styled.div`
   border-radius: 50%;
@@ -60,7 +60,7 @@ const Pulse = styled.div`
     }
   }
   animation: iPulse 1.5s infinite ease;
-`
+`;
 
 const IxoIcon = styled.i`
   font-size: 54px;
@@ -78,7 +78,7 @@ const IxoIcon = styled.i`
     top: -13px;
     left: -12px;
   }
-`
+`;
 export interface Props {
   info?: string
 }
@@ -92,7 +92,7 @@ export const ImageSpinner: React.SFC<Props> = ({ info }) => {
           <IxoIcon className="icon-ixo-x" />
         </LoaderWrapper>
       </LoaderContainer>
-      <p>{info ? info : 'Loading image...'}</p>
+      <p>{info || 'Loading image...'}</p>
     </Container>
-  )
-}
+  );
+};

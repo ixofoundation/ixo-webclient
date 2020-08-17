@@ -63,28 +63,56 @@
     "@types/node-sass": "^4.11.1",
     "@types/qrcode": "^1.3.5",
     "@types/react": "^16.9.0",
-    "@types/react-dom": "^16.9.0",
-    "@types/react-redux": "^7.1.9",
-    "@types/react-router-dom": "^5.1.5",
     "@types/react-bootstrap": "^1.0.1",
     "@types/react-copy-to-clipboard": "^4.3.0",
     "@types/react-dates": "^17.1.14",
+    "@types/react-dom": "^16.9.0",
     "@types/react-image-crop": "^8.1.2",
+    "@types/react-redux": "^7.1.9",
     "@types/react-responsive": "^8.0.2",
+    "@types/react-router-dom": "^5.1.5",
     "@types/react-virtualized": "^9.21.10",
-    "@types/styled-components": "^5.1.2"
+    "@types/styled-components": "^5.1.2",
+    "@typescript-eslint/eslint-plugin": "3.9.0",
+    "@typescript-eslint/parser": "3.9.0",
+    "babel-eslint": "10.1.0",
+    "eslint-config-airbnb": "18.2.0",
+    "eslint-config-airbnb-typescript": "9.0.0",
+    "eslint-config-prettier": "6.11.0",
+    "eslint-config-react-app": "5.2.1",
+    "eslint-import-resolver-typescript": "2.2.1",
+    "eslint-loader": "4.0.2",
+    "eslint-plugin-flowtype": "5.2.0",
+    "eslint-plugin-import": "2.22.0",
+    "eslint-plugin-jsx-a11y": "6.3.1",
+    "eslint-plugin-prettier": "3.1.4",
+    "eslint-plugin-react": "7.20.6",
+    "eslint-plugin-react-hooks": "4.0.8",
+    "husky": "^4.2.5",
+    "prettier": "2.0.5",
+    "prettier-eslint": "11.0.0",
+    "prettier-eslint-cli": "5.0.0",
+    "pretty-quick": "^2.0.1"
   },
   "scripts": {
     "dev": "react-scripts start",
     "start": "npm run build && serve -s build",
     "build": "GENERATE_SOURCEMAP=false react-scripts build",
-    "lint": "eslint --ext=jsx,ts,tsx src",
     "lint:fix": "eslint --ext=jsx,ts,tsx src --fix",
     "test": "react-scripts test --watchAll=false",
-    "test:watch": "react-scripts test"
+    "test:watch": "react-scripts test",
+    "pretty-quick": "pretty-quick --staged",
+    "lint": "eslint --ext .js,.jsx,.ts,.tsx src --color",
+    "format": "prettier --write 'src/**/*.{ts,tsx,scss,css,json}'",
+    "isready": "npm run format && npm run lint"
   },
   "eslintConfig": {
     "extends": "react-app"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run pretty-quick"
+    }
   },
   "browserslist": {
     "production": [

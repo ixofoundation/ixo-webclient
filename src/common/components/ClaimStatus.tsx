@@ -1,11 +1,11 @@
-import * as React from 'react'
-import styled from 'styled-components'
+import * as React from 'react';
+import styled from 'styled-components';
 
 const Container = styled.div`
   justify-content: center;
   display: flex;
   padding: 5px;
-`
+`;
 
 const Icon = styled.div`
   font-size: 64px;
@@ -13,14 +13,14 @@ const Icon = styled.div`
   i:before {
     color: ${/* eslint-disable-line */ props => props.theme.bg.lightBlue};
   }
-`
+`;
 
 const MessageText = styled.div`
   color: ${/* eslint-disable-line */ props => props.theme.bg.lightBlue};
   font-size: 18px;
   font-family: ${/* eslint-disable-line */ props => props.theme.fontRoboto};
   text-align: center;
-`
+`;
 
 export interface Props {
   message: string
@@ -39,5 +39,5 @@ export const ClaimStatus: React.SFC<Props> = props => {
         </MessageText>
       </div>
     </Container>
-  )
-}
+  );
+};

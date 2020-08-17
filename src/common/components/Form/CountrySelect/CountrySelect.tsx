@@ -1,6 +1,6 @@
-import * as React from "react";
-import Select from "../Select/Select";
-import { isoCountries } from "../../../../lib/commonData";
+import * as React from 'react';
+import Select from '../Select/Select';
+import { isoCountries } from '../../../../lib/commonData';
 
 export default class CountrySelect extends Select {
   generateSelect = (): Array<JSX.Element> => {

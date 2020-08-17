@@ -1,12 +1,12 @@
-import * as React from 'react'
-import { NavLink } from 'react-router-dom'
-import ApprovedTick from '../../../../assets/icons/ApprovedTick'
+import * as React from 'react';
+import { NavLink } from 'react-router-dom';
+import ApprovedTick from '../../../../assets/icons/ApprovedTick';
 import {
   ActionWrapper,
   SummaryWrapper,
   ClaimSummaryList,
   ButtonWrapper,
-} from './Summary.styles'
+} from './Summary.styles';
 
 interface Props {
   cancelLink: string
@@ -18,14 +18,14 @@ interface Props {
 class ClaimSummary extends React.Component<Props> {
   componentDidMount(): void {
     if (!document.querySelector('body').classList.contains('noScroll')) {
-      document.querySelector('body').classList.add('noScroll')
+      document.querySelector('body').classList.add('noScroll');
     }
-    document.querySelector('#ControlPanelWrapper').classList.add('fixed')
+    document.querySelector('#ControlPanelWrapper').classList.add('fixed');
   }
 
   componentWillUnmount(): void {
-    document.querySelector('body').classList.remove('noScroll')
-    document.querySelector('#ControlPanelWrapper').classList.remove('fixed')
+    document.querySelector('body').classList.remove('noScroll');
+    document.querySelector('#ControlPanelWrapper').classList.remove('fixed');
   }
 
   render(): JSX.Element {
@@ -34,7 +34,7 @@ class ClaimSummary extends React.Component<Props> {
       cancelLink,
       submitLink,
       handleNavigatetoQuestion,
-    } = this.props
+    } = this.props;
 
     return (
       <ActionWrapper className="open summary">
@@ -63,7 +63,7 @@ class ClaimSummary extends React.Component<Props> {
                       View answer
                     </button>
                   </li>
-                )
+                );
               },
             )}
           </ClaimSummaryList>
@@ -81,8 +81,8 @@ class ClaimSummary extends React.Component<Props> {
           </ButtonWrapper>
         </SummaryWrapper>
       </ActionWrapper>
-    )
+    );
   }
 }
 
-export default ClaimSummary
+export default ClaimSummary;

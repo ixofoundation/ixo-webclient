@@ -1,9 +1,9 @@
-import React from 'react'
-import { FileType } from '../../../../common/components/DropZone/types'
-import MultiControlForm from '../../../../common/components/JsonForm/MultiControlForm/MultiControlForm'
-import { LinkButton } from '../../../../common/components/JsonForm/JsonForm.styles'
-import { FormData } from '../../../../common/components/JsonForm/types'
-import VideoLoader from '../../../../common/components/DropZone/FileLoader/FileLoader'
+import React from 'react';
+import { FileType } from '../../../../common/components/DropZone/types';
+import MultiControlForm from '../../../../common/components/JsonForm/MultiControlForm/MultiControlForm';
+import { LinkButton } from '../../../../common/components/JsonForm/JsonForm.styles';
+import { FormData } from '../../../../common/components/JsonForm/types';
+import VideoLoader from '../../../../common/components/DropZone/FileLoader/FileLoader';
 
 interface Props {
   id: string
@@ -29,7 +29,7 @@ const HeaderCard: React.FunctionComponent<Props> = ({
   const formData = {
     title,
     content,
-  }
+  };
 
   const schema = {
     type: 'object',
@@ -38,18 +38,18 @@ const HeaderCard: React.FunctionComponent<Props> = ({
       title: { type: 'string', title: 'Title' },
       content: { type: 'string', title: 'Body Content' },
     },
-  } as any
+  } as any;
 
   const uiSchema = {
     title: {
-      ['ui:widget']: 'text',
-      ['ui:placeholder']: 'Enter Title',
+      'ui:widget': 'text',
+      'ui:placeholder': 'Enter Title',
     },
     content: {
-      ['ui:widget']: 'textarea',
-      ['ui:placeholder']: 'Start Typing Here',
+      'ui:widget': 'textarea',
+      'ui:placeholder': 'Start Typing Here',
     },
-  }
+  };
 
   return (
     <div className="row">
@@ -66,8 +66,7 @@ const HeaderCard: React.FunctionComponent<Props> = ({
             }
             uploading={uploadingVideo}
             handleSave={(base64EncodedVideo): void =>
-              handleUploadVideo(id, base64EncodedVideo)
-            }
+              handleUploadVideo(id, base64EncodedVideo)}
             maxFileSize={20000000}
             fileType={FileType.Video}
           />
@@ -77,8 +76,7 @@ const HeaderCard: React.FunctionComponent<Props> = ({
         <MultiControlForm
           onSubmit={(): void => null}
           onFormDataChange={(formData): void =>
-            handleUpdateContent(id, formData)
-          }
+            handleUpdateContent(id, formData)}
           formData={formData}
           schema={schema}
           uiSchema={uiSchema}
@@ -92,7 +90,7 @@ const HeaderCard: React.FunctionComponent<Props> = ({
         </LinkButton>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default HeaderCard
+export default HeaderCard;

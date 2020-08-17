@@ -1,6 +1,6 @@
-import React from "react";
-import FileLoader from "../../../DropZone/FileLoader/FileLoader";
-import { FileType } from "../../../DropZone/types";
+import React from 'react';
+import FileLoader from '../../../DropZone/FileLoader/FileLoader';
+import { FileType } from '../../../DropZone/types';
 
 interface Props {
   options: any;

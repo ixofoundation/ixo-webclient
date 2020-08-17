@@ -2,8 +2,8 @@ import {
   CreateEntitySettingsActionTypes,
   CreateEntitySettingsActions,
   CreateEntitySettingsState,
-} from './types'
-import * as reduxUtils from '../../common/redux/utils'
+} from './types';
+import * as reduxUtils from '../../common/redux/utils';
 
 export const initialState: CreateEntitySettingsState = {
   creator: {
@@ -41,7 +41,7 @@ export const initialState: CreateEntitySettingsState = {
   filters: {},
   displayCredentials: {},
   validation: {},
-}
+};
 
 export const reducer = (
   state = initialState,
@@ -55,7 +55,7 @@ export const reducer = (
           ...state.owner,
           ...action.payload,
         },
-      }
+      };
     case CreateEntitySettingsActions.UploadOwnerImagePending:
       return {
         ...state,
@@ -63,7 +63,7 @@ export const reducer = (
           ...state.owner,
           uploading: true,
         },
-      }
+      };
     case CreateEntitySettingsActions.UploadOwnerImageSuccess:
       return {
         ...state,
@@ -72,7 +72,7 @@ export const reducer = (
           uploading: false,
           fileSrc: action.payload.fileSrc,
         },
-      }
+      };
     case CreateEntitySettingsActions.UploadOwnerImageFailure:
       return {
         ...state,
@@ -80,7 +80,7 @@ export const reducer = (
           ...state.owner,
           uploading: false,
         },
-      }
+      };
     case CreateEntitySettingsActions.UpdateCreator:
       return {
         ...state,
@@ -88,7 +88,7 @@ export const reducer = (
           ...state.creator,
           ...action.payload,
         },
-      }
+      };
     case CreateEntitySettingsActions.UploadCreatorImagePending:
       return {
         ...state,
@@ -96,7 +96,7 @@ export const reducer = (
           ...state.creator,
           uploading: true,
         },
-      }
+      };
     case CreateEntitySettingsActions.UploadCreatorImageSuccess:
       return {
         ...state,
@@ -105,7 +105,7 @@ export const reducer = (
           uploading: false,
           fileSrc: action.payload.fileSrc,
         },
-      }
+      };
     case CreateEntitySettingsActions.UploadCreatorImageFailure:
       return {
         ...state,
@@ -113,17 +113,17 @@ export const reducer = (
           ...state.creator,
           uploading: false,
         },
-      }
+      };
     case CreateEntitySettingsActions.UpdateStatus:
       return {
         ...state,
         status: action.payload,
-      }
+      };
     case CreateEntitySettingsActions.UpdatePrivacy:
       return {
         ...state,
         privacy: action.payload,
-      }
+      };
     case CreateEntitySettingsActions.AddRequiredCredentialSection:
       return {
         ...state,
@@ -137,7 +137,7 @@ export const reducer = (
             },
           },
         },
-      }
+      };
     case CreateEntitySettingsActions.RemoveRequiredCredentialSection:
       return {
         ...state,
@@ -145,7 +145,7 @@ export const reducer = (
           state.requiredCredentials,
           action.payload.id,
         ),
-      }
+      };
     case CreateEntitySettingsActions.UpdateRequiredCredential:
       return {
         ...state,
@@ -153,12 +153,12 @@ export const reducer = (
           ...state.requiredCredentials,
           ...{ [action.payload.id]: action.payload },
         },
-      }
+      };
     case CreateEntitySettingsActions.UpdateFilters:
       return {
         ...state,
         filters: action.payload,
-      }
+      };
     case CreateEntitySettingsActions.AddDisplayCredentialSection:
       return {
         ...state,
@@ -172,7 +172,7 @@ export const reducer = (
             },
           },
         },
-      }
+      };
     case CreateEntitySettingsActions.RemoveDisplayCredentialSection:
       return {
         ...state,
@@ -180,7 +180,7 @@ export const reducer = (
           state.displayCredentials,
           action.payload.id,
         ),
-      }
+      };
     case CreateEntitySettingsActions.UpdateDisplayCredential:
       return {
         ...state,
@@ -188,7 +188,7 @@ export const reducer = (
           ...state.displayCredentials,
           ...{ [action.payload.id]: action.payload },
         },
-      }
+      };
     case CreateEntitySettingsActions.Validated:
       return {
         ...state,
@@ -202,7 +202,7 @@ export const reducer = (
             },
           },
         },
-      }
+      };
     case CreateEntitySettingsActions.ValidationError:
       return {
         ...state,
@@ -216,8 +216,8 @@ export const reducer = (
             },
           },
         },
-      }
+      };
   }
 
-  return state
-}
+  return state;
+};

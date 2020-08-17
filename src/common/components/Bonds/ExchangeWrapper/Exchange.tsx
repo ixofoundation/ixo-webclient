@@ -1,17 +1,17 @@
-import React, { Component } from 'react'
-import { NavLink, Route } from 'react-router-dom'
-import './Exchange.scss'
-import { connect } from 'react-redux'
-import { RootState } from '../../../redux/types'
-import { BondsWrapperConnected as BondsWrapper } from '../BondsWrapper/BondsWrapper'
-import BondBuy from '../../../../modules/BondBuy/BondBuy.container'
-import BondSell from '../../../../modules/BondSell/BondSell.container'
-import BondSwap from '../../../../modules/BondSwap/BondSwap.container'
-import { BondsSectionNav } from './Exchange.styles'
-import * as bondBuySelectors from '../../../../modules/BondBuy/BondBuy.selectors'
-import * as bondSellSelectors from '../../../../modules/BondSell/BondSell.selectors'
-import * as bondSwapSelectors from '../../../../modules/BondSwap/BondSwap.selectors'
-import { isActiveRoute } from '../.././../utils/isActiveRoute'
+import React, { Component } from 'react';
+import { NavLink, Route } from 'react-router-dom';
+import './Exchange.scss';
+import { connect } from 'react-redux';
+import { RootState } from '../../../redux/types';
+import { BondsWrapperConnected as BondsWrapper } from '../BondsWrapper/BondsWrapper';
+import BondBuy from '../../../../modules/BondBuy/BondBuy.container';
+import BondSell from '../../../../modules/BondSell/BondSell.container';
+import BondSwap from '../../../../modules/BondSwap/BondSwap.container';
+import { BondsSectionNav } from './Exchange.styles';
+import * as bondBuySelectors from '../../../../modules/BondBuy/BondBuy.selectors';
+import * as bondSellSelectors from '../../../../modules/BondSell/BondSell.selectors';
+import * as bondSwapSelectors from '../../../../modules/BondSwap/BondSwap.selectors';
+import { isActiveRoute } from '../../../utils/isActiveRoute';
 
 interface Props {
   match: any
@@ -21,13 +21,13 @@ interface Props {
 
 class Exchange extends Component<Props> {
   render(): JSX.Element {
-    const { projectDID, bondDID } = this.props.match.params
+    const { projectDID, bondDID } = this.props.match.params;
 
     return (
       <BondsWrapper {...this.props.match}>
         <div className="BondsWrapper_panel exchange_panel">
-          {/*<b style={{fontSize: 'calc(10px + 2vmin)'}}>Balances</b>
-              <div className="BondsWrapper_panel__content"></div>*/}
+          {/* <b style={{fontSize: 'calc(10px + 2vmin)'}}>Balances</b>
+              <div className="BondsWrapper_panel__content"></div> */}
           <BondsSectionNav>
             <NavLink
               to={
@@ -36,8 +36,7 @@ class Exchange extends Component<Props> {
                   : '#'
               }
               isActive={(match, location): boolean =>
-                isActiveRoute(match, location, ['/buy'])
-              }
+                isActiveRoute(match, location, ['/buy'])}
               exact
               className="tablinks_tablink"
             >
@@ -50,8 +49,7 @@ class Exchange extends Component<Props> {
                   : '#'
               }
               isActive={(match, location): boolean =>
-                isActiveRoute(match, location, ['/sell'])
-              }
+                isActiveRoute(match, location, ['/sell'])}
               className="tablinks_tablink"
             >
               Sell
@@ -64,15 +62,14 @@ class Exchange extends Component<Props> {
                     : '#'
                 }
                 isActive={(match, location): boolean =>
-                  isActiveRoute(match, location, ['/swap'])
-                }
+                  isActiveRoute(match, location, ['/swap'])}
                 className="tablinks_tablink"
               >
                 Swap
               </NavLink>
             ) : (
-                undefined
-              )}
+              undefined
+            )}
           </BondsSectionNav>
           <Route
             exact
@@ -105,7 +102,7 @@ class Exchange extends Component<Props> {
           />
         </div>
       </BondsWrapper>
-    )
+    );
   }
 }
 
@@ -115,6 +112,6 @@ const mapStateToProps = (state: RootState): any => ({
     bondBuySelectors.selectBondBuyTransacting(state) ||
     bondSwapSelectors.selectBondSwapTransacting(state),
   activeBondType: state.activeBond.type,
-})
+});
 
-export default connect(mapStateToProps)(Exchange)
+export default connect(mapStateToProps)(Exchange);

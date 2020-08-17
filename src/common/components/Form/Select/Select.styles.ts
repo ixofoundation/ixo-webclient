@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 export const Input = styled.div`
   margin: 15px 0;
@@ -17,4 +17,4 @@ export const Input = styled.div`
     border: 1px solid
       ${/* eslint-disable-line */ props => props.theme.lightGrey};
   }
-`
+`;

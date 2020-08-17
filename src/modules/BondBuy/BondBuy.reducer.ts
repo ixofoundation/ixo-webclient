@@ -1,11 +1,11 @@
-import { BondBuyState, BondBuyActions, BondBuyActionTypes } from './types'
+import { BondBuyState, BondBuyActions, BondBuyActionTypes } from './types';
 
 export const initialState: BondBuyState = {
   quotePending: false,
   signPending: false,
   transacting: false,
   txFees: [],
-}
+};
 
 export const reducer = (
   state = initialState,
@@ -16,42 +16,42 @@ export const reducer = (
       return {
         ...state,
         quotePending: false,
-      }
+      };
     case BondBuyActions.GetQuotePending:
       return {
         ...state,
         transacting: true,
         quotePending: true,
-      }
+      };
     case BondBuyActions.GetQuoteSuccess:
       return {
         ...action.payload,
         quotePending: false,
         signPending: false,
         transacting: false,
-      }
+      };
     case BondBuyActions.GetQuoteFailure:
       return {
         ...state,
         transacting: false,
         quotePending: false,
-      }
+      };
     case BondBuyActions.ConfirmBuyPending:
       return {
         ...state,
         signPending: true,
-      }
+      };
     case BondBuyActions.ConfirmBuyFailure:
       return {
         ...state,
         signPending: false,
-      }
+      };
     case BondBuyActions.Clear:
     case BondBuyActions.ConfirmBuySuccess:
       return {
         ...initialState,
-      }
+      };
   }
 
-  return state
-}
+  return state;
+};

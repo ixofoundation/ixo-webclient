@@ -1,9 +1,10 @@
-import React, { Dispatch } from 'react'
-import { connect } from 'react-redux'
+import React, { Dispatch } from 'react';
+import { connect } from 'react-redux';
+import { FormData } from 'common/components/JsonForm/types';
 import CreateEntityBase, {
   CreateEntityBaseProps,
-} from '../CreateEntity/components/CreateEntityBase/CreateEntityBase'
-import { RootState } from '../../common/redux/types'
+} from '../CreateEntity/components/CreateEntityBase/CreateEntityBase';
+import { RootState } from '../../common/redux/types';
 import {
   addDisplayCredentialSection,
   addRequiredCredentialSection,
@@ -18,11 +19,10 @@ import {
   updateStatus,
   validated,
   validationError,
-} from './CreateEntitySettings.actions'
-import { goToStep } from '../CreateEntity/CreateEntity.actions'
-import * as createEntitySelectors from '../CreateEntity/CreateEntity.selectors'
-import * as entitySettingsSelectors from './CreateEntitySettings.selectors'
-import { FormData } from 'common/components/JsonForm/types'
+} from './CreateEntitySettings.actions';
+import { goToStep } from '../CreateEntity/CreateEntity.actions';
+import * as createEntitySelectors from '../CreateEntity/CreateEntity.selectors';
+import * as entitySettingsSelectors from './CreateEntitySettings.selectors';
 import {
   Owner,
   Creator,
@@ -30,18 +30,18 @@ import {
   Privacy,
   RequiredCredential,
   DisplayCredential,
-} from './types'
-import FormCardWrapper from '../../common/components/Wrappers/FormCardWrapper/FormCardWrapper'
-import OwnerCard from './components/OwnerCard/OwnerCard'
-import CreatorCard from './components/CreatorCard/CreatorCard'
-import StatusCard from './components/StatusCard/StatusCard'
-import PrivacyCard from './components/PrivacyCard/PrivacyCard'
-import RequiredCredentialCard from './components/RequiredCredentialCard/RequiredCredentialCard'
-import DisplayCredentialCard from './components/DisplayCredentialCard/DisplayCredentialCard'
-import FilterCard from './components/FilterCard/FilterCard'
-import { EntityType } from '../Entities/types'
-import { entityTypeMap } from '../Entities/strategy-map'
-import { Step } from '../CreateEntity/types'
+} from './types';
+import FormCardWrapper from '../../common/components/Wrappers/FormCardWrapper/FormCardWrapper';
+import OwnerCard from './components/OwnerCard/OwnerCard';
+import CreatorCard from './components/CreatorCard/CreatorCard';
+import StatusCard from './components/StatusCard/StatusCard';
+import PrivacyCard from './components/PrivacyCard/PrivacyCard';
+import RequiredCredentialCard from './components/RequiredCredentialCard/RequiredCredentialCard';
+import DisplayCredentialCard from './components/DisplayCredentialCard/DisplayCredentialCard';
+import FilterCard from './components/FilterCard/FilterCard';
+import { EntityType } from '../Entities/types';
+import { entityTypeMap } from '../Entities/strategy-map';
+import { Step } from '../CreateEntity/types';
 
 interface Props extends CreateEntityBaseProps {
   entityType: EntityType
@@ -68,16 +68,16 @@ interface Props extends CreateEntityBaseProps {
 }
 
 class CreateEntitySettings extends CreateEntityBase<Props> {
-  entityTitle
+  entityTitle;
 
   constructor(props) {
-    super(props)
+    super(props);
 
     this.entityTitle = entityTypeMap[this.props.entityType].title;
   }
 
   renderCreator = (): JSX.Element => {
-    this.cardRefs['creator'] = React.createRef()
+    this.cardRefs.creator = React.createRef();
 
     const {
       creator: {
@@ -92,7 +92,7 @@ class CreateEntitySettings extends CreateEntityBase<Props> {
         uploading,
       },
       handleUpdateCreator,
-    } = this.props
+    } = this.props;
 
     return (
       <FormCardWrapper
@@ -100,7 +100,7 @@ class CreateEntitySettings extends CreateEntityBase<Props> {
         title={`${this.entityTitle} Creator`}
       >
         <CreatorCard
-          ref={this.cardRefs['creator']}
+          ref={this.cardRefs.creator}
           displayName={displayName}
           location={location}
           email={email}
@@ -113,15 +113,14 @@ class CreateEntitySettings extends CreateEntityBase<Props> {
           handleUpdateContent={handleUpdateCreator}
           handleSubmitted={(): void => this.props.handleValidated('creator')}
           handleError={(errors): void =>
-            this.props.handleValidationError('creator', errors)
-          }
+            this.props.handleValidationError('creator', errors)}
         />
       </FormCardWrapper>
     );
   };
 
   renderOwner = (): JSX.Element => {
-    this.cardRefs['owner'] = React.createRef()
+    this.cardRefs.owner = React.createRef();
 
     const {
       owner: {
@@ -135,7 +134,7 @@ class CreateEntitySettings extends CreateEntityBase<Props> {
         uploading,
       },
       handleUpdateOwner,
-    } = this.props
+    } = this.props;
 
     return (
       <FormCardWrapper
@@ -143,7 +142,7 @@ class CreateEntitySettings extends CreateEntityBase<Props> {
         title={`${this.entityTitle} Owner`}
       >
         <OwnerCard
-          ref={this.cardRefs['owner']}
+          ref={this.cardRefs.owner}
           displayName={displayName}
           location={location}
           email={email}
@@ -155,15 +154,14 @@ class CreateEntitySettings extends CreateEntityBase<Props> {
           handleUpdateContent={handleUpdateOwner}
           handleSubmitted={(): void => this.props.handleValidated('owner')}
           handleError={(errors): void =>
-            this.props.handleValidationError('owner', errors)
-          }
+            this.props.handleValidationError('owner', errors)}
         />
       </FormCardWrapper>
     );
   };
 
   renderStatus = (): JSX.Element => {
-    this.cardRefs['status'] = React.createRef()
+    this.cardRefs.status = React.createRef();
 
     const {
       status: { startDate, endDate, stage, status },
@@ -176,7 +174,7 @@ class CreateEntitySettings extends CreateEntityBase<Props> {
         title={`${this.entityTitle} Status`}
       >
         <StatusCard
-          ref={this.cardRefs['status']}
+          ref={this.cardRefs.status}
           startDate={startDate}
           endDate={endDate}
           stage={stage}
@@ -184,15 +182,14 @@ class CreateEntitySettings extends CreateEntityBase<Props> {
           handleUpdateContent={handleUpdateStatus}
           handleSubmitted={(): void => this.props.handleValidated('status')}
           handleError={(errors): void =>
-            this.props.handleValidationError('status', errors)
-          }
+            this.props.handleValidationError('status', errors)}
         />
       </FormCardWrapper>
     );
   };
 
   renderPrivacy = (): JSX.Element => {
-    this.cardRefs['privacy'] = React.createRef()
+    this.cardRefs.privacy = React.createRef();
 
     const {
       privacy: { entityView, pageView },
@@ -205,14 +202,13 @@ class CreateEntitySettings extends CreateEntityBase<Props> {
         title={`${this.entityTitle} Privacy Settings`}
       >
         <PrivacyCard
-          ref={this.cardRefs['privacy']}
+          ref={this.cardRefs.privacy}
           pageView={pageView}
           entityView={entityView}
           handleUpdateContent={handleUpdatePrivacy}
           handleSubmitted={(): void => this.props.handleValidated('privacy')}
           handleError={(errors): void =>
-            this.props.handleValidationError('privacy', errors)
-          }
+            this.props.handleValidationError('privacy', errors)}
         />
       </FormCardWrapper>
     );
@@ -224,7 +220,7 @@ class CreateEntitySettings extends CreateEntityBase<Props> {
       handleUpdateRequiredCredential,
       handleAddRequiredCredentialSection,
       handleRemoveRequiredCredentialSection,
-    } = this.props
+    } = this.props;
 
     return (
       <FormCardWrapper
@@ -234,9 +230,9 @@ class CreateEntitySettings extends CreateEntityBase<Props> {
         onAddSection={handleAddRequiredCredentialSection}
       >
         {requiredCredentials.map(requiredCredential => {
-          this.cardRefs[requiredCredential.id] = React.createRef()
+          this.cardRefs[requiredCredential.id] = React.createRef();
 
-          const { id, credential, issuer } = requiredCredential
+          const { id, credential, issuer } = requiredCredential;
 
           return (
             <RequiredCredentialCard
@@ -245,17 +241,13 @@ class CreateEntitySettings extends CreateEntityBase<Props> {
               credential={credential}
               issuer={issuer}
               handleUpdateContent={(formData): void =>
-                handleUpdateRequiredCredential(id, formData)
-              }
+                handleUpdateRequiredCredential(id, formData)}
               handleRemoveSection={(): void =>
-                handleRemoveRequiredCredentialSection(id)
-              }
+                handleRemoveRequiredCredentialSection(id)}
               handleSubmitted={(): void =>
-                this.props.handleValidated(requiredCredential.id)
-              }
+                this.props.handleValidated(requiredCredential.id)}
               handleError={(errors): void =>
-                this.props.handleValidationError(requiredCredential.id, errors)
-              }
+                this.props.handleValidationError(requiredCredential.id, errors)}
             />
           );
         })}
@@ -264,9 +256,9 @@ class CreateEntitySettings extends CreateEntityBase<Props> {
   };
 
   renderFilters = (): JSX.Element => {
-    this.cardRefs['filter'] = React.createRef()
+    this.cardRefs.filter = React.createRef();
 
-    const { entityType, filters, handleUpdateFilters } = this.props
+    const { entityType, filters, handleUpdateFilters } = this.props;
 
     return (
       <FormCardWrapper
@@ -275,14 +267,13 @@ class CreateEntitySettings extends CreateEntityBase<Props> {
         description="Use Ctrl (Windows) or Cmd (Mac) to select and deselect the filter tags"
       >
         <FilterCard
-          ref={this.cardRefs['filter']}
+          ref={this.cardRefs.filter}
           entityType={entityType}
           filters={filters}
           handleUpdateContent={handleUpdateFilters}
           handleSubmitted={(): void => this.props.handleValidated('filter')}
           handleError={(errors): void =>
-            this.props.handleValidationError('filter', errors)
-          }
+            this.props.handleValidationError('filter', errors)}
         />
       </FormCardWrapper>
     );
@@ -294,7 +285,7 @@ class CreateEntitySettings extends CreateEntityBase<Props> {
       handleUpdateDisplayCredential,
       handleAddDisplayCredentialSection,
       handleRemoveDisplayCredentialSection,
-    } = this.props
+    } = this.props;
 
     return (
       <FormCardWrapper
@@ -304,9 +295,9 @@ class CreateEntitySettings extends CreateEntityBase<Props> {
         onAddSection={handleAddDisplayCredentialSection}
       >
         {displayCredentials.map(displayCredential => {
-          this.cardRefs[displayCredential.id] = React.createRef()
+          this.cardRefs[displayCredential.id] = React.createRef();
 
-          const { id, credential, badge } = displayCredential
+          const { id, credential, badge } = displayCredential;
 
           return (
             <DisplayCredentialCard
@@ -315,17 +306,13 @@ class CreateEntitySettings extends CreateEntityBase<Props> {
               credential={credential}
               badge={badge}
               handleUpdateContent={(formData): void =>
-                handleUpdateDisplayCredential(id, formData)
-              }
+                handleUpdateDisplayCredential(id, formData)}
               handleRemoveSection={(): void =>
-                handleRemoveDisplayCredentialSection(id)
-              }
+                handleRemoveDisplayCredentialSection(id)}
               handleSubmitted={(): void =>
-                this.props.handleValidated(displayCredential.id)
-              }
+                this.props.handleValidated(displayCredential.id)}
               handleError={(errors): void =>
-                this.props.handleValidationError(displayCredential.id, errors)
-              }
+                this.props.handleValidationError(displayCredential.id, errors)}
             />
           );
         })}
@@ -334,29 +321,29 @@ class CreateEntitySettings extends CreateEntityBase<Props> {
   };
 
   onSubmitted = (): void => {
-    this.props.handleGoToStep(Step.Advanced)
-  }
+    this.props.handleGoToStep(Step.Advanced);
+  };
 
   onBack = (): void => {
-    this.props.handleGoToStep(Step.PageContent)
-  }
+    this.props.handleGoToStep(Step.PageContent);
+  };
 
   render(): JSX.Element {
-    const { requiredCredentials, displayCredentials } = this.props
-    const identifiers: string[] = []
+    const { requiredCredentials, displayCredentials } = this.props;
+    const identifiers: string[] = [];
 
-    identifiers.push('owner')
-    identifiers.push('creator')
-    identifiers.push('status')
-    identifiers.push('privacy')
-    identifiers.push('filter')
+    identifiers.push('owner');
+    identifiers.push('creator');
+    identifiers.push('status');
+    identifiers.push('privacy');
+    identifiers.push('filter');
 
     requiredCredentials.forEach(section => {
-      identifiers.push(section.id)
-    })
+      identifiers.push(section.id);
+    });
     displayCredentials.forEach(section => {
-      identifiers.push(section.id)
-    })
+      identifiers.push(section.id);
+    });
 
     return (
       <>
@@ -384,7 +371,7 @@ const mapStateToProps = (state: RootState): any => ({
   displayCredentials: entitySettingsSelectors.selectDisplayCredentials(state),
   validationComplete: entitySettingsSelectors.selectValidationComplete(state),
   validated: entitySettingsSelectors.selectValidated(state),
-})
+});
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
   handleAddDisplayCredentialSection: (): void =>
@@ -414,7 +401,7 @@ const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
   handleValidationError: (identifier: string, errors: string[]): void =>
     dispatch(validationError(identifier, errors)),
   handleGoToStep: (step: Step): void => dispatch(goToStep(step)),
-})
+});
 
 export const CreateEntitySettingsConnected = connect(
   mapStateToProps,

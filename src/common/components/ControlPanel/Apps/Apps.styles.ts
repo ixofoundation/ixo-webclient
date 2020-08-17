@@ -1,5 +1,5 @@
-import styled from 'styled-components'
-import { SquareButtonSection } from '../ControlPanel.styles'
+import styled from 'styled-components';
+import { SquareButtonSection } from '../ControlPanel.styles';
 
 export const AppButtonsWrapper = styled(SquareButtonSection)`
   button {
@@ -15,4 +15,4 @@ export const AppButtonsWrapper = styled(SquareButtonSection)`
       display: none;
     }
   }
-`
+`;

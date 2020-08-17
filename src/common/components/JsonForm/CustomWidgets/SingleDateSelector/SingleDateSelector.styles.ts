@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 export const Container = styled.div`
   --focus-standard-border: 1px solid #39c3e6;
@@ -47,7 +47,7 @@ export const Container = styled.div`
       border: var(--focus-standard-border);
     }
   }
-`
+`;
 
 export const MobileWrapper = styled.div`
   &.active {
@@ -127,7 +127,7 @@ export const MobileWrapper = styled.div`
     color: #000000;
     margin-top: 2rem;
   }
-`
+`;
 export const MobileDateHeader = styled.header`
   width: 100vw;
   background: #002a3f;
@@ -142,7 +142,7 @@ export const MobileDateHeader = styled.header`
   top: 0;
   right: 6.25rem;
   left: 0;
-`
+`;
 export const HeadingItem = styled.button`
   cursor: pointer;
   border: none;
@@ -153,7 +153,7 @@ export const HeadingItem = styled.button`
   -webkit-appearance: none;
   -moz-appearance: none;
   padding: 0;
-`
+`;
 
 export const DesktopWrapper = styled.div`
   .SingleDatePicker {
@@ -280,4 +280,4 @@ export const DesktopWrapper = styled.div`
     -webkit-box-shadow: none;
     box-shadow: none;
   }
-`
+`;

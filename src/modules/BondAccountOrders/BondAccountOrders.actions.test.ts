@@ -1,8 +1,9 @@
-import axios from "axios";
-import mockStore from "../../common/redux/mockStore";
-import * as SUT from "./BondAccountOrders.actions";
-import { BondAccountOrdersActions } from "./types";
-jest.mock("axios");
+import axios from 'axios';
+import mockStore from '../../common/redux/mockStore';
+import * as SUT from './BondAccountOrders.actions';
+import { BondAccountOrdersActions } from './types';
+
+jest.mock('axios');
 
 let store: any;
 const mockAxios = axios as jest.Mocked<typeof axios>;
@@ -10,22 +11,22 @@ const mockAxios = axios as jest.Mocked<typeof axios>;
 beforeEach(() => {
   store = mockStore({
     account: {
-      address: "abc",
+      address: 'abc',
     },
     bondAccountOrders: [],
   });
 });
 
-describe("getBondAccountOrders", () => {
-  it("should return data on success", async () => {
+describe('getBondAccountOrders', () => {
+  it('should return data on success', async () => {
     const bondAccountOrders = [
-      { someprop: "someval1" },
-      { someprop: "someval2" },
+      { someprop: 'someval1' },
+      { someprop: 'someval2' },
     ];
 
     mockAxios.spread.mockReturnValue(() => {
       return {
-        bondAccountOrders: [{ someprop: "someval1" }, { someprop: "someval2" }],
+        bondAccountOrders: [{ someprop: 'someval1' }, { someprop: 'someval2' }],
       };
     });
 
@@ -40,8 +41,8 @@ describe("getBondAccountOrders", () => {
     expect(actions[1].payload.bondAccountOrders).toEqual(bondAccountOrders);
   });
 
-  it("should return an error on failure", async () => {
-    const error = "some-error";
+  it('should return an error on failure', async () => {
+    const error = 'some-error';
     mockAxios.all.mockImplementationOnce(() =>
       Promise.reject({
         error,

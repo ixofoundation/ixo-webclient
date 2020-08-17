@@ -1,22 +1,22 @@
-import React from "react";
+import React from 'react';
 import {
   sendVerificationNotification,
   verifyOTP,
   Channel,
-} from "../../../api/verification-api/verification-api";
-import OtpInput from "../OTPInput/OTPInput";
-import * as validationUtils from "../../../utils/validationUtils";
+} from '../../../api/verification-api/verification-api';
+import OtpInput from '../OTPInput/OTPInput';
+import * as validationUtils from '../../../utils/validationUtils';
 
 // This is a WIP
 // This can be completed when required
 // Phone validation can work very similar to below
 
 enum Status {
-  SendingNotification = "SendingNotification",
-  NotificationSent = "NotificationSent",
-  VerifyingOTP = "VerifyingOTP",
-  OTPSuccess = "OTPSuccess",
-  OTPFailure = "OTPFailure",
+  SendingNotification = 'SendingNotification',
+  NotificationSent = 'NotificationSent',
+  VerifyingOTP = 'VerifyingOTP',
+  OTPSuccess = 'OTPSuccess',
+  OTPFailure = 'OTPFailure',
 }
 
 interface Props {

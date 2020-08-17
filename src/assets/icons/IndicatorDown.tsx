@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 const IndicatorDown = (props: any): JSX.Element => {
   return (
@@ -7,7 +7,7 @@ const IndicatorDown = (props: any): JSX.Element => {
       viewBox="0 0 18 18"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <path d="M9 15.4l8.5-12.8H.5z" fill={props.fill || "#fff"} />
+      <path d="M9 15.4l8.5-12.8H.5z" fill={props.fill || '#fff'} />
     </svg>
   );
 };

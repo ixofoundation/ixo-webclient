@@ -1,41 +1,41 @@
-import { Moment } from 'moment'
-import { createSelector } from 'reselect'
-import { Entity, EntitiesState } from './types'
-import { Filter, Category, EntityType } from './types'
-import * as accountSelectors from '../Account/Account.selectors'
-import { RootState } from 'common/redux/types'
-import { Schema as FilterSchema } from './components/EntitiesFilter/schema/types'
-import { entityTypeMap } from './strategy-map'
+import { Moment } from 'moment';
+import { createSelector } from 'reselect';
+import { RootState } from 'common/redux/types';
+import { Entity, EntitiesState, Filter, Category, EntityType } from './types';
 
-const formatDate = (date: Moment): string => date.format("D MMM \\'YY")
+import * as accountSelectors from '../Account/Account.selectors';
+import { Schema as FilterSchema } from './components/EntitiesFilter/schema/types';
+import { entityTypeMap } from './strategy-map';
+
+const formatDate = (date: Moment): string => date.format("D MMM \\'YY");
 
 export const selectEntitiesState = (state: RootState): EntitiesState =>
-  state.entities
+  state.entities;
 
 export const selectAllEntitiesByType = createSelector(
   selectEntitiesState,
   (entitiesState: EntitiesState): Entity[] => {
     return entitiesState.entities
       ? entitiesState.entities.filter(
-          entity => entity.entityType === entitiesState.selectedEntitiesType,
-        )
-      : null
+        entity => entity.entityType === entitiesState.selectedEntitiesType,
+      )
+      : null;
   },
-)
+);
 
 export const selectEntitiesFilter = createSelector(
   selectEntitiesState,
   (entitiesState: EntitiesState): Filter => {
-    return entitiesState.filter
+    return entitiesState.filter;
   },
-)
+);
 
 export const selectSelectedEntitiesType = createSelector(
   selectEntitiesState,
   (entitiesState: EntitiesState): EntityType => {
-    return entitiesState.selectedEntitiesType
+    return entitiesState.selectedEntitiesType;
   },
-)
+);
 
 export const selectedFilteredEntities = createSelector(
   selectAllEntitiesByType,
@@ -43,7 +43,7 @@ export const selectedFilteredEntities = createSelector(
   accountSelectors.selectUserDid,
   (entities: Entity[], filter: Filter, userDid: string): Entity[] => {
     // all entities
-    let entitiesToFilter = entities && entities.length ? entities : []
+    let entitiesToFilter = entities && entities.length ? entities : [];
 
     // filter by current user's entities
     if (filter.userEntities) {
@@ -51,7 +51,7 @@ export const selectedFilteredEntities = createSelector(
         entity =>
           entity.userDid === userDid ||
           entity.agentDids.some(agentDid => agentDid === userDid),
-      )
+      );
     }
 
     // TODO - featured and popular
@@ -62,7 +62,7 @@ export const selectedFilteredEntities = createSelector(
         entity =>
           entity.dateCreated.startOf('day') >= filter.dateFrom &&
           entity.dateCreated.startOf('day') <= filter.dateTo,
-      )
+      );
     }
 
     // filter by categories
@@ -76,38 +76,38 @@ export const selectedFilteredEntities = createSelector(
                   entityCategory.name === category.name &&
                   entityCategory.tags.includes(tag),
               ),
-            )
-          })
+            );
+          });
         }
-      })
+      });
     }
 
     // sort the result
     entitiesToFilter = entitiesToFilter.sort((a, b) => {
-      return b.dateCreated.unix() - a.dateCreated.unix()
-    })
+      return b.dateCreated.unix() - a.dateCreated.unix();
+    });
 
-    return entitiesToFilter
+    return entitiesToFilter;
   },
-)
+);
 
 export const selectEntitiesCountries = createSelector(
   selectAllEntitiesByType,
   (entities: Entity[]): string[] => {
     return entities && entities.length
       ? entities.map(entity => {
-          return entity.country
-        })
-      : []
+        return entity.country;
+      })
+      : [];
   },
-)
+);
 
 export const selectAllEntitiesCount = createSelector(
   selectAllEntitiesByType,
   (entities: Entity[]): number => {
-    return !entities ? 0 : entities.length
+    return !entities ? 0 : entities.length;
   },
-)
+);
 
 export const selectUserEntitiesCount = createSelector(
   selectAllEntitiesByType,
@@ -116,19 +116,19 @@ export const selectUserEntitiesCount = createSelector(
     return !entities
       ? 0
       : entities.filter(
-          entity =>
-            entity.userDid === userDid ||
+        entity =>
+          entity.userDid === userDid ||
             entity.agentDids.some(agentDid => agentDid === userDid),
-        ).length
+      ).length;
   },
-)
+);
 
 export const selectFilteredEntitiesCount = createSelector(
   selectedFilteredEntities,
   (entities: Entity[]): number => {
-    return !entities ? 0 : entities.length
+    return !entities ? 0 : entities.length;
   },
-)
+);
 
 export const selectTotalServiceProvidersCount = createSelector(
   selectAllEntitiesByType,
@@ -136,10 +136,10 @@ export const selectTotalServiceProvidersCount = createSelector(
     return !entities
       ? 0
       : entities.reduce((total, entity) => {
-          return total + entity.serviceProvidersCount
-        }, 0)
+        return total + entity.serviceProvidersCount;
+      }, 0);
   },
-)
+);
 
 export const selectTotalEvaluatorsCount = createSelector(
   selectAllEntitiesByType,
@@ -147,10 +147,10 @@ export const selectTotalEvaluatorsCount = createSelector(
     return !entities
       ? 0
       : entities.reduce((total, entity) => {
-          return total + entity.evaluatorsCount
-        }, 0)
+        return total + entity.evaluatorsCount;
+      }, 0);
   },
-)
+);
 
 export const selectTotalRequiredClaimsCount = createSelector(
   selectAllEntitiesByType,
@@ -158,10 +158,10 @@ export const selectTotalRequiredClaimsCount = createSelector(
     return !entities
       ? 0
       : entities.reduce((total, entity) => {
-          return total + entity.requiredClaimsCount
-        }, 0)
+        return total + entity.requiredClaimsCount;
+      }, 0);
   },
-)
+);
 
 export const selectTotalPendingClaimsCount = createSelector(
   selectAllEntitiesByType,
@@ -169,10 +169,10 @@ export const selectTotalPendingClaimsCount = createSelector(
     return !entities
       ? 0
       : entities.reduce((total, entity) => {
-          return total + entity.pendingClaimsCount
-        }, 0)
+        return total + entity.pendingClaimsCount;
+      }, 0);
   },
-)
+);
 
 export const selectTotalSuccessfulClaimsCount = createSelector(
   selectAllEntitiesByType,
@@ -180,10 +180,10 @@ export const selectTotalSuccessfulClaimsCount = createSelector(
     return !entities
       ? 0
       : entities.reduce((total, entity) => {
-          return total + entity.successfulClaimsCount
-        }, 0)
+        return total + entity.successfulClaimsCount;
+      }, 0);
   },
-)
+);
 
 export const selectTotalRejectedClaimsCount = createSelector(
   selectAllEntitiesByType,
@@ -191,115 +191,115 @@ export const selectTotalRejectedClaimsCount = createSelector(
     return !entities
       ? 0
       : entities.reduce((total, entity) => {
-          return total + entity.rejectedClaimsCount
-        }, 0)
+        return total + entity.rejectedClaimsCount;
+      }, 0);
   },
-)
+);
 
 export const selectIsLoadingEntities = createSelector(
   selectAllEntitiesByType,
   (entities: Entity[]): boolean => {
-    return entities === null
+    return entities === null;
   },
-)
+);
 
 export const selectFilterDateFrom = createSelector(
   selectEntitiesFilter,
   (filter: Filter): Moment => {
-    return filter.dateFrom
+    return filter.dateFrom;
   },
-)
+);
 
 export const selectFilterDateTo = createSelector(
   selectEntitiesFilter,
   (filter: Filter): Moment => {
-    return filter.dateTo
+    return filter.dateTo;
   },
-)
+);
 
 export const selectFilterDateFromFormatted = createSelector(
   selectFilterDateFrom,
   (dateFrom: Moment): string => {
-    return dateFrom ? formatDate(dateFrom) : null
+    return dateFrom ? formatDate(dateFrom) : null;
   },
-)
+);
 
 export const selectFilterDateToFormatted = createSelector(
   selectFilterDateTo,
   (dateTo: Moment): string => {
-    return dateTo ? formatDate(dateTo) : null
+    return dateTo ? formatDate(dateTo) : null;
   },
-)
+);
 
 export const selectFilterDateSummary = createSelector(
   selectFilterDateFromFormatted,
   selectFilterDateToFormatted,
   (dateFromFormatted: string, dateToFormatted: string): string => {
     if (dateFromFormatted || dateToFormatted) {
-      return `${dateFromFormatted ? dateFromFormatted : 'Select'} - ${
-        dateToFormatted ? dateToFormatted : 'Select'
-      }`
+      return `${dateFromFormatted || 'Select'} - ${
+        dateToFormatted || 'Select'
+      }`;
     }
-    return 'Dates'
+    return 'Dates';
   },
-)
+);
 
 export const selectFilterCategories = createSelector(
   selectEntitiesFilter,
   (filter: Filter): Category[] => {
-    return filter.categories
+    return filter.categories;
   },
-)
+);
 
 export const selectFilterSector = createSelector(
   selectEntitiesFilter,
   (filter: Filter): string => {
-    return filter.sector
+    return filter.sector;
   },
-)
+);
 
 export const selectFilterCategoriesSummary = createSelector(
   selectFilterCategories,
   (categories: Category[]): string => {
     const totalFilters = categories.reduce((total, category) => {
-      return total + category.tags.length
-    }, 0)
+      return total + category.tags.length;
+    }, 0);
 
-    return totalFilters > 0 ? `Filters - ${totalFilters}` : 'Filters'
+    return totalFilters > 0 ? `Filters - ${totalFilters}` : 'Filters';
   },
-)
+);
 
 export const selectFilterUserEntities = createSelector(
   selectEntitiesFilter,
   (filter: Filter): boolean => {
-    return filter.userEntities
+    return filter.userEntities;
   },
-)
+);
 
 export const selectFilterFeaturedEntities = createSelector(
   selectEntitiesFilter,
   (filter: Filter): boolean => {
-    return filter.featuredEntities
+    return filter.featuredEntities;
   },
-)
+);
 
 export const selectFilterPopularEntities = createSelector(
   selectEntitiesFilter,
   (filter: Filter): boolean => {
-    return filter.popularEntities
+    return filter.popularEntities;
   },
-)
+);
 
 export const selectTotalRemainingClaimsCount = createSelector(
   selectTotalRequiredClaimsCount,
   selectTotalSuccessfulClaimsCount,
   (totalClaimsRequired: number, totalClaimsSuccessful: number): number =>
     totalClaimsRequired - totalClaimsSuccessful,
-)
+);
 
 export const selectFilterSchema = createSelector(
   selectSelectedEntitiesType,
   (entityType: EntityType): FilterSchema => {
-    return entityTypeMap[entityType].filterSchema
+    return entityTypeMap[entityType].filterSchema;
   },
-)
+);

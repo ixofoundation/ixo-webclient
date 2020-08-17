@@ -1,4 +1,4 @@
-import { Currency } from '../../types/models'
+import { Currency } from '../../types/models';
 
 export interface BondState {
   bondDid: string
@@ -64,4 +64,4 @@ export type BondActionTypes =
   | GetBalancesAction
   | GetBalancesSuccessAction
   | GetTradesAction
-  | GetTradesSuccessAction
+  | GetTradesSuccessAction;

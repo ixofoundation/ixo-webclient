@@ -1,13 +1,13 @@
-import React, { Dispatch } from "react";
-import { connect } from "react-redux";
-import { RootState } from "common/redux/types";
-import Instructions from "./components/Instructions/Instructions";
-import { FormContainer } from "common/components/JsonForm/JsonForm.styles";
-import { FormControl } from "common/components/JsonForm/types";
-import * as submitEntityClaimSelectors from "./SubmitEntityClaim.selectors";
-import * as selectedEntitySelectors from "../SelectedEntity/SelectedEntity.selectors";
-import { getEntity } from "../SelectedEntity/SelectedEntity.actions";
-import { ActionWrapper } from "common/components/ControlPanel/Actions/Actions.styles";
+import React, { Dispatch } from 'react';
+import { connect } from 'react-redux';
+import { RootState } from 'common/redux/types';
+import { FormContainer } from 'common/components/JsonForm/JsonForm.styles';
+import { FormControl } from 'common/components/JsonForm/types';
+import { ActionWrapper } from 'common/components/ControlPanel/Actions/Actions.styles';
+import Instructions from './components/Instructions/Instructions';
+import * as submitEntityClaimSelectors from './SubmitEntityClaim.selectors';
+import * as selectedEntitySelectors from '../SelectedEntity/SelectedEntity.selectors';
+import { getEntity } from '../SelectedEntity/SelectedEntity.actions';
 
 interface Props {
   entityDid: string;
@@ -22,10 +22,10 @@ class InstructionsContainer extends React.Component<Props> {
   }
 
   componentDidMount(): void {
-    if (!document.querySelector("body").classList.contains("noScroll")) {
-      document.querySelector("body").classList.add("noScroll");
+    if (!document.querySelector('body').classList.contains('noScroll')) {
+      document.querySelector('body').classList.add('noScroll');
     }
-    document.querySelector("#ControlPanelWrapper").classList.add("fixed");
+    document.querySelector('#ControlPanelWrapper').classList.add('fixed');
     const {
       match: {
         params: { projectDID: entityDid },
@@ -37,8 +37,8 @@ class InstructionsContainer extends React.Component<Props> {
   }
 
   componentWillUnmount(): void {
-    document.querySelector("body").classList.remove("noScroll");
-    document.querySelector("#ControlPanelWrapper").classList.remove("fixed");
+    document.querySelector('body').classList.remove('noScroll');
+    document.querySelector('#ControlPanelWrapper').classList.remove('fixed');
   }
 
   render(): JSX.Element {

@@ -1,4 +1,4 @@
-import * as SUT from './BondSwap.reducer'
+import * as SUT from './BondSwap.reducer';
 import {
   InitiateQuoteAction,
   GetQuotePendingAction,
@@ -10,28 +10,28 @@ import {
   ClearAction,
   BondSwapState,
   BondSwapActions,
-} from './types'
+} from './types';
 
-const initialState = SUT.initialState
+const { initialState } = SUT;
 
 describe('Quote Reducer', () => {
   it('should return the same state if an action is called on it which is not handled by the reducer', () => {
     // given .. we have an action the reducer does not handle
-    const action: any = 'foo'
+    const action: any = 'foo';
 
     // when ... we run the reducer with this action
-    const result = SUT.reducer(initialState, action)
+    const result = SUT.reducer(initialState, action);
 
     // then ... the state that was passed into the function should be returned
-    expect(result).toEqual(initialState)
-  })
+    expect(result).toEqual(initialState);
+  });
 
   describe('InitiateQuote Action', () => {
     it('should return a new copy of state, with quote data set', () => {
       // given .. we have an action of type BondSwapActions.InitiateQuote and some data
       const action: InitiateQuoteAction = {
         type: BondSwapActions.InitiateQuote,
-      }
+      };
 
       const currentState: BondSwapState = {
         ...initialState,
@@ -43,34 +43,34 @@ describe('Quote Reducer', () => {
           { amount: 12, denom: 'txFee2' },
         ],
         quotePending: true,
-      }
+      };
 
       // when ... we run the reducer with this action
-      const result = SUT.reducer(currentState, action)
+      const result = SUT.reducer(currentState, action);
 
       // then the state should be set as expected
-      expect(result).toEqual({ ...currentState, quotePending: false })
-    })
-  })
+      expect(result).toEqual({ ...currentState, quotePending: false });
+    });
+  });
 
   describe('GetQuotePending Action', () => {
     it('should return a new copy of state, with flags set', () => {
       // given .. we have an action of type BondSwapActions.GetQuotePending
       const action: GetQuotePendingAction = {
         type: BondSwapActions.GetQuotePending,
-      }
+      };
 
       // when ... we run the reducer with this action
-      const result = SUT.reducer(initialState, action)
+      const result = SUT.reducer(initialState, action);
 
       // then the state flags should be set as expected
       expect(result).toEqual({
         ...initialState,
         transacting: true,
         quotePending: true,
-      })
-    })
-  })
+      });
+    });
+  });
 
   describe('SwapSuccess Action', () => {
     it('should return a new copy of state, with quote data set', () => {
@@ -86,7 +86,7 @@ describe('Quote Reducer', () => {
             { amount: 12, denom: 'txFee2' },
           ],
         },
-      }
+      };
 
       const newState: BondSwapState = {
         ...initialState,
@@ -97,55 +97,55 @@ describe('Quote Reducer', () => {
           { amount: 11, denom: 'txFee1' },
           { amount: 12, denom: 'txFee2' },
         ],
-      }
+      };
 
       // when ... we run the reducer with this action
-      const result = SUT.reducer(initialState, action)
+      const result = SUT.reducer(initialState, action);
 
       // then the state should be set as expected
-      expect(result).toEqual(newState)
-    })
-  })
+      expect(result).toEqual(newState);
+    });
+  });
 
   describe('SwapFailure Action', () => {
     it('should return a new copy of state, with flags set', () => {
       // given .. we have an action of type BondSwapActions.GetQuoteFailure
       const action: GetQuoteFailureAction = {
         type: BondSwapActions.GetQuoteFailure,
-      }
+      };
 
       // when ... we run the reducer with this action
       const result = SUT.reducer(
         { ...initialState, transacting: true, quotePending: true },
         action,
-      )
+      );
 
       // then the state flags should be set as expected
       expect(result).toEqual({
         ...initialState,
         transacting: false,
         quotePending: false,
-      })
-    })
-  })
+      });
+    });
+  });
 
   describe('ConfirmPending Action', () => {
     it('should return a new copy of state, with flags set', () => {
       // given .. we have an action of type BondSwapActions.ConfirmSwapPending
       const action: ConfirmSwapPendingAction = {
         type: BondSwapActions.ConfirmSwapPending,
-      }
+      };
 
       // when ... we run the reducer with this action
-      const result = SUT.reducer(initialState, action)
+      const result = SUT.reducer(initialState, action);
 
       // then the state flags should be set as expected
       expect(result).toEqual({
         ...initialState,
         signPending: true,
-      })
-    })
-  })
+      });
+    });
+  });
 
   describe('ConfirmSwapSuccess Action', () => {
     it('should return a new copy of state, with flags set if there is no payload', () => {
@@ -153,17 +153,17 @@ describe('Quote Reducer', () => {
       const action: ConfirmSwapSuccessAction = {
         type: BondSwapActions.ConfirmSwapSuccess,
         payload: null,
-      }
+      };
 
       // when ... we run the reducer with this action
-      const result = SUT.reducer({ ...initialState, signPending: true }, action)
+      const result = SUT.reducer({ ...initialState, signPending: true }, action);
 
       // then the state flags should be set as expected
       expect(result).toEqual({
         ...initialState,
         signPending: false,
-      })
-    })
+      });
+    });
 
     it('should return a copy of the initialState, with flags set if there is a payload', () => {
       // given .. we have an action of type BondSwapActions.ConfirmSwapSuccess
@@ -172,27 +172,27 @@ describe('Quote Reducer', () => {
         payload: {
           data: [{ denom: 'a', amount: 1 }],
         },
-      }
+      };
 
       // when ... we run the reducer with this action
       const result = SUT.reducer(
         { ...initialState, signPending: true, transacting: true },
         action,
-      )
+      );
 
       // then the state flags should be set as expected
       expect(result).toEqual({
         ...initialState,
-      })
-    })
-  })
+      });
+    });
+  });
 
   describe('ConfirmSwapFailure Action', () => {
     it('should return a new copy of state, with ConfirmSwapFailure flags set', () => {
       // given .. we have an action of type BondSwapActions.ConfirmSwapFailure
       const action: ConfirmSwapFailureAction = {
         type: BondSwapActions.ConfirmSwapFailure,
-      }
+      };
 
       // when ... we run the reducer with this action
       const result = SUT.reducer(
@@ -201,22 +201,22 @@ describe('Quote Reducer', () => {
           signPending: true,
         },
         action,
-      )
+      );
 
       // then the state flags should be set as expected
       expect(result).toEqual({
         ...initialState,
         signPending: false,
-      })
-    })
-  })
+      });
+    });
+  });
 
   describe('Clear Action', () => {
     it('should return a new copy the initial state', () => {
       // given .. we have an action of type BondSwapActions.Clear
       const action: ClearAction = {
         type: BondSwapActions.Clear,
-      }
+      };
 
       const currentState: BondSwapState = {
         ...initialState,
@@ -233,13 +233,13 @@ describe('Quote Reducer', () => {
           amount: 3,
         },
         quotePending: false,
-      }
+      };
 
       // when ... we run the reducer with this action
-      const result = SUT.reducer(currentState, action)
+      const result = SUT.reducer(currentState, action);
 
       // then the state flags should be set as expected
-      expect(result).toEqual(initialState)
-    })
-  })
-})
+      expect(result).toEqual(initialState);
+    });
+  });
+});

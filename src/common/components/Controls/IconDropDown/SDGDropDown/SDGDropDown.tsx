@@ -1,8 +1,8 @@
-import React from 'react'
-import { DropDownOption } from '../types'
-import { SDGArray } from '../../../../../lib/commonData'
-import IconDropDownSelect from '../IconDropDownSelect'
-import { Container } from './SDGDropDown.styles'
+import React from 'react';
+import { DropDownOption } from '../types';
+import { SDGArray } from '../../../../../lib/commonData';
+import IconDropDownSelect from '../IconDropDownSelect';
+import { Container } from './SDGDropDown.styles';
 
 interface Props {
   value: string
@@ -21,7 +21,7 @@ const SDGDropDown: React.FunctionComponent<Props> = ({
     text: sdg.title,
     value: (index + 1).toString(),
     iconAssetPath: `/images/sdg/sdg${index + 1}.svg`,
-  }))
+  }));
 
   return (
     <Container>
@@ -31,10 +31,10 @@ const SDGDropDown: React.FunctionComponent<Props> = ({
         onChange={onChange}
         onBlur={onBlur}
         onFocus={onFocus}
-        selectText={'Select Tag'}
+        selectText="Select Tag"
       />
     </Container>
-  )
-}
+  );
+};
 
-export default SDGDropDown
+export default SDGDropDown;

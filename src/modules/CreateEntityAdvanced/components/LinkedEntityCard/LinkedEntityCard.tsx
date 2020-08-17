@@ -1,9 +1,9 @@
-import React from 'react'
-import { EntityType } from '../../../../modules/Entities/types'
-import { entityTypeMap } from '../../../../modules/Entities/strategy-map'
-import MultiControlForm from '../../../../common/components/JsonForm/MultiControlForm/MultiControlForm'
-import { LinkButton } from '../../../../common/components/JsonForm/JsonForm.styles'
-import { FormCardProps } from '../../../CreateEntity/types'
+import React from 'react';
+import { EntityType } from '../../../Entities/types';
+import { entityTypeMap } from '../../../Entities/strategy-map';
+import MultiControlForm from '../../../../common/components/JsonForm/MultiControlForm/MultiControlForm';
+import { LinkButton } from '../../../../common/components/JsonForm/JsonForm.styles';
+import { FormCardProps } from '../../../CreateEntity/types';
 
 interface Props extends FormCardProps {
   type: EntityType
@@ -25,7 +25,7 @@ const LinkedEntityCard: React.FunctionComponent<Props> = React.forwardRef(
     const formData = {
       type,
       entityId,
-    }
+    };
 
     const schema = {
       type: 'object',
@@ -41,16 +41,16 @@ const LinkedEntityCard: React.FunctionComponent<Props> = React.forwardRef(
         },
         entityId: { type: 'string', title: 'Entity ID' },
       },
-    } as any
+    } as any;
 
     const uiSchema = {
       type: {
-        ['ui:placeholder']: 'Select Entity',
+        'ui:placeholder': 'Select Entity',
       },
       entityId: {
-        ['ui:placeholder']: 'Enter DID or !name',
+        'ui:placeholder': 'Enter DID or !name',
       },
-    }
+    };
 
     return (
       <>
@@ -72,8 +72,8 @@ const LinkedEntityCard: React.FunctionComponent<Props> = React.forwardRef(
           </LinkButton>
         </div>
       </>
-    )
+    );
   },
-)
+);
 
-export default LinkedEntityCard
+export default LinkedEntityCard;

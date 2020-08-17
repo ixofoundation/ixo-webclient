@@ -1,4 +1,4 @@
-import { Currency } from '../../types/models'
+import { Currency } from '../../types/models';
 
 export interface DidDoc {
   did: string
@@ -61,4 +61,4 @@ export type AccountActionTypes =
   | LoginAction
   | LogoutAction
   | GetAccountAction
-  | GetAccountSuccessAction
+  | GetAccountSuccessAction;

@@ -1,13 +1,13 @@
-import * as SUT from './CreateEntitySettings.selectors'
-import { CreateEntitySettingsState } from './types'
+import * as SUT from './CreateEntitySettings.selectors';
+import { CreateEntitySettingsState } from './types';
 import {
   EntityStage,
   EntityStatus,
   EntityView,
   PageView,
-} from '../Entities/types'
+} from '../Entities/types';
 
-let state: any
+let state: any;
 
 beforeEach(() => {
   state = {
@@ -84,24 +84,24 @@ beforeEach(() => {
         },
       },
     } as CreateEntitySettingsState,
-  }
-})
+  };
+});
 
 describe('CreateEntitySettings Selectors', () => {
   describe('selectSettings', () => {
     it('should return the createEntitySettings property of root state', () => {
       // when ... we call the selector
-      const result = SUT.selectSettings(state)
+      const result = SUT.selectSettings(state);
 
       // then ... should return result as expected
-      expect(result).toEqual(state.createEntitySettings)
-    })
-  })
+      expect(result).toEqual(state.createEntitySettings);
+    });
+  });
 
   describe('selectOwner', () => {
     it('should return the owner property', () => {
       // when ... we call the selector
-      const result = SUT.selectOwner(state)
+      const result = SUT.selectOwner(state);
 
       // then ... should return result as expected
       expect(result).toEqual({
@@ -113,14 +113,14 @@ describe('CreateEntitySettings Selectors', () => {
         ownerId: 'someOwnerIdentifier',
         fileSrc: 'somefileSrc',
         uploading: false,
-      })
-    })
-  })
+      });
+    });
+  });
 
   describe('selectCreator', () => {
     it('should return the creator property', () => {
       // when ... we call the selector
-      const result = SUT.selectCreator(state)
+      const result = SUT.selectCreator(state);
 
       // then ... should return result as expected
       expect(result).toEqual({
@@ -133,14 +133,14 @@ describe('CreateEntitySettings Selectors', () => {
         credential: 'someCreatorCredentialTokenId',
         fileSrc: 'somefileSrc',
         uploading: false,
-      })
-    })
-  })
+      });
+    });
+  });
 
   describe('selectStatus', () => {
     it('should return the status property', () => {
       // when ... we call the selector
-      const result = SUT.selectStatus(state)
+      const result = SUT.selectStatus(state);
 
       // then ... should return result as expected
       expect(result).toEqual({
@@ -148,27 +148,27 @@ describe('CreateEntitySettings Selectors', () => {
         endDate: 'someStatusEndDate',
         stage: EntityStage.Closing,
         status: EntityStatus.Live,
-      })
-    })
-  })
+      });
+    });
+  });
 
   describe('selectPrivacy', () => {
     it('should return the privacy property', () => {
       // when ... we call the selector
-      const result = SUT.selectPrivacy(state)
+      const result = SUT.selectPrivacy(state);
 
       // then ... should return result as expected
       expect(result).toEqual({
         entityView: EntityView.Encrypted,
         pageView: PageView.Public,
-      })
-    })
-  })
+      });
+    });
+  });
 
   describe('selectRequiredCredentials', () => {
     it('should return the requiredCredentials property', () => {
       // when ... we call the selector
-      const result = SUT.selectRequiredCredentials(state)
+      const result = SUT.selectRequiredCredentials(state);
 
       // then ... should return result as expected
       expect(result).toEqual([
@@ -182,27 +182,27 @@ describe('CreateEntitySettings Selectors', () => {
           credential: 'someRequiredCredential2',
           issuer: 'someRequiredCredential2Issuer',
         },
-      ])
-    })
-  })
+      ]);
+    });
+  });
 
   describe('selectFilters', () => {
     it('should return the filters property', () => {
       // when ... we call the selector
-      const result = SUT.selectFilters(state)
+      const result = SUT.selectFilters(state);
 
       // then ... should return result as expected
       expect(result).toEqual({
         '8c1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d': ['tag1', 'tag2'],
         '1n9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed': ['tag3', 'tag4'],
-      })
-    })
-  })
+      });
+    });
+  });
 
   describe('selectDisplayCredentials', () => {
     it('should return the displayCredentials property', () => {
       // when ... we call the selector
-      const result = SUT.selectDisplayCredentials(state)
+      const result = SUT.selectDisplayCredentials(state);
 
       // then ... should return result as expected
       expect(result).toEqual([
@@ -216,14 +216,14 @@ describe('CreateEntitySettings Selectors', () => {
           credential: 'someDisplayCredential2',
           badge: 'someDisplayCredential2Badge',
         },
-      ])
-    })
-  })
+      ]);
+    });
+  });
 
   describe('selectValidation', () => {
     it('should return the validation property', () => {
       // when ... we call the selector
-      const result = SUT.selectValidation(state)
+      const result = SUT.selectValidation(state);
 
       // then ... should return result as expected
       expect(result).toEqual({
@@ -237,9 +237,9 @@ describe('CreateEntitySettings Selectors', () => {
           validated: false,
           errors: ['error1', 'error2'],
         },
-      })
-    })
-  })
+      });
+    });
+  });
 
   describe('selectValidationComplete', () => {
     it('should return false if not every section has completed validation', () => {
@@ -254,13 +254,13 @@ describe('CreateEntitySettings Selectors', () => {
             '1b9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed': {},
           },
         },
-      }
+      };
 
-      const result = SUT.selectValidationComplete(state)
+      const result = SUT.selectValidationComplete(state);
 
       // then ... should return result as expected
-      expect(result).toEqual(false)
-    })
+      expect(result).toEqual(false);
+    });
 
     it('should return true if every section has completed validation', () => {
       // when ... we call the selector
@@ -279,14 +279,14 @@ describe('CreateEntitySettings Selectors', () => {
             '8b9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed': {},
           },
         },
-      }
+      };
 
-      const result = SUT.selectValidationComplete(state)
+      const result = SUT.selectValidationComplete(state);
 
       // then ... should return result as expected
-      expect(result).toEqual(true)
-    })
-  })
+      expect(result).toEqual(true);
+    });
+  });
 
   describe('selectValidated', () => {
     it('should return false if any section has not completed validation', () => {
@@ -305,13 +305,13 @@ describe('CreateEntitySettings Selectors', () => {
             'cb9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed': {},
           },
         },
-      }
+      };
 
-      const result = SUT.selectValidated(state)
+      const result = SUT.selectValidated(state);
 
       // then ... should return result as expected
-      expect(result).toEqual(false)
-    })
+      expect(result).toEqual(false);
+    });
     it('should return false if any section has not been validated successfully', () => {
       // when ... we call the selector
       state = {
@@ -345,13 +345,13 @@ describe('CreateEntitySettings Selectors', () => {
             },
           },
         },
-      }
+      };
 
-      const result = SUT.selectValidated(state)
+      const result = SUT.selectValidated(state);
 
       // then ... should return result as expected
-      expect(result).toEqual(false)
-    })
+      expect(result).toEqual(false);
+    });
 
     it('should return true if every section has been validated successfully', () => {
       // when ... we call the selector
@@ -386,12 +386,12 @@ describe('CreateEntitySettings Selectors', () => {
             },
           },
         },
-      }
+      };
 
-      const result = SUT.selectValidated(state)
+      const result = SUT.selectValidated(state);
 
       // then ... should return result as expected
-      expect(result).toEqual(true)
-    })
-  })
-})
+      expect(result).toEqual(true);
+    });
+  });
+});

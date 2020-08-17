@@ -1,19 +1,19 @@
-import * as React from 'react'
-import { ControlType } from '../../../../common/components/JsonForm/types'
-import { QuestionBarWrapper } from './AddQuestionBar.styles'
-import { Tooltip } from '../../../../common/components/Tooltip'
-import ShortText from '../../../../assets/icons/ShortText'
-import DatePicker from '../../../../assets/icons/DatePicker'
-import LongText from '../../../../assets/icons/LongText'
-import Selection from '../../../../assets/icons/Selection'
-import QRcode from '../../../../assets/icons/QRcode'
-import Location from '../../../../assets/icons/Location'
-import UploadImage from '../../../../assets/icons/UploadImage'
-import UploadFile from '../../../../assets/icons/UploadFile'
-import UploadAudio from '../../../../assets/icons/UploadAudio'
-import UploadVideo from '../../../../assets/icons/UploadVideo'
+import * as React from 'react';
+import { ControlType } from '../../../../common/components/JsonForm/types';
+import { QuestionBarWrapper } from './AddQuestionBar.styles';
+import { Tooltip } from '../../../../common/components/Tooltip';
+import ShortText from '../../../../assets/icons/ShortText';
+import DatePicker from '../../../../assets/icons/DatePicker';
+import LongText from '../../../../assets/icons/LongText';
+import Selection from '../../../../assets/icons/Selection';
+import QRcode from '../../../../assets/icons/QRcode';
+import Location from '../../../../assets/icons/Location';
+import UploadImage from '../../../../assets/icons/UploadImage';
+import UploadFile from '../../../../assets/icons/UploadFile';
+import UploadAudio from '../../../../assets/icons/UploadAudio';
+import UploadVideo from '../../../../assets/icons/UploadVideo';
 // import Validation from '../../../../assets/icons/Validation'
-import SelectPicture from '../../../../assets/icons/SelectPicture'
+import SelectPicture from '../../../../assets/icons/SelectPicture';
 
 const commands = [
   {
@@ -86,7 +86,7 @@ const commands = [
     title: 'Audio Upload',
     controlType: ControlType.AudioUpload,
   },
-]
+];
 
 interface Props {
   addQuestion(controlType: ControlType): void
@@ -109,11 +109,11 @@ const AddQuestionBar: React.FunctionComponent<Props> = ({ addQuestion }) => {
                 })}
               </button>
             </Tooltip>
-          )
+          );
         },
       )}
     </QuestionBarWrapper>
-  )
-}
+  );
+};
 
-export default AddQuestionBar
+export default AddQuestionBar;

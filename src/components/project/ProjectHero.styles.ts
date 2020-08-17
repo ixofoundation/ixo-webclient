@@ -1,6 +1,6 @@
-import styled from "styled-components";
-import { Link, NavLink } from "react-router-dom";
-import { deviceWidth } from "../../lib/commonData";
+import styled from 'styled-components';
+import { Link, NavLink } from 'react-router-dom';
+import { deviceWidth } from '../../lib/commonData';
 
 interface HeroContainerProps {
   readonly onlyTitle: boolean;
@@ -10,8 +10,8 @@ export const HeroContainer = styled.div<HeroContainerProps>`
   margin: 0;
   position: relative;
   background: ${(props: any): string =>
-    props.onlyTitle ? "transparent" : "white"};
-  color: ${(props: any): string => (props.onlyTitle ? "white" : "black")};
+    props.onlyTitle ? 'transparent' : 'white'};
+  color: ${(props: any): string => (props.onlyTitle ? 'white' : 'black')};
 `;
 
 export const HeroInner = styled.div`
@@ -136,7 +136,7 @@ export const AddClaim = styled(Link)`
 `;
 
 export const SubNavItem = styled(NavLink).attrs({
-  activeClassName: "active",
+  activeClassName: 'active',
 })`
   color: ${(props: any): string => props.theme.fontBlue};
   font-family: ${(props: any): string => props.theme.fontRobotoCondensed};

@@ -1,7 +1,7 @@
-import * as React from 'react'
-import { AgentRoles } from '../../types/models'
-import { RegisterStatus } from './RegisterStatus'
-import styled from 'styled-components'
+import * as React from 'react';
+import styled from 'styled-components';
+import { AgentRoles } from '../../types/models';
+import { RegisterStatus } from './RegisterStatus';
 
 const Container = styled.div`
   padding: 50px 0;
@@ -9,7 +9,7 @@ const Container = styled.div`
 
   h2 {
     font-family: ${/* eslint-disable-line */ props =>
-      props.theme.fontRobotoCondensed};
+    props.theme.fontRobotoCondensed};
     font-weight: 300;
   }
 
@@ -28,7 +28,7 @@ const Container = styled.div`
   strong {
     font-weight: 700;
   }
-`
+`;
 
 const ContainerWhite = styled.div`
   padding: 50px 0;
@@ -36,7 +36,7 @@ const ContainerWhite = styled.div`
 
   h2 {
     font-family: ${/* eslint-disable-line */ props =>
-      props.theme.fontRobotoCondensed};
+    props.theme.fontRobotoCondensed};
     font-weight: 300;
   }
 
@@ -55,7 +55,7 @@ const ContainerWhite = styled.div`
   strong {
     font-weight: 700;
   }
-`
+`;
 
 export interface ParentProps {
   activeModal: Function
@@ -83,21 +83,21 @@ export const TextBlock: React.SFC<ParentProps> = props => {
           hasKYC={props.KYC}
         />
       </ContainerWhite>
-    )
-  } else {
-    return (
-      <Container>
-        <h2>
-          <i className={props.icon} /> {props.title}
-        </h2>
-        {props.children}
-        <RegisterStatus
-          activeModal={props.activeModal}
-          role={props.role}
-          hasKeySafe={props.keysafe}
-          hasKYC={props.KYC}
-        />
-      </Container>
-    )
-  }
-}
+    );
+  } 
+  return (
+    <Container>
+      <h2>
+        <i className={props.icon} /> {props.title}
+      </h2>
+      {props.children}
+      <RegisterStatus
+        activeModal={props.activeModal}
+        role={props.role}
+        hasKeySafe={props.keysafe}
+        hasKYC={props.KYC}
+      />
+    </Container>
+  );
+  
+};

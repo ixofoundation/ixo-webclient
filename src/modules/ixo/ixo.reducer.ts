@@ -1,8 +1,8 @@
-import { IxoState, IxoActionTypes, IxoActions } from './types'
+import { IxoState, IxoActionTypes, IxoActions } from './types';
 
 export const initialState: IxoState = {
   ixo: null,
-}
+};
 
 export const reducer = (
   state = initialState,
@@ -13,10 +13,10 @@ export const reducer = (
       return {
         ...state,
         ixo: action.payload.ixo,
-      }
+      };
     case IxoActions.ResetIxo:
-      return initialState
+      return initialState;
   }
 
-  return state
-}
+  return state;
+};

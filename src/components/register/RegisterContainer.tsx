@@ -1,20 +1,20 @@
-import * as React from 'react'
-import styled from 'styled-components'
-import { UserInfo } from '../../modules/Account/types'
-import { connect } from 'react-redux'
-import { RootState } from '../../common/redux/types'
-import { errorToast, successToast } from '../../common/utils/Toast'
-import { ModalWrapper } from '../../common/components/Wrappers/ModalWrapper'
-import { AgentRoles } from '../../types/models'
-import { Banner } from './Banner'
-import { TextBlock } from './TextBlock'
-import { deviceWidth } from '../../lib/commonData'
-import MediaQuery from 'react-responsive'
-import { Button, ButtonTypes } from '../../common/components/Form/Buttons'
-import { Spinner } from '../../common/components/Spinner'
-import { Header } from '../../types/models'
-import Kyc from '../../assets/icons/Kyc'
-import Claims from '../../assets/icons/Claims'
+import * as React from 'react';
+import styled from 'styled-components';
+import { connect } from 'react-redux';
+import MediaQuery from 'react-responsive';
+import { UserInfo } from '../../modules/Account/types';
+import { RootState } from '../../common/redux/types';
+import { errorToast, successToast } from '../../common/utils/Toast';
+import { ModalWrapper } from '../../common/components/Wrappers/ModalWrapper';
+import { AgentRoles, Header } from '../../types/models';
+import { Banner } from './Banner';
+import { TextBlock } from './TextBlock';
+import { deviceWidth } from '../../lib/commonData';
+import { Button, ButtonTypes } from '../../common/components/Form/Buttons';
+import { Spinner } from '../../common/components/Spinner';
+
+import Kyc from '../../assets/icons/Kyc';
+import Claims from '../../assets/icons/Claims';
 
 const ModalContainer = styled.div`
   width: 360px;
@@ -29,15 +29,15 @@ const ModalContainer = styled.div`
   a {
     margin: 30px 0;
   }
-`
+`;
 
 const Section = styled.div`
   background: #f6f6f6;
-`
+`;
 
 const RelativeCol = styled.div`
   position: relative;
-`
+`;
 
 const BlueRow = styled.div`
   background: ${/* eslint-disable-line */ props => props.theme.bg.gradientBlue};
@@ -50,7 +50,7 @@ const BlueRow = styled.div`
   @media (min-width: ${deviceWidth.desktopLarge}px) {
     margin-top: -100px;
   }
-`
+`;
 
 const KeySafe = styled.img`
   margin-bottom: -50%;
@@ -61,7 +61,7 @@ const KeySafe = styled.img`
     top: 0;
     right: 0;
   }
-`
+`;
 
 const Amply = styled.img`
   max-width: 110%;
@@ -69,20 +69,20 @@ const Amply = styled.img`
   margin-top: 40px;
   position: relative;
   right: 20px;
-`
+`;
 
 const SmallIconCol = styled.div`
   h2 i {
     font-size: 25px;
   }
-`
+`;
 
 const BrowserIcon = styled.img`
   position: absolute;
   left: 10px;
   top: 2px;
   width: 36px;
-`
+`;
 
 export enum ModalData {
   invite = 'INVITE',
@@ -107,7 +107,7 @@ export interface StateProps {
   keysafe: any
 }
 
-export type Props = StateProps
+export type Props = StateProps;
 
 class RegisterPage extends React.Component<Props, State> {
   state = {
@@ -119,13 +119,13 @@ class RegisterPage extends React.Component<Props, State> {
     isDidLedgered: false,
     activeModal: null,
     toastShown: false,
-  }
+  };
 
-  private busyLedgering = false
+  private busyLedgering = false;
 
   toggleModal = (activeModal: any, booleanVal: boolean): void => {
-    this.setState({ isModalOpen: booleanVal, activeModal })
-  }
+    this.setState({ isModalOpen: booleanVal, activeModal });
+  };
 
   renderModal = (): JSX.Element => {
     if (this.state.activeModal === ModalData.keysafe) {
@@ -159,8 +159,8 @@ class RegisterPage extends React.Component<Props, State> {
             DOWNLOAD FOR FIREFOX
           </Button>
         </ModalContainer>
-      )
-    } else if (this.state.activeModal === ModalData.kyc) {
+      );
+    } if (this.state.activeModal === ModalData.kyc) {
       return (
         <ModalContainer>
           <p>
@@ -175,8 +175,8 @@ class RegisterPage extends React.Component<Props, State> {
             REGISTER
           </Button>
         </ModalContainer>
-      )
-    } else if (this.state.activeModal === ModalData.invite) {
+      );
+    } if (this.state.activeModal === ModalData.invite) {
       return (
         <ModalContainer>
           <p>
@@ -189,11 +189,11 @@ class RegisterPage extends React.Component<Props, State> {
             CONTACT IXO
           </Button>
         </ModalContainer>
-      )
-    } else {
-      return null
-    }
-  }
+      );
+    } 
+    return null;
+    
+  };
 
   renderModalHeading = (): Header => {
     if (this.state.activeModal === ModalData.keysafe) {
@@ -202,23 +202,23 @@ class RegisterPage extends React.Component<Props, State> {
         subtitle: 'Your secure identity vault.',
         image: require('../../assets/images/register/ixo-keysafeIco.png'),
         width: '365',
-      }
-    } else if (this.state.activeModal === ModalData.kyc) {
+      };
+    } if (this.state.activeModal === ModalData.kyc) {
       return {
         title: 'MEMBERSHIP REGISTRATION',
         icon: <Kyc width="50" />,
         width: '365',
-      }
-    } else if (this.state.activeModal === ModalData.invite) {
+      };
+    } if (this.state.activeModal === ModalData.invite) {
       return {
         title: 'INTERESTED IN CREATING YOUR OWN PROJECTS?',
         icon: <Claims width="50" />,
         width: '365',
-      }
-    } else {
-      return null
-    }
-  }
+      };
+    } 
+    return null;
+    
+  };
 
   checkState(): void {
     // If the user has a keysafe and but the hasKeySafe not set then set state
@@ -226,22 +226,22 @@ class RegisterPage extends React.Component<Props, State> {
       this.props.keysafe.getDidDoc((error, response) => {
         if (error) {
           if (this.state.toastShown === false) {
-            this.setState({ toastShown: true })
+            this.setState({ toastShown: true });
           }
         } else {
           const newDidDoc = {
             did: response.didDoc.did,
             pubKey: response.didDoc.pubKey,
             credentials: [],
-          }
-          this.setState({ hasKeySafe: true, hasDid: true, didDoc: newDidDoc })
+          };
+          this.setState({ hasKeySafe: true, hasDid: true, didDoc: newDidDoc });
         }
-      })
+      });
     }
 
     // So has a client side didDoc, so lets check if it is ledgered
     if (this.props.ixo && this.state.didDoc && !this.state.isDidLedgered) {
-      const ledgerDid = (): void => this.ledgerDid()
+      const ledgerDid = (): void => this.ledgerDid();
       this.props.ixo.user
         .getDidDoc(this.state.didDoc.did)
         .then((didResponse: any) => {
@@ -252,45 +252,45 @@ class RegisterPage extends React.Component<Props, State> {
                 isDidLedgered: true,
                 didDoc: didResponse,
                 hasKYC: false,
-              })
+              });
             } else {
               this.setState({
                 isDidLedgered: true,
                 didDoc: didResponse,
                 hasKYC: true,
-              })
+              });
             }
           } else {
             // Did not ledgered
-            ledgerDid()
+            ledgerDid();
           }
         })
         .catch((): void => {
           // Did not ledgered
-          ledgerDid()
-        })
+          ledgerDid();
+        });
     }
     if (!this.state.hasKYC) {
-      setTimeout(() => this.checkState(), 2000)
+      setTimeout(() => this.checkState(), 2000);
     }
   }
 
   componentDidMount(): void {
-    setTimeout(() => this.checkState(), 2000)
+    setTimeout(() => this.checkState(), 2000);
     // this.checkState();
   }
 
   setBusyLedgeringToFalse(): void {
-    this.busyLedgering = false
+    this.busyLedgering = false;
   }
 
   ledgerDid = (): void => {
     if (this.state.didDoc && !this.busyLedgering) {
-      const payload = this.state.didDoc
+      const payload = this.state.didDoc;
       this.props.ixo.utils.getSignData(payload, 'did/AddDid', payload.verifyKey)
         .then((response: any) => {
           if (response.sign_bytes && response.fee) {
-            this.busyLedgering = true
+            this.busyLedgering = true;
             this.props.keysafe.requestSigning(
               response.sign_bytes,
               (error, signature) => {
@@ -299,37 +299,35 @@ class RegisterPage extends React.Component<Props, State> {
                     .registerUserDid(payload, signature, response.fee, 'sync')
                     .then((response: any) => {
                       if ((response.code || 0) == 0) {
-                        successToast('Did document was ledgered successfully')
+                        successToast('Did document was ledgered successfully');
                       } else {
-                        errorToast('Unable to ledger did at this time')
+                        errorToast('Unable to ledger did at this time');
                       }
                       // Delay the update here to allow Explorer to sync
-                      setTimeout(() => (this.busyLedgering = false), 3000)
-                    })
+                      setTimeout(() => (this.busyLedgering = false), 3000);
+                    });
                 } else {
-                  this.busyLedgering = false
+                  this.busyLedgering = false;
                 }
               },
               'base64',
-            )
+            );
           } else {
-            errorToast('Unable to ledger did at this time')
+            errorToast('Unable to ledger did at this time');
           }
         })
         .catch(() => {
-          errorToast('Unable to ledger did at this time')
-        })
-    } else {
-      if (this.state.toastShown === false) {
-        // warningToast('Please log into the IXO Keysafe');
-        this.setState({ toastShown: true })
-      }
+          errorToast('Unable to ledger did at this time');
+        });
+    } else if (this.state.toastShown === false) {
+      // warningToast('Please log into the IXO Keysafe');
+      this.setState({ toastShown: true });
     }
-  }
+  };
 
   render(): JSX.Element {
     if (!this.props.ixo) {
-      return <Spinner info="Loading ixo World..." />
+      return <Spinner info="Loading ixo World..." />;
     }
     return (
       <div>
@@ -422,7 +420,7 @@ class RegisterPage extends React.Component<Props, State> {
           </div>
         </Section>
       </div>
-    )
+    );
   }
 }
 
@@ -431,7 +429,7 @@ function mapStateToProps(state: RootState): Record<string, any> {
     ixo: state.ixo.ixo,
     userInfo: state.account.userInfo,
     keysafe: state.keySafe.keysafe,
-  }
+  };
 }
 
-export const RegisterConnected = connect(mapStateToProps)(RegisterPage as any)
+export const RegisterConnected = connect(mapStateToProps)(RegisterPage as any);

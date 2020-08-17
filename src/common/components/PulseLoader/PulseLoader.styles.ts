@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 export const PulseLoaderWrapper = styled.div`
   padding: 1rem;
@@ -53,4 +53,4 @@ export const PulseLoaderWrapper = styled.div`
   svg {
     margin: 0;
   }
-`
+`;

@@ -1,4 +1,4 @@
-import { Currency } from '../../types/models'
+import { Currency } from '../../types/models';
 
 export interface BondSwapState {
   sending?: Currency
@@ -97,4 +97,4 @@ export type BondSwapActionTypes =
   | ConfirmSwapPendingAction
   | ConfirmSwapSuccessAction
   | ConfirmSwapFailureAction
-  | ClearAction
+  | ClearAction;

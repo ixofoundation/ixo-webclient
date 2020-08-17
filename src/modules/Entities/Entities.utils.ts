@@ -1,8 +1,8 @@
-import moment from 'moment'
-import countryData from '../../lib/maps/countryLatLng.json'
-import { toTitleCase } from '../../common/utils/formatters'
-import { Category, EntityType, Entity } from './types'
-import { entityTypeMap } from './strategy-map'
+import moment from 'moment';
+import countryData from '../../lib/maps/countryLatLng.json';
+import { toTitleCase } from '../../common/utils/formatters';
+import { Category, EntityType, Entity } from './types';
+import { entityTypeMap } from './strategy-map';
 
 export const mapApiEntityToEntity = (apiEntity: any): Entity => {
   return {
@@ -33,30 +33,30 @@ export const mapApiEntityToEntity = (apiEntity: any): Entity => {
     sdgs: apiEntity.data.sdgs,
     categories: apiEntity.data.ddoTags
       ? apiEntity.data.ddoTags.map(ddoTag => ({
-          name: ddoTag.category,
-          tags: ddoTag.tags,
-        }))
+        name: ddoTag.category,
+        tags: ddoTag.tags,
+      }))
       : [],
     founderLogoUrl: apiEntity.data.founder
       ? apiEntity.data.founder.logoLink
       : '',
     pdsUrl: apiEntity.data.serviceEndpoint,
     data: apiEntity.data, // TEMP until project module not getting data from projects
-  }
-}
+  };
+};
 
 export const getCountryCoordinates = (countryCodes: string[]): any[] => {
-  const coordinates = []
+  const coordinates = [];
 
   countryCodes.forEach(code => {
-    const country = countryData.find(data => data.alpha2 === code)
+    const country = countryData.find(data => data.alpha2 === code);
     if (country) {
-      coordinates.push([country.longitude, country.latitude])
+      coordinates.push([country.longitude, country.latitude]);
     }
-  })
+  });
 
-  return coordinates
-}
+  return coordinates;
+};
 
 export const getInitialSelectedCategories = (
   entityType: EntityType = EntityType.Project,
@@ -67,5 +67,5 @@ export const getInitialSelectedCategories = (
       ddoCategory.selectedTags && ddoCategory.selectedTags.length
         ? [...ddoCategory.selectedTags]
         : [],
-  }))
-}
+  }));
+};

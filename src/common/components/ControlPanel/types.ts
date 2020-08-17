@@ -1,19 +1,19 @@
 export enum ActionType {
-  Join = "Join",
-  Help = "Help",
-  OracleService = "OracleService",
-  Rate = "Rate",
-  Fuel = "Fuel",
+  Join = 'Join',
+  Help = 'Help',
+  OracleService = 'OracleService',
+  Rate = 'Rate',
+  Fuel = 'Fuel',
 }
 
 export enum AppType {
-  RiotChat = "RiotChat",
+  RiotChat = 'RiotChat',
 }
 
 export enum ConnectionType {
-  Mobile = "Mobile",
-  Share = "Share",
-  Forum = "Forum",
+  Mobile = 'Mobile',
+  Share = 'Share',
+  Forum = 'Forum',
 }
 
 // we can add enums for the other widget types if/when the section will contain more than 1 type
@@ -29,8 +29,8 @@ export interface Permission {
 }
 
 export interface Control {
-  ["@type"]: string;
-  ["@id"]: string;
+  ['@type']: string;
+  ['@id']: string;
   title: string;
   tooltip: string;
   icon: string;
@@ -43,14 +43,14 @@ export interface Control {
 }
 
 export interface Widget {
-  ["@type"]: string;
+  ['@type']: string;
   title: string;
   controls: Control[];
 }
 
 export interface Schema {
-  ["@context"]: string;
-  ["@type"]: string;
+  ['@context']: string;
+  ['@type']: string;
   dashboard: Widget;
   actions: Widget;
   apps: Widget;

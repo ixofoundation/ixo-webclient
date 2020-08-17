@@ -1,6 +1,6 @@
-import { BondAccountOrdersActionTypes, BondAccountOrdersActions } from './types'
+import { BondAccountOrdersActionTypes, BondAccountOrdersActions } from './types';
 
-export const initialState: any = []
+export const initialState: any = [];
 
 export const reducer = (
   state = initialState,
@@ -8,8 +8,8 @@ export const reducer = (
 ): any[] => {
   switch (action.type) {
     case BondAccountOrdersActions.GetOrdersSuccess:
-      return [...action.payload.bondAccountOrders]
+      return [...action.payload.bondAccountOrders];
   }
 
-  return state
-}
+  return state;
+};

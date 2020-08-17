@@ -1,13 +1,13 @@
-import React, { Dispatch } from 'react'
-import { connect } from 'react-redux'
+import React, { Dispatch } from 'react';
+import { connect } from 'react-redux';
 import CreateEntityBase, {
   CreateEntityBaseProps,
-} from '../CreateEntity/components/CreateEntityBase/CreateEntityBase'
-import { FormData, ControlType } from '../../common/components/JsonForm/types'
-import { RootState } from '../../common/redux/types'
-import FormCardWrapper from '../../common/components/Wrappers/FormCardWrapper/FormCardWrapper'
-import ClaimInfoCard from './components/ClaimInfoCard/ClaimInfoCard'
-import { ClaimInfo, Question } from './types'
+} from '../CreateEntity/components/CreateEntityBase/CreateEntityBase';
+import { FormData, ControlType } from '../../common/components/JsonForm/types';
+import { RootState } from '../../common/redux/types';
+import FormCardWrapper from '../../common/components/Wrappers/FormCardWrapper/FormCardWrapper';
+import ClaimInfoCard from './components/ClaimInfoCard/ClaimInfoCard';
+import { ClaimInfo, Question } from './types';
 import {
   updateClaimInfo,
   addShortTextQuestion,
@@ -15,11 +15,11 @@ import {
   updateShortTextQuestion,
   updateLongTextQuestion,
   updateAnswerRequired,
-} from './CreateEntityAttestation.actions'
-import * as attestationSelectors from './CreateEntityAttestation.selectors'
-import AddQuestionBar from './components/AddQuestionBar/AddQuestionBar'
-import QuestionCardWrapper from './components/QuestionCardWrapper/QuestionCardWrapper'
-import ShortTextQuestion from './components/ShortTextQuestion/ShortTextQuestion'
+} from './CreateEntityAttestation.actions';
+import * as attestationSelectors from './CreateEntityAttestation.selectors';
+import AddQuestionBar from './components/AddQuestionBar/AddQuestionBar';
+import QuestionCardWrapper from './components/QuestionCardWrapper/QuestionCardWrapper';
+import ShortTextQuestion from './components/ShortTextQuestion/ShortTextQuestion';
 
 interface Props extends CreateEntityBaseProps {
   claimInfo: ClaimInfo
@@ -33,53 +33,52 @@ interface Props extends CreateEntityBaseProps {
 
 class CreateEntityAttestation extends CreateEntityBase<Props> {
   renderClaimInfo = (): JSX.Element => {
-    this.cardRefs['claiminfo'] = React.createRef()
+    this.cardRefs.claiminfo = React.createRef();
 
     const {
       claimInfo: { title, shortDescription },
       handleUpdateClaimInfo,
-    } = this.props
+    } = this.props;
 
     return (
       <FormCardWrapper title="Claim Info" showAddSection={false}>
         <ClaimInfoCard
-          ref={this.cardRefs['header']}
+          ref={this.cardRefs.header}
           handleUpdateContent={handleUpdateClaimInfo}
           handleSubmitted={(): void => this.props.handleValidated('claiminfo')}
           handleError={(errors): void =>
-            this.props.handleValidationError('claiminfo', errors)
-          }
+            this.props.handleValidationError('claiminfo', errors)}
           title={title}
           shortDescription={shortDescription}
         />
       </FormCardWrapper>
-    )
-  }
+    );
+  };
 
   renderQuestions = (): JSX.Element => {
-    const { questions } = this.props
+    const { questions } = this.props;
 
     return (
       <>
         {questions.map(question => {
-          const { id } = question
+          const { id } = question;
 
-          this.cardRefs[id] = React.createRef()
+          this.cardRefs[id] = React.createRef();
 
           switch (question.control) {
             case ControlType.Text:
-              return this.renderShortTextQuestion(question)
+              return this.renderShortTextQuestion(question);
           }
 
-          return <></>
+          return <></>;
         })}
       </>
-    )
-  }
+    );
+  };
 
   renderShortTextQuestion = (question: Question): JSX.Element => {
-    const { handleUpdateShortTextQuestion } = this.props
-    const { id, title, description, label, required } = question
+    const { handleUpdateShortTextQuestion } = this.props;
+    const { id, title, description, label, required } = question;
 
     return (
       <QuestionCardWrapper
@@ -87,39 +86,36 @@ class CreateEntityAttestation extends CreateEntityBase<Props> {
         required={required}
         handleDuplicate={(): void => console.log('duplicate')}
         handleToggleRequire={(): void =>
-          this.props.handleUpdateAnswerRequired(id, !required)
-        }
+          this.props.handleUpdateAnswerRequired(id, !required)}
         handleDelete={(): void => console.log('handldelete')}
       >
         <ShortTextQuestion
           ref={this.cardRefs[id]}
           handleUpdateContent={(formData): void =>
-            handleUpdateShortTextQuestion(id, formData)
-          }
+            handleUpdateShortTextQuestion(id, formData)}
           handleSubmitted={(): void => console.log('submitted')}
           handleError={(errors): void =>
-            this.props.handleValidationError(id, errors)
-          }
+            this.props.handleValidationError(id, errors)}
           title={title}
           description={description}
           label={label}
         />
       </QuestionCardWrapper>
-    )
-  }
+    );
+  };
 
   addQuestion = (controlType: ControlType): void => {
-    const { handleAddShortTextQuestion, handleAddLongTextQuestion } = this.props
+    const { handleAddShortTextQuestion, handleAddLongTextQuestion } = this.props;
 
     switch (controlType) {
       case ControlType.Text:
-        handleAddShortTextQuestion()
-        break
+        handleAddShortTextQuestion();
+        break;
       case ControlType.TextArea:
-        handleAddLongTextQuestion()
-        break
+        handleAddLongTextQuestion();
+        break;
     }
-  }
+  };
 
   render(): JSX.Element {
     return (
@@ -128,14 +124,14 @@ class CreateEntityAttestation extends CreateEntityBase<Props> {
         {this.renderQuestions()}
         <AddQuestionBar addQuestion={this.addQuestion} />
       </>
-    )
+    );
   }
 }
 
 const mapStateToProps = (state: RootState): any => ({
   claimInfo: attestationSelectors.selectClaimInfo(state),
   questions: attestationSelectors.selectQuestions(state),
-})
+});
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
   handleUpdateClaimInfo: (formData: FormData): void =>
@@ -148,9 +144,9 @@ const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
     dispatch(updateLongTextQuestion(id, formData)),
   handleUpdateAnswerRequired: (id: string, required: boolean): void =>
     dispatch(updateAnswerRequired(id, required)),
-})
+});
 
 export const CreateEntityAttestationConnected = connect(
   mapStateToProps,
   mapDispatchToProps,
-)(CreateEntityAttestation)
+)(CreateEntityAttestation);

@@ -1,12 +1,12 @@
-import React from "react";
-import { ImportScript } from "../../utils/customHook.utils";
+import React from 'react';
+import { ImportScript } from '../../utils/customHook.utils';
 
 interface Props {
   url: string;
 }
 
 const Embedly: React.FunctionComponent<Props> = ({ url }) => {
-  ImportScript("https://cdn.embedly.com/widgets/platform.js");
+  ImportScript('https://cdn.embedly.com/widgets/platform.js');
 
   return (
     <a

@@ -1,5 +1,5 @@
-import styled from 'styled-components'
-import { deviceWidth } from '../../../lib/commonData'
+import styled from 'styled-components';
+import { deviceWidth } from '../../../lib/commonData';
 
 export const DropZoneStyles = {
   width: '100%',
@@ -8,9 +8,9 @@ export const DropZoneStyles = {
   flexDirection: 'column',
   justifyContent: 'center',
   alignItems: 'center',
-}
+};
 
-export const UploadingWrapper = styled.div``
+export const UploadingWrapper = styled.div``;
 
 export const LoaderWrapper = styled.div`
   position: relative;
@@ -61,4 +61,4 @@ export const LoaderWrapper = styled.div`
       width: 100%;
     }
   }
-`
+`;

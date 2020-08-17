@@ -22,4 +22,4 @@ export interface GetBondAccountOrdersSuccessAction {
 
 export type BondAccountOrdersActionTypes =
   | GetBondAccountOrdersAction
-  | GetBondAccountOrdersSuccessAction
+  | GetBondAccountOrdersSuccessAction;

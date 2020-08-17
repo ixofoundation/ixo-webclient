@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 export const WidgetContainer = styled.div`
   position: relative;
@@ -22,13 +22,13 @@ export const WidgetContainer = styled.div`
   .progress__value {
     stroke-linecap: round;
   }
-`
+`;
 
-export const ApprovedText = styled.p``
+export const ApprovedText = styled.p``;
 
-export const TotalText = styled.p``
+export const TotalText = styled.p``;
 
-export const Descriptor = styled.p``
+export const Descriptor = styled.p``;
 
 export const Text = styled.div`
   position: absolute;
@@ -39,7 +39,7 @@ export const Text = styled.div`
   text-align: center;
   p {
     font-family: ${/* eslint-disable-line */ props =>
-      props.theme.fontRobotoCondensed};
+    props.theme.fontRobotoCondensed};
     line-height: 1;
   }
 
@@ -61,4 +61,4 @@ export const Text = styled.div`
     color: white;
     margin: 5px 0 0 0;
   }
-`
+`;

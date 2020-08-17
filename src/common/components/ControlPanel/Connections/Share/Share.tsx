@@ -1,6 +1,6 @@
-import React from 'react'
-import TwitterIcon from '../../../../../assets/icons/Twitter'
-import { shareToTwitter } from '../../../../utils/socialMedia.utils'
+import React from 'react';
+import TwitterIcon from '../../../../../assets/icons/Twitter';
+import { shareToTwitter } from '../../../../utils/socialMedia.utils';
 
 interface Props {
   twitterShareText: string
@@ -14,7 +14,7 @@ const Share: React.FunctionComponent<Props> = ({ show, twitterShareText }) => {
         Share to twitter <TwitterIcon width="22" fill="#47568c" />
       </button>
     </div>
-  )
-}
+  );
+};
 
-export default Share
+export default Share;

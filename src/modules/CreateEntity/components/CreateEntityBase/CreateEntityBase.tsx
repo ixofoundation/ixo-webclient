@@ -1,8 +1,8 @@
-import React from 'react'
-import { animateScroll as scroll } from 'react-scroll'
-import { ButtonGroup } from '../../../../common/components/JsonForm/JsonForm.styles'
-import * as Toast from '../../../../common/utils/Toast'
-import { Step } from 'modules/CreateEntity/types'
+import React from 'react';
+import { animateScroll as scroll } from 'react-scroll';
+import { Step } from 'modules/CreateEntity/types';
+import { ButtonGroup } from '../../../../common/components/JsonForm/JsonForm.styles';
+import * as Toast from '../../../../common/utils/Toast';
 
 export interface CreateEntityBaseProps {
   validationComplete: boolean
@@ -17,44 +17,44 @@ interface State {
 }
 
 class CreateEntityBase<T extends CreateEntityBaseProps> extends React.Component<
-  T,
-  State
+T,
+State
 > {
-  cardRefs = {}
+  cardRefs = {};
 
   constructor(props) {
-    super(props)
+    super(props);
 
     this.state = {
       submitting: false,
-    }
+    };
   }
 
   onSubmitted = (): void => {
-    throw new Error('Not implemented')
-  }
+    throw new Error('Not implemented');
+  };
 
   onBack = (): void => {
-    throw new Error('Not implemented')
-  }
+    throw new Error('Not implemented');
+  };
 
   componentDidUpdate(): void {
-    const { submitting } = this.state
-    const { validated, validationComplete } = this.props
+    const { submitting } = this.state;
+    const { validated, validationComplete } = this.props;
 
     if (submitting && validationComplete && !validated) {
-      scroll.scrollToTop()
+      scroll.scrollToTop();
 
       Toast.errorToast(
         'Please check details and correct the errors below',
         null,
         true,
-      )
+      );
 
-      this.setState({ submitting: false })
+      this.setState({ submitting: false });
     } else if (submitting && validationComplete && validated) {
-      this.onSubmitted()
-      this.setState({ submitting: false })
+      this.onSubmitted();
+      this.setState({ submitting: false });
     }
   }
 
@@ -77,18 +77,18 @@ class CreateEntityBase<T extends CreateEntityBaseProps> extends React.Component<
           Next
         </button>
       </ButtonGroup>
-    )
-  }
+    );
+  };
 
   handleSubmit = (formIdentifiers: string[]): void => {
     formIdentifiers.forEach(identifier => {
-      this.cardRefs[identifier].current.validateAndSubmit()
-    })
+      this.cardRefs[identifier].current.validateAndSubmit();
+    });
 
     setTimeout(() => {
-      this.setState({ submitting: true })
-    }, 100)
-  }
+      this.setState({ submitting: true });
+    }, 100);
+  };
 }
 
-export default CreateEntityBase
+export default CreateEntityBase;

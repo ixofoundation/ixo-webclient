@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 export const BottomBar = styled.footer`
   && {
@@ -7,4 +7,4 @@ export const BottomBar = styled.footer`
     z-index: 3;
     background: black;
   }
-`
+`;

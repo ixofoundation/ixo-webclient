@@ -1,17 +1,17 @@
-import * as React from "react";
+import * as React from 'react';
+import { connect } from 'react-redux';
+import styled from 'styled-components';
+import { decode as base64Decode, encode as base64Encode } from 'base-64';
+import CopyToClipboard from 'react-copy-to-clipboard';
 import {
   ImageLoader,
   imageQuality,
-} from "../../../common/components/Form/ImageLoader";
-import { RootState } from "../../../common/redux/types";
-import { connect } from "react-redux";
-import styled from "styled-components";
-import { decode as base64Decode, encode as base64Encode } from "base-64";
-import { blankProjectData } from "../../../lib/commonData";
-import { Button, ButtonTypes } from "../../../common/components/Form/Buttons";
-import { FileLoader } from "../../../common/components/Form/FileLoader";
-import { successToast, errorToast } from "../../../common/utils/Toast";
-import CopyToClipboard from "react-copy-to-clipboard";
+} from '../../../common/components/Form/ImageLoader';
+import { RootState } from '../../../common/redux/types';
+import { blankProjectData } from '../../../lib/commonData';
+import { Button, ButtonTypes } from '../../../common/components/Form/Buttons';
+import { FileLoader } from '../../../common/components/Form/FileLoader';
+import { successToast, errorToast } from '../../../common/utils/Toast';
 
 const Text = styled.input`
   margin: 20px 0;
@@ -58,15 +58,15 @@ export interface State {
 }
 
 export class ProjectCreateUploadPublicDocs extends React.Component<
-  StateProps,
-  State
+StateProps,
+State
 > {
   state = {
     croppedImg: null,
     croppedLogo: null,
-    claimSchema: "",
+    claimSchema: '',
     claimSchemaKey: null,
-    claimForm: "",
+    claimForm: '',
     claimFormKey: null,
     projectJson: blankProjectData,
     project: JSON.parse(blankProjectData),
@@ -74,115 +74,113 @@ export class ProjectCreateUploadPublicDocs extends React.Component<
     imageLogoLink: null,
     founderLogoLink: null,
     fetchedImage: null,
-    fetchedFile: "",
+    fetchedFile: '',
   };
 
   handleCreateProject = (): void => {
     if (this.props.keysafe === null) {
-      errorToast("Please install IXO Credential Manager first.");
-    } else {
-      if (
-        this.state.croppedImg &&
+      errorToast('Please install IXO Credential Manager first.');
+    } else if (
+      this.state.croppedImg &&
         this.state.claimSchema.length > 0 &&
         this.state.claimForm.length > 0
-      ) {
-        const promises = [];
-        promises.push(
-          this.props.ixo.project
-            .createPublic(
-              this.state.croppedImg,
-              this.state.project.serviceEndpoint
-            )
-            .then((res: any) => {
-              successToast("Uploaded image successfully");
-              const newProject = this.state.project;
-              newProject.imageLink = res.result;
-              this.setState({
-                project: newProject,
-                projectJson: JSON.stringify(newProject),
-              });
-              return res.result;
-            })
-        );
-        promises.push(
-          this.props.ixo.project
-            .createPublic(
-              this.state.claimSchema,
-              this.state.project.serviceEndpoint
-            )
-            .then((res: any) => {
-              successToast("Uploaded Schema successfully");
-              const newProject = this.state.project;
-              newProject.templates.claim.schema = res.result;
-              this.setState({
-                project: newProject,
-                projectJson: JSON.stringify(newProject),
-              });
-              return res.result;
-            })
-        );
-        promises.push(
-          this.props.ixo.project
-            .createPublic(
-              this.state.claimForm,
-              this.state.project.serviceEndpoint
-            )
-            .then((res: any) => {
-              successToast("Uploaded Form JSON successfully");
-              const newProject = this.state.project;
-              newProject.templates.claim.form = res.result;
-              this.setState({
-                project: newProject,
-                projectJson: JSON.stringify(newProject),
-              });
-              return res.result;
-            })
-        );
-        if (this.state.croppedLogo) {
-          promises.push(
-            this.props.ixo.project
-              .createPublic(
-                this.state.croppedLogo,
-                this.state.project.serviceEndpoint
-              )
-              .then((res: any) => {
-                successToast("Uploaded logo successfully");
-                const newProject = this.state.project;
-                newProject.founder.logoLink =
-                  newProject.serviceEndpoint + "public/" + res.result;
-                this.setState({
-                  project: newProject,
-                  projectJson: JSON.stringify(newProject),
-                });
-                return res.result;
-              })
-          );
-        }
-        Promise.all(promises).then(() => {
-          const projectObj: string = this.state.projectJson;
-          const projectDataURL =
-            "data:application/json;base64," + base64Encode(projectObj);
-          this.props.ixo.project
-            .createPublic(projectDataURL, this.state.project.serviceEndpoint)
-            .then((res: any) => {
-              successToast("Uploaded projectJson successfully");
-              this.setState({
-                projectEmailLink: this.compileEmailLink(res.result),
-              });
-              return res.result;
+    ) {
+      const promises = [];
+      promises.push(
+        this.props.ixo.project
+          .createPublic(
+            this.state.croppedImg,
+            this.state.project.serviceEndpoint
+          )
+          .then((res: any) => {
+            successToast('Uploaded image successfully');
+            const newProject = this.state.project;
+            newProject.imageLink = res.result;
+            this.setState({
+              project: newProject,
+              projectJson: JSON.stringify(newProject),
             });
-        });
+            return res.result;
+          })
+      );
+      promises.push(
+        this.props.ixo.project
+          .createPublic(
+            this.state.claimSchema,
+            this.state.project.serviceEndpoint
+          )
+          .then((res: any) => {
+            successToast('Uploaded Schema successfully');
+            const newProject = this.state.project;
+            newProject.templates.claim.schema = res.result;
+            this.setState({
+              project: newProject,
+              projectJson: JSON.stringify(newProject),
+            });
+            return res.result;
+          })
+      );
+      promises.push(
+        this.props.ixo.project
+          .createPublic(
+            this.state.claimForm,
+            this.state.project.serviceEndpoint
+          )
+          .then((res: any) => {
+            successToast('Uploaded Form JSON successfully');
+            const newProject = this.state.project;
+            newProject.templates.claim.form = res.result;
+            this.setState({
+              project: newProject,
+              projectJson: JSON.stringify(newProject),
+            });
+            return res.result;
+          })
+      );
+      if (this.state.croppedLogo) {
+        promises.push(
+          this.props.ixo.project
+            .createPublic(
+              this.state.croppedLogo,
+              this.state.project.serviceEndpoint
+            )
+            .then((res: any) => {
+              successToast('Uploaded logo successfully');
+              const newProject = this.state.project;
+              newProject.founder.logoLink =
+                  `${newProject.serviceEndpoint  }public/${  res.result}`;
+              this.setState({
+                project: newProject,
+                projectJson: JSON.stringify(newProject),
+              });
+              return res.result;
+            })
+        );
       }
+      Promise.all(promises).then(() => {
+        const projectObj: string = this.state.projectJson;
+        const projectDataURL =
+            `data:application/json;base64,${  base64Encode(projectObj)}`;
+        this.props.ixo.project
+          .createPublic(projectDataURL, this.state.project.serviceEndpoint)
+          .then((res: any) => {
+            successToast('Uploaded projectJson successfully');
+            this.setState({
+              projectEmailLink: this.compileEmailLink(res.result),
+            });
+            return res.result;
+          });
+      });
     }
   };
 
   compileEmailLink(projectHash: string): string {
     return (
-      window.location.origin +
-      "/upload-project-create?key=" +
-      projectHash +
-      "&url=" +
-      encodeURIComponent(this.state.project.serviceEndpoint)
+      `${window.location.origin 
+      }/upload-project-create?key=${ 
+        projectHash 
+      }&url=${ 
+        encodeURIComponent(this.state.project.serviceEndpoint)}`
     );
   }
 
@@ -204,20 +202,20 @@ export class ProjectCreateUploadPublicDocs extends React.Component<
   };
 
   handleFileSelected = (type, base64File): void => {
-    if (type === "schema") {
+    if (type === 'schema') {
       this.setState({ claimSchema: base64File });
     }
-    if (type === "form") {
+    if (type === 'form') {
       this.setState({ claimForm: base64File });
     }
   };
 
   uploadFile = (type): void => {
     let fileToUpload: string;
-    if (type === "schema") {
+    if (type === 'schema') {
       fileToUpload = this.state.claimSchema;
     }
-    if (type === "form") {
+    if (type === 'form') {
       fileToUpload = this.state.claimForm;
     }
 
@@ -225,10 +223,10 @@ export class ProjectCreateUploadPublicDocs extends React.Component<
       .createPublic(fileToUpload, this.state.project.serviceEndpoint)
       .then((res: any) => {
         const newProject = this.state.project;
-        if (type === "schema") {
+        if (type === 'schema') {
           newProject.templates.claim.schema = res.result;
         }
-        if (type === "form") {
+        if (type === 'form') {
           newProject.templates.claim.form = res.result;
         }
         this.setState({
@@ -262,14 +260,14 @@ export class ProjectCreateUploadPublicDocs extends React.Component<
   updateProjectJSON = (event): void => {
     const project = JSON.parse(event.target.value);
     const imageLogoLink = project.imageLink;
-    project.imageLink = "";
+    project.imageLink = '';
     const founderLogoLink = project.founder.logoLink;
-    project.founder.logoLink = "";
+    project.founder.logoLink = '';
     this.setState({
       projectJson: JSON.stringify(project),
-      project: project,
-      imageLogoLink: imageLogoLink,
-      founderLogoLink: founderLogoLink,
+      project,
+      imageLogoLink,
+      founderLogoLink,
     });
   };
 
@@ -285,13 +283,13 @@ export class ProjectCreateUploadPublicDocs extends React.Component<
                 value={this.state.project.serviceEndpoint}
               />
               <div>
-                Image Link:{" "}
+                Image Link:{' '}
                 <a href={this.state.imageLogoLink}>
                   {this.state.imageLogoLink}
                 </a>
               </div>
               <div>
-                Founder Logo Link:{" "}
+                Founder Logo Link:{' '}
                 <a href={this.state.founderLogoLink}>
                   {this.state.founderLogoLink}
                 </a>
@@ -312,16 +310,14 @@ export class ProjectCreateUploadPublicDocs extends React.Component<
                 placeholder="Choose claim schema file"
                 acceptType="application/json"
                 selectedCallback={(dataUrl): void =>
-                  this.handleFileSelected("schema", dataUrl)
-                }
+                  this.handleFileSelected('schema', dataUrl)}
               />
               <br />
               <FileLoader
                 placeholder="Choose claim form file"
                 acceptType="application/json"
                 selectedCallback={(dataUrl): void =>
-                  this.handleFileSelected("form", dataUrl)
-                }
+                  this.handleFileSelected('form', dataUrl)}
               />
               <br />
               <ImageLoader

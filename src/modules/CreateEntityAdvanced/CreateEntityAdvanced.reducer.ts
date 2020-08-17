@@ -2,8 +2,8 @@ import {
   CreateEntityAdvancedState,
   CreateEntityAdvancedActionTypes,
   CreateEntityAdvancedActions,
-} from './types'
-import * as reduxUtils from '../../common/redux/utils'
+} from './types';
+import * as reduxUtils from '../../common/redux/utils';
 
 export const initialState: CreateEntityAdvancedState = {
   linkedEntities: {},
@@ -15,7 +15,7 @@ export const initialState: CreateEntityAdvancedState = {
   services: {},
   dataResources: {},
   validation: {},
-}
+};
 
 export const reducer = (
   state = initialState,
@@ -35,7 +35,7 @@ export const reducer = (
             },
           },
         },
-      }
+      };
     case CreateEntityAdvancedActions.RemoveLinkedEntity:
       return {
         ...state,
@@ -43,7 +43,7 @@ export const reducer = (
           state.linkedEntities,
           action.payload.id,
         ),
-      }
+      };
     case CreateEntityAdvancedActions.UpdateLinkedEntity:
       return {
         ...state,
@@ -51,7 +51,7 @@ export const reducer = (
           ...state.linkedEntities,
           ...{ [action.payload.id]: action.payload },
         },
-      }
+      };
     case CreateEntityAdvancedActions.AddPayment:
       return {
         ...state,
@@ -68,12 +68,12 @@ export const reducer = (
             },
           },
         },
-      }
+      };
     case CreateEntityAdvancedActions.RemovePayment:
       return {
         ...state,
         payments: reduxUtils.omitKey(state.payments, action.payload.id),
-      }
+      };
     case CreateEntityAdvancedActions.UpdatePayment:
       return {
         ...state,
@@ -81,7 +81,7 @@ export const reducer = (
           ...state.payments,
           ...{ [action.payload.id]: action.payload },
         },
-      }
+      };
     case CreateEntityAdvancedActions.AddStake:
       return {
         ...state,
@@ -102,12 +102,12 @@ export const reducer = (
             },
           },
         },
-      }
+      };
     case CreateEntityAdvancedActions.RemoveStake:
       return {
         ...state,
         staking: reduxUtils.omitKey(state.staking, action.payload.id),
-      }
+      };
     case CreateEntityAdvancedActions.UpdateStake:
       return {
         ...state,
@@ -115,7 +115,7 @@ export const reducer = (
           ...state.staking,
           ...{ [action.payload.id]: action.payload },
         },
-      }
+      };
     case CreateEntityAdvancedActions.AddNode:
       return {
         ...state,
@@ -129,12 +129,12 @@ export const reducer = (
             },
           },
         },
-      }
+      };
     case CreateEntityAdvancedActions.RemoveNode:
       return {
         ...state,
         nodes: reduxUtils.omitKey(state.nodes, action.payload.id),
-      }
+      };
     case CreateEntityAdvancedActions.UpdateNode:
       return {
         ...state,
@@ -142,7 +142,7 @@ export const reducer = (
           ...state.nodes,
           ...{ [action.payload.id]: action.payload },
         },
-      }
+      };
     case CreateEntityAdvancedActions.AddFund:
       return {
         ...state,
@@ -156,12 +156,12 @@ export const reducer = (
             },
           },
         },
-      }
+      };
     case CreateEntityAdvancedActions.RemoveFund:
       return {
         ...state,
         funding: reduxUtils.omitKey(state.funding, action.payload.id),
-      }
+      };
     case CreateEntityAdvancedActions.UpdateFund:
       return {
         ...state,
@@ -169,7 +169,7 @@ export const reducer = (
           ...state.funding,
           ...{ [action.payload.id]: action.payload },
         },
-      }
+      };
     case CreateEntityAdvancedActions.AddKey:
       return {
         ...state,
@@ -188,12 +188,12 @@ export const reducer = (
             },
           },
         },
-      }
+      };
     case CreateEntityAdvancedActions.RemoveKey:
       return {
         ...state,
         keys: reduxUtils.omitKey(state.keys, action.payload.id),
-      }
+      };
     case CreateEntityAdvancedActions.UpdateKey:
       return {
         ...state,
@@ -201,7 +201,7 @@ export const reducer = (
           ...state.keys,
           ...{ [action.payload.id]: action.payload },
         },
-      }
+      };
     case CreateEntityAdvancedActions.AddService:
       return {
         ...state,
@@ -218,12 +218,12 @@ export const reducer = (
             },
           },
         },
-      }
+      };
     case CreateEntityAdvancedActions.RemoveService:
       return {
         ...state,
         services: reduxUtils.omitKey(state.services, action.payload.id),
-      }
+      };
     case CreateEntityAdvancedActions.UpdateService:
       return {
         ...state,
@@ -231,7 +231,7 @@ export const reducer = (
           ...state.services,
           ...{ [action.payload.id]: action.payload },
         },
-      }
+      };
     case CreateEntityAdvancedActions.AddDataResource:
       return {
         ...state,
@@ -247,7 +247,7 @@ export const reducer = (
             },
           },
         },
-      }
+      };
     case CreateEntityAdvancedActions.RemoveDataResource:
       return {
         ...state,
@@ -255,7 +255,7 @@ export const reducer = (
           state.dataResources,
           action.payload.id,
         ),
-      }
+      };
     case CreateEntityAdvancedActions.UpdateDataResource:
       return {
         ...state,
@@ -263,7 +263,7 @@ export const reducer = (
           ...state.dataResources,
           ...{ [action.payload.id]: action.payload },
         },
-      }
+      };
     case CreateEntityAdvancedActions.Validated:
       return {
         ...state,
@@ -277,7 +277,7 @@ export const reducer = (
             },
           },
         },
-      }
+      };
     case CreateEntityAdvancedActions.ValidationError:
       return {
         ...state,
@@ -291,8 +291,8 @@ export const reducer = (
             },
           },
         },
-      }
+      };
   }
 
-  return state
-}
+  return state;
+};

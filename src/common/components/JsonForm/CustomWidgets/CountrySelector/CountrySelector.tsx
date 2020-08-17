@@ -1,5 +1,5 @@
-import React from 'react'
-import CountryDropDown from '../../../Controls/IconDropDown/CountryDropDown/CountryDropDown'
+import React from 'react';
+import CountryDropDown from '../../../Controls/IconDropDown/CountryDropDown/CountryDropDown';
 
 interface Props {
   id: string
@@ -22,8 +22,8 @@ const CountrySelector: React.FunctionComponent<Props> = ({
       onBlur={(value): void => onBlur(id, value)}
       onFocus={(value): void => onFocus(id, value)}
       onChange={onChange}
-    ></CountryDropDown>
-  )
-}
+    />
+  );
+};
 
-export default CountrySelector
+export default CountrySelector;

@@ -1,9 +1,9 @@
-import * as React from 'react'
-import styled from 'styled-components'
-import { deviceWidth } from 'lib/commonData'
-import { Web3Acc } from 'modules/web3/web3'
-import { Fragment } from 'react'
-import { BigNumber } from 'bignumber.js'
+import * as React from 'react';
+import styled from 'styled-components';
+import { deviceWidth } from 'lib/commonData';
+import { Web3Acc } from 'modules/web3/web3';
+import { Fragment } from 'react';
+import { BigNumber } from 'bignumber.js';
 
 const IxoGauge = styled.div`
   font-family: ${/*eslint-disable-line*/ props =>
@@ -33,11 +33,11 @@ const IxoGauge = styled.div`
   @media (min-width: ${deviceWidth.desktopLarge}px) {
     font-size: 32px;
   }
-`
+`;
 
 const GaugeContainer = styled.div`
   position: relative;
-`
+`;
 
 const ErrorWrapper = styled.div`
   display: flex;
@@ -47,7 +47,7 @@ const ErrorWrapper = styled.div`
     text-transform: uppercase;
     font-size: 19px;
     font-family: ${/*eslint-disable-line*/ props =>
-      props.theme.fontRobotoCondensed};
+    props.theme.fontRobotoCondensed};
     margin: 0;
     line-height: 1.1;
   }
@@ -61,7 +61,7 @@ const ErrorWrapper = styled.div`
   img {
     margin: 0 15px 0 5px;
   }
-`
+`;
 
 const IxoX = styled.i`
   :before {
@@ -70,7 +70,7 @@ const IxoX = styled.i`
     color: ${/*eslint-disable-line*/ props => props.theme.ixoBlue};
     font-size: 30px;
   }
-`
+`;
 
 const CheckIcon = styled.i`
   position: absolute;
@@ -89,7 +89,7 @@ const CheckIcon = styled.i`
     right: 0;
     line-height: 1;
   }
-`
+`;
 export interface ParentProps {
   web3error: string
   account: Web3Acc
@@ -98,12 +98,12 @@ export interface ParentProps {
 }
 
 export const FundingGauge: React.SFC<ParentProps> = props => {
-  let balance = new BigNumber(0)
+  let balance = new BigNumber(0);
   if (props.account.balance) {
-    balance = new BigNumber(props.account.balance)
-    balance = balance.dividedBy(100000000).decimalPlaces(2, 1)
+    balance = new BigNumber(props.account.balance);
+    balance = balance.dividedBy(100000000).decimalPlaces(2, 1);
   }
-  const jsBalance = balance.toNumber()
+  const jsBalance = balance.toNumber();
   function handleRenderGauge(): JSX.Element | null {
     if (
       props.projectStatus === 'FUNDED' ||
@@ -111,14 +111,14 @@ export const FundingGauge: React.SFC<ParentProps> = props => {
       props.projectStatus === 'STOPPED'
     ) {
       return (
-        <Fragment>
+        <>
           <GaugeContainer>
             <IxoX className="icon-ixo-x" />
             {jsBalance}
           </GaugeContainer>
           <p>user account balance</p>
-        </Fragment>
-      )
+        </>
+      );
     }
     if (props.web3error) {
       return (
@@ -131,11 +131,11 @@ export const FundingGauge: React.SFC<ParentProps> = props => {
             <p>to fuel your project</p>
           </div>
         </ErrorWrapper>
-      )
+      );
     }
     if (props.account.address) {
       return (
-        <Fragment>
+        <>
           <GaugeContainer>
             <IxoX className="icon-ixo-x" />
             {jsBalance}
@@ -145,11 +145,11 @@ export const FundingGauge: React.SFC<ParentProps> = props => {
             )}
           </GaugeContainer>
           <p>fuel needed</p>
-        </Fragment>
-      )
-    } else {
-      return null
-    }
+        </>
+      );
+    } 
+    return null;
+    
   }
-  return <IxoGauge>{handleRenderGauge()}</IxoGauge>
-}
+  return <IxoGauge>{handleRenderGauge()}</IxoGauge>;
+};

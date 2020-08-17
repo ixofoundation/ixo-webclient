@@ -1,4 +1,4 @@
-import * as SUT from './CreateClaimTemplate.reducer'
+import * as SUT from './CreateClaimTemplate.reducer';
 import {
   UpdateActiveStepAction,
   CreateClaimTemplateActions,
@@ -6,46 +6,46 @@ import {
   RemoveAttestationAction,
   UpdateAttestationAction,
   UpdateClaimInfoAction,
-} from './types'
+} from './types';
 
-const initialState = SUT.initialState
+const { initialState } = SUT;
 
 describe('CreateClaimTemplate Reducer', () => {
   it('should return the same state if an action is called on it which is not handled by the reducer', () => {
     // given .. we have an action the reducer does not handle
-    const action: any = 'foo'
+    const action: any = 'foo';
 
     // when ... we run the reducer with this action
-    const result = SUT.reducer(initialState, action)
+    const result = SUT.reducer(initialState, action);
 
     // then ... the state that was passed into the function should be returned
-    expect(result).toEqual(initialState)
-  })
+    expect(result).toEqual(initialState);
+  });
 
   describe('UpdateActiveStep Action', () => {
     it('should update the activeStep number', () => {
       const action: UpdateActiveStepAction = {
         type: CreateClaimTemplateActions.UpdateActiveStep,
         payload: 3,
-      }
+      };
 
-      const result = SUT.reducer(initialState, action)
+      const result = SUT.reducer(initialState, action);
 
       expect(result).toEqual({
         ...initialState,
         activeStep: 3,
-      })
-    })
-  })
+      });
+    });
+  });
 
   describe('UpdateClaimInfo Action', () => {
     it('should update the claim info', () => {
       const action: UpdateClaimInfoAction = {
         type: CreateClaimTemplateActions.UpdateClaimInfo,
         payload: { claimName: 'someName', shortDescription: 'someDescription' },
-      }
+      };
 
-      const result = SUT.reducer(initialState, action)
+      const result = SUT.reducer(initialState, action);
 
       expect(result).toEqual({
         ...initialState,
@@ -53,9 +53,9 @@ describe('CreateClaimTemplate Reducer', () => {
           claimName: 'someName',
           shortDescription: 'someDescription',
         },
-      })
-    })
-  })
+      });
+    });
+  });
 
   describe('AddAttestationAction Action', () => {
     it('should update the activeStep number', () => {
@@ -70,9 +70,9 @@ describe('CreateClaimTemplate Reducer', () => {
           type: 'string',
           control: 'string',
         },
-      }
+      };
 
-      const result = SUT.reducer(initialState, action)
+      const result = SUT.reducer(initialState, action);
 
       expect(result).toEqual({
         ...initialState,
@@ -87,25 +87,25 @@ describe('CreateClaimTemplate Reducer', () => {
             control: 'string',
           },
         ],
-      })
-    })
-  })
+      });
+    });
+  });
 
   describe('RemoveAttestation Action', () => {
     it('should update the activeStep number', () => {
       const action: RemoveAttestationAction = {
         type: CreateClaimTemplateActions.RemoveAttestation,
         payload: 'string',
-      }
+      };
 
-      const result = SUT.reducer(initialState, action)
+      const result = SUT.reducer(initialState, action);
 
       expect(result).toEqual({
         ...initialState,
         attestations: [],
-      })
-    })
-  })
+      });
+    });
+  });
 
   describe('UpdateAttestation Action', () => {
     // it('should update the attestation with the new details', () => {
@@ -167,7 +167,7 @@ describe('CreateClaimTemplate Reducer', () => {
           type: 'someNewString',
           control: 'someNewString',
         },
-      }
+      };
 
       // when ... we run the reducer with this action
       const result = SUT.reducer(
@@ -186,7 +186,7 @@ describe('CreateClaimTemplate Reducer', () => {
           ],
         },
         action,
-      )
+      );
 
       // then ... the state should be set as expected
       expect(result).toEqual({
@@ -202,7 +202,7 @@ describe('CreateClaimTemplate Reducer', () => {
             control: 'someNewString',
           },
         ],
-      })
-    })
-  })
-})
+      });
+    });
+  });
+});

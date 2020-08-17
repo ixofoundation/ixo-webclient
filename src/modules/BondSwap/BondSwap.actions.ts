@@ -1,19 +1,19 @@
+import Axios from 'axios';
+import { Currency } from 'types/models';
+import { Dispatch } from 'redux';
+import { RootState } from 'common/redux/types';
+import { currencyStr } from '../Account/Account.utils';
 import {
   ClearAction,
   GetQuoteAction,
   ConfirmSwapAction,
   BondSwapActions,
   InitiateQuoteAction,
-} from './types'
-import Axios from 'axios'
-import { Currency } from 'types/models'
-import { currencyStr } from '../Account/Account.utils'
-import { Dispatch } from 'redux'
-import { RootState } from 'common/redux/types'
+} from './types';
 
 export const initiateQuote = (): InitiateQuoteAction => ({
   type: BondSwapActions.InitiateQuote,
-})
+});
 
 export const getQuote = (sending: Currency, receiving: Currency) => (
   dispatch: Dispatch,
@@ -21,7 +21,7 @@ export const getQuote = (sending: Currency, receiving: Currency) => (
 ): GetQuoteAction => {
   const {
     activeBond: { bondDid },
-  } = getState()
+  } = getState();
 
   return dispatch({
     type: BondSwapActions.GetQuote,
@@ -34,7 +34,7 @@ export const getQuote = (sending: Currency, receiving: Currency) => (
       {
         transformResponse: [
           (response: string): any => {
-            return JSON.parse(response).result
+            return JSON.parse(response).result;
           },
         ],
       },
@@ -44,21 +44,21 @@ export const getQuote = (sending: Currency, receiving: Currency) => (
         receiving: response.data.total_returns[0],
         totalFee: response.data.total_fees[0],
         txFees: response.data.tx_fees,
-      }
+      };
     }),
-  })
-}
+  });
+};
 
 // TODO
 export const confirmSwap = () => (
   dispatch: Dispatch,
   getState: () => RootState,
 ): ConfirmSwapAction => {
-  return null
-}
+  return null;
+};
 
 export const clear = (): ClearAction => {
   return {
     type: BondSwapActions.Clear,
-  }
-}
+  };
+};

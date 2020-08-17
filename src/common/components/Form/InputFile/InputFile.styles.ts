@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 export const FileContainer = styled.div`
   & img {
@@ -25,4 +25,4 @@ export const FileContainer = styled.div`
     display: flex;
     align-items: center;
   }
-`
+`;

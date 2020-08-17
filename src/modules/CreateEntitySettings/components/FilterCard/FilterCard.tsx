@@ -1,8 +1,8 @@
-import React from 'react'
-import { EntityType } from '../../../../modules/Entities/types'
-import { entityTypeMap } from '../../../../modules/Entities/strategy-map'
-import { FormCardProps } from '../../../CreateEntity/types'
-import MultiControlForm from '../../../../common/components/JsonForm/MultiControlForm/MultiControlForm'
+import React from 'react';
+import { EntityType } from '../../../Entities/types';
+import { entityTypeMap } from '../../../Entities/strategy-map';
+import { FormCardProps } from '../../../CreateEntity/types';
+import MultiControlForm from '../../../../common/components/JsonForm/MultiControlForm/MultiControlForm';
 
 interface Props extends FormCardProps {
   filters: { [name: string]: string[] }
@@ -10,14 +10,14 @@ interface Props extends FormCardProps {
 }
 
 const convertArrayToObject = (array, key): {} => {
-  const initialValue = {}
+  const initialValue = {};
   return array.reduce((obj, item) => {
     return {
       ...obj,
       [item[key]]: item,
-    }
-  }, initialValue)
-}
+    };
+  }, initialValue);
+};
 
 const Filter: React.FunctionComponent<Props> = React.forwardRef(
   (
@@ -34,13 +34,13 @@ const Filter: React.FunctionComponent<Props> = React.forwardRef(
         },
         uniqueItems: true,
       }),
-    )
+    );
 
     const schema = {
       type: 'object',
       required: [],
       properties: convertArrayToObject(propertiesArray, 'title'),
-    } as any
+    } as any;
 
     return (
       <MultiControlForm
@@ -55,8 +55,8 @@ const Filter: React.FunctionComponent<Props> = React.forwardRef(
       >
         &nbsp;
       </MultiControlForm>
-    )
+    );
   },
-)
+);
 
-export default Filter
+export default Filter;

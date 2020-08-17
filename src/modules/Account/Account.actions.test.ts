@@ -1,20 +1,20 @@
-import mockAxios from "axios";
-import mockStore from "../../common/redux/mockStore";
-import * as SUT from "./Account.actions";
-import { AccountActions } from "./types";
+import mockAxios from 'axios';
+import mockStore from '../../common/redux/mockStore';
+import * as SUT from './Account.actions';
+import { AccountActions } from './types';
 
-jest.mock("../../common/keysafe/keysafe");
-jest.mock("axios");
+jest.mock('../../common/keysafe/keysafe');
+jest.mock('axios');
 let store;
 let windowSpy;
 
 beforeEach(() => {
-  windowSpy = jest.spyOn(global, "window" as any, "get");
+  windowSpy = jest.spyOn(global, 'window' as any, 'get');
 
   store = mockStore({
     account: {
-      userInfo: "",
-      address: "abc",
+      userInfo: '',
+      address: 'abc',
     },
   });
 });
@@ -23,18 +23,18 @@ afterEach(() => {
   windowSpy.mockRestore();
 });
 
-describe("Account Actions", () => {
-  describe("login", () => {
-    it("should return an action of type LoginActions.Login", () => {
+describe('Account Actions', () => {
+  describe('login', () => {
+    it('should return an action of type LoginActions.Login', () => {
       // when ... we call the login action creator
       const userInfo = {
-        didDoc: { did: "someDid", pubKey: "somePubKey" },
-        name: "someName",
+        didDoc: { did: 'someDid', pubKey: 'somePubKey' },
+        name: 'someName',
         ledgered: true,
         loggedInKeysafe: false,
         hasKYC: true,
       };
-      const address = "abc";
+      const address = 'abc';
 
       const action = SUT.login(userInfo, address);
 
@@ -45,8 +45,8 @@ describe("Account Actions", () => {
     });
   });
 
-  describe("logout", () => {
-    it("should return an action of type LoginActions.Logout", () => {
+  describe('logout', () => {
+    it('should return an action of type LoginActions.Logout', () => {
       // when ... we call the resetUserInfo action creator
       const action = SUT.logout();
 
@@ -55,30 +55,30 @@ describe("Account Actions", () => {
     });
   });
 
-  describe("getAccount", () => {
-    it("should return data on success", async () => {
+  describe('getAccount', () => {
+    it('should return data on success', async () => {
       const balances = [
-        { denom: "someval1", amount: 2 },
-        { denom: "someval2", amount: 3 },
+        { denom: 'someval1', amount: 2 },
+        { denom: 'someval2', amount: 3 },
       ];
-      const sequence = "123";
-      const accountNumber = "0123456";
+      const sequence = '123';
+      const accountNumber = '0123456';
 
       mockAxios.get.mockImplementationOnce(() =>
         Promise.resolve({
           data: {
             coins: [
-              { denom: "someval1", amount: 2 },
-              { denom: "someval2", amount: 3 },
+              { denom: 'someval1', amount: 2 },
+              { denom: 'someval2', amount: 3 },
             ],
-            sequence: "123",
-            account_number: "0123456",
+            sequence: '123',
+            account_number: '0123456',
           },
         })
       );
 
       // when ... we call the getAccount action creator with an address
-      await store.dispatch(SUT.getAccount("some-address"));
+      await store.dispatch(SUT.getAccount('some-address'));
       const actions = store.getActions();
 
       // then we should expect it to create actions with the correct types and payload
@@ -90,8 +90,8 @@ describe("Account Actions", () => {
       expect(actions[1].payload.sequence).toEqual(sequence);
     });
 
-    it("should return an error on failure", async () => {
-      const error = "some-error";
+    it('should return an error on failure', async () => {
+      const error = 'some-error';
       mockAxios.get.mockImplementationOnce(() =>
         Promise.reject({
           error,
@@ -100,7 +100,7 @@ describe("Account Actions", () => {
 
       try {
         // when ... we call the getBalances action creator with an address
-        await store.dispatch(SUT.getAccount("some-address"));
+        await store.dispatch(SUT.getAccount('some-address'));
       } catch {
         const actions = store.getActions();
 
