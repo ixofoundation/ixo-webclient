@@ -7,6 +7,10 @@ import {
   UpdateLongTextQuestionAction,
   CreateEntityAttestationActions,
   UpdateAnswerRequiredAction,
+  ValidatedAction,
+  ValidationErrorAction,
+  RemoveQuestionAction,
+  CopyQuestionAction,
 } from './types'
 import {
   Type,
@@ -96,5 +100,38 @@ export const updateAnswerRequired = (
   payload: {
     id,
     required,
+  },
+})
+
+export const removeQuestion = (id: string): RemoveQuestionAction => ({
+  type: CreateEntityAttestationActions.RemoveQuestion,
+  payload: {
+    id,
+  },
+})
+
+export const copyQuestion = (id: string): CopyQuestionAction => ({
+  type: CreateEntityAttestationActions.CopyQuestion,
+  payload: {
+    idToCopy: id,
+    newId: uuidv4(),
+  },
+})
+
+export const validated = (identifier: string): ValidatedAction => ({
+  type: CreateEntityAttestationActions.Validated,
+  payload: {
+    identifier,
+  },
+})
+
+export const validationError = (
+  identifier: string,
+  errors: string[],
+): ValidationErrorAction => ({
+  type: CreateEntityAttestationActions.ValidationError,
+  payload: {
+    identifier,
+    errors,
   },
 })

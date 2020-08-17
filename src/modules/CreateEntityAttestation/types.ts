@@ -64,6 +64,9 @@ export enum CreateEntityAttestationActions {
   UpdateDocumentUploadQuestion = 'ixo/CreateEntityAttestation/UPDATE_DOCUMENT_UPLOAD_QUESTION',
   UpdateAnswerRequired = 'ixo/CreateEntityAttestation/UPDATE_ANSWER_REQUIRED',
   RemoveQuestion = 'ixo/CreateEntityAttestation/REMOVE_QUESTION',
+  CopyQuestion = 'ixo/CreateEntityAttestation/COPY_QUESTION',
+  Validated = 'ixo/CreateEntityAttestation/SET_VALIDATED',
+  ValidationError = 'ixo/CreateEntityAttestation/VALIDATION_ERROR',
 }
 
 export interface UpdateClaimInfoAction {
@@ -165,6 +168,36 @@ export interface UpdateAnswerRequiredAction {
   }
 }
 
+export interface RemoveQuestionAction {
+  type: typeof CreateEntityAttestationActions.RemoveQuestion
+  payload: {
+    id: string
+  }
+}
+
+export interface CopyQuestionAction {
+  type: typeof CreateEntityAttestationActions.CopyQuestion
+  payload: {
+    idToCopy: string
+    newId: string
+  }
+}
+
+export interface ValidatedAction {
+  type: typeof CreateEntityAttestationActions.Validated
+  payload: {
+    identifier: string
+  }
+}
+
+export interface ValidationErrorAction {
+  type: typeof CreateEntityAttestationActions.ValidationError
+  payload: {
+    identifier: string
+    errors: string[]
+  }
+}
+
 export type CreateEntityAttestationActionTypes =
   | UpdateClaimInfoAction
   | AddShortTextQuestionAction
@@ -172,3 +205,7 @@ export type CreateEntityAttestationActionTypes =
   | UpdateShortTextQuestionAction
   | UpdateLongTextQuestionAction
   | UpdateAnswerRequiredAction
+  | RemoveQuestionAction
+  | CopyQuestionAction
+  | ValidatedAction
+  | ValidationErrorAction

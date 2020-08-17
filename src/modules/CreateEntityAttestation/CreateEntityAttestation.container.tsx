@@ -43,7 +43,7 @@ class CreateEntityAttestation extends CreateEntityBase<Props> {
     return (
       <FormCardWrapper title="Claim Info" showAddSection={false}>
         <ClaimInfoCard
-          ref={this.cardRefs['header']}
+          ref={this.cardRefs['claiminfo']}
           handleUpdateContent={handleUpdateClaimInfo}
           handleSubmitted={(): void => this.props.handleValidated('claiminfo')}
           handleError={(errors): void =>
@@ -61,7 +61,7 @@ class CreateEntityAttestation extends CreateEntityBase<Props> {
 
     return (
       <>
-        {questions.map(question => {
+        {questions.map((question) => {
           const { id } = question
 
           this.cardRefs[id] = React.createRef()

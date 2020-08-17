@@ -11,7 +11,7 @@ import { ControlPanelSection } from '../ControlPanel.styles'
 import { ActionLinksWrapper } from './Actions.styles'
 import FuelEntity from '../../../../modules/FuelEntity/FuelEntity.container'
 import { SummaryContainerConnected } from '../../../../modules/SubmitEntityClaim/Summary.container'
-import { Tooltip } from '../../Tooltip'
+import { Tooltip } from '../../Tooltip/Tooltip'
 import { InstructionsContainerConnected } from '../../../../modules/SubmitEntityClaim/Instructions.container'
 
 interface IconTypes {

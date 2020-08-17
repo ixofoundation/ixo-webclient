@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { FieldBarWrapper } from './AddFieldBar.styles'
-import { Tooltip } from '../../../../common/components/Tooltip'
+import { Tooltip } from '../../../../common/components/Tooltip/Tooltip'
 import ShortText from '../../../../assets/icons/ShortText'
 import DatePicker from '../../../../assets/icons/DatePicker'
 import LongText from '../../../../assets/icons/LongText'

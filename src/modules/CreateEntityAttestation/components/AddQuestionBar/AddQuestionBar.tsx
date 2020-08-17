@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { ControlType } from '../../../../common/components/JsonForm/types'
 import { QuestionBarWrapper } from './AddQuestionBar.styles'
-import { Tooltip } from '../../../../common/components/Tooltip'
+import { Tooltip } from '../../../../common/components/Tooltip/Tooltip'
 import ShortText from '../../../../assets/icons/ShortText'
 import DatePicker from '../../../../assets/icons/DatePicker'
 import LongText from '../../../../assets/icons/LongText'
