@@ -4,6 +4,7 @@ import {
   CreateEntityAttestationActions,
 } from './types'
 import * as reduxUtils from 'common/redux/utils'
+import * as utils from './CreateEntityAttestation.utils'
 
 export const initialState: CreateEntityAttestationState = {
   claimInfo: {
@@ -30,7 +31,10 @@ export const reducer = (
         questions: {
           ...state.questions,
           ...{
-            [action.payload.id]: action.payload,
+            [action.payload.id]: {
+              ...action.payload,
+              order: utils.orderForNewQuestion(state.questions),
+            },
           },
         },
       }
@@ -53,7 +57,10 @@ export const reducer = (
         questions: {
           ...state.questions,
           ...{
-            [action.payload.id]: action.payload,
+            [action.payload.id]: {
+              ...action.payload,
+              order: utils.orderForNewQuestion(state.questions),
+            },
           },
         },
       }
@@ -86,17 +93,26 @@ export const reducer = (
     case CreateEntityAttestationActions.RemoveQuestion:
       return {
         ...state,
-        questions: reduxUtils.omitKey(state.questions, action.payload.id),
+        questions: utils.questionsWithIncrementedOrder(
+          state.questions[action.payload.id].order + 1,
+          -1,
+          reduxUtils.omitKey(state.questions, action.payload.id),
+        ),
       }
     case CreateEntityAttestationActions.CopyQuestion:
       return {
         ...state,
         questions: {
-          ...state.questions,
+          ...utils.questionsWithIncrementedOrder(
+            state.questions[action.payload.idToCopy].order + 1,
+            1,
+            state.questions,
+          ),
           ...{
             [action.payload.newId]: {
               ...state.questions[action.payload.idToCopy],
               id: action.payload.newId,
+              order: state.questions[action.payload.idToCopy].order + 1,
             },
           },
         },

@@ -24,6 +24,7 @@ export interface Question {
   placeholder?: string
   initialValue?: string
   inline?: boolean
+  order: number
 }
 
 export interface CreateEntityAttestationState {

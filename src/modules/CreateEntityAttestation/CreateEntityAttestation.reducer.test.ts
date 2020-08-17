@@ -66,7 +66,7 @@ describe('CreateEntityAttestation Reducer', () => {
   })
 
   describe('ShortTextQuestion Actions', () => {
-    it('should add a new short text question', () => {
+    it('should add a new short text question and set the correct order', () => {
       const id = 'someId'
 
       // given ... we have an action of type CreateEntityAttestationActions.AddShortTextQuestion
@@ -85,12 +85,41 @@ describe('CreateEntityAttestation Reducer', () => {
       }
 
       // when ... we run the reducer with this action
-      const result = SUT.reducer(initialState, action)
+      const result = SUT.reducer(
+        {
+          ...initialState,
+          questions: {
+            ['someExistingId']: {
+              id,
+              title: undefined,
+              description: undefined,
+              label: undefined,
+              required: true,
+              type: Type.String,
+              control: ControlType.Text,
+              placeholder: 'Start Typing here',
+              order: 1,
+            },
+          },
+        },
+        action,
+      )
 
       // then ... the state should be set as expected
       expect(result).toEqual({
         ...initialState,
         questions: {
+          ['someExistingId']: {
+            id,
+            title: undefined,
+            description: undefined,
+            label: undefined,
+            required: true,
+            type: Type.String,
+            control: ControlType.Text,
+            placeholder: 'Start Typing here',
+            order: 1,
+          },
           [id]: {
             id,
             title: undefined,
@@ -100,6 +129,7 @@ describe('CreateEntityAttestation Reducer', () => {
             type: Type.String,
             control: ControlType.Text,
             placeholder: 'Start Typing here',
+            order: 2,
           },
         },
       })
@@ -136,6 +166,7 @@ describe('CreateEntityAttestation Reducer', () => {
               type: Type.String,
               control: ControlType.Text,
               placeholder: 'Start Typing here',
+              order: 20,
             },
           },
         },
@@ -155,6 +186,7 @@ describe('CreateEntityAttestation Reducer', () => {
             type: Type.String,
             control: ControlType.Text,
             placeholder: 'Start Typing here',
+            order: 20,
           },
         },
       })
@@ -162,7 +194,7 @@ describe('CreateEntityAttestation Reducer', () => {
   })
 
   describe('LongTextQuestion Actions', () => {
-    it('should add a new long text question', () => {
+    it('should add a new long text question and set the correct order', () => {
       const id = 'someId'
 
       // given ... we have an action of type CreateEntityAttestationActions.AddLongTextQuestion
@@ -181,12 +213,41 @@ describe('CreateEntityAttestation Reducer', () => {
       }
 
       // when ... we run the reducer with this action
-      const result = SUT.reducer(initialState, action)
+      const result = SUT.reducer(
+        {
+          ...initialState,
+          questions: {
+            ['someExistingId']: {
+              id: 'someExistingId',
+              title: undefined,
+              description: undefined,
+              label: undefined,
+              required: true,
+              type: Type.String,
+              control: ControlType.TextArea,
+              placeholder: 'Start Typing here',
+              order: 1,
+            },
+          },
+        },
+        action,
+      )
 
       // then ... the state should be set as expected
       expect(result).toEqual({
         ...initialState,
         questions: {
+          ['someExistingId']: {
+            id: 'someExistingId',
+            title: undefined,
+            description: undefined,
+            label: undefined,
+            required: true,
+            type: Type.String,
+            control: ControlType.TextArea,
+            placeholder: 'Start Typing here',
+            order: 1,
+          },
           [id]: {
             id,
             title: undefined,
@@ -196,6 +257,7 @@ describe('CreateEntityAttestation Reducer', () => {
             type: Type.String,
             control: ControlType.TextArea,
             placeholder: 'Start Typing here',
+            order: 2,
           },
         },
       })
@@ -232,6 +294,7 @@ describe('CreateEntityAttestation Reducer', () => {
               type: Type.String,
               control: ControlType.TextArea,
               placeholder: 'Start Typing here',
+              order: 30,
             },
           },
         },
@@ -251,6 +314,7 @@ describe('CreateEntityAttestation Reducer', () => {
             type: Type.String,
             control: ControlType.TextArea,
             placeholder: 'Start Typing here',
+            order: 30,
           },
         },
       })
@@ -284,6 +348,7 @@ describe('CreateEntityAttestation Reducer', () => {
               type: Type.String,
               control: ControlType.TextArea,
               placeholder: 'Start Typing here',
+              order: 10,
             },
           },
         },
@@ -303,6 +368,7 @@ describe('CreateEntityAttestation Reducer', () => {
             type: Type.String,
             control: ControlType.TextArea,
             placeholder: 'Start Typing here',
+            order: 10,
           },
         },
       })
@@ -310,7 +376,7 @@ describe('CreateEntityAttestation Reducer', () => {
   })
 
   describe('Remove Actions', () => {
-    it('should remove the question', () => {
+    it('should remove the question and decrement the existing questions order', () => {
       const id = 'someId'
       // given ... we have an action of type CreateEntityAttestationActions.RemoveQuestion
       const action: RemoveQuestionAction = {
@@ -334,9 +400,10 @@ describe('CreateEntityAttestation Reducer', () => {
               type: Type.String,
               control: ControlType.TextArea,
               placeholder: 'Start Typing here',
+              order: 1,
             },
             ['anotherid']: {
-              id,
+              id: 'anotherid',
               title: 'anotherExistingTitle',
               label: 'anotherExistingLabel',
               description: 'anotherExistingDescription',
@@ -344,6 +411,18 @@ describe('CreateEntityAttestation Reducer', () => {
               type: Type.String,
               control: ControlType.TextArea,
               placeholder: 'Start Typing here',
+              order: 2,
+            },
+            ['andanotherid']: {
+              id: 'andanotherid',
+              title: 'anotherExistingTitle',
+              label: 'anotherExistingLabel',
+              description: 'anotherExistingDescription',
+              required: false,
+              type: Type.String,
+              control: ControlType.TextArea,
+              placeholder: 'Start Typing here',
+              order: 3,
             },
           },
         },
@@ -355,7 +434,7 @@ describe('CreateEntityAttestation Reducer', () => {
         ...initialState,
         questions: {
           ['anotherid']: {
-            id,
+            id: 'anotherid',
             title: 'anotherExistingTitle',
             label: 'anotherExistingLabel',
             description: 'anotherExistingDescription',
@@ -363,6 +442,18 @@ describe('CreateEntityAttestation Reducer', () => {
             type: Type.String,
             control: ControlType.TextArea,
             placeholder: 'Start Typing here',
+            order: 1,
+          },
+          ['andanotherid']: {
+            id: 'andanotherid',
+            title: 'anotherExistingTitle',
+            label: 'anotherExistingLabel',
+            description: 'anotherExistingDescription',
+            required: false,
+            type: Type.String,
+            control: ControlType.TextArea,
+            placeholder: 'Start Typing here',
+            order: 2,
           },
         },
       })
@@ -370,7 +461,7 @@ describe('CreateEntityAttestation Reducer', () => {
   })
 
   describe('Copy Actions', () => {
-    it('should copy the question', () => {
+    it('should copy the question and set the order to 1 above the question and increment the questions with numbers greater than the copied question number', () => {
       const newId = 'someId'
       const idToCopy = 'someExistingId'
 
@@ -397,6 +488,29 @@ describe('CreateEntityAttestation Reducer', () => {
               type: Type.String,
               control: ControlType.TextArea,
               placeholder: 'Start Typing here',
+              order: 1,
+            },
+            ['anotherid']: {
+              id: 'anotherid',
+              title: 'someQuestionToCopyTitle',
+              label: 'someQuestionToCopyLabel',
+              description: 'someQuestionToCopyDescription',
+              required: false,
+              type: Type.String,
+              control: ControlType.TextArea,
+              placeholder: 'Start Typing here',
+              order: 2,
+            },
+            ['andanotherid']: {
+              id: 'andanotherid',
+              title: 'someQuestionToCopyTitle',
+              label: 'someQuestionToCopyLabel',
+              description: 'someQuestionToCopyDescription',
+              required: false,
+              type: Type.String,
+              control: ControlType.TextArea,
+              placeholder: 'Start Typing here',
+              order: 3,
             },
           },
         },
@@ -416,6 +530,29 @@ describe('CreateEntityAttestation Reducer', () => {
             type: Type.String,
             control: ControlType.TextArea,
             placeholder: 'Start Typing here',
+            order: 1,
+          },
+          ['anotherid']: {
+            id: 'anotherid',
+            title: 'someQuestionToCopyTitle',
+            label: 'someQuestionToCopyLabel',
+            description: 'someQuestionToCopyDescription',
+            required: false,
+            type: Type.String,
+            control: ControlType.TextArea,
+            placeholder: 'Start Typing here',
+            order: 3,
+          },
+          ['andanotherid']: {
+            id: 'andanotherid',
+            title: 'someQuestionToCopyTitle',
+            label: 'someQuestionToCopyLabel',
+            description: 'someQuestionToCopyDescription',
+            required: false,
+            type: Type.String,
+            control: ControlType.TextArea,
+            placeholder: 'Start Typing here',
+            order: 4,
           },
           [newId]: {
             id: newId,
@@ -426,6 +563,7 @@ describe('CreateEntityAttestation Reducer', () => {
             type: Type.String,
             control: ControlType.TextArea,
             placeholder: 'Start Typing here',
+            order: 2,
           },
         },
       })

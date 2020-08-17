@@ -13,7 +13,10 @@ export const selectClaimInfo = createSelector(
 
 export const selectQuestions = createSelector(
   selectAttestation,
-  (attestation) => Object.values(attestation.questions),
+  (attestation) =>
+    Object.values(attestation.questions).sort((a, b) =>
+      a.order > b.order ? 1 : -1,
+    ),
 )
 
 export const selectValidation = createSelector(
@@ -29,7 +32,7 @@ export const selectValidationComplete = createSelector(
   (questions, validation) => {
     // check if each section has had it's validation completed
     let validationComplete = true
-    validationComplete = !!validation['claimInfo']
+    validationComplete = !!validation['claiminfo']
 
     validationComplete =
       validationComplete &&
@@ -51,7 +54,7 @@ export const selectValidated = createSelector(
 
     // check if each section has had it's validation completed
     let validated = true
-    validated = validation['claimInfo'].validated
+    validated = validation['claiminfo'].validated
 
     validated =
       validated &&
