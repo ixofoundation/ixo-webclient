@@ -17,6 +17,8 @@ import {
   updateLongTextQuestion,
   addSingleDateSelectorQuestion,
   updateSingleDateSelectorQuestion,
+  addDateRangeSelectorQuestion,
+  updateDateRangeSelectorQuestion,
   updateAnswerRequired,
   copyQuestion,
   removeQuestion,
@@ -28,6 +30,7 @@ import AddQuestionBar from './components/AddQuestionBar/AddQuestionBar'
 import QuestionCardWrapper from './components/QuestionCardWrapper/QuestionCardWrapper'
 import ShortTextQuestion from './components/ShortTextQuestion/ShortTextQuestion'
 import SingleDateSelectorQuestion from './components/SingleDateSelectorQuestion/SingleDateSelectorQuestion'
+import DateRangeSelectorQuestion from './components/DateRangeSelectorQuestion/DateRangeSelectorQuestion'
 
 interface Props extends CreateEntityBaseProps {
   claimInfo: ClaimInfo
@@ -39,6 +42,11 @@ interface Props extends CreateEntityBaseProps {
   handleUpdateLongTextQuestion: (id: string, formData: FormData) => void
   handleAddSingleDateSelectorQuestion: () => void
   handleUpdateSingleDateSelectorQuestion: (
+    id: string,
+    formData: FormData,
+  ) => void
+  handleAddDateRangeSelectorQuestion: () => void
+  handleUpdateDateRangeSelectorQuestion: (
     id: string,
     formData: FormData,
   ) => void
@@ -97,6 +105,10 @@ class CreateEntityAttestation extends CreateEntityBase<Props> {
             case ControlType.SingleDateSelector:
               questionElem = this.renderSingleDateSelectorQuestion(question)
               title = questionTypeMap[ControlType.SingleDateSelector].title
+              break
+            case ControlType.DateRangeSelector:
+              questionElem = this.renderDateRangeSelectorQuestion(question)
+              title = questionTypeMap[ControlType.DateRangeSelector].title
               break
           }
 
@@ -181,11 +193,33 @@ class CreateEntityAttestation extends CreateEntityBase<Props> {
     )
   }
 
+  renderDateRangeSelectorQuestion = (question: Question): JSX.Element => {
+    const { handleUpdateDateRangeSelectorQuestion } = this.props
+    const { id, title, description, label } = question
+
+    return (
+      <DateRangeSelectorQuestion
+        ref={this.cardRefs[id]}
+        handleUpdateContent={(formData): void =>
+          handleUpdateDateRangeSelectorQuestion(id, formData)
+        }
+        handleSubmitted={(): void => this.props.handleValidated(id)}
+        handleError={(errors): void =>
+          this.props.handleValidationError(id, errors)
+        }
+        title={title}
+        description={description}
+        label={label}
+      />
+    )
+  }
+
   addQuestion = (controlType: ControlType): void => {
     const {
       handleAddShortTextQuestion,
       handleAddLongTextQuestion,
       handleAddSingleDateSelectorQuestion,
+      handleAddDateRangeSelectorQuestion,
     } = this.props
 
     switch (controlType) {
@@ -197,6 +231,9 @@ class CreateEntityAttestation extends CreateEntityBase<Props> {
         break
       case ControlType.SingleDateSelector:
         handleAddSingleDateSelectorQuestion()
+        break
+      case ControlType.DateRangeSelector:
+        handleAddDateRangeSelectorQuestion()
         break
     }
   }
@@ -248,6 +285,12 @@ const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
     id: string,
     formData: FormData,
   ): void => dispatch(updateSingleDateSelectorQuestion(id, formData)),
+  handleAddDateRangeSelectorQuestion: (): void =>
+    dispatch(addDateRangeSelectorQuestion()),
+  handleUpdateDateRangeSelectorQuestion: (
+    id: string,
+    formData: FormData,
+  ): void => dispatch(updateDateRangeSelectorQuestion(id, formData)),
   handleUpdateAnswerRequired: (id: string, required: boolean): void =>
     dispatch(updateAnswerRequired(id, required)),
   handleCopyQuestion: (id: string): void => dispatch(copyQuestion(id)),

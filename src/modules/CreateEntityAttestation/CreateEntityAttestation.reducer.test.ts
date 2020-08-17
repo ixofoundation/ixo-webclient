@@ -13,6 +13,8 @@ import {
   UpdateAnswerRequiredAction,
   RemoveQuestionAction,
   CopyQuestionAction,
+  AddDateRangeSelectorQuestionAction,
+  UpdateDateRangeSelectorQuestionAction,
 } from './types'
 import { Type, ControlType } from 'common/components/JsonForm/types'
 
@@ -438,6 +440,128 @@ describe('CreateEntityAttestation Reducer', () => {
             required: true,
             type: Type.String,
             control: ControlType.SingleDateSelector,
+            order: 20,
+          },
+        },
+      })
+    })
+  })
+
+  describe('DateRangeSelectorQuestion Actions', () => {
+    it('should add a new single date selector question and set the correct order', () => {
+      const id = 'someId'
+
+      // given ... we have an action of type CreateEntityAttestationActions.AddDateRangeSelectorQuestion
+      const action: AddDateRangeSelectorQuestionAction = {
+        type: CreateEntityAttestationActions.AddDateRangeSelectorQuestion,
+        payload: {
+          id,
+          title: undefined,
+          description: undefined,
+          label: undefined,
+          required: true,
+          type: Type.String,
+          control: ControlType.DateRangeSelector,
+        },
+      }
+
+      // when ... we run the reducer with this action
+      const result = SUT.reducer(
+        {
+          ...initialState,
+          questions: {
+            ['someExistingId']: {
+              id,
+              title: undefined,
+              description: undefined,
+              label: undefined,
+              required: true,
+              type: Type.String,
+              control: ControlType.DateRangeSelector,
+              order: 1,
+            },
+          },
+        },
+        action,
+      )
+
+      // then ... the state should be set as expected
+      expect(result).toEqual({
+        ...initialState,
+        questions: {
+          ['someExistingId']: {
+            id,
+            title: undefined,
+            description: undefined,
+            label: undefined,
+            required: true,
+            type: Type.String,
+            control: ControlType.DateRangeSelector,
+            order: 1,
+          },
+          [id]: {
+            id,
+            title: undefined,
+            description: undefined,
+            label: undefined,
+            required: true,
+            type: Type.String,
+            control: ControlType.DateRangeSelector,
+            order: 2,
+          },
+        },
+      })
+    })
+
+    it('should update the single date selector question and leave other properties in tact', () => {
+      const id = 'someId'
+      const title = 'someNewTitle'
+      const label = 'someNewLabel'
+      const description = 'someNewDescription'
+
+      // given .. we have an action of type CreateEntityAttestationActions.UpdateDateRangeSelectorQuestion
+      const action: UpdateDateRangeSelectorQuestionAction = {
+        type: CreateEntityAttestationActions.UpdateDateRangeSelectorQuestion,
+        payload: {
+          id,
+          title,
+          label,
+          description,
+        },
+      }
+
+      // when ... we run the reducer with this action
+      const result = SUT.reducer(
+        {
+          ...initialState,
+          questions: {
+            [id]: {
+              id,
+              title: 'someOldTitle',
+              label: 'someOldLabel',
+              description: 'someOldDescription',
+              required: true,
+              type: Type.String,
+              control: ControlType.DateRangeSelector,
+              order: 20,
+            },
+          },
+        },
+        action,
+      )
+
+      // then ... the state should be set as expected
+      expect(result).toEqual({
+        ...initialState,
+        questions: {
+          [id]: {
+            id,
+            title,
+            label,
+            description,
+            required: true,
+            type: Type.String,
+            control: ControlType.DateRangeSelector,
             order: 20,
           },
         },

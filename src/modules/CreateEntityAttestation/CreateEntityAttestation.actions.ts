@@ -7,6 +7,8 @@ import {
   UpdateLongTextQuestionAction,
   AddSingleDateSelectorQuestionAction,
   UpdateSingleDateSelectorQuestionAction,
+  AddDateRangeSelectorQuestionAction,
+  UpdateDateRangeSelectorQuestionAction,
   CreateEntityAttestationActions,
   UpdateAnswerRequiredAction,
   ValidatedAction,
@@ -115,6 +117,36 @@ export const updateSingleDateSelectorQuestion = (
 
   return {
     type: CreateEntityAttestationActions.UpdateSingleDateSelectorQuestion,
+    payload: {
+      id,
+      title,
+      description,
+      label,
+    },
+  }
+}
+
+export const addDateRangeSelectorQuestion = (): AddDateRangeSelectorQuestionAction => ({
+  type: CreateEntityAttestationActions.AddDateRangeSelectorQuestion,
+  payload: {
+    id: uuidv4(),
+    title: undefined,
+    description: undefined,
+    label: undefined,
+    required: true,
+    type: Type.String,
+    control: ControlType.DateRangeSelector,
+  },
+})
+
+export const updateDateRangeSelectorQuestion = (
+  id: string,
+  formData: FormData,
+): UpdateDateRangeSelectorQuestionAction => {
+  const { title, description, label } = formData
+
+  return {
+    type: CreateEntityAttestationActions.UpdateDateRangeSelectorQuestion,
     payload: {
       id,
       title,

@@ -103,6 +103,32 @@ export const reducer = (
           },
         },
       }
+    case CreateEntityAttestationActions.AddDateRangeSelectorQuestion:
+      return {
+        ...state,
+        questions: {
+          ...state.questions,
+          ...{
+            [action.payload.id]: {
+              ...action.payload,
+              order: utils.orderForNewQuestion(state.questions),
+            },
+          },
+        },
+      }
+    case CreateEntityAttestationActions.UpdateDateRangeSelectorQuestion:
+      return {
+        ...state,
+        questions: {
+          ...state.questions,
+          ...{
+            [action.payload.id]: {
+              ...state.questions[action.payload.id],
+              ...action.payload,
+            },
+          },
+        },
+      }
     case CreateEntityAttestationActions.UpdateAnswerRequired:
       return {
         ...state,

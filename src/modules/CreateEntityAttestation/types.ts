@@ -188,6 +188,33 @@ export interface UpdateSingleDateSelectorQuestionAction
   }
 }
 
+export interface AddDateRangeSelectorQuestionAction
+  extends AddQuestionAction<
+    typeof CreateEntityAttestationActions.AddDateRangeSelectorQuestion
+  > {
+  payload: {
+    id: string
+    title: string
+    description: string
+    label: string
+    required: boolean
+    type: Type
+    control: ControlType
+  }
+}
+
+export interface UpdateDateRangeSelectorQuestionAction
+  extends UpdateQuestionAction<
+    typeof CreateEntityAttestationActions.UpdateDateRangeSelectorQuestion
+  > {
+  payload: {
+    id: string
+    title: string
+    description: string
+    label: string
+  }
+}
+
 export interface UpdateAnswerRequiredAction {
   type: typeof CreateEntityAttestationActions.UpdateAnswerRequired
   payload: {
@@ -234,6 +261,8 @@ export type CreateEntityAttestationActionTypes =
   | UpdateLongTextQuestionAction
   | AddSingleDateSelectorQuestionAction
   | UpdateSingleDateSelectorQuestionAction
+  | AddDateRangeSelectorQuestionAction
+  | UpdateDateRangeSelectorQuestionAction
   | UpdateAnswerRequiredAction
   | RemoveQuestionAction
   | CopyQuestionAction

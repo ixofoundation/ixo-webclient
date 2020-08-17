@@ -165,7 +165,7 @@ describe('CreateEntityAttestation Actions', () => {
     })
 
     describe('updatedSingleDateSelectorQuestion', () => {
-      it('should update the singleDateSelectort question', () => {
+      it('should update the single date selector question', () => {
         // given ... some data
         const id = 'existingId'
         const title = 'someNewTitle'
@@ -184,6 +184,58 @@ describe('CreateEntityAttestation Actions', () => {
         // then ... we should expect it to create the action as expected
         expect(action.type).toEqual(
           CreateEntityAttestationActions.UpdateSingleDateSelectorQuestion,
+        )
+        expect(action.payload).toEqual({ id, title, description, label })
+      })
+    })
+  })
+
+  describe('dateRangeSelectorQuestion', () => {
+    describe('addDateRangeSelectorQuestion', () => {
+      it('should add a new date range selector question', () => {
+        // given ... an id
+        const id = 'newId'
+        v4.mockImplementationOnce(() => id)
+
+        // when ... we call the action
+        const action = SUT.addDateRangeSelectorQuestion()
+
+        // then ... we should expect it to create an action with the correct type
+        expect(action.type).toEqual(
+          CreateEntityAttestationActions.AddDateRangeSelectorQuestion,
+        )
+        expect(action.payload).toEqual({
+          id,
+          title: undefined,
+          description: undefined,
+          label: undefined,
+          required: true,
+          type: Type.String,
+          control: ControlType.DateRangeSelector,
+        })
+      })
+    })
+
+    describe('updatedDateRangeSelectorQuestion', () => {
+      it('should update the date range selector question', () => {
+        // given ... some data
+        const id = 'existingId'
+        const title = 'someNewTitle'
+        const description = 'someDescription'
+        const label = 'someLabel'
+
+        const formData = {
+          title,
+          description,
+          label,
+        }
+
+        // when ... we call the action
+        const action = SUT.updateDateRangeSelectorQuestion(id, formData)
+
+        // then ... we should expect it to create the action as expected
+        expect(action.type).toEqual(
+          CreateEntityAttestationActions.UpdateDateRangeSelectorQuestion,
         )
         expect(action.payload).toEqual({ id, title, description, label })
       })
