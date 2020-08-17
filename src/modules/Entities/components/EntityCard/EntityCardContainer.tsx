@@ -1,6 +1,6 @@
-import * as React from 'react';
-import { SDGArray } from '../../../../lib/commonData';
-import { excerptText, toTitleCase } from '../../../../common/utils/formatters';
+import * as React from 'react'
+import { SDGArray } from '../../../../lib/commonData'
+import { excerptText, toTitleCase } from '../../../../common/utils/formatters'
 import {
   Description,
   SDGs,
@@ -16,7 +16,7 @@ import {
   CardBottomHeadingContainer,
   Logo,
   ShieldColor,
-} from './EntityCardContainer.styles';
+} from './EntityCardContainer.styles'
 
 export interface Props {
   children: any
@@ -55,12 +55,12 @@ export const EntityCardContainer: React.FunctionComponent<Props> = ({
               key={index}
               className={`icon-sdg-${SDGArray[Math.floor(sdg) - 1].ico}`}
             />
-          );
+          )
         }
-        return null;
+        return null
       })}
     </>
-  );
+  )
 
   return (
     <CardContainer className="col-xl-4 col-md-6 col-sm-12 col-12">
@@ -102,5 +102,5 @@ export const EntityCardContainer: React.FunctionComponent<Props> = ({
         </CardBottom>
       </CardLink>
     </CardContainer>
-  );
-};
+  )
+}

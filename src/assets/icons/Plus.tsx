@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 const Plus = (props: any): JSX.Element => {
   return (
@@ -9,7 +9,7 @@ const Plus = (props: any): JSX.Element => {
     >
       <path
         d="M0 7.4h7.2V0h2.6v7.4H17V10H9.8v7.4H7.2V10H0V7.4z"
-        fill={props.fill || '#fff'}
+        fill={props.fill || "#fff"}
       />
     </svg>
   );

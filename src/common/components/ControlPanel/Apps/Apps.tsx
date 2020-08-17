@@ -1,10 +1,10 @@
-import React from 'react';
-import AppIcon from '../../../../assets/icons/Apps';
-import DownIcon from '../../../../assets/icons/Down';
-import { AppButtonsWrapper } from './Apps.styles';
-import { ControlPanelSection } from '../ControlPanel.styles';
-import { Widget } from '../types';
-import RiotChat from './RiotChat/RiotChat';
+import React from 'react'
+import AppIcon from '../../../../assets/icons/Apps'
+import DownIcon from '../../../../assets/icons/Down'
+import { AppButtonsWrapper } from './Apps.styles'
+import { ControlPanelSection } from '../ControlPanel.styles'
+import { Widget } from '../types'
+import RiotChat from './RiotChat/RiotChat'
 
 interface Props {
   widget: Widget
@@ -17,12 +17,12 @@ const Apps: React.FunctionComponent<Props> = ({
   showMore,
   toggleShowMore,
 }) => {
-  // TODO when we have more than 3 apps then set buttonClassName of apps to...
+  //TODO when we have more than 3 apps then set buttonClassName of apps to...
   // showMore ? 'show' : 'hide'
 
   const riotChatControl = controls.find(
     control => control['@type'] === 'RiotChat',
-  );
+  )
 
   return (
     <ControlPanelSection>
@@ -46,7 +46,7 @@ const Apps: React.FunctionComponent<Props> = ({
         )}
       </AppButtonsWrapper>
     </ControlPanelSection>
-  );
-};
+  )
+}
 
-export default Apps;
+export default Apps

@@ -1,5 +1,5 @@
-import { Schema, SchemaBase } from './schema/types';
-import { EntityType } from '../../types';
+import { Schema, SchemaBase } from './schema/types'
+import { EntityType } from '../../types'
 
 export const getHeaderSchema = (
   filterSector: string,
@@ -7,10 +7,10 @@ export const getHeaderSchema = (
 ): SchemaBase => {
   const headerOverride = headerSchema.overrides.find(
     override => filterSector === override.ddoTag,
-  );
+  )
 
-  return headerOverride || headerSchema;
-};
+  return headerOverride || headerSchema
+}
 
 export const getHeaderTabButtons = (
   entityType: EntityType,
@@ -23,7 +23,7 @@ export const getHeaderTabButtons = (
       path: '/',
       title: entityTitle,
     },
-  ];
+  ]
 
   if (entityType === EntityType.Project || entityType === EntityType.Cell) {
     tabButtons.push(
@@ -39,11 +39,11 @@ export const getHeaderTabButtons = (
         path: '/economy',
         title: 'ECONOMY',
       },
-    );
+    )
   }
 
-  return tabButtons;
-};
+  return tabButtons
+}
 
 /* const getHeaderTabButtons = (): any => {
   const tabButtons = [

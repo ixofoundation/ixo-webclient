@@ -1,29 +1,29 @@
-import * as React from 'react';
-import styled from 'styled-components';
-import ReactMd from 'react-md-file';
-import { Table } from 'react-bootstrap';
-import { entityTypeMap } from 'modules/Entities/strategy-map';
-import { AgentRoles, Header } from '../../../types/models';
-import { ModalWrapper } from '../../../common/components/Wrappers/ModalWrapper';
-import { UserInfo } from '../../../modules/Account/types';
-import { ProjectFounder } from '../ProjectFounder/ProjectFounder';
-
-import ProfileCard from '../ProfileCard/ProfileCard';
-import ControlPanel from '../../../common/components/ControlPanel/ControlPanel';
+import * as React from 'react'
+import styled from 'styled-components'
+import { AgentRoles } from '../../../types/models'
+import { ModalWrapper } from '../../../common/components/Wrappers/ModalWrapper'
+import { UserInfo } from '../../../modules/Account/types'
+import ReactMd from 'react-md-file'
+import { Table } from 'react-bootstrap'
+import { ProjectFounder } from '../ProjectFounder/ProjectFounder'
+import { Header } from '../../../types/models'
+import ProfileCard from '../ProfileCard/ProfileCard'
+import ControlPanel from '../../../common/components/ControlPanel/ControlPanel'
 import {
   ProjectImage,
   OverviewContainer,
   Text,
   ProfileCardsWrapper,
   InlineImageWrapper,
-} from './ProjectOverview.style';
-import { EntityType } from '../../../modules/Entities/types';
-import { toTitleCase } from '../../../common/utils/formatters';
-import { ProjectHero } from '../ProjectHero';
+} from './ProjectOverview.style'
+import { EntityType } from '../../../modules/Entities/types'
+import { toTitleCase } from '../../../common/utils/formatters'
+import { entityTypeMap } from 'modules/Entities/strategy-map'
+import { ProjectHero } from '../ProjectHero'
 
 const SidebarWrapper = styled.div`
   background: #dfe7f4;
-`;
+`
 
 const MainPanelWrapper = styled.div`
 &&& {
@@ -31,7 +31,7 @@ const MainPanelWrapper = styled.div`
     padding-left: 8rem;
   }
 }
-`;
+`
 
 export interface ParentProps {
   match: any
@@ -55,7 +55,7 @@ export interface ParentProps {
   isLoggedIn: boolean
 }
 
-export type Props = ParentProps;
+export type Props = ParentProps
 
 export const ProjectOverview: React.SFC<Props> = props => {
   const renderModalHeader = (): Header => {
@@ -64,20 +64,20 @@ export const ProjectOverview: React.SFC<Props> = props => {
       subtitle: props.modalData.subtitle,
       icon: props.modalData.icon,
       width: '360',
-    };
-  };
+    }
+  }
 
   const onProjectImageNotFound = (evt): void => {
-    evt.target.src = require('../../../assets/images/ixo-placeholder-large.jpg');
-  };
+    evt.target.src = require('../../../assets/images/ixo-placeholder-large.jpg')
+  }
 
   const getVideoID = (link): void => {
-    return link.replace('https://vimeo.com/', '');
-  };
+    return link.replace('https://vimeo.com/', '')
+  }
 
   const entityType = props.project.entityType
     ? (toTitleCase(props.project.entityType) as EntityType)
-    : EntityType.Project;
+    : EntityType.Project
   return (
     <div>
       <ModalWrapper
@@ -148,9 +148,9 @@ export const ProjectOverview: React.SFC<Props> = props => {
                             frameBorder="0"
                             allow="autoplay; fullscreen"
                             allowFullScreen
-                          />
+                          ></iframe>
                         </div>
-                        <script src="https://player.vimeo.com/api/player.js" />
+                        <script src="https://player.vimeo.com/api/player.js"></script>
                       </>
                     )}
 
@@ -180,13 +180,13 @@ export const ProjectOverview: React.SFC<Props> = props => {
                     {content.cards && (
                       <ProfileCardsWrapper>
                         {content.cards.map(user => {
-                          return <ProfileCard key={user.title} user={user} />;
+                          return <ProfileCard key={user.title} user={user} />
                         })}
                       </ProfileCardsWrapper>
                     )}
                     <hr />
                   </div>
-                );
+                )
               })}
 
             {props.project.founder && props.project.founder.name !== '' && (
@@ -206,5 +206,5 @@ export const ProjectOverview: React.SFC<Props> = props => {
         </div>
       </OverviewContainer>
     </div>
-  );
-};
+  )
+}

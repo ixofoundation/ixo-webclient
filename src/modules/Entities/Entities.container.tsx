@@ -1,19 +1,19 @@
-import * as React from 'react';
-import { Moment } from 'moment';
-import { connect } from 'react-redux';
-import { EntitiesDashboard } from './components/EntitiesDashboard/EntitiesDashboard';
-import { ProjectCard } from './components/EntityCard/ProjectCard/ProjectCard';
-import { CellCard } from './components/EntityCard/CellCard/CellCard';
-import { EntitiesHero } from './components/EntitiesHero/EntitiesHero';
-import { Spinner } from '../../common/components/Spinner';
-import { RootState } from '../../common/redux/types';
-import { contentType } from '../../types/models';
+import * as React from 'react'
+import { Moment } from 'moment'
+import { EntitiesDashboard } from './components/EntitiesDashboard/EntitiesDashboard'
+import { ProjectCard } from './components/EntityCard/ProjectCard/ProjectCard'
+import { CellCard } from './components/EntityCard/CellCard/CellCard'
+import { EntitiesHero } from './components/EntitiesHero/EntitiesHero'
+import { Spinner } from '../../common/components/Spinner'
+import { connect } from 'react-redux'
+import { RootState } from '../../common/redux/types'
+import { contentType } from '../../types/models'
 import {
   Container,
   EntitiesContainer,
   ErrorContainer,
   NoEntitiesContainer,
-} from './Entities.container.styles';
+} from './Entities.container.styles'
 import {
   getEntities,
   filterToggleUserEntities,
@@ -28,14 +28,14 @@ import {
   changeEntitiesType,
   filterCategoryTag,
   filterSector,
-} from './Entities.actions';
-import EntitiesFilter from './components/EntitiesFilter/EntitiesFilter';
-import { Entity, EntityType, Category } from './types';
-
-import { Schema as FilterSchema } from './components/EntitiesFilter/schema/types';
-import * as entitiesSelectors from './Entities.selectors';
-import * as accountSelectors from '../Account/Account.selectors';
-import { entityTypeMap } from './strategy-map';
+} from './Entities.actions'
+import EntitiesFilter from './components/EntitiesFilter/EntitiesFilter'
+import { Entity, EntityType } from './types'
+import { Category } from './types'
+import { Schema as FilterSchema } from './components/EntitiesFilter/schema/types'
+import * as entitiesSelectors from './Entities.selectors'
+import * as accountSelectors from '../Account/Account.selectors'
+import { entityTypeMap } from './strategy-map'
 
 export interface Props {
   location?: any
@@ -84,12 +84,12 @@ export interface Props {
 
 export class Entities extends React.Component<Props> {
   componentDidMount(): void {
-    this.props.handleGetEntities();
+    this.props.handleGetEntities()
   }
 
   resetWithDefaultViewFilters = (): void => {
-    this.props.handleResetFilters();
-  };
+    this.props.handleResetFilters()
+  }
 
   renderCards = (): JSX.Element[] => {
     return this.props.entities.map((entity, index) => {
@@ -110,7 +110,7 @@ export class Entities extends React.Component<Props> {
               memberCount={162} // TODO
               projectCount={3} // TODO
             />
-          );
+          )
         default:
           return (
             <ProjectCard
@@ -131,10 +131,10 @@ export class Entities extends React.Component<Props> {
               ratingScore={4.5}
               ratingCount={380}
             />
-          );
+          )
       }
-    });
-  };
+    })
+  }
 
   renderEntities = (): JSX.Element => {
     if (this.props.entitiesCount > 0) {
@@ -186,18 +186,18 @@ export class Entities extends React.Component<Props> {
             )}
           </div>
         </EntitiesContainer>
-      );
-    } 
-    return (
-      <ErrorContainer>
-        <p>
-          No {entityTypeMap[this.props.entityType].plural.toLowerCase()} were
-          found
-        </p>
-      </ErrorContainer>
-    );
-    
-  };
+      )
+    } else {
+      return (
+        <ErrorContainer>
+          <p>
+            No {entityTypeMap[this.props.entityType].plural.toLowerCase()} were
+            found
+          </p>
+        </ErrorContainer>
+      )
+    }
+  }
 
   handleRenderEntityList(): JSX.Element {
     if (this.props.isLoadingEntities) {
@@ -205,26 +205,26 @@ export class Entities extends React.Component<Props> {
         <Spinner
           info={`Loading ${entityTypeMap[this.props.entityType].plural}`}
         />
-      );
-    } 
-    if (this.props.contentType === contentType.dashboard) {
-      return (
-        <EntitiesDashboard
-          entityType={this.props.entityType}
-          requiredClaims={this.props.requiredClaimsCount}
-          successfulClaims={this.props.successfulClaimsCount}
-          pendingClaims={this.props.pendingClaimsCount}
-          rejectedClaims={this.props.rejectedClaimsCount}
-          remainingClaims={this.props.remainingClaimsCount}
-          serviceProviders={this.props.serviceProvidersCount}
-          evaluators={this.props.evaluatorsCount}
-          countries={this.props.countries}
-        />
-      );
-    } 
-    return this.renderEntities();
-      
-    
+      )
+    } else {
+      if (this.props.contentType === contentType.dashboard) {
+        return (
+          <EntitiesDashboard
+            entityType={this.props.entityType}
+            requiredClaims={this.props.requiredClaimsCount}
+            successfulClaims={this.props.successfulClaimsCount}
+            pendingClaims={this.props.pendingClaimsCount}
+            rejectedClaims={this.props.rejectedClaimsCount}
+            remainingClaims={this.props.remainingClaimsCount}
+            serviceProviders={this.props.serviceProvidersCount}
+            evaluators={this.props.evaluatorsCount}
+            countries={this.props.countries}
+          />
+        )
+      } else {
+        return this.renderEntities()
+      }
+    }
   }
 
   render(): JSX.Element {
@@ -238,7 +238,7 @@ export class Entities extends React.Component<Props> {
         />
         {this.handleRenderEntityList()}
       </Container>
-    );
+    )
   }
 }
 
@@ -287,7 +287,7 @@ function mapStateToProps(state: RootState): Record<string, any> {
     isLoadingEntities: entitiesSelectors.selectIsLoadingEntities(state),
     filterSchema: entitiesSelectors.selectFilterSchema(state),
     isLoggedIn: accountSelectors.selectUserIsLoggedIn(state),
-  };
+  }
 }
 
 const mapDispatchToProps = (dispatch: any): any => ({
@@ -312,9 +312,9 @@ const mapDispatchToProps = (dispatch: any): any => ({
     dispatch(resetCategoryFilter(category)),
   handleResetSectorFilter: (): void => dispatch(resetSectorFilter()),
   handleResetFilters: (): void => dispatch(resetFilters()),
-});
+})
 
 export const EntitiesContainerConnected = connect(
   mapStateToProps,
   mapDispatchToProps,
-)(Entities as any);
+)(Entities as any)

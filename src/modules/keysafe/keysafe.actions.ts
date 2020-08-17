@@ -1,22 +1,22 @@
-import { InitKeySafeAction, ResetKeySafeAction, KeysafeActions } from './types';
+import { InitKeySafeAction, ResetKeySafeAction, KeysafeActions } from './types'
 
 export function initKeysafe(): InitKeySafeAction {
-  let keysafe;
-  let error;
+  let keysafe
+  let error
 
-  if (!window.ixoKs) {
-    keysafe = null;
-    error = { error: 'Please install IXO Keysafe!' };
+  if (!window['ixoKs']) {
+    keysafe = null
+    error = { error: 'Please install IXO Keysafe!' }
   } else {
-    const IxoInpageProvider = window.ixoKs;
-    const ixoInpageProvider = new IxoInpageProvider();
+    const IxoInpageProvider = window['ixoKs']
+    const ixoInpageProvider = new IxoInpageProvider()
 
     if (ixoInpageProvider) {
-      keysafe = ixoInpageProvider;
-      error = {};
+      keysafe = ixoInpageProvider
+      error = {}
     } else {
-      keysafe = null;
-      error = { error: 'Please log into IXO Keysafe' };
+      keysafe = null
+      error = { error: 'Please log into IXO Keysafe' }
     }
   }
 
@@ -26,9 +26,9 @@ export function initKeysafe(): InitKeySafeAction {
       keysafe,
       error,
     },
-  };
+  }
 }
 
 export const resetKeysafe = (): ResetKeySafeAction => ({
   type: KeysafeActions.ResetKeysafe,
-});
+})

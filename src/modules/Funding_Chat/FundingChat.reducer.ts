@@ -2,14 +2,14 @@ import {
   FuelEntityState,
   FuelEntityActionTypes,
   FuelEntityActions,
-} from './types';
+} from './types'
 
 export const initialState: FuelEntityState = {
   sending: false,
   sent: false,
   error: null,
   order: null,
-};
+}
 
 export const reducer = (
   state = initialState,
@@ -20,16 +20,16 @@ export const reducer = (
       return {
         ...initialState,
         order: action.payload.order,
-      };
+      }
     case FuelEntityActions.ConfirmOrderPending:
-      return { ...state, sending: true };
+      return { ...state, sending: true }
     case FuelEntityActions.ConfirmOrderFailure:
-      return { ...state, sending: false, error: 'Api error' };
+      return { ...state, sending: false, error: 'Api error' }
     case FuelEntityActions.ConfirmOrderSuccess:
-      return { ...initialState, sent: true };
+      return { ...initialState, sent: true }
     case FuelEntityActions.CancelOrder:
-      return { ...initialState, order: null };
+      return { ...initialState, order: null }
   }
 
-  return state;
-};
+  return state
+}

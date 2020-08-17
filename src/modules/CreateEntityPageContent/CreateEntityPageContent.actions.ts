@@ -1,6 +1,6 @@
-import { v4 as uuidv4 } from 'uuid';
-import { Dispatch } from 'redux';
-import blocksyncApi from '../../common/api/blocksync-api/blocksync-api';
+import { v4 as uuidv4 } from "uuid";
+import { Dispatch } from "redux";
+import blocksyncApi from "../../common/api/blocksync-api/blocksync-api";
 import {
   CreateEntityPageContentActions,
   AddBodySectionAction,
@@ -23,9 +23,9 @@ import {
   UploadProfileContentImageAction,
   ValidatedAction,
   ValidationErrorAction,
-} from './types';
-import { FormData } from '../../common/components/JsonForm/types';
-import { PDS_URL } from '../CreateEntity/types';
+} from './types'
+import { FormData } from '../../common/components/JsonForm/types'
+import { PDS_URL } from '../../modules/CreateEntity/types'
 
 export const updateHeaderContent = (formData: FormData) => (
   dispatch: Dispatch,
@@ -38,7 +38,7 @@ export const updateHeaderContent = (formData: FormData) => (
     organisation,
     location,
     fileSrc,
-  } = formData;
+  } = formData
 
   if (fileSrc && fileSrc.startsWith('data:')) {
     return dispatch({
@@ -48,7 +48,7 @@ export const updateHeaderContent = (formData: FormData) => (
         .then((response: any) => ({
           fileSrc: `${PDS_URL}public/${response.result}`,
         })),
-    });
+    })
   }
 
   return dispatch({
@@ -61,8 +61,8 @@ export const updateHeaderContent = (formData: FormData) => (
       organisation,
       location,
     },
-  });
-};
+  })
+}
 
 export const addBodySection = (): AddBodySectionAction => ({
   type: CreateEntityPageContentActions.AddBodySection,
@@ -81,7 +81,7 @@ export const removeBodySection = (id: string): RemoveBodySectionAction => ({
 export const updateBodyContent = (id: string, formData: FormData) => (
   dispatch: Dispatch,
 ): UpdateBodyContentAction | UploadBodyContentImageAction => {
-  const { title, content, fileSrc } = formData;
+  const { title, content, fileSrc } = formData
 
   if (fileSrc && fileSrc.startsWith('data:')) {
     return dispatch({
@@ -93,7 +93,7 @@ export const updateBodyContent = (id: string, formData: FormData) => (
           id,
           fileSrc: `${PDS_URL}public/${response.result}`,
         })),
-    });
+    })
   }
 
   return dispatch({
@@ -103,8 +103,8 @@ export const updateBodyContent = (id: string, formData: FormData) => (
       title,
       content,
     },
-  });
-};
+  })
+}
 
 export const addImageSection = (): AddImageSectionAction => ({
   type: CreateEntityPageContentActions.AddImageSection,
@@ -123,7 +123,7 @@ export const removeImageSection = (id: string): RemoveImageSectionAction => ({
 export const updateImageContent = (id: string, formData: FormData) => (
   dispatch: Dispatch,
 ): UpdateImageContentAction | UploadImageContentImageAction => {
-  const { title, content, imageDescription, fileSrc } = formData;
+  const { title, content, imageDescription, fileSrc } = formData
 
   if (fileSrc && fileSrc.startsWith('data:')) {
     return dispatch({
@@ -135,7 +135,7 @@ export const updateImageContent = (id: string, formData: FormData) => (
           id,
           fileSrc: `${PDS_URL}public/${response.result}`,
         })),
-    });
+    })
   }
 
   return dispatch({
@@ -146,8 +146,8 @@ export const updateImageContent = (id: string, formData: FormData) => (
       content,
       imageDescription,
     },
-  });
-};
+  })
+}
 
 export const addProfileSection = (): AddProfileSectionAction => ({
   type: CreateEntityPageContentActions.AddProfileSection,
@@ -168,7 +168,7 @@ export const removeProfileSection = (
 export const updateProfileContent = (id: string, formData: FormData) => (
   dispatch: Dispatch,
 ): UpdateProfileContentAction | UploadProfileContentImageAction => {
-  const { name, position, linkedInUrl, twitterUrl, fileSrc } = formData;
+  const { name, position, linkedInUrl, twitterUrl, fileSrc } = formData
 
   if (fileSrc && fileSrc.startsWith('data:')) {
     return dispatch({
@@ -180,7 +180,7 @@ export const updateProfileContent = (id: string, formData: FormData) => (
           id,
           fileSrc: `${PDS_URL}public/${response.result}`,
         })),
-    });
+    })
   }
 
   return dispatch({
@@ -192,8 +192,8 @@ export const updateProfileContent = (id: string, formData: FormData) => (
       linkedInUrl,
       twitterUrl,
     },
-  });
-};
+  })
+}
 
 export const updateSocialContent = (
   formData: FormData
@@ -251,17 +251,17 @@ export const updateEmbeddedContent = (
     payload: {
       id,
       title,
-      urls: urls.split('|'),
+      urls: urls.split("|"),
     },
-  };
-};
+  }
+}
 
 export const validated = (identifier: string): ValidatedAction => ({
   type: CreateEntityPageContentActions.Validated,
   payload: {
     identifier,
   },
-});
+})
 
 export const validationError = (
   identifier: string,
@@ -272,4 +272,4 @@ export const validationError = (
     identifier,
     errors,
   },
-});
+})

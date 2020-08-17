@@ -1,14 +1,14 @@
-import styled from 'styled-components';
+import styled from 'styled-components'
 
 export const QRImg = styled.img`
   width: 150px;
   height: 150px;
-`;
+`
 
 export const QRContainer = styled.div`
   display: flex;
   justify-content: center;
-`;
+`
 
 export const QRInner = styled.div`
   background: white;
@@ -25,4 +25,4 @@ export const QRInner = styled.div`
     font-weight: 300;
     margin-top: -5px;
   }
-`;
+`

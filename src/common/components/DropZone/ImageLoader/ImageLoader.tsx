@@ -1,17 +1,17 @@
-import * as React from 'react';
-import ReactCrop from 'react-image-crop';
-import 'react-image-crop/dist/ReactCrop.css';
-import Dropzone from 'react-dropzone';
-import UploadFlat from 'assets/icons/UploadFlat';
-import { ModalWrapper } from './ImageLoader.styles';
+import * as React from 'react'
+import ReactCrop from 'react-image-crop'
+import 'react-image-crop/dist/ReactCrop.css'
+import Dropzone from 'react-dropzone'
+import { ModalWrapper } from './ImageLoader.styles'
 import {
   // DropZoneStyles,
   LoaderWrapper,
   UploadingWrapper,
-} from '../Loader.styles';
-import { strategyMap } from '../strategy-map';
-import { FileType } from '../types';
-import PulseLoader from '../../PulseLoader/PulseLoader';
+} from '../Loader.styles'
+import UploadFlat from 'assets/icons/UploadFlat'
+import { strategyMap } from '../strategy-map'
+import { FileType } from '../types'
+import PulseLoader from '../../PulseLoader/PulseLoader'
 
 export interface Props {
   uploading: boolean
@@ -33,14 +33,14 @@ export interface State {
 
 class ImageLoader extends React.Component<Props, State> {
   constructor(props: any) {
-    super(props);
+    super(props)
 
     this.state = {
       imgSrc: '',
       isModalOpen: false,
       image: null,
       crop: null,
-    };
+    }
   }
 
   reset = (): void => {
@@ -49,40 +49,40 @@ class ImageLoader extends React.Component<Props, State> {
       isModalOpen: false,
       image: null,
       crop: null,
-    });
-  };
+    })
+  }
 
   onCropChange = (crop: any): void => {
-    this.setState({ crop });
-  };
+    this.setState({ crop })
+  }
 
   onImageLoaded = (image: any): false => {
-    const { width: imageWidth, height: imageHeight } = image;
-    const { aspect } = this.props;
-    const imageAspect = imageWidth / imageHeight;
+    const { width: imageWidth, height: imageHeight } = image
+    const { aspect } = this.props
+    const imageAspect = imageWidth / imageHeight
 
-    let width;
-    let height;
-    let x;
-    let y;
+    let width
+    let height
+    let x
+    let y
 
     if (aspect) {
       if (aspect > imageAspect) {
-        width = imageWidth;
-        height = imageWidth / aspect;
-        x = 0;
-        y = (imageHeight - height) / 2;
+        width = imageWidth
+        height = imageWidth / aspect
+        x = 0
+        y = (imageHeight - height) / 2
       } else {
-        width = imageHeight * aspect;
-        height = imageHeight;
-        x = (imageWidth - width) / 2;
-        y = 0;
+        width = imageHeight * aspect
+        height = imageHeight
+        x = (imageWidth - width) / 2
+        y = 0
       }
     } else {
-      width = imageWidth;
-      height = imageHeight;
-      x = 0;
-      y = 0;
+      width = imageWidth
+      height = imageHeight
+      x = 0
+      y = 0
     }
 
     this.setState({
@@ -96,62 +96,62 @@ class ImageLoader extends React.Component<Props, State> {
         x,
         y,
       },
-    });
+    })
 
-    return false;
-  };
+    return false
+  }
 
   cancel = (): void => {
-    this.setState({ isModalOpen: false });
-    this.reset();
-  };
+    this.setState({ isModalOpen: false })
+    this.reset()
+  }
 
   save = (): void => {
     const {
       crop: { width: cropWidth, height: cropHeight },
-    } = this.state;
+    } = this.state
 
-    let base64EncodedImage: string;
+    let base64EncodedImage: string
 
     if (cropWidth && cropHeight) {
-      base64EncodedImage = this.getCroppedImg();
+      base64EncodedImage = this.getCroppedImg()
     } else {
-      base64EncodedImage = this.getUncroppedImg();
+      base64EncodedImage = this.getUncroppedImg()
     }
 
-    this.props.handleSave(base64EncodedImage);
-    this.reset();
-  };
+    this.props.handleSave(base64EncodedImage)
+    this.reset()
+  }
 
   onComplete = (crop: any): void => {
-    this.setState({ crop });
-  };
+    this.setState({ crop })
+  }
 
   getCroppedImg = (): string => {
-    const { image, crop } = this.state;
-    const { circularCrop } = this.props;
+    const { image, crop } = this.state
+    const { circularCrop } = this.props
 
-    const scaleX = image.naturalWidth / image.width;
-    const scaleY = image.naturalHeight / image.height;
+    const scaleX = image.naturalWidth / image.width
+    const scaleY = image.naturalHeight / image.height
 
-    const canvas = document.createElement('canvas');
-    canvas.width = crop.width;
-    canvas.height = crop.height;
+    const canvas = document.createElement('canvas')
+    canvas.width = crop.width
+    canvas.height = crop.height
 
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext('2d')
 
     if (circularCrop) {
-      ctx?.beginPath();
+      ctx?.beginPath()
       ctx?.arc(
         crop.width / 2,
         crop.height / 2,
         crop.width / 2,
         0,
         2 * Math.PI, // 4 radians is the entire circumference
-      ); // draw the circle
-      ctx?.clip(); // call the clip method so the next render is clipped in last path
-      ctx?.stroke();
-      ctx?.closePath();
+      ) // draw the circle
+      ctx?.clip() //call the clip method so the next render is clipped in last path
+      ctx?.stroke()
+      ctx?.closePath()
     }
 
     ctx?.drawImage(
@@ -164,45 +164,45 @@ class ImageLoader extends React.Component<Props, State> {
       0,
       crop.width,
       crop.height,
-    );
+    )
 
-    return canvas.toDataURL();
-  };
+    return canvas.toDataURL()
+  }
 
   getUncroppedImg = (): string => {
-    const { imgSrc } = this.state;
+    const { imgSrc } = this.state
 
-    const image = document.createElement('img');
-    image.src = imgSrc;
+    const image = document.createElement('img')
+    image.src = imgSrc
 
-    const canvas = document.createElement('canvas');
-    canvas.width = image.width;
-    canvas.height = image.height;
+    const canvas = document.createElement('canvas')
+    canvas.width = image.width
+    canvas.height = image.height
 
-    const ctx = canvas.getContext('2d');
-    ctx?.drawImage(image, 0, 0);
+    const ctx = canvas.getContext('2d')
+    ctx?.drawImage(image, 0, 0)
 
-    return canvas.toDataURL();
-  };
+    return canvas.toDataURL()
+  }
 
   onDropAccepted = (files: any): void => {
-    const file = files[0];
+    const file = files[0]
 
-    const reader = new FileReader();
+    const reader = new FileReader()
 
     reader.onload = (e2): void => {
       this.setState({
         imgSrc: e2?.target?.result,
         isModalOpen: true,
-      });
-    };
+      })
+    }
 
-    reader.readAsDataURL(file);
-  };
+    reader.readAsDataURL(file)
+  }
 
   renderCroppingModal = (): JSX.Element => {
-    const { isModalOpen, imgSrc, crop } = this.state;
-    const { circularCrop, keepCropSelection, maxDimension } = this.props;
+    const { isModalOpen, imgSrc, crop } = this.state
+    const { circularCrop, keepCropSelection, maxDimension } = this.props
 
     return (
       <>
@@ -240,11 +240,11 @@ class ImageLoader extends React.Component<Props, State> {
           </ModalWrapper>
         )}
       </>
-    );
-  };
+    )
+  }
 
   render(): JSX.Element {
-    const { uploading, uploadedImageSrc, previewWidth } = this.props;
+    const { uploading, uploadedImageSrc, previewWidth } = this.props
 
     if (uploading) {
       return (
@@ -256,7 +256,7 @@ class ImageLoader extends React.Component<Props, State> {
             <p>Uploading...</p>
           </UploadingWrapper>
         </LoaderWrapper>
-      );
+      )
     }
 
     if (uploadedImageSrc) {
@@ -280,7 +280,7 @@ class ImageLoader extends React.Component<Props, State> {
           </Dropzone>
           {this.renderCroppingModal()}
         </LoaderWrapper>
-      );
+      )
     }
 
     return (
@@ -291,7 +291,7 @@ class ImageLoader extends React.Component<Props, State> {
           // style={DropZoneStyles}
         >
           {() => (
-            <>
+            <React.Fragment>
               <PulseLoader repeat={false}>
                 <UploadFlat width={32} fill="#39C3E6" />
               </PulseLoader>
@@ -300,13 +300,13 @@ class ImageLoader extends React.Component<Props, State> {
                 {strategyMap[FileType.Image].uploadButtonText}
               </button>
               <small>{strategyMap[FileType.Image].fileTypesText}</small>
-            </>
+            </React.Fragment>
           )}
         </Dropzone>
         {this.renderCroppingModal()}
       </LoaderWrapper>
-    );
+    )
   }
 }
 
-export default ImageLoader;
+export default ImageLoader

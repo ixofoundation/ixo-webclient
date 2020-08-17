@@ -1,7 +1,7 @@
-import { Moment } from 'moment';
-import { Schema as FilterSchema } from './components/EntitiesFilter/schema/types';
-import { Schema as HeaderSchema } from './components/EntitiesHero/schema/types';
-import { Schema as ControlPanelSchema } from '../../common/components/ControlPanel/types';
+import { Moment } from 'moment'
+import { Schema as FilterSchema } from './components/EntitiesFilter/schema/types'
+import { Schema as HeaderSchema } from './components/EntitiesHero/schema/types'
+import { Schema as ControlPanelSchema } from '../../common/components/ControlPanel/types'
 
 export enum EntityType {
   Project = 'Project',
@@ -184,92 +184,92 @@ export type EntityTypeStrategyMap = {
     filterSchema: FilterSchema
     controlPanelSchema: ControlPanelSchema
   }
-};
+}
 
 export type EntityStatusStrategyMap = {
   [TKey in EntityStatus]: {
     title: string
   }
-};
+}
 
 export type EntityStageStrategyMap = {
   [TKey in EntityStage]: {
     title: string
   }
-};
+}
 
 export type EntityViewStrategyMap = {
   [TKey in EntityView]: {
     title: string
   }
-};
+}
 
 // these types an potentially go in a different module
 export type PageViewStrategyMap = {
   [TKey in PageView]: {
     title: string
   }
-};
+}
 
 export type PaymentTypeStrategyMap = {
   [TKey in PaymentType]: {
     title: string
   }
-};
+}
 
 export type PaymentDenominationStrategyMap = {
   [TKey in PaymentDenomination]: {
     title: string
   }
-};
+}
 
 export type StakeTypeStrategyMap = {
   [TKey in StakeType]: {
     title: string
   }
-};
+}
 
 export type SlashingConditionStrategyMap = {
   [TKey in SlashingCondition]: {
     title: string
   }
-};
+}
 
 export type FundSourceStrategyMap = {
   [TKey in FundSource]: {
     title: string
   }
-};
+}
 
 export type NodeTypeStrategyMap = {
   [TKey in NodeType]: {
     title: string
   }
-};
+}
 
 export type KeyTypeStrategyMap = {
   [TKey in KeyType]: {
     title: string
   }
-};
+}
 
 export type KeyPurposeStrategyMap = {
   [TKey in KeyPurpose]: {
     title: string
   }
-};
+}
 
 export type ServiceTypeStrategyMap = {
   [TKey in ServiceType]: {
     title: string
   }
-};
+}
 
 export type DataResourceTypeStrategyMap = {
   [TKey in DataResourceType]: {
     title: string
   }
-};
+}
 
 export enum EntitiesActions {
   GetEntities = 'ixo/Entities/GET_ENTITIES',
@@ -399,4 +399,4 @@ export type EntitiesActionTypes =
   | ResetDatesFilterAction
   | ResetCategoryFilterAction
   | ResetSectorFilterAction
-  | ResetFiltersAction;
+  | ResetFiltersAction

@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 interface Props {
   show: boolean
@@ -9,7 +9,7 @@ const Mobile: React.FunctionComponent<Props> = ({ show }) => {
     <div className={`show-more-container ${show ? 'show' : ''}`}>
       Coming soon
     </div>
-  );
-};
+  )
+}
 
-export default Mobile;
+export default Mobile

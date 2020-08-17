@@ -1,16 +1,16 @@
-import React from 'react';
-import Down from 'assets/icons/Down';
-import ConnectionIcon from 'assets/icons/Connections';
-import Share from 'assets/icons/Share';
-import Mobile from 'assets/icons/OpenOnMobile';
-import Forum from 'assets/icons/Forum';
-import { Tooltip } from 'common/components/Tooltip';
-import { ControlPanelSection } from '../ControlPanel.styles';
-import { ConnectionButtonsWrapper } from './Connections.styles';
-import { ConnectionType, Widget, Control } from '../types';
-import MobileConnection from './Mobile/Mobile';
-import ShareConnection from './Share/Share';
-import ForumConnection from './Forum/Forum';
+import React from "react";
+import Down from "assets/icons/Down";
+import ConnectionIcon from "assets/icons/Connections";
+import Share from "assets/icons/Share";
+import Mobile from "assets/icons/OpenOnMobile";
+import Forum from "assets/icons/Forum";
+import { ControlPanelSection } from "../ControlPanel.styles";
+import { ConnectionButtonsWrapper } from "./Connections.styles";
+import { ConnectionType, Widget, Control } from "../types";
+import MobileConnection from "./Mobile/Mobile";
+import ShareConnection from "./Share/Share";
+import ForumConnection from "./Forum/Forum";
+import { Tooltip } from "common/components/Tooltip";
 
 interface Props {
   widget: Widget;
@@ -30,7 +30,7 @@ const Connections: React.FunctionComponent<Props> = ({
   handleConnectionClick,
 }) => {
   const findControl = (type: ConnectionType): Control | undefined =>
-    controls?.find((conn) => conn['@type'] === type);
+    controls?.find((conn) => conn["@type"] === type);
 
   return (
     <ControlPanelSection>
@@ -41,7 +41,7 @@ const Connections: React.FunctionComponent<Props> = ({
         {title}
         <div
           onClick={(): void => handleConnectionClick(ConnectionType.Forum)}
-          className={`arrow-icon ${selectedConnection ? 'active' : ''}`}
+          className={`arrow-icon ${selectedConnection ? "active" : ""}`}
         >
           <Down width="16" fill="#BDBDBD" />
         </div>
@@ -77,7 +77,7 @@ const Connections: React.FunctionComponent<Props> = ({
             show={selectedConnection === ConnectionType.Share}
             twitterShareText={
               findControl(ConnectionType?.Share)?.parameters.find(
-                (p) => p.name === 'twitterShareText'
+                (p) => p.name === "twitterShareText"
               )?.value!
             }
           />

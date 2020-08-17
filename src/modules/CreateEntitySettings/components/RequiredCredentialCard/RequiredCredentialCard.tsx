@@ -1,7 +1,7 @@
-import React from 'react';
-import MultiControlForm from '../../../../common/components/JsonForm/MultiControlForm/MultiControlForm';
-import { LinkButton } from '../../../../common/components/JsonForm/JsonForm.styles';
-import { FormCardProps } from '../../../CreateEntity/types';
+import React from 'react'
+import MultiControlForm from '../../../../common/components/JsonForm/MultiControlForm/MultiControlForm'
+import { LinkButton } from '../../../../common/components/JsonForm/JsonForm.styles'
+import { FormCardProps } from '../../../CreateEntity/types'
 
 interface Props extends FormCardProps {
   credential: string
@@ -23,7 +23,7 @@ const RequiredCredential: React.FunctionComponent<Props> = React.forwardRef(
     const formData = {
       credential,
       issuer,
-    };
+    }
 
     const schema = {
       type: 'object',
@@ -38,16 +38,16 @@ const RequiredCredential: React.FunctionComponent<Props> = React.forwardRef(
           title: 'Credential Issuer',
         },
       },
-    } as any;
+    } as any
 
     const uiSchema = {
       credential: {
-        'ui:placeholder': 'Enter Identifier',
+        ['ui:placeholder']: 'Enter Identifier',
       },
       issuer: {
-        'ui:placeholder': 'Enter DID or !name',
+        ['ui:placeholder']: 'Enter DID or !name',
       },
-    };
+    }
 
     return (
       <>
@@ -69,8 +69,8 @@ const RequiredCredential: React.FunctionComponent<Props> = React.forwardRef(
           </LinkButton>
         </div>
       </>
-    );
+    )
   },
-);
+)
 
-export default RequiredCredential;
+export default RequiredCredential

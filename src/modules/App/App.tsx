@@ -1,27 +1,26 @@
-import * as React from 'react';
-import { withRouter } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { ToastContainer } from 'react-toastify';
-import * as ReactGA from 'react-ga';
-import { ThemeProvider } from 'styled-components';
+import * as React from "react";
+import { withRouter } from "react-router-dom";
+import { connect } from "react-redux";
+import { ToastContainer } from "react-toastify";
+import * as ReactGA from "react-ga";
+import { ThemeProvider } from "styled-components";
 
-import { HeaderConnected } from '../../common/components/Header/HeaderContainer';
-import Footer from '../../common/components/Footer/FooterContainer';
-import { RootState } from '../../common/redux/types';
-import { theme, Container, ContentWrapper } from './App.styles';
-import { initIxo } from '../ixo/ixo.actions';
-import { initKeysafe } from '../keysafe/keysafe.actions';
-import { UserInfo } from '../Account/types';
-import { updateLoginStatus } from '../Account/Account.actions';
-import ScrollToTop from '../../common/components/ScrollToTop';
-import { Routes } from '../../common/routing/Routes';
-import { Spinner } from '../../common/components/Spinner';
-import { connectWeb3 } from '../web3/web3.actions';
-import '../../assets/icons.css';
+import { HeaderConnected } from "../../common/components/Header/HeaderContainer";
+import Footer from "../../common/components/Footer/FooterContainer";
+import { RootState } from "../../common/redux/types";
+import { theme, Container, ContentWrapper } from "./App.styles";
+import { initIxo } from "../ixo/ixo.actions";
+import { initKeysafe } from "../keysafe/keysafe.actions";
+import { UserInfo } from "../Account/types";
+import { updateLoginStatus } from "../Account/Account.actions";
+import ScrollToTop from "../../common/components/ScrollToTop";
+import { Routes } from "../../common/routing/Routes";
+import { Spinner } from "../../common/components/Spinner";
+import { connectWeb3 } from "../web3/web3.actions";
+import "../../assets/icons.css";
+require("dotenv").config();
 
-require('dotenv').config();
-
-ReactGA.initialize('UA-106630107-5');
+ReactGA.initialize("UA-106630107-5");
 ReactGA.pageview(window.location.pathname + window.location.search);
 
 export interface State {
@@ -89,7 +88,7 @@ class App extends React.Component<Props, State> {
         this.props.ixo.network
           .pingIxoExplorer()
           .then((result) => {
-            if (result === 'API is running') {
+            if (result === "API is running") {
               const t1 = performance.now();
               resolve(Math.trunc(t1 - t0));
             } else {
@@ -119,11 +118,11 @@ class App extends React.Component<Props, State> {
             <ContentWrapper>
               {(this.props.ixo !== null &&
                 this.props.loginStatusCheckCompleted) ||
-              (this.props.ixo !== null && !window.ixoKs) ? (
+              (this.props.ixo !== null && !window["ixoKs"]) ? (
                 <Routes />
-                ) : (
-                  <Spinner info="Loading ixo.world..." />
-                )}
+              ) : (
+                <Spinner info={"Loading ixo.world..."} />
+              )}
             </ContentWrapper>
             <Footer />
           </Container>

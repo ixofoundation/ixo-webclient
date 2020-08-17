@@ -1,9 +1,9 @@
 export class Ixo {
-  project;
+  project
 
   constructor() {
     this.project = {
       createPublic: jest.fn(() => Promise.resolve({ result: 'somePublicDid' })),
-    };
+    }
   }
 }

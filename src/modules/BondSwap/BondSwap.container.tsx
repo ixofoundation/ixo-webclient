@@ -1,10 +1,10 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import { BrowserRouter, Route, Redirect } from 'react-router-dom';
-import { RootState } from '../../common/redux/types';
-import EnterSwapOrder from './components/EnterSwapOrder';
-import ConfirmSwapOrder from './components/ConfirmSwapOrder';
-import * as bondSwapSelectors from './BondSwap.selectors';
+import React from "react";
+import { RootState } from "../../common/redux/types";
+import { connect } from "react-redux";
+import { BrowserRouter, Route, Redirect } from "react-router-dom";
+import EnterSwapOrder from "./components/EnterSwapOrder";
+import ConfirmSwapOrder from "./components/ConfirmSwapOrder";
+import * as bondSwapSelectors from "./BondSwap.selectors";
 
 interface Props {
   projectDID: string;
@@ -36,7 +36,7 @@ const BondSwap: React.FunctionComponent<Props> = ({
                       to={`/projects/${projectDID}/bonds/${bondDID}/exchange/swap/confirm`}
                     />
                   );
-                } if (activeBondType != 'swapper_function') {
+                } else if (activeBondType != "swapper_function") {
                   return (
                     <Redirect
                       from={`/projects/${projectDID}/bonds/${bondDID}/exchange/swap`}
@@ -44,9 +44,9 @@ const BondSwap: React.FunctionComponent<Props> = ({
                       to={`/projects/${projectDID}/bonds/${bondDID}/exchange/`}
                     />
                   );
-                } 
-                return <EnterSwapOrder {...props} />;
-                
+                } else {
+                  return <EnterSwapOrder {...props} />;
+                }
               }}
             />
             <Route

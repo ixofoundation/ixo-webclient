@@ -1,21 +1,21 @@
-import * as React from 'react';
-import { NavLink } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { decode as base64Decode } from 'base-64';
-import styled from 'styled-components';
-import * as queryString from 'query-string';
-import { successToast, errorToast } from '../../../common/utils/Toast';
-import { ErrorTypes } from '../../../types/models';
-import { RootState } from '../../../common/redux/types';
-import { Banner } from './Banner';
-import { ImageSpinner } from '../../../common/components/Form/ImageSpinner';
-import Success from '../../../assets/icons/Success';
+import * as React from 'react'
+import { NavLink } from 'react-router-dom'
+import { RootState } from '../../../common/redux/types'
+import { connect } from 'react-redux'
+import { decode as base64Decode } from 'base-64'
+import styled from 'styled-components'
+import { successToast, errorToast } from '../../../common/utils/Toast'
+import { ErrorTypes } from '../../../types/models'
+import * as queryString from 'query-string'
+import { Banner } from './Banner'
+import { ImageSpinner } from '../../../common/components/Form/ImageSpinner'
+import Success from '../../../assets/icons/Success'
 
 const CreateContainer = styled.div`
   display: flex;
   flex: 1;
   flex-direction: column;
-`;
+`
 
 const Container = styled.div`
   button {
@@ -26,7 +26,7 @@ const Container = styled.div`
   display: flex;
   background-color: #fafafa;
   align-items: center;
-`;
+`
 
 const BottomContainer = styled.div`
   display: flex;
@@ -41,7 +41,7 @@ const BottomContainer = styled.div`
   p {
     color: white;
   }
-`;
+`
 
 const ModalContainer = styled.div`
   font-family: ${/* eslint-disable-line */ props =>
@@ -69,11 +69,11 @@ const ModalContainer = styled.div`
   a {
     margin: 30px 0;
   }
-`;
+`
 
 const ApprovedIcon = styled.div`
   padding-bottom: 10px;
-`;
+`
 
 const Title = styled.h2`
   font-family: ${/* eslint-disable-line */ props =>
@@ -82,7 +82,7 @@ const Title = styled.h2`
   font-size: 24px;
   letter-spacing: 0.16px;
   line-height: 32px;
-`;
+`
 
 const Content = styled.p`
   font-family: ${/* eslint-disable-line */ props => props.theme.fontRoboto};
@@ -90,13 +90,13 @@ const Content = styled.p`
   font-size: 18px;
   font-weight: 300;
   line-height: 24px;
-`;
+`
 
 const ButtonLink = styled(NavLink)`
 	color: ${/* eslint-disable-line */ props => props.theme.fontGrey};
 	font-family: ${
     /* eslint-disable-line */ props => props.theme.fontRobotoCondensed
-};
+  };
 	font-size: 16px;
 	font-weight: 400;
 	letter-spacing: 0.92px;
@@ -120,7 +120,7 @@ const ButtonLink = styled(NavLink)`
  		text-decoration:none;
  		&&{color: ${/* eslint-disable-line */ props => props.theme.fontBlue};}}
  	}
-`;
+`
 
 export interface StateProps {
   ixo: any
@@ -141,14 +141,14 @@ export interface Props extends ParentProps, StateProps {}
 export class ProjectSignAndCreate extends React.Component<Props, State> {
   state = {
     status: '',
-  };
+  }
 
   fetchProjectFile = (key: string, pdsURL: string): void => {
     this.props.ixo.project
       .fetchPublic(key, pdsURL)
       .then((res: any) => {
-        const fileContents = base64Decode(res.data);
-        return fileContents;
+        const fileContents = base64Decode(res.data)
+        return fileContents
       })
       .then(projectJson => {
         this.props.keysafe.requestSigning(
@@ -158,33 +158,33 @@ export class ProjectSignAndCreate extends React.Component<Props, State> {
               .createProject(JSON.parse(projectJson), signature, pdsURL)
               .then((res: any) => {
                 if (res.error) {
-                  errorToast(res.error.message, ErrorTypes.message);
+                  errorToast(res.error.message, ErrorTypes.message)
                 } else {
-                  this.setState({ status: 'Project created successfully' });
-                  successToast('Project created successfully');
+                  this.setState({ status: 'Project created successfully' })
+                  successToast('Project created successfully')
                 }
-              });
+              })
           },
           'base64',
-        );
-      });
-  };
+        )
+      })
+  }
 
   componentDidMount(): void {
     if (this.props.keysafe === null) {
-      errorToast('Please install IXO Credential Manager first.');
-      this.setState({ status: 'Please install IXO Credential Manager first.' });
+      errorToast('Please install IXO Credential Manager first.')
+      this.setState({ status: 'Please install IXO Credential Manager first.' })
     } else {
-      this.handleGetProjectData();
+      this.handleGetProjectData()
     }
   }
 
   handleGetProjectData = (): void => {
-    const params = queryString.parse(this.props.location.search);
-    const key = decodeURIComponent(params.key as string);
-    const pdsURL = decodeURIComponent(params.url as string);
-    this.fetchProjectFile(key, pdsURL);
-  };
+    const params = queryString.parse(this.props.location.search)
+    const key = decodeURIComponent(params.key as string)
+    const pdsURL = decodeURIComponent(params.url as string)
+    this.fetchProjectFile(key, pdsURL)
+  }
 
   renderModal = (): JSX.Element => {
     if (this.state.status === '') {
@@ -192,28 +192,28 @@ export class ProjectSignAndCreate extends React.Component<Props, State> {
         <ModalContainer>
           <ImageSpinner info="Creating your project..." />
         </ModalContainer>
-      );
-    } 
-    return (
-      <ModalContainer>
-        <ApprovedIcon>
-          <Success fill="#5AB946" width="64" />
-        </ApprovedIcon>
-        <Title>
-          Congratulations - your project has been successfully created in
-          ixo.world!
-        </Title>
-        <Content>
-          You can now recruit your service providers and evaluating agents by
-          sharing your project page.
-        </Content>
-        <ButtonLink exact={true} to="/">
-          View your Project
-        </ButtonLink>
-      </ModalContainer>
-    );
-    
-  };
+      )
+    } else {
+      return (
+        <ModalContainer>
+          <ApprovedIcon>
+            <Success fill="#5AB946" width="64" />
+          </ApprovedIcon>
+          <Title>
+            Congratulations - your project has been successfully created in
+            ixo.world!
+          </Title>
+          <Content>
+            You can now recruit your service providers and evaluating agents by
+            sharing your project page.
+          </Content>
+          <ButtonLink exact={true} to="/">
+            View your Project
+          </ButtonLink>
+        </ModalContainer>
+      )
+    }
+  }
 
   render(): JSX.Element {
     return (
@@ -222,7 +222,7 @@ export class ProjectSignAndCreate extends React.Component<Props, State> {
         <Container>{this.renderModal()}</Container>
         <BottomContainer />
       </CreateContainer>
-    );
+    )
   }
 }
 
@@ -230,9 +230,9 @@ function mapStateToProps(state: RootState): StateProps {
   return {
     ixo: state.ixo.ixo,
     keysafe: state.keySafe.keysafe,
-  };
+  }
 }
 
 export const ProjectSignAndCreateConnected = connect(mapStateToProps)(
   ProjectSignAndCreate,
-);
+)

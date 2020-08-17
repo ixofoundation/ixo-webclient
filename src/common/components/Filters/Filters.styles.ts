@@ -1,6 +1,6 @@
-import styled from 'styled-components';
-import { NavLink } from 'react-router-dom';
-import { deviceWidth } from '../../../lib/commonData';
+import styled from 'styled-components'
+import { deviceWidth } from '../../../lib/commonData'
+import { NavLink } from 'react-router-dom'
 
 export const FiltersWrap = styled.div`
   font-family: 'Roboto' sans-serif;
@@ -18,7 +18,7 @@ export const FiltersWrap = styled.div`
       flex: 0 1 auto;
     }
   }
-`;
+`
 
 export const FilterInfo = styled.h3`
   font-style: normal;
@@ -26,7 +26,7 @@ export const FilterInfo = styled.h3`
   font-size: 1.5rem;
   line-height: 1.2;
   font-family: 'Roboto', sans-serif;
-`;
+`
 
 export const Button = styled.button`
   background-color: white;
@@ -51,7 +51,7 @@ export const Button = styled.button`
   svg {
     margin-right: 0.375rem;
   }
-`;
+`
 
 export const ButtonWrapper = styled.div`
   position: relative;
@@ -86,7 +86,7 @@ export const ButtonWrapper = styled.div`
     border-width: 0 1rem 1.1rem 1rem;
     border-color: transparent transparent white transparent;
   }
-`;
+`
 
 export const FilterModal = styled.div`
   position: absolute;
@@ -98,7 +98,7 @@ export const FilterModal = styled.div`
   top: 100%;
   left: 50%;
   transform: translateX(-50%);
-`;
+`
 
 export const ModalItems = styled.div`
   display: flex;
@@ -107,7 +107,7 @@ export const ModalItems = styled.div`
   @media (min-width: ${deviceWidth.tablet}px) {
     max-height: 380px;
   }
-`;
+`
 
 export const FilterSelectButton = styled.div`
   width: calc(100% / 3);
@@ -284,14 +284,14 @@ export const FilterSelectButton = styled.div`
   &.buttonPressed {
     border: 2px solid #fff;
   }
-`;
+`
 
 export const FilterAmount = styled.div`
   :before {
     content: '·';
     margin: 0 0.25rem;
   }
-`;
+`
 
 export const ModalButtons = styled.div`
   display: flex;
@@ -303,19 +303,19 @@ export const ModalButtons = styled.div`
     border: none !important;
     border-radius: 4px;
   }
-`;
+`
 
 export const ResetButton = styled.button`
   background: transparent;
   padding: 1rem 0;
-`;
+`
 
 export const ApplyButton = styled.button`
   padding: 1rem 2rem;
   background: #04d0fb;
   background: linear-gradient(180deg, #04d0fb 0%, #49bfe0 100%);
   color: white;
-`;
+`
 
 export const DatePickerModal = styled.div`
   position: absolute;
@@ -350,13 +350,13 @@ export const DatePickerModal = styled.div`
     width: 0;
     height: 0;
   }
-`;
+`
 
 export const DoneButtonWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-`;
+`
 
 export const MobileDatePicker = styled.div`
   height: 100%;
@@ -371,7 +371,7 @@ export const MobileDatePicker = styled.div`
   ${DoneButtonWrapper} {
     padding: 1.25rem;
   }
-`;
+`
 
 export const ResetButtonDatePicker = styled.div`
   position: absolute;
@@ -387,7 +387,7 @@ export const ResetButtonDatePicker = styled.div`
   align-items: center;
   border-radius: 4px;
   cursor: pointer;
-`;
+`
 
 export const ApplyButtonDatePicker = styled.div`
   position: absolute;
@@ -406,7 +406,7 @@ export const ApplyButtonDatePicker = styled.div`
   padding: 1rem;
   border-radius: 4px;
   cursor: pointer;
-`;
+`
 
 const HeaderLink = styled(NavLink)`
   color: white;
@@ -428,7 +428,7 @@ const HeaderLink = styled(NavLink)`
 
   &:first-child.active {
     color: ${/* eslint-disable-line */ props =>
-    props.theme.fontBlueButtonHover};
+      props.theme.fontBlueButtonHover};
     font-weight: 400;
   }
 
@@ -445,7 +445,7 @@ const HeaderLink = styled(NavLink)`
     margin: 0 10px;
     font-size: 13px;
   }
-`;
+`
 
 export const Burger = styled.div`
   position: relative;
@@ -480,7 +480,7 @@ export const Burger = styled.div`
     transform: rotate(45deg) translate(-6px, -6px);
     transform-origin: center;
   }
-`;
+`
 
 export const Menu = styled.div`
   ${HeaderLink} {
@@ -503,7 +503,7 @@ export const Menu = styled.div`
       transform: translateX(-75%);
     }
   }
-`;
+`
 
 export const MobileMenu = styled(Menu)`
   position: fixed;
@@ -520,7 +520,7 @@ export const MobileMenu = styled(Menu)`
     opacity: 1;
     pointer-events: auto;
   }
-`;
+`
 
 export const MobileDatesMenu = styled(Menu)`
   position: fixed;
@@ -538,12 +538,12 @@ export const MobileDatesMenu = styled(Menu)`
     opacity: 1;
     pointer-events: auto;
   }
-`;
+`
 
 export const MobileButtonWrapper = styled.div`
   display: block;
   margin: 1.625rem 0;
-`;
+`
 export const MobileButton = styled.button`
   color: black;
   background: transparent;
@@ -556,14 +556,14 @@ export const MobileButton = styled.button`
     transform: rotate(-90deg);
     float: right;
   }
-`;
+`
 export const MobileFilterHeader = styled.header`
   background: #002a3f;
   padding: 1.625rem 1.25rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
-`;
+`
 
 export const MobileDateHeader = styled.header`
   background: #002a3f;
@@ -573,7 +573,7 @@ export const MobileDateHeader = styled.header`
   justify-content: space-between;
   align-items: center;
   background-color: #002a3f;
-`;
+`
 
 export const DateDisplay = styled.div`
   width: 100%;
@@ -585,7 +585,7 @@ export const DateDisplay = styled.div`
     max-height: 100%;
     transform: rotate(180deg);
   }
-`;
+`
 
 export const DateInput = styled.div`
   position: relative;
@@ -602,7 +602,7 @@ export const DateInput = styled.div`
   &:hover {
     border-color: #fff;
   }
-`;
+`
 
 export const DoneButton = styled.button`
   position: relative;
@@ -627,7 +627,7 @@ export const DoneButton = styled.button`
     width: 100vw;
     background-color: #e8edee;
   }
-`;
+`
 
 export const MobileFilterHeading = styled.h3`
   color: #000;
@@ -641,7 +641,7 @@ export const MobileFilterHeading = styled.h3`
   @media (max-width: ${deviceWidth.mobile}px) {
     margin: 0.5rem 0 1rem;
   }
-`;
+`
 
 export const HeadingItem = styled.button`
   cursor: pointer;
@@ -653,7 +653,7 @@ export const HeadingItem = styled.button`
   -webkit-appearance: none;
   -moz-appearance: none;
   padding: 0;
-`;
+`
 
 export const MobileFilterWrapper = styled.div`
   padding: 1.25rem;
@@ -661,7 +661,7 @@ export const MobileFilterWrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-`;
+`
 
 export const MobileFilterModal = styled.div`
   position: fixed;
@@ -671,11 +671,11 @@ export const MobileFilterModal = styled.div`
   left: 0;
   background: #ffffff;
   z-index: 13;
-`;
+`
 export const BurgerMenuButton = styled(Button)`
   display: none;
 
   @media (max-width: ${deviceWidth.desktop - 1}px) {
     display: block;
   }
-`;
+`

@@ -1,18 +1,18 @@
-import React from 'react';
-import { customControls } from '../../../../common/components/JsonForm/types';
+import React from 'react'
+import { customControls } from '../../../../common/components/JsonForm/types'
 import {
   PaymentDenomination,
   KeyPurpose,
   KeyType,
-} from '../../../Entities/types';
+} from '../../../Entities/types'
 import {
   paymentDenominationMap,
   keyPurposeMap,
   keyTypeMap,
-} from '../../../Entities/strategy-map';
-import MultiControlForm from '../../../../common/components/JsonForm/MultiControlForm/MultiControlForm';
-import { FormCardProps } from '../../../CreateEntity/types';
-import { LinkButton } from '../../../../common/components/JsonForm/JsonForm.styles';
+} from '../../../Entities/strategy-map'
+import MultiControlForm from '../../../../common/components/JsonForm/MultiControlForm/MultiControlForm'
+import { FormCardProps } from '../../../CreateEntity/types'
+import { LinkButton } from '../../../../common/components/JsonForm/JsonForm.styles'
 
 interface Props extends FormCardProps {
   purpose: KeyPurpose
@@ -49,7 +49,7 @@ const KeyCard: React.FunctionComponent<Props> = React.forwardRef(
       controller,
       dateCreated,
       dateUpdated,
-    };
+    }
 
     const schema = {
       type: 'object',
@@ -106,31 +106,31 @@ const KeyCard: React.FunctionComponent<Props> = React.forwardRef(
           title: 'Signature',
         },
       },
-    } as any;
+    } as any
 
     const uiSchema = {
       purpose: {
-        'ui:placeholder': 'Select Purpose',
+        ['ui:placeholder']: 'Select Purpose',
       },
       type: {
-        'ui:placeholder': 'Select Key',
+        ['ui:placeholder']: 'Select Key',
       },
       keyValue: {
-        'ui:placeholder': 'Select Denomination',
+        ['ui:placeholder']: 'Select Denomination',
       },
       controller: {
-        'ui:placeholder': 'Enter DID or !name',
+        ['ui:placeholder']: 'Enter DID or !name',
       },
       dateCreated: {
-        'ui:widget': customControls.singledateselector,
+        ['ui:widget']: customControls['singledateselector'],
       },
       dateUpdated: {
-        'ui:widget': customControls.singledateselector,
+        ['ui:widget']: customControls['singledateselector'],
       },
       signature: {
-        'ui:placeholder': 'Enter signature',
+        ['ui:placeholder']: 'Enter signature',
       },
-    };
+    }
 
     return (
       <>
@@ -152,8 +152,8 @@ const KeyCard: React.FunctionComponent<Props> = React.forwardRef(
           </LinkButton>
         </div>
       </>
-    );
+    )
   },
-);
+)
 
-export default KeyCard;
+export default KeyCard

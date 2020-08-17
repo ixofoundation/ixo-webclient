@@ -1,5 +1,5 @@
-import * as React from 'react';
-import styled from 'styled-components';
+import * as React from 'react'
+import styled from 'styled-components'
 
 const LoaderContainer = styled.div`
   height: 80px;
@@ -7,7 +7,7 @@ const LoaderContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-`;
+`
 
 const LoaderWrapper = styled.div`
   padding: 0;
@@ -19,7 +19,7 @@ const LoaderWrapper = styled.div`
   background: #00c2e4;
   justify-content: center;
   align-items: center;
-`;
+`
 
 const Pulse = styled.div`
   border-radius: 50%;
@@ -43,7 +43,7 @@ const Pulse = styled.div`
     }
   }
   animation: spinPulse 1.5s infinite ease;
-`;
+`
 
 const IxoIcon = styled.i`
   font-size: 54px;
@@ -61,7 +61,7 @@ const IxoIcon = styled.i`
     top: -13px;
     left: -12px;
   }
-`;
+`
 
 export interface Props {
   info: string
@@ -70,9 +70,9 @@ export interface Props {
 }
 
 export const Spinner: React.SFC<Props> = ({ info, transparentBg, scale }) => {
-  let bgString = 'background-color: #002233;';
+  let bgString = 'background-color: #002233;'
   if (transparentBg === true) {
-    bgString = '';
+    bgString = ''
   }
   const Container = styled.div`
     display: flex;
@@ -87,7 +87,7 @@ export const Spinner: React.SFC<Props> = ({ info, transparentBg, scale }) => {
       color: ${/* eslint-disable-line */ props => props.theme.ixoBlue};
       margin-top: 10px;
     }
-  `;
+  `
   return (
     <Container>
       <LoaderContainer>
@@ -98,5 +98,5 @@ export const Spinner: React.SFC<Props> = ({ info, transparentBg, scale }) => {
       </LoaderContainer>
       <p>{info}</p>
     </Container>
-  );
-};
+  )
+}

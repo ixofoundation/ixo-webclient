@@ -1,26 +1,26 @@
-import Axios from 'axios';
-import { Currency } from 'types/models';
-import { Dispatch } from 'redux';
-import * as Toast from '../../common/utils/Toast';
 import {
   ClearAction,
   GetQuoteAction,
   ConfirmSellAction,
   BondSellActions,
   InitiateQuoteAction,
-  BondSellTx } from './types';
-import { RootState } from '../../common/redux/types';
-import * as transactionUtils from '../../common/utils/transaction.utils';
-import keysafe from '../../common/keysafe/keysafe';
-
+} from './types'
+import Axios from 'axios'
+import { Currency } from 'types/models'
+import * as Toast from '../../common/utils/Toast'
+import { Dispatch } from 'redux'
+import { RootState } from '../../common/redux/types'
+import * as transactionUtils from '../../common/utils/transaction.utils'
+import keysafe from '../../common/keysafe/keysafe'
+import { BondSellTx } from '../BondSell/types'
 import {
   currencyToApiCurrency,
   apiCurrencyToCurrency,
-} from '../Account/Account.utils';
+} from '../Account/Account.utils'
 
 export const initiateQuote = (): InitiateQuoteAction => ({
   type: BondSellActions.InitiateQuote,
-});
+})
 
 export const getQuote = (sending: Currency, minPrice: Currency) => (
   dispatch: Dispatch,
@@ -28,7 +28,7 @@ export const getQuote = (sending: Currency, minPrice: Currency) => (
 ): GetQuoteAction => {
   const {
     activeBond: { bondDid },
-  } = getState();
+  } = getState()
   return dispatch({
     type: BondSellActions.GetQuote,
     payload: Axios.get(
@@ -36,7 +36,7 @@ export const getQuote = (sending: Currency, minPrice: Currency) => (
       {
         transformResponse: [
           (response: string): any => {
-            return JSON.parse(response).result;
+            return JSON.parse(response).result
           },
         ],
       },
@@ -49,10 +49,10 @@ export const getQuote = (sending: Currency, minPrice: Currency) => (
           apiCurrencyToCurrency(txFee),
         ),
         totalFee: apiCurrencyToCurrency(response.data.total_fees[0]),
-      };
+      }
     }),
-  });
-};
+  })
+}
 
 export const confirmSell = () => (
   dispatch: Dispatch,
@@ -67,16 +67,16 @@ export const confirmSell = () => (
       },
     },
     ixo: { ixo },
-  } = getState();
+  } = getState()
 
   const tx: BondSellTx = {
     pub_key: pubKey,
     seller_did: did,
     bond_did: bondDid,
     amount: currencyToApiCurrency(sending),
-  };
+  }
 
-  const msgType = 'bonds/MsgSell';
+  const msgType = 'bonds/MsgSell'
   ixo.utils
     .getSignData(tx, msgType, pubKey)
     .then((response: any) => {
@@ -85,7 +85,7 @@ export const confirmSell = () => (
           response.sign_bytes,
           (error, signature) => {
             if (error) {
-              return null;
+              return null
             }
 
             return dispatch({
@@ -103,29 +103,29 @@ export const confirmSell = () => (
               )
                 .then(response => {
                   if (!response.data.logs[0].success) {
-                    Toast.errorToast('Sale failed. Please try again.');
+                    Toast.errorToast('Sale failed. Please try again.')
                   } else {
                     Toast.successToast(
                       'Transaction submitted. Check its status in the orders tab.',
-                    );
+                    )
                   }
                 })
                 .catch(error => {
-                  Toast.errorToast(`Error: ${error.message}`);
+                  Toast.errorToast(`Error: ${error.message}`)
                 }),
-            });
+            })
           },
           'base64',
-        );
+        )
       }
     })
     .catch(() => {
-      Toast.errorToast('Sale failed. Please try again.');
-    });
+      Toast.errorToast('Sale failed. Please try again.')
+    })
 
-  return null;
-};
+  return null
+}
 
 export const clear = (): ClearAction => ({
   type: BondSellActions.Clear,
-});
+})

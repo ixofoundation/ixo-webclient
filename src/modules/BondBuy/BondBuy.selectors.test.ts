@@ -1,4 +1,4 @@
-import * as SUT from './BondBuy.selectors';
+import * as SUT from './BondBuy.selectors'
 
 const state: any = {
   bondBuy: {
@@ -15,13 +15,13 @@ const state: any = {
     quotePending: true,
     transacting: true,
   },
-};
+}
 
 describe('BondBuy Selectors', () => {
   describe('selectBondBuy', () => {
     it('should return the bondBuy property of root state', () => {
       // when ... we call the selector
-      const result = SUT.selectBondBuy(state);
+      const result = SUT.selectBondBuy(state)
 
       // then ... should return the slice of state as expected
       expect(result).toEqual({
@@ -37,100 +37,100 @@ describe('BondBuy Selectors', () => {
         signPending: true,
         quotePending: true,
         transacting: true,
-      });
-    });
-  });
+      })
+    })
+  })
 
   describe('selectBondBuyActualPrice', () => {
     it('should return the actualPrice property', () => {
       // when ... we call the selector
-      const result = SUT.selectBondBuyActualPrice(state);
+      const result = SUT.selectBondBuyActualPrice(state)
 
       // then ... should return the slice of state as expected
-      expect(result).toEqual({ amount: 789, denom: 'actual' });
-    });
-  });
+      expect(result).toEqual({ amount: 789, denom: 'actual' })
+    })
+  })
 
   describe('selectBondBuyTotalFee', () => {
     it('should return the totalFee property', () => {
       // when ... we call the selector
-      const result = SUT.selectBondBuyTotalFee(state);
+      const result = SUT.selectBondBuyTotalFee(state)
 
       // then ... should return the slice of state as expected
-      expect(result).toEqual({ amount: 1011, denom: 'totalFee' });
-    });
-  });
+      expect(result).toEqual({ amount: 1011, denom: 'totalFee' })
+    })
+  })
 
   describe('selectBondBuyMaxPrice', () => {
     it('should return the maxPrice property', () => {
       // when ... we call the selector
-      const result = SUT.selectBondBuyMaxPrice(state);
+      const result = SUT.selectBondBuyMaxPrice(state)
 
       // then ... should return the slice of state as expected
-      expect(result).toEqual({ amount: 1314, denom: 'maxPrice' });
-    });
-  });
+      expect(result).toEqual({ amount: 1314, denom: 'maxPrice' })
+    })
+  })
 
   describe('selectBondBuyReceiving', () => {
     it('should return the receiving property', () => {
       // when ... we call the selector
-      const result = SUT.selectBondBuyReceiving(state);
+      const result = SUT.selectBondBuyReceiving(state)
 
       // then ... should return the slice of state as expected
-      expect(result).toEqual({ amount: 456, denom: 'receiving' });
-    });
-  });
+      expect(result).toEqual({ amount: 456, denom: 'receiving' })
+    })
+  })
 
   describe('selectBondBuySignPending', () => {
     it('should return the signPending property', () => {
       // when ... we call the selector
-      const result = SUT.selectBondBuySignPending(state);
+      const result = SUT.selectBondBuySignPending(state)
 
       // then ... should return the slice of state as expected
-      expect(result).toBeTruthy();
-    });
-  });
+      expect(result).toBeTruthy()
+    })
+  })
 
   describe('selectBondBuyQuotePending', () => {
     it('should return the quotePending property', () => {
       // when ... we call the selector
-      const result = SUT.selectBondBuyQuotePending(state);
+      const result = SUT.selectBondBuyQuotePending(state)
 
       // then ... should return the slice of state as expected
-      expect(result).toBeTruthy();
-    });
-  });
+      expect(result).toBeTruthy()
+    })
+  })
 
   describe('selectBondBuyTransacting', () => {
     it('should return the transacting property', () => {
       // when ... we call the selector
-      const result = SUT.selectBondBuyTransacting(state);
+      const result = SUT.selectBondBuyTransacting(state)
 
       // then ... should return the slice of state as expected
-      expect(result).toBeTruthy();
-    });
-  });
+      expect(result).toBeTruthy()
+    })
+  })
 
   describe('selectBondIsBuyReceiving', () => {
     it('should return the result of whether the receiving property is null', () => {
       // when ... we call the selector
-      const result = SUT.selectBondBuyIsReceiving(state);
+      const result = SUT.selectBondBuyIsReceiving(state)
 
       // then ... should return the slice of state as expected
-      expect(result).toEqual(true);
-    });
-  });
+      expect(result).toEqual(true)
+    })
+  })
 
   describe('selectEstimatePrice', () => {
     it('should return the calculated estimated price rounded to 2 decimal places', () => {
       // when ... we call the selector
-      const result = SUT.selectBondBuyPriceEstimate(state);
+      const result = SUT.selectBondBuyPriceEstimate(state)
 
       // then ... should return the slice of state as expected
       expect(result).toEqual({
         amount: '1.73',
         denom: 'actual',
-      });
-    });
-  });
-});
+      })
+    })
+  })
+})

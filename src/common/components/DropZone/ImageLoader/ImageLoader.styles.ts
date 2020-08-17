@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import { deviceWidth } from '../../../../lib/commonData';
+import styled from 'styled-components'
+import { deviceWidth } from '../../../../lib/commonData'
 
 export const ModalWrapper = styled.div`
   position: absolute;
@@ -53,4 +53,4 @@ export const ModalWrapper = styled.div`
       }
     }
   }
-`;
+`

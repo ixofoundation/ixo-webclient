@@ -1,4 +1,4 @@
-import * as React from 'react';
+import * as React from 'react'
 import {
   ComposableMap,
   ZoomableGroup,
@@ -8,22 +8,21 @@ import {
   Marker,
   Lines,
   Line,
-} from 'react-simple-maps';
-import { MapWrapper } from './WorldMap.styles';
+} from 'react-simple-maps'
+import { MapWrapper } from './WorldMap.styles'
 
 export class LatLng {
-  coordinate = null;
-
+  coordinate = null
   constructor(lat: number, lon: number) {
-    this.coordinate = { lat, lon };
+    this.coordinate = { lat: lat, lon: lon }
   }
 
   lon(): number {
-    return this.coordinate.lon;
+    return this.coordinate.lon
   }
 
   lat(): number {
-    return this.coordinate.lat;
+    return this.coordinate.lat
   }
 }
 
@@ -38,11 +37,11 @@ export class WorldMap extends React.Component<ParentProps> {
       stroke: '#337a8e',
       strokeWidth: 0.3,
       outline: 'none!important',
-    };
+    }
 
     const markerProps = {
       fill: '#49BFE0',
-    };
+    }
 
     return (
       <MapWrapper>
@@ -69,7 +68,8 @@ export class WorldMap extends React.Component<ParentProps> {
                       pressed: countryProps,
                     }}
                   />
-                ))}
+                ))
+              }
             </Geographies>
             <Markers style={{ outlineWidth: '0px' }}>
               {this.props.markers.map((value: LatLng, i: number) => {
@@ -106,7 +106,7 @@ export class WorldMap extends React.Component<ParentProps> {
                       </filter>
                     </defs>
                   </Marker>
-                );
+                )
               })}
             </Markers>
             <Lines>
@@ -115,6 +115,6 @@ export class WorldMap extends React.Component<ParentProps> {
           </ZoomableGroup>
         </ComposableMap>
       </MapWrapper>
-    );
+    )
   }
 }

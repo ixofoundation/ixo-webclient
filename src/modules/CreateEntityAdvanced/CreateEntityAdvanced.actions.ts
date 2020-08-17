@@ -1,5 +1,5 @@
-import { v4 as uuidv4 } from 'uuid';
-import { FormData } from 'common/components/JsonForm/types';
+import { v4 as uuidv4 } from 'uuid'
+import { FormData } from 'common/components/JsonForm/types'
 import {
   CreateEntityAdvancedActions,
   UpdateLinkedEntityAction,
@@ -28,7 +28,7 @@ import {
   RemoveServiceSectionAction,
   ValidatedAction,
   ValidationErrorAction,
-} from './types';
+} from './types'
 
 export const addLinkedEntity = (): AddLinkedEntitySectionAction => {
   return {
@@ -36,8 +36,8 @@ export const addLinkedEntity = (): AddLinkedEntitySectionAction => {
     payload: {
       id: uuidv4(),
     },
-  };
-};
+  }
+}
 
 export const removeLinkedEntity = (
   id: string,
@@ -47,14 +47,14 @@ export const removeLinkedEntity = (
     payload: {
       id,
     },
-  };
-};
+  }
+}
 
 export const updateLinkedEntity = (
   id: string,
   formData: FormData,
 ): UpdateLinkedEntityAction => {
-  const { type, entityId } = formData;
+  const { type, entityId } = formData
 
   return {
     type: CreateEntityAdvancedActions.UpdateLinkedEntity,
@@ -63,8 +63,8 @@ export const updateLinkedEntity = (
       type,
       entityId,
     },
-  };
-};
+  }
+}
 
 export const addPayment = (): AddPaymentSectionAction => {
   return {
@@ -72,8 +72,8 @@ export const addPayment = (): AddPaymentSectionAction => {
     payload: {
       id: uuidv4(),
     },
-  };
-};
+  }
+}
 
 export const removePayment = (id: string): RemovePaymentSectionAction => {
   return {
@@ -81,14 +81,14 @@ export const removePayment = (id: string): RemovePaymentSectionAction => {
     payload: {
       id,
     },
-  };
-};
+  }
+}
 
 export const updatePayment = (
   id: string,
   formData: FormData,
 ): UpdatePaymentAction => {
-  const { type, paymentId, denom, maxFee, maxQty } = formData;
+  const { type, paymentId, denom, maxFee, maxQty } = formData
 
   return {
     type: CreateEntityAdvancedActions.UpdatePayment,
@@ -100,22 +100,22 @@ export const updatePayment = (
       maxFee,
       maxQty,
     },
-  };
-};
+  }
+}
 
 export const addStake = (): AddStakeSectionAction => ({
   type: CreateEntityAdvancedActions.AddStake,
   payload: {
     id: uuidv4(),
   },
-});
+})
 
 export const removeStake = (id: string): RemoveStakeSectionAction => ({
   type: CreateEntityAdvancedActions.RemoveStake,
   payload: {
     id,
   },
-});
+})
 
 export const updateStake = (
   id: string,
@@ -131,7 +131,7 @@ export const updateStake = (
     slashFactor,
     slashAmount,
     unbondPeriod,
-  } = formData;
+  } = formData
 
   return {
     type: CreateEntityAdvancedActions.UpdateStake,
@@ -147,28 +147,28 @@ export const updateStake = (
       slashAmount,
       unbondPeriod,
     },
-  };
-};
+  }
+}
 
 export const addNode = (): AddNodeSectionAction => ({
   type: CreateEntityAdvancedActions.AddNode,
   payload: {
     id: uuidv4(),
   },
-});
+})
 
 export const removeNode = (id: string): RemoveNodeSectionAction => ({
   type: CreateEntityAdvancedActions.RemoveNode,
   payload: {
     id,
   },
-});
+})
 
 export const updateNode = (
   id: string,
   formData: FormData,
 ): UpdateNodeAction => {
-  const { type, nodeId } = formData;
+  const { type, nodeId } = formData
 
   return {
     type: CreateEntityAdvancedActions.UpdateNode,
@@ -177,28 +177,28 @@ export const updateNode = (
       type,
       nodeId,
     },
-  };
-};
+  }
+}
 
 export const addFund = (): AddFundSectionAction => ({
   type: CreateEntityAdvancedActions.AddFund,
   payload: {
     id: uuidv4(),
   },
-});
+})
 
 export const removeFund = (id: string): RemoveFundSectionAction => ({
   type: CreateEntityAdvancedActions.RemoveFund,
   payload: {
     id,
   },
-});
+})
 
 export const updateFund = (
   id: string,
   formData: FormData,
 ): UpdateFundAction => {
-  const { source, fundId } = formData;
+  const { source, fundId } = formData
 
   return {
     type: CreateEntityAdvancedActions.UpdateFund,
@@ -207,22 +207,22 @@ export const updateFund = (
       source,
       fundId,
     },
-  };
-};
+  }
+}
 
 export const addKey = (): AddKeySectionAction => ({
   type: CreateEntityAdvancedActions.AddKey,
   payload: {
     id: uuidv4(),
   },
-});
+})
 
 export const removeKey = (id: string): RemoveKeySectionAction => ({
   type: CreateEntityAdvancedActions.RemoveKey,
   payload: {
     id,
   },
-});
+})
 
 export const updateKey = (id: string, formData: FormData): UpdateKeyAction => {
   const {
@@ -233,7 +233,7 @@ export const updateKey = (id: string, formData: FormData): UpdateKeyAction => {
     controller,
     dateCreated,
     dateUpdated,
-  } = formData;
+  } = formData
 
   return {
     type: CreateEntityAdvancedActions.UpdateKey,
@@ -247,22 +247,22 @@ export const updateKey = (id: string, formData: FormData): UpdateKeyAction => {
       dateCreated,
       dateUpdated,
     },
-  };
-};
+  }
+}
 
 export const addService = (): AddServiceSectionAction => ({
   type: CreateEntityAdvancedActions.AddService,
   payload: {
     id: uuidv4(),
   },
-});
+})
 
 export const removeService = (id: string): RemoveServiceSectionAction => ({
   type: CreateEntityAdvancedActions.RemoveService,
   payload: {
     id,
   },
-});
+})
 
 export const updateService = (
   id: string,
@@ -274,7 +274,7 @@ export const updateService = (
     serviceEndpoint,
     publicKey,
     properties,
-  } = formData;
+  } = formData
 
   return {
     type: CreateEntityAdvancedActions.UpdateService,
@@ -286,15 +286,15 @@ export const updateService = (
       publicKey,
       properties,
     },
-  };
-};
+  }
+}
 
 export const addDataResource = (): AddDataResourceSectionAction => ({
   type: CreateEntityAdvancedActions.AddDataResource,
   payload: {
     id: uuidv4(),
   },
-});
+})
 
 export const removeDataResource = (
   id: string,
@@ -303,13 +303,13 @@ export const removeDataResource = (
   payload: {
     id,
   },
-});
+})
 
 export const updateDataResource = (
   id: string,
   formData: FormData,
 ): UpdateDataResourceAction => {
-  const { type, dataId, serviceEndpoint, properties } = formData;
+  const { type, dataId, serviceEndpoint, properties } = formData
 
   return {
     type: CreateEntityAdvancedActions.UpdateDataResource,
@@ -320,15 +320,15 @@ export const updateDataResource = (
       serviceEndpoint,
       properties,
     },
-  };
-};
+  }
+}
 
 export const validated = (identifier: string): ValidatedAction => ({
   type: CreateEntityAdvancedActions.Validated,
   payload: {
     identifier,
   },
-});
+})
 
 export const validationError = (
   identifier: string,
@@ -339,4 +339,4 @@ export const validationError = (
     identifier,
     errors,
   },
-});
+})

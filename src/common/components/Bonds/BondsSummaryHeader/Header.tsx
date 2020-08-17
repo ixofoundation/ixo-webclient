@@ -1,13 +1,13 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import styled from 'styled-components';
-import HeaderItem from './SummaryCard/SummaryCard';
-import { RootState } from '../../../redux/types';
-import { getAccount } from '../../../../modules/Account/Account.actions';
-import { getBalances as getBondBalances } from '../../../../modules/bond/bond.actions';
-import { tokenBalance } from '../../../../modules/Account/Account.utils';
-import { deviceWidth } from '../../../../lib/commonData';
+import React, { Component } from 'react'
+import HeaderItem from './SummaryCard/SummaryCard'
+import { connect } from 'react-redux'
+import { RootState } from '../../../redux/types'
+import { getAccount } from '../../../../modules/Account/Account.actions'
+import { getBalances as getBondBalances } from '../../../../modules/bond/bond.actions'
+import { tokenBalance } from '../../../../modules/Account/Account.utils'
+import { deviceWidth } from '../../../../lib/commonData'
 
+import styled from 'styled-components'
 
 const StyledHeader = styled.header`
   margin: 1.25rem 0;
@@ -17,51 +17,50 @@ const StyledHeader = styled.header`
   @media (min-width: ${deviceWidth.desktopLarge}px) {
     justify-content: flex-start;
   }
-`;
+`
 
-const INTERVAL_LENGTH = 6000;
+const INTERVAL_LENGTH = 6000
 
 interface HeaderState {
   selected: number
 }
 
 class Header extends Component<any, HeaderState> {
-  intervalID = null;
-
+  intervalID = null
   constructor(props: any) {
-    super(props);
-    this.intervalID = null;
+    super(props)
+    this.intervalID = null
     this.state = {
       selected: 0,
-    };
+    }
     setInterval(() => {
-      this.refreshAccount();
-    }, INTERVAL_LENGTH); // deepscan-disable-line
+      this.refreshAccount()
+    }, INTERVAL_LENGTH) // deepscan-disable-line
 
-    this.refreshAccount();
+    this.refreshAccount()
   }
 
   refreshAccount = (): void => {
     if (this.props.account.userInfo) {
-      this.props.dispatch(getAccount(this.props.account.address));
-      this.props.dispatch(getBondBalances(this.props.bondDID));
+      this.props.dispatch(getAccount(this.props.account.address))
+      this.props.dispatch(getBondBalances(this.props.bondDID))
     }
-  };
+  }
 
   setActiveHeaderItem = (order: number): void => {
-    console.log('this.state.selected', this.state.selected);
-    this.setState({ selected: order });
-  };
+    console.log('this.state.selected', this.state.selected)
+    this.setState({ selected: order })
+  }
 
   render(): JSX.Element {
-    const { activeBond } = this.props;
-    const balance = tokenBalance(this.props.account.balances, activeBond.symbol);
+    const { activeBond } = this.props
+    const balance = tokenBalance(this.props.account.balances, activeBond.symbol)
     const bondCapitalInfo = `${(
       (activeBond.collateral.amount / activeBond.totalSupply.amount || 0) * 100
-    ).toFixed(4)}% of Bond cap`;
+    ).toFixed(4)}% of Bond cap`
     const reserveInfo = `${(
       (activeBond.reserve.amount / activeBond.totalSupply.amount || 0) * 100
-    ).toFixed(4)}% of Capital raise`;
+    ).toFixed(4)}% of Capital raise`
 
     return (
       <StyledHeader>
@@ -109,12 +108,12 @@ class Header extends Component<any, HeaderState> {
           selected={this.state.selected === 4}
         />
       </StyledHeader>
-    );
+    )
   }
 }
 
-const mapStateToProps = function (state: RootState): RootState {
-  return state;
-};
+const mapStateToProps = function(state: RootState): RootState {
+  return state
+}
 
-export default connect(mapStateToProps)(Header);
+export default connect(mapStateToProps)(Header)

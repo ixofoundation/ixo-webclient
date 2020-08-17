@@ -1,16 +1,16 @@
-import React from 'react';
-import { DateRangePicker } from 'react-dates';
-import moment, { Moment } from 'moment';
-import MediaQuery from 'react-responsive';
+import React from "react";
+import { DateRangePicker } from "react-dates";
+import moment, { Moment } from "moment";
 import {
   Container,
   MobileWrapper,
   MobileDateHeader,
   HeadingItem,
-  DesktopWrapper } from './DateRangeSelector.styles';
-import { deviceWidth } from '../../../../../lib/commonData';
-import Back from '../../../../../assets/icons/Back';
-
+} from "./DateRangeSelector.styles";
+import MediaQuery from "react-responsive";
+import { deviceWidth } from "../../../../../lib/commonData";
+import Back from "../../../../../assets/icons/Back";
+import { DesktopWrapper } from "./DateRangeSelector.styles";
 
 // TODO - validation with onfocus and onblur
 
@@ -23,7 +23,7 @@ interface Props {
 }
 
 interface State {
-  focusedInput: 'startDate' | 'endDate' | null;
+  focusedInput: "startDate" | "endDate" | null;
 }
 
 class DateRangeSelector extends React.Component<Props, State> {
@@ -40,15 +40,15 @@ class DateRangeSelector extends React.Component<Props, State> {
     endDate: Moment | null
   ): void => {
     // persist the dates in jsonforms as a pipe delimited string
-    const value = `${startDate ? startDate.format('DD-MMM-YYYY') : ''}|${
-      endDate ? endDate.format('DD-MMM-YYYY') : ''
+    const value = `${startDate ? startDate.format("DD-MMM-YYYY") : ""}|${
+      endDate ? endDate.format("DD-MMM-YYYY") : ""
     }`;
     this.props.onChange(value);
   };
 
   renderDateRangePicker = (
     numberOfMonths: number,
-    orientation: 'horizontal' | 'vertical' | undefined
+    orientation: "horizontal" | "vertical" | undefined
   ): JSX.Element => {
     const { id, value } = this.props;
 
@@ -56,8 +56,8 @@ class DateRangeSelector extends React.Component<Props, State> {
     let startDate;
     let endDate;
     if (value) {
-      startDate = value.split('|')[0];
-      endDate = value.split('|')[1];
+      startDate = value.split("|")[0];
+      endDate = value.split("|")[1];
     }
     return (
       <DateRangePicker
@@ -67,7 +67,8 @@ class DateRangeSelector extends React.Component<Props, State> {
         endDateId={`end_${id}`}
         displayFormat="DD-MMM-YYYY"
         onDatesChange={({ startDate, endDate }): void =>
-          this.handleDatesChange(startDate, endDate)}
+          this.handleDatesChange(startDate, endDate)
+        }
         focusedInput={this.state.focusedInput}
         onFocusChange={(focusedInput): void => this.setState({ focusedInput })}
         numberOfMonths={numberOfMonths}
@@ -82,20 +83,20 @@ class DateRangeSelector extends React.Component<Props, State> {
     return (
       <Container>
         <MediaQuery maxWidth={`${deviceWidth.tablet - 1}px`}>
-          <MobileWrapper className={this.state.focusedInput ? 'active' : ''}>
+          <MobileWrapper className={this.state.focusedInput ? "active" : ""}>
             {this.state.focusedInput && (
               <MobileDateHeader>
-                <HeadingItem onClick={(): void => console.log('back')}>
+                <HeadingItem onClick={(): void => console.log("back")}>
                   <Back />
                 </HeadingItem>
               </MobileDateHeader>
             )}
-            {this.renderDateRangePicker(4, 'vertical')}
+            {this.renderDateRangePicker(4, "vertical")}
           </MobileWrapper>
         </MediaQuery>
         <MediaQuery minWidth={`${deviceWidth.tablet}px`}>
-          <DesktopWrapper className={this.state.focusedInput ? 'active' : ''}>
-            {this.renderDateRangePicker(2, 'horizontal')}
+          <DesktopWrapper className={this.state.focusedInput ? "active" : ""}>
+            {this.renderDateRangePicker(2, "horizontal")}
           </DesktopWrapper>
         </MediaQuery>
       </Container>

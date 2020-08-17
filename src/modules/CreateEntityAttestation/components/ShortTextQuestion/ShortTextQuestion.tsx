@@ -1,6 +1,6 @@
-import React from 'react';
-import MultiControlForm from '../../../../common/components/JsonForm/MultiControlForm/MultiControlForm';
-import { FormCardProps } from '../../../CreateEntity/types';
+import React from 'react'
+import MultiControlForm from '../../../../common/components/JsonForm/MultiControlForm/MultiControlForm'
+import { FormCardProps } from '../../../CreateEntity/types'
 
 interface Props extends FormCardProps {
   title: string
@@ -24,7 +24,7 @@ const ShortTextQuestion: React.FunctionComponent<Props> = React.forwardRef(
       title,
       description,
       label,
-    };
+    }
 
     const schema = {
       type: 'object',
@@ -34,23 +34,23 @@ const ShortTextQuestion: React.FunctionComponent<Props> = React.forwardRef(
         label: { type: 'string', title: 'Control Label' },
         description: { type: 'string', title: 'Description' },
       },
-    } as any;
+    } as any
 
     const uiSchema = {
       title: {
-        'ui:widget': 'text',
-        'ui:placeholder': 'The title of the question',
+        ['ui:widget']: 'text',
+        ['ui:placeholder']: 'The title of the question',
       },
       label: {
-        'ui:widget': 'text',
-        'ui:placeholder': 'The label for the input',
+        ['ui:widget']: 'text',
+        ['ui:placeholder']: 'The label for the input',
       },
       description: {
-        'ui:widget': 'textarea',
-        'ui:placeholder':
+        ['ui:widget']: 'textarea',
+        ['ui:placeholder']:
           'This will be a short description or explainer text explaining the question',
       },
-    };
+    }
 
     return (
       <MultiControlForm
@@ -65,8 +65,8 @@ const ShortTextQuestion: React.FunctionComponent<Props> = React.forwardRef(
       >
         &nbsp;
       </MultiControlForm>
-    );
+    )
   },
-);
+)
 
-export default ShortTextQuestion;
+export default ShortTextQuestion

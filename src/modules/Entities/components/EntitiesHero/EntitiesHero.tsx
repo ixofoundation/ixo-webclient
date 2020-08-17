@@ -1,6 +1,6 @@
-import * as React from 'react';
-import HeaderTabs from '../../../../common/components/HeaderTabs/HeaderTabs';
-import Search from '../Search/Search';
+import * as React from 'react'
+import HeaderTabs from '../../../../common/components/HeaderTabs/HeaderTabs'
+import Search from '../Search/Search'
 import {
   ContainerInner,
   StatisticContainer,
@@ -9,13 +9,13 @@ import {
   HeroTextWrapper,
   HeroIndicatorsWrapper,
   ColorOverlay,
-} from './EntitiesHero.styles';
-import { EntityType } from '../../types';
-import { entityTypeMap } from '../../strategy-map';
+} from './EntitiesHero.styles'
+import { EntityType } from '../../types'
+import { entityTypeMap } from '../../strategy-map'
 
 // TODO - when we know what the other entity types headers will look like then possibly refactor this as it's messy with all the conditions
 // or whatever else is needed. For now, just doing it based on entityType
-import { getHeaderSchema, getHeaderTabButtons } from './EntitiesHero.utils';
+import { getHeaderSchema, getHeaderTabButtons } from './EntitiesHero.utils'
 
 export interface Props {
   entityType: EntityType
@@ -30,19 +30,19 @@ export const EntitiesHero: React.FunctionComponent<Props> = ({
   filterSector,
   handleChangeEntitiesType,
 }) => {
-  const entityStrategyMap = entityTypeMap[entityType];
-  const header = getHeaderSchema(filterSector, entityStrategyMap.headerSchema);
+  const entityStrategyMap = entityTypeMap[entityType]
+  const header = getHeaderSchema(filterSector, entityStrategyMap.headerSchema)
   const headerTabButtons = getHeaderTabButtons(
     entityType,
     entityStrategyMap.plural.toUpperCase(),
-  );
+  )
 
   const getHeaderBackgroundUrl = (imagePath: string): string => {
     if (imagePath !== null) {
-      return `url(${require(`../../../../assets/images/header-overrides/${imagePath}`)})`;
+      return `url(${require(`../../../../assets/images/header-overrides/${imagePath}`)})`
     }
-    return '';
-  };
+    return ''
+  }
 
   return (
     <HeroContainer
@@ -54,7 +54,7 @@ export const EntitiesHero: React.FunctionComponent<Props> = ({
         style={{
           backgroundColor: header.color || entityStrategyMap.themeColor,
         }}
-      />
+      ></ColorOverlay>
       <HeroInner className="container">
         <div className="row">
           <HeroTextWrapper className="col-md-5 col-sm-12 col-12">
@@ -80,7 +80,7 @@ export const EntitiesHero: React.FunctionComponent<Props> = ({
                       <p>{indicator.indicatorLabel}</p>
                     </ContainerInner>
                   </StatisticContainer>
-                ) : null;
+                ) : null
               })}
             </div>
           </HeroIndicatorsWrapper>
@@ -98,5 +98,5 @@ export const EntitiesHero: React.FunctionComponent<Props> = ({
         />
       )}
     </HeroContainer>
-  );
-};
+  )
+}

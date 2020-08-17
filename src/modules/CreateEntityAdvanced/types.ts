@@ -1,4 +1,4 @@
-import { Validation } from '../CreateEntity/types';
+import { Validation } from '../CreateEntity/types'
 
 import {
   EntityType,
@@ -12,7 +12,7 @@ import {
   StakeType,
   NodeType,
   FundSource,
-} from '../Entities/types';
+} from '../Entities/types'
 
 export interface LinkedEntity {
   id: string
@@ -403,4 +403,4 @@ export type CreateEntityAdvancedActionTypes =
   | RemoveDataResourceSectionAction
   | UpdateDataResourceAction
   | ValidatedAction
-  | ValidationErrorAction;
+  | ValidationErrorAction

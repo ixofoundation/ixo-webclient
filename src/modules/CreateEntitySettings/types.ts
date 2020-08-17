@@ -1,10 +1,10 @@
-import { FileContent, Validation } from 'modules/CreateEntity/types';
 import {
   EntityStage,
   EntityStatus,
   PageView,
   EntityView,
-} from '../Entities/types';
+} from '../Entities/types'
+import { FileContent, Validation } from 'modules/CreateEntity/types'
 
 export interface Creator extends FileContent {
   displayName: string
@@ -276,4 +276,4 @@ export type CreateEntitySettingsActionTypes =
   | RemoveDisplayCredentialSectionAction
   | UpdateDisplayCredentialAction
   | ValidatedAction
-  | ValidationErrorAction;
+  | ValidationErrorAction

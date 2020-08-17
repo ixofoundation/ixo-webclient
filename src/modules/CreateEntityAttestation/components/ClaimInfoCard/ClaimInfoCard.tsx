@@ -1,6 +1,6 @@
-import React from 'react';
-import MultiControlForm from '../../../../common/components/JsonForm/MultiControlForm/MultiControlForm';
-import { FormCardProps } from '../../../CreateEntity/types';
+import React from 'react'
+import MultiControlForm from '../../../../common/components/JsonForm/MultiControlForm/MultiControlForm'
+import { FormCardProps } from '../../../CreateEntity/types'
 
 interface Props extends FormCardProps {
   title: string
@@ -21,7 +21,7 @@ const ClaimInfoCard: React.FunctionComponent<Props> = React.forwardRef(
     const formData = {
       title,
       shortDescription,
-    };
+    }
 
     const schema = {
       type: 'object',
@@ -30,18 +30,18 @@ const ClaimInfoCard: React.FunctionComponent<Props> = React.forwardRef(
         title: { type: 'string', title: 'Title' },
         shortDescription: { type: 'string', title: 'Short Description' },
       },
-    } as any;
+    } as any
 
     const uiSchema = {
       title: {
-        'ui:widget': 'text',
-        'ui:placeholder': 'Enter Name',
+        ['ui:widget']: 'text',
+        ['ui:placeholder']: 'Enter Name',
       },
       shortDescription: {
-        'ui:widget': 'textarea',
-        'ui:placeholder': 'Start Typing Here',
+        ['ui:widget']: 'textarea',
+        ['ui:placeholder']: 'Start Typing Here',
       },
-    };
+    }
 
     return (
       <MultiControlForm
@@ -55,8 +55,8 @@ const ClaimInfoCard: React.FunctionComponent<Props> = React.forwardRef(
       >
         &nbsp;
       </MultiControlForm>
-    );
+    )
   },
-);
+)
 
-export default ClaimInfoCard;
+export default ClaimInfoCard

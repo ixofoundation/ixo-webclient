@@ -1,5 +1,5 @@
-import * as React from 'react';
-import styled from 'styled-components';
+import * as React from 'react'
+import styled from 'styled-components'
 
 const Container = styled.div`
   padding-top: 60px;
@@ -14,7 +14,7 @@ const Container = styled.div`
     font-weight: 200;
     font-size: 18px;
   }
-`;
+`
 
 const Title = styled.h1`
   color: white;
@@ -42,7 +42,7 @@ const Title = styled.h1`
     margin-top: 20px;
     background: rgb(0, 210, 255);
   }
-`;
+`
 
 export const Banner: React.SFC<{}> = (): JSX.Element => {
   return (
@@ -62,5 +62,5 @@ export const Banner: React.SFC<{}> = (): JSX.Element => {
         </div>
       </div>
     </Container>
-  );
-};
+  )
+}

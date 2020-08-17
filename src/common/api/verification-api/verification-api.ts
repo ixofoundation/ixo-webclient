@@ -1,4 +1,4 @@
-import Axios from 'axios';
+import Axios from 'axios'
 
 // WIP using fake API
 
@@ -7,7 +7,7 @@ export enum Channel {
   Sms = 'sms',
 }
 
-const token = 'UQFHlmbzapeX6AhtcEJ9aQ';
+const token = 'UQFHlmbzapeX6AhtcEJ9aQ'
 
 export const sendVerificationNotification = async (
   to: string,
@@ -43,16 +43,16 @@ export const sendVerificationNotification = async (
     ],
     url:
       'https://verify.twilio.com/v2/Services/VAXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/Verifications/VEXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
-  };
+  }
 
   await Axios.post('https://app.fakejson.com/q', {
     token,
     payload,
-  });
+  })
 
   // TODO some proper logic here to check if email sent based on above result
-  return true;
-};
+  return true
+}
 
 export const verifyOTP = async (
   to: string,
@@ -71,13 +71,13 @@ export const verifyOTP = async (
     payee: null,
     date_created: '2020-01-30T20:00:00Z',
     date_updated: '2020-01-30T20:00:00Z',
-  };
+  }
 
   await Axios.post('https://app.fakejson.com/q', {
     token,
     payload,
-  });
+  })
 
   // TODO some proper logic here to check if valid
-  return otp === '123456';
-};
+  return otp === '123456'
+}

@@ -1,11 +1,11 @@
-import React from 'react';
-import Trash from '../../../../assets/icons/Trash';
-import Expand from '../../../../assets/icons/Expand';
-import { Switch } from '../../../../common/components/Switch/Switch';
-import { ClaimQuestionCardWrapper, Toolbar } from './ClaimQuestionCard.styles';
-import { Attestation } from '../../types';
-import BasicTextInput from '../BasicTextInput/BasicTextInput';
-import { FormData } from '../../../../common/components/JsonForm/types';
+import React from 'react'
+import Trash from '../../../../assets/icons/Trash'
+import Expand from '../../../../assets/icons/Expand'
+import { Switch } from '../../../../common/components/Switch/Switch'
+import { ClaimQuestionCardWrapper, Toolbar } from './ClaimQuestionCard.styles'
+import { Attestation } from '../../types'
+import BasicTextInput from '../BasicTextInput/BasicTextInput'
+import { FormData } from '../../../../common/components/JsonForm/types'
 
 interface Props {
   attestation: Attestation
@@ -23,7 +23,7 @@ class ClaimQuestionCard extends React.Component<Props> {
       handleDuplicateAttestation,
       handleRequireAttestation,
       handleUpdateAttestationContent,
-    } = this.props;
+    } = this.props
     return (
       <>
         <ClaimQuestionCardWrapper>
@@ -47,20 +47,21 @@ class ClaimQuestionCard extends React.Component<Props> {
             >
               <Trash fill="#A5ADB0" />
             </div>
-            <div className="divider" />
+            <div className="divider"></div>
             <div className="toolbar-item">
               <Switch
                 label="Required"
                 on={attestation.required}
                 handleChange={(): void =>
-                  handleRequireAttestation(attestation.id)}
+                  handleRequireAttestation(attestation.id)
+                }
               />
             </div>
           </Toolbar>
         </ClaimQuestionCardWrapper>
       </>
-    );
+    )
   }
 }
 
-export default ClaimQuestionCard;
+export default ClaimQuestionCard

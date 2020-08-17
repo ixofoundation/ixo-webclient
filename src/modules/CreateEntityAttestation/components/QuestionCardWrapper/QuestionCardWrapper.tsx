@@ -1,9 +1,9 @@
-import React from 'react';
-import Trash from '../../../../assets/icons/Trash';
-import Expand from '../../../../assets/icons/Expand';
-import { Switch } from '../../../../common/components/Switch/Switch';
-import { Toolbar } from './QuestionCardWrapper.styles';
-import FormCardWrapper from '../../../../common/components/Wrappers/FormCardWrapper/FormCardWrapper';
+import React from 'react'
+import Trash from '../../../../assets/icons/Trash'
+import Expand from '../../../../assets/icons/Expand'
+import { Switch } from '../../../../common/components/Switch/Switch'
+import { Toolbar } from './QuestionCardWrapper.styles'
+import FormCardWrapper from '../../../../common/components/Wrappers/FormCardWrapper/FormCardWrapper'
 
 interface Props {
   title: string
@@ -22,7 +22,7 @@ class QuestionCardWrapper extends React.Component<Props> {
       handleDuplicate,
       handleToggleRequire,
       children,
-    } = this.props;
+    } = this.props
     return (
       <FormCardWrapper title={title} showAddSection={false}>
         {children}
@@ -33,7 +33,7 @@ class QuestionCardWrapper extends React.Component<Props> {
           <div className="toolbar-item" onClick={handleDelete}>
             <Trash fill="#A5ADB0" />
           </div>
-          <div className="divider" />
+          <div className="divider"></div>
           <div className="toolbar-item">
             <Switch
               label="Required"
@@ -43,8 +43,8 @@ class QuestionCardWrapper extends React.Component<Props> {
           </div>
         </Toolbar>
       </FormCardWrapper>
-    );
+    )
   }
 }
 
-export default QuestionCardWrapper;
+export default QuestionCardWrapper

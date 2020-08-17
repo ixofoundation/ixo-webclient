@@ -2,8 +2,8 @@ import {
   SubmitEntityClaimState,
   SubmitEntityClaimActionTypes,
   SubmitEntityClaimActions,
-} from './types';
-import tempQuestions from './temp_questions.json';
+} from './types'
+import tempQuestions from './temp_questions.json'
 
 export const initialState: SubmitEntityClaimState = {
   questions: tempQuestions,
@@ -14,7 +14,7 @@ export const initialState: SubmitEntityClaimState = {
   sending: false,
   sent: false,
   error: null,
-};
+}
 
 export const reducer = (
   state = initialState,
@@ -25,7 +25,7 @@ export const reducer = (
       return {
         ...state,
         savingAnswer: true,
-      };
+      }
     case SubmitEntityClaimActions.SaveAnswerSuccess:
       return {
         ...state,
@@ -34,33 +34,33 @@ export const reducer = (
           ...action.payload,
         },
         savingAnswer: false,
-      };
+      }
     case SubmitEntityClaimActions.SaveAnswerFailure:
       return {
         ...state,
         savingAnswer: false,
-      };
+      }
     case SubmitEntityClaimActions.GoToPreviousQuestion:
       return {
         ...state,
         currentQuestionNo: action.payload.previousQuestionNo,
-      };
+      }
     case SubmitEntityClaimActions.GoToNextQuestion:
       return {
         ...state,
         currentQuestionNo: action.payload.nextQuestionNo,
-      };
+      }
     case SubmitEntityClaimActions.GoToQuestionNumber:
       return {
         ...state,
         currentQuestionNo: action.payload.questionNo,
-      };
+      }
     case SubmitEntityClaimActions.FinaliseQuestions:
       return {
         ...state,
         answersComplete: true,
-      };
+      }
   }
 
-  return state;
-};
+  return state
+}

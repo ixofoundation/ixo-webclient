@@ -1,5 +1,5 @@
-import * as React from 'react';
-import styled from 'styled-components';
+import * as React from 'react'
+import styled from 'styled-components'
 
 export enum TooltipPositions {
   top = 'TOP',
@@ -20,9 +20,9 @@ export const Tooltip: React.SFC<ParentProps> = ({
   position,
   children,
 }) => {
-  let positionCss = '';
-  let arrowCss = '';
-  let transformOrigin = '';
+  let positionCss = ''
+  let arrowCss = ''
+  let transformOrigin = ''
   switch (position) {
     case TooltipPositions.top:
     default:
@@ -30,7 +30,7 @@ export const Tooltip: React.SFC<ParentProps> = ({
         bottom: calc(100% + 15px);
         left: 50%;
         transform: translateX(-50%);
-			`;
+			`
       arrowCss = `
 					border-left: 10px solid transparent;
 					border-right: 10px solid transparent;
@@ -38,29 +38,29 @@ export const Tooltip: React.SFC<ParentProps> = ({
           bottom: -10px;
           left: 50%;
           transform: translateX(-50%);
-			`;
-      transformOrigin = 'bottom left';
-      break;
+			`
+      transformOrigin = 'bottom left'
+      break
     case TooltipPositions.right:
       positionCss = `
 				top: -10px;
 				left: calc(100% + 15px);
-			`;
+			`
       arrowCss = `
 					border-right: 10px solid white;
 					border-top: 10px solid transparent;
           border-bottom: 10px solid transparent;
           left: -10px;
 					top: 10px;
-			`;
-      transformOrigin = 'top left';
-      break;
+			`
+      transformOrigin = 'top left'
+      break
     case TooltipPositions.bottom:
       positionCss = `
 				top: calc(100% + 15px);
 				left: 50%;
         transform: translateX(-50%);
-			`;
+			`
       arrowCss = `
 					border-left: 10px solid transparent;
 					border-right: 10px solid transparent;
@@ -68,25 +68,25 @@ export const Tooltip: React.SFC<ParentProps> = ({
           top: -10px;
           left: 50%;
           transform: translateX(-50%);
-			`;
-      transformOrigin = 'top left';
-      break;
+			`
+      transformOrigin = 'top left'
+      break
     case TooltipPositions.left:
       positionCss = `
 				right: calc(100% + 15px);
 				top: -10px;
 				display: flex;
 				justify-content: flex-end;
-			`;
+			`
       arrowCss = `
 					border-top: 10px solid transparent;
 					border-left: 10px solid white;
 					border-bottom: 10px solid transparent;
           top: 10px;
           right: -10px;
-			`;
-      transformOrigin = 'top right';
-      break;
+			`
+      transformOrigin = 'top right'
+      break
   }
 
   const TooltipWrapper = styled.div`
@@ -95,7 +95,7 @@ export const Tooltip: React.SFC<ParentProps> = ({
     z-index: 1;
     pointer-events: none;
     ${positionCss}
-  `;
+  `
 
   const TooltipInner = styled.div`
     opacity: 0;
@@ -122,7 +122,7 @@ export const Tooltip: React.SFC<ParentProps> = ({
 
     transition: all 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55);
     transform-origin: ${transformOrigin};
-  `;
+  `
 
   const Hover = styled.div`
     position: relative;
@@ -142,7 +142,7 @@ export const Tooltip: React.SFC<ParentProps> = ({
         transform: scale(1);
       }
     }
-  `;
+  `
 
   return (
     <Hover>
@@ -153,5 +153,5 @@ export const Tooltip: React.SFC<ParentProps> = ({
         </TooltipInner>
       </TooltipWrapper>
     </Hover>
-  );
-};
+  )
+}

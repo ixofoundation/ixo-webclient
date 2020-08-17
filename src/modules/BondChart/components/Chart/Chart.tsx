@@ -1,7 +1,7 @@
-import React, { Fragment } from 'react';
-import ReactApexChart from 'react-apexcharts';
+import React, { Fragment } from 'react'
+import ReactApexChart from 'react-apexcharts'
 
-import { ChartContainer, StyledHeader } from './Chart.styles';
+import { ChartContainer, StyledHeader } from './Chart.styles'
 
 interface Props {
   data: any
@@ -101,7 +101,7 @@ const seriesData = [
     x: new Date(2017, 11, 1),
     y: [61.71, 64.15, 61.29, 63.04],
   },
-];
+]
 
 const seriesDataLinear = [
   {
@@ -196,19 +196,19 @@ const seriesDataLinear = [
     x: new Date(2017, 11, 1),
     y: 43.04,
   },
-];
+]
 
 const series = [
   {
     data: seriesData,
   },
-];
+]
 const seriesBar = [
   {
     name: 'volume',
     data: seriesDataLinear,
   },
-];
+]
 const options = {
   chart: {
     type: 'candlestick',
@@ -245,7 +245,7 @@ const options = {
     borderColor: '#436779',
     strokeDashArray: 2,
   },
-};
+}
 
 const optionsBar = {
   chart: {
@@ -320,11 +320,11 @@ const optionsBar = {
     borderColor: '#436779',
     strokeDashArray: 1,
   },
-};
+}
 export const Chart: React.FunctionComponent<Props> = ({ data, token }) => {
 
   return (
-    <>
+    <Fragment>
       <StyledHeader>Price of {token}</StyledHeader>
       <ChartContainer className="BondsWrapper_panel__chrome hide-on-mobile">
         <div className="BondsWrapper_panel__content">
@@ -342,10 +342,10 @@ export const Chart: React.FunctionComponent<Props> = ({ data, token }) => {
           />
         </div>
       </ChartContainer>
-    </>
-  );
-};
+    </Fragment>
+  )
+}
 
 Chart.defaultProps = {
   token: 'EDU'
-};
+}

@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from 'styled-components'
 import {
   MainContent as MainContentBase,
   Title as TitleBase,
@@ -10,25 +10,25 @@ import {
   Statistic as StatisticBase,
   StatisticLabel as StatisticLabelBase,
   StatisticValue as StatisticValueBase,
-} from '../EntityCard.styles';
+} from '../EntityCard.styles'
 
-export const MainContent = styled(MainContentBase)``;
-export const Title = styled(TitleBase)``;
-export const Progress = styled(ProgressBase)``;
-export const ProgressSuccessful = styled(ProgressSuccessfulBase)``;
-export const ProgressRequired = styled(ProgressRequiredBase)``;
-export const Impact = styled(ImpactBase)``;
+export const MainContent = styled(MainContentBase)``
+export const Title = styled(TitleBase)``
+export const Progress = styled(ProgressBase)``
+export const ProgressSuccessful = styled(ProgressSuccessfulBase)``
+export const ProgressRequired = styled(ProgressRequiredBase)``
+export const Impact = styled(ImpactBase)``
 export const StatisticsContainer = styled(StatisticsContainerBase)`
   justify-content: space-between;
-`;
-export const Statistic = styled(StatisticBase)``;
+`
+export const Statistic = styled(StatisticBase)``
 export const StatisticLabel = styled(StatisticLabelBase)`
   display: block;
   font-size: 12px;
-`;
+`
 export const StatisticValue = styled(StatisticValueBase)`
   display: block;
   font-weight: normal;
   font-size: 36px;
   line-height: 36px;
-`;
+`

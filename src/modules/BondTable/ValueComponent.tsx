@@ -1,7 +1,7 @@
-import React, { FunctionComponent } from 'react';
-import styled from 'styled-components';
-import XIcon from 'assets/images/x-icon.svg';
-import EyeIcon from 'assets/images/eye-icon.svg';
+import React, { FunctionComponent } from 'react'
+import styled from 'styled-components'
+import XIcon from 'assets/images/x-icon.svg'
+import EyeIcon from 'assets/images/eye-icon.svg'
 
 interface ValueComponentProps {
   value: number
@@ -11,7 +11,7 @@ const ValueComponentContainer = styled.div`
   background: #143f54;
   padding-left: 2em;
   position: relative;
-`;
+`
 
 const StyledValueContainer = styled.div`
   padding: 1em 0;
@@ -19,7 +19,7 @@ const StyledValueContainer = styled.div`
   img {
     margin-right: 1em;
   }
-`;
+`
 
 const StyledEyeContainer = styled.div`
   position: absolute;
@@ -31,7 +31,7 @@ const StyledEyeContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-`;
+`
 
 const ValueComponent: FunctionComponent<ValueComponentProps> = ({ value }) => (
   <ValueComponentContainer>
@@ -43,6 +43,6 @@ const ValueComponent: FunctionComponent<ValueComponentProps> = ({ value }) => (
       <img src={EyeIcon} />
     </StyledEyeContainer>
   </ValueComponentContainer>
-);
+)
 
-export default ValueComponent;
+export default ValueComponent

@@ -1,17 +1,17 @@
-import styled from 'styled-components';
+import styled from 'styled-components'
 
 export const DashboardContainer = styled.div`
   color: white;
   flex: 1 1 auto;
   display: flex;
-`;
+`
 
 export const ClaimsWidget = styled.div`
   display: flex;
   justify-content: space-between;
   padding: 0 20px 0 0;
   flex-wrap: wrap;
-`;
+`
 
 export const ClaimsLabels = styled.div`
   margin-top: 40px;
@@ -39,4 +39,4 @@ export const ClaimsLabels = styled.div`
   p:nth-child(4):before {
     background: #033c50;
   }
-`;
+`

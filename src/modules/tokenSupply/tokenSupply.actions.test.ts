@@ -1,23 +1,23 @@
-import mockAxios from 'axios';
-import mockStore from '../../common/redux/mockStore';
-import * as SUT from './tokenSupply.actions';
-import { TokenSupplyActions } from './types';
+import mockAxios from "axios";
+import mockStore from "../../common/redux/mockStore";
+import * as SUT from "./tokenSupply.actions";
+import { TokenSupplyActions } from "./types";
 
-jest.mock('axios');
+jest.mock("axios");
 let store;
 
 beforeEach(() => {
   store = mockStore({});
 });
 
-describe('TokenSupply Actions', () => {
-  describe('getTotalSupplies', () => {
-    it('should return data on success', async () => {
-      const totalSupply = [{ someprop: 'someval1' }, { someprop: 'someval2' }];
+describe("TokenSupply Actions", () => {
+  describe("getTotalSupplies", () => {
+    it("should return data on success", async () => {
+      const totalSupply = [{ someprop: "someval1" }, { someprop: "someval2" }];
 
       mockAxios.get.mockImplementationOnce(() =>
         Promise.resolve({
-          data: [{ someprop: 'someval1' }, { someprop: 'someval2' }],
+          data: [{ someprop: "someval1" }, { someprop: "someval2" }],
         })
       );
 
@@ -32,8 +32,8 @@ describe('TokenSupply Actions', () => {
       expect(actions[1].payload.tokenSupply).toEqual(totalSupply);
     });
 
-    it('should return an error on failure', async () => {
-      const error = 'some-error';
+    it("should return an error on failure", async () => {
+      const error = "some-error";
       mockAxios.get.mockImplementationOnce(() =>
         Promise.reject({
           error,

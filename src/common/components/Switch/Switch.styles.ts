@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from 'styled-components'
 
 export const SwitchWrapper = styled.div`
   display: flex;
@@ -38,4 +38,4 @@ export const SwitchWrapper = styled.div`
       }
     }
   }
-`;
+`

@@ -1,12 +1,12 @@
-import React from 'react';
-import { PaymentType, PaymentDenomination } from '../../../Entities/types';
+import React from 'react'
+import { PaymentType, PaymentDenomination } from '../../../Entities/types'
 import {
   paymentTypeMap,
   paymentDenominationMap,
-} from '../../../Entities/strategy-map';
-import MultiControlForm from '../../../../common/components/JsonForm/MultiControlForm/MultiControlForm';
-import { FormCardProps } from '../../../CreateEntity/types';
-import { LinkButton } from '../../../../common/components/JsonForm/JsonForm.styles';
+} from '../../../Entities/strategy-map'
+import MultiControlForm from '../../../../common/components/JsonForm/MultiControlForm/MultiControlForm'
+import { FormCardProps } from '../../../CreateEntity/types'
+import { LinkButton } from '../../../../common/components/JsonForm/JsonForm.styles'
 
 interface Props extends FormCardProps {
   type: PaymentType
@@ -37,7 +37,7 @@ const PaymentCard: React.FunctionComponent<Props> = React.forwardRef(
       denom,
       maxFee,
       maxQty,
-    };
+    }
 
     const schema = {
       type: 'object',
@@ -68,25 +68,25 @@ const PaymentCard: React.FunctionComponent<Props> = React.forwardRef(
         },
         maxQty: { type: 'number', title: 'Maximum Quantity' },
       },
-    } as any;
+    } as any
 
     const uiSchema = {
       type: {
-        'ui:placeholder': 'Select Payment',
+        ['ui:placeholder']: 'Select Payment',
       },
       paymentId: {
-        'ui:placeholder': 'Enter ID',
+        ['ui:placeholder']: 'Enter ID',
       },
       denom: {
-        'ui:placeholder': 'Select Denomination',
+        ['ui:placeholder']: 'Select Denomination',
       },
       maxFee: {
-        'ui:placeholder': 'Enter Amount',
+        ['ui:placeholder']: 'Enter Amount',
       },
       maxQty: {
-        'ui:placeholder': 'Enter Number of Units',
+        ['ui:placeholder']: 'Enter Number of Units',
       },
-    };
+    }
 
     return (
       <>
@@ -108,8 +108,8 @@ const PaymentCard: React.FunctionComponent<Props> = React.forwardRef(
           </LinkButton>
         </div>
       </>
-    );
+    )
   },
-);
+)
 
-export default PaymentCard;
+export default PaymentCard

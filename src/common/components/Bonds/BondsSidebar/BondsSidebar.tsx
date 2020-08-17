@@ -1,6 +1,6 @@
-import * as React from 'react';
-import { NavLink } from 'react-router-dom';
-import { isActiveRoute } from '../../../utils/isActiveRoute';
+import * as React from "react";
+import { NavLink } from "react-router-dom";
+import { isActiveRoute } from "../../../../common/utils/isActiveRoute";
 
 interface Props {
   projectDID: string;

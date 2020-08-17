@@ -1,22 +1,22 @@
-import React, { Dispatch } from 'react';
-import { connect } from 'react-redux';
-import { RootState } from 'common/redux/types';
-import { Steps } from 'common/components/Steps/Steps';
-import { Hero } from '../CreateEntity/components/Hero/Hero';
+import React, { Dispatch } from 'react'
+import { connect } from 'react-redux'
+import { Hero } from '../CreateEntity/components/Hero/Hero'
+import { RootState } from 'common/redux/types'
+import { Steps } from 'common/components/Steps/Steps'
 import {
   updateActiveStep,
   updateClaimInfo,
   addAttestation,
   removeAttestation,
   updateAttestation,
-} from './CreateClaimTemplate.actions';
-import { CreateClaimTemplateWrapper } from './CreateClaimTemplate.styles';
-import { createAttestation } from './CreateClaimTemplate.utils';
-import AddFieldBar from './components/AddFieldBar/AddFieldBar';
-import ClaimQuestionCard from './components/ClaimQuestionCard/ClaimQuestionCard';
-import ClaimInfoCard from './components/ClaimInfoCard/ClaimInfoCard';
-import { FormData } from '../../common/components/JsonForm/types';
-import { Attestation, ClaimInfo } from './types';
+} from './CreateClaimTemplate.actions'
+import { CreateClaimTemplateWrapper } from './CreateClaimTemplate.styles'
+import { createAttestation } from './CreateClaimTemplate.utils'
+import AddFieldBar from './components/AddFieldBar/AddFieldBar'
+import ClaimQuestionCard from './components/ClaimQuestionCard/ClaimQuestionCard'
+import ClaimInfoCard from './components/ClaimInfoCard/ClaimInfoCard'
+import { FormData } from '../../common/components/JsonForm/types'
+import { Attestation, ClaimInfo } from './types'
 
 interface Props {
   activeStep: number
@@ -31,13 +31,12 @@ interface Props {
 
 class CreateClaimTemplate extends React.Component<Props> {
   handleAddAttestation(type): void {
-    this.props.addAttestation(createAttestation(type));
+    this.props.addAttestation(createAttestation(type))
   }
 
   handleDeleteAttestation(id): void {
-    this.props.removeAttestation(id);
+    this.props.removeAttestation(id)
   }
-
   handleDuplicateAttestation(attestation): void {
     const newAttestation = {
       ...createAttestation(attestation.type),
@@ -47,27 +46,27 @@ class CreateClaimTemplate extends React.Component<Props> {
       required: attestation.required,
       control: attestation.control,
       placeholder: attestation.placeholder,
-    };
-    this.props.addAttestation(newAttestation);
+    }
+    this.props.addAttestation(newAttestation)
   }
 
   handleRequireAttestation(id): void {
     this.props.updateAttestation(
       this.props.attestations
         .filter(attestation => {
-          return attestation.id === id;
+          return attestation.id === id
         })
         .map(attestation => {
-          return { ...attestation, required: !attestation.required };
+          return { ...attestation, required: !attestation.required }
         })[0],
-    );
+    )
   }
 
   handleInfoCardContent(formData: FormData): void {
     this.props.updateClaimInfo({
       claimName: formData.claimName,
       shortDescription: formData.shortDescription,
-    });
+    })
   }
 
   handleUpdateAttestationContent(
@@ -78,24 +77,24 @@ class CreateClaimTemplate extends React.Component<Props> {
       ...attestation,
       label: formData.question,
       description: formData.shortDescription,
-    });
+    })
   }
 
   getStepTitle(activeStep): string {
     switch (activeStep) {
       case 1:
-        return 'Attestation';
+        return 'Attestation'
       case 2:
-        return 'Evaluation';
+        return 'Evaluation'
       case 3:
-        return 'Approval';
+        return 'Approval'
       default:
-        return null;
+        return null
     }
   }
 
   render(): JSX.Element {
-    const { activeStep, claimInfo, attestations, updateActiveStep } = this.props;
+    const { activeStep, claimInfo, attestations, updateActiveStep } = this.props
     return (
       <>
         <Hero title="Create a New Claim Template" />
@@ -109,13 +108,15 @@ class CreateClaimTemplate extends React.Component<Props> {
                     currentStepNo={activeStep}
                     totalSteps={3}
                     handleGoToStepClick={(stepNo): void =>
-                      updateActiveStep(stepNo)}
+                      updateActiveStep(stepNo)
+                    }
                   />
                   {activeStep === 1 && (
                     <>
                       <ClaimInfoCard
                         handleUpdateContent={(claimInfo): void =>
-                          this.handleInfoCardContent(claimInfo)}
+                          this.handleInfoCardContent(claimInfo)
+                        }
                         claimName={claimInfo.claimName}
                         shortDescription={claimInfo.shortDescription}
                       />
@@ -126,11 +127,14 @@ class CreateClaimTemplate extends React.Component<Props> {
                             key={attestation.title}
                             attestation={attestation}
                             handleDeleteAttestation={(id): void =>
-                              this.handleDeleteAttestation(id)}
+                              this.handleDeleteAttestation(id)
+                            }
                             handleDuplicateAttestation={(attestation): void =>
-                              this.handleDuplicateAttestation(attestation)}
+                              this.handleDuplicateAttestation(attestation)
+                            }
                             handleRequireAttestation={(id): void =>
-                              this.handleRequireAttestation(id)}
+                              this.handleRequireAttestation(id)
+                            }
                             handleUpdateAttestationContent={(
                               formData,
                               attestation,
@@ -138,14 +142,16 @@ class CreateClaimTemplate extends React.Component<Props> {
                               this.handleUpdateAttestationContent(
                                 formData,
                                 attestation,
-                              )}
+                              )
+                            }
                           />
-                        );
+                        )
                       })}
 
                       <AddFieldBar
                         addField={(question): void =>
-                          this.handleAddAttestation(question)}
+                          this.handleAddAttestation(question)
+                        }
                       />
                     </>
                   )}
@@ -187,7 +193,7 @@ class CreateClaimTemplate extends React.Component<Props> {
           </div>
         </CreateClaimTemplateWrapper>
       </>
-    );
+    )
   }
 }
 
@@ -195,7 +201,7 @@ const mapStateToProps = (state: RootState): Record<string, any> => ({
   activeStep: state.createClaimTemplate.activeStep,
   claimInfo: state.createClaimTemplate.claimInfo,
   attestations: state.createClaimTemplate.attestations,
-});
+})
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
   updateActiveStep: (newStepNo): void => dispatch(updateActiveStep(newStepNo)),
@@ -204,9 +210,9 @@ const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
   removeAttestation: (id): void => dispatch(removeAttestation(id)),
   updateAttestation: (attestation): void =>
     dispatch(updateAttestation(attestation)),
-});
+})
 
 export const CreateClaimTemplateConnected = connect(
   mapStateToProps,
   mapDispatchToProps,
-)(CreateClaimTemplate);
+)(CreateClaimTemplate)

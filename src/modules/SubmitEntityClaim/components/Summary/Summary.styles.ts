@@ -1,7 +1,6 @@
-import styled from 'styled-components';
-import { deviceWidth } from '../../../../lib/commonData';
-import { ActionWrapper as ActionWrapperBase } from '../../../../common/components/ControlPanel/Actions/Actions.styles';
-
+import styled from "styled-components";
+import { deviceWidth } from "../../../../lib/commonData";
+import { ActionWrapper as ActionWrapperBase } from "../../../../common/components/ControlPanel/Actions/Actions.styles";
 export const ActionWrapper = styled(ActionWrapperBase)``;
 export const ClaimSummaryList = styled.ul``;
 
