@@ -67,6 +67,10 @@ hr {
     padding: 2.5rem;
     width: 90%;
     flex: 1;
+
+    @media screen and (max-width: 768px) {
+      width: 100%;
+    }
   }
 
   .tablinks {

@@ -19,7 +19,7 @@ export const getOrder = (assistantResponse: any): GetOrderAction => ({
   payload: {
     order: {
       symbol: 'IXO',
-      subscription: '12 months',
+      subscription: '12 Months',
       fiat: 'EUR',
       fiatSymbol: '€',
       amount: '1267',
@@ -50,7 +50,7 @@ export const confirmOrder = (entityDid: string) => (
 
   Axios.get(
     `${process.env.REACT_APP_GAIA_URL}/projectAccounts/${entityDid}`,
-  ).then(projectAccounts => {
+  ).then((projectAccounts) => {
     const projectAddr = projectAccounts.data[entityDid]
 
     const tx: FuelEntityOrderTx = {

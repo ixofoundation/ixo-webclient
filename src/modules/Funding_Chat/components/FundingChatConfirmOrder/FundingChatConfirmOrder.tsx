@@ -53,20 +53,14 @@ const FundingChatOrder: React.FunctionComponent<Props> = ({
       </BackButton>
       <div className="row header-section">
         <div className="col-12">
-          <FundingChatOrderHeader>
-            Order Summary
-          </FundingChatOrderHeader>
+          <FundingChatOrderHeader>Order Summary</FundingChatOrderHeader>
         </div>
         <FundingChatOrderSummaryWrapper className="col-12">
-          <div className="col-6">
-            <FundingChatOrderTitle>
-              {subscription}
-            </FundingChatOrderTitle>
-            <FundingChatOrderCaption>
-              Subscription
-            </FundingChatOrderCaption>
+          <div className="col-5 pl-4">
+            <FundingChatOrderTitle>{subscription}</FundingChatOrderTitle>
+            <FundingChatOrderCaption>Subscription</FundingChatOrderCaption>
           </div>
-          <div className="col-6">
+          <div className="col-7 pl-4">
             <FundingChatOrderTitle>Included</FundingChatOrderTitle>
             <FundingChatOrderCaption>
               Standard Hosting Service
@@ -85,45 +79,36 @@ const FundingChatOrder: React.FunctionComponent<Props> = ({
         </div>
         <div className="col-12">
           <div className="row align-items-center">
-            <div className="col-8">
-              <div className="row align-items-center">
-                <div className="col-4 p-0">
-                  <FundingChatOrderCaption>
-                    Price ({symbol})
-                  </FundingChatOrderCaption>
-                </div>
-                <div className="col-8">
-                  <FundingChatPriceWrapper>
-                    <IxoX width="20" fill="#49BFE0" />
-                    {amount}
-                  </FundingChatPriceWrapper>
-                </div>
-              </div>
+            <div className="col-4 p-0">
+              <FundingChatOrderCaption>
+                Price ({symbol})
+              </FundingChatOrderCaption>
             </div>
-            <div className="col-4">
-              <ChatBotIconWrapper onClick={handleCancelOrder}>
-                <ChatbotIcon />
-              </ChatBotIconWrapper>
+            <div className="col-8">
+              <div
+                className="row justify-content-between pl-3 align-items-center pt-2 pb-2"
+                style={{ backgroundColor: '#F7F8F9' }}
+              >
+                <FundingChatPriceWrapper>
+                  <IxoX width="20" fill="#49BFE0" />
+                  {amount}
+                </FundingChatPriceWrapper>
+                <ChatBotIconWrapper onClick={handleCancelOrder}>
+                  <ChatbotIcon />
+                </ChatBotIconWrapper>
+              </div>
             </div>
           </div>
 
           <div className="row align-items-center">
-            <div className="col-8">
-              <div className="row align-items-center">
-                <div className="col-4">
-                  <FundingChatOrderCaption>
-                    Rate
-                  </FundingChatOrderCaption>
-                </div>
-                <div className="col-8">
-                  <FundingChatOrderSubTitle>
-                    {fiatAmount}
-                  </FundingChatOrderSubTitle>
-                </div>
-              </div>
+            <div className="col-4 p-0">
+              <FundingChatOrderCaption>Rate</FundingChatOrderCaption>
             </div>
             <div className="col-4">
-              <FundingChatOrderCaption>
+              <FundingChatOrderSubTitle>{fiatAmount}</FundingChatOrderSubTitle>
+            </div>
+            <div className="col-4 p-0">
+              <FundingChatOrderCaption className="text-right">
                 1 {symbol} = {fiatConversionRate}
               </FundingChatOrderCaption>
             </div>
@@ -134,51 +119,42 @@ const FundingChatOrder: React.FunctionComponent<Props> = ({
       <div className="row transaction-detail">
         <div className="col-12">
           <div className="row">
-            <FundingChatOrderSubTitle>
-              Additional Fees
-            </FundingChatOrderSubTitle>
+            <FundingChatOrderSubTitle>Additional Fees</FundingChatOrderSubTitle>
           </div>
         </div>
         <div className="col-12">
           <div className="row align-items-center">
-            <div className="col-8">
-              <div className="row align-items-center">
-                <div className="col-4 p-0">
-                  <FundingChatOrderCaption>
-                    Price ({symbol})
-                  </FundingChatOrderCaption>
-                </div>
-                <div className="col-8">
-                  <FundingChatPriceWrapper>
-                    <IxoX width="20" fill="#49BFE0" />
-                    {gasFee}
-                  </FundingChatPriceWrapper>
-                </div>
-              </div>
+            <div className="col-4 p-0">
+              <FundingChatOrderCaption>
+                Price ({symbol})
+              </FundingChatOrderCaption>
             </div>
-            <div className="col-4">
+            <div className="col-8">
+              <div
+                className="row align-items-center pl-3 pt-2 pb-2"
+                style={{ backgroundColor: '#F7F8F9' }}
+              >
+                <FundingChatPriceWrapper>
+                  <IxoX width="20" fill="#49BFE0" />
+                  {gasFee}
+                </FundingChatPriceWrapper>
+              </div>
             </div>
           </div>
 
           <div className="row align-items-center">
-            <div className="col-7 p-0">
-              <div className="row align-items-center">
-                <div className="col-4">
-                  <FundingChatOrderCaption>
-                    Rate
-                  </FundingChatOrderCaption>
-                </div>
-                <div className="col-8">
-                  <FundingChatOrderSubTitle>
-                    {fiatTransactionFee}
-                  </FundingChatOrderSubTitle>
-                </div>
-              </div>
+            <div className="col-4 p-0">
+              <FundingChatOrderCaption>Rate</FundingChatOrderCaption>
             </div>
-            <div className="col-5 p-0">
-              <FundingChatPriceWrapper>
+            <div className="col-4">
+              <FundingChatOrderSubTitle>
+                {fiatTransactionFee}
+              </FundingChatOrderSubTitle>
+            </div>
+            <div className="col-4 p-0">
+              <FundingChatPriceWrapper className="d-flex" flexEnd>
                 <IxoX width="10" fill="#49BFE0" />
-                  10 per transaction
+                10 per transaction
               </FundingChatPriceWrapper>
             </div>
           </div>
@@ -186,24 +162,22 @@ const FundingChatOrder: React.FunctionComponent<Props> = ({
       </div>
       <div className="row total-wrapper pl-0 pr-0">
         <div className="col-12">
-          <FundingChatOrderSubTitle>
-            Amount due
-          </FundingChatOrderSubTitle>
+          <FundingChatOrderSubTitle>Amount due</FundingChatOrderSubTitle>
         </div>
         <div className="col-6">
           <FundingChatOrderTitle>
             <IxoX width="20" fill="#49BFE0" />
             <span className="ml-2">{total}</span>
           </FundingChatOrderTitle>
-          <FundingChatOrderCaption>
+          <FundingChatOrderCaption className="mt-2">
             Total {symbol}
           </FundingChatOrderCaption>
         </div>
         <div className="col-6">
-          <FundingChatOrderTitle>
-            {fiatTotal}
-          </FundingChatOrderTitle>
-          <FundingChatOrderCaption>Total</FundingChatOrderCaption>
+          <FundingChatOrderTitle>{fiatTotal}</FundingChatOrderTitle>
+          <FundingChatOrderCaption className="mt-2">
+            Total
+          </FundingChatOrderCaption>
         </div>
       </div>
       <ButtonWrapper className="row">

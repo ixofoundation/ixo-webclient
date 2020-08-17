@@ -21,6 +21,7 @@ import { EntityType } from 'modules/Entities/types'
 import { entityTypeMap } from 'modules/Entities/strategy-map'
 import { useWindowSize } from 'common/hooks'
 import { deviceWidth } from 'lib/commonData'
+import IxoCircle from 'assets/images/ixo-circle.png'
 
 export interface Props {
   project: any
@@ -41,7 +42,7 @@ export const ProjectHero: React.SFC<Props> = ({
   isLoggedIn,
   onlyTitle,
   assistantPanelToggle,
-  enableAssistantButton
+  enableAssistantButton,
 }) => {
   const windowSize = useWindowSize()
   const entityType = project.entityType
@@ -141,6 +142,7 @@ export const ProjectHero: React.SFC<Props> = ({
                     <span>{moment(project.createdOn).format('d MMM ‘YY')}</span>
                   </HeroInfoItem>
                   <HeroInfoItem>
+                    <img src={IxoCircle} />
                     <span>{project.ownerName}</span>
                   </HeroInfoItem>
                   {project.projectLocation && (
