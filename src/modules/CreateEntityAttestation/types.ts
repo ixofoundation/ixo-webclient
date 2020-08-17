@@ -215,6 +215,141 @@ export interface UpdateDateRangeSelectorQuestionAction
   }
 }
 
+export interface AddAvatarUploadQuestionAction
+  extends AddQuestionAction<
+    typeof CreateEntityAttestationActions.AddAvatarUploadQuestion
+  > {
+  payload: {
+    id: string
+    title: string
+    description: string
+    label: string
+    required: boolean
+    type: Type
+    control: ControlType
+  }
+}
+
+export interface UpdateAvatarUploadQuestionAction
+  extends UpdateQuestionAction<
+    typeof CreateEntityAttestationActions.UpdateAvatarUploadQuestion
+  > {
+  payload: {
+    id: string
+    title: string
+    description: string
+    label: string
+  }
+}
+
+export interface AddImageUploadQuestionAction
+  extends AddQuestionAction<
+    typeof CreateEntityAttestationActions.AddImageUploadQuestion
+  > {
+  payload: {
+    id: string
+    title: string
+    description: string
+    label: string
+    required: boolean
+    type: Type
+    control: ControlType
+  }
+}
+
+export interface UpdateImageUploadQuestionAction
+  extends UpdateQuestionAction<
+    typeof CreateEntityAttestationActions.UpdateImageUploadQuestion
+  > {
+  payload: {
+    id: string
+    title: string
+    description: string
+    label: string
+  }
+}
+
+export interface AddVideoUploadQuestionAction
+  extends AddQuestionAction<
+    typeof CreateEntityAttestationActions.AddVideoUploadQuestion
+  > {
+  payload: {
+    id: string
+    title: string
+    description: string
+    label: string
+    required: boolean
+    type: Type
+    control: ControlType
+  }
+}
+
+export interface UpdateVideoUploadQuestionAction
+  extends UpdateQuestionAction<
+    typeof CreateEntityAttestationActions.UpdateVideoUploadQuestion
+  > {
+  payload: {
+    id: string
+    title: string
+    description: string
+    label: string
+  }
+}
+
+export interface AddAudioUploadQuestionAction
+  extends AddQuestionAction<
+    typeof CreateEntityAttestationActions.AddAudioUploadQuestion
+  > {
+  payload: {
+    id: string
+    title: string
+    description: string
+    label: string
+    required: boolean
+    type: Type
+    control: ControlType
+  }
+}
+
+export interface UpdateAudioUploadQuestionAction
+  extends UpdateQuestionAction<
+    typeof CreateEntityAttestationActions.UpdateAudioUploadQuestion
+  > {
+  payload: {
+    id: string
+    title: string
+    description: string
+    label: string
+  }
+}
+
+export interface AddDocumentUploadQuestionAction
+  extends AddQuestionAction<
+    typeof CreateEntityAttestationActions.AddDocumentUploadQuestion
+  > {
+  payload: {
+    id: string
+    title: string
+    description: string
+    label: string
+    required: boolean
+    type: Type
+    control: ControlType
+  }
+}
+
+export interface UpdateDocumentUploadQuestionAction
+  extends UpdateQuestionAction<
+    typeof CreateEntityAttestationActions.UpdateDocumentUploadQuestion
+  > {
+  payload: {
+    id: string
+    title: string
+    description: string
+    label: string
+  }
+}
+
 export interface UpdateAnswerRequiredAction {
   type: typeof CreateEntityAttestationActions.UpdateAnswerRequired
   payload: {
@@ -263,6 +398,16 @@ export type CreateEntityAttestationActionTypes =
   | UpdateSingleDateSelectorQuestionAction
   | AddDateRangeSelectorQuestionAction
   | UpdateDateRangeSelectorQuestionAction
+  | AddAvatarUploadQuestionAction
+  | UpdateAvatarUploadQuestionAction
+  | AddImageUploadQuestionAction
+  | UpdateImageUploadQuestionAction
+  | AddVideoUploadQuestionAction
+  | UpdateVideoUploadQuestionAction
+  | AddAudioUploadQuestionAction
+  | UpdateAudioUploadQuestionAction
+  | AddDocumentUploadQuestionAction
+  | UpdateDocumentUploadQuestionAction
   | UpdateAnswerRequiredAction
   | RemoveQuestionAction
   | CopyQuestionAction

@@ -9,6 +9,16 @@ import {
   UpdateSingleDateSelectorQuestionAction,
   AddDateRangeSelectorQuestionAction,
   UpdateDateRangeSelectorQuestionAction,
+  AddAudioUploadQuestionAction,
+  AddAvatarUploadQuestionAction,
+  AddDocumentUploadQuestionAction,
+  AddImageUploadQuestionAction,
+  AddVideoUploadQuestionAction,
+  UpdateAudioUploadQuestionAction,
+  UpdateAvatarUploadQuestionAction,
+  UpdateDocumentUploadQuestionAction,
+  UpdateImageUploadQuestionAction,
+  UpdateVideoUploadQuestionAction,
   CreateEntityAttestationActions,
   UpdateAnswerRequiredAction,
   ValidatedAction,
@@ -147,6 +157,156 @@ export const updateDateRangeSelectorQuestion = (
 
   return {
     type: CreateEntityAttestationActions.UpdateDateRangeSelectorQuestion,
+    payload: {
+      id,
+      title,
+      description,
+      label,
+    },
+  }
+}
+
+export const addAvatarUploadQuestion = (): AddAvatarUploadQuestionAction => ({
+  type: CreateEntityAttestationActions.AddAvatarUploadQuestion,
+  payload: {
+    id: uuidv4(),
+    title: undefined,
+    description: undefined,
+    label: undefined,
+    required: true,
+    type: Type.String,
+    control: ControlType.AvatarUpload,
+  },
+})
+
+export const updateAvatarUploadQuestion = (
+  id: string,
+  formData: FormData,
+): UpdateAvatarUploadQuestionAction => {
+  const { title, description, label } = formData
+
+  return {
+    type: CreateEntityAttestationActions.UpdateAvatarUploadQuestion,
+    payload: {
+      id,
+      title,
+      description,
+      label,
+    },
+  }
+}
+
+export const addImageUploadQuestion = (): AddImageUploadQuestionAction => ({
+  type: CreateEntityAttestationActions.AddImageUploadQuestion,
+  payload: {
+    id: uuidv4(),
+    title: undefined,
+    description: undefined,
+    label: undefined,
+    required: true,
+    type: Type.String,
+    control: ControlType.ImageUpload,
+  },
+})
+
+export const updateImageUploadQuestion = (
+  id: string,
+  formData: FormData,
+): UpdateImageUploadQuestionAction => {
+  const { title, description, label } = formData
+
+  return {
+    type: CreateEntityAttestationActions.UpdateImageUploadQuestion,
+    payload: {
+      id,
+      title,
+      description,
+      label,
+    },
+  }
+}
+
+export const addVideoUploadQuestion = (): AddVideoUploadQuestionAction => ({
+  type: CreateEntityAttestationActions.AddVideoUploadQuestion,
+  payload: {
+    id: uuidv4(),
+    title: undefined,
+    description: undefined,
+    label: undefined,
+    required: true,
+    type: Type.String,
+    control: ControlType.VideoUpload,
+  },
+})
+
+export const updateVideoUploadQuestion = (
+  id: string,
+  formData: FormData,
+): UpdateVideoUploadQuestionAction => {
+  const { title, description, label } = formData
+
+  return {
+    type: CreateEntityAttestationActions.UpdateVideoUploadQuestion,
+    payload: {
+      id,
+      title,
+      description,
+      label,
+    },
+  }
+}
+
+export const addAudioUploadQuestion = (): AddAudioUploadQuestionAction => ({
+  type: CreateEntityAttestationActions.AddAudioUploadQuestion,
+  payload: {
+    id: uuidv4(),
+    title: undefined,
+    description: undefined,
+    label: undefined,
+    required: true,
+    type: Type.String,
+    control: ControlType.AudioUpload,
+  },
+})
+
+export const updateAudioUploadQuestion = (
+  id: string,
+  formData: FormData,
+): UpdateAudioUploadQuestionAction => {
+  const { title, description, label } = formData
+
+  return {
+    type: CreateEntityAttestationActions.UpdateAudioUploadQuestion,
+    payload: {
+      id,
+      title,
+      description,
+      label,
+    },
+  }
+}
+
+export const addDocumentUploadQuestion = (): AddDocumentUploadQuestionAction => ({
+  type: CreateEntityAttestationActions.AddDocumentUploadQuestion,
+  payload: {
+    id: uuidv4(),
+    title: undefined,
+    description: undefined,
+    label: undefined,
+    required: true,
+    type: Type.String,
+    control: ControlType.DocumentUpload,
+  },
+})
+
+export const updateDocumentUploadQuestion = (
+  id: string,
+  formData: FormData,
+): UpdateDocumentUploadQuestionAction => {
+  const { title, description, label } = formData
+
+  return {
+    type: CreateEntityAttestationActions.UpdateDocumentUploadQuestion,
     payload: {
       id,
       title,

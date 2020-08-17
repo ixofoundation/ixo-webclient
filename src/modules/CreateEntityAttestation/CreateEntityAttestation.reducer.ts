@@ -129,6 +129,136 @@ export const reducer = (
           },
         },
       }
+    case CreateEntityAttestationActions.AddAvatarUploadQuestion:
+      return {
+        ...state,
+        questions: {
+          ...state.questions,
+          ...{
+            [action.payload.id]: {
+              ...action.payload,
+              order: utils.orderForNewQuestion(state.questions),
+            },
+          },
+        },
+      }
+    case CreateEntityAttestationActions.UpdateAvatarUploadQuestion:
+      return {
+        ...state,
+        questions: {
+          ...state.questions,
+          ...{
+            [action.payload.id]: {
+              ...state.questions[action.payload.id],
+              ...action.payload,
+            },
+          },
+        },
+      }
+    case CreateEntityAttestationActions.AddImageUploadQuestion:
+      return {
+        ...state,
+        questions: {
+          ...state.questions,
+          ...{
+            [action.payload.id]: {
+              ...action.payload,
+              order: utils.orderForNewQuestion(state.questions),
+            },
+          },
+        },
+      }
+    case CreateEntityAttestationActions.UpdateImageUploadQuestion:
+      return {
+        ...state,
+        questions: {
+          ...state.questions,
+          ...{
+            [action.payload.id]: {
+              ...state.questions[action.payload.id],
+              ...action.payload,
+            },
+          },
+        },
+      }
+    case CreateEntityAttestationActions.AddVideoUploadQuestion:
+      return {
+        ...state,
+        questions: {
+          ...state.questions,
+          ...{
+            [action.payload.id]: {
+              ...action.payload,
+              order: utils.orderForNewQuestion(state.questions),
+            },
+          },
+        },
+      }
+    case CreateEntityAttestationActions.UpdateVideoUploadQuestion:
+      return {
+        ...state,
+        questions: {
+          ...state.questions,
+          ...{
+            [action.payload.id]: {
+              ...state.questions[action.payload.id],
+              ...action.payload,
+            },
+          },
+        },
+      }
+    case CreateEntityAttestationActions.AddAudioUploadQuestion:
+      return {
+        ...state,
+        questions: {
+          ...state.questions,
+          ...{
+            [action.payload.id]: {
+              ...action.payload,
+              order: utils.orderForNewQuestion(state.questions),
+            },
+          },
+        },
+      }
+    case CreateEntityAttestationActions.UpdateAudioUploadQuestion:
+      return {
+        ...state,
+        questions: {
+          ...state.questions,
+          ...{
+            [action.payload.id]: {
+              ...state.questions[action.payload.id],
+              ...action.payload,
+            },
+          },
+        },
+      }
+    case CreateEntityAttestationActions.AddDocumentUploadQuestion:
+      return {
+        ...state,
+        questions: {
+          ...state.questions,
+          ...{
+            [action.payload.id]: {
+              ...action.payload,
+              order: utils.orderForNewQuestion(state.questions),
+            },
+          },
+        },
+      }
+    case CreateEntityAttestationActions.UpdateDocumentUploadQuestion:
+      return {
+        ...state,
+        questions: {
+          ...state.questions,
+          ...{
+            [action.payload.id]: {
+              ...state.questions[action.payload.id],
+              ...action.payload,
+            },
+          },
+        },
+      }
     case CreateEntityAttestationActions.UpdateAnswerRequired:
       return {
         ...state,

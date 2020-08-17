@@ -242,6 +242,266 @@ describe('CreateEntityAttestation Actions', () => {
     })
   })
 
+  describe('avatarUploadQuestion', () => {
+    describe('addAvatarUploadQuestion', () => {
+      it('should add a new avatar question', () => {
+        // given ... an id
+        const id = 'newId'
+        v4.mockImplementationOnce(() => id)
+
+        // when ... we call the action
+        const action = SUT.addAvatarUploadQuestion()
+
+        // then ... we should expect it to create an action with the correct type
+        expect(action.type).toEqual(
+          CreateEntityAttestationActions.AddAvatarUploadQuestion,
+        )
+        expect(action.payload).toEqual({
+          id,
+          title: undefined,
+          description: undefined,
+          label: undefined,
+          required: true,
+          type: Type.String,
+          control: ControlType.AvatarUpload,
+        })
+      })
+    })
+
+    describe('updateAvatarUploadQuestion', () => {
+      it('should update the avatar question', () => {
+        // given ... some data
+        const id = 'existingId'
+        const title = 'someNewTitle'
+        const description = 'someDescription'
+        const label = 'someLabel'
+
+        const formData = {
+          title,
+          description,
+          label,
+        }
+
+        // when ... we call the action
+        const action = SUT.updateAvatarUploadQuestion(id, formData)
+
+        // then ... we should expect it to create the action as expected
+        expect(action.type).toEqual(
+          CreateEntityAttestationActions.UpdateAvatarUploadQuestion,
+        )
+        expect(action.payload).toEqual({ id, title, description, label })
+      })
+    })
+  })
+
+  describe('imageUploadQuestion', () => {
+    describe('addImageUploadQuestion', () => {
+      it('should add a new image question', () => {
+        // given ... an id
+        const id = 'newId'
+        v4.mockImplementationOnce(() => id)
+
+        // when ... we call the action
+        const action = SUT.addImageUploadQuestion()
+
+        // then ... we should expect it to create an action with the correct type
+        expect(action.type).toEqual(
+          CreateEntityAttestationActions.AddImageUploadQuestion,
+        )
+        expect(action.payload).toEqual({
+          id,
+          title: undefined,
+          description: undefined,
+          label: undefined,
+          required: true,
+          type: Type.String,
+          control: ControlType.ImageUpload,
+        })
+      })
+    })
+
+    describe('updateImageUploadQuestion', () => {
+      it('should update the image question', () => {
+        // given ... some data
+        const id = 'existingId'
+        const title = 'someNewTitle'
+        const description = 'someDescription'
+        const label = 'someLabel'
+
+        const formData = {
+          title,
+          description,
+          label,
+        }
+
+        // when ... we call the action
+        const action = SUT.updateImageUploadQuestion(id, formData)
+
+        // then ... we should expect it to create the action as expected
+        expect(action.type).toEqual(
+          CreateEntityAttestationActions.UpdateImageUploadQuestion,
+        )
+        expect(action.payload).toEqual({ id, title, description, label })
+      })
+    })
+  })
+
+  describe('videoUploadQuestion', () => {
+    describe('addVideoUploadQuestion', () => {
+      it('should add a new video question', () => {
+        // given ... an id
+        const id = 'newId'
+        v4.mockImplementationOnce(() => id)
+
+        // when ... we call the action
+        const action = SUT.addVideoUploadQuestion()
+
+        // then ... we should expect it to create an action with the correct type
+        expect(action.type).toEqual(
+          CreateEntityAttestationActions.AddVideoUploadQuestion,
+        )
+        expect(action.payload).toEqual({
+          id,
+          title: undefined,
+          description: undefined,
+          label: undefined,
+          required: true,
+          type: Type.String,
+          control: ControlType.VideoUpload,
+        })
+      })
+    })
+
+    describe('updateVideoUploadQuestion', () => {
+      it('should update the video question', () => {
+        // given ... some data
+        const id = 'existingId'
+        const title = 'someNewTitle'
+        const description = 'someDescription'
+        const label = 'someLabel'
+
+        const formData = {
+          title,
+          description,
+          label,
+        }
+
+        // when ... we call the action
+        const action = SUT.updateVideoUploadQuestion(id, formData)
+
+        // then ... we should expect it to create the action as expected
+        expect(action.type).toEqual(
+          CreateEntityAttestationActions.UpdateVideoUploadQuestion,
+        )
+        expect(action.payload).toEqual({ id, title, description, label })
+      })
+    })
+  })
+
+  describe('audioUploadQuestion', () => {
+    describe('addAudioUploadQuestion', () => {
+      it('should add a new audio question', () => {
+        // given ... an id
+        const id = 'newId'
+        v4.mockImplementationOnce(() => id)
+
+        // when ... we call the action
+        const action = SUT.addAudioUploadQuestion()
+
+        // then ... we should expect it to create an action with the correct type
+        expect(action.type).toEqual(
+          CreateEntityAttestationActions.AddAudioUploadQuestion,
+        )
+        expect(action.payload).toEqual({
+          id,
+          title: undefined,
+          description: undefined,
+          label: undefined,
+          required: true,
+          type: Type.String,
+          control: ControlType.AudioUpload,
+        })
+      })
+    })
+
+    describe('updateAudioUploadQuestion', () => {
+      it('should update the audio question', () => {
+        // given ... some data
+        const id = 'existingId'
+        const title = 'someNewTitle'
+        const description = 'someDescription'
+        const label = 'someLabel'
+
+        const formData = {
+          title,
+          description,
+          label,
+        }
+
+        // when ... we call the action
+        const action = SUT.updateAudioUploadQuestion(id, formData)
+
+        // then ... we should expect it to create the action as expected
+        expect(action.type).toEqual(
+          CreateEntityAttestationActions.UpdateAudioUploadQuestion,
+        )
+        expect(action.payload).toEqual({ id, title, description, label })
+      })
+    })
+  })
+
+  describe('documentUploadQuestion', () => {
+    describe('addDocumentUploadQuestion', () => {
+      it('should add a new document question', () => {
+        // given ... an id
+        const id = 'newId'
+        v4.mockImplementationOnce(() => id)
+
+        // when ... we call the action
+        const action = SUT.addDocumentUploadQuestion()
+
+        // then ... we should expect it to create an action with the correct type
+        expect(action.type).toEqual(
+          CreateEntityAttestationActions.AddDocumentUploadQuestion,
+        )
+        expect(action.payload).toEqual({
+          id,
+          title: undefined,
+          description: undefined,
+          label: undefined,
+          required: true,
+          type: Type.String,
+          control: ControlType.DocumentUpload,
+        })
+      })
+    })
+
+    describe('updateDocumentUploadQuestion', () => {
+      it('should update the document question', () => {
+        // given ... some data
+        const id = 'existingId'
+        const title = 'someNewTitle'
+        const description = 'someDescription'
+        const label = 'someLabel'
+
+        const formData = {
+          title,
+          description,
+          label,
+        }
+
+        // when ... we call the action
+        const action = SUT.updateDocumentUploadQuestion(id, formData)
+
+        // then ... we should expect it to create the action as expected
+        expect(action.type).toEqual(
+          CreateEntityAttestationActions.UpdateDocumentUploadQuestion,
+        )
+        expect(action.payload).toEqual({ id, title, description, label })
+      })
+    })
+  })
+
   describe('updateAnswerRequired', () => {
     it('should flag the answer as required or not required', () => {
       // given ... an id and the required flag

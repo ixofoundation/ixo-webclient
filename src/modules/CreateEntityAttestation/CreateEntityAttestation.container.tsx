@@ -24,6 +24,16 @@ import {
   removeQuestion,
   validated,
   validationError,
+  addAudioUploadQuestion,
+  addAvatarUploadQuestion,
+  addDocumentUploadQuestion,
+  addImageUploadQuestion,
+  addVideoUploadQuestion,
+  updateAudioUploadQuestion,
+  updateAvatarUploadQuestion,
+  updateDocumentUploadQuestion,
+  updateImageUploadQuestion,
+  updateVideoUploadQuestion,
 } from './CreateEntityAttestation.actions'
 import * as attestationSelectors from './CreateEntityAttestation.selectors'
 import AddQuestionBar from './components/AddQuestionBar/AddQuestionBar'
@@ -31,6 +41,11 @@ import QuestionCardWrapper from './components/QuestionCardWrapper/QuestionCardWr
 import ShortTextQuestion from './components/ShortTextQuestion/ShortTextQuestion'
 import SingleDateSelectorQuestion from './components/SingleDateSelectorQuestion/SingleDateSelectorQuestion'
 import DateRangeSelectorQuestion from './components/DateRangeSelectorQuestion/DateRangeSelectorQuestion'
+import AvatarUploadQuestion from './components/AvatarUploadQuestion/AvatarUploadQuestion'
+import ImageUploadQuestion from './components/ImageUploadQuestion/ImageUploadQuestion'
+import VideoUploadQuestion from './components/VideoUploadQuestion/VideoUploadQuestion'
+import AudioUploadQuestion from './components/AudioUploadQuestion/AudioUploadQuestion'
+import DocumentUploadQuestion from './components/DocumentUploadQuestion/DocumentUploadQuestion'
 
 interface Props extends CreateEntityBaseProps {
   claimInfo: ClaimInfo
@@ -50,6 +65,16 @@ interface Props extends CreateEntityBaseProps {
     id: string,
     formData: FormData,
   ) => void
+  handleAddAvatarUploadQuestion: () => void
+  handleUpdateAvatarUploadQuestion: (id: string, formData: FormData) => void
+  handleAddImageUploadQuestion: () => void
+  handleUpdateImageUploadQuestion: (id: string, formData: FormData) => void
+  handleAddVideoUploadQuestion: () => void
+  handleUpdateVideoUploadQuestion: (id: string, formData: FormData) => void
+  handleAddAudioUploadQuestion: () => void
+  handleUpdateAudioUploadQuestion: (id: string, formData: FormData) => void
+  handleAddDocumentUploadQuestion: () => void
+  handleUpdateDocumentUploadQuestion: (id: string, formData: FormData) => void
   handleUpdateAnswerRequired: (id: string, required: boolean) => void
   handleCopyQuestion: (id: string) => void
   handleRemoveQuestion: (id: string) => void
@@ -109,6 +134,26 @@ class CreateEntityAttestation extends CreateEntityBase<Props> {
             case ControlType.DateRangeSelector:
               questionElem = this.renderDateRangeSelectorQuestion(question)
               title = questionTypeMap[ControlType.DateRangeSelector].title
+              break
+            case ControlType.AvatarUpload:
+              questionElem = this.renderAvatarUploadQuestion(question)
+              title = questionTypeMap[ControlType.AvatarUpload].title
+              break
+            case ControlType.ImageUpload:
+              questionElem = this.renderImageUploadQuestion(question)
+              title = questionTypeMap[ControlType.ImageUpload].title
+              break
+            case ControlType.VideoUpload:
+              questionElem = this.renderVideoUploadQuestion(question)
+              title = questionTypeMap[ControlType.VideoUpload].title
+              break
+            case ControlType.AudioUpload:
+              questionElem = this.renderAudioUploadQuestion(question)
+              title = questionTypeMap[ControlType.AudioUpload].title
+              break
+            case ControlType.DocumentUpload:
+              questionElem = this.renderDocumentUploadQuestion(question)
+              title = questionTypeMap[ControlType.DocumentUpload].title
               break
           }
 
@@ -214,12 +259,122 @@ class CreateEntityAttestation extends CreateEntityBase<Props> {
     )
   }
 
+  renderAvatarUploadQuestion = (question: Question): JSX.Element => {
+    const { handleUpdateAvatarUploadQuestion } = this.props
+    const { id, title, description, label } = question
+
+    return (
+      <AvatarUploadQuestion
+        ref={this.cardRefs[id]}
+        handleUpdateContent={(formData): void =>
+          handleUpdateAvatarUploadQuestion(id, formData)
+        }
+        handleSubmitted={(): void => this.props.handleValidated(id)}
+        handleError={(errors): void =>
+          this.props.handleValidationError(id, errors)
+        }
+        title={title}
+        description={description}
+        label={label}
+      />
+    )
+  }
+
+  renderImageUploadQuestion = (question: Question): JSX.Element => {
+    const { handleUpdateImageUploadQuestion } = this.props
+    const { id, title, description, label } = question
+
+    return (
+      <ImageUploadQuestion
+        ref={this.cardRefs[id]}
+        handleUpdateContent={(formData): void =>
+          handleUpdateImageUploadQuestion(id, formData)
+        }
+        handleSubmitted={(): void => this.props.handleValidated(id)}
+        handleError={(errors): void =>
+          this.props.handleValidationError(id, errors)
+        }
+        title={title}
+        description={description}
+        label={label}
+      />
+    )
+  }
+
+  renderVideoUploadQuestion = (question: Question): JSX.Element => {
+    const { handleUpdateVideoUploadQuestion } = this.props
+    const { id, title, description, label } = question
+
+    return (
+      <VideoUploadQuestion
+        ref={this.cardRefs[id]}
+        handleUpdateContent={(formData): void =>
+          handleUpdateVideoUploadQuestion(id, formData)
+        }
+        handleSubmitted={(): void => this.props.handleValidated(id)}
+        handleError={(errors): void =>
+          this.props.handleValidationError(id, errors)
+        }
+        title={title}
+        description={description}
+        label={label}
+      />
+    )
+  }
+
+  renderAudioUploadQuestion = (question: Question): JSX.Element => {
+    const { handleUpdateAudioUploadQuestion } = this.props
+    const { id, title, description, label } = question
+
+    return (
+      <AudioUploadQuestion
+        ref={this.cardRefs[id]}
+        handleUpdateContent={(formData): void =>
+          handleUpdateAudioUploadQuestion(id, formData)
+        }
+        handleSubmitted={(): void => this.props.handleValidated(id)}
+        handleError={(errors): void =>
+          this.props.handleValidationError(id, errors)
+        }
+        title={title}
+        description={description}
+        label={label}
+      />
+    )
+  }
+
+  renderDocumentUploadQuestion = (question: Question): JSX.Element => {
+    const { handleUpdateDocumentUploadQuestion } = this.props
+    const { id, title, description, label } = question
+
+    return (
+      <DocumentUploadQuestion
+        ref={this.cardRefs[id]}
+        handleUpdateContent={(formData): void =>
+          handleUpdateDocumentUploadQuestion(id, formData)
+        }
+        handleSubmitted={(): void => this.props.handleValidated(id)}
+        handleError={(errors): void =>
+          this.props.handleValidationError(id, errors)
+        }
+        title={title}
+        description={description}
+        label={label}
+      />
+    )
+  }
+
   addQuestion = (controlType: ControlType): void => {
     const {
       handleAddShortTextQuestion,
       handleAddLongTextQuestion,
       handleAddSingleDateSelectorQuestion,
       handleAddDateRangeSelectorQuestion,
+      handleAddAvatarUploadQuestion,
+      handleAddImageUploadQuestion,
+      handleAddVideoUploadQuestion,
+      handleAddAudioUploadQuestion,
+      handleAddDocumentUploadQuestion,
     } = this.props
 
     switch (controlType) {
@@ -234,6 +389,21 @@ class CreateEntityAttestation extends CreateEntityBase<Props> {
         break
       case ControlType.DateRangeSelector:
         handleAddDateRangeSelectorQuestion()
+        break
+      case ControlType.AvatarUpload:
+        handleAddAvatarUploadQuestion()
+        break
+      case ControlType.ImageUpload:
+        handleAddImageUploadQuestion()
+        break
+      case ControlType.VideoUpload:
+        handleAddVideoUploadQuestion()
+        break
+      case ControlType.AudioUpload:
+        handleAddAudioUploadQuestion()
+        break
+      case ControlType.DocumentUpload:
+        handleAddDocumentUploadQuestion()
         break
     }
   }
@@ -291,6 +461,23 @@ const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
     id: string,
     formData: FormData,
   ): void => dispatch(updateDateRangeSelectorQuestion(id, formData)),
+  handleAddAvatarUploadQuestion: (): void =>
+    dispatch(addAvatarUploadQuestion()),
+  handleUpdateAvatarUploadQuestion: (id: string, formData: FormData): void =>
+    dispatch(updateAvatarUploadQuestion(id, formData)),
+  handleAddImageUploadQuestion: (): void => dispatch(addImageUploadQuestion()),
+  handleUpdateImageUploadQuestion: (id: string, formData: FormData): void =>
+    dispatch(updateImageUploadQuestion(id, formData)),
+  handleAddVideoUploadQuestion: (): void => dispatch(addVideoUploadQuestion()),
+  handleUpdateVideoUploadQuestion: (id: string, formData: FormData): void =>
+    dispatch(updateVideoUploadQuestion(id, formData)),
+  handleAddAudioUploadQuestion: (): void => dispatch(addAudioUploadQuestion()),
+  handleUpdateAudioUploadQuestion: (id: string, formData: FormData): void =>
+    dispatch(updateAudioUploadQuestion(id, formData)),
+  handleAddDocumentUploadQuestion: (): void =>
+    dispatch(addDocumentUploadQuestion()),
+  handleUpdateDocumentUploadQuestion: (id: string, formData: FormData): void =>
+    dispatch(updateDocumentUploadQuestion(id, formData)),
   handleUpdateAnswerRequired: (id: string, required: boolean): void =>
     dispatch(updateAnswerRequired(id, required)),
   handleCopyQuestion: (id: string): void => dispatch(copyQuestion(id)),

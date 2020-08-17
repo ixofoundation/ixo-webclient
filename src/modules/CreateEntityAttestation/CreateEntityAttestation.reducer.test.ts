@@ -15,6 +15,16 @@ import {
   CopyQuestionAction,
   AddDateRangeSelectorQuestionAction,
   UpdateDateRangeSelectorQuestionAction,
+  AddAvatarUploadQuestionAction,
+  UpdateAvatarUploadQuestionAction,
+  AddImageUploadQuestionAction,
+  UpdateImageUploadQuestionAction,
+  UpdateVideoUploadQuestionAction,
+  AddVideoUploadQuestionAction,
+  UpdateAudioUploadQuestionAction,
+  AddAudioUploadQuestionAction,
+  UpdateDocumentUploadQuestionAction,
+  AddDocumentUploadQuestionAction,
 } from './types'
 import { Type, ControlType } from 'common/components/JsonForm/types'
 
@@ -448,7 +458,7 @@ describe('CreateEntityAttestation Reducer', () => {
   })
 
   describe('DateRangeSelectorQuestion Actions', () => {
-    it('should add a new single date selector question and set the correct order', () => {
+    it('should add a new date range selector question and set the correct order', () => {
       const id = 'someId'
 
       // given ... we have an action of type CreateEntityAttestationActions.AddDateRangeSelectorQuestion
@@ -513,7 +523,7 @@ describe('CreateEntityAttestation Reducer', () => {
       })
     })
 
-    it('should update the single date selector question and leave other properties in tact', () => {
+    it('should update the date range selector question and leave other properties in tact', () => {
       const id = 'someId'
       const title = 'someNewTitle'
       const label = 'someNewLabel'
@@ -562,6 +572,616 @@ describe('CreateEntityAttestation Reducer', () => {
             required: true,
             type: Type.String,
             control: ControlType.DateRangeSelector,
+            order: 20,
+          },
+        },
+      })
+    })
+  })
+
+  describe('AvatarUploadQuestion Actions', () => {
+    it('should add a new avatar upload question and set the correct order', () => {
+      const id = 'someId'
+
+      // given ... we have an action of type CreateEntityAttestationActions.AddAvatarUploadQuestion
+      const action: AddAvatarUploadQuestionAction = {
+        type: CreateEntityAttestationActions.AddAvatarUploadQuestion,
+        payload: {
+          id,
+          title: undefined,
+          description: undefined,
+          label: undefined,
+          required: true,
+          type: Type.String,
+          control: ControlType.AvatarUpload,
+        },
+      }
+
+      // when ... we run the reducer with this action
+      const result = SUT.reducer(
+        {
+          ...initialState,
+          questions: {
+            ['someExistingId']: {
+              id,
+              title: undefined,
+              description: undefined,
+              label: undefined,
+              required: true,
+              type: Type.String,
+              control: ControlType.AvatarUpload,
+              order: 1,
+            },
+          },
+        },
+        action,
+      )
+
+      // then ... the state should be set as expected
+      expect(result).toEqual({
+        ...initialState,
+        questions: {
+          ['someExistingId']: {
+            id,
+            title: undefined,
+            description: undefined,
+            label: undefined,
+            required: true,
+            type: Type.String,
+            control: ControlType.AvatarUpload,
+            order: 1,
+          },
+          [id]: {
+            id,
+            title: undefined,
+            description: undefined,
+            label: undefined,
+            required: true,
+            type: Type.String,
+            control: ControlType.AvatarUpload,
+            order: 2,
+          },
+        },
+      })
+    })
+
+    it('should update the avatar question and leave other properties in tact', () => {
+      const id = 'someId'
+      const title = 'someNewTitle'
+      const label = 'someNewLabel'
+      const description = 'someNewDescription'
+
+      // given .. we have an action of type CreateEntityAttestationActions.UpdateAvatarUploadQuestion
+      const action: UpdateAvatarUploadQuestionAction = {
+        type: CreateEntityAttestationActions.UpdateAvatarUploadQuestion,
+        payload: {
+          id,
+          title,
+          label,
+          description,
+        },
+      }
+
+      // when ... we run the reducer with this action
+      const result = SUT.reducer(
+        {
+          ...initialState,
+          questions: {
+            [id]: {
+              id,
+              title: 'someOldTitle',
+              label: 'someOldLabel',
+              description: 'someOldDescription',
+              required: true,
+              type: Type.String,
+              control: ControlType.AvatarUpload,
+              order: 20,
+            },
+          },
+        },
+        action,
+      )
+
+      // then ... the state should be set as expected
+      expect(result).toEqual({
+        ...initialState,
+        questions: {
+          [id]: {
+            id,
+            title,
+            label,
+            description,
+            required: true,
+            type: Type.String,
+            control: ControlType.AvatarUpload,
+            order: 20,
+          },
+        },
+      })
+    })
+  })
+
+  describe('ImageUploadQuestion Actions', () => {
+    it('should add a new image upload question and set the correct order', () => {
+      const id = 'someId'
+
+      // given ... we have an action of type CreateEntityAttestationActions.AddImageUploadQuestion
+      const action: AddImageUploadQuestionAction = {
+        type: CreateEntityAttestationActions.AddImageUploadQuestion,
+        payload: {
+          id,
+          title: undefined,
+          description: undefined,
+          label: undefined,
+          required: true,
+          type: Type.String,
+          control: ControlType.ImageUpload,
+        },
+      }
+
+      // when ... we run the reducer with this action
+      const result = SUT.reducer(
+        {
+          ...initialState,
+          questions: {
+            ['someExistingId']: {
+              id,
+              title: undefined,
+              description: undefined,
+              label: undefined,
+              required: true,
+              type: Type.String,
+              control: ControlType.ImageUpload,
+              order: 1,
+            },
+          },
+        },
+        action,
+      )
+
+      // then ... the state should be set as expected
+      expect(result).toEqual({
+        ...initialState,
+        questions: {
+          ['someExistingId']: {
+            id,
+            title: undefined,
+            description: undefined,
+            label: undefined,
+            required: true,
+            type: Type.String,
+            control: ControlType.ImageUpload,
+            order: 1,
+          },
+          [id]: {
+            id,
+            title: undefined,
+            description: undefined,
+            label: undefined,
+            required: true,
+            type: Type.String,
+            control: ControlType.ImageUpload,
+            order: 2,
+          },
+        },
+      })
+    })
+
+    it('should update the image question and leave other properties in tact', () => {
+      const id = 'someId'
+      const title = 'someNewTitle'
+      const label = 'someNewLabel'
+      const description = 'someNewDescription'
+
+      // given .. we have an action of type CreateEntityAttestationActions.UpdateImageUploadQuestion
+      const action: UpdateImageUploadQuestionAction = {
+        type: CreateEntityAttestationActions.UpdateImageUploadQuestion,
+        payload: {
+          id,
+          title,
+          label,
+          description,
+        },
+      }
+
+      // when ... we run the reducer with this action
+      const result = SUT.reducer(
+        {
+          ...initialState,
+          questions: {
+            [id]: {
+              id,
+              title: 'someOldTitle',
+              label: 'someOldLabel',
+              description: 'someOldDescription',
+              required: true,
+              type: Type.String,
+              control: ControlType.ImageUpload,
+              order: 20,
+            },
+          },
+        },
+        action,
+      )
+
+      // then ... the state should be set as expected
+      expect(result).toEqual({
+        ...initialState,
+        questions: {
+          [id]: {
+            id,
+            title,
+            label,
+            description,
+            required: true,
+            type: Type.String,
+            control: ControlType.ImageUpload,
+            order: 20,
+          },
+        },
+      })
+    })
+  })
+
+  describe('VideoUploadQuestion Actions', () => {
+    it('should add a new video upload question and set the correct order', () => {
+      const id = 'someId'
+
+      // given ... we have an action of type CreateEntityAttestationActions.AddVideoUploadQuestion
+      const action: AddVideoUploadQuestionAction = {
+        type: CreateEntityAttestationActions.AddVideoUploadQuestion,
+        payload: {
+          id,
+          title: undefined,
+          description: undefined,
+          label: undefined,
+          required: true,
+          type: Type.String,
+          control: ControlType.VideoUpload,
+        },
+      }
+
+      // when ... we run the reducer with this action
+      const result = SUT.reducer(
+        {
+          ...initialState,
+          questions: {
+            ['someExistingId']: {
+              id,
+              title: undefined,
+              description: undefined,
+              label: undefined,
+              required: true,
+              type: Type.String,
+              control: ControlType.VideoUpload,
+              order: 1,
+            },
+          },
+        },
+        action,
+      )
+
+      // then ... the state should be set as expected
+      expect(result).toEqual({
+        ...initialState,
+        questions: {
+          ['someExistingId']: {
+            id,
+            title: undefined,
+            description: undefined,
+            label: undefined,
+            required: true,
+            type: Type.String,
+            control: ControlType.VideoUpload,
+            order: 1,
+          },
+          [id]: {
+            id,
+            title: undefined,
+            description: undefined,
+            label: undefined,
+            required: true,
+            type: Type.String,
+            control: ControlType.VideoUpload,
+            order: 2,
+          },
+        },
+      })
+    })
+
+    it('should update the video question and leave other properties in tact', () => {
+      const id = 'someId'
+      const title = 'someNewTitle'
+      const label = 'someNewLabel'
+      const description = 'someNewDescription'
+
+      // given .. we have an action of type CreateEntityAttestationActions.UpdateVideoUploadQuestion
+      const action: UpdateVideoUploadQuestionAction = {
+        type: CreateEntityAttestationActions.UpdateVideoUploadQuestion,
+        payload: {
+          id,
+          title,
+          label,
+          description,
+        },
+      }
+
+      // when ... we run the reducer with this action
+      const result = SUT.reducer(
+        {
+          ...initialState,
+          questions: {
+            [id]: {
+              id,
+              title: 'someOldTitle',
+              label: 'someOldLabel',
+              description: 'someOldDescription',
+              required: true,
+              type: Type.String,
+              control: ControlType.VideoUpload,
+              order: 20,
+            },
+          },
+        },
+        action,
+      )
+
+      // then ... the state should be set as expected
+      expect(result).toEqual({
+        ...initialState,
+        questions: {
+          [id]: {
+            id,
+            title,
+            label,
+            description,
+            required: true,
+            type: Type.String,
+            control: ControlType.VideoUpload,
+            order: 20,
+          },
+        },
+      })
+    })
+  })
+
+  describe('AudioUploadQuestion Actions', () => {
+    it('should add a new audio upload question and set the correct order', () => {
+      const id = 'someId'
+
+      // given ... we have an action of type CreateEntityAttestationActions.AddAudioUploadQuestion
+      const action: AddAudioUploadQuestionAction = {
+        type: CreateEntityAttestationActions.AddAudioUploadQuestion,
+        payload: {
+          id,
+          title: undefined,
+          description: undefined,
+          label: undefined,
+          required: true,
+          type: Type.String,
+          control: ControlType.AudioUpload,
+        },
+      }
+
+      // when ... we run the reducer with this action
+      const result = SUT.reducer(
+        {
+          ...initialState,
+          questions: {
+            ['someExistingId']: {
+              id,
+              title: undefined,
+              description: undefined,
+              label: undefined,
+              required: true,
+              type: Type.String,
+              control: ControlType.AudioUpload,
+              order: 1,
+            },
+          },
+        },
+        action,
+      )
+
+      // then ... the state should be set as expected
+      expect(result).toEqual({
+        ...initialState,
+        questions: {
+          ['someExistingId']: {
+            id,
+            title: undefined,
+            description: undefined,
+            label: undefined,
+            required: true,
+            type: Type.String,
+            control: ControlType.AudioUpload,
+            order: 1,
+          },
+          [id]: {
+            id,
+            title: undefined,
+            description: undefined,
+            label: undefined,
+            required: true,
+            type: Type.String,
+            control: ControlType.AudioUpload,
+            order: 2,
+          },
+        },
+      })
+    })
+
+    it('should update the audio question and leave other properties in tact', () => {
+      const id = 'someId'
+      const title = 'someNewTitle'
+      const label = 'someNewLabel'
+      const description = 'someNewDescription'
+
+      // given .. we have an action of type CreateEntityAttestationActions.UpdateAudioUploadQuestion
+      const action: UpdateAudioUploadQuestionAction = {
+        type: CreateEntityAttestationActions.UpdateAudioUploadQuestion,
+        payload: {
+          id,
+          title,
+          label,
+          description,
+        },
+      }
+
+      // when ... we run the reducer with this action
+      const result = SUT.reducer(
+        {
+          ...initialState,
+          questions: {
+            [id]: {
+              id,
+              title: 'someOldTitle',
+              label: 'someOldLabel',
+              description: 'someOldDescription',
+              required: true,
+              type: Type.String,
+              control: ControlType.AudioUpload,
+              order: 20,
+            },
+          },
+        },
+        action,
+      )
+
+      // then ... the state should be set as expected
+      expect(result).toEqual({
+        ...initialState,
+        questions: {
+          [id]: {
+            id,
+            title,
+            label,
+            description,
+            required: true,
+            type: Type.String,
+            control: ControlType.AudioUpload,
+            order: 20,
+          },
+        },
+      })
+    })
+  })
+
+  describe('DocumentUploadQuestion Actions', () => {
+    it('should add a new audio upload question and set the correct order', () => {
+      const id = 'someId'
+
+      // given ... we have an action of type CreateEntityAttestationActions.AddDocumentUploadQuestion
+      const action: AddDocumentUploadQuestionAction = {
+        type: CreateEntityAttestationActions.AddDocumentUploadQuestion,
+        payload: {
+          id,
+          title: undefined,
+          description: undefined,
+          label: undefined,
+          required: true,
+          type: Type.String,
+          control: ControlType.DocumentUpload,
+        },
+      }
+
+      // when ... we run the reducer with this action
+      const result = SUT.reducer(
+        {
+          ...initialState,
+          questions: {
+            ['someExistingId']: {
+              id,
+              title: undefined,
+              description: undefined,
+              label: undefined,
+              required: true,
+              type: Type.String,
+              control: ControlType.DocumentUpload,
+              order: 1,
+            },
+          },
+        },
+        action,
+      )
+
+      // then ... the state should be set as expected
+      expect(result).toEqual({
+        ...initialState,
+        questions: {
+          ['someExistingId']: {
+            id,
+            title: undefined,
+            description: undefined,
+            label: undefined,
+            required: true,
+            type: Type.String,
+            control: ControlType.DocumentUpload,
+            order: 1,
+          },
+          [id]: {
+            id,
+            title: undefined,
+            description: undefined,
+            label: undefined,
+            required: true,
+            type: Type.String,
+            control: ControlType.DocumentUpload,
+            order: 2,
+          },
+        },
+      })
+    })
+
+    it('should update the audio question and leave other properties in tact', () => {
+      const id = 'someId'
+      const title = 'someNewTitle'
+      const label = 'someNewLabel'
+      const description = 'someNewDescription'
+
+      // given .. we have an action of type CreateEntityAttestationActions.UpdateDocumentUploadQuestion
+      const action: UpdateDocumentUploadQuestionAction = {
+        type: CreateEntityAttestationActions.UpdateDocumentUploadQuestion,
+        payload: {
+          id,
+          title,
+          label,
+          description,
+        },
+      }
+
+      // when ... we run the reducer with this action
+      const result = SUT.reducer(
+        {
+          ...initialState,
+          questions: {
+            [id]: {
+              id,
+              title: 'someOldTitle',
+              label: 'someOldLabel',
+              description: 'someOldDescription',
+              required: true,
+              type: Type.String,
+              control: ControlType.DocumentUpload,
+              order: 20,
+            },
+          },
+        },
+        action,
+      )
+
+      // then ... the state should be set as expected
+      expect(result).toEqual({
+        ...initialState,
+        questions: {
+          [id]: {
+            id,
+            title,
+            label,
+            description,
+            required: true,
+            type: Type.String,
+            control: ControlType.DocumentUpload,
             order: 20,
           },
         },
