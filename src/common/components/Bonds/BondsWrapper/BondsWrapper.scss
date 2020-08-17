@@ -122,6 +122,12 @@ hr {
         &.settings {
           background-image: url(../../../../assets/img/sidebar/settings.png);
         }
+        &.global {
+          background-image: url(../../../../assets/img/sidebar/global.png);
+        }
+        &.account {
+          background-image: url(../../../../assets/img/sidebar/account.png);
+        }
 
         background-repeat: no-repeat;
         background-size: 25px;
