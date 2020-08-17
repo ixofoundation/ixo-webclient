@@ -1,10 +1,10 @@
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-import Web3 from "web3";
+import Web3 from 'web3';
 import {
   ConnectWeb3Action,
   ResetWeb3ConnectionAction,
   Web3Actions,
-} from "./types";
+} from './types';
 
 declare global {
   interface Window {
@@ -36,7 +36,7 @@ export const connectWeb3 = (): ConnectWeb3Action => {
     error = {};
   } else {
     web3 = null;
-    error = { error: "Please install MetaMask" };
+    error = { error: 'Please install MetaMask' };
   }
 
   return {

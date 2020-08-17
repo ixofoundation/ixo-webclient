@@ -1,47 +1,47 @@
-import { createSelector } from 'reselect'
-import { RootState } from 'common/redux/types'
-import { SubmitEntityClaimState } from './types'
-import { FormControl, FormData } from 'common/components/JsonForm/types'
+import { createSelector } from 'reselect';
+import { RootState } from 'common/redux/types';
+import { FormControl, FormData } from 'common/components/JsonForm/types';
+import { SubmitEntityClaimState } from './types';
 
 export const selectSubmitEntityClaim = (
   state: RootState,
-): SubmitEntityClaimState => state.submitEntityClaim
+): SubmitEntityClaimState => state.submitEntityClaim;
 
 export const selectQuestions = createSelector(
   selectSubmitEntityClaim,
   (submitEntityClaim: SubmitEntityClaimState) => {
-    return submitEntityClaim.questions
+    return submitEntityClaim.questions;
   },
-)
+);
 
 export const selectCurrentQuestionNo = createSelector(
   selectSubmitEntityClaim,
   (submitEntityClaim: SubmitEntityClaimState) => {
-    return submitEntityClaim.currentQuestionNo
+    return submitEntityClaim.currentQuestionNo;
   },
-)
+);
 
 export const selectCurrentQuestion = createSelector(
   selectQuestions,
   selectCurrentQuestionNo,
   (questions: FormControl[], currentQuestionNo: number) => {
-    return questions[currentQuestionNo - 1]
+    return questions[currentQuestionNo - 1];
   },
-)
+);
 
 export const selectQuestionCount = createSelector(
   selectQuestions,
   (questions: FormControl[]) => {
-    return questions.length
+    return questions.length;
   },
-)
+);
 
 export const selectAnswers = createSelector(
   selectSubmitEntityClaim,
   (submitEntityClaim: SubmitEntityClaimState) => {
-    return submitEntityClaim.answers
+    return submitEntityClaim.answers;
   },
-)
+);
 
 export const selectCurrentAnswer = createSelector(
   selectCurrentQuestion,
@@ -50,23 +50,23 @@ export const selectCurrentAnswer = createSelector(
     if (answers && Object.keys(answers).length > 0) {
       return answers[question.id]
         ? { [question.id]: answers[question.id] }
-        : undefined
+        : undefined;
     }
 
-    return undefined
+    return undefined;
   },
-)
+);
 
 export const selectSavingAnswer = createSelector(
   selectSubmitEntityClaim,
   (submitEntityClaim: SubmitEntityClaimState) => {
-    return submitEntityClaim.savingAnswer
+    return submitEntityClaim.savingAnswer;
   },
-)
+);
 
 export const selectAnswersComplete = createSelector(
   selectSubmitEntityClaim,
   (submitEntityClaim: SubmitEntityClaimState) => {
-    return submitEntityClaim.answersComplete
+    return submitEntityClaim.answersComplete;
   },
-)
+);

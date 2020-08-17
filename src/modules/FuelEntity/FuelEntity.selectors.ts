@@ -1,137 +1,137 @@
-import { createSelector } from 'reselect'
-import { RootState } from 'common/redux/types'
-import { FuelEntityState } from './types'
-import BigNumber from 'bignumber.js'
-import * as currencyUtils from '../../common/utils/currency.utils'
+import { createSelector } from 'reselect';
+import { RootState } from 'common/redux/types';
+import BigNumber from 'bignumber.js';
+import { FuelEntityState } from './types';
+import * as currencyUtils from '../../common/utils/currency.utils';
 
 export const selectFuelEntity = (state: RootState): FuelEntityState =>
-  state.fuelEntity
+  state.fuelEntity;
 
 export const selectOrderSymbol = createSelector(
   selectFuelEntity,
   (fuelEntity: FuelEntityState): string => {
-    return fuelEntity.order ? fuelEntity.order.symbol : null
+    return fuelEntity.order ? fuelEntity.order.symbol : null;
   },
-)
+);
 
 export const selectOrderSubscription = createSelector(
   selectFuelEntity,
   (fuelEntity: FuelEntityState): string => {
-    return fuelEntity.order ? fuelEntity.order.subscription : null
+    return fuelEntity.order ? fuelEntity.order.subscription : null;
   },
-)
+);
 
 export const selectOrderFiat = createSelector(
   selectFuelEntity,
   (fuelEntity: FuelEntityState): string => {
-    return fuelEntity.order ? fuelEntity.order.fiat : null
+    return fuelEntity.order ? fuelEntity.order.fiat : null;
   },
-)
+);
 
 export const selectOrderFiatSymbol = createSelector(
   selectFuelEntity,
   (fuelEntity: FuelEntityState): string => {
-    return fuelEntity.order ? fuelEntity.order.fiatSymbol : null
+    return fuelEntity.order ? fuelEntity.order.fiatSymbol : null;
   },
-)
+);
 
 export const selectOrderFiatConversion = createSelector(
   selectFuelEntity,
   (fuelEntity: FuelEntityState): string => {
-    return fuelEntity.order ? fuelEntity.order.fiatConversion : '1'
+    return fuelEntity.order ? fuelEntity.order.fiatConversion : '1';
   },
-)
+);
 
 export const selectOrderAmount = createSelector(
   selectFuelEntity,
   (fuelEntity: FuelEntityState): string => {
-    return fuelEntity.order ? fuelEntity.order.amount : '0'
+    return fuelEntity.order ? fuelEntity.order.amount : '0';
   },
-)
+);
 
 export const selectOrderTransactionFee = createSelector(
   selectFuelEntity,
   (fuelEntity: FuelEntityState): string => {
-    return fuelEntity.order ? fuelEntity.order.transactionFee : '0'
+    return fuelEntity.order ? fuelEntity.order.transactionFee : '0';
   },
-)
+);
 
 export const selectOrderGasFee = createSelector(
   selectFuelEntity,
   (fuelEntity: FuelEntityState): string => {
     return fuelEntity.order
       ? currencyUtils.displayTokenAmount(new BigNumber(fuelEntity.order.gasFee))
-      : '0'
+      : '0';
   },
-)
+);
 
 export const selectSending = createSelector(
   selectFuelEntity,
   (fuelEntity: FuelEntityState): boolean => {
-    return fuelEntity.sending
+    return fuelEntity.sending;
   },
-)
+);
 
 export const selectSent = createSelector(
   selectFuelEntity,
   (fuelEntity: FuelEntityState): boolean => {
-    return fuelEntity.sent
+    return fuelEntity.sent;
   },
-)
+);
 
 export const selectError = createSelector(
   selectFuelEntity,
   (fuelEntity: FuelEntityState): string => {
-    return fuelEntity.error
+    return fuelEntity.error;
   },
-)
+);
 
 export const selectOrderConversionRate = createSelector(
   selectOrderFiatConversion,
   (fiatConversion: string): BigNumber => {
-    return new BigNumber(1).dividedBy(new BigNumber(fiatConversion))
+    return new BigNumber(1).dividedBy(new BigNumber(fiatConversion));
   },
-)
+);
 
 export const selectOrderTotal = createSelector(
   selectOrderAmount,
   selectOrderTransactionFee,
   (amount: string, transactionFee: string): BigNumber => {
-    return new BigNumber(amount).plus(new BigNumber(transactionFee))
+    return new BigNumber(amount).plus(new BigNumber(transactionFee));
   },
-)
+);
 
 export const selectOrderTokenAmount = createSelector(
   selectOrderAmount,
   selectOrderSymbol,
   (amount: string): string => {
-    return currencyUtils.displayTokenAmount(new BigNumber(amount))
+    return currencyUtils.displayTokenAmount(new BigNumber(amount));
   },
-)
+);
 
 export const selectOrderTokenTransactionFee = createSelector(
   selectOrderTransactionFee,
   selectOrderSymbol,
   (transactionFee: string): string => {
-    return currencyUtils.displayTokenAmount(new BigNumber(transactionFee))
+    return currencyUtils.displayTokenAmount(new BigNumber(transactionFee));
   },
-)
+);
 
 export const selectOrderTokenTotal = createSelector(
   selectOrderTotal,
   selectOrderSymbol,
   (total: BigNumber): string => {
-    return currencyUtils.displayTokenAmount(total)
+    return currencyUtils.displayTokenAmount(total);
   },
-)
+);
 
 export const selectOrderFiatConversionRate = createSelector(
   selectOrderConversionRate,
   selectOrderFiatSymbol,
   (conversionRate: BigNumber, fiatSymbol: string): string => {
-    return currencyUtils.displayFiatAmount(conversionRate, fiatSymbol)
+    return currencyUtils.displayFiatAmount(conversionRate, fiatSymbol);
   },
-)
+);
 
 export const selectOrderFiatAmount = createSelector(
   selectOrderAmount,
@@ -141,9 +141,9 @@ export const selectOrderFiatAmount = createSelector(
     return currencyUtils.displayFiatAmount(
       new BigNumber(amount).times(conversionRate),
       fiatSymbol,
-    )
+    );
   },
-)
+);
 
 export const selectOrderFiatTransactionFee = createSelector(
   selectOrderTransactionFee,
@@ -157,9 +157,9 @@ export const selectOrderFiatTransactionFee = createSelector(
     return currencyUtils.displayFiatAmount(
       new BigNumber(transactionFee).times(conversionRate),
       fiatSymbol,
-    )
+    );
   },
-)
+);
 
 export const selectOrderFiatTotal = createSelector(
   selectOrderTotal,
@@ -169,13 +169,13 @@ export const selectOrderFiatTotal = createSelector(
     return currencyUtils.displayFiatAmount(
       total.times(conversionRate),
       fiatSymbol,
-    )
+    );
   },
-)
+);
 
 export const selectHasOrder = createSelector(
   selectFuelEntity,
   (fuelEntity: FuelEntityState): boolean => {
-    return !!fuelEntity.order
+    return !!fuelEntity.order;
   },
-)
+);

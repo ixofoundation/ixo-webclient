@@ -1,10 +1,10 @@
-import React, { Dispatch } from 'react'
-import { connect } from 'react-redux'
+import React, { Dispatch } from 'react';
+import { connect } from 'react-redux';
 import CreateEntityBase, {
   CreateEntityBaseProps,
-} from '../CreateEntity/components/CreateEntityBase/CreateEntityBase'
-import * as pageContentSelectors from './CreateEntityPageContent.selectors'
-import { RootState } from '../../common/redux/types'
+} from '../CreateEntity/components/CreateEntityBase/CreateEntityBase';
+import * as pageContentSelectors from './CreateEntityPageContent.selectors';
+import { RootState } from '../../common/redux/types';
 import {
   HeaderPageContent,
   BodyPageContent,
@@ -12,13 +12,13 @@ import {
   ProfilePageContent,
   SocialPageContent,
   EmbeddedPageContent,
-} from './types'
-import HeaderCard from './components/HeaderCard/HeaderCard'
-import BodyContentCard from './components/BodyContentCard/BodyContentCard'
-import ImageContentCard from './components/ImageContentCard/ImageContentCard'
-import ProfileContentCard from './components/ProfileContentCard/ProfileContentCard'
-import SocialContentCard from './components/SocialContentCard/SocialContentCard'
-import EmbeddedContentCard from './components/EmbeddedContentCard/EmbeddedContentCard'
+} from './types';
+import HeaderCard from './components/HeaderCard/HeaderCard';
+import BodyContentCard from './components/BodyContentCard/BodyContentCard';
+import ImageContentCard from './components/ImageContentCard/ImageContentCard';
+import ProfileContentCard from './components/ProfileContentCard/ProfileContentCard';
+import SocialContentCard from './components/SocialContentCard/SocialContentCard';
+import EmbeddedContentCard from './components/EmbeddedContentCard/EmbeddedContentCard';
 import {
   updateHeaderContent,
   addBodySection,
@@ -36,11 +36,11 @@ import {
   removeEmbeddedSection,
   validated,
   validationError,
-} from './CreateEntityPageContent.actions'
-import { goToStep } from '../CreateEntity/CreateEntity.actions'
-import { FormData } from '../../common/components/JsonForm/types'
-import FormCardWrapper from '../../common/components/Wrappers/FormCardWrapper/FormCardWrapper'
-import { Step } from '../CreateEntity/types'
+} from './CreateEntityPageContent.actions';
+import { goToStep } from '../CreateEntity/CreateEntity.actions';
+import { FormData } from '../../common/components/JsonForm/types';
+import FormCardWrapper from '../../common/components/Wrappers/FormCardWrapper/FormCardWrapper';
+import { Step } from '../CreateEntity/types';
 
 interface Props extends CreateEntityBaseProps {
   header: HeaderPageContent
@@ -67,7 +67,7 @@ interface Props extends CreateEntityBaseProps {
 
 class CreateEntityPageContent extends CreateEntityBase<Props> {
   renderHeader = (): JSX.Element => {
-    this.cardRefs['header'] = React.createRef()
+    this.cardRefs.header = React.createRef();
 
     const {
       header: {
@@ -81,7 +81,7 @@ class CreateEntityPageContent extends CreateEntityBase<Props> {
         uploading,
       },
       handleUpdateHeaderContent,
-    } = this.props
+    } = this.props;
 
     return (
       <FormCardWrapper
@@ -90,12 +90,11 @@ class CreateEntityPageContent extends CreateEntityBase<Props> {
         showAddSection={false}
       >
         <HeaderCard
-          ref={this.cardRefs['header']}
+          ref={this.cardRefs.header}
           handleUpdateContent={handleUpdateHeaderContent}
           handleSubmitted={(): void => this.props.handleValidated('header')}
           handleError={(errors): void =>
-            this.props.handleValidationError('header', errors)
-          }
+            this.props.handleValidationError('header', errors)}
           title={title}
           shortDescription={shortDescription}
           imageDescription={imageDescription}
@@ -106,8 +105,8 @@ class CreateEntityPageContent extends CreateEntityBase<Props> {
           uploadingImage={uploading}
         />
       </FormCardWrapper>
-    )
-  }
+    );
+  };
 
   renderBodySections = (): JSX.Element => {
     const {
@@ -115,7 +114,7 @@ class CreateEntityPageContent extends CreateEntityBase<Props> {
       handleUpdateBodyContent,
       handleAddBodySection,
       handleRemoveBodySection,
-    } = this.props
+    } = this.props;
 
     return (
       <FormCardWrapper
@@ -125,9 +124,9 @@ class CreateEntityPageContent extends CreateEntityBase<Props> {
         onAddSection={handleAddBodySection}
       >
         {body.map(section => {
-          this.cardRefs[section.id] = React.createRef()
+          this.cardRefs[section.id] = React.createRef();
 
-          const { id, title, content, fileSrc, uploading } = section
+          const { id, title, content, fileSrc, uploading } = section;
 
           return (
             <BodyContentCard
@@ -138,21 +137,18 @@ class CreateEntityPageContent extends CreateEntityBase<Props> {
               fileSrc={fileSrc}
               uploadingImage={uploading}
               handleUpdateContent={(formData): void =>
-                handleUpdateBodyContent(id, formData)
-              }
+                handleUpdateBodyContent(id, formData)}
               handleRemoveSection={(): void => handleRemoveBodySection(id)}
               handleSubmitted={(): void =>
-                this.props.handleValidated(section.id)
-              }
+                this.props.handleValidated(section.id)}
               handleError={(errors): void =>
-                this.props.handleValidationError(section.id, errors)
-              }
+                this.props.handleValidationError(section.id, errors)}
             />
-          )
+          );
         })}
       </FormCardWrapper>
-    )
-  }
+    );
+  };
 
   renderImageSections = (): JSX.Element => {
     const {
@@ -160,7 +156,7 @@ class CreateEntityPageContent extends CreateEntityBase<Props> {
       handleUpdateImageContent,
       handleAddImageSection,
       handleRemoveImageSection,
-    } = this.props
+    } = this.props;
 
     return (
       <FormCardWrapper
@@ -170,7 +166,7 @@ class CreateEntityPageContent extends CreateEntityBase<Props> {
         onAddSection={handleAddImageSection}
       >
         {images.map(section => {
-          this.cardRefs[section.id] = React.createRef()
+          this.cardRefs[section.id] = React.createRef();
 
           const {
             id,
@@ -179,7 +175,7 @@ class CreateEntityPageContent extends CreateEntityBase<Props> {
             fileSrc,
             imageDescription,
             uploading,
-          } = section
+          } = section;
 
           return (
             <ImageContentCard
@@ -191,21 +187,18 @@ class CreateEntityPageContent extends CreateEntityBase<Props> {
               imageDescription={imageDescription}
               uploadingImage={uploading}
               handleUpdateContent={(formData): void =>
-                handleUpdateImageContent(id, formData)
-              }
+                handleUpdateImageContent(id, formData)}
               handleRemoveSection={(): void => handleRemoveImageSection(id)}
               handleSubmitted={(): void =>
-                this.props.handleValidated(section.id)
-              }
+                this.props.handleValidated(section.id)}
               handleError={(errors): void =>
-                this.props.handleValidationError(section.id, errors)
-              }
+                this.props.handleValidationError(section.id, errors)}
             />
-          )
+          );
         })}
       </FormCardWrapper>
-    )
-  }
+    );
+  };
 
   renderProfileSections = (): JSX.Element => {
     const {
@@ -213,7 +206,7 @@ class CreateEntityPageContent extends CreateEntityBase<Props> {
       handleUpdateProfileContent,
       handleAddProfileSection,
       handleRemoveProfileSection,
-    } = this.props
+    } = this.props;
 
     return (
       <FormCardWrapper
@@ -223,7 +216,7 @@ class CreateEntityPageContent extends CreateEntityBase<Props> {
         onAddSection={handleAddProfileSection}
       >
         {profiles.map(section => {
-          this.cardRefs[section.id] = React.createRef()
+          this.cardRefs[section.id] = React.createRef();
 
           const {
             id,
@@ -233,7 +226,7 @@ class CreateEntityPageContent extends CreateEntityBase<Props> {
             linkedInUrl,
             twitterUrl,
             uploading,
-          } = section
+          } = section;
 
           return (
             <ProfileContentCard
@@ -246,24 +239,21 @@ class CreateEntityPageContent extends CreateEntityBase<Props> {
               fileSrc={fileSrc}
               uploadingImage={uploading}
               handleUpdateContent={(formData): void =>
-                handleUpdateProfileContent(id, formData)
-              }
+                handleUpdateProfileContent(id, formData)}
               handleRemoveSection={(): void => handleRemoveProfileSection(id)}
               handleSubmitted={(): void =>
-                this.props.handleValidated(section.id)
-              }
+                this.props.handleValidated(section.id)}
               handleError={(errors): void =>
-                this.props.handleValidationError(section.id, errors)
-              }
+                this.props.handleValidationError(section.id, errors)}
             />
-          )
+          );
         })}
       </FormCardWrapper>
-    )
-  }
+    );
+  };
 
   renderSocialContent = (): JSX.Element => {
-    this.cardRefs['social'] = React.createRef()
+    this.cardRefs.social = React.createRef();
 
     const {
       social: {
@@ -277,7 +267,7 @@ class CreateEntityPageContent extends CreateEntityBase<Props> {
         otherUrl,
       },
       handleUpdateSocialContent,
-    } = this.props
+    } = this.props;
 
     return (
       <FormCardWrapper
@@ -286,12 +276,11 @@ class CreateEntityPageContent extends CreateEntityBase<Props> {
         showAddSection={false}
       >
         <SocialContentCard
-          ref={this.cardRefs['social']}
+          ref={this.cardRefs.social}
           handleUpdateContent={handleUpdateSocialContent}
           handleSubmitted={(): void => this.props.handleValidated('social')}
           handleError={(errors): void =>
-            this.props.handleValidationError('social', errors)
-          }
+            this.props.handleValidationError('social', errors)}
           linkedInUrl={linkedInUrl}
           facebookUrl={facebookUrl}
           twitterUrl={twitterUrl}
@@ -302,8 +291,8 @@ class CreateEntityPageContent extends CreateEntityBase<Props> {
           otherUrl={otherUrl}
         />
       </FormCardWrapper>
-    )
-  }
+    );
+  };
 
   renderEmbeddedSections = (): JSX.Element => {
     const {
@@ -311,7 +300,7 @@ class CreateEntityPageContent extends CreateEntityBase<Props> {
       handleUpdateEmbeddedContent,
       handleAddEmbeddedSection,
       handleRemoveEmbeddedSection,
-    } = this.props
+    } = this.props;
 
     return (
       <FormCardWrapper
@@ -321,9 +310,9 @@ class CreateEntityPageContent extends CreateEntityBase<Props> {
         onAddSection={handleAddEmbeddedSection}
       >
         {embedded.map(section => {
-          this.cardRefs[section.id] = React.createRef()
+          this.cardRefs[section.id] = React.createRef();
 
-          const { id, title, urls } = section
+          const { id, title, urls } = section;
 
           return (
             <EmbeddedContentCard
@@ -332,45 +321,42 @@ class CreateEntityPageContent extends CreateEntityBase<Props> {
               title={title}
               urls={urls}
               handleUpdateContent={(formData): void =>
-                handleUpdateEmbeddedContent(id, formData)
-              }
+                handleUpdateEmbeddedContent(id, formData)}
               handleRemoveSection={(): void => handleRemoveEmbeddedSection(id)}
               handleSubmitted={(): void =>
-                this.props.handleValidated(section.id)
-              }
+                this.props.handleValidated(section.id)}
               handleError={(errors): void =>
-                this.props.handleValidationError(section.id, errors)
-              }
+                this.props.handleValidationError(section.id, errors)}
             />
-          )
+          );
         })}
       </FormCardWrapper>
-    )
-  }
+    );
+  };
 
   onSubmitted = (): void => {
-    this.props.handleGoToStep(Step.Settings)
-  }
+    this.props.handleGoToStep(Step.Settings);
+  };
 
   render(): JSX.Element {
-    const { body, images, profiles, embedded } = this.props
+    const { body, images, profiles, embedded } = this.props;
 
-    const identifiers: string[] = []
-    identifiers.push('header')
-    identifiers.push('social')
+    const identifiers: string[] = [];
+    identifiers.push('header');
+    identifiers.push('social');
 
     body.forEach(section => {
-      identifiers.push(section.id)
-    })
+      identifiers.push(section.id);
+    });
     images.forEach(section => {
-      identifiers.push(section.id)
-    })
+      identifiers.push(section.id);
+    });
     profiles.forEach(section => {
-      identifiers.push(section.id)
-    })
+      identifiers.push(section.id);
+    });
     embedded.forEach(section => {
-      identifiers.push(section.id)
-    })
+      identifiers.push(section.id);
+    });
 
     return (
       <>
@@ -382,7 +368,7 @@ class CreateEntityPageContent extends CreateEntityBase<Props> {
         {this.renderEmbeddedSections()}
         {this.renderButtonGroup(identifiers, false)}
       </>
-    )
+    );
   }
 }
 
@@ -395,7 +381,7 @@ const mapStateToProps = (state: RootState): any => ({
   embedded: pageContentSelectors.selectEmbeddedContentSections(state),
   validationComplete: pageContentSelectors.selectValidationComplete(state),
   validated: pageContentSelectors.selectValidated(state),
-})
+});
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
   handleUpdateHeaderContent: (formData: FormData): void =>
@@ -427,9 +413,9 @@ const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
   handleValidationError: (identifier: string, errors: string[]): void =>
     dispatch(validationError(identifier, errors)),
   handleGoToStep: (step: Step): void => dispatch(goToStep(step)),
-})
+});
 
 export const CreateEntityPageContentConnected = connect(
   mapStateToProps,
   mapDispatchToProps,
-)(CreateEntityPageContent)
+)(CreateEntityPageContent);

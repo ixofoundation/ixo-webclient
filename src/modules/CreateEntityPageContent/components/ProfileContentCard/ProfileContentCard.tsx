@@ -1,8 +1,8 @@
-import React from 'react'
-import { LinkButton } from '../../../../common/components/JsonForm/JsonForm.styles'
-import { customControls } from '../../../../common/components/JsonForm/types'
-import MultiControlForm from '../../../../common/components/JsonForm/MultiControlForm/MultiControlForm'
-import { FormCardProps } from '../../../CreateEntity/types'
+import React from 'react';
+import { LinkButton } from '../../../../common/components/JsonForm/JsonForm.styles';
+import { customControls } from '../../../../common/components/JsonForm/types';
+import MultiControlForm from '../../../../common/components/JsonForm/MultiControlForm/MultiControlForm';
+import { FormCardProps } from '../../../CreateEntity/types';
 
 interface Props extends FormCardProps {
   name: string
@@ -35,7 +35,7 @@ const HeaderCard: React.FunctionComponent<Props> = React.forwardRef(
       linkedInUrl,
       twitterUrl,
       fileSrc,
-    }
+    };
 
     const schema = {
       type: 'object',
@@ -48,36 +48,36 @@ const HeaderCard: React.FunctionComponent<Props> = React.forwardRef(
         linkedInUrl: { type: 'string', title: 'Linked In' },
         twitterUrl: { type: 'string', title: 'Twitter' },
       },
-    } as any
+    } as any;
 
     const uiSchema = {
       fileSrc: {
-        ['ui:widget']: customControls['imageupload'],
-        ['ui:uploading']: uploadingImage,
-        ['ui:maxDimension']: 440,
-        ['ui:previewWidth']: 100,
-        ['ui:aspect']: 1,
-        ['ui:circularCrop']: false,
+        'ui:widget': customControls.imageupload,
+        'ui:uploading': uploadingImage,
+        'ui:maxDimension': 440,
+        'ui:previewWidth': 100,
+        'ui:aspect': 1,
+        'ui:circularCrop': false,
       },
       name: {
-        ['ui:widget']: 'text',
-        ['ui:placeholder']: 'Enter Title',
+        'ui:widget': 'text',
+        'ui:placeholder': 'Enter Title',
       },
       position: {
-        ['ui:widget']: 'text',
-        ['ui:placeholder']: 'Enter Title',
+        'ui:widget': 'text',
+        'ui:placeholder': 'Enter Title',
       },
       linkedInUrl: {
-        ['ui:widget']: customControls['socialtextbox'],
-        ['ui:socialIcon']: 'LinkedIn',
-        ['ui:placeholder']: 'Paste Url',
+        'ui:widget': customControls.socialtextbox,
+        'ui:socialIcon': 'LinkedIn',
+        'ui:placeholder': 'Paste Url',
       },
       twitterUrl: {
-        ['ui:widget']: customControls['socialtextbox'],
-        ['ui:socialIcon']: 'Twitter',
-        ['ui:placeholder']: 'Paste Url',
+        'ui:widget': customControls.socialtextbox,
+        'ui:socialIcon': 'Twitter',
+        'ui:placeholder': 'Paste Url',
       },
-    }
+    };
 
     return (
       <>
@@ -99,8 +99,8 @@ const HeaderCard: React.FunctionComponent<Props> = React.forwardRef(
           </LinkButton>
         </div>
       </>
-    )
+    );
   },
-)
+);
 
-export default HeaderCard
+export default HeaderCard;

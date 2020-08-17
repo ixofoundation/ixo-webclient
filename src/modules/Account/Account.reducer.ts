@@ -1,4 +1,4 @@
-import { AccountActionTypes, AccountActions, AccountState } from './types'
+import { AccountActionTypes, AccountActions, AccountState } from './types';
 
 export const initialState: AccountState = {
   userInfo: null,
@@ -7,7 +7,7 @@ export const initialState: AccountState = {
   sequence: null,
   balances: [],
   loginStatusCheckCompleted: false,
-}
+};
 
 export const reducer = (
   state = initialState,
@@ -20,17 +20,17 @@ export const reducer = (
         userInfo: action.payload.userInfo,
         address: action.payload.address,
         loginStatusCheckCompleted: true,
-      }
+      };
     case AccountActions.GetAccountSuccess:
       return {
         ...state,
         balances: action.payload.balances,
         accountNumber: action.payload.accountNumber,
         sequence: action.payload.sequence,
-      }
+      };
     case AccountActions.Logout:
-      return { ...initialState, loginStatusCheckCompleted: true }
+      return { ...initialState, loginStatusCheckCompleted: true };
   }
 
-  return state
-}
+  return state;
+};

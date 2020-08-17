@@ -1,6 +1,6 @@
-import React from 'react'
-import LocationMap from 'common/components/LocationMap/LocationMap'
-import { GeoLocation } from 'common/components/LocationMap/types'
+import React from 'react';
+import LocationMap from 'common/components/LocationMap/LocationMap';
+import { GeoLocation } from 'common/components/LocationMap/types';
 
 interface Props {
   value: string
@@ -14,9 +14,9 @@ const LocationSelector: React.FunctionComponent<Props> = ({
   const { lat, lng }: GeoLocation = value
     ? JSON.parse(value)
     : {
-        lat: 51.596692,
-        lng: -0.153783,
-      }
+      lat: 51.596692,
+      lng: -0.153783,
+    };
 
   return (
     <LocationMap
@@ -25,10 +25,9 @@ const LocationSelector: React.FunctionComponent<Props> = ({
       zoom={15}
       height={300}
       onLocationChange={(geoLocation): void =>
-        onChange(JSON.stringify(geoLocation))
-      }
+        onChange(JSON.stringify(geoLocation))}
     />
-  )
-}
+  );
+};
 
-export default LocationSelector
+export default LocationSelector;

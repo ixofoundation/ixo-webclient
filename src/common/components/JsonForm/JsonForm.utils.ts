@@ -1,31 +1,31 @@
 const getError = (error: any): any => {
-  let message = error.message
+  let { message } = error;
   if (message === 'should be string') {
-    message = 'is a required property'
+    message = 'is a required property';
   }
 
   return {
     ...error,
     message: `This field ${error.message}`,
-  }
-}
+  };
+};
 
 export const transformErrors = (errors): any => {
   return errors.map(error => {
     if (error) {
-      return getError(error)
+      return getError(error);
     }
-    return error
-  })
-}
+    return error;
+  });
+};
 
 export const transformErrorsTouched = (errors, touched): any => {
   return errors
     .filter(error => Object.keys(touched).includes(error.property))
     .map(error => {
       if (error) {
-        return getError(error)
+        return getError(error);
       }
-      return error
-    })
-}
+      return error;
+    });
+};

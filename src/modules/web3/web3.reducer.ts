@@ -1,9 +1,9 @@
-import { Web3State, Web3ActionTypes, Web3Actions } from './types'
+import { Web3State, Web3ActionTypes, Web3Actions } from './types';
 
 export const initialState: Web3State = {
   web3: null,
   error: {},
-}
+};
 
 export const reducer = (
   state = initialState,
@@ -15,10 +15,10 @@ export const reducer = (
         ...state,
         web3: action.payload.web3,
         error: action.payload.error,
-      }
+      };
     case Web3Actions.ResetWeb3Connection:
-      return initialState
+      return initialState;
   }
 
-  return state
-}
+  return state;
+};

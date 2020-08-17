@@ -1,8 +1,8 @@
-import React from 'react'
-import { debounce } from 'debounce'
-import SingleControlForm from '../../../../common/components/JsonForm/SingleControlForm/SingleControlForm'
-import { FormControl } from '../../../../common/components/JsonForm/types'
-import { ButtonGroup } from '../../../../common/components/JsonForm/JsonForm.styles'
+import React from 'react';
+import { debounce } from 'debounce';
+import SingleControlForm from '../../../../common/components/JsonForm/SingleControlForm/SingleControlForm';
+import { FormControl } from '../../../../common/components/JsonForm/types';
+import { ButtonGroup } from '../../../../common/components/JsonForm/JsonForm.styles';
 
 interface Props {
   question: FormControl
@@ -27,15 +27,14 @@ const Question: React.FunctionComponent<Props> = ({
   handleNextClick,
   handleFormDataChange,
 }) => {
-  const handleFormDataChangeDebounce = debounce(handleFormDataChange, 500)
+  const handleFormDataChangeDebounce = debounce(handleFormDataChange, 500);
 
   return (
     <SingleControlForm
       formData={answer}
       uploading={savingAnswer}
       handleFormDataChange={(formData): void =>
-        handleFormDataChangeDebounce(formData)
-      }
+        handleFormDataChangeDebounce(formData)}
       handleSubmit={handleNextClick}
       formControl={question}
     >
@@ -49,12 +48,12 @@ const Question: React.FunctionComponent<Props> = ({
           {answersComplete
             ? 'Update'
             : questionCount === currentQuestionNo
-            ? 'Finalise'
-            : 'Next'}
+              ? 'Finalise'
+              : 'Next'}
         </button>
       </ButtonGroup>
     </SingleControlForm>
-  )
-}
+  );
+};
 
-export default Question
+export default Question;

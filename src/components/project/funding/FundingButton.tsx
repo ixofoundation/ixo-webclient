@@ -1,10 +1,10 @@
-import * as React from 'react'
-import { Button, ButtonTypes } from 'common/components/Form/Buttons'
-import { deviceWidth } from '../../../lib/commonData'
-import styled from 'styled-components'
-import { Web3Acc } from 'modules/web3/web3'
-import { Spinner } from 'common/components/Spinner'
-import { BigNumber } from 'bignumber.js'
+import * as React from 'react';
+import { Button, ButtonTypes } from 'common/components/Form/Buttons';
+import styled from 'styled-components';
+import { Web3Acc } from 'modules/web3/web3';
+import { Spinner } from 'common/components/Spinner';
+import { BigNumber } from 'bignumber.js';
+import { deviceWidth } from '../../../lib/commonData';
 
 const ButtonWrapper = styled.div`
   a {
@@ -60,7 +60,7 @@ const ButtonWrapper = styled.div`
       width: 290px;
     }
   }
-`
+`;
 
 const ButtonWrapperLoading = styled(ButtonWrapper)`
   a {
@@ -91,7 +91,7 @@ const ButtonWrapperLoading = styled(ButtonWrapper)`
       }
     }
   }
-`
+`;
 
 export interface ParentProps {
   projectWalletAddress: string
@@ -118,7 +118,7 @@ export const FundingButton: React.SFC<ParentProps> = props => {
           <p>Refund IXO</p> <i className="icon-down" />
         </Button>
       </ButtonWrapper>
-    )
+    );
   }
   if (props.projectStatus === 'STOPPED') {
     return (
@@ -127,7 +127,7 @@ export const FundingButton: React.SFC<ParentProps> = props => {
           <p>Ready for payout</p> <i className="icon-down" />
         </Button>
       </ButtonWrapper>
-    )
+    );
   }
   if (props.projectStatus === 'STARTED') {
     return (
@@ -136,7 +136,7 @@ export const FundingButton: React.SFC<ParentProps> = props => {
           <p>STOP PROJECT</p> <i className="icon-down" />
         </Button>
       </ButtonWrapper>
-    )
+    );
   }
   if (props.projectStatus === 'FUNDED') {
     return (
@@ -145,14 +145,14 @@ export const FundingButton: React.SFC<ParentProps> = props => {
           <p>LAUNCH YOUR PROJECT</p> <i className="icon-down" />
         </Button>
       </ButtonWrapper>
-    )
+    );
   }
   if (props.projectWalletAddress === null) {
     return (
       <div style={{ position: 'relative', top: '8px' }}>
         <Spinner info="" transparentBg={true} scale={0.8} />
       </div>
-    )
+    );
   }
   if (props.creatingWallet === true) {
     return (
@@ -162,7 +162,7 @@ export const FundingButton: React.SFC<ParentProps> = props => {
           <p>Creating wallet</p>
         </Button>
       </ButtonWrapperLoading>
-    )
+    );
   }
   if (
     props.projectWalletAddress === '0x0000000000000000000000000000000000000000'
@@ -174,7 +174,7 @@ export const FundingButton: React.SFC<ParentProps> = props => {
           <i className="icon-down" />
         </Button>
       </ButtonWrapper>
-    )
+    );
   }
   if (props.fundingProject === true) {
     return (
@@ -184,11 +184,11 @@ export const FundingButton: React.SFC<ParentProps> = props => {
           <p>fueling project</p>
         </Button>
       </ButtonWrapperLoading>
-    )
+    );
   }
-  let balance = new BigNumber(props.account.balance)
-  balance = balance.div(100000000)
-  const requiredIxo = new BigNumber(props.requiredIxo)
+  let balance = new BigNumber(props.account.balance);
+  balance = balance.div(100000000);
+  const requiredIxo = new BigNumber(props.requiredIxo);
 
   if (balance.toNumber() >= requiredIxo.toNumber()) {
     return (
@@ -197,17 +197,17 @@ export const FundingButton: React.SFC<ParentProps> = props => {
           <p>ADD FUEL</p> <i className="icon-down" />
         </Button>
       </ButtonWrapper>
-    )
-  } else {
-    return (
-      <ButtonWrapper>
-        <Button type={ButtonTypes.dark} disabled={true}>
-          <p>ADD FUEL</p> <i className="icon-down" />
-        </Button>
-      </ButtonWrapper>
-    )
-  }
+    );
+  } 
+  return (
+    <ButtonWrapper>
+      <Button type={ButtonTypes.dark} disabled={true}>
+        <p>ADD FUEL</p> <i className="icon-down" />
+      </Button>
+    </ButtonWrapper>
+  );
+  
   // if (props.web3error) {
   // return null;
   // }
-}
+};

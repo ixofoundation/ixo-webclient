@@ -1,27 +1,27 @@
-import React, { Dispatch } from "react";
-import { Redirect } from "react-router-dom";
-import { connect } from "react-redux";
-import { RootState } from "common/redux/types";
-import { Hero } from "./components/Hero/Hero";
-import Question from "./components/Question/Question";
-import { SubmitEntityClaimWrapper } from "./SubmitEntityClaim.container.styles";
-import { Steps } from "../../common/components/Steps/Steps";
-import { FormControl, FormData } from "../../common/components/JsonForm/types";
-import * as submitEntityClaimSelectors from "./SubmitEntityClaim.selectors";
-import * as accountSelectors from "../Account/Account.selectors";
-import * as selectedEntitySelectors from "../SelectedEntity/SelectedEntity.selectors";
+import React, { Dispatch } from 'react';
+import { Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { RootState } from 'common/redux/types';
+import { Hero } from './components/Hero/Hero';
+import Question from './components/Question/Question';
+import { SubmitEntityClaimWrapper } from './SubmitEntityClaim.container.styles';
+import { Steps } from '../../common/components/Steps/Steps';
+import { FormControl, FormData } from '../../common/components/JsonForm/types';
+import * as submitEntityClaimSelectors from './SubmitEntityClaim.selectors';
+import * as accountSelectors from '../Account/Account.selectors';
+import * as selectedEntitySelectors from '../SelectedEntity/SelectedEntity.selectors';
 import {
   goToNextQuestion,
   goToPreviousQuestion,
   goToQuestionNumber,
   saveAnswer,
   finaliseQuestions,
-} from "./SubmitEntityClaim.actions";
-import { EntityType } from "../Entities/types";
-import { entityTypeMap } from "../Entities/strategy-map";
-import ControlPanel from "../../common/components/ControlPanel/ControlPanel";
-import { Spinner } from "../../common/components/Spinner";
-import { getEntity } from "../SelectedEntity/SelectedEntity.actions";
+} from './SubmitEntityClaim.actions';
+import { EntityType } from '../Entities/types';
+import { entityTypeMap } from '../Entities/strategy-map';
+import ControlPanel from '../../common/components/ControlPanel/ControlPanel';
+import { Spinner } from '../../common/components/Spinner';
+import { getEntity } from '../SelectedEntity/SelectedEntity.actions';
 
 interface Props {
   userDid: string;
@@ -115,7 +115,7 @@ class SubmitEntityClaim extends React.Component<Props, State> {
     }
 
     if (entityIsLoading) {
-      return <Spinner info={`Loading claim form...`} />;
+      return <Spinner info="Loading claim form..." />;
     }
 
     return (

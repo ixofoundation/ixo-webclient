@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 interface StyledTableCellProps {
   header: string;
@@ -55,11 +55,11 @@ export const StyledTableHeader = styled.th`
 
 export const StyledTableCell = styled.td<StyledTableCellProps>`
   color: ${(props: any): string =>
-    props.header === "buySell"
+    props.header === 'buySell'
       ? props.type
-        ? "#6FCF97"
-        : "#E2223B"
-      : "white"};
+        ? '#6FCF97'
+        : '#E2223B'
+      : 'white'};
   font-weight: bold;
   &:first-child {
     padding-left: 2em;
@@ -97,11 +97,11 @@ export const StyledMobileRow = styled.div`
 
 export const StyledMobileBuyCell = styled.div<StyledTableCellProps>`
   color: ${(props: any): string =>
-    props.header === "buySell"
+    props.header === 'buySell'
       ? props.type
-        ? "#6FCF97"
-        : "#E2223B"
-      : "white"};
+        ? '#6FCF97'
+        : '#E2223B'
+      : 'white'};
   font-weight: bold;
 `;
 

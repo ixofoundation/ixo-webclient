@@ -1,12 +1,12 @@
-import React from 'react'
-import { customControls } from '../../../../common/components/JsonForm/types'
-import { EntityStage, EntityStatus } from '../../../../modules/Entities/types'
+import React from 'react';
+import { customControls } from '../../../../common/components/JsonForm/types';
+import { EntityStage, EntityStatus } from '../../../Entities/types';
 import {
   entityStageMap,
   entityStatusMap,
-} from '../../../../modules/Entities/strategy-map'
-import MultiControlForm from '../../../../common/components/JsonForm/MultiControlForm/MultiControlForm'
-import { FormCardProps } from '../../../CreateEntity/types'
+} from '../../../Entities/strategy-map';
+import MultiControlForm from '../../../../common/components/JsonForm/MultiControlForm/MultiControlForm';
+import { FormCardProps } from '../../../CreateEntity/types';
 
 interface Props extends FormCardProps {
   startDate: string
@@ -32,7 +32,7 @@ const StatusCard: React.FunctionComponent<Props> = React.forwardRef(
       dates: `${startDate || ''}|${endDate || ''}`,
       stage,
       status,
-    }
+    };
 
     const schema = {
       type: 'object',
@@ -56,19 +56,19 @@ const StatusCard: React.FunctionComponent<Props> = React.forwardRef(
           ),
         },
       },
-    } as any
+    } as any;
 
     const uiSchema = {
       dates: {
-        ['ui:widget']: customControls['daterangeselector'],
+        'ui:widget': customControls.daterangeselector,
       },
       stage: {
-        ['ui:placeholder']: 'Select Stage',
+        'ui:placeholder': 'Select Stage',
       },
       status: {
-        ['ui:placeholder']: 'Select Status',
+        'ui:placeholder': 'Select Status',
       },
-    }
+    };
 
     return (
       <MultiControlForm
@@ -83,8 +83,8 @@ const StatusCard: React.FunctionComponent<Props> = React.forwardRef(
       >
         &nbsp;
       </MultiControlForm>
-    )
+    );
   },
-)
+);
 
-export default StatusCard
+export default StatusCard;

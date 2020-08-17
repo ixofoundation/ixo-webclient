@@ -1,21 +1,21 @@
-import * as React from 'react'
+import * as React from 'react';
 import {
   DashboardContainer,
   ClaimsWidget,
   ClaimsLabels,
-} from './EntitiesDashboard.styles'
-import { LayoutWrapper } from '../../../../common/components/Wrappers/LayoutWrapper'
-import { SingleStatistic } from '../../../../common/components/SingleStatistic/SingleStatistic'
-import { StatType } from '../../../../types/models'
-import { CircleProgressbar } from '../../../../common/components/Widgets/CircleProgressbar/CircleProgressbar'
-import { WorldMap } from '../../../../common/components/Widgets/WorldMap/WorldMap'
+} from './EntitiesDashboard.styles';
+import { LayoutWrapper } from '../../../../common/components/Wrappers/LayoutWrapper';
+import { SingleStatistic } from '../../../../common/components/SingleStatistic/SingleStatistic';
+import { StatType } from '../../../../types/models';
+import { CircleProgressbar } from '../../../../common/components/Widgets/CircleProgressbar/CircleProgressbar';
+import { WorldMap } from '../../../../common/components/Widgets/WorldMap/WorldMap';
 import {
   WidgetWrapper,
   gridSizes,
-} from '../../../../common/components/Wrappers/WidgetWrapper'
-import { getCountryCoordinates } from '../../Entities.utils'
-import { EntityType } from '../../types'
-import { entityTypeMap } from '../../strategy-map'
+} from '../../../../common/components/Wrappers/WidgetWrapper';
+import { getCountryCoordinates } from '../../Entities.utils';
+import { EntityType } from '../../types';
+import { entityTypeMap } from '../../strategy-map';
 
 export interface Props {
   entityType: EntityType
@@ -69,7 +69,7 @@ export const EntitiesDashboard: React.SFC<Props> = ({
             <WidgetWrapper
               title="Impact claims"
               gridHeight={gridSizes.standard}
-              linkIcon={'icon-expand'}
+              linkIcon="icon-expand"
             >
               <ClaimsWidget>
                 <ClaimsLabels>
@@ -91,7 +91,7 @@ export const EntitiesDashboard: React.SFC<Props> = ({
                   rejected={0}
                   pending={0}
                   totalNeeded={requiredClaims}
-                  descriptor={'verified claims'}
+                  descriptor="verified claims"
                 />
               </ClaimsWidget>
             </WidgetWrapper>
@@ -111,5 +111,5 @@ export const EntitiesDashboard: React.SFC<Props> = ({
         </div>
       </LayoutWrapper>
     </DashboardContainer>
-  )
-}
+  );
+};

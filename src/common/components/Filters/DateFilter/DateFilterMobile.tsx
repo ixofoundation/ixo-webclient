@@ -1,7 +1,7 @@
-import * as React from 'react'
-import Back from '../../../../assets/icons/Back'
-import CalendarSort from '../../../../assets/icons/CalendarSort'
-import DatePicker from '../../DatePicker'
+import * as React from 'react';
+import Back from '../../../../assets/icons/Back';
+import CalendarSort from '../../../../assets/icons/CalendarSort';
+import DatePicker from '../../DatePicker';
 import {
   Button,
   MobileDateHeader,
@@ -13,8 +13,8 @@ import {
   DoneButton,
   MobileDatePicker,
   MobileDatesMenu,
-} from '../Filters.styles'
-import { Props } from './types'
+} from '../Filters.styles';
+import { Props } from './types';
 
 interface MobileProps extends Props {
   startDateDisplay: string
@@ -47,8 +47,8 @@ const DateFilterMobile: React.FunctionComponent<MobileProps> = ({
               </HeadingItem>
               <HeadingItem
                 onClick={(): void => {
-                  handleResetFilter()
-                  handleFilterToggleShow()
+                  handleResetFilter();
+                  handleFilterToggleShow();
                 }}
               >
                 clear
@@ -77,7 +77,7 @@ const DateFilterMobile: React.FunctionComponent<MobileProps> = ({
         </MobileDatesMenu>
       )}
     </>
-  )
-}
+  );
+};
 
-export default DateFilterMobile
+export default DateFilterMobile;

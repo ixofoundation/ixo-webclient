@@ -1,8 +1,9 @@
-import * as React from 'react'
+import * as React from 'react';
+import { Moment } from 'moment';
 import {
   excerptText,
   toTitleCase,
-} from '../../../../../common/utils/formatters'
+} from '../../../../../common/utils/formatters';
 import {
   Title,
   Founded,
@@ -12,10 +13,9 @@ import {
   Statistic,
   StatisticLabel,
   StatisticValue,
-} from './CellCard.styles'
-import { Moment } from 'moment'
-import { EntityCardContainer } from '../EntityCardContainer'
-import { ShieldColor } from '../EntityCardContainer.styles'
+} from './CellCard.styles';
+import { EntityCardContainer } from '../EntityCardContainer';
+import { ShieldColor } from '../EntityCardContainer.styles';
 
 export interface Props {
   dateCreated: Moment
@@ -44,16 +44,16 @@ export const CellCard: React.FunctionComponent<Props> = ({
   status,
   sdgs,
 }) => {
-  const shield = toTitleCase(status)
+  const shield = toTitleCase(status);
 
-  let shieldColor
+  let shieldColor;
   switch (shield) {
     case 'Created':
-      shieldColor = ShieldColor.Orange
-      break
+      shieldColor = ShieldColor.Orange;
+      break;
     case 'Completed':
-      shieldColor = ShieldColor.Grey
-      break
+      shieldColor = ShieldColor.Grey;
+      break;
   }
 
   return (
@@ -88,5 +88,5 @@ export const CellCard: React.FunctionComponent<Props> = ({
         </Statistic>
       </StatisticsContainer>
     </EntityCardContainer>
-  )
-}
+  );
+};

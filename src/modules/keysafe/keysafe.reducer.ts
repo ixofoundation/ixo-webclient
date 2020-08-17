@@ -1,9 +1,9 @@
-import { KeysafeState, KeysafeActions, KeysafeActionTypes } from './types'
+import { KeysafeState, KeysafeActions, KeysafeActionTypes } from './types';
 
 export const initialState: KeysafeState = {
   keysafe: null,
   error: {},
-}
+};
 
 export const reducer = (
   state = initialState,
@@ -15,10 +15,10 @@ export const reducer = (
         ...state,
         keysafe: action.payload.keysafe,
         error: action.payload.error,
-      }
+      };
     case KeysafeActions.ResetKeysafe:
-      return initialState
+      return initialState;
   }
 
-  return state
-}
+  return state;
+};

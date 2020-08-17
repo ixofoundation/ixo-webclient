@@ -1,23 +1,23 @@
-import * as React from "react";
-import { withRouter } from "react-router-dom";
+import * as React from 'react';
+import { withRouter } from 'react-router-dom';
 
-import TextArea from "../TextArea/TextArea";
-import InputText from "../InputText/InputText";
-import Select from "../Select/Select";
-import Radio from "../Radio/Radio";
-import CountrySelect from "../CountrySelect/CountrySelect";
-import TemplateSelect from "../TemplateSelect/TemplateSelect";
-import InputImage from "../InputImage/InputImage";
-import { FormStyles } from "../../../../types/models";
+import ApprovedTick from 'assets/icons/ApprovedTick';
+import TextArea from '../TextArea/TextArea';
+import InputText from '../InputText/InputText';
+import Select from '../Select/Select';
+import Radio from '../Radio/Radio';
+import CountrySelect from '../CountrySelect/CountrySelect';
+import TemplateSelect from '../TemplateSelect/TemplateSelect';
+import InputImage from '../InputImage/InputImage';
+import { FormStyles } from '../../../../types/models';
 
-import { Button, ButtonTypes } from "../Buttons";
+import { Button, ButtonTypes } from '../Buttons';
 import {
   ButtonContainer,
   ReturnButton,
   SubmitButton,
   SubmitStatus,
-} from "./DynamicForm.styles";
-import ApprovedTick from "assets/icons/ApprovedTick";
+} from './DynamicForm.styles';
 
 export interface ParentProps {
   formSchema: any;
@@ -54,7 +54,7 @@ class DynamicForm extends React.Component<any, State> {
         );
         hiddenCount++;
       } else {
-        this.setFormState(field.name, "");
+        this.setFormState(field.name, '');
       }
     });
   }
@@ -64,8 +64,8 @@ class DynamicForm extends React.Component<any, State> {
   };
 
   setFormState = (name: string, value: any): void => {
-    const fields = name.split(".");
-    let formData: any = this.state.formData;
+    const fields = name.split('.');
+    let { formData } = this.state;
     fields.forEach((field, index) => {
       if (index === fields.length - 1) {
         formData[field] = value;
@@ -76,7 +76,7 @@ class DynamicForm extends React.Component<any, State> {
         formData = formData[field];
       }
     });
-    this.setState({ formData: formData });
+    this.setState({ formData });
   };
 
   onFormValueChanged = (name: string) => {
@@ -89,28 +89,28 @@ class DynamicForm extends React.Component<any, State> {
     if (this.props.formStyle === FormStyles.modal) {
       return (
         <Button onClick={this.handleSubmit} type={ButtonTypes.gradient}>
-          {this.props.submitText ? this.props.submitText : "Submit Form"}
+          {this.props.submitText ? this.props.submitText : 'Submit Form'}
         </Button>
       );
-    } else {
-      return (
-        <ButtonContainer>
-          <div className="row">
-            <div className="col-md-6">
-              <ReturnButton onClick={(): void => this.props.history.back()}>
-                Back
-              </ReturnButton>
-            </div>
-            <div className="col-md-6">
-              <SubmitButton onClick={this.handleSubmit}>
-                {this.props.submitText ? this.props.submitText : "Submit Form"}
-                <ApprovedTick width="22" />
-              </SubmitButton>
-            </div>
+    } 
+    return (
+      <ButtonContainer>
+        <div className="row">
+          <div className="col-md-6">
+            <ReturnButton onClick={(): void => this.props.history.back()}>
+              Back
+            </ReturnButton>
           </div>
-        </ButtonContainer>
-      );
-    }
+          <div className="col-md-6">
+            <SubmitButton onClick={this.handleSubmit}>
+              {this.props.submitText ? this.props.submitText : 'Submit Form'}
+              <ApprovedTick width="22" />
+            </SubmitButton>
+          </div>
+        </div>
+      </ButtonContainer>
+    );
+    
   };
 
   render(): JSX.Element {
@@ -119,9 +119,9 @@ class DynamicForm extends React.Component<any, State> {
         <div className="form-group">
           {this.props.formSchema.map((field: any, i: number) => {
             switch (field.type) {
-              case "number":
-              case "text":
-              case "email":
+              case 'number':
+              case 'text':
+              case 'email':
                 return (
                   <InputText
                     formStyle={this.props.formStyle}
@@ -133,7 +133,7 @@ class DynamicForm extends React.Component<any, State> {
                     validation={field.validation}
                   />
                 );
-              case "image":
+              case 'image':
                 return (
                   <InputImage
                     id={field.name}
@@ -143,7 +143,7 @@ class DynamicForm extends React.Component<any, State> {
                     onChange={this.onFormValueChanged(field.name)}
                   />
                 );
-              case "textarea":
+              case 'textarea':
                 return (
                   <TextArea
                     formStyle={this.props.formStyle}
@@ -153,7 +153,7 @@ class DynamicForm extends React.Component<any, State> {
                     onChange={this.onFormValueChanged(field.name)}
                   />
                 );
-              case "select":
+              case 'select':
                 return (
                   <Select
                     id={field.name}
@@ -163,7 +163,7 @@ class DynamicForm extends React.Component<any, State> {
                     onChange={this.onFormValueChanged(field.name)}
                   />
                 );
-              case "country":
+              case 'country':
                 return (
                   <CountrySelect
                     id={field.name}
@@ -172,7 +172,7 @@ class DynamicForm extends React.Component<any, State> {
                     onChange={this.onFormValueChanged(field.name)}
                   />
                 );
-              case "template":
+              case 'template':
                 return (
                   <TemplateSelect
                     id={field.name}
@@ -181,7 +181,7 @@ class DynamicForm extends React.Component<any, State> {
                     onChange={this.onFormValueChanged(field.name)}
                   />
                 );
-              case "radio":
+              case 'radio':
                 return (
                   <Radio
                     id={field.name}

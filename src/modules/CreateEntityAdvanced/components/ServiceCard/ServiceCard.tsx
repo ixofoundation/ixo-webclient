@@ -1,9 +1,9 @@
-import React from 'react'
-import { ServiceType } from '../../../Entities/types'
-import { serviceTypeMap } from '../../../Entities/strategy-map'
-import MultiControlForm from '../../../../common/components/JsonForm/MultiControlForm/MultiControlForm'
-import { FormCardProps } from '../../../CreateEntity/types'
-import { LinkButton } from '../../../../common/components/JsonForm/JsonForm.styles'
+import React from 'react';
+import { ServiceType } from '../../../Entities/types';
+import { serviceTypeMap } from '../../../Entities/strategy-map';
+import MultiControlForm from '../../../../common/components/JsonForm/MultiControlForm/MultiControlForm';
+import { FormCardProps } from '../../../CreateEntity/types';
+import { LinkButton } from '../../../../common/components/JsonForm/JsonForm.styles';
 
 interface Props extends FormCardProps {
   type: ServiceType
@@ -34,7 +34,7 @@ const ServiceCard: React.FunctionComponent<Props> = React.forwardRef(
       serviceEndpoint,
       publicKey,
       properties,
-    }
+    };
 
     const schema = {
       type: 'object',
@@ -71,26 +71,26 @@ const ServiceCard: React.FunctionComponent<Props> = React.forwardRef(
           title: 'Short Description',
         },
       },
-    } as any
+    } as any;
 
     const uiSchema = {
       type: {
-        ['ui:placeholder']: 'Select Service',
+        'ui:placeholder': 'Select Service',
       },
       serviceEndpoint: {
-        ['ui:placeholder']: 'Enter URL',
+        'ui:placeholder': 'Enter URL',
       },
       publicKey: {
-        ['ui:placeholder']: 'Enter Value',
+        'ui:placeholder': 'Enter Value',
       },
       properties: {
-        ['ui:placeholder']: 'Paste a Valid String',
+        'ui:placeholder': 'Paste a Valid String',
       },
       shortDescription: {
-        ['ui:widget']: 'textarea',
-        ['ui:placeholder']: 'Start Typing Here',
+        'ui:widget': 'textarea',
+        'ui:placeholder': 'Start Typing Here',
       },
-    }
+    };
 
     return (
       <>
@@ -112,8 +112,8 @@ const ServiceCard: React.FunctionComponent<Props> = React.forwardRef(
           </LinkButton>
         </div>
       </>
-    )
+    );
   },
-)
+);
 
-export default ServiceCard
+export default ServiceCard;

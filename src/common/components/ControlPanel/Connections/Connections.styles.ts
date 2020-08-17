@@ -1,6 +1,6 @@
-import styled from "styled-components";
-import { SquareButtonSection } from "../ControlPanel.styles";
-import { QRInner } from "../../QRCode/QRCode.styles";
+import styled from 'styled-components';
+import { SquareButtonSection } from '../ControlPanel.styles';
+import { QRInner } from '../../QRCode/QRCode.styles';
 
 export const ConnectionButtonsWrapper = styled(SquareButtonSection)`
   button {

@@ -1,22 +1,22 @@
-import ImageCheckboxes from './CustomWidgets/ImageCheckboxes/ImageCheckboxes'
-import SingleDateSelector from './CustomWidgets/SingleDateSelector/SingleDateSelector'
-import DateRangeSelector from './CustomWidgets/DateRangeSelector/DateRangeSelector'
-import LocationSelector from './CustomWidgets/LocationSelector/LocationSelector'
-import QRCode from './CustomWidgets/QRCode/QRCode'
-import ImageUpload from './CustomWidgets/ImageUpload/ImageUpload'
-import AvatarUpload from './CustomWidgets/AvatarUpload/AvatarUpload'
-import DocumentUpload from './CustomWidgets/DocumentUpload/DocumentUpload'
-import AudioUpload from './CustomWidgets/AudioUpload/AudioUpload'
-import VideoUpload from './CustomWidgets/VideoUpload/VideoUpload'
-import EmailValidation from './CustomWidgets/EmailValidation/EmailValidation'
-import CountrySelector from './CustomWidgets/CountrySelector/CountrySelector'
-import SDGSelector from './CustomWidgets/SDGSelector/SDGSelector'
-import SocialTextBox from './CustomWidgets/SocialTextBox/SocialTextBox'
-import EmbeddedUrlTextBox from './CustomWidgets/EmbeddedUrlTextBox/EmbeddedUrlTextBox'
+import ImageCheckboxes from './CustomWidgets/ImageCheckboxes/ImageCheckboxes';
+import SingleDateSelector from './CustomWidgets/SingleDateSelector/SingleDateSelector';
+import DateRangeSelector from './CustomWidgets/DateRangeSelector/DateRangeSelector';
+import LocationSelector from './CustomWidgets/LocationSelector/LocationSelector';
+import QRCode from './CustomWidgets/QRCode/QRCode';
+import ImageUpload from './CustomWidgets/ImageUpload/ImageUpload';
+import AvatarUpload from './CustomWidgets/AvatarUpload/AvatarUpload';
+import DocumentUpload from './CustomWidgets/DocumentUpload/DocumentUpload';
+import AudioUpload from './CustomWidgets/AudioUpload/AudioUpload';
+import VideoUpload from './CustomWidgets/VideoUpload/VideoUpload';
+import EmailValidation from './CustomWidgets/EmailValidation/EmailValidation';
+import CountrySelector from './CustomWidgets/CountrySelector/CountrySelector';
+import SDGSelector from './CustomWidgets/SDGSelector/SDGSelector';
+import SocialTextBox from './CustomWidgets/SocialTextBox/SocialTextBox';
+import EmbeddedUrlTextBox from './CustomWidgets/EmbeddedUrlTextBox/EmbeddedUrlTextBox';
 
 export type FormData = {
   [id: string]: any
-}
+};
 
 export interface FormControl {
   id: string
@@ -81,4 +81,4 @@ export const customControls = {
   [ControlType.VideoUpload]: VideoUpload,
   [ControlType.EmailValidation]: EmailValidation,
   [ControlType.QRCode]: QRCode,
-}
+};

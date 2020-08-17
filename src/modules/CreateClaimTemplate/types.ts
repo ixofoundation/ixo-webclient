@@ -16,7 +16,7 @@ export interface Question {
   initialValue?: string
 }
 
-export type Attestation = Question
+export type Attestation = Question;
 
 export interface ClaimInfo {
   claimName: string
@@ -72,4 +72,4 @@ export type CreateClaimTemplateActionTypes =
   | AddAttestationAction
   | RemoveAttestationAction
   | DuplicateAttestationAction
-  | UpdateAttestationAction
+  | UpdateAttestationAction;

@@ -1,5 +1,5 @@
-import React from 'react'
-import { PulseLoaderWrapper } from './PulseLoader.styles'
+import React from 'react';
+import { PulseLoaderWrapper } from './PulseLoader.styles';
 
 interface Props {
   children: any
@@ -11,7 +11,7 @@ const PulseLoader: React.SFC<Props> = ({ children, repeat }) => {
     <PulseLoaderWrapper className={`${repeat ? 'repeat' : ''}`}>
       {children}
     </PulseLoaderWrapper>
-  )
-}
+  );
+};
 
-export default PulseLoader
+export default PulseLoader;

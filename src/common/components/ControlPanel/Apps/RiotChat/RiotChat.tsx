@@ -1,10 +1,10 @@
-import React from "react";
-import RiotIcon from "../../../../../assets/icons/Riot";
-import { Tooltip } from "../../../Tooltip";
-import { Control } from "../../types";
+import React from 'react';
+import RiotIcon from '../../../../../assets/icons/Riot';
+import { Tooltip } from '../../../Tooltip';
+import { Control } from '../../types';
 
 interface Props {
-  buttonClassName: string; //index > 3 ? (showMore ? 'show' : 'hide') : 'show'
+  buttonClassName: string; // index > 3 ? (showMore ? 'show' : 'hide') : 'show'
   control: Control;
 }
 
@@ -18,7 +18,7 @@ const RiotChat: React.FunctionComponent<Props> = ({
         <div
           className="icon-wrapper"
           style={{
-            background: "#fff",
+            background: '#fff',
           }}
         >
           <RiotIcon width={36} />

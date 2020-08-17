@@ -1,5 +1,5 @@
-import React from 'react'
-import { Container, AddSectionButton } from './FormCardWrapper.styles'
+import React from 'react';
+import { Container, AddSectionButton } from './FormCardWrapper.styles';
 
 interface Props {
   title: string
@@ -31,7 +31,7 @@ const FormCardWrapper: React.FunctionComponent<Props> = ({
         </div>
       )}
     </Container>
-  )
-}
+  );
+};
 
-export default FormCardWrapper
+export default FormCardWrapper;

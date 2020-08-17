@@ -6,6 +6,6 @@ export default {
         pubKey: 'string',
       },
       name: 'test user',
-    }
+    };
   }),
-}
+};

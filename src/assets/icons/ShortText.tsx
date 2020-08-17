@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 const ShortText = (props: any): JSX.Element => {
   return (
@@ -9,7 +9,7 @@ const ShortText = (props: any): JSX.Element => {
     >
       <path
         d="M8.00024 13.5V15.5H26.0002V13.5H8.00024ZM8.00024 20.5H20.0002V18.5H8.00024V20.5Z"
-        fill={props.fill || "#fff"}
+        fill={props.fill || '#fff'}
       />
     </svg>
   );

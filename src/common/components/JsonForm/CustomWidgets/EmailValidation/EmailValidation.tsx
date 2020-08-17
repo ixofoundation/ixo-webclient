@@ -1,5 +1,5 @@
-import React from 'react'
-import EmailVerification from '../../../Verification/EmailVerification/EmailVerification'
+import React from 'react';
+import EmailVerification from '../../../Verification/EmailVerification/EmailVerification';
 
 interface Props {
   value: string
@@ -16,7 +16,7 @@ const EmailValidation: React.FunctionComponent<Props> = ({
       handleCompleted={(email): void => onChange(email)}
       handleReset={(): void => onChange('')}
     />
-  )
-}
+  );
+};
 
-export default EmailValidation
+export default EmailValidation;

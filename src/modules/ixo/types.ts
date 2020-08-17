@@ -1,6 +1,6 @@
 export type IxoState = {
   ixo: any
-}
+};
 
 export enum IxoActions {
   InitIxo = 'ixo/Ixo/INIT_IXO',
@@ -18,4 +18,4 @@ export interface ResetIxoAction {
   type: typeof IxoActions.ResetIxo
 }
 
-export type IxoActionTypes = InitIxoAction | ResetIxoAction
+export type IxoActionTypes = InitIxoAction | ResetIxoAction;

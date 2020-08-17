@@ -1,4 +1,4 @@
-import * as SUT from './CreateEntityPageContent.reducer'
+import * as SUT from './CreateEntityPageContent.reducer';
 import {
   CreateEntityPageContentActions,
   UpdateHeaderContentAction,
@@ -29,32 +29,32 @@ import {
   RemoveEmbeddedSectionAction,
   ValidatedAction,
   ValidationErrorAction,
-} from './types'
+} from './types';
 
-const initialState = SUT.initialState
+const { initialState } = SUT;
 
 describe('CreateEntityPageContent Reducer', () => {
   it('should return the same state if an action is called on it which is not handled by the reducer', () => {
     // given .. we have an action the reducer does not handle
-    const action: any = 'foo'
+    const action: any = 'foo';
 
     // when ... we run the reducer with this action
-    const result = SUT.reducer(initialState, action)
+    const result = SUT.reducer(initialState, action);
 
     // then ... the state that was passed into the function should be returned
-    expect(result).toEqual(initialState)
-  })
+    expect(result).toEqual(initialState);
+  });
 
   describe('HeaderContent Actions', () => {
     describe('headerContent', () => {
       it('should update the content', () => {
-        const title = 'someHeaderTitle'
-        const shortDescription = 'someHeaderShortDescription'
-        const imageDescription = 'someHeaderImageDescription'
-        const sdgs = ['sdg1', 'sdg2', 'sdg3']
-        const organisation = 'someHeaderCompany'
-        const location = 'ZA'
-        const fileSrc = 'someExistingfileSrc'
+        const title = 'someHeaderTitle';
+        const shortDescription = 'someHeaderShortDescription';
+        const imageDescription = 'someHeaderImageDescription';
+        const sdgs = ['sdg1', 'sdg2', 'sdg3'];
+        const organisation = 'someHeaderCompany';
+        const location = 'ZA';
+        const fileSrc = 'someExistingfileSrc';
 
         // given .. we have an action of type CreateEntityPageContentActions.UpdateHeaderContent
         const action: UpdateHeaderContentAction = {
@@ -67,7 +67,7 @@ describe('CreateEntityPageContent Reducer', () => {
             organisation,
             location,
           },
-        }
+        };
 
         // when ... we run the reducer with this action
         const result = SUT.reducer(
@@ -76,7 +76,7 @@ describe('CreateEntityPageContent Reducer', () => {
             header: { ...initialState.header, fileSrc },
           },
           action,
-        )
+        );
 
         // then ... the state should be set as expected
         expect(result).toEqual({
@@ -91,19 +91,19 @@ describe('CreateEntityPageContent Reducer', () => {
             fileSrc,
             uploading: false,
           },
-        })
-      })
-    })
+        });
+      });
+    });
 
     describe('headerImage', () => {
       it('should update the header uploading flag to true when upload has started', () => {
         // given .. we have an action of type CreateEntityPageContentActions.UploadHeaderContentImagePending
         const action: UploadHeaderImagePendingAction = {
           type: CreateEntityPageContentActions.UploadHeaderContentImagePending,
-        }
+        };
 
         // when ... we run the reducer with this action
-        const result = SUT.reducer(initialState, action)
+        const result = SUT.reducer(initialState, action);
 
         // then ... the state should be set as expected
         expect(result).toEqual({
@@ -112,11 +112,11 @@ describe('CreateEntityPageContent Reducer', () => {
             ...initialState.header,
             uploading: true,
           },
-        })
-      })
+        });
+      });
 
       it('should update the header uploading flag to false and set the fileSrc when upload has succeeded', () => {
-        const fileSrc = 'somefileSrc'
+        const fileSrc = 'somefileSrc';
 
         // given .. we have an action of type CreateEntityPageContentActions.UploadHeaderContentImageSuccess
         const action: UploadHeaderImageSuccessAction = {
@@ -124,7 +124,7 @@ describe('CreateEntityPageContent Reducer', () => {
           payload: {
             fileSrc,
           },
-        }
+        };
 
         // when ... we run the reducer with this action
         const result = SUT.reducer(
@@ -136,7 +136,7 @@ describe('CreateEntityPageContent Reducer', () => {
             },
           },
           action,
-        )
+        );
 
         // then ... the state should be set as expected
         expect(result).toEqual({
@@ -146,14 +146,14 @@ describe('CreateEntityPageContent Reducer', () => {
             fileSrc,
             uploading: false,
           },
-        })
-      })
+        });
+      });
 
       it('should update the header uploading flag to false and set the fileSrc when upload has failed', () => {
         // given .. we have an action of type CreateEntityPageContentActions.UploadHeaderContentImageFailure
         const action: UploadHeaderImageFailureAction = {
           type: CreateEntityPageContentActions.UploadHeaderContentImageFailure,
-        }
+        };
 
         // when ... we run the reducer with this action
         const result = SUT.reducer(
@@ -165,7 +165,7 @@ describe('CreateEntityPageContent Reducer', () => {
             },
           },
           action,
-        )
+        );
 
         // then ... the state should be set as expected
         expect(result).toEqual({
@@ -174,25 +174,25 @@ describe('CreateEntityPageContent Reducer', () => {
             ...initialState.header,
             uploading: false,
           },
-        })
-      })
-    })
-  })
+        });
+      });
+    });
+  });
 
   describe('BodyContent Actions', () => {
     describe('bodyContent', () => {
       it('should add a new body content section', () => {
-        const id = 'someBodySectionId'
+        const id = 'someBodySectionId';
         // given ... we have an action of type CreateEntityPageContentActions.AddBodySection
         const action: AddBodySectionAction = {
           type: CreateEntityPageContentActions.AddBodySection,
           payload: {
             id,
           },
-        }
+        };
 
         // when ... we run the reducer with this action
-        const result = SUT.reducer(initialState, action)
+        const result = SUT.reducer(initialState, action);
 
         // then ... the state should be set as expected
         expect(result).toEqual({
@@ -206,18 +206,18 @@ describe('CreateEntityPageContent Reducer', () => {
               uploading: false,
             },
           },
-        })
-      })
+        });
+      });
 
       it('should remove body content section', () => {
-        const id = 'existingBodySectionId'
+        const id = 'existingBodySectionId';
         // given ... we have an action of type CreateEntityPageContentActions.RemoveBodySection
         const action: RemoveBodySectionAction = {
           type: CreateEntityPageContentActions.RemoveBodySection,
           payload: {
             id,
           },
-        }
+        };
         // when ... we run the reducer with this action
         const result = SUT.reducer(
           {
@@ -230,7 +230,7 @@ describe('CreateEntityPageContent Reducer', () => {
                 fileSrc: 'fileSrc1',
                 uploading: false,
               },
-              ['anotherid']: {
+              'anotherid': {
                 id: 'anotherid',
                 title: 'title2',
                 content: 'content2',
@@ -240,13 +240,13 @@ describe('CreateEntityPageContent Reducer', () => {
             },
           },
           action,
-        )
+        );
 
         // then ... the state should be set as expected
         expect(result).toEqual({
           ...initialState,
           body: {
-            ['anotherid']: {
+            'anotherid': {
               id: 'anotherid',
               title: 'title2',
               content: 'content2',
@@ -254,14 +254,14 @@ describe('CreateEntityPageContent Reducer', () => {
               uploading: false,
             },
           },
-        })
-      })
+        });
+      });
 
       it('should update the content', () => {
-        const id = 'someBodyContentId'
-        const title = 'someNewBodyTitle'
-        const content = 'someNewBodyContent'
-        const fileSrc = 'someExistingfileSrc'
+        const id = 'someBodyContentId';
+        const title = 'someNewBodyTitle';
+        const content = 'someNewBodyContent';
+        const fileSrc = 'someExistingfileSrc';
 
         // given .. we have an action of type CreateEntityPageContentActions.UpdateBodyContent
         const action: UpdateBodyContentAction = {
@@ -271,7 +271,7 @@ describe('CreateEntityPageContent Reducer', () => {
             title,
             content,
           },
-        }
+        };
 
         // when ... we run the reducer with this action
         const result = SUT.reducer(
@@ -288,7 +288,7 @@ describe('CreateEntityPageContent Reducer', () => {
             },
           },
           action,
-        )
+        );
 
         // then ... the state should be set as expected
         expect(result).toEqual({
@@ -302,16 +302,16 @@ describe('CreateEntityPageContent Reducer', () => {
               uploading: false,
             },
           },
-        })
-      })
-    })
+        });
+      });
+    });
 
     describe('bodyImage', () => {
       it('should update the specific body uploading flag to true when upload has started', () => {
-        const id = 'someBodyContentId'
-        const title = 'someBodyTitle'
-        const content = 'someBodyContent'
-        const fileSrc = 'someNewfileSrc'
+        const id = 'someBodyContentId';
+        const title = 'someBodyTitle';
+        const content = 'someBodyContent';
+        const fileSrc = 'someNewfileSrc';
 
         // given .. we have an action of type CreateEntityPageContentActions.UploadBodyContentImagePending
         const action: UploadBodyContentImagePendingAction = {
@@ -319,7 +319,7 @@ describe('CreateEntityPageContent Reducer', () => {
           meta: {
             id,
           },
-        }
+        };
 
         // when ... we run the reducer with this action
         const result = SUT.reducer(
@@ -336,7 +336,7 @@ describe('CreateEntityPageContent Reducer', () => {
             },
           },
           action,
-        )
+        );
 
         // then ... the state should be set as expected
         expect(result).toEqual({
@@ -350,14 +350,14 @@ describe('CreateEntityPageContent Reducer', () => {
               uploading: true,
             },
           },
-        })
-      })
+        });
+      });
 
       it('should update the body uploading flag to false and set the fileSrc when upload has succeeded', () => {
-        const id = 'someBodyContentId'
-        const title = 'someBodyTitle'
-        const content = 'someBodyContent'
-        const fileSrc = 'someNewfileSrc'
+        const id = 'someBodyContentId';
+        const title = 'someBodyTitle';
+        const content = 'someBodyContent';
+        const fileSrc = 'someNewfileSrc';
 
         // given .. we have an action of type CreateEntityPageContentActions.UploadBodyContentImageSuccessAction
         const action: UploadBodyContentImageSuccessAction = {
@@ -366,7 +366,7 @@ describe('CreateEntityPageContent Reducer', () => {
             id,
             fileSrc,
           },
-        }
+        };
 
         // when ... we run the reducer with this action
         const result = SUT.reducer(
@@ -383,7 +383,7 @@ describe('CreateEntityPageContent Reducer', () => {
             },
           },
           action,
-        )
+        );
 
         // then ... the state should be set as expected
         expect(result).toEqual({
@@ -397,14 +397,14 @@ describe('CreateEntityPageContent Reducer', () => {
               uploading: false,
             },
           },
-        })
-      })
+        });
+      });
 
       it('should update the body uploading flag to false when upload has failed', () => {
-        const id = 'someBodyContentId'
-        const title = 'someBodyTitle'
-        const content = 'someBodyContent'
-        const fileSrc = 'somefileSrc'
+        const id = 'someBodyContentId';
+        const title = 'someBodyTitle';
+        const content = 'someBodyContent';
+        const fileSrc = 'somefileSrc';
 
         // given .. we have an action of type CreateEntityPageContentActions.UploadBodyContentImageFailureAction
         const action: UploadBodyContentImageFailureAction = {
@@ -412,7 +412,7 @@ describe('CreateEntityPageContent Reducer', () => {
           payload: {
             id,
           },
-        }
+        };
 
         // when ... we run the reducer with this action
         const result = SUT.reducer(
@@ -429,7 +429,7 @@ describe('CreateEntityPageContent Reducer', () => {
             },
           },
           action,
-        )
+        );
 
         // then ... the state should be set as expected
         expect(result).toEqual({
@@ -443,25 +443,25 @@ describe('CreateEntityPageContent Reducer', () => {
               uploading: false,
             },
           },
-        })
-      })
-    })
-  })
+        });
+      });
+    });
+  });
 
   describe('ImageContent Actions', () => {
     describe('imageContent', () => {
       it('should add a new image content section', () => {
-        const id = 'someImageSectionId'
+        const id = 'someImageSectionId';
         // given ... we have an action of type CreateEntityPageContentActions.AddImageSection
         const action: AddImageSectionAction = {
           type: CreateEntityPageContentActions.AddImageSection,
           payload: {
             id,
           },
-        }
+        };
 
         // when ... we run the reducer with this action
-        const result = SUT.reducer(initialState, action)
+        const result = SUT.reducer(initialState, action);
 
         // then ... the state should be set as expected
         expect(result).toEqual({
@@ -476,18 +476,18 @@ describe('CreateEntityPageContent Reducer', () => {
               uploading: false,
             },
           },
-        })
-      })
+        });
+      });
 
       it('should remove image content section', () => {
-        const id = 'existingImageSectionId'
+        const id = 'existingImageSectionId';
         // given ... we have an action of type CreateEntityPageContentActions.RemoveImageSection
         const action: RemoveImageSectionAction = {
           type: CreateEntityPageContentActions.RemoveImageSection,
           payload: {
             id,
           },
-        }
+        };
         // when ... we run the reducer with this action
         const result = SUT.reducer(
           {
@@ -501,7 +501,7 @@ describe('CreateEntityPageContent Reducer', () => {
                 imageDescription: 'imageDescription1',
                 uploading: false,
               },
-              ['anotherid']: {
+              'anotherid': {
                 id: 'anotherid',
                 title: 'title2',
                 content: 'content2',
@@ -512,13 +512,13 @@ describe('CreateEntityPageContent Reducer', () => {
             },
           },
           action,
-        )
+        );
 
         // then ... the state should be set as expected
         expect(result).toEqual({
           ...initialState,
           images: {
-            ['anotherid']: {
+            'anotherid': {
               id: 'anotherid',
               title: 'title2',
               content: 'content2',
@@ -527,15 +527,15 @@ describe('CreateEntityPageContent Reducer', () => {
               uploading: false,
             },
           },
-        })
-      })
+        });
+      });
 
       it('should update the content', () => {
-        const id = 'someImageContentId'
-        const title = 'someNewImageTitle'
-        const content = 'someNewImageContent'
-        const imageDescription = 'someExistingImageDescription'
-        const fileSrc = 'someExistingfileSrc'
+        const id = 'someImageContentId';
+        const title = 'someNewImageTitle';
+        const content = 'someNewImageContent';
+        const imageDescription = 'someExistingImageDescription';
+        const fileSrc = 'someExistingfileSrc';
 
         // given .. we have an action of type CreateEntityPageContentActions.UpdateImageContent
         const action: UpdateImageContentAction = {
@@ -546,7 +546,7 @@ describe('CreateEntityPageContent Reducer', () => {
             content,
             imageDescription,
           },
-        }
+        };
 
         // when ... we run the reducer with this action
         const result = SUT.reducer(
@@ -564,7 +564,7 @@ describe('CreateEntityPageContent Reducer', () => {
             },
           },
           action,
-        )
+        );
 
         // then ... the state should be set as expected
         expect(result).toEqual({
@@ -579,17 +579,17 @@ describe('CreateEntityPageContent Reducer', () => {
               uploading: false,
             },
           },
-        })
-      })
-    })
+        });
+      });
+    });
 
     describe('imageContentImage', () => {
       it('should update the specific image uploading flag to true when upload has started', () => {
-        const id = 'someImageContentId'
-        const title = 'someImageTitle'
-        const content = 'someImageContent'
-        const imageDescription = 'someImageDescription'
-        const fileSrc = 'someNewfileSrc'
+        const id = 'someImageContentId';
+        const title = 'someImageTitle';
+        const content = 'someImageContent';
+        const imageDescription = 'someImageDescription';
+        const fileSrc = 'someNewfileSrc';
 
         // given .. we have an action of type CreateEntityPageContentActions.UploadImageContentImagePending
         const action: UploadImageContentImagePendingAction = {
@@ -597,7 +597,7 @@ describe('CreateEntityPageContent Reducer', () => {
           meta: {
             id,
           },
-        }
+        };
 
         // when ... we run the reducer with this action
         const result = SUT.reducer(
@@ -615,7 +615,7 @@ describe('CreateEntityPageContent Reducer', () => {
             },
           },
           action,
-        )
+        );
 
         // then ... the state should be set as expected
         expect(result).toEqual({
@@ -630,15 +630,15 @@ describe('CreateEntityPageContent Reducer', () => {
               uploading: true,
             },
           },
-        })
-      })
+        });
+      });
 
       it('should update the specific image uploading flag to false and set the fileSrc when upload has succeeded', () => {
-        const id = 'someBodyContentId'
-        const title = 'someBodyTitle'
-        const content = 'someBodyContent'
-        const imageDescription = 'someImageDescription'
-        const fileSrc = 'someNewfileSrc'
+        const id = 'someBodyContentId';
+        const title = 'someBodyTitle';
+        const content = 'someBodyContent';
+        const imageDescription = 'someImageDescription';
+        const fileSrc = 'someNewfileSrc';
 
         // given .. we have an action of type CreateEntityPageContentActions.UploadImageContentImageSuccessAction
         const action: UploadImageContentImageSuccessAction = {
@@ -647,7 +647,7 @@ describe('CreateEntityPageContent Reducer', () => {
             id,
             fileSrc,
           },
-        }
+        };
 
         // when ... we run the reducer with this action
         const result = SUT.reducer(
@@ -665,7 +665,7 @@ describe('CreateEntityPageContent Reducer', () => {
             },
           },
           action,
-        )
+        );
 
         // then ... the state should be set as expected
         expect(result).toEqual({
@@ -680,15 +680,15 @@ describe('CreateEntityPageContent Reducer', () => {
               uploading: false,
             },
           },
-        })
-      })
+        });
+      });
 
       it('should update the specific image uploading flag to false and set the fileSrc when upload has failed', () => {
-        const id = 'someImageContentId'
-        const title = 'someImageTitle'
-        const content = 'someImageContent'
-        const imageDescription = 'someImageDescription'
-        const fileSrc = 'somefileSrc'
+        const id = 'someImageContentId';
+        const title = 'someImageTitle';
+        const content = 'someImageContent';
+        const imageDescription = 'someImageDescription';
+        const fileSrc = 'somefileSrc';
 
         // given .. we have an action of type CreateEntityPageContentActions.UploadImageContentImageFailureAction
         const action: UploadImageContentImageFailureAction = {
@@ -696,7 +696,7 @@ describe('CreateEntityPageContent Reducer', () => {
           payload: {
             id,
           },
-        }
+        };
 
         // when ... we run the reducer with this action
         const result = SUT.reducer(
@@ -714,7 +714,7 @@ describe('CreateEntityPageContent Reducer', () => {
             },
           },
           action,
-        )
+        );
 
         // then ... the state should be set as expected
         expect(result).toEqual({
@@ -729,25 +729,25 @@ describe('CreateEntityPageContent Reducer', () => {
               uploading: false,
             },
           },
-        })
-      })
-    })
-  })
+        });
+      });
+    });
+  });
 
   describe('ProfileContent Actions', () => {
     describe('profileContent', () => {
       it('should add a new profile content section', () => {
-        const id = 'someProfileSectionId'
+        const id = 'someProfileSectionId';
         // given ... we have an action of type CreateEntityPageContentActions.AddProfileSection
         const action: AddProfileSectionAction = {
           type: CreateEntityPageContentActions.AddProfileSection,
           payload: {
             id,
           },
-        }
+        };
 
         // when ... we run the reducer with this action
-        const result = SUT.reducer(initialState, action)
+        const result = SUT.reducer(initialState, action);
 
         // then ... the state should be set as expected
         expect(result).toEqual({
@@ -763,18 +763,18 @@ describe('CreateEntityPageContent Reducer', () => {
               uploading: false,
             },
           },
-        })
-      })
+        });
+      });
 
       it('should remove profile content section', () => {
-        const id = 'existingProfileSectionId'
+        const id = 'existingProfileSectionId';
         // given ... we have an action of type CreateEntityPageContentActions.RemoveProfileSection
         const action: RemoveProfileSectionAction = {
           type: CreateEntityPageContentActions.RemoveProfileSection,
           payload: {
             id,
           },
-        }
+        };
         // when ... we run the reducer with this action
         const result = SUT.reducer(
           {
@@ -789,7 +789,7 @@ describe('CreateEntityPageContent Reducer', () => {
                 fileSrc: 'someProfilefileSrc1',
                 uploading: false,
               },
-              ['anotherid']: {
+              'anotherid': {
                 id: 'anotherid',
                 name: 'someProfileName2',
                 position: 'someProfilePosition2',
@@ -801,13 +801,13 @@ describe('CreateEntityPageContent Reducer', () => {
             },
           },
           action,
-        )
+        );
 
         // then ... the state should be set as expected
         expect(result).toEqual({
           ...initialState,
           profiles: {
-            ['anotherid']: {
+            'anotherid': {
               id: 'anotherid',
               name: 'someProfileName2',
               position: 'someProfilePosition2',
@@ -817,16 +817,16 @@ describe('CreateEntityPageContent Reducer', () => {
               uploading: false,
             },
           },
-        })
-      })
+        });
+      });
 
       it('should update the content', () => {
-        const id = 'someProfileContentId'
-        const name = 'someNewProfileName'
-        const position = 'someNewProfilePosition'
-        const linkedInUrl = 'someNewProfileLinkedInUrl'
-        const twitterUrl = 'someNewProfileTwitterUrl'
-        const fileSrc = 'someExistingfileSrc'
+        const id = 'someProfileContentId';
+        const name = 'someNewProfileName';
+        const position = 'someNewProfilePosition';
+        const linkedInUrl = 'someNewProfileLinkedInUrl';
+        const twitterUrl = 'someNewProfileTwitterUrl';
+        const fileSrc = 'someExistingfileSrc';
 
         // given .. we have an action of type CreateEntityPageContentActions.UpdateProfileContent
         const action: UpdateProfileContentAction = {
@@ -838,7 +838,7 @@ describe('CreateEntityPageContent Reducer', () => {
             linkedInUrl,
             twitterUrl,
           },
-        }
+        };
 
         // when ... we run the reducer with this action
         const result = SUT.reducer(
@@ -857,7 +857,7 @@ describe('CreateEntityPageContent Reducer', () => {
             },
           },
           action,
-        )
+        );
 
         // then ... the state should be set as expected
         expect(result).toEqual({
@@ -873,18 +873,18 @@ describe('CreateEntityPageContent Reducer', () => {
               uploading: false,
             },
           },
-        })
-      })
-    })
+        });
+      });
+    });
 
     describe('profileImage', () => {
       it('should update the specific profile uploading flag to true when upload has started', () => {
-        const id = 'someProfileContentId'
-        const name = 'someProfileName'
-        const position = 'someProfilePosition'
-        const linkedInUrl = 'someProfileLinkedInUrl'
-        const twitterUrl = 'someProfileTwitterUrl'
-        const fileSrc = 'somefileSrc'
+        const id = 'someProfileContentId';
+        const name = 'someProfileName';
+        const position = 'someProfilePosition';
+        const linkedInUrl = 'someProfileLinkedInUrl';
+        const twitterUrl = 'someProfileTwitterUrl';
+        const fileSrc = 'somefileSrc';
 
         // given .. we have an action of type CreateEntityPageContentActions.UploadProfileContentImagePending
         const action: UploadProfileContentImagePendingAction = {
@@ -892,7 +892,7 @@ describe('CreateEntityPageContent Reducer', () => {
           meta: {
             id,
           },
-        }
+        };
 
         // when ... we run the reducer with this action
         const result = SUT.reducer(
@@ -911,7 +911,7 @@ describe('CreateEntityPageContent Reducer', () => {
             },
           },
           action,
-        )
+        );
 
         // then ... the state should be set as expected
         expect(result).toEqual({
@@ -927,16 +927,16 @@ describe('CreateEntityPageContent Reducer', () => {
               uploading: true,
             },
           },
-        })
-      })
+        });
+      });
 
       it('should update the profile uploading flag to false and set the fileSrc when upload has succeeded', () => {
-        const id = 'someProfileContentId'
-        const name = 'someProfileName'
-        const position = 'someProfilePosition'
-        const linkedInUrl = 'someProfileLinkedInUrl'
-        const twitterUrl = 'someProfileTwitterUrl'
-        const fileSrc = 'someNewfileSrc'
+        const id = 'someProfileContentId';
+        const name = 'someProfileName';
+        const position = 'someProfilePosition';
+        const linkedInUrl = 'someProfileLinkedInUrl';
+        const twitterUrl = 'someProfileTwitterUrl';
+        const fileSrc = 'someNewfileSrc';
 
         // given .. we have an action of type CreateEntityPageContentActions.UploadProfileContentImageSuccessAction
         const action: UploadProfileContentImageSuccessAction = {
@@ -945,7 +945,7 @@ describe('CreateEntityPageContent Reducer', () => {
             id,
             fileSrc,
           },
-        }
+        };
 
         // when ... we run the reducer with this action
         const result = SUT.reducer(
@@ -964,7 +964,7 @@ describe('CreateEntityPageContent Reducer', () => {
             },
           },
           action,
-        )
+        );
 
         // then ... the state should be set as expected
         expect(result).toEqual({
@@ -980,16 +980,16 @@ describe('CreateEntityPageContent Reducer', () => {
               uploading: false,
             },
           },
-        })
-      })
+        });
+      });
 
       it('should update the profile uploading flag to false and set the fileSrc when upload has failed', () => {
-        const id = 'someProfileContentId'
-        const name = 'someProfileName'
-        const position = 'someProfilePosition'
-        const linkedInUrl = 'someProfileLinkedInUrl'
-        const twitterUrl = 'someProfileTwitterUrl'
-        const fileSrc = 'somefileSrc'
+        const id = 'someProfileContentId';
+        const name = 'someProfileName';
+        const position = 'someProfilePosition';
+        const linkedInUrl = 'someProfileLinkedInUrl';
+        const twitterUrl = 'someProfileTwitterUrl';
+        const fileSrc = 'somefileSrc';
 
         // given .. we have an action of type CreateEntityPageContentActions.UploadProfileContentImageFailureAction
         const action: UploadProfileContentImageFailureAction = {
@@ -997,7 +997,7 @@ describe('CreateEntityPageContent Reducer', () => {
           payload: {
             id,
           },
-        }
+        };
 
         // when ... we run the reducer with this action
         const result = SUT.reducer(
@@ -1016,7 +1016,7 @@ describe('CreateEntityPageContent Reducer', () => {
             },
           },
           action,
-        )
+        );
 
         // then ... the state should be set as expected
         expect(result).toEqual({
@@ -1032,21 +1032,21 @@ describe('CreateEntityPageContent Reducer', () => {
               uploading: false,
             },
           },
-        })
-      })
-    })
-  })
+        });
+      });
+    });
+  });
 
   describe('SocialContent Actions', () => {
     it('should update the content', () => {
-      const linkedInUrl = 'someNewLinkedInUrl'
-      const facebookUrl = 'someNewFacebookInUrl'
-      const twitterUrl = 'someNewTwitterInUrl'
-      const discourseUrl = 'someNewDiscourseInUrl'
-      const instagramUrl = 'someNewInstagramUrl'
-      const telegramUrl = 'someNewTelegramUrl'
-      const githubUrl = 'someNewGithubUrl'
-      const otherUrl = 'someNewOtherUrl'
+      const linkedInUrl = 'someNewLinkedInUrl';
+      const facebookUrl = 'someNewFacebookInUrl';
+      const twitterUrl = 'someNewTwitterInUrl';
+      const discourseUrl = 'someNewDiscourseInUrl';
+      const instagramUrl = 'someNewInstagramUrl';
+      const telegramUrl = 'someNewTelegramUrl';
+      const githubUrl = 'someNewGithubUrl';
+      const otherUrl = 'someNewOtherUrl';
 
       // given .. we have an action of type CreateEntityPageContentActions.UpdateSocialContent
       const action: UpdateSocialContentAction = {
@@ -1061,7 +1061,7 @@ describe('CreateEntityPageContent Reducer', () => {
           githubUrl,
           otherUrl,
         },
-      }
+      };
 
       // when ... we run the reducer with this action
       const result = SUT.reducer(
@@ -1079,7 +1079,7 @@ describe('CreateEntityPageContent Reducer', () => {
           },
         },
         action,
-      )
+      );
 
       // then ... the state should be set as expected
       expect(result).toEqual({
@@ -1094,24 +1094,24 @@ describe('CreateEntityPageContent Reducer', () => {
           githubUrl,
           otherUrl,
         },
-      })
-    })
-  })
+      });
+    });
+  });
 
   describe('EmbeddedContent Actions', () => {
     describe('embeddedContent', () => {
       it('should add a new embedded content section', () => {
-        const id = 'someEmbeddedSectionId'
+        const id = 'someEmbeddedSectionId';
         // given ... we have an action of type CreateEntityPageContentActions.AddEmbeddedSection
         const action: AddEmbeddedSectionAction = {
           type: CreateEntityPageContentActions.AddEmbeddedSection,
           payload: {
             id,
           },
-        }
+        };
 
         // when ... we run the reducer with this action
-        const result = SUT.reducer(initialState, action)
+        const result = SUT.reducer(initialState, action);
 
         // then ... the state should be set as expected
         expect(result).toEqual({
@@ -1123,18 +1123,18 @@ describe('CreateEntityPageContent Reducer', () => {
               urls: [],
             },
           },
-        })
-      })
+        });
+      });
 
       it('should remove embedded content section', () => {
-        const id = 'existingEmbeddedSectionId'
+        const id = 'existingEmbeddedSectionId';
         // given ... we have an action of type CreateEntityPageContentActions.RemoveEmbeddedSection
         const action: RemoveEmbeddedSectionAction = {
           type: CreateEntityPageContentActions.RemoveEmbeddedSection,
           payload: {
             id,
           },
-        }
+        };
         // when ... we run the reducer with this action
         const result = SUT.reducer(
           {
@@ -1145,7 +1145,7 @@ describe('CreateEntityPageContent Reducer', () => {
                 title: 'someTitle1',
                 urls: ['url1', 'url2'],
               },
-              ['anotherid']: {
+              'anotherid': {
                 id: 'anotherid',
                 title: 'someTitle2',
                 urls: ['url3', 'url4'],
@@ -1153,25 +1153,25 @@ describe('CreateEntityPageContent Reducer', () => {
             },
           },
           action,
-        )
+        );
 
         // then ... the state should be set as expected
         expect(result).toEqual({
           ...initialState,
           embedded: {
-            ['anotherid']: {
+            'anotherid': {
               id: 'anotherid',
               title: 'someTitle2',
               urls: ['url3', 'url4'],
             },
           },
-        })
-      })
+        });
+      });
 
       it('should update the content', () => {
-        const id = 'someBodyContentId'
-        const title = 'someNewBodyTitle'
-        const urls = ['foo', 'bar']
+        const id = 'someBodyContentId';
+        const title = 'someNewBodyTitle';
+        const urls = ['foo', 'bar'];
 
         // given .. we have an action of type CreateEntityPageContentActions.UpdateEmbeddedContent
         const action: UpdateEmbeddedContentAction = {
@@ -1181,7 +1181,7 @@ describe('CreateEntityPageContent Reducer', () => {
             title,
             urls,
           },
-        }
+        };
 
         // when ... we run the reducer with this action
         const result = SUT.reducer(
@@ -1196,7 +1196,7 @@ describe('CreateEntityPageContent Reducer', () => {
             },
           },
           action,
-        )
+        );
 
         // then ... the state should be set as expected
         expect(result).toEqual({
@@ -1208,22 +1208,22 @@ describe('CreateEntityPageContent Reducer', () => {
               urls,
             },
           },
-        })
-      })
-    })
-  })
+        });
+      });
+    });
+  });
 
   describe('validation', () => {
     it('should set validated to true and clear any errors', () => {
-      const identifier = 'someBodySectionId'
-      const errors = ['error1', 'error2']
+      const identifier = 'someBodySectionId';
+      const errors = ['error1', 'error2'];
       // given ... we have an action of type CreateEntityPageContentActions.SetValidated
       const action: ValidatedAction = {
         type: CreateEntityPageContentActions.Validated,
         payload: {
           identifier,
         },
-      }
+      };
 
       // when ... we run the reducer with this action
       const result = SUT.reducer(
@@ -1238,7 +1238,7 @@ describe('CreateEntityPageContent Reducer', () => {
           },
         },
         action,
-      )
+      );
 
       // then ... the state should be set as expected
       expect(result).toEqual({
@@ -1250,13 +1250,13 @@ describe('CreateEntityPageContent Reducer', () => {
             errors: [],
           },
         },
-      })
-    })
-  })
+      });
+    });
+  });
 
   it('should set validated to false and add any errors', () => {
-    const identifier = 'someBodySectionId'
-    const errors = ['error1', 'error2']
+    const identifier = 'someBodySectionId';
+    const errors = ['error1', 'error2'];
     // given ... we have an action of type CreateEntityPageContentActions.SetValidated
     const action: ValidationErrorAction = {
       type: CreateEntityPageContentActions.ValidationError,
@@ -1264,7 +1264,7 @@ describe('CreateEntityPageContent Reducer', () => {
         errors,
         identifier,
       },
-    }
+    };
 
     // when ... we run the reducer with this action
     const result = SUT.reducer(
@@ -1279,7 +1279,7 @@ describe('CreateEntityPageContent Reducer', () => {
         },
       },
       action,
-    )
+    );
 
     // then ... the state should be set as expected
     expect(result).toEqual({
@@ -1291,6 +1291,6 @@ describe('CreateEntityPageContent Reducer', () => {
           errors,
         },
       },
-    })
-  })
-})
+    });
+  });
+});

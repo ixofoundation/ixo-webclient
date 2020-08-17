@@ -1,3 +1,5 @@
+import { Dispatch } from 'redux';
+import { RootState } from 'common/redux/types';
 import {
   SaveAnswerAction,
   SubmitEntityClaimActions,
@@ -5,25 +7,23 @@ import {
   GoToNextQuestionAction,
   GoToQuestionNumberAction,
   FinaliseQuestionsAction,
-} from './types'
-import { Dispatch } from 'redux'
-import { RootState } from 'common/redux/types'
-import blocksyncApi from '../../common/api/blocksync-api/blocksync-api'
+} from './types';
+import blocksyncApi from '../../common/api/blocksync-api/blocksync-api';
 
 export const saveAnswer = (formData: FormData) => (
   dispatch: Dispatch,
   getState: () => RootState,
 ): SaveAnswerAction => {
   if (!formData) {
-    return null
+    return null;
   }
 
   const {
     submitEntityClaim: { questions, currentQuestionNo },
     selectedEntity: { pdsUrl },
-  } = getState()
-  const formControl = questions[currentQuestionNo - 1]
-  const { control, id } = formControl
+  } = getState();
+  const formControl = questions[currentQuestionNo - 1];
+  const { control, id } = formControl;
 
   if (control.includes('upload') && Object.keys(formData).length > 0) {
     return dispatch({
@@ -33,14 +33,14 @@ export const saveAnswer = (formData: FormData) => (
         .then((response: any) => ({
           [id]: `${pdsUrl}public/${response.result}`,
         })),
-    })
+    });
   }
 
   return dispatch({
     type: SubmitEntityClaimActions.SaveAnswer,
     payload: Promise.resolve({ [id]: formData[id] }),
-  })
-}
+  });
+};
 
 export const goToPreviousQuestion = () => (
   dispatch: Dispatch,
@@ -48,7 +48,7 @@ export const goToPreviousQuestion = () => (
 ): GoToPreviousQuestionAction => {
   const {
     submitEntityClaim: { currentQuestionNo },
-  } = getState()
+  } = getState();
 
   if (currentQuestionNo > 1) {
     return dispatch({
@@ -56,11 +56,11 @@ export const goToPreviousQuestion = () => (
       payload: {
         previousQuestionNo: currentQuestionNo - 1,
       },
-    })
+    });
   }
 
-  return null
-}
+  return null;
+};
 
 export const goToNextQuestion = () => (
   dispatch: Dispatch,
@@ -68,8 +68,8 @@ export const goToNextQuestion = () => (
 ): GoToNextQuestionAction => {
   const {
     submitEntityClaim: { questions, currentQuestionNo },
-  } = getState()
-  const totalQuestions = questions.length
+  } = getState();
+  const totalQuestions = questions.length;
 
   if (currentQuestionNo < totalQuestions) {
     return dispatch({
@@ -77,11 +77,11 @@ export const goToNextQuestion = () => (
       payload: {
         nextQuestionNo: currentQuestionNo + 1,
       },
-    })
+    });
   }
 
-  return null
-}
+  return null;
+};
 
 export const goToQuestionNumber = (newQuestionNumber: number) => (
   dispatch: Dispatch,
@@ -89,8 +89,8 @@ export const goToQuestionNumber = (newQuestionNumber: number) => (
 ): GoToQuestionNumberAction => {
   const {
     submitEntityClaim: { questions, currentQuestionNo, answersComplete },
-  } = getState()
-  const totalQuestions = questions.length
+  } = getState();
+  const totalQuestions = questions.length;
 
   if (
     answersComplete ||
@@ -102,13 +102,13 @@ export const goToQuestionNumber = (newQuestionNumber: number) => (
       payload: {
         questionNo: newQuestionNumber,
       },
-    })
+    });
   }
 
-  return null
-}
+  return null;
+};
 export const finaliseQuestions = (): FinaliseQuestionsAction => {
   return {
     type: SubmitEntityClaimActions.FinaliseQuestions,
-  }
-}
+  };
+};

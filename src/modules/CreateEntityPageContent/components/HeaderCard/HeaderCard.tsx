@@ -1,7 +1,7 @@
-import React from 'react'
-import { customControls } from '../../../../common/components/JsonForm/types'
-import MultiControlForm from '../../../../common/components/JsonForm/MultiControlForm/MultiControlForm'
-import { FormCardProps } from '../../../CreateEntity/types'
+import React from 'react';
+import { customControls } from '../../../../common/components/JsonForm/types';
+import MultiControlForm from '../../../../common/components/JsonForm/MultiControlForm/MultiControlForm';
+import { FormCardProps } from '../../../CreateEntity/types';
 
 interface Props extends FormCardProps {
   title: string
@@ -39,7 +39,7 @@ const HeaderCard: React.FunctionComponent<Props> = React.forwardRef(
       location,
       sdgs: sdgs.join('|'),
       imageDescription,
-    }
+    };
 
     const schema = {
       type: 'object',
@@ -59,39 +59,39 @@ const HeaderCard: React.FunctionComponent<Props> = React.forwardRef(
         sdgs: { type: 'string', title: 'Tag' },
         imageDescription: { type: 'string', title: 'Header Image Description' },
       },
-    } as any
+    } as any;
 
     const uiSchema = {
       fileSrc: {
-        ['ui:widget']: customControls['imageupload'],
-        ['ui:uploading']: uploadingImage,
-        ['ui:maxDimension']: 960,
-        ['ui:aspect']: 16 / 9,
-        ['ui:circularCrop']: false,
+        'ui:widget': customControls.imageupload,
+        'ui:uploading': uploadingImage,
+        'ui:maxDimension': 960,
+        'ui:aspect': 16 / 9,
+        'ui:circularCrop': false,
       },
       title: {
-        ['ui:widget']: 'text',
-        ['ui:placeholder']: 'Enter Title',
+        'ui:widget': 'text',
+        'ui:placeholder': 'Enter Title',
       },
       shortDescription: {
-        ['ui:widget']: 'textarea',
-        ['ui:placeholder']: 'Start Typing Here',
+        'ui:widget': 'textarea',
+        'ui:placeholder': 'Start Typing Here',
       },
       organisation: {
-        ['ui:widget']: 'text',
-        ['ui:placeholder']: 'Enter Organisation',
+        'ui:widget': 'text',
+        'ui:placeholder': 'Enter Organisation',
       },
       location: {
-        ['ui:widget']: customControls['countryselector'],
+        'ui:widget': customControls.countryselector,
       },
       sdgs: {
-        ['ui:widget']: customControls['sdgselector'],
+        'ui:widget': customControls.sdgselector,
       },
       imageDescription: {
-        ['ui:widget']: 'text',
-        ['ui:placeholder']: 'Enter Title',
+        'ui:widget': 'text',
+        'ui:placeholder': 'Enter Title',
       },
-    }
+    };
 
     return (
       <MultiControlForm
@@ -105,8 +105,8 @@ const HeaderCard: React.FunctionComponent<Props> = React.forwardRef(
       >
         &nbsp;
       </MultiControlForm>
-    )
+    );
   },
-)
+);
 
-export default HeaderCard
+export default HeaderCard;

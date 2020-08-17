@@ -1,21 +1,21 @@
-import * as React from 'react'
-import styled from 'styled-components'
-import { formJson } from '../../lib/commonData'
-import DynamicForm from '../../common/components/Form/DynamicForm/DynamicForm'
-import { FormStyles } from '../../types/models'
+import * as React from 'react';
+import styled from 'styled-components';
+import { formJson } from '../../lib/commonData';
+import DynamicForm from '../../common/components/Form/DynamicForm/DynamicForm';
+import { FormStyles } from '../../types/models';
 
 const Text = styled.textarea`
   margin: 20px 0;
   display: block;
   width: 100%;
   height: 300px;
-`
+`;
 
 const Container = styled.div`
   button {
     margin: 0 10px 10px 10px;
   }
-`
+`;
 
 export interface State {
   formJson: any
@@ -23,16 +23,16 @@ export interface State {
 export class ProjectForm extends React.Component<{}, State> {
   state = {
     formJson: formJson.fields,
-  }
+  };
 
   handleJSONChange = (event: any): void => {
-    this.setState({ formJson: JSON.parse(event.target.value) })
-    this.handleRenderForm()
-  }
+    this.setState({ formJson: JSON.parse(event.target.value) });
+    this.handleRenderForm();
+  };
 
   handleSubmitForm = (event: any): void => {
-    console.log(event)
-  }
+    console.log(event);
+  };
 
   handleRenderForm = (): JSX.Element => {
     if (formJson.fields.length > 0) {
@@ -42,11 +42,11 @@ export class ProjectForm extends React.Component<{}, State> {
           formSchema={this.state.formJson}
           handleSubmit={this.handleSubmitForm}
         />
-      )
-    } else {
-      return <p>No Template found</p>
-    }
-  }
+      );
+    } 
+    return <p>No Template found</p>;
+    
+  };
 
   render(): JSX.Element {
     return (
@@ -64,6 +64,6 @@ export class ProjectForm extends React.Component<{}, State> {
           </div>
         </Container>
       </div>
-    )
+    );
   }
 }

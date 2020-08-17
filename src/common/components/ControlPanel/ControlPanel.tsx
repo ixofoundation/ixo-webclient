@@ -1,16 +1,16 @@
-import * as React from "react";
+import * as React from 'react';
 import {
   ControlPanelScrollWrapper,
   ControlPanelWrapper,
   MobileControlPanelToggle,
-} from "./ControlPanel.styles";
-import Down from "../../../assets/icons/Down";
-import Close from "../../../assets/icons/Close";
-import { Schema, ConnectionType, ActionType } from "./types";
-import Dashboard from "./Dashboard/Dashboard";
-import Actions from "./Actions/Actions"; //, { triggerAction }
-import Apps from "./Apps/Apps";
-import Connections from "./Connections/Connections";
+} from './ControlPanel.styles';
+import Down from '../../../assets/icons/Down';
+import Close from '../../../assets/icons/Close';
+import { Schema, ConnectionType, ActionType } from './types';
+import Dashboard from './Dashboard/Dashboard';
+import Actions from './Actions/Actions'; // , { triggerAction }
+import Apps from './Apps/Apps';
+import Connections from './Connections/Connections';
 
 interface Props {
   entityDid: string;
@@ -35,9 +35,9 @@ class ControlPanel extends React.Component<Props, State> {
 
   toggleShowControlPanel = (): void => {
     if (this.state.showControlPanelMobile) {
-      document?.querySelector("body")?.classList?.remove("noScroll");
+      document?.querySelector('body')?.classList?.remove('noScroll');
     } else {
-      document?.querySelector("body")?.classList.add("noScroll");
+      document?.querySelector('body')?.classList.add('noScroll');
     }
     this.setState({
       showControlPanelMobile: !this.state.showControlPanelMobile,
@@ -75,7 +75,7 @@ class ControlPanel extends React.Component<Props, State> {
         </MobileControlPanelToggle>
         <ControlPanelScrollWrapper id="ControlPanelWrapper">
           <ControlPanelWrapper
-            className={this.state.showControlPanelMobile ? "open" : ""}
+            className={this.state.showControlPanelMobile ? 'open' : ''}
           >
             <Dashboard widget={dashboard} entityDid={entityDid} />
             <Actions widget={actions} entityDid={entityDid} userDid={userDid} />

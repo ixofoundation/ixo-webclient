@@ -1,8 +1,8 @@
-import React from 'react'
-import countries from '../../../../../lib/maps/countryLatLng.json'
-import { DropDownOption } from '../types'
-import IconDropDownSelect from '../IconDropDownSelect'
-import { Container } from './CountryDropDown.styles'
+import React from 'react';
+import countries from '../../../../../lib/maps/countryLatLng.json';
+import { DropDownOption } from '../types';
+import IconDropDownSelect from '../IconDropDownSelect';
+import { Container } from './CountryDropDown.styles';
 
 interface Props {
   value: string
@@ -21,7 +21,7 @@ const CountryDropDown: React.FunctionComponent<Props> = ({
     text: country.country,
     value: country.alpha2,
     iconAssetPath: `/images/country-flags/${country.alpha2}.svg`,
-  }))
+  }));
 
   const options = [
     ...[
@@ -32,7 +32,7 @@ const CountryDropDown: React.FunctionComponent<Props> = ({
       },
     ],
     ...countryOptions,
-  ]
+  ];
 
   return (
     <Container>
@@ -42,10 +42,10 @@ const CountryDropDown: React.FunctionComponent<Props> = ({
         onChange={onChange}
         onBlur={onBlur}
         onFocus={onFocus}
-        selectText={'Select Country'}
+        selectText="Select Country"
       />
     </Container>
-  )
-}
+  );
+};
 
-export default CountryDropDown
+export default CountryDropDown;

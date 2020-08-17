@@ -1,11 +1,11 @@
-import React from 'react'
-import { PageView, EntityView } from '../../../../modules/Entities/types'
+import React from 'react';
+import { PageView, EntityView } from '../../../Entities/types';
 import {
   pageViewMap,
   entityViewMap,
-} from '../../../../modules/Entities/strategy-map'
-import MultiControlForm from '../../../../common/components/JsonForm/MultiControlForm/MultiControlForm'
-import { FormCardProps } from '../../../CreateEntity/types'
+} from '../../../Entities/strategy-map';
+import MultiControlForm from '../../../../common/components/JsonForm/MultiControlForm/MultiControlForm';
+import { FormCardProps } from '../../../CreateEntity/types';
 
 interface Props extends FormCardProps {
   pageView: PageView
@@ -20,7 +20,7 @@ const PrivacyCard: React.FunctionComponent<Props> = React.forwardRef(
     const formData = {
       pageView,
       entityView,
-    }
+    };
 
     const schema = {
       type: 'object',
@@ -43,16 +43,16 @@ const PrivacyCard: React.FunctionComponent<Props> = React.forwardRef(
           ),
         },
       },
-    } as any
+    } as any;
 
     const uiSchema = {
       pageView: {
-        ['ui:placeholder']: 'Select Page View',
+        'ui:placeholder': 'Select Page View',
       },
       entityView: {
-        ['ui:placeholder']: 'Select Entity View',
+        'ui:placeholder': 'Select Entity View',
       },
-    }
+    };
 
     return (
       <MultiControlForm
@@ -67,8 +67,8 @@ const PrivacyCard: React.FunctionComponent<Props> = React.forwardRef(
       >
         &nbsp;
       </MultiControlForm>
-    )
+    );
   },
-)
+);
 
-export default PrivacyCard
+export default PrivacyCard;

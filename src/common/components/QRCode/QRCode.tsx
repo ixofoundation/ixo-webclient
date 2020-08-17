@@ -1,6 +1,6 @@
-import * as React from "react";
-import QRCode from "qrcode";
-import { QRContainer, QRInner, QRImg } from "./QRCode.styles";
+import * as React from 'react';
+import QRCode from 'qrcode';
+import { QRContainer, QRInner, QRImg } from './QRCode.styles';
 
 export interface Props {
   url: string;
@@ -13,9 +13,9 @@ export default class QRCodeComponent extends React.Component<Props> {
 
   componentDidMount(): void {
     QRCode.toDataURL(this.props.url, {
-      errorCorrectionLevel: "L",
+      errorCorrectionLevel: 'L',
       color: {
-        dark: "#717171", // Blue dots
+        dark: '#717171', // Blue dots
       },
     })
       .then((url) => {

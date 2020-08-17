@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import { deviceWidth } from "../../../lib/commonData";
+import styled from 'styled-components';
+import { deviceWidth } from '../../../lib/commonData';
 
 export const FormContainer = styled.div`
   --focus-outline-style: none;
@@ -311,7 +311,7 @@ export const ButtonGroup = styled.div`
       box-shadow: var(--focus-box-shadow);
     }
   }
-`
+`;
 
 export const FormWrapper = styled.div`
   .input-group input {

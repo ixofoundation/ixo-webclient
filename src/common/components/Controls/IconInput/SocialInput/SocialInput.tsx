@@ -1,5 +1,5 @@
-import React from 'react'
-import IconInput from '../IconInput'
+import React from 'react';
+import IconInput from '../IconInput';
 
 export enum Type {
   Discourse = 'Discourse',
@@ -38,7 +38,7 @@ const SocialInput: React.FunctionComponent<Props> = ({
       iconAssetPath={`/images/social/${type.toString().toLowerCase()}.svg`}
       placeholder={placeholder}
     />
-  )
-}
+  );
+};
 
-export default SocialInput
+export default SocialInput;

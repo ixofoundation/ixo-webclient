@@ -1,5 +1,5 @@
-import styled from 'styled-components'
-import { deviceWidth } from '../../../../lib/commonData'
+import styled from 'styled-components';
+import { deviceWidth } from '../../../../lib/commonData';
 
 export const ClaimQuestionCardWrapper = styled.div`
   background: #f7f8f9;
@@ -23,7 +23,7 @@ export const ClaimQuestionCardWrapper = styled.div`
   .hide {
     display: none;
   }
-`
+`;
 
 export const Toolbar = styled.div`
   border-top: 1px solid #e8edee;
@@ -44,4 +44,4 @@ export const Toolbar = styled.div`
     margin: 0 1.125rem;
     background: #e8edee;
   }
-`
+`;

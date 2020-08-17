@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 export const Input = styled.div`
   margin: 15px 0;
@@ -16,9 +16,9 @@ export const Input = styled.div`
     width: 140px;
     justify-content: center;
   }
-`
+`;
 
 export const RadioButton = styled.div`
   padding: 10px 0px 10px 40px;
   text-transform: none;
-`
+`;

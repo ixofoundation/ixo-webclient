@@ -1,4 +1,4 @@
-import { v4 as uuidv4 } from 'uuid'
+import { v4 as uuidv4 } from 'uuid';
 import {
   UpdateClaimInfoAction,
   AddShortTextQuestionAction,
@@ -7,15 +7,15 @@ import {
   UpdateLongTextQuestionAction,
   CreateEntityAttestationActions,
   UpdateAnswerRequiredAction,
-} from './types'
+} from './types';
 import {
   Type,
   ControlType,
   FormData,
-} from '../../common/components/JsonForm/types'
+} from '../../common/components/JsonForm/types';
 
 export const updateClaimInfo = (formData: FormData): UpdateClaimInfoAction => {
-  const { title, shortDescription } = formData
+  const { title, shortDescription } = formData;
 
   return {
     type: CreateEntityAttestationActions.UpdateClaimInfo,
@@ -23,8 +23,8 @@ export const updateClaimInfo = (formData: FormData): UpdateClaimInfoAction => {
       title,
       shortDescription,
     },
-  }
-}
+  };
+};
 
 export const addShortTextQuestion = (): AddShortTextQuestionAction => ({
   type: CreateEntityAttestationActions.AddShortTextQuestion,
@@ -38,13 +38,13 @@ export const addShortTextQuestion = (): AddShortTextQuestionAction => ({
     control: ControlType.Text,
     placeholder: 'Start Typing here',
   },
-})
+});
 
 export const updateShortTextQuestion = (
   id: string,
   formData: FormData,
 ): UpdateShortTextQuestionAction => {
-  const { title, description, label } = formData
+  const { title, description, label } = formData;
 
   return {
     type: CreateEntityAttestationActions.UpdateShortTextQuestion,
@@ -54,8 +54,8 @@ export const updateShortTextQuestion = (
       description,
       label,
     },
-  }
-}
+  };
+};
 
 export const addLongTextQuestion = (): AddLongTextQuestionAction => ({
   type: CreateEntityAttestationActions.AddLongTextQuestion,
@@ -69,13 +69,13 @@ export const addLongTextQuestion = (): AddLongTextQuestionAction => ({
     control: ControlType.TextArea,
     placeholder: 'Start Typing here',
   },
-})
+});
 
 export const updateLongTextQuestion = (
   id: string,
   formData: FormData,
 ): UpdateLongTextQuestionAction => {
-  const { title, description, label } = formData
+  const { title, description, label } = formData;
 
   return {
     type: CreateEntityAttestationActions.UpdateLongTextQuestion,
@@ -85,8 +85,8 @@ export const updateLongTextQuestion = (
       description,
       label,
     },
-  }
-}
+  };
+};
 
 export const updateAnswerRequired = (
   id: string,
@@ -97,4 +97,4 @@ export const updateAnswerRequired = (
     id,
     required,
   },
-})
+});

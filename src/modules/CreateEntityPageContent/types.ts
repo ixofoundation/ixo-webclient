@@ -1,4 +1,4 @@
-import { FileContent, Validation } from '../CreateEntity/types'
+import { FileContent, Validation } from '../CreateEntity/types';
 
 export interface HeaderPageContent extends FileContent {
   title: string
@@ -463,4 +463,4 @@ export type CreateEntityPageContentActionTypes =
   | RemoveEmbeddedSectionAction
   | UpdateEmbeddedContentAction
   | ValidatedAction
-  | ValidationErrorAction
+  | ValidationErrorAction;

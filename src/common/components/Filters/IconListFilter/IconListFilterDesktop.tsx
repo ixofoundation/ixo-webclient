@@ -1,5 +1,5 @@
-import * as React from "react";
-import { Props } from "./types";
+import * as React from 'react';
+import { Props } from './types';
 import {
   Button,
   ButtonWrapper,
@@ -9,8 +9,8 @@ import {
   ModalButtons,
   ResetButton,
   ApplyButton,
-} from "../Filters.styles";
-import * as utils from "./IconListFilter.utils";
+} from '../Filters.styles';
+import * as utils from './IconListFilter.utils';
 
 const IconListFilterDesktop: React.FunctionComponent<Props> = ({
   selectType,
@@ -23,10 +23,9 @@ const IconListFilterDesktop: React.FunctionComponent<Props> = ({
 }) => {
   return (
     <ButtonWrapper
-      className={`button-wrapper ${isActive ? "active" : ""}`}
+      className={`button-wrapper ${isActive ? 'active' : ''}`}
       onClick={(e): void | null =>
-        utils?.isFilterTarget(e) ? null : handleToggleFilterShow(name)
-      }
+        utils?.isFilterTarget(e) ? null : handleToggleFilterShow(name)}
     >
       <Button
         onClick={(): void => handleToggleFilterShow(name)}
@@ -37,7 +36,7 @@ const IconListFilterDesktop: React.FunctionComponent<Props> = ({
       <FilterModal
         className="filter-modal"
         style={{
-          display: isActive ? "block" : "none",
+          display: isActive ? 'block' : 'none',
         }}
       >
         <ModalItems>

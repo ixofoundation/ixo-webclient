@@ -1,13 +1,13 @@
-import React, { Dispatch } from "react";
-import { Redirect } from "react-router-dom";
-import { connect } from "react-redux";
-import { RootState } from "common/redux/types";
-import Summary from "./components/Summary/Summary";
-import { FormControl } from "../../common/components/JsonForm/types";
-import * as submitEntityClaimSelectors from "./SubmitEntityClaim.selectors";
-import * as selectedEntitySelectors from "../SelectedEntity/SelectedEntity.selectors";
-import { getEntity } from "../SelectedEntity/SelectedEntity.actions";
-import { goToQuestionNumber } from "./SubmitEntityClaim.actions";
+import React, { Dispatch } from 'react';
+import { Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { RootState } from 'common/redux/types';
+import Summary from './components/Summary/Summary';
+import { FormControl } from '../../common/components/JsonForm/types';
+import * as submitEntityClaimSelectors from './SubmitEntityClaim.selectors';
+import * as selectedEntitySelectors from '../SelectedEntity/SelectedEntity.selectors';
+import { getEntity } from '../SelectedEntity/SelectedEntity.actions';
+import { goToQuestionNumber } from './SubmitEntityClaim.actions';
 
 interface Props {
   questions: FormControl[];

@@ -1,10 +1,10 @@
-import React from 'react'
-import { RootState } from '../../common/redux/types'
-import { connect } from 'react-redux'
-import { BrowserRouter, Route, Redirect } from 'react-router-dom'
-import EnterBuyOrder from './components/EnterBuyOrder/EnterBuyOrder'
-import ConfirmBuyOrder from './components/ConfirmBuyOrder/ConfirmBuyOrder'
-import * as bondBuySelectors from './BondBuy.selectors'
+import React from 'react';
+import { connect } from 'react-redux';
+import { BrowserRouter, Route, Redirect } from 'react-router-dom';
+import { RootState } from '../../common/redux/types';
+import EnterBuyOrder from './components/EnterBuyOrder/EnterBuyOrder';
+import ConfirmBuyOrder from './components/ConfirmBuyOrder/ConfirmBuyOrder';
+import * as bondBuySelectors from './BondBuy.selectors';
 
 interface Props {
   projectDID: string
@@ -36,10 +36,10 @@ const BondBuy: React.FunctionComponent<Props> = ({
                         from="/bonds/${bondDID}"
                         to={`/projects/${projectDID}/bonds/${bondDID}/exchange/buy/confirm`}
                       />
-                    )
-                  } else {
-                    return <EnterBuyOrder {...props} />
-                  }
+                    );
+                  } 
+                  return <EnterBuyOrder {...props} />;
+                  
                 }}
               />
               <Route
@@ -54,11 +54,11 @@ const BondBuy: React.FunctionComponent<Props> = ({
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
 const mapStateToProps = (state: RootState): any => ({
   isReceiving: bondBuySelectors.selectBondBuyIsReceiving(state),
-})
+});
 
-export default connect(mapStateToProps)(BondBuy)
+export default connect(mapStateToProps)(BondBuy);

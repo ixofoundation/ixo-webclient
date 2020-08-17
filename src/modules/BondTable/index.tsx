@@ -1,8 +1,9 @@
-import React, { useMemo, Fragment, useState } from "react";
-import { useTable } from "react-table";
-import moment from "moment";
-import _ from "lodash";
-import { useSpring, animated } from "react-spring";
+import React, { useMemo, Fragment, useState } from 'react';
+import { useTable } from 'react-table';
+import moment from 'moment';
+import _ from 'lodash';
+import { useSpring, animated } from 'react-spring';
+import { useWindowSize } from 'common/hooks';
 import {
   TableContainer,
   StyledTableHeader,
@@ -14,9 +15,8 @@ import {
   StyledDateWrapper,
   StyledAmountWrapper,
   StyledHeader,
-} from "./BondTable.style";
-import ValueComponent from "./ValueComponent";
-import { useWindowSize } from "common/hooks";
+} from './BondTable.style';
+import ValueComponent from './ValueComponent';
 
 const tableData = [
   {
@@ -61,20 +61,20 @@ interface TableProps {
 }
 
 const renderCell = (cell: any): any => {
-  if (cell.column.id === "date") {
+  if (cell.column.id === 'date') {
     return (
       <DateContainer>
-        <span>{moment(cell.value).format("DD MMM YY")}</span>
-        <span>{moment(cell.value).format("HH:SS")}</span>
+        <span>{moment(cell.value).format('DD MMM YY')}</span>
+        <span>{moment(cell.value).format('HH:SS')}</span>
       </DateContainer>
     );
-  } else if (cell.column.id === "buySell") {
-    return cell.value ? "Buy" : "Sell";
-  } else if (cell.column.id === "value") {
+  } if (cell.column.id === 'buySell') {
+    return cell.value ? 'Buy' : 'Sell';
+  } if (cell.column.id === 'value') {
     return <ValueComponent value={cell.value} />;
-  } else {
-    return cell.render("Cell");
-  }
+  } 
+  return cell.render('Cell');
+  
 };
 
 const renderDesktopTableRow = (row, updateRow): any => (
@@ -147,14 +147,14 @@ const Table: React.SFC<TableProps> = ({ columns, data }) => {
   const GetSpringAnimation = (expanded) => {
     const props = useSpring({
       to: {
-        height: expanded ? "100px" : "0px",
-        width: expanded ? "100%" : "0px",
-        background: "red",
+        height: expanded ? '100px' : '0px',
+        width: expanded ? '100%' : '0px',
+        background: 'red',
       },
       from: {
-        height: !expanded ? "100px" : "0px",
-        width: !expanded ? "100%" : "0px",
-        background: "red",
+        height: !expanded ? '100px' : '0px',
+        width: !expanded ? '100%' : '0px',
+        background: 'red',
       },
     });
 
@@ -187,7 +187,7 @@ const Table: React.SFC<TableProps> = ({ columns, data }) => {
               {headerGroup.headers.map((column) => (
                 // eslint-disable-next-line react/jsx-key
                 <StyledTableHeader {...column.getHeaderProps()}>
-                  {column.render("Header")}
+                  {column.render('Header')}
                 </StyledTableHeader>
               ))}
             </tr>
@@ -203,7 +203,7 @@ const Table: React.SFC<TableProps> = ({ columns, data }) => {
               {size.width <= 1024 && renderMobileTableRow(row, updateRow)}
               <animated.tr
                 style={GetSpringAnimation(row.expended)}
-              ></animated.tr>
+              />
             </Fragment>
           );
         })}
@@ -216,36 +216,36 @@ export const BondTable: React.SFC<{}> = () => {
   const columns = useMemo(
     () => [
       {
-        Header: "Date",
-        accessor: "date",
+        Header: 'Date',
+        accessor: 'date',
       },
       {
-        Header: "Buy/Sell",
-        accessor: "buySell",
+        Header: 'Buy/Sell',
+        accessor: 'buySell',
       },
       {
-        Header: "Quantity",
-        accessor: "quantity",
+        Header: 'Quantity',
+        accessor: 'quantity',
       },
       {
-        Header: "Price",
-        accessor: "price",
+        Header: 'Price',
+        accessor: 'price',
       },
       {
-        Header: "Value",
-        accessor: "value",
+        Header: 'Value',
+        accessor: 'value',
       },
     ],
     []
   );
 
   return (
-    <Fragment>
+    <>
       <StyledHeader>EDU Transactions</StyledHeader>
       <TableContainer>
         <Table columns={columns} data={tableData} />
       </TableContainer>
-    </Fragment>
+    </>
   );
 };
 

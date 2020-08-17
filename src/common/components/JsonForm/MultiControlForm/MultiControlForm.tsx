@@ -1,9 +1,9 @@
-import React, { useState, useImperativeHandle, useEffect } from 'react'
-import Form from '@rjsf/core'
-import { FormData } from '../types'
-import { FormContainer } from '../JsonForm.styles'
-import * as formUtils from '../JsonForm.utils'
-import { ObjectFieldTemplate2Column } from '../CustomTemplates/ObjectFieldTemplate'
+import React, { useState, useImperativeHandle, useEffect } from 'react';
+import Form from '@rjsf/core';
+import { FormData } from '../types';
+import { FormContainer } from '../JsonForm.styles';
+import * as formUtils from '../JsonForm.utils';
+import { ObjectFieldTemplate2Column } from '../CustomTemplates/ObjectFieldTemplate';
 
 interface Props {
   ref?: any
@@ -30,33 +30,33 @@ const MultiControlForm: React.FunctionComponent<Props> = React.forwardRef(
     },
     ref,
   ) => {
-    const jsonFormRef = React.createRef<Form<any>>()
-    const [touched, setTouched] = useState({})
-    const [validationComplete, setValidatedComplete] = useState(false)
+    const jsonFormRef = React.createRef<Form<any>>();
+    const [touched, setTouched] = useState({});
+    const [validationComplete, setValidatedComplete] = useState(false);
 
     useEffect(() => {
       if (validationComplete) {
-        jsonFormRef.current.submit()
+        jsonFormRef.current.submit();
       }
-    }, [validationComplete])
+    }, [validationComplete]);
 
     useImperativeHandle(ref, () => ({
       validateAndSubmit: (): void => {
         if (validationComplete) {
-          jsonFormRef.current.submit()
+          jsonFormRef.current.submit();
         } else {
-          setValidatedComplete(true)
+          setValidatedComplete(true);
         }
       },
-    }))
+    }));
 
     const handleTouched = (id): void => {
-      setTouched({ ...touched, [id.replace('root_', '.')]: true })
-    }
+      setTouched({ ...touched, [id.replace('root_', '.')]: true });
+    };
 
     const handleError = (errors: any[]): void => {
-      onError(errors.map(error => error.property.replace('.', '')))
-    }
+      onError(errors.map(error => error.property.replace('.', '')));
+    };
 
     return (
       <FormContainer>
@@ -73,8 +73,7 @@ const MultiControlForm: React.FunctionComponent<Props> = React.forwardRef(
           transformErrors={(errors): any =>
             validationComplete
               ? formUtils.transformErrors(errors)
-              : formUtils.transformErrorsTouched(errors, touched)
-          }
+              : formUtils.transformErrorsTouched(errors, touched)}
           onBlur={handleTouched}
           onFocus={handleTouched}
           onError={handleError}
@@ -85,12 +84,12 @@ const MultiControlForm: React.FunctionComponent<Props> = React.forwardRef(
           {children}
         </Form>
       </FormContainer>
-    )
+    );
   },
-)
+);
 
 MultiControlForm.defaultProps = {
   multiColumn: false,
-}
+};
 
-export default MultiControlForm
+export default MultiControlForm;

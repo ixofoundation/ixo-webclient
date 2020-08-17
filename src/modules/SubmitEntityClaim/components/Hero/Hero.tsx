@@ -1,5 +1,5 @@
-import * as React from 'react'
-import { HeroContainer } from './Hero.styles'
+import * as React from 'react';
+import { HeroContainer } from './Hero.styles';
 
 interface Props {
   entityTitle: string
@@ -24,5 +24,5 @@ export const Hero: React.FunctionComponent<Props> = ({
         </div>
       </div>
     </HeroContainer>
-  )
-}
+  );
+};

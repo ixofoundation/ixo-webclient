@@ -1,5 +1,5 @@
-import * as React from "react";
-import { Input } from "./Select.styles";
+import * as React from 'react';
+import { Input } from './Select.styles';
 
 export interface ParentProps {
   text?: string;

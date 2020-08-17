@@ -1,6 +1,6 @@
-import * as React from 'react'
-import { FormStyles } from '../../../../types/models'
-import { Text } from './TextArea.styles'
+import * as React from 'react';
+import { FormStyles } from '../../../../types/models';
+import { Text } from './TextArea.styles';
 
 export interface ParentProps {
   text?: string
@@ -26,19 +26,19 @@ const TextArea: React.FunctionComponent<Props> = props => {
           name={props.id}
         />
       </Text>
-    )
-  } else {
-    return (
-      <Text>
-        <textarea
-          id={props.id}
-          className="form-control"
-          placeholder={props.text}
-          onChange={props.onChange}
-        />
-      </Text>
-    )
-  }
-}
+    );
+  } 
+  return (
+    <Text>
+      <textarea
+        id={props.id}
+        className="form-control"
+        placeholder={props.text}
+        onChange={props.onChange}
+      />
+    </Text>
+  );
+  
+};
 
-export default TextArea
+export default TextArea;

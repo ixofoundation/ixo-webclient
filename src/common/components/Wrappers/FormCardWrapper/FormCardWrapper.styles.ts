@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import { deviceWidth } from "../../../../lib/commonData";
+import styled from 'styled-components';
+import { deviceWidth } from '../../../../lib/commonData';
 
 export const Container = styled.div`
   background: #f7f8f9;

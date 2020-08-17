@@ -1,5 +1,5 @@
-import * as SUT from './CreateEntityAdvanced.selectors'
-import { CreateEntityAdvancedState } from './types'
+import * as SUT from './CreateEntityAdvanced.selectors';
+import { CreateEntityAdvancedState } from './types';
 import {
   EntityType,
   PaymentDenomination,
@@ -12,9 +12,9 @@ import {
   KeyType,
   ServiceType,
   DataResourceType,
-} from '../Entities/types'
+} from '../Entities/types';
 
-let state: any
+let state: any;
 
 beforeEach(() => {
   state = {
@@ -168,24 +168,24 @@ beforeEach(() => {
         },
       },
     } as CreateEntityAdvancedState,
-  }
-})
+  };
+});
 
 describe('CreateEntityAdvanced Selectors', () => {
   describe('selectAdvanced', () => {
     it('should return the createEntityAdvanced property of root state', () => {
       // when ... we call the selector
-      const result = SUT.selectAdvanced(state)
+      const result = SUT.selectAdvanced(state);
 
       // then ... should return result as expected
-      expect(result).toEqual(state.createEntityAdvanced)
-    })
-  })
+      expect(result).toEqual(state.createEntityAdvanced);
+    });
+  });
 
   describe('selectLinkedEntities', () => {
     it('should return the linkedEntities property of createEntityAdvanced state', () => {
       // when ... we call the selector
-      const result = SUT.selectLinkedEntities(state)
+      const result = SUT.selectLinkedEntities(state);
 
       // then ... should return result as expected
       expect(result).toEqual([
@@ -199,14 +199,14 @@ describe('CreateEntityAdvanced Selectors', () => {
           entityId: 'someEntityId',
           type: EntityType.Investment,
         },
-      ])
-    })
-  })
+      ]);
+    });
+  });
 
   describe('selectPayments', () => {
     it('should return the payments property of createEntityAdvanced state', () => {
       // when ... we call the selector
-      const result = SUT.selectPayments(state)
+      const result = SUT.selectPayments(state);
 
       // then ... should return result as expected
       expect(result).toEqual([
@@ -226,14 +226,14 @@ describe('CreateEntityAdvanced Selectors', () => {
           paymentId: 'somePaymentId',
           type: PaymentType.IncomeDistribution,
         },
-      ])
-    })
-  })
+      ]);
+    });
+  });
 
   describe('selectStaking', () => {
     it('should return the staking property of createEntityAdvanced state', () => {
       // when ... we call the selector
-      const result = SUT.selectStaking(state)
+      const result = SUT.selectStaking(state);
 
       // then ... should return result as expected
       expect(result).toEqual([
@@ -261,14 +261,14 @@ describe('CreateEntityAdvanced Selectors', () => {
           slashAmount: 7890,
           unbondPeriod: 100,
         },
-      ])
-    })
-  })
+      ]);
+    });
+  });
 
   describe('selectNodes', () => {
     it('should return the nodes property of createEntityAdvanced state', () => {
       // when ... we call the selector
-      const result = SUT.selectNodes(state)
+      const result = SUT.selectNodes(state);
 
       // then ... should return result as expected
       expect(result).toEqual([
@@ -282,14 +282,14 @@ describe('CreateEntityAdvanced Selectors', () => {
           type: NodeType.IBCNode,
           nodeId: 'someNodeId2',
         },
-      ])
-    })
-  })
+      ]);
+    });
+  });
 
   describe('selectFunding', () => {
     it('should return the funding property of createEntityAdvanced state', () => {
       // when ... we call the selector
-      const result = SUT.selectFunding(state)
+      const result = SUT.selectFunding(state);
 
       // then ... should return result as expected
       expect(result).toEqual([
@@ -303,14 +303,14 @@ describe('CreateEntityAdvanced Selectors', () => {
           source: FundSource.PaymentContract,
           fundId: 'someOtherFundId2',
         },
-      ])
-    })
-  })
+      ]);
+    });
+  });
 
   describe('selectKeys', () => {
     it('should return the keys property of createEntityAdvanced state', () => {
       // when ... we call the selector
-      const result = SUT.selectKeys(state)
+      const result = SUT.selectKeys(state);
 
       // then ... should return result as expected
       expect(result).toEqual([
@@ -334,14 +334,14 @@ describe('CreateEntityAdvanced Selectors', () => {
           purpose: KeyPurpose.Identification,
           type: KeyType.Secp256k1VerificationKey2018,
         },
-      ])
-    })
-  })
+      ]);
+    });
+  });
 
   describe('selectServices', () => {
     it('should return the services property of createEntityAdvanced state', () => {
       // when ... we call the selector
-      const result = SUT.selectServices(state)
+      const result = SUT.selectServices(state);
 
       // then ... should return result as expected
       expect(result).toEqual([
@@ -361,14 +361,14 @@ describe('CreateEntityAdvanced Selectors', () => {
           shortDescription: 'someServiceShortDescription',
           type: ServiceType.DIDAgent,
         },
-      ])
-    })
-  })
+      ]);
+    });
+  });
 
   describe('selectDataResources', () => {
     it('should return the data resources property of createEntityAdvanced state', () => {
       // when ... we call the selector
-      const result = SUT.selectDataResources(state)
+      const result = SUT.selectDataResources(state);
 
       // then ... should return result as expected
       expect(result).toEqual([
@@ -386,13 +386,13 @@ describe('CreateEntityAdvanced Selectors', () => {
           serviceEndpoint: 'someResourceLocator2',
           properties: 'someOtherParams2',
         },
-      ])
-    })
-  })
+      ]);
+    });
+  });
   describe('selectValidation', () => {
     it('should return the validation property', () => {
       // when ... we call the selector
-      const result = SUT.selectValidation(state)
+      const result = SUT.selectValidation(state);
 
       // then ... should return result as expected
       expect(result).toEqual({
@@ -406,9 +406,9 @@ describe('CreateEntityAdvanced Selectors', () => {
           validated: false,
           errors: ['error1', 'error2'],
         },
-      })
-    })
-  })
+      });
+    });
+  });
 
   describe('selectValidationComplete', () => {
     it('should return false if not every section has completed validation', () => {
@@ -424,13 +424,13 @@ describe('CreateEntityAdvanced Selectors', () => {
             '8c1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d': {},
           },
         },
-      }
+      };
 
-      const result = SUT.selectValidationComplete(state)
+      const result = SUT.selectValidationComplete(state);
 
       // then ... should return result as expected
-      expect(result).toEqual(false)
-    })
+      expect(result).toEqual(false);
+    });
 
     it('should return true if every section has completed validation', () => {
       // when ... we call the selector
@@ -457,12 +457,12 @@ describe('CreateEntityAdvanced Selectors', () => {
             '8c1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d': {},
           },
         },
-      }
+      };
 
-      const result = SUT.selectValidationComplete(state)
+      const result = SUT.selectValidationComplete(state);
 
       // then ... should return result as expected
-      expect(result).toEqual(true)
-    })
-  })
-})
+      expect(result).toEqual(true);
+    });
+  });
+});

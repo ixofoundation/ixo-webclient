@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 export const Inner = styled.div`
   position: relative;
@@ -7,7 +7,7 @@ export const Inner = styled.div`
 
   font-family: ${/* eslint-disable-line */ props =>
     props.theme.fontRobotoCondensed};
-`
+`;
 
 export const UserMenu = styled.div`
   position: fixed;
@@ -18,7 +18,7 @@ export const UserMenu = styled.div`
   font-family: ${/* eslint-disable-line */ props => props.theme.fontRoboto};
 
   transition: top 0.5s ease;
-`
+`;
 
 export const UserBox = styled.div`
   width: 160px;
@@ -50,7 +50,7 @@ export const UserBox = styled.div`
   svg {
     margin-left: 10px;
   }
-`
+`;
 
 export const MenuTop = styled.div`
   background-color: #002233;
@@ -68,7 +68,7 @@ export const MenuTop = styled.div`
     width: 10px;
     height: 10px;
   }
-`
+`;
 
 export const RedIcon = styled.div`
   width: 10px;
@@ -77,7 +77,7 @@ export const RedIcon = styled.div`
   background: ${/* eslint-disable-line */ props => props.theme.red};
   margin-right: 8px;
   margin-top: 3px;
-`
+`;
 
 export const MenuBottom = styled.div`
   background-color: #01151f;
@@ -98,7 +98,7 @@ export const MenuBottom = styled.div`
   ${RedIcon} {
     margin-top: 5px;
   }
-`
+`;
 
 export const NoPadLeft = styled.div`
 	padding-right:0;
@@ -120,7 +120,7 @@ export const NoPadLeft = styled.div`
 		font-weight: 600;
 		font-family: ${/* eslint-disable-line */ props => props.theme.fontRoboto};
 	}
-`
+`;
 
 export const AccDID = styled.div`
   padding: 3px 6px;
@@ -153,21 +153,21 @@ export const AccDID = styled.div`
     color: #3ea2c0;
     font-weight: bold;
   }
-`
+`;
 
 export const StatusBox = styled.div`
   text-align: center;
   width: 110px;
   position: relative;
   z-index: 1;
-`
+`;
 export const StatusText = styled.p`
   color: white;
   text-transform: uppercase;
   font-size: 11px;
   margin: 5px auto 10px;
   font-weight: normal;
-`
+`;
 
 export const LoginLink = styled.a`
   color: white;
@@ -185,4 +185,4 @@ export const LoginLink = styled.a`
     text-decoration: none;
     color: white;
   }
-`
+`;

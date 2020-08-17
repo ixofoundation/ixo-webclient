@@ -1,40 +1,41 @@
-import mockAxios from "axios";
-import mockStore from "../../common/redux/mockStore";
-import * as SUT from "./BondSwap.actions";
-import { BondSwapActions } from "./types";
-import { Currency } from "types/models";
-jest.mock("axios");
+import mockAxios from 'axios';
+import { Currency } from 'types/models';
+import mockStore from '../../common/redux/mockStore';
+import * as SUT from './BondSwap.actions';
+import { BondSwapActions } from './types';
+
+jest.mock('axios');
 
 let store;
 
 beforeEach(() => {
   store = mockStore({
     activeBond: {
-      symbol: "123",
+      symbol: '123',
     },
     account: {
-      address: "abc",
+      address: 'abc',
     },
   });
 });
 
-describe("BondSwap Actions", () => {
-  describe("getQuote", () => {
-    it("should return data on getQuote success", async () => {
-      const receiving: Currency = { amount: 1, denom: "a" };
-      const sending: Currency = { amount: 2, denom: "b" };
-      const totalFee = { amount: 11, denom: "a" };
+describe('BondSwap Actions', () => {
+  describe('getQuote', () => {
+    it('should return data on getQuote success', async () => {
+      const receiving: Currency = { amount: 1, denom: 'a' };
+      const sending: Currency = { amount: 2, denom: 'b' };
+      const totalFee = { amount: 11, denom: 'a' };
 
       mockAxios.get.mockImplementationOnce(() =>
         Promise.resolve({
           data: {
             total_returns: [
-              { amount: 1, denom: "a" },
-              { amount: 2, denom: "b" },
+              { amount: 1, denom: 'a' },
+              { amount: 2, denom: 'b' },
             ],
             total_fees: [
-              { amount: 11, denom: "a" },
-              { amount: 12, denom: "b" },
+              { amount: 11, denom: 'a' },
+              { amount: 12, denom: 'b' },
             ],
           },
         })
@@ -51,10 +52,10 @@ describe("BondSwap Actions", () => {
       expect(actions[1].payload).toEqual({ sending, receiving, totalFee });
     });
 
-    it("should return an error on failure", async () => {
-      const receiving: Currency = { amount: 1, denom: "a" };
-      const sending: Currency = { amount: 2, denom: "b" };
-      const error = "some-error";
+    it('should return an error on failure', async () => {
+      const receiving: Currency = { amount: 1, denom: 'a' };
+      const sending: Currency = { amount: 2, denom: 'b' };
+      const error = 'some-error';
 
       mockAxios.get.mockImplementationOnce(() =>
         Promise.reject({
@@ -79,8 +80,8 @@ describe("BondSwap Actions", () => {
 
   // TODO - confirmSwap
 
-  describe("clear", () => {
-    it("should clear data on clear", async () => {
+  describe('clear', () => {
+    it('should clear data on clear', async () => {
       // when ... we call the clearQuote action creator with an address
       const action = SUT.clear();
 

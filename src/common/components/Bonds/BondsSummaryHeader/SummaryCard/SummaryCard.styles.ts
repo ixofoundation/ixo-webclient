@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import { deviceWidth } from "../../../../../lib/commonData";
+import styled from 'styled-components';
+import { deviceWidth } from '../../../../../lib/commonData';
 
 interface PriceProps {
   priceColor: string;
@@ -22,7 +22,7 @@ export const StyledHeaderItem = styled.div<StyledHeaderItemProps>`
 
   background: linear-gradient(358.42deg, #002d42 2.22%, #012639 96.94%);
   border: ${(props: any): string =>
-    props.selected ? "1px solid #107591" : "1px solid #0c3549"};
+    props.selected ? '1px solid #107591' : '1px solid #0c3549'};
   box-sizing: border-box;
   border-radius: 4px;
   margin-right: 1.25em;
@@ -34,7 +34,7 @@ export const StyledHeaderItem = styled.div<StyledHeaderItemProps>`
   cursor: pointer;
   justify-content: space-around;
   box-shadow: ${(props: any): string =>
-    props.selected ? "0px 0px 10px rgba(16, 117, 145, 0.3)" : ""};
+    props.selected ? '0px 0px 10px rgba(16, 117, 145, 0.3)' : ''};
   &:last-child {
     margin: 0;
   }
@@ -62,7 +62,7 @@ export const Price = styled.div<PriceProps>`
   line-height: 1.25;
   font-weight: bold;
   color: ${(props: any): string =>
-    props.priceColor ? props.priceColor : "white"};
+    props.priceColor ? props.priceColor : 'white'};
   @media (min-width: 480px) {
     font-size: 1.6875rem;
   }
@@ -82,7 +82,7 @@ export const ValueContainer = styled.div`
 export const Token = styled.div<TokenProps>`
   text-align: center;
   background: ${(props: any): string =>
-    props.backgroundColor ? props.backgroundColor : "#73ce99"};
+    props.backgroundColor ? props.backgroundColor : '#73ce99'};
   margin: 0.2rem 0.5rem 0 0;
   display: flex;
   align-items: center;

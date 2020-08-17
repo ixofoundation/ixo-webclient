@@ -1,6 +1,6 @@
-import * as React from 'react'
-import { FormStyles } from '../../../../types/models'
-import { InputContainer } from './InputText.styles'
+import * as React from 'react';
+import { FormStyles } from '../../../../types/models';
+import { InputContainer } from './InputText.styles';
 
 export interface ParentProps {
   type: string
@@ -33,24 +33,24 @@ const InputText: React.FunctionComponent<Props> = props => {
           <p>{props.value}</p>
         </div>
       </InputContainer>
-    )
-  } else {
-    return (
-      <InputContainer>
-        <div className={`${props.formStyle.toLowerCase()}-input`}>
-          <input
-            className="form-control"
-            id={props.id}
-            type={props.type}
-            placeholder={props.text}
-            onChange={props.onChange}
-            name={props.id}
-          />
-          <p>{props.text}</p>
-        </div>
-      </InputContainer>
-    )
-  }
-}
+    );
+  } 
+  return (
+    <InputContainer>
+      <div className={`${props.formStyle.toLowerCase()}-input`}>
+        <input
+          className="form-control"
+          id={props.id}
+          type={props.type}
+          placeholder={props.text}
+          onChange={props.onChange}
+          name={props.id}
+        />
+        <p>{props.text}</p>
+      </div>
+    </InputContainer>
+  );
+  
+};
 
-export default InputText
+export default InputText;

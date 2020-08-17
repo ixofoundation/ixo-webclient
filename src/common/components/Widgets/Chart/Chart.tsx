@@ -1,10 +1,10 @@
-import * as React from "react";
-import { Bar } from "react-chartjs-2";
-import { Chart } from "chart.js";
-import moment from "moment";
-import { Container, LabelsX } from "./Chart.styles";
+import * as React from 'react';
+import { Bar } from 'react-chartjs-2';
+import { Chart } from 'chart.js';
+import moment from 'moment';
+import { Container, LabelsX } from './Chart.styles';
 
-const compEnd = moment("2018-12-15 00:00:00");
+const compEnd = moment('2018-12-15 00:00:00');
 
 export interface ParentProps {
   barData: BarData[];
@@ -17,15 +17,16 @@ export interface BarData {
 }
 
 export enum BarColors {
-  blue = "BLUE",
-  yellow = "YELLOW",
-  red = "RED",
-  green = "GREEN",
-  darkBlue = "DARKBLUE",
+  blue = 'BLUE',
+  yellow = 'YELLOW',
+  red = 'RED',
+  green = 'GREEN',
+  darkBlue = 'DARKBLUE',
 }
 
 export default class BarChartProjects extends React.Component<ParentProps, {}> {
   [x: string]: any;
+
   constructor(props: ParentProps) {
     super(props);
   }
@@ -33,7 +34,7 @@ export default class BarChartProjects extends React.Component<ParentProps, {}> {
   state = {
     canvasHeight: 0,
     hasError: false,
-    errorMessage: "",
+    errorMessage: '',
     firstTime: true,
     xLabels: [],
     bucketsArray: 1,
@@ -58,13 +59,13 @@ export default class BarChartProjects extends React.Component<ParentProps, {}> {
 
     // https://github.com/jedtrow/Chart.js-Rounded-Bar-Charts/blob/master/Chart.roundedBarCharts.js
     Chart.elements.Rectangle.prototype.draw = (): void => {
-      const ctx = this._chart.ctx;
+      const { ctx } = this._chart;
       const vm = this._view;
       if (this.state.canvasHeight < vm.base) {
         this.setState({ canvasHeight: vm.base });
       }
-      let left, right, top, bottom, signX, signY, borderSkipped, radius;
-      let borderWidth = vm.borderWidth;
+      let left; let right; let top; let bottom; let signX; let signY; let borderSkipped; let radius;
+      let { borderWidth } = vm;
       // Set Radius Here
       // If radius is large enough to cause drawing errors a max radius is imposed
       const cornerRadius = vm.width;
@@ -77,7 +78,7 @@ export default class BarChartProjects extends React.Component<ParentProps, {}> {
         bottom = vm.base;
         signX = 1;
         signY = bottom > top ? 1 : -1;
-        borderSkipped = vm.borderSkipped || "bottom";
+        borderSkipped = vm.borderSkipped || 'bottom';
       } else {
         // horizontal bar
         left = vm.base;
@@ -86,7 +87,7 @@ export default class BarChartProjects extends React.Component<ParentProps, {}> {
         bottom = vm.y + vm.height / 2;
         signX = right > left ? 1 : -1;
         signY = 1;
-        borderSkipped = vm.borderSkipped || "left";
+        borderSkipped = vm.borderSkipped || 'left';
       }
 
       // Canvas doesn't allow us to stroke inside the width so we can
@@ -101,13 +102,13 @@ export default class BarChartProjects extends React.Component<ParentProps, {}> {
         const halfStroke = borderWidth / 2;
         // Adjust borderWidth when bar top position is near vm.base(zero).
         const borderLeft =
-          left + (borderSkipped !== "left" ? halfStroke * signX : 0);
+          left + (borderSkipped !== 'left' ? halfStroke * signX : 0);
         const borderRight =
-          right + (borderSkipped !== "right" ? -halfStroke * signX : 0);
+          right + (borderSkipped !== 'right' ? -halfStroke * signX : 0);
         const borderTop =
-          top + (borderSkipped !== "top" ? halfStroke * signY : 0);
+          top + (borderSkipped !== 'top' ? halfStroke * signY : 0);
         const borderBottom =
-          bottom + (borderSkipped !== "bottom" ? -halfStroke * signY : 0);
+          bottom + (borderSkipped !== 'bottom' ? -halfStroke * signY : 0);
         // not become a vertical line?
         if (borderLeft !== borderRight) {
           top = borderTop;
@@ -136,7 +137,7 @@ export default class BarChartProjects extends React.Component<ParentProps, {}> {
       ];
 
       // Find first (starting) corner with fallback to 'bottom'
-      const borders = ["bottom", "left", "top", "right"];
+      const borders = ['bottom', 'left', 'top', 'right'];
       let startCorner = borders.indexOf(borderSkipped, 0);
       if (startCorner === -1) {
         startCorner = 0;
@@ -148,7 +149,7 @@ export default class BarChartProjects extends React.Component<ParentProps, {}> {
 
       // Draw rectangle from 'startCorner'
       let corner = cornerAt(0);
-      let width, height, x, y, nextCornerId;
+      let width; let height; let x; let y; let nextCornerId;
       // eslint-disable-next-line
       let x_tl, x_tr, y_tl, y_tr;
       // eslint-disable-next-line
@@ -256,13 +257,13 @@ export default class BarChartProjects extends React.Component<ParentProps, {}> {
 
     for (let i = 0; i < this.state.totalBars; i += 1) {
       if (i % 10 === 0) {
-        const theTime = compEnd.clone().subtract(i, "days");
-        labelArray.push(theTime.format("D MMM"));
+        const theTime = compEnd.clone().subtract(i, 'days');
+        labelArray.push(theTime.format('D MMM'));
       }
     }
 
-    const firstTime = compEnd.clone().subtract(this.state.totalBars, "days");
-    labelArray.push(firstTime.format("D MMM"));
+    const firstTime = compEnd.clone().subtract(this.state.totalBars, 'days');
+    labelArray.push(firstTime.format('D MMM'));
 
     // reverse array so that latest label is on the right of the chart
     labelArray.reverse();
@@ -272,8 +273,8 @@ export default class BarChartProjects extends React.Component<ParentProps, {}> {
   getBarDate(index: number): string {
     const reversedIndex = this.state.totalBars - index;
     const theDiff = Math.round(reversedIndex * this.state.hoursPerBucket);
-    const theTime = compEnd.clone().subtract(theDiff, "hours");
-    return theTime.format("dddd, D MMMM, YYYY");
+    const theTime = compEnd.clone().subtract(theDiff, 'hours');
+    return theTime.format('dddd, D MMMM, YYYY');
   }
 
   waitAndChange = (): void => {
@@ -288,7 +289,7 @@ export default class BarChartProjects extends React.Component<ParentProps, {}> {
     }
 
     this.populateXaxisLabels();
-    this.setState({ bucketsArray: bucketsArray, hoursPerBucket: 24 });
+    this.setState({ bucketsArray, hoursPerBucket: 24 });
   };
 
   populateDataArray = (arrayIndex: number): Array<number> => {
@@ -299,7 +300,7 @@ export default class BarChartProjects extends React.Component<ParentProps, {}> {
         this.props.barData[arrayIndex].data[k].data.createdOn
       );
 
-      hoursDifferenceArray.push(compEnd.diff(theDate, "hours"));
+      hoursDifferenceArray.push(compEnd.diff(theDate, 'hours'));
     }
 
     const BucketValueArray = [this.state.totalBars].map(
@@ -313,13 +314,11 @@ export default class BarChartProjects extends React.Component<ParentProps, {}> {
           if (hoursDifferenceArray[k] > this.state.bucketsArray[p]) {
             BucketValueArray[p]++;
           }
-        } else {
-          if (
-            hoursDifferenceArray[k] >= this.state.bucketsArray[p] &&
+        } else if (
+          hoursDifferenceArray[k] >= this.state.bucketsArray[p] &&
             hoursDifferenceArray[k] < this.state.bucketsArray[p + 1]
-          ) {
-            BucketValueArray[p]++;
-          }
+        ) {
+          BucketValueArray[p]++;
         }
       }
     }
@@ -327,7 +326,7 @@ export default class BarChartProjects extends React.Component<ParentProps, {}> {
   };
 
   allData = (canvas): Record<string, any> => {
-    const ctx = canvas.getContext("2d");
+    const ctx = canvas.getContext('2d');
 
     // const gradientsArray = this.handleGetGradients(ctx);
     const gradientRed = ctx.createLinearGradient(
@@ -336,9 +335,9 @@ export default class BarChartProjects extends React.Component<ParentProps, {}> {
       0,
       this.state.canvasHeight
     );
-    gradientRed.addColorStop(0, "#E2223B"); // top
-    gradientRed.addColorStop(0.5, "#E2223B");
-    gradientRed.addColorStop(1, "#B31429"); // bottom
+    gradientRed.addColorStop(0, '#E2223B'); // top
+    gradientRed.addColorStop(0.5, '#E2223B');
+    gradientRed.addColorStop(1, '#B31429'); // bottom
 
     const gradientYellow = ctx.createLinearGradient(
       0,
@@ -346,9 +345,9 @@ export default class BarChartProjects extends React.Component<ParentProps, {}> {
       0,
       this.state.canvasHeight
     );
-    gradientYellow.addColorStop(0, "#DFA551"); // top
-    gradientYellow.addColorStop(0.5, "#DFA551");
-    gradientYellow.addColorStop(1, "#F3C546"); // bottom
+    gradientYellow.addColorStop(0, '#DFA551'); // top
+    gradientYellow.addColorStop(0.5, '#DFA551');
+    gradientYellow.addColorStop(1, '#F3C546'); // bottom
 
     const gradientBlue = ctx.createLinearGradient(
       0,
@@ -356,9 +355,9 @@ export default class BarChartProjects extends React.Component<ParentProps, {}> {
       0,
       this.state.canvasHeight
     );
-    gradientBlue.addColorStop(0, "#49BFE0");
-    gradientBlue.addColorStop(0.5, "#49BFE0");
-    gradientBlue.addColorStop(1, "#016582");
+    gradientBlue.addColorStop(0, '#49BFE0');
+    gradientBlue.addColorStop(0.5, '#49BFE0');
+    gradientBlue.addColorStop(1, '#016582');
 
     const gradientDarkBlue = ctx.createLinearGradient(
       0,
@@ -366,9 +365,9 @@ export default class BarChartProjects extends React.Component<ParentProps, {}> {
       0,
       this.state.canvasHeight
     );
-    gradientDarkBlue.addColorStop(0, "#096f8c");
-    gradientDarkBlue.addColorStop(0.5, "#096f8c");
-    gradientDarkBlue.addColorStop(1, "#0b556f");
+    gradientDarkBlue.addColorStop(0, '#096f8c');
+    gradientDarkBlue.addColorStop(0.5, '#096f8c');
+    gradientDarkBlue.addColorStop(1, '#0b556f');
 
     const gradientGreen = ctx.createLinearGradient(
       0,
@@ -376,9 +375,9 @@ export default class BarChartProjects extends React.Component<ParentProps, {}> {
       0,
       this.state.canvasHeight
     );
-    gradientGreen.addColorStop(0, "#63d25a");
-    gradientGreen.addColorStop(0.5, "#63d25a");
-    gradientGreen.addColorStop(1, "#156a0e");
+    gradientGreen.addColorStop(0, '#63d25a');
+    gradientGreen.addColorStop(0.5, '#63d25a');
+    gradientGreen.addColorStop(1, '#156a0e');
 
     const gradientRemaining = ctx.createLinearGradient(
       0,
@@ -386,8 +385,8 @@ export default class BarChartProjects extends React.Component<ParentProps, {}> {
       0,
       this.state.canvasHeight
     );
-    gradientRemaining.addColorStop(0, "#F5F3F3");
-    gradientRemaining.addColorStop(1, "#EAE9E9");
+    gradientRemaining.addColorStop(0, '#F5F3F3');
+    gradientRemaining.addColorStop(1, '#EAE9E9');
 
     const dataArrays = [];
 
@@ -412,23 +411,23 @@ export default class BarChartProjects extends React.Component<ParentProps, {}> {
       switch (this.props.barData[index].color) {
         case BarColors.red:
           theCol = gradientRed;
-          hoverCol = "#E2223B";
+          hoverCol = '#E2223B';
           break;
         case BarColors.yellow:
           theCol = gradientYellow;
-          hoverCol = "#DFA551";
+          hoverCol = '#DFA551';
           break;
         case BarColors.blue:
           theCol = gradientBlue;
-          hoverCol = "#49BFE0";
+          hoverCol = '#49BFE0';
           break;
         case BarColors.darkBlue:
           theCol = gradientDarkBlue;
-          hoverCol = "#0f81a0";
+          hoverCol = '#0f81a0';
           break;
         case BarColors.green:
           theCol = gradientGreen;
-          hoverCol = "#E2223B";
+          hoverCol = '#E2223B';
           break;
         default:
       }
@@ -454,7 +453,7 @@ export default class BarChartProjects extends React.Component<ParentProps, {}> {
     }
 
     dataSets.push({
-      label: "Total Remainder",
+      label: 'Total Remainder',
       data: dataRemainder,
       backgroundColor: gradientRemaining,
       hoverBackgroundColor: gradientRemaining,
@@ -466,7 +465,7 @@ export default class BarChartProjects extends React.Component<ParentProps, {}> {
         labels: this.populateTooltipArray(this.state.totalBars),
         datasets: [
           {
-            label: "Total Remainder",
+            label: 'Total Remainder',
             data: dataMaxArray,
             backgroundColor: gradientRemaining,
             hoverBackgroundColor: gradientRemaining,
@@ -494,9 +493,9 @@ export default class BarChartProjects extends React.Component<ParentProps, {}> {
               return `${tooltipItem.yLabel} ${
                 data.datasets[tooltipItem.datasetIndex].label
               }`;
-            } else {
-              return "";
-            }
+            } 
+            return '';
+            
           },
         },
       },
@@ -524,14 +523,14 @@ export default class BarChartProjects extends React.Component<ParentProps, {}> {
             },
             ticks: {
               beginAtZero: true,
-              callback: function (value: number): number | null {
+              callback(value: number): number | null {
                 if (value % 1 === 0) {
                   return value;
-                } else {
-                  return null;
-                }
+                } 
+                return null;
+                
               },
-              fontColor: "#282828",
+              fontColor: '#282828',
             },
           },
         ],

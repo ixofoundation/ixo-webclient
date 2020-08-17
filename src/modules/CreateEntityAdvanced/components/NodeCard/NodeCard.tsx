@@ -1,9 +1,9 @@
-import React from 'react'
-import { LinkButton } from '../../../../common/components/JsonForm/JsonForm.styles'
-import { NodeType } from '../../../Entities/types'
-import { nodeTypeMap } from '../../../Entities/strategy-map'
-import { FormCardProps } from '../../../CreateEntity/types'
-import MultiControlForm from '../../../..//common/components/JsonForm/MultiControlForm/MultiControlForm'
+import React from 'react';
+import { LinkButton } from '../../../../common/components/JsonForm/JsonForm.styles';
+import { NodeType } from '../../../Entities/types';
+import { nodeTypeMap } from '../../../Entities/strategy-map';
+import { FormCardProps } from '../../../CreateEntity/types';
+import MultiControlForm from '../../../../common/components/JsonForm/MultiControlForm/MultiControlForm';
 
 interface Props extends FormCardProps {
   type: NodeType
@@ -25,7 +25,7 @@ const NodeCard: React.FunctionComponent<Props> = React.forwardRef(
     const formData = {
       type,
       nodeId,
-    }
+    };
 
     const schema = {
       type: 'object',
@@ -41,14 +41,14 @@ const NodeCard: React.FunctionComponent<Props> = React.forwardRef(
         },
         nodeId: { type: 'string', title: 'Node ID' },
       },
-    } as any
+    } as any;
 
     const uiSchema = {
       type: {
-        ['ui:placeholder']: 'Select Node Type',
+        'ui:placeholder': 'Select Node Type',
       },
-      nodeId: { ['ui:placeholder']: 'Enter !Name or DID' },
-    }
+      nodeId: { 'ui:placeholder': 'Enter !Name or DID' },
+    };
 
     return (
       <>
@@ -70,8 +70,8 @@ const NodeCard: React.FunctionComponent<Props> = React.forwardRef(
           </LinkButton>
         </div>
       </>
-    )
+    );
   },
-)
+);
 
-export default NodeCard
+export default NodeCard;

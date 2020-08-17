@@ -1,9 +1,9 @@
-import React from 'react'
-import { Widget } from '../types'
-import { ControlPanelSection } from '../ControlPanel.styles'
-import { ShieldsWrapper } from './Dashboard.styles'
-import DashboardIcon from '../../../../assets/icons/Dashboard'
-import Shield from './Shield/Shield'
+import React from 'react';
+import { Widget } from '../types';
+import { ControlPanelSection } from '../ControlPanel.styles';
+import { ShieldsWrapper } from './Dashboard.styles';
+import DashboardIcon from '../../../../assets/icons/Dashboard';
+import Shield from './Shield/Shield';
 
 interface Props {
   entityDid: string
@@ -24,11 +24,11 @@ const Dashboard: React.FunctionComponent<Props> = ({
       </h4>
       <ShieldsWrapper>
         {controls.map((control, index) => {
-          return <Shield key={index} control={control} entityDid={entityDid} />
+          return <Shield key={index} control={control} entityDid={entityDid} />;
         })}
       </ShieldsWrapper>
     </ControlPanelSection>
-  )
-}
+  );
+};
 
-export default Dashboard
+export default Dashboard;

@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 export const QuestionBarWrapper = styled.div`
   background: #f7f8f9;
@@ -21,4 +21,4 @@ export const QuestionBarWrapper = styled.div`
       width: 1.25rem;
     }
   }
-`
+`;

@@ -1,7 +1,7 @@
 export type KeysafeState = {
   keysafe: any
   error: Record<string, any>
-}
+};
 
 /* export interface KeysafeResult {
   keysafe: any
@@ -25,4 +25,4 @@ export interface ResetKeySafeAction {
   type: typeof KeysafeActions.ResetKeysafe
 }
 
-export type KeysafeActionTypes = InitKeySafeAction | ResetKeySafeAction
+export type KeysafeActionTypes = InitKeySafeAction | ResetKeySafeAction;

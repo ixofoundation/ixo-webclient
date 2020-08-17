@@ -1,12 +1,12 @@
-import { toast } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
-import '../../assets/toasts.css'
-import { ErrorTypes } from '../../types/models'
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import '../../assets/toasts.css';
+import { ErrorTypes } from '../../types/models';
 
 const successToast = (message: string): void => {
   toast(message, {
     position: toast.POSITION.TOP_RIGHT,
-    className: "successToast",
+    className: 'successToast',
   });
 };
 
@@ -19,7 +19,7 @@ const errorToast = (
     position: toast.POSITION.TOP_RIGHT,
     className: 'errorToast',
     autoClose: autoClose ? 3000 : false,
-  })
+  });
   if (type === ErrorTypes.goBack) {
     // history.back()
   }
@@ -28,7 +28,7 @@ const errorToast = (
 const warningToast = (message: string): void => {
   toast(message, {
     position: toast.POSITION.TOP_RIGHT,
-    className: "warningToast",
+    className: 'warningToast',
   });
 };
 

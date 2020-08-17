@@ -1,4 +1,4 @@
-import { Entity } from '../Entities/types'
+import { Entity } from '../Entities/types';
 
 export enum SelectedEntityActions {
   GetEntity = 'ixo/Entity/GET_ENTITY',
@@ -25,4 +25,4 @@ export interface ClearEntityAction {
 export type SelectedEntityActionTypes =
   | GetEntityAction
   | GetEntitySuccessAction
-  | ClearEntityAction
+  | ClearEntityAction;

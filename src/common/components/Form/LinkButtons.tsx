@@ -1,6 +1,6 @@
-import * as React from "react";
-import styled from "styled-components";
-import { Link } from "react-router-dom";
+import * as React from 'react';
+import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 const BaseButton = styled(Link)`
   position: relative;
@@ -25,7 +25,7 @@ const EnabledGradient = styled(BaseButton)`
     props.theme.bg.gradientButton};
   &&& {
     color: ${/* eslint-disable-line */ (props) =>
-      props.theme.fontDarkBlueButtonNormal};
+    props.theme.fontDarkBlueButtonNormal};
   }
   font-family: ${/* eslint-disable-line */ (props) =>
     props.theme.fontRobotoCondensed};
@@ -34,7 +34,7 @@ const EnabledGradient = styled(BaseButton)`
   :hover {
     &&& {
       color: ${/* eslint-disable-line */ (props) =>
-        props.theme.fontBlueButtonHover};
+    props.theme.fontBlueButtonHover};
     }
     text-decoration: none;
   }
@@ -44,7 +44,7 @@ const EnabledDark = styled(BaseButton)`
   background: #002d42;
   &&& {
     color: ${/* eslint-disable-line */ (props) =>
-      props.theme.fontDarkBlueButtonNormal};
+    props.theme.fontDarkBlueButtonNormal};
   }
   border: 1px solid ${/* eslint-disable-line */ (props) => props.theme.ixoBlue};
   cursor: pointer;
@@ -52,10 +52,10 @@ const EnabledDark = styled(BaseButton)`
   :hover {
     &&& {
       color: ${/* eslint-disable-line */ (props) =>
-        props.theme.fontBlueButtonHover};
+    props.theme.fontBlueButtonHover};
     }
     background: ${/* eslint-disable-line */ (props) =>
-      props.theme.bg.darkButton};
+    props.theme.bg.darkButton};
     text-decoration: none;
   }
 `;
@@ -81,8 +81,8 @@ const Plus = styled.span`
 `;
 
 export enum ButtonTypes {
-  gradient = "gradient",
-  dark = "dark",
+  gradient = 'gradient',
+  dark = 'dark',
 }
 
 export interface Props {
@@ -107,19 +107,19 @@ export const LinkButton: React.SFC<Props> = (props) => {
         {renderPlus()} {props.children}
       </Disabled>
     );
-  } else {
-    if (props.type === ButtonTypes.gradient) {
-      return (
-        <EnabledGradient onClick={props.onClick} to={props.to}>
-          {renderPlus()} {props.children}
-        </EnabledGradient>
-      );
-    } else {
-      return (
-        <EnabledDark onClick={props.onClick} to={props.to}>
-          {renderPlus()} {props.children}
-        </EnabledDark>
-      );
-    }
-  }
+  } 
+  if (props.type === ButtonTypes.gradient) {
+    return (
+      <EnabledGradient onClick={props.onClick} to={props.to}>
+        {renderPlus()} {props.children}
+      </EnabledGradient>
+    );
+  } 
+  return (
+    <EnabledDark onClick={props.onClick} to={props.to}>
+      {renderPlus()} {props.children}
+    </EnabledDark>
+  );
+    
+  
 };

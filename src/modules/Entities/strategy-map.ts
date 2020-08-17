@@ -29,25 +29,25 @@ import {
   ServiceType,
   DataResourceTypeStrategyMap,
   DataResourceType,
-} from './types'
-import ProjectFilterSchema from './components/EntitiesFilter/schema/ProjectFilter.schema.json'
-import CellFilterSchema from './components/EntitiesFilter/schema/CellFilter.schema.json'
-import DataFilterSchema from './components/EntitiesFilter/schema/DataFilter.schema.json'
-import InvestmentFilterSchema from './components/EntitiesFilter/schema/InvestmentFilter.schema.json'
-import OracleFilterSchema from './components/EntitiesFilter/schema/OracleFilter.schema.json'
-import TemplateFilterSchema from './components/EntitiesFilter/schema/TemplateFilter.schema.json'
-import ProjectHeaderSchema from './components/EntitiesHero/schema/ProjectHeader.schema.json'
-import CellHeaderSchema from './components/EntitiesHero/schema/CellHeader.schema.json'
-import InvestmentHeaderSchema from './components/EntitiesHero/schema/InvestmentHeader.schema.json'
-import OracleHeaderSchema from './components/EntitiesHero/schema/OracleHeader.schema.json'
-import TemplateHeaderSchema from './components/EntitiesHero/schema/TemplateHeader.schema.json'
-import DataHeaderSchema from './components/EntitiesHero/schema/DataHeader.schema.json'
-import ProjectControlPanelSchema from '../../common/components/ControlPanel/schema/Project.schema.json'
-import CellControlPanelSchema from '../../common/components/ControlPanel/schema/Cell.schema.json'
-import InvestmentControlPanelSchema from '../../common/components/ControlPanel/schema/Investment.schema.json'
-import OracleControlPanelSchema from '../../common/components/ControlPanel/schema/Oracle.schema.json'
-import TemplateControlPanelSchema from '../../common/components/ControlPanel/schema/Template.schema.json'
-import DataControlPanelSchema from '../../common/components/ControlPanel/schema/Data.schema.json'
+} from './types';
+import ProjectFilterSchema from './components/EntitiesFilter/schema/ProjectFilter.schema.json';
+import CellFilterSchema from './components/EntitiesFilter/schema/CellFilter.schema.json';
+import DataFilterSchema from './components/EntitiesFilter/schema/DataFilter.schema.json';
+import InvestmentFilterSchema from './components/EntitiesFilter/schema/InvestmentFilter.schema.json';
+import OracleFilterSchema from './components/EntitiesFilter/schema/OracleFilter.schema.json';
+import TemplateFilterSchema from './components/EntitiesFilter/schema/TemplateFilter.schema.json';
+import ProjectHeaderSchema from './components/EntitiesHero/schema/ProjectHeader.schema.json';
+import CellHeaderSchema from './components/EntitiesHero/schema/CellHeader.schema.json';
+import InvestmentHeaderSchema from './components/EntitiesHero/schema/InvestmentHeader.schema.json';
+import OracleHeaderSchema from './components/EntitiesHero/schema/OracleHeader.schema.json';
+import TemplateHeaderSchema from './components/EntitiesHero/schema/TemplateHeader.schema.json';
+import DataHeaderSchema from './components/EntitiesHero/schema/DataHeader.schema.json';
+import ProjectControlPanelSchema from '../../common/components/ControlPanel/schema/Project.schema.json';
+import CellControlPanelSchema from '../../common/components/ControlPanel/schema/Cell.schema.json';
+import InvestmentControlPanelSchema from '../../common/components/ControlPanel/schema/Investment.schema.json';
+import OracleControlPanelSchema from '../../common/components/ControlPanel/schema/Oracle.schema.json';
+import TemplateControlPanelSchema from '../../common/components/ControlPanel/schema/Template.schema.json';
+import DataControlPanelSchema from '../../common/components/ControlPanel/schema/Data.schema.json';
 
 export const entityTypeMap: EntityTypeStrategyMap = {
   [EntityType.Project]: {
@@ -98,7 +98,7 @@ export const entityTypeMap: EntityTypeStrategyMap = {
     filterSchema: DataFilterSchema,
     controlPanelSchema: DataControlPanelSchema,
   },
-}
+};
 
 export const entityStatusMap: EntityStatusStrategyMap = {
   [EntityStatus.Pending]: { title: 'Pending' },
@@ -106,7 +106,7 @@ export const entityStatusMap: EntityStatusStrategyMap = {
   [EntityStatus.Stopped]: { title: 'Stopped' },
   [EntityStatus.Sealed]: { title: 'Sealed' },
   [EntityStatus.Deleted]: { title: 'Deleted' },
-}
+};
 
 export const entityStageMap: EntityStageStrategyMap = {
   [EntityStage.Proposal]: { title: 'Proposal' },
@@ -116,18 +116,18 @@ export const entityStageMap: EntityStageStrategyMap = {
   [EntityStage.Closing]: { title: 'Closing' },
   [EntityStage.Ended]: { title: 'Ended' },
   [EntityStage.Archived]: { title: 'Archived' },
-}
+};
 
 export const entityViewMap: EntityViewStrategyMap = {
   [EntityView.Visible]: { title: 'Visible' },
   [EntityView.Encrypted]: { title: 'Encrypted' },
-}
+};
 
 export const pageViewMap: PageViewStrategyMap = {
   [PageView.Public]: { title: 'Public' },
   [PageView.Private]: { title: 'Private' },
   [PageView.Secret]: { title: 'Secret' },
-}
+};
 
 export const paymentTypeMap: PaymentTypeStrategyMap = {
   [PaymentType.FeeforService]: { title: 'Fee for Service' },
@@ -138,14 +138,14 @@ export const paymentTypeMap: PaymentTypeStrategyMap = {
   [PaymentType.LoanRepayment]: { title: 'Loan Repayment' },
   [PaymentType.IncomeDistribution]: { title: 'Income Distribution' },
   [PaymentType.DisputeSettlement]: { title: 'Dispute Settlement' },
-}
+};
 
 export const paymentDenominationMap: PaymentDenominationStrategyMap = {
   [PaymentDenomination.IXO]: { title: 'IXO' },
   [PaymentDenomination.eEUR]: { title: 'eEUR' },
   [PaymentDenomination.eCHF]: { title: 'eCHF' },
   [PaymentDenomination.eUSD]: { title: 'eUSD' },
-}
+};
 
 export const stakeTypeMap: StakeTypeStrategyMap = {
   [StakeType.SecurityGuarantee]: { title: 'Security Guarantee' },
@@ -157,7 +157,7 @@ export const stakeTypeMap: StakeTypeStrategyMap = {
   [StakeType.MembershipDeposit]: { title: 'Membership Deposit' },
   [StakeType.ServicesDeposit]: { title: 'Services Deposit' },
   [StakeType.InsuranceGuarantee]: { title: 'Insurance Guarantee' },
-}
+};
 
 export const slashingConditionMap: SlashingConditionStrategyMap = {
   [SlashingCondition.FailedService]: { title: 'Failed Service' },
@@ -167,13 +167,13 @@ export const slashingConditionMap: SlashingConditionStrategyMap = {
   [SlashingCondition.FailedDispute]: { title: 'Failed Dispute' },
   [SlashingCondition.InsuredEvent]: { title: 'Insured Event' },
   [SlashingCondition.FailedMembership]: { title: 'Failed Membership' },
-}
+};
 
 export const nodeTypeMap: NodeTypeStrategyMap = {
   [NodeType.RelayerNode]: { title: 'Relayer Node' },
   [NodeType.CellNode]: { title: 'Cell Node' },
   [NodeType.IBCNode]: { title: 'IBC Node' },
-}
+};
 
 export const fundSourceMap: FundSourceStrategyMap = {
   [FundSource.AlphaBond]: { title: 'Alpha Bond' },
@@ -181,7 +181,7 @@ export const fundSourceMap: FundSourceStrategyMap = {
   [FundSource.BankAccount]: { title: 'Bank Account' },
   [FundSource.PaymentContract]: { title: 'Payment Contract' },
   [FundSource.NFTAsset]: { title: 'NFT Asset' },
-}
+};
 
 export const keyTypeMap: KeyTypeStrategyMap = {
   [KeyType.Ed25519VerificationKey2018]: { title: 'Ed25519VerificationKey2018' },
@@ -189,21 +189,21 @@ export const keyTypeMap: KeyTypeStrategyMap = {
   [KeyType.Secp256k1VerificationKey2018]: {
     title: 'Secp256k1VerificationKey2018',
   },
-}
+};
 
 export const keyPurposeMap: KeyPurposeStrategyMap = {
   [KeyPurpose.Authentication]: { title: 'Authentication' },
   [KeyPurpose.Encryption]: { title: 'Encryption' },
   [KeyPurpose.Verification]: { title: 'Verification' },
   [KeyPurpose.Identification]: { title: 'Identification' },
-}
+};
 
 export const serviceTypeMap: ServiceTypeStrategyMap = {
   [ServiceType.DIDAgent]: { title: 'DID Agent' },
   [ServiceType.CosmosWeb3]: { title: 'Cosmos Web3' },
   [ServiceType.EthereumWeb3]: { title: 'Ethereum Web3' },
   [ServiceType.Web2]: { title: 'Web2' },
-}
+};
 
 export const dataResourceTypeMap: DataResourceTypeStrategyMap = {
   [DataResourceType.SchemaOverlay]: { title: 'Schema Overlay' },
@@ -214,4 +214,4 @@ export const dataResourceTypeMap: DataResourceTypeStrategyMap = {
   [DataResourceType.InterplanetaryFileStore]: {
     title: 'Interplanetary File Store',
   },
-}
+};

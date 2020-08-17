@@ -1,5 +1,5 @@
-import * as React from 'react'
-import styled from 'styled-components'
+import * as React from 'react';
+import styled from 'styled-components';
 
 const Container = styled.div`
   background: ${/* eslint-disable-line */ props =>
@@ -15,11 +15,11 @@ const Container = styled.div`
 
   h3 {
     font-family: ${/* eslint-disable-line */ props =>
-      props.theme.fontRobotoCondensed};
+    props.theme.fontRobotoCondensed};
     font-weight: normal;
     font-size: 32px;
   }
-`
+`;
 
 export interface ParentProps {
   title?: string
@@ -34,5 +34,5 @@ export const WidgetWrapperClaims: React.SFC<ParentProps> = ({
       <h3>{title}</h3>
       {children}
     </Container>
-  )
-}
+  );
+};

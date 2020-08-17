@@ -1,6 +1,6 @@
-import React from 'react'
-import { StepsWrapper } from './Steps.styles'
-import ApprovedTick from '../../../assets/icons/ApprovedTick'
+import React from 'react';
+import { StepsWrapper } from './Steps.styles';
+import ApprovedTick from '../../../assets/icons/ApprovedTick';
 
 interface Props {
   currentStepTitle: string
@@ -15,7 +15,7 @@ export const Steps: React.FunctionComponent<Props> = ({
   currentStepNo,
   handleGoToStepClick,
 }) => {
-  const questions = new Array(totalSteps).fill(null).map((u, i) => i + 1)
+  const questions = new Array(totalSteps).fill(null).map((u, i) => i + 1);
 
   return (
     <StepsWrapper>
@@ -37,8 +37,8 @@ export const Steps: React.FunctionComponent<Props> = ({
           <div key={stepNo} className="step-item">
             {stepNo}
           </div>
-        )
+        );
       })}
     </StepsWrapper>
-  )
-}
+  );
+};

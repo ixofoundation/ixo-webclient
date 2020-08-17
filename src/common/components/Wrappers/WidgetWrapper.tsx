@@ -1,6 +1,6 @@
-import * as React from 'react'
-import styled from 'styled-components'
-import { Link } from 'react-router-dom'
+import * as React from 'react';
+import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 export enum gridSizes {
   standard = 'NORMAL',
@@ -27,7 +27,7 @@ export const WidgetWrapper: React.SFC<ParentProps> = ({
 }) => {
   const Container = styled.div`
     background: ${/* eslint-disable-line */ props =>
-      props.theme.bg.gradientBlue};
+    props.theme.bg.gradientBlue};
     border: 1px solid
       ${/* eslint-disable-line */ props => props.theme.widgetBorder};
     padding: ${padding && padding === true ? '20px' : 0};
@@ -41,26 +41,26 @@ export const WidgetWrapper: React.SFC<ParentProps> = ({
 
     h3 {
       font-family: ${/* eslint-disable-line */ props =>
-        props.theme.fontRobotoCondensed};
+    props.theme.fontRobotoCondensed};
       font-weight: normal;
       font-size: 19px;
     }
-  `
+  `;
 
   const FlexTitle = styled.div`
     display: flex;
     justify-content: space-between;
     ${padding && padding === true
-      ? ''
-      : 'position: absolute; top: 30px; left: 30px;'}
-  `
+    ? ''
+    : 'position: absolute; top: 30px; left: 30px;'}
+  `;
 
   const FlexContent = styled.div`
     display: flex;
     flex: 1 1 auto;
     flex-direction: column;
     justify-content: center;
-  `
+  `;
 
   const WrappedLink = styled(Link)`
     color: white;
@@ -97,16 +97,16 @@ export const WidgetWrapper: React.SFC<ParentProps> = ({
     .decimal {
       color: ${/* eslint-disable-line */ props => props.theme.fontLightBlue};
     }
-  `
+  `;
   const setGridHeight = (): string => {
     if (!gridHeight || window.innerWidth < 576) {
-      return 'none'
-    } else if (gridHeight === gridSizes.standard) {
-      return '330px'
-    } else {
-      return '660px'
-    }
-  }
+      return 'none';
+    } if (gridHeight === gridSizes.standard) {
+      return '330px';
+    } 
+    return '660px';
+    
+  };
 
   if (link) {
     return (
@@ -122,16 +122,16 @@ export const WidgetWrapper: React.SFC<ParentProps> = ({
           <FlexContent>{children}</FlexContent>
         </Container>
       </WrappedLink>
-    )
-  } else {
-    return (
-      <Container
-        className="container-fluid"
-        style={{ minHeight: setGridHeight() }}
-      >
-        <FlexTitle>{title && <h3>{title}</h3>}</FlexTitle>
-        <FlexContent>{children}</FlexContent>
-      </Container>
-    )
-  }
-}
+    );
+  } 
+  return (
+    <Container
+      className="container-fluid"
+      style={{ minHeight: setGridHeight() }}
+    >
+      <FlexTitle>{title && <h3>{title}</h3>}</FlexTitle>
+      <FlexContent>{children}</FlexContent>
+    </Container>
+  );
+  
+};

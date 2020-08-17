@@ -1,3 +1,5 @@
+import { Dispatch } from 'redux';
+import { RootState } from 'common/redux/types';
 import {
   UpdateActiveStepAction,
   UpdateClaimInfoAction,
@@ -7,9 +9,7 @@ import {
   RemoveAttestationAction,
   UpdateAttestationAction,
   ClaimInfo,
-} from './types'
-import { Dispatch } from 'redux'
-import { RootState } from 'common/redux/types'
+} from './types';
 
 export const updateActiveStep = (newStepNo: number) => (
   dispatch: Dispatch,
@@ -17,16 +17,16 @@ export const updateActiveStep = (newStepNo: number) => (
 ): UpdateActiveStepAction => {
   const {
     createClaimTemplate: { activeStep },
-  } = getState()
-  const totalSteps = 3 // @todo set this more dynamically
+  } = getState();
+  const totalSteps = 3; // @todo set this more dynamically
 
   if (activeStep !== newStepNo && newStepNo <= totalSteps && newStepNo > 0)
     return dispatch({
       type: CreateClaimTemplateActions.UpdateActiveStep,
       payload: newStepNo,
-    })
-  return null
-}
+    });
+  return null;
+};
 
 export const updateClaimInfo = (claimInfo: ClaimInfo) => (
   dispatch: Dispatch,
@@ -34,8 +34,8 @@ export const updateClaimInfo = (claimInfo: ClaimInfo) => (
   return dispatch({
     type: CreateClaimTemplateActions.UpdateClaimInfo,
     payload: claimInfo,
-  })
-}
+  });
+};
 
 export const addAttestation = (newAttestation: Attestation) => (
   dispatch: Dispatch,
@@ -43,8 +43,8 @@ export const addAttestation = (newAttestation: Attestation) => (
   return dispatch({
     type: CreateClaimTemplateActions.AddAttestation,
     payload: newAttestation,
-  })
-}
+  });
+};
 
 export const removeAttestation = (attestationID: string) => (
   dispatch: Dispatch,
@@ -52,8 +52,8 @@ export const removeAttestation = (attestationID: string) => (
   return dispatch({
     type: CreateClaimTemplateActions.RemoveAttestation,
     payload: attestationID,
-  })
-}
+  });
+};
 
 export const updateAttestation = (attestation: Attestation) => (
   dispatch: Dispatch,
@@ -61,5 +61,5 @@ export const updateAttestation = (attestation: Attestation) => (
   return dispatch({
     type: CreateClaimTemplateActions.UpdateAttestation,
     payload: attestation,
-  })
-}
+  });
+};

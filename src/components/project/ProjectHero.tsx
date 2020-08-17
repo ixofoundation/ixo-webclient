@@ -1,9 +1,11 @@
-import * as React from 'react'
-import moment from 'moment'
-import { SDGArray } from '../../lib/commonData'
-import { getCountryName, toTitleCase } from '../../common/utils/formatters'
-import { MatchType, AgentRoles } from '../../types/models'
-import HeaderTabs from '../../common/components/HeaderTabs/HeaderTabs'
+import * as React from 'react';
+import moment from 'moment';
+import CalendarSort from 'assets/icons/CalendarSort';
+import availableFlags from 'lib/json/availableFlags.json';
+import { EntityType } from 'modules/Entities/types';
+import { entityTypeMap } from 'modules/Entities/strategy-map';
+import { useWindowSize } from 'common/hooks';
+import { deviceWidth, SDGArray } from 'lib/commonData';
 import {
   SingleSDG,
   HeroInner,
@@ -14,13 +16,11 @@ import {
   Title,
   Description,
   StyledFundingTitle,
-} from './ProjectHero.styles'
-import CalendarSort from 'assets/icons/CalendarSort'
-import availableFlags from 'lib/json/availableFlags.json'
-import { EntityType } from 'modules/Entities/types'
-import { entityTypeMap } from 'modules/Entities/strategy-map'
-import { useWindowSize } from 'common/hooks'
-import { deviceWidth } from 'lib/commonData'
+} from './ProjectHero.styles';
+import HeaderTabs from '../../common/components/HeaderTabs/HeaderTabs';
+import { MatchType, AgentRoles } from '../../types/models';
+import { getCountryName, toTitleCase } from '../../common/utils/formatters';
+
 
 export interface Props {
   project: any
@@ -43,10 +43,10 @@ export const ProjectHero: React.SFC<Props> = ({
   assistantPanelToggle,
   enableAssistantButton
 }) => {
-  const windowSize = useWindowSize()
+  const windowSize = useWindowSize();
   const entityType = project.entityType
     ? (toTitleCase(project.entityType) as EntityType)
-    : EntityType.Project
+    : EntityType.Project;
 
   const buttonsArray = [
     {
@@ -55,7 +55,7 @@ export const ProjectHero: React.SFC<Props> = ({
       path: `/projects/${match.params.projectDID}/overview`,
       title: entityTypeMap[entityType].plural,
     },
-  ]
+  ];
 
   if (entityType === EntityType.Project) {
     buttonsArray.push({
@@ -63,14 +63,14 @@ export const ProjectHero: React.SFC<Props> = ({
       linkClass: null,
       path: `/projects/${match.params.projectDID}/detail`,
       title: 'DASHBOARD',
-    })
+    });
   } else {
     buttonsArray.push({
       iconClass: 'icon-impacts',
       linkClass: 'in-active',
       path: '/performace',
       title: 'DASHBOARD',
-    })
+    });
   }
 
   if (isLoggedIn && project.bondDid) {
@@ -79,31 +79,31 @@ export const ProjectHero: React.SFC<Props> = ({
       linkClass: null,
       path: `/projects/${match.params.projectDID}/bonds/${project.bondDid}`,
       title: 'FUNDING',
-    })
+    });
   } else {
     buttonsArray.push({
       iconClass: 'icon-funding',
       linkClass: 'in-active',
       path: '/funding',
       title: 'FUNDING',
-    })
+    });
   }
 
   const getFlagURL = (projectLocation: string): string => {
     if (availableFlags.availableFlags.includes(project.projectLocation)) {
-      return `url(${require(`../../assets/images/country-flags/${projectLocation.toLowerCase()}.svg`)})`
-    } else if (project.projectLocation === 'AA') {
-      return `url(${require('../../assets/images/country-flags/global.svg')})`
+      return `url(${require(`../../assets/images/country-flags/${projectLocation.toLowerCase()}.svg`)})`;
+    } if (project.projectLocation === 'AA') {
+      return `url(${require('../../assets/images/country-flags/global.svg')})`;
     }
 
-    return ''
-  }
+    return '';
+  };
 
   const renderSDGs = (): JSX.Element => {
     return (
       <>
         {project.sdgs.map((SDG, index) => {
-          const goal = Math.floor(SDG)
+          const goal = Math.floor(SDG);
           if (goal > 0 && goal <= SDGArray.length) {
             return (
               <SingleSDG
@@ -114,16 +114,16 @@ export const ProjectHero: React.SFC<Props> = ({
                 <i className={`icon-sdg-${SDGArray[goal - 1].ico}`} />
                 {goal}. {SDGArray[goal - 1].title}
               </SingleSDG>
-            )
-          } else {
-            return null
-          }
+            );
+          } 
+          return null;
+          
         })}
       </>
-    )
-  }
+    );
+  };
   return (
-    <React.Fragment>
+    <>
       {onlyTitle && windowSize.width > deviceWidth.tablet && (
         <StyledFundingTitle>{project.title}</StyledFundingTitle>
       )}
@@ -168,6 +168,6 @@ export const ProjectHero: React.SFC<Props> = ({
           activeTabColor={entityTypeMap[entityType].themeColor}
         />
       </HeroContainer>
-    </React.Fragment>
-  )
-}
+    </>
+  );
+};

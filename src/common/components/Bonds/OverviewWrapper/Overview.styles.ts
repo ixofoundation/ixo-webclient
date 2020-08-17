@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 export const BondsHomeSectionNav = styled.div`
   padding: 1rem;
@@ -25,4 +25,4 @@ export const BondsHomeSectionNav = styled.div`
     width: initial;
     overflow-x: scroll;
   }
-`
+`;

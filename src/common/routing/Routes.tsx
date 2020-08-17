@@ -1,26 +1,26 @@
-import * as React from 'react'
-import { Route, Switch } from 'react-router-dom'
-import { ProjectContainerConnected } from '../../components/project/ProjectContainer'
-import { EntitiesContainerConnected } from '../../modules/Entities/Entities.container'
-import { EntitiesSelectConnected } from '../../modules/Entities/Entities.container.select'
-import { ProjectCreateConnected } from '../../components/project/ProjectCreate'
-import { contentType } from '../../types/models'
-import { ProjectForm } from '../../components/project/ProjectForm'
-import { Fragment } from 'react'
-import { RegisterConnected } from '../../components/register/RegisterContainer'
-import { NotFound } from '../../components/public/NotFound'
-import { Spinner } from '../components/Spinner'
-import { ProjectSignAndCreateConnected } from '../../components/project/curation/ProjectSignAndCreate'
-import { ProjectCreateUploadPublicDocsConnected } from '../../components/project/curation/ProjectCreateUploadPublicDocs'
-import { UnderConstruction } from '../../components/public/UnderConstruction'
-import { SubmitEntityClaimConnected } from '../../modules/SubmitEntityClaim/SubmitEntityClaim.container'
-import { CreateEntityConnected } from '../../modules/CreateEntity/CreateEntity.container'
-import { CreateClaimTemplateConnected } from '../../modules/CreateClaimTemplate/CreateClaimTemplate.container'
-import BondRoutes from './Bond_Routes'
+import * as React from 'react';
+import { Route, Switch } from 'react-router-dom';
+import { Fragment } from 'react';
+import { ProjectContainerConnected } from '../../components/project/ProjectContainer';
+import { EntitiesContainerConnected } from '../../modules/Entities/Entities.container';
+import { EntitiesSelectConnected } from '../../modules/Entities/Entities.container.select';
+import { ProjectCreateConnected } from '../../components/project/ProjectCreate';
+import { contentType } from '../../types/models';
+import { ProjectForm } from '../../components/project/ProjectForm';
+import { RegisterConnected } from '../../components/register/RegisterContainer';
+import { NotFound } from '../../components/public/NotFound';
+import { Spinner } from '../components/Spinner';
+import { ProjectSignAndCreateConnected } from '../../components/project/curation/ProjectSignAndCreate';
+import { ProjectCreateUploadPublicDocsConnected } from '../../components/project/curation/ProjectCreateUploadPublicDocs';
+import { UnderConstruction } from '../../components/public/UnderConstruction';
+import { SubmitEntityClaimConnected } from '../../modules/SubmitEntityClaim/SubmitEntityClaim.container';
+import { CreateEntityConnected } from '../../modules/CreateEntity/CreateEntity.container';
+import { CreateClaimTemplateConnected } from '../../modules/CreateClaimTemplate/CreateClaimTemplate.container';
+import BondRoutes from './Bond_Routes';
 
 export const Routes: React.SFC<{}> = props => {
   return (
-    <Fragment>
+    <>
       <Switch>
         <Route exact path="/json" component={ProjectForm} />
         <Route exact path="/spinner" component={Spinner} />
@@ -174,6 +174,6 @@ export const Routes: React.SFC<{}> = props => {
         <Route exact path="/todo" component={UnderConstruction} />
         <Route path="*" component={NotFound} />
       </Switch>
-    </Fragment>
-  )
-}
+    </>
+  );
+};

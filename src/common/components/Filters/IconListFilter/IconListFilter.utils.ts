@@ -1,30 +1,30 @@
-import { SelectType, FilterItem } from './types'
+import { SelectType, FilterItem } from './types';
 
 export const getTitle = (
   name: string,
   items: FilterItem[],
   selectType: SelectType,
 ): string => {
-  const selectedItems = items.filter(item => item.isSelected)
-  const itemsSelectedCount = selectedItems.length
+  const selectedItems = items.filter(item => item.isSelected);
+  const itemsSelectedCount = selectedItems.length;
   const title =
     selectType === SelectType.MultiSelect
       ? itemsSelectedCount > 0
         ? `${name} - ${itemsSelectedCount}`
         : name
       : selectedItems.length === 0
-      ? name
-      : `${name} - ${selectedItems[0].name}`
+        ? name
+        : `${name} - ${selectedItems[0].name}`;
 
-  return title
-}
+  return title;
+};
 
 export const getTitleClassName = (items: FilterItem[]): string => {
-  const selectedItems = items.filter(item => item.isSelected)
-  const itemsSelectedCount = selectedItems.length
+  const selectedItems = items.filter(item => item.isSelected);
+  const itemsSelectedCount = selectedItems.length;
 
-  return itemsSelectedCount > 0 ? 'itemsSelected' : ''
-}
+  return itemsSelectedCount > 0 ? 'itemsSelected' : '';
+};
 
 export const getItemClassName = (
   items: FilterItem[],
@@ -33,18 +33,18 @@ export const getItemClassName = (
   const isItemActive = items
     .filter(item => item.isSelected)
     .map(item => item.name)
-    .includes(itemName)
+    .includes(itemName);
 
-  return isItemActive ? 'buttonPressed' : ''
-}
+  return isItemActive ? 'buttonPressed' : '';
+};
 
 export const isFilterTarget = (e: any): boolean => {
   const filterModal = e.target
     .closest('.button-wrapper')
-    .querySelector('.filter-modal')
+    .querySelector('.filter-modal');
   if (filterModal.contains(e.target)) {
-    return true
+    return true;
   }
 
-  return false
-}
+  return false;
+};

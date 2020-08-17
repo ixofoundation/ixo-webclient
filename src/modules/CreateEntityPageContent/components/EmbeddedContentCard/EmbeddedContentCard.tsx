@@ -1,8 +1,8 @@
-import React from 'react'
-import { LinkButton } from '../../../../common/components/JsonForm/JsonForm.styles'
-import { customControls } from '../../../../common/components/JsonForm/types'
-import MultiControlForm from '../../../../common/components/JsonForm/MultiControlForm/MultiControlForm'
-import { FormCardProps } from '../../../CreateEntity/types'
+import React from 'react';
+import { LinkButton } from '../../../../common/components/JsonForm/JsonForm.styles';
+import { customControls } from '../../../../common/components/JsonForm/types';
+import MultiControlForm from '../../../../common/components/JsonForm/MultiControlForm/MultiControlForm';
+import { FormCardProps } from '../../../CreateEntity/types';
 
 interface Props extends FormCardProps {
   title: string
@@ -24,7 +24,7 @@ const EmbeddedContentCard: React.FunctionComponent<Props> = React.forwardRef(
     const formData = {
       title,
       urls: urls.join('|'),
-    }
+    };
 
     const schema = {
       type: 'object',
@@ -33,19 +33,19 @@ const EmbeddedContentCard: React.FunctionComponent<Props> = React.forwardRef(
         title: { type: 'string', title: 'Title' },
         urls: { type: 'string', title: 'Url Links' },
       },
-    } as any
+    } as any;
 
     const uiSchema = {
       title: {
-        ['ui:widget']: 'text',
-        ['ui:placeholder']: 'Enter Title',
+        'ui:widget': 'text',
+        'ui:placeholder': 'Enter Title',
       },
       urls: {
-        ['ui:widget']: customControls['embeddedtextbox'],
-        ['ui:socialIcon']: 'URL Links',
-        ['ui:placeholder']: 'Paste Url',
+        'ui:widget': customControls.embeddedtextbox,
+        'ui:socialIcon': 'URL Links',
+        'ui:placeholder': 'Paste Url',
       },
-    }
+    };
 
     return (
       <>
@@ -67,8 +67,8 @@ const EmbeddedContentCard: React.FunctionComponent<Props> = React.forwardRef(
           </LinkButton>
         </div>
       </>
-    )
+    );
   },
-)
+);
 
-export default EmbeddedContentCard
+export default EmbeddedContentCard;

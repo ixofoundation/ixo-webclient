@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 export const BondsSectionNav = styled.div`
   padding: 1rem;
@@ -21,4 +21,4 @@ export const BondsSectionNav = styled.div`
       color: #87def6;
     }
   }
-`
+`;

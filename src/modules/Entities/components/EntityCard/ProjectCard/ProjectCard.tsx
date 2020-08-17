@@ -1,6 +1,7 @@
-import * as React from "react";
-import { ProgressBar } from "common/components/ProgressBar";
-import { excerptText } from "common/utils/formatters";
+import * as React from 'react';
+import { ProgressBar } from 'common/components/ProgressBar';
+import { excerptText } from 'common/utils/formatters';
+import Star from 'assets/icons/Star';
 import {
   MainContent,
   Title,
@@ -12,10 +13,9 @@ import {
   Statistic,
   StatisticLabel,
   StatisticValue,
-} from "./ProjectCard.styles";
-import { EntityCardContainer } from "../EntityCardContainer";
-import { ShieldColor } from "../EntityCardContainer.styles";
-import Star from "assets/icons/Star";
+} from './ProjectCard.styles';
+import { EntityCardContainer } from '../EntityCardContainer';
+import { ShieldColor } from '../EntityCardContainer.styles';
 
 export interface Props {
   projectData: any;

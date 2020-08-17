@@ -1,13 +1,13 @@
-import * as React from 'react'
-import Twitter from 'assets/icons/Twitter'
-import Facebook from 'assets/icons/Facebook'
-import Instagram from 'assets/icons/Instagram'
+import * as React from 'react';
+import Twitter from 'assets/icons/Twitter';
+import Facebook from 'assets/icons/Facebook';
+import Instagram from 'assets/icons/Instagram';
 import {
   FounderWrapper,
   FounderImageWrapper,
   FounderContent,
-} from './ProjectFounder.style'
-import { Founder, SocialMedia } from '../../../modules/project/types'
+} from './ProjectFounder.style';
+import { Founder, SocialMedia } from '../../../modules/project/types';
 
 export interface ParentProps {
   founder: Founder
@@ -71,5 +71,5 @@ export const ProjectFounder: React.SFC<ParentProps> = ({
         </div>
       </FounderContent>
     </FounderWrapper>
-  )
-}
+  );
+};

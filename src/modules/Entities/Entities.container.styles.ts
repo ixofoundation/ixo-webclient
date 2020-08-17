@@ -1,5 +1,5 @@
-import styled from 'styled-components'
-import { deviceWidth } from '../../lib/commonData'
+import styled from 'styled-components';
+import { deviceWidth } from '../../lib/commonData';
 
 export const Container = styled.div`
   display: flex;
@@ -23,7 +23,7 @@ export const Container = styled.div`
     opacity: 0.01;
     transition: opacity 800ms ease-in;
   }
-`
+`;
 
 export const EntitiesContainer = styled.div`
   background: ${/* eslint-disable-line */ props => props.theme.bg.lightGrey};
@@ -41,7 +41,7 @@ export const EntitiesContainer = styled.div`
       padding: 4.5rem 0 3.125rem;
     }
   }
-`
+`;
 
 export const ErrorContainer = styled.div`
   display: flex;
@@ -52,7 +52,7 @@ export const ErrorContainer = styled.div`
   background-color: ${/* eslint-disable-line */ props => props.theme.bg.blue};
   height: 100%;
   min-height: 480px;
-`
+`;
 
 export const NoEntitiesContainer = styled.div`
   display: flex;
@@ -61,4 +61,4 @@ export const NoEntitiesContainer = styled.div`
   color: black;
   align-items: center;
   min-height: 480px;
-`
+`;

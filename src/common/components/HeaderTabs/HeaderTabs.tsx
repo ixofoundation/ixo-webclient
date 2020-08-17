@@ -1,7 +1,7 @@
-import * as React from 'react'
-import { Tabs, Button } from '../Tabs/Tabs'
-import { MatchType } from '../../../types/models'
-import { PositionController } from './HeaderTabs.styles'
+import * as React from 'react';
+import { Tabs, Button } from '../Tabs/Tabs';
+import { MatchType } from '../../../types/models';
+import { PositionController } from './HeaderTabs.styles';
 
 export interface Props {
   buttons: Button[]
@@ -28,7 +28,7 @@ const HeaderTabs: React.FunctionComponent<Props> = ({
         enableAssistantButton={enableAssistantButton}
       />
     </PositionController>
-  )
-}
+  );
+};
 
-export default HeaderTabs
+export default HeaderTabs;

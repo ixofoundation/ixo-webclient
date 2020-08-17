@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 const UploadFlat = (props: any): JSX.Element => {
   return (
@@ -8,7 +8,7 @@ const UploadFlat = (props: any): JSX.Element => {
       viewBox="0 0 18 18"
     >
       <path
-        fill={props.fill || "#fff"}
+        fill={props.fill || '#fff'}
         d="M1.42.34V2.5h15.16V.34zm0 10.83h4.33v6.49h6.5v-6.49h4.33L9 3.59z"
       />
     </svg>

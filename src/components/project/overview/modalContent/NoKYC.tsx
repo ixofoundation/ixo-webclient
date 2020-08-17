@@ -1,7 +1,7 @@
-import * as React from 'react'
-import styled from 'styled-components'
-import { ButtonTypes, Button } from 'common/components/Form/Buttons'
-import { getIxoWorldRoute } from 'common/utils/formatters'
+import * as React from 'react';
+import styled from 'styled-components';
+import { ButtonTypes, Button } from 'common/components/Form/Buttons';
+import { getIxoWorldRoute } from 'common/utils/formatters';
 
 const BorderBox = styled.div`
   border: 1px solid #004c61;
@@ -14,7 +14,7 @@ const BorderBox = styled.div`
     font-weight: normal;
     text-transform: uppercase;
     font-family: ${/*eslint-disable-line*/ props =>
-      props.theme.fontRobotoCondensed};
+    props.theme.fontRobotoCondensed};
     margin-bottom: 20px;
     i {
       font-size: 36px;
@@ -37,11 +37,11 @@ const BorderBox = styled.div`
   > span {
     font-size: 12px;
     font-family: ${/*eslint-disable-line*/ props =>
-      props.theme.fontRobotoCondensed};
+    props.theme.fontRobotoCondensed};
     display: block;
     text-align: center;
   }
-`
+`;
 
 const KeySafeLink = styled.a`
   color: white;
@@ -50,7 +50,7 @@ const KeySafeLink = styled.a`
   display: block;
   text-align: center;
   font-weight: 200;
-`
+`;
 
 const Container = styled.div`
   max-width: 360px;
@@ -59,7 +59,7 @@ const Container = styled.div`
   p {
     font-weight: 200;
   }
-`
+`;
 
 export const NoKYC: React.SFC = () => {
   return (
@@ -87,5 +87,5 @@ export const NoKYC: React.SFC = () => {
         </KeySafeLink>
       </BorderBox>
     </Container>
-  )
-}
+  );
+};

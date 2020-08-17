@@ -1,5 +1,5 @@
-import * as React from "react";
-import Select from "../Select/Select";
+import * as React from 'react';
+import Select from '../Select/Select';
 
 export interface ParentProps {
   text?: string;
@@ -22,7 +22,7 @@ export default class TemplateSelect extends Select {
     // should be passed in as a property
 
     // Push default as the only available template for now
-    const templateList: any = { default: "default" };
+    const templateList: any = { default: 'default' };
     for (const code in templateList) {
       if (Object.hasOwnProperty.call(templateList, code)) {
         selectOptions.push(

@@ -1,17 +1,17 @@
-import React from 'react'
-import { LinkButton } from '../../../../common/components/JsonForm/JsonForm.styles'
+import React from 'react';
+import { LinkButton } from '../../../../common/components/JsonForm/JsonForm.styles';
 import {
   PaymentDenomination,
   StakeType,
   SlashingCondition,
-} from '../../../Entities/types'
+} from '../../../Entities/types';
 import {
   paymentDenominationMap,
   stakeTypeMap,
   slashingConditionMap,
-} from '../../../Entities/strategy-map'
-import { FormCardProps } from '../../../CreateEntity/types'
-import MultiControlForm from '../../../..//common/components/JsonForm/MultiControlForm/MultiControlForm'
+} from '../../../Entities/strategy-map';
+import { FormCardProps } from '../../../CreateEntity/types';
+import MultiControlForm from '../../../../common/components/JsonForm/MultiControlForm/MultiControlForm';
 
 interface Props extends FormCardProps {
   type: StakeType
@@ -54,7 +54,7 @@ const StakeCard: React.FunctionComponent<Props> = React.forwardRef(
       slashFactor,
       slashAmount,
       unbondPeriod,
-    }
+    };
 
     const schema = {
       type: 'object',
@@ -105,21 +105,21 @@ const StakeCard: React.FunctionComponent<Props> = React.forwardRef(
         slashAmount: { type: 'number', title: 'Maximum Slash Amount' },
         unbondPeriod: { type: 'number', title: 'Unbonding Period (Days)' },
       },
-    } as any
+    } as any;
 
     const uiSchema = {
       type: {
-        ['ui:placeholder']: 'Select Stake Type',
+        'ui:placeholder': 'Select Stake Type',
       },
-      stakeId: { ['ui:placeholder']: 'Enter Stake ID' },
-      denom: { ['ui:placeholder']: 'Select Denomination' },
-      stakeAddress: { ['ui:placeholder']: 'Enter Address' },
-      minStake: { ['ui:placeholder']: 'Enter Value' },
-      slashCondition: { ['ui:placeholder']: 'Select Condition' },
-      slashFactor: { ['ui:placeholder']: 'Enter Factor' },
-      slashAmount: { ['ui:placeholder']: 'Enter Amount' },
-      unbondPeriod: { ['ui:placeholder']: 'Enter Days' },
-    }
+      stakeId: { 'ui:placeholder': 'Enter Stake ID' },
+      denom: { 'ui:placeholder': 'Select Denomination' },
+      stakeAddress: { 'ui:placeholder': 'Enter Address' },
+      minStake: { 'ui:placeholder': 'Enter Value' },
+      slashCondition: { 'ui:placeholder': 'Select Condition' },
+      slashFactor: { 'ui:placeholder': 'Enter Factor' },
+      slashAmount: { 'ui:placeholder': 'Enter Amount' },
+      unbondPeriod: { 'ui:placeholder': 'Enter Days' },
+    };
 
     return (
       <>
@@ -141,8 +141,8 @@ const StakeCard: React.FunctionComponent<Props> = React.forwardRef(
           </LinkButton>
         </div>
       </>
-    )
+    );
   },
-)
+);
 
-export default StakeCard
+export default StakeCard;

@@ -1,16 +1,16 @@
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 export const InputContainer = styled.div`
   font-family: ${/* eslint-disable-line */ props => props.theme.fontRoboto};
   margin: 20px 0;
   border-radius: 0;
   text-transform: uppercase;
-`
+`;
 
 export const InputImageContainer = styled(InputContainer)`
   display: inline-block;
   position: relative;
-`
+`;
 
 export const CloseButton = styled.button`
   color: blaxk;
@@ -22,4 +22,4 @@ export const CloseButton = styled.button`
   cursor: pointer;
   font-weight: 100;
   position: absolute;
-`
+`;

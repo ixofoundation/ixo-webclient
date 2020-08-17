@@ -1,10 +1,10 @@
-import * as SUT from './BondAccountOrders.reducer'
+import * as SUT from './BondAccountOrders.reducer';
 import {
   BondAccountOrdersActions,
   GetBondAccountOrdersSuccessAction,
-} from './types'
+} from './types';
 
-const initialState = SUT.initialState
+const { initialState } = SUT;
 
 describe('GetBondAccountOrdersSuccessAction Action', () => {
   it('should return a new copy of state, with the bondAccountOrders set', () => {
@@ -18,7 +18,7 @@ describe('GetBondAccountOrdersSuccessAction Action', () => {
       { id: 7, prop1: 'value1' },
       { id: 8, prop1: 'value2' },
       { id: 9, prop1: 'value3' },
-    ]
+    ];
 
     // ... we create a GetBondAccountOrdersSuccessAction action
     const action: GetBondAccountOrdersSuccessAction = {
@@ -26,12 +26,12 @@ describe('GetBondAccountOrdersSuccessAction Action', () => {
       payload: {
         bondAccountOrders,
       },
-    }
+    };
 
     // when ... we run the reducer and pass it our initial state and this action
-    const state = SUT.reducer(initialState, action)
+    const state = SUT.reducer(initialState, action);
 
     // then the state should be set as expected
-    expect(state).toEqual(bondAccountOrders)
-  })
-})
+    expect(state).toEqual(bondAccountOrders);
+  });
+});

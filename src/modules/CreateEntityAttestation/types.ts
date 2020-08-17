@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
-import { Type, ControlType } from '../../common/components/JsonForm/types'
-import { Validation } from '../CreateEntity/types'
+import { Type, ControlType } from '../../common/components/JsonForm/types';
+import { Validation } from '../CreateEntity/types';
 
 export interface ClaimInfo {
   title: string
@@ -171,4 +171,4 @@ export type CreateEntityAttestationActionTypes =
   | AddLongTextQuestionAction
   | UpdateShortTextQuestionAction
   | UpdateLongTextQuestionAction
-  | UpdateAnswerRequiredAction
+  | UpdateAnswerRequiredAction;

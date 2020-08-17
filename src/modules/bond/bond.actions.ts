@@ -1,7 +1,7 @@
-import Axios from "axios";
-import { BondActions, GetBalancesAction, GetTradesAction } from "./types";
-import { Dispatch } from "redux";
-import { apiCurrencyToCurrency } from "../Account/Account.utils";
+import Axios from 'axios';
+import { Dispatch } from 'redux';
+import { BondActions, GetBalancesAction, GetTradesAction } from './types';
+import { apiCurrencyToCurrency } from '../Account/Account.utils';
 
 export const getBalances = (bondDid: string) => (
   dispatch: Dispatch
@@ -76,15 +76,15 @@ export const getTransactions = () => (dispatch: Dispatch): GetTradesAction => {
   };
 
   const buyReq = Axios.get(
-    process.env.REACT_APP_GAIA_URL + "/txs?message.action=buy",
+    `${process.env.REACT_APP_GAIA_URL  }/txs?message.action=buy`,
     config
   );
   const sellReq = Axios.get(
-    process.env.REACT_APP_GAIA_URL + "/txs?message.action=sell",
+    `${process.env.REACT_APP_GAIA_URL  }/txs?message.action=sell`,
     config
   );
   const swapReq = Axios.get(
-    process.env.REACT_APP_GAIA_URL + "/txs?message.action=swap",
+    `${process.env.REACT_APP_GAIA_URL  }/txs?message.action=swap`,
     config
   );
 
