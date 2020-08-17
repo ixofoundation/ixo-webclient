@@ -1,11 +1,11 @@
-import * as React from 'react';
-import styled from 'styled-components';
-import { Link } from 'react-router-dom';
-import { AgentRoles } from 'types/models';
-import 'assets/icons.css';
-import RegistrationYes from 'assets/icons/RegistrationYes';
-import RegisterNo from 'assets/icons/RegisterNo';
-import { ModalData } from './RegisterContainer';
+import * as React from 'react'
+import styled from 'styled-components'
+import { Link } from 'react-router-dom'
+import { AgentRoles } from 'types/models'
+import 'assets/icons.css'
+import { ModalData } from './RegisterContainer'
+import RegistrationYes from 'assets/icons/RegistrationYes'
+import RegisterNo from 'assets/icons/RegisterNo'
 
 const StatusContainer = styled.section`
   font-family: Roboto;
@@ -15,7 +15,7 @@ const StatusContainer = styled.section`
   padding: 15px;
   box-shadow: 0 0 14px 0 rgba(0, 0, 0, 0.08);
   border-radius: 2px;
-`;
+`
 
 const ModalLink = styled.a`
   && {
@@ -24,7 +24,7 @@ const ModalLink = styled.a`
     }
   }
   text-decoration: underline;
-`;
+`
 
 const WhiteLink = styled(Link)`
   && {
@@ -34,17 +34,17 @@ const WhiteLink = styled(Link)`
   }
   color: white;
   text-decoration: underline;
-`;
+`
 
 const DarkLink = styled(WhiteLink)`
   color: #282828;
-`;
+`
 
 const Icon = styled.span`
   margin-right: 15px;
   display: inline-block !important;
   vertical-align: middle;
-`;
+`
 
 const CheckItem = styled.p`
   line-height: 1.5;
@@ -69,7 +69,7 @@ const CheckItem = styled.p`
     font-size: 13px;
     display: block;
   }
-`;
+`
 
 const Start = styled.a`
   font-family: ${/* eslint-disable-line */ props =>
@@ -97,7 +97,7 @@ const Start = styled.a`
     border: 0;
     background: linear-gradient(180deg, #269cc1 0%, #11638d 100%);
   }
-`;
+`
 
 export interface ParentProps {
   role: AgentRoles
@@ -113,15 +113,15 @@ export const RegisterStatus: React.SFC<ParentProps> = props => {
         <Icon>
           <RegistrationYes width="20" fill="#4a9f46" />
         </Icon>
-      );
-    } 
-    return (
-      <Icon>
-        <RegisterNo width="20" fill="#c6c4c4" />
-      </Icon>
-    );
-    
-  };
+      )
+    } else {
+      return (
+        <Icon>
+          <RegisterNo width="20" fill="#c6c4c4" />
+        </Icon>
+      )
+    }
+  }
 
   const getKeysafeText = (): JSX.Element => {
     if (props.hasKeySafe) {
@@ -135,20 +135,20 @@ export const RegisterStatus: React.SFC<ParentProps> = props => {
             ixo Keysafe
           </ModalLink>
         </CheckItem>
-      );
-    } 
-    return (
-      <CheckItem>
-        {getIcon(props.hasKeySafe)} This role requires{' '}
-        <ModalLink
-          onClick={(): void => props.activeModal(ModalData.keysafe, true)}
-        >
-          installing ixo Keysafe.
-        </ModalLink>
-      </CheckItem>
-    );
-    
-  };
+      )
+    } else {
+      return (
+        <CheckItem>
+          {getIcon(props.hasKeySafe)} This role requires{' '}
+          <ModalLink
+            onClick={(): void => props.activeModal(ModalData.keysafe, true)}
+          >
+            installing ixo Keysafe.
+          </ModalLink>
+        </CheckItem>
+      )
+    }
+  }
 
   const renderKYCPart = (): JSX.Element => {
     if (props.role === AgentRoles.owners) {
@@ -177,11 +177,11 @@ export const RegisterStatus: React.SFC<ParentProps> = props => {
             LAUNCH A PROJECT
           </Start>
         </CheckItem>
-      );
-    } 
-    return null;
-    
-  };
+      )
+    } else {
+      return null
+    }
+  }
 
   if (props.hasKeySafe && props.role === AgentRoles.evaluators) {
     return (
@@ -191,7 +191,7 @@ export const RegisterStatus: React.SFC<ParentProps> = props => {
           the <DarkLink to="/">ixo test projects.</DarkLink>
         </CheckItem>
       </StatusContainer>
-    );
+    )
   }
 
   if (props.hasKeySafe && props.role === AgentRoles.serviceProviders) {
@@ -202,7 +202,7 @@ export const RegisterStatus: React.SFC<ParentProps> = props => {
           the <WhiteLink to="/">ixo test projects.</WhiteLink>
         </CheckItem>
       </StatusContainer>
-    );
+    )
   }
 
   return (
@@ -210,5 +210,5 @@ export const RegisterStatus: React.SFC<ParentProps> = props => {
       {getKeysafeText()}
       {renderKYCPart()}
     </StatusContainer>
-  );
-};
+  )
+}

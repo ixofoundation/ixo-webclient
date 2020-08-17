@@ -3,9 +3,9 @@ import {
   EntitiesActions,
   EntitiesActionTypes,
   EntityType,
-} from './types';
-import { getInitialSelectedCategories } from './Entities.utils';
-import { AccountActions, AccountActionTypes } from '../Account/types';
+} from './types'
+import { getInitialSelectedCategories } from './Entities.utils'
+import { AccountActions, AccountActionTypes } from '../Account/types'
 
 export const initialState: EntitiesState = {
   selectedEntitiesType: EntityType.Project,
@@ -19,7 +19,7 @@ export const initialState: EntitiesState = {
     popularEntities: false,
     sector: null,
   },
-};
+}
 
 export const reducer = (
   state = initialState,
@@ -35,12 +35,12 @@ export const reducer = (
           popularEntities: false,
           featuredEntities: false,
         },
-      };
+      }
     case EntitiesActions.GetEntitiesSuccess:
       return {
         ...state,
         entities: action.payload,
-      };
+      }
     case EntitiesActions.ChangeEntitiesType:
       return {
         ...state,
@@ -51,7 +51,7 @@ export const reducer = (
           dateTo: null,
           categories: getInitialSelectedCategories(action.payload.entityType),
         },
-      };
+      }
     case EntitiesActions.FilterToggleUserEntities:
       return {
         ...state,
@@ -61,7 +61,7 @@ export const reducer = (
           popularEntities: false,
           featuredEntities: false,
         },
-      };
+      }
     case EntitiesActions.FilterToggleFeaturedEntities:
       return {
         ...state,
@@ -71,7 +71,7 @@ export const reducer = (
           userEntities: false,
           popularEntities: false,
         },
-      };
+      }
     case EntitiesActions.FilterTogglePopularEntities:
       return {
         ...state,
@@ -81,7 +81,7 @@ export const reducer = (
           featuredEntities: false,
           userEntities: false,
         },
-      };
+      }
     case EntitiesActions.FilterDates:
       return {
         ...state,
@@ -90,7 +90,7 @@ export const reducer = (
           dateFrom: action.payload.dateFrom,
           dateTo: action.payload.dateTo,
         },
-      };
+      }
     case EntitiesActions.ResetDatesFilter:
       return {
         ...state,
@@ -99,7 +99,7 @@ export const reducer = (
           dateFrom: null,
           dateTo: null,
         },
-      };
+      }
     case EntitiesActions.FilterCategoryTag:
     case EntitiesActions.FilterAddCategoryTag:
       return {
@@ -116,7 +116,7 @@ export const reducer = (
             },
           ],
         },
-      };
+      }
     case EntitiesActions.FilterCategories:
       return {
         ...state,
@@ -124,7 +124,7 @@ export const reducer = (
           ...state.filter,
           categories: action.payload.categories,
         },
-      };
+      }
     case EntitiesActions.ResetCategoryFilter:
       return {
         ...state,
@@ -140,7 +140,7 @@ export const reducer = (
             },
           ],
         },
-      };
+      }
     case EntitiesActions.ResetSectorFilter:
       return {
         ...state,
@@ -148,7 +148,7 @@ export const reducer = (
           ...state.filter,
           sector: '',
         },
-      };
+      }
     case EntitiesActions.FilterSector:
       return {
         ...state,
@@ -156,7 +156,7 @@ export const reducer = (
           ...state.filter,
           sector: action.payload.sector,
         },
-      };
+      }
     case EntitiesActions.ResetFilters:
       return {
         ...state,
@@ -166,8 +166,8 @@ export const reducer = (
           dateFrom: null,
           dateTo: null,
         },
-      };
+      }
   }
 
-  return state;
-};
+  return state
+}

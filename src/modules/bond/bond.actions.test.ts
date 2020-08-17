@@ -1,9 +1,8 @@
-import mockAxios from 'axios';
-import mockStore from '../../common/redux/mockStore';
-import * as SUT from './bond.actions';
-import { BondActions } from './types';
-
-jest.mock('axios');
+import mockAxios from "axios";
+import mockStore from "../../common/redux/mockStore";
+import * as SUT from "./bond.actions";
+import { BondActions } from "./types";
+jest.mock("axios");
 
 let store;
 
@@ -11,39 +10,39 @@ beforeEach(() => {
   store = mockStore({});
 });
 
-describe('Bond Actions', () => {
-  describe('getBalances', () => {
-    it('should return a data array on success', async () => {
+describe("Bond Actions", () => {
+  describe("getBalances", () => {
+    it("should return a data array on success", async () => {
       const alphaDate = new Date();
 
       const balances = {
-        symbol: 'sometoken',
-        name: 'somename',
-        address: 'someaddress',
-        function_type: 'somefunctiontype',
-        current_supply: { denom: 'a', amount: 1 },
-        totalSupply: { denom: 'a', amount: 100 },
-        price: { denom: 'a', amount: 200 },
+        symbol: "sometoken",
+        name: "somename",
+        address: "someaddress",
+        function_type: "somefunctiontype",
+        current_supply: { denom: "a", amount: 1 },
+        totalSupply: { denom: "a", amount: 100 },
+        price: { denom: "a", amount: 200 },
         alpha: 0,
         alphaDate,
       };
 
       mockAxios.spread.mockReturnValue(() => {
         return {
-          symbol: 'sometoken',
-          name: 'somename',
-          address: 'someaddress',
-          function_type: 'somefunctiontype',
-          current_supply: { denom: 'a', amount: 1 },
-          totalSupply: { denom: 'a', amount: 100 },
-          price: { denom: 'a', amount: 200 },
+          symbol: "sometoken",
+          name: "somename",
+          address: "someaddress",
+          function_type: "somefunctiontype",
+          current_supply: { denom: "a", amount: 1 },
+          totalSupply: { denom: "a", amount: 100 },
+          price: { denom: "a", amount: 200 },
           alpha: 0,
           alphaDate,
         };
       });
 
       // when ... we call the getBalances action creator with an address
-      await store.dispatch(SUT.getBalances('some-symbol'));
+      await store.dispatch(SUT.getBalances("some-symbol"));
       const actions = store.getActions();
 
       // then we should expect it to create actions with the correct types and payload
@@ -53,8 +52,8 @@ describe('Bond Actions', () => {
       expect(actions[1].payload).toEqual(balances);
     });
 
-    it('should return an error on failure', async () => {
-      const error = 'some-error';
+    it("should return an error on failure", async () => {
+      const error = "some-error";
       mockAxios.get.mockImplementationOnce(() =>
         Promise.reject({
           error,
@@ -63,7 +62,7 @@ describe('Bond Actions', () => {
 
       try {
         // when ... we call the getBalances action creator with an address
-        await store.dispatch(SUT.getBalances('some-symbol'));
+        await store.dispatch(SUT.getBalances("some-symbol"));
       } catch {
         const actions = store.getActions();
 
@@ -76,12 +75,12 @@ describe('Bond Actions', () => {
     });
   });
 
-  describe('getTransactions', () => {
-    it('should return a data array on success', async () => {
-      const trades = [{ someprop: 'someval1' }, { someprop: 'someval2' }];
+  describe("getTransactions", () => {
+    it("should return a data array on success", async () => {
+      const trades = [{ someprop: "someval1" }, { someprop: "someval2" }];
 
       mockAxios.spread.mockReturnValue(() => {
-        return { trades: [{ someprop: 'someval1' }, { someprop: 'someval2' }] };
+        return { trades: [{ someprop: "someval1" }, { someprop: "someval2" }] };
       });
 
       // when ... we call the getTransactions action creator with an address
@@ -95,8 +94,8 @@ describe('Bond Actions', () => {
       expect(actions[1].payload.trades).toEqual(trades);
     });
 
-    it('should return an error on failure', async () => {
-      const error = 'some-error';
+    it("should return an error on failure", async () => {
+      const error = "some-error";
       mockAxios.all.mockImplementationOnce(() =>
         Promise.reject({
           error,

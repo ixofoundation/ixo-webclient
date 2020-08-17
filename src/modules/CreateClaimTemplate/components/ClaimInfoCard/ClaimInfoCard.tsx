@@ -1,11 +1,11 @@
-import React from 'react';
-import Form from '@rjsf/core';
-import { debounce } from 'debounce';
-import { FormContainer } from '../../../../common/components/JsonForm/JsonForm.styles';
-import * as formUtils from '../../../../common/components/JsonForm/JsonForm.utils';
-import { ObjectFieldTemplate2Column } from '../../../../common/components/JsonForm/CustomTemplates/ObjectFieldTemplate';
-import { FormData } from '../../../../common/components/JsonForm/types';
-import { ClaimQuestionCardWrapper } from '../ClaimQuestionCard/ClaimQuestionCard.styles';
+import React from 'react'
+import Form from '@rjsf/core'
+import { debounce } from 'debounce'
+import { FormContainer } from '../../../../common/components/JsonForm/JsonForm.styles'
+import * as formUtils from '../../../../common/components/JsonForm/JsonForm.utils'
+import { ObjectFieldTemplate2Column } from '../../../../common/components/JsonForm/CustomTemplates/ObjectFieldTemplate'
+import { FormData } from '../../../../common/components/JsonForm/types'
+import { ClaimQuestionCardWrapper } from '../../components/ClaimQuestionCard/ClaimQuestionCard.styles'
 
 interface Props {
   claimName: string
@@ -21,7 +21,7 @@ const ClaimInfoCard: React.FunctionComponent<Props> = ({
   const formData = {
     claimName,
     shortDescription,
-  };
+  }
 
   const schema = {
     type: 'object',
@@ -30,20 +30,20 @@ const ClaimInfoCard: React.FunctionComponent<Props> = ({
       claimName: { type: 'string', title: '*Claim Name' },
       shortDescription: { type: 'string', title: 'Short Description' },
     },
-  } as any;
+  } as any
 
   const uiSchema = {
     claimName: {
-      'ui:widget': 'text',
-      'ui:placeholder': 'Enter Name',
+      ['ui:widget']: 'text',
+      ['ui:placeholder']: 'Enter Name',
     },
     shortDescription: {
-      'ui:widget': 'text',
-      'ui:placeholder': 'Start Typing Here',
+      ['ui:widget']: 'text',
+      ['ui:placeholder']: 'Start Typing Here',
     },
-  };
+  }
 
-  const handleUpdateContentDebounce = debounce(handleUpdateContent, 500);
+  const handleUpdateContentDebounce = debounce(handleUpdateContent, 500)
 
   return (
     <FormContainer>
@@ -52,7 +52,8 @@ const ClaimInfoCard: React.FunctionComponent<Props> = ({
         <Form
           formData={formData}
           onChange={(control): void =>
-            handleUpdateContentDebounce(control.formData)}
+            handleUpdateContentDebounce(control.formData)
+          }
           noHtml5Validate
           liveValidate
           showErrorList={false}
@@ -65,7 +66,7 @@ const ClaimInfoCard: React.FunctionComponent<Props> = ({
         </Form>
       </ClaimQuestionCardWrapper>
     </FormContainer>
-  );
-};
+  )
+}
 
-export default ClaimInfoCard;
+export default ClaimInfoCard

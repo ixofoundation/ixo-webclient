@@ -1,30 +1,30 @@
-import * as SUT from './bond.reducer';
+import * as SUT from './bond.reducer'
 import {
   BondActions,
   GetBalancesSuccessAction,
   GetTradesSuccessAction,
-} from './types';
+} from './types'
 
-const { initialState } = SUT;
+const initialState = SUT.initialState
 
 describe('Bond Reducer', () => {
   it('should return the same state if an action is called on it which is not handled by the reducer', () => {
     // given .. we have an action the reducer does not handle
-    const action: any = 'foo';
+    const action: any = 'foo'
 
     // when ... we run the reducer with this action
-    const result = SUT.reducer(initialState, action);
+    const result = SUT.reducer(initialState, action)
 
     // then ... the state that was passed into the function should be returned
-    expect(result).toEqual(initialState);
-  });
+    expect(result).toEqual(initialState)
+  })
 
   describe('GetBalancesSuccess Action', () => {
     it('should return a new copy of state, with the balances set and trades set to a new array when a new symbol is passed', () => {
       const trades = [
         { someprop1: 1, someprop2: 2 },
         { someprop1: 3, someprop: 4 },
-      ];
+      ]
 
       const balances = {
         bondDid: 'someBondDid',
@@ -39,7 +39,7 @@ describe('Bond Reducer', () => {
         alpha: 0,
         alphaDate: new Date('2000/01/01'),
         trades: [],
-      };
+      }
 
       // ... we create a getBalances action
       const action: GetBalancesSuccessAction = {
@@ -57,20 +57,20 @@ describe('Bond Reducer', () => {
           alpha: 0,
           alphaDate: new Date('2000/01/01'),
         },
-      };
+      }
 
       // when ... we run the reducer and pass it our initial state and this action
-      const state = SUT.reducer({ ...initialState, trades }, action);
+      const state = SUT.reducer({ ...initialState, trades }, action)
 
       // then the state should be set as expected
-      expect(state).toEqual(balances);
-    });
+      expect(state).toEqual(balances)
+    })
 
     it('should return a new copy of state, with the balances set and trades left untouched when am existing symbol is passed', () => {
       const trades = [
         { someprop1: 1, someprop2: 2 },
         { someprop1: 3, someprop: 4 },
-      ];
+      ]
 
       const balances = {
         bondDid: 'someBondDid',
@@ -88,7 +88,7 @@ describe('Bond Reducer', () => {
           { someprop1: 1, someprop2: 2 },
           { someprop1: 3, someprop: 4 },
         ],
-      };
+      }
 
       // ... we create a getBalances action
       const action: GetBalancesSuccessAction = {
@@ -106,18 +106,18 @@ describe('Bond Reducer', () => {
           alpha: 0,
           alphaDate: new Date('2000/01/01'),
         },
-      };
+      }
 
       // when ... we run the reducer and pass it our initial state and this action
       const state = SUT.reducer(
         { ...initialState, trades, symbol: 'sometoken' },
         action,
-      );
+      )
 
       // then the state should be set as expected
-      expect(state).toEqual(balances);
-    });
-  });
+      expect(state).toEqual(balances)
+    })
+  })
 
   describe('GetTransactionsSuccess Action', () => {
     it('should return a new copy of state, with the trades set', () => {
@@ -131,7 +131,7 @@ describe('Bond Reducer', () => {
         { id: 7, prop1: 'value1' },
         { id: 8, prop1: 'value2' },
         { id: 9, prop1: 'value3' },
-      ];
+      ]
 
       // ... we create a getBalances action
       const action: GetTradesSuccessAction = {
@@ -139,16 +139,16 @@ describe('Bond Reducer', () => {
         payload: {
           trades,
         },
-      };
+      }
 
       // when ... we run the reducer and pass it our initial state and this action
-      const state = SUT.reducer(initialState, action);
+      const state = SUT.reducer(initialState, action)
 
       // then the state should be set as expected
       expect(state).toEqual({
         ...initialState,
         trades,
-      });
-    });
-  });
-});
+      })
+    })
+  })
+})

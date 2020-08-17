@@ -1,13 +1,13 @@
-import styled from 'styled-components';
-import { Link } from 'react-router-dom';
-import { deviceWidth } from '../../../../lib/commonData';
+import styled from "styled-components";
+import { deviceWidth } from "../../../../lib/commonData";
+import { Link } from "react-router-dom";
 
 export enum ShieldColor {
-  Grey = 'grey',
-  Orange = 'orange',
-  Green = 'green',
-  Red = 'red',
-  Blue = 'blue',
+  Grey = "grey",
+  Orange = "orange",
+  Green = "green",
+  Red = "red",
+  Blue = "blue",
 }
 export const CardTop = styled.div`
   overflow: hidden;

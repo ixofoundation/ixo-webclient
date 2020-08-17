@@ -1,7 +1,7 @@
-import styled from 'styled-components';
-import { deviceWidth } from 'lib/commonData';
-import { EntityType } from '../../types';
-import { entityTypeMap } from '../../strategy-map';
+import styled from 'styled-components'
+import { deviceWidth } from 'lib/commonData'
+import { EntityType } from '../../types'
+import { entityTypeMap } from '../../strategy-map'
 
 export const SearchWrapper = styled.div`
   background: white;
@@ -31,7 +31,7 @@ export const SearchWrapper = styled.div`
     }
   }
   color: black;
-`;
+`
 
 export const ModalButton = styled.div`
   background: #e8edee;
@@ -91,7 +91,7 @@ export const ModalButton = styled.div`
       content: '';
     }
   }
-`;
+`
 
 export const SearchIconWrapper = styled.div`
   width: 50px;
@@ -102,7 +102,7 @@ export const SearchIconWrapper = styled.div`
   line-height: 50px;
   flex: initial;
   text-align: center;
-`;
+`
 
 export const SearchModal = styled.div`
   position: absolute;
@@ -113,7 +113,7 @@ export const SearchModal = styled.div`
   width: 100%;
   padding: 1.5em 2.875em 4.5em;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-`;
+`
 
 export const SearchHeading = styled.h3`
   font-family: 'Roboto', sans-serif;
@@ -121,13 +121,13 @@ export const SearchHeading = styled.h3`
   font-size: 1.25rem;
   box-sizing: border-box;
   margin: 0.825rem 0 1.5rem;
-`;
+`
 
 export const SearchButtonsWrapper = styled.div`
   display: flex;
   flex-flow: row wrap;
   margin: 0 -1.75rem;
-`;
+`
 
 export const SearchFilterButton = styled.button`
   color: #4d4d4d;
@@ -157,8 +157,8 @@ export const SearchFilterButton = styled.button`
     }
   }
   ${Object.keys(EntityType).map(key => {
-    const className = key.toLowerCase();
-    const color = entityTypeMap[key].themeColor;
+    const className = key.toLowerCase()
+    const color = entityTypeMap[key].themeColor
 
     return `&.${className} {
           border: 2px solid ${color};
@@ -174,7 +174,7 @@ export const SearchFilterButton = styled.button`
           &:hover:not(.disabled) {
             background: linear-gradient(90deg, ${color} 0%, ${color} 100%);
           }
-        }`;
+        }`
   })}
   &.disabled {
     border-color: #a5adb0;
@@ -197,11 +197,11 @@ export const SearchFilterButton = styled.button`
   @media (min-width: ${deviceWidth.desktop}px) {
     padding: 1.5rem 2rem;
   }
-`;
+`
 
 export const ButtonContent = styled.div`
   font-size: 1rem;
   svg {
     margin-right: 1rem;
   }
-`;
+`

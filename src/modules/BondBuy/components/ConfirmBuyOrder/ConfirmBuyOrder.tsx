@@ -1,16 +1,16 @@
-import React, { Dispatch } from 'react';
-import { useForm } from 'react-hook-form';
-import { withRouter, RouteComponentProps } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { RootState } from 'common/redux/types';
+import React, { Dispatch } from "react";
+import { useForm } from "react-hook-form";
+import { withRouter, RouteComponentProps } from "react-router-dom";
+import { connect } from "react-redux";
+import { RootState } from "common/redux/types";
+import * as bondBuySelectors from "../../BondBuy.selectors";
+import { confirmBuy, clear } from "../../BondBuy.actions";
 import {
   remainingBalance,
   newBalance,
   currencyStr,
-} from 'modules/Account/Account.utils';
-import { Currency } from 'types/models';
-import * as bondBuySelectors from '../../BondBuy.selectors';
-import { confirmBuy, clear } from '../../BondBuy.actions';
+} from "modules/Account/Account.utils";
+import { Currency } from "types/models";
 
 interface Props extends RouteComponentProps {
   match: any;
@@ -52,103 +52,103 @@ const ConfirmBuyOrder: React.FunctionComponent<Props> = ({
 
   if (signPending) {
     return <div>Signing Transaction</div>;
-  } if (!isReceiving) {
-    history.push('../');
+  } else if (!isReceiving) {
+    history.push("../");
     return null;
-  } 
-  const onSubmit = (): void => {
-    handleConfirmBuy();
-  };
+  } else {
+    const onSubmit = (): void => {
+      handleConfirmBuy();
+    };
 
-  const onBack = (): void => {
-    handleClear();
-    history.push('../');
-  };
+    const onBack = (): void => {
+      handleClear();
+      history.push("../");
+    };
 
-  const remBal = remainingBalance(balances, actualPrice);
-  const remBalError =
+    const remBal = remainingBalance(balances, actualPrice);
+    const remBalError =
       remBal.amount! < 0
-        ? 'You have insufficient funds for this transaction'
+        ? "You have insufficient funds for this transaction"
         : undefined;
 
-  const newBal = newBalance(balances, receiving);
-  const newBalError =
+    const newBal = newBalance(balances, receiving);
+    const newBalError =
       receiving.amount > totalSupply.amount
         ? "You're attempting to buy more tokens than this bond's supply."
         : undefined;
 
-  const maxPriceError =
+    const maxPriceError =
       maxPrice.amount <= estimatedPrice.amount
-        ? 'Your max price must be above than the estimated price per token.'
+        ? "Your max price must be above than the estimated price per token."
         : undefined;
 
-  const hasErrors = !!remBalError || !!newBalError || !!maxPriceError;
+    const hasErrors = !!remBalError || !!newBalError || !!maxPriceError;
 
-  return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <div className="label">Send</div>
-      <div>
-        <h3>{currencyStr(totalPrice)}</h3>
-        <div className="label_subtitle">
-          * Includes a{' '}
-          <span className="label_subtitle__bold">
-            {currencyStr(totalFee)} fee
-          </span>
+    return (
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <div className="label">Send</div>
+        <div>
+          <h3>{currencyStr(totalPrice)}</h3>
+          <div className="label_subtitle">
+            * Includes a{" "}
+            <span className="label_subtitle__bold">
+              {currencyStr(totalFee)} fee
+            </span>
+          </div>
+          <div className="label_subtitle">
+            My remaining balance will be{" "}
+            <span className="label_subtitle__bold">{currencyStr(remBal)}</span>
+          </div>
+          {error(remBalError)}
         </div>
-        <div className="label_subtitle">
-          My remaining balance will be{' '}
-          <span className="label_subtitle__bold">{currencyStr(remBal)}</span>
-        </div>
-        {error(remBalError)}
-      </div>
 
-      {/* displays the balances of the connected Cosmos account addresses */}
-      <div className="label">Receive</div>
-      <div>
-        <h3>{currencyStr(receiving)}</h3>
-        <div className="label_subtitle">
-          My new balance will be{' '}
-          <span className="label_subtitle__bold">{currencyStr(newBal)}</span>
+        {/* displays the balances of the connected Cosmos account addresses */}
+        <div className="label">Receive</div>
+        <div>
+          <h3>{currencyStr(receiving)}</h3>
+          <div className="label_subtitle">
+            My new balance will be{" "}
+            <span className="label_subtitle__bold">{currencyStr(newBal)}</span>
+          </div>
+          {error(newBalError)}
         </div>
-        {error(newBalError)}
-      </div>
 
-      <div className="label">Estimated price per token</div>
-      <div>
-        <h3>{currencyStr(estimatedPrice)}</h3>
-        <div className="label_subtitle">
-          My maximum token price is{' '}
-          <span className="label_subtitle__bold">
-            {currencyStr(maxPrice)}
-          </span>
+        <div className="label">Estimated price per token</div>
+        <div>
+          <h3>{currencyStr(estimatedPrice)}</h3>
+          <div className="label_subtitle">
+            My maximum token price is{" "}
+            <span className="label_subtitle__bold">
+              {currencyStr(maxPrice)}
+            </span>
+          </div>
+          {error(maxPriceError)}
         </div>
-        {error(maxPriceError)}
-      </div>
 
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-        }}
-      >
-        <span style={{ marginTop: '-0.5em', padding: '0' }} />
-        <button
-          onClick={onBack}
-          className="button button_buy button_buy_back"
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-between",
+          }}
         >
-          go back
-        </button>
-        <input
-          disabled={hasErrors}
-          type="submit"
-          value="confirm & sign"
-          className="button button_buy button_buy_confirm"
-        />
-      </div>
-    </form>
-  );
-  
+          <span style={{ marginTop: "-0.5em", padding: "0" }}></span>
+          <button
+            onClick={onBack}
+            className="button button_buy button_buy_back"
+          >
+            go back
+          </button>
+          <input
+            disabled={hasErrors}
+            type="submit"
+            value="confirm & sign"
+            className="button button_buy button_buy_confirm"
+          />
+        </div>
+      </form>
+    );
+  }
 };
 
 const mapStateToProps = (state: RootState): any => ({

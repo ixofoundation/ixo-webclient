@@ -1,11 +1,11 @@
-import * as React from 'react';
-import 'react-dates/initialize';
+import * as React from "react";
+import "react-dates/initialize";
 import {
   DayPickerRangeController,
   DayPickerRangeControllerShape,
   ScrollableOrientationShape,
-} from 'react-dates';
-import moment, { Moment } from 'moment';
+} from "react-dates";
+import moment, { Moment } from "moment";
 
 interface Props {
   onChange: (startDate: Moment | null, endDate: Moment | null) => void;
@@ -28,7 +28,7 @@ class DatePicker extends React.Component<Props, State> {
     this.state = {
       startDate: this.props.initialStartDate,
       endDate: this.props.initialEndDate,
-      focusedInput: 'startDate',
+      focusedInput: "startDate",
       onFocusChange: () => {},
       onDatesChange: () => {},
       renderControls: null,
@@ -40,8 +40,8 @@ class DatePicker extends React.Component<Props, State> {
     endDate: moment.Moment | null
   ): void => {
     this.setState({
-      startDate,
-      endDate,
+      startDate: startDate,
+      endDate: endDate,
     });
     this.props.onChange(startDate, endDate);
   };
@@ -60,10 +60,12 @@ class DatePicker extends React.Component<Props, State> {
         startDate={this.state.startDate}
         endDate={this.state.endDate}
         onDatesChange={({ startDate, endDate }): void =>
-          this.onChange(startDate, endDate)}
+          this.onChange(startDate, endDate)
+        }
         focusedInput={this.state.focusedInput}
         onFocusChange={(focusedInput: any): void =>
-          this.setState({ focusedInput })}
+          this.setState({ focusedInput })
+        }
         initialVisibleMonth={(): moment.Moment => moment()}
         numberOfMonths={this.props.numberOfMonths}
         hideKeyboardShortcutsPanel

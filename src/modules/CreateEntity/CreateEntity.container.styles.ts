@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from 'styled-components'
 
 export const CreateEntityWrapper = styled.div`
   background-color: #fff;
@@ -7,4 +7,4 @@ export const CreateEntityWrapper = styled.div`
   .buttons-group {
     margin-top: 2rem;
   }
-`;
+`

@@ -1,19 +1,19 @@
-import * as React from 'react';
-import { decode as base64Decode } from 'base-64';
-import styled from 'styled-components';
-import { LayoutWrapperClaims } from '../../common/components/Wrappers/LayoutWrapperClaims';
-import { WidgetWrapperClaims } from '../../common/components/Wrappers/WidgetWrapperClaims';
-import DynamicForm from '../../common/components/Form/DynamicForm/DynamicForm';
-import { Data } from '../../modules/project/types';
-import { FormStyles } from '../../types/models';
-import { Spinner } from '../../common/components/Spinner';
-import { successToast } from '../../common/utils/Toast';
+import * as React from 'react'
+import { LayoutWrapperClaims } from '../../common/components/Wrappers/LayoutWrapperClaims'
+import { WidgetWrapperClaims } from '../../common/components/Wrappers/WidgetWrapperClaims'
+import DynamicForm from '../../common/components/Form/DynamicForm/DynamicForm'
+import { decode as base64Decode } from 'base-64'
+import { Data } from '../../modules/project/types'
+import styled from 'styled-components'
+import { FormStyles } from '../../types/models'
+import { Spinner } from '../../common/components/Spinner'
+import { successToast } from '../../common/utils/Toast'
 
 const FormContainer = styled.div`
   max-width: 640px;
   width: 100%;
   margin: 0 auto;
-`;
+`
 
 const Divider = styled.div`
   height: 2px;
@@ -21,20 +21,20 @@ const Divider = styled.div`
   width: 36%;
   position: absolute;
   left: 15px;
-`;
+`
 
 const DividerShadow = styled.div`
   height: 1px;
   background: ${/* eslint-disable-line */ props => props.theme.bg.lightGrey};
   width: 100%;
-`;
+`
 
 const FormProgressBar = styled.div`
   background: ${/* eslint-disable-line */ props => props.theme.bg.green};
   height: 6px;
   width: 100%;
   border-radius: 4px 4px 0px 0px;
-`;
+`
 
 export interface ParentProps {
   submitClaim: (claimData: object) => void
@@ -44,29 +44,29 @@ export interface ParentProps {
 export class ProjectNewClaim extends React.Component<ParentProps> {
   state = {
     fetchedFile: null,
-  };
+  }
 
   fetchFormFile = (claimFormKey: string, pdsURL: string): void => {
     this.props.ixo.project
       .fetchPublic(claimFormKey, pdsURL)
       .then((res: any) => {
-        const fileContents = base64Decode(res.data);
-        this.setState({ fetchedFile: fileContents });
-      });
-  };
+        const fileContents = base64Decode(res.data)
+        this.setState({ fetchedFile: fileContents })
+      })
+  }
 
   componentDidMount(): void {
     this.fetchFormFile(
       this.props.projectData.templates.claim.form,
       this.props.projectData.serviceEndpoint,
-    );
+    )
   }
 
   handleSubmit = (claimData: any): void => {
     // upload all the images and change the value to the returned hash of the image
-    const formDef = JSON.parse(this.state.fetchedFile);
-    const pdsUrl = this.props.projectData.serviceEndpoint;
-    const promises = [];
+    const formDef = JSON.parse(this.state.fetchedFile)
+    const pdsUrl = this.props.projectData.serviceEndpoint
+    const promises = []
     formDef.fields.forEach(field => {
       if (field.type === 'image') {
         if (claimData[field.name] && claimData[field.name].length > 0) {
@@ -74,21 +74,21 @@ export class ProjectNewClaim extends React.Component<ParentProps> {
             this.props.ixo.project
               .createPublic(claimData[field.name], pdsUrl)
               .then((res: any) => {
-                claimData[field.name] = res.result;
-                successToast(`${field.name  } successfully uploaded`);
-                return res.result;
+                claimData[field.name] = res.result
+                successToast(field.name + ' successfully uploaded')
+                return res.result
               }),
-          );
+          )
         }
       }
-    });
+    })
     Promise.all(promises).then(() => {
-      this.props.submitClaim(claimData);
-    });
-  };
+      this.props.submitClaim(claimData)
+    })
+  }
 
   render(): JSX.Element {
-    const claimParsed = JSON.parse(this.state.fetchedFile);
+    const claimParsed = JSON.parse(this.state.fetchedFile)
     if (claimParsed) {
       return (
         <LayoutWrapperClaims>
@@ -106,17 +106,18 @@ export class ProjectNewClaim extends React.Component<ParentProps> {
                     projectDID={this.props.projectData.projectDid}
                     formSchema={claimParsed.fields}
                     handleSubmit={(claimData): void =>
-                      this.handleSubmit(claimData)}
-                    submitText="Submit Claim"
+                      this.handleSubmit(claimData)
+                    }
+                    submitText={'Submit Claim'}
                   />
                 </WidgetWrapperClaims>
               </div>
             </div>
           </FormContainer>
         </LayoutWrapperClaims>
-      );
-    } 
-    return <Spinner info="App: Loading Claim " />;
-    
+      )
+    } else {
+      return <Spinner info="App: Loading Claim " />
+    }
   }
 }

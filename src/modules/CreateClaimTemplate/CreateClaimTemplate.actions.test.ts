@@ -1,19 +1,19 @@
-import * as SUT from './CreateClaimTemplate.actions';
-import { CreateClaimTemplateActions } from './types';
-import mockStore from '../../common/redux/mockStore';
+import * as SUT from './CreateClaimTemplate.actions'
+import { CreateClaimTemplateActions } from './types'
+import mockStore from '../../common/redux/mockStore'
 
-let store;
+let store
 let state = {
   createClaimTemplate: {
     activeStep: 1,
     claimInfo: null,
     attestations: [],
   },
-};
+}
 
 beforeEach(() => {
-  store = mockStore(() => state);
-});
+  store = mockStore(() => state)
+})
 
 describe('CreateClaimTemplate Actions', () => {
   describe('goToStepNumber', () => {
@@ -24,15 +24,15 @@ describe('CreateClaimTemplate Actions', () => {
           ...state.createClaimTemplate,
           activeStep: 1,
         },
-      };
+      }
 
       // when ... we call goToQuestionNumber
-      store.dispatch(SUT.updateActiveStep(2));
-      const action = store.getActions()[0];
+      store.dispatch(SUT.updateActiveStep(2))
+      const action = store.getActions()[0]
 
-      expect(action.type).toEqual(CreateClaimTemplateActions.UpdateActiveStep);
-      expect(action.payload).toEqual(2);
-    });
+      expect(action.type).toEqual(CreateClaimTemplateActions.UpdateActiveStep)
+      expect(action.payload).toEqual(2)
+    })
 
     it('should not dispatch any action when the new step is equal to the activeStep', () => {
       state = {
@@ -41,14 +41,14 @@ describe('CreateClaimTemplate Actions', () => {
           ...state.createClaimTemplate,
           activeStep: 2,
         },
-      };
+      }
 
       // when ... we call saveAnswer
-      store.dispatch(SUT.updateActiveStep(2));
-      const actions = store.getActions();
+      store.dispatch(SUT.updateActiveStep(2))
+      const actions = store.getActions()
 
-      expect(actions).toEqual([]);
-    });
+      expect(actions).toEqual([])
+    })
 
     it('should not dispatch any action when the new step is greater than the total steps', () => {
       state = {
@@ -57,15 +57,15 @@ describe('CreateClaimTemplate Actions', () => {
           ...state.createClaimTemplate,
           activeStep: 3,
         },
-      };
+      }
 
       // when ... we call saveAnswer
-      store.dispatch(SUT.updateActiveStep(4));
-      const actions = store.getActions();
+      store.dispatch(SUT.updateActiveStep(4))
+      const actions = store.getActions()
 
-      expect(actions).toEqual([]);
-    });
-  });
+      expect(actions).toEqual([])
+    })
+  })
 
   describe('updateClaimInfo', () => {
     it('should dispatch an action to add a update the claim info', () => {
@@ -75,7 +75,7 @@ describe('CreateClaimTemplate Actions', () => {
           ...state.createClaimTemplate,
           claimInfo: null,
         },
-      };
+      }
 
       // when ... we call goToQuestionNumber
       store.dispatch(
@@ -83,16 +83,16 @@ describe('CreateClaimTemplate Actions', () => {
           claimName: 'string',
           shortDescription: 'string',
         }),
-      );
-      const action = store.getActions()[0];
+      )
+      const action = store.getActions()[0]
 
-      expect(action.type).toEqual(CreateClaimTemplateActions.UpdateClaimInfo);
+      expect(action.type).toEqual(CreateClaimTemplateActions.UpdateClaimInfo)
       expect(action.payload).toEqual({
         claimName: 'string',
         shortDescription: 'string',
-      });
-    });
-  });
+      })
+    })
+  })
 
   describe('addAttestation', () => {
     it('should dispatch an action to add a question to the list', () => {
@@ -102,7 +102,7 @@ describe('CreateClaimTemplate Actions', () => {
           ...state.createClaimTemplate,
           attestations: [],
         },
-      };
+      }
 
       // when ... we call goToQuestionNumber
       store.dispatch(
@@ -115,10 +115,10 @@ describe('CreateClaimTemplate Actions', () => {
           type: 'string',
           control: 'string',
         }),
-      );
-      const action = store.getActions()[0];
+      )
+      const action = store.getActions()[0]
 
-      expect(action.type).toEqual(CreateClaimTemplateActions.AddAttestation);
+      expect(action.type).toEqual(CreateClaimTemplateActions.AddAttestation)
       expect(action.payload).toEqual({
         id: 'string',
         title: 'string',
@@ -127,9 +127,9 @@ describe('CreateClaimTemplate Actions', () => {
         required: true,
         type: 'string',
         control: 'string',
-      });
-    });
-  });
+      })
+    })
+  })
 
   describe('removeAttestation', () => {
     it('should dispatch an action to remove an attestation from the list', () => {
@@ -149,16 +149,16 @@ describe('CreateClaimTemplate Actions', () => {
             },
           ],
         },
-      };
+      }
 
       // when ... we call goToQuestionNumber
-      store.dispatch(SUT.removeAttestation('string'));
-      const action = store.getActions()[0];
+      store.dispatch(SUT.removeAttestation('string'))
+      const action = store.getActions()[0]
 
-      expect(action.type).toEqual(CreateClaimTemplateActions.RemoveAttestation);
-      expect(action.payload).toEqual('string');
-    });
-  });
+      expect(action.type).toEqual(CreateClaimTemplateActions.RemoveAttestation)
+      expect(action.payload).toEqual('string')
+    })
+  })
 
   describe('updateAttestation', () => {
     it('should dispatch an action to duplicate an attestation in the list', () => {
@@ -178,7 +178,7 @@ describe('CreateClaimTemplate Actions', () => {
             },
           ],
         },
-      };
+      }
 
       store.dispatch(
         SUT.updateAttestation({
@@ -190,10 +190,10 @@ describe('CreateClaimTemplate Actions', () => {
           type: 'newstring',
           control: 'newstring',
         }),
-      );
-      const action = store.getActions()[0];
+      )
+      const action = store.getActions()[0]
 
-      expect(action.type).toEqual(CreateClaimTemplateActions.UpdateAttestation);
+      expect(action.type).toEqual(CreateClaimTemplateActions.UpdateAttestation)
       expect(action.payload).toEqual({
         id: 'string',
         title: 'newstring',
@@ -202,7 +202,7 @@ describe('CreateClaimTemplate Actions', () => {
         required: true,
         type: 'newstring',
         control: 'newstring',
-      });
-    });
-  });
-});
+      })
+    })
+  })
+})

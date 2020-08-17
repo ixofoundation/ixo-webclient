@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import { deviceWidth } from '../../../lib/commonData';
+import { deviceWidth } from '../../../lib/commonData'
+import styled from 'styled-components'
 
 export const PositionController = styled.div`
   position: fixed;
@@ -13,4 +13,4 @@ export const PositionController = styled.div`
     top: 3.5rem;
     transform: none;
   }
-`;
+`

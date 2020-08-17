@@ -1,15 +1,14 @@
-import { v4 } from 'uuid';
-import * as SUT from './CreateEntitySettings.actions';
-import { CreateEntitySettingsActions } from './types';
-import mockStore from '../../common/redux/mockStore';
+import { v4 } from "uuid";
+jest.mock("uuid");
+import * as SUT from "./CreateEntitySettings.actions";
+import { CreateEntitySettingsActions } from "./types";
+import mockStore from "../../common/redux/mockStore";
 import {
   EntityStage,
   EntityStatus,
   PageView,
   EntityView,
-} from '../Entities/types';
-
-jest.mock('uuid');
+} from "../Entities/types";
 
 let store: any;
 
@@ -22,13 +21,13 @@ describe('CreateEntitySettings Actions', () => {
     describe('updateCreator', () => {
       it('should update the creator', async () => {
         // given ... some data
-        const displayName = 'someCreatorName';
-        const location = 'someCreatorCountry';
-        const email = 'someCreatorEmail';
-        const website = 'someCreatorWebsite';
-        const mission = 'someCreatorMission';
-        const creatorId = 'someCreatorIdentifier';
-        const credential = 'someCreatorCredentialTokenId';
+        const displayName = 'someCreatorName'
+        const location = 'someCreatorCountry'
+        const email = 'someCreatorEmail'
+        const website = 'someCreatorWebsite'
+        const mission = 'someCreatorMission'
+        const creatorId = 'someCreatorIdentifier'
+        const credential = 'someCreatorCredentialTokenId'
 
         const formData = {
           displayName,
@@ -38,17 +37,17 @@ describe('CreateEntitySettings Actions', () => {
           mission,
           creatorId,
           credential,
-        };
+        }
 
         // when ... we call the updateCreator action creator
-        await store.dispatch(SUT.updateCreator(formData));
-        const actions = store.getActions();
+        await store.dispatch(SUT.updateCreator(formData))
+        const actions = store.getActions()
 
         // then ... it should dispatch the correct actions
-        expect(actions.length).toEqual(1);
+        expect(actions.length).toEqual(1)
         expect(actions[0].type).toEqual(
           CreateEntitySettingsActions.UpdateCreator,
-        );
+        )
         expect(actions[0].payload).toEqual({
           displayName,
           location,
@@ -57,20 +56,20 @@ describe('CreateEntitySettings Actions', () => {
           mission,
           creatorId,
           credential,
-        });
-      });
+        })
+      })
 
       it('should upload the image and dispatch the correct action', async () => {
         // given ... we have base64 image data
-        const fileSrc = 'data:someImageData';
+        const fileSrc = 'data:someImageData'
 
         const formData = {
           fileSrc,
-        };
+        }
 
         // when ... we call the updateCreator action creator
-        await store.dispatch(SUT.updateCreator(formData));
-        const actions = store.getActions();
+        await store.dispatch(SUT.updateCreator(formData))
+        const actions = store.getActions()
 
         // then ... it should dispatch the correct actions
         expect(actions.length).toEqual(2);
@@ -79,24 +78,24 @@ describe('CreateEntitySettings Actions', () => {
         );
         expect(actions[1].type).toEqual(
           CreateEntitySettingsActions.UploadCreatorImageSuccess,
-        );
+        )
         expect(actions[1].payload).toEqual({
           fileSrc: `${process.env.REACT_APP_PDS_URL}public/somePublicDid`,
-        });
-      });
-    });
-  });
+        })
+      })
+    })
+  })
 
   describe('owner', () => {
     describe('updateOwner', () => {
       it('should update the owner', async () => {
         // given ... some data
-        const displayName = 'someOwnerName';
-        const location = 'someOwnerCountry';
-        const email = 'someOwnerEmail';
-        const website = 'someOwnerWebsite';
-        const mission = 'someOwnerMission';
-        const ownerId = 'someOwnerIdentifier';
+        const displayName = 'someOwnerName'
+        const location = 'someOwnerCountry'
+        const email = 'someOwnerEmail'
+        const website = 'someOwnerWebsite'
+        const mission = 'someOwnerMission'
+        const ownerId = 'someOwnerIdentifier'
 
         const formData = {
           displayName,
@@ -105,15 +104,15 @@ describe('CreateEntitySettings Actions', () => {
           website,
           mission,
           ownerId,
-        };
+        }
 
         // when ... we call the updateCreator action creator
-        await store.dispatch(SUT.updateOwner(formData));
-        const actions = store.getActions();
+        await store.dispatch(SUT.updateOwner(formData))
+        const actions = store.getActions()
 
         // then ... it should dispatch the correct actions
-        expect(actions.length).toEqual(1);
-        expect(actions[0].type).toEqual(CreateEntitySettingsActions.UpdateOwner);
+        expect(actions.length).toEqual(1)
+        expect(actions[0].type).toEqual(CreateEntitySettingsActions.UpdateOwner)
         expect(actions[0].payload).toEqual({
           displayName,
           location,
@@ -121,20 +120,20 @@ describe('CreateEntitySettings Actions', () => {
           website,
           mission,
           ownerId,
-        });
-      });
+        })
+      })
 
       it('should upload the image and dispatch the correct action', async () => {
         // given ... we have base64 image data
-        const fileSrc = 'data:someImageData';
+        const fileSrc = 'data:someImageData'
 
         const formData = {
           fileSrc,
-        };
+        }
 
         // when ... we call the updateOwner action creator
-        await store.dispatch(SUT.updateOwner(formData));
-        const actions = store.getActions();
+        await store.dispatch(SUT.updateOwner(formData))
+        const actions = store.getActions()
 
         // then ... it should dispatch the correct actions
         expect(actions.length).toEqual(2);
@@ -143,19 +142,19 @@ describe('CreateEntitySettings Actions', () => {
         );
         expect(actions[1].type).toEqual(
           CreateEntitySettingsActions.UploadOwnerImageSuccess,
-        );
+        )
         expect(actions[1].payload).toEqual({
           fileSrc: `${process.env.REACT_APP_PDS_URL}public/somePublicDid`,
-        });
-      });
-    });
-  });
+        })
+      })
+    })
+  })
 
   describe('status', () => {
     describe('updateStatus', () => {
       it('should update the status', () => {
         // given ... some data
-        const dates = 'someFromData|someToDate';
+        const dates = "someFromData|someToDate";
         const stage = EntityStage.Delivery;
         const status = EntityStatus.Sealed;
 
@@ -171,8 +170,8 @@ describe('CreateEntitySettings Actions', () => {
         // then ... we should expect it to create the action with correct type and payload
         expect(action.type).toEqual(CreateEntitySettingsActions.UpdateStatus);
         expect(action.payload).toEqual({
-          startDate: 'someFromData',
-          endDate: 'someToDate',
+          startDate: "someFromData",
+          endDate: "someToDate",
           stage,
           status,
         });
@@ -180,9 +179,9 @@ describe('CreateEntitySettings Actions', () => {
     });
   });
 
-  describe('privacy', () => {
-    describe('updatePrivacy', () => {
-      it('should update the privacy', () => {
+  describe("privacy", () => {
+    describe("updatePrivacy", () => {
+      it("should update the privacy", () => {
         // given ... some data
         const pageView = PageView.Private;
         const entityView = EntityView.Visible;
@@ -205,10 +204,10 @@ describe('CreateEntitySettings Actions', () => {
     });
   });
 
-  describe('requiredCredential', () => {
-    describe('addRequiredCredentialSection', () => {
-      it('should add a new required credential section', () => {
-        const id = 'newRequiredCredentialId';
+  describe("requiredCredential", () => {
+    describe("addRequiredCredentialSection", () => {
+      it("should add a new required credential section", () => {
+        const id = "newRequiredCredentialId";
         v4.mockImplementationOnce(() => id);
         // when ... we call the addRequiredCredentialSection
         const action = SUT.addRequiredCredentialSection();
@@ -218,13 +217,13 @@ describe('CreateEntitySettings Actions', () => {
         );
         expect(action.payload).toEqual({
           id,
-        });
-      });
-    });
+        })
+      })
+    })
 
-    describe('removeRequiredCredentialSection', () => {
-      it('should remove a required credential section', () => {
-        const id = 'existingRequiredCredentialId';
+    describe("removeRequiredCredentialSection", () => {
+      it("should remove a required credential section", () => {
+        const id = "existingRequiredCredentialId";
         // when ... we call the removeRequiredCredentialSection
         const action = SUT.removeRequiredCredentialSection(id);
         // then ... we should expect it to create an action with the correct type
@@ -237,12 +236,12 @@ describe('CreateEntitySettings Actions', () => {
       });
     });
 
-    describe('updateRequiredCredential', () => {
-      it('should update the required credential', () => {
+    describe("updateRequiredCredential", () => {
+      it("should update the required credential", () => {
         // given ... some data
-        const id = 'someRequiredCredentialId';
-        const credential = 'someRequiredCredential';
-        const issuer = 'someRequiredIssuer';
+        const id = "someRequiredCredentialId";
+        const credential = "someRequiredCredential";
+        const issuer = "someRequiredIssuer";
 
         const formData = {
           credential,
@@ -265,11 +264,11 @@ describe('CreateEntitySettings Actions', () => {
     });
   });
 
-  describe('filter', () => {
-    describe('updateFilters', () => {
+  describe("filter", () => {
+    describe("updateFilters", () => {
       const formData = {
-        newName1: ['aa', 'bb', 'cc'],
-        newName2: ['11', '22', '33'],
+        newName1: ["aa", "bb", "cc"],
+        newName2: ["11", "22", "33"],
       };
 
       // when ... we call the updateFilter action creator
@@ -282,10 +281,10 @@ describe('CreateEntitySettings Actions', () => {
   });
 });
 
-describe('displayCredential', () => {
-  describe('addDisplayCredentialSection', () => {
-    it('should add a new display credential section', () => {
-      const id = 'newDisplayCredentialId';
+describe("displayCredential", () => {
+  describe("addDisplayCredentialSection", () => {
+    it("should add a new display credential section", () => {
+      const id = "newDisplayCredentialId";
       v4.mockImplementationOnce(() => id);
       // when ... we call the addDisplayCredentialSection
       const action = SUT.addDisplayCredentialSection();
@@ -295,13 +294,13 @@ describe('displayCredential', () => {
       );
       expect(action.payload).toEqual({
         id,
-      });
-    });
-  });
+      })
+    })
+  })
 
-  describe('removeDisplayCredentialSection', () => {
-    it('should remove a display credential section', () => {
-      const id = 'existingDisplayCredentialId';
+  describe("removeDisplayCredentialSection", () => {
+    it("should remove a display credential section", () => {
+      const id = "existingDisplayCredentialId";
       // when ... we call the removeDisplayCredentialSection
       const action = SUT.removeDisplayCredentialSection(id);
       // then ... we should expect it to create an action with the correct type
@@ -314,12 +313,12 @@ describe('displayCredential', () => {
     });
   });
 
-  describe('updateDisplayCredential', () => {
-    it('should update the required credential', () => {
+  describe("updateDisplayCredential", () => {
+    it("should update the required credential", () => {
       // given ... some data
-      const id = 'someDisplayCredentialId';
-      const credential = 'someDisplayCredential';
-      const badge = 'someDisplayBadge';
+      const id = "someDisplayCredentialId";
+      const credential = "someDisplayCredential";
+      const badge = "someDisplayBadge";
 
       const formData = {
         credential,
@@ -337,36 +336,36 @@ describe('displayCredential', () => {
         id,
         credential,
         badge,
-      });
-    });
-  });
+      })
+    })
+  })
 
   describe('validation', () => {
     it('should set validated to true', () => {
-      const identifier = 'someIdentifier';
+      const identifier = 'someIdentifier'
       // when ... we call the validated action creator
-      const action = SUT.validated(identifier);
+      const action = SUT.validated(identifier)
 
       // then ... we should expect it to create an action with the correct type and payload
-      expect(action.type).toEqual(CreateEntitySettingsActions.Validated);
+      expect(action.type).toEqual(CreateEntitySettingsActions.Validated)
       expect(action.payload).toEqual({
         identifier,
-      });
-    });
-  });
+      })
+    })
+  })
   describe('validationError', () => {
     it('should set validated to false with any errors', () => {
-      const identifier = 'someIdentifier';
-      const errors = ['error1', 'error2'];
+      const identifier = 'someIdentifier'
+      const errors = ['error1', 'error2']
       // when ... we call the validated action creator
-      const action = SUT.validationError(identifier, errors);
+      const action = SUT.validationError(identifier, errors)
 
       // then ... we should expect it to create an action with the correct type and payload
-      expect(action.type).toEqual(CreateEntitySettingsActions.ValidationError);
+      expect(action.type).toEqual(CreateEntitySettingsActions.ValidationError)
       expect(action.payload).toEqual({
         identifier,
         errors,
-      });
-    });
-  });
-});
+      })
+    })
+  })
+})

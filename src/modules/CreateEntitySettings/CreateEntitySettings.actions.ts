@@ -1,7 +1,6 @@
-import { v4 as uuidv4 } from 'uuid';
-import { Dispatch } from 'redux';
-import { FormData } from 'common/components/JsonForm/types';
-import blocksyncApi from '../../common/api/blocksync-api/blocksync-api';
+import { v4 as uuidv4 } from 'uuid'
+import { Dispatch } from 'redux'
+import blocksyncApi from '../../common/api/blocksync-api/blocksync-api'
 import {
   CreateEntitySettingsActions,
   UpdateOwnerAction,
@@ -19,9 +18,10 @@ import {
   UpdateFiltersAction,
   ValidatedAction,
   ValidationErrorAction,
-} from './types';
+} from './types'
+import { FormData } from 'common/components/JsonForm/types'
 
-const PDS_URL = process.env.REACT_APP_PDS_URL;
+const PDS_URL = process.env.REACT_APP_PDS_URL
 
 export const updateCreator = (formData: FormData) => (
   dispatch: Dispatch,
@@ -35,7 +35,7 @@ export const updateCreator = (formData: FormData) => (
     creatorId,
     credential,
     fileSrc,
-  } = formData;
+  } = formData
 
   if (fileSrc && fileSrc.startsWith('data:')) {
     return dispatch({
@@ -45,7 +45,7 @@ export const updateCreator = (formData: FormData) => (
         .then((response: any) => ({
           fileSrc: `${PDS_URL}public/${response.result}`,
         })),
-    });
+    })
   }
 
   return dispatch({
@@ -59,8 +59,8 @@ export const updateCreator = (formData: FormData) => (
       creatorId,
       credential,
     },
-  });
-};
+  })
+}
 
 export const updateOwner = (formData: FormData) => (
   dispatch: Dispatch,
@@ -73,7 +73,7 @@ export const updateOwner = (formData: FormData) => (
     mission,
     ownerId,
     fileSrc,
-  } = formData;
+  } = formData
 
   if (fileSrc && fileSrc.startsWith('data:')) {
     return dispatch({
@@ -83,7 +83,7 @@ export const updateOwner = (formData: FormData) => (
         .then((response: any) => ({
           fileSrc: `${PDS_URL}public/${response.result}`,
         })),
-    });
+    })
   }
 
   return dispatch({
@@ -96,11 +96,11 @@ export const updateOwner = (formData: FormData) => (
       mission,
       ownerId,
     },
-  });
-};
+  })
+}
 export const updateStatus = (formData: FormData): UpdateStatusAction => {
-  const { dates, stage, status } = formData;
-  const dateParts = dates.split('|');
+  const { dates, stage, status } = formData
+  const dateParts = dates.split('|')
 
   return {
     type: CreateEntitySettingsActions.UpdateStatus,
@@ -110,11 +110,11 @@ export const updateStatus = (formData: FormData): UpdateStatusAction => {
       stage,
       status,
     },
-  };
-};
+  }
+}
 
 export const updatePrivacy = (formData: FormData): UpdatePrivacyAction => {
-  const { pageView, entityView } = formData;
+  const { pageView, entityView } = formData
 
   return {
     type: CreateEntitySettingsActions.UpdatePrivacy,
@@ -122,8 +122,8 @@ export const updatePrivacy = (formData: FormData): UpdatePrivacyAction => {
       pageView,
       entityView,
     },
-  };
-};
+  }
+}
 
 export const addRequiredCredentialSection = (): AddRequiredCredentialSectionAction => {
   return {
@@ -131,8 +131,8 @@ export const addRequiredCredentialSection = (): AddRequiredCredentialSectionActi
     payload: {
       id: uuidv4(),
     },
-  };
-};
+  }
+}
 
 export const removeRequiredCredentialSection = (
   id: string,
@@ -142,14 +142,14 @@ export const removeRequiredCredentialSection = (
     payload: {
       id,
     },
-  };
-};
+  }
+}
 
 export const updateRequiredCredential = (
   id: string,
   formData: FormData,
 ): UpdateRequiredCredentialAction => {
-  const { credential, issuer } = formData;
+  const { credential, issuer } = formData
 
   return {
     type: CreateEntitySettingsActions.UpdateRequiredCredential,
@@ -158,15 +158,15 @@ export const updateRequiredCredential = (
       credential,
       issuer,
     },
-  };
-};
+  }
+}
 
 export const updateFilters = (formData: FormData): UpdateFiltersAction => {
   return {
     type: CreateEntitySettingsActions.UpdateFilters,
     payload: formData,
-  };
-};
+  }
+}
 
 export const addDisplayCredentialSection = (): AddDisplayCredentialSectionAction => {
   return {
@@ -174,8 +174,8 @@ export const addDisplayCredentialSection = (): AddDisplayCredentialSectionAction
     payload: {
       id: uuidv4(),
     },
-  };
-};
+  }
+}
 
 export const removeDisplayCredentialSection = (
   id: string,
@@ -185,14 +185,14 @@ export const removeDisplayCredentialSection = (
     payload: {
       id,
     },
-  };
-};
+  }
+}
 
 export const updateDisplayCredential = (
   id: string,
   formData: FormData,
 ): UpdateDisplayCredentialAction => {
-  const { credential, badge } = formData;
+  const { credential, badge } = formData
 
   return {
     type: CreateEntitySettingsActions.UpdateDisplayCredential,
@@ -201,15 +201,15 @@ export const updateDisplayCredential = (
       credential,
       badge,
     },
-  };
-};
+  }
+}
 
 export const validated = (identifier: string): ValidatedAction => ({
   type: CreateEntitySettingsActions.Validated,
   payload: {
     identifier,
   },
-});
+})
 
 export const validationError = (
   identifier: string,
@@ -220,4 +220,4 @@ export const validationError = (
     identifier,
     errors,
   },
-});
+})

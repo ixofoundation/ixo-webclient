@@ -1,4 +1,4 @@
-import bs58 from 'bs58';
+import bs58 from 'bs58'
 
 export interface Transaction {
   mode: string
@@ -20,11 +20,11 @@ export const generateTx = (
         value: bs58.decode(signature.publicKey).toString('base64'),
       },
     }],
-    fee,
+    fee: fee,
     // memo: "this is an optional memo",
-  };
+  }
   return {
     mode: 'block',
     tx,
-  };
-};
+  }
+}

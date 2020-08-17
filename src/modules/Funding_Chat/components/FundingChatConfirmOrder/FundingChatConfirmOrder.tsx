@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 import {
   FundingChatOrderWrapper,
   FundingChatOrderSummaryWrapper,
@@ -12,10 +12,10 @@ import {
   CancelOrderButton,
   ContinueOrderButton,
   BackButton,
-} from './FundingChatConfirmOrder.styles';
-import IxoX from '../../../../assets/icons/IxoX';
-import ChatbotIcon from '../../../../assets/icons/Chatbot';
-import BackIcon from '../../../../assets/icons/Back';
+} from './FundingChatConfirmOrder.styles'
+import IxoX from '../../../../assets/icons/IxoX'
+import ChatbotIcon from '../../../../assets/icons/Chatbot'
+import BackIcon from '../../../../assets/icons/Back'
 
 export interface Props {
   subscription: string
@@ -156,7 +156,8 @@ const FundingChatOrder: React.FunctionComponent<Props> = ({
                 </div>
               </div>
             </div>
-            <div className="col-4" />
+            <div className="col-4">
+            </div>
           </div>
 
           <div className="row align-items-center">
@@ -177,7 +178,7 @@ const FundingChatOrder: React.FunctionComponent<Props> = ({
             <div className="col-5 p-0">
               <FundingChatPriceWrapper>
                 <IxoX width="10" fill="#49BFE0" />
-                10 per transaction
+                  10 per transaction
               </FundingChatPriceWrapper>
             </div>
           </div>
@@ -218,7 +219,7 @@ const FundingChatOrder: React.FunctionComponent<Props> = ({
         </div>
       </ButtonWrapper>
     </FundingChatOrderWrapper>
-  );
-};
+  )
+}
 
-export default FundingChatOrder;
+export default FundingChatOrder

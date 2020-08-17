@@ -1,6 +1,6 @@
-import * as React from 'react';
-import CopyToClipboard from 'react-copy-to-clipboard';
-import { getIxoWorldRoute } from 'common/utils/formatters';
+import * as React from "react";
+import CopyToClipboard from "react-copy-to-clipboard";
+import { getIxoWorldRoute } from "common/utils/formatters";
 import {
   AccDID,
   Inner,
@@ -13,8 +13,8 @@ import {
   StatusText,
   UserBox,
   UserMenu,
-} from './HeaderRight.styles';
-import Down from '../../../../assets/icons/Down';
+} from "./HeaderRight.styles";
+import Down from "../../../../assets/icons/Down";
 
 interface HeaderRightProps {
   userInfo: any;
@@ -44,7 +44,7 @@ export class HeaderRight extends React.Component<HeaderRightProps, State> {
   handleLogInButton = (): JSX.Element => {
     if (!this.props.keysafe) {
       return (
-        <LoginLink href={getIxoWorldRoute('/getixowallet/deliver/#Steps')}>
+        <LoginLink href={getIxoWorldRoute("/getixowallet/deliver/#Steps")}>
           <h3>
             <span>Log in</span>
           </h3>
@@ -66,11 +66,11 @@ export class HeaderRight extends React.Component<HeaderRightProps, State> {
   render(): JSX.Element {
     if (this.props.simple === true) {
       return <NoPadLeft className="col-md-2 col-lg-4" />;
-    } 
-    return (
-      <NoPadLeft className="col-md-2 col-lg-4">
-        <Inner className="d-flex justify-content-end">
-          {this.props.userInfo === null ||
+    } else {
+      return (
+        <NoPadLeft className="col-md-2 col-lg-4">
+          <Inner className="d-flex justify-content-end">
+            {this.props.userInfo === null ||
             this.props.userInfo.loggedInKeysafe === false ? (
               <UserBox>
                 <StatusBox>
@@ -86,46 +86,46 @@ export class HeaderRight extends React.Component<HeaderRightProps, State> {
                   <StatusText>IXO EXPLORER STATUS</StatusText>
                 </StatusBox>
                 <h3>
-                  {this.props.shouldLedgerDid === true && <RedIcon />}{' '}
+                  {this.props.shouldLedgerDid === true && <RedIcon />}{" "}
                   <span>{this.props.userInfo.name}</span> <Down width="14" />
                 </h3>
               </UserBox>
             )}
-        </Inner>
-        <UserMenu
-          className={this.state.showMenu ? 'visible' : ''}
-          onMouseLeave={(): void => this.toggleMenu()}
-        >
-          <MenuTop>
-            <AccDID>
-              <p>
-                {this.props.userInfo !== null &&
+          </Inner>
+          <UserMenu
+            className={this.state.showMenu ? "visible" : ""}
+            onMouseLeave={(): void => this.toggleMenu()}
+          >
+            <MenuTop>
+              <AccDID>
+                <p>
+                  {this.props.userInfo !== null &&
                     this.props.userInfo.didDoc.did}
-              </p>
-              <CopyToClipboard
-                text={
+                </p>
+                <CopyToClipboard
+                  text={
                     this.props.userInfo !== null &&
                     this.props.userInfo.didDoc.did
                   }
-              >
-                <span>Copy</span>
-              </CopyToClipboard>
-            </AccDID>
-          </MenuTop>
-          {this.props.shouldLedgerDid === true && (
-          <MenuBottom>
-            <RedIcon />
-            <p>
-              Ledger your credentials on the ixo blockchain{' '}
-              <span onClick={(): void => this.props.toggleModal(true)}>
-                Sign now with the ixo Keysafe
-              </span>
-            </p>
-          </MenuBottom>
-          )}
-        </UserMenu>
-      </NoPadLeft>
-    );
-    
+                >
+                  <span>Copy</span>
+                </CopyToClipboard>
+              </AccDID>
+            </MenuTop>
+            {this.props.shouldLedgerDid === true && (
+              <MenuBottom>
+                <RedIcon />
+                <p>
+                  Ledger your credentials on the ixo blockchain{" "}
+                  <span onClick={(): void => this.props.toggleModal(true)}>
+                    Sign now with the ixo Keysafe
+                  </span>
+                </p>
+              </MenuBottom>
+            )}
+          </UserMenu>
+        </NoPadLeft>
+      );
+    }
   }
 }

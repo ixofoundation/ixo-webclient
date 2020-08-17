@@ -1,5 +1,5 @@
-import moment from 'moment';
-import * as SUT from './SelectedEntity.reducer';
+import moment from 'moment'
+import * as SUT from './SelectedEntity.reducer'
 import {
   // ClearEntityAction,
   // GetEntityAction,
@@ -7,22 +7,22 @@ import {
   // SelectedEntityActionTypes,
   SelectedEntityActions,
   ClearEntityAction,
-} from './types';
-import { Entity, EntityType } from '../Entities/types';
+} from './types'
+import { Entity, EntityType } from '../Entities/types'
 
-const { initialState } = SUT;
+const initialState = SUT.initialState
 
 describe('SelectedEntity Reducer', () => {
   it('should return the same state if an action is called on it which is not handled by the reducer', () => {
     // given .. we have an action the reducer does not handle
-    const action: any = 'foo';
+    const action: any = 'foo'
 
     // when ... we run the reducer with this action
-    const result = SUT.reducer(initialState, action);
+    const result = SUT.reducer(initialState, action)
 
     // then ... the state that was passed into the function should be returned
-    expect(result).toEqual(initialState);
-  });
+    expect(result).toEqual(initialState)
+  })
 
   describe('GetEntitySuccess Action', () => {
     it('should return a new copy of state with the entity data set', () => {
@@ -69,21 +69,21 @@ describe('SelectedEntity Reducer', () => {
         ],
         pdsUrl: 'somePdsUrl',
         data: null,
-      };
+      }
 
       // given .. we have an action of type SelectedEntityActions.GetEntitySuccess and some data
       const action: GetEntitySuccessAction = {
         type: SelectedEntityActions.GetEntitySuccess,
         payload: entity,
-      };
+      }
 
       // when... we run the reducer with this action
-      const result = SUT.reducer(initialState, action);
+      const result = SUT.reducer(initialState, action)
 
       // then the state should be set as expected
-      expect(result).toEqual(entity);
-    });
-  });
+      expect(result).toEqual(entity)
+    })
+  })
 
   describe('ClearEntity Action', () => {
     it('should clear the entity', () => {
@@ -130,18 +130,18 @@ describe('SelectedEntity Reducer', () => {
         ],
         pdsUrl: 'somePdsUrl',
         data: null,
-      };
+      }
 
       // given .. we have an action of type SelectedEntityActions.ClearEntity
       const action: ClearEntityAction = {
         type: SelectedEntityActions.ClearEntity,
-      };
+      }
 
       // when... we run the reducer with this action
-      const result = SUT.reducer(currentState, action);
+      const result = SUT.reducer(currentState, action)
 
       // then the state should be set as expected
-      expect(result).toEqual(null);
-    });
-  });
-});
+      expect(result).toEqual(null)
+    })
+  })
+})

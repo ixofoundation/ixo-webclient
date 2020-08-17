@@ -1,27 +1,27 @@
-import * as React from 'react';
-import { NavLink } from 'react-router-dom';
-import ShortText from '../../../../assets/icons/ShortText';
-import DatePicker from '../../../../assets/icons/DatePicker';
-import LongText from '../../../../assets/icons/LongText';
-import Selection from '../../../../assets/icons/Selection';
-import QRcode from '../../../../assets/icons/QRcode';
-import Location from '../../../../assets/icons/Location';
-import UploadImage from '../../../../assets/icons/UploadImage';
-import UploadFile from '../../../../assets/icons/UploadFile';
-import UploadAudio from '../../../../assets/icons/UploadAudio';
-import UploadVideo from '../../../../assets/icons/UploadVideo';
-import Validation from '../../../../assets/icons/Validation';
+import * as React from 'react'
+import { NavLink } from 'react-router-dom'
+import ShortText from '../../../../assets/icons/ShortText'
+import DatePicker from '../../../../assets/icons/DatePicker'
+import LongText from '../../../../assets/icons/LongText'
+import Selection from '../../../../assets/icons/Selection'
+import QRcode from '../../../../assets/icons/QRcode'
+import Location from '../../../../assets/icons/Location'
+import UploadImage from '../../../../assets/icons/UploadImage'
+import UploadFile from '../../../../assets/icons/UploadFile'
+import UploadAudio from '../../../../assets/icons/UploadAudio'
+import UploadVideo from '../../../../assets/icons/UploadVideo'
+import Validation from '../../../../assets/icons/Validation'
 // When we add more types then add the relevant icons
 /*
  */
-import SelectPicture from '../../../../assets/icons/SelectPicture';
+import SelectPicture from '../../../../assets/icons/SelectPicture'
 import {
   Container,
   ContentWrapper,
   ListItems,
   ButtonWrapper,
   SubHeader,
-} from './Instructions.styles';
+} from './Instructions.styles'
 
 interface Props {
   backLink: string
@@ -35,23 +35,23 @@ const Instructions: React.FunctionComponent<Props> = ({
   formLink,
 }) => {
   const icons = {
-    'text': ShortText,
-    'textarea': LongText,
-    'checkboxes': Selection,
-    'imagecheckboxes': SelectPicture,
-    'radio': Selection,
-    'singledateselector': DatePicker,
-    'daterangeselector': DatePicker,
-    'qrcode': QRcode,
-    'locationselector': Location,
-    'imageupload': UploadImage,
-    'avatarupload': UploadImage,
-    'documentupload': UploadFile,
-    'videoupload': UploadVideo,
-    'audioupload': UploadAudio,
-    'emailvalidation': Validation,
-    'phonevalidation': Validation,
-  };
+    ['text']: ShortText,
+    ['textarea']: LongText,
+    ['checkboxes']: Selection,
+    ['imagecheckboxes']: SelectPicture,
+    ['radio']: Selection,
+    ['singledateselector']: DatePicker,
+    ['daterangeselector']: DatePicker,
+    ['qrcode']: QRcode,
+    ['locationselector']: Location,
+    ['imageupload']: UploadImage,
+    ['avatarupload']: UploadImage,
+    ['documentupload']: UploadFile,
+    ['videoupload']: UploadVideo,
+    ['audioupload']: UploadAudio,
+    ['emailvalidation']: Validation,
+    ['phonevalidation']: Validation,
+  }
 
   return (
     <Container>
@@ -72,7 +72,7 @@ const Instructions: React.FunctionComponent<Props> = ({
 
                   {item.title}
                 </div>
-              );
+              )
             },
           )}
         </ListItems>
@@ -86,7 +86,7 @@ const Instructions: React.FunctionComponent<Props> = ({
         </NavLink>
       </ButtonWrapper>
     </Container>
-  );
-};
+  )
+}
 
-export default Instructions;
+export default Instructions

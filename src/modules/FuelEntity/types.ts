@@ -71,4 +71,4 @@ export type FuelEntityActionTypes =
   | ConfirmOrderPendingAction
   | ConfirmOrderFailureAction
   | ConfirmOrderSuccessAction
-  | CancelOrderAction;
+  | CancelOrderAction

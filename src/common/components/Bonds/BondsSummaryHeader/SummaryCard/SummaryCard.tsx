@@ -1,5 +1,4 @@
-import React, { Component } from 'react';
-import { thousandSeparator } from 'common/utils/formatters';
+import React, { Component } from 'react'
 import {
   StyledHeaderItem,
   Token,
@@ -7,7 +6,8 @@ import {
   Title,
   Price,
   AdditionalInfo,
-} from './SummaryCard.styles';
+} from './SummaryCard.styles'
+import { thousandSeparator } from 'common/utils/formatters'
 
 export default class HeaderItem extends Component<any> {
   render(): JSX.Element {
@@ -30,6 +30,6 @@ export default class HeaderItem extends Component<any> {
           <AdditionalInfo>{this.props.additionalInfo}</AdditionalInfo>
         </ValueContainer>
       </StyledHeaderItem>
-    );
+    )
   }
 }

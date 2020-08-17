@@ -1,10 +1,10 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import { BrowserRouter, Route, Redirect } from 'react-router-dom';
-import { RootState } from '../../common/redux/types';
-import EnterSellOrder from './components/EnterSellOrder/EnterSellOrder';
-import ConfirmSellOrder from './components/ConfirmSellOrder/ConfirmSellOrder';
-import * as bondSellSelectors from './BondSell.selectors';
+import React from 'react'
+import { RootState } from '../../common/redux/types'
+import { connect } from 'react-redux'
+import { BrowserRouter, Route, Redirect } from 'react-router-dom'
+import EnterSellOrder from './components/EnterSellOrder/EnterSellOrder'
+import ConfirmSellOrder from './components/ConfirmSellOrder/ConfirmSellOrder'
+import * as bondSellSelectors from './BondSell.selectors'
 
 interface Props {
   projectDID: string
@@ -34,10 +34,10 @@ const BondSell: React.FunctionComponent<Props> = ({
                         exact
                         to={`/projects/${projectDID}/bonds/${bondDID}/exchange/sell/confirm`}
                       />
-                    );
-                  } 
-                  return <EnterSellOrder {...props} />;
-                  
+                    )
+                  } else {
+                    return <EnterSellOrder {...props} />
+                  }
                 }}
               />
               <Route
@@ -52,10 +52,10 @@ const BondSell: React.FunctionComponent<Props> = ({
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
 const mapStateToProps = (state: RootState): any => ({
   isSending: bondSellSelectors.selectBondSellIsSending(state),
-});
-export default connect(mapStateToProps)(BondSell);
+})
+export default connect(mapStateToProps)(BondSell)

@@ -1,10 +1,10 @@
-import * as React from 'react';
-import Dropzone from 'react-dropzone';
-import UploadFlat from 'assets/icons/UploadFlat';
-import { LoaderWrapper, UploadingWrapper } from '../Loader.styles';
-import PulseLoader from '../../PulseLoader/PulseLoader';
-import { strategyMap } from '../strategy-map';
-import { FileType } from '../types';
+import * as React from 'react'
+import Dropzone from 'react-dropzone'
+import { LoaderWrapper, UploadingWrapper } from '../Loader.styles'
+import UploadFlat from 'assets/icons/UploadFlat'
+import PulseLoader from '../../PulseLoader/PulseLoader'
+import { strategyMap } from '../strategy-map'
+import { FileType } from '../types'
 
 interface Props {
   maxFileSize: number
@@ -21,19 +21,19 @@ const FileLoader: React.FunctionComponent<Props> = ({
   maxFileSize,
   handleSave,
 }) => {
-  const maxFileSizeInMB = maxFileSize / 1000000;
+  const maxFileSizeInMB = maxFileSize / 1000000
 
   const onDropAccepted = (files: any): void => {
-    const file = files[0];
+    const file = files[0]
 
-    const reader = new FileReader();
+    const reader = new FileReader()
 
-    reader.readAsDataURL(file);
+    reader.readAsDataURL(file)
 
     reader.onload = (): void => {
-      handleSave(reader.result?.toString());
-    };
-  };
+      handleSave(reader.result?.toString())
+    }
+  }
 
   if (uploading) {
     return (
@@ -45,7 +45,7 @@ const FileLoader: React.FunctionComponent<Props> = ({
           <p>Uploading...</p>
         </UploadingWrapper>
       </LoaderWrapper>
-    );
+    )
   }
 
   if (uploadedFileSrc) {
@@ -73,7 +73,7 @@ const FileLoader: React.FunctionComponent<Props> = ({
           )}
         </Dropzone>
       </LoaderWrapper>
-    );
+    )
   }
 
   return (
@@ -85,7 +85,7 @@ const FileLoader: React.FunctionComponent<Props> = ({
         // style={DropZoneStyles}
       >
         {() => (
-          <>
+          <React.Fragment>
             <PulseLoader repeat={false}>
               <UploadFlat width={32} fill="#39C3E6" />
             </PulseLoader>
@@ -97,11 +97,11 @@ const FileLoader: React.FunctionComponent<Props> = ({
               {strategyMap[fileType].fileTypesText}, max size {maxFileSizeInMB}
               mb
             </small>
-          </>
+          </React.Fragment>
         )}
       </Dropzone>
     </LoaderWrapper>
-  );
-};
+  )
+}
 
-export default FileLoader;
+export default FileLoader

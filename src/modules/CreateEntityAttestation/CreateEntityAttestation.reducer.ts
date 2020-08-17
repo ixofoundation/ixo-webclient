@@ -2,7 +2,7 @@ import {
   CreateEntityAttestationState,
   CreateEntityAttestationActionTypes,
   CreateEntityAttestationActions,
-} from './types';
+} from './types'
 
 export const initialState: CreateEntityAttestationState = {
   claimInfo: {
@@ -11,7 +11,7 @@ export const initialState: CreateEntityAttestationState = {
   },
   questions: {},
   validation: {},
-};
+}
 
 export const reducer = (
   state = initialState,
@@ -22,7 +22,7 @@ export const reducer = (
       return {
         ...state,
         claimInfo: action.payload,
-      };
+      }
     case CreateEntityAttestationActions.AddShortTextQuestion:
       return {
         ...state,
@@ -32,7 +32,7 @@ export const reducer = (
             [action.payload.id]: action.payload,
           },
         },
-      };
+      }
     case CreateEntityAttestationActions.UpdateShortTextQuestion:
       return {
         ...state,
@@ -45,7 +45,7 @@ export const reducer = (
             },
           },
         },
-      };
+      }
     case CreateEntityAttestationActions.AddLongTextQuestion:
       return {
         ...state,
@@ -55,7 +55,7 @@ export const reducer = (
             [action.payload.id]: action.payload,
           },
         },
-      };
+      }
     case CreateEntityAttestationActions.UpdateLongTextQuestion:
       return {
         ...state,
@@ -68,7 +68,7 @@ export const reducer = (
             },
           },
         },
-      };
+      }
     case CreateEntityAttestationActions.UpdateAnswerRequired:
       return {
         ...state,
@@ -81,8 +81,8 @@ export const reducer = (
             },
           },
         },
-      };
+      }
   }
 
-  return state;
-};
+  return state
+}

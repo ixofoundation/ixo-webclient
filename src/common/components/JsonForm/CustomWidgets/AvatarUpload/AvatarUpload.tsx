@@ -1,5 +1,5 @@
-import React from 'react';
-import ImageLoader from '../../../DropZone/ImageLoader/ImageLoader';
+import React from 'react'
+import ImageLoader from '../../../DropZone/ImageLoader/ImageLoader'
 
 interface Props {
   options: any
@@ -22,7 +22,7 @@ const AvatarUpload: React.FunctionComponent<Props> = ({
       handleSave={(base64EncodedImage): void => onChange(base64EncodedImage)}
       maxDimension={600}
     />
-  );
-};
+  )
+}
 
-export default AvatarUpload;
+export default AvatarUpload

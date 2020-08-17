@@ -1,5 +1,5 @@
-import React from 'react';
-import ImageLoader from '../../../DropZone/ImageLoader/ImageLoader';
+import React from 'react'
+import ImageLoader from '../../../DropZone/ImageLoader/ImageLoader'
 
 interface Props {
   value: string
@@ -23,7 +23,7 @@ const ImageUpload: React.FunctionComponent<Props> = ({
       circularCrop={!!circularCrop}
       previewWidth={previewWidth || undefined}
     />
-  );
-};
+  )
+}
 
-export default ImageUpload;
+export default ImageUpload

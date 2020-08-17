@@ -1,4 +1,4 @@
-import { FormControl, FormData } from '../../common/components/JsonForm/types';
+import { FormControl, FormData } from '../../common/components/JsonForm/types'
 
 export interface SubmitEntityClaimState {
   questions: FormControl[]
@@ -76,4 +76,4 @@ export type SubmitEntityClaimActionTypes =
   | GoToNextQuestionAction
   | GoToPreviousQuestionAction
   | GoToQuestionNumberAction
-  | FinaliseQuestionsAction;
+  | FinaliseQuestionsAction

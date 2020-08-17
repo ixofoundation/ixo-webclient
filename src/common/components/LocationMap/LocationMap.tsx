@@ -1,15 +1,15 @@
-import React from 'react';
+import React from "react";
 import {
   withGoogleMap,
   GoogleMap,
   withScriptjs,
   InfoWindow,
   Marker,
-} from 'react-google-maps';
-import Autocomplete from 'react-google-autocomplete';
-import Geocode from 'react-geocode';
-import { GeoLocation } from './types';
-import { GoogleMapWrapper, InputWrapper } from './LocationMap.styles';
+} from "react-google-maps";
+import Autocomplete from "react-google-autocomplete";
+import Geocode from "react-geocode";
+import { GeoLocation } from "./types";
+import { GoogleMapWrapper, InputWrapper } from "./LocationMap.styles";
 
 Geocode.setApiKey(process.env.REACT_APP_GOOGLE_API_KEY);
 
@@ -30,10 +30,10 @@ class LocationMap extends React.Component<Props, State> {
     super(props);
 
     this.state = {
-      address: '',
-      city: '',
-      area: '',
-      state: '',
+      address: "",
+      city: "",
+      area: "",
+      state: "",
       lat: this.props.lat,
       lng: this.props.lng,
     };
@@ -63,10 +63,10 @@ class LocationMap extends React.Component<Props, State> {
         const addressArray = response.results[0].address_components;
 
         this.setState({
-          address: response.results[0].formatted_address || '',
-          area: this.getArea(addressArray) || '',
-          city: this.getCity(addressArray) || '',
-          state: this.getState(addressArray) || '',
+          address: response.results[0].formatted_address || "",
+          area: this.getArea(addressArray) || "",
+          city: this.getCity(addressArray) || "",
+          state: this.getState(addressArray) || "",
         });
       },
       (error) => {
@@ -77,7 +77,7 @@ class LocationMap extends React.Component<Props, State> {
 
   getCity = (addressArray: any[]): string => {
     const administrativeAreaL2 = addressArray.find(
-      (address) => address.types[0] === 'administrative_area_level_2'
+      (address) => address.types[0] === "administrative_area_level_2"
     );
 
     return administrativeAreaL2 ? administrativeAreaL2.long_name : null;
@@ -85,7 +85,7 @@ class LocationMap extends React.Component<Props, State> {
 
   getArea = (addressArray: any[]): string => {
     const locality = addressArray.find((address) =>
-      address.types.includes('sublocality_level_1', 'locality')
+      address.types.includes("sublocality_level_1", "locality")
     );
 
     return locality ? locality.long_name : null;
@@ -93,7 +93,7 @@ class LocationMap extends React.Component<Props, State> {
 
   getState = (addressArray: any[]): string => {
     const administrativeAreaL1 = addressArray.find(
-      (address) => address.types[0] === 'administrative_area_level_1'
+      (address) => address.types[0] === "administrative_area_level_1"
     );
 
     return administrativeAreaL1 ? administrativeAreaL1.long_name : null;
@@ -109,10 +109,10 @@ class LocationMap extends React.Component<Props, State> {
     const lngValue = place.geometry.location.lng();
 
     this.setState({
-      address: place.formatted_address || '',
-      area: this.getArea(addressArray) || '',
-      city: this.getCity(addressArray) || '',
-      state: this.getState(addressArray) || '',
+      address: place.formatted_address || "",
+      area: this.getArea(addressArray) || "",
+      city: this.getCity(addressArray) || "",
+      state: this.getState(addressArray) || "",
       lat: latValue,
       lng: lngValue,
     });
@@ -125,12 +125,12 @@ class LocationMap extends React.Component<Props, State> {
     this.geoCodeFromLatLng(lat, lng);
 
     this.setState({
-      address: '',
-      area: '',
-      city: '',
-      state: '',
-      lat,
-      lng,
+      address: "",
+      area: "",
+      city: "",
+      state: "",
+      lat: lat,
+      lng: lng,
     });
   };
 
@@ -141,7 +141,7 @@ class LocationMap extends React.Component<Props, State> {
           <InputWrapper>
             <Autocomplete
               onPlaceSelected={this.onPlaceSelected}
-              types={['address']}
+              types={["address"]}
             />
           </InputWrapper>
           <GoogleMap
@@ -171,7 +171,7 @@ class LocationMap extends React.Component<Props, State> {
             >
               <div>
                 <span style={{ padding: 0, margin: 0 }}>
-                  {this.state.address || 'Drag marker or enter an address'}
+                  {this.state.address || "Drag marker or enter an address"}
                 </span>
               </div>
             </InfoWindow>
@@ -184,11 +184,11 @@ class LocationMap extends React.Component<Props, State> {
       <GoogleMapWrapper>
         <AsyncMap
           googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${process.env.REACT_APP_GOOGLE_API_KEY}&libraries=places`}
-          loadingElement={<div style={{ height: '100%' }} />}
+          loadingElement={<div style={{ height: "100%" }} />}
           containerElement={
             <div style={{ height: `${this.props.height}px` }} />
           }
-          mapElement={<div style={{ height: '100%' }} />}
+          mapElement={<div style={{ height: "100%" }} />}
         />
       </GoogleMapWrapper>
     );

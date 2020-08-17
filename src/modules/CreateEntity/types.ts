@@ -1,6 +1,6 @@
-import { EntityType } from '../Entities/types';
+import { EntityType } from '../Entities/types'
 
-export const PDS_URL = process.env.REACT_APP_PDS_URL;
+export const PDS_URL = process.env.REACT_APP_PDS_URL
 
 export enum Step {
   PageContent = 1,
@@ -35,7 +35,7 @@ export type StepNameStrategyMap = {
   [TKey in Step]: {
     name: string
   }
-};
+}
 
 /* export type EntityStepStrategyMap = {
   [TKey in EntityType]: {
@@ -65,4 +65,4 @@ export interface NewEntityAction {
   }
 }
 
-export type CreateEntityActionTypes = GoToStepAction | NewEntityAction;
+export type CreateEntityActionTypes = GoToStepAction | NewEntityAction

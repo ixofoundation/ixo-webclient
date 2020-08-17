@@ -1,12 +1,12 @@
-import * as React from 'react';
-import { ProfileCardWrapper } from './ProfileCard.style';
-import Linkedin from '../../../assets/icons/Linkedin';
-import Twitter from '../../../assets/icons/Twitter';
+import * as React from 'react'
+import { ProfileCardWrapper } from './ProfileCard.style'
+import Linkedin from '../../../assets/icons/Linkedin'
+import Twitter from '../../../assets/icons/Twitter'
 
 const ProfileCard = (user: Record<string, any>): JSX.Element => {
-  const { imageLink, title, subtitle, icons } = user.user;
+  const { imageLink, title, subtitle, icons } = user.user
   if (!title) {
-    return null;
+    return null
   }
   return (
     <ProfileCardWrapper data-testid="ProfileCard">
@@ -41,7 +41,7 @@ const ProfileCard = (user: Record<string, any>): JSX.Element => {
         )}
       </div>
     </ProfileCardWrapper>
-  );
-};
+  )
+}
 
-export default ProfileCard;
+export default ProfileCard

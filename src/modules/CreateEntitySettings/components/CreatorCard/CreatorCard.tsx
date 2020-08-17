@@ -1,7 +1,7 @@
-import React from 'react';
-import { customControls } from '../../../../common/components/JsonForm/types';
-import { FormCardProps } from '../../../CreateEntity/types';
-import MultiControlForm from '../../../../common/components/JsonForm/MultiControlForm/MultiControlForm';
+import React from 'react'
+import { customControls } from '../../../../common/components/JsonForm/types'
+import { FormCardProps } from '../../../CreateEntity/types'
+import MultiControlForm from '../../../../common/components/JsonForm/MultiControlForm/MultiControlForm'
 
 interface Props extends FormCardProps {
   displayName: string
@@ -42,7 +42,7 @@ const CreatorCard: React.FunctionComponent<Props> = React.forwardRef(
       creatorId,
       credential,
       fileSrc,
-    };
+    }
 
     const schema = {
       type: 'object',
@@ -69,44 +69,44 @@ const CreatorCard: React.FunctionComponent<Props> = React.forwardRef(
           title: 'Credential ID',
         },
       },
-    } as any;
+    } as any
 
     const uiSchema = {
       fileSrc: {
-        'ui:widget': customControls.imageupload,
-        'ui:uploading': uploadingImage,
-        'ui:maxDimension': 440,
-        'ui:previewWidth': 440,
-        'ui:circularCrop': false,
+        ['ui:widget']: customControls['imageupload'],
+        ['ui:uploading']: uploadingImage,
+        ['ui:maxDimension']: 440,
+        ['ui:previewWidth']: 440,
+        ['ui:circularCrop']: false,
       },
       displayName: {
-        'ui:widget': 'text',
-        'ui:placeholder': 'Enter Title',
+        ['ui:widget']: 'text',
+        ['ui:placeholder']: 'Enter Title',
       },
       location: {
-        'ui:widget': customControls.countryselector,
+        ['ui:widget']: customControls['countryselector'],
       },
       email: {
-        'ui:widget': 'text',
-        'ui:placeholder': 'Enter Email',
+        ['ui:widget']: 'text',
+        ['ui:placeholder']: 'Enter Email',
       },
       website: {
-        'ui:widget': 'text',
-        'ui:placeholder': 'Enter /Paste URL',
+        ['ui:widget']: 'text',
+        ['ui:placeholder']: 'Enter /Paste URL',
       },
       mission: {
-        'ui:widget': 'text',
-        'ui:placeholder': 'Short Description',
+        ['ui:widget']: 'text',
+        ['ui:placeholder']: 'Short Description',
       },
       creatorId: {
-        'ui:widget': 'text',
-        'ui:placeholder': 'Enter ID or !name',
+        ['ui:widget']: 'text',
+        ['ui:placeholder']: 'Enter ID or !name',
       },
       credential: {
-        'ui:widget': 'text',
-        'ui:placeholder': 'Paste Credential',
+        ['ui:widget']: 'text',
+        ['ui:placeholder']: 'Paste Credential',
       },
-    };
+    }
 
     return (
       <MultiControlForm
@@ -121,8 +121,8 @@ const CreatorCard: React.FunctionComponent<Props> = React.forwardRef(
       >
         &nbsp;
       </MultiControlForm>
-    );
+    )
   },
-);
+)
 
-export default CreatorCard;
+export default CreatorCard

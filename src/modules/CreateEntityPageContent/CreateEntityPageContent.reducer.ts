@@ -2,8 +2,8 @@ import {
   CreateEntityPageContentState,
   CreateEntityPageContentActionTypes,
   CreateEntityPageContentActions,
-} from './types';
-import * as reduxUtils from '../../common/redux/utils';
+} from './types'
+import * as reduxUtils from '../../common/redux/utils'
 
 export const initialState: CreateEntityPageContentState = {
   header: {
@@ -31,7 +31,7 @@ export const initialState: CreateEntityPageContentState = {
   },
   embedded: {},
   validation: {},
-};
+}
 
 export const reducer = (
   state = initialState,
@@ -45,7 +45,7 @@ export const reducer = (
           ...state.header,
           ...action.payload,
         },
-      };
+      }
     case CreateEntityPageContentActions.UploadHeaderContentImagePending:
       return {
         ...state,
@@ -53,7 +53,7 @@ export const reducer = (
           ...state.header,
           uploading: true,
         },
-      };
+      }
     case CreateEntityPageContentActions.UploadHeaderContentImageSuccess:
       return {
         ...state,
@@ -62,7 +62,7 @@ export const reducer = (
           uploading: false,
           fileSrc: action.payload.fileSrc,
         },
-      };
+      }
     case CreateEntityPageContentActions.UploadHeaderContentImageFailure:
       return {
         ...state,
@@ -70,7 +70,7 @@ export const reducer = (
           ...state.header,
           uploading: false,
         },
-      };
+      }
     case CreateEntityPageContentActions.AddBodySection:
       return {
         ...state,
@@ -86,12 +86,12 @@ export const reducer = (
             },
           },
         },
-      };
+      }
     case CreateEntityPageContentActions.RemoveBodySection:
       return {
         ...state,
         body: reduxUtils.omitKey(state.body, action.payload.id),
-      };
+      }
     case CreateEntityPageContentActions.UpdateBodyContent:
       return {
         ...state,
@@ -105,7 +105,7 @@ export const reducer = (
             },
           },
         },
-      };
+      }
     case CreateEntityPageContentActions.UploadBodyContentImagePending:
       return {
         ...state,
@@ -118,7 +118,7 @@ export const reducer = (
             },
           },
         },
-      };
+      }
     case CreateEntityPageContentActions.UploadBodyContentImageSuccess:
       return {
         ...state,
@@ -132,7 +132,7 @@ export const reducer = (
             },
           },
         },
-      };
+      }
     case CreateEntityPageContentActions.UploadBodyContentImageFailure:
       return {
         ...state,
@@ -145,7 +145,7 @@ export const reducer = (
             },
           },
         },
-      };
+      }
     case CreateEntityPageContentActions.AddImageSection:
       return {
         ...state,
@@ -162,12 +162,12 @@ export const reducer = (
             },
           },
         },
-      };
+      }
     case CreateEntityPageContentActions.RemoveImageSection:
       return {
         ...state,
         images: reduxUtils.omitKey(state.images, action.payload.id),
-      };
+      }
     case CreateEntityPageContentActions.UpdateImageContent:
       return {
         ...state,
@@ -181,7 +181,7 @@ export const reducer = (
             },
           },
         },
-      };
+      }
     case CreateEntityPageContentActions.UploadImageContentImagePending:
       return {
         ...state,
@@ -194,7 +194,7 @@ export const reducer = (
             },
           },
         },
-      };
+      }
     case CreateEntityPageContentActions.UploadImageContentImageSuccess:
       return {
         ...state,
@@ -208,7 +208,7 @@ export const reducer = (
             },
           },
         },
-      };
+      }
     case CreateEntityPageContentActions.UploadImageContentImageFailure:
       return {
         ...state,
@@ -221,7 +221,7 @@ export const reducer = (
             },
           },
         },
-      };
+      }
     case CreateEntityPageContentActions.AddProfileSection:
       return {
         ...state,
@@ -239,12 +239,12 @@ export const reducer = (
             },
           },
         },
-      };
+      }
     case CreateEntityPageContentActions.RemoveProfileSection:
       return {
         ...state,
         profiles: reduxUtils.omitKey(state.profiles, action.payload.id),
-      };
+      }
     case CreateEntityPageContentActions.UpdateProfileContent:
       return {
         ...state,
@@ -258,7 +258,7 @@ export const reducer = (
             },
           },
         },
-      };
+      }
     case CreateEntityPageContentActions.UploadProfileContentImagePending:
       return {
         ...state,
@@ -271,7 +271,7 @@ export const reducer = (
             },
           },
         },
-      };
+      }
     case CreateEntityPageContentActions.UploadProfileContentImageSuccess:
       return {
         ...state,
@@ -285,7 +285,7 @@ export const reducer = (
             },
           },
         },
-      };
+      }
     case CreateEntityPageContentActions.UploadProfileContentImageFailure:
       return {
         ...state,
@@ -298,7 +298,7 @@ export const reducer = (
             },
           },
         },
-      };
+      }
     case CreateEntityPageContentActions.UpdateSocialContent:
       return {
         ...state,
@@ -306,7 +306,7 @@ export const reducer = (
           ...state.social,
           ...action.payload,
         },
-      };
+      }
     case CreateEntityPageContentActions.AddEmbeddedSection:
       return {
         ...state,
@@ -320,12 +320,12 @@ export const reducer = (
             },
           },
         },
-      };
+      }
     case CreateEntityPageContentActions.RemoveEmbeddedSection:
       return {
         ...state,
         embedded: reduxUtils.omitKey(state.embedded, action.payload.id),
-      };
+      }
     case CreateEntityPageContentActions.UpdateEmbeddedContent:
       return {
         ...state,
@@ -333,7 +333,7 @@ export const reducer = (
           ...state.embedded,
           ...{ [action.payload.id]: action.payload },
         },
-      };
+      }
     case CreateEntityPageContentActions.Validated:
       return {
         ...state,
@@ -347,7 +347,7 @@ export const reducer = (
             },
           },
         },
-      };
+      }
     case CreateEntityPageContentActions.ValidationError:
       return {
         ...state,
@@ -361,8 +361,8 @@ export const reducer = (
             },
           },
         },
-      };
+      }
   }
 
-  return state;
-};
+  return state
+}

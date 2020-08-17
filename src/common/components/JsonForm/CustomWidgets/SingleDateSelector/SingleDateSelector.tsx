@@ -1,16 +1,16 @@
-import React from 'react';
-import { SingleDatePicker } from 'react-dates';
-import moment from 'moment';
-import MediaQuery from 'react-responsive';
-import { deviceWidth } from '../../../../../lib/commonData';
+import React from "react";
+import { SingleDatePicker } from "react-dates";
+import moment from "moment";
+import MediaQuery from "react-responsive";
+import { deviceWidth } from "../../../../../lib/commonData";
 import {
   Container,
   MobileWrapper,
   MobileDateHeader,
   HeadingItem,
   DesktopWrapper,
-} from './SingleDateSelector.styles';
-import Back from '../../../../../assets/icons/Back';
+} from "./SingleDateSelector.styles";
+import Back from "../../../../../assets/icons/Back";
 
 interface Props {
   id: string;
@@ -32,7 +32,7 @@ class SingleDateSelector extends React.Component<Props, State> {
   }
 
   renderSingleDatePicker = (
-    orientation: 'horizontal' | 'vertical' | undefined,
+    orientation: "horizontal" | "vertical" | undefined,
     height: number,
     numberOfMonths: number
   ): JSX.Element => {
@@ -42,7 +42,8 @@ class SingleDateSelector extends React.Component<Props, State> {
         date={value ? moment(value) : null}
         displayFormat="DD-MMM-YYYY"
         onDateChange={(date): void =>
-          onChange(date ? date.format('DD-MMM-YYYY') : '')}
+          onChange(date ? date.format("DD-MMM-YYYY") : "")
+        }
         focused={this.state.focused}
         onFocusChange={({ focused }): void => this.setState({ focused })}
         id={id}
@@ -60,20 +61,20 @@ class SingleDateSelector extends React.Component<Props, State> {
     return (
       <Container>
         <MediaQuery maxWidth={`${deviceWidth.tablet - 1}px`}>
-          <MobileWrapper className={this.state.focused ? 'active' : ''}>
+          <MobileWrapper className={this.state.focused ? "active" : ""}>
             {this.state.focused && (
               <MobileDateHeader>
-                <HeadingItem onClick={(): void => console.log('back')}>
+                <HeadingItem onClick={(): void => console.log("back")}>
                   <Back />
                 </HeadingItem>
               </MobileDateHeader>
             )}
-            {this.renderSingleDatePicker('vertical', 685, 3)}
+            {this.renderSingleDatePicker("vertical", 685, 3)}
           </MobileWrapper>
         </MediaQuery>
         <MediaQuery minWidth={`${deviceWidth.tablet}px`}>
-          <DesktopWrapper className={this.state.focused ? 'active' : ''}>
-            {this.renderSingleDatePicker('horizontal', 0, 2)}
+          <DesktopWrapper className={this.state.focused ? "active" : ""}>
+            {this.renderSingleDatePicker("horizontal", 0, 2)}
           </DesktopWrapper>
         </MediaQuery>
       </Container>

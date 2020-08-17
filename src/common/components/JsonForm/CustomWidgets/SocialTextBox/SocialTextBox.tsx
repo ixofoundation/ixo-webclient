@@ -1,7 +1,7 @@
-import React from 'react';
+import React from 'react'
 import SocialInput, {
   Type,
-} from '../../../Controls/IconInput/SocialInput/SocialInput';
+} from '../../../Controls/IconInput/SocialInput/SocialInput'
 
 interface Props {
   id: string
@@ -31,7 +31,7 @@ const SocialTextBox: React.FunctionComponent<Props> = ({
       onChange={onChange}
       placeholder={placeholder}
     />
-  );
-};
+  )
+}
 
-export default SocialTextBox;
+export default SocialTextBox

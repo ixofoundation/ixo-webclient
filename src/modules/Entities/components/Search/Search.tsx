@@ -1,13 +1,6 @@
-import * as React from 'react';
-import { FormStyles } from 'types/models';
-import Investments from 'assets/icons/Investments';
-import Cells from 'assets/icons/Cells';
-import Oracle from 'assets/icons/Oracle';
-import Template from 'assets/icons/Template';
-import SearchIcon from 'assets/icons/Search';
-import Down from 'assets/icons/Down';
-import Projects from 'assets/icons/Projects';
-import DataAssets from 'assets/icons/DataAssets';
+import * as React from "react";
+import InputText from "../../../../common/components/Form/InputText/InputText";
+import { FormStyles } from "types/models";
 import {
   SearchWrapper,
   ModalButton,
@@ -17,10 +10,17 @@ import {
   SearchButtonsWrapper,
   SearchFilterButton,
   ButtonContent,
-} from './Search.styles';
-import InputText from '../../../../common/components/Form/InputText/InputText';
-import { EntityType } from '../../types';
-import { entityTypeMap } from '../../strategy-map';
+} from "./Search.styles";
+import Investments from "assets/icons/Investments";
+import Cells from "assets/icons/Cells";
+import Oracle from "assets/icons/Oracle";
+import Template from "assets/icons/Template";
+import SearchIcon from "assets/icons/Search";
+import Down from "assets/icons/Down";
+import Projects from "assets/icons/Projects";
+import DataAssets from "assets/icons/DataAssets";
+import { EntityType } from "../../types";
+import { entityTypeMap } from "../../strategy-map";
 
 // TODO - search submitted
 
@@ -32,7 +32,7 @@ interface Props {
 
 export default class Search extends React.Component<Props> {
   state = {
-    search: '',
+    search: "",
     isModalOpen: false,
   };
 
@@ -66,7 +66,7 @@ export default class Search extends React.Component<Props> {
             <SearchWrapper>
               <ModalButton
                 onClick={(): void => this.handleToggleModal()}
-                className={this.state.isModalOpen ? 'modal-open' : ''}
+                className={this.state.isModalOpen ? "modal-open" : ""}
               >
                 {this.props.entityType === EntityType.Project && (
                   <Projects fill="#000" width="26" />
@@ -92,7 +92,7 @@ export default class Search extends React.Component<Props> {
                 <span
                   className="down-icon"
                   style={{
-                    transform: this.state.isModalOpen ? 'rotateX(180deg)' : '',
+                    transform: this.state.isModalOpen ? "rotateX(180deg)" : "",
                   }}
                 >
                   <Down fill="#000" />
@@ -114,21 +114,22 @@ export default class Search extends React.Component<Props> {
                 />
               </form>
               <SearchIconWrapper onClick={this.handleSubmit}>
-                <SearchIcon fill={this.props.entityColor || '#83d9f2'} />
+                <SearchIcon fill={this.props.entityColor || "#83d9f2"} />
               </SearchIconWrapper>
               <SearchModal
-                style={{ display: this.state.isModalOpen ? 'block' : 'none' }}
+                style={{ display: this.state.isModalOpen ? "block" : "none" }}
               >
                 <SearchHeading>Explore</SearchHeading>
                 <SearchButtonsWrapper>
                   <SearchFilterButton
                     onClick={(): void =>
-                      this.handleSearchFilter(EntityType.Project)}
+                      this.handleSearchFilter(EntityType.Project)
+                    }
                     className={`
                     ${EntityType.Project.toLowerCase()} ${
                       this.props.entityType === EntityType.Project
-                        ? 'active'
-                        : ''
+                        ? "active"
+                        : ""
                     }
                     `}
                   >
@@ -139,12 +140,13 @@ export default class Search extends React.Component<Props> {
                   </SearchFilterButton>
                   <SearchFilterButton
                     onClick={(): void =>
-                      this.handleSearchFilter(EntityType.Oracle)}
+                      this.handleSearchFilter(EntityType.Oracle)
+                    }
                     className={`
                     ${EntityType.Oracle.toLowerCase()} ${
                       this.props.entityType === EntityType.Oracle
-                        ? 'active'
-                        : ''
+                        ? "active"
+                        : ""
                     }
                     `}
                   >
@@ -155,12 +157,13 @@ export default class Search extends React.Component<Props> {
                   </SearchFilterButton>
                   <SearchFilterButton
                     onClick={(): void =>
-                      this.handleSearchFilter(EntityType.Investment)}
+                      this.handleSearchFilter(EntityType.Investment)
+                    }
                     className={`
                     ${EntityType.Investment.toLowerCase()} ${
                       this.props.entityType === EntityType.Investment
-                        ? 'active'
-                        : ''
+                        ? "active"
+                        : ""
                     }
                     `}
                   >
@@ -171,10 +174,11 @@ export default class Search extends React.Component<Props> {
                   </SearchFilterButton>
                   <SearchFilterButton
                     onClick={(): void =>
-                      this.handleSearchFilter(EntityType.Cell)}
+                      this.handleSearchFilter(EntityType.Cell)
+                    }
                     className={`
                     ${EntityType.Cell.toLowerCase()} ${
-                      this.props.entityType === EntityType.Cell ? 'active' : ''
+                      this.props.entityType === EntityType.Cell ? "active" : ""
                     }
                     `}
                   >
@@ -185,12 +189,13 @@ export default class Search extends React.Component<Props> {
                   </SearchFilterButton>
                   <SearchFilterButton
                     onClick={(): void =>
-                      this.handleSearchFilter(EntityType.Template)}
+                      this.handleSearchFilter(EntityType.Template)
+                    }
                     className={`
                     ${EntityType.Template.toLowerCase()} ${
                       this.props.entityType === EntityType.Template
-                        ? 'active'
-                        : ''
+                        ? "active"
+                        : ""
                     }
                     `}
                   >
@@ -201,10 +206,11 @@ export default class Search extends React.Component<Props> {
                   </SearchFilterButton>
                   <SearchFilterButton
                     onClick={(): void =>
-                      this.handleSearchFilter(EntityType.Data)}
+                      this.handleSearchFilter(EntityType.Data)
+                    }
                     className={`
                     ${EntityType.Data.toLowerCase()} ${
-                      this.props.entityType === EntityType.Data ? 'active' : ''
+                      this.props.entityType === EntityType.Data ? "active" : ""
                     }
                     `}
                   >

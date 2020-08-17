@@ -3,12 +3,12 @@ import {
   CreateEntityActionTypes,
   CreateEntityActions,
   Step,
-} from './types';
+} from './types'
 
 export const initialState: CreateEntityState = {
   step: Step.PageContent,
   entityType: null,
-};
+}
 
 export const reducer = (
   state = initialState,
@@ -19,13 +19,13 @@ export const reducer = (
       return {
         ...state,
         step: action.payload.step,
-      };
+      }
     case CreateEntityActions.NewEntity:
       return {
         ...state,
         entityType: action.payload.entityType,
-      };
+      }
   }
 
-  return state;
-};
+  return state
+}

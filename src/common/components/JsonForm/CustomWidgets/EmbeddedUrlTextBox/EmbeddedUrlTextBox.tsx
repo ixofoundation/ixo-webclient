@@ -1,10 +1,10 @@
-import React from 'react';
-import { isHttpsUrl } from 'common/utils/validationUtils';
-import Embedly from '../../../Embedly/Embedly';
+import React from 'react'
+import Embedly from '../../../Embedly/Embedly'
 import IconInput, {
   Type,
-} from '../../../Controls/IconInput/SocialInput/SocialInput';
-import { RemoveButton, AddButton } from './EmbeddedUrlTextBox.styles';
+} from '../../../Controls/IconInput/SocialInput/SocialInput'
+import { isHttpsUrl } from 'common/utils/validationUtils'
+import { RemoveButton, AddButton } from './EmbeddedUrlTextBox.styles'
 
 interface Props {
   id: string
@@ -23,25 +23,25 @@ const EmbeddedUrlTextBox: React.FunctionComponent<Props> = ({
   onBlur,
   onFocus,
 }) => {
-  const urls = value.split('|');
+  const urls = value.split('|')
 
   const handleUrlOnChange = (url: string, index: number): void => {
-    const newUrls = [...urls];
-    newUrls[index] = url;
+    const newUrls = [...urls]
+    newUrls[index] = url
 
-    onChange(newUrls.join('|'));
-  };
+    onChange(newUrls.join('|'))
+  }
 
   const handleUrlOnAdd = (): void => {
-    const newUrls = [...urls, ''];
-    onChange(newUrls.join('|'));
-  };
+    const newUrls = [...urls, '']
+    onChange(newUrls.join('|'))
+  }
 
   const handleUrlOnRemove = (index: number): void => {
-    const newUrls = [...urls].filter((url, i) => i !== index);
+    const newUrls = [...urls].filter((url, i) => i !== index)
 
-    onChange(newUrls.join('|'));
-  };
+    onChange(newUrls.join('|'))
+  }
 
   return (
     <>
@@ -70,14 +70,14 @@ const EmbeddedUrlTextBox: React.FunctionComponent<Props> = ({
               </RemoveButton>
             )}
           </div>
-        );
+        )
       })}
       <br />
       <AddButton type="button" onClick={handleUrlOnAdd}>
         + Add Link
       </AddButton>
     </>
-  );
-};
+  )
+}
 
-export default EmbeddedUrlTextBox;
+export default EmbeddedUrlTextBox

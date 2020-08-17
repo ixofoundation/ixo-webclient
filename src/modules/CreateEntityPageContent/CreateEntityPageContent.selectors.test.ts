@@ -1,7 +1,7 @@
-import * as SUT from './CreateEntityPageContent.selectors';
-import { CreateEntityPageContentState } from './types';
+import * as SUT from './CreateEntityPageContent.selectors'
+import { CreateEntityPageContentState } from './types'
 
-let state: any;
+let state: any
 
 beforeEach(() => {
   state = {
@@ -105,24 +105,24 @@ beforeEach(() => {
         },
       },
     } as CreateEntityPageContentState,
-  };
-});
+  }
+})
 
 describe('CreateEntityPageContent Selectors', () => {
   describe('selectPageContent', () => {
     it('should return the createEntityPageContent property of root state', () => {
       // when ... we call the selector
-      const result = SUT.selectPageContent(state);
+      const result = SUT.selectPageContent(state)
 
       // then ... should return result as expected
-      expect(result).toEqual(state.createEntityPageContent);
-    });
-  });
+      expect(result).toEqual(state.createEntityPageContent)
+    })
+  })
 
   describe('selectHeaderContent', () => {
     it('should return the selectHeaderContent property', () => {
       // when ... we call the selector
-      const result = SUT.selectHeaderContent(state);
+      const result = SUT.selectHeaderContent(state)
 
       // then ... should return result as expected
       expect(result).toEqual({
@@ -134,14 +134,14 @@ describe('CreateEntityPageContent Selectors', () => {
         organisation: 'someHeaderCompany',
         location: 'ZA',
         uploading: false,
-      });
-    });
-  });
+      })
+    })
+  })
 
   describe('selectBodyContentSections', () => {
     it('should return the body property as an array', () => {
       // when ... we call the selector
-      const result = SUT.selectBodyContentSections(state);
+      const result = SUT.selectBodyContentSections(state)
 
       // then ... should return result as expected
       expect(result).toEqual([
@@ -159,14 +159,14 @@ describe('CreateEntityPageContent Selectors', () => {
           fileSrc: 'someBody2fileSrc',
           uploading: false,
         },
-      ]);
-    });
-  });
+      ])
+    })
+  })
 
   describe('selectImageContentSections', () => {
     it('should return the images property as an array', () => {
       // when ... we call the selector
-      const result = SUT.selectImageContentSections(state);
+      const result = SUT.selectImageContentSections(state)
 
       // then ... should return result as expected
       expect(result).toEqual([
@@ -186,14 +186,14 @@ describe('CreateEntityPageContent Selectors', () => {
           imageDescription: 'someImage2ImageDescription',
           uploading: false,
         },
-      ]);
-    });
-  });
+      ])
+    })
+  })
 
   describe('selectProfileContentSections', () => {
     it('should return the profiles property as an array', () => {
       // when ... we call the selector
-      const result = SUT.selectProfileContentSections(state);
+      const result = SUT.selectProfileContentSections(state)
 
       // then ... should return result as expected
       expect(result).toEqual([
@@ -215,14 +215,14 @@ describe('CreateEntityPageContent Selectors', () => {
           fileSrc: 'someProfilefileSrc2',
           uploading: false,
         },
-      ]);
-    });
-  });
+      ])
+    })
+  })
 
   describe('selectSocialContent', () => {
     it('should return the social property', () => {
       // when ... we call the selector
-      const result = SUT.selectSocialContent(state);
+      const result = SUT.selectSocialContent(state)
 
       // then ... should return result as expected
       expect(result).toEqual({
@@ -234,14 +234,14 @@ describe('CreateEntityPageContent Selectors', () => {
         telegramUrl: 'someSocialTelegramUrl',
         githubUrl: 'someSocialGithubUrl',
         otherUrl: 'someSocialOtherUrl',
-      });
-    });
-  });
+      })
+    })
+  })
 
   describe('selectEmbeddedContentSections', () => {
     it('should return the embedded property', () => {
       // when ... we call the selector
-      const result = SUT.selectEmbeddedContentSections(state);
+      const result = SUT.selectEmbeddedContentSections(state)
 
       // then ... should return result as expected
       expect(result).toEqual([
@@ -255,14 +255,14 @@ describe('CreateEntityPageContent Selectors', () => {
           title: 'someEmbeddedTitle2',
           urls: ['url3', 'url4'],
         },
-      ]);
-    });
-  });
+      ])
+    })
+  })
 
   describe('selectValidation', () => {
     it('should return the validation property', () => {
       // when ... we call the selector
-      const result = SUT.selectValidation(state);
+      const result = SUT.selectValidation(state)
 
       // then ... should return result as expected
       expect(result).toEqual({
@@ -276,9 +276,9 @@ describe('CreateEntityPageContent Selectors', () => {
           validated: false,
           errors: ['error1', 'error2'],
         },
-      });
-    });
-  });
+      })
+    })
+  })
 
   describe('selectValidationComplete', () => {
     it('should return false if not every section has completed validation', () => {
@@ -293,13 +293,13 @@ describe('CreateEntityPageContent Selectors', () => {
             'db9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed': {},
           },
         },
-      };
+      }
 
-      const result = SUT.selectValidationComplete(state);
+      const result = SUT.selectValidationComplete(state)
 
       // then ... should return result as expected
-      expect(result).toEqual(false);
-    });
+      expect(result).toEqual(false)
+    })
 
     it('should return true if every section has completed validation', () => {
       // when ... we call the selector
@@ -320,14 +320,14 @@ describe('CreateEntityPageContent Selectors', () => {
             'db9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed': {},
           },
         },
-      };
+      }
 
-      const result = SUT.selectValidationComplete(state);
+      const result = SUT.selectValidationComplete(state)
 
       // then ... should return result as expected
-      expect(result).toEqual(true);
-    });
-  });
+      expect(result).toEqual(true)
+    })
+  })
 
   describe('selectValidated', () => {
     it('should return false if any section has not completed validation', () => {
@@ -346,13 +346,13 @@ describe('CreateEntityPageContent Selectors', () => {
             'cb9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed': {},
           },
         },
-      };
+      }
 
-      const result = SUT.selectValidated(state);
+      const result = SUT.selectValidated(state)
 
       // then ... should return result as expected
-      expect(result).toEqual(false);
-    });
+      expect(result).toEqual(false)
+    })
     it('should return false if any section has not been validated successfully', () => {
       // when ... we call the selector
       state = {
@@ -412,13 +412,13 @@ describe('CreateEntityPageContent Selectors', () => {
             },
           },
         },
-      };
+      }
 
-      const result = SUT.selectValidated(state);
+      const result = SUT.selectValidated(state)
 
       // then ... should return result as expected
-      expect(result).toEqual(false);
-    });
+      expect(result).toEqual(false)
+    })
 
     it('should return true if every section has been validated successfully', () => {
       // when ... we call the selector
@@ -479,12 +479,12 @@ describe('CreateEntityPageContent Selectors', () => {
             },
           },
         },
-      };
+      }
 
-      const result = SUT.selectValidated(state);
+      const result = SUT.selectValidated(state)
 
       // then ... should return result as expected
-      expect(result).toEqual(true);
-    });
-  });
-});
+      expect(result).toEqual(true)
+    })
+  })
+})

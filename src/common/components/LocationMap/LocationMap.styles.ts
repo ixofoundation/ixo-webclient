@@ -1,9 +1,9 @@
-import styled from 'styled-components';
+import styled from 'styled-components'
 
 export const GoogleMapWrapper = styled.div`
   position: relative;
   margin-top: 3rem;
-`;
+`
 
 export const InputWrapper = styled.div`
   position: absolute;
@@ -17,4 +17,4 @@ export const InputWrapper = styled.div`
     border-bottom-left-radius: 0;
     border: 1px solid transparent;
   }
-`;
+`

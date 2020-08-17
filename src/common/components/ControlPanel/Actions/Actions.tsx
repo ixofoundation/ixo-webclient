@@ -1,18 +1,18 @@
-import React from 'react';
-import { Route, NavLink } from 'react-router-dom';
-import AddPerson from '../../../../assets/icons/AddPerson';
-import Message from '../../../../assets/icons/Message';
-import Target from '../../../../assets/icons/Target';
-import Star from '../../../../assets/icons/Star';
-import Fuel from '../../../../assets/icons/Fuel';
-import ActionIcon from '../../../../assets/icons/Actions';
-import { Widget } from '../types';
-import { ControlPanelSection } from '../ControlPanel.styles';
-import { ActionLinksWrapper } from './Actions.styles';
-import FuelEntity from '../../../../modules/FuelEntity/FuelEntity.container';
-import { SummaryContainerConnected } from '../../../../modules/SubmitEntityClaim/Summary.container';
-import { Tooltip } from '../../Tooltip';
-import { InstructionsContainerConnected } from '../../../../modules/SubmitEntityClaim/Instructions.container';
+import React from 'react'
+import { Route, NavLink } from 'react-router-dom'
+import AddPerson from '../../../../assets/icons/AddPerson'
+import Message from '../../../../assets/icons/Message'
+import Target from '../../../../assets/icons/Target'
+import Star from '../../../../assets/icons/Star'
+import Fuel from '../../../../assets/icons/Fuel'
+import ActionIcon from '../../../../assets/icons/Actions'
+import { Widget } from '../types'
+import { ControlPanelSection } from '../ControlPanel.styles'
+import { ActionLinksWrapper } from './Actions.styles'
+import FuelEntity from '../../../../modules/FuelEntity/FuelEntity.container'
+import { SummaryContainerConnected } from '../../../../modules/SubmitEntityClaim/Summary.container'
+import { Tooltip } from '../../Tooltip'
+import { InstructionsContainerConnected } from '../../../../modules/SubmitEntityClaim/Instructions.container'
 
 interface IconTypes {
   [key: string]: any
@@ -24,7 +24,7 @@ const icons: IconTypes = {
   Target,
   Star,
   Fuel,
-};
+}
 
 interface Props {
   userDid: string
@@ -41,7 +41,7 @@ const Actions: React.FunctionComponent<Props> = ({
     <>
       <Route
         exact
-        path="/projects/:projectDID/overview/action/fuel_my_entity"
+        path={`/projects/:projectDID/overview/action/fuel_my_entity`}
         component={FuelEntity}
       />
       <Route
@@ -51,7 +51,7 @@ const Actions: React.FunctionComponent<Props> = ({
       />
       <Route
         exact
-        path="/projects/:projectDID/overview/action/new_claim"
+        path={`/projects/:projectDID/overview/action/new_claim`}
         component={InstructionsContainerConnected}
       />
       <ControlPanelSection key={title}>
@@ -64,20 +64,20 @@ const Actions: React.FunctionComponent<Props> = ({
         <ActionLinksWrapper>
           {controls?.map((control) => {
             if (control.permissions[0].role === 'user' && !userDid) {
-              return null;
+              return null
             }
 
             const intent = control.parameters.find(
               (param) => param?.name === 'intent',
-            )?.value;
+            )?.value
 
-            const to = `/projects/${entityDid}/overview/action/${intent}`;
+            const to = `/projects/${entityDid}/overview/action/${intent}`
 
             const interceptNavClick = (e: any): void => {
               if (window.location.pathname.startsWith(to)) {
-                e.preventDefault();
+                e.preventDefault()
               }
-            };
+            }
 
             return (
               <Tooltip text={control.tooltip} key={control['@id']}>
@@ -88,12 +88,12 @@ const Actions: React.FunctionComponent<Props> = ({
                   {control.title}
                 </NavLink>
               </Tooltip>
-            );
+            )
           })}
         </ActionLinksWrapper>
       </ControlPanelSection>
     </>
-  );
-};
+  )
+}
 
-export default Actions;
+export default Actions

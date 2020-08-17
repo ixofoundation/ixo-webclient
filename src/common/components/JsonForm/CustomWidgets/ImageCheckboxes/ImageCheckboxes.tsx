@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 const selectValue = (value: string, selected: any, all: any): any[] => {
   const at = all.indexOf(value);
@@ -37,7 +37,7 @@ const CheckboxesWidget: React.FunctionComponent<Props> = ({
         const itemDisabled =
           enumDisabled && enumDisabled.indexOf(option.value) != -1;
         const disabledCls =
-          disabled || itemDisabled || readonly ? 'disabled' : '';
+          disabled || itemDisabled || readonly ? "disabled" : "";
         const image = images[index];
         const checkbox = (
           <span>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 import {
   FuelEntityConfirmOrderWrapper,
   FuelEntityConfirmOrderHeader,
@@ -12,10 +12,10 @@ import {
   CancelOrderButton,
   ContinueOrderButton,
   BackButton,
-} from './FuelEntityConfirmOrder.styles';
-import IxoX from '../../../../assets/icons/IxoX';
-import ChatbotIcon from '../../../../assets/icons/Chatbot';
-import BackIcon from '../../../../assets/icons/Back';
+} from './FuelEntityConfirmOrder.styles'
+import IxoX from '../../../../assets/icons/IxoX'
+import ChatbotIcon from '../../../../assets/icons/Chatbot'
+import BackIcon from '../../../../assets/icons/Back'
 
 export interface Props {
   subscription: string
@@ -170,7 +170,7 @@ const FuelEntityConfirmOrder: React.FunctionComponent<Props> = ({
         </div>
       </ButtonWrapper>
     </FuelEntityConfirmOrderWrapper>
-  );
-};
+  )
+}
 
-export default FuelEntityConfirmOrder;
+export default FuelEntityConfirmOrder

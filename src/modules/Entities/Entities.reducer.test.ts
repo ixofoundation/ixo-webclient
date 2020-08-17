@@ -1,5 +1,5 @@
-import moment from 'moment';
-import * as SUT from './Entities.reducer';
+import moment from 'moment'
+import * as SUT from './Entities.reducer'
 import {
   EntitiesActions,
   GetEntitiesSuccessAction,
@@ -17,21 +17,21 @@ import {
   FilterCategoriesAction,
   FilterCategoryTagAction,
   FilterSectorAction,
-} from './types';
+} from './types'
 
-const { initialState } = SUT;
+const initialState = SUT.initialState
 
 describe('Entities Reducer', () => {
   it('should return the same state if an action is called on it which is not handled by the reducer', () => {
     // given .. we have an action the reducer does not handle
-    const action: any = 'foo';
+    const action: any = 'foo'
 
     // when ... we run the reducer with this action
-    const result = SUT.reducer(initialState, action);
+    const result = SUT.reducer(initialState, action)
 
     // then ... the state that was passed into the function should be returned
-    expect(result).toEqual(initialState);
-  });
+    expect(result).toEqual(initialState)
+  })
 
   describe('GetEntitiesSuccess Action', () => {
     it('should return a new copy of state with the entities data set and the filters left in tact', () => {
@@ -51,7 +51,7 @@ describe('Entities Reducer', () => {
           featuredEntities: false,
           sector: 'test',
         },
-      };
+      }
 
       const entities: Entity[] = [
         {
@@ -98,21 +98,21 @@ describe('Entities Reducer', () => {
           pdsUrl: 'somePsdUrl',
           data: null,
         },
-      ];
+      ]
 
       // given .. we have an action of type EntitiesActions.GetEntitiesSuccessAction and some data
       const action: GetEntitiesSuccessAction = {
         type: EntitiesActions.GetEntitiesSuccess,
         payload: entities,
-      };
+      }
 
       // when... we run the reducer with this action
-      const result = SUT.reducer(currentState, action);
+      const result = SUT.reducer(currentState, action)
 
       // then the state should be set as expected
-      expect(result).toEqual({ ...currentState, entities: [...entities] });
-    });
-  });
+      expect(result).toEqual({ ...currentState, entities: [...entities] })
+    })
+  })
 
   describe('ChangeEntityType Action', () => {
     it('should return a new copy of state with the entities left in tact, some properties of the filter cleared and the initial selected categories set', () => {
@@ -170,7 +170,7 @@ describe('Entities Reducer', () => {
           featuredEntities: true,
           sector: 'test',
         },
-      };
+      }
 
       // given... we have an action of type FilterToggleUserEntities
       const action: ChangeEntitiesTypeAction = {
@@ -178,27 +178,27 @@ describe('Entities Reducer', () => {
         payload: {
           entityType: EntityType.Cell,
         },
-      };
+      }
 
       // when... we call the reducer with this action
-      const result = SUT.reducer(currentState, action);
+      const result = SUT.reducer(currentState, action)
 
       // then the state should be set as expected
-      expect(result.selectedEntitiesType).toEqual(EntityType.Cell);
-      expect(result.entities).toEqual(currentState.entities);
-      expect(result.filter.dateFrom).toEqual(null);
-      expect(result.filter.dateTo).toEqual(null);
+      expect(result.selectedEntitiesType).toEqual(EntityType.Cell)
+      expect(result.entities).toEqual(currentState.entities)
+      expect(result.filter.dateFrom).toEqual(null)
+      expect(result.filter.dateTo).toEqual(null)
       expect(result.filter.userEntities).toEqual(
         currentState.filter.userEntities,
-      );
+      )
       expect(result.filter.featuredEntities).toEqual(
         currentState.filter.featuredEntities,
-      );
+      )
       expect(result.filter.popularEntities).toEqual(
         currentState.filter.popularEntities,
-      );
-    });
-  });
+      )
+    })
+  })
 
   describe('FilterToggleUserEntities Action', () => {
     it('should return a new copy of state with the user flag set, and the popular and featured reset and the other filters and entity data left in tact', () => {
@@ -257,7 +257,7 @@ describe('Entities Reducer', () => {
           featuredEntities: true,
           sector: 'test',
         },
-      };
+      }
 
       // given... we have an action of type FilterToggleUserEntities
       const action: FilterToggleUserEntitiesAction = {
@@ -265,10 +265,10 @@ describe('Entities Reducer', () => {
         payload: {
           userEntities: true,
         },
-      };
+      }
 
       // when... we call the reducer with this action
-      const result = SUT.reducer(currentState, action);
+      const result = SUT.reducer(currentState, action)
 
       // then the state should be set as expected
       expect(result).toEqual({
@@ -279,9 +279,9 @@ describe('Entities Reducer', () => {
           popularEntities: false,
           featuredEntities: false,
         },
-      });
-    });
-  });
+      })
+    })
+  })
 
   describe('FilterToggleFeaturedEntities Action', () => {
     it('should return a new copy of state with the featured flag set, and the user and popular reset and the other filters and entity data left in tact', () => {
@@ -340,7 +340,7 @@ describe('Entities Reducer', () => {
           userEntities: true,
           sector: 'test',
         },
-      };
+      }
 
       // given... we have an action of type FilterToggleFeaturedEntities
       const action: FilterToggleFeaturedEntitiesAction = {
@@ -348,10 +348,10 @@ describe('Entities Reducer', () => {
         payload: {
           featuredEntities: true,
         },
-      };
+      }
 
       // when... we call the reducer with this action
-      const result = SUT.reducer(currentState, action);
+      const result = SUT.reducer(currentState, action)
 
       // then the state should be set as expected
       expect(result).toEqual({
@@ -362,9 +362,9 @@ describe('Entities Reducer', () => {
           popularEntities: false,
           userEntities: false,
         },
-      });
-    });
-  });
+      })
+    })
+  })
 
   describe('FilterTogglePopularEntities Action', () => {
     it('should return a new copy of state with the popular flag set, and the user and featured reset and the other filters and entity data left in tact', () => {
@@ -423,7 +423,7 @@ describe('Entities Reducer', () => {
           userEntities: true,
           sector: 'test',
         },
-      };
+      }
 
       // given... we have an action of type FilterTogglePopularEntities
       const action: FilterTogglePopularEntitiesAction = {
@@ -431,10 +431,10 @@ describe('Entities Reducer', () => {
         payload: {
           popularEntities: true,
         },
-      };
+      }
 
       // when... we call the reducer with this action
-      const result = SUT.reducer(currentState, action);
+      const result = SUT.reducer(currentState, action)
 
       // then the state should be set as expected
       expect(result).toEqual({
@@ -445,9 +445,9 @@ describe('Entities Reducer', () => {
           featuredEntities: false,
           userEntities: false,
         },
-      });
-    });
-  });
+      })
+    })
+  })
 
   describe('FilterDates Action', () => {
     it('should return a new copy of state with the dates set and the other filters and entity data left in tact', () => {
@@ -506,7 +506,7 @@ describe('Entities Reducer', () => {
           featuredEntities: false,
           sector: 'test',
         },
-      };
+      }
 
       // given... we have an action of type FilterDates
       const action: FilterDatesAction = {
@@ -515,10 +515,10 @@ describe('Entities Reducer', () => {
           dateFrom: moment('2020-04-09T13:14:13.000Z'),
           dateTo: moment('2020-04-08T13:14:13.000Z'),
         },
-      };
+      }
 
       // when... we call the reducer with this action
-      const result = SUT.reducer(currentState, action);
+      const result = SUT.reducer(currentState, action)
 
       // then the state should be set as expected
       expect(result).toEqual({
@@ -528,9 +528,9 @@ describe('Entities Reducer', () => {
           dateFrom: moment('2020-04-09T13:14:13.000Z'),
           dateTo: moment('2020-04-08T13:14:13.000Z'),
         },
-      });
-    });
-  });
+      })
+    })
+  })
 
   describe('ResetDatesFilter Action', () => {
     it('should return a new copy of state with the dates reset and the other filters and entity data left in tact', () => {
@@ -589,15 +589,15 @@ describe('Entities Reducer', () => {
           featuredEntities: false,
           sector: 'test',
         },
-      };
+      }
 
       // given... we have an action of type ResetDatesFilter
       const action: ResetDatesFilterAction = {
         type: EntitiesActions.ResetDatesFilter,
-      };
+      }
 
       // when... we call the reducer with this action
-      const result = SUT.reducer(currentState, action);
+      const result = SUT.reducer(currentState, action)
 
       // then the state should be set as expected
       expect(result).toEqual({
@@ -607,9 +607,9 @@ describe('Entities Reducer', () => {
           dateFrom: null,
           dateTo: null,
         },
-      });
-    });
-  });
+      })
+    })
+  })
 
   describe('FilterCategoryTag Action', () => {
     it('should return a new copy of state with the relevant filter category added and all other categories left in tact', () => {
@@ -668,7 +668,7 @@ describe('Entities Reducer', () => {
           featuredEntities: false,
           sector: 'test',
         },
-      };
+      }
 
       // given... we have an action of type ResetFiltersAction
       const action: FilterCategoryTagAction = {
@@ -677,10 +677,10 @@ describe('Entities Reducer', () => {
           category: 'foo2',
           tags: ['bar2_1'],
         },
-      };
+      }
 
       // when... we call the reducer with this action
-      const result = SUT.reducer(currentState, action);
+      const result = SUT.reducer(currentState, action)
 
       // then the state should be set as expected
       expect(result).toEqual({
@@ -698,9 +698,9 @@ describe('Entities Reducer', () => {
             },
           ],
         },
-      });
-    });
-  });
+      })
+    })
+  })
 
   describe('FilterAddCategoryTag Action', () => {
     it('should return a new copy of state with the relevant filter category added and everything else left in tact', () => {
@@ -759,7 +759,7 @@ describe('Entities Reducer', () => {
           featuredEntities: false,
           sector: 'test',
         },
-      };
+      }
 
       // given... we have an action of type ResetFiltersAction
       const action: FilterAddCategoryTagAction = {
@@ -768,10 +768,10 @@ describe('Entities Reducer', () => {
           category: 'foo2',
           tags: ['bar2_1', 'bar2_2', 'bar2_3'],
         },
-      };
+      }
 
       // when... we call the reducer with this action
-      const result = SUT.reducer(currentState, action);
+      const result = SUT.reducer(currentState, action)
 
       // then the state should be set as expected
       expect(result).toEqual({
@@ -789,8 +789,8 @@ describe('Entities Reducer', () => {
             },
           ],
         },
-      });
-    });
+      })
+    })
 
     it('should return a new copy of state with the relevant filter category changed and everything else left in tact', () => {
       const currentState = {
@@ -848,7 +848,7 @@ describe('Entities Reducer', () => {
           featuredEntities: false,
           sector: 'test',
         },
-      };
+      }
 
       // given... we have an action of type ResetFiltersAction
       const action: FilterAddCategoryTagAction = {
@@ -857,10 +857,10 @@ describe('Entities Reducer', () => {
           category: 'foo1',
           tags: ['bar1_1', 'bar1_2', 'bar1_3', 'bar1_4', 'bar1_5', 'bar1_6'],
         },
-      };
+      }
 
       // when... we call the reducer with this action
-      const result = SUT.reducer(currentState, action);
+      const result = SUT.reducer(currentState, action)
 
       // then the state should be set as expected
       expect(result).toEqual({
@@ -881,9 +881,9 @@ describe('Entities Reducer', () => {
             },
           ],
         },
-      });
-    });
-  });
+      })
+    })
+  })
 
   describe('FilterCategories Action', () => {
     it('should return a new copy of state with the categories filter set and everything else left in tact', () => {
@@ -946,7 +946,7 @@ describe('Entities Reducer', () => {
           featuredEntities: false,
           sector: 'test',
         },
-      };
+      }
 
       // given... we have an action of type ResetFiltersAction
       const action: FilterCategoriesAction = {
@@ -956,10 +956,10 @@ describe('Entities Reducer', () => {
             { name: 'Cell Type', tags: ['Index', 'Relayer', 'Portal'] },
           ],
         },
-      };
+      }
 
       // when... we call the reducer with this action
-      const result = SUT.reducer(currentState, action);
+      const result = SUT.reducer(currentState, action)
 
       // then the state should be set as expected
       expect(result).toEqual({
@@ -970,9 +970,9 @@ describe('Entities Reducer', () => {
             { name: 'Cell Type', tags: ['Index', 'Relayer', 'Portal'] },
           ],
         },
-      });
-    });
-  });
+      })
+    })
+  })
 
   describe('FilerSector Action', () => {
     it('should return a new copy of state with the sector set and everything else left in tact', () => {
@@ -1035,7 +1035,7 @@ describe('Entities Reducer', () => {
           featuredEntities: false,
           sector: 'test',
         },
-      };
+      }
 
       // given... we have an action of type ResetFiltersAction
       const action: FilterSectorAction = {
@@ -1043,10 +1043,10 @@ describe('Entities Reducer', () => {
         payload: {
           sector: 'test',
         },
-      };
+      }
 
       // when... we call the reducer with this action
-      const result = SUT.reducer(currentState, action);
+      const result = SUT.reducer(currentState, action)
 
       // then the state should be set as expected
       expect(result).toEqual({
@@ -1055,9 +1055,9 @@ describe('Entities Reducer', () => {
           ...currentState.filter,
           sector: 'test',
         },
-      });
-    });
-  });
+      })
+    })
+  })
 
   describe('ResetCategoryFilter Action', () => {
     it('should return a new copy of state with the relevant category filter reset and everything else left in tact', () => {
@@ -1120,7 +1120,7 @@ describe('Entities Reducer', () => {
           featuredEntities: false,
           sector: 'test',
         },
-      };
+      }
 
       // given... we have an action of type ResetFiltersAction
       const action: ResetCategoryFilterAction = {
@@ -1128,10 +1128,10 @@ describe('Entities Reducer', () => {
         payload: {
           category: 'foo1',
         },
-      };
+      }
 
       // when... we call the reducer with this action
-      const result = SUT.reducer(currentState, action);
+      const result = SUT.reducer(currentState, action)
 
       // then the state should be set as expected
       expect(result).toEqual({
@@ -1149,9 +1149,9 @@ describe('Entities Reducer', () => {
             },
           ],
         },
-      });
-    });
-  });
+      })
+    })
+  })
 
   describe('ResetFilters Action', () => {
     it('should return a new copy of state with some properties of the filter reset', () => {
@@ -1210,15 +1210,15 @@ describe('Entities Reducer', () => {
           featuredEntities: false,
           sector: 'test',
         },
-      };
+      }
 
       // given... we have an action of type ResetFiltersAction
       const action: ResetFiltersAction = {
         type: EntitiesActions.ResetFilters,
-      };
+      }
 
       // when... we call the reducer with this action
-      const result = SUT.reducer(currentState, action);
+      const result = SUT.reducer(currentState, action)
 
       // then the state should be set as expected
       expect(result).toEqual({
@@ -1230,7 +1230,7 @@ describe('Entities Reducer', () => {
           featuredEntities: false,
           sector: 'test',
         },
-      });
-    });
-  });
-});
+      })
+    })
+  })
+})

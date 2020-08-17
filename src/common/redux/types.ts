@@ -1,21 +1,21 @@
-import { CreateEntitySettingsState } from 'modules/CreateEntitySettings/types';
-import { CreateEntityAdvancedState } from 'modules/CreateEntityAdvanced/types';
-import { KeysafeState } from '../../modules/keysafe/types';
-import { IxoState } from '../../modules/ixo/types';
-import { BondState } from '../../modules/bond/types';
-import { Currency } from '../../types/models';
-import { AccountState } from '../../modules/Account/types';
-import { BondBuyState } from '../../modules/BondBuy/types';
-import { BondSellState } from '../../modules/BondSell/types';
-import { BondSwapState } from '../../modules/BondSwap/types';
-import { EntitiesState, Entity } from '../../modules/Entities/types';
-import { FuelEntityState } from '../../modules/FuelEntity/types';
-import { SubmitEntityClaimState } from '../../modules/SubmitEntityClaim/types';
-
-import { CreateEntityPageContentState } from '../../modules/CreateEntityPageContent/types';
-import { CreateEntityAttestationState } from '../../modules/CreateEntityAttestation/types';
-import { CreateClaimTemplateState } from '../../modules/CreateClaimTemplate/types';
-import { CreateEntityState } from '../../modules/CreateEntity/types';
+import { KeysafeState } from '../../modules/keysafe/types'
+import { IxoState } from '../../modules/ixo/types'
+import { BondState } from '../../modules/bond/types'
+import { Currency } from '../../types/models'
+import { AccountState } from '../../modules/Account/types'
+import { BondBuyState } from '../../modules/BondBuy/types'
+import { BondSellState } from '../../modules/BondSell/types'
+import { BondSwapState } from '../../modules/BondSwap/types'
+import { EntitiesState } from '../../modules/Entities/types'
+import { FuelEntityState } from '../../modules/FuelEntity/types'
+import { SubmitEntityClaimState } from '../../modules/SubmitEntityClaim/types'
+import { Entity } from '../../modules/Entities/types'
+import { CreateEntityPageContentState } from '../../modules/CreateEntityPageContent/types'
+import { CreateEntityAttestationState } from '../../modules/CreateEntityAttestation/types'
+import { CreateClaimTemplateState } from '../../modules/CreateClaimTemplate/types'
+import { CreateEntityState } from '../../modules/CreateEntity/types'
+import { CreateEntitySettingsState } from 'modules/CreateEntitySettings/types'
+import { CreateEntityAdvancedState } from 'modules/CreateEntityAdvanced/types'
 
 export interface RootState {
   keySafe: KeysafeState

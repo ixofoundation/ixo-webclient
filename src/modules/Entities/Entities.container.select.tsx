@@ -1,16 +1,16 @@
-import React, { Dispatch } from 'react';
-import { Redirect } from 'react-router-dom';
-import { connect } from 'react-redux';
-import * as queryString from 'query-string';
+import React, { Dispatch } from 'react'
+import { Redirect } from 'react-router-dom'
+import { connect } from 'react-redux'
 import {
   filterCategories,
   filterSector,
   changeEntitiesType,
   resetSectorFilter,
-} from './Entities.actions';
-import { EntityType, Category } from './types';
-import * as entitiesUtils from './Entities.utils';
-import { ErrorContainer } from './Entities.container.styles';
+} from './Entities.actions'
+import { EntityType, Category } from './types'
+import * as entitiesUtils from './Entities.utils'
+import * as queryString from 'query-string'
+import { ErrorContainer } from './Entities.container.styles'
 
 interface Props {
   location: any
@@ -27,29 +27,29 @@ const EntitiesSelect: React.FunctionComponent<Props> = ({
   handleFilterSector,
   handleResetSectorFilter,
 }) => {
-  const params = queryString.parse(search);
-  const entityTypes = Object.values(EntityType);
+  const params = queryString.parse(search)
+  const entityTypes = Object.values(EntityType)
 
   if (entityTypes.find(e => e === params.type)) {
-    const entityType = params.type as EntityType;
+    const entityType = params.type as EntityType
 
-    handleChangeEntitiesType(entityType);
+    handleChangeEntitiesType(entityType)
     // "type" must be set and valid in order for any filters to be able to be applied
     if (params.categories) {
-      const categoriesFromParams = JSON.parse(params.categories as string);
+      const categoriesFromParams = JSON.parse(params.categories as string)
       const remainingCategories = entitiesUtils
         .getInitialSelectedCategories(entityType)
-        .filter(c => !categoriesFromParams.map(c => c.name).includes(c.name));
-      const categories = [...categoriesFromParams, ...remainingCategories];
+        .filter(c => !categoriesFromParams.map(c => c.name).includes(c.name))
+      const categories = [...categoriesFromParams, ...remainingCategories]
 
-      handleFilterCategories(categories);
+      handleFilterCategories(categories)
     }
 
     if (params.sector) {
       if (params.sector === 'all') {
-        handleResetSectorFilter();
+        handleResetSectorFilter()
       } else {
-        handleFilterSector(params.sector as string);
+        handleFilterSector(params.sector as string)
       }
     }
 
@@ -62,11 +62,11 @@ const EntitiesSelect: React.FunctionComponent<Props> = ({
           <strong key={e}>&nbsp;{e},</strong>
         ))}
       </ErrorContainer>
-    );
+    )
   }
 
-  return <Redirect to="/" />;
-};
+  return <Redirect to="/" />
+}
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
   handleChangeEntitiesType: (entityType: EntityType): void =>
@@ -75,9 +75,9 @@ const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
     dispatch(filterCategories(categories)),
   handleFilterSector: (tag: string): void => dispatch(filterSector(tag)),
   handleResetSectorFilter: (): void => dispatch(resetSectorFilter()),
-});
+})
 
 export const EntitiesSelectConnected = connect(
   null,
   mapDispatchToProps,
-)(EntitiesSelect);
+)(EntitiesSelect)

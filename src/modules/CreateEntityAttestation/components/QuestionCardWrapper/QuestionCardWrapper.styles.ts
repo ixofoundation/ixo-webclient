@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from 'styled-components'
 
 export const Toolbar = styled.div`
   border-top: 1px solid #e8edee;
@@ -19,4 +19,4 @@ export const Toolbar = styled.div`
     margin: 0 1.125rem;
     background: #e8edee;
   }
-`;
+`

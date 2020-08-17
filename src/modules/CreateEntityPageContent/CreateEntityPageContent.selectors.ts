@@ -1,59 +1,59 @@
-import { createSelector } from 'reselect';
-import { RootState } from '../../common/redux/types';
-import { CreateEntityPageContentState } from './types';
+import { createSelector } from 'reselect'
+import { RootState } from '../../common/redux/types'
+import { CreateEntityPageContentState } from './types'
 
 export const selectPageContent = (
   state: RootState,
-): CreateEntityPageContentState => state.createEntityPageContent;
+): CreateEntityPageContentState => state.createEntityPageContent
 
 export const selectHeaderContent = createSelector(
   selectPageContent,
   pageContent => {
-    return pageContent.header;
+    return pageContent.header
   },
-);
+)
 
 export const selectBodyContentSections = createSelector(
   selectPageContent,
   pageContent => {
-    return Object.values(pageContent.body);
+    return Object.values(pageContent.body)
   },
-);
+)
 
 export const selectImageContentSections = createSelector(
   selectPageContent,
   pageContent => {
-    return Object.values(pageContent.images);
+    return Object.values(pageContent.images)
   },
-);
+)
 
 export const selectProfileContentSections = createSelector(
   selectPageContent,
   pageContent => {
-    return Object.values(pageContent.profiles);
+    return Object.values(pageContent.profiles)
   },
-);
+)
 
 export const selectSocialContent = createSelector(
   selectPageContent,
   pageContent => {
-    return pageContent.social;
+    return pageContent.social
   },
-);
+)
 
 export const selectEmbeddedContentSections = createSelector(
   selectPageContent,
   pageContent => {
-    return Object.values(pageContent.embedded);
+    return Object.values(pageContent.embedded)
   },
-);
+)
 
 export const selectValidation = createSelector(
   selectPageContent,
   pageContent => {
-    return pageContent.validation;
+    return pageContent.validation
   },
-);
+)
 
 export const selectValidationComplete = createSelector(
   selectBodyContentSections,
@@ -69,25 +69,25 @@ export const selectValidationComplete = createSelector(
     validation,
   ) => {
     // check if each section has had it's validation completed
-    let validationComplete = true;
-    validationComplete = !!validation.header;
-    validationComplete = validationComplete && !!validation.social;
+    let validationComplete = true
+    validationComplete = !!validation['header']
+    validationComplete = validationComplete && !!validation['social']
     validationComplete =
       validationComplete &&
-      bodySections.map(section => section.id).every(id => !!validation[id]);
+      bodySections.map(section => section.id).every(id => !!validation[id])
     validationComplete =
       validationComplete &&
-      imageSections.map(section => section.id).every(id => !!validation[id]);
+      imageSections.map(section => section.id).every(id => !!validation[id])
     validationComplete =
       validationComplete &&
-      profileSections.map(section => section.id).every(id => !!validation[id]);
+      profileSections.map(section => section.id).every(id => !!validation[id])
     validationComplete =
       validationComplete &&
-      embeddedSections.map(section => section.id).every(id => !!validation[id]);
+      embeddedSections.map(section => section.id).every(id => !!validation[id])
 
-    return validationComplete;
+    return validationComplete
   },
-);
+)
 
 export const selectValidated = createSelector(
   selectBodyContentSections,
@@ -106,33 +106,33 @@ export const selectValidated = createSelector(
   ) => {
     // check if each section has been validated successfully
     if (!validationComplete) {
-      return false;
+      return false
     }
 
-    let validated = true;
-    validated = validation.header.validated;
-    validated = validated && validation.social.validated;
+    let validated = true
+    validated = validation['header'].validated
+    validated = validated && validation['social'].validated
     validated =
       validated &&
       bodySections
         .map(section => section.id)
-        .every(id => validation[id].validated);
+        .every(id => validation[id].validated)
     validated =
       validated &&
       imageSections
         .map(section => section.id)
-        .every(id => validation[id].validated);
+        .every(id => validation[id].validated)
     validated =
       validated &&
       profileSections
         .map(section => section.id)
-        .every(id => validation[id].validated);
+        .every(id => validation[id].validated)
     validated =
       validated &&
       embeddedSections
         .map(section => section.id)
-        .every(id => validation[id].validated);
+        .every(id => validation[id].validated)
 
-    return validated;
+    return validated
   },
-);
+)

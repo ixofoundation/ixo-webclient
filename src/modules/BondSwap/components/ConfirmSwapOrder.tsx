@@ -1,16 +1,16 @@
-import React, { Dispatch } from 'react';
-import { useForm } from 'react-hook-form';
-import { withRouter, Redirect, RouteComponentProps } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { Currency } from 'types/models';
-import { RootState } from '../../../common/redux/types';
-import { confirmSwap, clear } from '../BondSwap.actions';
+import React, { Dispatch } from "react";
+import { useForm } from "react-hook-form";
+import { withRouter, Redirect, RouteComponentProps } from "react-router-dom";
+import { connect } from "react-redux";
+import { RootState } from "../../../common/redux/types";
+import { confirmSwap, clear } from "../BondSwap.actions";
 import {
   remainingBalance,
   newBalance,
   currencyStr,
-} from '../../Account/Account.utils';
-import * as bondSwapSelectors from '../BondSwap.selectors';
+} from "../../Account/Account.utils";
+import { Currency } from "types/models";
+import * as bondSwapSelectors from "../BondSwap.selectors";
 
 interface Props extends RouteComponentProps {
   match: any;
@@ -43,7 +43,7 @@ const ConfirmSwapOrder: React.FunctionComponent<Props> = ({
 
   if (signPending) {
     return <div>Signing Transaction</div>;
-  } if (!isSending) {
+  } else if (!isSending) {
     return (
       <Redirect
         from={`/projects/${projectDID}/bonds/${bondDID}/exchange/swap/confirm`}
@@ -51,92 +51,92 @@ const ConfirmSwapOrder: React.FunctionComponent<Props> = ({
         to={`/projects/${projectDID}/bonds/${bondDID}/exchange/swap`}
       />
     );
-  } 
-  const onSubmit = (): void => {
-    handleConfirmSwap();
-  };
+  } else {
+    const onSubmit = (): void => {
+      handleConfirmSwap();
+    };
 
-  const onBack = (): void => {
-    handleClear();
-    // props.history.push('../swap')
-  };
+    const onBack = (): void => {
+      handleClear();
+      // props.history.push('../swap')
+    };
 
-  const remBal = remainingBalance(balances, sending);
-  const newBal = newBalance(balances, receiving);
-  return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      {/* displays the balances of the connected Cosmos account addresses */}
-      <div className="label">Send</div>
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-        }}
-      >
-        <h3>{currencyStr(sending)}</h3>
-        <span className="label_subtitle">
-          My new balance will be{' '}
-          <span className="label_subtitle__bold">{currencyStr(remBal)}</span>
-        </span>
-      </div>
-
-      <div className="label">Receive</div>
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-        }}
-      >
-        <h3>{receiving}</h3>
-        <div className="label_subtitle">
-          * Includes a{' '}
-          <span className="label_subtitle__bold">
-            {currencyStr(totalFee)} fee
+    const remBal = remainingBalance(balances, sending);
+    const newBal = newBalance(balances, receiving);
+    return (
+      <form onSubmit={handleSubmit(onSubmit)}>
+        {/* displays the balances of the connected Cosmos account addresses */}
+        <div className="label">Send</div>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-between",
+          }}
+        >
+          <h3>{currencyStr(sending)}</h3>
+          <span className="label_subtitle">
+            My new balance will be{" "}
+            <span className="label_subtitle__bold">{currencyStr(remBal)}</span>
           </span>
         </div>
-        <span className="label_subtitle">
-          My total balance will be{' '}
-          <span className="label_subtitle__bold">{currencyStr(newBal)}</span>
-        </span>
-      </div>
 
-      <div className="label">Estimated return per token</div>
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-        }}
-      >
-        <h3>{estimatedPrice}</h3>
-      </div>
-
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-        }}
-      >
-        <span style={{ marginTop: '-0.5em', padding: '0' }} />
-        <button
-          onClick={onBack}
-          className="button button_buy button_buy_back"
+        <div className="label">Receive</div>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-between",
+          }}
         >
-          go back
-        </button>
+          <h3>{receiving}</h3>
+          <div className="label_subtitle">
+            * Includes a{" "}
+            <span className="label_subtitle__bold">
+              {currencyStr(totalFee)} fee
+            </span>
+          </div>
+          <span className="label_subtitle">
+            My total balance will be{" "}
+            <span className="label_subtitle__bold">{currencyStr(newBal)}</span>
+          </span>
+        </div>
 
-        <input
-          type="submit"
-          value="confirm & sign"
-          className="button button_buy button_buy_confirm"
-        />
-      </div>
-    </form>
-  );
-  
+        <div className="label">Estimated return per token</div>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-between",
+          }}
+        >
+          <h3>{estimatedPrice}</h3>
+        </div>
+
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-between",
+          }}
+        >
+          <span style={{ marginTop: "-0.5em", padding: "0" }}></span>
+          <button
+            onClick={onBack}
+            className="button button_buy button_buy_back"
+          >
+            go back
+          </button>
+
+          <input
+            type="submit"
+            value="confirm & sign"
+            className="button button_buy button_buy_confirm"
+          />
+        </div>
+      </form>
+    );
+  }
 };
 
 const mapStateToProps = (state: RootState): any => ({

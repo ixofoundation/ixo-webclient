@@ -1,8 +1,8 @@
-import React from 'react';
-import MultiControlForm from '../../../../common/components/JsonForm/MultiControlForm/MultiControlForm';
-import { LinkButton } from '../../../../common/components/JsonForm/JsonForm.styles';
-import { customControls } from '../../../../common/components/JsonForm/types';
-import { FormCardProps } from '../../../CreateEntity/types';
+import React from 'react'
+import MultiControlForm from '../../../../common/components/JsonForm/MultiControlForm/MultiControlForm'
+import { LinkButton } from '../../../../common/components/JsonForm/JsonForm.styles'
+import { customControls } from '../../../../common/components/JsonForm/types'
+import { FormCardProps } from '../../../CreateEntity/types'
 
 interface Props extends FormCardProps {
   title: string
@@ -32,7 +32,7 @@ const HeaderCard: React.FunctionComponent<Props> = React.forwardRef(
       content,
       imageDescription,
       fileSrc,
-    };
+    }
 
     const schema = {
       type: 'object',
@@ -43,29 +43,29 @@ const HeaderCard: React.FunctionComponent<Props> = React.forwardRef(
         fileSrc: { type: 'string', title: 'Image' },
         imageDescription: { type: 'string', title: 'Image Description' },
       },
-    } as any;
+    } as any
 
     const uiSchema = {
       title: {
-        'ui:widget': 'text',
-        'ui:placeholder': 'Enter Title',
+        ['ui:widget']: 'text',
+        ['ui:placeholder']: 'Enter Title',
       },
       content: {
-        'ui:widget': 'textarea',
-        'ui:placeholder': 'Start Typing Here',
+        ['ui:widget']: 'textarea',
+        ['ui:placeholder']: 'Start Typing Here',
       },
       fileSrc: {
-        'ui:widget': customControls.imageupload,
-        'ui:uploading': uploadingImage,
-        'ui:maxDimension': 960,
-        'ui:aspect': 16 / 9,
-        'ui:circularCrop': false,
+        ['ui:widget']: customControls['imageupload'],
+        ['ui:uploading']: uploadingImage,
+        ['ui:maxDimension']: 960,
+        ['ui:aspect']: 16 / 9,
+        ['ui:circularCrop']: false,
       },
       imageDescription: {
-        'ui:widget': 'text',
-        'ui:placeholder': 'Start Typing',
+        ['ui:widget']: 'text',
+        ['ui:placeholder']: 'Start Typing',
       },
-    };
+    }
 
     return (
       <>
@@ -86,8 +86,8 @@ const HeaderCard: React.FunctionComponent<Props> = React.forwardRef(
           </LinkButton>
         </div>
       </>
-    );
+    )
   },
-);
+)
 
-export default HeaderCard;
+export default HeaderCard

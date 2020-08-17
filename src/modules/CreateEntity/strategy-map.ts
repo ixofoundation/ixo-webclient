@@ -1,4 +1,4 @@
-import { StepNameStrategyMap, Step } from './types';
+import { StepNameStrategyMap, Step } from './types'
 
 export const stepNameMap: StepNameStrategyMap = {
   [Step.PageContent]: { name: 'Page' },
@@ -6,4 +6,4 @@ export const stepNameMap: StepNameStrategyMap = {
   // [Step.Evaluation]: { name: 'Evaluation' },
   [Step.Settings]: { name: 'Settings' },
   [Step.Advanced]: { name: 'Advanced' },
-};
+}

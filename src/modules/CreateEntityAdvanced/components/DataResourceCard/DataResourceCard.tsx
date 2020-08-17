@@ -1,9 +1,9 @@
-import React from 'react';
-import { LinkButton } from '../../../../common/components/JsonForm/JsonForm.styles';
-import { DataResourceType } from '../../../Entities/types';
-import { dataResourceTypeMap } from '../../../Entities/strategy-map';
-import { FormCardProps } from '../../../CreateEntity/types';
-import MultiControlForm from '../../../../common/components/JsonForm/MultiControlForm/MultiControlForm';
+import React from 'react'
+import { LinkButton } from '../../../../common/components/JsonForm/JsonForm.styles'
+import { DataResourceType } from '../../../Entities/types'
+import { dataResourceTypeMap } from '../../../Entities/strategy-map'
+import { FormCardProps } from '../../../CreateEntity/types'
+import MultiControlForm from '../../../..//common/components/JsonForm/MultiControlForm/MultiControlForm'
 
 interface Props extends FormCardProps {
   type: DataResourceType
@@ -31,7 +31,7 @@ const FundCard: React.FunctionComponent<Props> = React.forwardRef(
       dataId,
       serviceEndpoint,
       properties,
-    };
+    }
 
     const schema = {
       type: 'object',
@@ -49,14 +49,14 @@ const FundCard: React.FunctionComponent<Props> = React.forwardRef(
         serviceEndpoint: { type: 'string', title: 'Resouce Locator' },
         properties: { type: 'string', title: 'Other Parameters' },
       },
-    } as any;
+    } as any
 
     const uiSchema = {
-      type: { 'ui:placeholder': 'Select Resource' },
-      dataId: { 'ui:placeholder': 'Enter DID or !name' },
-      serviceEndpoint: { 'ui:placeholder': 'Enter URL' },
-      properties: { 'ui:placeholder': 'Paste a Valid Parameter String' },
-    };
+      type: { ['ui:placeholder']: 'Select Resource' },
+      dataId: { ['ui:placeholder']: 'Enter DID or !name' },
+      serviceEndpoint: { ['ui:placeholder']: 'Enter URL' },
+      properties: { ['ui:placeholder']: 'Paste a Valid Parameter String' },
+    }
 
     return (
       <>
@@ -78,8 +78,8 @@ const FundCard: React.FunctionComponent<Props> = React.forwardRef(
           </LinkButton>
         </div>
       </>
-    );
+    )
   },
-);
+)
 
-export default FundCard;
+export default FundCard

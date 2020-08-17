@@ -1,8 +1,8 @@
-import React from 'react';
-import MultiControlForm from '../../../../common/components/JsonForm/MultiControlForm/MultiControlForm';
-import { LinkButton } from '../../../../common/components/JsonForm/JsonForm.styles';
-import { customControls } from '../../../../common/components/JsonForm/types';
-import { FormCardProps } from '../../../CreateEntity/types';
+import React from 'react'
+import MultiControlForm from '../../../../common/components/JsonForm/MultiControlForm/MultiControlForm'
+import { LinkButton } from '../../../../common/components/JsonForm/JsonForm.styles'
+import { customControls } from '../../../../common/components/JsonForm/types'
+import { FormCardProps } from '../../../CreateEntity/types'
 
 interface Props extends FormCardProps {
   title: string
@@ -29,7 +29,7 @@ const BodyContentCard: React.FunctionComponent<Props> = React.forwardRef(
       fileSrc,
       title,
       content,
-    };
+    }
 
     const schema = {
       type: 'object',
@@ -40,26 +40,26 @@ const BodyContentCard: React.FunctionComponent<Props> = React.forwardRef(
         fileSrc: { type: 'string', title: 'In Article Image' },
         content: { type: 'string', title: 'Body Content' },
       },
-    } as any;
+    } as any
 
     const uiSchema = {
       fileSrc: {
-        'ui:widget': customControls.imageupload,
-        'ui:uploading': uploadingImage,
-        'ui:maxDimension': 440,
-        'ui:previewWidth': 440,
-        'ui:aspect': 1,
-        'ui:circularCrop': false,
+        ['ui:widget']: customControls['imageupload'],
+        ['ui:uploading']: uploadingImage,
+        ['ui:maxDimension']: 440,
+        ['ui:previewWidth']: 440,
+        ['ui:aspect']: 1,
+        ['ui:circularCrop']: false,
       },
       title: {
-        'ui:widget': 'text',
-        'ui:placeholder': 'Enter Title',
+        ['ui:widget']: 'text',
+        ['ui:placeholder']: 'Enter Title',
       },
       content: {
-        'ui:widget': 'textarea',
-        'ui:placeholder': 'Start Typing Here',
+        ['ui:widget']: 'textarea',
+        ['ui:placeholder']: 'Start Typing Here',
       },
-    };
+    }
 
     return (
       <>
@@ -81,8 +81,8 @@ const BodyContentCard: React.FunctionComponent<Props> = React.forwardRef(
           </LinkButton>
         </div>
       </>
-    );
+    )
   },
-);
+)
 
-export default BodyContentCard;
+export default BodyContentCard
