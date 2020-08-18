@@ -29,6 +29,8 @@ import {
   UpdateLocationSelectorQuestionAction,
   AddQRCodeQuestionAction,
   UpdateQRCodeQuestionAction,
+  AddRatingQuestionAction,
+  UpdateRatingQuestionAction,
 } from './types'
 import {
   Type,
@@ -378,6 +380,39 @@ export const updateQRCodeQuestion = (
       description,
       label,
       initialValue,
+    },
+  }
+}
+
+export const addRatingQuestion = (): AddRatingQuestionAction => ({
+  type: CreateEntityAttestationActions.AddRatingQuestion,
+  payload: {
+    id: uuidv4(),
+    title: undefined,
+    description: undefined,
+    label: undefined,
+    required: true,
+    type: Type.Number,
+    control: ControlType.Rating,
+    values: undefined,
+    inline: true,
+  },
+})
+
+export const updateRatingQuestion = (
+  id: string,
+  formData: FormData,
+): UpdateRatingQuestionAction => {
+  const { title, description, label, scale } = formData
+
+  return {
+    type: CreateEntityAttestationActions.UpdateRatingQuestion,
+    payload: {
+      id,
+      title,
+      description,
+      label,
+      values: scale ? Array.from(Array(scale), (_, i) => i + 1) : undefined,
     },
   }
 }

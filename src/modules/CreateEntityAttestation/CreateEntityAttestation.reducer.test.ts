@@ -29,6 +29,8 @@ import {
   AddLocationSelectorQuestionAction,
   AddQRCodeQuestionAction,
   UpdateQRCodeQuestionAction,
+  AddRatingQuestionAction,
+  UpdateRatingQuestionAction,
 } from './types'
 import { Type, ControlType } from 'common/components/JsonForm/types'
 
@@ -1438,6 +1440,142 @@ describe('CreateEntityAttestation Reducer', () => {
             required: true,
             type: Type.String,
             control: ControlType.QRCode,
+            order: 20,
+          },
+        },
+      })
+    })
+  })
+
+  describe('Rating Actions', () => {
+    it('should add a new rating question and set the correct order', () => {
+      const id = 'someId'
+
+      // given ... we have an action of type CreateEntityAttestationActions.AddRatingQuestion
+      const action: AddRatingQuestionAction = {
+        type: CreateEntityAttestationActions.AddRatingQuestion,
+        payload: {
+          id,
+          title: undefined,
+          description: undefined,
+          label: undefined,
+          required: true,
+          type: Type.Number,
+          control: ControlType.Rating,
+          values: undefined,
+          inline: true,
+        },
+      }
+
+      // when ... we run the reducer with this action
+      const result = SUT.reducer(
+        {
+          ...initialState,
+          questions: {
+            ['someExistingId']: {
+              id,
+              title: undefined,
+              description: undefined,
+              label: undefined,
+              required: true,
+              type: Type.Number,
+              control: ControlType.Rating,
+              values: [1, 2, 3, 4, 5],
+              inline: true,
+              order: 1,
+            },
+          },
+        },
+        action,
+      )
+
+      // then ... the state should be set as expected
+      expect(result).toEqual({
+        ...initialState,
+        questions: {
+          ['someExistingId']: {
+            id,
+            title: undefined,
+            description: undefined,
+            label: undefined,
+            required: true,
+            type: Type.Number,
+            control: ControlType.Rating,
+            values: [1, 2, 3, 4, 5],
+            inline: true,
+            order: 1,
+          },
+          [id]: {
+            id,
+            title: undefined,
+            description: undefined,
+            label: undefined,
+            required: true,
+            type: Type.Number,
+            control: ControlType.Rating,
+            values: undefined,
+            inline: true,
+            order: 2,
+          },
+        },
+      })
+    })
+
+    it('should update the rating question and leave other properties in tact', () => {
+      const id = 'someId'
+      const title = 'someNewTitle'
+      const label = 'someNewLabel'
+      const description = 'someNewDescription'
+      const values = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+      // given .. we have an action of type CreateEntityAttestationActions.UpdateLocationSelectorQuestion
+      const action: UpdateRatingQuestionAction = {
+        type: CreateEntityAttestationActions.UpdateRatingQuestion,
+        payload: {
+          id,
+          title,
+          label,
+          description,
+          values,
+        },
+      }
+
+      // when ... we run the reducer with this action
+      const result = SUT.reducer(
+        {
+          ...initialState,
+          questions: {
+            [id]: {
+              id,
+              title: 'someOldTitle',
+              label: 'someOldLabel',
+              description: 'someOldDescription',
+              required: true,
+              type: Type.Number,
+              control: ControlType.Rating,
+              values: [1, 2, 3, 4],
+              inline: true,
+              order: 20,
+            },
+          },
+        },
+        action,
+      )
+
+      // then ... the state should be set as expected
+      expect(result).toEqual({
+        ...initialState,
+        questions: {
+          [id]: {
+            id,
+            title,
+            label,
+            description,
+            required: true,
+            type: Type.Number,
+            control: ControlType.Rating,
+            values,
+            inline: true,
             order: 20,
           },
         },

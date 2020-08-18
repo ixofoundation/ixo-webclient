@@ -615,6 +615,99 @@ describe('CreateEntityAttestation Actions', () => {
     })
   })
 
+  describe('ratingQuestion', () => {
+    describe('addRatingQuestion', () => {
+      it('should add a new rating question', () => {
+        // given ... an id
+        const id = 'newId'
+        v4.mockImplementationOnce(() => id)
+
+        // when ... we call the action
+        const action = SUT.addRatingQuestion()
+
+        // then ... we should expect it to create an action with the correct type
+        expect(action.type).toEqual(
+          CreateEntityAttestationActions.AddRatingQuestion,
+        )
+        expect(action.payload).toEqual({
+          id,
+          title: undefined,
+          description: undefined,
+          label: undefined,
+          required: true,
+          type: Type.Number,
+          control: ControlType.Rating,
+          values: undefined,
+          inline: true,
+        })
+      })
+    })
+
+    describe('updateRatingQuestion', () => {
+      it('should update the rating question when scale has a value', () => {
+        // given ... some data
+        const id = 'existingId'
+        const title = 'someNewTitle'
+        const description = 'someDescription'
+        const label = 'someLabel'
+        const scale = 10
+
+        const formData = {
+          title,
+          description,
+          label,
+          scale,
+        }
+
+        // when ... we call the action
+        const action = SUT.updateRatingQuestion(id, formData)
+
+        // then ... we should expect it to create the action as expected
+        expect(action.type).toEqual(
+          CreateEntityAttestationActions.UpdateRatingQuestion,
+        )
+        expect(action.payload).toEqual({
+          id,
+          title,
+          description,
+          label,
+          values: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+        })
+      })
+
+      it('should update the rating question when scale does not have a value', () => {
+        // given ... some data
+        const id = 'existingId'
+        const title = 'someNewTitle'
+        const description = 'someDescription'
+        const label = 'someLabel'
+        const scale = undefined
+
+        const formData = {
+          title,
+          description,
+          label,
+          scale,
+        }
+
+        // when ... we call the action
+        const action = SUT.updateRatingQuestion(id, formData)
+
+        // then ... we should expect it to create the action as expected
+        expect(action.type).toEqual(
+          CreateEntityAttestationActions.UpdateRatingQuestion,
+        )
+        expect(action.payload).toEqual({
+          id,
+          title,
+          description,
+          label,
+          values: undefined,
+        })
+      })
+    })
+  })
+
   describe('updateAnswerRequired', () => {
     it('should flag the answer as required or not required', () => {
       // given ... an id and the required flag

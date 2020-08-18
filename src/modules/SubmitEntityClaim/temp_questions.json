@@ -1,5 +1,16 @@
 [
   {
+    "id": "edsfdsr",
+    "title": "Selector Rate out of 10",
+    "description": "This will be a short description or explainer text explaining the question. ",
+    "label": "Rate the below from 1 to 10 with 1 bring terrible and 10 being excellent",
+    "required": true,
+    "inline": true,
+    "type": "number",
+    "control": "radio",
+    "values": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+  },
+  {
     "id": "gewr",
     "title": "Enter Location",
     "description": "This will be a short description or explainer text explaining the question. ",
@@ -136,17 +147,6 @@
       "https://claimformtemp.s3-eu-west-1.amazonaws.com/PictureOption3.png",
       "https://claimformtemp.s3-eu-west-1.amazonaws.com/PictureOption4.png"
     ]
-  },
-  {
-    "id": "edsfdsr",
-    "title": "Selector Rate out of 10",
-    "description": "This will be a short description or explainer text explaining the question. ",
-    "label": "Rate the below from 1 to 10 with 1 bring terrible and 10 being excellent",
-    "required": true,
-    "inline": true,
-    "type": "number",
-    "control": "radio",
-    "values": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
   },
   {
     "id": "aasdft",

@@ -26,6 +26,17 @@ export const reducer = (
         claimInfo: action.payload,
       }
     case CreateEntityAttestationActions.AddShortTextQuestion:
+    case CreateEntityAttestationActions.AddLongTextQuestion:
+    case CreateEntityAttestationActions.AddSingleDateSelectorQuestion:
+    case CreateEntityAttestationActions.AddDateRangeSelectorQuestion:
+    case CreateEntityAttestationActions.AddAvatarUploadQuestion:
+    case CreateEntityAttestationActions.AddImageUploadQuestion:
+    case CreateEntityAttestationActions.AddVideoUploadQuestion:
+    case CreateEntityAttestationActions.AddAudioUploadQuestion:
+    case CreateEntityAttestationActions.AddDocumentUploadQuestion:
+    case CreateEntityAttestationActions.AddLocationSelectorQuestion:
+    case CreateEntityAttestationActions.AddQRCodeQuestion:
+    case CreateEntityAttestationActions.AddRatingQuestion:
       return {
         ...state,
         questions: {
@@ -39,266 +50,17 @@ export const reducer = (
         },
       }
     case CreateEntityAttestationActions.UpdateShortTextQuestion:
-      return {
-        ...state,
-        questions: {
-          ...state.questions,
-          ...{
-            [action.payload.id]: {
-              ...state.questions[action.payload.id],
-              ...action.payload,
-            },
-          },
-        },
-      }
-    case CreateEntityAttestationActions.AddLongTextQuestion:
-      return {
-        ...state,
-        questions: {
-          ...state.questions,
-          ...{
-            [action.payload.id]: {
-              ...action.payload,
-              order: utils.orderForNewQuestion(state.questions),
-            },
-          },
-        },
-      }
     case CreateEntityAttestationActions.UpdateLongTextQuestion:
-      return {
-        ...state,
-        questions: {
-          ...state.questions,
-          ...{
-            [action.payload.id]: {
-              ...state.questions[action.payload.id],
-              ...action.payload,
-            },
-          },
-        },
-      }
-    case CreateEntityAttestationActions.AddSingleDateSelectorQuestion:
-      return {
-        ...state,
-        questions: {
-          ...state.questions,
-          ...{
-            [action.payload.id]: {
-              ...action.payload,
-              order: utils.orderForNewQuestion(state.questions),
-            },
-          },
-        },
-      }
     case CreateEntityAttestationActions.UpdateSingleDateSelectorQuestion:
-      return {
-        ...state,
-        questions: {
-          ...state.questions,
-          ...{
-            [action.payload.id]: {
-              ...state.questions[action.payload.id],
-              ...action.payload,
-            },
-          },
-        },
-      }
-    case CreateEntityAttestationActions.AddDateRangeSelectorQuestion:
-      return {
-        ...state,
-        questions: {
-          ...state.questions,
-          ...{
-            [action.payload.id]: {
-              ...action.payload,
-              order: utils.orderForNewQuestion(state.questions),
-            },
-          },
-        },
-      }
     case CreateEntityAttestationActions.UpdateDateRangeSelectorQuestion:
-      return {
-        ...state,
-        questions: {
-          ...state.questions,
-          ...{
-            [action.payload.id]: {
-              ...state.questions[action.payload.id],
-              ...action.payload,
-            },
-          },
-        },
-      }
-    case CreateEntityAttestationActions.AddAvatarUploadQuestion:
-      return {
-        ...state,
-        questions: {
-          ...state.questions,
-          ...{
-            [action.payload.id]: {
-              ...action.payload,
-              order: utils.orderForNewQuestion(state.questions),
-            },
-          },
-        },
-      }
     case CreateEntityAttestationActions.UpdateAvatarUploadQuestion:
-      return {
-        ...state,
-        questions: {
-          ...state.questions,
-          ...{
-            [action.payload.id]: {
-              ...state.questions[action.payload.id],
-              ...action.payload,
-            },
-          },
-        },
-      }
-    case CreateEntityAttestationActions.AddImageUploadQuestion:
-      return {
-        ...state,
-        questions: {
-          ...state.questions,
-          ...{
-            [action.payload.id]: {
-              ...action.payload,
-              order: utils.orderForNewQuestion(state.questions),
-            },
-          },
-        },
-      }
     case CreateEntityAttestationActions.UpdateImageUploadQuestion:
-      return {
-        ...state,
-        questions: {
-          ...state.questions,
-          ...{
-            [action.payload.id]: {
-              ...state.questions[action.payload.id],
-              ...action.payload,
-            },
-          },
-        },
-      }
-    case CreateEntityAttestationActions.AddVideoUploadQuestion:
-      return {
-        ...state,
-        questions: {
-          ...state.questions,
-          ...{
-            [action.payload.id]: {
-              ...action.payload,
-              order: utils.orderForNewQuestion(state.questions),
-            },
-          },
-        },
-      }
     case CreateEntityAttestationActions.UpdateVideoUploadQuestion:
-      return {
-        ...state,
-        questions: {
-          ...state.questions,
-          ...{
-            [action.payload.id]: {
-              ...state.questions[action.payload.id],
-              ...action.payload,
-            },
-          },
-        },
-      }
-    case CreateEntityAttestationActions.AddAudioUploadQuestion:
-      return {
-        ...state,
-        questions: {
-          ...state.questions,
-          ...{
-            [action.payload.id]: {
-              ...action.payload,
-              order: utils.orderForNewQuestion(state.questions),
-            },
-          },
-        },
-      }
     case CreateEntityAttestationActions.UpdateAudioUploadQuestion:
-      return {
-        ...state,
-        questions: {
-          ...state.questions,
-          ...{
-            [action.payload.id]: {
-              ...state.questions[action.payload.id],
-              ...action.payload,
-            },
-          },
-        },
-      }
-    case CreateEntityAttestationActions.AddDocumentUploadQuestion:
-      return {
-        ...state,
-        questions: {
-          ...state.questions,
-          ...{
-            [action.payload.id]: {
-              ...action.payload,
-              order: utils.orderForNewQuestion(state.questions),
-            },
-          },
-        },
-      }
     case CreateEntityAttestationActions.UpdateDocumentUploadQuestion:
-      return {
-        ...state,
-        questions: {
-          ...state.questions,
-          ...{
-            [action.payload.id]: {
-              ...state.questions[action.payload.id],
-              ...action.payload,
-            },
-          },
-        },
-      }
-    case CreateEntityAttestationActions.AddLocationSelectorQuestion:
-      return {
-        ...state,
-        questions: {
-          ...state.questions,
-          ...{
-            [action.payload.id]: {
-              ...action.payload,
-              order: utils.orderForNewQuestion(state.questions),
-            },
-          },
-        },
-      }
     case CreateEntityAttestationActions.UpdateLocationSelectorQuestion:
-      return {
-        ...state,
-        questions: {
-          ...state.questions,
-          ...{
-            [action.payload.id]: {
-              ...state.questions[action.payload.id],
-              ...action.payload,
-            },
-          },
-        },
-      }
-    case CreateEntityAttestationActions.AddQRCodeQuestion:
-      return {
-        ...state,
-        questions: {
-          ...state.questions,
-          ...{
-            [action.payload.id]: {
-              ...action.payload,
-              order: utils.orderForNewQuestion(state.questions),
-            },
-          },
-        },
-      }
     case CreateEntityAttestationActions.UpdateQRCodeQuestion:
+    case CreateEntityAttestationActions.UpdateRatingQuestion:
       return {
         ...state,
         questions: {
@@ -311,6 +73,7 @@ export const reducer = (
           },
         },
       }
+
     case CreateEntityAttestationActions.UpdateAnswerRequired:
       return {
         ...state,
