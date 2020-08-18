@@ -1,7 +1,7 @@
 import moment from 'moment'
 import * as SUT from './Entities.actions'
 import { EntitiesActions, EntityType } from './types'
-import mockStore from '../../common/redux/mockStore'
+import mockStore from 'common/redux/mockStore'
 
 let store
 
