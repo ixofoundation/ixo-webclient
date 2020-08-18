@@ -2,7 +2,7 @@ import React, { Dispatch } from 'react'
 import 'react-virtualized/styles.css'
 import { connect } from 'react-redux'
 import { RootState } from '../../../common/redux/types'
-import { getTransactions } from '../../../modules/bond/bond.actions'
+import { getTransactions } from '../../../modules/BondModules/bond/bond.actions'
 import TransactionsTable from '../../../common/components/Bonds/TransactionsTable/TransactionsTable'
 
 interface Props {

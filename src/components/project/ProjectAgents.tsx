@@ -1,8 +1,8 @@
 import * as React from 'react'
 import styled from 'styled-components'
-import { WidgetWrapper } from '../../common/components/Wrappers/WidgetWrapper'
-import { LayoutWrapper } from '../../common/components/Wrappers/LayoutWrapper'
-import { ButtonTypes, Button } from '../../common/components/Form/Buttons'
+import { WidgetWrapper } from 'common/components/Wrappers/WidgetWrapper'
+import { LayoutWrapper } from 'common/components/Wrappers/LayoutWrapper'
+import { ButtonTypes, Button } from 'common/components/Form/Buttons'
 
 const Heading = styled.h2`
   color: white;

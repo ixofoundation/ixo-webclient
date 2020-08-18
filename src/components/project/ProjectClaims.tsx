@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { Link } from 'react-router-dom'
-import { LayoutWrapper } from '../../common/components/Wrappers/LayoutWrapper'
+import { LayoutWrapper } from 'common/components/Wrappers/LayoutWrapper'
 import styled from 'styled-components'
 import { Fragment } from 'react'
 import moment from 'moment'
