@@ -2,7 +2,7 @@ import * as React from 'react'
 import { NavLink } from 'react-router-dom'
 import { MatchType } from '../../../types/models'
 import { createTabsContainer } from './Tabs.styles'
-import { Tooltip, TooltipPositions } from '../Tooltip'
+import { Tooltip, TooltipPositions } from '../Tooltip/Tooltip'
 
 export interface Button {
   linkClass?: string
@@ -24,7 +24,7 @@ export const Tabs: React.SFC<Props> = ({
   matchType,
   activeTabColor,
   assistantPanelToggle,
-  enableAssistantButton
+  enableAssistantButton,
 }) => {
   const TabsContainer = createTabsContainer(activeTabColor)
 
@@ -42,28 +42,26 @@ export const Tabs: React.SFC<Props> = ({
             {button.title && <p>{button.title}</p>}
           </NavLink>
         ) : (
-            <Tooltip
-              text="Coming Soon"
-              key={index}
-              position={TooltipPositions.bottom}
+          <Tooltip
+            text="Coming Soon"
+            key={index}
+            position={TooltipPositions.Bottom}
+          >
+            <NavLink
+              className={button.linkClass}
+              exact={matchType === MatchType.exact}
+              strict={matchType === MatchType.strict}
+              to={{ pathname: button.path }}
             >
-              <NavLink
-                className={button.linkClass}
-                exact={matchType === MatchType.exact}
-                strict={matchType === MatchType.strict}
-                to={{ pathname: button.path }}
-              >
-                {button.iconClass && <i className={button.iconClass} />}
-                {button.title && <p>{button.title}</p>}
-              </NavLink>
-            </Tooltip>
-          )
-      })}
-      {
-        enableAssistantButton && (
-          <button onClick={() => assistantPanelToggle()}>pluse</button>
+              {button.iconClass && <i className={button.iconClass} />}
+              {button.title && <p>{button.title}</p>}
+            </NavLink>
+          </Tooltip>
         )
-      }
+      })}
+      {enableAssistantButton && (
+        <button onClick={() => assistantPanelToggle()}>pluse</button>
+      )}
     </TabsContainer>
   )
 }

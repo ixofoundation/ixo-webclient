@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import { deviceWidth } from "../../../lib/commonData";
+import styled from 'styled-components'
+import { deviceWidth } from '../../../lib/commonData'
 
 export const FormContainer = styled.div`
   --focus-outline-style: none;
@@ -21,7 +21,8 @@ export const FormContainer = styled.div`
     color: #a5adb0;
   }
 
-  label {
+  label,
+  fieldset.field-array > legend {
     display: block;
     font-weight: normal;
     font-size: 0.75rem;
@@ -142,11 +143,11 @@ export const FormContainer = styled.div`
     }
 
     &:before {
-      content: "From first";
+      content: 'From first';
       left: 0;
     }
     &:after {
-      content: "To last";
+      content: 'To last';
       right: 0;
     }
     .radio-inline {
@@ -193,8 +194,8 @@ export const FormContainer = styled.div`
     }
   }
 
-  input[type="radio"],
-  input[type="checkbox"] {
+  input[type='radio'],
+  input[type='checkbox'] {
     width: 0.9375rem;
     height: 0.9375rem;
     background-color: #dfe3e8;
@@ -273,7 +274,59 @@ export const FormContainer = styled.div`
     box-shadow: none;
     border: none;
   }
-`;
+
+  fieldset.field.field-array {
+    *[class*='col-xs-'] {
+      position: relative;
+      width: 100%;
+      padding-right: 15px;
+      padding-left: 15px;
+    }
+
+    .col-xs-3 {
+      flex: 0 0 25%;
+      max-width: 25%;
+    }
+
+    .col-xs-9 {
+      flex: 0 0 75%;
+      max-width: 75%;
+    }
+
+    .col-xs-offset-9 {
+      margin-left: 75%;
+    }
+
+    .array-item {
+      display: flex;
+      width: 100%;
+    }
+
+    button.btn {
+      border-color: #39c3e6;
+      color: #39c3e6;
+      background: transparent;
+      font-size: 0.75rem;
+      font-weight: bold;
+    }
+
+    button.btn-add:before {
+      content: '+ Add Option';
+    }
+
+    button.btn-danger:before {
+      content: 'X';
+    }
+
+    button.array-item-move-up:before {
+      content: '\\2191';
+    }
+
+    button.array-item-move-down:before {
+      content: '\\2193';
+    }
+  }
+`
 
 export const ButtonGroup = styled.div`
   width: 100%;
@@ -349,7 +402,7 @@ export const FormWrapper = styled.div`
     box-shadow: none;
     border: none;
   }
-`;
+`
 
 export const LinkButton = styled.button`
   border: none;
@@ -357,4 +410,4 @@ export const LinkButton = styled.button`
   background: transparent;
   font-size: 1rem;
   font-weight: bold;
-`;
+`
