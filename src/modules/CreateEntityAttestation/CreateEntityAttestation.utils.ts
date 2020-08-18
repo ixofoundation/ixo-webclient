@@ -36,3 +36,13 @@ export const questionsWithIncrementedOrder = (
 
   return { ...existingQuestions, ...incrementedQuestions }
 }
+
+export const itemCountOrItemValuesLength = (
+  itemCount: number,
+  itemValues: string[],
+) =>
+  itemCount && itemValues.length > 0
+    ? itemCount > itemValues.length
+      ? itemValues.length
+      : itemCount
+    : itemCount

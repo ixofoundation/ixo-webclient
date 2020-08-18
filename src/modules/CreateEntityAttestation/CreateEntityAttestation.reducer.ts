@@ -37,6 +37,7 @@ export const reducer = (
     case CreateEntityAttestationActions.AddLocationSelectorQuestion:
     case CreateEntityAttestationActions.AddQRCodeQuestion:
     case CreateEntityAttestationActions.AddRatingQuestion:
+    case CreateEntityAttestationActions.AddCheckBoxesQuestion:
       return {
         ...state,
         questions: {
@@ -61,6 +62,7 @@ export const reducer = (
     case CreateEntityAttestationActions.UpdateLocationSelectorQuestion:
     case CreateEntityAttestationActions.UpdateQRCodeQuestion:
     case CreateEntityAttestationActions.UpdateRatingQuestion:
+    case CreateEntityAttestationActions.UpdateCheckBoxesQuestion:
       return {
         ...state,
         questions: {

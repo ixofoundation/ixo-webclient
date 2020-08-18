@@ -6,16 +6,20 @@ interface Props extends FormCardProps {
   title: string
   description: string
   label: string
-  values: number[]
+  itemValues: string[]
+  minItems: number
+  maxItems: number
 }
 
-const RatingQuestion: React.FunctionComponent<Props> = React.forwardRef(
+const CheckBoxesQuestion: React.FunctionComponent<Props> = React.forwardRef(
   (
     {
       title,
       description,
       label,
-      values,
+      itemValues,
+      minItems,
+      maxItems,
       handleUpdateContent,
       handleSubmitted,
       handleError,
@@ -26,20 +30,45 @@ const RatingQuestion: React.FunctionComponent<Props> = React.forwardRef(
       title,
       description,
       label,
-      scale: values ? values.length : undefined,
+      itemValues,
+      minItems,
+      maxItems,
     }
+
+    const enumMinArray = Array.from(
+      Array(itemValues.length > 0 ? itemValues.length : 10),
+      (_, i) => i + 1,
+    )
+
+    const enumMaxArray = Array.from(
+      Array(itemValues.length > 0 ? itemValues.length : 10),
+      (_, i) => i + 1,
+    ).filter((i) => i > 0)
 
     const schema = {
       type: 'object',
-      required: ['title', 'label', 'scale'],
+      required: ['title', 'label', 'itemValues'],
       properties: {
         title: { type: 'string', title: 'Title' },
         label: { type: 'string', title: 'Control Label' },
         description: { type: 'string', title: 'Description' },
-        scale: {
+        itemValues: {
+          type: 'array',
+          title: 'Options',
+          minItems: 1,
+          items: {
+            type: 'string',
+          },
+        },
+        minItems: {
           type: 'number',
-          title: 'Rating Scale',
-          enum: Array.from(Array(10), (_, i) => i + 1).filter((i) => i > 1),
+          title: 'Minimum Required Options',
+          enum: enumMinArray,
+        },
+        maxItems: {
+          type: 'number',
+          title: 'Maximum Allowed Options',
+          enum: enumMaxArray,
         },
       },
     } as any
@@ -53,13 +82,23 @@ const RatingQuestion: React.FunctionComponent<Props> = React.forwardRef(
         ['ui:widget']: 'text',
         ['ui:placeholder']: 'The label for the input',
       },
-      scale: {
-        ['ui:placeholder']: '-- Select Rating Scale --',
-      },
       description: {
         ['ui:widget']: 'textarea',
         ['ui:placeholder']:
           'This will be a short description or explainer text explaining the question',
+      },
+      itemValues: {
+        ['ui:options']: {
+          addable: true,
+          orderable: true,
+          removable: true,
+        },
+      },
+      minItems: {
+        ['ui:placeholder']: 'Any',
+      },
+      maxItems: {
+        ['ui:placeholder']: 'Any',
       },
     }
 
@@ -80,4 +119,4 @@ const RatingQuestion: React.FunctionComponent<Props> = React.forwardRef(
   },
 )
 
-export default RatingQuestion
+export default CheckBoxesQuestion

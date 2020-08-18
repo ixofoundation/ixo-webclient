@@ -31,6 +31,8 @@ import {
   UpdateQRCodeQuestionAction,
   AddRatingQuestionAction,
   UpdateRatingQuestionAction,
+  AddCheckBoxesQuestionAction,
+  UpdateCheckBoxesQuestionAction,
 } from './types'
 import { Type, ControlType } from 'common/components/JsonForm/types'
 
@@ -1576,6 +1578,152 @@ describe('CreateEntityAttestation Reducer', () => {
             control: ControlType.Rating,
             values,
             inline: true,
+            order: 20,
+          },
+        },
+      })
+    })
+  })
+
+  describe('CheckBoxes Actions', () => {
+    it('should add a new checkboxes question and set the correct order', () => {
+      const id = 'someId'
+
+      // given ... we have an action of type CreateEntityAttestationActions.AddCheckBoxesQuestion
+      const action: AddCheckBoxesQuestionAction = {
+        type: CreateEntityAttestationActions.AddCheckBoxesQuestion,
+        payload: {
+          id,
+          title: undefined,
+          description: undefined,
+          label: undefined,
+          required: true,
+          type: Type.Array,
+          control: ControlType.CheckBoxes,
+          itemValues: [],
+          itemLabels: [],
+        },
+      }
+
+      // when ... we run the reducer with this action
+      const result = SUT.reducer(
+        {
+          ...initialState,
+          questions: {
+            ['someExistingId']: {
+              id,
+              title: undefined,
+              description: undefined,
+              label: undefined,
+              required: true,
+              type: Type.Array,
+              control: ControlType.CheckBoxes,
+              itemValues: ['Option1', 'Option2', 'Option3'],
+              itemLabels: ['Option1', 'Option2', 'Option3'],
+              order: 1,
+            },
+          },
+        },
+        action,
+      )
+
+      // then ... the state should be set as expected
+      expect(result).toEqual({
+        ...initialState,
+        questions: {
+          ['someExistingId']: {
+            id,
+            title: undefined,
+            description: undefined,
+            label: undefined,
+            required: true,
+            type: Type.Array,
+            control: ControlType.CheckBoxes,
+            itemValues: ['Option1', 'Option2', 'Option3'],
+            itemLabels: ['Option1', 'Option2', 'Option3'],
+            order: 1,
+          },
+          [id]: {
+            id,
+            title: undefined,
+            description: undefined,
+            label: undefined,
+            required: true,
+            type: Type.Array,
+            control: ControlType.CheckBoxes,
+            itemValues: [],
+            itemLabels: [],
+            order: 2,
+          },
+        },
+      })
+    })
+
+    it('should update the checkboxes question and leave other properties in tact', () => {
+      const id = 'someId'
+      const title = 'someNewTitle'
+      const label = 'someNewLabel'
+      const description = 'someNewDescription'
+      const itemValues = ['Option1', 'Option2', 'Option3', 'A New Option']
+      const itemLabels = ['Option1', 'Option2', 'Option3', 'A New Option']
+      const minItems = 1
+      const maxItems = 3
+
+      // given .. we have an action of type CreateEntityAttestationActions.UpdateLocationSelectorQuestion
+      const action: UpdateCheckBoxesQuestionAction = {
+        type: CreateEntityAttestationActions.UpdateCheckBoxesQuestion,
+        payload: {
+          id,
+          title,
+          label,
+          description,
+          itemValues,
+          itemLabels,
+          minItems,
+          maxItems,
+        },
+      }
+
+      // when ... we run the reducer with this action
+      const result = SUT.reducer(
+        {
+          ...initialState,
+          questions: {
+            [id]: {
+              id,
+              title: 'someOldTitle',
+              label: 'someOldLabel',
+              description: 'someOldDescription',
+              required: true,
+              type: Type.Array,
+              control: ControlType.CheckBoxes,
+              itemValues: ['Option1', 'Option2', 'Option3'],
+              itemLabels: ['Option1', 'Option2', 'Option3'],
+              minItems: 2,
+              maxItems: 4,
+              order: 20,
+            },
+          },
+        },
+        action,
+      )
+
+      // then ... the state should be set as expected
+      expect(result).toEqual({
+        ...initialState,
+        questions: {
+          [id]: {
+            id,
+            title,
+            label,
+            description,
+            required: true,
+            type: Type.Array,
+            control: ControlType.CheckBoxes,
+            itemValues,
+            itemLabels,
+            minItems,
+            maxItems,
             order: 20,
           },
         },

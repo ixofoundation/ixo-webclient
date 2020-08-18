@@ -63,6 +63,8 @@ export enum CreateEntityAttestationActions {
   UpdateAudioUploadQuestion = 'ixo/CreateEntityAttestation/UPDATE_AUDIO_UPLOAD_QUESTION',
   AddDocumentUploadQuestion = 'ixo/CreateEntityAttestation/ADD_DOCUMENT_UPLOAD_QUESTION',
   UpdateDocumentUploadQuestion = 'ixo/CreateEntityAttestation/UPDATE_DOCUMENT_UPLOAD_QUESTION',
+  AddCheckBoxesQuestion = 'ixo/CreateEntityAttestation/ADD_CHECKBOXES_QUESTION',
+  UpdateCheckBoxesQuestion = 'ixo/CreateEntityAttestation/UPDATE_CHECKBOXES_QUESTION',
   UpdateAnswerRequired = 'ixo/CreateEntityAttestation/UPDATE_ANSWER_REQUIRED',
   RemoveQuestion = 'ixo/CreateEntityAttestation/REMOVE_QUESTION',
   CopyQuestion = 'ixo/CreateEntityAttestation/COPY_QUESTION',
@@ -436,6 +438,39 @@ export interface UpdateRatingQuestionAction
   }
 }
 
+export interface AddCheckBoxesQuestionAction
+  extends AddQuestionAction<
+    typeof CreateEntityAttestationActions.AddCheckBoxesQuestion
+  > {
+  payload: {
+    id: string
+    title: string
+    description: string
+    label: string
+    required: boolean
+    type: Type
+    control: ControlType
+    itemValues: string[]
+    itemLabels: string[]
+  }
+}
+
+export interface UpdateCheckBoxesQuestionAction
+  extends UpdateQuestionAction<
+    typeof CreateEntityAttestationActions.UpdateCheckBoxesQuestion
+  > {
+  payload: {
+    id: string
+    title: string
+    description: string
+    label: string
+    itemValues: string[]
+    itemLabels: string[]
+    minItems: number
+    maxItems: number
+  }
+}
+
 export interface UpdateAnswerRequiredAction {
   type: typeof CreateEntityAttestationActions.UpdateAnswerRequired
   payload: {
@@ -500,6 +535,8 @@ export type CreateEntityAttestationActionTypes =
   | UpdateQRCodeQuestionAction
   | AddRatingQuestionAction
   | UpdateRatingQuestionAction
+  | AddCheckBoxesQuestionAction
+  | UpdateCheckBoxesQuestionAction
   | UpdateAnswerRequiredAction
   | RemoveQuestionAction
   | CopyQuestionAction

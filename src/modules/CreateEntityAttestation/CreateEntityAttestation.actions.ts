@@ -31,12 +31,15 @@ import {
   UpdateQRCodeQuestionAction,
   AddRatingQuestionAction,
   UpdateRatingQuestionAction,
+  AddCheckBoxesQuestionAction,
+  UpdateCheckBoxesQuestionAction,
 } from './types'
 import {
   Type,
   ControlType,
   FormData,
 } from '../../common/components/JsonForm/types'
+import * as utils from './CreateEntityAttestation.utils'
 
 export const updateClaimInfo = (formData: FormData): UpdateClaimInfoAction => {
   const { title, shortDescription } = formData
@@ -405,6 +408,8 @@ export const updateRatingQuestion = (
 ): UpdateRatingQuestionAction => {
   const { title, description, label, scale } = formData
 
+  const values = scale ? Array.from(Array(scale), (_, i) => i + 1) : undefined
+
   return {
     type: CreateEntityAttestationActions.UpdateRatingQuestion,
     payload: {
@@ -412,7 +417,43 @@ export const updateRatingQuestion = (
       title,
       description,
       label,
-      values: scale ? Array.from(Array(scale), (_, i) => i + 1) : undefined,
+      values,
+    },
+  }
+}
+
+export const addCheckBoxesQuestion = (): AddCheckBoxesQuestionAction => ({
+  type: CreateEntityAttestationActions.AddCheckBoxesQuestion,
+  payload: {
+    id: uuidv4(),
+    title: undefined,
+    description: undefined,
+    label: undefined,
+    required: true,
+    type: Type.Array,
+    control: ControlType.CheckBoxes,
+    itemValues: [],
+    itemLabels: [],
+  },
+})
+
+export const updateCheckBoxesQuestion = (
+  id: string,
+  formData: FormData,
+): UpdateCheckBoxesQuestionAction => {
+  const { title, description, label, itemValues, minItems, maxItems } = formData
+
+  return {
+    type: CreateEntityAttestationActions.UpdateCheckBoxesQuestion,
+    payload: {
+      id,
+      title,
+      description,
+      label,
+      itemValues,
+      itemLabels: itemValues,
+      minItems: utils.itemCountOrItemValuesLength(minItems, itemValues),
+      maxItems: utils.itemCountOrItemValuesLength(maxItems, itemValues),
     },
   }
 }
