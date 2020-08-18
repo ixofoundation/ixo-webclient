@@ -14,7 +14,7 @@ import { initKeysafe } from "../keysafe/keysafe.actions";
 import { UserInfo } from "../Account/types";
 import { updateLoginStatus } from "../Account/Account.actions";
 import ScrollToTop from "../../common/components/ScrollToTop";
-import { Routes } from "../../common/routing/Routes";
+import { Routes } from "../../routes";
 import { Spinner } from "../../common/components/Spinner";
 import { connectWeb3 } from "../web3/web3.actions";
 import "../../assets/icons.css";

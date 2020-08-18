@@ -1,10 +1,10 @@
 import React from 'react'
 import Form from '@rjsf/core'
 import { debounce } from 'debounce'
-import { FormContainer } from '../../../../common/components/JsonForm/JsonForm.styles'
-import * as formUtils from '../../../../common/components/JsonForm/JsonForm.utils'
-import { ObjectFieldTemplate2Column } from '../../../../common/components/JsonForm/CustomTemplates/ObjectFieldTemplate'
-import { FormData } from '../../../../common/components/JsonForm/types'
+import { FormContainer } from 'common/components/JsonForm/JsonForm.styles'
+import * as formUtils from 'common/components/JsonForm/JsonForm.utils'
+import { ObjectFieldTemplate2Column } from 'common/components/JsonForm/CustomTemplates/ObjectFieldTemplate'
+import { FormData } from 'common/components/JsonForm/types'
 import { ClaimQuestionCardWrapper } from '../../components/ClaimQuestionCard/ClaimQuestionCard.styles'
 
 interface Props {

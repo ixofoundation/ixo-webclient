@@ -2,16 +2,16 @@ import * as React from 'react'
 import {
   ImageLoader,
   imageQuality,
-} from '../../common/components/Form/ImageLoader'
-import { RootState } from '../../common/redux/types'
+} from 'common/components/Form/ImageLoader'
+import { RootState } from 'common/redux/types'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 import { decode as base64Decode } from 'base-64'
 import { blankProjectData, testProjectData } from '../../lib/commonData'
-import { Button, ButtonTypes } from '../../common/components/Form/Buttons'
-import { FileLoader } from '../../common/components/Form/FileLoader'
-import InputImage from '../../common/components/Form/InputImage/InputImage'
-import { successToast, errorToast } from '../../common/utils/Toast'
+import { Button, ButtonTypes } from 'common/components/Form/Buttons'
+import { FileLoader } from 'common/components/Form/FileLoader'
+import InputImage from 'common/components/Form/InputImage/InputImage'
+import { successToast, errorToast } from 'common/utils/Toast'
 import { ErrorTypes } from '../../types/models'
 
 const Text = styled.input`

@@ -1,15 +1,15 @@
 import * as React from 'react'
 import { Link } from 'react-router-dom'
-import { LayoutWrapperClaims } from '../../common/components/Wrappers/LayoutWrapperClaims'
-import { WidgetWrapperClaims } from '../../common/components/Wrappers/WidgetWrapperClaims'
-import { ClaimStatus } from '../../common/components/ClaimStatus'
+import { LayoutWrapperClaims } from 'common/components/Wrappers/LayoutWrapperClaims'
+import { WidgetWrapperClaims } from 'common/components/Wrappers/WidgetWrapperClaims'
+import { ClaimStatus } from 'common/components/ClaimStatus'
 import { AgentRoles, FormStyles } from '../../types/models'
-import InputText from '../../common/components/Form/InputText/InputText'
-import TextArea from '../../common/components/Form/TextArea/TextArea'
+import InputText from 'common/components/Form/InputText/InputText'
+import TextArea from 'common/components/Form/TextArea/TextArea'
 
 import styled from 'styled-components'
-import { ImageSpinner } from '../../common/components/Form/ImageSpinner'
-import { Spinner } from '../../common/components/Spinner'
+import { ImageSpinner } from 'common/components/Form/ImageSpinner'
+import { Spinner } from 'common/components/Spinner'
 
 const Container = styled.div`
   justify-content: center;

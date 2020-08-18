@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useHistory } from "react-router-dom";
-import { ButtonTypes, Button } from "../../common/components/Form/Buttons";
+import { ButtonTypes, Button } from "common/components/Form/Buttons";
 import {
   Banner,
   BannerLeft,

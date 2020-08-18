@@ -3,7 +3,7 @@ import HeaderItem from './SummaryCard/SummaryCard'
 import { connect } from 'react-redux'
 import { RootState } from '../../../redux/types'
 import { getAccount } from '../../../../modules/Account/Account.actions'
-import { getBalances as getBondBalances } from '../../../../modules/bond/bond.actions'
+import { getBalances as getBondBalances } from '../../../../modules/BondModules/bond/bond.actions'
 import { tokenBalance } from '../../../../modules/Account/Account.utils'
 import { deviceWidth } from '../../../../lib/commonData'
 

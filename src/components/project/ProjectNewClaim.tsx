@@ -1,13 +1,13 @@
 import * as React from 'react'
-import { LayoutWrapperClaims } from '../../common/components/Wrappers/LayoutWrapperClaims'
-import { WidgetWrapperClaims } from '../../common/components/Wrappers/WidgetWrapperClaims'
-import DynamicForm from '../../common/components/Form/DynamicForm/DynamicForm'
+import { LayoutWrapperClaims } from 'common/components/Wrappers/LayoutWrapperClaims'
+import { WidgetWrapperClaims } from 'common/components/Wrappers/WidgetWrapperClaims'
+import DynamicForm from 'common/components/Form/DynamicForm/DynamicForm'
 import { decode as base64Decode } from 'base-64'
 import { Data } from '../../modules/project/types'
 import styled from 'styled-components'
 import { FormStyles } from '../../types/models'
-import { Spinner } from '../../common/components/Spinner'
-import { successToast } from '../../common/utils/Toast'
+import { Spinner } from 'common/components/Spinner'
+import { successToast } from 'common/utils/Toast'
 
 const FormContainer = styled.div`
   max-width: 640px;

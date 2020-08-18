@@ -1,9 +1,9 @@
 import * as React from 'react'
 import moment from 'moment'
 import { SDGArray } from '../../lib/commonData'
-import { getCountryName, toTitleCase } from '../../common/utils/formatters'
+import { getCountryName, toTitleCase } from 'common/utils/formatters'
 import { MatchType, AgentRoles } from '../../types/models'
-import HeaderTabs from '../../common/components/HeaderTabs/HeaderTabs'
+import HeaderTabs from 'common/components/HeaderTabs/HeaderTabs'
 import {
   SingleSDG,
   HeroInner,
@@ -17,8 +17,8 @@ import {
 } from './ProjectHero.styles'
 import CalendarSort from 'assets/icons/CalendarSort'
 import availableFlags from 'lib/json/availableFlags.json'
-import { EntityType } from 'modules/Entities/types'
-import { entityTypeMap } from 'modules/Entities/strategy-map'
+import { EntityType } from 'modules/EntityModules/Entities/types'
+import { entityTypeMap } from 'modules/EntityModules/Entities/strategy-map'
 import { useWindowSize } from 'common/hooks'
 import { deviceWidth } from 'lib/commonData'
 import IxoCircle from 'assets/images/ixo-circle.png'
