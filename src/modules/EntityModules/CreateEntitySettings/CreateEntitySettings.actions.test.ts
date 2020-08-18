@@ -2,7 +2,7 @@ import { v4 } from "uuid";
 jest.mock("uuid");
 import * as SUT from "./CreateEntitySettings.actions";
 import { CreateEntitySettingsActions } from "./types";
-import mockStore from "../../common/redux/mockStore";
+import mockStore from "common/redux/mockStore";
 import {
   EntityStage,
   EntityStatus,
