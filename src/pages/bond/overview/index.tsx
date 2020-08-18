@@ -7,7 +7,7 @@ import BondTable from 'modules/BondTable'
 import FundingChat from 'modules/Funding_Chat/FundingChat.container'
 // import BondOrders from 'modules/BondOrders/BondOrders.container'
 // import { BondEvents } from 'modules/BondEvents/BondEvents.container'
-import { BondsWrapperConnected as BondsWrapper } from '../BondsWrapper/BondsWrapper'
+import { BondsWrapperConnected as BondsWrapper } from '../../../common/components/Bonds/BondsWrapper/BondsWrapper'
 
 const StyledContainer = styled.div`
   display: flex;
