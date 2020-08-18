@@ -95,7 +95,6 @@ export const ProjectOverview: React.SFC<Props> = props => {
               match={props.match}
               isDetail={props.isDetail}
               hasCapability={props.hasCapability}
-              isLoggedIn={props.isLoggedIn}
             />
             <ProjectImage
               src={props.imageLink}
