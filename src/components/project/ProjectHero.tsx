@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { useSelector } from 'react-redux'
 import moment from 'moment'
 import { SDGArray } from '../../lib/commonData'
 import { getCountryName, toTitleCase } from 'common/utils/formatters'
@@ -18,6 +19,7 @@ import {
 import CalendarSort from 'assets/icons/CalendarSort'
 import availableFlags from 'lib/json/availableFlags.json'
 import { EntityType } from 'modules/EntityModules/Entities/types'
+import { selectUserIsLoggedIn } from 'modules/Account/Account.selectors'
 import { entityTypeMap } from 'modules/EntityModules/Entities/strategy-map'
 import { useWindowSize } from 'common/hooks'
 import { deviceWidth } from 'lib/commonData'
@@ -27,7 +29,6 @@ export interface Props {
   project: any
   match: any
   isDetail: boolean
-  isLoggedIn: boolean
   isClaim?: boolean
   hasCapability: (role: [AgentRoles]) => boolean
   onlyTitle?: boolean
@@ -39,16 +40,15 @@ export const ProjectHero: React.SFC<Props> = ({
   project,
   match,
   isDetail,
-  isLoggedIn,
   onlyTitle,
   assistantPanelToggle,
   enableAssistantButton,
 }) => {
   const windowSize = useWindowSize()
+  const isUserLoggedIn = useSelector(selectUserIsLoggedIn)
   const entityType = project.entityType
     ? (toTitleCase(project.entityType) as EntityType)
     : EntityType.Project
-
   const buttonsArray = [
     {
       iconClass: `icon-${entityType.toLowerCase()}`,
@@ -74,7 +74,7 @@ export const ProjectHero: React.SFC<Props> = ({
     })
   }
 
-  if (isLoggedIn && project.bondDid) {
+  if (isUserLoggedIn && project.bondDid) {
     buttonsArray.push({
       iconClass: 'icon-funding',
       linkClass: null,
