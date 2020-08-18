@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { NavLink, Route } from 'react-router-dom'
-import './Exchange.scss'
+import './index.scss'
 import { connect } from 'react-redux'
 import { RootState } from 'common/redux/types'
 import { BondsWrapperConnected as BondsWrapper } from 'common/components/Bonds/BondsWrapper/BondsWrapper'
