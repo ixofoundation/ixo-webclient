@@ -7,7 +7,7 @@ import { BondsWrapperConnected as BondsWrapper } from '../BondsWrapper/BondsWrap
 import BondBuy from '../../../../modules/BondBuy/BondBuy.container'
 import BondSell from '../../../../modules/BondSell/BondSell.container'
 import BondSwap from '../../../../modules/BondSwap/BondSwap.container'
-import { BondsSectionNav } from './Exchange.styles'
+import { BondsSectionNav } from '.'
 import * as bondBuySelectors from '../../../../modules/BondBuy/BondBuy.selectors'
 import * as bondSellSelectors from '../../../../modules/BondSell/BondSell.selectors'
 import * as bondSwapSelectors from '../../../../modules/BondSwap/BondSwap.selectors'
