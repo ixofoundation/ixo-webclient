@@ -2,7 +2,7 @@ import React from 'react'
 import { Route, Switch, RouteComponentProps } from 'react-router-dom'
 
 import { Overview } from '../pages/bond/overview'
-import Exchange from '../pages/bond/Exchange'
+import Exchange from '../pages/bond/exchange'
 import Orders from '../modules/BondAccountOrders/BondAccountOrders.container'
 
 export const BondRoutes: React.SFC<Pick<RouteComponentProps, 'match'>> = ({
