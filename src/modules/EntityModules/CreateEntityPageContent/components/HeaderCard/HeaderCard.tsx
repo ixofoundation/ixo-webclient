@@ -63,33 +63,33 @@ const HeaderCard: React.FunctionComponent<Props> = React.forwardRef(
 
     const uiSchema = {
       fileSrc: {
-        ['ui:widget']: customControls['imageupload'],
+        'ui:widget': customControls['imageupload'],
         ['ui:uploading']: uploadingImage,
         ['ui:maxDimension']: 960,
         ['ui:aspect']: 16 / 9,
         ['ui:circularCrop']: false,
       },
       title: {
-        ['ui:widget']: 'text',
-        ['ui:placeholder']: 'Enter Title',
+        'ui:widget': 'text',
+        'ui:placeholder': 'Enter Title',
       },
       shortDescription: {
-        ['ui:widget']: 'textarea',
-        ['ui:placeholder']: 'Start Typing Here',
+        'ui:widget': 'textarea',
+        'ui:placeholder': 'Start Typing Here',
       },
       organisation: {
-        ['ui:widget']: 'text',
-        ['ui:placeholder']: 'Enter Organisation',
+        'ui:widget': 'text',
+        'ui:placeholder': 'Enter Organisation',
       },
       location: {
-        ['ui:widget']: customControls['countryselector'],
+        'ui:widget': customControls['countryselector'],
       },
       sdgs: {
-        ['ui:widget']: customControls['sdgselector'],
+        'ui:widget': customControls['sdgselector'],
       },
       imageDescription: {
-        ['ui:widget']: 'text',
-        ['ui:placeholder']: 'Enter Title',
+        'ui:widget': 'text',
+        'ui:placeholder': 'Enter Title',
       },
     }
 

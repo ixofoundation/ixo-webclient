@@ -126,6 +126,13 @@ export enum FundSource {
   NFTAsset = 'NFTAsset',
 }
 
+export enum TermsOfUseType {
+  PayPerUse = 'Pay Per Use',
+  OnceOffFee = 'Once-off Fee',
+  FreeOpenSource = 'FreeOpenSource',
+  Proprietary = 'Proprietary',
+}
+
 export interface Entity {
   entityType: EntityType
   did: string
@@ -267,6 +274,12 @@ export type ServiceTypeStrategyMap = {
 
 export type DataResourceTypeStrategyMap = {
   [TKey in DataResourceType]: {
+    title: string
+  }
+}
+
+export type TermsOfUseTypeStrategyMap = {
+  [TKey in TermsOfUseType]: {
     title: string
   }
 }

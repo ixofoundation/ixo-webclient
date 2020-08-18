@@ -34,9 +34,9 @@ const FundCard: React.FunctionComponent<Props> = React.forwardRef(
         source: {
           type: 'string',
           title: 'Source of Funding',
-          enum: Object.keys(FundSource).map(key => FundSource[key]),
+          enum: Object.keys(FundSource).map((key) => FundSource[key]),
           enumNames: Object.keys(FundSource).map(
-            key => fundSourceMap[FundSource[key]].title,
+            (key) => fundSourceMap[FundSource[key]].title,
           ),
         },
         fundId: { type: 'string', title: 'Identity of Funding Source' },
@@ -45,9 +45,9 @@ const FundCard: React.FunctionComponent<Props> = React.forwardRef(
 
     const uiSchema = {
       source: {
-        ['ui:placeholder']: 'Select a Funding Source',
+        'ui:placeholder': 'Select a Funding Source',
       },
-      fundId: { ['ui:placeholder']: 'Enter DID or !name' },
+      fundId: { 'ui:placeholder': 'Enter DID or !name' },
     }
 
     return (

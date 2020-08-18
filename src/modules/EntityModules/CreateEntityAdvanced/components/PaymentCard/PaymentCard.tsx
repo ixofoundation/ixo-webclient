@@ -46,9 +46,9 @@ const PaymentCard: React.FunctionComponent<Props> = React.forwardRef(
         type: {
           type: 'string',
           title: 'Payment Type',
-          enum: Object.keys(PaymentType).map(key => PaymentType[key]),
+          enum: Object.keys(PaymentType).map((key) => PaymentType[key]),
           enumNames: Object.keys(PaymentType).map(
-            key => paymentTypeMap[PaymentType[key]].title,
+            (key) => paymentTypeMap[PaymentType[key]].title,
           ),
         },
         paymentId: { type: 'string', title: 'Payment ID' },
@@ -56,10 +56,10 @@ const PaymentCard: React.FunctionComponent<Props> = React.forwardRef(
           type: 'string',
           title: 'Payment Denomination',
           enum: Object.keys(PaymentDenomination).map(
-            key => PaymentDenomination[key],
+            (key) => PaymentDenomination[key],
           ),
           enumNames: Object.keys(PaymentDenomination).map(
-            key => paymentDenominationMap[PaymentDenomination[key]].title,
+            (key) => paymentDenominationMap[PaymentDenomination[key]].title,
           ),
         },
         maxFee: {
@@ -72,19 +72,19 @@ const PaymentCard: React.FunctionComponent<Props> = React.forwardRef(
 
     const uiSchema = {
       type: {
-        ['ui:placeholder']: 'Select Payment',
+        'ui:placeholder': 'Select Payment',
       },
       paymentId: {
-        ['ui:placeholder']: 'Enter ID',
+        'ui:placeholder': 'Enter ID',
       },
       denom: {
-        ['ui:placeholder']: 'Select Denomination',
+        'ui:placeholder': 'Select Denomination',
       },
       maxFee: {
-        ['ui:placeholder']: 'Enter Amount',
+        'ui:placeholder': 'Enter Amount',
       },
       maxQty: {
-        ['ui:placeholder']: 'Enter Number of Units',
+        'ui:placeholder': 'Enter Number of Units',
       },
     }
 

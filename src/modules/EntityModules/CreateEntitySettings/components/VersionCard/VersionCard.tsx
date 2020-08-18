@@ -1,19 +1,20 @@
 import React from 'react'
 import MultiControlForm from 'common/components/JsonForm/MultiControlForm/MultiControlForm'
 import { FormCardProps } from '../../../CreateEntity/types'
+import { customControls } from 'common/components/JsonForm/types'
 
 interface Props extends FormCardProps {
-  title: string
-  description: string
-  label: string
+  versionNumber: string
+  effectiveDate: string
+  notes: string
 }
 
-const ShortTextQuestion: React.FunctionComponent<Props> = React.forwardRef(
+const VersionCard: React.FunctionComponent<Props> = React.forwardRef(
   (
     {
-      title,
-      description,
-      label,
+      versionNumber,
+      effectiveDate,
+      notes,
       handleUpdateContent,
       handleSubmitted,
       handleError,
@@ -21,34 +22,31 @@ const ShortTextQuestion: React.FunctionComponent<Props> = React.forwardRef(
     ref,
   ) => {
     const formData = {
-      title,
-      description,
-      label,
+      versionNumber,
+      effectiveDate,
+      notes,
     }
 
     const schema = {
       type: 'object',
-      required: ['title', 'label'],
+      required: [],
       properties: {
-        title: { type: 'string', title: 'Title' },
-        label: { type: 'string', title: 'Control Label' },
-        description: { type: 'string', title: 'Description' },
+        versionNumber: { type: 'string', title: 'Version' },
+        effectiveDate: { type: 'string', title: 'Effective Date' },
+        notes: { type: 'string', title: 'Notes (optional)' },
       },
     } as any
 
     const uiSchema = {
-      title: {
-        'ui:widget': 'text',
-        'ui:placeholder': 'The title of the question',
+      versionNumber: {
+        'ui:placeholder': 'Enter number',
       },
-      label: {
-        'ui:widget': 'text',
-        'ui:placeholder': 'The label for the input',
+      effectiveDate: {
+        'ui:widget': customControls['singledateselector'],
       },
-      description: {
+      notes: {
         'ui:widget': 'textarea',
-        'ui:placeholder':
-          'This will be a short description or explainer text explaining the question',
+        'ui:placeholder': 'Describe the changes in this version',
       },
     }
 
@@ -69,4 +67,4 @@ const ShortTextQuestion: React.FunctionComponent<Props> = React.forwardRef(
   },
 )
 
-export default ShortTextQuestion
+export default VersionCard

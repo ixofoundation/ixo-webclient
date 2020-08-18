@@ -42,20 +42,20 @@ const QRCodeQuestion: React.FunctionComponent<Props> = React.forwardRef(
 
     const uiSchema = {
       title: {
-        ['ui:widget']: 'text',
-        ['ui:placeholder']: 'The title of the question',
+        'ui:widget': 'text',
+        'ui:placeholder': 'The title of the question',
       },
       label: {
-        ['ui:widget']: 'text',
-        ['ui:placeholder']: 'The label for the QR Code image',
+        'ui:widget': 'text',
+        'ui:placeholder': 'The label for the QR Code image',
       },
       initialValue: {
-        ['ui:widget']: 'text',
-        ['ui:placeholder']: 'The url that the QR Code will generate from',
+        'ui:widget': 'text',
+        'ui:placeholder': 'The url that the QR Code will generate from',
       },
       description: {
-        ['ui:widget']: 'textarea',
-        ['ui:placeholder']:
+        'ui:widget': 'textarea',
+        'ui:placeholder':
           'This will be a short description or explainer text explaining the question',
       },
     }

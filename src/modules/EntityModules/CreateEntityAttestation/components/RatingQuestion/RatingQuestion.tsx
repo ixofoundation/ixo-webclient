@@ -46,19 +46,19 @@ const RatingQuestion: React.FunctionComponent<Props> = React.forwardRef(
 
     const uiSchema = {
       title: {
-        ['ui:widget']: 'text',
-        ['ui:placeholder']: 'The title of the question',
+        'ui:widget': 'text',
+        'ui:placeholder': 'The title of the question',
       },
       label: {
-        ['ui:widget']: 'text',
-        ['ui:placeholder']: 'The label for the input',
+        'ui:widget': 'text',
+        'ui:placeholder': 'The label for the input',
       },
       scale: {
-        ['ui:placeholder']: '-- Select Rating Scale --',
+        'ui:placeholder': '-- Select Rating Scale --',
       },
       description: {
-        ['ui:widget']: 'textarea',
-        ['ui:placeholder']:
+        'ui:widget': 'textarea',
+        'ui:placeholder':
           'This will be a short description or explainer text explaining the question',
       },
     }

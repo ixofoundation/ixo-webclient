@@ -52,30 +52,30 @@ const HeaderCard: React.FunctionComponent<Props> = React.forwardRef(
 
     const uiSchema = {
       fileSrc: {
-        ['ui:widget']: customControls['imageupload'],
-        ['ui:uploading']: uploadingImage,
-        ['ui:maxDimension']: 440,
-        ['ui:previewWidth']: 100,
-        ['ui:aspect']: 1,
-        ['ui:circularCrop']: false,
+        'ui:widget': customControls['imageupload'],
+        'ui:uploading': uploadingImage,
+        'ui:maxDimension': 440,
+        'ui:previewWidth': 100,
+        'ui:aspect': 1,
+        'ui:circularCrop': false,
       },
       name: {
-        ['ui:widget']: 'text',
-        ['ui:placeholder']: 'Enter Title',
+        'ui:widget': 'text',
+        'ui:placeholder': 'Enter Title',
       },
       position: {
-        ['ui:widget']: 'text',
-        ['ui:placeholder']: 'Enter Title',
+        'ui:widget': 'text',
+        'ui:placeholder': 'Enter Title',
       },
       linkedInUrl: {
-        ['ui:widget']: customControls['socialtextbox'],
+        'ui:widget': customControls['socialtextbox'],
         ['ui:socialIcon']: 'LinkedIn',
-        ['ui:placeholder']: 'Paste Url',
+        'ui:placeholder': 'Paste Url',
       },
       twitterUrl: {
-        ['ui:widget']: customControls['socialtextbox'],
+        'ui:widget': customControls['socialtextbox'],
         ['ui:socialIcon']: 'Twitter',
-        ['ui:placeholder']: 'Paste Url',
+        'ui:placeholder': 'Paste Url',
       },
     }
 

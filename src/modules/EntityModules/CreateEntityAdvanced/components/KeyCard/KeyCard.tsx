@@ -66,27 +66,27 @@ const KeyCard: React.FunctionComponent<Props> = React.forwardRef(
         purpose: {
           type: 'string',
           title: 'Purpose of the Key',
-          enum: Object.keys(KeyPurpose).map(key => KeyPurpose[key]),
+          enum: Object.keys(KeyPurpose).map((key) => KeyPurpose[key]),
           enumNames: Object.keys(KeyPurpose).map(
-            key => keyPurposeMap[KeyPurpose[key]].title,
+            (key) => keyPurposeMap[KeyPurpose[key]].title,
           ),
         },
         type: {
           type: 'string',
           title: 'Key Type',
-          enum: Object.keys(KeyType).map(key => KeyType[key]),
+          enum: Object.keys(KeyType).map((key) => KeyType[key]),
           enumNames: Object.keys(KeyType).map(
-            key => keyTypeMap[KeyType[key]].title,
+            (key) => keyTypeMap[KeyType[key]].title,
           ),
         },
         keyValue: {
           type: 'string',
           title: 'Key Value or Token',
           enum: Object.keys(PaymentDenomination).map(
-            key => PaymentDenomination[key],
+            (key) => PaymentDenomination[key],
           ),
           enumNames: Object.keys(PaymentDenomination).map(
-            key => paymentDenominationMap[PaymentDenomination[key]].title,
+            (key) => paymentDenominationMap[PaymentDenomination[key]].title,
           ),
         },
         controller: {
@@ -110,25 +110,25 @@ const KeyCard: React.FunctionComponent<Props> = React.forwardRef(
 
     const uiSchema = {
       purpose: {
-        ['ui:placeholder']: 'Select Purpose',
+        'ui:placeholder': 'Select Purpose',
       },
       type: {
-        ['ui:placeholder']: 'Select Key',
+        'ui:placeholder': 'Select Key',
       },
       keyValue: {
-        ['ui:placeholder']: 'Select Denomination',
+        'ui:placeholder': 'Select Denomination',
       },
       controller: {
-        ['ui:placeholder']: 'Enter DID or !name',
+        'ui:placeholder': 'Enter DID or !name',
       },
       dateCreated: {
-        ['ui:widget']: customControls['singledateselector'],
+        'ui:widget': customControls['singledateselector'],
       },
       dateUpdated: {
-        ['ui:widget']: customControls['singledateselector'],
+        'ui:widget': customControls['singledateselector'],
       },
       signature: {
-        ['ui:placeholder']: 'Enter signature',
+        'ui:placeholder': 'Enter signature',
       },
     }
 

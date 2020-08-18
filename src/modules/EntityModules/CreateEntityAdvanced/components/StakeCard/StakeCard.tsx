@@ -73,9 +73,9 @@ const StakeCard: React.FunctionComponent<Props> = React.forwardRef(
         type: {
           type: 'string',
           title: 'Stake Type',
-          enum: Object.keys(StakeType).map(key => StakeType[key]),
+          enum: Object.keys(StakeType).map((key) => StakeType[key]),
           enumNames: Object.keys(StakeType).map(
-            key => stakeTypeMap[StakeType[key]].title,
+            (key) => stakeTypeMap[StakeType[key]].title,
           ),
         },
         stakeId: { type: 'string', title: 'Stake ID' },
@@ -83,10 +83,10 @@ const StakeCard: React.FunctionComponent<Props> = React.forwardRef(
           type: 'string',
           title: 'Deposit Denomination',
           enum: Object.keys(PaymentDenomination).map(
-            key => PaymentDenomination[key],
+            (key) => PaymentDenomination[key],
           ),
           enumNames: Object.keys(PaymentDenomination).map(
-            key => paymentDenominationMap[PaymentDenomination[key]].title,
+            (key) => paymentDenominationMap[PaymentDenomination[key]].title,
           ),
         },
         stakeAddress: { type: 'string', title: 'Stake Deposit Address' },
@@ -95,10 +95,10 @@ const StakeCard: React.FunctionComponent<Props> = React.forwardRef(
           type: 'string',
           title: 'Slashing Condition',
           enum: Object.keys(SlashingCondition).map(
-            key => SlashingCondition[key],
+            (key) => SlashingCondition[key],
           ),
           enumNames: Object.keys(SlashingCondition).map(
-            key => slashingConditionMap[SlashingCondition[key]].title,
+            (key) => slashingConditionMap[SlashingCondition[key]].title,
           ),
         },
         slashFactor: { type: 'number', title: 'Slash Factor' },
@@ -109,16 +109,16 @@ const StakeCard: React.FunctionComponent<Props> = React.forwardRef(
 
     const uiSchema = {
       type: {
-        ['ui:placeholder']: 'Select Stake Type',
+        'ui:placeholder': 'Select Stake Type',
       },
-      stakeId: { ['ui:placeholder']: 'Enter Stake ID' },
-      denom: { ['ui:placeholder']: 'Select Denomination' },
-      stakeAddress: { ['ui:placeholder']: 'Enter Address' },
-      minStake: { ['ui:placeholder']: 'Enter Value' },
-      slashCondition: { ['ui:placeholder']: 'Select Condition' },
-      slashFactor: { ['ui:placeholder']: 'Enter Factor' },
-      slashAmount: { ['ui:placeholder']: 'Enter Amount' },
-      unbondPeriod: { ['ui:placeholder']: 'Enter Days' },
+      stakeId: { 'ui:placeholder': 'Enter Stake ID' },
+      denom: { 'ui:placeholder': 'Select Denomination' },
+      stakeAddress: { 'ui:placeholder': 'Enter Address' },
+      minStake: { 'ui:placeholder': 'Enter Value' },
+      slashCondition: { 'ui:placeholder': 'Select Condition' },
+      slashFactor: { 'ui:placeholder': 'Enter Factor' },
+      slashAmount: { 'ui:placeholder': 'Enter Amount' },
+      unbondPeriod: { 'ui:placeholder': 'Enter Days' },
     }
 
     return (

@@ -42,17 +42,17 @@ const StatusCard: React.FunctionComponent<Props> = React.forwardRef(
         stage: {
           type: 'string',
           title: 'Stage',
-          enum: Object.keys(EntityStage).map(key => EntityStage[key]),
+          enum: Object.keys(EntityStage).map((key) => EntityStage[key]),
           enumNames: Object.keys(EntityStage).map(
-            key => entityStageMap[EntityStage[key]].title,
+            (key) => entityStageMap[EntityStage[key]].title,
           ),
         },
         status: {
           type: 'string',
           title: 'Status',
-          enum: Object.keys(EntityStatus).map(key => EntityStatus[key]),
+          enum: Object.keys(EntityStatus).map((key) => EntityStatus[key]),
           enumNames: Object.keys(EntityStatus).map(
-            key => entityStatusMap[EntityStatus[key]].title,
+            (key) => entityStatusMap[EntityStatus[key]].title,
           ),
         },
       },
@@ -60,13 +60,13 @@ const StatusCard: React.FunctionComponent<Props> = React.forwardRef(
 
     const uiSchema = {
       dates: {
-        ['ui:widget']: customControls['daterangeselector'],
+        'ui:widget': customControls['daterangeselector'],
       },
       stage: {
-        ['ui:placeholder']: 'Select Stage',
+        'ui:placeholder': 'Select Stage',
       },
       status: {
-        ['ui:placeholder']: 'Select Status',
+        'ui:placeholder': 'Select Status',
       },
     }
 

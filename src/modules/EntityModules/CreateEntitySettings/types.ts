@@ -3,8 +3,12 @@ import {
   EntityStatus,
   PageView,
   EntityView,
+  TermsOfUseType,
 } from '../Entities/types'
-import { FileContent, Validation } from 'modules/EntityModules/CreateEntity/types'
+import {
+  FileContent,
+  Validation,
+} from 'modules/EntityModules/CreateEntity/types'
 
 export interface Creator extends FileContent {
   displayName: string
@@ -32,6 +36,17 @@ export interface Status {
   status: EntityStatus
 }
 
+export interface Version {
+  versionNumber: string
+  effectiveDate: string
+  notes: string
+}
+
+export interface TermsOfUse {
+  type: TermsOfUseType
+  paymentTemplateId: string
+}
+
 export interface Privacy {
   pageView: PageView
   entityView: EntityView
@@ -53,6 +68,8 @@ export interface CreateEntitySettingsState {
   owner: Owner
   creator: Creator
   status: Status
+  version: Version
+  termsOfUse: TermsOfUse
   privacy: Privacy
   requiredCredentials: {
     [id: string]: RequiredCredential
@@ -83,6 +100,10 @@ export enum CreateEntitySettingsActions {
   UploadOwnerImageFailure = 'ixo/CreateEntitySettings/UPLOAD_OWNER_IMAGE_REJECTED',
   // Status
   UpdateStatus = 'ixo/CreateEntitySettings/UPDATE_STATUS',
+  // Version
+  UpdateVersion = 'ixo/CreateEntitySettings/UPDATE_VERSION',
+  // Terms Of Ise
+  UpdateTermsOfUse = 'ixo/CreateEntitySettings/UPDATE_TERMS_OF_USE',
   // Privacy
   UpdatePrivacy = 'ixo/CreateEntitySettings/UPDATE_PRIVACY',
   // RequiredCredentials
@@ -176,6 +197,23 @@ export interface UpdateStatusAction {
     endDate: string
     stage: EntityStage
     status: EntityStatus
+  }
+}
+
+export interface UpdateVersionAction {
+  type: typeof CreateEntitySettingsActions.UpdateVersion
+  payload: {
+    versionNumber: string
+    effectiveDate: string
+    notes: string
+  }
+}
+
+export interface UpdateTermsOfUseAction {
+  type: typeof CreateEntitySettingsActions.UpdateTermsOfUse
+  payload: {
+    type: TermsOfUseType
+    paymentTemplateId: string
   }
 }
 
@@ -275,5 +313,7 @@ export type CreateEntitySettingsActionTypes =
   | AddDisplayCredentialSectionAction
   | RemoveDisplayCredentialSectionAction
   | UpdateDisplayCredentialAction
+  | UpdateTermsOfUseAction
+  | UpdateVersionAction
   | ValidatedAction
   | ValidationErrorAction

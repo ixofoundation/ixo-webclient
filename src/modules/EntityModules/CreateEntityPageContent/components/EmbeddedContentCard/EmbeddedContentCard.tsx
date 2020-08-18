@@ -37,13 +37,13 @@ const EmbeddedContentCard: React.FunctionComponent<Props> = React.forwardRef(
 
     const uiSchema = {
       title: {
-        ['ui:widget']: 'text',
-        ['ui:placeholder']: 'Enter Title',
+        'ui:widget': 'text',
+        'ui:placeholder': 'Enter Title',
       },
       urls: {
-        ['ui:widget']: customControls['embeddedtextbox'],
+        'ui:widget': customControls['embeddedtextbox'],
         ['ui:socialIcon']: 'URL Links',
-        ['ui:placeholder']: 'Paste Url',
+        'ui:placeholder': 'Paste Url',
       },
     }
 

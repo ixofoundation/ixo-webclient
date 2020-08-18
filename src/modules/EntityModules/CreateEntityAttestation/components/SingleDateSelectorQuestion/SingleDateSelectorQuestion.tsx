@@ -38,16 +38,16 @@ const SingleDateSelectorQuestion: React.FunctionComponent<Props> = React.forward
 
     const uiSchema = {
       title: {
-        ['ui:widget']: 'text',
-        ['ui:placeholder']: 'The title of the question',
+        'ui:widget': 'text',
+        'ui:placeholder': 'The title of the question',
       },
       label: {
-        ['ui:widget']: 'text',
-        ['ui:placeholder']: 'The label for the date selector',
+        'ui:widget': 'text',
+        'ui:placeholder': 'The label for the date selector',
       },
       description: {
-        ['ui:widget']: 'textarea',
-        ['ui:placeholder']:
+        'ui:widget': 'textarea',
+        'ui:placeholder':
           'This will be a short description or explainer text explaining the question',
       },
     }

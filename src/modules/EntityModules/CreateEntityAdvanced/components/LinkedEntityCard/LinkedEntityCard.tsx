@@ -34,9 +34,9 @@ const LinkedEntityCard: React.FunctionComponent<Props> = React.forwardRef(
         type: {
           type: 'string',
           title: 'Entity Type',
-          enum: Object.keys(EntityType).map(key => EntityType[key]),
+          enum: Object.keys(EntityType).map((key) => EntityType[key]),
           enumNames: Object.keys(EntityType).map(
-            key => entityTypeMap[EntityType[key]].title,
+            (key) => entityTypeMap[EntityType[key]].title,
           ),
         },
         entityId: { type: 'string', title: 'Entity ID' },
@@ -45,10 +45,10 @@ const LinkedEntityCard: React.FunctionComponent<Props> = React.forwardRef(
 
     const uiSchema = {
       type: {
-        ['ui:placeholder']: 'Select Entity',
+        'ui:placeholder': 'Select Entity',
       },
       entityId: {
-        ['ui:placeholder']: 'Enter DID or !name',
+        'ui:placeholder': 'Enter DID or !name',
       },
     }
 

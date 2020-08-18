@@ -49,9 +49,9 @@ const ServiceCard: React.FunctionComponent<Props> = React.forwardRef(
         type: {
           type: 'string',
           title: 'Service Type',
-          enum: Object.keys(ServiceType).map(key => ServiceType[key]),
+          enum: Object.keys(ServiceType).map((key) => ServiceType[key]),
           enumNames: Object.keys(ServiceType).map(
-            key => serviceTypeMap[ServiceType[key]].title,
+            (key) => serviceTypeMap[ServiceType[key]].title,
           ),
         },
         serviceEndpoint: {
@@ -75,20 +75,20 @@ const ServiceCard: React.FunctionComponent<Props> = React.forwardRef(
 
     const uiSchema = {
       type: {
-        ['ui:placeholder']: 'Select Service',
+        'ui:placeholder': 'Select Service',
       },
       serviceEndpoint: {
-        ['ui:placeholder']: 'Enter URL',
+        'ui:placeholder': 'Enter URL',
       },
       publicKey: {
-        ['ui:placeholder']: 'Enter Value',
+        'ui:placeholder': 'Enter Value',
       },
       properties: {
-        ['ui:placeholder']: 'Paste a Valid String',
+        'ui:placeholder': 'Paste a Valid String',
       },
       shortDescription: {
-        ['ui:widget']: 'textarea',
-        ['ui:placeholder']: 'Start Typing Here',
+        'ui:widget': 'textarea',
+        'ui:placeholder': 'Start Typing Here',
       },
     }
 

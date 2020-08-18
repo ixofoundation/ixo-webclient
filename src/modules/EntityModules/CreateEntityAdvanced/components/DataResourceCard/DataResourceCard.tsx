@@ -40,9 +40,11 @@ const FundCard: React.FunctionComponent<Props> = React.forwardRef(
         type: {
           type: 'string',
           title: 'Data Resource',
-          enum: Object.keys(DataResourceType).map(key => DataResourceType[key]),
+          enum: Object.keys(DataResourceType).map(
+            (key) => DataResourceType[key],
+          ),
           enumNames: Object.keys(DataResourceType).map(
-            key => dataResourceTypeMap[DataResourceType[key]].title,
+            (key) => dataResourceTypeMap[DataResourceType[key]].title,
           ),
         },
         dataId: { type: 'string', title: 'Data Identifier' },
@@ -52,10 +54,10 @@ const FundCard: React.FunctionComponent<Props> = React.forwardRef(
     } as any
 
     const uiSchema = {
-      type: { ['ui:placeholder']: 'Select Resource' },
-      dataId: { ['ui:placeholder']: 'Enter DID or !name' },
-      serviceEndpoint: { ['ui:placeholder']: 'Enter URL' },
-      properties: { ['ui:placeholder']: 'Paste a Valid Parameter String' },
+      type: { 'ui:placeholder': 'Select Resource' },
+      dataId: { 'ui:placeholder': 'Enter DID or !name' },
+      serviceEndpoint: { 'ui:placeholder': 'Enter URL' },
+      properties: { 'ui:placeholder': 'Paste a Valid Parameter String' },
     }
 
     return (

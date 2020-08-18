@@ -18,6 +18,8 @@ import {
   UpdateFiltersAction,
   ValidatedAction,
   ValidationErrorAction,
+  UpdateVersionAction,
+  UpdateTermsOfUseAction,
 } from './types'
 import { FormData } from 'common/components/JsonForm/types'
 
@@ -109,6 +111,33 @@ export const updateStatus = (formData: FormData): UpdateStatusAction => {
       endDate: dateParts[1],
       stage,
       status,
+    },
+  }
+}
+
+export const updateVersion = (formData: FormData): UpdateVersionAction => {
+  const { versionNumber, effectiveDate, notes } = formData
+
+  return {
+    type: CreateEntitySettingsActions.UpdateVersion,
+    payload: {
+      versionNumber,
+      effectiveDate,
+      notes,
+    },
+  }
+}
+
+export const updateTermsOfUse = (
+  formData: FormData,
+): UpdateTermsOfUseAction => {
+  const { type, paymentTemplateId } = formData
+
+  return {
+    type: CreateEntitySettingsActions.UpdateTermsOfUse,
+    payload: {
+      type,
+      paymentTemplateId,
     },
   }
 }

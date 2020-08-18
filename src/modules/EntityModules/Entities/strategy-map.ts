@@ -29,6 +29,8 @@ import {
   ServiceType,
   DataResourceTypeStrategyMap,
   DataResourceType,
+  TermsOfUseTypeStrategyMap,
+  TermsOfUseType,
 } from './types'
 import ProjectFilterSchema from './components/EntitiesFilter/schema/ProjectFilter.schema.json'
 import CellFilterSchema from './components/EntitiesFilter/schema/CellFilter.schema.json'
@@ -214,4 +216,11 @@ export const dataResourceTypeMap: DataResourceTypeStrategyMap = {
   [DataResourceType.InterplanetaryFileStore]: {
     title: 'Interplanetary File Store',
   },
+}
+
+export const termsOfUseTypeStrategyMap: TermsOfUseTypeStrategyMap = {
+  [TermsOfUseType.PayPerUse]: { title: 'Pay Per Use' },
+  [TermsOfUseType.OnceOffFee]: { title: 'Once-off Fee' },
+  [TermsOfUseType.FreeOpenSource]: { title: 'Free Open-source' },
+  [TermsOfUseType.Proprietary]: { title: 'Proprietary' },
 }

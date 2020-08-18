@@ -60,44 +60,44 @@ const SocialContentCard: React.FunctionComponent<Props> = React.forwardRef(
 
     const uiSchema = {
       linkedInUrl: {
-        ['ui:widget']: customControls['socialtextbox'],
-        ['ui:socialIcon']: 'LinkedIn',
-        ['ui:placeholder']: 'Paste Url',
+        'ui:widget': customControls['socialtextbox'],
+        'ui:socialIcon': 'LinkedIn',
+        'ui:placeholder': 'Paste Url',
       },
       facebookUrl: {
-        ['ui:widget']: customControls['socialtextbox'],
-        ['ui:socialIcon']: 'Facebook',
-        ['ui:placeholder']: 'Paste Url',
+        'ui:widget': customControls['socialtextbox'],
+        'ui:socialIcon': 'Facebook',
+        'ui:placeholder': 'Paste Url',
       },
       twitterUrl: {
-        ['ui:widget']: customControls['socialtextbox'],
-        ['ui:socialIcon']: 'Twitter',
-        ['ui:placeholder']: 'Paste Url',
+        'ui:widget': customControls['socialtextbox'],
+        'ui:socialIcon': 'Twitter',
+        'ui:placeholder': 'Paste Url',
       },
       discourseUrl: {
-        ['ui:widget']: customControls['socialtextbox'],
-        ['ui:socialIcon']: 'Discourse',
-        ['ui:placeholder']: 'Paste Url',
+        'ui:widget': customControls['socialtextbox'],
+        'ui:socialIcon': 'Discourse',
+        'ui:placeholder': 'Paste Url',
       },
       instagramUrl: {
-        ['ui:widget']: customControls['socialtextbox'],
-        ['ui:socialIcon']: 'Instagram',
-        ['ui:placeholder']: 'Paste Url',
+        'ui:widget': customControls['socialtextbox'],
+        'ui:socialIcon': 'Instagram',
+        'ui:placeholder': 'Paste Url',
       },
       telegramUrl: {
-        ['ui:widget']: customControls['socialtextbox'],
-        ['ui:socialIcon']: 'Telegram',
-        ['ui:placeholder']: 'Paste Url',
+        'ui:widget': customControls['socialtextbox'],
+        'ui:socialIcon': 'Telegram',
+        'ui:placeholder': 'Paste Url',
       },
       githubUrl: {
-        ['ui:widget']: customControls['socialtextbox'],
-        ['ui:socialIcon']: 'Github',
-        ['ui:placeholder']: 'Paste Url',
+        'ui:widget': customControls['socialtextbox'],
+        'ui:socialIcon': 'Github',
+        'ui:placeholder': 'Paste Url',
       },
       otherUrl: {
-        ['ui:widget']: customControls['socialtextbox'],
-        ['ui:socialIcon']: 'Other',
-        ['ui:placeholder']: 'Paste Url',
+        'ui:widget': customControls['socialtextbox'],
+        'ui:socialIcon': 'Other',
+        'ui:placeholder': 'Paste Url',
       },
     }
 

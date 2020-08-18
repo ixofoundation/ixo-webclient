@@ -34,12 +34,12 @@ const ClaimInfoCard: React.FunctionComponent<Props> = React.forwardRef(
 
     const uiSchema = {
       title: {
-        ['ui:widget']: 'text',
-        ['ui:placeholder']: 'Enter Name',
+        'ui:widget': 'text',
+        'ui:placeholder': 'Enter Name',
       },
       shortDescription: {
-        ['ui:widget']: 'textarea',
-        ['ui:placeholder']: 'Start Typing Here',
+        'ui:widget': 'textarea',
+        'ui:placeholder': 'Start Typing Here',
       },
     }
 
