@@ -1,6 +1,6 @@
 import * as SUT from './CreateEntity.selectors'
 import { CreateEntityState, Step } from './types'
-import { EntityType } from '../../modules/EntityModules/Entities/types'
+import { EntityType } from 'modules/EntityModules/Entities/types'
 
 let state: any
 
