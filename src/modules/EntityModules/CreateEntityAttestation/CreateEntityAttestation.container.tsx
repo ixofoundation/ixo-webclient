@@ -70,8 +70,7 @@ class CreateEntityAttestation extends CreateEntityBase<Props> {
             case ControlType.Text:
               return this.renderShortTextQuestion(question)
           }
-
-          return <></>
+          return null
         })}
       </>
     )
