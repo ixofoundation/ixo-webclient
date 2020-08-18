@@ -1,15 +1,15 @@
 import * as React from 'react'
 import { NavLink } from 'react-router-dom'
-import { RootState } from '../../../common/redux/types'
+import { RootState } from 'common/redux/types'
 import { connect } from 'react-redux'
 import { decode as base64Decode } from 'base-64'
 import styled from 'styled-components'
-import { successToast, errorToast } from '../../../common/utils/Toast'
+import { successToast, errorToast } from 'common/utils/Toast'
 import { ErrorTypes } from '../../../types/models'
 import * as queryString from 'query-string'
 import { Banner } from './Banner'
-import { ImageSpinner } from '../../../common/components/Form/ImageSpinner'
-import Success from '../../../assets/icons/Success'
+import { ImageSpinner } from 'common/components/Form/ImageSpinner'
+import Success from 'assets/icons/Success'
 
 const CreateContainer = styled.div`
   display: flex;

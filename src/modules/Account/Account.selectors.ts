@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect'
-import { RootState } from '../../common/redux/types'
+import { RootState } from 'common/redux/types'
 import { AccountState, UserInfo } from './types'
 
 export const selectAccountState = (state: RootState): AccountState =>

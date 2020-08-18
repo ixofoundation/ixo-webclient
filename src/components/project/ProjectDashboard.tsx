@@ -3,26 +3,26 @@ import styled from 'styled-components'
 import {
   WidgetWrapper,
   gridSizes,
-} from '../../common/components/Wrappers/WidgetWrapper'
-import { LayoutWrapper } from '../../common/components/Wrappers/LayoutWrapper'
-import { SingleStatistic } from '../../common/components/SingleStatistic/SingleStatistic'
+} from 'common/components/Wrappers/WidgetWrapper'
+import { LayoutWrapper } from 'common/components/Wrappers/LayoutWrapper'
+import { SingleStatistic } from 'common/components/SingleStatistic/SingleStatistic'
 import { StatType, AgentRoles } from '../../types/models'
 import { ProjectClaims } from './ProjectClaims'
-import { CircleProgressbar } from '../../common/components/Widgets/CircleProgressbar/CircleProgressbar'
+import { CircleProgressbar } from 'common/components/Widgets/CircleProgressbar/CircleProgressbar'
 import BarChart, {
   BarColors,
-} from '../../common/components/Widgets/BarChart/BarChart'
+} from 'common/components/Widgets/BarChart/BarChart'
 import {
   WorldMap,
   LatLng,
-} from '../../common/components/Widgets/WorldMap/WorldMap'
+} from 'common/components/Widgets/WorldMap/WorldMap'
 import { isoCountriesLatLng } from '../../lib/commonData'
 
 import { deviceWidth } from '../../lib/commonData'
 import {
   LinkButton,
   ButtonTypes,
-} from '../../common/components/Form/LinkButtons'
+} from 'common/components/Form/LinkButtons'
 import { isBrowser } from 'react-device-detect'
 
 const Container = styled.div`

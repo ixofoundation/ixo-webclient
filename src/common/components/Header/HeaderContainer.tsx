@@ -1,8 +1,8 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import { RootState } from "common/redux/types";
-import { EntityType } from "modules/Entities/types";
-import * as entitiesSelectors from "modules/Entities/Entities.selectors";
+import { EntityType } from "modules/EntityModules/Entities/types";
+import * as entitiesSelectors from "modules/EntityModules/Entities/Entities.selectors";
 import { HeaderLeft } from "./HeaderLeft/HeaderLeft";
 import { HeaderRight } from "./HeaderRight/HeaderRight";
 import MediaQuery from "react-responsive";
