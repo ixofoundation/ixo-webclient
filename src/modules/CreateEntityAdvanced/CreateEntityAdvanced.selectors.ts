@@ -89,7 +89,6 @@ export const selectValidationComplete = createSelector(
     // check if each section has had it's validation completed
     let validationComplete = true
     validationComplete =
-      validationComplete &&
       linkedEntitySections
         .map(section => section.id)
         .every(id => !!validation[id])
@@ -151,7 +150,6 @@ export const selectValidated = createSelector(
 
     let validated = true
     validated =
-      validated &&
       linkedEntitySections
         .map(section => section.id)
         .every(id => validation[id].validated)
