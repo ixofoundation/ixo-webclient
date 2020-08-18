@@ -1,14 +1,15 @@
 import React, { FunctionComponent, useState } from 'react'
 import { animated, useSpring } from 'react-spring'
 import styled from 'styled-components'
-
+import { useSelector } from 'react-redux'
 import BondChartScreen from 'modules/BondModules/BondChart/BondChart.container'
 import BondTable from 'modules/BondModules/BondTable'
 import FundingChat from 'modules/Funding_Chat/FundingChat.container'
+import Header from 'common/components/Bonds/BondsSummaryHeader/Header'
 // import BondOrders from 'modules/BondOrders/BondOrders.container'
 // import { BondEvents } from 'modules/BondEvents/BondEvents.container'
-import { BondsWrapperConnected as BondsWrapper } from '../../../common/components/Bonds/BondsWrapper/BondsWrapper'
-
+import { BondsWrapperConnected as BondsWrapper } from 'common/components/Bonds/BondsWrapper/BondsWrapper'
+import { selectLocationProps } from 'modules/Router/router.selector'
 const StyledContainer = styled.div`
   display: flex;
   flex: 1;
@@ -28,6 +29,10 @@ export const Overview: FunctionComponent<any> = ({ match }) => {
     display: assistant ? 'block' : 'none',
     background: '#F0F3F9'
   }))
+  const location: any = useSelector(selectLocationProps)
+  const projectPublic = location.state && location.state.projectPublic
+        ? location.state.projectPublic
+        : null
   const assistantPanelToggle = () => {
     setResizeMain({
       width: assistantPanelActive ? '100%' : '75%',
@@ -42,29 +47,10 @@ export const Overview: FunctionComponent<any> = ({ match }) => {
     <StyledContainer>
       <animated.div style={resizeMain}>
         <BondsWrapper {...match} assistantPanelToggle={assistantPanelToggle} enableAssistantButton>
+          <h1 className="mobile-header">{projectPublic?.title}</h1>
+          <Header bondDID={match.params.bondDID} />
           <BondChartScreen />
           <BondTable />
-          {/* <div className="BondsWrapper_panel">
-            <Route
-              exact
-              path={[
-                `/projects/${projectDID}/bonds/${bondDID}/overview/charts`,
-                `/projects/${projectDID}/bonds/${bondDID}/overview/`,
-                `/projects/${projectDID}/bonds/${bondDID}`,
-              ]}
-              component={BondChartScreen}
-            />
-            <Route
-              exact
-              path={`/projects/${projectDID}/bonds/${bondDID}/overview/trades`}
-              component={BondOrders}
-            />
-            <Route
-              exact
-              path={`/projects/${projectDID}/bonds/${bondDID}/overview/events`}
-              component={BondEvents}
-            />
-          </div> */}
         </BondsWrapper>
       </animated.div>
       <animated.div style={resizeAssistantPanel}>
