@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import { AgentRoles } from 'types/models'
 import 'assets/icons.css'
-import { ModalData } from './RegisterContainer'
+import { ModalData } from '../RegisterContainer'
 import RegistrationYes from 'assets/icons/RegistrationYes'
 import RegisterNo from 'assets/icons/RegisterNo'
 

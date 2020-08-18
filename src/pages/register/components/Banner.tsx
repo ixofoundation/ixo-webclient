@@ -5,7 +5,7 @@ const Container = styled.div`
   padding-top: 60px;
   padding-bottom: 60px;
 
-  background: url(${require('../../assets/images/register/background.jpg')})
+  background: url(${require('assets/images/register/background.jpg')})
     no-repeat center top;
   background-size: cover;
 
