@@ -5,11 +5,11 @@ import {
   GetAccountAction,
   UserInfo,
 } from './types'
-import { RootState } from '../../common/redux/types'
+import { RootState } from 'common/redux/types'
 import { Dispatch } from 'redux'
 import Axios from 'axios'
-import blocksyncApi from '../../common/api/blocksync-api/blocksync-api'
-import keysafe from '../../common/keysafe/keysafe'
+import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
+import keysafe from 'common/keysafe/keysafe'
 import { apiCurrencyToCurrency } from './Account.utils'
 
 export const login = (userInfo: UserInfo, address: string): LoginAction => ({

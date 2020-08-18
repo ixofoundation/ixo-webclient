@@ -1,14 +1,14 @@
 import * as React from 'react'
 import styled from 'styled-components'
 import { AgentRoles } from '../../../types/models'
-import { ModalWrapper } from '../../../common/components/Wrappers/ModalWrapper'
+import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
 import { UserInfo } from '../../../modules/Account/types'
 import ReactMd from 'react-md-file'
 import { Table } from 'react-bootstrap'
 import { ProjectFounder } from '../ProjectFounder/ProjectFounder'
 import { Header } from '../../../types/models'
 import ProfileCard from '../ProfileCard/ProfileCard'
-import ControlPanel from '../../../common/components/ControlPanel/ControlPanel'
+import ControlPanel from 'common/components/ControlPanel/ControlPanel'
 import {
   ProjectImage,
   OverviewContainer,
@@ -16,9 +16,9 @@ import {
   ProfileCardsWrapper,
   InlineImageWrapper,
 } from './ProjectOverview.style'
-import { EntityType } from '../../../modules/Entities/types'
-import { toTitleCase } from '../../../common/utils/formatters'
-import { entityTypeMap } from 'modules/Entities/strategy-map'
+import { EntityType } from 'modules/EntityModules/Entities/types'
+import { toTitleCase } from 'common/utils/formatters'
+import { entityTypeMap } from 'modules/EntityModules/Entities/strategy-map'
 import { ProjectHero } from '../ProjectHero'
 
 const SidebarWrapper = styled.div`

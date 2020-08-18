@@ -2,15 +2,15 @@ import * as React from "react";
 import {
   ImageLoader,
   imageQuality,
-} from "../../../common/components/Form/ImageLoader";
-import { RootState } from "../../../common/redux/types";
+} from "common/components/Form/ImageLoader";
+import { RootState } from "common/redux/types";
 import { connect } from "react-redux";
 import styled from "styled-components";
 import { decode as base64Decode, encode as base64Encode } from "base-64";
 import { blankProjectData } from "../../../lib/commonData";
-import { Button, ButtonTypes } from "../../../common/components/Form/Buttons";
-import { FileLoader } from "../../../common/components/Form/FileLoader";
-import { successToast, errorToast } from "../../../common/utils/Toast";
+import { Button, ButtonTypes } from "common/components/Form/Buttons";
+import { FileLoader } from "common/components/Form/FileLoader";
+import { successToast, errorToast } from "common/utils/Toast";
 import CopyToClipboard from "react-copy-to-clipboard";
 
 const Text = styled.input`
