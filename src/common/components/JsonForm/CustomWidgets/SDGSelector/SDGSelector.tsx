@@ -1,6 +1,6 @@
-import React from 'react';
-import SDGDropDown from '../../../Controls/IconDropDown/SDGDropDown/SDGDropDown';
-import { AddButton, RemoveButton } from './SDGSelector.styles';
+import React from 'react'
+import SDGDropDown from '../../../Controls/IconDropDown/SDGDropDown/SDGDropDown'
+import { AddButton, RemoveButton } from './SDGSelector.styles'
 
 interface Props {
   id: string
@@ -17,29 +17,29 @@ const SDGSelector: React.FunctionComponent<Props> = ({
   onBlur,
   onFocus,
 }) => {
-  const sdgs = value.split('|');
+  const sdgs = value.split('|')
 
   const handleOnChange = (sdgs: string[]): void => {
     // TODO - find a better way to get unique
     // const distinctSDGS = Array.from(new Set(sdgs.map((sdg: string) => sdg)))
-    onChange(sdgs.join('|'));
-  };
+    onChange(sdgs.join('|'))
+  }
 
   const handleSDGOnChange = (sdg: string, index: number): void => {
-    const newSDGS = [...sdgs];
-    newSDGS[index] = sdg;
-    handleOnChange(newSDGS);
-  };
+    const newSDGS = [...sdgs]
+    newSDGS[index] = sdg
+    handleOnChange(newSDGS)
+  }
 
   const handleSDGOnAdd = (): void => {
-    const newSDGS = [...sdgs, ''];
-    handleOnChange(newSDGS);
-  };
+    const newSDGS = [...sdgs, '']
+    handleOnChange(newSDGS)
+  }
 
   const handleSDGOnRemove = (index: number): void => {
-    const newSDGS = [...sdgs].filter((sdg, i) => i !== index);
-    handleOnChange(newSDGS);
-  };
+    const newSDGS = [...sdgs].filter((sdg, i) => i !== index)
+    handleOnChange(newSDGS)
+  }
 
   return (
     <>
@@ -61,14 +61,14 @@ const SDGSelector: React.FunctionComponent<Props> = ({
               </RemoveButton>
             )}
           </div>
-        );
+        )
       })}
       <br />
       <AddButton type="button" onClick={handleSDGOnAdd}>
         + Add Tag
       </AddButton>
     </>
-  );
-};
+  )
+}
 
-export default SDGSelector;
+export default SDGSelector

@@ -1,8 +1,7 @@
-import * as React from 'react';
-import MediaQuery from 'react-responsive';
-import { Link } from 'react-router-dom';
-import { deviceWidth } from '../../../../lib/commonData';
-import { getIxoWorldRoute } from '../../../utils/formatters';
+import * as React from 'react'
+import MediaQuery from 'react-responsive'
+import { deviceWidth } from '../../../../lib/commonData'
+import { getIxoWorldRoute } from '../../../utils/formatters'
 
 import {
   Main,
@@ -15,7 +14,8 @@ import {
   ByLine,
   FooterTextBlue,
   IXOLogo,
-} from './FooterLeft.styles';
+} from './FooterLeft.styles'
+import { Link } from 'react-router-dom'
 
 export const FooterLeft: React.SFC<any> = () => {
   return (
@@ -50,14 +50,16 @@ export const FooterLeft: React.SFC<any> = () => {
                 <ExternalFooterLink
                   target="_blank"
                   rel="noopener noreferrer"
-                  href="https://play.google.com/store/apps/details?id=com.ixo&hl=en_ZA"
+                  href={
+                    'https://play.google.com/store/apps/details?id=com.ixo&hl=en_ZA'
+                  }
                 >
                   Mobile Android
                 </ExternalFooterLink>
                 <ExternalFooterLink
                   target="_blank"
                   rel="noopener noreferrer"
-                  href="https://apps.apple.com/za/app/ixo/id1441394401"
+                  href={'https://apps.apple.com/za/app/ixo/id1441394401'}
                 >
                   Mobile iOS
                 </ExternalFooterLink>
@@ -224,5 +226,5 @@ export const FooterLeft: React.SFC<any> = () => {
         </FooterText>
       </div>
     </Main>
-  );
-};
+  )
+}

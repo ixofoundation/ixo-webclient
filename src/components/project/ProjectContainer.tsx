@@ -1,33 +1,33 @@
-import * as React from 'react';
-import { Fragment } from 'react';
-import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
-import { decode as base64Decode } from 'base-64';
-import styled from 'styled-components';
-import { RootState } from '../../common/redux/types';
+import * as React from 'react'
+import { Fragment } from 'react'
+import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
+import { RootState } from 'common/redux/types'
+import { decode as base64Decode } from 'base-64'
 import {
   contentType,
   AgentRoles,
   ErrorTypes,
   RenderType,
-} from '../../types/models';
-import { Data } from '../../modules/project/types';
-import { ProjectHero } from './ProjectHero';
-import { ProjectOverview } from './overview/ProjectOverview';
-import { ProjectDashboard } from './ProjectDashboard';
-import { ProjectNewClaim } from './ProjectNewClaim';
-import { ProjectSingleClaim } from './ProjectSingleClaim';
-import { ProjectClaims } from './ProjectClaims';
-import { ProjectAgents } from './ProjectAgents';
-import { Spinner } from '../../common/components/Spinner';
-import { UserInfo } from '../../modules/Account/types';
-import { ProjectSidebar } from './ProjectSidebar';
-import * as Toast from '../../common/utils/Toast';
-import { deviceWidth } from '../../lib/commonData';
-import { ProjectClaimSubmitted } from './ProjectClaimSubmitted';
-import { explorerSocket } from '../../common/utils/explorerSocket';
+} from '../../types/models'
+import { Data } from '../../modules/project/types'
+import { ProjectHero } from './ProjectHero'
+import { ProjectOverview } from './overview/ProjectOverview'
+import { ProjectDashboard } from './ProjectDashboard'
+import { ProjectNewClaim } from './ProjectNewClaim'
+import { ProjectSingleClaim } from './ProjectSingleClaim'
+import { ProjectClaims } from './ProjectClaims'
+import styled from 'styled-components'
+import { ProjectAgents } from './ProjectAgents'
+import { Spinner } from 'common/components/Spinner'
+import { UserInfo } from 'modules/Account/types'
+import { ProjectSidebar } from './ProjectSidebar'
+import * as Toast from 'common/utils/Toast'
+import { deviceWidth } from '../../lib/commonData'
+import { ProjectClaimSubmitted } from './ProjectClaimSubmitted'
+import { explorerSocket } from 'common/utils/explorerSocket'
 // import { FundingContainer } from './funding/FundingContainer'
-import { NotLedgered } from './overview/modalContent/NotLedgered';
+import { NotLedgered } from './overview/modalContent/NotLedgered'
 
 const Loading = styled.div`
   text-align: center;
@@ -37,7 +37,7 @@ const Loading = styled.div`
   align-items: center;
   background: ${/* eslint-disable-line */ (props) => props.theme.bg.blue};
   padding: 50px 20px;
-`;
+`
 
 const DetailContainer = styled.div`
   background: ${/* eslint-disable-line */ (props) =>
@@ -48,7 +48,7 @@ const DetailContainer = styled.div`
   @media (min-width: ${deviceWidth.mobile}px) {
     display: flex;
   }
-`;
+`
 
 export interface State {
   imageLink: string
@@ -121,164 +121,161 @@ export class ProjectContainer extends React.Component<Props, State> {
       modalResponse: '',
       isLedgering: false,
     },
-  };
+  }
 
-  private gettingProjectData = false;
-
-  private gettingAgents = false;
-
-  private gettingSingleClaim = false;
+  private gettingProjectData = false
+  private gettingAgents = false
+  private gettingSingleClaim = false
 
   handleToggleModal = (data: any, modalStatus: boolean): void => {
     if (data === null) {
-      this.setState({ isModalOpen: modalStatus });
+      this.setState({ isModalOpen: modalStatus })
     } else {
-      this.setState({ modalData: data, isModalOpen: modalStatus });
+      this.setState({ modalData: data, isModalOpen: modalStatus })
     }
-  };
+  }
 
   UNSAFE_componentWillReceiveProps(nextProps: any): void {
     if (nextProps.contentType === contentType.newClaim) {
       this.setState({
         claimSubmitted: false,
         singleClaimDependentsFetched: false,
-      });
+      })
     }
   }
 
   componentDidMount(): void {
-    this.handleGetProjectData();
+    this.handleGetProjectData()
     explorerSocket.on('claim added', () => {
-      this.handleGetProjectData(true);
-    });
+      this.handleGetProjectData(true)
+    })
 
     explorerSocket.on('claim updated', () => {
-      this.handleGetProjectData(true);
-    });
+      this.handleGetProjectData(true)
+    })
 
     explorerSocket.on('agent added', () => {
-      this.handleGetProjectData(true);
-    });
+      this.handleGetProjectData(true)
+    })
 
     explorerSocket.on('project status updated', (data: any) => {
       if (data.projectDid === this.state.projectDid) {
-        this.setState({ projectStatus: data.status });
+        this.setState({ projectStatus: data.status })
       }
-    });
+    })
 
     explorerSocket.on('agent updated', (data: any) => {
       if (
         this.props.contentType === contentType.evaluators ||
         this.props.contentType === contentType.serviceProviders
       ) {
-        this.handleGetProjectData(true, data.agentDid);
+        this.handleGetProjectData(true, data.agentDid)
       } else {
-        this.handleGetProjectData(true);
+        this.handleGetProjectData(true)
       }
-    });
+    })
   }
 
   componentDidUpdate(prevProps: any): void {
     if (this.props.userInfo !== prevProps.userInfo) {
-      this.handleGetProjectData(true);
+      this.handleGetProjectData(true)
     }
   }
-
   singleClaimDependentsFetchedCallback = (): void => {
-    this.setState({ singleClaimDependentsFetched: false });
-  };
+    this.setState({ singleClaimDependentsFetched: false })
+  }
 
   getImageLink = (project): string => {
-    return `${project.serviceEndpoint  }public/${  project.imageLink}`;
-  };
+    return project.serviceEndpoint + 'public/' + project.imageLink
+  }
 
   handleGetProjectData = (autorefresh?: boolean, agentDid?: string): void => {
     if (
       (this.gettingProjectData === false && autorefresh === true) ||
       this.state.projectPublic === null
     ) {
-      const did = this.props.match.params.projectDID;
-      this.gettingProjectData = true;
+      const did = this.props.match.params.projectDID
+      this.gettingProjectData = true
       this.props.ixo.project
         .getProjectByProjectDid(did)
         .then((response: any) => {
-          const project: Data = response.data;
-          const { status } = response;
+          const project: Data = response.data
+          const status: string = response.status
           if (agentDid) {
             const theAgent = project.agents.find(
               (agent) => agent.did === agentDid,
-            );
+            )
             if (theAgent) {
-              this.handleListAgents(theAgent.role, true);
+              this.handleListAgents(theAgent.role, true)
             }
           }
           this.setState({
             projectPublic: project,
             imageLink: this.getImageLink(project),
             projectStatus: status,
-          });
+          })
 
-          this.handleGetCapabilities();
-          this.gettingProjectData = false;
+          this.handleGetCapabilities()
+          this.gettingProjectData = false
         })
         .catch((result: Error) => {
-          Toast.errorToast(result.message, ErrorTypes.goBack);
-          this.gettingProjectData = false;
-        });
+          Toast.errorToast(result.message, ErrorTypes.goBack)
+          this.gettingProjectData = false
+        })
     } else {
-      this.handleGetCapabilities();
+      this.handleGetCapabilities()
     }
-  };
+  }
 
   handleGetCapabilities = (): void => {
-    const userRoles = [];
-    const { userInfo } = this.props;
+    const userRoles = []
+    const userInfo: UserInfo = this.props.userInfo
     if (userInfo) {
       this.state.projectPublic.agents.map((agent) => {
         if (agent.did === userInfo.didDoc.did) {
-          userRoles.push(agent.role);
+          userRoles.push(agent.role)
         }
-      });
+      })
       if (this.state.projectPublic.createdBy === userInfo.didDoc.did) {
-        userRoles.push(AgentRoles.owners);
+        userRoles.push(AgentRoles.owners)
       }
     }
-    this.setState({ userRoles });
-  };
+    this.setState({ userRoles: userRoles })
+  }
 
   handleHasCapability = (roles: AgentRoles[]): boolean => {
-    const { userInfo } = this.props;
-    let found = false;
+    const userInfo: UserInfo = this.props.userInfo
+    let found = false
     if (userInfo) {
       if (this.state.projectPublic.createdBy === userInfo.didDoc.did) {
         if (
           roles.some((val) => {
-            return val === AgentRoles.owners;
+            return val === AgentRoles.owners
           })
         ) {
-          return true;
+          return true
         }
       }
       this.state.projectPublic.agents.forEach((agent) => {
         if (agent.did === userInfo.didDoc.did) {
           if (
             roles.some((val) => {
-              return val === agent.role;
+              return val === agent.role
             })
           ) {
-            found = true;
+            found = true
           }
         }
-      });
+      })
     }
-    return found;
-  };
+    return found
+  }
 
   handleListClaims = (): void => {
     if (this.state.claims === null) {
       const ProjectDIDPayload: Record<string, any> = {
         projectDid: this.state.projectDid,
-      };
+      }
       this.props.keysafe.requestSigning(
         JSON.stringify(ProjectDIDPayload),
         (error, signature) => {
@@ -291,33 +288,33 @@ export class ProjectContainer extends React.Component<Props, State> {
               )
               .then((response: any) => {
                 if (response.error) {
-                  Toast.errorToast(response.error.message, ErrorTypes.goBack);
+                  Toast.errorToast(response.error.message, ErrorTypes.goBack)
                 } else {
-                  let claimsObj = [];
+                  let claimsObj = []
                   if (this.state.claims !== null) {
-                    claimsObj = [...this.state.claims];
+                    claimsObj = [...this.state.claims]
                   }
-                  claimsObj = response.result;
-                  this.setState({ claims: [...claimsObj] });
+                  claimsObj = response.result
+                  this.setState({ claims: [...claimsObj] })
                 }
               })
               .catch((result: Error) => {
-                Toast.errorToast(result.message, ErrorTypes.goBack);
-              });
+                Toast.errorToast(result.message, ErrorTypes.goBack)
+              })
           } else {
-            Toast.errorToast(error, ErrorTypes.goBack);
+            Toast.errorToast(error, ErrorTypes.goBack)
           }
         },
         'base64',
-      );
+      )
     }
-  };
+  }
 
   handleRenderClaims = (renderType: RenderType): JSX.Element => {
     if (this.state.projectPublic.claims === null) {
-      this.handleGetProjectData();
-      return <Spinner info="Loading..." />;
-    } if (renderType === RenderType.widget) {
+      this.handleGetProjectData()
+      return <Spinner info="Loading..." />
+    } else if (renderType === RenderType.widget) {
       return (
         <ProjectClaims
           hasLink={true}
@@ -325,20 +322,19 @@ export class ProjectContainer extends React.Component<Props, State> {
           claims={this.state.projectPublic.claims}
           projectDid={this.state.projectDid}
         />
-      );
-    } if (this.state.projectPublic.claims.length > 0) {
+      )
+    } else if (this.state.projectPublic.claims.length > 0) {
       return (
-        <>
+        <Fragment>
           <ProjectHero
             project={this.state.projectPublic}
             match={this.props.match}
             isDetail={true}
             hasCapability={this.handleHasCapability}
-            isLoggedIn={this.props.isLoggedIn}
           />
           <DetailContainer>
             <ProjectSidebar
-              match="claims"
+              match={'claims'}
               projectDid={this.state.projectDid}
               hasCapability={this.handleHasCapability}
               singleClaimDependentsFetchedCallback={
@@ -352,52 +348,50 @@ export class ProjectContainer extends React.Component<Props, State> {
               projectDid={this.state.projectDid}
             />
           </DetailContainer>
-        </>
-      );
-    } 
-    return (
-      <>
-        <ProjectHero
-          project={this.state.projectPublic}
-          match={this.props.match}
-          isDetail={true}
-          hasCapability={this.handleHasCapability}
-          isLoggedIn={this.props.isLoggedIn}
-        />
-        <DetailContainer>
-          <ProjectSidebar
-            match="claims"
-            projectDid={this.state.projectDid}
-            hasCapability={this.handleHasCapability}
-            singleClaimDependentsFetchedCallback={
-                this.singleClaimDependentsFetchedCallback
-              }
-          />
-          <Loading className="container-fluid">
-            <p>
-              There are currently no recorded claims on this project. <br />
-              Check back soon or get involved yourself.
-            </p>
-          </Loading>
-        </DetailContainer>
-      </>
-    );
-    
-  };
-
-  handleRenderAgents = (agentRole: string): JSX.Element => {
-    if (this.state[agentRole] === null) {
-      this.handleListAgents(agentRole);
-      return <Spinner info="Loading agents..." />;
-    } if (this.state[agentRole].length > 0) {
+        </Fragment>
+      )
+    } else {
       return (
-        <>
+        <Fragment>
           <ProjectHero
             project={this.state.projectPublic}
             match={this.props.match}
             isDetail={true}
             hasCapability={this.handleHasCapability}
-            isLoggedIn={this.props.isLoggedIn}
+          />
+          <DetailContainer>
+            <ProjectSidebar
+              match={'claims'}
+              projectDid={this.state.projectDid}
+              hasCapability={this.handleHasCapability}
+              singleClaimDependentsFetchedCallback={
+                this.singleClaimDependentsFetchedCallback
+              }
+            />
+            <Loading className="container-fluid">
+              <p>
+                There are currently no recorded claims on this project. <br />
+                Check back soon or get involved yourself.
+              </p>
+            </Loading>
+          </DetailContainer>
+        </Fragment>
+      )
+    }
+  }
+
+  handleRenderAgents = (agentRole: string): JSX.Element => {
+    if (this.state[agentRole] === null) {
+      this.handleListAgents(agentRole)
+      return <Spinner info="Loading agents..." />
+    } else if (this.state[agentRole].length > 0) {
+      return (
+        <Fragment>
+          <ProjectHero
+            project={this.state.projectPublic}
+            match={this.props.match}
+            isDetail={true}
+            hasCapability={this.handleHasCapability}
           />
           <DetailContainer>
             <ProjectSidebar
@@ -413,38 +407,37 @@ export class ProjectContainer extends React.Component<Props, State> {
               handleUpdateAgentStatus={this.handleUpdateAgent}
             />
           </DetailContainer>
-        </>
-      );
-    } 
-    return (
-      <>
-        <ProjectHero
-          project={this.state.projectPublic}
-          match={this.props.match}
-          isDetail={true}
-          hasCapability={this.handleHasCapability}
-          isLoggedIn={this.props.isLoggedIn}
-        />
-        <DetailContainer>
-          <ProjectSidebar
-            match={agentRole}
-            projectDid={this.state.projectDid}
+        </Fragment>
+      )
+    } else {
+      return (
+        <Fragment>
+          <ProjectHero
+            project={this.state.projectPublic}
+            match={this.props.match}
+            isDetail={true}
             hasCapability={this.handleHasCapability}
-            singleClaimDependentsFetchedCallback={
+          />
+          <DetailContainer>
+            <ProjectSidebar
+              match={agentRole}
+              projectDid={this.state.projectDid}
+              hasCapability={this.handleHasCapability}
+              singleClaimDependentsFetchedCallback={
                 this.singleClaimDependentsFetchedCallback
               }
-          />
-          <Loading className="container-fluid">
-            <p>
-              There are currently no recorded agents on this project. <br />
-              Check back soon or get involved yourself.
-            </p>
-          </Loading>
-        </DetailContainer>
-      </>
-    );
-    
-  };
+            />
+            <Loading className="container-fluid">
+              <p>
+                There are currently no recorded agents on this project. <br />
+                Check back soon or get involved yourself.
+              </p>
+            </Loading>
+          </DetailContainer>
+        </Fragment>
+      )
+    }
+  }
 
   handleListAgents = (agentRole: string, shouldUpdate?: boolean): void => {
     if (
@@ -452,12 +445,12 @@ export class ProjectContainer extends React.Component<Props, State> {
       shouldUpdate === true
     ) {
       const roleString =
-        shouldUpdate === true ? agentRole : AgentRoles[agentRole];
+        shouldUpdate === true ? agentRole : AgentRoles[agentRole]
       const ProjectDIDPayload: Record<string, any> = {
         projectDid: this.state.projectDid,
         role: roleString,
-      };
-      this.gettingAgents = true;
+      }
+      this.gettingAgents = true
       this.props.keysafe.requestSigning(
         JSON.stringify(ProjectDIDPayload),
         (error, signature) => {
@@ -470,39 +463,39 @@ export class ProjectContainer extends React.Component<Props, State> {
               )
               .then((response: any) => {
                 if (response.error) {
-                  Toast.errorToast(response.error.message, ErrorTypes.goBack);
+                  Toast.errorToast(response.error.message, ErrorTypes.goBack)
                 } else {
-                  const agentsObj = [...response.result];
+                  const agentsObj = [...response.result]
                   if (agentRole === 'serviceProviders' || agentRole === 'SA') {
-                    this.setState({ serviceProviders: agentsObj });
+                    this.setState({ serviceProviders: agentsObj })
                   } else if (agentRole === 'evaluators' || agentRole === 'EA') {
-                    this.setState({ evaluators: agentsObj });
+                    this.setState({ evaluators: agentsObj })
                   }
                 }
-                this.gettingAgents = false;
+                this.gettingAgents = false
               })
               .catch((result: Error) => {
-                this.gettingAgents = false;
-              });
+                this.gettingAgents = false
+              })
           }
         },
         'base64',
-      );
+      )
     }
-  };
+  }
 
   checkUserDid = (): boolean => {
     if (this.props.keysafe === null || this.props.userInfo === null) {
-      window.alert('Please install IXO Credential Manager first.');
-      return false;
-    } 
-    return true;
-    
-  };
+      window.alert('Please install IXO Credential Manager first.')
+      return false
+    } else {
+      return true
+    }
+  }
 
   handleCreateAgent = (agentFormData): void => {
     if (this.checkUserDid() == null) {
-      return;
+      return
     }
     const agentData = {
       email: agentFormData.email,
@@ -510,7 +503,7 @@ export class ProjectContainer extends React.Component<Props, State> {
       role: agentFormData.role,
       agentDid: this.props.userInfo.didDoc.did,
       projectDid: this.state.projectDid,
-    };
+    }
     this.props.keysafe.requestSigning(
       JSON.stringify(agentData),
       (error: any, signature: any) => {
@@ -523,31 +516,31 @@ export class ProjectContainer extends React.Component<Props, State> {
             )
             .then((res) => {
               if (res.error !== undefined) {
-                Toast.errorToast(res.error.message);
+                Toast.errorToast(res.error.message)
               } else {
                 Toast.successToast(
                   `Successfully registered as ${agentData.role}`,
-                );
+                )
               }
-            });
+            })
         } else {
-          Toast.errorToast('PDS is not responding');
+          Toast.errorToast('PDS is not responding')
         }
       },
       'base64',
-    );
-  };
+    )
+  }
 
   handleUpdateAgent = (statusObj: any, did: string, role: string): void => {
     const agentPaylod = {
       agentDid: did,
       status: statusObj.status,
       projectDid: this.state.projectDid,
-      role,
-    };
+      role: role,
+    }
 
     if (statusObj.version) {
-      agentPaylod.version = statusObj.version;
+      agentPaylod['version'] = statusObj.version
     }
 
     this.props.keysafe.requestSigning(
@@ -562,28 +555,28 @@ export class ProjectContainer extends React.Component<Props, State> {
             )
             .then((res) => {
               if (res.error !== undefined) {
-                Toast.errorToast(res.error.message);
+                Toast.errorToast(res.error.message)
               } else {
-                Toast.successToast('Successfully updated agent status');
+                Toast.successToast('Successfully updated agent status')
               }
-            });
+            })
         } else {
-          Toast.errorToast('PDS is not responding');
+          Toast.errorToast('PDS is not responding')
         }
       },
       'base64',
-    );
-  };
+    )
+  }
 
   handleEvaluateClaim = (statusObj: any, id: string): void => {
     const claimPayload = {
       claimId: id,
       status: statusObj.status,
       projectDid: this.state.projectDid,
-    };
+    }
 
     if (statusObj.version) {
-      claimPayload.version = statusObj.version;
+      claimPayload['version'] = statusObj.version
     }
 
     this.props.keysafe.requestSigning(
@@ -598,23 +591,23 @@ export class ProjectContainer extends React.Component<Props, State> {
             )
             .then((res) => {
               if (res.error !== undefined) {
-                Toast.errorToast(res.error.message);
+                Toast.errorToast(res.error.message)
               } else {
-                Toast.successToast('Evaluation succesfully submitted');
-                this.setState({ claimEvaluated: true });
+                Toast.successToast('Evaluation succesfully submitted')
+                this.setState({ claimEvaluated: true })
               }
-            });
+            })
         } else {
-          Toast.errorToast('Evaluation was not submitted');
+          Toast.errorToast('Evaluation was not submitted')
         }
       },
       'base64',
-    );
-  };
+    )
+  }
 
   handleSubmitClaim = (claimData): void => {
-    const claimPayload = Object.assign(claimData);
-    claimPayload.projectDid = this.state.projectDid;
+    const claimPayload = Object.assign(claimData)
+    claimPayload['projectDid'] = this.state.projectDid
     this.props.keysafe.requestSigning(
       JSON.stringify(claimPayload),
       (error, signature) => {
@@ -626,19 +619,19 @@ export class ProjectContainer extends React.Component<Props, State> {
               this.state.projectPublic.serviceEndpoint,
             )
             .then(() => {
-              Toast.warningToast('Claim has been submitted for approval');
-              this.setState({ claimSubmitted: true });
+              Toast.warningToast('Claim has been submitted for approval')
+              this.setState({ claimSubmitted: true })
             })
             .catch((claimError: Error) => {
-              Toast.errorToast(claimError.message);
-            });
+              Toast.errorToast(claimError.message)
+            })
         } else {
-          Toast.errorToast(error);
+          Toast.errorToast(error)
         }
       },
       'base64',
-    );
-  };
+    )
+  }
 
   handleGetClaim(ProjectDIDPayload: object, signature: string): Promise<any> {
     return new Promise((resolve) => {
@@ -650,15 +643,15 @@ export class ProjectContainer extends React.Component<Props, State> {
         )
         .then((response: any) => {
           if (response.error) {
-            Toast.errorToast(response.error.message, ErrorTypes.goBack);
+            Toast.errorToast(response.error.message, ErrorTypes.goBack)
           } else {
             const claimFound = response.result.filter(
               (theClaim) => theClaim.txHash === this.props.match.params.claimID,
-            )[0];
-            return resolve(claimFound);
+            )[0]
+            return resolve(claimFound)
           }
-        });
-    });
+        })
+    })
   }
 
   handleFetchFormFile(claimFormKey: string, pdsURL: string): Promise<any> {
@@ -666,18 +659,18 @@ export class ProjectContainer extends React.Component<Props, State> {
       this.props.ixo.project
         .fetchPublic(claimFormKey, pdsURL)
         .then((res: any) => {
-          const fileContents = base64Decode(res.data);
-          return resolve(fileContents);
-        });
-    });
+          const fileContents = base64Decode(res.data)
+          return resolve(fileContents)
+        })
+    })
   }
 
   handleSingleClaimFetch = (project: any): void => {
     if (this.gettingSingleClaim === false) {
-      this.gettingSingleClaim = true;
+      this.gettingSingleClaim = true
       const ProjectDIDPayload: Record<string, any> = {
         projectDid: this.state.projectDid,
-      };
+      }
       this.props.keysafe.requestSigning(
         JSON.stringify(ProjectDIDPayload),
         (error, signature) => {
@@ -685,11 +678,11 @@ export class ProjectContainer extends React.Component<Props, State> {
             const claimPromise = this.handleGetClaim(
               ProjectDIDPayload,
               signature,
-            ); // get claim
+            ) // get claim
             const formFilePromise = this.handleFetchFormFile(
               project.templates.claim.form,
               this.state.projectPublic.serviceEndpoint,
-            ); // get form file
+            ) // get form file
             Promise.all([claimPromise, formFilePromise]).then(
               ([claim, formFile]) => {
                 if (claim.evaluations.length > 0) {
@@ -698,31 +691,31 @@ export class ProjectContainer extends React.Component<Props, State> {
                     singleClaimFormFile: formFile,
                     singleClaimDependentsFetched: true,
                     claimEvaluated: false,
-                  });
+                  })
                 } else {
                   this.setState({
                     singleClaim: claim,
                     singleClaimFormFile: formFile,
                     singleClaimDependentsFetched: true,
                     claimEvaluated: false,
-                  });
+                  })
                 }
-                this.handleFetchClaimImages(formFile, claim); // go fetch images
-                this.gettingSingleClaim = false;
+                this.handleFetchClaimImages(formFile, claim) // go fetch images
+                this.gettingSingleClaim = false
               },
-            );
+            )
           } else {
-            this.gettingSingleClaim = false;
+            this.gettingSingleClaim = false
           }
         },
         'base64',
-      );
+      )
     }
-  };
+  }
 
   handleFetchClaimImages = (formFile: any, claim: any): void => {
-    const { fields = [] } = JSON.parse(formFile);
-    const promises = [];
+    const { fields = [] } = JSON.parse(formFile)
+    const promises = []
     fields.forEach((field) => {
       if (field.type === 'image') {
         promises.push(
@@ -732,23 +725,23 @@ export class ProjectContainer extends React.Component<Props, State> {
               this.state.projectPublic.serviceEndpoint,
             )
             .then((res: any) => {
-              const imageSrc = `data:${  res.contentType  };base64,${  res.data}`;
-              claim[field.name] = imageSrc;
-              this.setState({ singleClaim: claim });
+              const imageSrc = 'data:' + res.contentType + ';base64,' + res.data
+              claim[field.name] = imageSrc
+              this.setState({ singleClaim: claim })
             }),
-        );
+        )
       }
-    });
-    Promise.all(promises);
-  };
+    })
+    Promise.all(promises)
+  }
 
   handleLedgerDid = (): void => {
     if (this.props.userInfo.didDoc) {
-      const payload = this.props.userInfo.didDoc;
+      const payload = this.props.userInfo.didDoc
       let ledgerObj = {
         isLedgering: true,
         modalResponse: '',
-      };
+      }
       this.props.ixo.utils
         .getSignData(payload, 'did/AddDid', payload.pubKey)
         .then((response: any) => {
@@ -765,25 +758,25 @@ export class ProjectContainer extends React.Component<Props, State> {
                           isLedgering: false,
                           modalResponse:
                             'Your credentials have been registered on the ixo blockchain. This will take a few seconds in the background, you can continue using the site.',
-                        };
+                        }
                       } else {
                         ledgerObj = {
                           isLedgering: false,
                           modalResponse:
                             'Unable to ledger did at this time, please contact our support at support@ixo.world',
-                        };
+                        }
                       }
-                    });
+                    })
                 }
               },
               'base64',
-            );
+            )
           } else {
             ledgerObj = {
               isLedgering: false,
               modalResponse:
                 'Unable to ledger did at this time, please contact our support at support@ixo.world',
-            };
+            }
           }
         })
         .catch(() => {
@@ -791,38 +784,38 @@ export class ProjectContainer extends React.Component<Props, State> {
             isLedgering: false,
             modalResponse:
               'Unable to ledger did at this time, please contact our support at support@ixo.world',
-          };
-        });
+          }
+        })
       const content = (
         <NotLedgered
           ledgerDid={this.handleLedgerDid}
           modalResponse={ledgerObj.modalResponse}
           closeModal={(): void => this.handleToggleModal(null, false)}
         />
-      );
+      )
       const modalData = {
         title: `Hi, ${this.props.userInfo.name}`,
         titleNoCaps: true,
-        content,
-      };
-      this.setState({ ledger: ledgerObj, modalData });
+        content: content,
+      }
+      this.setState({ ledger: ledgerObj, modalData: modalData })
     } else {
       const ledgerObj = {
         isLedgering: false,
         modalResponse:
           'We cannot find your keysafe information, please reach out to our support at support@ixo.world',
-      };
-      this.setState({ ledger: ledgerObj });
+      }
+      this.setState({ ledger: ledgerObj })
     }
-  };
+  }
 
   handleRenderProject = (): JSX.Element => {
-    const project = this.state.projectPublic;
-    let theContent: JSX.Element = null;
+    const project = this.state.projectPublic
+    let theContent: JSX.Element = null
     switch (this.props.contentType) {
       case contentType.overview:
         theContent = (
-          <>
+          <Fragment>
             <ProjectOverview
               match={this.props.match}
               projectDid={this.state.projectDid}
@@ -841,29 +834,28 @@ export class ProjectContainer extends React.Component<Props, State> {
               isDetail={false}
               isLoggedIn={this.props.isLoggedIn}
             />
-          </>
-        );
-        break;
+          </Fragment>
+        )
+        break
       case contentType.dashboard:
         if (this.state.projectPublic.claims === null) {
-          theContent = <Spinner info="Loading claims..." />;
+          theContent = <Spinner info="Loading claims..." />
         } else {
-          const dashboardClaimStats = {
-            required: this.state.projectPublic.requiredClaims,
-            ...this.state.projectPublic.claimStats,
-          };
+          const dashboardClaimStats = Object.assign(
+            { required: this.state.projectPublic.requiredClaims },
+            this.state.projectPublic.claimStats,
+          )
           theContent = (
-            <>
+            <Fragment>
               <ProjectHero
                 project={project}
                 match={this.props.match}
                 isDetail={true}
                 hasCapability={this.handleHasCapability}
-                isLoggedIn={this.props.isLoggedIn}
               />
               <DetailContainer>
                 <ProjectSidebar
-                  match="detail"
+                  match={'detail'}
                   projectDid={this.state.projectDid}
                   hasCapability={this.handleHasCapability}
                   singleClaimDependentsFetchedCallback={
@@ -880,62 +872,61 @@ export class ProjectContainer extends React.Component<Props, State> {
                   impactAction={this.state.projectPublic.impactAction}
                 />
               </DetailContainer>
-            </>
-          );
+            </Fragment>
+          )
         }
-        break;
+        break
       case contentType.newClaim:
         theContent = (
-          <>
+          <Fragment>
             <ProjectHero
               isClaim={true}
               project={project}
               match={this.props.match}
               isDetail={true}
               hasCapability={this.handleHasCapability}
-              isLoggedIn={this.props.isLoggedIn}
             />
             {this.state.claimSubmitted ? (
               <ProjectClaimSubmitted projectDid={this.state.projectDid} />
             ) : (
-              <DetailContainer>
-                <ProjectSidebar
-                  match="claims"
-                  projectDid={this.state.projectDid}
-                  hasCapability={this.handleHasCapability}
-                  singleClaimDependentsFetchedCallback={
+                <DetailContainer>
+                  <ProjectSidebar
+                    match={'claims'}
+                    projectDid={this.state.projectDid}
+                    hasCapability={this.handleHasCapability}
+                    singleClaimDependentsFetchedCallback={
                       this.singleClaimDependentsFetchedCallback
                     }
-                />
-                <ProjectNewClaim
-                  projectData={project}
-                  ixo={this.props.ixo}
-                  submitClaim={(claimData): void =>
-                    this.handleSubmitClaim(claimData)}
-                />
-              </DetailContainer>
-            )}
-          </>
-        );
-        break;
+                  />
+                  <ProjectNewClaim
+                    projectData={project}
+                    ixo={this.props.ixo}
+                    submitClaim={(claimData): void =>
+                      this.handleSubmitClaim(claimData)
+                    }
+                  />
+                </DetailContainer>
+              )}
+          </Fragment>
+        )
+        break
       case contentType.singleClaim:
         if (!this.state.singleClaimDependentsFetched) {
-          this.handleSingleClaimFetch(project);
-          theContent = <Spinner info="Loading claim..." />;
+          this.handleSingleClaimFetch(project)
+          theContent = <Spinner info="Loading claim..." />
         }
         theContent = (
-          <>
+          <Fragment>
             <ProjectHero
               isClaim={true}
               project={project}
               match={this.props.match}
               isDetail={true}
               hasCapability={this.handleHasCapability}
-              isLoggedIn={this.props.isLoggedIn}
             />
             <DetailContainer>
               <ProjectSidebar
-                match="claims"
+                match={'claims'}
                 projectDid={this.state.projectDid}
                 hasCapability={this.handleHasCapability}
                 singleClaimDependentsFetchedCallback={
@@ -955,27 +946,27 @@ export class ProjectContainer extends React.Component<Props, State> {
                 }
               />
             </DetailContainer>
-          </>
-        );
-        break;
+          </Fragment>
+        )
+        break
       case contentType.claims:
-        theContent = this.handleRenderClaims(RenderType.fullPage);
-        break;
+        theContent = this.handleRenderClaims(RenderType.fullPage)
+        break
       case contentType.evaluators:
-        theContent = this.handleRenderAgents('evaluators');
-        break;
+        theContent = this.handleRenderAgents('evaluators')
+        break
       case contentType.investors:
-        theContent = this.handleRenderAgents('investors');
-        break;
+        theContent = this.handleRenderAgents('investors')
+        break
       case contentType.serviceProviders:
-        theContent = this.handleRenderAgents('serviceProviders');
-        break;
+        theContent = this.handleRenderAgents('serviceProviders')
+        break
       default:
-        theContent = <p>Nothing to see here...</p>;
-        break;
+        theContent = <p>Nothing to see here...</p>
+        break
     }
     return (
-      <>
+      <Fragment>
         {theContent}
         {/*         {this.props.userInfo &&
           this.props.userInfo.didDoc.did ===
@@ -989,30 +980,30 @@ export class ProjectContainer extends React.Component<Props, State> {
               projectStatus={this.state.projectStatus}
             />
           )} */}
-      </>
-    );
-  };
+      </Fragment>
+    )
+  }
 
   calculateProjectFee(project: any): number {
-    const perEvalFee = parseFloat(process.env.REACT_APP_FEE_PER_EVALUATION);
-    const perClaimFee = parseFloat(process.env.REACT_APP_FEE_PER_CLAIM_FEE);
-    const feeOverhead = parseFloat(process.env.REACT_APP_FEE_OVERHEAD);
+    const perEvalFee = parseFloat(process.env.REACT_APP_FEE_PER_EVALUATION)
+    const perClaimFee = parseFloat(process.env.REACT_APP_FEE_PER_CLAIM_FEE)
+    const feeOverhead = parseFloat(process.env.REACT_APP_FEE_OVERHEAD)
     const minFee =
       project.requiredClaims * (perClaimFee + perEvalFee) +
-      project.requiredClaims * project.evaluatorPayPerClaim;
-    return minFee * feeOverhead;
+      project.requiredClaims * project.evaluatorPayPerClaim
+    return minFee * feeOverhead
   }
 
   render(): JSX.Element {
     return (
-      <>
+      <Fragment>
         {this.state.projectPublic === null || this.state.userRoles === null ? (
           <Spinner info="Loading Entity..." />
         ) : (
-          this.handleRenderProject()
-        )}
-      </>
-    );
+            this.handleRenderProject()
+          )}
+      </Fragment>
+    )
   }
 }
 
@@ -1023,9 +1014,9 @@ function mapStateToProps(state: RootState): Record<string, any> {
     userInfo: state.account.userInfo,
     isLoggedIn:
       state.account.userInfo && state.account.userInfo.loggedInKeysafe,
-  };
+  }
 }
 
 export const ProjectContainerConnected = withRouter(
   connect(mapStateToProps)(ProjectContainer as any) as any,
-);
+)

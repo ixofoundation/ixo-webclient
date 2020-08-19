@@ -1,5 +1,5 @@
 # base image
-FROM node:9.6.1
+FROM node:latest
 
 # set working directory
 RUN mkdir /usr/src/app
@@ -11,6 +11,7 @@ ENV PATH /usr/src/app/node_modules/.bin:$PATH
 # install and cache app dependencies
 COPY package.json /usr/src/app/package.json
 COPY . /usr/src/app/
+RUN node --version
 RUN npm install --silent
 
 # start app

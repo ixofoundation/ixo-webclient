@@ -1,10 +1,10 @@
-import * as React from 'react';
-import { ImageLoader, imageQuality } from '../ImageLoader';
+import * as React from "react";
+import { ImageLoader, imageQuality } from "../ImageLoader";
 import {
   CloseButton,
   InputContainer,
   InputImageContainer,
-} from './InputImage.styles';
+} from "./InputImage.styles";
 
 export interface ParentProps {
   id: string;
@@ -24,7 +24,7 @@ export interface State {
 
 export default class InputImage extends React.Component<Props, State> {
   state = {
-    croppedImage: '',
+    croppedImage: "",
   };
 
   handleImage = (base64Image: any): void => {
@@ -47,18 +47,18 @@ export default class InputImage extends React.Component<Props, State> {
           <img src={this.state.croppedImage} alt="crop-image" />
         </InputImageContainer>
       );
-    } 
-    return (
-      <InputContainer>
-        <ImageLoader
-          quality={imageQuality.medium}
-          placeholder={this.props.text}
-          imageWidth={this.props.imageWidth}
-          aspect={this.props.aspect}
-          imageCallback={this.handleImage}
-        />
-      </InputContainer>
-    );
-    
+    } else {
+      return (
+        <InputContainer>
+          <ImageLoader
+            quality={imageQuality.medium}
+            placeholder={this.props.text}
+            imageWidth={this.props.imageWidth}
+            aspect={this.props.aspect}
+            imageCallback={this.handleImage}
+          />
+        </InputContainer>
+      );
+    }
   }
 }

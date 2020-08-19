@@ -1,5 +1,5 @@
-import React from 'react';
-import { Control } from '../../types';
+import React from "react";
+import { Control } from "../../types";
 
 interface Props {
   entityDid: string;
@@ -10,7 +10,7 @@ const Shield: React.FunctionComponent<Props> = ({
   entityDid,
   control: { title, iconColor, parameters },
 }) => {
-  const field = parameters?.find((param) => param?.name === 'field')?.value;
+  const field = parameters?.find((param) => param?.name === "field")?.value;
   const shieldUrl = encodeURIComponent(
     `${process.env.REACT_APP_BLOCK_SYNC_URL}/api/project/shields/${field}/${entityDid}`
   );

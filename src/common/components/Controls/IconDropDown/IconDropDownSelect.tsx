@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { DropDownOption } from './types';
-import { Container, SelectContainer } from './IconDropDownSelect.styles';
+import React, { useState } from "react";
+import { DropDownOption } from "./types";
+import { Container, SelectContainer } from "./IconDropDownSelect.styles";
 
 interface Props {
   options: DropDownOption[]
@@ -19,7 +19,7 @@ const DropDownImageSelect: React.FunctionComponent<Props> = ({
   onBlur,
   onFocus,
 }) => {
-  const [selectedIconSRC, setSelectedIconSRC] = useState<string | null>('');
+  const [selectedIconSRC, setSelectedIconSRC] = useState<string | null>("");
   const onChangeHandler = (value: string): void => {
     if (!!value && value.length > 0) {
       const selectedOption = options.find((option) => option.value === value);
@@ -31,8 +31,8 @@ const DropDownImageSelect: React.FunctionComponent<Props> = ({
     } else {
       setSelectedIconSRC(null);
     }
-    onChange(value || null);
-  };
+    onChange(value || null)
+  }
 
   return (
     <Container>

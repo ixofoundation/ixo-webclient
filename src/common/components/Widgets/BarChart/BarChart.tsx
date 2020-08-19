@@ -1,8 +1,8 @@
-import * as React from 'react';
-import { Bar } from 'react-chartjs-2';
-import { Chart } from 'chart.js';
-import moment from 'moment';
-import { Container, LabelsX } from './BarChart.styles';
+import * as React from "react";
+import { Bar } from "react-chartjs-2";
+import { Chart } from "chart.js";
+import moment from "moment";
+import { Container, LabelsX } from "./BarChart.styles";
 
 export interface ParentProps {
   barData: BarData[];
@@ -15,10 +15,10 @@ export interface BarData {
 }
 
 export enum BarColors {
-  blue = 'BLUE',
-  red = 'RED',
-  green = 'GREEN',
-  darkBlue = 'DARKBLUE',
+  blue = "BLUE",
+  red = "RED",
+  green = "GREEN",
+  darkBlue = "DARKBLUE",
 }
 
 export default class BarChart extends React.Component<ParentProps, {}> {
@@ -29,7 +29,7 @@ export default class BarChart extends React.Component<ParentProps, {}> {
   state = {
     canvasHeight: 0,
     hasError: false,
-    errorMessage: '',
+    errorMessage: "",
     firstTime: true,
     xLabels: [],
     bucketsArray: 1,
@@ -57,13 +57,13 @@ export default class BarChart extends React.Component<ParentProps, {}> {
     // eslint-disable-next-line @typescript-eslint/no-this-alias
     const that = this;
     Chart.elements.Rectangle.prototype.draw = function (): void {
-      const { ctx } = this._chart;
+      const ctx = this._chart.ctx;
       const vm = this._view;
       if (that.state.canvasHeight < vm.base) {
         that.setState({ canvasHeight: vm.base });
       }
-      let left; let right; let top; let bottom; let signX; let signY; let borderSkipped; let radius;
-      let { borderWidth } = vm;
+      let left, right, top, bottom, signX, signY, borderSkipped, radius;
+      let borderWidth = vm.borderWidth;
       // Set Radius Here
       // If radius is large enough to cause drawing errors a max radius is imposed
       const cornerRadius = vm.width;
@@ -76,7 +76,7 @@ export default class BarChart extends React.Component<ParentProps, {}> {
         bottom = vm.base;
         signX = 1;
         signY = bottom > top ? 1 : -1;
-        borderSkipped = vm.borderSkipped || 'bottom';
+        borderSkipped = vm.borderSkipped || "bottom";
       } else {
         // horizontal bar
         left = vm.base;
@@ -85,7 +85,7 @@ export default class BarChart extends React.Component<ParentProps, {}> {
         bottom = vm.y + vm.height / 2;
         signX = right > left ? 1 : -1;
         signY = 1;
-        borderSkipped = vm.borderSkipped || 'left';
+        borderSkipped = vm.borderSkipped || "left";
       }
 
       // Canvas doesn't allow us to stroke inside the width so we can
@@ -100,13 +100,13 @@ export default class BarChart extends React.Component<ParentProps, {}> {
         const halfStroke = borderWidth / 2;
         // Adjust borderWidth when bar top position is near vm.base(zero).
         const borderLeft =
-          left + (borderSkipped !== 'left' ? halfStroke * signX : 0);
+          left + (borderSkipped !== "left" ? halfStroke * signX : 0);
         const borderRight =
-          right + (borderSkipped !== 'right' ? -halfStroke * signX : 0);
+          right + (borderSkipped !== "right" ? -halfStroke * signX : 0);
         const borderTop =
-          top + (borderSkipped !== 'top' ? halfStroke * signY : 0);
+          top + (borderSkipped !== "top" ? halfStroke * signY : 0);
         const borderBottom =
-          bottom + (borderSkipped !== 'bottom' ? -halfStroke * signY : 0);
+          bottom + (borderSkipped !== "bottom" ? -halfStroke * signY : 0);
         // not become a vertical line?
         if (borderLeft !== borderRight) {
           top = borderTop;
@@ -135,7 +135,7 @@ export default class BarChart extends React.Component<ParentProps, {}> {
       ];
 
       // Find first (starting) corner with fallback to 'bottom'
-      const borders = ['bottom', 'left', 'top', 'right'];
+      const borders = ["bottom", "left", "top", "right"];
       let startCorner = borders.indexOf(borderSkipped, 0);
       if (startCorner === -1) {
         startCorner = 0;
@@ -146,11 +146,11 @@ export default class BarChart extends React.Component<ParentProps, {}> {
 
       // Draw rectangle from 'startCorner'
       let corner = cornerAt(0);
-      let width; let height; let x; let y; let nextCornerId;
+      let width, height, x, y, nextCornerId;
       // tslint:disable-next-line:variable-name
-      let x_tl; let x_tr; let y_tl; let y_tr;
+      let x_tl, x_tr, y_tl, y_tr;
       // tslint:disable-next-line:variable-name
-      let x_bl; let x_br; let y_bl; let y_br;
+      let x_bl, x_br, y_bl, y_br;
       ctx.moveTo(corner[0], corner[1]);
 
       for (let i = 1; i < 4; i++) {
@@ -255,9 +255,9 @@ export default class BarChart extends React.Component<ParentProps, {}> {
 
     for (let i = 0; i < this.state.totalBars; i += 1) {
       const theDiff = Math.round(i * hoursPerBucket);
-      const theTime = now.clone().subtract(theDiff, 'hours');
+      const theTime = now.clone().subtract(theDiff, "hours");
       if (theDiff % 24 === 0) {
-        labelArray.push(theTime.format('D MMM'));
+        labelArray.push(theTime.format("D MMM"));
       }
     }
 
@@ -270,8 +270,8 @@ export default class BarChart extends React.Component<ParentProps, {}> {
     const reversedIndex = this.state.totalBars - index;
     const now = moment();
     const theDiff = Math.round(reversedIndex * this.state.hoursPerBucket);
-    const theTime = now.clone().subtract(theDiff, 'hours');
-    return theTime.format('dddd, D MMMM, YYYY');
+    const theTime = now.clone().subtract(theDiff, "hours");
+    return theTime.format("dddd, D MMMM, YYYY");
   }
 
   waitAndChange = (): void => {
@@ -285,7 +285,7 @@ export default class BarChart extends React.Component<ParentProps, {}> {
     for (let j = 0; j < this.props.barData.length; j++) {
       if (this.props.barData[j].data.length > 0) {
         const theDate = moment(this.props.barData[j].data[0].date);
-        const theDiff = now.diff(theDate, 'hours');
+        const theDiff = now.diff(theDate, "hours");
         if (theDiff > earliestHoursDifference) {
           earliestHoursDifference = theDiff;
         }
@@ -304,8 +304,8 @@ export default class BarChart extends React.Component<ParentProps, {}> {
 
     this.populateXaxisLabels(hoursPerBucket);
     this.setState({
-      bucketsArray,
-      hoursPerBucket,
+      bucketsArray: bucketsArray,
+      hoursPerBucket: hoursPerBucket,
     });
   };
 
@@ -317,7 +317,7 @@ export default class BarChart extends React.Component<ParentProps, {}> {
     for (let k = 0; k < this.props.barData[arrayIndex].data.length; k++) {
       const theDate = moment(this.props.barData[arrayIndex].data[k].date);
 
-      hoursDifferenceArray.push(now.diff(theDate, 'hours'));
+      hoursDifferenceArray.push(now.diff(theDate, "hours"));
     }
 
     const BucketValueArray = Array(...new Array(this.state.totalBars)).map(
@@ -331,11 +331,13 @@ export default class BarChart extends React.Component<ParentProps, {}> {
           if (hoursDifferenceArray[k] > this.state.bucketsArray[p]) {
             BucketValueArray[p]++;
           }
-        } else if (
-          hoursDifferenceArray[k] >= this.state.bucketsArray[p] &&
+        } else {
+          if (
+            hoursDifferenceArray[k] >= this.state.bucketsArray[p] &&
             hoursDifferenceArray[k] < this.state.bucketsArray[p + 1]
-        ) {
-          BucketValueArray[p]++;
+          ) {
+            BucketValueArray[p]++;
+          }
         }
       }
     }
@@ -343,7 +345,7 @@ export default class BarChart extends React.Component<ParentProps, {}> {
   };
 
   allData = (canvas): any => {
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext("2d");
 
     // const gradientsArray = this.handleGetGradients(ctx);
     const gradientRed = ctx.createLinearGradient(
@@ -352,9 +354,9 @@ export default class BarChart extends React.Component<ParentProps, {}> {
       0,
       this.state.canvasHeight
     );
-    gradientRed.addColorStop(0, '#E2223B'); // top
-    gradientRed.addColorStop(0.5, '#E2223B');
-    gradientRed.addColorStop(1, '#B31429'); // bottom
+    gradientRed.addColorStop(0, "#E2223B"); // top
+    gradientRed.addColorStop(0.5, "#E2223B");
+    gradientRed.addColorStop(1, "#B31429"); // bottom
 
     const gradientBlue = ctx.createLinearGradient(
       0,
@@ -362,9 +364,9 @@ export default class BarChart extends React.Component<ParentProps, {}> {
       0,
       this.state.canvasHeight
     );
-    gradientBlue.addColorStop(0, '#49BFE0');
-    gradientBlue.addColorStop(0.5, '#49BFE0');
-    gradientBlue.addColorStop(1, '#016582');
+    gradientBlue.addColorStop(0, "#49BFE0");
+    gradientBlue.addColorStop(0.5, "#49BFE0");
+    gradientBlue.addColorStop(1, "#016582");
 
     const gradientDarkBlue = ctx.createLinearGradient(
       0,
@@ -372,9 +374,9 @@ export default class BarChart extends React.Component<ParentProps, {}> {
       0,
       this.state.canvasHeight
     );
-    gradientDarkBlue.addColorStop(0, '#096f8c');
-    gradientDarkBlue.addColorStop(0.5, '#096f8c');
-    gradientDarkBlue.addColorStop(1, '#0b556f');
+    gradientDarkBlue.addColorStop(0, "#096f8c");
+    gradientDarkBlue.addColorStop(0.5, "#096f8c");
+    gradientDarkBlue.addColorStop(1, "#0b556f");
 
     const gradientGreen = ctx.createLinearGradient(
       0,
@@ -382,9 +384,9 @@ export default class BarChart extends React.Component<ParentProps, {}> {
       0,
       this.state.canvasHeight
     );
-    gradientGreen.addColorStop(0, '#63d25a');
-    gradientGreen.addColorStop(0.5, '#63d25a');
-    gradientGreen.addColorStop(1, '#156a0e');
+    gradientGreen.addColorStop(0, "#63d25a");
+    gradientGreen.addColorStop(0.5, "#63d25a");
+    gradientGreen.addColorStop(1, "#156a0e");
 
     const gradientRemaining = ctx.createLinearGradient(
       0,
@@ -392,8 +394,8 @@ export default class BarChart extends React.Component<ParentProps, {}> {
       0,
       this.state.canvasHeight
     );
-    gradientRemaining.addColorStop(0, '#01293C');
-    gradientRemaining.addColorStop(1, '#033C50');
+    gradientRemaining.addColorStop(0, "#01293C");
+    gradientRemaining.addColorStop(1, "#033C50");
 
     const dataArrays = [];
 
@@ -420,19 +422,19 @@ export default class BarChart extends React.Component<ParentProps, {}> {
       switch (this.props.barData[index].color) {
         case BarColors.red:
           theCol = gradientRed;
-          hoverCol = '#E2223B';
+          hoverCol = "#E2223B";
           break;
         case BarColors.blue:
           theCol = gradientBlue;
-          hoverCol = '#49BFE0';
+          hoverCol = "#49BFE0";
           break;
         case BarColors.darkBlue:
           theCol = gradientDarkBlue;
-          hoverCol = '#0f81a0';
+          hoverCol = "#0f81a0";
           break;
         case BarColors.green:
           theCol = gradientGreen;
-          hoverCol = '#E2223B';
+          hoverCol = "#E2223B";
           break;
         default:
       }
@@ -458,7 +460,7 @@ export default class BarChart extends React.Component<ParentProps, {}> {
     }
 
     dataSets.push({
-      label: 'Total Remainder',
+      label: "Total Remainder",
       data: dataRemainder,
       backgroundColor: gradientRemaining,
       hoverBackgroundColor: gradientRemaining,
@@ -470,7 +472,7 @@ export default class BarChart extends React.Component<ParentProps, {}> {
         labels: this.populateTooltipArray(this.state.totalBars),
         datasets: [
           {
-            label: 'Total Remainder',
+            label: "Total Remainder",
             data: dataMaxArray,
             backgroundColor: gradientRemaining,
             hoverBackgroundColor: gradientRemaining,
@@ -498,9 +500,9 @@ export default class BarChart extends React.Component<ParentProps, {}> {
               return `${tooltipItem.yLabel} ${
                 data.datasets[tooltipItem.datasetIndex].label
               }`;
-            } 
-            return '';
-            
+            } else {
+              return "";
+            }
           },
         },
       },
@@ -528,7 +530,7 @@ export default class BarChart extends React.Component<ParentProps, {}> {
             },
             ticks: {
               beginAtZero: true,
-              fontColor: '#2A7597',
+              fontColor: "#2A7597",
             },
           },
         ],

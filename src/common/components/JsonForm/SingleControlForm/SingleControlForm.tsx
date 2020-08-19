@@ -1,9 +1,9 @@
-import React from 'react';
-import Form from '@rjsf/core';
-import { FormContainer } from '../JsonForm.styles';
-import { FormControl, FormData, customControls } from '../types';
-import * as formUtils from '../JsonForm.utils';
-import { ControlContainer } from './SingleControlForm.styles';
+import React from 'react'
+import Form from '@rjsf/core'
+import { FormContainer } from '../JsonForm.styles'
+import { FormControl, FormData, customControls } from '../types'
+import * as formUtils from '../JsonForm.utils'
+import { ControlContainer } from './SingleControlForm.styles'
 
 interface Props {
   formControl: FormControl
@@ -38,7 +38,7 @@ const SingleControlForm: React.FunctionComponent<Props> = ({
     itemLabels,
     itemImages,
     initialValue,
-  } = formControl;
+  } = formControl
 
   const schema = {
     title,
@@ -61,21 +61,19 @@ const SingleControlForm: React.FunctionComponent<Props> = ({
         maxItems,
       },
     },
-  } as any;
+  } as any
 
   const uiSchema = {
     [id]: {
-      'ui:widget': customControls[control]
-        ? customControls[control]
-        : control,
+      'ui:widget': customControls[control] ? customControls[control] : control,
       'ui:placeholder': placeholder,
-      'ui:images': itemImages,
-      'ui:options': {
+      ['ui:images']: itemImages,
+      ['ui:options']: {
         inline,
       },
-      'ui:uploading': uploading,
+      ['ui:uploading']: uploading,
     },
-  };
+  }
 
   return (
     <FormContainer>
@@ -95,7 +93,7 @@ const SingleControlForm: React.FunctionComponent<Props> = ({
         </Form>
       </ControlContainer>
     </FormContainer>
-  );
-};
+  )
+}
 
-export default SingleControlForm;
+export default SingleControlForm

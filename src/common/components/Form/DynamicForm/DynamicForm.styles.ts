@@ -1,10 +1,10 @@
-import styled from 'styled-components';
+import styled from 'styled-components'
 
 export const SubmitStatus = styled.p`
   color: #0f8dab;
   margin-top: 10px;
   text-align: center;
-`;
+`
 
 export const ButtonContainer = styled.div`
   margin-left: -20px;
@@ -14,7 +14,7 @@ export const ButtonContainer = styled.div`
   background: ${/*eslint-disable-line*/ props => props.theme.grey};
   padding: 10px 20px;
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.18);
-`;
+`
 
 export const ReturnButton = styled.div`
   text-transform: uppercase;
@@ -30,7 +30,7 @@ export const ReturnButton = styled.div`
     ${/*eslint-disable-line*/ props => props.theme.bg.darkButton};
   color: ${/*eslint-disable-line*/ props => props.theme.bg.darkButton};
   width: 180px;
-`;
+`
 
 export const SubmitButton = styled.div`
   text-transform: uppercase;
@@ -49,4 +49,4 @@ export const SubmitButton = styled.div`
   svg {
     padding-left: 10px;
   }
-`;
+`

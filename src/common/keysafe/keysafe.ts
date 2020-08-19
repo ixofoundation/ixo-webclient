@@ -1,21 +1,21 @@
 // TODO - use this instead of the redux keysafe for each component that has been refactored
 const initKeysafe = (): any => {
-  let keysafe: Window;
+  let keysafe: Window
 
-  if (!window.ixoKs) {
-    keysafe = null;
+  if (!window['ixoKs']) {
+    keysafe = null
   } else {
-    const IxoInpageProvider = window.ixoKs;
-    const ixoInpageProvider = new IxoInpageProvider();
+    const IxoInpageProvider = window['ixoKs']
+    const ixoInpageProvider = new IxoInpageProvider()
 
     if (ixoInpageProvider) {
-      keysafe = ixoInpageProvider;
+      keysafe = ixoInpageProvider
     } else {
-      keysafe = null;
+      keysafe = null
     }
   }
 
-  return keysafe;
-};
+  return keysafe
+}
 
-export default initKeysafe();
+export default initKeysafe()

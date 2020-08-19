@@ -1,8 +1,8 @@
-import * as React from 'react';
-import styled from 'styled-components';
-import { WidgetWrapper } from '../../common/components/Wrappers/WidgetWrapper';
-import { LayoutWrapper } from '../../common/components/Wrappers/LayoutWrapper';
-import { ButtonTypes, Button } from '../../common/components/Form/Buttons';
+import * as React from 'react'
+import styled from 'styled-components'
+import { WidgetWrapper } from 'common/components/Wrappers/WidgetWrapper'
+import { LayoutWrapper } from 'common/components/Wrappers/LayoutWrapper'
+import { ButtonTypes, Button } from 'common/components/Form/Buttons'
 
 const Heading = styled.h2`
   color: white;
@@ -10,7 +10,7 @@ const Heading = styled.h2`
   margin-bottom: 20px;
   font-family: ${/* eslint-disable-line */ props =>
     props.theme.fontRobotoCondensed};
-`;
+`
 
 const Section = styled.section`
   padding-bottom: 30px;
@@ -21,7 +21,7 @@ const Section = styled.section`
     color: white;
     font-size: 22px;
     font-family: ${/* eslint-disable-line */ props =>
-    props.theme.fontRobotoCondensed};
+      props.theme.fontRobotoCondensed};
 
     i {
       font-size: 25px;
@@ -38,7 +38,7 @@ const Section = styled.section`
       color: #e2223b;
     }
   }
-`;
+`
 
 const Indicator = styled.div`
   width: 7px;
@@ -48,9 +48,9 @@ const Indicator = styled.div`
   left: -7px;
 
   background: ${/* eslint-disable-line */ props => props.color};
-`;
+`
 
-const Mail = styled.a``;
+const Mail = styled.a``
 
 const Col = styled.div`
   font-size: 15px;
@@ -75,7 +75,7 @@ const Col = styled.div`
     position: relative;
     padding-bottom: 50px;
   }
-`;
+`
 
 const Hover = styled.div`
   opacity: 0;
@@ -99,7 +99,7 @@ const Hover = styled.div`
   :hover {
     opacity: 1;
   }
-`;
+`
 
 const Actions = styled.div`
   position: absolute;
@@ -108,7 +108,7 @@ const Actions = styled.div`
 
   display: flex;
   justify-content: space-between;
-`;
+`
 
 const Selector = styled.div`
   opacity: 0;
@@ -121,7 +121,7 @@ const Selector = styled.div`
 
   > div {
     background: ${/* eslint-disable-line */ props =>
-    props.theme.fontDarkBlueButtonHover};
+      props.theme.fontDarkBlueButtonHover};
     width: 100%;
     border-radius: 50%;
     height: 100%;
@@ -133,7 +133,7 @@ const Selector = styled.div`
   > div.selected {
     opacity: 1;
   }
-`;
+`
 
 const Buttons = styled.div`
   display: flex;
@@ -152,12 +152,12 @@ const Buttons = styled.div`
   a:not(.disabled):hover {
     background: ${/* eslint-disable-line */ props => props.theme.ixoBlue};
   }
-`;
+`
 
 const DidText = styled.p`
   overflow: hidden;
   text-overflow: ellipsis;
-`;
+`
 
 export interface ParentProps {
   agents: any
@@ -170,7 +170,7 @@ export interface State {
 export class ProjectAgents extends React.Component<ParentProps, State> {
   state: State = {
     selectedAgents: [],
-  };
+  }
 
   handleUpdateAgentStatus = (
     status: string,
@@ -179,46 +179,46 @@ export class ProjectAgents extends React.Component<ParentProps, State> {
     role: string,
   ): void => {
     if (statusObj === null) {
-      this.props.handleUpdateAgentStatus({ status }, did, role);
+      this.props.handleUpdateAgentStatus({ status: status }, did, role)
     } else {
       this.props.handleUpdateAgentStatus(
         { status, version: statusObj.version },
         did,
         role,
-      );
+      )
     }
-  };
+  }
 
   handleAgentSelect = (agentDid: string): void => {
-    let tempSelect = [...this.state.selectedAgents];
+    let tempSelect = [...this.state.selectedAgents]
     if (tempSelect.includes(agentDid)) {
-      tempSelect = tempSelect.filter(agent => agentDid !== agent);
-      this.setState({ selectedAgents: tempSelect });
+      tempSelect = tempSelect.filter(agent => agentDid !== agent)
+      this.setState({ selectedAgents: tempSelect })
     } else {
-      tempSelect.push(agentDid);
-      this.setState({ selectedAgents: tempSelect });
+      tempSelect.push(agentDid)
+      this.setState({ selectedAgents: tempSelect })
     }
-  };
+  }
 
   handleIsSelected = (agentDid: string): string => {
     if (this.state.selectedAgents !== null) {
-      return this.state.selectedAgents.includes(agentDid) ? 'selected' : '';
+      return this.state.selectedAgents.includes(agentDid) ? 'selected' : ''
     }
-    return '';
-  };
+    return ''
+  }
 
   handleRoleLabel = (role: string): string => {
     if (role === 'IA') {
-      return 'Investors';
+      return 'Investors'
     }
     if (role === 'EA') {
-      return 'Evaluators';
+      return 'Evaluators'
     }
     if (role === 'SA') {
-      return 'Service Providers';
+      return 'Service Providers'
     }
-    return role;
-  };
+    return role
+  }
 
   handleRenderSection = (
     iconClass: string,
@@ -236,7 +236,7 @@ export class ProjectAgents extends React.Component<ParentProps, State> {
           </h3>
         </div>
         {agents.map((agent, index) => {
-          const currentStatus = agent.currentStatus.status;
+          const currentStatus = agent.currentStatus.status
           return (
             <Col className="col-xl-3 col-md-6" key={index}>
               <WidgetWrapper title={agent.name}>
@@ -250,7 +250,8 @@ export class ProjectAgents extends React.Component<ParentProps, State> {
                   <Actions>
                     <Selector
                       onClick={(): void =>
-                        this.handleAgentSelect(agent.agentDid)}
+                        this.handleAgentSelect(agent.agentDid)
+                      }
                     >
                       <div className={this.handleIsSelected(agent.agentDid)} />
                     </Selector>
@@ -264,7 +265,8 @@ export class ProjectAgents extends React.Component<ParentProps, State> {
                             agent.currentStatus,
                             agent.agentDid,
                             agent.role,
-                          )}
+                          )
+                        }
                       >
                         <i className="icon-close" />
                       </Button>
@@ -277,7 +279,8 @@ export class ProjectAgents extends React.Component<ParentProps, State> {
                             agent.currentStatus,
                             agent.agentDid,
                             agent.role,
-                          )}
+                          )
+                        }
                       >
                         <i className="icon-approvetick" />
                       </Button>
@@ -287,35 +290,35 @@ export class ProjectAgents extends React.Component<ParentProps, State> {
                 </Hover>
               </WidgetWrapper>
             </Col>
-          );
+          )
         })}
       </Section>
-    );
-  };
+    )
+  }
 
   handleMapAgents = (): Array<unknown> => {
-    const approved = [];
-    const pending = [];
-    const revoked = [];
-    const sections = [];
+    const approved = []
+    const pending = []
+    const revoked = []
+    const sections = []
     this.props.agents.map(agent => {
       if (agent.currentStatus === null) {
-        pending.push(agent);
+        pending.push(agent)
       } else {
         switch (agent.currentStatus.status) {
           case '1':
-            approved.push(agent);
-            break;
+            approved.push(agent)
+            break
           case '2':
-            revoked.push(agent);
-            break;
+            revoked.push(agent)
+            break
           case '0':
           default:
-            pending.push(agent);
-            break;
+            pending.push(agent)
+            break
         }
       }
-    });
+    })
 
     pending.length > 0 &&
       sections.push(
@@ -326,7 +329,7 @@ export class ProjectAgents extends React.Component<ParentProps, State> {
           'Pending Approval',
           1,
         ),
-      );
+      )
     approved.length > 0 &&
       sections.push(
         this.handleRenderSection(
@@ -336,7 +339,7 @@ export class ProjectAgents extends React.Component<ParentProps, State> {
           'Approved',
           2,
         ),
-      );
+      )
     revoked.length > 0 &&
       sections.push(
         this.handleRenderSection(
@@ -346,10 +349,10 @@ export class ProjectAgents extends React.Component<ParentProps, State> {
           'Rejected',
           3,
         ),
-      );
+      )
 
-    return sections;
-  };
+    return sections
+  }
 
   render(): JSX.Element {
     return (
@@ -361,6 +364,6 @@ export class ProjectAgents extends React.Component<ParentProps, State> {
         </div>
         {this.handleMapAgents()}
       </LayoutWrapper>
-    );
+    )
   }
 }

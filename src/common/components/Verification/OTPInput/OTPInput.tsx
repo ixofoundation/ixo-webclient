@@ -1,6 +1,6 @@
-import React from 'react';
-import OTP from 'react-otp-input';
-import { OTPContainer } from './OTPInput.styles';
+import React from 'react'
+import OTP from 'react-otp-input'
+import { OTPContainer } from './OTPInput.styles'
 
 interface Props {
   otp: string
@@ -43,7 +43,7 @@ const OTPInput: React.FunctionComponent<Props> = ({
       </button>
       {hasError && <div>Wrong OTP</div>}
     </OTPContainer>
-  );
-};
+  )
+}
 
-export default OTPInput;
+export default OTPInput

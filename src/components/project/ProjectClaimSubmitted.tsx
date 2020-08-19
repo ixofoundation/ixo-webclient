@@ -1,15 +1,15 @@
-import * as React from 'react';
-import { Link } from 'react-router-dom';
-import styled from 'styled-components';
-import { LayoutWrapperClaims } from '../../common/components/Wrappers/LayoutWrapperClaims';
-import { WidgetWrapperClaims } from '../../common/components/Wrappers/WidgetWrapperClaims';
-import { ClaimStatus } from '../../common/components/ClaimStatus';
-import Plus from '../../assets/icons/Plus';
+import * as React from 'react'
+import { Link } from 'react-router-dom'
+import { LayoutWrapperClaims } from 'common/components/Wrappers/LayoutWrapperClaims'
+import { WidgetWrapperClaims } from 'common/components/Wrappers/WidgetWrapperClaims'
+import { ClaimStatus } from 'common/components/ClaimStatus'
+import styled from 'styled-components'
+import Plus from '../../assets/icons/Plus'
 
 const Container = styled.div`
   justify-content: center;
   display: flex;
-`;
+`
 
 const Divider = styled.div`
   height: 2px;
@@ -17,20 +17,20 @@ const Divider = styled.div`
   width: 36%;
   position: absolute;
   left: 15px;
-`;
+`
 
 const DividerShadow = styled.div`
   height: 1px;
   background: ${/* eslint-disable-line */ props => props.theme.bg.lightGrey};
   width: 100%;
-`;
+`
 
 const ButtonContainer = styled.div`
   padding: 22px 34px 22px 34px;
   background: ${/* eslint-disable-line */ props => props.theme.grey};
   padding: 10px 20px;
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.18);
-`;
+`
 
 const ReturnButton = styled.div`
   text-transform: uppercase;
@@ -45,7 +45,7 @@ const ReturnButton = styled.div`
   border: 1px solid
     ${/* eslint-disable-line */ props => props.theme.bg.darkButton};
   color: ${/* eslint-disable-line */ props => props.theme.bg.darkButton};
-`;
+`
 
 const EvaluateMoreButton = styled.div`
   text-transform: uppercase;
@@ -60,20 +60,20 @@ const EvaluateMoreButton = styled.div`
   cursor: pointer;
   color: white;
   text-decoration: none;
-`;
+`
 
 const ButtonIconLeft = styled.span`
   padding-right: 10px;
   svg path {
     fill: ${/* eslint-disable-line */ props => props.theme.bg.grey};
   }
-`;
+`
 
 const ButtonLink = styled(Link)`
   :hover {
     text-decoration: none;
   }
-`;
+`
 
 export interface ParentProps {
   projectDid: string
@@ -81,7 +81,7 @@ export interface ParentProps {
 
 export const ProjectClaimSubmitted: React.SFC<ParentProps> = props => {
   const message =
-    'Your form has been successfully submitted and is awaiting evaluation. Please check back soon';
+    'Your form has been successfully submitted and is awaiting evaluation. Please check back soon'
   const handleRenderButtons = (): JSX.Element => {
     return (
       <ButtonContainer>
@@ -108,8 +108,8 @@ export const ProjectClaimSubmitted: React.SFC<ParentProps> = props => {
           </div>
         </div>
       </ButtonContainer>
-    );
-  };
+    )
+  }
 
   return (
     <LayoutWrapperClaims>
@@ -121,12 +121,12 @@ export const ProjectClaimSubmitted: React.SFC<ParentProps> = props => {
               <Divider />
             </DividerShadow>
             <p style={{ padding: '50px' }}>
-              <ClaimStatus message={message} icon="icon-approved" />
+              <ClaimStatus message={message} icon={'icon-approved'} />
             </p>
           </WidgetWrapperClaims>
           {handleRenderButtons()}
         </div>
       </Container>
     </LayoutWrapperClaims>
-  );
-};
+  )
+}

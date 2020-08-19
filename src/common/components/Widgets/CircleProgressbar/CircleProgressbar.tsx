@@ -1,11 +1,11 @@
-import * as React from 'react';
+import * as React from 'react'
 import {
   ApprovedText,
   Descriptor,
   Text,
   TotalText,
   WidgetContainer,
-} from './CircleProgressbar.styles';
+} from './CircleProgressbar.styles'
 
 export interface ParentProps {
   approved: number
@@ -21,83 +21,83 @@ export interface State {
   percentPending: number
 }
 
-const radius = 45;
-const svgSize = 100;
+const radius = 45
+const svgSize = 100
 export class CircleProgressbar extends React.Component<ParentProps, State> {
   state = {
     percentApproved: 0,
     percentRejected: 0,
     percentPending: 0,
-  };
+  }
 
   getCircumference = (): number => {
-    return 2 * Math.PI * radius;
-  };
+    return 2 * Math.PI * radius
+  }
 
   componentDidMount(): void {
-    this.increasePercent('percentApproved');
-    this.increasePercent('percentRejected');
-    this.increasePercent('percentPending');
+    this.increasePercent('percentApproved')
+    this.increasePercent('percentRejected')
+    this.increasePercent('percentPending')
   }
 
   increasePercent = (
     type: 'percentApproved' | 'percentRejected' | 'percentPending',
   ): void => {
-    const percent: number = this.state[type] + 1;
-    const approvedMax = this.getMaxPercent(type);
-    let tm = null;
+    const percent: number = this.state[type] + 1
+    const approvedMax = this.getMaxPercent(type)
+    let tm = null
     if (percent <= approvedMax) {
-      const newState = {};
-      newState[type] = percent;
-      this.setState(newState);
+      const newState = {}
+      newState[type] = percent
+      this.setState(newState)
       tm = setTimeout(
         () => this.increasePercent(type),
         this.easingFormula(percent),
-      );
+      )
     } else {
-      clearTimeout(tm);
-      
+      clearTimeout(tm)
+      return
     }
-  };
+  }
 
   calcPercent = (amount: number, total: number): number => {
-    return (amount / total) * 100;
-  };
+    return (amount / total) * 100
+  }
 
   easingFormula = (amount: number): number => {
-    return amount / 2;
-  };
+    return amount / 2
+  }
 
   getMaxPercent = (type: string): number | string => {
-    const { approved, rejected, pending } = this.props;
-    let { totalNeeded } = this.props;
-    const sum = approved + rejected + pending;
+    const { approved, rejected, pending } = this.props
+    let { totalNeeded } = this.props
+    const sum = approved + rejected + pending
     if (sum >= totalNeeded) {
-      totalNeeded = sum;
+      totalNeeded = sum
     }
 
     if (type === 'percentApproved') {
-      return this.calcPercent(approved, totalNeeded);
-    } if (type === 'percentPending') {
+      return this.calcPercent(approved, totalNeeded)
+    } else if (type === 'percentPending') {
       return (
         this.calcPercent(approved, totalNeeded) +
         this.calcPercent(pending, totalNeeded)
-      );
-    } if (type === 'percentRejected') {
+      )
+    } else if (type === 'percentRejected') {
       return (
         this.calcPercent(approved, totalNeeded) +
         this.calcPercent(pending, totalNeeded) +
         this.calcPercent(rejected, totalNeeded)
-      );
-    } 
-    return 'type not specified';
-    
-  };
+      )
+    } else {
+      return 'type not specified'
+    }
+  }
 
   progress = (value): number => {
-    const progress = value / 100;
-    return this.getCircumference() * (1 - progress);
-  };
+    const progress = value / 100
+    return this.getCircumference() * (1 - progress)
+  }
 
   render(): JSX.Element {
     return (
@@ -181,6 +181,6 @@ export class CircleProgressbar extends React.Component<ParentProps, State> {
           </svg>
         </div>
       </WidgetContainer>
-    );
+    )
   }
 }

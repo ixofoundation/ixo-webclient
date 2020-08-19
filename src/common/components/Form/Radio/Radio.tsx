@@ -1,5 +1,5 @@
-import * as React from 'react';
-import { Input, RadioButton } from './Radio.styles';
+import * as React from "react";
+import { Input, RadioButton } from "./Radio.styles";
 
 export interface ParentProps {
   text?: string;

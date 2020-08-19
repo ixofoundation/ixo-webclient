@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from 'styled-components'
 
 export const theme = {
   ixoBlue: '#49BFE0', // button borders, small hero numbers, SDG numbers
@@ -34,7 +34,7 @@ export const theme = {
   widgetBorder: '#0C3550', // border color for graphs/ charts, etc.
   graphGradient: 'linear-gradient(to right, #016480 0%, #03d0FE 100%)', // gradient fill for graphs/bars/charts
   red: '#E2223B',
-};
+}
 
 export const Container = styled.div`
   display: flex;
@@ -51,10 +51,10 @@ export const Container = styled.div`
   a {
   }
   font-weight: 300;
-`;
+`
 
 export const ContentWrapper = styled.main`
   display: flex;
   flex-direction: column;
   flex: 1;
-`;
+`

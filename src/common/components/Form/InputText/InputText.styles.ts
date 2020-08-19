@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from 'styled-components'
 
 export const InputContainer = styled.div`
   font-family: ${/* eslint-disable */ props => props.theme.fontRoboto};

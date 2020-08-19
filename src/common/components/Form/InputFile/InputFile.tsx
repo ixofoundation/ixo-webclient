@@ -1,5 +1,5 @@
-import * as React from 'react';
-import { FileContainer } from './InputFile.styles';
+import * as React from "react";
+import { FileContainer } from "./InputFile.styles";
 
 export interface ParentProps {
   text?: string;
@@ -19,7 +19,7 @@ export interface Props extends ParentProps, Callbacks {}
 
 export default class InputFile extends React.Component<Props, State> {
   state = {
-    imgSrc: '',
+    imgSrc: "",
   };
 
   handleChange = (e: any): void => {

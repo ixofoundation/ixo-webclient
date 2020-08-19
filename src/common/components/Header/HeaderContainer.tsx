@@ -1,14 +1,14 @@
-import * as React from 'react';
-import { connect } from 'react-redux';
-import { RootState } from 'common/redux/types';
-import { EntityType } from 'modules/Entities/types';
-import * as entitiesSelectors from 'modules/Entities/Entities.selectors';
-import MediaQuery from 'react-responsive';
-import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper';
-import { HeaderLeft } from './HeaderLeft/HeaderLeft';
-import { HeaderRight } from './HeaderRight/HeaderRight';
-import { deviceWidth } from '../../../lib/commonData';
-import { ButtonTypes, Button } from '../Form/Buttons';
+import * as React from "react";
+import { connect } from "react-redux";
+import { RootState } from "common/redux/types";
+import { EntityType } from "modules/EntityModules/Entities/types";
+import * as entitiesSelectors from "modules/EntityModules/Entities/Entities.selectors";
+import { HeaderLeft } from "./HeaderLeft/HeaderLeft";
+import { HeaderRight } from "./HeaderRight/HeaderRight";
+import MediaQuery from "react-responsive";
+import { deviceWidth } from "../../../lib/commonData";
+import { ModalWrapper } from "common/components/Wrappers/ModalWrapper";
+import { ButtonTypes, Button } from "../Form/Buttons";
 import {
   InfoLink,
   Light,
@@ -18,8 +18,8 @@ import {
   Ping,
   StatusMessage,
   TopBar,
-} from './HeaderContainer.styles';
-import Success from '../../../assets/icons/Success';
+} from "./HeaderContainer.styles";
+import Success from "../../../assets/icons/Success";
 
 export interface State {
   responseTime: number | null;
@@ -49,7 +49,7 @@ class Header extends React.Component<Props, State> {
     responseTime: null,
     shouldLedgerDid: false,
     isModalOpen: false,
-    modalResponse: '',
+    modalResponse: "",
     isLedgering: false,
     ledgerPopupShown: false,
     isMobileMenuOpen: false,
@@ -129,26 +129,26 @@ class Header extends React.Component<Props, State> {
           <p>Response time: {this.state.responseTime} ms</p>
         </StatusMessage>
       );
-    } 
-    return (
-      <StatusMessage>
-        <p>
-          IXO Explorer <br />
-          not responding
-        </p>
-      </StatusMessage>
-    );
-    
+    } else {
+      return (
+        <StatusMessage>
+          <p>
+            IXO Explorer <br />
+            not responding
+          </p>
+        </StatusMessage>
+      );
+    }
   }
 
   renderLightIndicator(): JSX.Element {
     if (this.props.ixo === null || this.state.responseTime === null) {
       return <LightLoading />;
-    } if (this.props.ixo && this.state.responseTime !== 0) {
+    } else if (this.props.ixo && this.state.responseTime !== 0) {
       return <LightReady />;
-    } 
-    return <Light />;
-    
+    } else {
+      return <Light />;
+    }
   }
 
   renderModalHeader = (): {
@@ -157,15 +157,15 @@ class Header extends React.Component<Props, State> {
   } => {
     if (this.props.userInfo) {
       return {
-        title: `Hi, ${  this.props.userInfo.name}`,
+        title: "Hi, " + this.props.userInfo.name,
         titleNoCaps: true,
       };
-    } 
-    return {
-      title: '',
-      titleNoCaps: undefined,
-    };
-    
+    } else {
+      return {
+        title: "",
+        titleNoCaps: undefined,
+      };
+    }
   };
 
   renderModalData = (): JSX.Element => {
@@ -181,38 +181,38 @@ class Header extends React.Component<Props, State> {
           </Button>
         </ModalData>
       );
-    } 
-    return (
-      <ModalData>
-        <Success width="64" fill="#49BFE0" />
-        <h3>YOU HAVE SUCCESSFULLY INSTALLED THE IXO KEYSAFE</h3>
-        <p>
-          <span>LAST STEP - </span>create your self-sovereign credentials on
-          the ixo blockchain.
-        </p>
-        <Button type={ButtonTypes.dark} onClick={this.handleLedgerDid}>
-          SIGN NOW USING KEYSAFE
-        </Button>
-        <InfoLink
-          href="https://medium.com/ixo-blog/the-ixo-keysafe-kyc-and-becoming-an-ixo-member-ef33d9e985b6"
-          target="_blank"
-        >
-          Why do I need to sign my credentials?
-        </InfoLink>
-      </ModalData>
-    );
-    
+    } else {
+      return (
+        <ModalData>
+          <Success width="64" fill="#49BFE0" />
+          <h3>YOU HAVE SUCCESSFULLY INSTALLED THE IXO KEYSAFE</h3>
+          <p>
+            <span>LAST STEP - </span>create your self-sovereign credentials on
+            the ixo blockchain.
+          </p>
+          <Button type={ButtonTypes.dark} onClick={this.handleLedgerDid}>
+            SIGN NOW USING KEYSAFE
+          </Button>
+          <InfoLink
+            href="https://medium.com/ixo-blog/the-ixo-keysafe-kyc-and-becoming-an-ixo-member-ef33d9e985b6"
+            target="_blank"
+          >
+            Why do I need to sign my credentials?
+          </InfoLink>
+        </ModalData>
+      );
+    }
   };
 
   handleToggleModal = (isModalOpen: boolean): void => {
-    this.setState({ isModalOpen });
+    this.setState({ isModalOpen: isModalOpen });
   };
 
   handleLedgerDid = (): void => {
     if (this.props.userInfo.didDoc) {
       const payload = this.props.userInfo.didDoc;
       this.props.ixo.utils
-        .getSignData(payload, 'did/AddDid', payload.pubKey)
+        .getSignData(payload, "did/AddDid", payload.pubKey)
         .then((response: any) => {
           if (response.sign_bytes && response.fee) {
             this.props.keysafe.requestSigning(
@@ -221,42 +221,42 @@ class Header extends React.Component<Props, State> {
                 this.setState({ isLedgering: true });
                 if (!error) {
                   this.props.ixo.user
-                    .registerUserDid(payload, signature, response.fee, 'sync')
+                    .registerUserDid(payload, signature, response.fee, "sync")
                     .then((response: any) => {
                       if ((response.code || 0) == 0) {
                         this.setState({
                           shouldLedgerDid: false,
                           modalResponse:
-                            'Your credentials have been registered on the ixo blockchain. This will take a few seconds in the background, you can continue using the site.',
+                            "Your credentials have been registered on the ixo blockchain. This will take a few seconds in the background, you can continue using the site.",
                         });
                       } else {
                         this.setState({
                           modalResponse:
-                            'Unable to ledger did at this time, please contact our support at support@ixo.world',
+                            "Unable to ledger did at this time, please contact our support at support@ixo.world",
                         });
                       }
                     });
                 }
               },
-              'base64'
+              "base64"
             );
           } else {
             this.setState({
               modalResponse:
-                'Unable to ledger did at this time, please contact our support at support@ixo.world',
+                "Unable to ledger did at this time, please contact our support at support@ixo.world",
             });
           }
         })
         .catch(() => {
           this.setState({
             modalResponse:
-              'Unable to ledger did at this time, please contact our support at support@ixo.world',
+              "Unable to ledger did at this time, please contact our support at support@ixo.world",
           });
         });
     } else {
       this.setState({
         modalResponse:
-          'We cannot find your keysafe information, please reach out to our support at support@ixo.world',
+          "We cannot find your keysafe information, please reach out to our support at support@ixo.world",
       });
     }
   };
@@ -265,7 +265,7 @@ class Header extends React.Component<Props, State> {
     return (
       <TopBar
         className={`container-fluid text-white ${
-          this.state.isMobileMenuOpen === true ? 'openMenu' : ''
+          this.state.isMobileMenuOpen === true ? "openMenu" : ""
         }`}
       >
         <ModalWrapper

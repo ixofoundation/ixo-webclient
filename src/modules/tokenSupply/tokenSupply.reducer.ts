@@ -1,7 +1,7 @@
-import { Currency } from '../../types/models';
-import { TokenSupplyActionTypes, TokenSupplyActions } from './types';
+import { Currency } from '../../types/models'
+import { TokenSupplyActionTypes, TokenSupplyActions } from './types'
 
-export const initialState: Currency[] = [];
+export const initialState: Currency[] = []
 
 export const reducer = (
   state = initialState,
@@ -9,8 +9,8 @@ export const reducer = (
 ): Currency[] => {
   switch (action.type) {
     case TokenSupplyActions.GetTotalSupplySuccess:
-      return [...action.payload.tokenSupply];
+      return [...action.payload.tokenSupply]
   }
 
-  return state;
-};
+  return state
+}

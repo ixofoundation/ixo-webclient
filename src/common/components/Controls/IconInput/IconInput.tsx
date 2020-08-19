@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 interface Props {
   value: string
@@ -31,7 +31,7 @@ const IconInput: React.FunctionComponent<Props> = ({
         className="form-control"
       />
     </div>
-  );
-};
+  )
+}
 
-export default IconInput;
+export default IconInput

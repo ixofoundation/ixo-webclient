@@ -1,11 +1,11 @@
-import React from 'react';
-import RiotIcon from '../../../../../assets/icons/Riot';
-import { Tooltip } from '../../../Tooltip';
-import { Control } from '../../types';
+import React from 'react'
+import RiotIcon from '../../../../../assets/icons/Riot'
+import { Tooltip } from '../../../Tooltip/Tooltip'
+import { Control } from '../../types'
 
 interface Props {
-  buttonClassName: string; // index > 3 ? (showMore ? 'show' : 'hide') : 'show'
-  control: Control;
+  buttonClassName: string //index > 3 ? (showMore ? 'show' : 'hide') : 'show'
+  control: Control
 }
 
 const RiotChat: React.FunctionComponent<Props> = ({
@@ -26,7 +26,7 @@ const RiotChat: React.FunctionComponent<Props> = ({
         {control.title}
       </button>
     </Tooltip>
-  );
-};
+  )
+}
 
-export default RiotChat;
+export default RiotChat

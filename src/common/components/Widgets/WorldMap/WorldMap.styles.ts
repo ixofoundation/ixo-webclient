@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from 'styled-components'
 
 export const MapWrapper = styled.div`
   :hover {
@@ -15,4 +15,4 @@ export const MapWrapper = styled.div`
   g.rsm-marker {
     outline-width: 0px;
   }
-`;
+`

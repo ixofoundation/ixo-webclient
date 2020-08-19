@@ -59,15 +59,16 @@ hr {
   display: flex;
   overflow: hidden;
 
+  @media screen and (max-width: 768px) {
+    flex-direction: column;
+  }
+
   .pane {
     padding: 2.5rem;
     width: 90%;
     flex: 1;
-  }
 
-  @media screen and (max-width: 768px) {
-    flex-direction: column;
-    .pane {
+    @media screen and (max-width: 768px) {
       width: 100%;
     }
   }
@@ -125,6 +126,12 @@ hr {
         &.settings {
           background-image: url(../../../../assets/img/sidebar/settings.png);
         }
+        &.global {
+          background-image: url(../../../../assets/img/sidebar/global.png);
+        }
+        &.account {
+          background-image: url(../../../../assets/img/sidebar/account.png);
+        }
 
         background-repeat: no-repeat;
         background-size: 25px;
@@ -156,6 +163,7 @@ hr {
       line-height: 1.25;
       color: white;
       margin-top: 2em;
+      text-align: center;
     }
   }
 }

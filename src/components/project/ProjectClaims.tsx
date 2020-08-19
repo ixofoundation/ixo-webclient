@@ -1,10 +1,9 @@
-import * as React from 'react';
-import { Link } from 'react-router-dom';
-import styled from 'styled-components';
-import { Fragment } from 'react';
-import moment from 'moment';
-import { LayoutWrapper } from '../../common/components/Wrappers/LayoutWrapper';
-
+import * as React from 'react'
+import { Link } from 'react-router-dom'
+import { LayoutWrapper } from 'common/components/Wrappers/LayoutWrapper'
+import styled from 'styled-components'
+import { Fragment } from 'react'
+import moment from 'moment'
 const Section = styled.section`
   padding-bottom: 30px;
   border-bottom: 1px solid #164a63;
@@ -14,7 +13,7 @@ const Section = styled.section`
     color: white;
     font-size: 30px;
     font-family: ${/* eslint-disable-line */ props =>
-    props.theme.fontRobotoCondensed};
+      props.theme.fontRobotoCondensed};
     margin-bottom: 20px;
 
     i {
@@ -32,7 +31,7 @@ const Section = styled.section`
       color: #e2223b;
     }
   }
-`;
+`
 
 const Indicator = styled.div`
   width: 12px;
@@ -42,9 +41,9 @@ const Indicator = styled.div`
   left: -6px;
 
   background: ${/* eslint-disable-line */ props => props.color};
-`;
+`
 
-const Mail = styled.a``;
+const Mail = styled.a``
 
 const Col = styled.div`
   font-size: 15px;
@@ -74,32 +73,32 @@ const Col = styled.div`
     position: relative;
     margin: 8px 0;
   }
-`;
+`
 
 const ClaimsWidget = styled.div`
   margin: 20px 0 0;
-`;
+`
 
 const ClaimTitle = styled.p`
   display: flex;
   justify-content: space-between;
-`;
+`
 
 const ID = styled.span`
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 70%;
-`;
+`
 
 const Date = styled.span`
   font-weight: 300;
   font-size: 13px;
   color: #d6d3d3;
-`;
+`
 
 const Did = styled.p`
 	&& {color: ${/* eslint-disable-line */ props => props.theme.ixoBlue};
-`;
+`
 
 const ListItemWrapper = styled.div`
   background: #002d42;
@@ -127,7 +126,7 @@ const ListItemWrapper = styled.div`
   a:hover {
     text-decoration: none;
   }
-`;
+`
 
 const ClaimLink = styled(Link)`
   color: white;
@@ -137,11 +136,11 @@ const ClaimLink = styled(Link)`
     text-decoration: none;
     color: ${/* eslint-disable-line */ props => props.theme.ixoBlue};
   }
-`;
+`
 
 const ViewAllLink = styled(ClaimLink)`
   text-align: center;
-`;
+`
 
 export interface ParentProps {
   claims?: any[]
@@ -157,15 +156,15 @@ export const ProjectClaims: React.SFC<ParentProps> = ({
   hasLink,
 }) => {
   const claimDate = (date: string): string => {
-    const duration = moment.duration(moment().diff(date));
-    const daysDiff = duration.asDays();
+    const duration = moment.duration(moment().diff(date))
+    const daysDiff = duration.asDays()
 
     if (daysDiff > 7) {
-      return moment(date).format('YYYY/MM/D');
-    } 
-    return moment(date).fromNow();
-    
-  };
+      return moment(date).format('YYYY/MM/D')
+    } else {
+      return moment(date).fromNow()
+    }
+  }
 
   const claimItem = (claim, index, colorClass): JSX.Element => {
     const theItem = (
@@ -176,7 +175,7 @@ export const ProjectClaims: React.SFC<ParentProps> = ({
         </ClaimTitle>
         <Did>{claim.saDid}</Did>
       </ListItemWrapper>
-    );
+    )
 
     if (hasLink) {
       return (
@@ -188,38 +187,38 @@ export const ProjectClaims: React.SFC<ParentProps> = ({
         >
           {theItem}
         </ClaimLink>
-      );
-    } 
-    return theItem;
-    
-  };
+      )
+    } else {
+      return theItem
+    }
+  }
 
   const handleRenderWidget = (): JSX.Element => {
-    let colorCLass = '';
+    let colorCLass = ''
     return (
       <ClaimsWidget>
         {claims.slice(0, 3).map((claim, index) => {
           switch (claim.status) {
             case '0':
-              colorCLass = '#F89D28';
-              break;
+              colorCLass = '#F89D28'
+              break
             case '1':
-              colorCLass = '#5AB946';
-              break;
+              colorCLass = '#5AB946'
+              break
             case '2':
-              colorCLass = '#E2223B';
-              break;
+              colorCLass = '#E2223B'
+              break
             default:
-              break;
+              break
           }
-          return claimItem(claim, index, colorCLass);
+          return claimItem(claim, index, colorCLass)
         })}
         <ViewAllLink to={`/projects/${projectDid}/detail/claims`}>
           <ListItemWrapper>View all claims</ListItemWrapper>
         </ViewAllLink>
       </ClaimsWidget>
-    );
-  };
+    )
+  }
 
   const handleRenderPageSection = (
     iconClass: string,
@@ -241,31 +240,31 @@ export const ProjectClaims: React.SFC<ParentProps> = ({
             <Col className="col-12" key={index}>
               {claimItem(claim, index, colorClass)}
             </Col>
-          );
+          )
         })}
       </Section>
-    );
-  };
+    )
+  }
 
   const handleRenderPage = (): JSX.Element => {
-    const approved = [];
-    const pending = [];
-    const revoked = [];
-    const sections = [];
+    const approved = []
+    const pending = []
+    const revoked = []
+    const sections = []
     claims.map(claim => {
       switch (claim.status) {
         case '1':
-          approved.push(claim);
-          break;
+          approved.push(claim)
+          break
         case '2':
-          revoked.push(claim);
-          break;
+          revoked.push(claim)
+          break
         case '0':
         default:
-          pending.push(claim);
-          break;
+          pending.push(claim)
+          break
       }
-    });
+    })
 
     pending.length > 0 &&
       sections.push(
@@ -276,7 +275,7 @@ export const ProjectClaims: React.SFC<ParentProps> = ({
           'Claims pending approval',
           1,
         ),
-      );
+      )
     revoked.length > 0 &&
       sections.push(
         handleRenderPageSection(
@@ -286,7 +285,7 @@ export const ProjectClaims: React.SFC<ParentProps> = ({
           'Claims rejected',
           2,
         ),
-      );
+      )
     approved.length > 0 &&
       sections.push(
         handleRenderPageSection(
@@ -296,11 +295,11 @@ export const ProjectClaims: React.SFC<ParentProps> = ({
           'Claims Approved',
           3,
         ),
-      );
-    return <LayoutWrapper>{sections}</LayoutWrapper>;
-  };
+      )
+    return <LayoutWrapper>{sections}</LayoutWrapper>
+  }
 
   return (
-    <>{fullPage ? handleRenderPage() : handleRenderWidget()}</>
-  );
-};
+    <Fragment>{fullPage ? handleRenderPage() : handleRenderWidget()}</Fragment>
+  )
+}

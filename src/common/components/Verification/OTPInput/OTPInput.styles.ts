@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from 'styled-components'
 
 export const OTPContainer = styled.div`
   input[type='tel'] {
@@ -6,4 +6,4 @@ export const OTPContainer = styled.div`
     width: 3rem !important;
     margin-right: 3px;
   }
-`;
+`

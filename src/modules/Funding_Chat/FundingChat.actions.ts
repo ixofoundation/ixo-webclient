@@ -1,16 +1,16 @@
-import Axios from 'axios';
-import { Dispatch } from 'redux';
-import { RootState } from 'common/redux/types';
-import keysafe from '../../common/keysafe/keysafe';
+import Axios from 'axios'
+import keysafe from '../../common/keysafe/keysafe'
 import {
   GetOrderAction,
   FuelEntityActions,
   ConfirmOrderAction,
   FuelEntityOrderTx,
   CancelOrderAction,
-} from './types';
-import * as transactionUtils from '../../common/utils/transaction.utils';
-import * as Toast from '../../common/utils/Toast';
+} from './types'
+import { Dispatch } from 'redux'
+import { RootState } from 'common/redux/types'
+import * as transactionUtils from '../../common/utils/transaction.utils'
+import * as Toast from '../../common/utils/Toast'
 
 export const getOrder = (assistantResponse: any): GetOrderAction => ({
   // TODO read from the actual response when assistant ready
@@ -19,7 +19,7 @@ export const getOrder = (assistantResponse: any): GetOrderAction => ({
   payload: {
     order: {
       symbol: 'IXO',
-      subscription: '12 months',
+      subscription: '12 Months',
       fiat: 'EUR',
       fiatSymbol: '€',
       amount: '1267',
@@ -28,7 +28,7 @@ export const getOrder = (assistantResponse: any): GetOrderAction => ({
       gasFee: '1.0045',
     },
   },
-});
+})
 
 // TODO - entityDid will come from the SelectedEntity state when we refactor projects!
 // so remove this param when it does
@@ -38,7 +38,7 @@ export const confirmOrder = (entityDid: string) => (
 ): ConfirmOrderAction => {
   const {
     fuelEntity: {
-      order: { amount },
+      order: { amount: amount },
     },
     account: {
       userInfo: {
@@ -46,21 +46,21 @@ export const confirmOrder = (entityDid: string) => (
       },
     },
     ixo: { ixo },
-  } = getState();
+  } = getState()
 
   Axios.get(
     `${process.env.REACT_APP_GAIA_URL}/projectAccounts/${entityDid}`,
-  ).then(projectAccounts => {
-    const projectAddr = projectAccounts.data[entityDid];
+  ).then((projectAccounts) => {
+    const projectAddr = projectAccounts.data[entityDid]
 
     const tx: FuelEntityOrderTx = {
       pubKey,
       from_did: userDid,
       to_did: `${projectAddr}`,
       amount: [{ denom: 'ixo', amount }],
-    };
+    }
 
-    const msgType = 'treasury/MsgSend';
+    const msgType = 'treasury/MsgSend'
     ixo.utils
       .getSignData(tx, msgType, pubKey)
       .then((response: any) => {
@@ -69,7 +69,7 @@ export const confirmOrder = (entityDid: string) => (
             response.sign_bytes,
             (error, signature) => {
               if (error) {
-                return null;
+                return null
               }
 
               return dispatch({
@@ -85,20 +85,20 @@ export const confirmOrder = (entityDid: string) => (
                     ),
                   ),
                 ),
-              });
+              })
             },
             'base64',
-          );
+          )
         }
       })
       .catch(() => {
-        Toast.errorToast('Sale failed. Please try again.');
-      });
-  });
+        Toast.errorToast('Sale failed. Please try again.')
+      })
+  })
 
-  return null;
-};
+  return null
+}
 
 export const cancelOrder = (): CancelOrderAction => ({
   type: FuelEntityActions.CancelOrder,
-});
+})

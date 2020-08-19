@@ -1,14 +1,14 @@
-import * as React from 'react';
-import DatePicker from '../../DatePicker';
-import CalendarSort from '../../../../assets/icons/CalendarSort';
-import { Props } from './types';
+import * as React from 'react'
+import DatePicker from '../../DatePicker'
+import CalendarSort from '../../../../assets/icons/CalendarSort'
+import { Props } from './types'
 import {
   DatePickerModal,
   ResetButtonDatePicker,
   ApplyButtonDatePicker,
   ButtonWrapper,
   Button,
-} from '../Filters.styles';
+} from '../Filters.styles'
 
 const DateFilterDesktop: React.FunctionComponent<Props> = ({
   startDate,
@@ -49,7 +49,7 @@ const DateFilterDesktop: React.FunctionComponent<Props> = ({
         </DatePickerModal>
       )}
     </ButtonWrapper>
-  );
-};
+  )
+}
 
-export default DateFilterDesktop;
+export default DateFilterDesktop

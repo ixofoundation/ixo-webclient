@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import { deviceWidth } from '../../lib/commonData';
+import styled from 'styled-components'
+import { deviceWidth } from '../../lib/commonData'
 
 export const Banner = styled.div`
   background: #002233 url(${require('../../assets/images/404/404-bg.jpg')})
@@ -9,8 +9,7 @@ export const Banner = styled.div`
   display: flex;
   flex: 1 1 auto;
   margin: 0;
-`;
-
+`
 export const BannerLeft = styled.div`
   width: 100%;
   img {
@@ -28,7 +27,7 @@ export const BannerLeft = styled.div`
       display: none;
     }
   }
-`;
+`
 export const BannerRight = styled.div`
   width: 100%;
   color: white;
@@ -43,7 +42,7 @@ export const BannerRight = styled.div`
   h2 {
     font-size: 60px;
     font-family: ${/*eslint-disable-line*/ props =>
-    props.theme.fontRobotoCondensed};
+      props.theme.fontRobotoCondensed};
     margin-bottom: 5px;
     width: 100%;
   }
@@ -125,13 +124,13 @@ export const BannerRight = styled.div`
     text-transform: uppercase;
     font-size: 15px;
     font-family: ${/*eslint-disable-line*/ props =>
-    props.theme.fontRobotoCondensed};
+      props.theme.fontRobotoCondensed};
     margin-top: 20px;
     cursor: pointer;
   }
-`;
+`
 
 export const ButtonContainer = styled.div`
   display: inline-flex;
   margin-top: 20px;
-`;
+`

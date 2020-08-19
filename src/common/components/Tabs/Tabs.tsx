@@ -1,8 +1,8 @@
-import * as React from 'react';
-import { NavLink } from 'react-router-dom';
-import { MatchType } from '../../../types/models';
-import { createTabsContainer } from './Tabs.styles';
-import { Tooltip, TooltipPositions } from '../Tooltip';
+import * as React from 'react'
+import { NavLink } from 'react-router-dom'
+import { MatchType } from '../../../types/models'
+import { createTabsContainer } from './Tabs.styles'
+import { Tooltip, TooltipPositions } from '../Tooltip/Tooltip'
 
 export interface Button {
   linkClass?: string
@@ -24,9 +24,9 @@ export const Tabs: React.SFC<Props> = ({
   matchType,
   activeTabColor,
   assistantPanelToggle,
-  enableAssistantButton
+  enableAssistantButton,
 }) => {
-  const TabsContainer = createTabsContainer(activeTabColor);
+  const TabsContainer = createTabsContainer(activeTabColor)
 
   return (
     <TabsContainer>
@@ -45,7 +45,7 @@ export const Tabs: React.SFC<Props> = ({
           <Tooltip
             text="Coming Soon"
             key={index}
-            position={TooltipPositions.bottom}
+            position={TooltipPositions.Bottom}
           >
             <NavLink
               className={button.linkClass}
@@ -57,13 +57,11 @@ export const Tabs: React.SFC<Props> = ({
               {button.title && <p>{button.title}</p>}
             </NavLink>
           </Tooltip>
-        );
-      })}
-      {
-        enableAssistantButton && (
-          <button onClick={() => assistantPanelToggle()}>pluse</button>
         )
-      }
+      })}
+      {enableAssistantButton && (
+        <button onClick={() => assistantPanelToggle()}>pluse</button>
+      )}
     </TabsContainer>
-  );
-};
+  )
+}

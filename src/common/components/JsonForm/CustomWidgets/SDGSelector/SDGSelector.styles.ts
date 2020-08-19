@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from 'styled-components'
 
 export const RemoveButton = styled.button`
   border: none;
@@ -6,7 +6,7 @@ export const RemoveButton = styled.button`
   background: transparent;
   font-size: 0.75rem;
   font-weight: bold;
-`;
+`
 
 export const AddButton = styled(RemoveButton)`
   &:focus {
@@ -14,4 +14,4 @@ export const AddButton = styled(RemoveButton)`
   }
   float: right;
   margin-top: -2rem;
-`;
+`

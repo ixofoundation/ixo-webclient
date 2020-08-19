@@ -1,51 +1,58 @@
-import styled from 'styled-components';
-import { deviceWidth } from '../../../../lib/commonData';
+import styled from 'styled-components'
+import { deviceWidth } from '../../../../lib/commonData'
+
+interface FundingChatPriceWrapperTypes {
+  flexEnd?: boolean
+}
 
 export const FundingChatOrderHeader = styled.h2`
-&&& {
-  color: #436779;
-  font-size: 18px;
-  margin: 0 0 1.75rem;
-  font-weight: 500;
-  font-family: inherit;
-  background: #F0F3F9;
-  &.total {
-    font-family: ${(props: any): string => props.theme.fontRoboto};
-    font-weight: bold;
-    margin: 0;
+  &&& {
+    color: #436779;
+    font-size: 18px;
+    margin: 0 0 1.75rem;
+    font-weight: 500;
+    font-family: inherit;
+    background: #f0f3f9;
+    &.total {
+      font-family: ${(props: any): string => props.theme.fontRoboto};
+      font-weight: bold;
+      margin: 0;
+    }
   }
-}
-`;
+`
 
 export const FundingChatOrderSummaryWrapper = styled.div`
   background-color: white;
   padding: 1rem 0;
   border-radius: 5px;
   & div:first-child {
-    border-right: 1px solid #DDDDDD;
+    border-right: 1px solid #dddddd;
   }
   & div {
     display: inline-block;
   }
-`;
+`
 
-export const FundingChatPriceWrapper = styled.div`
+export const FundingChatPriceWrapper = styled.div<FundingChatPriceWrapperTypes>`
+  font-size: 15px;
+  justify-content: ${(props: any): string =>
+    props.flexEnd ? 'flex-end' : undefined};
   svg {
     margin-right: 5px;
   }
-`;
+`
 
 export const FundingChatOrderTitle = styled.h3`
   font-family: inherit;
   font-weight: bold;
-  font-size: 20px;
+  font-size: 28px;
   line-height: 1.5;
   display: flex;
   align-items: center;
   letter-spacing: 0.3px;
   color: black;
   margin: 0;
-`;
+`
 export const FundingChatOrderSubTitle = styled.h4`
   font-family: inherit;
   font-weight: normal;
@@ -57,14 +64,14 @@ export const FundingChatOrderSubTitle = styled.h4`
   > svg {
     margin-right: 1rem;
   }
-`;
+`
 export const FundingChatOrderPrice = styled.div`
   background: #f7f8f9;
   color: black;
   border-radius: 4px;
   padding: 6px 12px;
   margin: 0 -12px;
-`;
+`
 export const FundingChatOrderCaption = styled.span`
   display: block;
   font-family: inherit;
@@ -72,11 +79,11 @@ export const FundingChatOrderCaption = styled.span`
   font-size: 12px;
   line-height: 1;
   color: #436779;
-`;
+`
 export const FundingChatOrderHR = styled.hr`
   width: 100%;
   margin: 2rem 0;
-`;
+`
 export const ChatBotIconWrapper = styled.div`
   width: 28px;
   height: 28px;
@@ -85,7 +92,7 @@ export const ChatBotIconWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-`;
+`
 export const ButtonWrapper = styled.div`
   margin: 2.75rem -15px;
   .select-button-wrapper {
@@ -93,16 +100,16 @@ export const ButtonWrapper = styled.div`
     align-items: center;
     justify-content: flex-end;
   }
-`;
-export const CancelOrderButton = styled.button``;
-export const ContinueOrderButton = styled.button``;
+`
+export const CancelOrderButton = styled.button``
+export const ContinueOrderButton = styled.button``
 
 export const FundingChatOrderWrapper = styled.div`
   font-family: ${(props: any): string => props.theme.fontRoboto};
   background: #f0f3f9;
   position: relative;
   padding: 50px 25px 0 25px;
-  
+
   height: 100%;
   .header-section {
     margin-bottom: 2rem;
@@ -149,7 +156,7 @@ export const FundingChatOrderWrapper = styled.div`
     background: linear-gradient(180deg, #04d0fb 0%, #49bfe0 100%);
     text-align: center;
   }
-`;
+`
 
 export const BackButton = styled.div`
   cursor: pointer;
@@ -157,4 +164,4 @@ export const BackButton = styled.div`
   top: 1.2rem;
   right: 1rem;
   transform: rotate(180deg);
-`;
+`
