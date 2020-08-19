@@ -59,6 +59,7 @@ import LocationSelectorQuestion from './components/LocationSelectorQuestion/Loca
 import QRCodeQuestion from './components/QRCodeQuestion/QRCodeQuestion'
 import RatingQuestion from './components/RatingQuestion/RatingQuestion'
 import CheckBoxesQuestion from './components/CheckBoxesQuestion/CheckBoxesQuestion'
+import { goToStep } from '../CreateEntity/CreateEntity.actions'
 
 interface Props extends CreateEntityBaseProps {
   claimInfo: ClaimInfo
@@ -655,6 +656,7 @@ const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
     dispatch(validated(identifier)),
   handleValidationError: (identifier: string, errors: string[]): void =>
     dispatch(validationError(identifier, errors)),
+  handleGoToStep: (step: number): void => dispatch(goToStep(step)),
 })
 
 export const CreateEntityAttestationConnected = connect(
