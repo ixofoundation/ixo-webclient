@@ -3,6 +3,10 @@ import {
   CreateEntityPageContentActionTypes,
   CreateEntityPageContentActions,
 } from './types'
+import {
+  CreateEntityActionTypes,
+  CreateEntityActions,
+} from '../CreateEntity/types'
 import * as reduxUtils from 'common/redux/utils'
 
 export const initialState: CreateEntityPageContentState = {
@@ -35,7 +39,7 @@ export const initialState: CreateEntityPageContentState = {
 
 export const reducer = (
   state = initialState,
-  action: CreateEntityPageContentActionTypes,
+  action: CreateEntityPageContentActionTypes | CreateEntityActionTypes,
 ): CreateEntityPageContentState => {
   switch (action.type) {
     case CreateEntityPageContentActions.UpdateHeaderContent:
@@ -362,6 +366,8 @@ export const reducer = (
           },
         },
       }
+    case CreateEntityActions.NewEntity:
+      return initialState
   }
 
   return state

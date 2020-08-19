@@ -44,6 +44,7 @@ import {
   updateCheckBoxesQuestion,
 } from './CreateEntityAttestation.actions'
 import * as attestationSelectors from './CreateEntityAttestation.selectors'
+import * as createEntitySelectors from '../CreateEntity/CreateEntity.selectors'
 import AddQuestionBar from './components/AddQuestionBar/AddQuestionBar'
 import QuestionCardWrapper from './components/QuestionCardWrapper/QuestionCardWrapper'
 import ShortTextQuestion from './components/ShortTextQuestion/ShortTextQuestion'
@@ -558,7 +559,9 @@ class CreateEntityAttestation extends CreateEntityBase<Props> {
   }
 
   onSubmitted = (): void => {
-    console.log('TODO - gotostep')
+    const { entityType, step } = this.props
+
+    this.props.handleGoToStep(this.getNextStep(entityType, step))
   }
 
   render(): JSX.Element {
@@ -583,6 +586,8 @@ class CreateEntityAttestation extends CreateEntityBase<Props> {
 }
 
 const mapStateToProps = (state: RootState): any => ({
+  step: createEntitySelectors.selectStep(state),
+  entityType: createEntitySelectors.selectEntityType(state),
   claimInfo: attestationSelectors.selectClaimInfo(state),
   questions: attestationSelectors.selectQuestions(state),
   validationComplete: attestationSelectors.selectValidationComplete(state),

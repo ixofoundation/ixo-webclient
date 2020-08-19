@@ -4,6 +4,7 @@ import CreateEntityBase, {
   CreateEntityBaseProps,
 } from '../CreateEntity/components/CreateEntityBase/CreateEntityBase'
 import * as createEntityAdvancedSelectors from './CreateEntityAdvanced.selectors'
+import * as createEntitySelectors from '../CreateEntity/CreateEntity.selectors'
 import {
   LinkedEntity,
   Payment,
@@ -54,7 +55,6 @@ import FundCard from './components/FundCard/FundCard'
 import KeyCard from './components/KeyCard/KeyCard'
 import ServiceCard from './components/ServiceCard/ServiceCard'
 import DataResourceCard from './components/DataResourceCard/DataResourceCard'
-import { Step } from '../CreateEntity/types'
 
 interface Props extends CreateEntityBaseProps {
   linkedEntities: LinkedEntity[]
@@ -107,7 +107,7 @@ class CreateEntityAdvanced extends CreateEntityBase<Props> {
         onAddSection={handleAddLinkedEntity}
         addSectionText="Add Linked Entity"
       >
-        {linkedEntities.map(linkedEntity => {
+        {linkedEntities.map((linkedEntity) => {
           this.cardRefs[linkedEntity.id] = React.createRef()
 
           const { id, entityId, type } = linkedEntity
@@ -149,7 +149,7 @@ class CreateEntityAdvanced extends CreateEntityBase<Props> {
         onAddSection={handleAddPayment}
         addSectionText="Add Payment"
       >
-        {payments.map(payment => {
+        {payments.map((payment) => {
           this.cardRefs[payment.id] = React.createRef()
 
           const { id, type, paymentId, denom, maxFee, maxQty } = payment
@@ -195,7 +195,7 @@ class CreateEntityAdvanced extends CreateEntityBase<Props> {
         addSectionText="Add Stake"
         onAddSection={handleAddStake}
       >
-        {staking.map(stake => {
+        {staking.map((stake) => {
           this.cardRefs[stake.id] = React.createRef()
 
           const {
@@ -254,7 +254,7 @@ class CreateEntityAdvanced extends CreateEntityBase<Props> {
         addSectionText="Add Node"
         onAddSection={handleAddNode}
       >
-        {nodes.map(stake => {
+        {nodes.map((stake) => {
           this.cardRefs[stake.id] = React.createRef()
 
           const { id, type, nodeId } = stake
@@ -295,7 +295,7 @@ class CreateEntityAdvanced extends CreateEntityBase<Props> {
         addSectionText="Add a Funding Source"
         onAddSection={handleAddFund}
       >
-        {funding.map(fund => {
+        {funding.map((fund) => {
           this.cardRefs[fund.id] = React.createRef()
 
           const { id, source, fundId } = fund
@@ -331,7 +331,7 @@ class CreateEntityAdvanced extends CreateEntityBase<Props> {
         onAddSection={handleAddKey}
         addSectionText="Add Key"
       >
-        {keys.map(key => {
+        {keys.map((key) => {
           this.cardRefs[key.id] = React.createRef()
 
           const {
@@ -386,7 +386,7 @@ class CreateEntityAdvanced extends CreateEntityBase<Props> {
         onAddSection={handleAddService}
         addSectionText="Add Service"
       >
-        {services.map(service => {
+        {services.map((service) => {
           this.cardRefs[service.id] = React.createRef()
 
           const {
@@ -439,7 +439,7 @@ class CreateEntityAdvanced extends CreateEntityBase<Props> {
         addSectionText="Add a Data Resource"
         onAddSection={handleAddDataResource}
       >
-        {dataResources.map(dataResource => {
+        {dataResources.map((dataResource) => {
           this.cardRefs[dataResource.id] = React.createRef()
 
           const { id, type, dataId, serviceEndpoint, properties } = dataResource
@@ -469,13 +469,15 @@ class CreateEntityAdvanced extends CreateEntityBase<Props> {
     )
   }
 
+  onBack = (): void => {
+    const { entityType, step } = this.props
+
+    this.props.handleGoToStep(this.getPreviousStep(entityType, step))
+  }
+
   onSubmitted = (): void => {
     // TODO
     console.log('TODO')
-  }
-
-  onBack = (): void => {
-    this.props.handleGoToStep(Step.Settings)
   }
 
   render(): JSX.Element {
@@ -492,28 +494,28 @@ class CreateEntityAdvanced extends CreateEntityBase<Props> {
 
     const identifiers: string[] = []
 
-    linkedEntities.forEach(section => {
+    linkedEntities.forEach((section) => {
       identifiers.push(section.id)
     })
-    payments.forEach(section => {
+    payments.forEach((section) => {
       identifiers.push(section.id)
     })
-    staking.forEach(section => {
+    staking.forEach((section) => {
       identifiers.push(section.id)
     })
-    nodes.forEach(section => {
+    nodes.forEach((section) => {
       identifiers.push(section.id)
     })
-    funding.forEach(section => {
+    funding.forEach((section) => {
       identifiers.push(section.id)
     })
-    keys.forEach(section => {
+    keys.forEach((section) => {
       identifiers.push(section.id)
     })
-    services.forEach(section => {
+    services.forEach((section) => {
       identifiers.push(section.id)
     })
-    dataResources.forEach(section => {
+    dataResources.forEach((section) => {
       identifiers.push(section.id)
     })
 
@@ -534,6 +536,8 @@ class CreateEntityAdvanced extends CreateEntityBase<Props> {
 }
 
 const mapStateToProps = (state: RootState): any => ({
+  step: createEntitySelectors.selectStep(state),
+  entityType: createEntitySelectors.selectEntityType(state),
   linkedEntities: createEntityAdvancedSelectors.selectLinkedEntities(state),
   payments: createEntityAdvancedSelectors.selectPayments(state),
   staking: createEntityAdvancedSelectors.selectStaking(state),
@@ -587,7 +591,7 @@ const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
     dispatch(validated(identifier)),
   handleValidationError: (identifier: string, errors: string[]): void =>
     dispatch(validationError(identifier, errors)),
-  handleGoToStep: (step: Step): void => dispatch(goToStep(step)),
+  handleGoToStep: (step: number): void => dispatch(goToStep(step)),
 })
 
 export const CreateEntityAdvancedConnected = connect(

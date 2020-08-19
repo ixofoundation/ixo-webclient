@@ -2,11 +2,10 @@ import {
   CreateEntityState,
   CreateEntityActionTypes,
   CreateEntityActions,
-  Step,
 } from './types'
 
 export const initialState: CreateEntityState = {
-  step: Step.PageContent,
+  step: 1,
   entityType: null,
 }
 

@@ -2,16 +2,8 @@ import { EntityType } from '../Entities/types'
 
 export const PDS_URL = process.env.REACT_APP_PDS_URL
 
-export enum Step {
-  PageContent = 1,
-  // Attestation = 'Attestation',
-  // Evaluation = 'Evaluation',
-  Settings = 2,
-  Advanced = 3,
-}
-
 export interface CreateEntityState {
-  step: Step
+  step: number
   entityType: EntityType
 }
 
@@ -31,17 +23,20 @@ export interface Validation {
   errors: string[]
 }
 
-export type StepNameStrategyMap = {
-  [TKey in Step]: {
-    name: string
+export type EntityStepStrategyMap = {
+  [TKey in EntityType]: {
+    stepCount: number
+    steps: {
+      [stepNumber: number]: {
+        container: any
+        urls: string[]
+        name: string
+        previousStep: number
+        nextStep: number
+      }
+    }
   }
 }
-
-/* export type EntityStepStrategyMap = {
-  [TKey in EntityType]: {
-    stepCount: string
-  }
-} */
 
 export interface FormCardProps {
   ref: any
@@ -54,7 +49,7 @@ export interface FormCardProps {
 export interface GoToStepAction {
   type: typeof CreateEntityActions.GoToStep
   payload: {
-    step: Step
+    step: number
   }
 }
 

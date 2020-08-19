@@ -1,10 +1,5 @@
 import * as SUT from './CreateEntity.reducer'
-import {
-  Step,
-  GoToStepAction,
-  CreateEntityActions,
-  NewEntityAction,
-} from './types'
+import { GoToStepAction, CreateEntityActions, NewEntityAction } from './types'
 import { EntityType } from '../Entities/types'
 
 const initialState = SUT.initialState
@@ -23,7 +18,7 @@ describe('CreateEntity Reducer', () => {
 
   describe('GoToStep Action', () => {
     it('should update the step', () => {
-      const step = Step.Settings
+      const step = 2
 
       // given .. we have an action of type CreateEntityActions.GoToStep
       const action: GoToStepAction = {
@@ -57,7 +52,7 @@ describe('CreateEntity Reducer', () => {
 
       // then ... the state should be set as expected
       expect(result).toEqual({
-        step: Step.PageContent,
+        step: 1,
         entityType,
       })
     })

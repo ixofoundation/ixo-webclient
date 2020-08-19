@@ -3,6 +3,10 @@ import {
   CreateEntityAttestationActionTypes,
   CreateEntityAttestationActions,
 } from './types'
+import {
+  CreateEntityActionTypes,
+  CreateEntityActions,
+} from '../CreateEntity/types'
 import * as reduxUtils from 'common/redux/utils'
 import * as utils from './CreateEntityAttestation.utils'
 
@@ -17,7 +21,7 @@ export const initialState: CreateEntityAttestationState = {
 
 export const reducer = (
   state = initialState,
-  action: CreateEntityAttestationActionTypes,
+  action: CreateEntityAttestationActionTypes | CreateEntityActionTypes,
 ): CreateEntityAttestationState => {
   switch (action.type) {
     case CreateEntityAttestationActions.UpdateClaimInfo:
@@ -144,6 +148,8 @@ export const reducer = (
           },
         },
       }
+    case CreateEntityActions.NewEntity:
+      return initialState
   }
 
   return state

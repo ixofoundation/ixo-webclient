@@ -45,12 +45,9 @@ import PrivacyCard from './components/PrivacyCard/PrivacyCard'
 import RequiredCredentialCard from './components/RequiredCredentialCard/RequiredCredentialCard'
 import DisplayCredentialCard from './components/DisplayCredentialCard/DisplayCredentialCard'
 import FilterCard from './components/FilterCard/FilterCard'
-import { EntityType } from '../Entities/types'
 import { entityTypeMap } from '../Entities/strategy-map'
-import { Step } from '../CreateEntity/types'
 
 interface Props extends CreateEntityBaseProps {
-  entityType: EntityType
   owner: Owner
   creator: Creator
   status: Status
@@ -399,11 +396,15 @@ class CreateEntitySettings extends CreateEntityBase<Props> {
   }
 
   onSubmitted = (): void => {
-    this.props.handleGoToStep(Step.Advanced)
+    const { entityType, step } = this.props
+
+    this.props.handleGoToStep(this.getNextStep(entityType, step))
   }
 
   onBack = (): void => {
-    this.props.handleGoToStep(Step.PageContent)
+    const { entityType, step } = this.props
+
+    this.props.handleGoToStep(this.getPreviousStep(entityType, step))
   }
 
   render(): JSX.Element {
@@ -443,6 +444,7 @@ class CreateEntitySettings extends CreateEntityBase<Props> {
 }
 
 const mapStateToProps = (state: RootState): any => ({
+  step: createEntitySelectors.selectStep(state),
   entityType: createEntitySelectors.selectEntityType(state),
   owner: entitySettingsSelectors.selectOwner(state),
   creator: entitySettingsSelectors.selectCreator(state),
@@ -488,7 +490,7 @@ const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
     dispatch(validated(identifier)),
   handleValidationError: (identifier: string, errors: string[]): void =>
     dispatch(validationError(identifier, errors)),
-  handleGoToStep: (step: Step): void => dispatch(goToStep(step)),
+  handleGoToStep: (step: number): void => dispatch(goToStep(step)),
 })
 
 export const CreateEntitySettingsConnected = connect(
