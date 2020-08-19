@@ -15,6 +15,7 @@ import { CreateEntityAttestationState } from 'modules/EntityModules/CreateEntity
 import { CreateEntityState } from 'modules/EntityModules/CreateEntity/types'
 import { CreateEntitySettingsState } from 'modules/EntityModules/CreateEntitySettings/types'
 import { CreateEntityAdvancedState } from 'modules/EntityModules/CreateEntityAdvanced/types'
+import { CreateEntityClaimsState } from 'modules/EntityModules/CreateEntityClaims/types'
 
 export interface RootState {
   keySafe: KeysafeState
@@ -36,5 +37,6 @@ export interface RootState {
   createEntityAttestation: CreateEntityAttestationState
   createEntitySettings: CreateEntitySettingsState
   createEntityAdvanced: CreateEntityAdvancedState
+  createEntityClaims: CreateEntityClaimsState
   router: any
 }

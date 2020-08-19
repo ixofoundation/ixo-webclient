@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from 'uuid'
 import {
   CreateEntityClaimsActions,
   CreateEntityClaimActionTypes,
@@ -27,6 +28,7 @@ export const reducer = (
           [action.payload.id]: {
             id: action.payload.id,
             template: {
+              id: uuidv4(),
               entityClaimId: action.payload.id,
               templateId: undefined,
               title: undefined,
@@ -56,7 +58,7 @@ export const reducer = (
           ...state.entityClaims,
           [action.payload.entityClaimId]: {
             ...state.entityClaims[action.payload.entityClaimId],
-            template: action.payload,
+            template: { ...action.payload },
           },
         },
       }
@@ -253,6 +255,8 @@ export const reducer = (
           },
         },
       }
+    case CreateEntityActions.NewEntity:
+      return initialState
   }
 
   return state

@@ -41,6 +41,7 @@ import {
   ValidatedAction,
   ValidationErrorAction,
 } from './types'
+import { NewEntityAction, CreateEntityActions } from '../CreateEntity/types'
 
 const initialState = SUT.initialState
 
@@ -1201,6 +1202,36 @@ describe('CreateEntityAdvanced Reducer', () => {
           errors,
         },
       },
+    })
+  })
+
+  describe('NewEntity Actions', () => {
+    it('should return initial state if a new entity action type is received', () => {
+      // given ... we have an action of type CreateEntityActions.NewEntity
+      const action: NewEntityAction = {
+        type: CreateEntityActions.NewEntity,
+        payload: {
+          entityType: EntityType.Cell,
+        },
+      }
+
+      // when ... we run the reducer with this action
+      const result = SUT.reducer(
+        {
+          ...initialState,
+          nodes: {
+            ['someNodeId']: {
+              id: 'someNodeId',
+              nodeId: 'someNodeId',
+              type: NodeType.IBCNode,
+            },
+          },
+        },
+        action,
+      )
+
+      // then ... the state should be set as expected
+      expect(result).toEqual(initialState)
     })
   })
 })

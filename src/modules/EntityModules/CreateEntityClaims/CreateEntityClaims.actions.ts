@@ -35,6 +35,7 @@ export const removeEntityClaim = (id: string): RemoveEntityClaimAction => ({
 
 export const updateEntityClaimTemplate = (
   entityClaimId: string,
+  id,
   formData: FormData,
 ): UpdateEntityClaimTemplateAction => {
   const {
@@ -51,6 +52,7 @@ export const updateEntityClaimTemplate = (
   return {
     type: CreateEntityClaimsActions.UpdateEntityClaimTemplate,
     payload: {
+      id,
       entityClaimId,
       templateId,
       title,

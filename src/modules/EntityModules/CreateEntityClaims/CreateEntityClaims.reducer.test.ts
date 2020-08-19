@@ -1,3 +1,5 @@
+import { v4 } from 'uuid'
+jest.mock('uuid')
 import * as SUT from './CreateEntityClaims.reducer'
 import {
   AddEntityClaimAction,
@@ -17,7 +19,8 @@ import {
   RemoveEntityClaimEnrichmentAction,
   UpdateEntityClaimEnrichmentAction,
 } from './types'
-import { CreateEntityActions } from '../CreateEntity/types'
+import { CreateEntityActions, NewEntityAction } from '../CreateEntity/types'
+import { EntityType } from '../Entities/types'
 
 const initialState = SUT.initialState
 
@@ -37,6 +40,9 @@ describe('CreateEntityClaims Reducer', () => {
     it('should add a new entityClaim section', () => {
       const id = 'someId'
 
+      const idForTempalte = 'someIdForTemplate'
+      v4.mockImplementationOnce(() => idForTempalte)
+
       // given ... we have an action of type CreateEntityClaimsActions.AddEntityClaim
       const action: AddEntityClaimAction = {
         type: CreateEntityClaimsActions.AddEntityClaim,
@@ -55,6 +61,7 @@ describe('CreateEntityClaims Reducer', () => {
           [id]: {
             id: action.payload.id,
             template: {
+              id: 'someIdForTemplate',
               entityClaimId: action.payload.id,
               templateId: undefined,
               title: undefined,
@@ -93,6 +100,7 @@ describe('CreateEntityClaims Reducer', () => {
             [id]: {
               id,
               template: {
+                id: 'someIdForTemplate',
                 entityClaimId: 'anotherid',
                 templateId: undefined,
                 title: undefined,
@@ -111,6 +119,7 @@ describe('CreateEntityClaims Reducer', () => {
             ['anotherid']: {
               id: 'anotherid',
               template: {
+                id: 'someIdForTemplate',
                 entityClaimId: 'anotherid',
                 templateId: undefined,
                 title: undefined,
@@ -138,6 +147,7 @@ describe('CreateEntityClaims Reducer', () => {
           ['anotherid']: {
             id: 'anotherid',
             template: {
+              id: 'someIdForTemplate',
               entityClaimId: 'anotherid',
               templateId: undefined,
               title: undefined,
@@ -160,6 +170,7 @@ describe('CreateEntityClaims Reducer', () => {
 
   describe('EntityClaimTemplate Actions', () => {
     it('should update the template', () => {
+      const id = 'someId'
       const entityClaimId = 'someEntityClaimId'
       const templateId = 'someTemplateId'
       const title = 'someTitle'
@@ -174,6 +185,7 @@ describe('CreateEntityClaims Reducer', () => {
       const action: UpdateEntityClaimTemplateAction = {
         type: CreateEntityClaimsActions.UpdateEntityClaimTemplate,
         payload: {
+          id,
           entityClaimId,
           templateId,
           title,
@@ -194,6 +206,7 @@ describe('CreateEntityClaims Reducer', () => {
             [entityClaimId]: {
               id: entityClaimId,
               template: {
+                id: 'someIdForTemplate',
                 entityClaimId,
                 templateId: 'someOldTemplateId',
                 title: 'someOldTitle',
@@ -220,6 +233,7 @@ describe('CreateEntityClaims Reducer', () => {
             ['anotherid']: {
               id: 'anotherid',
               template: {
+                id: 'someIdForTemplate',
                 entityClaimId: 'anotherid',
                 templateId: 'someOtherTemplateId',
                 title: 'someOtherTitle',
@@ -255,6 +269,7 @@ describe('CreateEntityClaims Reducer', () => {
           [entityClaimId]: {
             id: entityClaimId,
             template: {
+              id,
               entityClaimId,
               templateId,
               title,
@@ -281,6 +296,8 @@ describe('CreateEntityClaims Reducer', () => {
           ['anotherid']: {
             id: 'anotherid',
             template: {
+              id: 'someIdForTemplate',
+
               entityClaimId: 'anotherid',
               templateId: 'someOtherTemplateId',
               title: 'someOtherTitle',
@@ -331,6 +348,8 @@ describe('CreateEntityClaims Reducer', () => {
             [entityClaimId]: {
               id: entityClaimId,
               template: {
+                id: 'someIdForTemplate',
+
                 entityClaimId,
                 templateId: 'someTemplateId',
                 title: 'someTitle',
@@ -357,6 +376,8 @@ describe('CreateEntityClaims Reducer', () => {
             ['anotherid']: {
               id: 'anotherid',
               template: {
+                id: 'someIdForTemplate',
+
                 entityClaimId: 'anotherid',
                 templateId: 'someOtherTemplateId',
                 title: 'someOtherTitle',
@@ -392,6 +413,8 @@ describe('CreateEntityClaims Reducer', () => {
           [entityClaimId]: {
             id: entityClaimId,
             template: {
+              id: 'someIdForTemplate',
+
               entityClaimId,
               templateId: 'someTemplateId',
               title: 'someTitle',
@@ -425,6 +448,8 @@ describe('CreateEntityClaims Reducer', () => {
           ['anotherid']: {
             id: 'anotherid',
             template: {
+              id: 'someIdForTemplate',
+
               entityClaimId: 'anotherid',
               templateId: 'someOtherTemplateId',
               title: 'someOtherTitle',
@@ -473,6 +498,8 @@ describe('CreateEntityClaims Reducer', () => {
             [entityClaimId]: {
               id: entityClaimId,
               template: {
+                id: 'someIdForTemplate',
+
                 entityClaimId,
                 templateId: 'someTemplateId',
                 title: 'someTitle',
@@ -506,6 +533,8 @@ describe('CreateEntityClaims Reducer', () => {
             ['anotherid']: {
               id: 'anotherid',
               template: {
+                id: 'someIdForTemplate',
+
                 entityClaimId: 'anotherid',
                 templateId: 'someOtherTemplateId',
                 title: 'someOtherTitle',
@@ -541,6 +570,8 @@ describe('CreateEntityClaims Reducer', () => {
           [entityClaimId]: {
             id: entityClaimId,
             template: {
+              id: 'someIdForTemplate',
+
               entityClaimId,
               templateId: 'someTemplateId',
               title: 'someTitle',
@@ -567,6 +598,8 @@ describe('CreateEntityClaims Reducer', () => {
           ['anotherid']: {
             id: 'anotherid',
             template: {
+              id: 'someIdForTemplate',
+
               entityClaimId: 'anotherid',
               templateId: 'someOtherTemplateId',
               title: 'someOtherTitle',
@@ -621,6 +654,8 @@ describe('CreateEntityClaims Reducer', () => {
             [entityClaimId]: {
               id: entityClaimId,
               template: {
+                id: 'someIdForTemplate',
+
                 entityClaimId,
                 templateId: 'someTemplateId',
                 title: 'someTitle',
@@ -654,6 +689,8 @@ describe('CreateEntityClaims Reducer', () => {
             ['anotherid']: {
               id: 'anotherid',
               template: {
+                id: 'someIdForTemplate',
+
                 entityClaimId: 'anotherid',
                 templateId: 'someOtherTemplateId',
                 title: 'someOtherTitle',
@@ -688,6 +725,8 @@ describe('CreateEntityClaims Reducer', () => {
           [entityClaimId]: {
             id: entityClaimId,
             template: {
+              id: 'someIdForTemplate',
+
               entityClaimId,
               templateId: 'someTemplateId',
               title: 'someTitle',
@@ -721,6 +760,8 @@ describe('CreateEntityClaims Reducer', () => {
           ['anotherid']: {
             id: 'anotherid',
             template: {
+              id: 'someIdForTemplate',
+
               entityClaimId: 'anotherid',
               templateId: 'someOtherTemplateId',
               title: 'someOtherTitle',
@@ -771,6 +812,8 @@ describe('CreateEntityClaims Reducer', () => {
             [entityClaimId]: {
               id: entityClaimId,
               template: {
+                id: 'someIdForTemplate',
+
                 entityClaimId,
                 templateId: 'someTemplateId',
                 title: 'someTitle',
@@ -798,6 +841,8 @@ describe('CreateEntityClaims Reducer', () => {
             ['anotherid']: {
               id: 'anotherid',
               template: {
+                id: 'someIdForTemplate',
+
                 entityClaimId: 'anotherid',
                 templateId: 'someOtherTemplateId',
                 title: 'someOtherTitle',
@@ -834,6 +879,8 @@ describe('CreateEntityClaims Reducer', () => {
           [entityClaimId]: {
             id: entityClaimId,
             template: {
+              id: 'someIdForTemplate',
+
               entityClaimId,
               templateId: 'someTemplateId',
               title: 'someTitle',
@@ -869,6 +916,8 @@ describe('CreateEntityClaims Reducer', () => {
           ['anotherid']: {
             id: 'anotherid',
             template: {
+              id: 'someIdForTemplate',
+
               entityClaimId: 'anotherid',
               templateId: 'someOtherTemplateId',
               title: 'someOtherTitle',
@@ -918,6 +967,8 @@ describe('CreateEntityClaims Reducer', () => {
             [entityClaimId]: {
               id: entityClaimId,
               template: {
+                id: 'someIdForTemplate',
+
                 entityClaimId,
                 templateId: 'someTemplateId',
                 title: 'someTitle',
@@ -957,6 +1008,8 @@ describe('CreateEntityClaims Reducer', () => {
             ['anotherid']: {
               id: 'anotherid',
               template: {
+                id: 'someIdForTemplate',
+
                 entityClaimId: 'anotherid',
                 templateId: 'someOtherTemplateId',
                 title: 'someOtherTitle',
@@ -993,6 +1046,8 @@ describe('CreateEntityClaims Reducer', () => {
           [entityClaimId]: {
             id: entityClaimId,
             template: {
+              id: 'someIdForTemplate',
+
               entityClaimId,
               templateId: 'someTemplateId',
               title: 'someTitle',
@@ -1020,6 +1075,8 @@ describe('CreateEntityClaims Reducer', () => {
           ['anotherid']: {
             id: 'anotherid',
             template: {
+              id: 'someIdForTemplate',
+
               entityClaimId: 'anotherid',
               templateId: 'someOtherTemplateId',
               title: 'someOtherTitle',
@@ -1077,6 +1134,8 @@ describe('CreateEntityClaims Reducer', () => {
             [entityClaimId]: {
               id: entityClaimId,
               template: {
+                id: 'someIdForTemplate',
+
                 entityClaimId,
                 templateId: 'someTemplateId',
                 title: 'someTitle',
@@ -1116,6 +1175,8 @@ describe('CreateEntityClaims Reducer', () => {
             ['anotherid']: {
               id: 'anotherid',
               template: {
+                id: 'someIdForTemplate',
+
                 entityClaimId: 'anotherid',
                 templateId: 'someOtherTemplateId',
                 title: 'someOtherTitle',
@@ -1151,6 +1212,8 @@ describe('CreateEntityClaims Reducer', () => {
           [entityClaimId]: {
             id: entityClaimId,
             template: {
+              id: 'someIdForTemplate',
+
               entityClaimId,
               templateId: 'someTemplateId',
               title: 'someTitle',
@@ -1186,6 +1249,8 @@ describe('CreateEntityClaims Reducer', () => {
           ['anotherid']: {
             id: 'anotherid',
             template: {
+              id: 'someIdForTemplate',
+
               entityClaimId: 'anotherid',
               templateId: 'someOtherTemplateId',
               title: 'someOtherTitle',
@@ -1237,6 +1302,8 @@ describe('CreateEntityClaims Reducer', () => {
             [entityClaimId]: {
               id: entityClaimId,
               template: {
+                id: 'someIdForTemplate',
+
                 entityClaimId,
                 templateId: 'someTemplateId',
                 title: 'someTitle',
@@ -1264,6 +1331,8 @@ describe('CreateEntityClaims Reducer', () => {
             ['anotherid']: {
               id: 'anotherid',
               template: {
+                id: 'someIdForTemplate',
+
                 entityClaimId: 'anotherid',
                 templateId: 'someOtherTemplateId',
                 title: 'someOtherTitle',
@@ -1300,6 +1369,8 @@ describe('CreateEntityClaims Reducer', () => {
           [entityClaimId]: {
             id: entityClaimId,
             template: {
+              id: 'someIdForTemplate',
+
               entityClaimId,
               templateId: 'someTemplateId',
               title: 'someTitle',
@@ -1335,6 +1406,8 @@ describe('CreateEntityClaims Reducer', () => {
           ['anotherid']: {
             id: 'anotherid',
             template: {
+              id: 'someIdForTemplate',
+
               entityClaimId: 'anotherid',
               templateId: 'someOtherTemplateId',
               title: 'someOtherTitle',
@@ -1384,6 +1457,8 @@ describe('CreateEntityClaims Reducer', () => {
             [entityClaimId]: {
               id: entityClaimId,
               template: {
+                id: 'someIdForTemplate',
+
                 entityClaimId,
                 templateId: 'someTemplateId',
                 title: 'someTitle',
@@ -1422,6 +1497,8 @@ describe('CreateEntityClaims Reducer', () => {
             ['anotherid']: {
               id: 'anotherid',
               template: {
+                id: 'someIdForTemplate',
+
                 entityClaimId: 'anotherid',
                 templateId: 'someOtherTemplateId',
                 title: 'someOtherTitle',
@@ -1458,6 +1535,8 @@ describe('CreateEntityClaims Reducer', () => {
           [entityClaimId]: {
             id: entityClaimId,
             template: {
+              id: 'someIdForTemplate',
+
               entityClaimId,
               templateId: 'someTemplateId',
               title: 'someTitle',
@@ -1485,6 +1564,8 @@ describe('CreateEntityClaims Reducer', () => {
           ['anotherid']: {
             id: 'anotherid',
             template: {
+              id: 'someIdForTemplate',
+
               entityClaimId: 'anotherid',
               templateId: 'someOtherTemplateId',
               title: 'someOtherTitle',
@@ -1542,6 +1623,8 @@ describe('CreateEntityClaims Reducer', () => {
             [entityClaimId]: {
               id: entityClaimId,
               template: {
+                id: 'someIdForTemplate',
+
                 entityClaimId,
                 templateId: 'someTemplateId',
                 title: 'someTitle',
@@ -1580,6 +1663,8 @@ describe('CreateEntityClaims Reducer', () => {
             ['anotherid']: {
               id: 'anotherid',
               template: {
+                id: 'someIdForTemplate',
+
                 entityClaimId: 'anotherid',
                 templateId: 'someOtherTemplateId',
                 title: 'someOtherTitle',
@@ -1615,6 +1700,8 @@ describe('CreateEntityClaims Reducer', () => {
           [entityClaimId]: {
             id: entityClaimId,
             template: {
+              id: 'someIdForTemplate',
+
               entityClaimId,
               templateId: 'someTemplateId',
               title: 'someTitle',
@@ -1650,6 +1737,8 @@ describe('CreateEntityClaims Reducer', () => {
           ['anotherid']: {
             id: 'anotherid',
             template: {
+              id: 'someIdForTemplate',
+
               entityClaimId: 'anotherid',
               templateId: 'someOtherTemplateId',
               title: 'someOtherTitle',
@@ -1701,6 +1790,8 @@ describe('CreateEntityClaims Reducer', () => {
             [entityClaimId]: {
               id: entityClaimId,
               template: {
+                id: 'someIdForTemplate',
+
                 entityClaimId,
                 templateId: 'someTemplateId',
                 title: 'someTitle',
@@ -1728,6 +1819,8 @@ describe('CreateEntityClaims Reducer', () => {
             ['anotherid']: {
               id: 'anotherid',
               template: {
+                id: 'someIdForTemplate',
+
                 entityClaimId: 'anotherid',
                 templateId: 'someOtherTemplateId',
                 title: 'someOtherTitle',
@@ -1764,6 +1857,8 @@ describe('CreateEntityClaims Reducer', () => {
           [entityClaimId]: {
             id: entityClaimId,
             template: {
+              id: 'someIdForTemplate',
+
               entityClaimId,
               templateId: 'someTemplateId',
               title: 'someTitle',
@@ -1799,6 +1894,8 @@ describe('CreateEntityClaims Reducer', () => {
           ['anotherid']: {
             id: 'anotherid',
             template: {
+              id: 'someIdForTemplate',
+
               entityClaimId: 'anotherid',
               templateId: 'someOtherTemplateId',
               title: 'someOtherTitle',
@@ -1848,6 +1945,8 @@ describe('CreateEntityClaims Reducer', () => {
             [entityClaimId]: {
               id: entityClaimId,
               template: {
+                id: 'someIdForTemplate',
+
                 entityClaimId,
                 templateId: 'someTemplateId',
                 title: 'someTitle',
@@ -1886,6 +1985,8 @@ describe('CreateEntityClaims Reducer', () => {
             ['anotherid']: {
               id: 'anotherid',
               template: {
+                id: 'someIdForTemplate',
+
                 entityClaimId: 'anotherid',
                 templateId: 'someOtherTemplateId',
                 title: 'someOtherTitle',
@@ -1922,6 +2023,8 @@ describe('CreateEntityClaims Reducer', () => {
           [entityClaimId]: {
             id: entityClaimId,
             template: {
+              id: 'someIdForTemplate',
+
               entityClaimId,
               templateId: 'someTemplateId',
               title: 'someTitle',
@@ -1949,6 +2052,8 @@ describe('CreateEntityClaims Reducer', () => {
           ['anotherid']: {
             id: 'anotherid',
             template: {
+              id: 'someIdForTemplate',
+
               entityClaimId: 'anotherid',
               templateId: 'someOtherTemplateId',
               title: 'someOtherTitle',
@@ -2006,6 +2111,8 @@ describe('CreateEntityClaims Reducer', () => {
             [entityClaimId]: {
               id: entityClaimId,
               template: {
+                id: 'someIdForTemplate',
+
                 entityClaimId,
                 templateId: 'someTemplateId',
                 title: 'someTitle',
@@ -2044,6 +2151,8 @@ describe('CreateEntityClaims Reducer', () => {
             ['anotherid']: {
               id: 'anotherid',
               template: {
+                id: 'someIdForTemplate',
+
                 entityClaimId: 'anotherid',
                 templateId: 'someOtherTemplateId',
                 title: 'someOtherTitle',
@@ -2079,6 +2188,8 @@ describe('CreateEntityClaims Reducer', () => {
           [entityClaimId]: {
             id: entityClaimId,
             template: {
+              id: 'someIdForTemplate',
+
               entityClaimId,
               templateId: 'someTemplateId',
               title: 'someTitle',
@@ -2114,6 +2225,8 @@ describe('CreateEntityClaims Reducer', () => {
           ['anotherid']: {
             id: 'anotherid',
             template: {
+              id: 'someIdForTemplate',
+
               entityClaimId: 'anotherid',
               templateId: 'someOtherTemplateId',
               title: 'someOtherTitle',
@@ -2140,6 +2253,37 @@ describe('CreateEntityClaims Reducer', () => {
           },
         },
       })
+    })
+  })
+
+  describe('NewEntity Actions', () => {
+    it('should return initial state if a new entity action type is received', () => {
+      // given ... we have an action of type CreateEntityActions.NewEntity
+      const action: NewEntityAction = {
+        type: CreateEntityActions.NewEntity,
+        payload: {
+          entityType: EntityType.Cell,
+        },
+      }
+
+      // when ... we run the reducer with this action
+      const result = SUT.reducer(
+        {
+          ...initialState,
+          entityClaims: {},
+          validation: {
+            ['someId']: {
+              validated: true,
+              errors: ['someError'],
+              identifier: 'someIdentifier',
+            },
+          },
+        },
+        action,
+      )
+
+      // then ... the state should be set as expected
+      expect(result).toEqual(initialState)
     })
   })
 })

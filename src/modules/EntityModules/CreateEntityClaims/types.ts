@@ -1,6 +1,7 @@
 import { Validation } from '../CreateEntity/types'
 
 export interface Template {
+  id: string
   templateId: string
   entityClaimId: string
   title: string
@@ -116,6 +117,7 @@ export interface RemoveEntityClaimAction {
 export interface UpdateEntityClaimTemplateAction {
   type: typeof CreateEntityClaimsActions.UpdateEntityClaimTemplate
   payload: {
+    id: string
     entityClaimId: string
     templateId: string
     title: string

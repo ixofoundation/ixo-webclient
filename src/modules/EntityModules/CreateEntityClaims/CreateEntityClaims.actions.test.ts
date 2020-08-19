@@ -35,6 +35,7 @@ describe('CreateEntityClaims Actions', () => {
 
   describe('entityClaimTemplate', () => {
     it('should create an action to update an entity claim template', () => {
+      const id = 'someId'
       const entityClaimId = 'someEntityClaimId'
       const templateId = 'someTemplateId'
       const title = 'someTitle'
@@ -58,13 +59,14 @@ describe('CreateEntityClaims Actions', () => {
       }
 
       // when ... we call the updateEntityClaimTemplate action
-      const action = SUT.updateEntityClaimTemplate(entityClaimId, formData)
+      const action = SUT.updateEntityClaimTemplate(entityClaimId, id, formData)
 
       // then ... we should expect it to create an action with the correct type and payload
       expect(action.type).toEqual(
         CreateEntityClaimsActions.UpdateEntityClaimTemplate,
       )
       expect(action.payload).toEqual({
+        id,
         entityClaimId,
         templateId,
         title,

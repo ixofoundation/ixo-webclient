@@ -19,6 +19,7 @@ import { reducer as createEntityPageContentReducer } from 'modules/EntityModules
 import { reducer as createEntitySettingsReducer } from 'modules/EntityModules/CreateEntitySettings/CreateEntitySettings.reducer'
 import { reducer as createEntityAdvancedReducer } from 'modules/EntityModules/CreateEntityAdvanced/CreateEntityAdvanced.reducer'
 import { reducer as createEntityAttestationReducer } from 'modules/EntityModules/CreateEntityAttestation/CreateEntityAttestation.reducer'
+import { reducer as createEntityClaimsReducer } from 'modules/EntityModules/CreateEntityClaims/CreateEntityClaims.reducer'
 import { RootState } from './types'
 
 export const rootReducer: any = (history) =>
@@ -42,5 +43,6 @@ export const rootReducer: any = (history) =>
     createEntityAttestation: createEntityAttestationReducer,
     createEntitySettings: createEntitySettingsReducer,
     createEntityAdvanced: createEntityAdvancedReducer,
+    createEntityClaims: createEntityClaimsReducer,
     router: connectRouter(history),
   })
