@@ -65,10 +65,8 @@ const SingleControlForm: React.FunctionComponent<Props> = ({
 
   const uiSchema = {
     [id]: {
-      ['ui:widget']: customControls[control]
-        ? customControls[control]
-        : control,
-      ['ui:placeholder']: placeholder,
+      'ui:widget': customControls[control] ? customControls[control] : control,
+      'ui:placeholder': placeholder,
       ['ui:images']: itemImages,
       ['ui:options']: {
         inline,

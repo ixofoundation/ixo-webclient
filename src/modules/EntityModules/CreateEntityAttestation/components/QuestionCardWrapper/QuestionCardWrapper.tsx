@@ -8,8 +8,8 @@ import FormCardWrapper from 'common/components/Wrappers/FormCardWrapper/FormCard
 interface Props {
   title: string
   required: boolean
-  handleDelete(): void
-  handleDuplicate(): void
+  handleRemove(): void
+  handleCopy(): void
   handleToggleRequire(): void
 }
 
@@ -18,8 +18,8 @@ class QuestionCardWrapper extends React.Component<Props> {
     const {
       title,
       required,
-      handleDelete,
-      handleDuplicate,
+      handleRemove,
+      handleCopy,
       handleToggleRequire,
       children,
     } = this.props
@@ -27,10 +27,10 @@ class QuestionCardWrapper extends React.Component<Props> {
       <FormCardWrapper title={title} showAddSection={false}>
         {children}
         <Toolbar>
-          <div className="toolbar-item" onClick={handleDuplicate}>
+          <div className="toolbar-item" onClick={handleCopy}>
             <Expand fill="#A5ADB0" />
           </div>
-          <div className="toolbar-item" onClick={handleDelete}>
+          <div className="toolbar-item" onClick={handleRemove}>
             <Trash fill="#A5ADB0" />
           </div>
           <div className="divider"></div>

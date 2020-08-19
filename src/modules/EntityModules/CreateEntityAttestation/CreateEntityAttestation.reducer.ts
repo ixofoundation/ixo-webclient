@@ -3,6 +3,8 @@ import {
   CreateEntityAttestationActionTypes,
   CreateEntityAttestationActions,
 } from './types'
+import * as reduxUtils from 'common/redux/utils'
+import * as utils from './CreateEntityAttestation.utils'
 
 export const initialState: CreateEntityAttestationState = {
   claimInfo: {
@@ -24,39 +26,43 @@ export const reducer = (
         claimInfo: action.payload,
       }
     case CreateEntityAttestationActions.AddShortTextQuestion:
+    case CreateEntityAttestationActions.AddLongTextQuestion:
+    case CreateEntityAttestationActions.AddSingleDateSelectorQuestion:
+    case CreateEntityAttestationActions.AddDateRangeSelectorQuestion:
+    case CreateEntityAttestationActions.AddAvatarUploadQuestion:
+    case CreateEntityAttestationActions.AddImageUploadQuestion:
+    case CreateEntityAttestationActions.AddVideoUploadQuestion:
+    case CreateEntityAttestationActions.AddAudioUploadQuestion:
+    case CreateEntityAttestationActions.AddDocumentUploadQuestion:
+    case CreateEntityAttestationActions.AddLocationSelectorQuestion:
+    case CreateEntityAttestationActions.AddQRCodeQuestion:
+    case CreateEntityAttestationActions.AddRatingQuestion:
+    case CreateEntityAttestationActions.AddCheckBoxesQuestion:
       return {
         ...state,
         questions: {
           ...state.questions,
           ...{
-            [action.payload.id]: action.payload,
+            [action.payload.id]: {
+              ...action.payload,
+              order: utils.orderForNewQuestion(state.questions),
+            },
           },
         },
       }
     case CreateEntityAttestationActions.UpdateShortTextQuestion:
-      return {
-        ...state,
-        questions: {
-          ...state.questions,
-          ...{
-            [action.payload.id]: {
-              ...state.questions[action.payload.id],
-              ...action.payload,
-            },
-          },
-        },
-      }
-    case CreateEntityAttestationActions.AddLongTextQuestion:
-      return {
-        ...state,
-        questions: {
-          ...state.questions,
-          ...{
-            [action.payload.id]: action.payload,
-          },
-        },
-      }
     case CreateEntityAttestationActions.UpdateLongTextQuestion:
+    case CreateEntityAttestationActions.UpdateSingleDateSelectorQuestion:
+    case CreateEntityAttestationActions.UpdateDateRangeSelectorQuestion:
+    case CreateEntityAttestationActions.UpdateAvatarUploadQuestion:
+    case CreateEntityAttestationActions.UpdateImageUploadQuestion:
+    case CreateEntityAttestationActions.UpdateVideoUploadQuestion:
+    case CreateEntityAttestationActions.UpdateAudioUploadQuestion:
+    case CreateEntityAttestationActions.UpdateDocumentUploadQuestion:
+    case CreateEntityAttestationActions.UpdateLocationSelectorQuestion:
+    case CreateEntityAttestationActions.UpdateQRCodeQuestion:
+    case CreateEntityAttestationActions.UpdateRatingQuestion:
+    case CreateEntityAttestationActions.UpdateCheckBoxesQuestion:
       return {
         ...state,
         questions: {
@@ -69,6 +75,7 @@ export const reducer = (
           },
         },
       }
+
     case CreateEntityAttestationActions.UpdateAnswerRequired:
       return {
         ...state,
@@ -78,6 +85,61 @@ export const reducer = (
             [action.payload.id]: {
               ...state.questions[action.payload.id],
               required: action.payload.required,
+            },
+          },
+        },
+      }
+    case CreateEntityAttestationActions.RemoveQuestion:
+      return {
+        ...state,
+        questions: utils.questionsWithIncrementedOrder(
+          state.questions[action.payload.id].order + 1,
+          -1,
+          reduxUtils.omitKey(state.questions, action.payload.id),
+        ),
+      }
+    case CreateEntityAttestationActions.CopyQuestion:
+      return {
+        ...state,
+        questions: {
+          ...utils.questionsWithIncrementedOrder(
+            state.questions[action.payload.idToCopy].order + 1,
+            1,
+            state.questions,
+          ),
+          ...{
+            [action.payload.newId]: {
+              ...state.questions[action.payload.idToCopy],
+              id: action.payload.newId,
+              order: state.questions[action.payload.idToCopy].order + 1,
+            },
+          },
+        },
+      }
+    case CreateEntityAttestationActions.Validated:
+      return {
+        ...state,
+        validation: {
+          ...state.validation,
+          ...{
+            [action.payload.identifier]: {
+              identifier: action.payload.identifier,
+              validated: true,
+              errors: [],
+            },
+          },
+        },
+      }
+    case CreateEntityAttestationActions.ValidationError:
+      return {
+        ...state,
+        validation: {
+          ...state.validation,
+          ...{
+            [action.payload.identifier]: {
+              identifier: action.payload.identifier,
+              validated: false,
+              errors: action.payload.errors,
             },
           },
         },

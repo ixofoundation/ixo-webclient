@@ -73,38 +73,38 @@ const CreatorCard: React.FunctionComponent<Props> = React.forwardRef(
 
     const uiSchema = {
       fileSrc: {
-        ['ui:widget']: customControls['imageupload'],
+        'ui:widget': customControls['imageupload'],
         ['ui:uploading']: uploadingImage,
         ['ui:maxDimension']: 440,
         ['ui:previewWidth']: 440,
         ['ui:circularCrop']: false,
       },
       displayName: {
-        ['ui:widget']: 'text',
-        ['ui:placeholder']: 'Enter Title',
+        'ui:widget': 'text',
+        'ui:placeholder': 'Enter Title',
       },
       location: {
-        ['ui:widget']: customControls['countryselector'],
+        'ui:widget': customControls['countryselector'],
       },
       email: {
-        ['ui:widget']: 'text',
-        ['ui:placeholder']: 'Enter Email',
+        'ui:widget': 'text',
+        'ui:placeholder': 'Enter Email',
       },
       website: {
-        ['ui:widget']: 'text',
-        ['ui:placeholder']: 'Enter /Paste URL',
+        'ui:widget': 'text',
+        'ui:placeholder': 'Enter /Paste URL',
       },
       mission: {
-        ['ui:widget']: 'text',
-        ['ui:placeholder']: 'Short Description',
+        'ui:widget': 'text',
+        'ui:placeholder': 'Short Description',
       },
       creatorId: {
-        ['ui:widget']: 'text',
-        ['ui:placeholder']: 'Enter ID or !name',
+        'ui:widget': 'text',
+        'ui:placeholder': 'Enter ID or !name',
       },
       credential: {
-        ['ui:widget']: 'text',
-        ['ui:placeholder']: 'Paste Credential',
+        'ui:widget': 'text',
+        'ui:placeholder': 'Paste Credential',
       },
     }
 

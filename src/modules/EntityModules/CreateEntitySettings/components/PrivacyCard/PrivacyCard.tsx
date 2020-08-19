@@ -29,17 +29,17 @@ const PrivacyCard: React.FunctionComponent<Props> = React.forwardRef(
         pageView: {
           type: 'string',
           title: 'Page View',
-          enum: Object.keys(PageView).map(key => PageView[key]),
+          enum: Object.keys(PageView).map((key) => PageView[key]),
           enumNames: Object.keys(PageView).map(
-            key => pageViewMap[PageView[key]].title,
+            (key) => pageViewMap[PageView[key]].title,
           ),
         },
         entityView: {
           type: 'string',
           title: 'Entity View',
-          enum: Object.keys(EntityView).map(key => EntityView[key]),
+          enum: Object.keys(EntityView).map((key) => EntityView[key]),
           enumNames: Object.keys(EntityView).map(
-            key => entityViewMap[EntityView[key]].title,
+            (key) => entityViewMap[EntityView[key]].title,
           ),
         },
       },
@@ -47,10 +47,10 @@ const PrivacyCard: React.FunctionComponent<Props> = React.forwardRef(
 
     const uiSchema = {
       pageView: {
-        ['ui:placeholder']: 'Select Page View',
+        'ui:placeholder': 'Select Page View',
       },
       entityView: {
-        ['ui:placeholder']: 'Select Entity View',
+        'ui:placeholder': 'Select Entity View',
       },
     }
 

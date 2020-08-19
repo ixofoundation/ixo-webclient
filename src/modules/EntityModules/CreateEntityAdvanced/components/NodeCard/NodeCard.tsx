@@ -34,9 +34,9 @@ const NodeCard: React.FunctionComponent<Props> = React.forwardRef(
         type: {
           type: 'string',
           title: 'Node Type',
-          enum: Object.keys(NodeType).map(key => NodeType[key]),
+          enum: Object.keys(NodeType).map((key) => NodeType[key]),
           enumNames: Object.keys(NodeType).map(
-            key => nodeTypeMap[NodeType[key]].title,
+            (key) => nodeTypeMap[NodeType[key]].title,
           ),
         },
         nodeId: { type: 'string', title: 'Node ID' },
@@ -45,9 +45,9 @@ const NodeCard: React.FunctionComponent<Props> = React.forwardRef(
 
     const uiSchema = {
       type: {
-        ['ui:placeholder']: 'Select Node Type',
+        'ui:placeholder': 'Select Node Type',
       },
-      nodeId: { ['ui:placeholder']: 'Enter !Name or DID' },
+      nodeId: { 'ui:placeholder': 'Enter !Name or DID' },
     }
 
     return (

@@ -5,6 +5,7 @@ import {
   EntityStatus,
   EntityView,
   PageView,
+  TermsOfUseType,
 } from '../Entities/types'
 
 let state: any
@@ -32,6 +33,15 @@ beforeEach(() => {
         ownerId: 'someOwnerIdentifier',
         fileSrc: 'somefileSrc',
         uploading: false,
+      },
+      termsOfUse: {
+        type: TermsOfUseType.FreeOpenSource,
+        paymentTemplateId: 'somePaymentTemplateId',
+      },
+      version: {
+        versionNumber: 'someVersionNumber',
+        effectiveDate: 'someEffectiveDate',
+        notes: 'someNotes',
       },
       status: {
         startDate: 'someStatusStartDate',
@@ -272,6 +282,8 @@ describe('CreateEntitySettings Selectors', () => {
             'creator': {},
             'owner': {},
             'status': {},
+            'termsofuse': {},
+            'version': {},
             'privacy': {},
             '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d': {},
             '1b9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed': {},
@@ -298,6 +310,8 @@ describe('CreateEntitySettings Selectors', () => {
           validation: {
             'social': {},
             'header': {},
+            'termsofuse': {},
+            'version': {},
             '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d': {},
             'ab1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d': {},
             'ab9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed': {},
@@ -322,6 +336,12 @@ describe('CreateEntitySettings Selectors', () => {
             'creator': { identifier: 'creator', validated: true, errors: [] },
             'owner': { identifier: 'owner', validated: true, errors: [] },
             'status': { identifier: 'status', validated: true, errors: [] },
+            'termsofuse': {
+              identifier: 'termsofuse',
+              validated: true,
+              errors: [],
+            },
+            'version': { identifier: 'version', validated: true, errors: [] },
             'privacy': { identifier: 'privacy', validated: true, errors: [] },
             '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d': {
               identifier: '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d',
@@ -363,6 +383,12 @@ describe('CreateEntitySettings Selectors', () => {
             'creator': { identifier: 'creator', validated: true, errors: [] },
             'owner': { identifier: 'owner', validated: true, errors: [] },
             'status': { identifier: 'status', validated: true, errors: [] },
+            'termsofuse': {
+              identifier: 'termsofuse',
+              validated: true,
+              errors: [],
+            },
+            'version': { identifier: 'version', validated: true, errors: [] },
             'privacy': { identifier: 'privacy', validated: true, errors: [] },
             '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d': {
               identifier: '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d',

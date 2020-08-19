@@ -1,20 +1,21 @@
-import { v4 } from "uuid";
-jest.mock("uuid");
-import * as SUT from "./CreateEntitySettings.actions";
-import { CreateEntitySettingsActions } from "./types";
-import mockStore from "common/redux/mockStore";
+import { v4 } from 'uuid'
+jest.mock('uuid')
+import * as SUT from './CreateEntitySettings.actions'
+import { CreateEntitySettingsActions } from './types'
+import mockStore from 'common/redux/mockStore'
 import {
   EntityStage,
   EntityStatus,
   PageView,
   EntityView,
-} from "../Entities/types";
+  TermsOfUseType,
+} from '../Entities/types'
 
-let store: any;
+let store: any
 
 beforeEach(() => {
-  store = mockStore({});
-});
+  store = mockStore({})
+})
 
 describe('CreateEntitySettings Actions', () => {
   describe('creator', () => {
@@ -72,10 +73,10 @@ describe('CreateEntitySettings Actions', () => {
         const actions = store.getActions()
 
         // then ... it should dispatch the correct actions
-        expect(actions.length).toEqual(2);
+        expect(actions.length).toEqual(2)
         expect(actions[0].type).toEqual(
-          CreateEntitySettingsActions.UploadCreatorImagePending
-        );
+          CreateEntitySettingsActions.UploadCreatorImagePending,
+        )
         expect(actions[1].type).toEqual(
           CreateEntitySettingsActions.UploadCreatorImageSuccess,
         )
@@ -136,10 +137,10 @@ describe('CreateEntitySettings Actions', () => {
         const actions = store.getActions()
 
         // then ... it should dispatch the correct actions
-        expect(actions.length).toEqual(2);
+        expect(actions.length).toEqual(2)
         expect(actions[0].type).toEqual(
-          CreateEntitySettingsActions.UploadOwnerImagePending
-        );
+          CreateEntitySettingsActions.UploadOwnerImagePending,
+        )
         expect(actions[1].type).toEqual(
           CreateEntitySettingsActions.UploadOwnerImageSuccess,
         )
@@ -154,184 +155,239 @@ describe('CreateEntitySettings Actions', () => {
     describe('updateStatus', () => {
       it('should update the status', () => {
         // given ... some data
-        const dates = "someFromData|someToDate";
-        const stage = EntityStage.Delivery;
-        const status = EntityStatus.Sealed;
+        const dates = 'someFromData|someToDate'
+        const stage = EntityStage.Delivery
+        const status = EntityStatus.Sealed
 
         const formData = {
           dates,
           stage,
           status,
-        };
+        }
 
         // when ... we call the updateStatus action creator
-        const action = SUT.updateStatus(formData);
+        const action = SUT.updateStatus(formData)
 
         // then ... we should expect it to create the action with correct type and payload
-        expect(action.type).toEqual(CreateEntitySettingsActions.UpdateStatus);
+        expect(action.type).toEqual(CreateEntitySettingsActions.UpdateStatus)
         expect(action.payload).toEqual({
-          startDate: "someFromData",
-          endDate: "someToDate",
+          startDate: 'someFromData',
+          endDate: 'someToDate',
           stage,
           status,
-        });
-      });
-    });
-  });
+        })
+      })
+    })
+  })
 
-  describe("privacy", () => {
-    describe("updatePrivacy", () => {
-      it("should update the privacy", () => {
+  describe('version', () => {
+    describe('updateVersion', () => {
+      it('should update the version', () => {
         // given ... some data
-        const pageView = PageView.Private;
-        const entityView = EntityView.Visible;
+        const versionNumber = 'someVersionNumber'
+        const effectiveDate = 'someEffectiveDate'
+        const notes = 'someNotes'
+
+        const formData = {
+          versionNumber,
+          effectiveDate,
+          notes,
+        }
+
+        // when ... we call the updateVersion action creator
+        const action = SUT.updateVersion(formData)
+
+        // then ... we should expect it to create the action with correct type and payload
+        expect(action.type).toEqual(CreateEntitySettingsActions.UpdateVersion)
+        expect(action.payload).toEqual({
+          versionNumber,
+          effectiveDate,
+          notes,
+        })
+      })
+    })
+  })
+
+  describe('termsOfUse', () => {
+    describe('updateTermsOfUse', () => {
+      it('should update the terms of use', () => {
+        // given ... some data
+        const type = TermsOfUseType.OnceOffFee
+        const paymentTemplateId = 'somePaymentTemplateId'
+
+        const formData = {
+          type,
+          paymentTemplateId,
+        }
+
+        // when ... we call the updateTermsOfUse action creator
+        const action = SUT.updateTermsOfUse(formData)
+
+        // then ... we should expect it to create the action with correct type and payload
+        expect(action.type).toEqual(
+          CreateEntitySettingsActions.UpdateTermsOfUse,
+        )
+        expect(action.payload).toEqual({
+          type,
+          paymentTemplateId,
+        })
+      })
+    })
+  })
+
+  describe('privacy', () => {
+    describe('updatePrivacy', () => {
+      it('should update the privacy', () => {
+        // given ... some data
+        const pageView = PageView.Private
+        const entityView = EntityView.Visible
 
         const formData = {
           pageView,
           entityView,
-        };
+        }
 
         // when ... we call the updatePrivacy action creator
-        const action = SUT.updatePrivacy(formData);
+        const action = SUT.updatePrivacy(formData)
 
         // then ... we should expect it to create the action with correct type and payload
-        expect(action.type).toEqual(CreateEntitySettingsActions.UpdatePrivacy);
+        expect(action.type).toEqual(CreateEntitySettingsActions.UpdatePrivacy)
         expect(action.payload).toEqual({
           pageView,
           entityView,
-        });
-      });
-    });
-  });
+        })
+      })
+    })
+  })
 
-  describe("requiredCredential", () => {
-    describe("addRequiredCredentialSection", () => {
-      it("should add a new required credential section", () => {
-        const id = "newRequiredCredentialId";
-        v4.mockImplementationOnce(() => id);
+  describe('requiredCredential', () => {
+    describe('addRequiredCredentialSection', () => {
+      it('should add a new required credential section', () => {
+        const id = 'newRequiredCredentialId'
+        v4.mockImplementationOnce(() => id)
         // when ... we call the addRequiredCredentialSection
-        const action = SUT.addRequiredCredentialSection();
+        const action = SUT.addRequiredCredentialSection()
         // then ... we should expect it to create an action with the correct type
         expect(action.type).toEqual(
-          CreateEntitySettingsActions.AddRequiredCredentialSection
-        );
+          CreateEntitySettingsActions.AddRequiredCredentialSection,
+        )
         expect(action.payload).toEqual({
           id,
         })
       })
     })
 
-    describe("removeRequiredCredentialSection", () => {
-      it("should remove a required credential section", () => {
-        const id = "existingRequiredCredentialId";
+    describe('removeRequiredCredentialSection', () => {
+      it('should remove a required credential section', () => {
+        const id = 'existingRequiredCredentialId'
         // when ... we call the removeRequiredCredentialSection
-        const action = SUT.removeRequiredCredentialSection(id);
+        const action = SUT.removeRequiredCredentialSection(id)
         // then ... we should expect it to create an action with the correct type
         expect(action.type).toEqual(
-          CreateEntitySettingsActions.RemoveRequiredCredentialSection
-        );
+          CreateEntitySettingsActions.RemoveRequiredCredentialSection,
+        )
         expect(action.payload).toEqual({
           id,
-        });
-      });
-    });
+        })
+      })
+    })
 
-    describe("updateRequiredCredential", () => {
-      it("should update the required credential", () => {
+    describe('updateRequiredCredential', () => {
+      it('should update the required credential', () => {
         // given ... some data
-        const id = "someRequiredCredentialId";
-        const credential = "someRequiredCredential";
-        const issuer = "someRequiredIssuer";
+        const id = 'someRequiredCredentialId'
+        const credential = 'someRequiredCredential'
+        const issuer = 'someRequiredIssuer'
 
         const formData = {
           credential,
           issuer,
-        };
+        }
 
         // when ... we call the updateRequiredCredential action creator
-        const action = SUT.updateRequiredCredential(id, formData);
+        const action = SUT.updateRequiredCredential(id, formData)
 
         // then ... we should expect it to create the action with correct type and payload
         expect(action.type).toEqual(
-          CreateEntitySettingsActions.UpdateRequiredCredential
-        );
+          CreateEntitySettingsActions.UpdateRequiredCredential,
+        )
         expect(action.payload).toEqual({
           id,
           credential,
           issuer,
-        });
-      });
-    });
-  });
+        })
+      })
+    })
+  })
 
-  describe("filter", () => {
-    describe("updateFilters", () => {
+  describe('filter', () => {
+    describe('updateFilters', () => {
       const formData = {
-        newName1: ["aa", "bb", "cc"],
-        newName2: ["11", "22", "33"],
-      };
+        newName1: ['aa', 'bb', 'cc'],
+        newName2: ['11', '22', '33'],
+      }
 
       // when ... we call the updateFilter action creator
-      const action = SUT.updateFilters(formData);
+      const action = SUT.updateFilters(formData)
 
       // then ... we should expect it to create the action with correct type and payload
-      expect(action.type).toEqual(CreateEntitySettingsActions.UpdateFilters);
-      expect(action.payload).toEqual(formData);
-    });
-  });
-});
+      expect(action.type).toEqual(CreateEntitySettingsActions.UpdateFilters)
+      expect(action.payload).toEqual(formData)
+    })
+  })
+})
 
-describe("displayCredential", () => {
-  describe("addDisplayCredentialSection", () => {
-    it("should add a new display credential section", () => {
-      const id = "newDisplayCredentialId";
-      v4.mockImplementationOnce(() => id);
+describe('displayCredential', () => {
+  describe('addDisplayCredentialSection', () => {
+    it('should add a new display credential section', () => {
+      const id = 'newDisplayCredentialId'
+      v4.mockImplementationOnce(() => id)
       // when ... we call the addDisplayCredentialSection
-      const action = SUT.addDisplayCredentialSection();
+      const action = SUT.addDisplayCredentialSection()
       // then ... we should expect it to create an action with the correct type
       expect(action.type).toEqual(
-        CreateEntitySettingsActions.AddDisplayCredentialSection
-      );
+        CreateEntitySettingsActions.AddDisplayCredentialSection,
+      )
       expect(action.payload).toEqual({
         id,
       })
     })
   })
 
-  describe("removeDisplayCredentialSection", () => {
-    it("should remove a display credential section", () => {
-      const id = "existingDisplayCredentialId";
+  describe('removeDisplayCredentialSection', () => {
+    it('should remove a display credential section', () => {
+      const id = 'existingDisplayCredentialId'
       // when ... we call the removeDisplayCredentialSection
-      const action = SUT.removeDisplayCredentialSection(id);
+      const action = SUT.removeDisplayCredentialSection(id)
       // then ... we should expect it to create an action with the correct type
       expect(action.type).toEqual(
-        CreateEntitySettingsActions.RemoveDisplayCredentialSection
-      );
+        CreateEntitySettingsActions.RemoveDisplayCredentialSection,
+      )
       expect(action.payload).toEqual({
         id,
-      });
-    });
-  });
+      })
+    })
+  })
 
-  describe("updateDisplayCredential", () => {
-    it("should update the required credential", () => {
+  describe('updateDisplayCredential', () => {
+    it('should update the required credential', () => {
       // given ... some data
-      const id = "someDisplayCredentialId";
-      const credential = "someDisplayCredential";
-      const badge = "someDisplayBadge";
+      const id = 'someDisplayCredentialId'
+      const credential = 'someDisplayCredential'
+      const badge = 'someDisplayBadge'
 
       const formData = {
         credential,
         badge,
-      };
+      }
 
       // when ... we call the updateDisplayCredential action creator
-      const action = SUT.updateDisplayCredential(id, formData);
+      const action = SUT.updateDisplayCredential(id, formData)
 
       // then ... we should expect it to create the action with correct type and payload
       expect(action.type).toEqual(
-        CreateEntitySettingsActions.UpdateDisplayCredential
-      );
+        CreateEntitySettingsActions.UpdateDisplayCredential,
+      )
       expect(action.payload).toEqual({
         id,
         credential,

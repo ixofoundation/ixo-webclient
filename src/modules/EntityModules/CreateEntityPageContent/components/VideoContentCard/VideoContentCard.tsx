@@ -42,12 +42,12 @@ const HeaderCard: React.FunctionComponent<Props> = ({
 
   const uiSchema = {
     title: {
-      ['ui:widget']: 'text',
-      ['ui:placeholder']: 'Enter Title',
+      'ui:widget': 'text',
+      'ui:placeholder': 'Enter Title',
     },
     content: {
-      ['ui:widget']: 'textarea',
-      ['ui:placeholder']: 'Start Typing Here',
+      'ui:widget': 'textarea',
+      'ui:placeholder': 'Start Typing Here',
     },
   }
 

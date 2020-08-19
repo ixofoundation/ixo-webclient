@@ -20,12 +20,15 @@ import {
   UpdateFiltersAction,
   ValidatedAction,
   ValidationErrorAction,
+  UpdateTermsOfUseAction,
+  UpdateVersionAction,
 } from './types'
 import {
   EntityStage,
   EntityStatus,
   EntityView,
   PageView,
+  TermsOfUseType,
 } from '../Entities/types'
 
 const initialState = SUT.initialState
@@ -346,6 +349,66 @@ describe('CreateEntitySettings Reducer', () => {
       })
     })
   })
+
+  describe('TermsOfUse Actions', () => {
+    it('should update the terms of use', () => {
+      const type = TermsOfUseType.OnceOffFee
+      const paymentTemplateId = 'somePaymentTemplateId'
+
+      // given .. we have an action of type CreateEntitySettingsActions.UpdateTermsOfUse
+      const action: UpdateTermsOfUseAction = {
+        type: CreateEntitySettingsActions.UpdateTermsOfUse,
+        payload: {
+          type,
+          paymentTemplateId,
+        },
+      }
+
+      // when ... we run the reducer with this action
+      const result = SUT.reducer(initialState, action)
+
+      // then ... the state should be set as expected
+      expect(result).toEqual({
+        ...initialState,
+        termsOfUse: {
+          type,
+          paymentTemplateId,
+        },
+      })
+    })
+  })
+
+  describe('Version Actions', () => {
+    it('should update the version', () => {
+      const versionNumber = 'someVersionNumber'
+      const effectiveDate = 'someEffectiveDate'
+      const notes = 'someNotes'
+
+      // given .. we have an action of type CreateEntitySettingsActions.UpdateVersion
+      const action: UpdateVersionAction = {
+        type: CreateEntitySettingsActions.UpdateVersion,
+        payload: {
+          versionNumber,
+          effectiveDate,
+          notes,
+        },
+      }
+
+      // when ... we run the reducer with this action
+      const result = SUT.reducer(initialState, action)
+
+      // then ... the state should be set as expected
+      expect(result).toEqual({
+        ...initialState,
+        version: {
+          versionNumber,
+          effectiveDate,
+          notes,
+        },
+      })
+    })
+  })
+
   describe('Privacy Actions', () => {
     it('should update the privacy', () => {
       const pageView = PageView.Public

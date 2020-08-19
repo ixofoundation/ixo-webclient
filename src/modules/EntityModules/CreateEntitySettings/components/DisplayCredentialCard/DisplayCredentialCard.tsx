@@ -44,12 +44,12 @@ const DisplayCredential: React.FunctionComponent<Props> = React.forwardRef(
 
     const uiSchema = {
       credential: {
-        ['ui:placeholder']: 'Enter a Credential ID',
+        'ui:placeholder': 'Enter a Credential ID',
       },
       badge: {
-        ['ui:widget']: customControls['socialtextbox'],
+        'ui:widget': customControls['socialtextbox'],
         ['ui:socialIcon']: 'Other',
-        ['ui:placeholder']: 'Paste Url',
+        'ui:placeholder': 'Paste Url',
       },
     }
 

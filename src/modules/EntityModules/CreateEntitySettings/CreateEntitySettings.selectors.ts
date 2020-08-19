@@ -5,43 +5,53 @@ import { CreateEntitySettingsState } from './types'
 export const selectSettings = (state: RootState): CreateEntitySettingsState =>
   state.createEntitySettings
 
-export const selectOwner = createSelector(selectSettings, settings => {
+export const selectOwner = createSelector(selectSettings, (settings) => {
   return settings.owner
 })
 
 export const selectCreator = createSelector(
   selectSettings,
-  settings => settings.creator,
+  (settings) => settings.creator,
 )
 
 export const selectStatus = createSelector(
   selectSettings,
-  settings => settings.status,
+  (settings) => settings.status,
+)
+
+export const selectTermsOfUse = createSelector(
+  selectSettings,
+  (settings) => settings.termsOfUse,
+)
+
+export const selectVersion = createSelector(
+  selectSettings,
+  (settings) => settings.version,
 )
 
 export const selectPrivacy = createSelector(
   selectSettings,
-  settings => settings.privacy,
+  (settings) => settings.privacy,
 )
 
 export const selectRequiredCredentials = createSelector(
   selectSettings,
-  settings => Object.values(settings.requiredCredentials),
+  (settings) => Object.values(settings.requiredCredentials),
 )
 
 export const selectFilters = createSelector(
   selectSettings,
-  settings => settings.filters,
+  (settings) => settings.filters,
 )
 
 export const selectDisplayCredentials = createSelector(
   selectSettings,
-  settings => Object.values(settings.displayCredentials),
+  (settings) => Object.values(settings.displayCredentials),
 )
 
 export const selectValidation = createSelector(
   selectSettings,
-  settings => settings.validation,
+  (settings) => settings.validation,
 )
 
 export const selectValidationComplete = createSelector(
@@ -57,17 +67,19 @@ export const selectValidationComplete = createSelector(
     validationComplete = !!validation['owner']
     validationComplete = validationComplete && !!validation['creator']
     validationComplete = validationComplete && !!validation['status']
+    validationComplete = validationComplete && !!validation['termsofuse']
+    validationComplete = validationComplete && !!validation['version']
     validationComplete = validationComplete && !!validation['privacy']
     validationComplete =
       validationComplete &&
       requiredCredentials
-        .map(section => section.id)
-        .every(id => !!validation[id])
+        .map((section) => section.id)
+        .every((id) => !!validation[id])
     validationComplete =
       validationComplete &&
       displayCredentials
-        .map(section => section.id)
-        .every(id => !!validation[id])
+        .map((section) => section.id)
+        .every((id) => !!validation[id])
 
     return validationComplete
   },
@@ -90,17 +102,19 @@ export const selectValidated = createSelector(
     validated = validation['owner'].validated
     validated = validated && validation['creator'].validated
     validated = validated && validation['status'].validated
+    validated = validated && validation['termsofuse'].validated
+    validated = validated && validation['version'].validated
     validated = validated && validation['privacy'].validated
     validated =
       validated &&
       requiredCredentials
-        .map(section => section.id)
-        .every(id => validation[id].validated)
+        .map((section) => section.id)
+        .every((id) => validation[id].validated)
     validated =
       validated &&
       displayCredentials
-        .map(section => section.id)
-        .every(id => validation[id].validated)
+        .map((section) => section.id)
+        .every((id) => validation[id].validated)
 
     return validated
   },

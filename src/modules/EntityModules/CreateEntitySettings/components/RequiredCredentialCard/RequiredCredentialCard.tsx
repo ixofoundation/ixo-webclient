@@ -42,10 +42,10 @@ const RequiredCredential: React.FunctionComponent<Props> = React.forwardRef(
 
     const uiSchema = {
       credential: {
-        ['ui:placeholder']: 'Enter Identifier',
+        'ui:placeholder': 'Enter Identifier',
       },
       issuer: {
-        ['ui:placeholder']: 'Enter DID or !name',
+        'ui:placeholder': 'Enter DID or !name',
       },
     }
 

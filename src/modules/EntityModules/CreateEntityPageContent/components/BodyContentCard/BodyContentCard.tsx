@@ -44,20 +44,20 @@ const BodyContentCard: React.FunctionComponent<Props> = React.forwardRef(
 
     const uiSchema = {
       fileSrc: {
-        ['ui:widget']: customControls['imageupload'],
-        ['ui:uploading']: uploadingImage,
-        ['ui:maxDimension']: 440,
-        ['ui:previewWidth']: 440,
-        ['ui:aspect']: 1,
-        ['ui:circularCrop']: false,
+        'ui:widget': customControls['imageupload'],
+        'ui:uploading': uploadingImage,
+        'ui:maxDimension': 440,
+        'ui:previewWidth': 440,
+        'ui:aspect': 1,
+        'ui:circularCrop': false,
       },
       title: {
-        ['ui:widget']: 'text',
-        ['ui:placeholder']: 'Enter Title',
+        'ui:widget': 'text',
+        'ui:placeholder': 'Enter Title',
       },
       content: {
-        ['ui:widget']: 'textarea',
-        ['ui:placeholder']: 'Start Typing Here',
+        'ui:widget': 'textarea',
+        'ui:placeholder': 'Start Typing Here',
       },
     }
 

@@ -33,6 +33,15 @@ export const initialState: CreateEntitySettingsState = {
     stage: undefined,
     status: undefined,
   },
+  version: {
+    versionNumber: undefined,
+    effectiveDate: undefined,
+    notes: undefined,
+  },
+  termsOfUse: {
+    type: undefined,
+    paymentTemplateId: undefined,
+  },
   privacy: {
     entityView: undefined,
     pageView: undefined,
@@ -123,6 +132,16 @@ export const reducer = (
       return {
         ...state,
         privacy: action.payload,
+      }
+    case CreateEntitySettingsActions.UpdateVersion:
+      return {
+        ...state,
+        version: action.payload,
+      }
+    case CreateEntitySettingsActions.UpdateTermsOfUse:
+      return {
+        ...state,
+        termsOfUse: action.payload,
       }
     case CreateEntitySettingsActions.AddRequiredCredentialSection:
       return {
