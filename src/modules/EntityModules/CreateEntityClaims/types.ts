@@ -48,6 +48,7 @@ export interface Enrichment {
 }
 
 export interface EntityClaim {
+  id: string
   template: Template
   agentRoles: {
     [id: string]: AgentRole
