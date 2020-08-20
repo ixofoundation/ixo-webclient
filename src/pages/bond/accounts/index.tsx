@@ -2,10 +2,11 @@ import React, { FunctionComponent, useState } from 'react'
 import { animated, useSpring } from 'react-spring'
 import styled from 'styled-components'
 
-// import BondChartScreen from 'modules/BondModules/BondChart/BondChart.container'
-// import BondTable from 'modules/BondModules/BondTable'
 import FundingChat from 'modules/Funding_Chat/FundingChat.container'
-import { BondsWrapperConnected as BondsWrapper } from '../../../common/components/Bonds/BondsWrapper/BondsWrapper'
+import BondAccountTable from 'modules/BondModules/BondAccountTable'
+import { BondsWrapperConnected as BondsWrapper } from 'common/components/Bonds/BondsWrapper/BondsWrapper'
+import ProjectAccountWrapper from './components/ProjectAccountWrapper'
+import ProjectAccount from './components/ProjectAccount'
 
 const StyledContainer = styled.div`
   display: flex;
@@ -42,8 +43,16 @@ export const Accounts: FunctionComponent<any> = ({ match }) => {
     <StyledContainer>
       <animated.div style={resizeMain}>
         <BondsWrapper {...match} enableAssistantButton>
-          {/* <BondChartScreen />
-          <BondTable /> */}
+          <ProjectAccountWrapper>
+            <ProjectAccount count={7}></ProjectAccount>
+            <ProjectAccount count={7}></ProjectAccount>
+            <ProjectAccount count={7}></ProjectAccount>
+            <ProjectAccount count={7}></ProjectAccount>
+            <ProjectAccount count={7}></ProjectAccount>
+            <ProjectAccount count={7}></ProjectAccount>
+            <ProjectAccount count={7}></ProjectAccount>
+          </ProjectAccountWrapper>
+          <BondAccountTable />
         </BondsWrapper>
       </animated.div>
       <animated.div style={resizeAssistantPanel}>
