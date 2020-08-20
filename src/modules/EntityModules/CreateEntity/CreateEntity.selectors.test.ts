@@ -1,5 +1,5 @@
 import * as SUT from './CreateEntity.selectors'
-import { CreateEntityState, Step } from './types'
+import { CreateEntityState } from './types'
 import { EntityType } from 'modules/EntityModules/Entities/types'
 
 let state: any
@@ -7,7 +7,7 @@ let state: any
 beforeEach(() => {
   state = {
     createEntity: {
-      step: Step.PageContent,
+      step: 1,
       entityType: EntityType.Investment,
     } as CreateEntityState,
   }
@@ -30,7 +30,7 @@ describe('CreateEntity Selectors', () => {
       const result = SUT.selectStep(state)
 
       // then ... should return result as expected
-      expect(result).toEqual(Step.PageContent)
+      expect(result).toEqual(1)
     })
   })
 

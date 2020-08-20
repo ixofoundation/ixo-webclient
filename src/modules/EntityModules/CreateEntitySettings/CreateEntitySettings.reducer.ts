@@ -3,6 +3,10 @@ import {
   CreateEntitySettingsActions,
   CreateEntitySettingsState,
 } from './types'
+import {
+  CreateEntityActionTypes,
+  CreateEntityActions,
+} from '../CreateEntity/types'
 import * as reduxUtils from 'common/redux/utils'
 
 export const initialState: CreateEntitySettingsState = {
@@ -54,7 +58,7 @@ export const initialState: CreateEntitySettingsState = {
 
 export const reducer = (
   state = initialState,
-  action: CreateEntitySettingsActionTypes,
+  action: CreateEntitySettingsActionTypes | CreateEntityActionTypes,
 ): CreateEntitySettingsState => {
   switch (action.type) {
     case CreateEntitySettingsActions.UpdateOwner:
@@ -236,6 +240,8 @@ export const reducer = (
           },
         },
       }
+    case CreateEntityActions.NewEntity:
+      return initialState
   }
 
   return state

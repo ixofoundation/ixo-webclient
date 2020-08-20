@@ -2,14 +2,17 @@ import React from 'react'
 import { animateScroll as scroll } from 'react-scroll'
 import { ButtonGroup } from '../../../../../common/components/JsonForm/JsonForm.styles'
 import * as Toast from '../../../../../common/utils/Toast'
-import { Step } from 'modules/EntityModules/CreateEntity/types'
+import { EntityType } from 'modules/EntityModules/Entities/types'
+import { entityStepMap } from '../../strategy-map'
 
 export interface CreateEntityBaseProps {
+  step: number
+  entityType: EntityType
   validationComplete: boolean
   validated: boolean
   handleValidated: (identifier: string) => void
   handleValidationError: (identifier: string, errors: string[]) => void
-  handleGoToStep: (step: Step) => void
+  handleGoToStep: (step: number) => void
 }
 
 interface State {
@@ -28,6 +31,14 @@ class CreateEntityBase<T extends CreateEntityBaseProps> extends React.Component<
     this.state = {
       submitting: false,
     }
+  }
+
+  getNextStep = (entityType: EntityType, step: number): number => {
+    return entityStepMap[entityType].steps[step].nextStep
+  }
+
+  getPreviousStep = (entityType: EntityType, step: number): number => {
+    return entityStepMap[entityType].steps[step].previousStep
   }
 
   onSubmitted = (): void => {

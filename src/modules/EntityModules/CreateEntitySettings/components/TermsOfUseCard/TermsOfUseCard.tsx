@@ -27,7 +27,7 @@ const TermsOfUseCard: React.FunctionComponent<Props> = React.forwardRef(
 
     const schema = {
       type: 'object',
-      required: ['terms', 'paymentTemplateId'],
+      required: ['type', 'paymentTemplateId'],
       properties: {
         type: {
           type: 'string',

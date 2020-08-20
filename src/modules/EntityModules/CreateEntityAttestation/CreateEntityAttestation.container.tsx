@@ -44,6 +44,7 @@ import {
   updateCheckBoxesQuestion,
 } from './CreateEntityAttestation.actions'
 import * as attestationSelectors from './CreateEntityAttestation.selectors'
+import * as createEntitySelectors from '../CreateEntity/CreateEntity.selectors'
 import AddQuestionBar from './components/AddQuestionBar/AddQuestionBar'
 import QuestionCardWrapper from './components/QuestionCardWrapper/QuestionCardWrapper'
 import ShortTextQuestion from './components/ShortTextQuestion/ShortTextQuestion'
@@ -58,6 +59,7 @@ import LocationSelectorQuestion from './components/LocationSelectorQuestion/Loca
 import QRCodeQuestion from './components/QRCodeQuestion/QRCodeQuestion'
 import RatingQuestion from './components/RatingQuestion/RatingQuestion'
 import CheckBoxesQuestion from './components/CheckBoxesQuestion/CheckBoxesQuestion'
+import { goToStep } from '../CreateEntity/CreateEntity.actions'
 
 interface Props extends CreateEntityBaseProps {
   claimInfo: ClaimInfo
@@ -558,7 +560,9 @@ class CreateEntityAttestation extends CreateEntityBase<Props> {
   }
 
   onSubmitted = (): void => {
-    console.log('TODO - gotostep')
+    const { entityType, step } = this.props
+
+    this.props.handleGoToStep(this.getNextStep(entityType, step))
   }
 
   render(): JSX.Element {
@@ -583,6 +587,8 @@ class CreateEntityAttestation extends CreateEntityBase<Props> {
 }
 
 const mapStateToProps = (state: RootState): any => ({
+  step: createEntitySelectors.selectStep(state),
+  entityType: createEntitySelectors.selectEntityType(state),
   claimInfo: attestationSelectors.selectClaimInfo(state),
   questions: attestationSelectors.selectQuestions(state),
   validationComplete: attestationSelectors.selectValidationComplete(state),
@@ -650,6 +656,7 @@ const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
     dispatch(validated(identifier)),
   handleValidationError: (identifier: string, errors: string[]): void =>
     dispatch(validationError(identifier, errors)),
+  handleGoToStep: (step: number): void => dispatch(goToStep(step)),
 })
 
 export const CreateEntityAttestationConnected = connect(

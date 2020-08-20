@@ -29,7 +29,9 @@ import {
   EntityView,
   PageView,
   TermsOfUseType,
+  EntityType,
 } from '../Entities/types'
+import { NewEntityAction, CreateEntityActions } from '../CreateEntity/types'
 
 const initialState = SUT.initialState
 
@@ -774,6 +776,34 @@ describe('CreateEntitySettings Reducer', () => {
           errors,
         },
       },
+    })
+  })
+
+  describe('NewEntity Actions', () => {
+    it('should return initial state if a new entity action type is received', () => {
+      // given ... we have an action of type CreateEntityActions.NewEntity
+      const action: NewEntityAction = {
+        type: CreateEntityActions.NewEntity,
+        payload: {
+          entityType: EntityType.Cell,
+        },
+      }
+
+      // when ... we run the reducer with this action
+      const result = SUT.reducer(
+        {
+          ...initialState,
+          version: {
+            effectiveDate: 'someDataThatShouldBeCleated',
+            versionNumber: 'someDataThatShouldBeCleared',
+            notes: 'someDataThatShouldBeCleated',
+          },
+        },
+        action,
+      )
+
+      // then ... the state should be set as expected
+      expect(result).toEqual(initialState)
     })
   })
 })

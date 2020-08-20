@@ -4,6 +4,7 @@ import CreateEntityBase, {
   CreateEntityBaseProps,
 } from '../CreateEntity/components/CreateEntityBase/CreateEntityBase'
 import * as pageContentSelectors from './CreateEntityPageContent.selectors'
+import * as createEntitySelectors from '../CreateEntity/CreateEntity.selectors'
 import { RootState } from 'common/redux/types'
 import {
   HeaderPageContent,
@@ -40,7 +41,6 @@ import {
 import { goToStep } from '../CreateEntity/CreateEntity.actions'
 import { FormData } from 'common/components/JsonForm/types'
 import FormCardWrapper from 'common/components/Wrappers/FormCardWrapper/FormCardWrapper'
-import { Step } from '../CreateEntity/types'
 
 interface Props extends CreateEntityBaseProps {
   header: HeaderPageContent
@@ -124,7 +124,7 @@ class CreateEntityPageContent extends CreateEntityBase<Props> {
         showAddSection
         onAddSection={handleAddBodySection}
       >
-        {body.map(section => {
+        {body.map((section) => {
           this.cardRefs[section.id] = React.createRef()
 
           const { id, title, content, fileSrc, uploading } = section
@@ -169,7 +169,7 @@ class CreateEntityPageContent extends CreateEntityBase<Props> {
         showAddSection
         onAddSection={handleAddImageSection}
       >
-        {images.map(section => {
+        {images.map((section) => {
           this.cardRefs[section.id] = React.createRef()
 
           const {
@@ -222,7 +222,7 @@ class CreateEntityPageContent extends CreateEntityBase<Props> {
         showAddSection
         onAddSection={handleAddProfileSection}
       >
-        {profiles.map(section => {
+        {profiles.map((section) => {
           this.cardRefs[section.id] = React.createRef()
 
           const {
@@ -320,7 +320,7 @@ class CreateEntityPageContent extends CreateEntityBase<Props> {
         showAddSection
         onAddSection={handleAddEmbeddedSection}
       >
-        {embedded.map(section => {
+        {embedded.map((section) => {
           this.cardRefs[section.id] = React.createRef()
 
           const { id, title, urls } = section
@@ -349,7 +349,9 @@ class CreateEntityPageContent extends CreateEntityBase<Props> {
   }
 
   onSubmitted = (): void => {
-    this.props.handleGoToStep(Step.Settings)
+    const { entityType, step } = this.props
+
+    this.props.handleGoToStep(this.getNextStep(entityType, step))
   }
 
   render(): JSX.Element {
@@ -359,16 +361,16 @@ class CreateEntityPageContent extends CreateEntityBase<Props> {
     identifiers.push('header')
     identifiers.push('social')
 
-    body.forEach(section => {
+    body.forEach((section) => {
       identifiers.push(section.id)
     })
-    images.forEach(section => {
+    images.forEach((section) => {
       identifiers.push(section.id)
     })
-    profiles.forEach(section => {
+    profiles.forEach((section) => {
       identifiers.push(section.id)
     })
-    embedded.forEach(section => {
+    embedded.forEach((section) => {
       identifiers.push(section.id)
     })
 
@@ -387,6 +389,8 @@ class CreateEntityPageContent extends CreateEntityBase<Props> {
 }
 
 const mapStateToProps = (state: RootState): any => ({
+  step: createEntitySelectors.selectStep(state),
+  entityType: createEntitySelectors.selectEntityType(state),
   header: pageContentSelectors.selectHeaderContent(state),
   body: pageContentSelectors.selectBodyContentSections(state),
   images: pageContentSelectors.selectImageContentSections(state),
@@ -426,7 +430,7 @@ const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
     dispatch(validated(identifier)),
   handleValidationError: (identifier: string, errors: string[]): void =>
     dispatch(validationError(identifier, errors)),
-  handleGoToStep: (step: Step): void => dispatch(goToStep(step)),
+  handleGoToStep: (step: number): void => dispatch(goToStep(step)),
 })
 
 export const CreateEntityPageContentConnected = connect(

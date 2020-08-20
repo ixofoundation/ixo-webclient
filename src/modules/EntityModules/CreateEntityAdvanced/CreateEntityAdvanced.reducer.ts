@@ -3,6 +3,10 @@ import {
   CreateEntityAdvancedActionTypes,
   CreateEntityAdvancedActions,
 } from './types'
+import {
+  CreateEntityActionTypes,
+  CreateEntityActions,
+} from '../CreateEntity/types'
 import * as reduxUtils from 'common/redux/utils'
 
 export const initialState: CreateEntityAdvancedState = {
@@ -19,7 +23,7 @@ export const initialState: CreateEntityAdvancedState = {
 
 export const reducer = (
   state = initialState,
-  action: CreateEntityAdvancedActionTypes,
+  action: CreateEntityAdvancedActionTypes | CreateEntityActionTypes,
 ): CreateEntityAdvancedState => {
   switch (action.type) {
     case CreateEntityAdvancedActions.AddLinkedEntity:
@@ -292,6 +296,8 @@ export const reducer = (
           },
         },
       }
+    case CreateEntityActions.NewEntity:
+      return initialState
   }
 
   return state

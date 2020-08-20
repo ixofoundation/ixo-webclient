@@ -29,7 +29,7 @@ const VersionCard: React.FunctionComponent<Props> = React.forwardRef(
 
     const schema = {
       type: 'object',
-      required: [],
+      required: ['versionNumber', 'effectiveDate'],
       properties: {
         versionNumber: { type: 'string', title: 'Version' },
         effectiveDate: { type: 'string', title: 'Effective Date' },
