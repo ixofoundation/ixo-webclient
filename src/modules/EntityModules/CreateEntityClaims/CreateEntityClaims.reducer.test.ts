@@ -18,6 +18,8 @@ import {
   AddEntityClaimEnrichmentAction,
   RemoveEntityClaimEnrichmentAction,
   UpdateEntityClaimEnrichmentAction,
+  ValidatedAction,
+  ValidationErrorAction,
 } from './types'
 import { CreateEntityActions, NewEntityAction } from '../CreateEntity/types'
 import { EntityType } from '../Entities/types'
@@ -40,8 +42,8 @@ describe('CreateEntityClaims Reducer', () => {
     it('should add a new entityClaim section', () => {
       const id = 'someId'
 
-      const idForTempalte = 'someIdForTemplate'
-      v4.mockImplementationOnce(() => idForTempalte)
+      const idForTemplate = 'someIdForTemplate'
+      v4.mockImplementationOnce(() => idForTemplate)
 
       // given ... we have an action of type CreateEntityClaimsActions.AddEntityClaim
       const action: AddEntityClaimAction = {
@@ -58,6 +60,7 @@ describe('CreateEntityClaims Reducer', () => {
       expect(result).toEqual({
         ...initialState,
         entityClaims: {
+          ...initialState.entityClaims,
           [id]: {
             id: action.payload.id,
             template: {
@@ -66,7 +69,7 @@ describe('CreateEntityClaims Reducer', () => {
               templateId: undefined,
               title: undefined,
               description: undefined,
-              isPrivate: undefined,
+              isPrivate: false,
               minTargetClaims: undefined,
               maxTargetClaims: undefined,
               submissionStartDate: undefined,
@@ -105,7 +108,7 @@ describe('CreateEntityClaims Reducer', () => {
                 templateId: undefined,
                 title: undefined,
                 description: undefined,
-                isPrivate: undefined,
+                isPrivate: true,
                 minTargetClaims: undefined,
                 maxTargetClaims: undefined,
                 submissionStartDate: undefined,
@@ -124,7 +127,7 @@ describe('CreateEntityClaims Reducer', () => {
                 templateId: undefined,
                 title: undefined,
                 description: undefined,
-                isPrivate: undefined,
+                isPrivate: false,
                 minTargetClaims: undefined,
                 maxTargetClaims: undefined,
                 submissionStartDate: undefined,
@@ -152,7 +155,7 @@ describe('CreateEntityClaims Reducer', () => {
               templateId: undefined,
               title: undefined,
               description: undefined,
-              isPrivate: undefined,
+              isPrivate: false,
               minTargetClaims: undefined,
               maxTargetClaims: undefined,
               submissionStartDate: undefined,
@@ -438,7 +441,7 @@ describe('CreateEntityClaims Reducer', () => {
                 entityClaimId,
                 role: undefined,
                 credential: undefined,
-                autoApprove: undefined,
+                autoApprove: false,
               },
             },
             evaluations: {},
@@ -2253,6 +2256,87 @@ describe('CreateEntityClaims Reducer', () => {
           },
         },
       })
+    })
+  })
+
+  describe('validation', () => {
+    it('should set validated to true and clear any errors', () => {
+      const identifier = 'someBodySectionId'
+      const errors = ['error1', 'error2']
+      // given ... we have an action of type CreateEntityClaimsActions.Validated
+      const action: ValidatedAction = {
+        type: CreateEntityClaimsActions.Validated,
+        payload: {
+          identifier,
+        },
+      }
+
+      // when ... we run the reducer with this action
+      const result = SUT.reducer(
+        {
+          ...initialState,
+          validation: {
+            [identifier]: {
+              identifier,
+              validated: false,
+              errors,
+            },
+          },
+        },
+        action,
+      )
+
+      // then ... the state should be set as expected
+      expect(result).toEqual({
+        ...initialState,
+        validation: {
+          [identifier]: {
+            identifier,
+            validated: true,
+            errors: [],
+          },
+        },
+      })
+    })
+  })
+
+  it('should set validated to false and add any errors', () => {
+    const identifier = 'someBodySectionId'
+    const errors = ['error1', 'error2']
+    // given ... we have an action of type CreateEntityClaimsActions.ValidationError
+    const action: ValidationErrorAction = {
+      type: CreateEntityClaimsActions.ValidationError,
+      payload: {
+        errors,
+        identifier,
+      },
+    }
+
+    // when ... we run the reducer with this action
+    const result = SUT.reducer(
+      {
+        ...initialState,
+        validation: {
+          [identifier]: {
+            identifier,
+            validated: true,
+            errors: [],
+          },
+        },
+      },
+      action,
+    )
+
+    // then ... the state should be set as expected
+    expect(result).toEqual({
+      ...initialState,
+      validation: {
+        [identifier]: {
+          identifier,
+          validated: false,
+          errors,
+        },
+      },
     })
   })
 

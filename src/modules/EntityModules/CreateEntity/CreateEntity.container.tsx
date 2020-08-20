@@ -32,7 +32,7 @@ class CreateEntity extends React.Component<Props> {
   }
 
   renderRoutes = () => {
-    const { currentStep, entityType } = this.props
+    const { entityType, currentStep } = this.props
     const stepMap = entityStepMap[entityType]
     const { steps } = stepMap
 

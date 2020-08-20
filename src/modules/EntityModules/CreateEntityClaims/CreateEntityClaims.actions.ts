@@ -16,6 +16,8 @@ import {
   AddEntityClaimEnrichmentAction,
   RemoveEntityClaimEnrichmentAction,
   UpdateEntityClaimEnrichmentAction,
+  ValidatedAction,
+  ValidationErrorAction,
 } from './types'
 import { FormData } from 'common/components/JsonForm/types'
 
@@ -45,9 +47,10 @@ export const updateEntityClaimTemplate = (
     isPrivate,
     minTargetClaims,
     maxTargetClaims,
-    submissionStartDate,
-    submissionEndDate,
+    submissionDates,
   } = formData
+
+  const dateParts = submissionDates.split('|')
 
   return {
     type: CreateEntityClaimsActions.UpdateEntityClaimTemplate,
@@ -60,8 +63,8 @@ export const updateEntityClaimTemplate = (
       isPrivate,
       minTargetClaims,
       maxTargetClaims,
-      submissionStartDate,
-      submissionEndDate,
+      submissionStartDate: dateParts[0],
+      submissionEndDate: dateParts[1],
     },
   }
 }
@@ -238,3 +241,21 @@ export const updateEntityClaimEnrichment = (
     },
   }
 }
+
+export const validated = (identifier: string): ValidatedAction => ({
+  type: CreateEntityClaimsActions.Validated,
+  payload: {
+    identifier,
+  },
+})
+
+export const validationError = (
+  identifier: string,
+  errors: string[],
+): ValidationErrorAction => ({
+  type: CreateEntityClaimsActions.ValidationError,
+  payload: {
+    identifier,
+    errors,
+  },
+})

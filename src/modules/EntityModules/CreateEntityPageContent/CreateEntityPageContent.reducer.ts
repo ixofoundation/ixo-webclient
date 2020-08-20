@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from 'uuid'
 import {
   CreateEntityPageContentState,
   CreateEntityPageContentActionTypes,
@@ -8,6 +9,11 @@ import {
   CreateEntityActions,
 } from '../CreateEntity/types'
 import * as reduxUtils from 'common/redux/utils'
+
+const firstBodySectionId: string = uuidv4()
+const firstImageSectionId: string = uuidv4()
+const firstProfileSectionId: string = uuidv4()
+const firstEmbeddedSectionId: string = uuidv4()
 
 export const initialState: CreateEntityPageContentState = {
   header: {
@@ -20,9 +26,36 @@ export const initialState: CreateEntityPageContentState = {
     fileSrc: undefined,
     uploading: false,
   },
-  body: {},
-  images: {},
-  profiles: {},
+  body: {
+    [firstBodySectionId]: {
+      id: firstBodySectionId,
+      title: undefined,
+      content: undefined,
+      uploading: false,
+      fileSrc: undefined,
+    },
+  },
+  images: {
+    [firstImageSectionId]: {
+      id: firstImageSectionId,
+      title: undefined,
+      content: undefined,
+      imageDescription: undefined,
+      uploading: false,
+      fileSrc: undefined,
+    },
+  },
+  profiles: {
+    [firstProfileSectionId]: {
+      id: firstProfileSectionId,
+      name: undefined,
+      position: undefined,
+      linkedInUrl: undefined,
+      twitterUrl: undefined,
+      uploading: false,
+      fileSrc: undefined,
+    },
+  },
   social: {
     linkedInUrl: undefined,
     facebookUrl: undefined,
@@ -33,7 +66,13 @@ export const initialState: CreateEntityPageContentState = {
     githubUrl: undefined,
     otherUrl: undefined,
   },
-  embedded: {},
+  embedded: {
+    [firstEmbeddedSectionId]: {
+      id: firstEmbeddedSectionId,
+      title: undefined,
+      urls: [],
+    },
+  },
   validation: {},
 }
 

@@ -76,6 +76,7 @@ describe('CreateEntityAdvanced Reducer', () => {
       expect(result).toEqual({
         ...initialState,
         linkedEntities: {
+          ...initialState.linkedEntities,
           [id]: {
             id,
             type: undefined,
@@ -189,6 +190,7 @@ describe('CreateEntityAdvanced Reducer', () => {
       expect(result).toEqual({
         ...initialState,
         payments: {
+          ...initialState.payments,
           [id]: {
             id,
             type: undefined,
@@ -326,6 +328,7 @@ describe('CreateEntityAdvanced Reducer', () => {
       expect(result).toEqual({
         ...initialState,
         staking: {
+          ...initialState.staking,
           [id]: {
             id,
             type: undefined,
@@ -496,6 +499,7 @@ describe('CreateEntityAdvanced Reducer', () => {
       expect(result).toEqual({
         ...initialState,
         nodes: {
+          ...initialState.nodes,
           [id]: {
             id,
             type: undefined,
@@ -610,6 +614,7 @@ describe('CreateEntityAdvanced Reducer', () => {
       expect(result).toEqual({
         ...initialState,
         funding: {
+          ...initialState.funding,
           [id]: {
             id,
             source: undefined,
@@ -724,6 +729,7 @@ describe('CreateEntityAdvanced Reducer', () => {
       expect(result).toEqual({
         ...initialState,
         keys: {
+          ...initialState.keys,
           [id]: {
             id,
             type: undefined,
@@ -876,6 +882,7 @@ describe('CreateEntityAdvanced Reducer', () => {
       expect(result).toEqual({
         ...initialState,
         services: {
+          ...initialState.services,
           [id]: {
             id,
             type: undefined,
@@ -1013,6 +1020,7 @@ describe('CreateEntityAdvanced Reducer', () => {
       expect(result).toEqual({
         ...initialState,
         dataResources: {
+          ...initialState.dataResources,
           [id]: {
             id,
             type: undefined,

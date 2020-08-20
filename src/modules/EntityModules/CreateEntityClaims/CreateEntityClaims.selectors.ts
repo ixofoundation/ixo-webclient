@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect'
-import { CreateEntityClaimsState } from './types'
+import { CreateEntityClaimsState, EntityClaimItem } from './types'
 import { RootState } from 'common/redux/types'
 
 export const selectEntityClaimsState = (
@@ -8,7 +8,7 @@ export const selectEntityClaimsState = (
 
 export const selectEntityClaims = createSelector(
   selectEntityClaimsState,
-  (entityClaimsState: CreateEntityClaimsState) => {
+  (entityClaimsState: CreateEntityClaimsState): EntityClaimItem[] => {
     return Object.values(entityClaimsState.entityClaims).map((entityClaim) => {
       const {
         id,

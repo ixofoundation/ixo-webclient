@@ -457,6 +457,7 @@ describe('CreateEntitySettings Reducer', () => {
       expect(result).toEqual({
         ...initialState,
         requiredCredentials: {
+          ...initialState.requiredCredentials,
           [id]: {
             id,
             credential: undefined,
@@ -570,6 +571,7 @@ describe('CreateEntitySettings Reducer', () => {
       expect(result).toEqual({
         ...initialState,
         displayCredentials: {
+          ...initialState.displayCredentials,
           [id]: {
             id,
             credential: undefined,
