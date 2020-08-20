@@ -10,8 +10,70 @@ import {
 } from '../CreateEntity/types'
 import * as reduxUtils from 'common/redux/utils'
 
+const firstEntityClaimId = uuidv4()
+const firstEntityClaimTemplateId = uuidv4()
+const firstEntityClaimAgentRoleId = uuidv4()
+const firstEntityClaimEvaluationId = uuidv4()
+const firstEntityClaimApprovalCriterionId = uuidv4()
+const firstEntityClaimEnrichmentId = uuidv4()
+
 export const initialState: CreateEntityClaimsState = {
-  entityClaims: {},
+  entityClaims: {
+    [firstEntityClaimId]: {
+      id: firstEntityClaimId,
+      template: {
+        id: firstEntityClaimTemplateId,
+        entityClaimId: firstEntityClaimId,
+        templateId: undefined,
+        title: undefined,
+        description: undefined,
+        isPrivate: false,
+        minTargetClaims: undefined,
+        maxTargetClaims: undefined,
+        submissionStartDate: undefined,
+        submissionEndDate: undefined,
+      },
+      agentRoles: {
+        [firstEntityClaimAgentRoleId]: {
+          entityClaimId: firstEntityClaimId,
+          id: firstEntityClaimAgentRoleId,
+          role: undefined,
+          credential: undefined,
+          autoApprove: false,
+        },
+      },
+      evaluations: {
+        [firstEntityClaimEvaluationId]: {
+          entityClaimId: firstEntityClaimId,
+          id: firstEntityClaimEvaluationId,
+          context: undefined,
+          contextLink: undefined,
+          evaluationAttributes: undefined,
+          evaluationMethodology: undefined,
+        },
+      },
+      approvalCriteria: {
+        [firstEntityClaimApprovalCriterionId]: {
+          entityClaimId: firstEntityClaimId,
+          id: firstEntityClaimApprovalCriterionId,
+          context: undefined,
+          contextLink: undefined,
+          approvalAttributes: undefined,
+          approvalCondition: undefined,
+        },
+      },
+      enrichments: {
+        [firstEntityClaimEnrichmentId]: {
+          entityClaimId: firstEntityClaimId,
+          id: firstEntityClaimEnrichmentId,
+          context: undefined,
+          contextLink: undefined,
+          resources: undefined,
+          productId: undefined,
+        },
+      },
+    },
+  },
   validation: {},
 }
 

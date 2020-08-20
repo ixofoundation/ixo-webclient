@@ -47,9 +47,10 @@ export const updateEntityClaimTemplate = (
     isPrivate,
     minTargetClaims,
     maxTargetClaims,
-    submissionStartDate,
-    submissionEndDate,
+    submissionDates,
   } = formData
+
+  const dateParts = submissionDates.split('|')
 
   return {
     type: CreateEntityClaimsActions.UpdateEntityClaimTemplate,
@@ -62,8 +63,8 @@ export const updateEntityClaimTemplate = (
       isPrivate,
       minTargetClaims,
       maxTargetClaims,
-      submissionStartDate,
-      submissionEndDate,
+      submissionStartDate: dateParts[0],
+      submissionEndDate: dateParts[1],
     },
   }
 }

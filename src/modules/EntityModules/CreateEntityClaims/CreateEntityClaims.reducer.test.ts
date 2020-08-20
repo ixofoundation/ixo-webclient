@@ -42,8 +42,8 @@ describe('CreateEntityClaims Reducer', () => {
     it('should add a new entityClaim section', () => {
       const id = 'someId'
 
-      const idForTempalte = 'someIdForTemplate'
-      v4.mockImplementationOnce(() => idForTempalte)
+      const idForTemplate = 'someIdForTemplate'
+      v4.mockImplementationOnce(() => idForTemplate)
 
       // given ... we have an action of type CreateEntityClaimsActions.AddEntityClaim
       const action: AddEntityClaimAction = {
@@ -60,6 +60,7 @@ describe('CreateEntityClaims Reducer', () => {
       expect(result).toEqual({
         ...initialState,
         entityClaims: {
+          ...initialState.entityClaims,
           [id]: {
             id: action.payload.id,
             template: {

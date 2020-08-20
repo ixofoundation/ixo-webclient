@@ -32,7 +32,6 @@ import {
 } from './types'
 import { NewEntityAction, CreateEntityActions } from '../CreateEntity/types'
 import { EntityType } from '../Entities/types'
-import { title } from 'process'
 
 const initialState = SUT.initialState
 
@@ -201,6 +200,7 @@ describe('CreateEntityPageContent Reducer', () => {
         expect(result).toEqual({
           ...initialState,
           body: {
+            ...initialState.body,
             [id]: {
               id,
               title: undefined,
@@ -470,6 +470,7 @@ describe('CreateEntityPageContent Reducer', () => {
         expect(result).toEqual({
           ...initialState,
           images: {
+            ...initialState.images,
             [id]: {
               id,
               title: undefined,
@@ -756,6 +757,7 @@ describe('CreateEntityPageContent Reducer', () => {
         expect(result).toEqual({
           ...initialState,
           profiles: {
+            ...initialState.profiles,
             [id]: {
               id,
               name: undefined,
@@ -1120,6 +1122,7 @@ describe('CreateEntityPageContent Reducer', () => {
         expect(result).toEqual({
           ...initialState,
           embedded: {
+            ...initialState.embedded,
             [id]: {
               id,
               title: undefined,
@@ -1143,6 +1146,7 @@ describe('CreateEntityPageContent Reducer', () => {
           {
             ...initialState,
             embedded: {
+              ...initialState.embedded,
               [id]: {
                 id,
                 title: 'someTitle1',
@@ -1162,6 +1166,7 @@ describe('CreateEntityPageContent Reducer', () => {
         expect(result).toEqual({
           ...initialState,
           embedded: {
+            ...initialState.embedded,
             ['anotherid']: {
               id: 'anotherid',
               title: 'someTitle2',

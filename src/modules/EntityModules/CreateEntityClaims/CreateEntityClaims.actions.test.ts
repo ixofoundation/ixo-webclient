@@ -43,8 +43,9 @@ describe('CreateEntityClaims Actions', () => {
       const isPrivate = true
       const minTargetClaims = 10
       const maxTargetClaims = 20
-      const submissionStartDate = 'someSubmissionStartDate'
-      const submissionEndDate = 'someSubmisionEndDate'
+      const submissionStartDate = 'fromDate'
+      const submissionEndDate = 'toDate'
+      const submissionDates = `${submissionStartDate}|${submissionEndDate}`
 
       // given some form data
       const formData = {
@@ -54,8 +55,7 @@ describe('CreateEntityClaims Actions', () => {
         isPrivate,
         minTargetClaims,
         maxTargetClaims,
-        submissionStartDate,
-        submissionEndDate,
+        submissionDates,
       }
 
       // when ... we call the updateEntityClaimTemplate action

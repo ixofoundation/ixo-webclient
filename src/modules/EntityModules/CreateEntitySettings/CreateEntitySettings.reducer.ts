@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from 'uuid'
 import {
   CreateEntitySettingsActionTypes,
   CreateEntitySettingsActions,
@@ -8,6 +9,9 @@ import {
   CreateEntityActions,
 } from '../CreateEntity/types'
 import * as reduxUtils from 'common/redux/utils'
+
+const firstRequiredCredentialId: string = uuidv4()
+const firstDisplayCredentialId: string = uuidv4()
 
 export const initialState: CreateEntitySettingsState = {
   creator: {
@@ -50,9 +54,21 @@ export const initialState: CreateEntitySettingsState = {
     entityView: undefined,
     pageView: undefined,
   },
-  requiredCredentials: {},
+  requiredCredentials: {
+    [firstRequiredCredentialId]: {
+      id: firstRequiredCredentialId,
+      credential: undefined,
+      issuer: undefined,
+    },
+  },
   filters: {},
-  displayCredentials: {},
+  displayCredentials: {
+    [firstDisplayCredentialId]: {
+      id: firstDisplayCredentialId,
+      badge: undefined,
+      credential: undefined,
+    },
+  },
   validation: {},
 }
 

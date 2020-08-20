@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from 'uuid'
 import {
   CreateEntityAdvancedState,
   CreateEntityAdvancedActionTypes,
@@ -9,15 +10,92 @@ import {
 } from '../CreateEntity/types'
 import * as reduxUtils from 'common/redux/utils'
 
+const firstLinkedEntityId = uuidv4()
+const firstPaymentId = uuidv4()
+const firstStakeId = uuidv4()
+const firstNodeId = uuidv4()
+const firstFundId = uuidv4()
+const firstKeyId = uuidv4()
+const firstServiceId = uuidv4()
+const firstDataResourceId = uuidv4()
+
 export const initialState: CreateEntityAdvancedState = {
-  linkedEntities: {},
-  payments: {},
-  staking: {},
-  nodes: {},
-  funding: {},
-  keys: {},
-  services: {},
-  dataResources: {},
+  linkedEntities: {
+    [firstLinkedEntityId]: {
+      id: firstLinkedEntityId,
+      type: undefined,
+      entityId: undefined,
+    },
+  },
+  payments: {
+    [firstPaymentId]: {
+      id: firstPaymentId,
+      type: undefined,
+      paymentId: undefined,
+      denom: undefined,
+      maxFee: undefined,
+      maxQty: undefined,
+    },
+  },
+  staking: {
+    [firstStakeId]: {
+      id: firstStakeId,
+      type: undefined,
+      stakeId: undefined,
+      denom: undefined,
+      stakeAddress: undefined,
+      minStake: undefined,
+      slashCondition: undefined,
+      slashFactor: undefined,
+      slashAmount: undefined,
+      unbondPeriod: undefined,
+    },
+  },
+  nodes: {
+    [firstNodeId]: {
+      id: firstNodeId,
+      type: undefined,
+      nodeId: undefined,
+    },
+  },
+  funding: {
+    [firstFundId]: {
+      id: firstFundId,
+      source: undefined,
+      fundId: undefined,
+    },
+  },
+  keys: {
+    [firstKeyId]: {
+      id: firstKeyId,
+      purpose: undefined,
+      type: undefined,
+      controller: undefined,
+      dateCreated: undefined,
+      dateUpdated: undefined,
+      keyValue: undefined,
+      signature: undefined,
+    },
+  },
+  services: {
+    [firstServiceId]: {
+      id: firstServiceId,
+      type: undefined,
+      shortDescription: undefined,
+      serviceEndpoint: undefined,
+      properties: undefined,
+      publicKey: undefined,
+    },
+  },
+  dataResources: {
+    [firstDataResourceId]: {
+      id: firstDataResourceId,
+      type: undefined,
+      dataId: undefined,
+      serviceEndpoint: undefined,
+      properties: undefined,
+    },
+  },
   validation: {},
 }
 
