@@ -845,6 +845,7 @@ describe('CreateEntityAttestation Actions', () => {
       })
     })
   })
+
   describe('validationError', () => {
     it('should set validated to false with any errors', () => {
       const identifier = 'someIdentifier'

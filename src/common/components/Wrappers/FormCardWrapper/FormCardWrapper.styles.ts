@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import { deviceWidth } from "../../../../lib/commonData";
+import styled from 'styled-components'
+import { deviceWidth } from '../../../../lib/commonData'
 
 export const Container = styled.div`
   background: #f7f8f9;
@@ -24,7 +24,11 @@ export const Container = styled.div`
   div hr {
     border-top: 0.0625rem solid #e8edee;
   }
-`;
+  div hr.subdivider {
+    border-color: #39c3e6;
+    margin-bottom: 3rem;
+  }
+`
 export const AddSectionButton = styled.button`
   &:focus {
     outline: none;
@@ -35,4 +39,4 @@ export const AddSectionButton = styled.button`
   font-size: 1rem;
   font-weight: bold;
   line-height: 1.2;
-`;
+`

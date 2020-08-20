@@ -405,4 +405,33 @@ describe('CreateEntityClaims Actions', () => {
       })
     })
   })
+
+  describe('validation', () => {
+    it('should set validated to true', () => {
+      const identifier = 'someIdentifier'
+      // when ... we call the validated action creator
+      const action = SUT.validated(identifier)
+
+      // then ... we should expect it to create an action with the correct type and payload
+      expect(action.type).toEqual(CreateEntityClaimsActions.Validated)
+      expect(action.payload).toEqual({
+        identifier,
+      })
+    })
+  })
+  describe('validationError', () => {
+    it('should set validated to false with any errors', () => {
+      const identifier = 'someIdentifier'
+      const errors = ['error1', 'error2']
+      // when ... we call the validated action creator
+      const action = SUT.validationError(identifier, errors)
+
+      // then ... we should expect it to create an action with the correct type and payload
+      expect(action.type).toEqual(CreateEntityClaimsActions.ValidationError)
+      expect(action.payload).toEqual({
+        identifier,
+        errors,
+      })
+    })
+  })
 })

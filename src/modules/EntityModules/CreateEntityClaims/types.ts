@@ -2,8 +2,8 @@ import { Validation } from '../CreateEntity/types'
 
 export interface Template {
   id: string
-  templateId: string
   entityClaimId: string
+  templateId: string
   title: string
   description: string
   isPrivate: boolean
@@ -63,6 +63,15 @@ export interface EntityClaim {
   enrichments: {
     [id: string]: Enrichment
   }
+}
+
+export interface EntityClaimItem {
+  id: string
+  template: Template
+  agentRoles: AgentRole[]
+  evaluations: Evaluation[]
+  approvalCriteria: ApprovalCriterion[]
+  enrichments: Enrichment[]
 }
 
 export interface CreateEntityClaimsState {
@@ -241,6 +250,21 @@ export interface UpdateEntityClaimEnrichmentAction {
   }
 }
 
+export interface ValidatedAction {
+  type: typeof CreateEntityClaimsActions.Validated
+  payload: {
+    identifier: string
+  }
+}
+
+export interface ValidationErrorAction {
+  type: typeof CreateEntityClaimsActions.ValidationError
+  payload: {
+    identifier: string
+    errors: string[]
+  }
+}
+
 export type CreateEntityClaimActionTypes =
   | AddEntityClaimAction
   | RemoveEntityClaimAction
@@ -257,3 +281,5 @@ export type CreateEntityClaimActionTypes =
   | AddEntityClaimEnrichmentAction
   | RemoveEntityClaimEnrichmentAction
   | UpdateEntityClaimEnrichmentAction
+  | ValidatedAction
+  | ValidationErrorAction

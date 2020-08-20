@@ -22,6 +22,19 @@ export interface AccountState {
   loginStatusCheckCompleted: boolean
 }
 
+export enum AgentRole {
+  Owner = 'PO',
+  Evaluator = 'EA',
+  ServiceProvider = 'SA',
+  Investor = 'IA',
+}
+
+export type AgentRoleStrategyMap = {
+  [TKey in AgentRole]: {
+    title: string
+  }
+}
+
 export enum AccountActions {
   Login = 'ixo/Account/Login',
   Logout = 'ixo/Account/Logout',

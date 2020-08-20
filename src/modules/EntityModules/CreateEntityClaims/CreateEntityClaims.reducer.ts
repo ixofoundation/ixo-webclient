@@ -33,7 +33,7 @@ export const reducer = (
               templateId: undefined,
               title: undefined,
               description: undefined,
-              isPrivate: undefined,
+              isPrivate: false,
               minTargetClaims: undefined,
               maxTargetClaims: undefined,
               submissionStartDate: undefined,
@@ -75,7 +75,7 @@ export const reducer = (
                 ...action.payload,
                 role: undefined,
                 credential: undefined,
-                autoApprove: undefined,
+                autoApprove: false,
               },
             },
           },
@@ -251,6 +251,34 @@ export const reducer = (
             enrichments: {
               ...state.entityClaims[action.payload.entityClaimId].enrichments,
               [action.payload.id]: action.payload,
+            },
+          },
+        },
+      }
+    case CreateEntityClaimsActions.Validated:
+      return {
+        ...state,
+        validation: {
+          ...state.validation,
+          ...{
+            [action.payload.identifier]: {
+              identifier: action.payload.identifier,
+              validated: true,
+              errors: [],
+            },
+          },
+        },
+      }
+    case CreateEntityClaimsActions.ValidationError:
+      return {
+        ...state,
+        validation: {
+          ...state.validation,
+          ...{
+            [action.payload.identifier]: {
+              identifier: action.payload.identifier,
+              validated: false,
+              errors: action.payload.errors,
             },
           },
         },
