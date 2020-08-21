@@ -1,15 +1,16 @@
 import styled from 'styled-components'
-import { deviceWidth } from '../../../../lib/commonData'
+import { deviceWidth } from 'lib/commonData'
 
 export const ModalWrapper = styled.div`
   position: absolute;
   top: 50%;
-  left: -50px;
+  left: 0;
+  right: 0;
   z-index: 10;
   background: #f7f8f9;
   min-width: 320px;
   min-height: 50vh;
-  padding: 2.125rem 1.25rem;
+  padding: 2.125rem 1.25rem 1.25rem 1.25rem;
   box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.25);
   transform: translateY(-50%);
 
@@ -17,12 +18,8 @@ export const ModalWrapper = styled.div`
     text-align: center;
   }
 
-  .ReactCrop {
-    margin: 0 left;
-  }
-
   .button-wrapper {
-    margin-top: 0.5rem;
+    margin-top: 1.5rem;
     display: flex;
     flex-flow: row wrap;
     align-items: center;

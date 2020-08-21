@@ -2,7 +2,6 @@ import * as React from 'react'
 import ReactCrop from 'react-image-crop'
 import 'react-image-crop/dist/ReactCrop.css'
 import Dropzone from 'react-dropzone'
-import { ModalWrapper } from './ImageLoader.styles'
 import {
   DropZoneStyles,
   LoaderWrapper,
@@ -12,6 +11,7 @@ import UploadFlat from 'assets/icons/UploadFlat'
 import { strategyMap } from '../strategy-map'
 import { FileType } from '../types'
 import PulseLoader from '../../PulseLoader/PulseLoader'
+import Modal from '../../Modal/Modal'
 
 export interface Props {
   uploading: boolean
@@ -207,37 +207,29 @@ class ImageLoader extends React.Component<Props, State> {
     return (
       <>
         {isModalOpen && (
-          <ModalWrapper>
-            <div>
-              <ReactCrop
-                circularCrop={circularCrop}
-                minHeight={50}
-                minWidth={50}
-                src={imgSrc}
-                onComplete={this.onComplete}
-                onImageLoaded={this.onImageLoaded}
-                onChange={this.onCropChange}
-                crop={crop}
-                keepSelection={keepCropSelection}
-                imageStyle={{
-                  maxWidth: `${maxDimension}px`,
-                  maxHeight: `${maxDimension}px`,
-                }}
-              />
-            </div>
-            <div className="button-wrapper">
-              <button type="button" onClick={(): void => this.cancel()}>
-                Cancel
-              </button>
-              <button
-                type="button"
-                className="submit"
-                onClick={(): void => this.save()}
-              >
-                Submit
-              </button>
-            </div>
-          </ModalWrapper>
+          <Modal
+            submitText="Submit"
+            cancelText="Cancel"
+            onSubmit={this.save}
+            onCancel={this.cancel}
+          >
+            <ReactCrop
+              circularCrop={circularCrop}
+              minHeight={50}
+              minWidth={50}
+              src={imgSrc}
+              onComplete={this.onComplete}
+              onImageLoaded={this.onImageLoaded}
+              onChange={this.onCropChange}
+              crop={crop}
+              keepSelection={keepCropSelection}
+              imageStyle={{
+                maxWidth: `${maxDimension}px`,
+                maxHeight: `${maxDimension}px`,
+              }}
+              style={{ margin: '0 left' }}
+            />
+          </Modal>
         )}
       </>
     )

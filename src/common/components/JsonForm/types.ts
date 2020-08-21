@@ -13,6 +13,7 @@ import CountrySelector from './CustomWidgets/CountrySelector/CountrySelector'
 import SDGSelector from './CustomWidgets/SDGSelector/SDGSelector'
 import SocialTextBox from './CustomWidgets/SocialTextBox/SocialTextBox'
 import EmbeddedUrlTextBox from './CustomWidgets/EmbeddedUrlTextBox/EmbeddedUrlTextBox'
+import EntitySelector from './CustomWidgets/EntitySelector/EntitySelector'
 
 export type FormData = {
   [id: string]: any
@@ -62,6 +63,7 @@ export enum ControlType {
   SocialTextBox = 'socialtextbox',
   EmbeddedTextBox = 'embeddedtextbox',
   QRCode = 'qrcode',
+  EntitySelector = 'entityselector',
   EmailValidation = 'emailvalidation',
 }
 
@@ -80,5 +82,6 @@ export const customControls = {
   [ControlType.AudioUpload]: AudioUpload,
   [ControlType.VideoUpload]: VideoUpload,
   [ControlType.EmailValidation]: EmailValidation,
+  [ControlType.EntitySelector]: EntitySelector,
   [ControlType.QRCode]: QRCode,
 }
