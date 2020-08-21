@@ -44,6 +44,7 @@ import {
   Container,
   AddSectionButton,
 } from 'common/components/Wrappers/FormCardWrapper/FormCardWrapper.styles'
+import { Entity } from 'common/components/EntitySelector/types'
 
 interface Props extends CreateEntityBaseProps {
   entityClaims: EntityClaimItem[]
@@ -91,6 +92,19 @@ class CreateEntityClaims extends CreateEntityBase<Props> {
   renderEntityClaimTemplate = (template: Template) => {
     const { handleUpdateEntityClaimTemplate } = this.props
 
+    // TODO - pass in actual templates
+    const templates: Entity[] = []
+
+    for (let i = 0; i < 20; i++) {
+      templates.push({
+        title: `Claim Template${i + 1}`,
+        did: `template:did:${i + 1}`,
+        dateCreated: '20 Aug 2020',
+        imageUrl: require('../../../assets/images/placeholder.png'),
+        previewUrl: '',
+      })
+    }
+
     const {
       id,
       entityClaimId,
@@ -113,6 +127,7 @@ class CreateEntityClaims extends CreateEntityBase<Props> {
           ref={this.cardRefs[id]}
           key={id}
           templateId={templateId}
+          templates={templates}
           title={title}
           description={description}
           isPrivate={isPrivate}

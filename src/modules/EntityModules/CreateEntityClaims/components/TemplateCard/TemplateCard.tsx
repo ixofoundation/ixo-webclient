@@ -2,6 +2,7 @@ import React from 'react'
 import MultiControlForm from 'common/components/JsonForm/MultiControlForm/MultiControlForm'
 import { FormCardProps } from '../../../CreateEntity/types'
 import { customControls } from 'common/components/JsonForm/types'
+import { Entity } from 'common/components/EntitySelector/types'
 
 interface Props extends FormCardProps {
   templateId: string
@@ -12,6 +13,7 @@ interface Props extends FormCardProps {
   maxTargetClaims: number
   submissionStartDate: string
   submissionEndDate: string
+  templates: Entity[]
 }
 
 const TemplateCard: React.FunctionComponent<Props> = React.forwardRef(
@@ -25,6 +27,7 @@ const TemplateCard: React.FunctionComponent<Props> = React.forwardRef(
       maxTargetClaims,
       submissionStartDate,
       submissionEndDate,
+      templates,
       handleUpdateContent,
       handleSubmitted,
       handleError,
@@ -46,6 +49,7 @@ const TemplateCard: React.FunctionComponent<Props> = React.forwardRef(
     const schema = {
       type: 'object',
       required: [
+        'templateId',
         'title',
         'description',
         'isPrivate',
@@ -72,7 +76,8 @@ const TemplateCard: React.FunctionComponent<Props> = React.forwardRef(
 
     const uiSchema = {
       templateId: {
-        'ui:widget': 'text',
+        'ui:widget': customControls['entityselector'],
+        'ui:entities': templates,
       },
       title: {
         'ui:widget': 'text',

@@ -1,6 +1,6 @@
 import React, { Dispatch } from 'react'
 import { connect } from 'react-redux'
-import { Route, Redirect } from 'react-router-dom'
+import { Route } from 'react-router-dom' //Redirect
 import { RootState } from '../../../common/redux/types'
 import { Hero } from './components/Hero/Hero'
 import { CreateEntityWrapper } from './CreateEntity.container.styles'
@@ -32,7 +32,7 @@ class CreateEntity extends React.Component<Props> {
   }
 
   renderRoutes = () => {
-    const { entityType, currentStep } = this.props
+    const { entityType } = this.props //currentStep
     const stepMap = entityStepMap[entityType]
     const { steps } = stepMap
 
@@ -45,11 +45,11 @@ class CreateEntity extends React.Component<Props> {
           exact
           path={urls}
           render={(props: any): JSX.Element => {
-            if (currentStep === index + 1) {
-              return React.createElement(container, { ...props })
-            } else {
+            // if (currentStep === index + 1) {
+            return React.createElement(container, { ...props })
+            /*             } else {
               return <Redirect to={stepMap.steps[currentStep].urls[0]} />
-            }
+            } */
           }}
         />
       )
