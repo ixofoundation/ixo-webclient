@@ -1,8 +1,10 @@
-import { RootState } from 'common/redux/types'
+// import { RootState } from 'common/redux/types'
 // import { createSelector } from 'reselect'
 
 // TODO - this data will come from state and we will use reselect to select relevant data
-export const selectChartData = (state: RootState): any => ({
+export const selectChartData = (
+  // state: RootState
+  ): any => ({
   labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
   datasets: [
     {

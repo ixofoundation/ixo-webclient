@@ -12,7 +12,7 @@ import { RootState } from 'common/redux/types'
 import * as transactionUtils from '../../../common/utils/transaction.utils'
 import * as Toast from '../../../common/utils/Toast'
 
-export const getOrder = (assistantResponse: any): GetOrderAction => ({
+export const getOrder = (): GetOrderAction => ({
   // TODO read from the actual response when assistant ready
   // using dummy values for now
   type: FuelEntityActions.GetOrder,

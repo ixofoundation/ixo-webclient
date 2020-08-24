@@ -33,7 +33,7 @@ export const Overview: FunctionComponent<any> = ({ match }) => {
   const projectPublic = location.state && location.state.projectPublic
         ? location.state.projectPublic
         : null
-  const assistantPanelToggle = () => {
+  const assistantPanelToggle = (): any => {
     setResizeMain({
       width: assistantPanelActive ? '100%' : '75%',
     })

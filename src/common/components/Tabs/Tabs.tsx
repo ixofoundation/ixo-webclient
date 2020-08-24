@@ -60,7 +60,7 @@ export const Tabs: React.SFC<Props> = ({
         )
       })}
       {enableAssistantButton && (
-        <button onClick={() => assistantPanelToggle()}>pluse</button>
+        <button onClick={(): void => assistantPanelToggle()}>pluse</button>
       )}
     </TabsContainer>
   )

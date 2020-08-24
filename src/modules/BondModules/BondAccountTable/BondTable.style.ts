@@ -5,7 +5,7 @@ interface StyledTableCellProps {
   type: boolean
 }
 
-function extractColor(value) {
+function extractColor(value): string {
   switch (value) {
     case 'Buy':
       return '#00D2FF';

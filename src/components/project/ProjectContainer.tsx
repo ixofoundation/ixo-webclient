@@ -474,7 +474,7 @@ export class ProjectContainer extends React.Component<Props, State> {
                 }
                 this.gettingAgents = false
               })
-              .catch((result: Error) => {
+              .catch(() => {
                 this.gettingAgents = false
               })
           }

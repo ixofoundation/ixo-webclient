@@ -38,7 +38,6 @@ const FundingChatOrder: React.FunctionComponent<Props> = ({
   amount,
   fiatAmount,
   fiatConversionRate,
-  transactionFee,
   fiatTransactionFee,
   gasFee,
   total,

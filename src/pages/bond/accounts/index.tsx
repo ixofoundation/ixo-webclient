@@ -35,7 +35,7 @@ export const Accounts: FunctionComponent<any> = ({ match }) => {
   }))
   const [selected, setSelected] = useState(0)
 
-  const assistantPanelToggle = () => {
+  const assistantPanelToggle = (): void => {
     setResizeMain({
       width: assistantPanelActive ? '100%' : '75%',
     })
