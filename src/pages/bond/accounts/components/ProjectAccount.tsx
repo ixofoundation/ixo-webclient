@@ -2,9 +2,11 @@ import React from 'react';
 import styled from 'styled-components'
 import ReactApexChart from 'react-apexcharts'
 
-export interface IProjectAccountProps {
+export interface ProjectAccountProps {
   children?: React.ReactNode
   count: number
+  selected?: boolean
+  onSelect: () => void
 }
 
 interface InfoWrapperProps {
@@ -18,11 +20,15 @@ interface InfoWrapperContainerProps {
   size: number
 }
 
-const Container = styled.div`
+interface ContainerProps {
+  selected?: boolean
+}
+
+const Container = styled.div<ContainerProps>`
   background: linear-gradient(356.78deg, #002D42 2.22%, #012639 96.94%);
   box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.180339);
   border-radius: 4px;
-  border: 1px solid #39C3E6;
+  border: ${(props) => props.selected ? '1px solid #39C3E6' : 'none' };
   height: 100%;
   padding: 20px 20px 0 20px;
 `
@@ -101,11 +107,11 @@ const InfoWrapper = ({currency, amount, subLabel, size}: InfoWrapperProps) => (
   </InfoWrapperContainer>
 )
 
-export default function ProjectAccount ({count}: IProjectAccountProps): JSX.Element {
+export default function ProjectAccount ({count, selected, onSelect}: ProjectAccountProps): JSX.Element {
   const bigColWidth = count > 2 ? 12 : 6
   const smallColWidth = count > 2 ? 6 : 3;
   return (
-    <Container className="container">
+    <Container className="container" selected={selected} onClick={() => onSelect()}>
       <div className="row m-0">
         <StyledLabel className="p-1 pl-2 pr-2">xEUR</StyledLabel>
       </div>

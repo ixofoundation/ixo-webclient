@@ -464,4 +464,4 @@ function mapStateToProps(state: RootState): StateProps {
   }
 }
 
-export const ProjectCreateConnected = connect(mapStateToProps)(ProjectCreate)
+export const ProjectCreateConnected: any = connect(mapStateToProps)(ProjectCreate)

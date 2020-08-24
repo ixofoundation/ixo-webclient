@@ -2,7 +2,7 @@ import React, { useMemo, Fragment, useState } from 'react'
 import { useTable } from 'react-table'
 import moment from 'moment'
 import _ from 'lodash'
-import { useSpring, animated } from 'react-spring'
+// import { useSpring, animated } from 'react-spring'
 import {
   TableContainer,
   StyledTableHeader,
@@ -157,23 +157,6 @@ const Table: React.SFC<TableProps> = ({ columns, data }) => {
     return val
   })
 
-  const GetSpringAnimation = (expanded) => {
-    const props = useSpring({
-      to: {
-        height: expanded ? '100px' : '0px',
-        width: expanded ? '100%' : '0px',
-        background: 'red',
-      },
-      from: {
-        height: !expanded ? '100px' : '0px',
-        width: !expanded ? '100%' : '0px',
-        background: 'red',
-      },
-    })
-
-    return props
-  }
-
   // const initialState = [...rows]
   // const [collapsibleRow, setCollapsibleRow] = useState([])
   const [expandableRowData, setExpandableRowData] = useState([...updatedRows])
@@ -214,9 +197,6 @@ const Table: React.SFC<TableProps> = ({ columns, data }) => {
             <Fragment key={`table-body-${i}`}>
               {size.width > 1024 && renderDesktopTableRow(row, updateRow)}
               {size.width <= 1024 && renderMobileTableRow(row, updateRow)}
-              <animated.tr
-                style={GetSpringAnimation(row.expended)}
-              ></animated.tr>
             </Fragment>
           )
         })}

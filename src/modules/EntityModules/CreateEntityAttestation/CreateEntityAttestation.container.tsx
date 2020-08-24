@@ -1,4 +1,4 @@
-import React, { Dispatch } from 'react'
+import React, { Dispatch, Fragment } from 'react'
 import { connect } from 'react-redux'
 import CreateEntityBase, {
   CreateEntityBaseProps,
@@ -130,7 +130,7 @@ class CreateEntityAttestation extends CreateEntityBase<Props> {
 
     return (
       <>
-        {questions.map((question) => {
+        {questions.map((question, key) => {
           const { id, required } = question
 
           this.cardRefs[id] = React.createRef()
@@ -194,17 +194,19 @@ class CreateEntityAttestation extends CreateEntityBase<Props> {
           }
 
           return (
-            <QuestionCardWrapper
-              title={title}
-              required={required}
-              handleCopy={(): void => this.props.handleCopyQuestion(id)}
-              handleToggleRequire={(): void =>
-                this.props.handleUpdateAnswerRequired(id, !required)
-              }
-              handleRemove={(): void => this.props.handleRemoveQuestion(id)}
-            >
-              {questionElem}
-            </QuestionCardWrapper>
+            <Fragment key={`question-card-${key}`}>
+              <QuestionCardWrapper
+                title={title}
+                required={required}
+                handleCopy={(): void => this.props.handleCopyQuestion(id)}
+                handleToggleRequire={(): void =>
+                  this.props.handleUpdateAnswerRequired(id, !required)
+                }
+                handleRemove={(): void => this.props.handleRemoveQuestion(id)}
+              >
+                {questionElem}
+              </QuestionCardWrapper>
+            </Fragment>
           )
         })}
       </>

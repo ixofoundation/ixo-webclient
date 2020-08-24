@@ -119,7 +119,7 @@ export const SocialMediaLinks = [
   "http://www.facebook.com",
   "http://www.website.com",
 ];
-let isoCountriesTmp: any = {};
+const isoCountriesTmp: any = {};
 const isoCountriesLatLngTmp = {};
 
 countryLatLng.map((value) => {

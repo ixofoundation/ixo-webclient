@@ -5,6 +5,23 @@ interface StyledTableCellProps {
   type: boolean
 }
 
+function extractColor(value) {
+  switch (value) {
+    case 'Buy':
+      return '#00D2FF';
+    case 'Send':
+      return '#AD245C';
+    case 'Receive':
+      return '#5AB946';
+    case 'Swap':
+      return '#ED9526';
+    case 'Sell':
+      return '#E2223B';
+    default:
+      return 'white';
+  }
+}
+
 export const TableContainer = styled.div`
   background: linear-gradient(180deg, #012639 0%, #002d42 97.29%);
   border: 1px solid #0c3549;
@@ -145,21 +162,3 @@ export const StyledHeader = styled.h2`
   color: white;
   margin-top: 2em;
 `
-
-
-function extractColor(value) {
-  switch (value) {
-    case 'Buy':
-      return '#00D2FF';
-    case 'Send':
-      return '#AD245C';
-    case 'Receive':
-      return '#5AB946';
-    case 'Swap':
-      return '#ED9526';
-    case 'Sell':
-      return '#E2223B';
-    default:
-      return 'white';
-  }
-}

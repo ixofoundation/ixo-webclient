@@ -2,6 +2,7 @@ module.exports = {
   env: {
     browser: true,
     node: true,
+    "jest": true
   },
   extends: [
     'eslint:recommended',
@@ -14,6 +15,7 @@ module.exports = {
   parser: '@typescript-eslint/parser',
   parserOptions: {
     project: 'tsconfig.json',
+    createDefaultProgram: true,
     sourceType: 'module',
   },
   plugins: ['@typescript-eslint'],
