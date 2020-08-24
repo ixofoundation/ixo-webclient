@@ -51,8 +51,8 @@ export const getQuote = (sending: Currency, receiving: Currency) => (
 
 // TODO
 export const confirmSwap = () => (
-  // dispatch: Dispatch,
-  // getState: () => RootState,
+  dispatch: Dispatch,
+  getState: () => RootState,
 ): ConfirmSwapAction => {
   return null
 }

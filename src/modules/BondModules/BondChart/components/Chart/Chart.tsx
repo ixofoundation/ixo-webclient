@@ -321,10 +321,7 @@ const optionsBar = {
     strokeDashArray: 1,
   },
 }
-export const Chart: React.FunctionComponent<Props> = ({ 
-  // data, 
-  token
- }) => {
+export const Chart: React.FunctionComponent<Props> = ({ data, token }) => {
 
   return (
     <Fragment>

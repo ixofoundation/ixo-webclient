@@ -165,7 +165,7 @@ export const ProjectHero: React.SFC<Props> = ({
         <HeaderTabs
           buttons={buttonsArray}
           matchType={MatchType.strict}
-          assistantPanelToggle={(): void => assistantPanelToggle()}
+          assistantPanelToggle={() => assistantPanelToggle()}
           enableAssistantButton={enableAssistantButton}
           activeTabColor={entityTypeMap[entityType].themeColor}
         />

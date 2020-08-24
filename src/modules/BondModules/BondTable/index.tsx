@@ -144,7 +144,7 @@ const Table: React.SFC<TableProps> = ({ columns, data }) => {
     return val
   })
 
-  const GetSpringAnimation = (expanded): any => {
+  const GetSpringAnimation = (expanded) => {
     const props = useSpring({
       to: {
         height: expanded ? '100px' : '0px',

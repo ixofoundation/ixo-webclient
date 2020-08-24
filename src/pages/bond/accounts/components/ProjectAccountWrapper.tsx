@@ -6,20 +6,23 @@ export interface ProjectAccountWrapperProps {
   children: React.ReactNode
 }
 
-const StyledRow = styled.div`
+interface StyledRowProp {
+  heightType: number
+}
+
+const StyledRow = styled.div<StyledRowProp>`
 &&& {
   margin-left: -30px;
   margin-right: -30px;
+  /* height: ${props => props.heightType < 3 ? '252px' : props.heightType < 4 ? '300px' : '220px'}; */
   margin-top: 15px;
 }
 `
 
 const HeaderLabel = styled.span`
-&&& {
   color: white;
   font-size: 22px;
   font-weight: bold;
-}
 `
 
 const AddAccountButton = styled.div`
@@ -34,7 +37,7 @@ const AddAccountButton = styled.div`
   align-items: center;
 `
 
-const Header: React.FunctionComponent = () => (
+const Header = () => (
   <div className="row justify-content-between mt-2">
     <HeaderLabel>Project Accounts</HeaderLabel>
     <AddAccountButton>Add an Account</AddAccountButton>
@@ -43,6 +46,7 @@ const Header: React.FunctionComponent = () => (
 
 export default function ProjectAccountWrapper ({children}: ProjectAccountWrapperProps): JSX.Element {
   const childsArray = _.chunk(React.Children.toArray(children), 4)
+
   if (React.Children.count(children) > 4)
     return (
       <div className="container-fluid">
@@ -66,7 +70,7 @@ export default function ProjectAccountWrapper ({children}: ProjectAccountWrapper
     return (
       <div className="container-fluid">
         <Header />
-        <StyledRow className="row">
+        <StyledRow className="row" heightType={childsArray[0].length}>
         {
           childsArray[0].map((child, key) => (
             <div key={`wrapper-col-${key}`} className={`col-${12 / childsArray[0].length}`}>

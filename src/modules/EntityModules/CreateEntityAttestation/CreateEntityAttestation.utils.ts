@@ -2,7 +2,7 @@ import { Question } from './types'
 
 export const orderForNewQuestion = (existingQuestions: {
   [id: string]: Question
-}): number =>
+}) =>
   Object.values(existingQuestions).length > 0
     ? Math.max(...Object.values(existingQuestions).map((question) => question.order + 1),
       )
@@ -38,7 +38,7 @@ export const questionsWithIncrementedOrder = (
 export const itemCountOrItemValuesLength = (
   itemCount: number,
   itemValues: string[],
-): number =>
+) =>
   itemCount && itemValues.length > 0
     ? itemCount > itemValues.length
       ? itemValues.length
