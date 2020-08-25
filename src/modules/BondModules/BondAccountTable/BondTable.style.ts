@@ -97,6 +97,7 @@ export const DateContainer = styled.div`
     &:last-child {
       font-size: 0.6em;
       font-weight: normal;
+      color: #83D9F2;
     }
     line-height: initial;
   }

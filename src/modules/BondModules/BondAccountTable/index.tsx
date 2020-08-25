@@ -184,6 +184,7 @@ const Table: React.SFC<TableProps> = ({ columns, data }) => {
                 // eslint-disable-next-line react/jsx-key
                 <StyledTableHeader {...column.getHeaderProps()}>
                   {column.render('Header')}
+                  {}
                 </StyledTableHeader>
               ))}
             </tr>
