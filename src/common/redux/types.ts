@@ -25,6 +25,7 @@ export interface RootState {
   bondSell: BondSellState
   bondSwap: BondSwapState
   account: AccountState
+  bondAccounts: any[]
   bondAccountOrders: any[]
   activeBond: BondState
   tokenSupply: Currency[]

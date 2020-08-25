@@ -11,6 +11,10 @@ const InComponentContainer = styled.div`
   padding: 0.5em 2em;
   position: relative;
   text-align: right;
+
+  .in {
+    color: #83D9F2;
+  }
 `
 const OutComponentContainer = styled.div`
   background: #143f54;
@@ -18,6 +22,10 @@ const OutComponentContainer = styled.div`
   position: relative;
   text-align: right;
   padding-right: 96px;
+
+  .out {
+    color: #83D9F2;
+  }
 `
 
 const StyledValueContainer = styled.div`
@@ -42,7 +50,7 @@ const StyledEyeContainer = styled.div`
 
 const InComponent: FunctionComponent<ValueComponentProps> = ({ value }) => (
   <InComponentContainer>
-    <span>In</span>
+    <span className="in">In</span>
     <StyledValueContainer>
       {value}
     </StyledValueContainer>
@@ -51,7 +59,7 @@ const InComponent: FunctionComponent<ValueComponentProps> = ({ value }) => (
 
 const OutComponent: FunctionComponent<ValueComponentProps> = ({ value }) => (
   <OutComponentContainer>
-    <span>Out</span>
+    <span className="out">Out</span>
     <StyledValueContainer>
       {value}
     </StyledValueContainer>

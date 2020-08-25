@@ -2,7 +2,7 @@ import React from 'react';
 import _ from 'lodash'
 import styled from 'styled-components'
 
-export interface IProjectAccountWrapperProps {
+export interface ProjectAccountWrapperProps {
   children: React.ReactNode
 }
 
@@ -44,7 +44,7 @@ const Header = () => (
   </div>
 )
 
-export default function ProjectAccountWrapper ({children}: IProjectAccountWrapperProps): JSX.Element {
+export default function ProjectAccountWrapper ({children}: ProjectAccountWrapperProps): JSX.Element {
   const childsArray = _.chunk(React.Children.toArray(children), 4)
 
   if (React.Children.count(children) > 4)

@@ -9,7 +9,7 @@ import {
 } from "./ErrorPages.styles";
 
 export const NotFound: React.SFC = () => {
-  let history = useHistory();
+  const history = useHistory();
 
   return (
     <Banner className="row">

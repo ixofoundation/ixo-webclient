@@ -357,6 +357,6 @@ function mapStateToProps(state: RootState): StateProps {
   };
 }
 
-export const ProjectCreateUploadPublicDocsConnected = connect(mapStateToProps)(
+export const ProjectCreateUploadPublicDocsConnected: any = connect(mapStateToProps)(
   ProjectCreateUploadPublicDocs
 );

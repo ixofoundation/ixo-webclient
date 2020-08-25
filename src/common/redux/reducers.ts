@@ -8,6 +8,7 @@ import { reducer as bondSellReducer } from 'modules/BondModules/BondSell/BondSel
 import { reducer as bondSwapReducer } from 'modules/BondModules/BondSwap/BondSwap.reducer'
 import { reducer as accountReducer } from 'modules/Account/Account.reducer'
 import { reducer as bondAccountOrdersReducer } from 'modules/BondModules/BondAccountOrders/BondAccountOrders.reducer'
+import { reducer as bondAccountsReducer } from 'modules/BondModules/BondAccount/BondAccount.reducer'
 import { reducer as bondReducer } from 'modules/BondModules/bond/bond.reducer'
 import { reducer as tokenSupplyReducer } from 'modules/tokenSupply/tokenSupply.reducer'
 import { reducer as entitiesReducer } from 'modules/EntityModules/Entities/Entities.reducer'
@@ -31,6 +32,7 @@ export const rootReducer: any = (history) =>
     bondSell: bondSellReducer,
     bondSwap: bondSwapReducer,
     account: accountReducer,
+    bondAccounts: bondAccountsReducer,
     bondAccountOrders: bondAccountOrdersReducer,
     activeBond: bondReducer,
     tokenSupply: tokenSupplyReducer,

@@ -74,10 +74,13 @@
     "@types/react-responsive": "^8.0.2",
     "@types/react-router-dom": "^5.1.5",
     "@types/react-virtualized": "^9.21.10",
-    "@types/styled-components": "^5.1.2"
+    "@types/styled-components": "^5.1.2",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "prettier": "^2.0.5"
   },
   "scripts": {
-    "dev": "react-scripts start",
+    "dev": "react-scripts start -h 0.0.0.0",
     "start": "npm run build && serve -s build",
     "build": "GENERATE_SOURCEMAP=false react-scripts build",
     "lint": "eslint --ext=jsx,ts,tsx src",

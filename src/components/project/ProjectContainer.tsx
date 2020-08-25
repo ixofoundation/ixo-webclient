@@ -1017,6 +1017,6 @@ function mapStateToProps(state: RootState): Record<string, any> {
   }
 }
 
-export const ProjectContainerConnected = withRouter(
+export const ProjectContainerConnected: any = withRouter(
   connect(mapStateToProps)(ProjectContainer as any) as any,
 )

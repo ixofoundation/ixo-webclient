@@ -17,7 +17,7 @@ interface Props {
   initialEndDate: Moment | null;
 }
 
-interface State extends DayPickerRangeControllerShape {
+interface State extends Omit<DayPickerRangeControllerShape, "onFocusChange" | "onDatesChange"> {
   renderControls: null;
 }
 
@@ -29,8 +29,6 @@ class DatePicker extends React.Component<Props, State> {
       startDate: this.props.initialStartDate,
       endDate: this.props.initialEndDate,
       focusedInput: "startDate",
-      onFocusChange: () => {},
-      onDatesChange: () => {},
       renderControls: null,
     };
   }

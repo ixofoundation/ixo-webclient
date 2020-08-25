@@ -4,9 +4,7 @@ export const orderForNewQuestion = (existingQuestions: {
   [id: string]: Question
 }) =>
   Object.values(existingQuestions).length > 0
-    ? Math.max.apply(
-        Math,
-        Object.values(existingQuestions).map((question) => question.order + 1),
+    ? Math.max(...Object.values(existingQuestions).map((question) => question.order + 1),
       )
     : 1
 

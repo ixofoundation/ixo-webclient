@@ -103,7 +103,6 @@ export const EntitiesDashboard: React.SFC<Props> = ({
               padding={false}
             >
               <WorldMap
-                // @ts-ignore
                 markers={getCountryCoordinates(countries)}
               />
             </WidgetWrapper>
