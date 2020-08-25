@@ -1,7 +1,9 @@
-import React, { useMemo, Fragment, useState } from 'react'
+import React, { useMemo, Fragment } from 'react'
 import { useTable } from 'react-table'
+import {useTransition} from 'react-spring'
 import moment from 'moment'
 import _ from 'lodash'
+
 // import { useSpring, animated } from 'react-spring'
 import {
   TableContainer,
@@ -90,10 +92,10 @@ const renderCell = (cell: any): any => {
   }
 }
 
-const renderDesktopTableRow = (row, updateRow): any => (
+const renderDesktopTableRow = (row, props): any => (
   <StyledTableRow
     {...row.getRowProps()}
-    onClick={(): void => updateRow(row.id)}
+    style={props}
   >
     {row.cells.map((cell) => {
       return (
@@ -110,11 +112,10 @@ const renderDesktopTableRow = (row, updateRow): any => (
   </StyledTableRow>
 )
 
-const renderMobileTableRow = (row, updateRow): any => {
+const renderMobileTableRow = (row): any => {
   return (
     <StyledMobileRow
       {...row.getRowProps()}
-      onClick={(): void => updateRow(row.id)}
     >
       <StyledMobileBuyCell
         header={row.cells[1].column.id}
@@ -152,28 +153,18 @@ const Table: React.SFC<TableProps> = ({ columns, data }) => {
     data,
   })
   const size = useWindowSize()
-  const updatedRows = rows.map(function (val) {
-    val.expended = false
+  const updatedRows = rows.map(function (val, key) {
+    val.key = `table-row-${key}`
     return val
   })
-
   // const initialState = [...rows]
   // const [collapsibleRow, setCollapsibleRow] = useState([])
-  const [expandableRowData, setExpandableRowData] = useState([...updatedRows])
-  const updateRow = (id: number): void => {
-    const copyExpendableRowData = [...expandableRowData]
-    const selectedRowIndex = _.findIndex(
-      copyExpendableRowData,
-      (row) => row.id === id,
-    )
-    const updatedRow = {
-      ...copyExpendableRowData[selectedRowIndex],
-      expended: !copyExpendableRowData[selectedRowIndex].expended,
-    }
-    copyExpendableRowData.splice(selectedRowIndex, 1, updatedRow)
-    setExpandableRowData(copyExpendableRowData)
-  }
-
+  const transitions = useTransition(updatedRows, item => item.key, {
+    from: { transform: 'translate3d(-400px,0,0)' },
+    enter: { transform: 'translate3d(0,0,0)' },
+    // leave: { transform: 'translate3d(0,0,0)' },
+    config: { duration: 1000 }
+  })
   return (
     <table {...getTableProps()}>
       {size.width > 1024 && (
@@ -192,14 +183,14 @@ const Table: React.SFC<TableProps> = ({ columns, data }) => {
         </thead>
       )}
       <tbody {...getTableBodyProps()}>
-        {expandableRowData.map((row, i) => {
-          prepareRow(row)
-          return (
-            <Fragment key={`table-body-${i}`}>
-              {size.width > 1024 && renderDesktopTableRow(row, updateRow)}
-              {size.width <= 1024 && renderMobileTableRow(row, updateRow)}
-            </Fragment>
-          )
+        {transitions.map(({item, key, props}) => {
+            prepareRow(item)
+            return (
+              <Fragment key={`table-body-${key}`}>
+                {size.width > 1024 && renderDesktopTableRow(item, props)}
+                {size.width <= 1024 && renderMobileTableRow(item)}
+              </Fragment>
+            )
         })}
       </tbody>
     </table>
