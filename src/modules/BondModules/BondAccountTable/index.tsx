@@ -161,12 +161,8 @@ const Table: React.SFC<TableProps> = ({ columns, data }) => {
   const transitions = useTransition(updatedRows, item => item.key, {
     from: { transform: 'translate3d(-400px,0,0)' },
     enter: { transform: 'translate3d(0,0,0)' },
-<<<<<<< HEAD
-    config: { duration: 5000 }
-=======
     // leave: { transform: 'translate3d(0,0,0)' },
     config: { duration: 2000 }
->>>>>>> origin/dev
   })
   return (
     <table {...getTableProps()}>
