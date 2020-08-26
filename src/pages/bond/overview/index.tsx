@@ -2,7 +2,7 @@ import React, { FunctionComponent, useState } from 'react'
 import { animated, useSpring } from 'react-spring'
 import styled from 'styled-components'
 import { useSelector } from 'react-redux'
-import BondChartScreen from 'modules/BondModules/BondChart/BondChart.container'
+import BondChartScreen from 'modules/BondModules/BondChart/index.container'
 import BondTable from 'modules/BondModules/BondTable'
 import FundingChat from 'modules/Funding_Chat/FundingChat.container'
 import Header from 'common/components/Bonds/BondsSummaryHeader/Header'
@@ -29,6 +29,7 @@ export const Overview: FunctionComponent<any> = ({ match }) => {
     display: assistant ? 'block' : 'none',
     background: '#F0F3F9'
   }))
+  const [selectedHeader, setSelectedHeader] = useState('price')
   const location: any = useSelector(selectLocationProps)
   const projectPublic = location.state && location.state.projectPublic
         ? location.state.projectPublic
@@ -48,8 +49,8 @@ export const Overview: FunctionComponent<any> = ({ match }) => {
       <animated.div style={resizeMain}>
         <BondsWrapper {...match} assistantPanelToggle={assistantPanelToggle} enableAssistantButton>
           <h1 className="mobile-header">{projectPublic?.title}</h1>
-          <Header bondDID={match.params.bondDID} />
-          <BondChartScreen />
+          <Header bondDID={match.params.bondDID} selectedHeader={selectedHeader} setSelectedHeader={setSelectedHeader} />
+          <BondChartScreen selectedHeader={selectedHeader} />
           <BondTable />
         </BondsWrapper>
       </animated.div>
