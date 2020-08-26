@@ -356,6 +356,7 @@ export const DoneButtonWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-top: 3.5rem;
 `
 
 export const MobileDatePicker = styled.div`
@@ -617,7 +618,7 @@ export const DoneButton = styled.button`
   outline: none !important;
   -webkit-appearance: none;
   -moz-appearance: none;
-  margin-top: 1.25rem;
+  margin-bottom: 1rem;
   &:after {
     content: '';
     position: absolute;
