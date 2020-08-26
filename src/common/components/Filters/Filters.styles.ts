@@ -104,6 +104,7 @@ export const ModalItems = styled.div`
   display: flex;
   overflow-y: auto;
   flex-flow: row wrap;
+  margin-bottom: 3.5rem;
   @media (min-width: ${deviceWidth.tablet}px) {
     max-height: 380px;
   }
@@ -356,7 +357,6 @@ export const DoneButtonWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 3.5rem;
 `
 
 export const MobileDatePicker = styled.div`
