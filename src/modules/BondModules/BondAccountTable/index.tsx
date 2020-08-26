@@ -2,7 +2,6 @@ import React, { useMemo, Fragment } from 'react'
 import { useTable } from 'react-table'
 import {useTransition} from 'react-spring'
 import moment from 'moment'
-import _ from 'lodash'
 
 // import { useSpring, animated } from 'react-spring'
 import {
@@ -163,7 +162,7 @@ const Table: React.SFC<TableProps> = ({ columns, data }) => {
     from: { transform: 'translate3d(-400px,0,0)' },
     enter: { transform: 'translate3d(0,0,0)' },
     // leave: { transform: 'translate3d(0,0,0)' },
-    config: { duration: 1000 }
+    config: { duration: 2000 }
   })
   return (
     <table {...getTableProps()}>
