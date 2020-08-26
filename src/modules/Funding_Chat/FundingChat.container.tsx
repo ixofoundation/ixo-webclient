@@ -51,7 +51,7 @@ class FundingChat extends React.Component<Props & RouteProps> {
     startAssistant('fuel_my_entity')
   }
 
-  onAssistantMessageReceive = (utter: any): void => {
+  onAssistantMessageReceive = (): void => {
     // TODO - actual event to trigger end
     // if (utter.text === "Sorry, I didn't get that. Could you rephrase?") {
     // TODO - actual response to pass to handleGetOrder
