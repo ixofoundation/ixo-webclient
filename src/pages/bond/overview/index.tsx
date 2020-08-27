@@ -51,7 +51,7 @@ export const Overview: FunctionComponent<any> = ({ match }) => {
           <h1 className="mobile-header">{projectPublic?.title}</h1>
           <Header bondDID={match.params.bondDID} selectedHeader={selectedHeader} setSelectedHeader={setSelectedHeader} />
           <BondChartScreen selectedHeader={selectedHeader} />
-          <BondTable />
+          <BondTable selectedHeader={selectedHeader} />
         </BondsWrapper>
       </animated.div>
       <animated.div style={resizeAssistantPanel}>

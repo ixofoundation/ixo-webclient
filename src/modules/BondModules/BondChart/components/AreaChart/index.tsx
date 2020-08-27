@@ -6,6 +6,8 @@ import { ChartContainer, StyledHeader } from './Chart.styles'
 interface Props {
   data: any
   token?: string
+  lineColor: string
+  mainColor: string
 }
 
 const seriesData = [
@@ -108,60 +110,61 @@ const series = [
     data: seriesData,
   },
 ]
-const options = {
-  chart: {
-    type: 'area',
-    height: 290,
-    id: 'area',
-    toolbar: {
-      autoSelected: 'pan',
-      show: false,
-    },
-    zoom: {
-      enabled: false,
-    },
-    foreColor: '#2A7597',
-    redrawOnParentResize: true,
-  },
-  plotOptions: {
-    
-  },
-  xaxis: {
-    type: 'datetime',
-    axisBorder: {
-      show: false,
-    },
-    axisTicks: {
-      color: '#436779',
-      show: false
-    },
-  },
-  grid: {
-    yaxis: {
-      lines: {
-          show: false
-      }
-    },  
-  },
-  // grid: {
-  //   borderColor: '#436779',
-  //   strokeDashArray: 2,
-  // },
-  fill: {
-    type: 'solid',
-    colors: ['#85AD5C'],
-    opacity: 0.15
-  },
-  colors: ['#6FCF97'],
-  dataLabels: {
-    enabled: false
-  },
-  markers: {
-    size: 0,
-  }
-}
 
-export const Chart: React.FunctionComponent<Props> = ({ data, token }) => {
+
+export const Chart: React.FunctionComponent<Props> = ({ data, token, lineColor, mainColor }) => {
+  const options = {
+    chart: {
+      type: 'area',
+      height: 290,
+      id: 'area',
+      toolbar: {
+        autoSelected: 'pan',
+        show: false,
+      },
+      zoom: {
+        enabled: false,
+      },
+      foreColor: '#2A7597',
+      redrawOnParentResize: true,
+    },
+    plotOptions: {
+      
+    },
+    xaxis: {
+      type: 'datetime',
+      axisBorder: {
+        show: false,
+      },
+      axisTicks: {
+        color: '#436779',
+        show: false
+      },
+    },
+    grid: {
+      yaxis: {
+        lines: {
+            show: false
+        }
+      },  
+    },
+    // grid: {
+    //   borderColor: '#436779',
+    //   strokeDashArray: 2,
+    // },
+    fill: {
+      type: 'solid',
+      colors: [mainColor],
+      opacity: 0.15
+    },
+    colors: [lineColor],
+    dataLabels: {
+      enabled: false
+    },
+    markers: {
+      size: 0,
+    }
+  }
 
   return (
     <Fragment>

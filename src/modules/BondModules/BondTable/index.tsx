@@ -4,6 +4,8 @@ import {
   StyledHeader,
 } from './PriceTable/index.style'
 import Table from './PriceTable'
+import StakeTransactionTable from './StakeTransactionTable'
+import CapitalTransactionTable from './CapitalTransactionTable'
 
 const tableData = [
   {
@@ -36,7 +38,11 @@ const tableData = [
   },
 ]
 
-export const BondTable: React.SFC<{}> = () => {
+interface Props {
+  selectedHeader: string
+}
+
+export const BondTable: React.SFC<Props> = ({ selectedHeader }) => {
   const columns = useMemo(
     () => [
       {
@@ -65,10 +71,31 @@ export const BondTable: React.SFC<{}> = () => {
 
   return (
     <Fragment>
-      <StyledHeader>EDU Transactions</StyledHeader>
-      <TableContainer>
-        <Table columns={columns} data={tableData} />
-      </TableContainer>
+      {
+        selectedHeader === 'price' && (
+          <Fragment>
+            <StyledHeader>EDU Transactions</StyledHeader>
+            <TableContainer>
+              <Table columns={columns} data={tableData} />
+            </TableContainer>
+          </Fragment>
+        )
+      }
+      {
+        selectedHeader === 'stake' && (
+          <StakeTransactionTable />
+        )
+      }
+      {
+        selectedHeader === 'raised' && (
+          <CapitalTransactionTable />
+        )
+      }
+      {
+        selectedHeader === 'reverse' && (
+          <CapitalTransactionTable />
+        )
+      }
     </Fragment>
   )
 }

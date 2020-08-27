@@ -1,0 +1,6 @@
+projectKey=ixo-foundation
+serverUrl=http://192.168.1.226:9000
+serverVersion=8.3.1.34397
+dashboardUrl=http://192.168.1.226:9000/dashboard?id=ixo-foundation
+ceTaskId=AXQgkrLpz8k4UHNeW2xh
+ceTaskUrl=http://192.168.1.226:9000/api/ce/task?id=AXQgkrLpz8k4UHNeW2xh
