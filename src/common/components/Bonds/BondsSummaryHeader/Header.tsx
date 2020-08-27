@@ -26,11 +26,10 @@ interface HeaderState {
 }
 
 class Header extends Component<any, HeaderState> {
-  intervalID = null
+  private intervalID = null
   constructor(props: any) {
     super(props)
-    this.intervalID = null
-    setInterval(() => {
+    this.intervalID = setInterval(() => {
       this.refreshAccount()
     }, INTERVAL_LENGTH) // deepscan-disable-line
 
@@ -42,6 +41,10 @@ class Header extends Component<any, HeaderState> {
       this.props.dispatch(getAccount(this.props.account.address))
       this.props.dispatch(getBondBalances(this.props.bondDID))
     }
+  }
+
+  componentWillUnmount(): void {
+    clearInterval(this.intervalID)
   }
 
   render(): JSX.Element {
