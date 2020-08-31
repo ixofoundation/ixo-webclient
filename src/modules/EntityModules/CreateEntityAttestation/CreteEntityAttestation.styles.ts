@@ -2,6 +2,9 @@ import styled from 'styled-components'
 
 export const QuestionsListWrapper = styled.div`
   .dragged {
-    opacity: 0.5;
+    > div > div {
+      opacity: 0.8;
+      border-style: dashed;
+    }
   }
 `

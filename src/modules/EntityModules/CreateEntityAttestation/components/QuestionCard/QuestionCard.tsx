@@ -2,7 +2,7 @@ import React from 'react'
 import Trash from 'assets/icons/Trash'
 import Expand from 'assets/icons/Expand'
 import { Switch } from 'common/components/Switch/Switch'
-import { Toolbar } from './QuestionCardWrapper.styles'
+import { QuestionCardWrapper, Toolbar } from './QuestionCard.styles'
 import FormCardWrapper from 'common/components/Wrappers/FormCardWrapper/FormCardWrapper'
 
 interface Props {
@@ -13,17 +13,16 @@ interface Props {
   handleToggleRequire(): void
 }
 
-class QuestionCardWrapper extends React.Component<Props> {
-  render(): JSX.Element {
-    const {
-      title,
-      required,
-      handleRemove,
-      handleCopy,
-      handleToggleRequire,
-      children,
-    } = this.props
-    return (
+const QuestionCard: React.FunctionComponent<Props> = ({
+  title,
+  required,
+  handleRemove,
+  handleCopy,
+  handleToggleRequire,
+  children,
+}) => {
+  return (
+    <QuestionCardWrapper>
       <FormCardWrapper title={title} showAddSection={false}>
         {children}
         <Toolbar>
@@ -43,8 +42,8 @@ class QuestionCardWrapper extends React.Component<Props> {
           </div>
         </Toolbar>
       </FormCardWrapper>
-    )
-  }
+    </QuestionCardWrapper>
+  )
 }
 
-export default QuestionCardWrapper
+export default QuestionCard

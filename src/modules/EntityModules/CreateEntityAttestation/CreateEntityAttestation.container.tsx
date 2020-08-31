@@ -1,6 +1,6 @@
 import React, { Dispatch } from 'react'
 import { connect } from 'react-redux'
-import Reorder from 'react-reorder'
+import { DragDropContext, Droppable } from 'react-beautiful-dnd'
 import CreateEntityBase, {
   CreateEntityBaseProps,
 } from '../CreateEntity/components/CreateEntityBase/CreateEntityBase'
@@ -48,7 +48,7 @@ import {
 import * as attestationSelectors from './CreateEntityAttestation.selectors'
 import * as createEntitySelectors from '../CreateEntity/CreateEntity.selectors'
 import AddQuestionBar from './components/AddQuestionBar/AddQuestionBar'
-import QuestionCardWrapper from './components/QuestionCardWrapper/QuestionCardWrapper'
+import QuestionCard from './components/QuestionCard/QuestionCard'
 import ShortTextQuestion from './components/ShortTextQuestion/ShortTextQuestion'
 import SingleDateSelectorQuestion from './components/SingleDateSelectorQuestion/SingleDateSelectorQuestion'
 import DateRangeSelectorQuestion from './components/DateRangeSelectorQuestion/DateRangeSelectorQuestion'
@@ -132,100 +132,110 @@ class CreateEntityAttestation extends CreateEntityBase<Props> {
   }
 
   renderQuestions = (): JSX.Element => {
-    const { questions, handleMoveQuestion } = this.props
+    const { questions } = this.props // handleMoveQuestion
 
     return (
-      <QuestionsListWrapper>
-        <Reorder
-          reorderId="question-list"
-          draggedClassName="dragged"
-          lock="horizontal"
-          holdTime={100}
-          onReorder={(_, previousIndex, nextIndex): void =>
-            handleMoveQuestion(previousIndex, nextIndex)
-          }
-        >
-          {questions.map((question) => {
-            const { id, required } = question
+      <DragDropContext
+        // onDragStart={}
+        // onDragUpdate={}
+        onDragEnd={(result) => console.log(result)}
+      >
+        <Droppable droppableId="questions-list">
+          {(provided) => (
+            <QuestionsListWrapper
+              innerRef={provided.innerRef}
+              {...provided.droppableProps}
+            >
+              {questions.map((question, index) => {
+                const { id, required } = question
 
-            this.cardRefs[id] = React.createRef()
+                this.cardRefs[id] = React.createRef()
 
-            let questionElem
-            let title
+                let questionElem
+                let title
 
-            switch (question.control) {
-              case ControlType.Text:
-                questionElem = this.renderShortTextQuestion(question)
-                title = questionTypeMap[ControlType.Text].title
-                break
-              case ControlType.TextArea:
-                questionElem = this.renderLongTextQuestion(question)
-                title = questionTypeMap[ControlType.TextArea].title
-                break
-              case ControlType.SingleDateSelector:
-                questionElem = this.renderSingleDateSelectorQuestion(question)
-                title = questionTypeMap[ControlType.SingleDateSelector].title
-                break
-              case ControlType.DateRangeSelector:
-                questionElem = this.renderDateRangeSelectorQuestion(question)
-                title = questionTypeMap[ControlType.DateRangeSelector].title
-                break
-              case ControlType.AvatarUpload:
-                questionElem = this.renderAvatarUploadQuestion(question)
-                title = questionTypeMap[ControlType.AvatarUpload].title
-                break
-              case ControlType.ImageUpload:
-                questionElem = this.renderImageUploadQuestion(question)
-                title = questionTypeMap[ControlType.ImageUpload].title
-                break
-              case ControlType.VideoUpload:
-                questionElem = this.renderVideoUploadQuestion(question)
-                title = questionTypeMap[ControlType.VideoUpload].title
-                break
-              case ControlType.AudioUpload:
-                questionElem = this.renderAudioUploadQuestion(question)
-                title = questionTypeMap[ControlType.AudioUpload].title
-                break
-              case ControlType.DocumentUpload:
-                questionElem = this.renderDocumentUploadQuestion(question)
-                title = questionTypeMap[ControlType.DocumentUpload].title
-                break
-              case ControlType.LocationSelector:
-                questionElem = this.renderLocationSelectorQuestion(question)
-                title = questionTypeMap[ControlType.LocationSelector].title
-                break
-              case ControlType.QRCode:
-                questionElem = this.renderQRCodeQuestion(question)
-                title = questionTypeMap[ControlType.QRCode].title
-                break
-              case ControlType.Rating:
-                questionElem = this.renderRatingQuestion(question)
-                title = questionTypeMap[ControlType.Rating].title
-                break
-              case ControlType.CheckBoxes:
-                questionElem = this.renderCheckBoxesQuestion(question)
-                title = questionTypeMap[ControlType.CheckBoxes].title
-                break
-            }
+                switch (question.control) {
+                  case ControlType.Text:
+                    questionElem = this.renderShortTextQuestion(question)
+                    title = questionTypeMap[ControlType.Text].title
+                    break
+                  case ControlType.TextArea:
+                    questionElem = this.renderLongTextQuestion(question)
+                    title = questionTypeMap[ControlType.TextArea].title
+                    break
+                  case ControlType.SingleDateSelector:
+                    questionElem = this.renderSingleDateSelectorQuestion(
+                      question,
+                    )
+                    title =
+                      questionTypeMap[ControlType.SingleDateSelector].title
+                    break
+                  case ControlType.DateRangeSelector:
+                    questionElem = this.renderDateRangeSelectorQuestion(
+                      question,
+                    )
+                    title = questionTypeMap[ControlType.DateRangeSelector].title
+                    break
+                  case ControlType.AvatarUpload:
+                    questionElem = this.renderAvatarUploadQuestion(question)
+                    title = questionTypeMap[ControlType.AvatarUpload].title
+                    break
+                  case ControlType.ImageUpload:
+                    questionElem = this.renderImageUploadQuestion(question)
+                    title = questionTypeMap[ControlType.ImageUpload].title
+                    break
+                  case ControlType.VideoUpload:
+                    questionElem = this.renderVideoUploadQuestion(question)
+                    title = questionTypeMap[ControlType.VideoUpload].title
+                    break
+                  case ControlType.AudioUpload:
+                    questionElem = this.renderAudioUploadQuestion(question)
+                    title = questionTypeMap[ControlType.AudioUpload].title
+                    break
+                  case ControlType.DocumentUpload:
+                    questionElem = this.renderDocumentUploadQuestion(question)
+                    title = questionTypeMap[ControlType.DocumentUpload].title
+                    break
+                  case ControlType.LocationSelector:
+                    questionElem = this.renderLocationSelectorQuestion(question)
+                    title = questionTypeMap[ControlType.LocationSelector].title
+                    break
+                  case ControlType.QRCode:
+                    questionElem = this.renderQRCodeQuestion(question)
+                    title = questionTypeMap[ControlType.QRCode].title
+                    break
+                  case ControlType.Rating:
+                    questionElem = this.renderRatingQuestion(question)
+                    title = questionTypeMap[ControlType.Rating].title
+                    break
+                  case ControlType.CheckBoxes:
+                    questionElem = this.renderCheckBoxesQuestion(question)
+                    title = questionTypeMap[ControlType.CheckBoxes].title
+                    break
+                }
 
-            return (
-              <div key={id}>
-                <QuestionCardWrapper
-                  title={title}
-                  required={required}
-                  handleCopy={(): void => this.props.handleCopyQuestion(id)}
-                  handleToggleRequire={(): void =>
-                    this.props.handleUpdateAnswerRequired(id, !required)
-                  }
-                  handleRemove={(): void => this.props.handleRemoveQuestion(id)}
-                >
-                  {questionElem}
-                </QuestionCardWrapper>
-              </div>
-            )
-          })}
-        </Reorder>
-      </QuestionsListWrapper>
+                return (
+                  <QuestionCard
+                    key={id}
+                    title={title}
+                    required={required}
+                    handleCopy={(): void => this.props.handleCopyQuestion(id)}
+                    handleToggleRequire={(): void =>
+                      this.props.handleUpdateAnswerRequired(id, !required)
+                    }
+                    handleRemove={(): void =>
+                      this.props.handleRemoveQuestion(id)
+                    }
+                  >
+                    {questionElem}
+                  </QuestionCard>
+                )
+              })}
+              {provided.placeholder}
+            </QuestionsListWrapper>
+          )}
+        </Droppable>
+      </DragDropContext>
     )
   }
 

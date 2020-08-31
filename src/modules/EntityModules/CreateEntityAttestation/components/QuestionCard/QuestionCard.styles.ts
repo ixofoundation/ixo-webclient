@@ -1,5 +1,9 @@
 import styled from 'styled-components'
 
+export const QuestionCardWrapper = styled.div`
+  cursor: move;
+`
+
 export const Toolbar = styled.div`
   border-top: 1px solid #e8edee;
   display: flex;
