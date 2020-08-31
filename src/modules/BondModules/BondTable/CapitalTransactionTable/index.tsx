@@ -16,49 +16,44 @@ import {
   StyledAmountWrapper,
   StyledHeader,
 } from './BondTable.style'
-import { InComponent, OutComponent } from './ValueComponent'
+import ValueComponent from './ValueComponent'
 import { useWindowSize } from 'common/hooks'
 
 const tableData = [
   {
     date: Date.now(),
-    transaction: 'Buy',
-    quantity: 28,
-    price: 12,
-    in: '0.5000BTC',
-    out: 86,
+    type: 'Bank Deposit',
+    purpose: 'Investment',
+    description: 'UBSOF: Payment for Services: Evaluation',
+    value: 86,
   },
   {
     date: Date.now(),
-    transaction: 'Send',
-    quantity: 28,
-    price: 12,
-    in: '0.5000BTC',
-    out: 86,
+    type: 'Bank Deposit',
+    purpose: 'Investment',
+    description: 'UBSOF: Payment for Services: Evaluation',
+    value: 86,
   },
   {
     date: Date.now(),
-    transaction: 'Receive',
-    quantity: 28,
-    price: 12,
-    in: '0.5000BTC',
-    out: 86,
+    type: 'Bank Deposit',
+    purpose: 'Investment',
+    description: 'UBSOF: Payment for Services: Evaluation',
+    value: 86,
   },
   {
     date: Date.now(),
-    transaction: 'Swap',
-    quantity: 28,
-    price: 12,
-    in: '0.5000BTC',
-    out: 86,
+    type: 'Bank Deposit',
+    purpose: 'Investment',
+    description: 'UBSOF: Payment for Services: Evaluation',
+    value: 86,
   },
   {
     date: Date.now(),
-    transaction: 'Sell',
-    quantity: 28,
-    price: 12,
-    in: '0.5000BTC',
-    out: 86,
+    type: 'Bank Deposit',
+    purpose: 'Investment',
+    description: 'UBSOF: Payment for Services: Evaluation',
+    value: 86,
   },
 ]
 
@@ -66,11 +61,10 @@ interface TableProps {
   columns: object
   data: {
     date: number
-    transaction: string
-    quantity: number
-    price: number
-    in: string,
-    out: number
+    type: string
+    purpose: string
+    description: string
+    value: number
   }[]
 }
 
@@ -82,10 +76,8 @@ const renderCell = (cell: any): any => {
         <span>{moment(cell.value).format('HH:SS')}</span>
       </DateContainer>
     )
-  } else if (cell.column.id === 'in') {
-    return <InComponent value={cell.value} />
-  }  else if (cell.column.id === 'out') {
-    return <OutComponent value={cell.value} />
+  } else if (cell.column.id === 'value') {
+    return <ValueComponent value={cell.value} />
   } else {
     return cell.render('Cell')
   }
@@ -174,7 +166,6 @@ const Table: React.SFC<TableProps> = ({ columns, data }) => {
                 // eslint-disable-next-line react/jsx-key
                 <StyledTableHeader {...column.getHeaderProps()}>
                   {column.render('Header')}
-                  {}
                 </StyledTableHeader>
               ))}
             </tr>
@@ -205,24 +196,20 @@ export const BondTable: React.SFC<{}> = () => {
         width: '100px'
       },
       {
-        Header: 'TRANSACTION',
-        accessor: 'transaction',
+        Header: 'Type',
+        accessor: 'type',
       },
       {
-        Header: 'Quantity',
-        accessor: 'quantity',
+        Header: 'PURPOSE',
+        accessor: 'purpose',
       },
       {
-        Header: 'Price',
-        accessor: 'price',
+        Header: 'DESCRIPTION',
+        accessor: 'description',
       },
       {
-        Header: 'IN',
-        accessor: 'in',
-      },
-      {
-        Header: 'OUT',
-        accessor: 'out',
+        Header: 'VALUE',
+        accessor: 'value',
       },
     ],
     [],

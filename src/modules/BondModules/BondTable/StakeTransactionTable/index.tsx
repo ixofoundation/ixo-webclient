@@ -16,12 +16,13 @@ import {
   StyledAmountWrapper,
   StyledHeader,
 } from './BondTable.style'
-import { InComponent, OutComponent } from './ValueComponent'
+import ValueComponent from './ValueComponent'
 import { useWindowSize } from 'common/hooks'
 
 const tableData = [
   {
     date: Date.now(),
+    status: 'Approved',
     transaction: 'Buy',
     quantity: 28,
     price: 12,
@@ -30,6 +31,7 @@ const tableData = [
   },
   {
     date: Date.now(),
+    status: 'Pending',
     transaction: 'Send',
     quantity: 28,
     price: 12,
@@ -38,6 +40,7 @@ const tableData = [
   },
   {
     date: Date.now(),
+    status: 'Approved',
     transaction: 'Receive',
     quantity: 28,
     price: 12,
@@ -46,6 +49,7 @@ const tableData = [
   },
   {
     date: Date.now(),
+    status: 'Failed',
     transaction: 'Swap',
     quantity: 28,
     price: 12,
@@ -54,6 +58,7 @@ const tableData = [
   },
   {
     date: Date.now(),
+    status: 'Approved',
     transaction: 'Sell',
     quantity: 28,
     price: 12,
@@ -82,10 +87,8 @@ const renderCell = (cell: any): any => {
         <span>{moment(cell.value).format('HH:SS')}</span>
       </DateContainer>
     )
-  } else if (cell.column.id === 'in') {
-    return <InComponent value={cell.value} />
-  }  else if (cell.column.id === 'out') {
-    return <OutComponent value={cell.value} />
+  } else if (cell.column.id === 'out') {
+    return <ValueComponent value={cell.value} />
   } else {
     return cell.render('Cell')
   }
@@ -174,7 +177,6 @@ const Table: React.SFC<TableProps> = ({ columns, data }) => {
                 // eslint-disable-next-line react/jsx-key
                 <StyledTableHeader {...column.getHeaderProps()}>
                   {column.render('Header')}
-                  {}
                 </StyledTableHeader>
               ))}
             </tr>
@@ -205,6 +207,10 @@ export const BondTable: React.SFC<{}> = () => {
         width: '100px'
       },
       {
+        Header: 'STATUS',
+        accessor: 'status',
+      },
+      {
         Header: 'TRANSACTION',
         accessor: 'transaction',
       },
@@ -215,10 +221,6 @@ export const BondTable: React.SFC<{}> = () => {
       {
         Header: 'Price',
         accessor: 'price',
-      },
-      {
-        Header: 'IN',
-        accessor: 'in',
       },
       {
         Header: 'OUT',

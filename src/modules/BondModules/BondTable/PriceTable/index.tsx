@@ -1,11 +1,9 @@
-import React, { useMemo, Fragment } from 'react'
+import React, { useState, Fragment } from 'react'
 import { useTable } from 'react-table'
-import {useTransition} from 'react-spring'
 import moment from 'moment'
-
-// import { useSpring, animated } from 'react-spring'
+import _ from 'lodash'
+import { useSpring, animated } from 'react-spring'
 import {
-  TableContainer,
   StyledTableHeader,
   StyledTableCell,
   StyledTableRow,
@@ -14,63 +12,18 @@ import {
   StyledMobileBuyCell,
   StyledDateWrapper,
   StyledAmountWrapper,
-  StyledHeader,
-} from './BondTable.style'
-import { InComponent, OutComponent } from './ValueComponent'
+} from './index.style'
+import ValueComponent from './ValueComponent'
 import { useWindowSize } from 'common/hooks'
-
-const tableData = [
-  {
-    date: Date.now(),
-    transaction: 'Buy',
-    quantity: 28,
-    price: 12,
-    in: '0.5000BTC',
-    out: 86,
-  },
-  {
-    date: Date.now(),
-    transaction: 'Send',
-    quantity: 28,
-    price: 12,
-    in: '0.5000BTC',
-    out: 86,
-  },
-  {
-    date: Date.now(),
-    transaction: 'Receive',
-    quantity: 28,
-    price: 12,
-    in: '0.5000BTC',
-    out: 86,
-  },
-  {
-    date: Date.now(),
-    transaction: 'Swap',
-    quantity: 28,
-    price: 12,
-    in: '0.5000BTC',
-    out: 86,
-  },
-  {
-    date: Date.now(),
-    transaction: 'Sell',
-    quantity: 28,
-    price: 12,
-    in: '0.5000BTC',
-    out: 86,
-  },
-]
 
 interface TableProps {
   columns: object
   data: {
     date: number
-    transaction: string
+    buySell: boolean
     quantity: number
     price: number
-    in: string,
-    out: number
+    value: number
   }[]
 }
 
@@ -82,19 +35,19 @@ const renderCell = (cell: any): any => {
         <span>{moment(cell.value).format('HH:SS')}</span>
       </DateContainer>
     )
-  } else if (cell.column.id === 'in') {
-    return <InComponent value={cell.value} />
-  }  else if (cell.column.id === 'out') {
-    return <OutComponent value={cell.value} />
+  } else if (cell.column.id === 'buySell') {
+    return cell.value ? 'Buy' : 'Sell'
+  } else if (cell.column.id === 'value') {
+    return <ValueComponent value={cell.value} />
   } else {
     return cell.render('Cell')
   }
 }
 
-const renderDesktopTableRow = (row, props): any => (
+const renderDesktopTableRow = (row, updateRow): any => (
   <StyledTableRow
     {...row.getRowProps()}
-    style={props}
+    onClick={(): void => updateRow(row.id)}
   >
     {row.cells.map((cell) => {
       return (
@@ -111,10 +64,11 @@ const renderDesktopTableRow = (row, props): any => (
   </StyledTableRow>
 )
 
-const renderMobileTableRow = (row): any => {
+const renderMobileTableRow = (row, updateRow): any => {
   return (
     <StyledMobileRow
       {...row.getRowProps()}
+      onClick={(): void => updateRow(row.id)}
     >
       <StyledMobileBuyCell
         header={row.cells[1].column.id}
@@ -152,18 +106,45 @@ const Table: React.SFC<TableProps> = ({ columns, data }) => {
     data,
   })
   const size = useWindowSize()
-  const updatedRows = rows.map(function (val, key) {
-    val.key = `table-row-${key}`
+  const updatedRows = rows.map(function (val) {
+    val.expended = false
     return val
   })
+
+  const GetSpringAnimation = (expanded) => {
+    const props = useSpring({
+      to: {
+        height: expanded ? '100px' : '0px',
+        width: expanded ? '100%' : '0px',
+        background: 'red',
+      },
+      from: {
+        height: !expanded ? '100px' : '0px',
+        width: !expanded ? '100%' : '0px',
+        background: 'red',
+      },
+    })
+
+    return props
+  }
+
   // const initialState = [...rows]
   // const [collapsibleRow, setCollapsibleRow] = useState([])
-  const transitions = useTransition(updatedRows, item => item.key, {
-    from: { transform: 'translate3d(-400px,0,0)' },
-    enter: { transform: 'translate3d(0,0,0)' },
-    // leave: { transform: 'translate3d(0,0,0)' },
-    config: { duration: 2000 }
-  })
+  const [expandableRowData, setExpandableRowData] = useState([...updatedRows])
+  const updateRow = (id: number): void => {
+    const copyExpendableRowData = [...expandableRowData]
+    const selectedRowIndex = _.findIndex(
+      copyExpendableRowData,
+      (row) => row.id === id,
+    )
+    const updatedRow = {
+      ...copyExpendableRowData[selectedRowIndex],
+      expended: !copyExpendableRowData[selectedRowIndex].expended,
+    }
+    copyExpendableRowData.splice(selectedRowIndex, 1, updatedRow)
+    setExpandableRowData(copyExpendableRowData)
+  }
+
   return (
     <table {...getTableProps()}>
       {size.width > 1024 && (
@@ -174,7 +155,6 @@ const Table: React.SFC<TableProps> = ({ columns, data }) => {
                 // eslint-disable-next-line react/jsx-key
                 <StyledTableHeader {...column.getHeaderProps()}>
                   {column.render('Header')}
-                  {}
                 </StyledTableHeader>
               ))}
             </tr>
@@ -182,60 +162,21 @@ const Table: React.SFC<TableProps> = ({ columns, data }) => {
         </thead>
       )}
       <tbody {...getTableBodyProps()}>
-        {transitions.map(({item, key, props}) => {
-            prepareRow(item)
-            return (
-              <Fragment key={`table-body-${key}`}>
-                {size.width > 1024 && renderDesktopTableRow(item, props)}
-                {size.width <= 1024 && renderMobileTableRow(item)}
-              </Fragment>
-            )
+        {expandableRowData.map((row, i) => {
+          prepareRow(row)
+          return (
+            <Fragment key={`table-body-${i}`}>
+              {size.width > 1024 && renderDesktopTableRow(row, updateRow)}
+              {size.width <= 1024 && renderMobileTableRow(row, updateRow)}
+              <animated.tr
+                style={GetSpringAnimation(row.expended)}
+              ></animated.tr>
+            </Fragment>
+          )
         })}
       </tbody>
     </table>
   )
 }
 
-export const BondTable: React.SFC<{}> = () => {
-  const columns = useMemo(
-    () => [
-      {
-        Header: 'Date',
-        accessor: 'date',
-        width: '100px'
-      },
-      {
-        Header: 'TRANSACTION',
-        accessor: 'transaction',
-      },
-      {
-        Header: 'Quantity',
-        accessor: 'quantity',
-      },
-      {
-        Header: 'Price',
-        accessor: 'price',
-      },
-      {
-        Header: 'IN',
-        accessor: 'in',
-      },
-      {
-        Header: 'OUT',
-        accessor: 'out',
-      },
-    ],
-    [],
-  )
-
-  return (
-    <Fragment>
-      <StyledHeader>EDU Transactions</StyledHeader>
-      <TableContainer>
-        <Table columns={columns} data={tableData} />
-      </TableContainer>
-    </Fragment>
-  )
-}
-
-export default BondTable
+export default Table

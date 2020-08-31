@@ -80,6 +80,16 @@ export const StyledTableCell = styled.td<StyledTableCellProps>`
   font-weight: bold;
   &:first-child {
     padding-left: 2em;
+    &:before{
+      content:" ";
+      position: absolute;
+      top: 20px;
+      left: -5px;
+      width: 10px;
+      height: calc(100% - 30px);
+      border-radius: 54px;
+      background: #85AD5C;
+    }
   }
   &:last-child {
     padding: 0;
