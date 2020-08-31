@@ -132,18 +132,18 @@ class CreateEntityAttestation extends CreateEntityBase<Props> {
   }
 
   renderQuestions = (): JSX.Element => {
-    const { questions } = this.props // handleMoveQuestion
+    const { questions, handleMoveQuestion } = this.props
 
     return (
       <DragDropContext
-        // onDragStart={}
-        // onDragUpdate={}
-        onDragEnd={(result) => console.log(result)}
+        onDragEnd={(result) =>
+          handleMoveQuestion(result.draggableId, result.destination.index)
+        }
       >
         <Droppable droppableId="questions-list">
           {(provided) => (
             <QuestionsListWrapper
-              innerRef={provided.innerRef}
+              ref={provided.innerRef}
               {...provided.droppableProps}
             >
               {questions.map((question, index) => {
@@ -216,6 +216,8 @@ class CreateEntityAttestation extends CreateEntityBase<Props> {
 
                 return (
                   <QuestionCard
+                    id={id}
+                    index={index}
                     key={id}
                     title={title}
                     required={required}
@@ -677,8 +679,8 @@ const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
   handleUpdateAnswerRequired: (id: string, required: boolean): void =>
     dispatch(updateAnswerRequired(id, required)),
   handleCopyQuestion: (id: string): void => dispatch(copyQuestion(id)),
-  handleMoveQuestion: (fromIndex: number, toIndex: number): void =>
-    dispatch(moveQuestion(fromIndex, toIndex)),
+  handleMoveQuestion: (id: string, toIndex: number): void =>
+    dispatch(moveQuestion(id, toIndex)),
   handleRemoveQuestion: (id: string): void => dispatch(removeQuestion(id)),
   handleValidated: (identifier: string): void =>
     dispatch(validated(identifier)),

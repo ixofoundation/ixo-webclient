@@ -879,12 +879,12 @@ describe('CreateEntityAttestation Actions', () => {
 
   describe('moveQuestion', () => {
     it('should move the question', async () => {
-      // given ... an id
-      const fromIndex = 1 // order at 2
+      // given ... an id and an index
+      const id = '8c1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d'
       const toIndex = 2 // order at 3
 
       // when ... we call the moveQuestion action creator
-      await store.dispatch(SUT.moveQuestion(fromIndex, toIndex))
+      await store.dispatch(SUT.moveQuestion(id, toIndex))
       const actions = store.getActions()
 
       // then ... it should dispatch the correct action

@@ -483,13 +483,13 @@ export const copyQuestion = (id: string): CopyQuestionAction => ({
   },
 })
 
-export const moveQuestion = (fromIndex: number, toIndex: number) => (
+export const moveQuestion = (id: string, toIndex: number) => (
   dispatch: Dispatch,
   getState: () => RootState,
 ) => {
   const state = getState()
   const questions = attestationSelectors.selectQuestions(state)
-  const fromId = questions[fromIndex].id
+  const fromId = id
   const toId = questions[toIndex].id
 
   return dispatch({
