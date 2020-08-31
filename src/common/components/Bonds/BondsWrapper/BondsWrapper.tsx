@@ -26,10 +26,9 @@ export interface State {
   projectStatus: string
 }
 
-const MemorizedSpinner = React.memo(
-  () => <Spinner info="Loading..." />,
-  (a, b) => true,
-)
+const MemorizedSpinner = React.memo(function (props) {
+  return <Spinner info="Loading..." {...props} />
+})
 
 export class BondsWrapper extends React.Component<Props, State> {
   state = {

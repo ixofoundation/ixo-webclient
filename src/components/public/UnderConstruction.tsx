@@ -10,7 +10,7 @@ import {
 } from "./ErrorPages.styles";
 
 export const UnderConstruction: React.SFC = () => {
-  let history = useHistory();
+  const history = useHistory();
 
   return (
     <Banner className="row">

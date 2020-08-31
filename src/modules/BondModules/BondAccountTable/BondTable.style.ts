@@ -1,8 +1,26 @@
 import styled from 'styled-components'
+import { animated } from 'react-spring'
 
 interface StyledTableCellProps {
   header: string
   type: boolean
+}
+
+function extractColor(value): string {
+  switch (value) {
+    case 'Buy':
+      return '#00D2FF';
+    case 'Send':
+      return '#AD245C';
+    case 'Receive':
+      return '#5AB946';
+    case 'Swap':
+      return '#ED9526';
+    case 'Sell':
+      return '#E2223B';
+    default:
+      return 'white';
+  }
 }
 
 export const TableContainer = styled.div`
@@ -69,7 +87,7 @@ export const StyledTableCell = styled.td<StyledTableCellProps>`
   }
 `
 
-export const StyledTableRow = styled.tr`
+export const StyledTableRow = styled(animated.tr)`
   background-color: #023044;
 `
 
@@ -80,6 +98,7 @@ export const DateContainer = styled.div`
     &:last-child {
       font-size: 0.6em;
       font-weight: normal;
+      color: #83D9F2;
     }
     line-height: initial;
   }
@@ -145,21 +164,3 @@ export const StyledHeader = styled.h2`
   color: white;
   margin-top: 2em;
 `
-
-
-function extractColor(value) {
-  switch (value) {
-    case 'Buy':
-      return '#00D2FF';
-    case 'Send':
-      return '#AD245C';
-    case 'Receive':
-      return '#5AB946';
-    case 'Swap':
-      return '#ED9526';
-    case 'Sell':
-      return '#E2223B';
-    default:
-      return 'white';
-  }
-}

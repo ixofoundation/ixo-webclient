@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { RouteProps } from 'react-router'
 import { Moment } from 'moment'
 import { EntitiesDashboard } from './components/EntitiesDashboard/EntitiesDashboard'
 import { ProjectCard } from './components/EntityCard/ProjectCard/ProjectCard'
@@ -37,9 +38,9 @@ import * as entitiesSelectors from './Entities.selectors'
 import * as accountSelectors from 'modules/Account/Account.selectors'
 import { entityTypeMap } from './strategy-map'
 
-export interface Props {
+export interface Props extends RouteProps {
   location?: any
-  contentType: contentType
+  contentType: string
   entityType: EntityType
   entities: Entity[]
   entitiesCount: number
@@ -82,7 +83,7 @@ export interface Props {
   handleResetFilters: () => void
 }
 
-export class Entities extends React.Component<Props> {
+export class Entities extends React.Component<any, any> {
   componentDidMount(): void {
     this.props.handleGetEntities()
   }
@@ -314,7 +315,7 @@ const mapDispatchToProps = (dispatch: any): any => ({
   handleResetFilters: (): void => dispatch(resetFilters()),
 })
 
-export const EntitiesContainerConnected = connect(
+export const EntitiesContainerConnected: any = connect(
   mapStateToProps,
   mapDispatchToProps,
 )(Entities as any)

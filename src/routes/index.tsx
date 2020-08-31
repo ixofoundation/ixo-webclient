@@ -34,7 +34,6 @@ export const Routes: React.SFC<{}> = (props) => {
           render={(routeProps): JSX.Element => (
             <EntitiesContainerConnected
               {...routeProps.location}
-              // @ts-ignore
               contentType={contentType.overview}
             />
           )}
@@ -52,7 +51,6 @@ export const Routes: React.SFC<{}> = (props) => {
           render={(routeProps): JSX.Element => (
             <EntitiesContainerConnected
               {...routeProps.location}
-              // @ts-ignore
               contentType={contentType.dashboard}
             />
           )}
@@ -61,7 +59,6 @@ export const Routes: React.SFC<{}> = (props) => {
           path="/projects/:projectDID/overview"
           render={(): JSX.Element => (
             <ProjectContainerConnected
-              // @ts-ignore
               contentType={contentType.overview}
             />
           )}
@@ -71,7 +68,6 @@ export const Routes: React.SFC<{}> = (props) => {
           path="/projects/:projectDID/detail/"
           render={(): JSX.Element => (
             <ProjectContainerConnected
-              // @ts-ignore
               contentType={contentType.dashboard}
             />
           )}
@@ -142,7 +138,6 @@ export const Routes: React.SFC<{}> = (props) => {
           exact
           path="/create-project"
           render={(routeProps): JSX.Element => (
-            // @ts-ignore
             <ProjectCreateConnected {...routeProps} {...props} />
           )}
         />
@@ -150,7 +145,6 @@ export const Routes: React.SFC<{}> = (props) => {
           exact
           path="/upload-project"
           render={(routeProps): JSX.Element => (
-            // @ts-ignore
             <ProjectCreateUploadPublicDocsConnected
               {...routeProps}
               {...props}
