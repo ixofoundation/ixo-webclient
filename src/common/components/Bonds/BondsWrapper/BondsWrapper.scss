@@ -84,7 +84,7 @@ hr {
     &.sidebar {
       flex-direction: column;
       justify-content: flex-start;
-      padding: 2rem 0;
+      padding-bottom: 2rem;
       z-index: 2;
 
       @media screen and (max-width: 768px) {
@@ -110,6 +110,16 @@ hr {
         color: $tab-title-color-active;
       }
 
+      &.support {
+        background: #0C3549;
+        flex-grow: 0;
+        height: 74px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 1.125rem;
+      }
+
       &.icon {
         &.home {
           background-image: url(../../../../assets/img/sidebar/home.svg);
@@ -133,13 +143,13 @@ hr {
           background-image: url(../../../../assets/img/sidebar/account.png);
         }
 
+        background-origin: border-box;
         background-repeat: no-repeat;
-        background-size: 25px;
         background-position: center;
-        width: 65px;
+        width: 74px;
         height: 55px;
         flex-grow: 0;
-        margin: 0.5rem 0;
+        margin: 0.75rem 0;
         &.active {
           border-left: 6px solid #00d2ff;
         }
