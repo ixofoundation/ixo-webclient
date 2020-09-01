@@ -1,7 +1,6 @@
 import React, {Fragment} from 'react'
 import { useTable } from 'react-table'
 import moment from 'moment'
-import _ from 'lodash'
 import {useTransition} from 'react-spring'
 import {
   StyledTableHeader,
