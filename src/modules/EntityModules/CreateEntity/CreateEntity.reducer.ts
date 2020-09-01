@@ -7,6 +7,8 @@ import {
 export const initialState: CreateEntityState = {
   step: 1,
   entityType: null,
+  creating: false,
+  error: null,
 }
 
 export const reducer = (

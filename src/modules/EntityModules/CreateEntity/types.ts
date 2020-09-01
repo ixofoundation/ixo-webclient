@@ -5,11 +5,17 @@ export const PDS_URL = process.env.REACT_APP_PDS_URL
 export interface CreateEntityState {
   step: number
   entityType: EntityType
+  creating: boolean
+  error: string
 }
 
 export enum CreateEntityActions {
   GoToStep = 'ixo/CreateEntity/GO_TO_STEP',
   NewEntity = 'ixo/CreateEntity/NEW_ENTITY',
+  CreateEntity = 'ixo/CreateEntity/CREATE_ENTITY',
+  CreateEntityPending = 'ixo/CreateEntity/CREATE_ENTITY_PENDING',
+  CreateEntitySuccess = 'ixo/CreateEntity/CREATE_ENTITY_FULFILLED',
+  CreateEntityFailure = 'ixo/CreateEntity/CREATE_REJECTED',
 }
 
 export interface FileContent {
@@ -60,4 +66,12 @@ export interface NewEntityAction {
   }
 }
 
-export type CreateEntityActionTypes = GoToStepAction | NewEntityAction
+export interface CreateEntityAction {
+  type: typeof CreateEntityActions.CreateEntity
+  payload: Promise<any>
+}
+
+export type CreateEntityActionTypes =
+  | GoToStepAction
+  | NewEntityAction
+  | CreateEntityAction
