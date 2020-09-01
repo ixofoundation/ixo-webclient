@@ -9,12 +9,6 @@ export const createTabsContainer = (
   justify-content: flex-start;
   width: 100%;
 
-  > * {
-    &:not(:first-child) {
-      border-left: 1px solid #3c3d3d;
-    }
-  }
-
   > div:first-child a,
   > a:first-child {
     border-top-left-radius: 4px;
@@ -32,7 +26,7 @@ export const createTabsContainer = (
     font-family: ${(props: any): string => props.theme.fontRoboto};
     color: white;
     text-transform: uppercase;
-    font-weight: 500;
+    font-weight: 400;
     font-size: 14px;
     padding: 10px 20px;
     display: flex;
@@ -64,6 +58,7 @@ export const createTabsContainer = (
       background: ${(props: any): string =>
         activeTabColor || props.theme.bg.lightBlue};
       color: white;
+      font-weight: bold;
     }
 
     &.in-active {
