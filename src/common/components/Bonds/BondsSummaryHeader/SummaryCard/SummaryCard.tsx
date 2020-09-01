@@ -25,7 +25,7 @@ export default class HeaderItem extends Component<any> {
         <ValueContainer>
           <Title>{this.props.title}</Title>
           <Price priceColor={this.props.priceColor}>
-            {this.props.tokenType ? thousandSeparator(this.props.value) : '0%'}
+            {this.props.tokenType ? thousandSeparator(this.props.value) : 0}
           </Price>
           <AdditionalInfo>{this.props.additionalInfo}</AdditionalInfo>
         </ValueContainer>
