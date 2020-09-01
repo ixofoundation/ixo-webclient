@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { animated } from 'react-spring'
 
 interface StyledTableCellProps {
   header: string
@@ -70,7 +71,7 @@ export const StyledTableCell = styled.td<StyledTableCellProps>`
   }
 `
 
-export const StyledTableRow = styled.tr`
+export const StyledTableRow = styled(animated.tr)`
   background-color: #023044;
   line-height: 1em;
   height: 4em;

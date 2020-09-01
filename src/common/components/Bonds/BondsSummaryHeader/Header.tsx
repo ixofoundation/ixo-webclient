@@ -52,10 +52,10 @@ class Header extends Component<any, HeaderState> {
     const balance = tokenBalance(this.props.account.balances, activeBond.symbol)
     const bondCapitalInfo = `${(
       (activeBond.collateral.amount / activeBond.totalSupply.amount || 0) * 100
-    ).toFixed(4)}% of Bond cap`
+    ).toFixed(2)}% of Funding Target`
     const reserveInfo = `${(
       (activeBond.reserve.amount / activeBond.totalSupply.amount || 0) * 100
-    ).toFixed(4)}% of Capital raise`
+    ).toFixed(2)}% of Capital raise`
 
     return (
       <StyledHeader>
@@ -88,7 +88,7 @@ class Header extends Component<any, HeaderState> {
         />
         <HeaderItem
           tokenType={activeBond.reserve.denom}
-          title="Reverse Funds"
+          title="Reserve Funds"
           value={activeBond.reserve.amount}
           additionalInfo={reserveInfo}
           priceColor="#39C3E6"

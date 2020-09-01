@@ -21,7 +21,7 @@ const AlphaChart: React.FunctionComponent<AlphaChartProps> = (props) => {
             <BlockInfoAmount>169,320 EDU</BlockInfoAmount>
           </BlockInfo>
           <BlockInfo className="d-flex flex-column align-items-center justify-content-around" color="#ED9526">
-            <BlockInfoStatus color="#ED9526">NEGATIVE</BlockInfoStatus>
+            <BlockInfoStatus color="#ED9526">NETURAL</BlockInfoStatus>
             <BlockInfoPercentage color="#ED9526">68%</BlockInfoPercentage>
             <BlockInfoAmount>169,320 EDU</BlockInfoAmount>
           </BlockInfo>
