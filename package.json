@@ -42,7 +42,7 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1",
     "react-scroll": "^1.8.1",
-    "react-simple-maps": "^2.1.2",
+    "react-simple-maps": "^0.12.1",
     "react-spring": "^8.0.27",
     "react-table": "^7.5.0",
     "react-toastify": "^6.0.8",
