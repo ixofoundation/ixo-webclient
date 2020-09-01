@@ -58,12 +58,21 @@ export class HeaderLeft extends React.Component<ParentProps> {
       return (
         <Fragment>
           <MenuHeaderContainer>
-            <MenuHeaderLink className="first-mobile" exact={true} to="/">
+            <MenuHeaderLink
+              className="first-mobile"
+              exact={true}
+              to="/"
+              onClick={this.props.handleBurgerClick}
+            >
               Explore
             </MenuHeaderLink>
           </MenuHeaderContainer>
           <MenuHeaderContainer>
-            <MenuHeaderAnchor target="_blank" href="https://build.ixo.world/">
+            <MenuHeaderAnchor
+              target="_blank"
+              href="https://build.ixo.world/"
+              onClick={this.props.handleBurgerClick}
+            >
               Build
             </MenuHeaderAnchor>
           </MenuHeaderContainer>
@@ -71,6 +80,7 @@ export class HeaderLeft extends React.Component<ParentProps> {
             <MenuHeaderAnchor
               target="_blank"
               href={getIxoWorldRoute('/getixowallet/deliver')}
+              onClick={this.props.handleBurgerClick}
             >
               Deliver
             </MenuHeaderAnchor>
@@ -79,6 +89,7 @@ export class HeaderLeft extends React.Component<ParentProps> {
             <MenuHeaderAnchor
               target="_blank"
               href={getIxoWorldRoute('/getixowallet/invest')}
+              onClick={this.props.handleBurgerClick}
             >
               Invest
             </MenuHeaderAnchor>
@@ -86,7 +97,8 @@ export class HeaderLeft extends React.Component<ParentProps> {
           <MenuHeaderContainer>
             <MenuHeaderAnchor
               target="_blank"
-              href="https://docs.ixo.foundation/"
+              href="https://docs.ixo.world/"
+              onClick={this.props.handleBurgerClick}
             >
               Learn
             </MenuHeaderAnchor>
