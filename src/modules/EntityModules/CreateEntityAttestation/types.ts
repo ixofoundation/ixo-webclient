@@ -17,7 +17,7 @@ export interface Question {
   control: ControlType
   minItems?: number
   maxItems?: number
-  values?: any[]
+  values?: string[]
   itemValues?: string[]
   itemLabels?: string[]
   itemImages?: string[]
@@ -421,7 +421,7 @@ export interface AddRatingQuestionAction
     required: boolean
     type: Type
     control: ControlType
-    values: number[]
+    values: string[]
     inline: boolean
   }
 }
@@ -435,7 +435,7 @@ export interface UpdateRatingQuestionAction
     title: string
     description: string
     label: string
-    values: number[]
+    values: string[]
   }
 }
 

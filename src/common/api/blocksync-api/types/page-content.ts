@@ -4,7 +4,7 @@ export interface PageContent {
   images: Image[]
   profiles: Profile[]
   social: Social
-  embedded: EmbeddedSchema[]
+  embedded: Embedded[]
 }
 
 export interface Header {
@@ -48,7 +48,7 @@ export interface Social {
   otherUrl: string
 }
 
-export interface EmbeddedSchema {
+export interface Embedded {
   title: string
   urls: string[]
 }

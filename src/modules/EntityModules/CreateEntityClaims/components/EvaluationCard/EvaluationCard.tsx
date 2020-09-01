@@ -77,7 +77,7 @@ const EvaluationCard: React.FunctionComponent<Props> = React.forwardRef(
         'ui:placeholder': 'Paste a Document Reference',
       },
       evaluationAttributes: {
-        ['ui:options']: {
+        'ui:options': {
           addable: true,
           orderable: true,
           removable: true,

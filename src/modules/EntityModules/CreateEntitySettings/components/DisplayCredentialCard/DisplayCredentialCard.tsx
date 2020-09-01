@@ -48,7 +48,7 @@ const DisplayCredential: React.FunctionComponent<Props> = React.forwardRef(
       },
       badge: {
         'ui:widget': customControls['socialtextbox'],
-        ['ui:socialIcon']: 'Other',
+        'ui:socialIcon': 'Other',
         'ui:placeholder': 'Paste Url',
       },
     }

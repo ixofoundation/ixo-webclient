@@ -680,7 +680,7 @@ describe('CreateEntityAttestation Actions', () => {
           description: undefined,
           label: undefined,
           required: true,
-          type: Type.Number,
+          type: Type.String,
           control: ControlType.Rating,
           values: undefined,
           inline: true,
@@ -716,7 +716,7 @@ describe('CreateEntityAttestation Actions', () => {
           title,
           description,
           label,
-          values: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+          values: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
         })
       })
 

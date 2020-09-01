@@ -72,7 +72,7 @@ const EnrichmentCard: React.FunctionComponent<Props> = React.forwardRef(
         'ui:placeholder': 'Enter Product Identifier',
       },
       resources: {
-        ['ui:options']: {
+        'ui:options': {
           addable: true,
           orderable: true,
           removable: true,

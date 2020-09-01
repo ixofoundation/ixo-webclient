@@ -1485,7 +1485,7 @@ describe('CreateEntityAttestation Reducer', () => {
               required: true,
               type: Type.Number,
               control: ControlType.Rating,
-              values: [1, 2, 3, 4, 5],
+              values: ['1', '2', '3', '4', '5'],
               inline: true,
               order: 1,
             },
@@ -1506,7 +1506,7 @@ describe('CreateEntityAttestation Reducer', () => {
             required: true,
             type: Type.Number,
             control: ControlType.Rating,
-            values: [1, 2, 3, 4, 5],
+            values: ['1', '2', '3', '4', '5'],
             inline: true,
             order: 1,
           },
@@ -1531,7 +1531,7 @@ describe('CreateEntityAttestation Reducer', () => {
       const title = 'someNewTitle'
       const label = 'someNewLabel'
       const description = 'someNewDescription'
-      const values = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+      const values = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
 
       // given .. we have an action of type CreateEntityAttestationActions.UpdateLocationSelectorQuestion
       const action: UpdateRatingQuestionAction = {
@@ -1558,7 +1558,7 @@ describe('CreateEntityAttestation Reducer', () => {
               required: true,
               type: Type.Number,
               control: ControlType.Rating,
-              values: [1, 2, 3, 4],
+              values: ['1', '2', '3', '4'],
               inline: true,
               order: 20,
             },

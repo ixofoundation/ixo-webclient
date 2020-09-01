@@ -67,13 +67,16 @@ const SingleControlForm: React.FunctionComponent<Props> = ({
     [id]: {
       'ui:widget': customControls[control] ? customControls[control] : control,
       'ui:placeholder': placeholder,
-      ['ui:images']: itemImages,
-      ['ui:options']: {
+      'ui:images': itemImages,
+      'ui:options': {
         inline,
       },
-      ['ui:uploading']: uploading,
+      'ui:uploading': uploading,
     },
   }
+
+  console.log(JSON.stringify(schema))
+  console.log(JSON.stringify(uiSchema))
 
   return (
     <FormContainer>

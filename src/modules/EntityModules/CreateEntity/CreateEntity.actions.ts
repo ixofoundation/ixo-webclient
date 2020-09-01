@@ -3,15 +3,15 @@ import {
   GoToStepAction,
   CreateEntityActions,
   NewEntityAction,
-  CreateEntityAction,
+  // CreateEntityAction,
 } from './types'
-import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
-import keysafe from 'common/keysafe/keysafe'
+// import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
+// import keysafe from 'common/keysafe/keysafe'
 import { EntityType } from 'modules/EntityModules/Entities/types'
 import { RootState } from 'common/redux/types'
-import { PDS_URL } from 'modules/EntityModules/CreateEntity/types'
-import { errorToast, successToast } from 'common/utils/Toast'
-import * as pageContentUtils from './utils/PageContent.utils'
+// import { PDS_URL } from 'modules/EntityModules/CreateEntity/types'
+// import { errorToast, successToast } from 'common/utils/Toast'
+// import * as pageContentUtils from '../CreateEntityPageContent/CreateEntityPageContent.utils'
 
 export const goToStep = (step: number): GoToStepAction => ({
   type: CreateEntityActions.GoToStep,
@@ -38,7 +38,7 @@ export const newEntity = (entityType: EntityType) => (
   })
 }
 
-export const createEntity = () => (
+/* export const createEntity = () => (
   dispatch: Dispatch,
   getState: () => RootState,
 ): CreateEntityAction => {
@@ -80,4 +80,4 @@ export const createEntity = () => (
   })
 
   return null
-}
+} */
