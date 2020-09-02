@@ -55,7 +55,9 @@ export const Overview: FunctionComponent<any> = ({ match }) => {
         </BondsWrapper>
       </animated.div>
       <animated.div style={resizeAssistantPanel}>
-        <FundingChat match={match} assistantPanelToggle={assistantPanelToggle} />
+        {
+          assistantPanelActive && <FundingChat match={match} assistantPanelToggle={assistantPanelToggle} />
+        }
       </animated.div>
     </StyledContainer>
   )

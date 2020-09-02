@@ -49,7 +49,6 @@ export const Accounts: FunctionComponent<any> = ({ match }) => {
   useEffect(() => {
     dispatch(getBondAccounts(projectDID))
   }, [])
-
   return (
     <StyledContainer>
       <animated.div style={resizeMain}>
@@ -66,9 +65,11 @@ export const Accounts: FunctionComponent<any> = ({ match }) => {
           <BondAccountTable />
         </BondsWrapper>
       </animated.div>
-      <animated.div style={resizeAssistantPanel}>
-        <FundingChat match={match} assistantPanelToggle={assistantPanelToggle} />
-      </animated.div>
+      {
+        assistant && <animated.div style={resizeAssistantPanel}>
+            <FundingChat match={match} assistantPanelToggle={assistantPanelToggle} />
+          </animated.div>
+      }
     </StyledContainer>
   )
 }
