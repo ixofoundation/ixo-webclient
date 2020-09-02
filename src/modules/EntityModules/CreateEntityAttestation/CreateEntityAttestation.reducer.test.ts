@@ -33,6 +33,7 @@ import {
   UpdateRatingQuestionAction,
   AddCheckBoxesQuestionAction,
   UpdateCheckBoxesQuestionAction,
+  MoveQuestionAction,
 } from './types'
 import { Type, ControlType } from 'common/components/JsonForm/types'
 import { NewEntityAction, CreateEntityActions } from '../CreateEntity/types'
@@ -1976,6 +1977,105 @@ describe('CreateEntityAttestation Reducer', () => {
             control: ControlType.TextArea,
             placeholder: 'Start Typing here',
             order: 2,
+          },
+        },
+      })
+    })
+  })
+
+  describe('Move Actions', () => {
+    it('should swap the order of the from and to indexes of the questions', () => {
+      const fromId = 'someFromId'
+      const toId = 'someToId'
+
+      // given ... we have an action of type CreateEntityAttestationActions.RemoveQuestion
+      const action: MoveQuestionAction = {
+        type: CreateEntityAttestationActions.MoveQuestion,
+        payload: {
+          fromId,
+          toId,
+        },
+      }
+
+      // when ... we run the reducer with this action
+      const result = SUT.reducer(
+        {
+          ...initialState,
+          questions: {
+            [fromId]: {
+              id: fromId,
+              title: 'someQuestionToCopyTitle',
+              label: 'someQuestionToCopyLabel',
+              description: 'someQuestionToCopyDescription',
+              required: false,
+              type: Type.String,
+              control: ControlType.TextArea,
+              placeholder: 'Start Typing here',
+              order: 1,
+            },
+            ['anotherid']: {
+              id: 'anotherid',
+              title: 'someQuestionToCopyTitle',
+              label: 'someQuestionToCopyLabel',
+              description: 'someQuestionToCopyDescription',
+              required: false,
+              type: Type.String,
+              control: ControlType.TextArea,
+              placeholder: 'Start Typing here',
+              order: 2,
+            },
+            [toId]: {
+              id: toId,
+              title: 'someQuestionToCopyTitle',
+              label: 'someQuestionToCopyLabel',
+              description: 'someQuestionToCopyDescription',
+              required: false,
+              type: Type.String,
+              control: ControlType.TextArea,
+              placeholder: 'Start Typing here',
+              order: 3,
+            },
+          },
+        },
+        action,
+      )
+
+      // then ... the state should be set as expected
+      expect(result).toEqual({
+        ...initialState,
+        questions: {
+          [fromId]: {
+            id: fromId,
+            title: 'someQuestionToCopyTitle',
+            label: 'someQuestionToCopyLabel',
+            description: 'someQuestionToCopyDescription',
+            required: false,
+            type: Type.String,
+            control: ControlType.TextArea,
+            placeholder: 'Start Typing here',
+            order: 3,
+          },
+          ['anotherid']: {
+            id: 'anotherid',
+            title: 'someQuestionToCopyTitle',
+            label: 'someQuestionToCopyLabel',
+            description: 'someQuestionToCopyDescription',
+            required: false,
+            type: Type.String,
+            control: ControlType.TextArea,
+            placeholder: 'Start Typing here',
+            order: 2,
+          },
+          [toId]: {
+            id: toId,
+            title: 'someQuestionToCopyTitle',
+            label: 'someQuestionToCopyLabel',
+            description: 'someQuestionToCopyDescription',
+            required: false,
+            type: Type.String,
+            control: ControlType.TextArea,
+            placeholder: 'Start Typing here',
+            order: 1,
           },
         },
       })

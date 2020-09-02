@@ -104,6 +104,7 @@ export const ModalItems = styled.div`
   display: flex;
   overflow-y: auto;
   flex-flow: row wrap;
+  margin-bottom: 3.5rem;
   @media (min-width: ${deviceWidth.tablet}px) {
     max-height: 380px;
   }
@@ -617,7 +618,7 @@ export const DoneButton = styled.button`
   outline: none !important;
   -webkit-appearance: none;
   -moz-appearance: none;
-  margin-top: 1.25rem;
+  margin-bottom: 1rem;
   &:after {
     content: '';
     position: absolute;

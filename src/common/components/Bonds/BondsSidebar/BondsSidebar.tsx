@@ -11,6 +11,12 @@ const BondsSidebar = ({ projectDID, bondDID }: Props): JSX.Element => {
   return (
     <div data-testid="BondsSidebar" className="tablinks sidebar">
       <NavLink
+        to='#' 
+        className="tablinks_tablink support"
+      >
+        <img src={ require('../../../../assets/img/sidebar/support.png') } />
+      </NavLink>
+      <NavLink
         exact
         to={`/projects/${projectDID}/bonds/${bondDID}`}
         isActive={(match, location): any => {
@@ -31,12 +37,12 @@ const BondsSidebar = ({ projectDID, bondDID }: Props): JSX.Element => {
         className="tablinks_tablink icon trades"
         data-testid="BondsSidebar-navLink-trades"
       />
+      <a className="tablinks_tablink icon wallet" href="#" />
       <NavLink
         to={`/projects/${projectDID}/bonds/${bondDID}/orders`}
         className="tablinks_tablink icon orders"
         data-testid="BondsSidebar-navLink-orders"
       />
-      <a className="tablinks_tablink icon wallet" href="#" />
       <a className="tablinks_tablink icon settings" href="#" />
     </div>
   )
