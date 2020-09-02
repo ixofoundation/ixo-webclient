@@ -1,24 +1,19 @@
 import React, { Dispatch, Fragment } from 'react'
 import { RouteProps } from 'react-router'
-import { NavLink } from 'react-router-dom'
 import { connect } from 'react-redux'
 import {
   AssistantWrapper,
   AssistantHeader,
-  SummaryWrapper,
   AssistantContentWrapper,
   AssistantProgress,
 } from 'common/components/ControlPanel/Actions/Actions.styles'
 import Assistant, {
   startAssistant,
 } from 'common/components/Assistant/Assistant'
-import FundingChatConfirmOrder from './components/FundingChatConfirmOrder/FundingChatConfirmOrder'
 import { RootState } from 'common/redux/types'
 import * as fundingChatSelectors from './FundingChat.selectors'
 import { getOrder, confirmOrder, cancelOrder } from './FundingChat.actions'
 import CloseIcon from 'assets/icons/CloseStroke'
-import PaymentSuccessIcon from 'assets/icons/PaymentSuccess'
-import SendIcon from 'assets/icons/Send'
 
 interface Props {
   match?: any
@@ -62,24 +57,7 @@ class FundingChat extends React.Component<Props & RouteProps> {
 
   render(): JSX.Element {
     const {
-      match: {
-        params: { projectDID },
-      },
-      subscription,
-      symbol,
-      amount,
-      fiatAmount,
-      fiatConversionRate,
-      transactionFee,
-      fiatTransactionFee,
-      gasFee,
-      total,
-      fiatTotal,
-      hasOrder,
-      sending,
-      sent,
       error,
-      handleConfirmOrder,
       handleCancelOrder,
       assistantPanelToggle
     } = this.props
