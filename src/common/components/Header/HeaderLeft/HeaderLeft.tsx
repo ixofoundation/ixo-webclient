@@ -50,7 +50,7 @@ export class HeaderLeft extends React.Component<ParentProps> {
           >
             Invest
           </HeaderAnchor>
-          <HeaderAnchor target="_blank" href="https://docs.ixo.world/">
+          <HeaderAnchor target="_blank" href="https://docs.ixo.foundation/">
             Learn
           </HeaderAnchor>
           <HeaderLink

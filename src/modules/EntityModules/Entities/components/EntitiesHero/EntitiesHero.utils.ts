@@ -30,7 +30,7 @@ export const getHeaderTabButtons = (
       {
         iconClass: 'icon-impacts',
         linkClass: null,
-        path: '/global-statistics',
+        path: '/impact',
         title: 'IMPACT',
       },
       {
