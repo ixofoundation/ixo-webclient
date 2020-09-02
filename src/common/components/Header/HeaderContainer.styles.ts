@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import { deviceWidth } from "../../../lib/commonData";
+import styled from 'styled-components'
+import { deviceWidth } from '../../../lib/commonData'
 
 export const TopBar = styled.header`
   position: sticky;
@@ -17,7 +17,7 @@ export const TopBar = styled.header`
       z-index: 13;
     }
   }
-`;
+`
 
 export const StatusMessage = styled.div`
   opacity: 0;
@@ -40,7 +40,7 @@ export const StatusMessage = styled.div`
   }
 
   &:after {
-    content: "";
+    content: '';
     width: 0;
     height: 0;
     border-left: 10px solid transparent;
@@ -53,7 +53,7 @@ export const StatusMessage = styled.div`
     pointer-events: none;
     transition: opacity 0.3s ease;
   }
-`;
+`
 
 export const Ping = styled.div`
   position: relative;
@@ -66,7 +66,7 @@ export const Ping = styled.div`
   &:hover ${StatusMessage}, &:hover ${StatusMessage} {
     opacity: 1;
   }
-`;
+`
 
 export const Light = styled.span`
   display: block;
@@ -75,7 +75,7 @@ export const Light = styled.span`
   background: rgb(240, 0, 0);
   border-radius: 0 0 2px 2px;
   box-shadow: 0px 0px 5px 0px rgb(255, 0, 0);
-`;
+`
 
 export const LightLoading = styled(Light)`
   box-shadow: 0px 0px 5px 0px rgba(255, 165, 0, 1);
@@ -94,12 +94,12 @@ export const LightLoading = styled(Light)`
       box-shadow: 0px 0px 5px 0px rgba(255, 165, 0, 1);
     }
   }
-`;
+`
 
 export const LightReady = styled(Light)`
   background: #5ab946;
   box-shadow: 0px 0px 5px 0px rgb(0, 255, 64);
-`;
+`
 
 export const ModalData = styled.div`
   max-width: 380px;
@@ -128,7 +128,7 @@ export const ModalData = styled.div`
       color: ${(props: any): string => props.theme.ixoBlue};
     }
   }
-`;
+`
 
 export const InfoLink = styled.a`
   color: white;
@@ -138,4 +138,4 @@ export const InfoLink = styled.a`
   :hover {
     color: ${(props: any): string => props.theme.ixoBlue};
   }
-`;
+`
