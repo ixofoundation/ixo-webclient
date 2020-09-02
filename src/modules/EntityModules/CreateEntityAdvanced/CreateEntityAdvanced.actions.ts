@@ -88,7 +88,7 @@ export const updatePayment = (
   id: string,
   formData: FormData,
 ): UpdatePaymentAction => {
-  const { type, paymentId, denom, maxFee, maxQty } = formData
+  const { type, paymentId } = formData
 
   return {
     type: CreateEntityAdvancedActions.UpdatePayment,
@@ -96,9 +96,6 @@ export const updatePayment = (
       id,
       type,
       paymentId,
-      denom,
-      maxFee,
-      maxQty,
     },
   }
 }
@@ -274,6 +271,7 @@ export const updateService = (
     serviceEndpoint,
     publicKey,
     properties,
+    serviceId,
   } = formData
 
   return {
@@ -285,6 +283,7 @@ export const updateService = (
       serviceEndpoint,
       publicKey,
       properties,
+      serviceId,
     },
   }
 }

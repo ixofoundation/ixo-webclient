@@ -7,6 +7,7 @@ import { LinkButton } from 'common/components/JsonForm/JsonForm.styles'
 
 interface Props extends FormCardProps {
   type: ServiceType
+  serviceId: string
   shortDescription: string
   serviceEndpoint: string
   publicKey: string
@@ -17,6 +18,7 @@ const ServiceCard: React.FunctionComponent<Props> = React.forwardRef(
   (
     {
       type,
+      serviceId,
       shortDescription,
       serviceEndpoint,
       publicKey,
@@ -30,6 +32,7 @@ const ServiceCard: React.FunctionComponent<Props> = React.forwardRef(
   ) => {
     const formData = {
       type,
+      serviceId,
       shortDescription,
       serviceEndpoint,
       publicKey,
@@ -40,6 +43,7 @@ const ServiceCard: React.FunctionComponent<Props> = React.forwardRef(
       type: 'object',
       required: [
         'type',
+        'serviceId',
         'shortDescription',
         'serviceEndpoint',
         'publicKey',
@@ -53,6 +57,10 @@ const ServiceCard: React.FunctionComponent<Props> = React.forwardRef(
           enumNames: Object.keys(ServiceType).map(
             (key) => serviceTypeMap[ServiceType[key]].title,
           ),
+        },
+        serviceId: {
+          type: 'string',
+          title: 'Service Identifier',
         },
         serviceEndpoint: {
           type: 'string',
@@ -76,6 +84,9 @@ const ServiceCard: React.FunctionComponent<Props> = React.forwardRef(
     const uiSchema = {
       type: {
         'ui:placeholder': 'Select Service',
+      },
+      serviceId: {
+        'ui:placeholder': 'Enter DID or !name',
       },
       serviceEndpoint: {
         'ui:placeholder': 'Enter URL',

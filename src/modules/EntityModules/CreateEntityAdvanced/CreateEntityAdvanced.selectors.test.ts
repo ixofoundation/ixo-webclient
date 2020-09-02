@@ -34,17 +34,11 @@ beforeEach(() => {
       payments: {
         '9b1deb4d-3hhh-4bad-9bdd-2b0d7b3dcb6d': {
           id: '9b1deb4d-3hhh-4bad-9bdd-2b0d7b3dcb6d',
-          denom: PaymentDenomination.eCHF,
-          maxFee: 123,
-          maxQty: 456,
           paymentId: 'somePaymentId',
           type: PaymentType.IncomeDistribution,
         },
         '9b1deb4d-3aaa-4bad-9bdd-2b0d7b3dcb6d': {
           id: '9b1deb4d-3aaa-4bad-9bdd-2b0d7b3dcb6d',
-          denom: PaymentDenomination.eCHF,
-          maxFee: 123,
-          maxQty: 456,
           paymentId: 'somePaymentId',
           type: PaymentType.IncomeDistribution,
         },
@@ -129,6 +123,7 @@ beforeEach(() => {
           publicKey: 'someServicePublicKey',
           shortDescription: 'someServiceShortDescription',
           type: ServiceType.EthereumWeb3,
+          serviceId: 'someServiceId',
         },
         '8c1debff-3b7d-4yasy-9bdd-2b0d7b3dxxxx': {
           id: '8c1debff-3b7d-4yasy-9bdd-2b0d7b3dxxxx',
@@ -137,6 +132,7 @@ beforeEach(() => {
           publicKey: 'someServicePublicKe2y',
           shortDescription: 'someServiceShortDescription',
           type: ServiceType.DIDAgent,
+          serviceId: 'someServiceOtherId',
         },
       },
       dataResources: {
@@ -212,17 +208,11 @@ describe('CreateEntityAdvanced Selectors', () => {
       expect(result).toEqual([
         {
           id: '9b1deb4d-3hhh-4bad-9bdd-2b0d7b3dcb6d',
-          denom: PaymentDenomination.eCHF,
-          maxFee: 123,
-          maxQty: 456,
           paymentId: 'somePaymentId',
           type: PaymentType.IncomeDistribution,
         },
         {
           id: '9b1deb4d-3aaa-4bad-9bdd-2b0d7b3dcb6d',
-          denom: PaymentDenomination.eCHF,
-          maxFee: 123,
-          maxQty: 456,
           paymentId: 'somePaymentId',
           type: PaymentType.IncomeDistribution,
         },
@@ -352,6 +342,7 @@ describe('CreateEntityAdvanced Selectors', () => {
           publicKey: 'someServicePublicKey',
           shortDescription: 'someServiceShortDescription',
           type: ServiceType.EthereumWeb3,
+          serviceId: 'someServiceId',
         },
         {
           id: '8c1debff-3b7d-4yasy-9bdd-2b0d7b3dxxxx',
@@ -360,6 +351,7 @@ describe('CreateEntityAdvanced Selectors', () => {
           publicKey: 'someServicePublicKe2y',
           shortDescription: 'someServiceShortDescription',
           type: ServiceType.DIDAgent,
+          serviceId: 'someServiceOtherId',
         },
       ])
     })

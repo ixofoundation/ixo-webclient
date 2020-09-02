@@ -6,6 +6,10 @@ import { Attestation } from 'common/api/blocksync-api/types/attestation'
 import * as pageContentSelectors from 'modules/EntityModules/CreateEntityPageContent/CreateEntityPageContent.selectors'
 import * as attestationSelectors from 'modules/EntityModules/CreateEntityAttestation/CreateEntityAttestation.selectors'
 import * as settingsSelectors from 'modules/EntityModules/CreateEntitySettings/CreateEntitySettings.selectors'
+import * as advancedSelectors from 'modules/EntityModules/CreateEntityAdvanced/CreateEntityAdvanced.selectors'
+import * as claimsSelectors from 'modules/EntityModules/CreateEntityClaims/CreateEntityClaims.selectors'
+import { Entity } from 'common/api/blocksync-api/types/entity'
+import { serverDateFormat } from 'common/utils/formatters'
 
 export const selectCreateEntity = (state: RootState): CreateEntityState =>
   state.createEntity
@@ -128,100 +132,253 @@ export const selectAttestationApiPayload = createSelector(
   },
 )
 
-export const selectEntityPayload = (pageContentId: string) =>
-  createSelector(
-    selectEntityType,
-    pageContentSelectors.selectHeaderContent,
-    settingsSelectors.selectStatus,
-    settingsSelectors.selectVersion,
-    settingsSelectors.selectPrivacy,
-    settingsSelectors.selectTermsOfUse,
-    settingsSelectors.selectRequiredCredentials,
-    settingsSelectors.selectCreator,
-    settingsSelectors.selectOwner,
-    settingsSelectors.selectFilters,
-    settingsSelectors.selectDisplayCredentials,
-    (
-      entityType,
-      header,
-      status,
-      version,
-      privacy,
-      terms,
-      requiredCredentials,
-      creator,
-      owner,
-      filters,
-      displayCredentials,
-    ) => {
-      return {
-        ['@context']: 'https://schema.ixo.foundation/entity:2383r9riuew',
-        ['@type']: entityType,
-        versionNumber: process.env.REACT_APP_ENTITY_VERSION, // to check
-        name: header.title,
-        description: header.shortDescription,
-        image: header.fileSrc,
-        imageDescription: header.imageDescription,
-        location: header.location,
-        sdgs: header.sdgs,
-        startDate: status.startDate,
-        endDate: status.endDate,
-        status: status.status,
-        stage: status.startDate,
-        relayerNode: process.env.REACT_APP_RELAYER_NODE,
-        version: {
-          // to check
-          versionNumber: version.versionNumber,
-          effectiveDate: version.effectiveDate,
-          notes: version.notes,
-        },
-        terms: {
-          // to check
-          type: terms.type,
-          paymentTemplateId: terms.paymentTemplateId,
-        },
-        privacy: {
-          pageView: privacy.pageView,
-          entityView: privacy.entityView,
-          credentials: requiredCredentials.map((credential) => ({
-            credential: credential.credential,
-            issuer: credential.issuer,
-          })),
-        },
-        page: {
-          cid: pageContentId,
-          version: process.env.REACT_APP_ENTITY_PAGE_VERSION,
-        },
-        creator: {
-          id: creator.creatorId,
-          displayName: creator.displayName,
-          logo: creator.fileSrc,
-          location: creator.location,
-          email: creator.email,
-          website: creator.website,
-          mission: creator.mission,
-          credentialId: creator.credential,
-        },
-        owner: {
-          id: owner.ownerId,
-          displayName: owner.displayName,
-          logo: owner.fileSrc,
-          location: owner.location,
-          email: owner.email,
-          website: owner.website,
-          mission: owner.mission,
-        },
-        ddoTags: Object.keys(filters).map((category) => ({
-          category,
-          tags: Object.values(filters[category]),
+export const selectEntityPageApiPayload = (pageContentId: string) => () => {
+  return {
+    page: {
+      cid: pageContentId,
+      version: process.env.REACT_APP_ENTITY_PAGE_VERSION,
+    },
+  }
+}
+
+export const selectEntityClaimsApiPayload = createSelector(
+  claimsSelectors.selectEntityClaims,
+  (claims) => {
+    return {
+      claims: {
+        ['@context']: 'https://schema.ixo.world/claims:3r08webu2eou',
+        items: claims.map((claim) => {
+          return {
+            ['@id']: claim.template.templateId,
+            visibility: claim.template.isPrivate ? 'Private' : 'Public',
+            title: claim.template.title,
+            description: claim.template.description,
+            targetMin: claim.template.minTargetClaims,
+            targetMax: claim.template.maxTargetClaims,
+            startDate: serverDateFormat(claim.template.submissionStartDate),
+            endDate: serverDateFormat(claim.template.submissionEndDate),
+            agents: claim.agentRoles.map((agent) => ({
+              role: agent.role,
+              autoApprove: agent.autoApprove,
+              credential: agent.credential,
+            })),
+            claimEvaluation: claim.evaluations.map((evaluation) => ({
+              ['@context']: evaluation.context,
+              ['@id']: evaluation.contextLink,
+              methodology: evaluation.evaluationMethodology,
+              attributes: evaluation.evaluationAttributes,
+            })),
+            claimApproval: claim.approvalCriteria.map((approvalCriterion) => ({
+              ['@context']: approvalCriterion.context,
+              ['@id']: approvalCriterion.contextLink,
+              condition: approvalCriterion.approvalCondition,
+              attributes: approvalCriterion.approvalAttributes,
+            })),
+            claimEnrichment: claim.enrichments.map((enrichment) => ({
+              ['@context']: enrichment.context,
+              ['@id']: enrichment.contextLink,
+              productId: enrichment.productId,
+              resources: enrichment.resources,
+            })),
+          }
+        }),
+      },
+    }
+  },
+)
+
+export const selectEntitySettingsApiPayload = createSelector(
+  selectEntityType,
+  pageContentSelectors.selectHeaderContent,
+  settingsSelectors.selectStatus,
+  settingsSelectors.selectVersion,
+  settingsSelectors.selectPrivacy,
+  settingsSelectors.selectTermsOfUse,
+  settingsSelectors.selectRequiredCredentials,
+  settingsSelectors.selectCreator,
+  settingsSelectors.selectOwner,
+  settingsSelectors.selectFilters,
+  settingsSelectors.selectDisplayCredentials,
+  (
+    entityType,
+    header,
+    status,
+    version,
+    privacy,
+    terms,
+    requiredCredentials,
+    creator,
+    owner,
+    filters,
+    displayCredentials,
+  ) => {
+    return {
+      ['@context']: 'https://schema.ixo.foundation/entity:2383r9riuew',
+      ['@type']: entityType,
+      schemaVersion: process.env.REACT_APP_ENTITY_VERSION,
+      name: header.title,
+      description: header.shortDescription,
+      image: header.fileSrc,
+      imageDescription: header.imageDescription,
+      location: header.location,
+      sdgs: header.sdgs,
+      startDate: serverDateFormat(status.startDate),
+      endDate: serverDateFormat(status.endDate),
+      status: status.status,
+      stage: status.stage,
+      relayerNode: process.env.REACT_APP_RELAYER_NODE,
+      version: {
+        versionNumber: version.versionNumber,
+        effectiveDate: serverDateFormat(version.effectiveDate),
+        notes: version.notes,
+      },
+      terms: {
+        ['@type']: terms.type,
+        paymentTemplateId: terms.paymentTemplateId,
+      },
+      privacy: {
+        pageView: privacy.pageView,
+        entityView: privacy.entityView,
+        credentials: requiredCredentials.map((credential) => ({
+          credential: credential.credential,
+          issuer: credential.issuer,
         })),
-        displayCredentials: {
-          ['@context']: 'https://www.w3.org/2018/credentials/v1',
-          items: displayCredentials.map((credential) => ({
-            credential: credential.credential,
-            badge: credential.badge,
-          })),
-        },
+      },
+      creator: {
+        id: creator.creatorId,
+        displayName: creator.displayName,
+        logo: creator.fileSrc,
+        location: creator.location,
+        email: creator.email,
+        website: creator.website,
+        mission: creator.mission,
+        credentialId: creator.credential,
+      },
+      owner: {
+        id: owner.ownerId,
+        displayName: owner.displayName,
+        logo: owner.fileSrc,
+        location: owner.location,
+        email: owner.email,
+        website: owner.website,
+        mission: owner.mission,
+      },
+      ddoTags: Object.keys(filters).map((category) => ({
+        category,
+        tags: Object.values(filters[category]),
+      })),
+      displayCredentials: {
+        ['@context']: 'https://www.w3.org/2018/credentials/v1',
+        items: displayCredentials.map((credential) => ({
+          credential: credential.credential,
+          badge: credential.badge,
+        })),
+      },
+    }
+  },
+)
+
+export const selectEntityAdvancedApiPayload = createSelector(
+  advancedSelectors.selectLinkedEntities,
+  advancedSelectors.selectPayments,
+  advancedSelectors.selectStaking,
+  advancedSelectors.selectNodes,
+  advancedSelectors.selectFunding,
+  advancedSelectors.selectKeys,
+  advancedSelectors.selectServices,
+  advancedSelectors.selectDataResources,
+  (
+    linkedEntities,
+    payments,
+    staking,
+    nodes,
+    funding,
+    keys,
+    services,
+    dataResources,
+  ) => {
+    return {
+      linkedEntities: linkedEntities.map((linkedEntity) => ({
+        ['@type']: linkedEntity.type,
+        id: linkedEntity.entityId,
+      })),
+      fees: {
+        ['@context']: 'https://schema.ixo.world/fees/ipfs3r08webu2eou',
+        items: payments.map((payment) => ({
+          ['@type']: payment.type,
+          id: payment.paymentId,
+        })),
+      },
+      stake: {
+        ['@context']: 'https://schema.ixo.world/staking/ipfs3r08webu2eou',
+        items: staking.map((stake) => ({
+          ['@type']: stake.type,
+          id: stake.stakeId,
+          denom: stake.denom,
+          stakeAddress: stake.stakeAddress,
+          minStake: stake.minStake,
+          slashCondition: stake.slashCondition,
+          slashFactor: stake.slashFactor,
+          slashAmount: stake.slashAmount,
+          unbondPeriod: stake.unbondPeriod,
+        })),
+      },
+      nodes: {
+        ['@context']: 'https://schema.ixo.world/nodes/ipfs3r08webu2eou',
+        items: nodes.map((node) => ({
+          ['@type']: node.type,
+          id: node.nodeId,
+        })),
+      },
+      funding: {
+        ['@context']: 'https://schema.ixo.world/funding/ipfs3r08webu2eou',
+        items: funding.map((fund) => ({
+          ['@type']: fund.source,
+          id: fund.fundId,
+        })),
+      },
+      keys: {
+        ['@context']: 'https://www.w3.org/ns/did/v1',
+        items: keys.map((key) => ({
+          purpose: key.purpose,
+          ['@type']: key.type,
+          controller: key.controller,
+          keyValue: key.keyValue,
+          dateCreated: serverDateFormat(key.dateCreated),
+          dateUpdated: serverDateFormat(key.dateUpdated),
+          signature: key.signature,
+        })),
+      },
+      service: services.map((service) => ({
+        ['@type']: service.type,
+        id: service.serviceId,
+        serviceEndpoint: service.serviceEndpoint,
+        description: service.shortDescription,
+        publicKey: service.publicKey,
+        properties: service.properties,
+      })),
+      data: dataResources.map((dataResource) => ({
+        ['@type']: dataResource.type,
+        id: dataResource.dataId,
+        serviceEndpoint: dataResource.serviceEndpoint,
+        properties: dataResource.properties,
+      })),
+    }
+  },
+)
+
+export const selectEntityApiPayload = (pageContentId: string): any =>
+  createSelector(
+    selectEntitySettingsApiPayload,
+    selectEntityPageApiPayload(pageContentId),
+    selectEntityClaimsApiPayload,
+    selectEntityAdvancedApiPayload,
+    (settings, page, claims, advanced): Entity => {
+      return {
+        ...settings,
+        ...page,
+        ...claims,
+        ...advanced,
       }
     },
   )

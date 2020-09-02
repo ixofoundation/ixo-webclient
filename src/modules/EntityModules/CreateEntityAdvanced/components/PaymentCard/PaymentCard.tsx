@@ -1,9 +1,6 @@
 import React from 'react'
-import { PaymentType, PaymentDenomination } from '../../../Entities/types'
-import {
-  paymentTypeMap,
-  paymentDenominationMap,
-} from '../../../Entities/strategy-map'
+import { PaymentType } from '../../../Entities/types'
+import { paymentTypeMap } from '../../../Entities/strategy-map'
 import MultiControlForm from 'common/components/JsonForm/MultiControlForm/MultiControlForm'
 import { FormCardProps } from '../../../CreateEntity/types'
 import { LinkButton } from 'common/components/JsonForm/JsonForm.styles'
@@ -11,9 +8,6 @@ import { LinkButton } from 'common/components/JsonForm/JsonForm.styles'
 interface Props extends FormCardProps {
   type: PaymentType
   paymentId: string
-  denom: PaymentDenomination
-  maxFee: number
-  maxQty: number
 }
 
 const PaymentCard: React.FunctionComponent<Props> = React.forwardRef(
@@ -21,9 +15,6 @@ const PaymentCard: React.FunctionComponent<Props> = React.forwardRef(
     {
       type,
       paymentId,
-      denom,
-      maxFee,
-      maxQty,
       handleUpdateContent,
       handleSubmitted,
       handleError,
@@ -34,14 +25,11 @@ const PaymentCard: React.FunctionComponent<Props> = React.forwardRef(
     const formData = {
       type,
       paymentId,
-      denom,
-      maxFee,
-      maxQty,
     }
 
     const schema = {
       type: 'object',
-      required: ['type', 'paymentId', 'denom', 'maxFee', 'maxQty'],
+      required: ['type', 'paymentId'],
       properties: {
         type: {
           type: 'string',
@@ -52,21 +40,6 @@ const PaymentCard: React.FunctionComponent<Props> = React.forwardRef(
           ),
         },
         paymentId: { type: 'string', title: 'Payment ID' },
-        denom: {
-          type: 'string',
-          title: 'Payment Denomination',
-          enum: Object.keys(PaymentDenomination).map(
-            (key) => PaymentDenomination[key],
-          ),
-          enumNames: Object.keys(PaymentDenomination).map(
-            (key) => paymentDenominationMap[PaymentDenomination[key]].title,
-          ),
-        },
-        maxFee: {
-          type: 'number',
-          title: 'Maximum Payment Amount',
-        },
-        maxQty: { type: 'number', title: 'Maximum Quantity' },
       },
     } as any
 
@@ -76,15 +49,6 @@ const PaymentCard: React.FunctionComponent<Props> = React.forwardRef(
       },
       paymentId: {
         'ui:placeholder': 'Enter ID',
-      },
-      denom: {
-        'ui:placeholder': 'Select Denomination',
-      },
-      maxFee: {
-        'ui:placeholder': 'Enter Amount',
-      },
-      maxQty: {
-        'ui:placeholder': 'Enter Number of Units',
       },
     }
 

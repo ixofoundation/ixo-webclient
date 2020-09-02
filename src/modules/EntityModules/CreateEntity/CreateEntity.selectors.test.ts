@@ -4,6 +4,9 @@ import { EntityType } from 'modules/EntityModules/Entities/types'
 import { CreateEntityPageContentState } from 'modules/EntityModules/CreateEntityPageContent/types'
 import { CreateEntityAttestationState } from 'modules/EntityModules/CreateEntityAttestation/types'
 import { Type, ControlType } from 'common/components/JsonForm/types'
+import { CreateEntitySettingsState } from '../CreateEntitySettings/types'
+import { CreateEntityAdvancedState } from '../CreateEntityAdvanced/types'
+import { CreateEntityClaimsState } from '../CreateEntityClaims/types'
 
 let state: any
 
@@ -11,107 +14,91 @@ beforeEach(() => {
   state = {
     createEntity: {
       step: 1,
-      entityType: EntityType.Investment,
+      entityType: EntityType.Project,
     } as CreateEntityState,
     createEntityPageContent: {
       header: {
-        title: 'someHeaderTitle',
-        shortDescription: 'someHeaderShortDescription',
-        fileSrc: 'someHeaderfileSrc',
-        imageDescription: 'someHeaderImageDescription',
-        sdgs: ['sdg1', 'sdg2', 'sdg3'],
-        organisation: 'someHeaderCompany',
-        location: 'ZA',
+        title: 'Some Title',
+        shortDescription: 'Some Short Description',
+        imageDescription: 'Some Image Description',
+        sdgs: ['5', '7'],
+        organisation: 'Some Organisation',
+        location: 'AR',
+        fileSrc: 'https://pds_pandora.ixo.world/public/sbujb0xg0dgkeljwtnc',
         uploading: false,
       },
       body: {
-        '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d': {
-          id: '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d',
-          title: 'someBody1Title',
-          content: 'someBody1Content',
-          fileSrc: 'someBody1fileSrc',
+        '4151f7bc-a399-4f69-940a-82394db61486': {
+          id: '4151f7bc-a399-4f69-940a-82394db61486',
+          title: 'Some Body Content Title',
+          content: 'Some Body Content',
           uploading: false,
+          fileSrc: 'https://pds_pandora.ixo.world/public/n724h8vl04bkeljy6xl',
         },
-        '1b9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed': {
-          id: '1b9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed',
-          title: 'someBody2Title',
-          content: 'someBody2Content',
-          fileSrc: 'someBody2fileSrc',
+        '78f42ac3-d647-4f9a-a99d-71840fb6988a': {
+          id: '78f42ac3-d647-4f9a-a99d-71840fb6988a',
+          title: 'Another Body Content Title',
+          content: 'Another Body Content',
           uploading: false,
+          fileSrc: 'https://pds_pandora.ixo.world/public/e4g7yisha77keljyz5d',
         },
       },
       images: {
-        'ab1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d': {
-          id: 'ab1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d',
-          title: 'someImage1Title',
-          content: 'someImage1Content',
-          fileSrc: 'someImage1fileSrc',
-          imageDescription: 'someImage1ImageDescription',
+        '705365a2-e294-4983-8d00-b1cdf6cc623f': {
+          id: '705365a2-e294-4983-8d00-b1cdf6cc623f',
+          title: 'Some Image Content Title',
+          content: 'Some Image Body Content',
+          imageDescription: 'Some Image Description',
           uploading: false,
-        },
-        'ab9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed': {
-          id: 'ab9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed',
-          title: 'someImage2Title',
-          content: 'someImage2Content',
-          fileSrc: 'someImage2fileSrc',
-          imageDescription: 'someImage2ImageDescription',
-          uploading: false,
+          fileSrc: 'https://pds_pandora.ixo.world/public/7bfhyr0m1p9keljzr4i',
         },
       },
       profiles: {
-        'cb1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d': {
-          id: 'cb1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d',
-          name: 'someProfileName1',
-          position: 'someProfilePosition1',
-          linkedInUrl: 'someProfileLinkedInUrl1',
-          twitterUrl: 'someProfileTwitterUrl1',
-          fileSrc: 'someProfilefileSrc1',
+        '5754cb96-01a5-4c7e-a3cf-f8833f147b59': {
+          id: '5754cb96-01a5-4c7e-a3cf-f8833f147b59',
+          name: 'Someone 1',
+          position: 'Some Position 1',
+          linkedInUrl: 'https://linkedin1',
+          twitterUrl: 'https://twitter1',
           uploading: false,
+          fileSrc: 'https://pds_pandora.ixo.world/public/64tkzqd3llrkelk01rj',
         },
-        'cb9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed': {
-          id: 'cb9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed',
-          name: 'someProfileName2',
-          position: 'someProfilePosition2',
-          linkedInUrl: 'someProfileLinkedInUrl2',
-          twitterUrl: 'someProfileTwitterUrl2',
-          fileSrc: 'someProfilefileSrc2',
+        '2564cf77-fe1b-42d8-85e6-6c215707b846': {
+          id: '2564cf77-fe1b-42d8-85e6-6c215707b846',
+          name: 'Someone 2',
+          position: 'Some Position 2',
+          linkedInUrl: 'https://linkedin2',
+          twitterUrl: 'https://twitter2',
           uploading: false,
+          fileSrc: 'https://pds_pandora.ixo.world/public/o18hu58fj48kelk08c5',
         },
       },
       social: {
-        linkedInUrl: 'someSocialLinkedInUrl',
-        facebookUrl: 'someSocialFacebookUrl',
-        twitterUrl: 'someSocialTwitterUrl',
-        discourseUrl: 'someSocialDiscourseUrl',
-        instagramUrl: 'someSocialInstagramUrl',
-        telegramUrl: 'someSocialTelegramUrl',
-        githubUrl: 'someSocialGithubUrl',
-        otherUrl: 'someSocialOtherUrl',
+        linkedInUrl: 'https://linkedInUrl',
+        facebookUrl: 'https://fbUrl',
+        twitterUrl: 'https://twitterUrl',
+        discourseUrl: 'https://discourseUrl',
+        instagramUrl: 'https://instagramUrl',
+        telegramUrl: 'https://telegramUrl',
+        githubUrl: 'https://githubUrl',
+        otherUrl: 'https://otherUrl',
       },
       embedded: {
-        'db1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d': {
-          id: 'db1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d',
-          title: 'someEmbeddedTitle1',
-          urls: ['url1', 'url2'],
+        'd3616806-219b-41f5-a77c-13ae504a6282': {
+          id: 'd3616806-219b-41f5-a77c-13ae504a6282',
+          title: 'Some Title 1',
+          urls: [
+            'https://edition.cnn.com/2020/09/02/europe/alexey-navalny-novichok-intl/index.html',
+            'https://edition.cnn.com/2020/09/02/politics/melania-trump-private-email-wolkoff-cnntv/index.html',
+          ],
         },
-        'db9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed': {
-          id: 'db9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed',
-          title: 'someEmbeddedTitle2',
-          urls: ['url3', 'url4'],
-        },
-      },
-      validation: {
-        'db1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d': {
-          identifier: 'db1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d',
-          validated: true,
-          errors: [],
-        },
-        'db9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed': {
-          identifier: 'db9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed',
-          validated: false,
-          errors: ['error1', 'error2'],
+        '94e657ff-ea28-4026-ba48-74b6f9b12cbb': {
+          id: '94e657ff-ea28-4026-ba48-74b6f9b12cbb',
+          title: 'Another Title',
+          urls: ['https://www.youtube.com/watch?v=iOWFXqT5MZ4'],
         },
       },
+      validation: {},
     } as CreateEntityPageContentState,
     createEntityAttestation: {
       claimInfo: {
@@ -280,24 +267,271 @@ beforeEach(() => {
           order: 12,
         },
       },
-      validation: {
-        '8c1debff-3b7d-4bad-9bdd-2b0d7b3dcb6d': {
-          identifier: '8c1debff-3b7d-4bad-9bdd-2b0d7b3dcb6d',
-          validated: true,
-          errors: [],
+      validation: {},
+    } as CreateEntityAttestationState,
+    createEntitySettings: {
+      creator: {
+        displayName: 'Creator Display Name',
+        location: 'AD',
+        email: 'ert@dfssdf.com',
+        website: 'https://blah.com',
+        mission: 'Some mission',
+        creatorId: 'did:sov:CYCc2xaJKrp8Yt947Nc6jd1',
+        credential: 'did:sov:CYCc2xaJKrp8Yt947Nc6jd2',
+        fileSrc: 'https://pds_pandora.ixo.world/public/8520qk1ckqvkelkjfeg',
+        uploading: false,
+      },
+      owner: {
+        displayName: 'Owner Display Name',
+        location: 'AQ',
+        email: 'eeeert@dfssdf.com',
+        website: 'https://eerer.com',
+        mission: 'another mission',
+        ownerId: 'did:sov:CYCc2xaJKrp8Yt947Nc6jd6',
+        fileSrc: 'https://pds_pandora.ixo.world/public/9uqcsf7qsfjkelkkkt9',
+        uploading: false,
+      },
+      status: {
+        startDate: '17-Sep-2020',
+        endDate: '23-Oct-2020',
+        stage: 'Planning',
+        status: 'Live',
+      },
+      version: {
+        versionNumber: '1.0.5',
+        effectiveDate: '15-Sep-2020',
+        notes: 'Some version notes',
+      },
+      termsOfUse: {
+        type: 'OnceOffFee',
+        paymentTemplateId: 'did:sov:CYCc2xaJKrp8Yt947Nc6jd4',
+      },
+      privacy: {
+        pageView: 'Private',
+        entityView: 'Visible',
+      },
+      requiredCredentials: {
+        'd35db9cb-cb16-484a-9b9d-5e19186a4aea': {
+          id: 'd35db9cb-cb16-484a-9b9d-5e19186a4aea',
+          credential: 'somecredential',
+          issuer: 'did:sov:CYCc2xaJKrp8Yt947Nc6jd99',
         },
-        '8c1debff-3b7d-4bad-9bdd-2b0d7b3dcb67': {
-          identifier: '8c1debff-3b7d-4bad-9bdd-2b0d7b3dcb67',
-          validated: true,
-          errors: [],
-        },
-        '8c1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d': {
-          identifier: '8c1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d',
-          validated: false,
-          errors: ['error1', 'error2'],
+        'ff589f3f-fc7e-4110-a384-b45a3cf6a3e8': {
+          id: 'ff589f3f-fc7e-4110-a384-b45a3cf6a3e8',
+          credential: 'anothercredential',
+          issuer: 'did:sov:CYCc2xaJKrp8Yt947Nc6jd66',
         },
       },
-    } as CreateEntityAttestationState,
+      filters: {
+        'Project Type': [
+          'Index',
+          'Accreditation',
+          'Accountability',
+          'Insurance Bond',
+        ],
+        'SDG': [
+          'SDG3 – Good Health and Well-being',
+          'SDG15 – Life on Land',
+          'SDG16 – Peace, Justice and Strong Institutions',
+          'SDG17 – Partnerships for Goals',
+        ],
+        'Stage': ['Planning'],
+      },
+      displayCredentials: {
+        'dcf317f4-5155-4df2-bcb6-dfd03127e413': {
+          id: 'dcf317f4-5155-4df2-bcb6-dfd03127e413',
+          credential: 'somecredential1',
+          badge: 'https://somebadge.com',
+        },
+        'b34f3af4-b84d-4737-9341-0bc480b69338': {
+          id: 'b34f3af4-b84d-4737-9341-0bc480b69338',
+          credential: 'somecredential2',
+          badge: 'https://anotherbadge.com',
+        },
+      },
+      validation: {},
+    } as CreateEntitySettingsState,
+    createEntityAdvanced: {
+      linkedEntities: {
+        '92d772b8-d1d8-4d07-9fba-11041dc22aa8': {
+          id: '92d772b8-d1d8-4d07-9fba-11041dc22aa8',
+          type: 'Investment',
+          entityId: 'did:sov:CYCc2xaJKrp8Yt947Nc6jdqq',
+        },
+        'abc11083-39e1-4f40-a028-bea242d5d837': {
+          id: 'abc11083-39e1-4f40-a028-bea242d5d837',
+          type: 'Oracle',
+          entityId: 'did:sov:CYCc2xaJKrp8Yt947Nc6jdtt',
+        },
+      },
+      payments: {
+        '4a1592ae-1e9e-45e3-8f57-9fd6806d0f58': {
+          id: '4a1592ae-1e9e-45e3-8f57-9fd6806d0f58',
+          type: 'RentalFee',
+          paymentId: 'did:sov:CYCc2xaJKrp8Yt947Nc6jdff',
+        },
+      },
+      staking: {
+        '2e0a9231-4b40-489b-a757-b1f4507f4634': {
+          id: '2e0a9231-4b40-489b-a757-b1f4507f4634',
+          type: 'PerformanceGuarantee',
+          stakeId: 'did:sov:CYCc2xaJKrp8Yt947Nc6jdvv',
+          denom: 'IXO',
+          stakeAddress: 'abcccsdfsdfdsfdsfsdf',
+          minStake: 12,
+          slashCondition: 'FailedDispute',
+          slashFactor: 45,
+          slashAmount: 66,
+          unbondPeriod: 23,
+        },
+      },
+      nodes: {
+        '55d623bb-dd11-4c09-bb70-9f20752eb3a9': {
+          id: '55d623bb-dd11-4c09-bb70-9f20752eb3a9',
+          type: 'IBCNode',
+          nodeId: 'did:sov:CYCc2xaJKrp8Yt947Nc6jdbb',
+        },
+        '196c881f-6fb7-4f0f-bebb-0f970e4584fa': {
+          id: '196c881f-6fb7-4f0f-bebb-0f970e4584fa',
+          type: 'CellNode',
+          nodeId: 'did:sov:CYCc2xaJKrp8Yt947Nc6jdzz',
+        },
+      },
+      funding: {
+        'a2944f44-064a-4981-9e9d-c4f8e8eb641d': {
+          id: 'a2944f44-064a-4981-9e9d-c4f8e8eb641d',
+          source: 'AlphaBond',
+          fundId: 'did:sov:CYCc2xaJKrp8Yt947Nc6jdzzzz',
+        },
+      },
+      keys: {
+        '0b288a4d-8b37-44d8-8400-ddb17a9150f3': {
+          id: '0b288a4d-8b37-44d8-8400-ddb17a9150f3',
+          purpose: 'Encryption',
+          type: 'JwsVerificationKey2020',
+          keyValue: 'eEUR',
+          signature: 'somesignature',
+          controller: 'did:sov:CYCc2xaJKrp8Yt947Nc6jdbbbbb',
+          dateCreated: '18-Sep-2020',
+          dateUpdated: '28-Oct-2020',
+        },
+      },
+      services: {
+        'a77a6a5d-2c27-479a-974f-9ade36e58c17': {
+          id: 'a77a6a5d-2c27-479a-974f-9ade36e58c17',
+          type: 'DIDAgent',
+          shortDescription: 'some short description',
+          serviceEndpoint: 'https://someurl',
+          publicKey: 'somepubkey',
+          properties: 'otherparams',
+          serviceId: 'did:sov:CYCc2xaJKrp8Yt947Nc6jdbbbnn',
+        },
+      },
+      dataResources: {
+        'e823d12a-141e-4152-98d2-7dea6688d28b': {
+          id: 'e823d12a-141e-4152-98d2-7dea6688d28b',
+          type: 'PersonalDataPod',
+          dataId: 'did:sov:CYCc2xaJKrp8Yt947Nc6jdbgfd',
+          serviceEndpoint: 'https://blah.com',
+          properties: 'otherparams',
+        },
+      },
+      validation: {},
+    } as CreateEntityAdvancedState,
+    createEntityClaims: {
+      entityClaims: {
+        'cddeb3df-3a04-4cc5-b6db-2507985b123d': {
+          id: 'cddeb3df-3a04-4cc5-b6db-2507985b123d',
+          template: {
+            id: 'c7831199-14c0-4ae3-a15a-67b528868d78',
+            entityClaimId: 'cddeb3df-3a04-4cc5-b6db-2507985b123d',
+            templateId: 'template:did:2',
+            title: 'Some Claim Title 1',
+            description: 'Some Claim Description 1',
+            isPrivate: true,
+            minTargetClaims: 23,
+            maxTargetClaims: 45,
+            submissionStartDate: '25-Sep-2020',
+            submissionEndDate: '22-Oct-2020',
+          },
+          agentRoles: {
+            '892cdb1e-97ce-45c2-9fa3-b9b2da0eef6b': {
+              entityClaimId: 'cddeb3df-3a04-4cc5-b6db-2507985b123d',
+              id: '892cdb1e-97ce-45c2-9fa3-b9b2da0eef6b',
+              role: 'PO',
+              credential: 'Credential 1',
+              autoApprove: true,
+            },
+            'c41b323e-8d56-4b3e-9743-e3697b7865b8': {
+              entityClaimId: 'cddeb3df-3a04-4cc5-b6db-2507985b123d',
+              id: 'c41b323e-8d56-4b3e-9743-e3697b7865b8',
+              role: 'SA',
+              credential: 'Credential 2',
+              autoApprove: false,
+            },
+            '895aff4c-edfa-4f40-af59-e992caccdcc1': {
+              entityClaimId: 'cddeb3df-3a04-4cc5-b6db-2507985b123d',
+              id: '895aff4c-edfa-4f40-af59-e992caccdcc1',
+              role: 'IA',
+              credential: 'Credential 3',
+              autoApprove: true,
+            },
+          },
+          evaluations: {
+            '0cd898c9-1a7d-4ce8-afbb-85d8aa36611c': {
+              entityClaimId: 'cddeb3df-3a04-4cc5-b6db-2507985b123d',
+              id: '0cd898c9-1a7d-4ce8-afbb-85d8aa36611c',
+              context: 'somecontext1',
+              contextLink: 'somelinktocontext1',
+              evaluationAttributes: ['attr1', 'attr2'],
+              evaluationMethodology: 'somemethodology1',
+            },
+            'dfd49762-255a-4786-a2f3-da1ffc23be8d': {
+              entityClaimId: 'cddeb3df-3a04-4cc5-b6db-2507985b123d',
+              id: 'dfd49762-255a-4786-a2f3-da1ffc23be8d',
+              context: 'somecontext2',
+              contextLink: 'somelinktocontext2',
+              evaluationAttributes: ['attr1', 'attr2', 'attr3'],
+              evaluationMethodology: 'somemethodology2',
+            },
+          },
+          approvalCriteria: {
+            'd46ddeeb-3292-46f4-9bd2-09c482b4bc08': {
+              entityClaimId: 'cddeb3df-3a04-4cc5-b6db-2507985b123d',
+              id: 'd46ddeeb-3292-46f4-9bd2-09c482b4bc08',
+              context: 'somecontext1',
+              contextLink: 'somelink1',
+              approvalAttributes: [
+                'criteria1',
+                'criteria2',
+                'criteria3',
+                'criteria4',
+              ],
+              approvalCondition: 'somecondition1',
+            },
+          },
+          enrichments: {
+            '1a6a440d-1179-464e-8a93-25e0605b9f77': {
+              entityClaimId: 'cddeb3df-3a04-4cc5-b6db-2507985b123d',
+              id: '1a6a440d-1179-464e-8a93-25e0605b9f77',
+              context: 'somecontext1',
+              contextLink: 'somelink1',
+              resources: ['res1', 'res2', 'res3'],
+              productId: 'someproductid1',
+            },
+            '05c5f232-a272-4fe3-aaa7-cd33e32e1443': {
+              entityClaimId: 'cddeb3df-3a04-4cc5-b6db-2507985b123d',
+              id: '05c5f232-a272-4fe3-aaa7-cd33e32e1443',
+              context: 'somecontext2',
+              contextLink: 'somelink2',
+              resources: ['res1', 'res2'],
+              productId: 'someproductid2',
+            },
+          },
+        },
+      },
+      validation: {},
+    } as CreateEntityClaimsState,
   }
 })
 
@@ -328,7 +562,7 @@ describe('CreateEntity Selectors', () => {
       const result = SUT.selectEntityType(state)
 
       // then ... should return result as expected
-      expect(result).toEqual(EntityType.Investment)
+      expect(result).toEqual(EntityType.Project)
     })
   })
 
@@ -337,79 +571,78 @@ describe('CreateEntity Selectors', () => {
       // when we call selectPageContentApiPayload it should return the correct payload
       const pageContent = SUT.selectPageContentApiPayload(state)
 
-      expect(pageContent).toEqual({
+      const payload = {
         header: {
-          title: 'someHeaderTitle',
-          shortDescription: 'someHeaderShortDescription',
-          image: 'someHeaderfileSrc',
-          imageDescription: 'someHeaderImageDescription',
-          sdgs: ['sdg1', 'sdg2', 'sdg3'],
-          organisation: 'someHeaderCompany',
-          location: 'ZA',
+          title: 'Some Title',
+          shortDescription: 'Some Short Description',
+          imageDescription: 'Some Image Description',
+          sdgs: ['5', '7'],
+          organisation: 'Some Organisation',
+          location: 'AR',
+          image: 'https://pds_pandora.ixo.world/public/sbujb0xg0dgkeljwtnc',
         },
         body: [
           {
-            title: 'someBody1Title',
-            content: 'someBody1Content',
-            image: 'someBody1fileSrc',
+            title: 'Some Body Content Title',
+            content: 'Some Body Content',
+            image: 'https://pds_pandora.ixo.world/public/n724h8vl04bkeljy6xl',
           },
           {
-            title: 'someBody2Title',
-            content: 'someBody2Content',
-            image: 'someBody2fileSrc',
+            title: 'Another Body Content Title',
+            content: 'Another Body Content',
+            image: 'https://pds_pandora.ixo.world/public/e4g7yisha77keljyz5d',
           },
         ],
         images: [
           {
-            title: 'someImage1Title',
-            content: 'someImage1Content',
-            image: 'someImage1fileSrc',
-            imageDescription: 'someImage1ImageDescription',
-          },
-          {
-            title: 'someImage2Title',
-            content: 'someImage2Content',
-            image: 'someImage2fileSrc',
-            imageDescription: 'someImage2ImageDescription',
+            title: 'Some Image Content Title',
+            content: 'Some Image Body Content',
+            imageDescription: 'Some Image Description',
+            image: 'https://pds_pandora.ixo.world/public/7bfhyr0m1p9keljzr4i',
           },
         ],
         profiles: [
           {
-            name: 'someProfileName1',
-            position: 'someProfilePosition1',
-            linkedInUrl: 'someProfileLinkedInUrl1',
-            twitterUrl: 'someProfileTwitterUrl1',
-            image: 'someProfilefileSrc1',
+            name: 'Someone 1',
+            position: 'Some Position 1',
+            linkedInUrl: 'https://linkedin1',
+            twitterUrl: 'https://twitter1',
+            image: 'https://pds_pandora.ixo.world/public/64tkzqd3llrkelk01rj',
           },
           {
-            name: 'someProfileName2',
-            position: 'someProfilePosition2',
-            linkedInUrl: 'someProfileLinkedInUrl2',
-            twitterUrl: 'someProfileTwitterUrl2',
-            image: 'someProfilefileSrc2',
+            name: 'Someone 2',
+            position: 'Some Position 2',
+            linkedInUrl: 'https://linkedin2',
+            twitterUrl: 'https://twitter2',
+            image: 'https://pds_pandora.ixo.world/public/o18hu58fj48kelk08c5',
           },
         ],
         social: {
-          linkedInUrl: 'someSocialLinkedInUrl',
-          facebookUrl: 'someSocialFacebookUrl',
-          twitterUrl: 'someSocialTwitterUrl',
-          discourseUrl: 'someSocialDiscourseUrl',
-          instagramUrl: 'someSocialInstagramUrl',
-          telegramUrl: 'someSocialTelegramUrl',
-          githubUrl: 'someSocialGithubUrl',
-          otherUrl: 'someSocialOtherUrl',
+          linkedInUrl: 'https://linkedInUrl',
+          facebookUrl: 'https://fbUrl',
+          twitterUrl: 'https://twitterUrl',
+          discourseUrl: 'https://discourseUrl',
+          instagramUrl: 'https://instagramUrl',
+          telegramUrl: 'https://telegramUrl',
+          githubUrl: 'https://githubUrl',
+          otherUrl: 'https://otherUrl',
         },
         embedded: [
           {
-            title: 'someEmbeddedTitle1',
-            urls: ['url1', 'url2'],
+            title: 'Some Title 1',
+            urls: [
+              'https://edition.cnn.com/2020/09/02/europe/alexey-navalny-novichok-intl/index.html',
+              'https://edition.cnn.com/2020/09/02/politics/melania-trump-private-email-wolkoff-cnntv/index.html',
+            ],
           },
           {
-            title: 'someEmbeddedTitle2',
-            urls: ['url3', 'url4'],
+            title: 'Another Title',
+            urls: ['https://www.youtube.com/watch?v=iOWFXqT5MZ4'],
           },
         ],
-      })
+      }
+
+      expect(pageContent).toEqual(payload)
     })
   })
 
@@ -418,7 +651,7 @@ describe('CreateEntity Selectors', () => {
       // when we call selectAttestationApiPayload it should return the correct payload
       const attestation = SUT.selectAttestationApiPayload(state)
 
-      expect(attestation).toEqual({
+      const payload = {
         claimInfo: {
           title: 'someClaimTitle',
           shortDescription: 'someClaimShortDescription',
@@ -730,7 +963,281 @@ describe('CreateEntity Selectors', () => {
             },
           },
         ],
-      })
+      }
+
+      expect(attestation).toEqual(payload)
+    })
+  })
+
+  describe('selectEntityApiPayload', () => {
+    it('should return the payload for the entity', () => {
+      // when ... we call the selector
+      const result = SUT.selectEntityApiPayload('somepageid')(state)
+
+      const payload = {
+        ['@context']: 'https://schema.ixo.foundation/entity:2383r9riuew',
+        ['@type']: 'Project',
+        schemaVersion: process.env.REACT_APP_ENTITY_VERSION,
+        name: 'Some Title',
+        description: 'Some Short Description',
+        image: 'https://pds_pandora.ixo.world/public/sbujb0xg0dgkeljwtnc',
+        imageDescription: 'Some Image Description',
+        location: 'AR',
+        sdgs: ['5', '7'],
+        startDate: '2020-09-17T00:00:00.000Z',
+        endDate: '2020-10-23T00:00:00.000Z',
+        status: 'Live',
+        stage: 'Planning',
+        relayerNode: process.env.REACT_APP_RELAYER_NODE,
+        version: {
+          versionNumber: '1.0.5',
+          effectiveDate: '2020-09-15T00:00:00.000Z',
+          notes: 'Some version notes',
+        },
+        terms: {
+          ['@type']: 'OnceOffFee',
+          paymentTemplateId: 'did:sov:CYCc2xaJKrp8Yt947Nc6jd4',
+        },
+        privacy: {
+          pageView: 'Private',
+          entityView: 'Visible',
+          credentials: [
+            {
+              credential: 'somecredential',
+              issuer: 'did:sov:CYCc2xaJKrp8Yt947Nc6jd99',
+            },
+            {
+              credential: 'anothercredential',
+              issuer: 'did:sov:CYCc2xaJKrp8Yt947Nc6jd66',
+            },
+          ],
+        },
+        creator: {
+          displayName: 'Creator Display Name',
+          location: 'AD',
+          email: 'ert@dfssdf.com',
+          website: 'https://blah.com',
+          mission: 'Some mission',
+          id: 'did:sov:CYCc2xaJKrp8Yt947Nc6jd1',
+          credentialId: 'did:sov:CYCc2xaJKrp8Yt947Nc6jd2',
+          logo: 'https://pds_pandora.ixo.world/public/8520qk1ckqvkelkjfeg',
+        },
+        owner: {
+          displayName: 'Owner Display Name',
+          location: 'AQ',
+          email: 'eeeert@dfssdf.com',
+          website: 'https://eerer.com',
+          mission: 'another mission',
+          id: 'did:sov:CYCc2xaJKrp8Yt947Nc6jd6',
+          logo: 'https://pds_pandora.ixo.world/public/9uqcsf7qsfjkelkkkt9',
+        },
+        ddoTags: [
+          {
+            category: 'Project Type',
+            tags: [
+              'Index',
+              'Accreditation',
+              'Accountability',
+              'Insurance Bond',
+            ],
+          },
+          {
+            category: 'SDG',
+            tags: [
+              'SDG3 – Good Health and Well-being',
+              'SDG15 – Life on Land',
+              'SDG16 – Peace, Justice and Strong Institutions',
+              'SDG17 – Partnerships for Goals',
+            ],
+          },
+          {
+            category: 'Stage',
+            tags: ['Planning'],
+          },
+        ],
+        displayCredentials: {
+          ['@context']: 'https://www.w3.org/2018/credentials/v1',
+          items: [
+            {
+              credential: 'somecredential1',
+              badge: 'https://somebadge.com',
+            },
+            {
+              credential: 'somecredential2',
+              badge: 'https://anotherbadge.com',
+            },
+          ],
+        },
+        page: {
+          cid: 'somepageid',
+          version: process.env.REACT_APP_ENTITY_PAGE_VERSION,
+        },
+        claims: {
+          ['@context']: 'https://schema.ixo.world/claims:3r08webu2eou',
+          items: [
+            {
+              ['@id']: 'template:did:2',
+              visibility: 'Private',
+              title: 'Some Claim Title 1',
+              description: 'Some Claim Description 1',
+              targetMin: 23,
+              targetMax: 45,
+              startDate: '2020-09-25T00:00:00.000Z',
+              endDate: '2020-10-22T00:00:00.000Z',
+              agents: [
+                {
+                  role: 'PO',
+                  credential: 'Credential 1',
+                  autoApprove: true,
+                },
+                {
+                  role: 'SA',
+                  credential: 'Credential 2',
+                  autoApprove: false,
+                },
+                {
+                  role: 'IA',
+                  credential: 'Credential 3',
+                  autoApprove: true,
+                },
+              ],
+              claimEvaluation: [
+                {
+                  ['@context']: 'somecontext1',
+                  ['@id']: 'somelinktocontext1',
+                  methodology: 'somemethodology1',
+                  attributes: ['attr1', 'attr2'],
+                },
+                {
+                  ['@context']: 'somecontext2',
+                  ['@id']: 'somelinktocontext2',
+                  methodology: 'somemethodology2',
+                  attributes: ['attr1', 'attr2', 'attr3'],
+                },
+              ],
+              claimApproval: [
+                {
+                  ['@context']: 'somecontext1',
+                  ['@id']: 'somelink1',
+                  condition: 'somecondition1',
+                  attributes: [
+                    'criteria1',
+                    'criteria2',
+                    'criteria3',
+                    'criteria4',
+                  ],
+                },
+              ],
+              claimEnrichment: [
+                {
+                  ['@context']: 'somecontext1',
+                  ['@id']: 'somelink1',
+                  productId: 'someproductid1',
+                  resources: ['res1', 'res2', 'res3'],
+                },
+                {
+                  ['@context']: 'somecontext2',
+                  ['@id']: 'somelink2',
+                  productId: 'someproductid2',
+                  resources: ['res1', 'res2'],
+                },
+              ],
+            },
+          ],
+        },
+        linkedEntities: [
+          {
+            ['@type']: 'Investment',
+            id: 'did:sov:CYCc2xaJKrp8Yt947Nc6jdqq',
+          },
+          {
+            ['@type']: 'Oracle',
+            id: 'did:sov:CYCc2xaJKrp8Yt947Nc6jdtt',
+          },
+        ],
+        fees: {
+          ['@context']: 'https://schema.ixo.world/fees/ipfs3r08webu2eou',
+          items: [
+            {
+              ['@type']: 'RentalFee',
+              id: 'did:sov:CYCc2xaJKrp8Yt947Nc6jdff',
+            },
+          ],
+        },
+        stake: {
+          ['@context']: 'https://schema.ixo.world/staking/ipfs3r08webu2eou',
+          items: [
+            {
+              ['@type']: 'PerformanceGuarantee',
+              id: 'did:sov:CYCc2xaJKrp8Yt947Nc6jdvv',
+              denom: 'IXO',
+              stakeAddress: 'abcccsdfsdfdsfdsfsdf',
+              minStake: 12,
+              slashCondition: 'FailedDispute',
+              slashFactor: 45,
+              slashAmount: 66,
+              unbondPeriod: 23,
+            },
+          ],
+        },
+        nodes: {
+          ['@context']: 'https://schema.ixo.world/nodes/ipfs3r08webu2eou',
+          items: [
+            {
+              ['@type']: 'IBCNode',
+              id: 'did:sov:CYCc2xaJKrp8Yt947Nc6jdbb',
+            },
+            {
+              ['@type']: 'CellNode',
+              id: 'did:sov:CYCc2xaJKrp8Yt947Nc6jdzz',
+            },
+          ],
+        },
+        funding: {
+          ['@context']: 'https://schema.ixo.world/funding/ipfs3r08webu2eou',
+          items: [
+            {
+              ['@type']: 'AlphaBond',
+              id: 'did:sov:CYCc2xaJKrp8Yt947Nc6jdzzzz',
+            },
+          ],
+        },
+        keys: {
+          ['@context']: 'https://www.w3.org/ns/did/v1',
+          items: [
+            {
+              purpose: 'Encryption',
+              ['@type']: 'JwsVerificationKey2020',
+              controller: 'did:sov:CYCc2xaJKrp8Yt947Nc6jdbbbbb',
+              keyValue: 'eEUR',
+              dateCreated: '2020-09-18T00:00:00.000Z',
+              dateUpdated: '2020-10-28T00:00:00.000Z',
+              signature: 'somesignature',
+            },
+          ],
+        },
+        service: [
+          {
+            ['@type']: 'DIDAgent',
+            id: 'did:sov:CYCc2xaJKrp8Yt947Nc6jdbbbnn',
+            serviceEndpoint: 'https://someurl',
+            description: 'some short description',
+            publicKey: 'somepubkey',
+            properties: 'otherparams',
+          },
+        ],
+        data: [
+          {
+            ['@type']: 'PersonalDataPod',
+            id: 'did:sov:CYCc2xaJKrp8Yt947Nc6jdbgfd',
+            serviceEndpoint: 'https://blah.com',
+            properties: 'otherparams',
+          },
+        ],
+      }
+
+      // then ... should return result as expected
+      expect(result).toEqual(payload)
     })
   })
 })

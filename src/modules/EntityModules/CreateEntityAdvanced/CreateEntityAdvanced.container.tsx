@@ -152,7 +152,7 @@ class CreateEntityAdvanced extends CreateEntityBase<Props> {
         {payments.map((payment) => {
           this.cardRefs[payment.id] = React.createRef()
 
-          const { id, type, paymentId, denom, maxFee, maxQty } = payment
+          const { id, type, paymentId } = payment
 
           return (
             <PaymentCard
@@ -160,9 +160,6 @@ class CreateEntityAdvanced extends CreateEntityBase<Props> {
               key={id}
               type={type}
               paymentId={paymentId}
-              denom={denom}
-              maxFee={maxFee}
-              maxQty={maxQty}
               handleUpdateContent={(formData): void =>
                 handleUpdatePayment(id, formData)
               }
@@ -396,6 +393,7 @@ class CreateEntityAdvanced extends CreateEntityBase<Props> {
             serviceEndpoint,
             publicKey,
             properties,
+            serviceId,
           } = service
 
           return (
@@ -403,6 +401,7 @@ class CreateEntityAdvanced extends CreateEntityBase<Props> {
               ref={this.cardRefs[service.id]}
               key={id}
               type={type}
+              serviceId={serviceId}
               shortDescription={shortDescription}
               serviceEndpoint={serviceEndpoint}
               publicKey={publicKey}
