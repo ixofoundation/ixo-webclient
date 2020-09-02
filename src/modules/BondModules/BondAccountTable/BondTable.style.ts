@@ -1,11 +1,12 @@
 import styled from 'styled-components'
+import { animated } from 'react-spring'
 
 interface StyledTableCellProps {
   header: string
   type: boolean
 }
 
-function extractColor(value) {
+function extractColor(value): string {
   switch (value) {
     case 'Buy':
       return '#00D2FF';
@@ -86,7 +87,7 @@ export const StyledTableCell = styled.td<StyledTableCellProps>`
   }
 `
 
-export const StyledTableRow = styled.tr`
+export const StyledTableRow = styled(animated.tr)`
   background-color: #023044;
 `
 

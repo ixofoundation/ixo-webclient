@@ -1,8 +1,26 @@
 import styled from 'styled-components'
+import { animated } from 'react-spring'
 
 interface StyledTableCellProps {
   header: string
   type: boolean
+}
+
+function extractColor(value): string {
+  switch (value) {
+    case 'Buy':
+      return '#00D2FF';
+    case 'Send':
+      return '#AD245C';
+    case 'Receive':
+      return '#5AB946';
+    case 'Swap':
+      return '#ED9526';
+    case 'Sell':
+      return '#E2223B';
+    default:
+      return 'white';
+  }
 }
 
 export const TableContainer = styled.div`
@@ -16,7 +34,7 @@ export const TableContainer = styled.div`
     border: none;
     width: 100%;
     border-collapse: separate;
-    border-spacing: 0 0.5em;
+    border-spacing: 0 0.2em;
 
     tbody:before {
       content: '@';
@@ -51,18 +69,27 @@ export const StyledTableHeader = styled.th`
   &:first-child {
     padding-left: 2em;
   }
+  width: 16%;
 `
 
 export const StyledTableCell = styled.td<StyledTableCellProps>`
   color: ${(props: any): string =>
-    props.header === 'buySell'
-      ? props.type
-        ? '#6FCF97'
-        : '#E2223B'
+    props.header === 'transaction'
+      ? extractColor(props.type)
       : 'white'};
   font-weight: bold;
   &:first-child {
     padding-left: 2em;
+    &:before{
+      content:" ";
+      position: absolute;
+      top: 20px;
+      left: -5px;
+      width: 10px;
+      height: calc(100% - 30px);
+      border-radius: 54px;
+      background: #85AD5C;
+    }
   }
   &:last-child {
     padding: 0;
@@ -70,10 +97,8 @@ export const StyledTableCell = styled.td<StyledTableCellProps>`
   }
 `
 
-export const StyledTableRow = styled.tr`
+export const StyledTableRow = styled(animated.tr)`
   background-color: #023044;
-  line-height: 1em;
-  height: 4em;
 `
 
 export const DateContainer = styled.div`
@@ -83,8 +108,12 @@ export const DateContainer = styled.div`
     &:last-child {
       font-size: 0.6em;
       font-weight: normal;
+      color: #83D9F2;
     }
+    line-height: initial;
   }
+
+  padding: 8px 0;
 `
 
 export const StyledMobileRow = styled.div`
@@ -102,10 +131,8 @@ export const StyledMobileRow = styled.div`
 
 export const StyledMobileBuyCell = styled.div<StyledTableCellProps>`
   color: ${(props: any): string =>
-    props.header === 'buySell'
-      ? props.type
-        ? '#6FCF97'
-        : '#E2223B'
+    props.header === 'transaction'
+      ? extractColor(props.type)
       : 'white'};
   font-weight: bold;
 `
