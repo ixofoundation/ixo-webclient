@@ -36,13 +36,7 @@ export function getCountryName(countryCode: string): string {
 }
 
 export function getIxoWorldRoute(path: string): string {
-  const origin = process.env.REACT_IXO_WORLD_ORIGIN || 'https://ixo.world'
-  return origin + path
-}
-
-export function getAppIxoWorldRoute(path: string): string {
-  const origin =
-    process.env.REACT_APP_IXO_WORLD_ORIGIN || 'https://app.ixo.world'
+  const origin = process.env.REACT_APP_IXO_WORLD_ORIGIN || 'https://ixo.world'
   return origin + path
 }
 

@@ -2,10 +2,7 @@ import * as React from 'react'
 import { Fragment } from 'react'
 import { deviceWidth } from '../../../../lib/commonData'
 import MediaQuery from 'react-responsive'
-import {
-  getIxoWorldRoute,
-  getAppIxoWorldRoute,
-} from '../../../utils/formatters'
+import { getIxoWorldRoute } from '../../../utils/formatters'
 import { entityTypeMap } from 'modules/EntityModules/Entities/strategy-map'
 import {
   Burger,
@@ -56,13 +53,12 @@ export class HeaderLeft extends React.Component<ParentProps> {
           <HeaderAnchor target="_blank" href="https://docs.ixo.world/">
             Learn
           </HeaderAnchor>
-          <HeaderAnchor
-            href={getAppIxoWorldRoute(
-              `/${this.props.currentEntity.toLowerCase()}/new`,
-            )}
+          <HeaderLink
+            exact={true}
+            to={`/${this.props.currentEntity.toLowerCase()}/new`}
           >
             {entityTypeMap[this.props.currentEntity].createNewTitle}
-          </HeaderAnchor>
+          </HeaderLink>
         </Fragment>
       )
     } else {
@@ -115,13 +111,13 @@ export class HeaderLeft extends React.Component<ParentProps> {
             </MenuHeaderAnchor>
           </MenuHeaderContainer>
           <MenuHeaderContainer>
-            <MenuHeaderAnchor
-              href={getAppIxoWorldRoute(
-                `/${this.props.currentEntity.toLowerCase()}/new`,
-              )}
+            <MenuHeaderLink
+              exact={true}
+              to={`/${this.props.currentEntity.toLowerCase()}/new`}
+              onClick={this.props.handleBurgerClick}
             >
               {entityTypeMap[this.props.currentEntity].createNewTitle}
-            </MenuHeaderAnchor>
+            </MenuHeaderLink>
           </MenuHeaderContainer>
         </Fragment>
       )
