@@ -3,6 +3,7 @@ import { Fragment } from 'react'
 import { deviceWidth } from '../../../../lib/commonData'
 import MediaQuery from 'react-responsive'
 import { getIxoWorldRoute } from '../../../utils/formatters'
+import { entityTypeMap } from 'modules/EntityModules/Entities/strategy-map'
 import {
   Burger,
   Main,
@@ -52,6 +53,12 @@ export class HeaderLeft extends React.Component<ParentProps> {
           <HeaderAnchor target="_blank" href="https://docs.ixo.world/">
             Learn
           </HeaderAnchor>
+          <HeaderLink
+            exact={true}
+            to={`/${this.props.currentEntity.toLowerCase()}/new`}
+          >
+            {entityTypeMap[this.props.currentEntity].createNewTitle}
+          </HeaderLink>
         </Fragment>
       )
     } else {
@@ -102,6 +109,15 @@ export class HeaderLeft extends React.Component<ParentProps> {
             >
               Learn
             </MenuHeaderAnchor>
+          </MenuHeaderContainer>
+          <MenuHeaderContainer>
+            <MenuHeaderLink
+              exact={true}
+              to={`/${this.props.currentEntity.toLowerCase()}/new`}
+              onClick={this.props.handleBurgerClick}
+            >
+              {entityTypeMap[this.props.currentEntity].createNewTitle}
+            </MenuHeaderLink>
           </MenuHeaderContainer>
         </Fragment>
       )
