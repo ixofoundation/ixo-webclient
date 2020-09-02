@@ -84,6 +84,7 @@ hr {
     &.sidebar {
       flex-direction: column;
       justify-content: flex-start;
+      padding-top: 3.5rem;
       padding-bottom: 2rem;
       z-index: 2;
 
@@ -142,6 +143,21 @@ hr {
         &.account {
           background-image: url(../../../../assets/img/sidebar/account.png);
         }
+        &.investment {
+          background-image: url(../../../../assets/img/sidebar/investment.png);
+        }
+        &.target {
+          background-image: url(../../../../assets/img/sidebar/target.png);
+        }
+        &.claim {
+          background-image: url(../../../../assets/img/sidebar/claim.png);
+        }
+        &.governance {
+          background-image: url(../../../../assets/img/sidebar/governance.png);
+        }
+        &.portfolio {
+          background-image: url(../../../../assets/img/sidebar/portfolio.png);
+        }
 
         background-origin: border-box;
         background-repeat: no-repeat;
@@ -149,7 +165,7 @@ hr {
         width: 74px;
         height: 55px;
         flex-grow: 0;
-        margin: 0.75rem 0;
+        margin: 0.5rem 0;
         &.active {
           border-left: 6px solid #00d2ff;
         }
