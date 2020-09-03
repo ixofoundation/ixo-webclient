@@ -969,21 +969,11 @@ describe('CreateEntity Selectors', () => {
     })
   })
 
-  describe('selectEntityApiPayload', () => {
+  describe.only('selectEntityApiPayload', () => {
     it('should return the payload for the entity', () => {
-      // when ... we call the selector
-      const result = SUT.selectEntityApiPayload('somepageid')(state)
-
-      const payload = {
+      const genericPayload = {
         ['@context']: 'https://schema.ixo.foundation/entity:2383r9riuew',
-        ['@type']: 'Project',
         schemaVersion: process.env.REACT_APP_ENTITY_VERSION,
-        name: 'Some Title',
-        description: 'Some Short Description',
-        image: 'https://pds_pandora.ixo.world/public/sbujb0xg0dgkeljwtnc',
-        imageDescription: 'Some Image Description',
-        location: 'AR',
-        sdgs: ['5', '7'],
         startDate: '2020-09-17T00:00:00.000Z',
         endDate: '2020-10-23T00:00:00.000Z',
         status: 'Live',
@@ -1236,8 +1226,42 @@ describe('CreateEntity Selectors', () => {
         ],
       }
 
+      // when ... we call the selector with project entity type
+      const projectResult = SUT.selectEntityApiPayload(
+        EntityType.Project,
+        'somepageid',
+      )(state)
+
+      const projectPayload = {
+        ...genericPayload,
+        ['@type']: 'Project',
+        name: 'Some Title',
+        description: 'Some Short Description',
+        image: 'https://pds_pandora.ixo.world/public/sbujb0xg0dgkeljwtnc',
+        imageDescription: 'Some Image Description',
+        location: 'AR',
+        sdgs: ['5', '7'],
+      }
+
       // then ... should return result as expected
-      expect(result).toEqual(payload)
+      expect(projectResult).toEqual(projectPayload)
+
+      // when ... we call the selector with template entity type
+      const templateResult = SUT.selectEntityApiPayload(
+        EntityType.Template,
+        'somepageid',
+      )(state)
+
+      const templatePayload = {
+        ...genericPayload,
+        ['@type']: 'Template',
+        name: 'someClaimTitle',
+        description: 'someClaimShortDescription',
+        sdgs: [],
+      }
+
+      // then ... should return result as expected
+      expect(templateResult).toEqual(templatePayload)
     })
   })
 })

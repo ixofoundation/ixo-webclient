@@ -1,4 +1,5 @@
 import { EntityType } from '../Entities/types'
+import { RootState } from 'common/redux/types'
 
 export const PDS_URL = process.env.REACT_APP_PDS_URL
 
@@ -40,6 +41,17 @@ export type EntityStepStrategyMap = {
         previousStep: number
         nextStep: number
       }
+    }
+    selectPageContent: (state: RootState) => any
+    selectHeaderInfo: (
+      state: RootState,
+    ) => {
+      name: string
+      description: string
+      image: string
+      imageDescription: string
+      location: string
+      sdgs: string[]
     }
   }
 }

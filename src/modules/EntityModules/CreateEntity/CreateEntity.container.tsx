@@ -10,7 +10,7 @@ import { toTitleCase } from '../../../common/utils/formatters'
 import { EntityType } from '../Entities/types'
 import * as createEntitySelectors from './CreateEntity.selectors'
 import { newEntity } from './CreateEntity.actions'
-import { entityStepMap } from './strategy-map'
+import { createEntityMap } from './strategy-map'
 
 interface Props {
   match: any
@@ -33,7 +33,7 @@ class CreateEntity extends React.Component<Props> {
 
   renderRoutes = () => {
     const { entityType, currentStep } = this.props
-    const stepMap = entityStepMap[entityType]
+    const stepMap = createEntityMap[entityType]
     const { steps } = stepMap
 
     return Object.values(steps).map((step, index) => {
@@ -63,7 +63,7 @@ class CreateEntity extends React.Component<Props> {
       return <></>
     }
 
-    const stepMap = entityStepMap[entityType]
+    const stepMap = createEntityMap[entityType]
 
     return (
       <>
