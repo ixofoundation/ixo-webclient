@@ -193,7 +193,7 @@ class TransactionsTable extends Component<any, any> {
               {this.props.tokenSupply.map((supply: Currency) => (
                 <option
                   key={supply.denom}
-                  selected={this.props.selectedToken == supply.denom!}
+                  value={this.props.selectedToken}
                 >
                   {supply.denom!.toUpperCase()}
                 </option>

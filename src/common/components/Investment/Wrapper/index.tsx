@@ -1,6 +1,6 @@
 import * as React from 'react'
 import './index.scss'
-import BondsSidebar from '../Sidebar'
+import InvestmentSidebar from '../Sidebar'
 import { Spinner } from '../../Spinner'
 import { ProjectHero } from '../../../../components/project/ProjectHero'
 import { connect } from 'react-redux'
@@ -100,7 +100,7 @@ export class BondsWrapper extends React.Component<Props, State> {
     } else {
       return (
         <div className="BondsWrapper">
-          <BondsSidebar
+          <InvestmentSidebar
             projectDID={params.projectDID}
             bondDID={params.bondDID}
           />
