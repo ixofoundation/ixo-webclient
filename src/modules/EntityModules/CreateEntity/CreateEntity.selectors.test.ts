@@ -3,7 +3,6 @@ import { CreateEntityState } from './types'
 import { EntityType } from 'modules/EntityModules/Entities/types'
 import { CreateEntityPageContentState } from 'modules/EntityModules/CreateEntityPageContent/types'
 import { CreateEntityAttestationState } from 'modules/EntityModules/CreateEntityAttestation/types'
-import { Type, ControlType } from 'common/components/JsonForm/types'
 import { CreateEntitySettingsState } from '../CreateEntitySettings/types'
 import { CreateEntityAdvancedState } from '../CreateEntityAdvanced/types'
 import { CreateEntityClaimsState } from '../CreateEntityClaims/types'
@@ -15,6 +14,9 @@ beforeEach(() => {
     createEntity: {
       step: 1,
       entityType: EntityType.Project,
+      creating: true,
+      created: false,
+      error: 'some error occured',
     } as CreateEntityState,
     createEntityPageContent: {
       header: {
@@ -566,6 +568,36 @@ describe('CreateEntity Selectors', () => {
     })
   })
 
+  describe('selectCreating', () => {
+    it('should return the selectCreating property', () => {
+      // when ... we call the selector
+      const result = SUT.selectCreating(state)
+
+      // then ... should return result as expected
+      expect(result).toEqual(true)
+    })
+  })
+
+  describe('selectCreated', () => {
+    it('should return the selectCreated property', () => {
+      // when ... we call the selector
+      const result = SUT.selectCreated(state)
+
+      // then ... should return result as expected
+      expect(result).toEqual(false)
+    })
+  })
+
+  describe('selectError', () => {
+    it('should return the selectError property', () => {
+      // when ... we call the selector
+      const result = SUT.selectError(state)
+
+      // then ... should return result as expected
+      expect(result).toEqual('some error occured')
+    })
+  })
+
   describe('selectPageContentApiPayload', () => {
     it('should select the page content payload', () => {
       // when we call selectPageContentApiPayload it should return the correct payload
@@ -969,7 +1001,7 @@ describe('CreateEntity Selectors', () => {
     })
   })
 
-  describe.only('selectEntityApiPayload', () => {
+  describe('selectEntityApiPayload', () => {
     it('should return the payload for the entity', () => {
       const genericPayload = {
         ['@context']: 'https://schema.ixo.foundation/entity:2383r9riuew',

@@ -1,16 +1,10 @@
 import { Dispatch } from 'redux'
-import {
-  GoToStepAction,
-  CreateEntityActions,
-  NewEntityAction,
-  CreateEntityAction,
-} from './types'
+import { GoToStepAction, CreateEntityActions, NewEntityAction } from './types'
 import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
 import keysafe from 'common/keysafe/keysafe'
 import { EntityType } from 'modules/EntityModules/Entities/types'
 import { RootState } from 'common/redux/types'
 import { PDS_URL } from 'modules/EntityModules/CreateEntity/types'
-// import { errorToast, successToast } from 'common/utils/Toast'
 import * as createEntitySelectors from './CreateEntity.selectors'
 import { createEntityMap } from './strategy-map'
 
@@ -25,9 +19,10 @@ export const newEntity = (entityType: EntityType) => (
   dispatch: Dispatch,
   getState: () => RootState,
 ): NewEntityAction => {
-  const currentEntityType = getState().createEntity.entityType
+  const state = getState()
+  const { entityType: currentEntityType, created } = state.createEntity
 
-  if (currentEntityType === entityType) {
+  if (currentEntityType === entityType && !created) {
     return null
   }
 
@@ -42,33 +37,33 @@ export const newEntity = (entityType: EntityType) => (
 export const createEntity = () => (
   dispatch: Dispatch,
   getState: () => RootState,
-): CreateEntityAction => {
+): void => {
+  dispatch({
+    type: CreateEntityActions.CreateEntityStart,
+  })
+
   const state = getState()
   const entityType = state.createEntity.entityType
 
   const pageContentApiPayload = createEntityMap[entityType].selectPageContent
-
   const uploadPageContent = blocksyncApi.project.createPublic(
     pageContentApiPayload,
     PDS_URL,
   )
 
-  dispatch({
-    type: CreateEntityActions.CreateEntity,
-    payload: Promise.all([uploadPageContent])
-      .then((responses: any[]) => {
-        const pageContentId = responses[0].result
+  Promise.all([uploadPageContent])
+    .then((responses: any[]) => {
+      const pageContentId = responses[0].result
+      const entityApiPayload = createEntitySelectors.selectEntityApiPayload(
+        entityType,
+        pageContentId,
+      )
 
-        const entityApiPayload = createEntitySelectors.selectEntityApiPayload(
-          entityType,
-          pageContentId,
-        )
-
-        keysafe.requestSigning(
-          entityApiPayload,
-          (error: any, signature: any) => {
-            console.log('clicked sign')
-            /*             blocksyncApi.project
+      keysafe.requestSigning(
+        entityApiPayload,
+        (error: any, signature: any) => {
+          // TODO!
+          /*             blocksyncApi.project
               .createProject(JSON.parse(entityApiPayload), signature, PDS_URL)
               .then((res: any) => {
                 if (res.error) {
@@ -80,16 +75,18 @@ export const createEntity = () => (
               .catch((error) => {
                 errorToast(`Error: ${error.message}`)
               }) */
-          },
-          'base64',
-        )
+          dispatch({
+            type: CreateEntityActions.CreateEntitySuccess,
+          })
+        },
+        'base64',
+      )
+    })
+    .catch(() => {
+      dispatch({
+        type: CreateEntityActions.CreateEntityFailure,
       })
-      .catch(() => {
-        console.log('error')
-      }),
-  })
-
-  return null
+    })
 }
 
 // if template

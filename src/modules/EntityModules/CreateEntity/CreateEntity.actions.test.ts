@@ -29,7 +29,7 @@ describe('CreateEntity Actions', () => {
   })
 
   describe('newEntity', () => {
-    it('should start a new entity creation if the current entity is not equal to tbe new entity', async () => {
+    it('should start a new entity creation if the current entity is not equal to the new entity', async () => {
       // given ... some content
       const entityType = EntityType.Cell
 
@@ -42,6 +42,26 @@ describe('CreateEntity Actions', () => {
       expect(actions[0].type).toEqual(CreateEntityActions.NewEntity)
       expect(actions[0].payload).toEqual({ entityType })
     })
+  })
+
+  it('should start a new entity creation if the current entity is equal to the new entity and there was a previous entity created', async () => {
+    // given ... some content
+    const entityType = EntityType.Data
+    store = mockStore({
+      createEntity: {
+        entityType: EntityType.Data,
+        created: true,
+      },
+    })
+
+    // when ... we call the newEntity action creator
+    await store.dispatch(SUT.newEntity(entityType))
+    const actions = store.getActions()
+
+    // then ... it should dispatch the correct action
+    expect(actions.length).toEqual(1)
+    expect(actions[0].type).toEqual(CreateEntityActions.NewEntity)
+    expect(actions[0].payload).toEqual({ entityType })
   })
 
   it('should not do anything if the entity type is the same as the current entity type', async () => {

@@ -26,6 +26,21 @@ export const selectEntityType = createSelector(
   (createEntity: CreateEntityState) => createEntity.entityType,
 )
 
+export const selectCreating = createSelector(
+  selectCreateEntity,
+  (createEntity: CreateEntityState) => createEntity.creating,
+)
+
+export const selectCreated = createSelector(
+  selectCreateEntity,
+  (createEntity: CreateEntityState) => createEntity.created,
+)
+
+export const selectError = createSelector(
+  selectCreateEntity,
+  (createEntity: CreateEntityState) => createEntity.error,
+)
+
 export const selectPageContentApiPayload = createSelector(
   pageContentSelectors.selectHeaderContent,
   pageContentSelectors.selectBodyContentSections,

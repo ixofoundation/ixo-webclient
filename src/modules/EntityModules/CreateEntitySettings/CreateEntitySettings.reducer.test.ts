@@ -31,7 +31,11 @@ import {
   TermsOfUseType,
   EntityType,
 } from '../Entities/types'
-import { NewEntityAction, CreateEntityActions } from '../CreateEntity/types'
+import {
+  NewEntityAction,
+  CreateEntityActions,
+  CreateEntitySuccessAction,
+} from '../CreateEntity/types'
 
 const initialState = SUT.initialState
 
@@ -789,6 +793,31 @@ describe('CreateEntitySettings Reducer', () => {
         payload: {
           entityType: EntityType.Cell,
         },
+      }
+
+      // when ... we run the reducer with this action
+      const result = SUT.reducer(
+        {
+          ...initialState,
+          version: {
+            effectiveDate: 'someDataThatShouldBeCleated',
+            versionNumber: 'someDataThatShouldBeCleared',
+            notes: 'someDataThatShouldBeCleated',
+          },
+        },
+        action,
+      )
+
+      // then ... the state should be set as expected
+      expect(result).toEqual(initialState)
+    })
+  })
+
+  describe('CreateEntitySuccess Actions', () => {
+    it('should return initial state if a CreateEntitySuccess type is received', () => {
+      // given ... we have an action of type CreateEntityActions.CreateEntitySuccess
+      const action: CreateEntitySuccessAction = {
+        type: CreateEntityActions.CreateEntitySuccess,
       }
 
       // when ... we run the reducer with this action

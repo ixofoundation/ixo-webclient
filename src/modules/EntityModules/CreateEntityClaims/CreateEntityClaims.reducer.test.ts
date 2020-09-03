@@ -21,7 +21,11 @@ import {
   ValidatedAction,
   ValidationErrorAction,
 } from './types'
-import { CreateEntityActions, NewEntityAction } from '../CreateEntity/types'
+import {
+  CreateEntityActions,
+  NewEntityAction,
+  CreateEntitySuccessAction,
+} from '../CreateEntity/types'
 import { EntityType } from '../Entities/types'
 
 const initialState = SUT.initialState
@@ -2348,6 +2352,34 @@ describe('CreateEntityClaims Reducer', () => {
         payload: {
           entityType: EntityType.Cell,
         },
+      }
+
+      // when ... we run the reducer with this action
+      const result = SUT.reducer(
+        {
+          ...initialState,
+          entityClaims: {},
+          validation: {
+            ['someId']: {
+              validated: true,
+              errors: ['someError'],
+              identifier: 'someIdentifier',
+            },
+          },
+        },
+        action,
+      )
+
+      // then ... the state should be set as expected
+      expect(result).toEqual(initialState)
+    })
+  })
+
+  describe('CreateEntitySuccess Actions', () => {
+    it('should return initial state if a CreateEntitySuccess type is received', () => {
+      // given ... we have an action of type CreateEntityActions.CreateEntitySuccess
+      const action: CreateEntitySuccessAction = {
+        type: CreateEntityActions.CreateEntitySuccess,
       }
 
       // when ... we run the reducer with this action

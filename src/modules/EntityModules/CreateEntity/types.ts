@@ -7,6 +7,7 @@ export interface CreateEntityState {
   step: number
   entityType: EntityType
   creating: boolean
+  created: boolean
   error: string
 }
 
@@ -14,9 +15,9 @@ export enum CreateEntityActions {
   GoToStep = 'ixo/CreateEntity/GO_TO_STEP',
   NewEntity = 'ixo/CreateEntity/NEW_ENTITY',
   CreateEntity = 'ixo/CreateEntity/CREATE_ENTITY',
-  CreateEntityPending = 'ixo/CreateEntity/CREATE_ENTITY_PENDING',
-  CreateEntitySuccess = 'ixo/CreateEntity/CREATE_ENTITY_FULFILLED',
-  CreateEntityFailure = 'ixo/CreateEntity/CREATE_REJECTED',
+  CreateEntityStart = 'ixo/CreateEntity/CREATE_ENTITY_START',
+  CreateEntitySuccess = 'ixo/CreateEntity/CREATE_ENTITY_SUCCESS',
+  CreateEntityFailure = 'ixo/CreateEntity/CREATE_ENTITY_FAILURE',
 }
 
 export interface FileContent {
@@ -83,7 +84,25 @@ export interface CreateEntityAction {
   payload: Promise<any>
 }
 
+export interface CreateEntityStartAction {
+  type: typeof CreateEntityActions.CreateEntityStart
+}
+
+export interface CreateEntitySuccessAction {
+  type: typeof CreateEntityActions.CreateEntitySuccess
+}
+
+export interface CreateEntityFailureAction {
+  type: typeof CreateEntityActions.CreateEntityFailure
+  payload: {
+    error
+  }
+}
+
 export type CreateEntityActionTypes =
   | GoToStepAction
   | NewEntityAction
   | CreateEntityAction
+  | CreateEntityStartAction
+  | CreateEntitySuccessAction
+  | CreateEntityFailureAction

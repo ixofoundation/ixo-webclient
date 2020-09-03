@@ -371,6 +371,7 @@ export const reducer = (
         },
       }
     case CreateEntityActions.NewEntity:
+    case CreateEntityActions.CreateEntitySuccess:
       return initialState
   }
 
