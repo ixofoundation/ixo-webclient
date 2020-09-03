@@ -89,6 +89,7 @@ export const EntitiesHero: React.FunctionComponent<Props> = ({
       <HeaderTabs
         buttons={headerTabButtons}
         activeTabColor={entityStrategyMap.themeColor}
+        enableAssistantButton={true}
       />
       {showSearch && (
         <Search

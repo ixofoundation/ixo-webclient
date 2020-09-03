@@ -3,6 +3,7 @@ import { NavLink } from 'react-router-dom'
 import { MatchType } from '../../../types/models'
 import { createTabsContainer } from './Tabs.styles'
 import { Tooltip, TooltipPositions } from '../Tooltip/Tooltip'
+import Assistant from "assets/icons/Assistant";
 
 export interface Button {
   linkClass?: string
@@ -37,6 +38,7 @@ export const Tabs: React.SFC<Props> = ({
             exact={matchType === MatchType.exact}
             strict={matchType === MatchType.strict}
             to={{ pathname: button.path }}
+            key={ index }
           >
             {button.iconClass && <i className={button.iconClass} />}
             {button.title && <p>{button.title}</p>}
@@ -60,7 +62,9 @@ export const Tabs: React.SFC<Props> = ({
         )
       })}
       {enableAssistantButton && (
-        <button onClick={() => assistantPanelToggle()}>pluse</button>
+        <button onClick={() => assistantPanelToggle()}>
+          <Assistant width="75%" />
+        </button>
       )}
     </TabsContainer>
   )
