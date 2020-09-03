@@ -7,8 +7,6 @@ import Lottie from 'react-lottie';
 import activeAnimation from 'assets/animations/assistant/active.json'
 import inactiveAnimation from 'assets/animations/assistant/inactive.json'
 import hoverAnimation from 'assets/animations/assistant/hover.json'
-import { withRouter } from "react-router";
-
 
 export interface Button {
   linkClass?: string
