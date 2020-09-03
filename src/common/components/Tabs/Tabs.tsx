@@ -7,6 +7,7 @@ import Lottie from 'react-lottie';
 import activeAnimation from 'assets/animations/assistant/active.json'
 import inactiveAnimation from 'assets/animations/assistant/inactive.json'
 import hoverAnimation from 'assets/animations/assistant/hover.json'
+import AssistantContext from 'common/contexts/Assistant'
 
 export interface Button {
   linkClass?: string
@@ -35,18 +36,32 @@ export const Tabs: React.SFC<Props> = ({
   const TabsContainer = createTabsContainer(activeTabColor)
   
   const [animation, setAnimation] = React.useState(inactiveAnimation);
-  const [toggled, setToggled] = React.useState(false);
+  const assistant = React.useContext(AssistantContext);
+  
   const assistantButtonClicked = () => {
-    assistantPanelToggle()
-    if (toggled) {
+    const isActive = assistant.active;
+    if (isActive) {
       setAnimation(hoverAnimation)
-      setToggled(false)
+      assistantPanelToggle()
       return;
     }
 
-    setToggled(true)
     setAnimation(activeAnimation);
+    assistantPanelToggle()
   }
+
+  const chooseAnimation = () => {
+    if (assistant.active) {
+      return activeAnimation
+    }
+
+    if (animation === activeAnimation) {
+      return inactiveAnimation
+    }
+
+    return animation === hoverAnimation ? hoverAnimation : inactiveAnimation;
+  }
+
   return (
     <TabsContainer>
       {buttons.map((button, index) => {
@@ -82,8 +97,8 @@ export const Tabs: React.SFC<Props> = ({
       {enableAssistantButton && (
         <button 
           onClick={() => assistantButtonClicked()}
-          onMouseEnter={() => !toggled ? setAnimation(hoverAnimation) : null}
-          onMouseLeave={() => !toggled ? setAnimation(inactiveAnimation) : null}
+          onMouseEnter={() => !assistant.active ? setAnimation(hoverAnimation) : null}
+          onMouseLeave={() => !assistant.active ? setAnimation(inactiveAnimation) : null}
         >
           <Lottie 
             height={40}
@@ -91,7 +106,7 @@ export const Tabs: React.SFC<Props> = ({
             options={{
               loop: true,
               autoplay: true,
-              animationData: animation
+              animationData: chooseAnimation()
             }}
           />
         </button>
