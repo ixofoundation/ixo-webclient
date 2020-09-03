@@ -3,7 +3,12 @@ import { NavLink } from 'react-router-dom'
 import { MatchType } from '../../../types/models'
 import { createTabsContainer } from './Tabs.styles'
 import { Tooltip, TooltipPositions } from '../Tooltip/Tooltip'
-import Assistant from "assets/icons/Assistant";
+import Lottie from 'react-lottie';
+import activeAnimation from 'assets/animations/assistant/active.json'
+import inactiveAnimation from 'assets/animations/assistant/inactive.json'
+import hoverAnimation from 'assets/animations/assistant/hover.json'
+import { withRouter } from "react-router";
+
 
 export interface Button {
   linkClass?: string
@@ -17,7 +22,8 @@ export interface Props {
   matchType: MatchType
   activeTabColor: string | undefined
   assistantPanelToggle: () => void
-  enableAssistantButton: boolean
+  enableAssistantButton: boolean,
+  match?: any
 }
 
 export const Tabs: React.SFC<Props> = ({
@@ -26,9 +32,23 @@ export const Tabs: React.SFC<Props> = ({
   activeTabColor,
   assistantPanelToggle,
   enableAssistantButton,
+  match
 }) => {
   const TabsContainer = createTabsContainer(activeTabColor)
+  
+  const [animation, setAnimation] = React.useState(inactiveAnimation);
+  const [toggled, setToggled] = React.useState(false);
+  const assistantButtonClicked = () => {
+    assistantPanelToggle()
+    if (toggled) {
+      setAnimation(hoverAnimation)
+      setToggled(false)
+      return;
+    }
 
+    setToggled(true)
+    setAnimation(activeAnimation);
+  }
   return (
     <TabsContainer>
       {buttons.map((button, index) => {
@@ -62,8 +82,20 @@ export const Tabs: React.SFC<Props> = ({
         )
       })}
       {enableAssistantButton && (
-        <button onClick={() => assistantPanelToggle()}>
-          <Assistant width="75%" />
+        <button 
+          onClick={() => assistantButtonClicked()}
+          onMouseEnter={() => !toggled ? setAnimation(hoverAnimation) : null}
+          onMouseLeave={() => !toggled ? setAnimation(inactiveAnimation) : null}
+        >
+          <Lottie 
+            height={40}
+            width={40}
+            options={{
+              loop: true,
+              autoplay: true,
+              animationData: animation
+            }}
+          />
         </button>
       )}
     </TabsContainer>
