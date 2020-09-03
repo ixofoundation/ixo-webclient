@@ -20,6 +20,9 @@ export const createTabsContainer = (
     border-top-right-radius: 4px;
     border-bottom-right-radius: 4px;
   }
+  > div a {
+    height: 100%;
+  }
 
   a {
     background: ${(props: any): string => props.theme.bg.gradientBlue};
@@ -71,6 +74,14 @@ export const createTabsContainer = (
         opacity: 0.3;
       }
     }
+  }
+
+  button {
+    background: linear-gradient(123.17deg, #0C5173 0%, #002A3F 101.44%);
+    border: none;
+    width: 50px;
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
   }
 
   img {
