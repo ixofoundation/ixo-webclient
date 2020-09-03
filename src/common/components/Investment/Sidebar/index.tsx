@@ -33,12 +33,6 @@ const BondsSidebar = ({ projectDID, bondDID }: Props): JSX.Element => {
         data-testid="BondsSidebar-navLink-orders"
         title="Events"
       />
-      <NavLink
-        to={`/projects/${projectDID}/bonds/${bondDID}/investment`}
-        className="tablinks_tablink icon investment"
-        data-testid="BondsSidebar-navLink-investment"
-        title="Investment"
-      />
     </div>
   )
 }
