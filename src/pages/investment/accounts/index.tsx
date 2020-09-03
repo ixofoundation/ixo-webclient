@@ -5,7 +5,7 @@ import styled from 'styled-components'
 
 import FundingChat from 'modules/Funding_Chat/FundingChat.container'
 import BondAccountTable from 'modules/BondModules/BondAccountTable'
-import { BondsWrapperConnected as BondsWrapper } from 'common/components/Bonds/BondsWrapper/BondsWrapper'
+import { BondsWrapperConnected as BondsWrapper } from 'common/components/Investment/Wrapper'
 import ProjectAccountWrapper from './components/ProjectAccountWrapper'
 import ProjectAccount from './components/ProjectAccount'
 import { getBondAccounts } from 'modules/BondModules/BondAccount/BondAccount.action'
