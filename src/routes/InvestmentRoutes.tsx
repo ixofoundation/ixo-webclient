@@ -10,6 +10,7 @@ import { getBondAccounts } from 'modules/BondModules/BondAccount/BondAccount.act
 import { selectPathnameProps } from 'modules/Router/router.selector'
 
 import { Accounts } from 'pages/investment/accounts'
+import Payments from 'pages/investment/payments'
 
 const StyledContainer = styled.div`
   display: flex;
@@ -55,6 +56,7 @@ export const BondRoutes: React.SFC<Pick<RouteComponentProps, 'match'>> = ({
         <BondsWrapper {...match}>
           <Switch>
             <Route exact path={`${match.path}/funds/accounts`} component={Accounts} />
+            <Route exact path={`${match.path}/funds/payments`} component={Payments} />
           </Switch>
         </BondsWrapper>
       </animated.div>
