@@ -1,6 +1,6 @@
 import React from 'react'
 import { render, fireEvent } from '@testing-library/react'
-import BondsSidebar from './BondsSidebar'
+import BondsSidebar from '.'
 import { BrowserRouter as Router } from 'react-router-dom'
 
 describe('BondsSidebar Component', () => {

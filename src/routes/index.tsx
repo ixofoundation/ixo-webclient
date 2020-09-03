@@ -16,14 +16,16 @@ import { UnderConstruction } from '../components/public/UnderConstruction'
 import { SubmitEntityClaimConnected } from '../modules/EntityModules/SubmitEntityClaim/SubmitEntityClaim.container'
 import { CreateEntityConnected } from '../modules/EntityModules/CreateEntity/CreateEntity.container'
 import BondRoutes from './BondRoutes'
+import InvestmentRoutes from './InvestmentRoutes'
 
-export const Routes: React.SFC<{}> = (props) => {
+export const Routes: React.SFC<{}> = props => {
   return (
     <Fragment>
       <Switch>
         <Route exact path="/json" component={ProjectForm} />
         <Route exact path="/spinner" component={Spinner} />
         <Route exact path="/register" component={RegisterConnected} />
+        <Route path="/investment/:projectDID" component={InvestmentRoutes} />
         <Route
           path="/projects/:projectDID/bonds/:bondDID"
           component={BondRoutes}
@@ -47,7 +49,7 @@ export const Routes: React.SFC<{}> = (props) => {
         <Route path="/:entityType/new" component={CreateEntityConnected} />
         <Route
           exact
-          path="/global-statistics"
+          path="/impact"
           render={(routeProps): JSX.Element => (
             <EntitiesContainerConnected
               {...routeProps.location}
@@ -58,18 +60,14 @@ export const Routes: React.SFC<{}> = (props) => {
         <Route
           path="/projects/:projectDID/overview"
           render={(): JSX.Element => (
-            <ProjectContainerConnected
-              contentType={contentType.overview}
-            />
+            <ProjectContainerConnected contentType={contentType.overview} />
           )}
         />
         <Route
           exact
           path="/projects/:projectDID/detail/"
           render={(): JSX.Element => (
-            <ProjectContainerConnected
-              contentType={contentType.dashboard}
-            />
+            <ProjectContainerConnected contentType={contentType.dashboard} />
           )}
         />
         {/* Old claims related screens - remove when new claims is ready */}

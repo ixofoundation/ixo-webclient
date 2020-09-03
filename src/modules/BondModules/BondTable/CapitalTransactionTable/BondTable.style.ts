@@ -34,7 +34,7 @@ export const TableContainer = styled.div`
     border: none;
     width: 100%;
     border-collapse: separate;
-    border-spacing: 0 0.2em;
+    border-spacing: 0 0.5em;
 
     tbody:before {
       content: '@';
