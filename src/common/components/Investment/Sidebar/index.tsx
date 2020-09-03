@@ -11,7 +11,7 @@ const BondsSidebar = ({ projectDID, bondDID }: Props): JSX.Element => {
   return (
     <div data-testid="BondsSidebar" className="tablinks sidebar">
       <NavLink
-        to={`/investment/${projectDID}/funds/accounts`}
+        to={`/projects/${projectDID}/bonds/${bondDID}/accounts`}
         className="tablinks_tablink icon account"
         data-testid="BondsSidebar-navLink-accounts"
         isActive={(match, location): any => {
@@ -32,12 +32,6 @@ const BondsSidebar = ({ projectDID, bondDID }: Props): JSX.Element => {
         className="tablinks_tablink icon orders"
         data-testid="BondsSidebar-navLink-orders"
         title="Events"
-      />
-      <NavLink
-        to={`/projects/${projectDID}/bonds/${bondDID}/investment`}
-        className="tablinks_tablink icon investment"
-        data-testid="BondsSidebar-navLink-investment"
-        title="Investment"
       />
     </div>
   )

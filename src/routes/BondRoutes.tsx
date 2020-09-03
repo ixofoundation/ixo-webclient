@@ -2,7 +2,7 @@ import React from 'react'
 import { Route, Switch, RouteComponentProps } from 'react-router-dom'
 
 import { Overview } from 'pages/bond/overview'
-import { Accounts } from 'pages/bond/accounts'
+import { Accounts } from 'pages/investment/accounts'
 import Exchange from 'pages/bond/exchange'
 import Orders from 'pages/bond/orders'
 
