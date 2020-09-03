@@ -35,39 +35,39 @@ class CreateEntity extends React.Component<Props> {
     handleSetEntityType(toTitleCase(entityTypeAsString) as EntityType)
   }
 
-  renderSteps = (): JSX.Element => {
+  renderSteps = (): JSX.Element[] => {
     const { entityType, currentStep } = this.props
     const stepMap = createEntityMap[entityType]
     const { steps } = stepMap
 
-    return (
-      <>
-        <Steps
-          currentStepTitle={stepMap.steps[currentStep].name}
-          currentStepNo={currentStep}
-          totalSteps={stepMap.stepCount}
-          handleGoToStepClick={(): void => null}
-        />
-        {Object.values(steps).map((step, index) => {
-          const { urls, container } = step
+    return Object.values(steps).map((step, index) => {
+      const { urls, container } = step
 
-          return (
-            <Route
-              key={index}
-              exact
-              path={urls}
-              render={(props: any): JSX.Element => {
-                if (currentStep === index + 1) {
-                  return React.createElement(container, { ...props })
-                } else {
-                  return <Redirect to={stepMap.steps[currentStep].urls[0]} />
-                }
-              }}
-            />
-          )
-        })}
-      </>
-    )
+      return (
+        <Route
+          key={index}
+          exact
+          path={urls}
+          render={(props: any): JSX.Element => {
+            return (
+              <>
+                <Steps
+                  currentStepTitle={stepMap.steps[currentStep].name}
+                  currentStepNo={currentStep}
+                  totalSteps={stepMap.stepCount}
+                  handleGoToStepClick={(): void => null}
+                />
+                {currentStep === index + 1 ? (
+                  React.createElement(container, { ...props })
+                ) : (
+                  <Redirect to={stepMap.steps[currentStep].urls[0]} />
+                )}
+              </>
+            )
+          }}
+        />
+      )
+    })
   }
 
   renderFinal = (): JSX.Element => {
@@ -90,7 +90,7 @@ class CreateEntity extends React.Component<Props> {
   }
 
   render(): JSX.Element {
-    const { entityType, creating, created, error, currentStep } = this.props
+    const { entityType } = this.props
 
     if (!entityType) {
       return <></>
@@ -105,10 +105,12 @@ class CreateEntity extends React.Component<Props> {
           <div className="container">
             <div className="row">
               <div className="col-lg-12">
-                {(creating || created || error) &&
+                {/*                 {(creating || created || error) &&
                 currentStep === entityMap.stepCount
                   ? this.renderFinal()
-                  : this.renderSteps()}
+                  : this.renderSteps()} */}
+                {this.renderFinal()}
+                {this.renderSteps()}
               </div>
             </div>
           </div>
