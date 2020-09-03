@@ -1,22 +1,24 @@
-import React, { FunctionComponent, useState, useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
+import { Route, Switch, RouteComponentProps } from 'react-router-dom'
+import styled from 'styled-components'
 import { animated, useSpring } from 'react-spring'
 import { useDispatch, useSelector } from 'react-redux'
-import styled from 'styled-components'
 
 import FundingChat from 'modules/Funding_Chat/FundingChat.container'
-import BondAccountTable from 'modules/BondModules/BondAccountTable'
-import { BondsWrapperConnected as BondsWrapper } from 'common/components/Bonds/BondsWrapper/BondsWrapper'
-import ProjectAccountWrapper from './components/ProjectAccountWrapper'
-import ProjectAccount from './components/ProjectAccount'
+import { BondsWrapperConnected as BondsWrapper } from 'common/components/Investment/Wrapper'
 import { getBondAccounts } from 'modules/BondModules/BondAccount/BondAccount.action'
 import { selectPathnameProps } from 'modules/Router/router.selector'
+
+import { Accounts } from 'pages/investment/accounts'
+import Payments from 'pages/investment/payments'
 
 const StyledContainer = styled.div`
   display: flex;
   flex: 1;
 `
-
-export const Accounts: FunctionComponent<any> = ({ match }) => {
+export const BondRoutes: React.SFC<Pick<RouteComponentProps, 'match'>> = ({
+  match,
+}) => {
   const dispatch = useDispatch()
   const pathName = useSelector(selectPathnameProps)
   const projectDID = pathName.split('/')[2]
@@ -33,7 +35,6 @@ export const Accounts: FunctionComponent<any> = ({ match }) => {
     display: assistant ? 'block' : 'none',
     background: '#F0F3F9'
   }))
-  const [selected, setSelected] = useState(0)
 
   const assistantPanelToggle = () => {
     setResizeMain({
@@ -52,17 +53,11 @@ export const Accounts: FunctionComponent<any> = ({ match }) => {
   return (
     <StyledContainer>
       <animated.div style={resizeMain}>
-        <BondsWrapper {...match} enableAssistantButton>
-          <ProjectAccountWrapper>
-            <ProjectAccount count={7} selected={selected === 0} onSelect={(): void => setSelected(0)}></ProjectAccount>
-            <ProjectAccount count={7} selected={selected === 1} onSelect={(): void => setSelected(1)}></ProjectAccount>
-            <ProjectAccount count={7} selected={selected === 2} onSelect={(): void => setSelected(2)}></ProjectAccount>
-            <ProjectAccount count={7} selected={selected === 3} onSelect={(): void => setSelected(3)}></ProjectAccount>
-            <ProjectAccount count={7} selected={selected === 4} onSelect={(): void => setSelected(4)}></ProjectAccount>
-            <ProjectAccount count={7} selected={selected === 5} onSelect={(): void => setSelected(5)}></ProjectAccount>
-            <ProjectAccount count={7} selected={selected === 6} onSelect={(): void => setSelected(6)}></ProjectAccount>
-          </ProjectAccountWrapper>
-          <BondAccountTable />
+        <BondsWrapper {...match}>
+          <Switch>
+            <Route exact path={`${match.path}/funds/accounts`} component={Accounts} />
+            <Route exact path={`${match.path}/funds/payments`} component={Payments} />
+          </Switch>
         </BondsWrapper>
       </animated.div>
       {
@@ -71,5 +66,8 @@ export const Accounts: FunctionComponent<any> = ({ match }) => {
           </animated.div>
       }
     </StyledContainer>
+
   )
 }
+
+export default BondRoutes

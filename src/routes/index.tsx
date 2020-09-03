@@ -16,6 +16,7 @@ import { UnderConstruction } from '../components/public/UnderConstruction'
 import { SubmitEntityClaimConnected } from '../modules/EntityModules/SubmitEntityClaim/SubmitEntityClaim.container'
 import { CreateEntityConnected } from '../modules/EntityModules/CreateEntity/CreateEntity.container'
 import BondRoutes from './BondRoutes'
+import InvestmentRoutes from './InvestmentRoutes'
 
 export const Routes: React.SFC<{}> = props => {
   return (
@@ -24,6 +25,7 @@ export const Routes: React.SFC<{}> = props => {
         <Route exact path="/json" component={ProjectForm} />
         <Route exact path="/spinner" component={Spinner} />
         <Route exact path="/register" component={RegisterConnected} />
+        <Route path="/investment/:projectDID" component={InvestmentRoutes} />
         <Route
           path="/projects/:projectDID/bonds/:bondDID"
           component={BondRoutes}
