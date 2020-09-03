@@ -55,7 +55,7 @@ export const entityTypeMap: EntityTypeStrategyMap = {
   [EntityType.Project]: {
     title: 'Project',
     plural: 'Projects',
-    themeColor: '#2f80ed',
+    themeColor: '#49BFE0',
     headerSchema: ProjectHeaderSchema,
     filterSchema: ProjectFilterSchema,
     controlPanelSchema: ProjectControlPanelSchema,
@@ -63,7 +63,7 @@ export const entityTypeMap: EntityTypeStrategyMap = {
   [EntityType.Oracle]: {
     title: 'Oracle',
     plural: 'Oracles',
-    themeColor: '#ad245c',
+    themeColor: '#AD245C',
     headerSchema: OracleHeaderSchema,
     filterSchema: OracleFilterSchema,
     controlPanelSchema: OracleControlPanelSchema,
@@ -71,7 +71,7 @@ export const entityTypeMap: EntityTypeStrategyMap = {
   [EntityType.Investment]: {
     title: 'Investment',
     plural: 'Investments',
-    themeColor: '#e4bc3d',
+    themeColor: '#E4BC3D',
     headerSchema: InvestmentHeaderSchema,
     filterSchema: InvestmentFilterSchema,
     controlPanelSchema: InvestmentControlPanelSchema,
@@ -79,7 +79,7 @@ export const entityTypeMap: EntityTypeStrategyMap = {
   [EntityType.Cell]: {
     title: 'Cell',
     plural: 'Cells',
-    themeColor: '#79af50',
+    themeColor: '#85AD5C',
     headerSchema: CellHeaderSchema,
     filterSchema: CellFilterSchema,
     controlPanelSchema: CellControlPanelSchema,
@@ -93,9 +93,9 @@ export const entityTypeMap: EntityTypeStrategyMap = {
     controlPanelSchema: TemplateControlPanelSchema,
   },
   [EntityType.Data]: {
-    title: 'Data Asset',
-    plural: 'Data Assets',
-    themeColor: '#f89d28',
+    title: 'Asset',
+    plural: 'Assets',
+    themeColor: '#ED9526',
     headerSchema: DataHeaderSchema,
     filterSchema: DataFilterSchema,
     controlPanelSchema: DataControlPanelSchema,
