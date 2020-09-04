@@ -21,6 +21,7 @@ import { reducer as createEntitySettingsReducer } from 'modules/EntityModules/Cr
 import { reducer as createEntityAdvancedReducer } from 'modules/EntityModules/CreateEntityAdvanced/CreateEntityAdvanced.reducer'
 import { reducer as createEntityAttestationReducer } from 'modules/EntityModules/CreateEntityAttestation/CreateEntityAttestation.reducer'
 import { reducer as createEntityClaimsReducer } from 'modules/EntityModules/CreateEntityClaims/CreateEntityClaims.reducer'
+import { reducer as projectReducer } from 'pages/bond/store/reducers'
 import { RootState } from './types'
 
 export const rootReducer: any = (history) =>
@@ -46,5 +47,6 @@ export const rootReducer: any = (history) =>
     createEntitySettings: createEntitySettingsReducer,
     createEntityAdvanced: createEntityAdvancedReducer,
     createEntityClaims: createEntityClaimsReducer,
+    projectState: projectReducer,
     router: connectRouter(history),
   })

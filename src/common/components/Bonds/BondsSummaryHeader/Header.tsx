@@ -92,8 +92,8 @@ class Header extends Component<any, HeaderState> {
           value={activeBond.reserve.amount}
           additionalInfo={reserveInfo}
           priceColor="#39C3E6"
-          setActiveHeaderItem={(): void => setSelectedHeader('reverse')}
-          selected={selectedHeader === 'reverse'}
+          setActiveHeaderItem={(): void => setSelectedHeader('reserve')}
+          selected={selectedHeader === 'reserve'}
         />
         <HeaderItem
           title="Alpha"
