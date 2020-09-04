@@ -22,7 +22,6 @@ export interface Props {
   activeTabColor: string | undefined
   assistantPanelToggle: () => void
   enableAssistantButton: boolean,
-  match?: any
 }
 
 export const Tabs: React.SFC<Props> = ({
@@ -30,8 +29,7 @@ export const Tabs: React.SFC<Props> = ({
   matchType,
   activeTabColor,
   assistantPanelToggle,
-  enableAssistantButton,
-  match
+  enableAssistantButton
 }) => {
   const TabsContainer = createTabsContainer(activeTabColor)
   
@@ -45,7 +43,7 @@ export const Tabs: React.SFC<Props> = ({
       assistantPanelToggle()
       return;
     }
-
+    console.log('fffffffffffff', assistantPanelToggle)
     setAnimation(activeAnimation);
     assistantPanelToggle()
   }
