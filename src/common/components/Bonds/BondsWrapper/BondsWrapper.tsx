@@ -132,5 +132,5 @@ function mapStateToProps(state: RootState): Record<string, any> {
 }
 
 export const BondsWrapperConnected = withRouter(
-  connect(mapStateToProps)(BondsWrapper as any) as any,
-)
+  connect(mapStateToProps)(BondsWrapper as any),
+) as any
