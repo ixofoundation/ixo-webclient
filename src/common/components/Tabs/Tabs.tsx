@@ -43,7 +43,7 @@ export const Tabs: React.SFC<Props> = ({
       assistantPanelToggle()
       return;
     }
-    console.log('fffffffffffff', assistantPanelToggle)
+    
     setAnimation(activeAnimation);
     assistantPanelToggle()
   }
