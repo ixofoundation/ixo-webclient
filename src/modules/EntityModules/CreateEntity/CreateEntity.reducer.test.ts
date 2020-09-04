@@ -3,7 +3,6 @@ import {
   GoToStepAction,
   CreateEntityActions,
   NewEntityAction,
-  CreateEntityAction,
   CreateEntitySuccessAction,
   CreateEntityFailureAction,
   CreateEntityStartAction,
