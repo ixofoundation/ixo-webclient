@@ -53,14 +53,12 @@ const SDGSelector: React.FunctionComponent<Props> = ({
               onChange={(sdg): void => handleSDGOnChange(sdg, i)}
             />
             {i > 0 && (
-      
               <RemoveButton
                 type="button"
                 onClick={(): void => handleSDGOnRemove(i)}
               >
                 - Remove Tag
               </RemoveButton>
-    
             )}
           </div>
         )
