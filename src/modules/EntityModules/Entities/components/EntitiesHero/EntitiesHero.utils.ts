@@ -24,7 +24,7 @@ export const getHeaderTabButtons = (
       title: entityTitle,
     },
   ]
-
+  
   if (entityType === EntityType.Project || entityType === EntityType.Cell) {
     tabButtons.push(
       {

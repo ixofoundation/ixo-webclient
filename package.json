@@ -38,6 +38,7 @@
     "react-google-maps": "^9.4.5",
     "react-hook-form": "^6.3.0",
     "react-image-crop": "^8.6.5",
+    "react-lottie": "^1.2.3",
     "react-md-file": "^2.0.0",
     "react-modal": "^3.11.2",
     "react-otp-input": "^2.0.2",
