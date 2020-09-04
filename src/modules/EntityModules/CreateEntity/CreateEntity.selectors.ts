@@ -219,7 +219,7 @@ export const selectEntityApiPayload = (
       ) => {
         return {
           ['@context']: 'https://schema.ixo.foundation/entity:2383r9riuew',
-          schemaVersion: process.env.REACT_APP_ENTITY_VERSION,
+          entitySchemaVersion: process.env.REACT_APP_ENTITY_VERSION,
           relayerNode: process.env.REACT_APP_RELAYER_NODE,
           startDate: serverDateFormat(status.startDate),
           endDate: serverDateFormat(status.endDate),

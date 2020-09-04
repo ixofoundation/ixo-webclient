@@ -684,6 +684,8 @@ describe('CreateEntity Selectors', () => {
         ],
       }
 
+      // console.log(JSON.stringify(payload))
+
       expect(pageContent).toEqual(payload)
     })
   })
@@ -1007,6 +1009,8 @@ describe('CreateEntity Selectors', () => {
         ],
       }
 
+      // console.log(JSON.stringify(payload))
+
       expect(attestation).toEqual(payload)
     })
   })
@@ -1015,7 +1019,7 @@ describe('CreateEntity Selectors', () => {
     it('should return the payload for the entity', () => {
       const genericPayload = {
         ['@context']: 'https://schema.ixo.foundation/entity:2383r9riuew',
-        schemaVersion: process.env.REACT_APP_ENTITY_VERSION,
+        entitySchemaVersion: process.env.REACT_APP_ENTITY_VERSION,
         startDate: '2020-09-17T00:00:00.000Z',
         endDate: '2020-10-23T00:00:00.000Z',
         status: 'Live',
@@ -1288,6 +1292,8 @@ describe('CreateEntity Selectors', () => {
       // then ... should return result as expected
       expect(projectResult).toEqual(projectPayload)
 
+      // console.log(JSON.stringify(projectPayload))
+
       // when ... we call the selector with template entity type
       const templateResult = SUT.selectEntityApiPayload(
         EntityType.Template,
@@ -1304,6 +1310,8 @@ describe('CreateEntity Selectors', () => {
 
       // then ... should return result as expected
       expect(templateResult).toEqual(templatePayload)
+
+      // console.log(JSON.stringify(templatePayload))
     })
   })
 })

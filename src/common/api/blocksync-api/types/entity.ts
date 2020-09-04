@@ -20,7 +20,7 @@ import {
 export interface Entity {
   ['@context']: string
   ['@type']: EntityType
-  schemaVersion: string
+  entitySchemaVersion: string
   name: string
   description: string
   image: string
