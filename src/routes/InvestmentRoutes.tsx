@@ -6,8 +6,6 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import FundingChat from 'modules/Funding_Chat/FundingChat.container'
 import { BondsWrapperConnected as BondsWrapper } from 'common/components/Investment/Wrapper'
-import { getBondAccounts } from 'modules/BondModules/BondAccount/BondAccount.action'
-import { selectPathnameProps } from 'modules/Router/router.selector'
 
 import { Accounts } from 'pages/investment/accounts'
 import Payments from 'pages/investment/payments'
@@ -19,9 +17,6 @@ const StyledContainer = styled.div`
 export const BondRoutes: React.SFC<Pick<RouteComponentProps, 'match'>> = ({
   match,
 }) => {
-  const dispatch = useDispatch()
-  const pathName = useSelector(selectPathnameProps)
-  const projectDID = pathName.split('/')[2]
   const assistant =
     match.path.split('/')[match.path.split('/').length - 1] === 'assistant'
       ? true
@@ -47,9 +42,6 @@ export const BondRoutes: React.SFC<Pick<RouteComponentProps, 'match'>> = ({
     setAssistantPanelActive(!assistantPanelActive)
   }
 
-  useEffect(() => {
-    dispatch(getBondAccounts(projectDID))
-  }, [])
   return (
     <StyledContainer>
       <animated.div style={resizeMain}>

@@ -75,3 +75,8 @@ export interface Currency {
   amount?: number
   denom?: string
 }
+
+
+export interface ProjectReducerType {
+  accounts: any
+}
