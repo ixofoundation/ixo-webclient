@@ -18,6 +18,7 @@ import { Routes } from "../../routes";
 import { Spinner } from "../../common/components/Spinner";
 import { connectWeb3 } from "../web3/web3.actions";
 import "../../assets/icons.css";
+import "assets/index.css"
 require("dotenv").config();
 
 ReactGA.initialize("UA-106630107-5");
