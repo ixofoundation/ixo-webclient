@@ -9,12 +9,6 @@ export const createTabsContainer = (
   justify-content: flex-start;
   width: 100%;
 
-  > * {
-    &:not(:first-child) {
-      border-left: 1px solid #3c3d3d;
-    }
-  }
-
   > div:first-child a,
   > a:first-child {
     border-top-left-radius: 4px;
@@ -26,13 +20,16 @@ export const createTabsContainer = (
     border-top-right-radius: 4px;
     border-bottom-right-radius: 4px;
   }
+  > div a {
+    height: 100%;
+  }
 
   a {
     background: ${(props: any): string => props.theme.bg.gradientBlue};
     font-family: ${(props: any): string => props.theme.fontRoboto};
     color: white;
     text-transform: uppercase;
-    font-weight: 500;
+    font-weight: 400;
     font-size: 14px;
     padding: 10px 20px;
     display: flex;
@@ -64,6 +61,7 @@ export const createTabsContainer = (
       background: ${(props: any): string =>
         activeTabColor || props.theme.bg.lightBlue};
       color: white;
+      font-weight: bold;
     }
 
     &.in-active {
@@ -76,6 +74,14 @@ export const createTabsContainer = (
         opacity: 0.3;
       }
     }
+  }
+
+  button {
+    background: linear-gradient(123.17deg, #0C5173 0%, #002A3F 101.44%);
+    border: none;
+    width: 50px;
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
   }
 
   img {

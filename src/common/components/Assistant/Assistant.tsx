@@ -8,10 +8,9 @@ interface Props {
 const Assistant: React.FunctionComponent<Props> = ({ onMessageReceive }) => {
   const onSocketEvent = {
     bot_uttered: (utter: any): void => onMessageReceive(utter),
-    connect: (): void => localStorage.clear(),
+    connect: (): void => console.log('connected'),
     disconnect: (): void => localStorage.clear(),
   }
-
   return (
     <Widget
       socketUrl={process.env.REACT_APP_ASSISTANT_URL}
@@ -29,7 +28,7 @@ const Assistant: React.FunctionComponent<Props> = ({ onMessageReceive }) => {
 export const startAssistant = (intent: string): void => {
   send(`/${intent}`)
   open()
-  console.log('chatbot open')
+  // console.log('chatbot open')
 }
 
 export default Assistant

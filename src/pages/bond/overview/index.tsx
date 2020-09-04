@@ -10,6 +10,8 @@ import Header from 'common/components/Bonds/BondsSummaryHeader/Header'
 // import { BondEvents } from 'modules/BondEvents/BondEvents.container'
 import { BondsWrapperConnected as BondsWrapper } from 'common/components/Bonds/BondsWrapper/BondsWrapper'
 import { selectLocationProps } from 'modules/Router/router.selector'
+import AssistantContext from 'common/contexts/Assistant'
+
 const StyledContainer = styled.div`
   display: flex;
   flex: 1;
@@ -44,7 +46,9 @@ export const Overview: FunctionComponent<any> = ({ match }) => {
     })
     setAssistantPanelActive(!assistantPanelActive)
   }
+
   return (
+    <AssistantContext.Provider value={{ active: assistantPanelActive }}>
     <StyledContainer>
       <animated.div style={resizeMain}>
         <BondsWrapper {...match} assistantPanelToggle={assistantPanelToggle} enableAssistantButton>
@@ -55,8 +59,11 @@ export const Overview: FunctionComponent<any> = ({ match }) => {
         </BondsWrapper>
       </animated.div>
       <animated.div style={resizeAssistantPanel}>
-        <FundingChat match={match} assistantPanelToggle={assistantPanelToggle} />
+        {
+          assistantPanelActive && <FundingChat match={match} assistantPanelToggle={assistantPanelToggle} />
+        }
       </animated.div>
     </StyledContainer>
+    </AssistantContext.Provider>
   )
 }
