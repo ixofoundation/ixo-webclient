@@ -11,12 +11,12 @@ const BondsSidebar = ({ projectDID, bondDID }: Props): JSX.Element => {
   return (
     <div data-testid="BondsSidebar" className="tablinks sidebar">
       <NavLink
-        to={`/investment/${projectDID}/funds/accounts`}
+        to={`/projects/${projectDID}/bonds/${bondDID}/accounts`}
         className="tablinks_tablink icon account"
         data-testid="BondsSidebar-navLink-accounts"
         isActive={(match, location): any => {
           return isActiveRoute(match, location, [
-            `/investment/${projectDID}/funds/accounts`,
+            `/projects/${projectDID}/bonds/${bondDID}/accounts`,
           ])
         }}
         title='Accounts'
