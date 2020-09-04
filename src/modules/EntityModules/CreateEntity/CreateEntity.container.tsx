@@ -16,9 +16,7 @@ import { CreateEntityFinalConnected } from 'modules/EntityModules/CreateEntityFi
 interface Props {
   match: any
   entityType: EntityType
-  creating: boolean
-  created: boolean
-  error: string
+  isFinal: boolean
   currentStep: number
   handleSetEntityType: (entityType: EntityType) => void
 }
@@ -36,7 +34,7 @@ class CreateEntity extends React.Component<Props> {
   }
 
   renderSteps = (): JSX.Element[] => {
-    const { entityType, currentStep } = this.props
+    const { entityType, currentStep, isFinal } = this.props
     const stepMap = createEntityMap[entityType]
     const { steps } = stepMap
 
@@ -49,6 +47,10 @@ class CreateEntity extends React.Component<Props> {
           exact
           path={urls}
           render={(props: any): JSX.Element => {
+            if (isFinal) {
+              return <CreateEntityFinalConnected {...props} />
+            }
+
             return (
               <>
                 <Steps
@@ -71,7 +73,7 @@ class CreateEntity extends React.Component<Props> {
   }
 
   renderFinal = (): JSX.Element => {
-    const { entityType, creating, created, error, currentStep } = this.props
+    const { entityType, isFinal, currentStep } = this.props
     const stepMap = createEntityMap[entityType]
 
     return (
@@ -79,11 +81,11 @@ class CreateEntity extends React.Component<Props> {
         exact
         path={`/${entityType.toLowerCase()}/new/finalise`}
         render={(props: any): JSX.Element => {
-          if (creating || created || error) {
-            return <CreateEntityFinalConnected {...props} />
-          } else {
+          if (!isFinal) {
             return <Redirect to={stepMap.steps[currentStep].urls[0]} />
           }
+
+          return <CreateEntityFinalConnected {...props} />
         }}
       />
     )
@@ -105,10 +107,6 @@ class CreateEntity extends React.Component<Props> {
           <div className="container">
             <div className="row">
               <div className="col-lg-12">
-                {/*                 {(creating || created || error) &&
-                currentStep === entityMap.stepCount
-                  ? this.renderFinal()
-                  : this.renderSteps()} */}
                 {this.renderFinal()}
                 {this.renderSteps()}
               </div>
@@ -122,9 +120,7 @@ class CreateEntity extends React.Component<Props> {
 
 const mapStateToProps = (state: RootState): Record<string, any> => ({
   currentStep: createEntitySelectors.selectStep(state),
-  creating: createEntitySelectors.selectCreating(state),
-  created: createEntitySelectors.selectCreated(state),
-  error: createEntitySelectors.selectError(state),
+  isFinal: createEntitySelectors.selectIsFinal(state),
   entityType: createEntitySelectors.selectEntityType(state),
 })
 

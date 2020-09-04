@@ -75,9 +75,6 @@ const SingleControlForm: React.FunctionComponent<Props> = ({
     },
   }
 
-  console.log(JSON.stringify(schema))
-  console.log(JSON.stringify(uiSchema))
-
   return (
     <FormContainer>
       <ControlContainer>

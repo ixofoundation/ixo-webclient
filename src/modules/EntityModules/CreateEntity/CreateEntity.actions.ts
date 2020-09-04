@@ -1,5 +1,12 @@
 import { Dispatch } from 'redux'
-import { GoToStepAction, CreateEntityActions, NewEntityAction } from './types'
+import { encode as base64Encode } from 'base-64'
+import {
+  GoToStepAction,
+  CreateEntityActions,
+  NewEntityAction,
+  CreateEntitySuccessAction,
+  CreateEntityFailureAction,
+} from './types'
 import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
 import keysafe from 'common/keysafe/keysafe'
 import { EntityType } from 'modules/EntityModules/Entities/types'
@@ -37,7 +44,7 @@ export const newEntity = (entityType: EntityType) => (
 export const createEntity = () => (
   dispatch: Dispatch,
   getState: () => RootState,
-): void => {
+): CreateEntitySuccessAction | CreateEntityFailureAction => {
   dispatch({
     type: CreateEntityActions.CreateEntityStart,
   })
@@ -45,98 +52,54 @@ export const createEntity = () => (
   const state = getState()
   const entityType = state.createEntity.entityType
 
-  const pageContentApiPayload = createEntityMap[entityType].selectPageContent
-  const uploadPageContent = blocksyncApi.project.createPublic(
-    pageContentApiPayload,
-    PDS_URL,
-  )
+  // the page content data
+  const pageData = `data:application/json;base64,${base64Encode(
+    JSON.stringify(createEntityMap[entityType].selectPageContent(state)),
+  )}`
+
+  const uploadPageContent = blocksyncApi.project.createPublic(pageData, PDS_URL)
 
   Promise.all([uploadPageContent])
     .then((responses: any[]) => {
       const pageContentId = responses[0].result
-      const entityApiPayload = createEntitySelectors.selectEntityApiPayload(
-        entityType,
-        pageContentId,
+      // the entity data with the page content resource id
+      const entityData = JSON.stringify(
+        createEntitySelectors.selectEntityApiPayload(
+          entityType,
+          pageContentId,
+        )(state),
       )
 
       keysafe.requestSigning(
-        entityApiPayload,
-        (error: any, signature: any) => {
-          // TODO!
-          /*             blocksyncApi.project
-              .createProject(JSON.parse(entityApiPayload), signature, PDS_URL)
-              .then((res: any) => {
-                if (res.error) {
-                  errorToast(res.error.message)
-                } else {
-                  successToast('Entity created successfully')
-                }
-              })
-              .catch((error) => {
-                errorToast(`Error: ${error.message}`)
-              }) */
-          dispatch({
+        entityData,
+        (signError) => {
+          if (signError) {
+            return dispatch({
+              type: CreateEntityActions.CreateEntityFailure,
+              payload: {
+                error: signError,
+              },
+            })
+          }
+
+          // TODO - send
+          console.log(entityData)
+
+          return dispatch({
             type: CreateEntityActions.CreateEntitySuccess,
           })
         },
         'base64',
       )
     })
-    .catch(() => {
-      dispatch({
+    .catch((error) => {
+      return dispatch({
         type: CreateEntityActions.CreateEntityFailure,
+        payload: {
+          error: error.message,
+        },
       })
     })
-}
-
-// if template
-// pagecontent is attestation
-// settings part is not with attestation claim info
-
-// else
-// page content is actual content
-// settings part is with header card
-
-/* export const createEntity = () => (
-  dispatch: Dispatch,
-  getState: () => RootState,
-): CreateEntityAction => {
-  const state = getState()
-
-  const uploadPageContent = blocksyncApi.project.createPublic(
-    pageContentUtils.generatePageContentPayload(state),
-    PDS_URL,
-  )
-
-  dispatch({
-    type: CreateEntityActions.CreateEntity,
-    payload: Promise.all([uploadPageContent])
-      .then((responses: any[]) => {
-        const pageContentId = responses[0].result
-
-        keysafe.requestSigning(
-          projectObj,
-          (error: any, signature: any) => {
-            blocksyncApi.project
-              .createProject(JSON.parse(projectObj), signature, PDS_URL)
-              .then((res: any) => {
-                if (res.error) {
-                  errorToast(res.error.message)
-                } else {
-                  successToast('Entity created successfully')
-                }
-              })
-              .catch((error) => {
-                errorToast(`Error: ${error.message}`)
-              })
-          },
-          'base64',
-        )
-      })
-      .catch(() => {
-        errorToast('Entity creation failed. Please try again.')
-      }),
-  })
 
   return null
-} */
+}

@@ -41,6 +41,13 @@ export const selectError = createSelector(
   (createEntity: CreateEntityState) => createEntity.error,
 )
 
+export const selectIsFinal = createSelector(
+  selectCreating,
+  selectCreated,
+  selectError,
+  (creating, created, error) => creating || created || error,
+)
+
 export const selectPageContentApiPayload = createSelector(
   pageContentSelectors.selectHeaderContent,
   pageContentSelectors.selectBodyContentSections,

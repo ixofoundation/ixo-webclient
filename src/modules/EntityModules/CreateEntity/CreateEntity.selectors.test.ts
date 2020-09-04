@@ -598,6 +598,16 @@ describe('CreateEntity Selectors', () => {
     })
   })
 
+  describe('selectIsFinal', () => {
+    it('should return true if creating, created or error is true', () => {
+      // when ... we call the selector
+      const result = SUT.selectIsFinal(state)
+
+      // then ... should return result as expected
+      expect(result).toEqual(true)
+    })
+  })
+
   describe('selectPageContentApiPayload', () => {
     it('should select the page content payload', () => {
       // when we call selectPageContentApiPayload it should return the correct payload

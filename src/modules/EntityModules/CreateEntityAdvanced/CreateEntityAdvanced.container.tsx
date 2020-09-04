@@ -44,7 +44,7 @@ import {
   validated,
   validationError,
 } from './CreateEntityAdvanced.actions'
-import { goToStep } from '../CreateEntity/CreateEntity.actions'
+import { goToStep, createEntity } from '../CreateEntity/CreateEntity.actions'
 import { FormData } from 'common/components/JsonForm/types'
 import FormCardWrapper from 'common/components/Wrappers/FormCardWrapper/FormCardWrapper'
 import LinkedEntityCard from './components/LinkedEntityCard/LinkedEntityCard'
@@ -89,6 +89,7 @@ interface Props extends CreateEntityBaseProps {
   handleAddDataResource: () => void
   handleRemoveDataResource: (id: string) => void
   handleUpdateDataResource: (id: string, formData: FormData) => void
+  handleCreateEntity: () => void
 }
 
 class CreateEntityAdvanced extends CreateEntityBase<Props> {
@@ -469,14 +470,13 @@ class CreateEntityAdvanced extends CreateEntityBase<Props> {
   }
 
   onBack = (): void => {
-    const { entityType, step } = this.props
+    const { entityType, step, handleGoToStep } = this.props
 
-    this.props.handleGoToStep(this.getPreviousStep(entityType, step))
+    handleGoToStep(this.getPreviousStep(entityType, step))
   }
 
   onSubmitted = (): void => {
-    // TODO
-    console.log('TODO')
+    this.props.handleCreateEntity()
   }
 
   render(): JSX.Element {
@@ -591,6 +591,7 @@ const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
   handleValidationError: (identifier: string, errors: string[]): void =>
     dispatch(validationError(identifier, errors)),
   handleGoToStep: (step: number): void => dispatch(goToStep(step)),
+  handleCreateEntity: (): void => dispatch(createEntity()),
 })
 
 export const CreateEntityAdvancedConnected = connect(
