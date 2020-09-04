@@ -56,7 +56,6 @@ const EmbeddedUrlTextBox: React.FunctionComponent<Props> = ({
               onBlur={(value): void => onBlur(id, value)}
               onFocus={(value): void => onFocus(id, value)}
             />
-            <br />
             {url && !isHttpsUrl(url) && (
               <p>Please enter a valid url that starts with https://</p>
             )}
@@ -72,7 +71,6 @@ const EmbeddedUrlTextBox: React.FunctionComponent<Props> = ({
           </div>
         )
       })}
-      <br />
       <AddButton type="button" onClick={handleUrlOnAdd}>
         + Add Link
       </AddButton>
