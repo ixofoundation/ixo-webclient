@@ -104,16 +104,10 @@ describe('CreateEntityAdvanced Actions', () => {
         const id = 'someId'
         const type = PaymentType.FeeforService
         const paymentId = 'somePaymentId'
-        const denom = PaymentDenomination.eCHF
-        const maxFee = 123
-        const maxQty = 456
 
         const formData = {
           type,
           paymentId,
-          denom,
-          maxFee,
-          maxQty,
         }
 
         // when ... we call the action
@@ -125,9 +119,6 @@ describe('CreateEntityAdvanced Actions', () => {
           id,
           type,
           paymentId,
-          denom,
-          maxFee,
-          maxQty,
         })
       })
     })
@@ -425,6 +416,7 @@ describe('CreateEntityAdvanced Actions', () => {
         const serviceEndpoint = 'someEndPoint'
         const publicKey = 'somePublicKey'
         const properties = 'someOtherParams'
+        const serviceId = 'someServiceId'
 
         const formData = {
           id,
@@ -433,6 +425,7 @@ describe('CreateEntityAdvanced Actions', () => {
           serviceEndpoint,
           publicKey,
           properties,
+          serviceId,
         }
 
         // when ... we call the action
@@ -447,6 +440,7 @@ describe('CreateEntityAdvanced Actions', () => {
           serviceEndpoint,
           publicKey,
           properties,
+          serviceId,
         })
       })
     })

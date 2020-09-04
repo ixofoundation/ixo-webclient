@@ -349,9 +349,9 @@ class CreateEntityPageContent extends CreateEntityBase<Props> {
   }
 
   onSubmitted = (): void => {
-    const { entityType, step } = this.props
+    const { entityType, step, handleGoToStep } = this.props
 
-    this.props.handleGoToStep(this.getNextStep(entityType, step))
+    handleGoToStep(this.getNextStep(entityType, step))
   }
 
   render(): JSX.Element {

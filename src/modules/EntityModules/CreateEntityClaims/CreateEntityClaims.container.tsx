@@ -89,7 +89,7 @@ interface Props extends CreateEntityBaseProps {
 }
 
 class CreateEntityClaims extends CreateEntityBase<Props> {
-  renderEntityClaimTemplate = (template: Template) => {
+  renderEntityClaimTemplate = (template: Template): JSX.Element => {
     const { handleUpdateEntityClaimTemplate } = this.props
 
     // TODO - pass in actual templates
@@ -150,7 +150,7 @@ class CreateEntityClaims extends CreateEntityBase<Props> {
   renderEntityClaimAgentRoles = (
     entityClaimId: string,
     agentRoles: AgentRole[],
-  ) => {
+  ): JSX.Element => {
     const {
       handleAddEntityClaimAgentRole,
       handleRemoveEntityClaimAgentRole,
@@ -189,7 +189,7 @@ class CreateEntityClaims extends CreateEntityBase<Props> {
           <hr />
           <AddSectionButton
             type="button"
-            onClick={() => handleAddEntityClaimAgentRole(entityClaimId)}
+            onClick={(): void => handleAddEntityClaimAgentRole(entityClaimId)}
           >
             + Add Agent Role
           </AddSectionButton>
@@ -201,7 +201,7 @@ class CreateEntityClaims extends CreateEntityBase<Props> {
   renderEntityClaimEvaluations = (
     entityClaimId: string,
     evaluations: Evaluation[],
-  ) => {
+  ): JSX.Element => {
     const {
       handleAddEntityClaimEvaluation,
       handleRemoveEntityClaimEvaluation,
@@ -247,7 +247,7 @@ class CreateEntityClaims extends CreateEntityBase<Props> {
           <hr />
           <AddSectionButton
             type="button"
-            onClick={() => handleAddEntityClaimEvaluation(entityClaimId)}
+            onClick={(): void => handleAddEntityClaimEvaluation(entityClaimId)}
           >
             + Add Context to Evaluate
           </AddSectionButton>
@@ -259,7 +259,7 @@ class CreateEntityClaims extends CreateEntityBase<Props> {
   renderEntityClaimApprovalCriteria = (
     entityClaimId: string,
     approvalCriteria: ApprovalCriterion[],
-  ) => {
+  ): JSX.Element => {
     const {
       handleAddEntityClaimApprovalCriterion,
       handleRemoveEntityClaimApprovalCriterion,
@@ -309,7 +309,9 @@ class CreateEntityClaims extends CreateEntityBase<Props> {
           <hr />
           <AddSectionButton
             type="button"
-            onClick={() => handleAddEntityClaimApprovalCriterion(entityClaimId)}
+            onClick={(): void =>
+              handleAddEntityClaimApprovalCriterion(entityClaimId)
+            }
           >
             + Add Criteria
           </AddSectionButton>
@@ -321,7 +323,7 @@ class CreateEntityClaims extends CreateEntityBase<Props> {
   renderEntityClaimEnrichments = (
     entityClaimId: string,
     enrichments: Enrichment[],
-  ) => {
+  ): JSX.Element => {
     const {
       handleAddEntityClaimEnrichment,
       handleRemoveEntityClaimEnrichment,
@@ -361,7 +363,7 @@ class CreateEntityClaims extends CreateEntityBase<Props> {
           <hr />
           <AddSectionButton
             type="button"
-            onClick={() => handleAddEntityClaimEnrichment(entityClaimId)}
+            onClick={(): void => handleAddEntityClaimEnrichment(entityClaimId)}
           >
             + Add Criteria
           </AddSectionButton>
@@ -370,7 +372,7 @@ class CreateEntityClaims extends CreateEntityBase<Props> {
     )
   }
 
-  renderEntityClaims = () => {
+  renderEntityClaims = (): JSX.Element[] => {
     const { entityClaims, handleRemoveEntityClaim } = this.props
 
     return entityClaims.map((entityClaim) => {
@@ -385,7 +387,7 @@ class CreateEntityClaims extends CreateEntityBase<Props> {
 
       return (
         <>
-          <Container>
+          <Container key={id}>
             {this.renderEntityClaimTemplate(template)}
             <div>
               <hr className="subdivider" />
@@ -409,7 +411,7 @@ class CreateEntityClaims extends CreateEntityBase<Props> {
             <div className="text-center">
               <AddSectionButton
                 type="button"
-                onClick={() => handleRemoveEntityClaim(id)}
+                onClick={(): void => handleRemoveEntityClaim(id)}
               >
                 + Remove Claim
               </AddSectionButton>
@@ -421,18 +423,18 @@ class CreateEntityClaims extends CreateEntityBase<Props> {
   }
 
   onSubmitted = (): void => {
-    const { entityType, step } = this.props
+    const { entityType, step, handleGoToStep } = this.props
 
-    this.props.handleGoToStep(this.getNextStep(entityType, step))
+    handleGoToStep(this.getNextStep(entityType, step))
   }
 
   onBack = (): void => {
-    const { entityType, step } = this.props
+    const { entityType, step, handleGoToStep } = this.props
 
-    this.props.handleGoToStep(this.getPreviousStep(entityType, step))
+    handleGoToStep(this.getPreviousStep(entityType, step))
   }
 
-  render() {
+  render(): JSX.Element {
     const { handleAddEntityClaim } = this.props
 
     const { entityClaims } = this.props

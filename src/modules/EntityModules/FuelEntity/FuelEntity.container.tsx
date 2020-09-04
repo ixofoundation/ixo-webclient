@@ -8,7 +8,6 @@ import {
   AssistantHeader,
   SummaryWrapper,
   AssistantContentWrapper,
-  AssistantProgress,
 } from 'common/components/ControlPanel/Actions/Actions.styles'
 import Assistant, {
   startAssistant,
@@ -19,8 +18,9 @@ import * as fuelEntitySelectors from './FuelEntity.selectors'
 import { getOrder, confirmOrder, cancelOrder } from './FuelEntity.actions'
 import BackIcon from 'assets/icons/Back'
 import ChatbotIcon from 'assets/icons/Chatbot'
-import PaymentSuccessIcon from 'assets/icons/PaymentSuccess'
-import SendIcon from 'assets/icons/Send'
+import StatusMessage, {
+  MessageType,
+} from 'common/components/StatusMessage/StatusMessage'
 
 interface Props {
   match: any
@@ -141,37 +141,39 @@ class FuelEntity extends React.Component<Props & RouteProps> {
         )}
         {sending && (
           <AssistantContentWrapper>
-            <AssistantProgress>
-              <div className="icon-pulse-wrapper repeat">
-                <SendIcon width="80" fill="#49BFE0" />
-              </div>
-              <h2>Sending...</h2>
-            </AssistantProgress>
+            <StatusMessage
+              message="Sending..."
+              messageType={MessageType.Sending}
+              repeatPulse={true}
+            />
           </AssistantContentWrapper>
         )}
         {sent && (
           <AssistantContentWrapper>
-            <AssistantProgress>
-              <div className="icon-pulse-wrapper">
-                <PaymentSuccessIcon width="132" fill="#6FCF97" />
-              </div>
-              <h2>Payment Successful</h2>
+            <StatusMessage
+              message="Payment Successful"
+              messageType={MessageType.Success}
+              repeatPulse={false}
+            >
               <NavLink
                 className="close-button"
                 to={`/projects/${projectDID}/overview`}
               >
                 Close
               </NavLink>
-            </AssistantProgress>
+            </StatusMessage>
           </AssistantContentWrapper>
         )}
         {hasError && (
           <AssistantContentWrapper>
-            <AssistantProgress>
-              <h2>Oops an error occured</h2>
+            <StatusMessage
+              message="Oops an error occured"
+              messageType={MessageType.Success}
+              repeatPulse={false}
+            >
               <div className="error">{error}</div>
               <button onClick={(): void => handleCancelOrder()}>Go back</button>
-            </AssistantProgress>
+            </StatusMessage>
           </AssistantContentWrapper>
         )}
       </ActionWrapper>

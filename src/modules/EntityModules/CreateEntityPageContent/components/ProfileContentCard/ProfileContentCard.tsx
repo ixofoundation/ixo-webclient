@@ -69,12 +69,12 @@ const HeaderCard: React.FunctionComponent<Props> = React.forwardRef(
       },
       linkedInUrl: {
         'ui:widget': customControls['socialtextbox'],
-        ['ui:socialIcon']: 'LinkedIn',
+        'ui:socialIcon': 'LinkedIn',
         'ui:placeholder': 'Paste Url',
       },
       twitterUrl: {
         'ui:widget': customControls['socialtextbox'],
-        ['ui:socialIcon']: 'Twitter',
+        'ui:socialIcon': 'Twitter',
         'ui:placeholder': 'Paste Url',
       },
     }

@@ -64,10 +64,10 @@ const HeaderCard: React.FunctionComponent<Props> = React.forwardRef(
     const uiSchema = {
       fileSrc: {
         'ui:widget': customControls['imageupload'],
-        ['ui:uploading']: uploadingImage,
-        ['ui:maxDimension']: 960,
-        ['ui:aspect']: 16 / 9,
-        ['ui:circularCrop']: false,
+        'ui:uploading': uploadingImage,
+        'ui:maxDimension': 960,
+        'ui:aspect': 16 / 9,
+        'ui:circularCrop': false,
       },
       title: {
         'ui:widget': 'text',

@@ -10,11 +10,13 @@ import { toTitleCase } from '../../../common/utils/formatters'
 import { EntityType } from '../Entities/types'
 import * as createEntitySelectors from './CreateEntity.selectors'
 import { newEntity } from './CreateEntity.actions'
-import { entityStepMap } from './strategy-map'
+import { createEntityMap } from './strategy-map'
+import { CreateEntityFinalConnected } from 'modules/EntityModules/CreateEntityFinal/CreateEntityFinal.container'
 
 interface Props {
   match: any
   entityType: EntityType
+  isFinal: boolean
   currentStep: number
   handleSetEntityType: (entityType: EntityType) => void
 }
@@ -31,9 +33,9 @@ class CreateEntity extends React.Component<Props> {
     handleSetEntityType(toTitleCase(entityTypeAsString) as EntityType)
   }
 
-  renderRoutes = () => {
-    const { entityType, currentStep } = this.props
-    const stepMap = entityStepMap[entityType]
+  renderSteps = (): JSX.Element[] => {
+    const { entityType, currentStep, isFinal } = this.props
+    const stepMap = createEntityMap[entityType]
     const { steps } = stepMap
 
     return Object.values(steps).map((step, index) => {
@@ -45,42 +47,68 @@ class CreateEntity extends React.Component<Props> {
           exact
           path={urls}
           render={(props: any): JSX.Element => {
-            if (currentStep === index + 1) {
-              return React.createElement(container, { ...props })
-            } else {
-              return <Redirect to={stepMap.steps[currentStep].urls[0]} />
+            if (isFinal) {
+              return <CreateEntityFinalConnected {...props} />
             }
-          }}
-        />
-      )
-    })
-  }
 
-  render(): JSX.Element {
-    const { currentStep, entityType } = this.props
-
-    if (!entityType) {
-      return <></>
-    }
-
-    const stepMap = entityStepMap[entityType]
-
-    return (
-      <>
-        <Hero
-          title={`Create a ${entityTypeMap[toTitleCase(entityType)].title}`}
-        />
-        <CreateEntityWrapper className="container-fluid">
-          <div className="container">
-            <div className="row">
-              <div className="col-lg-12">
+            return (
+              <>
                 <Steps
                   currentStepTitle={stepMap.steps[currentStep].name}
                   currentStepNo={currentStep}
                   totalSteps={stepMap.stepCount}
                   handleGoToStepClick={(): void => null}
                 />
-                {this.renderRoutes()}
+                {currentStep === index + 1 ? (
+                  React.createElement(container, { ...props })
+                ) : (
+                  <Redirect to={stepMap.steps[currentStep].urls[0]} />
+                )}
+              </>
+            )
+          }}
+        />
+      )
+    })
+  }
+
+  renderFinal = (): JSX.Element => {
+    const { entityType, isFinal, currentStep } = this.props
+    const stepMap = createEntityMap[entityType]
+
+    return (
+      <Route
+        exact
+        path={`/${entityType.toLowerCase()}/new/finalise`}
+        render={(props: any): JSX.Element => {
+          if (!isFinal) {
+            return <Redirect to={stepMap.steps[currentStep].urls[0]} />
+          }
+
+          return <CreateEntityFinalConnected {...props} />
+        }}
+      />
+    )
+  }
+
+  render(): JSX.Element {
+    const { entityType } = this.props
+
+    if (!entityType) {
+      return <></>
+    }
+
+    const entityMap = entityTypeMap[toTitleCase(entityType)]
+
+    return (
+      <>
+        <Hero title={entityMap.createNewTitle} />
+        <CreateEntityWrapper className="container-fluid">
+          <div className="container">
+            <div className="row">
+              <div className="col-lg-12">
+                {this.renderFinal()}
+                {this.renderSteps()}
               </div>
             </div>
           </div>
@@ -92,6 +120,7 @@ class CreateEntity extends React.Component<Props> {
 
 const mapStateToProps = (state: RootState): Record<string, any> => ({
   currentStep: createEntitySelectors.selectStep(state),
+  isFinal: createEntitySelectors.selectIsFinal(state),
   entityType: createEntitySelectors.selectEntityType(state),
 })
 

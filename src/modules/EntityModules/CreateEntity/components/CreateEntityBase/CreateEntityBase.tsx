@@ -3,7 +3,7 @@ import { animateScroll as scroll } from 'react-scroll'
 import { ButtonGroup } from '../../../../../common/components/JsonForm/JsonForm.styles'
 import * as Toast from '../../../../../common/utils/Toast'
 import { EntityType } from 'modules/EntityModules/Entities/types'
-import { entityStepMap } from '../../strategy-map'
+import { createEntityMap } from '../../strategy-map'
 
 export interface CreateEntityBaseProps {
   step: number
@@ -34,11 +34,11 @@ class CreateEntityBase<T extends CreateEntityBaseProps> extends React.Component<
   }
 
   getNextStep = (entityType: EntityType, step: number): number => {
-    return entityStepMap[entityType].steps[step].nextStep
+    return createEntityMap[entityType].steps[step].nextStep
   }
 
   getPreviousStep = (entityType: EntityType, step: number): number => {
-    return entityStepMap[entityType].steps[step].previousStep
+    return createEntityMap[entityType].steps[step].previousStep
   }
 
   onSubmitted = (): void => {

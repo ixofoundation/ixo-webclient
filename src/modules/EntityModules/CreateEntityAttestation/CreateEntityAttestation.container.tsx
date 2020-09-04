@@ -136,12 +136,12 @@ class CreateEntityAttestation extends CreateEntityBase<Props> {
 
     return (
       <DragDropContext
-        onDragEnd={(result) =>
+        onDragEnd={(result): void =>
           handleMoveQuestion(result.draggableId, result.destination.index)
         }
       >
         <Droppable droppableId="questions-list">
-          {(provided) => (
+          {(provided): JSX.Element => (
             <QuestionsListWrapper
               ref={provided.innerRef}
               {...provided.droppableProps}
@@ -588,9 +588,9 @@ class CreateEntityAttestation extends CreateEntityBase<Props> {
   }
 
   onSubmitted = (): void => {
-    const { entityType, step } = this.props
+    const { entityType, step, handleGoToStep } = this.props
 
-    this.props.handleGoToStep(this.getNextStep(entityType, step))
+    handleGoToStep(this.getNextStep(entityType, step))
   }
 
   render(): JSX.Element {
