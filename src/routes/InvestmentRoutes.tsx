@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Route, Switch, RouteComponentProps } from 'react-router-dom'
 import styled from 'styled-components'
 import { animated, useSpring } from 'react-spring'
-import { useDispatch, useSelector } from 'react-redux'
 
 import FundingChat from 'modules/Funding_Chat/FundingChat.container'
 import { BondsWrapperConnected as BondsWrapper } from 'common/components/Investment/Wrapper'
