@@ -24,9 +24,6 @@ export interface Payment {
   id: string
   type: PaymentType
   paymentId: string
-  denom: PaymentDenomination
-  maxFee: number
-  maxQty: number
 }
 
 export interface Stake {
@@ -71,6 +68,7 @@ export interface Service {
   serviceEndpoint: string
   publicKey: string
   properties: string
+  serviceId: string
 }
 
 export interface DataResource {
@@ -190,9 +188,6 @@ export interface UpdatePaymentAction {
     id: string
     type: PaymentType
     paymentId: string
-    denom: PaymentDenomination
-    maxFee: number
-    maxQty: number
   }
 }
 
@@ -320,6 +315,7 @@ export interface UpdateServiceAction {
     serviceEndpoint: string
     publicKey: string
     properties: string
+    serviceId: string
   }
 }
 

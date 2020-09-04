@@ -74,10 +74,10 @@ const CreatorCard: React.FunctionComponent<Props> = React.forwardRef(
     const uiSchema = {
       fileSrc: {
         'ui:widget': customControls['imageupload'],
-        ['ui:uploading']: uploadingImage,
-        ['ui:maxDimension']: 440,
-        ['ui:previewWidth']: 440,
-        ['ui:circularCrop']: false,
+        'ui:uploading': uploadingImage,
+        'ui:maxDimension': 440,
+        'ui:previewWidth': 440,
+        'ui:circularCrop': false,
       },
       displayName: {
         'ui:widget': 'text',

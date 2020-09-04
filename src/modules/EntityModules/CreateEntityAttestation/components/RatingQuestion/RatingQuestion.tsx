@@ -6,7 +6,7 @@ interface Props extends FormCardProps {
   title: string
   description: string
   label: string
-  values: number[]
+  values: string[]
 }
 
 const RatingQuestion: React.FunctionComponent<Props> = React.forwardRef(

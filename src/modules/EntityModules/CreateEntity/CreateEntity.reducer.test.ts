@@ -1,5 +1,12 @@
 import * as SUT from './CreateEntity.reducer'
-import { GoToStepAction, CreateEntityActions, NewEntityAction } from './types'
+import {
+  GoToStepAction,
+  CreateEntityActions,
+  NewEntityAction,
+  CreateEntitySuccessAction,
+  CreateEntityFailureAction,
+  CreateEntityStartAction,
+} from './types'
 import { EntityType } from '../Entities/types'
 
 const initialState = SUT.initialState
@@ -33,15 +40,18 @@ describe('CreateEntity Reducer', () => {
       expect(result).toEqual({
         step,
         entityType: null,
+        creating: false,
+        created: false,
+        error: null,
       })
     })
   })
 
-  describe('SetEntityTyp4 Action', () => {
+  describe('NewEntity Action', () => {
     it('should set the entityType', () => {
       const entityType = EntityType.Investment
 
-      // given .. we have an action of type CreateEntityActions.SetEntityType
+      // given .. we have an action of type CreateEntityActions.NewEntityAction
       const action: NewEntityAction = {
         type: CreateEntityActions.NewEntity,
         payload: { entityType },
@@ -54,6 +64,78 @@ describe('CreateEntity Reducer', () => {
       expect(result).toEqual({
         step: 1,
         entityType,
+        creating: false,
+        created: false,
+        error: null,
+      })
+    })
+  })
+
+  describe('CreateEntityStart Action', () => {
+    it('should set the creating flag to true', () => {
+      // given .. we have an action of type CreateEntityActions.CreateEntityStart
+      const action: CreateEntityStartAction = {
+        type: CreateEntityActions.CreateEntityStart,
+      }
+
+      // when ... we run the reducer with this action
+      const result = SUT.reducer(initialState, action)
+
+      // then ... the state should be set as expected
+      expect(result).toEqual({
+        step: 1,
+        entityType: null,
+        creating: true,
+        created: false,
+        error: null,
+      })
+    })
+  })
+
+  describe('CreateEntitySuccess Action', () => {
+    it('should set the creating flag to false and the created flag to true', () => {
+      // given .. we have an action of type CreateEntityActions.CreateEntitySuccess
+      const action: CreateEntitySuccessAction = {
+        type: CreateEntityActions.CreateEntitySuccess,
+      }
+
+      // when ... we run the reducer with this action
+      const result = SUT.reducer(
+        { ...initialState, creating: true, created: false },
+        action,
+      )
+
+      // then ... the state should be set as expected
+      expect(result).toEqual({
+        step: 1,
+        entityType: null,
+        creating: false,
+        created: true,
+        error: null,
+      })
+    })
+  })
+
+  describe('CreateEntityFailure Action', () => {
+    it('should set the creating flag to false and the error to the payload', () => {
+      // given .. we have an action of type CreateEntityActions.CreateEntityFailure
+      const action: CreateEntityFailureAction = {
+        type: CreateEntityActions.CreateEntityFailure,
+        payload: {
+          error: 'some error occurred',
+        },
+      }
+
+      // when ... we run the reducer with this action
+      const result = SUT.reducer({ ...initialState, creating: true }, action)
+
+      // then ... the state should be set as expected
+      expect(result).toEqual({
+        step: 1,
+        entityType: null,
+        creating: false,
+        created: false,
+        error: 'some error occurred',
       })
     })
   })

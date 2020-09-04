@@ -1,3 +1,4 @@
+import moment from 'moment'
 import { isoCountries } from '../../lib/commonData'
 require('dotenv').config()
 
@@ -53,3 +54,6 @@ export function toTitleCase(str: string): string {
     return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
   })
 }
+
+export const serverDateFormat = (date: string): string =>
+  moment(date).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]')

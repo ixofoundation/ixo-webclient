@@ -1,7 +1,19 @@
 import { Dispatch } from 'redux'
-import { GoToStepAction, CreateEntityActions, NewEntityAction } from './types'
+import { encode as base64Encode } from 'base-64'
+import {
+  GoToStepAction,
+  CreateEntityActions,
+  NewEntityAction,
+  CreateEntitySuccessAction,
+  CreateEntityFailureAction,
+} from './types'
+import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
+import keysafe from 'common/keysafe/keysafe'
 import { EntityType } from 'modules/EntityModules/Entities/types'
 import { RootState } from 'common/redux/types'
+import { PDS_URL } from 'modules/EntityModules/CreateEntity/types'
+import * as createEntitySelectors from './CreateEntity.selectors'
+import { createEntityMap } from './strategy-map'
 
 export const goToStep = (step: number): GoToStepAction => ({
   type: CreateEntityActions.GoToStep,
@@ -14,9 +26,10 @@ export const newEntity = (entityType: EntityType) => (
   dispatch: Dispatch,
   getState: () => RootState,
 ): NewEntityAction => {
-  const currentEntityType = getState().createEntity.entityType
+  const state = getState()
+  const { entityType: currentEntityType, created } = state.createEntity
 
-  if (currentEntityType === entityType) {
+  if (currentEntityType === entityType && !created) {
     return null
   }
 
@@ -26,4 +39,67 @@ export const newEntity = (entityType: EntityType) => (
       entityType,
     },
   })
+}
+
+export const createEntity = () => (
+  dispatch: Dispatch,
+  getState: () => RootState,
+): CreateEntitySuccessAction | CreateEntityFailureAction => {
+  dispatch({
+    type: CreateEntityActions.CreateEntityStart,
+  })
+
+  const state = getState()
+  const entityType = state.createEntity.entityType
+
+  // the page content data
+  const pageData = `data:application/json;base64,${base64Encode(
+    JSON.stringify(createEntityMap[entityType].selectPageContent(state)),
+  )}`
+
+  const uploadPageContent = blocksyncApi.project.createPublic(pageData, PDS_URL)
+
+  Promise.all([uploadPageContent])
+    .then((responses: any[]) => {
+      const pageContentId = responses[0].result
+      // the entity data with the page content resource id
+      const entityData = JSON.stringify(
+        createEntitySelectors.selectEntityApiPayload(
+          entityType,
+          pageContentId,
+        )(state),
+      )
+
+      keysafe.requestSigning(
+        entityData,
+        (signError) => {
+          if (signError) {
+            return dispatch({
+              type: CreateEntityActions.CreateEntityFailure,
+              payload: {
+                error: signError,
+              },
+            })
+          }
+
+          // TODO - send
+          console.log(entityData)
+
+          return dispatch({
+            type: CreateEntityActions.CreateEntitySuccess,
+          })
+        },
+        'base64',
+      )
+    })
+    .catch((error) => {
+      return dispatch({
+        type: CreateEntityActions.CreateEntityFailure,
+        payload: {
+          error: error.message,
+        },
+      })
+    })
+
+  return null
 }

@@ -77,7 +77,7 @@ const ApprovalCriterionCard: React.FunctionComponent<Props> = React.forwardRef(
         'ui:placeholder': 'Enter a Required Condition',
       },
       approvalAttributes: {
-        ['ui:options']: {
+        'ui:options': {
           addable: true,
           orderable: true,
           removable: true,

@@ -394,7 +394,7 @@ export const addRatingQuestion = (): AddRatingQuestionAction => ({
     description: undefined,
     label: undefined,
     required: true,
-    type: Type.Number,
+    type: Type.String,
     control: ControlType.Rating,
     values: undefined,
     inline: true,
@@ -407,7 +407,9 @@ export const updateRatingQuestion = (
 ): UpdateRatingQuestionAction => {
   const { title, description, label, scale } = formData
 
-  const values = scale ? Array.from(Array(scale), (_, i) => i + 1) : undefined
+  const values = scale
+    ? Array.from(Array(scale), (_, i) => i + 1).map((i) => i.toString())
+    : undefined
 
   return {
     type: CreateEntityAttestationActions.UpdateRatingQuestion,

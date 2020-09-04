@@ -41,7 +41,11 @@ import {
   ValidatedAction,
   ValidationErrorAction,
 } from './types'
-import { NewEntityAction, CreateEntityActions } from '../CreateEntity/types'
+import {
+  NewEntityAction,
+  CreateEntityActions,
+  CreateEntitySuccessAction,
+} from '../CreateEntity/types'
 
 const initialState = SUT.initialState
 
@@ -195,9 +199,6 @@ describe('CreateEntityAdvanced Reducer', () => {
             id,
             type: undefined,
             paymentId: undefined,
-            denom: undefined,
-            maxFee: undefined,
-            maxQty: undefined,
           },
         },
       })
@@ -221,17 +222,11 @@ describe('CreateEntityAdvanced Reducer', () => {
               id,
               type: PaymentType.LoanRepayment,
               paymentId: 'someOldPaymentId',
-              denom: PaymentDenomination.IXO,
-              maxFee: 1,
-              maxQty: 2,
             },
             ['anotherid']: {
               id: 'anotherid',
               type: PaymentType.OutcomePayment,
               paymentId: 'somePaymentId',
-              denom: PaymentDenomination.eCHF,
-              maxFee: 12,
-              maxQty: 22,
             },
           },
         },
@@ -246,9 +241,6 @@ describe('CreateEntityAdvanced Reducer', () => {
             id: 'anotherid',
             type: PaymentType.OutcomePayment,
             paymentId: 'somePaymentId',
-            denom: PaymentDenomination.eCHF,
-            maxFee: 12,
-            maxQty: 22,
           },
         },
       })
@@ -258,9 +250,6 @@ describe('CreateEntityAdvanced Reducer', () => {
       const id = 'someId'
       const type = PaymentType.FeeforService
       const paymentId = 'somePaymentId'
-      const denom = PaymentDenomination.eCHF
-      const maxFee = 123
-      const maxQty = 456
 
       // given .. we have an action of type CreateEntityAdvancedActions.UpdatePayment
       const action: UpdatePaymentAction = {
@@ -269,9 +258,6 @@ describe('CreateEntityAdvanced Reducer', () => {
           id,
           type,
           paymentId,
-          denom,
-          maxFee,
-          maxQty,
         },
       }
 
@@ -284,9 +270,6 @@ describe('CreateEntityAdvanced Reducer', () => {
               id,
               type: PaymentType.IncomeDistribution,
               paymentId: 'someOldPaymentId',
-              denom: PaymentDenomination.eUSD,
-              maxFee: 1,
-              maxQty: 2,
             },
           },
         },
@@ -300,9 +283,6 @@ describe('CreateEntityAdvanced Reducer', () => {
             id,
             type,
             paymentId,
-            denom,
-            maxFee,
-            maxQty,
           },
         },
       })
@@ -916,6 +896,7 @@ describe('CreateEntityAdvanced Reducer', () => {
               serviceEndpoint: 'someEndpoint',
               publicKey: 'somePublicKey',
               properties: 'someOtherParams',
+              serviceId: 'someServiceId',
             },
             ['anotherid']: {
               id: 'anotherid',
@@ -924,6 +905,7 @@ describe('CreateEntityAdvanced Reducer', () => {
               serviceEndpoint: 'someOtherEndpoint',
               publicKey: 'someOtherPublicKey',
               properties: 'someOtherOtherParams',
+              serviceId: 'someOtherServiceId',
             },
           },
         },
@@ -941,6 +923,7 @@ describe('CreateEntityAdvanced Reducer', () => {
             serviceEndpoint: 'someOtherEndpoint',
             publicKey: 'someOtherPublicKey',
             properties: 'someOtherOtherParams',
+            serviceId: 'someOtherServiceId',
           },
         },
       })
@@ -953,6 +936,7 @@ describe('CreateEntityAdvanced Reducer', () => {
       const serviceEndpoint = 'someEndPoint'
       const publicKey = 'somePublicKey'
       const properties = 'someOtherParams'
+      const serviceId = 'someServiceId'
 
       // given .. we have an action of type CreateEntityAdvancedActions.UpdateService
       const action: UpdateServiceAction = {
@@ -964,6 +948,7 @@ describe('CreateEntityAdvanced Reducer', () => {
           serviceEndpoint,
           publicKey,
           properties,
+          serviceId,
         },
       }
 
@@ -979,6 +964,7 @@ describe('CreateEntityAdvanced Reducer', () => {
               serviceEndpoint: 'someOldEndpoint',
               publicKey: 'someOldPublicKey',
               properties: 'someOldOtherParams',
+              serviceId: 'someOldServiceId',
             },
           },
         },
@@ -995,6 +981,7 @@ describe('CreateEntityAdvanced Reducer', () => {
             serviceEndpoint,
             publicKey,
             properties,
+            serviceId,
           },
         },
       })
@@ -1221,6 +1208,33 @@ describe('CreateEntityAdvanced Reducer', () => {
         payload: {
           entityType: EntityType.Cell,
         },
+      }
+
+      // when ... we run the reducer with this action
+      const result = SUT.reducer(
+        {
+          ...initialState,
+          nodes: {
+            ['someNodeId']: {
+              id: 'someNodeId',
+              nodeId: 'someNodeId',
+              type: NodeType.IBCNode,
+            },
+          },
+        },
+        action,
+      )
+
+      // then ... the state should be set as expected
+      expect(result).toEqual(initialState)
+    })
+  })
+
+  describe('CreateEntitySuccess Actions', () => {
+    it('should return initial state if a CreateEntitySuccess type is received', () => {
+      // given ... we have an action of type CreateEntityActions.CreateEntitySuccess
+      const action: CreateEntitySuccessAction = {
+        type: CreateEntityActions.CreateEntitySuccess,
       }
 
       // when ... we run the reducer with this action
