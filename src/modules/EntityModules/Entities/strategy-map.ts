@@ -157,7 +157,7 @@ export const paymentDenominationMap: PaymentDenominationStrategyMap = {
 
 export const stakeTypeMap: StakeTypeStrategyMap = {
   [StakeType.SecurityGuarantee]: { title: 'Security Guarantee' },
-  [StakeType.PerformanceGuarantee]: { title: 'Performanc eGuarantee' },
+  [StakeType.PerformanceGuarantee]: { title: 'Performance Guarantee' },
   [StakeType.LoanGuarantee]: { title: 'Loan Guarantee' },
   [StakeType.ClaimGuarantee]: { title: 'Claim Guarantee' },
   [StakeType.DisputeGuarantee]: { title: 'Dispute Guarantee' },
@@ -184,7 +184,7 @@ export const nodeTypeMap: NodeTypeStrategyMap = {
 }
 
 export const fundSourceMap: FundSourceStrategyMap = {
-  [FundSource.AlphaBond]: { title: 'Alpha Bond' },
+  [FundSource.Alphabond]: { title: 'Alphabond' },
   [FundSource.WalletAddress]: { title: 'Wallet Address' },
   [FundSource.BankAccount]: { title: 'Bank Account' },
   [FundSource.PaymentContract]: { title: 'Payment Contract' },

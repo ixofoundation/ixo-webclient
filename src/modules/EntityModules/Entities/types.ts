@@ -119,7 +119,7 @@ export enum NodeType {
 }
 
 export enum FundSource {
-  AlphaBond = 'AlphaBond',
+  Alphabond = 'Alphabond',
   WalletAddress = 'WalletAddress',
   BankAccount = 'BankAccount',
   PaymentContract = 'PaymentContract',

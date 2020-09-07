@@ -48,7 +48,7 @@ const ApprovalCriterionCard: React.FunctionComponent<Props> = React.forwardRef(
           items: {
             type: 'object',
             properties: {
-              condition: { type: 'string', title: 'Condition' },
+              condition: { type: 'string', title: 'Meets this Condition' },
               attribute: { type: 'string', title: 'Attribute' },
             },
           },
