@@ -1,4 +1,3 @@
-.rw-messages-container {
-  height: auto !important;
-  min-height: 70%;
+.rw-widget-embedded {
+  height: calc(100% - 72px) !important;
 }

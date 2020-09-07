@@ -2,5 +2,5 @@ projectKey=ixo
 serverUrl=http://192.168.1.226:9000
 serverVersion=8.3.1.34397
 dashboardUrl=http://192.168.1.226:9000/dashboard?id=ixo
-ceTaskId=AXRKC1kQz8k4UHNeW3eK
-ceTaskUrl=http://192.168.1.226:9000/api/ce/task?id=AXRKC1kQz8k4UHNeW3eK
+ceTaskId=AXRjb2YT0h5QG8pIyaGn
+ceTaskUrl=http://192.168.1.226:9000/api/ce/task?id=AXRjb2YT0h5QG8pIyaGn
