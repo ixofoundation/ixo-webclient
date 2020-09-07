@@ -44,6 +44,7 @@ describe('CreateEntityClaims Actions', () => {
       const minTargetClaims = 10
       const maxTargetClaims = 20
       const submissionStartDate = 'fromDate'
+      const goal = 'someGoal'
       const submissionEndDate = 'toDate'
       const submissionDates = `${submissionStartDate}|${submissionEndDate}`
 
@@ -55,6 +56,7 @@ describe('CreateEntityClaims Actions', () => {
         isPrivate,
         minTargetClaims,
         maxTargetClaims,
+        goal,
         submissionDates,
       }
 
@@ -74,6 +76,7 @@ describe('CreateEntityClaims Actions', () => {
         isPrivate,
         minTargetClaims,
         maxTargetClaims,
+        goal,
         submissionStartDate,
         submissionEndDate,
       })

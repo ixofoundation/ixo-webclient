@@ -47,6 +47,7 @@ export const updateEntityClaimTemplate = (
     isPrivate,
     minTargetClaims,
     maxTargetClaims,
+    goal,
     submissionDates,
   } = formData
 
@@ -61,6 +62,7 @@ export const updateEntityClaimTemplate = (
       isPrivate,
       minTargetClaims,
       maxTargetClaims,
+      goal,
       submissionStartDate: submissionDates
         ? submissionDates.split('|')[0]
         : undefined,

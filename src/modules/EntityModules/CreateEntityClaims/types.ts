@@ -9,6 +9,7 @@ export interface Template {
   isPrivate: boolean
   minTargetClaims: number
   maxTargetClaims: number
+  goal: string
   submissionStartDate: string
   submissionEndDate: string
 }
@@ -134,6 +135,7 @@ export interface UpdateEntityClaimTemplateAction {
     isPrivate: boolean
     minTargetClaims: number
     maxTargetClaims: number
+    goal: string
     submissionStartDate: string
     submissionEndDate: string
   }

@@ -453,6 +453,7 @@ beforeEach(() => {
             isPrivate: true,
             minTargetClaims: 23,
             maxTargetClaims: 45,
+            goal: 'Some Goal',
             submissionStartDate: '25-Sep-2020',
             submissionEndDate: '22-Oct-2020',
           },
@@ -1118,6 +1119,7 @@ describe('CreateEntity Selectors', () => {
               description: 'Some Claim Description 1',
               targetMin: 23,
               targetMax: 45,
+              goal: 'Some Goal',
               startDate: '2020-09-25T00:00:00.000Z',
               endDate: '2020-10-22T00:00:00.000Z',
               agents: [

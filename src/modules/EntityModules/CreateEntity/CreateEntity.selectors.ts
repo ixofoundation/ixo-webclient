@@ -295,6 +295,7 @@ export const selectEntityApiPayload = (
               targetMax: claim.template.maxTargetClaims,
               startDate: serverDateFormat(claim.template.submissionStartDate),
               endDate: serverDateFormat(claim.template.submissionEndDate),
+              goal: claim.template.goal,
               agents: claim.agentRoles.map((agent) => ({
                 role: agent.role,
                 autoApprove: agent.autoApprove,

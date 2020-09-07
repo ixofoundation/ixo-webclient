@@ -114,6 +114,7 @@ class CreateEntityClaims extends CreateEntityBase<Props> {
       isPrivate,
       minTargetClaims,
       maxTargetClaims,
+      goal,
       submissionStartDate,
       submissionEndDate,
     } = template
@@ -133,6 +134,7 @@ class CreateEntityClaims extends CreateEntityBase<Props> {
           isPrivate={isPrivate}
           minTargetClaims={minTargetClaims}
           maxTargetClaims={maxTargetClaims}
+          goal={goal}
           submissionStartDate={submissionStartDate}
           submissionEndDate={submissionEndDate}
           handleUpdateContent={(formData): void =>
