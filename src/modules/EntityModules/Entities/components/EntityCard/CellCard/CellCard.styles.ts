@@ -11,6 +11,16 @@ import {
 } from '../EntityCard.styles'
 
 export const MainContent = styled(MainContentBase)``
+
+export const Logo = styled.img`
+  width: 34px;
+  height: 34px;
+  border-radius: 17px;
+  position: absolute;
+  right: 32px;
+  bottom: 170px;
+`
+
 export const Title = styled(TitleBase)`
   font-weight: 400;
   font-size: 1.5rem;

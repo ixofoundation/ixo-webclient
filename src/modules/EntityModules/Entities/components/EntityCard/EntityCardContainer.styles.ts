@@ -172,12 +172,6 @@ export const ShieldLabel = styled.div`
   }
 `
 
-export const Logo = styled.img`
-  width: 34px;
-  height: 34px;
-  border-radius: 17px;
-`
-
 export const CardContainer = styled.div`
   margin-bottom: 34px;
   font-family: ${(props: any): string => props.theme.fontRoboto};

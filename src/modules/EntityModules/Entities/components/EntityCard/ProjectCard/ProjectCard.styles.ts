@@ -15,6 +15,20 @@ import {
 export const MainContent = styled(MainContentBase)``
 export const Title = styled(TitleBase)``
 export const Progress = styled(ProgressBase)``
+
+export const Flag = styled.img`
+  position: absolute;
+  right: 40px;
+`
+export const Logo = styled.img`
+  width: 34px;
+  height: 34px;
+  border-radius: 17px;
+  position: absolute;
+  bottom: 32px;
+  right: 32px;
+`
+
 export const ProgressSuccessful = styled(ProgressSuccessfulBase)``
 export const ProgressRequired = styled(ProgressRequiredBase)``
 export const Impact = styled(ImpactBase)`

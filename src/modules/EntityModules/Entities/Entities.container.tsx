@@ -128,6 +128,7 @@ export class Entities extends React.Component<any, any> {
               key={index}
               founderLogoUrl={entity.founderLogoUrl}
               version={0.2} // TODO
+              fundedCount={380}
               activeUsage={16} // TODO
               ratingScore={4.5}
               ratingCount={380}
