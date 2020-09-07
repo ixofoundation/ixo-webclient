@@ -35,6 +35,10 @@ export const FormContainer = styled.div`
     display: none;
   }
 
+  .form-group.field.field-object label {
+    display: none;
+  }
+
   input {
     margin-bottom: 0.375rem;
     border: none;

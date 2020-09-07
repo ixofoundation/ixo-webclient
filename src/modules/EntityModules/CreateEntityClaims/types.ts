@@ -31,13 +31,22 @@ export interface Evaluation {
   evaluationMethodology: string
 }
 
+export interface ApprovalAttribute {
+  condition: string
+  attribute: string
+}
+
 export interface ApprovalCriterion {
   id: string
   entityClaimId: string
   context: string
   contextLink: string
-  approvalAttributes: string[]
-  approvalCondition: string
+  approvalAttributes: ApprovalAttribute[]
+}
+
+export interface EnrichmentResource {
+  productId: string
+  resource: string
 }
 
 export interface Enrichment {
@@ -45,8 +54,7 @@ export interface Enrichment {
   entityClaimId: string
   context: string
   contextLink: string
-  resources: string[]
-  productId: string
+  resources: EnrichmentResource[]
 }
 
 export interface EntityClaim {
@@ -191,8 +199,8 @@ export interface UpdateEntityClaimEvaluationAction {
     entityClaimId: string
     context: string
     contextLink: string
-    evaluationAttributes: string[]
     evaluationMethodology: string
+    evaluationAttributes: string[]
   }
 }
 
@@ -219,8 +227,7 @@ export interface UpdateEntityClaimApprovalCriterionAction {
     entityClaimId: string
     context: string
     contextLink: string
-    approvalAttributes: string[]
-    approvalCondition: string
+    approvalAttributes: ApprovalAttribute[]
   }
 }
 
@@ -247,8 +254,7 @@ export interface UpdateEntityClaimEnrichmentAction {
     entityClaimId: string
     context: string
     contextLink: string
-    resources: string[]
-    productId: string
+    resources: EnrichmentResource[]
   }
 }
 

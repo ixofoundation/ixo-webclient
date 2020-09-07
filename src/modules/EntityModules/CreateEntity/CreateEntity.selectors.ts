@@ -311,14 +311,12 @@ export const selectEntityApiPayload = (
                 (approvalCriterion) => ({
                   ['@context']: approvalCriterion.context,
                   ['@id']: approvalCriterion.contextLink,
-                  condition: approvalCriterion.approvalCondition,
-                  attributes: approvalCriterion.approvalAttributes,
+                  criteria: approvalCriterion.approvalAttributes,
                 }),
               ),
               claimEnrichment: claim.enrichments.map((enrichment) => ({
                 ['@context']: enrichment.context,
                 ['@id']: enrichment.contextLink,
-                productId: enrichment.productId,
                 resources: enrichment.resources,
               })),
             }

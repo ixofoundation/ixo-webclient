@@ -185,12 +185,7 @@ export const updateEntityClaimApprovalCriterion = (
   id: string,
   formData: FormData,
 ): UpdateEntityClaimApprovalCriterionAction => {
-  const {
-    context,
-    contextLink,
-    approvalAttributes,
-    approvalCondition,
-  } = formData
+  const { context, contextLink, approvalAttributes } = formData
 
   return {
     type: CreateEntityClaimsActions.UpdateEntityClaimApprovalCriterion,
@@ -200,7 +195,6 @@ export const updateEntityClaimApprovalCriterion = (
       context,
       contextLink,
       approvalAttributes,
-      approvalCondition,
     },
   }
 }
@@ -231,7 +225,7 @@ export const updateEntityClaimEnrichment = (
   id: string,
   formData: FormData,
 ): UpdateEntityClaimEnrichmentAction => {
-  const { context, contextLink, resources, productId } = formData
+  const { context, contextLink, resources } = formData
 
   return {
     type: CreateEntityClaimsActions.UpdateEntityClaimEnrichment,
@@ -241,7 +235,6 @@ export const updateEntityClaimEnrichment = (
       context,
       contextLink,
       resources,
-      productId,
     },
   }
 }
