@@ -23,6 +23,8 @@ interface Props {
 }
 
 interface State {
+  startDate?: Moment
+  endDate?: Moment
   focusedInput: 'startDate' | 'endDate' | null
 }
 
@@ -30,7 +32,18 @@ class DateRangeSelector extends React.Component<Props, State> {
   constructor(props: any) {
     super(props)
 
+    let startDate
+    let endDate
+
+    if (props.value) {
+      const dateParts = props.value.split('|')
+      startDate = dateParts[0] ? moment(startDate) : null
+      endDate = dateParts[1] ? moment(endDate) : null
+    }
+
     this.state = {
+      startDate,
+      endDate,
       focusedInput: null,
     }
   }
@@ -39,32 +52,26 @@ class DateRangeSelector extends React.Component<Props, State> {
     startDate: Moment | null,
     endDate: Moment | null,
   ): void => {
-    // persist the dates in jsonforms as a pipe delimited string
-    let value
-    if (startDate || endDate) {
-      value = `${startDate ? startDate.format('DD-MMM-YYYY') : ''}|${
-        endDate ? endDate.format('DD-MMM-YYYY') : ''
-      }`
-    } else {
-      value = undefined
-    }
+    this.setState({ startDate, endDate })
 
-    this.props.onChange(value)
+    if (startDate && endDate) {
+      const value = `${startDate.format('DD-MMM-YYYY')}|${endDate.format(
+        'DD-MMM-YYYY',
+      )}`
+
+      this.props.onChange(value)
+    } else {
+      this.props.onChange(undefined)
+    }
   }
 
   renderDateRangePicker = (
     numberOfMonths: number,
     orientation: 'horizontal' | 'vertical' | undefined,
   ): JSX.Element => {
-    const { id, value } = this.props
+    const { id } = this.props
+    const { startDate, endDate } = this.state
 
-    // extract start and end date from the piped value
-    let startDate
-    let endDate
-    if (value) {
-      startDate = value.split('|')[0]
-      endDate = value.split('|')[1]
-    }
     return (
       <DateRangePicker
         startDate={startDate ? moment(startDate) : null}

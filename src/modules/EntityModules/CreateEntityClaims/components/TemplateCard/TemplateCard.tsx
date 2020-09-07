@@ -41,9 +41,10 @@ const TemplateCard: React.FunctionComponent<Props> = React.forwardRef(
       isPrivate,
       minTargetClaims,
       maxTargetClaims,
-      submissionDates: `${submissionStartDate || ''}|${
-        submissionEndDate || ''
-      }`,
+      submissionDates:
+        submissionStartDate && submissionEndDate
+          ? `${submissionStartDate}|${submissionEndDate}`
+          : undefined,
     }
 
     const schema = {
