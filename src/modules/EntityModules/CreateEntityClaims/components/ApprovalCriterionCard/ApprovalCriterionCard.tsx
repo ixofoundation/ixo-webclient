@@ -43,7 +43,7 @@ const ApprovalCriterionCard: React.FunctionComponent<Props> = React.forwardRef(
         },
         approvalAttributes: {
           type: 'array',
-          title: 'Approve If (Condition | Attribute)',
+          title: 'Approve If',
           minItems: 1,
           items: {
             type: 'object',

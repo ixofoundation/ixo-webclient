@@ -43,7 +43,7 @@ const EnrichmentCard: React.FunctionComponent<Props> = React.forwardRef(
         },
         resources: {
           type: 'array',
-          title: 'Resources: (Product Id / Resource)',
+          title: 'Resources',
           minItems: 1,
           items: {
             type: 'object',
