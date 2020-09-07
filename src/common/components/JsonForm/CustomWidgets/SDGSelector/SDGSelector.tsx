@@ -63,7 +63,6 @@ const SDGSelector: React.FunctionComponent<Props> = ({
           </div>
         )
       })}
-      <br />
       <AddButton type="button" onClick={handleSDGOnAdd}>
         + Add Tag
       </AddButton>

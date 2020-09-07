@@ -13,4 +13,5 @@ export const AddButton = styled(RemoveButton)`
   &:focus {
     outline: none;
   }
+  float: right;
 `
