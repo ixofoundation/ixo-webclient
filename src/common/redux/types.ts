@@ -16,7 +16,7 @@ import { CreateEntityState } from 'modules/EntityModules/CreateEntity/types'
 import { CreateEntitySettingsState } from 'modules/EntityModules/CreateEntitySettings/types'
 import { CreateEntityAdvancedState } from 'modules/EntityModules/CreateEntityAdvanced/types'
 import { CreateEntityClaimsState } from 'modules/EntityModules/CreateEntityClaims/types'
-
+import { ProjectType } from 'pages/bond/store/types'
 export interface RootState {
   keySafe: KeysafeState
   ixo: IxoState
@@ -39,5 +39,6 @@ export interface RootState {
   createEntitySettings: CreateEntitySettingsState
   createEntityAdvanced: CreateEntityAdvancedState
   createEntityClaims: CreateEntityClaimsState
+  projectState: ProjectType
   router: any
 }

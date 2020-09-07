@@ -6,6 +6,7 @@ export const RemoveButton = styled.button`
   background: transparent;
   font-size: 0.75rem;
   font-weight: bold;
+  margin-bottom: 1.5rem;
 `
 
 export const AddButton = styled(RemoveButton)`
@@ -13,5 +14,4 @@ export const AddButton = styled(RemoveButton)`
     outline: none;
   }
   float: right;
-  margin-top: -2rem;
 `
