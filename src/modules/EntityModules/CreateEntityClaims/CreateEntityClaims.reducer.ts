@@ -30,6 +30,7 @@ export const initialState: CreateEntityClaimsState = {
         isPrivate: false,
         minTargetClaims: undefined,
         maxTargetClaims: undefined,
+        goal: undefined,
         submissionStartDate: undefined,
         submissionEndDate: undefined,
       },
@@ -59,7 +60,6 @@ export const initialState: CreateEntityClaimsState = {
           context: undefined,
           contextLink: undefined,
           approvalAttributes: undefined,
-          approvalCondition: undefined,
         },
       },
       enrichments: {
@@ -69,7 +69,6 @@ export const initialState: CreateEntityClaimsState = {
           context: undefined,
           contextLink: undefined,
           resources: undefined,
-          productId: undefined,
         },
       },
     },
@@ -80,7 +79,7 @@ export const initialState: CreateEntityClaimsState = {
 export const reducer = (
   state = initialState,
   action: CreateEntityClaimActionTypes | CreateEntityActionTypes,
-) => {
+): CreateEntityClaimsState => {
   switch (action.type) {
     case CreateEntityClaimsActions.AddEntityClaim:
       return {
@@ -98,6 +97,7 @@ export const reducer = (
               isPrivate: false,
               minTargetClaims: undefined,
               maxTargetClaims: undefined,
+              goal: undefined,
               submissionStartDate: undefined,
               submissionEndDate: undefined,
             },
@@ -234,7 +234,6 @@ export const reducer = (
                 context: undefined,
                 contextLink: undefined,
                 approvalAttributes: undefined,
-                approvalCondition: undefined,
               },
             },
           },
@@ -283,7 +282,6 @@ export const reducer = (
                 context: undefined,
                 contextLink: undefined,
                 resources: undefined,
-                productId: undefined,
               },
             },
           },

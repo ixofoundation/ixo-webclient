@@ -105,14 +105,18 @@ export interface Entity {
       claimApproval: {
         ['@context']: string
         ['@id']: string
-        condition: string
-        attributes: string[]
+        criteria: {
+          condition: string
+          attribute: string
+        }[]
       }[]
       claimEnrichment: {
         ['@context']: string
         ['@id']: string
-        productId: string
-        resources: string[]
+        resources: {
+          productId: string
+          resource: string
+        }[]
       }[]
     }[]
   }

@@ -11,6 +11,7 @@ interface Props extends FormCardProps {
   isPrivate: boolean
   minTargetClaims: number
   maxTargetClaims: number
+  goal: string
   submissionStartDate: string
   submissionEndDate: string
   templates: Entity[]
@@ -25,6 +26,7 @@ const TemplateCard: React.FunctionComponent<Props> = React.forwardRef(
       isPrivate,
       minTargetClaims,
       maxTargetClaims,
+      goal,
       submissionStartDate,
       submissionEndDate,
       templates,
@@ -41,6 +43,7 @@ const TemplateCard: React.FunctionComponent<Props> = React.forwardRef(
       isPrivate,
       minTargetClaims,
       maxTargetClaims,
+      goal,
       submissionDates:
         submissionStartDate && submissionEndDate
           ? `${submissionStartDate}|${submissionEndDate}`
@@ -56,6 +59,7 @@ const TemplateCard: React.FunctionComponent<Props> = React.forwardRef(
         'isPrivate',
         'minTargetClaims',
         'maxTargetClaims',
+        'goal',
         'submissionDates',
       ],
       properties: {
@@ -71,6 +75,7 @@ const TemplateCard: React.FunctionComponent<Props> = React.forwardRef(
           type: 'number',
           title: 'Maximum target number of claims to be submitted',
         },
+        goal: { type: 'string', title: 'Goal' },
         submissionDates: { type: 'string', title: 'Submission Period' },
       },
     } as any
@@ -96,6 +101,9 @@ const TemplateCard: React.FunctionComponent<Props> = React.forwardRef(
       },
       maxTargetClaims: {
         'ui:placeholder': 'Maximum',
+      },
+      goal: {
+        'ui:placeholder': 'Enter Goal',
       },
       submissionDates: {
         'ui:widget': customControls['daterangeselector'],

@@ -44,6 +44,7 @@ describe('CreateEntityClaims Actions', () => {
       const minTargetClaims = 10
       const maxTargetClaims = 20
       const submissionStartDate = 'fromDate'
+      const goal = 'someGoal'
       const submissionEndDate = 'toDate'
       const submissionDates = `${submissionStartDate}|${submissionEndDate}`
 
@@ -55,6 +56,7 @@ describe('CreateEntityClaims Actions', () => {
         isPrivate,
         minTargetClaims,
         maxTargetClaims,
+        goal,
         submissionDates,
       }
 
@@ -74,6 +76,7 @@ describe('CreateEntityClaims Actions', () => {
         isPrivate,
         minTargetClaims,
         maxTargetClaims,
+        goal,
         submissionStartDate,
         submissionEndDate,
       })
@@ -287,17 +290,21 @@ describe('CreateEntityClaims Actions', () => {
         const context = 'someContext'
         const contextLink = 'someContextLink'
         const approvalAttributes = [
-          'someApprovalCriterionAttributes',
-          'someOtherApprovalCriterionAttributes',
+          {
+            condition: 'someCondition1',
+            attribute: 'someApprovalCriterionAttributes',
+          },
+          {
+            condition: 'someCondition2',
+            attribute: 'someOtherApprovalCriterionAttributes',
+          },
         ]
-        const approvalCondition = 'someApprovalCondition'
 
         // given some form data
         const formData = {
           context,
           contextLink,
           approvalAttributes,
-          approvalCondition,
         }
 
         // when ... we call the updateEntityClaimApprovalCriterion action
@@ -317,7 +324,6 @@ describe('CreateEntityClaims Actions', () => {
           context,
           contextLink,
           approvalAttributes,
-          approvalCondition,
         })
       })
     })
@@ -370,17 +376,18 @@ describe('CreateEntityClaims Actions', () => {
         const context = 'someContext'
         const contextLink = 'someContextLink'
         const resources = [
-          'someEnrichmentAttributes',
-          'someOtherEnrichmentAttributes',
+          { productId: 'productId1', resource: 'someEnrichmentAttributes' },
+          {
+            productId: 'productId2',
+            resource: 'someOtherEnrichmentAttributes',
+          },
         ]
-        const productId = 'someProductId'
 
         // given some form data
         const formData = {
           context,
           contextLink,
           resources,
-          productId,
         }
 
         // when ... we call the updateEntityClaimEnrichment action
@@ -400,7 +407,6 @@ describe('CreateEntityClaims Actions', () => {
           context,
           contextLink,
           resources,
-          productId,
         })
       })
     })

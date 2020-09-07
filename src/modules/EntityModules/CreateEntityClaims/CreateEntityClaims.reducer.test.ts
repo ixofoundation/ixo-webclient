@@ -115,6 +115,7 @@ describe('CreateEntityClaims Reducer', () => {
                 isPrivate: true,
                 minTargetClaims: undefined,
                 maxTargetClaims: undefined,
+                goal: undefined,
                 submissionStartDate: undefined,
                 submissionEndDate: undefined,
               },
@@ -134,6 +135,7 @@ describe('CreateEntityClaims Reducer', () => {
                 isPrivate: false,
                 minTargetClaims: undefined,
                 maxTargetClaims: undefined,
+                goal: undefined,
                 submissionStartDate: undefined,
                 submissionEndDate: undefined,
               },
@@ -185,6 +187,7 @@ describe('CreateEntityClaims Reducer', () => {
       const isPrivate = true
       const minTargetClaims = 10
       const maxTargetClaims = 20
+      const goal = 'someGoal'
       const submissionStartDate = 'someSubmissionStartDate'
       const submissionEndDate = 'someSubmisionEndDate'
 
@@ -200,6 +203,7 @@ describe('CreateEntityClaims Reducer', () => {
           isPrivate,
           minTargetClaims,
           maxTargetClaims,
+          goal,
           submissionStartDate,
           submissionEndDate,
         },
@@ -221,6 +225,7 @@ describe('CreateEntityClaims Reducer', () => {
                 isPrivate: false,
                 minTargetClaims: 1,
                 maxTargetClaims: 2,
+                goal: 'someOldGoal',
                 submissionStartDate: 'someOldSubmissionStartDate',
                 submissionEndDate: 'someOldSubmissionEndDate',
               },
@@ -248,6 +253,7 @@ describe('CreateEntityClaims Reducer', () => {
                 isPrivate: false,
                 minTargetClaims: 10,
                 maxTargetClaims: 20,
+                goal: 'someOtherGoal',
                 submissionStartDate: 'someOtherSubmissionStartDate',
                 submissionEndDate: 'someOtherSubmissionEndDate',
               },
@@ -284,6 +290,7 @@ describe('CreateEntityClaims Reducer', () => {
               isPrivate,
               minTargetClaims,
               maxTargetClaims,
+              goal,
               submissionStartDate,
               submissionEndDate,
             },
@@ -312,6 +319,7 @@ describe('CreateEntityClaims Reducer', () => {
               isPrivate: false,
               minTargetClaims: 10,
               maxTargetClaims: 20,
+              goal: 'someOtherGoal',
               submissionStartDate: 'someOtherSubmissionStartDate',
               submissionEndDate: 'someOtherSubmissionEndDate',
             },
@@ -356,7 +364,6 @@ describe('CreateEntityClaims Reducer', () => {
               id: entityClaimId,
               template: {
                 id: 'someIdForTemplate',
-
                 entityClaimId,
                 templateId: 'someTemplateId',
                 title: 'someTitle',
@@ -364,6 +371,7 @@ describe('CreateEntityClaims Reducer', () => {
                 isPrivate: false,
                 minTargetClaims: 1,
                 maxTargetClaims: 2,
+                goal: 'someGoal',
                 submissionStartDate: 'someSubmissionStartDate',
                 submissionEndDate: 'someSubmissionEndDate',
               },
@@ -384,7 +392,6 @@ describe('CreateEntityClaims Reducer', () => {
               id: 'anotherid',
               template: {
                 id: 'someIdForTemplate',
-
                 entityClaimId: 'anotherid',
                 templateId: 'someOtherTemplateId',
                 title: 'someOtherTitle',
@@ -392,6 +399,7 @@ describe('CreateEntityClaims Reducer', () => {
                 isPrivate: false,
                 minTargetClaims: 10,
                 maxTargetClaims: 20,
+                goal: 'someOtherGoal',
                 submissionStartDate: 'someOtherSubmissionStartDate',
                 submissionEndDate: 'someOtherSubmissionEndDate',
               },
@@ -421,7 +429,6 @@ describe('CreateEntityClaims Reducer', () => {
             id: entityClaimId,
             template: {
               id: 'someIdForTemplate',
-
               entityClaimId,
               templateId: 'someTemplateId',
               title: 'someTitle',
@@ -429,6 +436,7 @@ describe('CreateEntityClaims Reducer', () => {
               isPrivate: false,
               minTargetClaims: 1,
               maxTargetClaims: 2,
+              goal: 'someGoal',
               submissionStartDate: 'someSubmissionStartDate',
               submissionEndDate: 'someSubmissionEndDate',
             },
@@ -456,7 +464,6 @@ describe('CreateEntityClaims Reducer', () => {
             id: 'anotherid',
             template: {
               id: 'someIdForTemplate',
-
               entityClaimId: 'anotherid',
               templateId: 'someOtherTemplateId',
               title: 'someOtherTitle',
@@ -464,6 +471,7 @@ describe('CreateEntityClaims Reducer', () => {
               isPrivate: false,
               minTargetClaims: 10,
               maxTargetClaims: 20,
+              goal: 'someOtherGoal',
               submissionStartDate: 'someOtherSubmissionStartDate',
               submissionEndDate: 'someOtherSubmissionEndDate',
             },
@@ -506,7 +514,6 @@ describe('CreateEntityClaims Reducer', () => {
               id: entityClaimId,
               template: {
                 id: 'someIdForTemplate',
-
                 entityClaimId,
                 templateId: 'someTemplateId',
                 title: 'someTitle',
@@ -514,6 +521,7 @@ describe('CreateEntityClaims Reducer', () => {
                 isPrivate: false,
                 minTargetClaims: 1,
                 maxTargetClaims: 2,
+                goal: 'someGoal',
                 submissionStartDate: 'someSubmissionStartDate',
                 submissionEndDate: 'someSubmissionEndDate',
               },
@@ -541,7 +549,6 @@ describe('CreateEntityClaims Reducer', () => {
               id: 'anotherid',
               template: {
                 id: 'someIdForTemplate',
-
                 entityClaimId: 'anotherid',
                 templateId: 'someOtherTemplateId',
                 title: 'someOtherTitle',
@@ -549,6 +556,7 @@ describe('CreateEntityClaims Reducer', () => {
                 isPrivate: false,
                 minTargetClaims: 10,
                 maxTargetClaims: 20,
+                goal: 'someOtherGoal',
                 submissionStartDate: 'someOtherSubmissionStartDate',
                 submissionEndDate: 'someOtherSubmissionEndDate',
               },
@@ -578,7 +586,6 @@ describe('CreateEntityClaims Reducer', () => {
             id: entityClaimId,
             template: {
               id: 'someIdForTemplate',
-
               entityClaimId,
               templateId: 'someTemplateId',
               title: 'someTitle',
@@ -586,6 +593,7 @@ describe('CreateEntityClaims Reducer', () => {
               isPrivate: false,
               minTargetClaims: 1,
               maxTargetClaims: 2,
+              goal: 'someGoal',
               submissionStartDate: 'someSubmissionStartDate',
               submissionEndDate: 'someSubmissionEndDate',
             },
@@ -606,7 +614,6 @@ describe('CreateEntityClaims Reducer', () => {
             id: 'anotherid',
             template: {
               id: 'someIdForTemplate',
-
               entityClaimId: 'anotherid',
               templateId: 'someOtherTemplateId',
               title: 'someOtherTitle',
@@ -614,6 +621,7 @@ describe('CreateEntityClaims Reducer', () => {
               isPrivate: false,
               minTargetClaims: 10,
               maxTargetClaims: 20,
+              goal: 'someOtherGoal',
               submissionStartDate: 'someOtherSubmissionStartDate',
               submissionEndDate: 'someOtherSubmissionEndDate',
             },
@@ -662,7 +670,6 @@ describe('CreateEntityClaims Reducer', () => {
               id: entityClaimId,
               template: {
                 id: 'someIdForTemplate',
-
                 entityClaimId,
                 templateId: 'someTemplateId',
                 title: 'someTitle',
@@ -670,6 +677,7 @@ describe('CreateEntityClaims Reducer', () => {
                 isPrivate: false,
                 minTargetClaims: 1,
                 maxTargetClaims: 2,
+                goal: 'someGoal',
                 submissionStartDate: 'someSubmissionStartDate',
                 submissionEndDate: 'someSubmissionEndDate',
               },
@@ -697,7 +705,6 @@ describe('CreateEntityClaims Reducer', () => {
               id: 'anotherid',
               template: {
                 id: 'someIdForTemplate',
-
                 entityClaimId: 'anotherid',
                 templateId: 'someOtherTemplateId',
                 title: 'someOtherTitle',
@@ -705,6 +712,7 @@ describe('CreateEntityClaims Reducer', () => {
                 isPrivate: false,
                 minTargetClaims: 10,
                 maxTargetClaims: 20,
+                goal: 'someOtherGoal',
                 submissionStartDate: 'someOtherSubmissionStartDate',
                 submissionEndDate: 'someOtherSubmissionEndDate',
               },
@@ -733,7 +741,6 @@ describe('CreateEntityClaims Reducer', () => {
             id: entityClaimId,
             template: {
               id: 'someIdForTemplate',
-
               entityClaimId,
               templateId: 'someTemplateId',
               title: 'someTitle',
@@ -741,6 +748,7 @@ describe('CreateEntityClaims Reducer', () => {
               isPrivate: false,
               minTargetClaims: 1,
               maxTargetClaims: 2,
+              goal: 'someGoal',
               submissionStartDate: 'someSubmissionStartDate',
               submissionEndDate: 'someSubmissionEndDate',
             },
@@ -768,7 +776,6 @@ describe('CreateEntityClaims Reducer', () => {
             id: 'anotherid',
             template: {
               id: 'someIdForTemplate',
-
               entityClaimId: 'anotherid',
               templateId: 'someOtherTemplateId',
               title: 'someOtherTitle',
@@ -776,6 +783,7 @@ describe('CreateEntityClaims Reducer', () => {
               isPrivate: false,
               minTargetClaims: 10,
               maxTargetClaims: 20,
+              goal: 'someOtherGoal',
               submissionStartDate: 'someOtherSubmissionStartDate',
               submissionEndDate: 'someOtherSubmissionEndDate',
             },
@@ -820,7 +828,6 @@ describe('CreateEntityClaims Reducer', () => {
               id: entityClaimId,
               template: {
                 id: 'someIdForTemplate',
-
                 entityClaimId,
                 templateId: 'someTemplateId',
                 title: 'someTitle',
@@ -828,6 +835,7 @@ describe('CreateEntityClaims Reducer', () => {
                 isPrivate: false,
                 minTargetClaims: 1,
                 maxTargetClaims: 2,
+                goal: 'someGoal',
                 submissionStartDate: 'someSubmissionStartDate',
                 submissionEndDate: 'someSubmissionEndDate',
               },
@@ -849,7 +857,6 @@ describe('CreateEntityClaims Reducer', () => {
               id: 'anotherid',
               template: {
                 id: 'someIdForTemplate',
-
                 entityClaimId: 'anotherid',
                 templateId: 'someOtherTemplateId',
                 title: 'someOtherTitle',
@@ -857,6 +864,7 @@ describe('CreateEntityClaims Reducer', () => {
                 isPrivate: false,
                 minTargetClaims: 10,
                 maxTargetClaims: 20,
+                goal: 'someOtherGoal',
                 submissionStartDate: 'someOtherSubmissionStartDate',
                 submissionEndDate: 'someOtherSubmissionEndDate',
               },
@@ -887,7 +895,6 @@ describe('CreateEntityClaims Reducer', () => {
             id: entityClaimId,
             template: {
               id: 'someIdForTemplate',
-
               entityClaimId,
               templateId: 'someTemplateId',
               title: 'someTitle',
@@ -895,6 +902,7 @@ describe('CreateEntityClaims Reducer', () => {
               isPrivate: false,
               minTargetClaims: 1,
               maxTargetClaims: 2,
+              goal: 'someGoal',
               submissionStartDate: 'someSubmissionStartDate',
               submissionEndDate: 'someSubmissionEndDate',
             },
@@ -924,7 +932,6 @@ describe('CreateEntityClaims Reducer', () => {
             id: 'anotherid',
             template: {
               id: 'someIdForTemplate',
-
               entityClaimId: 'anotherid',
               templateId: 'someOtherTemplateId',
               title: 'someOtherTitle',
@@ -932,6 +939,7 @@ describe('CreateEntityClaims Reducer', () => {
               isPrivate: false,
               minTargetClaims: 10,
               maxTargetClaims: 20,
+              goal: 'someOtherGoal',
               submissionStartDate: 'someOtherSubmissionStartDate',
               submissionEndDate: 'someOtherSubmissionEndDate',
             },
@@ -975,7 +983,6 @@ describe('CreateEntityClaims Reducer', () => {
               id: entityClaimId,
               template: {
                 id: 'someIdForTemplate',
-
                 entityClaimId,
                 templateId: 'someTemplateId',
                 title: 'someTitle',
@@ -983,6 +990,7 @@ describe('CreateEntityClaims Reducer', () => {
                 isPrivate: false,
                 minTargetClaims: 1,
                 maxTargetClaims: 2,
+                goal: 'someGoal',
                 submissionStartDate: 'someSubmissionStartDate',
                 submissionEndDate: 'someSubmissionEndDate',
               },
@@ -1016,7 +1024,6 @@ describe('CreateEntityClaims Reducer', () => {
               id: 'anotherid',
               template: {
                 id: 'someIdForTemplate',
-
                 entityClaimId: 'anotherid',
                 templateId: 'someOtherTemplateId',
                 title: 'someOtherTitle',
@@ -1024,6 +1031,7 @@ describe('CreateEntityClaims Reducer', () => {
                 isPrivate: false,
                 minTargetClaims: 10,
                 maxTargetClaims: 20,
+                goal: 'someOtherGoal',
                 submissionStartDate: 'someOtherSubmissionStartDate',
                 submissionEndDate: 'someOtherSubmissionEndDate',
               },
@@ -1054,7 +1062,6 @@ describe('CreateEntityClaims Reducer', () => {
             id: entityClaimId,
             template: {
               id: 'someIdForTemplate',
-
               entityClaimId,
               templateId: 'someTemplateId',
               title: 'someTitle',
@@ -1062,6 +1069,7 @@ describe('CreateEntityClaims Reducer', () => {
               isPrivate: false,
               minTargetClaims: 1,
               maxTargetClaims: 2,
+              goal: 'someGoal',
               submissionStartDate: 'someSubmissionStartDate',
               submissionEndDate: 'someSubmissionEndDate',
             },
@@ -1083,7 +1091,6 @@ describe('CreateEntityClaims Reducer', () => {
             id: 'anotherid',
             template: {
               id: 'someIdForTemplate',
-
               entityClaimId: 'anotherid',
               templateId: 'someOtherTemplateId',
               title: 'someOtherTitle',
@@ -1091,6 +1098,7 @@ describe('CreateEntityClaims Reducer', () => {
               isPrivate: false,
               minTargetClaims: 10,
               maxTargetClaims: 20,
+              goal: 'someOtherGoal',
               submissionStartDate: 'someOtherSubmissionStartDate',
               submissionEndDate: 'someOtherSubmissionEndDate',
             },
@@ -1142,7 +1150,6 @@ describe('CreateEntityClaims Reducer', () => {
               id: entityClaimId,
               template: {
                 id: 'someIdForTemplate',
-
                 entityClaimId,
                 templateId: 'someTemplateId',
                 title: 'someTitle',
@@ -1150,6 +1157,7 @@ describe('CreateEntityClaims Reducer', () => {
                 isPrivate: false,
                 minTargetClaims: 1,
                 maxTargetClaims: 2,
+                goal: 'someGoal',
                 submissionStartDate: 'someSubmissionStartDate',
                 submissionEndDate: 'someSubmissionEndDate',
               },
@@ -1183,7 +1191,6 @@ describe('CreateEntityClaims Reducer', () => {
               id: 'anotherid',
               template: {
                 id: 'someIdForTemplate',
-
                 entityClaimId: 'anotherid',
                 templateId: 'someOtherTemplateId',
                 title: 'someOtherTitle',
@@ -1191,6 +1198,7 @@ describe('CreateEntityClaims Reducer', () => {
                 isPrivate: false,
                 minTargetClaims: 10,
                 maxTargetClaims: 20,
+                goal: 'someOtherGoal',
                 submissionStartDate: 'someOtherSubmissionStartDate',
                 submissionEndDate: 'someOtherSubmissionEndDate',
               },
@@ -1220,7 +1228,6 @@ describe('CreateEntityClaims Reducer', () => {
             id: entityClaimId,
             template: {
               id: 'someIdForTemplate',
-
               entityClaimId,
               templateId: 'someTemplateId',
               title: 'someTitle',
@@ -1228,6 +1235,7 @@ describe('CreateEntityClaims Reducer', () => {
               isPrivate: false,
               minTargetClaims: 1,
               maxTargetClaims: 2,
+              goal: 'someGoal',
               submissionStartDate: 'someSubmissionStartDate',
               submissionEndDate: 'someSubmissionEndDate',
             },
@@ -1257,7 +1265,6 @@ describe('CreateEntityClaims Reducer', () => {
             id: 'anotherid',
             template: {
               id: 'someIdForTemplate',
-
               entityClaimId: 'anotherid',
               templateId: 'someOtherTemplateId',
               title: 'someOtherTitle',
@@ -1265,6 +1272,7 @@ describe('CreateEntityClaims Reducer', () => {
               isPrivate: false,
               minTargetClaims: 10,
               maxTargetClaims: 20,
+              goal: 'someOtherGoal',
               submissionStartDate: 'someOtherSubmissionStartDate',
               submissionEndDate: 'someOtherSubmissionEndDate',
             },
@@ -1310,7 +1318,6 @@ describe('CreateEntityClaims Reducer', () => {
               id: entityClaimId,
               template: {
                 id: 'someIdForTemplate',
-
                 entityClaimId,
                 templateId: 'someTemplateId',
                 title: 'someTitle',
@@ -1318,6 +1325,7 @@ describe('CreateEntityClaims Reducer', () => {
                 isPrivate: false,
                 minTargetClaims: 1,
                 maxTargetClaims: 2,
+                goal: 'someGoal',
                 submissionStartDate: 'someSubmissionStartDate',
                 submissionEndDate: 'someSubmissionEndDate',
               },
@@ -1329,8 +1337,13 @@ describe('CreateEntityClaims Reducer', () => {
                   entityClaimId,
                   context: 'someExistingContext',
                   contextLink: 'someExistingContextLink',
-                  approvalAttributes: ['someAttribute', 'anotherAttribute'],
-                  approvalCondition: 'someApprovalCondition',
+                  approvalAttributes: [
+                    { condition: 'someCondition1', attribute: 'someAttribute' },
+                    {
+                      condition: 'someCondition2',
+                      attribute: 'anotherAttribute',
+                    },
+                  ],
                 },
               },
               enrichments: {},
@@ -1339,7 +1352,6 @@ describe('CreateEntityClaims Reducer', () => {
               id: 'anotherid',
               template: {
                 id: 'someIdForTemplate',
-
                 entityClaimId: 'anotherid',
                 templateId: 'someOtherTemplateId',
                 title: 'someOtherTitle',
@@ -1347,6 +1359,7 @@ describe('CreateEntityClaims Reducer', () => {
                 isPrivate: false,
                 minTargetClaims: 10,
                 maxTargetClaims: 20,
+                goal: 'someOtherGoal',
                 submissionStartDate: 'someOtherSubmissionStartDate',
                 submissionEndDate: 'someOtherSubmissionEndDate',
               },
@@ -1358,8 +1371,13 @@ describe('CreateEntityClaims Reducer', () => {
                   entityClaimId: 'anotherid',
                   context: 'someOtherContext',
                   contextLink: 'someOtherContextLink',
-                  approvalAttributes: ['someAttribute', 'anotherAttribute'],
-                  approvalCondition: 'someOtherApprovalCondition',
+                  approvalAttributes: [
+                    { condition: 'someCondition1', attribute: 'someAttribute' },
+                    {
+                      condition: 'someCondition2',
+                      attribute: 'anotherAttribute',
+                    },
+                  ],
                 },
               },
               enrichments: {},
@@ -1377,7 +1395,6 @@ describe('CreateEntityClaims Reducer', () => {
             id: entityClaimId,
             template: {
               id: 'someIdForTemplate',
-
               entityClaimId,
               templateId: 'someTemplateId',
               title: 'someTitle',
@@ -1385,6 +1402,7 @@ describe('CreateEntityClaims Reducer', () => {
               isPrivate: false,
               minTargetClaims: 1,
               maxTargetClaims: 2,
+              goal: 'someGoal',
               submissionStartDate: 'someSubmissionStartDate',
               submissionEndDate: 'someSubmissionEndDate',
             },
@@ -1396,8 +1414,13 @@ describe('CreateEntityClaims Reducer', () => {
                 entityClaimId,
                 context: 'someExistingContext',
                 contextLink: 'someExistingContextLink',
-                approvalAttributes: ['someAttribute', 'anotherAttribute'],
-                approvalCondition: 'someApprovalCondition',
+                approvalAttributes: [
+                  { condition: 'someCondition1', attribute: 'someAttribute' },
+                  {
+                    condition: 'someCondition2',
+                    attribute: 'anotherAttribute',
+                  },
+                ],
               },
               [id]: {
                 id,
@@ -1405,7 +1428,6 @@ describe('CreateEntityClaims Reducer', () => {
                 context: undefined,
                 contextLink: undefined,
                 approvalAttributes: undefined,
-                approvalCondition: undefined,
               },
             },
             enrichments: {},
@@ -1414,7 +1436,6 @@ describe('CreateEntityClaims Reducer', () => {
             id: 'anotherid',
             template: {
               id: 'someIdForTemplate',
-
               entityClaimId: 'anotherid',
               templateId: 'someOtherTemplateId',
               title: 'someOtherTitle',
@@ -1422,6 +1443,7 @@ describe('CreateEntityClaims Reducer', () => {
               isPrivate: false,
               minTargetClaims: 10,
               maxTargetClaims: 20,
+              goal: 'someOtherGoal',
               submissionStartDate: 'someOtherSubmissionStartDate',
               submissionEndDate: 'someOtherSubmissionEndDate',
             },
@@ -1433,8 +1455,13 @@ describe('CreateEntityClaims Reducer', () => {
                 entityClaimId: 'anotherid',
                 context: 'someOtherContext',
                 contextLink: 'someOtherContextLink',
-                approvalAttributes: ['someAttribute', 'anotherAttribute'],
-                approvalCondition: 'someOtherApprovalCondition',
+                approvalAttributes: [
+                  { condition: 'someCondition1', attribute: 'someAttribute' },
+                  {
+                    condition: 'someCondition2',
+                    attribute: 'anotherAttribute',
+                  },
+                ],
               },
             },
             enrichments: {},
@@ -1465,7 +1492,6 @@ describe('CreateEntityClaims Reducer', () => {
               id: entityClaimId,
               template: {
                 id: 'someIdForTemplate',
-
                 entityClaimId,
                 templateId: 'someTemplateId',
                 title: 'someTitle',
@@ -1473,6 +1499,7 @@ describe('CreateEntityClaims Reducer', () => {
                 isPrivate: false,
                 minTargetClaims: 1,
                 maxTargetClaims: 2,
+                goal: 'someGoal',
                 submissionStartDate: 'someSubmissionStartDate',
                 submissionEndDate: 'someSubmissionEndDate',
               },
@@ -1484,8 +1511,13 @@ describe('CreateEntityClaims Reducer', () => {
                   entityClaimId,
                   context: 'someExistingContext',
                   contextLink: 'someExistingContextLink',
-                  approvalAttributes: ['someAttribute', 'anotherAttribute'],
-                  approvalCondition: 'someApprovalCondition',
+                  approvalAttributes: [
+                    { condition: 'someCondition1', attribute: 'someAttribute' },
+                    {
+                      condition: 'someCondition2',
+                      attribute: 'anotherAttribute',
+                    },
+                  ],
                 },
                 [id]: {
                   id,
@@ -1493,10 +1525,15 @@ describe('CreateEntityClaims Reducer', () => {
                   context: 'someContextThatWillBeRemoved',
                   contextLink: 'someContextLinkThatWillBeRemoved',
                   approvalAttributes: [
-                    'someAttributeThatWillBeRemoved',
-                    'anotherAttributeThatWillBeRemoved',
+                    {
+                      condition: 'someCondition1ThatWillBeRemoved',
+                      attribute: 'someAttributeThatWillBeRemoved',
+                    },
+                    {
+                      condition: 'someCondition2ThatWillBeRemoved',
+                      attribute: 'anotherAttributeThatWillBeRemoved',
+                    },
                   ],
-                  approvalCondition: 'someApprovalConditionThatWillBeRemoved',
                 },
               },
               enrichments: {},
@@ -1505,7 +1542,6 @@ describe('CreateEntityClaims Reducer', () => {
               id: 'anotherid',
               template: {
                 id: 'someIdForTemplate',
-
                 entityClaimId: 'anotherid',
                 templateId: 'someOtherTemplateId',
                 title: 'someOtherTitle',
@@ -1513,6 +1549,7 @@ describe('CreateEntityClaims Reducer', () => {
                 isPrivate: false,
                 minTargetClaims: 10,
                 maxTargetClaims: 20,
+                goal: 'someOtherGoal',
                 submissionStartDate: 'someOtherSubmissionStartDate',
                 submissionEndDate: 'someOtherSubmissionEndDate',
               },
@@ -1524,8 +1561,13 @@ describe('CreateEntityClaims Reducer', () => {
                   entityClaimId: 'anotherid',
                   context: 'someOtherContext',
                   contextLink: 'someOtherContextLink',
-                  approvalAttributes: ['someAttribute', 'anotherAttribute'],
-                  approvalCondition: 'someOtherApprovalCondition',
+                  approvalAttributes: [
+                    { condition: 'someCondition1', attribute: 'someAttribute' },
+                    {
+                      condition: 'someCondition2',
+                      attribute: 'anotherAttribute',
+                    },
+                  ],
                 },
               },
               enrichments: {},
@@ -1543,7 +1585,6 @@ describe('CreateEntityClaims Reducer', () => {
             id: entityClaimId,
             template: {
               id: 'someIdForTemplate',
-
               entityClaimId,
               templateId: 'someTemplateId',
               title: 'someTitle',
@@ -1551,6 +1592,7 @@ describe('CreateEntityClaims Reducer', () => {
               isPrivate: false,
               minTargetClaims: 1,
               maxTargetClaims: 2,
+              goal: 'someGoal',
               submissionStartDate: 'someSubmissionStartDate',
               submissionEndDate: 'someSubmissionEndDate',
             },
@@ -1562,8 +1604,13 @@ describe('CreateEntityClaims Reducer', () => {
                 entityClaimId,
                 context: 'someExistingContext',
                 contextLink: 'someExistingContextLink',
-                approvalAttributes: ['someAttribute', 'anotherAttribute'],
-                approvalCondition: 'someApprovalCondition',
+                approvalAttributes: [
+                  { condition: 'someCondition1', attribute: 'someAttribute' },
+                  {
+                    condition: 'someCondition2',
+                    attribute: 'anotherAttribute',
+                  },
+                ],
               },
             },
             enrichments: {},
@@ -1572,7 +1619,6 @@ describe('CreateEntityClaims Reducer', () => {
             id: 'anotherid',
             template: {
               id: 'someIdForTemplate',
-
               entityClaimId: 'anotherid',
               templateId: 'someOtherTemplateId',
               title: 'someOtherTitle',
@@ -1580,6 +1626,7 @@ describe('CreateEntityClaims Reducer', () => {
               isPrivate: false,
               minTargetClaims: 10,
               maxTargetClaims: 20,
+              goal: 'someOtherGoal',
               submissionStartDate: 'someOtherSubmissionStartDate',
               submissionEndDate: 'someOtherSubmissionEndDate',
             },
@@ -1591,8 +1638,13 @@ describe('CreateEntityClaims Reducer', () => {
                 entityClaimId: 'anotherid',
                 context: 'someOtherContext',
                 contextLink: 'someOtherContextLink',
-                approvalAttributes: ['someAttribute', 'anotherAttribute'],
-                approvalCondition: 'someOtherApprovalCondition',
+                approvalAttributes: [
+                  { condition: 'someCondition1', attribute: 'someAttribute' },
+                  {
+                    condition: 'someCondition2',
+                    attribute: 'anotherAttribute',
+                  },
+                ],
               },
             },
             enrichments: {},
@@ -1606,8 +1658,9 @@ describe('CreateEntityClaims Reducer', () => {
       const entityClaimId = 'someEntityClaimId'
       const context = 'someContext'
       const contextLink = 'someContextLink'
-      const approvalAttributes = ['someApprovalAttribute']
-      const approvalCondition = 'someApprovalCondition'
+      const approvalAttributes = [
+        { condition: 'someCondition', attribute: 'someApprovalAttribute' },
+      ]
 
       // given .. we have an action of type CreateEntityClaimsActions.UpdateEntityClaimApprovalCriterion
       const action: UpdateEntityClaimApprovalCriterionAction = {
@@ -1618,7 +1671,6 @@ describe('CreateEntityClaims Reducer', () => {
           context,
           contextLink,
           approvalAttributes,
-          approvalCondition,
         },
       }
 
@@ -1631,7 +1683,6 @@ describe('CreateEntityClaims Reducer', () => {
               id: entityClaimId,
               template: {
                 id: 'someIdForTemplate',
-
                 entityClaimId,
                 templateId: 'someTemplateId',
                 title: 'someTitle',
@@ -1639,6 +1690,7 @@ describe('CreateEntityClaims Reducer', () => {
                 isPrivate: false,
                 minTargetClaims: 1,
                 maxTargetClaims: 2,
+                goal: 'someGoal',
                 submissionStartDate: 'someSubmissionStartDate',
                 submissionEndDate: 'someSubmissionEndDate',
               },
@@ -1650,8 +1702,13 @@ describe('CreateEntityClaims Reducer', () => {
                   entityClaimId,
                   context: 'someExistingContext',
                   contextLink: 'someExistingContextLink',
-                  approvalAttributes: ['someAttribute', 'anotherAttribute'],
-                  approvalCondition: 'someApprovalCondition',
+                  approvalAttributes: [
+                    { condition: 'someCondition1', attribute: 'someAttribute' },
+                    {
+                      condition: 'someCondition2',
+                      attribute: 'anotherAttribute',
+                    },
+                  ],
                 },
                 [id]: {
                   id,
@@ -1659,10 +1716,11 @@ describe('CreateEntityClaims Reducer', () => {
                   context: 'someContextThatWillBeUpdated',
                   contextLink: 'someContextLinkThatWillBeUpdated',
                   approvalAttributes: [
-                    'someAttributeThatWillBeUpdated',
-                    'anotherAttributeThatWillBeUpdated',
+                    {
+                      condition: 'someConditionThatWillBeUpdated',
+                      attribute: 'someApprovalAttributeThatWillBeUpdated',
+                    },
                   ],
-                  approvalCondition: 'someApprovalConditionThatWillBeUpdated',
                 },
               },
               enrichments: {},
@@ -1671,7 +1729,6 @@ describe('CreateEntityClaims Reducer', () => {
               id: 'anotherid',
               template: {
                 id: 'someIdForTemplate',
-
                 entityClaimId: 'anotherid',
                 templateId: 'someOtherTemplateId',
                 title: 'someOtherTitle',
@@ -1679,6 +1736,7 @@ describe('CreateEntityClaims Reducer', () => {
                 isPrivate: false,
                 minTargetClaims: 10,
                 maxTargetClaims: 20,
+                goal: 'someOtherGoal',
                 submissionStartDate: 'someOtherSubmissionStartDate',
                 submissionEndDate: 'someOtherSubmissionEndDate',
               },
@@ -1690,8 +1748,13 @@ describe('CreateEntityClaims Reducer', () => {
                   entityClaimId: 'anotherid',
                   context: 'someOtherContext',
                   contextLink: 'someOtherContextLink',
-                  approvalAttributes: ['someAttribute', 'anotherAttribute'],
-                  approvalCondition: 'someApprovalCriterionMethodology',
+                  approvalAttributes: [
+                    { condition: 'someCondition1', attribute: 'someAttribute' },
+                    {
+                      condition: 'someCondition2',
+                      attribute: 'anotherAttribute',
+                    },
+                  ],
                 },
               },
               enrichments: {},
@@ -1708,7 +1771,6 @@ describe('CreateEntityClaims Reducer', () => {
             id: entityClaimId,
             template: {
               id: 'someIdForTemplate',
-
               entityClaimId,
               templateId: 'someTemplateId',
               title: 'someTitle',
@@ -1716,6 +1778,7 @@ describe('CreateEntityClaims Reducer', () => {
               isPrivate: false,
               minTargetClaims: 1,
               maxTargetClaims: 2,
+              goal: 'someGoal',
               submissionStartDate: 'someSubmissionStartDate',
               submissionEndDate: 'someSubmissionEndDate',
             },
@@ -1727,8 +1790,13 @@ describe('CreateEntityClaims Reducer', () => {
                 entityClaimId,
                 context: 'someExistingContext',
                 contextLink: 'someExistingContextLink',
-                approvalAttributes: ['someAttribute', 'anotherAttribute'],
-                approvalCondition: 'someApprovalCondition',
+                approvalAttributes: [
+                  { condition: 'someCondition1', attribute: 'someAttribute' },
+                  {
+                    condition: 'someCondition2',
+                    attribute: 'anotherAttribute',
+                  },
+                ],
               },
               [id]: {
                 id,
@@ -1736,7 +1804,6 @@ describe('CreateEntityClaims Reducer', () => {
                 context,
                 contextLink,
                 approvalAttributes,
-                approvalCondition,
               },
             },
             enrichments: {},
@@ -1745,7 +1812,6 @@ describe('CreateEntityClaims Reducer', () => {
             id: 'anotherid',
             template: {
               id: 'someIdForTemplate',
-
               entityClaimId: 'anotherid',
               templateId: 'someOtherTemplateId',
               title: 'someOtherTitle',
@@ -1753,6 +1819,7 @@ describe('CreateEntityClaims Reducer', () => {
               isPrivate: false,
               minTargetClaims: 10,
               maxTargetClaims: 20,
+              goal: 'someOtherGoal',
               submissionStartDate: 'someOtherSubmissionStartDate',
               submissionEndDate: 'someOtherSubmissionEndDate',
             },
@@ -1764,8 +1831,13 @@ describe('CreateEntityClaims Reducer', () => {
                 entityClaimId: 'anotherid',
                 context: 'someOtherContext',
                 contextLink: 'someOtherContextLink',
-                approvalAttributes: ['someAttribute', 'anotherAttribute'],
-                approvalCondition: 'someApprovalCriterionMethodology',
+                approvalAttributes: [
+                  { condition: 'someCondition1', attribute: 'someAttribute' },
+                  {
+                    condition: 'someCondition2',
+                    attribute: 'anotherAttribute',
+                  },
+                ],
               },
             },
             enrichments: {},
@@ -1798,7 +1870,6 @@ describe('CreateEntityClaims Reducer', () => {
               id: entityClaimId,
               template: {
                 id: 'someIdForTemplate',
-
                 entityClaimId,
                 templateId: 'someTemplateId',
                 title: 'someTitle',
@@ -1806,6 +1877,7 @@ describe('CreateEntityClaims Reducer', () => {
                 isPrivate: false,
                 minTargetClaims: 1,
                 maxTargetClaims: 2,
+                goal: 'someGoal',
                 submissionStartDate: 'someSubmissionStartDate',
                 submissionEndDate: 'someSubmissionEndDate',
               },
@@ -1818,8 +1890,13 @@ describe('CreateEntityClaims Reducer', () => {
                   entityClaimId,
                   context: 'someExistingContext',
                   contextLink: 'someExistingContextLink',
-                  resources: ['someAttribute', 'anotherAttribute'],
-                  productId: 'someProductId',
+                  resources: [
+                    { productId: 'someProductId1', resource: 'someAttribute' },
+                    {
+                      productId: 'someProductId2',
+                      resource: 'anotherAttribute',
+                    },
+                  ],
                 },
               },
             },
@@ -1827,7 +1904,6 @@ describe('CreateEntityClaims Reducer', () => {
               id: 'anotherid',
               template: {
                 id: 'someIdForTemplate',
-
                 entityClaimId: 'anotherid',
                 templateId: 'someOtherTemplateId',
                 title: 'someOtherTitle',
@@ -1835,6 +1911,7 @@ describe('CreateEntityClaims Reducer', () => {
                 isPrivate: false,
                 minTargetClaims: 10,
                 maxTargetClaims: 20,
+                goal: 'someOtherGoal',
                 submissionStartDate: 'someOtherSubmissionStartDate',
                 submissionEndDate: 'someOtherSubmissionEndDate',
               },
@@ -1847,8 +1924,13 @@ describe('CreateEntityClaims Reducer', () => {
                   entityClaimId: 'anotherid',
                   context: 'someOtherContext',
                   contextLink: 'someOtherContextLink',
-                  resources: ['someAttribute', 'anotherAttribute'],
-                  productId: 'someOtherProductId',
+                  resources: [
+                    { productId: 'someProductId1', resource: 'someAttribute' },
+                    {
+                      productId: 'someProductId2',
+                      resource: 'anotherAttribute',
+                    },
+                  ],
                 },
               },
             },
@@ -1865,7 +1947,6 @@ describe('CreateEntityClaims Reducer', () => {
             id: entityClaimId,
             template: {
               id: 'someIdForTemplate',
-
               entityClaimId,
               templateId: 'someTemplateId',
               title: 'someTitle',
@@ -1873,6 +1954,7 @@ describe('CreateEntityClaims Reducer', () => {
               isPrivate: false,
               minTargetClaims: 1,
               maxTargetClaims: 2,
+              goal: 'someGoal',
               submissionStartDate: 'someSubmissionStartDate',
               submissionEndDate: 'someSubmissionEndDate',
             },
@@ -1885,8 +1967,10 @@ describe('CreateEntityClaims Reducer', () => {
                 entityClaimId,
                 context: 'someExistingContext',
                 contextLink: 'someExistingContextLink',
-                resources: ['someAttribute', 'anotherAttribute'],
-                productId: 'someProductId',
+                resources: [
+                  { productId: 'someProductId1', resource: 'someAttribute' },
+                  { productId: 'someProductId2', resource: 'anotherAttribute' },
+                ],
               },
               [id]: {
                 id,
@@ -1894,7 +1978,6 @@ describe('CreateEntityClaims Reducer', () => {
                 context: undefined,
                 contextLink: undefined,
                 resources: undefined,
-                productId: undefined,
               },
             },
           },
@@ -1902,7 +1985,6 @@ describe('CreateEntityClaims Reducer', () => {
             id: 'anotherid',
             template: {
               id: 'someIdForTemplate',
-
               entityClaimId: 'anotherid',
               templateId: 'someOtherTemplateId',
               title: 'someOtherTitle',
@@ -1910,6 +1992,7 @@ describe('CreateEntityClaims Reducer', () => {
               isPrivate: false,
               minTargetClaims: 10,
               maxTargetClaims: 20,
+              goal: 'someOtherGoal',
               submissionStartDate: 'someOtherSubmissionStartDate',
               submissionEndDate: 'someOtherSubmissionEndDate',
             },
@@ -1922,8 +2005,10 @@ describe('CreateEntityClaims Reducer', () => {
                 entityClaimId: 'anotherid',
                 context: 'someOtherContext',
                 contextLink: 'someOtherContextLink',
-                resources: ['someAttribute', 'anotherAttribute'],
-                productId: 'someOtherProductId',
+                resources: [
+                  { productId: 'someProductId1', resource: 'someAttribute' },
+                  { productId: 'someProductId2', resource: 'anotherAttribute' },
+                ],
               },
             },
           },
@@ -1953,7 +2038,6 @@ describe('CreateEntityClaims Reducer', () => {
               id: entityClaimId,
               template: {
                 id: 'someIdForTemplate',
-
                 entityClaimId,
                 templateId: 'someTemplateId',
                 title: 'someTitle',
@@ -1961,6 +2045,7 @@ describe('CreateEntityClaims Reducer', () => {
                 isPrivate: false,
                 minTargetClaims: 1,
                 maxTargetClaims: 2,
+                goal: 'someGoal',
                 submissionStartDate: 'someSubmissionStartDate',
                 submissionEndDate: 'someSubmissionEndDate',
               },
@@ -1973,8 +2058,13 @@ describe('CreateEntityClaims Reducer', () => {
                   entityClaimId,
                   context: 'someExistingContext',
                   contextLink: 'someExistingContextLink',
-                  resources: ['someAttribute', 'anotherAttribute'],
-                  productId: 'someProductId',
+                  resources: [
+                    { productId: 'someProductId1', resource: 'someAttribute' },
+                    {
+                      productId: 'someProductId2',
+                      resource: 'anotherAttribute',
+                    },
+                  ],
                 },
                 [id]: {
                   id,
@@ -1982,10 +2072,15 @@ describe('CreateEntityClaims Reducer', () => {
                   context: 'someContextThatWillBeRemoved',
                   contextLink: 'someContextLinkThatWillBeRemoved',
                   resources: [
-                    'someAttributeThatWillBeRemoved',
-                    'anotherAttributeThatWillBeRemoved',
+                    {
+                      productId: 'someProductId1ThatWillBeRemoved',
+                      resource: 'someAttributeThatWillBeRemoved',
+                    },
+                    {
+                      productId: 'someProductId2ThatWillBeRemoved',
+                      resource: 'anotherAttributeThatWillBeRemoved',
+                    },
                   ],
-                  productId: 'someProductIdThatWillBeRemoved',
                 },
               },
             },
@@ -1993,7 +2088,6 @@ describe('CreateEntityClaims Reducer', () => {
               id: 'anotherid',
               template: {
                 id: 'someIdForTemplate',
-
                 entityClaimId: 'anotherid',
                 templateId: 'someOtherTemplateId',
                 title: 'someOtherTitle',
@@ -2001,6 +2095,7 @@ describe('CreateEntityClaims Reducer', () => {
                 isPrivate: false,
                 minTargetClaims: 10,
                 maxTargetClaims: 20,
+                goal: 'someOtherGoal',
                 submissionStartDate: 'someOtherSubmissionStartDate',
                 submissionEndDate: 'someOtherSubmissionEndDate',
               },
@@ -2013,8 +2108,13 @@ describe('CreateEntityClaims Reducer', () => {
                   entityClaimId: 'anotherid',
                   context: 'someOtherContext',
                   contextLink: 'someOtherContextLink',
-                  resources: ['someAttribute', 'anotherAttribute'],
-                  productId: 'someOtheProductId',
+                  resources: [
+                    { productId: 'someProductId1', resource: 'someAttribute' },
+                    {
+                      productId: 'someProductId2',
+                      resource: 'anotherAttribute',
+                    },
+                  ],
                 },
               },
             },
@@ -2031,7 +2131,6 @@ describe('CreateEntityClaims Reducer', () => {
             id: entityClaimId,
             template: {
               id: 'someIdForTemplate',
-
               entityClaimId,
               templateId: 'someTemplateId',
               title: 'someTitle',
@@ -2039,6 +2138,7 @@ describe('CreateEntityClaims Reducer', () => {
               isPrivate: false,
               minTargetClaims: 1,
               maxTargetClaims: 2,
+              goal: 'someGoal',
               submissionStartDate: 'someSubmissionStartDate',
               submissionEndDate: 'someSubmissionEndDate',
             },
@@ -2051,8 +2151,10 @@ describe('CreateEntityClaims Reducer', () => {
                 entityClaimId,
                 context: 'someExistingContext',
                 contextLink: 'someExistingContextLink',
-                resources: ['someAttribute', 'anotherAttribute'],
-                productId: 'someProductId',
+                resources: [
+                  { productId: 'someProductId1', resource: 'someAttribute' },
+                  { productId: 'someProductId2', resource: 'anotherAttribute' },
+                ],
               },
             },
           },
@@ -2060,7 +2162,6 @@ describe('CreateEntityClaims Reducer', () => {
             id: 'anotherid',
             template: {
               id: 'someIdForTemplate',
-
               entityClaimId: 'anotherid',
               templateId: 'someOtherTemplateId',
               title: 'someOtherTitle',
@@ -2068,6 +2169,7 @@ describe('CreateEntityClaims Reducer', () => {
               isPrivate: false,
               minTargetClaims: 10,
               maxTargetClaims: 20,
+              goal: 'someOtherGoal',
               submissionStartDate: 'someOtherSubmissionStartDate',
               submissionEndDate: 'someOtherSubmissionEndDate',
             },
@@ -2080,8 +2182,10 @@ describe('CreateEntityClaims Reducer', () => {
                 entityClaimId: 'anotherid',
                 context: 'someOtherContext',
                 contextLink: 'someOtherContextLink',
-                resources: ['someAttribute', 'anotherAttribute'],
-                productId: 'someOtheProductId',
+                resources: [
+                  { productId: 'someProductId1', resource: 'someAttribute' },
+                  { productId: 'someProductId2', resource: 'anotherAttribute' },
+                ],
               },
             },
           },
@@ -2094,8 +2198,10 @@ describe('CreateEntityClaims Reducer', () => {
       const entityClaimId = 'someEntityClaimId'
       const context = 'someContext'
       const contextLink = 'someContextLink'
-      const resources = ['someAttribute']
-      const productId = 'someProductId'
+      const resources = [
+        { productId: 'someProductId1', resource: 'someAttribute' },
+        { productId: 'someProductId2', resource: 'anotherAttribute' },
+      ]
 
       // given .. we have an action of type CreateEntityClaimsActions.UpdateEntityClaimEnrichment
       const action: UpdateEntityClaimEnrichmentAction = {
@@ -2106,7 +2212,6 @@ describe('CreateEntityClaims Reducer', () => {
           context,
           contextLink,
           resources,
-          productId,
         },
       }
 
@@ -2119,7 +2224,6 @@ describe('CreateEntityClaims Reducer', () => {
               id: entityClaimId,
               template: {
                 id: 'someIdForTemplate',
-
                 entityClaimId,
                 templateId: 'someTemplateId',
                 title: 'someTitle',
@@ -2127,6 +2231,7 @@ describe('CreateEntityClaims Reducer', () => {
                 isPrivate: false,
                 minTargetClaims: 1,
                 maxTargetClaims: 2,
+                goal: 'someGoal',
                 submissionStartDate: 'someSubmissionStartDate',
                 submissionEndDate: 'someSubmissionEndDate',
               },
@@ -2139,8 +2244,13 @@ describe('CreateEntityClaims Reducer', () => {
                   entityClaimId,
                   context: 'someExistingContext',
                   contextLink: 'someExistingContextLink',
-                  resources: ['someAttribute', 'anotherAttribute'],
-                  productId: 'someProductId',
+                  resources: [
+                    { productId: 'someProductId1', resource: 'someAttribute' },
+                    {
+                      productId: 'someProductId2',
+                      resource: 'anotherAttribute',
+                    },
+                  ],
                 },
                 [id]: {
                   id,
@@ -2148,10 +2258,15 @@ describe('CreateEntityClaims Reducer', () => {
                   context: 'someContextThatWillBeUpdated',
                   contextLink: 'someContextLinkThatWillBeUpdated',
                   resources: [
-                    'someAttributeThatWillBeUpdated',
-                    'anotherAttributeThatWillBeUpdated',
+                    {
+                      productId: 'someProductIdThatWillBeRemoved',
+                      resource: 'someAttributeThatWillBeUpdated',
+                    },
+                    {
+                      productId: 'anotherProductIdThatWillBeRemoved',
+                      resource: 'anotherAttributeThatWillBeUpdated',
+                    },
                   ],
-                  productId: 'someProductIdThatWillBeUpdated',
                 },
               },
             },
@@ -2159,7 +2274,6 @@ describe('CreateEntityClaims Reducer', () => {
               id: 'anotherid',
               template: {
                 id: 'someIdForTemplate',
-
                 entityClaimId: 'anotherid',
                 templateId: 'someOtherTemplateId',
                 title: 'someOtherTitle',
@@ -2167,6 +2281,7 @@ describe('CreateEntityClaims Reducer', () => {
                 isPrivate: false,
                 minTargetClaims: 10,
                 maxTargetClaims: 20,
+                goal: 'someOtherGoal',
                 submissionStartDate: 'someOtherSubmissionStartDate',
                 submissionEndDate: 'someOtherSubmissionEndDate',
               },
@@ -2179,8 +2294,13 @@ describe('CreateEntityClaims Reducer', () => {
                   entityClaimId: 'anotherid',
                   context: 'someOtherContext',
                   contextLink: 'someOtherContextLink',
-                  resources: ['someAttribute', 'anotherAttribute'],
-                  productId: 'someProductId',
+                  resources: [
+                    { productId: 'someProductId1', resource: 'someAttribute' },
+                    {
+                      productId: 'someProductId2',
+                      resource: 'anotherAttribute',
+                    },
+                  ],
                 },
               },
             },
@@ -2196,7 +2316,6 @@ describe('CreateEntityClaims Reducer', () => {
             id: entityClaimId,
             template: {
               id: 'someIdForTemplate',
-
               entityClaimId,
               templateId: 'someTemplateId',
               title: 'someTitle',
@@ -2204,6 +2323,7 @@ describe('CreateEntityClaims Reducer', () => {
               isPrivate: false,
               minTargetClaims: 1,
               maxTargetClaims: 2,
+              goal: 'someGoal',
               submissionStartDate: 'someSubmissionStartDate',
               submissionEndDate: 'someSubmissionEndDate',
             },
@@ -2216,8 +2336,10 @@ describe('CreateEntityClaims Reducer', () => {
                 entityClaimId,
                 context: 'someExistingContext',
                 contextLink: 'someExistingContextLink',
-                resources: ['someAttribute', 'anotherAttribute'],
-                productId: 'someProductId',
+                resources: [
+                  { productId: 'someProductId1', resource: 'someAttribute' },
+                  { productId: 'someProductId2', resource: 'anotherAttribute' },
+                ],
               },
               [id]: {
                 id,
@@ -2225,7 +2347,6 @@ describe('CreateEntityClaims Reducer', () => {
                 context,
                 contextLink,
                 resources,
-                productId,
               },
             },
           },
@@ -2233,7 +2354,6 @@ describe('CreateEntityClaims Reducer', () => {
             id: 'anotherid',
             template: {
               id: 'someIdForTemplate',
-
               entityClaimId: 'anotherid',
               templateId: 'someOtherTemplateId',
               title: 'someOtherTitle',
@@ -2241,6 +2361,7 @@ describe('CreateEntityClaims Reducer', () => {
               isPrivate: false,
               minTargetClaims: 10,
               maxTargetClaims: 20,
+              goal: 'someOtherGoal',
               submissionStartDate: 'someOtherSubmissionStartDate',
               submissionEndDate: 'someOtherSubmissionEndDate',
             },
@@ -2253,8 +2374,10 @@ describe('CreateEntityClaims Reducer', () => {
                 entityClaimId: 'anotherid',
                 context: 'someOtherContext',
                 contextLink: 'someOtherContextLink',
-                resources: ['someAttribute', 'anotherAttribute'],
-                productId: 'someProductId',
+                resources: [
+                  { productId: 'someProductId1', resource: 'someAttribute' },
+                  { productId: 'someProductId2', resource: 'anotherAttribute' },
+                ],
               },
             },
           },

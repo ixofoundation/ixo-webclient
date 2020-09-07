@@ -18,6 +18,7 @@ beforeEach(() => {
             isPrivate: true,
             minTargetClaims: 21,
             maxTargetClaims: 35,
+            goal: 'someGoal',
             submissionStartDate: 'someStartDate',
             submissionEndDate: 'someEndDate',
           },
@@ -65,10 +66,15 @@ beforeEach(() => {
               context: 'someApprovalContext',
               contextLink: 'someApprovalContextLink',
               approvalAttributes: [
-                'someApprovalAttributes1',
-                'someApprovalAttributes2',
+                {
+                  condition: 'someCondition1',
+                  attribute: 'someApprovalAttribute1',
+                },
+                {
+                  condition: 'someCondition2',
+                  attribute: 'someApprovalAttribute2',
+                },
               ],
-              approvalCondition: 'someApprovalCondition',
             },
             ['00000007-3b7d-4bad-9abc-2b0d7b3dcb6d']: {
               id: '00000007-3b7d-4bad-9abc-2b0d7b3dcb6d',
@@ -76,10 +82,9 @@ beforeEach(() => {
               context: 'someOtherApprovalContext',
               contextLink: 'someOtherApprovalContextLink',
               approvalAttributes: [
-                'someOtherApprovalAttributes1',
-                'someOtherApprovalAttributes2',
+                { condition: 'someCondition', attribute: 'someAttribute' },
+                { condition: 'someCondition', attribute: 'someAttribute' },
               ],
-              approvalCondition: 'someOtherApprovalCondition',
             },
           },
           enrichments: {
@@ -88,16 +93,20 @@ beforeEach(() => {
               entityClaimId: '00000000-3b7d-4bad-9abc-2b0d7b3dcb6d',
               context: 'someEnrichmentContext',
               contextLink: 'someEnrichmentContextLink',
-              resources: ['someResource1', 'someResource2'],
-              productId: 'someProductId',
+              resources: [
+                { productId: 'someProductId1', resource: 'someOtherResource1' },
+                { productId: 'someProductId1', resource: 'someOtherResource1' },
+              ],
             },
             ['00000009-3b7d-4bad-9abc-2b0d7b3dcb6d']: {
               id: '00000009-3b7d-4bad-9abc-2b0d7b3dcb6d',
               entityClaimId: '00000000-3b7d-4bad-9abc-2b0d7b3dcb6d',
               context: 'someOtherEnrichmentContext',
               contextLink: 'someOtherEnrichmentContextLink',
-              resources: ['someOtherResource1', 'someOtherResource2'],
-              productId: 'someOtherProductId',
+              resources: [
+                { productId: 'someProductId1', resource: 'someOtherResource1' },
+                { productId: 'someProductId1', resource: 'someOtherResource1' },
+              ],
             },
           },
         },
@@ -112,6 +121,7 @@ beforeEach(() => {
             isPrivate: true,
             minTargetClaims: 22,
             maxTargetClaims: 34,
+            goal: 'someGoal2',
             submissionStartDate: 'someStartDateClaim2',
             submissionEndDate: 'someEndDateClaim2',
           },
@@ -159,10 +169,15 @@ beforeEach(() => {
               context: 'someApprovalContextClaim2',
               contextLink: 'someApprovalContextLinkClaim2',
               approvalAttributes: [
-                'someApprovalAttributes1Claim2',
-                'someApprovalAttributes2Claim2',
+                {
+                  condition: 'someCondition2',
+                  attribute: 'someApprovalAttribute2',
+                },
+                {
+                  condition: 'someCondition22',
+                  attribute: 'someApprovalAttribute22',
+                },
               ],
-              approvalCondition: 'someApprovalConditionClaim2',
             },
             ['10000007-3b7d-4bad-9abc-2b0d7b3dcb6d']: {
               id: '10000007-3b7d-4bad-9abc-2b0d7b3dcb6d',
@@ -170,10 +185,15 @@ beforeEach(() => {
               context: 'someOtherApprovalContextClaim2',
               contextLink: 'someOtherApprovalContextLinkClaim2',
               approvalAttributes: [
-                'someOtherApprovalAttributes1Claim2',
-                'someOtherApprovalAttributes2Claim2',
+                {
+                  condition: 'someCondition22',
+                  attribute: 'someApprovalAttribute22',
+                },
+                {
+                  condition: 'someCondition22',
+                  attribute: 'someApprovalAttribute22',
+                },
               ],
-              approvalCondition: 'someOtherApprovalConditionClaim2',
             },
           },
           enrichments: {
@@ -182,8 +202,10 @@ beforeEach(() => {
               entityClaimId: '10000000-3b7d-4bad-9abc-2b0d7b3dcb6d',
               context: 'someEnrichmentContextClaim2',
               contextLink: 'someEnrichmentContextLinkClaim2',
-              resources: ['someResource1Claim2', 'someResource2Claim2'],
-              productId: 'someProductIdClaim2',
+              resources: [
+                { productId: 'someProductId', resource: 'someResource' },
+                { productId: 'someProductId', resource: 'someResource' },
+              ],
             },
             ['10000009-3b7d-4bad-9abc-2b0d7b3dcb6d']: {
               id: '10000009-3b7d-4bad-9abc-2b0d7b3dcb6d',
@@ -191,10 +213,9 @@ beforeEach(() => {
               context: 'someOtherEnrichmentContexClaim2t',
               contextLink: 'someOtherEnrichmentContextLinkClaim2',
               resources: [
-                'someOtherResource1Claim2',
-                'someOtherResource2Claim2',
+                { productId: 'someProductId', resource: 'someResource' },
+                { productId: 'someProductId', resource: 'someResource' },
               ],
-              productId: 'someOtherProductIdClaim2',
             },
           },
         },
@@ -324,6 +345,7 @@ describe('CreateEntityClaims Selectors', () => {
             isPrivate: true,
             minTargetClaims: 21,
             maxTargetClaims: 35,
+            goal: 'someGoal',
             submissionStartDate: 'someStartDate',
             submissionEndDate: 'someEndDate',
           },
@@ -371,10 +393,15 @@ describe('CreateEntityClaims Selectors', () => {
               context: 'someApprovalContext',
               contextLink: 'someApprovalContextLink',
               approvalAttributes: [
-                'someApprovalAttributes1',
-                'someApprovalAttributes2',
+                {
+                  condition: 'someCondition1',
+                  attribute: 'someApprovalAttribute1',
+                },
+                {
+                  condition: 'someCondition2',
+                  attribute: 'someApprovalAttribute2',
+                },
               ],
-              approvalCondition: 'someApprovalCondition',
             },
             {
               id: '00000007-3b7d-4bad-9abc-2b0d7b3dcb6d',
@@ -382,10 +409,9 @@ describe('CreateEntityClaims Selectors', () => {
               context: 'someOtherApprovalContext',
               contextLink: 'someOtherApprovalContextLink',
               approvalAttributes: [
-                'someOtherApprovalAttributes1',
-                'someOtherApprovalAttributes2',
+                { condition: 'someCondition', attribute: 'someAttribute' },
+                { condition: 'someCondition', attribute: 'someAttribute' },
               ],
-              approvalCondition: 'someOtherApprovalCondition',
             },
           ],
           enrichments: [
@@ -394,16 +420,20 @@ describe('CreateEntityClaims Selectors', () => {
               entityClaimId: '00000000-3b7d-4bad-9abc-2b0d7b3dcb6d',
               context: 'someEnrichmentContext',
               contextLink: 'someEnrichmentContextLink',
-              resources: ['someResource1', 'someResource2'],
-              productId: 'someProductId',
+              resources: [
+                { productId: 'someProductId1', resource: 'someOtherResource1' },
+                { productId: 'someProductId1', resource: 'someOtherResource1' },
+              ],
             },
             {
               id: '00000009-3b7d-4bad-9abc-2b0d7b3dcb6d',
               entityClaimId: '00000000-3b7d-4bad-9abc-2b0d7b3dcb6d',
               context: 'someOtherEnrichmentContext',
               contextLink: 'someOtherEnrichmentContextLink',
-              resources: ['someOtherResource1', 'someOtherResource2'],
-              productId: 'someOtherProductId',
+              resources: [
+                { productId: 'someProductId1', resource: 'someOtherResource1' },
+                { productId: 'someProductId1', resource: 'someOtherResource1' },
+              ],
             },
           ],
         },
@@ -418,6 +448,7 @@ describe('CreateEntityClaims Selectors', () => {
             isPrivate: true,
             minTargetClaims: 22,
             maxTargetClaims: 34,
+            goal: 'someGoal2',
             submissionStartDate: 'someStartDateClaim2',
             submissionEndDate: 'someEndDateClaim2',
           },
@@ -465,10 +496,15 @@ describe('CreateEntityClaims Selectors', () => {
               context: 'someApprovalContextClaim2',
               contextLink: 'someApprovalContextLinkClaim2',
               approvalAttributes: [
-                'someApprovalAttributes1Claim2',
-                'someApprovalAttributes2Claim2',
+                {
+                  condition: 'someCondition2',
+                  attribute: 'someApprovalAttribute2',
+                },
+                {
+                  condition: 'someCondition22',
+                  attribute: 'someApprovalAttribute22',
+                },
               ],
-              approvalCondition: 'someApprovalConditionClaim2',
             },
             {
               id: '10000007-3b7d-4bad-9abc-2b0d7b3dcb6d',
@@ -476,10 +512,15 @@ describe('CreateEntityClaims Selectors', () => {
               context: 'someOtherApprovalContextClaim2',
               contextLink: 'someOtherApprovalContextLinkClaim2',
               approvalAttributes: [
-                'someOtherApprovalAttributes1Claim2',
-                'someOtherApprovalAttributes2Claim2',
+                {
+                  condition: 'someCondition22',
+                  attribute: 'someApprovalAttribute22',
+                },
+                {
+                  condition: 'someCondition22',
+                  attribute: 'someApprovalAttribute22',
+                },
               ],
-              approvalCondition: 'someOtherApprovalConditionClaim2',
             },
           ],
           enrichments: [
@@ -488,8 +529,10 @@ describe('CreateEntityClaims Selectors', () => {
               entityClaimId: '10000000-3b7d-4bad-9abc-2b0d7b3dcb6d',
               context: 'someEnrichmentContextClaim2',
               contextLink: 'someEnrichmentContextLinkClaim2',
-              resources: ['someResource1Claim2', 'someResource2Claim2'],
-              productId: 'someProductIdClaim2',
+              resources: [
+                { productId: 'someProductId', resource: 'someResource' },
+                { productId: 'someProductId', resource: 'someResource' },
+              ],
             },
             {
               id: '10000009-3b7d-4bad-9abc-2b0d7b3dcb6d',
@@ -497,10 +540,9 @@ describe('CreateEntityClaims Selectors', () => {
               context: 'someOtherEnrichmentContexClaim2t',
               contextLink: 'someOtherEnrichmentContextLinkClaim2',
               resources: [
-                'someOtherResource1Claim2',
-                'someOtherResource2Claim2',
+                { productId: 'someProductId', resource: 'someResource' },
+                { productId: 'someProductId', resource: 'someResource' },
               ],
-              productId: 'someOtherProductIdClaim2',
             },
           ],
         },

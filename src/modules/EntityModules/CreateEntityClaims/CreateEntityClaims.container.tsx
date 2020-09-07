@@ -114,6 +114,7 @@ class CreateEntityClaims extends CreateEntityBase<Props> {
       isPrivate,
       minTargetClaims,
       maxTargetClaims,
+      goal,
       submissionStartDate,
       submissionEndDate,
     } = template
@@ -133,6 +134,7 @@ class CreateEntityClaims extends CreateEntityBase<Props> {
           isPrivate={isPrivate}
           minTargetClaims={minTargetClaims}
           maxTargetClaims={maxTargetClaims}
+          goal={goal}
           submissionStartDate={submissionStartDate}
           submissionEndDate={submissionEndDate}
           handleUpdateContent={(formData): void =>
@@ -275,7 +277,6 @@ class CreateEntityClaims extends CreateEntityBase<Props> {
             context,
             contextLink,
             approvalAttributes,
-            approvalCondition,
           } = approvalCriterion
 
           this.cardRefs[id] = React.createRef()
@@ -286,7 +287,6 @@ class CreateEntityClaims extends CreateEntityBase<Props> {
               key={id}
               context={context}
               contextLink={contextLink}
-              approvalCondition={approvalCondition}
               approvalAttributes={approvalAttributes}
               handleUpdateContent={(formData): void =>
                 handleUpdateEntityClaimApprovalCriterion(
@@ -334,7 +334,7 @@ class CreateEntityClaims extends CreateEntityBase<Props> {
       <>
         <h2>Claim Enrichment</h2>
         {enrichments.map((enrichment) => {
-          const { id, context, contextLink, resources, productId } = enrichment
+          const { id, context, contextLink, resources } = enrichment
 
           this.cardRefs[id] = React.createRef()
 
@@ -344,7 +344,6 @@ class CreateEntityClaims extends CreateEntityBase<Props> {
               key={id}
               context={context}
               contextLink={contextLink}
-              productId={productId}
               resources={resources}
               handleUpdateContent={(formData): void =>
                 handleUpdateEntityClaimEnrichment(entityClaimId, id, formData)

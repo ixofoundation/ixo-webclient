@@ -2,12 +2,12 @@ import React from 'react'
 import MultiControlForm from 'common/components/JsonForm/MultiControlForm/MultiControlForm'
 import { FormCardProps } from '../../../CreateEntity/types'
 import { LinkButton } from 'common/components/JsonForm/JsonForm.styles'
+import { EnrichmentResource } from '../../types'
 
 interface Props extends FormCardProps {
   context: string
   contextLink: string
-  productId: string
-  resources: string[]
+  resources: EnrichmentResource[]
 }
 
 const EnrichmentCard: React.FunctionComponent<Props> = React.forwardRef(
@@ -15,7 +15,6 @@ const EnrichmentCard: React.FunctionComponent<Props> = React.forwardRef(
     {
       context,
       contextLink,
-      productId,
       resources,
       handleUpdateContent,
       handleSubmitted,
@@ -27,7 +26,6 @@ const EnrichmentCard: React.FunctionComponent<Props> = React.forwardRef(
     const formData = {
       context,
       contextLink,
-      productId,
       resources,
     }
 
@@ -43,16 +41,16 @@ const EnrichmentCard: React.FunctionComponent<Props> = React.forwardRef(
           type: 'string',
           title: 'Link to the Context',
         },
-        productId: {
-          type: 'string',
-          title: 'Product',
-        },
         resources: {
           type: 'array',
-          title: 'Resources',
+          title: 'Resources: (Product Id / Resource)',
           minItems: 1,
           items: {
-            type: 'string',
+            type: 'object',
+            properties: {
+              condition: { type: 'string', title: 'Product Id' },
+              attribute: { type: 'string', title: 'Resource' },
+            },
           },
         },
       },
@@ -66,10 +64,6 @@ const EnrichmentCard: React.FunctionComponent<Props> = React.forwardRef(
       contextLink: {
         'ui:widget': 'text',
         'ui:placeholder': 'Paste a Resource Identifier (IRI)',
-      },
-      productId: {
-        'ui:widget': 'text',
-        'ui:placeholder': 'Enter Product Identifier',
       },
       resources: {
         'ui:options': {
