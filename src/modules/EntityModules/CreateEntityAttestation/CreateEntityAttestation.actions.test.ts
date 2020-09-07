@@ -3,6 +3,51 @@ jest.mock('uuid')
 import * as SUT from './CreateEntityAttestation.actions'
 import { CreateEntityAttestationActions } from './types'
 import { Type, ControlType } from 'common/components/JsonForm/types'
+import mockStore from 'common/redux/mockStore'
+
+let store
+
+beforeEach(() => {
+  store = mockStore({
+    createEntityAttestation: {
+      questions: {
+        '8c1debff-3b7d-4bad-9bdd-2b0d7b3dcb6d': {
+          id: '8c1debff-3b7d-4bad-9bdd-2b0d7b3dcb6d',
+          title: 'someTitle1',
+          label: 'someLabel1',
+          description: 'someDescription1',
+          required: true,
+          type: Type.String,
+          control: ControlType.Text,
+          placeholder: 'Start Typing here',
+          order: 3,
+        },
+        '8c1debff-3b7d-4bad-9bdd-2b0d7b3dcb67': {
+          id: '8c1debff-3b7d-4bad-9bdd-2b0d7b3dcb67',
+          title: 'someTitle2',
+          label: 'someLabel2',
+          description: 'someDescription2',
+          required: true,
+          type: Type.String,
+          control: ControlType.Text,
+          placeholder: 'Start Typing here',
+          order: 1,
+        },
+        '8c1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d': {
+          id: '8c1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d',
+          title: 'someTitle3',
+          label: 'someLabel3',
+          description: 'someDescription3',
+          required: true,
+          type: Type.String,
+          control: ControlType.Text,
+          placeholder: 'Start Typing here',
+          order: 2,
+        },
+      },
+    },
+  })
+})
 
 describe('CreateEntityAttestation Actions', () => {
   describe('claimInfo', () => {
@@ -635,7 +680,7 @@ describe('CreateEntityAttestation Actions', () => {
           description: undefined,
           label: undefined,
           required: true,
-          type: Type.Number,
+          type: Type.String,
           control: ControlType.Rating,
           values: undefined,
           inline: true,
@@ -671,7 +716,7 @@ describe('CreateEntityAttestation Actions', () => {
           title,
           description,
           label,
-          values: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+          values: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
         })
       })
 
@@ -828,6 +873,28 @@ describe('CreateEntityAttestation Actions', () => {
       expect(action.payload).toEqual({
         idToCopy,
         newId,
+      })
+    })
+  })
+
+  describe('moveQuestion', () => {
+    it('should move the question', async () => {
+      // given ... an id and an index
+      const id = '8c1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d'
+      const toIndex = 2 // order at 3
+
+      // when ... we call the moveQuestion action creator
+      await store.dispatch(SUT.moveQuestion(id, toIndex))
+      const actions = store.getActions()
+
+      // then ... it should dispatch the correct action
+      expect(actions.length).toEqual(1)
+      expect(actions[0].type).toEqual(
+        CreateEntityAttestationActions.MoveQuestion,
+      )
+      expect(actions[0].payload).toEqual({
+        fromId: '8c1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d',
+        toId: '8c1debff-3b7d-4bad-9bdd-2b0d7b3dcb6d',
       })
     })
   })

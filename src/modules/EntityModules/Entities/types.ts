@@ -127,8 +127,8 @@ export enum FundSource {
 }
 
 export enum TermsOfUseType {
-  PayPerUse = 'Pay Per Use',
-  OnceOffFee = 'Once-off Fee',
+  PayPerUse = 'PayPerUse',
+  OnceOffFee = 'OnceOffFee',
   FreeOpenSource = 'FreeOpenSource',
   Proprietary = 'Proprietary',
 }
@@ -190,6 +190,7 @@ export type EntityTypeStrategyMap = {
     headerSchema: HeaderSchema
     filterSchema: FilterSchema
     controlPanelSchema: ControlPanelSchema
+    createNewTitle: string
   }
 }
 

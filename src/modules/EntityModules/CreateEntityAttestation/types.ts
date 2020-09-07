@@ -17,7 +17,7 @@ export interface Question {
   control: ControlType
   minItems?: number
   maxItems?: number
-  values?: any[]
+  values?: string[]
   itemValues?: string[]
   itemLabels?: string[]
   itemImages?: string[]
@@ -68,6 +68,7 @@ export enum CreateEntityAttestationActions {
   UpdateAnswerRequired = 'ixo/CreateEntityAttestation/UPDATE_ANSWER_REQUIRED',
   RemoveQuestion = 'ixo/CreateEntityAttestation/REMOVE_QUESTION',
   CopyQuestion = 'ixo/CreateEntityAttestation/COPY_QUESTION',
+  MoveQuestion = 'ixo/CreateEntityAttestation/MOVE_QUESTION',
   Validated = 'ixo/CreateEntityAttestation/SET_VALIDATED',
   ValidationError = 'ixo/CreateEntityAttestation/VALIDATION_ERROR',
 }
@@ -420,7 +421,7 @@ export interface AddRatingQuestionAction
     required: boolean
     type: Type
     control: ControlType
-    values: number[]
+    values: string[]
     inline: boolean
   }
 }
@@ -434,7 +435,7 @@ export interface UpdateRatingQuestionAction
     title: string
     description: string
     label: string
-    values: number[]
+    values: string[]
   }
 }
 
@@ -494,6 +495,14 @@ export interface CopyQuestionAction {
   }
 }
 
+export interface MoveQuestionAction {
+  type: typeof CreateEntityAttestationActions.MoveQuestion
+  payload: {
+    fromId: string
+    toId: string
+  }
+}
+
 export interface ValidatedAction {
   type: typeof CreateEntityAttestationActions.Validated
   payload: {
@@ -540,5 +549,6 @@ export type CreateEntityAttestationActionTypes =
   | UpdateAnswerRequiredAction
   | RemoveQuestionAction
   | CopyQuestionAction
+  | MoveQuestionAction
   | ValidatedAction
   | ValidationErrorAction

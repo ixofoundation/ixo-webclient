@@ -1,17 +1,17 @@
 [
   {
-    "id": "edsfdsr",
+    "id": "00000001-3b7d-4bad-9bdd-2b0d7b3dcb67",
     "title": "Selector Rate out of 10",
     "description": "This will be a short description or explainer text explaining the question. ",
     "label": "Rate the below from 1 to 10 with 1 bring terrible and 10 being excellent",
     "required": true,
     "inline": true,
-    "type": "number",
+    "type": "string",
     "control": "radio",
-    "values": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    "values": ["1", "2", "3"]
   },
   {
-    "id": "gewr",
+    "id": "00000002-3b7d-4bad-9bdd-2b0d7b3dcb67",
     "title": "Enter Location",
     "description": "This will be a short description or explainer text explaining the question. ",
     "label": "Location",
@@ -20,7 +20,7 @@
     "control": "locationselector"
   },
   {
-    "id": "aertbh",
+    "id": "00000003-3b7d-4bad-9bdd-2b0d7b3dcb67",
     "title": "Date Picker",
     "description": "This will be a short description or explainer text explaining the question. ",
     "label": "Dates",
@@ -30,7 +30,7 @@
     "placeholder": "Select Date"
   },
   {
-    "id": "iewewxds",
+    "id": "00000004-3b7d-4bad-9bdd-2b0d7b3dcb67",
     "title": "Upload an Avatar/Profile Pic",
     "description": "This will be a short description or explainer text explaining the question. ",
     "label": "Select an avatar to upload",
@@ -39,7 +39,7 @@
     "control": "avatarupload"
   },
   {
-    "id": "hdsfds",
+    "id": "00000005-3b7d-4bad-9bdd-2b0d7b3dcb67",
     "title": "Upload an Image",
     "description": "This will be a short description or explainer text explaining the question. ",
     "label": "Select an image to upload",
@@ -48,7 +48,7 @@
     "control": "imageupload"
   },
   {
-    "id": "hdsfds1",
+    "id": "00000006-3b7d-4bad-9bdd-2b0d7b3dcb67",
     "title": "Upload a Video",
     "description": "This will be a short description or explainer text explaining the question. ",
     "label": "Select a video to upload",
@@ -57,7 +57,7 @@
     "control": "videoupload"
   },
   {
-    "id": "hdsfds2",
+    "id": "00000007-3b7d-4bad-9bdd-2b0d7b3dcb67",
     "title": "Upload a Document",
     "description": "This will be a short description or explainer text explaining the question. ",
     "label": "Select a document to upload",
@@ -66,7 +66,7 @@
     "control": "documentupload"
   },
   {
-    "id": "ffdg",
+    "id": "00000008-3b7d-4bad-9bdd-2b0d7b3dcb67",
     "title": "QR Code",
     "description": "This will be a short description or explainer text explaining the question. ",
     "label": "QR Code",
@@ -76,7 +76,7 @@
     "initialValue": "https://www.google.com/"
   },
   {
-    "id": "asddf",
+    "id": "00000009-3b7d-4bad-9bdd-2b0d7b3dcb67",
     "title": "Short Text Question",
     "description": "This will be a short description or explainer text explaining the question. ",
     "label": "Short Answer",
@@ -86,7 +86,7 @@
     "placeholder": "Start Typing here"
   },
   {
-    "id": "bert",
+    "id": "00000010-3b7d-4bad-9bdd-2b0d7b3dcb67",
     "title": "Long Text Question",
     "description": "This will be a short description or explainer text explaining the question. ",
     "label": "Long Answer",
@@ -96,7 +96,7 @@
     "placeholder": "Start Typing here"
   },
   {
-    "id": "cerrf",
+    "id": "00000011-3b7d-4bad-9bdd-2b0d7b3dcb67",
     "title": "Select some of the text items below",
     "description": "This will be a short description or explainer text explaining the question. ",
     "label": "Select 1 to 2 options",
@@ -125,7 +125,7 @@
     ]
   },
   {
-    "id": "dertv",
+    "id": "00000012-3b7d-4bad-9bdd-2b0d7b3dcb67",
     "title": "Select some of the image items below",
     "description": "This will be a short description or explainer text explaining the question. ",
     "label": "Select 3 options",
@@ -149,7 +149,7 @@
     ]
   },
   {
-    "id": "aasdft",
+    "id": "00000013-3b7d-4bad-9bdd-2b0d7b3dcb67",
     "title": "Date Picker",
     "description": "This will be a short description or explainer text explaining the question. ",
     "label": "Date of pickup",

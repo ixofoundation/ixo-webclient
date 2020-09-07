@@ -1,3 +1,4 @@
+import { Dispatch } from 'redux'
 import { v4 as uuidv4 } from 'uuid'
 import {
   UpdateClaimInfoAction,
@@ -36,6 +37,8 @@ import {
 } from './types'
 import { Type, ControlType, FormData } from 'common/components/JsonForm/types'
 import * as utils from './CreateEntityAttestation.utils'
+import { RootState } from 'common/redux/types'
+import * as attestationSelectors from './CreateEntityAttestation.selectors'
 
 export const updateClaimInfo = (formData: FormData): UpdateClaimInfoAction => {
   const { title, shortDescription } = formData
@@ -391,7 +394,7 @@ export const addRatingQuestion = (): AddRatingQuestionAction => ({
     description: undefined,
     label: undefined,
     required: true,
-    type: Type.Number,
+    type: Type.String,
     control: ControlType.Rating,
     values: undefined,
     inline: true,
@@ -404,7 +407,9 @@ export const updateRatingQuestion = (
 ): UpdateRatingQuestionAction => {
   const { title, description, label, scale } = formData
 
-  const values = scale ? Array.from(Array(scale), (_, i) => i + 1) : undefined
+  const values = scale
+    ? Array.from(Array(scale), (_, i) => i + 1).map((i) => i.toString())
+    : undefined
 
   return {
     type: CreateEntityAttestationActions.UpdateRatingQuestion,
@@ -479,6 +484,24 @@ export const copyQuestion = (id: string): CopyQuestionAction => ({
     newId: uuidv4(),
   },
 })
+
+export const moveQuestion = (id: string, toIndex: number) => (
+  dispatch: Dispatch,
+  getState: () => RootState,
+) => {
+  const state = getState()
+  const questions = attestationSelectors.selectQuestions(state)
+  const fromId = id
+  const toId = questions[toIndex].id
+
+  return dispatch({
+    type: CreateEntityAttestationActions.MoveQuestion,
+    payload: {
+      fromId,
+      toId,
+    },
+  })
+}
 
 export const validated = (identifier: string): ValidatedAction => ({
   type: CreateEntityAttestationActions.Validated,

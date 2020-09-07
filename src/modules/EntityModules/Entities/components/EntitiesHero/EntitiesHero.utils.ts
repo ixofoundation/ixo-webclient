@@ -24,13 +24,13 @@ export const getHeaderTabButtons = (
       title: entityTitle,
     },
   ]
-
+  
   if (entityType === EntityType.Project || entityType === EntityType.Cell) {
     tabButtons.push(
       {
         iconClass: 'icon-impacts',
         linkClass: null,
-        path: '/global-statistics',
+        path: '/impact',
         title: 'IMPACT',
       },
       {

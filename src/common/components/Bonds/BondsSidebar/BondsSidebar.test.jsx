@@ -16,17 +16,17 @@ describe('BondsSidebar Component', () => {
     expect(getByTestId('BondsSidebar')).toBeDefined()
   })
 
-  it('should render a link inside it, that, when clicked routes to bonds overview', () => {
+  it('should render a link inside it, that, when clicked routes to investment accounts', () => {
     // when ... we click on a link
     const { getByTestId } = render(
       <Router>
         <BondsSidebar projectDID="test" bondDID="test" />
       </Router>,
     )
-    fireEvent.click(getByTestId('BondsSidebar-navLink-overview'))
+    fireEvent.click(getByTestId('BondsSidebar-navLink-accounts'))
     // then ... the link item should be active
     expect(
-      getByTestId('BondsSidebar-navLink-overview').classList.contains('active'),
+      getByTestId('BondsSidebar-navLink-accounts').classList.contains('active'),
     ).toBeTruthy()
   })
 

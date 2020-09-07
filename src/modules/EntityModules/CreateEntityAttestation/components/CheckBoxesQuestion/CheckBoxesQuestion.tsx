@@ -88,7 +88,7 @@ const CheckBoxesQuestion: React.FunctionComponent<Props> = React.forwardRef(
           'This will be a short description or explainer text explaining the question',
       },
       itemValues: {
-        ['ui:options']: {
+        'ui:options': {
           addable: true,
           orderable: true,
           removable: true,

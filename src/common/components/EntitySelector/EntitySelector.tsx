@@ -2,7 +2,11 @@ import React from 'react'
 import Modal from '../Modal/Modal'
 import { Entity } from './types'
 import TemplateClipboard from 'assets/icons/TemplateClipboard'
-import { NoTemplatePreviewWrapper, ListWrapper } from './EntitySelector.styles'
+import {
+  NoTemplatePreviewWrapper,
+  ListWrapper,
+  ModalWrapper,
+} from './EntitySelector.styles'
 import EntityCard from './EntityCard/EntityCard'
 import { LinkButton } from '../JsonForm/JsonForm.styles'
 
@@ -27,7 +31,7 @@ class EntitySelector extends React.Component<Props, State> {
     }
   }
 
-  componentWillReceiveProps(nextProps: Props) {
+  componentWillReceiveProps(nextProps: Props): void {
     const { selectedEntityId } = this.props
 
     if (selectedEntityId !== nextProps.selectedEntityId) {
@@ -35,25 +39,25 @@ class EntitySelector extends React.Component<Props, State> {
     }
   }
 
-  openTemplateSelector = () => {
+  openTemplateSelector = (): void => {
     this.setState({ isModalOpen: true })
   }
 
-  closeTemplateSelector = () => {
+  closeTemplateSelector = (): void => {
     this.setState({ isModalOpen: false })
   }
 
-  selectEntity = (selectedEntityId: string) => {
+  selectEntity = (selectedEntityId: string): void => {
     this.setState({ selectedEntityId })
   }
 
-  onSubmit = () => {
+  onSubmit = (): void => {
     this.setState({ isModalOpen: false })
     const { onSelectEntity } = this.props
     onSelectEntity(this.state.selectedEntityId)
   }
 
-  renderEntities = () => {
+  renderEntities = (): JSX.Element[] => {
     const NUMBER_OF_ROWS = 3
     const { entities } = this.props
     const { selectedEntityId } = this.state
@@ -61,6 +65,7 @@ class EntitySelector extends React.Component<Props, State> {
 
     return Array.from(Array(rowCount).keys()).map((rowIndex) => {
       return (
+        // eslint-disable-next-line react/jsx-key
         <div className="row">
           {entities
             .filter(
@@ -73,7 +78,7 @@ class EntitySelector extends React.Component<Props, State> {
                 <div
                   key={entity.did}
                   className={`col-md-${12 / NUMBER_OF_ROWS} text-left`}
-                  onClick={() => this.selectEntity(entity.did)}
+                  onClick={(): void => this.selectEntity(entity.did)}
                 >
                   <EntityCard
                     showImage={true}
@@ -88,7 +93,7 @@ class EntitySelector extends React.Component<Props, State> {
     })
   }
 
-  renderPreview = () => {
+  renderPreview = (): JSX.Element => {
     const { selectedEntityId, entities } = this.props
 
     if (!selectedEntityId) {
@@ -116,22 +121,23 @@ class EntitySelector extends React.Component<Props, State> {
     )
   }
 
-  render() {
+  render(): JSX.Element {
     const { isModalOpen } = this.state
 
     return (
       <>
         {this.renderPreview()}
         {isModalOpen && (
-          <Modal
-            submitText="Select"
-            cancelText="Cancel"
-            onCancel={this.closeTemplateSelector}
-            onSubmit={this.onSubmit}
-            style={{ right: '-100%' }}
-          >
-            <ListWrapper>{this.renderEntities()}</ListWrapper>
-          </Modal>
+          <ModalWrapper>
+            <Modal
+              submitText="Select"
+              cancelText="Cancel"
+              onCancel={this.closeTemplateSelector}
+              onSubmit={this.onSubmit}
+            >
+              <ListWrapper>{this.renderEntities()}</ListWrapper>
+            </Modal>
+          </ModalWrapper>
         )}
       </>
     )

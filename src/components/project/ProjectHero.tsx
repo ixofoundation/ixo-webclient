@@ -42,32 +42,33 @@ export const ProjectHero: React.SFC<Props> = ({
   isDetail,
   onlyTitle,
   assistantPanelToggle,
-  enableAssistantButton,
+  enableAssistantButton = true,
 }) => {
   const windowSize = useWindowSize()
   const isUserLoggedIn = useSelector(selectUserIsLoggedIn)
   const entityType = project.entityType
     ? (toTitleCase(project.entityType) as EntityType)
     : EntityType.Project
+  
   const buttonsArray = [
     {
       iconClass: `icon-${entityType.toLowerCase()}`,
       linkClass: null,
       path: `/projects/${match.params.projectDID}/overview`,
-      title: entityTypeMap[entityType].plural,
+      title: entityTypeMap[entityType].title,
     },
   ]
 
   if (entityType === EntityType.Project) {
     buttonsArray.push({
-      iconClass: 'icon-impacts',
+      iconClass: 'icon-dashboard',
       linkClass: null,
       path: `/projects/${match.params.projectDID}/detail`,
       title: 'DASHBOARD',
     })
   } else {
     buttonsArray.push({
-      iconClass: 'icon-impacts',
+      iconClass: 'icon-dashboard',
       linkClass: 'in-active',
       path: '/performace',
       title: 'DASHBOARD',
@@ -165,7 +166,7 @@ export const ProjectHero: React.SFC<Props> = ({
         <HeaderTabs
           buttons={buttonsArray}
           matchType={MatchType.strict}
-          assistantPanelToggle={() => assistantPanelToggle()}
+          assistantPanelToggle={ assistantPanelToggle }
           enableAssistantButton={enableAssistantButton}
           activeTabColor={entityTypeMap[entityType].themeColor}
         />

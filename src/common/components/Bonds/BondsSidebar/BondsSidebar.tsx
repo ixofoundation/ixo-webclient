@@ -11,33 +11,34 @@ const BondsSidebar = ({ projectDID, bondDID }: Props): JSX.Element => {
   return (
     <div data-testid="BondsSidebar" className="tablinks sidebar">
       <NavLink
-        exact
-        to={`/projects/${projectDID}/bonds/${bondDID}`}
-        isActive={(match, location): any => {
-          return isActiveRoute(match, location, [
-            `/projects/${projectDID}/bonds/${bondDID}/overview`,
-          ])
-        }}
-        className="tablinks_tablink icon global"
-        data-testid="BondsSidebar-navLink-overview"
-      />
-      <NavLink
         to={`/projects/${projectDID}/bonds/${bondDID}/accounts`}
         className="tablinks_tablink icon account"
-        data-testid="BondsSidebar-navLink-account"
+        data-testid="BondsSidebar-navLink-accounts"
+        isActive={(match, location): any => {
+          return isActiveRoute(match, location, [
+            `/projects/${projectDID}/bonds/${bondDID}/accounts`,
+          ])
+        }}
+        title='Accounts'
       />
       <NavLink
-        to={`/projects/${projectDID}/bonds/${bondDID}/exchange`}
+        to={`/projects/${projectDID}/bonds/${bondDID}/payments`}
         className="tablinks_tablink icon trades"
         data-testid="BondsSidebar-navLink-trades"
+        title="Payments"
       />
       <NavLink
-        to={`/projects/${projectDID}/bonds/${bondDID}/orders`}
+        to={`/projects/${projectDID}/bonds/${bondDID}/events`}
         className="tablinks_tablink icon orders"
         data-testid="BondsSidebar-navLink-orders"
+        title="Events"
       />
-      <a className="tablinks_tablink icon wallet" href="#" />
-      <a className="tablinks_tablink icon settings" href="#" />
+      <NavLink
+        to={`/projects/${projectDID}/bonds/${bondDID}/investment`}
+        className="tablinks_tablink icon investment"
+        data-testid="BondsSidebar-navLink-investment"
+        title="Investment"
+      />
     </div>
   )
 }

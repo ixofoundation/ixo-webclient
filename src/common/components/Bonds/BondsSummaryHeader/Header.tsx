@@ -26,14 +26,10 @@ interface HeaderState {
 }
 
 class Header extends Component<any, HeaderState> {
-  intervalID = null
+  private intervalID = null
   constructor(props: any) {
     super(props)
-    this.intervalID = null
-    this.state = {
-      selected: 0,
-    }
-    setInterval(() => {
+    this.intervalID = setInterval(() => {
       this.refreshAccount()
     }, INTERVAL_LENGTH) // deepscan-disable-line
 
@@ -47,20 +43,19 @@ class Header extends Component<any, HeaderState> {
     }
   }
 
-  setActiveHeaderItem = (order: number): void => {
-    console.log('this.state.selected', this.state.selected)
-    this.setState({ selected: order })
+  componentWillUnmount(): void {
+    clearInterval(this.intervalID)
   }
 
   render(): JSX.Element {
-    const { activeBond } = this.props
+    const { activeBond, selectedHeader, setSelectedHeader } = this.props
     const balance = tokenBalance(this.props.account.balances, activeBond.symbol)
     const bondCapitalInfo = `${(
       (activeBond.collateral.amount / activeBond.totalSupply.amount || 0) * 100
-    ).toFixed(4)}% of Bond cap`
+    ).toFixed(2)}% of Funding Target`
     const reserveInfo = `${(
       (activeBond.reserve.amount / activeBond.totalSupply.amount || 0) * 100
-    ).toFixed(4)}% of Capital raise`
+    ).toFixed(2)}% of Capital raise`
 
     return (
       <StyledHeader>
@@ -70,8 +65,8 @@ class Header extends Component<any, HeaderState> {
           value={activeBond.price.amount}
           additionalInfo="--"
           priceColor="#39C3E6"
-          setActiveHeaderItem={(): void => this.setActiveHeaderItem(0)}
-          selected={this.state.selected === 0}
+          setActiveHeaderItem={(): void => setSelectedHeader('price')}
+          selected={selectedHeader === 'price'}
         />
         <HeaderItem
           tokenType={activeBond.symbol}
@@ -79,8 +74,8 @@ class Header extends Component<any, HeaderState> {
           value={balance.amount}
           additionalInfo="--"
           priceColor="#6FCF97"
-          setActiveHeaderItem={(): void => this.setActiveHeaderItem(1)}
-          selected={this.state.selected === 1}
+          setActiveHeaderItem={(): void => setSelectedHeader('stake')}
+          selected={selectedHeader === 'stake'}
         />
         <HeaderItem
           tokenType={activeBond.totalSupply.denom}
@@ -88,24 +83,24 @@ class Header extends Component<any, HeaderState> {
           value={activeBond.collateral.amount}
           additionalInfo={bondCapitalInfo}
           priceColor="#39C3E6"
-          setActiveHeaderItem={(): void => this.setActiveHeaderItem(2)}
-          selected={this.state.selected === 2}
+          setActiveHeaderItem={(): void => setSelectedHeader('raised')}
+          selected={selectedHeader === 'raised'}
         />
         <HeaderItem
           tokenType={activeBond.reserve.denom}
-          title="Reverse Funds"
+          title="Reserve Funds"
           value={activeBond.reserve.amount}
           additionalInfo={reserveInfo}
           priceColor="#39C3E6"
-          setActiveHeaderItem={(): void => this.setActiveHeaderItem(3)}
-          selected={this.state.selected === 3}
+          setActiveHeaderItem={(): void => setSelectedHeader('reserve')}
+          selected={selectedHeader === 'reserve'}
         />
         <HeaderItem
           title="Alpha"
           value="--"
           additionalInfo="--"
-          setActiveHeaderItem={(): void => this.setActiveHeaderItem(4)}
-          selected={this.state.selected === 4}
+          setActiveHeaderItem={(): void => setSelectedHeader('alpha')}
+          selected={selectedHeader === 'alpha'}
         />
       </StyledHeader>
     )

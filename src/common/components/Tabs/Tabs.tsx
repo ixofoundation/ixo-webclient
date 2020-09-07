@@ -3,6 +3,11 @@ import { NavLink } from 'react-router-dom'
 import { MatchType } from '../../../types/models'
 import { createTabsContainer } from './Tabs.styles'
 import { Tooltip, TooltipPositions } from '../Tooltip/Tooltip'
+import Lottie from 'react-lottie';
+import activeAnimation from 'assets/animations/assistant/active.json'
+import inactiveAnimation from 'assets/animations/assistant/inactive.json'
+import hoverAnimation from 'assets/animations/assistant/hover.json'
+import AssistantContext from 'common/contexts/Assistant'
 
 export interface Button {
   linkClass?: string
@@ -16,7 +21,7 @@ export interface Props {
   matchType: MatchType
   activeTabColor: string | undefined
   assistantPanelToggle: () => void
-  enableAssistantButton: boolean
+  enableAssistantButton: boolean,
 }
 
 export const Tabs: React.SFC<Props> = ({
@@ -24,9 +29,36 @@ export const Tabs: React.SFC<Props> = ({
   matchType,
   activeTabColor,
   assistantPanelToggle,
-  enableAssistantButton,
+  enableAssistantButton
 }) => {
   const TabsContainer = createTabsContainer(activeTabColor)
+  
+  const [animation, setAnimation] = React.useState(inactiveAnimation);
+  const assistant = React.useContext(AssistantContext);
+  
+  const assistantButtonClicked = () => {
+    const isActive = assistant.active;
+    if (isActive) {
+      setAnimation(hoverAnimation)
+      assistantPanelToggle()
+      return;
+    }
+    
+    setAnimation(activeAnimation);
+    assistantPanelToggle()
+  }
+
+  const chooseAnimation = () => {
+    if (assistant.active) {
+      return activeAnimation
+    }
+
+    if (animation === activeAnimation) {
+      return inactiveAnimation
+    }
+
+    return animation === hoverAnimation ? hoverAnimation : inactiveAnimation;
+  }
 
   return (
     <TabsContainer>
@@ -37,6 +69,7 @@ export const Tabs: React.SFC<Props> = ({
             exact={matchType === MatchType.exact}
             strict={matchType === MatchType.strict}
             to={{ pathname: button.path }}
+            key={ index }
           >
             {button.iconClass && <i className={button.iconClass} />}
             {button.title && <p>{button.title}</p>}
@@ -60,7 +93,21 @@ export const Tabs: React.SFC<Props> = ({
         )
       })}
       {enableAssistantButton && (
-        <button onClick={() => assistantPanelToggle()}>pluse</button>
+        <button 
+          onClick={() => assistantButtonClicked()}
+          onMouseEnter={() => !assistant.active ? setAnimation(hoverAnimation) : null}
+          onMouseLeave={() => !assistant.active ? setAnimation(inactiveAnimation) : null}
+        >
+          <Lottie 
+            height={40}
+            width={40}
+            options={{
+              loop: true,
+              autoplay: true,
+              animationData: chooseAnimation()
+            }}
+          />
+        </button>
       )}
     </TabsContainer>
   )

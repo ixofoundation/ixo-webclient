@@ -396,15 +396,15 @@ class CreateEntitySettings extends CreateEntityBase<Props> {
   }
 
   onSubmitted = (): void => {
-    const { entityType, step } = this.props
+    const { entityType, step, handleGoToStep } = this.props
 
-    this.props.handleGoToStep(this.getNextStep(entityType, step))
+    handleGoToStep(this.getNextStep(entityType, step))
   }
 
   onBack = (): void => {
-    const { entityType, step } = this.props
+    const { entityType, step, handleGoToStep } = this.props
 
-    this.props.handleGoToStep(this.getPreviousStep(entityType, step))
+    handleGoToStep(this.getPreviousStep(entityType, step))
   }
 
   render(): JSX.Element {

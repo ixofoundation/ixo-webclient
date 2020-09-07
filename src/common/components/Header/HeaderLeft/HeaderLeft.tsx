@@ -1,8 +1,9 @@
-import * as React from "react";
-import { Fragment } from "react";
-import { deviceWidth } from "../../../../lib/commonData";
-import MediaQuery from "react-responsive";
-import { getIxoWorldRoute } from "../../../utils/formatters";
+import * as React from 'react'
+import { Fragment } from 'react'
+import { deviceWidth } from '../../../../lib/commonData'
+import MediaQuery from 'react-responsive'
+import { getIxoWorldRoute } from '../../../utils/formatters'
+import { entityTypeMap } from 'modules/EntityModules/Entities/strategy-map'
 import {
   Burger,
   Main,
@@ -15,12 +16,12 @@ import {
   MobileMenu,
   NavItems,
   HeaderAnchor,
-} from "./HeaderLeft.styles";
+} from './HeaderLeft.styles'
 
 export interface ParentProps {
-  currentEntity: string | undefined;
-  openMenu: boolean;
-  handleBurgerClick: any;
+  currentEntity: string | undefined
+  openMenu: boolean
+  handleBurgerClick: any
 }
 
 export class HeaderLeft extends React.Component<ParentProps> {
@@ -39,38 +40,54 @@ export class HeaderLeft extends React.Component<ParentProps> {
           </HeaderAnchor>
           <HeaderAnchor
             target="_blank"
-            href={getIxoWorldRoute("/getixowallet/deliver")}
+            href={getIxoWorldRoute('/getixowallet/deliver')}
           >
             Deliver
           </HeaderAnchor>
           <HeaderAnchor
             target="_blank"
-            href={getIxoWorldRoute("/getixowallet/invest")}
+            href={getIxoWorldRoute('/getixowallet/invest')}
           >
             Invest
           </HeaderAnchor>
-          <HeaderAnchor target="_blank" href="https://docs.ixo.world/">
+          <HeaderAnchor target="_blank" href="https://docs.ixo.foundation/">
             Learn
           </HeaderAnchor>
+          <HeaderLink
+            exact={true}
+            to={`/${this.props.currentEntity.toLowerCase()}/new`}
+          >
+            {entityTypeMap[this.props.currentEntity].createNewTitle}
+          </HeaderLink>
         </Fragment>
-      );
+      )
     } else {
       return (
         <Fragment>
           <MenuHeaderContainer>
-            <MenuHeaderLink className="first-mobile" exact={true} to="/">
+            <MenuHeaderLink
+              className="first-mobile"
+              exact={true}
+              to="/"
+              onClick={this.props.handleBurgerClick}
+            >
               Explore
             </MenuHeaderLink>
           </MenuHeaderContainer>
           <MenuHeaderContainer>
-            <MenuHeaderAnchor target="_blank" href="https://build.ixo.world/">
+            <MenuHeaderAnchor
+              target="_blank"
+              href="https://build.ixo.world/"
+              onClick={this.props.handleBurgerClick}
+            >
               Build
             </MenuHeaderAnchor>
           </MenuHeaderContainer>
           <MenuHeaderContainer>
             <MenuHeaderAnchor
               target="_blank"
-              href={getIxoWorldRoute("/getixowallet/deliver")}
+              href={getIxoWorldRoute('/getixowallet/deliver')}
+              onClick={this.props.handleBurgerClick}
             >
               Deliver
             </MenuHeaderAnchor>
@@ -78,36 +95,50 @@ export class HeaderLeft extends React.Component<ParentProps> {
           <MenuHeaderContainer>
             <MenuHeaderAnchor
               target="_blank"
-              href={getIxoWorldRoute("/getixowallet/invest")}
+              href={getIxoWorldRoute('/getixowallet/invest')}
+              onClick={this.props.handleBurgerClick}
             >
               Invest
             </MenuHeaderAnchor>
           </MenuHeaderContainer>
           <MenuHeaderContainer>
-            <MenuHeaderAnchor target="_blank" href="https://docs.ixo.world/">
+            <MenuHeaderAnchor
+              target="_blank"
+              href="https://docs.ixo.world/"
+              onClick={this.props.handleBurgerClick}
+            >
               Learn
             </MenuHeaderAnchor>
           </MenuHeaderContainer>
+          <MenuHeaderContainer>
+            <MenuHeaderLink
+              exact={true}
+              to={`/${this.props.currentEntity.toLowerCase()}/new`}
+              onClick={this.props.handleBurgerClick}
+            >
+              {entityTypeMap[this.props.currentEntity].createNewTitle}
+            </MenuHeaderLink>
+          </MenuHeaderContainer>
         </Fragment>
-      );
+      )
     }
-  };
+  }
 
   render(): JSX.Element {
     return (
       <Fragment>
         <Main className="col-md-12 col-lg-8 d-flex align-items-center">
           <div>
-            <a href={getIxoWorldRoute("")}>
+            <a href={getIxoWorldRoute('')}>
               <IXOLogo
                 alt="IXO Logo"
-                src={require("../../../../assets/images/ixo-logo.svg")}
+                src={require('../../../../assets/images/ixo-logo.svg')}
               />
             </a>
           </div>
           <NavItems>
             <Burger onClick={this.props.handleBurgerClick}>
-              <div className={this.props.openMenu === true ? "change" : ""}>
+              <div className={this.props.openMenu === true ? 'change' : ''}>
                 <div className="bar1" />
                 <div className="bar2" />
                 <div className="bar3" />
@@ -118,14 +149,14 @@ export class HeaderLeft extends React.Component<ParentProps> {
             </MediaQuery>
           </NavItems>
         </Main>
-        <MediaQuery maxWidth={"991px"}>
+        <MediaQuery maxWidth={'991px'}>
           <MobileMenu
-            className={this.props.openMenu === true ? "openMenu" : ""}
+            className={this.props.openMenu === true ? 'openMenu' : ''}
           >
             {this.getMenuItems(false)}
           </MobileMenu>
         </MediaQuery>
       </Fragment>
-    );
+    )
   }
 }
