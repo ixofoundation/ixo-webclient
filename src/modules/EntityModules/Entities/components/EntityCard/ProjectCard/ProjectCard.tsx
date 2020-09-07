@@ -12,10 +12,13 @@ import {
   Statistic,
   StatisticLabel,
   StatisticValue,
+  Logo,
+  Flag,
 } from './ProjectCard.styles'
 import { EntityCardContainer } from '../EntityCardContainer'
 import { ShieldColor } from '../EntityCardContainer.styles'
 import Star from 'assets/icons/Star'
+import flagged from '../../../../../../assets/images/flagged.svg'
 
 export interface Props {
   projectData: any
@@ -30,6 +33,7 @@ export interface Props {
   rejectedClaims: number
   impactAction: string
   version: number
+  fundedCount: number
   activeUsage: number
   ratingScore: number
   ratingCount: number
@@ -48,6 +52,7 @@ export const ProjectCard: React.FunctionComponent<Props> = ({
   rejectedClaims,
   impactAction,
   version,
+  fundedCount,
   activeUsage,
   ratingScore,
   ratingCount,
@@ -69,10 +74,13 @@ export const ProjectCard: React.FunctionComponent<Props> = ({
       <MainContent>
         <Title>{excerptText(title, 10)}</Title>
       </MainContent>
+
+      <Flag src={flagged} />
+
       <StatisticsContainer>
         <Statistic>
           <StatisticValue>{version}</StatisticValue>
-          <StatisticLabel>Version</StatisticLabel>
+          <StatisticLabel>Funded ({fundedCount})</StatisticLabel>
         </Statistic>
         <Statistic>
           <StatisticValue>{activeUsage}</StatisticValue>
@@ -95,6 +103,7 @@ export const ProjectCard: React.FunctionComponent<Props> = ({
         <ProgressSuccessful>{successfulClaims}</ProgressSuccessful>
         <ProgressRequired>/{requiredClaims}</ProgressRequired>
       </Progress>
+      <Logo src={founderLogoUrl} />
       <Impact>{impactAction}</Impact>
     </EntityCardContainer>
   )

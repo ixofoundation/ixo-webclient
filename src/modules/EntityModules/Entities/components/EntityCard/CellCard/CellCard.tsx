@@ -1,8 +1,5 @@
 import * as React from 'react'
-import {
-  excerptText,
-  toTitleCase,
-} from 'common/utils/formatters'
+import { excerptText, toTitleCase } from 'common/utils/formatters'
 import {
   Title,
   Founded,
@@ -12,6 +9,7 @@ import {
   Statistic,
   StatisticLabel,
   StatisticValue,
+  Logo,
 } from './CellCard.styles'
 import { Moment } from 'moment'
 import { EntityCardContainer } from '../EntityCardContainer'
@@ -71,6 +69,7 @@ export const CellCard: React.FunctionComponent<Props> = ({
       shieldLabel="Status"
     >
       <MainContent>
+        <Logo src={founderLogoUrl} />
         <Title>{excerptText(title, 10)}</Title>
         <Founded>
           Founded in{' '}
