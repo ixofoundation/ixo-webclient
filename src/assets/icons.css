@@ -304,6 +304,7 @@
 
 .icon-data {
   width: 20px;
+  height: 18px;
   min-width: 18px;
   background: url(img/tabs/projects.svg);
   background-repeat: no-repeat;
@@ -311,6 +312,7 @@
 
 .icon-dashboard {
   width: 20px;
+  height: 18px;
   min-width: 18px;
   background: url(img/tabs/dashboard.svg);
   background-repeat: no-repeat;
