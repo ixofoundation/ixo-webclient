@@ -37,7 +37,6 @@ const DisplayCredential: React.FunctionComponent<Props> = React.forwardRef(
         badge: {
           type: 'string',
           title: 'Credential Badge',
-          format: 'uri',
         },
       },
     } as any

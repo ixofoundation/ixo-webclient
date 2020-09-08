@@ -48,7 +48,7 @@ const EnrichmentCard: React.FunctionComponent<Props> = React.forwardRef(
           items: {
             type: 'object',
             properties: {
-              condition: { type: 'string', title: 'Product Id' },
+              condition: { type: 'string', title: 'Product' },
               attribute: { type: 'string', title: 'Resource' },
             },
           },

@@ -77,6 +77,7 @@ const CreatorCard: React.FunctionComponent<Props> = React.forwardRef(
         'ui:uploading': uploadingImage,
         'ui:maxDimension': 440,
         'ui:previewWidth': 440,
+        'ui:aspect': 1,
         'ui:circularCrop': false,
       },
       displayName: {

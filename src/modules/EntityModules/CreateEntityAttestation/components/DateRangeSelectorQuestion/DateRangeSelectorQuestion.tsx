@@ -48,7 +48,7 @@ const DateRangeSelectorQuestion: React.FunctionComponent<Props> = React.forwardR
       description: {
         'ui:widget': 'textarea',
         'ui:placeholder':
-          'This will be a short description or explainer text explaining the question',
+          'Provide a short explanation or instruction for the question (optional)',
       },
     }
 

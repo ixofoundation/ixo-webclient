@@ -65,8 +65,8 @@ const TemplateCard: React.FunctionComponent<Props> = React.forwardRef(
       properties: {
         templateId: { type: 'string', title: 'Claim Template' },
         title: { type: 'string', title: 'H1 Title' },
+        goal: { type: 'string', title: 'Goal Description' },
         description: { type: 'string', title: 'Description' },
-        isPrivate: { type: 'boolean', title: 'Private?' },
         minTargetClaims: {
           type: 'number',
           title: 'Minimum target number of claims to be submitted',
@@ -75,7 +75,7 @@ const TemplateCard: React.FunctionComponent<Props> = React.forwardRef(
           type: 'number',
           title: 'Maximum target number of claims to be submitted',
         },
-        goal: { type: 'string', title: 'Goal' },
+        isPrivate: { type: 'boolean', title: 'Private?' },
         submissionDates: { type: 'string', title: 'Submission Period' },
       },
     } as any
