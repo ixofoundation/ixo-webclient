@@ -112,7 +112,7 @@ beforeEach(() => {
           id: '00000001-3b7d-4bad-9bdd-2b0d7b3dcb67',
           title: 'Selector Rate out of 10',
           description:
-            'This will be a short description or explainer text explaining the question. ',
+            'Provide a short explanation or instruction for the question (optional). ',
           label:
             'Rate the below from 1 to 10 with 1 bring terrible and 10 being excellent',
           required: true,
@@ -126,7 +126,7 @@ beforeEach(() => {
           id: '00000002-3b7d-4bad-9bdd-2b0d7b3dcb67',
           title: 'Enter Location',
           description:
-            'This will be a short description or explainer text explaining the question. ',
+            'Provide a short explanation or instruction for the question (optional). ',
           label: 'Location',
           required: true,
           type: 'string',
@@ -137,7 +137,7 @@ beforeEach(() => {
           id: '00000003-3b7d-4bad-9bdd-2b0d7b3dcb67',
           title: 'Date Picker',
           description:
-            'This will be a short description or explainer text explaining the question. ',
+            'Provide a short explanation or instruction for the question (optional). ',
           label: 'Dates',
           required: true,
           type: 'string',
@@ -149,7 +149,7 @@ beforeEach(() => {
           id: '00000004-3b7d-4bad-9bdd-2b0d7b3dcb67',
           title: 'Upload an Avatar/Profile Pic',
           description:
-            'This will be a short description or explainer text explaining the question. ',
+            'Provide a short explanation or instruction for the question (optional). ',
           label: 'Select an avatar to upload',
           required: true,
           type: 'string',
@@ -160,7 +160,7 @@ beforeEach(() => {
           id: '00000005-3b7d-4bad-9bdd-2b0d7b3dcb67',
           title: 'Upload an Image',
           description:
-            'This will be a short description or explainer text explaining the question. ',
+            'Provide a short explanation or instruction for the question (optional). ',
           label: 'Select an image to upload',
           required: true,
           type: 'string',
@@ -171,7 +171,7 @@ beforeEach(() => {
           id: '00000006-3b7d-4bad-9bdd-2b0d7b3dcb67',
           title: 'Upload a Video',
           description:
-            'This will be a short description or explainer text explaining the question. ',
+            'Provide a short explanation or instruction for the question (optional). ',
           label: 'Select a video to upload',
           required: true,
           type: 'string',
@@ -182,7 +182,7 @@ beforeEach(() => {
           id: '00000007-3b7d-4bad-9bdd-2b0d7b3dcb67',
           title: 'Upload a Document',
           description:
-            'This will be a short description or explainer text explaining the question. ',
+            'Provide a short explanation or instruction for the question (optional). ',
           label: 'Select a document to upload',
           required: true,
           type: 'string',
@@ -193,7 +193,7 @@ beforeEach(() => {
           id: '00000008-3b7d-4bad-9bdd-2b0d7b3dcb67',
           title: 'QR Code',
           description:
-            'This will be a short description or explainer text explaining the question. ',
+            'Provide a short explanation or instruction for the question (optional). ',
           label: 'QR Code',
           required: true,
           type: 'string',
@@ -205,7 +205,7 @@ beforeEach(() => {
           id: '00000009-3b7d-4bad-9bdd-2b0d7b3dcb67',
           title: 'Short Text Question',
           description:
-            'This will be a short description or explainer text explaining the question. ',
+            'Provide a short explanation or instruction for the question (optional). ',
           label: 'Short Answer',
           required: true,
           type: 'string',
@@ -217,7 +217,7 @@ beforeEach(() => {
           id: '00000010-3b7d-4bad-9bdd-2b0d7b3dcb67',
           title: 'Long Text Question',
           description:
-            'This will be a short description or explainer text explaining the question. ',
+            'Provide a short explanation or instruction for the question (optional). ',
           label: 'Long Answer',
           required: true,
           type: 'string',
@@ -229,7 +229,7 @@ beforeEach(() => {
           id: '00000011-3b7d-4bad-9bdd-2b0d7b3dcb67',
           title: 'Select some of the text items below',
           description:
-            'This will be a short description or explainer text explaining the question. ',
+            'Provide a short explanation or instruction for the question (optional). ',
           label: 'Select 1 to 2 options',
           required: false,
           type: 'array',
@@ -260,7 +260,7 @@ beforeEach(() => {
           id: '00000013-3b7d-4bad-9bdd-2b0d7b3dcb67',
           title: 'Date Picker',
           description:
-            'This will be a short description or explainer text explaining the question. ',
+            'Provide a short explanation or instruction for the question (optional). ',
           label: 'Date of pickup',
           required: true,
           type: 'string',
@@ -710,7 +710,7 @@ describe('CreateEntity Selectors', () => {
             schema: {
               title: 'Selector Rate out of 10',
               description:
-                'This will be a short description or explainer text explaining the question. ',
+                'Provide a short explanation or instruction for the question (optional). ',
               type: 'object',
               required: ['00000001-3b7d-4bad-9bdd-2b0d7b3dcb67'],
               properties: {
@@ -735,7 +735,7 @@ describe('CreateEntity Selectors', () => {
             schema: {
               title: 'Enter Location',
               description:
-                'This will be a short description or explainer text explaining the question. ',
+                'Provide a short explanation or instruction for the question (optional). ',
               type: 'object',
               required: ['00000002-3b7d-4bad-9bdd-2b0d7b3dcb67'],
               properties: {
@@ -758,7 +758,7 @@ describe('CreateEntity Selectors', () => {
             schema: {
               title: 'Date Picker',
               description:
-                'This will be a short description or explainer text explaining the question. ',
+                'Provide a short explanation or instruction for the question (optional). ',
               type: 'object',
               required: ['00000003-3b7d-4bad-9bdd-2b0d7b3dcb67'],
               properties: {
@@ -782,7 +782,7 @@ describe('CreateEntity Selectors', () => {
             schema: {
               title: 'Upload an Avatar/Profile Pic',
               description:
-                'This will be a short description or explainer text explaining the question. ',
+                'Provide a short explanation or instruction for the question (optional). ',
               type: 'object',
               required: ['00000004-3b7d-4bad-9bdd-2b0d7b3dcb67'],
               properties: {
@@ -805,7 +805,7 @@ describe('CreateEntity Selectors', () => {
             schema: {
               title: 'Upload an Image',
               description:
-                'This will be a short description or explainer text explaining the question. ',
+                'Provide a short explanation or instruction for the question (optional). ',
               type: 'object',
               required: ['00000005-3b7d-4bad-9bdd-2b0d7b3dcb67'],
               properties: {
@@ -828,7 +828,7 @@ describe('CreateEntity Selectors', () => {
             schema: {
               title: 'Upload a Video',
               description:
-                'This will be a short description or explainer text explaining the question. ',
+                'Provide a short explanation or instruction for the question (optional). ',
               type: 'object',
               required: ['00000006-3b7d-4bad-9bdd-2b0d7b3dcb67'],
               properties: {
@@ -851,7 +851,7 @@ describe('CreateEntity Selectors', () => {
             schema: {
               title: 'Upload a Document',
               description:
-                'This will be a short description or explainer text explaining the question. ',
+                'Provide a short explanation or instruction for the question (optional). ',
               type: 'object',
               required: ['00000007-3b7d-4bad-9bdd-2b0d7b3dcb67'],
               properties: {
@@ -874,7 +874,7 @@ describe('CreateEntity Selectors', () => {
             schema: {
               title: 'QR Code',
               description:
-                'This will be a short description or explainer text explaining the question. ',
+                'Provide a short explanation or instruction for the question (optional). ',
               type: 'object',
               required: ['00000008-3b7d-4bad-9bdd-2b0d7b3dcb67'],
               properties: {
@@ -898,7 +898,7 @@ describe('CreateEntity Selectors', () => {
             schema: {
               title: 'Short Text Question',
               description:
-                'This will be a short description or explainer text explaining the question. ',
+                'Provide a short explanation or instruction for the question (optional). ',
               type: 'object',
               required: ['00000009-3b7d-4bad-9bdd-2b0d7b3dcb67'],
               properties: {
@@ -922,7 +922,7 @@ describe('CreateEntity Selectors', () => {
             schema: {
               title: 'Long Text Question',
               description:
-                'This will be a short description or explainer text explaining the question. ',
+                'Provide a short explanation or instruction for the question (optional). ',
               type: 'object',
               required: ['00000010-3b7d-4bad-9bdd-2b0d7b3dcb67'],
               properties: {
@@ -946,7 +946,7 @@ describe('CreateEntity Selectors', () => {
             schema: {
               title: 'Select some of the text items below',
               description:
-                'This will be a short description or explainer text explaining the question. ',
+                'Provide a short explanation or instruction for the question (optional). ',
               type: 'object',
               required: [],
               properties: {
@@ -991,7 +991,7 @@ describe('CreateEntity Selectors', () => {
             schema: {
               title: 'Date Picker',
               description:
-                'This will be a short description or explainer text explaining the question. ',
+                'Provide a short explanation or instruction for the question (optional). ',
               type: 'object',
               required: ['00000013-3b7d-4bad-9bdd-2b0d7b3dcb67'],
               properties: {

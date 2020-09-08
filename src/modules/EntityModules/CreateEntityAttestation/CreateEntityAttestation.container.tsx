@@ -116,7 +116,7 @@ class CreateEntityAttestation extends CreateEntityBase<Props> {
     } = this.props
 
     return (
-      <FormCardWrapper title="Claim Info" showAddSection={false}>
+      <FormCardWrapper title="Information Card" showAddSection={false}>
         <ClaimInfoCard
           ref={this.cardRefs['claiminfo']}
           handleUpdateContent={handleUpdateClaimInfo}

@@ -95,7 +95,7 @@ export const entityTypeMap: EntityTypeStrategyMap = {
     headerSchema: TemplateHeaderSchema,
     filterSchema: TemplateFilterSchema,
     controlPanelSchema: TemplateControlPanelSchema,
-    createNewTitle: 'Launch a Template',
+    createNewTitle: 'Create a Claim Template',
   },
   [EntityType.Data]: {
     title: 'Asset',

@@ -86,7 +86,7 @@ class CreateEntityPageContent extends CreateEntityBase<Props> {
     return (
       <FormCardWrapper
         title="Header Card"
-        description="The information in this card displays on the Explorer card."
+        description="The information in this card is public and permanent"
         showAddSection={false}
       >
         <HeaderCard

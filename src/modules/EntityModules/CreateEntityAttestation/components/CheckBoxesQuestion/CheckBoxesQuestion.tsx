@@ -62,12 +62,12 @@ const CheckBoxesQuestion: React.FunctionComponent<Props> = React.forwardRef(
         },
         minItems: {
           type: 'number',
-          title: 'Minimum Required Options',
+          title: 'Minimum Required Selections',
           enum: enumMinArray,
         },
         maxItems: {
           type: 'number',
-          title: 'Maximum Allowed Options',
+          title: 'Maximum Required Selections',
           enum: enumMaxArray,
         },
       },
@@ -85,7 +85,7 @@ const CheckBoxesQuestion: React.FunctionComponent<Props> = React.forwardRef(
       description: {
         'ui:widget': 'textarea',
         'ui:placeholder':
-          'This will be a short description or explainer text explaining the question',
+          'Provide a short explanation or instruction for the question (optional)',
       },
       itemValues: {
         'ui:options': {
