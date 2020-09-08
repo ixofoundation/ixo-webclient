@@ -95,7 +95,7 @@ describe('CreateEntityAttestation Actions', () => {
           id,
           title: undefined,
           description: undefined,
-          label: undefined,
+          label: 'Short Answer',
           required: true,
           type: Type.String,
           control: ControlType.Text,
@@ -148,7 +148,7 @@ describe('CreateEntityAttestation Actions', () => {
           id,
           title: undefined,
           description: undefined,
-          label: undefined,
+          label: 'Long Answer',
           required: true,
           type: Type.String,
           control: ControlType.TextArea,
@@ -201,7 +201,7 @@ describe('CreateEntityAttestation Actions', () => {
           id,
           title: undefined,
           description: undefined,
-          label: undefined,
+          label: 'Date',
           required: true,
           type: Type.String,
           control: ControlType.SingleDateSelector,
@@ -253,7 +253,7 @@ describe('CreateEntityAttestation Actions', () => {
           id,
           title: undefined,
           description: undefined,
-          label: undefined,
+          label: 'Dates',
           required: true,
           type: Type.String,
           control: ControlType.DateRangeSelector,
@@ -305,7 +305,7 @@ describe('CreateEntityAttestation Actions', () => {
           id,
           title: undefined,
           description: undefined,
-          label: undefined,
+          label: 'Select Avatar Image to Upload',
           required: true,
           type: Type.String,
           control: ControlType.AvatarUpload,
@@ -357,7 +357,7 @@ describe('CreateEntityAttestation Actions', () => {
           id,
           title: undefined,
           description: undefined,
-          label: undefined,
+          label: 'Select Image to Upload',
           required: true,
           type: Type.String,
           control: ControlType.ImageUpload,
@@ -409,7 +409,7 @@ describe('CreateEntityAttestation Actions', () => {
           id,
           title: undefined,
           description: undefined,
-          label: undefined,
+          label: 'Select Video to Upload',
           required: true,
           type: Type.String,
           control: ControlType.VideoUpload,
@@ -461,7 +461,7 @@ describe('CreateEntityAttestation Actions', () => {
           id,
           title: undefined,
           description: undefined,
-          label: undefined,
+          label: 'Select Audio Clip to Upload',
           required: true,
           type: Type.String,
           control: ControlType.AudioUpload,
@@ -513,7 +513,7 @@ describe('CreateEntityAttestation Actions', () => {
           id,
           title: undefined,
           description: undefined,
-          label: undefined,
+          label: 'Select Document to Upload',
           required: true,
           type: Type.String,
           control: ControlType.DocumentUpload,
@@ -565,7 +565,7 @@ describe('CreateEntityAttestation Actions', () => {
           id,
           title: undefined,
           description: undefined,
-          label: undefined,
+          label: 'Location',
           required: true,
           type: Type.String,
           control: ControlType.LocationSelector,
@@ -617,7 +617,7 @@ describe('CreateEntityAttestation Actions', () => {
           id,
           title: undefined,
           description: undefined,
-          label: undefined,
+          label: 'QR Code',
           required: true,
           type: Type.String,
           control: ControlType.QRCode,
@@ -660,6 +660,64 @@ describe('CreateEntityAttestation Actions', () => {
     })
   })
 
+  describe('qrCodeScanQuestion', () => {
+    describe('addQRCodeScanQuestion', () => {
+      it('should add a new qrcodescan question', () => {
+        // given ... an id
+        const id = 'newId'
+        v4.mockImplementationOnce(() => id)
+
+        // when ... we call the action
+        const action = SUT.addQRCodeScanQuestion()
+
+        // then ... we should expect it to create an action with the correct type
+        expect(action.type).toEqual(
+          CreateEntityAttestationActions.AddQRCodeScanQuestion,
+        )
+        expect(action.payload).toEqual({
+          id,
+          title: undefined,
+          description: undefined,
+          label: 'Scan QR Code',
+          placeholder: 'Waiting for data...',
+          required: true,
+          type: Type.String,
+          control: ControlType.QRCodeScan,
+        })
+      })
+    })
+
+    describe('updateQRCodeScanQuestion', () => {
+      it('should update the qrcodescan question', () => {
+        // given ... some data
+        const id = 'existingId'
+        const title = 'someNewTitle'
+        const description = 'someDescription'
+        const label = 'someLabel'
+
+        const formData = {
+          title,
+          description,
+          label,
+        }
+
+        // when ... we call the action
+        const action = SUT.updateQRCodeScanQuestion(id, formData)
+
+        // then ... we should expect it to create the action as expected
+        expect(action.type).toEqual(
+          CreateEntityAttestationActions.UpdateQRCodeScanQuestion,
+        )
+        expect(action.payload).toEqual({
+          id,
+          title,
+          description,
+          label,
+        })
+      })
+    })
+  })
+
   describe('ratingQuestion', () => {
     describe('addRatingQuestion', () => {
       it('should add a new rating question', () => {
@@ -678,7 +736,7 @@ describe('CreateEntityAttestation Actions', () => {
           id,
           title: undefined,
           description: undefined,
-          label: undefined,
+          label: 'Rating',
           required: true,
           type: Type.String,
           control: ControlType.Rating,
@@ -771,7 +829,7 @@ describe('CreateEntityAttestation Actions', () => {
           id,
           title: undefined,
           description: undefined,
-          label: undefined,
+          label: 'Select Options',
           required: true,
           type: Type.Array,
           control: ControlType.CheckBoxes,
