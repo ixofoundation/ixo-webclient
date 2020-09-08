@@ -1,5 +1,25 @@
 [
   {
+    "id": "00000088-3b7d-4bad-9bdd-2b0d7b3dcb67",
+    "title": "QR Code Scan",
+    "description": "This will be a short description or explainer text explaining the question. ",
+    "label": "Scan QR Code",
+    "required": true,
+    "type": "string",
+    "control": "qrcodescan",
+    "placeholder": "Waiting for data..."
+  },
+  {
+    "id": "00000008-3b7d-4bad-9bdd-2b0d7b3dcb67",
+    "title": "QR Code",
+    "description": "This will be a short description or explainer text explaining the question. ",
+    "label": "QR Code",
+    "required": true,
+    "type": "string",
+    "control": "qrcode",
+    "initialValue": "https://www.google.com/"
+  },
+  {
     "id": "00000001-3b7d-4bad-9bdd-2b0d7b3dcb67",
     "title": "Selector Rate out of 10",
     "description": "This will be a short description or explainer text explaining the question. ",
@@ -64,16 +84,6 @@
     "required": true,
     "type": "string",
     "control": "documentupload"
-  },
-  {
-    "id": "00000008-3b7d-4bad-9bdd-2b0d7b3dcb67",
-    "title": "QR Code",
-    "description": "This will be a short description or explainer text explaining the question. ",
-    "label": "QR Code",
-    "required": true,
-    "type": "string",
-    "control": "qrcode",
-    "initialValue": "https://www.google.com/"
   },
   {
     "id": "00000009-3b7d-4bad-9bdd-2b0d7b3dcb67",

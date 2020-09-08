@@ -39,6 +39,8 @@ import {
   updateLocationSelectorQuestion,
   addQRCodeQuestion,
   updateQRCodeQuestion,
+  addQRCodeScanQuestion,
+  updateQRCodeScanQuestion,
   addRatingQuestion,
   updateRatingQuestion,
   addCheckBoxesQuestion,
@@ -59,6 +61,7 @@ import AudioUploadQuestion from './components/AudioUploadQuestion/AudioUploadQue
 import DocumentUploadQuestion from './components/DocumentUploadQuestion/DocumentUploadQuestion'
 import LocationSelectorQuestion from './components/LocationSelectorQuestion/LocationSelectorQuestion'
 import QRCodeQuestion from './components/QRCodeQuestion/QRCodeQuestion'
+import QRCodeScanQuestion from './components/QRCodeScanQuestion/QRCodeScanQuestion'
 import RatingQuestion from './components/RatingQuestion/RatingQuestion'
 import CheckBoxesQuestion from './components/CheckBoxesQuestion/CheckBoxesQuestion'
 import { goToStep } from '../CreateEntity/CreateEntity.actions'
@@ -96,6 +99,8 @@ interface Props extends CreateEntityBaseProps {
   handleUpdateLocationSelectorQuestion: (id: string, formData: FormData) => void
   handleAddQRCodeQuestion: () => void
   handleUpdateQRCodeQuestion: (id: string, formData: FormData) => void
+  handleAddQRCodeScanQuestion: () => void
+  handleUpdateQRCodeScanQuestion: (id: string, formData: FormData) => void
   handleAddRatingQuestion: () => void
   handleUpdateRatingQuestion: (id: string, formData: FormData) => void
   handleAddCheckBoxesQuestion: () => void
@@ -203,6 +208,10 @@ class CreateEntityAttestation extends CreateEntityBase<Props> {
                   case ControlType.QRCode:
                     questionElem = this.renderQRCodeQuestion(question)
                     title = questionTypeMap[ControlType.QRCode].title
+                    break
+                  case ControlType.QRCodeScan:
+                    questionElem = this.renderQRCodeScanQuestion(question)
+                    title = questionTypeMap[ControlType.QRCodeScan].title
                     break
                   case ControlType.Rating:
                     questionElem = this.renderRatingQuestion(question)
@@ -473,6 +482,27 @@ class CreateEntityAttestation extends CreateEntityBase<Props> {
     )
   }
 
+  renderQRCodeScanQuestion = (question: Question): JSX.Element => {
+    const { handleUpdateQRCodeScanQuestion } = this.props
+    const { id, title, description, label } = question
+
+    return (
+      <QRCodeScanQuestion
+        ref={this.cardRefs[id]}
+        handleUpdateContent={(formData): void =>
+          handleUpdateQRCodeScanQuestion(id, formData)
+        }
+        handleSubmitted={(): void => this.props.handleValidated(id)}
+        handleError={(errors): void =>
+          this.props.handleValidationError(id, errors)
+        }
+        title={title}
+        description={description}
+        label={label}
+      />
+    )
+  }
+
   renderRatingQuestion = (question: Question): JSX.Element => {
     const { handleUpdateRatingQuestion } = this.props
     const { id, title, description, label, values } = question
@@ -540,6 +570,7 @@ class CreateEntityAttestation extends CreateEntityBase<Props> {
       handleAddDocumentUploadQuestion,
       handleAddLocationSelectorQuestion,
       handleAddQRCodeQuestion,
+      handleAddQRCodeScanQuestion,
       handleAddRatingQuestion,
       handleAddCheckBoxesQuestion,
     } = this.props
@@ -577,6 +608,9 @@ class CreateEntityAttestation extends CreateEntityBase<Props> {
         break
       case ControlType.QRCode:
         handleAddQRCodeQuestion()
+        break
+      case ControlType.QRCodeScan:
+        handleAddQRCodeScanQuestion()
         break
       case ControlType.Rating:
         handleAddRatingQuestion()
@@ -670,6 +704,9 @@ const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
   handleAddQRCodeQuestion: (): void => dispatch(addQRCodeQuestion()),
   handleUpdateQRCodeQuestion: (id: string, formData: FormData): void =>
     dispatch(updateQRCodeQuestion(id, formData)),
+  handleAddQRCodeScanQuestion: (): void => dispatch(addQRCodeScanQuestion()),
+  handleUpdateQRCodeScanQuestion: (id: string, formData: FormData): void =>
+    dispatch(updateQRCodeScanQuestion(id, formData)),
   handleAddRatingQuestion: (): void => dispatch(addRatingQuestion()),
   handleUpdateRatingQuestion: (id: string, formData: FormData): void =>
     dispatch(updateRatingQuestion(id, formData)),

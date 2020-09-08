@@ -5,6 +5,7 @@ import LongText from '../../../assets/icons/LongText'
 import Selection from '../../../assets/icons/Selection'
 import Rating from '../../../assets/icons/Rating'
 import QRCode from '../../../assets/icons/QRcode'
+import QRCodeScan from '../../../assets/icons/QRcodeScan'
 import Location from '../../../assets/icons/Location'
 import UploadImage from '../../../assets/icons/UploadImage'
 import UploadAvatar from '../../../assets/icons/UploadAvatar'
@@ -55,6 +56,11 @@ export const questionTypeMap = {
     icon: QRCode,
     title: 'QR Code',
     controlType: ControlType.QRCode,
+  },
+  [ControlType.QRCodeScan]: {
+    icon: QRCodeScan,
+    title: 'QR Code Scan',
+    controlType: ControlType.QRCodeScan,
   },
   [ControlType.LocationSelector]: {
     icon: Location,

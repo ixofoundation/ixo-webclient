@@ -53,6 +53,8 @@ export enum CreateEntityAttestationActions {
   UpdateLocationSelectorQuestion = 'ixo/CreateEntityAttestation/UPDATE_LOCATION_SELECTOR_QUESTION',
   AddQRCodeQuestion = 'ixo/CreateEntityAttestation/ADD_QR_CODE_QUESTION',
   UpdateQRCodeQuestion = 'ixo/CreateEntityAttestation/UPDATE_QR_CODE_QUESTION',
+  AddQRCodeScanQuestion = 'ixo/CreateEntityAttestation/ADD_QR_CODE_SCAN_QUESTION',
+  UpdateQRCodeScanQuestion = 'ixo/CreateEntityAttestation/UPDATE_QR_CODE_SCAN_QUESTION',
   AddAvatarUploadQuestion = 'ixo/CreateEntityAttestation/ADD_AVATAR_UPLOAD_QUESTION',
   UpdateAvatarUploadQuestion = 'ixo/CreateEntityAttestation/UPDATE_AVATAR_UPLOAD_QUESTION',
   AddImageUploadQuestion = 'ixo/CreateEntityAttestation/ADD_IMAGE_UPLOAD_QUESTION',
@@ -409,6 +411,34 @@ export interface UpdateQRCodeQuestionAction
   }
 }
 
+export interface AddQRCodeScanQuestionAction
+  extends AddQuestionAction<
+    typeof CreateEntityAttestationActions.AddQRCodeScanQuestion
+  > {
+  payload: {
+    id: string
+    title: string
+    description: string
+    label: string
+    placeholder: string
+    required: boolean
+    type: Type
+    control: ControlType
+  }
+}
+
+export interface UpdateQRCodeScanQuestionAction
+  extends UpdateQuestionAction<
+    typeof CreateEntityAttestationActions.UpdateQRCodeScanQuestion
+  > {
+  payload: {
+    id: string
+    title: string
+    description: string
+    label: string
+  }
+}
+
 export interface AddRatingQuestionAction
   extends AddQuestionAction<
     typeof CreateEntityAttestationActions.AddRatingQuestion
@@ -542,6 +572,8 @@ export type CreateEntityAttestationActionTypes =
   | UpdateLocationSelectorQuestionAction
   | AddQRCodeQuestionAction
   | UpdateQRCodeQuestionAction
+  | AddQRCodeScanQuestionAction
+  | UpdateQRCodeScanQuestionAction
   | AddRatingQuestionAction
   | UpdateRatingQuestionAction
   | AddCheckBoxesQuestionAction

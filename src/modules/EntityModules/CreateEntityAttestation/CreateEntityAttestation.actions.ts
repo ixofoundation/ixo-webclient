@@ -30,10 +30,13 @@ import {
   UpdateLocationSelectorQuestionAction,
   AddQRCodeQuestionAction,
   UpdateQRCodeQuestionAction,
+  AddQRCodeScanQuestionAction,
+  UpdateQRCodeScanQuestionAction,
   AddRatingQuestionAction,
   UpdateRatingQuestionAction,
   AddCheckBoxesQuestionAction,
   UpdateCheckBoxesQuestionAction,
+  MoveQuestionAction,
 } from './types'
 import { Type, ControlType, FormData } from 'common/components/JsonForm/types'
 import * as utils from './CreateEntityAttestation.utils'
@@ -58,7 +61,7 @@ export const addShortTextQuestion = (): AddShortTextQuestionAction => ({
     id: uuidv4(),
     title: undefined,
     description: undefined,
-    label: undefined,
+    label: 'Short Answer',
     required: true,
     type: Type.String,
     control: ControlType.Text,
@@ -89,7 +92,7 @@ export const addLongTextQuestion = (): AddLongTextQuestionAction => ({
     id: uuidv4(),
     title: undefined,
     description: undefined,
-    label: undefined,
+    label: 'Long Answer',
     required: true,
     type: Type.String,
     control: ControlType.TextArea,
@@ -120,7 +123,7 @@ export const addSingleDateSelectorQuestion = (): AddSingleDateSelectorQuestionAc
     id: uuidv4(),
     title: undefined,
     description: undefined,
-    label: undefined,
+    label: 'Date',
     required: true,
     type: Type.String,
     control: ControlType.SingleDateSelector,
@@ -150,7 +153,7 @@ export const addDateRangeSelectorQuestion = (): AddDateRangeSelectorQuestionActi
     id: uuidv4(),
     title: undefined,
     description: undefined,
-    label: undefined,
+    label: 'Dates',
     required: true,
     type: Type.String,
     control: ControlType.DateRangeSelector,
@@ -180,7 +183,7 @@ export const addAvatarUploadQuestion = (): AddAvatarUploadQuestionAction => ({
     id: uuidv4(),
     title: undefined,
     description: undefined,
-    label: undefined,
+    label: 'Select Avatar Image to Upload',
     required: true,
     type: Type.String,
     control: ControlType.AvatarUpload,
@@ -210,7 +213,7 @@ export const addImageUploadQuestion = (): AddImageUploadQuestionAction => ({
     id: uuidv4(),
     title: undefined,
     description: undefined,
-    label: undefined,
+    label: 'Select Image to Upload',
     required: true,
     type: Type.String,
     control: ControlType.ImageUpload,
@@ -240,7 +243,7 @@ export const addVideoUploadQuestion = (): AddVideoUploadQuestionAction => ({
     id: uuidv4(),
     title: undefined,
     description: undefined,
-    label: undefined,
+    label: 'Select Video to Upload',
     required: true,
     type: Type.String,
     control: ControlType.VideoUpload,
@@ -270,7 +273,7 @@ export const addAudioUploadQuestion = (): AddAudioUploadQuestionAction => ({
     id: uuidv4(),
     title: undefined,
     description: undefined,
-    label: undefined,
+    label: 'Select Audio Clip to Upload',
     required: true,
     type: Type.String,
     control: ControlType.AudioUpload,
@@ -300,7 +303,7 @@ export const addDocumentUploadQuestion = (): AddDocumentUploadQuestionAction => 
     id: uuidv4(),
     title: undefined,
     description: undefined,
-    label: undefined,
+    label: 'Select Document to Upload',
     required: true,
     type: Type.String,
     control: ControlType.DocumentUpload,
@@ -330,7 +333,7 @@ export const addLocationSelectorQuestion = (): AddLocationSelectorQuestionAction
     id: uuidv4(),
     title: undefined,
     description: undefined,
-    label: undefined,
+    label: 'Location',
     required: true,
     type: Type.String,
     control: ControlType.LocationSelector,
@@ -360,7 +363,7 @@ export const addQRCodeQuestion = (): AddQRCodeQuestionAction => ({
     id: uuidv4(),
     title: undefined,
     description: undefined,
-    label: undefined,
+    label: 'QR Code',
     required: true,
     type: Type.String,
     control: ControlType.QRCode,
@@ -386,13 +389,44 @@ export const updateQRCodeQuestion = (
   }
 }
 
+export const addQRCodeScanQuestion = (): AddQRCodeScanQuestionAction => ({
+  type: CreateEntityAttestationActions.AddQRCodeScanQuestion,
+  payload: {
+    id: uuidv4(),
+    title: undefined,
+    description: undefined,
+    label: 'Scan QR Code',
+    placeholder: 'Waiting for data...',
+    required: true,
+    type: Type.String,
+    control: ControlType.QRCodeScan,
+  },
+})
+
+export const updateQRCodeScanQuestion = (
+  id: string,
+  formData: FormData,
+): UpdateQRCodeScanQuestionAction => {
+  const { title, description, label } = formData
+
+  return {
+    type: CreateEntityAttestationActions.UpdateQRCodeScanQuestion,
+    payload: {
+      id,
+      title,
+      description,
+      label,
+    },
+  }
+}
+
 export const addRatingQuestion = (): AddRatingQuestionAction => ({
   type: CreateEntityAttestationActions.AddRatingQuestion,
   payload: {
     id: uuidv4(),
     title: undefined,
     description: undefined,
-    label: undefined,
+    label: 'Rating',
     required: true,
     type: Type.String,
     control: ControlType.Rating,
@@ -429,7 +463,7 @@ export const addCheckBoxesQuestion = (): AddCheckBoxesQuestionAction => ({
     id: uuidv4(),
     title: undefined,
     description: undefined,
-    label: undefined,
+    label: 'Select Options',
     required: true,
     type: Type.Array,
     control: ControlType.CheckBoxes,
@@ -488,7 +522,7 @@ export const copyQuestion = (id: string): CopyQuestionAction => ({
 export const moveQuestion = (id: string, toIndex: number) => (
   dispatch: Dispatch,
   getState: () => RootState,
-) => {
+): MoveQuestionAction => {
   const state = getState()
   const questions = attestationSelectors.selectQuestions(state)
   const fromId = id
