@@ -1,4 +1,4 @@
-import { combineReducers } from 'redux'
+import { combineReducers, Reducer } from 'redux'
 import { connectRouter } from 'connected-react-router'
 import { reducer as keysafeReducer } from 'modules/keysafe/keysafe.reducer'
 import { reducer as ixoReducer } from 'modules/ixo/ixo.reducer'
@@ -24,7 +24,7 @@ import { reducer as createEntityClaimsReducer } from 'modules/EntityModules/Crea
 import { reducer as projectReducer } from 'pages/bond/store/reducers'
 import { RootState } from './types'
 
-export const rootReducer: any = (history) =>
+export const rootReducer = (history): Reducer<RootState> =>
   combineReducers<RootState>({
     keySafe: keysafeReducer,
     ixo: ixoReducer,

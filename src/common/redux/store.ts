@@ -1,35 +1,46 @@
+import { applyMiddleware, createStore, AnyAction } from 'redux'
 import thunk from 'redux-thunk'
+import { persistStore, persistReducer } from 'redux-persist'
+import storage from 'redux-persist/lib/storage' // localStorage
 import { createBrowserHistory } from 'history'
-import { applyMiddleware, createStore, Store } from 'redux'
 import { routerMiddleware } from 'connected-react-router'
 import { composeWithDevTools } from 'redux-devtools-extension'
 import { rootReducer } from './reducers'
-import { RootState } from './types'
+import { RootState, ReduxStoreAndPersistor } from './types'
 import promise from 'redux-promise-middleware'
 
-// TODO - PERSISTENCE
-
-let publicStore: Store<RootState>
 export const history = createBrowserHistory()
 
-export function createPublicSiteStore(
-  this: any,
-  preloadedState?: RootState,
-): Store<RootState> {
-  publicStore = createStore(
+const persistConfig = {
+  key: 'root',
+  storage,
+  whitelist: [
+    'createEntity',
+    'createEntityPageContent',
+    'createEntityAttestation',
+    'createEntitySettings',
+    'createEntityAdvanced',
+    'createEntityClaims',
+  ],
+}
+
+const configureStore = (preloadedState?: any): ReduxStoreAndPersistor => {
+  const persistedReducer = persistReducer<RootState, AnyAction>(
+    persistConfig,
     rootReducer(history),
+  )
+
+  const store = createStore(
+    persistedReducer,
     preloadedState,
     composeWithDevTools(
       applyMiddleware(thunk, promise, routerMiddleware(history)),
     ),
   )
-  return publicStore
+
+  const persistor = persistStore(store)
+
+  return { store, persistor }
 }
 
-export function getPublicStore(): Store<RootState> {
-  return publicStore
-}
-
-export function getInitializedStoreState(): RootState {
-  return createPublicSiteStore().getState()
-}
+export default configureStore
