@@ -2,7 +2,7 @@ import * as React from 'react'
 import { LayoutWrapperClaims } from 'common/components/Wrappers/LayoutWrapperClaims'
 import { WidgetWrapperClaims } from 'common/components/Wrappers/WidgetWrapperClaims'
 import DynamicForm from 'common/components/Form/DynamicForm/DynamicForm'
-import { decode as base64Decode } from 'base-64'
+import { decode as base64Decode } from 'js-base64'
 import { Data } from '../../modules/project/types'
 import styled from 'styled-components'
 import { FormStyles } from '../../types/models'
@@ -17,7 +17,7 @@ const FormContainer = styled.div`
 
 const Divider = styled.div`
   height: 2px;
-  background: ${/* eslint-disable-line */ props => props.theme.bg.lightBlue};
+  background: ${/* eslint-disable-line */ (props) => props.theme.bg.lightBlue};
   width: 36%;
   position: absolute;
   left: 15px;
@@ -25,12 +25,12 @@ const Divider = styled.div`
 
 const DividerShadow = styled.div`
   height: 1px;
-  background: ${/* eslint-disable-line */ props => props.theme.bg.lightGrey};
+  background: ${/* eslint-disable-line */ (props) => props.theme.bg.lightGrey};
   width: 100%;
 `
 
 const FormProgressBar = styled.div`
-  background: ${/* eslint-disable-line */ props => props.theme.bg.green};
+  background: ${/* eslint-disable-line */ (props) => props.theme.bg.green};
   height: 6px;
   width: 100%;
   border-radius: 4px 4px 0px 0px;
@@ -67,7 +67,7 @@ export class ProjectNewClaim extends React.Component<ParentProps> {
     const formDef = JSON.parse(this.state.fetchedFile)
     const pdsUrl = this.props.projectData.serviceEndpoint
     const promises = []
-    formDef.fields.forEach(field => {
+    formDef.fields.forEach((field) => {
       if (field.type === 'image') {
         if (claimData[field.name] && claimData[field.name].length > 0) {
           promises.push(

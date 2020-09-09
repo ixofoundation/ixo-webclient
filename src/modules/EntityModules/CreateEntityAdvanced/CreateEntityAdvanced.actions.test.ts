@@ -102,7 +102,7 @@ describe('CreateEntityAdvanced Actions', () => {
       it('should update the payment', () => {
         // given ... some data
         const id = 'someId'
-        const type = PaymentType.FeeforService
+        const type = PaymentType.FeeForService
         const paymentId = 'somePaymentId'
 
         const formData = {

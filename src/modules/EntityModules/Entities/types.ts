@@ -51,7 +51,8 @@ export enum PaymentDenomination {
 }
 
 export enum PaymentType {
-  FeeforService = 'FeeforService',
+  FeeForService = 'FeeForService',
+  OracleFee = 'OracleFee',
   Subscription = 'Subscription',
   RentalFee = 'RentalFee',
   OutcomePayment = 'OutcomePayment',
