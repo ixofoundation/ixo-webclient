@@ -102,13 +102,12 @@ export const updateOwner = (formData: FormData) => (
 }
 export const updateStatus = (formData: FormData): UpdateStatusAction => {
   const { dates, stage, status } = formData
-  const dateParts = dates.split('|')
 
   return {
     type: CreateEntitySettingsActions.UpdateStatus,
     payload: {
-      startDate: dateParts[0],
-      endDate: dateParts[1],
+      startDate: dates ? dates.split('|')[0] : undefined,
+      endDate: dates ? dates.split('|')[1] : undefined,
       stage,
       status,
     },

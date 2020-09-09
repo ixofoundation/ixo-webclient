@@ -2,7 +2,7 @@ import * as React from 'react'
 import { NavLink } from 'react-router-dom'
 import { RootState } from 'common/redux/types'
 import { connect } from 'react-redux'
-import { decode as base64Decode } from 'base-64'
+import { decode as base64Decode } from 'js-base64'
 import styled from 'styled-components'
 import { successToast, errorToast } from 'common/utils/Toast'
 import { ErrorTypes } from '../../../types/models'
@@ -44,9 +44,9 @@ const BottomContainer = styled.div`
 `
 
 const ModalContainer = styled.div`
-  font-family: ${/* eslint-disable-line */ props =>
+  font-family: ${/* eslint-disable-line */ (props) =>
     props.theme.fontRobotoCondensed};
-  color: ${/* eslint-disable-line */ props => props.theme.fontGrey};
+  color: ${/* eslint-disable-line */ (props) => props.theme.fontGrey};
   width: 550px;
   height: 400px;
   position: relative;
@@ -76,26 +76,26 @@ const ApprovedIcon = styled.div`
 `
 
 const Title = styled.h2`
-  font-family: ${/* eslint-disable-line */ props =>
+  font-family: ${/* eslint-disable-line */ (props) =>
     props.theme.fontRobotoCondensed};
-  color: ${/* eslint-disable-line */ props => props.theme.fontGrey};
+  color: ${/* eslint-disable-line */ (props) => props.theme.fontGrey};
   font-size: 24px;
   letter-spacing: 0.16px;
   line-height: 32px;
 `
 
 const Content = styled.p`
-  font-family: ${/* eslint-disable-line */ props => props.theme.fontRoboto};
-  color: ${/* eslint-disable-line */ props => props.theme.fontGrey};
+  font-family: ${/* eslint-disable-line */ (props) => props.theme.fontRoboto};
+  color: ${/* eslint-disable-line */ (props) => props.theme.fontGrey};
   font-size: 18px;
   font-weight: 300;
   line-height: 24px;
 `
 
 const ButtonLink = styled(NavLink)`
-	color: ${/* eslint-disable-line */ props => props.theme.fontGrey};
+	color: ${/* eslint-disable-line */ (props) => props.theme.fontGrey};
 	font-family: ${
-    /* eslint-disable-line */ props => props.theme.fontRobotoCondensed
+    /* eslint-disable-line */ (props) => props.theme.fontRobotoCondensed
   };
 	font-size: 16px;
 	font-weight: 400;
@@ -105,7 +105,7 @@ const ButtonLink = styled(NavLink)`
 	border:1px solid #49bfe0;
 
 	&:.active {
-		color: ${/* eslint-disable-line */ props => props.theme.fontGrey};
+		color: ${/* eslint-disable-line */ (props) => props.theme.fontGrey};
 	}
 
 	@media (min-width: 415px) {
@@ -118,7 +118,7 @@ const ButtonLink = styled(NavLink)`
 
 	:hover {
  		text-decoration:none;
- 		&&{color: ${/* eslint-disable-line */ props => props.theme.fontBlue};}}
+ 		&&{color: ${/* eslint-disable-line */ (props) => props.theme.fontBlue};}}
  	}
 `
 
@@ -150,7 +150,7 @@ export class ProjectSignAndCreate extends React.Component<Props, State> {
         const fileContents = base64Decode(res.data)
         return fileContents
       })
-      .then(projectJson => {
+      .then((projectJson) => {
         this.props.keysafe.requestSigning(
           projectJson,
           (error: any, signature: any) => {

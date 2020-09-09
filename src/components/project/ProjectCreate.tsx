@@ -1,12 +1,9 @@
 import * as React from 'react'
-import {
-  ImageLoader,
-  imageQuality,
-} from 'common/components/Form/ImageLoader'
+import { ImageLoader, imageQuality } from 'common/components/Form/ImageLoader'
 import { RootState } from 'common/redux/types'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
-import { decode as base64Decode } from 'base-64'
+import { decode as base64Decode } from 'js-base64'
 import { blankProjectData, testProjectData } from '../../lib/commonData'
 import { Button, ButtonTypes } from 'common/components/Form/Buttons'
 import { FileLoader } from 'common/components/Form/FileLoader'
@@ -464,4 +461,6 @@ function mapStateToProps(state: RootState): StateProps {
   }
 }
 
-export const ProjectCreateConnected: any = connect(mapStateToProps)(ProjectCreate)
+export const ProjectCreateConnected: any = connect(mapStateToProps)(
+  ProjectCreate,
+)

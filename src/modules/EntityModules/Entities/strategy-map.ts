@@ -138,7 +138,8 @@ export const pageViewMap: PageViewStrategyMap = {
 }
 
 export const paymentTypeMap: PaymentTypeStrategyMap = {
-  [PaymentType.FeeforService]: { title: 'Fee for Service' },
+  [PaymentType.FeeForService]: { title: 'Fee for Service' },
+  [PaymentType.OracleFee]: { title: 'Oracle Fee' },
   [PaymentType.Subscription]: { title: 'Subscription' },
   [PaymentType.RentalFee]: { title: 'Rental Fee' },
   [PaymentType.OutcomePayment]: { title: 'Outcome Payment' },

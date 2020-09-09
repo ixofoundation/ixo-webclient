@@ -248,7 +248,7 @@ describe('CreateEntityAdvanced Reducer', () => {
 
     it('should update the payment', () => {
       const id = 'someId'
-      const type = PaymentType.FeeforService
+      const type = PaymentType.FeeForService
       const paymentId = 'somePaymentId'
 
       // given .. we have an action of type CreateEntityAdvancedActions.UpdatePayment
