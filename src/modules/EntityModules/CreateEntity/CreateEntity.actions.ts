@@ -22,14 +22,14 @@ export const goToStep = (step: number): GoToStepAction => ({
   },
 })
 
-export const newEntity = (entityType: EntityType) => (
+export const newEntity = (entityType: EntityType, forceNew = false) => (
   dispatch: Dispatch,
   getState: () => RootState,
 ): NewEntityAction => {
   const state = getState()
   const { entityType: currentEntityType, created } = state.createEntity
 
-  if (currentEntityType === entityType && !created) {
+  if (currentEntityType === entityType && !created && !forceNew) {
     return null
   }
 

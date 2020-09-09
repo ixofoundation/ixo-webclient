@@ -1,3 +1,5 @@
+import { Store } from 'redux'
+import { Persistor } from 'redux-persist'
 import { KeysafeState } from '../../modules/keysafe/types'
 import { IxoState } from '../../modules/ixo/types'
 import { BondState } from '../../modules/BondModules/bond/types'
@@ -42,3 +44,10 @@ export interface RootState {
   projectState: ProjectType
   router: any
 }
+
+export interface ReduxStoreAndPersistor {
+  store: Store<RootState>
+  persistor: Persistor
+}
+
+export interface PreloadedState extends RootState, Persistor {}

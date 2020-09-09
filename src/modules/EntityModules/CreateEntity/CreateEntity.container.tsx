@@ -12,13 +12,15 @@ import * as createEntitySelectors from './CreateEntity.selectors'
 import { newEntity } from './CreateEntity.actions'
 import { createEntityMap } from './strategy-map'
 import { CreateEntityFinalConnected } from 'modules/EntityModules/CreateEntityFinal/CreateEntityFinal.container'
+import * as Toast from 'common/utils/Toast'
 
 interface Props {
   match: any
   entityType: EntityType
   isFinal: boolean
+  created: boolean
   currentStep: number
-  handleSetEntityType: (entityType: EntityType) => void
+  handleNewEntity: (entityType: EntityType, forceNew: boolean) => void
 }
 
 class CreateEntity extends React.Component<Props> {
@@ -27,10 +29,28 @@ class CreateEntity extends React.Component<Props> {
       match: {
         params: { entityType: entityTypeAsString },
       },
-      handleSetEntityType,
+      handleNewEntity,
     } = this.props
 
-    handleSetEntityType(toTitleCase(entityTypeAsString) as EntityType)
+    handleNewEntity(toTitleCase(entityTypeAsString) as EntityType, false)
+  }
+
+  handleReset = (): any => {
+    const { entityType, handleNewEntity } = this.props
+    if (
+      window.confirm(
+        'Are you sure you want to reset this form? All progress on the setup will be lost',
+      )
+    ) {
+      handleNewEntity(entityType, true)
+
+      Toast.successToast('Form has been reset')
+    }
+  }
+
+  handleSave = (): void => {
+    // does nothing except display a message
+    Toast.successToast('Progress has been saved')
   }
 
   renderSteps = (): JSX.Element[] => {
@@ -48,7 +68,9 @@ class CreateEntity extends React.Component<Props> {
           path={urls}
           render={(props: any): JSX.Element => {
             if (isFinal) {
-              return <CreateEntityFinalConnected {...props} />
+              return (
+                <Redirect to={`/${entityType.toLowerCase()}/new/finalise`} />
+              )
             }
 
             return (
@@ -92,7 +114,7 @@ class CreateEntity extends React.Component<Props> {
   }
 
   render(): JSX.Element {
-    const { entityType } = this.props
+    const { entityType, currentStep, isFinal, created } = this.props
 
     if (!entityType) {
       return <></>
@@ -102,7 +124,13 @@ class CreateEntity extends React.Component<Props> {
 
     return (
       <>
-        <Hero title={entityMap.createNewTitle} />
+        <Hero
+          title={entityMap.createNewTitle}
+          allowReset={currentStep > 1 && !created}
+          allowSave={!isFinal}
+          onReset={this.handleReset}
+          onSave={this.handleSave}
+        />
         <CreateEntityWrapper className="container-fluid">
           <div className="container">
             <div className="row">
@@ -121,12 +149,13 @@ class CreateEntity extends React.Component<Props> {
 const mapStateToProps = (state: RootState): Record<string, any> => ({
   currentStep: createEntitySelectors.selectStep(state),
   isFinal: createEntitySelectors.selectIsFinal(state),
+  created: createEntitySelectors.selectCreated(state),
   entityType: createEntitySelectors.selectEntityType(state),
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
-  handleSetEntityType: (entityType: EntityType): void =>
-    dispatch(newEntity(entityType)),
+  handleNewEntity: (entityType: EntityType, forceNew: boolean): void =>
+    dispatch(newEntity(entityType, forceNew)),
 })
 
 export const CreateEntityConnected = connect(

@@ -1,18 +1,22 @@
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
+import { PersistGate } from 'redux-persist/integration/react'
 import { ConnectedRouter } from 'connected-react-router'
-import { createPublicSiteStore } from './common/redux/store'
+import configureStore from './common/redux/store'
 import { AppConnected } from './modules/App/App'
 import * as serviceWorker from './serviceWorker'
 import { history } from '../src/common/redux/store'
-const store = createPublicSiteStore() as any
+
+const storeAndPersistor = configureStore()
 
 ReactDOM.render(
-  <Provider store={store}>
-    <ConnectedRouter history={history}>
-      <AppConnected />
-    </ConnectedRouter>
+  <Provider store={storeAndPersistor.store}>
+    <PersistGate loading={null} persistor={storeAndPersistor.persistor}>
+      <ConnectedRouter history={history}>
+        <AppConnected />
+      </ConnectedRouter>
+    </PersistGate>
   </Provider>,
   document.getElementById('root'),
 )
