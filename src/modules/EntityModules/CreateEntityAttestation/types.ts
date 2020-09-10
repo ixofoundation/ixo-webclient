@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
 import { Type, ControlType } from 'common/components/JsonForm/types'
 import { Validation } from '../CreateEntity/types'
+import { EntityClaimType } from 'modules/ClaimModules/EntityClaims/types'
 
 export interface ClaimInfo {
   title: string
@@ -35,6 +36,12 @@ export interface CreateEntityAttestationState {
   validation: {
     [identifier: string]: Validation
   }
+}
+
+export interface QuestionCardBaseProps {
+  title: string
+  description: string
+  label: string
 }
 
 export enum CreateEntityAttestationActions {
