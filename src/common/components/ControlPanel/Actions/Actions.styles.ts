@@ -54,8 +54,7 @@ export const ActionWrapper = styled.div`
   width: 375px;
   height: 100%;
   top: 0;
-  left: 0;
-  right: 0;
+  right: -10px;
   bottom: 0;
   opacity: 0;
   border-right: 1px solid white;
@@ -66,28 +65,28 @@ export const ActionWrapper = styled.div`
   padding: 15px;
   transform: translateX(0);
   transition: all 0.5s;
-  z-index: -1;
+  z-index: 100;
   overflow: hidden auto;
   &.open {
     @keyframes openSection {
       0% {
         opacity: 0;
-        transform: translateX(0);
+        transform: translateX(100%);
       }
       50% {
         opacity: 0;
-        transform: translateX(-20%);
+        transform: translateX(20%);
       }
       75% {
         opacity: 1;
       }
       100% {
-        transform: translateX(-100%);
+        transform: translateX(0%);
       }
     }
     animation: openSection 1s ease;
     opacity: 1;
-    transform: translateX(-100%);
+    // transform: translateX(-100%);
   }
   &.summary {
     width: calc(200% + 60px);
@@ -113,7 +112,6 @@ export const ActionWrapper = styled.div`
     background: white;
     position: fixed;
     top: 0;
-    left: 0;
     right: 0;
     bottom: 0;
     z-index: 1;
