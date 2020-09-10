@@ -86,7 +86,6 @@ export const ActionWrapper = styled.div`
     }
     animation: openSection 1s ease;
     opacity: 1;
-    // transform: translateX(-100%);
   }
   &.summary {
     width: calc(200% + 60px);

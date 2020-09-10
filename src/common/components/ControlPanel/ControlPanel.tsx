@@ -62,7 +62,6 @@ class ControlPanel extends React.Component<Props, State> {
       entityDid,
       userDid,
     } = this.props;
-
     return (
       <>
         <MobileControlPanelToggle onClick={this.toggleShowControlPanel}>
