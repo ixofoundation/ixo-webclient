@@ -13,12 +13,12 @@ import { Spinner } from '../common/components/Spinner'
 import { ProjectSignAndCreateConnected } from '../components/project/curation/ProjectSignAndCreate'
 import { ProjectCreateUploadPublicDocsConnected } from '../components/project/curation/ProjectCreateUploadPublicDocs'
 import { UnderConstruction } from '../components/public/UnderConstruction'
-import { SubmitEntityClaimConnected } from '../modules/EntityModules/SubmitEntityClaim/SubmitEntityClaim.container'
+import { SubmitEntityClaimConnected } from '../modules/ClaimModules/SubmitEntityClaim/SubmitEntityClaim.container'
 import { CreateEntityConnected } from '../modules/EntityModules/CreateEntity/CreateEntity.container'
 import BondRoutes from './BondRoutes'
 import InvestmentRoutes from './InvestmentRoutes'
 
-export const Routes: React.SFC<{}> = props => {
+export const Routes: React.SFC<{}> = (props) => {
   return (
     <Fragment>
       <Switch>

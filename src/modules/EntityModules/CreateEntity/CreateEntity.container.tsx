@@ -27,12 +27,12 @@ class CreateEntity extends React.Component<Props> {
   componentDidMount(): void {
     const {
       match: {
-        params: { entityType: entityTypeAsString },
+        params: { entityType: entityTypeUrlParam },
       },
       handleNewEntity,
     } = this.props
 
-    handleNewEntity(toTitleCase(entityTypeAsString) as EntityType, false)
+    handleNewEntity(toTitleCase(entityTypeUrlParam) as EntityType, false)
   }
 
   handleReset = (): any => {
@@ -53,13 +53,38 @@ class CreateEntity extends React.Component<Props> {
     Toast.successToast('Progress has been saved')
   }
 
-  renderSteps = (): JSX.Element[] => {
+  renderStartRoute = (): JSX.Element => {
+    const {
+      match: {
+        params: { entityType: entityTypeUrlParam },
+      },
+      handleNewEntity,
+    } = this.props
+
+    const entityType = toTitleCase(entityTypeUrlParam) as EntityType
+
+    const stepMap = createEntityMap[entityType]
+
+    return (
+      <Route
+        exact
+        path={`/${entityTypeUrlParam}/new/start`}
+        render={(): JSX.Element => {
+          handleNewEntity(entityType, false)
+
+          return <Redirect to={stepMap.steps[1].url} />
+        }}
+      />
+    )
+  }
+
+  renderStepRoutes = (): JSX.Element[] => {
     const { entityType, currentStep, isFinal } = this.props
     const stepMap = createEntityMap[entityType]
     const { steps } = stepMap
 
     return Object.values(steps).map((step, index) => {
-      const { urls, container } = step
+      const { url: urls, container } = step
 
       return (
         <Route
@@ -84,7 +109,7 @@ class CreateEntity extends React.Component<Props> {
                 {currentStep === index + 1 ? (
                   React.createElement(container, { ...props })
                 ) : (
-                  <Redirect to={stepMap.steps[currentStep].urls[0]} />
+                  <Redirect to={stepMap.steps[currentStep].url} />
                 )}
               </>
             )
@@ -94,7 +119,7 @@ class CreateEntity extends React.Component<Props> {
     })
   }
 
-  renderFinal = (): JSX.Element => {
+  renderFinalRoute = (): JSX.Element => {
     const { entityType, isFinal, currentStep } = this.props
     const stepMap = createEntityMap[entityType]
 
@@ -104,7 +129,7 @@ class CreateEntity extends React.Component<Props> {
         path={`/${entityType.toLowerCase()}/new/finalise`}
         render={(props: any): JSX.Element => {
           if (!isFinal) {
-            return <Redirect to={stepMap.steps[currentStep].urls[0]} />
+            return <Redirect to={stepMap.steps[currentStep].url} />
           }
 
           return <CreateEntityFinalConnected {...props} />
@@ -114,7 +139,7 @@ class CreateEntity extends React.Component<Props> {
   }
 
   render(): JSX.Element {
-    const { entityType, currentStep, isFinal, created } = this.props
+    const { entityType, isFinal, created } = this.props
 
     if (!entityType) {
       return <></>
@@ -126,7 +151,7 @@ class CreateEntity extends React.Component<Props> {
       <>
         <Hero
           title={entityMap.createNewTitle}
-          allowReset={currentStep > 1 && !created}
+          allowReset={!created}
           allowSave={!isFinal}
           onReset={this.handleReset}
           onSave={this.handleSave}
@@ -135,8 +160,9 @@ class CreateEntity extends React.Component<Props> {
           <div className="container">
             <div className="row">
               <div className="col-lg-12">
-                {this.renderFinal()}
-                {this.renderSteps()}
+                {this.renderStartRoute()}
+                {this.renderStepRoutes()}
+                {this.renderFinalRoute()}
               </div>
             </div>
           </div>

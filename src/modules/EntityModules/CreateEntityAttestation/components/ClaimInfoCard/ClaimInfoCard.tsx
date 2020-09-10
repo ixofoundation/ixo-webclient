@@ -1,8 +1,11 @@
 import React from 'react'
 import MultiControlForm from 'common/components/JsonForm/MultiControlForm/MultiControlForm'
 import { FormCardProps } from '../../../CreateEntity/types'
+import { EntityClaimType } from 'modules/ClaimModules/EntityClaims/types'
+import { entityClaimTypeMap } from 'modules/ClaimModules/EntityClaims/strategy-map'
 
 interface Props extends FormCardProps {
+  type: EntityClaimType
   title: string
   shortDescription: string
 }
@@ -10,6 +13,7 @@ interface Props extends FormCardProps {
 const ClaimInfoCard: React.FunctionComponent<Props> = React.forwardRef(
   (
     {
+      type,
       title,
       shortDescription,
       handleUpdateContent,
@@ -21,18 +25,28 @@ const ClaimInfoCard: React.FunctionComponent<Props> = React.forwardRef(
     const formData = {
       title,
       shortDescription,
+      type,
     }
 
     const schema = {
       type: 'object',
-      required: ['title'],
+      required: ['type', 'title'],
       properties: {
+        type: {
+          type: 'string',
+          title: 'Claim Type',
+          enum: Object.keys(EntityClaimType).map((key) => EntityClaimType[key]),
+          enumNames: Object.keys(EntityClaimType).map(
+            (key) => entityClaimTypeMap[EntityClaimType[key]].title,
+          ),
+        },
         title: { type: 'string', title: 'Title' },
         shortDescription: { type: 'string', title: 'Short Description' },
       },
     } as any
 
     const uiSchema = {
+      type: { 'ui:placeholder': 'Select Type' },
       title: {
         'ui:widget': 'text',
         'ui:placeholder': 'Enter Name',
@@ -52,6 +66,7 @@ const ClaimInfoCard: React.FunctionComponent<Props> = React.forwardRef(
         formData={formData}
         schema={schema}
         uiSchema={uiSchema}
+        multiColumn
       >
         &nbsp;
       </MultiControlForm>

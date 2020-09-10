@@ -1,61 +1,64 @@
-import React, { Dispatch } from "react";
-import { Redirect } from "react-router-dom";
-import { connect } from "react-redux";
-import { RootState } from "common/redux/types";
-import { Hero } from "./components/Hero/Hero";
-import Question from "./components/Question/Question";
-import { SubmitEntityClaimWrapper } from "./SubmitEntityClaim.container.styles";
-import { Steps } from "../../../common/components/Steps/Steps";
-import { FormControl, FormData } from "../../../common/components/JsonForm/types";
-import * as submitEntityClaimSelectors from "./SubmitEntityClaim.selectors";
-import * as accountSelectors from "../../Account/Account.selectors";
-import * as selectedEntitySelectors from "../SelectedEntity/SelectedEntity.selectors";
+import React, { Dispatch } from 'react'
+import { Redirect } from 'react-router-dom'
+import { connect } from 'react-redux'
+import { RootState } from 'common/redux/types'
+import { Hero } from './components/Hero/Hero'
+import Question from './components/Question/Question'
+import { SubmitEntityClaimWrapper } from './SubmitEntityClaim.container.styles'
+import { Steps } from '../../../common/components/Steps/Steps'
+import {
+  FormControl,
+  FormData,
+} from '../../../common/components/JsonForm/types'
+import * as submitEntityClaimSelectors from './SubmitEntityClaim.selectors'
+import * as accountSelectors from '../../Account/Account.selectors'
+import * as selectedEntitySelectors from '../../EntityModules/SelectedEntity/SelectedEntity.selectors'
 import {
   goToNextQuestion,
   goToPreviousQuestion,
   goToQuestionNumber,
   saveAnswer,
   finaliseQuestions,
-} from "./SubmitEntityClaim.actions";
-import { EntityType } from "../Entities/types";
-import { entityTypeMap } from "../Entities/strategy-map";
-import ControlPanel from "../../../common/components/ControlPanel/ControlPanel";
-import { Spinner } from "../../../common/components/Spinner";
-import { getEntity } from "../SelectedEntity/SelectedEntity.actions";
+} from './SubmitEntityClaim.actions'
+import { EntityType } from '../../EntityModules/Entities/types'
+import { entityTypeMap } from '../../EntityModules/Entities/strategy-map'
+import ControlPanel from '../../../common/components/ControlPanel/ControlPanel'
+import { Spinner } from '../../../common/components/Spinner'
+import { getEntity } from '../../EntityModules/SelectedEntity/SelectedEntity.actions'
 
 interface Props {
-  userDid: string;
-  entityIsLoading: boolean;
-  entityTitle: string;
-  entityDid: string;
-  entityType: EntityType;
-  currentQuestion: FormControl;
-  currentQuestionNo: number;
-  questions: FormControl[];
-  questionCount: number;
-  currentAnswer: FormData;
-  savingAnswer: boolean;
-  answersComplete: boolean;
-  match: any;
-  finaliseQuestions: () => void;
-  handleGetEntity: (entityDid: string) => void;
-  handlePreviousClick: () => void;
-  handleNextClick: () => void;
-  handleGoToQuestionClick: (questionNo: number) => void;
-  handleFormDataChange: (formData: any) => void;
+  userDid: string
+  entityIsLoading: boolean
+  entityTitle: string
+  entityDid: string
+  entityType: EntityType
+  currentQuestion: FormControl
+  currentQuestionNo: number
+  questions: FormControl[]
+  questionCount: number
+  currentAnswer: FormData
+  savingAnswer: boolean
+  answersComplete: boolean
+  match: any
+  finaliseQuestions: () => void
+  handleGetEntity: (entityDid: string) => void
+  handlePreviousClick: () => void
+  handleNextClick: () => void
+  handleGoToQuestionClick: (questionNo: number) => void
+  handleFormDataChange: (formData: any) => void
 }
 
 interface State {
-  showSummary: boolean;
+  showSummary: boolean
 }
 
 class SubmitEntityClaim extends React.Component<Props, State> {
   constructor(props: any) {
-    super(props);
+    super(props)
 
     this.state = {
       showSummary: false,
-    };
+    }
   }
 
   componentDidMount(): void {
@@ -64,9 +67,9 @@ class SubmitEntityClaim extends React.Component<Props, State> {
         params: { projectDID: entityDid },
       },
       handleGetEntity,
-    } = this.props;
+    } = this.props
 
-    handleGetEntity(entityDid);
+    handleGetEntity(entityDid)
   }
 
   handleNext = (): void => {
@@ -76,17 +79,17 @@ class SubmitEntityClaim extends React.Component<Props, State> {
       answersComplete,
       finaliseQuestions,
       handleNextClick,
-    } = this.props;
+    } = this.props
 
     if (!answersComplete && currentQuestionNo !== questionCount) {
-      handleNextClick();
-      return;
+      handleNextClick()
+      return
     }
     if (!answersComplete && currentQuestionNo === questionCount) {
-      finaliseQuestions();
+      finaliseQuestions()
     }
-    this.setState({ showSummary: true });
-  };
+    this.setState({ showSummary: true })
+  }
 
   render(): JSX.Element {
     const {
@@ -104,18 +107,18 @@ class SubmitEntityClaim extends React.Component<Props, State> {
       handlePreviousClick,
       handleGoToQuestionClick,
       handleFormDataChange,
-    } = this.props;
+    } = this.props
 
     if (this.state.showSummary) {
       return (
         <Redirect
           to={`/projects/${entityDid}/overview/action/new_claim/summary`}
         />
-      );
+      )
     }
 
     if (entityIsLoading) {
-      return <Spinner info={`Loading claim form...`} />;
+      return <Spinner info={`Loading claim form...`} />
     }
 
     return (
@@ -158,7 +161,7 @@ class SubmitEntityClaim extends React.Component<Props, State> {
           </div>
         </SubmitEntityClaimWrapper>
       </>
-    );
+    )
   }
 }
 
@@ -175,7 +178,7 @@ const mapStateToProps = (state: RootState): Record<string, any> => ({
   entityType: selectedEntitySelectors.selectEntityType(state),
   entityTitle: selectedEntitySelectors.selectEntityTitle(state),
   entityIsLoading: selectedEntitySelectors.entityIsLoading(state),
-});
+})
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
   handlePreviousClick: (): void => dispatch(goToPreviousQuestion()),
@@ -185,9 +188,9 @@ const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
   handleGetEntity: (entityDid): void => dispatch(getEntity(entityDid)),
   handleFormDataChange: (formData): void => dispatch(saveAnswer(formData)),
   finaliseQuestions: (): void => dispatch(finaliseQuestions()),
-});
+})
 
 export const SubmitEntityClaimConnected = connect(
   mapStateToProps,
-  mapDispatchToProps
-)(SubmitEntityClaim);
+  mapDispatchToProps,
+)(SubmitEntityClaim)
