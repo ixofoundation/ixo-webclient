@@ -34,7 +34,7 @@ export const questionTypeMap = {
   },
   [ControlType.ImageCheckboxes]: {
     icon: SelectPicture,
-    title: 'Multiple Image Select',
+    title: 'Multiple Image Select (Coming Soon)',
     controlType: ControlType.ImageCheckboxes,
   },
   [ControlType.Rating]: {

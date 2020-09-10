@@ -37,7 +37,7 @@ export type EntityStepStrategyMap = {
     steps: {
       [stepNumber: number]: {
         container: any
-        urls: string[]
+        url: string
         name: string
         previousStep: number
         nextStep: number
