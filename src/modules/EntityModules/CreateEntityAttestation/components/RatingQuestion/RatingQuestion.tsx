@@ -14,6 +14,7 @@ const RatingQuestion: React.FunctionComponent<Props> = React.forwardRef(
       title,
       description,
       label,
+      attributeType,
       values,
       handleUpdateContent,
       handleSubmitted,
@@ -25,6 +26,7 @@ const RatingQuestion: React.FunctionComponent<Props> = React.forwardRef(
       title,
       description,
       label,
+      attributeType,
       scale: values ? values.length : undefined,
     }
 

@@ -12,6 +12,7 @@ const DateRangeSelectorQuestion: React.FunctionComponent<Props> = React.forwardR
       title,
       description,
       label,
+      attributeType,
       handleUpdateContent,
       handleSubmitted,
       handleError,
@@ -22,6 +23,7 @@ const DateRangeSelectorQuestion: React.FunctionComponent<Props> = React.forwardR
       title,
       description,
       label,
+      attributeType,
     }
 
     const schema = { ...questionSchema } as any

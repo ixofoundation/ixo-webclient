@@ -14,6 +14,7 @@ const QRCodeQuestion: React.FunctionComponent<Props> = React.forwardRef(
       title,
       description,
       label,
+      attributeType,
       initialValue,
       handleUpdateContent,
       handleSubmitted,
@@ -25,6 +26,7 @@ const QRCodeQuestion: React.FunctionComponent<Props> = React.forwardRef(
       title,
       description,
       label,
+      attributeType,
       initialValue,
     }
 

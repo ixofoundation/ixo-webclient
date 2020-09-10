@@ -114,7 +114,7 @@ class CreateEntity extends React.Component<Props> {
   }
 
   render(): JSX.Element {
-    const { entityType, currentStep, isFinal, created } = this.props
+    const { entityType, isFinal, created } = this.props
 
     if (!entityType) {
       return <></>
@@ -126,7 +126,7 @@ class CreateEntity extends React.Component<Props> {
       <>
         <Hero
           title={entityMap.createNewTitle}
-          allowReset={currentStep > 1 && !created}
+          allowReset={!created}
           allowSave={!isFinal}
           onReset={this.handleReset}
           onSave={this.handleSave}

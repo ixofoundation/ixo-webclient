@@ -12,6 +12,7 @@ const SingleDateSelectorQuestion: React.FunctionComponent<Props> = React.forward
       title,
       description,
       label,
+      attributeType,
       handleUpdateContent,
       handleSubmitted,
       handleError,
@@ -22,6 +23,7 @@ const SingleDateSelectorQuestion: React.FunctionComponent<Props> = React.forward
       title,
       description,
       label,
+      attributeType,
     }
 
     const schema = { ...questionSchema } as any

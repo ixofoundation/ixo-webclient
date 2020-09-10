@@ -12,6 +12,7 @@ const QRCodeScanQuestion: React.FunctionComponent<Props> = React.forwardRef(
       title,
       description,
       label,
+      attributeType,
       handleUpdateContent,
       handleSubmitted,
       handleError,
@@ -22,6 +23,7 @@ const QRCodeScanQuestion: React.FunctionComponent<Props> = React.forwardRef(
       title,
       description,
       label,
+      attributeType,
     }
 
     const schema = { ...questionSchema } as any

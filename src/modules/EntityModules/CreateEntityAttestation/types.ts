@@ -6,6 +6,7 @@ import { EntityClaimType } from 'modules/ClaimModules/EntityClaims/types'
 export interface ClaimInfo {
   title: string
   shortDescription: string
+  type: EntityClaimType
 }
 
 export interface Question {
@@ -16,6 +17,7 @@ export interface Question {
   required: boolean
   type: Type
   control: ControlType
+  attributeType: string
   minItems?: number
   maxItems?: number
   values?: string[]
@@ -42,6 +44,7 @@ export interface QuestionCardBaseProps {
   title: string
   description: string
   label: string
+  attributeType: string
 }
 
 export enum CreateEntityAttestationActions {
@@ -87,6 +90,7 @@ export interface UpdateClaimInfoAction {
   payload: {
     title: string
     shortDescription: string
+    type: EntityClaimType
   }
 }
 
@@ -95,6 +99,7 @@ interface AddQuestionActionPayload {
   title: string
   description: string
   label: string
+  attributeType: string
   required: boolean
   type: Type
   control: ControlType
@@ -110,6 +115,7 @@ interface UpdateQuestionActionPayload {
   title: string
   description: string
   label: string
+  attributeType: string
 }
 
 interface UpdateQuestionAction<T> {
@@ -126,6 +132,7 @@ export interface AddShortTextQuestionAction
     title: string
     description: string
     label: string
+    attributeType: string
     required: boolean
     type: Type
     control: ControlType
@@ -142,6 +149,7 @@ export interface UpdateShortTextQuestionAction
     title: string
     description: string
     label: string
+    attributeType: string
   }
 }
 
@@ -154,6 +162,7 @@ export interface AddLongTextQuestionAction
     title: string
     description: string
     label: string
+    attributeType: string
     required: boolean
     type: Type
     control: ControlType
@@ -170,6 +179,7 @@ export interface UpdateLongTextQuestionAction
     title: string
     description: string
     label: string
+    attributeType: string
   }
 }
 
@@ -182,6 +192,7 @@ export interface AddSingleDateSelectorQuestionAction
     title: string
     description: string
     label: string
+    attributeType: string
     required: boolean
     type: Type
     control: ControlType
@@ -197,6 +208,7 @@ export interface UpdateSingleDateSelectorQuestionAction
     title: string
     description: string
     label: string
+    attributeType: string
   }
 }
 
@@ -209,6 +221,7 @@ export interface AddDateRangeSelectorQuestionAction
     title: string
     description: string
     label: string
+    attributeType: string
     required: boolean
     type: Type
     control: ControlType
@@ -224,6 +237,7 @@ export interface UpdateDateRangeSelectorQuestionAction
     title: string
     description: string
     label: string
+    attributeType: string
   }
 }
 
@@ -236,6 +250,7 @@ export interface AddAvatarUploadQuestionAction
     title: string
     description: string
     label: string
+    attributeType: string
     required: boolean
     type: Type
     control: ControlType
@@ -251,6 +266,7 @@ export interface UpdateAvatarUploadQuestionAction
     title: string
     description: string
     label: string
+    attributeType: string
   }
 }
 
@@ -263,6 +279,7 @@ export interface AddImageUploadQuestionAction
     title: string
     description: string
     label: string
+    attributeType: string
     required: boolean
     type: Type
     control: ControlType
@@ -278,6 +295,7 @@ export interface UpdateImageUploadQuestionAction
     title: string
     description: string
     label: string
+    attributeType: string
   }
 }
 
@@ -290,6 +308,7 @@ export interface AddVideoUploadQuestionAction
     title: string
     description: string
     label: string
+    attributeType: string
     required: boolean
     type: Type
     control: ControlType
@@ -304,6 +323,7 @@ export interface UpdateVideoUploadQuestionAction
     id: string
     title: string
     description: string
+    attributeType: string
     label: string
   }
 }
@@ -317,6 +337,7 @@ export interface AddAudioUploadQuestionAction
     title: string
     description: string
     label: string
+    attributeType: string
     required: boolean
     type: Type
     control: ControlType
@@ -332,6 +353,7 @@ export interface UpdateAudioUploadQuestionAction
     title: string
     description: string
     label: string
+    attributeType: string
   }
 }
 
@@ -344,6 +366,7 @@ export interface AddDocumentUploadQuestionAction
     title: string
     description: string
     label: string
+    attributeType: string
     required: boolean
     type: Type
     control: ControlType
@@ -359,6 +382,7 @@ export interface UpdateDocumentUploadQuestionAction
     title: string
     description: string
     label: string
+    attributeType: string
   }
 }
 
@@ -371,6 +395,7 @@ export interface AddLocationSelectorQuestionAction
     title: string
     description: string
     label: string
+    attributeType: string
     required: boolean
     type: Type
     control: ControlType
@@ -386,6 +411,7 @@ export interface UpdateLocationSelectorQuestionAction
     title: string
     description: string
     label: string
+    attributeType: string
   }
 }
 
@@ -398,6 +424,7 @@ export interface AddQRCodeQuestionAction
     title: string
     description: string
     label: string
+    attributeType: string
     required: boolean
     type: Type
     control: ControlType
@@ -414,6 +441,7 @@ export interface UpdateQRCodeQuestionAction
     title: string
     description: string
     label: string
+    attributeType: string
     initialValue: string
   }
 }
@@ -427,6 +455,7 @@ export interface AddQRCodeScanQuestionAction
     title: string
     description: string
     label: string
+    attributeType: string
     placeholder: string
     required: boolean
     type: Type
@@ -443,6 +472,7 @@ export interface UpdateQRCodeScanQuestionAction
     title: string
     description: string
     label: string
+    attributeType: string
   }
 }
 
@@ -455,6 +485,7 @@ export interface AddRatingQuestionAction
     title: string
     description: string
     label: string
+    attributeType: string
     required: boolean
     type: Type
     control: ControlType
@@ -472,6 +503,7 @@ export interface UpdateRatingQuestionAction
     title: string
     description: string
     label: string
+    attributeType: string
     values: string[]
   }
 }
@@ -485,6 +517,7 @@ export interface AddCheckBoxesQuestionAction
     title: string
     description: string
     label: string
+    attributeType: string
     required: boolean
     type: Type
     control: ControlType
@@ -502,6 +535,7 @@ export interface UpdateCheckBoxesQuestionAction
     title: string
     description: string
     label: string
+    attributeType: string
     itemValues: string[]
     itemLabels: string[]
     minItems: number
