@@ -102,7 +102,7 @@ export const Tabs: React.SFC<Props> = ({
             height={40}
             width={40}
             options={{
-              loop: true,
+              loop: animation !== hoverAnimation,
               autoplay: true,
               animationData: chooseAnimation()
             }}

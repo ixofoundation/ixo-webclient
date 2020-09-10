@@ -90,7 +90,7 @@ export const createTabsContainer = (
 
   @media (min-width: ${deviceWidth.mobileSmall}px) {
     a {
-      min-width: 110px;
+      min-width: 100px;
       width: calc(100% / 3);
     }
   }
@@ -103,7 +103,6 @@ export const createTabsContainer = (
   @media (max-width: ${deviceWidth.tablet}px) {
     a {
       flex: 1;
-      height: 40px;
       font-size: 10px;
       line-height: 1.4;
       font-weight: bold;
