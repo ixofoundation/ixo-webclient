@@ -134,10 +134,22 @@ export const AssistantWrapper = styled.div`
   position: fixed;
   height: calc(100% - 72px);
   width: inherit;
-  max-height: 700px;
   padding: 10px;
+  display: flex;
+  flex-direction: column;
   .rw-conversation-container {
     box-shadow: none;
+  }
+  .assistant-container {
+    height: calc(100% - 60px);
+  }
+  .rw-messages-container {
+    max-height: calc(100% - 100px) !important;
+    height: calc(100% - 100px) !important;
+  }
+  .rw-sender {
+    margin-top: auto;
+    margin-bottom: 30px;
   }
 `
 
