@@ -4,6 +4,9 @@ import { deviceWidth } from '../../../../lib/commonData'
 import MediaQuery from 'react-responsive'
 import { getIxoWorldRoute } from '../../../utils/formatters'
 import { entityTypeMap } from 'modules/EntityModules/Entities/strategy-map'
+import CreateEntityDropDown from '../../../../modules/EntityModules/CreateEntity/components/CreateEntityDropDown/CreateEntityDropdown'
+import { EntityType } from '../../../../modules/EntityModules/Entities/types'
+
 import {
   Burger,
   Main,
@@ -19,7 +22,7 @@ import {
 } from './HeaderLeft.styles'
 
 export interface ParentProps {
-  currentEntity: string | undefined
+  currentEntity: EntityType
   openMenu: boolean
   handleBurgerClick: any
 }
@@ -53,12 +56,10 @@ export class HeaderLeft extends React.Component<ParentProps> {
           <HeaderAnchor target="_blank" href="https://docs.ixo.foundation/">
             Learn
           </HeaderAnchor>
-          <HeaderLink
-            exact={true}
-            to={`/${this.props.currentEntity.toLowerCase()}/new`}
-          >
-            {entityTypeMap[this.props.currentEntity].createNewTitle}
-          </HeaderLink>
+          <CreateEntityDropDown
+            entityColor={entityTypeMap[this.props.currentEntity].themeColor}
+            entityType={this.props.currentEntity}
+          />
         </Fragment>
       )
     } else {
@@ -111,13 +112,10 @@ export class HeaderLeft extends React.Component<ParentProps> {
             </MenuHeaderAnchor>
           </MenuHeaderContainer>
           <MenuHeaderContainer>
-            <MenuHeaderLink
-              exact={true}
-              to={`/${this.props.currentEntity.toLowerCase()}/new`}
-              onClick={this.props.handleBurgerClick}
-            >
-              {entityTypeMap[this.props.currentEntity].createNewTitle}
-            </MenuHeaderLink>
+            <CreateEntityDropDown
+              entityColor={entityTypeMap[this.props.currentEntity].themeColor}
+              entityType={this.props.currentEntity}
+            />
           </MenuHeaderContainer>
         </Fragment>
       )
