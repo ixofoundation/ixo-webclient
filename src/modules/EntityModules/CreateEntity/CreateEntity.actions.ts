@@ -1,5 +1,5 @@
 import { Dispatch } from 'redux'
-import { encode as base64Encode } from 'base-64'
+import { encode as base64Encode } from 'js-base64'
 import {
   GoToStepAction,
   CreateEntityActions,
@@ -22,14 +22,14 @@ export const goToStep = (step: number): GoToStepAction => ({
   },
 })
 
-export const newEntity = (entityType: EntityType) => (
+export const newEntity = (entityType: EntityType, forceNew = false) => (
   dispatch: Dispatch,
   getState: () => RootState,
 ): NewEntityAction => {
   const state = getState()
   const { entityType: currentEntityType, created } = state.createEntity
 
-  if (currentEntityType === entityType && !created) {
+  if (currentEntityType === entityType && !created && !forceNew) {
     return null
   }
 
@@ -72,7 +72,7 @@ export const createEntity = () => (
 
       keysafe.requestSigning(
         entityData,
-        (signError) => {
+        (signError: any, signature: any): any => {
           if (signError) {
             return dispatch({
               type: CreateEntityActions.CreateEntityFailure,
@@ -82,12 +82,30 @@ export const createEntity = () => (
             })
           }
 
-          // TODO - send
-          console.log(entityData)
-
-          return dispatch({
-            type: CreateEntityActions.CreateEntitySuccess,
-          })
+          blocksyncApi.project
+            .createProject(JSON.parse(entityData), signature, PDS_URL)
+            .then((res: any) => {
+              if (res.error) {
+                return dispatch({
+                  type: CreateEntityActions.CreateEntityFailure,
+                  payload: {
+                    error: res.error.message,
+                  },
+                })
+              } else {
+                return dispatch({
+                  type: CreateEntityActions.CreateEntitySuccess,
+                })
+              }
+            })
+            .catch((error) => {
+              return dispatch({
+                type: CreateEntityActions.CreateEntityFailure,
+                payload: {
+                  error: error.message,
+                },
+              })
+            })
         },
         'base64',
       )

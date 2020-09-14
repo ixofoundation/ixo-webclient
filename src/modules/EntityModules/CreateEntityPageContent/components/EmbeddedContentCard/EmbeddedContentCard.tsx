@@ -31,7 +31,7 @@ const EmbeddedContentCard: React.FunctionComponent<Props> = React.forwardRef(
       required: ['title', 'urls'],
       properties: {
         title: { type: 'string', title: 'Title' },
-        urls: { type: 'string', title: 'Url Links' },
+        urls: { type: 'string', title: 'URL Links' },
       },
     } as any
 
@@ -43,7 +43,7 @@ const EmbeddedContentCard: React.FunctionComponent<Props> = React.forwardRef(
       urls: {
         'ui:widget': customControls['embeddedtextbox'],
         'ui:socialIcon': 'URL Links',
-        'ui:placeholder': 'Paste Url',
+        'ui:placeholder': 'Enter a valid URL in the format https://...',
       },
     }
 

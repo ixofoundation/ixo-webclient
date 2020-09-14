@@ -1,3 +1,5 @@
+import { Store } from 'redux'
+import { Persistor } from 'redux-persist'
 import { KeysafeState } from '../../modules/keysafe/types'
 import { IxoState } from '../../modules/ixo/types'
 import { BondState } from '../../modules/BondModules/bond/types'
@@ -8,7 +10,7 @@ import { BondSellState } from 'modules/BondModules/BondSell/types'
 import { BondSwapState } from 'modules/BondModules/BondSwap/types'
 import { EntitiesState } from 'modules/EntityModules/Entities/types'
 import { FuelEntityState } from 'modules/EntityModules/FuelEntity/types'
-import { SubmitEntityClaimState } from 'modules/EntityModules/SubmitEntityClaim/types'
+import { SubmitEntityClaimState } from 'modules/ClaimModules/SubmitEntityClaim/types'
 import { Entity } from 'modules/EntityModules/Entities/types'
 import { CreateEntityPageContentState } from 'modules/EntityModules/CreateEntityPageContent/types'
 import { CreateEntityAttestationState } from 'modules/EntityModules/CreateEntityAttestation/types'
@@ -42,3 +44,10 @@ export interface RootState {
   projectState: ProjectType
   router: any
 }
+
+export interface ReduxStoreAndPersistor {
+  store: Store<RootState>
+  persistor: Persistor
+}
+
+export interface PreloadedState extends RootState, Persistor {}

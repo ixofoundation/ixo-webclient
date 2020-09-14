@@ -248,7 +248,7 @@ describe('CreateEntityAdvanced Reducer', () => {
 
     it('should update the payment', () => {
       const id = 'someId'
-      const type = PaymentType.FeeforService
+      const type = PaymentType.FeeForService
       const paymentId = 'somePaymentId'
 
       // given .. we have an action of type CreateEntityAdvancedActions.UpdatePayment
@@ -784,7 +784,7 @@ describe('CreateEntityAdvanced Reducer', () => {
       const id = 'someId'
       const type = KeyType.JwsVerificationKey2020
       const purpose = KeyPurpose.Encryption
-      const keyValue = PaymentDenomination.eCHF
+      const keyValue = 'someKeyValue'
       const signature = 'someSignature'
       const controller = 'someControllerId'
       const dateCreated = 'someDateCreated'

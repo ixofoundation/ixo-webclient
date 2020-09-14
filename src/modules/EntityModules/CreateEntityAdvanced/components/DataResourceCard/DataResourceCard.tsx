@@ -48,7 +48,7 @@ const FundCard: React.FunctionComponent<Props> = React.forwardRef(
           ),
         },
         dataId: { type: 'string', title: 'Data Identifier' },
-        serviceEndpoint: { type: 'string', title: 'Resouce Locator' },
+        serviceEndpoint: { type: 'string', title: 'Resource Locator' },
         properties: { type: 'string', title: 'Other Parameters' },
       },
     } as any

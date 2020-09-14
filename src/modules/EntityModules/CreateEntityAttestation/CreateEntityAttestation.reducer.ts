@@ -14,6 +14,7 @@ export const initialState: CreateEntityAttestationState = {
   claimInfo: {
     title: undefined,
     shortDescription: undefined,
+    type: undefined,
   },
   questions: {},
   validation: {},
@@ -40,6 +41,7 @@ export const reducer = (
     case CreateEntityAttestationActions.AddDocumentUploadQuestion:
     case CreateEntityAttestationActions.AddLocationSelectorQuestion:
     case CreateEntityAttestationActions.AddQRCodeQuestion:
+    case CreateEntityAttestationActions.AddQRCodeScanQuestion:
     case CreateEntityAttestationActions.AddRatingQuestion:
     case CreateEntityAttestationActions.AddCheckBoxesQuestion:
       return {
@@ -65,6 +67,7 @@ export const reducer = (
     case CreateEntityAttestationActions.UpdateDocumentUploadQuestion:
     case CreateEntityAttestationActions.UpdateLocationSelectorQuestion:
     case CreateEntityAttestationActions.UpdateQRCodeQuestion:
+    case CreateEntityAttestationActions.UpdateQRCodeScanQuestion:
     case CreateEntityAttestationActions.UpdateRatingQuestion:
     case CreateEntityAttestationActions.UpdateCheckBoxesQuestion:
       return {

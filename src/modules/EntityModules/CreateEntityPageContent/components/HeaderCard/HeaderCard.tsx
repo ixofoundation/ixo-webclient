@@ -51,12 +51,15 @@ const HeaderCard: React.FunctionComponent<Props> = React.forwardRef(
         'location',
       ],
       properties: {
-        fileSrc: { type: 'string', title: 'Header Image' },
+        fileSrc: {
+          type: 'string',
+          title: 'Header Image (JPG/PNG at least 960px wide and 540px high)',
+        },
         title: { type: 'string', title: 'Title' },
         shortDescription: { type: 'string', title: 'Short Description' },
         organisation: { type: 'string', title: 'Organisation' },
         location: { type: 'string', title: 'Country' },
-        sdgs: { type: 'string', title: 'Tag' },
+        sdgs: { type: 'string', title: 'SDG Tags' },
         imageDescription: { type: 'string', title: 'Header Image Description' },
       },
     } as any

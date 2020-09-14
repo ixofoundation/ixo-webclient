@@ -1,6 +1,7 @@
 import * as SUT from './CreateEntityAttestation.selectors'
 import { CreateEntityAttestationState } from './types'
 import { Type, ControlType } from 'common/components/JsonForm/types'
+import { EntityClaimType } from 'modules/ClaimModules/EntityClaims/types'
 
 let state: any
 
@@ -10,6 +11,7 @@ beforeEach(() => {
       claimInfo: {
         title: 'someClaimTitle',
         shortDescription: 'someClaimShortDescription',
+        type: EntityClaimType.Ownership,
       },
       questions: {
         '8c1debff-3b7d-4bad-9bdd-2b0d7b3dcb6d': {
@@ -17,6 +19,7 @@ beforeEach(() => {
           title: 'someTitle1',
           label: 'someLabel1',
           description: 'someDescription1',
+          attributeType: 'someAttributeType1',
           required: true,
           type: Type.String,
           control: ControlType.Text,
@@ -28,6 +31,7 @@ beforeEach(() => {
           title: 'someTitle2',
           label: 'someLabel2',
           description: 'someDescription2',
+          attributeType: 'someAttributeType2',
           required: true,
           type: Type.String,
           control: ControlType.Text,
@@ -39,6 +43,7 @@ beforeEach(() => {
           title: 'someTitle3',
           label: 'someLabel3',
           description: 'someDescription3',
+          attributeType: 'someAttributeType3',
           required: true,
           type: Type.String,
           control: ControlType.Text,
@@ -87,6 +92,7 @@ describe('CreateEntityAdvanced Selectors', () => {
       expect(result).toEqual({
         title: 'someClaimTitle',
         shortDescription: 'someClaimShortDescription',
+        type: EntityClaimType.Ownership,
       })
     })
   })
@@ -103,6 +109,7 @@ describe('CreateEntityAdvanced Selectors', () => {
           title: 'someTitle2',
           label: 'someLabel2',
           description: 'someDescription2',
+          attributeType: 'someAttributeType2',
           required: true,
           type: Type.String,
           control: ControlType.Text,
@@ -114,6 +121,7 @@ describe('CreateEntityAdvanced Selectors', () => {
           title: 'someTitle3',
           label: 'someLabel3',
           description: 'someDescription3',
+          attributeType: 'someAttributeType3',
           required: true,
           type: Type.String,
           control: ControlType.Text,
@@ -125,6 +133,7 @@ describe('CreateEntityAdvanced Selectors', () => {
           title: 'someTitle1',
           label: 'someLabel1',
           description: 'someDescription1',
+          attributeType: 'someAttributeType1',
           required: true,
           type: Type.String,
           control: ControlType.Text,

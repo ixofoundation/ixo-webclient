@@ -86,7 +86,7 @@ class CreateEntityPageContent extends CreateEntityBase<Props> {
     return (
       <FormCardWrapper
         title="Header Card"
-        description="The information in this card displays on the Explorer card."
+        description="The information in this card is public and permanent"
         showAddSection={false}
       >
         <HeaderCard
@@ -119,7 +119,7 @@ class CreateEntityPageContent extends CreateEntityBase<Props> {
 
     return (
       <FormCardWrapper
-        title="Body Content Card"
+        title="Main Section Card"
         description="Accepts Markdown formatting such as **bold**, *italic* and ***bold italic***."
         showAddSection
         onAddSection={handleAddBodySection}
@@ -164,7 +164,7 @@ class CreateEntityPageContent extends CreateEntityBase<Props> {
 
     return (
       <FormCardWrapper
-        title="Image Content Card"
+        title="Image Section Card"
         description="Accepts Markdown formatting such as **bold**, *italic* and ***bold italic***."
         showAddSection
         onAddSection={handleAddImageSection}

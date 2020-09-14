@@ -102,7 +102,7 @@ describe('CreateEntityAdvanced Actions', () => {
       it('should update the payment', () => {
         // given ... some data
         const id = 'someId'
-        const type = PaymentType.FeeforService
+        const type = PaymentType.FeeForService
         const paymentId = 'somePaymentId'
 
         const formData = {
@@ -343,7 +343,7 @@ describe('CreateEntityAdvanced Actions', () => {
         const id = 'someId'
         const purpose = KeyPurpose.Encryption
         const type = KeyType.JwsVerificationKey2020
-        const keyValue = PaymentDenomination.eEUR
+        const keyValue = 'someKeyValue'
         const signature = 'someSignature'
         const controller = 'someControllerId'
         const dateCreated = 'someDateCreated'

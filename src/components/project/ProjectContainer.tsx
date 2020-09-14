@@ -3,7 +3,7 @@ import { Fragment } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { RootState } from 'common/redux/types'
-import { decode as base64Decode } from 'base-64'
+import { decode as base64Decode } from 'js-base64'
 import {
   contentType,
   AgentRoles,
@@ -88,7 +88,7 @@ export interface ParentProps {
   match: any
 }
 
-export interface Props extends ParentProps, StateProps { }
+export interface Props extends ParentProps, StateProps {}
 
 export class ProjectContainer extends React.Component<Props, State> {
   state = {
@@ -889,24 +889,24 @@ export class ProjectContainer extends React.Component<Props, State> {
             {this.state.claimSubmitted ? (
               <ProjectClaimSubmitted projectDid={this.state.projectDid} />
             ) : (
-                <DetailContainer>
-                  <ProjectSidebar
-                    match={'claims'}
-                    projectDid={this.state.projectDid}
-                    hasCapability={this.handleHasCapability}
-                    singleClaimDependentsFetchedCallback={
-                      this.singleClaimDependentsFetchedCallback
-                    }
-                  />
-                  <ProjectNewClaim
-                    projectData={project}
-                    ixo={this.props.ixo}
-                    submitClaim={(claimData): void =>
-                      this.handleSubmitClaim(claimData)
-                    }
-                  />
-                </DetailContainer>
-              )}
+              <DetailContainer>
+                <ProjectSidebar
+                  match={'claims'}
+                  projectDid={this.state.projectDid}
+                  hasCapability={this.handleHasCapability}
+                  singleClaimDependentsFetchedCallback={
+                    this.singleClaimDependentsFetchedCallback
+                  }
+                />
+                <ProjectNewClaim
+                  projectData={project}
+                  ixo={this.props.ixo}
+                  submitClaim={(claimData): void =>
+                    this.handleSubmitClaim(claimData)
+                  }
+                />
+              </DetailContainer>
+            )}
           </Fragment>
         )
         break
@@ -1000,8 +1000,8 @@ export class ProjectContainer extends React.Component<Props, State> {
         {this.state.projectPublic === null || this.state.userRoles === null ? (
           <Spinner info="Loading Entity..." />
         ) : (
-            this.handleRenderProject()
-          )}
+          this.handleRenderProject()
+        )}
       </Fragment>
     )
   }

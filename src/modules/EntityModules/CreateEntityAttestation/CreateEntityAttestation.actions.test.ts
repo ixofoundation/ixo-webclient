@@ -4,6 +4,7 @@ import * as SUT from './CreateEntityAttestation.actions'
 import { CreateEntityAttestationActions } from './types'
 import { Type, ControlType } from 'common/components/JsonForm/types'
 import mockStore from 'common/redux/mockStore'
+import { EntityClaimType } from 'modules/ClaimModules/EntityClaims/types'
 
 let store
 
@@ -56,10 +57,12 @@ describe('CreateEntityAttestation Actions', () => {
         // given ... some data
         const title = 'someTitle'
         const shortDescription = 'someShortDescription'
+        const type = EntityClaimType.Provenance
 
         const formData = {
           title,
           shortDescription,
+          type,
         }
 
         // when ... we call the action
@@ -72,6 +75,7 @@ describe('CreateEntityAttestation Actions', () => {
         expect(action.payload).toEqual({
           title,
           shortDescription,
+          type,
         })
       })
     })
@@ -95,7 +99,8 @@ describe('CreateEntityAttestation Actions', () => {
           id,
           title: undefined,
           description: undefined,
-          label: undefined,
+          attributeType: undefined,
+          label: 'Short Answer',
           required: true,
           type: Type.String,
           control: ControlType.Text,
@@ -110,11 +115,13 @@ describe('CreateEntityAttestation Actions', () => {
         const id = 'existingId'
         const title = 'someNewTitle'
         const description = 'someDescription'
+        const attributeType = 'someAttributeType'
         const label = 'someLabel'
 
         const formData = {
           title,
           description,
+          attributeType,
           label,
         }
 
@@ -125,7 +132,13 @@ describe('CreateEntityAttestation Actions', () => {
         expect(action.type).toEqual(
           CreateEntityAttestationActions.UpdateShortTextQuestion,
         )
-        expect(action.payload).toEqual({ id, title, description, label })
+        expect(action.payload).toEqual({
+          id,
+          title,
+          description,
+          label,
+          attributeType,
+        })
       })
     })
   })
@@ -148,7 +161,8 @@ describe('CreateEntityAttestation Actions', () => {
           id,
           title: undefined,
           description: undefined,
-          label: undefined,
+          attributeType: undefined,
+          label: 'Long Answer',
           required: true,
           type: Type.String,
           control: ControlType.TextArea,
@@ -163,11 +177,13 @@ describe('CreateEntityAttestation Actions', () => {
         const id = 'existingId'
         const title = 'someNewTitle'
         const description = 'someDescription'
+        const attributeType = 'someAttributeType'
         const label = 'someLabel'
 
         const formData = {
           title,
           description,
+          attributeType,
           label,
         }
 
@@ -178,7 +194,13 @@ describe('CreateEntityAttestation Actions', () => {
         expect(action.type).toEqual(
           CreateEntityAttestationActions.UpdateLongTextQuestion,
         )
-        expect(action.payload).toEqual({ id, title, description, label })
+        expect(action.payload).toEqual({
+          id,
+          title,
+          description,
+          label,
+          attributeType,
+        })
       })
     })
   })
@@ -201,7 +223,8 @@ describe('CreateEntityAttestation Actions', () => {
           id,
           title: undefined,
           description: undefined,
-          label: undefined,
+          attributeType: undefined,
+          label: 'Date',
           required: true,
           type: Type.String,
           control: ControlType.SingleDateSelector,
@@ -215,11 +238,13 @@ describe('CreateEntityAttestation Actions', () => {
         const id = 'existingId'
         const title = 'someNewTitle'
         const description = 'someDescription'
+        const attributeType = 'someAttributeType'
         const label = 'someLabel'
 
         const formData = {
           title,
           description,
+          attributeType,
           label,
         }
 
@@ -230,7 +255,13 @@ describe('CreateEntityAttestation Actions', () => {
         expect(action.type).toEqual(
           CreateEntityAttestationActions.UpdateSingleDateSelectorQuestion,
         )
-        expect(action.payload).toEqual({ id, title, description, label })
+        expect(action.payload).toEqual({
+          id,
+          title,
+          description,
+          label,
+          attributeType,
+        })
       })
     })
   })
@@ -253,7 +284,8 @@ describe('CreateEntityAttestation Actions', () => {
           id,
           title: undefined,
           description: undefined,
-          label: undefined,
+          attributeType: undefined,
+          label: 'Dates',
           required: true,
           type: Type.String,
           control: ControlType.DateRangeSelector,
@@ -267,11 +299,13 @@ describe('CreateEntityAttestation Actions', () => {
         const id = 'existingId'
         const title = 'someNewTitle'
         const description = 'someDescription'
+        const attributeType = 'someAttributeType'
         const label = 'someLabel'
 
         const formData = {
           title,
           description,
+          attributeType,
           label,
         }
 
@@ -282,7 +316,13 @@ describe('CreateEntityAttestation Actions', () => {
         expect(action.type).toEqual(
           CreateEntityAttestationActions.UpdateDateRangeSelectorQuestion,
         )
-        expect(action.payload).toEqual({ id, title, description, label })
+        expect(action.payload).toEqual({
+          id,
+          title,
+          description,
+          label,
+          attributeType,
+        })
       })
     })
   })
@@ -305,7 +345,8 @@ describe('CreateEntityAttestation Actions', () => {
           id,
           title: undefined,
           description: undefined,
-          label: undefined,
+          attributeType: undefined,
+          label: 'Select Avatar Image to Upload',
           required: true,
           type: Type.String,
           control: ControlType.AvatarUpload,
@@ -319,11 +360,13 @@ describe('CreateEntityAttestation Actions', () => {
         const id = 'existingId'
         const title = 'someNewTitle'
         const description = 'someDescription'
+        const attributeType = 'someAttributeType'
         const label = 'someLabel'
 
         const formData = {
           title,
           description,
+          attributeType,
           label,
         }
 
@@ -334,7 +377,13 @@ describe('CreateEntityAttestation Actions', () => {
         expect(action.type).toEqual(
           CreateEntityAttestationActions.UpdateAvatarUploadQuestion,
         )
-        expect(action.payload).toEqual({ id, title, description, label })
+        expect(action.payload).toEqual({
+          id,
+          title,
+          description,
+          label,
+          attributeType,
+        })
       })
     })
   })
@@ -357,7 +406,8 @@ describe('CreateEntityAttestation Actions', () => {
           id,
           title: undefined,
           description: undefined,
-          label: undefined,
+          attributeType: undefined,
+          label: 'Select Image to Upload',
           required: true,
           type: Type.String,
           control: ControlType.ImageUpload,
@@ -371,11 +421,13 @@ describe('CreateEntityAttestation Actions', () => {
         const id = 'existingId'
         const title = 'someNewTitle'
         const description = 'someDescription'
+        const attributeType = 'someAttributeType'
         const label = 'someLabel'
 
         const formData = {
           title,
           description,
+          attributeType,
           label,
         }
 
@@ -386,7 +438,13 @@ describe('CreateEntityAttestation Actions', () => {
         expect(action.type).toEqual(
           CreateEntityAttestationActions.UpdateImageUploadQuestion,
         )
-        expect(action.payload).toEqual({ id, title, description, label })
+        expect(action.payload).toEqual({
+          id,
+          title,
+          description,
+          label,
+          attributeType,
+        })
       })
     })
   })
@@ -409,7 +467,8 @@ describe('CreateEntityAttestation Actions', () => {
           id,
           title: undefined,
           description: undefined,
-          label: undefined,
+          attributeType: undefined,
+          label: 'Select Video to Upload',
           required: true,
           type: Type.String,
           control: ControlType.VideoUpload,
@@ -423,11 +482,13 @@ describe('CreateEntityAttestation Actions', () => {
         const id = 'existingId'
         const title = 'someNewTitle'
         const description = 'someDescription'
+        const attributeType = 'someAttributeType'
         const label = 'someLabel'
 
         const formData = {
           title,
           description,
+          attributeType,
           label,
         }
 
@@ -438,7 +499,13 @@ describe('CreateEntityAttestation Actions', () => {
         expect(action.type).toEqual(
           CreateEntityAttestationActions.UpdateVideoUploadQuestion,
         )
-        expect(action.payload).toEqual({ id, title, description, label })
+        expect(action.payload).toEqual({
+          id,
+          title,
+          description,
+          label,
+          attributeType,
+        })
       })
     })
   })
@@ -461,7 +528,8 @@ describe('CreateEntityAttestation Actions', () => {
           id,
           title: undefined,
           description: undefined,
-          label: undefined,
+          attributeType: undefined,
+          label: 'Select Audio Clip to Upload',
           required: true,
           type: Type.String,
           control: ControlType.AudioUpload,
@@ -475,11 +543,13 @@ describe('CreateEntityAttestation Actions', () => {
         const id = 'existingId'
         const title = 'someNewTitle'
         const description = 'someDescription'
+        const attributeType = 'someAttributeType'
         const label = 'someLabel'
 
         const formData = {
           title,
           description,
+          attributeType,
           label,
         }
 
@@ -490,7 +560,13 @@ describe('CreateEntityAttestation Actions', () => {
         expect(action.type).toEqual(
           CreateEntityAttestationActions.UpdateAudioUploadQuestion,
         )
-        expect(action.payload).toEqual({ id, title, description, label })
+        expect(action.payload).toEqual({
+          id,
+          title,
+          description,
+          label,
+          attributeType,
+        })
       })
     })
   })
@@ -513,7 +589,8 @@ describe('CreateEntityAttestation Actions', () => {
           id,
           title: undefined,
           description: undefined,
-          label: undefined,
+          attributeType: undefined,
+          label: 'Select Document to Upload',
           required: true,
           type: Type.String,
           control: ControlType.DocumentUpload,
@@ -527,11 +604,13 @@ describe('CreateEntityAttestation Actions', () => {
         const id = 'existingId'
         const title = 'someNewTitle'
         const description = 'someDescription'
+        const attributeType = 'someAttributeType'
         const label = 'someLabel'
 
         const formData = {
           title,
           description,
+          attributeType,
           label,
         }
 
@@ -542,7 +621,13 @@ describe('CreateEntityAttestation Actions', () => {
         expect(action.type).toEqual(
           CreateEntityAttestationActions.UpdateDocumentUploadQuestion,
         )
-        expect(action.payload).toEqual({ id, title, description, label })
+        expect(action.payload).toEqual({
+          id,
+          title,
+          description,
+          label,
+          attributeType,
+        })
       })
     })
   })
@@ -565,7 +650,8 @@ describe('CreateEntityAttestation Actions', () => {
           id,
           title: undefined,
           description: undefined,
-          label: undefined,
+          attributeType: undefined,
+          label: 'Location',
           required: true,
           type: Type.String,
           control: ControlType.LocationSelector,
@@ -579,11 +665,13 @@ describe('CreateEntityAttestation Actions', () => {
         const id = 'existingId'
         const title = 'someNewTitle'
         const description = 'someDescription'
+        const attributeType = 'someAttributeType'
         const label = 'someLabel'
 
         const formData = {
           title,
           description,
+          attributeType,
           label,
         }
 
@@ -594,7 +682,13 @@ describe('CreateEntityAttestation Actions', () => {
         expect(action.type).toEqual(
           CreateEntityAttestationActions.UpdateLocationSelectorQuestion,
         )
-        expect(action.payload).toEqual({ id, title, description, label })
+        expect(action.payload).toEqual({
+          id,
+          title,
+          description,
+          label,
+          attributeType,
+        })
       })
     })
   })
@@ -617,7 +711,8 @@ describe('CreateEntityAttestation Actions', () => {
           id,
           title: undefined,
           description: undefined,
-          label: undefined,
+          attributeType: undefined,
+          label: 'QR Code',
           required: true,
           type: Type.String,
           control: ControlType.QRCode,
@@ -632,12 +727,14 @@ describe('CreateEntityAttestation Actions', () => {
         const id = 'existingId'
         const title = 'someNewTitle'
         const description = 'someDescription'
+        const attributeType = 'someAttributeType'
         const label = 'someLabel'
         const initialValue = 'https://www.someurl.com/'
 
         const formData = {
           title,
           description,
+          attributeType,
           label,
           initialValue,
         }
@@ -653,8 +750,71 @@ describe('CreateEntityAttestation Actions', () => {
           id,
           title,
           description,
+          attributeType,
           label,
           initialValue,
+        })
+      })
+    })
+  })
+
+  describe('qrCodeScanQuestion', () => {
+    describe('addQRCodeScanQuestion', () => {
+      it('should add a new qrcodescan question', () => {
+        // given ... an id
+        const id = 'newId'
+        v4.mockImplementationOnce(() => id)
+
+        // when ... we call the action
+        const action = SUT.addQRCodeScanQuestion()
+
+        // then ... we should expect it to create an action with the correct type
+        expect(action.type).toEqual(
+          CreateEntityAttestationActions.AddQRCodeScanQuestion,
+        )
+        expect(action.payload).toEqual({
+          id,
+          title: undefined,
+          description: undefined,
+          attributeType: undefined,
+          label: 'Scan QR Code',
+          placeholder: 'Waiting for data...',
+          required: true,
+          type: Type.String,
+          control: ControlType.QRCodeScan,
+        })
+      })
+    })
+
+    describe('updateQRCodeScanQuestion', () => {
+      it('should update the qrcodescan question', () => {
+        // given ... some data
+        const id = 'existingId'
+        const title = 'someNewTitle'
+        const description = 'someDescription'
+        const attributeType = 'someAttributeType'
+        const label = 'someLabel'
+
+        const formData = {
+          title,
+          description,
+          attributeType,
+          label,
+        }
+
+        // when ... we call the action
+        const action = SUT.updateQRCodeScanQuestion(id, formData)
+
+        // then ... we should expect it to create the action as expected
+        expect(action.type).toEqual(
+          CreateEntityAttestationActions.UpdateQRCodeScanQuestion,
+        )
+        expect(action.payload).toEqual({
+          id,
+          title,
+          description,
+          attributeType,
+          label,
         })
       })
     })
@@ -678,7 +838,8 @@ describe('CreateEntityAttestation Actions', () => {
           id,
           title: undefined,
           description: undefined,
-          label: undefined,
+          attributeType: undefined,
+          label: 'Rating',
           required: true,
           type: Type.String,
           control: ControlType.Rating,
@@ -694,12 +855,14 @@ describe('CreateEntityAttestation Actions', () => {
         const id = 'existingId'
         const title = 'someNewTitle'
         const description = 'someDescription'
+        const attributeType = 'someAttributeType'
         const label = 'someLabel'
         const scale = 10
 
         const formData = {
           title,
           description,
+          attributeType,
           label,
           scale,
         }
@@ -715,6 +878,7 @@ describe('CreateEntityAttestation Actions', () => {
           id,
           title,
           description,
+          attributeType,
           label,
           values: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
         })
@@ -725,12 +889,14 @@ describe('CreateEntityAttestation Actions', () => {
         const id = 'existingId'
         const title = 'someNewTitle'
         const description = 'someDescription'
+        const attributeType = 'someAttributeType'
         const label = 'someLabel'
         const scale = undefined
 
         const formData = {
           title,
           description,
+          attributeType,
           label,
           scale,
         }
@@ -746,6 +912,7 @@ describe('CreateEntityAttestation Actions', () => {
           id,
           title,
           description,
+          attributeType,
           label,
           values: undefined,
         })
@@ -771,7 +938,8 @@ describe('CreateEntityAttestation Actions', () => {
           id,
           title: undefined,
           description: undefined,
-          label: undefined,
+          attributeType: undefined,
+          label: 'Select Options',
           required: true,
           type: Type.Array,
           control: ControlType.CheckBoxes,
@@ -787,6 +955,7 @@ describe('CreateEntityAttestation Actions', () => {
         const id = 'existingId'
         const title = 'someNewTitle'
         const description = 'someDescription'
+        const attributeType = 'someAttributeType'
         const label = 'someLabel'
         const itemValues = ['Option1', 'Option2', 'Option3']
         const minItems = 1
@@ -795,6 +964,7 @@ describe('CreateEntityAttestation Actions', () => {
         const formData = {
           title,
           description,
+          attributeType,
           label,
           itemValues,
           minItems,
@@ -812,6 +982,7 @@ describe('CreateEntityAttestation Actions', () => {
           id,
           title,
           description,
+          attributeType,
           label,
           itemValues,
           itemLabels: itemValues,

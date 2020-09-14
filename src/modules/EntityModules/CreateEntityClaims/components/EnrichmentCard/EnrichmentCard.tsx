@@ -31,7 +31,7 @@ const EnrichmentCard: React.FunctionComponent<Props> = React.forwardRef(
 
     const schema = {
       type: 'object',
-      required: ['context', 'contextLink', 'productId', 'resources'],
+      required: ['context', 'contextLink', 'resources'],
       properties: {
         context: {
           type: 'string',
@@ -48,7 +48,7 @@ const EnrichmentCard: React.FunctionComponent<Props> = React.forwardRef(
           items: {
             type: 'object',
             properties: {
-              condition: { type: 'string', title: 'Product Id' },
+              condition: { type: 'string', title: 'Product' },
               attribute: { type: 'string', title: 'Resource' },
             },
           },

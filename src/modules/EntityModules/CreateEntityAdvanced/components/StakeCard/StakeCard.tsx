@@ -116,7 +116,7 @@ const StakeCard: React.FunctionComponent<Props> = React.forwardRef(
       stakeAddress: { 'ui:placeholder': 'Enter Address' },
       minStake: { 'ui:placeholder': 'Enter Value' },
       slashCondition: { 'ui:placeholder': 'Select Condition' },
-      slashFactor: { 'ui:placeholder': 'Enter Factor' },
+      slashFactor: { 'ui:placeholder': 'Enter Percentage' },
       slashAmount: { 'ui:placeholder': 'Enter Amount' },
       unbondPeriod: { 'ui:placeholder': 'Enter Days' },
     }

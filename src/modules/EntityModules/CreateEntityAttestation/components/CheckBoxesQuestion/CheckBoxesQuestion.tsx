@@ -1,11 +1,10 @@
 import React from 'react'
 import MultiControlForm from 'common/components/JsonForm/MultiControlForm/MultiControlForm'
 import { FormCardProps } from '../../../CreateEntity/types'
+import { QuestionCardBaseProps } from '../../types'
+import { questionSchema, questionUiSchema } from '../../constants'
 
-interface Props extends FormCardProps {
-  title: string
-  description: string
-  label: string
+interface Props extends FormCardProps, QuestionCardBaseProps {
   itemValues: string[]
   minItems: number
   maxItems: number
@@ -17,6 +16,7 @@ const CheckBoxesQuestion: React.FunctionComponent<Props> = React.forwardRef(
       title,
       description,
       label,
+      attributeType,
       itemValues,
       minItems,
       maxItems,
@@ -30,6 +30,7 @@ const CheckBoxesQuestion: React.FunctionComponent<Props> = React.forwardRef(
       title,
       description,
       label,
+      attributeType,
       itemValues,
       minItems,
       maxItems,
@@ -46,12 +47,10 @@ const CheckBoxesQuestion: React.FunctionComponent<Props> = React.forwardRef(
     ).filter((i) => i > 0)
 
     const schema = {
-      type: 'object',
-      required: ['title', 'label', 'itemValues'],
+      ...questionSchema,
+      required: [...questionSchema.required, 'itemValues'],
       properties: {
-        title: { type: 'string', title: 'Title' },
-        label: { type: 'string', title: 'Control Label' },
-        description: { type: 'string', title: 'Description' },
+        ...questionSchema.properties,
         itemValues: {
           type: 'array',
           title: 'Options',
@@ -62,31 +61,19 @@ const CheckBoxesQuestion: React.FunctionComponent<Props> = React.forwardRef(
         },
         minItems: {
           type: 'number',
-          title: 'Minimum Required Options',
+          title: 'Minimum Required Selections',
           enum: enumMinArray,
         },
         maxItems: {
           type: 'number',
-          title: 'Maximum Allowed Options',
+          title: 'Maximum Required Selections',
           enum: enumMaxArray,
         },
       },
     } as any
 
     const uiSchema = {
-      title: {
-        'ui:widget': 'text',
-        'ui:placeholder': 'The title of the question',
-      },
-      label: {
-        'ui:widget': 'text',
-        'ui:placeholder': 'The label for the input',
-      },
-      description: {
-        'ui:widget': 'textarea',
-        'ui:placeholder':
-          'This will be a short description or explainer text explaining the question',
-      },
+      ...questionUiSchema,
       itemValues: {
         'ui:options': {
           addable: true,

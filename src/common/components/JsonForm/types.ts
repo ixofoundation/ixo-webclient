@@ -3,6 +3,7 @@ import SingleDateSelector from './CustomWidgets/SingleDateSelector/SingleDateSel
 import DateRangeSelector from './CustomWidgets/DateRangeSelector/DateRangeSelector'
 import LocationSelector from './CustomWidgets/LocationSelector/LocationSelector'
 import QRCode from './CustomWidgets/QRCode/QRCode'
+import QRCodeScan from './CustomWidgets/QRCodeScan/QRCodeScan'
 import ImageUpload from './CustomWidgets/ImageUpload/ImageUpload'
 import AvatarUpload from './CustomWidgets/AvatarUpload/AvatarUpload'
 import DocumentUpload from './CustomWidgets/DocumentUpload/DocumentUpload'
@@ -63,6 +64,7 @@ export enum ControlType {
   SocialTextBox = 'socialtextbox',
   EmbeddedTextBox = 'embeddedtextbox',
   QRCode = 'qrcode',
+  QRCodeScan = 'qrcodescan',
   EntitySelector = 'entityselector',
   EmailValidation = 'emailvalidation',
 }
@@ -84,4 +86,5 @@ export const customControls = {
   [ControlType.EmailValidation]: EmailValidation,
   [ControlType.EntitySelector]: EntitySelector,
   [ControlType.QRCode]: QRCode,
+  [ControlType.QRCodeScan]: QRCodeScan,
 }

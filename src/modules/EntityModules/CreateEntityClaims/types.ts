@@ -32,8 +32,8 @@ export interface Evaluation {
 }
 
 export interface ApprovalAttribute {
-  condition: string
   attribute: string
+  condition: string
 }
 
 export interface ApprovalCriterion {

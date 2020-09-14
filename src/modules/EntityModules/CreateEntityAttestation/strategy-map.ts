@@ -1,10 +1,14 @@
 import ShortText from '../../../assets/icons/ShortText'
 import DatePicker from '../../../assets/icons/DatePicker'
+import SingleDatePicker from '../../../assets/icons/SingleDatePicker'
 import LongText from '../../../assets/icons/LongText'
 import Selection from '../../../assets/icons/Selection'
-import QRcode from '../../../assets/icons/QRcode'
+import Rating from '../../../assets/icons/Rating'
+import QRCode from '../../../assets/icons/QRcode'
+import QRCodeScan from '../../../assets/icons/QRcodeScan'
 import Location from '../../../assets/icons/Location'
 import UploadImage from '../../../assets/icons/UploadImage'
+import UploadAvatar from '../../../assets/icons/UploadAvatar'
 import UploadFile from '../../../assets/icons/UploadFile'
 import UploadAudio from '../../../assets/icons/UploadAudio'
 import UploadVideo from '../../../assets/icons/UploadVideo'
@@ -30,16 +34,16 @@ export const questionTypeMap = {
   },
   [ControlType.ImageCheckboxes]: {
     icon: SelectPicture,
-    title: 'Multiple Image Select',
+    title: 'Multiple Image Select (Coming Soon)',
     controlType: ControlType.ImageCheckboxes,
   },
   [ControlType.Rating]: {
-    icon: Selection,
+    icon: Rating,
     title: 'Rating',
     controlType: ControlType.Rating,
   },
   [ControlType.SingleDateSelector]: {
-    icon: DatePicker,
+    icon: SingleDatePicker,
     title: 'Single Date Selector',
     controlType: ControlType.SingleDateSelector,
   },
@@ -49,9 +53,14 @@ export const questionTypeMap = {
     controlType: ControlType.DateRangeSelector,
   },
   [ControlType.QRCode]: {
-    icon: QRcode,
+    icon: QRCode,
     title: 'QR Code',
     controlType: ControlType.QRCode,
+  },
+  [ControlType.QRCodeScan]: {
+    icon: QRCodeScan,
+    title: 'QR Code Scan',
+    controlType: ControlType.QRCodeScan,
   },
   [ControlType.LocationSelector]: {
     icon: Location,
@@ -64,7 +73,7 @@ export const questionTypeMap = {
     controlType: ControlType.ImageUpload,
   },
   [ControlType.AvatarUpload]: {
-    icon: UploadImage,
+    icon: UploadAvatar,
     title: 'Avatar Upload',
     controlType: ControlType.AvatarUpload,
   },

@@ -4,7 +4,8 @@ import ShortText from '../../../../../assets/icons/ShortText'
 import DatePicker from '../../../../../assets/icons/DatePicker'
 import LongText from '../../../../../assets/icons/LongText'
 import Selection from '../../../../../assets/icons/Selection'
-import QRcode from '../../../../../assets/icons/QRcode'
+import QRCode from '../../../../../assets/icons/QRcode'
+import QRCodeScan from '../../../../../assets/icons/QRcodeScan'
 import Location from '../../../../../assets/icons/Location'
 import UploadImage from '../../../../../assets/icons/UploadImage'
 import UploadFile from '../../../../../assets/icons/UploadFile'
@@ -42,7 +43,8 @@ const Instructions: React.FunctionComponent<Props> = ({
     radio: Selection,
     singledateselector: DatePicker,
     daterangeselector: DatePicker,
-    qrcode: QRcode,
+    qrcode: QRCode,
+    qrcodescan: QRCodeScan,
     locationselector: Location,
     imageupload: UploadImage,
     avatarupload: UploadImage,

@@ -1,15 +1,7 @@
 import React from 'react'
 import { customControls } from 'common/components/JsonForm/types'
-import {
-  PaymentDenomination,
-  KeyPurpose,
-  KeyType,
-} from '../../../Entities/types'
-import {
-  paymentDenominationMap,
-  keyPurposeMap,
-  keyTypeMap,
-} from '../../../Entities/strategy-map'
+import { KeyPurpose, KeyType } from '../../../Entities/types'
+import { keyPurposeMap, keyTypeMap } from '../../../Entities/strategy-map'
 import MultiControlForm from 'common/components/JsonForm/MultiControlForm/MultiControlForm'
 import { FormCardProps } from '../../../CreateEntity/types'
 import { LinkButton } from 'common/components/JsonForm/JsonForm.styles'
@@ -82,16 +74,10 @@ const KeyCard: React.FunctionComponent<Props> = React.forwardRef(
         keyValue: {
           type: 'string',
           title: 'Key Value or Token',
-          enum: Object.keys(PaymentDenomination).map(
-            (key) => PaymentDenomination[key],
-          ),
-          enumNames: Object.keys(PaymentDenomination).map(
-            (key) => paymentDenominationMap[PaymentDenomination[key]].title,
-          ),
         },
         controller: {
           type: 'string',
-          title: 'Enter DID or !name',
+          title: 'Controller DID or !name',
         },
         dateCreated: {
           type: 'string',
@@ -116,7 +102,7 @@ const KeyCard: React.FunctionComponent<Props> = React.forwardRef(
         'ui:placeholder': 'Select Key',
       },
       keyValue: {
-        'ui:placeholder': 'Select Denomination',
+        'ui:placeholder': 'Paste a Valid String',
       },
       controller: {
         'ui:placeholder': 'Enter DID or !name',

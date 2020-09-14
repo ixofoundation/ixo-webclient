@@ -36,7 +36,7 @@ const StatusCard: React.FunctionComponent<Props> = React.forwardRef(
 
     const schema = {
       type: 'object',
-      required: ['dates', 'stage', 'status'],
+      required: ['dates'],
       properties: {
         dates: { type: 'string', title: 'Implementation Period' },
         stage: {

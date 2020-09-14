@@ -29,6 +29,8 @@ import {
   AddLocationSelectorQuestionAction,
   AddQRCodeQuestionAction,
   UpdateQRCodeQuestionAction,
+  AddQRCodeScanQuestionAction,
+  UpdateQRCodeScanQuestionAction,
   AddRatingQuestionAction,
   UpdateRatingQuestionAction,
   AddCheckBoxesQuestionAction,
@@ -42,6 +44,7 @@ import {
   CreateEntitySuccessAction,
 } from '../CreateEntity/types'
 import { EntityType } from '../Entities/types'
+import { EntityClaimType } from 'modules/ClaimModules/EntityClaims/types'
 
 const initialState = SUT.initialState
 
@@ -61,6 +64,7 @@ describe('CreateEntityAttestation Reducer', () => {
     it('should update the claimInfo', () => {
       const title = 'someNewTitle'
       const shortDescription = 'someNewShortDescription'
+      const type = EntityClaimType.Service
 
       // given .. we have an action of type CreateEntityPageContentActions.UpdateSocialContent
       const action: UpdateClaimInfoAction = {
@@ -68,6 +72,7 @@ describe('CreateEntityAttestation Reducer', () => {
         payload: {
           title,
           shortDescription,
+          type,
         },
       }
 
@@ -78,6 +83,7 @@ describe('CreateEntityAttestation Reducer', () => {
           claimInfo: {
             title: 'someOldTitle',
             shortDescription: 'someOldShortDescription',
+            type: EntityClaimType.Provenance,
           },
         },
         action,
@@ -89,6 +95,7 @@ describe('CreateEntityAttestation Reducer', () => {
         claimInfo: {
           title,
           shortDescription,
+          type,
         },
       })
     })
@@ -105,6 +112,7 @@ describe('CreateEntityAttestation Reducer', () => {
           id,
           title: undefined,
           description: undefined,
+          attributeType: undefined,
           label: undefined,
           required: true,
           type: Type.String,
@@ -122,6 +130,7 @@ describe('CreateEntityAttestation Reducer', () => {
               id,
               title: undefined,
               description: undefined,
+              attributeType: undefined,
               label: undefined,
               required: true,
               type: Type.String,
@@ -142,6 +151,7 @@ describe('CreateEntityAttestation Reducer', () => {
             id,
             title: undefined,
             description: undefined,
+            attributeType: undefined,
             label: undefined,
             required: true,
             type: Type.String,
@@ -153,6 +163,7 @@ describe('CreateEntityAttestation Reducer', () => {
             id,
             title: undefined,
             description: undefined,
+            attributeType: undefined,
             label: undefined,
             required: true,
             type: Type.String,
@@ -169,6 +180,7 @@ describe('CreateEntityAttestation Reducer', () => {
       const title = 'someNewTitle'
       const label = 'someNewLabel'
       const description = 'someNewDescription'
+      const attributeType = 'someNewAttributeType'
 
       // given .. we have an action of type CreateEntityAttestationActions.UpdateShortTextQuestion
       const action: UpdateShortTextQuestionAction = {
@@ -178,6 +190,7 @@ describe('CreateEntityAttestation Reducer', () => {
           title,
           label,
           description,
+          attributeType,
         },
       }
 
@@ -191,6 +204,7 @@ describe('CreateEntityAttestation Reducer', () => {
               title: 'someOldTitle',
               label: 'someOldLabel',
               description: 'someOldDescription',
+              attributeType: 'someOldAttributeType',
               required: true,
               type: Type.String,
               control: ControlType.Text,
@@ -211,6 +225,7 @@ describe('CreateEntityAttestation Reducer', () => {
             title,
             label,
             description,
+            attributeType,
             required: true,
             type: Type.String,
             control: ControlType.Text,
@@ -233,6 +248,7 @@ describe('CreateEntityAttestation Reducer', () => {
           id,
           title: undefined,
           description: undefined,
+          attributeType: undefined,
           label: undefined,
           required: true,
           type: Type.String,
@@ -250,6 +266,7 @@ describe('CreateEntityAttestation Reducer', () => {
               id: 'someExistingId',
               title: undefined,
               description: undefined,
+              attributeType: undefined,
               label: undefined,
               required: true,
               type: Type.String,
@@ -270,6 +287,7 @@ describe('CreateEntityAttestation Reducer', () => {
             id: 'someExistingId',
             title: undefined,
             description: undefined,
+            attributeType: undefined,
             label: undefined,
             required: true,
             type: Type.String,
@@ -281,6 +299,7 @@ describe('CreateEntityAttestation Reducer', () => {
             id,
             title: undefined,
             description: undefined,
+            attributeType: undefined,
             label: undefined,
             required: true,
             type: Type.String,
@@ -297,6 +316,7 @@ describe('CreateEntityAttestation Reducer', () => {
       const title = 'someNewTitle'
       const label = 'someNewLabel'
       const description = 'someNewDescription'
+      const attributeType = 'someNewAttributeType'
 
       // given .. we have an action of type CreateEntityAttestationActions.UpdateLongTextQuestion
       const action: UpdateLongTextQuestionAction = {
@@ -306,6 +326,7 @@ describe('CreateEntityAttestation Reducer', () => {
           title,
           label,
           description,
+          attributeType,
         },
       }
 
@@ -319,6 +340,7 @@ describe('CreateEntityAttestation Reducer', () => {
               title: 'someOldTitle',
               label: 'someOldLabel',
               description: 'someOldDescription',
+              attributeType: 'someOldAttributeType',
               required: true,
               type: Type.String,
               control: ControlType.TextArea,
@@ -339,6 +361,7 @@ describe('CreateEntityAttestation Reducer', () => {
             title,
             label,
             description,
+            attributeType,
             required: true,
             type: Type.String,
             control: ControlType.TextArea,
@@ -361,6 +384,7 @@ describe('CreateEntityAttestation Reducer', () => {
           id,
           title: undefined,
           description: undefined,
+          attributeType: undefined,
           label: undefined,
           required: true,
           type: Type.String,
@@ -377,6 +401,7 @@ describe('CreateEntityAttestation Reducer', () => {
               id,
               title: undefined,
               description: undefined,
+              attributeType: undefined,
               label: undefined,
               required: true,
               type: Type.String,
@@ -396,6 +421,7 @@ describe('CreateEntityAttestation Reducer', () => {
             id,
             title: undefined,
             description: undefined,
+            attributeType: undefined,
             label: undefined,
             required: true,
             type: Type.String,
@@ -406,6 +432,7 @@ describe('CreateEntityAttestation Reducer', () => {
             id,
             title: undefined,
             description: undefined,
+            attributeType: undefined,
             label: undefined,
             required: true,
             type: Type.String,
@@ -421,6 +448,7 @@ describe('CreateEntityAttestation Reducer', () => {
       const title = 'someNewTitle'
       const label = 'someNewLabel'
       const description = 'someNewDescription'
+      const attributeType = 'someNewAttributeType'
 
       // given .. we have an action of type CreateEntityAttestationActions.UpdateSingleDateSelectorQuestion
       const action: UpdateSingleDateSelectorQuestionAction = {
@@ -430,6 +458,7 @@ describe('CreateEntityAttestation Reducer', () => {
           title,
           label,
           description,
+          attributeType,
         },
       }
 
@@ -443,6 +472,7 @@ describe('CreateEntityAttestation Reducer', () => {
               title: 'someOldTitle',
               label: 'someOldLabel',
               description: 'someOldDescription',
+              attributeType: 'someOldAttributeType',
               required: true,
               type: Type.String,
               control: ControlType.SingleDateSelector,
@@ -462,6 +492,7 @@ describe('CreateEntityAttestation Reducer', () => {
             title,
             label,
             description,
+            attributeType,
             required: true,
             type: Type.String,
             control: ControlType.SingleDateSelector,
@@ -483,6 +514,7 @@ describe('CreateEntityAttestation Reducer', () => {
           id,
           title: undefined,
           description: undefined,
+          attributeType: undefined,
           label: undefined,
           required: true,
           type: Type.String,
@@ -499,6 +531,7 @@ describe('CreateEntityAttestation Reducer', () => {
               id,
               title: undefined,
               description: undefined,
+              attributeType: undefined,
               label: undefined,
               required: true,
               type: Type.String,
@@ -518,6 +551,7 @@ describe('CreateEntityAttestation Reducer', () => {
             id,
             title: undefined,
             description: undefined,
+            attributeType: undefined,
             label: undefined,
             required: true,
             type: Type.String,
@@ -528,6 +562,7 @@ describe('CreateEntityAttestation Reducer', () => {
             id,
             title: undefined,
             description: undefined,
+            attributeType: undefined,
             label: undefined,
             required: true,
             type: Type.String,
@@ -543,6 +578,7 @@ describe('CreateEntityAttestation Reducer', () => {
       const title = 'someNewTitle'
       const label = 'someNewLabel'
       const description = 'someNewDescription'
+      const attributeType = 'someNewAttributeType'
 
       // given .. we have an action of type CreateEntityAttestationActions.UpdateDateRangeSelectorQuestion
       const action: UpdateDateRangeSelectorQuestionAction = {
@@ -552,6 +588,7 @@ describe('CreateEntityAttestation Reducer', () => {
           title,
           label,
           description,
+          attributeType,
         },
       }
 
@@ -565,6 +602,7 @@ describe('CreateEntityAttestation Reducer', () => {
               title: 'someOldTitle',
               label: 'someOldLabel',
               description: 'someOldDescription',
+              attributeType: 'someOldAttributeType',
               required: true,
               type: Type.String,
               control: ControlType.DateRangeSelector,
@@ -584,6 +622,7 @@ describe('CreateEntityAttestation Reducer', () => {
             title,
             label,
             description,
+            attributeType,
             required: true,
             type: Type.String,
             control: ControlType.DateRangeSelector,
@@ -605,6 +644,7 @@ describe('CreateEntityAttestation Reducer', () => {
           id,
           title: undefined,
           description: undefined,
+          attributeType: undefined,
           label: undefined,
           required: true,
           type: Type.String,
@@ -621,6 +661,7 @@ describe('CreateEntityAttestation Reducer', () => {
               id,
               title: undefined,
               description: undefined,
+              attributeType: undefined,
               label: undefined,
               required: true,
               type: Type.String,
@@ -640,6 +681,7 @@ describe('CreateEntityAttestation Reducer', () => {
             id,
             title: undefined,
             description: undefined,
+            attributeType: undefined,
             label: undefined,
             required: true,
             type: Type.String,
@@ -650,6 +692,7 @@ describe('CreateEntityAttestation Reducer', () => {
             id,
             title: undefined,
             description: undefined,
+            attributeType: undefined,
             label: undefined,
             required: true,
             type: Type.String,
@@ -665,6 +708,7 @@ describe('CreateEntityAttestation Reducer', () => {
       const title = 'someNewTitle'
       const label = 'someNewLabel'
       const description = 'someNewDescription'
+      const attributeType = 'someNewAttributeType'
 
       // given .. we have an action of type CreateEntityAttestationActions.UpdateAvatarUploadQuestion
       const action: UpdateAvatarUploadQuestionAction = {
@@ -674,6 +718,7 @@ describe('CreateEntityAttestation Reducer', () => {
           title,
           label,
           description,
+          attributeType,
         },
       }
 
@@ -687,6 +732,7 @@ describe('CreateEntityAttestation Reducer', () => {
               title: 'someOldTitle',
               label: 'someOldLabel',
               description: 'someOldDescription',
+              attributeType: 'someOldAttributeType',
               required: true,
               type: Type.String,
               control: ControlType.AvatarUpload,
@@ -706,6 +752,7 @@ describe('CreateEntityAttestation Reducer', () => {
             title,
             label,
             description,
+            attributeType,
             required: true,
             type: Type.String,
             control: ControlType.AvatarUpload,
@@ -727,6 +774,7 @@ describe('CreateEntityAttestation Reducer', () => {
           id,
           title: undefined,
           description: undefined,
+          attributeType: undefined,
           label: undefined,
           required: true,
           type: Type.String,
@@ -743,6 +791,7 @@ describe('CreateEntityAttestation Reducer', () => {
               id,
               title: undefined,
               description: undefined,
+              attributeType: undefined,
               label: undefined,
               required: true,
               type: Type.String,
@@ -762,6 +811,7 @@ describe('CreateEntityAttestation Reducer', () => {
             id,
             title: undefined,
             description: undefined,
+            attributeType: undefined,
             label: undefined,
             required: true,
             type: Type.String,
@@ -772,6 +822,7 @@ describe('CreateEntityAttestation Reducer', () => {
             id,
             title: undefined,
             description: undefined,
+            attributeType: undefined,
             label: undefined,
             required: true,
             type: Type.String,
@@ -787,6 +838,7 @@ describe('CreateEntityAttestation Reducer', () => {
       const title = 'someNewTitle'
       const label = 'someNewLabel'
       const description = 'someNewDescription'
+      const attributeType = 'someNewAttributeType'
 
       // given .. we have an action of type CreateEntityAttestationActions.UpdateImageUploadQuestion
       const action: UpdateImageUploadQuestionAction = {
@@ -796,6 +848,7 @@ describe('CreateEntityAttestation Reducer', () => {
           title,
           label,
           description,
+          attributeType,
         },
       }
 
@@ -809,6 +862,7 @@ describe('CreateEntityAttestation Reducer', () => {
               title: 'someOldTitle',
               label: 'someOldLabel',
               description: 'someOldDescription',
+              attributeType: 'someOldAttributeType',
               required: true,
               type: Type.String,
               control: ControlType.ImageUpload,
@@ -828,6 +882,7 @@ describe('CreateEntityAttestation Reducer', () => {
             title,
             label,
             description,
+            attributeType,
             required: true,
             type: Type.String,
             control: ControlType.ImageUpload,
@@ -849,6 +904,7 @@ describe('CreateEntityAttestation Reducer', () => {
           id,
           title: undefined,
           description: undefined,
+          attributeType: undefined,
           label: undefined,
           required: true,
           type: Type.String,
@@ -865,6 +921,7 @@ describe('CreateEntityAttestation Reducer', () => {
               id,
               title: undefined,
               description: undefined,
+              attributeType: undefined,
               label: undefined,
               required: true,
               type: Type.String,
@@ -884,6 +941,7 @@ describe('CreateEntityAttestation Reducer', () => {
             id,
             title: undefined,
             description: undefined,
+            attributeType: undefined,
             label: undefined,
             required: true,
             type: Type.String,
@@ -894,6 +952,7 @@ describe('CreateEntityAttestation Reducer', () => {
             id,
             title: undefined,
             description: undefined,
+            attributeType: undefined,
             label: undefined,
             required: true,
             type: Type.String,
@@ -909,6 +968,7 @@ describe('CreateEntityAttestation Reducer', () => {
       const title = 'someNewTitle'
       const label = 'someNewLabel'
       const description = 'someNewDescription'
+      const attributeType = 'someNewAttributeType'
 
       // given .. we have an action of type CreateEntityAttestationActions.UpdateVideoUploadQuestion
       const action: UpdateVideoUploadQuestionAction = {
@@ -918,6 +978,7 @@ describe('CreateEntityAttestation Reducer', () => {
           title,
           label,
           description,
+          attributeType,
         },
       }
 
@@ -931,6 +992,7 @@ describe('CreateEntityAttestation Reducer', () => {
               title: 'someOldTitle',
               label: 'someOldLabel',
               description: 'someOldDescription',
+              attributeType: 'someOldAttributeType',
               required: true,
               type: Type.String,
               control: ControlType.VideoUpload,
@@ -950,6 +1012,7 @@ describe('CreateEntityAttestation Reducer', () => {
             title,
             label,
             description,
+            attributeType,
             required: true,
             type: Type.String,
             control: ControlType.VideoUpload,
@@ -971,6 +1034,7 @@ describe('CreateEntityAttestation Reducer', () => {
           id,
           title: undefined,
           description: undefined,
+          attributeType: undefined,
           label: undefined,
           required: true,
           type: Type.String,
@@ -987,6 +1051,7 @@ describe('CreateEntityAttestation Reducer', () => {
               id,
               title: undefined,
               description: undefined,
+              attributeType: undefined,
               label: undefined,
               required: true,
               type: Type.String,
@@ -1006,6 +1071,7 @@ describe('CreateEntityAttestation Reducer', () => {
             id,
             title: undefined,
             description: undefined,
+            attributeType: undefined,
             label: undefined,
             required: true,
             type: Type.String,
@@ -1016,6 +1082,7 @@ describe('CreateEntityAttestation Reducer', () => {
             id,
             title: undefined,
             description: undefined,
+            attributeType: undefined,
             label: undefined,
             required: true,
             type: Type.String,
@@ -1031,6 +1098,7 @@ describe('CreateEntityAttestation Reducer', () => {
       const title = 'someNewTitle'
       const label = 'someNewLabel'
       const description = 'someNewDescription'
+      const attributeType = 'someNewAttributeType'
 
       // given .. we have an action of type CreateEntityAttestationActions.UpdateAudioUploadQuestion
       const action: UpdateAudioUploadQuestionAction = {
@@ -1040,6 +1108,7 @@ describe('CreateEntityAttestation Reducer', () => {
           title,
           label,
           description,
+          attributeType,
         },
       }
 
@@ -1053,6 +1122,7 @@ describe('CreateEntityAttestation Reducer', () => {
               title: 'someOldTitle',
               label: 'someOldLabel',
               description: 'someOldDescription',
+              attributeType: 'someOldAttributeType',
               required: true,
               type: Type.String,
               control: ControlType.AudioUpload,
@@ -1072,6 +1142,7 @@ describe('CreateEntityAttestation Reducer', () => {
             title,
             label,
             description,
+            attributeType,
             required: true,
             type: Type.String,
             control: ControlType.AudioUpload,
@@ -1093,6 +1164,7 @@ describe('CreateEntityAttestation Reducer', () => {
           id,
           title: undefined,
           description: undefined,
+          attributeType: undefined,
           label: undefined,
           required: true,
           type: Type.String,
@@ -1109,6 +1181,7 @@ describe('CreateEntityAttestation Reducer', () => {
               id,
               title: undefined,
               description: undefined,
+              attributeType: undefined,
               label: undefined,
               required: true,
               type: Type.String,
@@ -1128,6 +1201,7 @@ describe('CreateEntityAttestation Reducer', () => {
             id,
             title: undefined,
             description: undefined,
+            attributeType: undefined,
             label: undefined,
             required: true,
             type: Type.String,
@@ -1138,6 +1212,7 @@ describe('CreateEntityAttestation Reducer', () => {
             id,
             title: undefined,
             description: undefined,
+            attributeType: undefined,
             label: undefined,
             required: true,
             type: Type.String,
@@ -1153,6 +1228,7 @@ describe('CreateEntityAttestation Reducer', () => {
       const title = 'someNewTitle'
       const label = 'someNewLabel'
       const description = 'someNewDescription'
+      const attributeType = 'someNewAttributeType'
 
       // given .. we have an action of type CreateEntityAttestationActions.UpdateDocumentUploadQuestion
       const action: UpdateDocumentUploadQuestionAction = {
@@ -1162,6 +1238,7 @@ describe('CreateEntityAttestation Reducer', () => {
           title,
           label,
           description,
+          attributeType,
         },
       }
 
@@ -1175,6 +1252,7 @@ describe('CreateEntityAttestation Reducer', () => {
               title: 'someOldTitle',
               label: 'someOldLabel',
               description: 'someOldDescription',
+              attributeType: 'someOldAttributeType',
               required: true,
               type: Type.String,
               control: ControlType.DocumentUpload,
@@ -1194,6 +1272,7 @@ describe('CreateEntityAttestation Reducer', () => {
             title,
             label,
             description,
+            attributeType,
             required: true,
             type: Type.String,
             control: ControlType.DocumentUpload,
@@ -1215,6 +1294,7 @@ describe('CreateEntityAttestation Reducer', () => {
           id,
           title: undefined,
           description: undefined,
+          attributeType: undefined,
           label: undefined,
           required: true,
           type: Type.String,
@@ -1231,6 +1311,7 @@ describe('CreateEntityAttestation Reducer', () => {
               id,
               title: undefined,
               description: undefined,
+              attributeType: undefined,
               label: undefined,
               required: true,
               type: Type.String,
@@ -1250,6 +1331,7 @@ describe('CreateEntityAttestation Reducer', () => {
             id,
             title: undefined,
             description: undefined,
+            attributeType: undefined,
             label: undefined,
             required: true,
             type: Type.String,
@@ -1260,6 +1342,7 @@ describe('CreateEntityAttestation Reducer', () => {
             id,
             title: undefined,
             description: undefined,
+            attributeType: undefined,
             label: undefined,
             required: true,
             type: Type.String,
@@ -1275,6 +1358,7 @@ describe('CreateEntityAttestation Reducer', () => {
       const title = 'someNewTitle'
       const label = 'someNewLabel'
       const description = 'someNewDescription'
+      const attributeType = 'someNewAttributeType'
 
       // given .. we have an action of type CreateEntityAttestationActions.UpdateLocationSelectorQuestion
       const action: UpdateLocationSelectorQuestionAction = {
@@ -1284,6 +1368,7 @@ describe('CreateEntityAttestation Reducer', () => {
           title,
           label,
           description,
+          attributeType,
         },
       }
 
@@ -1297,6 +1382,7 @@ describe('CreateEntityAttestation Reducer', () => {
               title: 'someOldTitle',
               label: 'someOldLabel',
               description: 'someOldDescription',
+              attributeType: 'someOldAttributeType',
               required: true,
               type: Type.String,
               control: ControlType.LocationSelector,
@@ -1316,6 +1402,7 @@ describe('CreateEntityAttestation Reducer', () => {
             title,
             label,
             description,
+            attributeType,
             required: true,
             type: Type.String,
             control: ControlType.LocationSelector,
@@ -1337,6 +1424,7 @@ describe('CreateEntityAttestation Reducer', () => {
           id,
           title: undefined,
           description: undefined,
+          attributeType: undefined,
           label: undefined,
           required: true,
           type: Type.String,
@@ -1354,6 +1442,7 @@ describe('CreateEntityAttestation Reducer', () => {
               id,
               title: undefined,
               description: undefined,
+              attributeType: undefined,
               label: undefined,
               required: true,
               type: Type.String,
@@ -1374,6 +1463,7 @@ describe('CreateEntityAttestation Reducer', () => {
             id,
             title: undefined,
             description: undefined,
+            attributeType: undefined,
             label: undefined,
             required: true,
             type: Type.String,
@@ -1385,6 +1475,7 @@ describe('CreateEntityAttestation Reducer', () => {
             id,
             title: undefined,
             description: undefined,
+            attributeType: undefined,
             label: undefined,
             required: true,
             type: Type.String,
@@ -1401,6 +1492,7 @@ describe('CreateEntityAttestation Reducer', () => {
       const title = 'someNewTitle'
       const label = 'someNewLabel'
       const description = 'someNewDescription'
+      const attributeType = 'someNewAttributeType'
       const initialValue = 'https://www.somenewurl.com/'
 
       // given .. we have an action of type CreateEntityAttestationActions.UpdateLocationSelectorQuestion
@@ -1411,6 +1503,7 @@ describe('CreateEntityAttestation Reducer', () => {
           title,
           label,
           description,
+          attributeType,
           initialValue,
         },
       }
@@ -1425,6 +1518,7 @@ describe('CreateEntityAttestation Reducer', () => {
               title: 'someOldTitle',
               label: 'someOldLabel',
               description: 'someOldDescription',
+              attributeType: 'someOldAttributeType',
               initialValue: 'https://www.someoldurl.com/',
               required: true,
               type: Type.String,
@@ -1445,10 +1539,145 @@ describe('CreateEntityAttestation Reducer', () => {
             title,
             label,
             description,
+            attributeType,
             initialValue,
             required: true,
             type: Type.String,
             control: ControlType.QRCode,
+            order: 20,
+          },
+        },
+      })
+    })
+  })
+
+  describe('QRCodeScan Actions', () => {
+    it('should add a new qr code question scan and set the correct order', () => {
+      const id = 'someId'
+
+      // given ... we have an action of type CreateEntityAttestationActions.AddQRCodeScanQuestion
+      const action: AddQRCodeScanQuestionAction = {
+        type: CreateEntityAttestationActions.AddQRCodeScanQuestion,
+        payload: {
+          id,
+          title: undefined,
+          description: undefined,
+          attributeType: undefined,
+          label: undefined,
+          placeholder: 'Waiting for data...',
+          required: true,
+          type: Type.String,
+          control: ControlType.QRCodeScan,
+        },
+      }
+
+      // when ... we run the reducer with this action
+      const result = SUT.reducer(
+        {
+          ...initialState,
+          questions: {
+            ['someExistingId']: {
+              id,
+              title: undefined,
+              description: undefined,
+              attributeType: undefined,
+              label: undefined,
+              placeholder: 'Waiting for data...',
+              required: true,
+              type: Type.String,
+              control: ControlType.QRCodeScan,
+              order: 1,
+            },
+          },
+        },
+        action,
+      )
+
+      // then ... the state should be set as expected
+      expect(result).toEqual({
+        ...initialState,
+        questions: {
+          ['someExistingId']: {
+            id,
+            title: undefined,
+            description: undefined,
+            attributeType: undefined,
+            label: undefined,
+            placeholder: 'Waiting for data...',
+            required: true,
+            type: Type.String,
+            control: ControlType.QRCodeScan,
+            order: 1,
+          },
+          [id]: {
+            id,
+            title: undefined,
+            description: undefined,
+            attributeType: undefined,
+            label: undefined,
+            placeholder: 'Waiting for data...',
+            required: true,
+            type: Type.String,
+            control: ControlType.QRCodeScan,
+            order: 2,
+          },
+        },
+      })
+    })
+
+    it('should update the qr code question and leave other properties in tact', () => {
+      const id = 'someId'
+      const title = 'someNewTitle'
+      const label = 'someNewLabel'
+      const description = 'someNewDescription'
+      const attributeType = 'someNewAttributeType'
+
+      // given .. we have an action of type CreateEntityAttestationActions.UpdateQRCodeScanQuestion
+      const action: UpdateQRCodeScanQuestionAction = {
+        type: CreateEntityAttestationActions.UpdateQRCodeScanQuestion,
+        payload: {
+          id,
+          title,
+          label,
+          description,
+          attributeType,
+        },
+      }
+
+      // when ... we run the reducer with this action
+      const result = SUT.reducer(
+        {
+          ...initialState,
+          questions: {
+            [id]: {
+              id,
+              title: 'someOldTitle',
+              label: 'someOldLabel',
+              description: 'someOldDescription',
+              attributeType: 'someOldAttributeType',
+              required: true,
+              type: Type.String,
+              control: ControlType.QRCodeScan,
+              order: 20,
+            },
+          },
+        },
+        action,
+      )
+
+      // then ... the state should be set as expected
+      expect(result).toEqual({
+        ...initialState,
+        questions: {
+          [id]: {
+            id,
+            title,
+            label,
+            description,
+            attributeType,
+            required: true,
+            type: Type.String,
+            control: ControlType.QRCodeScan,
             order: 20,
           },
         },
@@ -1467,6 +1696,7 @@ describe('CreateEntityAttestation Reducer', () => {
           id,
           title: undefined,
           description: undefined,
+          attributeType: undefined,
           label: undefined,
           required: true,
           type: Type.Number,
@@ -1485,6 +1715,7 @@ describe('CreateEntityAttestation Reducer', () => {
               id,
               title: undefined,
               description: undefined,
+              attributeType: undefined,
               label: undefined,
               required: true,
               type: Type.Number,
@@ -1506,6 +1737,7 @@ describe('CreateEntityAttestation Reducer', () => {
             id,
             title: undefined,
             description: undefined,
+            attributeType: undefined,
             label: undefined,
             required: true,
             type: Type.Number,
@@ -1518,6 +1750,7 @@ describe('CreateEntityAttestation Reducer', () => {
             id,
             title: undefined,
             description: undefined,
+            attributeType: undefined,
             label: undefined,
             required: true,
             type: Type.Number,
@@ -1535,6 +1768,7 @@ describe('CreateEntityAttestation Reducer', () => {
       const title = 'someNewTitle'
       const label = 'someNewLabel'
       const description = 'someNewDescription'
+      const attributeType = 'someNewAttributeType'
       const values = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
 
       // given .. we have an action of type CreateEntityAttestationActions.UpdateLocationSelectorQuestion
@@ -1545,6 +1779,7 @@ describe('CreateEntityAttestation Reducer', () => {
           title,
           label,
           description,
+          attributeType,
           values,
         },
       }
@@ -1559,6 +1794,7 @@ describe('CreateEntityAttestation Reducer', () => {
               title: 'someOldTitle',
               label: 'someOldLabel',
               description: 'someOldDescription',
+              attributeType: 'someOldAttributeType',
               required: true,
               type: Type.Number,
               control: ControlType.Rating,
@@ -1580,6 +1816,7 @@ describe('CreateEntityAttestation Reducer', () => {
             title,
             label,
             description,
+            attributeType,
             required: true,
             type: Type.Number,
             control: ControlType.Rating,
@@ -1603,6 +1840,7 @@ describe('CreateEntityAttestation Reducer', () => {
           id,
           title: undefined,
           description: undefined,
+          attributeType: undefined,
           label: undefined,
           required: true,
           type: Type.Array,
@@ -1621,6 +1859,7 @@ describe('CreateEntityAttestation Reducer', () => {
               id,
               title: undefined,
               description: undefined,
+              attributeType: undefined,
               label: undefined,
               required: true,
               type: Type.Array,
@@ -1642,6 +1881,7 @@ describe('CreateEntityAttestation Reducer', () => {
             id,
             title: undefined,
             description: undefined,
+            attributeType: undefined,
             label: undefined,
             required: true,
             type: Type.Array,
@@ -1654,6 +1894,7 @@ describe('CreateEntityAttestation Reducer', () => {
             id,
             title: undefined,
             description: undefined,
+            attributeType: undefined,
             label: undefined,
             required: true,
             type: Type.Array,
@@ -1671,6 +1912,7 @@ describe('CreateEntityAttestation Reducer', () => {
       const title = 'someNewTitle'
       const label = 'someNewLabel'
       const description = 'someNewDescription'
+      const attributeType = 'someNewAttributeType'
       const itemValues = ['Option1', 'Option2', 'Option3', 'A New Option']
       const itemLabels = ['Option1', 'Option2', 'Option3', 'A New Option']
       const minItems = 1
@@ -1684,6 +1926,7 @@ describe('CreateEntityAttestation Reducer', () => {
           title,
           label,
           description,
+          attributeType,
           itemValues,
           itemLabels,
           minItems,
@@ -1701,6 +1944,7 @@ describe('CreateEntityAttestation Reducer', () => {
               title: 'someOldTitle',
               label: 'someOldLabel',
               description: 'someOldDescription',
+              attributeType: 'someOldAttributeType',
               required: true,
               type: Type.Array,
               control: ControlType.CheckBoxes,
@@ -1724,6 +1968,7 @@ describe('CreateEntityAttestation Reducer', () => {
             title,
             label,
             description,
+            attributeType,
             required: true,
             type: Type.Array,
             control: ControlType.CheckBoxes,
@@ -1761,6 +2006,7 @@ describe('CreateEntityAttestation Reducer', () => {
               title: 'someExistingTitle',
               label: 'someExistingLabel',
               description: 'someExistingDescription',
+              attributeType: 'someExistingAttributeType',
               required: false,
               type: Type.String,
               control: ControlType.TextArea,
@@ -1781,6 +2027,7 @@ describe('CreateEntityAttestation Reducer', () => {
             title: 'someExistingTitle',
             label: 'someExistingLabel',
             description: 'someExistingDescription',
+            attributeType: 'someExistingAttributeType',
             required: true,
             type: Type.String,
             control: ControlType.TextArea,
@@ -1813,6 +2060,7 @@ describe('CreateEntityAttestation Reducer', () => {
               title: 'someExistingTitle',
               label: 'someExistingLabel',
               description: 'someExistingDescription',
+              attributeType: 'someExistingAttributeType',
               required: false,
               type: Type.String,
               control: ControlType.TextArea,
@@ -1824,6 +2072,7 @@ describe('CreateEntityAttestation Reducer', () => {
               title: 'anotherExistingTitle',
               label: 'anotherExistingLabel',
               description: 'anotherExistingDescription',
+              attributeType: 'anoterExistingAttributeType',
               required: false,
               type: Type.String,
               control: ControlType.TextArea,
@@ -1835,6 +2084,7 @@ describe('CreateEntityAttestation Reducer', () => {
               title: 'anotherExistingTitle',
               label: 'anotherExistingLabel',
               description: 'anotherExistingDescription',
+              attributeType: 'anoterExistingAttributeType',
               required: false,
               type: Type.String,
               control: ControlType.TextArea,
@@ -1855,6 +2105,7 @@ describe('CreateEntityAttestation Reducer', () => {
             title: 'anotherExistingTitle',
             label: 'anotherExistingLabel',
             description: 'anotherExistingDescription',
+            attributeType: 'anoterExistingAttributeType',
             required: false,
             type: Type.String,
             control: ControlType.TextArea,
@@ -1866,6 +2117,7 @@ describe('CreateEntityAttestation Reducer', () => {
             title: 'anotherExistingTitle',
             label: 'anotherExistingLabel',
             description: 'anotherExistingDescription',
+            attributeType: 'anoterExistingAttributeType',
             required: false,
             type: Type.String,
             control: ControlType.TextArea,
@@ -1901,6 +2153,7 @@ describe('CreateEntityAttestation Reducer', () => {
               title: 'someQuestionToCopyTitle',
               label: 'someQuestionToCopyLabel',
               description: 'someQuestionToCopyDescription',
+              attributeType: 'someAttributeTypeToCopy',
               required: false,
               type: Type.String,
               control: ControlType.TextArea,
@@ -1912,6 +2165,7 @@ describe('CreateEntityAttestation Reducer', () => {
               title: 'someQuestionToCopyTitle',
               label: 'someQuestionToCopyLabel',
               description: 'someQuestionToCopyDescription',
+              attributeType: 'someAttributeTypeToCopy',
               required: false,
               type: Type.String,
               control: ControlType.TextArea,
@@ -1923,6 +2177,7 @@ describe('CreateEntityAttestation Reducer', () => {
               title: 'someQuestionToCopyTitle',
               label: 'someQuestionToCopyLabel',
               description: 'someQuestionToCopyDescription',
+              attributeType: 'someAttributeTypeToCopy',
               required: false,
               type: Type.String,
               control: ControlType.TextArea,
@@ -1943,6 +2198,7 @@ describe('CreateEntityAttestation Reducer', () => {
             title: 'someQuestionToCopyTitle',
             label: 'someQuestionToCopyLabel',
             description: 'someQuestionToCopyDescription',
+            attributeType: 'someAttributeTypeToCopy',
             required: false,
             type: Type.String,
             control: ControlType.TextArea,
@@ -1954,6 +2210,7 @@ describe('CreateEntityAttestation Reducer', () => {
             title: 'someQuestionToCopyTitle',
             label: 'someQuestionToCopyLabel',
             description: 'someQuestionToCopyDescription',
+            attributeType: 'someAttributeTypeToCopy',
             required: false,
             type: Type.String,
             control: ControlType.TextArea,
@@ -1965,6 +2222,7 @@ describe('CreateEntityAttestation Reducer', () => {
             title: 'someQuestionToCopyTitle',
             label: 'someQuestionToCopyLabel',
             description: 'someQuestionToCopyDescription',
+            attributeType: 'someAttributeTypeToCopy',
             required: false,
             type: Type.String,
             control: ControlType.TextArea,
@@ -1976,6 +2234,7 @@ describe('CreateEntityAttestation Reducer', () => {
             title: 'someQuestionToCopyTitle',
             label: 'someQuestionToCopyLabel',
             description: 'someQuestionToCopyDescription',
+            attributeType: 'someAttributeTypeToCopy',
             required: false,
             type: Type.String,
             control: ControlType.TextArea,
@@ -2011,6 +2270,7 @@ describe('CreateEntityAttestation Reducer', () => {
               title: 'someQuestionToCopyTitle',
               label: 'someQuestionToCopyLabel',
               description: 'someQuestionToCopyDescription',
+              attributeType: 'someAttributeTypeToCopy',
               required: false,
               type: Type.String,
               control: ControlType.TextArea,
@@ -2022,6 +2282,7 @@ describe('CreateEntityAttestation Reducer', () => {
               title: 'someQuestionToCopyTitle',
               label: 'someQuestionToCopyLabel',
               description: 'someQuestionToCopyDescription',
+              attributeType: 'someAttributeTypeToCopy',
               required: false,
               type: Type.String,
               control: ControlType.TextArea,
@@ -2033,6 +2294,7 @@ describe('CreateEntityAttestation Reducer', () => {
               title: 'someQuestionToCopyTitle',
               label: 'someQuestionToCopyLabel',
               description: 'someQuestionToCopyDescription',
+              attributeType: 'someAttributeTypeToCopy',
               required: false,
               type: Type.String,
               control: ControlType.TextArea,
@@ -2053,6 +2315,7 @@ describe('CreateEntityAttestation Reducer', () => {
             title: 'someQuestionToCopyTitle',
             label: 'someQuestionToCopyLabel',
             description: 'someQuestionToCopyDescription',
+            attributeType: 'someAttributeTypeToCopy',
             required: false,
             type: Type.String,
             control: ControlType.TextArea,
@@ -2064,6 +2327,7 @@ describe('CreateEntityAttestation Reducer', () => {
             title: 'someQuestionToCopyTitle',
             label: 'someQuestionToCopyLabel',
             description: 'someQuestionToCopyDescription',
+            attributeType: 'someAttributeTypeToCopy',
             required: false,
             type: Type.String,
             control: ControlType.TextArea,
@@ -2075,6 +2339,7 @@ describe('CreateEntityAttestation Reducer', () => {
             title: 'someQuestionToCopyTitle',
             label: 'someQuestionToCopyLabel',
             description: 'someQuestionToCopyDescription',
+            attributeType: 'someAttributeTypeToCopy',
             required: false,
             type: Type.String,
             control: ControlType.TextArea,
@@ -2184,6 +2449,7 @@ describe('CreateEntityAttestation Reducer', () => {
           claimInfo: {
             shortDescription: 'someDataThatShouldBeCleared',
             title: 'someDataThatShouldBeCleared',
+            type: EntityClaimType.UseOfFunds,
           },
         },
         action,
@@ -2208,6 +2474,7 @@ describe('CreateEntityAttestation Reducer', () => {
           claimInfo: {
             shortDescription: 'someDataThatShouldBeCleared',
             title: 'someDataThatShouldBeCleared',
+            type: EntityClaimType.Service,
           },
         },
         action,

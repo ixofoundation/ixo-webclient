@@ -55,7 +55,7 @@ export class HeaderLeft extends React.Component<ParentProps> {
           </HeaderAnchor>
           <HeaderLink
             exact={true}
-            to={`/${this.props.currentEntity.toLowerCase()}/new`}
+            to={`/${this.props.currentEntity.toLowerCase()}/new/start`}
           >
             {entityTypeMap[this.props.currentEntity].createNewTitle}
           </HeaderLink>
@@ -113,7 +113,7 @@ export class HeaderLeft extends React.Component<ParentProps> {
           <MenuHeaderContainer>
             <MenuHeaderLink
               exact={true}
-              to={`/${this.props.currentEntity.toLowerCase()}/new`}
+              to={`/${this.props.currentEntity.toLowerCase()}/new/start`}
               onClick={this.props.handleBurgerClick}
             >
               {entityTypeMap[this.props.currentEntity].createNewTitle}

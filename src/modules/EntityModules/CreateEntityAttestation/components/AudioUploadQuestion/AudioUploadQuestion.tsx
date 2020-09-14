@@ -1,12 +1,10 @@
 import React from 'react'
 import MultiControlForm from 'common/components/JsonForm/MultiControlForm/MultiControlForm'
 import { FormCardProps } from '../../../CreateEntity/types'
+import { QuestionCardBaseProps } from '../../types'
+import { questionSchema, questionUiSchema } from '../../constants'
 
-interface Props extends FormCardProps {
-  title: string
-  description: string
-  label: string
-}
+interface Props extends FormCardProps, QuestionCardBaseProps {}
 
 const AudioUploadQuestion: React.FunctionComponent<Props> = React.forwardRef(
   (
@@ -14,6 +12,7 @@ const AudioUploadQuestion: React.FunctionComponent<Props> = React.forwardRef(
       title,
       description,
       label,
+      attributeType,
       handleUpdateContent,
       handleSubmitted,
       handleError,
@@ -24,33 +23,12 @@ const AudioUploadQuestion: React.FunctionComponent<Props> = React.forwardRef(
       title,
       description,
       label,
+      attributeType,
     }
 
-    const schema = {
-      type: 'object',
-      required: ['title', 'label'],
-      properties: {
-        title: { type: 'string', title: 'Title' },
-        label: { type: 'string', title: 'Control Label' },
-        description: { type: 'string', title: 'Description' },
-      },
-    } as any
+    const schema = { ...questionSchema } as any
 
-    const uiSchema = {
-      title: {
-        'ui:widget': 'text',
-        'ui:placeholder': 'The title of the question',
-      },
-      label: {
-        'ui:widget': 'text',
-        'ui:placeholder': 'The label for the audio upload selector',
-      },
-      description: {
-        'ui:widget': 'textarea',
-        'ui:placeholder':
-          'This will be a short description or explainer text explaining the question',
-      },
-    }
+    const uiSchema = { ...questionUiSchema }
 
     return (
       <MultiControlForm
