@@ -12,17 +12,9 @@ import { CircleProgressbar } from 'common/components/Widgets/CircleProgressbar/C
 import BarChart, {
   BarColors,
 } from 'common/components/Widgets/BarChart/BarChart'
-import {
-  WorldMap,
-  LatLng,
-} from 'common/components/Widgets/WorldMap/WorldMap'
-import { isoCountriesLatLng } from '../../lib/commonData'
-
-import { deviceWidth } from '../../lib/commonData'
-import {
-  LinkButton,
-  ButtonTypes,
-} from 'common/components/Form/LinkButtons'
+import { WorldMap, LatLng } from 'common/components/Widgets/WorldMap/WorldMap'
+import { isoCountriesLatLng, deviceWidth } from 'lib/commonData'
+import { LinkButton, ButtonTypes } from 'common/components/Form/LinkButtons'
 import { isBrowser } from 'react-device-detect'
 
 const Container = styled.div`
@@ -63,13 +55,13 @@ const ClaimsLabels = styled.div`
     margin-right: 25px;
   }
   p:nth-child(1):before {
-    background: ${/* eslint-disable-line */ props => props.theme.ixoBlue};
+    background: ${/* eslint-disable-line */ (props) => props.theme.ixoBlue};
   }
   p:nth-child(2):before {
-    background: ${/* eslint-disable-line */ props => props.theme.ixoOrange};
+    background: ${/* eslint-disable-line */ (props) => props.theme.ixoOrange};
   }
   p:nth-child(3):before {
-    background: ${/* eslint-disable-line */ props => props.theme.red};
+    background: ${/* eslint-disable-line */ (props) => props.theme.red};
   }
   p:nth-child(4):before {
     background: #033c50;
@@ -98,10 +90,10 @@ const ClaimsTopLabels = styled.div`
   }
 
   p:nth-child(2):before {
-    background: ${/* eslint-disable-line */ props => props.theme.ixoBlue};
+    background: ${/* eslint-disable-line */ (props) => props.theme.ixoBlue};
   }
   p:nth-child(3):before {
-    background: ${/* eslint-disable-line */ props => props.theme.red};
+    background: ${/* eslint-disable-line */ (props) => props.theme.red};
   }
 
   @media (max-width: ${deviceWidth.tablet}px) {
@@ -130,11 +122,11 @@ export const ProjectDashboard: React.SFC<ParentProps> = ({
   impactAction,
 }) => {
   const countClaimsOfType = (claimType: string): number => {
-    return [...claims].filter(claim => claim.status === claimType).length
+    return [...claims].filter((claim) => claim.status === claimType).length
   }
 
   const getClaimsOfType = (claimType: string): Array<any> => {
-    return [...claims].filter(claim => claim.status === claimType)
+    return [...claims].filter((claim) => claim.status === claimType)
   }
 
   const getProjectLatLng = (): LatLng => {
