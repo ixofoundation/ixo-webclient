@@ -2,7 +2,8 @@ import styled from "styled-components";
 import { deviceWidth } from "../../../lib/commonData";
 
 export const createTabsContainer = (
-  activeTabColor: string | undefined
+  activeTabColor: string | undefined,
+  assistantActivated: boolean | false,
 ): any => styled.div`
   display: flex;
   flex-flow: row nowrap;
@@ -77,7 +78,7 @@ export const createTabsContainer = (
   }
 
   button {
-    background: linear-gradient(123.17deg, #0C5173 0%, #002A3F 101.44%);
+    background: ${ (assistantActivated ? 'linear-gradient(180deg, #0C5173 0%, #3ABAD9 161.23%)' : 'linear-gradient(123.17deg, #0C5173 0%, #002A3F 101.44%)' )  };
     border: none;
     width: 50px;
     border-top-right-radius: 4px;
@@ -90,7 +91,7 @@ export const createTabsContainer = (
 
   @media (min-width: ${deviceWidth.mobileSmall}px) {
     a {
-      min-width: 110px;
+      min-width: 100px;
       width: calc(100% / 3);
     }
   }
@@ -103,7 +104,6 @@ export const createTabsContainer = (
   @media (max-width: ${deviceWidth.tablet}px) {
     a {
       flex: 1;
-      height: 40px;
       font-size: 10px;
       line-height: 1.4;
       font-weight: bold;

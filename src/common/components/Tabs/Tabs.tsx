@@ -31,8 +31,6 @@ export const Tabs: React.SFC<Props> = ({
   assistantPanelToggle,
   enableAssistantButton
 }) => {
-  const TabsContainer = createTabsContainer(activeTabColor)
-  
   const [animation, setAnimation] = React.useState(inactiveAnimation);
   const assistant = React.useContext(AssistantContext);
   
@@ -59,6 +57,8 @@ export const Tabs: React.SFC<Props> = ({
 
     return animation === hoverAnimation ? hoverAnimation : inactiveAnimation;
   }
+
+  const TabsContainer = createTabsContainer(activeTabColor, assistant.active)
 
   return (
     <TabsContainer>
@@ -102,7 +102,7 @@ export const Tabs: React.SFC<Props> = ({
             height={40}
             width={40}
             options={{
-              loop: true,
+              loop: animation !== hoverAnimation,
               autoplay: true,
               animationData: chooseAnimation()
             }}
