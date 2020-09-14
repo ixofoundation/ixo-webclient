@@ -24,7 +24,7 @@ import { entityTypeMap } from 'modules/Entities/strategy-map'
 import { useWindowSize } from 'common/hooks'
 import { deviceWidth } from 'lib/commonData'
 import IxoCircle from 'assets/images/ixo-circle.png'
-import CreateEntityDropdown from '../../modules/EntityModules/CreateEntity/components/CreateEntityDropdown/CreateEntityDropdown'
+import CreateEntityDropdown from '../../modules/Entities/CreateEntity/CreateEntity/components/CreateEntityDropdown/CreateEntityDropdown'
 
 export interface Props {
   project: any
