@@ -8,12 +8,7 @@ import { ThemeProvider } from 'styled-components'
 import { HeaderConnected } from '../../common/components/Header/HeaderContainer'
 import Footer from '../../common/components/Footer/FooterContainer'
 import { RootState } from '../../common/redux/types'
-import {
-  theme,
-  Container,
-  ContentWrapper,
-  HeaderDropdownBackground,
-} from './App.styles'
+import { theme, Container, ContentWrapper } from './App.styles'
 import { initIxo } from '../ixo/ixo.actions'
 import { initKeysafe } from '../keysafe/keysafe.actions'
 import { UserInfo } from '../Account/types'
@@ -119,7 +114,6 @@ class App extends React.Component<Props, State> {
               simpleHeader={false}
               userInfo={this.props.userInfo}
             />
-            <HeaderDropdownBackground />
             <ToastContainer hideProgressBar={true} position="top-right" />
             <ContentWrapper>
               {(this.props.ixo !== null &&

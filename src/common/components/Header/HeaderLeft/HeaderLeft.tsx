@@ -3,7 +3,7 @@ import { Fragment } from 'react'
 import { deviceWidth } from '../../../../lib/commonData'
 import MediaQuery from 'react-responsive'
 import { getIxoWorldRoute } from '../../../utils/formatters'
-import CreateEntityDropDown from '../../../../modules/EntityModules/CreateEntity/components/CreateEntityDropDown/CreateEntityDropdown'
+import CreateEntityDropdown from '../../../../modules/EntityModules/CreateEntity/components/CreateEntityDropdown/CreateEntityDropdown'
 import { EntityType } from '../../../../modules/EntityModules/Entities/types'
 
 import {
@@ -55,7 +55,7 @@ export class HeaderLeft extends React.Component<ParentProps> {
           <HeaderAnchor target="_blank" href="https://docs.ixo.foundation/">
             Learn
           </HeaderAnchor>
-          <CreateEntityDropDown entityType={this.props.currentEntity} />
+          <CreateEntityDropdown entityType={this.props.currentEntity} />
         </Fragment>
       )
     } else {
@@ -108,7 +108,7 @@ export class HeaderLeft extends React.Component<ParentProps> {
             </MenuHeaderAnchor>
           </MenuHeaderContainer>
           <MenuHeaderContainer style={{ background: 'none' }}>
-            <CreateEntityDropDown entityType={this.props.currentEntity} />
+            <CreateEntityDropdown entityType={this.props.currentEntity} />
           </MenuHeaderContainer>
         </Fragment>
       )

@@ -6,7 +6,7 @@ import {
   ButtonsWrapper,
   LaunchEntityButton,
   ButtonContent,
-} from './CreateEntityDropDown.styles'
+} from './CreateEntityDropdown.styles'
 import Investments from 'assets/icons/Investments'
 import Cells from 'assets/icons/Cells'
 import Oracle from 'assets/icons/Oracle'
@@ -18,7 +18,7 @@ import { EntityType } from '../../../Entities/types'
 import { entityTypeMap } from '../../../Entities/strategy-map'
 
 interface Props {
-  entityType: EntityType
+  entityType?: EntityType
 }
 
 export default class CreateEntityDropDown extends React.Component<Props> {
@@ -62,7 +62,7 @@ export default class CreateEntityDropDown extends React.Component<Props> {
               rel="noopener noreferrer"
               to={`/${entityTypeMap[
                 EntityType.Project
-              ].title.toLowerCase()}/new`}
+              ].title.toLowerCase()}/new/start`}
               className={`
                     ${EntityType.Project.toLowerCase()} ${
                 this.props.entityType === EntityType.Project ? 'active' : ''
@@ -81,7 +81,7 @@ export default class CreateEntityDropDown extends React.Component<Props> {
               rel="noopener noreferrer"
               to={`/${entityTypeMap[
                 EntityType.Oracle
-              ].title.toLowerCase()}/new`}
+              ].title.toLowerCase()}/new/start`}
               className={`
                     ${EntityType.Oracle.toLowerCase()} ${
                 this.props.entityType === EntityType.Oracle ? 'active' : ''
@@ -100,7 +100,7 @@ export default class CreateEntityDropDown extends React.Component<Props> {
               rel="noopener noreferrer"
               to={`/${entityTypeMap[
                 EntityType.Investment
-              ].title.toLowerCase()}/new`}
+              ].title.toLowerCase()}/new/start`}
               className={`
                     ${EntityType.Investment.toLowerCase()} ${
                 this.props.entityType === EntityType.Investment ? 'active' : ''
@@ -117,7 +117,9 @@ export default class CreateEntityDropDown extends React.Component<Props> {
               exact={true}
               target="blank"
               rel="noopener noreferrer"
-              to={`/${entityTypeMap[EntityType.Cell].title.toLowerCase()}/new`}
+              to={`/${entityTypeMap[
+                EntityType.Cell
+              ].title.toLowerCase()}/new/start`}
               className={`
                     ${EntityType.Cell.toLowerCase()} ${
                 this.props.entityType === EntityType.Cell ? 'active' : ''
@@ -136,7 +138,7 @@ export default class CreateEntityDropDown extends React.Component<Props> {
               rel="noopener noreferrer"
               to={`/${entityTypeMap[
                 EntityType.Template
-              ].title.toLowerCase()}/new`}
+              ].title.toLowerCase()}/new/start`}
               className={`
                     ${EntityType.Template.toLowerCase()} ${
                 this.props.entityType === EntityType.Template ? 'active' : ''
@@ -153,7 +155,7 @@ export default class CreateEntityDropDown extends React.Component<Props> {
               exact={true}
               target="blank"
               rel="noopener noreferrer"
-              to={'/data/new'}
+              to={'/data/new/start'}
               className={`
                     ${EntityType.Data.toLowerCase()} ${
                 this.props.entityType === EntityType.Data ? 'active' : ''

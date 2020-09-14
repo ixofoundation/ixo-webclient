@@ -24,6 +24,7 @@ import { entityTypeMap } from 'modules/EntityModules/Entities/strategy-map'
 import { useWindowSize } from 'common/hooks'
 import { deviceWidth } from 'lib/commonData'
 import IxoCircle from 'assets/images/ixo-circle.png'
+import CreateEntityDropdown from '../../modules/EntityModules/CreateEntity/components/CreateEntityDropdown/CreateEntityDropdown'
 
 export interface Props {
   project: any
@@ -49,7 +50,7 @@ export const ProjectHero: React.SFC<Props> = ({
   const entityType = project.entityType
     ? (toTitleCase(project.entityType) as EntityType)
     : EntityType.Project
-  
+
   const buttonsArray = [
     {
       iconClass: `icon-${entityType.toLowerCase()}`,
@@ -166,10 +167,11 @@ export const ProjectHero: React.SFC<Props> = ({
         <HeaderTabs
           buttons={buttonsArray}
           matchType={MatchType.strict}
-          assistantPanelToggle={ assistantPanelToggle }
+          assistantPanelToggle={assistantPanelToggle}
           enableAssistantButton={enableAssistantButton}
           activeTabColor={entityTypeMap[entityType].themeColor}
         />
+        <CreateEntityDropdown />
       </HeroContainer>
     </React.Fragment>
   )
