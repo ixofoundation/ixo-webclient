@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { ProfileCardWrapper } from './ProfileCard.style'
-import Linkedin from '../../../assets/icons/Linkedin'
-import Twitter from '../../../assets/icons/Twitter'
+import Linkedin from 'assets/icons/Linkedin'
+import Twitter from 'assets/icons/Twitter'
 
 const ProfileCard = (user: Record<string, any>): JSX.Element => {
   const { imageLink, title, subtitle, icons } = user.user
@@ -23,7 +23,7 @@ const ProfileCard = (user: Record<string, any>): JSX.Element => {
 
         {icons.length > 0 && (
           <div className="ProfileCard-social-links">
-            {icons.map(icon => (
+            {icons.map((icon) => (
               <a
                 key={icon.class}
                 href={icon.url}

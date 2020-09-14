@@ -1,6 +1,6 @@
-import styled from "styled-components";
-import { deviceWidth } from "../../../lib/commonData";
-import { ProgressBar } from "common/components/ProgressBar";
+import styled from 'styled-components'
+import { deviceWidth } from 'lib/commonData'
+import { ProgressBar } from 'common/components/ProgressBar'
 
 export const OverviewContainer = styled.section`
   background: white;
@@ -79,16 +79,16 @@ export const OverviewContainer = styled.section`
       color: #000000;
     }
   }
-`;
+`
 
 export const ProjectImage = styled.img`
   width: 100%;
   box-shadow: 0px 10px 35px 0px rgba(0, 0, 0, 0.25);
   border-radius: 4px;
   margin-bottom: 22px;
-`;
+`
 
-export const DarkBar = styled(ProgressBar)``;
+export const DarkBar = styled(ProgressBar)``
 
 export const BarContainer = styled.div`
   text-align: right;
@@ -116,7 +116,7 @@ export const BarContainer = styled.div`
     display: inline-flex;
     margin-bottom: 14px;
   }
-`;
+`
 
 export const Sidebar = styled.div`
   background: ${(props: any): string => props.theme.bg.gradientBlue};
@@ -129,7 +129,7 @@ export const Sidebar = styled.div`
     border-radius: 2px;
     background-color: #033c50;
   }
-`;
+`
 
 export const StatisticsContainer = styled.div`
   div {
@@ -138,7 +138,7 @@ export const StatisticsContainer = styled.div`
   span {
     font-size: 15px;
   }
-`;
+`
 
 export const Claims = styled.h4`
   font-weight: 100;
@@ -149,11 +149,11 @@ export const Claims = styled.h4`
   strong {
     font-weight: 500;
   }
-`;
+`
 export const ImpactAction = styled.p`
   font-size: 18px;
   margin-bottom: 10px;
-`;
+`
 
 export const Disputed = styled.p`
   font-size: 14px;
@@ -163,7 +163,7 @@ export const Disputed = styled.p`
   strong {
     font-weight: bold;
   }
-`;
+`
 
 export const Text = styled.div`
   color: ${(props: any): string => props.theme.fontDarkGrey};
@@ -183,7 +183,7 @@ export const Text = styled.div`
       float: left;
     }
   }
-`;
+`
 
 export const Hidden = styled.div`
   position: absolute;
@@ -205,14 +205,14 @@ export const Hidden = styled.div`
       fill: #4ca0eb;
     }
   }
-`;
+`
 
 export const Visible = styled.div`
   svg {
     margin-right: 10px;
   }
   transition: opacity 0.3s ease;
-`;
+`
 
 export const LocalButton = styled.a`
   border: 1px solid #b8b8b8;
@@ -244,23 +244,23 @@ export const LocalButton = styled.a`
       opacity: 1;
     }
   }
-`;
+`
 
 export const BlueBold = styled.strong`
   color: ${(props: any): string => props.theme.ixoBlue};
-`;
+`
 
 export const AgentIcon = styled.i`
   :before {
     color: ${(props: any): string => props.theme.ixoBlue};
   }
-`;
+`
 
 export const ProfileCardsWrapper = styled.div`
   display: flex;
   flex-flow: row wrap;
   margin: 0 -1.75rem -1.75rem 0;
-`;
+`
 export const InlineImageWrapper = styled.div`
   display: flex;
   justify-content: center;
@@ -297,4 +297,4 @@ export const InlineImageWrapper = styled.div`
       margin-left: 1.25rem;
     }
   }
-`;
+`

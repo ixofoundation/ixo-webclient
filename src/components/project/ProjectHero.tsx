@@ -18,9 +18,9 @@ import {
 } from './ProjectHero.styles'
 import CalendarSort from 'assets/icons/CalendarSort'
 import availableFlags from 'lib/json/availableFlags.json'
-import { EntityType } from 'modules/EntityModules/Entities/types'
+import { EntityType } from 'modules/Entities/types'
 import { selectUserIsLoggedIn } from 'modules/Account/Account.selectors'
-import { entityTypeMap } from 'modules/EntityModules/Entities/strategy-map'
+import { entityTypeMap } from 'modules/Entities/strategy-map'
 import { useWindowSize } from 'common/hooks'
 import { deviceWidth } from 'lib/commonData'
 import IxoCircle from 'assets/images/ixo-circle.png'
@@ -49,7 +49,7 @@ export const ProjectHero: React.SFC<Props> = ({
   const entityType = project.entityType
     ? (toTitleCase(project.entityType) as EntityType)
     : EntityType.Project
-  
+
   const buttonsArray = [
     {
       iconClass: `icon-${entityType.toLowerCase()}`,
@@ -166,7 +166,7 @@ export const ProjectHero: React.SFC<Props> = ({
         <HeaderTabs
           buttons={buttonsArray}
           matchType={MatchType.strict}
-          assistantPanelToggle={ assistantPanelToggle }
+          assistantPanelToggle={assistantPanelToggle}
           enableAssistantButton={enableAssistantButton}
           activeTabColor={entityTypeMap[entityType].themeColor}
         />
