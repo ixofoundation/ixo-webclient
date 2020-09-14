@@ -16,9 +16,9 @@ import {
   ProfileCardsWrapper,
   InlineImageWrapper,
 } from './ProjectOverview.style'
-import { EntityType } from 'modules/EntityModules/Entities/types'
+import { EntityType } from 'modules/Entities/types'
 import { toTitleCase } from 'common/utils/formatters'
-import { entityTypeMap } from 'modules/EntityModules/Entities/strategy-map'
+import { entityTypeMap } from 'modules/Entities/strategy-map'
 import { ProjectHero } from '../ProjectHero'
 
 const SidebarWrapper = styled.div`
@@ -26,11 +26,11 @@ const SidebarWrapper = styled.div`
 `
 
 const MainPanelWrapper = styled.div`
-&&& {
-  @media (min-width: 992px) {
-    padding-left: 8rem;
+  &&& {
+    @media (min-width: 992px) {
+      padding-left: 8rem;
+    }
   }
-}
 `
 
 export interface ParentProps {
@@ -57,7 +57,7 @@ export interface ParentProps {
 
 export type Props = ParentProps
 
-export const ProjectOverview: React.SFC<Props> = props => {
+export const ProjectOverview: React.SFC<Props> = (props) => {
   const renderModalHeader = (): Header => {
     return {
       title: props.modalData.title,
@@ -106,7 +106,7 @@ export const ProjectOverview: React.SFC<Props> = props => {
               )}
             </Text>
             {props.project.pageContent &&
-              props.project.pageContent.map(content => {
+              props.project.pageContent.map((content) => {
                 return (
                   <div className="content-section" key={content.title}>
                     {content.title && <h2>{content.title}</h2>}
@@ -158,7 +158,7 @@ export const ProjectOverview: React.SFC<Props> = props => {
                         <Table striped borderless hover variant="dark">
                           <thead>
                             <tr>
-                              {content.table.fields.map(field => (
+                              {content.table.fields.map((field) => (
                                 <th key={field}>{field}</th>
                               ))}
                             </tr>
@@ -178,7 +178,7 @@ export const ProjectOverview: React.SFC<Props> = props => {
 
                     {content.cards && (
                       <ProfileCardsWrapper>
-                        {content.cards.map(user => {
+                        {content.cards.map((user) => {
                           return <ProfileCard key={user.title} user={user} />
                         })}
                       </ProfileCardsWrapper>

@@ -1,6 +1,6 @@
 import { JSONSchema7 } from 'json-schema'
 import { UiSchema } from '@rjsf/core'
-import { EntityClaimType } from 'modules/ClaimModules/EntityClaims/types'
+import { EntityClaimType } from 'modules/EntityClaims/types'
 
 export interface ApiClaimInfo {
   title: string

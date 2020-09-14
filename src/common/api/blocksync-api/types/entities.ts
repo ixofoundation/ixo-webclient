@@ -15,7 +15,7 @@ import {
   PaymentType,
   NodeType,
   FundSource,
-} from 'modules/EntityModules/Entities/types'
+} from 'modules/Entities/types'
 
 export interface ApiEntity {
   ['@context']: string

@@ -1,14 +1,14 @@
-import * as React from "react";
-import { connect } from "react-redux";
-import { RootState } from "common/redux/types";
-import { EntityType } from "modules/EntityModules/Entities/types";
-import * as entitiesSelectors from "modules/EntityModules/Entities/Entities.selectors";
-import { HeaderLeft } from "./HeaderLeft/HeaderLeft";
-import { HeaderRight } from "./HeaderRight/HeaderRight";
-import MediaQuery from "react-responsive";
-import { deviceWidth } from "../../../lib/commonData";
-import { ModalWrapper } from "common/components/Wrappers/ModalWrapper";
-import { ButtonTypes, Button } from "../Form/Buttons";
+import * as React from 'react'
+import { connect } from 'react-redux'
+import { RootState } from 'common/redux/types'
+import { EntityType } from 'modules/Entities/types'
+import * as entitiesSelectors from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.selectors'
+import { HeaderLeft } from './HeaderLeft/HeaderLeft'
+import { HeaderRight } from './HeaderRight/HeaderRight'
+import MediaQuery from 'react-responsive'
+import { deviceWidth } from '../../../lib/commonData'
+import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
+import { ButtonTypes, Button } from '../Form/Buttons'
 import {
   InfoLink,
   Light,
@@ -18,29 +18,29 @@ import {
   Ping,
   StatusMessage,
   TopBar,
-} from "./HeaderContainer.styles";
-import Success from "../../../assets/icons/Success";
+} from './HeaderContainer.styles'
+import Success from '../../../assets/icons/Success'
 
 export interface State {
-  responseTime: number | null;
-  shouldLedgerDid: boolean;
-  isModalOpen: boolean;
-  modalResponse: string;
-  isLedgering: boolean;
-  ledgerPopupShown: boolean;
-  isMobileMenuOpen: boolean;
+  responseTime: number | null
+  shouldLedgerDid: boolean
+  isModalOpen: boolean
+  modalResponse: string
+  isLedgering: boolean
+  ledgerPopupShown: boolean
+  isMobileMenuOpen: boolean
 }
 
 export interface StateProps {
-  ixo?: any;
-  keysafe?: any;
-  entityType?: EntityType;
+  ixo?: any
+  keysafe?: any
+  entityType?: EntityType
 }
 
 export interface ParentProps {
-  userInfo: any;
-  simpleHeader: boolean;
-  pingIxoExplorer: () => Promise<unknown>;
+  userInfo: any
+  simpleHeader: boolean
+  pingIxoExplorer: () => Promise<unknown>
 }
 export interface Props extends StateProps, ParentProps {}
 
@@ -49,23 +49,23 @@ class Header extends React.Component<Props, State> {
     responseTime: null,
     shouldLedgerDid: false,
     isModalOpen: false,
-    modalResponse: "",
+    modalResponse: '',
     isLedgering: false,
     ledgerPopupShown: false,
     isMobileMenuOpen: false,
-  };
+  }
 
   componentDidMount(): void {
-    this.pingExplorer();
+    this.pingExplorer()
   }
 
   handleBurgerClick = (): void => {
-    this.setState({ isMobileMenuOpen: !this.state.isMobileMenuOpen });
-  };
+    this.setState({ isMobileMenuOpen: !this.state.isMobileMenuOpen })
+  }
 
   componentDidUpdate(prevProps: Props): void {
     if (prevProps.ixo !== this.props.ixo && this.props.ixo !== null) {
-      this.pingExplorer();
+      this.pingExplorer()
     }
     if (
       this.props.userInfo &&
@@ -74,7 +74,7 @@ class Header extends React.Component<Props, State> {
       this.props.userInfo.ledgered === false &&
       this.state.isLedgering === false
     ) {
-      this.setState({ shouldLedgerDid: true });
+      this.setState({ shouldLedgerDid: true })
     }
     if (
       this.props.userInfo &&
@@ -83,14 +83,14 @@ class Header extends React.Component<Props, State> {
       this.props.userInfo.ledgered === true &&
       this.state.isLedgering === false
     ) {
-      this.setState({ shouldLedgerDid: false });
+      this.setState({ shouldLedgerDid: false })
     }
     if (
       this.state.shouldLedgerDid === true &&
       this.state.ledgerPopupShown === false
     ) {
-      this.setState({ ledgerPopupShown: true });
-      this.handleToggleModal(true);
+      this.setState({ ledgerPopupShown: true })
+      this.handleToggleModal(true)
     }
   }
 
@@ -98,16 +98,16 @@ class Header extends React.Component<Props, State> {
     this.props
       .pingIxoExplorer()
       .then((res) => {
-        this.setState({ responseTime: res as number });
+        this.setState({ responseTime: res as number })
         // Only check every 30 sec if connected
-        setTimeout((): void => this.pingExplorer(), 30000);
+        setTimeout((): void => this.pingExplorer(), 30000)
       })
       .catch((error) => {
-        this.setState({ responseTime: error });
+        this.setState({ responseTime: error })
         // Only check every 5 sec if not connected
-        setTimeout((): void => this.pingExplorer(), 5000);
-      });
-  };
+        setTimeout((): void => this.pingExplorer(), 5000)
+      })
+  }
 
   renderStatusIndicator = (): JSX.Element => {
     return (
@@ -115,8 +115,8 @@ class Header extends React.Component<Props, State> {
         {this.renderLightIndicator()}
         <div className="d-none d-sm-block">{this.renderStatusMessage()}</div>
       </Ping>
-    );
-  };
+    )
+  }
 
   renderStatusMessage(): JSX.Element {
     if (
@@ -128,7 +128,7 @@ class Header extends React.Component<Props, State> {
         <StatusMessage>
           <p>Response time: {this.state.responseTime} ms</p>
         </StatusMessage>
-      );
+      )
     } else {
       return (
         <StatusMessage>
@@ -137,36 +137,36 @@ class Header extends React.Component<Props, State> {
             not responding
           </p>
         </StatusMessage>
-      );
+      )
     }
   }
 
   renderLightIndicator(): JSX.Element {
     if (this.props.ixo === null || this.state.responseTime === null) {
-      return <LightLoading />;
+      return <LightLoading />
     } else if (this.props.ixo && this.state.responseTime !== 0) {
-      return <LightReady />;
+      return <LightReady />
     } else {
-      return <Light />;
+      return <Light />
     }
   }
 
   renderModalHeader = (): {
-    title: string;
-    titleNoCaps?: boolean;
+    title: string
+    titleNoCaps?: boolean
   } => {
     if (this.props.userInfo) {
       return {
-        title: "Hi, " + this.props.userInfo.name,
+        title: 'Hi, ' + this.props.userInfo.name,
         titleNoCaps: true,
-      };
+      }
     } else {
       return {
-        title: "",
+        title: '',
         titleNoCaps: undefined,
-      };
+      }
     }
-  };
+  }
 
   renderModalData = (): JSX.Element => {
     if (this.state.modalResponse.length > 0) {
@@ -180,7 +180,7 @@ class Header extends React.Component<Props, State> {
             CONTINUE
           </Button>
         </ModalData>
-      );
+      )
     } else {
       return (
         <ModalData>
@@ -200,72 +200,72 @@ class Header extends React.Component<Props, State> {
             Why do I need to sign my credentials?
           </InfoLink>
         </ModalData>
-      );
+      )
     }
-  };
+  }
 
   handleToggleModal = (isModalOpen: boolean): void => {
-    this.setState({ isModalOpen: isModalOpen });
-  };
+    this.setState({ isModalOpen: isModalOpen })
+  }
 
   handleLedgerDid = (): void => {
     if (this.props.userInfo.didDoc) {
-      const payload = this.props.userInfo.didDoc;
+      const payload = this.props.userInfo.didDoc
       this.props.ixo.utils
-        .getSignData(payload, "did/AddDid", payload.pubKey)
+        .getSignData(payload, 'did/AddDid', payload.pubKey)
         .then((response: any) => {
           if (response.sign_bytes && response.fee) {
             this.props.keysafe.requestSigning(
               response.sign_bytes,
               (error: any, signature: any) => {
-                this.setState({ isLedgering: true });
+                this.setState({ isLedgering: true })
                 if (!error) {
                   this.props.ixo.user
-                    .registerUserDid(payload, signature, response.fee, "sync")
+                    .registerUserDid(payload, signature, response.fee, 'sync')
                     .then((response: any) => {
                       if ((response.code || 0) == 0) {
                         this.setState({
                           shouldLedgerDid: false,
                           modalResponse:
-                            "Your credentials have been registered on the ixo blockchain. This will take a few seconds in the background, you can continue using the site.",
-                        });
+                            'Your credentials have been registered on the ixo blockchain. This will take a few seconds in the background, you can continue using the site.',
+                        })
                       } else {
                         this.setState({
                           modalResponse:
-                            "Unable to ledger did at this time, please contact our support at support@ixo.world",
-                        });
+                            'Unable to ledger did at this time, please contact our support at support@ixo.world',
+                        })
                       }
-                    });
+                    })
                 }
               },
-              "base64"
-            );
+              'base64',
+            )
           } else {
             this.setState({
               modalResponse:
-                "Unable to ledger did at this time, please contact our support at support@ixo.world",
-            });
+                'Unable to ledger did at this time, please contact our support at support@ixo.world',
+            })
           }
         })
         .catch(() => {
           this.setState({
             modalResponse:
-              "Unable to ledger did at this time, please contact our support at support@ixo.world",
-          });
-        });
+              'Unable to ledger did at this time, please contact our support at support@ixo.world',
+          })
+        })
     } else {
       this.setState({
         modalResponse:
-          "We cannot find your keysafe information, please reach out to our support at support@ixo.world",
-      });
+          'We cannot find your keysafe information, please reach out to our support at support@ixo.world',
+      })
     }
-  };
+  }
 
   render(): JSX.Element {
     return (
       <TopBar
         className={`container-fluid text-white ${
-          this.state.isMobileMenuOpen === true ? "openMenu" : ""
+          this.state.isMobileMenuOpen === true ? 'openMenu' : ''
         }`}
       >
         <ModalWrapper
@@ -293,7 +293,7 @@ class Header extends React.Component<Props, State> {
           </MediaQuery>
         </div>
       </TopBar>
-    );
+    )
   }
 }
 
@@ -302,6 +302,6 @@ const mapStateToProps = (state: RootState): Record<string, any> => ({
   keysafe: state.keySafe.keysafe,
   userInfo: state.account.userInfo,
   entityType: entitiesSelectors.selectSelectedEntitiesType(state),
-});
+})
 
-export const HeaderConnected = connect(mapStateToProps)(Header);
+export const HeaderConnected = connect(mapStateToProps)(Header)
