@@ -75,7 +75,9 @@ class FundingChat extends React.Component<Props & RouteProps> {
                 <CloseIcon />
               </span>
             </AssistantHeader>
-            <Assistant onMessageReceive={this.onAssistantMessageReceive} />
+            <div className="assistant-container">
+              <Assistant onMessageReceive={this.onAssistantMessageReceive} />
+            </div>
           </AssistantWrapper>
         {hasError && (
           <AssistantContentWrapper>
