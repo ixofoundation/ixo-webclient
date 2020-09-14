@@ -116,7 +116,7 @@ class CreateEntityAttestation extends CreateEntityBase<Props> {
     this.cardRefs['claiminfo'] = React.createRef()
 
     const {
-      claimInfo: { title, shortDescription },
+      claimInfo: { title, shortDescription, type },
       handleUpdateClaimInfo,
     } = this.props
 
@@ -129,6 +129,7 @@ class CreateEntityAttestation extends CreateEntityBase<Props> {
           handleError={(errors): void =>
             this.props.handleValidationError('claiminfo', errors)
           }
+          type={type}
           title={title}
           shortDescription={shortDescription}
         />
@@ -252,7 +253,7 @@ class CreateEntityAttestation extends CreateEntityBase<Props> {
 
   renderShortTextQuestion = (question: Question): JSX.Element => {
     const { handleUpdateShortTextQuestion } = this.props
-    const { id, title, description, label } = question
+    const { id, title, description, label, attributeType } = question
 
     return (
       <ShortTextQuestion
@@ -266,6 +267,7 @@ class CreateEntityAttestation extends CreateEntityBase<Props> {
         }
         title={title}
         description={description}
+        attributeType={attributeType}
         label={label}
       />
     )
@@ -273,7 +275,7 @@ class CreateEntityAttestation extends CreateEntityBase<Props> {
 
   renderLongTextQuestion = (question: Question): JSX.Element => {
     const { handleUpdateLongTextQuestion } = this.props
-    const { id, title, description, label } = question
+    const { id, title, description, label, attributeType } = question
 
     return (
       <ShortTextQuestion
@@ -287,6 +289,7 @@ class CreateEntityAttestation extends CreateEntityBase<Props> {
         }
         title={title}
         description={description}
+        attributeType={attributeType}
         label={label}
       />
     )
@@ -294,7 +297,7 @@ class CreateEntityAttestation extends CreateEntityBase<Props> {
 
   renderSingleDateSelectorQuestion = (question: Question): JSX.Element => {
     const { handleUpdateSingleDateSelectorQuestion } = this.props
-    const { id, title, description, label } = question
+    const { id, title, description, label, attributeType } = question
 
     return (
       <SingleDateSelectorQuestion
@@ -308,6 +311,7 @@ class CreateEntityAttestation extends CreateEntityBase<Props> {
         }
         title={title}
         description={description}
+        attributeType={attributeType}
         label={label}
       />
     )
@@ -315,7 +319,7 @@ class CreateEntityAttestation extends CreateEntityBase<Props> {
 
   renderDateRangeSelectorQuestion = (question: Question): JSX.Element => {
     const { handleUpdateDateRangeSelectorQuestion } = this.props
-    const { id, title, description, label } = question
+    const { id, title, description, label, attributeType } = question
 
     return (
       <DateRangeSelectorQuestion
@@ -329,6 +333,7 @@ class CreateEntityAttestation extends CreateEntityBase<Props> {
         }
         title={title}
         description={description}
+        attributeType={attributeType}
         label={label}
       />
     )
@@ -336,7 +341,7 @@ class CreateEntityAttestation extends CreateEntityBase<Props> {
 
   renderAvatarUploadQuestion = (question: Question): JSX.Element => {
     const { handleUpdateAvatarUploadQuestion } = this.props
-    const { id, title, description, label } = question
+    const { id, title, description, label, attributeType } = question
 
     return (
       <AvatarUploadQuestion
@@ -350,6 +355,7 @@ class CreateEntityAttestation extends CreateEntityBase<Props> {
         }
         title={title}
         description={description}
+        attributeType={attributeType}
         label={label}
       />
     )
@@ -357,7 +363,7 @@ class CreateEntityAttestation extends CreateEntityBase<Props> {
 
   renderImageUploadQuestion = (question: Question): JSX.Element => {
     const { handleUpdateImageUploadQuestion } = this.props
-    const { id, title, description, label } = question
+    const { id, title, description, label, attributeType } = question
 
     return (
       <ImageUploadQuestion
@@ -371,6 +377,7 @@ class CreateEntityAttestation extends CreateEntityBase<Props> {
         }
         title={title}
         description={description}
+        attributeType={attributeType}
         label={label}
       />
     )
@@ -378,7 +385,7 @@ class CreateEntityAttestation extends CreateEntityBase<Props> {
 
   renderVideoUploadQuestion = (question: Question): JSX.Element => {
     const { handleUpdateVideoUploadQuestion } = this.props
-    const { id, title, description, label } = question
+    const { id, title, description, label, attributeType } = question
 
     return (
       <VideoUploadQuestion
@@ -392,6 +399,7 @@ class CreateEntityAttestation extends CreateEntityBase<Props> {
         }
         title={title}
         description={description}
+        attributeType={attributeType}
         label={label}
       />
     )
@@ -399,7 +407,7 @@ class CreateEntityAttestation extends CreateEntityBase<Props> {
 
   renderAudioUploadQuestion = (question: Question): JSX.Element => {
     const { handleUpdateAudioUploadQuestion } = this.props
-    const { id, title, description, label } = question
+    const { id, title, description, label, attributeType } = question
 
     return (
       <AudioUploadQuestion
@@ -413,6 +421,7 @@ class CreateEntityAttestation extends CreateEntityBase<Props> {
         }
         title={title}
         description={description}
+        attributeType={attributeType}
         label={label}
       />
     )
@@ -420,7 +429,7 @@ class CreateEntityAttestation extends CreateEntityBase<Props> {
 
   renderDocumentUploadQuestion = (question: Question): JSX.Element => {
     const { handleUpdateDocumentUploadQuestion } = this.props
-    const { id, title, description, label } = question
+    const { id, title, description, label, attributeType } = question
 
     return (
       <DocumentUploadQuestion
@@ -434,6 +443,7 @@ class CreateEntityAttestation extends CreateEntityBase<Props> {
         }
         title={title}
         description={description}
+        attributeType={attributeType}
         label={label}
       />
     )
@@ -441,7 +451,7 @@ class CreateEntityAttestation extends CreateEntityBase<Props> {
 
   renderLocationSelectorQuestion = (question: Question): JSX.Element => {
     const { handleUpdateLocationSelectorQuestion } = this.props
-    const { id, title, description, label } = question
+    const { id, title, description, label, attributeType } = question
 
     return (
       <LocationSelectorQuestion
@@ -455,6 +465,7 @@ class CreateEntityAttestation extends CreateEntityBase<Props> {
         }
         title={title}
         description={description}
+        attributeType={attributeType}
         label={label}
       />
     )
@@ -462,7 +473,14 @@ class CreateEntityAttestation extends CreateEntityBase<Props> {
 
   renderQRCodeQuestion = (question: Question): JSX.Element => {
     const { handleUpdateQRCodeQuestion } = this.props
-    const { id, title, description, label, initialValue } = question
+    const {
+      id,
+      title,
+      description,
+      label,
+      attributeType,
+      initialValue,
+    } = question
 
     return (
       <QRCodeQuestion
@@ -476,6 +494,7 @@ class CreateEntityAttestation extends CreateEntityBase<Props> {
         }
         title={title}
         description={description}
+        attributeType={attributeType}
         label={label}
         initialValue={initialValue}
       />
@@ -484,7 +503,7 @@ class CreateEntityAttestation extends CreateEntityBase<Props> {
 
   renderQRCodeScanQuestion = (question: Question): JSX.Element => {
     const { handleUpdateQRCodeScanQuestion } = this.props
-    const { id, title, description, label } = question
+    const { id, title, description, label, attributeType } = question
 
     return (
       <QRCodeScanQuestion
@@ -498,6 +517,7 @@ class CreateEntityAttestation extends CreateEntityBase<Props> {
         }
         title={title}
         description={description}
+        attributeType={attributeType}
         label={label}
       />
     )
@@ -505,7 +525,7 @@ class CreateEntityAttestation extends CreateEntityBase<Props> {
 
   renderRatingQuestion = (question: Question): JSX.Element => {
     const { handleUpdateRatingQuestion } = this.props
-    const { id, title, description, label, values } = question
+    const { id, title, description, label, attributeType, values } = question
 
     return (
       <RatingQuestion
@@ -519,6 +539,7 @@ class CreateEntityAttestation extends CreateEntityBase<Props> {
         }
         title={title}
         description={description}
+        attributeType={attributeType}
         label={label}
         values={values}
       />
@@ -532,6 +553,7 @@ class CreateEntityAttestation extends CreateEntityBase<Props> {
       title,
       description,
       label,
+      attributeType,
       itemValues,
       minItems,
       maxItems,
@@ -549,6 +571,7 @@ class CreateEntityAttestation extends CreateEntityBase<Props> {
         }
         title={title}
         description={description}
+        attributeType={attributeType}
         label={label}
         itemValues={itemValues}
         minItems={minItems}

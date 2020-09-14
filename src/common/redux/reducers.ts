@@ -1,4 +1,4 @@
-import { combineReducers } from 'redux'
+import { combineReducers, Reducer } from 'redux'
 import { connectRouter } from 'connected-react-router'
 import { reducer as keysafeReducer } from 'modules/keysafe/keysafe.reducer'
 import { reducer as ixoReducer } from 'modules/ixo/ixo.reducer'
@@ -13,7 +13,7 @@ import { reducer as bondReducer } from 'modules/BondModules/bond/bond.reducer'
 import { reducer as tokenSupplyReducer } from 'modules/tokenSupply/tokenSupply.reducer'
 import { reducer as entitiesReducer } from 'modules/EntityModules/Entities/Entities.reducer'
 import { reducer as fuelEntityReducer } from 'modules/EntityModules/FuelEntity/FuelEntity.reducer'
-import { reducer as submitEntityClaimReducer } from 'modules/EntityModules/SubmitEntityClaim/SubmitEntityClaim.reducer'
+import { reducer as submitEntityClaimReducer } from 'modules/ClaimModules/SubmitEntityClaim/SubmitEntityClaim.reducer'
 import { reducer as selectedEntityReducer } from 'modules/EntityModules/SelectedEntity/SelectedEntity.reducer'
 import { reducer as createEntityReducer } from 'modules/EntityModules/CreateEntity/CreateEntity.reducer'
 import { reducer as createEntityPageContentReducer } from 'modules/EntityModules/CreateEntityPageContent/CreateEntityPageContent.reducer'
@@ -24,7 +24,7 @@ import { reducer as createEntityClaimsReducer } from 'modules/EntityModules/Crea
 import { reducer as projectReducer } from 'pages/bond/store/reducers'
 import { RootState } from './types'
 
-export const rootReducer: any = (history) =>
+export const rootReducer = (history): Reducer<RootState> =>
   combineReducers<RootState>({
     keySafe: keysafeReducer,
     ixo: ixoReducer,

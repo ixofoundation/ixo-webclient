@@ -106,8 +106,8 @@ export interface Entity {
         ['@context']: string
         ['@id']: string
         criteria: {
-          condition: string
           attribute: string
+          condition: string
         }[]
       }[]
       claimEnrichment: {

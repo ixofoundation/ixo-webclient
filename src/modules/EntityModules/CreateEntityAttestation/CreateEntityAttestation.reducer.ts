@@ -14,6 +14,7 @@ export const initialState: CreateEntityAttestationState = {
   claimInfo: {
     title: undefined,
     shortDescription: undefined,
+    type: undefined,
   },
   questions: {},
   validation: {},

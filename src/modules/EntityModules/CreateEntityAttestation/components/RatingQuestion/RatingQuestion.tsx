@@ -1,11 +1,10 @@
 import React from 'react'
 import MultiControlForm from 'common/components/JsonForm/MultiControlForm/MultiControlForm'
 import { FormCardProps } from '../../../CreateEntity/types'
+import { QuestionCardBaseProps } from '../../types'
+import { questionSchema, questionUiSchema } from '../../constants'
 
-interface Props extends FormCardProps {
-  title: string
-  description: string
-  label: string
+interface Props extends FormCardProps, QuestionCardBaseProps {
   values: string[]
 }
 
@@ -15,6 +14,7 @@ const RatingQuestion: React.FunctionComponent<Props> = React.forwardRef(
       title,
       description,
       label,
+      attributeType,
       values,
       handleUpdateContent,
       handleSubmitted,
@@ -26,16 +26,15 @@ const RatingQuestion: React.FunctionComponent<Props> = React.forwardRef(
       title,
       description,
       label,
+      attributeType,
       scale: values ? values.length : undefined,
     }
 
     const schema = {
-      type: 'object',
-      required: ['title', 'label', 'scale'],
+      ...questionSchema,
+      required: [...questionSchema.required, 'scale'],
       properties: {
-        title: { type: 'string', title: 'Title' },
-        label: { type: 'string', title: 'Control Label' },
-        description: { type: 'string', title: 'Description' },
+        ...questionSchema.properties,
         scale: {
           type: 'number',
           title: 'Rating Scale',
@@ -45,21 +44,9 @@ const RatingQuestion: React.FunctionComponent<Props> = React.forwardRef(
     } as any
 
     const uiSchema = {
-      title: {
-        'ui:widget': 'text',
-        'ui:placeholder': 'The title of the question',
-      },
-      label: {
-        'ui:widget': 'text',
-        'ui:placeholder': 'The label for the input',
-      },
+      ...questionUiSchema,
       scale: {
         'ui:placeholder': '-- Select Rating Scale --',
-      },
-      description: {
-        'ui:widget': 'textarea',
-        'ui:placeholder':
-          'Provide a short explanation or instruction for the question (optional)',
       },
     }
 

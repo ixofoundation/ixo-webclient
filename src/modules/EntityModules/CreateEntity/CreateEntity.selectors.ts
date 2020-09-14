@@ -115,10 +115,12 @@ export const selectAttestationApiPayload = createSelector(
   (claimInfoSection, questions): Attestation => {
     return {
       claimInfo: {
+        type: claimInfoSection.type,
         title: claimInfoSection.title,
         shortDescription: claimInfoSection.shortDescription,
       },
       forms: questions.map((question) => ({
+        ['@type']: question.attributeType,
         schema: {
           title: question.title,
           description: question.description,
