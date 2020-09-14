@@ -145,7 +145,7 @@ export const Menu = styled.div`
 
 export const MobileMenu = styled(Menu)`
   &.openMenu {
-    top: 64px;
+    top: 56px;
     opacity: 1;
     pointer-events: auto;
   }

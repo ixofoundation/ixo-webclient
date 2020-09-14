@@ -3,9 +3,8 @@ import styled from 'styled-components'
 export const Inner = styled.div`
   position: relative;
   z-index: 2;
-  background: black;
 
-  font-family: ${/* eslint-disable-line */ props =>
+  font-family: ${/* eslint-disable-line */ (props) =>
     props.theme.fontRobotoCondensed};
 `
 
@@ -15,7 +14,7 @@ export const UserMenu = styled.div`
   width: 260px;
   right: 0;
   z-index: 1;
-  font-family: ${/* eslint-disable-line */ props => props.theme.fontRoboto};
+  font-family: ${/* eslint-disable-line */ (props) => props.theme.fontRoboto};
 
   transition: top 0.5s ease;
 `
@@ -74,7 +73,7 @@ export const RedIcon = styled.div`
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  background: ${/* eslint-disable-line */ props => props.theme.red};
+  background: ${/* eslint-disable-line */ (props) => props.theme.red};
   margin-right: 8px;
   margin-top: 3px;
 `
@@ -118,7 +117,7 @@ export const NoPadLeft = styled.div`
 		position:relative;
 		letter-spacing:0.3px
 		font-weight: 600;
-		font-family: ${/* eslint-disable-line */ props => props.theme.fontRoboto};
+		font-family: ${/* eslint-disable-line */ (props) => props.theme.fontRoboto};
 	}
 `
 

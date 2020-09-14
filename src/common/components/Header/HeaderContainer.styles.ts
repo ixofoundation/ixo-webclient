@@ -5,10 +5,7 @@ export const TopBar = styled.header`
   position: sticky;
   top: 0;
   padding: 0 15px;
-
-  z-index: 9;
-  background: black;
-
+  z-index: 10;
   && {
     width: 100%;
   }
