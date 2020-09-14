@@ -19,14 +19,13 @@ import {
 
 export interface Props {
   children: any
-  projectData: any // TEMP until projects gets it's own data from redux instead of storing it in some weird link state
-  projectDid: string
-  title: string
-  shortDescription: string
-  imageUrl: string
-  founderLogoUrl: string
+  did: string
+  name: string
+  description: string
+  image: string
+  logo: string
   status: string
-  sdgs: number[]
+  sdgs: string[]
   shieldColor: ShieldColor
   shieldLabel: string
   shield: string
@@ -34,11 +33,9 @@ export interface Props {
 
 export const EntityCardContainer: React.FunctionComponent<Props> = ({
   children,
-  projectData,
-  projectDid,
-  shortDescription,
-  imageUrl,
-  status,
+  did,
+  description,
+  image,
   sdgs,
   shieldColor,
   shieldLabel,
@@ -47,12 +44,10 @@ export const EntityCardContainer: React.FunctionComponent<Props> = ({
   const getSDGIcons = (): JSX.Element => (
     <>
       {sdgs.map((sdg, index) => {
-        if (Math.floor(sdg) > 0 && Math.floor(sdg) <= SDGArray.length) {
+        const sdgInt = Math.floor(parseInt(sdg, 10))
+        if (sdgInt > 0 && sdgInt <= SDGArray.length) {
           return (
-            <i
-              key={index}
-              className={`icon-sdg-${SDGArray[Math.floor(sdg) - 1].ico}`}
-            />
+            <i key={index} className={`icon-sdg-${SDGArray[sdgInt - 1].ico}`} />
           )
         }
         return null
@@ -64,23 +59,18 @@ export const EntityCardContainer: React.FunctionComponent<Props> = ({
     <CardContainer className="col-xl-4 col-md-6 col-sm-12 col-12">
       <CardLink
         to={{
-          pathname: `/projects/${projectDid}/overview`,
-          state: {
-            projectPublic: projectData,
-            imageLink: imageUrl,
-            projectStatus: status,
-          },
+          pathname: `/projects/${did}/overview`,
         }}
       >
         <CardTop>
           <CardTopContainer
             style={{
-              backgroundImage: `url(${imageUrl}),url(${require('assets/images/ixo-placeholder-large.jpg')})`,
+              backgroundImage: `url(${image}),url(${require('assets/images/ixo-placeholder-large.jpg')})`,
             }}
           >
             <SDGs>{getSDGIcons()}</SDGs>
             <Description>
-              <p>{excerptText(shortDescription, 20)}</p>
+              <p>{excerptText(description, 20)}</p>
             </Description>
           </CardTopContainer>
         </CardTop>

@@ -1,5 +1,5 @@
 import { Schema, SchemaBase } from './schema/types'
-import { EntityType } from '../../types'
+import { EntityType } from '../../../types'
 
 export const getHeaderSchema = (
   filterSector: string,

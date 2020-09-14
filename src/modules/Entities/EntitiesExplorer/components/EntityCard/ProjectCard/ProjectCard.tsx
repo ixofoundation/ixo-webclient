@@ -8,63 +8,61 @@ import {
   ProgressSuccessful,
   ProgressRequired,
   Impact,
-  StatisticsContainer,
+  /*   StatisticsContainer,
   Statistic,
   StatisticLabel,
-  StatisticValue,
+  StatisticValue, */
   Logo,
   Flag,
 } from './ProjectCard.styles'
 import { EntityCardContainer } from '../EntityCardContainer'
 import { ShieldColor } from '../EntityCardContainer.styles'
-import Star from 'assets/icons/Star'
+// import Star from 'assets/icons/Star'
 import flagged from '../../../../../../assets/images/flagged.svg'
 
 export interface Props {
-  projectData: any
-  projectDid: string
-  title: string
-  shortDescription: string
-  imageUrl: string
-  founderLogoUrl: string
-  sdgs: number[]
+  did: string
+  name: string
+  description: string
+  image: string
+  logo: string
+  sdgs: string[]
   requiredClaims: number
   successfulClaims: number
   rejectedClaims: number
-  impactAction: string
-  version: number
-  fundedCount: number
+  goal: string
+  // TODO when data exists
+  /*   fundedCount: number
+  version: string
   activeUsage: number
   ratingScore: number
-  ratingCount: number
+  ratingCount: number */
 }
 
 export const ProjectCard: React.FunctionComponent<Props> = ({
-  projectData,
-  projectDid,
-  title,
-  shortDescription,
-  imageUrl,
-  founderLogoUrl,
+  did,
+  name,
+  description,
+  image,
+  logo,
   sdgs,
   requiredClaims,
   successfulClaims,
   rejectedClaims,
-  impactAction,
+  goal: impactAction,
+  /*   fundedCount,
   version,
-  fundedCount,
   activeUsage,
   ratingScore,
-  ratingCount,
+  ratingCount, */
 }) => {
   return (
     <EntityCardContainer
-      projectData={projectData}
-      projectDid={projectDid}
-      title={title}
-      shortDescription={shortDescription}
-      imageUrl={imageUrl}
-      founderLogoUrl={founderLogoUrl}
+      did={did}
+      name={name}
+      description={description}
+      image={image}
+      logo={logo}
       status=""
       sdgs={sdgs}
       shield="Project"
@@ -72,12 +70,12 @@ export const ProjectCard: React.FunctionComponent<Props> = ({
       shieldColor={ShieldColor.Blue}
     >
       <MainContent>
-        <Title>{excerptText(title, 10)}</Title>
+        <Title>{excerptText(name, 10)}</Title>
       </MainContent>
 
       <Flag src={flagged} />
 
-      <StatisticsContainer>
+      {/*       <StatisticsContainer>
         <Statistic>
           <StatisticValue>{version}</StatisticValue>
           <StatisticLabel>Funded ({fundedCount})</StatisticLabel>
@@ -93,7 +91,7 @@ export const ProjectCard: React.FunctionComponent<Props> = ({
           </StatisticValue>
           <StatisticLabel>Rating ({ratingCount})</StatisticLabel>
         </Statistic>
-      </StatisticsContainer>
+      </StatisticsContainer> */}
       <ProgressBar
         total={requiredClaims}
         approved={successfulClaims}
@@ -103,7 +101,7 @@ export const ProjectCard: React.FunctionComponent<Props> = ({
         <ProgressSuccessful>{successfulClaims}</ProgressSuccessful>
         <ProgressRequired>/{requiredClaims}</ProgressRequired>
       </Progress>
-      <Logo src={founderLogoUrl} />
+      <Logo src={logo} />
       <Impact>{impactAction}</Impact>
     </EntityCardContainer>
   )

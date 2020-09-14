@@ -8,7 +8,8 @@ import {
   SelectedEntityActions,
   ClearEntityAction,
 } from './types'
-import { Entity, EntityType } from '../types'
+import { EntityType } from '../types'
+import { ExplorerEntity } from '../EntitiesExplorer/types'
 
 const initialState = SUT.initialState
 
@@ -26,30 +27,28 @@ describe('SelectedEntity Reducer', () => {
 
   describe('GetEntitySuccess Action', () => {
     it('should return a new copy of state with the entity data set', () => {
-      const entity: Entity = {
+      const entity: ExplorerEntity = {
         did: 'someDid1',
-        entityType: EntityType.Project,
-        userDid: 'someUserDid1',
-        title: 'someTitle1',
-        shortDescription: 'someShortDescription1',
+        type: EntityType.Project,
+        creatorDid: 'someUserDid1',
+        name: 'someTitle1',
+        description: 'someShortDescription1',
         dateCreated: moment('2020-04-09T13:14:13.000Z'),
         ownerName: 'someOwnerName1',
         status: 'someStatus1',
-        country: 'someCountry1',
-        impactAction: 'someImpactAction1',
+        location: 'someCountry1',
+        goal: 'someImpactAction1',
         serviceProvidersCount: 13,
         evaluatorsCount: 1,
         requiredClaimsCount: 100,
         successfulClaimsCount: 10,
         pendingClaimsCount: 20,
         rejectedClaimsCount: 30,
-        sdgs: [1, 2, 3],
-        longDescription: 'someLongDescription',
+        sdgs: ['1', '2', '3'],
         agentDids: ['someAgentDid1'],
-        imageUrl: 'sommeImageUrl',
-        founderLogoUrl: 'sommeLogoUrl',
-        logoUrl: 'someLogoUrl',
-        categories: [
+        image: 'sommeImageUrl',
+        logo: 'sommeLogoUrl',
+        ddoTags: [
           {
             name: 'someCategory1',
             tags: [
@@ -67,8 +66,6 @@ describe('SelectedEntity Reducer', () => {
             ],
           },
         ],
-        pdsUrl: 'somePdsUrl',
-        data: null,
       }
 
       // given .. we have an action of type SelectedEntityActions.GetEntitySuccess and some data
@@ -87,30 +84,28 @@ describe('SelectedEntity Reducer', () => {
 
   describe('ClearEntity Action', () => {
     it('should clear the entity', () => {
-      const currentState: Entity = {
+      const currentState: ExplorerEntity = {
         did: 'someDid1',
-        entityType: EntityType.Project,
-        userDid: 'someUserDid1',
-        title: 'someTitle1',
-        shortDescription: 'someShortDescription1',
+        type: EntityType.Project,
+        creatorDid: 'someUserDid1',
+        name: 'someTitle1',
+        description: 'someShortDescription1',
         dateCreated: moment('2020-04-09T13:14:13.000Z'),
         ownerName: 'someOwnerName1',
         status: 'someStatus1',
-        country: 'someCountry1',
-        impactAction: 'someImpactAction1',
+        location: 'someCountry1',
+        goal: 'someImpactAction1',
         serviceProvidersCount: 13,
         evaluatorsCount: 1,
         requiredClaimsCount: 100,
         successfulClaimsCount: 10,
         pendingClaimsCount: 20,
         rejectedClaimsCount: 30,
-        sdgs: [1, 2, 3],
-        longDescription: 'someLongDescription',
+        sdgs: ['1', '2', '3'],
         agentDids: ['someAgentDid1'],
-        imageUrl: 'sommeImageUrl',
-        founderLogoUrl: 'sommeLogoUrl',
-        logoUrl: 'someLogoUrl',
-        categories: [
+        image: 'sommeImageUrl',
+        logo: 'sommeLogoUrl',
+        ddoTags: [
           {
             name: 'someCategory1',
             tags: [
@@ -128,8 +123,6 @@ describe('SelectedEntity Reducer', () => {
             ],
           },
         ],
-        pdsUrl: 'somePdsUrl',
-        data: null,
       }
 
       // given .. we have an action of type SelectedEntityActions.ClearEntity

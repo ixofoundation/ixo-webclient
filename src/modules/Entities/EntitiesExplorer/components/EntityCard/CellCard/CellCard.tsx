@@ -5,10 +5,10 @@ import {
   Founded,
   FoundedDate,
   MainContent,
-  StatisticsContainer,
+  /*   StatisticsContainer,
   Statistic,
   StatisticLabel,
-  StatisticValue,
+  StatisticValue, */
   Logo,
 } from './CellCard.styles'
 import { Moment } from 'moment'
@@ -17,28 +17,27 @@ import { ShieldColor } from '../EntityCardContainer.styles'
 
 export interface Props {
   dateCreated: Moment
-  memberCount: number
-  projectCount: number
-  projectData: any
-  projectDid: string
-  title: string
-  shortDescription: string
-  imageUrl: string
-  founderLogoUrl: string
+  // TODO when data exists
+  /*   memberCount: number
+  projectCount: number */
+  did: string
+  name: string
+  description: string
+  image: string
+  logo: string
   status: string
-  sdgs: number[]
+  sdgs: string[]
 }
 
 export const CellCard: React.FunctionComponent<Props> = ({
   dateCreated,
-  memberCount,
-  projectCount,
-  projectData,
-  projectDid,
-  title,
-  shortDescription,
-  imageUrl,
-  founderLogoUrl,
+  /*   memberCount,
+  projectCount, */
+  did,
+  name,
+  description,
+  image,
+  logo,
   status,
   sdgs,
 }) => {
@@ -56,12 +55,11 @@ export const CellCard: React.FunctionComponent<Props> = ({
 
   return (
     <EntityCardContainer
-      projectData={projectData}
-      projectDid={projectDid}
-      title={title}
-      shortDescription={shortDescription}
-      imageUrl={imageUrl}
-      founderLogoUrl={founderLogoUrl}
+      did={did}
+      name={name}
+      description={description}
+      image={image}
+      logo={logo}
       status={status}
       sdgs={sdgs}
       shieldColor={shieldColor}
@@ -69,14 +67,14 @@ export const CellCard: React.FunctionComponent<Props> = ({
       shieldLabel="Status"
     >
       <MainContent>
-        <Logo src={founderLogoUrl} />
-        <Title>{excerptText(title, 10)}</Title>
+        <Logo src={logo} />
+        <Title>{excerptText(name, 10)}</Title>
         <Founded>
           Founded in{' '}
           <FoundedDate>{dateCreated.format('DD MMM YYYY')}</FoundedDate>
         </Founded>
       </MainContent>
-      <StatisticsContainer>
+      {/*       <StatisticsContainer>
         <Statistic>
           <StatisticValue>{memberCount}</StatisticValue>{' '}
           <StatisticLabel>members</StatisticLabel>
@@ -85,7 +83,7 @@ export const CellCard: React.FunctionComponent<Props> = ({
           <StatisticValue>{projectCount}</StatisticValue>{' '}
           <StatisticLabel>projects</StatisticLabel>
         </Statistic>
-      </StatisticsContainer>
+      </StatisticsContainer> */}
     </EntityCardContainer>
   )
 }

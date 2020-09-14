@@ -1,34 +1,34 @@
 import { createSelector } from 'reselect'
 import { RootState } from 'common/redux/types'
-import { Entity } from '../types'
+import { ExplorerEntity } from '../EntitiesExplorer/types'
 
-export const selectSelectedEntity = (state: RootState): Entity =>
+export const selectSelectedEntity = (state: RootState): ExplorerEntity =>
   state.selectedEntity
 
 export const selectEntityDid = createSelector(
   selectSelectedEntity,
-  (entity: Entity) => {
+  (entity: ExplorerEntity) => {
     return entity ? entity.did : null
   },
 )
 
 export const selectEntityTitle = createSelector(
   selectSelectedEntity,
-  (entity: Entity) => {
-    return entity ? entity.title : null
+  (entity: ExplorerEntity) => {
+    return entity ? entity.name : null
   },
 )
 
 export const selectEntityType = createSelector(
   selectSelectedEntity,
-  (entity: Entity) => {
-    return entity ? entity.entityType : null
+  (entity: ExplorerEntity) => {
+    return entity ? entity.type : null
   },
 )
 
 export const entityIsLoading = createSelector(
   selectSelectedEntity,
-  (entity: Entity) => {
+  (entity: ExplorerEntity) => {
     return !entity
   },
 )

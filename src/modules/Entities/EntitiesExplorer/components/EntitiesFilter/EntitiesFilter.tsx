@@ -1,7 +1,7 @@
 import * as React from 'react'
 import MediaQuery from 'react-responsive'
 import { deviceWidth } from 'lib/commonData'
-import { Category } from '../../types'
+import { DDOTagCategory } from '../../types'
 import { FilterItem as IconListFilterItem } from 'common/components/Filters/IconListFilter/types'
 import { Schema, SchemaCategoryTag } from './schema/types'
 import {
@@ -42,7 +42,7 @@ interface Props {
   endDate: any
   endDateFormatted: string
   dateSummary: string
-  categories: Category[]
+  categories: DDOTagCategory[]
   categoriesSummary: string
   userEntities: boolean
   featuredEntities: boolean

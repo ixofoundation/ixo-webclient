@@ -1,4 +1,4 @@
-import { Entity } from '../types'
+import { ExplorerEntity } from '../EntitiesExplorer/types'
 
 export enum SelectedEntityActions {
   GetEntity = 'ixo/Entity/GET_ENTITY',
@@ -10,12 +10,12 @@ export enum SelectedEntityActions {
 
 export interface GetEntityAction {
   type: typeof SelectedEntityActions.GetEntity
-  payload: Promise<Entity>
+  payload: Promise<ExplorerEntity>
 }
 
 export interface GetEntitySuccessAction {
   type: typeof SelectedEntityActions.GetEntitySuccess
-  payload: Entity
+  payload: ExplorerEntity
 }
 
 export interface ClearEntityAction {

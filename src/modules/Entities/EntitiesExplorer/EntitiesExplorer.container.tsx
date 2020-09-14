@@ -4,7 +4,7 @@ import { Moment } from 'moment'
 import { EntitiesDashboard } from './components/EntitiesDashboard/EntitiesDashboard'
 import { ProjectCard } from './components/EntityCard/ProjectCard/ProjectCard'
 import { CellCard } from './components/EntityCard/CellCard/CellCard'
-import { EntitiesHero } from '../components/EntitiesHero/EntitiesHero'
+import { EntitiesHero } from './components/EntitiesHero/EntitiesHero'
 import { Spinner } from 'common/components/Spinner'
 import { connect } from 'react-redux'
 import { RootState } from 'common/redux/types'
@@ -30,10 +30,10 @@ import {
   filterCategoryTag,
   filterSector,
 } from './EntitiesExplorer.actions'
-import EntitiesFilter from '../components/EntitiesFilter/EntitiesFilter'
-import { Entity, EntityType } from '../types'
-import { Category } from '../types'
-import { Schema as FilterSchema } from '../components/EntitiesFilter/schema/types'
+import EntitiesFilter from './components/EntitiesFilter/EntitiesFilter'
+import { EntityType } from '../types'
+import { DDOTagCategory, ExplorerEntity } from './types'
+import { Schema as FilterSchema } from './components/EntitiesFilter/schema/types'
 import * as entitiesSelectors from './EntitiesExplorer.selectors'
 import * as accountSelectors from 'modules/Account/Account.selectors'
 import { entityTypeMap } from '../strategy-map'
@@ -41,8 +41,8 @@ import { entityTypeMap } from '../strategy-map'
 export interface Props extends RouteProps {
   location?: any
   contentType: string
-  entityType: EntityType
-  entities: Entity[]
+  type: EntityType
+  entities: ExplorerEntity[]
   entitiesCount: number
   userEntitiesCount: number
   requiredClaimsCount: number
@@ -52,14 +52,14 @@ export interface Props extends RouteProps {
   remainingClaimsCount: number
   serviceProvidersCount: number
   evaluatorsCount: number
-  countries: any[]
+  locations: any[]
   filteredEntitiesCount: number
   filterDateFrom: Moment
   filterDateFromFormatted: string
   filterDateTo: Moment
   filterDateToFormatted: string
   filterDateSummary: string
-  filterCategories: Category[]
+  filterCategories: DDOTagCategory[]
   filterCategoriesSummary: string
   filterUserEntities: boolean
   filterFeaturedEntities: boolean
@@ -69,7 +69,7 @@ export interface Props extends RouteProps {
   filterSchema: FilterSchema
   filterSector: string
   handleGetEntities: () => void
-  handleChangeEntitiesType: (entityType: EntityType) => void
+  handleChangeEntitiesType: (type: EntityType) => void
   handleFilterToggleUserEntities: (userEntities: boolean) => void
   handleFilterToggleFeaturedEntities: (featuredEntities: boolean) => void
   handleFilterTogglePopularEntities: (popularEntities: boolean) => void
@@ -93,45 +93,47 @@ export class Entities extends React.Component<any, any> {
   }
 
   renderCards = (): JSX.Element[] => {
-    return this.props.entities.map((entity, index) => {
-      switch (this.props.entityType) {
+    return this.props.entities.map((entity: ExplorerEntity, index) => {
+      switch (this.props.type) {
         case EntityType.Cell:
           return (
             <CellCard
               dateCreated={entity.dateCreated}
-              imageUrl={entity.imageUrl}
-              founderLogoUrl={entity.founderLogoUrl}
-              projectDid={entity.did}
-              shortDescription={entity.shortDescription}
-              title={entity.title}
+              image={entity.image}
+              logo={entity.logo}
+              did={entity.did}
+              description={entity.description}
+              name={entity.name}
               sdgs={entity.sdgs}
-              projectData={entity.data}
               key={index}
               status={entity.status}
-              memberCount={162} // TODO
-              projectCount={3} // TODO
+              /* TODO when these figures exist    
+              memberCount={X}
+              projectCount={X}
+              */
             />
           )
         default:
           return (
             <ProjectCard
-              imageUrl={entity.imageUrl}
-              impactAction={entity.impactAction}
-              projectDid={entity.did}
+              image={entity.image}
+              goal={entity.goal}
+              did={entity.did}
               rejectedClaims={entity.rejectedClaimsCount}
               successfulClaims={entity.successfulClaimsCount}
               requiredClaims={entity.requiredClaimsCount}
-              shortDescription={entity.shortDescription}
-              title={entity.title}
+              description={entity.description}
+              name={entity.name}
               sdgs={entity.sdgs}
-              projectData={entity.data}
               key={index}
-              founderLogoUrl={entity.founderLogoUrl}
-              version={0.2} // TODO
-              fundedCount={380}
-              activeUsage={16} // TODO
-              ratingScore={4.5}
-              ratingCount={380}
+              logo={entity.logo}
+              /* TODO when data exists          
+              version={entity.version}
+              fundedCount={X}
+              activeUsage={X}
+              ratingScore={X}
+              ratingCount={X}
+              */
             />
           )
       }
@@ -144,7 +146,7 @@ export class Entities extends React.Component<any, any> {
         <EntitiesContainer className="container-fluid">
           <div className="container">
             <EntitiesFilter
-              title={`All ${entityTypeMap[this.props.entityType].plural}`}
+              title={`All ${entityTypeMap[this.props.type].plural}`}
               filterSchema={this.props.filterSchema}
               startDate={this.props.filterDateFrom}
               startDateFormatted={this.props.filterDateFromFormatted}
@@ -181,8 +183,8 @@ export class Entities extends React.Component<any, any> {
               <NoEntitiesContainer>
                 <p>
                   There are no{' '}
-                  {entityTypeMap[this.props.entityType].plural.toLowerCase()}{' '}
-                  that match your search criteria
+                  {entityTypeMap[this.props.type].plural.toLowerCase()} that
+                  match your search criteria
                 </p>
               </NoEntitiesContainer>
             )}
@@ -193,8 +195,7 @@ export class Entities extends React.Component<any, any> {
       return (
         <ErrorContainer>
           <p>
-            No {entityTypeMap[this.props.entityType].plural.toLowerCase()} were
-            found
+            No {entityTypeMap[this.props.type].plural.toLowerCase()} were found
           </p>
         </ErrorContainer>
       )
@@ -204,15 +205,13 @@ export class Entities extends React.Component<any, any> {
   handleRenderEntityList(): JSX.Element {
     if (this.props.isLoadingEntities) {
       return (
-        <Spinner
-          info={`Loading ${entityTypeMap[this.props.entityType].plural}`}
-        />
+        <Spinner info={`Loading ${entityTypeMap[this.props.type].plural}`} />
       )
     } else {
       if (this.props.contentType === contentType.dashboard) {
         return (
           <EntitiesDashboard
-            entityType={this.props.entityType}
+            type={this.props.type}
             requiredClaims={this.props.requiredClaimsCount}
             successfulClaims={this.props.successfulClaimsCount}
             pendingClaims={this.props.pendingClaimsCount}
@@ -220,7 +219,7 @@ export class Entities extends React.Component<any, any> {
             remainingClaims={this.props.remainingClaimsCount}
             serviceProviders={this.props.serviceProvidersCount}
             evaluators={this.props.evaluatorsCount}
-            countries={this.props.countries}
+            locations={this.props.locations}
           />
         )
       } else {
@@ -233,7 +232,7 @@ export class Entities extends React.Component<any, any> {
     return (
       <Container>
         <EntitiesHero
-          entityType={this.props.entityType}
+          type={this.props.type}
           filterSector={this.props.filterSector}
           showSearch={this.props.contentType !== contentType.dashboard}
           handleChangeEntitiesType={this.props.handleChangeEntitiesType}
@@ -247,8 +246,8 @@ export class Entities extends React.Component<any, any> {
 function mapStateToProps(state: RootState): Record<string, any> {
   return {
     entities: entitiesSelectors.selectedFilteredEntities(state),
-    entityType: entitiesSelectors.selectSelectedEntitiesType(state),
-    countries: entitiesSelectors.selectEntitiesCountries(state),
+    type: entitiesSelectors.selectSelectedEntitiesType(state),
+    locations: entitiesSelectors.selectEntitiesCountries(state),
     entitiesCount: entitiesSelectors.selectAllEntitiesCount(state),
     userEntitiesCount: entitiesSelectors.selectUserEntitiesCount(state),
     requiredClaimsCount: entitiesSelectors.selectTotalRequiredClaimsCount(
@@ -294,8 +293,8 @@ function mapStateToProps(state: RootState): Record<string, any> {
 
 const mapDispatchToProps = (dispatch: any): any => ({
   handleGetEntities: (): void => dispatch(getEntities()),
-  handleChangeEntitiesType: (entityType: EntityType): void =>
-    dispatch(changeEntitiesType(entityType)),
+  handleChangeEntitiesType: (type: EntityType): void =>
+    dispatch(changeEntitiesType(type)),
   handleFilterToggleUserEntities: (userEntities: boolean): void =>
     dispatch(filterToggleUserEntities(userEntities)),
   handleFilterTogglePopularEntities: (popularEntities: boolean): void =>

@@ -1,6 +1,7 @@
 import moment from 'moment'
 import * as SUT from './EntitiesExplorer.actions'
-import { EntitiesActions, EntityType } from '../types'
+import { EntityType } from '../types'
+import { EntitiesExplorerActions } from './types'
 import mockStore from 'common/redux/mockStore'
 
 let store
@@ -11,25 +12,25 @@ beforeEach(() => {
       entities: [
         {
           did: 'someDid1',
-          userDid: 'someUserDid1',
-          title: 'someTitle1',
-          shortDescription: 'someShortDescription1',
+          creatorDid: 'someUserDid1',
+          name: 'someTitle1',
+          description: 'someShortDescription1',
           dateCreated: moment('2020-04-09T13:14:13.000Z'),
           ownerName: 'someOwnerName1',
           status: 'someStatus1',
-          country: 'someCountry1',
-          impactAction: 'someImpactAction1',
+          location: 'someCountry1',
+          goal: 'someImpactAction1',
           serviceProvidersCount: 13,
           evaluatorsCount: 1,
           requiredClaimsCount: 100,
           successfulClaimsCount: 10,
           pendingClaimsCount: 20,
           rejectedClaimsCount: 30,
-          sdgs: [1, 2, 3],
-          longDescription: 'someLongDescription',
+          sdgs: ['1', '2', '3'],
           agentDids: ['someAgentDid1'],
-          imageUrl: 'sommeImageUrl',
-          categories: [
+          image: 'sommeImageUrl',
+          logo: 'sommeLogoUrl',
+          ddoTags: [
             {
               name: 'someCategory1',
               tags: [
@@ -47,14 +48,12 @@ beforeEach(() => {
               ],
             },
           ],
-          pdsUrl: 'somePsdUrl',
-          data: null,
         },
       ],
       filter: {
         dateFrom: moment('2020-04-09T13:14:13.000Z'),
         dateTo: moment('2020-04-08T13:14:13.000Z'),
-        categories: [
+        ddoTags: [
           {
             name: 'foo1',
             tags: ['bar1_1', 'bar1_2', 'bar1_3'],
@@ -74,8 +73,8 @@ describe('Entities Actions', () => {
       const action = SUT.changeEntitiesType(EntityType.Cell)
 
       // then we should expect it to create action with the correct type and payload
-      expect(action.type).toEqual(EntitiesActions.ChangeEntitiesType)
-      expect(action.payload).toEqual({ entityType: EntityType.Cell })
+      expect(action.type).toEqual(EntitiesExplorerActions.ChangeEntitiesType)
+      expect(action.payload).toEqual({ type: EntityType.Cell })
     })
   })
 
@@ -85,7 +84,9 @@ describe('Entities Actions', () => {
       const action = SUT.filterToggleUserEntities(true)
 
       // then we should expect it to create action with the correct type and payload
-      expect(action.type).toEqual(EntitiesActions.FilterToggleUserEntities)
+      expect(action.type).toEqual(
+        EntitiesExplorerActions.FilterToggleUserEntities,
+      )
       expect(action.payload).toEqual({ userEntities: true })
     })
   })
@@ -96,7 +97,9 @@ describe('Entities Actions', () => {
       const action = SUT.filterToggleFeaturedEntities(true)
 
       // then we should expect it to create action with the correct type and payload
-      expect(action.type).toEqual(EntitiesActions.FilterToggleFeaturedEntities)
+      expect(action.type).toEqual(
+        EntitiesExplorerActions.FilterToggleFeaturedEntities,
+      )
       expect(action.payload).toEqual({ featuredEntities: true })
     })
   })
@@ -107,7 +110,9 @@ describe('Entities Actions', () => {
       const action = SUT.filterTogglePopularEntities(true)
 
       // then we should expect it to create action with the correct type and payload
-      expect(action.type).toEqual(EntitiesActions.FilterTogglePopularEntities)
+      expect(action.type).toEqual(
+        EntitiesExplorerActions.FilterTogglePopularEntities,
+      )
       expect(action.payload).toEqual({ popularEntities: true })
     })
   })
@@ -121,7 +126,7 @@ describe('Entities Actions', () => {
       )
 
       // then we should expect it to create action with the correct type and payload
-      expect(action.type).toEqual(EntitiesActions.FilterDates)
+      expect(action.type).toEqual(EntitiesExplorerActions.FilterDates)
       expect(action.payload).toEqual({
         dateFrom: moment('2020-04-03T13:14:13.000Z'),
         dateTo: moment('2020-04-09T13:14:13.000Z'),
@@ -135,7 +140,7 @@ describe('Entities Actions', () => {
       const action = SUT.resetDatesFilter()
 
       // then we should expect it to create action with the correct type
-      expect(action.type).toEqual(EntitiesActions.ResetDatesFilter)
+      expect(action.type).toEqual(EntitiesExplorerActions.ResetDatesFilter)
     })
   })
 
@@ -146,7 +151,7 @@ describe('Entities Actions', () => {
       const action = store.getActions()[0]
 
       // then we should expect it to create action with the correct type and payload
-      expect(action.type).toEqual(EntitiesActions.FilterCategoryTag)
+      expect(action.type).toEqual(EntitiesExplorerActions.FilterCategoryTag)
       expect(action.payload).toEqual({
         category: 'foo1',
         tags: [],
@@ -159,7 +164,7 @@ describe('Entities Actions', () => {
       const action = store.getActions()[0]
 
       // then we should expect it to create action with the correct type and payload
-      expect(action.type).toEqual(EntitiesActions.FilterCategoryTag)
+      expect(action.type).toEqual(EntitiesExplorerActions.FilterCategoryTag)
       expect(action.payload).toEqual({
         category: 'foo1',
         tags: ['bar1_3_new'],
@@ -174,7 +179,7 @@ describe('Entities Actions', () => {
       const action = store.getActions()[0]
 
       // then we should expect it to create action with the correct type and payload
-      expect(action.type).toEqual(EntitiesActions.FilterAddCategoryTag)
+      expect(action.type).toEqual(EntitiesExplorerActions.FilterAddCategoryTag)
       expect(action.payload).toEqual({
         category: 'foo1',
         tags: ['bar1_1', 'bar1_2'],
@@ -187,7 +192,7 @@ describe('Entities Actions', () => {
       const action = store.getActions()[0]
 
       // then we should expect it to create action with the correct type and payload
-      expect(action.type).toEqual(EntitiesActions.FilterAddCategoryTag)
+      expect(action.type).toEqual(EntitiesExplorerActions.FilterAddCategoryTag)
       expect(action.payload).toEqual({
         category: 'foo1',
         tags: ['bar1_1', 'bar1_2', 'bar1_3', 'bar1_4'],
@@ -207,9 +212,9 @@ describe('Entities Actions', () => {
       const action = store.getActions()[0]
 
       // then we should expect it to create action with the correct type and payload
-      expect(action.type).toEqual(EntitiesActions.FilterCategories)
+      expect(action.type).toEqual(EntitiesExplorerActions.FilterDDOCategories)
       expect(action.payload).toEqual({
-        categories: [
+        ddoTags: [
           { name: 'Cell Type', tags: ['Index', 'Relayer', 'Portal'] },
           { name: 'Stage', tags: ['Forming'] },
         ],
@@ -224,7 +229,7 @@ describe('Entities Actions', () => {
       const action = store.getActions()[0]
 
       // then we should expect it to create action with the correct type and payload
-      expect(action.type).toEqual(EntitiesActions.FilterSector)
+      expect(action.type).toEqual(EntitiesExplorerActions.FilterSector)
       expect(action.payload).toEqual({
         sector: 'Oracle Launchpad',
       })
@@ -237,7 +242,7 @@ describe('Entities Actions', () => {
       const action = SUT.resetCategoryFilter('foo')
 
       // then we should expect it to create action with the correct type
-      expect(action.type).toEqual(EntitiesActions.ResetCategoryFilter)
+      expect(action.type).toEqual(EntitiesExplorerActions.ResetCategoryFilter)
       expect(action.payload).toEqual({ category: 'foo' })
     })
   })
@@ -248,7 +253,7 @@ describe('Entities Actions', () => {
       const action = SUT.resetFilters()
 
       // then we should expect it to create action with the correct type
-      expect(action.type).toEqual(EntitiesActions.ResetFilters)
+      expect(action.type).toEqual(EntitiesExplorerActions.ResetFilters)
     })
   })
 })

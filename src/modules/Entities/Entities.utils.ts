@@ -1,26 +1,27 @@
 import moment from 'moment'
 import countryData from 'lib/maps/countryLatLng.json'
 import { toTitleCase } from 'common/utils/formatters'
-import { Category, EntityType, Entity } from './types'
+import { EntityType } from './types'
+import { DDOTagCategory, ExplorerEntity } from './EntitiesExplorer/types'
 import { entityTypeMap } from './strategy-map'
 
-export const mapApiEntityToEntity = (apiEntity: any): Entity => {
+// TODO - move to explorer module
+export const mapApiEntityToEntity = (apiEntity: any): ExplorerEntity => {
   return {
     did: apiEntity.projectDid,
-    entityType: (apiEntity.data.entityType
+    type: (apiEntity.data.entityType
       ? toTitleCase(apiEntity.data.entityType)
       : EntityType.Project) as EntityType,
-    userDid: apiEntity.data.createdBy,
+    creatorDid: apiEntity.data.createdBy,
     status: apiEntity.status,
-    title: apiEntity.data.title,
-    shortDescription: apiEntity.data.shortDescription,
-    longDescription: apiEntity.data.longDescription,
+    name: apiEntity.data.title,
+    description: apiEntity.data.shortDescription,
     dateCreated: moment(apiEntity.data.createdOn),
     ownerName: apiEntity.data.ownerName,
-    country: apiEntity.data.projectLocation,
-    impactAction: apiEntity.data.impactAction,
-    imageUrl: `${apiEntity.data.serviceEndpoint}public/${apiEntity.data.imageLink}`,
-    logoUrl: apiEntity.data.logoLink,
+    location: apiEntity.data.projectLocation,
+    goal: apiEntity.data.impactAction,
+    image: `${apiEntity.data.serviceEndpoint}public/${apiEntity.data.imageLink}`,
+    logo: apiEntity.data.logoLink,
     serviceProvidersCount: apiEntity.data.agentStats.serviceProviders,
     evaluatorsCount: apiEntity.data.agentStats.evaluators,
     requiredClaimsCount: apiEntity.data.requiredClaims,
@@ -31,17 +32,12 @@ export const mapApiEntityToEntity = (apiEntity: any): Entity => {
     rejectedClaimsCount: apiEntity.data.claimStats.currentRejected,
     agentDids: apiEntity.data.agents.map((agent) => agent.did),
     sdgs: apiEntity.data.sdgs,
-    categories: apiEntity.data.ddoTags
+    ddoTags: apiEntity.data.ddoTags
       ? apiEntity.data.ddoTags.map((ddoTag) => ({
           name: ddoTag.category,
           tags: ddoTag.tags,
         }))
       : [],
-    founderLogoUrl: apiEntity.data.founder
-      ? apiEntity.data.founder.logoLink
-      : '',
-    pdsUrl: apiEntity.data.serviceEndpoint,
-    data: apiEntity.data, // TEMP until project module not getting data from projects
   }
 }
 
@@ -60,7 +56,7 @@ export const getCountryCoordinates = (countryCodes: string[]): any[] => {
 
 export const getInitialSelectedCategories = (
   entityType: EntityType = EntityType.Project,
-): Category[] => {
+): DDOTagCategory[] => {
   return entityTypeMap[entityType].filterSchema.ddoTags.map((ddoCategory) => ({
     name: ddoCategory.name,
     tags:

@@ -1,6 +1,6 @@
 import * as React from 'react'
 import HeaderTabs from 'common/components/HeaderTabs/HeaderTabs'
-import Search from '../../EntitiesExplorer/components/Search/Search'
+import Search from '../Search/Search'
 import {
   ContainerInner,
   StatisticContainer,
@@ -10,30 +10,30 @@ import {
   HeroIndicatorsWrapper,
   ColorOverlay,
 } from './EntitiesHero.styles'
-import { EntityType } from '../../types'
-import { entityTypeMap } from '../../strategy-map'
+import { EntityType } from '../../../types'
+import { entityTypeMap } from '../../../strategy-map'
 
 // TODO - when we know what the other entity types headers will look like then possibly refactor this as it's messy with all the conditions
 // or whatever else is needed. For now, just doing it based on entityType
 import { getHeaderSchema, getHeaderTabButtons } from './EntitiesHero.utils'
 
 export interface Props {
-  entityType: EntityType
+  type: EntityType
   showSearch: boolean
   filterSector: string
-  handleChangeEntitiesType: (entityType: EntityType) => void
+  handleChangeEntitiesType: (type: EntityType) => void
 }
 
 export const EntitiesHero: React.FunctionComponent<Props> = ({
-  entityType,
+  type,
   showSearch,
   filterSector,
   handleChangeEntitiesType,
 }) => {
-  const entityStrategyMap = entityTypeMap[entityType]
+  const entityStrategyMap = entityTypeMap[type]
   const header = getHeaderSchema(filterSector, entityStrategyMap.headerSchema)
   const headerTabButtons = getHeaderTabButtons(
-    entityType,
+    type,
     entityStrategyMap.plural.toUpperCase(),
   )
 
@@ -94,7 +94,7 @@ export const EntitiesHero: React.FunctionComponent<Props> = ({
       {showSearch && (
         <Search
           entityColor={entityStrategyMap.themeColor}
-          entityType={entityType}
+          type={type}
           filterChanged={handleChangeEntitiesType}
         />
       )}

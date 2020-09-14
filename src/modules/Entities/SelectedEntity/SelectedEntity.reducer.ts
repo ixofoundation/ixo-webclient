@@ -1,7 +1,7 @@
-import { Entity } from '../types'
+import { ExplorerEntity } from '../EntitiesExplorer/types'
 import { SelectedEntityActions, SelectedEntityActionTypes } from './types'
 
-export const initialState: Entity = null
+export const initialState: ExplorerEntity = null
 
 export const reducer = (
   state = initialState,

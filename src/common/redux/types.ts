@@ -8,10 +8,9 @@ import { AccountState } from 'modules/Account/types'
 import { BondBuyState } from 'modules/BondModules/BondBuy/types'
 import { BondSellState } from 'modules/BondModules/BondSell/types'
 import { BondSwapState } from 'modules/BondModules/BondSwap/types'
-import { EntitiesState } from 'modules/Entities/types'
+import { EntitiesExplorerState } from 'modules/Entities/EntitiesExplorer/types'
 import { FuelEntityState } from 'modules/Entities/FuelEntity/types'
 import { SubmitEntityClaimState } from 'modules/EntityClaims/SubmitEntityClaim/types'
-import { Entity } from 'modules/Entities/types'
 import { CreateEntityPageContentState } from 'modules/Entities/CreateEntity/CreateEntityPageContent/types'
 import { CreateEntityAttestationState } from 'modules/Entities/CreateEntity/CreateEntityAttestation/types'
 import { CreateEntityState } from 'modules/Entities/CreateEntity/types'
@@ -31,10 +30,10 @@ export interface RootState {
   bondAccountOrders: any[]
   activeBond: BondState
   tokenSupply: Currency[]
-  entities: EntitiesState
+  entities: EntitiesExplorerState
   fuelEntity: FuelEntityState
   submitEntityClaim: SubmitEntityClaimState
-  selectedEntity: Entity
+  selectedEntity: any // TODO!
   createEntity: CreateEntityState
   createEntityPageContent: CreateEntityPageContentState
   createEntityAttestation: CreateEntityAttestationState

@@ -18,7 +18,7 @@ import { EntityType } from '../../../types'
 import { entityTypeMap } from '../../../strategy-map'
 
 export interface Props {
-  entityType: EntityType
+  type: EntityType
   requiredClaims: number
   successfulClaims: number
   pendingClaims: number
@@ -26,11 +26,11 @@ export interface Props {
   remainingClaims: number
   serviceProviders: number
   evaluators: number
-  countries: string[]
+  locations: string[]
 }
 
 export const EntitiesDashboard: React.SFC<Props> = ({
-  entityType,
+  type,
   requiredClaims,
   pendingClaims,
   successfulClaims,
@@ -38,7 +38,7 @@ export const EntitiesDashboard: React.SFC<Props> = ({
   remainingClaims,
   serviceProviders,
   evaluators,
-  countries,
+  locations,
 }) => {
   return (
     <DashboardContainer>
@@ -98,11 +98,11 @@ export const EntitiesDashboard: React.SFC<Props> = ({
           </div>
           <div className="col-md-6">
             <WidgetWrapper
-              title={`${entityTypeMap[entityType].plural} location activity`}
+              title={`${entityTypeMap[type].plural} location activity`}
               gridHeight={gridSizes.standard}
               padding={false}
             >
-              <WorldMap markers={getCountryCoordinates(countries)} />
+              <WorldMap markers={getCountryCoordinates(locations)} />
             </WidgetWrapper>
           </div>
         </div>

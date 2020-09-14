@@ -9,7 +9,7 @@ beforeEach(() => {
     account: {
       userInfo: {
         didDoc: {
-          did: 'someUserDid1',
+          did: 'someCreatorDid1',
           pubKey: 'somePubKey',
           credentials: [],
         },
@@ -29,15 +29,15 @@ beforeEach(() => {
       entities: [
         {
           did: 'someDid1',
-          entityType: EntityType.Project,
-          userDid: 'someUserDid1',
+          type: EntityType.Project,
+          creatorDid: 'someCreatorDid1',
           title: 'someTitle1',
-          shortDescription: 'someShortDescription1',
+          description: 'somedescription1',
           dateCreated: moment('2020-04-09T13:14:13.000Z'),
           ownerName: 'someOwnerName1',
           status: 'someStatus1',
-          country: 'someCountry1',
-          impactAction: 'someImpactAction1',
+          location: 'someCountry1',
+          goal: 'someGoal1',
           serviceProvidersCount: 13,
           evaluatorsCount: 1,
           requiredClaimsCount: 100,
@@ -45,10 +45,10 @@ beforeEach(() => {
           pendingClaimsCount: 20,
           rejectedClaimsCount: 30,
           sdgs: ['SDG1_1', 'SDG2_1', 'SDG3_1'],
-          longDescription: 'someLongDescription',
           agentDids: ['someAgentDid1'],
-          imageUrl: 'sommeImageUrl',
-          categories: [
+          image: 'sommeImageUrl',
+          logo: 'someLogoUrl',
+          ddoTags: [
             {
               name: 'someCategory1',
               tags: [
@@ -66,21 +66,18 @@ beforeEach(() => {
               ],
             },
           ],
-          pdsUrl: 'somePsdUrl',
-
-          data: null,
         },
         {
           did: 'someDid2',
-          entityType: EntityType.Project,
-          userDid: 'someUserDid',
+          type: EntityType.Project,
+          creatorDid: 'someCreatorDid',
           title: 'someTitle2',
-          shortDescription: 'someShortDescription2',
+          description: 'somedescription2',
           dateCreated: moment('2020-04-10T13:14:13.000Z'),
           ownerName: 'someOwnerName2',
           status: 'someStatus2',
-          country: 'someCountry2',
-          impactAction: 'someImpactAction2',
+          location: 'someCountry2',
+          goal: 'someGoal2',
           serviceProvidersCount: 11,
           evaluatorsCount: 12,
           requiredClaimsCount: 10,
@@ -88,10 +85,10 @@ beforeEach(() => {
           pendingClaimsCount: 3,
           rejectedClaimsCount: 4,
           sdgs: ['SDG1_2', 'SDG2_2', 'SDG3_2'],
-          longDescription: 'someLongDescription',
           agentDids: ['someAgentDid1'],
-          imageUrl: 'sommeImageUrl',
-          categories: [
+          image: 'sommeImageUrl',
+          logo: 'someLogoUrl',
+          ddoTags: [
             {
               name: 'someCategory1',
               tags: [
@@ -109,21 +106,18 @@ beforeEach(() => {
               ],
             },
           ],
-          pdsUrl: 'somePsdUrl',
-
-          data: null,
         },
         {
           did: 'someDid3',
-          entityType: EntityType.Project,
-          userDid: 'someUserDid',
+          type: EntityType.Project,
+          creatorDid: 'someCreatorDid',
           title: 'someTitle3',
-          shortDescription: 'someShortDescription3',
+          description: 'somedescription3',
           dateCreated: moment('2020-04-02T13:14:13.000Z'),
           ownerName: 'someOwnerName3',
           status: 'someStatus3',
-          country: 'someCountry3',
-          impactAction: 'someImpactAction3',
+          location: 'someCountry3',
+          goal: 'someGoal3',
           serviceProvidersCount: 5,
           evaluatorsCount: 6,
           requiredClaimsCount: 7,
@@ -131,10 +125,10 @@ beforeEach(() => {
           pendingClaimsCount: 9,
           rejectedClaimsCount: 10,
           sdgs: ['SDG1_3', 'SDG2_3', 'SDG3_3'],
-          longDescription: 'someLongDescription',
           agentDids: ['someAgentDid5'],
-          imageUrl: 'sommeImageUrl',
-          categories: [
+          image: 'sommeImageUrl',
+          logo: 'someLogoUrl',
+          ddoTags: [
             {
               name: 'someCategory3',
               tags: [
@@ -152,21 +146,18 @@ beforeEach(() => {
               ],
             },
           ],
-          pdsUrl: 'somePsdUrl',
-
-          data: null,
         },
         {
           did: 'someDid4',
-          entityType: EntityType.Cell,
-          userDid: 'someUserDid',
+          type: EntityType.Cell,
+          creatorDid: 'someCreatorDid',
           title: 'someTitle4',
-          shortDescription: 'someShortDescription4',
+          description: 'somedescription4',
           dateCreated: moment('2020-04-02T14:14:14.000Z'),
           ownerName: 'someOwnerName4',
           status: 'someStatus4',
-          country: 'someCountry4',
-          impactAction: 'someImpactAction4',
+          location: 'someCountry4',
+          goal: 'someGoal4',
           serviceProvidersCount: 5,
           evaluatorsCount: 6,
           requiredClaimsCount: 7,
@@ -174,10 +165,10 @@ beforeEach(() => {
           pendingClaimsCount: 9,
           rejectedClaimsCount: 10,
           sdgs: ['SDG1_4', 'SDG2_4', 'SDG4_4'],
-          longDescription: 'someLongDescription',
           agentDids: ['someAgentDid5'],
-          imageUrl: 'sommeImageUrl',
-          categories: [
+          image: 'sommeImageUrl',
+          logo: 'someLogoUrl',
+          ddoTags: [
             {
               name: 'someCategory4',
               tags: [
@@ -195,15 +186,12 @@ beforeEach(() => {
               ],
             },
           ],
-          pdsUrl: 'somePsdUrl',
-
-          data: null,
         },
       ],
       filter: {
         dateFrom: moment('1970-01-01'),
         dateTo: moment('2100-12-31'),
-        categories: [
+        ddoTags: [
           {
             name: 'foo',
             tags: ['bar'],
@@ -237,7 +225,7 @@ describe('Entities Selectors', () => {
       // then ... should return result as expected
       expect(result).toEqual(
         state.entities.entities.filter(
-          (entity) => entity.entityType === EntityType.Project,
+          (entity) => entity.type === EntityType.Project,
         ),
       )
     })
@@ -250,7 +238,7 @@ describe('Entities Selectors', () => {
       // then ... should return result as expected
       expect(result).toEqual(
         state.entities.entities.filter(
-          (entity) => entity.entityType === EntityType.Cell,
+          (entity) => entity.type === EntityType.Cell,
         ),
       )
     })
@@ -281,7 +269,7 @@ describe('Entities Selectors', () => {
       state.entities.filter = {
         dateFrom: null,
         dateTo: null,
-        categories: [],
+        ddoTags: [],
         userEntities: false,
       }
 
@@ -299,7 +287,7 @@ describe('Entities Selectors', () => {
       state.entities.filter = {
         dateFrom: null,
         dateTo: null,
-        categories: [],
+        ddoTags: [],
         userEntities: true,
       }
 
@@ -315,7 +303,7 @@ describe('Entities Selectors', () => {
       state.entities.filter = {
         dateFrom: moment('2020-04-09'),
         dateTo: moment('2020-04-10'),
-        categories: [],
+        ddoTags: [],
         userEntities: false,
       }
 
@@ -328,11 +316,11 @@ describe('Entities Selectors', () => {
       expect(result[1].did).toEqual('someDid1')
     })
 
-    it('should return a list of entities filtered by categories and sorted when categories are set', () => {
+    it('should return a list of entities filtered by ddoTags and sorted when ddoTags are set', () => {
       state.entities.filter = {
         dateFrom: null,
         dateTo: null,
-        categories: [
+        ddoTags: [
           {
             name: 'someCategory1',
             tags: ['someCategory1_tag1'],
@@ -370,7 +358,7 @@ describe('Entities Selectors', () => {
       state.entities.filter = {
         dateFrom: moment('2020-04-09'),
         dateTo: moment('2020-04-10'),
-        categories: [],
+        ddoTags: [],
         userEntities: false,
       }
       // when ... we call the selector
@@ -387,7 +375,7 @@ describe('Entities Selectors', () => {
       state.entities.filter = {
         dateFrom: moment('1900-01-01'),
         dateTo: moment('1900-01-01'),
-        categories: [],
+        ddoTags: [],
         userEntities: false,
       }
       // when ... we call the selector
@@ -404,7 +392,7 @@ describe('Entities Selectors', () => {
       state.entities.filter = {
         dateFrom: moment('1900-01-01'),
         dateTo: moment('1900-01-01'),
-        categories: [],
+        ddoTags: [],
         userEntities: false,
       }
       // when ... we call the selector
@@ -564,7 +552,7 @@ describe('Entities Selectors', () => {
   })
 
   describe('selectFilterCategories', () => {
-    it('should return the categories property from the filter', () => {
+    it('should return the ddoTags property from the filter', () => {
       // when .. we call the selector
       const result = SUT.selectFilterCategories(state)
 
@@ -589,8 +577,8 @@ describe('Entities Selectors', () => {
   })
 
   describe('selectFilterCategoriesSummary', () => {
-    it('should return the correct categories summary from the filter when there are categories selected', () => {
-      state.entities.filter.categories = [
+    it('should return the correct ddoTags summary from the filter when there are ddoTags selected', () => {
+      state.entities.filter.ddoTags = [
         {
           name: 'foo1',
           tags: ['foo1_bar1', 'foo1_bar2'],
@@ -608,8 +596,8 @@ describe('Entities Selectors', () => {
       expect(result).toEqual('Filters - 5')
     })
 
-    it('should return the correct categories summary from the filter when there are no categories selected', () => {
-      state.entities.filter.categories = []
+    it('should return the correct ddoTags summary from the filter when there are no ddoTags selected', () => {
+      state.entities.filter.ddoTags = []
 
       // when .. we call the selector
       const result = SUT.selectFilterCategoriesSummary(state)
