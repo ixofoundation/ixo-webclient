@@ -360,7 +360,7 @@ class CreateEntitySettings extends CreateEntityBase<Props> {
 
     return (
       <FormCardWrapper
-        showAddSection={true}
+        showAddSection={displayCredentials.length < 3}
         title="Display Credentials"
         addSectionText="Add Credential"
         onAddSection={handleAddDisplayCredentialSection}

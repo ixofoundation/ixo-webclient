@@ -1,39 +1,51 @@
-import { FileContent, Validation } from '../CreateEntity/types'
+import { Validation } from '../CreateEntity/types'
 
-export interface HeaderPageContent extends FileContent {
+export interface HeaderPageContent {
   title: string
   shortDescription: string
   imageDescription: string
   sdgs: string[]
-  organisation: string
+  brand: string
   location: string
+  headerFileSrc: string
+  headerFileUploading: boolean
+  logoFileSrc: string
+  logoFileUploading: boolean
 }
 
-export interface BodyPageContent extends FileContent {
+export interface BodyPageContent {
   id: string
   title: string
   content: string
+  fileSrc: string
+  uploading: boolean
 }
 
-export interface ImagePageContent extends FileContent {
+export interface ImagePageContent {
   id: string
   title: string
   content: string
   imageDescription: string
+  fileSrc: string
+  uploading: boolean
 }
 
-export interface VideoPageContent extends FileContent {
+export interface VideoPageContent {
   id: string
   title: string
   content: string
+  fileSrc: string
+  uploading: boolean
 }
 
-export interface ProfilePageContent extends FileContent {
+export interface ProfilePageContent {
   id: string
   name: string
   position: string
   linkedInUrl: string
   twitterUrl: string
+  fileSrc: string
+  uploading: boolean
 }
 
 export interface SocialPageContent {
@@ -80,6 +92,10 @@ export enum CreateEntityPageContentActions {
   UploadHeaderContentImagePending = 'ixo/CreateEntityPageContent/UPLOAD_HEADER_IMAGE_PENDING',
   UploadHeaderContentImageSuccess = 'ixo/CreateEntityPageContent/UPLOAD_HEADER_IMAGE_FULFILLED',
   UploadHeaderContentImageFailure = 'ixo/CreateEntityPageContent/UPLOAD_HEADER_IMAGE_REJECTED',
+  UploadHeaderContentLogo = 'ixo/CreateEntityPageContent/UPLOAD_HEADER_LOGO',
+  UploadHeaderContentLogoPending = 'ixo/CreateEntityPageContent/UPLOAD_HEADER_LOGO_PENDING',
+  UploadHeaderContentLogoSuccess = 'ixo/CreateEntityPageContent/UPLOAD_HEADER_LOGO_FULFILLED',
+  UploadHeaderContentLogoFailure = 'ixo/CreateEntityPageContent/UPLOAD_HEADER_LOGO_REJECTED',
   // Body
   AddBodySection = 'ixo/CreateEntityPageContent/ADD_BODY_SECTION',
   RemoveBodySection = 'ixo/CreateEntityPageContent/REMOVE_BODY_SECTION',
@@ -130,7 +146,7 @@ export interface UpdateHeaderContentAction {
     shortDescription: string
     imageDescription: string
     sdgs: string[]
-    organisation: string
+    brand: string
     location: string
   }
 }
@@ -138,7 +154,7 @@ export interface UpdateHeaderContentAction {
 export interface UploadHeaderImageAction {
   type: typeof CreateEntityPageContentActions.UploadHeaderContentImage
   payload: Promise<{
-    fileSrc: string
+    headerFileSrc: string
   }>
 }
 
@@ -149,12 +165,34 @@ export interface UploadHeaderImagePendingAction {
 export interface UploadHeaderImageSuccessAction {
   type: typeof CreateEntityPageContentActions.UploadHeaderContentImageSuccess
   payload: {
-    fileSrc: string
+    headerFileSrc: string
   }
 }
 
 export interface UploadHeaderImageFailureAction {
   type: typeof CreateEntityPageContentActions.UploadHeaderContentImageFailure
+}
+
+export interface UploadHeaderLogoAction {
+  type: typeof CreateEntityPageContentActions.UploadHeaderContentLogo
+  payload: Promise<{
+    logoFileSrc: string
+  }>
+}
+
+export interface UploadHeaderLogoPendingAction {
+  type: typeof CreateEntityPageContentActions.UploadHeaderContentLogoPending
+}
+
+export interface UploadHeaderLogoSuccessAction {
+  type: typeof CreateEntityPageContentActions.UploadHeaderContentLogoSuccess
+  payload: {
+    logoFileSrc: string
+  }
+}
+
+export interface UploadHeaderLogoFailureAction {
+  type: typeof CreateEntityPageContentActions.UploadHeaderContentLogoFailure
 }
 
 export interface AddBodySectionAction {
@@ -430,6 +468,10 @@ export type CreateEntityPageContentActionTypes =
   | UploadHeaderImagePendingAction
   | UploadHeaderImageSuccessAction
   | UploadHeaderImageFailureAction
+  | UploadHeaderLogoAction
+  | UploadHeaderLogoPendingAction
+  | UploadHeaderLogoSuccessAction
+  | UploadHeaderLogoFailureAction
   | AddBodySectionAction
   | RemoveBodySectionAction
   | UpdateBodyContentAction

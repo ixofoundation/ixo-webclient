@@ -374,7 +374,7 @@ class CreateEntityClaims extends CreateEntityBase<Props> {
   renderEntityClaims = (): JSX.Element[] => {
     const { entityClaims, handleRemoveEntityClaim } = this.props
 
-    return entityClaims.map((entityClaim) => {
+    return entityClaims.map((entityClaim, index) => {
       const {
         id,
         template,
@@ -408,12 +408,14 @@ class CreateEntityClaims extends CreateEntityBase<Props> {
               <hr className="subdivider" />
             </div>
             <div className="text-center">
-              <AddSectionButton
-                type="button"
-                onClick={(): void => handleRemoveEntityClaim(id)}
-              >
-                + Remove Claim
-              </AddSectionButton>
+              {index > 0 && (
+                <AddSectionButton
+                  type="button"
+                  onClick={(): void => handleRemoveEntityClaim(id)}
+                >
+                  + Remove Claim
+                </AddSectionButton>
+              )}
             </div>
           </Container>
         </>

@@ -17,7 +17,7 @@ import {
   FundSource,
 } from 'modules/EntityModules/Entities/types'
 
-export interface Entity {
+export interface ApiEntity {
   ['@context']: string
   ['@type']: EntityType
   entitySchemaVersion: string
@@ -25,6 +25,8 @@ export interface Entity {
   description: string
   image: string
   imageDescription: string
+  brand: string
+  logo: string
   location: string
   sdgs: string[]
   startDate: string
@@ -174,3 +176,6 @@ export interface Entity {
     properties: string
   }[]
 }
+
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface ApiListedEntity extends ApiEntity {}

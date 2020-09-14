@@ -20,11 +20,6 @@ export enum CreateEntityActions {
   CreateEntityFailure = 'ixo/CreateEntity/CREATE_ENTITY_FAILURE',
 }
 
-export interface FileContent {
-  fileSrc: string
-  uploading: boolean
-}
-
 export interface Validation {
   identifier: string
   validated: boolean
@@ -52,6 +47,8 @@ export type EntityStepStrategyMap = {
       image: string
       imageDescription: string
       location: string
+      brand: string
+      logo: string
       sdgs: string[]
     }
   }

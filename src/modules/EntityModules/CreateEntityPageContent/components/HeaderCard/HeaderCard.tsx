@@ -6,12 +6,14 @@ import { FormCardProps } from '../../../CreateEntity/types'
 interface Props extends FormCardProps {
   title: string
   shortDescription: string
-  fileSrc: string
+  headerFileSrc: string
+  logoFileSrc: string
   imageDescription: string
-  organisation: string
+  brand: string
   sdgs: string[]
   location: string
-  uploadingImage: boolean
+  uploadingHeaderImage: boolean
+  uploadingLogoImage: boolean
 }
 
 const HeaderCard: React.FunctionComponent<Props> = React.forwardRef(
@@ -20,10 +22,12 @@ const HeaderCard: React.FunctionComponent<Props> = React.forwardRef(
       title,
       shortDescription,
       imageDescription,
-      organisation,
+      brand,
       location,
-      fileSrc,
-      uploadingImage,
+      headerFileSrc,
+      uploadingHeaderImage,
+      logoFileSrc,
+      uploadingLogoImage,
       sdgs,
       handleUpdateContent,
       handleSubmitted,
@@ -32,10 +36,11 @@ const HeaderCard: React.FunctionComponent<Props> = React.forwardRef(
     ref,
   ) => {
     const formData = {
-      fileSrc,
+      headerFileSrc,
+      logoFileSrc,
       title,
       shortDescription,
-      organisation,
+      brand,
       location,
       sdgs: sdgs.join('|'),
       imageDescription,
@@ -44,20 +49,22 @@ const HeaderCard: React.FunctionComponent<Props> = React.forwardRef(
     const schema = {
       type: 'object',
       required: [
-        'fileSrc',
+        'headerFileSrc',
+        'logoFileSrc',
         'title',
         'shortDescription',
-        'organisation',
+        'brand',
         'location',
       ],
       properties: {
-        fileSrc: {
+        headerFileSrc: {
           type: 'string',
           title: 'Header Image (JPG/PNG at least 960px wide and 540px high)',
         },
         title: { type: 'string', title: 'Title' },
         shortDescription: { type: 'string', title: 'Short Description' },
-        organisation: { type: 'string', title: 'Organisation' },
+        logoFileSrc: { type: 'string', title: 'Brand Logo' },
+        brand: { type: 'string', title: 'Brand' },
         location: { type: 'string', title: 'Country' },
         sdgs: { type: 'string', title: 'SDG Tags' },
         imageDescription: { type: 'string', title: 'Header Image Description' },
@@ -65,9 +72,9 @@ const HeaderCard: React.FunctionComponent<Props> = React.forwardRef(
     } as any
 
     const uiSchema = {
-      fileSrc: {
+      headerFileSrc: {
         'ui:widget': customControls['imageupload'],
-        'ui:uploading': uploadingImage,
+        'ui:uploading': uploadingHeaderImage,
         'ui:maxDimension': 960,
         'ui:aspect': 16 / 9,
         'ui:circularCrop': false,
@@ -80,9 +87,17 @@ const HeaderCard: React.FunctionComponent<Props> = React.forwardRef(
         'ui:widget': 'textarea',
         'ui:placeholder': 'Start Typing Here',
       },
-      organisation: {
+      logoFileSrc: {
+        'ui:widget': customControls['imageupload'],
+        'ui:uploading': uploadingLogoImage,
+        'ui:maxDimension': 440,
+        'ui:previewWidth': 160,
+        'ui:aspect': 1,
+        'ui:circularCrop': false,
+      },
+      brand: {
         'ui:widget': 'text',
-        'ui:placeholder': 'Enter Organisation',
+        'ui:placeholder': 'Enter Brand',
       },
       location: {
         'ui:widget': customControls['countryselector'],

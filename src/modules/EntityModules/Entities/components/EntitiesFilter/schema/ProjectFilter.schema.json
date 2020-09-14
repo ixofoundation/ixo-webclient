@@ -291,9 +291,7 @@
           "icon": "tag.svg"
         }
       ],
-      "selectedTags": [
-        "Index"
-      ]
+      "selectedTags": ["Index"]
     },
     {
       "@type": "Category",

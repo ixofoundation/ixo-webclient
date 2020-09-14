@@ -5,12 +5,9 @@ import {
   EntityView,
   TermsOfUseType,
 } from '../Entities/types'
-import {
-  FileContent,
-  Validation,
-} from 'modules/EntityModules/CreateEntity/types'
+import { Validation } from 'modules/EntityModules/CreateEntity/types'
 
-export interface Creator extends FileContent {
+export interface Creator {
   displayName: string
   location: string
   email: string
@@ -18,15 +15,19 @@ export interface Creator extends FileContent {
   mission: string
   creatorId: string
   credential: string
+  fileSrc: string
+  uploading: boolean
 }
 
-export interface Owner extends FileContent {
+export interface Owner {
   displayName: string
   location: string
   email: string
   website: string
   mission: string
   ownerId: string
+  fileSrc: string
+  uploading: boolean
 }
 
 export interface Status {

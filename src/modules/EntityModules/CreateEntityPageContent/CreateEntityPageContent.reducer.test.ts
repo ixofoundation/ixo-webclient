@@ -5,6 +5,9 @@ import {
   UploadHeaderImageFailureAction,
   UploadHeaderImagePendingAction,
   UploadHeaderImageSuccessAction,
+  UploadHeaderLogoFailureAction,
+  UploadHeaderLogoPendingAction,
+  UploadHeaderLogoSuccessAction,
   AddBodySectionAction,
   UpdateBodyContentAction,
   UploadBodyContentImagePendingAction,
@@ -58,9 +61,10 @@ describe('CreateEntityPageContent Reducer', () => {
         const shortDescription = 'someHeaderShortDescription'
         const imageDescription = 'someHeaderImageDescription'
         const sdgs = ['sdg1', 'sdg2', 'sdg3']
-        const organisation = 'someHeaderCompany'
+        const brand = 'someHeaderCompany'
         const location = 'ZA'
-        const fileSrc = 'someExistingfileSrc'
+        const headerFileSrc = 'someExistingHeaderFileSrc'
+        const logoFileSrc = 'someExistingLogoFileSrc'
 
         // given .. we have an action of type CreateEntityPageContentActions.UpdateHeaderContent
         const action: UpdateHeaderContentAction = {
@@ -70,7 +74,7 @@ describe('CreateEntityPageContent Reducer', () => {
             shortDescription,
             imageDescription,
             sdgs,
-            organisation,
+            brand,
             location,
           },
         }
@@ -79,7 +83,7 @@ describe('CreateEntityPageContent Reducer', () => {
         const result = SUT.reducer(
           {
             ...initialState,
-            header: { ...initialState.header, fileSrc },
+            header: { ...initialState.header, headerFileSrc, logoFileSrc },
           },
           action,
         )
@@ -92,10 +96,12 @@ describe('CreateEntityPageContent Reducer', () => {
             shortDescription,
             imageDescription,
             sdgs,
-            organisation,
+            brand,
             location,
-            fileSrc,
-            uploading: false,
+            headerFileSrc,
+            headerFileUploading: false,
+            logoFileSrc,
+            logoFileUploading: false,
           },
         })
       })
@@ -116,19 +122,19 @@ describe('CreateEntityPageContent Reducer', () => {
           ...initialState,
           header: {
             ...initialState.header,
-            uploading: true,
+            headerFileUploading: true,
           },
         })
       })
 
       it('should update the header uploading flag to false and set the fileSrc when upload has succeeded', () => {
-        const fileSrc = 'somefileSrc'
+        const headerFileSrc = 'somefileSrc'
 
         // given .. we have an action of type CreateEntityPageContentActions.UploadHeaderContentImageSuccess
         const action: UploadHeaderImageSuccessAction = {
           type: CreateEntityPageContentActions.UploadHeaderContentImageSuccess,
           payload: {
-            fileSrc,
+            headerFileSrc,
           },
         }
 
@@ -138,7 +144,7 @@ describe('CreateEntityPageContent Reducer', () => {
             ...initialState,
             header: {
               ...initialState.header,
-              uploading: true,
+              headerFileUploading: true,
             },
           },
           action,
@@ -149,8 +155,8 @@ describe('CreateEntityPageContent Reducer', () => {
           ...initialState,
           header: {
             ...initialState.header,
-            fileSrc,
-            uploading: false,
+            headerFileSrc,
+            headerFileUploading: false,
           },
         })
       })
@@ -167,7 +173,7 @@ describe('CreateEntityPageContent Reducer', () => {
             ...initialState,
             header: {
               ...initialState.header,
-              uploading: true,
+              headerFileUploading: true,
             },
           },
           action,
@@ -178,7 +184,90 @@ describe('CreateEntityPageContent Reducer', () => {
           ...initialState,
           header: {
             ...initialState.header,
-            uploading: false,
+            headerFileUploading: false,
+          },
+        })
+      })
+    })
+
+    describe('logoImage', () => {
+      it('should update the logo uploading flag to true when upload has started', () => {
+        // given .. we have an action of type CreateEntityPageContentActions.UploadHeaderContentLogoPending
+        const action: UploadHeaderLogoPendingAction = {
+          type: CreateEntityPageContentActions.UploadHeaderContentLogoPending,
+        }
+
+        // when ... we run the reducer with this action
+        const result = SUT.reducer(initialState, action)
+
+        // then ... the state should be set as expected
+        expect(result).toEqual({
+          ...initialState,
+          header: {
+            ...initialState.header,
+            logoFileUploading: true,
+          },
+        })
+      })
+
+      it('should update the logo uploading flag to false and set the fileSrc when upload has succeeded', () => {
+        const logoFileSrc = 'somefileSrc'
+
+        // given .. we have an action of type CreateEntityPageContentActions.UploadHeaderContentLogoSuccess
+        const action: UploadHeaderLogoSuccessAction = {
+          type: CreateEntityPageContentActions.UploadHeaderContentLogoSuccess,
+          payload: {
+            logoFileSrc,
+          },
+        }
+
+        // when ... we run the reducer with this action
+        const result = SUT.reducer(
+          {
+            ...initialState,
+            header: {
+              ...initialState.header,
+              logoFileUploading: true,
+            },
+          },
+          action,
+        )
+
+        // then ... the state should be set as expected
+        expect(result).toEqual({
+          ...initialState,
+          header: {
+            ...initialState.header,
+            logoFileSrc,
+            logoFileUploading: false,
+          },
+        })
+      })
+
+      it('should update the logo uploading flag to false and set the fileSrc when upload has failed', () => {
+        // given .. we have an action of type CreateEntityPageContentActions.UploadHeaderContentLogoFailure
+        const action: UploadHeaderLogoFailureAction = {
+          type: CreateEntityPageContentActions.UploadHeaderContentLogoFailure,
+        }
+
+        // when ... we run the reducer with this action
+        const result = SUT.reducer(
+          {
+            ...initialState,
+            header: {
+              ...initialState.header,
+              logoFileUploading: true,
+            },
+          },
+          action,
+        )
+
+        // then ... the state should be set as expected
+        expect(result).toEqual({
+          ...initialState,
+          header: {
+            ...initialState.header,
+            logoFileUploading: false,
           },
         })
       })
@@ -1322,12 +1411,14 @@ describe('CreateEntityPageContent Reducer', () => {
           ...initialState,
           header: {
             shortDescription: 'someDataThatShouldBeCleared',
-            uploading: true,
+            headerFileUploading: true,
+            logoFileUploading: true,
             title: 'someDataThatShouldBeCleared',
-            fileSrc: 'someDataThatShouldBeCleared',
+            headerFileSrc: 'someDataThatShouldBeCleared',
+            logoFileSrc: 'someDataThatShouldBeCleared',
             imageDescription: 'someDataThatShouldBeCleared',
             location: 'someDataThatShouldBeCleared',
-            organisation: 'someDataThatShouldBeCleared',
+            brand: 'someDataThatShouldBeCleared',
             sdgs: ['someDataThatShouldBeCleared'],
           },
         },
@@ -1352,12 +1443,14 @@ describe('CreateEntityPageContent Reducer', () => {
           ...initialState,
           header: {
             shortDescription: 'someDataThatShouldBeCleared',
-            uploading: true,
+            headerFileUploading: true,
+            logoFileUploading: true,
             title: 'someDataThatShouldBeCleared',
-            fileSrc: 'someDataThatShouldBeCleared',
+            headerFileSrc: 'someDataThatShouldBeCleared',
+            logoFileSrc: 'someDataThatShouldBeCleared',
             imageDescription: 'someDataThatShouldBeCleared',
             location: 'someDataThatShouldBeCleared',
-            organisation: 'someDataThatShouldBeCleared',
+            brand: 'someDataThatShouldBeCleared',
             sdgs: ['someDataThatShouldBeCleared'],
           },
         },

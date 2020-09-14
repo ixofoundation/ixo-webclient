@@ -21,10 +21,12 @@ export const initialState: CreateEntityPageContentState = {
     shortDescription: undefined,
     imageDescription: undefined,
     sdgs: [],
-    organisation: undefined,
+    brand: undefined,
     location: undefined,
-    fileSrc: undefined,
-    uploading: false,
+    headerFileSrc: undefined,
+    headerFileUploading: false,
+    logoFileSrc: undefined,
+    logoFileUploading: false,
   },
   body: {
     [firstBodySectionId]: {
@@ -94,7 +96,7 @@ export const reducer = (
         ...state,
         header: {
           ...state.header,
-          uploading: true,
+          headerFileUploading: true,
         },
       }
     case CreateEntityPageContentActions.UploadHeaderContentImageSuccess:
@@ -102,8 +104,8 @@ export const reducer = (
         ...state,
         header: {
           ...state.header,
-          uploading: false,
-          fileSrc: action.payload.fileSrc,
+          headerFileUploading: false,
+          headerFileSrc: action.payload.headerFileSrc,
         },
       }
     case CreateEntityPageContentActions.UploadHeaderContentImageFailure:
@@ -111,7 +113,32 @@ export const reducer = (
         ...state,
         header: {
           ...state.header,
-          uploading: false,
+          headerFileUploading: false,
+        },
+      }
+    case CreateEntityPageContentActions.UploadHeaderContentLogoPending:
+      return {
+        ...state,
+        header: {
+          ...state.header,
+          logoFileUploading: true,
+        },
+      }
+    case CreateEntityPageContentActions.UploadHeaderContentLogoSuccess:
+      return {
+        ...state,
+        header: {
+          ...state.header,
+          logoFileUploading: false,
+          logoFileSrc: action.payload.logoFileSrc,
+        },
+      }
+    case CreateEntityPageContentActions.UploadHeaderContentLogoFailure:
+      return {
+        ...state,
+        header: {
+          ...state.header,
+          logoFileUploading: false,
         },
       }
     case CreateEntityPageContentActions.AddBodySection:

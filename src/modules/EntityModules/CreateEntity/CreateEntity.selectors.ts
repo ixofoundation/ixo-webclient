@@ -1,14 +1,14 @@
 import { createSelector } from 'reselect'
 import { RootState } from '../../../common/redux/types'
 import { CreateEntityState } from './types'
-import { PageContent } from 'common/api/blocksync-api/types/page-content'
-import { Attestation } from 'common/api/blocksync-api/types/attestation'
+import { ApiPageContent } from 'common/api/blocksync-api/types/page-content'
+import { ApiAttestation } from 'common/api/blocksync-api/types/attestation'
 import * as pageContentSelectors from 'modules/EntityModules/CreateEntityPageContent/CreateEntityPageContent.selectors'
 import * as attestationSelectors from 'modules/EntityModules/CreateEntityAttestation/CreateEntityAttestation.selectors'
 import * as settingsSelectors from 'modules/EntityModules/CreateEntitySettings/CreateEntitySettings.selectors'
 import * as advancedSelectors from 'modules/EntityModules/CreateEntityAdvanced/CreateEntityAdvanced.selectors'
 import * as claimsSelectors from 'modules/EntityModules/CreateEntityClaims/CreateEntityClaims.selectors'
-import { Entity } from 'common/api/blocksync-api/types/entity'
+import { ApiEntity } from 'common/api/blocksync-api/types/entities'
 import { serverDateFormat } from 'common/utils/formatters'
 import { createEntityMap } from './strategy-map'
 import { EntityType } from '../Entities/types'
@@ -62,16 +62,17 @@ export const selectPageContentApiPayload = createSelector(
     profileContentSections,
     socialContent,
     embeddedContentSections,
-  ): PageContent => {
+  ): ApiPageContent => {
     return {
       header: {
-        image: headerContent.fileSrc,
+        image: headerContent.headerFileSrc,
         title: headerContent.title,
         shortDescription: headerContent.shortDescription,
-        organisation: headerContent.organisation,
+        brand: headerContent.brand,
         location: headerContent.location,
         sdgs: headerContent.sdgs,
         imageDescription: headerContent.imageDescription,
+        logo: headerContent.logoFileSrc,
       },
       body: bodyContentSections.map((bodySection) => ({
         title: bodySection.title,
@@ -112,7 +113,7 @@ export const selectPageContentApiPayload = createSelector(
 export const selectAttestationApiPayload = createSelector(
   attestationSelectors.selectClaimInfo,
   attestationSelectors.selectQuestions,
-  (claimInfoSection, questions): Attestation => {
+  (claimInfoSection, questions): ApiAttestation => {
     return {
       claimInfo: {
         type: claimInfoSection.type,
@@ -178,8 +179,10 @@ export const selectPageContentHeaderForEntityApiPayload = createSelector(
     return {
       name: header.title,
       description: header.shortDescription,
-      image: header.fileSrc,
+      image: header.headerFileSrc,
       imageDescription: header.imageDescription,
+      brand: header.brand,
+      logo: header.logoFileSrc,
       location: header.location,
       sdgs: header.sdgs,
     }
@@ -414,7 +417,7 @@ export const selectEntityApiPayload = (
         }
       },
     ),
-    (entityType, header, settings, page, claims, advanced): Entity => {
+    (entityType, header, settings, page, claims, advanced): ApiEntity => {
       return {
         ...entityType,
         ...header,

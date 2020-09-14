@@ -74,11 +74,13 @@ class CreateEntityPageContent extends CreateEntityBase<Props> {
         title,
         shortDescription,
         imageDescription,
-        fileSrc,
-        organisation,
+        headerFileSrc,
+        logoFileSrc,
+        brand,
         location,
         sdgs,
-        uploading,
+        headerFileUploading,
+        logoFileUploading,
       },
       handleUpdateHeaderContent,
     } = this.props
@@ -99,11 +101,13 @@ class CreateEntityPageContent extends CreateEntityBase<Props> {
           title={title}
           shortDescription={shortDescription}
           imageDescription={imageDescription}
-          fileSrc={fileSrc}
-          organisation={organisation}
+          headerFileSrc={headerFileSrc}
+          logoFileSrc={logoFileSrc}
+          brand={brand}
           location={location}
           sdgs={sdgs}
-          uploadingImage={uploading}
+          uploadingHeaderImage={headerFileUploading}
+          uploadingLogoImage={logoFileUploading}
         />
       </FormCardWrapper>
     )

@@ -20,7 +20,7 @@ describe('CreateEntityPageContent Actions', () => {
         const imageDescription = 'someImageDescription'
         const sdgs = 'sdg1|sdg2|sdg3'
         const sdgsArr = ['sdg1', 'sdg2', 'sdg3']
-        const organisation = 'someCompany'
+        const brand = 'someCompany'
         const location = 'ZA'
 
         const formData = {
@@ -28,7 +28,7 @@ describe('CreateEntityPageContent Actions', () => {
           shortDescription,
           imageDescription,
           sdgs,
-          organisation,
+          brand,
           location,
         }
 
@@ -44,17 +44,17 @@ describe('CreateEntityPageContent Actions', () => {
           imageDescription,
           sdgs: sdgsArr,
           location,
-          organisation,
+          brand,
         })
       })
     })
 
-    it('should upload the image', async () => {
+    it('should upload the header image', async () => {
       // given ... some content
-      const fileSrc = 'data:someImageData'
+      const headerFileSrc = 'data:someImageData'
 
       const formData = {
-        fileSrc,
+        headerFileSrc,
       }
 
       // when ... we call the uploadHeaderContentImage action creator
@@ -71,7 +71,33 @@ describe('CreateEntityPageContent Actions', () => {
         CreateEntityPageContentActions.UploadHeaderContentImageSuccess,
       )
       expect(actions[1].payload).toEqual({
-        fileSrc: `${process.env.REACT_APP_PDS_URL}public/somePublicDid`,
+        headerFileSrc: `${process.env.REACT_APP_PDS_URL}public/somePublicDid`,
+      })
+    })
+
+    it('should upload the logo image', async () => {
+      // given ... some content
+      const logoFileSrc = 'data:someImageData'
+
+      const formData = {
+        logoFileSrc,
+      }
+
+      // when ... we call the uploadHeaderContentImage action creator
+      await store.dispatch(SUT.updateHeaderContent(formData))
+      const actions = store.getActions()
+
+      // then ... it should dispatch the correct actions
+      expect(actions.length).toEqual(2)
+
+      expect(actions[0].type).toEqual(
+        CreateEntityPageContentActions.UploadHeaderContentLogoPending,
+      )
+      expect(actions[1].type).toEqual(
+        CreateEntityPageContentActions.UploadHeaderContentLogoSuccess,
+      )
+      expect(actions[1].payload).toEqual({
+        logoFileSrc: `${process.env.REACT_APP_PDS_URL}public/somePublicDid`,
       })
     })
   })

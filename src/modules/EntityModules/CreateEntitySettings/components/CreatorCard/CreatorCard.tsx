@@ -76,7 +76,7 @@ const CreatorCard: React.FunctionComponent<Props> = React.forwardRef(
         'ui:widget': customControls['imageupload'],
         'ui:uploading': uploadingImage,
         'ui:maxDimension': 440,
-        'ui:previewWidth': 440,
+        'ui:previewWidth': 160,
         'ui:aspect': 1,
         'ui:circularCrop': false,
       },

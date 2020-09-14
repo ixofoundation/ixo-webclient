@@ -25,14 +25,15 @@ const Filter: React.FunctionComponent<Props> = React.forwardRef(
     ref,
   ) => {
     const propertiesArray = entityTypeMap[entityType].filterSchema.ddoTags.map(
-      category => ({
+      (category) => ({
         type: 'array',
         title: category.name,
         items: {
           type: 'string',
-          enum: category.tags.map(tag => tag.name),
+          enum: category.tags.map((tag) => tag.name),
         },
         uniqueItems: true,
+        maxItems: category.multiSelect ? undefined : 1,
       }),
     )
 

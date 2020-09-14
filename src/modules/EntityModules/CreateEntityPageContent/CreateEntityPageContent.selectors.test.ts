@@ -9,12 +9,15 @@ beforeEach(() => {
       header: {
         title: 'someHeaderTitle',
         shortDescription: 'someHeaderShortDescription',
-        fileSrc: 'someHeaderfileSrc',
+        headerFileSrc: 'someHeaderfileSrc',
+        logoFileSrc: 'someLogofileSrc',
         imageDescription: 'someHeaderImageDescription',
         sdgs: ['sdg1', 'sdg2', 'sdg3'],
-        organisation: 'someHeaderCompany',
+        brand: 'someHeaderCompany',
+        logo: 'someHeaderLogo',
         location: 'ZA',
-        uploading: false,
+        headerFileUploading: false,
+        logoFileUploading: false,
       },
       body: {
         '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d': {
@@ -128,12 +131,15 @@ describe('CreateEntityPageContent Selectors', () => {
       expect(result).toEqual({
         title: 'someHeaderTitle',
         shortDescription: 'someHeaderShortDescription',
-        fileSrc: 'someHeaderfileSrc',
+        headerFileSrc: 'someHeaderfileSrc',
+        logoFileSrc: 'someLogofileSrc',
         imageDescription: 'someHeaderImageDescription',
         sdgs: ['sdg1', 'sdg2', 'sdg3'],
-        organisation: 'someHeaderCompany',
+        brand: 'someHeaderCompany',
+        logo: 'someHeaderLogo',
         location: 'ZA',
-        uploading: false,
+        headerFileUploading: false,
+        logoFileUploading: false,
       })
     })
   })

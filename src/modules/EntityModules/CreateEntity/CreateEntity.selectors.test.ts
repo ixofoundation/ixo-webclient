@@ -25,10 +25,13 @@ beforeEach(() => {
         shortDescription: 'Some Short Description',
         imageDescription: 'Some Image Description',
         sdgs: ['5', '7'],
-        organisation: 'Some Organisation',
+        brand: 'Some Brand',
         location: 'AR',
-        fileSrc: 'https://pds_pandora.ixo.world/public/sbujb0xg0dgkeljwtnc',
-        uploading: false,
+        headerFileSrc:
+          'https://pds_pandora.ixo.world/public/sbujb0xg0dgkeljwtnc',
+        logoFileSrc: 'https://pds_pandora.ixo.world/public/xxxjb0xg0dgkeljwtnc',
+        headerFileUploading: false,
+        logoFileUploading: false,
       },
       body: {
         '4151f7bc-a399-4f69-940a-82394db61486': {
@@ -638,9 +641,10 @@ describe('CreateEntity Selectors', () => {
           shortDescription: 'Some Short Description',
           imageDescription: 'Some Image Description',
           sdgs: ['5', '7'],
-          organisation: 'Some Organisation',
+          brand: 'Some Brand',
           location: 'AR',
           image: 'https://pds_pandora.ixo.world/public/sbujb0xg0dgkeljwtnc',
+          logo: 'https://pds_pandora.ixo.world/public/xxxjb0xg0dgkeljwtnc',
         },
         body: [
           {
@@ -1047,6 +1051,35 @@ describe('CreateEntity Selectors', () => {
     })
   })
 
+  describe('selectAttestationHeaderForEntityApiPayload', () => {
+    it('should return the attestation header info for the entity schema', () => {
+      const result = SUT.selectAttestationHeaderForEntityApiPayload(state)
+
+      expect(result).toEqual({
+        name: 'someClaimTitle',
+        description: 'someClaimShortDescription',
+        sdgs: [],
+      })
+    })
+  })
+
+  describe('selectPageContentHeaderForEntityApiPayload', () => {
+    it('should return the page content header info for the entity schema', () => {
+      const result = SUT.selectPageContentHeaderForEntityApiPayload(state)
+
+      expect(result).toEqual({
+        name: 'Some Title',
+        description: 'Some Short Description',
+        image: 'https://pds_pandora.ixo.world/public/sbujb0xg0dgkeljwtnc',
+        logo: 'https://pds_pandora.ixo.world/public/xxxjb0xg0dgkeljwtnc',
+        brand: 'Some Brand',
+        imageDescription: 'Some Image Description',
+        location: 'AR',
+        sdgs: ['5', '7'],
+      })
+    })
+  })
+
   describe('selectEntityApiPayload', () => {
     it('should return the payload for the entity', () => {
       const genericPayload = {
@@ -1321,6 +1354,8 @@ describe('CreateEntity Selectors', () => {
         name: 'Some Title',
         description: 'Some Short Description',
         image: 'https://pds_pandora.ixo.world/public/sbujb0xg0dgkeljwtnc',
+        logo: 'https://pds_pandora.ixo.world/public/xxxjb0xg0dgkeljwtnc',
+        brand: 'Some Brand',
         imageDescription: 'Some Image Description',
         location: 'AR',
         sdgs: ['5', '7'],
