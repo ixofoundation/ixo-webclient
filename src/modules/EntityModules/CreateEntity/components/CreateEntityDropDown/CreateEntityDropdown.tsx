@@ -1,10 +1,10 @@
 import * as React from 'react'
 import {
-  SearchWrapper,
+  DropdownWrapper,
   ModalButton,
-  SearchModal,
-  SearchButtonsWrapper,
-  SearchFilterButton,
+  DropdownModal,
+  ButtonsWrapper,
+  LaunchEntityButton,
   ButtonContent,
 } from './CreateEntityDropDown.styles'
 import Investments from 'assets/icons/Investments'
@@ -19,7 +19,6 @@ import { entityTypeMap } from '../../../Entities/strategy-map'
 
 interface Props {
   entityType: EntityType
-  entityColor?: string
 }
 
 export default class CreateEntityDropDown extends React.Component<Props> {
@@ -28,30 +27,15 @@ export default class CreateEntityDropDown extends React.Component<Props> {
     isModalOpen: false,
   }
 
-  handleChange = (event): void => {
-    this.setState({
-      search: event.target.value,
-    })
-  }
-
-  handleSubmit = (e): void => {
-    e.preventDefault()
-    alert(`Search for: ${this.state.search}`)
-  }
-
   handleToggleModal = (): void => {
     this.setState({
       isModalOpen: !this.state.isModalOpen,
     })
   }
 
-  handleSearchFilter = (): void => {
-    this.handleToggleModal()
-  }
-
   render(): JSX.Element {
     return (
-      <SearchWrapper>
+      <DropdownWrapper>
         <ModalButton
           onClick={(): void => this.handleToggleModal()}
           className={this.state.isModalOpen ? 'modal-open' : ''}
@@ -67,13 +51,15 @@ export default class CreateEntityDropDown extends React.Component<Props> {
           </span>
         </ModalButton>
 
-        <SearchModal
+        <DropdownModal
           style={{ display: this.state.isModalOpen ? 'block' : 'none' }}
         >
           <hr />
-          <SearchButtonsWrapper>
-            <SearchFilterButton
+          <ButtonsWrapper>
+            <LaunchEntityButton
               exact={true}
+              target="blank"
+              rel="noopener noreferrer"
               to={`/${entityTypeMap[
                 EntityType.Project
               ].title.toLowerCase()}/new`}
@@ -82,14 +68,17 @@ export default class CreateEntityDropDown extends React.Component<Props> {
                 this.props.entityType === EntityType.Project ? 'active' : ''
               }
                     `}
+              onClick={this.handleToggleModal}
             >
               <ButtonContent>
                 <Projects fill="#000" width="18" />
                 {entityTypeMap[EntityType.Project].title}
               </ButtonContent>
-            </SearchFilterButton>
-            <SearchFilterButton
+            </LaunchEntityButton>
+            <LaunchEntityButton
               exact={true}
+              target="blank"
+              rel="noopener noreferrer"
               to={`/${entityTypeMap[
                 EntityType.Oracle
               ].title.toLowerCase()}/new`}
@@ -98,14 +87,17 @@ export default class CreateEntityDropDown extends React.Component<Props> {
                 this.props.entityType === EntityType.Oracle ? 'active' : ''
               }
                     `}
+              onClick={this.handleToggleModal}
             >
               <ButtonContent>
                 <Oracle fill="#000" width="18" />
                 {entityTypeMap[EntityType.Oracle].title}
               </ButtonContent>
-            </SearchFilterButton>
-            <SearchFilterButton
+            </LaunchEntityButton>
+            <LaunchEntityButton
               exact={true}
+              target="blank"
+              rel="noopener noreferrer"
               to={`/${entityTypeMap[
                 EntityType.Investment
               ].title.toLowerCase()}/new`}
@@ -114,28 +106,34 @@ export default class CreateEntityDropDown extends React.Component<Props> {
                 this.props.entityType === EntityType.Investment ? 'active' : ''
               }
                     `}
+              onClick={this.handleToggleModal}
             >
               <ButtonContent>
                 <Investments fill="#000" width="18" />
                 {entityTypeMap[EntityType.Investment].title}
               </ButtonContent>
-            </SearchFilterButton>
-            <SearchFilterButton
+            </LaunchEntityButton>
+            <LaunchEntityButton
               exact={true}
+              target="blank"
+              rel="noopener noreferrer"
               to={`/${entityTypeMap[EntityType.Cell].title.toLowerCase()}/new`}
               className={`
                     ${EntityType.Cell.toLowerCase()} ${
                 this.props.entityType === EntityType.Cell ? 'active' : ''
               }
                     `}
+              onClick={this.handleToggleModal}
             >
               <ButtonContent>
                 <Cells fill="#000" width="18" />
                 {entityTypeMap[EntityType.Cell].title}
               </ButtonContent>
-            </SearchFilterButton>
-            <SearchFilterButton
+            </LaunchEntityButton>
+            <LaunchEntityButton
               exact={true}
+              target="blank"
+              rel="noopener noreferrer"
               to={`/${entityTypeMap[
                 EntityType.Template
               ].title.toLowerCase()}/new`}
@@ -144,31 +142,33 @@ export default class CreateEntityDropDown extends React.Component<Props> {
                 this.props.entityType === EntityType.Template ? 'active' : ''
               }
                     `}
+              onClick={this.handleToggleModal}
             >
               <ButtonContent>
                 <Template fill="#000" width="18" />
                 {entityTypeMap[EntityType.Template].title}
               </ButtonContent>
-            </SearchFilterButton>
-            <SearchFilterButton
+            </LaunchEntityButton>
+            <LaunchEntityButton
               exact={true}
-              to={`/${entityTypeMap[
-                EntityType.Template
-              ].title.toLowerCase()}/new`}
+              target="blank"
+              rel="noopener noreferrer"
+              to={'/data/new'}
               className={`
                     ${EntityType.Data.toLowerCase()} ${
                 this.props.entityType === EntityType.Data ? 'active' : ''
               }
                     `}
+              onClick={this.handleToggleModal}
             >
               <ButtonContent>
                 <DataAssets fill="#000" width="18" />
-                {entityTypeMap[EntityType.Data].title}
+                {'Data ' + entityTypeMap[EntityType.Data].title}
               </ButtonContent>
-            </SearchFilterButton>
-          </SearchButtonsWrapper>
-        </SearchModal>
-      </SearchWrapper>
+            </LaunchEntityButton>
+          </ButtonsWrapper>
+        </DropdownModal>
+      </DropdownWrapper>
     )
   }
 }

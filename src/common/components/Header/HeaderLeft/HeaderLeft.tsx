@@ -3,7 +3,6 @@ import { Fragment } from 'react'
 import { deviceWidth } from '../../../../lib/commonData'
 import MediaQuery from 'react-responsive'
 import { getIxoWorldRoute } from '../../../utils/formatters'
-import { entityTypeMap } from 'modules/EntityModules/Entities/strategy-map'
 import CreateEntityDropDown from '../../../../modules/EntityModules/CreateEntity/components/CreateEntityDropDown/CreateEntityDropdown'
 import { EntityType } from '../../../../modules/EntityModules/Entities/types'
 
@@ -56,10 +55,7 @@ export class HeaderLeft extends React.Component<ParentProps> {
           <HeaderAnchor target="_blank" href="https://docs.ixo.foundation/">
             Learn
           </HeaderAnchor>
-          <CreateEntityDropDown
-            entityColor={entityTypeMap[this.props.currentEntity].themeColor}
-            entityType={this.props.currentEntity}
-          />
+          <CreateEntityDropDown entityType={this.props.currentEntity} />
         </Fragment>
       )
     } else {
@@ -111,11 +107,8 @@ export class HeaderLeft extends React.Component<ParentProps> {
               Learn
             </MenuHeaderAnchor>
           </MenuHeaderContainer>
-          <MenuHeaderContainer>
-            <CreateEntityDropDown
-              entityColor={entityTypeMap[this.props.currentEntity].themeColor}
-              entityType={this.props.currentEntity}
-            />
+          <MenuHeaderContainer style={{ background: 'none' }}>
+            <CreateEntityDropDown entityType={this.props.currentEntity} />
           </MenuHeaderContainer>
         </Fragment>
       )

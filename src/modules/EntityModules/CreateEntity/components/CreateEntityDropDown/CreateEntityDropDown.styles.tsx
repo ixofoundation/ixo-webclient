@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import { NavLink } from 'react-router-dom'
 import { deviceWidth } from 'lib/commonData'
 
-export const SearchWrapper = styled.div`
+export const DropdownWrapper = styled.div`
   position: relative;
   top: 3px;
   left: 0;
@@ -92,7 +92,7 @@ export const ModalButton = styled.div`
   }
 `
 
-export const SearchModal = styled.div`
+export const DropdownModal = styled.div`
   position: absolute;
   top: 33px;
   left: 7px;
@@ -116,17 +116,18 @@ export const SearchModal = styled.div`
     padding: 2em 1.875em;
     width: 100%;
     background: #fff;
+    border-radius: 4px;
   }
 `
 
-export const SearchButtonsWrapper = styled.div`
+export const ButtonsWrapper = styled.div`
   display: flex;
   flex-flow: row wrap;
   justify-content: center;
   margin: 0 -1.75rem;
 `
 
-export const SearchFilterButton = styled(NavLink)`
+export const LaunchEntityButton = styled(NavLink)`
   width: calc(100% - 1rem);
   padding: 1rem 1rem;
   color: #fff;
