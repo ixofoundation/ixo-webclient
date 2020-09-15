@@ -1,8 +1,13 @@
+import axios from 'axios'
 import moment from 'moment'
 import * as SUT from './EntitiesExplorer.actions'
 import { EntityType } from '../types'
 import { EntitiesExplorerActions } from './types'
 import mockStore from 'common/redux/mockStore'
+import { fakeListedProjectsData } from '__mocks__/@ixo/ixo-apimodule'
+
+// temporary mock axios while using mocky
+const mockAxios = axios as jest.Mocked<typeof axios>
 
 let store
 
@@ -27,6 +32,10 @@ beforeEach(() => {
 describe('Entities Actions', () => {
   describe('getEntities', () => {
     it('should retrieve the entities from the api', async () => {
+      mockAxios.get.mockImplementationOnce(() =>
+        Promise.resolve({ data: fakeListedProjectsData } as any),
+      )
+
       // when we call the action creator
       await store.dispatch(SUT.getEntities())
       const actions = store.getActions()

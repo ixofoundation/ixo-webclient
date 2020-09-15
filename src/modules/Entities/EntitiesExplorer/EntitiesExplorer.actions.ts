@@ -1,5 +1,6 @@
 import moment, { Moment } from 'moment'
 import { Dispatch } from 'redux'
+import Axios from 'axios'
 import { EntityType } from '../types'
 import {
   GetEntitiesAction,
@@ -20,14 +21,18 @@ import {
   FilterSectorAction,
 } from './types'
 import { RootState } from 'common/redux/types'
-import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
+// import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
 import { ApiListedEntity } from 'common/api/blocksync-api/types/entities'
 
 export const getEntities = () => (dispatch: Dispatch): GetEntitiesAction => {
   return dispatch({
     type: EntitiesExplorerActions.GetEntities,
-    payload: blocksyncApi.project.listProjects().then((response) => {
-      return response.map((apiEntity: ApiListedEntity) => {
+    // Temp
+    payload: Axios.get(
+      'https://run.mocky.io/v3/07f36a19-2fdd-4baa-a216-e96a7c687add',
+    ).then((response) => {
+      // TODO - blocksyncApi.project.listProjects()
+      return response.data.map((apiEntity: ApiListedEntity) => {
         const claimToUse = apiEntity.data.claims
           ? apiEntity.data.claims.items[0]
           : undefined
