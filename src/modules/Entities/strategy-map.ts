@@ -60,6 +60,7 @@ export const entityTypeMap: EntityTypeStrategyMap = {
     filterSchema: ProjectFilterSchema,
     controlPanelSchema: ProjectControlPanelSchema,
     createNewTitle: 'Launch a Project',
+    urlPart: 'project',
   },
   [EntityType.Oracle]: {
     title: 'Oracle',
@@ -69,6 +70,7 @@ export const entityTypeMap: EntityTypeStrategyMap = {
     filterSchema: OracleFilterSchema,
     controlPanelSchema: OracleControlPanelSchema,
     createNewTitle: 'Launch an Oracle',
+    urlPart: 'oracle',
   },
   [EntityType.Investment]: {
     title: 'Investment',
@@ -78,6 +80,7 @@ export const entityTypeMap: EntityTypeStrategyMap = {
     filterSchema: InvestmentFilterSchema,
     controlPanelSchema: InvestmentControlPanelSchema,
     createNewTitle: 'Launch an Investment',
+    urlPart: 'investment',
   },
   [EntityType.Cell]: {
     title: 'Cell',
@@ -87,6 +90,7 @@ export const entityTypeMap: EntityTypeStrategyMap = {
     filterSchema: CellFilterSchema,
     controlPanelSchema: CellControlPanelSchema,
     createNewTitle: 'Launch a Cell',
+    urlPart: 'cell',
   },
   [EntityType.Template]: {
     title: 'Template',
@@ -96,6 +100,7 @@ export const entityTypeMap: EntityTypeStrategyMap = {
     filterSchema: TemplateFilterSchema,
     controlPanelSchema: TemplateControlPanelSchema,
     createNewTitle: 'Create a Claim Template',
+    urlPart: 'template',
   },
   [EntityType.Data]: {
     title: 'Asset',
@@ -105,6 +110,7 @@ export const entityTypeMap: EntityTypeStrategyMap = {
     filterSchema: DataFilterSchema,
     controlPanelSchema: DataControlPanelSchema,
     createNewTitle: 'Launch Data Assets',
+    urlPart: 'data',
   },
 }
 

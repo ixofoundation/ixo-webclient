@@ -70,6 +70,15 @@ export interface Props extends RouteProps {
   handleResetFilters: () => void
 }
 
+const EntityCard = {
+  [EntityType.Project]: ProjectCard,
+  [EntityType.Cell]: CellCard,
+  [EntityType.Template]: <div />,
+  [EntityType.Oracle]: <div />,
+  [EntityType.Investment]: <div />,
+  [EntityType.Data]: <div />,
+}
+
 class EntitiesExplorer extends React.Component<Props> {
   componentDidMount(): void {
     this.props.handleGetEntities()

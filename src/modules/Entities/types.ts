@@ -140,6 +140,7 @@ export type EntityTypeStrategyMap = {
     filterSchema: FilterSchema
     controlPanelSchema: ControlPanelSchema
     createNewTitle: string
+    urlPart: string
   }
 }
 
