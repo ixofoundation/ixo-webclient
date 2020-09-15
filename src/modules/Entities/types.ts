@@ -2,6 +2,13 @@ import { Schema as FilterSchema } from './EntitiesExplorer/components/EntitiesFi
 import { Schema as HeaderSchema } from './EntitiesExplorer/components/EntitiesHero/schema/types'
 import { Schema as ControlPanelSchema } from 'common/components/ControlPanel/types'
 
+export interface Agent {
+  status: string
+  kyc: boolean
+  did: string
+  role: string
+}
+
 export enum EntityType {
   Project = 'Project',
   Cell = 'Cell',

@@ -1,6 +1,5 @@
 import { Dispatch } from 'redux'
 import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
-import { mapApiEntityToEntity } from '../Entities.utils'
 import {
   SelectedEntityActions,
   GetEntityAction,

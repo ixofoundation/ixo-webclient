@@ -1,6 +1,6 @@
 import { Moment } from 'moment'
 import { ExplorerEntity } from '../EntitiesExplorer/types'
-import { EntityType } from '../types'
+import { Agent, EntityType } from '../types'
 
 export interface Entity {
   name: string
@@ -9,6 +9,19 @@ export interface Entity {
   did: string
   creatorDid: string
   dateCreated: Moment
+  bondDid: string
+  ownerName: string
+  location: string
+  sdgs: string[]
+  requiredClaimsCount: number
+  successfulClaimsCount: number
+  pendingClaimsCount: number
+  rejectedClaimsCount: number
+  evaluatorsCount: number
+  evaluatorsPendingCount: number
+  serviceProvidersCount: number
+  serviceProvidersPendingCount: number
+  agents: Agent[]
 }
 
 export enum SelectedEntityActions {
