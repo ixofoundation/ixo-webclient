@@ -14,8 +14,8 @@ import Template from 'assets/icons/Template'
 import Down from 'assets/icons/Down'
 import Projects from 'assets/icons/Projects'
 import DataAssets from 'assets/icons/DataAssets'
-import { EntityType } from '../../../../../Entities/types'
-import { entityTypeMap } from '../../../../../Entities/strategy-map'
+import { EntityType } from '../../../types'
+import { entityTypeMap } from '../../../strategy-map'
 
 interface Props {
   entityType?: EntityType
