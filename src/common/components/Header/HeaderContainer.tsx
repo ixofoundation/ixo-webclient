@@ -20,7 +20,9 @@ import {
   TopBar,
 } from './HeaderContainer.styles'
 import Success from '../../../assets/icons/Success'
-
+import HeaderTabs from 'common/components/HeaderTabs/HeaderTabs'
+import { getHeaderTabButtons } from '../../../modules/Entities/components/EntitiesHero/EntitiesHero.utils'
+import { entityTypeMap } from '../../../modules/Entities/strategy-map'
 export interface State {
   responseTime: number | null
   shouldLedgerDid: boolean
@@ -262,6 +264,11 @@ class Header extends React.Component<Props, State> {
   }
 
   render(): JSX.Element {
+    const entityStrategyMap = entityTypeMap[this.props.entityType]
+    const headerTabButtons = getHeaderTabButtons(
+      this.props.entityType,
+      entityStrategyMap.plural.toUpperCase(),
+    )
     return (
       <TopBar
         className={`container-fluid text-white ${
@@ -292,6 +299,11 @@ class Header extends React.Component<Props, State> {
             />
           </MediaQuery>
         </div>
+        <HeaderTabs
+          buttons={headerTabButtons}
+          activeTabColor={entityStrategyMap.themeColor}
+          enableAssistantButton={true}
+        />
       </TopBar>
     )
   }
