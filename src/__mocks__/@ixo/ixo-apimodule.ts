@@ -263,9 +263,24 @@ export const fakeListedProjectsData = [
       'createdOn': '2020-09-12T19:49:45Z',
       'createdBy': 'did:sov:EA1fV7PTbWG3aveDJZpgSn',
       'nodeDid': 'did:ixo:RpXidAyvNUsSEktkT3a5LY',
+      'agents': [
+        { did: 'did:ixo:CB1idAyvNUsSEktkT3a5LY' },
+        { did: 'did:ixo:NT1idAyvNUsSEktkT3a5LY' },
+      ],
+      'claimStats': {
+        currentSuccessful: 10,
+        currentRejected: 5,
+      },
+      'agentStats': {
+        evaluators: 10,
+        evaluatorsPending: 0,
+        serviceProviders: 10,
+        serviceProvidersPending: 2,
+        investors: 12,
+        investorsPending: 0,
+      },
     },
   },
-
   {
     txHash: '999d034d62009f681fa13db4997df971e3f09d42cd6721082823ef9f4427j823',
     projectDid: 'did:ixo:BuXZQaXJ9o2UKm4tGYKLW',
@@ -444,6 +459,22 @@ export const fakeListedProjectsData = [
       'createdOn': '2020-08-12T19:49:45Z',
       'createdBy': 'did:sov:AB1fV7PTbWG3aveDJZpgSb',
       'nodeDid': 'did:ixo:RpXidAyvNUsSEktkT3a5LY',
+      'agents': [
+        { did: 'did:ixo:TB1idAyvNUsSEktkT3a5LY' },
+        { did: 'did:ixo:VT1idAyvNUsSEktkT3a5LY' },
+      ],
+      'claimStats': {
+        currentSuccessful: 0,
+        currentRejected: 0,
+      },
+      'agentStats': {
+        evaluators: 10,
+        evaluatorsPending: 0,
+        serviceProviders: 10,
+        serviceProvidersPending: 2,
+        investors: 12,
+        investorsPending: 0,
+      },
     },
   },
 ] as ApiListedEntity[]

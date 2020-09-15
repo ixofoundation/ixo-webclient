@@ -29,7 +29,7 @@ export const getEntities = () => (dispatch: Dispatch): GetEntitiesAction => {
     type: EntitiesExplorerActions.GetEntities,
     // Temp
     payload: Axios.get(
-      'https://run.mocky.io/v3/5b95a5aa-46ef-4015-98ed-8dc0059c4ed5',
+      'https://run.mocky.io/v3/7d9950ec-8523-4e86-82ef-38509396730c',
     ).then((response) => {
       // TODO - blocksyncApi.project.listProjects()
       return response.data.map((apiEntity: ApiListedEntity) => {
@@ -50,13 +50,17 @@ export const getEntities = () => (dispatch: Dispatch): GetEntitiesAction => {
           goal: claimToUse ? claimToUse.goal : undefined,
           image: apiEntity.data.image,
           logo: apiEntity.data.logo,
-          serviceProvidersCount: 10, // TODO - get actual value when this is available
-          evaluatorsCount: 10, // TODO - get actual value when this is available
+          serviceProvidersCount: apiEntity.data.agentStats.serviceProviders,
+          evaluatorsCount: apiEntity.data.agentStats.evaluators,
           requiredClaimsCount: claimToUse ? claimToUse.targetMin : undefined,
           pendingClaimsCount: claimToUse ? 3 : undefined, // TODO - get actual value when this is available
-          successfulClaimsCount: claimToUse ? 10 : undefined, // TODO - get actual value when this is available
-          rejectedClaimsCount: claimToUse ? 5 : undefined, // TODO - get actual value when this is available
-          agentDids: [], // TODO - get actual value when this is available
+          successfulClaimsCount: claimToUse
+            ? apiEntity.data.claimStats.currentSuccessful
+            : undefined,
+          rejectedClaimsCount: claimToUse
+            ? apiEntity.data.claimStats.currentRejected
+            : undefined,
+          agentDids: apiEntity.data.agents.map((agent) => agent.did),
           sdgs: apiEntity.data.sdgs,
           ddoTags: apiEntity.data.ddoTags
             ? apiEntity.data.ddoTags.map((ddoTag) => ({

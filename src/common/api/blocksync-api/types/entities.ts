@@ -184,6 +184,19 @@ export interface ApiListedEntityData extends ApiEntity {
   createdOn: string
   createdBy: string
   nodeDid: string
+  agents: { did: string }[]
+  claimStats: {
+    currentSuccessful: number
+    currentRejected: number
+  }
+  agentStats: {
+    evaluators: number
+    evaluatorsPending: number
+    serviceProviders: number
+    serviceProvidersPending: number
+    investors: number
+    investorsPending: number
+  }
 }
 
 export interface ApiListedEntity {

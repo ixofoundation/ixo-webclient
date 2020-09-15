@@ -44,33 +44,3 @@ export const getHeaderTabButtons = (
 
   return tabButtons
 }
-
-/* const getHeaderTabButtons = (): any => {
-  const tabButtons = [
-    {
-      iconClass: `icon-${entityType.toLowerCase()}`,
-      linkClass: entityType.toLowerCase(),
-      path: '/',
-      title: entityStrategyMap.plural.toUpperCase(),
-    },
-  ]
-
-  if (entityType === EntityType.Project || entityType === EntityType.Cell) {
-    tabButtons.push(
-      {
-        iconClass: 'icon-impacts',
-        linkClass: null,
-        path: '/global-statistics',
-        title: 'IMPACT',
-      },
-      {
-        iconClass: 'icon-economy',
-        linkClass: 'in-active',
-        path: '/economy',
-        title: 'ECONOMY',
-      },
-    )
-  }
-
-  return tabButtons
-} */

@@ -1,4 +1,15 @@
+import { Moment } from 'moment'
 import { ExplorerEntity } from '../EntitiesExplorer/types'
+import { EntityType } from '../types'
+
+export interface Entity {
+  name: string
+  description: string
+  type: EntityType
+  did: string
+  creatorDid: string
+  dateCreated: Moment
+}
 
 export enum SelectedEntityActions {
   GetEntity = 'ixo/Entity/GET_ENTITY',

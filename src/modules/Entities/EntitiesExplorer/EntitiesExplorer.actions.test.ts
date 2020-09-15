@@ -70,7 +70,10 @@ describe('Entities Actions', () => {
           pendingClaimsCount: 3,
           rejectedClaimsCount: 5,
           sdgs: ['5', '7'],
-          agentDids: [],
+          agentDids: [
+            'did:ixo:CB1idAyvNUsSEktkT3a5LY',
+            'did:ixo:NT1idAyvNUsSEktkT3a5LY',
+          ],
           image: 'https://pds_pandora.ixo.world/public/sbujb0xg0dgkeljwtnc',
           logo: 'https://pds_pandora.ixo.world/public/v7kvrycap9kf2ofnof',
           ddoTags: [
@@ -106,7 +109,10 @@ describe('Entities Actions', () => {
           status: 'COMPLETED',
           serviceProvidersCount: 10,
           evaluatorsCount: 10,
-          agentDids: [],
+          agentDids: [
+            'did:ixo:TB1idAyvNUsSEktkT3a5LY',
+            'did:ixo:VT1idAyvNUsSEktkT3a5LY',
+          ],
           ddoTags: [
             {
               name: 'Project Type',
