@@ -1,4 +1,4 @@
-import { Moment } from 'moment'
+import moment, { Moment } from 'moment'
 import { Dispatch } from 'redux'
 import { EntityType } from '../types'
 import {
@@ -21,13 +21,46 @@ import {
 } from './types'
 import { RootState } from 'common/redux/types'
 import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
-import { mapApiEntityToEntity } from '../Entities.utils'
+import { ApiListedEntity } from 'common/api/blocksync-api/types/entities'
 
 export const getEntities = () => (dispatch: Dispatch): GetEntitiesAction => {
   return dispatch({
     type: EntitiesExplorerActions.GetEntities,
     payload: blocksyncApi.project.listProjects().then((response) => {
-      return response.map((apiEntity) => mapApiEntityToEntity(apiEntity))
+      return response.map((apiEntity: ApiListedEntity) => {
+        const claimToUse = apiEntity.data.claims
+          ? apiEntity.data.claims.items[0]
+          : undefined
+
+        return {
+          did: apiEntity.projectDid,
+          type: apiEntity.data['@type'],
+          creatorDid: apiEntity.data.createdBy,
+          status: apiEntity.status,
+          name: apiEntity.data.name,
+          description: apiEntity.data.description,
+          dateCreated: moment(apiEntity.data.createdOn),
+          ownerName: apiEntity.data.owner.displayName,
+          location: apiEntity.data.location,
+          goal: claimToUse ? claimToUse.goal : undefined,
+          image: apiEntity.data.image,
+          logo: apiEntity.data.logo,
+          serviceProvidersCount: 10, // TODO - get actual value when this is available
+          evaluatorsCount: 10, // TODO - get actual value when this is available
+          requiredClaimsCount: claimToUse ? claimToUse.targetMin : undefined,
+          pendingClaimsCount: claimToUse ? 3 : undefined, // TODO - get actual value when this is available
+          successfulClaimsCount: claimToUse ? 10 : undefined, // TODO - get actual value when this is available
+          rejectedClaimsCount: claimToUse ? 5 : undefined, // TODO - get actual value when this is available
+          agentDids: [], // TODO - get actual value when this is available
+          sdgs: apiEntity.data.sdgs,
+          ddoTags: apiEntity.data.ddoTags
+            ? apiEntity.data.ddoTags.map((ddoTag) => ({
+                name: ddoTag.category,
+                tags: ddoTag.tags,
+              }))
+            : [],
+        }
+      })
     }),
   })
 }

@@ -54,7 +54,9 @@ export const createEntity = () => (
 
   // the page content data
   const pageData = `data:application/json;base64,${base64Encode(
-    JSON.stringify(createEntityMap[entityType].selectPageContent(state)),
+    JSON.stringify(
+      createEntityMap[entityType].selectPageContentApiPayload(state),
+    ),
   )}`
 
   const uploadPageContent = blocksyncApi.project.createPublic(pageData, PDS_URL)

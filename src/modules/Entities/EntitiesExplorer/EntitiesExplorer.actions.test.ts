@@ -9,47 +9,6 @@ let store
 beforeEach(() => {
   store = mockStore({
     entities: {
-      entities: [
-        {
-          did: 'someDid1',
-          creatorDid: 'someUserDid1',
-          name: 'someTitle1',
-          description: 'someShortDescription1',
-          dateCreated: moment('2020-04-09T13:14:13.000Z'),
-          ownerName: 'someOwnerName1',
-          status: 'someStatus1',
-          location: 'someCountry1',
-          goal: 'someImpactAction1',
-          serviceProvidersCount: 13,
-          evaluatorsCount: 1,
-          requiredClaimsCount: 100,
-          successfulClaimsCount: 10,
-          pendingClaimsCount: 20,
-          rejectedClaimsCount: 30,
-          sdgs: ['1', '2', '3'],
-          agentDids: ['someAgentDid1'],
-          image: 'sommeImageUrl',
-          logo: 'sommeLogoUrl',
-          ddoTags: [
-            {
-              name: 'someCategory1',
-              tags: [
-                'someCategory1_tag1',
-                'someCategory1_tag2',
-                'someCategory1_tag3',
-              ],
-            },
-            {
-              name: 'someCategory1',
-              tags: [
-                'someCategory1_tag1',
-                'someCategory1_tag2',
-                'someCategory1_tag3',
-              ],
-            },
-          ],
-        },
-      ],
       filter: {
         dateFrom: moment('2020-04-09T13:14:13.000Z'),
         dateTo: moment('2020-04-08T13:14:13.000Z'),
@@ -66,7 +25,105 @@ beforeEach(() => {
 })
 
 describe('Entities Actions', () => {
-  // TODO - getEntities ()
+  describe('getEntities', () => {
+    it('should retrieve the entities from the api', async () => {
+      // when we call the action creator
+      await store.dispatch(SUT.getEntities())
+      const actions = store.getActions()
+
+      expect(actions.length).toEqual(2)
+
+      // then ... it should dispatch the correct actions
+      expect(actions.length).toEqual(2)
+
+      expect(actions[0].type).toEqual(
+        EntitiesExplorerActions.GetEntitiesPending,
+      )
+      expect(actions[1].type).toEqual(
+        EntitiesExplorerActions.GetEntitiesSuccess,
+      )
+      expect(actions[1].payload).toEqual([
+        {
+          name: 'Some Title',
+          description: 'Some Short Description',
+          type: EntityType.Project,
+          did: 'did:ixo:GfDZQaXJ9o2UKm4tGY2Wkh',
+          creatorDid: 'did:sov:EA1fV7PTbWG3aveDJZpgSn',
+          dateCreated: moment('2020-09-12T19:49:45Z'),
+          ownerName: 'Owner Display Name',
+          status: 'CREATED',
+          location: 'AR',
+          goal: 'Some Goal',
+          serviceProvidersCount: 10,
+          evaluatorsCount: 10,
+          requiredClaimsCount: 23,
+          successfulClaimsCount: 10,
+          pendingClaimsCount: 3,
+          rejectedClaimsCount: 5,
+          sdgs: ['5', '7'],
+          agentDids: [],
+          image: 'https://pds_pandora.ixo.world/public/sbujb0xg0dgkeljwtnc',
+          logo: 'https://pds_pandora.ixo.world/public/v7kvrycap9kf2ofnof',
+          ddoTags: [
+            {
+              name: 'Project Type',
+              tags: [
+                'Index',
+                'Accreditation',
+                'Accountability',
+                'Insurance Bond',
+              ],
+            },
+            {
+              name: 'SDG',
+              tags: [
+                'SDG3 – Good Health and Well-being',
+                'SDG15 – Life on Land',
+                'SDG16 – Peace, Justice and Strong Institutions',
+                'SDG17 – Partnerships for Goals',
+              ],
+            },
+            { name: 'Stage', tags: ['Planning'] },
+          ],
+        },
+        {
+          name: 'Some Claim Title',
+          description: 'Some Claim Description',
+          type: EntityType.Template,
+          did: 'did:ixo:BuXZQaXJ9o2UKm4tGYKLW',
+          creatorDid: 'did:sov:AB1fV7PTbWG3aveDJZpgSb',
+          dateCreated: moment('2020-08-12T19:49:45Z'),
+          ownerName: 'Owner Display Name',
+          status: 'COMPLETED',
+          serviceProvidersCount: 10,
+          evaluatorsCount: 10,
+          agentDids: [],
+          ddoTags: [
+            {
+              name: 'Project Type',
+              tags: [
+                'Index',
+                'Accreditation',
+                'Accountability',
+                'Insurance Bond',
+              ],
+            },
+            {
+              name: 'SDG',
+              tags: [
+                'SDG3 – Good Health and Well-being',
+                'SDG15 – Life on Land',
+                'SDG16 – Peace, Justice and Strong Institutions',
+                'SDG17 – Partnerships for Goals',
+              ],
+            },
+            { name: 'Stage', tags: ['Planning'] },
+          ],
+        },
+      ])
+    })
+  })
+
   describe('changeEntityType', () => {
     it('should create an action to set the entityType', () => {
       // when ... we call the changeEntityType action creator

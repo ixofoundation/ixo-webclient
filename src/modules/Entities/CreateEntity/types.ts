@@ -38,19 +38,9 @@ export type EntityStepStrategyMap = {
         nextStep: number
       }
     }
-    selectPageContent: (state: RootState) => any
-    selectHeaderInfo: (
-      state: RootState,
-    ) => {
-      name: string
-      description: string
-      image: string
-      imageDescription: string
-      location: string
-      brand: string
-      logo: string
-      sdgs: string[]
-    }
+    selectPageContentApiPayload: (state: RootState) => any
+    selectHeaderInfoApiPayload: (state: RootState) => any
+    selectClaimsApiPayload: (state: RootState) => any
   }
 }
 

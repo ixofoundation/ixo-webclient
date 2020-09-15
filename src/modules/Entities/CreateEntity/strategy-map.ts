@@ -10,6 +10,7 @@ import {
   selectPageContentHeaderForEntityApiPayload,
   selectPageContentApiPayload,
   selectAttestationApiPayload,
+  selectClaimsForEntityApiPayload,
 } from './CreateEntity.selectors'
 import { RootState } from 'common/redux/types'
 
@@ -46,10 +47,12 @@ export const createEntityMap: EntityStepStrategyMap = {
         nextStep: null,
       },
     },
-    selectHeaderInfo: (state: RootState): any =>
+    selectHeaderInfoApiPayload: (state: RootState): any =>
       selectPageContentHeaderForEntityApiPayload(state),
-    selectPageContent: (state: RootState): any =>
+    selectPageContentApiPayload: (state: RootState): any =>
       selectPageContentApiPayload(state),
+    selectClaimsApiPayload: (state: RootState): any =>
+      selectClaimsForEntityApiPayload(state),
   },
   [EntityType.Cell]: {
     stepCount: 4,
@@ -83,10 +86,12 @@ export const createEntityMap: EntityStepStrategyMap = {
         nextStep: null,
       },
     },
-    selectHeaderInfo: (state: RootState): any =>
+    selectHeaderInfoApiPayload: (state: RootState): any =>
       selectPageContentHeaderForEntityApiPayload(state),
-    selectPageContent: (state: RootState): any =>
+    selectPageContentApiPayload: (state: RootState): any =>
       selectPageContentApiPayload(state),
+    selectClaimsApiPayload: (state: RootState): any =>
+      selectClaimsForEntityApiPayload(state),
   },
   [EntityType.Data]: {
     stepCount: 4,
@@ -120,10 +125,12 @@ export const createEntityMap: EntityStepStrategyMap = {
         nextStep: null,
       },
     },
-    selectHeaderInfo: (state: RootState): any =>
+    selectHeaderInfoApiPayload: (state: RootState): any =>
       selectPageContentHeaderForEntityApiPayload(state),
-    selectPageContent: (state: RootState): any =>
+    selectPageContentApiPayload: (state: RootState): any =>
       selectPageContentApiPayload(state),
+    selectClaimsApiPayload: (state: RootState): any =>
+      selectClaimsForEntityApiPayload(state),
   },
   [EntityType.Investment]: {
     stepCount: 4,
@@ -157,10 +164,12 @@ export const createEntityMap: EntityStepStrategyMap = {
         nextStep: null,
       },
     },
-    selectHeaderInfo: (state: RootState): any =>
+    selectHeaderInfoApiPayload: (state: RootState): any =>
       selectPageContentHeaderForEntityApiPayload(state),
-    selectPageContent: (state: RootState): any =>
+    selectPageContentApiPayload: (state: RootState): any =>
       selectPageContentApiPayload(state),
+    selectClaimsApiPayload: (state: RootState): any =>
+      selectClaimsForEntityApiPayload(state),
   },
   [EntityType.Oracle]: {
     stepCount: 4,
@@ -194,10 +203,12 @@ export const createEntityMap: EntityStepStrategyMap = {
         nextStep: null,
       },
     },
-    selectHeaderInfo: (state: RootState): any =>
+    selectHeaderInfoApiPayload: (state: RootState): any =>
       selectPageContentHeaderForEntityApiPayload(state),
-    selectPageContent: (state: RootState): any =>
+    selectPageContentApiPayload: (state: RootState): any =>
       selectPageContentApiPayload(state),
+    selectClaimsApiPayload: (state: RootState): any =>
+      selectClaimsForEntityApiPayload(state),
   },
   [EntityType.Template]: {
     stepCount: 3,
@@ -224,9 +235,10 @@ export const createEntityMap: EntityStepStrategyMap = {
         nextStep: null,
       },
     },
-    selectHeaderInfo: (state: RootState): any =>
+    selectHeaderInfoApiPayload: (state: RootState): any =>
       selectAttestationHeaderForEntityApiPayload(state),
-    selectPageContent: (state: RootState): any =>
+    selectPageContentApiPayload: (state: RootState): any =>
       selectAttestationApiPayload(state),
+    selectClaimsApiPayload: (): any => undefined,
   },
 }
