@@ -2,6 +2,20 @@ import * as React from 'react'
 import { ProgressBar } from 'common/components/ProgressBar'
 import { excerptText } from 'common/utils/formatters'
 import {
+  CardContainer,
+  CardLink,
+  CardTop,
+  CardTopContainer,
+  Description,
+  CardBottom,
+  CardBottomHeadingContainer,
+  ShieldContainer,
+  ShieldLabel,
+  Shield,
+  ShieldText,
+  ShieldColor,
+} from '../EntityCard.styles'
+import {
   MainContent,
   Title,
   Progress,
@@ -15,8 +29,7 @@ import {
   Logo,
   Flag,
 } from './ProjectCard.styles'
-import { EntityCardContainer } from '../EntityCardContainer'
-import { ShieldColor } from '../EntityCardContainer.styles'
+import SDGIcons from '../SDGIcons/SDGIcons'
 // import Star from 'assets/icons/Star'
 import flagged from '../../../../../../assets/images/flagged.svg'
 
@@ -57,25 +70,41 @@ export const ProjectCard: React.FunctionComponent<Props> = ({
   ratingCount, */
 }) => {
   return (
-    <EntityCardContainer
-      did={did}
-      name={name}
-      description={description}
-      image={image}
-      logo={logo}
-      status=""
-      sdgs={sdgs}
-      shield="Project"
-      shieldLabel="Template"
-      shieldColor={ShieldColor.Blue}
-    >
-      <MainContent>
-        <Title>{excerptText(name, 10)}</Title>
-      </MainContent>
+    <CardContainer className="col-xl-4 col-md-6 col-sm-12 col-12">
+      <CardLink
+        to={{
+          pathname: `/projects/${did}/overview`,
+        }}
+      >
+        <CardTop>
+          <CardTopContainer
+            style={{
+              backgroundImage: `url(${image}),url(${require('assets/images/ixo-placeholder-large.jpg')})`,
+            }}
+          >
+            <SDGIcons sdgs={sdgs} />
+            <Description>
+              <p>{excerptText(description, 20)}</p>
+            </Description>
+          </CardTopContainer>
+        </CardTop>
+        <CardBottom>
+          <CardBottomHeadingContainer>
+            <ShieldContainer>
+              <ShieldLabel>
+                <ShieldText>Template</ShieldText>
+              </ShieldLabel>
+              <Shield className={ShieldColor.Blue}>
+                <ShieldText>Project</ShieldText>
+              </Shield>
+            </ShieldContainer>
+          </CardBottomHeadingContainer>
+          <MainContent>
+            <Title>{excerptText(name, 10)}</Title>
+          </MainContent>
+          <Flag src={flagged} />
 
-      <Flag src={flagged} />
-
-      {/*       <StatisticsContainer>
+          {/*       <StatisticsContainer>
         <Statistic>
           <StatisticValue>{version}</StatisticValue>
           <StatisticLabel>Funded ({fundedCount})</StatisticLabel>
@@ -92,17 +121,19 @@ export const ProjectCard: React.FunctionComponent<Props> = ({
           <StatisticLabel>Rating ({ratingCount})</StatisticLabel>
         </Statistic>
       </StatisticsContainer> */}
-      <ProgressBar
-        total={requiredClaims}
-        approved={successfulClaims}
-        rejected={rejectedClaims}
-      />
-      <Progress>
-        <ProgressSuccessful>{successfulClaims}</ProgressSuccessful>
-        <ProgressRequired>/{requiredClaims}</ProgressRequired>
-      </Progress>
-      <Logo src={logo} />
-      <Impact>{impactAction}</Impact>
-    </EntityCardContainer>
+          <ProgressBar
+            total={requiredClaims}
+            approved={successfulClaims}
+            rejected={rejectedClaims}
+          />
+          <Progress>
+            <ProgressSuccessful>{successfulClaims}</ProgressSuccessful>
+            <ProgressRequired>/{requiredClaims}</ProgressRequired>
+          </Progress>
+          <Logo src={logo} />
+          <Impact>{impactAction}</Impact>
+        </CardBottom>
+      </CardLink>
+    </CardContainer>
   )
 }

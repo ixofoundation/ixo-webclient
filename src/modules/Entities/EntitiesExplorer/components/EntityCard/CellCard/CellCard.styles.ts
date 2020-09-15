@@ -12,13 +12,15 @@ import {
 
 export const MainContent = styled(MainContentBase)``
 
+// TODO - use first bottom style when stats available
 export const Logo = styled.img`
   width: 34px;
   height: 34px;
   border-radius: 17px;
   position: absolute;
   right: 32px;
-  bottom: 170px;
+  // bottom: 170px;
+  bottom: 118px;
 `
 
 export const Title = styled(TitleBase)`

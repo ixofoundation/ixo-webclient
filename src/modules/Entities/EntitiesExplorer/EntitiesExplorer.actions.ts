@@ -29,7 +29,7 @@ export const getEntities = () => (dispatch: Dispatch): GetEntitiesAction => {
     type: EntitiesExplorerActions.GetEntities,
     // Temp
     payload: Axios.get(
-      'https://run.mocky.io/v3/07f36a19-2fdd-4baa-a216-e96a7c687add',
+      'https://run.mocky.io/v3/5b95a5aa-46ef-4015-98ed-8dc0059c4ed5',
     ).then((response) => {
       // TODO - blocksyncApi.project.listProjects()
       return response.data.map((apiEntity: ApiListedEntity) => {

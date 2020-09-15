@@ -1,5 +1,20 @@
 import * as React from 'react'
+import { Moment } from 'moment'
 import { excerptText, toTitleCase } from 'common/utils/formatters'
+import {
+  CardContainer,
+  CardLink,
+  CardTop,
+  CardTopContainer,
+  Description,
+  CardBottom,
+  CardBottomHeadingContainer,
+  ShieldContainer,
+  ShieldLabel,
+  Shield,
+  ShieldText,
+  ShieldColor,
+} from '../EntityCard.styles'
 import {
   Title,
   Founded,
@@ -11,9 +26,7 @@ import {
   StatisticValue, */
   Logo,
 } from './CellCard.styles'
-import { Moment } from 'moment'
-import { EntityCardContainer } from '../EntityCardContainer'
-import { ShieldColor } from '../EntityCardContainer.styles'
+import SDGIcons from '../SDGIcons/SDGIcons'
 
 export interface Props {
   dateCreated: Moment
@@ -54,27 +67,44 @@ export const CellCard: React.FunctionComponent<Props> = ({
   }
 
   return (
-    <EntityCardContainer
-      did={did}
-      name={name}
-      description={description}
-      image={image}
-      logo={logo}
-      status={status}
-      sdgs={sdgs}
-      shieldColor={shieldColor}
-      shield={shield}
-      shieldLabel="Status"
-    >
-      <MainContent>
-        <Logo src={logo} />
-        <Title>{excerptText(name, 10)}</Title>
-        <Founded>
-          Founded in{' '}
-          <FoundedDate>{dateCreated.format('DD MMM YYYY')}</FoundedDate>
-        </Founded>
-      </MainContent>
-      {/*       <StatisticsContainer>
+    <CardContainer className="col-xl-4 col-md-6 col-sm-12 col-12">
+      <CardLink
+        to={{
+          pathname: `/projects/${did}/overview`,
+        }}
+      >
+        <CardTop>
+          <CardTopContainer
+            style={{
+              backgroundImage: `url(${image}),url(${require('assets/images/ixo-placeholder-large.jpg')})`,
+            }}
+          >
+            <SDGIcons sdgs={sdgs} />
+            <Description>
+              <p>{excerptText(description, 20)}</p>
+            </Description>
+          </CardTopContainer>
+        </CardTop>
+        <CardBottom>
+          <CardBottomHeadingContainer>
+            <ShieldContainer>
+              <ShieldLabel>
+                <ShieldText>Status</ShieldText>
+              </ShieldLabel>
+              <Shield className={shieldColor}>
+                <ShieldText>{toTitleCase(shield)}</ShieldText>
+              </Shield>
+            </ShieldContainer>
+          </CardBottomHeadingContainer>
+          <MainContent>
+            <Logo src={logo} />
+            <Title>{excerptText(name, 10)}</Title>
+            <Founded>
+              Founded in{' '}
+              <FoundedDate>{dateCreated.format('DD MMM YYYY')}</FoundedDate>
+            </Founded>
+          </MainContent>
+          {/*       <StatisticsContainer>
         <Statistic>
           <StatisticValue>{memberCount}</StatisticValue>{' '}
           <StatisticLabel>members</StatisticLabel>
@@ -84,6 +114,8 @@ export const CellCard: React.FunctionComponent<Props> = ({
           <StatisticLabel>projects</StatisticLabel>
         </Statistic>
       </StatisticsContainer> */}
-    </EntityCardContainer>
+        </CardBottom>
+      </CardLink>
+    </CardContainer>
   )
 }

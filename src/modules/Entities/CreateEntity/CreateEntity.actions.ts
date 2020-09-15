@@ -66,21 +66,12 @@ export const createEntity = () => (
       // the entity data with the page content resource id
       const pageContentId = responses[0].result
 
-      // TODO - use this
-      /*       const entityData = JSON.stringify(
+      const entityData = JSON.stringify(
         createEntitySelectors.selectEntityApiPayload(
           entityType,
           pageContentId,
         )(state),
-      ) */
-
-      // Temporary until evaluatorPayPerClaim is no longer required!
-      const temp = createEntitySelectors.selectEntityApiPayload(
-        entityType,
-        pageContentId,
-      )(state)
-      temp.evaluatorPayPerClaim = '15'
-      const entityData = JSON.stringify(temp)
+      )
 
       keysafe.requestSigning(
         entityData,
