@@ -70,13 +70,13 @@ export interface Props extends RouteProps {
   handleResetFilters: () => void
 }
 
-const EntityCard = {
+const EntityCard: any = {
   [EntityType.Project]: ProjectCard,
   [EntityType.Cell]: CellCard,
-  [EntityType.Template]: <div />,
-  [EntityType.Oracle]: <div />,
-  [EntityType.Investment]: <div />,
-  [EntityType.Data]: <div />,
+  [EntityType.Template]: React.Fragment,
+  [EntityType.Oracle]: React.Fragment,
+  [EntityType.Investment]: React.Fragment,
+  [EntityType.Data]: React.Fragment,
 }
 
 class EntitiesExplorer extends React.Component<Props> {
@@ -90,49 +90,10 @@ class EntitiesExplorer extends React.Component<Props> {
 
   renderCards = (): JSX.Element[] => {
     return this.props.entities.map((entity: ExplorerEntity, index) => {
-      switch (this.props.type) {
-        case EntityType.Cell:
-          return (
-            <CellCard
-              dateCreated={entity.dateCreated}
-              image={entity.image}
-              logo={entity.logo}
-              did={entity.did}
-              description={entity.description}
-              name={entity.name}
-              sdgs={entity.sdgs}
-              key={index}
-              status={entity.status}
-              /* TODO when these figures exist    
-              memberCount={X}
-              projectCount={X}
-              */
-            />
-          )
-        default:
-          return (
-            <ProjectCard
-              image={entity.image}
-              goal={entity.goal}
-              did={entity.did}
-              rejectedClaims={entity.rejectedClaimsCount}
-              successfulClaims={entity.successfulClaimsCount}
-              requiredClaims={entity.requiredClaimsCount}
-              description={entity.description}
-              name={entity.name}
-              sdgs={entity.sdgs}
-              key={index}
-              logo={entity.logo}
-              /* TODO when data exists          
-              version={entity.version}
-              fundedCount={X}
-              activeUsage={X}
-              ratingScore={X}
-              ratingCount={X}
-              */
-            />
-          )
-      }
+      return React.createElement(EntityCard[this.props.type], {
+        ...entity,
+        key: index,
+      })
     })
   }
 

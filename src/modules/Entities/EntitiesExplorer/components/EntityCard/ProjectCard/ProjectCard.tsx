@@ -40,9 +40,9 @@ export interface Props {
   image: string
   logo: string
   sdgs: string[]
-  requiredClaims: number
-  successfulClaims: number
-  rejectedClaims: number
+  requiredClaimsCount: number
+  successfulClaimsCount: number
+  rejectedClaimsCount: number
   goal: string
   // TODO when data exists
   /*   fundedCount: number
@@ -59,9 +59,9 @@ export const ProjectCard: React.FunctionComponent<Props> = ({
   image,
   logo,
   sdgs,
-  requiredClaims,
-  successfulClaims,
-  rejectedClaims,
+  requiredClaimsCount: requiredClaims,
+  successfulClaimsCount: successfulClaims,
+  rejectedClaimsCount: rejectedClaims,
   goal: impactAction,
   /*   fundedCount,
   version,
