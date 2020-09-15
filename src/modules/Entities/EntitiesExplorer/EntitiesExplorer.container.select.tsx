@@ -80,7 +80,4 @@ const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
   handleResetSectorFilter: (): void => dispatch(resetSectorFilter()),
 })
 
-export const EntitiesSelectConnected = connect(
-  null,
-  mapDispatchToProps,
-)(EntitiesSelect)
+export default connect(null, mapDispatchToProps)(EntitiesSelect)

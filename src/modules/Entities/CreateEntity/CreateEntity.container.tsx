@@ -184,7 +184,4 @@ const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
     dispatch(newEntity(entityType, forceNew)),
 })
 
-export const CreateEntityConnected = connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(CreateEntity)
+export default connect(mapStateToProps, mapDispatchToProps)(CreateEntity)

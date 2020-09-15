@@ -190,7 +190,4 @@ const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
   finaliseQuestions: (): void => dispatch(finaliseQuestions()),
 })
 
-export const SubmitEntityClaimConnected = connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(SubmitEntityClaim)
+export default connect(mapStateToProps, mapDispatchToProps)(SubmitEntityClaim)

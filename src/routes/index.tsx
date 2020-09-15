@@ -1,8 +1,11 @@
 import * as React from 'react'
 import { Route, Switch } from 'react-router-dom'
 import { ProjectContainerConnected } from '../components/project/ProjectContainer'
-import { EntitiesContainerConnected } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.container'
-import { EntitiesSelectConnected } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.container.select'
+import EntitiesExplorer from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.container'
+import EntitiesImpact from 'modules/Entities/EntitiesExplorer/EntitiesImpact/EntitiesImpact.container'
+import SubmitEntityClaim from 'modules/EntityClaims/SubmitEntityClaim/SubmitEntityClaim.container'
+import CreateEntity from 'modules/Entities/CreateEntity/CreateEntity.container'
+import EntitiesSelect from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.container.select'
 import { ProjectCreateConnected } from '../components/project/ProjectCreate'
 import { contentType } from '../types/models'
 import { ProjectForm } from '../pages/json'
@@ -13,8 +16,6 @@ import { Spinner } from 'common/components/Spinner'
 import { ProjectSignAndCreateConnected } from '../components/project/curation/ProjectSignAndCreate'
 import { ProjectCreateUploadPublicDocsConnected } from '../components/project/curation/ProjectCreateUploadPublicDocs'
 import { UnderConstruction } from '../components/public/UnderConstruction'
-import { SubmitEntityClaimConnected } from '../modules/EntityClaims/SubmitEntityClaim/SubmitEntityClaim.container'
-import { CreateEntityConnected } from 'modules/Entities/CreateEntity/CreateEntity.container'
 import BondRoutes from './BondRoutes'
 import InvestmentRoutes from './InvestmentRoutes'
 
@@ -34,27 +35,21 @@ export const Routes: React.SFC<{}> = (props) => {
           exact
           path="/"
           render={(routeProps): JSX.Element => (
-            <EntitiesContainerConnected
-              {...routeProps.location}
-              contentType={contentType.overview}
-            />
+            <EntitiesExplorer {...routeProps.location} />
           )}
         />
-        <Route path="/entities/select" component={EntitiesSelectConnected} />
+        <Route path="/entities/select" component={EntitiesSelect} />
         <Route
           exact
           path="/projects/:projectDID/overview/action/new_claim/form"
-          component={SubmitEntityClaimConnected}
+          component={SubmitEntityClaim}
         />
-        <Route path="/:entityType/new" component={CreateEntityConnected} />
+        <Route path="/:entityType/new" component={CreateEntity} />
         <Route
           exact
           path="/impact"
           render={(routeProps): JSX.Element => (
-            <EntitiesContainerConnected
-              {...routeProps.location}
-              contentType={contentType.dashboard}
-            />
+            <EntitiesImpact {...routeProps.location} />
           )}
         />
         <Route

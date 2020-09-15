@@ -13,9 +13,9 @@ import {
   WidgetWrapper,
   gridSizes,
 } from 'common/components/Wrappers/WidgetWrapper'
-import { getCountryCoordinates } from '../../../Entities.utils'
-import { EntityType } from '../../../types'
-import { entityTypeMap } from '../../../strategy-map'
+import { getCountryCoordinates } from '../../../../Entities.utils'
+import { EntityType } from '../../../../types'
+import { entityTypeMap } from '../../../../strategy-map'
 
 export interface Props {
   type: EntityType

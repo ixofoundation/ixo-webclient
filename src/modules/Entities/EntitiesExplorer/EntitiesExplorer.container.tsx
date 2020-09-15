@@ -1,14 +1,12 @@
 import * as React from 'react'
 import { RouteProps } from 'react-router'
 import { Moment } from 'moment'
-import { EntitiesDashboard } from './components/EntitiesDashboard/EntitiesDashboard'
 import { ProjectCard } from './components/EntityCard/ProjectCard/ProjectCard'
 import { CellCard } from './components/EntityCard/CellCard/CellCard'
 import { EntitiesHero } from './components/EntitiesHero/EntitiesHero'
 import { Spinner } from 'common/components/Spinner'
 import { connect } from 'react-redux'
 import { RootState } from 'common/redux/types'
-import { contentType } from 'types/models'
 import {
   Container,
   EntitiesContainer,
@@ -39,20 +37,9 @@ import * as accountSelectors from 'modules/Account/Account.selectors'
 import { entityTypeMap } from '../strategy-map'
 
 export interface Props extends RouteProps {
-  location?: any
-  contentType: string
   type: EntityType
   entities: ExplorerEntity[]
   entitiesCount: number
-  userEntitiesCount: number
-  requiredClaimsCount: number
-  successfulClaimsCount: number
-  pendingClaimsCount: number
-  rejectedClaimsCount: number
-  remainingClaimsCount: number
-  serviceProvidersCount: number
-  evaluatorsCount: number
-  locations: any[]
   filteredEntitiesCount: number
   filterDateFrom: Moment
   filterDateFromFormatted: string
@@ -83,7 +70,7 @@ export interface Props extends RouteProps {
   handleResetFilters: () => void
 }
 
-export class Entities extends React.Component<any, any> {
+class EntitiesExplorer extends React.Component<Props> {
   componentDidMount(): void {
     this.props.handleGetEntities()
   }
@@ -202,42 +189,19 @@ export class Entities extends React.Component<any, any> {
     }
   }
 
-  handleRenderEntityList(): JSX.Element {
-    if (this.props.isLoadingEntities) {
-      return (
-        <Spinner info={`Loading ${entityTypeMap[this.props.type].plural}`} />
-      )
-    } else {
-      if (this.props.contentType === contentType.dashboard) {
-        return (
-          <EntitiesDashboard
-            type={this.props.type}
-            requiredClaims={this.props.requiredClaimsCount}
-            successfulClaims={this.props.successfulClaimsCount}
-            pendingClaims={this.props.pendingClaimsCount}
-            rejectedClaims={this.props.rejectedClaimsCount}
-            remainingClaims={this.props.remainingClaimsCount}
-            serviceProviders={this.props.serviceProvidersCount}
-            evaluators={this.props.evaluatorsCount}
-            locations={this.props.locations}
-          />
-        )
-      } else {
-        return this.renderEntities()
-      }
-    }
-  }
-
   render(): JSX.Element {
     return (
       <Container>
         <EntitiesHero
           type={this.props.type}
           filterSector={this.props.filterSector}
-          showSearch={this.props.contentType !== contentType.dashboard}
+          showSearch={true}
           handleChangeEntitiesType={this.props.handleChangeEntitiesType}
         />
-        {this.handleRenderEntityList()}
+        {this.props.isLoadingEntities && (
+          <Spinner info={`Loading ${entityTypeMap[this.props.type].plural}`} />
+        )}
+        {!this.props.isLoadingEntities && this.renderEntities()}
       </Container>
     )
   }
@@ -246,27 +210,8 @@ export class Entities extends React.Component<any, any> {
 function mapStateToProps(state: RootState): Record<string, any> {
   return {
     entities: entitiesSelectors.selectedFilteredEntities(state),
-    type: entitiesSelectors.selectSelectedEntitiesType(state),
-    locations: entitiesSelectors.selectEntitiesCountries(state),
     entitiesCount: entitiesSelectors.selectAllEntitiesCount(state),
-    userEntitiesCount: entitiesSelectors.selectUserEntitiesCount(state),
-    requiredClaimsCount: entitiesSelectors.selectTotalRequiredClaimsCount(
-      state,
-    ),
-    pendingClaimsCount: entitiesSelectors.selectTotalPendingClaimsCount(state),
-    successfulClaimsCount: entitiesSelectors.selectTotalSuccessfulClaimsCount(
-      state,
-    ),
-    rejectedClaimsCount: entitiesSelectors.selectTotalRejectedClaimsCount(
-      state,
-    ),
-    remainingClaimsCount: entitiesSelectors.selectTotalRemainingClaimsCount(
-      state,
-    ),
-    serviceProvidersCount: entitiesSelectors.selectTotalServiceProvidersCount(
-      state,
-    ),
-    evaluatorsCount: entitiesSelectors.selectTotalEvaluatorsCount(state),
+    type: entitiesSelectors.selectSelectedEntitiesType(state),
     filteredEntitiesCount: entitiesSelectors.selectFilteredEntitiesCount(state),
     filterDateFrom: entitiesSelectors.selectFilterDateFrom(state),
     filterDateTo: entitiesSelectors.selectFilterDateTo(state),
@@ -315,7 +260,7 @@ const mapDispatchToProps = (dispatch: any): any => ({
   handleResetFilters: (): void => dispatch(resetFilters()),
 })
 
-export const EntitiesContainerConnected: any = connect(
+export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(Entities as any)
+)(EntitiesExplorer as any)

@@ -206,7 +206,7 @@ beforeEach(() => {
   }
 })
 
-describe('Entities Selectors', () => {
+describe('EntitiesExplorer Selectors', () => {
   describe('selectEntitiesState', () => {
     it('should return the entities property of root state', () => {
       // when ... we call the selector
@@ -342,17 +342,6 @@ describe('Entities Selectors', () => {
     })
   })
 
-  describe('selectEntityCountries', () => {
-    it('should return a list of entity countries', () => {
-      // when ... we call the selector
-      const result = SUT.selectEntitiesCountries(state)
-
-      // then ... should return result as expected
-      expect(result).toContain('someCountry1')
-      expect(result).toContain('someCountry2')
-    })
-  })
-
   describe('selectFilteredEntitiesCount', () => {
     it('should return the count of filtered Entities', () => {
       state.entities.filter = {
@@ -400,76 +389,6 @@ describe('Entities Selectors', () => {
 
       // then ... should return result as expected
       expect(result).toEqual(1)
-    })
-  })
-
-  describe('selectTotalServiceProvidersCount', () => {
-    it('should return the count of all service providers', () => {
-      // when ... we call the selector
-      const result = SUT.selectTotalServiceProvidersCount(state)
-
-      // then ... should return result as expected
-      expect(result).toEqual(29)
-    })
-  })
-
-  describe('selectTotalEvaluatorsCount', () => {
-    it('should return the total amount of all evaluators', () => {
-      // when ... we call the selector
-      const result = SUT.selectTotalEvaluatorsCount(state)
-
-      // then ... should return result as expected
-      expect(result).toEqual(19)
-    })
-  })
-
-  describe('selectTotalRequiredClaimsCount', () => {
-    it('should return a the total amount of required claims', () => {
-      // when ... we call the selector
-      const result = SUT.selectTotalRequiredClaimsCount(state)
-
-      // then ... should return result as expected
-      expect(result).toEqual(117)
-    })
-  })
-
-  describe('selectTotalPendingClaimsCount', () => {
-    it('should return a the total amount of pending claims', () => {
-      // when ... we call the selector
-      const result = SUT.selectTotalPendingClaimsCount(state)
-
-      // then ... should return result as expected
-      expect(result).toEqual(32)
-    })
-  })
-
-  describe('selectTotalSuccessfulClaimsCount', () => {
-    it('should return a the total amount of successful claims', () => {
-      // when ... we call the selector
-      const result = SUT.selectTotalSuccessfulClaimsCount(state)
-
-      // then ... should return result as expected
-      expect(result).toEqual(20)
-    })
-  })
-
-  describe('selectTotalRejectedClaimsCount', () => {
-    it('should return a the total amount of Rejected claims', () => {
-      // when ... we call the selector
-      const result = SUT.selectTotalRejectedClaimsCount(state)
-
-      // then ... should return result as expected
-      expect(result).toEqual(44)
-    })
-  })
-
-  describe('selectTotalRemainingClaimsCount', () => {
-    it('should return a the total amount of remaining claims that is calculated from required and successful claims', () => {
-      // when ... we call the selector
-      const result = SUT.selectTotalRemainingClaimsCount(state)
-
-      // then ... should return result as expected
-      expect(result).toEqual(97)
     })
   })
 

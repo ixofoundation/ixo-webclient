@@ -100,17 +100,6 @@ export const selectedFilteredEntities = createSelector(
   },
 )
 
-export const selectEntitiesCountries = createSelector(
-  selectAllEntitiesByType,
-  (entities: ExplorerEntity[]): string[] => {
-    return entities && entities.length
-      ? entities.map((entity) => {
-          return entity.location
-        })
-      : []
-  },
-)
-
 export const selectAllEntitiesCount = createSelector(
   selectAllEntitiesByType,
   (entities: ExplorerEntity[]): number => {
@@ -136,72 +125,6 @@ export const selectFilteredEntitiesCount = createSelector(
   selectedFilteredEntities,
   (entities: ExplorerEntity[]): number => {
     return !entities ? 0 : entities.length
-  },
-)
-
-export const selectTotalServiceProvidersCount = createSelector(
-  selectAllEntitiesByType,
-  (entities: ExplorerEntity[]): number => {
-    return !entities
-      ? 0
-      : entities.reduce((total, entity) => {
-          return total + entity.serviceProvidersCount
-        }, 0)
-  },
-)
-
-export const selectTotalEvaluatorsCount = createSelector(
-  selectAllEntitiesByType,
-  (entities: ExplorerEntity[]): number => {
-    return !entities
-      ? 0
-      : entities.reduce((total, entity) => {
-          return total + entity.evaluatorsCount
-        }, 0)
-  },
-)
-
-export const selectTotalRequiredClaimsCount = createSelector(
-  selectAllEntitiesByType,
-  (entities: ExplorerEntity[]): number => {
-    return !entities
-      ? 0
-      : entities.reduce((total, entity) => {
-          return total + entity.requiredClaimsCount
-        }, 0)
-  },
-)
-
-export const selectTotalPendingClaimsCount = createSelector(
-  selectAllEntitiesByType,
-  (entities: ExplorerEntity[]): number => {
-    return !entities
-      ? 0
-      : entities.reduce((total, entity) => {
-          return total + entity.pendingClaimsCount
-        }, 0)
-  },
-)
-
-export const selectTotalSuccessfulClaimsCount = createSelector(
-  selectAllEntitiesByType,
-  (entities: ExplorerEntity[]): number => {
-    return !entities
-      ? 0
-      : entities.reduce((total, entity) => {
-          return total + entity.successfulClaimsCount
-        }, 0)
-  },
-)
-
-export const selectTotalRejectedClaimsCount = createSelector(
-  selectAllEntitiesByType,
-  (entities: ExplorerEntity[]): number => {
-    return !entities
-      ? 0
-      : entities.reduce((total, entity) => {
-          return total + entity.rejectedClaimsCount
-        }, 0)
   },
 )
 
@@ -297,13 +220,6 @@ export const selectFilterPopularEntities = createSelector(
   (filter: Filter): boolean => {
     return filter.popularEntities
   },
-)
-
-export const selectTotalRemainingClaimsCount = createSelector(
-  selectTotalRequiredClaimsCount,
-  selectTotalSuccessfulClaimsCount,
-  (totalClaimsRequired: number, totalClaimsSuccessful: number): number =>
-    totalClaimsRequired - totalClaimsSuccessful,
 )
 
 export const selectFilterSchema = createSelector(
