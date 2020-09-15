@@ -59,6 +59,7 @@ export const entityTypeMap: EntityTypeStrategyMap = {
     headerSchema: ProjectHeaderSchema,
     filterSchema: ProjectFilterSchema,
     controlPanelSchema: ProjectControlPanelSchema,
+    createNewTitle: 'Launch a Project',
   },
   [EntityType.Oracle]: {
     title: 'Oracle',
@@ -67,6 +68,7 @@ export const entityTypeMap: EntityTypeStrategyMap = {
     headerSchema: OracleHeaderSchema,
     filterSchema: OracleFilterSchema,
     controlPanelSchema: OracleControlPanelSchema,
+    createNewTitle: 'Launch an Oracle',
   },
   [EntityType.Investment]: {
     title: 'Investment',
@@ -75,6 +77,7 @@ export const entityTypeMap: EntityTypeStrategyMap = {
     headerSchema: InvestmentHeaderSchema,
     filterSchema: InvestmentFilterSchema,
     controlPanelSchema: InvestmentControlPanelSchema,
+    createNewTitle: 'Launch an Investment',
   },
   [EntityType.Cell]: {
     title: 'Cell',
@@ -83,6 +86,7 @@ export const entityTypeMap: EntityTypeStrategyMap = {
     headerSchema: CellHeaderSchema,
     filterSchema: CellFilterSchema,
     controlPanelSchema: CellControlPanelSchema,
+    createNewTitle: 'Launch a Cell',
   },
   [EntityType.Template]: {
     title: 'Template',
@@ -91,6 +95,7 @@ export const entityTypeMap: EntityTypeStrategyMap = {
     headerSchema: TemplateHeaderSchema,
     filterSchema: TemplateFilterSchema,
     controlPanelSchema: TemplateControlPanelSchema,
+    createNewTitle: 'Create a Claim Template',
   },
   [EntityType.Data]: {
     title: 'Asset',
@@ -99,6 +104,7 @@ export const entityTypeMap: EntityTypeStrategyMap = {
     headerSchema: DataHeaderSchema,
     filterSchema: DataFilterSchema,
     controlPanelSchema: DataControlPanelSchema,
+    createNewTitle: 'Launch Data Assets',
   },
 }
 

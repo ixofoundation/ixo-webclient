@@ -191,6 +191,7 @@ export type EntityTypeStrategyMap = {
     headerSchema: HeaderSchema
     filterSchema: FilterSchema
     controlPanelSchema: ControlPanelSchema
+    createNewTitle: string
   }
 }
 
