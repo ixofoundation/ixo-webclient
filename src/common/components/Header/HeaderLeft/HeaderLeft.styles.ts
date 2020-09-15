@@ -1,6 +1,6 @@
-import { NavLink } from "react-router-dom";
-import styled from "styled-components";
-import { deviceWidth } from "../../../../lib/commonData";
+import { NavLink } from 'react-router-dom'
+import styled from 'styled-components'
+import { deviceWidth } from '../../../../lib/commonData'
 
 export const HeaderLink = styled(NavLink)`
   color: white;
@@ -41,7 +41,7 @@ export const HeaderLink = styled(NavLink)`
     margin: 0 20px;
     font-size: 13px;
   }
-`;
+`
 
 export const MenuHeaderContainer = styled.div`
   display: flex;
@@ -50,12 +50,12 @@ export const MenuHeaderContainer = styled.div`
   :hover {
     background: #012233;
   }
-`;
+`
 
 export const MenuHeaderLink = styled(HeaderLink)`
   border: 0px solid #000000;
   margin: 3px 10px;
-`;
+`
 
 export const HeaderAnchor = styled.a`
   color: white;
@@ -75,7 +75,7 @@ export const HeaderAnchor = styled.a`
       color: ${(props: any): string => props.theme.fontBlue};
     }
   }
-`;
+`
 
 export const MenuHeaderAnchor = styled(HeaderAnchor)`
   border: 0px solid #000000;
@@ -87,7 +87,7 @@ export const MenuHeaderAnchor = styled(HeaderAnchor)`
 
   font-size: 16px;
   margin: 3px 10px;
-`;
+`
 
 export const Main = styled.div`
   padding: 15px 20px;
@@ -104,7 +104,7 @@ export const Main = styled.div`
   a {
     text-decoration: none;
   }
-`;
+`
 
 export const IXOLogo = styled.img`
   margin-top: -6px;
@@ -112,7 +112,7 @@ export const IXOLogo = styled.img`
   @media (min-width: 430px) {
     margin-right: 60px;
   }
-`;
+`
 
 export const NavItems = styled.div`
   display: flex;
@@ -123,7 +123,7 @@ export const NavItems = styled.div`
     display: block;
     margin-right: 0px;
   }
-`;
+`
 
 export const Menu = styled.div`
   ${HeaderLink} {
@@ -141,11 +141,11 @@ export const Menu = styled.div`
       display: inline;
     }
   }
-`;
+`
 
 export const MobileMenu = styled(Menu)`
   &.openMenu {
-    top: 64px;
+    top: 56px;
     opacity: 1;
     pointer-events: auto;
   }
@@ -158,9 +158,9 @@ export const MobileMenu = styled(Menu)`
   width: 100%;
   padding: 32px 30px;
   pointer-events: none;
-  z-index: 1;
+  z-index: 4;
   border-radius: 0 0 5px 5px;
-`;
+`
 
 export const Burger = styled.div`
   position: relative;
@@ -188,4 +188,4 @@ export const Burger = styled.div`
     transform: rotate(45deg) translate(-6px, -6px);
     transform-origin: center;
   }
-`;
+`

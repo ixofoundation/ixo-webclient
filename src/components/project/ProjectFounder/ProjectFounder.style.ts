@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import { deviceWidth } from "../../../lib/commonData";
+import styled from 'styled-components'
+import { deviceWidth } from 'lib/commonData'
 
 export const FounderContent = styled.div`
   color: #7b8285;
@@ -50,7 +50,7 @@ export const FounderContent = styled.div`
       }
     }
   }
-`;
+`
 
 export const FounderImageWrapper = styled.div`
   margin-bottom: 2rem;
@@ -66,7 +66,7 @@ export const FounderImageWrapper = styled.div`
     padding-right: 2.5rem;
     width: initial;
   }
-`;
+`
 
 export const FounderWrapper = styled.div`
   display: flex;
@@ -74,4 +74,4 @@ export const FounderWrapper = styled.div`
   @media (min-width: ${deviceWidth.tablet}px) {
     flex-flow: row nowrap;
   }
-`;
+`

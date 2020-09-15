@@ -1,7 +1,7 @@
 import * as React from 'react'
 import styled from 'styled-components'
 import { NavLink } from 'react-router-dom'
-import { deviceWidth } from '../../lib/commonData'
+import { deviceWidth } from 'lib/commonData'
 import { AgentRoles } from '../../types/models'
 import Home from 'assets/icons/Home'
 import HomeActive from 'assets/icons/HomeActive'
@@ -81,7 +81,7 @@ const Container = styled.div`
 
   .active {
     border-top: 5px solid
-      ${/* eslint-disable-line */ props => props.theme.ixoBlue};
+      ${/* eslint-disable-line */ (props) => props.theme.ixoBlue};
   }
 
   @media (min-width: ${deviceWidth.mobile}px) {
@@ -95,7 +95,7 @@ const Container = styled.div`
     .active {
       border-top: 0;
       border-left: 5px solid
-        ${/* eslint-disable-line */ props => props.theme.ixoBlue};
+        ${/* eslint-disable-line */ (props) => props.theme.ixoBlue};
     }
   }
 `
