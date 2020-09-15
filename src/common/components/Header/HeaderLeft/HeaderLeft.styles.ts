@@ -158,7 +158,7 @@ export const MobileMenu = styled(Menu)`
   width: 100%;
   padding: 32px 30px;
   pointer-events: none;
-  z-index: 1;
+  z-index: 4;
   border-radius: 0 0 5px 5px;
 `
 

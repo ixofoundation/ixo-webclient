@@ -58,8 +58,6 @@ export default class CreateEntityDropDown extends React.Component<Props> {
           <ButtonsWrapper>
             <LaunchEntityButton
               exact={true}
-              target="blank"
-              rel="noopener noreferrer"
               to={`/${entityTypeMap[
                 EntityType.Project
               ].title.toLowerCase()}/new/start`}
@@ -77,8 +75,6 @@ export default class CreateEntityDropDown extends React.Component<Props> {
             </LaunchEntityButton>
             <LaunchEntityButton
               exact={true}
-              target="blank"
-              rel="noopener noreferrer"
               to={`/${entityTypeMap[
                 EntityType.Oracle
               ].title.toLowerCase()}/new/start`}
@@ -96,8 +92,6 @@ export default class CreateEntityDropDown extends React.Component<Props> {
             </LaunchEntityButton>
             <LaunchEntityButton
               exact={true}
-              target="blank"
-              rel="noopener noreferrer"
               to={`/${entityTypeMap[
                 EntityType.Investment
               ].title.toLowerCase()}/new/start`}
@@ -115,8 +109,6 @@ export default class CreateEntityDropDown extends React.Component<Props> {
             </LaunchEntityButton>
             <LaunchEntityButton
               exact={true}
-              target="blank"
-              rel="noopener noreferrer"
               to={`/${entityTypeMap[
                 EntityType.Cell
               ].title.toLowerCase()}/new/start`}
@@ -134,8 +126,6 @@ export default class CreateEntityDropDown extends React.Component<Props> {
             </LaunchEntityButton>
             <LaunchEntityButton
               exact={true}
-              target="blank"
-              rel="noopener noreferrer"
               to={`/${entityTypeMap[
                 EntityType.Template
               ].title.toLowerCase()}/new/start`}
@@ -153,8 +143,6 @@ export default class CreateEntityDropDown extends React.Component<Props> {
             </LaunchEntityButton>
             <LaunchEntityButton
               exact={true}
-              target="blank"
-              rel="noopener noreferrer"
               to={'/data/new/start'}
               className={`
                     ${EntityType.Data.toLowerCase()} ${
