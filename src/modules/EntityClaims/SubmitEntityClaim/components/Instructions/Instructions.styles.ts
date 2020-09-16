@@ -34,31 +34,14 @@ export const ListWrapper = styled.div`
   flex-flow: row wrap;
 `
 export const ListItems = styled.div`
-  height: unset;
-  display: flex;
-  flex-flow: column wrap;
-  justify-content: flex-start;
-  align-content: flex-start;
-  > * {
-    font-size: 1rem;
-    line-height: 1.5;
-    font-weight: normal;
-    display: flex;
-    flex-flow: row nowrap;
-    color: #000000;
-    margin-bottom: 1.375rem;
-    @media (min-width: ${deviceWidth.tablet}px) {
-      width: calc(100% / 2 - 0.5rem);
-    }
-    svg {
-      width: 24px;
-      height: 24px;
-      margin-right: 0.5rem;
-    }
-  }
-
-  @media (min-width: ${deviceWidth.mobile}px) {
-    max-height: 370px;
+  font-size: 1rem;
+  font-weight: normal;
+  color: #000000;
+  margin-bottom: 1.375rem;
+  svg {
+    width: 1.5rem;
+    height: 1.5rem;
+    margin-right: 0.5rem;
   }
 `
 export const ButtonWrapper = styled.div`

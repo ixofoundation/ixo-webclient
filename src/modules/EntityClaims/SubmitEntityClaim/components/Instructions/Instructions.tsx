@@ -55,6 +55,8 @@ const Instructions: React.FunctionComponent<Props> = ({
     phonevalidation: Validation,
   }
 
+  const totalRows = Math.ceil(listItems.length / 2)
+  const rowArray = new Array(totalRows).fill(null)
   return (
     <Container>
       <ContentWrapper>
@@ -63,21 +65,33 @@ const Instructions: React.FunctionComponent<Props> = ({
           Thank you for being interested in our project. In order to complete
           the claim you’ll need to complete the following:
         </SubHeader>
-        <ListItems>
-          {listItems.map(
-            (item, index): JSX.Element => {
-              return (
-                <div key={index}>
-                  {React.createElement(icons[item.control], {
+        {rowArray.map((v, i) => {
+          const property1 = listItems[i * 2]
+          const property2 = listItems[i * 2 + 1]
+
+          return (
+            <div key={i} className="form-row">
+              <div key={property1.title} className="col-lg-6">
+                <ListItems>
+                  {React.createElement(icons[property1.control], {
                     fill: '#C3D0E5',
                   })}
-
-                  {item.title}
+                  {property1.title}
+                </ListItems>
+              </div>
+              {property2 && (
+                <div key={property2.title} className="col-lg-6">
+                  <ListItems>
+                    {React.createElement(icons[property2.control], {
+                      fill: '#C3D0E5',
+                    })}
+                    {property2.title}
+                  </ListItems>
                 </div>
-              )
-            },
-          )}
-        </ListItems>
+              )}
+            </div>
+          )
+        })}
       </ContentWrapper>
       <ButtonWrapper>
         <NavLink className="close-button" to={backLink}>
