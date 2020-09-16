@@ -9,10 +9,10 @@ import ActionIcon from '../../../../assets/icons/Actions'
 import { Widget } from '../types'
 import { ControlPanelSection } from '../ControlPanel.styles'
 import { ActionLinksWrapper } from './Actions.styles'
-import FuelEntity from '../../../../modules/EntityModules/FuelEntity/FuelEntity.container'
-import { SummaryContainerConnected } from '../../../../modules/ClaimModules/SubmitEntityClaim/Summary.container'
+import FuelEntity from 'modules/Entities/FuelEntity/FuelEntity.container'
+import { SummaryContainerConnected } from '../../../../modules/EntityClaims/SubmitEntityClaim/Summary.container'
 import { Tooltip } from '../../Tooltip/Tooltip'
-import { InstructionsContainerConnected } from '../../../../modules/ClaimModules/SubmitEntityClaim/Instructions.container'
+import { InstructionsContainerConnected } from '../../../../modules/EntityClaims/SubmitEntityClaim/Instructions.container'
 
 interface IconTypes {
   [key: string]: any

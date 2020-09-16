@@ -3,7 +3,9 @@ import { Fragment } from 'react'
 import { deviceWidth } from '../../../../lib/commonData'
 import MediaQuery from 'react-responsive'
 import { getIxoWorldRoute } from '../../../utils/formatters'
-import { entityTypeMap } from 'modules/EntityModules/Entities/strategy-map'
+import CreateEntityDropdown from '../../../../modules/Entities/CreateEntity/components/CreateEntityDropdown/CreateEntityDropdown'
+import { EntityType } from '../../../../modules/Entities/types'
+
 import {
   Burger,
   Main,
@@ -19,7 +21,7 @@ import {
 } from './HeaderLeft.styles'
 
 export interface ParentProps {
-  currentEntity: string | undefined
+  currentEntity: EntityType
   openMenu: boolean
   handleBurgerClick: any
 }
@@ -53,12 +55,7 @@ export class HeaderLeft extends React.Component<ParentProps> {
           <HeaderAnchor target="_blank" href="https://docs.ixo.foundation/">
             Learn
           </HeaderAnchor>
-          <HeaderLink
-            exact={true}
-            to={`/${this.props.currentEntity.toLowerCase()}/new/start`}
-          >
-            {entityTypeMap[this.props.currentEntity].createNewTitle}
-          </HeaderLink>
+          <CreateEntityDropdown entityType={this.props.currentEntity} />
         </Fragment>
       )
     } else {
@@ -110,14 +107,8 @@ export class HeaderLeft extends React.Component<ParentProps> {
               Learn
             </MenuHeaderAnchor>
           </MenuHeaderContainer>
-          <MenuHeaderContainer>
-            <MenuHeaderLink
-              exact={true}
-              to={`/${this.props.currentEntity.toLowerCase()}/new/start`}
-              onClick={this.props.handleBurgerClick}
-            >
-              {entityTypeMap[this.props.currentEntity].createNewTitle}
-            </MenuHeaderLink>
+          <MenuHeaderContainer style={{ background: 'none' }}>
+            <CreateEntityDropdown entityType={this.props.currentEntity} />
           </MenuHeaderContainer>
         </Fragment>
       )

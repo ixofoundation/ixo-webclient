@@ -53,6 +53,14 @@ export const Container = styled.div`
   }
   font-weight: 300;
 `
+export const HeaderDropdownBackground = styled.div`
+  position: absolute;
+  top: 0;
+  padding: 0 15px;
+  background: black;
+  width: 100%;
+  height: 76px;
+`
 
 export const ContentWrapper = styled.main`
   display: flex;

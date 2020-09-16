@@ -1,18 +1,18 @@
-import styled from "styled-components";
-import { Link, NavLink } from "react-router-dom";
-import { deviceWidth } from "../../lib/commonData";
+import styled from 'styled-components'
+import { Link, NavLink } from 'react-router-dom'
+import { deviceWidth } from 'lib/commonData'
 
 interface HeroContainerProps {
-  readonly onlyTitle: boolean;
+  readonly onlyTitle: boolean
 }
 
 export const HeroContainer = styled.div<HeroContainerProps>`
   margin: 0;
   position: relative;
   background: ${(props: any): string =>
-    props.onlyTitle ? "transparent" : "white"};
-  color: ${(props: any): string => (props.onlyTitle ? "white" : "black")};
-`;
+    props.onlyTitle ? 'transparent' : 'white'};
+  color: ${(props: any): string => (props.onlyTitle ? 'white' : 'black')};
+`
 
 export const HeroInner = styled.div`
   font-family: Roboto;
@@ -27,7 +27,7 @@ export const HeroInner = styled.div`
     padding-top: 3rem;
     padding-bottom: 1rem;
   }
-`;
+`
 
 export const Title = styled.h1`
   font-family: ${(props: any): string => props.theme.fontRobotoCondensed};
@@ -39,7 +39,7 @@ export const Title = styled.h1`
   @media (min-width: ${deviceWidth.tablet}px) {
     font-size: 2.8125rem;
   }
-`;
+`
 
 export const StyledFundingTitle = styled.h1`
   font-family: ${(props: any): string => props.theme.fontRobotoCondensed};
@@ -47,14 +47,14 @@ export const StyledFundingTitle = styled.h1`
   font-size: 2.25rem;
   line-height: 1.25;
   color: white;
-`;
+`
 
 export const Description = styled.p`
   color: #7b8285;
   font-size: 0.875rem;
   line-height: 1.5;
   margin-bottom: 0.5rem;
-`;
+`
 
 export const SingleSDG = styled.a`
   font-family: ${(props: any): string => props.theme.fontRobotoCondensed};
@@ -80,14 +80,14 @@ export const SingleSDG = styled.a`
   &:hover i:before {
     color: ${(props: any): string => props.theme.fontLightBlue};
   }
-`;
+`
 
 export const HeroInfoItemsWrapper = styled.div`
   display: flex;
   flex-flow: row wrap;
   align-items: center;
   justify-content: flex-start;
-`;
+`
 
 export const HeroInfoItem = styled.div`
   display: flex;
@@ -105,7 +105,7 @@ export const HeroInfoItem = styled.div`
       margin-left: 0.875rem;
     }
   }
-`;
+`
 
 export const Flag = styled.div`
   background-size: contain;
@@ -115,7 +115,7 @@ export const Flag = styled.div`
   height: 1rem;
   border-radius: 4px;
   border: 0.5px solid #dfe3e8;
-`;
+`
 
 export const AddClaim = styled(Link)`
   color: white;
@@ -133,10 +133,10 @@ export const AddClaim = styled(Link)`
     color: white;
     background: ${(props: any): string => props.theme.bg.lightBlue};
   }
-`;
+`
 
 export const SubNavItem = styled(NavLink).attrs({
-  activeClassName: "active",
+  activeClassName: 'active',
 })`
   color: ${(props: any): string => props.theme.fontBlue};
   font-family: ${(props: any): string => props.theme.fontRobotoCondensed};
@@ -154,4 +154,4 @@ export const SubNavItem = styled(NavLink).attrs({
     color: ${(props: any): string => props.theme.fontBlue};
     margin: 0 10px;
   }
-`;
+`

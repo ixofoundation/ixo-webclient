@@ -4,7 +4,7 @@ import { LayoutWrapperClaims } from 'common/components/Wrappers/LayoutWrapperCla
 import { WidgetWrapperClaims } from 'common/components/Wrappers/WidgetWrapperClaims'
 import { ClaimStatus } from 'common/components/ClaimStatus'
 import styled from 'styled-components'
-import Plus from '../../assets/icons/Plus'
+import Plus from 'assets/icons/Plus'
 
 const Container = styled.div`
   justify-content: center;
@@ -13,7 +13,7 @@ const Container = styled.div`
 
 const Divider = styled.div`
   height: 2px;
-  background: ${/* eslint-disable-line */ props => props.theme.bg.lightBlue};
+  background: ${/* eslint-disable-line */ (props) => props.theme.bg.lightBlue};
   width: 36%;
   position: absolute;
   left: 15px;
@@ -21,13 +21,13 @@ const Divider = styled.div`
 
 const DividerShadow = styled.div`
   height: 1px;
-  background: ${/* eslint-disable-line */ props => props.theme.bg.lightGrey};
+  background: ${/* eslint-disable-line */ (props) => props.theme.bg.lightGrey};
   width: 100%;
 `
 
 const ButtonContainer = styled.div`
   padding: 22px 34px 22px 34px;
-  background: ${/* eslint-disable-line */ props => props.theme.grey};
+  background: ${/* eslint-disable-line */ (props) => props.theme.grey};
   padding: 10px 20px;
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.18);
 `
@@ -36,24 +36,24 @@ const ReturnButton = styled.div`
   text-transform: uppercase;
   border-radius: 3px;
   text-align: center;
-  background: ${/* eslint-disable-line */ props => props.theme.bg.grey};
-  font-family: ${/* eslint-disable-line */ props =>
+  background: ${/* eslint-disable-line */ (props) => props.theme.bg.grey};
+  font-family: ${/* eslint-disable-line */ (props) =>
     props.theme.fontRobotoCondensed};
   font-size: 15px;
   padding: 10px 20px 10px;
   cursor: pointer;
   border: 1px solid
-    ${/* eslint-disable-line */ props => props.theme.bg.darkButton};
-  color: ${/* eslint-disable-line */ props => props.theme.bg.darkButton};
+    ${/* eslint-disable-line */ (props) => props.theme.bg.darkButton};
+  color: ${/* eslint-disable-line */ (props) => props.theme.bg.darkButton};
 `
 
 const EvaluateMoreButton = styled.div`
   text-transform: uppercase;
   border-radius: 3px;
   text-align: center;
-  background: ${/* eslint-disable-line */ props =>
+  background: ${/* eslint-disable-line */ (props) =>
     props.theme.bg.gradientDarkBlue};
-  font-family: ${/* eslint-disable-line */ props =>
+  font-family: ${/* eslint-disable-line */ (props) =>
     props.theme.fontRobotoCondensed};
   font-size: 15px;
   padding: 10px 20px 10px;
@@ -65,7 +65,7 @@ const EvaluateMoreButton = styled.div`
 const ButtonIconLeft = styled.span`
   padding-right: 10px;
   svg path {
-    fill: ${/* eslint-disable-line */ props => props.theme.bg.grey};
+    fill: ${/* eslint-disable-line */ (props) => props.theme.bg.grey};
   }
 `
 
@@ -79,7 +79,7 @@ export interface ParentProps {
   projectDid: string
 }
 
-export const ProjectClaimSubmitted: React.SFC<ParentProps> = props => {
+export const ProjectClaimSubmitted: React.SFC<ParentProps> = (props) => {
   const message =
     'Your form has been successfully submitted and is awaiting evaluation. Please check back soon'
   const handleRenderButtons = (): JSX.Element => {

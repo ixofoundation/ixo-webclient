@@ -1,6 +1,6 @@
 import React from 'react'
-import AppIcon from '../../../../assets/icons/Apps'
-import DownIcon from '../../../../assets/icons/Down'
+import AppIcon from 'assets/icons/Apps'
+import DownIcon from 'assets/icons/Down'
 import { AppButtonsWrapper } from './Apps.styles'
 import { ControlPanelSection } from '../ControlPanel.styles'
 import { Widget } from '../types'
@@ -21,7 +21,7 @@ const Apps: React.FunctionComponent<Props> = ({
   // showMore ? 'show' : 'hide'
 
   const riotChatControl = controls.find(
-    control => control['@type'] === 'RiotChat',
+    (control) => control['@type'] === 'RiotChat',
   )
 
   return (
