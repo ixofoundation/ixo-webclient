@@ -25,7 +25,7 @@ const modalStyles = {
 }
 
 const ModalInner = styled.div`
-  background: ${/* eslint-disable-line */ props => props.theme.bg.blue};
+  background: ${/* eslint-disable-line */ props => props.theme.bg.modal};
   color: white;
   padding: 10px 30px;
   font-family: ${/* eslint-disable-line */ props => props.theme.fontRoboto};
@@ -42,6 +42,10 @@ const CloseModal = styled.button`
   cursor: pointer;
   font-weight: 100;
   position: absolute;
+
+  &:focus {
+    outline: none;
+  }
 `
 
 const FlexContainer = styled.div`
@@ -97,6 +101,7 @@ const TitleContainer = styled.div`
 interface ParentProps {
   isModalOpen: boolean
   header?: Header
+  background?: string
 }
 
 interface Callbacks {
@@ -139,7 +144,7 @@ export const ModalWrapper: React.SFC<Props> = props => {
     >
       <ModalInner>
         <CloseModal onClick={(): void => props.handleToggleModal(false)}>
-          &times;
+          <img src={ require('assets/images/icon-close.svg') } />
         </CloseModal>
         {props.header && renderHeader()}
         <div>{props.children}</div>

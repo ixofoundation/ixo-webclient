@@ -12,13 +12,14 @@ import {
 } from '../../types/models'
 import { Data } from '../../modules/project/types'
 import { ProjectHero } from './ProjectHero'
+import * as NewProjectHero from './agents/ProjectHero'
 import { ProjectOverview } from './overview/ProjectOverview'
 import { ProjectDashboard } from './ProjectDashboard'
 import { ProjectNewClaim } from './ProjectNewClaim'
 import { ProjectSingleClaim } from './ProjectSingleClaim'
 import { ProjectClaims } from './ProjectClaims'
 import styled from 'styled-components'
-import { ProjectAgents } from './ProjectAgents'
+import { ProjectAgents } from './agents/ProjectAgents'
 import { Spinner } from 'common/components/Spinner'
 import { UserInfo } from 'modules/Account/types'
 import { ProjectSidebar } from './ProjectSidebar'
@@ -41,13 +42,19 @@ const Loading = styled.div`
 
 const DetailContainer = styled.div`
   background: ${/* eslint-disable-line */ (props) =>
-    props.theme.bg.gradientBlue};
+    props.theme.bg.blue};
   display: block;
   flex: 1 1 auto;
 
   @media (min-width: ${deviceWidth.mobile}px) {
     display: flex;
   }
+`
+
+const ContentContainer = styled.div`
+  flex: 1;
+  padding-left: 30px;
+  padding-right: 30px;
 `
 
 export interface State {
@@ -384,23 +391,23 @@ export class ProjectContainer extends React.Component<Props, State> {
     if (this.state[agentRole] === null) {
       this.handleListAgents(agentRole)
       return <Spinner info="Loading agents..." />
-    } else if (this.state[agentRole].length > 0) {
+    } else if (this.state[agentRole].length <= 0) {
       return (
         <Fragment>
-          <ProjectHero
-            project={this.state.projectPublic}
-            match={this.props.match}
-            isDetail={true}
-            hasCapability={this.handleHasCapability}
-          />
-          <DetailContainer>
-            <ProjectSidebar
+          <ProjectSidebar
               match={agentRole}
               projectDid={this.state.projectDid}
               hasCapability={this.handleHasCapability}
               singleClaimDependentsFetchedCallback={
                 this.singleClaimDependentsFetchedCallback
               }
+            />
+          <DetailContainer>
+            <NewProjectHero.ProjectHero
+              project={this.state.projectPublic}
+              match={this.props.match}
+              isDetail={true}
+              hasCapability={this.handleHasCapability}
             />
             <ProjectAgents
               agents={this.state[agentRole]}
@@ -961,6 +968,34 @@ export class ProjectContainer extends React.Component<Props, State> {
       case contentType.serviceProviders:
         theContent = this.handleRenderAgents('serviceProviders')
         break
+      case contentType.agents:
+        theContent = (
+          <Fragment>
+            <DetailContainer>
+              <ProjectSidebar
+                match={'claims'}
+                projectDid={this.state.projectDid}
+                hasCapability={this.handleHasCapability}
+                singleClaimDependentsFetchedCallback={
+                  this.singleClaimDependentsFetchedCallback
+                }
+              />
+              <ContentContainer>
+                <NewProjectHero.ProjectHero
+                  project={project}
+                  match={this.props.match}
+                  isDetail={true}
+                  hasCapability={this.handleHasCapability}
+                />
+                <ProjectAgents
+                  agents={this.state['role']}
+                  handleUpdateAgentStatus={this.handleUpdateAgent}
+                />
+              </ContentContainer>
+            </DetailContainer>
+          </Fragment>
+        )
+        break;
       default:
         theContent = <p>Nothing to see here...</p>
         break

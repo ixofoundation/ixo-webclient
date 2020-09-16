@@ -78,6 +78,7 @@ const Container = styled.div`
   justify-content: space-evenly;
   height: auto;
   z-index: 1;
+  background: linear-gradient(180deg, #012639 0%, #002D42 97.29%);
 
   .active {
     border-top: 5px solid
