@@ -320,8 +320,6 @@ export class ProjectAgents extends React.Component<ParentProps, State> {
       }
     })
 
-    console.log('gggggggggggggggggggggggggggggggggg')
-
     pending.push({
       name: 'Joyce Montgomery',
       agentDid: 'test-did',
@@ -368,7 +366,7 @@ export class ProjectAgents extends React.Component<ParentProps, State> {
       <LayoutWrapper>
         <div className="row">
           <div className="col-12">
-            <Heading>{this.handleRoleLabel('test')}</Heading>
+            <Heading>{this.handleRoleLabel(this.props.agents[0].role)}</Heading>
           </div>
         </div>
         {this.handleMapAgents()}

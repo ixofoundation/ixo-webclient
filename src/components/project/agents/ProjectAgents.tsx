@@ -77,7 +77,7 @@ export class ProjectAgents extends React.Component<ParentProps, State> {
   }
 
   agentClicked = () => {
-    console.log("ffffffffffffff");
+    
   }
 
   handleRenderAgents = (agents = [] ,emptyMsg: string) => {
