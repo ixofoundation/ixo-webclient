@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import { deviceWidth } from "../../../lib/commonData";
+import styled from 'styled-components'
+import { deviceWidth } from '../../../lib/commonData'
 
 export const MobileControlPanelToggle = styled.button`
   display: block;
@@ -20,7 +20,7 @@ export const MobileControlPanelToggle = styled.button`
   @media (min-width: ${deviceWidth.desktop}px) {
     display: none;
   }
-`;
+`
 
 export const ControlPanelWrapper = styled.div`
   background: #dfe7f4;
@@ -47,7 +47,7 @@ export const ControlPanelWrapper = styled.div`
       left: 0;
     }
   }
-`;
+`
 
 export const ControlPanelScrollWrapper = styled.div`
   position: relative;
@@ -62,14 +62,14 @@ export const ControlPanelScrollWrapper = styled.div`
     }
     &.fixed {
       position: absolute;
-      top: -190px;
+      top: 30px;
       z-index: 99;
     }
   }
-`;
+`
 
 export const ControlPanelSection = styled.div`
-  background: #FCFDFF;
+  background: #fcfdff;
   border-radius: 5px;
   padding: 0.5rem 1rem;
   &:not(:first-child) {
@@ -103,7 +103,7 @@ export const ControlPanelSection = styled.div`
       }
     }
   }
-`;
+`
 
 export const SquareButtonSection = styled.div`
   display: flex;
@@ -142,4 +142,4 @@ export const SquareButtonSection = styled.div`
       }
     }
   }
-`;
+`
