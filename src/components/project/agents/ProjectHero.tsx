@@ -1,29 +1,23 @@
 import * as React from 'react'
 import { useSelector } from 'react-redux'
-import moment from 'moment'
+
 import { SDGArray } from 'lib/commonData'
-import { getCountryName, toTitleCase } from 'common/utils/formatters'
+import { toTitleCase } from 'common/utils/formatters'
 import { MatchType, AgentRoles } from 'types/models'
 import HeaderTabs from 'common/components/HeaderTabs/HeaderTabs'
 import {
   SingleSDG,
   HeroInner,
-  Flag,
   HeroContainer,
-  HeroInfoItemsWrapper,
-  HeroInfoItem,
   Title,
-  Description,
   StyledFundingTitle,
 } from './ProjectHero.styles'
-import CalendarSort from 'assets/icons/CalendarSort'
-import availableFlags from 'lib/json/availableFlags.json'
+
 import { EntityType } from 'modules/Entities/types'
 import { selectUserIsLoggedIn } from 'modules/Account/Account.selectors'
 import { entityTypeMap } from 'modules/Entities/strategy-map'
 import { useWindowSize } from 'common/hooks'
 import { deviceWidth } from 'lib/commonData'
-import IxoCircle from 'assets/images/ixo-circle.png'
 
 export interface Props {
   project: any
@@ -89,16 +83,6 @@ export const ProjectHero: React.SFC<Props> = ({
       path: '/funding',
       title: 'FUNDING',
     })
-  }
-
-  const getFlagURL = (projectLocation: string): string => {
-    if (availableFlags.availableFlags.includes(project.projectLocation)) {
-      return `url(${require(`assets/images/country-flags/${projectLocation.toLowerCase()}.svg`)})`
-    } else if (project.projectLocation === 'AA') {
-      return `url(${require('assets/images/country-flags/global.svg')})`
-    }
-
-    return ''
   }
 
   const renderSDGs = (): JSX.Element => {
