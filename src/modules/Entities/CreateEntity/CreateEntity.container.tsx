@@ -25,6 +25,15 @@ interface Props {
 
 class CreateEntity extends React.Component<Props> {
   componentDidMount(): void {
+    // TODO - check if keysafe installed
+    /*
+    example...
+    if (this.props.keysafe === null) {
+      errorToast('Please install IXO Credential Manager first.')
+    } else {
+      // ok
+    }
+    */
     const {
       match: {
         params: { entityType: entityTypeUrlParam },
