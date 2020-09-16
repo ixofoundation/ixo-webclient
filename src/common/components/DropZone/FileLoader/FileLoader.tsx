@@ -1,6 +1,10 @@
 import * as React from 'react'
 import Dropzone from 'react-dropzone'
-import { LoaderWrapper, UploadingWrapper } from '../Loader.styles'
+import {
+  LoaderWrapper,
+  UploadingWrapper,
+  DropZoneStyles,
+} from '../Loader.styles'
 import UploadFlat from 'assets/icons/UploadFlat'
 import PulseLoader from '../../PulseLoader/PulseLoader'
 import { strategyMap } from '../strategy-map'
@@ -64,13 +68,11 @@ const FileLoader: React.FunctionComponent<Props> = ({
         <Dropzone
           accept={strategyMap[fileType].mimeType}
           onDropAccepted={onDropAccepted}
-          // style={DropZoneStyles}
+          style={DropZoneStyles}
         >
-          {() => (
-            <button type="button">
-              {strategyMap[fileType].replaceButtonText}{' '}
-            </button>
-          )}
+          <button type="button">
+            {strategyMap[fileType].replaceButtonText}{' '}
+          </button>
         </Dropzone>
       </LoaderWrapper>
     )
@@ -82,23 +84,21 @@ const FileLoader: React.FunctionComponent<Props> = ({
         maxSize={maxFileSize}
         accept={strategyMap[fileType].mimeType}
         onDropAccepted={onDropAccepted}
-        // style={DropZoneStyles}
+        style={DropZoneStyles}
       >
-        {() => (
-          <React.Fragment>
-            <PulseLoader repeat={false}>
-              <UploadFlat width={32} fill="#39C3E6" />
-            </PulseLoader>
-            <p className="desktop-upload-item">Drag files to upload, or</p>
-            <button type="button">
-              {strategyMap[fileType].uploadButtonText}
-            </button>
-            <small>
-              {strategyMap[fileType].fileTypesText}, max size {maxFileSizeInMB}
-              mb
-            </small>
-          </React.Fragment>
-        )}
+        <React.Fragment>
+          <PulseLoader repeat={false}>
+            <UploadFlat width={32} fill="#39C3E6" />
+          </PulseLoader>
+          <p className="desktop-upload-item">Drag files to upload, or</p>
+          <button type="button">
+            {strategyMap[fileType].uploadButtonText}
+          </button>
+          <small>
+            {strategyMap[fileType].fileTypesText}, max size {maxFileSizeInMB}
+            mb
+          </small>
+        </React.Fragment>
       </Dropzone>
     </LoaderWrapper>
   )

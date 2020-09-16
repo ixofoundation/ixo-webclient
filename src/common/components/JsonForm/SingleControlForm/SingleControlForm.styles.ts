@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import { deviceWidth } from "../../../../lib/commonData";
+import styled from 'styled-components'
+import { deviceWidth } from '../../../../lib/commonData'
 
 export const ControlContainer = styled.div`
   .form-group.field-object {
@@ -10,6 +10,9 @@ export const ControlContainer = styled.div`
     padding: 2.125rem 1.25rem;
     @media (min-width: ${deviceWidth.mobile}px) {
       padding: 3.5rem 4.25rem;
+    }
+    .form-group.field.field-string div div[style] {
+      border-style: none !important;
     }
   }
 
@@ -37,4 +40,4 @@ export const ControlContainer = styled.div`
       color: #7b8285;
     }
   }
-`;
+`
