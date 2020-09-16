@@ -130,14 +130,3 @@ export const entityIsLoading = createSelector(
     return !entity
   },
 )
-
-/*
-  requiredClaimsCount: number
-  successfulClaimsCount: number
-  pendingClaimsCount: number
-  rejectedClaimsCount: number
-  evaluatorsCount: number
-  evaluatorsPendingCount: number
-  serviceProvidersCount: number
-  serviceProvidersPendingCount: number
-*/
