@@ -1,5 +1,4 @@
 import { Moment } from 'moment'
-import { ExplorerEntity } from '../EntitiesExplorer/types'
 import { Agent, EntityType } from '../types'
 
 export interface Entity {
@@ -11,6 +10,12 @@ export interface Entity {
   dateCreated: Moment
   bondDid: string
   ownerName: string
+  ownerLogo: string
+  ownerWebsite: string
+  ownerMission: string
+  status: string
+  image: string
+  logo: string
   location: string
   sdgs: string[]
   requiredClaimsCount: number
@@ -22,6 +27,7 @@ export interface Entity {
   serviceProvidersCount: number
   serviceProvidersPendingCount: number
   agents: Agent[]
+  content: any // TODO - define interface
 }
 
 export enum SelectedEntityActions {
@@ -34,12 +40,12 @@ export enum SelectedEntityActions {
 
 export interface GetEntityAction {
   type: typeof SelectedEntityActions.GetEntity
-  payload: Promise<ExplorerEntity>
+  payload: Promise<Entity>
 }
 
 export interface GetEntitySuccessAction {
   type: typeof SelectedEntityActions.GetEntitySuccess
-  payload: ExplorerEntity
+  payload: Entity
 }
 
 export interface ClearEntityAction {

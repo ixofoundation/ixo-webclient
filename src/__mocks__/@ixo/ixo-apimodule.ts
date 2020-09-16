@@ -1,4 +1,5 @@
 import { ApiListedEntity } from 'common/api/blocksync-api/types/entities'
+import { ApiPageContent } from 'common/api/blocksync-api/types/page-content'
 
 export const fakeListedProjectsData = [
   {
@@ -264,8 +265,18 @@ export const fakeListedProjectsData = [
       'createdBy': 'did:sov:EA1fV7PTbWG3aveDJZpgSn',
       'nodeDid': 'did:ixo:RpXidAyvNUsSEktkT3a5LY',
       'agents': [
-        { did: 'did:ixo:CB1idAyvNUsSEktkT3a5LY' },
-        { did: 'did:ixo:NT1idAyvNUsSEktkT3a5LY' },
+        {
+          did: 'did:ixo:CB1idAyvNUsSEktkT3a5LY',
+          status: '0',
+          role: 'SA',
+          kyc: false,
+        },
+        {
+          did: 'did:ixo:NT1idAyvNUsSEktkT3a5LY',
+          status: '0',
+          role: 'EA',
+          kyc: false,
+        },
       ],
       'claimStats': {
         currentSuccessful: 10,
@@ -460,8 +471,18 @@ export const fakeListedProjectsData = [
       'createdBy': 'did:sov:AB1fV7PTbWG3aveDJZpgSb',
       'nodeDid': 'did:ixo:RpXidAyvNUsSEktkT3a5LY',
       'agents': [
-        { did: 'did:ixo:TB1idAyvNUsSEktkT3a5LY' },
-        { did: 'did:ixo:VT1idAyvNUsSEktkT3a5LY' },
+        {
+          did: 'did:ixo:TB1idAyvNUsSEktkT3a5LY',
+          status: '0',
+          role: 'SA',
+          kyc: false,
+        },
+        {
+          did: 'did:ixo:VT1idAyvNUsSEktkT3a5LY',
+          status: '0',
+          role: 'EA',
+          kyc: false,
+        },
       ],
       'claimStats': {
         currentSuccessful: 0,
@@ -479,6 +500,78 @@ export const fakeListedProjectsData = [
   },
 ] as ApiListedEntity[]
 
+const fakePageContent = {
+  header: {
+    title: 'Some Title',
+    shortDescription: 'Some Short Description',
+    imageDescription: 'Some Image Description',
+    sdgs: ['5', '7'],
+    brand: 'Some Brand',
+    location: 'AR',
+    image: 'https://pds_pandora.ixo.world/public/sbujb0xg0dgkeljwtnc',
+    logo: 'https://pds_pandora.ixo.world/public/xxxjb0xg0dgkeljwtnc',
+  },
+  body: [
+    {
+      title: 'Some Body Content Title',
+      content: 'Some Body Content',
+      image: 'https://pds_pandora.ixo.world/public/n724h8vl04bkeljy6xl',
+    },
+    {
+      title: 'Another Body Content Title',
+      content: 'Another Body Content',
+      image: 'https://pds_pandora.ixo.world/public/e4g7yisha77keljyz5d',
+    },
+  ],
+  images: [
+    {
+      title: 'Some Image Content Title',
+      content: 'Some Image Body Content',
+      imageDescription: 'Some Image Description',
+      image: 'https://pds_pandora.ixo.world/public/7bfhyr0m1p9keljzr4i',
+    },
+  ],
+  profiles: [
+    {
+      name: 'Someone 1',
+      position: 'Some Position 1',
+      linkedInUrl: 'https://linkedin1',
+      twitterUrl: 'https://twitter1',
+      image: 'https://pds_pandora.ixo.world/public/64tkzqd3llrkelk01rj',
+    },
+    {
+      name: 'Someone 2',
+      position: 'Some Position 2',
+      linkedInUrl: 'https://linkedin2',
+      twitterUrl: 'https://twitter2',
+      image: 'https://pds_pandora.ixo.world/public/o18hu58fj48kelk08c5',
+    },
+  ],
+  social: {
+    linkedInUrl: 'https://linkedInUrl',
+    facebookUrl: 'https://fbUrl',
+    twitterUrl: 'https://twitterUrl',
+    discourseUrl: 'https://discourseUrl',
+    instagramUrl: 'https://instagramUrl',
+    telegramUrl: 'https://telegramUrl',
+    githubUrl: 'https://githubUrl',
+    otherUrl: 'https://otherUrl',
+  },
+  embedded: [
+    {
+      title: 'Some Title 1',
+      urls: [
+        'https://edition.cnn.com/2020/09/02/europe/alexey-navalny-novichok-intl/index.html',
+        'https://edition.cnn.com/2020/09/02/politics/melania-trump-private-email-wolkoff-cnntv/index.html',
+      ],
+    },
+    {
+      title: 'Another Title',
+      urls: ['https://www.youtube.com/watch?v=iOWFXqT5MZ4'],
+    },
+  ],
+} as ApiPageContent
+
 export class Ixo {
   project
 
@@ -486,6 +579,10 @@ export class Ixo {
     this.project = {
       createPublic: jest.fn(() => Promise.resolve({ result: 'somePublicDid' })),
       listProjects: jest.fn(() => Promise.resolve(fakeListedProjectsData)),
+      getProjectByProjectDid: jest.fn(() =>
+        Promise.resolve(fakeListedProjectsData[0]),
+      ),
+      fetchPublic: jest.fn(() => Promise.resolve(fakePageContent)),
     }
   }
 }

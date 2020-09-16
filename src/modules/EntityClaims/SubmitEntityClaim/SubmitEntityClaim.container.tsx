@@ -176,7 +176,7 @@ const mapStateToProps = (state: RootState): Record<string, any> => ({
   userDid: accountSelectors.selectUserDid(state),
   entityDid: selectedEntitySelectors.selectEntityDid(state),
   entityType: selectedEntitySelectors.selectEntityType(state),
-  entityTitle: selectedEntitySelectors.selectEntityTitle(state),
+  entityTitle: selectedEntitySelectors.selectEntityName(state),
   entityIsLoading: selectedEntitySelectors.entityIsLoading(state),
 })
 

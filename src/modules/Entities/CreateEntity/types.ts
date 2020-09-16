@@ -1,8 +1,6 @@
 import { EntityType } from '../types'
 import { RootState } from 'common/redux/types'
 
-export const PDS_URL = process.env.REACT_APP_PDS_URL
-
 export interface CreateEntityState {
   step: number
   entityType: EntityType

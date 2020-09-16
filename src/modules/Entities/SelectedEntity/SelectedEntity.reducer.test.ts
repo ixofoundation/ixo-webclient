@@ -1,15 +1,12 @@
 import moment from 'moment'
 import * as SUT from './SelectedEntity.reducer'
 import {
-  // ClearEntityAction,
-  // GetEntityAction,
   GetEntitySuccessAction,
-  // SelectedEntityActionTypes,
   SelectedEntityActions,
   ClearEntityAction,
 } from './types'
 import { EntityType } from '../types'
-import { ExplorerEntity } from '../EntitiesExplorer/types'
+import { Entity } from './types'
 
 const initialState = SUT.initialState
 
@@ -27,45 +24,46 @@ describe('SelectedEntity Reducer', () => {
 
   describe('GetEntitySuccess Action', () => {
     it('should return a new copy of state with the entity data set', () => {
-      const entity: ExplorerEntity = {
-        did: 'someDid1',
+      const entity: Entity = {
+        did: 'did:ixo:GfDZQaXJ9o2UKm4tGY2Wkh',
         type: EntityType.Project,
-        creatorDid: 'someUserDid1',
-        name: 'someTitle1',
-        description: 'someShortDescription1',
-        dateCreated: moment('2020-04-09T13:14:13.000Z'),
-        ownerName: 'someOwnerName1',
-        status: 'someStatus1',
-        location: 'someCountry1',
-        goal: 'someImpactAction1',
-        serviceProvidersCount: 13,
-        evaluatorsCount: 1,
-        requiredClaimsCount: 100,
+        creatorDid: 'did:sov:EA1fV7PTbWG3aveDJZpgSn',
+        status: 'CREATED',
+        name: 'Some Title',
+        description: 'Some Short Description',
+        dateCreated: moment('2020-09-12T19:49:45Z'),
+        ownerName: 'Owner Display Name',
+        ownerLogo: 'https://pds_pandora.ixo.world/public/9uqcsf7qsfjkelkkkt9',
+        ownerMission: 'another mission',
+        ownerWebsite: 'https://eerer.com',
+        location: 'AR',
+        image: 'https://pds_pandora.ixo.world/public/sbujb0xg0dgkeljwtnc',
+        logo: 'https://pds_pandora.ixo.world/public/v7kvrycap9kf2ofnof',
+        serviceProvidersCount: 10,
+        serviceProvidersPendingCount: 2,
+        evaluatorsCount: 10,
+        evaluatorsPendingCount: 0,
+        requiredClaimsCount: 23,
+        pendingClaimsCount: 3,
         successfulClaimsCount: 10,
-        pendingClaimsCount: 20,
-        rejectedClaimsCount: 30,
-        sdgs: ['1', '2', '3'],
-        agentDids: ['someAgentDid1'],
-        image: 'sommeImageUrl',
-        logo: 'sommeLogoUrl',
-        ddoTags: [
+        rejectedClaimsCount: 5,
+        agents: [
           {
-            name: 'someCategory1',
-            tags: [
-              'someCategory1_tag1',
-              'someCategory1_tag2',
-              'someCategory1_tag3',
-            ],
+            did: 'did:ixo:CB1idAyvNUsSEktkT3a5LY',
+            status: '0',
+            role: 'SA',
+            kyc: false,
           },
           {
-            name: 'someCategory1',
-            tags: [
-              'someCategory1_tag1',
-              'someCategory1_tag2',
-              'someCategory1_tag3',
-            ],
+            did: 'did:ixo:NT1idAyvNUsSEktkT3a5LY',
+            status: '0',
+            role: 'EA',
+            kyc: false,
           },
         ],
+        sdgs: ['5', '7'],
+        bondDid: 'did:sov:CYCc2xaJKrp8Yt947Nc6jdzzzz',
+        content: {},
       }
 
       // given .. we have an action of type SelectedEntityActions.GetEntitySuccess and some data
@@ -84,45 +82,46 @@ describe('SelectedEntity Reducer', () => {
 
   describe('ClearEntity Action', () => {
     it('should clear the entity', () => {
-      const currentState: ExplorerEntity = {
-        did: 'someDid1',
+      const currentState: Entity = {
+        did: 'did:ixo:GfDZQaXJ9o2UKm4tGY2Wkh',
         type: EntityType.Project,
-        creatorDid: 'someUserDid1',
-        name: 'someTitle1',
-        description: 'someShortDescription1',
-        dateCreated: moment('2020-04-09T13:14:13.000Z'),
-        ownerName: 'someOwnerName1',
-        status: 'someStatus1',
-        location: 'someCountry1',
-        goal: 'someImpactAction1',
-        serviceProvidersCount: 13,
-        evaluatorsCount: 1,
-        requiredClaimsCount: 100,
+        creatorDid: 'did:sov:EA1fV7PTbWG3aveDJZpgSn',
+        status: 'CREATED',
+        name: 'Some Title',
+        description: 'Some Short Description',
+        dateCreated: moment('2020-09-12T19:49:45Z'),
+        ownerName: 'Owner Display Name',
+        ownerLogo: 'https://pds_pandora.ixo.world/public/9uqcsf7qsfjkelkkkt9',
+        ownerMission: 'another mission',
+        ownerWebsite: 'https://eerer.com',
+        location: 'AR',
+        image: 'https://pds_pandora.ixo.world/public/sbujb0xg0dgkeljwtnc',
+        logo: 'https://pds_pandora.ixo.world/public/v7kvrycap9kf2ofnof',
+        serviceProvidersCount: 10,
+        serviceProvidersPendingCount: 2,
+        evaluatorsCount: 10,
+        evaluatorsPendingCount: 0,
+        requiredClaimsCount: 23,
+        pendingClaimsCount: 3,
         successfulClaimsCount: 10,
-        pendingClaimsCount: 20,
-        rejectedClaimsCount: 30,
-        sdgs: ['1', '2', '3'],
-        agentDids: ['someAgentDid1'],
-        image: 'sommeImageUrl',
-        logo: 'sommeLogoUrl',
-        ddoTags: [
+        rejectedClaimsCount: 5,
+        agents: [
           {
-            name: 'someCategory1',
-            tags: [
-              'someCategory1_tag1',
-              'someCategory1_tag2',
-              'someCategory1_tag3',
-            ],
+            did: 'did:ixo:CB1idAyvNUsSEktkT3a5LY',
+            status: '0',
+            role: 'SA',
+            kyc: false,
           },
           {
-            name: 'someCategory1',
-            tags: [
-              'someCategory1_tag1',
-              'someCategory1_tag2',
-              'someCategory1_tag3',
-            ],
+            did: 'did:ixo:NT1idAyvNUsSEktkT3a5LY',
+            status: '0',
+            role: 'EA',
+            kyc: false,
           },
         ],
+        sdgs: ['5', '7'],
+        bondDid: 'did:sov:CYCc2xaJKrp8Yt947Nc6jdzzzz',
+        content: {},
       }
 
       // given .. we have an action of type SelectedEntityActions.ClearEntity

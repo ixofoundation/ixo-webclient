@@ -11,7 +11,7 @@ import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
 import keysafe from 'common/keysafe/keysafe'
 import { EntityType } from '../types'
 import { RootState } from 'common/redux/types'
-import { PDS_URL } from './types'
+import { PDS_URL } from '../types'
 import * as createEntitySelectors from './CreateEntity.selectors'
 import { createEntityMap } from './strategy-map'
 
