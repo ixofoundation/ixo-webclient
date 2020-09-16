@@ -4,7 +4,8 @@ export const theme = {
   ixoBlue: '#49BFE0', // button borders, small hero numbers, SDG numbers
   ixoOrange: '#F89D28',
   bg: {
-    blue: '#002233', // dashboard background
+    blue: '#002233', // dashboard background,
+    modal: '#01283C',
     green: '#5AB946',
     darkBlue: '#01151F', // Tooltips background
     lightBlue: '#017492', // active button background for tabs on hero section

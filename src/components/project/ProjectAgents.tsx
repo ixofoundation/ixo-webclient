@@ -320,6 +320,13 @@ export class ProjectAgents extends React.Component<ParentProps, State> {
       }
     })
 
+    pending.push({
+      name: 'Joyce Montgomery',
+      agentDid: 'test-did',
+      role: 'Test Role',
+      currentStatus: '1',
+    })
+
     pending.length > 0 &&
       sections.push(
         this.handleRenderSection(
