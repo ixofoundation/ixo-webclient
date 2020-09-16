@@ -70,6 +70,15 @@ export const Routes: React.SFC<{}> = (props) => {
             <ProjectContainerConnected contentType={contentType.dashboard} />
           )}
         />
+        <Route
+          exact
+          path="/projects/:projectDID/detail/agents"
+          render={(): JSX.Element => (
+            <ProjectContainerConnected
+              contentType={contentType.agents}
+            />
+          )}
+        />
         {/* Old claims related screens - remove when new claims is ready */}
         {/*
         <Route

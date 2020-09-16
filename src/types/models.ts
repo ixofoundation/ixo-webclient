@@ -23,6 +23,7 @@ export enum contentType {
   singleClaim = 'SINGLE_CLAIM',
   investors = 'INVESTORS',
   serviceProviders = 'SERVICE_PROVIDERS',
+  agents = 'AGENTS',
 }
 
 export enum AgentRoles {
