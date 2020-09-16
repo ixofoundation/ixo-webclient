@@ -1,56 +1,26 @@
-import * as React from 'react'
-import styled from 'styled-components'
+import React, { Dispatch } from 'react'
 import { Moment } from 'moment'
-import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
-import ReactMd from 'react-md-file'
-import ProfileCard from '../ProfileCard/ProfileCard'
+import { connect } from 'react-redux'
+// // import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
+// import ReactMd from 'react-md-file'
+// import ProfileCard from '../ProfileCard/ProfileCard'
 import ControlPanel from 'common/components/ControlPanel/ControlPanel'
 import {
   OverviewContainer,
-  ProfileCardsWrapper,
-  InlineImageWrapper,
-} from './ProjectOverview.style'
+  SidebarWrapper,
+  MainPanelWrapper,
+  // ProfileCardsWrapper,
+  // InlineImageWrapper,
+} from './EntityOverview.container.styles'
 import { EntityType } from 'modules/Entities/types'
 import { entityTypeMap } from 'modules/Entities/strategy-map'
-import { ProjectHero } from '../ProjectHero'
+import EntityHero from '../EntityHero/EntityHero'
 import Header from './components/Header/Header'
 import Footer from './components/Footer/Footer'
-
-const SidebarWrapper = styled.div`
-  background: #dfe7f4;
-`
-
-const MainPanelWrapper = styled.div`
-  &&& {
-    @media (min-width: 992px) {
-      padding-left: 8rem;
-    }
-  }
-`
-
-/* export interface ParentProps {
-  match: any
-  projectDid: string
-  userInfo: UserInfo
-  project: any
-  isModalOpen: boolean
-  modalData: any
-  checkUserDid: () => boolean
-  createAgent: (agentData: any) => void
-  toggleModal: (data?: any, modalStatus?: boolean) => void
-  hasCapability: (Role: [AgentRoles]) => boolean
-  ledgerDid: () => void
-  imageLink: string
-  projectStatus: string
-  ledger: {
-    modalResponse: string
-    isLedgering: boolean
-  }
-  isDetail: boolean
-  isLoggedIn: boolean
-}
-
-export type Props = ParentProps */
+import { RootState } from 'common/redux/types'
+import * as entitySelectors from '../SelectedEntity.selectors'
+import * as accountSelectors from 'modules/Account/Account.selectors'
+import { getEntity } from '../SelectedEntity.actions'
 
 interface Props {
   did: string
@@ -75,10 +45,10 @@ interface Props {
   twitterUrl: string
   bondDid: string
   sdgs: string[]
-  isLoggedIn
+  isLoggedIn: boolean
 }
 
-export const ProjectOverview: React.FunctionComponent<Props> = ({
+export const EntityOverview: React.FunctionComponent<Props> = ({
   did,
   name,
   description,
@@ -103,7 +73,7 @@ export const ProjectOverview: React.FunctionComponent<Props> = ({
   image,
   isLoggedIn,
 }) => {
-  const renderModalHeader = () => {
+  /*   const renderModalHeader = () => {
     return {
       title: props.modalData.title,
       subtitle: props.modalData.subtitle,
@@ -111,20 +81,20 @@ export const ProjectOverview: React.FunctionComponent<Props> = ({
       width: '360',
     }
   }
-
+ */
   return (
     <div>
-      <ModalWrapper
+      {/*       <ModalWrapper
         isModalOpen={props.isModalOpen}
         handleToggleModal={(): void => props.toggleModal({})}
         header={renderModalHeader()}
       >
         {props.modalData.content}
-      </ModalWrapper>
+      </ModalWrapper> */}
       <OverviewContainer className="container-fluid">
         <div className="row">
           <MainPanelWrapper className="col-lg-9 pr-5">
-            <ProjectHero
+            <EntityHero
               type={type}
               did={did}
               bondDid={bondDid}
@@ -138,7 +108,7 @@ export const ProjectOverview: React.FunctionComponent<Props> = ({
               onlyTitle={false}
             />
             <Header name={name} description={description} image={image} />
-            {props.project.pageContent.map((content) => {
+            {/* {props.project.pageContent.map((content) => {
               return (
                 <div className="content-section" key={content.title}>
                   {content.title && <h2>{content.title}</h2>}
@@ -165,7 +135,7 @@ export const ProjectOverview: React.FunctionComponent<Props> = ({
                   <hr />
                 </div>
               )
-            })}
+            })} */}
             <Footer
               ownerLogo={ownerLogo}
               ownerMission={ownerMission}
@@ -193,6 +163,30 @@ export const ProjectOverview: React.FunctionComponent<Props> = ({
     </div>
   )
 }
+
+const mapStateToProps = (state: RootState): any => ({
+  did: entitySelectors.selectEntityDid(state),
+  name: entitySelectors.selectEntityName(state),
+  description: entitySelectors.selectEntityDescription(state),
+  image: entitySelectors.selectEntityImage(state),
+  type: entitySelectors.selectEntityType(state),
+  dateCreated: entitySelectors.selectEntityDateCreated(state),
+  userDid: accountSelectors.selectUserDid(state),
+  ownerLogo: entitySelectors.selectEntityOwnerLogo(state),
+  ownerMission: entitySelectors.selectEntityOwnerMission(state),
+  ownerName: entitySelectors.selectEntityOwnerName(state),
+  ownerWebsite: entitySelectors.selectEntityOwnerWebsite(state),
+  location: entitySelectors.selectEntityLocation(state),
+  bondDid: entitySelectors.selectEntityBondDid(state),
+  sdgs: entitySelectors.selectEntitySdgs(state),
+  isLoggedIn: accountSelectors.selectUserIsLoggedIn(state),
+})
+
+const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
+  handleGetEntity: (did: string): void => dispatch(getEntity(did)),
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(EntityOverview)
 
 /*
 import { Table } from 'react-bootstrap'
