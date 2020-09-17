@@ -71,6 +71,7 @@ describe('SelectedEntity Actions', () => {
         location: 'AR',
         image: 'https://pds_pandora.ixo.world/public/sbujb0xg0dgkeljwtnc',
         logo: 'https://pds_pandora.ixo.world/public/v7kvrycap9kf2ofnof',
+        goal: 'Some Goal',
         serviceProvidersCount: 10,
         serviceProvidersPendingCount: 2,
         evaluatorsCount: 10,

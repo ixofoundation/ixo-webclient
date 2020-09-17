@@ -18,6 +18,7 @@ export interface Entity {
   logo: string
   location: string
   sdgs: string[]
+  goal: string
   requiredClaimsCount: number
   successfulClaimsCount: number
   pendingClaimsCount: number

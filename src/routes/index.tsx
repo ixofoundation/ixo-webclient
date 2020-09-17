@@ -6,6 +6,7 @@ import EntityOverview from 'modules/Entities/SelectedEntity/EntityOverview/Entit
 import EntitiesImpact from 'modules/Entities/EntitiesExplorer/EntitiesImpact/EntitiesImpact.container'
 import SubmitEntityClaim from 'modules/EntityClaims/SubmitEntityClaim/SubmitEntityClaim.container'
 import CreateEntity from 'modules/Entities/CreateEntity/CreateEntity.container'
+import EntityImpact from 'modules/Entities/SelectedEntity/EntityImpact/EntityImpact.container'
 import EntitiesSelect from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.container.select'
 import { ProjectCreateConnected } from '../components/project/ProjectCreate'
 import { contentType } from '../types/models'
@@ -57,22 +58,16 @@ export const Routes: React.SFC<{}> = (props) => {
           path="/projects/:projectDID/overview"
           component={EntityOverview}
         />
-        <Route
-          exact
-          path="/projects/:projectDID/detail/"
-          render={(): JSX.Element => (
-            <ProjectContainerConnected contentType={contentType.dashboard} />
-          )}
-        />
-        <Route
+        <Route path="/projects/:projectDID/detail" component={EntityImpact} />
+        {/* Old claims related screens - remove when new claims is ready */}
+        {/*
+                <Route
           exact
           path="/projects/:projectDID/detail/agents"
           render={(): JSX.Element => (
             <ProjectContainerConnected contentType={contentType.agents} />
           )}
         />
-        {/* Old claims related screens - remove when new claims is ready */}
-        {/*
         <Route
           exact
           path="/projects/:projectDID/detail/evaluators"

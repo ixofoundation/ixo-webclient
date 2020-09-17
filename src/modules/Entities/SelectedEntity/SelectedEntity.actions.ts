@@ -85,6 +85,7 @@ export const getEntity = (did: string) => (
             apiEntity.data.agentStats.serviceProvidersPending,
           evaluatorsCount: apiEntity.data.agentStats.evaluators,
           evaluatorsPendingCount: apiEntity.data.agentStats.evaluatorsPending,
+          goal: claimToUse ? claimToUse.goal : undefined,
           requiredClaimsCount: claimToUse ? claimToUse.targetMin : undefined,
           pendingClaimsCount: claimToUse ? 3 : undefined, // TODO - get actual value when this is available
           successfulClaimsCount: claimToUse
