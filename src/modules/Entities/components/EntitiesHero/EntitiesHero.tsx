@@ -1,4 +1,6 @@
 import * as React from 'react'
+import CreateEntityDropdown from '../../CreateEntity/components/CreateEntityDropdown/CreateEntityDropdown'
+import HeaderTabs from 'common/components/HeaderTabs/HeaderTabs'
 import Search from '../../EntitiesExplorer/components/Search/Search'
 import {
   ContainerInner,
@@ -11,10 +13,9 @@ import {
 } from './EntitiesHero.styles'
 import { EntityType } from '../../types'
 import { entityTypeMap } from '../../strategy-map'
-
+import { getHeaderSchema, getHeaderTabButtons } from './EntitiesHero.utils'
 // TODO - when we know what the other entity types headers will look like then possibly refactor this as it's messy with all the conditions
 // or whatever else is needed. For now, just doing it based on entityType
-import { getHeaderSchema } from './EntitiesHero.utils'
 
 export interface Props {
   entityType: EntityType
@@ -31,6 +32,10 @@ export const EntitiesHero: React.FunctionComponent<Props> = ({
 }) => {
   const entityStrategyMap = entityTypeMap[entityType]
   const header = getHeaderSchema(filterSector, entityStrategyMap.headerSchema)
+  const headerTabButtons = getHeaderTabButtons(
+    entityType,
+    entityStrategyMap.plural.toUpperCase(),
+  )
 
   const getHeaderBackgroundUrl = (imagePath: string): string => {
     if (imagePath !== null) {
@@ -81,6 +86,12 @@ export const EntitiesHero: React.FunctionComponent<Props> = ({
           </HeroIndicatorsWrapper>
         </div>
       </HeroInner>
+      <CreateEntityDropdown />
+      <HeaderTabs
+        buttons={headerTabButtons}
+        activeTabColor={entityStrategyMap.themeColor}
+        enableAssistantButton={true}
+      />
       {showSearch && (
         <Search
           entityColor={entityStrategyMap.themeColor}
