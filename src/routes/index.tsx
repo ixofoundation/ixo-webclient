@@ -2,6 +2,7 @@ import * as React from 'react'
 import { Route, Switch } from 'react-router-dom'
 import { ProjectContainerConnected } from '../components/project/ProjectContainer'
 import EntitiesExplorer from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.container'
+import EntityOverview from 'modules/Entities/SelectedEntity/EntityOverview/EntityOverview.container'
 import EntitiesImpact from 'modules/Entities/EntitiesExplorer/EntitiesImpact/EntitiesImpact.container'
 import SubmitEntityClaim from 'modules/EntityClaims/SubmitEntityClaim/SubmitEntityClaim.container'
 import CreateEntity from 'modules/Entities/CreateEntity/CreateEntity.container'
@@ -54,9 +55,7 @@ export const Routes: React.SFC<{}> = (props) => {
         />
         <Route
           path="/projects/:projectDID/overview"
-          render={(): JSX.Element => (
-            <ProjectContainerConnected contentType={contentType.overview} />
-          )}
+          component={EntityOverview}
         />
         <Route
           exact
@@ -69,9 +68,7 @@ export const Routes: React.SFC<{}> = (props) => {
           exact
           path="/projects/:projectDID/detail/agents"
           render={(): JSX.Element => (
-            <ProjectContainerConnected
-              contentType={contentType.agents}
-            />
+            <ProjectContainerConnected contentType={contentType.agents} />
           )}
         />
         {/* Old claims related screens - remove when new claims is ready */}

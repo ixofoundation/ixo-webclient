@@ -7,22 +7,7 @@ export const HeaderImage = styled.img`
   margin-bottom: 22px;
 `
 
-export const Description = styled.div`
+export const ImageDescription = styled.div`
   color: ${(props: any): string => props.theme.fontDarkGrey};
-  font-size: 16px;
-  line-height: 30px;
-  .react-md {
-    img {
-      max-width: 100%;
-    }
-    .first-letter {
-      font-size: 2em;
-      line-height: 1.75;
-      margin-right: 0.75rem;
-      padding: 0 1.125rem;
-      background: #e8edee;
-      border-radius: 4px;
-      float: left;
-    }
-  }
+  font-size: 0.85rem;
 `

@@ -1,21 +1,21 @@
 import React from 'react'
-import { HeaderImage, Description } from './Header.styles'
+import { HeaderImage, ImageDescription } from './Header.styles'
 
 interface Props {
   name: string
-  description: string
+  imageDescription: string
   image: string
 }
 
 const Header: React.FunctionComponent<Props> = ({
   name,
   image,
-  description,
+  imageDescription,
 }) => {
   return (
     <>
       <HeaderImage src={image} alt={name} />
-      <Description>{description}</Description>
+      <ImageDescription>{imageDescription}</ImageDescription>
     </>
   )
 }
