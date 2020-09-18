@@ -18,6 +18,8 @@ import { CreateEntitySettingsState } from 'modules/Entities/CreateEntity/CreateE
 import { CreateEntityAdvancedState } from 'modules/Entities/CreateEntity/CreateEntityAdvanced/types'
 import { CreateEntityClaimsState } from 'modules/Entities/CreateEntity/CreateEntityClaims/types'
 import { ProjectType } from 'pages/bond/store/types'
+import { Entity } from 'modules/Entities/SelectedEntity/types'
+import { EntityAgentsState } from 'modules/Entities/SelectedEntity/EntityImpact/EntityAgents/types'
 export interface RootState {
   keySafe: KeysafeState
   ixo: IxoState
@@ -33,7 +35,8 @@ export interface RootState {
   entities: EntitiesExplorerState
   fuelEntity: FuelEntityState
   submitEntityClaim: SubmitEntityClaimState
-  selectedEntity: any // TODO!
+  selectedEntity: Entity
+  selectedEntityAgents: EntityAgentsState
   createEntity: CreateEntityState
   createEntityPageContent: CreateEntityPageContentState
   createEntityAttestation: CreateEntityAttestationState

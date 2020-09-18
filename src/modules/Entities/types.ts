@@ -1,6 +1,7 @@
 import { Schema as FilterSchema } from './EntitiesExplorer/components/EntitiesFilter/schema/types'
 import { Schema as HeaderSchema } from './EntitiesExplorer/components/EntitiesHero/schema/types'
 import { Schema as ControlPanelSchema } from 'common/components/ControlPanel/types'
+import { AgentRole } from 'modules/Account/types'
 
 export const PDS_URL = process.env.REACT_APP_PDS_URL
 
@@ -8,7 +9,7 @@ export interface Agent {
   status: string
   kyc: boolean
   did: string
-  role: string
+  role: AgentRole
 }
 
 export enum EntityType {

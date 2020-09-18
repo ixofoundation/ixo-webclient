@@ -32,6 +32,7 @@ export enum AgentRole {
 export type AgentRoleStrategyMap = {
   [TKey in AgentRole]: {
     title: string
+    plural: string
   }
 }
 

@@ -58,6 +58,16 @@ const ProjectSidebar: React.FunctionComponent<Props> = ({
             )}
             <ToolTip>Evaluators</ToolTip>
           </NavItem>
+          <NavItem exact={true} to={`/projects/${did}/detail/investors`}>
+            {isActiveRoute(match, location, [
+              `/projects/${did}/detail/investors`,
+            ]) ? (
+              <EvaluatorsActive /> // TODO - correct icon
+            ) : (
+              <Evaluators /> // TODO - correct icon
+            )}
+            <ToolTip>Investors</ToolTip>
+          </NavItem>
         </>
       )}
       <NavItem exact={true} to={`/projects/${did}/detail/claims`}>

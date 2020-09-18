@@ -11,3 +11,13 @@ export const DetailContainer = styled.div`
     display: flex;
   }
 `
+
+export const Loading = styled.div`
+  text-align: center;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: ${/* eslint-disable-line */ (props) => props.theme.bg.blue};
+  padding: 50px 20px;
+`

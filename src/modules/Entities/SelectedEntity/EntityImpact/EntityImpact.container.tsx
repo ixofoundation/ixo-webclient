@@ -14,6 +14,7 @@ import { AgentRole } from 'modules/Account/types'
 import { Spinner } from 'common/components/Spinner'
 import { Route } from 'react-router-dom'
 import EntityImpactOverview from './Overview/Overview.container'
+import EntityAgents from './EntityAgents/EntityAgents.container'
 
 interface Props {
   match: any
@@ -100,8 +101,23 @@ class EntityImpact extends React.Component<Props> {
           />
           <Route
             exact
-            path={`/projects/${did}/detail`}
+            path={`/projects/:projectDID/detail`}
             component={EntityImpactOverview}
+          />
+          <Route
+            exact
+            path={[`/projects/:projectDID/detail/service-providers`]}
+            component={EntityAgents}
+          />
+          <Route
+            exact
+            path={`/projects/:projectDID/detail/evaluators`}
+            component={EntityAgents}
+          />
+          <Route
+            exact
+            path={`/projects/:projectDID/detail/investors`}
+            component={EntityAgents}
           />
         </DetailContainer>
       </>

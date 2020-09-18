@@ -70,36 +70,6 @@ export const Routes: React.SFC<{}> = (props) => {
         />
         <Route
           exact
-          path="/projects/:projectDID/detail/evaluators"
-          render={(): JSX.Element => (
-            <ProjectContainerConnected
-              // @ts-ignore
-              contentType={contentType.evaluators}
-            />
-          )}
-        />
-        <Route
-          exact
-          path="/projects/:projectDID/detail/investors"
-          render={(): JSX.Element => (
-            <ProjectContainerConnected
-              // @ts-ignore
-              contentType={contentType.investors}
-            />
-          )}
-        />
-        <Route
-          exact
-          path="/projects/:projectDID/detail/service-providers"
-          render={(): JSX.Element => (
-            <ProjectContainerConnected
-              // @ts-ignore
-              contentType={contentType.serviceProviders}
-            />
-          )}
-        />
-        <Route
-          exact
           path="/projects/:projectDID/detail/claims"
           render={(): JSX.Element => (
             <ProjectContainerConnected
