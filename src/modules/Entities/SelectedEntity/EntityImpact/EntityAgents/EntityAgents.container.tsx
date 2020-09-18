@@ -65,6 +65,7 @@ class Agents extends React.Component<Props> {
     if (agentsForRole.length > 0) {
       return (
         <ManageAgents
+          role={this.role}
           agents={agentsForRole}
           handleUpdateAgentStatus={(): void => null}
         />

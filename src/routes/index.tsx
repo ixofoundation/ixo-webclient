@@ -1,6 +1,5 @@
 import * as React from 'react'
 import { Route, Switch } from 'react-router-dom'
-import { ProjectContainerConnected } from '../components/project/ProjectContainer'
 import EntitiesExplorer from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.container'
 import EntityOverview from 'modules/Entities/SelectedEntity/EntityOverview/EntityOverview.container'
 import EntitiesImpact from 'modules/Entities/EntitiesExplorer/EntitiesImpact/EntitiesImpact.container'
@@ -8,16 +7,12 @@ import SubmitEntityClaim from 'modules/EntityClaims/SubmitEntityClaim/SubmitEnti
 import CreateEntity from 'modules/Entities/CreateEntity/CreateEntity.container'
 import EntityImpact from 'modules/Entities/SelectedEntity/EntityImpact/EntityImpact.container'
 import EntitiesSelect from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.container.select'
-import { ProjectCreateConnected } from '../components/project/ProjectCreate'
-import { contentType } from '../types/models'
 import { ProjectForm } from '../pages/json'
 import { Fragment } from 'react'
 import { RegisterConnected } from '../pages/register/RegisterContainer'
-import { NotFound } from '../components/public/NotFound'
+import { NotFound } from '../public/NotFound'
 import { Spinner } from 'common/components/Spinner'
-import { ProjectSignAndCreateConnected } from '../components/project/curation/ProjectSignAndCreate'
-import { ProjectCreateUploadPublicDocsConnected } from '../components/project/curation/ProjectCreateUploadPublicDocs'
-import { UnderConstruction } from '../components/public/UnderConstruction'
+import { UnderConstruction } from '../public/UnderConstruction'
 import BondRoutes from './BondRoutes'
 import InvestmentRoutes from './InvestmentRoutes'
 
@@ -98,30 +93,6 @@ export const Routes: React.SFC<{}> = (props) => {
             />
           )}
         /> */}
-        <Route
-          exact
-          path="/create-project"
-          render={(routeProps): JSX.Element => (
-            <ProjectCreateConnected {...routeProps} {...props} />
-          )}
-        />
-        <Route
-          exact
-          path="/upload-project"
-          render={(routeProps): JSX.Element => (
-            <ProjectCreateUploadPublicDocsConnected
-              {...routeProps}
-              {...props}
-            />
-          )}
-        />
-        <Route
-          exact
-          path="/upload-project-create"
-          render={(routeProps): JSX.Element => (
-            <ProjectSignAndCreateConnected {...routeProps} {...props} />
-          )}
-        />
         <Route exact path="/todo" component={UnderConstruction} />
         <Route path="*" component={NotFound} />
       </Switch>

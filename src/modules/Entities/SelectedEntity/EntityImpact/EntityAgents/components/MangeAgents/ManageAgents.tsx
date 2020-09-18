@@ -14,36 +14,23 @@ import {
   Hover,
   Selector,
 } from './ManageAgents.styles'
+import { AgentStatus, EntityAgent } from '../../types'
+import { AgentRole } from 'modules/Account/types'
+import { agentRoleMap } from 'modules/Account/strategy-map'
 
-export interface ParentProps {
-  agents: any
-  handleUpdateAgentStatus: (status: object, did: string, role: string) => void
+export interface Props {
+  role: AgentRole
+  agents: EntityAgent[]
+  handleUpdateAgentStatus: (agentDid: string, status: AgentStatus) => void
 }
 
 export interface State {
   selectedAgents: string[]
 }
 
-class ManageAgents extends React.Component<ParentProps, State> {
+class ManageAgents extends React.Component<Props, State> {
   state: State = {
     selectedAgents: [],
-  }
-
-  handleUpdateAgentStatus = (
-    status: string,
-    statusObj: any,
-    did: string,
-    role: string,
-  ): void => {
-    if (statusObj === null) {
-      this.props.handleUpdateAgentStatus({ status: status }, did, role)
-    } else {
-      this.props.handleUpdateAgentStatus(
-        { status, version: statusObj.version },
-        did,
-        role,
-      )
-    }
   }
 
   handleAgentSelect = (agentDid: string): void => {
@@ -64,26 +51,14 @@ class ManageAgents extends React.Component<ParentProps, State> {
     return ''
   }
 
-  handleRoleLabel = (role: string): string => {
-    if (role === 'IA') {
-      return 'Investors'
-    }
-    if (role === 'EA') {
-      return 'Evaluators'
-    }
-    if (role === 'SA') {
-      return 'Service Providers'
-    }
-    return role
-  }
-
   handleRenderSection = (
     iconClass: string,
-    agents: any[],
+    agents: EntityAgent[],
     colorClass: string,
     title: string,
     key: number,
   ): JSX.Element => {
+    const { handleUpdateAgentStatus } = this.props
     return (
       <Section className="row" key={key}>
         <div className="col-12">
@@ -93,49 +68,40 @@ class ManageAgents extends React.Component<ParentProps, State> {
           </h3>
         </div>
         {agents.map((agent, index) => {
-          const currentStatus = agent.currentStatus.status
+          const { agentDid, status } = agent
           return (
             <Col className="col-xl-3 col-md-6" key={index}>
               <WidgetWrapper title={agent.name}>
                 <Indicator color={colorClass} />
                 <DidText>
                   <strong>DID: </strong>
-                  {agent.agentDid}
+                  {agentDid}
                 </DidText>
                 <Mail href={`mailto:${agent.email}`}>{agent.email}</Mail>
                 <Hover>
                   <Actions>
                     <Selector
-                      onClick={(): void =>
-                        this.handleAgentSelect(agent.agentDid)
-                      }
+                      onClick={(): void => this.handleAgentSelect(agentDid)}
                     >
-                      <div className={this.handleIsSelected(agent.agentDid)} />
+                      <div className={this.handleIsSelected(agentDid)} />
                     </Selector>
                     <Buttons>
                       <Button
                         type={ButtonTypes.dark}
-                        disabled={currentStatus === '2'}
+                        disabled={status === AgentStatus.Revoked}
                         onClick={(): void =>
-                          this.handleUpdateAgentStatus(
-                            '2',
-                            agent.currentStatus,
-                            agent.agentDid,
-                            agent.role,
-                          )
+                          handleUpdateAgentStatus(agentDid, AgentStatus.Revoked)
                         }
                       >
                         <i className="icon-close" />
                       </Button>
                       <Button
                         type={ButtonTypes.gradient}
-                        disabled={currentStatus === '1'}
+                        disabled={status === AgentStatus.Approved}
                         onClick={(): void =>
-                          this.handleUpdateAgentStatus(
-                            '1',
-                            agent.currentStatus,
-                            agent.agentDid,
-                            agent.role,
+                          handleUpdateAgentStatus(
+                            agentDid,
+                            AgentStatus.Approved,
                           )
                         }
                       >
@@ -158,17 +124,16 @@ class ManageAgents extends React.Component<ParentProps, State> {
     const revoked = []
     const sections = []
     this.props.agents.map((agent) => {
-      if (agent.currentStatus === null) {
+      if (agent.status === null) {
         pending.push(agent)
       } else {
-        switch (agent.currentStatus.status) {
-          case '1':
+        switch (agent.status) {
+          case AgentStatus.Approved:
             approved.push(agent)
             break
-          case '2':
+          case AgentStatus.Revoked:
             revoked.push(agent)
             break
-          case '0':
           default:
             pending.push(agent)
             break
@@ -218,11 +183,12 @@ class ManageAgents extends React.Component<ParentProps, State> {
   }
 
   render(): JSX.Element {
+    const { role } = this.props
     return (
       <LayoutWrapper>
         <div className="row">
           <div className="col-12">
-            <Heading>{this.handleRoleLabel(this.props.agents[0].role)}</Heading>
+            <Heading>{agentRoleMap[role].plural}</Heading>
           </div>
         </div>
         {this.handleMapAgents()}

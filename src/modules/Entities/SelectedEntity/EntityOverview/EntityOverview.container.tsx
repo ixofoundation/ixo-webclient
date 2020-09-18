@@ -79,13 +79,6 @@ class EntityOverview extends React.Component<Props> {
 
     return (
       <div>
-        {/*       <ModalWrapper
-          isModalOpen={props.isModalOpen}
-          handleToggleModal={(): void => props.toggleModal({})}
-          header={renderModalHeader()}
-        >
-          {props.modalData.content}
-        </ModalWrapper> */}
         <OverviewContainer className="container-fluid">
           <div className="row">
             <MainPanelWrapper className="col-lg-9 pr-5">
@@ -123,16 +116,6 @@ class EntityOverview extends React.Component<Props> {
     )
   }
 }
-
-/*   const renderModalHeader = () => {
-    return {
-      title: props.modalData.title,
-      subtitle: props.modalData.subtitle,
-      icon: props.modalData.icon,
-      width: '360',
-    }
-  }
- */
 
 const mapStateToProps = (state: RootState): any => ({
   did: entitySelectors.selectEntityDid(state),

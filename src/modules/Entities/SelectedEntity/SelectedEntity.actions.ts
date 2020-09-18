@@ -30,7 +30,7 @@ export const getEntity = (did: string) => (
   dispatch(clearEntity())
 
   const fetchEntity = Axios.get(
-    'https://run.mocky.io/v3/a3e8ff19-a814-49a0-86e4-39ef7067d33d',
+    'https://run.mocky.io/v3/3f45dee6-8fa3-4bd8-9ac4-b5ad8c62274c',
   ) as any
 
   // const fetchEntity: Promise<ApiListedEntity> = blocksyncApi.project.getProjectByProjectDid(
@@ -39,7 +39,7 @@ export const getEntity = (did: string) => (
 
   const fetchContent = (key: string) =>
     Axios.get(
-      'https://run.mocky.io/v3/2da74cc8-83fc-42e8-8eb6-2830c2aca747',
+      'https://run.mocky.io/v3/5fb29382-7f30-4e7c-a586-e024f3c4d9b5',
     ) as any
 
   /*   const fetchContent = (

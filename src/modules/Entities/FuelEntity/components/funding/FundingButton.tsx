@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { Button, ButtonTypes } from 'common/components/Form/Buttons'
-import { deviceWidth } from '../../../lib/commonData'
+import { deviceWidth } from 'lib/commonData'
 import styled from 'styled-components'
 import { Web3Acc } from 'modules/web3/web3'
 import { Spinner } from 'common/components/Spinner'
@@ -23,7 +23,7 @@ const ButtonWrapper = styled.div`
       :hover {
         background: #002d42;
         border: 1px solid
-          ${/*eslint-disable-line*/ props => props.theme.ixoBlue};
+          ${/*eslint-disable-line*/ (props) => props.theme.ixoBlue};
 
         i {
           animation: buttonHover 0.5s ease;
@@ -109,7 +109,7 @@ export interface ParentProps {
   projectStatus: string
 }
 
-export const FundingButton: React.SFC<ParentProps> = props => {
+export const FundingButton: React.SFC<ParentProps> = (props) => {
   // DONT REORDER BELOW BUTTONS PLEASE //
   if (props.projectStatus === 'PAIDOUT') {
     return (

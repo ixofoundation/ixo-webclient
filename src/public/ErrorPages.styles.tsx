@@ -1,8 +1,8 @@
 import styled from 'styled-components'
-import { deviceWidth } from '../../lib/commonData'
+import { deviceWidth } from 'lib/commonData'
 
 export const Banner = styled.div`
-  background: #002233 url(${require('../../assets/images/404/404-bg.jpg')})
+  background: #002233 url(${require('../assets/images/404/404-bg.jpg')})
     no-repeat;
   background-size: cover;
   width: 100%;
@@ -41,7 +41,7 @@ export const BannerRight = styled.div`
   }
   h2 {
     font-size: 60px;
-    font-family: ${/*eslint-disable-line*/ props =>
+    font-family: ${/*eslint-disable-line*/ (props) =>
       props.theme.fontRobotoCondensed};
     margin-bottom: 5px;
     width: 100%;
@@ -123,7 +123,7 @@ export const BannerRight = styled.div`
     padding: 10px 25px;
     text-transform: uppercase;
     font-size: 15px;
-    font-family: ${/*eslint-disable-line*/ props =>
+    font-family: ${/*eslint-disable-line*/ (props) =>
       props.theme.fontRobotoCondensed};
     margin-top: 20px;
     cursor: pointer;

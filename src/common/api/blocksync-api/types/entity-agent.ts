@@ -6,7 +6,7 @@ export interface ApiEntityAgent {
   email: string
   agentDid: string
   role: AgentRole
-  currentStatus: AgentStatus
+  currentStatus: { version: string; status: AgentStatus }
 }
 
 export interface ApiListEntityAgentsPayload {
@@ -16,7 +16,16 @@ export interface ApiListEntityAgentsPayload {
 
 export interface ApiUpdateEntityAgentPayload {
   agentDid: string
+  version: string
   status: AgentStatus
   projectDid: string
   role: AgentRole
+}
+
+export interface ApiCreateEntityAgentPayload {
+  email: string
+  name: string
+  role: AgentRole
+  agentDid: string
+  projectDid: string
 }

@@ -2,17 +2,18 @@
 import { AgentRole } from 'modules/Account/types'
 
 export enum AgentStatus {
-  Approved = '0',
-  Revoked = '1',
-  Pending = '2',
+  Approved = '1',
+  Revoked = '2',
+  Pending = '0',
 }
 
 export interface EntityAgent {
   name: string
   email: string
-  did: string
+  agentDid: string
   role: AgentRole
   status: AgentStatus
+  version: string
 }
 
 export interface EntityAgentsState {
@@ -23,6 +24,8 @@ export interface EntityAgentsState {
   fetchError: string
   isUpdatingStatus: boolean
   updateStatusError: string
+  isCreating: boolean
+  creationError: string
 }
 
 export type GetEntityAgentsTypeStrategyMap = {
@@ -33,32 +36,23 @@ export type GetEntityAgentsTypeStrategyMap = {
 }
 
 export enum EntityAgentsActions {
-  /*   GetEntityAgentServiceProviders = 'ixo/Entity/GET_ENTITY_AGENT_SERVICE_PROVIDERS',
-  GetEntityAgentServiceProvidersSuccess = 'ixo/Entity/GET_ENTITY_AGENT_SERVICE_PROVIDERS_FULFILLED',
-  GetEntityAgentServiceProvidersPending = 'ixo/Entity/GET_ENTITY_AGENT_SERVICE_PROVIDERS_PENDING',
-  GetEntityAgentServiceProvidersFailure = 'ixo/Entity/GET_ENTITY_AGENT_SERVICE_PROVIDERS_REJECTED',
-  GetEntityAgentEvaluators = 'ixo/Entity/GET_ENTITY_AGENT_EVALUATORS',
-  GetEntityAgentEvaluatorsSuccess = 'ixo/Entity/GET_ENTITY_AGENT_EVALUATORS_FULFILLED',
-  GetEntityAgentEvaluatorsPending = 'ixo/Entity/GET_ENTITY_AGENT_EVALUATORS_PENDING',
-  GetEntityAgentEvaluatorsFailure = 'ixo/Entity/GET_ENTITY_AGENT_EVALUATORS_REJECTED',
-  GetEntityAgentInvestors = 'ixo/Entity/GET_ENTITY_AGENT_INVESTORS',
-  GetEntityAgentInvestorsSuccess = 'ixo/Entity/GET_ENTITY_AGENT_INVESTORS_FULFILLED',
-  GetEntityAgentInvestorsPending = 'ixo/Entity/GET_ENTITY_AGENT_INVESTORS_PENDING',
-  GetEntityAgentInvestorsFailure = 'ixo/Entity/GET_ENTITY_AGENT_INVESTORS_REJECTED',*/
   GetEntityAgents = 'ixo/Entity/GET_ENTITY_AGENTS',
   GetEntityAgentsSuccess = 'ixo/Entity/GET_ENTITY_AGENTS_FULFILLED',
   GetEntityAgentsPending = 'ixo/Entity/GET_ENTITY_AGENTS_PENDING',
   GetEntityAgentsFailure = 'ixo/Entity/GET_ENTITY_AGENTS_REJECTED',
-
   UpdateEntityAgentStatus = 'ixo/Entity/UPDATE_ENTITY_AGENT_STATUS',
   UpdateEntityAgentStatusSuccess = 'ixo/Entity/UPDATE_ENTITY_AGENT_STATUS_FULFILLED',
   UpdateEntityAgentStatusPending = 'ixo/Entity/UPDATE_ENTITY_AGENT_STATUS_PENDING',
   UpdateEntityAgentStatusFailure = 'ixo/Entity/UPDATE_ENTITY_AGENT_STATUS_REJECTED',
+  CreateEntityAgent = 'ixo/Entity/CREATE_ENTITY_AGENT',
+  CreateEntityAgentSuccess = 'ixo/Entity/CREATE_ENTITY_AGENT_FULFILLED',
+  CreateEntityAgentPending = 'ixo/Entity/CREATE_ENTITY_AGENT_PENDING',
+  CreateEntityAgentFailure = 'ixo/Entity/CREATE_ENTITY_AGENT_REJECTED',
 }
 
 export interface GetEntityAgentsAction {
   type: typeof EntityAgentsActions.GetEntityAgents
-  payload: Promise<EntityAgent[]>
+  payload: EntityAgent[]
 }
 
 export interface GetEntityAgentsPendingAction {
@@ -67,7 +61,9 @@ export interface GetEntityAgentsPendingAction {
 
 export interface GetEntityAgentsSuccessAction {
   type: typeof EntityAgentsActions.GetEntityAgentsSuccess
-  payload: EntityAgent[]
+  payload: {
+    agents: EntityAgent[]
+  }
 }
 
 export interface GetEntityAgentsFailureAction {
@@ -79,12 +75,15 @@ export interface GetEntityAgentsFailureAction {
 
 export interface UpdateEntityAgentStatusAction {
   type: typeof EntityAgentsActions.UpdateEntityAgentStatus
-  payload: Promise<EntityAgent[]>
+  payload: EntityAgent[]
 }
 
 export interface UpdateEntityAgentStatusSuccessAction {
   type: typeof EntityAgentsActions.UpdateEntityAgentStatusSuccess
-  payload: Promise<EntityAgent[]>
+  payload: {
+    agentDid: string
+    status: AgentStatus
+  }
 }
 
 export interface UpdateEntityAgentStatusPendingAction {
@@ -93,6 +92,29 @@ export interface UpdateEntityAgentStatusPendingAction {
 
 export interface UpdateEntityAgentStatusFailureAction {
   type: typeof EntityAgentsActions.UpdateEntityAgentStatusFailure
+  payload: {
+    error: string
+  }
+}
+
+export interface CreateEntityAgentAction {
+  type: typeof EntityAgentsActions.CreateEntityAgent
+  payload: EntityAgent
+}
+
+export interface CreateEntityAgentSuccessAction {
+  type: typeof EntityAgentsActions.CreateEntityAgentSuccess
+  payload: {
+    agent: EntityAgent
+  }
+}
+
+export interface CreateEntityAgentPendingAction {
+  type: typeof EntityAgentsActions.CreateEntityAgentPending
+}
+
+export interface CreateEntityAgentFailureAction {
+  type: typeof EntityAgentsActions.CreateEntityAgentFailure
   payload: {
     error: string
   }
@@ -107,3 +129,7 @@ export type GetEntityAgentsActionTypes =
   | UpdateEntityAgentStatusSuccessAction
   | UpdateEntityAgentStatusPendingAction
   | UpdateEntityAgentStatusFailureAction
+  | CreateEntityAgentAction
+  | CreateEntityAgentSuccessAction
+  | CreateEntityAgentPendingAction
+  | CreateEntityAgentFailureAction
