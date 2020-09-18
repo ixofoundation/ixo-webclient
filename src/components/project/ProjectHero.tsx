@@ -24,6 +24,8 @@ import { entityTypeMap } from 'modules/Entities/strategy-map'
 import { useWindowSize } from 'common/hooks'
 import { deviceWidth } from 'lib/commonData'
 import IxoCircle from 'assets/images/ixo-circle.png'
+import MediaQuery from 'react-responsive'
+import CreateEntityDropDown from 'modules/Entities/CreateEntity/components/CreateEntityDropdown/CreateEntityDropdown'
 
 export interface Props {
   project: any
@@ -163,6 +165,9 @@ export const ProjectHero: React.SFC<Props> = ({
             </div>
           </HeroInner>
         )}
+        <MediaQuery minWidth={`${deviceWidth.desktop}px`}>
+          <CreateEntityDropDown />
+        </MediaQuery>
         <HeaderTabs
           buttons={buttonsArray}
           matchType={MatchType.strict}

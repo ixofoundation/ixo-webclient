@@ -18,6 +18,8 @@ import { selectUserIsLoggedIn } from 'modules/Account/Account.selectors'
 import { entityTypeMap } from 'modules/Entities/strategy-map'
 import { useWindowSize } from 'common/hooks'
 import { deviceWidth } from 'lib/commonData'
+import CreateEntityDropDown from 'modules/Entities/CreateEntity/components/CreateEntityDropdown/CreateEntityDropdown'
+import MediaQuery from 'react-responsive'
 
 export interface Props {
   project: any
@@ -43,7 +45,7 @@ export const ProjectHero: React.SFC<Props> = ({
   const entityType = project.entityType
     ? (toTitleCase(project.entityType) as EntityType)
     : EntityType.Project
-  
+
   const buttonsArray = [
     {
       iconClass: `icon-${entityType.toLowerCase()}`,
@@ -124,10 +126,13 @@ export const ProjectHero: React.SFC<Props> = ({
             </div>
           </HeroInner>
         )}
+        <MediaQuery minWidth={`${deviceWidth.desktop}px`}>
+          <CreateEntityDropDown />
+        </MediaQuery>
         <HeaderTabs
           buttons={buttonsArray}
           matchType={MatchType.strict}
-          assistantPanelToggle={ assistantPanelToggle }
+          assistantPanelToggle={assistantPanelToggle}
           enableAssistantButton={enableAssistantButton}
           activeTabColor={entityTypeMap[entityType].themeColor}
         />

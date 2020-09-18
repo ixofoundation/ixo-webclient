@@ -55,7 +55,6 @@ export class HeaderLeft extends React.Component<ParentProps> {
           <HeaderAnchor target="_blank" href="https://docs.ixo.foundation/">
             Learn
           </HeaderAnchor>
-          <CreateEntityDropdown entityType={this.props.currentEntity} />
         </Fragment>
       )
     } else {
