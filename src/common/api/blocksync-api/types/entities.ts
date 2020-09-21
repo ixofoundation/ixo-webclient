@@ -17,6 +17,8 @@ import {
   FundSource,
 } from 'modules/Entities/types'
 
+// ideally these definitions should be in the ixo api module itself
+
 export interface ApiEntity {
   ['@context']: string
   ['@type']: EntityType
@@ -89,6 +91,7 @@ export interface ApiEntity {
       visibility: string
       title: string
       description: string
+      goal: string
       targetMin: number
       targetMax: number
       startDate: string
@@ -177,5 +180,35 @@ export interface ApiEntity {
   }[]
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface ApiListedEntity extends ApiEntity {}
+export interface ApiListedEntityData extends ApiEntity {
+  createdOn: string
+  createdBy: string
+  nodeDid: string
+  agents: {
+    status: string
+    kyc: boolean
+    did: string
+    role: string
+  }[]
+  claimStats: {
+    currentSuccessful: number
+    currentRejected: number
+  }
+  agentStats: {
+    evaluators: number
+    evaluatorsPending: number
+    serviceProviders: number
+    serviceProvidersPending: number
+    investors: number
+    investorsPending: number
+  }
+}
+
+export interface ApiListedEntity {
+  txHash: string
+  projectDid: string
+  senderDid: string
+  pubKey: string
+  status: string
+  data: ApiListedEntityData
+}

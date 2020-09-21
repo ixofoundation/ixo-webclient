@@ -32,18 +32,18 @@ import {
   TermsOfUseTypeStrategyMap,
   TermsOfUseType,
 } from './types'
-import ProjectFilterSchema from './components/EntitiesFilter/schema/ProjectFilter.schema.json'
-import CellFilterSchema from './components/EntitiesFilter/schema/CellFilter.schema.json'
-import DataFilterSchema from './components/EntitiesFilter/schema/DataFilter.schema.json'
-import InvestmentFilterSchema from './components/EntitiesFilter/schema/InvestmentFilter.schema.json'
-import OracleFilterSchema from './components/EntitiesFilter/schema/OracleFilter.schema.json'
-import TemplateFilterSchema from './components/EntitiesFilter/schema/TemplateFilter.schema.json'
-import ProjectHeaderSchema from './components/EntitiesHero/schema/ProjectHeader.schema.json'
-import CellHeaderSchema from './components/EntitiesHero/schema/CellHeader.schema.json'
-import InvestmentHeaderSchema from './components/EntitiesHero/schema/InvestmentHeader.schema.json'
-import OracleHeaderSchema from './components/EntitiesHero/schema/OracleHeader.schema.json'
-import TemplateHeaderSchema from './components/EntitiesHero/schema/TemplateHeader.schema.json'
-import DataHeaderSchema from './components/EntitiesHero/schema/DataHeader.schema.json'
+import ProjectFilterSchema from './EntitiesExplorer/components/EntitiesFilter/schema/ProjectFilter.schema.json'
+import CellFilterSchema from './EntitiesExplorer/components/EntitiesFilter/schema/CellFilter.schema.json'
+import DataFilterSchema from './EntitiesExplorer/components/EntitiesFilter/schema/DataFilter.schema.json'
+import InvestmentFilterSchema from './EntitiesExplorer/components/EntitiesFilter/schema/InvestmentFilter.schema.json'
+import OracleFilterSchema from './EntitiesExplorer/components/EntitiesFilter/schema/OracleFilter.schema.json'
+import TemplateFilterSchema from './EntitiesExplorer/components/EntitiesFilter/schema/TemplateFilter.schema.json'
+import ProjectHeaderSchema from './EntitiesExplorer/components/EntitiesHero/schema/ProjectHeader.schema.json'
+import CellHeaderSchema from './EntitiesExplorer/components/EntitiesHero/schema/CellHeader.schema.json'
+import InvestmentHeaderSchema from './EntitiesExplorer/components/EntitiesHero/schema/InvestmentHeader.schema.json'
+import OracleHeaderSchema from './EntitiesExplorer/components/EntitiesHero/schema/OracleHeader.schema.json'
+import TemplateHeaderSchema from './EntitiesExplorer/components/EntitiesHero/schema/TemplateHeader.schema.json'
+import DataHeaderSchema from './EntitiesExplorer/components/EntitiesHero/schema/DataHeader.schema.json'
 import ProjectControlPanelSchema from 'common/components/ControlPanel/schema/Project.schema.json'
 import CellControlPanelSchema from 'common/components/ControlPanel/schema/Cell.schema.json'
 import InvestmentControlPanelSchema from 'common/components/ControlPanel/schema/Investment.schema.json'
@@ -60,6 +60,7 @@ export const entityTypeMap: EntityTypeStrategyMap = {
     filterSchema: ProjectFilterSchema,
     controlPanelSchema: ProjectControlPanelSchema,
     createNewTitle: 'Launch a Project',
+    urlPart: 'project',
   },
   [EntityType.Oracle]: {
     title: 'Oracle',
@@ -69,6 +70,7 @@ export const entityTypeMap: EntityTypeStrategyMap = {
     filterSchema: OracleFilterSchema,
     controlPanelSchema: OracleControlPanelSchema,
     createNewTitle: 'Launch an Oracle',
+    urlPart: 'oracle',
   },
   [EntityType.Investment]: {
     title: 'Investment',
@@ -78,6 +80,7 @@ export const entityTypeMap: EntityTypeStrategyMap = {
     filterSchema: InvestmentFilterSchema,
     controlPanelSchema: InvestmentControlPanelSchema,
     createNewTitle: 'Launch an Investment',
+    urlPart: 'investment',
   },
   [EntityType.Cell]: {
     title: 'Cell',
@@ -87,6 +90,7 @@ export const entityTypeMap: EntityTypeStrategyMap = {
     filterSchema: CellFilterSchema,
     controlPanelSchema: CellControlPanelSchema,
     createNewTitle: 'Launch a Cell',
+    urlPart: 'cell',
   },
   [EntityType.Template]: {
     title: 'Template',
@@ -96,6 +100,7 @@ export const entityTypeMap: EntityTypeStrategyMap = {
     filterSchema: TemplateFilterSchema,
     controlPanelSchema: TemplateControlPanelSchema,
     createNewTitle: 'Create a Claim Template',
+    urlPart: 'template',
   },
   [EntityType.Data]: {
     title: 'Asset',
@@ -105,6 +110,7 @@ export const entityTypeMap: EntityTypeStrategyMap = {
     filterSchema: DataFilterSchema,
     controlPanelSchema: DataControlPanelSchema,
     createNewTitle: 'Launch Data Assets',
+    urlPart: 'data',
   },
 }
 

@@ -15,6 +15,7 @@ import { reducer as entitiesReducer } from 'modules/Entities/EntitiesExplorer/En
 import { reducer as fuelEntityReducer } from 'modules/Entities/FuelEntity/FuelEntity.reducer'
 import { reducer as submitEntityClaimReducer } from 'modules/EntityClaims/SubmitEntityClaim/SubmitEntityClaim.reducer'
 import { reducer as selectedEntityReducer } from 'modules/Entities/SelectedEntity/SelectedEntity.reducer'
+import { reducer as selectedEntityAgentsReducer } from 'modules/Entities/SelectedEntity/EntityImpact/EntityAgents/EntityAgents.reducer'
 import { reducer as createEntityReducer } from 'modules/Entities/CreateEntity/CreateEntity.reducer'
 import { reducer as createEntityPageContentReducer } from 'modules/Entities/CreateEntity/CreateEntityPageContent/CreateEntityPageContent.reducer'
 import { reducer as createEntitySettingsReducer } from 'modules/Entities/CreateEntity/CreateEntitySettings/CreateEntitySettings.reducer'
@@ -41,6 +42,7 @@ export const rootReducer = (history): Reducer<RootState> =>
     fuelEntity: fuelEntityReducer,
     submitEntityClaim: submitEntityClaimReducer,
     selectedEntity: selectedEntityReducer,
+    selectedEntityAgents: selectedEntityAgentsReducer,
     createEntity: createEntityReducer,
     createEntityPageContent: createEntityPageContentReducer,
     createEntityAttestation: createEntityAttestationReducer,

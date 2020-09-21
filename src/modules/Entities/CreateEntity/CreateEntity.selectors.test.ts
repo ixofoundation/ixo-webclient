@@ -1058,7 +1058,6 @@ describe('CreateEntity Selectors', () => {
       expect(result).toEqual({
         name: 'someClaimTitle',
         description: 'someClaimShortDescription',
-        sdgs: [],
       })
     })
   })
@@ -1076,6 +1075,93 @@ describe('CreateEntity Selectors', () => {
         imageDescription: 'Some Image Description',
         location: 'AR',
         sdgs: ['5', '7'],
+      })
+    })
+  })
+
+  describe('selectClaimsForEntityApiPayload', () => {
+    it('should return the claims api payload for the entity api payload', () => {
+      const result = SUT.selectClaimsForEntityApiPayload(state)
+
+      expect(result).toEqual({
+        claims: {
+          ['@context']: 'https://schema.ixo.world/claims:3r08webu2eou',
+          items: [
+            {
+              ['@id']: 'template:did:2',
+              visibility: 'Private',
+              title: 'Some Claim Title 1',
+              description: 'Some Claim Description 1',
+              targetMin: 23,
+              targetMax: 45,
+              goal: 'Some Goal',
+              startDate: '2020-09-25T00:00:00.000Z',
+              endDate: '2020-10-22T00:00:00.000Z',
+              agents: [
+                {
+                  role: 'PO',
+                  credential: 'Credential 1',
+                  autoApprove: true,
+                },
+                {
+                  role: 'SA',
+                  credential: 'Credential 2',
+                  autoApprove: false,
+                },
+                {
+                  role: 'IA',
+                  credential: 'Credential 3',
+                  autoApprove: true,
+                },
+              ],
+              claimEvaluation: [
+                {
+                  ['@context']: 'somecontext1',
+                  ['@id']: 'somelinktocontext1',
+                  methodology: 'somemethodology1',
+                  attributes: ['attr1', 'attr2'],
+                },
+                {
+                  ['@context']: 'somecontext2',
+                  ['@id']: 'somelinktocontext2',
+                  methodology: 'somemethodology2',
+                  attributes: ['attr1', 'attr2', 'attr3'],
+                },
+              ],
+              claimApproval: [
+                {
+                  ['@context']: 'somecontext1',
+                  ['@id']: 'somelink1',
+                  criteria: [
+                    { condition: 'condition1', attribute: 'criteria1' },
+                    { condition: 'condition2', attribute: 'criteria2' },
+                    { condition: 'condition3', attribute: 'criteria3' },
+                    { condition: 'condition4', attribute: 'criteria4' },
+                  ],
+                },
+              ],
+              claimEnrichment: [
+                {
+                  ['@context']: 'somecontext1',
+                  ['@id']: 'somelink1',
+                  resources: [
+                    { productId: 'productId1', resource: 'res1' },
+                    { productId: 'productId2', resource: 'res2' },
+                    { productId: 'productId3', resource: 'res3' },
+                  ],
+                },
+                {
+                  ['@context']: 'somecontext2',
+                  ['@id']: 'somelink2',
+                  resources: [
+                    { productId: 'productId1', resource: 'res1' },
+                    { productId: 'productId2', resource: 'res2' },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
       })
     })
   })
@@ -1374,10 +1460,11 @@ describe('CreateEntity Selectors', () => {
 
       const templatePayload = {
         ...genericPayload,
+        claims: undefined,
         ['@type']: 'Template',
         name: 'someClaimTitle',
         description: 'someClaimShortDescription',
-        sdgs: [],
+        sdgs: undefined,
       }
 
       // then ... should return result as expected

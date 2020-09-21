@@ -36,6 +36,7 @@ export interface ApiPageContentProfile {
   position: string
   linkedInUrl: string
   twitterUrl: string
+  image: string
 }
 
 export interface ApiPageContentSocial {

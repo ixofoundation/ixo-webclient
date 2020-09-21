@@ -1,19 +1,19 @@
 import {
-  EntitiesState,
-  EntitiesActions,
+  EntitiesExplorerState,
+  EntitiesExplorerActions,
   EntitiesActionTypes,
-  EntityType,
-} from '../types'
+} from './types'
+import { EntityType } from '../types'
 import { getInitialSelectedCategories } from '../Entities.utils'
 import { AccountActions, AccountActionTypes } from 'modules/Account/types'
 
-export const initialState: EntitiesState = {
+export const initialState: EntitiesExplorerState = {
   selectedEntitiesType: EntityType.Project,
   entities: null,
   filter: {
     dateFrom: null,
     dateTo: null,
-    categories: getInitialSelectedCategories(),
+    ddoTags: getInitialSelectedCategories(),
     userEntities: false,
     featuredEntities: true,
     popularEntities: false,
@@ -24,7 +24,7 @@ export const initialState: EntitiesState = {
 export const reducer = (
   state = initialState,
   action: EntitiesActionTypes | AccountActionTypes,
-): EntitiesState => {
+): EntitiesExplorerState => {
   switch (action.type) {
     case AccountActions.Login:
       return {
@@ -36,23 +36,23 @@ export const reducer = (
           featuredEntities: false,
         },
       }
-    case EntitiesActions.GetEntitiesSuccess:
+    case EntitiesExplorerActions.GetEntitiesSuccess:
       return {
         ...state,
         entities: action.payload,
       }
-    case EntitiesActions.ChangeEntitiesType:
+    case EntitiesExplorerActions.ChangeEntitiesType:
       return {
         ...state,
-        selectedEntitiesType: action.payload.entityType,
+        selectedEntitiesType: action.payload.type,
         filter: {
           ...state.filter,
           dateFrom: null,
           dateTo: null,
-          categories: getInitialSelectedCategories(action.payload.entityType),
+          ddoTags: getInitialSelectedCategories(action.payload.type),
         },
       }
-    case EntitiesActions.FilterToggleUserEntities:
+    case EntitiesExplorerActions.FilterToggleUserEntities:
       return {
         ...state,
         filter: {
@@ -62,7 +62,7 @@ export const reducer = (
           featuredEntities: false,
         },
       }
-    case EntitiesActions.FilterToggleFeaturedEntities:
+    case EntitiesExplorerActions.FilterToggleFeaturedEntities:
       return {
         ...state,
         filter: {
@@ -72,7 +72,7 @@ export const reducer = (
           popularEntities: false,
         },
       }
-    case EntitiesActions.FilterTogglePopularEntities:
+    case EntitiesExplorerActions.FilterTogglePopularEntities:
       return {
         ...state,
         filter: {
@@ -82,7 +82,7 @@ export const reducer = (
           userEntities: false,
         },
       }
-    case EntitiesActions.FilterDates:
+    case EntitiesExplorerActions.FilterDates:
       return {
         ...state,
         filter: {
@@ -91,7 +91,7 @@ export const reducer = (
           dateTo: action.payload.dateTo,
         },
       }
-    case EntitiesActions.ResetDatesFilter:
+    case EntitiesExplorerActions.ResetDatesFilter:
       return {
         ...state,
         filter: {
@@ -100,14 +100,14 @@ export const reducer = (
           dateTo: null,
         },
       }
-    case EntitiesActions.FilterCategoryTag:
-    case EntitiesActions.FilterAddCategoryTag:
+    case EntitiesExplorerActions.FilterCategoryTag:
+    case EntitiesExplorerActions.FilterAddCategoryTag:
       return {
         ...state,
         filter: {
           ...state.filter,
-          categories: [
-            ...state.filter.categories.filter(
+          ddoTags: [
+            ...state.filter.ddoTags.filter(
               (category) => category.name !== action.payload.category,
             ),
             {
@@ -117,21 +117,21 @@ export const reducer = (
           ],
         },
       }
-    case EntitiesActions.FilterCategories:
+    case EntitiesExplorerActions.FilterDDOCategories:
       return {
         ...state,
         filter: {
           ...state.filter,
-          categories: action.payload.categories,
+          ddoTags: action.payload.ddoTags,
         },
       }
-    case EntitiesActions.ResetCategoryFilter:
+    case EntitiesExplorerActions.ResetCategoryFilter:
       return {
         ...state,
         filter: {
           ...state.filter,
-          categories: [
-            ...state.filter.categories.filter(
+          ddoTags: [
+            ...state.filter.ddoTags.filter(
               (category) => category.name !== action.payload.category,
             ),
             {
@@ -141,7 +141,7 @@ export const reducer = (
           ],
         },
       }
-    case EntitiesActions.ResetSectorFilter:
+    case EntitiesExplorerActions.ResetSectorFilter:
       return {
         ...state,
         filter: {
@@ -149,7 +149,7 @@ export const reducer = (
           sector: '',
         },
       }
-    case EntitiesActions.FilterSector:
+    case EntitiesExplorerActions.FilterSector:
       return {
         ...state,
         filter: {
@@ -157,12 +157,12 @@ export const reducer = (
           sector: action.payload.sector,
         },
       }
-    case EntitiesActions.ResetFilters:
+    case EntitiesExplorerActions.ResetFilters:
       return {
         ...state,
         filter: {
           ...state.filter,
-          categories: getInitialSelectedCategories(state.selectedEntitiesType),
+          ddoTags: getInitialSelectedCategories(state.selectedEntitiesType),
           dateFrom: null,
           dateTo: null,
         },

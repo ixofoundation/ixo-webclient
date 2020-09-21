@@ -1,44 +1,56 @@
 import * as React from 'react'
+import { Moment } from 'moment'
 import { excerptText, toTitleCase } from 'common/utils/formatters'
+import {
+  CardContainer,
+  CardLink,
+  CardTop,
+  CardTopContainer,
+  Description,
+  CardBottom,
+  CardBottomHeadingContainer,
+  ShieldContainer,
+  ShieldLabel,
+  Shield,
+  ShieldText,
+  ShieldColor,
+} from '../EntityCard.styles'
 import {
   Title,
   Founded,
   FoundedDate,
   MainContent,
-  StatisticsContainer,
+  /*   StatisticsContainer,
   Statistic,
   StatisticLabel,
-  StatisticValue,
+  StatisticValue, */
   Logo,
 } from './CellCard.styles'
-import { Moment } from 'moment'
-import { EntityCardContainer } from '../EntityCardContainer'
-import { ShieldColor } from '../EntityCardContainer.styles'
+import SDGIcons from '../SDGIcons/SDGIcons'
 
 export interface Props {
   dateCreated: Moment
-  memberCount: number
-  projectCount: number
-  projectData: any
-  projectDid: string
-  title: string
-  shortDescription: string
-  imageUrl: string
-  founderLogoUrl: string
+  // TODO when data exists
+  /*   memberCount: number
+  projectCount: number */
+  did: string
+  name: string
+  description: string
+  image: string
+  logo: string
   status: string
-  sdgs: number[]
+  sdgs: string[]
 }
 
 export const CellCard: React.FunctionComponent<Props> = ({
   dateCreated,
-  memberCount,
-  projectCount,
-  projectData,
-  projectDid,
-  title,
-  shortDescription,
-  imageUrl,
-  founderLogoUrl,
+  /*   memberCount,
+  projectCount, */
+  did,
+  name,
+  description,
+  image,
+  logo,
   status,
   sdgs,
 }) => {
@@ -55,28 +67,44 @@ export const CellCard: React.FunctionComponent<Props> = ({
   }
 
   return (
-    <EntityCardContainer
-      projectData={projectData}
-      projectDid={projectDid}
-      title={title}
-      shortDescription={shortDescription}
-      imageUrl={imageUrl}
-      founderLogoUrl={founderLogoUrl}
-      status={status}
-      sdgs={sdgs}
-      shieldColor={shieldColor}
-      shield={shield}
-      shieldLabel="Status"
-    >
-      <MainContent>
-        <Logo src={founderLogoUrl} />
-        <Title>{excerptText(title, 10)}</Title>
-        <Founded>
-          Founded in{' '}
-          <FoundedDate>{dateCreated.format('DD MMM YYYY')}</FoundedDate>
-        </Founded>
-      </MainContent>
-      <StatisticsContainer>
+    <CardContainer className="col-xl-4 col-md-6 col-sm-12 col-12">
+      <CardLink
+        to={{
+          pathname: `/projects/${did}/overview`,
+        }}
+      >
+        <CardTop>
+          <CardTopContainer
+            style={{
+              backgroundImage: `url(${image}),url(${require('assets/images/ixo-placeholder-large.jpg')})`,
+            }}
+          >
+            <SDGIcons sdgs={sdgs} />
+            <Description>
+              <p>{excerptText(description, 20)}</p>
+            </Description>
+          </CardTopContainer>
+        </CardTop>
+        <CardBottom>
+          <CardBottomHeadingContainer>
+            <ShieldContainer>
+              <ShieldLabel>
+                <ShieldText>Status</ShieldText>
+              </ShieldLabel>
+              <Shield className={shieldColor}>
+                <ShieldText>{toTitleCase(shield)}</ShieldText>
+              </Shield>
+            </ShieldContainer>
+          </CardBottomHeadingContainer>
+          <MainContent>
+            <Logo src={logo} />
+            <Title>{excerptText(name, 10)}</Title>
+            <Founded>
+              Founded in{' '}
+              <FoundedDate>{dateCreated.format('DD MMM YYYY')}</FoundedDate>
+            </Founded>
+          </MainContent>
+          {/*       <StatisticsContainer>
         <Statistic>
           <StatisticValue>{memberCount}</StatisticValue>{' '}
           <StatisticLabel>members</StatisticLabel>
@@ -85,7 +113,9 @@ export const CellCard: React.FunctionComponent<Props> = ({
           <StatisticValue>{projectCount}</StatisticValue>{' '}
           <StatisticLabel>projects</StatisticLabel>
         </Statistic>
-      </StatisticsContainer>
-    </EntityCardContainer>
+      </StatisticsContainer> */}
+        </CardBottom>
+      </CardLink>
+    </CardContainer>
   )
 }

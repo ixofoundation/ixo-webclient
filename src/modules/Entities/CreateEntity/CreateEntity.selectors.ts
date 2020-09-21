@@ -159,6 +159,51 @@ export const selectAttestationApiPayload = createSelector(
   },
 )
 
+export const selectClaimsForEntityApiPayload = createSelector(
+  claimsSelectors.selectEntityClaims,
+  (claims) => {
+    return {
+      claims: {
+        ['@context']: 'https://schema.ixo.world/claims:3r08webu2eou',
+        items: claims.map((claim) => {
+          return {
+            ['@id']: claim.template.templateId,
+            visibility: claim.template.isPrivate ? 'Private' : 'Public',
+            title: claim.template.title,
+            description: claim.template.description,
+            targetMin: claim.template.minTargetClaims,
+            targetMax: claim.template.maxTargetClaims,
+            startDate: serverDateFormat(claim.template.submissionStartDate),
+            endDate: serverDateFormat(claim.template.submissionEndDate),
+            goal: claim.template.goal,
+            agents: claim.agentRoles.map((agent) => ({
+              role: agent.role,
+              autoApprove: agent.autoApprove,
+              credential: agent.credential,
+            })),
+            claimEvaluation: claim.evaluations.map((evaluation) => ({
+              ['@context']: evaluation.context,
+              ['@id']: evaluation.contextLink,
+              methodology: evaluation.evaluationMethodology,
+              attributes: evaluation.evaluationAttributes,
+            })),
+            claimApproval: claim.approvalCriteria.map((approvalCriterion) => ({
+              ['@context']: approvalCriterion.context,
+              ['@id']: approvalCriterion.contextLink,
+              criteria: approvalCriterion.approvalAttributes,
+            })),
+            claimEnrichment: claim.enrichments.map((enrichment) => ({
+              ['@context']: enrichment.context,
+              ['@id']: enrichment.contextLink,
+              resources: enrichment.resources,
+            })),
+          }
+        }),
+      },
+    }
+  },
+)
+
 export const selectAttestationHeaderForEntityApiPayload = createSelector(
   attestationSelectors.selectClaimInfo,
   (claimInfo) => {
@@ -168,7 +213,7 @@ export const selectAttestationHeaderForEntityApiPayload = createSelector(
       image: undefined,
       imageDescription: undefined,
       location: undefined,
-      sdgs: [],
+      sdgs: undefined,
     }
   },
 )
@@ -198,7 +243,7 @@ export const selectEntityApiPayload = (
   createSelector(
     () => ({ ['@type']: entityType }),
     createSelector(
-      createEntityMap[entityType].selectHeaderInfo,
+      createEntityMap[entityType].selectHeaderInfoApiPayload,
       (headerInfo) => headerInfo,
     ),
     createSelector(
@@ -286,49 +331,10 @@ export const selectEntityApiPayload = (
         version: process.env.REACT_APP_ENTITY_PAGE_VERSION,
       },
     }),
-    createSelector(claimsSelectors.selectEntityClaims, (claims) => {
-      return {
-        claims: {
-          ['@context']: 'https://schema.ixo.world/claims:3r08webu2eou',
-          items: claims.map((claim) => {
-            return {
-              ['@id']: claim.template.templateId,
-              visibility: claim.template.isPrivate ? 'Private' : 'Public',
-              title: claim.template.title,
-              description: claim.template.description,
-              targetMin: claim.template.minTargetClaims,
-              targetMax: claim.template.maxTargetClaims,
-              startDate: serverDateFormat(claim.template.submissionStartDate),
-              endDate: serverDateFormat(claim.template.submissionEndDate),
-              goal: claim.template.goal,
-              agents: claim.agentRoles.map((agent) => ({
-                role: agent.role,
-                autoApprove: agent.autoApprove,
-                credential: agent.credential,
-              })),
-              claimEvaluation: claim.evaluations.map((evaluation) => ({
-                ['@context']: evaluation.context,
-                ['@id']: evaluation.contextLink,
-                methodology: evaluation.evaluationMethodology,
-                attributes: evaluation.evaluationAttributes,
-              })),
-              claimApproval: claim.approvalCriteria.map(
-                (approvalCriterion) => ({
-                  ['@context']: approvalCriterion.context,
-                  ['@id']: approvalCriterion.contextLink,
-                  criteria: approvalCriterion.approvalAttributes,
-                }),
-              ),
-              claimEnrichment: claim.enrichments.map((enrichment) => ({
-                ['@context']: enrichment.context,
-                ['@id']: enrichment.contextLink,
-                resources: enrichment.resources,
-              })),
-            }
-          }),
-        },
-      }
-    }),
+    createSelector(
+      createEntityMap[entityType].selectClaimsApiPayload,
+      (claims) => claims,
+    ),
     createSelector(
       advancedSelectors.selectLinkedEntities,
       advancedSelectors.selectPayments,

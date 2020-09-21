@@ -9,6 +9,7 @@ import {
 import { Dispatch } from 'redux'
 import { RootState } from 'common/redux/types'
 import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
+import { PDS_URL } from 'modules/Entities/types'
 
 export const saveAnswer = (formData: FormData) => (
   dispatch: Dispatch,
@@ -20,7 +21,6 @@ export const saveAnswer = (formData: FormData) => (
 
   const {
     submitEntityClaim: { questions, currentQuestionNo },
-    selectedEntity: { pdsUrl },
   } = getState()
   const formControl = questions[currentQuestionNo - 1]
   const { control, id } = formControl
@@ -29,9 +29,9 @@ export const saveAnswer = (formData: FormData) => (
     return dispatch({
       type: SubmitEntityClaimActions.SaveAnswer,
       payload: blocksyncApi.project
-        .createPublic(formData[id], pdsUrl)
+        .createPublic(formData[id], PDS_URL)
         .then((response: any) => ({
-          [id]: `${pdsUrl}public/${response.result}`,
+          [id]: `${PDS_URL}public/${response.result}`,
         })),
     })
   }

@@ -26,7 +26,7 @@ import {
   ValidationErrorAction,
 } from './types'
 import { FormData } from 'common/components/JsonForm/types'
-import { PDS_URL } from '../types'
+import { PDS_URL } from '../../types'
 
 export const updateHeaderContent = (formData: FormData) => (
   dispatch: Dispatch,

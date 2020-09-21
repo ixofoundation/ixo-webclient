@@ -6,7 +6,7 @@ import * as entitiesSelectors from 'modules/Entities/EntitiesExplorer/EntitiesEx
 import { HeaderLeft } from './HeaderLeft/HeaderLeft'
 import { HeaderRight } from './HeaderRight/HeaderRight'
 import MediaQuery from 'react-responsive'
-import { deviceWidth } from '../../../lib/commonData'
+import { deviceWidth } from 'lib/commonData'
 import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
 import { ButtonTypes, Button } from '../Form/Buttons'
 import {
@@ -19,7 +19,7 @@ import {
   StatusMessage,
   TopBar,
 } from './HeaderContainer.styles'
-import Success from '../../../assets/icons/Success'
+import Success from 'assets/icons/Success'
 export interface State {
   responseTime: number | null
   shouldLedgerDid: boolean
