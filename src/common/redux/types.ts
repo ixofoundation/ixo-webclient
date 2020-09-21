@@ -1,7 +1,5 @@
 import { Store } from 'redux'
 import { Persistor } from 'redux-persist'
-import { KeysafeState } from '../../modules/keysafe/types'
-import { IxoState } from '../../modules/ixo/types'
 import { BondState } from '../../modules/BondModules/bond/types'
 import { Currency } from '../../types/models'
 import { AccountState } from 'modules/Account/types'
@@ -21,9 +19,6 @@ import { ProjectType } from 'pages/bond/store/types'
 import { Entity } from 'modules/Entities/SelectedEntity/types'
 import { EntityAgentsState } from 'modules/Entities/SelectedEntity/EntityImpact/EntityAgents/types'
 export interface RootState {
-  keySafe: KeysafeState
-  ixo: IxoState
-  web3: any
   bondBuy: BondBuyState
   bondSell: BondSellState
   bondSwap: BondSwapState

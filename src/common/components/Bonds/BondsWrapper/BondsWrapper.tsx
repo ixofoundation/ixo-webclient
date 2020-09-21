@@ -9,6 +9,7 @@ import { Data } from '../../../../modules/project/types'
 import { UserInfo } from '../../../../modules/Account/types'
 import { RootState } from '../../../redux/types'
 import { AgentRoles } from '../../../../types/models'
+import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
 
 export interface Props {
   children: JSX.Element
@@ -43,7 +44,7 @@ export class BondsWrapper extends React.Component<Props, State> {
   }
 
   handleGetProjectData = (): void => {
-    this.props.ixo.project
+    blocksyncApi.project
       .getProjectByProjectDid(this.props.params.projectDID)
       .then((response: any) => {
         const project: Data = response.data
@@ -61,7 +62,7 @@ export class BondsWrapper extends React.Component<Props, State> {
     if (userInfo) {
       if (this.state.projectPublic.createdBy === userInfo.didDoc.did) {
         if (
-          roles.some(val => {
+          roles.some((val) => {
             return val === AgentRoles.owners
           })
         ) {
@@ -71,7 +72,7 @@ export class BondsWrapper extends React.Component<Props, State> {
       this.state.projectPublic.agents.forEach((agent: any) => {
         if (agent.did === userInfo.didDoc.did) {
           if (
-            roles.some(val => {
+            roles.some((val) => {
               return val === agent.role
             })
           ) {
@@ -88,12 +89,7 @@ export class BondsWrapper extends React.Component<Props, State> {
   }
 
   render(): JSX.Element {
-    const {
-      children,
-      params,
-      match,
-      assistantPanelToggle,
-    } = this.props
+    const { children, params, match, assistantPanelToggle } = this.props
     if (this.state.projectPublic === null) {
       this.handleGetProjectData()
       return <MemorizedSpinner />
@@ -124,7 +120,6 @@ export class BondsWrapper extends React.Component<Props, State> {
 
 function mapStateToProps(state: RootState): Record<string, any> {
   return {
-    ixo: state.ixo.ixo,
     userInfo: state.account.userInfo,
     isLoggedIn:
       state.account.userInfo && state.account.userInfo.loggedInKeysafe,

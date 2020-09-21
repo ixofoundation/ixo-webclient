@@ -1,8 +1,5 @@
 import { combineReducers, Reducer } from 'redux'
 import { connectRouter } from 'connected-react-router'
-import { reducer as keysafeReducer } from 'modules/keysafe/keysafe.reducer'
-import { reducer as ixoReducer } from 'modules/ixo/ixo.reducer'
-import { reducer as web3Reducer } from 'modules/web3/web3.reducer'
 import { reducer as bondBuyReducer } from 'modules/BondModules/BondBuy/BondBuy.reducer'
 import { reducer as bondSellReducer } from 'modules/BondModules/BondSell/BondSell.reducer'
 import { reducer as bondSwapReducer } from 'modules/BondModules/BondSwap/BondSwap.reducer'
@@ -27,9 +24,6 @@ import { RootState } from './types'
 
 export const rootReducer = (history): Reducer<RootState> =>
   combineReducers<RootState>({
-    keySafe: keysafeReducer,
-    ixo: ixoReducer,
-    web3: web3Reducer,
     bondBuy: bondBuyReducer,
     bondSell: bondSellReducer,
     bondSwap: bondSwapReducer,
