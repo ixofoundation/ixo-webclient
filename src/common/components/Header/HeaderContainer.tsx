@@ -20,6 +20,9 @@ import {
   TopBar,
 } from './HeaderContainer.styles'
 import Success from 'assets/icons/Success'
+import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
+import keysafe from 'common/keysafe/keysafe'
+
 export interface State {
   responseTime: number | null
   shouldLedgerDid: boolean
@@ -31,8 +34,6 @@ export interface State {
 }
 
 export interface StateProps {
-  ixo?: any
-  keysafe?: any
   entityType?: EntityType
 }
 
@@ -63,9 +64,6 @@ class Header extends React.Component<Props, State> {
   }
 
   componentDidUpdate(prevProps: Props): void {
-    if (prevProps.ixo !== this.props.ixo && this.props.ixo !== null) {
-      this.pingExplorer()
-    }
     if (
       this.props.userInfo &&
       prevProps.userInfo !== this.props.userInfo &&
@@ -118,11 +116,7 @@ class Header extends React.Component<Props, State> {
   }
 
   renderStatusMessage(): JSX.Element {
-    if (
-      this.props.ixo && this.state.responseTime
-        ? this.state.responseTime
-        : -1 > 0
-    ) {
+    if (this.state.responseTime ? this.state.responseTime : -1 > 0) {
       return (
         <StatusMessage>
           <p>Response time: {this.state.responseTime} ms</p>
@@ -141,9 +135,9 @@ class Header extends React.Component<Props, State> {
   }
 
   renderLightIndicator(): JSX.Element {
-    if (this.props.ixo === null || this.state.responseTime === null) {
+    if (this.state.responseTime === null) {
       return <LightLoading />
-    } else if (this.props.ixo && this.state.responseTime !== 0) {
+    } else if (this.state.responseTime !== 0) {
       return <LightReady />
     } else {
       return <Light />
@@ -210,16 +204,16 @@ class Header extends React.Component<Props, State> {
   handleLedgerDid = (): void => {
     if (this.props.userInfo.didDoc) {
       const payload = this.props.userInfo.didDoc
-      this.props.ixo.utils
+      blocksyncApi.utils
         .getSignData(payload, 'did/AddDid', payload.pubKey)
         .then((response: any) => {
           if (response.sign_bytes && response.fee) {
-            this.props.keysafe.requestSigning(
+            keysafe.requestSigning(
               response.sign_bytes,
               (error: any, signature: any) => {
                 this.setState({ isLedgering: true })
                 if (!error) {
-                  this.props.ixo.user
+                  blocksyncApi.user
                     .registerUserDid(payload, signature, response.fee, 'sync')
                     .then((response: any) => {
                       if ((response.code || 0) == 0) {
@@ -287,7 +281,6 @@ class Header extends React.Component<Props, State> {
               simple={this.props.simpleHeader}
               shouldLedgerDid={this.state.shouldLedgerDid}
               toggleModal={this.handleToggleModal}
-              keysafe={this.props.keysafe}
             />
           </MediaQuery>
         </div>
@@ -297,8 +290,6 @@ class Header extends React.Component<Props, State> {
 }
 
 const mapStateToProps = (state: RootState): Record<string, any> => ({
-  ixo: state.ixo.ixo,
-  keysafe: state.keySafe.keysafe,
   userInfo: state.account.userInfo,
   entityType: entitiesSelectors.selectSelectedEntitiesType(state),
 })

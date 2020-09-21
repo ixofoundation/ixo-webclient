@@ -11,6 +11,7 @@ import { Dispatch } from 'redux'
 import { RootState } from 'common/redux/types'
 import * as transactionUtils from '../../common/utils/transaction.utils'
 import * as Toast from '../../common/utils/Toast'
+import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
 
 export const getOrder = (assistantResponse: any): GetOrderAction => ({
   // TODO read from the actual response when assistant ready
@@ -45,7 +46,6 @@ export const confirmOrder = (entityDid: string) => (
         didDoc: { did: userDid, pubKey },
       },
     },
-    ixo: { ixo },
   } = getState()
 
   Axios.get(
@@ -61,7 +61,7 @@ export const confirmOrder = (entityDid: string) => (
     }
 
     const msgType = 'treasury/MsgSend'
-    ixo.utils
+    blocksyncApi.utils
       .getSignData(tx, msgType, pubKey)
       .then((response: any) => {
         if (response.sign_bytes && response.fee) {
