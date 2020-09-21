@@ -15,16 +15,15 @@ import {
   ShieldText,
   ShieldColor,
   MainContent,
-  //StatisticsContainer
+  StatisticsContainer,
 } from '../EntityCard.styles'
 import {
   FoundedDate,
   Title,
   Founded,
-  /*
   Statistic,
   StatisticLabel,
-  StatisticValue, */
+  StatisticValue,
   Logo,
 } from './CellCard.styles'
 import SDGIcons from '../SDGIcons/SDGIcons'
@@ -105,16 +104,18 @@ const CellCard: React.FunctionComponent<Props> = ({
               <FoundedDate>{dateCreated.format('DD MMM YYYY')}</FoundedDate>
             </Founded>
           </MainContent>
-          {/*       <StatisticsContainer>
-        <Statistic>
-          <StatisticValue>{memberCount}</StatisticValue>{' '}
-          <StatisticLabel>members</StatisticLabel>
-        </Statistic>
-        <Statistic>
-          <StatisticValue>{projectCount}</StatisticValue>{' '}
-          <StatisticLabel>projects</StatisticLabel>
-        </Statistic>
-      </StatisticsContainer> */}
+          <StatisticsContainer className="row">
+            <Statistic className="col-6">
+              {/* TODO - replace with actual value */}
+              <StatisticValue>12</StatisticValue>{' '}
+              <StatisticLabel>members</StatisticLabel>
+            </Statistic>
+            <Statistic className="col-6">
+              {/* TODO - replace with actual value */}
+              <StatisticValue>22</StatisticValue>{' '}
+              <StatisticLabel>projects</StatisticLabel>
+            </Statistic>
+          </StatisticsContainer>
         </CardBottom>
       </CardLink>
     </CardContainer>

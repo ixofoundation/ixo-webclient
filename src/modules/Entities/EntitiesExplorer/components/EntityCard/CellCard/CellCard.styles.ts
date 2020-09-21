@@ -13,8 +13,8 @@ export const Logo = styled.img`
   border-radius: 17px;
   position: absolute;
   right: 32px;
-  // bottom: 170px;
-  bottom: 118px;
+  bottom: 170px;
+  // bottom: 118px;
 `
 
 export const Title = styled(TitleBase)`

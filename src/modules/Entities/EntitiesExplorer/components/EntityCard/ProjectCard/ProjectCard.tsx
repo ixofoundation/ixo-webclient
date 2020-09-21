@@ -16,6 +16,7 @@ import {
   ShieldColor,
   MainContent,
   Title,
+  StatisticsContainer,
 } from '../EntityCard.styles'
 import {
   Impact,
@@ -24,13 +25,11 @@ import {
   ProgressRequired,
   Logo,
   Flag,
-  /*   StatisticsContainer,
-  Statistic,
   StatisticLabel,
-  StatisticValue, */
+  StatisticValue,
 } from './ProjectCard.styles'
 import SDGIcons from '../SDGIcons/SDGIcons'
-// import Star from 'assets/icons/Star'
+import Star from 'assets/icons/Star'
 import flagged from '../../../../../../assets/images/flagged.svg'
 
 interface Props {
@@ -103,24 +102,22 @@ const ProjectCard: React.FunctionComponent<Props> = ({
             <Title>{excerptText(name, 10)}</Title>
           </MainContent>
           <Flag src={flagged} />
-
-          {/*       <StatisticsContainer>
-        <Statistic>
-          <StatisticValue>{version}</StatisticValue>
-          <StatisticLabel>Funded ({fundedCount})</StatisticLabel>
-        </Statistic>
-        <Statistic>
-          <StatisticValue>{activeUsage}</StatisticValue>
-          <StatisticLabel>Alpha</StatisticLabel>
-        </Statistic>
-        <Statistic>
-          <StatisticValue>
-            {ratingScore}
-            <Star fill="#E8EDEE" width="20" />
-          </StatisticValue>
-          <StatisticLabel>Rating ({ratingCount})</StatisticLabel>
-        </Statistic>
-      </StatisticsContainer> */}
+          <StatisticsContainer className="row">
+            <div className="col-4">
+              <StatisticValue>68%</StatisticValue>
+              <StatisticLabel>Funded</StatisticLabel>
+            </div>
+            <div className="col-4">
+              <StatisticValue>16</StatisticValue>
+              <StatisticLabel>Alpha</StatisticLabel>
+            </div>
+            <div className="col-4">
+              <StatisticValue>
+                3.5 <Star fill="#E8EDEE" width="20" />
+              </StatisticValue>
+              <StatisticLabel>Rating (380)</StatisticLabel>
+            </div>
+          </StatisticsContainer>
           <ProgressBar
             total={requiredClaims}
             approved={successfulClaims}

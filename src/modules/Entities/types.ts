@@ -241,5 +241,6 @@ export type DataResourceTypeStrategyMap = {
 export type TermsOfUseTypeStrategyMap = {
   [TKey in TermsOfUseType]: {
     title: string
+    icon: any
   }
 }

@@ -21,14 +21,21 @@ import {
   CardBottomLogoContainer,
 } from './TemplateCard.styles'
 import Star from 'assets/icons/Star'
+import { TermsOfUseType } from 'modules/Entities/types'
+import { termsOfUseTypeStrategyMap } from 'modules/Entities/strategy-map'
 
 interface Props {
   did: string
   name: string
-  logo: string
+  ownerLogo: string
+  termsType: TermsOfUseType
 }
 
-const TemplateCard: React.FunctionComponent<Props> = ({ name, logo }) => {
+const TemplateCard: React.FunctionComponent<Props> = ({
+  name,
+  ownerLogo,
+  termsType,
+}) => {
   return (
     <CardContainer className="col-xl-4 col-md-6 col-sm-12 col-12">
       <CardLink
@@ -67,9 +74,14 @@ const TemplateCard: React.FunctionComponent<Props> = ({ name, logo }) => {
             </div>
           </StatisticsContainer>
           <CardBottomLogoContainer className="row">
-            <div className="col-6">foo</div>
             <div className="col-6">
-              <Logo src={logo} />
+              {React.createElement(termsOfUseTypeStrategyMap[termsType].icon, {
+                width: 34,
+                fill: 'black',
+              })}
+            </div>
+            <div className="col-6 text-right">
+              <Logo src={ownerLogo} />
             </div>
           </CardBottomLogoContainer>
         </CardBottom>

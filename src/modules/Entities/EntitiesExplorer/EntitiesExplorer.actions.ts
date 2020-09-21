@@ -46,6 +46,7 @@ export const getEntities = () => (dispatch: Dispatch): GetEntitiesAction => {
           description: apiEntity.data.description,
           dateCreated: moment(apiEntity.data.createdOn),
           ownerName: apiEntity.data.owner.displayName,
+          ownerLogo: apiEntity.data.owner.logo,
           location: apiEntity.data.location,
           goal: claimToUse ? claimToUse.goal : undefined,
           image: apiEntity.data.image,
@@ -68,6 +69,7 @@ export const getEntities = () => (dispatch: Dispatch): GetEntitiesAction => {
                 tags: ddoTag.tags,
               }))
             : [],
+          termsType: apiEntity.data.terms['@type'],
         }
       })
     }),

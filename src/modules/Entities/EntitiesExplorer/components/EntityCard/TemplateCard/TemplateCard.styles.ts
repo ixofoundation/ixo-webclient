@@ -25,6 +25,4 @@ export const StatisticValue = styled.span`
   color: #000;
 `
 
-export const CardBottomLogoContainer = styled.div`
-  display: flex;
-`
+export const CardBottomLogoContainer = styled.div``
