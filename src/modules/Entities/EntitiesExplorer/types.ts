@@ -40,6 +40,7 @@ export interface ExplorerEntity {
   logo: string
   ddoTags: DDOTagCategory[]
   termsType: TermsOfUseType
+  badges: string[]
 }
 
 export interface EntitiesExplorerState {

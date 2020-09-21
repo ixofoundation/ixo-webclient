@@ -21,6 +21,7 @@ import Tooltip, { TooltipPosition } from 'common/components/Tooltip/Tooltip'
 import SDGIcons from '../SDGIcons/SDGIcons'
 import Star from 'assets/icons/Star'
 import Shield, { ShieldColor } from '../Shield/Shield'
+import Badges from '../Badges/Badges'
 
 interface Props {
   did: string
@@ -30,6 +31,7 @@ interface Props {
   image: string
   description: string
   termsType: TermsOfUseType
+  badges: string[]
 }
 
 const OracleCard: React.FunctionComponent<Props> = ({
@@ -40,6 +42,7 @@ const OracleCard: React.FunctionComponent<Props> = ({
   sdgs,
   description,
   termsType,
+  badges,
 }) => {
   const termsOfUseMap = termsOfUseTypeStrategyMap[termsType]
 
@@ -63,11 +66,18 @@ const OracleCard: React.FunctionComponent<Props> = ({
           </CardTopContainer>
         </CardTop>
         <CardBottom>
-          <Shield
-            label="Oracle"
-            text="Verification"
-            color={ShieldColor.Maroon}
-          />
+          <div className="row">
+            <div className="col-6">
+              <Shield
+                label="Oracle"
+                text="Verification"
+                color={ShieldColor.Maroon}
+              />
+            </div>
+            <div className="col-6 text-right">
+              <Badges badges={badges} />
+            </div>
+          </div>
           <MainContent>
             <Title>{excerptText(name, 10)}</Title>
           </MainContent>

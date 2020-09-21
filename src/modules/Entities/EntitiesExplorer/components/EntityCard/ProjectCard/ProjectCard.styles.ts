@@ -1,10 +1,6 @@
 import styled from 'styled-components'
 import { Logo as LogoBase } from '../EntityCard.styles'
 
-export const Flag = styled.img`
-  position: absolute;
-  right: 40px;
-`
 export const Logo = styled(LogoBase)`
   position: absolute;
   bottom: 32px;

@@ -20,6 +20,7 @@ import { termsOfUseTypeStrategyMap } from 'modules/Entities/strategy-map'
 import Tooltip, { TooltipPosition } from 'common/components/Tooltip/Tooltip'
 import SDGIcons from '../SDGIcons/SDGIcons'
 import Shield, { ShieldColor } from '../Shield/Shield'
+import Badges from '../Badges/Badges'
 
 interface Props {
   did: string
@@ -29,6 +30,7 @@ interface Props {
   image: string
   description: string
   termsType: TermsOfUseType
+  badges: string[]
 }
 
 const InvestmentCard: React.FunctionComponent<Props> = ({
@@ -39,6 +41,7 @@ const InvestmentCard: React.FunctionComponent<Props> = ({
   sdgs,
   description,
   termsType,
+  badges,
 }) => {
   const termsOfUseMap = termsOfUseTypeStrategyMap[termsType]
 
@@ -62,11 +65,18 @@ const InvestmentCard: React.FunctionComponent<Props> = ({
           </CardTopContainer>
         </CardTop>
         <CardBottom>
-          <Shield
-            label="Investment"
-            text="Investment"
-            color={ShieldColor.Yellow}
-          />
+          <div className="row">
+            <div className="col-6">
+              <Shield
+                label="Investment"
+                text="Investment"
+                color={ShieldColor.Yellow}
+              />
+            </div>
+            <div className="col-6 text-right">
+              <Badges badges={badges} />
+            </div>
+          </div>
           <MainContent>
             <Title>{excerptText(name, 10)}</Title>
           </MainContent>

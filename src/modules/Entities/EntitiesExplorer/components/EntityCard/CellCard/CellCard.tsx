@@ -11,13 +11,9 @@ import {
   MainContent,
   Title,
   SubTitle,
-} from '../EntityCard.styles'
-import {
-  SummaryLabel,
-  SummaryValue,
   Logo,
-  SummaryContainer,
-} from './CellCard.styles'
+} from '../EntityCard.styles'
+import { SummaryLabel, SummaryValue, SummaryContainer } from './CellCard.styles'
 import SDGIcons from '../SDGIcons/SDGIcons'
 import Shield, { ShieldColor } from '../Shield/Shield'
 
@@ -79,13 +75,19 @@ const CellCard: React.FunctionComponent<Props> = ({
           </CardTopContainer>
         </CardTop>
         <CardBottom>
-          <Shield
-            label="Status"
-            text={toTitleCase(shield)}
-            color={shieldColor}
-          />
+          <div className="row">
+            <div className="col-6">
+              <Shield
+                label="Status"
+                text={toTitleCase(shield)}
+                color={shieldColor}
+              />
+            </div>
+            <div className="col-6 text-right">
+              <Logo src={logo} />
+            </div>
+          </div>
           <MainContent>
-            <Logo src={logo} />
             <Title>{excerptText(name, 10)}</Title>
             <SubTitle>
               Founded in <strong>{dateCreated.format('DD MMM YYYY')}</strong>

@@ -20,7 +20,6 @@ import {
   ProgressSuccessful,
   ProgressRequired,
   Logo,
-  Flag,
 } from './ProjectCard.styles'
 import SDGIcons from '../SDGIcons/SDGIcons'
 import Shield, { ShieldColor } from '../Shield/Shield'
@@ -83,11 +82,21 @@ const ProjectCard: React.FunctionComponent<Props> = ({
           </CardTopContainer>
         </CardTop>
         <CardBottom>
-          <Shield label="Template" text="Project" color={ShieldColor.Blue} />
+          <div className="row">
+            <div className="col-6">
+              <Shield
+                label="Template"
+                text="Project"
+                color={ShieldColor.Blue}
+              />
+            </div>
+            <div className="col-6 text-right">
+              <img src={flagged} alt="Flag" />
+            </div>
+          </div>
           <MainContent>
             <Title>{excerptText(name, 10)}</Title>
           </MainContent>
-          <Flag src={flagged} />
           <StatisticsContainer className="row">
             <div className="col-4">
               <StatisticValue>68%</StatisticValue>

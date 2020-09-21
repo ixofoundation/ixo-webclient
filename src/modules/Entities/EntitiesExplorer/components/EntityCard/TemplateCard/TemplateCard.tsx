@@ -17,18 +17,21 @@ import { TermsOfUseType } from 'modules/Entities/types'
 import { termsOfUseTypeStrategyMap } from 'modules/Entities/strategy-map'
 import Tooltip, { TooltipPosition } from 'common/components/Tooltip/Tooltip'
 import Shield, { ShieldColor } from '../Shield/Shield'
+import Badges from '../Badges/Badges'
 
 interface Props {
   did: string
   name: string
   ownerLogo: string
   termsType: TermsOfUseType
+  badges: string[]
 }
 
 const TemplateCard: React.FunctionComponent<Props> = ({
   name,
   ownerLogo,
   termsType,
+  badges,
 }) => {
   const termsOfUseMap = termsOfUseTypeStrategyMap[termsType]
 
@@ -40,7 +43,18 @@ const TemplateCard: React.FunctionComponent<Props> = ({
         }}
       >
         <CardBottom>
-          <Shield label="Template" text="Project" color={ShieldColor.Maroon} />
+          <div className="row">
+            <div className="col-6">
+              <Shield
+                label="Template"
+                text="Project"
+                color={ShieldColor.Maroon}
+              />
+            </div>
+            <div className="col-6 text-right">
+              <Badges badges={badges} />
+            </div>
+          </div>
           <MainContent>
             <Title>{excerptText(name, 10)}</Title>
           </MainContent>
