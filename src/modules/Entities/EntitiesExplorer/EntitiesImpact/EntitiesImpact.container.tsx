@@ -7,7 +7,6 @@ import { getEntities } from '../EntitiesExplorer.actions'
 import * as entitiesSelectors from '../EntitiesExplorer.selectors'
 import * as entitiesImpactSelectors from './EntitiesImpact.selectors'
 import { RootState } from 'common/redux/types'
-import { entityTypeMap } from '../../strategy-map'
 import { Spinner } from 'common/components/Spinner'
 import { EntitiesDashboard } from './components/EntitiesDashboard/EntitiesDashboard'
 

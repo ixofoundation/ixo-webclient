@@ -37,7 +37,7 @@ export const getEntity = (did: string) => (
   //   did,
   // )
 
-  const fetchContent = (key: string) =>
+  const fetchContent = (): any =>
     Axios.get(
       'https://run.mocky.io/v3/5fb29382-7f30-4e7c-a586-e024f3c4d9b5',
     ) as any
@@ -54,7 +54,8 @@ export const getEntity = (did: string) => (
     payload: fetchEntity.then((response) => {
       const apiEntity: ApiListedEntity = response.data
 
-      return fetchContent(apiEntity.data.page.cid).then((response) => {
+      return fetchContent().then((response) => {
+        //apiEntity.data.page.cid
         const claimToUse = apiEntity.data.claims
           ? apiEntity.data.claims.items[0]
           : undefined

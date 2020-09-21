@@ -1,8 +1,6 @@
 import { createSelector } from 'reselect'
 import { RootState } from 'common/redux/types'
 import { Entity } from './types'
-import * as accountSelectors from '../../Account/Account.selectors'
-import { Agent } from '../types'
 
 export const selectSelectedEntity = (state: RootState): Entity =>
   state.selectedEntity
