@@ -4,6 +4,9 @@ import { Moment } from 'moment'
 import ProjectCard from './components/EntityCard/ProjectCard/ProjectCard'
 import CellCard from './components/EntityCard/CellCard/CellCard'
 import TemplateCard from './components/EntityCard/TemplateCard/TemplateCard'
+import InvestmentCard from './components/EntityCard/InvestmentCard/InvestmentCard'
+import OracleCard from './components/EntityCard/OracleCard/OracleCard'
+import DataCard from './components/EntityCard/DataCard/DataCard'
 import { EntitiesHero } from './components/EntitiesHero/EntitiesHero'
 import { Spinner } from 'common/components/Spinner'
 import { connect } from 'react-redux'
@@ -75,9 +78,9 @@ const EntityCard: any = {
   [EntityType.Project]: ProjectCard,
   [EntityType.Cell]: CellCard,
   [EntityType.Template]: TemplateCard,
-  [EntityType.Oracle]: React.Fragment,
-  [EntityType.Investment]: React.Fragment,
-  [EntityType.Data]: React.Fragment,
+  [EntityType.Oracle]: OracleCard,
+  [EntityType.Investment]: InvestmentCard,
+  [EntityType.Data]: DataCard,
 }
 
 class EntitiesExplorer extends React.Component<Props> {

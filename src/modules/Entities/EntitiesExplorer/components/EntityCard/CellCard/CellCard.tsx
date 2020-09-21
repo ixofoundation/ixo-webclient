@@ -8,25 +8,18 @@ import {
   CardTopContainer,
   Description,
   CardBottom,
-  CardBottomHeadingContainer,
-  ShieldContainer,
-  ShieldLabel,
-  Shield,
-  ShieldText,
-  ShieldColor,
   MainContent,
-  StatisticsContainer,
+  Title,
+  SubTitle,
 } from '../EntityCard.styles'
 import {
-  FoundedDate,
-  Title,
-  Founded,
-  Statistic,
-  StatisticLabel,
-  StatisticValue,
+  SummaryLabel,
+  SummaryValue,
   Logo,
+  SummaryContainer,
 } from './CellCard.styles'
 import SDGIcons from '../SDGIcons/SDGIcons'
+import Shield, { ShieldColor } from '../Shield/Shield'
 
 interface Props {
   dateCreated: Moment
@@ -86,36 +79,30 @@ const CellCard: React.FunctionComponent<Props> = ({
           </CardTopContainer>
         </CardTop>
         <CardBottom>
-          <CardBottomHeadingContainer>
-            <ShieldContainer>
-              <ShieldLabel>
-                <ShieldText>Status</ShieldText>
-              </ShieldLabel>
-              <Shield className={shieldColor}>
-                <ShieldText>{toTitleCase(shield)}</ShieldText>
-              </Shield>
-            </ShieldContainer>
-          </CardBottomHeadingContainer>
+          <Shield
+            label="Status"
+            text={toTitleCase(shield)}
+            color={shieldColor}
+          />
           <MainContent>
             <Logo src={logo} />
             <Title>{excerptText(name, 10)}</Title>
-            <Founded>
-              Founded in{' '}
-              <FoundedDate>{dateCreated.format('DD MMM YYYY')}</FoundedDate>
-            </Founded>
+            <SubTitle>
+              Founded in <strong>{dateCreated.format('DD MMM YYYY')}</strong>
+            </SubTitle>
           </MainContent>
-          <StatisticsContainer className="row">
-            <Statistic className="col-6">
+          <SummaryContainer className="row">
+            <div className="col-6">
               {/* TODO - replace with actual value */}
-              <StatisticValue>12</StatisticValue>{' '}
-              <StatisticLabel>members</StatisticLabel>
-            </Statistic>
-            <Statistic className="col-6">
+              <SummaryValue>12</SummaryValue>
+              <SummaryLabel>members</SummaryLabel>
+            </div>
+            <div className="col-6">
               {/* TODO - replace with actual value */}
-              <StatisticValue>22</StatisticValue>{' '}
-              <StatisticLabel>projects</StatisticLabel>
-            </Statistic>
-          </StatisticsContainer>
+              <SummaryValue>22</SummaryValue>
+              <SummaryLabel>projects</SummaryLabel>
+            </div>
+          </SummaryContainer>
         </CardBottom>
       </CardLink>
     </CardContainer>

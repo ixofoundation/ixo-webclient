@@ -8,15 +8,11 @@ import {
   CardTopContainer,
   Description,
   CardBottom,
-  CardBottomHeadingContainer,
-  ShieldContainer,
-  ShieldLabel,
-  Shield,
-  ShieldText,
-  ShieldColor,
   MainContent,
   Title,
   StatisticsContainer,
+  StatisticLabel,
+  StatisticValue,
 } from '../EntityCard.styles'
 import {
   Impact,
@@ -25,10 +21,9 @@ import {
   ProgressRequired,
   Logo,
   Flag,
-  StatisticLabel,
-  StatisticValue,
 } from './ProjectCard.styles'
 import SDGIcons from '../SDGIcons/SDGIcons'
+import Shield, { ShieldColor } from '../Shield/Shield'
 import Star from 'assets/icons/Star'
 import flagged from '../../../../../../assets/images/flagged.svg'
 
@@ -88,16 +83,7 @@ const ProjectCard: React.FunctionComponent<Props> = ({
           </CardTopContainer>
         </CardTop>
         <CardBottom>
-          <CardBottomHeadingContainer>
-            <ShieldContainer>
-              <ShieldLabel>
-                <ShieldText>Template</ShieldText>
-              </ShieldLabel>
-              <Shield className={ShieldColor.Blue}>
-                <ShieldText>Project</ShieldText>
-              </Shield>
-            </ShieldContainer>
-          </CardBottomHeadingContainer>
+          <Shield label="Template" text="Project" color={ShieldColor.Blue} />
           <MainContent>
             <Title>{excerptText(name, 10)}</Title>
           </MainContent>

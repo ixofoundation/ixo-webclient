@@ -11,23 +11,33 @@ import {
   StatisticLabel,
   StatisticValue,
   CardBottomLogoContainer,
+  Description,
+  CardTop,
+  CardTopContainer,
 } from '../EntityCard.styles'
-import Star from 'assets/icons/Star'
 import { TermsOfUseType } from 'modules/Entities/types'
 import { termsOfUseTypeStrategyMap } from 'modules/Entities/strategy-map'
 import Tooltip, { TooltipPosition } from 'common/components/Tooltip/Tooltip'
+import SDGIcons from '../SDGIcons/SDGIcons'
 import Shield, { ShieldColor } from '../Shield/Shield'
 
 interface Props {
   did: string
   name: string
   ownerLogo: string
+  sdgs: string[]
+  image: string
+  description: string
   termsType: TermsOfUseType
 }
 
-const TemplateCard: React.FunctionComponent<Props> = ({
+const InvestmentCard: React.FunctionComponent<Props> = ({
+  did,
   name,
   ownerLogo,
+  image,
+  sdgs,
+  description,
   termsType,
 }) => {
   const termsOfUseMap = termsOfUseTypeStrategyMap[termsType]
@@ -36,28 +46,42 @@ const TemplateCard: React.FunctionComponent<Props> = ({
     <CardContainer className="col-xl-4 col-md-6 col-sm-12 col-12">
       <CardLink
         to={{
-          pathname: '/', // TODO
+          pathname: `/projects/${did}/overview`,
         }}
       >
+        <CardTop>
+          <CardTopContainer
+            style={{
+              backgroundImage: `url(${image}),url(${require('assets/images/ixo-placeholder-large.jpg')})`,
+            }}
+          >
+            <SDGIcons sdgs={sdgs} />
+            <Description>
+              <p>{excerptText(description, 20)}</p>
+            </Description>
+          </CardTopContainer>
+        </CardTop>
         <CardBottom>
-          <Shield label="Template" text="Project" color={ShieldColor.Maroon} />
+          <Shield
+            label="Investment"
+            text="Investment"
+            color={ShieldColor.Yellow}
+          />
           <MainContent>
             <Title>{excerptText(name, 10)}</Title>
           </MainContent>
           <StatisticsContainer className="row">
             <div className="col-4">
-              <StatisticValue>1.1</StatisticValue>
-              <StatisticLabel>Version</StatisticLabel>
+              <StatisticValue>60%</StatisticValue>
+              <StatisticLabel>Funded</StatisticLabel>
             </div>
             <div className="col-4">
-              <StatisticValue>123</StatisticValue>
-              <StatisticLabel>Instances</StatisticLabel>
+              <StatisticValue>$2.3m</StatisticValue>
+              <StatisticLabel>Target</StatisticLabel>
             </div>
             <div className="col-4">
-              <StatisticValue>
-                4 <Star fill="#E8EDEE" width="20" />
-              </StatisticValue>
-              <StatisticLabel>Rating (380)</StatisticLabel>
+              <StatisticValue>0.23</StatisticValue>
+              <StatisticLabel>Alpha</StatisticLabel>
             </div>
           </StatisticsContainer>
           <CardBottomLogoContainer className="row">
@@ -82,4 +106,4 @@ const TemplateCard: React.FunctionComponent<Props> = ({
   )
 }
 
-export default TemplateCard
+export default InvestmentCard

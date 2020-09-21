@@ -2,15 +2,6 @@ import styled from 'styled-components'
 import { deviceWidth } from 'lib/commonData'
 import { Link } from 'react-router-dom'
 
-export enum ShieldColor {
-  Grey = 'grey',
-  Orange = 'orange',
-  Green = 'green',
-  Red = 'red',
-  Blue = 'blue',
-  Maroon = 'maroon',
-}
-
 export const CardTop = styled.div`
   border-top-right-radius: 4px;
   border-top-left-radius: 4px;
@@ -19,17 +10,13 @@ export const CardTop = styled.div`
 
 export const CardTopContainer = styled.div`
   padding: 10px;
-  height: 250px;
+  height: 180px;
   box-shadow: 0 8px 16px -2px rgba(0, 0, 0, 0.03);
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
   position: relative;
   transition: transform 0.5s ease;
-
-  @media (min-width: ${deviceWidth.tablet}px) {
-    height: 225px;
-  }
 
   :before {
     content: '';
@@ -99,80 +86,6 @@ export const CardBottom = styled.div`
   }
 `
 
-export const CardBottomHeadingContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-`
-
-export const ShieldContainer = styled.div`
-  display: flex;
-  box-shadow: 0px 3px 15px rgba(0, 0, 0, 0.15);
-  border-radius: 4px;
-`
-
-export const ShieldText = styled.p`
-  margin: 0;
-  font-size: 12px;
-`
-
-export const Shield = styled.div`
-  p {
-    color: white;
-    font-weight: bold;
-    padding: 2px 10px;
-    border-top-right-radius: 4px;
-    border-bottom-right-radius: 4px;
-    background: ${(props: any): string => props.theme.ixoOrange};
-    font-family: ${(props: any): string => props.theme.fontRoboto};
-  }
-
-  &.${ShieldColor.Orange} {
-    ${ShieldText} {
-      background-color: #f89d28;
-    }
-  }
-
-  &.${ShieldColor.Grey} {
-    ${ShieldText} {
-      background-color: #b6b6b6;
-    }
-  }
-
-  &.${ShieldColor.Green} {
-    ${ShieldText} {
-      background-color: #b6b6b6;
-    }
-  }
-
-  &.${ShieldColor.Red} {
-    ${ShieldText} {
-      background-color: #e2223b;
-    }
-  }
-
-  &.${ShieldColor.Blue} {
-    ${ShieldText} {
-      background-color: #39c3e6;
-    }
-  }
-
-  &.${ShieldColor.Maroon} {
-    ${ShieldText} {
-      background-color: #7c2740;
-    }
-  }
-`
-
-export const ShieldLabel = styled.div`
-  ${ShieldText} {
-    color: black;
-    font-weight: 400;
-    padding: 2px 10px;
-    font-family: ${(props: any): string => props.theme.fontRoboto};
-  }
-`
-
 export const CardContainer = styled.div`
   margin-bottom: 34px;
   font-family: ${(props: any): string => props.theme.fontRoboto};
@@ -208,10 +121,20 @@ export const MainContent = styled.div`
 `
 
 export const Title = styled.h3`
-  font-weight: bold;
+  font-weight: 400;
   font-size: 1.5rem;
   line-height: 1.2;
   color: ${(props: any): string => props.theme.fontDarkGrey};
+`
+
+export const SubTitle = styled.p`
+  font-size: 12px;
+  margin-bottom: 0;
+  color: #000 !important;
+  line-height: 1.5;
+  strong {
+    font-weight: bold;
+  }
 `
 
 export const StatisticsContainer = styled.div`
@@ -220,10 +143,28 @@ export const StatisticsContainer = styled.div`
 
 export const Statistic = styled.div``
 
+export const Logo = styled.img`
+  width: 34px;
+  height: 34px;
+  border-radius: 17px;
+`
+
 export const StatisticLabel = styled.span`
-  color: grey;
+  display: block;
+  font-weight: 400;
+  font-size: 12px;
+  color: #a5adb0;
 `
 
 export const StatisticValue = styled.span`
+  display: block;
+  font-weight: normal;
+  font-size: 36px;
+  line-height: 36px;
   color: #000;
+`
+
+export const CardBottomLogoContainer = styled.div`
+  border-top: 1px solid #e8edee;
+  padding-top: 18px;
 `
