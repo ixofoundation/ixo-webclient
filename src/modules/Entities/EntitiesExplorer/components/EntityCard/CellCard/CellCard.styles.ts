@@ -1,16 +1,10 @@
 import styled from 'styled-components'
 import {
-  MainContent as MainContentBase,
   Title as TitleBase,
-  Founded as FoundedBase,
-  FoundedDate as FoundedDateBase,
-  StatisticsContainer as StatisticsContainerBase,
   Statistic as StatisticBase,
   StatisticLabel as StatisticLabelBase,
   StatisticValue as StatisticValueBase,
 } from '../EntityCard.styles'
-
-export const MainContent = styled(MainContentBase)``
 
 // TODO - use first bottom style when stats available
 export const Logo = styled.img`
@@ -30,12 +24,18 @@ export const Title = styled(TitleBase)`
   letter-spacing: 0.3px;
   color: #000;
 `
-export const Founded = styled(FoundedBase)`
+
+export const FoundedDate = styled.span`
+  font-weight: bold;
+`
+
+export const Founded = styled.p`
+  font-size: 12px;
+  margin-bottom: 0;
   color: #000 !important;
   line-height: 1.5;
 `
-export const FoundedDate = styled(FoundedDateBase)``
-export const StatisticsContainer = styled(StatisticsContainerBase)``
+
 export const Statistic = styled(StatisticBase)`
   flex: 0.5;
   font-size: 24px;

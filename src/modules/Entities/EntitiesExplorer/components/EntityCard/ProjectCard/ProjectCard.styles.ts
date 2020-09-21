@@ -1,20 +1,9 @@
 import styled from 'styled-components'
 import {
-  MainContent as MainContentBase,
-  Title as TitleBase,
-  Progress as ProgressBase,
-  ProgressSuccessful as ProgressSuccessfulBase,
-  ProgressRequired as ProgressRequiredBase,
-  Impact as ImpactBase,
   StatisticsContainer as StatisticsContainerBase,
-  Statistic as StatisticBase,
   StatisticLabel as StatisticLabelBase,
   StatisticValue as StatisticValueBase,
 } from '../EntityCard.styles'
-
-export const MainContent = styled(MainContentBase)``
-export const Title = styled(TitleBase)``
-export const Progress = styled(ProgressBase)``
 
 export const Flag = styled.img`
   position: absolute;
@@ -29,15 +18,16 @@ export const Logo = styled.img`
   right: 32px;
 `
 
-export const ProgressSuccessful = styled(ProgressSuccessfulBase)``
-export const ProgressRequired = styled(ProgressRequiredBase)``
-export const Impact = styled(ImpactBase)`
+export const Impact = styled.p`
+  font-size: 12px;
+  font-weight: 400;
+  margin-bottom: 0;
   color: #a5adb0 !important;
 `
 export const StatisticsContainer = styled(StatisticsContainerBase)`
   justify-content: space-between;
 `
-export const Statistic = styled(StatisticBase)``
+
 export const StatisticLabel = styled(StatisticLabelBase)`
   display: block;
   font-weight: 400;
@@ -49,4 +39,19 @@ export const StatisticValue = styled(StatisticValueBase)`
   font-weight: normal;
   font-size: 36px;
   line-height: 36px;
+`
+
+export const Progress = styled.div`
+  margin-top: 1rem;
+  font-size: 36px;
+  line-height: 1.2;
+  font-weight: normal;
+`
+
+export const ProgressSuccessful = styled.span`
+  color: black;
+`
+
+export const ProgressRequired = styled.span`
+  color: grey;
 `

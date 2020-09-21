@@ -14,13 +14,14 @@ import {
   Shield,
   ShieldText,
   ShieldColor,
+  MainContent,
+  //StatisticsContainer
 } from '../EntityCard.styles'
 import {
+  FoundedDate,
   Title,
   Founded,
-  FoundedDate,
-  MainContent,
-  /*   StatisticsContainer,
+  /*
   Statistic,
   StatisticLabel,
   StatisticValue, */
@@ -28,7 +29,7 @@ import {
 } from './CellCard.styles'
 import SDGIcons from '../SDGIcons/SDGIcons'
 
-export interface Props {
+interface Props {
   dateCreated: Moment
   // TODO when data exists
   /*   memberCount: number
@@ -42,7 +43,7 @@ export interface Props {
   sdgs: string[]
 }
 
-export const CellCard: React.FunctionComponent<Props> = ({
+const CellCard: React.FunctionComponent<Props> = ({
   dateCreated,
   /*   memberCount,
   projectCount, */
@@ -119,3 +120,5 @@ export const CellCard: React.FunctionComponent<Props> = ({
     </CardContainer>
   )
 }
+
+export default CellCard

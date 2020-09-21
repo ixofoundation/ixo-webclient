@@ -8,6 +8,7 @@ export enum ShieldColor {
   Green = 'green',
   Red = 'red',
   Blue = 'blue',
+  Maroon = 'maroon',
 }
 
 export const CardTop = styled.div`
@@ -155,6 +156,12 @@ export const Shield = styled.div`
       background-color: #39c3e6;
     }
   }
+
+  &.${ShieldColor.Maroon} {
+    ${ShieldText} {
+      background-color: #7c2740;
+    }
+  }
 `
 
 export const ShieldLabel = styled.div`
@@ -207,38 +214,7 @@ export const Title = styled.h3`
   color: ${(props: any): string => props.theme.fontDarkGrey};
 `
 
-export const Progress = styled.div`
-  margin-top: 1rem;
-  font-size: 36px;
-  line-height: 1.2;
-  font-weight: normal;
-`
-
-export const ProgressSuccessful = styled.span`
-  color: black;
-`
-
-export const ProgressRequired = styled.span`
-  color: grey;
-`
-
-export const Founded = styled.p`
-  font-size: 12px;
-  margin-bottom: 0;
-`
-
-export const FoundedDate = styled.span`
-  font-weight: bold;
-`
-
-export const Impact = styled.p`
-  font-size: 12px;
-  font-weight: 400;
-  margin-bottom: 0;
-`
-
 export const StatisticsContainer = styled.div`
-  display: flex;
   margin-bottom: 18px;
 `
 

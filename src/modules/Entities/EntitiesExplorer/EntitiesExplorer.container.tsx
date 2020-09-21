@@ -1,8 +1,9 @@
 import * as React from 'react'
 import { RouteProps } from 'react-router'
 import { Moment } from 'moment'
-import { ProjectCard } from './components/EntityCard/ProjectCard/ProjectCard'
-import { CellCard } from './components/EntityCard/CellCard/CellCard'
+import ProjectCard from './components/EntityCard/ProjectCard/ProjectCard'
+import CellCard from './components/EntityCard/CellCard/CellCard'
+import TemplateCard from './components/EntityCard/TemplateCard/TemplateCard'
 import { EntitiesHero } from './components/EntitiesHero/EntitiesHero'
 import { Spinner } from 'common/components/Spinner'
 import { connect } from 'react-redux'
@@ -73,7 +74,7 @@ export interface Props extends RouteProps {
 const EntityCard: any = {
   [EntityType.Project]: ProjectCard,
   [EntityType.Cell]: CellCard,
-  [EntityType.Template]: React.Fragment,
+  [EntityType.Template]: TemplateCard,
   [EntityType.Oracle]: React.Fragment,
   [EntityType.Investment]: React.Fragment,
   [EntityType.Data]: React.Fragment,

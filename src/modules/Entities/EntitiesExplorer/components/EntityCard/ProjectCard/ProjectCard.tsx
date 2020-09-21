@@ -14,26 +14,26 @@ import {
   Shield,
   ShieldText,
   ShieldColor,
-} from '../EntityCard.styles'
-import {
   MainContent,
   Title,
+} from '../EntityCard.styles'
+import {
+  Impact,
   Progress,
   ProgressSuccessful,
   ProgressRequired,
-  Impact,
+  Logo,
+  Flag,
   /*   StatisticsContainer,
   Statistic,
   StatisticLabel,
   StatisticValue, */
-  Logo,
-  Flag,
 } from './ProjectCard.styles'
 import SDGIcons from '../SDGIcons/SDGIcons'
 // import Star from 'assets/icons/Star'
 import flagged from '../../../../../../assets/images/flagged.svg'
 
-export interface Props {
+interface Props {
   did: string
   name: string
   description: string
@@ -52,7 +52,7 @@ export interface Props {
   ratingCount: number */
 }
 
-export const ProjectCard: React.FunctionComponent<Props> = ({
+const ProjectCard: React.FunctionComponent<Props> = ({
   did,
   name,
   description,
@@ -137,3 +137,5 @@ export const ProjectCard: React.FunctionComponent<Props> = ({
     </CardContainer>
   )
 }
+
+export default ProjectCard
