@@ -8,27 +8,16 @@ import {
   CardTopContainer,
   Description,
   CardBottom,
-  CardBottomHeadingContainer,
-  ShieldContainer,
-  ShieldLabel,
-  Shield,
-  ShieldText,
-  ShieldColor,
-} from '../EntityCard.styles'
-import {
-  Title,
-  Founded,
-  FoundedDate,
   MainContent,
-  /*   StatisticsContainer,
-  Statistic,
-  StatisticLabel,
-  StatisticValue, */
+  Title,
+  SubTitle,
   Logo,
-} from './CellCard.styles'
+} from '../EntityCard.styles'
+import { SummaryLabel, SummaryValue, SummaryContainer } from './CellCard.styles'
 import SDGIcons from '../SDGIcons/SDGIcons'
+import Shield, { ShieldColor } from '../Shield/Shield'
 
-export interface Props {
+interface Props {
   dateCreated: Moment
   // TODO when data exists
   /*   memberCount: number
@@ -42,7 +31,7 @@ export interface Props {
   sdgs: string[]
 }
 
-export const CellCard: React.FunctionComponent<Props> = ({
+const CellCard: React.FunctionComponent<Props> = ({
   dateCreated,
   /*   memberCount,
   projectCount, */
@@ -86,36 +75,40 @@ export const CellCard: React.FunctionComponent<Props> = ({
           </CardTopContainer>
         </CardTop>
         <CardBottom>
-          <CardBottomHeadingContainer>
-            <ShieldContainer>
-              <ShieldLabel>
-                <ShieldText>Status</ShieldText>
-              </ShieldLabel>
-              <Shield className={shieldColor}>
-                <ShieldText>{toTitleCase(shield)}</ShieldText>
-              </Shield>
-            </ShieldContainer>
-          </CardBottomHeadingContainer>
+          <div className="row">
+            <div className="col-6">
+              <Shield
+                label="Status"
+                text={toTitleCase(shield)}
+                color={shieldColor}
+              />
+            </div>
+            <div className="col-6 text-right">
+              <Logo src={logo} />
+            </div>
+          </div>
           <MainContent>
-            <Logo src={logo} />
             <Title>{excerptText(name, 10)}</Title>
-            <Founded>
-              Founded in{' '}
-              <FoundedDate>{dateCreated.format('DD MMM YYYY')}</FoundedDate>
-            </Founded>
+            <SubTitle>
+              Founded in <strong>{dateCreated.format('DD MMM YYYY')}</strong>
+            </SubTitle>
           </MainContent>
-          {/*       <StatisticsContainer>
-        <Statistic>
-          <StatisticValue>{memberCount}</StatisticValue>{' '}
-          <StatisticLabel>members</StatisticLabel>
-        </Statistic>
-        <Statistic>
-          <StatisticValue>{projectCount}</StatisticValue>{' '}
-          <StatisticLabel>projects</StatisticLabel>
-        </Statistic>
-      </StatisticsContainer> */}
+          <SummaryContainer className="row">
+            <div className="col-6">
+              {/* TODO - replace with actual value */}
+              <SummaryValue>12</SummaryValue>
+              <SummaryLabel>members</SummaryLabel>
+            </div>
+            <div className="col-6">
+              {/* TODO - replace with actual value */}
+              <SummaryValue>22</SummaryValue>
+              <SummaryLabel>projects</SummaryLabel>
+            </div>
+          </SummaryContainer>
         </CardBottom>
       </CardLink>
     </CardContainer>
   )
 }
+
+export default CellCard

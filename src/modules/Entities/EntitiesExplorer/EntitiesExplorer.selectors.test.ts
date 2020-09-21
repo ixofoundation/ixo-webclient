@@ -1,6 +1,6 @@
 import moment from 'moment'
 import * as SUT from './EntitiesExplorer.selectors'
-import { EntityType } from '../types'
+import { EntityType, TermsOfUseType } from '../types'
 
 let state: any
 
@@ -35,6 +35,7 @@ beforeEach(() => {
           description: 'somedescription1',
           dateCreated: moment('2020-04-09T13:14:13.000Z'),
           ownerName: 'someOwnerName1',
+          ownerLogo: 'someOwnerLogo1',
           status: 'someStatus1',
           location: 'someCountry1',
           goal: 'someGoal1',
@@ -66,6 +67,7 @@ beforeEach(() => {
               ],
             },
           ],
+          termsType: TermsOfUseType.FreeOpenSource,
         },
         {
           did: 'someDid2',
@@ -75,6 +77,7 @@ beforeEach(() => {
           description: 'somedescription2',
           dateCreated: moment('2020-04-10T13:14:13.000Z'),
           ownerName: 'someOwnerName2',
+          ownerLogo: 'someOwnerLogo2',
           status: 'someStatus2',
           location: 'someCountry2',
           goal: 'someGoal2',
@@ -106,6 +109,7 @@ beforeEach(() => {
               ],
             },
           ],
+          termsType: TermsOfUseType.FreeOpenSource,
         },
         {
           did: 'someDid3',
@@ -115,6 +119,7 @@ beforeEach(() => {
           description: 'somedescription3',
           dateCreated: moment('2020-04-02T13:14:13.000Z'),
           ownerName: 'someOwnerName3',
+          ownerLogo: 'someOwnerLogo3',
           status: 'someStatus3',
           location: 'someCountry3',
           goal: 'someGoal3',
@@ -146,6 +151,7 @@ beforeEach(() => {
               ],
             },
           ],
+          termsType: TermsOfUseType.FreeOpenSource,
         },
         {
           did: 'someDid4',
@@ -155,6 +161,7 @@ beforeEach(() => {
           description: 'somedescription4',
           dateCreated: moment('2020-04-02T14:14:14.000Z'),
           ownerName: 'someOwnerName4',
+          ownerLogo: 'someOwnerLogo4',
           status: 'someStatus4',
           location: 'someCountry4',
           goal: 'someGoal4',
@@ -186,6 +193,7 @@ beforeEach(() => {
               ],
             },
           ],
+          termsType: TermsOfUseType.FreeOpenSource,
         },
       ],
       filter: {

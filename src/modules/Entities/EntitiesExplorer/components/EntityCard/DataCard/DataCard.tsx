@@ -1,67 +1,51 @@
 import * as React from 'react'
-import { ProgressBar } from 'common/components/ProgressBar'
 import { excerptText } from 'common/utils/formatters'
 import {
   CardContainer,
   CardLink,
-  CardTop,
-  CardTopContainer,
-  Description,
   CardBottom,
   MainContent,
   Title,
   StatisticsContainer,
+  Logo,
   StatisticLabel,
   StatisticValue,
+  CardBottomLogoContainer,
+  Description,
+  CardTop,
+  CardTopContainer,
 } from '../EntityCard.styles'
-import {
-  Impact,
-  Progress,
-  ProgressSuccessful,
-  ProgressRequired,
-  Logo,
-} from './ProjectCard.styles'
+import { TermsOfUseType } from 'modules/Entities/types'
+import { termsOfUseTypeStrategyMap } from 'modules/Entities/strategy-map'
+import Tooltip, { TooltipPosition } from 'common/components/Tooltip/Tooltip'
 import SDGIcons from '../SDGIcons/SDGIcons'
-import Shield, { ShieldColor } from '../Shield/Shield'
 import Star from 'assets/icons/Star'
-import flagged from '../../../../../../assets/images/flagged.svg'
+import Shield, { ShieldColor } from '../Shield/Shield'
+import Badges from '../Badges/Badges'
 
 interface Props {
   did: string
   name: string
-  description: string
-  image: string
-  logo: string
+  ownerLogo: string
   sdgs: string[]
-  requiredClaimsCount: number
-  successfulClaimsCount: number
-  rejectedClaimsCount: number
-  goal: string
-  // TODO when data exists
-  /*   fundedCount: number
-  version: string
-  activeUsage: number
-  ratingScore: number
-  ratingCount: number */
+  image: string
+  description: string
+  termsType: TermsOfUseType
+  badges: string[]
 }
 
-const ProjectCard: React.FunctionComponent<Props> = ({
+const DataCard: React.FunctionComponent<Props> = ({
   did,
   name,
-  description,
+  ownerLogo,
   image,
-  logo,
   sdgs,
-  requiredClaimsCount: requiredClaims,
-  successfulClaimsCount: successfulClaims,
-  rejectedClaimsCount: rejectedClaims,
-  goal: impactAction,
-  /*   fundedCount,
-  version,
-  activeUsage,
-  ratingScore,
-  ratingCount, */
+  description,
+  termsType,
+  badges,
 }) => {
+  const termsOfUseMap = termsOfUseTypeStrategyMap[termsType]
+
   return (
     <CardContainer className="col-xl-4 col-md-6 col-sm-12 col-12">
       <CardLink
@@ -85,13 +69,13 @@ const ProjectCard: React.FunctionComponent<Props> = ({
           <div className="row">
             <div className="col-6">
               <Shield
-                label="Template"
-                text="Project"
-                color={ShieldColor.Blue}
+                label="Data Asset"
+                text="Algorithm"
+                color={ShieldColor.Orange}
               />
             </div>
             <div className="col-6 text-right">
-              <img src={flagged} alt="Flag" />
+              <Badges badges={badges} />
             </div>
           </div>
           <MainContent>
@@ -99,35 +83,40 @@ const ProjectCard: React.FunctionComponent<Props> = ({
           </MainContent>
           <StatisticsContainer className="row">
             <div className="col-4">
-              <StatisticValue>68%</StatisticValue>
-              <StatisticLabel>Funded</StatisticLabel>
+              <StatisticValue>0.2</StatisticValue>
+              <StatisticLabel>Version</StatisticLabel>
             </div>
             <div className="col-4">
               <StatisticValue>16</StatisticValue>
-              <StatisticLabel>Alpha</StatisticLabel>
+              <StatisticLabel>Active Usage</StatisticLabel>
             </div>
             <div className="col-4">
               <StatisticValue>
-                3.5 <Star fill="#E8EDEE" width="20" />
+                4.5 <Star fill="#E8EDEE" width="20" />
               </StatisticValue>
               <StatisticLabel>Rating (380)</StatisticLabel>
             </div>
           </StatisticsContainer>
-          <ProgressBar
-            total={requiredClaims}
-            approved={successfulClaims}
-            rejected={rejectedClaims}
-          />
-          <Progress>
-            <ProgressSuccessful>{successfulClaims}</ProgressSuccessful>
-            <ProgressRequired>/{requiredClaims}</ProgressRequired>
-          </Progress>
-          <Logo src={logo} />
-          <Impact>{impactAction}</Impact>
+          <CardBottomLogoContainer className="row">
+            <div className="col-6">
+              <Tooltip
+                text={termsOfUseMap.title}
+                position={TooltipPosition.Bottom}
+              >
+                {React.createElement(termsOfUseMap.icon, {
+                  width: 34,
+                  fill: 'black',
+                })}
+              </Tooltip>
+            </div>
+            <div className="col-6 text-right">
+              <Logo src={ownerLogo} />
+            </div>
+          </CardBottomLogoContainer>
         </CardBottom>
       </CardLink>
     </CardContainer>
   )
 }
 
-export default ProjectCard
+export default DataCard

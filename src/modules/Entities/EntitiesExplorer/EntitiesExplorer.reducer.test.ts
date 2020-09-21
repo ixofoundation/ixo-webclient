@@ -17,7 +17,7 @@ import {
   FilterSectorAction,
   ExplorerEntity,
 } from './types'
-import { EntityType } from '../types'
+import { EntityType, TermsOfUseType } from '../types'
 
 const initialState = SUT.initialState
 
@@ -62,6 +62,7 @@ describe('Entities Reducer', () => {
           description: 'someShortDescription1',
           dateCreated: moment('2020-04-09T13:14:13.000Z'),
           ownerName: 'someOwnerName1',
+          ownerLogo: 'someOwnerLogo1',
           status: 'someStatus1',
           location: 'someCountry1',
           goal: 'someImpactAction1',
@@ -75,6 +76,7 @@ describe('Entities Reducer', () => {
           agentDids: ['someAgentDid1'],
           image: 'sommeImageUrl',
           logo: 'someLogoUrl',
+          termsType: TermsOfUseType.FreeOpenSource,
           ddoTags: [
             {
               name: 'someCategory1',
@@ -123,6 +125,7 @@ describe('Entities Reducer', () => {
             description: 'someShortDescription1',
             dateCreated: moment('2020-04-09T13:14:13.000Z'),
             ownerName: 'someOwnerName1',
+            ownerLogo: 'someOwnerLogo1',
             status: 'someStatus1',
             location: 'someCountry1',
             goal: 'someImpactAction1',
@@ -136,6 +139,7 @@ describe('Entities Reducer', () => {
             agentDids: ['someAgentDid1'],
             image: 'sommeImageUrl',
             logo: 'someLogoUrl',
+            termsType: TermsOfUseType.FreeOpenSource,
             ddoTags: [
               {
                 name: 'someCategory1',
@@ -205,6 +209,7 @@ describe('Entities Reducer', () => {
             description: 'someShortDescription1',
             dateCreated: moment('2020-04-09T13:14:13.000Z'),
             ownerName: 'someOwnerName1',
+            ownerLogo: 'someOwnerLogo1',
             status: 'someStatus1',
             location: 'someCountry1',
             goal: 'someImpactAction1',
@@ -218,6 +223,7 @@ describe('Entities Reducer', () => {
             agentDids: ['someAgentDid1'],
             image: 'sommeImageUrl',
             logo: 'someLogoUrl',
+            termsType: TermsOfUseType.FreeOpenSource,
             ddoTags: [
               {
                 name: 'someCategory1',
@@ -283,6 +289,7 @@ describe('Entities Reducer', () => {
             description: 'someShortDescription1',
             dateCreated: moment('2020-04-09T13:14:13.000Z'),
             ownerName: 'someOwnerName1',
+            ownerLogo: 'someOwnerLogo1',
             status: 'someStatus1',
             location: 'someCountry1',
             goal: 'someImpactAction1',
@@ -296,6 +303,7 @@ describe('Entities Reducer', () => {
             agentDids: ['someAgentDid1'],
             image: 'sommeImageUrl',
             logo: 'someLogoUrl',
+            termsType: TermsOfUseType.FreeOpenSource,
             ddoTags: [
               {
                 name: 'someCategory1',
@@ -361,6 +369,7 @@ describe('Entities Reducer', () => {
             description: 'someShortDescription1',
             dateCreated: moment('2020-04-09T13:14:13.000Z'),
             ownerName: 'someOwnerName1',
+            ownerLogo: 'someOwnerLogo1',
             status: 'someStatus1',
             location: 'someCountry1',
             goal: 'someImpactAction1',
@@ -375,6 +384,7 @@ describe('Entities Reducer', () => {
             agentDids: ['someAgentDid1'],
             image: 'sommeImageUrl',
             logo: 'someLogoUrl',
+            termsType: TermsOfUseType.FreeOpenSource,
 
             ddoTags: [
               {
@@ -441,6 +451,7 @@ describe('Entities Reducer', () => {
             description: 'someShortDescription1',
             dateCreated: moment('2020-04-09T13:14:13.000Z'),
             ownerName: 'someOwnerName1',
+            ownerLogo: 'someOwnerLogo1',
             status: 'someStatus1',
             location: 'someCountry1',
             goal: 'someImpactAction1',
@@ -456,6 +467,7 @@ describe('Entities Reducer', () => {
             image: 'sommeImageUrl',
 
             logo: 'someLogoUrl',
+            termsType: TermsOfUseType.FreeOpenSource,
             ddoTags: [
               {
                 name: 'someCategory1',
@@ -521,6 +533,7 @@ describe('Entities Reducer', () => {
             description: 'someShortDescription1',
             dateCreated: moment('2020-04-09T13:14:13.000Z'),
             ownerName: 'someOwnerName1',
+            ownerLogo: 'someOwnerLogo1',
             status: 'someStatus1',
             location: 'someCountry1',
             goal: 'someImpactAction1',
@@ -535,6 +548,7 @@ describe('Entities Reducer', () => {
             agentDids: ['someAgentDid1'],
             image: 'sommeImageUrl',
             logo: 'someLogoUrl',
+            termsType: TermsOfUseType.FreeOpenSource,
 
             ddoTags: [
               {
@@ -597,6 +611,7 @@ describe('Entities Reducer', () => {
             description: 'someShortDescription1',
             dateCreated: moment('2020-04-09T13:14:13.000Z'),
             ownerName: 'someOwnerName1',
+            ownerLogo: 'someOwnerLogo1',
             status: 'someStatus1',
             location: 'someCountry1',
             goal: 'someImpactAction1',
@@ -611,6 +626,7 @@ describe('Entities Reducer', () => {
             agentDids: ['someAgentDid1'],
             image: 'sommeImageUrl',
             logo: 'someLogoUrl',
+            termsType: TermsOfUseType.FreeOpenSource,
 
             ddoTags: [
               {
@@ -685,6 +701,7 @@ describe('Entities Reducer', () => {
             description: 'someShortDescription1',
             dateCreated: moment('2020-04-09T13:14:13.000Z'),
             ownerName: 'someOwnerName1',
+            ownerLogo: 'someOwnerLogo1',
             status: 'someStatus1',
             location: 'someCountry1',
             goal: 'someImpactAction1',
@@ -699,6 +716,7 @@ describe('Entities Reducer', () => {
             agentDids: ['someAgentDid1'],
             image: 'sommeImageUrl',
             logo: 'someLogoUrl',
+            termsType: TermsOfUseType.FreeOpenSource,
 
             ddoTags: [
               {
@@ -771,6 +789,7 @@ describe('Entities Reducer', () => {
             description: 'someShortDescription1',
             dateCreated: moment('2020-04-09T13:14:13.000Z'),
             ownerName: 'someOwnerName1',
+            ownerLogo: 'someOwnerLogo1',
             status: 'someStatus1',
             location: 'someCountry1',
             goal: 'someImpactAction1',
@@ -785,6 +804,7 @@ describe('Entities Reducer', () => {
             agentDids: ['someAgentDid1'],
             image: 'sommeImageUrl',
             logo: 'someLogoUrl',
+            termsType: TermsOfUseType.FreeOpenSource,
 
             ddoTags: [
               {
@@ -862,6 +882,7 @@ describe('Entities Reducer', () => {
             description: 'someShortDescription1',
             dateCreated: moment('2020-04-09T13:14:13.000Z'),
             ownerName: 'someOwnerName1',
+            ownerLogo: 'someOwnerLogo1',
             status: 'someStatus1',
             location: 'someCountry1',
             goal: 'someImpactAction1',
@@ -877,6 +898,7 @@ describe('Entities Reducer', () => {
             image: 'sommeImageUrl',
 
             logo: 'someLogoUrl',
+            termsType: TermsOfUseType.FreeOpenSource,
             ddoTags: [
               {
                 name: 'someCategory1',
@@ -948,6 +970,7 @@ describe('Entities Reducer', () => {
             description: 'someShortDescription1',
             dateCreated: moment('2020-04-09T13:14:13.000Z'),
             ownerName: 'someOwnerName1',
+            ownerLogo: 'someOwnerLogo1',
             status: 'someStatus1',
             location: 'someCountry1',
             goal: 'someImpactAction1',
@@ -963,6 +986,7 @@ describe('Entities Reducer', () => {
             image: 'sommeImageUrl',
 
             logo: 'someLogoUrl',
+            termsType: TermsOfUseType.FreeOpenSource,
             ddoTags: [
               {
                 name: 'someCategory1',
@@ -1030,6 +1054,7 @@ describe('Entities Reducer', () => {
             description: 'someShortDescription1',
             dateCreated: moment('2020-04-09T13:14:13.000Z'),
             ownerName: 'someOwnerName1',
+            ownerLogo: 'someOwnerLogo1',
             status: 'someStatus1',
             location: 'someCountry1',
             goal: 'someImpactAction1',
@@ -1045,6 +1070,7 @@ describe('Entities Reducer', () => {
             image: 'sommeImageUrl',
 
             logo: 'someLogoUrl',
+            termsType: TermsOfUseType.FreeOpenSource,
             ddoTags: [
               {
                 name: 'someCategory1',
@@ -1121,6 +1147,7 @@ describe('Entities Reducer', () => {
             description: 'someShortDescription1',
             dateCreated: moment('2020-04-09T13:14:13.000Z'),
             ownerName: 'someOwnerName1',
+            ownerLogo: 'someOwnerLogo1',
             status: 'someStatus1',
             location: 'someCountry1',
             goal: 'someImpactAction1',
@@ -1135,6 +1162,7 @@ describe('Entities Reducer', () => {
             agentDids: ['someAgentDid1'],
             image: 'sommeImageUrl',
             logo: 'someLogoUrl',
+            termsType: TermsOfUseType.FreeOpenSource,
 
             ddoTags: [
               {

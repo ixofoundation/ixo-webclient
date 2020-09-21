@@ -1,7 +1,7 @@
 import axios from 'axios'
 import moment from 'moment'
 import * as SUT from './EntitiesExplorer.actions'
-import { EntityType } from '../types'
+import { EntityType, TermsOfUseType } from '../types'
 import { EntitiesExplorerActions } from './types'
 import mockStore from 'common/redux/mockStore'
 import { fakeListedProjectsData } from '__mocks__/@ixo/ixo-apimodule'
@@ -61,6 +61,7 @@ describe('Entities Actions', () => {
           creatorDid: 'did:sov:EA1fV7PTbWG3aveDJZpgSn',
           dateCreated: moment('2020-09-12T19:49:45Z'),
           ownerName: 'Owner Display Name',
+          ownerLogo: 'Owner Logo',
           status: 'CREATED',
           location: 'AR',
           goal: 'Some Goal',
@@ -98,6 +99,7 @@ describe('Entities Actions', () => {
             },
             { name: 'Stage', tags: ['Planning'] },
           ],
+          termsType: TermsOfUseType.OnceOffFee,
         },
         {
           name: 'Some Claim Title',
@@ -107,6 +109,7 @@ describe('Entities Actions', () => {
           creatorDid: 'did:sov:AB1fV7PTbWG3aveDJZpgSb',
           dateCreated: moment('2020-08-12T19:49:45Z'),
           ownerName: 'Owner Display Name',
+          ownerLogo: 'Owner Logo',
           status: 'COMPLETED',
           serviceProvidersCount: 10,
           evaluatorsCount: 10,
@@ -135,6 +138,7 @@ describe('Entities Actions', () => {
             },
             { name: 'Stage', tags: ['Planning'] },
           ],
+          termsType: TermsOfUseType.OnceOffFee,
         },
       ])
     })

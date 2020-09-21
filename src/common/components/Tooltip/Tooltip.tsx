@@ -1,19 +1,19 @@
 import * as React from 'react'
 import { Hover, TooltipWrapper, TooltipInner } from './Tooltip.styles'
 
-export enum TooltipPositions {
+export enum TooltipPosition {
   Top = 'top',
   Right = 'right',
   Bottom = 'bototm',
   Left = 'left',
 }
 
-export interface ParentProps {
+interface Props {
   text: string
-  position?: TooltipPositions
+  position?: TooltipPosition
 }
 
-export const Tooltip: React.SFC<ParentProps> = ({
+const Tooltip: React.FunctionComponent<Props> = ({
   text,
   position,
   children,
@@ -31,5 +31,7 @@ export const Tooltip: React.SFC<ParentProps> = ({
 }
 
 Tooltip.defaultProps = {
-  position: TooltipPositions.Top,
+  position: TooltipPosition.Top,
 }
+
+export default Tooltip

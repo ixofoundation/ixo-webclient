@@ -5,6 +5,7 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   flex: 1 1 auto;
+  min-height: 400px;
 `
 
 export const EntitiesContainer = styled.div`

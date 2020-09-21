@@ -50,6 +50,10 @@ import InvestmentControlPanelSchema from 'common/components/ControlPanel/schema/
 import OracleControlPanelSchema from 'common/components/ControlPanel/schema/Oracle.schema.json'
 import TemplateControlPanelSchema from 'common/components/ControlPanel/schema/Template.schema.json'
 import DataControlPanelSchema from 'common/components/ControlPanel/schema/Data.schema.json'
+import PayPerUse from 'assets/icons/PayPerUse'
+import Proprietary from 'assets/icons/Proprietary'
+import OnceOffFee from 'assets/icons/OnceOffFee'
+import FreeOpenSource from 'assets/icons/FreeOpenSource'
 
 export const entityTypeMap: EntityTypeStrategyMap = {
   [EntityType.Project]: {
@@ -232,8 +236,11 @@ export const dataResourceTypeMap: DataResourceTypeStrategyMap = {
 }
 
 export const termsOfUseTypeStrategyMap: TermsOfUseTypeStrategyMap = {
-  [TermsOfUseType.PayPerUse]: { title: 'Pay Per Use' },
-  [TermsOfUseType.OnceOffFee]: { title: 'Once-off Fee' },
-  [TermsOfUseType.FreeOpenSource]: { title: 'Free Open-source' },
-  [TermsOfUseType.Proprietary]: { title: 'Proprietary' },
+  [TermsOfUseType.PayPerUse]: { title: 'Pay Per Use', icon: PayPerUse },
+  [TermsOfUseType.OnceOffFee]: { title: 'Once-off Fee', icon: OnceOffFee },
+  [TermsOfUseType.FreeOpenSource]: {
+    title: 'Free Open-source',
+    icon: FreeOpenSource,
+  },
+  [TermsOfUseType.Proprietary]: { title: 'Proprietary', icon: Proprietary },
 }

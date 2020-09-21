@@ -5,7 +5,6 @@ import { Spinner } from '../../Spinner'
 import { ProjectHero } from '../../../../components/project/ProjectHero'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import { Data } from '../../../../modules/project/types'
 import { UserInfo } from '../../../../modules/Account/types'
 import { RootState } from '../../../redux/types'
 import { AgentRoles } from '../../../../types/models'
@@ -47,7 +46,7 @@ export class BondsWrapper extends React.Component<Props, State> {
     blocksyncApi.project
       .getProjectByProjectDid(this.props.params.projectDID)
       .then((response: any) => {
-        const project: Data = response.data
+        const project = response.data
         const status: string = response.status
         this.setState({
           projectPublic: project,

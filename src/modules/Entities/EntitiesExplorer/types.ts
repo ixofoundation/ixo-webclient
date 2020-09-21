@@ -1,5 +1,5 @@
 import { Moment } from 'moment'
-import { EntityType } from '../types'
+import { EntityType, TermsOfUseType } from '../types'
 
 export interface DDOTagCategory {
   name: string
@@ -24,6 +24,7 @@ export interface ExplorerEntity {
   creatorDid: string
   dateCreated: Moment
   ownerName: string
+  ownerLogo: string
   status: string
   location: string
   goal: string
@@ -38,6 +39,8 @@ export interface ExplorerEntity {
   image: string
   logo: string
   ddoTags: DDOTagCategory[]
+  termsType: TermsOfUseType
+  badges: string[]
 }
 
 export interface EntitiesExplorerState {
