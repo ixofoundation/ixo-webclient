@@ -28,10 +28,10 @@ interface Props {
   type: EntityType
   dateCreated: Moment
   userDid: string
-  ownerLogo: string
-  ownerMission: string
-  ownerName: string
-  ownerWebsite: string
+  creatorLogo: string
+  creatorMission: string
+  creatorName: string
+  creatorWebsite: string
   location: string
   bondDid: string
   sdgs: string[]
@@ -61,10 +61,10 @@ class EntityOverview extends React.Component<Props> {
       type,
       dateCreated,
       userDid,
-      ownerName,
-      ownerMission,
-      ownerLogo,
-      ownerWebsite,
+      creatorName,
+      creatorMission,
+      creatorLogo,
+      creatorWebsite,
       bondDid,
       location,
       sdgs,
@@ -89,7 +89,7 @@ class EntityOverview extends React.Component<Props> {
                 name={name}
                 description={description}
                 dateCreated={dateCreated}
-                ownerName={ownerName}
+                creatorName={creatorName}
                 location={location}
                 sdgs={sdgs}
                 loggedIn={isLoggedIn}
@@ -97,10 +97,10 @@ class EntityOverview extends React.Component<Props> {
               />
               <PageContentComponent
                 pageContent={pageContent}
-                ownerLogo={ownerLogo}
-                ownerName={ownerName}
-                ownerMission={ownerMission}
-                ownerWebsite={ownerWebsite}
+                creatorLogo={creatorLogo}
+                creatorName={creatorName}
+                creatorMission={creatorMission}
+                creatorWebsite={creatorWebsite}
               />
             </MainPanelWrapper>
             <SidebarWrapper className="col-lg-3">
@@ -125,10 +125,10 @@ const mapStateToProps = (state: RootState): any => ({
   type: entitySelectors.selectEntityType(state),
   dateCreated: entitySelectors.selectEntityDateCreated(state),
   userDid: accountSelectors.selectUserDid(state),
-  ownerLogo: entitySelectors.selectEntityOwnerLogo(state),
-  ownerMission: entitySelectors.selectEntityOwnerMission(state),
-  ownerName: entitySelectors.selectEntityOwnerName(state),
-  ownerWebsite: entitySelectors.selectEntityOwnerWebsite(state),
+  creatorLogo: entitySelectors.selectEntityCreatorLogo(state),
+  creatorMission: entitySelectors.selectEntityCreatorMission(state),
+  creatorName: entitySelectors.selectEntityCreatorName(state),
+  creatorWebsite: entitySelectors.selectEntityCreatorWebsite(state),
   location: entitySelectors.selectEntityLocation(state),
   bondDid: entitySelectors.selectEntityBondDid(state),
   sdgs: entitySelectors.selectEntitySdgs(state),

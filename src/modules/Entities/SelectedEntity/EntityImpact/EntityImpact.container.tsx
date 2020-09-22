@@ -25,7 +25,7 @@ interface Props {
   description: string
   bondDid: string
   dateCreated: Moment
-  ownerName: string
+  creatorName: string
   sdgs: string[]
   userDid: string
   agents: Agent[]
@@ -58,7 +58,7 @@ class EntityImpact extends React.Component<Props> {
       description,
       bondDid,
       dateCreated,
-      ownerName,
+      creatorName,
       sdgs,
       userDid,
       agents,
@@ -81,7 +81,7 @@ class EntityImpact extends React.Component<Props> {
           name={name}
           description={description}
           dateCreated={dateCreated}
-          ownerName={ownerName}
+          creatorName={creatorName}
           location={country}
           sdgs={sdgs}
           loggedIn={isLoggedIn}
@@ -134,7 +134,7 @@ const mapStateToProps = (state: RootState): any => ({
   type: entitySelectors.selectEntityType(state),
   creatorDid: entitySelectors.selectEntityCreator(state),
   dateCreated: entitySelectors.selectEntityDateCreated(state),
-  ownerName: entitySelectors.selectEntityOwnerName(state),
+  creatorName: entitySelectors.selectEntityCreatorName(state),
   bondDid: entitySelectors.selectEntityBondDid(state),
   country: entitySelectors.selectEntityLocation(state),
   sdgs: entitySelectors.selectEntitySdgs(state),

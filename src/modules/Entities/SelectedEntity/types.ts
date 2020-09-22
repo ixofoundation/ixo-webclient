@@ -67,10 +67,10 @@ export interface Entity {
   creatorDid: string
   dateCreated: Moment
   bondDid: string
-  ownerName: string
-  ownerLogo: string
-  ownerWebsite: string
-  ownerMission: string
+  creatorName: string
+  creatorLogo: string
+  creatorWebsite: string
+  creatorMission: string
   status: string
   image: string
   logo: string

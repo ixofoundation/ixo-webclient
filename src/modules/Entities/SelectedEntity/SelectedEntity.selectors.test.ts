@@ -1,3 +1,4 @@
+import { AgentRole } from 'modules/Account/types'
 import moment from 'moment'
 import { EntityType } from '../types'
 import * as SUT from './SelectedEntity.selectors'
@@ -15,10 +16,10 @@ beforeEach(() => {
       name: 'Some Title',
       description: 'Some Short Description',
       dateCreated: moment('2020-09-12T19:49:45Z'),
-      ownerName: 'Owner Display Name',
-      ownerLogo: 'https://pds_pandora.ixo.world/public/9uqcsf7qsfjkelkkkt9',
-      ownerMission: 'another mission',
-      ownerWebsite: 'https://eerer.com',
+      creatorName: 'Creator Display Name',
+      creatorLogo: 'https://pds_pandora.ixo.world/public/9uqcsf7qsfjkelkkkt9',
+      creatorMission: 'another mission',
+      creatorWebsite: 'https://eerer.com',
       location: 'AR',
       image: 'https://pds_pandora.ixo.world/public/sbujb0xg0dgkeljwtnc',
       logo: 'https://pds_pandora.ixo.world/public/v7kvrycap9kf2ofnof',
@@ -35,19 +36,19 @@ beforeEach(() => {
         {
           did: 'did:ixo:CB1idAyvNUsSEktkT3a5LY',
           status: '0',
-          role: 'SA',
+          role: AgentRole.ServiceProvider,
           kyc: false,
         },
         {
           did: 'did:ixo:NT1idAyvNUsSEktkT3a5LY',
           status: '0',
-          role: 'EA',
+          role: AgentRole.Evaluator,
           kyc: false,
         },
       ],
       sdgs: ['5', '7'],
       bondDid: 'did:sov:CYCc2xaJKrp8Yt947Nc6jdzzzz',
-      content: { foo: 'bar' },
+      content: null,
     } as Entity,
   }
 })
@@ -123,20 +124,20 @@ describe('SelectedEntity Selectors', () => {
     })
   })
 
-  describe('selectEntityOwnerName', () => {
-    it('should return the owner name', () => {
+  describe('selectEntityCreatorName', () => {
+    it('should return the creator name', () => {
       // when ... we call the selector
-      const result = SUT.selectEntityOwnerName(state)
+      const result = SUT.selectEntityCreatorName(state)
 
       // then ... should return the result as expected
-      expect(result).toEqual('Owner Display Name')
+      expect(result).toEqual('Creator Display Name')
     })
   })
 
-  describe('selectEntityOwnerLogo', () => {
-    it('should return the owner logo', () => {
+  describe('selectEntityCreatorLogo', () => {
+    it('should return the creator logo', () => {
       // when ... we call the selector
-      const result = SUT.selectEntityOwnerLogo(state)
+      const result = SUT.selectEntityCreatorLogo(state)
 
       // then ... should return the result as expected
       expect(result).toEqual(
@@ -145,20 +146,20 @@ describe('SelectedEntity Selectors', () => {
     })
   })
 
-  describe('selectEntityOwnerWebsite', () => {
-    it('should return the owner logo', () => {
+  describe('selectEntityCreatorWebsite', () => {
+    it('should return the creator logo', () => {
       // when ... we call the selector
-      const result = SUT.selectEntityOwnerWebsite(state)
+      const result = SUT.selectEntityCreatorWebsite(state)
 
       // then ... should return the result as expected
       expect(result).toEqual('https://eerer.com')
     })
   })
 
-  describe('selectEntityOwnerMission', () => {
-    it('should return the owner mission', () => {
+  describe('selectEntityCreatorMission', () => {
+    it('should return the creator mission', () => {
       // when ... we call the selector
-      const result = SUT.selectEntityOwnerMission(state)
+      const result = SUT.selectEntityCreatorMission(state)
 
       // then ... should return the result as expected
       expect(result).toEqual('another mission')

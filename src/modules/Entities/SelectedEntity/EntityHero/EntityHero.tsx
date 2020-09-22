@@ -32,7 +32,7 @@ interface Props {
   name: string
   description: string
   dateCreated: Moment
-  ownerName: string
+  creatorName: string
   location: string
   sdgs: string[]
   loggedIn: boolean
@@ -44,7 +44,7 @@ interface Props {
 const EntityHero: React.FunctionComponent<Props> = ({
   name,
   description,
-  ownerName,
+  creatorName,
   type,
   did,
   bondDid,
@@ -151,7 +151,7 @@ const EntityHero: React.FunctionComponent<Props> = ({
                   </HeroInfoItem>
                   <HeroInfoItem>
                     <img src={IxoCircle} />
-                    <span>{ownerName}</span>
+                    <span>{creatorName}</span>
                   </HeroInfoItem>
                   {location && (
                     <HeroInfoItem>

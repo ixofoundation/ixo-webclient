@@ -47,31 +47,31 @@ export const selectEntityDateCreated = createSelector(
   },
 )
 
-export const selectEntityOwnerName = createSelector(
+export const selectEntityCreatorName = createSelector(
   selectSelectedEntity,
   (entity: Entity) => {
-    return entity ? entity.ownerName : null
+    return entity ? entity.creatorName : null
   },
 )
 
-export const selectEntityOwnerLogo = createSelector(
+export const selectEntityCreatorLogo = createSelector(
   selectSelectedEntity,
   (entity: Entity) => {
-    return entity ? entity.ownerLogo : null
+    return entity ? entity.creatorLogo : null
   },
 )
 
-export const selectEntityOwnerWebsite = createSelector(
+export const selectEntityCreatorWebsite = createSelector(
   selectSelectedEntity,
   (entity: Entity) => {
-    return entity ? entity.ownerWebsite : null
+    return entity ? entity.creatorWebsite : null
   },
 )
 
-export const selectEntityOwnerMission = createSelector(
+export const selectEntityCreatorMission = createSelector(
   selectSelectedEntity,
   (entity: Entity) => {
-    return entity ? entity.ownerMission : null
+    return entity ? entity.creatorMission : null
   },
 )
 

@@ -21,7 +21,7 @@ interface Props {
   type: EntityType
   dateCreated: Moment
   description: string
-  ownerName: string
+  creatorName: string
   location: string
   sdgs: string[]
   isLoading: boolean
@@ -55,7 +55,7 @@ export class InvestmentWrapper extends React.Component<Props> {
       type,
       dateCreated,
       description,
-      ownerName,
+      creatorName,
       location,
       sdgs,
       isLoggedIn,
@@ -78,7 +78,7 @@ export class InvestmentWrapper extends React.Component<Props> {
             name={name}
             description={description}
             dateCreated={dateCreated}
-            ownerName={ownerName}
+            creatorName={creatorName}
             location={location}
             sdgs={sdgs}
             loggedIn={isLoggedIn}
@@ -98,7 +98,7 @@ const mapStateToProps = (state: RootState): any => ({
   bondDid: entitySelectors.selectEntityBondDid(state),
   type: entitySelectors.selectEntityType(state),
   dateCreated: entitySelectors.selectEntityDateCreated(state),
-  ownerName: entitySelectors.selectEntityOwnerName(state),
+  creatorName: entitySelectors.selectEntityCreatorName(state),
   description: entitySelectors.selectEntityDescription(state),
   sdgs: entitySelectors.selectEntitySdgs(state),
   location: entitySelectors.selectEntityLocation(state),

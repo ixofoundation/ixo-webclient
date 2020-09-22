@@ -9,19 +9,19 @@ import EmbeddedContentCard from '../EmbeddedContentCard/EmbeddedContentCard'
 import Footer from '../Footer/Footer'
 
 interface Props {
-  ownerName: string
-  ownerMission: string
-  ownerLogo: string
-  ownerWebsite: string
+  creatorName: string
+  creatorMission: string
+  creatorLogo: string
+  creatorWebsite: string
   pageContent: PageContentType
 }
 
 const PageContent: React.FunctionComponent<Props> = ({
   pageContent,
-  ownerName,
-  ownerMission,
-  ownerLogo,
-  ownerWebsite,
+  creatorName,
+  creatorMission,
+  creatorLogo,
+  creatorWebsite,
 }) => {
   const renderHeader = (): JSX.Element => {
     const { title, image, imageDescription } = pageContent.header
@@ -122,10 +122,10 @@ const PageContent: React.FunctionComponent<Props> = ({
 
     return (
       <Footer
-        ownerLogo={ownerLogo}
-        ownerMission={ownerMission}
-        ownerName={ownerName}
-        ownerWebsite={ownerWebsite}
+        creatorLogo={creatorLogo}
+        creatorMission={creatorMission}
+        creatorName={creatorName}
+        creatorWebsite={creatorWebsite}
         discourseUrl={discourseUrl}
         facebookUrl={facebookUrl}
         githubUrl={githubUrl}
