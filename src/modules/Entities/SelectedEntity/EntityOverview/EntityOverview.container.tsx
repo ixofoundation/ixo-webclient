@@ -81,7 +81,7 @@ class EntityOverview extends React.Component<Props> {
       <div>
         <OverviewContainer className="container-fluid">
           <div className="row">
-            <MainPanelWrapper className="col-lg-9 pr-5">
+            <MainPanelWrapper className="col-lg-9 pr-md-5">
               <EntityHero
                 type={type}
                 did={did}
