@@ -88,7 +88,7 @@ export const fakeListedProjectsData = [
         ],
       },
       'page': { cid: 'somepageid', version: '1.0.0' },
-      'claims': {
+      'entityClaims': {
         '@context': 'https://schema.ixo.world/claims:3r08webu2eou',
         'items': [
           {

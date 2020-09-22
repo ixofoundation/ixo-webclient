@@ -84,7 +84,7 @@ export interface ApiEntity {
     cid: string
     version: string
   }
-  claims: {
+  entityClaims: {
     ['@context']: string
     items: {
       ['@id']: string
