@@ -3,14 +3,14 @@ import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { RootState } from 'common/redux/types'
 import Summary from './components/Summary/Summary'
-import { FormControl } from '../../../common/components/JsonForm/types'
 import * as submitEntityClaimSelectors from './SubmitEntityClaim.selectors'
 import * as selectedEntitySelectors from 'modules/Entities/SelectedEntity/SelectedEntity.selectors'
 import { getEntity } from 'modules/Entities/SelectedEntity/SelectedEntity.actions'
 import { goToQuestionNumber } from './SubmitEntityClaim.actions'
+import { QuestionForm } from './types'
 
 interface Props {
-  questions: FormControl[]
+  questions: QuestionForm[]
   entityDid: string
   match: any
   answersComplete: boolean
@@ -65,8 +65,7 @@ class SummaryContainer extends React.Component<Props, State> {
           cancelLink={`/projects/${entityDid}/overview`}
           submitLink={`/projects/${entityDid}/overview/action/new_claim/form`}
           questions={questions.map((question) => ({
-            title: question.title,
-            control: question.control,
+            title: question.schema.title,
           }))}
           handleNavigatetoQuestion={this.handleGoToQuestion}
         />

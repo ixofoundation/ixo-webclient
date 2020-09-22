@@ -1,7 +1,19 @@
-import { FormControl, FormData } from '../../../common/components/JsonForm/types'
+import { JSONSchema7 } from 'json-schema'
+import { UiSchema } from '@rjsf/core'
+import { FormData } from '../../../common/components/JsonForm/types'
+import { EntityClaimType } from '../types'
+
+export interface QuestionForm {
+  ['@type']: string
+  schema: JSONSchema7
+  uiSchema: UiSchema
+}
 
 export interface SubmitEntityClaimState {
-  questions: FormControl[]
+  title: string
+  shortDescription: string
+  type: EntityClaimType
+  questions: QuestionForm[]
   currentQuestionNo: number
   answers: FormData
   answersComplete: boolean

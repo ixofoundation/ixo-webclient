@@ -6,10 +6,7 @@ import { Hero } from './components/Hero/Hero'
 import Question from './components/Question/Question'
 import { SubmitEntityClaimWrapper } from './SubmitEntityClaim.container.styles'
 import { Steps } from '../../../common/components/Steps/Steps'
-import {
-  FormControl,
-  FormData,
-} from '../../../common/components/JsonForm/types'
+import { FormData } from '../../../common/components/JsonForm/types'
 import * as submitEntityClaimSelectors from './SubmitEntityClaim.selectors'
 import * as accountSelectors from '../../Account/Account.selectors'
 import * as selectedEntitySelectors from 'modules/Entities/SelectedEntity/SelectedEntity.selectors'
@@ -25,6 +22,7 @@ import { entityTypeMap } from 'modules/Entities/strategy-map'
 import ControlPanel from '../../../common/components/ControlPanel/ControlPanel'
 import { Spinner } from '../../../common/components/Spinner'
 import { getEntity } from 'modules/Entities/SelectedEntity/SelectedEntity.actions'
+import { QuestionForm } from './types'
 
 interface Props {
   userDid: string
@@ -32,9 +30,9 @@ interface Props {
   entityTitle: string
   entityDid: string
   entityType: EntityType
-  currentQuestion: FormControl
+  currentQuestion: QuestionForm
   currentQuestionNo: number
-  questions: FormControl[]
+  questions: QuestionForm[]
   questionCount: number
   currentAnswer: FormData
   savingAnswer: boolean
@@ -133,7 +131,7 @@ class SubmitEntityClaim extends React.Component<Props, State> {
             <div className="row">
               <div className="col-lg-8">
                 <Steps
-                  currentStepTitle={currentQuestion.title}
+                  currentStepTitle={currentQuestion.schema.title}
                   currentStepNo={currentQuestionNo}
                   totalSteps={questionCount}
                   handleGoToStepClick={handleGoToQuestionClick}

@@ -1,11 +1,11 @@
 import React from 'react'
 import { debounce } from 'debounce'
 import SingleControlForm from 'common/components/JsonForm/SingleControlForm/SingleControlForm'
-import { FormControl } from 'common/components/JsonForm/types'
 import { ButtonGroup } from 'common/components/JsonForm/JsonForm.styles'
+import { QuestionForm } from '../../types'
 
 interface Props {
-  question: FormControl
+  question: QuestionForm
   answer: {}
   savingAnswer: boolean
   currentQuestionNo: number

@@ -11,7 +11,7 @@ import {
 interface Props {
   cancelLink: string
   submitLink: string
-  questions: { control: string; title: string }[]
+  questions: { title: string }[]
   handleNavigatetoQuestion: (questionNumber: number) => void
 }
 

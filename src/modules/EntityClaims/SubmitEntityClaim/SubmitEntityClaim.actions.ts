@@ -23,7 +23,9 @@ export const saveAnswer = (formData: FormData) => (
     submitEntityClaim: { questions, currentQuestionNo },
   } = getState()
   const formControl = questions[currentQuestionNo - 1]
-  const { control, id } = formControl
+  // const { control, id } = formControl
+  const id = Object.keys(formControl.schema)[0]
+  const control = formControl.uiSchema['ui:widget'].toString()
 
   if (control.includes('upload') && Object.keys(formData).length > 0) {
     return dispatch({
