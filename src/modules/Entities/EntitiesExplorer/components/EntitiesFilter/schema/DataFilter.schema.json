@@ -136,37 +136,37 @@
       "multiSelect": true,
       "tags": [
         {
-          "@type": "nft",
+          "@type": "Tag",
           "name": "Non-Fungible Token",
           "icon": "nft.svg"
         },
         {
-          "@type": "option",
+          "@type": "Tag",
           "name": "Option",
           "icon": "tag.svg"
         },
         {
-          "@type": "contract",
+          "@type": "Tag",
           "name": "Contract",
           "icon": "tag.svg"
         },
         {
-          "@type": "certificate",
+          "@type": "Tag",
           "name": "Ownership Certificate",
           "icon": "tag.svg"
         },
         {
-          "@type": "listing",
+          "@type": "Tag",
           "name": "Exchange Listing",
           "icon": "listing.svg"
         },
         {
-          "@type": "digitalGoods",
+          "@type": "Tag",
           "name": "Digital Goods",
           "icon": "tag.svg"
         },
         {
-          "@type": "unspecified",
+          "@type": "Tag",
           "name": "Unspecified",
           "icon": "tag.svg"
         }
