@@ -1,5 +1,5 @@
 import React from 'react'
-import { ApiPageContent } from 'common/api/blocksync-api/types/page-content'
+import { PageContent as PageContentType } from 'common/api/blocksync-api/types/page-content'
 import { ProfileCardsWrapper } from './PageContent.styles'
 import BodyContentCard from '../BodyContentCard/BodyContentCard'
 import ImageContentCard from '../ImageContentCard/ImageContentCard'
@@ -13,7 +13,7 @@ interface Props {
   ownerMission: string
   ownerLogo: string
   ownerWebsite: string
-  pageContent: ApiPageContent
+  pageContent: PageContentType
 }
 
 const PageContent: React.FunctionComponent<Props> = ({

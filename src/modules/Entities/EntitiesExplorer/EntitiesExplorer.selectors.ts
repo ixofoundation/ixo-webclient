@@ -28,6 +28,19 @@ export const selectAllEntitiesByType = createSelector(
   },
 )
 
+export const selectAllTemplateEntities = createSelector(
+  selectEntitiesState,
+  (entitiesState: EntitiesExplorerState): ExplorerEntity[] => {
+    return entitiesState.entities
+      ? entitiesState.entities
+          .filter((entity) => entity.type === EntityType.Template)
+          .sort((a, b) => {
+            return b.dateCreated.unix() - a.dateCreated.unix()
+          })
+      : null
+  },
+)
+
 export const selectEntitiesFilter = createSelector(
   selectEntitiesState,
   (entitiesState: EntitiesExplorerState): Filter => {

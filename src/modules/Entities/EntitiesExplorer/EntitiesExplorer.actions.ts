@@ -1,6 +1,5 @@
 import moment, { Moment } from 'moment'
 import { Dispatch } from 'redux'
-import Axios from 'axios'
 import { EntityType } from '../types'
 import {
   GetEntitiesAction,
@@ -21,59 +20,68 @@ import {
   FilterSectorAction,
 } from './types'
 import { RootState } from 'common/redux/types'
-// import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
+import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
 import { ApiListedEntity } from 'common/api/blocksync-api/types/entities'
 
 export const getEntities = () => (dispatch: Dispatch): GetEntitiesAction => {
   return dispatch({
     type: EntitiesExplorerActions.GetEntities,
     // Temp
-    payload: Axios.get(
-      'https://run.mocky.io/v3/72228d94-4ced-41d1-8eed-f98011b4ed0b',
-    ).then((response) => {
-      // TODO - blocksyncApi.project.listProjects()
-      return response.data.map((apiEntity: ApiListedEntity) => {
-        const claimToUse = apiEntity.data.entityClaims
-          ? apiEntity.data.entityClaims.items[0]
-          : undefined
+    payload: blocksyncApi.project
+      .listProjects()
+      .then((apiEntities: ApiListedEntity[]) => {
+        return apiEntities
+          .filter((entity) => !!entity.data['@type'])
+          .map((apiEntity: ApiListedEntity) => {
+            const claimToUse = apiEntity.data.entityClaims
+              ? apiEntity.data.entityClaims.items[0]
+              : undefined
 
-        return {
-          did: apiEntity.projectDid,
-          type: apiEntity.data['@type'],
-          creatorDid: apiEntity.data.createdBy,
-          status: apiEntity.status,
-          name: apiEntity.data.name,
-          description: apiEntity.data.description,
-          dateCreated: moment(apiEntity.data.createdOn),
-          ownerName: apiEntity.data.owner.displayName,
-          ownerLogo: apiEntity.data.owner.logo,
-          location: apiEntity.data.location,
-          goal: claimToUse ? claimToUse.goal : undefined,
-          image: apiEntity.data.image,
-          logo: apiEntity.data.logo,
-          serviceProvidersCount: apiEntity.data.agentStats.serviceProviders,
-          evaluatorsCount: apiEntity.data.agentStats.evaluators,
-          requiredClaimsCount: claimToUse ? claimToUse.targetMin : undefined,
-          pendingClaimsCount: claimToUse ? 3 : undefined, // TODO - get actual value when this is available
-          successfulClaimsCount: claimToUse
-            ? apiEntity.data.claimStats.currentSuccessful
-            : undefined,
-          rejectedClaimsCount: claimToUse
-            ? apiEntity.data.claimStats.currentRejected
-            : undefined,
-          agentDids: apiEntity.data.agents.map((agent) => agent.did),
-          sdgs: apiEntity.data.sdgs,
-          ddoTags: apiEntity.data.ddoTags
-            ? apiEntity.data.ddoTags.map((ddoTag) => ({
-                name: ddoTag.category,
-                tags: ddoTag.tags,
-              }))
-            : [],
-          termsType: apiEntity.data.terms['@type'],
-          badges: apiEntity.data.displayCredentials.items.map((dc) => dc.badge),
-        }
-      })
-    }),
+            return {
+              did: apiEntity.projectDid,
+              type: apiEntity.data['@type'],
+              creatorDid: apiEntity.data.createdBy,
+              status: apiEntity.status,
+              name: apiEntity.data.name,
+              description: apiEntity.data.description,
+              dateCreated: moment(apiEntity.data.createdOn),
+              creatorName: apiEntity.data.creator.displayName,
+              creatorLogo: apiEntity.data.creator.logo,
+              location: apiEntity.data.location,
+              goal: claimToUse ? claimToUse.goal : undefined,
+              image: apiEntity.data.image,
+              logo: apiEntity.data.logo,
+              serviceProvidersCount: apiEntity.data.agentStats.serviceProviders,
+              evaluatorsCount: apiEntity.data.agentStats.evaluators,
+              requiredClaimsCount: claimToUse
+                ? claimToUse.targetMin
+                : undefined,
+              pendingClaimsCount: claimToUse
+                ? apiEntity.data.claims.filter((claim) => claim.status === '0')
+                    .length
+                : undefined, // due to pendingClaims not existing in the claimStats we have to look in the claims itself!
+              successfulClaimsCount: claimToUse
+                ? apiEntity.data.claimStats.currentSuccessful
+                : undefined,
+              rejectedClaimsCount: claimToUse
+                ? apiEntity.data.claimStats.currentRejected
+                : undefined,
+              agentDids: apiEntity.data.agents.map((agent) => agent.did),
+              sdgs: apiEntity.data.sdgs,
+              ddoTags: apiEntity.data.ddoTags
+                ? apiEntity.data.ddoTags.map((ddoTag) => ({
+                    name: ddoTag.category,
+                    tags: ddoTag.tags,
+                  }))
+                : [],
+              termsType: apiEntity.data.terms['@type'],
+              badges: apiEntity.data.displayCredentials.items.map(
+                (dc) => dc.badge,
+              ),
+              version: apiEntity.data.version.versionNumber,
+            }
+          })
+      }),
   })
 }
 

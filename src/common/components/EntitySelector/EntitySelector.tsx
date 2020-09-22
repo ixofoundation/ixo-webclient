@@ -81,7 +81,6 @@ class EntitySelector extends React.Component<Props, State> {
                   onClick={(): void => this.selectEntity(entity.did)}
                 >
                   <EntityCard
-                    showImage={true}
                     entity={entity}
                     isSelected={selectedEntityId === entity.did}
                   ></EntityCard>
@@ -109,11 +108,7 @@ class EntitySelector extends React.Component<Props, State> {
 
     return (
       <div>
-        <EntityCard
-          entity={entity}
-          isSelected={false}
-          showImage={false}
-        ></EntityCard>
+        <EntityCard entity={entity} isSelected={false}></EntityCard>
         <LinkButton type="button" onClick={this.openTemplateSelector}>
           Replace
         </LinkButton>
@@ -122,7 +117,7 @@ class EntitySelector extends React.Component<Props, State> {
   }
 
   render(): JSX.Element {
-    const { isModalOpen } = this.state
+    const { isModalOpen, selectedEntityId } = this.state
 
     return (
       <>
@@ -134,6 +129,7 @@ class EntitySelector extends React.Component<Props, State> {
               cancelText="Cancel"
               onCancel={this.closeTemplateSelector}
               onSubmit={this.onSubmit}
+              submitEnabled={!!selectedEntityId}
             >
               <ListWrapper>{this.renderEntities()}</ListWrapper>
             </Modal>

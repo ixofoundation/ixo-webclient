@@ -34,8 +34,8 @@ beforeEach(() => {
           title: 'someTitle1',
           description: 'somedescription1',
           dateCreated: moment('2020-04-09T13:14:13.000Z'),
-          ownerName: 'someOwnerName1',
-          ownerLogo: 'someOwnerLogo1',
+          creatorName: 'someCreatorName1',
+          creatorLogo: 'someCreatorLogo1',
           status: 'someStatus1',
           location: 'someCountry1',
           goal: 'someGoal1',
@@ -68,6 +68,8 @@ beforeEach(() => {
             },
           ],
           termsType: TermsOfUseType.FreeOpenSource,
+          version: '1.2.3',
+          badges: ['somebadge'],
         },
         {
           did: 'someDid2',
@@ -76,8 +78,8 @@ beforeEach(() => {
           title: 'someTitle2',
           description: 'somedescription2',
           dateCreated: moment('2020-04-10T13:14:13.000Z'),
-          ownerName: 'someOwnerName2',
-          ownerLogo: 'someOwnerLogo2',
+          creatorName: 'someCreatorName2',
+          creatorLogo: 'someCreatorLogo2',
           status: 'someStatus2',
           location: 'someCountry2',
           goal: 'someGoal2',
@@ -110,6 +112,8 @@ beforeEach(() => {
             },
           ],
           termsType: TermsOfUseType.FreeOpenSource,
+          version: '1.2.3',
+          badges: ['somebadge'],
         },
         {
           did: 'someDid3',
@@ -118,8 +122,8 @@ beforeEach(() => {
           title: 'someTitle3',
           description: 'somedescription3',
           dateCreated: moment('2020-04-02T13:14:13.000Z'),
-          ownerName: 'someOwnerName3',
-          ownerLogo: 'someOwnerLogo3',
+          creatorName: 'someCreatorName3',
+          creatorLogo: 'someCreatorLogo3',
           status: 'someStatus3',
           location: 'someCountry3',
           goal: 'someGoal3',
@@ -152,6 +156,8 @@ beforeEach(() => {
             },
           ],
           termsType: TermsOfUseType.FreeOpenSource,
+          version: '1.2.3',
+          badges: ['somebadge'],
         },
         {
           did: 'someDid4',
@@ -160,8 +166,8 @@ beforeEach(() => {
           title: 'someTitle4',
           description: 'somedescription4',
           dateCreated: moment('2020-04-02T14:14:14.000Z'),
-          ownerName: 'someOwnerName4',
-          ownerLogo: 'someOwnerLogo4',
+          creatorName: 'someCreatorName4',
+          creatorLogo: 'someCreatorLogo4',
           status: 'someStatus4',
           location: 'someCountry4',
           goal: 'someGoal4',
@@ -194,6 +200,52 @@ beforeEach(() => {
             },
           ],
           termsType: TermsOfUseType.FreeOpenSource,
+          version: '1.2.3',
+          badges: ['somebadge'],
+        },
+        {
+          did: 'someDid4',
+          type: EntityType.Template,
+          creatorDid: 'someCreatorDid4',
+          title: 'someTitle4',
+          description: 'somedescription4',
+          dateCreated: moment('2020-04-24T13:14:13.000Z'),
+          creatorName: 'someCreatorName4',
+          creatorLogo: 'someCreatorLogo4',
+          status: 'someStatus4',
+          location: 'someCountry4',
+          goal: 'someGoal4',
+          serviceProvidersCount: 0,
+          evaluatorsCount: 0,
+          requiredClaimsCount: 0,
+          successfulClaimsCount: 0,
+          pendingClaimsCount: 0,
+          rejectedClaimsCount: 0,
+          sdgs: ['SDG1_4', 'SDG2_4', 'SDG3_4'],
+          agentDids: ['someAgentDid4'],
+          image: 'sommeImageUrl',
+          logo: 'someLogoUrl',
+          ddoTags: [
+            {
+              name: 'someCategory4',
+              tags: [
+                'someCategory1_tag4',
+                'someCategory1_tag2',
+                'someCategory1_tag3',
+              ],
+            },
+            {
+              name: 'someCategory5',
+              tags: [
+                'someCategory5_tag4',
+                'someCategory5_tag2',
+                'someCategory5_tag3',
+              ],
+            },
+          ],
+          termsType: TermsOfUseType.FreeOpenSource,
+          version: '1.2.3',
+          badges: ['somebadge'],
         },
       ],
       filter: {
@@ -347,6 +399,24 @@ describe('EntitiesExplorer Selectors', () => {
       // then ... should return result as expected
       expect(result.length).toEqual(1)
       expect(result[0].did).toEqual('someDid1')
+    })
+  })
+
+  describe('selectAllTemplateEntities', () => {
+    it('should return a list of template entities sorted by date regardless of filters', () => {
+      state.entities.filter = {
+        dateFrom: moment('2020-04-09'),
+        dateTo: moment('2020-04-10'),
+        ddoTags: [],
+        userEntities: false,
+      }
+
+      // when ... we call the selector
+      const result = SUT.selectAllTemplateEntities(state)
+
+      // then ... should return result as expected
+      expect(result.length).toEqual(1)
+      expect(result[0].did).toEqual('someDid4')
     })
   })
 

@@ -16,8 +16,8 @@ import * as entityOverviewSelectors from './EntityOverview.selectors'
 import * as accountSelectors from 'modules/Account/Account.selectors'
 import { getEntity } from '../SelectedEntity.actions'
 import { Spinner } from 'common/components/Spinner'
-import PageContent from './components/PageContent/PageContent'
-import { ApiPageContent } from 'common/api/blocksync-api/types/page-content'
+import PageContentComponent from './components/PageContent/PageContent'
+import { PageContent } from '../types'
 
 interface Props {
   match: any
@@ -35,7 +35,7 @@ interface Props {
   location: string
   bondDid: string
   sdgs: string[]
-  pageContent: ApiPageContent
+  pageContent: PageContent
   isLoggedIn: boolean
   isLoading: boolean
   handleGetEntity: (did: string) => void
@@ -95,7 +95,7 @@ class EntityOverview extends React.Component<Props> {
                 loggedIn={isLoggedIn}
                 onlyTitle={false}
               />
-              <PageContent
+              <PageContentComponent
                 pageContent={pageContent}
                 ownerLogo={ownerLogo}
                 ownerName={ownerName}
