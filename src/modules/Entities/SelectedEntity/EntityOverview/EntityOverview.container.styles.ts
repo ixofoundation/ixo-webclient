@@ -17,6 +17,11 @@ export const OverviewContainer = styled.section`
   color: black;
   padding-bottom: 40px;
   line-height: 2;
+
+  @media (max-width: 576px) {
+    padding-top: 3rem;
+  }
+
   hr {
     border: 1px solid #e8edee;
     width: 7.5rem;
