@@ -203,6 +203,50 @@ beforeEach(() => {
           version: '1.2.3',
           badges: ['somebadge'],
         },
+        {
+          did: 'someDid4',
+          type: EntityType.Template,
+          creatorDid: 'someCreatorDid4',
+          title: 'someTitle4',
+          description: 'somedescription4',
+          dateCreated: moment('2020-04-24T13:14:13.000Z'),
+          creatorName: 'someCreatorName4',
+          creatorLogo: 'someCreatorLogo4',
+          status: 'someStatus4',
+          location: 'someCountry4',
+          goal: 'someGoal4',
+          serviceProvidersCount: 0,
+          evaluatorsCount: 0,
+          requiredClaimsCount: 0,
+          successfulClaimsCount: 0,
+          pendingClaimsCount: 0,
+          rejectedClaimsCount: 0,
+          sdgs: ['SDG1_4', 'SDG2_4', 'SDG3_4'],
+          agentDids: ['someAgentDid4'],
+          image: 'sommeImageUrl',
+          logo: 'someLogoUrl',
+          ddoTags: [
+            {
+              name: 'someCategory4',
+              tags: [
+                'someCategory1_tag4',
+                'someCategory1_tag2',
+                'someCategory1_tag3',
+              ],
+            },
+            {
+              name: 'someCategory5',
+              tags: [
+                'someCategory5_tag4',
+                'someCategory5_tag2',
+                'someCategory5_tag3',
+              ],
+            },
+          ],
+          termsType: TermsOfUseType.FreeOpenSource,
+          version: '1.2.3',
+          badges: ['somebadge'],
+        },
       ],
       filter: {
         dateFrom: moment('1970-01-01'),
@@ -355,6 +399,24 @@ describe('EntitiesExplorer Selectors', () => {
       // then ... should return result as expected
       expect(result.length).toEqual(1)
       expect(result[0].did).toEqual('someDid1')
+    })
+  })
+
+  describe('selectAllTemplateEntities', () => {
+    it('should return a list of template entities sorted by date regardless of filters', () => {
+      state.entities.filter = {
+        dateFrom: moment('2020-04-09'),
+        dateTo: moment('2020-04-10'),
+        ddoTags: [],
+        userEntities: false,
+      }
+
+      // when ... we call the selector
+      const result = SUT.selectAllTemplateEntities(state)
+
+      // then ... should return result as expected
+      expect(result.length).toEqual(1)
+      expect(result[0].did).toEqual('someDid4')
     })
   })
 
