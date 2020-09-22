@@ -56,8 +56,8 @@ export const getEntity = (did: string) => (
 
       return fetchContent().then((response) => {
         //apiEntity.data.page.cid
-        const claimToUse = apiEntity.data.claims
-          ? apiEntity.data.claims.items[0]
+        const claimToUse = apiEntity.data.entityClaims
+          ? apiEntity.data.entityClaims.items[0]
           : undefined
 
         const alphabondToUse = apiEntity.data.funding.items.find(

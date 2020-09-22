@@ -1084,7 +1084,7 @@ describe('CreateEntity Selectors', () => {
       const result = SUT.selectClaimsForEntityApiPayload(state)
 
       expect(result).toEqual({
-        claims: {
+        entityClaims: {
           ['@context']: 'https://schema.ixo.world/claims:3r08webu2eou',
           items: [
             {
@@ -1259,7 +1259,7 @@ describe('CreateEntity Selectors', () => {
           cid: 'somepageid',
           version: process.env.REACT_APP_ENTITY_PAGE_VERSION,
         },
-        claims: {
+        entityClaims: {
           ['@context']: 'https://schema.ixo.world/claims:3r08webu2eou',
           items: [
             {
@@ -1460,7 +1460,7 @@ describe('CreateEntity Selectors', () => {
 
       const templatePayload = {
         ...genericPayload,
-        claims: undefined,
+        entityClaims: undefined,
         ['@type']: 'Template',
         name: 'someClaimTitle',
         description: 'someClaimShortDescription',

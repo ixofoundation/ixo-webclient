@@ -33,8 +33,8 @@ export const getEntities = () => (dispatch: Dispatch): GetEntitiesAction => {
     ).then((response) => {
       // TODO - blocksyncApi.project.listProjects()
       return response.data.map((apiEntity: ApiListedEntity) => {
-        const claimToUse = apiEntity.data.claims
-          ? apiEntity.data.claims.items[0]
+        const claimToUse = apiEntity.data.entityClaims
+          ? apiEntity.data.entityClaims.items[0]
           : undefined
 
         return {

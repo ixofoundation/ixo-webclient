@@ -163,7 +163,7 @@ export const selectClaimsForEntityApiPayload = createSelector(
   claimsSelectors.selectEntityClaims,
   (claims) => {
     return {
-      claims: {
+      entityClaims: {
         ['@context']: 'https://schema.ixo.world/claims:3r08webu2eou',
         items: claims.map((claim) => {
           return {
