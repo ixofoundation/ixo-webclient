@@ -1,13 +1,8 @@
-import axios from 'axios'
 import moment from 'moment'
 import * as SUT from './EntitiesExplorer.actions'
 import { EntityType, TermsOfUseType } from '../types'
 import { EntitiesExplorerActions } from './types'
 import mockStore from 'common/redux/mockStore'
-import { fakeListedProjectsData } from '__mocks__/@ixo/ixo-apimodule'
-
-// temporary mock axios while using mocky
-const mockAxios = axios as jest.Mocked<typeof axios>
 
 let store
 
@@ -30,13 +25,9 @@ beforeEach(() => {
 })
 
 describe('Entities Actions', () => {
-  describe.skip('getEntities', () => {
+  describe('getEntities', () => {
     // TOO enable when live api enabled again
     it('should retrieve the entities from the api', async () => {
-      mockAxios.get.mockImplementationOnce(() =>
-        Promise.resolve({ data: fakeListedProjectsData } as any),
-      )
-
       // when we call the action creator
       await store.dispatch(SUT.getEntities())
       const actions = store.getActions()
@@ -61,7 +52,8 @@ describe('Entities Actions', () => {
           creatorDid: 'did:sov:EA1fV7PTbWG3aveDJZpgSn',
           dateCreated: moment('2020-09-12T19:49:45Z'),
           creatorName: 'Creator Display Name',
-          creatorLogo: 'Creator Logo',
+          creatorLogo:
+            'https://pds_pandora.ixo.world/public/8520qk1ckqvkelkjfeg',
           status: 'CREATED',
           location: 'AR',
           goal: 'Some Goal',
@@ -100,8 +92,8 @@ describe('Entities Actions', () => {
             { name: 'Stage', tags: ['Planning'] },
           ],
           termsType: TermsOfUseType.OnceOffFee,
-          badges: ['badge1'],
-          version: '1.2.3',
+          badges: ['https://somebadge.com', 'https://anotherbadge.com'],
+          version: '1.0.5',
         },
         {
           name: 'Some Claim Title',
@@ -111,7 +103,8 @@ describe('Entities Actions', () => {
           creatorDid: 'did:sov:AB1fV7PTbWG3aveDJZpgSb',
           dateCreated: moment('2020-08-12T19:49:45Z'),
           creatorName: 'Creator Display Name',
-          creatorLogo: 'Creator Logo',
+          creatorLogo:
+            'https://pds_pandora.ixo.world/public/8520qk1ckqvkelkjfeg',
           status: 'COMPLETED',
           serviceProvidersCount: 10,
           evaluatorsCount: 10,
@@ -141,8 +134,8 @@ describe('Entities Actions', () => {
             { name: 'Stage', tags: ['Planning'] },
           ],
           termsType: TermsOfUseType.OnceOffFee,
-          badges: ['badge1'],
-          version: '1.2.3',
+          badges: ['https://somebadge.com', 'https://anotherbadge.com'],
+          version: '1.0.5',
         },
       ])
     })

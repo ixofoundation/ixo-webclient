@@ -56,9 +56,10 @@ export const getEntities = () => (dispatch: Dispatch): GetEntitiesAction => {
               requiredClaimsCount: claimToUse
                 ? claimToUse.targetMin
                 : undefined,
-              pendingClaimsCount: apiEntity.data.claims.filter(
-                (claim) => claim.status === '0',
-              ).length, // due to pendingClaims not existing in the claimStats we have to look in the claims itself!
+              pendingClaimsCount: claimToUse
+                ? apiEntity.data.claims.filter((claim) => claim.status === '0')
+                    .length
+                : undefined, // due to pendingClaims not existing in the claimStats we have to look in the claims itself!
               successfulClaimsCount: claimToUse
                 ? apiEntity.data.claimStats.currentSuccessful
                 : undefined,

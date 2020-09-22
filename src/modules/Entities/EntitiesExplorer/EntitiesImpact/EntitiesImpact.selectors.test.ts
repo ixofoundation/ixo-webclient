@@ -101,6 +101,29 @@ beforeEach(() => {
           logo: 'someLogoUrl',
           ddoTags: [],
         },
+        {
+          did: 'someDid5',
+          type: EntityType.Project,
+          creatorDid: 'someCreatorDid',
+          title: 'someTitle5',
+          description: 'somedescription5',
+          dateCreated: moment('2020-05-02T15:15:15.000Z'),
+          creatorName: 'someCreatorName5',
+          status: 'someStatus5',
+          location: 'someCountry5',
+          goal: 'someGoal5',
+          serviceProvidersCount: undefined,
+          evaluatorsCount: undefined,
+          requiredClaimsCount: undefined,
+          successfulClaimsCount: undefined,
+          pendingClaimsCount: undefined,
+          rejectedClaimsCount: undefined,
+          sdgs: ['SDG1_5', 'SDG2_5', 'SDG5_4'],
+          agentDids: ['someAgentDid6'],
+          image: 'sommeImageUrl',
+          logo: 'someLogoUrl',
+          ddoTags: [],
+        },
       ],
       filter: {},
     },
@@ -184,8 +207,12 @@ describe('EntitiesImpact Selectors', () => {
       const result = SUT.selectEntitiesCountries(state)
 
       // then ... should return result as expected
-      expect(result).toContain('someCountry1')
-      expect(result).toContain('someCountry2')
+      expect(result).toEqual([
+        'someCountry1',
+        'someCountry2',
+        'someCountry3',
+        'someCountry5',
+      ])
     })
   })
 })
