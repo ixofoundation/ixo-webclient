@@ -33,7 +33,61 @@
       }
     ]
   },
-  "ddoTags": [],
+  "ddoTags": [
+    {
+      "@type": "Category",
+      "hidden": false,
+      "name": "Function",
+      "multiSelect": true,
+      "tags": [
+        {
+          "@type": "proofing",
+          "name": "Proofing",
+          "icon": "proofing.svg"
+        },
+        {
+          "@type": "prediction",
+          "name": "Prediction",
+          "icon": "prediction.svg"
+        },
+        {
+          "@type": "personalisation",
+          "name": "Personalisation",
+          "icon": "personalisation.svg"
+        },
+        {
+          "@type": "prescription",
+          "name": "Prescription",
+          "icon": "prescription.svg"
+        },
+        {
+          "@type": "protection",
+          "name": "Protection",
+          "icon": "protection.svg"
+        },
+        {
+          "@type": "planning",
+          "name": "Planning",
+          "icon": "planning.svg"
+        },
+        {
+          "@type": "prevention",
+          "name": "Prevention",
+          "icon": "prevention.svg"
+        },
+        {
+          "@type": "participation",
+          "name": "Participation",
+          "icon": "participation.svg"
+        },
+        {
+          "@type": "profiling",
+          "name": "Profiling",
+          "icon": "profiling.svg"
+        }
+      ]
+    }
+  ],
   "sector": {
     "@type": "Category",
     "name": "Sector",

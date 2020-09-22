@@ -40,5 +40,137 @@
     "multiSelect": false,
     "tags": []
   },
-  "ddoTags": []
+  "ddoTags": [
+    {
+      "@type": "Category",
+      "hidden": false,
+      "name": "Asset Class",
+      "multiSelect": true,
+      "tags": [
+        {
+          "@type": "data",
+          "name": "Data",
+          "icon": "data.svg"
+        },
+        {
+          "@type": "carbonCredit",
+          "name": "Carbon Credit",
+          "icon": "carbonCredit.svg"
+        },
+        {
+          "@type": "outcomeContract",
+          "name": "Outcome Contract",
+          "icon": "outcomeContract.svg"
+        },
+        {
+          "@type": "equity",
+          "name": "Equity",
+          "icon": "equity.svg"
+        },
+        {
+          "@type": "cryptocurrency",
+          "name": "Cryptocurrency",
+          "icon": "cryptocurrrency.svg"
+        },
+        {
+          "@type": "commodity",
+          "name": "Commodity",
+          "icon": "commodity.svg"
+        },
+        {
+          "@type": "equipment",
+          "name": "Equipment",
+          "icon": "equipment.svg"
+        },
+        {
+          "@type": "realEstate",
+          "name": "Real Estate",
+          "icon": "realEstate.svg"
+        },
+        {
+          "@type": "intellectualProperty",
+          "name": "Intellectual Property",
+          "icon": "intellectualProperty.svg"
+        },
+        {
+          "@type": "incomeSecurity",
+          "name": "Income Security",
+          "icon": "incomeSecurity.svg"
+        },
+        {
+          "@type": "commercialRights",
+          "name": "Commercial Rights",
+          "icon": "commercialRights.svg"
+        },
+        {
+          "@type": "inventory",
+          "name": "Inventory",
+          "icon": "inventory.svg"
+        },
+        {
+          "@type": "digital",
+          "name": "Digital",
+          "icon": "digital.svg"
+        },
+        {
+          "@type": "bond",
+          "name": "Bond",
+          "icon": "bond.svg"
+        },
+        {
+          "@type": "brand",
+          "name": "Brand",
+          "icon": "brand.svg"
+        },
+        {
+          "@type": "other",
+          "name": "Other",
+          "icon": "other.svg"
+        }
+      ]
+    },
+    {
+      "@type": "Category",
+      "hidden": false,
+      "name": "Format",
+      "multiSelect": true,
+      "tags": [
+        {
+          "@type": "nft",
+          "name": "Non-Fungible Token",
+          "icon": "nft.svg"
+        },
+        {
+          "@type": "option",
+          "name": "Option",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "contract",
+          "name": "Contract",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "certificate",
+          "name": "Ownership Certificate",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "listing",
+          "name": "Exchange Listing",
+          "icon": "listing.svg"
+        },
+        {
+          "@type": "digitalGoods",
+          "name": "Digital Goods",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "unspecified",
+          "name": "Unspecified",
+          "icon": "tag.svg"
+        }
+      ]
+    }
+  ]
 }
