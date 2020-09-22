@@ -290,6 +290,52 @@ export const fakeListedProjectsData = [
         investors: 12,
         investorsPending: 0,
       },
+      'claims': [
+        {
+          date: new Date(),
+          location: {
+            long: 'someLong',
+            lat: 'someLat',
+          },
+          claimId: '1',
+          status: '0',
+          saDid: 'someSADid',
+          eaDid: 'someEADid',
+        },
+        {
+          date: new Date(),
+          location: {
+            long: 'someLong',
+            lat: 'someLat',
+          },
+          claimId: '2',
+          status: '0',
+          saDid: 'someSADid',
+          eaDid: 'someEADid',
+        },
+        {
+          date: new Date(),
+          location: {
+            long: 'someLong',
+            lat: 'someLat',
+          },
+          claimId: '3',
+          status: '0',
+          saDid: 'someSADid',
+          eaDid: 'someEADid',
+        },
+        {
+          date: new Date(),
+          location: {
+            long: 'someLong',
+            lat: 'someLat',
+          },
+          claimId: '4',
+          status: '1',
+          saDid: 'someSADid',
+          eaDid: 'someEADid',
+        },
+      ],
     },
   },
   {
@@ -496,6 +542,7 @@ export const fakeListedProjectsData = [
         investors: 12,
         investorsPending: 0,
       },
+      'claims': [],
     },
   },
 ] as ApiListedEntity[]

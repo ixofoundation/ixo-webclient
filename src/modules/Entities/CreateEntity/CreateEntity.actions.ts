@@ -76,6 +76,7 @@ export const createEntity = () => (
       keysafe.requestSigning(
         entityData,
         (signError: any, signature: any): any => {
+          console.log('signed')
           if (signError) {
             return dispatch({
               type: CreateEntityActions.CreateEntityFailure,
@@ -85,10 +86,14 @@ export const createEntity = () => (
             })
           }
 
+          console.log('about to create')
+
           blocksyncApi.project
             .createProject(JSON.parse(entityData), signature, PDS_URL)
             .then((res: any) => {
+              console.log(res)
               if (res.error) {
+                console.log('it was failure in res.error', res.error)
                 return dispatch({
                   type: CreateEntityActions.CreateEntityFailure,
                   payload: {
@@ -96,12 +101,14 @@ export const createEntity = () => (
                   },
                 })
               } else {
+                console.log('it was success in then')
                 return dispatch({
                   type: CreateEntityActions.CreateEntitySuccess,
                 })
               }
             })
             .catch((error) => {
+              console.log('it was failure catch', error.message)
               return dispatch({
                 type: CreateEntityActions.CreateEntityFailure,
                 payload: {

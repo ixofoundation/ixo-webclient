@@ -202,6 +202,17 @@ export interface ApiListedEntityData extends ApiEntity {
     investors: number
     investorsPending: number
   }
+  claims: {
+    date: Date
+    location: {
+      long: string
+      lat: string
+    }
+    claimId: string
+    status: string
+    saDid: string
+    eaDid?: string
+  }[]
 }
 
 export interface ApiListedEntity {

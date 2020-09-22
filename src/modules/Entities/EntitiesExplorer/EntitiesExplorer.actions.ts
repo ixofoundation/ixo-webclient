@@ -29,7 +29,7 @@ export const getEntities = () => (dispatch: Dispatch): GetEntitiesAction => {
     type: EntitiesExplorerActions.GetEntities,
     // Temp
     payload: Axios.get(
-      'https://run.mocky.io/v3/72228d94-4ced-41d1-8eed-f98011b4ed0b',
+      'https://run.mocky.io/v3/c152388f-5805-481c-ba10-41e227fbcf1c',
     ).then((response) => {
       // TODO - blocksyncApi.project.listProjects()
       return response.data.map((apiEntity: ApiListedEntity) => {
@@ -54,7 +54,9 @@ export const getEntities = () => (dispatch: Dispatch): GetEntitiesAction => {
           serviceProvidersCount: apiEntity.data.agentStats.serviceProviders,
           evaluatorsCount: apiEntity.data.agentStats.evaluators,
           requiredClaimsCount: claimToUse ? claimToUse.targetMin : undefined,
-          pendingClaimsCount: claimToUse ? 3 : undefined, // TODO - get actual value when this is available
+          pendingClaimsCount: apiEntity.data.claims.filter(
+            (claim) => claim.status === '0',
+          ).length, // due to pendingClaims not existing in the claimStats we have to look in the claims itself!
           successfulClaimsCount: claimToUse
             ? apiEntity.data.claimStats.currentSuccessful
             : undefined,
