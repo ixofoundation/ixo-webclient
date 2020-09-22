@@ -41,49 +41,49 @@
       "multiSelect": true,
       "tags": [
         {
-          "@type": "proofing",
+          "@type": "Tag",
           "name": "Proofing",
-          "icon": "proofing.svg"
+          "icon": "tag.svg"
         },
         {
-          "@type": "prediction",
+          "@type": "Tag",
           "name": "Prediction",
-          "icon": "prediction.svg"
+          "icon": "tag.svg"
         },
         {
-          "@type": "personalisation",
+          "@type": "Tag",
           "name": "Personalisation",
-          "icon": "personalisation.svg"
+          "icon": "tag.svg"
         },
         {
-          "@type": "prescription",
+          "@type": "Tag",
           "name": "Prescription",
-          "icon": "prescription.svg"
+          "icon": "tag.svg"
         },
         {
-          "@type": "protection",
+          "@type": "Tag",
           "name": "Protection",
-          "icon": "protection.svg"
+          "icon": "tag.svg"
         },
         {
-          "@type": "planning",
+          "@type": "Tag",
           "name": "Planning",
-          "icon": "planning.svg"
+          "icon": "tag.svg"
         },
         {
-          "@type": "prevention",
+          "@type": "Tag",
           "name": "Prevention",
-          "icon": "prevention.svg"
+          "icon": "tag.svg"
         },
         {
-          "@type": "participation",
+          "@type": "Tag",
           "name": "Participation",
-          "icon": "participation.svg"
+          "icon": "tag.svg"
         },
         {
-          "@type": "profiling",
+          "@type": "Tag",
           "name": "Profiling",
-          "icon": "profiling.svg"
+          "icon": "tag.svg"
         }
       ]
     }

@@ -41,34 +41,34 @@
       "multiSelect": false,
       "tags": [
         {
-          "@type": "project",
+          "@type": "Tag",
           "name": "Project",
-          "icon": "tag.svg"
+          "icon": "Project.svg"
         },
         {
-          "@type": "cell",
+          "@type": "Tag",
           "name": "Cell",
-          "icon": "tag.svg"
+          "icon": "cell.svg"
         },
         {
-          "@type": "oracle",
+          "@type": "Tag",
           "name": "Oracle",
-          "icon": "tag.svg"
+          "icon": "oracle.svg"
         },
         {
-          "@type": "investment",
+          "@type": "Tag",
           "name": "Investment",
-          "icon": "tag.svg"
+          "icon": "investment.svg"
         },
         {
-          "@type": "asset",
+          "@type": "Tag",
           "name": "Asset",
-          "icon": "tag.svg"
+          "icon": "asset.svg"
         },
         {
-          "@type": "agent",
+          "@type": "Tag",
           "name": "Agent",
-          "icon": "tag.svg"
+          "icon": "agent.svg"
         }
       ]
     },
@@ -79,64 +79,64 @@
       "multiSelect": true,
       "tags": [
         {
-          "@type": "service",
+          "@type": "Tag",
           "name": "Service",
-          "icon": "tag.svg"
+          "icon": "service.svg"
         },
         {
-          "@type": "outcome",
+          "@type": "Tag",
           "name": "Outcome",
-          "icon": "tag.svg"
+          "icon": "outcome.svg"
         },
         {
-          "@type": "credential",
+          "@type": "Tag",
           "name": "Credential",
-          "icon": "tag.svg"
+          "icon": "credential.svg"
         },
         {
-          "@type": "useOfFunds",
+          "@type": "Tag",
           "name": "Use of Funds",
-          "icon": "tag.svg"
+          "icon": "useoffunds.svg"
         },
         {
-          "@type": "payment",
+          "@type": "Tag",
           "name": "Payment",
-          "icon": "tag.svg"
+          "icon": "payment.svg"
         },
         {
-          "@type": "investment",
+          "@type": "Tag",
           "name": "Investment",
-          "icon": "tag.svg"
+          "icon": "investment.svg"
         },
         {
-          "@type": "banking",
+          "@type": "Tag",
           "name": "Banking",
-          "icon": "tag.svg"
+          "icon": "banking.svg"
         },
         {
-          "@type": "procurement",
+          "@type": "Tag",
           "name": "Procurement",
-          "icon": "tag.svg"
+          "icon": "procurement.svg"
         },
         {
-          "@type": "provenance",
+          "@type": "Tag",
           "name": "Provenance",
-          "icon": "tag.svg"
+          "icon": "provenance.svg"
         },
         {
-          "@type": "ownership",
+          "@type": "Tag",
           "name": "Ownership",
-          "icon": "tag.svg"
+          "icon": "ownership.svg"
         },
         {
-          "@type": "custody",
+          "@type": "Tag",
           "name": "Custody",
-          "icon": "tag.svg"
+          "icon": "custody.svg"
         },
         {
-          "@type": "dispute",
+          "@type": "Tag",
           "name": "Dispute",
-          "icon": "tag.svg"
+          "icon": "dispute.svg"
         }
       ]
     }
