@@ -38,7 +38,7 @@
       "@type": "Category",
       "hidden": false,
       "name": "Entity",
-      "multiSelect": true,
+      "multiSelect": false,
       "tags": [
         {
           "@type": "project",
@@ -57,7 +57,7 @@
         },
         {
           "@type": "investment",
-          "name": "Investments",
+          "name": "Investment",
           "icon": "tag.svg"
         },
         {

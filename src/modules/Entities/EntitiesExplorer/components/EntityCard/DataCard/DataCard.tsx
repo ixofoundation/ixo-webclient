@@ -26,23 +26,25 @@ import Badges from '../Badges/Badges'
 interface Props {
   did: string
   name: string
-  ownerLogo: string
+  logo: string
   sdgs: string[]
   image: string
   description: string
   termsType: TermsOfUseType
   badges: string[]
+  version: string
 }
 
 const DataCard: React.FunctionComponent<Props> = ({
   did,
   name,
-  ownerLogo,
+  logo,
   image,
   sdgs,
   description,
   termsType,
   badges,
+  version,
 }) => {
   const termsOfUseMap = termsOfUseTypeStrategyMap[termsType]
 
@@ -83,7 +85,7 @@ const DataCard: React.FunctionComponent<Props> = ({
           </MainContent>
           <StatisticsContainer className="row">
             <div className="col-4">
-              <StatisticValue>0.2</StatisticValue>
+              <StatisticValue>{version}</StatisticValue>
               <StatisticLabel>Version</StatisticLabel>
             </div>
             <div className="col-4">
@@ -110,7 +112,7 @@ const DataCard: React.FunctionComponent<Props> = ({
               </Tooltip>
             </div>
             <div className="col-6 text-right">
-              <Logo src={ownerLogo} />
+              <Logo src={logo} />
             </div>
           </CardBottomLogoContainer>
         </CardBottom>
