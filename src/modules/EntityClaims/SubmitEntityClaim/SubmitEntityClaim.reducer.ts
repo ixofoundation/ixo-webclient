@@ -3,34 +3,27 @@ import {
   SubmitEntityClaimActionTypes,
   SubmitEntityClaimActions,
 } from './types'
-import tempClaimData from './temp_claim_data.json'
-import { QuestionForm } from '../types'
-import { EntityClaimType } from '../types'
 
-const {
-  forms,
-  claimInfo: { title, shortDescription, type },
-} = tempClaimData
-
-export const initialState: SubmitEntityClaimState = {
-  claimTitle: title,
-  claimShortDescription: shortDescription,
-  type: type as EntityClaimType,
-  questions: forms as QuestionForm[],
-  currentQuestionNo: 1,
-  answers: undefined,
-  savingAnswer: false,
-  answersComplete: false,
-  sending: false,
-  sent: false,
-  error: null,
-}
+export const initialState: SubmitEntityClaimState = null
 
 export const reducer = (
   state = initialState,
   action: SubmitEntityClaimActionTypes,
 ): SubmitEntityClaimState => {
   switch (action.type) {
+    case SubmitEntityClaimActions.GetClaimTemplateSuccess:
+      return {
+        ...action.payload,
+        currentQuestionNo: 1,
+        answers: undefined,
+        savingAnswer: false,
+        answersComplete: false,
+        sending: false,
+        sent: false,
+        error: null,
+      }
+    case SubmitEntityClaimActions.ClearClaimTemplate:
+      return null
     case SubmitEntityClaimActions.SaveAnswerPending:
       return {
         ...state,

@@ -4,9 +4,43 @@ import * as SUT from './SubmitEntityClaim.selectors'
 
 let state: any
 
+const RealDate = Date.now
+
+beforeAll(() => {
+  global.Date.now = jest.fn(() =>
+    new Date('2019-04-23T13:20:30.000Z').getTime(),
+  )
+})
+
+afterAll(() => {
+  global.Date.now = RealDate
+})
+
 beforeEach(() => {
   state = {
+    account: {
+      userInfo: {
+        didDoc: {
+          did: 'someCreatorDid',
+          pubKey: 'somePubKey',
+          credentials: [],
+        },
+        name: 'SomeName',
+        loggedInKeysafe: true,
+        ledgered: true,
+        hasKYC: false,
+      },
+      address: 'abc1234',
+      accountNumber: null,
+      sequence: null,
+      balances: [],
+      loginStatusCheckCompleted: true,
+    },
+    selectedEntity: {
+      did: 'someEntityDid',
+    },
     submitEntityClaim: {
+      templateDid: 'someTemplateDid',
       claimTitle: 'Some Claim Title',
       claimShortDescription: 'Some Claim Short Description',
       type: EntityClaimType.Custody,
@@ -197,6 +231,42 @@ describe('SubmitEntityClaim Selectors', () => {
     })
   })
 
+  describe('selectTemplateDid', () => {
+    it('should return the claim did', () => {
+      // when ... we call the selector
+      const result = SUT.selectTemplateDid(state)
+      // then ... it should return the result as expected
+      expect(result).toEqual('someTemplateDid')
+    })
+  })
+
+  describe('selectClaimTitle', () => {
+    it('should return the claim title', () => {
+      // when ... we call the selector
+      const result = SUT.selectClaimTitle(state)
+      // then ... it should return the result as expected
+      expect(result).toEqual('Some Claim Title')
+    })
+  })
+
+  describe('selectClaimShortDescription', () => {
+    it('should return the claim short descriptoin', () => {
+      // when ... we call the selector
+      const result = SUT.selectClaimShortDescription(state)
+      // then ... it should return the result as expected
+      expect(result).toEqual('Some Claim Short Description')
+    })
+  })
+
+  describe('selectClaimType', () => {
+    it('should return the claim type', () => {
+      // when ... we call the selector
+      const result = SUT.selectClaimType(state)
+      // then ... it should return the result as expected
+      expect(result).toEqual(EntityClaimType.Custody)
+    })
+  })
+
   describe('selectAnswers', () => {
     it('should return the answers', () => {
       // when ... we call the selector
@@ -273,6 +343,39 @@ describe('SubmitEntityClaim Selectors', () => {
       const result = SUT.selectError(state)
       // then ... should return result as expected
       expect(result).toEqual('some error occured')
+    })
+  })
+
+  describe('selectClaimApiPayload', () => {
+    it('should return the payload for the api', () => {
+      // when ... we call the selector
+      const result = SUT.selectClaimApiPayload(state)
+      // then ... it should return the result as expected
+      expect(result).toEqual({
+        ['@context']:
+          'https://schema.ixo.foundation/claims/53690e7d550278dbe228ddf35e0ba72b2666cba6',
+        id: 'someTemplateDid',
+        type: 'Custody',
+        issuerId: 'someCreatorDid',
+        claimSubject: {
+          id: 'someEntityDid',
+        },
+        items: [
+          {
+            id: '00000001-3b7d-4bad-9bdd-2b0d7b3dcb67',
+            attribute: 'https://schema.org/1',
+            value: '2',
+          },
+          {
+            id: '00000002-3b7d-4bad-9bdd-2b0d7b3dcb67',
+            attribute: 'https://schema.org/2',
+            value:
+              '{"address":"Highgate Views, 5 Smith St, Perth WA 6000, Australia","city":"City of Vincent","area":"","state":"Western Australia","lat":-31.94307,"lng":115.86966}',
+          },
+        ],
+        dateTime: '2019-04-23T13:20:30.000Z',
+        projectDid: 'someEntityDid',
+      })
     })
   })
 })

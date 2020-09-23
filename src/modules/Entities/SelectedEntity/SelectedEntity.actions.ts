@@ -46,6 +46,7 @@ export const getEntity = (did: string) => (
             fromBase64(resourceData.data),
           )
 
+          // TODO - in future we will get all claims
           const claimToUse = apiEntity.data.entityClaims
             ? apiEntity.data.entityClaims.items[0]
             : undefined
@@ -75,6 +76,7 @@ export const getEntity = (did: string) => (
             evaluatorsCount: apiEntity.data.agentStats.evaluators,
             evaluatorsPendingCount: apiEntity.data.agentStats.evaluatorsPending,
             goal: claimToUse ? claimToUse.goal : undefined,
+            claimTemplateId: claimToUse ? claimToUse['@id'] : undefined,
             requiredClaimsCount: claimToUse ? claimToUse.targetMin : undefined,
             pendingClaimsCount: claimToUse
               ? apiEntity.data.claims.filter((claim) => claim.status === '0')
@@ -96,10 +98,3 @@ export const getEntity = (did: string) => (
     }),
   })
 }
-
-/*
-        .catch((result: Error) => {
-          Toast.errorToast(result.message, ErrorTypes.goBack)
-          this.gettingProjectData = false
-        })
-*/

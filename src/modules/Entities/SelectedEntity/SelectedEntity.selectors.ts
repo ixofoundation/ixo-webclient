@@ -124,6 +124,13 @@ export const selectEntityAgents = createSelector(
   },
 )
 
+export const selectEntityClaimTemplateId = createSelector(
+  selectSelectedEntity,
+  (entity: Entity) => {
+    return entity ? entity.claimTemplateId : undefined
+  },
+)
+
 export const entityIsLoading = createSelector(
   selectSelectedEntity,
   (entity: Entity) => {

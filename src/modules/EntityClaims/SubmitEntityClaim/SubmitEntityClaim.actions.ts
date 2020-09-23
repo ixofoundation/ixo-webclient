@@ -5,11 +5,66 @@ import {
   GoToNextQuestionAction,
   GoToQuestionNumberAction,
   FinaliseQuestionsAction,
+  CreateClaimSuccessAction,
+  CreateClaimFailureAction,
+  ClearClaimTemplateAction,
+  GetClaimTemplateAction,
 } from './types'
 import { Dispatch } from 'redux'
 import { RootState } from 'common/redux/types'
+import keysafe from 'common/keysafe/keysafe'
 import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
 import { PDS_URL } from 'modules/Entities/types'
+import * as submitEntityClaimSelectors from './SubmitEntityClaim.selectors'
+import { ApiListedEntity } from 'common/api/blocksync-api/types/entities'
+import { ApiResource } from 'common/api/blocksync-api/types/resource'
+import { Attestation } from '../types'
+import { fromBase64 } from 'js-base64'
+
+export const clearClaimTemplate = (): ClearClaimTemplateAction => ({
+  type: SubmitEntityClaimActions.ClearClaimTemplate,
+})
+
+export const getClaimTemplate = (templateDid: string) => (
+  dispatch: Dispatch,
+  getState: () => RootState,
+): GetClaimTemplateAction => {
+  const { submitEntityClaim } = getState()
+
+  if (submitEntityClaim && submitEntityClaim.templateDid === templateDid) {
+    return null
+  }
+
+  dispatch(clearClaimTemplate())
+
+  const fetchTemplateEntity: Promise<ApiListedEntity> = blocksyncApi.project.getProjectByProjectDid(
+    templateDid,
+  )
+
+  const fetchContent = (key: string): Promise<ApiResource> =>
+    blocksyncApi.project.fetchPublic(key, PDS_URL) as Promise<ApiResource>
+
+  return dispatch({
+    type: SubmitEntityClaimActions.GetClaimTemplate,
+    payload: fetchTemplateEntity.then((apiEntity: ApiListedEntity) => {
+      return fetchContent(apiEntity.data.page.cid).then(
+        (resourceData: ApiResource) => {
+          const attestation: Attestation = JSON.parse(
+            fromBase64(resourceData.data),
+          )
+
+          return {
+            templateDid,
+            claimTitle: apiEntity.data.name,
+            claimShortDescription: apiEntity.data.description,
+            type: attestation.claimInfo.type,
+            questions: attestation.forms,
+          }
+        },
+      )
+    }),
+  })
+}
 
 export const saveAnswer = (formData: FormData) => (
   dispatch: Dispatch,
@@ -109,8 +164,60 @@ export const goToQuestionNumber = (newQuestionNumber: number) => (
 
   return null
 }
+
 export const finaliseQuestions = (): FinaliseQuestionsAction => {
   return {
     type: SubmitEntityClaimActions.FinaliseQuestions,
   }
+}
+
+export const createEntityClaim = () => (
+  dispatch: Dispatch,
+  getState: () => RootState,
+): CreateClaimSuccessAction | CreateClaimFailureAction => {
+  const claimApiPayload = submitEntityClaimSelectors.selectClaimApiPayload(
+    getState(),
+  )
+
+  keysafe.requestSigning(
+    JSON.stringify(claimApiPayload),
+    (signError: any, signature: any): any => {
+      if (signError) {
+        return dispatch({
+          type: SubmitEntityClaimActions.CreateClaimFailure,
+          payload: {
+            error: signError,
+          },
+        })
+      }
+
+      blocksyncApi.claim
+        .createClaim(claimApiPayload, signature, PDS_URL)
+        .then((res) => {
+          if (res.error) {
+            return dispatch({
+              type: SubmitEntityClaimActions.CreateClaimFailure,
+              payload: {
+                error: res.error.message,
+              },
+            })
+          } else {
+            return dispatch({
+              type: SubmitEntityClaimActions.CreateClaimSuccess,
+            })
+          }
+        })
+        .catch((error) => {
+          return dispatch({
+            type: SubmitEntityClaimActions.CreateClaimFailure,
+            payload: {
+              error: error.message,
+            },
+          })
+        })
+    },
+    'base64',
+  )
+
+  return null
 }

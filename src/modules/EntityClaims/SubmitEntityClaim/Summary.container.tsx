@@ -14,7 +14,6 @@ interface Props {
   entityDid: string
   match: any
   answersComplete: boolean
-  handleGetEntity: (entityDid: string) => void
   handleGoToQuestionClick: (questionNo: number) => void
 }
 
@@ -29,17 +28,6 @@ class SummaryContainer extends React.Component<Props, State> {
     this.state = {
       showForm: false,
     }
-  }
-
-  componentDidMount(): void {
-    const {
-      match: {
-        params: { projectDID: entityDid },
-      },
-      handleGetEntity,
-    } = this.props
-
-    handleGetEntity(entityDid)
   }
 
   handleGoToQuestion = (questionNo: number): void => {
@@ -81,7 +69,6 @@ const mapStateToProps = (state: RootState): Record<string, any> => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
-  handleGetEntity: (entityDid): void => dispatch(getEntity(entityDid)),
   handleGoToQuestionClick: (questionNo: number): void =>
     dispatch(goToQuestionNumber(questionNo)),
 })

@@ -5,15 +5,18 @@ import Instructions from './components/Instructions/Instructions'
 import { FormContainer } from 'common/components/JsonForm/JsonForm.styles'
 import * as submitEntityClaimSelectors from './SubmitEntityClaim.selectors'
 import * as selectedEntitySelectors from 'modules/Entities/SelectedEntity/SelectedEntity.selectors'
-import { getEntity } from 'modules/Entities/SelectedEntity/SelectedEntity.actions'
 import { ActionWrapper } from 'common/components/ControlPanel/Actions/Actions.styles'
 import { QuestionForm } from '../types'
+import { getClaimTemplate } from './SubmitEntityClaim.actions'
+import { Spinner } from 'common/components/Spinner'
 
 interface Props {
   entityDid: string
+  templateDid: string
+  claimTemplateIsLoading: boolean
   questions: QuestionForm[]
   match: any
-  handleGetEntity: (entityDid: string) => void
+  handleGetClaimTemplate: (templateDid: string) => void
 }
 
 class InstructionsContainer extends React.Component<Props> {
@@ -26,14 +29,10 @@ class InstructionsContainer extends React.Component<Props> {
       document.querySelector('body').classList.add('noScroll')
     }
     document.querySelector('#ControlPanelWrapper').classList.add('fixed')
-    const {
-      match: {
-        params: { projectDID: entityDid },
-      },
-      handleGetEntity,
-    } = this.props
 
-    handleGetEntity(entityDid)
+    const { templateDid, handleGetClaimTemplate } = this.props
+
+    handleGetClaimTemplate(templateDid)
   }
 
   componentWillUnmount(): void {
@@ -42,7 +41,11 @@ class InstructionsContainer extends React.Component<Props> {
   }
 
   render(): JSX.Element {
-    const { entityDid, questions } = this.props
+    const { claimTemplateIsLoading, entityDid, questions } = this.props
+
+    if (claimTemplateIsLoading) {
+      return <Spinner info={`Initialising claim form...`} />
+    }
 
     return (
       <ActionWrapper className="open summary">
@@ -67,10 +70,13 @@ class InstructionsContainer extends React.Component<Props> {
 const mapStateToProps = (state: RootState): Record<string, any> => ({
   questions: submitEntityClaimSelectors.selectQuestions(state),
   entityDid: selectedEntitySelectors.selectEntityDid(state),
+  templateDid: selectedEntitySelectors.selectEntityClaimTemplateId(state),
+  claimTemplateIsLoading: submitEntityClaimSelectors.selectIsLoading(state),
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
-  handleGetEntity: (entityDid): void => dispatch(getEntity(entityDid)),
+  handleGetClaimTemplate: (templateDid): void =>
+    dispatch(getClaimTemplate(templateDid)),
 })
 
 export const InstructionsContainerConnected = connect(
