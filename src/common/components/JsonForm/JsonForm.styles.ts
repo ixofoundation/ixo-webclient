@@ -240,7 +240,7 @@ export const FormContainer = styled.div`
     width: initial;
     border-radius: 4px !important;
     @media (min-width: ${deviceWidth.mobileSmall}px) {
-      margin-left: 0.625rem;
+      margin-left: 0.325rem;
     }
   }
 
@@ -371,7 +371,7 @@ export const FormWrapper = styled.div`
     width: initial;
     border-radius: 4px !important;
     @media (min-width: ${deviceWidth.mobileSmall}px) {
-      margin-left: 0.625rem;
+      margin-left: 0.325rem;
     }
   }
 
