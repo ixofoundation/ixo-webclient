@@ -1,8 +1,5 @@
 import { combineReducers, Reducer } from 'redux'
 import { connectRouter } from 'connected-react-router'
-import { reducer as keysafeReducer } from 'modules/keysafe/keysafe.reducer'
-import { reducer as ixoReducer } from 'modules/ixo/ixo.reducer'
-import { reducer as web3Reducer } from 'modules/web3/web3.reducer'
 import { reducer as bondBuyReducer } from 'modules/BondModules/BondBuy/BondBuy.reducer'
 import { reducer as bondSellReducer } from 'modules/BondModules/BondSell/BondSell.reducer'
 import { reducer as bondSwapReducer } from 'modules/BondModules/BondSwap/BondSwap.reducer'
@@ -15,6 +12,7 @@ import { reducer as entitiesReducer } from 'modules/Entities/EntitiesExplorer/En
 import { reducer as fuelEntityReducer } from 'modules/Entities/FuelEntity/FuelEntity.reducer'
 import { reducer as submitEntityClaimReducer } from 'modules/EntityClaims/SubmitEntityClaim/SubmitEntityClaim.reducer'
 import { reducer as selectedEntityReducer } from 'modules/Entities/SelectedEntity/SelectedEntity.reducer'
+import { reducer as selectedEntityAgentsReducer } from 'modules/Entities/SelectedEntity/EntityImpact/EntityAgents/EntityAgents.reducer'
 import { reducer as createEntityReducer } from 'modules/Entities/CreateEntity/CreateEntity.reducer'
 import { reducer as createEntityPageContentReducer } from 'modules/Entities/CreateEntity/CreateEntityPageContent/CreateEntityPageContent.reducer'
 import { reducer as createEntitySettingsReducer } from 'modules/Entities/CreateEntity/CreateEntitySettings/CreateEntitySettings.reducer'
@@ -26,9 +24,6 @@ import { RootState } from './types'
 
 export const rootReducer = (history): Reducer<RootState> =>
   combineReducers<RootState>({
-    keySafe: keysafeReducer,
-    ixo: ixoReducer,
-    web3: web3Reducer,
     bondBuy: bondBuyReducer,
     bondSell: bondSellReducer,
     bondSwap: bondSwapReducer,
@@ -41,6 +36,7 @@ export const rootReducer = (history): Reducer<RootState> =>
     fuelEntity: fuelEntityReducer,
     submitEntityClaim: submitEntityClaimReducer,
     selectedEntity: selectedEntityReducer,
+    selectedEntityAgents: selectedEntityAgentsReducer,
     createEntity: createEntityReducer,
     createEntityPageContent: createEntityPageContentReducer,
     createEntityAttestation: createEntityAttestationReducer,

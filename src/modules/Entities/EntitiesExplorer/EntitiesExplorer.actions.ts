@@ -1,5 +1,6 @@
-import { Moment } from 'moment'
+import moment, { Moment } from 'moment'
 import { Dispatch } from 'redux'
+import { EntityType } from '../types'
 import {
   GetEntitiesAction,
   ChangeEntitiesTypeAction,
@@ -12,39 +13,91 @@ import {
   ResetCategoryFilterAction,
   ResetSectorFilterAction,
   ResetFiltersAction,
-  EntitiesActions,
-  EntityType,
-  FilterCategoriesAction,
-  Category,
+  EntitiesExplorerActions,
+  FilterDDOCategoriesAction,
+  DDOTagCategory,
   FilterCategoryTagAction,
   FilterSectorAction,
-} from '../types'
+} from './types'
 import { RootState } from 'common/redux/types'
 import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
-import { mapApiEntityToEntity } from '../Entities.utils'
+import { ApiListedEntity } from 'common/api/blocksync-api/types/entities'
 
 export const getEntities = () => (dispatch: Dispatch): GetEntitiesAction => {
   return dispatch({
-    type: EntitiesActions.GetEntities,
-    payload: blocksyncApi.project.listProjects().then((response) => {
-      return response.map((apiEntity) => mapApiEntityToEntity(apiEntity))
-    }),
+    type: EntitiesExplorerActions.GetEntities,
+    // Temp
+    payload: blocksyncApi.project
+      .listProjects()
+      .then((apiEntities: ApiListedEntity[]) => {
+        return apiEntities
+          .filter((entity) => !!entity.data['@type'])
+          .map((apiEntity: ApiListedEntity) => {
+            const claimToUse = apiEntity.data.entityClaims
+              ? apiEntity.data.entityClaims.items[0]
+              : undefined
+
+            return {
+              did: apiEntity.projectDid,
+              type: apiEntity.data['@type'],
+              creatorDid: apiEntity.data.createdBy,
+              status: apiEntity.status,
+              name: apiEntity.data.name,
+              description: apiEntity.data.description,
+              dateCreated: moment(apiEntity.data.createdOn),
+              creatorName: apiEntity.data.creator.displayName,
+              creatorLogo: apiEntity.data.creator.logo,
+              location: apiEntity.data.location,
+              goal: claimToUse ? claimToUse.goal : undefined,
+              image: apiEntity.data.image,
+              logo: apiEntity.data.logo,
+              serviceProvidersCount: apiEntity.data.agentStats.serviceProviders,
+              evaluatorsCount: apiEntity.data.agentStats.evaluators,
+              requiredClaimsCount: claimToUse
+                ? claimToUse.targetMin
+                : undefined,
+              pendingClaimsCount: claimToUse
+                ? apiEntity.data.claims.filter((claim) => claim.status === '0')
+                    .length
+                : undefined, // due to pendingClaims not existing in the claimStats we have to look in the claims itself!
+              successfulClaimsCount: claimToUse
+                ? apiEntity.data.claimStats.currentSuccessful
+                : undefined,
+              rejectedClaimsCount: claimToUse
+                ? apiEntity.data.claimStats.currentRejected
+                : undefined,
+              agentDids: apiEntity.data.agents.map((agent) => agent.did),
+              sdgs: apiEntity.data.sdgs,
+              ddoTags: apiEntity.data.ddoTags
+                ? apiEntity.data.ddoTags.map((ddoTag) => ({
+                    name: ddoTag.category,
+                    tags: ddoTag.tags,
+                  }))
+                : [],
+              termsType: apiEntity.data.terms['@type'],
+              badges: apiEntity.data.displayCredentials.items.map(
+                (dc) => dc.badge,
+              ),
+              version: apiEntity.data.version.versionNumber,
+            }
+          })
+      }),
   })
 }
 
 export const changeEntitiesType = (
-  entityType: EntityType,
+  type: EntityType,
 ): ChangeEntitiesTypeAction => ({
-  type: EntitiesActions.ChangeEntitiesType,
+  type: EntitiesExplorerActions.ChangeEntitiesType,
   payload: {
-    entityType,
+    type,
   },
 })
 
 export const filterToggleUserEntities = (
   userEntities: boolean,
 ): FilterToggleUserEntitiesAction => ({
-  type: EntitiesActions.FilterToggleUserEntities,
+  type: EntitiesExplorerActions.FilterToggleUserEntities,
   payload: {
     userEntities,
   },
@@ -53,7 +106,7 @@ export const filterToggleUserEntities = (
 export const filterToggleFeaturedEntities = (
   featuredEntities: boolean,
 ): FilterToggleFeaturedEntitiesAction => ({
-  type: EntitiesActions.FilterToggleFeaturedEntities,
+  type: EntitiesExplorerActions.FilterToggleFeaturedEntities,
   payload: {
     featuredEntities,
   },
@@ -62,7 +115,7 @@ export const filterToggleFeaturedEntities = (
 export const filterTogglePopularEntities = (
   popularEntities: boolean,
 ): FilterTogglePopularEntitiesAction => ({
-  type: EntitiesActions.FilterTogglePopularEntities,
+  type: EntitiesExplorerActions.FilterTogglePopularEntities,
   payload: {
     popularEntities,
   },
@@ -72,7 +125,7 @@ export const filterDates = (
   dateFrom: Moment,
   dateTo: Moment,
 ): FilterDatesAction => ({
-  type: EntitiesActions.FilterDates,
+  type: EntitiesExplorerActions.FilterDates,
   payload: {
     dateFrom,
     dateTo,
@@ -80,7 +133,7 @@ export const filterDates = (
 })
 
 export const resetDatesFilter = (): ResetDatesFilterAction => ({
-  type: EntitiesActions.ResetDatesFilter,
+  type: EntitiesExplorerActions.ResetDatesFilter,
 })
 
 export const filterCategoryTag = (category: string, tag: string) => (
@@ -89,13 +142,13 @@ export const filterCategoryTag = (category: string, tag: string) => (
 ): FilterCategoryTagAction => {
   const state = getState()
 
-  const isCurrentlySelected = state.entities.filter.categories.find(
+  const isCurrentlySelected = state.entities.filter.ddoTags.find(
     (filterCategory) =>
       filterCategory.name === category && filterCategory.tags.includes(tag),
   )
 
   return dispatch({
-    type: EntitiesActions.FilterCategoryTag,
+    type: EntitiesExplorerActions.FilterCategoryTag,
     payload: {
       category,
       tags: isCurrentlySelected ? [] : [tag],
@@ -109,7 +162,7 @@ export const filterAddCategoryTag = (category: string, tag: string) => (
 ): FilterAddCategoryTagAction => {
   const state = getState()
 
-  const currentCategoryTags = state.entities.filter.categories.find(
+  const currentCategoryTags = state.entities.filter.ddoTags.find(
     (filterCategory) => filterCategory.name === category,
   ).tags
 
@@ -118,7 +171,7 @@ export const filterAddCategoryTag = (category: string, tag: string) => (
     : [...currentCategoryTags, tag]
 
   return dispatch({
-    type: EntitiesActions.FilterAddCategoryTag,
+    type: EntitiesExplorerActions.FilterAddCategoryTag,
     payload: {
       category,
       tags: newCategoryTags,
@@ -127,27 +180,27 @@ export const filterAddCategoryTag = (category: string, tag: string) => (
 }
 
 export const filterCategories = (
-  categories: Category[],
-): FilterCategoriesAction => ({
-  type: EntitiesActions.FilterCategories,
-  payload: { categories },
+  categories: DDOTagCategory[],
+): FilterDDOCategoriesAction => ({
+  type: EntitiesExplorerActions.FilterDDOCategories,
+  payload: { ddoTags: categories },
 })
 export const filterSector = (sector: string): FilterSectorAction => ({
-  type: EntitiesActions.FilterSector,
+  type: EntitiesExplorerActions.FilterSector,
   payload: { sector },
 })
 
 export const resetCategoryFilter = (
   category: string,
 ): ResetCategoryFilterAction => ({
-  type: EntitiesActions.ResetCategoryFilter,
+  type: EntitiesExplorerActions.ResetCategoryFilter,
   payload: { category },
 })
 
 export const resetSectorFilter = (): ResetSectorFilterAction => ({
-  type: EntitiesActions.ResetSectorFilter,
+  type: EntitiesExplorerActions.ResetSectorFilter,
 })
 
 export const resetFilters = (): ResetFiltersAction => ({
-  type: EntitiesActions.ResetFilters,
+  type: EntitiesExplorerActions.ResetFilters,
 })

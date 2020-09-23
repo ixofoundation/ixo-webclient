@@ -17,6 +17,7 @@ import {
   apiCurrencyToCurrency,
   currencyToApiCurrency,
 } from 'modules/Account/Account.utils'
+import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
 
 export const initiateQuote = (): InitiateQuoteAction => ({
   type: BondBuyActions.InitiateQuote,
@@ -41,12 +42,12 @@ export const getQuote = (receiving: Currency, maxPrice: Currency) => (
           },
         ],
       },
-    ).then(response => {
+    ).then((response) => {
       return {
         receiving,
         maxPrice,
         actualPrice: apiCurrencyToCurrency(response.data.prices[0]),
-        txFees: response.data.tx_fees.map(txFee =>
+        txFees: response.data.tx_fees.map((txFee) =>
           apiCurrencyToCurrency(txFee),
         ),
         totalPrice: apiCurrencyToCurrency(response.data.total_prices[0]),
@@ -68,7 +69,6 @@ export const confirmBuy = () => (
         didDoc: { did, pubKey },
       },
     },
-    ixo: { ixo },
   } = getState()
 
   const tx: BondBuyTx = {
@@ -80,7 +80,7 @@ export const confirmBuy = () => (
   }
 
   const msgType = 'bonds/MsgBuy'
-  ixo.utils
+  blocksyncApi.utils
     .getSignData(tx, msgType, pubKey)
     .then((response: any) => {
       if (response.sign_bytes && response.fee) {
@@ -104,7 +104,7 @@ export const confirmBuy = () => (
                   ),
                 ),
               )
-                .then(response => {
+                .then((response) => {
                   if (!response.data.logs[0].success) {
                     Toast.errorToast('Buy failed. Please try again.')
                   } else {
@@ -113,7 +113,7 @@ export const confirmBuy = () => (
                     )
                   }
                 })
-                .catch(error => {
+                .catch((error) => {
                   Toast.errorToast(`Error: ${error.message}`)
                 }),
             })

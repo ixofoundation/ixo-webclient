@@ -1,0 +1,229 @@
+{
+  "@context": "https://schema.ixo.foundation/investment",
+  "@type": "Investment",
+  "dateCreated": {
+    "@type": "Date",
+    "name": "Dates"
+  },
+  "view": {
+    "@type": "Category",
+    "hidden": false,
+    "name": "View",
+    "multiSelect": false,
+    "tags": [
+      {
+        "@type": "Tag",
+        "name": "My Portfolio",
+        "icon": "portfolio.svg"
+      },
+      {
+        "@type": "Tag",
+        "name": "Global",
+        "icon": "global.svg"
+      },
+      {
+        "@type": "Tag",
+        "name": "Featured",
+        "icon": "featured.svg"
+      },
+      {
+        "@type": "Tag",
+        "name": "Popular",
+        "icon": "popular.svg"
+      }
+    ]
+  },
+  "sector": {
+    "@type": "Category",
+    "name": "Sector",
+    "hidden": true,
+    "multiSelect": false,
+    "tags": []
+  },
+  "ddoTags": [
+    {
+      "@type": "Category",
+      "hidden": false,
+      "name": "Instrument",
+      "multiSelect": true,
+      "tags": [
+        {
+          "@type": "Tag",
+          "name": "Alphabond",
+          "icon": "alphabond.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Grant",
+          "icon": "grant.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Donation",
+          "icon": "donation.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Prize/Bounty",
+          "icon": "prize.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Equity",
+          "icon": "equity.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Outcome Contract",
+          "icon": "outcomecontract.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "IP Rights",
+          "icon": "iprights.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Continuous (CSO)",
+          "icon": "cso.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Convertible Loan",
+          "icon": "convertibleloan.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Index Fund",
+          "icon": "indexfund.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Mutual Fund",
+          "icon": "mutualfund.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Warrant",
+          "icon": "warrant.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Security Token",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Derivative",
+          "icon": "derivative.svg"
+        }
+      ]
+    },
+    {
+      "@type": "Category",
+      "hidden": false,
+      "name": "Target",
+      "multiSelect": true,
+      "tags": [
+        {
+          "@type": "Tag",
+          "name": "Crowd Funding",
+          "icon": "crowdfunding.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Accredited Investors",
+          "icon": "accreditedInvestors.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Institutions",
+          "icon": "institutions.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Peer-to-Peer",
+          "icon": "p2p.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Charitable Trusts",
+          "icon": "charitabletrusts.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Public Funds",
+          "icon": "publicfunds.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Blended Finance",
+          "icon": "blendedfinance.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Carbon Finance",
+          "icon": "carbonfinance.svg"
+        }
+      ]
+    },
+    {
+      "@type": "Category",
+      "hidden": false,
+      "name": "Stage",
+      "multiSelect": true,
+      "tags": [
+        {
+          "@type": "Tag",
+          "name": "Proposal",
+          "icon": "proposal.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Feasibility",
+          "icon": "feasibility.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Angel",
+          "icon": "angel.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Seed",
+          "icon": "seed.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Hatch",
+          "icon": "hatch.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Private/P2P",
+          "icon": "p2p.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Continuous",
+          "icon": "continuous.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Growth",
+          "icon": "growth.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Fully Funded",
+          "icon": "funded.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Closed",
+          "icon": "closed.svg"
+        }
+      ]
+    }
+  ]
+}

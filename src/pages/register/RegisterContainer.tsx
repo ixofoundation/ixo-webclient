@@ -11,10 +11,11 @@ import { TextBlock } from './components/TextBlock'
 import { deviceWidth } from '../../lib/commonData'
 import MediaQuery from 'react-responsive'
 import { Button, ButtonTypes } from '../../common/components/Form/Buttons'
-import { Spinner } from '../../common/components/Spinner'
 import { Header } from '../../types/models'
 import Kyc from '../../assets/icons/Kyc'
 import Claims from '../../assets/icons/Claims'
+import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
+import keysafe from 'common/keysafe/keysafe'
 
 const ModalContainer = styled.div`
   width: 360px;
@@ -40,7 +41,8 @@ const RelativeCol = styled.div`
 `
 
 const BlueRow = styled.div`
-  background: ${/* eslint-disable-line */ props => props.theme.bg.gradientBlue};
+  background: ${/* eslint-disable-line */ (props) =>
+    props.theme.bg.gradientBlue};
   margin-top: 0;
 
   @media (min-width: ${deviceWidth.desktop}px) {
@@ -102,9 +104,7 @@ export interface State {
 }
 
 export interface StateProps {
-  ixo?: any
   userInfo: UserInfo
-  keysafe: any
 }
 
 export type Props = StateProps
@@ -222,8 +222,8 @@ class RegisterPage extends React.Component<Props, State> {
 
   checkState(): void {
     // If the user has a keysafe and but the hasKeySafe not set then set state
-    if (this.props.keysafe && !this.state.hasKeySafe) {
-      this.props.keysafe.getDidDoc((error, response) => {
+    if (keysafe && !this.state.hasKeySafe) {
+      keysafe.getDidDoc((error, response) => {
         if (error) {
           if (this.state.toastShown === false) {
             this.setState({ toastShown: true })
@@ -240,9 +240,9 @@ class RegisterPage extends React.Component<Props, State> {
     }
 
     // So has a client side didDoc, so lets check if it is ledgered
-    if (this.props.ixo && this.state.didDoc && !this.state.isDidLedgered) {
+    if (this.state.didDoc && !this.state.isDidLedgered) {
       const ledgerDid = (): void => this.ledgerDid()
-      this.props.ixo.user
+      blocksyncApi.user
         .getDidDoc(this.state.didDoc.did)
         .then((didResponse: any) => {
           if (didResponse.did) {
@@ -287,15 +287,16 @@ class RegisterPage extends React.Component<Props, State> {
   ledgerDid = (): void => {
     if (this.state.didDoc && !this.busyLedgering) {
       const payload = this.state.didDoc
-      this.props.ixo.utils.getSignData(payload, 'did/AddDid', payload.verifyKey)
+      blocksyncApi.utils
+        .getSignData(payload, 'did/AddDid', payload.verifyKey)
         .then((response: any) => {
           if (response.sign_bytes && response.fee) {
             this.busyLedgering = true
-            this.props.keysafe.requestSigning(
+            keysafe.requestSigning(
               response.sign_bytes,
               (error, signature) => {
                 if (!error) {
-                  this.props.ixo.user
+                  blocksyncApi.user
                     .registerUserDid(payload, signature, response.fee, 'sync')
                     .then((response: any) => {
                       if ((response.code || 0) == 0) {
@@ -328,9 +329,6 @@ class RegisterPage extends React.Component<Props, State> {
   }
 
   render(): JSX.Element {
-    if (!this.props.ixo) {
-      return <Spinner info="Loading ixo World..." />
-    }
     return (
       <div>
         <ModalWrapper
@@ -428,9 +426,7 @@ class RegisterPage extends React.Component<Props, State> {
 
 function mapStateToProps(state: RootState): Record<string, any> {
   return {
-    ixo: state.ixo.ixo,
     userInfo: state.account.userInfo,
-    keysafe: state.keySafe.keysafe,
   }
 }
 

@@ -1,8 +1,6 @@
 import { createSelector } from 'reselect'
 import { RootState } from '../../../common/redux/types'
 import { CreateEntityState } from './types'
-import { ApiPageContent } from 'common/api/blocksync-api/types/page-content'
-import { ApiAttestation } from 'common/api/blocksync-api/types/attestation'
 import * as pageContentSelectors from './CreateEntityPageContent/CreateEntityPageContent.selectors'
 import * as attestationSelectors from './CreateEntityAttestation/CreateEntityAttestation.selectors'
 import * as settingsSelectors from './CreateEntitySettings/CreateEntitySettings.selectors'
@@ -12,6 +10,8 @@ import { ApiEntity } from 'common/api/blocksync-api/types/entities'
 import { serverDateFormat } from 'common/utils/formatters'
 import { createEntityMap } from './strategy-map'
 import { EntityType } from '../types'
+import { PageContent } from '../SelectedEntity/types'
+import { Attestation } from 'modules/EntityClaims/types'
 
 export const selectCreateEntity = (state: RootState): CreateEntityState =>
   state.createEntity
@@ -62,7 +62,7 @@ export const selectPageContentApiPayload = createSelector(
     profileContentSections,
     socialContent,
     embeddedContentSections,
-  ): ApiPageContent => {
+  ): PageContent => {
     return {
       header: {
         image: headerContent.headerFileSrc,
@@ -113,7 +113,7 @@ export const selectPageContentApiPayload = createSelector(
 export const selectAttestationApiPayload = createSelector(
   attestationSelectors.selectClaimInfo,
   attestationSelectors.selectQuestions,
-  (claimInfoSection, questions): ApiAttestation => {
+  (claimInfoSection, questions): Attestation => {
     return {
       claimInfo: {
         type: claimInfoSection.type,
@@ -159,6 +159,51 @@ export const selectAttestationApiPayload = createSelector(
   },
 )
 
+export const selectClaimsForEntityApiPayload = createSelector(
+  claimsSelectors.selectEntityClaims,
+  (claims) => {
+    return {
+      entityClaims: {
+        ['@context']: 'https://schema.ixo.world/claims:3r08webu2eou',
+        items: claims.map((claim) => {
+          return {
+            ['@id']: claim.template.templateId,
+            visibility: claim.template.isPrivate ? 'Private' : 'Public',
+            title: claim.template.title,
+            description: claim.template.description,
+            targetMin: claim.template.minTargetClaims,
+            targetMax: claim.template.maxTargetClaims,
+            startDate: serverDateFormat(claim.template.submissionStartDate),
+            endDate: serverDateFormat(claim.template.submissionEndDate),
+            goal: claim.template.goal,
+            agents: claim.agentRoles.map((agent) => ({
+              role: agent.role,
+              autoApprove: agent.autoApprove,
+              credential: agent.credential,
+            })),
+            claimEvaluation: claim.evaluations.map((evaluation) => ({
+              ['@context']: evaluation.context,
+              ['@id']: evaluation.contextLink,
+              methodology: evaluation.evaluationMethodology,
+              attributes: evaluation.evaluationAttributes,
+            })),
+            claimApproval: claim.approvalCriteria.map((approvalCriterion) => ({
+              ['@context']: approvalCriterion.context,
+              ['@id']: approvalCriterion.contextLink,
+              criteria: approvalCriterion.approvalAttributes,
+            })),
+            claimEnrichment: claim.enrichments.map((enrichment) => ({
+              ['@context']: enrichment.context,
+              ['@id']: enrichment.contextLink,
+              resources: enrichment.resources,
+            })),
+          }
+        }),
+      },
+    }
+  },
+)
+
 export const selectAttestationHeaderForEntityApiPayload = createSelector(
   attestationSelectors.selectClaimInfo,
   (claimInfo) => {
@@ -168,7 +213,7 @@ export const selectAttestationHeaderForEntityApiPayload = createSelector(
       image: undefined,
       imageDescription: undefined,
       location: undefined,
-      sdgs: [],
+      sdgs: undefined,
     }
   },
 )
@@ -198,7 +243,7 @@ export const selectEntityApiPayload = (
   createSelector(
     () => ({ ['@type']: entityType }),
     createSelector(
-      createEntityMap[entityType].selectHeaderInfo,
+      createEntityMap[entityType].selectHeaderInfoApiPayload,
       (headerInfo) => headerInfo,
     ),
     createSelector(
@@ -286,49 +331,10 @@ export const selectEntityApiPayload = (
         version: process.env.REACT_APP_ENTITY_PAGE_VERSION,
       },
     }),
-    createSelector(claimsSelectors.selectEntityClaims, (claims) => {
-      return {
-        claims: {
-          ['@context']: 'https://schema.ixo.world/claims:3r08webu2eou',
-          items: claims.map((claim) => {
-            return {
-              ['@id']: claim.template.templateId,
-              visibility: claim.template.isPrivate ? 'Private' : 'Public',
-              title: claim.template.title,
-              description: claim.template.description,
-              targetMin: claim.template.minTargetClaims,
-              targetMax: claim.template.maxTargetClaims,
-              startDate: serverDateFormat(claim.template.submissionStartDate),
-              endDate: serverDateFormat(claim.template.submissionEndDate),
-              goal: claim.template.goal,
-              agents: claim.agentRoles.map((agent) => ({
-                role: agent.role,
-                autoApprove: agent.autoApprove,
-                credential: agent.credential,
-              })),
-              claimEvaluation: claim.evaluations.map((evaluation) => ({
-                ['@context']: evaluation.context,
-                ['@id']: evaluation.contextLink,
-                methodology: evaluation.evaluationMethodology,
-                attributes: evaluation.evaluationAttributes,
-              })),
-              claimApproval: claim.approvalCriteria.map(
-                (approvalCriterion) => ({
-                  ['@context']: approvalCriterion.context,
-                  ['@id']: approvalCriterion.contextLink,
-                  criteria: approvalCriterion.approvalAttributes,
-                }),
-              ),
-              claimEnrichment: claim.enrichments.map((enrichment) => ({
-                ['@context']: enrichment.context,
-                ['@id']: enrichment.contextLink,
-                resources: enrichment.resources,
-              })),
-            }
-          }),
-        },
-      }
-    }),
+    createSelector(
+      createEntityMap[entityType].selectClaimsApiPayload,
+      (claims) => claims,
+    ),
     createSelector(
       advancedSelectors.selectLinkedEntities,
       advancedSelectors.selectPayments,

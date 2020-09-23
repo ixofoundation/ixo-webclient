@@ -3,20 +3,11 @@ import { EntityType } from '../../../../types'
 import { entityTypeMap } from '../../../../strategy-map'
 import { FormCardProps } from '../../../types'
 import MultiControlForm from 'common/components/JsonForm/MultiControlForm/MultiControlForm'
+import { convertArrayToObject } from 'common/utils/transformationUtils'
 
 interface Props extends FormCardProps {
   filters: { [name: string]: string[] }
   entityType: EntityType
-}
-
-const convertArrayToObject = (array, key): {} => {
-  const initialValue = {}
-  return array.reduce((obj, item) => {
-    return {
-      ...obj,
-      [item[key]]: item,
-    }
-  }, initialValue)
 }
 
 const Filter: React.FunctionComponent<Props> = React.forwardRef(

@@ -3,7 +3,7 @@ import { Route, Switch, RouteComponentProps } from 'react-router-dom'
 import styled from 'styled-components'
 import { animated, useSpring } from 'react-spring'
 
-import FundingChat from 'modules/Funding_Chat/FundingChat.container'
+import FundingChat from 'modules/FundingChat/FundingChat.container'
 import { BondsWrapperConnected as BondsWrapper } from 'common/components/Investment/Wrapper'
 
 import { Accounts } from 'pages/investment/accounts'
@@ -27,7 +27,7 @@ export const BondRoutes: React.SFC<Pick<RouteComponentProps, 'match'>> = ({
   const [resizeAssistantPanel, setResizeAssistantPanel] = useSpring(() => ({
     width: assistant ? '25%' : '0%',
     display: assistant ? 'block' : 'none',
-    background: '#F0F3F9'
+    background: '#F0F3F9',
   }))
 
   const assistantPanelToggle = () => {
@@ -46,18 +46,28 @@ export const BondRoutes: React.SFC<Pick<RouteComponentProps, 'match'>> = ({
       <animated.div style={resizeMain}>
         <BondsWrapper {...match}>
           <Switch>
-            <Route exact path={`${match.path}/funds/accounts`} component={Accounts} />
-            <Route exact path={`${match.path}/funds/payments`} component={Payments} />
+            <Route
+              exact
+              path={`${match.path}/funds/accounts`}
+              component={Accounts}
+            />
+            <Route
+              exact
+              path={`${match.path}/funds/payments`}
+              component={Payments}
+            />
           </Switch>
         </BondsWrapper>
       </animated.div>
-      {
-        assistant && <animated.div style={resizeAssistantPanel}>
-            <FundingChat match={match} assistantPanelToggle={assistantPanelToggle} />
-          </animated.div>
-      }
+      {assistant && (
+        <animated.div style={resizeAssistantPanel}>
+          <FundingChat
+            match={match}
+            assistantPanelToggle={assistantPanelToggle}
+          />
+        </animated.div>
+      )}
     </StyledContainer>
-
   )
 }
 

@@ -22,8 +22,7 @@ import {
   UpdateTermsOfUseAction,
 } from './types'
 import { FormData } from 'common/components/JsonForm/types'
-
-const PDS_URL = process.env.REACT_APP_PDS_URL
+import { PDS_URL } from '../../types'
 
 export const updateCreator = (formData: FormData) => (
   dispatch: Dispatch,

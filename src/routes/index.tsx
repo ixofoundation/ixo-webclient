@@ -1,20 +1,18 @@
 import * as React from 'react'
 import { Route, Switch } from 'react-router-dom'
-import { ProjectContainerConnected } from '../components/project/ProjectContainer'
-import { EntitiesContainerConnected } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.container'
-import { EntitiesSelectConnected } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.container.select'
-import { ProjectCreateConnected } from '../components/project/ProjectCreate'
-import { contentType } from '../types/models'
+import EntitiesExplorer from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.container'
+import EntityOverview from 'modules/Entities/SelectedEntity/EntityOverview/EntityOverview.container'
+import EntitiesImpact from 'modules/Entities/EntitiesExplorer/EntitiesImpact/EntitiesImpact.container'
+import SubmitEntityClaim from 'modules/EntityClaims/SubmitEntityClaim/SubmitEntityClaim.container'
+import CreateEntity from 'modules/Entities/CreateEntity/CreateEntity.container'
+import EntityImpact from 'modules/Entities/SelectedEntity/EntityImpact/EntityImpact.container'
+import EntitiesSelect from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.container.select'
 import { ProjectForm } from '../pages/json'
 import { Fragment } from 'react'
 import { RegisterConnected } from '../pages/register/RegisterContainer'
-import { NotFound } from '../components/public/NotFound'
+import { NotFound } from '../public/NotFound'
 import { Spinner } from 'common/components/Spinner'
-import { ProjectSignAndCreateConnected } from '../components/project/curation/ProjectSignAndCreate'
-import { ProjectCreateUploadPublicDocsConnected } from '../components/project/curation/ProjectCreateUploadPublicDocs'
-import { UnderConstruction } from '../components/public/UnderConstruction'
-import { SubmitEntityClaimConnected } from '../modules/EntityClaims/SubmitEntityClaim/SubmitEntityClaim.container'
-import { CreateEntityConnected } from 'modules/Entities/CreateEntity/CreateEntity.container'
+import { UnderConstruction } from '../public/UnderConstruction'
 import BondRoutes from './BondRoutes'
 import InvestmentRoutes from './InvestmentRoutes'
 
@@ -34,81 +32,35 @@ export const Routes: React.SFC<{}> = (props) => {
           exact
           path="/"
           render={(routeProps): JSX.Element => (
-            <EntitiesContainerConnected
-              {...routeProps.location}
-              contentType={contentType.overview}
-            />
+            <EntitiesExplorer {...routeProps.location} />
           )}
         />
-        <Route path="/entities/select" component={EntitiesSelectConnected} />
+        <Route path="/entities/select" component={EntitiesSelect} />
         <Route
           exact
           path="/projects/:projectDID/overview/action/new_claim/form"
-          component={SubmitEntityClaimConnected}
+          component={SubmitEntityClaim}
         />
-        <Route path="/:entityType/new" component={CreateEntityConnected} />
+        <Route path="/:entityType/new" component={CreateEntity} />
         <Route
           exact
           path="/impact"
           render={(routeProps): JSX.Element => (
-            <EntitiesContainerConnected
-              {...routeProps.location}
-              contentType={contentType.dashboard}
-            />
+            <EntitiesImpact {...routeProps.location} />
           )}
         />
         <Route
           path="/projects/:projectDID/overview"
-          render={(): JSX.Element => (
-            <ProjectContainerConnected contentType={contentType.overview} />
-          )}
+          component={EntityOverview}
         />
-        <Route
-          exact
-          path="/projects/:projectDID/detail/"
-          render={(): JSX.Element => (
-            <ProjectContainerConnected contentType={contentType.dashboard} />
-          )}
-        />
-        <Route
+        <Route path="/projects/:projectDID/detail" component={EntityImpact} />
+        {/* Old claims related screens - remove when new claims is ready */}
+        {/*
+                <Route
           exact
           path="/projects/:projectDID/detail/agents"
           render={(): JSX.Element => (
-            <ProjectContainerConnected
-              contentType={contentType.agents}
-            />
-          )}
-        />
-        {/* Old claims related screens - remove when new claims is ready */}
-        {/*
-        <Route
-          exact
-          path="/projects/:projectDID/detail/evaluators"
-          render={(): JSX.Element => (
-            <ProjectContainerConnected
-              // @ts-ignore
-              contentType={contentType.evaluators}
-            />
-          )}
-        />
-        <Route
-          exact
-          path="/projects/:projectDID/detail/investors"
-          render={(): JSX.Element => (
-            <ProjectContainerConnected
-              // @ts-ignore
-              contentType={contentType.investors}
-            />
-          )}
-        />
-        <Route
-          exact
-          path="/projects/:projectDID/detail/service-providers"
-          render={(): JSX.Element => (
-            <ProjectContainerConnected
-              // @ts-ignore
-              contentType={contentType.serviceProviders}
-            />
+            <ProjectContainerConnected contentType={contentType.agents} />
           )}
         />
         <Route
@@ -141,30 +93,6 @@ export const Routes: React.SFC<{}> = (props) => {
             />
           )}
         /> */}
-        <Route
-          exact
-          path="/create-project"
-          render={(routeProps): JSX.Element => (
-            <ProjectCreateConnected {...routeProps} {...props} />
-          )}
-        />
-        <Route
-          exact
-          path="/upload-project"
-          render={(routeProps): JSX.Element => (
-            <ProjectCreateUploadPublicDocsConnected
-              {...routeProps}
-              {...props}
-            />
-          )}
-        />
-        <Route
-          exact
-          path="/upload-project-create"
-          render={(routeProps): JSX.Element => (
-            <ProjectSignAndCreateConnected {...routeProps} {...props} />
-          )}
-        />
         <Route exact path="/todo" component={UnderConstruction} />
         <Route path="*" component={NotFound} />
       </Switch>

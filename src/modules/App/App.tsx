@@ -9,15 +9,14 @@ import { HeaderConnected } from '../../common/components/Header/HeaderContainer'
 import Footer from '../../common/components/Footer/FooterContainer'
 import { RootState } from '../../common/redux/types'
 import { theme, Container, ContentWrapper } from './App.styles'
-import { initIxo } from '../ixo/ixo.actions'
-import { initKeysafe } from '../keysafe/keysafe.actions'
 import { UserInfo } from '../Account/types'
 import { updateLoginStatus } from '../Account/Account.actions'
 import ScrollToTop from '../../common/components/ScrollToTop'
 import { Routes } from '../../routes'
 import { Spinner } from '../../common/components/Spinner'
-import { connectWeb3 } from '../web3/web3.actions'
 import '../../assets/icons.css'
+import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
+
 require('dotenv').config()
 
 ReactGA.initialize('UA-106630107-5')
@@ -27,14 +26,11 @@ export interface State {
   loginError: string
   error: any
   errorInfo: any
-  onLoginCalled: boolean
 }
 
 export interface Props {
-  ixo?: any
   pingError?: string
   pingResult?: string
-  keysafe?: any
   userInfo: UserInfo
   location: any
   history: any
@@ -52,29 +48,17 @@ class App extends React.Component<Props, State> {
     isProjectPage: false,
     errorInfo: null,
     error: null,
-    onLoginCalled: false,
   }
 
   private keySafeInterval = null
 
-  componentDidUpdate(): void {
-    if (
-      this.props.ixo !== null &&
-      this.props.keysafe !== null &&
-      this.state.onLoginCalled === false
-    ) {
-      this.keySafeInterval = setInterval(
-        () => this.props.onUpdateLoginStatus(),
-        3000,
-      )
-      this.setState({ onLoginCalled: true })
-    }
-  }
-
   componentDidMount(): void {
-    this.props.onIxoInit()
-    this.props.onKeysafeInit()
-    this.props.onWeb3Connect()
+    this.props.onUpdateLoginStatus()
+
+    this.keySafeInterval = setInterval(
+      () => this.props.onUpdateLoginStatus(),
+      3000,
+    )
   }
 
   componentWillUnmount(): void {
@@ -84,23 +68,19 @@ class App extends React.Component<Props, State> {
   handlePingExplorer = (): Promise<any> => {
     return new Promise((resolve, reject) => {
       const t0 = performance.now()
-      if (this.props.ixo) {
-        this.props.ixo.network
-          .pingIxoExplorer()
-          .then((result) => {
-            if (result === 'API is running') {
-              const t1 = performance.now()
-              resolve(Math.trunc(t1 - t0))
-            } else {
-              reject(0)
-            }
-          })
-          .catch(() => {
+      blocksyncApi.network
+        .pingIxoExplorer()
+        .then((result) => {
+          if (result === 'API is running') {
+            const t1 = performance.now()
+            resolve(Math.trunc(t1 - t0))
+          } else {
             reject(0)
-          })
-      } else {
-        reject(0)
-      }
+          }
+        })
+        .catch(() => {
+          reject(0)
+        })
     })
   }
 
@@ -116,9 +96,7 @@ class App extends React.Component<Props, State> {
             />
             <ToastContainer hideProgressBar={true} position="top-right" />
             <ContentWrapper>
-              {(this.props.ixo !== null &&
-                this.props.loginStatusCheckCompleted) ||
-              (this.props.ixo !== null && !window['ixoKs']) ? (
+              {this.props.loginStatusCheckCompleted || !window['ixoKs'] ? (
                 <Routes />
               ) : (
                 <Spinner info={'Loading ixo.world...'} />
@@ -133,24 +111,13 @@ class App extends React.Component<Props, State> {
 }
 
 const mapStateToProps = (state: RootState): Record<string, any> => ({
-  ixo: state.ixo.ixo,
-  keysafe: state.keySafe.keysafe,
   userInfo: state.account.userInfo,
   loginStatusCheckCompleted: state.account.loginStatusCheckCompleted,
 })
 
 const mapDispatchToProps = (dispatch: any): any => ({
-  onIxoInit: (): void => {
-    dispatch(initIxo(process.env.REACT_APP_BLOCK_SYNC_URL))
-  },
-  onKeysafeInit: (): void => {
-    dispatch(initKeysafe())
-  },
   onUpdateLoginStatus: (): void => {
     dispatch(updateLoginStatus())
-  },
-  onWeb3Connect: (): void => {
-    dispatch(connectWeb3())
   },
 })
 

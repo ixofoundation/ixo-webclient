@@ -46,8 +46,8 @@ const BodyContentCard: React.FunctionComponent<Props> = React.forwardRef(
       fileSrc: {
         'ui:widget': customControls['imageupload'],
         'ui:uploading': uploadingImage,
-        'ui:maxDimension': 440,
-        'ui:previewWidth': 440,
+        'ui:maxDimension': 480,
+        'ui:previewWidth': 480,
         'ui:aspect': 1,
         'ui:circularCrop': false,
       },

@@ -1,38 +1,56 @@
 import { Moment } from 'moment'
 import { createSelector } from 'reselect'
-import { Entity, EntitiesState } from '../types'
-import { Filter, Category, EntityType } from '../types'
+import {
+  ExplorerEntity,
+  EntitiesExplorerState,
+  Filter,
+  DDOTagCategory,
+} from './types'
+import { EntityType } from '../types'
 import * as accountSelectors from 'modules/Account/Account.selectors'
 import { RootState } from 'common/redux/types'
-import { Schema as FilterSchema } from '../components/EntitiesFilter/schema/types'
+import { Schema as FilterSchema } from './components/EntitiesFilter/schema/types'
 import { entityTypeMap } from '../strategy-map'
 
 const formatDate = (date: Moment): string => date.format("D MMM \\'YY")
 
-export const selectEntitiesState = (state: RootState): EntitiesState =>
+export const selectEntitiesState = (state: RootState): EntitiesExplorerState =>
   state.entities
 
 export const selectAllEntitiesByType = createSelector(
   selectEntitiesState,
-  (entitiesState: EntitiesState): Entity[] => {
+  (entitiesState: EntitiesExplorerState): ExplorerEntity[] => {
     return entitiesState.entities
       ? entitiesState.entities.filter(
-          (entity) => entity.entityType === entitiesState.selectedEntitiesType,
+          (entity) => entity.type === entitiesState.selectedEntitiesType,
         )
+      : null
+  },
+)
+
+export const selectAllTemplateEntities = createSelector(
+  selectEntitiesState,
+  (entitiesState: EntitiesExplorerState): ExplorerEntity[] => {
+    return entitiesState.entities
+      ? entitiesState.entities
+          .filter((entity) => entity.type === EntityType.Template)
+          .sort((a, b) => {
+            return b.dateCreated.unix() - a.dateCreated.unix()
+          })
       : null
   },
 )
 
 export const selectEntitiesFilter = createSelector(
   selectEntitiesState,
-  (entitiesState: EntitiesState): Filter => {
+  (entitiesState: EntitiesExplorerState): Filter => {
     return entitiesState.filter
   },
 )
 
 export const selectSelectedEntitiesType = createSelector(
   selectEntitiesState,
-  (entitiesState: EntitiesState): EntityType => {
+  (entitiesState: EntitiesExplorerState): EntityType => {
     return entitiesState.selectedEntitiesType
   },
 )
@@ -41,7 +59,11 @@ export const selectedFilteredEntities = createSelector(
   selectAllEntitiesByType,
   selectEntitiesFilter,
   accountSelectors.selectUserDid,
-  (entities: Entity[], filter: Filter, userDid: string): Entity[] => {
+  (
+    entities: ExplorerEntity[],
+    filter: Filter,
+    userDid: string,
+  ): ExplorerEntity[] => {
     // all entities
     let entitiesToFilter = entities && entities.length ? entities : []
 
@@ -49,7 +71,7 @@ export const selectedFilteredEntities = createSelector(
     if (filter.userEntities) {
       entitiesToFilter = entitiesToFilter.filter(
         (entity) =>
-          entity.userDid === userDid ||
+          entity.creatorDid === userDid ||
           entity.agentDids.some((agentDid) => agentDid === userDid),
       )
     }
@@ -66,12 +88,12 @@ export const selectedFilteredEntities = createSelector(
     }
 
     // filter by categories
-    if (filter.categories.length > 0) {
-      filter.categories.forEach((category) => {
+    if (filter.ddoTags.length > 0) {
+      filter.ddoTags.forEach((category) => {
         if (category.tags.length > 0) {
           category.tags.forEach((tag) => {
             entitiesToFilter = entitiesToFilter.filter((entity) =>
-              entity.categories.some(
+              entity.ddoTags.some(
                 (entityCategory) =>
                   entityCategory.name === category.name &&
                   entityCategory.tags.includes(tag),
@@ -91,20 +113,9 @@ export const selectedFilteredEntities = createSelector(
   },
 )
 
-export const selectEntitiesCountries = createSelector(
-  selectAllEntitiesByType,
-  (entities: Entity[]): string[] => {
-    return entities && entities.length
-      ? entities.map((entity) => {
-          return entity.country
-        })
-      : []
-  },
-)
-
 export const selectAllEntitiesCount = createSelector(
   selectAllEntitiesByType,
-  (entities: Entity[]): number => {
+  (entities: ExplorerEntity[]): number => {
     return !entities ? 0 : entities.length
   },
 )
@@ -112,12 +123,12 @@ export const selectAllEntitiesCount = createSelector(
 export const selectUserEntitiesCount = createSelector(
   selectAllEntitiesByType,
   accountSelectors.selectUserDid,
-  (entities: Entity[], userDid: string): number => {
+  (entities: ExplorerEntity[], userDid: string): number => {
     return !entities
       ? 0
       : entities.filter(
           (entity) =>
-            entity.userDid === userDid ||
+            entity.creatorDid === userDid ||
             entity.agentDids.some((agentDid) => agentDid === userDid),
         ).length
   },
@@ -125,80 +136,14 @@ export const selectUserEntitiesCount = createSelector(
 
 export const selectFilteredEntitiesCount = createSelector(
   selectedFilteredEntities,
-  (entities: Entity[]): number => {
+  (entities: ExplorerEntity[]): number => {
     return !entities ? 0 : entities.length
-  },
-)
-
-export const selectTotalServiceProvidersCount = createSelector(
-  selectAllEntitiesByType,
-  (entities: Entity[]): number => {
-    return !entities
-      ? 0
-      : entities.reduce((total, entity) => {
-          return total + entity.serviceProvidersCount
-        }, 0)
-  },
-)
-
-export const selectTotalEvaluatorsCount = createSelector(
-  selectAllEntitiesByType,
-  (entities: Entity[]): number => {
-    return !entities
-      ? 0
-      : entities.reduce((total, entity) => {
-          return total + entity.evaluatorsCount
-        }, 0)
-  },
-)
-
-export const selectTotalRequiredClaimsCount = createSelector(
-  selectAllEntitiesByType,
-  (entities: Entity[]): number => {
-    return !entities
-      ? 0
-      : entities.reduce((total, entity) => {
-          return total + entity.requiredClaimsCount
-        }, 0)
-  },
-)
-
-export const selectTotalPendingClaimsCount = createSelector(
-  selectAllEntitiesByType,
-  (entities: Entity[]): number => {
-    return !entities
-      ? 0
-      : entities.reduce((total, entity) => {
-          return total + entity.pendingClaimsCount
-        }, 0)
-  },
-)
-
-export const selectTotalSuccessfulClaimsCount = createSelector(
-  selectAllEntitiesByType,
-  (entities: Entity[]): number => {
-    return !entities
-      ? 0
-      : entities.reduce((total, entity) => {
-          return total + entity.successfulClaimsCount
-        }, 0)
-  },
-)
-
-export const selectTotalRejectedClaimsCount = createSelector(
-  selectAllEntitiesByType,
-  (entities: Entity[]): number => {
-    return !entities
-      ? 0
-      : entities.reduce((total, entity) => {
-          return total + entity.rejectedClaimsCount
-        }, 0)
   },
 )
 
 export const selectIsLoadingEntities = createSelector(
   selectAllEntitiesByType,
-  (entities: Entity[]): boolean => {
+  (entities: ExplorerEntity[]): boolean => {
     return entities === null
   },
 )
@@ -246,8 +191,8 @@ export const selectFilterDateSummary = createSelector(
 
 export const selectFilterCategories = createSelector(
   selectEntitiesFilter,
-  (filter: Filter): Category[] => {
-    return filter.categories
+  (filter: Filter): DDOTagCategory[] => {
+    return filter.ddoTags
   },
 )
 
@@ -260,7 +205,7 @@ export const selectFilterSector = createSelector(
 
 export const selectFilterCategoriesSummary = createSelector(
   selectFilterCategories,
-  (categories: Category[]): string => {
+  (categories: DDOTagCategory[]): string => {
     const totalFilters = categories.reduce((total, category) => {
       return total + category.tags.length
     }, 0)
@@ -288,13 +233,6 @@ export const selectFilterPopularEntities = createSelector(
   (filter: Filter): boolean => {
     return filter.popularEntities
   },
-)
-
-export const selectTotalRemainingClaimsCount = createSelector(
-  selectTotalRequiredClaimsCount,
-  selectTotalSuccessfulClaimsCount,
-  (totalClaimsRequired: number, totalClaimsSuccessful: number): number =>
-    totalClaimsRequired - totalClaimsSuccessful,
 )
 
 export const selectFilterSchema = createSelector(
