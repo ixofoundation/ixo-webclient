@@ -7,7 +7,7 @@ import * as submitEntityClaimSelectors from './SubmitEntityClaim.selectors'
 import * as selectedEntitySelectors from 'modules/Entities/SelectedEntity/SelectedEntity.selectors'
 import { getEntity } from 'modules/Entities/SelectedEntity/SelectedEntity.actions'
 import { goToQuestionNumber } from './SubmitEntityClaim.actions'
-import { QuestionForm } from './types'
+import { QuestionForm } from '../types'
 
 interface Props {
   questions: QuestionForm[]

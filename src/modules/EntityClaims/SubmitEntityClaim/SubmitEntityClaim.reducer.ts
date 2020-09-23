@@ -4,7 +4,7 @@ import {
   SubmitEntityClaimActions,
 } from './types'
 import tempClaimData from './temp_claim_data.json'
-import { QuestionForm } from './types'
+import { QuestionForm } from '../types'
 import { EntityClaimType } from '../types'
 
 const {
@@ -13,8 +13,8 @@ const {
 } = tempClaimData
 
 export const initialState: SubmitEntityClaimState = {
-  title,
-  shortDescription,
+  claimTitle: title,
+  claimShortDescription: shortDescription,
   type: type as EntityClaimType,
   questions: forms as QuestionForm[],
   currentQuestionNo: 1,

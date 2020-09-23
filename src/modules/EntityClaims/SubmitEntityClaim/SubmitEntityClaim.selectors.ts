@@ -1,7 +1,8 @@
 import { createSelector } from 'reselect'
 import { RootState } from 'common/redux/types'
-import { QuestionForm, SubmitEntityClaimState } from './types'
+import { SubmitEntityClaimState } from './types'
 import { FormData } from 'common/components/JsonForm/types'
+import { QuestionForm } from '../types'
 
 export const selectSubmitEntityClaim = (
   state: RootState,
@@ -48,7 +49,7 @@ export const selectCurrentAnswer = createSelector(
   selectAnswers,
   (question: QuestionForm, answers: FormData) => {
     if (answers && Object.keys(answers).length > 0) {
-      const id = Object.keys(question.schema)[0]
+      const id = Object.keys(question.schema.properties)[0]
       return answers[id] ? { [id]: answers[id] } : undefined
     }
 
@@ -67,5 +68,26 @@ export const selectAnswersComplete = createSelector(
   selectSubmitEntityClaim,
   (submitEntityClaim: SubmitEntityClaimState) => {
     return submitEntityClaim.answersComplete
+  },
+)
+
+export const selectSending = createSelector(
+  selectSubmitEntityClaim,
+  (submitEntityClaim: SubmitEntityClaimState) => {
+    return submitEntityClaim.sending
+  },
+)
+
+export const selectSent = createSelector(
+  selectSubmitEntityClaim,
+  (submitEntityClaim: SubmitEntityClaimState) => {
+    return submitEntityClaim.sent
+  },
+)
+
+export const selectError = createSelector(
+  selectSubmitEntityClaim,
+  (submitEntityClaim: SubmitEntityClaimState) => {
+    return submitEntityClaim.error
   },
 )

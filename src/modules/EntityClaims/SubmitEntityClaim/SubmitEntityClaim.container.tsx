@@ -22,7 +22,7 @@ import { entityTypeMap } from 'modules/Entities/strategy-map'
 import ControlPanel from '../../../common/components/ControlPanel/ControlPanel'
 import { Spinner } from '../../../common/components/Spinner'
 import { getEntity } from 'modules/Entities/SelectedEntity/SelectedEntity.actions'
-import { QuestionForm } from './types'
+import { QuestionForm } from '../types'
 
 interface Props {
   userDid: string

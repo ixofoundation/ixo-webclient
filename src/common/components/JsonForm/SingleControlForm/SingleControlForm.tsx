@@ -2,7 +2,7 @@ import React from 'react'
 import { JSONSchema7 } from 'json-schema'
 import Form, { UiSchema } from '@rjsf/core'
 import { FormContainer } from '../JsonForm.styles'
-import { FormData, customControls } from '../types'
+import { FormData } from '../types'
 import * as formUtils from '../JsonForm.utils'
 import { ControlContainer } from './SingleControlForm.styles'
 
@@ -24,8 +24,6 @@ const SingleControlForm: React.FunctionComponent<Props> = ({
   handleSubmit,
   handleFormDataChange,
 }) => {
-  const uiSchemaForJsonForm = { ...uiSchema }
-
   return (
     <FormContainer>
       <ControlContainer>
