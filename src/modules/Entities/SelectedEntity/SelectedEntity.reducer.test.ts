@@ -7,6 +7,7 @@ import {
 } from './types'
 import { EntityType } from '../types'
 import { Entity } from './types'
+import { AgentRole } from 'modules/Account/types'
 
 const initialState = SUT.initialState
 
@@ -32,10 +33,10 @@ describe('SelectedEntity Reducer', () => {
         name: 'Some Title',
         description: 'Some Short Description',
         dateCreated: moment('2020-09-12T19:49:45Z'),
-        ownerName: 'Owner Display Name',
-        ownerLogo: 'https://pds_pandora.ixo.world/public/9uqcsf7qsfjkelkkkt9',
-        ownerMission: 'another mission',
-        ownerWebsite: 'https://eerer.com',
+        creatorName: 'Creator Display Name',
+        creatorLogo: 'https://pds_pandora.ixo.world/public/9uqcsf7qsfjkelkkkt9',
+        creatorMission: 'another mission',
+        creatorWebsite: 'https://eerer.com',
         location: 'AR',
         image: 'https://pds_pandora.ixo.world/public/sbujb0xg0dgkeljwtnc',
         logo: 'https://pds_pandora.ixo.world/public/v7kvrycap9kf2ofnof',
@@ -52,19 +53,19 @@ describe('SelectedEntity Reducer', () => {
           {
             did: 'did:ixo:CB1idAyvNUsSEktkT3a5LY',
             status: '0',
-            role: 'SA',
+            role: AgentRole.ServiceProvider,
             kyc: false,
           },
           {
             did: 'did:ixo:NT1idAyvNUsSEktkT3a5LY',
             status: '0',
-            role: 'EA',
+            role: AgentRole.Evaluator,
             kyc: false,
           },
         ],
         sdgs: ['5', '7'],
         bondDid: 'did:sov:CYCc2xaJKrp8Yt947Nc6jdzzzz',
-        content: {},
+        content: null,
       }
 
       // given .. we have an action of type SelectedEntityActions.GetEntitySuccess and some data
@@ -91,10 +92,10 @@ describe('SelectedEntity Reducer', () => {
         name: 'Some Title',
         description: 'Some Short Description',
         dateCreated: moment('2020-09-12T19:49:45Z'),
-        ownerName: 'Owner Display Name',
-        ownerLogo: 'https://pds_pandora.ixo.world/public/9uqcsf7qsfjkelkkkt9',
-        ownerMission: 'another mission',
-        ownerWebsite: 'https://eerer.com',
+        creatorName: 'Creator Display Name',
+        creatorLogo: 'https://pds_pandora.ixo.world/public/9uqcsf7qsfjkelkkkt9',
+        creatorMission: 'another mission',
+        creatorWebsite: 'https://eerer.com',
         location: 'AR',
         image: 'https://pds_pandora.ixo.world/public/sbujb0xg0dgkeljwtnc',
         logo: 'https://pds_pandora.ixo.world/public/v7kvrycap9kf2ofnof',
@@ -111,19 +112,19 @@ describe('SelectedEntity Reducer', () => {
           {
             did: 'did:ixo:CB1idAyvNUsSEktkT3a5LY',
             status: '0',
-            role: 'SA',
+            role: AgentRole.ServiceProvider,
             kyc: false,
           },
           {
             did: 'did:ixo:NT1idAyvNUsSEktkT3a5LY',
             status: '0',
-            role: 'EA',
+            role: AgentRole.Evaluator,
             kyc: false,
           },
         ],
         sdgs: ['5', '7'],
         bondDid: 'did:sov:CYCc2xaJKrp8Yt947Nc6jdzzzz',
-        content: {},
+        content: null,
       }
 
       // given .. we have an action of type SelectedEntityActions.ClearEntity

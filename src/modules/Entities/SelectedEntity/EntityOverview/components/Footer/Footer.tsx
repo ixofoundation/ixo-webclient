@@ -12,10 +12,10 @@ import {
 } from './Footer.styles'
 
 interface Props {
-  ownerName: string
-  ownerLogo: string
-  ownerMission: string
-  ownerWebsite: string
+  creatorName: string
+  creatorLogo: string
+  creatorMission: string
+  creatorWebsite: string
   linkedInUrl: string
   facebookUrl: string
   twitterUrl: string
@@ -27,10 +27,10 @@ interface Props {
 }
 
 const Footer: React.FunctionComponent<Props> = ({
-  ownerName,
-  ownerLogo,
-  ownerMission,
-  ownerWebsite,
+  creatorName,
+  creatorLogo,
+  creatorMission,
+  creatorWebsite,
   facebookUrl,
   twitterUrl,
   instagramUrl,
@@ -43,16 +43,16 @@ const Footer: React.FunctionComponent<Props> = ({
   return (
     <FooterWrapper>
       <FooterImageWrapper>
-        <img src={ownerLogo} alt={ownerName} />
+        <img src={creatorLogo} alt={creatorName} />
       </FooterImageWrapper>
       <FooterContent>
-        <h4>{ownerName}</h4>
-        {ownerMission}
+        <h4>{creatorName}</h4>
+        {creatorMission}
         <div className="link-wrapper">
-          {ownerWebsite && (
+          {creatorWebsite && (
             <a
               className="website-link"
-              href={ownerWebsite}
+              href={creatorWebsite}
               target="_blank"
               rel="noopener noreferrer"
             >

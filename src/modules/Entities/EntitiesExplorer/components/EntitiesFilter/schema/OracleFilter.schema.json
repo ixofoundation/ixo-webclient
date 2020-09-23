@@ -33,7 +33,61 @@
       }
     ]
   },
-  "ddoTags": [],
+  "ddoTags": [
+    {
+      "@type": "Category",
+      "hidden": false,
+      "name": "Function",
+      "multiSelect": true,
+      "tags": [
+        {
+          "@type": "Tag",
+          "name": "Proofing",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Prediction",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Personalisation",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Prescription",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Protection",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Planning",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Prevention",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Participation",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Profiling",
+          "icon": "tag.svg"
+        }
+      ]
+    }
+  ],
   "sector": {
     "@type": "Category",
     "name": "Sector",

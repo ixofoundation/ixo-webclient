@@ -1,3 +1,4 @@
+import { AgentRole } from 'modules/Account/types'
 import {
   EntityType,
   EntityStatus,
@@ -188,7 +189,7 @@ export interface ApiListedEntityData extends ApiEntity {
     status: string
     kyc: boolean
     did: string
-    role: string
+    role: AgentRole
   }[]
   claimStats: {
     currentSuccessful: number
@@ -202,6 +203,17 @@ export interface ApiListedEntityData extends ApiEntity {
     investors: number
     investorsPending: number
   }
+  claims: {
+    date: Date
+    location: {
+      long: string
+      lat: string
+    }
+    claimId: string
+    status: string
+    saDid: string
+    eaDid?: string
+  }[]
 }
 
 export interface ApiListedEntity {

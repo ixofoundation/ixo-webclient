@@ -18,22 +18,29 @@ import { termsOfUseTypeStrategyMap } from 'modules/Entities/strategy-map'
 import Tooltip, { TooltipPosition } from 'common/components/Tooltip/Tooltip'
 import Shield, { ShieldColor } from '../Shield/Shield'
 import Badges from '../Badges/Badges'
+import { DDOTagCategory } from 'modules/Entities/EntitiesExplorer/types'
 
 interface Props {
   did: string
   name: string
-  ownerLogo: string
+  creatorLogo: string
   termsType: TermsOfUseType
   badges: string[]
+  version: string
+  ddoTags: DDOTagCategory[]
 }
 
 const TemplateCard: React.FunctionComponent<Props> = ({
   name,
-  ownerLogo,
+  creatorLogo,
   termsType,
   badges,
+  version,
+  ddoTags,
 }) => {
   const termsOfUseMap = termsOfUseTypeStrategyMap[termsType]
+  const templateType = ddoTags.find((category) => category.name === 'Entity')
+    .tags[0]
 
   return (
     <CardContainer className="col-xl-4 col-md-6 col-sm-12 col-12">
@@ -47,7 +54,7 @@ const TemplateCard: React.FunctionComponent<Props> = ({
             <div className="col-6">
               <Shield
                 label="Template"
-                text="Project"
+                text={templateType}
                 color={ShieldColor.Maroon}
               />
             </div>
@@ -60,7 +67,7 @@ const TemplateCard: React.FunctionComponent<Props> = ({
           </MainContent>
           <StatisticsContainer className="row">
             <div className="col-4">
-              <StatisticValue>1.1</StatisticValue>
+              <StatisticValue>{version}</StatisticValue>
               <StatisticLabel>Version</StatisticLabel>
             </div>
             <div className="col-4">
@@ -87,7 +94,7 @@ const TemplateCard: React.FunctionComponent<Props> = ({
               </Tooltip>
             </div>
             <div className="col-6 text-right">
-              <Logo src={ownerLogo} />
+              <Logo src={creatorLogo} />
             </div>
           </CardBottomLogoContainer>
         </CardBottom>

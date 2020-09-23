@@ -61,8 +61,8 @@ describe('Entities Reducer', () => {
           name: 'someTitle1',
           description: 'someShortDescription1',
           dateCreated: moment('2020-04-09T13:14:13.000Z'),
-          ownerName: 'someOwnerName1',
-          ownerLogo: 'someOwnerLogo1',
+          creatorName: 'someCreatorName1',
+          creatorLogo: 'someCreatorLogo1',
           status: 'someStatus1',
           location: 'someCountry1',
           goal: 'someImpactAction1',
@@ -77,6 +77,8 @@ describe('Entities Reducer', () => {
           image: 'sommeImageUrl',
           logo: 'someLogoUrl',
           termsType: TermsOfUseType.FreeOpenSource,
+          version: '1.2.3',
+          badges: ['badge1'],
           ddoTags: [
             {
               name: 'someCategory1',
@@ -124,8 +126,8 @@ describe('Entities Reducer', () => {
             name: 'someTitle1',
             description: 'someShortDescription1',
             dateCreated: moment('2020-04-09T13:14:13.000Z'),
-            ownerName: 'someOwnerName1',
-            ownerLogo: 'someOwnerLogo1',
+            creatorName: 'someCreatorName1',
+            creatorLogo: 'someCreatorLogo1',
             status: 'someStatus1',
             location: 'someCountry1',
             goal: 'someImpactAction1',
@@ -140,6 +142,8 @@ describe('Entities Reducer', () => {
             image: 'sommeImageUrl',
             logo: 'someLogoUrl',
             termsType: TermsOfUseType.FreeOpenSource,
+            version: '1.2.3',
+            badges: ['badge1'],
             ddoTags: [
               {
                 name: 'someCategory1',
@@ -208,8 +212,8 @@ describe('Entities Reducer', () => {
             name: 'someTitle1',
             description: 'someShortDescription1',
             dateCreated: moment('2020-04-09T13:14:13.000Z'),
-            ownerName: 'someOwnerName1',
-            ownerLogo: 'someOwnerLogo1',
+            creatorName: 'someCreatorName1',
+            creatorLogo: 'someCreatorLogo1',
             status: 'someStatus1',
             location: 'someCountry1',
             goal: 'someImpactAction1',
@@ -224,6 +228,8 @@ describe('Entities Reducer', () => {
             image: 'sommeImageUrl',
             logo: 'someLogoUrl',
             termsType: TermsOfUseType.FreeOpenSource,
+            version: '1.2.3',
+            badges: ['badge1'],
             ddoTags: [
               {
                 name: 'someCategory1',
@@ -288,8 +294,8 @@ describe('Entities Reducer', () => {
             name: 'someTitle1',
             description: 'someShortDescription1',
             dateCreated: moment('2020-04-09T13:14:13.000Z'),
-            ownerName: 'someOwnerName1',
-            ownerLogo: 'someOwnerLogo1',
+            creatorName: 'someCreatorName1',
+            creatorLogo: 'someCreatorLogo1',
             status: 'someStatus1',
             location: 'someCountry1',
             goal: 'someImpactAction1',
@@ -304,6 +310,8 @@ describe('Entities Reducer', () => {
             image: 'sommeImageUrl',
             logo: 'someLogoUrl',
             termsType: TermsOfUseType.FreeOpenSource,
+            version: '1.2.3',
+            badges: ['badge1'],
             ddoTags: [
               {
                 name: 'someCategory1',
@@ -368,8 +376,8 @@ describe('Entities Reducer', () => {
             name: 'someTitle1',
             description: 'someShortDescription1',
             dateCreated: moment('2020-04-09T13:14:13.000Z'),
-            ownerName: 'someOwnerName1',
-            ownerLogo: 'someOwnerLogo1',
+            creatorName: 'someCreatorName1',
+            creatorLogo: 'someCreatorLogo1',
             status: 'someStatus1',
             location: 'someCountry1',
             goal: 'someImpactAction1',
@@ -380,12 +388,12 @@ describe('Entities Reducer', () => {
             pendingClaimsCount: 20,
             rejectedClaimsCount: 30,
             sdgs: ['1', '2', '3'],
-
             agentDids: ['someAgentDid1'],
             image: 'sommeImageUrl',
             logo: 'someLogoUrl',
             termsType: TermsOfUseType.FreeOpenSource,
-
+            version: '1.2.3',
+            badges: ['badge1'],
             ddoTags: [
               {
                 name: 'someCategory1',
@@ -450,8 +458,8 @@ describe('Entities Reducer', () => {
             name: 'someTitle1',
             description: 'someShortDescription1',
             dateCreated: moment('2020-04-09T13:14:13.000Z'),
-            ownerName: 'someOwnerName1',
-            ownerLogo: 'someOwnerLogo1',
+            creatorName: 'someCreatorName1',
+            creatorLogo: 'someCreatorLogo1',
             status: 'someStatus1',
             location: 'someCountry1',
             goal: 'someImpactAction1',
@@ -462,12 +470,12 @@ describe('Entities Reducer', () => {
             pendingClaimsCount: 20,
             rejectedClaimsCount: 30,
             sdgs: ['1', '2', '3'],
-
             agentDids: ['someAgentDid1'],
             image: 'sommeImageUrl',
-
             logo: 'someLogoUrl',
             termsType: TermsOfUseType.FreeOpenSource,
+            version: '1.2.3',
+            badges: ['badge1'],
             ddoTags: [
               {
                 name: 'someCategory1',
@@ -532,8 +540,8 @@ describe('Entities Reducer', () => {
             name: 'someTitle1',
             description: 'someShortDescription1',
             dateCreated: moment('2020-04-09T13:14:13.000Z'),
-            ownerName: 'someOwnerName1',
-            ownerLogo: 'someOwnerLogo1',
+            creatorName: 'someCreatorName1',
+            creatorLogo: 'someCreatorLogo1',
             status: 'someStatus1',
             location: 'someCountry1',
             goal: 'someImpactAction1',
@@ -544,12 +552,12 @@ describe('Entities Reducer', () => {
             pendingClaimsCount: 20,
             rejectedClaimsCount: 30,
             sdgs: ['1', '2', '3'],
-
             agentDids: ['someAgentDid1'],
             image: 'sommeImageUrl',
             logo: 'someLogoUrl',
             termsType: TermsOfUseType.FreeOpenSource,
-
+            version: '1.2.3',
+            badges: ['badge1'],
             ddoTags: [
               {
                 name: 'someCategory1',
@@ -610,8 +618,8 @@ describe('Entities Reducer', () => {
             name: 'someTitle1',
             description: 'someShortDescription1',
             dateCreated: moment('2020-04-09T13:14:13.000Z'),
-            ownerName: 'someOwnerName1',
-            ownerLogo: 'someOwnerLogo1',
+            creatorName: 'someCreatorName1',
+            creatorLogo: 'someCreatorLogo1',
             status: 'someStatus1',
             location: 'someCountry1',
             goal: 'someImpactAction1',
@@ -622,12 +630,12 @@ describe('Entities Reducer', () => {
             pendingClaimsCount: 20,
             rejectedClaimsCount: 30,
             sdgs: ['1', '2', '3'],
-
             agentDids: ['someAgentDid1'],
             image: 'sommeImageUrl',
             logo: 'someLogoUrl',
             termsType: TermsOfUseType.FreeOpenSource,
-
+            version: '1.2.3',
+            badges: ['badge1'],
             ddoTags: [
               {
                 name: 'someCategory1',
@@ -700,8 +708,8 @@ describe('Entities Reducer', () => {
             name: 'someTitle1',
             description: 'someShortDescription1',
             dateCreated: moment('2020-04-09T13:14:13.000Z'),
-            ownerName: 'someOwnerName1',
-            ownerLogo: 'someOwnerLogo1',
+            creatorName: 'someCreatorName1',
+            creatorLogo: 'someCreatorLogo1',
             status: 'someStatus1',
             location: 'someCountry1',
             goal: 'someImpactAction1',
@@ -712,12 +720,12 @@ describe('Entities Reducer', () => {
             pendingClaimsCount: 20,
             rejectedClaimsCount: 30,
             sdgs: ['1', '2', '3'],
-
             agentDids: ['someAgentDid1'],
             image: 'sommeImageUrl',
             logo: 'someLogoUrl',
             termsType: TermsOfUseType.FreeOpenSource,
-
+            version: '1.2.3',
+            badges: ['badge1'],
             ddoTags: [
               {
                 name: 'someCategory1',
@@ -788,8 +796,8 @@ describe('Entities Reducer', () => {
             name: 'someTitle1',
             description: 'someShortDescription1',
             dateCreated: moment('2020-04-09T13:14:13.000Z'),
-            ownerName: 'someOwnerName1',
-            ownerLogo: 'someOwnerLogo1',
+            creatorName: 'someCreatorName1',
+            creatorLogo: 'someCreatorLogo1',
             status: 'someStatus1',
             location: 'someCountry1',
             goal: 'someImpactAction1',
@@ -800,12 +808,12 @@ describe('Entities Reducer', () => {
             pendingClaimsCount: 20,
             rejectedClaimsCount: 30,
             sdgs: ['1', '2', '3'],
-
             agentDids: ['someAgentDid1'],
             image: 'sommeImageUrl',
             logo: 'someLogoUrl',
             termsType: TermsOfUseType.FreeOpenSource,
-
+            version: '1.2.3',
+            badges: ['badge1'],
             ddoTags: [
               {
                 name: 'someCategory1',
@@ -881,8 +889,8 @@ describe('Entities Reducer', () => {
             name: 'someTitle1',
             description: 'someShortDescription1',
             dateCreated: moment('2020-04-09T13:14:13.000Z'),
-            ownerName: 'someOwnerName1',
-            ownerLogo: 'someOwnerLogo1',
+            creatorName: 'someCreatorName1',
+            creatorLogo: 'someCreatorLogo1',
             status: 'someStatus1',
             location: 'someCountry1',
             goal: 'someImpactAction1',
@@ -893,12 +901,12 @@ describe('Entities Reducer', () => {
             pendingClaimsCount: 20,
             rejectedClaimsCount: 30,
             sdgs: ['1', '2', '3'],
-
             agentDids: ['someAgentDid1'],
             image: 'sommeImageUrl',
-
             logo: 'someLogoUrl',
             termsType: TermsOfUseType.FreeOpenSource,
+            version: '1.2.3',
+            badges: ['badge1'],
             ddoTags: [
               {
                 name: 'someCategory1',
@@ -969,8 +977,8 @@ describe('Entities Reducer', () => {
             name: 'someTitle1',
             description: 'someShortDescription1',
             dateCreated: moment('2020-04-09T13:14:13.000Z'),
-            ownerName: 'someOwnerName1',
-            ownerLogo: 'someOwnerLogo1',
+            creatorName: 'someCreatorName1',
+            creatorLogo: 'someCreatorLogo1',
             status: 'someStatus1',
             location: 'someCountry1',
             goal: 'someImpactAction1',
@@ -981,12 +989,12 @@ describe('Entities Reducer', () => {
             pendingClaimsCount: 20,
             rejectedClaimsCount: 30,
             sdgs: ['1', '2', '3'],
-
             agentDids: ['someAgentDid1'],
             image: 'sommeImageUrl',
-
             logo: 'someLogoUrl',
             termsType: TermsOfUseType.FreeOpenSource,
+            version: '1.2.3',
+            badges: ['badge1'],
             ddoTags: [
               {
                 name: 'someCategory1',
@@ -1053,8 +1061,8 @@ describe('Entities Reducer', () => {
             name: 'someTitle1',
             description: 'someShortDescription1',
             dateCreated: moment('2020-04-09T13:14:13.000Z'),
-            ownerName: 'someOwnerName1',
-            ownerLogo: 'someOwnerLogo1',
+            creatorName: 'someCreatorName1',
+            creatorLogo: 'someCreatorLogo1',
             status: 'someStatus1',
             location: 'someCountry1',
             goal: 'someImpactAction1',
@@ -1065,12 +1073,12 @@ describe('Entities Reducer', () => {
             pendingClaimsCount: 20,
             rejectedClaimsCount: 30,
             sdgs: ['1', '2', '3'],
-
             agentDids: ['someAgentDid1'],
             image: 'sommeImageUrl',
-
             logo: 'someLogoUrl',
             termsType: TermsOfUseType.FreeOpenSource,
+            version: '1.2.3',
+            badges: ['badge1'],
             ddoTags: [
               {
                 name: 'someCategory1',
@@ -1146,8 +1154,8 @@ describe('Entities Reducer', () => {
             name: 'someTitle1',
             description: 'someShortDescription1',
             dateCreated: moment('2020-04-09T13:14:13.000Z'),
-            ownerName: 'someOwnerName1',
-            ownerLogo: 'someOwnerLogo1',
+            creatorName: 'someCreatorName1',
+            creatorLogo: 'someCreatorLogo1',
             status: 'someStatus1',
             location: 'someCountry1',
             goal: 'someImpactAction1',
@@ -1158,12 +1166,12 @@ describe('Entities Reducer', () => {
             pendingClaimsCount: 20,
             rejectedClaimsCount: 30,
             sdgs: ['1', '2', '3'],
-
             agentDids: ['someAgentDid1'],
             image: 'sommeImageUrl',
             logo: 'someLogoUrl',
             termsType: TermsOfUseType.FreeOpenSource,
-
+            version: '1.2.3',
+            badges: ['badge1'],
             ddoTags: [
               {
                 name: 'someCategory1',

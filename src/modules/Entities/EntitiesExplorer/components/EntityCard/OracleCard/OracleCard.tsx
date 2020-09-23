@@ -26,7 +26,7 @@ import Badges from '../Badges/Badges'
 interface Props {
   did: string
   name: string
-  ownerLogo: string
+  logo: string
   sdgs: string[]
   image: string
   description: string
@@ -37,7 +37,7 @@ interface Props {
 const OracleCard: React.FunctionComponent<Props> = ({
   did,
   name,
-  ownerLogo,
+  logo,
   image,
   sdgs,
   description,
@@ -110,7 +110,7 @@ const OracleCard: React.FunctionComponent<Props> = ({
               </Tooltip>
             </div>
             <div className="col-6 text-right">
-              <Logo src={ownerLogo} />
+              <Logo src={logo} />
             </div>
           </CardBottomLogoContainer>
         </CardBottom>

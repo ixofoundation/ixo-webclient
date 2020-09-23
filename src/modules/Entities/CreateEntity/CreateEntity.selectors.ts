@@ -1,8 +1,6 @@
 import { createSelector } from 'reselect'
 import { RootState } from '../../../common/redux/types'
 import { CreateEntityState } from './types'
-import { ApiPageContent } from 'common/api/blocksync-api/types/page-content'
-import { ApiAttestation } from 'common/api/blocksync-api/types/attestation'
 import * as pageContentSelectors from './CreateEntityPageContent/CreateEntityPageContent.selectors'
 import * as attestationSelectors from './CreateEntityAttestation/CreateEntityAttestation.selectors'
 import * as settingsSelectors from './CreateEntitySettings/CreateEntitySettings.selectors'
@@ -12,6 +10,8 @@ import { ApiEntity } from 'common/api/blocksync-api/types/entities'
 import { serverDateFormat } from 'common/utils/formatters'
 import { createEntityMap } from './strategy-map'
 import { EntityType } from '../types'
+import { PageContent } from '../SelectedEntity/types'
+import { Attestation } from 'modules/EntityClaims/types'
 
 export const selectCreateEntity = (state: RootState): CreateEntityState =>
   state.createEntity
@@ -62,7 +62,7 @@ export const selectPageContentApiPayload = createSelector(
     profileContentSections,
     socialContent,
     embeddedContentSections,
-  ): ApiPageContent => {
+  ): PageContent => {
     return {
       header: {
         image: headerContent.headerFileSrc,
@@ -113,7 +113,7 @@ export const selectPageContentApiPayload = createSelector(
 export const selectAttestationApiPayload = createSelector(
   attestationSelectors.selectClaimInfo,
   attestationSelectors.selectQuestions,
-  (claimInfoSection, questions): ApiAttestation => {
+  (claimInfoSection, questions): Attestation => {
     return {
       claimInfo: {
         type: claimInfoSection.type,

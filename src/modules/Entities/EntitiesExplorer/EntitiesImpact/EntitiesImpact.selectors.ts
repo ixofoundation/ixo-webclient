@@ -19,7 +19,7 @@ export const selectTotalServiceProvidersCount = createSelector(
     return !entities
       ? 0
       : entities.reduce((total, entity) => {
-          return total + entity.serviceProvidersCount
+          return total + (entity.serviceProvidersCount || 0)
         }, 0)
   },
 )
@@ -30,7 +30,7 @@ export const selectTotalEvaluatorsCount = createSelector(
     return !entities
       ? 0
       : entities.reduce((total, entity) => {
-          return total + entity.evaluatorsCount
+          return total + (entity.evaluatorsCount || 0)
         }, 0)
   },
 )
@@ -41,7 +41,7 @@ export const selectTotalRequiredClaimsCount = createSelector(
     return !entities
       ? 0
       : entities.reduce((total, entity) => {
-          return total + entity.requiredClaimsCount
+          return total + (entity.requiredClaimsCount || 0)
         }, 0)
   },
 )
@@ -52,7 +52,7 @@ export const selectTotalPendingClaimsCount = createSelector(
     return !entities
       ? 0
       : entities.reduce((total, entity) => {
-          return total + entity.pendingClaimsCount
+          return total + (entity.pendingClaimsCount || 0)
         }, 0)
   },
 )
@@ -63,7 +63,7 @@ export const selectTotalSuccessfulClaimsCount = createSelector(
     return !entities
       ? 0
       : entities.reduce((total, entity) => {
-          return total + entity.successfulClaimsCount
+          return total + (entity.successfulClaimsCount || 0)
         }, 0)
   },
 )
@@ -74,7 +74,7 @@ export const selectTotalRejectedClaimsCount = createSelector(
     return !entities
       ? 0
       : entities.reduce((total, entity) => {
-          return total + entity.rejectedClaimsCount
+          return total + (entity.rejectedClaimsCount || 0)
         }, 0)
   },
 )

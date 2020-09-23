@@ -16,7 +16,7 @@ beforeEach(() => {
           title: 'someTitle1',
           description: 'somedescription1',
           dateCreated: moment('2020-04-09T13:14:13.000Z'),
-          ownerName: 'someOwnerName1',
+          creatorName: 'someCreatorName1',
           status: 'someStatus1',
           location: 'someCountry1',
           goal: 'someGoal1',
@@ -39,7 +39,7 @@ beforeEach(() => {
           title: 'someTitle2',
           description: 'somedescription2',
           dateCreated: moment('2020-04-10T13:14:13.000Z'),
-          ownerName: 'someOwnerName2',
+          creatorName: 'someCreatorName2',
           status: 'someStatus2',
           location: 'someCountry2',
           goal: 'someGoal2',
@@ -62,7 +62,7 @@ beforeEach(() => {
           title: 'someTitle3',
           description: 'somedescription3',
           dateCreated: moment('2020-04-02T13:14:13.000Z'),
-          ownerName: 'someOwnerName3',
+          creatorName: 'someCreatorName3',
           status: 'someStatus3',
           location: 'someCountry3',
           goal: 'someGoal3',
@@ -85,7 +85,7 @@ beforeEach(() => {
           title: 'someTitle4',
           description: 'somedescription4',
           dateCreated: moment('2020-04-02T14:14:14.000Z'),
-          ownerName: 'someOwnerName4',
+          creatorName: 'someCreatorName4',
           status: 'someStatus4',
           location: 'someCountry4',
           goal: 'someGoal4',
@@ -97,6 +97,29 @@ beforeEach(() => {
           rejectedClaimsCount: 10,
           sdgs: ['SDG1_4', 'SDG2_4', 'SDG4_4'],
           agentDids: ['someAgentDid5'],
+          image: 'sommeImageUrl',
+          logo: 'someLogoUrl',
+          ddoTags: [],
+        },
+        {
+          did: 'someDid5',
+          type: EntityType.Project,
+          creatorDid: 'someCreatorDid',
+          title: 'someTitle5',
+          description: 'somedescription5',
+          dateCreated: moment('2020-05-02T15:15:15.000Z'),
+          creatorName: 'someCreatorName5',
+          status: 'someStatus5',
+          location: 'someCountry5',
+          goal: 'someGoal5',
+          serviceProvidersCount: undefined,
+          evaluatorsCount: undefined,
+          requiredClaimsCount: undefined,
+          successfulClaimsCount: undefined,
+          pendingClaimsCount: undefined,
+          rejectedClaimsCount: undefined,
+          sdgs: ['SDG1_5', 'SDG2_5', 'SDG5_4'],
+          agentDids: ['someAgentDid6'],
           image: 'sommeImageUrl',
           logo: 'someLogoUrl',
           ddoTags: [],
@@ -184,8 +207,12 @@ describe('EntitiesImpact Selectors', () => {
       const result = SUT.selectEntitiesCountries(state)
 
       // then ... should return result as expected
-      expect(result).toContain('someCountry1')
-      expect(result).toContain('someCountry2')
+      expect(result).toEqual([
+        'someCountry1',
+        'someCountry2',
+        'someCountry3',
+        'someCountry5',
+      ])
     })
   })
 })

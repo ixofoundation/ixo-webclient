@@ -33,7 +33,114 @@
       }
     ]
   },
-  "ddoTags": [],
+  "ddoTags": [
+    {
+      "@type": "Category",
+      "hidden": false,
+      "name": "Entity",
+      "multiSelect": false,
+      "tags": [
+        {
+          "@type": "Tag",
+          "name": "Project",
+          "icon": "Project.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Cell",
+          "icon": "cell.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Oracle",
+          "icon": "oracle.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Investment",
+          "icon": "investment.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Asset",
+          "icon": "asset.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Agent",
+          "icon": "agent.svg"
+        }
+      ]
+    },
+    {
+      "@type": "Category",
+      "hidden": false,
+      "name": "Claim Type",
+      "multiSelect": true,
+      "tags": [
+        {
+          "@type": "Tag",
+          "name": "Service",
+          "icon": "service.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Outcome",
+          "icon": "outcome.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Credential",
+          "icon": "credential.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Use of Funds",
+          "icon": "useoffunds.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Payment",
+          "icon": "payment.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Investment",
+          "icon": "investment.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Banking",
+          "icon": "banking.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Procurement",
+          "icon": "procurement.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Provenance",
+          "icon": "provenance.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Ownership",
+          "icon": "ownership.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Custody",
+          "icon": "custody.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Dispute",
+          "icon": "dispute.svg"
+        }
+      ]
+    }
+  ],
   "sector": {
     "@type": "Category",
     "name": "Sector",

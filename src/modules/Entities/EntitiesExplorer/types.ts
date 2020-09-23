@@ -23,8 +23,8 @@ export interface ExplorerEntity {
   did: string
   creatorDid: string
   dateCreated: Moment
-  ownerName: string
-  ownerLogo: string
+  creatorName: string
+  creatorLogo: string
   status: string
   location: string
   goal: string
@@ -41,6 +41,7 @@ export interface ExplorerEntity {
   ddoTags: DDOTagCategory[]
   termsType: TermsOfUseType
   badges: string[]
+  version: string
 }
 
 export interface EntitiesExplorerState {

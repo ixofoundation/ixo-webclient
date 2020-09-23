@@ -15,10 +15,10 @@ beforeEach(() => {
       name: 'Some Title',
       description: 'Some Short Description',
       dateCreated: moment('2020-09-12T19:49:45Z'),
-      ownerName: 'Owner Display Name',
-      ownerLogo: 'https://pds_pandora.ixo.world/public/9uqcsf7qsfjkelkkkt9',
-      ownerMission: 'another mission',
-      ownerWebsite: 'https://eerer.com',
+      creatorName: 'Creator Display Name',
+      creatorLogo: 'https://pds_pandora.ixo.world/public/9uqcsf7qsfjkelkkkt9',
+      creatorMission: 'another mission',
+      creatorWebsite: 'https://eerer.com',
       location: 'AR',
       image: 'https://pds_pandora.ixo.world/public/sbujb0xg0dgkeljwtnc',
       logo: 'https://pds_pandora.ixo.world/public/v7kvrycap9kf2ofnof',
@@ -33,7 +33,7 @@ beforeEach(() => {
       agents: [],
       sdgs: ['5', '7'],
       bondDid: 'did:sov:CYCc2xaJKrp8Yt947Nc6jdzzzz',
-      content: { foo: 'bar' },
+      content: null,
     } as Entity,
   }
 })

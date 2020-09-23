@@ -22,7 +22,7 @@ describe('SelectedEntity Actions', () => {
     })
   })
 
-  describe.skip('getEntity', () => {
+  describe('getEntity', () => {
     // TODO - enable when live api enabled
     it('should not dispatch any action if the entity is the same as the current in state', async () => {
       // given ... the store has an existing entity with same did
@@ -65,10 +65,10 @@ describe('SelectedEntity Actions', () => {
         name: 'Some Title',
         description: 'Some Short Description',
         dateCreated: moment('2020-09-12T19:49:45Z'),
-        ownerName: 'Owner Display Name',
-        ownerLogo: 'https://pds_pandora.ixo.world/public/9uqcsf7qsfjkelkkkt9',
-        ownerMission: 'another mission',
-        ownerWebsite: 'https://eerer.com',
+        creatorName: 'Creator Display Name',
+        creatorLogo: 'https://pds_pandora.ixo.world/public/8520qk1ckqvkelkjfeg',
+        creatorMission: 'Some mission',
+        creatorWebsite: 'https://blah.com',
         location: 'AR',
         image: 'https://pds_pandora.ixo.world/public/sbujb0xg0dgkeljwtnc',
         logo: 'https://pds_pandora.ixo.world/public/v7kvrycap9kf2ofnof',
@@ -99,72 +99,58 @@ describe('SelectedEntity Actions', () => {
         bondDid: 'did:sov:CYCc2xaJKrp8Yt947Nc6jdzzzz',
         content: {
           header: {
-            title: 'Some Title',
-            shortDescription: 'Some Short Description',
-            imageDescription: 'Some Image Description',
-            sdgs: ['5', '7'],
-            brand: 'Some Brand',
-            location: 'AR',
-            image: 'https://pds_pandora.ixo.world/public/sbujb0xg0dgkeljwtnc',
-            logo: 'https://pds_pandora.ixo.world/public/xxxjb0xg0dgkeljwtnc',
+            image: 'https://pds_pandora.ixo.world/public/67xcwb5kda3kfe6pdro',
+            title: 'Test Project',
+            shortDescription:
+              'At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias',
+            brand: 'Test',
+            location: 'AS',
+            sdgs: ['3', '7'],
+            imageDescription:
+              'At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis',
+            logo: 'https://pds_pandora.ixo.world/public/ywqirhguu8ikfe6pt43',
           },
           body: [
             {
-              title: 'Some Body Content Title',
-              content: 'Some Body Content',
-              image: 'https://pds_pandora.ixo.world/public/n724h8vl04bkeljy6xl',
-            },
-            {
-              title: 'Another Body Content Title',
-              content: 'Another Body Content',
-              image: 'https://pds_pandora.ixo.world/public/e4g7yisha77keljyz5d',
+              title: 'Test Section',
+              content:
+                'At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus',
+              image: 'https://pds_pandora.ixo.world/public/tel1dgdjshrkfe6qygk',
             },
           ],
           images: [
             {
-              title: 'Some Image Content Title',
-              content: 'Some Image Body Content',
-              imageDescription: 'Some Image Description',
-              image: 'https://pds_pandora.ixo.world/public/7bfhyr0m1p9keljzr4i',
+              title: 'Image Section',
+              content:
+                'At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus',
+              image: 'https://pds_pandora.ixo.world/public/qh7dqn7uupkfe6raoz',
+              imageDescription:
+                'At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio.',
             },
           ],
           profiles: [
             {
-              name: 'Someone 1',
-              position: 'Some Position 1',
-              linkedInUrl: 'https://linkedin1',
-              twitterUrl: 'https://twitter1',
-              image: 'https://pds_pandora.ixo.world/public/64tkzqd3llrkelk01rj',
-            },
-            {
-              name: 'Someone 2',
-              position: 'Some Position 2',
-              linkedInUrl: 'https://linkedin2',
-              twitterUrl: 'https://twitter2',
-              image: 'https://pds_pandora.ixo.world/public/o18hu58fj48kelk08c5',
+              image: 'https://pds_pandora.ixo.world/public/31lkwmpda52kfe6vh22',
+              name: 'John Doe',
+              position: 'Developer',
+              linkedInUrl: 'https://www.example.com',
+              twitterUrl: 'https://www.example.com',
             },
           ],
           social: {
-            linkedInUrl: 'https://linkedInUrl',
-            facebookUrl: 'https://fbUrl',
-            twitterUrl: 'https://twitterUrl',
-            discourseUrl: 'https://discourseUrl',
-            instagramUrl: 'https://instagramUrl',
-            telegramUrl: 'https://telegramUrl',
-            githubUrl: 'https://githubUrl',
-            otherUrl: 'https://otherUrl',
+            linkedInUrl: 'https://www.example.com',
+            facebookUrl: 'https://www.example.com',
+            twitterUrl: 'https://www.example.com',
+            discourseUrl: 'https://www.example.com',
+            instagramUrl: 'https://www.example.com',
+            telegramUrl: 'https://www.example.com',
+            githubUrl: 'https://www.example.com',
+            otherUrl: 'https://www.example.com',
           },
           embedded: [
             {
-              title: 'Some Title 1',
-              urls: [
-                'https://edition.cnn.com/2020/09/02/europe/alexey-navalny-novichok-intl/index.html',
-                'https://edition.cnn.com/2020/09/02/politics/melania-trump-private-email-wolkoff-cnntv/index.html',
-              ],
-            },
-            {
-              title: 'Another Title',
-              urls: ['https://www.youtube.com/watch?v=iOWFXqT5MZ4'],
+              title: 'Test Embedded Content',
+              urls: ['https://www.youtube.com/watch?v=_4kHxtiuML0'],
             },
           ],
         },

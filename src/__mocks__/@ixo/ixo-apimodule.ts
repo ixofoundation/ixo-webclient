@@ -1,5 +1,5 @@
 import { ApiListedEntity } from 'common/api/blocksync-api/types/entities'
-import { ApiPageContent } from 'common/api/blocksync-api/types/page-content'
+import { ApiResource } from 'common/api/blocksync-api/types/resource'
 
 export const fakeListedProjectsData = [
   {
@@ -290,6 +290,52 @@ export const fakeListedProjectsData = [
         investors: 12,
         investorsPending: 0,
       },
+      'claims': [
+        {
+          date: new Date(),
+          location: {
+            long: 'someLong',
+            lat: 'someLat',
+          },
+          claimId: '1',
+          status: '0',
+          saDid: 'someSADid',
+          eaDid: 'someEADid',
+        },
+        {
+          date: new Date(),
+          location: {
+            long: 'someLong',
+            lat: 'someLat',
+          },
+          claimId: '2',
+          status: '0',
+          saDid: 'someSADid',
+          eaDid: 'someEADid',
+        },
+        {
+          date: new Date(),
+          location: {
+            long: 'someLong',
+            lat: 'someLat',
+          },
+          claimId: '3',
+          status: '0',
+          saDid: 'someSADid',
+          eaDid: 'someEADid',
+        },
+        {
+          date: new Date(),
+          location: {
+            long: 'someLong',
+            lat: 'someLat',
+          },
+          claimId: '4',
+          status: '1',
+          saDid: 'someSADid',
+          eaDid: 'someEADid',
+        },
+      ],
     },
   },
   {
@@ -496,81 +542,16 @@ export const fakeListedProjectsData = [
         investors: 12,
         investorsPending: 0,
       },
+      'claims': [],
     },
   },
 ] as ApiListedEntity[]
 
-const fakePageContent = {
-  header: {
-    title: 'Some Title',
-    shortDescription: 'Some Short Description',
-    imageDescription: 'Some Image Description',
-    sdgs: ['5', '7'],
-    brand: 'Some Brand',
-    location: 'AR',
-    image: 'https://pds_pandora.ixo.world/public/sbujb0xg0dgkeljwtnc',
-    logo: 'https://pds_pandora.ixo.world/public/xxxjb0xg0dgkeljwtnc',
-  },
-  body: [
-    {
-      title: 'Some Body Content Title',
-      content: 'Some Body Content',
-      image: 'https://pds_pandora.ixo.world/public/n724h8vl04bkeljy6xl',
-    },
-    {
-      title: 'Another Body Content Title',
-      content: 'Another Body Content',
-      image: 'https://pds_pandora.ixo.world/public/e4g7yisha77keljyz5d',
-    },
-  ],
-  images: [
-    {
-      title: 'Some Image Content Title',
-      content: 'Some Image Body Content',
-      imageDescription: 'Some Image Description',
-      image: 'https://pds_pandora.ixo.world/public/7bfhyr0m1p9keljzr4i',
-    },
-  ],
-  profiles: [
-    {
-      name: 'Someone 1',
-      position: 'Some Position 1',
-      linkedInUrl: 'https://linkedin1',
-      twitterUrl: 'https://twitter1',
-      image: 'https://pds_pandora.ixo.world/public/64tkzqd3llrkelk01rj',
-    },
-    {
-      name: 'Someone 2',
-      position: 'Some Position 2',
-      linkedInUrl: 'https://linkedin2',
-      twitterUrl: 'https://twitter2',
-      image: 'https://pds_pandora.ixo.world/public/o18hu58fj48kelk08c5',
-    },
-  ],
-  social: {
-    linkedInUrl: 'https://linkedInUrl',
-    facebookUrl: 'https://fbUrl',
-    twitterUrl: 'https://twitterUrl',
-    discourseUrl: 'https://discourseUrl',
-    instagramUrl: 'https://instagramUrl',
-    telegramUrl: 'https://telegramUrl',
-    githubUrl: 'https://githubUrl',
-    otherUrl: 'https://otherUrl',
-  },
-  embedded: [
-    {
-      title: 'Some Title 1',
-      urls: [
-        'https://edition.cnn.com/2020/09/02/europe/alexey-navalny-novichok-intl/index.html',
-        'https://edition.cnn.com/2020/09/02/politics/melania-trump-private-email-wolkoff-cnntv/index.html',
-      ],
-    },
-    {
-      title: 'Another Title',
-      urls: ['https://www.youtube.com/watch?v=iOWFXqT5MZ4'],
-    },
-  ],
-} as ApiPageContent
+const fakePublicResource: ApiResource = {
+  data:
+    'eyJoZWFkZXIiOnsiaW1hZ2UiOiJodHRwczovL3Bkc19wYW5kb3JhLml4by53b3JsZC9wdWJsaWMvNjd4Y3diNWtkYTNrZmU2cGRybyIsInRpdGxlIjoiVGVzdCBQcm9qZWN0Iiwic2hvcnREZXNjcmlwdGlvbiI6IkF0IHZlcm8gZW9zIGV0IGFjY3VzYW11cyBldCBpdXN0byBvZGlvIGRpZ25pc3NpbW9zIGR1Y2ltdXMgcXVpIGJsYW5kaXRpaXMgcHJhZXNlbnRpdW0gdm9sdXB0YXR1bSBkZWxlbml0aSBhdHF1ZSBjb3JydXB0aSBxdW9zIGRvbG9yZXMgZXQgcXVhcyBtb2xlc3RpYXMiLCJicmFuZCI6IlRlc3QiLCJsb2NhdGlvbiI6IkFTIiwic2RncyI6WyIzIiwiNyJdLCJpbWFnZURlc2NyaXB0aW9uIjoiQXQgdmVybyBlb3MgZXQgYWNjdXNhbXVzIGV0IGl1c3RvIG9kaW8gZGlnbmlzc2ltb3MgZHVjaW11cyBxdWkgYmxhbmRpdGlpcyIsImxvZ28iOiJodHRwczovL3Bkc19wYW5kb3JhLml4by53b3JsZC9wdWJsaWMveXdxaXJoZ3V1OGlrZmU2cHQ0MyJ9LCJib2R5IjpbeyJ0aXRsZSI6IlRlc3QgU2VjdGlvbiIsImNvbnRlbnQiOiJBdCB2ZXJvIGVvcyBldCBhY2N1c2FtdXMgZXQgaXVzdG8gb2RpbyBkaWduaXNzaW1vcyBkdWNpbXVzIHF1aSBibGFuZGl0aWlzIHByYWVzZW50aXVtIHZvbHVwdGF0dW0gZGVsZW5pdGkgYXRxdWUgY29ycnVwdGkgcXVvcyBkb2xvcmVzIGV0IHF1YXMgbW9sZXN0aWFzIGV4Y2VwdHVyaSBzaW50IG9jY2FlY2F0aSBjdXBpZGl0YXRlIG5vbiBwcm92aWRlbnQsIHNpbWlsaXF1ZSBzdW50IGluIGN1bHBhIHF1aSBvZmZpY2lhIGRlc2VydW50IG1vbGxpdGlhIGFuaW1pLCBpZCBlc3QgbGFib3J1bSBldCBkb2xvcnVtIGZ1Z2EuIEV0IGhhcnVtIHF1aWRlbSByZXJ1bSBmYWNpbGlzIGVzdCBldCBleHBlZGl0YSBkaXN0aW5jdGlvLiBOYW0gbGliZXJvIHRlbXBvcmUsIGN1bSBzb2x1dGEgbm9iaXMgZXN0IGVsaWdlbmRpIG9wdGlvIGN1bXF1ZSBuaWhpbCBpbXBlZGl0IHF1byBtaW51cyBpZCBxdW9kIG1heGltZSBwbGFjZWF0IGZhY2VyZSBwb3NzaW11cywgb21uaXMgdm9sdXB0YXMgYXNzdW1lbmRhIGVzdCwgb21uaXMgZG9sb3IgcmVwZWxsZW5kdXMiLCJpbWFnZSI6Imh0dHBzOi8vcGRzX3BhbmRvcmEuaXhvLndvcmxkL3B1YmxpYy90ZWwxZGdkanNocmtmZTZxeWdrIn1dLCJpbWFnZXMiOlt7InRpdGxlIjoiSW1hZ2UgU2VjdGlvbiIsImNvbnRlbnQiOiJBdCB2ZXJvIGVvcyBldCBhY2N1c2FtdXMgZXQgaXVzdG8gb2RpbyBkaWduaXNzaW1vcyBkdWNpbXVzIHF1aSBibGFuZGl0aWlzIHByYWVzZW50aXVtIHZvbHVwdGF0dW0gZGVsZW5pdGkgYXRxdWUgY29ycnVwdGkgcXVvcyBkb2xvcmVzIGV0IHF1YXMgbW9sZXN0aWFzIGV4Y2VwdHVyaSBzaW50IG9jY2FlY2F0aSBjdXBpZGl0YXRlIG5vbiBwcm92aWRlbnQsIHNpbWlsaXF1ZSBzdW50IGluIGN1bHBhIHF1aSBvZmZpY2lhIGRlc2VydW50IG1vbGxpdGlhIGFuaW1pLCBpZCBlc3QgbGFib3J1bSBldCBkb2xvcnVtIGZ1Z2EuIEV0IGhhcnVtIHF1aWRlbSByZXJ1bSBmYWNpbGlzIGVzdCBldCBleHBlZGl0YSBkaXN0aW5jdGlvLiBOYW0gbGliZXJvIHRlbXBvcmUsIGN1bSBzb2x1dGEgbm9iaXMgZXN0IGVsaWdlbmRpIG9wdGlvIGN1bXF1ZSBuaWhpbCBpbXBlZGl0IHF1byBtaW51cyBpZCBxdW9kIG1heGltZSBwbGFjZWF0IGZhY2VyZSBwb3NzaW11cywgb21uaXMgdm9sdXB0YXMgYXNzdW1lbmRhIGVzdCwgb21uaXMgZG9sb3IgcmVwZWxsZW5kdXMuIEF0IHZlcm8gZW9zIGV0IGFjY3VzYW11cyBldCBpdXN0byBvZGlvIGRpZ25pc3NpbW9zIGR1Y2ltdXMgcXVpIGJsYW5kaXRpaXMgcHJhZXNlbnRpdW0gdm9sdXB0YXR1bSBkZWxlbml0aSBhdHF1ZSBjb3JydXB0aSBxdW9zIGRvbG9yZXMgZXQgcXVhcyBtb2xlc3RpYXMgZXhjZXB0dXJpIHNpbnQgb2NjYWVjYXRpIGN1cGlkaXRhdGUgbm9uIHByb3ZpZGVudCwgc2ltaWxpcXVlIHN1bnQgaW4gY3VscGEgcXVpIG9mZmljaWEgZGVzZXJ1bnQgbW9sbGl0aWEgYW5pbWksIGlkIGVzdCBsYWJvcnVtIGV0IGRvbG9ydW0gZnVnYS4gRXQgaGFydW0gcXVpZGVtIHJlcnVtIGZhY2lsaXMgZXN0IGV0IGV4cGVkaXRhIGRpc3RpbmN0aW8uIE5hbSBsaWJlcm8gdGVtcG9yZSwgY3VtIHNvbHV0YSBub2JpcyBlc3QgZWxpZ2VuZGkgb3B0aW8gY3VtcXVlIG5paGlsIGltcGVkaXQgcXVvIG1pbnVzIGlkIHF1b2QgbWF4aW1lIHBsYWNlYXQgZmFjZXJlIHBvc3NpbXVzLCBvbW5pcyB2b2x1cHRhcyBhc3N1bWVuZGEgZXN0LCBvbW5pcyBkb2xvciByZXBlbGxlbmR1cyIsImltYWdlIjoiaHR0cHM6Ly9wZHNfcGFuZG9yYS5peG8ud29ybGQvcHVibGljL3FoN2Rxbjd1dXBrZmU2cmFveiIsImltYWdlRGVzY3JpcHRpb24iOiJBdCB2ZXJvIGVvcyBldCBhY2N1c2FtdXMgZXQgaXVzdG8gb2RpbyBkaWduaXNzaW1vcyBkdWNpbXVzIHF1aSBibGFuZGl0aWlzIHByYWVzZW50aXVtIHZvbHVwdGF0dW0gZGVsZW5pdGkgYXRxdWUgY29ycnVwdGkgcXVvcyBkb2xvcmVzIGV0IHF1YXMgbW9sZXN0aWFzIGV4Y2VwdHVyaSBzaW50IG9jY2FlY2F0aSBjdXBpZGl0YXRlIG5vbiBwcm92aWRlbnQsIHNpbWlsaXF1ZSBzdW50IGluIGN1bHBhIHF1aSBvZmZpY2lhIGRlc2VydW50IG1vbGxpdGlhIGFuaW1pLCBpZCBlc3QgbGFib3J1bSBldCBkb2xvcnVtIGZ1Z2EuIEV0IGhhcnVtIHF1aWRlbSByZXJ1bSBmYWNpbGlzIGVzdCBldCBleHBlZGl0YSBkaXN0aW5jdGlvLiJ9XSwicHJvZmlsZXMiOlt7ImltYWdlIjoiaHR0cHM6Ly9wZHNfcGFuZG9yYS5peG8ud29ybGQvcHVibGljLzMxbGt3bXBkYTUya2ZlNnZoMjIiLCJuYW1lIjoiSm9obiBEb2UiLCJwb3NpdGlvbiI6IkRldmVsb3BlciIsImxpbmtlZEluVXJsIjoiaHR0cHM6Ly93d3cuZXhhbXBsZS5jb20iLCJ0d2l0dGVyVXJsIjoiaHR0cHM6Ly93d3cuZXhhbXBsZS5jb20ifV0sInNvY2lhbCI6eyJsaW5rZWRJblVybCI6Imh0dHBzOi8vd3d3LmV4YW1wbGUuY29tIiwiZmFjZWJvb2tVcmwiOiJodHRwczovL3d3dy5leGFtcGxlLmNvbSIsInR3aXR0ZXJVcmwiOiJodHRwczovL3d3dy5leGFtcGxlLmNvbSIsImRpc2NvdXJzZVVybCI6Imh0dHBzOi8vd3d3LmV4YW1wbGUuY29tIiwiaW5zdGFncmFtVXJsIjoiaHR0cHM6Ly93d3cuZXhhbXBsZS5jb20iLCJ0ZWxlZ3JhbVVybCI6Imh0dHBzOi8vd3d3LmV4YW1wbGUuY29tIiwiZ2l0aHViVXJsIjoiaHR0cHM6Ly93d3cuZXhhbXBsZS5jb20iLCJvdGhlclVybCI6Imh0dHBzOi8vd3d3LmV4YW1wbGUuY29tIn0sImVtYmVkZGVkIjpbeyJ0aXRsZSI6IlRlc3QgRW1iZWRkZWQgQ29udGVudCIsInVybHMiOlsiaHR0cHM6Ly93d3cueW91dHViZS5jb20vd2F0Y2g/dj1fNGtIeHRpdU1MMCJdfV19',
+  contentType: 'application/json',
+}
 
 export class Ixo {
   project
@@ -582,7 +563,7 @@ export class Ixo {
       getProjectByProjectDid: jest.fn(() =>
         Promise.resolve(fakeListedProjectsData[0]),
       ),
-      fetchPublic: jest.fn(() => Promise.resolve(fakePageContent)),
+      fetchPublic: jest.fn(() => Promise.resolve(fakePublicResource)),
     }
   }
 }
