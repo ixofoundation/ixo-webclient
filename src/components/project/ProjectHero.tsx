@@ -36,7 +36,7 @@ export interface Props {
   enableAssistantButton?: boolean
 }
 
-export const ProjectHero: React.SFC<Props> = ({
+export const ProjectHero: React.FunctionComponent<Props> = ({
   project,
   match,
   isDetail,
@@ -124,6 +124,7 @@ export const ProjectHero: React.SFC<Props> = ({
       </>
     )
   }
+
   return (
     <React.Fragment>
       {onlyTitle && windowSize.width > deviceWidth.tablet && (

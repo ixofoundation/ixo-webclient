@@ -74,7 +74,7 @@ const Container = styled.div`
   padding-top: 0;
   position: relative;
   top: auto;
-  display: flex;
+  display: none;
   justify-content: space-evenly;
   height: auto;
   z-index: 1;

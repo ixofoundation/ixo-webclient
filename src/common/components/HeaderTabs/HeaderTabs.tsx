@@ -18,6 +18,7 @@ const HeaderTabs: React.FunctionComponent<Props> = ({
   assistantPanelToggle,
   enableAssistantButton
 }): JSX.Element => {
+
   return (
     <PositionController>
       <Tabs

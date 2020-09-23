@@ -146,12 +146,12 @@ export const AssistantWrapper = styled.div`
   }
   .rw-sender {
     margin-top: auto;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
   }
 `
 
 export const AssistantHeader = styled.div`
-  padding: 18px 12px;
+  padding: 12px 8px;
   margin-top: 16px;
   display: flex;
   align-items: center;

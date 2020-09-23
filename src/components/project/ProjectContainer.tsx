@@ -53,8 +53,11 @@ const DetailContainer = styled.div`
 
 const ContentContainer = styled.div`
   flex: 1;
-  padding-left: 30px;
-  padding-right: 30px;
+
+  @media (min-width: ${deviceWidth.mobile}px) {
+    padding-left: 30px;
+    padding-right: 30px;
+  }
 `
 
 export interface State {

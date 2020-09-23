@@ -299,11 +299,11 @@ class Header extends React.Component<Props, State> {
             />
           </MediaQuery>
         </div>
-        <HeaderTabs
+        {/* <HeaderTabs
           buttons={headerTabButtons}
           activeTabColor={entityStrategyMap.themeColor}
           enableAssistantButton={true}
-        />
+        /> */}
       </TopBar>
     )
   }
