@@ -3,15 +3,15 @@ import { connect } from 'react-redux'
 import { RootState } from 'common/redux/types'
 import Instructions from './components/Instructions/Instructions'
 import { FormContainer } from 'common/components/JsonForm/JsonForm.styles'
-import { FormControl } from 'common/components/JsonForm/types'
 import * as submitEntityClaimSelectors from './SubmitEntityClaim.selectors'
 import * as selectedEntitySelectors from 'modules/Entities/SelectedEntity/SelectedEntity.selectors'
 import { getEntity } from 'modules/Entities/SelectedEntity/SelectedEntity.actions'
 import { ActionWrapper } from 'common/components/ControlPanel/Actions/Actions.styles'
+import { QuestionForm } from '../types'
 
 interface Props {
   entityDid: string
-  questions: FormControl[]
+  questions: QuestionForm[]
   match: any
   handleGetEntity: (entityDid: string) => void
 }
@@ -51,8 +51,11 @@ class InstructionsContainer extends React.Component<Props> {
             backLink={`/projects/${entityDid}/overview`}
             formLink={`/projects/${entityDid}/overview/action/new_claim/form`}
             listItems={questions.map((question) => ({
-              title: question.title,
-              control: question.control,
+              title: question.schema.title,
+              control:
+                question.uiSchema[Object.keys(question.schema.properties)[0]][
+                  'ui:widget'
+                ],
             }))}
           />
         </FormContainer>

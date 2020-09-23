@@ -21,7 +21,7 @@ beforeEach(() => {
             required: ['00000001-3b7d-4bad-9bdd-2b0d7b3dcb67'],
             properties: {
               '00000001-3b7d-4bad-9bdd-2b0d7b3dcb67': {
-                type: 'number',
+                type: 'string',
                 title:
                   'Rate the below from 1 to 10 with 1 bring terrible and 10 being excellent',
                 enum: ['1', '2', '3'],
@@ -103,7 +103,7 @@ describe('SubmitEntityClaim Selectors', () => {
             required: ['00000001-3b7d-4bad-9bdd-2b0d7b3dcb67'],
             properties: {
               '00000001-3b7d-4bad-9bdd-2b0d7b3dcb67': {
-                type: 'number',
+                type: 'string',
                 title:
                   'Rate the below from 1 to 10 with 1 bring terrible and 10 being excellent',
                 enum: ['1', '2', '3'],

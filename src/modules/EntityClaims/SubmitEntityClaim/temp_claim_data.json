@@ -6,6 +6,30 @@
   },
   "forms": [
     {
+      "@type": "https://schema.org/888",
+      "schema": {
+        "title": "QR Code",
+        "description": "Provide a short explanation or instruction for the question (optional). ",
+        "type": "object",
+        "required": [],
+        "properties": {
+          "00000008-3b7d-4bad-9bdd-2b0d7b3dcb99": {
+            "type": "string",
+            "title": "QR Code",
+            "items": { "type": "string" },
+            "uniqueItems": true
+          }
+        }
+      },
+      "uiSchema": {
+        "00000008-3b7d-4bad-9bdd-2b0d7b3dcb99": {
+          "ui:widget": "qrcodescan",
+          "ui:placeholder": "Waiting for data...",
+          "ui:options": {}
+        }
+      }
+    },
+    {
       "@type": "https://schema.org/1",
       "schema": {
         "title": "Selector Rate out of 10",
@@ -14,7 +38,7 @@
         "required": ["00000001-3b7d-4bad-9bdd-2b0d7b3dcb67"],
         "properties": {
           "00000001-3b7d-4bad-9bdd-2b0d7b3dcb67": {
-            "type": "number",
+            "type": "string",
             "title": "Rate the below from 1 to 10 with 1 bring terrible and 10 being excellent",
             "enum": ["1", "2", "3"],
             "items": { "type": "string" },

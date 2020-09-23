@@ -40,14 +40,14 @@ const Question: React.FunctionComponent<Props> = ({
     ...question.uiSchema,
     [id]: {
       ...question.uiSchema[id],
-      ['ui:widget']: widget,
+      'ui:widget': widget,
+      'ui:uploading': savingAnswer,
     },
   }
 
   return (
     <SingleControlForm
       formData={answer}
-      uploading={savingAnswer}
       handleFormDataChange={(formData): void =>
         handleFormDataChangeDebounce(formData)
       }

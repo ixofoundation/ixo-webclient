@@ -10,7 +10,6 @@ interface Props {
   schema: JSONSchema7
   uiSchema: UiSchema
   formData: FormData
-  uploading: boolean
   handleSubmit: () => void
   handleFormDataChange: (formData: any) => void
 }
@@ -20,7 +19,6 @@ const SingleControlForm: React.FunctionComponent<Props> = ({
   schema,
   uiSchema,
   formData,
-  uploading,
   handleSubmit,
   handleFormDataChange,
 }) => {
