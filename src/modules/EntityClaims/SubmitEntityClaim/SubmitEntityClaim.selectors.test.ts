@@ -104,8 +104,8 @@ beforeEach(() => {
       },
       answersComplete: true,
       savingAnswer: true,
-      sending: true,
-      sent: true,
+      creating: true,
+      created: true,
       error: 'some error occured',
     } as SubmitEntityClaimState,
   }
@@ -320,7 +320,7 @@ describe('SubmitEntityClaim Selectors', () => {
   })
 
   describe('selectSending', () => {
-    it('should return the sending flag', () => {
+    it('should return the creating flag', () => {
       // when ... we call the selector
       const result = SUT.selectSending(state)
       // then ... should return result as expected
@@ -329,7 +329,7 @@ describe('SubmitEntityClaim Selectors', () => {
   })
 
   describe('selectSent', () => {
-    it('should return the sent flag', () => {
+    it('should return the created flag', () => {
       // when ... we call the selector
       const result = SUT.selectSent(state)
       // then ... should return result as expected

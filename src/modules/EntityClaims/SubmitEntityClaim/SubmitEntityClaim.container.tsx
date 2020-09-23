@@ -36,7 +36,6 @@ interface Props {
   savingAnswer: boolean
   answersComplete: boolean
   match: any
-  entityIsLoading: boolean
   claimTemplateIsLoading: boolean
   finaliseQuestions: () => void
   handlePreviousClick: () => void
@@ -84,7 +83,6 @@ class SubmitEntityClaim extends React.Component<Props, State> {
         params: { projectDID: entityDid },
       },
       userDid,
-      entityIsLoading,
       claimTemplateIsLoading,
       entityType,
       entityTitle,
@@ -101,7 +99,7 @@ class SubmitEntityClaim extends React.Component<Props, State> {
       handleFormDataChange,
     } = this.props
 
-    if (entityIsLoading || claimTemplateIsLoading) {
+    if (claimTemplateIsLoading) {
       return (
         <Redirect to={`/projects/${entityDid}/overview/action/new_claim`} />
       )
@@ -170,7 +168,6 @@ const mapStateToProps = (state: RootState): Record<string, any> => ({
   userDid: accountSelectors.selectUserDid(state),
   entityType: selectedEntitySelectors.selectEntityType(state),
   entityTitle: selectedEntitySelectors.selectEntityName(state),
-  entityIsLoading: selectedEntitySelectors.entityIsLoading(state),
   claimTemplateDid: selectedEntitySelectors.selectEntityClaimTemplateId(state),
   claimTemplateIsLoading: submitEntityClaimSelectors.selectIsLoading(state),
   claimTitle: submitEntityClaimSelectors.selectClaimTitle(state),

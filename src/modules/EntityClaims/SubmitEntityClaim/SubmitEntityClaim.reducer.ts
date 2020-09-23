@@ -18,8 +18,8 @@ export const reducer = (
         answers: undefined,
         savingAnswer: false,
         answersComplete: false,
-        sending: false,
-        sent: false,
+        creating: false,
+        created: false,
         error: null,
       }
     case SubmitEntityClaimActions.ClearClaimTemplate:
@@ -62,6 +62,29 @@ export const reducer = (
       return {
         ...state,
         answersComplete: true,
+      }
+    case SubmitEntityClaimActions.CreateClaimStart:
+      return {
+        ...state,
+        creating: true,
+        error: null,
+      }
+    case SubmitEntityClaimActions.CreateClaimSuccess:
+      return {
+        ...state,
+        creating: false,
+        created: true,
+        error: null,
+        currentQuestionNo: 1,
+        answers: undefined,
+        savingAnswer: false,
+        answersComplete: false,
+      }
+    case SubmitEntityClaimActions.CreateClaimFailure:
+      return {
+        ...state,
+        creating: false,
+        error: action.payload.error,
       }
   }
 

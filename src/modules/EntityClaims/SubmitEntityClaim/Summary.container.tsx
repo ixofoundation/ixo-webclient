@@ -5,7 +5,6 @@ import { RootState } from 'common/redux/types'
 import Summary from './components/Summary/Summary'
 import * as submitEntityClaimSelectors from './SubmitEntityClaim.selectors'
 import * as selectedEntitySelectors from 'modules/Entities/SelectedEntity/SelectedEntity.selectors'
-import { getEntity } from 'modules/Entities/SelectedEntity/SelectedEntity.actions'
 import { goToQuestionNumber } from './SubmitEntityClaim.actions'
 import { QuestionForm } from '../types'
 

@@ -11,9 +11,9 @@ export interface SubmitEntityClaimState {
   answers: FormData
   answersComplete: boolean
   savingAnswer: boolean
-  sending: boolean
-  sent: boolean
-  error?: string
+  creating: boolean
+  created: boolean
+  error: string
 }
 
 export enum SubmitEntityClaimActions {
