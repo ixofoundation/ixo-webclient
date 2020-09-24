@@ -8,7 +8,6 @@ export const ActionLinksWrapper = styled.div`
   > div {
     width: 50% !important;
   }
-
   a {
     background: #ffffff;
     border-radius: 0.75rem;
@@ -27,6 +26,7 @@ export const ActionLinksWrapper = styled.div`
     svg {
       fill: #47568c;
       margin-right: 1rem;
+      min-width: 0.8rem;
     }
     &:hover {
       color: #47568c;

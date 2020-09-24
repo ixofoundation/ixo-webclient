@@ -11,6 +11,7 @@ import Dashboard from './Dashboard/Dashboard'
 import Actions from './Actions/Actions' //, { triggerAction }
 import Apps from './Apps/Apps'
 import Connections from './Connections/Connections'
+import Claims from './Claims/Claims'
 
 interface Props {
   entityDid: string
@@ -23,6 +24,7 @@ interface State {
   showMoreApps: boolean
   currentAction: ActionType | null
   currentConnection: ConnectionType | null
+  showMoreActions: boolean
 }
 
 class ControlPanel extends React.Component<Props, State> {
@@ -31,6 +33,7 @@ class ControlPanel extends React.Component<Props, State> {
     showMoreApps: false,
     currentAction: null,
     currentConnection: null,
+    showMoreActions: false,
   }
 
   toggleShowControlPanel = (): void => {
@@ -56,6 +59,16 @@ class ControlPanel extends React.Component<Props, State> {
     })
   }
 
+  toggleShowActions = (): void => {
+    localStorage.setItem('show_more_actions', String(!this.state.showMoreActions))
+    this.setState({ showMoreActions: !this.state.showMoreActions })
+  }
+
+  componentDidMount() {
+    const showMoreActions = localStorage.getItem('show_more_actions') === 'true'
+    this.setState({ showMoreActions })
+  }
+
   render(): JSX.Element {
     const {
       schema: { dashboard, actions, apps, connections },
@@ -78,8 +91,19 @@ class ControlPanel extends React.Component<Props, State> {
             className={this.state.showControlPanelMobile ? 'open' : ''}
           >
             <Dashboard widget={dashboard} entityDid={entityDid} />
-            <Actions widget={actions} entityDid={entityDid} userDid={userDid} />
+            <Actions 
+              widget={actions} 
+              entityDid={entityDid} 
+              userDid={userDid} 
+              toggleShowMore={ this.toggleShowActions }
+              showMore={ this.state.showMoreActions }
+            />
             <Apps
+              widget={apps}
+              showMore={this.state.showMoreApps}
+              toggleShowMore={this.toggleShowApps}
+            />
+            <Claims 
               widget={apps}
               showMore={this.state.showMoreApps}
               toggleShowMore={this.toggleShowApps}

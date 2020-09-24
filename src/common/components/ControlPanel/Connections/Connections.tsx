@@ -43,7 +43,7 @@ const Connections: React.FunctionComponent<Props> = ({
           onClick={(): void => handleConnectionClick(ConnectionType.Forum)}
           className={`arrow-icon ${selectedConnection ? 'active' : ''}`}
         >
-          <Down width="16" fill="#BDBDBD" />
+          <Down width="16" fill="#A5ADB0" />
         </div>
       </h4>
       <ConnectionButtonsWrapper>
