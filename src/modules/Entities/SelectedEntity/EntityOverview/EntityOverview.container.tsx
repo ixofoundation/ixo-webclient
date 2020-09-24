@@ -33,7 +33,6 @@ interface Props {
   creatorName: string
   creatorWebsite: string
   location: string
-  bondDid: string
   sdgs: string[]
   pageContent: PageContent
   isLoggedIn: boolean
@@ -65,7 +64,6 @@ class EntityOverview extends React.Component<Props> {
       creatorMission,
       creatorLogo,
       creatorWebsite,
-      bondDid,
       location,
       sdgs,
       pageContent,
@@ -129,7 +127,6 @@ const mapStateToProps = (state: RootState): any => ({
   creatorName: entitySelectors.selectEntityCreatorName(state),
   creatorWebsite: entitySelectors.selectEntityCreatorWebsite(state),
   location: entitySelectors.selectEntityLocation(state),
-  bondDid: entitySelectors.selectEntityBondDid(state),
   sdgs: entitySelectors.selectEntitySdgs(state),
   pageContent: entityOverviewSelectors.selectPageContent(state),
   isLoggedIn: accountSelectors.selectUserIsLoggedIn(state),
