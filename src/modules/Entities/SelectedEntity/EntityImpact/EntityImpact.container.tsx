@@ -77,7 +77,6 @@ class EntityImpact extends React.Component<Props> {
         <EntityHero
           type={type}
           did={did}
-          bondDid={bondDid}
           name={name}
           description={description}
           dateCreated={dateCreated}
