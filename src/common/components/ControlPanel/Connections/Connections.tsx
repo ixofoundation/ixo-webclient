@@ -16,6 +16,8 @@ interface Props {
   widget: Widget
   selectedConnection: ConnectionType | null
   handleConnectionClick: (connection: ConnectionType) => void
+  toggleShowConnections: () => void
+  showMore: boolean
 }
 
 const icons: { [key: string]: any } = {
@@ -28,6 +30,8 @@ const Connections: React.FunctionComponent<Props> = ({
   widget: { controls, title },
   selectedConnection,
   handleConnectionClick,
+  toggleShowConnections,
+  showMore
 }) => {
   const findControl = (type: ConnectionType): Control | undefined =>
     controls?.find((conn) => conn['@type'] === type)
@@ -39,12 +43,15 @@ const Connections: React.FunctionComponent<Props> = ({
           <ConnectionIcon />
         </div>
         {title}
-        <div
-          onClick={(): void => handleConnectionClick(ConnectionType.Forum)}
-          className={`arrow-icon ${selectedConnection ? 'active' : ''}`}
-        >
-          <Down width="16" fill="#A5ADB0" />
-        </div>
+        {
+          controls.length >= 4 &&
+            <div
+              onClick={ toggleShowConnections }
+              className={`arrow-icon ${showMore ? 'active' : ''}`}
+            >
+              <Down width="16" fill="#A5ADB0" />
+            </div>
+        }
       </h4>
       <ConnectionButtonsWrapper>
         {Object.keys(ConnectionType).map((key: string) => {

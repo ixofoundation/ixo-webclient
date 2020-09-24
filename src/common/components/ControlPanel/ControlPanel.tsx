@@ -25,6 +25,7 @@ interface State {
   currentAction: ActionType | null
   currentConnection: ConnectionType | null
   showMoreActions: boolean
+  showMoreConnections: boolean
 }
 
 class ControlPanel extends React.Component<Props, State> {
@@ -34,6 +35,7 @@ class ControlPanel extends React.Component<Props, State> {
     currentAction: null,
     currentConnection: null,
     showMoreActions: false,
+    showMoreConnections: false
   }
 
   toggleShowControlPanel = (): void => {
@@ -64,9 +66,15 @@ class ControlPanel extends React.Component<Props, State> {
     this.setState({ showMoreActions: !this.state.showMoreActions })
   }
 
+  toggleShowConnections = (): void => {
+    localStorage.setItem('show_more_connections', String(!this.state.showMoreConnections))
+    this.setState({ showMoreConnections: !this.state.showMoreConnections })
+  }
+
   componentDidMount() {
     const showMoreActions = localStorage.getItem('show_more_actions') === 'true'
-    this.setState({ showMoreActions })
+    const showMoreConnections = localStorage.getItem('show_more_connections') === 'true'
+    this.setState({ showMoreActions, showMoreConnections })
   }
 
   render(): JSX.Element {
@@ -112,6 +120,8 @@ class ControlPanel extends React.Component<Props, State> {
               widget={connections}
               selectedConnection={this.state.currentConnection}
               handleConnectionClick={this.handleConnectionClick}
+              toggleShowConnections={ this.toggleShowConnections }
+              showMore={ this.state.showMoreConnections }
             />
           </ControlPanelWrapper>
         </ControlPanelScrollWrapper>
