@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { Moment } from 'moment'
+import { useSelector } from 'react-redux'
 import { SDGArray } from 'lib/commonData'
 import { getCountryName } from 'common/utils/formatters'
 import { MatchType } from '../../../../types/models'
@@ -24,11 +25,10 @@ import { deviceWidth } from 'lib/commonData'
 import IxoCircle from 'assets/images/ixo-circle.png'
 import MediaQuery from 'react-responsive'
 import CreateEntityDropDown from '../../CreateEntity/components/CreateEntityDropdown/CreateEntityDropdown'
-
+import { selectEntityCreator } from 'modules/Entities/SelectedEntity/SelectedEntity.selectors'
 interface Props {
   type: EntityType
   did: string
-  bondDid: string
   name: string
   description: string
   dateCreated: Moment
@@ -47,7 +47,6 @@ const EntityHero: React.FunctionComponent<Props> = ({
   creatorName,
   type,
   did,
-  bondDid,
   location,
   sdgs,
   dateCreated,
@@ -56,6 +55,7 @@ const EntityHero: React.FunctionComponent<Props> = ({
   assistantPanelToggle,
   enableAssistantButton = true,
 }) => {
+  const bondDid = useSelector(selectEntityCreator)
   const windowSize = useWindowSize()
   const buttonsArray = [
     {
@@ -81,7 +81,7 @@ const EntityHero: React.FunctionComponent<Props> = ({
       title: 'DASHBOARD',
     })
   }
-
+  console.log('loggedIn && bondDid', loggedIn, bondDid)
   if (loggedIn && bondDid) {
     buttonsArray.push({
       iconClass: 'icon-funding',
