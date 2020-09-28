@@ -1,18 +1,19 @@
 import React from 'react'
 import { Route, NavLink } from 'react-router-dom'
-import AddPerson from '../../../../assets/icons/AddPerson'
-import Message from '../../../../assets/icons/Message'
-import Target from '../../../../assets/icons/Target'
-import Star from '../../../../assets/icons/Star'
-import Fuel from '../../../../assets/icons/Fuel'
-import ActionIcon from '../../../../assets/icons/Actions'
+import AddPerson from 'assets/icons/AddPerson'
+import Message from 'assets/icons/Message'
+import Target from 'assets/icons/Target'
+import Star from 'assets/icons/Star'
+import Fuel from 'assets/icons/Fuel'
+import ActionIcon from 'assets/icons/Actions'
 import { Widget } from '../types'
 import { ControlPanelSection } from '../ControlPanel.styles'
 import { ActionLinksWrapper } from './Actions.styles'
 import FuelEntity from 'modules/Entities/FuelEntity/FuelEntity.container'
-import { SummaryContainerConnected } from '../../../../modules/EntityClaims/SubmitEntityClaim/Summary.container'
+import { SummaryContainerConnected } from 'modules/EntityClaims/SubmitEntityClaim/SubmitEntityClaimFinal/SubmitEntityClaimFinal.container'
 import Tooltip from '../../Tooltip/Tooltip'
-import { InstructionsContainerConnected } from '../../../../modules/EntityClaims/SubmitEntityClaim/Instructions.container'
+import { InstructionsContainerConnected } from 'modules/EntityClaims/SubmitEntityClaim/SubmitEntityClaimInstructions/SubmitEntityClaimInstructions.container'
+
 import Down from 'assets/icons/Down'
 
 interface IconTypes {
@@ -40,14 +41,15 @@ const Actions: React.FunctionComponent<Props> = ({
   userDid,
   entityDid,
   showMore,
-  toggleShowMore
+  toggleShowMore,
 }) => {
-  const visibleControls = controls.filter(control => !(control.permissions[0].role === 'user' && !userDid))
+  const visibleControls = controls.filter(
+    (control) => !(control.permissions[0].role === 'user' && !userDid),
+  )
 
   const handleRenderControl = (control: any): JSX.Element => {
-    const intent = control.parameters.find(
-      (param) => param?.name === 'intent',
-    )?.value
+    const intent = control.parameters.find((param) => param?.name === 'intent')
+      ?.value
 
     const to = `/projects/${entityDid}/overview/action/${intent}`
 
@@ -92,22 +94,21 @@ const Actions: React.FunctionComponent<Props> = ({
             <ActionIcon />
           </div>
           {title}
-          {
-            controls.length > 4 &&
-              <div
-                onClick={ toggleShowMore }
-                className={`arrow-icon ${showMore ? 'active' : ''}`}
-              >
-                <Down width="16" fill="#A5ADB0" />
-              </div>
-          }
+          {controls.length > 4 && (
+            <div
+              onClick={toggleShowMore}
+              className={`arrow-icon ${showMore ? 'active' : ''}`}
+            >
+              <Down width="16" fill="#A5ADB0" />
+            </div>
+          )}
         </h4>
         <ActionLinksWrapper>
-          {visibleControls.slice(0, 4)?.map( handleRenderControl )}
+          {visibleControls.slice(0, 4)?.map(handleRenderControl)}
         </ActionLinksWrapper>
         <div className={`show-more-container ${showMore ? 'show' : ''}`}>
           <ActionLinksWrapper>
-            {visibleControls.slice(4)?.map( handleRenderControl )}
+            {visibleControls.slice(4)?.map(handleRenderControl)}
           </ActionLinksWrapper>
         </div>
       </ControlPanelSection>

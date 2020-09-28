@@ -1,17 +1,27 @@
-import { FormControl, FormData } from '../../../common/components/JsonForm/types'
+import { FormData } from '../../../common/components/JsonForm/types'
+import { EntityClaimType, QuestionForm } from '../types'
 
 export interface SubmitEntityClaimState {
-  questions: FormControl[]
+  templateDid: string
+  claimTitle: string
+  claimShortDescription: string
+  type: EntityClaimType
+  questions: QuestionForm[]
   currentQuestionNo: number
   answers: FormData
   answersComplete: boolean
   savingAnswer: boolean
-  sending: boolean
-  sent: boolean
-  error?: string
+  creating: boolean
+  created: boolean
+  error: string
 }
 
 export enum SubmitEntityClaimActions {
+  GetClaimTemplate = 'ixo/SubmitEntityClaim/GET_CLAIM_TEMPLATE',
+  GetClaimTemplateSuccess = 'ixo/SubmitEntityClaim/GET_CLAIM_TEMPLATE_FULFILLED',
+  GetClaimTemplatePending = 'ixo/SubmitEntityClaim/GET_CLAIM_TEMPLATE_PENDING',
+  GetClaimTemplateFailure = 'ixo/SubmitEntityClaim/GET_CLAIM_TEMPLATE_REJECTED',
+  ClearClaimTemplate = 'ixo/Entity/CLEAR_CLAIM_TEMPLATE',
   SaveAnswer = 'ixo/SubmitEntityClaim/SAVE_ANSWER',
   SaveAnswerPending = 'ixo/SubmitEntityClaim/SAVE_ANSWER_PENDING',
   SaveAnswerSuccess = 'ixo/SubmitEntityClaim/SAVE_ANSWER_FULFILLED',
@@ -20,10 +30,36 @@ export enum SubmitEntityClaimActions {
   GoToPreviousQuestion = 'ixo/SubmitEntityClaim/GOTO_PREVIOUS_QUESTION',
   GoToQuestionNumber = 'ixo/SubmitEntityClaim/GOTO_QUESTION_NUMBER',
   FinaliseQuestions = 'ixo/SubmitEntityClaim/FINALISE_QUESTIONS',
-  ConfirmClaim = 'ixo/FuelEntity/CONFIRM_CLAIM',
-  ConfirmClaimPending = 'ixo/FuelEntity/CONFIRM_CLAIM_PENDING',
-  ConfirmClaimSuccess = 'ixo/FuelEntity/CONFIRM_CLAIM_FULFILLED',
-  ConfirmClaimFailure = 'ixo/FuelEntity/CONFIRM_CLAIM_REJECTED',
+  CreateClaim = 'ixo/SubmitEntityClaim/CREATE_CLAIM',
+  CreateClaimStart = 'ixo/SubmitEntityClaim/CREATE_CLAIM_START',
+  CreateClaimSuccess = 'ixo/SubmitEntityClaim/CREATE_CLAIM_SUCCESS',
+  CreateClaimFailure = 'ixo/SubmitEntityClaim/CREATE_CLAIM_FAILURE',
+}
+
+export interface GetClaimTemplateAction {
+  type: typeof SubmitEntityClaimActions.GetClaimTemplate
+  payload: Promise<{
+    templateDid: string
+    claimTitle: string
+    claimShortDescription: string
+    type: EntityClaimType
+    questions: QuestionForm[]
+  }>
+}
+
+export interface GetClaimTemplateSuccessAction {
+  type: typeof SubmitEntityClaimActions.GetClaimTemplateSuccess
+  payload: {
+    templateDid: string
+    claimTitle: string
+    claimShortDescription: string
+    type: EntityClaimType
+    questions: QuestionForm[]
+  }
+}
+
+export interface ClearClaimTemplateAction {
+  type: typeof SubmitEntityClaimActions.ClearClaimTemplate
 }
 
 export interface SaveAnswerAction {
@@ -68,7 +104,30 @@ export interface FinaliseQuestionsAction {
   type: typeof SubmitEntityClaimActions.FinaliseQuestions
 }
 
+export interface CreateClaimAction {
+  type: typeof SubmitEntityClaimActions.CreateClaim
+  payload: Promise<any>
+}
+
+export interface CreateClaimStartAction {
+  type: typeof SubmitEntityClaimActions.CreateClaimStart
+}
+
+export interface CreateClaimSuccessAction {
+  type: typeof SubmitEntityClaimActions.CreateClaimSuccess
+}
+
+export interface CreateClaimFailureAction {
+  type: typeof SubmitEntityClaimActions.CreateClaimFailure
+  payload: {
+    error
+  }
+}
+
 export type SubmitEntityClaimActionTypes =
+  | GetClaimTemplateAction
+  | GetClaimTemplateSuccessAction
+  | ClearClaimTemplateAction
   | SaveAnswerAction
   | SaveAnswerSuccessAction
   | SaveAnswerPendingAction
@@ -77,3 +136,7 @@ export type SubmitEntityClaimActionTypes =
   | GoToPreviousQuestionAction
   | GoToQuestionNumberAction
   | FinaliseQuestionsAction
+  | CreateClaimAction
+  | CreateClaimStartAction
+  | CreateClaimSuccessAction
+  | CreateClaimFailureAction

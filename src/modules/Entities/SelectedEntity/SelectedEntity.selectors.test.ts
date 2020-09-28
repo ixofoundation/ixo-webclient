@@ -28,6 +28,7 @@ beforeEach(() => {
       serviceProvidersPendingCount: 2,
       evaluatorsCount: 10,
       evaluatorsPendingCount: 0,
+      claimTemplateId: 'did:sov:BB1fV7PTbWG3aveDJZpgSn',
       requiredClaimsCount: 23,
       pendingClaimsCount: 3,
       successfulClaimsCount: 10,
@@ -250,6 +251,16 @@ describe('SelectedEntity Selectors', () => {
           kyc: false,
         },
       ])
+    })
+  })
+
+  describe('selectEntityClaimTemplateId', () => {
+    it('should return the claim template id', () => {
+      // when ... we call the selector
+      const result = SUT.selectEntityClaimTemplateId(state)
+
+      // then ... should return the result as expected
+      expect(result).toEqual('did:sov:BB1fV7PTbWG3aveDJZpgSn')
     })
   })
 

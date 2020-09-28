@@ -1,11 +1,12 @@
 import React from 'react'
 import { debounce } from 'debounce'
 import SingleControlForm from 'common/components/JsonForm/SingleControlForm/SingleControlForm'
-import { FormControl } from 'common/components/JsonForm/types'
 import { ButtonGroup } from 'common/components/JsonForm/JsonForm.styles'
+import { QuestionForm } from '../../../types'
+import { customControls } from 'common/components/JsonForm/types'
 
 interface Props {
-  question: FormControl
+  question: QuestionForm
   answer: {}
   savingAnswer: boolean
   currentQuestionNo: number
@@ -29,15 +30,30 @@ const Question: React.FunctionComponent<Props> = ({
 }) => {
   const handleFormDataChangeDebounce = debounce(handleFormDataChange, 500)
 
+  const id = Object.keys(question.uiSchema)[0]
+  const widgetName = question.uiSchema[id]['ui:widget']
+  const widget = customControls[widgetName]
+    ? customControls[widgetName]
+    : widgetName
+
+  const uiSchema = {
+    ...question.uiSchema,
+    [id]: {
+      ...question.uiSchema[id],
+      'ui:widget': widget,
+      'ui:uploading': savingAnswer,
+    },
+  }
+
   return (
     <SingleControlForm
       formData={answer}
-      uploading={savingAnswer}
       handleFormDataChange={(formData): void =>
         handleFormDataChangeDebounce(formData)
       }
       handleSubmit={handleNextClick}
-      formControl={question}
+      schema={question.schema}
+      uiSchema={uiSchema}
     >
       <ButtonGroup>
         {currentQuestionNo > 1 && !answersComplete && (

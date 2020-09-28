@@ -15,8 +15,8 @@ let state = {
       { id: 'xyz', data: 'bar' },
     ],
     answersComplete: false,
-    sending: false,
-    sent: false,
+    creating: false,
+    created: false,
     error: null,
     savingAnswer: false,
   },
@@ -27,18 +27,8 @@ beforeEach(() => {
 })
 
 describe('SubmitEntityClaim Actions', () => {
+  // TODO
   /*   describe('saveAnswer', () => {
-    it('should create an action to save an answer', () => {
-      // when ... we have an answer and a questionId
-      const answer = { questionId: 'xyz', foo: 'bar' }
-
-      // when ... we call saveAnswer
-      const action = SUT.saveAnswer(answer)
-
-      // then we should expect it to create action with the correct type and payload
-      expect(action.type).toEqual(SubmitEntityClaimActions.SaveAnswer)
-      expect(action.payload).toEqual({ answer })
-    })
   }) */
 
   describe('goToPreviousQuestion', () => {
