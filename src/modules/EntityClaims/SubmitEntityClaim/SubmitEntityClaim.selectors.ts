@@ -103,14 +103,14 @@ export const selectAnswersComplete = createSelector(
   },
 )
 
-export const selectSending = createSelector(
+export const selectCreating = createSelector(
   selectSubmitEntityClaim,
   (submitEntityClaim) => {
     return submitEntityClaim ? submitEntityClaim.creating : null
   },
 )
 
-export const selectSent = createSelector(
+export const selectCreated = createSelector(
   selectSubmitEntityClaim,
   (submitEntityClaim) => {
     return submitEntityClaim ? submitEntityClaim.created : null

@@ -20,6 +20,7 @@ import { ApiListedEntity } from 'common/api/blocksync-api/types/entities'
 import { ApiResource } from 'common/api/blocksync-api/types/resource'
 import { Attestation } from '../types'
 import { fromBase64 } from 'js-base64'
+import { FormData } from 'common/components/JsonForm/types'
 
 export const clearClaimTemplate = (): ClearClaimTemplateAction => ({
   type: SubmitEntityClaimActions.ClearClaimTemplate,
@@ -175,6 +176,10 @@ export const createEntityClaim = () => (
   dispatch: Dispatch,
   getState: () => RootState,
 ): CreateClaimSuccessAction | CreateClaimFailureAction => {
+  dispatch({
+    type: SubmitEntityClaimActions.CreateClaimStart,
+  })
+
   const claimApiPayload = submitEntityClaimSelectors.selectClaimApiPayload(
     getState(),
   )

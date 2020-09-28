@@ -322,7 +322,7 @@ describe('SubmitEntityClaim Selectors', () => {
   describe('selectSending', () => {
     it('should return the creating flag', () => {
       // when ... we call the selector
-      const result = SUT.selectSending(state)
+      const result = SUT.selectCreating(state)
       // then ... should return result as expected
       expect(result).toEqual(true)
     })
@@ -331,7 +331,7 @@ describe('SubmitEntityClaim Selectors', () => {
   describe('selectSent', () => {
     it('should return the created flag', () => {
       // when ... we call the selector
-      const result = SUT.selectSent(state)
+      const result = SUT.selectCreated(state)
       // then ... should return result as expected
       expect(result).toEqual(true)
     })
