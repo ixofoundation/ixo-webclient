@@ -6,6 +6,7 @@ import {
   OverviewContainer,
   SidebarWrapper,
   MainPanelWrapper,
+  AssistantContainer,
 } from './EntityOverview.container.styles'
 import { EntityType } from 'modules/Entities/types'
 import { entityTypeMap } from 'modules/Entities/strategy-map'
@@ -18,6 +19,9 @@ import { getEntity } from '../SelectedEntity.actions'
 import { Spinner } from 'common/components/Spinner'
 import PageContentComponent from './components/PageContent/PageContent'
 import { PageContent } from '../types'
+import FundingChat from 'modules/FundingChat/FundingChat.container'
+import AssistantContext from 'common/contexts/Assistant'
+import {Transition} from 'react-spring/renderprops'
 
 interface Props {
   match: any
@@ -33,7 +37,6 @@ interface Props {
   creatorName: string
   creatorWebsite: string
   location: string
-  bondDid: string
   sdgs: string[]
   pageContent: PageContent
   isLoggedIn: boolean
@@ -42,6 +45,10 @@ interface Props {
 }
 
 class EntityOverview extends React.Component<Props> {
+  state = {
+    assistantPanelActive: false,
+  }
+
   componentDidMount(): void {
     const {
       match: {
@@ -51,6 +58,11 @@ class EntityOverview extends React.Component<Props> {
     } = this.props
 
     handleGetEntity(did)
+  }
+
+  assistantPanelToggle = (): void => {
+    const { assistantPanelActive } = this.state
+    this.setState({assistantPanelActive: !assistantPanelActive})
   }
 
   render(): JSX.Element {
@@ -65,7 +77,6 @@ class EntityOverview extends React.Component<Props> {
       creatorMission,
       creatorLogo,
       creatorWebsite,
-      bondDid,
       location,
       sdgs,
       pageContent,
@@ -73,11 +84,14 @@ class EntityOverview extends React.Component<Props> {
       isLoading,
     } = this.props
 
+    const { assistantPanelActive } = this.state
+
     if (isLoading) {
       return <Spinner info="Loading Entity..." />
     }
 
     return (
+      <AssistantContext.Provider value={{ active: assistantPanelActive }}>
       <div>
         <OverviewContainer className="container-fluid">
           <div className="row">
@@ -85,7 +99,6 @@ class EntityOverview extends React.Component<Props> {
               <EntityHero
                 type={type}
                 did={did}
-                bondDid={bondDid}
                 name={name}
                 description={description}
                 dateCreated={dateCreated}
@@ -94,6 +107,7 @@ class EntityOverview extends React.Component<Props> {
                 sdgs={sdgs}
                 loggedIn={isLoggedIn}
                 onlyTitle={false}
+                assistantPanelToggle={ this.assistantPanelToggle }
               />
               <PageContentComponent
                 pageContent={pageContent}
@@ -103,16 +117,32 @@ class EntityOverview extends React.Component<Props> {
                 creatorWebsite={creatorWebsite}
               />
             </MainPanelWrapper>
-            <SidebarWrapper className="col-lg-3">
+            <SidebarWrapper className="col-lg-3 position-relative">
               <ControlPanel
                 schema={entityTypeMap[type].controlPanelSchema}
                 entityDid={did}
                 userDid={userDid}
               />
+              <Transition
+                  items={assistantPanelActive}
+                  from={{ width: '0%' }}
+                  enter={{ width: '100%' }}
+                  leave={{ width: '0%' }}
+                >
+                
+                    {
+                      assistantPanelActive => assistantPanelActive && (props => 
+                        <AssistantContainer style={ props }>
+                          <FundingChat 
+                            assistantPanelToggle={ this.assistantPanelToggle }
+                        /></AssistantContainer>)
+                    }
+              </Transition>
             </SidebarWrapper>
           </div>
         </OverviewContainer>
       </div>
+      </AssistantContext.Provider>
     )
   }
 }
@@ -130,7 +160,6 @@ const mapStateToProps = (state: RootState): any => ({
   creatorName: entitySelectors.selectEntityCreatorName(state),
   creatorWebsite: entitySelectors.selectEntityCreatorWebsite(state),
   location: entitySelectors.selectEntityLocation(state),
-  bondDid: entitySelectors.selectEntityBondDid(state),
   sdgs: entitySelectors.selectEntitySdgs(state),
   pageContent: entityOverviewSelectors.selectPageContent(state),
   isLoggedIn: accountSelectors.selectUserIsLoggedIn(state),

@@ -5,10 +5,10 @@ export const ActionLinksWrapper = styled.div`
   display: flex;
   flex-flow: row wrap;
   margin: 0 -0.5rem;
+  width: 100%;
   > div {
     width: 50% !important;
   }
-
   a {
     background: #ffffff;
     border-radius: 0.75rem;
@@ -27,6 +27,7 @@ export const ActionLinksWrapper = styled.div`
     svg {
       fill: #47568c;
       margin-right: 1rem;
+      min-width: 0.8rem;
     }
     &:hover {
       color: #47568c;

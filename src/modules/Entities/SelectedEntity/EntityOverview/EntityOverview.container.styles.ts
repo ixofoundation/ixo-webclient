@@ -41,3 +41,13 @@ export const OverviewContainer = styled.section`
     margin: 0.75rem 0;
   }
 `
+export const AssistantContainer = styled.div`
+  position: absolute;
+  right: 0;
+  top: 0;
+  background: white;
+  width: 100%;
+  height: 100%;
+  background: rgb(240, 243, 249);
+  transition: width 1s;
+`
