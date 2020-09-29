@@ -7,7 +7,8 @@ import {
   changeEntitiesType,
   resetSectorFilter,
 } from './EntitiesExplorer.actions'
-import { EntityType, Category } from '../types'
+import { EntityType } from '../types'
+import { DDOTagCategory } from './types'
 import * as entitiesUtils from '../Entities.utils'
 import * as queryString from 'query-string'
 import { ErrorContainer } from './EntitiesExplorer.container.styles'
@@ -15,7 +16,7 @@ import { ErrorContainer } from './EntitiesExplorer.container.styles'
 interface Props {
   location: any
   handleChangeEntitiesType: (entityType: EntityType) => void
-  handleFilterCategories: (categories: Category[]) => void
+  handleFilterCategories: (categories: DDOTagCategory[]) => void
   handleFilterSector: (tag: string) => void
   handleResetSectorFilter: () => void
 }
@@ -73,13 +74,10 @@ const EntitiesSelect: React.FunctionComponent<Props> = ({
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
   handleChangeEntitiesType: (entityType: EntityType): void =>
     dispatch(changeEntitiesType(entityType)),
-  handleFilterCategories: (categories: Category[]): void =>
+  handleFilterCategories: (categories: DDOTagCategory[]): void =>
     dispatch(filterCategories(categories)),
   handleFilterSector: (tag: string): void => dispatch(filterSector(tag)),
   handleResetSectorFilter: (): void => dispatch(resetSectorFilter()),
 })
 
-export const EntitiesSelectConnected = connect(
-  null,
-  mapDispatchToProps,
-)(EntitiesSelect)
+export default connect(null, mapDispatchToProps)(EntitiesSelect)

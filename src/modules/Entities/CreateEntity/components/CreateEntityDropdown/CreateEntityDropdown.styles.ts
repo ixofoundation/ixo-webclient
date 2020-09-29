@@ -11,7 +11,7 @@ export const DropdownWrapper = styled.div`
   background: none;
   font-family: ${(props: any): string => props.theme.fontRobotoCondensed};
   font-weight: 400;
-  z-index: 4;
+  z-index: 10;
   letter-spacing: 1px;
   color: #000;
   > * {
@@ -20,9 +20,9 @@ export const DropdownWrapper = styled.div`
   }
 
   @media (min-width: ${deviceWidth.desktop}px) {
-    position: absolute;
-    top: 12px;
-    left: 516px;
+    position: fixed;
+    top: 37px;
+    left: 672px;
     transform: translateY(-50%);
   }
 `

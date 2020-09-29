@@ -38,9 +38,11 @@ export const getAccount = (address: string) => (
           },
         ],
       },
-    ).then(response => {
+    ).then((response) => {
       return {
-        balances: response.data.coins.map(coin => apiCurrencyToCurrency(coin)),
+        balances: response.data.coins.map((coin) =>
+          apiCurrencyToCurrency(coin),
+        ),
         sequence: response.data.sequence.toString(),
         accountNumber: response.data.account_number.toString(),
       }
@@ -51,10 +53,14 @@ export const getAccount = (address: string) => (
 export const updateLoginStatus = () => (
   dispatch: Dispatch,
   getState: () => RootState,
-): void => {
+): any => {
   const {
     account: { userInfo },
   } = getState()
+
+  if (!keysafe) {
+    return dispatch(logout())
+  }
 
   keysafe.getInfo((error, response) => {
     if (response) {
@@ -74,7 +80,7 @@ export const updateLoginStatus = () => (
           if (JSON.stringify(userInfo) !== JSON.stringify(newUserInfo)) {
             Axios.get(
               `${process.env.REACT_APP_GAIA_URL}/pubKeyToAddr/${newUserInfo.didDoc.pubKey}`,
-            ).then(addressResponse => {
+            ).then((addressResponse) => {
               const address = addressResponse.data.result
               dispatch(login(newUserInfo, address))
             })

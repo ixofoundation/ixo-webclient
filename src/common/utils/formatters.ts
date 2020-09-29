@@ -55,5 +55,5 @@ export function toTitleCase(str: string): string {
   })
 }
 
-export const serverDateFormat = (date: string): string =>
+export const serverDateFormat = (date: string | number): string =>
   moment(date).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]')

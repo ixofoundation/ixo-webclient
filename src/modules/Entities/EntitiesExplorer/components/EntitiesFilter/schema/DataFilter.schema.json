@@ -1,0 +1,176 @@
+{
+  "@context": "https://schema.ixo.foundation/data",
+  "@type": "Data",
+  "dateCreated": {
+    "@type": "Date",
+    "name": "Dates"
+  },
+  "view": {
+    "@type": "Category",
+    "hidden": false,
+    "name": "View",
+    "multiSelect": false,
+    "tags": [
+      {
+        "@type": "Tag",
+        "name": "My Portfolio",
+        "icon": "portfolio.svg"
+      },
+      {
+        "@type": "Tag",
+        "name": "Global",
+        "icon": "global.svg"
+      },
+      {
+        "@type": "Tag",
+        "name": "Featured",
+        "icon": "featured.svg"
+      },
+      {
+        "@type": "Tag",
+        "name": "Popular",
+        "icon": "popular.svg"
+      }
+    ]
+  },
+  "sector": {
+    "@type": "Category",
+    "name": "Sector",
+    "hidden": true,
+    "multiSelect": false,
+    "tags": []
+  },
+  "ddoTags": [
+    {
+      "@type": "Category",
+      "hidden": false,
+      "name": "Asset Class",
+      "multiSelect": true,
+      "tags": [
+        {
+          "@type": "data",
+          "name": "Data",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "carbonCredit",
+          "name": "Carbon Credit",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "outcomeContract",
+          "name": "Outcome Contract",
+          "icon": "outcomecontract.svg"
+        },
+        {
+          "@type": "equity",
+          "name": "Equity",
+          "icon": "equity.svg"
+        },
+        {
+          "@type": "cryptocurrency",
+          "name": "Cryptocurrency",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "commodity",
+          "name": "Commodity",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "equipment",
+          "name": "Equipment",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "realEstate",
+          "name": "Real Estate",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "intellectualProperty",
+          "name": "Intellectual Property",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "incomeSecurity",
+          "name": "Income Security",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "commercialRights",
+          "name": "Commercial Rights",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "inventory",
+          "name": "Inventory",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "digital",
+          "name": "Digital",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "bond",
+          "name": "Bond",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "brand",
+          "name": "Brand",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "other",
+          "name": "Other",
+          "icon": "tag.svg"
+        }
+      ]
+    },
+    {
+      "@type": "Category",
+      "hidden": false,
+      "name": "Format",
+      "multiSelect": true,
+      "tags": [
+        {
+          "@type": "Tag",
+          "name": "Non-Fungible Token",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Option",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Contract",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Ownership Certificate",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Exchange Listing",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Digital Goods",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Unspecified",
+          "icon": "tag.svg"
+        }
+      ]
+    }
+  ]
+}

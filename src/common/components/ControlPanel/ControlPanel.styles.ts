@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import { deviceWidth } from "../../../lib/commonData";
+import styled from 'styled-components'
+import { deviceWidth } from '../../../lib/commonData'
 
 export const MobileControlPanelToggle = styled.button`
   display: block;
@@ -20,19 +20,23 @@ export const MobileControlPanelToggle = styled.button`
   @media (min-width: ${deviceWidth.desktop}px) {
     display: none;
   }
-`;
+`
 
 export const ControlPanelWrapper = styled.div`
   background: #dfe7f4;
-  border: 1px solid #e9e9e9;
   box-sizing: border-box;
   border-radius: 5px;
   padding: 0.75rem;
   color: #47568c;
   overflow: visible scroll;
+  padding-bottom: 3.5rem;
   ::-webkit-scrollbar {
-    width: 0px;
-    background: transparent;
+    width: 8px;
+  }
+ 
+  ::-webkit-scrollbar-thumb {
+    background: #C1CBD0;
+    border-radius: 8px;
   }
   @media (max-width: ${deviceWidth.desktop}px) {
     position: fixed;
@@ -47,7 +51,20 @@ export const ControlPanelWrapper = styled.div`
       left: 0;
     }
   }
-`;
+
+  .show-more-container {
+    width: 100%;
+    display: flex;
+    flex-flow: row wrap;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0s ease-out;
+    &.show {
+      transition: max-height 1.75s ease-out;
+      max-height: 300px;
+    }
+  }
+`
 
 export const ControlPanelScrollWrapper = styled.div`
   position: relative;
@@ -62,30 +79,32 @@ export const ControlPanelScrollWrapper = styled.div`
     }
     &.fixed {
       position: absolute;
-      top: -190px;
+      top: 30px;
       z-index: 99;
     }
   }
-`;
+`
 
 export const ControlPanelSection = styled.div`
   background: #FCFDFF;
   border-radius: 5px;
-  padding: 0.5rem 1rem;
+  padding: 1rem 0.875rem;
   &:not(:first-child) {
     margin-top: 0.625rem;
+    min-height: 170px;
   }
   h4 {
     display: block;
     position: relative;
     font-family: Roboto;
-    font-size: 0.875rem;
+    font-weight: 500;
+    font-size: 1.125rem;
     line-height: 1.2;
     display: flex;
     align-items: center;
-    text-transform: uppercase;
+    text-transform: none;
     .heading-icon svg {
-      width: 1rem;
+      width: 25px;
       padding: 2px;
       margin-right: 0.5rem;
       background: #ffffff;
@@ -103,7 +122,7 @@ export const ControlPanelSection = styled.div`
       }
     }
   }
-`;
+`
 
 export const SquareButtonSection = styled.div`
   display: flex;
@@ -142,4 +161,4 @@ export const SquareButtonSection = styled.div`
       }
     }
   }
-`;
+`

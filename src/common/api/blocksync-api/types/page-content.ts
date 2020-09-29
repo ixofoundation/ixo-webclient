@@ -1,13 +1,13 @@
-export interface ApiPageContent {
-  header: ApiPageContentHeader
-  body: ApiPageContentBodySection[]
-  images: ApiPageContentImage[]
-  profiles: ApiPageContentProfile[]
-  social: ApiPageContentSocial
-  embedded: ApiPageContentEmbedded[]
+export interface PageContent {
+  header: PageContentHeader
+  body: PageContentBodySection[]
+  images: PageContentImage[]
+  profiles: PageContentProfile[]
+  social: PageContentSocial
+  embedded: PageContentEmbedded[]
 }
 
-export interface ApiPageContentHeader {
+export interface PageContentHeader {
   image: string
   title: string
   shortDescription: string
@@ -18,27 +18,28 @@ export interface ApiPageContentHeader {
   logo: string
 }
 
-export interface ApiPageContentBodySection {
+export interface PageContentBodySection {
   title: string
   content: string
   image: string
 }
 
-export interface ApiPageContentImage {
+export interface PageContentImage {
   title: string
   content: string
   image: string
   imageDescription: string
 }
 
-export interface ApiPageContentProfile {
+export interface PageContentProfile {
   name: string
   position: string
   linkedInUrl: string
   twitterUrl: string
+  image: string
 }
 
-export interface ApiPageContentSocial {
+export interface PageContentSocial {
   linkedInUrl: string
   facebookUrl: string
   twitterUrl: string
@@ -49,7 +50,7 @@ export interface ApiPageContentSocial {
   otherUrl: string
 }
 
-export interface ApiPageContentEmbedded {
+export interface PageContentEmbedded {
   title: string
   urls: string[]
 }

@@ -1,44 +1,45 @@
 import * as React from 'react'
+import { Moment } from 'moment'
 import { excerptText, toTitleCase } from 'common/utils/formatters'
 import {
-  Title,
-  Founded,
-  FoundedDate,
+  CardContainer,
+  CardLink,
+  CardTop,
+  CardTopContainer,
+  Description,
+  CardBottom,
   MainContent,
-  StatisticsContainer,
-  Statistic,
-  StatisticLabel,
-  StatisticValue,
+  Title,
+  SubTitle,
   Logo,
-} from './CellCard.styles'
-import { Moment } from 'moment'
-import { EntityCardContainer } from '../EntityCardContainer'
-import { ShieldColor } from '../EntityCardContainer.styles'
+} from '../EntityCard.styles'
+import { SummaryLabel, SummaryValue, SummaryContainer } from './CellCard.styles'
+import SDGIcons from '../SDGIcons/SDGIcons'
+import Shield, { ShieldColor } from '../Shield/Shield'
 
-export interface Props {
+interface Props {
   dateCreated: Moment
-  memberCount: number
-  projectCount: number
-  projectData: any
-  projectDid: string
-  title: string
-  shortDescription: string
-  imageUrl: string
-  founderLogoUrl: string
+  // TODO when data exists
+  /*   memberCount: number
+  projectCount: number */
+  did: string
+  name: string
+  description: string
+  image: string
+  logo: string
   status: string
-  sdgs: number[]
+  sdgs: string[]
 }
 
-export const CellCard: React.FunctionComponent<Props> = ({
+const CellCard: React.FunctionComponent<Props> = ({
   dateCreated,
-  memberCount,
-  projectCount,
-  projectData,
-  projectDid,
-  title,
-  shortDescription,
-  imageUrl,
-  founderLogoUrl,
+  /*   memberCount,
+  projectCount, */
+  did,
+  name,
+  description,
+  image,
+  logo,
   status,
   sdgs,
 }) => {
@@ -55,37 +56,59 @@ export const CellCard: React.FunctionComponent<Props> = ({
   }
 
   return (
-    <EntityCardContainer
-      projectData={projectData}
-      projectDid={projectDid}
-      title={title}
-      shortDescription={shortDescription}
-      imageUrl={imageUrl}
-      founderLogoUrl={founderLogoUrl}
-      status={status}
-      sdgs={sdgs}
-      shieldColor={shieldColor}
-      shield={shield}
-      shieldLabel="Status"
-    >
-      <MainContent>
-        <Logo src={founderLogoUrl} />
-        <Title>{excerptText(title, 10)}</Title>
-        <Founded>
-          Founded in{' '}
-          <FoundedDate>{dateCreated.format('DD MMM YYYY')}</FoundedDate>
-        </Founded>
-      </MainContent>
-      <StatisticsContainer>
-        <Statistic>
-          <StatisticValue>{memberCount}</StatisticValue>{' '}
-          <StatisticLabel>members</StatisticLabel>
-        </Statistic>
-        <Statistic>
-          <StatisticValue>{projectCount}</StatisticValue>{' '}
-          <StatisticLabel>projects</StatisticLabel>
-        </Statistic>
-      </StatisticsContainer>
-    </EntityCardContainer>
+    <CardContainer className="col-xl-4 col-md-6 col-sm-12 col-12">
+      <CardLink
+        to={{
+          pathname: `/projects/${did}/overview`,
+        }}
+      >
+        <CardTop>
+          <CardTopContainer
+            style={{
+              backgroundImage: `url(${image}),url(${require('assets/images/ixo-placeholder-large.jpg')})`,
+            }}
+          >
+            <SDGIcons sdgs={sdgs} />
+            <Description>
+              <p>{excerptText(description, 20)}</p>
+            </Description>
+          </CardTopContainer>
+        </CardTop>
+        <CardBottom>
+          <div className="row">
+            <div className="col-6">
+              <Shield
+                label="Status"
+                text={toTitleCase(shield)}
+                color={shieldColor}
+              />
+            </div>
+            <div className="col-6 text-right">
+              <Logo src={logo} />
+            </div>
+          </div>
+          <MainContent>
+            <Title>{excerptText(name, 10)}</Title>
+            <SubTitle>
+              Founded in <strong>{dateCreated.format('DD MMM YYYY')}</strong>
+            </SubTitle>
+          </MainContent>
+          <SummaryContainer className="row">
+            <div className="col-6">
+              {/* TODO - replace with actual value */}
+              <SummaryValue>12</SummaryValue>
+              <SummaryLabel>members</SummaryLabel>
+            </div>
+            <div className="col-6">
+              {/* TODO - replace with actual value */}
+              <SummaryValue>22</SummaryValue>
+              <SummaryLabel>projects</SummaryLabel>
+            </div>
+          </SummaryContainer>
+        </CardBottom>
+      </CardLink>
+    </CardContainer>
   )
 }
+
+export default CellCard

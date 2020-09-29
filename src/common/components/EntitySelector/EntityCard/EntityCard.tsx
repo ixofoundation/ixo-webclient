@@ -6,19 +6,14 @@ import Eye from 'assets/icons/Eye'
 interface Props {
   entity: Entity
   isSelected: boolean
-  showImage: boolean
 }
 
-const EntityCard: React.FunctionComponent<Props> = ({
-  entity,
-  isSelected,
-  showImage,
-}) => {
+const EntityCard: React.FunctionComponent<Props> = ({ entity, isSelected }) => {
   const { title, dateCreated, imageUrl, previewUrl } = entity
 
   return (
     <EntityCardWrapper className={isSelected ? 'selected' : null}>
-      {showImage && (
+      {imageUrl && (
         <div className="image">
           <img src={imageUrl} alt={title} width="100%" />
         </div>
@@ -28,7 +23,7 @@ const EntityCard: React.FunctionComponent<Props> = ({
         <div className="row">
           <div className="date col-sm-6">Created {dateCreated}</div>
           <div className="link col-sm-6 text-right">
-            <a href={previewUrl} target="_blank">
+            <a href={previewUrl} target="_blank" rel="noopener noreferrer">
               <Eye fill="#39c3e6" width="30" />
             </a>
           </div>

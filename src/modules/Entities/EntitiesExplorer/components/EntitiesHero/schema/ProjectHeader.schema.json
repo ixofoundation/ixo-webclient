@@ -1,0 +1,31 @@
+{
+  "@context": "https://schema.ixo.foundation/project",
+  "@type": "Header",
+  "color": "#2f80ed",
+  "image": null,
+  "title": "Internet of Impact",
+  "subTitle": "Projects Explorer",
+  "indicators": [
+    {
+      "@type": "Indicator",
+      "indicatorLabel": "My Cells",
+      "indicatorSource": "0"
+    },
+    {
+      "@type": "Indicator",
+      "indicatorLabel": "Nodes",
+      "indicatorSource": "234"
+    },
+    {
+      "@type": "Indicator",
+      "indicatorLabel": "Projects",
+      "indicatorSource": "234"
+    },
+    {
+      "@type": "Indicator",
+      "indicatorLabel": "Agents",
+      "indicatorSource": "234"
+    }
+  ],
+  "overrides": []
+}

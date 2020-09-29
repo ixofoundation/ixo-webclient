@@ -6,10 +6,7 @@ import { Hero } from './components/Hero/Hero'
 import Question from './components/Question/Question'
 import { SubmitEntityClaimWrapper } from './SubmitEntityClaim.container.styles'
 import { Steps } from '../../../common/components/Steps/Steps'
-import {
-  FormControl,
-  FormData,
-} from '../../../common/components/JsonForm/types'
+import { FormData } from '../../../common/components/JsonForm/types'
 import * as submitEntityClaimSelectors from './SubmitEntityClaim.selectors'
 import * as accountSelectors from '../../Account/Account.selectors'
 import * as selectedEntitySelectors from 'modules/Entities/SelectedEntity/SelectedEntity.selectors'
@@ -23,29 +20,29 @@ import {
 import { EntityType } from 'modules/Entities/types'
 import { entityTypeMap } from 'modules/Entities/strategy-map'
 import ControlPanel from '../../../common/components/ControlPanel/ControlPanel'
-import { Spinner } from '../../../common/components/Spinner'
-import { getEntity } from 'modules/Entities/SelectedEntity/SelectedEntity.actions'
+import { QuestionForm } from '../types'
 
 interface Props {
   userDid: string
-  entityIsLoading: boolean
+  claimTitle: string
+  claimShortDescription: string
   entityTitle: string
-  entityDid: string
   entityType: EntityType
-  currentQuestion: FormControl
+  currentQuestion: QuestionForm
   currentQuestionNo: number
-  questions: FormControl[]
+  questions: QuestionForm[]
   questionCount: number
   currentAnswer: FormData
   savingAnswer: boolean
   answersComplete: boolean
   match: any
+  claimTemplateIsLoading: boolean
   finaliseQuestions: () => void
-  handleGetEntity: (entityDid: string) => void
   handlePreviousClick: () => void
   handleNextClick: () => void
   handleGoToQuestionClick: (questionNo: number) => void
   handleFormDataChange: (formData: any) => void
+  handleGetClaimTemplate: (templateDid: string) => void
 }
 
 interface State {
@@ -59,17 +56,6 @@ class SubmitEntityClaim extends React.Component<Props, State> {
     this.state = {
       showSummary: false,
     }
-  }
-
-  componentDidMount(): void {
-    const {
-      match: {
-        params: { projectDID: entityDid },
-      },
-      handleGetEntity,
-    } = this.props
-
-    handleGetEntity(entityDid)
   }
 
   handleNext = (): void => {
@@ -93,9 +79,11 @@ class SubmitEntityClaim extends React.Component<Props, State> {
 
   render(): JSX.Element {
     const {
+      match: {
+        params: { projectDID: entityDid },
+      },
       userDid,
-      entityIsLoading,
-      entityDid,
+      claimTemplateIsLoading,
       entityType,
       entityTitle,
       currentQuestion,
@@ -104,10 +92,18 @@ class SubmitEntityClaim extends React.Component<Props, State> {
       currentAnswer,
       savingAnswer,
       answersComplete,
+      claimTitle,
+      claimShortDescription,
       handlePreviousClick,
       handleGoToQuestionClick,
       handleFormDataChange,
     } = this.props
+
+    if (claimTemplateIsLoading) {
+      return (
+        <Redirect to={`/projects/${entityDid}/overview/action/new_claim`} />
+      )
+    }
 
     if (this.state.showSummary) {
       return (
@@ -117,23 +113,19 @@ class SubmitEntityClaim extends React.Component<Props, State> {
       )
     }
 
-    if (entityIsLoading) {
-      return <Spinner info={`Loading claim form...`} />
-    }
-
     return (
       <>
         <Hero
           entityTitle={entityTitle}
-          claimName="Claim Name"
-          claimDescription="This would be a short description of the claim."
+          claimName={claimTitle}
+          claimDescription={claimShortDescription}
         />
         <SubmitEntityClaimWrapper className="container-fluid">
           <div className="container">
             <div className="row">
               <div className="col-lg-8">
                 <Steps
-                  currentStepTitle={currentQuestion.title}
+                  currentStepTitle={currentQuestion.schema.title}
                   currentStepNo={currentQuestionNo}
                   totalSteps={questionCount}
                   handleGoToStepClick={handleGoToQuestionClick}
@@ -174,10 +166,14 @@ const mapStateToProps = (state: RootState): Record<string, any> => ({
   savingAnswer: submitEntityClaimSelectors.selectSavingAnswer(state),
   answersComplete: submitEntityClaimSelectors.selectAnswersComplete(state),
   userDid: accountSelectors.selectUserDid(state),
-  entityDid: selectedEntitySelectors.selectEntityDid(state),
   entityType: selectedEntitySelectors.selectEntityType(state),
-  entityTitle: selectedEntitySelectors.selectEntityTitle(state),
-  entityIsLoading: selectedEntitySelectors.entityIsLoading(state),
+  entityTitle: selectedEntitySelectors.selectEntityName(state),
+  claimTemplateDid: selectedEntitySelectors.selectEntityClaimTemplateId(state),
+  claimTemplateIsLoading: submitEntityClaimSelectors.selectIsLoading(state),
+  claimTitle: submitEntityClaimSelectors.selectClaimTitle(state),
+  claimShortDescription: submitEntityClaimSelectors.selectClaimShortDescription(
+    state,
+  ),
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
@@ -185,12 +181,8 @@ const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
   handleNextClick: (): void => dispatch(goToNextQuestion()),
   handleGoToQuestionClick: (QuestionNo: number): void =>
     dispatch(goToQuestionNumber(QuestionNo)),
-  handleGetEntity: (entityDid): void => dispatch(getEntity(entityDid)),
   handleFormDataChange: (formData): void => dispatch(saveAnswer(formData)),
   finaliseQuestions: (): void => dispatch(finaliseQuestions()),
 })
 
-export const SubmitEntityClaimConnected = connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(SubmitEntityClaim)
+export default connect(mapStateToProps, mapDispatchToProps)(SubmitEntityClaim)

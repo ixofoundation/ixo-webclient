@@ -25,9 +25,9 @@ import { entityTypeMap } from '../../../strategy-map'
 // TODO - search submitted
 
 interface Props {
-  entityType: EntityType
+  type: EntityType
   entityColor?: string
-  filterChanged: (entityType: EntityType) => void
+  filterChanged: (type: EntityType) => void
 }
 
 export default class Search extends React.Component<Props> {
@@ -53,9 +53,9 @@ export default class Search extends React.Component<Props> {
     })
   }
 
-  handleSearchFilter = (entityType: EntityType): void => {
+  handleSearchFilter = (type: EntityType): void => {
     this.handleToggleModal()
-    this.props.filterChanged(entityType)
+    this.props.filterChanged(type)
   }
 
   render(): JSX.Element {
@@ -68,26 +68,26 @@ export default class Search extends React.Component<Props> {
                 onClick={(): void => this.handleToggleModal()}
                 className={this.state.isModalOpen ? 'modal-open' : ''}
               >
-                {this.props.entityType === EntityType.Project && (
+                {this.props.type === EntityType.Project && (
                   <Projects fill="#000" width="26" />
                 )}
-                {this.props.entityType === EntityType.Oracle && (
+                {this.props.type === EntityType.Oracle && (
                   <Oracle fill="#000" width="26" />
                 )}
-                {this.props.entityType === EntityType.Investment && (
+                {this.props.type === EntityType.Investment && (
                   <Investments fill="#000" width="26" />
                 )}
-                {this.props.entityType === EntityType.Cell && (
+                {this.props.type === EntityType.Cell && (
                   <Cells fill="#000" width="26" />
                 )}
-                {this.props.entityType === EntityType.Template && (
+                {this.props.type === EntityType.Template && (
                   <Template fill="#000" width="26" />
                 )}
-                {this.props.entityType === EntityType.Data && (
+                {this.props.type === EntityType.Data && (
                   <DataAssets fill="#000" width="26" />
                 )}
                 <span className="modal-text">
-                  {entityTypeMap[this.props.entityType].plural}
+                  {entityTypeMap[this.props.type].plural}
                 </span>
                 <span
                   className="down-icon"
@@ -107,7 +107,7 @@ export default class Search extends React.Component<Props> {
                   id="name"
                   type="text"
                   text={`Search all ${entityTypeMap[
-                    this.props.entityType
+                    this.props.type
                   ].plural.toLowerCase()}`}
                   key="search"
                   onChange={(event): void => this.handleChange(event)}
@@ -127,9 +127,7 @@ export default class Search extends React.Component<Props> {
                     }
                     className={`
                     ${EntityType.Project.toLowerCase()} ${
-                      this.props.entityType === EntityType.Project
-                        ? 'active'
-                        : ''
+                      this.props.type === EntityType.Project ? 'active' : ''
                     }
                     `}
                   >
@@ -144,9 +142,7 @@ export default class Search extends React.Component<Props> {
                     }
                     className={`
                     ${EntityType.Oracle.toLowerCase()} ${
-                      this.props.entityType === EntityType.Oracle
-                        ? 'active'
-                        : ''
+                      this.props.type === EntityType.Oracle ? 'active' : ''
                     }
                     `}
                   >
@@ -161,9 +157,7 @@ export default class Search extends React.Component<Props> {
                     }
                     className={`
                     ${EntityType.Investment.toLowerCase()} ${
-                      this.props.entityType === EntityType.Investment
-                        ? 'active'
-                        : ''
+                      this.props.type === EntityType.Investment ? 'active' : ''
                     }
                     `}
                   >
@@ -178,7 +172,7 @@ export default class Search extends React.Component<Props> {
                     }
                     className={`
                     ${EntityType.Cell.toLowerCase()} ${
-                      this.props.entityType === EntityType.Cell ? 'active' : ''
+                      this.props.type === EntityType.Cell ? 'active' : ''
                     }
                     `}
                   >
@@ -193,9 +187,7 @@ export default class Search extends React.Component<Props> {
                     }
                     className={`
                     ${EntityType.Template.toLowerCase()} ${
-                      this.props.entityType === EntityType.Template
-                        ? 'active'
-                        : ''
+                      this.props.type === EntityType.Template ? 'active' : ''
                     }
                     `}
                   >
@@ -210,7 +202,7 @@ export default class Search extends React.Component<Props> {
                     }
                     className={`
                     ${EntityType.Data.toLowerCase()} ${
-                      this.props.entityType === EntityType.Data ? 'active' : ''
+                      this.props.type === EntityType.Data ? 'active' : ''
                     }
                     `}
                   >

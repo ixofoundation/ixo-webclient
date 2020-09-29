@@ -179,3 +179,5 @@ describe('SubmitEntityClaim Reducer', () => {
     })
   })
 })
+
+// TODO  - tests for GetClaimTemplate and CreateClaim

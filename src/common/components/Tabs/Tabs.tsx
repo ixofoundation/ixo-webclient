@@ -2,8 +2,8 @@ import * as React from 'react'
 import { NavLink } from 'react-router-dom'
 import { MatchType } from '../../../types/models'
 import { createTabsContainer } from './Tabs.styles'
-import { Tooltip, TooltipPositions } from '../Tooltip/Tooltip'
-import Lottie from 'react-lottie';
+import Tooltip, { TooltipPosition } from '../Tooltip/Tooltip'
+import Lottie from 'react-lottie'
 import activeAnimation from 'assets/animations/assistant/active.json'
 import inactiveAnimation from 'assets/animations/assistant/inactive.json'
 import hoverAnimation from 'assets/animations/assistant/hover.json'
@@ -29,7 +29,7 @@ export const Tabs: React.FunctionComponent<Props> = ({
   matchType,
   activeTabColor,
   assistantPanelToggle,
-  enableAssistantButton
+  enableAssistantButton,
 }) => {
   const [animation, setAnimation] = React.useState(inactiveAnimation);
   const assistant = React.useContext(AssistantContext);
@@ -39,10 +39,10 @@ export const Tabs: React.FunctionComponent<Props> = ({
     if (isActive) {
       setAnimation(hoverAnimation)
       assistantPanelToggle()
-      return;
+      return
     }
-    
-    setAnimation(activeAnimation);
+
+    setAnimation(activeAnimation)
     assistantPanelToggle()
   }
 
@@ -55,7 +55,7 @@ export const Tabs: React.FunctionComponent<Props> = ({
       return inactiveAnimation
     }
 
-    return animation === hoverAnimation ? hoverAnimation : inactiveAnimation;
+    return animation === hoverAnimation ? hoverAnimation : inactiveAnimation
   }
 
   const TabsContainer = createTabsContainer(activeTabColor, assistant.active)
@@ -69,7 +69,7 @@ export const Tabs: React.FunctionComponent<Props> = ({
             exact={matchType === MatchType.exact}
             strict={matchType === MatchType.strict}
             to={{ pathname: button.path }}
-            key={ index }
+            key={index}
           >
             {button.iconClass && <i className={button.iconClass} />}
             {button.title && <p>{button.title}</p>}
@@ -78,7 +78,7 @@ export const Tabs: React.FunctionComponent<Props> = ({
           <Tooltip
             text="Coming Soon"
             key={index}
-            position={TooltipPositions.Bottom}
+            position={TooltipPosition.Bottom}
           >
             <NavLink
               className={button.linkClass}
@@ -93,18 +93,22 @@ export const Tabs: React.FunctionComponent<Props> = ({
         )
       })}
       {enableAssistantButton && (
-        <button 
-          onClick={ assistantButtonClicked }
-          onMouseEnter={() => !assistant.active ? setAnimation(hoverAnimation) : null}
-          onMouseLeave={() => !assistant.active ? setAnimation(inactiveAnimation) : null}
+        <button
+          onClick={() => assistantButtonClicked()}
+          onMouseEnter={() =>
+            !assistant.active ? setAnimation(hoverAnimation) : null
+          }
+          onMouseLeave={() =>
+            !assistant.active ? setAnimation(inactiveAnimation) : null
+          }
         >
-          <Lottie 
+          <Lottie
             height={40}
             width={40}
             options={{
               loop: false,
               autoplay: true,
-              animationData: chooseAnimation()
+              animationData: chooseAnimation(),
             }}
           />
         </button>

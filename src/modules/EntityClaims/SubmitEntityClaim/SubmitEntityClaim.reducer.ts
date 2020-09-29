@@ -3,24 +3,27 @@ import {
   SubmitEntityClaimActionTypes,
   SubmitEntityClaimActions,
 } from './types'
-import tempQuestions from './temp_questions.json'
 
-export const initialState: SubmitEntityClaimState = {
-  questions: tempQuestions,
-  currentQuestionNo: 1,
-  answers: undefined,
-  savingAnswer: false,
-  answersComplete: false,
-  sending: false,
-  sent: false,
-  error: null,
-}
+export const initialState: SubmitEntityClaimState = null
 
 export const reducer = (
   state = initialState,
   action: SubmitEntityClaimActionTypes,
 ): SubmitEntityClaimState => {
   switch (action.type) {
+    case SubmitEntityClaimActions.GetClaimTemplateSuccess:
+      return {
+        ...action.payload,
+        currentQuestionNo: 1,
+        answers: undefined,
+        savingAnswer: false,
+        answersComplete: false,
+        creating: false,
+        created: false,
+        error: null,
+      }
+    case SubmitEntityClaimActions.ClearClaimTemplate:
+      return null
     case SubmitEntityClaimActions.SaveAnswerPending:
       return {
         ...state,
@@ -59,6 +62,29 @@ export const reducer = (
       return {
         ...state,
         answersComplete: true,
+      }
+    case SubmitEntityClaimActions.CreateClaimStart:
+      return {
+        ...state,
+        creating: true,
+        error: null,
+      }
+    case SubmitEntityClaimActions.CreateClaimSuccess:
+      return {
+        ...state,
+        creating: false,
+        created: true,
+        error: null,
+        currentQuestionNo: 1,
+        answers: undefined,
+        savingAnswer: false,
+        answersComplete: false,
+      }
+    case SubmitEntityClaimActions.CreateClaimFailure:
+      return {
+        ...state,
+        creating: false,
+        error: action.payload.error,
       }
   }
 

@@ -1,7 +1,7 @@
 import moment from 'moment'
 import * as SUT from './EntitiesExplorer.reducer'
 import {
-  EntitiesActions,
+  EntitiesExplorerActions,
   GetEntitiesSuccessAction,
   FilterToggleUserEntitiesAction,
   FilterToggleFeaturedEntitiesAction,
@@ -11,13 +11,13 @@ import {
   FilterAddCategoryTagAction,
   ResetCategoryFilterAction,
   ResetFiltersAction,
-  Entity,
   ChangeEntitiesTypeAction,
-  EntityType,
-  FilterCategoriesAction,
+  FilterDDOCategoriesAction,
   FilterCategoryTagAction,
   FilterSectorAction,
-} from '../types'
+  ExplorerEntity,
+} from './types'
+import { EntityType, TermsOfUseType } from '../types'
 
 const initialState = SUT.initialState
 
@@ -40,7 +40,7 @@ describe('Entities Reducer', () => {
         filter: {
           dateFrom: moment(),
           dateTo: moment(),
-          categories: [
+          ddoTags: [
             {
               name: 'foo',
               tags: ['bar'],
@@ -53,31 +53,33 @@ describe('Entities Reducer', () => {
         },
       }
 
-      const entities: Entity[] = [
+      const entities: ExplorerEntity[] = [
         {
           did: 'someDid1',
-          entityType: EntityType.Project,
-          userDid: 'someUserDid1',
-          title: 'someTitle1',
-          shortDescription: 'someShortDescription1',
+          type: EntityType.Project,
+          creatorDid: 'someUserDid1',
+          name: 'someTitle1',
+          description: 'someShortDescription1',
           dateCreated: moment('2020-04-09T13:14:13.000Z'),
-          ownerName: 'someOwnerName1',
+          creatorName: 'someCreatorName1',
+          creatorLogo: 'someCreatorLogo1',
           status: 'someStatus1',
-          country: 'someCountry1',
-          impactAction: 'someImpactAction1',
+          location: 'someCountry1',
+          goal: 'someImpactAction1',
           serviceProvidersCount: 13,
           evaluatorsCount: 1,
           requiredClaimsCount: 100,
           successfulClaimsCount: 10,
           pendingClaimsCount: 20,
           rejectedClaimsCount: 30,
-          sdgs: [1, 2, 3],
-          longDescription: 'someLongDescription',
+          sdgs: ['1', '2', '3'],
           agentDids: ['someAgentDid1'],
-          imageUrl: 'sommeImageUrl',
-          founderLogoUrl: 'sommeLogoUrl',
-          logoUrl: 'someLogoUrl',
-          categories: [
+          image: 'sommeImageUrl',
+          logo: 'someLogoUrl',
+          termsType: TermsOfUseType.FreeOpenSource,
+          version: '1.2.3',
+          badges: ['badge1'],
+          ddoTags: [
             {
               name: 'someCategory1',
               tags: [
@@ -95,14 +97,12 @@ describe('Entities Reducer', () => {
               ],
             },
           ],
-          pdsUrl: 'somePsdUrl',
-          data: null,
         },
       ]
 
       // given .. we have an action of type EntitiesActions.GetEntitiesSuccessAction and some data
       const action: GetEntitiesSuccessAction = {
-        type: EntitiesActions.GetEntitiesSuccess,
+        type: EntitiesExplorerActions.GetEntitiesSuccess,
         payload: entities,
       }
 
@@ -121,28 +121,30 @@ describe('Entities Reducer', () => {
         entities: [
           {
             did: 'someDid1',
-            entityType: EntityType.Project,
-            userDid: 'someUserDid1',
-            title: 'someTitle1',
-            shortDescription: 'someShortDescription1',
+            type: EntityType.Project,
+            creatorDid: 'someUserDid1',
+            name: 'someTitle1',
+            description: 'someShortDescription1',
             dateCreated: moment('2020-04-09T13:14:13.000Z'),
-            ownerName: 'someOwnerName1',
+            creatorName: 'someCreatorName1',
+            creatorLogo: 'someCreatorLogo1',
             status: 'someStatus1',
-            country: 'someCountry1',
-            impactAction: 'someImpactAction1',
+            location: 'someCountry1',
+            goal: 'someImpactAction1',
             serviceProvidersCount: 13,
             evaluatorsCount: 1,
             requiredClaimsCount: 100,
             successfulClaimsCount: 10,
             pendingClaimsCount: 20,
             rejectedClaimsCount: 30,
-            sdgs: [1, 2, 3],
-            longDescription: 'someLongDescription',
+            sdgs: ['1', '2', '3'],
             agentDids: ['someAgentDid1'],
-            imageUrl: 'sommeImageUrl',
-            logoUrl: 'someLogoUrl',
-            founderLogoUrl: 'sommeLogoUrl',
-            categories: [
+            image: 'sommeImageUrl',
+            logo: 'someLogoUrl',
+            termsType: TermsOfUseType.FreeOpenSource,
+            version: '1.2.3',
+            badges: ['badge1'],
+            ddoTags: [
               {
                 name: 'someCategory1',
                 tags: [
@@ -152,14 +154,12 @@ describe('Entities Reducer', () => {
                 ],
               },
             ],
-            pdsUrl: 'somePsdUrl',
-            data: null,
           },
         ],
         filter: {
           dateFrom: moment(),
           dateTo: moment(),
-          categories: [
+          ddoTags: [
             {
               name: 'foo',
               tags: ['bar'],
@@ -174,9 +174,9 @@ describe('Entities Reducer', () => {
 
       // given... we have an action of type FilterToggleUserEntities
       const action: ChangeEntitiesTypeAction = {
-        type: EntitiesActions.ChangeEntitiesType,
+        type: EntitiesExplorerActions.ChangeEntitiesType,
         payload: {
-          entityType: EntityType.Cell,
+          type: EntityType.Cell,
         },
       }
 
@@ -207,28 +207,30 @@ describe('Entities Reducer', () => {
         entities: [
           {
             did: 'someDid1',
-            entityType: EntityType.Project,
-            userDid: 'someUserDid1',
-            title: 'someTitle1',
-            shortDescription: 'someShortDescription1',
+            type: EntityType.Project,
+            creatorDid: 'someUserDid1',
+            name: 'someTitle1',
+            description: 'someShortDescription1',
             dateCreated: moment('2020-04-09T13:14:13.000Z'),
-            ownerName: 'someOwnerName1',
+            creatorName: 'someCreatorName1',
+            creatorLogo: 'someCreatorLogo1',
             status: 'someStatus1',
-            country: 'someCountry1',
-            impactAction: 'someImpactAction1',
+            location: 'someCountry1',
+            goal: 'someImpactAction1',
             serviceProvidersCount: 13,
             evaluatorsCount: 1,
             requiredClaimsCount: 100,
             successfulClaimsCount: 10,
             pendingClaimsCount: 20,
             rejectedClaimsCount: 30,
-            sdgs: [1, 2, 3],
-            longDescription: 'someLongDescription',
+            sdgs: ['1', '2', '3'],
             agentDids: ['someAgentDid1'],
-            imageUrl: 'sommeImageUrl',
-            founderLogoUrl: 'sommeLogoUrl',
-            logoUrl: 'someLogoUrl',
-            categories: [
+            image: 'sommeImageUrl',
+            logo: 'someLogoUrl',
+            termsType: TermsOfUseType.FreeOpenSource,
+            version: '1.2.3',
+            badges: ['badge1'],
+            ddoTags: [
               {
                 name: 'someCategory1',
                 tags: [
@@ -238,15 +240,12 @@ describe('Entities Reducer', () => {
                 ],
               },
             ],
-            pdsUrl: 'somePsdUrl',
-
-            data: null,
           },
         ],
         filter: {
           dateFrom: moment(),
           dateTo: moment(),
-          categories: [
+          ddoTags: [
             {
               name: 'foo',
               tags: ['bar'],
@@ -261,7 +260,7 @@ describe('Entities Reducer', () => {
 
       // given... we have an action of type FilterToggleUserEntities
       const action: FilterToggleUserEntitiesAction = {
-        type: EntitiesActions.FilterToggleUserEntities,
+        type: EntitiesExplorerActions.FilterToggleUserEntities,
         payload: {
           userEntities: true,
         },
@@ -290,28 +289,30 @@ describe('Entities Reducer', () => {
         entities: [
           {
             did: 'someDid1',
-            entityType: EntityType.Project,
-            userDid: 'someUserDid1',
-            title: 'someTitle1',
-            shortDescription: 'someShortDescription1',
+            type: EntityType.Project,
+            creatorDid: 'someUserDid1',
+            name: 'someTitle1',
+            description: 'someShortDescription1',
             dateCreated: moment('2020-04-09T13:14:13.000Z'),
-            ownerName: 'someOwnerName1',
+            creatorName: 'someCreatorName1',
+            creatorLogo: 'someCreatorLogo1',
             status: 'someStatus1',
-            country: 'someCountry1',
-            impactAction: 'someImpactAction1',
+            location: 'someCountry1',
+            goal: 'someImpactAction1',
             serviceProvidersCount: 13,
             evaluatorsCount: 1,
             requiredClaimsCount: 100,
             successfulClaimsCount: 10,
             pendingClaimsCount: 20,
             rejectedClaimsCount: 30,
-            sdgs: [1, 2, 3],
-            longDescription: 'someLongDescription',
+            sdgs: ['1', '2', '3'],
             agentDids: ['someAgentDid1'],
-            imageUrl: 'sommeImageUrl',
-            logoUrl: 'someLogoUrl',
-            founderLogoUrl: 'sommeLogoUrl',
-            categories: [
+            image: 'sommeImageUrl',
+            logo: 'someLogoUrl',
+            termsType: TermsOfUseType.FreeOpenSource,
+            version: '1.2.3',
+            badges: ['badge1'],
+            ddoTags: [
               {
                 name: 'someCategory1',
                 tags: [
@@ -321,15 +322,12 @@ describe('Entities Reducer', () => {
                 ],
               },
             ],
-            pdsUrl: 'somePsdUrl',
-
-            data: null,
           },
         ],
         filter: {
           dateFrom: moment(),
           dateTo: moment(),
-          categories: [
+          ddoTags: [
             {
               name: 'foo',
               tags: ['bar'],
@@ -344,7 +342,7 @@ describe('Entities Reducer', () => {
 
       // given... we have an action of type FilterToggleFeaturedEntities
       const action: FilterToggleFeaturedEntitiesAction = {
-        type: EntitiesActions.FilterToggleFeaturedEntities,
+        type: EntitiesExplorerActions.FilterToggleFeaturedEntities,
         payload: {
           featuredEntities: true,
         },
@@ -373,28 +371,30 @@ describe('Entities Reducer', () => {
         entities: [
           {
             did: 'someDid1',
-            entityType: EntityType.Project,
-            userDid: 'someUserDid1',
-            title: 'someTitle1',
-            shortDescription: 'someShortDescription1',
+            type: EntityType.Project,
+            creatorDid: 'someUserDid1',
+            name: 'someTitle1',
+            description: 'someShortDescription1',
             dateCreated: moment('2020-04-09T13:14:13.000Z'),
-            ownerName: 'someOwnerName1',
+            creatorName: 'someCreatorName1',
+            creatorLogo: 'someCreatorLogo1',
             status: 'someStatus1',
-            country: 'someCountry1',
-            impactAction: 'someImpactAction1',
+            location: 'someCountry1',
+            goal: 'someImpactAction1',
             serviceProvidersCount: 13,
             evaluatorsCount: 1,
             requiredClaimsCount: 100,
             successfulClaimsCount: 10,
             pendingClaimsCount: 20,
             rejectedClaimsCount: 30,
-            sdgs: [1, 2, 3],
-            longDescription: 'someLongDescription',
+            sdgs: ['1', '2', '3'],
             agentDids: ['someAgentDid1'],
-            imageUrl: 'sommeImageUrl',
-            logoUrl: 'someLogoUrl',
-            founderLogoUrl: 'sommeLogoUrl',
-            categories: [
+            image: 'sommeImageUrl',
+            logo: 'someLogoUrl',
+            termsType: TermsOfUseType.FreeOpenSource,
+            version: '1.2.3',
+            badges: ['badge1'],
+            ddoTags: [
               {
                 name: 'someCategory1',
                 tags: [
@@ -404,15 +404,12 @@ describe('Entities Reducer', () => {
                 ],
               },
             ],
-            pdsUrl: 'somePsdUrl',
-
-            data: null,
           },
         ],
         filter: {
           dateFrom: moment(),
           dateTo: moment(),
-          categories: [
+          ddoTags: [
             {
               name: 'foo',
               tags: ['bar'],
@@ -427,7 +424,7 @@ describe('Entities Reducer', () => {
 
       // given... we have an action of type FilterTogglePopularEntities
       const action: FilterTogglePopularEntitiesAction = {
-        type: EntitiesActions.FilterTogglePopularEntities,
+        type: EntitiesExplorerActions.FilterTogglePopularEntities,
         payload: {
           popularEntities: true,
         },
@@ -456,28 +453,30 @@ describe('Entities Reducer', () => {
         entities: [
           {
             did: 'someDid1',
-            entityType: EntityType.Project,
-            userDid: 'someUserDid1',
-            title: 'someTitle1',
-            shortDescription: 'someShortDescription1',
+            type: EntityType.Project,
+            creatorDid: 'someUserDid1',
+            name: 'someTitle1',
+            description: 'someShortDescription1',
             dateCreated: moment('2020-04-09T13:14:13.000Z'),
-            ownerName: 'someOwnerName1',
+            creatorName: 'someCreatorName1',
+            creatorLogo: 'someCreatorLogo1',
             status: 'someStatus1',
-            country: 'someCountry1',
-            impactAction: 'someImpactAction1',
+            location: 'someCountry1',
+            goal: 'someImpactAction1',
             serviceProvidersCount: 13,
             evaluatorsCount: 1,
             requiredClaimsCount: 100,
             successfulClaimsCount: 10,
             pendingClaimsCount: 20,
             rejectedClaimsCount: 30,
-            sdgs: [1, 2, 3],
-            longDescription: 'someLongDescription',
+            sdgs: ['1', '2', '3'],
             agentDids: ['someAgentDid1'],
-            imageUrl: 'sommeImageUrl',
-            founderLogoUrl: 'sommeLogoUrl',
-            logoUrl: 'someLogoUrl',
-            categories: [
+            image: 'sommeImageUrl',
+            logo: 'someLogoUrl',
+            termsType: TermsOfUseType.FreeOpenSource,
+            version: '1.2.3',
+            badges: ['badge1'],
+            ddoTags: [
               {
                 name: 'someCategory1',
                 tags: [
@@ -487,15 +486,12 @@ describe('Entities Reducer', () => {
                 ],
               },
             ],
-            pdsUrl: 'somePsdUrl',
-
-            data: null,
           },
         ],
         filter: {
           dateFrom: null,
           dateTo: null,
-          categories: [
+          ddoTags: [
             {
               name: 'foo',
               tags: ['bar'],
@@ -510,7 +506,7 @@ describe('Entities Reducer', () => {
 
       // given... we have an action of type FilterDates
       const action: FilterDatesAction = {
-        type: EntitiesActions.FilterDates,
+        type: EntitiesExplorerActions.FilterDates,
         payload: {
           dateFrom: moment('2020-04-09T13:14:13.000Z'),
           dateTo: moment('2020-04-08T13:14:13.000Z'),
@@ -539,28 +535,30 @@ describe('Entities Reducer', () => {
         entities: [
           {
             did: 'someDid1',
-            entityType: EntityType.Project,
-            userDid: 'someUserDid1',
-            title: 'someTitle1',
-            shortDescription: 'someShortDescription1',
+            type: EntityType.Project,
+            creatorDid: 'someUserDid1',
+            name: 'someTitle1',
+            description: 'someShortDescription1',
             dateCreated: moment('2020-04-09T13:14:13.000Z'),
-            ownerName: 'someOwnerName1',
+            creatorName: 'someCreatorName1',
+            creatorLogo: 'someCreatorLogo1',
             status: 'someStatus1',
-            country: 'someCountry1',
-            impactAction: 'someImpactAction1',
+            location: 'someCountry1',
+            goal: 'someImpactAction1',
             serviceProvidersCount: 13,
             evaluatorsCount: 1,
             requiredClaimsCount: 100,
             successfulClaimsCount: 10,
             pendingClaimsCount: 20,
             rejectedClaimsCount: 30,
-            sdgs: [1, 2, 3],
-            longDescription: 'someLongDescription',
+            sdgs: ['1', '2', '3'],
             agentDids: ['someAgentDid1'],
-            imageUrl: 'sommeImageUrl',
-            logoUrl: 'someLogoUrl',
-            founderLogoUrl: 'sommeLogoUrl',
-            categories: [
+            image: 'sommeImageUrl',
+            logo: 'someLogoUrl',
+            termsType: TermsOfUseType.FreeOpenSource,
+            version: '1.2.3',
+            badges: ['badge1'],
+            ddoTags: [
               {
                 name: 'someCategory1',
                 tags: [
@@ -570,15 +568,12 @@ describe('Entities Reducer', () => {
                 ],
               },
             ],
-            pdsUrl: 'somePsdUrl',
-
-            data: null,
           },
         ],
         filter: {
           dateFrom: moment('2020-04-09T13:14:13.000Z'),
           dateTo: moment('2020-04-08T13:14:13.000Z'),
-          categories: [
+          ddoTags: [
             {
               name: 'foo',
               tags: ['bar'],
@@ -593,7 +588,7 @@ describe('Entities Reducer', () => {
 
       // given... we have an action of type ResetDatesFilter
       const action: ResetDatesFilterAction = {
-        type: EntitiesActions.ResetDatesFilter,
+        type: EntitiesExplorerActions.ResetDatesFilter,
       }
 
       // when... we call the reducer with this action
@@ -618,28 +613,30 @@ describe('Entities Reducer', () => {
         entities: [
           {
             did: 'someDid1',
-            entityType: EntityType.Project,
-            userDid: 'someUserDid1',
-            title: 'someTitle1',
-            shortDescription: 'someShortDescription1',
+            type: EntityType.Project,
+            creatorDid: 'someUserDid1',
+            name: 'someTitle1',
+            description: 'someShortDescription1',
             dateCreated: moment('2020-04-09T13:14:13.000Z'),
-            ownerName: 'someOwnerName1',
+            creatorName: 'someCreatorName1',
+            creatorLogo: 'someCreatorLogo1',
             status: 'someStatus1',
-            country: 'someCountry1',
-            impactAction: 'someImpactAction1',
+            location: 'someCountry1',
+            goal: 'someImpactAction1',
             serviceProvidersCount: 13,
             evaluatorsCount: 1,
             requiredClaimsCount: 100,
             successfulClaimsCount: 10,
             pendingClaimsCount: 20,
             rejectedClaimsCount: 30,
-            sdgs: [1, 2, 3],
-            longDescription: 'someLongDescription',
+            sdgs: ['1', '2', '3'],
             agentDids: ['someAgentDid1'],
-            imageUrl: 'sommeImageUrl',
-            logoUrl: 'someLogoUrl',
-            founderLogoUrl: 'sommeLogoUrl',
-            categories: [
+            image: 'sommeImageUrl',
+            logo: 'someLogoUrl',
+            termsType: TermsOfUseType.FreeOpenSource,
+            version: '1.2.3',
+            badges: ['badge1'],
+            ddoTags: [
               {
                 name: 'someCategory1',
                 tags: [
@@ -649,15 +646,12 @@ describe('Entities Reducer', () => {
                 ],
               },
             ],
-            pdsUrl: 'somePsdUrl',
-
-            data: null,
           },
         ],
         filter: {
           dateFrom: moment('2020-04-09T13:14:13.000Z'),
           dateTo: moment('2020-04-08T13:14:13.000Z'),
-          categories: [
+          ddoTags: [
             {
               name: 'foo1',
               tags: ['bar1_1', 'bar1_2', 'bar1_3'],
@@ -672,7 +666,7 @@ describe('Entities Reducer', () => {
 
       // given... we have an action of type ResetFiltersAction
       const action: FilterCategoryTagAction = {
-        type: EntitiesActions.FilterCategoryTag,
+        type: EntitiesExplorerActions.FilterCategoryTag,
         payload: {
           category: 'foo2',
           tags: ['bar2_1'],
@@ -687,7 +681,7 @@ describe('Entities Reducer', () => {
         ...currentState,
         filter: {
           ...currentState.filter,
-          categories: [
+          ddoTags: [
             {
               name: 'foo1',
               tags: ['bar1_1', 'bar1_2', 'bar1_3'],
@@ -709,28 +703,30 @@ describe('Entities Reducer', () => {
         entities: [
           {
             did: 'someDid1',
-            entityType: EntityType.Project,
-            userDid: 'someUserDid1',
-            title: 'someTitle1',
-            shortDescription: 'someShortDescription1',
+            type: EntityType.Project,
+            creatorDid: 'someUserDid1',
+            name: 'someTitle1',
+            description: 'someShortDescription1',
             dateCreated: moment('2020-04-09T13:14:13.000Z'),
-            ownerName: 'someOwnerName1',
+            creatorName: 'someCreatorName1',
+            creatorLogo: 'someCreatorLogo1',
             status: 'someStatus1',
-            country: 'someCountry1',
-            impactAction: 'someImpactAction1',
+            location: 'someCountry1',
+            goal: 'someImpactAction1',
             serviceProvidersCount: 13,
             evaluatorsCount: 1,
             requiredClaimsCount: 100,
             successfulClaimsCount: 10,
             pendingClaimsCount: 20,
             rejectedClaimsCount: 30,
-            sdgs: [1, 2, 3],
-            longDescription: 'someLongDescription',
+            sdgs: ['1', '2', '3'],
             agentDids: ['someAgentDid1'],
-            imageUrl: 'sommeImageUrl',
-            logoUrl: 'someLogoUrl',
-            founderLogoUrl: 'sommeLogoUrl',
-            categories: [
+            image: 'sommeImageUrl',
+            logo: 'someLogoUrl',
+            termsType: TermsOfUseType.FreeOpenSource,
+            version: '1.2.3',
+            badges: ['badge1'],
+            ddoTags: [
               {
                 name: 'someCategory1',
                 tags: [
@@ -740,15 +736,12 @@ describe('Entities Reducer', () => {
                 ],
               },
             ],
-            pdsUrl: 'somePsdUrl',
-
-            data: null,
           },
         ],
         filter: {
           dateFrom: moment('2020-04-09T13:14:13.000Z'),
           dateTo: moment('2020-04-08T13:14:13.000Z'),
-          categories: [
+          ddoTags: [
             {
               name: 'foo1',
               tags: ['bar1_1', 'bar1_2', 'bar1_3'],
@@ -763,7 +756,7 @@ describe('Entities Reducer', () => {
 
       // given... we have an action of type ResetFiltersAction
       const action: FilterAddCategoryTagAction = {
-        type: EntitiesActions.FilterAddCategoryTag,
+        type: EntitiesExplorerActions.FilterAddCategoryTag,
         payload: {
           category: 'foo2',
           tags: ['bar2_1', 'bar2_2', 'bar2_3'],
@@ -778,7 +771,7 @@ describe('Entities Reducer', () => {
         ...currentState,
         filter: {
           ...currentState.filter,
-          categories: [
+          ddoTags: [
             {
               name: 'foo1',
               tags: ['bar1_1', 'bar1_2', 'bar1_3'],
@@ -798,28 +791,30 @@ describe('Entities Reducer', () => {
         entities: [
           {
             did: 'someDid1',
-            entityType: EntityType.Project,
-            userDid: 'someUserDid1',
-            title: 'someTitle1',
-            shortDescription: 'someShortDescription1',
+            type: EntityType.Project,
+            creatorDid: 'someUserDid1',
+            name: 'someTitle1',
+            description: 'someShortDescription1',
             dateCreated: moment('2020-04-09T13:14:13.000Z'),
-            ownerName: 'someOwnerName1',
+            creatorName: 'someCreatorName1',
+            creatorLogo: 'someCreatorLogo1',
             status: 'someStatus1',
-            country: 'someCountry1',
-            impactAction: 'someImpactAction1',
+            location: 'someCountry1',
+            goal: 'someImpactAction1',
             serviceProvidersCount: 13,
             evaluatorsCount: 1,
             requiredClaimsCount: 100,
             successfulClaimsCount: 10,
             pendingClaimsCount: 20,
             rejectedClaimsCount: 30,
-            sdgs: [1, 2, 3],
-            longDescription: 'someLongDescription',
+            sdgs: ['1', '2', '3'],
             agentDids: ['someAgentDid1'],
-            imageUrl: 'sommeImageUrl',
-            logoUrl: 'someLogoUrl',
-            founderLogoUrl: 'sommeLogoUrl',
-            categories: [
+            image: 'sommeImageUrl',
+            logo: 'someLogoUrl',
+            termsType: TermsOfUseType.FreeOpenSource,
+            version: '1.2.3',
+            badges: ['badge1'],
+            ddoTags: [
               {
                 name: 'someCategory1',
                 tags: [
@@ -829,15 +824,12 @@ describe('Entities Reducer', () => {
                 ],
               },
             ],
-            pdsUrl: 'somePsdUrl',
-
-            data: null,
           },
         ],
         filter: {
           dateFrom: moment('2020-04-09T13:14:13.000Z'),
           dateTo: moment('2020-04-08T13:14:13.000Z'),
-          categories: [
+          ddoTags: [
             {
               name: 'foo1',
               tags: ['bar1_1', 'bar1_2', 'bar1_3'],
@@ -852,7 +844,7 @@ describe('Entities Reducer', () => {
 
       // given... we have an action of type ResetFiltersAction
       const action: FilterAddCategoryTagAction = {
-        type: EntitiesActions.FilterAddCategoryTag,
+        type: EntitiesExplorerActions.FilterAddCategoryTag,
         payload: {
           category: 'foo1',
           tags: ['bar1_1', 'bar1_2', 'bar1_3', 'bar1_4', 'bar1_5', 'bar1_6'],
@@ -867,7 +859,7 @@ describe('Entities Reducer', () => {
         ...currentState,
         filter: {
           ...currentState.filter,
-          categories: [
+          ddoTags: [
             {
               name: 'foo1',
               tags: [
@@ -892,28 +884,30 @@ describe('Entities Reducer', () => {
         entities: [
           {
             did: 'someDid1',
-            entityType: EntityType.Project,
-            userDid: 'someUserDid1',
-            title: 'someTitle1',
-            shortDescription: 'someShortDescription1',
+            type: EntityType.Project,
+            creatorDid: 'someUserDid1',
+            name: 'someTitle1',
+            description: 'someShortDescription1',
             dateCreated: moment('2020-04-09T13:14:13.000Z'),
-            ownerName: 'someOwnerName1',
+            creatorName: 'someCreatorName1',
+            creatorLogo: 'someCreatorLogo1',
             status: 'someStatus1',
-            country: 'someCountry1',
-            impactAction: 'someImpactAction1',
+            location: 'someCountry1',
+            goal: 'someImpactAction1',
             serviceProvidersCount: 13,
             evaluatorsCount: 1,
             requiredClaimsCount: 100,
             successfulClaimsCount: 10,
             pendingClaimsCount: 20,
             rejectedClaimsCount: 30,
-            sdgs: [1, 2, 3],
-            longDescription: 'someLongDescription',
+            sdgs: ['1', '2', '3'],
             agentDids: ['someAgentDid1'],
-            imageUrl: 'sommeImageUrl',
-            founderLogoUrl: 'sommeLogoUrl',
-            logoUrl: 'someLogoUrl',
-            categories: [
+            image: 'sommeImageUrl',
+            logo: 'someLogoUrl',
+            termsType: TermsOfUseType.FreeOpenSource,
+            version: '1.2.3',
+            badges: ['badge1'],
+            ddoTags: [
               {
                 name: 'someCategory1',
                 tags: [
@@ -923,15 +917,12 @@ describe('Entities Reducer', () => {
                 ],
               },
             ],
-            pdsUrl: 'somePsdUrl',
-
-            data: null,
           },
         ],
         filter: {
           dateFrom: moment('2020-04-09T13:14:13.000Z'),
           dateTo: moment('2020-04-08T13:14:13.000Z'),
-          categories: [
+          ddoTags: [
             {
               name: 'foo1',
               tags: ['bar1'],
@@ -949,10 +940,10 @@ describe('Entities Reducer', () => {
       }
 
       // given... we have an action of type ResetFiltersAction
-      const action: FilterCategoriesAction = {
-        type: EntitiesActions.FilterCategories,
+      const action: FilterDDOCategoriesAction = {
+        type: EntitiesExplorerActions.FilterDDOCategories,
         payload: {
-          categories: [
+          ddoTags: [
             { name: 'Cell Type', tags: ['Index', 'Relayer', 'Portal'] },
           ],
         },
@@ -966,7 +957,7 @@ describe('Entities Reducer', () => {
         ...currentState,
         filter: {
           ...currentState.filter,
-          categories: [
+          ddoTags: [
             { name: 'Cell Type', tags: ['Index', 'Relayer', 'Portal'] },
           ],
         },
@@ -981,28 +972,30 @@ describe('Entities Reducer', () => {
         entities: [
           {
             did: 'someDid1',
-            entityType: EntityType.Project,
-            userDid: 'someUserDid1',
-            title: 'someTitle1',
-            shortDescription: 'someShortDescription1',
+            type: EntityType.Project,
+            creatorDid: 'someUserDid1',
+            name: 'someTitle1',
+            description: 'someShortDescription1',
             dateCreated: moment('2020-04-09T13:14:13.000Z'),
-            ownerName: 'someOwnerName1',
+            creatorName: 'someCreatorName1',
+            creatorLogo: 'someCreatorLogo1',
             status: 'someStatus1',
-            country: 'someCountry1',
-            impactAction: 'someImpactAction1',
+            location: 'someCountry1',
+            goal: 'someImpactAction1',
             serviceProvidersCount: 13,
             evaluatorsCount: 1,
             requiredClaimsCount: 100,
             successfulClaimsCount: 10,
             pendingClaimsCount: 20,
             rejectedClaimsCount: 30,
-            sdgs: [1, 2, 3],
-            longDescription: 'someLongDescription',
+            sdgs: ['1', '2', '3'],
             agentDids: ['someAgentDid1'],
-            imageUrl: 'sommeImageUrl',
-            founderLogoUrl: 'sommeLogoUrl',
-            logoUrl: 'someLogoUrl',
-            categories: [
+            image: 'sommeImageUrl',
+            logo: 'someLogoUrl',
+            termsType: TermsOfUseType.FreeOpenSource,
+            version: '1.2.3',
+            badges: ['badge1'],
+            ddoTags: [
               {
                 name: 'someCategory1',
                 tags: [
@@ -1012,15 +1005,12 @@ describe('Entities Reducer', () => {
                 ],
               },
             ],
-            pdsUrl: 'somePsdUrl',
-
-            data: null,
           },
         ],
         filter: {
           dateFrom: moment('2020-04-09T13:14:13.000Z'),
           dateTo: moment('2020-04-08T13:14:13.000Z'),
-          categories: [
+          ddoTags: [
             {
               name: 'foo1',
               tags: ['bar1'],
@@ -1039,7 +1029,7 @@ describe('Entities Reducer', () => {
 
       // given... we have an action of type ResetFiltersAction
       const action: FilterSectorAction = {
-        type: EntitiesActions.FilterSector,
+        type: EntitiesExplorerActions.FilterSector,
         payload: {
           sector: 'test',
         },
@@ -1066,28 +1056,30 @@ describe('Entities Reducer', () => {
         entities: [
           {
             did: 'someDid1',
-            entityType: EntityType.Project,
-            userDid: 'someUserDid1',
-            title: 'someTitle1',
-            shortDescription: 'someShortDescription1',
+            type: EntityType.Project,
+            creatorDid: 'someUserDid1',
+            name: 'someTitle1',
+            description: 'someShortDescription1',
             dateCreated: moment('2020-04-09T13:14:13.000Z'),
-            ownerName: 'someOwnerName1',
+            creatorName: 'someCreatorName1',
+            creatorLogo: 'someCreatorLogo1',
             status: 'someStatus1',
-            country: 'someCountry1',
-            impactAction: 'someImpactAction1',
+            location: 'someCountry1',
+            goal: 'someImpactAction1',
             serviceProvidersCount: 13,
             evaluatorsCount: 1,
             requiredClaimsCount: 100,
             successfulClaimsCount: 10,
             pendingClaimsCount: 20,
             rejectedClaimsCount: 30,
-            sdgs: [1, 2, 3],
-            longDescription: 'someLongDescription',
+            sdgs: ['1', '2', '3'],
             agentDids: ['someAgentDid1'],
-            imageUrl: 'sommeImageUrl',
-            founderLogoUrl: 'sommeLogoUrl',
-            logoUrl: 'someLogoUrl',
-            categories: [
+            image: 'sommeImageUrl',
+            logo: 'someLogoUrl',
+            termsType: TermsOfUseType.FreeOpenSource,
+            version: '1.2.3',
+            badges: ['badge1'],
+            ddoTags: [
               {
                 name: 'someCategory1',
                 tags: [
@@ -1097,15 +1089,12 @@ describe('Entities Reducer', () => {
                 ],
               },
             ],
-            pdsUrl: 'somePsdUrl',
-
-            data: null,
           },
         ],
         filter: {
           dateFrom: moment('2020-04-09T13:14:13.000Z'),
           dateTo: moment('2020-04-08T13:14:13.000Z'),
-          categories: [
+          ddoTags: [
             {
               name: 'foo1',
               tags: ['bar1'],
@@ -1124,7 +1113,7 @@ describe('Entities Reducer', () => {
 
       // given... we have an action of type ResetFiltersAction
       const action: ResetCategoryFilterAction = {
-        type: EntitiesActions.ResetCategoryFilter,
+        type: EntitiesExplorerActions.ResetCategoryFilter,
         payload: {
           category: 'foo1',
         },
@@ -1138,7 +1127,7 @@ describe('Entities Reducer', () => {
         ...currentState,
         filter: {
           ...currentState.filter,
-          categories: [
+          ddoTags: [
             {
               name: 'foo2',
               tags: ['bar2'],
@@ -1160,28 +1149,30 @@ describe('Entities Reducer', () => {
         entities: [
           {
             did: 'someDid1',
-            entityType: EntityType.Project,
-            userDid: 'someUserDid1',
-            title: 'someTitle1',
-            shortDescription: 'someShortDescription1',
+            type: EntityType.Project,
+            creatorDid: 'someUserDid1',
+            name: 'someTitle1',
+            description: 'someShortDescription1',
             dateCreated: moment('2020-04-09T13:14:13.000Z'),
-            ownerName: 'someOwnerName1',
+            creatorName: 'someCreatorName1',
+            creatorLogo: 'someCreatorLogo1',
             status: 'someStatus1',
-            country: 'someCountry1',
-            impactAction: 'someImpactAction1',
+            location: 'someCountry1',
+            goal: 'someImpactAction1',
             serviceProvidersCount: 13,
             evaluatorsCount: 1,
             requiredClaimsCount: 100,
             successfulClaimsCount: 10,
             pendingClaimsCount: 20,
             rejectedClaimsCount: 30,
-            sdgs: [1, 2, 3],
-            longDescription: 'someLongDescription',
+            sdgs: ['1', '2', '3'],
             agentDids: ['someAgentDid1'],
-            imageUrl: 'sommeImageUrl',
-            logoUrl: 'someLogoUrl',
-            founderLogoUrl: 'sommeLogoUrl',
-            categories: [
+            image: 'sommeImageUrl',
+            logo: 'someLogoUrl',
+            termsType: TermsOfUseType.FreeOpenSource,
+            version: '1.2.3',
+            badges: ['badge1'],
+            ddoTags: [
               {
                 name: 'someCategory1',
                 tags: [
@@ -1191,15 +1182,12 @@ describe('Entities Reducer', () => {
                 ],
               },
             ],
-            pdsUrl: 'somePsdUrl',
-
-            data: null,
           },
         ],
         filter: {
           dateFrom: moment('2020-04-09T13:14:13.000Z'),
           dateTo: moment('2020-04-08T13:14:13.000Z'),
-          categories: [
+          ddoTags: [
             {
               name: 'foo',
               tags: ['bar'],
@@ -1214,7 +1202,7 @@ describe('Entities Reducer', () => {
 
       // given... we have an action of type ResetFiltersAction
       const action: ResetFiltersAction = {
-        type: EntitiesActions.ResetFilters,
+        type: EntitiesExplorerActions.ResetFilters,
       }
 
       // when... we call the reducer with this action

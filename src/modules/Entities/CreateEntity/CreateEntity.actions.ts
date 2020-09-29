@@ -11,7 +11,7 @@ import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
 import keysafe from 'common/keysafe/keysafe'
 import { EntityType } from '../types'
 import { RootState } from 'common/redux/types'
-import { PDS_URL } from './types'
+import { PDS_URL } from '../types'
 import * as createEntitySelectors from './CreateEntity.selectors'
 import { createEntityMap } from './strategy-map'
 
@@ -54,7 +54,9 @@ export const createEntity = () => (
 
   // the page content data
   const pageData = `data:application/json;base64,${base64Encode(
-    JSON.stringify(createEntityMap[entityType].selectPageContent(state)),
+    JSON.stringify(
+      createEntityMap[entityType].selectPageContentApiPayload(state),
+    ),
   )}`
 
   const uploadPageContent = blocksyncApi.project.createPublic(pageData, PDS_URL)
@@ -64,21 +66,12 @@ export const createEntity = () => (
       // the entity data with the page content resource id
       const pageContentId = responses[0].result
 
-      // TODO - use this
-      /*       const entityData = JSON.stringify(
+      const entityData = JSON.stringify(
         createEntitySelectors.selectEntityApiPayload(
           entityType,
           pageContentId,
         )(state),
-      ) */
-
-      // Temporary until evaluatorPayPerClaim is no longer required!
-      const temp = createEntitySelectors.selectEntityApiPayload(
-        entityType,
-        pageContentId,
-      )(state)
-      temp.evaluatorPayPerClaim = '15'
-      const entityData = JSON.stringify(temp)
+      )
 
       keysafe.requestSigning(
         entityData,

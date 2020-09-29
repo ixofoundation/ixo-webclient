@@ -6,6 +6,7 @@ import CreateEntityBase, {
 import { RootState } from 'common/redux/types'
 import * as entityClaimsSelectors from '../CreateEntityClaims/CreateEntityClaims.selectors'
 import * as createEntitySelectors from '../CreateEntity.selectors'
+import * as entitiesSelectors from '../../EntitiesExplorer/EntitiesExplorer.selectors'
 import { goToStep } from '../CreateEntity.actions'
 import {
   EntityClaimItem,
@@ -44,10 +45,14 @@ import {
   Container,
   AddSectionButton,
 } from 'common/components/Wrappers/FormCardWrapper/FormCardWrapper.styles'
-import { Entity } from 'common/components/EntitySelector/types'
+import { getEntities } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.actions'
+import { ExplorerEntity } from 'modules/Entities/EntitiesExplorer/types'
+import { Spinner } from 'common/components/Spinner'
 
 interface Props extends CreateEntityBaseProps {
   entityClaims: EntityClaimItem[]
+  templates: ExplorerEntity[]
+  isLoadingEntities: boolean
   handleAddEntityClaim: () => void
   handleRemoveEntityClaim: (id: string) => void
   handleUpdateEntityClaimTemplate: (
@@ -86,24 +91,18 @@ interface Props extends CreateEntityBaseProps {
     id: string,
     formData: FormData,
   ) => void
+  handleGetEntities: () => void
 }
 
 class CreateEntityClaims extends CreateEntityBase<Props> {
+  componentDidMount(): void {
+    const { handleGetEntities } = this.props
+
+    handleGetEntities()
+  }
+
   renderEntityClaimTemplate = (template: Template): JSX.Element => {
-    const { handleUpdateEntityClaimTemplate } = this.props
-
-    // TODO - pass in actual templates
-    const templates: Entity[] = []
-
-    for (let i = 0; i < 20; i++) {
-      templates.push({
-        title: `Claim Template${i + 1}`,
-        did: `template:did:${i + 1}`,
-        dateCreated: '20 Aug 2020',
-        imageUrl: require('../../../../assets/images/placeholder.png'),
-        previewUrl: '',
-      })
-    }
+    const { handleUpdateEntityClaimTemplate, templates } = this.props
 
     const {
       id,
@@ -128,7 +127,17 @@ class CreateEntityClaims extends CreateEntityBase<Props> {
           ref={this.cardRefs[id]}
           key={id}
           templateId={templateId}
-          templates={templates}
+          templates={templates.map((template) => {
+            const { name: title, did, dateCreated } = template
+
+            return {
+              title,
+              did,
+              dateCreated: dateCreated.format('DD-MMM-YYYY'),
+              imageUrl: null,
+              previewUrl: '',
+            }
+          })}
           title={title}
           description={description}
           isPrivate={isPrivate}
@@ -436,7 +445,15 @@ class CreateEntityClaims extends CreateEntityBase<Props> {
   }
 
   render(): JSX.Element {
-    const { handleAddEntityClaim } = this.props
+    const { handleAddEntityClaim, isLoadingEntities } = this.props
+
+    if (isLoadingEntities) {
+      return (
+        <Container>
+          <Spinner info="Loading Templates" transparentBg={true} />
+        </Container>
+      )
+    }
 
     const { entityClaims } = this.props
     const identifiers: string[] = []
@@ -480,6 +497,8 @@ class CreateEntityClaims extends CreateEntityBase<Props> {
 }
 
 const mapStateToProps = (state: RootState): any => ({
+  templates: entitiesSelectors.selectAllTemplateEntities(state),
+  isLoadingEntities: entitiesSelectors.selectIsLoadingEntities(state),
   step: createEntitySelectors.selectStep(state),
   entityType: createEntitySelectors.selectEntityType(state),
   validationComplete: entityClaimsSelectors.selectValidationComplete(state),
@@ -544,6 +563,7 @@ const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
   handleValidationError: (identifier: string, errors: string[]): void =>
     dispatch(validationError(identifier, errors)),
   handleGoToStep: (step: number): void => dispatch(goToStep(step)),
+  handleGetEntities: (): void => dispatch(getEntities()),
 })
 
 export const CreateEntityClaimsConnected = connect(

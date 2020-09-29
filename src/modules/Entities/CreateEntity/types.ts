@@ -1,8 +1,6 @@
 import { EntityType } from '../types'
 import { RootState } from 'common/redux/types'
 
-export const PDS_URL = process.env.REACT_APP_PDS_URL
-
 export interface CreateEntityState {
   step: number
   entityType: EntityType
@@ -38,19 +36,9 @@ export type EntityStepStrategyMap = {
         nextStep: number
       }
     }
-    selectPageContent: (state: RootState) => any
-    selectHeaderInfo: (
-      state: RootState,
-    ) => {
-      name: string
-      description: string
-      image: string
-      imageDescription: string
-      location: string
-      brand: string
-      logo: string
-      sdgs: string[]
-    }
+    selectPageContentApiPayload: (state: RootState) => any
+    selectHeaderInfoApiPayload: (state: RootState) => any
+    selectClaimsApiPayload: (state: RootState) => any
   }
 }
 

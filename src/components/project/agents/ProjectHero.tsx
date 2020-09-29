@@ -19,6 +19,8 @@ import { selectUserIsLoggedIn } from 'modules/Account/Account.selectors'
 import { entityTypeMap } from 'modules/Entities/strategy-map'
 import { useWindowSize } from 'common/hooks'
 import { deviceWidth } from 'lib/commonData'
+import CreateEntityDropDown from 'modules/Entities/CreateEntity/components/CreateEntityDropdown/CreateEntityDropdown'
+import MediaQuery from 'react-responsive'
 
 export interface Props {
   project: any
@@ -44,7 +46,7 @@ export const ProjectHero: React.SFC<Props> = ({
   const entityType = project.entityType
     ? (toTitleCase(project.entityType) as EntityType)
     : EntityType.Project
-  
+
   const buttonsArray = [
     {
       iconClass: `icon-${entityType.toLowerCase()}`,
@@ -122,6 +124,7 @@ export const ProjectHero: React.SFC<Props> = ({
         <StyledFundingTitle>{project.title}</StyledFundingTitle>
       )}
       <HeroContainer className="container-fluid" onlyTitle={false}>
+      {!onlyTitle && windowSize.width > deviceWidth.tablet && (
         <HeroInner className={`${isDetail && 'detailed'}`}>
           <div className="row">
             <div className="col-sm-12">
@@ -129,11 +132,15 @@ export const ProjectHero: React.SFC<Props> = ({
               <Title>{project.title}</Title>
             </div>
           </div>
-        </HeroInner>
+          </HeroInner>
+        )}
+        <MediaQuery minWidth={`${deviceWidth.desktop}px`}>
+          <CreateEntityDropDown />
+        </MediaQuery>
         <HeaderTabs
           buttons={buttonsArray}
           matchType={MatchType.strict}
-          assistantPanelToggle={ assistantPanelToggle }
+          assistantPanelToggle={assistantPanelToggle}
           enableAssistantButton={enableAssistantButton}
           activeTabColor={entityTypeMap[entityType].themeColor}
         />
