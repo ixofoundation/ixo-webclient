@@ -9,6 +9,7 @@ import Orders from 'pages/bond/orders'
 import AssistantContext from 'common/contexts/Assistant'
 import FundingChat from 'modules/FundingChat/FundingChat.container'
 import { BondsWrapperConnected as BondsWrapper } from 'common/components/Bonds/BondsWrapper/BondsWrapper'
+import { useWindowSize } from 'common/hooks'
 
 const StyledContainer = styled.div`
   display: flex;
@@ -18,26 +19,28 @@ const StyledContainer = styled.div`
 export const BondRoutes: React.FunctionComponent<Pick<RouteComponentProps, 'match'>> = ({
   match,
 }) => {
+  const windowSize = useWindowSize()
+  console.log('windowsize.width', windowSize.width)
   const assistant =
     match.path.split('/')[match.path.split('/').length - 1] === 'assistant'
       ? true
       : false
   const [assistantPanelActive, setAssistantPanelActive] = useState(assistant)
   const [resizeMain, setResizeMain] = useSpring(() => ({
-    width: assistant ? '75%' : '100%',
+    width: assistant ? windowSize.width < 768 ? '0%' : '75%' : '100%',
   }))
   const [resizeAssistantPanel, setResizeAssistantPanel] = useSpring(() => ({
-    width: assistant ? '25%' : '0%',
+    width: assistant ? windowSize.width < 768 ? '100%' : '25%' : '0%',
     display: assistant ? 'block' : 'none',
     background: '#F0F3F9',
   }))
 
   const assistantPanelToggle = (): void => {
     setResizeMain({
-      width: assistantPanelActive ? '100%' : '75%',
+      width: !assistantPanelActive ? windowSize.width < 768 ? '0%' : '75%' : '100%',
     })
     setResizeAssistantPanel({
-      width: assistantPanelActive ? '0%' : '25%',
+      width: !assistantPanelActive ? windowSize.width < 768 ? '100%' : '25%' : '0%',
       display: assistantPanelActive ? 'none' : 'block',
     })
     setAssistantPanelActive(!assistantPanelActive)
