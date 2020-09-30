@@ -139,6 +139,15 @@ export const AssistantWrapper = styled.div`
   display: flex;
   flex-direction: column;
   .rw-conversation-container {
+    .rw-send .rw-send-icon-ready {
+      fill: #125D7F;
+    }
+
+    .rw-response {
+      color: #090C0E;
+      margin-bottom: 9px;
+      box-shadow: 0px 2px 15px rgba(212, 221, 232, 0.4);
+    }
     box-shadow: none;
   }
   .assistant-container {
@@ -147,10 +156,16 @@ export const AssistantWrapper = styled.div`
   .rw-messages-container {
     max-height: calc(100% - 100px) !important;
     height: calc(100% - 100px) !important;
+    background-color: rgb(240,243,249);
   }
   .rw-sender {
+    margin: 10px;
     margin-top: auto;
     margin-bottom: 30px;
+    border-radius: 20px;
+    -webkit-box-shadow: #D4DDE8 2px 5px 7px;
+    -moz-box-shadow: #D4DDE8 2px 5px 7px;
+    box-shadow: #D4DDE8 2px 5px 7px;
   }
 `
 
@@ -169,13 +184,15 @@ export const AssistantHeader = styled.div`
     font-size: 18px;
   }
   .close-icon {
-    width: 1.5rem;
-    height: 1.5rem;
+    width: 1.8rem;
+    height: 1.8rem;
     margin-right: 1rem;
     border-radius: 50%;
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    background: #FFFFFF;
+    box-shadow: 0px 1px 8px rgba(0, 42, 63, 0.1);
   }
   .back-icon {
     transform: rotate(180deg);

@@ -53,6 +53,7 @@ export const AssistantContainer = styled.div`
   
   @media (max-width: 900px) {
     position: fixed;
-    top: 30px;
+    top: 0px;
+    z-index: 10;
   }
 `
