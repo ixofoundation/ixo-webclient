@@ -15,7 +15,6 @@ import { RootState } from 'common/redux/types'
 import * as entitySelectors from '../SelectedEntity.selectors'
 import * as entityOverviewSelectors from './EntityOverview.selectors'
 import * as accountSelectors from 'modules/Account/Account.selectors'
-import { getEntity } from '../SelectedEntity.actions'
 import { Spinner } from 'common/components/Spinner'
 import PageContentComponent from './components/PageContent/PageContent'
 import { PageContent } from '../types'
@@ -47,17 +46,6 @@ interface Props {
 class EntityOverview extends React.Component<Props> {
   state = {
     assistantPanelActive: false,
-  }
-
-  componentDidMount(): void {
-    const {
-      match: {
-        params: { projectDID: did },
-      },
-      handleGetEntity,
-    } = this.props
-
-    handleGetEntity(did)
   }
 
   assistantPanelToggle = (): void => {
@@ -167,7 +155,6 @@ const mapStateToProps = (state: RootState): any => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
-  handleGetEntity: (did: string): void => dispatch(getEntity(did)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(EntityOverview)
