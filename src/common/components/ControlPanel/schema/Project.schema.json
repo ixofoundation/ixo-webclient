@@ -168,7 +168,7 @@
         "parameters": [
           {
             "name": "intent",
-            "value": "new_claim"
+            "value": "new_claim/form"
           }
         ]
       }

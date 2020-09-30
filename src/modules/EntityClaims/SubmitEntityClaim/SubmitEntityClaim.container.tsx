@@ -21,6 +21,7 @@ import { EntityType } from 'modules/Entities/types'
 import { entityTypeMap } from 'modules/Entities/strategy-map'
 import ControlPanel from '../../../common/components/ControlPanel/ControlPanel'
 import { QuestionForm } from '../types'
+import { getClaimTemplate } from 'modules/EntityClaims/SubmitEntityClaim/SubmitEntityClaim.actions'
 
 interface Props {
   userDid: string
@@ -43,6 +44,7 @@ interface Props {
   handleGoToQuestionClick: (questionNo: number) => void
   handleFormDataChange: (formData: any) => void
   handleGetClaimTemplate: (templateDid: string) => void
+  claimTemplateDid: string
 }
 
 interface State {
@@ -56,6 +58,12 @@ class SubmitEntityClaim extends React.Component<Props, State> {
     this.state = {
       showSummary: false,
     }
+  }
+
+  componentDidMount() {
+    const { claimTemplateDid, handleGetClaimTemplate } = this.props;
+
+    handleGetClaimTemplate(claimTemplateDid);
   }
 
   handleNext = (): void => {
@@ -94,15 +102,20 @@ class SubmitEntityClaim extends React.Component<Props, State> {
       answersComplete,
       claimTitle,
       claimShortDescription,
+      claimTemplateDid,
       handlePreviousClick,
       handleGoToQuestionClick,
       handleFormDataChange,
     } = this.props
 
-    if (claimTemplateIsLoading) {
+    if (typeof claimTemplateDid === 'undefined') {
       return (
-        <Redirect to={`/projects/${entityDid}/overview/action/new_claim`} />
+        <Redirect to={`/projects/${entityDid}/overview`} />
       )
+    }
+
+    if (claimTemplateIsLoading) {
+      return null;
     }
 
     if (this.state.showSummary) {
@@ -168,6 +181,7 @@ const mapStateToProps = (state: RootState): Record<string, any> => ({
   userDid: accountSelectors.selectUserDid(state),
   entityType: selectedEntitySelectors.selectEntityType(state),
   entityTitle: selectedEntitySelectors.selectEntityName(state),
+  entityDid: selectedEntitySelectors.selectEntityDid(state),
   claimTemplateDid: selectedEntitySelectors.selectEntityClaimTemplateId(state),
   claimTemplateIsLoading: submitEntityClaimSelectors.selectIsLoading(state),
   claimTitle: submitEntityClaimSelectors.selectClaimTitle(state),
@@ -183,6 +197,8 @@ const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
     dispatch(goToQuestionNumber(QuestionNo)),
   handleFormDataChange: (formData): void => dispatch(saveAnswer(formData)),
   finaliseQuestions: (): void => dispatch(finaliseQuestions()),
+  handleGetClaimTemplate: (templateDid): void =>
+    dispatch(getClaimTemplate(templateDid)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(SubmitEntityClaim)
