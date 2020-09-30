@@ -3,7 +3,7 @@ import { deviceWidth } from 'lib/commonData'
 
 export const DetailContainer = styled.div`
   background: ${/* eslint-disable-line */ (props) =>
-    props.theme.bg.gradientBlue};
+    props.theme.bg.blue};
   display: block;
   flex: 1 1 auto;
 
@@ -22,8 +22,6 @@ export const Loading = styled.div`
   padding: 50px 20px;
 `
 export const ContentContainer = styled.div`
-  padding-left: 40px;
-  padding-right: 40px;
   flex-grow: 1;
   background: ${(props) => props.theme.bg.blue}
 

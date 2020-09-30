@@ -15,7 +15,7 @@ import { Spinner } from 'common/components/Spinner'
 import { Route } from 'react-router-dom'
 import EntityImpactOverview from './Overview/Overview.container'
 import EntityAgents from './EntityAgents/EntityAgents.container'
-import { ProjectAgents } from 'components/project/agents/ProjectAgents'
+import {ProjectAgents} from 'components/project/agents/ProjectAgents'
 
 interface Props {
   match: any

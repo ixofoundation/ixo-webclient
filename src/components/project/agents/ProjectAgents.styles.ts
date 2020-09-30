@@ -50,12 +50,12 @@ export const Divider = styled.hr`
 export const Container = styled.div`
   color: white;
   padding-bottom: 2rem;
-  padding-left: 10px;
-  padding-right: 10px;
+  padding-left: 15px;
+  padding-right: 15px;
 
   @media (min-width: ${deviceWidth.mobile}px) {
-    padding-left: 15px;
-    padding-right: 15px;
+    padding-left: 40px;
+    padding-right: 40px;
   }
 `
 

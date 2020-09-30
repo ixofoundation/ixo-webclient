@@ -12,6 +12,13 @@ export const HeroContainer = styled.div<HeroContainerProps>`
   background: ${(props: any): string =>
     props.onlyTitle ? props.theme.bg.blue : 'white'};
   color: ${(props: any): string => (props.onlyTitle ? 'white' : 'black')};
+  padding-left: 15x;
+  padding-right: 15px;
+
+  @media (min-width: ${deviceWidth.mobile}px) {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
 `
 
 export const HeroInner = styled.div`
@@ -32,7 +39,7 @@ export const HeroInner = styled.div`
 export const Title = styled.h1`
   font-family: ${(props: any): string => props.theme.fontRobotoCondensed};
   font-weight: normal;
-  font-size: 2.25rem;
+  font-size: 1.75rem;
   line-height: 1.25;
   margin: 0.5rem 0;
 
@@ -58,9 +65,9 @@ export const Description = styled.p`
 
 export const SingleSDG = styled.a`
   font-family: ${(props: any): string => props.theme.fontRobotoCondensed};
-  color: ${(props: any): string => props.theme.fontBlue};
-  font-weight: 300;
-  font-size: 0.75rem;
+  color: ${(props: any): string => props.theme.fontBlueDisabled};
+  font-weight: '#436779';
+  font-size: 0.625rem;
   margin: 0 0.625rem 0 0;
   display: inline-flex;
   align-items: center;
@@ -79,6 +86,10 @@ export const SingleSDG = styled.a`
   &:hover,
   &:hover i:before {
     color: ${(props: any): string => props.theme.fontLightBlue};
+  }
+
+  &:last-of-type {
+    color: white;
   }
 `
 

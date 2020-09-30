@@ -135,43 +135,41 @@ const EntityHero: React.FunctionComponent<Props> = ({
   return (
     <>
       <HeroContainer className="container-fluid" onlyTitle={onlyTitle}>
-        { windowSize.width > deviceWidth.tablet && (
-          <HeroInner className="detailed">
-            <div className="row">
-              <div className="col-sm-12">
-                {renderSDGs()}
-                <Title>{name}</Title>
-                {
-                  !onlyTitle && <>
-                    <Description>{description}</Description>
-                    <HeroInfoItemsWrapper>
+        <HeroInner className="detailed">
+          <div className="row">
+            <div className="col-sm-12">
+              {renderSDGs()}
+              <Title>{name}</Title>
+              {
+                !onlyTitle && <>
+                  <Description>{description}</Description>
+                  <HeroInfoItemsWrapper>
+                    <HeroInfoItem>
+                      <CalendarSort fill="#A5ADB0" />
+                      <span>{dateCreated.format('d MMM ‘YY')}</span>
+                    </HeroInfoItem>
+                    <HeroInfoItem>
+                      <img src={IxoCircle} />
+                      <span>{creatorName}</span>
+                    </HeroInfoItem>
+                    {location && (
                       <HeroInfoItem>
-                        <CalendarSort fill="#A5ADB0" />
-                        <span>{dateCreated.format('d MMM ‘YY')}</span>
+                        {getFlagURL(location) !== '' && (
+                          <Flag
+                            style={{
+                              background: getFlagURL(location),
+                            }}
+                          />
+                        )}
+                        <span>{getCountryName(location)}</span>
                       </HeroInfoItem>
-                      <HeroInfoItem>
-                        <img src={IxoCircle} />
-                        <span>{creatorName}</span>
-                      </HeroInfoItem>
-                      {location && (
-                        <HeroInfoItem>
-                          {getFlagURL(location) !== '' && (
-                            <Flag
-                              style={{
-                                background: getFlagURL(location),
-                              }}
-                            />
-                          )}
-                          <span>{getCountryName(location)}</span>
-                        </HeroInfoItem>
-                      )}
-                    </HeroInfoItemsWrapper>  
-                  </>
-                }
-              </div>
+                    )}
+                  </HeroInfoItemsWrapper>  
+                </>
+              }
             </div>
-          </HeroInner>
-        )}
+          </div>
+        </HeroInner>
         <MediaQuery minWidth={`${deviceWidth.desktop}px`}>
           <CreateEntityDropDown />
         </MediaQuery>
