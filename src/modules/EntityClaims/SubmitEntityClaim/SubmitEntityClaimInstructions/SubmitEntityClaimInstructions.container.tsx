@@ -31,7 +31,7 @@ class InstructionsContainer extends React.Component<Props> {
     document.querySelector('#ControlPanelWrapper').classList.add('fixed')
 
     const { templateDid, handleGetClaimTemplate } = this.props
-
+    
     handleGetClaimTemplate(templateDid)
   }
 

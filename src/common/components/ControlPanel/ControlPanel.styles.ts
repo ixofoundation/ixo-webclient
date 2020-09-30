@@ -57,7 +57,6 @@ export const ControlPanelWrapper = styled.div`
     display: flex;
     flex-flow: row wrap;
     max-height: 0;
-    overflow: hidden;
     transition: max-height 0s ease-out;
     &.show {
       transition: max-height 1.75s ease-out;
