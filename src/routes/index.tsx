@@ -35,11 +35,6 @@ export const Routes: React.SFC<{}> = (props) => {
           )}
         />
         <Route path="/entities/select" component={EntitiesSelect} />
-        {/* <Route
-          exact
-          path="/projects/:projectDID/overview/action/new_claim/form"
-          component={SubmitEntityClaim}
-        /> */}
         <Route path="/:entityType/new" component={CreateEntity} />
         <Route
           exact
