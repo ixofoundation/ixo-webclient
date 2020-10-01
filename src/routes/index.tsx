@@ -1,9 +1,7 @@
 import * as React from 'react'
 import { Route, Switch } from 'react-router-dom'
 import EntitiesExplorer from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.container'
-import EntityOverview from 'modules/Entities/SelectedEntity/EntityOverview/EntityOverview.container'
 import EntitiesImpact from 'modules/Entities/EntitiesExplorer/EntitiesImpact/EntitiesImpact.container'
-import SubmitEntityClaim from 'modules/EntityClaims/SubmitEntityClaim/SubmitEntityClaim.container'
 import CreateEntity from 'modules/Entities/CreateEntity/CreateEntity.container'
 import EntityImpact from 'modules/Entities/SelectedEntity/EntityImpact/EntityImpact.container'
 import EntitiesSelect from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.container.select'
@@ -15,6 +13,7 @@ import { Spinner } from 'common/components/Spinner'
 import { UnderConstruction } from '../public/UnderConstruction'
 import BondRoutes from './BondRoutes'
 import InvestmentRoutes from './InvestmentRoutes'
+import EntityLayout from 'modules/Entities/SelectedEntity/EntityLayout.container'
 
 export const Routes: React.SFC<{}> = (props) => {
   return (
@@ -36,11 +35,6 @@ export const Routes: React.SFC<{}> = (props) => {
           )}
         />
         <Route path="/entities/select" component={EntitiesSelect} />
-        <Route
-          exact
-          path="/projects/:projectDID/overview/action/new_claim/form"
-          component={SubmitEntityClaim}
-        />
         <Route path="/:entityType/new" component={CreateEntity} />
         <Route
           exact
@@ -51,7 +45,7 @@ export const Routes: React.SFC<{}> = (props) => {
         />
         <Route
           path="/projects/:projectDID/overview"
-          component={EntityOverview}
+          component={EntityLayout}
         />
         <Route path="/projects/:projectDID/detail" component={EntityImpact} />
         {/* Old claims related screens - remove when new claims is ready */}
