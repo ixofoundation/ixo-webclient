@@ -224,7 +224,7 @@
         "@type": "Share",
         "@id": "connectionShare",
         "title": "Share",
-        "tooltip": "Share to social media",
+        "tooltip": "Share a link to this Project",
         "icon": "Share",
         "iconColor": "#49BFE0",
         "endpoint": null,

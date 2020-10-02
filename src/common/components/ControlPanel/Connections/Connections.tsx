@@ -11,6 +11,9 @@ import MobileConnection from './Mobile/Mobile'
 import ShareConnection from './Share/Share'
 import ForumConnection from './Forum/Forum'
 import Tooltip from 'common/components/Tooltip/Tooltip'
+import { useWindowSize } from 'common/hooks'
+import { deviceWidth } from 'lib/commonData'
+import { contentType } from 'types/models'
 
 interface Props {
   widget: Widget
@@ -35,6 +38,7 @@ const Connections: React.FunctionComponent<Props> = ({
 }) => {
   const findControl = (type: ConnectionType): Control | undefined =>
     controls?.find((conn) => conn['@type'] === type)
+  const windowSize = useWindowSize();
 
   return (
     <ControlPanelSection>
@@ -58,12 +62,34 @@ const Connections: React.FunctionComponent<Props> = ({
           /* @ts-ignore */
           const connectionType = ConnectionType[key]
           const control = findControl(connectionType)
+
+          // Mobile view
+          if (connectionType === ConnectionType.Mobile) {
+            if (windowSize.width <= deviceWidth.mobile) {
+              return control ? (
+                <Tooltip key={key} text={'Connect to ixo Mobile'}>
+                  <button
+                    onClick={(): void => handleConnectionClick(connectionType)}
+                  >
+                    <div className={`icon-wrapper ${ selectedConnection === connectionType ? 'selected': '' }`}>
+                      {React.createElement(icons[control.icon], {
+                        fill: control.iconColor,
+                        width: 50,
+                      })}
+                    </div>
+                    {control.title}
+                  </button>
+                </Tooltip>
+              ) : null
+            }
+          }
+          
           return control ? (
             <Tooltip key={key} text={control.tooltip}>
               <button
                 onClick={(): void => handleConnectionClick(connectionType)}
               >
-                <div className="icon-wrapper">
+                <div className={`icon-wrapper ${ selectedConnection === connectionType ? 'selected': '' }`}>
                   {React.createElement(icons[control.icon], {
                     fill: control.iconColor,
                     width: 50,
