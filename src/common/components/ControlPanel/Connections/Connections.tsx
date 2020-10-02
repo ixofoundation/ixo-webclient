@@ -13,7 +13,6 @@ import ForumConnection from './Forum/Forum'
 import Tooltip from 'common/components/Tooltip/Tooltip'
 import { useWindowSize } from 'common/hooks'
 import { deviceWidth } from 'lib/commonData'
-import { contentType } from 'types/models'
 
 interface Props {
   widget: Widget
