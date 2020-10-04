@@ -4,7 +4,7 @@ import { RootState } from 'common/redux/types'
 import * as entitySelectors from './SelectedEntity.selectors'
 import { getEntity } from './SelectedEntity.actions'
 import { Spinner } from 'common/components/Spinner'
-import { Route } from 'react-router-dom'
+import { Route, Switch } from 'react-router-dom'
 import SubmitEntityClaim from 'modules/EntityClaims/SubmitEntityClaim/SubmitEntityClaim.container'
 import EntityOverview from 'modules/Entities/SelectedEntity/EntityOverview/EntityOverview.container'
 
@@ -44,7 +44,7 @@ class EntityLayout extends React.Component<Props> {
       return <Spinner info="Loading Entity..." />
     }
     return (
-      <>
+      <Switch>
         <Route
           exact
           path="/projects/:projectDID/overview/action/new_claim/form"
@@ -52,11 +52,10 @@ class EntityLayout extends React.Component<Props> {
         />
 
         <Route
-          exact
           path="/projects/:projectDID/overview"
           component={EntityOverview}
         />
-      </>
+      </Switch>
     )
     
   }
