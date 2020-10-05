@@ -1,14 +1,5 @@
 import * as React from 'react'
-import Home from 'assets/icons/Home'
-import HomeActive from 'assets/icons/HomeActive'
-import ServiceProviders from 'assets/icons/ServiceProviders'
-import ServiceProvidersActive from 'assets/icons/ServiceProvidersActive'
-import Evaluators from 'assets/icons/Evaluators'
-import EvaluatorsActive from 'assets/icons/EvaluatorsActive'
-import Claims from 'assets/icons/Claims'
-import ClaimsActive from 'assets/icons/ClaimsActive'
 import { Container, NavItem, ToolTip } from './SideBar.styles'
-import { isActiveRoute } from 'common/utils/isActiveRoute'
 
 interface Props {
   match: any
@@ -18,10 +9,7 @@ interface Props {
 }
 
 const ProjectSidebar: React.FunctionComponent<Props> = ({
-  match,
-  location,
   did,
-  showAgentLinks,
 }) => {
   return (
     <Container>
