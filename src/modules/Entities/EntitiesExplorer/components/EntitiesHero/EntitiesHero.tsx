@@ -24,6 +24,7 @@ export interface Props {
   showSearch: boolean
   filterSector: string
   handleChangeEntitiesType: (type: EntityType) => void
+  assistantPanelToggle?: () => void
 }
 
 export const EntitiesHero: React.FunctionComponent<Props> = ({
@@ -31,6 +32,7 @@ export const EntitiesHero: React.FunctionComponent<Props> = ({
   showSearch,
   filterSector,
   handleChangeEntitiesType,
+  assistantPanelToggle
 }) => {
   const entityStrategyMap = entityTypeMap[type]
   const header = getHeaderSchema(filterSector, entityStrategyMap.headerSchema)
@@ -95,6 +97,7 @@ export const EntitiesHero: React.FunctionComponent<Props> = ({
         buttons={headerTabButtons}
         activeTabColor={entityStrategyMap.themeColor}
         enableAssistantButton={true}
+        assistantPanelToggle={ assistantPanelToggle }
       />
       {showSearch && (
         <Search

@@ -94,7 +94,7 @@ const Actions: React.FunctionComponent<Props> = ({
             <ActionIcon />
           </div>
           {title}
-          {controls.length > 4 && (
+          {visibleControls.length > 4 && (
             <div
               onClick={toggleShowMore}
               className={`arrow-icon ${showMore ? 'active' : ''}`}

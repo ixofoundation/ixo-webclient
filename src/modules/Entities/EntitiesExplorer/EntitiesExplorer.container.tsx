@@ -39,8 +39,12 @@ import { Schema as FilterSchema } from './components/EntitiesFilter/schema/types
 import * as entitiesSelectors from './EntitiesExplorer.selectors'
 import * as accountSelectors from 'modules/Account/Account.selectors'
 import { entityTypeMap } from '../strategy-map'
+import FundingChat from 'modules/FundingChat/FundingChat.container'
+import {Transition} from 'react-spring/renderprops'
+import AssistantContext from 'common/contexts/Assistant'
 
 export interface Props extends RouteProps {
+  match: any
   type: EntityType
   entities: ExplorerEntity[]
   entitiesCount: number
@@ -84,6 +88,11 @@ const EntityCard: any = {
 }
 
 class EntitiesExplorer extends React.Component<Props> {
+
+  state = {
+    assistantPanelActive: false
+  }
+
   componentDidMount(): void {
     this.props.handleGetEntities()
   }
@@ -163,20 +172,52 @@ class EntitiesExplorer extends React.Component<Props> {
     }
   }
 
+  assistantPanelToggle = () => {
+    const { assistantPanelActive } = this.state;
+    this.setState({ assistantPanelActive: !assistantPanelActive });
+  }
+
   render(): JSX.Element {
+    const { assistantPanelActive } = this.state;
+    const { match } = this.props;
     return (
+      <AssistantContext.Provider value={{ active: assistantPanelActive }}>
       <Container>
-        <EntitiesHero
-          type={this.props.type}
-          filterSector={this.props.filterSector}
-          showSearch={true}
-          handleChangeEntitiesType={this.props.handleChangeEntitiesType}
-        />
-        {this.props.isLoadingEntities && (
-          <Spinner info={`Loading ${entityTypeMap[this.props.type].plural}`} />
-        )}
-        {!this.props.isLoadingEntities && this.renderEntities()}
+        <div className="d-flex">
+          <div className="d-flex flex-column flex-grow-1">
+            <EntitiesHero
+              type={this.props.type}
+              filterSector={this.props.filterSector}
+              showSearch={true}
+              handleChangeEntitiesType={this.props.handleChangeEntitiesType}
+              assistantPanelToggle={ this.assistantPanelToggle }
+            />
+            {this.props.isLoadingEntities && (
+              <Spinner info={`Loading ${entityTypeMap[this.props.type].plural}`} />
+            )}
+            {!this.props.isLoadingEntities && this.renderEntities()}
+          </div>
+          <Transition
+              items={assistantPanelActive}
+              from={{ width: '0%' }}
+              enter={{ width: '25%' }}
+              leave={{ width: '0%' }}
+            >
+              {
+                assistantPanelActive => assistantPanelActive && (props => 
+                <div style={ props }>
+                  {assistantPanelActive && (
+                    <FundingChat
+                      match={match}
+                      assistantPanelToggle={this.assistantPanelToggle}
+                    />
+                  )}
+                </div>)
+              }
+          </Transition>
+        </div>
       </Container>
+      </AssistantContext.Provider>
     )
   }
 }
