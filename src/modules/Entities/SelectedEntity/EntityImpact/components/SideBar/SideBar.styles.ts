@@ -81,7 +81,6 @@ export const Container = styled.div`
     width: 75px;
     min-width: 75px;
     display: block;
-    height: 450px;
     padding-top: 15px;
 
     .active {
