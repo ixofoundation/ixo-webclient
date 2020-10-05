@@ -5,7 +5,6 @@ import Message from 'assets/icons/Message'
 import Linkedin from 'assets/icons/Linkedin'
 import Twitter from 'assets/icons/Twitter'
 import Github from 'assets/icons/Github'
-import * as agentTypes from 'modules/Entities/SelectedEntity/EntityImpact/EntityAgents/types'
 
 const CardContainer = styled.div`
   width: 100%;

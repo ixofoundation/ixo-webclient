@@ -14,13 +14,11 @@ import {
   HeroInfoItem,
   Title,
   Description,
-  StyledFundingTitle,
 } from './EntityHero.styles'
 import CalendarSort from 'assets/icons/CalendarSort'
 import availableFlags from 'lib/json/availableFlags.json'
 import { EntityType } from 'modules/Entities/types'
 import { entityTypeMap } from 'modules/Entities/strategy-map'
-import { useWindowSize } from 'common/hooks'
 import { deviceWidth } from 'lib/commonData'
 import IxoCircle from 'assets/images/ixo-circle.png'
 import MediaQuery from 'react-responsive'
@@ -56,8 +54,7 @@ const EntityHero: React.FunctionComponent<Props> = ({
   enableAssistantButton = true,
 }) => {
   const bondDid = useSelector(selectEntityBondDid)
-  console.log('bondDid', bondDid)
-  const windowSize = useWindowSize()
+  
   const buttonsArray = [
     {
       iconClass: `icon-${type.toLowerCase()}`,
