@@ -70,8 +70,7 @@ const Actions: React.FunctionComponent<Props> = ({
       </Tooltip>
     )
   }
-  console.log('..................', controls.length)
-  console.log('..................', controls)
+  
   return (
     <>
       <Route
