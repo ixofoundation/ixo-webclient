@@ -25,7 +25,7 @@ import { deviceWidth } from 'lib/commonData'
 import IxoCircle from 'assets/images/ixo-circle.png'
 import MediaQuery from 'react-responsive'
 import CreateEntityDropDown from '../../CreateEntity/components/CreateEntityDropdown/CreateEntityDropdown'
-import { selectEntityCreator } from 'modules/Entities/SelectedEntity/SelectedEntity.selectors'
+import { selectEntityBondDid } from 'modules/Entities/SelectedEntity/SelectedEntity.selectors'
 interface Props {
   type: EntityType
   did: string
@@ -55,7 +55,8 @@ const EntityHero: React.FunctionComponent<Props> = ({
   assistantPanelToggle,
   enableAssistantButton = true,
 }) => {
-  const bondDid = useSelector(selectEntityCreator)
+  const bondDid = useSelector(selectEntityBondDid)
+  console.log('bondDid', bondDid)
   const windowSize = useWindowSize()
   const buttonsArray = [
     {

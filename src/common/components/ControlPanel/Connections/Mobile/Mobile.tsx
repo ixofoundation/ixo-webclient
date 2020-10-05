@@ -1,5 +1,7 @@
 import React from "react";
 import QRCode from "../../../QRCode/QRCode";
+import MediaQuery from 'react-responsive'
+import { deviceWidth } from "lib/commonData";
 
 interface Props {
   show: boolean;
@@ -7,9 +9,11 @@ interface Props {
 
 const Mobile: React.FunctionComponent<Props> = ({ show }) => {
   return (
-    <div className={`show-more-container ${show ? "show" : ""}`}>
-      <QRCode url={window.location.href} />
-    </div>
+    <MediaQuery minWidth={`${deviceWidth.mobile}px`}>
+      <div className={`d-hidden d-block-sm show-more-container ${show ? "show" : ""}`}>
+        <QRCode url={window.location.href} />
+      </div>
+    </MediaQuery>
   );
 };
 

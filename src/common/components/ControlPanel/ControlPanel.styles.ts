@@ -54,12 +54,13 @@ export const ControlPanelWrapper = styled.div`
 
   .show-more-container {
     width: 100%;
-    display: flex;
     flex-flow: row wrap;
     max-height: 0;
+    display: flex;
     overflow: hidden;
     transition: max-height 0s ease-out;
     &.show {
+      overflow: initial;
       transition: max-height 1.75s ease-out;
       max-height: 300px;
     }
@@ -153,6 +154,10 @@ export const SquareButtonSection = styled.div`
       border: 1px solid transparent;
       svg {
         margin: 0 auto;
+      }
+
+      &.selected {
+        border: 1px solid ${(props: any): string => props.theme.ixoBlue};
       }
     }
     &:hover {
