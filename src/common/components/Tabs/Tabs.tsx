@@ -20,22 +20,22 @@ export interface Props {
   buttons: Button[]
   matchType: MatchType
   activeTabColor: string | undefined
-  assistantPanelToggle: () => void
-  enableAssistantButton: boolean
+  assistantPanelToggle?: () => void
+  enableAssistantButton: boolean,
 }
 
-export const Tabs: React.SFC<Props> = ({
+export const Tabs: React.FunctionComponent<Props> = ({
   buttons,
   matchType,
   activeTabColor,
   assistantPanelToggle,
   enableAssistantButton,
 }) => {
-  const [animation, setAnimation] = React.useState(inactiveAnimation)
-  const assistant = React.useContext(AssistantContext)
-
-  const assistantButtonClicked = () => {
-    const isActive = assistant.active
+  const [animation, setAnimation] = React.useState(inactiveAnimation);
+  const assistant = React.useContext(AssistantContext);
+  
+  const assistantButtonClicked = (): void => {
+    const isActive = assistant.active;
     if (isActive) {
       setAnimation(hoverAnimation)
       assistantPanelToggle()
@@ -59,7 +59,7 @@ export const Tabs: React.SFC<Props> = ({
   }
 
   const TabsContainer = createTabsContainer(activeTabColor, assistant.active)
-
+  
   return (
     <TabsContainer>
       {buttons.map((button, index) => {
@@ -106,7 +106,7 @@ export const Tabs: React.SFC<Props> = ({
             height={40}
             width={40}
             options={{
-              loop: animation !== hoverAnimation,
+              loop: false,
               autoplay: true,
               animationData: chooseAnimation(),
             }}

@@ -64,11 +64,11 @@ export const Container = styled.div`
   padding-top: 0;
   position: relative;
   top: auto;
-  display: flex;
+  display: none;
   justify-content: space-evenly;
   height: auto;
   z-index: 1;
-  background: linear-gradient(180deg, #012639 0%, #002d42 97.29%);
+  background: linear-gradient(180deg, #012639 0%, #002D42 97.29%);
 
   .active {
     border-top: 5px solid
@@ -79,8 +79,8 @@ export const Container = styled.div`
     position: sticky;
     top: 70px;
     width: 75px;
+    min-width: 75px;
     display: block;
-    height: 450px;
     padding-top: 15px;
 
     .active {

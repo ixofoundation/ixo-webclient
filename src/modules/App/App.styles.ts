@@ -18,6 +18,7 @@ export const theme = {
     darkButton: '#0C3550',
     gradientWhite: 'linear-gradient(180deg, #FFFFFF 0%, #FFFFFF 100%)',
   },
+  fontBlueDisabled: '#436779',
   fontBlueButtonNormal: 'white',
   fontBlueButtonHover: '#83D9F2',
   fontDarkBlueButtonNormal: 'white',

@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { NavLink } from "react-router-dom";
+import { deviceWidth } from 'lib/commonData'
 
 export const Tab = styled(NavLink)`
   background: #143F54;
@@ -17,7 +18,10 @@ export const Tab = styled(NavLink)`
 `;
 
 export const SectionTitle = styled.h3`
-  font-size: 1.375rem;
+  font-size: 1.125rem;
+  @media (min-width: ${deviceWidth.mobile}px) {
+    font-size: 1.375rem;
+  }
 `
 
 export const ActionButton = styled.button`
@@ -29,10 +33,42 @@ export const ActionButton = styled.button`
   background: transparent;
   width: 120px;
   height: 36px;
+
+  @media (max-width: ${deviceWidth.mobile}px) {
+    width: 100%;
+    height: 50px;
+    margin-top: 13px;
+  }
 `
 
 export const Divider = styled.hr`
   border-color: #143F54;
   margin-top: 1.75rem;
   margin-bottom: 1.75rem;
+`
+
+export const Container = styled.div`
+  color: white;
+  padding-bottom: 2rem;
+  padding-left: 15px;
+  padding-right: 15px;
+
+  @media (min-width: ${deviceWidth.mobile}px) {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+`
+
+export const MobileOnly = styled.div`
+  display: none;
+  @media (max-width: ${deviceWidth.mobile}px) {
+    display: block;
+  }
+`
+
+export const DesktopOnly = styled.div`
+  display: block;
+  @media (max-width: ${deviceWidth.mobile}px) {
+    display: none;
+  }
 `

@@ -16,7 +16,7 @@ const StyledContainer = styled.div`
   flex: 1;
 `
 
-export const BondRoutes: React.SFC<Pick<RouteComponentProps, 'match'>> = ({
+export const BondRoutes: React.FunctionComponent<Pick<RouteComponentProps, 'match'>> = ({
   match,
 }) => {
   const windowSize = useWindowSize()
@@ -45,7 +45,7 @@ export const BondRoutes: React.SFC<Pick<RouteComponentProps, 'match'>> = ({
     })
     setAssistantPanelActive(!assistantPanelActive)
   }
-
+  
   return (
     <AssistantContext.Provider value={{ active: assistantPanelActive }}>
       <StyledContainer>

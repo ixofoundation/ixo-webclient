@@ -6,6 +6,8 @@ import Linkedin from 'assets/icons/Linkedin'
 import Twitter from 'assets/icons/Twitter'
 import Github from 'assets/icons/Github'
 import { Button, ButtonTypes } from 'common/components/Form/Buttons'
+import { deviceWidth } from 'lib/commonData'
+
 const Logos = styled.div`
   display: flex;
   align-items: flex-end;
@@ -25,6 +27,10 @@ const Logos = styled.div`
 const Details = styled.div`
   display: flex;
   align-items: center;
+  @media (max-width: ${deviceWidth.mobile}px) {
+    flex-direction: column;
+  }
+
 `
 const Name = styled.h3`
   color: #fff;
@@ -63,6 +69,9 @@ const DetailContainer = styled.div`
   min-height: 600px;
   padding-top: 1.75rem;
   padding-bottom: 0.5rem;
+  @media (max-width: ${deviceWidth.mobile}px) {
+    min-width: auto;
+  }
 `
 
 const Avatar = styled.img`
@@ -96,6 +105,9 @@ const Divider = styled.hr`
   border-color: #143F54;
   margin-top: 1.75rem;
   margin-bottom: 0.75rem;
+  @media (max-width: ${deviceWidth.mobile}px) {
+    margin-top: 0.75rem;
+  }
 `
 const ButtonWrapper = styled.div`
   width: 120px;
@@ -103,12 +115,16 @@ const ButtonWrapper = styled.div`
   margin-top: 1.25rem;
 `
 
-const AgentDetail : React.SFC = () => {
+export interface Props {
+  onClose: () => void
+}
+
+const AgentDetail : React.FunctionComponent<Props> = ({onClose}) => {
   return (
     <DetailContainer>
       <Details>
-        <Avatar src={ require('assets/images/user-thumb.png') } className="mr-3" />
-        <div className="d-flex flex-column flex-grow-1 ml-3">
+        <Avatar src={ require('assets/images/user-thumb.png') } className="mb-2 mb-sm-0 mr-sm-3" />
+        <div className="d-flex flex-column flex-grow-1 ml-3 align-items-sm-start align-items-center">
           <Name>
             Joyce Montegomery
           </Name>
@@ -164,7 +180,7 @@ const AgentDetail : React.SFC = () => {
           <div>
             <img src={ require('assets/images/agents/icon-claims.svg') } className="mr-4" />
           </div>
-          <div>
+          <div className="flex-grow-1">
             <div className="d-flex justify-content-between">
               <div className="flex-grow-1">
                 38 Claims
@@ -191,7 +207,7 @@ const AgentDetail : React.SFC = () => {
           <div>
             <img src={ require('assets/images/agents/icon-payments.svg') } className="mr-4" />
           </div>
-          <div className="mr-5">
+          <div className="mr-2 mr-sm-5">
             Payments
           </div>
           <div>
@@ -208,7 +224,7 @@ const AgentDetail : React.SFC = () => {
         </div>
       </ItemsContainer>
       <ButtonWrapper >
-        <Button type={ ButtonTypes.dark } >
+        <Button type={ ButtonTypes.dark } onClick={ onClose }>
           Close
         </Button>
       </ButtonWrapper>

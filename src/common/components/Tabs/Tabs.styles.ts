@@ -107,9 +107,12 @@ export const createTabsContainer = (
       font-size: 10px;
       line-height: 1.4;
       font-weight: bold;
+      padding-left: 10px;
+      padding-right: 10px;
+
       i {
-        display: none;
         font-size: 16px;
+        margin-right: 5px;
       }
 
       &:not(.active) {
