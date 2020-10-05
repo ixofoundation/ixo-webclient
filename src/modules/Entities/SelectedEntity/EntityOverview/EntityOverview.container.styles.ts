@@ -2,6 +2,7 @@ import styled from 'styled-components'
 
 export const SidebarWrapper = styled.div`
   background: #dfe7f4;
+  padding-right: 0px;
 `
 
 export const MainPanelWrapper = styled.div`

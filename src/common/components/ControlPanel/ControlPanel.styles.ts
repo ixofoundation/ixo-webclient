@@ -26,7 +26,7 @@ export const ControlPanelWrapper = styled.div`
   background: #dfe7f4;
   box-sizing: border-box;
   border-radius: 5px;
-  padding: 0.75rem;
+  padding: 0rem 0.75rem;
   color: #47568c;
   overflow: visible scroll;
   padding-bottom: 3.5rem;
@@ -72,7 +72,7 @@ export const ControlPanelScrollWrapper = styled.div`
   transition: 0.3s all;
   @media (min-width: ${deviceWidth.desktop}px) {
     position: sticky;
-    top: 120px;
+    top: 132px;
     background: #dfe7f4;
     border-radius: 5px;
     ${ControlPanelWrapper} {
