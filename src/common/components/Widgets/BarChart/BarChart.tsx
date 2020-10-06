@@ -538,7 +538,7 @@ export default class BarChart extends React.Component<ParentProps, {}> {
     };
 
     return (
-      <Container className="container-fluid">
+      <Container className="w-100 mx-auto">
         {this.state.hasError ? (
           this.state.errorMessage
         ) : (

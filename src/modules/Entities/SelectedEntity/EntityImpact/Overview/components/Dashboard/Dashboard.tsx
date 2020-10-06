@@ -4,8 +4,6 @@ import {
   gridSizes,
 } from 'common/components/Wrappers/WidgetWrapper'
 import { LayoutWrapper } from 'common/components/Wrappers/LayoutWrapper'
-import { SingleStatistic } from 'common/components/SingleStatistic/SingleStatistic'
-import { StatType } from 'types/models'
 import { ProjectClaims } from '../../../components/Claims/Claims'
 import { CircleProgressbar } from 'common/components/Widgets/CircleProgressbar/CircleProgressbar'
 import BarChart, {
@@ -17,7 +15,12 @@ import {
   ClaimsLabels,
   ClaimsTopLabels,
   ClaimsWidget,
+  SectionHeader
 } from './Dashboard.styles'
+import { Button, ButtonTypes } from 'common/components/Form/Buttons'
+import ButtonSlider from 'common/components/ButtonSlider/ButtonSlider'
+import ProjectGovernance from './ProjectGovernance'
+import Targets from './Targets'
 
 export interface Props {
   did: string
@@ -57,21 +60,74 @@ const Dashboard: React.FunctionComponent<Props> = ({
   const getClaimsOfType = (claimType: string): Array<any> => {
     return [...claims].filter((claim) => claim.status === claimType)
   }
+  
+  const [activeTab, setActiveTab] = React.useState('educational_pass');
+
+  const handleTabClick = (tab) => {
+    setActiveTab(tab);
+  }
 
   return (
     <LayoutWrapper>
       <Container className="row">
         <div className="col-md-12">
           <WidgetWrapper
-            title="Timeline"
+            title="Project performance timeline"
             path={`/projects/${did}/detail/investors`}
             linkIcon={'icon-expand'}
+            titleIcon={ <img src={ require('assets/img/sidebar/performance.svg') } /> }
           >
-            <ClaimsTopLabels>
-              <p>Claims pending</p>
-              <p>Claims approved</p>
-              <p>Claims rejected</p>
-            </ClaimsTopLabels>
+            <div className="d-flex justify-content-between w-100 mt-3 mb-2">
+              <ButtonSlider>
+                <Button
+                  type={ ButtonTypes.dark }
+                  onClick={() => handleTabClick('educational_pass') }
+                  disabled={ activeTab !== 'educational_pass' }
+                >
+                  Educational Pass
+                </Button>
+                <Button
+                  type={ ButtonTypes.dark }
+                  onClick={() => handleTabClick('schools_built') }
+                  disabled={ activeTab !== 'schools_built' }
+                >
+                  Schools Built
+                </Button>
+                <Button
+                  type={ ButtonTypes.dark }
+                  onClick={() => handleTabClick('teachers_trained') }
+                  disabled={ activeTab !== 'teachers_trained' }
+                >
+                  Teachers Trained
+                </Button>
+                <Button
+                  type={ ButtonTypes.dark }
+                  onClick={() => handleTabClick('another_claim') }
+                  disabled={ activeTab !== 'another_claim' }
+                >
+                  Another Claim
+                </Button>
+                <Button
+                  type={ ButtonTypes.dark }
+                  onClick={() => handleTabClick('one_more_claim') }
+                  disabled={ activeTab !== 'one_more_claim' }
+                >
+                  One More Claim
+                </Button>
+                <Button
+                  type={ ButtonTypes.dark }
+                  onClick={() => handleTabClick('exams') }
+                  disabled={ activeTab !== 'exams' }
+                >
+                  Exams
+                </Button>
+              </ButtonSlider>
+              <ClaimsTopLabels>
+                <p>Claims pending</p>
+                <p>Claims approved</p>
+                <p>Claims rejected</p>
+              </ClaimsTopLabels>
+            </div>
             <BarChart
               barData={[
                 {
@@ -94,15 +150,17 @@ const Dashboard: React.FunctionComponent<Props> = ({
           </WidgetWrapper>
         </div>
         {
-          <div className="col-sm-6 col-lg-3">
+          <div className="col-sm-6 col-lg-3 py-3">
             <WidgetWrapper
-              title="Evaluators"
+              title="Project Governance"
               link={showAgentLinks}
               gridHeight={gridSizes.standard}
               path={`/projects/${did}/detail/evaluators`}
               linkIcon={'icon-expand'}
+              titleIcon={ <img src={ require('assets/img/sidebar/governance.png') } /> }
             >
-              <SingleStatistic
+              <ProjectGovernance />
+              {/* <SingleStatistic
                 title="Total"
                 type={StatType.decimal}
                 amount={evaluatorsCount}
@@ -113,66 +171,72 @@ const Dashboard: React.FunctionComponent<Props> = ({
                     value: evaluatorsPendingCount,
                   },
                 ]}
-              />
+              /> */}
             </WidgetWrapper>
           </div>
         }
         {
-          <div className="col-sm-6 col-lg-3">
+          <div className="col-sm-6 col-lg-3 py-3">
             <WidgetWrapper
-              title="Service Providers"
+              title="Outcomes Targets"
               link={showAgentLinks}
               gridHeight={gridSizes.standard}
               path={`/projects/${did}/detail/service-providers`}
               linkIcon={'icon-expand'}
+              titleIcon={ <img src={ require('assets/img/sidebar/target.png') } /> }
             >
-              <SingleStatistic
-                title="Total"
-                type={StatType.decimal}
-                amount={serviceProvidersCount}
-                descriptor={[
-                  { class: 'text-block', value: 'Pending Approval:' },
-                  {
-                    class: 'number-orange',
-                    value: serviceProvidersPendingCount,
-                  },
-                ]}
+              <Targets 
               />
             </WidgetWrapper>
           </div>
         }
         {
-          <div className="col-lg-6">
+          <div className="col-lg-6 py-3">
             <WidgetWrapper
               title="Impact claims"
-              path={`/projects/${did}/detail/claims`}
               gridHeight={gridSizes.standard}
-              linkIcon={'icon-expand'}
-              link={showClaimLinks}
+              titleIcon={ <img src={ require('assets/img/sidebar/claim.png') } /> }
             >
               <ClaimsWidget>
                 <ClaimsLabels>
                   <div>
                     <p>
-                      <strong>{successfulClaimsCount}</strong> approved
+                      <strong>{successfulClaimsCount}</strong> claims approved
                     </p>
                     <p>
-                      <strong>{pendingClaimsCount}</strong> pending approval
+                      <strong>{pendingClaimsCount}</strong> claims pending approval
                     </p>
                     <p>
-                      <strong>{rejectedClaimsCount}</strong> rejected
+                      <strong>{rejectedClaimsCount}</strong> claims rejected
                     </p>
                     <p>
                       <strong>{remainingClaimsCount}</strong> remaining claims
                     </p>
                   </div>
+                  <div>
+                    <SectionHeader>
+                      <img src={ require('assets/img/sidebar/profile.png') } />
+                      Agents
+                      <i className='icon-expand' />
+                    </SectionHeader>
+                    <div className="mt-4">
+                      <div style={{ paddingLeft: '40px' }}>
+                        <div>
+                          <strong>23</strong> authorised Service Providers
+                        </div>
+                        <div>
+                          <strong>5</strong> pending Service Providers
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </ClaimsLabels>
                 <CircleProgressbar
-                  approved={successfulClaimsCount}
-                  rejected={0}
-                  pending={0}
+                  approved={2}
+                  rejected={1}
+                  pending={1}
                   totalNeeded={requiredClaimsCount}
-                  descriptor={goal}
+                  descriptor={<>water systems built by 23 <strong>Agents</strong></>}
                 />
               </ClaimsWidget>
             </WidgetWrapper>

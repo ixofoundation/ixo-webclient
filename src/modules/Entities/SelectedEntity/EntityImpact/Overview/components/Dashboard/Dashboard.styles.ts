@@ -33,10 +33,11 @@ export const ClaimsLabels = styled.div`
 
   p:before {
     content: '';
-    width: 10px;
-    height: 10px;
+    width: 12px;
+    height: 12px;
     display: inline-block;
     margin-right: 25px;
+    border-radius: 12px;
   }
   p:nth-child(1):before {
     background: ${/* eslint-disable-line */ (props) => props.theme.ixoBlue};
@@ -55,19 +56,18 @@ export const ClaimsLabels = styled.div`
 export const ClaimsTopLabels = styled.div`
   display: flex;
   justify-content: flex-end;
-  margin-top: -25px;
-  margin-bottom: 30px;
 
   p {
-    margin: 0 5px;
+    margin: 0 23px;
     font-size: 13px;
   }
   p:before {
     content: '';
-    width: 10px;
-    height: 10px;
+    width: 12px;
+    height: 12px;
     display: inline-block;
     margin-right: 10px;
+    border-radius: 12px;
   }
   p:nth-child(1):before {
     background: #035971;
@@ -84,5 +84,27 @@ export const ClaimsTopLabels = styled.div`
     justify-content: flex-start;
     margin: 15px 0 15px 12px;
     flex-wrap: wrap;
+  }
+`
+
+export const SectionHeader = styled.div`
+  font-size: 1.125rem;
+  cursor: pointer;
+
+  i {
+    margin-left: 1rem;
+    transition: transform 0.3s ease, opacity 0.3s;
+    opacity: 0.4;
+  }
+
+  :hover i {
+    font-size: 1.25rem;
+    transform: scale(1.1);
+    opacity: 1;
+  }
+
+  img {
+    width: 1.1rem;
+    margin-right: 0.625rem;
   }
 `

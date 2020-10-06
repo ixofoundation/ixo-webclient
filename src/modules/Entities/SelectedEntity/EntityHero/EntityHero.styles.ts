@@ -32,7 +32,7 @@ export const HeroInner = styled.div`
   padding-bottom: 2rem;
   @media (min-width: ${deviceWidth.tablet}px) {
     padding-top: 3rem;
-    padding-bottom: 1rem;
+    padding-bottom: 0rem;
   }
 `
 

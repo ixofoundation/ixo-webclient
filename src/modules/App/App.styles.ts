@@ -17,6 +17,7 @@ export const theme = {
     gradientButtonRed: 'linear-gradient(180deg, #C5202D 0%, #AB101C 100%)',
     darkButton: '#0C3550',
     gradientWhite: 'linear-gradient(180deg, #FFFFFF 0%, #FFFFFF 100%)',
+    heavyDarkBlue: '#012131',
   },
   fontBlueDisabled: '#436779',
   fontBlueButtonNormal: 'white',
@@ -30,6 +31,7 @@ export const theme = {
   fontGrey: '#282828', // generally text on white background
   fontRoboto: 'Roboto, sans-serif',
   fontRobotoCondensed: 'Roboto Condensed, sans-serif',
+  fontSkyBlue: '#39C3E6',
   grey: '#E9E8E8', // borders for project list cards, progress bar background on projects list
   darkGrey: '#656969', // "load more projects" button on project list
   lightGrey: '#B6B6B6',

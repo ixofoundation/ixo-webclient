@@ -99,7 +99,7 @@ export interface Props {
   target?: string;
 }
 
-export const Button: React.SFC<Props> = (props) => {
+export const Button: React.FunctionComponent<Props> = (props) => {
   const renderPlus = (): JSX.Element => {
     if (props.plus) {
       return <Plus>+ </Plus>;
