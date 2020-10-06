@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { deviceWidth } from "../../../lib/commonData";
 
 export const Container = styled.div`
   display: flex;

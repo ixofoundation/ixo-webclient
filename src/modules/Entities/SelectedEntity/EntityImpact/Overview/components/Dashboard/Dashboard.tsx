@@ -4,8 +4,6 @@ import {
   gridSizes,
 } from 'common/components/Wrappers/WidgetWrapper'
 import { LayoutWrapper } from 'common/components/Wrappers/LayoutWrapper'
-import { SingleStatistic } from 'common/components/SingleStatistic/SingleStatistic'
-import { StatType } from 'types/models'
 import { ProjectClaims } from '../../../components/Claims/Claims'
 import { CircleProgressbar } from 'common/components/Widgets/CircleProgressbar/CircleProgressbar'
 import BarChart, {
@@ -142,7 +140,7 @@ const Dashboard: React.FunctionComponent<Props> = ({
           </WidgetWrapper>
         </div>
         {
-          <div className="col-sm-6 col-lg-3">
+          <div className="col-sm-6 col-lg-3 py-3">
             <WidgetWrapper
               title="Project Governance"
               link={showAgentLinks}
@@ -168,7 +166,7 @@ const Dashboard: React.FunctionComponent<Props> = ({
           </div>
         }
         {
-          <div className="col-sm-6 col-lg-3">
+          <div className="col-sm-6 col-lg-3 py-3">
             <WidgetWrapper
               title="Outcomes Targets"
               link={showAgentLinks}
@@ -183,7 +181,7 @@ const Dashboard: React.FunctionComponent<Props> = ({
           </div>
         }
         {
-          <div className="col-lg-6">
+          <div className="col-lg-6 py-3">
             <WidgetWrapper
               title="Impact claims"
               gridHeight={gridSizes.standard}
