@@ -21,6 +21,7 @@ export const HeroInner = styled.div`
   position: relative;
   padding-top: 4rem;
   padding-bottom: 2rem;
+  
   @media (min-width: ${deviceWidth.tablet}px) {
     padding-top: 3rem;
     padding-bottom: 1rem;
@@ -30,7 +31,7 @@ export const HeroInner = styled.div`
 export const Title = styled.h1`
   font-family: ${(props: any): string => props.theme.fontRobotoCondensed};
   font-weight: normal;
-  font-size: 2.25rem;
+  font-size: 1.75rem;
   line-height: 1.25;
   margin: 0.5rem 0;
   color: white;
@@ -57,7 +58,7 @@ export const Description = styled.p`
 
 export const SingleSDG = styled.a`
   font-family: ${(props: any): string => props.theme.fontRobotoCondensed};
-  color: ${(props: any): string => props.theme.fontBlue};
+  color: ${(props: any): string => props.theme.fontBlueDisabled};
   font-weight: 300;
   font-size: 0.75rem;
   margin: 0 0.625rem 0 0;
@@ -154,3 +155,8 @@ export const SubNavItem = styled(NavLink).attrs({
     margin: 0 10px;
   }
 `;
+
+export const SDGIcon = styled.i`
+  transform: rotate(-90deg);
+  font-size: 0.75rem !important;
+`

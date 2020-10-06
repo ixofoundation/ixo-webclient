@@ -5,6 +5,7 @@ import Message from 'assets/icons/Message'
 import Linkedin from 'assets/icons/Linkedin'
 import Twitter from 'assets/icons/Twitter'
 import Github from 'assets/icons/Github'
+
 const CardContainer = styled.div`
   width: 100%;
   height: 158px;
@@ -33,6 +34,7 @@ const Logos = styled.div`
 const Details = styled.div`
   display: flex;
   align-items: flex-end;
+  cursor: pointer;
 `
 const Name = styled.h3`
   color: #fff;
@@ -70,10 +72,13 @@ const Avatar = styled.img`
   height: 88px;
 `
 
+export interface Props {
+  handleClick: () => void
+}
 
-const AgentCard: React.SFC = () => {
+const AgentCard: React.FunctionComponent<Props> = ({handleClick}) => {
   return (
-    <CardContainer>
+    <CardContainer onClick={ () => handleClick() }>
       <Details>
         <Avatar src={ require('assets/images/user-thumb.png') } className="mr-1" />
         <div className="d-flex flex-column flex-grow-1 ml-2">

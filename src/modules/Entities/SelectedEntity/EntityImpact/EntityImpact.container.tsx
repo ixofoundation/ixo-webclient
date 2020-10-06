@@ -5,7 +5,7 @@ import { RootState } from 'common/redux/types'
 import { Agent, EntityType } from '../../types'
 import EntityHero from '../EntityHero/EntityHero'
 import SideBar from './components/SideBar/SideBar'
-import { DetailContainer } from './EntityImpact.styles'
+import { DetailContainer, ContentContainer } from './EntityImpact.styles'
 import * as entitySelectors from '../SelectedEntity.selectors'
 import * as accountSelectors from 'modules/Account/Account.selectors'
 import { getEntity } from '../SelectedEntity.actions'
@@ -15,6 +15,7 @@ import { Spinner } from 'common/components/Spinner'
 import { Route } from 'react-router-dom'
 import EntityImpactOverview from './Overview/Overview.container'
 import EntityAgents from './EntityAgents/EntityAgents.container'
+import {ProjectAgents} from 'components/project/agents/ProjectAgents'
 
 interface Props {
   match: any
@@ -71,30 +72,30 @@ class EntityImpact extends React.Component<Props> {
     }
 
     return (
-      <>
-        <EntityHero
-          type={type}
+      <DetailContainer>
+        <SideBar
           did={did}
-          name={name}
-          description={description}
-          dateCreated={dateCreated}
-          creatorName={creatorName}
-          location={country}
-          sdgs={sdgs}
-          loggedIn={isLoggedIn}
-          onlyTitle={false}
+          match={match}
+          location={location}
+          showAgentLinks={entityUtils.isUserInRolesOfEntity(
+            userDid,
+            creatorDid,
+            agents,
+            [AgentRole.Owner],
+          )}
         />
-        <DetailContainer>
-          <SideBar
+        <ContentContainer>
+          <EntityHero
+            type={type}
             did={did}
-            match={match}
-            location={location}
-            showAgentLinks={entityUtils.isUserInRolesOfEntity(
-              userDid,
-              creatorDid,
-              agents,
-              [AgentRole.Owner],
-            )}
+            name={name}
+            description={description}
+            dateCreated={dateCreated}
+            creatorName={creatorName}
+            location={country}
+            sdgs={sdgs}
+            loggedIn={isLoggedIn}
+            onlyTitle={true}
           />
           <Route
             exact
@@ -116,8 +117,13 @@ class EntityImpact extends React.Component<Props> {
             path={`/projects/:projectDID/detail/investors`}
             component={EntityAgents}
           />
-        </DetailContainer>
-      </>
+          <Route
+            exact
+            path={`/projects/:projectDID/detail/agents`}
+            component={ProjectAgents}
+          />
+        </ContentContainer>
+      </DetailContainer>
     )
   }
 }

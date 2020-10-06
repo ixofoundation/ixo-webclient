@@ -170,7 +170,7 @@ export const AssistantWrapper = styled.div`
 `
 
 export const AssistantHeader = styled.div`
-  padding: 18px 12px;
+  padding: 12px 8px;
   margin-top: 16px;
   display: flex;
   align-items: center;

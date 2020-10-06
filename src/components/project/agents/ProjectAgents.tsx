@@ -5,6 +5,9 @@ import {
   SectionTitle,
   ActionButton,
   Divider,
+  Container,
+  MobileOnly,
+  DesktopOnly
 } from './ProjectAgents.styles'
 
 import AgentCard from './AgentCard'
@@ -28,8 +31,8 @@ export class ProjectAgents extends React.Component<ParentProps, State> {
   render() {
     const { isModalOpened } = this.state;
     return (
-      <div className="container-fluid text-white">
-        <div className="row mb-4">
+      <Container>
+        <div className="row mb-4 d-none d-sm-block">
           <div className="col-sm-12">
             <div className="text-right">
               <Tab to='#'>
@@ -47,53 +50,87 @@ export class ProjectAgents extends React.Component<ParentProps, State> {
             </div>
           </div> 
         </div>
-        <div className="row mb-3">
-          <div className="col-sm-12 d-flex justify-content-between">
-            <SectionTitle>
-              Investors
-            </SectionTitle>
-            <ActionButton>
-              Invite
-            </ActionButton>
-          </div>
-        </div>
-        <div className="row">
-          <div className="col-sm-12">
-            {
-              this.handleRenderAgents([] ,'No investors on this project yet')
-            }
-          </div>
-        </div>
+        {
+          this.renderAgentsSection('Agents', 'Invite All')
+        }
         <Divider />
+        {
+          this.renderAgentsSection('Pending approval', 'Approve All')
+        }
+        <Divider />
+        {
+          this.renderAgentsSection('Invitations waiting response', 'New Invite')
+        }
+        <Divider />
+        {
+          this.renderAgentsSection('Not Authorized', 'Message All')
+        }
         <ModalWrapper
           isModalOpen={ isModalOpened }
           handleToggleModal={() => { this.setState({ isModalOpened: false }) }}
         >
-          <AgentDetail />
+          <AgentDetail
+            onClose={ () => { this.setState({ isModalOpened: false }) } }
+          />
         </ModalWrapper>
-      </div>
+      </Container>
     )
   }
 
-  agentClicked = () => {
-    
+  renderAgentsSection = (sectionTitle: string, sectionAction: string): JSX.Element => {
+    return (
+      <React.Fragment>
+        <div className="row mb-sm-3">
+          <div className="col-sm-12 d-flex justify-content-between">
+            <SectionTitle>
+              { sectionTitle }
+            </SectionTitle>
+            <DesktopOnly>
+              <ActionButton>
+                { sectionAction }
+              </ActionButton>
+            </DesktopOnly>
+          </div>
+        </div>
+        {
+          this.handleRenderAgents([] ,'No investors on this project yet')
+        }
+        <MobileOnly>
+          <ActionButton>
+            { sectionAction }
+          </ActionButton>
+        </MobileOnly>
+      </React.Fragment>
+    );
   }
 
-  handleRenderAgents = (agents = [] ,emptyMsg: string) => {
+  agentClicked = (): void => {
+    this.setState({ isModalOpened: true })
+  }
+
+  handleRenderAgents = (agents = [] ,emptyMsg: string): JSX.Element => {
     if (agents.length === 0) {
       return (
         <div className="row">
-          <div className="col-sm-3">
-            <AgentCard />
+          <div className="col-sm-3 my-2">
+            <AgentCard 
+              handleClick={ this.agentClicked }
+            />
           </div>
-          <div className="col-sm-3">
-            <AgentCard />
+          <div className="col-sm-3 my-2">
+            <AgentCard
+              handleClick={ this.agentClicked }
+            />
           </div>
-          <div className="col-sm-3">
-            <AgentCard />
+          <div className="col-sm-3 my-2">
+            <AgentCard 
+              handleClick={ this.agentClicked }
+            />
           </div>
-          <div className="col-sm-3">
-            <AgentCard />
+          <div className="col-sm-3 my-2">
+            <AgentCard
+              handleClick={ this.agentClicked }
+            />
           </div>
         </div>
         

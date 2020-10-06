@@ -11,6 +11,7 @@ import {
   HeroContainer,
   Title,
   StyledFundingTitle,
+  SDGIcon,
 } from './ProjectHero.styles'
 
 import { EntityType } from 'modules/Entities/types'
@@ -90,6 +91,12 @@ export const ProjectHero: React.SFC<Props> = ({
   const renderSDGs = (): JSX.Element => {
     return (
       <>
+        <SingleSDG
+          href={'/'}
+        >
+          Explore Projects
+        </SingleSDG>
+        
         {project.sdgs.map((SDG, index) => {
           const goal = Math.floor(SDG)
           if (goal > 0 && goal <= SDGArray.length) {
@@ -98,8 +105,8 @@ export const ProjectHero: React.SFC<Props> = ({
                 target="_blank"
                 href={SDGArray[goal - 1].url}
                 key={index}
-              >
-                <i className={`icon-sdg-${SDGArray[goal - 1].ico}`} />
+              >  
+                <SDGIcon className={`icon-down`} />
                 {goal}. {SDGArray[goal - 1].title}
               </SingleSDG>
             )
@@ -110,20 +117,21 @@ export const ProjectHero: React.SFC<Props> = ({
       </>
     )
   }
+  
   return (
     <React.Fragment>
       {onlyTitle && windowSize.width > deviceWidth.tablet && (
         <StyledFundingTitle>{project.title}</StyledFundingTitle>
       )}
       <HeroContainer className="container-fluid" onlyTitle={false}>
-        {!onlyTitle && windowSize.width > deviceWidth.tablet && (
-          <HeroInner className={`${isDetail && 'detailed'}`}>
-            <div className="row">
-              <div className="col-sm-12">
-                {renderSDGs()}
-                <Title>{project.title}</Title>
-              </div>
+      {!onlyTitle && windowSize.width > deviceWidth.tablet && (
+        <HeroInner className={`${isDetail && 'detailed'}`}>
+          <div className="row">
+            <div className="col-sm-12">
+              {renderSDGs()}
+              <Title>{project.title}</Title>
             </div>
+          </div>
           </HeroInner>
         )}
         <MediaQuery minWidth={`${deviceWidth.desktop}px`}>

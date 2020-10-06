@@ -14,13 +14,11 @@ import {
   HeroInfoItem,
   Title,
   Description,
-  StyledFundingTitle,
 } from './EntityHero.styles'
 import CalendarSort from 'assets/icons/CalendarSort'
 import availableFlags from 'lib/json/availableFlags.json'
 import { EntityType } from 'modules/Entities/types'
 import { entityTypeMap } from 'modules/Entities/strategy-map'
-import { useWindowSize } from 'common/hooks'
 import { deviceWidth } from 'lib/commonData'
 import IxoCircle from 'assets/images/ixo-circle.png'
 import MediaQuery from 'react-responsive'
@@ -56,8 +54,7 @@ const EntityHero: React.FunctionComponent<Props> = ({
   enableAssistantButton = true,
 }) => {
   const bondDid = useSelector(selectEntityBondDid)
-  console.log('bondDid', bondDid)
-  const windowSize = useWindowSize()
+  
   const buttonsArray = [
     {
       iconClass: `icon-${type.toLowerCase()}`,
@@ -132,45 +129,45 @@ const EntityHero: React.FunctionComponent<Props> = ({
       </>
     )
   }
+
   return (
     <>
-      {onlyTitle && windowSize.width > deviceWidth.tablet && (
-        <StyledFundingTitle>{name}</StyledFundingTitle>
-      )}
-      <HeroContainer className="container-fluid" onlyTitle={false}>
-        {!onlyTitle && windowSize.width > deviceWidth.tablet && (
-          <HeroInner className="container detailed">
-            <div className="row">
-              <div className="col-sm-12">
-                {renderSDGs()}
-                <Title>{name}</Title>
-                <Description>{description}</Description>
-                <HeroInfoItemsWrapper>
-                  <HeroInfoItem>
-                    <CalendarSort fill="#A5ADB0" />
-                    <span>{dateCreated.format('d MMM ‘YY')}</span>
-                  </HeroInfoItem>
-                  <HeroInfoItem>
-                    <img src={IxoCircle} />
-                    <span>{creatorName}</span>
-                  </HeroInfoItem>
-                  {location && (
+      <HeroContainer className="container-fluid" onlyTitle={onlyTitle}>
+        <HeroInner className="detailed">
+          <div className="row">
+            <div className="col-sm-12">
+              {renderSDGs()}
+              <Title>{name}</Title>
+              {
+                !onlyTitle && <>
+                  <Description>{description}</Description>
+                  <HeroInfoItemsWrapper>
                     <HeroInfoItem>
-                      {getFlagURL(location) !== '' && (
-                        <Flag
-                          style={{
-                            background: getFlagURL(location),
-                          }}
-                        />
-                      )}
-                      <span>{getCountryName(location)}</span>
+                      <CalendarSort fill="#A5ADB0" />
+                      <span>{dateCreated.format('d MMM ‘YY')}</span>
                     </HeroInfoItem>
-                  )}
-                </HeroInfoItemsWrapper>
-              </div>
+                    <HeroInfoItem>
+                      <img src={IxoCircle} />
+                      <span>{creatorName}</span>
+                    </HeroInfoItem>
+                    {location && (
+                      <HeroInfoItem>
+                        {getFlagURL(location) !== '' && (
+                          <Flag
+                            style={{
+                              background: getFlagURL(location),
+                            }}
+                          />
+                        )}
+                        <span>{getCountryName(location)}</span>
+                      </HeroInfoItem>
+                    )}
+                  </HeroInfoItemsWrapper>  
+                </>
+              }
             </div>
-          </HeroInner>
-        )}
+          </div>
+        </HeroInner>
         <MediaQuery minWidth={`${deviceWidth.desktop}px`}>
           <CreateEntityDropDown />
         </MediaQuery>

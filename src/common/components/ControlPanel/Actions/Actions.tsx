@@ -70,7 +70,7 @@ const Actions: React.FunctionComponent<Props> = ({
       </Tooltip>
     )
   }
-
+  
   return (
     <>
       <Route
