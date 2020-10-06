@@ -24,9 +24,9 @@ export const WidgetContainer = styled.div`
   }
 `
 
-export const ApprovedText = styled.p``
+export const ApprovedText = styled.span``
 
-export const TotalText = styled.p``
+export const TotalText = styled.span``
 
 export const Descriptor = styled.p``
 
@@ -44,15 +44,15 @@ export const Text = styled.div`
   }
 
   ${ApprovedText} {
-    color: ${/* eslint-disable-line */ props => props.theme.fontBlue};
+    color: white;
     font-size: 30px;
-    font-weight: 500;
+    font-weight: bold;
     margin: 0;
   }
 
   ${TotalText} {
     color: white;
-    font-size: 20px;
+    font-size: 30px;
     margin: 0;
   }
 
@@ -60,5 +60,6 @@ export const Text = styled.div`
     font-size: 16px;
     color: white;
     margin: 5px 0 0 0;
+    line-height: 25px;
   }
 `

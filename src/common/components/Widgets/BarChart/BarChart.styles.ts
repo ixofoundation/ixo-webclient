@@ -6,4 +6,5 @@ export const LabelsX = styled.div`
   display: flex;
   justify-content: space-between;
   padding-left: 25px;
+  font-size: 13px;
 `

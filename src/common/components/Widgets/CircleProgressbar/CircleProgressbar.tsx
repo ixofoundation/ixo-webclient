@@ -12,7 +12,7 @@ export interface ParentProps {
   rejected: number
   pending: number
   totalNeeded: number
-  descriptor: string
+  descriptor: React.ReactNode
 }
 
 export interface State {
@@ -103,8 +103,10 @@ export class CircleProgressbar extends React.Component<ParentProps, State> {
     return (
       <WidgetContainer>
         <Text>
-          <ApprovedText>{this.props.approved}</ApprovedText>
-          <TotalText>/{this.props.totalNeeded}</TotalText>
+          <div>
+            <ApprovedText>{this.props.approved}</ApprovedText>
+            <TotalText>/{this.props.totalNeeded}</TotalText>
+          </div>
           <Descriptor>{this.props.descriptor}</Descriptor>
         </Text>
         <div className="circle">
