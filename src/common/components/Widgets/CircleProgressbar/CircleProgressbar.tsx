@@ -116,7 +116,7 @@ export class CircleProgressbar extends React.Component<ParentProps, State> {
               cx={svgSize / 2}
               cy={svgSize / 2}
               r={radius}
-              strokeWidth="3"
+              strokeWidth="4"
             />
             <circle
               className="progress__value"
@@ -124,7 +124,7 @@ export class CircleProgressbar extends React.Component<ParentProps, State> {
               cy={svgSize / 2}
               r={radius}
               strokeDasharray={this.getCircumference()}
-              strokeWidth="6"
+              strokeWidth="4"
               stroke="url(#gradientRejected)"
               strokeDashoffset={this.progress(this.state.percentRejected)}
             />
@@ -133,7 +133,7 @@ export class CircleProgressbar extends React.Component<ParentProps, State> {
               cx={svgSize / 2}
               cy={svgSize / 2}
               r={radius}
-              strokeWidth="6"
+              strokeWidth="4"
               strokeDasharray={this.getCircumference()}
               stroke="url(#gradientPending)"
               strokeDashoffset={this.progress(this.state.percentPending)}
@@ -143,7 +143,7 @@ export class CircleProgressbar extends React.Component<ParentProps, State> {
               cx={svgSize / 2}
               cy={svgSize / 2}
               r={radius}
-              strokeWidth="6"
+              strokeWidth="4"
               strokeDasharray={this.getCircumference()}
               stroke="url(#gradientApproved)"
               strokeDashoffset={this.progress(this.state.percentApproved)}

@@ -63,6 +63,10 @@ const Dashboard: React.FunctionComponent<Props> = ({
   
   const [activeTab, setActiveTab] = React.useState('educational_pass');
 
+  const handleTabClick = (tab) => {
+    setActiveTab(tab);
+  }
+
   return (
     <LayoutWrapper>
       <Container className="row">
@@ -77,36 +81,42 @@ const Dashboard: React.FunctionComponent<Props> = ({
               <ButtonSlider>
                 <Button
                   type={ ButtonTypes.dark }
+                  onClick={() => handleTabClick('educational_pass') }
                   disabled={ activeTab !== 'educational_pass' }
                 >
                   Educational Pass
                 </Button>
                 <Button
                   type={ ButtonTypes.dark }
+                  onClick={() => handleTabClick('schools_built') }
                   disabled={ activeTab !== 'schools_built' }
                 >
                   Schools Built
                 </Button>
                 <Button
                   type={ ButtonTypes.dark }
+                  onClick={() => handleTabClick('teachers_trained') }
                   disabled={ activeTab !== 'teachers_trained' }
                 >
                   Teachers Trained
                 </Button>
                 <Button
                   type={ ButtonTypes.dark }
+                  onClick={() => handleTabClick('another_claim') }
                   disabled={ activeTab !== 'another_claim' }
                 >
                   Another Claim
                 </Button>
                 <Button
                   type={ ButtonTypes.dark }
+                  onClick={() => handleTabClick('one_more_claim') }
                   disabled={ activeTab !== 'one_more_claim' }
                 >
                   One More Claim
                 </Button>
                 <Button
                   type={ ButtonTypes.dark }
+                  onClick={() => handleTabClick('exams') }
                   disabled={ activeTab !== 'exams' }
                 >
                   Exams
