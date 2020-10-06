@@ -128,14 +128,14 @@ class CreateEntityClaims extends CreateEntityBase<Props> {
           key={id}
           templateId={templateId}
           templates={templates.map((template) => {
-            const { name: title, did, dateCreated } = template
-
+            const { name: title, did, dateCreated, ddoTags } = template
             return {
               title,
               did,
               dateCreated: dateCreated.format('DD-MMM-YYYY'),
               imageUrl: null,
               previewUrl: '',
+              ddoTags
             }
           })}
           title={title}
@@ -392,7 +392,6 @@ class CreateEntityClaims extends CreateEntityBase<Props> {
         approvalCriteria,
         enrichments,
       } = entityClaim
-
       return (
         <>
           <Container key={id}>

@@ -1,4 +1,7 @@
 import React from 'react'
+import styled from 'styled-components'
+import _ from 'lodash'
+import Select from 'react-select'
 import Modal from '../Modal/Modal'
 import { Entity } from './types'
 import TemplateClipboard from 'assets/icons/TemplateClipboard'
@@ -9,6 +12,7 @@ import {
 } from './EntitySelector.styles'
 import EntityCard from './EntityCard/EntityCard'
 import { LinkButton } from '../JsonForm/JsonForm.styles'
+import SearchInput from './SearchInput'
 
 interface Props {
   entities: Entity[]
@@ -18,8 +22,29 @@ interface Props {
 
 interface State {
   isModalOpen: boolean
-  selectedEntityId: string
+  selectedEntityId: string,
+  searchInputEntityId: string,
+  selectedOption: string,
 }
+
+const StyledSearchWrapper = styled.div`
+  height: 100%;
+`
+
+const options = [
+  { value: 'service', label: 'Service' },
+  { value: 'outcome', label: 'Outcome' },
+  { value: 'credential', label: 'Credential' },
+  { value: 'useOfFunds', label: 'Use Of Funds' },
+  { value: 'payment', label: 'Payment' },
+  { value: 'investment', label: 'Investment' },
+  { value: 'banking', label: 'Banking' },
+  { value: 'procurement', label: 'Procurement' },
+  { value: 'provenance', label: 'Provenance' },
+  { value: 'ownership', label: 'Ownership' },
+  { value: 'custody', label: 'Custody' },
+  { value: 'dispute', label: 'Dispute' },
+]
 
 class EntitySelector extends React.Component<Props, State> {
   constructor(props) {
@@ -28,6 +53,8 @@ class EntitySelector extends React.Component<Props, State> {
     this.state = {
       isModalOpen: false,
       selectedEntityId: this.props.selectedEntityId,
+      searchInputEntityId: null,
+      selectedOption: null,
     }
   }
 
@@ -57,9 +84,34 @@ class EntitySelector extends React.Component<Props, State> {
     onSelectEntity(this.state.selectedEntityId)
   }
 
-  renderEntities = (): JSX.Element[] => {
+  renderEntities = (keyword: string, selectedOption: string): JSX.Element[] => {
     const NUMBER_OF_ROWS = 3
-    const { entities } = this.props
+    const { entities: entitiesFromProps } = this.props
+    let entities = [], tempEntities = []
+
+    /// filtering by keyword and option selected ///
+
+    if (keyword === null || keyword.length <= 0) {
+      tempEntities = entitiesFromProps
+    } else {
+      tempEntities = _.without(_.map(entitiesFromProps, entity => {
+        if (_.includes(entity.did, keyword))
+          return entity
+        return undefined
+      }), undefined)
+    }
+
+    if (selectedOption !== null) {
+      console.log('selectedOption',selectedOption)
+      _.map(tempEntities, entity => {
+        console.log(_.get(entity, 'ddoTags[1].tags', []))
+        if (_.includes(_.get(entity, 'ddoTags[1].tags', []), _.upperFirst(_.toLower(selectedOption))))
+          entities.push(entity)
+      })
+    } else {
+      entities = tempEntities
+    }
+
     const { selectedEntityId } = this.state
     const rowCount = Math.ceil(entities.length / NUMBER_OF_ROWS)
 
@@ -116,8 +168,13 @@ class EntitySelector extends React.Component<Props, State> {
     )
   }
 
+  onSearchInputChange = (e): void => {
+    console.log('onSearchInputChange', e)
+    this.setState({searchInputEntityId: e.target.value})
+  }
+
   render(): JSX.Element {
-    const { isModalOpen, selectedEntityId } = this.state
+    const { isModalOpen, selectedEntityId, searchInputEntityId, selectedOption } = this.state
 
     return (
       <>
@@ -131,7 +188,17 @@ class EntitySelector extends React.Component<Props, State> {
               onSubmit={this.onSubmit}
               submitEnabled={!!selectedEntityId}
             >
-              <ListWrapper>{this.renderEntities()}</ListWrapper>
+              <div className="row mb-4">
+                <div className="col-md-8 col-sm-12">
+                  <StyledSearchWrapper>
+                    <SearchInput onChange={this.onSearchInputChange} />
+                  </StyledSearchWrapper>
+                </div>
+                <div className="col-md-4 col-sm-12 col-xs-12">
+                  <Select options={options} onChange={(e: any) => this.setState({selectedOption: e.value})} />
+                </div>
+              </div>
+              <ListWrapper>{this.renderEntities(searchInputEntityId, selectedOption)}</ListWrapper>
             </Modal>
           </ModalWrapper>
         )}
