@@ -8,6 +8,7 @@ export const MobileControlPanelToggle = styled.button`
   right: -1px;
   bottom: auto;
   left: auto;
+  z-index: 20;
   transform: translateY(calc(-100% + 1px));
   background: #dfe7f4;
   border: none;
@@ -23,17 +24,19 @@ export const MobileControlPanelToggle = styled.button`
 `
 
 export const ControlPanelWrapper = styled.div`
-  background: #dfe7f4;
+  background: #F0F3F9;
   box-sizing: border-box;
-  border-radius: 5px;
-  padding: 0rem 0.75rem;
+  padding: 0rem;
+  padding-left: 0.7rem;
+  padding-right: 0.25rem;
   color: #47568c;
   overflow: visible scroll;
+  overflow-x: hidden;
   padding-bottom: 3.5rem;
   ::-webkit-scrollbar {
     width: 8px;
   }
- 
+  
   ::-webkit-scrollbar-thumb {
     background: #C1CBD0;
     border-radius: 8px;
@@ -49,6 +52,8 @@ export const ControlPanelWrapper = styled.div`
     border-top-right-radius: 0;
     &.open {
       left: 0;
+      top: 79px;
+      padding-top: 79px;
     }
   }
 
@@ -73,7 +78,6 @@ export const ControlPanelScrollWrapper = styled.div`
   @media (min-width: ${deviceWidth.desktop}px) {
     position: sticky;
     top: 132px;
-    background: #dfe7f4;
     border-radius: 5px;
     ${ControlPanelWrapper} {
       height: calc(100vh - 106px);
@@ -91,7 +95,7 @@ export const ControlPanelSection = styled.div`
   border-radius: 5px;
   padding: 1rem 0.875rem;
   &:not(:first-child) {
-    margin-top: 0.625rem;
+    margin-top: 0.7rem;
     min-height: 170px;
   }
   h4 {
@@ -104,6 +108,8 @@ export const ControlPanelSection = styled.div`
     display: flex;
     align-items: center;
     text-transform: none;
+    color: #436779;
+
     .heading-icon svg {
       width: 25px;
       padding: 2px;
@@ -158,6 +164,10 @@ export const SquareButtonSection = styled.div`
 
       &.selected {
         border: 1px solid ${(props: any): string => props.theme.ixoBlue};
+      }
+
+      &.grey-border {
+        border: 1px solid #D8D8D8;
       }
     }
     &:hover {

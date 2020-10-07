@@ -1,6 +1,6 @@
 import React from "react";
 
-const GitCoin = (width: number): JSX.Element => {
+const GitCoin = ({width}): JSX.Element => {
   return (
     <svg
       width={width || 18}

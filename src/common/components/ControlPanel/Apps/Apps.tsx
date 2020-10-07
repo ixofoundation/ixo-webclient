@@ -5,6 +5,8 @@ import { AppButtonsWrapper } from './Apps.styles'
 import { ControlPanelSection } from '../ControlPanel.styles'
 import { Widget } from '../types'
 import RiotChat from './RiotChat/RiotChat'
+import GitCoin from './GitCoin/GitCoin'
+import DaoStack from './DaoStack/DaoStack'
 
 interface Props {
   widget: Widget
@@ -22,6 +24,14 @@ const Apps: React.FunctionComponent<Props> = ({
 
   const riotChatControl = controls.find(
     (control) => control['@type'] === 'RiotChat',
+  )
+
+  const gitCoinControl = controls.find(
+    (control) => control['@type'] === 'Gitcoin',
+  )
+
+  const daoStackControl = controls.find(
+    (control) => control['@type'] === 'DaoStack',
   )
 
   return (
@@ -43,6 +53,14 @@ const Apps: React.FunctionComponent<Props> = ({
       <AppButtonsWrapper>
         {riotChatControl && (
           <RiotChat buttonClassName="show" control={riotChatControl} />
+        )}
+        {
+          gitCoinControl && (
+            <GitCoin buttonClassName="show" control={gitCoinControl} />
+        )}
+        {
+          daoStackControl && (
+            <DaoStack buttonClassName="show" control={daoStackControl} />
         )}
       </AppButtonsWrapper>
     </ControlPanelSection>

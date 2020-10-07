@@ -14,10 +14,12 @@ const Shield: React.FunctionComponent<Props> = ({
   const shieldUrl = encodeURIComponent(
     `${process.env.REACT_APP_BLOCK_SYNC_URL}/api/project/shields/${field}/${entityDid}`
   );
+  console.log('adsfasdfasfasdf', iconColor, title);
+  console.log('gggggggggggggggg', `${process.env.REACT_APP_BLOCK_SYNC_URL}/api/project/shields/${field}/${entityDid}`);
   return (
     <img
       key={field}
-      src={`https://img.shields.io/endpoint?url=${shieldUrl}&color=${iconColor}&label=${title}&style=flat&logo=&labelColor=lightgrey`}
+      src={`https://img.shields.io/endpoint?url=${shieldUrl}&color=${iconColor}&label=${title}&style=flat-square&logo=&labelColor=FFF`}
     />
   );
 };

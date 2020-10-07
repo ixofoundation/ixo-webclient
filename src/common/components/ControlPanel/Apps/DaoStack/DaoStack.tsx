@@ -1,5 +1,5 @@
 import React from 'react'
-import RiotIcon from '../../../../../assets/icons/Riot'
+import DAOStackIcon from '../../../../../assets/icons/DAOStack'
 import Tooltip from '../../../Tooltip/Tooltip'
 import { Control } from '../../types'
 
@@ -8,7 +8,7 @@ interface Props {
   control: Control
 }
 
-const RiotChat: React.FunctionComponent<Props> = ({
+const DaoStack: React.FunctionComponent<Props> = ({
   control,
   buttonClassName,
 }) => {
@@ -16,12 +16,12 @@ const RiotChat: React.FunctionComponent<Props> = ({
     <Tooltip text={control.tooltip}>
       <button className={buttonClassName}>
         <div
-          className="icon-wrapper grey-border"
+          className="icon-wrapper"
           style={{
-            background: '#fff',
+            background: '#000',
           }}
         >
-          <RiotIcon width={36} />
+          <DAOStackIcon width={36} />
         </div>
         {control.title}
       </button>
@@ -29,4 +29,4 @@ const RiotChat: React.FunctionComponent<Props> = ({
   )
 }
 
-export default RiotChat
+export default DaoStack
