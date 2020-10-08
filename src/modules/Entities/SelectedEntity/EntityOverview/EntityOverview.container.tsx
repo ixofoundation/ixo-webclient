@@ -121,7 +121,7 @@ class EntityOverview extends React.Component<Props> {
                     {
                       assistantPanelActive => assistantPanelActive && (props => 
                         <AssistantContainer style={ props }>
-                          <div>
+                          <div style={{ width: '25%' }}>
                               <FundingChat 
                                   assistantPanelToggle={ this.assistantPanelToggle }
                               />
