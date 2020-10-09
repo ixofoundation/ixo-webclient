@@ -1,8 +1,11 @@
-import React, {Fragment} from 'react'
+import * as React from 'react'
 import { useTable } from 'react-table'
-import moment from 'moment'
+import { useWindowSize } from 'common/hooks'
 import {useTransition} from 'react-spring'
+import moment from 'moment'
+
 import {
+  TableContainer,
   StyledTableHeader,
   StyledTableCell,
   StyledTableRow,
@@ -11,25 +14,67 @@ import {
   StyledMobileBuyCell,
   StyledDateWrapper,
   StyledAmountWrapper,
-} from './index.style'
-import ValueComponent from './ValueComponent'
-import { useWindowSize } from 'common/hooks'
+} from './EventsTable.styles'
+import ValueComponent from './Value'
 
-interface TableProps {
-  columns: object
-  data: object[]
-}
+const data = [
+  {
+    date: '2020-10-09',
+    type: 'Bank Deposit',
+    purpose: 'Disbursement',
+    description: 'UBSOF:Payment for Services: Evaluation',
+    value: 1500,
+    status: 1,
+  },
+  {
+    date: '2020-10-09',
+    type: 'Bank Deposit',
+    purpose: 'Disbursement',
+    description: 'UBSOF:Payment for Services: Evaluation',
+    value: 1500,
+    status: 2,
+  },
+  {
+    date: '2020-10-09',
+    type: 'Bank Deposit',
+    purpose: 'Disbursement',
+    description: 'UBSOF:Payment for Services: Evaluation',
+    value: 1500,
+    status: 3,
+  },
+  {
+    date: '2020-10-09',
+    type: 'Bank Deposit',
+    purpose: 'Disbursement',
+    description: 'UBSOF:Payment for Services: Evaluation',
+    value: 1500,
+    status: 2,
+  },
+  {
+    date: '2020-10-09',
+    type: 'Bank Deposit',
+    purpose: 'Disbursement',
+    description: 'UBSOF:Payment for Services: Evaluation',
+    value: 1500,
+    status: 1,
+  },
+  {
+    date: '2020-10-09',
+    type: 'Bank Deposit',
+    purpose: 'Disbursement',
+    description: 'UBSOF:Payment for Services: Evaluation',
+    value: 1500,
+    status: 3,
+  }
+]
 
 const renderCell = (cell: any): any => {
   if (cell.column.id === 'date') {
     return (
       <DateContainer>
-        <span>{moment(cell.value).format('DD MMM YY')}</span>
-        <span>{moment(cell.value).format('HH:SS')}</span>
+        <span>{moment(cell.value).fromNow().slice(0, moment(cell.value).fromNow().length - 3 )}</span>&nbsp;<span> ago</span>
       </DateContainer>
     )
-  } else if (cell.column.id === 'buySell') {
-    return cell.value ? 'Buy' : 'Sell'
   } else if (cell.column.id === 'value') {
     return <ValueComponent value={cell.value} />
   } else {
@@ -37,10 +82,23 @@ const renderCell = (cell: any): any => {
   }
 }
 
-const renderDesktopTableRow = (row, props): any => (
+const renderDesktopTableRow = (row, props): any => {
+  let className = ''
+  switch (row.original.status) {
+    case 1:
+      className = 'done';
+      break;
+    case 2:
+      className = 'pending';
+      break;
+    default:
+      className = 'warning';
+  }
+  return(
   <StyledTableRow
     {...row.getRowProps()}
     style={props}
+    className={ className }
   >
     {row.cells.map((cell) => {
       return (
@@ -55,12 +113,13 @@ const renderDesktopTableRow = (row, props): any => (
       )
     })}
   </StyledTableRow>
-)
+)}
 
 const renderMobileTableRow = (row): any => {
   return (
     <StyledMobileRow
       {...row.getRowProps()}
+      height="70px"
     >
       <StyledMobileBuyCell
         header={row.cells[1].column.id}
@@ -86,7 +145,33 @@ const renderMobileTableRow = (row): any => {
   )
 }
 
-const Table: React.SFC<TableProps> = ({ columns, data }) => {
+const EventsTable:React.FunctionComponent = () => {
+  const columns = React.useMemo(
+    () => [
+      {
+        Header: 'DATE',
+        accessor: 'date',
+      },
+      {
+        Header: 'TYPE',
+        accessor: 'type',
+      },
+      {
+        Header: 'PURPOSE',
+        accessor: 'purpose',
+      },
+      {
+        Header: 'DESCRIPTION',
+        accessor: 'description',
+      },
+      {
+        Header: 'VALUE',
+        accessor: 'value',
+      },
+    ],
+    [],
+  )
+
   const {
     getTableProps,
     getTableBodyProps,
@@ -111,6 +196,7 @@ const Table: React.SFC<TableProps> = ({ columns, data }) => {
     config: { duration: 2000 }
   })
   return (
+    <TableContainer>
     <table {...getTableProps()}>
       {size.width > 1024 && (
         <thead>
@@ -130,15 +216,16 @@ const Table: React.SFC<TableProps> = ({ columns, data }) => {
         {transitions.map(({item, key, props}) => {
             prepareRow(item)
             return (
-              <Fragment key={`table-body-${key}`}>
+              <React.Fragment key={`table-body-${key}`}>
                 {size.width > 1024 && renderDesktopTableRow(item, props)}
                 {size.width <= 1024 && renderMobileTableRow(item)}
-              </Fragment>
+              </React.Fragment>
             )
         })}
       </tbody>
     </table>
+    </TableContainer>
   )
 }
 
-export default Table
+export default EventsTable;

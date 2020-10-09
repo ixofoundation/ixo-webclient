@@ -31,8 +31,9 @@ export const Section = styled.section`
 `
 
 export const Indicator = styled.div`
-  width: 12px;
-  height: 25px;
+  width: 11px;
+  height: 26px;
+  border-radius: 54px;
   position: absolute;
   top: 18px;
   left: -6px;

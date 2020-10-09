@@ -1,7 +1,9 @@
 import * as React from 'react'
 import { 
-  Container
+  Container,
+  NavigateButtonContainer
 } from './ButtonSlider.styles';
+import Down from 'assets/icons/Down'
 
 class ButtonSlider extends React.Component
 {
@@ -10,6 +12,14 @@ class ButtonSlider extends React.Component
     return (
       <Container>
         { children }
+        <NavigateButtonContainer>
+          <button className="left">
+            <Down fill='#107591' width={ 8 } />
+          </button>
+          <button className="right">
+            <Down fill='#107591' width={ 8 } />
+          </button>
+        </NavigateButtonContainer>
       </Container>
     )
   }

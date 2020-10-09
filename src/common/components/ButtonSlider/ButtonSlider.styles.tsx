@@ -1,9 +1,9 @@
 import styled from "styled-components";
+import { deviceWidth } from 'lib/commonData'
 
 export const Container = styled.div`
   display: flex;
   align-items; center;
-
   a {
     width: fit-content;
     color: #39C3E6 !important;
@@ -13,6 +13,7 @@ export const Container = styled.div`
     text-transform: none;
     margin-right: 0.625rem;
     background: #143F54;
+    white-space: nowrap;
   }
 
   a.disabled {
@@ -25,4 +26,38 @@ export const Container = styled.div`
     border: 1px solid #49BFE0;
     opacity: 0.8;
   }
+
+  @media (max-width: ${deviceWidth.mobile}px) {
+    width: 100%;
+  }
 `;
+
+export const NavigateButtonContainer = styled.div`
+  display: flex;
+  button {
+    background: #143F54;
+    border-radius: 4px;
+    outline: none !important;
+    border: none;
+    height: 25px;
+    width: 25px;
+    margin: 0px 2px;
+    &.left {
+      svg {
+        transform: rotate(90deg);
+      }
+    }
+
+    &.right {
+      svg {
+        transform: rotate(-90deg);
+      }
+    }
+  }
+`
+
+export const NavContainer = styled.div`
+  display: flex;
+  flex: 1;
+  overflow-x: scroll;
+`

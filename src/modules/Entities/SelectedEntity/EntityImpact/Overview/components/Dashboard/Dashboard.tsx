@@ -21,6 +21,8 @@ import { Button, ButtonTypes } from 'common/components/Form/Buttons'
 import ButtonSlider from 'common/components/ButtonSlider/ButtonSlider'
 import ProjectGovernance from './ProjectGovernance'
 import Targets from './Targets'
+import EventsTable from './EventsTable'
+import CircledLocation from 'assets/icons/CircledLocation'
 
 export interface Props {
   did: string
@@ -62,11 +64,43 @@ const Dashboard: React.FunctionComponent<Props> = ({
   }
   
   const [activeTab, setActiveTab] = React.useState('educational_pass');
+  const [selectedHeader, setSelectedHeader] = React.useState('price')
 
   const handleTabClick = (tab) => {
     setActiveTab(tab);
   }
-
+  const dummyClaims = [
+    {
+      status: '1',
+      claimId: 'Water system no.234559574 completed',
+      saDid: 'Service Provider name',
+      date: '2020-10-09',
+    },
+    {
+      status: '2',
+      claimId: 'Water system no.234559574 completed',
+      saDid: 'Service Provider name',
+      date: '2020-10-09',
+    },
+    {
+      status: '3',
+      claimId: 'Water system no.234559574 completed',
+      saDid: 'Service Provider name',
+      date: '2020-10-09',
+    },
+    {
+      status: '0',
+      claimId: 'Water system no.234559574 completed',
+      saDid: 'Service Provider name',
+      date: '2020-10-09',
+    },
+    {
+      status: '0',
+      claimId: 'Water system no.234559574 completed',
+      saDid: 'Service Provider name',
+      date: '2020-10-09',
+    }
+  ]
   return (
     <LayoutWrapper>
       <Container className="row">
@@ -77,7 +111,7 @@ const Dashboard: React.FunctionComponent<Props> = ({
             linkIcon={'icon-expand'}
             titleIcon={ <img src={ require('assets/img/sidebar/performance.svg') } /> }
           >
-            <div className="d-flex justify-content-between w-100 mt-3 mb-2">
+            <div className="d-flex justify-content-between w-100 mt-3 mb-2 flex-column flex-sm-row">
               <ButtonSlider>
                 <Button
                   type={ ButtonTypes.dark }
@@ -242,30 +276,36 @@ const Dashboard: React.FunctionComponent<Props> = ({
             </WidgetWrapper>
           </div>
         }
-        {claims.length > 0 && (
-          <div className="col-md-6">
+        <div className="col-md-12">
+          <EventsTable />
+          {/* <BondTable selectedHeader={selectedHeader} /> */}
+        </div>
+        <div className="col-md-6 py-3">
+          <WidgetWrapper
+            title="Claim location activity"
+            path={`/projects/${did}/detail/claims`}
+            gridHeight={gridSizes.standard}
+            titleIcon={ <CircledLocation /> }
+          >
+            <WorldMap markers={[latLng]} />
+          </WidgetWrapper>
+        </div>
+        {dummyClaims.length > 0 && (
+          <div className="col-md-6 py-3">
             <WidgetWrapper
               title="Latest claims"
               path={`/projects/${did}/detail/claims`}
               gridHeight={gridSizes.standard}
+              titleIcon={ <img src={ require('assets/img/sidebar/claim.png') } /> }
+              linkIcon={'icon-expand'}
+              link={true}
             >
               <ProjectClaims
-                claims={claims}
+                claims={dummyClaims}
                 did={did}
                 fullPage={false}
                 hasLink={showClaimLinks}
               />
-            </WidgetWrapper>
-          </div>
-        )}
-        {claims.length > 0 && (
-          <div className="col-md-6">
-            <WidgetWrapper
-              title="Claim location activity"
-              path={`/projects/${did}/detail/claims`}
-              gridHeight={gridSizes.standard}
-            >
-              <WorldMap markers={[latLng]} />
             </WidgetWrapper>
           </div>
         )}

@@ -81,9 +81,16 @@ export const ClaimsTopLabels = styled.div`
   }
 
   @media (max-width: ${deviceWidth.tablet}px) {
+    p {
+      margin-left: 0;
+      display: inline-block;
+      font-size: 0.625rem;
+
+    }
     justify-content: flex-start;
     margin: 15px 0 15px 12px;
     flex-wrap: wrap;
+    margin-left: 0;
   }
 `
 
