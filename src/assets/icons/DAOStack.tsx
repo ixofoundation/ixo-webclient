@@ -1,6 +1,6 @@
 import React from "react";
 
-const DAOStack = (width: number): JSX.Element => {
+const DAOStack = ({width}): JSX.Element => {
   return (
     <svg
       width={width || 18}

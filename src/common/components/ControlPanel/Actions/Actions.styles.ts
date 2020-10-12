@@ -24,6 +24,7 @@ export const ActionLinksWrapper = styled.div`
     transition: all 0.3s;
     border: 1px solid transparent;
     cursor: pointer;
+    min-height: 2.25rem;
     svg {
       fill: #47568c;
       margin-right: 1rem;
@@ -36,6 +37,10 @@ export const ActionLinksWrapper = styled.div`
     }
     &:focus {
       outline: none;
+    }
+
+    &.active {
+      border: 1px solid ${(props: any): string => props.theme.ixoBlue};
     }
   }
 `

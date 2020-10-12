@@ -38,6 +38,8 @@ class ControlPanel extends React.Component<Props, State> {
     showMoreConnections: false
   }
 
+  panelRef = null
+
   toggleShowControlPanel = (): void => {
     if (this.state.showControlPanelMobile) {
       document?.querySelector('body')?.classList?.remove('noScroll')
@@ -53,12 +55,17 @@ class ControlPanel extends React.Component<Props, State> {
     this.setState({ showMoreApps: !this.state.showMoreApps })
   }
 
-  handleConnectionClick = (connection: ConnectionType): void => {
+  handleConnectionClick = (connection: ConnectionType): void => {    
     this.setState({
       currentConnection:
         this.state.currentConnection === connection ? null : connection,
       currentAction: null,
     })
+
+    setTimeout(():void => this.panelRef.scroll({
+      top: this.panelRef.scrollHeight,
+      behavior: 'smooth'
+    }), 1000)
   }
 
   toggleShowActions = (): void => {
@@ -97,6 +104,7 @@ class ControlPanel extends React.Component<Props, State> {
         <ControlPanelScrollWrapper id="ControlPanelWrapper">
           <ControlPanelWrapper
             className={this.state.showControlPanelMobile ? 'open' : ''}
+            ref={ (ref): HTMLDivElement => this.panelRef = ref }
           >
             <Dashboard widget={dashboard} entityDid={entityDid} />
             <Actions 

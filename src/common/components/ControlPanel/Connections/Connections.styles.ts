@@ -18,7 +18,6 @@ export const ConnectionButtonsWrapper = styled(SquareButtonSection)`
     }
   }
   .show-more-container {
-    background: #fff;
     width: 100%;
     display: flex;
     flex-flow: row wrap;

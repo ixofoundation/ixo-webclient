@@ -16,6 +16,9 @@ import { Route } from 'react-router-dom'
 import EntityImpactOverview from './Overview/Overview.container'
 import EntityAgents from './EntityAgents/EntityAgents.container'
 import {ProjectAgents} from 'components/project/agents/ProjectAgents'
+import {Transition} from 'react-spring/renderprops'
+import FundingChat from 'modules/FundingChat/FundingChat.container'
+import AssistantContext from 'common/contexts/Assistant'
 
 interface Props {
   match: any
@@ -37,6 +40,11 @@ interface Props {
 }
 
 class EntityImpact extends React.Component<Props> {
+  state = {
+    assistantPanelActive: false,
+    width: '100%'
+  }
+
   componentDidMount(): void {
     const {
       match: {
@@ -46,6 +54,15 @@ class EntityImpact extends React.Component<Props> {
     } = this.props
 
     handleGetEntity(did)
+  }
+
+  assistantPanelToggle = ():void => {
+    const { assistantPanelActive } = this.state;
+    let width = '100%';
+    if (!assistantPanelActive) {
+      width = '75%';
+    }
+    this.setState({ assistantPanelActive: !assistantPanelActive, width });
   }
 
   render(): JSX.Element {
@@ -67,63 +84,88 @@ class EntityImpact extends React.Component<Props> {
       isLoading,
     } = this.props
 
+    const { assistantPanelActive, width } = this.state;
+
     if (isLoading) {
       return <Spinner info="Loading Dashboard..." />
     }
 
     return (
-      <DetailContainer>
-        <SideBar
-          did={did}
-          match={match}
-          location={location}
-          showAgentLinks={entityUtils.isUserInRolesOfEntity(
-            userDid,
-            creatorDid,
-            agents,
-            [AgentRole.Owner],
-          )}
-        />
-        <ContentContainer>
-          <EntityHero
-            type={type}
-            did={did}
-            name={name}
-            description={description}
-            dateCreated={dateCreated}
-            creatorName={creatorName}
-            location={country}
-            sdgs={sdgs}
-            loggedIn={isLoggedIn}
-            onlyTitle={true}
-          />
-          <Route
-            exact
-            path={`/projects/:projectDID/detail`}
-            component={EntityImpactOverview}
-          />
-          <Route
-            exact
-            path={[`/projects/:projectDID/detail/service-providers`]}
-            component={EntityAgents}
-          />
-          <Route
-            exact
-            path={`/projects/:projectDID/detail/evaluators`}
-            component={EntityAgents}
-          />
-          <Route
-            exact
-            path={`/projects/:projectDID/detail/investors`}
-            component={EntityAgents}
-          />
-          <Route
-            exact
-            path={`/projects/:projectDID/detail/agents`}
-            component={ProjectAgents}
-          />
-        </ContentContainer>
-      </DetailContainer>
+      <AssistantContext.Provider value={{ active: assistantPanelActive }}>
+          <DetailContainer>
+            <div className="d-flex flex-grow-1" style={{ width }}>
+              <SideBar
+                did={did}
+                match={match}
+                location={location}
+                showAgentLinks={entityUtils.isUserInRolesOfEntity(
+                  userDid,
+                  creatorDid,
+                  agents,
+                  [AgentRole.Owner],
+                )}
+              />
+              <ContentContainer>
+                <EntityHero
+                  type={type}
+                  did={did}
+                  name={name}
+                  description={description}
+                  dateCreated={dateCreated}
+                  creatorName={creatorName}
+                  location={country}
+                  sdgs={sdgs}
+                  loggedIn={isLoggedIn}
+                  onlyTitle={true}
+                  assistantPanelToggle={ this.assistantPanelToggle }
+                />
+                <Route
+                  exact
+                  path={`/projects/:projectDID/detail`}
+                  component={EntityImpactOverview}
+                />
+                <Route
+                  exact
+                  path={[`/projects/:projectDID/detail/service-providers`]}
+                  component={EntityAgents}
+                />
+                <Route
+                  exact
+                  path={`/projects/:projectDID/detail/evaluators`}
+                  component={EntityAgents}
+                />
+                <Route
+                  exact
+                  path={`/projects/:projectDID/detail/investors`}
+                  component={EntityAgents}
+                />
+                <Route
+                  exact
+                  path={`/projects/:projectDID/detail/agents`}
+                  component={ProjectAgents}
+                />
+              </ContentContainer>
+            </div>
+            <Transition
+              items={assistantPanelActive}
+              from={{ width: '0%' }}
+              enter={{ width: '25%' }}
+              leave={{ width: '0%' }}
+            >
+              {
+                assistantPanelActive => assistantPanelActive && (props => 
+                <div style={{background: '#002233', zIndex: 10, ...props,  }}>
+                  {assistantPanelActive && (
+                    <FundingChat
+                      match={match}
+                      assistantPanelToggle={this.assistantPanelToggle}
+                    />
+                  )}
+                </div>)
+              }
+            </Transition>
+          </DetailContainer>
+      </AssistantContext.Provider>
     )
   }
 }
