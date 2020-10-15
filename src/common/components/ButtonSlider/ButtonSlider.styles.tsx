@@ -60,4 +60,18 @@ export const NavContainer = styled.div`
   display: flex;
   flex: 1;
   overflow-x: scroll;
+  position: relative;
+
+  ::-webkit-scrollbar {
+    display: none;
+  }
+`
+
+export const Graident = styled.div`
+  display: block;
+  position: absolute;
+  right: 0;
+  background: linear-gradient(270deg, #01273A 14.48%, rgba(1, 39, 58, 0) 100%);
+  width: 4rem;
+  height: 100%;
 `

@@ -184,7 +184,7 @@ const Dashboard: React.FunctionComponent<Props> = ({
           </WidgetWrapper>
         </div>
         {
-          <div className="col-sm-6 col-lg-3 py-3">
+          <div className="col-sm-6 col-lg-3" style={{ paddingTop: 20, paddingBottom: 20 }}>
             <WidgetWrapper
               title="Project Governance"
               link={showAgentLinks}
@@ -210,7 +210,7 @@ const Dashboard: React.FunctionComponent<Props> = ({
           </div>
         }
         {
-          <div className="col-sm-6 col-lg-3 py-3">
+          <div className="col-sm-6 col-lg-3" style={{ paddingTop: 20, paddingBottom: 20 }}>
             <WidgetWrapper
               title="Outcomes Targets"
               link={showAgentLinks}
@@ -225,7 +225,7 @@ const Dashboard: React.FunctionComponent<Props> = ({
           </div>
         }
         {
-          <div className="col-lg-6 py-3">
+          <div className="col-lg-6" style={{ paddingTop: 20, paddingBottom: 20 }}>
             <WidgetWrapper
               title="Impact claims"
               gridHeight={gridSizes.standard}
@@ -280,7 +280,7 @@ const Dashboard: React.FunctionComponent<Props> = ({
           <EventsTable />
           {/* <BondTable selectedHeader={selectedHeader} /> */}
         </div>
-        <div className="col-md-6 py-3">
+        <div className="col-md-6" style={{ paddingTop: 20, paddingBottom: 20 }}>
           <WidgetWrapper
             title="Claim location activity"
             path={`/projects/${did}/detail/claims`}
@@ -291,7 +291,7 @@ const Dashboard: React.FunctionComponent<Props> = ({
           </WidgetWrapper>
         </div>
         {dummyClaims.length > 0 && (
-          <div className="col-md-6 py-3">
+          <div className="col-md-6" style={{ paddingTop: 20, paddingBottom: 20 }}>
             <WidgetWrapper
               title="Latest claims"
               path={`/projects/${did}/detail/claims`}
