@@ -74,7 +74,6 @@ class EntityOverview extends React.Component<Props> {
       pageContent,
       isLoggedIn,
       isLoading,
-      entityClaims,
       entity
     } = this.props
 

@@ -103,7 +103,6 @@ class SubmitEntityClaim extends React.Component<Props, State> {
       answersComplete,
       claimTitle,
       claimShortDescription,
-      questions,
       handlePreviousClick,
       handleGoToQuestionClick,
       handleFormDataChange,

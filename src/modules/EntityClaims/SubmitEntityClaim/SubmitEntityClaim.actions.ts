@@ -56,7 +56,9 @@ export const getClaimTemplate = (templateDid: string) => (
           )
           
           // For demo, let's use template.
-          attestation = claimTemplate;
+          if (process.env.JEST_WORKER_ID !== undefined) {
+            attestation = claimTemplate;
+          }
 
           return {
             templateDid,
