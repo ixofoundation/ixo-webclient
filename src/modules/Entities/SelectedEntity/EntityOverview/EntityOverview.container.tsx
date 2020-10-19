@@ -83,7 +83,7 @@ class EntityOverview extends React.Component<Props> {
     if (isLoading) {
       return <Spinner info="Loading Entity..." />
     }
-    console.log('ffffffffffffffffffffff', entity);
+
     return (
       <AssistantContext.Provider value={{ active: assistantPanelActive }}>
       <div>
