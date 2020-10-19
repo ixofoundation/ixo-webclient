@@ -18,7 +18,7 @@ import { PDS_URL } from 'modules/Entities/types'
 import * as submitEntityClaimSelectors from './SubmitEntityClaim.selectors'
 import { ApiListedEntity } from 'common/api/blocksync-api/types/entities'
 import { ApiResource } from 'common/api/blocksync-api/types/resource'
-import { Attestation } from '../types'
+/* import { Attestation } from '../types' */
 import { fromBase64 } from 'js-base64'
 import { FormData } from 'common/components/JsonForm/types'
 import claimTemplate from './claim_template.json'
@@ -51,7 +51,7 @@ export const getClaimTemplate = (templateDid: string) => (
     payload: fetchTemplateEntity.then((apiEntity: ApiListedEntity) => {
       return fetchContent(apiEntity.data.page.cid).then(
         (resourceData: ApiResource) => {
-          let attestation: Attestation = JSON.parse(
+          let attestation: any = JSON.parse(
             fromBase64(resourceData.data),
           )
           
