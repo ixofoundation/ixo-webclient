@@ -88,6 +88,7 @@ export interface Entity {
   serviceProvidersPendingCount: number
   agents: Agent[]
   content: PageContent | Attestation
+  entityClaims: any
 }
 
 export enum SelectedEntityActions {

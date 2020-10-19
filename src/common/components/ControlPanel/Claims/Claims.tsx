@@ -12,11 +12,15 @@ interface Props {
   widget: Widget
   showMore: boolean
   toggleShowMore: () => void
+  claims: any[]
+  entityDid: string
 }
 
 const Claims: React.FunctionComponent<Props> = ({
   widget: { title, controls },
   showMore,
+  claims,
+  entityDid,
   toggleShowMore,
 }) => {
   return (
@@ -36,18 +40,19 @@ const Claims: React.FunctionComponent<Props> = ({
         )}
       </h4>
       <LinksWrapper>
-        <Tooltip text='Coming soon'>
-          <NavLink to={'#'}>
-            <AddPerson fill='#49BFE0' />
-            Tablet Distributed
-          </NavLink>
-        </Tooltip>
-        <Tooltip text='Coming soon'>
-          <NavLink to={'#'}>
-            <AddPerson fill='#49BFE0' />
-            Qualified Teacher
-          </NavLink>
-        </Tooltip>
+        {
+          claims ? claims.map(claim => {
+            const to = `/projects/${entityDid}/overview/claims/new_claim/${claim['@id']}`
+            return (
+              <Tooltip text='Coming soon' key={ claim['@id'] }>
+                <NavLink to={ to }>
+                  <AddPerson fill='#49BFE0' />
+                  { claim['title'] }
+                </NavLink>
+              </Tooltip>
+            )
+          }) : null
+        }
       </LinksWrapper>
     </ControlPanelSection>
 

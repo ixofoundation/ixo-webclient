@@ -21,6 +21,8 @@ import { PageContent } from '../types'
 import FundingChat from 'modules/FundingChat/FundingChat.container'
 import AssistantContext from 'common/contexts/Assistant'
 import {Transition} from 'react-spring/renderprops'
+import * as entityClaimsSelectors from 'modules/Entities/CreateEntity/CreateEntityClaims/CreateEntityClaims.selectors'
+import { CreateEntityClaimsState } from 'modules/Entities/CreateEntity/CreateEntityClaims/types'
 
 interface Props {
   match: any
@@ -39,8 +41,10 @@ interface Props {
   sdgs: string[]
   pageContent: PageContent
   isLoggedIn: boolean
-  isLoading: boolean
-  handleGetEntity: (did: string) => void
+  isLoading: boolean,
+  entityClaims: CreateEntityClaimsState,
+  entity: any,
+  handleGetEntity: (did: string) => void,
 }
 
 class EntityOverview extends React.Component<Props> {
@@ -70,6 +74,8 @@ class EntityOverview extends React.Component<Props> {
       pageContent,
       isLoggedIn,
       isLoading,
+      entityClaims,
+      entity
     } = this.props
 
     const { assistantPanelActive } = this.state
@@ -77,7 +83,7 @@ class EntityOverview extends React.Component<Props> {
     if (isLoading) {
       return <Spinner info="Loading Entity..." />
     }
-
+    console.log('ffffffffffffffffffffff', entity);
     return (
       <AssistantContext.Provider value={{ active: assistantPanelActive }}>
       <div>
@@ -110,6 +116,7 @@ class EntityOverview extends React.Component<Props> {
                 schema={entityTypeMap[type].controlPanelSchema}
                 entityDid={did}
                 userDid={userDid}
+                claims={ entity.entityClaims.items }
               />
               <Transition
                   items={assistantPanelActive}
@@ -155,6 +162,8 @@ const mapStateToProps = (state: RootState): any => ({
   pageContent: entityOverviewSelectors.selectPageContent(state),
   isLoggedIn: accountSelectors.selectUserIsLoggedIn(state),
   isLoading: entitySelectors.entityIsLoading(state),
+  entityClaims: entityClaimsSelectors.selectEntityClaims(state),
+  entity: entitySelectors.selectSelectedEntity(state)
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({

@@ -17,6 +17,7 @@ interface Props {
   entityDid: string
   userDid: string
   schema: Schema
+  claims?: any[]
 }
 
 interface State {
@@ -89,6 +90,7 @@ class ControlPanel extends React.Component<Props, State> {
       schema: { dashboard, actions, apps, connections },
       entityDid,
       userDid,
+      claims
     } = this.props
     return (
       <>
@@ -123,6 +125,8 @@ class ControlPanel extends React.Component<Props, State> {
               widget={apps}
               showMore={this.state.showMoreApps}
               toggleShowMore={this.toggleShowApps}
+              claims={ claims }
+              entityDid={ entityDid }
             />
             <Connections
               widget={connections}
