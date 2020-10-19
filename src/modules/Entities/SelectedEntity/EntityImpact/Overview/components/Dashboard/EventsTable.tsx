@@ -12,8 +12,10 @@ import {
   DateContainer,
   StyledMobileRow,
   StyledMobileBuyCell,
+  StyledMobilePurposeCell,
   StyledDateWrapper,
   StyledAmountWrapper,
+  StyledMobileDescriptionCell
 } from './EventsTable.styles'
 import ValueComponent from './Value'
 
@@ -72,7 +74,7 @@ const renderCell = (cell: any): any => {
   if (cell.column.id === 'date') {
     return (
       <DateContainer>
-        <span>{moment(cell.value).fromNow().slice(0, moment(cell.value).fromNow().length - 3 )}</span>&nbsp;<span> ago</span>
+        <span>{moment(cell.value).fromNow().slice(0, moment(cell.value).fromNow().length - 3 )}</span><span> ago</span>
       </DateContainer>
     )
   } else if (cell.column.id === 'value') {
@@ -116,10 +118,23 @@ const renderDesktopTableRow = (row, props): any => {
 )}
 
 const renderMobileTableRow = (row): any => {
+  let className = ''
+  switch (row.original.status) {
+    case 1:
+      className = 'done';
+      break;
+    case 2:
+      className = 'pending';
+      break;
+    default:
+      className = 'warning';
+  }
+
   return (
     <StyledMobileRow
       {...row.getRowProps()}
       height="70px"
+      className={ className }
     >
       <StyledMobileBuyCell
         header={row.cells[1].column.id}
@@ -127,16 +142,12 @@ const renderMobileTableRow = (row): any => {
       >
         {renderCell(row.cells[1])}
       </StyledMobileBuyCell>
-      <div className="d-flex text-white">
-        <StyledAmountWrapper>
-          <span className="mr-5">{renderCell(row.cells[2])}</span>
-          <span>Quantity</span>
-        </StyledAmountWrapper>
-        <StyledAmountWrapper>
-          <span>{renderCell(row.cells[3])}</span>
-          <span>Price</span>
-        </StyledAmountWrapper>
-      </div>
+      <StyledMobilePurposeCell>
+        {renderCell(row.cells[2])}
+      </StyledMobilePurposeCell>
+      <StyledMobileDescriptionCell>
+        {renderCell(row.cells[3])}
+      </StyledMobileDescriptionCell>
       <StyledDateWrapper>
         <span>{renderCell(row.cells[0])}</span>
         <span>{renderCell(row.cells[4])}</span>

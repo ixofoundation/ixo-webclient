@@ -49,7 +49,7 @@ export const WidgetWrapper: React.SFC<ParentProps> = ({
       font-size: 19px;
     }
 
-    @media (max-width ${deviceWidth.mobile}px) {
+    @media (max-width: ${deviceWidth.mobile}px) {
       padding: 0.8rem 0.625rem;
     }
   `
@@ -67,6 +67,10 @@ export const WidgetWrapper: React.SFC<ParentProps> = ({
       width: 1.1rem;
       object-fit: contain;
       margin-right: 0.625rem;
+    }
+
+    @media (max-width: ${deviceWidth.mobile}px) {
+      margin-bottom: 0.75rem;
     }
   `
 

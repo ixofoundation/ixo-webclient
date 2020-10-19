@@ -15,7 +15,8 @@ import {
   ClaimsLabels,
   ClaimsTopLabels,
   ClaimsWidget,
-  SectionHeader
+  SectionHeader,
+  ProgressContainer
 } from './Dashboard.styles'
 import { Button, ButtonTypes } from 'common/components/Form/Buttons'
 import ButtonSlider from 'common/components/ButtonSlider/ButtonSlider'
@@ -23,6 +24,7 @@ import ProjectGovernance from './ProjectGovernance'
 import Targets from './Targets'
 import EventsTable from './EventsTable'
 import CircledLocation from 'assets/icons/CircledLocation'
+import Events from 'assets/icons/Events'
 
 export interface Props {
   did: string
@@ -247,14 +249,14 @@ const Dashboard: React.FunctionComponent<Props> = ({
                       <strong>{remainingClaimsCount}</strong> remaining claims
                     </p>
                   </div>
-                  <div>
+                  <div className="mt-2">
                     <SectionHeader>
                       <img src={ require('assets/img/sidebar/profile.png') } />
                       Agents
                       <i className='icon-expand' />
                     </SectionHeader>
-                    <div className="mt-4">
-                      <div style={{ paddingLeft: '40px' }}>
+                    <div className="mt-2 mt-sm-4">
+                      <div style={{ paddingLeft: '60px'}}>
                         <div>
                           <strong>23</strong> authorised Service Providers
                         </div>
@@ -265,19 +267,30 @@ const Dashboard: React.FunctionComponent<Props> = ({
                     </div>
                   </div>
                 </ClaimsLabels>
-                <CircleProgressbar
-                  approved={2}
-                  rejected={1}
-                  pending={1}
-                  totalNeeded={requiredClaimsCount}
-                  descriptor={<>water systems built by 23 <strong>Agents</strong></>}
-                />
+                <ProgressContainer>
+                  <CircleProgressbar
+                    approved={2}
+                    rejected={1}
+                    pending={1}
+                    totalNeeded={requiredClaimsCount}
+                    descriptor={<>water systems built by 23 <strong>Agents</strong></>}
+                  />
+                </ProgressContainer> 
               </ClaimsWidget>
             </WidgetWrapper>
           </div>
         }
         <div className="col-md-12">
-          <EventsTable />
+          <WidgetWrapper
+            title="Project Events"
+            path={`/projects/${did}/detail/events`}
+            gridHeight={gridSizes.standard}
+            titleIcon={ <Events /> }
+            link={true}
+            linkIcon={'icon-expand'}
+          >
+            <EventsTable />
+          </WidgetWrapper>
           {/* <BondTable selectedHeader={selectedHeader} /> */}
         </div>
         <div className="col-md-6" style={{ paddingTop: 20, paddingBottom: 20 }}>

@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 import { animated } from 'react-spring'
+import { deviceWidth } from 'lib/commonData'
 
 interface StyledTableCellProps {
   header: string
@@ -136,7 +137,22 @@ export const DateContainer = styled.div`
   span {
     &:last-child {
       font-size: 0.875rem;
-      color: #83D9F2
+      color: #83D9F2;
+      margin-left: 0.25rem;
+    }
+  }
+
+  @media (max-width: ${deviceWidth.mobile}px) {
+    line-height: 0.75rem;
+    flex-direction: column;
+    font-size: 0.875rem;
+
+    span {
+
+      &:last-child {
+        font-size: 0.75rem;
+        margin-left: 0rem;
+      }
     }
   }
 `
@@ -146,20 +162,44 @@ export const StyledMobileRow = styled.div`
   flex-direction: column;
   background: #023044;
   padding: 10px;
+  position: relative;
 
-  @media (max-width: 768px) {
+  @media (max-width: ${deviceWidth.mobile}px) {
+    margin-bottom: 3px;
     padding-bottom: 0;
     padding-right: 0;
+    padding-left: 1rem;
+    padding-top: 0.9rem;
+  }
+
+  &:before {
+    content: "";
+    width: 0.5rem;
+    height: 2.125rem;
+    border-radius: 3.5rem;
+    background: #85AD5C;
+    display: block;
+    position: absolute;
+    bottom: 4px;
+    left: -0.2rem;
+  }
+
+  &.pending {
+    &:before {
+      background: #F89D28;
+    }
+  }
+
+  &.warning {
+    &:before {
+      background: #E2223B;
+    }
   }
 `
 
 export const StyledMobileBuyCell = styled.div<StyledTableCellProps>`
-  color: ${(props: any): string =>
-    props.header === 'buySell'
-      ? props.type
-        ? '#6FCF97'
-        : '#E2223B'
-      : 'white'};
+  color: white;
+  font-size: 10px;
 `
 
 export const StyledDateWrapper = styled.div`
@@ -198,4 +238,13 @@ export const StyledAmountWrapper = styled.div`
 export const StyledHeader = styled.h2`
   color: white;
   margin-top: 2em;
+`
+
+export const StyledMobilePurposeCell = styled.div`
+  font-size: 1rem;
+  font-weight: bold;
+`
+
+export const StyledMobileDescriptionCell = styled.div`
+  font-size: 1rem;
 `

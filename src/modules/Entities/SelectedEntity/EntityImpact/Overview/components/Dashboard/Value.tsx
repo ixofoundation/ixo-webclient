@@ -2,6 +2,7 @@ import React, { FunctionComponent } from 'react'
 import styled from 'styled-components'
 import XIcon from 'assets/images/x-icon.svg'
 import EyeIcon from 'assets/images/eye-icon.svg'
+import { deviceWidth } from 'lib/commonData'
 
 interface ValueComponentProps {
   value: number
@@ -18,6 +19,9 @@ const StyledValueContainer = styled.div`
   display: flex;
   img {
     margin-right: 1em;
+  }
+  @media (max-width: ${deviceWidth.mobile}px) {
+    padding: 0.5rem 0;
   }
 `
 
