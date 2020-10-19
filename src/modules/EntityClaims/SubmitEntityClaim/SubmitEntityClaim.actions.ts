@@ -56,7 +56,7 @@ export const getClaimTemplate = (templateDid: string) => (
           )
           
           // For demo, let's use template.
-          //attestation = claimTemplate;
+          attestation = claimTemplate;
 
           return {
             templateDid,
