@@ -55,17 +55,15 @@ export const getClaimTemplate = (templateDid: string) => (
             fromBase64(resourceData.data),
           )
           
-          /* // For demo, let's use template.
-          if (process.env.JEST_WORKER_ID !== undefined) {
-            attestation = claimTemplate;
-          } */
+          // For demo, let's use template.
+          //attestation = claimTemplate;
 
           return {
             templateDid,
             claimTitle: apiEntity.data.name,
             claimShortDescription: apiEntity.data.description,
             type: attestation.claimInfo.type,
-            questions: claimTemplate.forms,
+            questions: attestation.forms,
           }
         },
       )
