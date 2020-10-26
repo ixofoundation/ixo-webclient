@@ -1,6 +1,7 @@
 import * as React from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
+import { deviceWidth } from 'lib/commonData'
 
 export enum gridSizes {
   standard = 'NORMAL',
@@ -47,6 +48,10 @@ export const WidgetWrapper: React.SFC<ParentProps> = ({
       font-weight: normal;
       font-size: 19px;
     }
+
+    @media (max-width: ${deviceWidth.mobile}px) {
+      padding: 0.8rem 0.625rem;
+    }
   `
 
   const FlexTitle = styled.div`
@@ -58,10 +63,14 @@ export const WidgetWrapper: React.SFC<ParentProps> = ({
       ? ''
       : 'position: absolute; top: 30px; left: 30px;'}
     
-    img {
+    img, svg {
       width: 1.1rem;
       object-fit: contain;
       margin-right: 0.625rem;
+    }
+
+    @media (max-width: ${deviceWidth.mobile}px) {
+      margin-bottom: 0.75rem;
     }
   `
 

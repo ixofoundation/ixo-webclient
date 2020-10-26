@@ -32,6 +32,7 @@ export const theme = {
   fontRoboto: 'Roboto, sans-serif',
   fontRobotoCondensed: 'Roboto Condensed, sans-serif',
   fontSkyBlue: '#39C3E6',
+  fontLightGreyBlue: '#688EA0',
   grey: '#E9E8E8', // borders for project list cards, progress bar background on projects list
   darkGrey: '#656969', // "load more projects" button on project list
   lightGrey: '#B6B6B6',

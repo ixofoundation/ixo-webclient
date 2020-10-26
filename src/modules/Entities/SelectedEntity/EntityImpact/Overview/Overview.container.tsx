@@ -1,5 +1,5 @@
 import { RootState } from 'common/redux/types'
-import React from 'react'
+import React, { Dispatch } from 'react'
 import Dashboard from './components/Dashboard/Dashboard'
 import * as entityImpactSelectors from '../EntityImpact.selectors'
 import * as entitySelectors from '../../SelectedEntity.selectors'
@@ -31,7 +31,6 @@ interface Props {
 
 const Overview: React.FunctionComponent<Props> = ({
   did,
-  goal,
   creatorDid,
   userDid,
   agents,
@@ -46,11 +45,12 @@ const Overview: React.FunctionComponent<Props> = ({
   rejectedClaimsCount,
   remainingClaimsCount,
   latLng,
+  ...props
 }) => {
   return (
     <Dashboard
       did={did}
-      goal={goal}
+      goal={'0'}
       serviceProvidersCount={serviceProvidersCount}
       serviceProvidersPendingCount={serviceProvidersPendingCount}
       evaluatorsCount={evaluatorsCount}
@@ -85,7 +85,6 @@ const Overview: React.FunctionComponent<Props> = ({
 
 const mapStateToProps = (state: RootState): any => ({
   did: entitySelectors.selectEntityDid(state),
-  goal: entityImpactSelectors.selectGoal(state),
   creatorDid: entitySelectors.selectEntityCreator(state),
   userDid: accountSelectors.selectUserDid(state),
   agents: entitySelectors.selectEntityAgents(state),
@@ -110,4 +109,7 @@ const mapStateToProps = (state: RootState): any => ({
   latLng: entityImpactSelectors.selectLatLng(state),
 })
 
-export default connect(mapStateToProps)(Overview)
+const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Overview)

@@ -66,7 +66,7 @@ export const EntitiesHero: React.FunctionComponent<Props> = ({
             <h3>{header.subTitle}</h3>
           </HeroTextWrapper>
           <HeroIndicatorsWrapper className="col-md-7 col-sm-12 col-12">
-            <div className="row">
+            {/* <div className="row">
               {header.indicators.map((indicator, index) => {
                 return indicator.indicatorLabel ? (
                   <StatisticContainer
@@ -86,7 +86,7 @@ export const EntitiesHero: React.FunctionComponent<Props> = ({
                   </StatisticContainer>
                 ) : null
               })}
-            </div>
+            </div> */}
           </HeroIndicatorsWrapper>
         </div>
       </HeroInner>

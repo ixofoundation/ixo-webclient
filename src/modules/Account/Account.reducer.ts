@@ -6,7 +6,7 @@ export const initialState: AccountState = {
   accountNumber: null,
   sequence: null,
   balances: [],
-  loginStatusCheckCompleted: false,
+  loginStatusCheckCompleted: true,
 }
 
 export const reducer = (

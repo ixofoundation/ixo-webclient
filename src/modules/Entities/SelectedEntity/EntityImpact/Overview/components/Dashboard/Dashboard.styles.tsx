@@ -13,11 +13,14 @@ export const ClaimsWidget = styled.div`
 `
 
 export const ClaimsLabels = styled.div`
-  margin-top: 40px;
+  margin-top: 20px;
   flex: 1;
   flex-direction: column;
   justify-content: space-between;
   display: flex;
+  > div:first-child {
+    padding-left: 2rem;
+  }
 
   a {
     max-width: 300px;
@@ -51,6 +54,10 @@ export const ClaimsLabels = styled.div`
   p:nth-child(4):before {
     background: #033c50;
   }
+
+  @media (max-width: ${deviceWidth.mobile}px) {
+    margin-top: 10px;
+  }
 `
 
 export const ClaimsTopLabels = styled.div`
@@ -81,9 +88,16 @@ export const ClaimsTopLabels = styled.div`
   }
 
   @media (max-width: ${deviceWidth.tablet}px) {
+    p {
+      margin-left: 0;
+      display: inline-block;
+      font-size: 0.625rem;
+
+    }
     justify-content: flex-start;
     margin: 15px 0 15px 12px;
     flex-wrap: wrap;
+    margin-left: 0;
   }
 `
 
@@ -106,5 +120,13 @@ export const SectionHeader = styled.div`
   img {
     width: 1.1rem;
     margin-right: 0.625rem;
+  }
+`
+
+export const ProgressContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  @media (max-width: ${deviceWidth.mobile}px) {
+    width: 100%;
   }
 `
