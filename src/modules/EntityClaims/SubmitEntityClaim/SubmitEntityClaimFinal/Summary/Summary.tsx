@@ -15,18 +15,6 @@ interface Props {
 }
 
 class ClaimSummary extends React.Component<Props> {
-  componentDidMount(): void {
-    if (!document.querySelector('body').classList.contains('noScroll')) {
-      document.querySelector('body').classList.add('noScroll')
-    }
-    document.querySelector('#ControlPanelWrapper').classList.add('fixed')
-  }
-
-  componentWillUnmount(): void {
-    document.querySelector('body').classList.remove('noScroll')
-    document.querySelector('#ControlPanelWrapper').classList.remove('fixed')
-  }
-
   render(): JSX.Element {
     const {
       questions,

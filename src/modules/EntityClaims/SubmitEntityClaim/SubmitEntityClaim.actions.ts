@@ -54,7 +54,7 @@ export const getClaimTemplate = (templateDid: string) => (
           let attestation: any = JSON.parse(
             fromBase64(resourceData.data),
           )
-          
+
           // For demo, let's use template.
           attestation = claimTemplate;
 

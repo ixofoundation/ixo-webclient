@@ -1,10 +1,14 @@
 import React, { Dispatch } from 'react'
-import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { RootState } from 'common/redux/types'
 import { Hero } from './components/Hero/Hero'
 import Question from './components/Question/Question'
-import { SubmitEntityClaimWrapper, ControlPanelWrapper } from './SubmitEntityClaim.container.styles'
+import {
+  SubmitEntityClaimWrapper,
+  ControlPanelWrapper,
+  MainPanelWrapper,
+  FrameContainer
+} from './SubmitEntityClaim.container.styles'
 import { Steps } from '../../../common/components/Steps/Steps'
 import { FormData } from '../../../common/components/JsonForm/types'
 import * as submitEntityClaimSelectors from './SubmitEntityClaim.selectors'
@@ -21,7 +25,12 @@ import { EntityType } from 'modules/Entities/types'
 import { entityTypeMap } from 'modules/Entities/strategy-map'
 import ControlPanel from '../../../common/components/ControlPanel/ControlPanel'
 import { QuestionForm } from '../types'
-import { getClaimTemplate } from 'modules/EntityClaims/SubmitEntityClaim/SubmitEntityClaim.actions'
+import { getClaimTemplate, createEntityClaim } from 'modules/EntityClaims/SubmitEntityClaim/SubmitEntityClaim.actions'
+import * as entitySelectors from 'modules/Entities/SelectedEntity/SelectedEntity.selectors'
+import Summary from 'modules/EntityClaims/SubmitEntityClaim/SubmitEntityClaimFinal/Summary/Summary'
+import StatusMessage, {
+  MessageType,
+} from 'common/components/StatusMessage/StatusMessage'
 
 interface Props {
   userDid: string
@@ -38,12 +47,17 @@ interface Props {
   answersComplete: boolean
   match: any
   claimTemplateIsLoading: boolean
+  entity: any
+  creating: boolean
+  created: boolean
+  error: string
   finaliseQuestions: () => void
   handlePreviousClick: () => void
   handleNextClick: () => void
   handleGoToQuestionClick: (questionNo: number) => void
   handleFormDataChange: (formData: any) => void
   handleGetClaimTemplate: (templateDid: string) => void
+  handleCreateClaim: () => void
   claimTemplateDid: string
 }
 
@@ -72,8 +86,10 @@ class SubmitEntityClaim extends React.Component<Props, State> {
       currentQuestionNo,
       questionCount,
       answersComplete,
+      questions,
       finaliseQuestions,
       handleNextClick,
+      handleGoToQuestionClick
     } = this.props
 
     if (!answersComplete && currentQuestionNo !== questionCount) {
@@ -83,7 +99,117 @@ class SubmitEntityClaim extends React.Component<Props, State> {
     if (!answersComplete && currentQuestionNo === questionCount) {
       finaliseQuestions()
     }
+
+    handleGoToQuestionClick(questions.length)
     this.setState({ showSummary: true })
+  }
+
+  handleGoToQuestion = (questionNo: number): void => {
+    const { handleGoToQuestionClick } = this.props
+    handleGoToQuestionClick(questionNo)
+    this.setState({ showSummary: false })
+  }
+
+  handleSubmit = ():void => {
+    const { handleCreateClaim } = this.props;
+
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+
+    handleCreateClaim()
+  }
+
+  handleRenderFrame = ():JSX.Element => {
+    const {
+      currentAnswer,
+      savingAnswer,
+      answersComplete,
+      currentQuestion,
+      currentQuestionNo,
+      questionCount,
+      match: {
+        params: { projectDID: entityDid },
+      },
+      questions,
+      creating,
+      created,
+      error,
+      handlePreviousClick,
+      handleFormDataChange,
+      handleCreateClaim
+    } = this.props;
+
+    const {
+      showSummary
+    } = this.state;
+
+    if (showSummary) {
+      if (creating) {
+        return (
+          <div className="mt-5 pt-5">
+            <StatusMessage
+              message="Submitting Claim"
+              messageType={MessageType.Sending}
+              repeatPulse={true}
+            />
+          </div>
+        )
+      }
+
+      if (created) {
+        return (
+          <div className="mt-5 pt-5">
+            <StatusMessage
+              message="Successfully Submitted Claim"
+              messageType={MessageType.Success}
+              repeatPulse={false}
+            ></StatusMessage>
+          </div>
+        )
+      }
+
+      if (error) {
+        return (
+          <div className="mt-5 pt-5">
+            <StatusMessage
+              message="Oops, an error occurred"
+              messageType={MessageType.Error}
+              repeatPulse={false}
+            >
+              <div className="error">{error}</div>
+              <button onClick={handleCreateClaim}>Try Again</button>
+            </StatusMessage>
+          </div>
+        )
+      }
+
+      return (
+        <Summary
+          cancelLink={`/projects/${entityDid}/overview`}
+          handleSubmit={ this.handleSubmit }
+          questions={questions.map((question) => ({
+            title: question.schema.title,
+          }))}
+          handleNavigatetoQuestion={this.handleGoToQuestion}
+        />
+      )
+    }
+
+    return (
+      <Question
+        answer={currentAnswer}
+        savingAnswer={savingAnswer}
+        handleFormDataChange={handleFormDataChange}
+        handlePreviousClick={handlePreviousClick}
+        handleNextClick={this.handleNext}
+        question={currentQuestion}
+        currentQuestionNo={currentQuestionNo}
+        questionCount={questionCount}
+        answersComplete={answersComplete}
+      />
+    )
   }
 
   render(): JSX.Element {
@@ -98,64 +224,46 @@ class SubmitEntityClaim extends React.Component<Props, State> {
       currentQuestion,
       currentQuestionNo,
       questionCount,
-      currentAnswer,
-      savingAnswer,
-      answersComplete,
       claimTitle,
       claimShortDescription,
-      handlePreviousClick,
+      entity,
       handleGoToQuestionClick,
-      handleFormDataChange,
     } = this.props
+
     if (claimTemplateIsLoading) {
       return null;
     }
 
-    if (this.state.showSummary) {
-      return (
-        <Redirect
-          to={`/projects/${entityDid}/overview/action/new_claim/summary`}
-        />
-      )
-    }
-
     return (
       <>
-        <Hero
-          entityTitle={entityTitle}
-          claimName={claimTitle}
-          claimDescription={claimShortDescription}
-        />
         <SubmitEntityClaimWrapper className="container-fluid">
-          <div className="container">
-            <div className="row">
-              <div className="col-lg-8">
+          <div className="row">
+            <MainPanelWrapper className="col-lg-9 pr-md-5">
+              <Hero
+                entityTitle={entityTitle}
+                claimName={claimTitle}
+                claimDescription={claimShortDescription}
+              />
+              <FrameContainer className="mt-3 pb-5">
                 <Steps
                   currentStepTitle={currentQuestion.schema.title}
                   currentStepNo={currentQuestionNo}
                   totalSteps={questionCount}
                   handleGoToStepClick={handleGoToQuestionClick}
                 />
-                <Question
-                  answer={currentAnswer}
-                  savingAnswer={savingAnswer}
-                  handleFormDataChange={handleFormDataChange}
-                  handlePreviousClick={handlePreviousClick}
-                  handleNextClick={this.handleNext}
-                  question={currentQuestion}
-                  currentQuestionNo={currentQuestionNo}
-                  questionCount={questionCount}
-                  answersComplete={answersComplete}
-                />
-              </div>
-              <ControlPanelWrapper className="col-lg-4">
-                <ControlPanel
-                  schema={entityTypeMap[entityType].controlPanelSchema}
-                  entityDid={entityDid}
-                  userDid={userDid}
-                />
-              </ControlPanelWrapper>
-            </div>
+                {
+                  this.handleRenderFrame()
+                }
+              </FrameContainer>
+            </MainPanelWrapper>
+            <ControlPanelWrapper className="col-lg-3">
+              <ControlPanel
+                schema={entityTypeMap[entityType].controlPanelSchema}
+                entityDid={entityDid}
+                userDid={userDid}
+                claims={ entity.entityClaims.items }
+              />
+            </ControlPanelWrapper>
           </div>
         </SubmitEntityClaimWrapper>
       </>
@@ -180,6 +288,10 @@ const mapStateToProps = (state: RootState): Record<string, any> => ({
   claimShortDescription: submitEntityClaimSelectors.selectClaimShortDescription(
     state,
   ),
+  entity: entitySelectors.selectSelectedEntity(state),
+  creating: submitEntityClaimSelectors.selectCreating(state),
+  created: submitEntityClaimSelectors.selectCreated(state),
+  error: submitEntityClaimSelectors.selectError(state),
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
@@ -191,6 +303,7 @@ const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
   finaliseQuestions: (): void => dispatch(finaliseQuestions()),
   handleGetClaimTemplate: (templateDid): void =>
     dispatch(getClaimTemplate(templateDid)),
+  handleCreateClaim: (): void => dispatch(createEntityClaim()),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(SubmitEntityClaim)

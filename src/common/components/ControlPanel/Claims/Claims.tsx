@@ -44,8 +44,8 @@ const Claims: React.FunctionComponent<Props> = ({
           claims ? claims.map(claim => {
             const to = `/projects/${entityDid}/overview/claims/new_claim/${claim['@id']}`
             return (
-              <Tooltip text='Coming soon' key={ claim['@id'] }>
-                <NavLink to={ to }>
+              <Tooltip text='Submit a Claim' key={ claim['@id'] }>
+                <NavLink to={ to } activeClassName="active">
                   <AddPerson fill='#49BFE0' />
                   { claim['title'] }
                 </NavLink>

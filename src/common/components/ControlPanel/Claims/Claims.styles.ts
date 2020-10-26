@@ -35,5 +35,8 @@ export const LinksWrapper = styled.div`
     &:focus {
       outline: none;
     }
+    &.active {
+      border: 1px solid ${(props: any): string => props.theme.ixoBlue};
+    }
   }
 `

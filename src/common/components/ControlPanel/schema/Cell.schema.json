@@ -148,29 +148,6 @@
             "value": "fuel_my_entity"
           }
         ]
-      },
-      {
-        "@type": "NewClaim",
-        "@id": "actionClaimThisCell",
-        "title": "Submit a claim",
-        "tooltip": "Submit a claim",
-        "icon": "Fuel",
-        "iconColor": "#49BFE0",
-        "endpoint": "/assistant",
-        "accessToken": null,
-        "permissions": [
-          {
-            "credential": null,
-            "role": "user"
-          }
-        ],
-        "data": null,
-        "parameters": [
-          {
-            "name": "intent",
-            "value": "new_claim"
-          }
-        ]
       }
     ]
   },
