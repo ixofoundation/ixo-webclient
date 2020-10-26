@@ -15,7 +15,7 @@ import { Spinner } from 'common/components/Spinner'
 import { Route } from 'react-router-dom'
 import EntityImpactOverview from './Overview/Overview.container'
 import EntityAgents from './EntityAgents/EntityAgents.container'
-import {ProjectAgents} from 'components/project/agents/ProjectAgents'
+import ProjectAgents from 'components/project/agents/ProjectAgents'
 import {Transition} from 'react-spring/renderprops'
 import FundingChat from 'modules/FundingChat/FundingChat.container'
 import AssistantContext from 'common/contexts/Assistant'
@@ -153,7 +153,7 @@ class EntityImpact extends React.Component<Props> {
               leave={{ width: '0%' }}
             >
               {
-                assistantPanelActive => assistantPanelActive && (props => 
+                assistantPanelActive => assistantPanelActive && (props =>
                 <div style={{background: '#002233', zIndex: 10, ...props,  }}>
                   {assistantPanelActive && (
                     <FundingChat

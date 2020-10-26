@@ -1,5 +1,5 @@
 import * as React from 'react'
-
+import { connect } from 'react-redux'
 import {
   Tab,
   SectionTitle,
@@ -13,22 +13,38 @@ import {
 import AgentCard from './AgentCard'
 import AgentDetail from './AgentDetail'
 import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
+import { RootState } from 'common/redux/types'
+import { getEntityAgents } from 'modules/Entities/SelectedEntity/EntityImpact/EntityAgents/EntityAgents.actions'
+import { AgentRole } from 'modules/Account/types'
+import * as entityAgentSelectors from 'modules/Entities/SelectedEntity/EntityImpact/EntityAgents/EntityAgents.selectors'
 
 export interface ParentProps {
   agents: any
+  match: any
   handleUpdateAgentStatus: (status: object, did: string, role: string) => void
+  handleGetEntityAgents: (entityDid: string, role: string) => void
 }
 
 export interface State {
   isModalOpened: boolean
 }
 
-export class ProjectAgents extends React.Component<ParentProps, State> {
+class ProjectAgents extends React.Component<ParentProps, State> {
   state: State = {
     isModalOpened: false
   }
-  
-  render() {
+
+  componentDidMount(): void {
+    const {
+      match: {
+        params: { projectDID: entityDid },
+      },
+      handleGetEntityAgents
+    } = this.props;
+    handleGetEntityAgents(entityDid, 'IA')
+  }
+
+  render(): JSX.Element {
     const { isModalOpened } = this.state;
     return (
       <Container>
@@ -48,7 +64,7 @@ export class ProjectAgents extends React.Component<ParentProps, State> {
                 Not Authorized
               </Tab>
             </div>
-          </div> 
+          </div>
         </div>
         {
           this.renderAgentsSection('Agents', 'Invite All')
@@ -113,7 +129,7 @@ export class ProjectAgents extends React.Component<ParentProps, State> {
       return (
         <div className="row">
           <div className="col-sm-3 my-2">
-            <AgentCard 
+            <AgentCard
               handleClick={ this.agentClicked }
             />
           </div>
@@ -123,7 +139,7 @@ export class ProjectAgents extends React.Component<ParentProps, State> {
             />
           </div>
           <div className="col-sm-3 my-2">
-            <AgentCard 
+            <AgentCard
               handleClick={ this.agentClicked }
             />
           </div>
@@ -133,7 +149,7 @@ export class ProjectAgents extends React.Component<ParentProps, State> {
             />
           </div>
         </div>
-        
+
       )
     }
     return (
@@ -145,3 +161,17 @@ export class ProjectAgents extends React.Component<ParentProps, State> {
     )
   }
 }
+
+const mapStateToProps = (state: RootState): any => ({
+  isFetching: entityAgentSelectors.selectIsFetching(state),
+  fetchError: entityAgentSelectors.selectFetchError(state),
+  agents: entityAgentSelectors.selectEntityAgents(state),
+})
+
+const mapDispatchToProps = (dispatch: React.Dispatch<any>): any => ({
+  handleGetEntityAgents: (entityDid: string, role: AgentRole): void =>
+    dispatch(getEntityAgents(entityDid, role)),
+})
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProjectAgents)
