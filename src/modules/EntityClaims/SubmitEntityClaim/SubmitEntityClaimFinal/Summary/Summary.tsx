@@ -27,11 +27,6 @@ class ClaimSummary extends React.Component<Props> {
       <SummaryWrapper>
         <div>
           <h2 className="summary-header">Claim Summary</h2>
-          <h6>Claim Identifier</h6>
-          <strong>
-            {/* @TODO Upadate this dynamically */}
-            a5e45d26a84df315a11384a1b7c1e3e94dda327fa15bd22254da8d45ed95840e
-          </strong>
           <h3 className="list-header">Sections</h3>
         </div>
         <ClaimSummaryList>
