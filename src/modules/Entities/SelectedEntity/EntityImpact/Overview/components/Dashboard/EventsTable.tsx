@@ -14,7 +14,6 @@ import {
   StyledMobileBuyCell,
   StyledMobilePurposeCell,
   StyledDateWrapper,
-  StyledAmountWrapper,
   StyledMobileDescriptionCell
 } from './EventsTable.styles'
 import ValueComponent from './Value'
