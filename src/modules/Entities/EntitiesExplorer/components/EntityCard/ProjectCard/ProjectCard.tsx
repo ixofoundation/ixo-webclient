@@ -37,6 +37,7 @@ interface Props {
   successfulClaimsCount: number
   rejectedClaimsCount: number
   goal: string
+  status: string
   // TODO when data exists
   /*   fundedCount: number
   version: string
@@ -56,6 +57,7 @@ const ProjectCard: React.FunctionComponent<Props> = ({
   successfulClaimsCount: successfulClaims,
   rejectedClaimsCount: rejectedClaims,
   goal: impactAction,
+  status,
   /*   fundedCount,
   version,
   activeUsage,
@@ -85,8 +87,8 @@ const ProjectCard: React.FunctionComponent<Props> = ({
           <div className="row">
             <div className="col-6">
               <Shield
-                label="Template"
-                text="Project"
+                label="Status"
+                text={ status.toLowerCase() }
                 color={ShieldColor.Blue}
               />
             </div>
@@ -97,7 +99,7 @@ const ProjectCard: React.FunctionComponent<Props> = ({
           <MainContent>
             <Title>{excerptText(name, 10)}</Title>
           </MainContent>
-          <StatisticsContainer className="row">
+         {/*  <StatisticsContainer className="row">
             <div className="col-4">
               <StatisticValue>68%</StatisticValue>
               <StatisticLabel>Funded</StatisticLabel>
@@ -112,7 +114,7 @@ const ProjectCard: React.FunctionComponent<Props> = ({
               </StatisticValue>
               <StatisticLabel>Rating (380)</StatisticLabel>
             </div>
-          </StatisticsContainer>
+          </StatisticsContainer> */}
           <ProgressBar
             total={requiredClaims}
             approved={successfulClaims}

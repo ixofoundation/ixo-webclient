@@ -87,7 +87,9 @@ export const updateLoginStatus = () => (
           }
         })
     } else {
-      dispatch(logout())
+      if (userInfo !== null) {
+        dispatch(logout())
+      }
     }
   })
 }
