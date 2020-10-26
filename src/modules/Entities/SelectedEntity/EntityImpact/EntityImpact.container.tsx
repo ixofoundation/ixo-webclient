@@ -153,7 +153,7 @@ class EntityImpact extends React.Component<Props> {
               leave={{ width: '0%' }}
             >
               {
-                assistantPanelActive => assistantPanelActive && (props => 
+                assistantPanelActive => assistantPanelActive && (props =>
                 <div style={{background: '#002233', zIndex: 10, ...props,  }}>
                   {assistantPanelActive && (
                     <FundingChat

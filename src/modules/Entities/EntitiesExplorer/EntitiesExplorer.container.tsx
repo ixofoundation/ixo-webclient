@@ -204,7 +204,7 @@ class EntitiesExplorer extends React.Component<Props> {
               leave={{ width: '0%' }}
             >
               {
-                assistantPanelActive => assistantPanelActive && (props => 
+                assistantPanelActive => assistantPanelActive && (props =>
                 <div style={ props }>
                   {assistantPanelActive && (
                     <FundingChat

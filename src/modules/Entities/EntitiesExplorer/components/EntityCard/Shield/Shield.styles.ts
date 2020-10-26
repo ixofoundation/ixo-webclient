@@ -15,6 +15,7 @@ export const ShieldContainer = styled.div`
 export const ShieldText = styled.p`
   margin: 0;
   font-size: 12px;
+  text-transform: capitalize;
 `
 
 export const ShieldTextContainer = styled.div`
