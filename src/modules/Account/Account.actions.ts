@@ -59,7 +59,10 @@ export const updateLoginStatus = () => (
   } = getState()
 
   if (!keysafe) {
-    return dispatch(logout())
+    if (userInfo !== null) {
+      return dispatch(logout())
+    }
+    return
   }
 
   keysafe.getInfo((error, response) => {
