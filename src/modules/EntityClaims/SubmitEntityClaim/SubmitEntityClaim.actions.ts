@@ -54,7 +54,7 @@ export const getClaimTemplate = (templateDid: string) => (
           let attestation: any = JSON.parse(
             fromBase64(resourceData.data),
           )
-          
+
           // For demo, let's use template.
           attestation = claimTemplate;
 
@@ -187,6 +187,9 @@ export const createEntityClaim = () => (
   const claimApiPayload = submitEntityClaimSelectors.selectClaimApiPayload(
     getState(),
   )
+
+  console.log(JSON.stringify(claimApiPayload));
+  console.log(claimApiPayload);
 
   keysafe.requestSigning(
     JSON.stringify(claimApiPayload),

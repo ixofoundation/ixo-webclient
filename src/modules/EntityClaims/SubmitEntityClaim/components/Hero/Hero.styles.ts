@@ -2,7 +2,6 @@ import styled from "styled-components";
 import { deviceWidth } from "../../../../../lib/commonData";
 
 export const HeroContainer = styled.div`
-  background: #f7f8f9;
   color: #7b8285;
   font-family: ${(props: any): string => props.theme.fontRoboto};
   display: flex;
@@ -16,7 +15,7 @@ export const HeroContainer = styled.div`
 
   h1 {
     font-family: ${(props: any): string => props.theme.fontRobotoCondensed};
-    font-size: 45px;
+    font-size: 2.8125rem;
     line-height: 1;
     color: black;
     margin: 0;
@@ -32,7 +31,7 @@ export const HeroContainer = styled.div`
   }
 
   p {
-    font-size: 18px;
+    font-size: 0.875rem;
     line-height: 2;
     color: #7b8285;
     margin: 0;

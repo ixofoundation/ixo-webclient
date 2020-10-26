@@ -8,7 +8,6 @@ interface Props {
 }
 
 export const Hero: React.FunctionComponent<Props> = ({
-  entityTitle,
   claimName,
   claimDescription,
 }) => {
@@ -17,7 +16,6 @@ export const Hero: React.FunctionComponent<Props> = ({
       <div className="container">
         <div className="row">
           <div className="col-12">
-            <h6>{entityTitle}</h6>
             <h1>{claimName}</h1>
             <p>{claimDescription}</p>
           </div>
