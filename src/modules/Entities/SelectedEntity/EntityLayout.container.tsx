@@ -47,7 +47,7 @@ class EntityLayout extends React.Component<Props> {
       <Switch>
         <Route
           exact
-          path="/projects/:projectDID/overview/action/new_claim/form"
+          path="/projects/:projectDID/overview/claims/new_claim/:claimTemplateDid"
           component={SubmitEntityClaim}
         />
 

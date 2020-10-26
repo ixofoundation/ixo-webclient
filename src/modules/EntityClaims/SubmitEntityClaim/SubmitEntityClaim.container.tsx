@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { RootState } from 'common/redux/types'
 import { Hero } from './components/Hero/Hero'
 import Question from './components/Question/Question'
-import { SubmitEntityClaimWrapper } from './SubmitEntityClaim.container.styles'
+import { SubmitEntityClaimWrapper, ControlPanelWrapper } from './SubmitEntityClaim.container.styles'
 import { Steps } from '../../../common/components/Steps/Steps'
 import { FormData } from '../../../common/components/JsonForm/types'
 import * as submitEntityClaimSelectors from './SubmitEntityClaim.selectors'
@@ -61,7 +61,8 @@ class SubmitEntityClaim extends React.Component<Props, State> {
   }
 
   componentDidMount() {
-    const { claimTemplateDid, handleGetClaimTemplate } = this.props;
+    const { claimTemplateDid } = this.props.match.params;
+    const { handleGetClaimTemplate } = this.props;
 
     handleGetClaimTemplate(claimTemplateDid);
   }
@@ -102,18 +103,10 @@ class SubmitEntityClaim extends React.Component<Props, State> {
       answersComplete,
       claimTitle,
       claimShortDescription,
-      claimTemplateDid,
       handlePreviousClick,
       handleGoToQuestionClick,
       handleFormDataChange,
     } = this.props
-
-    if (typeof claimTemplateDid === 'undefined') {
-      return (
-        <Redirect to={`/projects/${entityDid}/overview`} />
-      )
-    }
-
     if (claimTemplateIsLoading) {
       return null;
     }
@@ -155,13 +148,13 @@ class SubmitEntityClaim extends React.Component<Props, State> {
                   answersComplete={answersComplete}
                 />
               </div>
-              <div className="col-lg-4">
+              <ControlPanelWrapper className="col-lg-4">
                 <ControlPanel
                   schema={entityTypeMap[entityType].controlPanelSchema}
                   entityDid={entityDid}
                   userDid={userDid}
                 />
-              </div>
+              </ControlPanelWrapper>
             </div>
           </div>
         </SubmitEntityClaimWrapper>
@@ -182,7 +175,6 @@ const mapStateToProps = (state: RootState): Record<string, any> => ({
   entityType: selectedEntitySelectors.selectEntityType(state),
   entityTitle: selectedEntitySelectors.selectEntityName(state),
   entityDid: selectedEntitySelectors.selectEntityDid(state),
-  claimTemplateDid: selectedEntitySelectors.selectEntityClaimTemplateId(state),
   claimTemplateIsLoading: submitEntityClaimSelectors.selectIsLoading(state),
   claimTitle: submitEntityClaimSelectors.selectClaimTitle(state),
   claimShortDescription: submitEntityClaimSelectors.selectClaimShortDescription(

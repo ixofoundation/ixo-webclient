@@ -195,6 +195,42 @@
         ],
         "data": null,
         "parameters": null
+      },
+      {
+        "@type": "Gitcoin",
+        "@id": "appGitcoin",
+        "title": "Gitcoin",
+        "tooltip": "Coming soon",
+        "icon": "GitCoin",
+        "iconColor": null,
+        "endpoint": null,
+        "accessToken": null,
+        "permissions": [
+          {
+            "credential": null,
+            "role": null
+          }
+        ],
+        "data": null,
+        "parameters": null
+      },
+      {
+        "@type": "DaoStack",
+        "@id": "appDaoStack",
+        "title": "DAOStack",
+        "tooltip": "Coming soon",
+        "icon": "DaoStack",
+        "iconColor": null,
+        "endpoint": null,
+        "accessToken": null,
+        "permissions": [
+          {
+            "credential": null,
+            "role": null
+          }
+        ],
+        "data": null,
+        "parameters": null
       }
     ]
   },
