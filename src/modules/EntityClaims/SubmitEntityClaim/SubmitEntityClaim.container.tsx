@@ -1,5 +1,4 @@
 import React, { Dispatch } from 'react'
-import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { RootState } from 'common/redux/types'
 import { Hero } from './components/Hero/Hero'
