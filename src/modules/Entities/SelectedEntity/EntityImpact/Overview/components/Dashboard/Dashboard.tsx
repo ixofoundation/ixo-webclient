@@ -15,12 +15,16 @@ import {
   ClaimsLabels,
   ClaimsTopLabels,
   ClaimsWidget,
-  SectionHeader
+  SectionHeader,
+  ProgressContainer
 } from './Dashboard.styles'
 import { Button, ButtonTypes } from 'common/components/Form/Buttons'
 import ButtonSlider from 'common/components/ButtonSlider/ButtonSlider'
 import ProjectGovernance from './ProjectGovernance'
 import Targets from './Targets'
+import EventsTable from './EventsTable'
+import CircledLocation from 'assets/icons/CircledLocation'
+import Events from 'assets/icons/Events'
 
 export interface Props {
   did: string
@@ -62,11 +66,43 @@ const Dashboard: React.FunctionComponent<Props> = ({
   }
   
   const [activeTab, setActiveTab] = React.useState('educational_pass');
+  const [selectedHeader, setSelectedHeader] = React.useState('price')
 
   const handleTabClick = (tab) => {
     setActiveTab(tab);
   }
-
+  const dummyClaims = [
+    {
+      status: '1',
+      claimId: 'Water system no.234559574 completed',
+      saDid: 'Service Provider name',
+      date: '2020-10-09',
+    },
+    {
+      status: '2',
+      claimId: 'Water system no.234559574 completed',
+      saDid: 'Service Provider name',
+      date: '2020-10-09',
+    },
+    {
+      status: '3',
+      claimId: 'Water system no.234559574 completed',
+      saDid: 'Service Provider name',
+      date: '2020-10-09',
+    },
+    {
+      status: '0',
+      claimId: 'Water system no.234559574 completed',
+      saDid: 'Service Provider name',
+      date: '2020-10-09',
+    },
+    {
+      status: '0',
+      claimId: 'Water system no.234559574 completed',
+      saDid: 'Service Provider name',
+      date: '2020-10-09',
+    }
+  ]
   return (
     <LayoutWrapper>
       <Container className="row">
@@ -77,7 +113,7 @@ const Dashboard: React.FunctionComponent<Props> = ({
             linkIcon={'icon-expand'}
             titleIcon={ <img src={ require('assets/img/sidebar/performance.svg') } /> }
           >
-            <div className="d-flex justify-content-between w-100 mt-3 mb-2">
+            <div className="d-flex justify-content-between w-100 mt-3 mb-2 flex-column flex-sm-row">
               <ButtonSlider>
                 <Button
                   type={ ButtonTypes.dark }
@@ -150,7 +186,7 @@ const Dashboard: React.FunctionComponent<Props> = ({
           </WidgetWrapper>
         </div>
         {
-          <div className="col-sm-6 col-lg-3 py-3">
+          <div className="col-sm-6 col-lg-3" style={{ paddingTop: 20, paddingBottom: 20 }}>
             <WidgetWrapper
               title="Project Governance"
               link={showAgentLinks}
@@ -176,7 +212,7 @@ const Dashboard: React.FunctionComponent<Props> = ({
           </div>
         }
         {
-          <div className="col-sm-6 col-lg-3 py-3">
+          <div className="col-sm-6 col-lg-3" style={{ paddingTop: 20, paddingBottom: 20 }}>
             <WidgetWrapper
               title="Outcomes Targets"
               link={showAgentLinks}
@@ -191,7 +227,7 @@ const Dashboard: React.FunctionComponent<Props> = ({
           </div>
         }
         {
-          <div className="col-lg-6 py-3">
+          <div className="col-lg-6" style={{ paddingTop: 20, paddingBottom: 20 }}>
             <WidgetWrapper
               title="Impact claims"
               gridHeight={gridSizes.standard}
@@ -213,14 +249,14 @@ const Dashboard: React.FunctionComponent<Props> = ({
                       <strong>{remainingClaimsCount}</strong> remaining claims
                     </p>
                   </div>
-                  <div>
+                  <div className="mt-2">
                     <SectionHeader>
                       <img src={ require('assets/img/sidebar/profile.png') } />
                       Agents
                       <i className='icon-expand' />
                     </SectionHeader>
-                    <div className="mt-4">
-                      <div style={{ paddingLeft: '40px' }}>
+                    <div className="mt-2 mt-sm-4">
+                      <div style={{ paddingLeft: '60px'}}>
                         <div>
                           <strong>23</strong> authorised Service Providers
                         </div>
@@ -231,41 +267,58 @@ const Dashboard: React.FunctionComponent<Props> = ({
                     </div>
                   </div>
                 </ClaimsLabels>
-                <CircleProgressbar
-                  approved={2}
-                  rejected={1}
-                  pending={1}
-                  totalNeeded={requiredClaimsCount}
-                  descriptor={<>water systems built by 23 <strong>Agents</strong></>}
-                />
+                <ProgressContainer>
+                  <CircleProgressbar
+                    approved={2}
+                    rejected={1}
+                    pending={1}
+                    totalNeeded={requiredClaimsCount}
+                    descriptor={<>water systems built by 23 <strong>Agents</strong></>}
+                  />
+                </ProgressContainer> 
               </ClaimsWidget>
             </WidgetWrapper>
           </div>
         }
-        {claims.length > 0 && (
-          <div className="col-md-6">
+        <div className="col-md-12">
+          <WidgetWrapper
+            title="Project Events"
+            path={`/projects/${did}/detail/events`}
+            gridHeight={gridSizes.standard}
+            titleIcon={ <Events /> }
+            link={true}
+            linkIcon={'icon-expand'}
+          >
+            <EventsTable />
+          </WidgetWrapper>
+          {/* <BondTable selectedHeader={selectedHeader} /> */}
+        </div>
+        <div className="col-md-6" style={{ paddingTop: 20, paddingBottom: 20 }}>
+          <WidgetWrapper
+            title="Claim location activity"
+            path={`/projects/${did}/detail/claims`}
+            gridHeight={gridSizes.standard}
+            titleIcon={ <CircledLocation /> }
+          >
+            <WorldMap markers={[latLng]} />
+          </WidgetWrapper>
+        </div>
+        {dummyClaims.length > 0 && (
+          <div className="col-md-6" style={{ paddingTop: 20, paddingBottom: 20 }}>
             <WidgetWrapper
               title="Latest claims"
               path={`/projects/${did}/detail/claims`}
               gridHeight={gridSizes.standard}
+              titleIcon={ <img src={ require('assets/img/sidebar/claim.png') } /> }
+              linkIcon={'icon-expand'}
+              link={true}
             >
               <ProjectClaims
-                claims={claims}
+                claims={dummyClaims}
                 did={did}
                 fullPage={false}
                 hasLink={showClaimLinks}
               />
-            </WidgetWrapper>
-          </div>
-        )}
-        {claims.length > 0 && (
-          <div className="col-md-6">
-            <WidgetWrapper
-              title="Claim location activity"
-              path={`/projects/${did}/detail/claims`}
-              gridHeight={gridSizes.standard}
-            >
-              <WorldMap markers={[latLng]} />
             </WidgetWrapper>
           </div>
         )}

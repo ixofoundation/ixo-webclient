@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
+import { deviceWidth } from 'lib/commonData'
 
 export const Section = styled.section`
   padding-bottom: 30px;
@@ -31,11 +32,13 @@ export const Section = styled.section`
 `
 
 export const Indicator = styled.div`
-  width: 12px;
-  height: 25px;
+  width: 11px;
+  height: 26px;
+  border-radius: 54px;
   position: absolute;
-  top: 18px;
   left: -6px;
+  top: 50%;
+  transform: translateY(-50%);
 
   background: ${/* eslint-disable-line */ (props) => props.color};
 `
@@ -79,22 +82,37 @@ export const ClaimsWidget = styled.div`
 export const ClaimTitle = styled.p`
   display: flex;
   justify-content: space-between;
+
+  @media (max-width: ${deviceWidth.mobile}px) {
+    flex-direction: column;
+  }
 `
 
 export const ID = styled.span`
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 70%;
+
+  @media (max-width: ${deviceWidth.mobile}px) {
+    font-size: 1rem;
+    font-weight: 700;
+  }
 `
 
 export const Date = styled.span`
   font-weight: 300;
   font-size: 13px;
   color: #d6d3d3;
+  @media (max-width: ${deviceWidth.mobile}px) {
+    font-size: 0.625rem;
+  }
 `
 
 export const Did = styled.p`
-	&& {color: ${/* eslint-disable-line */ (props) => props.theme.ixoBlue};
+  && {color: ${/* eslint-disable-line */ (props) => props.theme.ixoBlue};
+  @media (max-width: ${deviceWidth.mobile}px) {
+    font-size: 0.625rem;
+  }
 `
 
 export const ListItemWrapper = styled.div`
