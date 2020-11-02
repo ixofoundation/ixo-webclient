@@ -74,11 +74,11 @@ class SubmitEntityClaim extends React.Component<Props, State> {
     }
   }
 
-  componentDidMount() {
-    const { claimTemplateDid } = this.props.match.params;
+  componentDidMount(): void {
+    /* const { claimTemplateDid } = this.props.match.params;
     const { handleGetClaimTemplate } = this.props;
 
-    handleGetClaimTemplate(claimTemplateDid);
+    handleGetClaimTemplate(claimTemplateDid); */
   }
 
   handleNext = (): void => {
