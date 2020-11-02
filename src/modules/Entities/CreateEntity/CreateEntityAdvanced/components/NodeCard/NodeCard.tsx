@@ -26,6 +26,8 @@ const NodeCard: React.FunctionComponent<Props> = React.forwardRef(
     },
     ref,
   ) => {
+    const [extraErrors, setExtraErrors] = React.useState({ serviceEndpoint: { __errors: [] } })
+
     const formData = {
       type,
       nodeId,
@@ -62,21 +64,21 @@ const NodeCard: React.FunctionComponent<Props> = React.forwardRef(
     const endpointHealthCheck = async (url): Promise<boolean> => {
       const isWorking = await Axios.get(url)
       .then((response) => {
-        console.log('ffffffffffffffffff')
         return response.status === 200;
       }).catch((reason: any) => false)
-      console.log('gggggggggggggggggggg')
+
+      if (isWorking) {
+        setExtraErrors({ serviceEndpoint: { __errors: [] } })
+      } else {
+        setExtraErrors({ serviceEndpoint: { __errors: ['Check that you have the correct end-point for the Cell Node. Confirm that your instance of the Cell Node is running.'] } })
+      }
       return isWorking
     }
 
     const validateNodeUrl = (formData:any, errors: FormValidation): FormValidation => {
       if (errors.serviceEndpoint.__errors.length === 0) {
-        const isWorking = endpointHealthCheck(formData.serviceEndpoint)
-        console.log('fffffffffffff', isWorking);
-        if (isWorking) {
-          console.log('fffffffffffff', isWorking);
-          errors.serviceEndpoint.addError('Check that you have the correct end-point for the Cell Node. Confirm that your instance of the Cell Node is running.')
-        }
+        setExtraErrors({ serviceEndpoint: { __errors: ['Validating the cell node url.'] } })
+        endpointHealthCheck(formData.serviceEndpoint)
       }
       return errors;
     }
@@ -93,6 +95,7 @@ const NodeCard: React.FunctionComponent<Props> = React.forwardRef(
           uiSchema={uiSchema}
           validate={ validateNodeUrl }
           liveValidate={false}
+          extraErrors={ extraErrors }
           multiColumn
         >
           &nbsp;

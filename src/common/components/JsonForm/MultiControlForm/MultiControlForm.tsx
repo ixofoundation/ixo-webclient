@@ -11,6 +11,7 @@ interface Props {
   formData: FormData
   schema: any
   uiSchema: any
+  extraErrors?: any
   liveValidate?: boolean
   onFormDataChange: (formData: any) => void
   onSubmit: () => void
@@ -26,6 +27,7 @@ const MultiControlForm: React.FunctionComponent<Props> = React.forwardRef(
       multiColumn,
       schema,
       uiSchema,
+      extraErrors,
       liveValidate = true,
       onFormDataChange,
       onSubmit,
@@ -46,6 +48,19 @@ const MultiControlForm: React.FunctionComponent<Props> = React.forwardRef(
 
     useImperativeHandle(ref, () => ({
       validateAndSubmit: (): void => {
+        let noExtraError = true;
+        if (typeof extraErrors !== 'undefined') {
+          Object.keys(extraErrors).forEach((field) => {
+            if (extraErrors[field]['__errors'].length !== 0) {
+              noExtraError = false;
+            }
+          })
+        }
+
+        if (!noExtraError) {
+          return;
+        }
+
         if (validationComplete) {
           jsonFormRef.current.submit()
         } else {
@@ -92,6 +107,7 @@ const MultiControlForm: React.FunctionComponent<Props> = React.forwardRef(
           ObjectFieldTemplate={
             multiColumn ? ObjectFieldTemplate2Column : undefined
           }
+          extraErrors={ extraErrors }
         >
           {children}
         </Form>
