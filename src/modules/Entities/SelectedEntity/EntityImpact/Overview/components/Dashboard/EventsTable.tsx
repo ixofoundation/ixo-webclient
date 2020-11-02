@@ -18,7 +18,7 @@ import {
 } from './EventsTable.styles'
 import ValueComponent from './Value'
 
-const data = [
+/* const data = [
   {
     date: '2020-10-09',
     type: 'Bank Deposit',
@@ -67,7 +67,8 @@ const data = [
     value: 1500,
     status: 3,
   }
-]
+] */
+const data = []
 
 const renderCell = (cell: any): any => {
   if (cell.column.id === 'date') {

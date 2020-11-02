@@ -48,8 +48,6 @@ const Dashboard: React.FunctionComponent<Props> = ({
   did,
   serviceProvidersCount,
   serviceProvidersPendingCount,
-  evaluatorsCount,
-  evaluatorsPendingCount,
   claims,
   goal,
   requiredClaimsCount,
@@ -64,45 +62,14 @@ const Dashboard: React.FunctionComponent<Props> = ({
   const getClaimsOfType = (claimType: string): Array<any> => {
     return [...claims].filter((claim) => claim.status === claimType)
   }
-  
+
   const [activeTab, setActiveTab] = React.useState('educational_pass');
   const [selectedHeader, setSelectedHeader] = React.useState('price')
 
   const handleTabClick = (tab) => {
     setActiveTab(tab);
   }
-  const dummyClaims = [
-    {
-      status: '1',
-      claimId: 'Water system no.234559574 completed',
-      saDid: 'Service Provider name',
-      date: '2020-10-09',
-    },
-    {
-      status: '2',
-      claimId: 'Water system no.234559574 completed',
-      saDid: 'Service Provider name',
-      date: '2020-10-09',
-    },
-    {
-      status: '3',
-      claimId: 'Water system no.234559574 completed',
-      saDid: 'Service Provider name',
-      date: '2020-10-09',
-    },
-    {
-      status: '0',
-      claimId: 'Water system no.234559574 completed',
-      saDid: 'Service Provider name',
-      date: '2020-10-09',
-    },
-    {
-      status: '0',
-      claimId: 'Water system no.234559574 completed',
-      saDid: 'Service Provider name',
-      date: '2020-10-09',
-    }
-  ]
+
   return (
     <LayoutWrapper>
       <Container className="row">
@@ -221,7 +188,7 @@ const Dashboard: React.FunctionComponent<Props> = ({
               linkIcon={'icon-expand'}
               titleIcon={ <img src={ require('assets/img/sidebar/target.png') } /> }
             >
-              <Targets 
+              <Targets
               />
             </WidgetWrapper>
           </div>
@@ -258,10 +225,10 @@ const Dashboard: React.FunctionComponent<Props> = ({
                     <div className="mt-2 mt-sm-4">
                       <div style={{ paddingLeft: '60px'}}>
                         <div>
-                          <strong>23</strong> authorised Service Providers
+                          <strong>{ serviceProvidersCount }</strong> authorised Service Providers
                         </div>
                         <div>
-                          <strong>5</strong> pending Service Providers
+                          <strong>{ serviceProvidersPendingCount }</strong> pending Service Providers
                         </div>
                       </div>
                     </div>
@@ -275,7 +242,7 @@ const Dashboard: React.FunctionComponent<Props> = ({
                     totalNeeded={requiredClaimsCount}
                     descriptor={<>water systems built by 23 <strong>Agents</strong></>}
                   />
-                </ProgressContainer> 
+                </ProgressContainer>
               </ClaimsWidget>
             </WidgetWrapper>
           </div>
@@ -303,25 +270,23 @@ const Dashboard: React.FunctionComponent<Props> = ({
             <WorldMap markers={[latLng]} />
           </WidgetWrapper>
         </div>
-        {dummyClaims.length > 0 && (
-          <div className="col-md-6" style={{ paddingTop: 20, paddingBottom: 20 }}>
-            <WidgetWrapper
-              title="Latest claims"
-              path={`/projects/${did}/detail/claims`}
-              gridHeight={gridSizes.standard}
-              titleIcon={ <img src={ require('assets/img/sidebar/claim.png') } /> }
-              linkIcon={'icon-expand'}
-              link={true}
-            >
-              <ProjectClaims
-                claims={dummyClaims}
-                did={did}
-                fullPage={false}
-                hasLink={showClaimLinks}
-              />
-            </WidgetWrapper>
-          </div>
-        )}
+        <div className="col-md-6" style={{ paddingTop: 20, paddingBottom: 20 }}>
+          <WidgetWrapper
+            title="Latest claims"
+            path={`/projects/${did}/detail/claims`}
+            gridHeight={gridSizes.standard}
+            titleIcon={ <img src={ require('assets/img/sidebar/claim.png') } /> }
+            linkIcon={'icon-expand'}
+            link={true}
+          >
+            <ProjectClaims
+              claims={claims}
+              did={did}
+              fullPage={false}
+              hasLink={showClaimLinks}
+            />
+          </WidgetWrapper>
+        </div>
       </Container>
     </LayoutWrapper>
   )
