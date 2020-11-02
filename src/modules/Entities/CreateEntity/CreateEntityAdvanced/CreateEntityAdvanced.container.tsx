@@ -255,7 +255,7 @@ class CreateEntityAdvanced extends CreateEntityBase<Props> {
         {nodes.map((stake) => {
           this.cardRefs[stake.id] = React.createRef()
 
-          const { id, type, nodeId } = stake
+          const { id, type, nodeId, serviceEndpoint } = stake
 
           return (
             <NodeCard
@@ -263,6 +263,7 @@ class CreateEntityAdvanced extends CreateEntityBase<Props> {
               key={id}
               type={type}
               nodeId={nodeId}
+              serviceEndpoint={serviceEndpoint}
               handleUpdateContent={(formData): void =>
                 handleUpdateNode(id, formData)
               }

@@ -1,5 +1,5 @@
 import React, { useState, useImperativeHandle, useEffect } from 'react'
-import Form from '@rjsf/core'
+import Form, { FormValidation } from '@rjsf/core'
 import { FormData } from '../types'
 import { FormContainer } from '../JsonForm.styles'
 import * as formUtils from '../JsonForm.utils'
@@ -11,9 +11,11 @@ interface Props {
   formData: FormData
   schema: any
   uiSchema: any
+  liveValidate?: boolean
   onFormDataChange: (formData: any) => void
   onSubmit: () => void
   onError?: (fields: string[]) => void
+  validate?: (formData:any, errors: FormValidation) => FormValidation
 }
 
 const MultiControlForm: React.FunctionComponent<Props> = React.forwardRef(
@@ -24,9 +26,11 @@ const MultiControlForm: React.FunctionComponent<Props> = React.forwardRef(
       multiColumn,
       schema,
       uiSchema,
+      liveValidate = true,
       onFormDataChange,
       onSubmit,
       onError,
+      validate
     },
     ref,
   ) => {
@@ -55,7 +59,13 @@ const MultiControlForm: React.FunctionComponent<Props> = React.forwardRef(
     }
 
     const handleError = (errors: any[]): void => {
-      onError(errors.map(error => error.property.replace('.', '')))
+      onError(errors.map(error => {
+        if (error.property) {
+          error.property.replace('.', '')
+        }
+
+        return error
+      }))
     }
 
     return (
@@ -66,10 +76,11 @@ const MultiControlForm: React.FunctionComponent<Props> = React.forwardRef(
           onChange={(e): void => onFormDataChange(e.formData)}
           onSubmit={onSubmit}
           noHtml5Validate
-          liveValidate
+          liveValidate={ liveValidate }
           showErrorList={false}
           schema={schema}
           uiSchema={uiSchema}
+          validate={validate}
           transformErrors={(errors): any =>
             validationComplete
               ? formUtils.transformErrors(errors)

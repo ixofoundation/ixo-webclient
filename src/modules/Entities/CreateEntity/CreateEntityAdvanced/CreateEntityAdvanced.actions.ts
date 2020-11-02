@@ -165,7 +165,7 @@ export const updateNode = (
   id: string,
   formData: FormData,
 ): UpdateNodeAction => {
-  const { type, nodeId } = formData
+  const { type, nodeId, serviceEndpoint } = formData
 
   return {
     type: CreateEntityAdvancedActions.UpdateNode,
@@ -173,6 +173,7 @@ export const updateNode = (
       id,
       type,
       nodeId,
+      serviceEndpoint
     },
   }
 }
