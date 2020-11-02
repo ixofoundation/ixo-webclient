@@ -7,6 +7,10 @@ import Twitter from 'assets/icons/Twitter'
 import Github from 'assets/icons/Github'
 import { Button, ButtonTypes } from 'common/components/Form/Buttons'
 import { deviceWidth } from 'lib/commonData'
+import Tick from 'assets/icons/Tick'
+import Texting from 'assets/icons/Texting'
+import Cross from 'assets/icons/Cross'
+import Expand from 'common/components/Animation/Expand'
 
 const Logos = styled.div`
   display: flex;
@@ -50,7 +54,7 @@ const Username = styled.div`
   border-radius: 0.25rem;
   color: white;
   font-size: 0.75rem;
-  padding: 0.325rem 0.625rem; 
+  padding: 0.325rem 0.625rem;
   display: flex;
   align-items: center;
   margin-top: 0.75rem;
@@ -103,7 +107,7 @@ const ClaimLabel = styled.span`
 
 const Divider = styled.hr`
   border-color: #143F54;
-  margin-top: 1.75rem;
+  margin-top: 1rem;
   margin-bottom: 0.75rem;
   @media (max-width: ${deviceWidth.mobile}px) {
     margin-top: 0.75rem;
@@ -115,14 +119,61 @@ const ButtonWrapper = styled.div`
   margin-top: 1.25rem;
 `
 
+const ActionButtonContainer = styled.div`
+  border-top: 1px solid #143F54;
+  display: flex;
+  justify-content: space-between;
+  padding-top: 1rem;
+  width: 100%;
+`
+
+const ActionButton = styled.button`
+  border-radius: 4px;
+  color: ${/* eslint-disable-line */ (props) => props.theme.fontDarkBlueButtonHover};
+  font-size: 1rem;
+  border: 1px solid #29C7ED;
+  font-weight: bold;
+  background: transparent;
+  padding: 0.4rem 1rem;
+  transition: all 0.3s ease;
+  > svg {
+    margin-left: 1rem;
+  }
+
+  &.green {
+    background: linear-gradient(180deg, #41C1E4 0%, #49BFE0 100%);
+    color: white;
+    border-width: 0;
+
+    :hover {
+      background: ${/* eslint-disable-line */ (props) =>
+        props.theme.bg.fontDarkBlue};
+      color: ${/* eslint-disable-line */ (props) => props.theme.fontDarkBlueButtonHover};
+    }
+  }
+
+  :hover {
+    background: ${/* eslint-disable-line */ (props) =>
+      props.theme.bg.darkButton};
+    color: white;
+  }
+`
+
 export interface Props {
   onClose: () => void
 }
 
 const AgentDetail : React.FunctionComponent<Props> = ({onClose}) => {
+  const [expanded, setExpanded] = React.useState(false)
+
   return (
     <DetailContainer>
-      <Details>
+      <div
+        onMouseEnter={ ():void => setExpanded(true) }
+        onMouseLeave={ ():void => setExpanded(false) }
+      >
+      <Details
+      >
         <Avatar src={ require('assets/images/user-thumb.png') } className="mb-2 mb-sm-0 mr-sm-3" />
         <div className="d-flex flex-column flex-grow-1 ml-3 align-items-sm-start align-items-center">
           <Name>
@@ -148,6 +199,33 @@ const AgentDetail : React.FunctionComponent<Props> = ({onClose}) => {
           </Logos>
         </div>
       </Details>
+      <Expand
+        expanded={ expanded }
+      >
+        <ActionButtonContainer
+        >
+          <ActionButton
+          >
+            Message
+            <Texting />
+          </ActionButton>
+          <div className="d-flex">
+            <ActionButton
+              className="mr-2"
+            >
+              Reject
+              <Cross />
+            </ActionButton>
+            <ActionButton
+              className="green"
+            >
+              Authorize
+              <Tick />
+            </ActionButton>
+          </div>
+        </ActionButtonContainer>
+      </Expand>
+      </div>
       <Divider />
       <ItemsContainer>
         <div className="d-flex align-items-center rounded">
@@ -228,7 +306,7 @@ const AgentDetail : React.FunctionComponent<Props> = ({onClose}) => {
           Close
         </Button>
       </ButtonWrapper>
-      
+
     </DetailContainer>
   )
 };

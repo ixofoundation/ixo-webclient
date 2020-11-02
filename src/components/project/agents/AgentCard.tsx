@@ -5,10 +5,17 @@ import Message from 'assets/icons/Message'
 import Linkedin from 'assets/icons/Linkedin'
 import Twitter from 'assets/icons/Twitter'
 import Github from 'assets/icons/Github'
+import Expand from 'common/components/Animation/Expand'
+import Tick from 'assets/icons/Tick'
+import Texting from 'assets/icons/Texting'
+import Cross from 'assets/icons/Cross'
+
+const CardWrapper = styled.div`
+  height: 158px;
+`
 
 const CardContainer = styled.div`
   width: 100%;
-  height: 158px;
   box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
   border-radius: 4px;
   border: 1px solid #083347;
@@ -25,6 +32,7 @@ const Logos = styled.div`
   width: 9.5rem;
   padding-bottom: 0.5rem;
   padding-left: 0.5rem;
+  margin-top: 0.4rem;
 
   svg {
     cursor: pointer;
@@ -54,7 +62,7 @@ const Username = styled.div`
   border-radius: 0.25rem;
   color: white;
   font-size: 0.75rem;
-  padding: 0.325rem 0.625rem; 
+  padding: 0.325rem 0.625rem;
   display: flex;
   align-items: center;
   margin-top: 5px;
@@ -72,13 +80,62 @@ const Avatar = styled.img`
   height: 88px;
 `
 
+const ActionButtonContainer = styled.div`
+  border-top: 1px solid #143F54;
+  display: flex;
+  justify-content: space-between;
+  padding-top: 0.5rem;
+  width: 100%;
+  margin-top: 0.3rem;
+  border-top-width:0;
+`
+
+const ActionButton = styled.button`
+  border-radius: 4px;
+  color: ${/* eslint-disable-line */ (props) => props.theme.fontDarkBlueButtonHover};
+  font-size: 0.75rem;
+  border: 1px solid #29C7ED;
+  font-weight: bold;
+  background: transparent;
+  padding: 0.3rem 0.6rem;
+  transition: all 0.3s ease;
+  > svg {
+    margin-left: 1rem;
+  }
+
+  &.green {
+    background: linear-gradient(180deg, #41C1E4 0%, #49BFE0 100%);
+    color: white;
+    border-width: 0;
+
+    :hover {
+      background: ${/* eslint-disable-line */ (props) =>
+        props.theme.bg.fontDarkBlue};
+      color: ${/* eslint-disable-line */ (props) => props.theme.fontDarkBlueButtonHover};
+    }
+  }
+
+  :hover {
+    background: ${/* eslint-disable-line */ (props) =>
+      props.theme.bg.darkButton};
+    color: white;
+  }
+`
+
 export interface Props {
   handleClick: () => void
 }
 
 const AgentCard: React.FunctionComponent<Props> = ({handleClick}) => {
+  const [expanded, setExpanded] = React.useState(false)
+
   return (
-    <CardContainer onClick={ () => handleClick() }>
+    <CardWrapper>
+    <CardContainer
+      onClick={ () => handleClick() }
+      onMouseEnter={ ():void => setExpanded(true) }
+      onMouseLeave={ ():void => setExpanded(false) }
+    >
       <Details>
         <Avatar src={ require('assets/images/user-thumb.png') } className="mr-1" />
         <div className="d-flex flex-column flex-grow-1 ml-2">
@@ -91,16 +148,43 @@ const AgentCard: React.FunctionComponent<Props> = ({handleClick}) => {
           <Username>
             <Exclamation>!</Exclamation>Username
           </Username>
+          <Logos>
+            <Call fill="#39C3E6" />
+            <Message fill="#39C3E6" />
+            <Linkedin />
+            <Twitter />
+            <Github />
+          </Logos>
         </div>
       </Details>
-      <Logos>
-        <Call fill="#39C3E6" />
-        <Message fill="#39C3E6" />
-        <Linkedin />
-        <Twitter />
-        <Github />
-      </Logos>
+      <Expand
+        expanded={ expanded }
+      >
+        <ActionButtonContainer
+        >
+          <ActionButton
+          >
+            Message
+            <Texting />
+          </ActionButton>
+          <div className="d-flex">
+            <ActionButton
+              className="mr-2"
+            >
+              Reject
+              <Cross />
+            </ActionButton>
+            <ActionButton
+              className="green"
+            >
+              Authorize
+              <Tick />
+            </ActionButton>
+          </div>
+        </ActionButtonContainer>
+      </Expand>
     </CardContainer>
+    </CardWrapper>
   )
 };
 
