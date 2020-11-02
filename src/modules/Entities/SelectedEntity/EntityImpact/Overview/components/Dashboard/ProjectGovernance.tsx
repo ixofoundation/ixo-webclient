@@ -54,14 +54,14 @@ const ProjectGovernance: React.FunctionComponent = ()  => {
   return (
     <div className="d-flex flex-column align-items-center">
       <TotalCampaigns>
-        3
+        0
       </TotalCampaigns>
       <div className="text-white">
         Open Campaigns
       </div>
       <ExtendSection>
         <ExtendHeader>
-          <Index>#5</Index> Next up
+          <Index>#0</Index> Next up
         </ExtendHeader>
         <div className="small mt-2">
           Extend the project end-date to Step 2020
@@ -69,7 +69,7 @@ const ProjectGovernance: React.FunctionComponent = ()  => {
         <div className="d-flex align-items-center mt-4 mb-2">
           <Wait fill='#39C3E6' />
           <div className="flex-grow-1 ml-3">
-            <ProgressBar 
+            <ProgressBar
               total={100}
               progress={75}
             />
@@ -77,7 +77,7 @@ const ProjectGovernance: React.FunctionComponent = ()  => {
         </div>
       </ExtendSection>
       <TimeContainer>
-        <RemainingTime>5d 6h 23m</RemainingTime> before voting closes
+        <RemainingTime>0d 0h 0m</RemainingTime> before voting closes
       </TimeContainer>
     </div>
   )

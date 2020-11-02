@@ -101,9 +101,12 @@ export const ProjectClaims: React.FunctionComponent<Props> = ({
           }
           return claimItem(claim, index, colorCLass)
         })}
-        <ViewAllLink to={`/projects/${did}/detail/claims`}>
-          <ListItemWrapper>View all claims</ListItemWrapper>
-        </ViewAllLink>
+        {
+          claims.length > 0 &&
+            <ViewAllLink to={`/projects/${did}/detail/claims`}>
+              <ListItemWrapper>View all claims</ListItemWrapper>
+            </ViewAllLink>
+        }
       </ClaimsWidget>
     )
   }

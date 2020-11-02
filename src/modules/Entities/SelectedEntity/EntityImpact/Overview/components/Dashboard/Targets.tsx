@@ -30,11 +30,11 @@ const Targets: React.FunctionComponent = () => {
           <div className="d-flex align-items-center">
             <IxoGradient fill='#436779' />
             <Number>
-              0.86
+              0
             </Number>
             <Percent>
-              <IndicateArrow fill="#6FCF97" />  
-              3%
+              <IndicateArrow fill="#6FCF97" />
+              0%
             </Percent>
           </div>
           <div className="text-white text-center">
@@ -42,10 +42,10 @@ const Targets: React.FunctionComponent = () => {
           </div>
         </div>
       </div>
-      <TargetProgress 
+      <TargetProgress
         total={100}
-        progress={30}
-        rejected={ 5 }
+        progress={100}
+        rejected={ 0 }
       />
     </div>
   )
