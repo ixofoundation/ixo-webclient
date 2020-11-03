@@ -139,11 +139,15 @@ export const ActionWrapper = styled.div`
 export const AssistantWrapper = styled.div`
   position: fixed;
   height: calc(100% - 72px);
+  background: rgb(240, 243, 249);
   width: inherit;
   padding: 10px;
   display: flex;
   flex-direction: column;
   .rw-conversation-container {
+    .rw-send {
+      background: white;
+    }
     .rw-send .rw-send-icon-ready {
       fill: #125D7F;
     }
@@ -172,6 +176,11 @@ export const AssistantWrapper = styled.div`
     -moz-box-shadow: #D4DDE8 2px 5px 7px;
     box-shadow: #D4DDE8 2px 5px 7px;
     height: 3rem;
+
+    background: white;
+    input {
+      background: white;
+    }
   }
 `
 
