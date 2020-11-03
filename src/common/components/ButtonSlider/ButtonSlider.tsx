@@ -49,19 +49,23 @@ class ButtonSlider extends React.Component
             { children }
           </NavContainer>
           {
-            !reachedRight &&
+            !reachedRight && React.Children.count(children) !== 1 &&
               <Graident>
               </Graident>
           }
         </div>
-        <NavigateButtonContainer>
-          <button className="left" onClick={ this.handlePrevClick } disabled={ reachedLeft }>
-            <Down fill='#107591' width={ 8 } />
-          </button>
-          <button className="right" onClick={ this.handleNextClick } disabled={ reachedRight }>
-            <Down fill='#107591' width={ 8 } />
-          </button>
-        </NavigateButtonContainer>
+        {
+          React.Children.count(children) > 1 &&
+            <NavigateButtonContainer>
+              <button className="left" onClick={ this.handlePrevClick } disabled={ reachedLeft }>
+                <Down fill='#107591' width={ 8 } />
+              </button>
+              <button className="right" onClick={ this.handleNextClick } disabled={ reachedRight }>
+                <Down fill='#107591' width={ 8 } />
+              </button>
+            </NavigateButtonContainer>
+        }
+
       </Container>
     )
   }

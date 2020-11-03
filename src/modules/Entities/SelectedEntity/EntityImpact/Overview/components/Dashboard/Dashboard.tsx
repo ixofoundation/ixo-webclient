@@ -25,6 +25,7 @@ import Targets from './Targets'
 import EventsTable from './EventsTable'
 import CircledLocation from 'assets/icons/CircledLocation'
 import Events from 'assets/icons/Events'
+import { CreateEntityClaimsState } from 'modules/Entities/CreateEntity/CreateEntityClaims/types'
 
 export interface Props {
   did: string
@@ -42,6 +43,7 @@ export interface Props {
   latLng: LatLng
   showAgentLinks: boolean
   showClaimLinks: boolean
+  entityClaims: any[]
 }
 
 const Dashboard: React.FunctionComponent<Props> = ({
@@ -58,6 +60,7 @@ const Dashboard: React.FunctionComponent<Props> = ({
   latLng,
   showAgentLinks,
   showClaimLinks,
+  entityClaims
 }) => {
   const getClaimsOfType = (claimType: string): Array<any> => {
     return [...claims].filter((claim) => claim.status === claimType)
@@ -82,48 +85,18 @@ const Dashboard: React.FunctionComponent<Props> = ({
           >
             <div className="d-flex justify-content-between w-100 mt-3 mb-2 flex-column flex-sm-row flex-wrap">
               <ButtonSlider>
-                <Button
-                  type={ ButtonTypes.dark }
-                  onClick={() => handleTabClick('educational_pass') }
-                  disabled={ activeTab !== 'educational_pass' }
-                >
-                  Educational Pass
-                </Button>
-                <Button
-                  type={ ButtonTypes.dark }
-                  onClick={() => handleTabClick('schools_built') }
-                  disabled={ activeTab !== 'schools_built' }
-                >
-                  Schools Built
-                </Button>
-                <Button
-                  type={ ButtonTypes.dark }
-                  onClick={() => handleTabClick('teachers_trained') }
-                  disabled={ activeTab !== 'teachers_trained' }
-                >
-                  Teachers Trained
-                </Button>
-                <Button
-                  type={ ButtonTypes.dark }
-                  onClick={() => handleTabClick('another_claim') }
-                  disabled={ activeTab !== 'another_claim' }
-                >
-                  Another Claim
-                </Button>
-                <Button
-                  type={ ButtonTypes.dark }
-                  onClick={() => handleTabClick('one_more_claim') }
-                  disabled={ activeTab !== 'one_more_claim' }
-                >
-                  One More Claim
-                </Button>
-                <Button
-                  type={ ButtonTypes.dark }
-                  onClick={() => handleTabClick('exams') }
-                  disabled={ activeTab !== 'exams' }
-                >
-                  Exams
-                </Button>
+                {
+                  entityClaims.map((claim, key) =>
+                    <Button
+                      type={ ButtonTypes.dark }
+                      onClick={() => handleTabClick('educational_pass') }
+                      disabled={ activeTab !== 'educational_pass' }
+                      key={ key }
+                    >
+                      { claim.title }
+                    </Button>
+                  )
+                }
               </ButtonSlider>
               <ClaimsTopLabels>
                 <p>Claims pending</p>

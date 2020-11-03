@@ -3,6 +3,7 @@ import React, { Dispatch } from 'react'
 import Dashboard from './components/Dashboard/Dashboard'
 import * as entityImpactSelectors from '../EntityImpact.selectors'
 import * as entitySelectors from '../../SelectedEntity.selectors'
+import { Entity } from '../../types'
 import * as accountSelectors from 'modules/Account/Account.selectors'
 import { connect } from 'react-redux'
 import { Agent } from 'modules/Entities/types'
@@ -27,6 +28,7 @@ interface Props {
   rejectedClaimsCount: number
   remainingClaimsCount: number
   latLng: LatLng
+  entity: Entity,
 }
 
 const Overview: React.FunctionComponent<Props> = ({
@@ -45,6 +47,7 @@ const Overview: React.FunctionComponent<Props> = ({
   rejectedClaimsCount,
   remainingClaimsCount,
   latLng,
+  entity,
   ...props
 }) => {
   return (
@@ -79,6 +82,7 @@ const Overview: React.FunctionComponent<Props> = ({
           AgentRole.Investor,
         ],
       )}
+      entityClaims={ entity.entityClaims.items }
     />
   )
 }
@@ -107,6 +111,7 @@ const mapStateToProps = (state: RootState): any => ({
   rejectedClaimsCount: entityImpactSelectors.selectRejectedClaimsCount(state),
   remainingClaimsCount: entityImpactSelectors.selectRemainingClaimsCount(state),
   latLng: entityImpactSelectors.selectLatLng(state),
+  entity: entitySelectors.selectSelectedEntity(state)
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
