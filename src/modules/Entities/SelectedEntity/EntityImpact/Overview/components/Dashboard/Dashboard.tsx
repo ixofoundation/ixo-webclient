@@ -25,7 +25,6 @@ import Targets from './Targets'
 import EventsTable from './EventsTable'
 import CircledLocation from 'assets/icons/CircledLocation'
 import Events from 'assets/icons/Events'
-import { CreateEntityClaimsState } from 'modules/Entities/CreateEntity/CreateEntityClaims/types'
 
 export interface Props {
   did: string
