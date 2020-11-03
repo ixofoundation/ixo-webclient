@@ -166,6 +166,15 @@ export const AssistantWrapper = styled.div`
     max-height: calc(100% - 80px) !important;
     height: calc(100% - 80px) !important;
     background-color: rgb(240,243,249);
+
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #C1CBD0;
+      border-radius: 8px;
+    }
   }
   .rw-sender {
     margin: 10px 5px;
