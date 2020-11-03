@@ -3,7 +3,7 @@ import { deviceWidth } from 'lib/commonData'
 
 export const Container = styled.div`
   display: flex;
-  align-items; center;
+  align-items:center;
   a {
     width: fit-content;
     color: #39C3E6 !important;
@@ -14,6 +14,7 @@ export const Container = styled.div`
     margin-right: 0.625rem;
     background: #143F54;
     white-space: nowrap;
+    margin-bottom: 0;
   }
 
   a.disabled {
@@ -61,6 +62,7 @@ export const NavContainer = styled.div`
   flex: 1;
   overflow-x: scroll;
   position: relative;
+  align-items:center;
 
   ::-webkit-scrollbar {
     display: none;

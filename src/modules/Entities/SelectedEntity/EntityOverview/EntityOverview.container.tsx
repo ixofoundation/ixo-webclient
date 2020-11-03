@@ -54,6 +54,15 @@ class EntityOverview extends React.Component<Props> {
 
   assistantPanelToggle = (): void => {
     const { assistantPanelActive } = this.state
+
+    // Assistant panel shown
+    if (!assistantPanelActive) {
+      document?.querySelector('body')?.classList?.add('noScroll')
+    } else {
+      document?.querySelector('body')?.classList.remove('noScroll')
+    }
+
+
     this.setState({assistantPanelActive: !assistantPanelActive})
   }
 
@@ -123,12 +132,12 @@ class EntityOverview extends React.Component<Props> {
                   enter={{ width: '100%' }}
                   leave={{ width: '0%' }}
                 >
-                
+
                     {
-                      assistantPanelActive => assistantPanelActive && (props => 
+                      assistantPanelActive => assistantPanelActive && (props =>
                         <AssistantContainer style={ props }>
                           <div style={{ width: '25%' }}>
-                              <FundingChat 
+                              <FundingChat
                                   assistantPanelToggle={ this.assistantPanelToggle }
                               />
                           </div>

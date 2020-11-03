@@ -63,9 +63,12 @@ export const ClaimsLabels = styled.div`
 export const ClaimsTopLabels = styled.div`
   display: flex;
   justify-content: flex-end;
-
+  align-items: center;
+  margin-top: 10px;
+  margin-bottom: 10px;
   p {
-    margin: 0 23px;
+    margin 0;
+    margin-right: 46px;
     font-size: 13px;
   }
   p:before {
@@ -80,6 +83,10 @@ export const ClaimsTopLabels = styled.div`
     background: #035971;
   }
 
+  p:last-child {
+    margin-right: 23px;
+  }
+
   p:nth-child(2):before {
     background: ${/* eslint-disable-line */ (props) => props.theme.ixoBlue};
   }
@@ -92,7 +99,7 @@ export const ClaimsTopLabels = styled.div`
       margin-left: 0;
       display: inline-block;
       font-size: 0.625rem;
-
+      margin-right: 23px;
     }
     justify-content: flex-start;
     margin: 15px 0 15px 12px;

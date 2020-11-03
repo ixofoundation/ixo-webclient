@@ -62,6 +62,14 @@ class EntityImpact extends React.Component<Props> {
     if (!assistantPanelActive) {
       width = '75%';
     }
+
+    // Assistant panel shown
+    if (!assistantPanelActive) {
+      document?.querySelector('body')?.classList?.add('noScroll')
+    } else {
+      document?.querySelector('body')?.classList.remove('noScroll')
+    }
+
     this.setState({ assistantPanelActive: !assistantPanelActive, width });
   }
 
@@ -154,7 +162,7 @@ class EntityImpact extends React.Component<Props> {
             >
               {
                 assistantPanelActive => assistantPanelActive && (props =>
-                <div style={{background: '#002233', zIndex: 10, ...props,  }}>
+                <div style={{background: '#F0F3F9', zIndex: 8, ...props,  }}>
                   {assistantPanelActive && (
                     <FundingChat
                       match={match}

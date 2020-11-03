@@ -68,10 +68,8 @@ class FundingChat extends React.Component<Props & RouteProps> {
       <Fragment>
           <AssistantWrapper>
             <AssistantHeader>
-              <h3 className="assistant-heading">
-                Assistant
-              </h3>
-              <span className="close-icon" onClick={assistantPanelToggle}>
+              <h3></h3>
+              <span className="close-icon cursor-pointer" onClick={assistantPanelToggle}>
                 <CloseIcon />
               </span>
             </AssistantHeader>
