@@ -11,6 +11,7 @@ interface Props extends FormCardProps {
   type: NodeType
   nodeId: string
   serviceEndpoint: string
+  removable: boolean
 }
 
 const NodeCard: React.FunctionComponent<Props> = React.forwardRef(
@@ -19,6 +20,7 @@ const NodeCard: React.FunctionComponent<Props> = React.forwardRef(
       type,
       nodeId,
       serviceEndpoint,
+      removable=true,
       handleUpdateContent,
       handleSubmitted,
       handleError,
@@ -47,7 +49,7 @@ const NodeCard: React.FunctionComponent<Props> = React.forwardRef(
           ),
         },
         nodeId: { type: 'string', title: 'Node ID' },
-        serviceEndpoint: { type: 'string', title: 'Cell Node URL', format: 'uri' }
+        serviceEndpoint: { type: 'string', title: 'URL or IP Address', format: 'uri' }
       },
     } as any
 
@@ -70,41 +72,51 @@ const NodeCard: React.FunctionComponent<Props> = React.forwardRef(
       if (isWorking) {
         setExtraErrors({ serviceEndpoint: { __errors: [] } })
       } else {
-        setExtraErrors({ serviceEndpoint: { __errors: ['Check that you have the correct end-point for the Cell Node. Confirm that your instance of the Cell Node is running.'] } })
+        setExtraErrors({ serviceEndpoint: { __errors: ['Check that you have the correct end-point.'] } })
       }
       return isWorking
     }
 
-    const validateNodeUrl = (formData:any, errors: FormValidation): FormValidation => {
-      if (errors.serviceEndpoint.__errors.length === 0) {
-        setExtraErrors({ serviceEndpoint: { __errors: ['Validating the cell node url.'] } })
-        endpointHealthCheck(formData.serviceEndpoint)
+    const handleSubmit = async ():Promise<boolean> => {
+      const isWorking = await endpointHealthCheck(formData.serviceEndpoint)
+
+      if (isWorking) {
+        setExtraErrors({ serviceEndpoint: { __errors: [] } })
+      } else {
+        setExtraErrors({ serviceEndpoint: { __errors: ['Check that you have the correct end-point.'] } })
       }
-      return errors;
+
+      if (isWorking) {
+        handleSubmitted()
+      }
+
+      return isWorking
     }
 
     return (
       <>
         <MultiControlForm
           ref={ref}
-          onSubmit={handleSubmitted}
+          onSubmit={handleSubmit}
           onFormDataChange={handleUpdateContent}
           onError={handleError}
           formData={formData}
           schema={schema}
           uiSchema={uiSchema}
-          validate={ validateNodeUrl }
-          liveValidate={false}
+          liveValidate={true}
           extraErrors={ extraErrors }
           multiColumn
         >
           &nbsp;
         </MultiControlForm>
-        <div className="text-right">
-          <LinkButton type="button" onClick={handleRemoveSection}>
-            - Remove
-          </LinkButton>
-        </div>
+        {
+          removable &&
+          <div className="text-right">
+            <LinkButton type="button" onClick={handleRemoveSection}>
+              - Remove
+            </LinkButton>
+          </div>
+        }
       </>
     )
   },

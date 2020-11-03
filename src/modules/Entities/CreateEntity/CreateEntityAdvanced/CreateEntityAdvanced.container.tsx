@@ -263,6 +263,7 @@ class CreateEntityAdvanced extends CreateEntityBase<Props> {
               key={id}
               type={type}
               nodeId={nodeId}
+              removable={ nodes.length > 1 }
               serviceEndpoint={serviceEndpoint}
               handleUpdateContent={(formData): void =>
                 handleUpdateNode(id, formData)
