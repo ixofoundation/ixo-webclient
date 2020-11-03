@@ -23,7 +23,12 @@ export const Loading = styled.div`
 `
 export const ContentContainer = styled.div`
   flex-grow: 1;
-  background: ${(props) => props.theme.bg.blue}
+  background: ${(props) => props.theme.bg.blue};
+  max-width: 100%;
+
+  @media (min-width: ${deviceWidth.mobile}px) {
+    max-width: calc(100% - 75px);
+  }
 
   @media (max-width: ${deviceWidth.mobile}px) {
     padding-left: 10px;

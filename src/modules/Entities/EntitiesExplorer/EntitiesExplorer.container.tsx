@@ -174,6 +174,14 @@ class EntitiesExplorer extends React.Component<Props> {
 
   assistantPanelToggle = () => {
     const { assistantPanelActive } = this.state;
+
+    // Assistant panel shown
+    if (!assistantPanelActive) {
+      document?.querySelector('body')?.classList?.add('noScroll')
+    } else {
+      document?.querySelector('body')?.classList.remove('noScroll')
+    }
+
     this.setState({ assistantPanelActive: !assistantPanelActive });
   }
 
@@ -205,7 +213,7 @@ class EntitiesExplorer extends React.Component<Props> {
             >
               {
                 assistantPanelActive => assistantPanelActive && (props =>
-                <div style={ props }>
+                <div style={{ background: '#F0F3F9', ...props }}>
                   {assistantPanelActive && (
                     <FundingChat
                       match={match}

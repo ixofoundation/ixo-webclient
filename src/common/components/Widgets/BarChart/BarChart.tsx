@@ -49,10 +49,8 @@ export default class BarChart extends React.Component<ParentProps, {}> {
     }
   };
 
-  UNSAFE_componentWillMount(): void {
-    this.dataBasedOnDeviceWidth();
-
-    // https://github.com/jedtrow/Chart.js-Rounded-Bar-Charts/blob/master/Chart.roundedBarCharts.js
+  resizeCanvas = ():void => {
+// https://github.com/jedtrow/Chart.js-Rounded-Bar-Charts/blob/master/Chart.roundedBarCharts.js
     // this weird hack is needed as "this" before the function that follows is the class and after is the func
     // eslint-disable-next-line @typescript-eslint/no-this-alias
     const that = this;
@@ -234,6 +232,12 @@ export default class BarChart extends React.Component<ParentProps, {}> {
         ctx.stroke();
       }
     };
+  }
+
+  UNSAFE_componentWillMount(): void {
+    this.dataBasedOnDeviceWidth();
+
+    this.resizeCanvas();
   }
 
   componentDidMount(): void {
@@ -538,7 +542,7 @@ export default class BarChart extends React.Component<ParentProps, {}> {
     };
 
     return (
-      <Container className="w-100 mx-auto">
+      <Container className="w-100 mx-auto position-relative">
         {this.state.hasError ? (
           this.state.errorMessage
         ) : (

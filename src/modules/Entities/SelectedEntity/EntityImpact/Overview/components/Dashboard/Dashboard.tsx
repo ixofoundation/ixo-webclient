@@ -80,7 +80,7 @@ const Dashboard: React.FunctionComponent<Props> = ({
             linkIcon={'icon-expand'}
             titleIcon={ <img src={ require('assets/img/sidebar/performance.svg') } /> }
           >
-            <div className="d-flex justify-content-between w-100 mt-3 mb-2 flex-column flex-sm-row">
+            <div className="d-flex justify-content-between w-100 mt-3 mb-2 flex-column flex-sm-row flex-wrap">
               <ButtonSlider>
                 <Button
                   type={ ButtonTypes.dark }

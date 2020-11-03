@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { 
+import {
   Container,
   NavigateButtonContainer,
   NavContainer,
@@ -18,7 +18,7 @@ class ButtonSlider extends React.Component
 
   handlePrevClick = () => {
     const sLeft = this.buttonsRef.scrollLeft;
-    
+
     this.buttonsRef.scrollTo({
       left: sLeft - 100,
       behavior: 'smooth'
@@ -29,7 +29,7 @@ class ButtonSlider extends React.Component
 
   handleNextClick = () => {
     const sLeft = this.buttonsRef.scrollLeft;
-    
+
     this.buttonsRef.scrollTo({
       left: sLeft + 100,
       behavior: 'smooth'
@@ -37,7 +37,7 @@ class ButtonSlider extends React.Component
 
     this.setState({ reachedRight: this.buttonsRef.scrollLeft + this.buttonsRef.offsetWidth + 100 > this.buttonsRef.scrollWidth })
   }
-  
+
   render(): JSX.Element {
     const { children } = this.props;
     const { reachedRight, reachedLeft } = this.state;
@@ -49,9 +49,9 @@ class ButtonSlider extends React.Component
             { children }
           </NavContainer>
           {
-            !reachedRight && 
+            !reachedRight &&
               <Graident>
-              </Graident> 
+              </Graident>
           }
         </div>
         <NavigateButtonContainer>
