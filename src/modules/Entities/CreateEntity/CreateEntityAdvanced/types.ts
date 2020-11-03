@@ -42,6 +42,7 @@ export interface Node {
   id: string
   type: NodeType
   nodeId: string
+  serviceEndpoint?: string
 }
 
 export interface Fund {
@@ -239,6 +240,7 @@ export interface UpdateNodeAction {
     id: string
     type: NodeType
     nodeId: string
+    serviceEndpoint: string
   }
 }
 
