@@ -385,6 +385,7 @@ export const selectEntityApiPayload = (
             items: nodes.map((node) => ({
               ['@type']: node.type,
               id: node.nodeId,
+              serviceEndpoint: node.serviceEndpoint
             })),
           },
           funding: {

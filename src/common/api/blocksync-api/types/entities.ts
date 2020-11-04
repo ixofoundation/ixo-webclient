@@ -147,7 +147,7 @@ export interface ApiEntity {
   }
   nodes: {
     ['@context']: string
-    items: { ['@type']: NodeType; id: string }[]
+    items: { ['@type']: NodeType; id: string; serviceEndpoint: string }[]
   }
   funding: {
     ['@context']: string

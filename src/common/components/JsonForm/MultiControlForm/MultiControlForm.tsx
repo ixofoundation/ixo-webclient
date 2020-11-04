@@ -48,25 +48,12 @@ const MultiControlForm: React.FunctionComponent<Props> = React.forwardRef(
 
     useImperativeHandle(ref, () => ({
       validateAndSubmit: (): void => {
-        let noExtraError = true;
-        if (typeof extraErrors !== 'undefined') {
-          Object.keys(extraErrors).forEach((field) => {
-            if (extraErrors[field]['__errors'].length !== 0) {
-              noExtraError = false;
-            }
-          })
-        }
-
-        if (!noExtraError) {
-          return;
-        }
-
         if (validationComplete) {
           jsonFormRef.current.submit()
         } else {
           setValidatedComplete(true)
         }
-      },
+      }
     }))
 
     const handleTouched = (id): void => {
