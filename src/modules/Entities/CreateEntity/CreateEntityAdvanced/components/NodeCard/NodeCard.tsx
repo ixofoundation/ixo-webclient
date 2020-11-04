@@ -66,7 +66,9 @@ const NodeCard: React.FunctionComponent<Props> = React.forwardRef(
     const endpointHealthCheck = async (url): Promise<boolean> => {
       const isWorking = await Axios.get(url)
       .then((response) => {
-        return response.status === 200;
+        if (response.status === 200) {
+          return response.data.includes('API is running')
+        }
       }).catch((reason: any) => false)
 
       if (isWorking) {

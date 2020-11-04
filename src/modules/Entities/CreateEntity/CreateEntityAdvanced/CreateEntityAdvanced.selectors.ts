@@ -115,9 +115,7 @@ export const selectValidationComplete = createSelector(
       dataResourceSections
         .map(section => section.id)
         .every(id => !!validation[id])
-    console.log(nodeSections
-      .map(section => section.id)
-      .map(id => !!validation[id]))
+
     return validationComplete
   },
 )
@@ -190,11 +188,7 @@ export const selectValidated = createSelector(
       dataResourceSections
         .map(section => section.id)
         .every(id => validation[id].validated)
-      console.log(nodeSections
-      .map(section => section.id)
-      .map(id => validation[id].validated))
-      //console.log('ffffffffffffffffffffff', validationComplete)
-    return false;
+
     return validated
   },
 )
