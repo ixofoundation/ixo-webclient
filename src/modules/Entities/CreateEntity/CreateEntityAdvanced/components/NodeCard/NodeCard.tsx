@@ -4,7 +4,6 @@ import { NodeType } from '../../../../types'
 import { nodeTypeMap } from '../../../../strategy-map'
 import { FormCardProps } from '../../../types'
 import MultiControlForm from 'common/components/JsonForm/MultiControlForm/MultiControlForm'
-import { FormValidation } from '@rjsf/core'
 import Axios from 'axios'
 
 interface Props extends FormCardProps {
