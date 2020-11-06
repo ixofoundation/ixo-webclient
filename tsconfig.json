@@ -1,25 +1,6 @@
 {
+  "extends": "./tsconfig.base",
   "compilerOptions": {
-    "resolveJsonModule": true,
-    "esModuleInterop": true,
-    "outDir": "build/dist",
-    "module": "esnext",
-    "target": "es5",
-    "lib": [
-      "es6",
-      "dom"
-    ],
-    "sourceMap": true,
-    "allowJs": true,
-    "jsx": "react",
-    "moduleResolution": "node",
-    "rootDir": "src",
-    "forceConsistentCasingInFileNames": true,
-    "noImplicitReturns": true,
-    "noImplicitThis": true,
-    "noImplicitAny": false,
-    "strictNullChecks": false,
-    "suppressImplicitAnyIndexErrors": true,
     "noUnusedLocals": false,
     "baseUrl": "src",
     "skipLibCheck": true,
@@ -27,18 +8,5 @@
     "strict": true,
     "isolatedModules": true,
     "noEmit": true
-  },
-  "include": [
-    "src/**/*"
-  ],
-  "exclude": [
-    "node_modules",
-    "src/ixoearth",
-    "build",
-    "scripts",
-    "acceptance-tests",
-    "webpack",
-    "jest",
-    "src/setupTests.ts"
-  ]
+  }
 }
