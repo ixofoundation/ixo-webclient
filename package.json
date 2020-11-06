@@ -84,7 +84,6 @@
     "@types/react-router-dom": "^5.1.5",
     "@types/react-virtualized": "^9.21.10",
     "@types/styled-components": "^5.1.2",
-    "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-prettier": "^3.1.4",
     "prettier": "^2.0.5"
   },
@@ -92,13 +91,8 @@
     "dev": "react-scripts start -h 0.0.0.0",
     "start": "npm run build && serve -s build",
     "build": "GENERATE_SOURCEMAP=false react-scripts build",
-    "lint": "eslint --ext=jsx,ts,tsx src",
-    "lint:fix": "eslint --ext=jsx,ts,tsx src --fix",
     "test": "TZ=UTC react-scripts test --watchAll=false",
     "test:watch": "TZ=UTC react-scripts test"
-  },
-  "eslintConfig": {
-    "extends": "react-app"
   },
   "browserslist": {
     "production": [
