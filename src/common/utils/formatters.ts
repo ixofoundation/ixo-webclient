@@ -1,6 +1,5 @@
 import moment from 'moment'
 import { isoCountries } from '../../lib/commonData'
-require('dotenv').config()
 
 export function excerptText(theText: string, words = 20): string {
   const cutOffCount = words
