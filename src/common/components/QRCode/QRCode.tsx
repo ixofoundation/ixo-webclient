@@ -1,6 +1,6 @@
 import * as React from "react";
 import QRCode from "qrcode";
-import _ from 'lodash'
+import { replace } from 'lodash'
 import { QRContainer, QRInner, QRImg } from "./QRCode.styles";
 
 export interface Props {
@@ -13,7 +13,7 @@ export default class QRCodeComponent extends React.Component<Props> {
   };
 
   componentDidMount(): void {
-    const urlForQR = _.replace(this.props.url, '/overview', '')
+    const urlForQR = replace(this.props.url, '/overview', '')
     QRCode.toDataURL(urlForQR, {
       errorCorrectionLevel: "L",
       color: {

@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import _ from 'lodash'
+import { without, map, includes, get, upperFirst, toLower } from 'lodash'
 import Select from 'react-select'
 import Modal from '../Modal/Modal'
 import { Entity } from './types'
@@ -94,8 +94,8 @@ class EntitySelector extends React.Component<Props, State> {
     if (keyword === null || keyword.length <= 0) {
       tempEntities = entitiesFromProps
     } else {
-      tempEntities = _.without(_.map(entitiesFromProps, entity => {
-        if (_.includes(entity.did, keyword))
+      tempEntities = without(map(entitiesFromProps, entity => {
+        if (includes(entity.did, keyword))
           return entity
         return undefined
       }), undefined)
@@ -103,9 +103,9 @@ class EntitySelector extends React.Component<Props, State> {
 
     if (selectedOption !== null) {
       console.log('selectedOption',selectedOption)
-      _.map(tempEntities, entity => {
-        console.log(_.get(entity, 'ddoTags[1].tags', []))
-        if (_.includes(_.get(entity, 'ddoTags[1].tags', []), _.upperFirst(_.toLower(selectedOption))))
+      map(tempEntities, entity => {
+        console.log(get(entity, 'ddoTags[1].tags', []))
+        if (includes(get(entity, 'ddoTags[1].tags', []), upperFirst(toLower(selectedOption))))
           entities.push(entity)
       })
     } else {

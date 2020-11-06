@@ -1,7 +1,7 @@
 import Axios from "axios";
 import { BondActions, GetBalancesAction, GetTradesAction } from "./types";
 import { Dispatch } from "redux";
-import _ from 'lodash'
+import { get } from 'lodash'
 import { apiCurrencyToCurrency } from "../../Account/Account.utils";
 
 export const getBalances = (bondDid: string) => (
@@ -13,7 +13,7 @@ export const getBalances = (bondDid: string) => (
       transformResponse: [
         (response: string): any => {
           const parsedResponse = JSON.parse(response)
-          return _.get(parsedResponse, 'result.value', parsedResponse);
+          return get(parsedResponse, 'result.value', parsedResponse);
         },
       ],
     }
@@ -24,7 +24,7 @@ export const getBalances = (bondDid: string) => (
       transformResponse: [
         (response: string): any => {
           const parsedResponse = JSON.parse(response)
-          return _.get(parsedResponse, 'result', ['error'])[0];
+          return get(parsedResponse, 'result', ['error'])[0];
         },
       ],
     }
@@ -35,7 +35,7 @@ export const getBalances = (bondDid: string) => (
       transformResponse: [
         (response: string): any => {
           const parsedResponse = JSON.parse(response)
-          return _.get(parsedResponse, 'result', ['error'])[0];
+          return get(parsedResponse, 'result', ['error'])[0];
         },
       ],
     }
