@@ -22,10 +22,6 @@ export enum BarColors {
 }
 
 export default class BarChart extends React.Component<ParentProps, {}> {
-  constructor(props: ParentProps) {
-    super(props);
-  }
-
   state = {
     canvasHeight: 0,
     hasError: false,

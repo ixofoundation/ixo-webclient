@@ -1,8 +1,6 @@
 import * as React from 'react'
 import Search from '../Search/Search'
 import {
-  ContainerInner,
-  StatisticContainer,
   HeroInner,
   HeroContainer,
   HeroTextWrapper,

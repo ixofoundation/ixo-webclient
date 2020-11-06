@@ -39,7 +39,7 @@ export const confirmOrder = (entityDid: string) => (
 ): ConfirmOrderAction => {
   const {
     fuelEntity: {
-      order: { amount: amount },
+      order: { amount },
     },
     account: {
       userInfo: {

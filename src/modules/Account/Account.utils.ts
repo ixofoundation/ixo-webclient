@@ -3,7 +3,7 @@ import { Currency } from '../../types/models'
 export function tokenBalance(balances: Currency[], symbol: string): Currency {
   let balance: Currency = { amount: 0, denom: symbol }
   balances.forEach((element: Currency) => {
-    if (element.denom == symbol) {
+    if (element.denom === symbol) {
       balance = Object.assign({}, element)
     }
   })

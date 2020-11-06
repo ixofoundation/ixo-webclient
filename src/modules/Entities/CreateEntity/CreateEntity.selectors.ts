@@ -121,7 +121,7 @@ export const selectAttestationApiPayload = createSelector(
         shortDescription: claimInfoSection.shortDescription,
       },
       forms: questions.map((question) => ({
-        ['@type']: question.attributeType,
+        '@type': question.attributeType,
         schema: {
           title: question.title,
           description: question.description,
@@ -164,10 +164,10 @@ export const selectClaimsForEntityApiPayload = createSelector(
   (claims) => {
     return {
       entityClaims: {
-        ['@context']: 'https://schema.ixo.world/claims:3r08webu2eou',
+        '@context': 'https://schema.ixo.world/claims:3r08webu2eou',
         items: claims.map((claim) => {
           return {
-            ['@id']: claim.template.templateId,
+            '@id': claim.template.templateId,
             visibility: claim.template.isPrivate ? 'Private' : 'Public',
             title: claim.template.title,
             description: claim.template.description,
@@ -182,19 +182,19 @@ export const selectClaimsForEntityApiPayload = createSelector(
               credential: agent.credential,
             })),
             claimEvaluation: claim.evaluations.map((evaluation) => ({
-              ['@context']: evaluation.context,
-              ['@id']: evaluation.contextLink,
+              '@context': evaluation.context,
+              '@id': evaluation.contextLink,
               methodology: evaluation.evaluationMethodology,
               attributes: evaluation.evaluationAttributes,
             })),
             claimApproval: claim.approvalCriteria.map((approvalCriterion) => ({
-              ['@context']: approvalCriterion.context,
-              ['@id']: approvalCriterion.contextLink,
+              '@context': approvalCriterion.context,
+              '@id': approvalCriterion.contextLink,
               criteria: approvalCriterion.approvalAttributes,
             })),
             claimEnrichment: claim.enrichments.map((enrichment) => ({
-              ['@context']: enrichment.context,
-              ['@id']: enrichment.contextLink,
+              '@context': enrichment.context,
+              '@id': enrichment.contextLink,
               resources: enrichment.resources,
             })),
           }
@@ -241,7 +241,7 @@ export const selectEntityApiPayload = (
   pageContentId: string,
 ): any =>
   createSelector(
-    () => ({ ['@type']: entityType }),
+    () => ({ '@type': entityType }),
     createSelector(
       createEntityMap[entityType].selectHeaderInfoApiPayload,
       (headerInfo) => headerInfo,
@@ -268,7 +268,7 @@ export const selectEntityApiPayload = (
         displayCredentials,
       ) => {
         return {
-          ['@context']: 'https://schema.ixo.foundation/entity:2383r9riuew',
+          '@context': 'https://schema.ixo.foundation/entity:2383r9riuew',
           entitySchemaVersion: process.env.REACT_APP_ENTITY_VERSION,
           relayerNode: process.env.REACT_APP_RELAYER_NODE,
           startDate: serverDateFormat(status.startDate),
@@ -281,7 +281,7 @@ export const selectEntityApiPayload = (
             notes: version.notes,
           },
           terms: {
-            ['@type']: terms.type,
+            '@type': terms.type,
             paymentTemplateId: terms.paymentTemplateId,
           },
           privacy: {
@@ -316,7 +316,7 @@ export const selectEntityApiPayload = (
             tags: Object.values(filters[category]),
           })),
           displayCredentials: {
-            ['@context']: 'https://www.w3.org/2018/credentials/v1',
+            '@context': 'https://www.w3.org/2018/credentials/v1',
             items: displayCredentials.map((credential) => ({
               credential: credential.credential,
               badge: credential.badge,
@@ -356,20 +356,20 @@ export const selectEntityApiPayload = (
       ) => {
         return {
           linkedEntities: linkedEntities.map((linkedEntity) => ({
-            ['@type']: linkedEntity.type,
+            '@type': linkedEntity.type,
             id: linkedEntity.entityId,
           })),
           fees: {
-            ['@context']: 'https://schema.ixo.world/fees/ipfs3r08webu2eou',
+            '@context': 'https://schema.ixo.world/fees/ipfs3r08webu2eou',
             items: payments.map((payment) => ({
-              ['@type']: payment.type,
+              '@type': payment.type,
               id: payment.paymentId,
             })),
           },
           stake: {
-            ['@context']: 'https://schema.ixo.world/staking/ipfs3r08webu2eou',
+            '@context': 'https://schema.ixo.world/staking/ipfs3r08webu2eou',
             items: staking.map((stake) => ({
-              ['@type']: stake.type,
+              '@type': stake.type,
               id: stake.stakeId,
               denom: stake.denom,
               stakeAddress: stake.stakeAddress,
@@ -381,25 +381,25 @@ export const selectEntityApiPayload = (
             })),
           },
           nodes: {
-            ['@context']: 'https://schema.ixo.world/nodes/ipfs3r08webu2eou',
+            '@context': 'https://schema.ixo.world/nodes/ipfs3r08webu2eou',
             items: nodes.map((node) => ({
-              ['@type']: node.type,
+              '@type': node.type,
               id: node.nodeId,
               serviceEndpoint: node.serviceEndpoint
             })),
           },
           funding: {
-            ['@context']: 'https://schema.ixo.world/funding/ipfs3r08webu2eou',
+            '@context': 'https://schema.ixo.world/funding/ipfs3r08webu2eou',
             items: funding.map((fund) => ({
-              ['@type']: fund.source,
+              '@type': fund.source,
               id: fund.fundId,
             })),
           },
           keys: {
-            ['@context']: 'https://www.w3.org/ns/did/v1',
+            '@context': 'https://www.w3.org/ns/did/v1',
             items: keys.map((key) => ({
               purpose: key.purpose,
-              ['@type']: key.type,
+              '@type': key.type,
               controller: key.controller,
               keyValue: key.keyValue,
               dateCreated: serverDateFormat(key.dateCreated),
@@ -408,7 +408,7 @@ export const selectEntityApiPayload = (
             })),
           },
           service: services.map((service) => ({
-            ['@type']: service.type,
+            '@type': service.type,
             id: service.serviceId,
             serviceEndpoint: service.serviceEndpoint,
             description: service.shortDescription,
@@ -416,7 +416,7 @@ export const selectEntityApiPayload = (
             properties: service.properties,
           })),
           data: dataResources.map((dataResource) => ({
-            ['@type']: dataResource.type,
+            '@type': dataResource.type,
             id: dataResource.dataId,
             serviceEndpoint: dataResource.serviceEndpoint,
             properties: dataResource.properties,

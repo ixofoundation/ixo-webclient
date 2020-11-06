@@ -142,7 +142,7 @@ export const ProjectClaims: React.FunctionComponent<Props> = ({
     const pending = []
     const revoked = []
     const sections = []
-    claims.map((claim) => {
+    claims.forEach((claim) => {
       switch (claim.status) {
         case '1':
           approved.push(claim)

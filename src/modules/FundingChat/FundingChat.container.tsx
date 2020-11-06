@@ -38,10 +38,6 @@ interface Props {
 }
 
 class FundingChat extends React.Component<Props & RouteProps> {
-  constructor(props: any) {
-    super(props)
-  }
-
   componentDidMount(): void {
     startAssistant('fuel_my_entity')
   }

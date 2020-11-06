@@ -44,7 +44,7 @@ export default class InputImage extends React.Component<Props, State> {
       return (
         <InputImageContainer>
           <CloseButton onClick={this.clearImage}>&times;</CloseButton>
-          <img src={this.state.croppedImage} alt="crop-image" />
+          <img src={this.state.croppedImage} alt="crop" />
         </InputImageContainer>
       );
     } else {

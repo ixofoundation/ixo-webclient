@@ -36,7 +36,7 @@ const BondSwap: React.FunctionComponent<Props> = ({
                       to={`/projects/${projectDID}/bonds/${bondDID}/exchange/swap/confirm`}
                     />
                   );
-                } else if (activeBondType != "swapper_function") {
+                } else if (activeBondType !== "swapper_function") {
                   return (
                     <Redirect
                       from={`/projects/${projectDID}/bonds/${bondDID}/exchange/swap`}

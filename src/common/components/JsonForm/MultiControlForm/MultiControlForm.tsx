@@ -44,7 +44,7 @@ const MultiControlForm: React.FunctionComponent<Props> = React.forwardRef(
       if (validationComplete) {
         jsonFormRef.current.submit()
       }
-    }, [validationComplete])
+    }, [validationComplete, jsonFormRef])
 
     useImperativeHandle(ref, () => ({
       validateAndSubmit: (): void => {

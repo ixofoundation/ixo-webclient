@@ -66,7 +66,7 @@ const Dashboard: React.FunctionComponent<Props> = ({
   }
 
   const [activeTab, setActiveTab] = React.useState('educational_pass');
-  const [selectedHeader, setSelectedHeader] = React.useState('price')
+  // const [selectedHeader, setSelectedHeader] = React.useState('price')
 
   const handleTabClick = (tab) => {
     setActiveTab(tab);
@@ -80,7 +80,7 @@ const Dashboard: React.FunctionComponent<Props> = ({
             title="Project performance timeline"
             path={`/projects/${did}/detail/investors`}
             linkIcon={'icon-expand'}
-            titleIcon={ <img src={ require('assets/img/sidebar/performance.svg') } /> }
+            titleIcon={ <img src={ require('assets/img/sidebar/performance.svg') } alt="performance" /> }
           >
             <div className="d-flex justify-content-between w-100 mt-3 mb-2 flex-column flex-sm-row flex-wrap">
               <ButtonSlider>
@@ -132,7 +132,7 @@ const Dashboard: React.FunctionComponent<Props> = ({
               gridHeight={gridSizes.standard}
               path={`/projects/${did}/detail/evaluators`}
               linkIcon={'icon-expand'}
-              titleIcon={ <img src={ require('assets/img/sidebar/governance.png') } /> }
+              titleIcon={ <img src={ require('assets/img/sidebar/governance.png') } alt="governance" /> }
             >
               <ProjectGovernance />
               {/* <SingleStatistic
@@ -158,7 +158,7 @@ const Dashboard: React.FunctionComponent<Props> = ({
               gridHeight={gridSizes.standard}
               path={`/projects/${did}/detail/service-providers`}
               linkIcon={'icon-expand'}
-              titleIcon={ <img src={ require('assets/img/sidebar/target.png') } /> }
+              titleIcon={ <img src={ require('assets/img/sidebar/target.png') } alt="target" /> }
             >
               <Targets
               />
@@ -170,7 +170,7 @@ const Dashboard: React.FunctionComponent<Props> = ({
             <WidgetWrapper
               title="Impact claims"
               gridHeight={gridSizes.standard}
-              titleIcon={ <img src={ require('assets/img/sidebar/claim.png') } /> }
+              titleIcon={ <img src={ require('assets/img/sidebar/claim.png') } alt="claim" /> }
             >
               <ClaimsWidget>
                 <ClaimsLabels>
@@ -190,7 +190,7 @@ const Dashboard: React.FunctionComponent<Props> = ({
                   </div>
                   <div className="mt-2">
                     <SectionHeader>
-                      <img src={ require('assets/img/sidebar/profile.png') } />
+                      <img src={ require('assets/img/sidebar/profile.png') } alt="profile" />
                       Agents
                       <i className='icon-expand' />
                     </SectionHeader>
@@ -247,7 +247,7 @@ const Dashboard: React.FunctionComponent<Props> = ({
             title="Latest claims"
             path={`/projects/${did}/detail/claims`}
             gridHeight={gridSizes.standard}
-            titleIcon={ <img src={ require('assets/img/sidebar/claim.png') } /> }
+            titleIcon={ <img src={ require('assets/img/sidebar/claim.png') } alt="claim" /> }
             linkIcon={'icon-expand'}
             link={true}
           >

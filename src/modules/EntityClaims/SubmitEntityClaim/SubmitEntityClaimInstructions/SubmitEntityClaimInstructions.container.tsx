@@ -20,10 +20,6 @@ interface Props {
 }
 
 class InstructionsContainer extends React.Component<Props> {
-  constructor(props: any) {
-    super(props)
-  }
-
   componentDidMount(): void {
     if (!document.querySelector('body').classList.contains('noScroll')) {
       document.querySelector('body').classList.add('noScroll')

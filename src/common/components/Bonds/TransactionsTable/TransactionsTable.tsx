@@ -132,7 +132,7 @@ class TransactionsTable extends Component<any, any> {
   }
 
   UNSAFE_componentWillReceiveProps(props: any): void {
-    if (props.txs && props.txs.length != this.state.list.length) {
+    if (props.txs && props.txs.length !== this.state.list.length) {
       this.setState({ list: this.sortItems(props.txs) })
     }
   }
@@ -193,7 +193,7 @@ class TransactionsTable extends Component<any, any> {
               {this.props.tokenSupply.map((supply: Currency) => (
                 <option
                   key={supply.denom}
-                  selected={this.props.selectedToken == supply.denom!}
+                  selected={this.props.selectedToken === supply.denom!}
                 >
                   {supply.denom!.toUpperCase()}
                 </option>
@@ -293,12 +293,12 @@ class TransactionsTable extends Component<any, any> {
                   cellRenderer={(tcp): JSX.Element =>
                     tcp.cellData[0].success ? (
                       <>
-                        <img src={checkmark} width={15} className="icon" />
+                        <img src={checkmark} width={15} className="icon" alt="checkmark" />
                         Confirmed
                       </>
                     ) : (
                         <>
-                          <img src={x} width={15} className="icon" />
+                          <img src={x} width={15} className="icon" alt="close" />
                         Cancelled
                       </>
                       )

@@ -64,7 +64,7 @@ const OutComponent: FunctionComponent<ValueComponentProps> = ({ value }) => (
       {value}
     </StyledValueContainer>
     <StyledEyeContainer>
-      <img src={EyeIcon} />
+      <img src={EyeIcon} alt="view" />
     </StyledEyeContainer>
   </OutComponentContainer>
 )

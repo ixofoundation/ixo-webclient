@@ -258,6 +258,7 @@ class ImageLoader extends React.Component<Props, State> {
             className="file-preview"
             src={uploadedImageSrc}
             width={previewWidth}
+            alt="file preview"
           />
           <Dropzone
             accept={strategyMap[FileType.Image].mimeType}

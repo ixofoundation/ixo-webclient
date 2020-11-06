@@ -44,10 +44,6 @@ interface Props {
 }
 
 class FuelEntity extends React.Component<Props & RouteProps> {
-  constructor(props: any) {
-    super(props)
-  }
-
   componentDidMount(): void {
     // document.getElementById('fuel-entity-action-wrapper').scrollTo(0, 0)
 

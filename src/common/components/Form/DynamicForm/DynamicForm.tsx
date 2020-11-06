@@ -46,7 +46,7 @@ class DynamicForm extends React.Component<any, State> {
 
   UNSAFE_componentWillMount(): void {
     let hiddenCount = 0;
-    this.props.formSchema.map((field: any) => {
+    this.props.formSchema.forEach((field: any) => {
       if (field.hidden) {
         this.setFormState(
           field.name,

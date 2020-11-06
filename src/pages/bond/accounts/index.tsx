@@ -18,7 +18,7 @@ export const Accounts: FunctionComponent<any> = ({ match }) => {
 
   useEffect(() => {
     dispatch(getProjectAccounts(projectDID))
-  }, [])
+  }, [dispatch, projectDID])
 
   const [selected, setSelected] = useState(0)
 

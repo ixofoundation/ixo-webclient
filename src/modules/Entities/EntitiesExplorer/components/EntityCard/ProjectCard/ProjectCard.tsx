@@ -10,9 +10,6 @@ import {
   CardBottom,
   MainContent,
   Title,
-  StatisticsContainer,
-  StatisticLabel,
-  StatisticValue,
 } from '../EntityCard.styles'
 import {
   Impact,
@@ -23,7 +20,6 @@ import {
 } from './ProjectCard.styles'
 import SDGIcons from '../SDGIcons/SDGIcons'
 import Shield, { ShieldColor } from '../Shield/Shield'
-import Star from 'assets/icons/Star'
 import flagged from '../../../../../../assets/images/flagged.svg'
 
 interface Props {

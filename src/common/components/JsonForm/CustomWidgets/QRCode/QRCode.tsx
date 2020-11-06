@@ -31,7 +31,7 @@ export default class QRCodeComponent extends React.Component<Props> {
     return (
       <QRWrapper className="row">
         <div className="col-12 col-md-6">
-          <img src={url} width="150" height="150" />
+          <img src={url} width="150" height="150" alt="qr code" />
         </div>
         <ExplainerText className="col-12 col-md-6">
           <div className="explainer-text-wrapper">

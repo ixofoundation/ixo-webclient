@@ -20,7 +20,7 @@ const ProfileCard: React.FunctionComponent<Props> = ({
 }) => {
   return (
     <ProfileCardWrapper>
-      <img className="ProfileCard-image" src={image} />
+      <img className="ProfileCard-image" src={image} alt="profile image" />
       <div className="ProfileCard-content">
         <div className="ProfileCard-name">{name}</div>
         <div className="ProfileCard-role">{position}</div>

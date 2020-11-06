@@ -144,7 +144,7 @@ export const ModalWrapper: React.SFC<Props> = props => {
     >
       <ModalInner>
         <CloseModal onClick={(): void => props.handleToggleModal(false)}>
-          <img src={ require('assets/images/icon-close.svg') } />
+          <img src={ require('assets/images/icon-close.svg') } alt="close" />
         </CloseModal>
         {props.header && renderHeader()}
         <div>{props.children}</div>

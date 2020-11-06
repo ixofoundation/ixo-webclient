@@ -56,7 +56,7 @@ class Exchange extends Component<Props> {
             >
               Sell
             </NavLink>
-            {this.props.activeBondType == 'swapper_function' ? (
+            {this.props.activeBondType === 'swapper_function' ? (
               <NavLink
                 to={
                   !this.props.transacting

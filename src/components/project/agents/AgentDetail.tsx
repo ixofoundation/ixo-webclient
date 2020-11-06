@@ -192,9 +192,9 @@ const AgentDetail : React.FunctionComponent<Props> = ({onClose}) => {
             <Twitter />
             <Github />
             <div className="d-flex align-items-center ml-auto">
-              <img src={ require('assets/images/agents/icon-shield.svg') } />
-              <img src={ require('assets/images/agents/icon-shield.svg') } className="ml-3" />
-              <img src={ require('assets/images/agents/icon-shield.svg') } className="ml-3" />
+              <img src={ require('assets/images/agents/icon-shield.svg') } alt="shield" />
+              <img src={ require('assets/images/agents/icon-shield.svg') } className="ml-3" alt="shield" />
+              <img src={ require('assets/images/agents/icon-shield.svg') } className="ml-3" alt="shield" />
             </div>
           </Logos>
         </div>
@@ -229,41 +229,41 @@ const AgentDetail : React.FunctionComponent<Props> = ({onClose}) => {
       <Divider />
       <ItemsContainer>
         <div className="d-flex align-items-center rounded">
-          <img src={ require('assets/images/agents/icon-user.svg') } className="mr-4" />
+          <img src={ require('assets/images/agents/icon-user.svg') } className="mr-4" alt="user" />
           <div>
             Joined 23/06/2020
           </div>
         </div>
         <div className="d-flex align-items-center rounded">
-          <img src={ require('assets/images/agents/icon-copy.svg') } className="mr-4" />
+          <img src={ require('assets/images/agents/icon-copy.svg') } className="mr-4" alt="copy" />
           <div>
             ID ixo4fnweoiw40i4tr0fowe 24f090rp2i3nr
           </div>
         </div>
         <div className="d-flex align-items-center rounded">
-          <img src={ require('assets/images/agents/icon-messages.svg') } className="mr-4" />
+          <img src={ require('assets/images/agents/icon-messages.svg') } className="mr-4" alt="messages" />
           <div className="flex-grow-1">
             3 New Messages
           </div>
           <img src={ require('assets/images/agents/icon-launch.svg') } />
         </div>
         <div className="d-flex align-items-center rounded">
-          <img src={ require('assets/images/agents/icon-documents.svg') } className="mr-4" />
+          <img src={ require('assets/images/agents/icon-documents.svg') } className="mr-4" alt="documents" />
           <div className="flex-grow-1">
             5 Documents
           </div>
-          <img src={ require('assets/images/agents/icon-launch.svg') } />
+          <img src={ require('assets/images/agents/icon-launch.svg') } alt="launch" />
         </div>
         <div className="d-flex rounded">
           <div>
-            <img src={ require('assets/images/agents/icon-claims.svg') } className="mr-4" />
+            <img src={ require('assets/images/agents/icon-claims.svg') } className="mr-4" alt="claims" />
           </div>
           <div className="flex-grow-1">
             <div className="d-flex justify-content-between">
               <div className="flex-grow-1">
                 38 Claims
               </div>
-              <img src={ require('assets/images/agents/icon-launch.svg') } />
+              <img src={ require('assets/images/agents/icon-launch.svg') } alt="launch" />
             </div>
             <div>
               <div className="d-flex align-items-center">
@@ -283,7 +283,7 @@ const AgentDetail : React.FunctionComponent<Props> = ({onClose}) => {
         </div>
         <div className="d-flex rounded">
           <div>
-            <img src={ require('assets/images/agents/icon-payments.svg') } className="mr-4" />
+            <img src={ require('assets/images/agents/icon-payments.svg') } className="mr-4" alt="payments" />
           </div>
           <div className="mr-2 mr-sm-5">
             Payments
@@ -297,7 +297,7 @@ const AgentDetail : React.FunctionComponent<Props> = ({onClose}) => {
             </div>
           </div>
           <div className="ml-auto">
-            <img src={ require('assets/images/agents/icon-launch.svg') } />
+            <img src={ require('assets/images/agents/icon-launch.svg') } alt="launch" />
           </div>
         </div>
       </ItemsContainer>
