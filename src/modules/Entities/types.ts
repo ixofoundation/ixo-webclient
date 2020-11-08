@@ -141,6 +141,15 @@ export enum TermsOfUseType {
   Proprietary = 'Proprietary',
 }
 
+export enum ProjectStatus {
+  Created = 'CREATED',
+  Pending = 'PENDING',
+  Funded = 'FUNDED',
+  Started = 'STARTED',
+  Stopped = 'STOPPED',
+  PaidOut = 'PAIDOUT'
+}
+
 export type EntityTypeStrategyMap = {
   [TKey in EntityType]: {
     title: string

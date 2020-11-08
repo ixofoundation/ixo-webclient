@@ -17,6 +17,7 @@ import {
   ApiUpdateEntityAgentPayload,
 } from 'common/api/blocksync-api/types/entity-agent'
 import { RootState } from 'common/redux/types'
+import * as Toast from 'common/utils/Toast'
 
 export const getEntityAgents = (entityDid: string, role: AgentRole) => (
   dispatch: Dispatch,
@@ -54,9 +55,15 @@ export const getEntityAgents = (entityDid: string, role: AgentRole) => (
               type: EntityAgentsActions.GetEntityAgentsSuccess,
               payload: {
                 agents: agents.map((agent) => {
+                  let status = AgentStatus.Pending, version = '2.0'
+                  // currentStatus can be nul
+                  if (agent.currentStatus) {
+                    status = agent.currentStatus.status
+                    version = agent.currentStatus.version
+                  }
+
                   const {
                     agentDid,
-                    currentStatus: { status, version },
                     email,
                     name,
                     role,
@@ -98,7 +105,6 @@ export const updateAgentStatus = (agentDid: string, status: AgentStatus) => (
     selectedEntityAgents: { agents },
     selectedEntity: { did: entityDid },
   } = getState()
-
   const { role, version } = agents[agentDid]
 
   const updateAgentPayload: ApiUpdateEntityAgentPayload = {
@@ -164,6 +170,8 @@ export const createEntityAgent = (
   dispatch: Dispatch,
   getState: () => RootState,
 ): CreateEntityAgentAction => {
+  const { account } = getState()
+
   const {
     account: {
       userInfo: {
@@ -172,6 +180,8 @@ export const createEntityAgent = (
     },
     selectedEntity: { did: entityDid },
   } = getState()
+
+
 
   const createAgentPayload: ApiCreateEntityAgentPayload = {
     email: email,
@@ -197,6 +207,7 @@ export const createEntityAgent = (
         .createAgent(createAgentPayload, signature, PDS_URL)
         .then((response): any => {
           if (response.error !== undefined) {
+            Toast.errorToast(`Error: ${response.error.message}`)
             return dispatch({
               type: EntityAgentsActions.CreateEntityAgentFailure,
               payload: {
@@ -204,24 +215,16 @@ export const createEntityAgent = (
               },
             })
           } else {
-            const {
-              agentDid,
-              currentStatus: { status, version },
-              email,
-              name,
-              role,
-            } = response.result
-
             return dispatch({
               type: EntityAgentsActions.CreateEntityAgentSuccess,
               payload: {
                 agent: {
                   name,
                   email,
-                  agentDid,
+                  userDid,
                   role,
-                  status,
-                  version,
+                  status: AgentStatus.Pending,
+                  version: '2.0',
                 },
               },
             })

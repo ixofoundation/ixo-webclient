@@ -30,7 +30,7 @@ export const reducer = (
         ...state,
         agents: {
           ...state.agents,
-          ...convertArrayToObject(action.payload.agents, 'did'),
+          ...convertArrayToObject(action.payload.agents, 'agentDid'),
         },
         isFetching: false,
         fetchError: null,

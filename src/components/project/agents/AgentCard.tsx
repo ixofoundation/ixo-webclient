@@ -9,6 +9,8 @@ import Expand from 'common/components/Animation/Expand'
 import Tick from 'assets/icons/Tick'
 import Texting from 'assets/icons/Texting'
 import Cross from 'assets/icons/Cross'
+import { EntityAgent } from 'modules/Entities/SelectedEntity/EntityImpact/EntityAgents/types'
+import { deviceWidth } from 'lib/commonData'
 
 const CardWrapper = styled.div`
   height: 158px;
@@ -101,6 +103,11 @@ const ActionButton = styled.button`
   > svg {
     margin-left: 1rem;
   }
+  @media (max-width: ${deviceWidth.mobile}px) {
+    > svg {
+      margin-left: 0.5rem !important;
+    }
+  }
 
   &.green {
     background: linear-gradient(180deg, #41C1E4 0%, #49BFE0 100%);
@@ -122,11 +129,31 @@ const ActionButton = styled.button`
 `
 
 export interface Props {
+  agent: EntityAgent
   handleClick: () => void
+  handleAuthorize: (agent: EntityAgent) => void
+  handleReject: (agent: EntityAgent) => void
 }
 
-const AgentCard: React.FunctionComponent<Props> = ({handleClick}) => {
+const AgentCard: React.FunctionComponent<Props> = ({
+  agent,
+  handleClick,
+  handleAuthorize,
+  handleReject
+}) => {
   const [expanded, setExpanded] = React.useState(false)
+
+  const handleAuthorizeClick = (event: React.SyntheticEvent): void => {
+    event.stopPropagation()
+
+    handleAuthorize(agent)
+  }
+
+  const handleRejectClick = (event: React.SyntheticEvent): void => {
+    event.stopPropagation()
+
+    handleReject(agent)
+  }
 
   return (
     <CardWrapper>
@@ -139,7 +166,7 @@ const AgentCard: React.FunctionComponent<Props> = ({handleClick}) => {
         <Avatar src={ require('assets/images/user-thumb.png') } className="mr-1" />
         <div className="d-flex flex-column flex-grow-1 ml-2">
           <Name>
-            Joyce Montegomery
+            { agent.name }
           </Name>
           <Job>
             Co-Founder & CEO
@@ -168,13 +195,15 @@ const AgentCard: React.FunctionComponent<Props> = ({handleClick}) => {
           </ActionButton>
           <div className="d-flex">
             <ActionButton
-              className="mr-2"
+              className="mr-1 mr-sm-2"
+              onClick={handleRejectClick}
             >
               Reject
               <Cross />
             </ActionButton>
             <ActionButton
               className="green"
+              onClick={handleAuthorizeClick}
             >
               Authorize
               <Tick />

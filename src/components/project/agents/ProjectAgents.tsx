@@ -14,14 +14,16 @@ import AgentCard from './AgentCard'
 import AgentDetail from './AgentDetail'
 import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
 import { RootState } from 'common/redux/types'
-import { getEntityAgents } from 'modules/Entities/SelectedEntity/EntityImpact/EntityAgents/EntityAgents.actions'
+import { getEntityAgents, updateAgentStatus } from 'modules/Entities/SelectedEntity/EntityImpact/EntityAgents/EntityAgents.actions'
 import { AgentRole } from 'modules/Account/types'
 import * as entityAgentSelectors from 'modules/Entities/SelectedEntity/EntityImpact/EntityAgents/EntityAgents.selectors'
+import { AgentStatus, EntityAgent } from 'modules/Entities/SelectedEntity/EntityImpact/EntityAgents/types'
 
 export interface ParentProps {
-  agents: any
+  isFetching: boolean
+  agents: EntityAgent[]
   match: any
-  handleUpdateAgentStatus: (status: object, did: string, role: string) => void
+  handleUpdateAgentStatus: (agentDid: string, status: AgentStatus) => void
   handleGetEntityAgents: (entityDid: string, role: string) => void
 }
 
@@ -41,11 +43,18 @@ class ProjectAgents extends React.Component<ParentProps, State> {
       },
       handleGetEntityAgents
     } = this.props;
-    handleGetEntityAgents(entityDid, 'IA')
+
+    handleGetEntityAgents(entityDid, 'SA')
   }
 
   render(): JSX.Element {
     const { isModalOpened } = this.state;
+    const { agents, isFetching } = this.props;
+
+    if (isFetching) {
+      return null;
+    }
+
     return (
       <Container>
         <div className="row mb-4 d-none d-sm-block">
@@ -67,19 +76,19 @@ class ProjectAgents extends React.Component<ParentProps, State> {
           </div>
         </div>
         {
-          this.renderAgentsSection('Agents', 'Invite All')
+          this.renderAgentsSection(AgentStatus.Approved, 'Invite All')
         }
         <Divider />
         {
-          this.renderAgentsSection('Pending approval', 'Approve All')
+          this.renderAgentsSection(AgentStatus.Pending, 'Approve All')
         }
         <Divider />
         {
-          this.renderAgentsSection('Invitations waiting response', 'New Invite')
+          this.renderAgentsSection(AgentStatus.Invited, 'New Invite')
         }
         <Divider />
         {
-          this.renderAgentsSection('Not Authorized', 'Message All')
+          this.renderAgentsSection(AgentStatus.Revoked, 'Message All')
         }
         <ModalWrapper
           isModalOpen={ isModalOpened }
@@ -93,7 +102,26 @@ class ProjectAgents extends React.Component<ParentProps, State> {
     )
   }
 
-  renderAgentsSection = (sectionTitle: string, sectionAction: string): JSX.Element => {
+  renderAgentsSection = (agentStatus: string, sectionAction: string): JSX.Element => {
+    const { agents } = this.props;
+    let sectionTitle = 'Agents'
+    switch (agentStatus) {
+      case AgentStatus.Approved:
+        sectionTitle = 'Agents'
+        break;
+      case AgentStatus.Pending:
+        sectionTitle = 'Pending approval'
+        break;
+      case AgentStatus.Invited:
+        sectionTitle = 'Invitations waiting response'
+        break;
+      case AgentStatus.Revoked:
+        sectionTitle = 'Not Authorized'
+        break;
+    }
+
+    const filtered = agents.filter((agent: EntityAgent) => agent.status === agentStatus)
+
     return (
       <React.Fragment>
         <div className="row mb-sm-3">
@@ -109,7 +137,7 @@ class ProjectAgents extends React.Component<ParentProps, State> {
           </div>
         </div>
         {
-          this.handleRenderAgents([] ,'No investors on this project yet')
+          this.handleRenderAgents(filtered ,'No service providers on this project yet')
         }
         <MobileOnly>
           <ActionButton>
@@ -120,34 +148,42 @@ class ProjectAgents extends React.Component<ParentProps, State> {
     );
   }
 
-  agentClicked = (): void => {
+  handleAgentClick = (): void => {
     this.setState({ isModalOpened: true })
   }
 
-  handleRenderAgents = (agents = [] ,emptyMsg: string): JSX.Element => {
-    if (agents.length === 0) {
+  handleAuthorizeAgent = (agent: EntityAgent): void => {
+    const { agentDid } = agent
+
+    const { handleUpdateAgentStatus } = this.props
+
+    handleUpdateAgentStatus(agentDid, AgentStatus.Approved)
+  }
+
+  handleRejectAgent = (agent: EntityAgent): void => {
+    const { agentDid } = agent
+
+    const { handleUpdateAgentStatus } = this.props
+
+    handleUpdateAgentStatus(agentDid, AgentStatus.Revoked)
+  }
+
+  handleRenderAgents = (agents ,emptyMsg: string): JSX.Element => {
+    if (agents.length) {
       return (
         <div className="row">
-          <div className="col-sm-3 my-2">
-            <AgentCard
-              handleClick={ this.agentClicked }
-            />
-          </div>
-          <div className="col-sm-3 my-2">
-            <AgentCard
-              handleClick={ this.agentClicked }
-            />
-          </div>
-          <div className="col-sm-3 my-2">
-            <AgentCard
-              handleClick={ this.agentClicked }
-            />
-          </div>
-          <div className="col-sm-3 my-2">
-            <AgentCard
-              handleClick={ this.agentClicked }
-            />
-          </div>
+          {
+            agents.map((agent:EntityAgent): JSX.Element =>
+              <div className="col-sm-3 my-2" key={agent.agentDid}>
+                <AgentCard
+                  agent={agent}
+                  handleClick={ this.handleAgentClick }
+                  handleAuthorize={ this.handleAuthorizeAgent }
+                  handleReject={ this.handleRejectAgent }
+                />
+              </div>
+            )
+          }
         </div>
 
       )
@@ -171,6 +207,8 @@ const mapStateToProps = (state: RootState): any => ({
 const mapDispatchToProps = (dispatch: React.Dispatch<any>): any => ({
   handleGetEntityAgents: (entityDid: string, role: AgentRole): void =>
     dispatch(getEntityAgents(entityDid, role)),
+  handleUpdateAgentStatus: (agentDid: string, status: AgentStatus): void =>
+    dispatch(updateAgentStatus(agentDid, status)),
 })
 
 

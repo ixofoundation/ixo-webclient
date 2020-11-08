@@ -56,7 +56,7 @@ class ControlPanel extends React.Component<Props, State> {
     this.setState({ showMoreApps: !this.state.showMoreApps })
   }
 
-  handleConnectionClick = (connection: ConnectionType): void => {    
+  handleConnectionClick = (connection: ConnectionType): void => {
     this.setState({
       currentConnection:
         this.state.currentConnection === connection ? null : connection,
@@ -79,7 +79,7 @@ class ControlPanel extends React.Component<Props, State> {
     this.setState({ showMoreConnections: !this.state.showMoreConnections })
   }
 
-  componentDidMount() {
+  componentDidMount(): void {
     const showMoreActions = localStorage.getItem('show_more_actions') === 'true'
     const showMoreConnections = localStorage.getItem('show_more_connections') === 'true'
     this.setState({ showMoreActions, showMoreConnections })
@@ -109,10 +109,10 @@ class ControlPanel extends React.Component<Props, State> {
             ref={ (ref): HTMLDivElement => this.panelRef = ref }
           >
             <Dashboard widget={dashboard} entityDid={entityDid} />
-            <Actions 
-              widget={actions} 
-              entityDid={entityDid} 
-              userDid={userDid} 
+            <Actions
+              widget={actions}
+              entityDid={entityDid}
+              userDid={userDid}
               toggleShowMore={ this.toggleShowActions }
               showMore={ this.state.showMoreActions }
             />
@@ -121,7 +121,7 @@ class ControlPanel extends React.Component<Props, State> {
               showMore={this.state.showMoreApps}
               toggleShowMore={this.toggleShowApps}
             />
-            <Claims 
+            <Claims
               widget={apps}
               showMore={this.state.showMoreApps}
               toggleShowMore={this.toggleShowApps}
