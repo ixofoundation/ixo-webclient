@@ -88,7 +88,7 @@ const ProjectCard: React.FunctionComponent<Props> = ({
             <div className="col-6">
               <Shield
                 label="Status"
-                text={ status.toLowerCase() }
+                text={ status ? status.toLowerCase() : 'Created' }
                 color={ShieldColor.Blue}
               />
             </div>
