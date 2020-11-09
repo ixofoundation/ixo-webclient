@@ -1,5 +1,5 @@
 import React from 'react';
-import _ from 'lodash'
+import { chunk } from 'lodash'
 import styled from 'styled-components'
 
 export interface ProjectAccountWrapperProps {
@@ -45,7 +45,7 @@ const Header = () => (
 )
 
 export default function ProjectAccountWrapper ({children}: ProjectAccountWrapperProps): JSX.Element {
-  const childsArray = _.chunk(React.Children.toArray(children), 4)
+  const childsArray = chunk(React.Children.toArray(children), 4)
 
   if (React.Children.count(children) > 4)
     return (
