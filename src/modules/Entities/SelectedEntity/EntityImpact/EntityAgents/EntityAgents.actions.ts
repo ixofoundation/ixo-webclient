@@ -215,6 +215,7 @@ export const createEntityAgent = (
               },
             })
           } else {
+            Toast.successToast(`Successfully applied to join`)
             return dispatch({
               type: EntityAgentsActions.CreateEntityAgentSuccess,
               payload: {
