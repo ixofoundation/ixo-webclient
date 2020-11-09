@@ -29,13 +29,13 @@ interface Props {
 
 class  CreateAgent extends React.Component<Props> {
   componentDidMount(): void {
-    const { userInfo, entityDid, handleCreateEntityAgent, updateProjectStatus } = this.props;
+    const { userInfo, handleCreateEntityAgent } = this.props;
 
-    updateProjectStatus(entityDid, ProjectStatus.Started)
+    //updateProjectStatus(entityDid, ProjectStatus.Started)
 
-    /* if (userInfo) {
+    if (userInfo) {
       handleCreateEntityAgent('alain.g1127@outlook.com', userInfo.name, AgentRole.ServiceProvider)
-    } */
+    }
   }
 
   onAssistantMessageReceive(utter): void {
