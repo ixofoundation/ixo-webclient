@@ -13,7 +13,7 @@ import FuelEntity from 'modules/Entities/FuelEntity/FuelEntity.container'
 import { SummaryContainerConnected } from 'modules/EntityClaims/SubmitEntityClaim/SubmitEntityClaimFinal/SubmitEntityClaimFinal.container'
 import Tooltip from '../../Tooltip/Tooltip'
 import { InstructionsContainerConnected } from 'modules/EntityClaims/SubmitEntityClaim/SubmitEntityClaimInstructions/SubmitEntityClaimInstructions.container'
-
+import CreateAgentContainer from 'modules/Entities/SelectedEntity/EntityImpact/EntityAgents/CreateAgent/CreateAgent.container'
 import Down from 'assets/icons/Down'
 
 interface IconTypes {
@@ -70,7 +70,7 @@ const Actions: React.FunctionComponent<Props> = ({
       </Tooltip>
     )
   }
-  
+
   return (
     <>
       <Route
@@ -88,6 +88,12 @@ const Actions: React.FunctionComponent<Props> = ({
         path={`/projects/:projectDID/overview/action/new_claim`}
         component={InstructionsContainerConnected}
       />
+      <Route
+        exact
+        path={`/projects/:projectDID/overview/action/join`}
+        component={CreateAgentContainer}
+      />
+
       <ControlPanelSection key={title}>
         <h4>
           <div className="heading-icon">

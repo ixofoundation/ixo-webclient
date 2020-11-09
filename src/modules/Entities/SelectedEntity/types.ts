@@ -97,6 +97,7 @@ export enum SelectedEntityActions {
   GetEntityPending = 'ixo/Entity/GET_ENTITY_PENDING',
   GetEntityFailure = 'ixo/Entity/GET_ENTITY_REJECTED',
   ClearEntity = 'ixo/Entity/CLEAR_ENTITY',
+  UpdateProjectStatus = 'ixo/Project/UPDATE_STATUS'
 }
 
 export interface GetEntityAction {
@@ -111,6 +112,10 @@ export interface GetEntitySuccessAction {
 
 export interface ClearEntityAction {
   type: typeof SelectedEntityActions.ClearEntity
+}
+
+export interface UpdateProjectStatusAction {
+  type: typeof SelectedEntityActions.UpdateProjectStatus
 }
 
 export type SelectedEntityActionTypes =

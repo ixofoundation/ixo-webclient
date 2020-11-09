@@ -25,6 +25,7 @@ import Targets from './Targets'
 import EventsTable from './EventsTable'
 import CircledLocation from 'assets/icons/CircledLocation'
 import Events from 'assets/icons/Events'
+import { Agent } from 'modules/Entities/types'
 
 export interface Props {
   did: string
@@ -43,6 +44,7 @@ export interface Props {
   showAgentLinks: boolean
   showClaimLinks: boolean
   entityClaims: any[]
+  agents: Agent[]
 }
 
 const Dashboard: React.FunctionComponent<Props> = ({
@@ -59,7 +61,8 @@ const Dashboard: React.FunctionComponent<Props> = ({
   latLng,
   showAgentLinks,
   showClaimLinks,
-  entityClaims
+  entityClaims,
+  agents
 }) => {
   const getClaimsOfType = (claimType: string): Array<any> => {
     return [...claims].filter((claim) => claim.status === claimType)
@@ -212,7 +215,7 @@ const Dashboard: React.FunctionComponent<Props> = ({
                     rejected={1}
                     pending={1}
                     totalNeeded={requiredClaimsCount}
-                    descriptor={<>water systems built by 23 <strong>Agents</strong></>}
+                    descriptor={<>{goal} by {agents.length} <strong>Agents</strong></>}
                   />
                 </ProgressContainer>
               </ClaimsWidget>

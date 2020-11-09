@@ -48,12 +48,13 @@ const Overview: React.FunctionComponent<Props> = ({
   remainingClaimsCount,
   latLng,
   entity,
+  goal,
   ...props
 }) => {
   return (
     <Dashboard
       did={did}
-      goal={'0'}
+      goal={goal}
       serviceProvidersCount={serviceProvidersCount}
       serviceProvidersPendingCount={serviceProvidersPendingCount}
       evaluatorsCount={evaluatorsCount}
@@ -64,6 +65,7 @@ const Overview: React.FunctionComponent<Props> = ({
       pendingClaimsCount={pendingClaimsCount}
       rejectedClaimsCount={rejectedClaimsCount}
       remainingClaimsCount={remainingClaimsCount}
+      agents={agents}
       latLng={latLng}
       showAgentLinks={entityUtils.isUserInRolesOfEntity(
         userDid,
@@ -111,7 +113,8 @@ const mapStateToProps = (state: RootState): any => ({
   rejectedClaimsCount: entityImpactSelectors.selectRejectedClaimsCount(state),
   remainingClaimsCount: entityImpactSelectors.selectRemainingClaimsCount(state),
   latLng: entityImpactSelectors.selectLatLng(state),
-  entity: entitySelectors.selectSelectedEntity(state)
+  entity: entitySelectors.selectSelectedEntity(state),
+  goal: entityImpactSelectors.selectGoal(state)
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({

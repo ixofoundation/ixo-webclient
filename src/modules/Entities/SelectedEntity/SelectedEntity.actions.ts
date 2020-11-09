@@ -5,6 +5,7 @@ import {
   SelectedEntityActions,
   GetEntityAction,
   ClearEntityAction,
+  UpdateProjectStatusAction
 } from './types'
 import { RootState } from 'common/redux/types'
 import { ApiListedEntity } from 'common/api/blocksync-api/types/entities'
@@ -13,6 +14,8 @@ import { PageContent } from 'common/api/blocksync-api/types/page-content'
 import { Attestation } from 'modules/EntityClaims/types'
 import { ApiResource } from 'common/api/blocksync-api/types/resource'
 import { fromBase64 } from 'js-base64'
+import { ProjectStatus } from '../types'
+import keysafe from 'common/keysafe/keysafe'
 
 export const clearEntity = (): ClearEntityAction => ({
   type: SelectedEntityActions.ClearEntity,
@@ -98,4 +101,34 @@ export const getEntity = (did: string) => (
       )
     }),
   })
+}
+
+export const updateProjectStatus = (
+  projectDid: string,
+  status: ProjectStatus
+) => (
+  dispatch: Dispatch
+): UpdateProjectStatusAction => {
+  const statusData = {
+    projectDid: projectDid,
+    status: status,
+  }
+
+  keysafe.requestSigning(
+    JSON.stringify(statusData),
+    (error: any, signature: any) => {
+      if (!error) {
+        blocksyncApi.project
+          .updateProjectStatus(statusData, signature, PDS_URL)
+          .then(res => {
+            return dispatch({
+              type: SelectedEntityActions.UpdateProjectStatus
+            })
+          })
+      }
+    },
+    'base64',
+  )
+
+  return null
 }

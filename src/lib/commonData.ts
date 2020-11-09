@@ -96,6 +96,7 @@ export const deviceWidth = {
   tablet: 768,
   desktop: 992,
   desktopLarge: 1200,
+  desktopExtra: 1366,
 }
 export const imgArray = (): Array<string> => {
   const tempArray: string[] = []
