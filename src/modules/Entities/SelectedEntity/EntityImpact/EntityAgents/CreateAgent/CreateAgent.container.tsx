@@ -29,9 +29,9 @@ interface Props {
 
 class  CreateAgent extends React.Component<Props> {
   componentDidMount(): void {
-    const { userInfo, entityDid, handleCreateEntityAgent } = this.props;
+    const { userInfo, handleCreateEntityAgent } = this.props;
 
-    updateProjectStatus(entityDid, ProjectStatus.Stopped)
+    //updateProjectStatus(entityDid, ProjectStatus.Stopped)
 
     if (userInfo) {
       handleCreateEntityAgent('alain.g1127@outlook.com', userInfo.name, AgentRole.ServiceProvider)
