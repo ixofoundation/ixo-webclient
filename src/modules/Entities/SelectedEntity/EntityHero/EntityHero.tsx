@@ -6,6 +6,7 @@ import { getCountryName } from 'common/utils/formatters'
 import { MatchType } from '../../../../types/models'
 import HeaderTabs from 'common/components/HeaderTabs/HeaderTabs'
 import {
+  SingleNav,
   SingleSDG,
   HeroInner,
   Flag,
@@ -24,6 +25,9 @@ import IxoCircle from 'assets/images/ixo-circle.png'
 import MediaQuery from 'react-responsive'
 import CreateEntityDropDown from '../../CreateEntity/components/CreateEntityDropdown/CreateEntityDropdown'
 import { selectEntityBondDid } from 'modules/Entities/SelectedEntity/SelectedEntity.selectors'
+import { Route } from 'react-router-dom'
+import RightIcon from 'assets/icons/Right'
+
 interface Props {
   type: EntityType
   did: string
@@ -37,6 +41,7 @@ interface Props {
   onlyTitle: boolean
   assistantPanelToggle?: () => void
   enableAssistantButton?: boolean
+  light?: boolean
 }
 
 const EntityHero: React.FunctionComponent<Props> = ({
@@ -52,9 +57,10 @@ const EntityHero: React.FunctionComponent<Props> = ({
   onlyTitle,
   assistantPanelToggle,
   enableAssistantButton = true,
+  light = false,
 }) => {
   const bondDid = useSelector(selectEntityBondDid)
-  
+
   const buttonsArray = [
     {
       iconClass: `icon-${type.toLowerCase()}`,
@@ -107,6 +113,7 @@ const EntityHero: React.FunctionComponent<Props> = ({
   }
 
   const renderSDGs = (): JSX.Element => {
+    console.log('fffffffffffffffffff', sdgs)
     return (
       <>
         {sdgs.map((SDG, index) => {
@@ -130,13 +137,69 @@ const EntityHero: React.FunctionComponent<Props> = ({
     )
   }
 
+  const renderNavs = (): JSX.Element => {
+    return (
+      <>
+      <SingleNav
+        to="/"
+        light={light}
+      >
+        EXPLORE PROJECTS
+        <RightIcon />
+      </SingleNav>
+      <SingleNav
+        to={`/projects/${did}/overview`}
+        light={light}
+      >
+        { name }
+        <RightIcon />
+      </SingleNav>
+      <Route
+        path={`/projects/:projectDID/detail`}
+      >
+        <SingleNav
+          to={`/projects/${did}/detail`}
+          light={light}
+        >
+          Dashboard
+          <RightIcon />
+        </SingleNav>
+      </Route>
+      <Route
+        exact
+        path={`/projects/:projectDID/detail/agents`}
+      >
+        <SingleNav
+          to={`/projects/${did}/detail/agents`}
+          light={light}
+        >
+          Agents
+          <RightIcon />
+        </SingleNav>
+      </Route>
+      <Route
+        exact
+        path={`/projects/:projectDID/detail/claims`}
+      >
+        <SingleNav
+          to={`/projects/${did}/detail/claims`}
+          light={light}
+        >
+          Claims
+          <RightIcon />
+        </SingleNav>
+      </Route>
+      </>
+    )
+  }
+
   return (
     <>
-      <HeroContainer className="container-fluid" onlyTitle={onlyTitle}>
+      <HeroContainer onlyTitle={onlyTitle}>
         <HeroInner className="detailed">
           <div className="row">
             <div className="col-sm-12">
-              {renderSDGs()}
+              {renderNavs()}
               <Title>{name}</Title>
               {
                 !onlyTitle && <>
@@ -162,7 +225,7 @@ const EntityHero: React.FunctionComponent<Props> = ({
                         <span>{getCountryName(location)}</span>
                       </HeroInfoItem>
                     )}
-                  </HeroInfoItemsWrapper>  
+                  </HeroInfoItemsWrapper>
                 </>
               }
             </div>

@@ -63,15 +63,12 @@ const ProjectGovernance: React.FunctionComponent = ()  => {
         <ExtendHeader>
           <Index>#0</Index> Next up
         </ExtendHeader>
-        <div className="small mt-2">
-          Extend the project end-date to Step 2020
-        </div>
         <div className="d-flex align-items-center mt-4 mb-2">
           <Wait fill='#39C3E6' />
           <div className="flex-grow-1 ml-3">
             <ProgressBar
               total={100}
-              progress={75}
+              progress={0}
             />
           </div>
         </div>

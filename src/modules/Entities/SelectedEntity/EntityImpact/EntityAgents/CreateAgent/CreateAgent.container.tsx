@@ -31,7 +31,7 @@ class  CreateAgent extends React.Component<Props> {
   componentDidMount(): void {
     const { userInfo, handleCreateEntityAgent } = this.props;
 
-    //updateProjectStatus(entityDid, ProjectStatus.Stopped)
+    //updateProjectStatus(entityDid, ProjectStatus.Pending)
 
     if (userInfo) {
       handleCreateEntityAgent('alain.g1127@outlook.com', userInfo.name, AgentRole.ServiceProvider)

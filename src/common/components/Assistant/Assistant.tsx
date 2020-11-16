@@ -3,9 +3,10 @@ import { Widget, send, open } from 'ixo-assistant'
 
 interface Props {
   onMessageReceive: (text: any) => void
+  customComponent?: (messageData: any) => JSX.Element
 }
 
-const Assistant: React.FunctionComponent<Props> = ({ onMessageReceive }) => {
+const Assistant: React.FunctionComponent<Props> = ({ onMessageReceive, customComponent }) => {
   const onSocketEvent = {
     bot_uttered: (utter: any): void => onMessageReceive(utter),
     connect: (): void => console.log('connected'),
@@ -21,6 +22,7 @@ const Assistant: React.FunctionComponent<Props> = ({ onMessageReceive }) => {
       embedded={true}
       hideWhenNotConnected={false}
       connectOn="open"
+      customComponent={customComponent}
     />
   )
 }

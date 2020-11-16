@@ -5,7 +5,7 @@ import { RootState } from 'common/redux/types'
 import { Agent, EntityType } from '../../types'
 import EntityHero from '../EntityHero/EntityHero'
 import SideBar from './components/SideBar/SideBar'
-import { DetailContainer, ContentContainer } from './EntityImpact.styles'
+import { DetailContainer, ContentContainer, EntityHeroContainer } from './EntityImpact.styles'
 import * as entitySelectors from '../SelectedEntity.selectors'
 import * as accountSelectors from 'modules/Account/Account.selectors'
 import { getEntity } from '../SelectedEntity.actions'
@@ -114,19 +114,21 @@ class EntityImpact extends React.Component<Props> {
                 )}
               />
               <ContentContainer>
-                <EntityHero
-                  type={type}
-                  did={did}
-                  name={name}
-                  description={description}
-                  dateCreated={dateCreated}
-                  creatorName={creatorName}
-                  location={country}
-                  sdgs={sdgs}
-                  loggedIn={isLoggedIn}
-                  onlyTitle={true}
-                  assistantPanelToggle={ this.assistantPanelToggle }
-                />
+                <EntityHeroContainer>
+                  <EntityHero
+                    type={type}
+                    did={did}
+                    name={name}
+                    description={description}
+                    dateCreated={dateCreated}
+                    creatorName={creatorName}
+                    location={country}
+                    sdgs={sdgs}
+                    loggedIn={isLoggedIn}
+                    onlyTitle={true}
+                    assistantPanelToggle={ this.assistantPanelToggle }
+                  />
+                </EntityHeroContainer>
                 <Route
                   exact
                   path={`/projects/:projectDID/detail`}

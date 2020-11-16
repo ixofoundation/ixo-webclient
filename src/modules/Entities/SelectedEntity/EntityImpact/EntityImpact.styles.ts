@@ -35,3 +35,13 @@ export const ContentContainer = styled.div`
     padding-right: 10px;
   }
 `
+
+export const EntityHeroContainer = styled.div`
+  padding-left: 15px;
+  padding-right: 15px;
+
+  @media (min-width: ${deviceWidth.mobile}px) {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+`

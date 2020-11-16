@@ -54,7 +54,7 @@ export const getEntities = () => (dispatch: Dispatch): GetEntitiesAction => {
               serviceProvidersCount: apiEntity.data.agentStats.serviceProviders,
               evaluatorsCount: apiEntity.data.agentStats.evaluators,
               requiredClaimsCount: claimToUse
-                ? claimToUse.targetMin
+                ? claimToUse.targetMax
                 : undefined,
               pendingClaimsCount: claimToUse
                 ? apiEntity.data.claims.filter((claim) => claim.status === '0')

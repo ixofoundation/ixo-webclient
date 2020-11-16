@@ -112,7 +112,7 @@ hr {
       }
 
       &.support {
-        background: #0C3549;
+        background: #0c3549;
         flex-grow: 0;
         height: 74px;
         display: flex;
@@ -126,37 +126,37 @@ hr {
           background-image: url(../../../../assets/img/sidebar/home.svg);
         }
         &.trades {
-          background-image: url(../../../../assets/img/sidebar/refresh.png);
+          background-image: url(../../../../assets/img/sidebar/refresh.svg);
         }
         &.orders {
-          background-image: url(../../../../assets/img/sidebar/history.png);
+          background-image: url(../../../../assets/img/sidebar/history.svg);
         }
         &.wallet {
           background-image: url(../../../../assets/img/sidebar/wallet.png);
         }
         &.settings {
-          background-image: url(../../../../assets/img/sidebar/settings.png);
+          background-image: url(../../../../assets/img/sidebar/settings.svg);
         }
         &.global {
-          background-image: url(../../../../assets/img/sidebar/global.png);
+          background-image: url(../../../../assets/img/sidebar/global.svg);
         }
         &.account {
-          background-image: url(../../../../assets/img/sidebar/account.png);
+          background-image: url(../../../../assets/img/sidebar/account.svg);
         }
         &.investment {
-          background-image: url(../../../../assets/img/sidebar/investment.png);
+          background-image: url(../../../../assets/img/sidebar/investment.svg);
         }
         &.target {
-          background-image: url(../../../../assets/img/sidebar/target.png);
+          background-image: url(../../../../assets/img/sidebar/target.svg);
         }
         &.claim {
-          background-image: url(../../../../assets/img/sidebar/claim.png);
+          background-image: url(../../../../assets/img/sidebar/claim.svg);
         }
         &.governance {
-          background-image: url(../../../../assets/img/sidebar/governance.png);
+          background-image: url(../../../../assets/img/sidebar/governance.svg);
         }
         &.portfolio {
-          background-image: url(../../../../assets/img/sidebar/portfolio.png);
+          background-image: url(../../../../assets/img/sidebar/portfolio.svg);
         }
 
         background-origin: border-box;
