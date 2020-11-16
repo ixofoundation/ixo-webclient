@@ -1,13 +1,11 @@
 import * as React from 'react'
 import { Moment } from 'moment'
 import { useSelector } from 'react-redux'
-import { SDGArray } from 'lib/commonData'
 import { getCountryName } from 'common/utils/formatters'
 import { MatchType } from '../../../../types/models'
 import HeaderTabs from 'common/components/HeaderTabs/HeaderTabs'
 import {
   SingleNav,
-  SingleSDG,
   HeroInner,
   Flag,
   HeroContainer,
@@ -51,7 +49,6 @@ const EntityHero: React.FunctionComponent<Props> = ({
   type,
   did,
   location,
-  sdgs,
   dateCreated,
   loggedIn,
   onlyTitle,
