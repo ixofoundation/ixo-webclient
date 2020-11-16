@@ -110,6 +110,7 @@ class EntityOverview extends React.Component<Props> {
                 loggedIn={isLoggedIn}
                 onlyTitle={false}
                 assistantPanelToggle={ this.assistantPanelToggle }
+                light
               />
               <PageContentComponent
                 pageContent={pageContent}

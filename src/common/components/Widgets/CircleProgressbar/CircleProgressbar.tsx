@@ -99,12 +99,18 @@ export class CircleProgressbar extends React.Component<ParentProps, State> {
     return this.getCircumference() * (1 - progress)
   }
 
+  claimsCount = (): number => {
+    const { approved, rejected, pending } = this.props;
+
+    return approved + rejected + pending;
+  }
+
   render(): JSX.Element {
     return (
       <WidgetContainer>
         <Text>
           <div>
-            <ApprovedText>{this.props.approved}</ApprovedText>
+            <ApprovedText>{this.claimsCount()}</ApprovedText>
             <TotalText>/{this.props.totalNeeded}</TotalText>
           </div>
           <Descriptor>{this.props.descriptor}</Descriptor>

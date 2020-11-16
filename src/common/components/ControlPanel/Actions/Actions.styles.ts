@@ -175,6 +175,11 @@ export const AssistantWrapper = styled.div`
       background: #C1CBD0;
       border-radius: 8px;
     }
+
+    .rw-from-response {
+      display: flex;
+      flex-direction: column;
+    }
   }
   .rw-sender {
     margin: 10px 5px;

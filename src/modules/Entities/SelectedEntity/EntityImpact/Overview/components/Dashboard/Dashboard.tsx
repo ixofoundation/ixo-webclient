@@ -135,7 +135,7 @@ const Dashboard: React.FunctionComponent<Props> = ({
               gridHeight={gridSizes.standard}
               path={`/projects/${did}/detail/evaluators`}
               linkIcon={'icon-expand'}
-              titleIcon={ <img src={ require('assets/img/sidebar/governance.png') } /> }
+              titleIcon={ <img src={ require('assets/img/sidebar/governance.svg') } /> }
             >
               <ProjectGovernance />
               {/* <SingleStatistic
@@ -161,7 +161,7 @@ const Dashboard: React.FunctionComponent<Props> = ({
               gridHeight={gridSizes.standard}
               path={`/projects/${did}/detail/service-providers`}
               linkIcon={'icon-expand'}
-              titleIcon={ <img src={ require('assets/img/sidebar/target.png') } /> }
+              titleIcon={ <img src={ require('assets/img/sidebar/target.svg') } /> }
             >
               <Targets
               />
@@ -173,7 +173,7 @@ const Dashboard: React.FunctionComponent<Props> = ({
             <WidgetWrapper
               title="Impact claims"
               gridHeight={gridSizes.standard}
-              titleIcon={ <img src={ require('assets/img/sidebar/claim.png') } /> }
+              titleIcon={ <img src={ require('assets/img/sidebar/claim.svg') } /> }
             >
               <ClaimsWidget>
                 <ClaimsLabels>
@@ -193,7 +193,7 @@ const Dashboard: React.FunctionComponent<Props> = ({
                   </div>
                   <div className="mt-2">
                     <SectionHeader>
-                      <img src={ require('assets/img/sidebar/profile.png') } />
+                      <img src={ require('assets/img/sidebar/profile.svg') } />
                       Agents
                       <i className='icon-expand' />
                     </SectionHeader>
@@ -211,9 +211,9 @@ const Dashboard: React.FunctionComponent<Props> = ({
                 </ClaimsLabels>
                 <ProgressContainer>
                   <CircleProgressbar
-                    approved={2}
-                    rejected={1}
-                    pending={1}
+                    approved={successfulClaimsCount}
+                    rejected={rejectedClaimsCount}
+                    pending={pendingClaimsCount}
                     totalNeeded={requiredClaimsCount}
                     descriptor={<>{goal} by {agents.length} <strong>Agents</strong></>}
                   />
@@ -250,7 +250,7 @@ const Dashboard: React.FunctionComponent<Props> = ({
             title="Latest claims"
             path={`/projects/${did}/detail/claims`}
             gridHeight={gridSizes.standard}
-            titleIcon={ <img src={ require('assets/img/sidebar/claim.png') } /> }
+            titleIcon={ <img src={ require('assets/img/sidebar/claim.svg') } /> }
             linkIcon={'icon-expand'}
             link={true}
           >

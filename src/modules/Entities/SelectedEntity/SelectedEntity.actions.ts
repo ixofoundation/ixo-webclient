@@ -80,7 +80,7 @@ export const getEntity = (did: string) => (
             evaluatorsPendingCount: apiEntity.data.agentStats.evaluatorsPending,
             goal: claimToUse ? claimToUse.goal : undefined,
             claimTemplateId: claimToUse ? claimToUse['@id'] : undefined,
-            requiredClaimsCount: claimToUse ? claimToUse.targetMin : undefined,
+            requiredClaimsCount: claimToUse ? claimToUse.targetMax : undefined,
             pendingClaimsCount: claimToUse
               ? apiEntity.data.claims.filter((claim) => claim.status === '0')
                   .length

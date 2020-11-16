@@ -12,13 +12,6 @@ export const HeroContainer = styled.div<HeroContainerProps>`
   background: ${(props: any): string =>
     props.onlyTitle ? props.theme.bg.blue : 'white'};
   color: ${(props: any): string => (props.onlyTitle ? 'white' : 'black')};
-  padding-left: 15x;
-  padding-right: 15px;
-
-  @media (min-width: ${deviceWidth.mobile}px) {
-    padding-left: 40px;
-    padding-right: 40px;
-  }
 `
 
 export const HeroInner = styled.div`
@@ -61,6 +54,40 @@ export const Description = styled.p`
   font-size: 0.875rem;
   line-height: 1.5;
   margin-bottom: 0.5rem;
+`
+
+interface SingleNavProp {
+  light: boolean
+}
+
+export const SingleNav = styled(NavLink)<SingleNavProp>`
+  font-family: ${(props: any): string => props.theme.fontRobotoCondensed};
+  color: ${(props: any): string => props.light ? '#A5ADB0' : props.theme.fontBlueDisabled};
+  font-size: 0.75rem;
+  margin: 0 0.625rem 0 0;
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none !important;
+  cursor: pointer;
+
+  &:hover,
+  &:hover i:before {
+    color: ${(props: any): string => props.theme.fontLightBlue};
+  }
+
+  &:last-of-type {
+    color: ${(props: any): string => props.light ? '#000' : '#fff'};
+    svg {
+      display: none;
+    }
+  }
+
+  svg {
+    margin-left: 0.625rem;
+    path {
+      fill: ${(props: any): string => props.light ? '#A5ADB0' : '#436779'};
+    }
+  }
 `
 
 export const SingleSDG = styled.a`
