@@ -15,7 +15,6 @@ import * as fundingChatSelectors from './FundingChat.selectors'
 import { getOrder, confirmOrder, cancelOrder } from './FundingChat.actions'
 import CloseIcon from 'assets/icons/CloseStroke'
 import FundingchatCustom from './components/FundingChatCustom/FundingChatCustom'
-import QRCode from 'common/components/QRCode/QRCode'
 
 interface Props {
   match?: any

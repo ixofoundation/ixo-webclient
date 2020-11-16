@@ -109,7 +109,6 @@ export const updateProjectStatus = (
 ) => (
   dispatch: Dispatch
 ): UpdateProjectStatusAction => {
-  console.log('ffffffffffffffffffffffff');
   const statusData = {
     projectDid: projectDid,
     status: status,

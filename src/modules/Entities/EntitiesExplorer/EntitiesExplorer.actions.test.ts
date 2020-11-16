@@ -59,7 +59,7 @@ describe('Entities Actions', () => {
           goal: 'Some Goal',
           serviceProvidersCount: 10,
           evaluatorsCount: 10,
-          requiredClaimsCount: 23,
+          requiredClaimsCount: 45,
           successfulClaimsCount: 10,
           pendingClaimsCount: 3,
           rejectedClaimsCount: 5,

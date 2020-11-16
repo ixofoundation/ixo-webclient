@@ -156,7 +156,7 @@ describe('SelectedEntity Actions', () => {
         evaluatorsCount: 10,
         evaluatorsPendingCount: 0,
         claimTemplateId: 'template:did:2',
-        requiredClaimsCount: 23,
+        requiredClaimsCount: 45,
         pendingClaimsCount: 3,
         successfulClaimsCount: 10,
         rejectedClaimsCount: 5,

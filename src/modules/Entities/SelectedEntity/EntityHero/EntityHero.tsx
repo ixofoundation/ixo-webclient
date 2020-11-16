@@ -112,31 +112,6 @@ const EntityHero: React.FunctionComponent<Props> = ({
     return ''
   }
 
-  const renderSDGs = (): JSX.Element => {
-    console.log('fffffffffffffffffff', sdgs)
-    return (
-      <>
-        {sdgs.map((SDG, index) => {
-          const goal = Math.floor(parseInt(SDG, 10))
-          if (goal > 0 && goal <= SDGArray.length) {
-            return (
-              <SingleSDG
-                target="_blank"
-                href={SDGArray[goal - 1].url}
-                key={index}
-              >
-                <i className={`icon-sdg-${SDGArray[goal - 1].ico}`} />
-                {goal}. {SDGArray[goal - 1].title}
-              </SingleSDG>
-            )
-          } else {
-            return null
-          }
-        })}
-      </>
-    )
-  }
-
   const renderNavs = (): JSX.Element => {
     return (
       <>
