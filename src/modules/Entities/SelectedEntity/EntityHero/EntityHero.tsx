@@ -40,6 +40,7 @@ interface Props {
   assistantPanelToggle?: () => void
   enableAssistantButton?: boolean
   light?: boolean
+  bondDid?: string
 }
 
 const EntityHero: React.FunctionComponent<Props> = ({
@@ -158,6 +159,61 @@ const EntityHero: React.FunctionComponent<Props> = ({
           light={light}
         >
           Claims
+          <RightIcon />
+        </SingleNav>
+      </Route>
+      <Route
+        path={`/projects/:projectDID/bonds`}
+      >
+        <SingleNav
+          to={`/projects/${did}/bonds/${bondDid}/payments`}
+          light={light}
+        >
+          Funds
+          <RightIcon />
+        </SingleNav>
+      </Route>
+      <Route
+        path={`/projects/:projectDID/bonds/:bondDID/accounts`}
+      >
+        <SingleNav
+          to={`/projects/${did}/bonds/${bondDid}/accounts`}
+          light={light}
+        >
+          Accounts
+          <RightIcon />
+        </SingleNav>
+      </Route>
+      <Route
+        path={`/projects/:projectDID/bonds/:bondDID/events`}
+      >
+        <SingleNav
+          to={`/projects/${did}/bonds/${bondDid}/events`}
+          light={light}
+        >
+          Events
+          <RightIcon />
+        </SingleNav>
+      </Route>
+      <Route
+        path={`/projects/:projectDID/bonds/:bondDID/investment`}
+      >
+        <SingleNav
+          to={`/projects/${did}/bonds/${bondDid}/investment`}
+          light={light}
+        >
+          Investment
+          <RightIcon />
+        </SingleNav>
+      </Route>
+      <Route
+        path={`/projects/:projectDID/bonds/:bondDID/payments`}
+      >
+        <SingleNav
+          to={`/projects/${did}/bonds/${bondDid}/payments`}
+          light={light}
+        >
+          Payments
           <RightIcon />
         </SingleNav>
       </Route>

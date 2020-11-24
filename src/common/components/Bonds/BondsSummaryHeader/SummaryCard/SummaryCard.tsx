@@ -8,6 +8,7 @@ import {
   AdditionalInfo,
 } from './SummaryCard.styles'
 import { thousandSeparator } from 'common/utils/formatters'
+import IxoBlue from 'assets/icons/IxoBlue'
 
 export default class HeaderItem extends Component<any> {
   render(): JSX.Element {
@@ -15,7 +16,13 @@ export default class HeaderItem extends Component<any> {
       <StyledHeaderItem
         selected={this.props.selected}
         onClick={this.props.setActiveHeaderItem}
+        activeColor={ this.props.priceColor }
       >
+        {
+          this.props.isAlpha && (
+            <IxoBlue />
+          )
+        }
         {this.props.tokenType && (
           <Token backgroundColor={this.props.priceColor}>
             <span>{this.props.tokenType}</span>

@@ -97,6 +97,7 @@ export interface Props {
   plus?: true;
   href?: string;
   target?: string;
+  className?: string;
 }
 
 export const Button: React.FunctionComponent<Props> = (props) => {
@@ -120,7 +121,7 @@ export const Button: React.FunctionComponent<Props> = (props) => {
           onClick={props.onClick}
           href={props.href}
           target={props.target}
-          className="gradientButton"
+          className={props.className + " gradientButton"}
         >
           {renderPlus()} {props.children}
         </EnabledGradient>
@@ -131,7 +132,7 @@ export const Button: React.FunctionComponent<Props> = (props) => {
           onClick={props.onClick}
           href={props.href}
           target={props.target}
-          className="darkButton"
+          className={props.className + " darkButton"}
         >
           {renderPlus()} {props.children}
         </EnabledDark>
@@ -142,7 +143,7 @@ export const Button: React.FunctionComponent<Props> = (props) => {
           onClick={props.onClick}
           href={props.href}
           target={props.target}
-          className="greenButton"
+          className={props.className + " greenButton"}
         >
           {renderPlus()} {props.children}
         </EnabledGreen>
