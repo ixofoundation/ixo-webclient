@@ -51,12 +51,13 @@ export const getClaimTemplate = (templateDid: string) => (
     payload: fetchTemplateEntity.then((apiEntity: ApiListedEntity) => {
       return fetchContent(apiEntity.data.page.cid).then(
         (resourceData: ApiResource) => {
-          let attestation: any = JSON.parse(
+          const attestation: any = JSON.parse(
             fromBase64(resourceData.data),
           )
 
+          console.log('ggggggggggggggg', attestation)
           // For demo, let's use template.
-          attestation = claimTemplate;
+          attestation['forms'] = claimTemplate['forms'];
 
           return {
             templateDid,

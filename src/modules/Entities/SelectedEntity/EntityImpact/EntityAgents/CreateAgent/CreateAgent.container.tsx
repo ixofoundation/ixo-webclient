@@ -29,13 +29,12 @@ interface Props {
 
 class  CreateAgent extends React.Component<Props> {
   componentDidMount(): void {
-    const { userInfo, entityDid, handleCreateEntityAgent } = this.props;
-    console.log('fffffffffffffffffffffffffff');
-    updateProjectStatus(entityDid, ProjectStatus.Pending)
+    const { userInfo, handleCreateEntityAgent} = this.props;
+    //updateProjectStatus(entityDid, ProjectStatus.Started)
 
-    /* if (userInfo) {
+    if (userInfo) {
       handleCreateEntityAgent('alain.g1127@outlook.com', userInfo.name, AgentRole.ServiceProvider)
-    } */
+    }
   }
 
   onAssistantMessageReceive(utter): void {
@@ -44,12 +43,14 @@ class  CreateAgent extends React.Component<Props> {
 
   render(): JSX.Element {
     const { userInfo, entityDid } = this.props;
+
     if (userInfo === null) {
       const to = `/projects/${entityDid}/overview`
       return <Redirect to={to} />
     }
 
-    return (
+    return null;
+    /* return (
       <ActionWrapper
         id="fuel-entity-action-wrapper"
         className={`open`}
@@ -70,7 +71,7 @@ class  CreateAgent extends React.Component<Props> {
         </AssistantHeader>
         <Assistant onMessageReceive={this.onAssistantMessageReceive} />
       </ActionWrapper>
-    )
+    ) */
   }
 }
 

@@ -4,6 +4,7 @@ import styled from 'styled-components'
 
 const QRImg = styled.img`
   mix-blend-mode: multiply; // remove white space and make it transaprent
+  width: 200px;
 `
 
 const FundingChatCustom: React.FunctionComponent = (messageData: any) => {

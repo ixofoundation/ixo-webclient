@@ -213,7 +213,7 @@ class EntitiesExplorer extends React.Component<Props> {
             >
               {
                 assistantPanelActive => assistantPanelActive && (props =>
-                <div style={{ background: '#F0F3F9', ...props }}>
+                <div style={{ background: '#F0F3F9', ...props, boxShadow: 'inset 0px -1px 30px 11px rgba(0, 0, 0, 0.03)' }}>
                   {assistantPanelActive && (
                     <FundingChat
                       match={match}

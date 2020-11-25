@@ -16,6 +16,7 @@ import { ApiResource } from 'common/api/blocksync-api/types/resource'
 import { fromBase64 } from 'js-base64'
 import { ProjectStatus } from '../types'
 import keysafe from 'common/keysafe/keysafe'
+import { keys } from 'lodash'
 
 export const clearEntity = (): ClearEntityAction => ({
   type: SelectedEntityActions.ClearEntity,
