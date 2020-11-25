@@ -11,6 +11,7 @@ interface TokenProps {
 
 interface StyledHeaderItemProps {
   selected: boolean;
+  activeColor: string;
 }
 
 export const StyledHeaderItem = styled.div<StyledHeaderItemProps>`
@@ -22,7 +23,7 @@ export const StyledHeaderItem = styled.div<StyledHeaderItemProps>`
 
   background: linear-gradient(358.42deg, #002d42 2.22%, #012639 96.94%);
   border: ${(props: any): string =>
-    props.selected ? "1px solid #107591" : "1px solid #0c3549"};
+    props.selected ? `1px solid ${props.activeColor}` : `1px solid #0c3549`};
   box-sizing: border-box;
   border-radius: 4px;
   margin-right: 1.25em;
@@ -46,6 +47,11 @@ export const StyledHeaderItem = styled.div<StyledHeaderItemProps>`
   }
   @media (min-width: ${deviceWidth.desktopLarge}px) {
     flex: 1;
+  }
+
+  svg {
+    margin-right: 1.25rem;
+    margin-left:
   }
 `;
 
@@ -83,15 +89,18 @@ export const Token = styled.div<TokenProps>`
   text-align: center;
   background: ${(props: any): string =>
     props.backgroundColor ? props.backgroundColor : "#73ce99"};
-  margin: 0.2rem 0.5rem 0 0;
+  margin-left: 0.5rem;
+  margin-right: 1rem;
   display: flex;
   align-items: center;
   border-radius: 0.3rem;
   span {
     font-size: 0.8rem;
-    padding: 0.1em 0.5rem;
+    padding: 0.4rem;
   }
   font-weight: bold;
+  min-width: 45px;
+  justify-content: center;
   @media (max-width: ${deviceWidth.tablet}px) {
     margin: 0 0.5rem 0 0;
     span {

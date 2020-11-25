@@ -182,7 +182,7 @@ export const AssistantWrapper = styled.div`
     }
   }
   .rw-sender {
-    margin: 10px 5px;
+    margin: 10px;
     margin-top: auto;
     margin-bottom: 15px;
     border-radius: 40px;

@@ -1,13 +1,16 @@
 import React, { Fragment } from 'react'
 import ReactApexChart from 'react-apexcharts'
+import { Button, ButtonTypes } from 'common/components/Form/Buttons'
+import DateRangeSelector from 'common/components/JsonForm/CustomWidgets/DateRangeSelector/DateRangeSelector'
 
-import { ChartContainer, StyledHeader } from './Chart.styles'
+import { ChartContainer, StyledHeader, RangeDateWrapper, FilterContainer, DateFilterContainer } from './Chart.styles'
 
 interface Props {
   data: any
   token?: string
   lineColor: string
   mainColor: string
+  backgroundColor: string
 }
 
 const seriesData = [
@@ -112,7 +115,7 @@ const series = [
 ]
 
 
-export const Chart: React.FunctionComponent<Props> = ({ data, token, lineColor, mainColor }) => {
+export const Chart: React.FunctionComponent<Props> = ({ data, token, lineColor, mainColor, backgroundColor }) => {
   const options = {
     chart: {
       type: 'area',
@@ -129,7 +132,7 @@ export const Chart: React.FunctionComponent<Props> = ({ data, token, lineColor, 
       redrawOnParentResize: true,
     },
     plotOptions: {
-      
+
     },
     xaxis: {
       type: 'datetime',
@@ -142,11 +145,13 @@ export const Chart: React.FunctionComponent<Props> = ({ data, token, lineColor, 
       },
     },
     grid: {
+      borderColor: '#436779',
+      strokeDashArray: 2,
       yaxis: {
         lines: {
-            show: false
+            show: true
         }
-      },  
+      },
     },
     // grid: {
     //   borderColor: '#436779',
@@ -166,10 +171,70 @@ export const Chart: React.FunctionComponent<Props> = ({ data, token, lineColor, 
     }
   }
 
+  const [chartInterval, setChartInterval] = React.useState('All')
+
   return (
     <Fragment>
       <StyledHeader>My {token} Stake</StyledHeader>
       <ChartContainer className="BondsWrapper_panel__chrome hide-on-mobile">
+        <FilterContainer
+          color={ lineColor }
+          backgroundColor={ backgroundColor }
+        >
+          <div className="d-flex align-items-center">
+            <Button
+              type={ ButtonTypes.dark }
+            >
+              History
+            </Button>
+            <RangeDateWrapper>
+              <DateRangeSelector
+                id="date"
+                value=''
+                onChange={ value => console.log('ffffffffffffffffffffff', value) }
+                onBlur={ (id, value) => console.log('ffffffffffffffffffff', id, value) }
+                onFocus={ (id, value) => console.log('ffffffffffffffffffff', id, value) }
+              />
+            </RangeDateWrapper>
+          </div>
+          <DateFilterContainer>
+            <Button
+              type={ ButtonTypes.dark }
+              className={ `${chartInterval === 'H' ? 'active' : ''}` }
+              onClick={():void => setChartInterval('H')}
+            >
+              H
+            </Button>
+            <Button
+              type={ ButtonTypes.dark }
+              className={ `${chartInterval === 'D' ? 'active' : ''}` }
+              onClick={():void => setChartInterval('D')}
+            >
+              D
+            </Button>
+            <Button
+              type={ ButtonTypes.dark }
+              className={ `${chartInterval === 'M' ? 'active' : ''}` }
+              onClick={():void => setChartInterval('M')}
+            >
+              M
+            </Button>
+            <Button
+              type={ ButtonTypes.dark }
+              className={ `${chartInterval === 'Y' ? 'active' : ''}` }
+              onClick={():void => setChartInterval('Y')}
+            >
+              Y
+            </Button>
+            <Button
+              type={ ButtonTypes.dark }
+              className={ `${chartInterval === 'All' ? 'active' : ''}` }
+              onClick={():void => setChartInterval('All')}
+            >
+              ALL
+            </Button>
+          </DateFilterContainer>
+        </FilterContainer>
         <div className="BondsWrapper_panel__content">
           <ReactApexChart
             options={options}

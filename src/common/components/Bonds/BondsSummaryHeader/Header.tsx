@@ -6,6 +6,7 @@ import { getAccount } from '../../../../modules/Account/Account.actions'
 import { getBalances as getBondBalances } from '../../../../modules/BondModules/bond/bond.actions'
 import { tokenBalance } from '../../../../modules/Account/Account.utils'
 import { deviceWidth } from '../../../../lib/commonData'
+import Tooltip from 'common/components/Tooltip/Tooltip'
 
 import styled from 'styled-components'
 
@@ -16,6 +17,14 @@ const StyledHeader = styled.header`
   justify-content: space-between;
   @media (min-width: ${deviceWidth.desktopLarge}px) {
     justify-content: flex-start;
+  }
+`
+
+const AlaphaHeaderContainer = styled.div`
+  display: flex;
+  flex: 1;
+  > div {
+    width: 100%;
   }
 `
 
@@ -60,7 +69,7 @@ class Header extends Component<any, HeaderState> {
     return (
       <StyledHeader>
         <HeaderItem
-          tokenType={activeBond.price.denom}
+          tokenType={activeBond.price.denom ? activeBond.price.denom : 'xEUR'}
           title="Price"
           value={activeBond.price.amount}
           additionalInfo="--"
@@ -69,7 +78,7 @@ class Header extends Component<any, HeaderState> {
           selected={selectedHeader === 'price'}
         />
         <HeaderItem
-          tokenType={activeBond.symbol}
+          tokenType={activeBond.symbol ? activeBond.symbol : 'EDU'}
           title="My Stake"
           value={balance.amount}
           additionalInfo="--"
@@ -78,7 +87,7 @@ class Header extends Component<any, HeaderState> {
           selected={selectedHeader === 'stake'}
         />
         <HeaderItem
-          tokenType={activeBond.totalSupply.denom}
+          tokenType={activeBond.totalSupply.denom ? activeBond.totalSupply.denom : 'xEUR'}
           title="Capital Raised"
           value={activeBond.collateral.amount}
           additionalInfo={bondCapitalInfo}
@@ -87,7 +96,7 @@ class Header extends Component<any, HeaderState> {
           selected={selectedHeader === 'raised'}
         />
         <HeaderItem
-          tokenType={activeBond.reserve.denom}
+          tokenType={activeBond.reserve.denom ? activeBond.reserve.denom : 'xEUR'}
           title="Reserve Funds"
           value={activeBond.reserve.amount}
           additionalInfo={reserveInfo}
@@ -95,13 +104,18 @@ class Header extends Component<any, HeaderState> {
           setActiveHeaderItem={(): void => setSelectedHeader('reserve')}
           selected={selectedHeader === 'reserve'}
         />
-        <HeaderItem
-          title="Alpha"
-          value="--"
-          additionalInfo="--"
-          setActiveHeaderItem={(): void => setSelectedHeader('alpha')}
-          selected={selectedHeader === 'alpha'}
-        />
+        <AlaphaHeaderContainer className="d-flex flex-grow-1">
+          <Tooltip text="Coming soon">
+            <HeaderItem
+              title="Alpha"
+              value="--"
+              additionalInfo="--"
+              selected={selectedHeader === 'alpha'}
+              isAlpha={true}
+              priceColor='#39C3E6'
+            />
+          </Tooltip>
+        </AlaphaHeaderContainer>
       </StyledHeader>
     )
   }

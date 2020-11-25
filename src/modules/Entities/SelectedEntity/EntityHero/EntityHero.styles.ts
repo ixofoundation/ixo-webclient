@@ -69,6 +69,7 @@ export const SingleNav = styled(NavLink)<SingleNavProp>`
   align-items: center;
   text-decoration: none !important;
   cursor: pointer;
+  text-transform: uppercase;
 
   &:hover,
   &:hover i:before {

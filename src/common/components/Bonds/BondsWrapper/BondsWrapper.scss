@@ -65,6 +65,7 @@ hr {
 
   .pane {
     padding: 2.5rem;
+    padding-top: 0px !important;
     width: 90%;
     flex: 1;
 
@@ -84,7 +85,7 @@ hr {
     &.sidebar {
       flex-direction: column;
       justify-content: flex-start;
-      padding-top: 3.5rem;
+      padding-top: 2.8rem;
       padding-bottom: 2rem;
       z-index: 2;
 
@@ -106,6 +107,12 @@ hr {
       font-family: $tab-title-font;
       font-size: normal;
       text-transform: uppercase;
+      position: relative;
+
+      &:hover > div {
+        opacity: 1;
+        left: 100%;
+      }
 
       &.active {
         color: $tab-title-color-active;
@@ -241,6 +248,8 @@ hr {
   justify-content: left;
   font-family: 'Roboto', sans-serif;
   font-weight: normal;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
   // padding-top: 1.25rem;
 }
 
