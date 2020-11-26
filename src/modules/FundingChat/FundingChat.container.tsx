@@ -13,7 +13,6 @@ import Assistant, {
 import { RootState } from 'common/redux/types'
 import * as fundingChatSelectors from './FundingChat.selectors'
 import { getOrder, confirmOrder, cancelOrder } from './FundingChat.actions'
-import CloseIcon from 'assets/icons/CloseStroke'
 import FundingchatCustom from './components/FundingChatCustom/FundingChatCustom'
 
 interface Props {
@@ -60,7 +59,6 @@ class FundingChat extends React.Component<Props & RouteProps> {
     const {
       error,
       handleCancelOrder,
-      assistantPanelToggle
     } = this.props
 
     const hasError = !!error
@@ -70,9 +68,6 @@ class FundingChat extends React.Component<Props & RouteProps> {
           <AssistantWrapper>
             <AssistantHeader>
               <h3></h3>
-              <span className="close-icon cursor-pointer" onClick={assistantPanelToggle}>
-                <CloseIcon />
-              </span>
             </AssistantHeader>
             <div className="assistant-container">
               <Assistant
