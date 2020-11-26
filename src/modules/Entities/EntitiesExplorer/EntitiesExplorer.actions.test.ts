@@ -94,6 +94,52 @@ describe('Entities Actions', () => {
           termsType: TermsOfUseType.OnceOffFee,
           badges: ['https://somebadge.com', 'https://anotherbadge.com'],
           version: '1.0.5',
+          claims: [
+            {
+              date: new Date(),
+              location: {
+                long: 'someLong',
+                lat: 'someLat',
+              },
+              claimId: '1',
+              status: '0',
+              saDid: 'someSADid',
+              eaDid: 'someEADid',
+            },
+            {
+              date: new Date(),
+              location: {
+                long: 'someLong',
+                lat: 'someLat',
+              },
+              claimId: '2',
+              status: '0',
+              saDid: 'someSADid',
+              eaDid: 'someEADid',
+            },
+            {
+              date: new Date(),
+              location: {
+                long: 'someLong',
+                lat: 'someLat',
+              },
+              claimId: '3',
+              status: '0',
+              saDid: 'someSADid',
+              eaDid: 'someEADid',
+            },
+            {
+              date: new Date(),
+              location: {
+                long: 'someLong',
+                lat: 'someLat',
+              },
+              claimId: '4',
+              status: '1',
+              saDid: 'someSADid',
+              eaDid: 'someEADid',
+            },
+          ]
         },
         {
           name: 'Some Claim Title',
@@ -136,6 +182,7 @@ describe('Entities Actions', () => {
           termsType: TermsOfUseType.OnceOffFee,
           badges: ['https://somebadge.com', 'https://anotherbadge.com'],
           version: '1.0.5',
+          claims: []
         },
       ])
     })

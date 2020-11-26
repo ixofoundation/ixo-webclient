@@ -75,7 +75,7 @@ describe('SelectedEntity Actions', () => {
         goal: 'Some Goal',
         serviceProvidersCount: 10,
         serviceProvidersPendingCount: 2,
-        'entityClaims': {
+        entityClaims: {
           '@context': 'https://schema.ixo.world/claims:3r08webu2eou',
           'items': [
             {
@@ -153,6 +153,52 @@ describe('SelectedEntity Actions', () => {
             },
           ],
         },
+        claims: [
+          {
+            date: new Date(),
+            location: {
+              long: 'someLong',
+              lat: 'someLat',
+            },
+            claimId: '1',
+            status: '0',
+            saDid: 'someSADid',
+            eaDid: 'someEADid',
+          },
+          {
+            date: new Date(),
+            location: {
+              long: 'someLong',
+              lat: 'someLat',
+            },
+            claimId: '2',
+            status: '0',
+            saDid: 'someSADid',
+            eaDid: 'someEADid',
+          },
+          {
+            date: new Date(),
+            location: {
+              long: 'someLong',
+              lat: 'someLat',
+            },
+            claimId: '3',
+            status: '0',
+            saDid: 'someSADid',
+            eaDid: 'someEADid',
+          },
+          {
+            date: new Date(),
+            location: {
+              long: 'someLong',
+              lat: 'someLat',
+            },
+            claimId: '4',
+            status: '1',
+            saDid: 'someSADid',
+            eaDid: 'someEADid',
+          },
+        ],
         evaluatorsCount: 10,
         evaluatorsPendingCount: 0,
         claimTemplateId: 'template:did:2',
