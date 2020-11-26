@@ -96,6 +96,7 @@ export const getEntity = (did: string) => (
             sdgs: apiEntity.data.sdgs,
             bondDid: alphabondToUse ? alphabondToUse.id : undefined,
             entityClaims: apiEntity.data.entityClaims,
+            claims: apiEntity.data.claims,
             content,
           }
         },

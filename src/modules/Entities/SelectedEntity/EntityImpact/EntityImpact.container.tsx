@@ -19,6 +19,7 @@ import ProjectAgents from 'components/project/agents/ProjectAgents'
 import {Transition} from 'react-spring/renderprops'
 import FundingChat from 'modules/FundingChat/FundingChat.container'
 import AssistantContext from 'common/contexts/Assistant'
+import EntityClaims from './EntityClaims/EntityClaims.container'
 
 interface Props {
   match: any
@@ -153,6 +154,12 @@ class EntityImpact extends React.Component<Props> {
                   exact
                   path={`/projects/:projectDID/detail/agents`}
                   component={ProjectAgents}
+                />
+
+                <Route
+                  exact
+                  path={`/projects/:projectDID/detail/claims`}
+                  component={EntityClaims}
                 />
               </ContentContainer>
             </div>

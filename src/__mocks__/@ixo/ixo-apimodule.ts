@@ -292,7 +292,7 @@ export const fakeListedProjectsData = [
       },
       'claims': [
         {
-          date: new Date(),
+          date: new Date('2020-11-26T19:24:18.167Z'),
           location: {
             long: 'someLong',
             lat: 'someLat',
@@ -303,7 +303,7 @@ export const fakeListedProjectsData = [
           eaDid: 'someEADid',
         },
         {
-          date: new Date(),
+          date: new Date('2020-11-26T19:24:18.167Z'),
           location: {
             long: 'someLong',
             lat: 'someLat',
@@ -314,7 +314,7 @@ export const fakeListedProjectsData = [
           eaDid: 'someEADid',
         },
         {
-          date: new Date(),
+          date: new Date('2020-11-26T19:24:18.167Z'),
           location: {
             long: 'someLong',
             lat: 'someLat',
@@ -325,7 +325,7 @@ export const fakeListedProjectsData = [
           eaDid: 'someEADid',
         },
         {
-          date: new Date(),
+          date: new Date('2020-11-26T19:24:18.167Z'),
           location: {
             long: 'someLong',
             lat: 'someLat',
