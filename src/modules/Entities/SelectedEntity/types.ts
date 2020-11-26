@@ -1,6 +1,7 @@
 import { Attestation } from 'modules/EntityClaims/types'
 import { Moment } from 'moment'
 import { Agent, EntityType } from '../types'
+import { EntityClaim } from 'modules/Entities/SelectedEntity/EntityImpact/EntityClaims/types'
 
 export interface PageContent {
   header: PageContentHeader
@@ -89,6 +90,7 @@ export interface Entity {
   agents: Agent[]
   content: PageContent | Attestation
   entityClaims: any
+  claims: EntityClaim[]
 }
 
 export enum SelectedEntityActions {

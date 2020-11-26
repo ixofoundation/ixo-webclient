@@ -79,6 +79,7 @@ export const getEntities = () => (dispatch: Dispatch): GetEntitiesAction => {
                 (dc) => dc.badge,
               ),
               version: apiEntity.data.version.versionNumber,
+              claims: apiEntity.data.claims
             }
           })
       }),
