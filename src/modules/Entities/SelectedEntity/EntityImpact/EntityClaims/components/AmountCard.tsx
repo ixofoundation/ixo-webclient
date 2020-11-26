@@ -1,6 +1,5 @@
 import React from 'react'
 import styled from 'styled-components'
-import { theme } from 'modules/App/App.styles'
 import { EntityClaimStatus, EntityClaimColorSchema } from '../types'
 
 const Container = styled.div`

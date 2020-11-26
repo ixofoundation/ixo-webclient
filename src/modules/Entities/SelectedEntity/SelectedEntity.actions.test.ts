@@ -155,7 +155,7 @@ describe('SelectedEntity Actions', () => {
         },
         claims: [
           {
-            date: new Date(),
+            date: new Date('2020-11-26T19:24:18.167Z'),
             location: {
               long: 'someLong',
               lat: 'someLat',
@@ -166,7 +166,7 @@ describe('SelectedEntity Actions', () => {
             eaDid: 'someEADid',
           },
           {
-            date: new Date(),
+            date: new Date('2020-11-26T19:24:18.167Z'),
             location: {
               long: 'someLong',
               lat: 'someLat',
@@ -177,7 +177,7 @@ describe('SelectedEntity Actions', () => {
             eaDid: 'someEADid',
           },
           {
-            date: new Date(),
+            date: new Date('2020-11-26T19:24:18.167Z'),
             location: {
               long: 'someLong',
               lat: 'someLat',
@@ -188,7 +188,7 @@ describe('SelectedEntity Actions', () => {
             eaDid: 'someEADid',
           },
           {
-            date: new Date(),
+            date: new Date('2020-11-26T19:24:18.167Z'),
             location: {
               long: 'someLong',
               lat: 'someLat',

@@ -1,6 +1,5 @@
 import styled from 'styled-components'
 import SearchBarInput from 'common/components/SearchBar/SearchBar'
-import { deviceWidth } from 'lib/commonData'
 
 export const SectionTitle = styled.div`
   font-size: 1.375rem;
