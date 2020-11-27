@@ -15,6 +15,7 @@ import Tooltip from '../../Tooltip/Tooltip'
 import { InstructionsContainerConnected } from 'modules/EntityClaims/SubmitEntityClaim/SubmitEntityClaimInstructions/SubmitEntityClaimInstructions.container'
 import CreateAgentContainer from 'modules/Entities/SelectedEntity/EntityImpact/EntityAgents/CreateAgent/CreateAgent.container'
 import Down from 'assets/icons/Down'
+import ShowAssistantPanel from './ShowAssistantPanel'
 
 interface IconTypes {
   [key: string]: any
@@ -34,6 +35,7 @@ interface Props {
   widget: Widget
   toggleShowMore: () => void
   showMore: boolean
+  assistantPanelToggle: () => void
 }
 
 const Actions: React.FunctionComponent<Props> = ({
@@ -42,6 +44,7 @@ const Actions: React.FunctionComponent<Props> = ({
   entityDid,
   showMore,
   toggleShowMore,
+  assistantPanelToggle,
 }) => {
   const visibleControls = controls.filter(
     (control) => !(control.permissions[0].role === 'user' && !userDid),
@@ -76,8 +79,9 @@ const Actions: React.FunctionComponent<Props> = ({
       <Route
         exact
         path={`/projects/:projectDID/overview/action/fuel_my_entity`}
-        component={FuelEntity}
-      />
+      >
+        <FuelEntity assistantPanelToggle={ assistantPanelToggle } />
+      </Route>
       <Route
         exact
         path="/projects/:projectDID/overview/action/new_claim/summary"
@@ -92,7 +96,28 @@ const Actions: React.FunctionComponent<Props> = ({
         exact
         path={`/projects/:projectDID/overview/action/join`}
         component={CreateAgentContainer}
-      />
+      >
+        <CreateAgentContainer assistantPanelToggle={ assistantPanelToggle } />
+      </Route>
+
+      <Route
+        exact
+        path={`/projects/:projectDID/overview/action/help`}
+      >
+        <ShowAssistantPanel assistantPanelToggle={ assistantPanelToggle } />
+      </Route>
+      <Route
+        exact
+        path={`/projects/:projectDID/overview/action/oracle`}
+      >
+        <ShowAssistantPanel assistantPanelToggle={ assistantPanelToggle } />
+      </Route>
+      <Route
+        exact
+        path={`/projects/:projectDID/overview/action/rate`}
+      >
+        <ShowAssistantPanel assistantPanelToggle={ assistantPanelToggle } />
+      </Route>
 
       <ControlPanelSection key={title}>
         <h4>

@@ -7,38 +7,28 @@ import * as accountSelectors from 'modules/Account/Account.selectors'
 import { UserInfo } from 'modules/Account/types'
 import * as entityAgentSelectors from 'modules/Entities/SelectedEntity/EntityImpact/EntityAgents/EntityAgents.selectors'
 import * as entitySelectors from 'modules/Entities/SelectedEntity/SelectedEntity.selectors'
-import { Redirect, NavLink } from 'react-router-dom'
-import Assistant from 'common/components/Assistant/Assistant'
-import BackIcon from 'assets/icons/Back'
+import { Redirect } from 'react-router-dom'
 import { updateProjectStatus } from 'modules/Entities/SelectedEntity/SelectedEntity.actions'
 import { ProjectStatus } from 'modules/Entities/types'
 
-import {
-  ActionWrapper,
-  AssistantHeader,
-} from 'common/components/ControlPanel/Actions/Actions.styles'
-import ChatbotIcon from 'assets/icons/Chatbot'
-
 interface Props {
-  entityDid: string
-  error: any
-  userInfo: UserInfo
-  handleCreateEntityAgent: (email: string, name: string, role: AgentRole) => void
-  updateProjectStatus: (projectDid: string, status: ProjectStatus) => void
+  entityDid?: string
+  error?: any
+  userInfo?: UserInfo
+  handleCreateEntityAgent?: (email: string, name: string, role: AgentRole) => void
+  updateProjectStatus?: (projectDid: string, status: ProjectStatus) => void
+  assistantPanelToggle: () => void
 }
 
 class  CreateAgent extends React.Component<Props> {
   componentDidMount(): void {
-    const { userInfo, handleCreateEntityAgent} = this.props;
+    const { userInfo, assistantPanelToggle, handleCreateEntityAgent} = this.props;
     //updateProjectStatus(entityDid, ProjectStatus.Started)
 
+    assistantPanelToggle()
     if (userInfo) {
       handleCreateEntityAgent('alain.g1127@outlook.com', userInfo.name, AgentRole.ServiceProvider)
     }
-  }
-
-  onAssistantMessageReceive(utter): void {
-    // @todo Need to interact with Assistant panel after chatbot is updated
   }
 
   render(): JSX.Element {
@@ -50,28 +40,6 @@ class  CreateAgent extends React.Component<Props> {
     }
 
     return null;
-    /* return (
-      <ActionWrapper
-        id="fuel-entity-action-wrapper"
-        className={`open`}
-      >
-        <AssistantHeader>
-            <h3 className="assistant-heading">
-              <span className="chatbot-icon">
-                <ChatbotIcon />
-              </span>
-              Pixo
-            </h3>
-          <NavLink
-            to={`/projects/${entityDid}/overview`}
-            className="back-icon"
-          >
-            <BackIcon width="18" />
-          </NavLink>
-        </AssistantHeader>
-        <Assistant onMessageReceive={this.onAssistantMessageReceive} />
-      </ActionWrapper>
-    ) */
   }
 }
 

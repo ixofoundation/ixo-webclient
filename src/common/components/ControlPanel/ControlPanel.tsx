@@ -18,6 +18,7 @@ interface Props {
   userDid: string
   schema: Schema
   claims?: any[]
+  assistantPanelToggle?: () => void
 }
 
 interface State {
@@ -90,7 +91,8 @@ class ControlPanel extends React.Component<Props, State> {
       schema: { dashboard, actions, apps, connections },
       entityDid,
       userDid,
-      claims
+      claims,
+      assistantPanelToggle
     } = this.props
     return (
       <>
@@ -115,6 +117,7 @@ class ControlPanel extends React.Component<Props, State> {
               userDid={userDid}
               toggleShowMore={ this.toggleShowActions }
               showMore={ this.state.showMoreActions }
+              assistantPanelToggle={ assistantPanelToggle }
             />
             <Apps
               widget={apps}
