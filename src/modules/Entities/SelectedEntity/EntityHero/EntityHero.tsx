@@ -111,7 +111,6 @@ const EntityHero: React.FunctionComponent<Props> = ({
   }
 
   const renderNavs = (): JSX.Element => {
-    console.log('ffffffffffffff', light)
     return (
       <>
       <SingleNav
