@@ -111,18 +111,19 @@ const EntityHero: React.FunctionComponent<Props> = ({
   }
 
   const renderNavs = (): JSX.Element => {
+    console.log('ffffffffffffff', light)
     return (
       <>
       <SingleNav
         to="/"
-        light={light}
+        light={light }
       >
         EXPLORE PROJECTS
         <RightIcon />
       </SingleNav>
       <SingleNav
         to={`/projects/${did}/overview`}
-        light={light}
+        light={light }
       >
         { name }
         <RightIcon />
@@ -132,7 +133,7 @@ const EntityHero: React.FunctionComponent<Props> = ({
       >
         <SingleNav
           to={`/projects/${did}/detail`}
-          light={light}
+          light={light }
         >
           Dashboard
           <RightIcon />
@@ -144,7 +145,7 @@ const EntityHero: React.FunctionComponent<Props> = ({
       >
         <SingleNav
           to={`/projects/${did}/detail/agents`}
-          light={light}
+          light={light }
         >
           Agents
           <RightIcon />
@@ -156,7 +157,7 @@ const EntityHero: React.FunctionComponent<Props> = ({
       >
         <SingleNav
           to={`/projects/${did}/detail/claims`}
-          light={light}
+          light={light }
         >
           Claims
           <RightIcon />

@@ -16,7 +16,7 @@ import { Route } from 'react-router-dom'
 import EntityImpactOverview from './Overview/Overview.container'
 import EntityAgents from './EntityAgents/EntityAgents.container'
 import ProjectAgents from 'components/project/agents/ProjectAgents'
-import {Transition} from 'react-spring/renderprops'
+import {Transition, animated} from 'react-spring/renderprops'
 import FundingChat from 'modules/FundingChat/FundingChat.container'
 import AssistantContext from 'common/contexts/Assistant'
 import EntityClaims from './EntityClaims/EntityClaims.container'
@@ -43,7 +43,7 @@ interface Props {
 class EntityImpact extends React.Component<Props> {
   state = {
     assistantPanelActive: false,
-    width: '100%'
+    width: '75%'
   }
 
   componentDidMount(): void {
@@ -59,19 +59,14 @@ class EntityImpact extends React.Component<Props> {
 
   assistantPanelToggle = ():void => {
     const { assistantPanelActive } = this.state;
-    let width = '100%';
-    if (!assistantPanelActive) {
-      width = '75%';
-    }
 
+    this.setState({ assistantPanelActive: !assistantPanelActive })
     // Assistant panel shown
     if (!assistantPanelActive) {
       document?.querySelector('body')?.classList?.add('noScroll')
     } else {
       document?.querySelector('body')?.classList.remove('noScroll')
     }
-
-    this.setState({ assistantPanelActive: !assistantPanelActive, width });
   }
 
   render(): JSX.Element {
@@ -164,6 +159,8 @@ class EntityImpact extends React.Component<Props> {
               </ContentContainer>
             </div>
             <Transition
+              native
+              unique
               items={assistantPanelActive}
               from={{ width: '0%' }}
               enter={{ width: '25%' }}
@@ -171,14 +168,14 @@ class EntityImpact extends React.Component<Props> {
             >
               {
                 assistantPanelActive => assistantPanelActive && (props =>
-                <div style={{background: '#F0F3F9', zIndex: 8, ...props,  }}>
-                  {assistantPanelActive && (
+                <animated.div style={{background: '#F0F3F9', zIndex: 8, ...props,  }}>
+                  {
                     <FundingChat
                       match={match}
                       assistantPanelToggle={this.assistantPanelToggle}
                     />
-                  )}
-                </div>)
+                  }
+                </animated.div>)
               }
             </Transition>
           </DetailContainer>

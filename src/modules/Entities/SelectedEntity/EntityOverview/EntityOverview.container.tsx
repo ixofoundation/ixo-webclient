@@ -20,7 +20,7 @@ import PageContentComponent from './components/PageContent/PageContent'
 import { PageContent } from '../types'
 import FundingChat from 'modules/FundingChat/FundingChat.container'
 import AssistantContext from 'common/contexts/Assistant'
-import {Transition} from 'react-spring/renderprops'
+import {Transition, animated} from 'react-spring/renderprops'
 import * as entityClaimsSelectors from 'modules/Entities/CreateEntity/CreateEntityClaims/CreateEntityClaims.selectors'
 import { CreateEntityClaimsState } from 'modules/Entities/CreateEntity/CreateEntityClaims/types'
 
@@ -126,10 +126,11 @@ class EntityOverview extends React.Component<Props> {
                 entityDid={did}
                 userDid={userDid}
                 claims={ entity.entityClaims.items }
+                assistantPanelToggle={ this.assistantPanelToggle }
               />
               <Transition
                   items={assistantPanelActive}
-                  from={{ width: '0%' }}
+                  from={{ width: '0%', }}
                   enter={{ width: '100%' }}
                   leave={{ width: '0%' }}
                 >
@@ -137,11 +138,11 @@ class EntityOverview extends React.Component<Props> {
                     {
                       assistantPanelActive => assistantPanelActive && (props =>
                         <AssistantContainer style={ props }>
-                          <div style={{ width: '25%' }}>
+                          <animated.div style={{ width: '25%' }}>
                               <FundingChat
                                   assistantPanelToggle={ this.assistantPanelToggle }
                               />
-                          </div>
+                          </animated.div>
                         </AssistantContainer>)
                     }
               </Transition>
