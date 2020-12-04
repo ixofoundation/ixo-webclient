@@ -13,15 +13,17 @@ import ButtonSlider from 'common/components/ButtonSlider/ButtonSlider'
 import { Button, ButtonTypes } from 'common/components/Form/Buttons'
 import * as entityClaimsSelectors from './EntityClaims.selectors'
 import ExpandableList from 'common/components/ExpandableList/ExpandableList'
+import EntityImpactLayout from '../EntityImpact.container'
 
 const ClaimStatusOrder = [EntityClaimStatus.Saved, EntityClaimStatus.Pending, EntityClaimStatus.Rejected, EntityClaimStatus.Approved, EntityClaimStatus.Disputed]
 
 interface Props {
+  match: any
   claims: EntityClaim[]
   entity: Entity
 }
 
-const EntityClaims: React.FunctionComponent<Props> = ({ entity, claims }) => {
+const EntityClaims: React.FunctionComponent<Props> = ({ match, entity, claims }) => {
   const claimTemplates = entity.entityClaims.items
 
   const handleClaimTemplateClick = ():void => {
@@ -180,7 +182,7 @@ const EntityClaims: React.FunctionComponent<Props> = ({ entity, claims }) => {
     })
   }
 
-  return (
+  return (<EntityImpactLayout match={match}>
     <LayoutWrapper>
       <ContentContainer>
         <SectionTitle>
@@ -213,7 +215,7 @@ const EntityClaims: React.FunctionComponent<Props> = ({ entity, claims }) => {
         }
       </ContentContainer>
     </LayoutWrapper>
-  )
+  </EntityImpactLayout>)
 }
 
 const mapStateToProps = (state: RootState): any => ({

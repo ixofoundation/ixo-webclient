@@ -24,7 +24,7 @@ class Exchange extends Component<Props> {
     const { projectDID, bondDID } = this.props.match.params
 
     return (
-      <BondsWrapper {...this.props.match}>
+      <BondsWrapper match={this.props.match}>
         <div className="BondsWrapper_panel exchange_panel">
           {/*<b style={{fontSize: 'calc(10px + 2vmin)'}}>Balances</b>
               <div className="BondsWrapper_panel__content"></div>*/}

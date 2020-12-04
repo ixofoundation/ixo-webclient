@@ -9,6 +9,7 @@ import { getEntityAgents } from './EntityAgents.actions'
 import * as entityAgentSelectors from './EntityAgents.selectors'
 import { AgentRole } from 'modules/Account/types'
 import { agentRoleMap } from 'modules/Account/strategy-map'
+import EntityImpactLayout from '../EntityImpact.container'
 
 interface Props {
   match: any
@@ -44,18 +45,20 @@ class Agents extends React.Component<Props> {
   }
 
   render(): JSX.Element {
-    const { isFetching, fetchError, agents } = this.props
+    const { match, isFetching, fetchError, agents } = this.props
 
     if (isFetching) {
-      return <Spinner info={`Loading Agents...`} />
+      return <EntityImpactLayout match={match}>
+        <Spinner info={`Loading Agents...`} />
+      </EntityImpactLayout>
     }
 
     if (fetchError) {
-      return (
+      return (<EntityImpactLayout match={match}>
         <Loading className="container-fluid">
           <p>An error occurred: {fetchError}</p>
         </Loading>
-      )
+      </EntityImpactLayout>)
     }
 
     const agentsForRole = agents
@@ -63,16 +66,16 @@ class Agents extends React.Component<Props> {
       : []
 
     if (agentsForRole.length > 0) {
-      return (
+      return (<EntityImpactLayout match={match}>
         <ManageAgents
           role={this.role}
           agents={agentsForRole}
           handleUpdateAgentStatus={(): void => null}
         />
-      )
+      </EntityImpactLayout>)
     }
 
-    return (
+    return (<EntityImpactLayout match={match}>
       <Loading className="container-fluid">
         <p>
           There are currently no recorded {agentRoleMap[this.role].plural} on
@@ -80,7 +83,7 @@ class Agents extends React.Component<Props> {
           Check back soon or get involved yourself.
         </p>
       </Loading>
-    )
+    </EntityImpactLayout>)
   }
 }
 

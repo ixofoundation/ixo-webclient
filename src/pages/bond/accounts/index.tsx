@@ -8,6 +8,7 @@ import { selectPathnameProps } from 'modules/Router/router.selector'
 import { getProjectAccounts } from 'pages/bond/store/actions'
 import { selectAccounts, selectAccountLoadingState } from '../store/selector'
 import { Spinner } from 'common/components/Spinner'
+import { BondsWrapperConnected as BondsWrapper } from 'common/components/Bonds/BondsWrapper/BondsWrapper'
 
 export const Accounts: FunctionComponent<any> = ({ match }) => {
   const dispatch = useDispatch()
@@ -25,7 +26,7 @@ export const Accounts: FunctionComponent<any> = ({ match }) => {
   if (accountLoadingState) 
     return <Spinner info="Loading accounts..." />
   return (
-    <Fragment>
+    <BondsWrapper match={match}>
       <ProjectAccountWrapper>
         {
           accounts.map((account, key) =>
@@ -34,6 +35,6 @@ export const Accounts: FunctionComponent<any> = ({ match }) => {
         }
       </ProjectAccountWrapper>
       <BondAccountTable />
-    </Fragment>
+    </BondsWrapper>
   )
 }

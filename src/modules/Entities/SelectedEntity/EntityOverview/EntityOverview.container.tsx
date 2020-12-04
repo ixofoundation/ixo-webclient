@@ -2,6 +2,7 @@ import React, { Dispatch } from 'react'
 import { Moment } from 'moment'
 import { connect } from 'react-redux'
 import ControlPanel from 'common/components/ControlPanel/ControlPanel'
+import EntityLayout from 'modules/Entities/SelectedEntity/EntityLayout.container'
 import {
   OverviewContainer,
   SidebarWrapper,
@@ -15,7 +16,6 @@ import { RootState } from 'common/redux/types'
 import * as entitySelectors from '../SelectedEntity.selectors'
 import * as entityOverviewSelectors from './EntityOverview.selectors'
 import * as accountSelectors from 'modules/Account/Account.selectors'
-import { Spinner } from 'common/components/Spinner'
 import PageContentComponent from './components/PageContent/PageContent'
 import { PageContent } from '../types'
 import FundingChat from 'modules/FundingChat/FundingChat.container'
@@ -68,6 +68,7 @@ class EntityOverview extends React.Component<Props> {
 
   render(): JSX.Element {
     const {
+      match,
       did,
       name,
       description,
@@ -89,10 +90,10 @@ class EntityOverview extends React.Component<Props> {
     const { assistantPanelActive } = this.state
 
     if (isLoading) {
-      return <Spinner info="Loading Entity..." />
+      return <EntityLayout match={match} />
     }
 
-    return (
+    return <EntityLayout match={match}>
       <AssistantContext.Provider value={{ active: assistantPanelActive }}>
       <div>
         <OverviewContainer className="container-fluid">
@@ -107,7 +108,7 @@ class EntityOverview extends React.Component<Props> {
                 creatorName={creatorName}
                 location={location}
                 sdgs={sdgs}
-                loggedIn={isLoggedIn}
+                isLoggedIn={isLoggedIn}
                 onlyTitle={false}
                 assistantPanelToggle={ this.assistantPanelToggle }
                 light
@@ -151,7 +152,7 @@ class EntityOverview extends React.Component<Props> {
         </OverviewContainer>
       </div>
       </AssistantContext.Provider>
-    )
+    </EntityLayout>
   }
 }
 

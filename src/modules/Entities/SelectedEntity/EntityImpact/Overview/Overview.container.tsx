@@ -10,8 +10,10 @@ import { Agent } from 'modules/Entities/types'
 import { LatLng } from 'common/components/Widgets/WorldMap/WorldMap'
 import * as entityUtils from '../../../Entities.utils'
 import { AgentRole } from 'modules/Account/types'
+import EntityImpactLayout from '../EntityImpact.container'
 
 interface Props {
+  match: any
   did: string
   goal: string
   creatorDid: string
@@ -32,6 +34,7 @@ interface Props {
 }
 
 const Overview: React.FunctionComponent<Props> = ({
+  match,
   did,
   creatorDid,
   userDid,
@@ -51,7 +54,7 @@ const Overview: React.FunctionComponent<Props> = ({
   goal,
   ...props
 }) => {
-  return (
+  return (<EntityImpactLayout match={match}>
     <Dashboard
       did={did}
       goal={goal}
@@ -86,7 +89,7 @@ const Overview: React.FunctionComponent<Props> = ({
       )}
       entityClaims={ entity.entityClaims.items }
     />
-  )
+  </EntityImpactLayout>)
 }
 
 const mapStateToProps = (state: RootState): any => ({

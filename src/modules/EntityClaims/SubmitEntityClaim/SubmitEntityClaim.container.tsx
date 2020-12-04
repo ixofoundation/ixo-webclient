@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { RootState } from 'common/redux/types'
 import { Hero } from './components/Hero/Hero'
 import Question from './components/Question/Question'
+import EntityLayout from 'modules/Entities/SelectedEntity/EntityLayout.container'
 import {
   SubmitEntityClaimWrapper,
   ControlPanelWrapper,
@@ -214,9 +215,7 @@ class SubmitEntityClaim extends React.Component<Props, State> {
 
   render(): JSX.Element {
     const {
-      match: {
-        params: { projectDID: entityDid },
-      },
+      match,
       userDid,
       claimTemplateIsLoading,
       entityType,
@@ -235,7 +234,7 @@ class SubmitEntityClaim extends React.Component<Props, State> {
     }
 
     return (
-      <>
+      <EntityLayout match={match}>
         <SubmitEntityClaimWrapper className="container-fluid">
           <div className="row">
             <MainPanelWrapper className="col-lg-9 pr-md-5">
@@ -259,14 +258,14 @@ class SubmitEntityClaim extends React.Component<Props, State> {
             <ControlPanelWrapper className="col-lg-3">
               <ControlPanel
                 schema={entityTypeMap[entityType].controlPanelSchema}
-                entityDid={entityDid}
+                entityDid={match.params.projectDID}
                 userDid={userDid}
                 claims={ entity.entityClaims.items }
               />
             </ControlPanelWrapper>
           </div>
         </SubmitEntityClaimWrapper>
-      </>
+      </EntityLayout>
     )
   }
 }

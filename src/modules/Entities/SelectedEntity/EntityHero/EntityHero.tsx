@@ -35,7 +35,7 @@ interface Props {
   creatorName: string
   location: string
   sdgs: string[]
-  loggedIn: boolean
+  isLoggedIn: boolean
   onlyTitle: boolean
   assistantPanelToggle?: () => void
   enableAssistantButton?: boolean
@@ -51,7 +51,7 @@ const EntityHero: React.FunctionComponent<Props> = ({
   did,
   location,
   dateCreated,
-  loggedIn,
+  isLoggedIn,
   onlyTitle,
   assistantPanelToggle,
   enableAssistantButton = true,
@@ -83,8 +83,8 @@ const EntityHero: React.FunctionComponent<Props> = ({
       title: 'DASHBOARD',
     })
   }
-  console.log('loggedIn && bondDid', loggedIn, bondDid)
-  if (loggedIn && bondDid) {
+  console.log('isLoggedIn && bondDid', isLoggedIn, bondDid)
+  if (isLoggedIn && bondDid) {
     buttonsArray.push({
       iconClass: 'icon-funding',
       linkClass: null,

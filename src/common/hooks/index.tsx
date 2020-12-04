@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { useSpring } from 'react-spring'
 
 interface HooksReturnType {
   width: number
@@ -36,4 +37,36 @@ function useWindowSize(): HooksReturnType {
   return windowSize
 }
 
-export { useWindowSize }
+const useAssistant = assistant => {
+  const windowSize = useWindowSize()
+
+  const [assistantActive, setAssistantActive] = useState(assistant)
+
+  const [resizeMain, setResizeMain] = useSpring(() => ({
+    width: assistant ? windowSize.width < 768 ? '0%' : '75%' : '100%',
+  }))
+
+  const [resizeAssistant, setResizeAssistant] = useSpring(() => ({
+    width: assistant ? windowSize.width < 768 ? '100%' : '25%' : '0%',
+    display: assistant ? 'block' : 'none',
+    background: '#F0F3F9',
+  }))
+
+  const toggleAssistant = (): void => {
+    setResizeMain({
+      width: !assistantActive ? windowSize.width < 768 ? '0%' : '75%' : '100%',
+    })
+
+    setResizeAssistant({
+      width: !assistantActive ? windowSize.width < 768 ? '100%' : '25%' : '0%',
+      display: assistantActive ? 'none' : 'block',
+    })
+
+    setAssistantActive(!assistantActive)
+  }
+
+  return { assistantActive, toggleAssistant, resizeMain, resizeAssistant }
+}
+
+
+export { useWindowSize, useAssistant }

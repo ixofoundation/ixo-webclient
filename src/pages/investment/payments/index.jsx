@@ -1,34 +1,9 @@
-import React, { ReactElement } from 'react'
+import React from 'react'
 import styled from 'styled-components'
-interface Props {
-  transactions?: []
-}
+import { BondsWrapperConnected as BondsWrapper } from 'common/components/Investment/Wrapper'
 
-interface StatusComponentProps {
-  status: string
-  accountsNumber: number
-}
 
-interface StatusWrapperProps {
-  status: string;
-}
-
-interface TransactionListProps {
-  txList: TxItemProps[]
-  status: string
-}
-
-interface TxItemProps {
-  name: string
-  did: string
-  date: string
-}
-
-interface TxItemWrapperProps {
-  status: string
-}
-
-const StatusWrapper = styled.div<StatusWrapperProps>`
+const StatusWrapper = styled.div`
   background: linear-gradient(356.78deg, #002D42 2.22%, #012639 96.94%);
   border-radius: 4px;
   padding: 1rem 0;
@@ -51,7 +26,7 @@ const StatusWrapper = styled.div<StatusWrapperProps>`
     font-weight: bold;
     font-size: 12px;
     line-height: 16px;
-    color: ${(props): string => props.status === "Pending" ? "#F89D28" : props.status === "Approved" ? "#85AD5C" : "#E2223B"};
+    color: ${props => props.status === "Pending" ? "#F89D28" : props.status === "Approved" ? "#85AD5C" : "#E2223B"};
     position: relative;
     &:before {
       position: absolute;
@@ -63,12 +38,12 @@ const StatusWrapper = styled.div<StatusWrapperProps>`
       height: 10px;
       border-radius:50%;
       display:inline-block;
-      background-color: ${(props): string => props.status === "Pending" ? "#F89D28" : props.status === "Approved" ? "#85AD5C" : "#E2223B"};
+      background-color: ${props => props.status === "Pending" ? "#F89D28" : props.status === "Approved" ? "#85AD5C" : "#E2223B"};
     }
   }
 `
 
-const TxItem = styled.div<TxItemWrapperProps>`
+const TxItem = styled.div`
   background: #023044;
   border-radius: 4px;
   padding: 1.5rem 2rem;
@@ -81,7 +56,7 @@ const TxItem = styled.div<TxItemWrapperProps>`
     position: absolute;
     left: -4px;
     top: calc(50% - 15px);
-    background-color: ${(props): string => props.status === "Pending" ? "#F89D28" : props.status === "Approved" ? "#85AD5C" : "#E2223B"};
+    background-color: ${props => props.status === "Pending" ? "#F89D28" : props.status === "Approved" ? "#85AD5C" : "#E2223B"};
     border-radius: 4px;
   }
 
@@ -130,16 +105,16 @@ const Divider = styled.div`
   margin: 2rem 0;
 `
 
-const StatusComponent = ({status, accountsNumber}: StatusComponentProps): any => 
+const StatusComponent = ({status, accountsNumber}) =>
   <StatusWrapper className="d-flex justify-content-around align-items-center flex-column" status={status}>
     <div className="number">{accountsNumber}</div>
     <div className="status">{status}</div>
   </StatusWrapper>
 
-const TransactionList = ({txList, status}: TransactionListProps): any => <div className="d-flex flex-column">
+const TransactionList = ({txList, status}) => <div className="d-flex flex-column">
   <TransactionListHeader>Payment Claims {status}</TransactionListHeader>
   {
-    txList.map((tx: TxItemProps, index) => <TxItem status={status} className="d-flex justify-content-around flex-column mb-3" key={index}>
+    txList.map((tx, index) => <TxItem status={status} className="d-flex justify-content-around flex-column mb-3" key={index}>
       <div className="header">{tx.name}</div>
       <div className="did">{tx.did}</div>
       <span className="date">Saved {tx.date}</span>
@@ -147,7 +122,7 @@ const TransactionList = ({txList, status}: TransactionListProps): any => <div cl
   }
 </div>
 
-export default function Payments({ transactions }: Props): ReactElement {
+export default function Payments({ match, transactions }) {
   console.log(transactions)
   const txList = [
     {
@@ -166,7 +141,7 @@ export default function Payments({ transactions }: Props): ReactElement {
       date: '27 Mar ‘20'
     },
   ]
-  return (
+  return <BondsWrapper match={match}>
     <div>
       <div className="row">
         <div className="col-6">
@@ -186,5 +161,5 @@ export default function Payments({ transactions }: Props): ReactElement {
       <Divider />
       <TransactionList txList={txList} status="Pending" />
     </div>
-  )
+  </BondsWrapper>
 }

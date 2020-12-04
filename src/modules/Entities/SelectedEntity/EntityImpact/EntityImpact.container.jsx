@@ -1,8 +1,6 @@
 import { Moment } from 'moment'
-import React, { Dispatch } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
-import { RootState } from 'common/redux/types'
-import { Agent, EntityType } from '../../types'
 import EntityHero from '../EntityHero/EntityHero'
 import SideBar from './components/SideBar/SideBar'
 import { DetailContainer, ContentContainer, EntityHeroContainer } from './EntityImpact.styles'
@@ -12,66 +10,37 @@ import { getEntity } from '../SelectedEntity.actions'
 import * as entityUtils from '../../Entities.utils'
 import { AgentRole } from 'modules/Account/types'
 import { Spinner } from 'common/components/Spinner'
-import { Route } from 'react-router-dom'
-import EntityImpactOverview from './Overview/Overview.container'
-import EntityAgents from './EntityAgents/EntityAgents.container'
-import ProjectAgents from 'components/project/agents/ProjectAgents'
 import {Transition, animated} from 'react-spring/renderprops'
 import FundingChat from 'modules/FundingChat/FundingChat.container'
 import AssistantContext from 'common/contexts/Assistant'
-import EntityClaims from './EntityClaims/EntityClaims.container'
 
-interface Props {
-  match: any
-  location: any
-  type: EntityType
-  did: string
-  name: string
-  description: string
-  dateCreated: Moment
-  creatorName: string
-  sdgs: string[]
-  userDid: string
-  agents: Agent[]
-  country: string
-  creatorDid: string
-  isLoggedIn: boolean
-  isLoading: boolean
-  handleGetEntity: (did: string) => void
-}
 
-class EntityImpact extends React.Component<Props> {
+class EntityImpact extends React.Component {
   state = {
     assistantPanelActive: false,
     width: '75%'
   }
 
-  componentDidMount(): void {
-    const {
-      match: {
-        params: { projectDID: did },
-      },
-      handleGetEntity,
-    } = this.props
-
-    handleGetEntity(did)
+  componentDidMount() {
+    this.props.handleGetEntity(this.props.match.params.projectDID)
   }
 
-  assistantPanelToggle = ():void => {
+  assistantPanelToggle = () => {
     const { assistantPanelActive } = this.state;
 
     this.setState({ assistantPanelActive: !assistantPanelActive })
     // Assistant panel shown
     if (!assistantPanelActive) {
-      document?.querySelector('body')?.classList?.add('noScroll')
+      document.querySelector('body').classList.add('noScroll')
     } else {
-      document?.querySelector('body')?.classList.remove('noScroll')
+      document.querySelector('body').classList.remove('noScroll')
     }
   }
 
-  render(): JSX.Element {
+  render() {
     const {
       match,
+      children,
       location,
       did,
       type,
@@ -120,42 +89,13 @@ class EntityImpact extends React.Component<Props> {
                     creatorName={creatorName}
                     location={country}
                     sdgs={sdgs}
-                    loggedIn={isLoggedIn}
+                    isLoggedIn={isLoggedIn}
                     onlyTitle={true}
                     assistantPanelToggle={ this.assistantPanelToggle }
                   />
                 </EntityHeroContainer>
-                <Route
-                  exact
-                  path={`/projects/:projectDID/detail`}
-                  component={EntityImpactOverview}
-                />
-                <Route
-                  exact
-                  path={[`/projects/:projectDID/detail/service-providers`]}
-                  component={EntityAgents}
-                />
-                <Route
-                  exact
-                  path={`/projects/:projectDID/detail/evaluators`}
-                  component={EntityAgents}
-                />
-                <Route
-                  exact
-                  path={`/projects/:projectDID/detail/investors`}
-                  component={EntityAgents}
-                />
-                <Route
-                  exact
-                  path={`/projects/:projectDID/detail/agents`}
-                  component={ProjectAgents}
-                />
 
-                <Route
-                  exact
-                  path={`/projects/:projectDID/detail/claims`}
-                  component={EntityClaims}
-                />
+                {children}
               </ContentContainer>
             </div>
             <Transition
@@ -184,7 +124,7 @@ class EntityImpact extends React.Component<Props> {
   }
 }
 
-const mapStateToProps = (state: RootState): any => ({
+const mapStateToProps = state => ({
   did: entitySelectors.selectEntityDid(state),
   name: entitySelectors.selectEntityName(state),
   userDid: accountSelectors.selectUserDid(state),
@@ -200,8 +140,8 @@ const mapStateToProps = (state: RootState): any => ({
   isLoading: entitySelectors.entityIsLoading(state),
 })
 
-const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
-  handleGetEntity: (did: string): void => dispatch(getEntity(did)),
+const mapDispatchToProps = dispatch => ({
+  handleGetEntity: did => dispatch(getEntity(did)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(EntityImpact)

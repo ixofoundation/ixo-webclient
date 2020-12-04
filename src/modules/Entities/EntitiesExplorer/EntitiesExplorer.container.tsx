@@ -44,7 +44,7 @@ import {Transition} from 'react-spring/renderprops'
 import AssistantContext from 'common/contexts/Assistant'
 
 export interface Props extends RouteProps {
-  match: any
+  location: any
   type: EntityType
   entities: ExplorerEntity[]
   entitiesCount: number
@@ -187,7 +187,7 @@ class EntitiesExplorer extends React.Component<Props> {
 
   render(): JSX.Element {
     const { assistantPanelActive } = this.state;
-    const { match } = this.props;
+    const { location: {match} } = this.props;
     return (
       <AssistantContext.Provider value={{ active: assistantPanelActive }}>
       <Container>

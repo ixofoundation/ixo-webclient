@@ -18,6 +18,7 @@ import { getEntityAgents, updateAgentStatus } from 'modules/Entities/SelectedEnt
 import { AgentRole } from 'modules/Account/types'
 import * as entityAgentSelectors from 'modules/Entities/SelectedEntity/EntityImpact/EntityAgents/EntityAgents.selectors'
 import { AgentStatus, EntityAgent } from 'modules/Entities/SelectedEntity/EntityImpact/EntityAgents/types'
+import EntityImpactLayout from 'modules/Entities/SelectedEntity/EntityImpact/EntityImpact.container'
 
 export interface ParentProps {
   isFetching: boolean
@@ -49,13 +50,13 @@ class ProjectAgents extends React.Component<ParentProps, State> {
 
   render(): JSX.Element {
     const { isModalOpened } = this.state;
-    const { agents, isFetching } = this.props;
+    const { match, agents, isFetching } = this.props;
 
     if (isFetching) {
-      return null;
+      return <EntityImpactLayout match={match} />;
     }
 
-    return (
+    return (<EntityImpactLayout match={match}>
       <Container>
         <div className="row mb-4 d-none d-sm-block">
           <div className="col-sm-12">
@@ -99,7 +100,7 @@ class ProjectAgents extends React.Component<ParentProps, State> {
           />
         </ModalWrapper>
       </Container>
-    )
+    </EntityImpactLayout>)
   }
 
   renderAgentsSection = (agentStatus: string, sectionAction: string): JSX.Element => {
