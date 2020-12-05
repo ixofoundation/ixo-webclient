@@ -354,6 +354,7 @@ export class Funding extends React.Component<Props, State> {
   handleUpdateProjectStatus = (statusData): void => {
     this.props.keysafe.requestSigning(
       JSON.stringify(statusData),
+      'agent',
       (error: any, signature: any) => {
         if (!error) {
           this.props.ixo.project
@@ -371,7 +372,6 @@ export class Funding extends React.Component<Props, State> {
           Toast.errorToast('PDS is not responding')
         }
       },
-      'base64',
     )
   }
 
@@ -422,6 +422,7 @@ export class Funding extends React.Component<Props, State> {
           if (response.sign_bytes && response.fee) {
             this.props.keysafe.requestSigning(
               JSON.stringify(payload),
+              'agent',
               (error, signature) => {
                 if (!error) {
                   this.props.ixo.project
@@ -437,7 +438,6 @@ export class Funding extends React.Component<Props, State> {
                     })
                 }
               },
-              'base64',
             )
           } else {
             errorToast('Unable to request a withdrawal at this time')

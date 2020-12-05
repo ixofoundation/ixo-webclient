@@ -43,6 +43,7 @@ export const getClaim = (claimId: string, projectDid: string, claimTemplateDid: 
 
     keysafe.requestSigning(
       JSON.stringify(ProjectDIDPayload),
+      'agent',
       async (error, signature) => {
         if (!error) {
           await blocksyncApi.claim.listClaimsForProject(
@@ -81,7 +82,6 @@ export const getClaim = (claimId: string, projectDid: string, claimTemplateDid: 
         }
         return null
       },
-      'base64',
     )
   }
 

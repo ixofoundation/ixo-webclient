@@ -251,6 +251,7 @@ class Header extends React.Component<Props, State> {
           if (response.sign_bytes && response.fee) {
             keysafe.requestSigning(
               response.sign_bytes,
+              'agent',
               (error: any, signature: any) => {
                 this.setState({ isLedgering: true })
                 if (!error) {
@@ -272,7 +273,6 @@ class Header extends React.Component<Props, State> {
                     })
                 }
               },
-              'base64',
             )
           } else {
             this.setState({

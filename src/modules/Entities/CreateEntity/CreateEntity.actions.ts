@@ -75,6 +75,7 @@ export const createEntity = () => (
 
       keysafe.requestSigning(
         entityData,
+        'agent',
         (signError: any, signature: any): any => {
           if (signError) {
             return dispatch({
@@ -110,7 +111,6 @@ export const createEntity = () => (
               })
             })
         },
-        'base64',
       )
     })
     .catch((error) => {

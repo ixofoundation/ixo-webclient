@@ -28,6 +28,7 @@ export const getEntityAgents = (entityDid: string, role: AgentRole) => (
 
   keysafe.requestSigning(
     JSON.stringify(agentsPayload),
+    'agent',
     (signError: any, signature: any): any => {
       if (signError) {
         return dispatch({
@@ -87,7 +88,6 @@ export const getEntityAgents = (entityDid: string, role: AgentRole) => (
           })
         })
     },
-    'base64',
   )
 
   return null
@@ -113,6 +113,7 @@ export const updateAgentStatus = (agentDid: string, status: AgentStatus) => (
 
   keysafe.requestSigning(
     JSON.stringify(updateAgentPayload),
+    'agent',
     (signError, signature): any => {
       if (signError) {
         return dispatch({
@@ -152,7 +153,6 @@ export const updateAgentStatus = (agentDid: string, status: AgentStatus) => (
           })
         })
     },
-    'base64',
   )
 
   return null
@@ -187,6 +187,7 @@ export const createEntityAgent = (
 
   keysafe.requestSigning(
     JSON.stringify(createAgentPayload),
+    'agent',
     (signError: any, signature: any): any => {
       if (signError) {
         return dispatch({
@@ -226,7 +227,6 @@ export const createEntityAgent = (
           }
         })
     },
-    'base64',
   )
 
   return null

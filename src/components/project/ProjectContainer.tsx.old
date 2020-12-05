@@ -278,6 +278,7 @@ export class ProjectContainer extends React.Component<Props, State> {
       }
       this.props.keysafe.requestSigning(
         JSON.stringify(ProjectDIDPayload),
+        'agent',
         (error, signature) => {
           if (!error) {
             this.props.ixo.claim
@@ -305,7 +306,6 @@ export class ProjectContainer extends React.Component<Props, State> {
             Toast.errorToast(error, ErrorTypes.goBack)
           }
         },
-        'base64',
       )
     }
   }
@@ -453,6 +453,7 @@ export class ProjectContainer extends React.Component<Props, State> {
       this.gettingAgents = true
       this.props.keysafe.requestSigning(
         JSON.stringify(ProjectDIDPayload),
+        'agent',
         (error, signature) => {
           if (!error) {
             this.props.ixo.agent
@@ -479,7 +480,6 @@ export class ProjectContainer extends React.Component<Props, State> {
               })
           }
         },
-        'base64',
       )
     }
   }
@@ -506,6 +506,7 @@ export class ProjectContainer extends React.Component<Props, State> {
     }
     this.props.keysafe.requestSigning(
       JSON.stringify(agentData),
+      'agent',
       (error: any, signature: any) => {
         if (!error) {
           this.props.ixo.agent
@@ -527,7 +528,6 @@ export class ProjectContainer extends React.Component<Props, State> {
           Toast.errorToast('PDS is not responding')
         }
       },
-      'base64',
     )
   }
 
@@ -545,6 +545,7 @@ export class ProjectContainer extends React.Component<Props, State> {
 
     this.props.keysafe.requestSigning(
       JSON.stringify(agentPaylod),
+      'agent',
       (error, signature) => {
         if (!error) {
           this.props.ixo.agent
@@ -564,7 +565,6 @@ export class ProjectContainer extends React.Component<Props, State> {
           Toast.errorToast('PDS is not responding')
         }
       },
-      'base64',
     )
   }
 
@@ -581,6 +581,7 @@ export class ProjectContainer extends React.Component<Props, State> {
 
     this.props.keysafe.requestSigning(
       JSON.stringify(claimPayload),
+      'agent',
       (error, signature) => {
         if (!error) {
           this.props.ixo.claim
@@ -601,7 +602,6 @@ export class ProjectContainer extends React.Component<Props, State> {
           Toast.errorToast('Evaluation was not submitted')
         }
       },
-      'base64',
     )
   }
 
@@ -610,6 +610,7 @@ export class ProjectContainer extends React.Component<Props, State> {
     claimPayload['projectDid'] = this.state.projectDid
     this.props.keysafe.requestSigning(
       JSON.stringify(claimPayload),
+      'agent',
       (error, signature) => {
         if (!error) {
           this.props.ixo.claim
@@ -629,7 +630,6 @@ export class ProjectContainer extends React.Component<Props, State> {
           Toast.errorToast(error)
         }
       },
-      'base64',
     )
   }
 
@@ -673,6 +673,7 @@ export class ProjectContainer extends React.Component<Props, State> {
       }
       this.props.keysafe.requestSigning(
         JSON.stringify(ProjectDIDPayload),
+        'agent',
         (error, signature) => {
           if (!error) {
             const claimPromise = this.handleGetClaim(
@@ -708,7 +709,6 @@ export class ProjectContainer extends React.Component<Props, State> {
             this.gettingSingleClaim = false
           }
         },
-        'base64',
       )
     }
   }
@@ -748,6 +748,7 @@ export class ProjectContainer extends React.Component<Props, State> {
           if (response.sign_bytes && response.fee) {
             this.props.keysafe.requestSigning(
               response.sign_bytes,
+              'agent',
               (error, signature) => {
                 if (!error) {
                   this.props.ixo.user
@@ -769,7 +770,6 @@ export class ProjectContainer extends React.Component<Props, State> {
                     })
                 }
               },
-              'base64',
             )
           } else {
             ledgerObj = {

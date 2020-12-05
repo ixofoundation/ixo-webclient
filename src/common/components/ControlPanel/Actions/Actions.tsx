@@ -114,6 +114,7 @@ const Actions: React.FunctionComponent<Props> = ({
 
     keysafe.requestSigning(
       JSON.stringify(sortObject(payload)),
+      'agent',
       (error: any, signature: any) => {
         Axios.post(`${process.env.REACT_APP_GAIA_URL}/txs`, {
           tx: {
@@ -147,7 +148,6 @@ const Actions: React.FunctionComponent<Props> = ({
           Toast.errorToast(`Invalid account id or wallet address`)
         })
       },
-      'base64',
     )
   }
 
@@ -167,6 +167,7 @@ const Actions: React.FunctionComponent<Props> = ({
         case 'get_claim':
           keysafe.requestSigning(
             JSON.stringify(ProjectDIDPayload),
+            'agent',
             async (error, signature) => {
               if (!error) {
                 await blocksyncApi.claim
@@ -177,7 +178,6 @@ const Actions: React.FunctionComponent<Props> = ({
                   })
               }
             },
-            'base64',
           )
 
           e.preventDefault()

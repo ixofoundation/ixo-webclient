@@ -86,6 +86,7 @@ export const confirmBuy = () => (
       if (response.sign_bytes && response.fee) {
         keysafe.requestSigning(
           response.sign_bytes,
+          'agent',
           (error, signature) => {
             if (error) {
               return null
@@ -118,7 +119,6 @@ export const confirmBuy = () => (
                 }),
             })
           },
-          'base64',
         )
       }
     })

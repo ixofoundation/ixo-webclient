@@ -166,6 +166,7 @@ export const updateProjectStatus = (
 
   keysafe.requestSigning(
     JSON.stringify(statusData),
+    'agent',
     (error: any, signature: any) => {
       if (!error) {
         blocksyncApi.project
@@ -177,7 +178,6 @@ export const updateProjectStatus = (
           })
       }
     },
-    'base64',
   )
 
   return null
@@ -196,6 +196,7 @@ export const updateProjectStatusToStarted = (
 
   keysafe.requestSigning(
     JSON.stringify(statusData),
+    'agent',
     (error: any, signature: any) => {
       if (!error) {
         blocksyncApi.project
@@ -208,6 +209,7 @@ export const updateProjectStatusToStarted = (
 
             keysafe.requestSigning(
               JSON.stringify(statusData),
+              'agent',
               (error: any, signature: any) => {
                 if (!error) {
                   blocksyncApi.project
@@ -220,6 +222,7 @@ export const updateProjectStatusToStarted = (
 
                       keysafe.requestSigning(
                         JSON.stringify(statusData),
+                        'agent',
                         (error: any, signature: any) => {
                           if (!error) {
                             blocksyncApi.project
@@ -240,17 +243,14 @@ export const updateProjectStatusToStarted = (
                               })
                           }
                         },
-                        'base64',
                       )
                     })
                 }
               },
-              'base64',
             )
           })
       }
     },
-    'base64',
   )
 
   return null

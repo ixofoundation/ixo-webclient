@@ -294,6 +294,7 @@ class RegisterPage extends React.Component<Props, State> {
             this.busyLedgering = true
             keysafe.requestSigning(
               response.sign_bytes,
+              'agent',
               (error, signature) => {
                 if (!error) {
                   blocksyncApi.user
@@ -311,7 +312,6 @@ class RegisterPage extends React.Component<Props, State> {
                   this.busyLedgering = false
                 }
               },
-              'base64',
             )
           } else {
             errorToast('Unable to ledger did at this time')

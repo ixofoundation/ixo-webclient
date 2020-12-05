@@ -188,6 +188,7 @@ export const createEntityClaim = () => (
 
   keysafe.requestSigning(
     JSON.stringify(claimApiPayload),
+    'agent',
     (signError: any, signature: any): any => {
       if (signError) {
         return dispatch({
@@ -223,7 +224,6 @@ export const createEntityClaim = () => (
           })
         })
     },
-    'base64',
   )
 
   return null

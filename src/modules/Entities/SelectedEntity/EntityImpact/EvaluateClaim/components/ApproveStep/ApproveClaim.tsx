@@ -249,6 +249,7 @@ const ApproveClaim: React.FunctionComponent<Props> = ({
 
     keysafe.requestSigning(
       JSON.stringify(payload),
+      'agent',
       async (error, signature) => {
         if (!error) {
           await blocksyncApi.claim
@@ -258,7 +259,6 @@ const ApproveClaim: React.FunctionComponent<Props> = ({
             })
         }
       },
-      'base64',
     )
   }
 
@@ -271,6 +271,7 @@ const ApproveClaim: React.FunctionComponent<Props> = ({
 
     keysafe.requestSigning(
       JSON.stringify(payload),
+      'agent',
       async (error, signature) => {
         if (!error) {
           await blocksyncApi.claim
@@ -280,7 +281,6 @@ const ApproveClaim: React.FunctionComponent<Props> = ({
             })
         }
       },
-      'base64',
     )
   }
 
@@ -293,6 +293,7 @@ const ApproveClaim: React.FunctionComponent<Props> = ({
 
     keysafe.requestSigning(
       JSON.stringify(payload),
+      'agent',
       async (error, signature) => {
         if (!error) {
           await blocksyncApi.claim
@@ -302,7 +303,6 @@ const ApproveClaim: React.FunctionComponent<Props> = ({
             })
         }
       },
-      'base64',
     )
   }
 
