@@ -3,6 +3,7 @@ import CopyToClipboard from 'react-copy-to-clipboard'
 import { getIxoWorldRoute } from 'common/utils/formatters'
 import {
   AccDID,
+  LogoutButton,
   Inner,
   LoginLink,
   MenuBottom,
@@ -112,6 +113,14 @@ export class HeaderRight extends React.Component<HeaderRightProps, State> {
                 </CopyToClipboard>
               </AccDID>
             </MenuTop>
+
+            <MenuTop>
+              <LogoutButton
+                children='Logout'
+                onClick={keysafe.disconnect}
+              />
+            </MenuTop>
+
             {this.props.shouldLedgerDid === true && (
               <MenuBottom>
                 <RedIcon />

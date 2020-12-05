@@ -155,6 +155,15 @@ export const AccDID = styled.div`
   }
 `
 
+export const LogoutButton = styled.button`
+  background: #01151f;
+  border-radius: 8px;
+  color: #3ea2c0;
+  display: block;
+  margin: -20px auto 0 auto;
+  font-size: 14px;
+`
+
 export const StatusBox = styled.div`
   text-align: center;
   width: 110px;
