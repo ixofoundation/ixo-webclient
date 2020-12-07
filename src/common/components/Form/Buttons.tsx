@@ -64,6 +64,13 @@ const EnabledGreen = styled(BaseButton)`
   color: white;
 `;
 
+const EnabledLight = styled(BaseButton)`
+  border: 1px solid #fff;
+  background: white !important;
+  color: #143F54 !important;
+  font-weight: 700;
+`;
+
 const Disabled = styled(BaseButton)`
   &&& {
     color: ${/* eslint-disable-line */ (props) => props.theme.ixoBlue};
@@ -88,6 +95,7 @@ export enum ButtonTypes {
   gradient = "gradient",
   dark = "dark",
   green = "green",
+  light = 'light'
 }
 
 export interface Props {
@@ -115,7 +123,18 @@ export const Button: React.FunctionComponent<Props> = (props) => {
       </Disabled>
     );
   } else {
-    if (props.type === ButtonTypes.gradient) {
+    if (props.type === ButtonTypes.light) {
+      return (
+        <EnabledLight
+          onClick={props.onClick}
+          href={props.href}
+          target={props.target}
+          className={props.className}
+        >
+          {renderPlus()} {props.children}
+        </EnabledLight>
+      );
+    } else if (props.type === ButtonTypes.gradient) {
       return (
         <EnabledGradient
           onClick={props.onClick}

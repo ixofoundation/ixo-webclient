@@ -55,9 +55,6 @@ export const getClaimTemplate = (templateDid: string) => (
             fromBase64(resourceData.data),
           )
 
-          // For demo, let's use template.
-          attestation['forms'] = claimTemplate['forms'];
-
           return {
             templateDid,
             claimTitle: apiEntity.data.name,

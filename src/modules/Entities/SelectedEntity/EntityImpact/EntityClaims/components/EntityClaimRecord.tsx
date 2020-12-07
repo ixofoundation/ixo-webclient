@@ -3,13 +3,14 @@ import styled from 'styled-components'
 import ExpandableText from 'common/components/ExpandableText/ExpandableText'
 import { EntityClaim, EntityClaimColorSchema } from 'modules/Entities/SelectedEntity/EntityImpact/EntityClaims/types'
 import moment from 'moment'
+import { NavLink } from 'react-router-dom'
 import { EntityClaimStatus } from '../types'
 
 const Container = styled.div`
   width: 100%;
   margin-top: 5px;
   margin-bottom: 5px;
-  background: #023044;
+  background: linear-gradient(180deg, #FFFFFF 0%, rgba(255, 255, 255, 0) 100%), linear-gradient(180deg, #FFFFFF 0%, #FBFCFF 100%);
   border-radius: 4px;
   height: 4.25rem;
   position: relative;
@@ -22,13 +23,13 @@ const Container = styled.div`
 
 const Title = styled.div`
   font-size: 18px;
-  color: white;
+  color: black;
   font-weight: bold;
 `
 
 const Did = styled.div`
   font-size: 12px;
-  color: ${/* eslint-disable-line */ (props) => props.theme.fontLightBlue};
+  color: #437C98;
   display: flex;
   justify-content: space-between;
 `
@@ -44,11 +45,16 @@ const Indicator = styled.div`
   transform: translateY(-50%);
 `
 
+const Date = styled.div`
+  color: #143F54;
+`
+
 interface Props {
   claim: EntityClaim
+  detailPath: string
 }
 
-const EntityClaimRecord: React.FunctionComponent<Props> = ({ claim }) => {
+const EntityClaimRecord: React.FunctionComponent<Props> = ({ claim, detailPath }) => {
 
   const handleRenderDate = (): JSX.Element => {
     const date = moment(claim.date).format('D MMM ‘YY');
@@ -71,29 +77,31 @@ const EntityClaimRecord: React.FunctionComponent<Props> = ({ claim }) => {
     }
 
     return (
-      <div>
+      <Date>
         { title }
-      </div>
+      </Date>
     )
   }
 
   return (
-    <Container>
-      <Indicator style={{ background: EntityClaimColorSchema[claim.status] }}/>
-      <Title>
-        Claim/Project Name
-      </Title>
-      <Did>
-        <ExpandableText limit={5}>
-          { claim.claimId }
-        </ExpandableText>
-        <div>
-          {
-            handleRenderDate()
-          }
-        </div>
-      </Did>
-    </Container>
+    <NavLink to={ detailPath } className="text-decoration-none">
+      <Container>
+        <Indicator style={{ background: EntityClaimColorSchema[claim.status] }}/>
+        <Title>
+          Claim/Project Name
+        </Title>
+        <Did>
+          <ExpandableText limit={5}>
+            { claim.claimId }
+          </ExpandableText>
+          <div>
+            {
+              handleRenderDate()
+            }
+          </div>
+        </Did>
+      </Container>
+    </NavLink>
   )
 }
 

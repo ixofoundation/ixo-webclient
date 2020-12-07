@@ -24,7 +24,6 @@ export const MobileControlPanelToggle = styled.button`
 `
 
 export const ControlPanelWrapper = styled.div`
-  background: #F0F3F9;
   box-sizing: border-box;
   padding: 0rem;
   padding-left: 0.7rem;
@@ -36,7 +35,7 @@ export const ControlPanelWrapper = styled.div`
   ::-webkit-scrollbar {
     width: 8px;
   }
-  
+
   ::-webkit-scrollbar-thumb {
     background: #C1CBD0;
     border-radius: 8px;

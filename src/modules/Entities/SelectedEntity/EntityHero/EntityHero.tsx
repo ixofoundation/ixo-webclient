@@ -57,6 +57,7 @@ const EntityHero: React.FunctionComponent<Props> = ({
   enableAssistantButton = true,
   light = false,
 }) => {
+  console.log('ffffffffffffffff', light);
   const bondDid = useSelector(selectEntityBondDid)
 
   const buttonsArray = [
@@ -223,12 +224,12 @@ const EntityHero: React.FunctionComponent<Props> = ({
 
   return (
     <>
-      <HeroContainer onlyTitle={onlyTitle}>
+      <HeroContainer onlyTitle={onlyTitle} light={ light }>
         <HeroInner className="detailed">
           <div className="row">
             <div className="col-sm-12">
               {renderNavs()}
-              <Title>{name}</Title>
+              <Title light={light}>{name}</Title>
               {
                 !onlyTitle && <>
                   <Description>{description}</Description>

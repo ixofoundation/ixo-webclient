@@ -36,10 +36,10 @@ export const ContentContainer = styled.div`
   }
 `
 
-export const EntityHeroContainer = styled.div`
+export const EntityHeroContainer = styled.div<{light?: boolean}>`
   padding-left: 15px;
   padding-right: 15px;
-
+  background: ${(props: any): string => props.light ? 'white' : 'inherit'};
   @media (min-width: ${deviceWidth.mobile}px) {
     padding-left: 40px;
     padding-right: 40px;

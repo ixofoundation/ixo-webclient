@@ -14,6 +14,7 @@ export enum EntityClaimType {
   Ownership = 'Ownership',
   Custody = 'Custody',
   Dispute = 'Dispute',
+  TheoryOfChange = 'TheoryOfChange'
 }
 
 export interface ClaimInfo {

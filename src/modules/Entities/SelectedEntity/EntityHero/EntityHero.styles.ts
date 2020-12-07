@@ -4,13 +4,14 @@ import { deviceWidth } from 'lib/commonData'
 
 interface HeroContainerProps {
   readonly onlyTitle: boolean
+  light?: boolean
 }
 
 export const HeroContainer = styled.div<HeroContainerProps>`
   margin: 0;
   position: relative;
   background: ${(props: any): string =>
-    props.onlyTitle ? props.theme.bg.blue : 'white'};
+    props.light ? 'white' : props.theme.bg.blue };
   color: ${(props: any): string => (props.onlyTitle ? 'white' : 'black')};
 `
 
@@ -25,17 +26,21 @@ export const HeroInner = styled.div`
   padding-bottom: 2rem;
   @media (min-width: ${deviceWidth.tablet}px) {
     padding-top: 3rem;
-    padding-bottom: 0rem;
+    padding-bottom: 1rem;
   }
 `
 
-export const Title = styled.h1`
+interface TitleProps {
+  light?: boolean
+}
+
+export const Title = styled.h1<TitleProps>`
   font-family: ${(props: any): string => props.theme.fontRobotoCondensed};
   font-weight: normal;
   font-size: 1.75rem;
   line-height: 1.25;
   margin: 0.5rem 0;
-
+  color: ${ (props: any): string => props.light ? 'black' : 'inherit' };
   @media (min-width: ${deviceWidth.tablet}px) {
     font-size: 2.8125rem;
   }

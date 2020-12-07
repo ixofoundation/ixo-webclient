@@ -11,6 +11,11 @@ const Container = styled.div`
     padding: 0.625rem;
   }
 `
-export const LayoutWrapper: React.SFC<{}> = ({ children }) => {
-  return <Container className="container-fluid">{children}</Container>
+
+interface Props {
+  className?: string
+}
+
+export const LayoutWrapper: React.FunctionComponent<Props> = ({ children, className }) => {
+  return <Container className={`container-fluid ${className}`} >{children}</Container>
 }

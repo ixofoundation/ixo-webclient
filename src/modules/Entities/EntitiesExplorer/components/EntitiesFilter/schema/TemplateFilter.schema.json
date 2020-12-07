@@ -137,6 +137,11 @@
           "@type": "Tag",
           "name": "Dispute",
           "icon": "dispute.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Use of Theory",
+          "icon": "dispute.svg"
         }
       ]
     }

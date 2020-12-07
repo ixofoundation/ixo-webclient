@@ -13,4 +13,5 @@ export const entityClaimTypeMap: EntityClaimTypeStrategyMap = {
   [EntityClaimType.Provenance]: { title: 'Provenance' },
   [EntityClaimType.Service]: { title: 'Service' },
   [EntityClaimType.UseOfFunds]: { title: 'Use Of Funds' },
+  [EntityClaimType.TheoryOfChange]: { title: 'Theory of Change' },
 }

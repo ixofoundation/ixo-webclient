@@ -23,11 +23,10 @@ interface Props {
 class  CreateAgent extends React.Component<Props> {
   componentDidMount(): void {
     const { userInfo, assistantPanelToggle, handleCreateEntityAgent} = this.props;
-    //updateProjectStatus(entityDid, ProjectStatus.Started)
 
     assistantPanelToggle()
     if (userInfo) {
-      handleCreateEntityAgent('alain.g1127@outlook.com', userInfo.name, AgentRole.ServiceProvider)
+      handleCreateEntityAgent('alain.g1127@outlook.com', userInfo.name, AgentRole.Evaluator)
     }
   }
 
