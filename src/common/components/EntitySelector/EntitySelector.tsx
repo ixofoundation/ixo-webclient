@@ -44,6 +44,7 @@ const options = [
   { value: 'ownership', label: 'Ownership' },
   { value: 'custody', label: 'Custody' },
   { value: 'dispute', label: 'Dispute' },
+  { value: 'theoryOfChange', label: 'Theory Of Change' },
 ]
 
 class EntitySelector extends React.Component<Props, State> {
