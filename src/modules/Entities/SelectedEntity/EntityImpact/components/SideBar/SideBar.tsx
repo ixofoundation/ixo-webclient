@@ -21,6 +21,10 @@ const ProjectSidebar: React.FunctionComponent<Props> = ({
         <img src={ require('assets/img/sidebar/target.svg') } />
         <ToolTip>Targets</ToolTip>
       </NavItem> */}
+      <NavItem exact={true} to={`/projects/${did}/detail/toc`}>
+        <img src={ require('assets/img/sidebar/toc.svg') } />
+        <ToolTip>Theory</ToolTip>
+      </NavItem>
       <NavItem exact={true} to={`/projects/${did}/detail/agents`}>
         <img src={ require('assets/img/sidebar/profile.svg') } />
         <ToolTip>Agents</ToolTip>

@@ -12,7 +12,7 @@ import { getEntity } from '../SelectedEntity.actions'
 import * as entityUtils from '../../Entities.utils'
 import { AgentRole } from 'modules/Account/types'
 import { Spinner } from 'common/components/Spinner'
-import { Route } from 'react-router-dom'
+import { Route, matchPath } from 'react-router-dom'
 import EntityImpactOverview from './Overview/Overview.container'
 import EntityAgents from './EntityAgents/EntityAgents.container'
 import ProjectAgents from 'components/project/agents/ProjectAgents'
@@ -20,6 +20,8 @@ import {Transition, animated} from 'react-spring/renderprops'
 import FundingChat from 'modules/FundingChat/FundingChat.container'
 import AssistantContext from 'common/contexts/Assistant'
 import EntityClaims from './EntityClaims/EntityClaims.container'
+import EvaluateClaim from './EvaluateClaim/EvaluateClaim.container'
+import EntityToc from './EntityToc/EntityToc.container'
 
 interface Props {
   match: any
@@ -94,6 +96,8 @@ class EntityImpact extends React.Component<Props> {
       return <Spinner info="Loading Dashboard..." />
     }
 
+    const light = !!matchPath(location.pathname, '/projects/:projectDID/detail/claims')
+
     return (
       <AssistantContext.Provider value={{ active: assistantPanelActive }}>
           <DetailContainer>
@@ -110,7 +114,7 @@ class EntityImpact extends React.Component<Props> {
                 )}
               />
               <ContentContainer>
-                <EntityHeroContainer>
+                <EntityHeroContainer light={ light }>
                   <EntityHero
                     type={type}
                     did={did}
@@ -123,6 +127,7 @@ class EntityImpact extends React.Component<Props> {
                     loggedIn={isLoggedIn}
                     onlyTitle={true}
                     assistantPanelToggle={ this.assistantPanelToggle }
+                    light={ light }
                   />
                 </EntityHeroContainer>
                 <Route
@@ -155,6 +160,16 @@ class EntityImpact extends React.Component<Props> {
                   exact
                   path={`/projects/:projectDID/detail/claims`}
                   component={EntityClaims}
+                />
+                <Route
+                  exact
+                  path={`/projects/:projectDID/detail/claims/:claimId`}
+                  component={EvaluateClaim}
+                />
+                <Route
+                  exact
+                  path={`/projects/:projectDID/detail/toc`}
+                  component={ EntityToc }
                 />
               </ContentContainer>
             </div>

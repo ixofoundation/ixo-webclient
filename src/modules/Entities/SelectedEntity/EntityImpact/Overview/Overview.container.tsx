@@ -10,6 +10,7 @@ import { Agent } from 'modules/Entities/types'
 import { LatLng } from 'common/components/Widgets/WorldMap/WorldMap'
 import * as entityUtils from '../../../Entities.utils'
 import { AgentRole } from 'modules/Account/types'
+import * as entityClaimsSelectors from 'modules/Entities/SelectedEntity/EntityImpact/EntityClaims/EntityClaims.selectors'
 
 interface Props {
   did: string
@@ -104,7 +105,7 @@ const mapStateToProps = (state: RootState): any => ({
   evaluatorsPendingCount: entityImpactSelectors.selectEvaluatorsPendingCount(
     state,
   ),
-  claims: [], // TODO
+  claims: entityClaimsSelectors.selectEntityClaims(state),
   requiredClaimsCount: entityImpactSelectors.selectRequiredClaimsCount(state),
   successfulClaimsCount: entityImpactSelectors.selectSuccessfulClaimsCount(
     state,

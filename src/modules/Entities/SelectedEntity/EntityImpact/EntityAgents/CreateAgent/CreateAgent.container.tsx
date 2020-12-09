@@ -23,7 +23,7 @@ interface Props {
 class  CreateAgent extends React.Component<Props> {
   componentDidMount(): void {
     const { userInfo, assistantPanelToggle, handleCreateEntityAgent} = this.props;
-    //updateProjectStatus(entityDid, ProjectStatus.Started)
+    //updateProjectStatus(entityDid, ProjectStatus.Pending)
 
     assistantPanelToggle()
     if (userInfo) {

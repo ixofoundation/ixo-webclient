@@ -16,6 +16,7 @@ import {
 } from './Claims.styles'
 import MediaQuery from 'react-responsive'
 import { deviceWidth } from "lib/commonData";
+
 export interface Props {
   claims?: any[]
   did: string
@@ -47,7 +48,7 @@ export const ProjectClaims: React.FunctionComponent<Props> = ({
         <ListItemWrapper key={index} className="col-12">
           <Indicator color={colorClass} />
           <ClaimTitle>
-            <ID>{claim.claimId}</ID> <Date>{claimDate(claim.date)}</Date>
+            <ID>{claim.claimId}</ID><Date>{claimDate(claim.date)}</Date>
           </ClaimTitle>
           <Did>{claim.saDid}</Did>
         </ListItemWrapper>

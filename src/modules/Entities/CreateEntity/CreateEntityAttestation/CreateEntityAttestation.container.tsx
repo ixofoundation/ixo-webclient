@@ -665,7 +665,7 @@ class CreateEntityAttestation extends CreateEntityBase<Props> {
         {this.renderClaimInfo()}
         {this.renderQuestions()}
         <AddQuestionBar addQuestion={this.addQuestion} />
-        {this.renderButtonGroup(identifiers, false)}
+        {this.renderButtonGroup(identifiers, false, !questions.length)}
       </>
     )
   }

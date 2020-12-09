@@ -143,6 +143,7 @@ export const AssistantWrapper = styled.div`
   width: inherit;
   padding: 10px;
   display: flex;
+  box-shadow: inset 0px -1px 30px 11px rgba(0, 0, 0, 0.03);
   flex-direction: column;
   .rw-conversation-container {
     .rw-send {
@@ -165,7 +166,7 @@ export const AssistantWrapper = styled.div`
   .rw-messages-container {
     max-height: calc(100% - 80px) !important;
     height: calc(100% - 80px) !important;
-    background-color: rgb(240,243,249);
+    background-color: transparent;
 
     ::-webkit-scrollbar {
       width: 8px;

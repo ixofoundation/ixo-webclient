@@ -1,7 +1,16 @@
 import React, { Dispatch } from 'react'
 import { EntityClaim } from './types'
-import { LayoutWrapper } from 'common/components/Wrappers/LayoutWrapper'
-import { SectionTitle, FilterContainer, SearchBar, Divider, ClaimsContainer, AmountCardsContainer, ContentContainer } from './EntityClaims.styles'
+import {
+  SectionTitle,
+  FilterContainer,
+  SearchBar,
+  Divider,
+  ClaimsContainer,
+  AmountCardsContainer,
+  ContentContainer,
+  Layout,
+  HeaderButton
+} from './EntityClaims.styles'
 import AmountCard from './components/AmountCard'
 import EntityClaimRecord from './components/EntityClaimRecord'
 import { EntityClaimStatus } from './types'
@@ -23,7 +32,7 @@ interface Props {
 
 const EntityClaims: React.FunctionComponent<Props> = ({ entity, claims }) => {
   const claimTemplates = entity.entityClaims.items
-
+  const [filter, setFilter] = React.useState({ status: null, query: '', all: true })
   const handleClaimTemplateClick = ():void => {
     return;
   }
@@ -138,12 +147,29 @@ const EntityClaims: React.FunctionComponent<Props> = ({ entity, claims }) => {
     )
   }
 
-  const handleRenderClaimsPerStatus = (status): JSX.Element => {
-    const claimsHasStatus = claims.filter(claim => claim.status === status)
+  const filterClaims = (claims): EntityClaim[] => {
+    let filtered = [...claims]
+    if (filter.status) {
+      filtered = filtered.filter(claim => claim.status === filter.status)
+    }
+
+    if (filter.query) {
+      const query = filter.query.toLowerCase()
+      filtered = filtered.filter(claim => claim.claimId.toLowerCase().includes(query))
+    }
+    return filtered
+  }
+
+  const handleRenderClaimsPerStatus = (status, key): JSX.Element => {
+    const claimsHasStatus = filterClaims(claims).filter(claim => claim.status === status)
     return (
-      <>
-        <Divider />
+      <div key={key}>
         {
+          !filter.status && status !== EntityClaimStatus.Saved &&
+            <Divider />
+        }
+        {
+          !filter.status &&
           handleRenderSectionTittle(status, claimsHasStatus.length)
         }
         <ClaimsContainer>
@@ -151,20 +177,35 @@ const EntityClaims: React.FunctionComponent<Props> = ({ entity, claims }) => {
         {
           claimsHasStatus.map((claim, key) => {
             return (
-              <EntityClaimRecord claim={claim} key={key} />
+              <EntityClaimRecord
+                claim={claim}
+                detailPath={ `/projects/${entity.did}/detail/claims/${claim.claimId}` }
+                key={key}
+              />
             )
           })
         }
         </ExpandableList>
         </ClaimsContainer>
-      </>
+      </div>
     )
   }
 
   const handleRenderClaims = (): JSX.Element[] => {
-    return ClaimStatusOrder.map((status) => {
-      return handleRenderClaimsPerStatus(status)
+    return ClaimStatusOrder.map((status, key) => {
+      return handleRenderClaimsPerStatus(status, key)
     });
+  }
+
+  const handleStatusClick = (status: EntityClaimStatus): void => {
+    if (filter.status === status) {
+      filter.status = null
+      setFilter(Object.assign({}, { ...filter, status: null }))
+
+      return
+    }
+
+    setFilter(Object.assign({}, { ...filter, status }))
   }
 
   const handleRenderAmountCards = (): JSX.Element[] => {
@@ -174,17 +215,54 @@ const EntityClaims: React.FunctionComponent<Props> = ({ entity, claims }) => {
           amount={ claims.filter(claim => claim.status === status).length }
           status={ status }
           key={ `status-${key}` }
+          onClick={ (): void => handleStatusClick(status) }
+          isActive={ filter.status === status }
         >
         </AmountCard>
       )
     })
   }
 
+  const handleRenderTitle = (): string => {
+    switch (filter.status) {
+      case EntityClaimStatus.Pending:
+        return 'Claims Pending'
+      case EntityClaimStatus.Approved:
+        return 'Claims Approved'
+      case EntityClaimStatus.Rejected:
+        return 'Claims Rejected'
+      case EntityClaimStatus.Saved:
+        return 'Claims Saved'
+      case EntityClaimStatus.Disputed:
+        return 'Claims Disputed'
+      default:
+        return 'All Claims'
+    }
+  }
+
+  const handleQueryChange = (event): void => {
+    setFilter(Object.assign({}, { ...filter, query: event.target.value }))
+  }
+
   return (
-    <LayoutWrapper>
+    <Layout>
       <ContentContainer>
-        <SectionTitle>
-          All Claims
+        <SectionTitle className="mb-4 d-flex align-items-center">
+          { handleRenderTitle() }
+          <div className="d-flex ml-5">
+            <HeaderButton
+              className={`${filter.all ? 'active': '' }`}
+              onClick={(): void => setFilter(Object.assign({}, { ...filter, all: true }))}
+            >
+              All Claims
+            </HeaderButton>
+            <HeaderButton
+              className={`${!filter.all ? 'active': '' } ml-3`}
+              onClick={(): void => setFilter(Object.assign({}, { ...filter, all: false }))}
+            >
+              My Claims
+            </HeaderButton>
+          </div>
         </SectionTitle>
         <AmountCardsContainer>
           {
@@ -196,8 +274,8 @@ const EntityClaims: React.FunctionComponent<Props> = ({ entity, claims }) => {
             {
               claimTemplates.map((claim, key) =>
                 <Button
-                  type={ ButtonTypes.dark }
-                  onClick={() => handleClaimTemplateClick() }
+                  type={ ButtonTypes.light }
+                  onClick={(): void => handleClaimTemplateClick() }
                   disabled={ false }
                   key={ key }
                 >
@@ -206,13 +284,13 @@ const EntityClaims: React.FunctionComponent<Props> = ({ entity, claims }) => {
               )
             }
           </ButtonSlider>
-          <SearchBar placeholder="Search Claims" />
+          <SearchBar placeholder="Search Claims" onChange={ handleQueryChange }/>
         </FilterContainer>
         {
           handleRenderClaims()
         }
       </ContentContainer>
-    </LayoutWrapper>
+    </Layout>
   )
 }
 

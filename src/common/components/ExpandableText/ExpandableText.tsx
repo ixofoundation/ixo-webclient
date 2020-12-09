@@ -17,16 +17,21 @@ const ExpandableText: React.FunctionComponent<Props> = ({limit, children}) => {
     shortenText = `${shortenText} ...`
   }
 
+  const handleToggle = (event, expanded) => {
+    event.preventDefault();
+    setExpanded(expanded)
+  }
+
   if (expanded) {
     return (
-      <Text onClick={ (): void => setExpanded(false) }>
+      <Text onClick={ (event): void => handleToggle(event, false) }>
         { children }
       </Text>
     )
   }
 
   return (
-    <Text onClick={ (): void => setExpanded(true) }>
+    <Text onClick={ (event): void => handleToggle(event, true) }>
       { shortenText }
     </Text>
   )

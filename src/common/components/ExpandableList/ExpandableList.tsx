@@ -19,7 +19,8 @@ const ExpandableList: React.FunctionComponent<Props> = ({limit, children}) => {
   const [expanded, setExpanded] = React.useState(false)
   const hasMoreToShow = children.length > limit
 
-  const handleClickViewMore = (): void => {
+  const handleClickViewMore = (event): void => {
+    event.stopPropagation()
     setExpanded( !expanded )
   }
 

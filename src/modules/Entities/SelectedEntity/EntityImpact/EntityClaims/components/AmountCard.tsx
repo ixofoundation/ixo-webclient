@@ -4,15 +4,18 @@ import { EntityClaimStatus, EntityClaimColorSchema } from '../types'
 
 const Container = styled.div`
   text-align: center;
-  background: linear-gradient(356.78deg, #002D42 2.22%, #012639 96.94%);
+  background: linear-gradient(180deg, #FFFFFF 0%, rgba(255, 255, 255, 0) 100%), linear-gradient(180deg, #FFFFFF 0%, #FBFCFF 100%);
   border-radius: 4px;
   width: 13.5rem;
   height: 6.25rem;
+  cursor: pointer;
+  border: 1px solid transparent;
 `
 
 const Amount = styled.div`
   font-size: 2.8rem;
-  color: white;
+  color: #002A3F;
+  font-weight: 400;
 `
 
 const Bullet = styled.div`
@@ -30,11 +33,16 @@ const Status = styled.div`
 interface Props {
   amount: number
   status: EntityClaimStatus
+  onClick: () => void
+  isActive: boolean
 }
 
-const AmountCard: React.FunctionComponent<Props> = ({amount, status}) => {
+const AmountCard: React.FunctionComponent<Props> = ({amount, status, isActive, onClick}) => {
   return (
-    <Container>
+    <Container
+      onClick={ onClick }
+      style={{ borderColor: isActive ? EntityClaimColorSchema[status] : 'transparent' }}
+    >
       <Amount>
         { amount }
       </Amount>

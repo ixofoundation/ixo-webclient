@@ -76,7 +76,7 @@ const Dashboard: React.FunctionComponent<Props> = ({
   }
 
   return (
-    <LayoutWrapper>
+    <LayoutWrapper className="pt-0">
       <Container className="row">
         <div className="col-md-12">
           <WidgetWrapper
@@ -258,7 +258,7 @@ const Dashboard: React.FunctionComponent<Props> = ({
               claims={claims}
               did={did}
               fullPage={false}
-              hasLink={showClaimLinks}
+              hasLink={true}
             />
           </WidgetWrapper>
         </div>
