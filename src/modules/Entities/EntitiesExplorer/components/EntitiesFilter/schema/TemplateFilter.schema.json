@@ -151,6 +151,17 @@
     "name": "Sector",
     "hidden": true,
     "multiSelect": false,
-    "tags": []
+    "tags": [
+      {
+        "@type": "sector",
+        "name": "Relayer Launchpad",
+        "icon": "portfolio.svg"
+      },
+      {
+        "@type": "sector",
+        "name": "IDCC",
+        "icon": "portfolio.svg"
+      }
+    ]
   }
 }

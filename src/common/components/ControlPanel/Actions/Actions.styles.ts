@@ -197,6 +197,11 @@ export const AssistantWrapper = styled.div`
       background: white;
     }
   }
+  .rw-message.rw-typing-indication {
+    .rw-response {
+      height: 2.375rem;
+    }
+  }
 `
 
 export const AssistantHeader = styled.div`

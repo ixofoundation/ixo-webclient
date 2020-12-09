@@ -50,6 +50,7 @@ export const HeroContainer = styled.div`
   background: white;
   background-size: cover;
   background-blend-mode: multiply;
+  background-position: center;
   position: relative;
   color: #143f54;
 
@@ -70,18 +71,23 @@ export const ColorOverlay = styled.div`
 
 export const HeroTextWrapper = styled.div`
   font-family: ${(props: any): string => props.theme.fontRoboto};
+  margin-top: 0.4rem;
+  padding-left: 0;
+  padding-right: 0;
+
   h1 {
     font-family: ${(props: any): string => props.theme.fontRoboto};
     font-size: 36px;
     line-height: 42px;
-    color: #143f54;
+    color: white;
     margin: 0;
   }
   h3 {
+    margin-top: 1rem;
     font-family: ${(props: any): string => props.theme.fontRoboto};
     font-size: 18px;
     line-height: 21px;
-    color: black;
+    color: #FBFBFC;
   }
 `;
 export const HeroIndicatorsWrapper = styled.div`

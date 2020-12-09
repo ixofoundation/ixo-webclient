@@ -57,7 +57,6 @@ const EntityHero: React.FunctionComponent<Props> = ({
   enableAssistantButton = true,
   light = false,
 }) => {
-  console.log('ffffffffffffffff', light);
   const bondDid = useSelector(selectEntityBondDid)
 
   const buttonsArray = [

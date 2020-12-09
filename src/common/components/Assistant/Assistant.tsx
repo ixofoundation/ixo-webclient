@@ -4,9 +4,11 @@ import { Widget, send, open } from 'ixo-assistant'
 interface Props {
   onMessageReceive: (text: any) => void
   customComponent?: (messageData: any) => JSX.Element
+  initPayload?: string
 }
 
-const Assistant: React.FunctionComponent<Props> = ({ onMessageReceive, customComponent }) => {
+const Assistant: React.FunctionComponent<Props> = ({ initPayload, onMessageReceive, customComponent }) => {
+  console.log('initPayload', initPayload);
   const onSocketEvent = {
     bot_uttered: (utter: any): void => onMessageReceive(utter),
     connect: (): void => console.log('connected'),
@@ -23,12 +25,13 @@ const Assistant: React.FunctionComponent<Props> = ({ onMessageReceive, customCom
       hideWhenNotConnected={false}
       connectOn="open"
       customComponent={customComponent}
+      initPayload={ initPayload }
     />
   )
 }
 
 export const startAssistant = (intent: string): void => {
-  send(`/${intent}`)
+  send(`${intent}`)
   open()
   // console.log('chatbot open')
 }
