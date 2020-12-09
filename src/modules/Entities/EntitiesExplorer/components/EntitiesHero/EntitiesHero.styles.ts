@@ -79,7 +79,6 @@ export const HeroTextWrapper = styled.div`
     font-family: ${(props: any): string => props.theme.fontRoboto};
     font-size: 36px;
     line-height: 42px;
-    color: white;
     margin: 0;
   }
   h3 {
@@ -87,7 +86,6 @@ export const HeroTextWrapper = styled.div`
     font-family: ${(props: any): string => props.theme.fontRoboto};
     font-size: 18px;
     line-height: 21px;
-    color: #FBFBFC;
   }
 `;
 export const HeroIndicatorsWrapper = styled.div`

@@ -1,7 +1,7 @@
 {
   "@context": "https://schema.ixo.foundation/project",
   "@type": "Header",
-  "color": "#2f80ed",
+  "color": "#fff",
   "image": "ixoworld_hero.png",
   "title": "Internet of Impact",
   "subTitle": "Projects Explorer",

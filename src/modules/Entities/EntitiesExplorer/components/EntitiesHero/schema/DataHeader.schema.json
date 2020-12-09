@@ -1,7 +1,7 @@
 {
   "@context": "https://schema.ixo.foundation/data-asset",
   "@type": "Header",
-  "color": "",
+  "color": "#fff",
   "image": "ixoworld_hero.png",
   "title": "Internet of Impact",
   "subTitle": "Assets Explorer",
