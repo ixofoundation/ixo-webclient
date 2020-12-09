@@ -18,6 +18,8 @@ import { CreateEntityClaimsState } from 'modules/Entities/CreateEntity/CreateEnt
 import { ProjectType } from 'pages/bond/store/types'
 import { Entity } from 'modules/Entities/SelectedEntity/types'
 import { EntityAgentsState } from 'modules/Entities/SelectedEntity/EntityImpact/EntityAgents/types'
+import { EvaluateClaimState } from 'modules/Entities/SelectedEntity/EntityImpact/EvaluateClaim/types'
+
 export interface RootState {
   bondBuy: BondBuyState
   bondSell: BondSellState
@@ -39,6 +41,7 @@ export interface RootState {
   createEntityAdvanced: CreateEntityAdvancedState
   createEntityClaims: CreateEntityClaimsState
   projectState: ProjectType
+  evaluateClaim: EvaluateClaimState
   router: any
 }
 

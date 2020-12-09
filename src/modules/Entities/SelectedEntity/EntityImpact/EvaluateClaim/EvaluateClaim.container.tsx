@@ -1,13 +1,14 @@
 import React, { Dispatch } from 'react'
 import { RootState } from 'common/redux/types'
 import { connect } from 'react-redux'
-import * as entityClaimsSelectors from 'modules/Entities/SelectedEntity/EntityImpact/EntityClaims/EntityClaims.selectors'
 import Steps from './components/Steps'
 import Exclamation from 'assets/icons/Exclamation'
 import EvaluateCard from './components/EvaluateCard/EvaluateCard'
 import {
   getClaim
 } from './EvaluateClaim.actions'
+import keysafe from 'common/keysafe/keysafe'
+import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
 
 import {
   Layout,
@@ -15,26 +16,51 @@ import {
   SubmitContainer,
   StepsContainer
 } from './EvaluateClaim.styles'
+import * as selectedEntitySelectors from 'modules/Entities/SelectedEntity/SelectedEntity.selectors'
+import { getClaimTemplate } from 'modules/EntityClaims/SubmitEntityClaim/SubmitEntityClaim.actions'
+import * as submitEntityClaimSelectors from 'modules/EntityClaims/SubmitEntityClaim/SubmitEntityClaim.selectors'
+import { QuestionForm } from 'modules/EntityClaims/types'
+import * as evaluateClaimSelectors from './EvaluateClaim.selectors'
+import { Spinner } from 'common/components/Spinner'
 
 interface Props {
-  getClaim: (claimId: string, projectDid: string) => void
+  isLoading: boolean
+  questions: QuestionForm[]
+  entityDid: string
+  claimTemplateDid: string
+  claimTemplateIsLoading: boolean
+  match: any
+  evaluateClaim: any
+  templateForms: any
+  claim: any
+  handleGetClaim: (claimId: string, projectDid: string, claimTemplateDid: string) => void
 }
 
 class EvaluateClaim extends React.Component<Props> {
-  componentDidMount() {
-    const { getClaim } = this.props;
-    getClaim('5fbe9c74b7695300249071a8', 'did:ixo:JG5WkyVPNUawJ1awFrU2Lu')
+  componentDidMount(): void {
+    const { claimId } = this.props.match.params;
+    const { claimTemplateDid, entityDid, handleGetClaim } = this.props;
+
+    handleGetClaim(claimId, entityDid, claimTemplateDid)
   }
 
-  handleGoToQuestionClick = (step): void => {
+  handleRenderEvaluateCards = (): JSX.Element => {
+    const { claim, templateForms } = this.props;
 
-  }
-
-  handleRenderSteps = (): void => {
-
+    return claim.items.map((item, key): JSX.Element => {
+      return (
+        <EvaluateCard
+          key={key}
+          evaluation={ item }
+          template={ templateForms }
+        />
+      )
+    })
   }
 
   render(): JSX.Element {
+    const { questions, evaluateClaim, isLoading } = this.props;
+
     const steps = [
       {
         label: 'Analyse',
@@ -54,6 +80,17 @@ class EvaluateClaim extends React.Component<Props> {
         isActive: false,
       },
     ];
+
+
+    if (isLoading) {
+      return (
+        <Layout>
+          <div className="pt-5">
+            <Spinner info="Loading claim..." transparentBg />
+          </div>
+        </Layout>
+      )
+    }
 
     return (
       <Layout>
@@ -75,7 +112,9 @@ class EvaluateClaim extends React.Component<Props> {
             <Exclamation />
           </SubmitContainer>
         </StepsContainer>
-        <EvaluateCard />
+        {
+          this.handleRenderEvaluateCards()
+        }
         <SubmitContainer className="mt-5">
             <ActionButton
               className="btn-save mr-3"
@@ -94,12 +133,19 @@ class EvaluateClaim extends React.Component<Props> {
 }
 
 const mapStateToProps = (state: RootState): any => ({
-  claims: entityClaimsSelectors.selectEntityClaims(state),
+  questions: submitEntityClaimSelectors.selectQuestions(state),
+  claimTemplateDid: selectedEntitySelectors.selectEntityClaimTemplateId(state),
+  claimTemplateIsLoading: submitEntityClaimSelectors.selectIsLoading(state),
+  entityDid: selectedEntitySelectors.selectEntityDid(state),
+  evaluateClaim: evaluateClaimSelectors.selectEvaluateClaim(state),
+  isLoading:  evaluateClaimSelectors.selectIsLoading(state),
+  claim: evaluateClaimSelectors.selectClaim(state),
+  templateForms: evaluateClaimSelectors.selectTemplateForms(state)
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
-  getClaim: (claimId: string, projectDid: string): void =>
-    dispatch(getClaim(claimId, projectDid)),
+  handleGetClaim: (claimId: string, projectDid: string, claimTemplateDid: string): void =>
+    dispatch(getClaim(claimId, projectDid, claimTemplateDid)),
 })
 
 

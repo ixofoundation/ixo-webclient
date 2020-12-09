@@ -72,6 +72,7 @@ class CreateEntityBase<T extends CreateEntityBaseProps> extends React.Component<
   renderButtonGroup = (
     formIdentifiers: string[],
     showBackButton: boolean,
+    isNextDisabled = false,
   ): JSX.Element => {
     return (
       <ButtonGroup className="buttons-group">
@@ -84,6 +85,7 @@ class CreateEntityBase<T extends CreateEntityBaseProps> extends React.Component<
           type="submit"
           className="submitForm"
           onClick={(): void => this.handleSubmit(formIdentifiers)}
+          disabled={ isNextDisabled }
         >
           Next
         </button>

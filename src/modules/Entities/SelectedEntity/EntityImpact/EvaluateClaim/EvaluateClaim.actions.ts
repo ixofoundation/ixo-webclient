@@ -1,55 +1,82 @@
 import { Dispatch } from "redux";
 import {
   GetClaimAction,
-  SingleClaimActions
+  EvaluateClaimActions,
+  ClearClaimAction
 } from './types'
-import keysafe from 'common/keysafe/keysafe'
 import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
 import { PDS_URL } from 'modules/Entities/types'
 import { EntityClaimStatus } from 'modules/Entities/SelectedEntity/EntityImpact/EntityClaims/types'
+import keysafe from 'common/keysafe/keysafe'
+import { ApiListedEntity } from 'common/api/blocksync-api/types/entities'
+import { ApiResource } from 'common/api/blocksync-api/types/resource'
+import { fromBase64 } from 'js-base64'
 
-export const getClaim = (claimId: string, projectDid: string) => (
+export const clearClaim = (): ClearClaimAction => ({
+  type: EvaluateClaimActions.ClearClaim,
+})
+
+export const getClaim = (claimId: string, projectDid: string, claimTemplateDid: string) => (
   dispatch: Dispatch
 ): GetClaimAction => {
-  console.log('ggggggggggggggggggggg');
+  // Clear claim info before loading
+  dispatch(clearClaim())
+
   const ProjectDIDPayload: Record<string, any> = {
     projectDid: projectDid,
   }
 
   keysafe.requestSigning(
     JSON.stringify(ProjectDIDPayload),
-    (error, signature) => {
+    async (error, signature) => {
       if (!error) {
-        blocksyncApi.claim.listClaimsForProject(
+        await blocksyncApi.claim.listClaimsForProject(
           ProjectDIDPayload,
           signature,
           PDS_URL
           )
           .then((response: any) => {
-            console.log('gggggggggggggggg', response)
             if (response.error) {
-              console.log(response.error)
+              return null;
             } else {
               const claimFound = response.result.filter(
                 claim => claim.txHash === claimId
               )
-              console.log('ffffffffffffffff', response)
 
-              return claimFound;
+
+              dispatch({
+                type: EvaluateClaimActions.GetClaim,
+                payload: claimFound[0]
+              })
             }
           })
-
-        return dispatch({
-          type: SingleClaimActions.GetClaim,
-          payload: {
-
-          }
-        })
       }
       return null
     },
     'base64',
   )
+
+  const fetchTemplateEntity: Promise<ApiListedEntity> = blocksyncApi.project.getProjectByProjectDid(
+    claimTemplateDid,
+  )
+
+  const fetchContent = (key: string): Promise<ApiResource> =>
+    blocksyncApi.project.fetchPublic(key, PDS_URL) as Promise<ApiResource>
+
+  fetchTemplateEntity.then((apiEntity: ApiListedEntity) => {
+    return fetchContent(apiEntity.data.page.cid).then(
+      (resourceData: ApiResource) => {
+        const attestation: any = JSON.parse(
+          fromBase64(resourceData.data),
+        )
+
+        dispatch({
+          type: EvaluateClaimActions.GetClaimTemplate,
+          payload: attestation.forms
+        })
+      },
+    )
+  })
 
   return null
 }

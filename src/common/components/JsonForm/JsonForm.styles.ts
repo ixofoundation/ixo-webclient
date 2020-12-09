@@ -344,6 +344,10 @@ export const ButtonGroup = styled.div`
     line-height: 19px;
     border-radius: 4px;
     border: none;
+
+    :disabled {
+      cursor: not-allowed;
+    }
   }
   button[type='submit'] {
     background: linear-gradient(180deg, #04d0fb 0%, #49bfe0 100%);

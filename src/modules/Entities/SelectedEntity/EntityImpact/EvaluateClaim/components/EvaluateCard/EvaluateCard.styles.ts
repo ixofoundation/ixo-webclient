@@ -3,7 +3,10 @@ import styled from 'styled-components'
 export const Container = styled.div`
   background: white;
   border-radius: 0.25rem;
-  padding: 1rem 0.75rem;
+  padding: 1.5rem 0.75rem;
+  padding-bottom: 1rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
 `
 
 export const ActionButtonContainer = styled.div`
@@ -45,4 +48,30 @@ export const ActionButtonContainer = styled.div`
       }
     }
   }
+`
+
+export const Value = styled.div`
+  font-size: 1rem;
+  font-weight: 700;
+  color: black;
+  margin-bottom: 1rem;
+`
+
+export const Title = styled.div`
+  font-size: 1.375rem;
+  font-weight: 400;
+  color: black;
+  margin-bottom: 0.5rem;
+`
+
+export const Description = styled.div`
+  font-size: 1rem;
+  font-weight: 400;
+  color: #4A4E50;
+  margin-bottom: 0.5rem;
+`
+
+export const ImageContainer = styled.div`
+  min-width: 15rem;
+  text-align: center;
 `
