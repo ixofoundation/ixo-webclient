@@ -33,7 +33,7 @@ export const reducer = (
         ...state,
         claimTemplate: action.payload,
         isClaimTemplateLoading: false,
-        isLoading: isClaimTemplateLoading
+        isLoading: isClaimLoading
       }
     default:
       return state

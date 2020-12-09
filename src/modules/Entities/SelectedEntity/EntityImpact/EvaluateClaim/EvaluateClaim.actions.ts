@@ -6,7 +6,6 @@ import {
 } from './types'
 import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
 import { PDS_URL } from 'modules/Entities/types'
-import { EntityClaimStatus } from 'modules/Entities/SelectedEntity/EntityImpact/EntityClaims/types'
 import keysafe from 'common/keysafe/keysafe'
 import { ApiListedEntity } from 'common/api/blocksync-api/types/entities'
 import { ApiResource } from 'common/api/blocksync-api/types/resource'

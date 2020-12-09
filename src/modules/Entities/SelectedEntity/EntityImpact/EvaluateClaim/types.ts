@@ -1,7 +1,3 @@
-import {
-  EntityClaim
-} from '../EntityClaims/types'
-
 export interface EvaluateClaimState {
   isLoading: boolean
   isClaimLoading: boolean
