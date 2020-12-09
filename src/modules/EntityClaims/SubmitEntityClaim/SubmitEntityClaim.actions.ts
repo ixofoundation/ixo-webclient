@@ -21,7 +21,6 @@ import { ApiResource } from 'common/api/blocksync-api/types/resource'
 /* import { Attestation } from '../types' */
 import { fromBase64 } from 'js-base64'
 import { FormData } from 'common/components/JsonForm/types'
-import claimTemplate from './claim_template.json'
 
 export const clearClaimTemplate = (): ClearClaimTemplateAction => ({
   type: SubmitEntityClaimActions.ClearClaimTemplate,

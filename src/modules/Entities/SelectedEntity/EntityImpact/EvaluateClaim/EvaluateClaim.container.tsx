@@ -7,8 +7,6 @@ import EvaluateCard from './components/EvaluateCard/EvaluateCard'
 import {
   getClaim
 } from './EvaluateClaim.actions'
-import keysafe from 'common/keysafe/keysafe'
-import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
 
 import {
   Layout,
@@ -17,7 +15,6 @@ import {
   StepsContainer
 } from './EvaluateClaim.styles'
 import * as selectedEntitySelectors from 'modules/Entities/SelectedEntity/SelectedEntity.selectors'
-import { getClaimTemplate } from 'modules/EntityClaims/SubmitEntityClaim/SubmitEntityClaim.actions'
 import * as submitEntityClaimSelectors from 'modules/EntityClaims/SubmitEntityClaim/SubmitEntityClaim.selectors'
 import { QuestionForm } from 'modules/EntityClaims/types'
 import * as evaluateClaimSelectors from './EvaluateClaim.selectors'
@@ -59,7 +56,7 @@ class EvaluateClaim extends React.Component<Props> {
   }
 
   render(): JSX.Element {
-    const { questions, evaluateClaim, isLoading } = this.props;
+    const { isLoading } = this.props;
 
     const steps = [
       {

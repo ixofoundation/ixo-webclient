@@ -12,10 +12,6 @@ import {
   ImageContainer
 } from './EvaluateCard.styles'
 import moment from 'moment'
-import Lottie from 'react-lottie'
-import activeAnimation from 'assets/animations/assistant/active.json'
-import inactiveAnimation from 'assets/animations/assistant/inactive.json'
-import hoverAnimation from 'assets/animations/assistant/hover.json'
 
 interface Props {
   evaluation: any
@@ -23,11 +19,7 @@ interface Props {
 }
 
 const EvaluateCard: React.FunctionComponent<Props> = ({ evaluation, template }) => {
-
   const form = template.filter(form => Object.keys(form.uiSchema)[0] === evaluation.id)[0];
-
-  console.log(form);
-  console.log('ffffffffffffff', evaluation)
 
   const handleRenderImage = (): JSX.Element => {
     return (
