@@ -43,9 +43,8 @@ const TemplateCard: React.FunctionComponent<Props> = ({
   let templateType = 'Template'
   if (ddoTags.length) {
     templateType = ddoTags.find((category) => category.name === 'Entity')
-      .tags[0]
+    .tags[0]
   }
-
 
   return (
     <CardContainer className="col-xl-4 col-md-6 col-sm-12 col-12">
