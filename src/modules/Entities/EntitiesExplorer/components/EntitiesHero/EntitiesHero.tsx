@@ -61,7 +61,7 @@ export const EntitiesHero: React.FunctionComponent<Props> = ({
       ></ColorOverlay>
       <HeroInner className="container">
         <div className="row">
-          <HeroTextWrapper className="col-md-5 col-sm-12 col-12">
+          <HeroTextWrapper className="col-md-5 col-sm-12 col-12" style={{ color: header.color }}>
             <h1>{header.title}</h1>
             <h3>{header.subTitle}</h3>
           </HeroTextWrapper>

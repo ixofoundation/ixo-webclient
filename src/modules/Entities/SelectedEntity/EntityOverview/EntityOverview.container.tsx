@@ -50,9 +50,10 @@ interface Props {
 class EntityOverview extends React.Component<Props> {
   state = {
     assistantPanelActive: false,
+    assistantIntent: ''
   }
 
-  assistantPanelToggle = (): void => {
+  assistantPanelToggle = (intent = ''): void => {
     const { assistantPanelActive } = this.state
 
     // Assistant panel shown
@@ -63,7 +64,7 @@ class EntityOverview extends React.Component<Props> {
     }
 
 
-    this.setState({assistantPanelActive: !assistantPanelActive})
+    this.setState({assistantPanelActive: !assistantPanelActive, assistantIntent: intent})
   }
 
   render(): JSX.Element {
@@ -86,7 +87,7 @@ class EntityOverview extends React.Component<Props> {
       entity
     } = this.props
 
-    const { assistantPanelActive } = this.state
+    const { assistantPanelActive, assistantIntent } = this.state
 
     if (isLoading) {
       return <Spinner info="Loading Entity..." />
@@ -141,6 +142,7 @@ class EntityOverview extends React.Component<Props> {
                           <animated.div style={{ width: '25%' }}>
                               <FundingChat
                                   assistantPanelToggle={ this.assistantPanelToggle }
+                                  assistantIntent={ assistantIntent }
                               />
                           </animated.div>
                         </AssistantContainer>)

@@ -14,6 +14,9 @@ import { RootState } from 'common/redux/types'
 import * as fundingChatSelectors from './FundingChat.selectors'
 import { getOrder, confirmOrder, cancelOrder } from './FundingChat.actions'
 import FundingchatCustom from './components/FundingChatCustom/FundingChatCustom'
+import { AssistantActions } from './types'
+import { createEntityAgent } from 'modules/Entities/SelectedEntity/EntityImpact/EntityAgents/EntityAgents.actions'
+import { AgentRole } from 'modules/Account/types'
 
 interface Props {
   match?: any
@@ -31,10 +34,12 @@ interface Props {
   sending?: boolean
   sent?: boolean
   error?: string
+  assistantIntent?: string
   handleGetOrder?: (assistantResponse: any) => void
   handleConfirmOrder?: (entityDid: string) => void
   handleCancelOrder?: () => void
   assistantPanelToggle: () => void
+  handleCreateEntityAgent?: (email: string, name: string, role: AgentRole) => void
 }
 
 class FundingChat extends React.Component<Props & RouteProps> {
@@ -43,10 +48,20 @@ class FundingChat extends React.Component<Props & RouteProps> {
   }
 
   componentDidMount(): void {
-    startAssistant('fuel_my_entity')
+    const { assistantIntent } = this.props;
+    startAssistant(assistantIntent)
   }
 
   onAssistantMessageReceive = (utter): void => {
+    const { handleCreateEntityAgent } = this.props;
+
+
+    switch (utter.action) {
+      case AssistantActions.Authorise:
+
+        break;
+    }
+    /*  */
     // TODO - actual event to trigger end
     // if (utter.text === "Sorry, I didn't get that. Could you rephrase?") {
     // TODO - actual response to pass to handleGetOrder
@@ -58,6 +73,7 @@ class FundingChat extends React.Component<Props & RouteProps> {
   render(): JSX.Element {
     const {
       error,
+      assistantIntent,
       handleCancelOrder,
     } = this.props
 
@@ -73,6 +89,7 @@ class FundingChat extends React.Component<Props & RouteProps> {
               <Assistant
                 onMessageReceive={this.onAssistantMessageReceive}
                 customComponent={ FundingchatCustom }
+                initPayload={ assistantIntent }
               />
             </div>
           </AssistantWrapper>
@@ -113,6 +130,8 @@ const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
   handleConfirmOrder: (entityDid: string): void =>
     dispatch(confirmOrder(entityDid)), // TODO remove entityDid once projects refactored
   handleCancelOrder: (): void => dispatch(cancelOrder()),
+  handleCreateEntityAgent: (email: string, name:string, role: AgentRole): void =>
+    dispatch(createEntityAgent(email, name, role)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(FundingChat)

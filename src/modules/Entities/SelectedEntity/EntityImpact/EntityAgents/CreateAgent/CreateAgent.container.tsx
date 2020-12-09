@@ -1,7 +1,5 @@
 import { RootState } from 'common/redux/types';
 import React, { Dispatch } from 'react'
-import { createEntityAgent } from 'modules/Entities/SelectedEntity/EntityImpact/EntityAgents/EntityAgents.actions'
-import { AgentRole } from 'modules/Account/types'
 import { connect } from 'react-redux'
 import * as accountSelectors from 'modules/Account/Account.selectors'
 import { UserInfo } from 'modules/Account/types'
@@ -15,20 +13,16 @@ interface Props {
   entityDid?: string
   error?: any
   userInfo?: UserInfo
-  handleCreateEntityAgent?: (email: string, name: string, role: AgentRole) => void
   updateProjectStatus?: (projectDid: string, status: ProjectStatus) => void
-  assistantPanelToggle: () => void
+  assistantPanelToggle: (string) => void
 }
 
 class  CreateAgent extends React.Component<Props> {
   componentDidMount(): void {
-    const { userInfo, assistantPanelToggle, handleCreateEntityAgent} = this.props;
+    const { assistantPanelToggle} = this.props;
     //updateProjectStatus(entityDid, ProjectStatus.Pending)
 
-    assistantPanelToggle()
-    if (userInfo) {
-      handleCreateEntityAgent('alain.g1127@outlook.com', userInfo.name, AgentRole.ServiceProvider)
-    }
+    assistantPanelToggle('/apply{"action":"authorise","msg_type":"agent_application"}')
   }
 
   render(): JSX.Element {
@@ -50,8 +44,6 @@ const mapStateToProps = (state: RootState): any => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
-  handleCreateEntityAgent: (email: string, name:string, role: AgentRole): void =>
-    dispatch(createEntityAgent(email, name, role)),
   updateProjectStatus: (projectDid: string, status: ProjectStatus): void =>
     dispatch(updateProjectStatus(projectDid, status))
 })

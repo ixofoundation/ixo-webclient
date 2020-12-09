@@ -1,8 +1,8 @@
 {
   "@context": "https://schema.ixo.foundation/project",
   "@type": "Header",
-  "color": "#2f80ed",
-  "image": null,
+  "color": "#fff",
+  "image": "ixoworld_hero.png",
   "title": "Internet of Impact",
   "subTitle": "Projects Explorer",
   "indicators": [
@@ -27,5 +27,62 @@
       "indicatorSource": "234"
     }
   ],
-  "overrides": []
+  "overrides": [
+    {
+      "@context": "https://schema.ixo.foundation/cell",
+      "id": "https://schema.ixo.foundation/cell/impactRelayer",
+      "@type": "HeaderOverride",
+      "ddoSector": "Sector",
+      "ddoTag": "Relayer Launchpad",
+      "color": "#FF00A8",
+      "image": "relayerlaunchpad.png",
+      "title": "Impact Relayers",
+      "subTitle": "Launchpad",
+      "indicators": [
+        {
+          "@type": "Indicator",
+          "indicatorLabel": "Candidates",
+          "indicatorSource": "https://metrics.ixo.foundation/relayer_candidates"
+        },
+        {
+          "@type": "Indicator",
+          "indicatorLabel": "Launched",
+          "indicatorSource": "https://metrics.ixo.foundation/relayers_launched"
+        },
+        {
+          "@type": "Indicator",
+          "indicatorLabel": "Total Votes",
+          "indicatorSource": "https://metrics.ixo.foundation/relayer_launchpad_votes"
+        }
+      ]
+    },
+    {
+      "@context": "https://schema.idcc.hk/sector",
+      "id": "https://schema.idcc.hk/sector",
+      "@type": "HeaderOverride",
+      "ddoSector": "Sector",
+      "ddoTag": "IDCC",
+      "color": "#FF00A8",
+      "image": "idcc_hero.png",
+      "title": "IDCC",
+      "subTitle": "Hong Kong",
+      "indicators": [
+        {
+          "@type": "Indicator",
+          "indicatorLabel": "Candidates",
+          "indicatorSource": "https://metrics.ixo.foundation/relayer_candidates"
+        },
+        {
+          "@type": "Indicator",
+          "indicatorLabel": "Launched",
+          "indicatorSource": "https://metrics.ixo.foundation/relayers_launched"
+        },
+        {
+          "@type": "Indicator",
+          "indicatorLabel": "Total Votes",
+          "indicatorSource": "https://metrics.ixo.foundation/relayer_launchpad_votes"
+        }
+      ]
+    }
+  ]
 }

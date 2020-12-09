@@ -445,6 +445,16 @@
         "@type": "sector",
         "name": "Oracle Marketplace",
         "icon": "portfolio.svg"
+      },
+      {
+        "@type": "sector",
+        "name": "Relayer Launchpad",
+        "icon": "portfolio.svg"
+      },
+      {
+        "@type": "sector",
+        "name": "IDCC",
+        "icon": "portfolio.svg"
       }
     ]
   }

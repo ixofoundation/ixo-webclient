@@ -270,12 +270,12 @@
     "tags": [
       {
         "@type": "sector",
-        "name": "Oracle Launchpad",
+        "name": "Relayer Launchpad",
         "icon": "portfolio.svg"
       },
       {
         "@type": "sector",
-        "name": "Oracle Marketplace",
+        "name": "IDCC",
         "icon": "portfolio.svg"
       }
     ]
