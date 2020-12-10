@@ -22,6 +22,10 @@ import AssistantContext from 'common/contexts/Assistant'
 import EntityClaims from './EntityClaims/EntityClaims.container'
 import EvaluateClaim from './EvaluateClaim/EvaluateClaim.container'
 import EntityToc from './EntityToc/EntityToc.container'
+import { getClaimTemplate } from 'modules/EntityClaims/SubmitEntityClaim/SubmitEntityClaim.actions'
+import * as submitEntityClaimSelectors from 'modules/EntityClaims/SubmitEntityClaim/SubmitEntityClaim.selectors'
+import { EntityClaimType } from 'modules/EntityClaims/types'
+
 
 interface Props {
   match: any
@@ -39,6 +43,9 @@ interface Props {
   creatorDid: string
   isLoggedIn: boolean
   isLoading: boolean
+  claimTemplateId: string
+  isClaimTemplateLoading: boolean
+  claimTemplateType: string
   handleGetEntity: (did: string) => void
 }
 
@@ -48,15 +55,16 @@ class EntityImpact extends React.Component<Props> {
     width: '75%'
   }
 
-  componentDidMount(): void {
+  async componentDidMount() {
     const {
       match: {
         params: { projectDID: did },
       },
+      claimTemplateId,
       handleGetEntity,
     } = this.props
 
-    handleGetEntity(did)
+    await handleGetEntity(did)
   }
 
   assistantPanelToggle = ():void => {
@@ -88,16 +96,18 @@ class EntityImpact extends React.Component<Props> {
       creatorDid,
       isLoggedIn,
       isLoading,
+      isClaimTemplateLoading,
+      claimTemplateType
     } = this.props
 
     const { assistantPanelActive, width } = this.state;
 
-    if (isLoading) {
+    if (isLoading || isClaimTemplateLoading) {
       return <Spinner info="Loading Dashboard..." />
     }
 
     const light = !!matchPath(location.pathname, '/projects/:projectDID/detail/claims')
-
+    const hasToc = EntityClaimType.TheoryOfChange === claimTemplateType
     return (
       <AssistantContext.Provider value={{ active: assistantPanelActive }}>
           <DetailContainer>
@@ -112,6 +122,7 @@ class EntityImpact extends React.Component<Props> {
                   agents,
                   [AgentRole.Owner],
                 )}
+                hasToc={ hasToc }
               />
               <ContentContainer>
                 <EntityHeroContainer light={ light }>
@@ -166,11 +177,14 @@ class EntityImpact extends React.Component<Props> {
                   path={`/projects/:projectDID/detail/claims/:claimId`}
                   component={EvaluateClaim}
                 />
-                <Route
-                  exact
-                  path={`/projects/:projectDID/detail/toc`}
-                  component={ EntityToc }
-                />
+                {
+                  hasToc &&
+                    <Route
+                      exact
+                      path={`/projects/:projectDID/detail/toc`}
+                      component={ EntityToc }
+                    />
+                }
               </ContentContainer>
             </div>
             <Transition
@@ -213,10 +227,15 @@ const mapStateToProps = (state: RootState): any => ({
   sdgs: entitySelectors.selectEntitySdgs(state),
   isLoggedIn: accountSelectors.selectUserIsLoggedIn(state),
   isLoading: entitySelectors.entityIsLoading(state),
+  claimTemplateId: entitySelectors.selectEntityClaimTemplateId(state),
+  isClaimTemplateLoading: submitEntityClaimSelectors.selectIsLoading(state),
+  claimTemplateType: submitEntityClaimSelectors.selectClaimType(state)
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
   handleGetEntity: (did: string): void => dispatch(getEntity(did)),
+  handleGetClaimTemplate: (templateDid): void =>
+    dispatch(getClaimTemplate(templateDid)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(EntityImpact)

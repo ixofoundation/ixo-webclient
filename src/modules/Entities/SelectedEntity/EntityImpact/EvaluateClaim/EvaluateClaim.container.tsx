@@ -25,7 +25,6 @@ interface Props {
   questions: QuestionForm[]
   entityDid: string
   claimTemplateDid: string
-  claimTemplateIsLoading: boolean
   match: any
   evaluateClaim: any
   templateForms: any
@@ -132,7 +131,6 @@ class EvaluateClaim extends React.Component<Props> {
 const mapStateToProps = (state: RootState): any => ({
   questions: submitEntityClaimSelectors.selectQuestions(state),
   claimTemplateDid: selectedEntitySelectors.selectEntityClaimTemplateId(state),
-  claimTemplateIsLoading: submitEntityClaimSelectors.selectIsLoading(state),
   entityDid: selectedEntitySelectors.selectEntityDid(state),
   evaluateClaim: evaluateClaimSelectors.selectEvaluateClaim(state),
   isLoading:  evaluateClaimSelectors.selectIsLoading(state),

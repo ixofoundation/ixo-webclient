@@ -16,7 +16,7 @@ import { ApiResource } from 'common/api/blocksync-api/types/resource'
 import { fromBase64 } from 'js-base64'
 import { ProjectStatus } from '../types'
 import keysafe from 'common/keysafe/keysafe'
-import { keys } from 'lodash'
+import { getClaimTemplate } from 'modules/EntityClaims/SubmitEntityClaim/SubmitEntityClaim.actions'
 
 export const clearEntity = (): ClearEntityAction => ({
   type: SelectedEntityActions.ClearEntity,
@@ -58,6 +58,12 @@ export const getEntity = (did: string) => (
           const alphabondToUse = apiEntity.data.funding.items.find(
             (fund) => fund['@type'] === FundSource.Alphabond,
           )
+
+          // @todo this might not need if claim template type field is populated on entityClaims field of entity
+          if (claimToUse) {
+            console.log('ffffffffffffff', claimToUse['@id'])
+            getClaimTemplate(claimToUse['@id'])(dispatch, getState)
+          }
 
           return {
             did: apiEntity.projectDid,

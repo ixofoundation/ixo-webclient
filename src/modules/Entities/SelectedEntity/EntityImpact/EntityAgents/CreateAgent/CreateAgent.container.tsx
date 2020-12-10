@@ -8,21 +8,25 @@ import * as entitySelectors from 'modules/Entities/SelectedEntity/SelectedEntity
 import { Redirect } from 'react-router-dom'
 import { updateProjectStatus } from 'modules/Entities/SelectedEntity/SelectedEntity.actions'
 import { ProjectStatus } from 'modules/Entities/types'
+import { AgentRole } from 'modules/Account/types'
+import { createEntityAgent } from 'modules/Entities/SelectedEntity/EntityImpact/EntityAgents/EntityAgents.actions'
 
 interface Props {
   entityDid?: string
   error?: any
   userInfo?: UserInfo
   updateProjectStatus?: (projectDid: string, status: ProjectStatus) => void
-  assistantPanelToggle: (string) => void
+  assistantPanelToggle?: (string) => void
+  handleCreateEntityAgent?: (email: string, name: string, role: AgentRole) => void
 }
 
 class  CreateAgent extends React.Component<Props> {
   componentDidMount(): void {
-    const { assistantPanelToggle} = this.props;
-    //updateProjectStatus(entityDid, ProjectStatus.Pending)
+    const { assistantPanelToggle,updateProjectStatus, entityDid, handleCreateEntityAgent} = this.props;
+    //updateProjectStatus(entityDid, ProjectStatus.Started)
 
-    assistantPanelToggle('/apply{"action":"authorise","msg_type":"agent_application"}')
+    // assistantPanelToggle('/apply{"action":"authorise","msg_type":"agent_application"}')
+    handleCreateEntityAgent('alain.g1127@outlook.com', 'Alain Gemenez', AgentRole.ServiceProvider)
   }
 
   render(): JSX.Element {
@@ -45,7 +49,9 @@ const mapStateToProps = (state: RootState): any => ({
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
   updateProjectStatus: (projectDid: string, status: ProjectStatus): void =>
-    dispatch(updateProjectStatus(projectDid, status))
+    dispatch(updateProjectStatus(projectDid, status)),
+  handleCreateEntityAgent: (email: string, name:string, role: AgentRole): void =>
+    dispatch(createEntityAgent(email, name, role)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateAgent)

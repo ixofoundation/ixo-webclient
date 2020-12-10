@@ -152,6 +152,18 @@ const EntityHero: React.FunctionComponent<Props> = ({
       </Route>
       <Route
         exact
+        path={`/projects/:projectDID/detail/toc`}
+      >
+        <SingleNav
+          to={`/projects/${did}/detail/toc`}
+          light={light }
+        >
+          Theory of Change
+          <RightIcon />
+        </SingleNav>
+      </Route>
+      <Route
+        exact
         path={`/projects/:projectDID/detail/claims`}
       >
         <SingleNav
