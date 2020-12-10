@@ -19,6 +19,11 @@ export const PageInfoContainer = styled.div`
   > span {
     margin-right: 0.75rem;
   }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
 `
 
 export const StatusLabel = styled.span`

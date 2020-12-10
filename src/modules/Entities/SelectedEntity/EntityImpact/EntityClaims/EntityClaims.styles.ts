@@ -33,6 +33,9 @@ export const FilterContainer = styled.div`
 
   a {
     color: #143F54 !important;
+    &.active {
+      border: 1px solid #39C3E6;
+    }
   }
 `
 

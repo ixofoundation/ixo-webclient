@@ -6,15 +6,18 @@ export const Container = styled.div`
   align-items:center;
   a {
     width: fit-content;
+    min-width: 4rem;
     color: #39C3E6 !important;
     border-radius: 4px !important;
     font-size: .75rem !important;
-    padding: 0.125rem 0.625rem !important;
+    padding: 0.25rem 0.625rem !important;
     text-transform: none;
     margin-right: 0.625rem;
     background: #143F54;
     white-space: nowrap;
     margin-bottom: 0;
+    line-height: initial;
+    cursor: pointer;
   }
 
   a.disabled {

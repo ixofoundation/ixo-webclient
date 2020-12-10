@@ -2,6 +2,7 @@ import React, { Dispatch } from 'react'
 import { RootState } from 'common/redux/types'
 import moment from 'moment'
 import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
 import _ from 'lodash'
 import CardBoard from './CardBoard/CardBoard'
 import { Spinner } from 'common/components/Spinner'
@@ -52,7 +53,7 @@ class  EntityToc extends React.Component<Props> {
   }
 
   render(): JSX.Element {
-    const { claim, isLoading } = this.props
+    const { claim, isLoading, entityDid } = this.props
 
     if (isLoading) {
       return (
@@ -79,7 +80,9 @@ class  EntityToc extends React.Component<Props> {
               Version: 1.0
             </span>
             <span>
-              Date: { moment(claim.dateTime).format('DD/MM/YYYY') }
+              <Link to={ `/projects/${entityDid}/detail/claims?type=TheoryOfChange` }>
+                Date: { moment(claim.dateTime).format('DD/MM/YYYY') }
+              </Link>
             </span>
             <span>
               Status: <StatusLabel style={{ color: EntityClaimColorSchema[claim.__v] }}>{ Object.keys(EntityClaimStatus)[claim.__v] }</StatusLabel>
