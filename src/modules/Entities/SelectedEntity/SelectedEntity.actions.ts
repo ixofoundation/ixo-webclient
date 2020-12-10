@@ -61,7 +61,6 @@ export const getEntity = (did: string) => (
 
           // @todo this might not need if claim template type field is populated on entityClaims field of entity
           if (claimToUse) {
-            console.log('ffffffffffffff', claimToUse['@id'])
             getClaimTemplate(claimToUse['@id'])(dispatch, getState)
           }
 
