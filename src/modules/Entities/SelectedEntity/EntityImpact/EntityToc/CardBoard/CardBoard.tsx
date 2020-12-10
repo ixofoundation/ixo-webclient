@@ -13,15 +13,6 @@ interface Props {
 }
 
 const CardBoard: React.FunctionComponent<Props> = ({data}) => {
-  const headers = [
-    'inputs',
-    'activities',
-    'outputs',
-    'reach',
-    'outcomes',
-    'impacts',
-  ]
-
   const handleRenderColumn = (attribute: any, key: number): JSX.Element => {
     return (
       <Column key={ key }>
