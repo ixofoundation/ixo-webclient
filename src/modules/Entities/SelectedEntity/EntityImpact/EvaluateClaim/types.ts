@@ -1,3 +1,32 @@
+import { EntityClaimStatus } from 'modules/Entities/SelectedEntity/EntityImpact/EntityClaims/types'
+
+interface ClaimSubject {
+  id: string
+}
+
+export interface ClaimItem {
+  id: string
+  value: string | string[]
+  attribute: string
+}
+
+export interface Claim {
+  '__v': EntityClaimStatus
+  '_id': string
+  '_creator': string
+  '_created': string
+  'type': string
+  'txHash': string
+  'projectDid': string
+  'issuerId': string
+  'evaluations': any[]
+  'dateTime': Date
+  'claimSubject': ClaimSubject
+  '@context': string
+  'items': ClaimItem[]
+}
+
+
 export interface EvaluateClaimState {
   isLoading: boolean
   isClaimLoading: boolean

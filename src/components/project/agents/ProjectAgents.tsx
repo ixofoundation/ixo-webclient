@@ -44,7 +44,7 @@ class ProjectAgents extends React.Component<ParentProps, State> {
       handleGetEntityAgents
     } = this.props;
 
-    handleGetEntityAgents(entityDid, AgentRole.Evaluator)
+    handleGetEntityAgents(entityDid, AgentRole.ServiceProvider)
   }
 
   render(): JSX.Element {

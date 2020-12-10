@@ -8,38 +8,24 @@ import {
   ColumnContent
 } from './CardBoard.styles'
 
-const CardBoard: React.FunctionComponent = ({}) => {
-  const headers = [
-    'inputs',
-    'activities',
-    'outputs',
-    'reach',
-    'outcomes',
-    'impacts',
-  ]
+interface Props {
+  data: any[]
+}
 
-  const content = [
-    'Development of EDPQS and support materials by Prevention Standards Partnership',
-    'Development of EDPQS and support materials by Prevention Standards Partnership',
-    'Development of EDPQS and support materials by Prevention Standards Partnership',
-    'Development of EDPQS and support materials by Prevention Standards Partnership',
-    'Development of EDPQS and support materials by Prevention Standards Partnership',
-    'Development of EDPQS and support materials by Prevention Standards Partnership',
-    'Development of EDPQS and support materials by Prevention Standards Partnership',
-    'Development of EDPQS and support materials by Prevention Standards Partnership',
-    'Development of EDPQS and support materials by Prevention Standards Partnership',
-  ]
-
-  const handleRenderColumn = (title: string) => {
+const CardBoard: React.FunctionComponent<Props> = ({data}) => {
+  const handleRenderColumn = (attribute: any, key: number): JSX.Element => {
     return (
-      <Column>
+      <Column key={ key }>
         <ColumnHeader>
-          { title }
-          <Arrow />
+          { Object.keys(attribute)[0] }
+          {
+            key !== data.length - 1 &&
+              <Arrow />
+          }
         </ColumnHeader>
         <ColumnContent>
           {
-            [...content].splice(0, (Math.random() * 10) % 9).map((text, key) => <Card key={key}>{ text }</Card>)
+            attribute[Object.keys(attribute)[0]].map((item, key) => <Card key={key}>{ item.value }</Card>)
           }
         </ColumnContent>
       </Column>
@@ -49,7 +35,7 @@ const CardBoard: React.FunctionComponent = ({}) => {
   return (
     <div className="d-flex">
       {
-        headers.map(title => handleRenderColumn(title))
+        data.map((attribute, key) => handleRenderColumn(attribute, key))
       }
     </div>
   )

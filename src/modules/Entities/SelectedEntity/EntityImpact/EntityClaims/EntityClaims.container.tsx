@@ -278,6 +278,7 @@ const EntityClaims: React.FunctionComponent<Props> = ({ entity, claims }) => {
                   onClick={(): void => handleClaimTemplateClick() }
                   disabled={ false }
                   key={ key }
+                  className="active"
                 >
                   { claim.title }
                 </Button>

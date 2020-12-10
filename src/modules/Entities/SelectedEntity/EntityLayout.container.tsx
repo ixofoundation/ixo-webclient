@@ -12,6 +12,7 @@ interface Props {
   match: any
   isLoading: boolean
   handleGetEntity: (did: string) => void
+  handleGetClaimTemplate: (templateDid: string) => void
 }
 
 class EntityLayout extends React.Component<Props> {
@@ -57,12 +58,13 @@ class EntityLayout extends React.Component<Props> {
         />
       </Switch>
     )
-    
+
   }
 }
 
 const mapStateToProps = (state: RootState): any => ({
   isLoading: entitySelectors.entityIsLoading(state),
+  claimTemplateId: entitySelectors.selectEntityClaimTemplateId(state),
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({

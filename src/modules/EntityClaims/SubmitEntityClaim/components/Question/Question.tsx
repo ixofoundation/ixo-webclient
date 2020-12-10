@@ -45,13 +45,18 @@ const Question: React.FunctionComponent<Props> = ({
     },
   }
 
+  const handleSubmit = (event): void => {
+    handleFormDataChange(event.formData)
+    handleNextClick()
+  }
+
   return (
     <SingleControlForm
       formData={answer}
       handleFormDataChange={(formData): void =>
         handleFormDataChangeDebounce(formData)
       }
-      handleSubmit={handleNextClick}
+      handleSubmit={handleSubmit}
       schema={question.schema}
       uiSchema={uiSchema}
     >

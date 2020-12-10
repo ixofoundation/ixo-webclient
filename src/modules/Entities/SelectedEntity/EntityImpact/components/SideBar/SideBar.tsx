@@ -6,10 +6,12 @@ interface Props {
   location: any
   did: string
   showAgentLinks: boolean
+  hasToc?: boolean
 }
 
 const ProjectSidebar: React.FunctionComponent<Props> = ({
   did,
+  hasToc
 }) => {
   return (
     <Container>
@@ -21,10 +23,13 @@ const ProjectSidebar: React.FunctionComponent<Props> = ({
         <img src={ require('assets/img/sidebar/target.svg') } />
         <ToolTip>Targets</ToolTip>
       </NavItem> */}
-      <NavItem exact={true} to={`/projects/${did}/detail/toc`}>
-        <img src={ require('assets/img/sidebar/toc.svg') } />
-        <ToolTip>Theory</ToolTip>
-      </NavItem>
+      {
+        hasToc &&
+          <NavItem exact={true} to={`/projects/${did}/detail/toc`}>
+            <img src={ require('assets/img/sidebar/toc.svg') } />
+            <ToolTip style={{ width: 120 }}>Theory of Change</ToolTip>
+          </NavItem>
+      }
       <NavItem exact={true} to={`/projects/${did}/detail/agents`}>
         <img src={ require('assets/img/sidebar/profile.svg') } />
         <ToolTip>Agents</ToolTip>
