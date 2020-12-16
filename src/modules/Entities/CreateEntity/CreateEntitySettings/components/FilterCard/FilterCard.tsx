@@ -15,6 +15,7 @@ const Filter: React.FunctionComponent<Props> = React.forwardRef(
     { filters, entityType, handleUpdateContent, handleSubmitted, handleError },
     ref,
   ) => {
+    console.log('ggggggggggggggggg', filters)
     const propertiesArray = entityTypeMap[entityType].filterSchema.ddoTags.map(
       (category) => ({
         type: 'array',
@@ -27,6 +28,18 @@ const Filter: React.FunctionComponent<Props> = React.forwardRef(
         maxItems: category.multiSelect ? undefined : 1,
       }),
     )
+
+    // Add sector filter
+    propertiesArray.push({
+      type: 'array',
+      title: entityTypeMap[entityType].filterSchema.sector.name,
+      items: {
+        type: 'string',
+        enum: entityTypeMap[entityType].filterSchema.sector.tags.map((tag) => tag.name)
+      },
+      uniqueItems: true,
+      maxItems: 1,
+    })
 
     const schema = {
       type: 'object',
