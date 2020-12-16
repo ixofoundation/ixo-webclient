@@ -28,6 +28,18 @@ const Filter: React.FunctionComponent<Props> = React.forwardRef(
       }),
     )
 
+    // Add sector filter
+    propertiesArray.push({
+      type: 'array',
+      title: entityTypeMap[entityType].filterSchema.sector.name,
+      items: {
+        type: 'string',
+        enum: entityTypeMap[entityType].filterSchema.sector.tags.map((tag) => tag.name)
+      },
+      uniqueItems: true,
+      maxItems: 1,
+    })
+
     const schema = {
       type: 'object',
       required: [],

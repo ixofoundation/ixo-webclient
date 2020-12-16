@@ -34,7 +34,7 @@
       "@type": "HeaderOverride",
       "ddoSector": "Sector",
       "ddoTag": "Relayer Launchpad",
-      "color": "#FF00A8",
+      "color": "#FFF",
       "image": "relayerlaunchpad.png",
       "title": "Impact Relayers",
       "subTitle": "Launchpad",

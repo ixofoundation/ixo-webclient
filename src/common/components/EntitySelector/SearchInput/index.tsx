@@ -5,12 +5,14 @@ import SearchIcon from 'assets/icons/Search'
 
 const StyledInput = styled.input`
   background: #FFFFFF;
-  /* shadow / searchbar */
-
-  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.15);
   border-radius: 4px;
   height: 100%;
   width: 100%;
+  border: 1px solid hsl(0,0%,80%) !important;
+  &:focus {
+    box-shadow: 0 0 0 1px #2684FF !important;
+    border-color: #2684FF !important;
+  }
 `
 
 const StyledInputWrapper = styled.div`

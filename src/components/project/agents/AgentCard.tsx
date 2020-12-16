@@ -11,6 +11,7 @@ import Texting from 'assets/icons/Texting'
 import Cross from 'assets/icons/Cross'
 import { EntityAgent } from 'modules/Entities/SelectedEntity/EntityImpact/EntityAgents/types'
 import { deviceWidth } from 'lib/commonData'
+import { AgentRole } from 'modules/Account/types'
 
 const CardWrapper = styled.div`
   height: 158px;
@@ -68,6 +69,11 @@ const Username = styled.div`
   display: flex;
   align-items: center;
   margin-top: 5px;
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
 `
 
 const Exclamation = styled.div`
@@ -80,6 +86,9 @@ const Exclamation = styled.div`
 const Avatar = styled.img`
   width: 88px;
   height: 88px;
+  border-radius: 50%;
+  margin-top: auto;
+  margin-bottom: auto;
 `
 
 const ActionButtonContainer = styled.div`
@@ -158,29 +167,31 @@ const AgentCard: React.FunctionComponent<Props> = ({
   return (
     <CardWrapper>
     <CardContainer
-      onClick={ () => handleClick() }
+      onClick={ (): void => handleClick() }
       onMouseEnter={ ():void => setExpanded(true) }
       onMouseLeave={ ():void => setExpanded(false) }
     >
       <Details>
         <Avatar src={ require('assets/images/user-thumb.png') } className="mr-1" />
-        <div className="d-flex flex-column flex-grow-1 ml-2">
+        <div className="d-flex flex-column flex-grow-1 ml-2 pb-3">
           <Name>
             { agent.name }
           </Name>
           <Job>
-            Co-Founder & CEO
+            { agent.role === AgentRole.ServiceProvider ? 'Service Provider': 'Evaluator' }
           </Job>
           <Username>
-            <Exclamation>!</Exclamation>Username
+            <a href={`mailto:${agent.email}`}>
+              <Exclamation></Exclamation>{ agent.email }
+            </a>
           </Username>
-          <Logos>
+          {/* <Logos>
             <Call fill="#39C3E6" />
             <Message fill="#39C3E6" />
             <Linkedin />
             <Twitter />
             <Github />
-          </Logos>
+          </Logos> */}
         </div>
       </Details>
       <Expand

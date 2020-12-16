@@ -438,16 +438,6 @@
     "tags": [
       {
         "@type": "sector",
-        "name": "Oracle Launchpad",
-        "icon": "portfolio.svg"
-      },
-      {
-        "@type": "sector",
-        "name": "Oracle Marketplace",
-        "icon": "portfolio.svg"
-      },
-      {
-        "@type": "sector",
         "name": "Relayer Launchpad",
         "icon": "portfolio.svg"
       },
