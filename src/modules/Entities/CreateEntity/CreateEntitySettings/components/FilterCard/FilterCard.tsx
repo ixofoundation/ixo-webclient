@@ -15,7 +15,6 @@ const Filter: React.FunctionComponent<Props> = React.forwardRef(
     { filters, entityType, handleUpdateContent, handleSubmitted, handleError },
     ref,
   ) => {
-    console.log('ggggggggggggggggg', filters)
     const propertiesArray = entityTypeMap[entityType].filterSchema.ddoTags.map(
       (category) => ({
         type: 'array',
