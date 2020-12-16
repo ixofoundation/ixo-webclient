@@ -9,7 +9,8 @@ import {
   AmountCardsContainer,
   ContentContainer,
   Layout,
-  HeaderButton
+  HeaderButton,
+  TitleWrapper
 } from './EntityClaims.styles'
 import AmountCard from './components/AmountCard'
 import EntityClaimRecord from './components/EntityClaimRecord'
@@ -22,15 +23,17 @@ import ButtonSlider from 'common/components/ButtonSlider/ButtonSlider'
 import { Button, ButtonTypes } from 'common/components/Form/Buttons'
 import * as entityClaimsSelectors from './EntityClaims.selectors'
 import ExpandableList from 'common/components/ExpandableList/ExpandableList'
+import * as accountSelectors from 'modules/Account/Account.selectors'
 
 const ClaimStatusOrder = [EntityClaimStatus.Saved, EntityClaimStatus.Pending, EntityClaimStatus.Rejected, EntityClaimStatus.Approved, EntityClaimStatus.Disputed]
 
 interface Props {
   claims: EntityClaim[]
   entity: Entity
+  userDid: string
 }
 
-const EntityClaims: React.FunctionComponent<Props> = ({ entity, claims }) => {
+const EntityClaims: React.FunctionComponent<Props> = ({ entity, claims, userDid }) => {
   const claimTemplates = entity.entityClaims.items
   const [filter, setFilter] = React.useState({ status: null, query: '', all: true })
   const handleClaimTemplateClick = ():void => {
@@ -157,6 +160,10 @@ const EntityClaims: React.FunctionComponent<Props> = ({ entity, claims }) => {
       const query = filter.query.toLowerCase()
       filtered = filtered.filter(claim => claim.claimId.toLowerCase().includes(query))
     }
+
+    if (!filter.all) {
+      filtered = filtered.filter(claim => claim.saDid === userDid)
+    }
     return filtered
   }
 
@@ -223,21 +230,33 @@ const EntityClaims: React.FunctionComponent<Props> = ({ entity, claims }) => {
     })
   }
 
-  const handleRenderTitle = (): string => {
+  const handleRenderTitle = (): JSX.Element => {
+    let title = ''
     switch (filter.status) {
       case EntityClaimStatus.Pending:
-        return 'Claims Pending'
+        title =  'Claims Pending'
+        break
       case EntityClaimStatus.Approved:
-        return 'Claims Approved'
+        title =  'Claims Approved'
+        break
       case EntityClaimStatus.Rejected:
-        return 'Claims Rejected'
+        title = 'Claims Rejected'
+        break
       case EntityClaimStatus.Saved:
-        return 'Claims Saved'
+        title = 'Claims Saved'
+        break
       case EntityClaimStatus.Disputed:
-        return 'Claims Disputed'
+        title =  'Claims Disputed'
+        break
       default:
-        return 'All Claims'
+        title = 'All Claims'
     }
+
+    return (
+      <TitleWrapper>
+        { title }
+      </TitleWrapper>
+    )
   }
 
   const handleQueryChange = (event): void => {
@@ -298,6 +317,7 @@ const EntityClaims: React.FunctionComponent<Props> = ({ entity, claims }) => {
 const mapStateToProps = (state: RootState): any => ({
   entity: entitySelectors.selectSelectedEntity(state),
   claims: entityClaimsSelectors.selectEntityClaims(state),
+  userDid: accountSelectors.selectUserDid(state),
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({

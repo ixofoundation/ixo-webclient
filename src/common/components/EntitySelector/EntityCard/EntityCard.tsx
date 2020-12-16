@@ -1,6 +1,6 @@
 import React from 'react'
 import { Entity } from '../types'
-import { EntityCardWrapper } from './EntityCard.styles'
+import { EntityCardWrapper, EntityTitle } from './EntityCard.styles'
 import Eye from 'assets/icons/Eye'
 
 interface Props {
@@ -19,10 +19,10 @@ const EntityCard: React.FunctionComponent<Props> = ({ entity, isSelected }) => {
         </div>
       )}
       <div className="info">
-        <h4>{title}</h4>
-        <div className="row">
+        <EntityTitle>{title}</EntityTitle>
+        <div className="row mt-2">
           <div className="date col-sm-6">Created {dateCreated}</div>
-          <div className="link col-sm-6 text-right">
+          <div className="link col-sm-6 text-right" style={{ height: 0 }}>
             <a href={previewUrl} target="_blank" rel="noopener noreferrer">
               <Eye fill="#39c3e6" width="30" />
             </a>

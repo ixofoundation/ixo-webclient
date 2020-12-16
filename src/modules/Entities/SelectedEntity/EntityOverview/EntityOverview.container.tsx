@@ -23,6 +23,7 @@ import AssistantContext from 'common/contexts/Assistant'
 import {Transition, animated} from 'react-spring/renderprops'
 import * as entityClaimsSelectors from 'modules/Entities/CreateEntity/CreateEntityClaims/CreateEntityClaims.selectors'
 import { CreateEntityClaimsState } from 'modules/Entities/CreateEntity/CreateEntityClaims/types'
+import { AgentRole } from 'modules/Account/types'
 
 interface Props {
   match: any
@@ -50,10 +51,11 @@ interface Props {
 class EntityOverview extends React.Component<Props> {
   state = {
     assistantPanelActive: false,
-    assistantIntent: ''
+    assistantIntent: '',
+    role: AgentRole.ServiceProvider
   }
 
-  assistantPanelToggle = (intent = ''): void => {
+  assistantPanelToggle = (intent = '', role = AgentRole.ServiceProvider): void => {
     const { assistantPanelActive } = this.state
 
     // Assistant panel shown
@@ -64,7 +66,7 @@ class EntityOverview extends React.Component<Props> {
     }
 
 
-    this.setState({assistantPanelActive: !assistantPanelActive, assistantIntent: intent})
+    this.setState({assistantPanelActive: !assistantPanelActive, assistantIntent: intent, role})
   }
 
   render(): JSX.Element {
@@ -87,7 +89,7 @@ class EntityOverview extends React.Component<Props> {
       entity
     } = this.props
 
-    const { assistantPanelActive, assistantIntent } = this.state
+    const { assistantPanelActive, assistantIntent, role } = this.state
 
     if (isLoading) {
       return <Spinner info="Loading Entity..." />
@@ -143,6 +145,7 @@ class EntityOverview extends React.Component<Props> {
                               <FundingChat
                                   assistantPanelToggle={ this.assistantPanelToggle }
                                   assistantIntent={ assistantIntent }
+                                  role={ role }
                               />
                           </animated.div>
                         </AssistantContainer>)

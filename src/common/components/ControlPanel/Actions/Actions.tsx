@@ -16,6 +16,7 @@ import { InstructionsContainerConnected } from 'modules/EntityClaims/SubmitEntit
 import CreateAgentContainer from 'modules/Entities/SelectedEntity/EntityImpact/EntityAgents/CreateAgent/CreateAgent.container'
 import Down from 'assets/icons/Down'
 import ShowAssistantPanel from './ShowAssistantPanel'
+import { AgentRole } from 'modules/Account/types'
 
 interface IconTypes {
   [key: string]: any
@@ -97,7 +98,20 @@ const Actions: React.FunctionComponent<Props> = ({
         path={`/projects/:projectDID/overview/action/join`}
         component={CreateAgentContainer}
       >
-        <CreateAgentContainer assistantPanelToggle={ assistantPanelToggle } />
+        <CreateAgentContainer
+          assistantPanelToggle={ assistantPanelToggle }
+          role={ AgentRole.ServiceProvider }
+        />
+      </Route>
+      <Route
+        exact
+        path={`/projects/:projectDID/overview/action/evaluator`}
+        component={CreateAgentContainer}
+      >
+        <CreateAgentContainer
+          assistantPanelToggle={ assistantPanelToggle }
+          role={ AgentRole.Evaluator }
+        />
       </Route>
 
       <Route

@@ -12,21 +12,21 @@ import { AgentRole } from 'modules/Account/types'
 import { createEntityAgent } from 'modules/Entities/SelectedEntity/EntityImpact/EntityAgents/EntityAgents.actions'
 
 interface Props {
+  role: AgentRole
   entityDid?: string
   error?: any
   userInfo?: UserInfo
   updateProjectStatus?: (projectDid: string, status: ProjectStatus) => void
-  assistantPanelToggle?: (string) => void
+  assistantPanelToggle?: (string, AgentRole) => void
   handleCreateEntityAgent?: (email: string, name: string, role: AgentRole) => void
 }
 
 class  CreateAgent extends React.Component<Props> {
   componentDidMount(): void {
-    const { assistantPanelToggle,updateProjectStatus, entityDid, handleCreateEntityAgent} = this.props;
+    const { assistantPanelToggle, role } = this.props;
     //updateProjectStatus(entityDid, ProjectStatus.Started)
 
-    // assistantPanelToggle('/apply{"action":"authorise","msg_type":"agent_application"}')
-    handleCreateEntityAgent('alain.g1127@outlook.com', 'Alain Gemenez', AgentRole.ServiceProvider)
+    assistantPanelToggle('/apply{"action":"authorise","msg_type":"agent_application"}', role)
   }
 
   render(): JSX.Element {

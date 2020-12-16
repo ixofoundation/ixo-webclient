@@ -74,5 +74,9 @@ export type FuelEntityActionTypes =
   | CancelOrderAction
 
 export enum AssistantActions {
-  Authorise = 'ixo/ApplyAgent/AUTHORISE'
+  Authorise = 'authorise'
+}
+
+export enum AssistantActionTypes {
+  AgentApplication = 'agent_application'
 }
