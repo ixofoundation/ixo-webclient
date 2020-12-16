@@ -96,6 +96,7 @@ export const HeaderButton = styled.button`
   border: 1px solid transparent;
   border-radius: 0.25rem;
   background: transparent;
+  transition: 0.3s;
 
   &.active {
     border: 1px solid #39C3E6;

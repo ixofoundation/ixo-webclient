@@ -23,15 +23,17 @@ import ButtonSlider from 'common/components/ButtonSlider/ButtonSlider'
 import { Button, ButtonTypes } from 'common/components/Form/Buttons'
 import * as entityClaimsSelectors from './EntityClaims.selectors'
 import ExpandableList from 'common/components/ExpandableList/ExpandableList'
+import * as accountSelectors from 'modules/Account/Account.selectors'
 
 const ClaimStatusOrder = [EntityClaimStatus.Saved, EntityClaimStatus.Pending, EntityClaimStatus.Rejected, EntityClaimStatus.Approved, EntityClaimStatus.Disputed]
 
 interface Props {
   claims: EntityClaim[]
   entity: Entity
+  userDid: string
 }
 
-const EntityClaims: React.FunctionComponent<Props> = ({ entity, claims }) => {
+const EntityClaims: React.FunctionComponent<Props> = ({ entity, claims, userDid }) => {
   const claimTemplates = entity.entityClaims.items
   const [filter, setFilter] = React.useState({ status: null, query: '', all: true })
   const handleClaimTemplateClick = ():void => {
@@ -157,6 +159,10 @@ const EntityClaims: React.FunctionComponent<Props> = ({ entity, claims }) => {
     if (filter.query) {
       const query = filter.query.toLowerCase()
       filtered = filtered.filter(claim => claim.claimId.toLowerCase().includes(query))
+    }
+
+    if (!filter.all) {
+      filtered = filtered.filter(claim => claim.saDid === userDid)
     }
     return filtered
   }
@@ -311,6 +317,7 @@ const EntityClaims: React.FunctionComponent<Props> = ({ entity, claims }) => {
 const mapStateToProps = (state: RootState): any => ({
   entity: entitySelectors.selectSelectedEntity(state),
   claims: entityClaimsSelectors.selectEntityClaims(state),
+  userDid: accountSelectors.selectUserDid(state),
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
