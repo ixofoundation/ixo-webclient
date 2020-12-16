@@ -9,7 +9,8 @@ import {
   AmountCardsContainer,
   ContentContainer,
   Layout,
-  HeaderButton
+  HeaderButton,
+  TitleWrapper
 } from './EntityClaims.styles'
 import AmountCard from './components/AmountCard'
 import EntityClaimRecord from './components/EntityClaimRecord'
@@ -223,21 +224,33 @@ const EntityClaims: React.FunctionComponent<Props> = ({ entity, claims }) => {
     })
   }
 
-  const handleRenderTitle = (): string => {
+  const handleRenderTitle = (): JSX.Element => {
+    let title = ''
     switch (filter.status) {
       case EntityClaimStatus.Pending:
-        return 'Claims Pending'
+        title =  'Claims Pending'
+        break
       case EntityClaimStatus.Approved:
-        return 'Claims Approved'
+        title =  'Claims Approved'
+        break
       case EntityClaimStatus.Rejected:
-        return 'Claims Rejected'
+        title = 'Claims Rejected'
+        break
       case EntityClaimStatus.Saved:
-        return 'Claims Saved'
+        title = 'Claims Saved'
+        break
       case EntityClaimStatus.Disputed:
-        return 'Claims Disputed'
+        title =  'Claims Disputed'
+        break
       default:
-        return 'All Claims'
+        title = 'All Claims'
     }
+
+    return (
+      <TitleWrapper>
+        { title }
+      </TitleWrapper>
+    )
   }
 
   const handleQueryChange = (event): void => {

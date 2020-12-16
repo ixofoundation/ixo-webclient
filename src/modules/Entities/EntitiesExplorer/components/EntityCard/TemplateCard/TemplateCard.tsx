@@ -74,7 +74,7 @@ const TemplateCard: React.FunctionComponent<Props> = ({
               <StatisticValue>{version}</StatisticValue>
               <StatisticLabel>Version</StatisticLabel>
             </div>
-            <div className="col-4">
+            {/* <div className="col-4">
               <StatisticValue>123</StatisticValue>
               <StatisticLabel>Instances</StatisticLabel>
             </div>
@@ -83,7 +83,7 @@ const TemplateCard: React.FunctionComponent<Props> = ({
                 4 <Star fill="#E8EDEE" width="20" />
               </StatisticValue>
               <StatisticLabel>Rating (380)</StatisticLabel>
-            </div>
+            </div> */}
           </StatisticsContainer>
           <CardBottomLogoContainer className="row">
             <div className="col-6">

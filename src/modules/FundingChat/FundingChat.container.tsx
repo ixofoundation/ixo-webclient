@@ -14,7 +14,7 @@ import { RootState } from 'common/redux/types'
 import * as fundingChatSelectors from './FundingChat.selectors'
 import { getOrder, confirmOrder, cancelOrder } from './FundingChat.actions'
 import FundingchatCustom from './components/FundingChatCustom/FundingChatCustom'
-import { AssistantActions } from './types'
+import { AssistantActions, AssistantActionTypes } from './types'
 import { createEntityAgent } from 'modules/Entities/SelectedEntity/EntityImpact/EntityAgents/EntityAgents.actions'
 import { AgentRole } from 'modules/Account/types'
 
@@ -35,6 +35,7 @@ interface Props {
   sent?: boolean
   error?: string
   assistantIntent?: string
+  role?: AgentRole
   handleGetOrder?: (assistantResponse: any) => void
   handleConfirmOrder?: (entityDid: string) => void
   handleCancelOrder?: () => void
@@ -49,16 +50,21 @@ class FundingChat extends React.Component<Props & RouteProps> {
 
   componentDidMount(): void {
     const { assistantIntent } = this.props;
+
     startAssistant(assistantIntent)
   }
 
   onAssistantMessageReceive = (utter): void => {
-    const { handleCreateEntityAgent } = this.props;
+    const { handleCreateEntityAgent, role } = this.props;
 
 
     switch (utter.action) {
       case AssistantActions.Authorise:
-
+        switch (utter.type) {
+          case AssistantActionTypes.AgentApplication:
+            handleCreateEntityAgent(utter.emai, utter.name, role)
+            break;
+        }
         break;
     }
     /*  */

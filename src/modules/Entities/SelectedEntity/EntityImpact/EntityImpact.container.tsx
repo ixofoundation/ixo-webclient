@@ -108,6 +108,13 @@ class EntityImpact extends React.Component<Props> {
 
     const light = !!matchPath(location.pathname, '/projects/:projectDID/detail/claims')
     const hasToc = EntityClaimType.TheoryOfChange === claimTemplateType
+    const showAgentLinks = entityUtils.isUserInRolesOfEntity(
+      userDid,
+      creatorDid,
+      agents,
+      [AgentRole.Owner],
+    )
+
     return (
       <AssistantContext.Provider value={{ active: assistantPanelActive }}>
           <DetailContainer>
@@ -116,12 +123,7 @@ class EntityImpact extends React.Component<Props> {
                 did={did}
                 match={match}
                 location={location}
-                showAgentLinks={entityUtils.isUserInRolesOfEntity(
-                  userDid,
-                  creatorDid,
-                  agents,
-                  [AgentRole.Owner],
-                )}
+                showAgentLinks={showAgentLinks}
                 hasToc={ hasToc }
               />
               <ContentContainer>
@@ -161,12 +163,14 @@ class EntityImpact extends React.Component<Props> {
                   path={`/projects/:projectDID/detail/investors`}
                   component={EntityAgents}
                 />
-                <Route
-                  exact
-                  path={`/projects/:projectDID/detail/agents`}
-                  component={ProjectAgents}
-                />
-
+                {
+                  showAgentLinks &&
+                    <Route
+                      exact
+                      path={`/projects/:projectDID/detail/agents`}
+                      component={ProjectAgents}
+                    />
+                }
                 <Route
                   exact
                   path={`/projects/:projectDID/detail/claims`}
@@ -229,7 +233,7 @@ const mapStateToProps = (state: RootState): any => ({
   isLoading: entitySelectors.entityIsLoading(state),
   claimTemplateId: entitySelectors.selectEntityClaimTemplateId(state),
   isClaimTemplateLoading: submitEntityClaimSelectors.selectIsLoading(state),
-  claimTemplateType: submitEntityClaimSelectors.selectClaimType(state)
+  claimTemplateType: submitEntityClaimSelectors.selectClaimType(state),
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({

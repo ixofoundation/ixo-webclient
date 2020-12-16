@@ -101,3 +101,7 @@ export const HeaderButton = styled.button`
     border: 1px solid #39C3E6;
   }
 `
+
+export const TitleWrapper = styled.div`
+  min-width: 11rem;
+`

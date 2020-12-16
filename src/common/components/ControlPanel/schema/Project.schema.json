@@ -58,6 +58,29 @@
         ]
       },
       {
+        "@type": "Evaluate",
+        "@id": "actionEvaluatorJoin",
+        "title": "Apply to evaluate this project",
+        "tooltip": "Help to deliver this project",
+        "icon": "AddPerson",
+        "iconColor": "#49BFE0",
+        "endpoint": "/assistant",
+        "accessToken": null,
+        "permissions": [
+          {
+            "credential": null,
+            "role": null
+          }
+        ],
+        "data": null,
+        "parameters": [
+          {
+            "name": "intent",
+            "value": "evaluator"
+          }
+        ]
+      },
+      {
         "@type": "Help",
         "@id": "actionAskForHelp",
         "title": "Ask for help",

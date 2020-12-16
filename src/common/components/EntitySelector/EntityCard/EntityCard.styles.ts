@@ -6,6 +6,7 @@ export const EntityCardWrapper = styled.div`
   border-radius: 4px;
   cursor: default;
   background: #fff;
+  cursor: pointer;
 
   &.selected {
     border: 1px solid #39c3e6;
@@ -23,4 +24,10 @@ export const EntityCardWrapper = styled.div`
       color: #a5adb0;
     }
   }
+`
+export const EntityTitle = styled.h4`
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  display: block;
 `

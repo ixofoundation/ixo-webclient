@@ -22,9 +22,8 @@ import * as Toast from 'common/utils/Toast'
 export const getEntityAgents = (entityDid: string, role: AgentRole) => (
   dispatch: Dispatch,
 ): GetEntityAgentsAction => {
-  const agentsPayload: ApiListEntityAgentsPayload = {
+  const agentsPayload = {
     projectDid: entityDid,
-    role,
   }
 
   keysafe.requestSigning(

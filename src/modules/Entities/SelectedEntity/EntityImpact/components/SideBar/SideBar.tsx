@@ -11,7 +11,8 @@ interface Props {
 
 const ProjectSidebar: React.FunctionComponent<Props> = ({
   did,
-  hasToc
+  hasToc,
+  showAgentLinks
 }) => {
   return (
     <Container>
@@ -30,10 +31,14 @@ const ProjectSidebar: React.FunctionComponent<Props> = ({
             <ToolTip style={{ width: 120 }}>Theory of Change</ToolTip>
           </NavItem>
       }
-      <NavItem exact={true} to={`/projects/${did}/detail/agents`}>
-        <img src={ require('assets/img/sidebar/profile.svg') } />
-        <ToolTip>Agents</ToolTip>
-      </NavItem>
+      {
+        showAgentLinks &&
+          <NavItem exact={true} to={`/projects/${did}/detail/agents`}>
+            <img src={ require('assets/img/sidebar/profile.svg') } />
+            <ToolTip>Agents</ToolTip>
+          </NavItem>
+      }
+
       <NavItem exact={true} to={`/projects/${did}/detail/claims`}>
         <img src={ require('assets/img/sidebar/claim.svg') } />
         <ToolTip>Claims</ToolTip>

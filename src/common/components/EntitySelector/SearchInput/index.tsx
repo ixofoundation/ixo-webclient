@@ -20,7 +20,8 @@ const StyledInputWrapper = styled.div`
 
 const StyledSearchIconWrapper = styled.div`
   position: absolute;
-  top: 0.7rem;
+  top: 50%;
+  transform: translateY(-50%);
   right: 1rem;
 `
 

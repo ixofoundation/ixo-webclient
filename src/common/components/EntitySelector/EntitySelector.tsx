@@ -130,7 +130,7 @@ class EntitySelector extends React.Component<Props, State> {
               return (
                 <div
                   key={entity.did}
-                  className={`col-md-${12 / NUMBER_OF_ROWS} text-left`}
+                  className={`col-md-${12 / NUMBER_OF_ROWS} text-left my-2 px-2`}
                   onClick={(): void => this.selectEntity(entity.did)}
                 >
                   <EntityCard
@@ -189,13 +189,13 @@ class EntitySelector extends React.Component<Props, State> {
               onSubmit={this.onSubmit}
               submitEnabled={!!selectedEntityId}
             >
-              <div className="row mb-4">
-                <div className="col-md-8 col-sm-12">
+              <div className="row mb-4 px-0">
+                <div className="col-md-8 col-sm-12 px-2">
                   <StyledSearchWrapper>
                     <SearchInput onChange={this.onSearchInputChange} />
                   </StyledSearchWrapper>
                 </div>
-                <div className="col-md-4 col-sm-12 col-xs-12">
+                <div className="col-md-4 col-sm-12 col-xs-12 px-2">
                   <Select options={options} onChange={(e: any) => this.setState({selectedOption: e.value})} />
                 </div>
               </div>
