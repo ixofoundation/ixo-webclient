@@ -79,6 +79,10 @@ class EntityImpact extends React.Component<Props> {
     }
   }
 
+  componentWillUnmount() {
+    document?.querySelector('body')?.classList.remove('noScroll')
+  }
+
   render(): JSX.Element {
     const {
       match,

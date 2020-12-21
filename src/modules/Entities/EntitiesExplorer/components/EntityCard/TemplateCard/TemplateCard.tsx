@@ -31,6 +31,7 @@ interface Props {
 }
 
 const TemplateCard: React.FunctionComponent<Props> = ({
+  did,
   name,
   creatorLogo,
   termsType,
@@ -50,7 +51,7 @@ const TemplateCard: React.FunctionComponent<Props> = ({
     <CardContainer className="col-xl-4 col-md-6 col-sm-12 col-12">
       <CardLink
         to={{
-          pathname: '/', // TODO
+          pathname: `/projects/${did}/overview`,
         }}
       >
         <CardBottom>
