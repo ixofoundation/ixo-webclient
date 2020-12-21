@@ -69,21 +69,6 @@ const TemplateCard: React.FunctionComponent<Props> = ({ question }) => {
       <></>
     </SingleControlForm>
   )
-  return (
-    <Container>
-      <div className="px-3">
-        <Title>
-          { question.schema.title }
-          <Control>
-            ({ question.uiSchema[Object.keys(question.uiSchema)[0]]['ui:widget'] })
-          </Control>
-        </Title>
-        <Description>
-          { question.schema.description }
-        </Description>
-      </div>
-    </Container>
-  )
 }
 
 export default TemplateCard
