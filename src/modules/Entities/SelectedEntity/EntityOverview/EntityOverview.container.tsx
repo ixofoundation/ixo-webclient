@@ -17,6 +17,7 @@ import * as entityOverviewSelectors from './EntityOverview.selectors'
 import * as accountSelectors from 'modules/Account/Account.selectors'
 import { Spinner } from 'common/components/Spinner'
 import PageContentComponent from './components/PageContent/PageContent'
+import TemplateContentComponent from './components/TemplateContent/TemplateContent'
 import { PageContent } from '../types'
 import FundingChat from 'modules/FundingChat/FundingChat.container'
 import AssistantContext from 'common/contexts/Assistant'
@@ -69,6 +70,41 @@ class EntityOverview extends React.Component<Props> {
     this.setState({assistantPanelActive: !assistantPanelActive, assistantIntent: intent, role})
   }
 
+  componentWillUnmount() {
+    document?.querySelector('body')?.classList.remove('noScroll')
+  }
+
+  handleRenderContent(): JSX.Element {
+    const {
+      did,
+      type,
+      pageContent,
+      creatorLogo,
+      creatorName,
+      creatorMission,
+      creatorWebsite
+    } = this.props;
+
+    switch (type) {
+      case EntityType.Template:
+        return (
+          <TemplateContentComponent
+            templateId={ did }
+          />
+        )
+      default:
+        return (
+          <PageContentComponent
+            pageContent={pageContent}
+            creatorLogo={creatorLogo}
+            creatorName={creatorName}
+            creatorMission={creatorMission}
+            creatorWebsite={creatorWebsite}
+          />
+        )
+    }
+  }
+
   render(): JSX.Element {
     const {
       did,
@@ -78,12 +114,8 @@ class EntityOverview extends React.Component<Props> {
       dateCreated,
       userDid,
       creatorName,
-      creatorMission,
-      creatorLogo,
-      creatorWebsite,
       location,
       sdgs,
-      pageContent,
       isLoggedIn,
       isLoading,
       entity
@@ -93,6 +125,11 @@ class EntityOverview extends React.Component<Props> {
 
     if (isLoading) {
       return <Spinner info="Loading Entity..." />
+    }
+
+    let claims = []
+    if (entity.entityClaims) {
+      claims = entity.entityClaims.items
     }
 
     return (
@@ -115,20 +152,16 @@ class EntityOverview extends React.Component<Props> {
                 assistantPanelToggle={ this.assistantPanelToggle }
                 light
               />
-              <PageContentComponent
-                pageContent={pageContent}
-                creatorLogo={creatorLogo}
-                creatorName={creatorName}
-                creatorMission={creatorMission}
-                creatorWebsite={creatorWebsite}
-              />
+              {
+                this.handleRenderContent()
+              }
             </MainPanelWrapper>
             <SidebarWrapper className="col-lg-3 position-relative">
               <ControlPanel
                 schema={entityTypeMap[type].controlPanelSchema}
                 entityDid={did}
                 userDid={userDid}
-                claims={ entity.entityClaims.items }
+                claims={ claims }
                 assistantPanelToggle={ this.assistantPanelToggle }
               />
               <Transition
