@@ -1,5 +1,4 @@
 import React from 'react'
-import styled from 'styled-components'
 import { QuestionForm } from 'modules/EntityClaims/types'
 import SingleControlForm from 'common/components/JsonForm/SingleControlForm/SingleControlForm'
 import { customControls } from 'common/components/JsonForm/types'
