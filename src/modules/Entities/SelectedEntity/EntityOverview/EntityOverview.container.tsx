@@ -70,6 +70,14 @@ class EntityOverview extends React.Component<Props> {
     this.setState({assistantPanelActive: !assistantPanelActive, assistantIntent: intent, role})
   }
 
+  componentDidMount() {
+    const { type } = this.props;
+
+    if (type === EntityType.Template) {
+      this.assistantPanelToggle()
+    }
+  }
+
   componentWillUnmount() {
     document?.querySelector('body')?.classList.remove('noScroll')
   }

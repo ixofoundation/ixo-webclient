@@ -22,7 +22,7 @@ export const DropdownWrapper = styled.div`
   @media (min-width: ${deviceWidth.desktop}px) {
     position: fixed;
     top: 37px;
-    left: 672px;
+    left: 265px;
     transform: translateY(-50%);
   }
 `
