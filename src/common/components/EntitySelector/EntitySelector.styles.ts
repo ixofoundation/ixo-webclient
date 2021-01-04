@@ -3,6 +3,8 @@ import { deviceWidth } from '../../../lib/commonData'
 
 export const ListWrapper = styled.div`
   max-height: 500px;
+  overflow-y: auto;
+  overflow-x: hidden;
 `
 
 export const NoTemplatePreviewWrapper = styled.div`
