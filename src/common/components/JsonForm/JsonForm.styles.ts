@@ -358,6 +358,11 @@ export const ButtonGroup = styled.div`
       box-shadow: none;
       border: 1px solid #fff;
     }
+
+    &:disabled {
+      opacity: 0.8;
+      color: ${(props: any): string => props.theme.fontLightGreyBlue};
+    }
   }
   button[type='button'] {
     background: #fff;
