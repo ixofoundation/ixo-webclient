@@ -29,11 +29,13 @@ export interface ParentProps {
 
 export interface State {
   isModalOpened: boolean
+  selectedAgent: EntityAgent
 }
 
 class ProjectAgents extends React.Component<ParentProps, State> {
   state: State = {
-    isModalOpened: false
+    isModalOpened: false,
+    selectedAgent: null
   }
 
   componentDidMount(): void {
@@ -48,8 +50,8 @@ class ProjectAgents extends React.Component<ParentProps, State> {
   }
 
   render(): JSX.Element {
-    const { isModalOpened } = this.state;
-    const { agents, isFetching } = this.props;
+    const { isModalOpened, selectedAgent } = this.state;
+    const { isFetching } = this.props;
 
     if (isFetching) {
       return null;
@@ -92,10 +94,13 @@ class ProjectAgents extends React.Component<ParentProps, State> {
         }
         <ModalWrapper
           isModalOpen={ isModalOpened }
-          handleToggleModal={() => { this.setState({ isModalOpened: false }) }}
+          handleToggleModal={(): void => { this.setState({ isModalOpened: false }) }}
         >
           <AgentDetail
-            onClose={ () => { this.setState({ isModalOpened: false }) } }
+            onClose={ (): void => { this.setState({ isModalOpened: false }) } }
+            agent={ selectedAgent }
+            handleAuthorize={ this.handleAuthorizeAgent }
+            handleReject={ this.handleRejectAgent }
           />
         </ModalWrapper>
       </Container>
@@ -148,8 +153,8 @@ class ProjectAgents extends React.Component<ParentProps, State> {
     );
   }
 
-  handleAgentClick = (): void => {
-    this.setState({ isModalOpened: true })
+  handleAgentClick = (agent: EntityAgent): void => {
+    this.setState({ isModalOpened: true, selectedAgent: agent })
   }
 
   handleAuthorizeAgent = (agent: EntityAgent): void => {
@@ -177,7 +182,7 @@ class ProjectAgents extends React.Component<ParentProps, State> {
               <div className="col-sm-3 my-2" key={agent.agentDid}>
                 <AgentCard
                   agent={agent}
-                  handleClick={ this.handleAgentClick }
+                  handleClick={ (): void => this.handleAgentClick(agent) }
                   handleAuthorize={ this.handleAuthorizeAgent }
                   handleReject={ this.handleRejectAgent }
                 />

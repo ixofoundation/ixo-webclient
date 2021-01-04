@@ -11,6 +11,8 @@ import Tick from 'assets/icons/Tick'
 import Texting from 'assets/icons/Texting'
 import Cross from 'assets/icons/Cross'
 import Expand from 'common/components/Animation/Expand'
+import { EntityAgent } from 'modules/Entities/SelectedEntity/EntityImpact/EntityAgents/types'
+import { AgentRole } from 'modules/Account/types'
 
 const Logos = styled.div`
   display: flex;
@@ -161,10 +163,25 @@ const ActionButton = styled.button`
 
 export interface Props {
   onClose: () => void
+  agent: EntityAgent
+  handleAuthorize: (agent: EntityAgent) => void
+  handleReject: (agent: EntityAgent) => void
 }
 
-const AgentDetail : React.FunctionComponent<Props> = ({onClose}) => {
+const AgentDetail : React.FunctionComponent<Props> = ({agent, onClose, handleAuthorize, handleReject}) => {
   const [expanded, setExpanded] = React.useState(false)
+
+  const handleAuthorizeClick = (event: React.SyntheticEvent): void => {
+    event.stopPropagation()
+
+    handleAuthorize(agent)
+  }
+
+  const handleRejectClick = (event: React.SyntheticEvent): void => {
+    event.stopPropagation()
+
+    handleReject(agent)
+  }
 
   return (
     <DetailContainer>
@@ -177,13 +194,15 @@ const AgentDetail : React.FunctionComponent<Props> = ({onClose}) => {
         <Avatar src={ require('assets/images/user-thumb.png') } className="mb-2 mb-sm-0 mr-sm-3" />
         <div className="d-flex flex-column flex-grow-1 ml-3 align-items-sm-start align-items-center">
           <Name>
-            Joyce Montegomery
+            { agent.name }
           </Name>
           <Job>
-            Co-Founder & CEO
+            { agent.role === AgentRole.ServiceProvider ? 'Service Provider': 'Evaluator' }
           </Job>
           <Username>
-            <Exclamation>!</Exclamation>Username
+            <a href={`mailto:${agent.email}`}>
+              <Exclamation></Exclamation>{ agent.email }
+            </a>
           </Username>
           <Logos>
             <Call fill="#39C3E6" />
@@ -212,12 +231,14 @@ const AgentDetail : React.FunctionComponent<Props> = ({onClose}) => {
           <div className="d-flex">
             <ActionButton
               className="mr-2"
+              onClick={handleRejectClick}
             >
               Reject
               <Cross />
             </ActionButton>
             <ActionButton
               className="green"
+              onClick={handleAuthorizeClick}
             >
               Authorize
               <Tick />
@@ -237,7 +258,7 @@ const AgentDetail : React.FunctionComponent<Props> = ({onClose}) => {
         <div className="d-flex align-items-center rounded">
           <img src={ require('assets/images/agents/icon-copy.svg') } className="mr-4" />
           <div>
-            ID ixo4fnweoiw40i4tr0fowe 24f090rp2i3nr
+            { agent.agentDid }
           </div>
         </div>
         <div className="d-flex align-items-center rounded">

@@ -63,7 +63,9 @@ class FundingChat extends React.Component<Props & RouteProps> {
         switch (utter.type) {
           case AssistantActionTypes.AgentApplication:
             handleCreateEntityAgent(utter.emai, utter.name, role)
-            break;
+            break
+          default:
+            handleCreateEntityAgent(utter.emai, utter.name, role)
         }
         break;
     }

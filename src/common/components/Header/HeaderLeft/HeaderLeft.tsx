@@ -37,24 +37,6 @@ export class HeaderLeft extends React.Component<ParentProps> {
           >
             Explore
           </HeaderLink>
-          <HeaderAnchor target="_blank" href="https://build.ixo.foundation/">
-            Build
-          </HeaderAnchor>
-          <HeaderAnchor
-            target="_blank"
-            href={getIxoWorldRoute('/getixowallet/deliver')}
-          >
-            Deliver
-          </HeaderAnchor>
-          <HeaderAnchor
-            target="_blank"
-            href={getIxoWorldRoute('/getixowallet/invest')}
-          >
-            Invest
-          </HeaderAnchor>
-          <HeaderAnchor target="_blank" href="https://docs.ixo.foundation/">
-            Learn
-          </HeaderAnchor>
         </Fragment>
       )
     } else {
@@ -69,42 +51,6 @@ export class HeaderLeft extends React.Component<ParentProps> {
             >
               Explore
             </MenuHeaderLink>
-          </MenuHeaderContainer>
-          <MenuHeaderContainer>
-            <MenuHeaderAnchor
-              target="_blank"
-              href="https://build.ixo.world/"
-              onClick={this.props.handleBurgerClick}
-            >
-              Build
-            </MenuHeaderAnchor>
-          </MenuHeaderContainer>
-          <MenuHeaderContainer>
-            <MenuHeaderAnchor
-              target="_blank"
-              href={getIxoWorldRoute('/getixowallet/deliver')}
-              onClick={this.props.handleBurgerClick}
-            >
-              Deliver
-            </MenuHeaderAnchor>
-          </MenuHeaderContainer>
-          <MenuHeaderContainer>
-            <MenuHeaderAnchor
-              target="_blank"
-              href={getIxoWorldRoute('/getixowallet/invest')}
-              onClick={this.props.handleBurgerClick}
-            >
-              Invest
-            </MenuHeaderAnchor>
-          </MenuHeaderContainer>
-          <MenuHeaderContainer>
-            <MenuHeaderAnchor
-              target="_blank"
-              href="https://docs.ixo.world/"
-              onClick={this.props.handleBurgerClick}
-            >
-              Learn
-            </MenuHeaderAnchor>
           </MenuHeaderContainer>
           <MenuHeaderContainer style={{ background: 'none' }}>
             <CreateEntityDropdown entityType={this.props.currentEntity} />
