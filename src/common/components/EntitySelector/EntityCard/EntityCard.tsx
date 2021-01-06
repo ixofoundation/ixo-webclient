@@ -10,8 +10,8 @@ interface Props {
 }
 
 const EntityCard: React.FunctionComponent<Props> = ({ entity, isSelected }) => {
-  const { title, dateCreated, imageUrl, previewUrl } = entity
-  console.log('gggggggggggggggg', entity)
+  const { title, dateCreated, imageUrl } = entity
+
   return (
     <EntityCardWrapper className={isSelected ? 'selected' : null}>
       {imageUrl && (
