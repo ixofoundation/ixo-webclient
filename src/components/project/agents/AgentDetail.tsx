@@ -72,7 +72,7 @@ const Exclamation = styled.div`
 
 const DetailContainer = styled.div`
   min-width: 567px;
-  min-height: 600px;
+  min-height: 220px;
   padding-top: 1.75rem;
   padding-bottom: 0.5rem;
   @media (max-width: ${deviceWidth.mobile}px) {
@@ -248,7 +248,7 @@ const AgentDetail : React.FunctionComponent<Props> = ({agent, onClose, handleAut
       </Expand>
       </div>
       <Divider />
-      <ItemsContainer>
+      {/* <ItemsContainer>
         <div className="d-flex align-items-center rounded">
           <img src={ require('assets/images/agents/icon-user.svg') } className="mr-4" />
           <div>
@@ -321,7 +321,7 @@ const AgentDetail : React.FunctionComponent<Props> = ({agent, onClose, handleAut
             <img src={ require('assets/images/agents/icon-launch.svg') } />
           </div>
         </div>
-      </ItemsContainer>
+      </ItemsContainer> */}
       <ButtonWrapper >
         <Button type={ ButtonTypes.dark } onClick={ onClose }>
           Close

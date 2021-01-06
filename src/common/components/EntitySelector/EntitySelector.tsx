@@ -24,7 +24,7 @@ interface State {
   isModalOpen: boolean
   selectedEntityId: string,
   searchInputEntityId: string,
-  selectedOption: string,
+  selectedOption: any,
 }
 
 const StyledSearchWrapper = styled.div`
@@ -85,7 +85,7 @@ class EntitySelector extends React.Component<Props, State> {
     onSelectEntity(this.state.selectedEntityId)
   }
 
-  renderEntities = (keyword: string, selectedOption: string): JSX.Element[] => {
+  renderEntities = (keyword: string, selectedOption: any): JSX.Element[] => {
     const NUMBER_OF_ROWS = 3
     const { entities: entitiesFromProps } = this.props
     let entities = [], tempEntities = []
@@ -95,18 +95,17 @@ class EntitySelector extends React.Component<Props, State> {
     if (keyword === null || keyword.length <= 0) {
       tempEntities = entitiesFromProps
     } else {
+      const lowerKeyword = keyword.toLowerCase()
       tempEntities = without(map(entitiesFromProps, entity => {
-        if (includes(entity.did, keyword))
+        if (includes(entity.title.toLowerCase(), lowerKeyword))
           return entity
         return undefined
       }), undefined)
     }
 
     if (selectedOption !== null) {
-      console.log('selectedOption',selectedOption)
       map(tempEntities, entity => {
-        console.log(get(entity, 'ddoTags[1].tags', []))
-        if (includes(get(entity, 'ddoTags[1].tags', []), upperFirst(toLower(selectedOption))))
+        if (includes(get(entity, 'ddoTags[1].tags', []), upperFirst(toLower(selectedOption.value))))
           entities.push(entity)
       })
     } else {
@@ -170,8 +169,11 @@ class EntitySelector extends React.Component<Props, State> {
   }
 
   onSearchInputChange = (e): void => {
-    console.log('onSearchInputChange', e)
     this.setState({searchInputEntityId: e.target.value})
+  }
+
+  handlReset = (): void => {
+    this.setState({ searchInputEntityId: '', selectedOption: null })
   }
 
   render(): JSX.Element {
@@ -185,18 +187,20 @@ class EntitySelector extends React.Component<Props, State> {
             <Modal
               submitText="Select"
               cancelText="Cancel"
+              resetText="Reset"
               onCancel={this.closeTemplateSelector}
               onSubmit={this.onSubmit}
+              onReset={this.handlReset}
               submitEnabled={!!selectedEntityId}
             >
               <div className="row mb-4 px-0">
                 <div className="col-md-8 col-sm-12 px-2">
                   <StyledSearchWrapper>
-                    <SearchInput onChange={this.onSearchInputChange} />
+                    <SearchInput onChange={this.onSearchInputChange} value={ searchInputEntityId } />
                   </StyledSearchWrapper>
                 </div>
                 <div className="col-md-4 col-sm-12 col-xs-12 px-2">
-                  <Select options={options} onChange={(e: any) => this.setState({selectedOption: e.value})} />
+                  <Select options={options} onChange={(e: any) => this.setState({selectedOption: e})} value={selectedOption} />
                 </div>
               </div>
               <ListWrapper>{this.renderEntities(searchInputEntityId, selectedOption)}</ListWrapper>

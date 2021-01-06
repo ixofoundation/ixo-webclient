@@ -6,8 +6,10 @@ interface Props {
   submitText: string
   style?: any
   submitEnabled?: boolean
+  resetText?: string
   onSubmit: () => void
   onCancel: () => void
+  onReset?: () => void
 }
 
 const Modal: React.FunctionComponent<Props> = ({
@@ -16,8 +18,10 @@ const Modal: React.FunctionComponent<Props> = ({
   cancelText,
   style,
   submitEnabled = true,
+  resetText,
   onSubmit,
   onCancel,
+  onReset
 }) => {
   return (
     <ModalWrapper style={style}>
@@ -26,14 +30,22 @@ const Modal: React.FunctionComponent<Props> = ({
         <button type="button" onClick={onCancel}>
           {cancelText}
         </button>
-        <button
-          type="button"
-          className="submit"
-          onClick={onSubmit}
-          disabled={!submitEnabled}
-        >
-          {submitText}
-        </button>
+        <div>
+          {
+            resetText &&
+              <button type="button" onClick={onReset} className="mr-2">
+                {resetText}
+              </button>
+          }
+          <button
+            type="button"
+            className="submit"
+            onClick={onSubmit}
+            disabled={!submitEnabled}
+          >
+            {submitText}
+          </button>
+        </div>
       </div>
     </ModalWrapper>
   )
