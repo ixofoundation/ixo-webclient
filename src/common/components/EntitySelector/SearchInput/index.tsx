@@ -28,13 +28,14 @@ const StyledSearchIconWrapper = styled.div`
 `
 
 export interface SearchInputProps {
-  onChange: any
+  value: any
+  onChange: (event: any) => void
 }
 
-const SearchInput: React.FunctionComponent<SearchInputProps> = ({ onChange }: SearchInputProps) => {
+const SearchInput: React.FunctionComponent<SearchInputProps> = ({ value, onChange }: SearchInputProps) => {
   return (
     <StyledInputWrapper>
-      <StyledInput onChange={onChange} />
+      <StyledInput onChange={ onChange } value={ value } />
       <StyledSearchIconWrapper>
         <SearchIcon fill="#39C3E6" />
       </StyledSearchIconWrapper>

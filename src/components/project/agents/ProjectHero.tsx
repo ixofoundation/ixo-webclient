@@ -96,7 +96,7 @@ export const ProjectHero: React.SFC<Props> = ({
         >
           Explore Projects
         </SingleSDG>
-        
+
         {project.sdgs.map((SDG, index) => {
           const goal = Math.floor(SDG)
           if (goal > 0 && goal <= SDGArray.length) {
@@ -105,7 +105,7 @@ export const ProjectHero: React.SFC<Props> = ({
                 target="_blank"
                 href={SDGArray[goal - 1].url}
                 key={index}
-              >  
+              >
                 <SDGIcon className={`icon-down`} />
                 {goal}. {SDGArray[goal - 1].title}
               </SingleSDG>
@@ -117,7 +117,7 @@ export const ProjectHero: React.SFC<Props> = ({
       </>
     )
   }
-  
+
   return (
     <React.Fragment>
       {onlyTitle && windowSize.width > deviceWidth.tablet && (

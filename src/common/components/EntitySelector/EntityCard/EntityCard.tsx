@@ -2,6 +2,7 @@ import React from 'react'
 import { Entity } from '../types'
 import { EntityCardWrapper, EntityTitle } from './EntityCard.styles'
 import Eye from 'assets/icons/Eye'
+import { Link } from 'react-router-dom'
 
 interface Props {
   entity: Entity
@@ -9,7 +10,7 @@ interface Props {
 }
 
 const EntityCard: React.FunctionComponent<Props> = ({ entity, isSelected }) => {
-  const { title, dateCreated, imageUrl, previewUrl } = entity
+  const { title, dateCreated, imageUrl } = entity
 
   return (
     <EntityCardWrapper className={isSelected ? 'selected' : null}>
@@ -23,9 +24,9 @@ const EntityCard: React.FunctionComponent<Props> = ({ entity, isSelected }) => {
         <div className="row mt-2">
           <div className="date col-sm-6">Created {dateCreated}</div>
           <div className="link col-sm-6 text-right" style={{ height: 0 }}>
-            <a href={previewUrl} target="_blank" rel="noopener noreferrer">
+            <Link to={`/projects/${entity.did}/overview`} target="_blank">
               <Eye fill="#39c3e6" width="30" />
-            </a>
+            </Link>
           </div>
         </div>
       </div>

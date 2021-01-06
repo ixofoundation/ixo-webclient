@@ -117,7 +117,7 @@ const EntityHero: React.FunctionComponent<Props> = ({
         to="/"
         light={light }
       >
-        EXPLORE PROJECTS
+        Explore {type}s
         <RightIcon />
       </SingleNav>
       <SingleNav

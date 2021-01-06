@@ -181,7 +181,7 @@ const AgentCard: React.FunctionComponent<Props> = ({
             { agent.role === AgentRole.ServiceProvider ? 'Service Provider': 'Evaluator' }
           </Job>
           <Username>
-            <a href={`mailto:${agent.email}`}>
+            <a href={`mailto:${agent.email}`} onClick={ (event):void => { event.stopPropagation() } }>
               <Exclamation></Exclamation>{ agent.email }
             </a>
           </Username>
@@ -199,11 +199,13 @@ const AgentCard: React.FunctionComponent<Props> = ({
       >
         <ActionButtonContainer
         >
+          <a href={`mailto:${agent.email}`} onClick={ (event):void => { event.stopPropagation() } }>
           <ActionButton
           >
             Message
             <Texting />
           </ActionButton>
+          </a>
           <div className="d-flex">
             <ActionButton
               className="mr-1 mr-sm-2"
