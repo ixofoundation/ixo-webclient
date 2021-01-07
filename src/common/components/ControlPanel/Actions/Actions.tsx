@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Dispatch } from 'react'
 import { Route, NavLink } from 'react-router-dom'
 import AddPerson from 'assets/icons/AddPerson'
 import Message from 'assets/icons/Message'
@@ -17,6 +17,10 @@ import CreateAgentContainer from 'modules/Entities/SelectedEntity/EntityImpact/E
 import Down from 'assets/icons/Down'
 import ShowAssistantPanel from './ShowAssistantPanel'
 import { AgentRole } from 'modules/Account/types'
+import { updateProjectStatusToStarted } from 'modules/Entities/SelectedEntity/SelectedEntity.actions'
+import { ProjectStatus } from 'modules/Entities/types'
+import { connect } from 'react-redux'
+import { RootState } from 'common/redux/types';
 
 interface IconTypes {
   [key: string]: any
@@ -37,6 +41,7 @@ interface Props {
   toggleShowMore: () => void
   showMore: boolean
   assistantPanelToggle: () => void
+  handleUpdateProjectStatusToStarted?: (projectDid: string) => void
 }
 
 const Actions: React.FunctionComponent<Props> = ({
@@ -46,6 +51,7 @@ const Actions: React.FunctionComponent<Props> = ({
   showMore,
   toggleShowMore,
   assistantPanelToggle,
+  handleUpdateProjectStatusToStarted
 }) => {
   const visibleControls = controls.filter(
     (control) => !(control.permissions[0].role === 'user' && !userDid),
@@ -58,6 +64,10 @@ const Actions: React.FunctionComponent<Props> = ({
     const to = `/projects/${entityDid}/overview/action/${intent}`
 
     const interceptNavClick = (e: any): void => {
+      if (intent === 'update_status') {
+        handleUpdateProjectStatusToStarted(entityDid)
+      }
+
       if (window.location.pathname.startsWith(to)) {
         e.preventDefault()
       }
@@ -161,4 +171,12 @@ const Actions: React.FunctionComponent<Props> = ({
   )
 }
 
-export default Actions
+const mapStateToProps = (state: RootState): any => ({
+})
+
+const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
+  handleUpdateProjectStatusToStarted: (projectDid: string): void =>
+    dispatch(updateProjectStatusToStarted(projectDid)),
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Actions)

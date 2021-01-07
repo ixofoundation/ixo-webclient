@@ -130,7 +130,30 @@
         "@type": "Fuel",
         "@id": "actionFuelThisProject",
         "title": "Fuel this project",
-        "tooltip": "Fuel this project",
+        "tooltip": "Send IXO Credits from my Account",
+        "icon": "Fuel",
+        "iconColor": "#49BFE0",
+        "endpoint": "/assistant",
+        "accessToken": null,
+        "permissions": [
+          {
+            "credential": null,
+            "role": "user"
+          }
+        ],
+        "data": null,
+        "parameters": [
+          {
+            "name": "intent",
+            "value": "fuel_my_entity"
+          }
+        ]
+      },
+      {
+        "@type": "Status",
+        "@id": "actionFuelThisProject",
+        "title": "Update Status",
+        "tooltip": "Change the Status of this Entity",
         "icon": "Fuel",
         "iconColor": "#49BFE0",
         "endpoint": "/assistant",

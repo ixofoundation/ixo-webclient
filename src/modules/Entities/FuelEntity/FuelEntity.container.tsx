@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { RootState } from 'common/redux/types'
 
 interface Props {
-  assistantPanelToggle: () => void
+  assistantPanelToggle: (intent: string) => void
 }
 
 class FuelEntity extends React.Component<Props & RouteProps> {
@@ -15,7 +15,8 @@ class FuelEntity extends React.Component<Props & RouteProps> {
   componentDidMount(): void {
     const { assistantPanelToggle } = this.props;
 
-    assistantPanelToggle()
+    //assistantPanelToggle('/fuel_my_entity{"msg_type":"msgSend","entity_type":"Project","entity_id": "did:ixo:4ZhPNsUaKNvsopFmBiy9R5","denom":"ixo"')
+    assistantPanelToggle('/entity_status{"msg_type":"msgUpdateProjectStatus","entity_type":"Project","entity_id": "did:ixo:4ZhPNsUaKNvsopFmBiy9R5"}')
   }
 
   render(): JSX.Element {
