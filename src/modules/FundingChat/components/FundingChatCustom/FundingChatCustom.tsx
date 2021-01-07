@@ -14,7 +14,7 @@ const FundingChatCustom: React.FunctionComponent = (messageData: any) => {
     return JSON.stringify(data)
   }
 
-  if (messageData.amount && messageData.denom && messageData.to_address) {
+  if (messageData.amount && messageData.denom && messageData.entity_id) {
     const data = {
       amount: messageData.amount,
       denom: messageData.denom,

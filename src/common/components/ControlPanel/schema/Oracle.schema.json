@@ -130,7 +130,7 @@
         "@type": "Fuel",
         "@id": "actionFuelThisProject",
         "title": "Fuel this project",
-        "tooltip": "Fuel this project",
+        "tooltip": "Send IXO Credits from my Account",
         "icon": "Fuel",
         "iconColor": "#49BFE0",
         "endpoint": "/assistant",

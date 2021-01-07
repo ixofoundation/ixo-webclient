@@ -24,7 +24,7 @@ interface Props {
 class  CreateAgent extends React.Component<Props> {
   componentDidMount(): void {
     const { assistantPanelToggle, role, updateProjectStatus, entityDid } = this.props;
-    //updateProjectStatus(entityDid, ProjectStatus.Created)
+    //updateProjectStatus(entityDid, ProjectStatus.Pending)
 
     assistantPanelToggle('/apply{"action":"authorise","msg_type":"agent_application"}', role)
   }

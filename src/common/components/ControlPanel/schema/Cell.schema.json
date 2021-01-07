@@ -130,7 +130,7 @@
         "@type": "Fuel",
         "@id": "actionFuelThisCell",
         "title": "Fuel this cell",
-        "tooltip": "Fuel this cell",
+        "tooltip": "Send IXO Credits from my Account",
         "icon": "Fuel",
         "iconColor": "#49BFE0",
         "endpoint": "/assistant",

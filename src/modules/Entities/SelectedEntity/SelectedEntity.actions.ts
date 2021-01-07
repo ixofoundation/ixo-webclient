@@ -17,6 +17,7 @@ import { fromBase64 } from 'js-base64'
 import { ProjectStatus } from '../types'
 import keysafe from 'common/keysafe/keysafe'
 import { getClaimTemplate } from 'modules/EntityClaims/SubmitEntityClaim/SubmitEntityClaim.actions'
+import * as Toast from 'common/utils/Toast'
 
 export const clearEntity = (): ClearEntityAction => ({
   type: SelectedEntityActions.ClearEntity,
@@ -131,6 +132,78 @@ export const updateProjectStatus = (
             return dispatch({
               type: SelectedEntityActions.UpdateProjectStatus
             })
+          })
+      }
+    },
+    'base64',
+  )
+
+  return null
+}
+
+export const updateProjectStatusToStarted = (
+  projectDid: string
+) => async (
+  dispatch: Dispatch
+): Promise<UpdateProjectStatusAction> => {
+  let statusData = {
+    projectDid: projectDid,
+    status: ProjectStatus.Pending,
+  }
+
+  keysafe.requestSigning(
+    JSON.stringify(statusData),
+    (error: any, signature: any) => {
+      if (!error) {
+        blocksyncApi.project
+          .updateProjectStatus(statusData, signature, PDS_URL)
+          .then(res => {
+            statusData = {
+              projectDid: projectDid,
+              status: ProjectStatus.Funded,
+            }
+
+            keysafe.requestSigning(
+              JSON.stringify(statusData),
+              (error: any, signature: any) => {
+                if (!error) {
+                  blocksyncApi.project
+                    .updateProjectStatus(statusData, signature, PDS_URL)
+                    .then(res => {
+                      statusData = {
+                        projectDid: projectDid,
+                        status: ProjectStatus.Started,
+                      }
+
+                      keysafe.requestSigning(
+                        JSON.stringify(statusData),
+                        (error: any, signature: any) => {
+                          if (!error) {
+                            blocksyncApi.project
+                              .updateProjectStatus(statusData, signature, PDS_URL)
+                              .then(res => {
+                                if (res.error) {
+                                  Toast.errorToast(`Error: Please send some IXO tokens to the project`)
+
+                                  return dispatch({
+                                    type: SelectedEntityActions.UpdateProjectStatus
+                                  })
+                                }
+
+                                Toast.successToast(`Successfully updated the status to STARTED`)
+                                return dispatch({
+                                  type: SelectedEntityActions.UpdateProjectStatus
+                                })
+                              })
+                          }
+                        },
+                        'base64',
+                      )
+                    })
+                }
+              },
+              'base64',
+            )
           })
       }
     },
