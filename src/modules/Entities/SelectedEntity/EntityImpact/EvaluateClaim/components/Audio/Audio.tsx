@@ -38,7 +38,6 @@ const Player = withCustomAudio(props => {
     durationValue = duration
   }
 
-  console.log('fffffffffffffff', track, soundCloudAudio, track ? track.duration / 1000 : 0)
   return (
     <Container>
       <TrackContainer>
