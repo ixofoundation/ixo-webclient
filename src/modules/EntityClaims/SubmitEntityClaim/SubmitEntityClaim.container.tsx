@@ -140,7 +140,6 @@ class SubmitEntityClaim extends React.Component<Props, State> {
       handleFormDataChange,
       handleCreateClaim
     } = this.props;
-
     const {
       showSummary
     } = this.state;

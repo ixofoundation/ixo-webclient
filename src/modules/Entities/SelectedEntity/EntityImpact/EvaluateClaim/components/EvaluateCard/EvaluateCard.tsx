@@ -3,13 +3,20 @@ import Comment from 'assets/icons/EvaluateClaim/Comment'
 import Query from 'assets/icons/EvaluateClaim/Query'
 import Reject from 'assets/icons/EvaluateClaim/Reject'
 import Approve from 'assets/icons/EvaluateClaim/Approve'
+import Image from 'modules/Entities/SelectedEntity/EntityImpact/EvaluateClaim/components/Image/Image'
+import Video from 'modules/Entities/SelectedEntity/EntityImpact/EvaluateClaim/components/Video/Video'
+import Document from 'common/components/Document/Document'
+import Audio from '../Audio/Audio'
+import AudioAvatar from '../Audio/AudioAvatar'
+
 import {
   Container,
   ActionButtonContainer,
   Value,
   Title,
   Description,
-  ImageContainer
+  ImageContainer,
+  AudioContainer
 } from './EvaluateCard.styles'
 import moment from 'moment'
 
@@ -21,7 +28,7 @@ interface Props {
 const EvaluateCard: React.FunctionComponent<Props> = ({ evaluation, template }) => {
   const form = template.filter(form => Object.keys(form.uiSchema)[0] === evaluation.id)[0];
 
-  const handleRenderImage = (): JSX.Element => {
+  const handleRenderAvatar = (): JSX.Element => {
     return (
       <div className="px-3 d-flex justify-content-between mb-4">
         <div>
@@ -39,29 +46,114 @@ const EvaluateCard: React.FunctionComponent<Props> = ({ evaluation, template }) 
     )
   }
 
-  const handleRenderValue = (): JSX.Element => {
-    if (form.uiSchema[evaluation.id]['ui:widget'] === 'singledateselector') {
-      return (
-        <Value>
-        {
-          moment(evaluation.value, 'DD-MMM-YYYY').format('DD MMMM YYYY')
-        }
-        </Value>
-      )
-    }
-
+  const handleRenderImage = (): JSX.Element => {
     return (
-      <Value>
-        { evaluation.value }
-      </Value>
+      <div className="px-3 d-flex justify-content-between mb-4">
+        <div>
+          <Title>
+            { form.schema.title }
+          </Title>
+          <Description>
+            { form.schema.description }
+          </Description>
+        </div>
+        <ImageContainer>
+          <Image src={ evaluation.value } />
+        </ImageContainer>
+      </div>
+    )
+  }
+
+  const handleRenderValue = (): JSX.Element => {
+    switch (form.uiSchema[evaluation.id]['ui:widget']) {
+      case 'singledateselector':
+        return (
+          <Value>
+          {
+            moment(evaluation.value, 'DD-MMM-YYYY').format('DD MMMM YYYY')
+          }
+          </Value>
+        )
+      case 'documentupload':
+        return (
+          <Document url="123" />
+        )
+      default:
+        return (
+          <Value>
+            { evaluation.value }
+          </Value>
+        )
+    }
+  }
+
+  const handleRenderDocument = (): JSX.Element => {
+    return (
+      <div className="px-3 d-flex justify-content-between mb-4">
+        <div>
+          <Title>
+            { form.schema.title }
+          </Title>
+          <Description>
+            { form.schema.description }
+          </Description>
+        </div>
+        <ImageContainer>
+          <Document url={ evaluation.value } />
+        </ImageContainer>
+      </div>
+    )
+  }
+
+  const handleRenderVideo = (): JSX.Element => {
+    return (
+      <div className="px-3 d-flex justify-content-between mb-4">
+        <div>
+          <Title>
+            { form.schema.title }
+          </Title>
+          <Description>
+            { form.schema.description }
+          </Description>
+        </div>
+        <ImageContainer>
+          <Video src={evaluation.value} />
+        </ImageContainer>
+      </div>
+    )
+  }
+
+  const handleRenderAudio = (): JSX.Element => {
+    return (
+      <div className="px-3">
+        <Title>
+          { form.schema.title }
+        </Title>
+        <Description>
+          { form.schema.description }
+        </Description>
+        <AudioContainer>
+          <Audio
+            src={evaluation.value}
+          />
+          <AudioAvatar />
+        </AudioContainer>
+      </div>
     )
   }
 
   const handleRenderData = (): JSX.Element => {
     switch (form.uiSchema[evaluation.id]['ui:widget']) {
-      case 'imageupload':
       case 'avatarupload':
+        return handleRenderAvatar()
+      case 'imageupload':
         return handleRenderImage()
+      case 'documentupload':
+        return handleRenderDocument()
+      case 'videoupload':
+        return handleRenderVideo()
+      case 'audioupload':
+        return handleRenderAudio()
       default:
         return (
           <div className="px-3">

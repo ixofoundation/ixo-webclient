@@ -5,7 +5,7 @@ import { Header } from '../../../types/models'
 
 const modalStyles = {
   overlay: {
-    backgroundColor: 'rgba(0, 0, 0, 0.75)',
+    backgroundColor: 'rgba(0, 0, 0, 0.4)',
     zIndex: '100',
   },
   content: {
@@ -15,17 +15,17 @@ const modalStyles = {
     bottom: 'auto',
     marginRight: '-50%',
     transform: 'translate(-50%, -50%)',
-    border: '1px solid #0C3550',
+    borderWidth: 0,
     overflow: 'auto',
     maxHeight: '90vh',
     padding: '0',
     borderRadius: '2px',
-    backgroundColor: 'black',
+    background: 'transparent'
   },
 }
 
-const ModalInner = styled.div`
-  background: ${/* eslint-disable-line */ props => props.theme.bg.modal};
+const ModalInner = styled.div<{ color?: string }>`
+  background: ${/* eslint-disable-line */ props => props.color ? props.color : props.theme.bg.modal};
   color: white;
   padding: 10px 30px;
   font-family: ${/* eslint-disable-line */ props => props.theme.fontRoboto};
@@ -42,6 +42,7 @@ const CloseModal = styled.button`
   cursor: pointer;
   font-weight: 100;
   position: absolute;
+  z-index: 100;
 
   &:focus {
     outline: none;
@@ -101,7 +102,7 @@ const TitleContainer = styled.div`
 interface ParentProps {
   isModalOpen: boolean
   header?: Header
-  background?: string
+  bgColor?: string
 }
 
 interface Callbacks {
@@ -142,7 +143,7 @@ export const ModalWrapper: React.SFC<Props> = props => {
       ariaHideApp={false}
       // closeTimeoutMS={300}
     >
-      <ModalInner>
+      <ModalInner color={props.bgColor}>
         <CloseModal onClick={(): void => props.handleToggleModal(false)}>
           <img src={ require('assets/images/icon-close.svg') } />
         </CloseModal>

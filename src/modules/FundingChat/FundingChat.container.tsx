@@ -67,7 +67,7 @@ class FundingChat extends React.Component<Props & RouteProps> {
             }
             break
         }
-        break;
+        break
     }
     /*  */
     // TODO - actual event to trigger end

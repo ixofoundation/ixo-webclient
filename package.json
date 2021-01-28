@@ -53,6 +53,7 @@
     "react-scroll": "^1.8.1",
     "react-select": "^3.1.0",
     "react-simple-maps": "^0.12.1",
+    "react-soundplayer": "^1.0.5",
     "react-spring": "^8.0.27",
     "react-table": "^7.5.0",
     "react-toastify": "^6.0.8",
