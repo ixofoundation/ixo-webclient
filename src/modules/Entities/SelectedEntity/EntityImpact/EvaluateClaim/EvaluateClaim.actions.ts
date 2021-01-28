@@ -39,7 +39,7 @@ export const getClaim = (claimId: string, projectDid: string, claimTemplateDid: 
               return null;
             } else {
               const claimFound = response.result.filter(
-                claim => claim.type === EntityClaimType.TheoryOfChange
+                claim => claim.txHash === claimId
               )
 
 

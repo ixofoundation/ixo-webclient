@@ -74,4 +74,14 @@ export const Description = styled.div`
 export const ImageContainer = styled.div`
   min-width: 15rem;
   text-align: center;
+
+  > img {
+    max-width: 18.75rem;
+  }
+`
+
+export const AudioContainer = styled.div`
+  display: flex;
+  margin-top: 1rem;
+  padding-top: 2rem;
 `
