@@ -1,5 +1,5 @@
 import React from 'react'
-import { PlayButton, Timer, Progress } from 'react-soundplayer/components'
+import { PlayButton, Progress } from 'react-soundplayer/components'
 import { withCustomAudio  } from 'react-soundplayer/addons'
 import Play from 'assets/icons/Play'
 

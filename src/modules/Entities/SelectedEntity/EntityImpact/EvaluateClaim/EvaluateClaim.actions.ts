@@ -10,7 +10,7 @@ import keysafe from 'common/keysafe/keysafe'
 import { ApiListedEntity } from 'common/api/blocksync-api/types/entities'
 import { ApiResource } from 'common/api/blocksync-api/types/resource'
 import { fromBase64 } from 'js-base64'
-import { EntityClaimType } from 'modules/EntityClaims/types'
+
 export const clearClaim = (): ClearClaimAction => ({
   type: EvaluateClaimActions.ClearClaim,
 })
