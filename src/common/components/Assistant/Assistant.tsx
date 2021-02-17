@@ -1,64 +1,26 @@
 import React, { ChangeEvent, FormEvent } from 'react'
-import styled, { keyframes } from 'styled-components'
 import useBot from 'react-rasa-assistant'
 import ArrowUp from 'assets/icons/ArrowUp'
+
+import {
+  Container,
+  MessageWrapper,
+  TypingIndicator,
+  ActionButtonContainer,
+  ActionButton,
+  SendButton,
+  StyledForm,
+  MessageIn,
+  MessageOut,
+  MessagesContainer,
+  StyledInput,
+} from './Assistant.styles'
 
 interface Props {
   onMessageReceive: (text: any) => void
   customComponent?: (messageData: any) => JSX.Element
   initPayload?: string
 }
-
-const Wave = keyframes`
-  0%, 60%, 100% {
-    transform: initial;
-  }
-
-  30% {
-    transform: translateY(-5px);
-  }
-`
-
-const TypingIndicator = styled.div`
-  position: relative;
-  text-align: center;
-  width: 25px;
-  height: 13px;
-  margin-left: auto;
-  margin-right: auto;
-  .dot {
-    display: inline-block;
-    width: 5px;
-    height: 5px;
-    border-radius: 50%;
-    margin-right: 3px;
-    background: #939393;
-    animation: ${Wave} 1.6s linear infinite;
-
-    &:nth-child(2) {
-      animation-delay: -1.4s;
-    }
-
-    &:nth-child(3) {
-      animation-delay: -1.2s;
-    }
-  }
-`
-
-const ActionButtonContainer = styled.div`
-  margin-bottom: 1rem;
-`
-
-const ActionButton = styled.button`
-  background: transparent;
-  border: 1px solid #1a6b8c;
-  border-radius: 23px;
-  height: 2.5rem;
-  color: #125c7e;
-  margin-right: 0.5rem;
-  font-weight: 500;
-  margin-bottom: 0.5rem;
-`
 
 interface AssistantProps {
   initMsg: string
@@ -105,17 +67,14 @@ const Assistant: React.FunctionComponent<AssistantProps> = ({ initMsg }) => {
   // sent msg but have not received response, show typing indicator
   const displayTypingIndicator =
     msgHistory[msgHistory.length - 1]?.direction === 'out'
-  console.log('fffffffffffffffff', msgHistory)
+
   return (
-    <div className="rw-conversation-container">
-      <div id="rw-messages" className="rw-messages-container">
+    <Container>
+      <MessagesContainer>
         {msgHistory.map((msg, msgIdx) => {
           if (msg.quick_replies || msg.buttons) {
             return (
-              <ActionButtonContainer
-                key={msg.ts + '-btngroup'}
-                className="rw-message"
-              >
+              <ActionButtonContainer key={msg.ts + '-btngroup'}>
                 {(msg.quick_replies || msg.buttons).map((opt, optIdx) => (
                   <ActionButton
                     key={opt.payload}
@@ -134,52 +93,45 @@ const Assistant: React.FunctionComponent<AssistantProps> = ({ initMsg }) => {
 
           if (msg.direction === 'out') {
             return (
-              <div className="rw-message" key={msg.ts + '-txt'}>
-                <div className="rw-client">
-                  <div className="rw-message-text">{msg.text}</div>
-                </div>
-              </div>
+              <MessageWrapper key={msg.ts + '-txt'}>
+                <MessageOut>{msg.text}</MessageOut>
+              </MessageWrapper>
             )
           }
 
           return (
-            <div className="rw-message" key={msg.ts + '-txt'}>
-              <div className="rw-response">
-                <div className="rw-message-text">
-                  <div className="rw-markdown">{msg.text}</div>
-                </div>
-              </div>
-            </div>
+            <MessageWrapper key={msg.ts + '-txt'}>
+              <MessageIn>{msg.text}</MessageIn>
+            </MessageWrapper>
           )
         })}
 
         {displayTypingIndicator && (
-          <div className="rw-message">
-            <div className="rw-response">
+          <MessageWrapper>
+            <MessageIn>
               <TypingIndicator>
                 <span className="dot" />
                 <span className="dot" />
                 <span className="dot" />
               </TypingIndicator>
-            </div>
-          </div>
+            </MessageIn>
+          </MessageWrapper>
         )}
-      </div>
-      <form className="rw-sender" onSubmit={handleSubmit}>
-        <input
+      </MessagesContainer>
+      <StyledForm onSubmit={handleSubmit}>
+        <StyledInput
           type="text"
-          className="rw-new-message"
           name="message"
           placeholder="Type a message..."
           autoComplete="off"
           onChange={handleUserInput}
           value={userText}
         />
-        <button type="submit" className="rw-send" disabled={!userText.length}>
+        <SendButton type="submit" disabled={!userText.length}>
           <ArrowUp />
-        </button>
-      </form>
-    </div>
+        </SendButton>
+      </StyledForm>
+    </Container>
   )
 }
 
