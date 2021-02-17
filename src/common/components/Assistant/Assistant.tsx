@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FormEvent } from 'react'
+import React, { ChangeEvent, FormEvent, useRef, useEffect } from 'react'
 import useBot from 'react-rasa-assistant'
 import ArrowUp from 'assets/icons/ArrowUp'
 
@@ -27,6 +27,8 @@ interface AssistantProps {
 }
 
 const Assistant: React.FunctionComponent<AssistantProps> = ({ initMsg }) => {
+  const messagesRef = useRef(null)
+
   const {
     msgHistory,
     userText,
@@ -64,13 +66,20 @@ const Assistant: React.FunctionComponent<AssistantProps> = ({ initMsg }) => {
     sendUserText()
   }
 
+  useEffect(() => {
+    messagesRef.current.scrollTo({
+      top: messagesRef.current.scrollHeight,
+      behavior: 'smooth',
+    })
+  })
+
   // sent msg but have not received response, show typing indicator
   const displayTypingIndicator =
     msgHistory[msgHistory.length - 1]?.direction === 'out'
 
   return (
     <Container>
-      <MessagesContainer>
+      <MessagesContainer ref={messagesRef}>
         {msgHistory.map((msg, msgIdx) => {
           if (msg.quick_replies || msg.buttons) {
             return (
