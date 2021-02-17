@@ -141,66 +141,12 @@ export const AssistantWrapper = styled.div`
   height: calc(100% - 72px);
   background: rgb(240, 243, 249);
   width: inherit;
-  padding: 10px;
   display: flex;
-  box-shadow: inset 0px -1px 30px 11px rgba(0, 0, 0, 0.03);
+  box-shadow: inset 2px 0px 6px rgba(24, 103, 136, 0.13);
   flex-direction: column;
-  .rw-conversation-container {
-    .rw-send {
-      background: white;
-    }
-    .rw-send .rw-send-icon-ready {
-      fill: #125D7F;
-    }
 
-    .rw-response {
-      color: #090C0E;
-      margin-bottom: 9px;
-      box-shadow: 0px 2px 15px rgba(212, 221, 232, 0.4);
-    }
-    box-shadow: none;
-  }
   .assistant-container {
-    height: calc(100% - 30px);
-  }
-  .rw-messages-container {
-    max-height: calc(100% - 80px) !important;
-    height: calc(100% - 80px) !important;
-    background-color: transparent;
-
-    ::-webkit-scrollbar {
-      width: 8px;
-    }
-
-    ::-webkit-scrollbar-thumb {
-      background: #C1CBD0;
-      border-radius: 8px;
-    }
-
-    .rw-from-response {
-      display: flex;
-      flex-direction: column;
-    }
-  }
-  .rw-sender {
-    margin: 10px;
-    margin-top: auto;
-    margin-bottom: 15px;
-    border-radius: 40px;
-    -webkit-box-shadow: #D4DDE8 2px 5px 7px;
-    -moz-box-shadow: #D4DDE8 2px 5px 7px;
-    box-shadow: #D4DDE8 2px 5px 7px;
-    height: 3rem;
-
-    background: white;
-    input {
-      background: white;
-    }
-  }
-  .rw-message.rw-typing-indication {
-    .rw-response {
-      height: 2.375rem;
-    }
+    height: calc(100% - 40px);
   }
 `
 
