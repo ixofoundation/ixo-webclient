@@ -80,8 +80,8 @@ export const StyledForm = styled.form`
   background: white;
   display: flex;
   align-items: center;
-  padding-left: 1.5rem;
-  padding-right: 1.5rem;
+  box-shadow: inset 2px 0px 6px rgba(24, 103, 136, 0.13);
+  padding: 0.25rem 1.5rem;
 `
 
 const Wave = keyframes`
@@ -135,16 +135,19 @@ export const ActionButton = styled.button`
   margin-bottom: 0.5rem;
 `
 
-export const StyledInput = styled.input`
-  background: white;
+export const StyledTextarea = styled.textarea`
   border: none;
   outline: none;
+  width: 100%;
   height: 100%;
-  border-radius: 2.5rem;
   padding-left: 0;
   padding-right: 0;
 
   ::placeholder {
     color: #A5ADB0;
+  }
+
+  ::-webkit-scrollbar {
+    display: none;
   }
 `

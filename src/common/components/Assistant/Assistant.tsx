@@ -13,7 +13,7 @@ import {
   MessageIn,
   MessageOut,
   MessagesContainer,
-  StyledInput,
+  StyledTextarea,
 } from './Assistant.styles'
 
 interface Props {
@@ -56,7 +56,7 @@ const Assistant: React.FunctionComponent<AssistantProps> = ({ initMsg }) => {
     },
   })
 
-  const handleUserInput = (event: ChangeEvent<HTMLInputElement>): void => {
+  const handleUserInput = (event: ChangeEvent<HTMLTextAreaElement>): void => {
     setUserText(event.target.value)
   }
 
@@ -128,8 +128,7 @@ const Assistant: React.FunctionComponent<AssistantProps> = ({ initMsg }) => {
         )}
       </MessagesContainer>
       <StyledForm onSubmit={handleSubmit}>
-        <StyledInput
-          type="text"
+        <StyledTextarea
           name="message"
           placeholder="Type a message..."
           autoComplete="off"

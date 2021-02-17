@@ -142,7 +142,7 @@ export const AssistantWrapper = styled.div`
   background: rgb(240, 243, 249);
   width: inherit;
   display: flex;
-  box-shadow: inset 0px -1px 30px 11px rgba(0, 0, 0, 0.03);
+  box-shadow: inset 2px 0px 6px rgba(24, 103, 136, 0.13);
   flex-direction: column;
 
   .assistant-container {
