@@ -1,6 +1,4 @@
 import * as React from 'react'
-import { FooterLeft } from './FooterLeft/FooterLeft'
-import { FooterRight } from './FooterRight/FooterRight'
 import { BottomBar } from './FooterContainer.styles'
 import {
   Main,
