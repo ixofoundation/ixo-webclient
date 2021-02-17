@@ -7,9 +7,7 @@ import {
   AssistantContentWrapper,
   AssistantProgress,
 } from 'common/components/ControlPanel/Actions/Actions.styles'
-import Assistant, {
-  startAssistant,
-} from 'common/components/Assistant/Assistant'
+import Assistant from 'common/components/Assistant/Assistant'
 import { RootState } from 'common/redux/types'
 import * as fundingChatSelectors from './FundingChat.selectors'
 import { getOrder, confirmOrder, cancelOrder } from './FundingChat.actions'
@@ -48,11 +46,6 @@ class FundingChat extends React.Component<Props & RouteProps> {
     super(props)
   }
 
-  componentDidMount(): void {
-    const { assistantIntent } = this.props;
-
-    startAssistant(assistantIntent)
-  }
 
   onAssistantMessageReceive = (utter): void => {
     const { handleCreateEntityAgent, role } = this.props;
@@ -80,12 +73,8 @@ class FundingChat extends React.Component<Props & RouteProps> {
 
   render(): JSX.Element {
     const {
-      error,
       assistantIntent,
-      handleCancelOrder,
     } = this.props
-
-    const hasError = !!error
 
     return (
       <Fragment>
@@ -95,21 +84,10 @@ class FundingChat extends React.Component<Props & RouteProps> {
             </AssistantHeader>
             <div className="assistant-container">
               <Assistant
-                onMessageReceive={this.onAssistantMessageReceive}
-                customComponent={ FundingchatCustom }
-                initPayload={ assistantIntent }
+                initMsg={ assistantIntent }
               />
             </div>
           </AssistantWrapper>
-        {hasError && (
-          <AssistantContentWrapper>
-            <AssistantProgress>
-              <h2>Oops an error occured</h2>
-              <div className="error">{error}</div>
-              <button onClick={(): void => handleCancelOrder()}>Go back</button>
-            </AssistantProgress>
-          </AssistantContentWrapper>
-        )}
       </Fragment>
     )
   }

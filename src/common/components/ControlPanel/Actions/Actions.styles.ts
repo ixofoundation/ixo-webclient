@@ -146,24 +146,47 @@ export const AssistantWrapper = styled.div`
   box-shadow: inset 0px -1px 30px 11px rgba(0, 0, 0, 0.03);
   flex-direction: column;
   .rw-conversation-container {
-    .rw-send {
-      background: white;
-    }
-    .rw-send .rw-send-icon-ready {
-      fill: #125D7F;
-    }
-
-    .rw-response {
-      color: #090C0E;
-      margin-bottom: 9px;
-      box-shadow: 0px 2px 15px rgba(212, 221, 232, 0.4);
-    }
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    font-weight: 400;
     box-shadow: none;
+
+    .rw-message {
+      display: flex;
+      position: relative;
+      flex-wrap: wrap;
+      line-height: 1;
+
+      .rw-response {
+        color: #090C0E;
+        margin-bottom: 9px;
+        box-shadow: 0px 2px 15px rgba(212, 221, 232, 0.4);
+        background-color: #f4f7f9;
+        padding: 11px 15px;
+        max-width: 85%;
+        border-radius: 0 15px 15px 15px;
+      }
+
+      .rw-client {
+        color: #fff;
+        margin-bottom: 9px;
+        box-shadow: 0px 2px 15px rgba(212, 221, 232, 0.4);
+        background-color: #135afe;
+        border-radius: 15px;
+        padding: 11px 15px;
+        margin-left: auto;
+        overflow-wrap: break-word;
+        max-width: 85%;
+      }
+    }
   }
   .assistant-container {
     height: calc(100% - 30px);
   }
   .rw-messages-container {
+    overflow-y: auto;
     max-height: calc(100% - 80px) !important;
     height: calc(100% - 80px) !important;
     background-color: transparent;
@@ -191,10 +214,28 @@ export const AssistantWrapper = styled.div`
     -moz-box-shadow: #D4DDE8 2px 5px 7px;
     box-shadow: #D4DDE8 2px 5px 7px;
     height: 3rem;
-
     background: white;
+    display: flex;
+
+    .rw-send {
+      outline: none;
+      border: none;
+      background: transparent;
+      transition: 1s;
+
+      &:disabled {
+        opacity: 0;
+      }
+    }
+    .rw-send .rw-send-icon-ready {
+      fill: #125D7F;
+    }
     input {
       background: white;
+      border: none;
+      outline: none;
+      height: 100%;
+      border-radius: 2.5rem;
     }
   }
   .rw-message.rw-typing-indication {
