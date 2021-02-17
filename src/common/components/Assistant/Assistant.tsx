@@ -1,6 +1,7 @@
 import React, { ChangeEvent, FormEvent } from 'react'
 import styled, { keyframes } from 'styled-components'
 import useBot from 'react-rasa-assistant'
+import ArrowUp from 'assets/icons/ArrowUp'
 
 interface Props {
   onMessageReceive: (text: any) => void
@@ -44,13 +45,19 @@ const TypingIndicator = styled.div`
   }
 `
 
+const ActionButtonContainer = styled.div`
+  margin-bottom: 1rem;
+`
+
 const ActionButton = styled.button`
   background: transparent;
-  border-color: #135afe;
-  border-radius: 15px;
-  color: #135afe;
-  margin-right: 5px;
-  margin-bottom: 9px;
+  border: 1px solid #1a6b8c;
+  border-radius: 23px;
+  height: 2.5rem;
+  color: #125c7e;
+  margin-right: 0.5rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
 `
 
 interface AssistantProps {
@@ -98,27 +105,30 @@ const Assistant: React.FunctionComponent<AssistantProps> = ({ initMsg }) => {
   // sent msg but have not received response, show typing indicator
   const displayTypingIndicator =
     msgHistory[msgHistory.length - 1]?.direction === 'out'
-
+  console.log('fffffffffffffffff', msgHistory)
   return (
     <div className="rw-conversation-container">
       <div id="rw-messages" className="rw-messages-container">
         {msgHistory.map((msg, msgIdx) => {
           if (msg.quick_replies || msg.buttons) {
             return (
-              <div key={msg.ts + '-btngroup'}>
+              <ActionButtonContainer
+                key={msg.ts + '-btngroup'}
+                className="rw-message"
+              >
                 {(msg.quick_replies || msg.buttons).map((opt, optIdx) => (
                   <ActionButton
                     key={opt.payload}
-                    onClick={() => selectOption(msgIdx, optIdx)}
+                    onClick={(): void => selectOption(msgIdx, optIdx)}
                   >
                     {opt.title}
                   </ActionButton>
                 ))}
-              </div>
+              </ActionButtonContainer>
             )
           }
 
-          if (msg.text.length === 0) {
+          if (!msg.text) {
             return null
           }
 
@@ -166,19 +176,7 @@ const Assistant: React.FunctionComponent<AssistantProps> = ({ initMsg }) => {
           value={userText}
         />
         <button type="submit" className="rw-send" disabled={!userText.length}>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="25"
-            height="25"
-            enableBackground="new 0 0 535.5 535.5"
-            version="1.1"
-            viewBox="0 0 535.5 535.5"
-          >
-            <path
-              className="rw-send-icon-ready"
-              d="M0 497.25L535.5 267.75 0 38.25 0 216.75 382.5 267.75 0 318.75z"
-            ></path>
-          </svg>
+          <ArrowUp />
         </button>
       </form>
     </div>

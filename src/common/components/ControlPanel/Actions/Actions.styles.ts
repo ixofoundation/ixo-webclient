@@ -141,7 +141,6 @@ export const AssistantWrapper = styled.div`
   height: calc(100% - 72px);
   background: rgb(240, 243, 249);
   width: inherit;
-  padding: 10px;
   display: flex;
   box-shadow: inset 0px -1px 30px 11px rgba(0, 0, 0, 0.03);
   flex-direction: column;
@@ -152,30 +151,33 @@ export const AssistantWrapper = styled.div`
     flex-direction: column;
     font-weight: 400;
     box-shadow: none;
+    padding-top: 1rem;
 
     .rw-message {
       display: flex;
       position: relative;
       flex-wrap: wrap;
       line-height: 1;
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
 
       .rw-response {
         color: #090C0E;
-        margin-bottom: 9px;
+        margin-bottom: 12px;
         box-shadow: 0px 2px 15px rgba(212, 221, 232, 0.4);
-        background-color: #f4f7f9;
-        padding: 11px 15px;
+        background: linear-gradient(180deg, #FFFFFF 0%, #F8FAFD 112.49%);
+        padding: 13px 15px;
         max-width: 85%;
         border-radius: 0 15px 15px 15px;
       }
 
       .rw-client {
         color: #fff;
-        margin-bottom: 9px;
+        margin-bottom: 12px;
         box-shadow: 0px 2px 15px rgba(212, 221, 232, 0.4);
-        background-color: #135afe;
-        border-radius: 15px;
-        padding: 11px 15px;
+        background: linear-gradient(180deg, #10597B 0%, #1B6E90 93.09%);
+        border-radius: 15px 0px 15px 15px;
+        padding: 13px 15px;
         margin-left: auto;
         overflow-wrap: break-word;
         max-width: 85%;
@@ -187,8 +189,8 @@ export const AssistantWrapper = styled.div`
   }
   .rw-messages-container {
     overflow-y: auto;
-    max-height: calc(100% - 80px) !important;
-    height: calc(100% - 80px) !important;
+    max-height: calc(100% - 70px) !important;
+    height: calc(100% - 70px) !important;
     background-color: transparent;
 
     ::-webkit-scrollbar {
@@ -206,22 +208,25 @@ export const AssistantWrapper = styled.div`
     }
   }
   .rw-sender {
-    margin: 10px;
     margin-top: auto;
-    margin-bottom: 15px;
-    border-radius: 40px;
-    -webkit-box-shadow: #D4DDE8 2px 5px 7px;
-    -moz-box-shadow: #D4DDE8 2px 5px 7px;
-    box-shadow: #D4DDE8 2px 5px 7px;
-    height: 3rem;
+    height: 4rem;
     background: white;
     display: flex;
+    align-items: center;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
 
     .rw-send {
       outline: none;
       border: none;
       background: transparent;
       transition: 1s;
+      background: #49BFE0;
+      border-radius: 50%;
+      width: 1.5rem;
+      height: 1.5rem;
+      display: flex;
+      align-items: center;
 
       &:disabled {
         opacity: 0;
@@ -236,6 +241,12 @@ export const AssistantWrapper = styled.div`
       outline: none;
       height: 100%;
       border-radius: 2.5rem;
+      padding-left: 0;
+      padding-right: 0;
+
+      ::placeholder {
+        color: #A5ADB0;
+      }
     }
   }
   .rw-message.rw-typing-indication {
