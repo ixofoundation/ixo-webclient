@@ -10,7 +10,6 @@ import {
   CardTitle,
   SectionTitleContainer,
   SectionTitle,
-  ActionButton,
 } from '../EntityEconomy.styles'
 
 const columns = [

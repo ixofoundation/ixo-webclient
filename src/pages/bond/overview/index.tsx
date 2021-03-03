@@ -1,5 +1,4 @@
-import React, { FunctionComponent, useState, Fragment, useEffect } from 'react'
-import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
+import React, { FunctionComponent, useState, Fragment } from 'react'
 import { useSelector } from 'react-redux'
 import BondChartScreen from 'modules/BondModules/BondChart/index.container'
 import BondTable from 'modules/BondModules/BondTable'
