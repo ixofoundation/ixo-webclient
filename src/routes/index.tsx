@@ -14,6 +14,7 @@ import { UnderConstruction } from '../public/UnderConstruction'
 import BondRoutes from './BondRoutes'
 import InvestmentRoutes from './InvestmentRoutes'
 import EntityLayout from 'modules/Entities/SelectedEntity/EntityLayout.container'
+import EntityEconomy from 'modules/Entities/SelectedEntity/EntityEconomy/EntityEconomy.container'
 
 export const Routes: React.SFC<{}> = (props) => {
   return (
@@ -43,11 +44,9 @@ export const Routes: React.SFC<{}> = (props) => {
             <EntitiesImpact {...routeProps.location} />
           )}
         />
-        <Route
-          path="/projects/:projectDID/overview"
-          component={EntityLayout}
-        />
+        <Route path="/projects/:projectDID/overview" component={EntityLayout} />
         <Route path="/projects/:projectDID/detail" component={EntityImpact} />
+        <Route path="/projects/:projectDID/economy" component={EntityEconomy} />
         {/* Old claims related screens - remove when new claims is ready */}
         {/*
                 <Route
