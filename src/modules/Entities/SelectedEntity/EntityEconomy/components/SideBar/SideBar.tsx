@@ -10,19 +10,19 @@ const SideBar: React.FunctionComponent<Props> = ({ did }) => {
     <Container>
       <NavItem exact={true} to={`/projects/${did}/economy`}>
         <img src={require('assets/img/sidebar/economy.svg')} />
-        <ToolTip>Overview</ToolTip>
+        <ToolTip>IXO Token</ToolTip>
       </NavItem>
       <NavItem exact={true} to={`/projects/${did}/economy/relayers`}>
         <img src={require('assets/img/sidebar/relayers.svg')} />
-        <ToolTip>Overview</ToolTip>
+        <ToolTip>Relayer Network</ToolTip>
       </NavItem>
       <NavItem exact={true} to={`/projects/${did}/economy/marketplace`}>
         <img src={require('assets/img/sidebar/marketplace.svg')} />
-        <ToolTip>Overview</ToolTip>
+        <ToolTip>Marketplace</ToolTip>
       </NavItem>
       <NavItem exact={true} to={`/projects/${did}/economy/carbon`}>
         <img src={require('assets/img/sidebar/carbon.svg')} />
-        <ToolTip>Overview</ToolTip>
+        <ToolTip>Carbon Costs</ToolTip>
       </NavItem>
     </Container>
   )

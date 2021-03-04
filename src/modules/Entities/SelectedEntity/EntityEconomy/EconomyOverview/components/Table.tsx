@@ -30,7 +30,11 @@ const renderCell = (cell: any): any => {
       </DateContainer>
     )
   } else if (cell.column.id === 'buySell') {
-    return cell.value ? <span style={{ color: '#85AD5C' }}>Buy</span> : <span style={{ color: '#E2223B' }}>Sell</span>
+    return cell.value ? (
+      <span style={{ color: '#85AD5C' }}>Buy</span>
+    ) : (
+      <span style={{ color: '#E2223B' }}>Sell</span>
+    )
   } else if (cell.column.id === 'value') {
     return <Value value={cell.value} />
   } else {
@@ -104,7 +108,7 @@ const Table: React.FunctionComponent<TableProps> = ({ columns, data }) => {
     from: { transform: 'translate3d(-400px,0,0)' },
     enter: { transform: 'translate3d(0,0,0)' },
     // leave: { transform: 'translate3d(0,0,0)' },
-    config: { duration: 2000 },
+    config: { duration: 0 },
   })
   return (
     <TableContainer>

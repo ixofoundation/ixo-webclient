@@ -21,6 +21,9 @@ import {
   Hours,
   LineChartWrapper,
   IncrementContainer,
+  ChartHeader,
+  Color,
+  Bullet,
 } from './EconomyMarketplace.styles'
 import LineChart from './components/LineChart'
 
@@ -69,6 +72,19 @@ class EconomyMarketplace extends Component {
     return (
       <Container>
         <ChartContainer>
+          <ChartHeader>
+            <span>Network Revenues</span>
+            <div className="d-flex">
+              <Color className="mr-3">
+                <Bullet></Bullet>
+                <span>Staked</span>
+              </Color>
+              <Color>
+                <Bullet style={{ background: '#03C0E9' }}></Bullet>
+                <span>Transacted</span>
+              </Color>
+            </div>
+          </ChartHeader>
           <BarChart barData={data} />
         </ChartContainer>
         <SectionTitleContainer>
@@ -86,7 +102,10 @@ class EconomyMarketplace extends Component {
                   <i className="icon-expand" />
                 </CardHeader>
                 <Value>
-                  {24091 + (Math.floor(Math.random() * 1000) % 1000)}
+                  {(
+                    24091 +
+                    (Math.floor(Math.random() * 1000) % 1000)
+                  ).toLocaleString()}
                 </Value>
                 <Percent>
                   <IndicateArrow fill="#85AD5C" width={11} height={10} />
@@ -105,7 +124,7 @@ class EconomyMarketplace extends Component {
         </CardsContainer>
         <SectionTitleContainer>
           <SectionTitle>
-            Transaction Activity in the internet of Impact Hub
+            Transaction Activity in the Internet of Impact Hub
           </SectionTitle>
         </SectionTitleContainer>
         <CardsContainer>
