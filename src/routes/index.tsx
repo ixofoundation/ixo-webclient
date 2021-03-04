@@ -23,7 +23,6 @@ export const Routes: React.SFC<{}> = (props) => {
         <Route exact path="/json" component={ProjectForm} />
         <Route exact path="/spinner" component={Spinner} />
         <Route exact path="/register" component={RegisterConnected} />
-        <Route path="/investment/:projectDID" component={InvestmentRoutes} />
         <Route
           path="/projects/:projectDID/bonds/:bondDID"
           component={BondRoutes}
@@ -47,6 +46,7 @@ export const Routes: React.SFC<{}> = (props) => {
         <Route path="/projects/:projectDID/overview" component={EntityLayout} />
         <Route path="/projects/:projectDID/detail" component={EntityImpact} />
         <Route path="/projects/:projectDID/economy" component={EntityEconomy} />
+        <Route path="/investment/:projectDID" component={InvestmentRoutes} />
         {/* Old claims related screens - remove when new claims is ready */}
         {/*
                 <Route

@@ -3,6 +3,7 @@ import styled from 'styled-components'
 export const ChartContainer = styled.div`
   background: white;
   padding: 20px 28px;
+  border-radius: 4px;
 `
 
 export const LineChartCard = styled.div`
@@ -65,4 +66,31 @@ export const IncrementContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+`
+
+export const ChartHeader = styled.div`
+  font-family: Roboto Condensed;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 22px;
+  color: #01283B;
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+`
+export const Bullet = styled.div`
+  background: #D9DEE9;
+  width: 10px;
+  height: 10px;
+  margin-right: 10px;
+`
+
+export const Color = styled.div`
+  display: flex;
+  align-items: center;
+  font-weight: 300;
+  font-size: 11px;
+  color: #01283B;
+  line-height: 13px;
 `
