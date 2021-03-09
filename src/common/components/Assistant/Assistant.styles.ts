@@ -142,6 +142,7 @@ export const StyledTextarea = styled.input`
   height: 100%;
   padding-left: 0;
   padding-right: 0;
+  margin-bottom: 0;
 
   ::placeholder {
     color: #A5ADB0;
