@@ -1,6 +1,18 @@
-import React, { ChangeEvent, FormEvent, useRef, useEffect } from 'react'
+import React, {
+  ChangeEvent,
+  FormEvent,
+  useRef,
+  useEffect,
+  Dispatch,
+} from 'react'
 import useBot from 'react-rasa-assistant'
 import ArrowUp from 'assets/icons/ArrowUp'
+import { createEntityAgent } from 'modules/Entities/SelectedEntity/EntityImpact/EntityAgents/EntityAgents.actions'
+import { connect } from 'react-redux'
+import { AgentRole } from 'modules/Account/types'
+import { RootState } from 'common/redux/types'
+import * as accountSelectors from 'modules/Account/Account.selectors'
+import { UserInfo } from 'modules/Account/types'
 
 import {
   Container,
@@ -16,17 +28,21 @@ import {
   StyledTextarea,
 } from './Assistant.styles'
 
-interface Props {
-  onMessageReceive: (text: any) => void
-  customComponent?: (messageData: any) => JSX.Element
-  initPayload?: string
-}
-
 interface AssistantProps {
   initMsg: string
+  userInfo?: UserInfo
+  handleCreateEntityAgent?: (
+    email: string,
+    name: string,
+    role: AgentRole,
+  ) => void
 }
 
-const Assistant: React.FunctionComponent<AssistantProps> = ({ initMsg }) => {
+const Assistant: React.FunctionComponent<AssistantProps> = ({
+  initMsg,
+  userInfo,
+  handleCreateEntityAgent,
+}) => {
   const messagesRef = useRef(null)
 
   const {
@@ -35,7 +51,6 @@ const Assistant: React.FunctionComponent<AssistantProps> = ({ initMsg }) => {
     setUserText,
     sendUserText,
     selectOption,
-    botUtter,
   } = useBot({
     sockUrl: process.env.REACT_APP_ASSISTANT_URL + '/socket.io/',
     onUtter: (msg) => {
@@ -45,9 +60,13 @@ const Assistant: React.FunctionComponent<AssistantProps> = ({ initMsg }) => {
         !msg.quick_replies &&
         !msg.buttons
       ) {
-        console.log('This is a custom message!', msg)
-
-        botUtter({ text: 'I just sent you a custom message!' })
+        switch (msg.action) {
+          case 'authorise':
+            if (userInfo) {
+              handleCreateEntityAgent(msg.emai, msg.name, msg.role)
+            }
+            break
+        }
       }
     },
     initMsg: {
@@ -56,7 +75,7 @@ const Assistant: React.FunctionComponent<AssistantProps> = ({ initMsg }) => {
     },
   })
 
-  const handleUserInput = (event: ChangeEvent<HTMLTextAreaElement>): void => {
+  const handleUserInput = (event: ChangeEvent<HTMLInputElement>): void => {
     setUserText(event.target.value)
   }
 
@@ -143,4 +162,16 @@ const Assistant: React.FunctionComponent<AssistantProps> = ({ initMsg }) => {
   )
 }
 
-export default Assistant
+const mapStateToProps = (state: RootState): any => ({
+  userInfo: accountSelectors.selectUserInfo(state),
+})
+
+const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
+  handleCreateEntityAgent: (
+    email: string,
+    name: string,
+    role: AgentRole,
+  ): void => dispatch(createEntityAgent(email, name, role)),
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Assistant)

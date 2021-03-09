@@ -135,7 +135,7 @@ export const ActionButton = styled.button`
   margin-bottom: 0.5rem;
 `
 
-export const StyledTextarea = styled.textarea`
+export const StyledTextarea = styled.input`
   border: none;
   outline: none;
   width: 100%;
