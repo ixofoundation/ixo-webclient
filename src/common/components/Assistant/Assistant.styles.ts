@@ -7,7 +7,7 @@ export const Container = styled.div`
   flex-direction: column;
   font-weight: 400;
   box-shadow: none;
-  padding-top: 1rem;
+  padding-top: 2rem;
 `
 
 export const MessagesContainer = styled.div`
@@ -50,6 +50,7 @@ export const MessageWrapper = styled.div`
   line-height: 1;
   padding-left: 1.5rem;
   padding-right: 1.5rem;
+  white-space: pre-line;
 `
 
 export const MessageIn = styled.div`
@@ -76,21 +77,30 @@ export const MessageOut = styled.div`
 
 export const StyledForm = styled.form`
   margin-top: auto;
-  height: 4rem;
   background: white;
   display: flex;
   align-items: center;
   box-shadow: inset 2px 0px 6px rgba(24, 103, 136, 0.13);
-  padding: 0.25rem 1.5rem;
+  padding: 12px 1.5rem;
+
+  textarea {
+    border: none;
+    outline: none;
+    width: 100%;
+  }
 `
 
 const Wave = keyframes`
-  0%, 60%, 100% {
-    transform: initial;
+  0% {
+    opacity: 1;
   }
 
-  30% {
-    transform: translateY(-5px);
+  50% {
+    opacity: 0.6;
+  }
+
+  100% {
+    opacity: 0;
   }
 `
 
@@ -101,13 +111,16 @@ export const TypingIndicator = styled.div`
   height: 13px;
   margin-left: auto;
   margin-right: auto;
+  display: flex;
+  align-items: center;
+
   .dot {
     display: inline-block;
     width: 5px;
     height: 5px;
     border-radius: 50%;
-    margin-right: 3px;
-    background: #939393;
+    margin-right: 2px;
+    background: #B2CAD7;
     animation: ${Wave} 1.6s linear infinite;
 
     &:nth-child(2) {
@@ -135,14 +148,14 @@ export const ActionButton = styled.button`
   margin-bottom: 0.5rem;
 `
 
-export const StyledTextarea = styled.input`
+export const StyledTextarea = styled.textarea`
   border: none;
   outline: none;
   width: 100%;
-  height: 100%;
-  padding-left: 0;
-  padding-right: 0;
+  height: 48px;
   margin-bottom: 0;
+  padding: 0;
+  line-height: 1.5;
 
   ::placeholder {
     color: #A5ADB0;

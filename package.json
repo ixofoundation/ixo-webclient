@@ -57,6 +57,7 @@
     "react-soundplayer": "^1.0.5",
     "react-spring": "^8.0.27",
     "react-table": "^7.5.0",
+    "react-textarea-autosize": "^8.3.2",
     "react-toastify": "^6.0.8",
     "react-virtualized": "^9.21.2",
     "react-vis": "^1.11.7",

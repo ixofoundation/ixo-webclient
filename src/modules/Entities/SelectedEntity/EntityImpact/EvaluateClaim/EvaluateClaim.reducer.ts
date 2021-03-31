@@ -1,3 +1,4 @@
+import { itemCountOrItemValuesLength } from 'modules/Entities/CreateEntity/CreateEntityAttestation/CreateEntityAttestation.utils'
 import {
   EvaluateClaimActions,
   EvaluateClaimState,
@@ -16,8 +17,8 @@ export const reducer = (
   state = initialState,
   action: EvaluateClaimActionTypes,
 ): EvaluateClaimState => {
-  const { isClaimLoading, isClaimTemplateLoading } = state
-
+  const { isClaimLoading, isClaimTemplateLoading, claim } = state
+  let fetchedClaim = null, itemIndex = -1
   switch (action.type) {
     case EvaluateClaimActions.ClearClaim:
       return initialState
@@ -34,6 +35,33 @@ export const reducer = (
         claimTemplate: action.payload,
         isClaimTemplateLoading: false,
         isLoading: isClaimLoading
+      }
+
+    case EvaluateClaimActions.SaveComment:
+      itemIndex = claim.items.findIndex(item => item.id === action.payload.itemId)
+      if (itemIndex !== -1) {
+        claim.items[itemIndex].evaluation.comments = action.payload.comments
+      }
+      return {
+        ...state,
+        claim
+      }
+    case EvaluateClaimActions.UpdateStatus:
+      itemIndex = claim.items.findIndex(item => item.id === action.payload.itemId)
+      if (itemIndex !== -1) {
+        claim.items[itemIndex].evaluation.status = action.payload.status
+      }
+      return {
+        ...state,
+        claim
+      }
+    case EvaluateClaimActions.MoveToNext:
+      claim.stage = 'Approve'
+      localStorage.setItem(claim.txHash, JSON.stringify(claim))
+
+      return {
+        ...state,
+        claim
       }
     default:
       return state

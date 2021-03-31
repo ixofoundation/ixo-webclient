@@ -13,6 +13,7 @@ import { AgentRole } from 'modules/Account/types'
 import { RootState } from 'common/redux/types'
 import * as accountSelectors from 'modules/Account/Account.selectors'
 import { UserInfo } from 'modules/Account/types'
+import TextareaAutosize from 'react-textarea-autosize'
 
 import {
   Container,
@@ -75,8 +76,14 @@ const Assistant: React.FunctionComponent<AssistantProps> = ({
     },
   })
 
-  const handleUserInput = (event: ChangeEvent<HTMLInputElement>): void => {
-    setUserText(event.target.value)
+  const handleKeydown = (
+    event: React.KeyboardEvent<HTMLTextAreaElement>,
+  ): void => {
+    if (event.key === 'Enter' && !event.shiftKey && !event.ctrlKey) {
+      event.preventDefault()
+      sendUserText()
+      setUserText('')
+    }
   }
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>): void => {
@@ -147,12 +154,14 @@ const Assistant: React.FunctionComponent<AssistantProps> = ({
         )}
       </MessagesContainer>
       <StyledForm onSubmit={handleSubmit}>
-        <StyledTextarea
+        <TextareaAutosize
           name="message"
           placeholder="Type a message..."
           autoComplete="off"
-          onChange={handleUserInput}
+          onKeyDown={handleKeydown}
+          onChange={(event) => setUserText(event.target.value)}
           value={userText}
+          cacheMeasurements
         />
         <SendButton type="submit" disabled={!userText.length}>
           <ArrowUp />

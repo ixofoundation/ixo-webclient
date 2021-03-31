@@ -158,7 +158,8 @@ export const selectClaimApiPayload = createSelector(
         }
       }),
       dateTime: serverDateFormat(Date.now()),
-      projectDid: entityDid, // needed to make the submission work
+      projectDid: entityDid, // needed to make the submission work,
+      claimTemplateId: templateDid
     }
   },
 )

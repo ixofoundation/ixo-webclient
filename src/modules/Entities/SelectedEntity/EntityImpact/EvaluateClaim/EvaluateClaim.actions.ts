@@ -2,7 +2,10 @@ import { Dispatch } from "redux";
 import {
   GetClaimAction,
   EvaluateClaimActions,
-  ClearClaimAction
+  ClearClaimAction,
+  SaveCommentAction,
+  UpdateStatusAction,
+  MoveToNextStepAction
 } from './types'
 import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
 import { PDS_URL } from 'modules/Entities/types'
@@ -21,39 +24,66 @@ export const getClaim = (claimId: string, projectDid: string, claimTemplateDid: 
   // Clear claim info before loading
   dispatch(clearClaim())
 
-  const ProjectDIDPayload: Record<string, any> = {
-    projectDid: projectDid,
+  const claimString = localStorage.getItem(claimId)
+  const savedClaim = JSON.parse(claimString)
+
+  if (savedClaim) {
+    savedClaim['stage'] = 'Analyse'
+    /* if (!savedClaim.stage) {
+      savedClaim['stage'] = 'Analyse'
+    } */
+    dispatch({
+      type: EvaluateClaimActions.GetClaim,
+      payload: savedClaim
+    })
+  } else {
+    const ProjectDIDPayload: Record<string, any> = {
+      projectDid: projectDid,
+    }
+
+    keysafe.requestSigning(
+      JSON.stringify(ProjectDIDPayload),
+      async (error, signature) => {
+        if (!error) {
+          await blocksyncApi.claim.listClaimsForProject(
+            ProjectDIDPayload,
+            signature,
+            PDS_URL
+            )
+            .then((response: any) => {
+              if (response.error) {
+                return null;
+              } else {
+                let claimFound = response.result.filter(
+                  claim => claim.txHash === claimId
+                )
+
+                claimFound = claimFound[claimFound.length - 1]
+
+                const fetchedClaim = {
+                  ...claimFound,
+                  stage: 'Analyse',
+                  items: claimFound.items.map(item => ({
+                    ...item,
+                    evaluation: {
+                      status: null,
+                      comments: ''
+                    }
+                  }))
+                }
+
+                dispatch({
+                  type: EvaluateClaimActions.GetClaim,
+                  payload: fetchedClaim
+                })
+              }
+            })
+        }
+        return null
+      },
+      'base64',
+    )
   }
-
-  keysafe.requestSigning(
-    JSON.stringify(ProjectDIDPayload),
-    async (error, signature) => {
-      if (!error) {
-        await blocksyncApi.claim.listClaimsForProject(
-          ProjectDIDPayload,
-          signature,
-          PDS_URL
-          )
-          .then((response: any) => {
-            if (response.error) {
-              return null;
-            } else {
-              const claimFound = response.result.filter(
-                claim => claim.txHash === claimId
-              )
-
-
-              dispatch({
-                type: EvaluateClaimActions.GetClaim,
-                payload: claimFound[claimFound.length - 1]
-              })
-            }
-          })
-      }
-      return null
-    },
-    'base64',
-  )
 
   const fetchTemplateEntity: Promise<ApiListedEntity> = blocksyncApi.project.getProjectByProjectDid(
     claimTemplateDid,
@@ -79,3 +109,24 @@ export const getClaim = (claimId: string, projectDid: string, claimTemplateDid: 
 
   return null
 }
+
+export const saveComments = (itemId, comments): SaveCommentAction => ({
+  type: EvaluateClaimActions.SaveComment,
+  payload: {
+    itemId,
+    comments
+  }
+})
+
+export const updateStatus = (itemId, status): UpdateStatusAction => ({
+  type: EvaluateClaimActions.UpdateStatus,
+  payload: {
+    itemId,
+    status
+  }
+})
+
+
+export const moveToNextStep = (): MoveToNextStepAction => ({
+  type: EvaluateClaimActions.MoveToNext,
+})

@@ -21,7 +21,7 @@ export interface Props {
   matchType: MatchType
   activeTabColor: string | undefined
   assistantPanelToggle?: () => void
-  enableAssistantButton: boolean,
+  enableAssistantButton: boolean
 }
 
 export const Tabs: React.FunctionComponent<Props> = ({
@@ -31,11 +31,11 @@ export const Tabs: React.FunctionComponent<Props> = ({
   assistantPanelToggle,
   enableAssistantButton,
 }) => {
-  const [animation, setAnimation] = React.useState(inactiveAnimation);
-  const assistant = React.useContext(AssistantContext);
-  
+  const [animation, setAnimation] = React.useState(inactiveAnimation)
+  const assistant = React.useContext(AssistantContext)
+
   const assistantButtonClicked = (): void => {
-    const isActive = assistant.active;
+    const isActive = assistant.active
     if (isActive) {
       setAnimation(hoverAnimation)
       assistantPanelToggle()
@@ -59,38 +59,61 @@ export const Tabs: React.FunctionComponent<Props> = ({
   }
 
   const TabsContainer = createTabsContainer(activeTabColor, assistant.active)
-  
+
   return (
     <TabsContainer>
       {buttons.map((button, index) => {
-        return button.linkClass !== 'in-active' ? (
-          <NavLink
-            className={button.linkClass ? button.linkClass : ''}
-            exact={matchType === MatchType.exact}
-            strict={matchType === MatchType.strict}
-            to={{ pathname: button.path }}
-            key={index}
-          >
-            {button.iconClass && <i className={button.iconClass} />}
-            {button.title && <p>{button.title}</p>}
-          </NavLink>
-        ) : (
-          <Tooltip
-            text="Coming Soon"
-            key={index}
-            position={TooltipPosition.Bottom}
-          >
-            <NavLink
-              className={button.linkClass}
-              exact={matchType === MatchType.exact}
-              strict={matchType === MatchType.strict}
-              to={{ pathname: button.path }}
-            >
-              {button.iconClass && <i className={button.iconClass} />}
-              {button.title && <p>{button.title}</p>}
-            </NavLink>
-          </Tooltip>
-        )
+        switch (button.linkClass) {
+          case 'in-active':
+            return (
+              <NavLink
+                className={button.linkClass ? button.linkClass : ''}
+                exact={matchType === MatchType.exact}
+                strict={matchType === MatchType.strict}
+                to={{ pathname: button.path }}
+                key={index}
+              >
+                {button.iconClass && <i className={button.iconClass} />}
+                {button.title && <p>{button.title}</p>}
+              </NavLink>
+            )
+          case 'restricted':
+            return (
+              <Tooltip
+                text="Restricted View"
+                key={index}
+                position={TooltipPosition.Bottom}
+              >
+                <NavLink
+                  className={button.linkClass}
+                  exact={matchType === MatchType.exact}
+                  strict={matchType === MatchType.strict}
+                  to={{ pathname: button.path }}
+                >
+                  {button.iconClass && <i className={button.iconClass} />}
+                  {button.title && <p>{button.title}</p>}
+                </NavLink>
+              </Tooltip>
+            )
+          default:
+            return (
+              <Tooltip
+                text="Coming Soon"
+                key={index}
+                position={TooltipPosition.Bottom}
+              >
+                <NavLink
+                  className={button.linkClass}
+                  exact={matchType === MatchType.exact}
+                  strict={matchType === MatchType.strict}
+                  to={{ pathname: button.path }}
+                >
+                  {button.iconClass && <i className={button.iconClass} />}
+                  {button.title && <p>{button.title}</p>}
+                </NavLink>
+              </Tooltip>
+            )
+        }
       })}
       {enableAssistantButton && (
         <button

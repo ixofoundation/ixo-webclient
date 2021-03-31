@@ -76,9 +76,7 @@ class FundingChat extends React.Component<Props & RouteProps> {
     return (
       <Fragment>
         <AssistantWrapper>
-          <AssistantHeader>
-            <h3></h3>
-          </AssistantHeader>
+          <AssistantHeader></AssistantHeader>
           <div className="assistant-container">
             <Assistant initMsg={assistantIntent} />
           </div>
