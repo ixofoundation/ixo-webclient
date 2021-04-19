@@ -9,7 +9,6 @@ import Assistant from 'common/components/Assistant/Assistant'
 import { RootState } from 'common/redux/types'
 import * as fundingChatSelectors from './FundingChat.selectors'
 import { getOrder, confirmOrder, cancelOrder } from './FundingChat.actions'
-import { AssistantActions, AssistantActionTypes } from './types'
 import { createEntityAgent } from 'modules/Entities/SelectedEntity/EntityImpact/EntityAgents/EntityAgents.actions'
 import { AgentRole } from 'modules/Account/types'
 
@@ -47,40 +46,15 @@ class FundingChat extends React.Component<Props & RouteProps> {
     super(props)
   }
 
-  onAssistantMessageReceive = (utter): void => {
-    const { handleCreateEntityAgent, role } = this.props
-
-    switch (utter.action) {
-      case AssistantActions.Authorise:
-        switch (utter.type) {
-          case AssistantActionTypes.AgentApplication:
-            if (utter.emai) {
-              handleCreateEntityAgent(utter.emai, utter.name, role)
-            }
-            break
-        }
-        break
-    }
-    /*  */
-    // TODO - actual event to trigger end
-    // if (utter.text === "Sorry, I didn't get that. Could you rephrase?") {
-    // TODO - actual response to pass to handleGetOrder
-    console.log(utter)
-    // this.props.handleGetOrder(null)
-    // }
-  }
-
   render(): JSX.Element {
-    const { assistantIntent } = this.props
+    const { assistantIntent, role } = this.props
 
     return (
       <Fragment>
         <AssistantWrapper>
-          <AssistantHeader>
-            <h3></h3>
-          </AssistantHeader>
+          <AssistantHeader></AssistantHeader>
           <div className="assistant-container">
-            <Assistant initMsg={assistantIntent} />
+            <Assistant initMsg={assistantIntent} role={role} />
           </div>
         </AssistantWrapper>
       </Fragment>

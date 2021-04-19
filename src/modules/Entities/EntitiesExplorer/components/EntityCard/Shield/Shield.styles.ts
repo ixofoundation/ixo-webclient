@@ -19,12 +19,14 @@ export const ShieldText = styled.p`
 `
 
 export const ShieldTextContainer = styled.div`
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+  width: 76px;
+  text-align: center;
   p {
     color: white;
     font-weight: bold;
-    padding: 2px 10px;
-    border-top-right-radius: 4px;
-    border-bottom-right-radius: 4px;
+    padding: 2px 0px;
     font-family: ${(props: any): string => props.theme.fontRoboto};
   }
 `

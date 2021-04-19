@@ -42,6 +42,7 @@ export const OverviewContainer = styled.section`
     font-weight: bold;
     font-family: ${(props: any): string => props.theme.fontRoboto};
     margin: 0.75rem 0;
+    line-height: 2;
   }
 `
 export const AssistantContainer = styled.div`

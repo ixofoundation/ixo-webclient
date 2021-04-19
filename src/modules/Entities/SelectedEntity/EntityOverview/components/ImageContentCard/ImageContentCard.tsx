@@ -19,7 +19,7 @@ const ImageContentCard: React.FunctionComponent<Props> = ({
       <h2>{title}</h2>
       <Container>
         <p className="content">{content}</p>
-        <img src={image} alt={title} />
+        {image && <img src={image} alt={title} />}
         <p className="caption">{imageDescription}</p>
       </Container>
     </>

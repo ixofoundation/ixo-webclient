@@ -28,6 +28,12 @@ export const ActionButtonContainer = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
+    transition: color 0.25s;
+
+    &:hover {
+      color: black;
+      font-weight: 500;
+    }
 
     svg {
       margin-left: 0.5rem;
@@ -46,6 +52,26 @@ export const ActionButtonContainer = styled.div`
       svg {
         margin-left: 0;
       }
+    }
+
+    &.hasComments {
+      background: #83D9F2;
+      color: white;
+    }
+
+    &.rejected {
+      color: white;
+      background: #E2223B;
+    }
+
+    &.approved {
+      color: white;
+      background: #85AD5C;
+    }
+
+    &.queried {
+      background: #ED9526;
+      color: white;
     }
   }
 `

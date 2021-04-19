@@ -41,11 +41,14 @@ interface Props {
   enableAssistantButton?: boolean
   light?: boolean
   bondDid?: string
+  userDid?: string
+  creatorDid?: string
 }
 
 const EntityHero: React.FunctionComponent<Props> = ({
   name,
   description,
+  creatorDid,
   creatorName,
   type,
   did,
@@ -53,6 +56,7 @@ const EntityHero: React.FunctionComponent<Props> = ({
   dateCreated,
   loggedIn,
   onlyTitle,
+  userDid,
   assistantPanelToggle,
   enableAssistantButton = true,
   light = false,
@@ -92,12 +96,21 @@ const EntityHero: React.FunctionComponent<Props> = ({
       title: 'FUNDING',
     })
   } else {
-    buttonsArray.push({
-      iconClass: 'icon-funding',
-      linkClass: 'in-active',
-      path: '/funding',
-      title: 'FUNDING',
-    })
+    if (creatorDid !== userDid) {
+      buttonsArray.push({
+        iconClass: 'icon-funding',
+        linkClass: 'restricted',
+        path: `/projects/${did}/bonds/${bondDid}`,
+        title: 'FUNDING',
+      })
+    } else {
+      buttonsArray.push({
+        iconClass: 'icon-funding',
+        linkClass: '',
+        path: `/projects/${did}/bonds/${bondDid}`,
+        title: 'FUNDING',
+      })
+    }
   }
 
   const getFlagURL = (projectLocation: string): string => {
@@ -113,136 +126,97 @@ const EntityHero: React.FunctionComponent<Props> = ({
   const renderNavs = (): JSX.Element => {
     return (
       <>
-      <SingleNav
-        to="/"
-        light={light }
-      >
-        Explore {type}s
-        <RightIcon />
-      </SingleNav>
-      <SingleNav
-        to={`/projects/${did}/overview`}
-        light={light }
-      >
-        { name }
-        <RightIcon />
-      </SingleNav>
-      <Route
-        path={`/projects/:projectDID/detail`}
-      >
-        <SingleNav
-          to={`/projects/${did}/detail`}
-          light={light }
-        >
-          Dashboard
+        <SingleNav to="/" light={light}>
+          Explore {type}s
           <RightIcon />
         </SingleNav>
-      </Route>
-      <Route
-        exact
-        path={`/projects/:projectDID/detail/agents`}
-      >
-        <SingleNav
-          to={`/projects/${did}/detail/agents`}
-          light={light }
-        >
-          Agents
+        <SingleNav to={`/projects/${did}/overview`} light={light}>
+          {name}
           <RightIcon />
         </SingleNav>
-      </Route>
-      <Route
-        exact
-        path={`/projects/:projectDID/detail/toc`}
-      >
-        <SingleNav
-          to={`/projects/${did}/detail/toc`}
-          light={light }
-        >
-          Theory of Change
-          <RightIcon />
-        </SingleNav>
-      </Route>
-      <Route
-        exact
-        path={`/projects/:projectDID/detail/claims`}
-      >
-        <SingleNav
-          to={`/projects/${did}/detail/claims`}
-          light={light }
-        >
-          Claims
-          <RightIcon />
-        </SingleNav>
-      </Route>
-      <Route
-        path={`/projects/:projectDID/bonds`}
-      >
-        <SingleNav
-          to={`/projects/${did}/bonds/${bondDid}/payments`}
-          light={light}
-        >
-          Funds
-          <RightIcon />
-        </SingleNav>
-      </Route>
-      <Route
-        path={`/projects/:projectDID/bonds/:bondDID/accounts`}
-      >
-        <SingleNav
-          to={`/projects/${did}/bonds/${bondDid}/accounts`}
-          light={light}
-        >
-          Accounts
-          <RightIcon />
-        </SingleNav>
-      </Route>
-      <Route
-        path={`/projects/:projectDID/bonds/:bondDID/events`}
-      >
-        <SingleNav
-          to={`/projects/${did}/bonds/${bondDid}/events`}
-          light={light}
-        >
-          Events
-          <RightIcon />
-        </SingleNav>
-      </Route>
-      <Route
-        path={`/projects/:projectDID/bonds/:bondDID/investment`}
-      >
-        <SingleNav
-          to={`/projects/${did}/bonds/${bondDid}/investment`}
-          light={light}
-        >
-          Investment
-          <RightIcon />
-        </SingleNav>
-      </Route>
-      <Route
-        path={`/projects/:projectDID/bonds/:bondDID/payments`}
-      >
-        <SingleNav
-          to={`/projects/${did}/bonds/${bondDid}/payments`}
-          light={light}
-        >
-          Payments
-          <RightIcon />
-        </SingleNav>
-      </Route>
+        <Route path={`/projects/:projectDID/detail`}>
+          <SingleNav to={`/projects/${did}/detail`} light={light}>
+            Dashboard
+            <RightIcon />
+          </SingleNav>
+        </Route>
+        <Route exact path={`/projects/:projectDID/detail/agents`}>
+          <SingleNav to={`/projects/${did}/detail/agents`} light={light}>
+            Agents
+            <RightIcon />
+          </SingleNav>
+        </Route>
+        <Route exact path={`/projects/:projectDID/detail/toc`}>
+          <SingleNav to={`/projects/${did}/detail/toc`} light={light}>
+            Theory of Change
+            <RightIcon />
+          </SingleNav>
+        </Route>
+        <Route exact path={`/projects/:projectDID/detail/claims`}>
+          <SingleNav to={`/projects/${did}/detail/claims`} light={light}>
+            Claims
+            <RightIcon />
+          </SingleNav>
+        </Route>
+        <Route path={`/projects/:projectDID/bonds`}>
+          <SingleNav
+            to={`/projects/${did}/bonds/${bondDid}/payments`}
+            light={light}
+          >
+            Funds
+            <RightIcon />
+          </SingleNav>
+        </Route>
+        <Route path={`/projects/:projectDID/bonds/:bondDID/accounts`}>
+          <SingleNav
+            to={`/projects/${did}/bonds/${bondDid}/accounts`}
+            light={light}
+          >
+            Accounts
+            <RightIcon />
+          </SingleNav>
+        </Route>
+        <Route path={`/projects/:projectDID/bonds/:bondDID/events`}>
+          <SingleNav
+            to={`/projects/${did}/bonds/${bondDid}/events`}
+            light={light}
+          >
+            Events
+            <RightIcon />
+          </SingleNav>
+        </Route>
+        <Route path={`/projects/:projectDID/bonds/:bondDID/investment`}>
+          <SingleNav
+            to={`/projects/${did}/bonds/${bondDid}/investment`}
+            light={light}
+          >
+            Investment
+            <RightIcon />
+          </SingleNav>
+        </Route>
+        <Route path={`/projects/:projectDID/bonds/:bondDID/payments`}>
+          <SingleNav
+            to={`/projects/${did}/bonds/${bondDid}/payments`}
+            light={light}
+          >
+            Payments
+            <RightIcon />
+          </SingleNav>
+        </Route>
       </>
     )
   }
 
   return (
     <>
-      <HeroContainer onlyTitle={onlyTitle} light={ light }>
+      <HeroContainer onlyTitle={onlyTitle} light={light}>
         <HeroInner className="detailed">
           <div className="row">
             <div className="col-sm-12">
               {renderNavs()}
               <Title light={light}>{name}</Title>
-              {
-                !onlyTitle && <>
+              {!onlyTitle && (
+                <>
                   <Description>{description}</Description>
                   <HeroInfoItemsWrapper>
                     <HeroInfoItem>
@@ -267,7 +241,7 @@ const EntityHero: React.FunctionComponent<Props> = ({
                     )}
                   </HeroInfoItemsWrapper>
                 </>
-              }
+              )}
             </div>
           </div>
         </HeroInner>

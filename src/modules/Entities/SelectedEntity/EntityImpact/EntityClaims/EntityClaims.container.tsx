@@ -10,7 +10,7 @@ import {
   ContentContainer,
   Layout,
   HeaderButton,
-  TitleWrapper
+  TitleWrapper,
 } from './EntityClaims.styles'
 import AmountCard from './components/AmountCard'
 import EntityClaimRecord from './components/EntityClaimRecord'
@@ -25,7 +25,13 @@ import * as entityClaimsSelectors from './EntityClaims.selectors'
 import ExpandableList from 'common/components/ExpandableList/ExpandableList'
 import * as accountSelectors from 'modules/Account/Account.selectors'
 
-const ClaimStatusOrder = [EntityClaimStatus.Saved, EntityClaimStatus.Pending, EntityClaimStatus.Rejected, EntityClaimStatus.Approved, EntityClaimStatus.Disputed]
+const ClaimStatusOrder = [
+  EntityClaimStatus.Saved,
+  EntityClaimStatus.Pending,
+  EntityClaimStatus.Rejected,
+  EntityClaimStatus.Approved,
+  EntityClaimStatus.Disputed,
+]
 
 interface Props {
   claims: EntityClaim[]
@@ -33,95 +39,33 @@ interface Props {
   userDid: string
 }
 
-const EntityClaims: React.FunctionComponent<Props> = ({ entity, claims, userDid }) => {
+const EntityClaims: React.FunctionComponent<Props> = ({
+  entity,
+  claims,
+  userDid,
+}) => {
   const claimTemplates = entity.entityClaims.items
-  const [filter, setFilter] = React.useState({ status: null, query: '', all: true })
-  const handleClaimTemplateClick = ():void => {
-    return;
-  }
+  const [filter, setFilter] = React.useState({
+    status: null,
+    query: '',
+    all: true,
+    claimTemplateId: '',
+  })
+  const handleClaimTemplateClick = (claimTemplateId): void => {
+    if (claimTemplateId === filter.claimTemplateId) {
+      setFilter({
+        ...filter,
+        claimTemplateId: '',
+      })
 
-  /* const claims = [
-    {
-      date: new Date('2020-11-25T16:03:17.730Z'),
-      saDid: "did:sov:CYCc2xaJKrp8Yt947Nc6jd",
-      status: "0",
-      claimId: "449688c31f037561cb2c58568b15450613349c1594fbd76e42cc17087f6433e3",
-      location: {
-        lat: "18.4241° E",
-        long: "33.9249° S"
-      }
-    },
-    {
-      date: new Date('2020-11-25T16:03:17.730Z'),
-      saDid: "did:sov:CYCc2xaJKrp8Yt947Nc6jd",
-      status: "1",
-      claimId: "449688c31f037561cb2c58568b15450613349c1594fbd76e42cc17087f6433e3",
-      location: {
-        lat: "18.4241° E",
-        long: "33.9249° S"
-      }
-    },
-    {
-      date: new Date('2020-11-25T16:03:17.730Z'),
-      saDid: "did:sov:CYCc2xaJKrp8Yt947Nc6jd",
-      status: "3",
-      claimId: "449688c31f037561cb2c58568b15450613349c1594fbd76e42cc17087f6433e3",
-      location: {
-        lat: "18.4241° E",
-        long: "33.9249° S"
-      }
-    },
-    {
-      date: new Date('2020-11-25T16:03:17.730Z'),
-      saDid: "did:sov:CYCc2xaJKrp8Yt947Nc6jd",
-      status: "2",
-      claimId: "449688c31f037561cb2c58568b15450613349c1594fbd76e42cc17087f6433e3",
-      location: {
-        lat: "18.4241° E",
-        long: "33.9249° S"
-      }
-    },
-    {
-      date: new Date('2020-11-25T16:03:17.730Z'),
-      saDid: "did:sov:CYCc2xaJKrp8Yt947Nc6jd",
-      status: "4",
-      claimId: "449688c31f037561cb2c58568b15450613349c1594fbd76e42cc17087f6433e3",
-      location: {
-        lat: "18.4241° E",
-        long: "33.9249° S"
-      }
-    },
-    {
-      date: new Date('2020-11-25T16:03:17.730Z'),
-      saDid: "did:sov:CYCc2xaJKrp8Yt947Nc6jd",
-      status: "4",
-      claimId: "449688c31f037561cb2c58568b15450613349c1594fbd76e42cc17087f6433e3",
-      location: {
-        lat: "18.4241° E",
-        long: "33.9249° S"
-      }
-    },
-    {
-      date: new Date('2020-11-25T16:03:17.730Z'),
-      saDid: "did:sov:CYCc2xaJKrp8Yt947Nc6jd",
-      status: "1",
-      claimId: "449688c31f037561cb2c58568b15450613349c1594fbd76e42cc17087f6433e3",
-      location: {
-        lat: "18.4241° E",
-        long: "33.9249° S"
-      }
-    },
-    {
-      date: new Date('2020-11-25T16:03:17.730Z'),
-      saDid: "did:sov:CYCc2xaJKrp8Yt947Nc6jd",
-      status: "2",
-      claimId: "449688c31f037561cb2c58568b15450613349c1594fbd76e42cc17087f6433e3",
-      location: {
-        lat: "18.4241° E",
-        long: "33.9249° S"
-      }
+      return
     }
-  ] */
+
+    setFilter({
+      ...filter,
+      claimTemplateId,
+    })
+  }
 
   const handleRenderSectionTittle = (status, count): JSX.Element => {
     let title = ''
@@ -129,70 +73,69 @@ const EntityClaims: React.FunctionComponent<Props> = ({ entity, claims, userDid 
     switch (status) {
       case EntityClaimStatus.Pending:
         title = `Claims Pending Approval (${count})`
-        break;
+        break
       case EntityClaimStatus.Approved:
         title = `Claims Approved (${count})`
-        break;
+        break
       case EntityClaimStatus.Disputed:
         title = `Disputed Claims (${count})`
-        break;
+        break
       case EntityClaimStatus.Rejected:
         title = `Claims Rejected (${count})`
-        break;
+        break
       default:
         title = `Saved Claims (${count})`
     }
 
-    return (
-      <SectionTitle>
-        { title }
-      </SectionTitle>
-    )
+    return <SectionTitle>{title}</SectionTitle>
   }
 
   const filterClaims = (claims): EntityClaim[] => {
     let filtered = [...claims]
     if (filter.status) {
-      filtered = filtered.filter(claim => claim.status === filter.status)
+      filtered = filtered.filter((claim) => claim.status === filter.status)
     }
 
     if (filter.query) {
       const query = filter.query.toLowerCase()
-      filtered = filtered.filter(claim => claim.claimId.toLowerCase().includes(query))
+      filtered = filtered.filter((claim) =>
+        claim.claimId.toLowerCase().includes(query),
+      )
     }
 
     if (!filter.all) {
-      filtered = filtered.filter(claim => claim.saDid === userDid)
+      filtered = filtered.filter((claim) => claim.saDid === userDid)
+    }
+
+    if (filter.claimTemplateId) {
+      filtered = filtered.filter(
+        (claim) => claim.claimTemplateId === filter.claimTemplateId,
+      )
     }
     return filtered
   }
 
   const handleRenderClaimsPerStatus = (status, key): JSX.Element => {
-    const claimsHasStatus = filterClaims(claims).filter(claim => claim.status === status)
+    const claimsHasStatus = filterClaims(claims).filter(
+      (claim) => claim.status === status,
+    )
     return (
       <div key={key}>
-        {
-          !filter.status && status !== EntityClaimStatus.Saved &&
-            <Divider />
-        }
-        {
-          !filter.status &&
-          handleRenderSectionTittle(status, claimsHasStatus.length)
-        }
+        {!filter.status && status !== EntityClaimStatus.Saved && <Divider />}
+        {!filter.status &&
+          handleRenderSectionTittle(status, claimsHasStatus.length)}
         <ClaimsContainer>
-        <ExpandableList limit={6}>
-        {
-          claimsHasStatus.map((claim, key) => {
-            return (
-              <EntityClaimRecord
-                claim={claim}
-                detailPath={ `/projects/${entity.did}/detail/claims/${claim.claimId}` }
-                key={key}
-              />
-            )
-          })
-        }
-        </ExpandableList>
+          <ExpandableList limit={6}>
+            {claimsHasStatus.map((claim, key) => {
+              return (
+                <EntityClaimRecord
+                  claim={claim}
+                  detailPath={`/projects/${entity.did}/detail/claims/${claim.claimId}`}
+                  key={key}
+                />
+              )
+            })}
+          </ExpandableList>
         </ClaimsContainer>
       </div>
     )
@@ -201,7 +144,7 @@ const EntityClaims: React.FunctionComponent<Props> = ({ entity, claims, userDid 
   const handleRenderClaims = (): JSX.Element[] => {
     return ClaimStatusOrder.map((status, key) => {
       return handleRenderClaimsPerStatus(status, key)
-    });
+    })
   }
 
   const handleStatusClick = (status: EntityClaimStatus): void => {
@@ -219,13 +162,15 @@ const EntityClaims: React.FunctionComponent<Props> = ({ entity, claims, userDid 
     return ClaimStatusOrder.map((status, key) => {
       return (
         <AmountCard
-          amount={ claims.filter(claim => claim.status === status).length }
-          status={ status }
-          key={ `status-${key}` }
-          onClick={ (): void => handleStatusClick(status) }
-          isActive={ filter.status === status }
-        >
-        </AmountCard>
+          amount={
+            filterClaims(claims).filter((claim) => claim.status === status)
+              .length
+          }
+          status={status}
+          key={`status-${key}`}
+          onClick={(): void => handleStatusClick(status)}
+          isActive={filter.status === status}
+        ></AmountCard>
       )
     })
   }
@@ -234,10 +179,10 @@ const EntityClaims: React.FunctionComponent<Props> = ({ entity, claims, userDid 
     let title = ''
     switch (filter.status) {
       case EntityClaimStatus.Pending:
-        title =  'Claims Pending'
+        title = 'Claims Pending'
         break
       case EntityClaimStatus.Approved:
-        title =  'Claims Approved'
+        title = 'Claims Approved'
         break
       case EntityClaimStatus.Rejected:
         title = 'Claims Rejected'
@@ -246,17 +191,13 @@ const EntityClaims: React.FunctionComponent<Props> = ({ entity, claims, userDid 
         title = 'Claims Saved'
         break
       case EntityClaimStatus.Disputed:
-        title =  'Claims Disputed'
+        title = 'Claims Disputed'
         break
       default:
         title = 'All Claims'
     }
 
-    return (
-      <TitleWrapper>
-        { title }
-      </TitleWrapper>
-    )
+    return <TitleWrapper>{title}</TitleWrapper>
   }
 
   const handleQueryChange = (event): void => {
@@ -267,48 +208,50 @@ const EntityClaims: React.FunctionComponent<Props> = ({ entity, claims, userDid 
     <Layout>
       <ContentContainer>
         <SectionTitle className="mb-4 d-flex align-items-center">
-          { handleRenderTitle() }
+          {handleRenderTitle()}
           <div className="d-flex ml-5">
             <HeaderButton
-              className={`${filter.all ? 'active': '' }`}
-              onClick={(): void => setFilter(Object.assign({}, { ...filter, all: true }))}
+              className={`${filter.all ? 'active' : ''}`}
+              onClick={(): void =>
+                setFilter(Object.assign({}, { ...filter, all: true }))
+              }
             >
               All Claims
             </HeaderButton>
             <HeaderButton
-              className={`${!filter.all ? 'active': '' } ml-3`}
-              onClick={(): void => setFilter(Object.assign({}, { ...filter, all: false }))}
+              className={`${!filter.all ? 'active' : ''} ml-3`}
+              onClick={(): void =>
+                setFilter(Object.assign({}, { ...filter, all: false }))
+              }
             >
               My Claims
             </HeaderButton>
           </div>
+          <SearchBar placeholder="Search Claims" onChange={handleQueryChange} />
         </SectionTitle>
-        <AmountCardsContainer>
-          {
-            handleRenderAmountCards()
-          }
-        </AmountCardsContainer>
+        <AmountCardsContainer>{handleRenderAmountCards()}</AmountCardsContainer>
         <FilterContainer>
-          <ButtonSlider>
-            {
-              claimTemplates.map((claim, key) =>
-                <Button
-                  type={ ButtonTypes.light }
-                  onClick={(): void => handleClaimTemplateClick() }
-                  disabled={ false }
-                  key={ key }
-                  className="active"
-                >
-                  { claim.title }
-                </Button>
-              )
-            }
+          <ButtonSlider light>
+            {claimTemplates.map((claimTemplate, key) => (
+              <Button
+                type={ButtonTypes.light}
+                onClick={(): void =>
+                  handleClaimTemplateClick(claimTemplate['@id'])
+                }
+                disabled={false}
+                key={key}
+                className={
+                  claimTemplate['@id'] === filter.claimTemplateId
+                    ? 'active'
+                    : ''
+                }
+              >
+                {claimTemplate.title}
+              </Button>
+            ))}
           </ButtonSlider>
-          <SearchBar placeholder="Search Claims" onChange={ handleQueryChange }/>
         </FilterContainer>
-        {
-          handleRenderClaims()
-        }
+        {handleRenderClaims()}
       </ContentContainer>
     </Layout>
   )
@@ -320,8 +263,6 @@ const mapStateToProps = (state: RootState): any => ({
   userDid: accountSelectors.selectUserDid(state),
 })
 
-const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
-})
+const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({})
 
-
-export default connect(mapStateToProps, mapDispatchToProps)(EntityClaims);
+export default connect(mapStateToProps, mapDispatchToProps)(EntityClaims)

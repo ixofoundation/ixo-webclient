@@ -28,6 +28,7 @@ interface Props {
   type: EntityType
   entityColor?: string
   filterChanged: (type: EntityType) => void
+  queryChanged: (query: string) => void
 }
 
 export default class Search extends React.Component<Props> {
@@ -37,9 +38,12 @@ export default class Search extends React.Component<Props> {
   }
 
   handleChange = (event): void => {
+    const { queryChanged } = this.props
     this.setState({
       search: event.target.value,
     })
+
+    queryChanged(event.target.value)
   }
 
   handleSubmit = (e): void => {

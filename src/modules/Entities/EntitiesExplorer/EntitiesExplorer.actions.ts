@@ -18,6 +18,7 @@ import {
   DDOTagCategory,
   FilterCategoryTagAction,
   FilterSectorAction,
+  FilterQueryAction
 } from './types'
 import { RootState } from 'common/redux/types'
 import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
@@ -179,6 +180,11 @@ export const filterAddCategoryTag = (category: string, tag: string) => (
     },
   })
 }
+
+export const filterEntitiesQuery = (query: string): FilterQueryAction => ({
+  type: EntitiesExplorerActions.FilterQuery,
+  payload: {query}
+})
 
 export const filterCategories = (
   categories: DDOTagCategory[],

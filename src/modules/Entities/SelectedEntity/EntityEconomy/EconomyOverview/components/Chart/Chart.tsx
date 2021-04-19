@@ -196,11 +196,6 @@ const seriesDataLinear = [
   },
 ]
 
-const series = [
-  {
-    data: seriesData,
-  },
-]
 const seriesBar = [
   {
     name: 'volume',
@@ -320,6 +315,11 @@ const optionsBar = {
   },
 }
 const Chart: React.FunctionComponent<Props> = ({ data, token }) => {
+  const series = [
+    {
+      data: seriesData,
+    },
+  ]
   return (
     <Fragment>
       <ReactApexChart

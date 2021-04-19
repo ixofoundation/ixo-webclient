@@ -18,6 +18,7 @@ export const initialState: EntitiesExplorerState = {
     featuredEntities: true,
     popularEntities: false,
     sector: null,
+    query: ''
   },
 }
 
@@ -165,6 +166,14 @@ export const reducer = (
           ddoTags: getInitialSelectedCategories(state.selectedEntitiesType),
           dateFrom: null,
           dateTo: null,
+        },
+      }
+    case EntitiesExplorerActions.FilterQuery:
+      return {
+        ...state,
+        filter: {
+          ...state.filter,
+          query: action.payload.query,
         },
       }
   }

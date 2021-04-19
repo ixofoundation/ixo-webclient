@@ -38,7 +38,11 @@ export interface EvaluateClaimState {
 export enum EvaluateClaimActions {
   GetClaim = 'ixo/claim/GET_CLAIM',
   ClearClaim = 'ixo/claim/CLEAR_CLAIM',
-  GetClaimTemplate = 'ixo/claim/GET_CLAIM_TEMPLATE'
+  GetClaimTemplate = 'ixo/claim/GET_CLAIM_TEMPLATE',
+  SaveComment = 'ixo/claim/SAVE_COMMENT',
+  UpdateStatus = 'ixo/claim/UPDATE_STATUS',
+  MoveToNext = 'ixo/claim/MOVE_TO_NEXT_STEP',
+  MoveToStep = 'ixo/claim/MOVE_TO_STEP'
 }
 
 export interface GetClaimAction {
@@ -55,7 +59,37 @@ export interface GetClaimTemplateAction {
   payload: any
 }
 
+export interface SaveCommentAction {
+  type: EvaluateClaimActions.SaveComment,
+  payload: any
+}
+
+export interface UpdateStatusAction {
+  type: EvaluateClaimActions.UpdateStatus,
+  payload: any
+}
+
+export interface MoveToNextStepAction {
+  type: EvaluateClaimActions.MoveToNext,
+}
+
+export interface MoveToStepAction {
+  type: EvaluateClaimActions.MoveToStep,
+  payload: any
+}
+
+export enum EvaluateClaimStatus {
+  Queried = 'Queried',
+  Rejected = 'Rejected',
+  Approved = 'Approved',
+}
+
 export type EvaluateClaimActionTypes =
   | GetClaimAction
   | ClearClaimAction
   | GetClaimTemplateAction
+  | SaveCommentAction
+  | UpdateStatusAction
+  | MoveToNextStepAction
+  | MoveToStepAction
+

@@ -1,10 +1,4 @@
-import React, {
-  ChangeEvent,
-  FormEvent,
-  useRef,
-  useEffect,
-  Dispatch,
-} from 'react'
+import React, { FormEvent, useRef, useEffect, Dispatch } from 'react'
 import useBot from 'react-rasa-assistant'
 import ArrowUp from 'assets/icons/ArrowUp'
 import { createEntityAgent } from 'modules/Entities/SelectedEntity/EntityImpact/EntityAgents/EntityAgents.actions'
@@ -13,6 +7,7 @@ import { AgentRole } from 'modules/Account/types'
 import { RootState } from 'common/redux/types'
 import * as accountSelectors from 'modules/Account/Account.selectors'
 import { UserInfo } from 'modules/Account/types'
+import TextareaAutosize from 'react-textarea-autosize'
 
 import {
   Container,
@@ -25,12 +20,12 @@ import {
   MessageIn,
   MessageOut,
   MessagesContainer,
-  StyledTextarea,
 } from './Assistant.styles'
 
 interface AssistantProps {
   initMsg: string
   userInfo?: UserInfo
+  role?: AgentRole
   handleCreateEntityAgent?: (
     email: string,
     name: string,
@@ -41,6 +36,7 @@ interface AssistantProps {
 const Assistant: React.FunctionComponent<AssistantProps> = ({
   initMsg,
   userInfo,
+  role,
   handleCreateEntityAgent,
 }) => {
   const messagesRef = useRef(null)
@@ -60,10 +56,11 @@ const Assistant: React.FunctionComponent<AssistantProps> = ({
         !msg.quick_replies &&
         !msg.buttons
       ) {
+        console.log('ffffffffffffffffffff', msg)
         switch (msg.action) {
           case 'authorise':
             if (userInfo) {
-              handleCreateEntityAgent(msg.emai, msg.name, msg.role)
+              handleCreateEntityAgent(msg.emai, msg.name, role)
             }
             break
         }
@@ -75,8 +72,14 @@ const Assistant: React.FunctionComponent<AssistantProps> = ({
     },
   })
 
-  const handleUserInput = (event: ChangeEvent<HTMLInputElement>): void => {
-    setUserText(event.target.value)
+  const handleKeydown = (
+    event: React.KeyboardEvent<HTMLTextAreaElement>,
+  ): void => {
+    if (event.key === 'Enter' && !event.shiftKey && !event.ctrlKey) {
+      event.preventDefault()
+      sendUserText()
+      setUserText('')
+    }
   }
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>): void => {
@@ -147,12 +150,14 @@ const Assistant: React.FunctionComponent<AssistantProps> = ({
         )}
       </MessagesContainer>
       <StyledForm onSubmit={handleSubmit}>
-        <StyledTextarea
+        <TextareaAutosize
           name="message"
           placeholder="Type a message..."
           autoComplete="off"
-          onChange={handleUserInput}
+          onKeyDown={handleKeydown}
+          onChange={(event): void => setUserText(event.target.value)}
           value={userText}
+          cacheMeasurements
         />
         <SendButton type="submit" disabled={!userText.length}>
           <ArrowUp />

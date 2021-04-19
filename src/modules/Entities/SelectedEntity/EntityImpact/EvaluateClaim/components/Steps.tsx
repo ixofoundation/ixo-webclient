@@ -13,23 +13,17 @@ const Container = styled.div`
 
 interface Props {
   steps: StepProp[]
+  onClickStep: (stepNumber: number) => void
 }
 
-const Steps: React.FunctionComponent<Props> = ({ steps }) => {
+const Steps: React.FunctionComponent<Props> = ({ steps, onClickStep }) => {
   return (
     <Container>
-    {
-      steps.map((step, key) => {
-        return (
-          <Step
-            key={ key }
-            { ...step }
-          />
-        )
-      })
-    }
+      {steps.map((step, key) => {
+        return <Step key={key} {...step} onClickStep={onClickStep} />
+      })}
     </Container>
   )
 }
 
-export default Steps;
+export default Steps

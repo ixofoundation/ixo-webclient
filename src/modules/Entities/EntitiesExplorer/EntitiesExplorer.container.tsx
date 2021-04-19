@@ -31,6 +31,7 @@ import {
   changeEntitiesType,
   filterCategoryTag,
   filterSector,
+  filterEntitiesQuery,
 } from './EntitiesExplorer.actions'
 import EntitiesFilter from './components/EntitiesFilter/EntitiesFilter'
 import { EntityType } from '../types'
@@ -40,7 +41,7 @@ import * as entitiesSelectors from './EntitiesExplorer.selectors'
 import * as accountSelectors from 'modules/Account/Account.selectors'
 import { entityTypeMap } from '../strategy-map'
 import FundingChat from 'modules/FundingChat/FundingChat.container'
-import {Transition} from 'react-spring/renderprops'
+import { Transition } from 'react-spring/renderprops'
 import AssistantContext from 'common/contexts/Assistant'
 
 export interface Props extends RouteProps {
@@ -64,6 +65,7 @@ export interface Props extends RouteProps {
   filterSchema: FilterSchema
   filterSector: string
   handleGetEntities: () => void
+  handleChangeEntitiesQuery: (query: string) => void
   handleChangeEntitiesType: (type: EntityType) => void
   handleFilterToggleUserEntities: (userEntities: boolean) => void
   handleFilterToggleFeaturedEntities: (featuredEntities: boolean) => void
@@ -88,9 +90,8 @@ const EntityCard: any = {
 }
 
 class EntitiesExplorer extends React.Component<Props> {
-
   state = {
-    assistantPanelActive: false
+    assistantPanelActive: false,
   }
 
   componentDidMount(): void {
@@ -172,8 +173,8 @@ class EntitiesExplorer extends React.Component<Props> {
     }
   }
 
-  assistantPanelToggle = () => {
-    const { assistantPanelActive } = this.state;
+  assistantPanelToggle = (): void => {
+    const { assistantPanelActive } = this.state
 
     // Assistant panel shown
     if (!assistantPanelActive) {
@@ -182,49 +183,54 @@ class EntitiesExplorer extends React.Component<Props> {
       document?.querySelector('body')?.classList.remove('noScroll')
     }
 
-    this.setState({ assistantPanelActive: !assistantPanelActive });
+    this.setState({ assistantPanelActive: !assistantPanelActive })
   }
 
   render(): JSX.Element {
-    const { assistantPanelActive } = this.state;
-    const { match } = this.props;
+    const { assistantPanelActive } = this.state
+    const { match } = this.props
     return (
       <AssistantContext.Provider value={{ active: assistantPanelActive }}>
-      <Container>
-        <div className="d-flex">
-          <div className="d-flex flex-column flex-grow-1">
-            <EntitiesHero
-              type={this.props.type}
-              filterSector={this.props.filterSector}
-              showSearch={true}
-              handleChangeEntitiesType={this.props.handleChangeEntitiesType}
-              assistantPanelToggle={ this.assistantPanelToggle }
-            />
-            {this.props.isLoadingEntities && (
-              <Spinner info={`Loading ${entityTypeMap[this.props.type].plural}`} />
-            )}
-            {!this.props.isLoadingEntities && this.renderEntities()}
-          </div>
-          <Transition
+        <Container>
+          <div className="d-flex">
+            <div className="d-flex flex-column flex-grow-1">
+              <EntitiesHero
+                type={this.props.type}
+                filterSector={this.props.filterSector}
+                showSearch={true}
+                handleChangeEntitiesType={this.props.handleChangeEntitiesType}
+                handleChangeQuery={this.props.handleChangeEntitiesQuery}
+                assistantPanelToggle={this.assistantPanelToggle}
+              />
+              {this.props.isLoadingEntities && (
+                <Spinner
+                  info={`Loading ${entityTypeMap[this.props.type].plural}`}
+                />
+              )}
+              {!this.props.isLoadingEntities && this.renderEntities()}
+            </div>
+            <Transition
               items={assistantPanelActive}
               from={{ width: '0%' }}
               enter={{ width: '25%' }}
               leave={{ width: '0%' }}
             >
-              {
-                assistantPanelActive => assistantPanelActive && (props =>
-                <div style={{ background: '#F0F3F9', ...props }}>
-                  {assistantPanelActive && (
-                    <FundingChat
-                      match={match}
-                      assistantPanelToggle={this.assistantPanelToggle}
-                    />
-                  )}
-                </div>)
+              {(assistantPanelActive): any =>
+                assistantPanelActive &&
+                ((props): JSX.Element => (
+                  <div style={{ background: '#F0F3F9', ...props }}>
+                    {assistantPanelActive && (
+                      <FundingChat
+                        match={match}
+                        assistantPanelToggle={this.assistantPanelToggle}
+                      />
+                    )}
+                  </div>
+                ))
               }
-          </Transition>
-        </div>
-      </Container>
+            </Transition>
+          </div>
+        </Container>
       </AssistantContext.Provider>
     )
   }
@@ -261,6 +267,8 @@ function mapStateToProps(state: RootState): Record<string, any> {
 
 const mapDispatchToProps = (dispatch: any): any => ({
   handleGetEntities: (): void => dispatch(getEntities()),
+  handleChangeEntitiesQuery: (query: string): void =>
+    dispatch(filterEntitiesQuery(query)),
   handleChangeEntitiesType: (type: EntityType): void =>
     dispatch(changeEntitiesType(type)),
   handleFilterToggleUserEntities: (userEntities: boolean): void =>

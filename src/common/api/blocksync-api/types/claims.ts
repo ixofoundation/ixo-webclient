@@ -15,4 +15,5 @@ export interface ApiClaim {
   }[]
   dateTime: string
   projectDid: string
+  claimTemplateId: string
 }

@@ -14,21 +14,20 @@ export const Container = styled.div`
     svg {
       width: 100%;
       height: 90%;
-      fill: #7F7F7F;
+      fill: #7f7f7f;
     }
   }
 
   .sb-soundplayer-progress-container {
-    background: #E6E6E6;
+    background: #e6e6e6;
     border-radius: 3px;
     height: 3px;
     margin-left: 1.25rem;
 
     .sb-soundplayer-progress-inner {
-      background: #39C3E6;
+      background: #39c3e6;
       border-radius: 3px;
       height: 3px;
-      transition: 1.5s;
       position: relative;
 
       &:after {
@@ -37,7 +36,7 @@ export const Container = styled.div`
         width: 0.75rem;
         height: 0.75rem;
         border-radius: 50%;
-        background: #39C3E6;
+        background: #39c3e6;
         right: 0;
         top: 50%;
         transform: translate(50%, -50%);
@@ -50,7 +49,7 @@ export const Container = styled.div`
 export const TimerContainer = styled.div`
   display: flex;
   justify-content: space-between;
-  color: #7C8E97;
+  color: #7c8e97;
   padding-left: 2.25rem;
 `
 

@@ -7,6 +7,7 @@ export const SwitchWrapper = styled.div`
   font-weight: normal;
   font-size: 0.75rem;
   color: black;
+  cursor: pointer;
 
   .switch {
     background-color: transparent;

@@ -146,7 +146,7 @@ export const AssistantWrapper = styled.div`
   flex-direction: column;
 
   .assistant-container {
-    height: calc(100% - 40px);
+    height: calc(100% - 20px);
   }
 `
 

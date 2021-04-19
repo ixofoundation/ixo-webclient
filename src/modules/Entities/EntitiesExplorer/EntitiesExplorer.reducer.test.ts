@@ -50,6 +50,7 @@ describe('Entities Reducer', () => {
           popularEntities: false,
           featuredEntities: false,
           sector: 'test',
+          query: ''
         },
       }
 
@@ -169,6 +170,7 @@ describe('Entities Reducer', () => {
           popularEntities: true,
           featuredEntities: true,
           sector: 'test',
+          query: ''
         },
       }
 
@@ -255,6 +257,7 @@ describe('Entities Reducer', () => {
           popularEntities: true,
           featuredEntities: true,
           sector: 'test',
+          query: ''
         },
       }
 
@@ -337,6 +340,7 @@ describe('Entities Reducer', () => {
           popularEntities: true,
           userEntities: true,
           sector: 'test',
+          query: ''
         },
       }
 
@@ -419,6 +423,7 @@ describe('Entities Reducer', () => {
           featuredEntities: true,
           userEntities: true,
           sector: 'test',
+          query: ''
         },
       }
 
@@ -501,6 +506,7 @@ describe('Entities Reducer', () => {
           popularEntities: false,
           featuredEntities: false,
           sector: 'test',
+          query: ''
         },
       }
 
@@ -583,6 +589,7 @@ describe('Entities Reducer', () => {
           popularEntities: false,
           featuredEntities: false,
           sector: 'test',
+          query: ''
         },
       }
 
@@ -661,6 +668,7 @@ describe('Entities Reducer', () => {
           popularEntities: false,
           featuredEntities: false,
           sector: 'test',
+          query: ''
         },
       }
 
@@ -751,6 +759,7 @@ describe('Entities Reducer', () => {
           popularEntities: false,
           featuredEntities: false,
           sector: 'test',
+          query: ''
         },
       }
 
@@ -839,6 +848,7 @@ describe('Entities Reducer', () => {
           popularEntities: false,
           featuredEntities: false,
           sector: 'test',
+          query: ''
         },
       }
 
@@ -936,6 +946,7 @@ describe('Entities Reducer', () => {
           popularEntities: false,
           featuredEntities: false,
           sector: 'test',
+          query: ''
         },
       }
 
@@ -1024,6 +1035,7 @@ describe('Entities Reducer', () => {
           popularEntities: false,
           featuredEntities: false,
           sector: 'test',
+          query: ''
         },
       }
 
@@ -1108,6 +1120,7 @@ describe('Entities Reducer', () => {
           popularEntities: false,
           featuredEntities: false,
           sector: 'test',
+          query: ''
         },
       }
 
@@ -1197,6 +1210,7 @@ describe('Entities Reducer', () => {
           popularEntities: false,
           featuredEntities: false,
           sector: 'test',
+          query: ''
         },
       }
 

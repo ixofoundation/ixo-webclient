@@ -24,6 +24,7 @@ export interface Props {
   showSearch: boolean
   filterSector: string
   handleChangeEntitiesType: (type: EntityType) => void
+  handleChangeQuery?: (query: string) => void
   assistantPanelToggle?: () => void
 }
 
@@ -32,7 +33,8 @@ export const EntitiesHero: React.FunctionComponent<Props> = ({
   showSearch,
   filterSector,
   handleChangeEntitiesType,
-  assistantPanelToggle
+  assistantPanelToggle,
+  handleChangeQuery,
 }) => {
   const entityStrategyMap = entityTypeMap[type]
   const header = getHeaderSchema(filterSector, entityStrategyMap.headerSchema)
@@ -61,7 +63,10 @@ export const EntitiesHero: React.FunctionComponent<Props> = ({
       ></ColorOverlay>
       <HeroInner className="container">
         <div className="row">
-          <HeroTextWrapper className="col-md-5 col-sm-12 col-12" style={{ color: header.color }}>
+          <HeroTextWrapper
+            className="col-md-5 col-sm-12 col-12"
+            style={{ color: header.color }}
+          >
             <h1>{header.title}</h1>
             <h3>{header.subTitle}</h3>
           </HeroTextWrapper>
@@ -97,13 +102,14 @@ export const EntitiesHero: React.FunctionComponent<Props> = ({
         buttons={headerTabButtons}
         activeTabColor={entityStrategyMap.themeColor}
         enableAssistantButton={true}
-        assistantPanelToggle={ assistantPanelToggle }
+        assistantPanelToggle={assistantPanelToggle}
       />
       {showSearch && (
         <Search
           entityColor={entityStrategyMap.themeColor}
           type={type}
           filterChanged={handleChangeEntitiesType}
+          queryChanged={handleChangeQuery}
         />
       )}
     </HeroContainer>

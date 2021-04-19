@@ -21,7 +21,7 @@ import TemplateContentComponent from './components/TemplateContent/TemplateConte
 import { PageContent } from '../types'
 import FundingChat from 'modules/FundingChat/FundingChat.container'
 import AssistantContext from 'common/contexts/Assistant'
-import {Transition, animated} from 'react-spring/renderprops'
+import { Transition, animated } from 'react-spring/renderprops'
 import * as entityClaimsSelectors from 'modules/Entities/CreateEntity/CreateEntityClaims/CreateEntityClaims.selectors'
 import { CreateEntityClaimsState } from 'modules/Entities/CreateEntity/CreateEntityClaims/types'
 import { AgentRole } from 'modules/Account/types'
@@ -35,6 +35,7 @@ interface Props {
   type: EntityType
   dateCreated: Moment
   userDid: string
+  creatorDid: string
   creatorLogo: string
   creatorMission: string
   creatorName: string
@@ -43,20 +44,23 @@ interface Props {
   sdgs: string[]
   pageContent: PageContent
   isLoggedIn: boolean
-  isLoading: boolean,
-  entityClaims: CreateEntityClaimsState,
-  entity: any,
-  handleGetEntity: (did: string) => void,
+  isLoading: boolean
+  entityClaims: CreateEntityClaimsState
+  entity: any
+  handleGetEntity: (did: string) => void
 }
 
 class EntityOverview extends React.Component<Props> {
   state = {
     assistantPanelActive: false,
     assistantIntent: '',
-    role: AgentRole.ServiceProvider
+    role: AgentRole.ServiceProvider,
   }
 
-  assistantPanelToggle = (intent = '', role = AgentRole.ServiceProvider): void => {
+  assistantPanelToggle = (
+    intent = '',
+    role = AgentRole.ServiceProvider,
+  ): void => {
     const { assistantPanelActive } = this.state
 
     // Assistant panel shown
@@ -66,12 +70,15 @@ class EntityOverview extends React.Component<Props> {
       document?.querySelector('body')?.classList.remove('noScroll')
     }
 
-
-    this.setState({assistantPanelActive: !assistantPanelActive, assistantIntent: intent, role})
+    this.setState({
+      assistantPanelActive: !assistantPanelActive,
+      assistantIntent: intent,
+      role,
+    })
   }
 
   componentDidMount() {
-    const { type } = this.props;
+    const { type } = this.props
 
     if (type === EntityType.Template) {
       this.assistantPanelToggle()
@@ -90,16 +97,12 @@ class EntityOverview extends React.Component<Props> {
       creatorLogo,
       creatorName,
       creatorMission,
-      creatorWebsite
-    } = this.props;
+      creatorWebsite,
+    } = this.props
 
     switch (type) {
       case EntityType.Template:
-        return (
-          <TemplateContentComponent
-            templateId={ did }
-          />
-        )
+        return <TemplateContentComponent templateId={did} />
       default:
         return (
           <PageContentComponent
@@ -126,9 +129,9 @@ class EntityOverview extends React.Component<Props> {
       sdgs,
       isLoggedIn,
       isLoading,
-      entity
+      entity,
+      creatorDid,
     } = this.props
-
     const { assistantPanelActive, assistantIntent, role } = this.state
 
     if (isLoading) {
@@ -142,60 +145,61 @@ class EntityOverview extends React.Component<Props> {
 
     return (
       <AssistantContext.Provider value={{ active: assistantPanelActive }}>
-      <div>
-        <OverviewContainer className="container-fluid">
-          <div className="row">
-            <MainPanelWrapper className="col-lg-9 pr-md-5">
-              <EntityHero
-                type={type}
-                did={did}
-                name={name}
-                description={description}
-                dateCreated={dateCreated}
-                creatorName={creatorName}
-                location={location}
-                sdgs={sdgs}
-                loggedIn={isLoggedIn}
-                onlyTitle={false}
-                assistantPanelToggle={ this.assistantPanelToggle }
-                light
-              />
-              {
-                this.handleRenderContent()
-              }
-            </MainPanelWrapper>
-            <SidebarWrapper className="col-lg-3 position-relative">
-              <ControlPanel
-                schema={entityTypeMap[type].controlPanelSchema}
-                entityDid={did}
-                userDid={userDid}
-                claims={ claims }
-                assistantPanelToggle={ this.assistantPanelToggle }
-              />
-              <Transition
+        <div>
+          <OverviewContainer className="container-fluid">
+            <div className="row">
+              <MainPanelWrapper className="col-lg-9 pr-md-5">
+                <EntityHero
+                  type={type}
+                  did={did}
+                  name={name}
+                  description={description}
+                  dateCreated={dateCreated}
+                  creatorDid={creatorDid}
+                  creatorName={creatorName}
+                  location={location}
+                  sdgs={sdgs}
+                  loggedIn={isLoggedIn}
+                  onlyTitle={false}
+                  assistantPanelToggle={this.assistantPanelToggle}
+                  userDid={userDid}
+                  light
+                />
+                {this.handleRenderContent()}
+              </MainPanelWrapper>
+              <SidebarWrapper className="col-lg-3 position-relative">
+                <ControlPanel
+                  schema={entityTypeMap[type].controlPanelSchema}
+                  entityDid={did}
+                  userDid={userDid}
+                  claims={claims}
+                  assistantPanelToggle={this.assistantPanelToggle}
+                />
+                <Transition
                   items={assistantPanelActive}
-                  from={{ width: '0%', }}
+                  from={{ width: '0%' }}
                   enter={{ width: '100%' }}
                   leave={{ width: '0%' }}
                 >
-
-                    {
-                      assistantPanelActive => assistantPanelActive && (props =>
-                        <AssistantContainer style={ props }>
-                          <animated.div style={{ width: '25%' }}>
-                              <FundingChat
-                                  assistantPanelToggle={ this.assistantPanelToggle }
-                                  assistantIntent={ assistantIntent }
-                                  role={ role }
-                              />
-                          </animated.div>
-                        </AssistantContainer>)
-                    }
-              </Transition>
-            </SidebarWrapper>
-          </div>
-        </OverviewContainer>
-      </div>
+                  {(assistantPanelActive) =>
+                    assistantPanelActive &&
+                    ((props) => (
+                      <AssistantContainer style={props}>
+                        <animated.div style={{ width: '25%' }}>
+                          <FundingChat
+                            assistantPanelToggle={this.assistantPanelToggle}
+                            assistantIntent={assistantIntent}
+                            role={role}
+                          />
+                        </animated.div>
+                      </AssistantContainer>
+                    ))
+                  }
+                </Transition>
+              </SidebarWrapper>
+            </div>
+          </OverviewContainer>
+        </div>
       </AssistantContext.Provider>
     )
   }
@@ -209,6 +213,7 @@ const mapStateToProps = (state: RootState): any => ({
   type: entitySelectors.selectEntityType(state),
   dateCreated: entitySelectors.selectEntityDateCreated(state),
   userDid: accountSelectors.selectUserDid(state),
+  creatorDid: entitySelectors.selectEntityCreator(state),
   creatorLogo: entitySelectors.selectEntityCreatorLogo(state),
   creatorMission: entitySelectors.selectEntityCreatorMission(state),
   creatorName: entitySelectors.selectEntityCreatorName(state),
@@ -219,10 +224,9 @@ const mapStateToProps = (state: RootState): any => ({
   isLoggedIn: accountSelectors.selectUserIsLoggedIn(state),
   isLoading: entitySelectors.entityIsLoading(state),
   entityClaims: entityClaimsSelectors.selectEntityClaims(state),
-  entity: entitySelectors.selectSelectedEntity(state)
+  entity: entitySelectors.selectSelectedEntity(state),
 })
 
-const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
-})
+const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({})
 
 export default connect(mapStateToProps, mapDispatchToProps)(EntityOverview)

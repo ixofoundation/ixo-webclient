@@ -375,6 +375,7 @@ describe('SubmitEntityClaim Selectors', () => {
         ],
         dateTime: '2019-04-23T13:20:30.000Z',
         projectDid: 'someEntityDid',
+        claimTemplateId: "someTemplateDid"
       })
     })
   })
