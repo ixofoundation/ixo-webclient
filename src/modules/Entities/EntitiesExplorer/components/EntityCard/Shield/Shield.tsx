@@ -20,7 +20,7 @@ export enum ShieldColor {
 interface Props {
   label: string
   text: string
-  color: ShieldColor
+  color: ShieldColor | string
 }
 
 const Shield: React.FunctionComponent<Props> = ({ label, text, color }) => {

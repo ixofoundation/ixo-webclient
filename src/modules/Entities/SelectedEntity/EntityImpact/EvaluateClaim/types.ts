@@ -42,6 +42,7 @@ export enum EvaluateClaimActions {
   SaveComment = 'ixo/claim/SAVE_COMMENT',
   UpdateStatus = 'ixo/claim/UPDATE_STATUS',
   MoveToNext = 'ixo/claim/MOVE_TO_NEXT_STEP',
+  MoveToStep = 'ixo/claim/MOVE_TO_STEP'
 }
 
 export interface GetClaimAction {
@@ -72,6 +73,11 @@ export interface MoveToNextStepAction {
   type: EvaluateClaimActions.MoveToNext,
 }
 
+export interface MoveToStepAction {
+  type: EvaluateClaimActions.MoveToStep,
+  payload: any
+}
+
 export enum EvaluateClaimStatus {
   Queried = 'Queried',
   Rejected = 'Rejected',
@@ -85,4 +91,5 @@ export type EvaluateClaimActionTypes =
   | SaveCommentAction
   | UpdateStatusAction
   | MoveToNextStepAction
+  | MoveToStepAction
 

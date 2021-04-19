@@ -13,6 +13,7 @@ import {
   saveComments,
   updateStatus,
   moveToNextStep,
+  moveToStep,
 } from './EvaluateClaim.actions'
 import {
   Layout,
@@ -42,6 +43,7 @@ interface Props {
   handleSaveComments: (itemId: string, comments: string) => void
   handleUpdateStatus: (itemId: string, status: EvaluateClaimStatus) => void
   handleMoveToNextStep: () => void
+  handleMoveToStep: (step: string) => void
 }
 
 class EvaluateClaim extends React.Component<Props> {
@@ -106,6 +108,36 @@ class EvaluateClaim extends React.Component<Props> {
     return claim.items.findIndex((item) => item.evaluation.status === '') == -1
   }
 
+  handleClickStep = (stepNumber: number): void => {
+    const { claim, handleMoveToStep } = this.props
+    const currentStep = this.switchStepAndStage(claim.stage)
+
+    if (currentStep > stepNumber) {
+      handleMoveToStep(String(this.switchStepAndStage(stepNumber)))
+    }
+  }
+
+  switchStepAndStage = (value: any): string | number => {
+    switch (value) {
+      case 'Analyse':
+        return 1
+      case 'Enrich':
+        return 2
+      case 'Approve':
+        return 3
+      case 'Issue':
+        return 4
+      case 1:
+        return 'Analyse'
+      case 2:
+        return 'Enrich'
+      case 3:
+        return 'Approve'
+      default:
+        return 'Issue'
+    }
+  }
+
   render(): JSX.Element {
     const { isLoading, claim, handleMoveToNextStep } = this.props
 
@@ -123,32 +155,33 @@ class EvaluateClaim extends React.Component<Props> {
       {
         label: 'Analyse',
         number: 1,
-        isActive:
-          claim?.stage === 'Analyse' ||
-          claim?.stage === 'Approve' ||
-          claim?.stage === 'Enrich',
+        isActive: claim.stage === 'Analyse',
+        isCompleted: this.switchStepAndStage(claim.stage) > 1,
       },
       {
         label: 'Enrich',
         number: 2,
-        isActive: claim?.stage === 'Enrich' || claim?.stage === 'Approve',
+        isActive: claim.stage === 'Enrich',
+        isCompleted: this.switchStepAndStage(claim.stage) > 2,
       },
       {
         label: 'Approve',
         number: 3,
-        isActive: claim?.stage === 'Approve',
+        isActive: claim.stage === 'Approve',
+        isCompleted: this.switchStepAndStage(claim.stage) > 3,
       },
       {
         label: 'Issue',
         number: 4,
-        isActive: claim?.stage === 'Issue',
+        isActive: claim.stage === 'Issue',
+        isCompleted: this.switchStepAndStage(claim.stage) > 4,
       },
     ]
 
     return (
       <Layout>
         <StepsContainer>
-          <Steps steps={steps} />
+          <Steps steps={steps} onClickStep={this.handleClickStep} />
           <SubmitContainer>
             <ActionButton
               className="btn-save mr-3"
@@ -208,6 +241,7 @@ const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
   handleUpdateStatus: (itemId: string, status: EvaluateClaimStatus): void =>
     dispatch(updateStatus(itemId, status)),
   handleMoveToNextStep: (): void => dispatch(moveToNextStep()),
+  handleMoveToStep: (step: string): void => dispatch(moveToStep(step)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(EvaluateClaim)

@@ -162,7 +162,10 @@ const EntityClaims: React.FunctionComponent<Props> = ({
     return ClaimStatusOrder.map((status, key) => {
       return (
         <AmountCard
-          amount={claims.filter((claim) => claim.status === status).length}
+          amount={
+            filterClaims(claims).filter((claim) => claim.status === status)
+              .length
+          }
           status={status}
           key={`status-${key}`}
           onClick={(): void => handleStatusClick(status)}
@@ -224,10 +227,11 @@ const EntityClaims: React.FunctionComponent<Props> = ({
               My Claims
             </HeaderButton>
           </div>
+          <SearchBar placeholder="Search Claims" onChange={handleQueryChange} />
         </SectionTitle>
         <AmountCardsContainer>{handleRenderAmountCards()}</AmountCardsContainer>
         <FilterContainer>
-          <ButtonSlider>
+          <ButtonSlider light>
             {claimTemplates.map((claimTemplate, key) => (
               <Button
                 type={ButtonTypes.light}
@@ -246,7 +250,6 @@ const EntityClaims: React.FunctionComponent<Props> = ({
               </Button>
             ))}
           </ButtonSlider>
-          <SearchBar placeholder="Search Claims" onChange={handleQueryChange} />
         </FilterContainer>
         {handleRenderClaims()}
       </ContentContainer>

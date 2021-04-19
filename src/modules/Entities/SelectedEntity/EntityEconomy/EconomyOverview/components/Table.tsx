@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react'
-import { useTable } from 'react-table'
+import { useTable, usePagination } from 'react-table'
 import moment from 'moment'
 import { useTransition } from 'react-spring'
 import {
@@ -93,10 +93,13 @@ const Table: React.FunctionComponent<TableProps> = ({ columns, data }) => {
     headerGroups,
     rows,
     prepareRow,
-  } = useTable({
-    columns,
-    data,
-  })
+  } = useTable(
+    {
+      columns,
+      data,
+    },
+    usePagination,
+  )
   const size = useWindowSize()
   const updatedRows = rows.map(function (val, key) {
     val.key = `table-row-${key}`

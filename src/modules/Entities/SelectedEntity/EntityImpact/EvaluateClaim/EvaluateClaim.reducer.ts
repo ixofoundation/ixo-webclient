@@ -18,7 +18,7 @@ export const reducer = (
   action: EvaluateClaimActionTypes,
 ): EvaluateClaimState => {
   const { isClaimLoading, isClaimTemplateLoading, claim } = state
-  let fetchedClaim = null, itemIndex = -1
+  let itemIndex = -1
   switch (action.type) {
     case EvaluateClaimActions.ClearClaim:
       return initialState
@@ -57,6 +57,14 @@ export const reducer = (
       }
     case EvaluateClaimActions.MoveToNext:
       claim.stage = 'Approve'
+      localStorage.setItem(claim.txHash, JSON.stringify(claim))
+
+      return {
+        ...state,
+        claim
+      }
+    case EvaluateClaimActions.MoveToStep:
+      claim.stage = 'Analyse' // Need to use the one in the payload
       localStorage.setItem(claim.txHash, JSON.stringify(claim))
 
       return {

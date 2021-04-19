@@ -104,6 +104,36 @@ export const selectedFilteredEntities = createSelector(
       })
     }
 
+    // filter by query
+    if (filter.query) {
+      const lowerCaseQuery = filter.query.toLowerCase()
+      entitiesToFilter = entitiesToFilter.filter((entity) => {
+        let filtered = false
+        if (entity.name) {
+          filtered = filtered || entity.name.toLowerCase().includes(lowerCaseQuery)
+        }
+        if (entity.description) {
+          filtered = filtered || entity.description.toLowerCase().includes(lowerCaseQuery)
+        }
+        if (entity.goal) {
+          filtered = filtered || entity.goal.toLowerCase().includes(lowerCaseQuery)
+        }
+
+        return filtered
+      })
+    }
+
+    // filter by sector
+    if (filter.sector) {
+      entitiesToFilter = entitiesToFilter.filter((entity) =>
+        entity.ddoTags.some(
+          (entityCategory) =>
+            entityCategory.name === 'Sector' &&
+            entityCategory.tags.includes(filter.sector),
+        ),
+      )
+    }
+
     // sort the result
     entitiesToFilter = entitiesToFilter.sort((a, b) => {
       return b.dateCreated.unix() - a.dateCreated.unix()

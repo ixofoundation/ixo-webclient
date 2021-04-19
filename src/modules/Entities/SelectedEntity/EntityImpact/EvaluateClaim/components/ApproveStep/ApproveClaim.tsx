@@ -4,7 +4,9 @@ import Queried from 'assets/icons/EvaluateClaim/Queried'
 import Reject from 'assets/icons/EvaluateClaim/Reject'
 import React from 'react'
 import styled from 'styled-components'
+import Rating from 'react-rating'
 import CommentViewModal from '../CommentViewModal'
+import { Switch } from 'common/components/Switch/Switch'
 
 const Container = styled.div`
   background: white;
@@ -57,6 +59,79 @@ const CommentsButton = styled.div`
   }
 `
 
+const RatingCircle = styled.div<{ isActive: boolean }>`
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: ${({ isActive }): string => (isActive ? '#00D2FF' : '#e8edee')};
+  margin-bottom: 4px;
+`
+
+const RatingItem = styled.div<{ isActive?: boolean }>`
+  text-align: center;
+  margin-right: 12px;
+  color: ${({ isActive }): string => (isActive ? '#00D2FF' : '#a5adb0')};
+  font-size: 12px;
+`
+
+const ScoreContainer = styled.div`
+  border-bottom: 1px solid #d5d9e0;
+  padding-top: 24px;
+  padding-bottom: 24px;
+`
+
+const SubTitle = styled.div`
+  color: #143f54;
+  font-size: 12px;
+  margin-bottom: 8px;
+`
+
+const StyledTextarea = styled.textarea`
+  width: 100%;
+  min-height: 50px;
+  background: #f0f3f9;
+  border-radius: 4px;
+  outline: none;
+  border: none;
+  padding: 8px 4px;
+`
+
+const SwitchContainer = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 16px;
+  margin-bottom: 24px;
+`
+
+const ActionButtons = styled.div`
+  display: flex;
+  align-items: center;
+  margin-top: 16px;
+  margin-bottom: 8px;
+`
+const DeferButton = styled.button`
+  outline: none;
+  border: none;
+  background: linear-gradient(180deg, #0c4a6a 0%, #09405c 100%);
+  mix-blend-mode: normal;
+  border-radius: 4px;
+  width: 144px;
+  height: 36px;
+  color: white;
+  margin-right: 24px;
+`
+const DisputeButton = styled(DeferButton)`
+  background: linear-gradient(180deg, #ed9526 0%, #e18c21 100%);
+`
+
+const RejectButton = styled(DeferButton)`
+  background: linear-gradient(180deg, #e2223b 0%, #cd1c33 100%);
+`
+
+const ApproveButton = styled(DeferButton)`
+  background: linear-gradient(180deg, #6fcf97 0%, #52a675 100%);
+`
+
 interface Props {
   claim: any
   template: any
@@ -72,6 +147,8 @@ const ApproveClaim: React.FunctionComponent<Props> = ({
     title: '',
     comments: '',
   })
+
+  const [includeComments, setIncludeComments] = React.useState(false)
 
   const handleToggleModal = (isOpen: boolean) => {
     setCommentModalProps({
@@ -153,6 +230,41 @@ const ApproveClaim: React.FunctionComponent<Props> = ({
       <Divider />
       <SectionTitle>Results</SectionTitle>
       {claim.items.map((item) => handleRenderClaimItem(item))}
+      <ScoreContainer>
+        <SubTitle>Confidence Score</SubTitle>
+        <Rating
+          stop={10}
+          emptySymbol={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((n) => (
+            <RatingItem className="icon-text" key={n}>
+              <RatingCircle isActive={false}></RatingCircle>
+              {n}
+            </RatingItem>
+          ))}
+          fullSymbol={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((n) => (
+            <RatingItem className="icon-text" key={n} isActive={true}>
+              <RatingCircle isActive={true}></RatingCircle>
+              {n}
+            </RatingItem>
+          ))}
+        />
+      </ScoreContainer>
+      <ScoreContainer>
+        <SubTitle>Notes</SubTitle>
+        <StyledTextarea placeholder="Start Typing Here"></StyledTextarea>
+      </ScoreContainer>
+      <SwitchContainer>
+        <Switch
+          label="Include Comments"
+          on={includeComments}
+          handleChange={(): void => setIncludeComments(!includeComments)}
+        />
+      </SwitchContainer>
+      <ActionButtons>
+        <DeferButton>Defer</DeferButton>
+        <DisputeButton>Dispute</DisputeButton>
+        <RejectButton>Reject</RejectButton>
+        <ApproveButton>Approve</ApproveButton>
+      </ActionButtons>
       <CommentViewModal
         {...commentModalProps}
         handleToggleModal={handleToggleModal}

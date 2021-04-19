@@ -26,12 +26,12 @@ import {
   MessageIn,
   MessageOut,
   MessagesContainer,
-  StyledTextarea,
 } from './Assistant.styles'
 
 interface AssistantProps {
   initMsg: string
   userInfo?: UserInfo
+  role?: AgentRole
   handleCreateEntityAgent?: (
     email: string,
     name: string,
@@ -42,6 +42,7 @@ interface AssistantProps {
 const Assistant: React.FunctionComponent<AssistantProps> = ({
   initMsg,
   userInfo,
+  role,
   handleCreateEntityAgent,
 }) => {
   const messagesRef = useRef(null)
@@ -61,10 +62,11 @@ const Assistant: React.FunctionComponent<AssistantProps> = ({
         !msg.quick_replies &&
         !msg.buttons
       ) {
+        console.log('ffffffffffffffffffff', msg)
         switch (msg.action) {
           case 'authorise':
             if (userInfo) {
-              handleCreateEntityAgent(msg.emai, msg.name, msg.role)
+              handleCreateEntityAgent(msg.emai, msg.name, role)
             }
             break
         }

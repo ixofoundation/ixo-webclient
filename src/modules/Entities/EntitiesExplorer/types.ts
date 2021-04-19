@@ -14,6 +14,7 @@ export interface Filter {
   userEntities: boolean
   featuredEntities: boolean
   popularEntities: boolean
+  query: string
 }
 
 export interface ExplorerEntity {
@@ -68,6 +69,7 @@ export enum EntitiesExplorerActions {
   ResetCategoryFilter = 'ixo/EntitiesExplorer/RESET_CATEGORY_FILTER',
   ResetSectorFilter = 'ixo/EntitiesExplorer/RESET_SECTOR_FILTER',
   ResetFilters = 'ixo/EntitiesExplorer/RESET_FILTERS',
+  FilterQuery = 'ixo/EntitiesExplorer/FILTER_QUERY',
 }
 
 export interface GetEntitiesAction {
@@ -163,6 +165,13 @@ export interface ResetFiltersAction {
   type: typeof EntitiesExplorerActions.ResetFilters
 }
 
+export interface FilterQueryAction {
+  type: typeof EntitiesExplorerActions.FilterQuery
+  payload: {
+    query: string
+  }
+}
+
 export type EntitiesActionTypes =
   | GetEntitiesAction
   | GetEntitiesSuccessAction
@@ -179,3 +188,4 @@ export type EntitiesActionTypes =
   | ResetCategoryFilterAction
   | ResetSectorFilterAction
   | ResetFiltersAction
+  | FilterQueryAction

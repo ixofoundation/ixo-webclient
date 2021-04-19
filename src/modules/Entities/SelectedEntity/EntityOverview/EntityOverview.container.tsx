@@ -132,7 +132,6 @@ class EntityOverview extends React.Component<Props> {
       entity,
       creatorDid,
     } = this.props
-
     const { assistantPanelActive, assistantIntent, role } = this.state
 
     if (isLoading) {

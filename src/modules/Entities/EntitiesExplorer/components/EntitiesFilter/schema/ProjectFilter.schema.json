@@ -289,6 +289,16 @@
           "@type": "Tag",
           "name": "Water & Marine",
           "icon": "tag.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Relayer",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Oracle",
+          "icon": "tag.svg"
         }
       ],
       "selectedTags": ["Index"]

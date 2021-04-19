@@ -29,7 +29,7 @@ export const getHeaderTabButtons = (
     tabButtons.push(
       {
         iconClass: 'icon-impacts',
-        linkClass: null,
+        linkClass: 'in-active',
         path: '/impact',
         title: 'IMPACT',
       },

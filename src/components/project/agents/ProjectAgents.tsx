@@ -7,17 +7,23 @@ import {
   Divider,
   Container,
   MobileOnly,
-  DesktopOnly
+  DesktopOnly,
 } from './ProjectAgents.styles'
 
 import AgentCard from './AgentCard'
 import AgentDetail from './AgentDetail'
 import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
 import { RootState } from 'common/redux/types'
-import { getEntityAgents, updateAgentStatus } from 'modules/Entities/SelectedEntity/EntityImpact/EntityAgents/EntityAgents.actions'
+import {
+  getEntityAgents,
+  updateAgentStatus,
+} from 'modules/Entities/SelectedEntity/EntityImpact/EntityAgents/EntityAgents.actions'
 import { AgentRole } from 'modules/Account/types'
 import * as entityAgentSelectors from 'modules/Entities/SelectedEntity/EntityImpact/EntityAgents/EntityAgents.selectors'
-import { AgentStatus, EntityAgent } from 'modules/Entities/SelectedEntity/EntityImpact/EntityAgents/types'
+import {
+  AgentStatus,
+  EntityAgent,
+} from 'modules/Entities/SelectedEntity/EntityImpact/EntityAgents/types'
 
 export interface ParentProps {
   isFetching: boolean
@@ -35,7 +41,7 @@ export interface State {
 class ProjectAgents extends React.Component<ParentProps, State> {
   state: State = {
     isModalOpened: false,
-    selectedAgent: null
+    selectedAgent: null,
   }
 
   componentDidMount(): void {
@@ -43,18 +49,18 @@ class ProjectAgents extends React.Component<ParentProps, State> {
       match: {
         params: { projectDID: entityDid },
       },
-      handleGetEntityAgents
-    } = this.props;
+      handleGetEntityAgents,
+    } = this.props
 
     handleGetEntityAgents(entityDid, AgentRole.ServiceProvider)
   }
 
   render(): JSX.Element {
-    const { isModalOpened, selectedAgent } = this.state;
-    const { isFetching } = this.props;
+    const { isModalOpened, selectedAgent } = this.state
+    const { isFetching } = this.props
 
     if (isFetching) {
-      return null;
+      return null
     }
 
     return (
@@ -62,95 +68,83 @@ class ProjectAgents extends React.Component<ParentProps, State> {
         <div className="row mb-4 d-none d-sm-block">
           <div className="col-sm-12">
             <div className="text-right">
-              <Tab to='#'>
-                Agents
-              </Tab>
-              <Tab to='#'>
-                Pending Approval
-              </Tab>
-              <Tab to='#'>
-                Waiting Response
-              </Tab>
-              <Tab to='#'>
-                Not Authorized
-              </Tab>
+              <Tab to="#">Agents</Tab>
+              <Tab to="#">Pending Approval</Tab>
+              <Tab to="#">Waiting Response</Tab>
+              <Tab to="#">Not Authorized</Tab>
             </div>
           </div>
         </div>
-        {
-          this.renderAgentsSection(AgentStatus.Approved, 'Invite All')
-        }
+        {this.renderAgentsSection(AgentStatus.Approved, 'Invite All')}
         <Divider />
-        {
-          this.renderAgentsSection(AgentStatus.Pending, 'Approve All')
-        }
+        {this.renderAgentsSection(AgentStatus.Pending, 'Approve All')}
         <Divider />
-        {
-          this.renderAgentsSection(AgentStatus.Invited, 'New Invite')
-        }
+        {this.renderAgentsSection(AgentStatus.Invited, 'New Invite')}
         <Divider />
-        {
-          this.renderAgentsSection(AgentStatus.Revoked, 'Message All')
-        }
+        {this.renderAgentsSection(AgentStatus.Revoked, 'Message All')}
         <ModalWrapper
-          isModalOpen={ isModalOpened }
-          handleToggleModal={(): void => { this.setState({ isModalOpened: false }) }}
+          isModalOpen={isModalOpened}
+          handleToggleModal={(): void => {
+            this.setState({ isModalOpened: false })
+          }}
         >
           <AgentDetail
-            onClose={ (): void => { this.setState({ isModalOpened: false }) } }
-            agent={ selectedAgent }
-            handleAuthorize={ this.handleAuthorizeAgent }
-            handleReject={ this.handleRejectAgent }
+            onClose={(): void => {
+              this.setState({ isModalOpened: false })
+            }}
+            agent={selectedAgent}
+            handleAuthorize={this.handleAuthorizeAgent}
+            handleReject={this.handleRejectAgent}
           />
         </ModalWrapper>
       </Container>
     )
   }
 
-  renderAgentsSection = (agentStatus: string, sectionAction: string): JSX.Element => {
-    const { agents } = this.props;
+  renderAgentsSection = (
+    agentStatus: string,
+    sectionAction: string,
+  ): JSX.Element => {
+    const { agents } = this.props
     let sectionTitle = 'Agents'
     switch (agentStatus) {
       case AgentStatus.Approved:
         sectionTitle = 'Agents'
-        break;
+        break
       case AgentStatus.Pending:
         sectionTitle = 'Pending approval'
-        break;
+        break
       case AgentStatus.Invited:
         sectionTitle = 'Invitations waiting response'
-        break;
+        break
       case AgentStatus.Revoked:
         sectionTitle = 'Not Authorized'
-        break;
+        break
     }
 
-    const filtered = agents.filter((agent: EntityAgent) => agent.status === agentStatus)
+    const filtered = agents.filter(
+      (agent: EntityAgent) => agent.status === agentStatus,
+    )
 
     return (
       <React.Fragment>
         <div className="row mb-sm-3">
           <div className="col-sm-12 d-flex justify-content-between">
-            <SectionTitle>
-              { sectionTitle }
-            </SectionTitle>
+            <SectionTitle>{sectionTitle}</SectionTitle>
             <DesktopOnly>
-              <ActionButton>
-                { sectionAction }
-              </ActionButton>
+              <ActionButton>{sectionAction}</ActionButton>
             </DesktopOnly>
           </div>
         </div>
-        {
-          this.handleRenderAgents(filtered ,'No service providers on this project yet')
-        }
+        {this.handleRenderAgents(
+          filtered,
+          'No service providers on this project yet',
+        )}
         <MobileOnly>
-          <ActionButton>
-            { sectionAction }
-          </ActionButton>
+          <ActionButton>{sectionAction}</ActionButton>
         </MobileOnly>
       </React.Fragment>
-    );
+    )
   }
 
   handleAgentClick = (agent: EntityAgent): void => {
@@ -173,30 +167,33 @@ class ProjectAgents extends React.Component<ParentProps, State> {
     handleUpdateAgentStatus(agentDid, AgentStatus.Revoked)
   }
 
-  handleRenderAgents = (agents ,emptyMsg: string): JSX.Element => {
+  handleRenderAgents = (agents, emptyMsg: string): JSX.Element => {
+    console.log('ffffffffffffffffff', agents)
     if (agents.length) {
       return (
         <div className="row">
-          {
-            agents.map((agent:EntityAgent): JSX.Element =>
+          {agents.map(
+            (agent: EntityAgent): JSX.Element => (
               <div className="col-sm-3 my-2" key={agent.agentDid}>
                 <AgentCard
                   agent={agent}
-                  handleClick={ (): void => this.handleAgentClick(agent) }
-                  handleAuthorize={ this.handleAuthorizeAgent }
-                  handleReject={ this.handleRejectAgent }
+                  handleClick={(): void => this.handleAgentClick(agent)}
+                  handleAuthorize={this.handleAuthorizeAgent}
+                  handleReject={this.handleRejectAgent}
                 />
               </div>
-            )
-          }
+            ),
+          )}
         </div>
-
       )
     }
     return (
       <div className="row">
-        <div className="col-sm-12 d-flex justify-content-center align-items-center" style={{ minHeight: 200 }}>
-          { emptyMsg }
+        <div
+          className="col-sm-12 d-flex justify-content-center align-items-center"
+          style={{ minHeight: 200 }}
+        >
+          {emptyMsg}
         </div>
       </div>
     )
@@ -215,6 +212,5 @@ const mapDispatchToProps = (dispatch: React.Dispatch<any>): any => ({
   handleUpdateAgentStatus: (agentDid: string, status: AgentStatus): void =>
     dispatch(updateAgentStatus(agentDid, status)),
 })
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProjectAgents)

@@ -1,7 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
 import ExpandableText from 'common/components/ExpandableText/ExpandableText'
-import { EntityClaim, EntityClaimColorSchema } from 'modules/Entities/SelectedEntity/EntityImpact/EntityClaims/types'
+import {
+  EntityClaim,
+  EntityClaimColorSchema,
+} from 'modules/Entities/SelectedEntity/EntityImpact/EntityClaims/types'
 import moment from 'moment'
 import { NavLink } from 'react-router-dom'
 import { EntityClaimStatus } from '../types'
@@ -10,7 +13,8 @@ const Container = styled.div`
   width: 100%;
   margin-top: 5px;
   margin-bottom: 5px;
-  background: linear-gradient(180deg, #FFFFFF 0%, rgba(255, 255, 255, 0) 100%), linear-gradient(180deg, #FFFFFF 0%, #FBFCFF 100%);
+  background: linear-gradient(180deg, #ffffff 0%, rgba(255, 255, 255, 0) 100%),
+    linear-gradient(180deg, #ffffff 0%, #fbfcff 100%);
   border-radius: 4px;
   height: 4.25rem;
   position: relative;
@@ -29,7 +33,7 @@ const Title = styled.div`
 
 const Did = styled.div`
   font-size: 12px;
-  color: #437C98;
+  color: #437c98;
   display: flex;
   justify-content: space-between;
 `
@@ -39,14 +43,14 @@ const Indicator = styled.div`
   width: 0.5rem;
   height: 1.625rem;
   border-radius: 4px;
-  background: #39C3E6;
+  background: #39c3e6;
   left: -0.25rem;
   top: 50%;
   transform: translateY(-50%);
 `
 
 const Date = styled.div`
-  color: #143F54;
+  color: #143f54;
 `
 
 interface Props {
@@ -54,55 +58,47 @@ interface Props {
   detailPath: string
 }
 
-const EntityClaimRecord: React.FunctionComponent<Props> = ({ claim, detailPath }) => {
-
+const EntityClaimRecord: React.FunctionComponent<Props> = ({
+  claim,
+  detailPath,
+}) => {
   const handleRenderDate = (): JSX.Element => {
-    const date = moment(claim.date).format('D MMM ‘YY');
+    const date = moment(claim.date).format('D MMM ‘YY')
     let title = ''
     switch (claim.status) {
       case EntityClaimStatus.Pending:
         title = `Uploaded ${date}`
-        break;
+        break
       case EntityClaimStatus.Approved:
         title = `Approved ${date}`
-        break;
+        break
       case EntityClaimStatus.Disputed:
         title = `Disputed ${date}`
-        break;
+        break
       case EntityClaimStatus.Rejected:
         title = `Rejected ${date}`
-        break;
+        break
       default:
         title = `Saved ${date}`
     }
 
-    return (
-      <Date>
-        { title }
-      </Date>
-    )
+    return <Date>{title}</Date>
   }
 
   return (
-    <NavLink to={ detailPath } className="text-decoration-none">
+    <NavLink to={detailPath} className="text-decoration-none">
       <Container>
-        <Indicator style={{ background: EntityClaimColorSchema[claim.status] }}/>
-        <Title>
-          Claim/Project Name
-        </Title>
+        <Indicator
+          style={{ background: EntityClaimColorSchema[claim.status] }}
+        />
+        <Title>Claim/Project Name</Title>
         <Did>
-          <ExpandableText limit={5}>
-            { claim.claimId }
-          </ExpandableText>
-          <div>
-            {
-              handleRenderDate()
-            }
-          </div>
+          <ExpandableText limit={5}>{claim.claimId}</ExpandableText>
+          <div>{handleRenderDate()}</div>
         </Did>
       </Container>
     </NavLink>
   )
 }
 
-export default EntityClaimRecord;
+export default EntityClaimRecord

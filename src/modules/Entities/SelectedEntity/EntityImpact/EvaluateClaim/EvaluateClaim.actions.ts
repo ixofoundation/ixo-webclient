@@ -5,7 +5,8 @@ import {
   ClearClaimAction,
   SaveCommentAction,
   UpdateStatusAction,
-  MoveToNextStepAction
+  MoveToNextStepAction,
+  MoveToStepAction
 } from './types'
 import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
 import { PDS_URL } from 'modules/Entities/types'
@@ -28,10 +29,9 @@ export const getClaim = (claimId: string, projectDid: string, claimTemplateDid: 
   const savedClaim = JSON.parse(claimString)
 
   if (savedClaim) {
-    savedClaim['stage'] = 'Analyse'
-    /* if (!savedClaim.stage) {
+    if (!savedClaim.stage) {
       savedClaim['stage'] = 'Analyse'
-    } */
+    }
     dispatch({
       type: EvaluateClaimActions.GetClaim,
       payload: savedClaim
@@ -129,4 +129,11 @@ export const updateStatus = (itemId, status): UpdateStatusAction => ({
 
 export const moveToNextStep = (): MoveToNextStepAction => ({
   type: EvaluateClaimActions.MoveToNext,
+})
+
+export const moveToStep = (step: string): MoveToStepAction => ({
+  type: EvaluateClaimActions.MoveToStep,
+  payload: {
+    step
+  }
 })

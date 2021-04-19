@@ -7,7 +7,6 @@ import Image from 'modules/Entities/SelectedEntity/EntityImpact/EvaluateClaim/co
 import Video from 'modules/Entities/SelectedEntity/EntityImpact/EvaluateClaim/components/Video/Video'
 import Document from 'common/components/Document/Document'
 import Audio from '../Audio/Audio'
-import AudioAvatar from '../Audio/AudioAvatar'
 import CommentModal from '../CommentModal'
 import { EvaluateClaimStatus } from '../../types'
 import {
@@ -39,21 +38,29 @@ const EvaluateCard: React.FunctionComponent<Props> = ({
   )[0]
   const [commentModalOpened, setCommentModalOpened] = React.useState(false)
   const [commentModalTitle, setCommentModalTitle] = React.useState('')
+  const [showMedia, setShowMedia] = React.useState(true)
 
   const handleToggleCommentModal = (isOpen): void => {
     setCommentModalOpened(isOpen)
   }
 
   const handleRenderAvatar = (): JSX.Element => {
+    console.log('fffffffffffff', claimItem.value)
     return (
       <div className="px-3 d-flex justify-content-between mb-4">
         <div>
           <Title>{form.schema.title}</Title>
           <Description>{form.schema.description}</Description>
+          {!showMedia && <Value>No Image</Value>}
         </div>
-        <ImageContainer>
-          <img src={claimItem.value} />
-        </ImageContainer>
+        {showMedia && (
+          <ImageContainer>
+            <img
+              src={claimItem.value}
+              onError={(error) => setShowMedia(false)}
+            />
+          </ImageContainer>
+        )}
       </div>
     )
   }
@@ -64,10 +71,16 @@ const EvaluateCard: React.FunctionComponent<Props> = ({
         <div>
           <Title>{form.schema.title}</Title>
           <Description>{form.schema.description}</Description>
+          {!showMedia && <Value>No Image</Value>}
         </div>
-        <ImageContainer>
-          <Image src={claimItem.value} />
-        </ImageContainer>
+        {showMedia && (
+          <ImageContainer>
+            <Image
+              src={claimItem.value}
+              onError={(error) => setShowMedia(false)}
+            />
+          </ImageContainer>
+        )}
       </div>
     )
   }
@@ -80,8 +93,6 @@ const EvaluateCard: React.FunctionComponent<Props> = ({
             {moment(claimItem.value, 'DD-MMM-YYYY').format('DD MMMM YYYY')}
           </Value>
         )
-      case 'documentupload':
-        return <Document url="123" />
       default:
         return <Value>{claimItem.value}</Value>
     }
@@ -93,10 +104,16 @@ const EvaluateCard: React.FunctionComponent<Props> = ({
         <div>
           <Title>{form.schema.title}</Title>
           <Description>{form.schema.description}</Description>
+          {!showMedia && <Value>No Document</Value>}
         </div>
-        <ImageContainer>
-          <Document url={claimItem.value} />
-        </ImageContainer>
+        {showMedia && (
+          <ImageContainer>
+            <Document
+              url={claimItem.value}
+              onError={(): void => setShowMedia(false)}
+            />
+          </ImageContainer>
+        )}
       </div>
     )
   }
@@ -107,10 +124,13 @@ const EvaluateCard: React.FunctionComponent<Props> = ({
         <div>
           <Title>{form.schema.title}</Title>
           <Description>{form.schema.description}</Description>
+          {!showMedia && <Value>No Video</Value>}
         </div>
-        <ImageContainer>
-          <Video src={claimItem.value} />
-        </ImageContainer>
+        {showMedia && (
+          <ImageContainer>
+            <Video src={claimItem.value} onError={() => setShowMedia(false)} />
+          </ImageContainer>
+        )}
       </div>
     )
   }
@@ -120,10 +140,13 @@ const EvaluateCard: React.FunctionComponent<Props> = ({
       <div className="px-3">
         <Title>{form.schema.title}</Title>
         <Description>{form.schema.description}</Description>
-        <AudioContainer>
-          <Audio src={claimItem.value} />
-          {/* <AudioAvatar /> */}
-        </AudioContainer>
+        {claimItem.value && (
+          <AudioContainer>
+            <Audio src={claimItem.value} />
+            {/* <AudioAvatar /> */}
+          </AudioContainer>
+        )}
+        {!claimItem.value && <Value>No Audio</Value>}
       </div>
     )
   }

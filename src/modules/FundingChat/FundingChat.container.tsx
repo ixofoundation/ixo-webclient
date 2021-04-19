@@ -47,38 +47,15 @@ class FundingChat extends React.Component<Props & RouteProps> {
     super(props)
   }
 
-  onAssistantMessageReceive = (utter): void => {
-    const { handleCreateEntityAgent, role } = this.props
-
-    switch (utter.action) {
-      case AssistantActions.Authorise:
-        switch (utter.type) {
-          case AssistantActionTypes.AgentApplication:
-            if (utter.emai) {
-              handleCreateEntityAgent(utter.emai, utter.name, role)
-            }
-            break
-        }
-        break
-    }
-    /*  */
-    // TODO - actual event to trigger end
-    // if (utter.text === "Sorry, I didn't get that. Could you rephrase?") {
-    // TODO - actual response to pass to handleGetOrder
-    console.log(utter)
-    // this.props.handleGetOrder(null)
-    // }
-  }
-
   render(): JSX.Element {
-    const { assistantIntent } = this.props
+    const { assistantIntent, role } = this.props
 
     return (
       <Fragment>
         <AssistantWrapper>
           <AssistantHeader></AssistantHeader>
           <div className="assistant-container">
-            <Assistant initMsg={assistantIntent} />
+            <Assistant initMsg={assistantIntent} role={role} />
           </div>
         </AssistantWrapper>
       </Fragment>
