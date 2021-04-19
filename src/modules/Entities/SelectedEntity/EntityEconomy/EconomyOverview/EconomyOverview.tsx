@@ -68,7 +68,7 @@ const EconomyOverview: React.FunctionComponent = () => {
     })
   }
 
-  const getTokensStaked = (address: string) => {
+  const getTokensStaked = (address: string): void => {
     if (address) {
       Axios.get(
         `${process.env.REACT_APP_GAIA_URL}/staking/delegators/${address}/delegations`,
@@ -87,7 +87,7 @@ const EconomyOverview: React.FunctionComponent = () => {
     }
   }
 
-  const getTotalTokenSupply = () => {
+  const getTotalTokenSupply = (): void => {
     Axios.get(process.env.REACT_APP_GAIA_URL + '/supply/total/uixo', {
       transformResponse: [
         (response: string): any => {
@@ -99,7 +99,7 @@ const EconomyOverview: React.FunctionComponent = () => {
     })
   }
 
-  const getInflation = () => {
+  const getInflation = (): void => {
     Axios.get(process.env.REACT_APP_GAIA_URL + '/minting/inflation').then(
       (response) => {
         setInflation(response.data.result)
@@ -107,7 +107,7 @@ const EconomyOverview: React.FunctionComponent = () => {
     )
   }
 
-  const getTransactions = () => {
+  const getTransactions = (): void => {
     Axios.get(process.env.REACT_APP_GAIA_URL + '/txs?message.action=send').then(
       (response) => {
         setTransactions(response.data.txs)
@@ -117,11 +117,11 @@ const EconomyOverview: React.FunctionComponent = () => {
 
   useEffect(() => {
     const accountAddress = getProjectAccounts()
-    setInterval(getTotalTokenSupply, 2000)
-    setInterval(getInflation, 2000)
+    setTimeout(getTotalTokenSupply, 2000)
+    setTimeout(getInflation, 2000)
     accountAddress.then((value) => {
       getTransactions()
-      setInterval(() => getTokensStaked(value), 3000)
+      getTokensStaked(value)
     })
   }, [])
 

@@ -1,4 +1,3 @@
-import { itemCountOrItemValuesLength } from 'modules/Entities/CreateEntity/CreateEntityAttestation/CreateEntityAttestation.utils'
 import {
   EvaluateClaimActions,
   EvaluateClaimState,

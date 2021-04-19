@@ -9,7 +9,6 @@ import Assistant from 'common/components/Assistant/Assistant'
 import { RootState } from 'common/redux/types'
 import * as fundingChatSelectors from './FundingChat.selectors'
 import { getOrder, confirmOrder, cancelOrder } from './FundingChat.actions'
-import { AssistantActions, AssistantActionTypes } from './types'
 import { createEntityAgent } from 'modules/Entities/SelectedEntity/EntityImpact/EntityAgents/EntityAgents.actions'
 import { AgentRole } from 'modules/Account/types'
 

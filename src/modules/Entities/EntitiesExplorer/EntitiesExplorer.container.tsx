@@ -7,7 +7,6 @@ import TemplateCard from './components/EntityCard/TemplateCard/TemplateCard'
 import InvestmentCard from './components/EntityCard/InvestmentCard/InvestmentCard'
 import OracleCard from './components/EntityCard/OracleCard/OracleCard'
 import DataCard from './components/EntityCard/DataCard/DataCard'
-import LaunchpadCard from './components/EntityCard/LaunchpadCard/LaunchpadCard'
 import { EntitiesHero } from './components/EntitiesHero/EntitiesHero'
 import { Spinner } from 'common/components/Spinner'
 import { connect } from 'react-redux'
@@ -174,7 +173,7 @@ class EntitiesExplorer extends React.Component<Props> {
     }
   }
 
-  assistantPanelToggle = () => {
+  assistantPanelToggle = (): void => {
     const { assistantPanelActive } = this.state
 
     // Assistant panel shown
@@ -216,9 +215,9 @@ class EntitiesExplorer extends React.Component<Props> {
               enter={{ width: '25%' }}
               leave={{ width: '0%' }}
             >
-              {(assistantPanelActive) =>
+              {(assistantPanelActive): any =>
                 assistantPanelActive &&
-                ((props) => (
+                ((props): JSX.Element => (
                   <div style={{ background: '#F0F3F9', ...props }}>
                     {assistantPanelActive && (
                       <FundingChat

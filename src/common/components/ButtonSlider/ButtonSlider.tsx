@@ -3,7 +3,6 @@ import {
   Container,
   NavigateButtonContainer,
   NavContainer,
-  Graident,
 } from './ButtonSlider.styles'
 import Down from 'assets/icons/Down'
 
@@ -14,7 +13,7 @@ class ButtonSlider extends React.Component<{ light?: boolean }> {
   }
   buttonsRef = null
 
-  handlePrevClick = () => {
+  handlePrevClick = (): void => {
     const sLeft = this.buttonsRef.scrollLeft
 
     this.buttonsRef.scrollTo({
@@ -29,7 +28,7 @@ class ButtonSlider extends React.Component<{ light?: boolean }> {
     })
   }
 
-  handleNextClick = () => {
+  handleNextClick = (): void => {
     const sLeft = this.buttonsRef.scrollLeft
 
     this.buttonsRef.scrollTo({
@@ -52,7 +51,7 @@ class ButtonSlider extends React.Component<{ light?: boolean }> {
       <Container>
         <div className="position-relative d-flex flex-grow-1 overflow-hidden">
           <NavContainer
-            ref={(ref) => (this.buttonsRef = ref)}
+            ref={(ref): React.ReactNode => (this.buttonsRef = ref)}
             className={reachedRight ? 'right' : ''}
           >
             {children}

@@ -2,8 +2,6 @@ import React from 'react'
 import { ModalWrapper } from 'common/components/Wrappers/ModalWrapper'
 import styled from 'styled-components'
 
-import { EvaluateClaimStatus } from '../types'
-
 export const ModalInner = styled.div`
   padding: 2rem 0rem;
   margin: 0rem -0.7rem;

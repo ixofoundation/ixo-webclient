@@ -1,14 +1,11 @@
 import * as React from 'react'
 import { ProgressBar } from 'common/components/ProgressBar'
-import { excerptText } from 'common/utils/formatters'
 import {
   CardContainer,
   CardLink,
   CardTop,
   CardTopContainer,
-  Description,
   CardBottom,
-  MainContent,
 } from '../EntityCard.styles'
 
 import {
