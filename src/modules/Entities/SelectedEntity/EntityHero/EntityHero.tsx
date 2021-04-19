@@ -106,7 +106,7 @@ const EntityHero: React.FunctionComponent<Props> = ({
     } else {
       buttonsArray.push({
         iconClass: 'icon-funding',
-        linkClass: 'restricted',
+        linkClass: '',
         path: `/projects/${did}/bonds/${bondDid}`,
         title: 'FUNDING',
       })
