@@ -96,7 +96,7 @@ const EntityHero: React.FunctionComponent<Props> = ({
       title: 'FUNDING',
     })
   } else {
-    if (!loggedIn || creatorDid !== userDid) {
+    if (creatorDid !== userDid) {
       buttonsArray.push({
         iconClass: 'icon-funding',
         linkClass: 'restricted',
