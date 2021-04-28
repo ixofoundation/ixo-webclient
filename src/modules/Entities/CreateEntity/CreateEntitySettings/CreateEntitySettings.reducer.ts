@@ -51,22 +51,11 @@ export const initialState: CreateEntitySettingsState = {
     entityView: undefined,
     pageView: undefined,
   },
-  requiredCredentials: {
-    [firstRequiredCredentialId]: {
-      id: firstRequiredCredentialId,
-      credential: undefined,
-      issuer: undefined,
-    },
-  },
+  requiredCredentials: {},
   filters: {},
-  displayCredentials: {
-    [firstDisplayCredentialId]: {
-      id: firstDisplayCredentialId,
-      badge: undefined,
-      credential: undefined,
-    },
-  },
+  displayCredentials: {},
   validation: {},
+  headlineTemplateId: undefined
 }
 
 export const reducer = (
@@ -238,6 +227,11 @@ export const reducer = (
             },
           },
         },
+      }
+    case CreateEntitySettingsActions.UpdateHeadlineMetric:
+      return {
+        ...state,
+        headlineTemplateId: action.payload.headlineTemplateId,
       }
     case CreateEntitySettingsActions.ValidationError:
       return {

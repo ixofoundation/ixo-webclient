@@ -32,41 +32,12 @@ export const initialState: CreateEntityClaimsState = {
         submissionEndDate: undefined,
       },
       agentRoles: {
-        [firstEntityClaimAgentRoleId]: {
-          entityClaimId: firstEntityClaimId,
-          id: firstEntityClaimAgentRoleId,
-          role: undefined,
-          credential: undefined,
-          autoApprove: false,
-        },
       },
       evaluations: {
-        [firstEntityClaimEvaluationId]: {
-          entityClaimId: firstEntityClaimId,
-          id: firstEntityClaimEvaluationId,
-          context: undefined,
-          contextLink: undefined,
-          evaluationAttributes: undefined,
-          evaluationMethodology: undefined,
-        },
       },
       approvalCriteria: {
-        [firstEntityClaimApprovalCriterionId]: {
-          entityClaimId: firstEntityClaimId,
-          id: firstEntityClaimApprovalCriterionId,
-          context: undefined,
-          contextLink: undefined,
-          approvalAttributes: undefined,
-        },
       },
       enrichments: {
-        [firstEntityClaimEnrichmentId]: {
-          entityClaimId: firstEntityClaimId,
-          id: firstEntityClaimEnrichmentId,
-          context: undefined,
-          contextLink: undefined,
-          resources: undefined,
-        },
       },
     },
   },

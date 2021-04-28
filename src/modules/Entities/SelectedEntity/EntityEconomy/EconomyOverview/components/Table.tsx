@@ -31,9 +31,9 @@ const renderCell = (cell: any): any => {
     )
   } else if (cell.column.id === 'buySell') {
     return cell.value ? (
-      <span style={{ color: '#85AD5C' }}>Buy</span>
+      <span style={{ color: '#85AD5C' }}>Send</span>
     ) : (
-      <span style={{ color: '#E2223B' }}>Sell</span>
+      <span style={{ color: '#E2223B' }}>Send</span>
     )
   } else if (cell.column.id === 'value') {
     return <Value value={cell.value} />

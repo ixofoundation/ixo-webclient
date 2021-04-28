@@ -120,7 +120,6 @@ class CreateEntityPageContent extends CreateEntityBase<Props> {
       handleAddBodySection,
       handleRemoveBodySection,
     } = this.props
-
     return (
       <FormCardWrapper
         title="Main Section Card"

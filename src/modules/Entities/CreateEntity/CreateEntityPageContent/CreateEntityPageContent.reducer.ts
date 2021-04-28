@@ -26,34 +26,11 @@ export const initialState: CreateEntityPageContentState = {
     logoFileUploading: false,
   },
   body: {
-    [firstBodySectionId]: {
-      id: firstBodySectionId,
-      title: undefined,
-      content: undefined,
-      uploading: false,
-      fileSrc: undefined,
-    },
   },
   images: {
-    [firstImageSectionId]: {
-      id: firstImageSectionId,
-      title: undefined,
-      content: undefined,
-      imageDescription: undefined,
-      uploading: false,
-      fileSrc: undefined,
-    },
+
   },
   profiles: {
-    [firstProfileSectionId]: {
-      id: firstProfileSectionId,
-      name: undefined,
-      position: undefined,
-      linkedInUrl: undefined,
-      twitterUrl: undefined,
-      uploading: false,
-      fileSrc: undefined,
-    },
   },
   social: {
     linkedInUrl: undefined,
@@ -66,11 +43,6 @@ export const initialState: CreateEntityPageContentState = {
     otherUrl: undefined,
   },
   embedded: {
-    [firstEmbeddedSectionId]: {
-      id: firstEmbeddedSectionId,
-      title: undefined,
-      urls: [],
-    },
   },
   validation: {},
 }

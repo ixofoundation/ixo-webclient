@@ -23,7 +23,7 @@ export const getEntityAgents = (entityDid: string, role: AgentRole) => (
   dispatch: Dispatch,
 ): GetEntityAgentsAction => {
   const agentsPayload = {
-    projectDid: entityDid,
+    projectDid: entityDid
   }
 
   keysafe.requestSigning(
@@ -41,6 +41,7 @@ export const getEntityAgents = (entityDid: string, role: AgentRole) => (
       blocksyncApi.agent
         .listAgentsForProject(agentsPayload, signature, PDS_URL)
         .then((response: any) => {
+          console.log('fffffffffffffffff', response)
           if (response.error) {
             return dispatch({
               type: EntityAgentsActions.GetEntityAgentsFailure,

@@ -256,6 +256,7 @@ export const selectEntityApiPayload = (
       settingsSelectors.selectOwner,
       settingsSelectors.selectFilters,
       settingsSelectors.selectDisplayCredentials,
+      settingsSelectors.selectHeadlineTemplateId,
       (
         status,
         version,
@@ -266,6 +267,7 @@ export const selectEntityApiPayload = (
         owner,
         filters,
         displayCredentials,
+        headlineTemplateId
       ) => {
         return {
           ['@context']: 'https://schema.ixo.foundation/entity:2383r9riuew',
@@ -322,6 +324,9 @@ export const selectEntityApiPayload = (
               badge: credential.badge,
             })),
           },
+          headlineMetric: {
+            claimTemplateId: headlineTemplateId
+          }
         }
       },
     ),

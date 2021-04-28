@@ -34,9 +34,12 @@ export const getEntities = () => (dispatch: Dispatch): GetEntitiesAction => {
         return apiEntities
           .filter((entity) => !!entity.data['@type'])
           .map((apiEntity: ApiListedEntity) => {
-            const claimToUse = apiEntity.data.entityClaims
+            let claimToUse = apiEntity.data.entityClaims
               ? apiEntity.data.entityClaims.items[0]
               : undefined
+            if (apiEntity.data.headlineMetric) {
+              claimToUse = apiEntity.data.entityClaims.items.find(template => template['@id'] === apiEntity.data.headlineMetric.claimTemplateId)
+            }
 
             return {
               did: apiEntity.projectDid,

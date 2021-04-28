@@ -84,6 +84,7 @@ export interface CreateEntitySettingsState {
   validation: {
     [identifier: string]: Validation
   }
+  headlineTemplateId: string
 }
 
 export enum CreateEntitySettingsActions {
@@ -101,6 +102,8 @@ export enum CreateEntitySettingsActions {
   UploadOwnerImageFailure = 'ixo/CreateEntitySettings/UPLOAD_OWNER_IMAGE_REJECTED',
   // Status
   UpdateStatus = 'ixo/CreateEntitySettings/UPDATE_STATUS',
+  // Headline Metrics
+  UpdateHeadlineMetric = 'ixo/CreateEntitySettings/UPDATE_HEADLINE_METRIC',
   // Version
   UpdateVersion = 'ixo/CreateEntitySettings/UPDATE_VERSION',
   // Terms Of Ise
@@ -218,6 +221,13 @@ export interface UpdateTermsOfUseAction {
   }
 }
 
+export interface UpdateHeadlineMetricAction {
+  type: typeof CreateEntitySettingsActions.UpdateHeadlineMetric
+  payload: {
+    headlineTemplateId: string
+  }
+}
+
 export interface UpdatePrivacyAction {
   type: typeof CreateEntitySettingsActions.UpdatePrivacy
   payload: {
@@ -315,6 +325,7 @@ export type CreateEntitySettingsActionTypes =
   | RemoveDisplayCredentialSectionAction
   | UpdateDisplayCredentialAction
   | UpdateTermsOfUseAction
+  | UpdateHeadlineMetricAction
   | UpdateVersionAction
   | ValidatedAction
   | ValidationErrorAction

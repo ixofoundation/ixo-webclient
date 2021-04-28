@@ -20,6 +20,7 @@ import {
   ValidationErrorAction,
   UpdateVersionAction,
   UpdateTermsOfUseAction,
+  UpdateHeadlineMetricAction
 } from './types'
 import { FormData } from 'common/components/JsonForm/types'
 import { PDS_URL } from '../../types'
@@ -87,6 +88,7 @@ export const updateOwner = (formData: FormData) => (
     })
   }
 
+
   return dispatch({
     type: CreateEntitySettingsActions.UpdateOwner,
     payload: {
@@ -96,6 +98,7 @@ export const updateOwner = (formData: FormData) => (
       website,
       mission,
       ownerId,
+      fileSrc
     },
   })
 }
@@ -136,6 +139,19 @@ export const updateTermsOfUse = (
     payload: {
       type,
       paymentTemplateId,
+    },
+  }
+}
+
+export const updateHeadlineMetric = (
+  formData: FormData
+): UpdateHeadlineMetricAction => {
+  const { headlineTemplateId } = formData
+
+  return {
+    type: CreateEntitySettingsActions.UpdateHeadlineMetric,
+    payload: {
+      headlineTemplateId
     },
   }
 }

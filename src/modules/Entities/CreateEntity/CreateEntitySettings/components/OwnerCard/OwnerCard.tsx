@@ -1,4 +1,5 @@
 import React from 'react'
+import styled from 'styled-components'
 import { customControls } from 'common/components/JsonForm/types'
 import MultiControlForm from 'common/components/JsonForm/MultiControlForm/MultiControlForm'
 import { FormCardProps } from '../../../types'
@@ -12,7 +13,50 @@ interface Props extends FormCardProps {
   ownerId: string
   fileSrc: string
   uploadingImage: boolean
+  handleCopyFromOwner: () => void
 }
+
+const FormContainer = styled.div`
+  display: flex;
+  align-items: center;
+  width: 100%;
+  position: relative;
+
+  > div {
+    width: 100%;
+  }
+`
+
+const ButtonContainer = styled.div`
+  position: absolute;
+  top: -2.5rem;
+  right: 0;
+  width: auto !important;
+
+  button {
+    width: 220px;
+    height: 40px;
+    font-weight: normal;
+    font-size: 1rem;
+    line-height: 19px;
+    border-radius: 4px;
+    border: none;
+    background: linear-gradient(180deg, #04d0fb 0%, #49bfe0 100%);
+    color: #fff;
+    margin-left: 1.25rem;
+
+    &:focus {
+      outline-style: none;
+      box-shadow: none;
+      border: 1px solid #fff;
+    }
+
+    &:disabled {
+      opacity: 0.8;
+      color: ${(props: any): string => props.theme.fontLightGreyBlue};
+    }
+  }
+`
 
 const OwnerCard: React.FunctionComponent<Props> = React.forwardRef(
   (
@@ -28,6 +72,7 @@ const OwnerCard: React.FunctionComponent<Props> = React.forwardRef(
       handleUpdateContent,
       handleSubmitted,
       handleError,
+      handleCopyFromOwner,
     },
     ref,
   ) => {
@@ -89,20 +134,27 @@ const OwnerCard: React.FunctionComponent<Props> = React.forwardRef(
         'ui:placeholder': 'Enter ID or !name',
       },
     }
-
+    console.log('fffffffffffffffff', formData)
     return (
-      <MultiControlForm
-        ref={ref}
-        onSubmit={handleSubmitted}
-        onFormDataChange={handleUpdateContent}
-        onError={handleError}
-        formData={formData}
-        schema={schema}
-        uiSchema={uiSchema}
-        multiColumn
-      >
-        &nbsp;
-      </MultiControlForm>
+      <FormContainer>
+        <MultiControlForm
+          ref={ref}
+          onSubmit={handleSubmitted}
+          onFormDataChange={handleUpdateContent}
+          onError={handleError}
+          formData={formData}
+          schema={schema}
+          uiSchema={uiSchema}
+          multiColumn
+        >
+          &nbsp;
+        </MultiControlForm>
+        <ButtonContainer>
+          <button onClick={handleCopyFromOwner}>
+            Copy from project creator
+          </button>
+        </ButtonContainer>
+      </FormContainer>
     )
   },
 )

@@ -35,6 +35,9 @@ export interface ApiEntity {
   startDate: string
   endDate: string
   status: EntityStatus
+  headlineMetric: {
+    claimTemplateId: string
+  }
   stage: EntityStage
   relayerNode: string
   version: {
