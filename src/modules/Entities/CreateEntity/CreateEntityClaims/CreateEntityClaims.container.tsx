@@ -102,7 +102,7 @@ class CreateEntityClaims extends CreateEntityBase<Props> {
   }
 
   renderEntityClaimTemplate = (template: Template): JSX.Element => {
-    const { handleUpdateEntityClaimTemplate, templates } = this.props
+    const { templates } = this.props
 
     const {
       id,
@@ -135,7 +135,7 @@ class CreateEntityClaims extends CreateEntityBase<Props> {
               dateCreated: dateCreated.format('DD-MMM-YYYY'),
               imageUrl: null,
               previewUrl: '',
-              ddoTags
+              ddoTags,
             }
           })}
           title={title}
@@ -147,7 +147,7 @@ class CreateEntityClaims extends CreateEntityBase<Props> {
           submissionStartDate={submissionStartDate}
           submissionEndDate={submissionEndDate}
           handleUpdateContent={(formData): void =>
-            handleUpdateEntityClaimTemplate(entityClaimId, id, formData)
+            this.handleUpdateClaimTemplate(entityClaimId, id, formData)
           }
           handleSubmitted={(): void => this.props.handleValidated(id)}
           handleError={(errors): void =>
@@ -156,6 +156,31 @@ class CreateEntityClaims extends CreateEntityBase<Props> {
         />
       </>
     )
+  }
+
+  handleUpdateClaimTemplate = (entityClaimId, id, formData): void => {
+    const {
+      handleUpdateEntityClaimTemplate,
+      templates,
+      entityClaims,
+    } = this.props
+    const updatedClaimTemplate = entityClaims.find(
+      (claim) => claim.id === entityClaimId,
+    )
+    let newData = { ...formData }
+    // Claim template replaced, need to auto populate goal and description
+    if (updatedClaimTemplate.template.templateId !== formData.templateId) {
+      const selectedTemplate = templates.find(
+        (template) => template.did === formData.templateId,
+      )
+      newData = {
+        ...formData,
+        goal: selectedTemplate.goal,
+        description: selectedTemplate.description,
+      }
+    }
+
+    handleUpdateEntityClaimTemplate(entityClaimId, id, newData)
   }
 
   renderEntityClaimAgentRoles = (

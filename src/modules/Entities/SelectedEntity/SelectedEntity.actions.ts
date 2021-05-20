@@ -80,6 +80,7 @@ export const getEntity = (did: string) => (
             location: apiEntity.data.location,
             image: apiEntity.data.image,
             logo: apiEntity.data.logo,
+            embeddedAnalytics: apiEntity.data.embeddedAnalytics,
             serviceProvidersCount: apiEntity.data.agentStats.serviceProviders,
             serviceProvidersPendingCount:
               apiEntity.data.agentStats.serviceProvidersPending,

@@ -21,6 +21,9 @@ import {
   updateTermsOfUse,
   updateVersion,
   updateHeadlineMetric,
+  addAnalyticsSection,
+  updateAnalyticsContent,
+  removeAnalyticsSection,
 } from './CreateEntitySettings.actions'
 import { goToStep } from '../CreateEntity.actions'
 import * as createEntitySelectors from '../CreateEntity.selectors'
@@ -37,6 +40,7 @@ import {
   TermsOfUse,
 } from './types'
 import FormCardWrapper from 'common/components/Wrappers/FormCardWrapper/FormCardWrapper'
+import { EmbeddedPageContent } from 'modules/Entities/CreateEntity/CreateEntityPageContent/types'
 import OwnerCard from './components/OwnerCard/OwnerCard'
 import CreatorCard from './components/CreatorCard/CreatorCard'
 import StatusCard from './components/StatusCard/StatusCard'
@@ -50,6 +54,7 @@ import { entityTypeMap } from '../../strategy-map'
 import HeadlineMetricCard from './components/HeadlineMetricCard/HeadlineMetricCard'
 import * as entityClaimsSelectors from '../CreateEntityClaims/CreateEntityClaims.selectors'
 import { EntityClaimItem } from '../CreateEntityClaims/types'
+import EmbeddedAnalyticsCard from './components/EmbeddedAnalyticsCard/EmbeddedAnalyticsCard'
 
 interface Props extends CreateEntityBaseProps {
   owner: Owner
@@ -63,6 +68,7 @@ interface Props extends CreateEntityBaseProps {
   filters: { [name: string]: string[] }
   displayCredentials: DisplayCredential[]
   entityClaims: EntityClaimItem[]
+  embeddedAnalytics: EmbeddedPageContent[]
   handleAddDisplayCredentialSection: () => void
   handleAddFilterSection: () => void
   handleAddRequiredCredentialSection: () => void
@@ -79,6 +85,9 @@ interface Props extends CreateEntityBaseProps {
   handleUpdateRequiredCredential: (id: string, formData: FormData) => void
   handleUpdateStatus: (formData: FormData) => void
   handleUpdateHeadlineMetric: (formData: FormData) => void
+  handleAddAnalyticsSection: () => void
+  handleUpdateAnalyticsContent: (id: string, formData: FormData) => void
+  handleRemoveAnalyticsSection: (id: string) => void
 }
 
 class CreateEntitySettings extends CreateEntityBase<Props> {
@@ -172,7 +181,7 @@ class CreateEntitySettings extends CreateEntityBase<Props> {
           handleError={(errors): void =>
             this.props.handleValidationError('owner', errors)
           }
-          handleCopyFromOwner={() =>
+          handleCopyFromOwner={(): void =>
             handleUpdateOwner({
               ...creator,
               ownerId: creator.creatorId,
@@ -402,6 +411,49 @@ class CreateEntitySettings extends CreateEntityBase<Props> {
     )
   }
 
+  renderEmbeddedAnalytics = (): JSX.Element => {
+    const {
+      embeddedAnalytics,
+      handleAddAnalyticsSection,
+      handleUpdateAnalyticsContent,
+      handleRemoveAnalyticsSection,
+    } = this.props
+
+    return (
+      <FormCardWrapper
+        title="Embedded Analytics"
+        description={null}
+        showAddSection
+        onAddSection={handleAddAnalyticsSection}
+      >
+        {embeddedAnalytics.map((section) => {
+          this.cardRefs[section.id] = React.createRef()
+
+          const { id, title, urls } = section
+
+          return (
+            <EmbeddedAnalyticsCard
+              ref={this.cardRefs[section.id]}
+              key={id}
+              title={title}
+              urls={urls}
+              handleUpdateContent={(formData): void =>
+                handleUpdateAnalyticsContent(id, formData)
+              }
+              handleRemoveSection={(): void => handleRemoveAnalyticsSection(id)}
+              handleSubmitted={(): void =>
+                this.props.handleValidated(section.id)
+              }
+              handleError={(errors): void =>
+                this.props.handleValidationError(section.id, errors)
+              }
+            />
+          )
+        })}
+      </FormCardWrapper>
+    )
+  }
+
   renderDisplayCredentials = (): JSX.Element => {
     const {
       displayCredentials,
@@ -491,6 +543,7 @@ class CreateEntitySettings extends CreateEntityBase<Props> {
         {this.renderRequiredCredentials()}
         {this.renderFilters()}
         {this.renderDisplayCredentials()}
+        {this.renderEmbeddedAnalytics()}
         {this.renderButtonGroup(identifiers, true)}
       </>
     )
@@ -513,6 +566,7 @@ const mapStateToProps = (state: RootState): any => ({
   validated: entitySettingsSelectors.selectValidated(state),
   entityClaims: entityClaimsSelectors.selectEntityClaims(state),
   headlineTemplateId: entitySettingsSelectors.selectHeadlineTemplateId(state),
+  embeddedAnalytics: entitySettingsSelectors.selectEmbeddedAnalytics(state),
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
@@ -549,6 +603,11 @@ const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
   handleGoToStep: (step: number): void => dispatch(goToStep(step)),
   handleUpdateHeadlineMetric: (formData: FormData): void =>
     dispatch(updateHeadlineMetric(formData)),
+  handleAddAnalyticsSection: (): void => dispatch(addAnalyticsSection()),
+  handleUpdateAnalyticsContent: (id: string, formData: FormData): void =>
+    dispatch(updateAnalyticsContent(id, formData)),
+  handleRemoveAnalyticsSection: (id: string): void =>
+    dispatch(removeAnalyticsSection(id)),
 })
 
 export const CreateEntitySettingsConnected = connect(

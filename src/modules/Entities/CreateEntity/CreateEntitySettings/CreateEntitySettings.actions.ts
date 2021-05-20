@@ -20,7 +20,10 @@ import {
   ValidationErrorAction,
   UpdateVersionAction,
   UpdateTermsOfUseAction,
-  UpdateHeadlineMetricAction
+  UpdateHeadlineMetricAction,
+  UpdateAnalyticsContentAction,
+  RemoveAnalyticsSectionAction,
+  AddAnalyticsSectionAction
 } from './types'
 import { FormData } from 'common/components/JsonForm/types'
 import { PDS_URL } from '../../types'
@@ -262,5 +265,37 @@ export const validationError = (
   payload: {
     identifier,
     errors,
+  },
+})
+
+export const addAnalyticsSection = (): AddAnalyticsSectionAction => ({
+  type: CreateEntitySettingsActions.AddAnalyticsSection,
+  payload: {
+    id: uuidv4(),
+  },
+})
+
+export const updateAnalyticsContent = (
+  id: string,
+  formData: FormData,
+): UpdateAnalyticsContentAction => {
+  const { title, urls } = formData
+
+  return {
+    type: CreateEntitySettingsActions.UpdateAnalyticsContent,
+    payload: {
+      id,
+      title,
+      urls: urls.split('|'),
+    },
+  }
+}
+
+export const removeAnalyticsSection = (
+  id: string,
+): RemoveAnalyticsSectionAction => ({
+  type: CreateEntitySettingsActions.RemoveAnalyticsSection,
+  payload: {
+    id,
   },
 })

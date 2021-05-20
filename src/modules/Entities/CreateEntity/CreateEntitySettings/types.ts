@@ -6,6 +6,7 @@ import {
   TermsOfUseType,
 } from '../../types'
 import { Validation } from '../types'
+import { EmbeddedPageContent } from 'modules/Entities/CreateEntity/CreateEntityPageContent/types'
 
 export interface Creator {
   displayName: string
@@ -85,6 +86,9 @@ export interface CreateEntitySettingsState {
     [identifier: string]: Validation
   }
   headlineTemplateId: string
+  embeddedAnalytics: {
+    [id: string]: EmbeddedPageContent
+  }
 }
 
 export enum CreateEntitySettingsActions {
@@ -123,6 +127,10 @@ export enum CreateEntitySettingsActions {
   // Validation
   Validated = 'ixo/CreateEntitySettings/SET_VALIDATED',
   ValidationError = 'ixo/CreateEntitySettings/VALIDATION_ERROR',
+  // Analytics
+  AddAnalyticsSection = 'ixo/CreateEntitySettings/ADD_ANALYTICS_SECTION',
+  UpdateAnalyticsContent = 'ixo/CreateEntitySettings/UPDATE_ANALYTICS_CONTENT',
+  RemoveAnalyticsSection = 'ixo/CreateEntitySettings/REMOVE_ANALYTICS_SECTION',
 }
 
 export interface UpdateCreatorAction {
@@ -304,6 +312,29 @@ export interface ValidationErrorAction {
   }
 }
 
+export interface AddAnalyticsSectionAction {
+  type: typeof CreateEntitySettingsActions.AddAnalyticsSection
+  payload: {
+    id: string
+  }
+}
+
+export interface UpdateAnalyticsContentAction {
+  type: typeof CreateEntitySettingsActions.UpdateAnalyticsContent
+  payload: {
+    id: string
+    title: string
+    urls: string[]
+  }
+}
+
+export interface RemoveAnalyticsSectionAction {
+  type: typeof CreateEntitySettingsActions.RemoveAnalyticsSection
+  payload: {
+    id: string
+  }
+}
+
 export type CreateEntitySettingsActionTypes =
   | UpdateOwnerAction
   | UploadOwnerImageAction
@@ -329,3 +360,6 @@ export type CreateEntitySettingsActionTypes =
   | UpdateVersionAction
   | ValidatedAction
   | ValidationErrorAction
+  | AddAnalyticsSectionAction
+  | UpdateAnalyticsContentAction
+  | RemoveAnalyticsSectionAction

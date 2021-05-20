@@ -257,6 +257,7 @@ export const selectEntityApiPayload = (
       settingsSelectors.selectFilters,
       settingsSelectors.selectDisplayCredentials,
       settingsSelectors.selectHeadlineTemplateId,
+      settingsSelectors.selectEmbeddedAnalytics,
       (
         status,
         version,
@@ -267,7 +268,8 @@ export const selectEntityApiPayload = (
         owner,
         filters,
         displayCredentials,
-        headlineTemplateId
+        headlineTemplateId,
+        embeddedAnalytics
       ) => {
         return {
           ['@context']: 'https://schema.ixo.foundation/entity:2383r9riuew',
@@ -326,7 +328,11 @@ export const selectEntityApiPayload = (
           },
           headlineMetric: {
             claimTemplateId: headlineTemplateId
-          }
+          },
+          embeddedAnalytics: embeddedAnalytics.map(analytic => ({
+            title: analytic.title,
+            urls: analytic.urls,
+          }))
         }
       },
     ),

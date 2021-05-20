@@ -217,6 +217,10 @@ export interface ApiListedEntityData extends ApiEntity {
     saDid: string
     eaDid?: string
   }[]
+  embeddedAnalytics?: {
+    title: string
+    urls: string[]
+  }[]
 }
 
 export interface ApiListedEntity {

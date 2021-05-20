@@ -36,8 +36,8 @@
       "ddoTag": "Relayer Launchpad",
       "color": "#FFF",
       "image": "relayerlaunchpad.png",
-      "title": "Impact Relayers",
-      "subTitle": "Launchpad",
+      "title": "Launchpad",
+      "subTitle": "Internet of Impact",
       "indicators": [
         {
           "@type": "Indicator",

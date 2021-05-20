@@ -59,6 +59,14 @@ export const selectValidation = createSelector(
   (settings) => settings.validation,
 )
 
+
+export const selectEmbeddedAnalytics = createSelector(
+  selectSettings,
+  (settings) => {
+    return Object.values(settings.embeddedAnalytics)
+  },
+)
+
 export const selectValidationComplete = createSelector(
   selectRequiredCredentials,
   selectDisplayCredentials,

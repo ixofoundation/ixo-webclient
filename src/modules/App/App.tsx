@@ -4,18 +4,23 @@ import { connect } from 'react-redux'
 import { ToastContainer } from 'react-toastify'
 import * as ReactGA from 'react-ga'
 import { ThemeProvider } from 'styled-components'
+import AssistantContext from 'common/contexts/Assistant'
+import { Transition, animated } from 'react-spring/renderprops'
+import FundingChat from 'modules/FundingChat/FundingChat.container'
+import { isMobile } from 'react-device-detect'
 
 import { HeaderConnected } from '../../common/components/Header/HeaderContainer'
 import Footer from '../../common/components/Footer/FooterContainer'
 import { RootState } from '../../common/redux/types'
 import { theme, Container, ContentWrapper } from './App.styles'
 import { UserInfo } from '../Account/types'
-import { updateLoginStatus } from '../Account/Account.actions'
+import { toggleAssistant, updateLoginStatus } from '../Account/Account.actions'
 import ScrollToTop from '../../common/components/ScrollToTop'
 import { Routes } from '../../routes'
 import { Spinner } from '../../common/components/Spinner'
 import '../../assets/icons.css'
 import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
+import { createLessThan } from 'typescript'
 
 require('dotenv').config()
 
@@ -40,6 +45,9 @@ export interface Props {
   onUpdateLoginStatus: () => void
   onWeb3Connect: () => void
   loginStatusCheckCompleted: boolean
+  assistantToggled: boolean
+  toggleAssistant: () => void
+  assistantFixed: boolean
 }
 
 class App extends React.Component<Props, State> {
@@ -85,26 +93,66 @@ class App extends React.Component<Props, State> {
   }
 
   render(): JSX.Element {
+    const { assistantToggled, toggleAssistant, assistantFixed } = this.props
+    let assistantBaseStyles: any = {
+      background: '#F0F3F9',
+      zIndex: 8,
+    }
+
+    if (assistantFixed || isMobile) {
+      assistantBaseStyles = {
+        ...assistantBaseStyles,
+        position: 'fixed',
+        right: 0,
+      }
+    }
+
     return (
       <ThemeProvider theme={theme}>
-        <ScrollToTop>
-          <Container>
-            <HeaderConnected
-              pingIxoExplorer={this.handlePingExplorer}
-              simpleHeader={false}
-              userInfo={this.props.userInfo}
-            />
-            <ToastContainer hideProgressBar={true} position="top-right" />
-            <ContentWrapper>
-              {this.props.loginStatusCheckCompleted || !window['ixoKs'] ? (
-                <Routes />
-              ) : (
-                <Spinner info={'Loading ixo.world...'} />
-              )}
-            </ContentWrapper>
-            <Footer />
-          </Container>
-        </ScrollToTop>
+        <AssistantContext.Provider value={{ active: assistantToggled }}>
+          <ScrollToTop>
+            <Container>
+              <HeaderConnected
+                pingIxoExplorer={this.handlePingExplorer}
+                simpleHeader={false}
+                userInfo={this.props.userInfo}
+              />
+              <ToastContainer hideProgressBar={true} position="top-right" />
+              <div className="d-flex" style={{ flex: 1 }}>
+                <ContentWrapper>
+                  {this.props.loginStatusCheckCompleted || !window['ixoKs'] ? (
+                    <Routes />
+                  ) : (
+                    <Spinner info={'Loading ixo.world...'} />
+                  )}
+                </ContentWrapper>
+                <Transition
+                  items={assistantToggled}
+                  from={{ width: '0%' }}
+                  enter={{ width: isMobile ? '100%' : '25%' }}
+                  leave={{ width: '0%' }}
+                >
+                  {(assistantToggled): any =>
+                    assistantToggled &&
+                    ((props): JSX.Element => (
+                      <animated.div
+                        style={{
+                          ...assistantBaseStyles,
+                          ...props,
+                        }}
+                      >
+                        {assistantToggled && (
+                          <FundingChat assistantPanelToggle={toggleAssistant} />
+                        )}
+                      </animated.div>
+                    ))
+                  }
+                </Transition>
+              </div>
+              <Footer />
+            </Container>
+          </ScrollToTop>
+        </AssistantContext.Provider>
       </ThemeProvider>
     )
   }
@@ -112,12 +160,17 @@ class App extends React.Component<Props, State> {
 
 const mapStateToProps = (state: RootState): Record<string, any> => ({
   userInfo: state.account.userInfo,
+  assistantToggled: state.account.assistantToggled,
+  assistantFixed: state.account.assistantFixed,
   loginStatusCheckCompleted: state.account.loginStatusCheckCompleted,
 })
 
 const mapDispatchToProps = (dispatch: any): any => ({
   onUpdateLoginStatus: (): void => {
     dispatch(updateLoginStatus())
+  },
+  toggleAssistant: (): void => {
+    dispatch(toggleAssistant())
   },
 })
 

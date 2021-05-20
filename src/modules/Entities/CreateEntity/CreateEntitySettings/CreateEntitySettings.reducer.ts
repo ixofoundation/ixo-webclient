@@ -1,4 +1,3 @@
-import { v4 as uuidv4 } from 'uuid'
 import {
   CreateEntitySettingsActionTypes,
   CreateEntitySettingsActions,
@@ -6,9 +5,6 @@ import {
 } from './types'
 import { CreateEntityActionTypes, CreateEntityActions } from '../types'
 import * as reduxUtils from 'common/redux/utils'
-
-const firstRequiredCredentialId: string = uuidv4()
-const firstDisplayCredentialId: string = uuidv4()
 
 export const initialState: CreateEntitySettingsState = {
   creator: {
@@ -55,7 +51,8 @@ export const initialState: CreateEntitySettingsState = {
   filters: {},
   displayCredentials: {},
   validation: {},
-  headlineTemplateId: undefined
+  headlineTemplateId: undefined,
+  embeddedAnalytics: {}
 }
 
 export const reducer = (
@@ -247,9 +244,37 @@ export const reducer = (
           },
         },
       }
+    case CreateEntitySettingsActions.AddAnalyticsSection:
+        return {
+          ...state,
+          embeddedAnalytics: {
+            ...state.embeddedAnalytics,
+            ...{
+              [action.payload.id]: {
+                ...action.payload,
+                title: undefined,
+                urls: [],
+              },
+            },
+          },
+        }
+    case CreateEntitySettingsActions.UpdateAnalyticsContent:
+      return {
+        ...state,
+        embeddedAnalytics: {
+          ...state.embeddedAnalytics,
+          ...{ [action.payload.id]: action.payload },
+        },
+      }
+    case CreateEntitySettingsActions.RemoveAnalyticsSection:
+      return {
+        ...state,
+        embeddedAnalytics: reduxUtils.omitKey(state.embeddedAnalytics, action.payload.id),
+      }
     case CreateEntityActions.NewEntity:
     case CreateEntityActions.CreateEntitySuccess:
       return initialState
+
   }
 
   return state

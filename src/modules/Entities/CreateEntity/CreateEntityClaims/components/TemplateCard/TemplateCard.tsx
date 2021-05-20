@@ -65,7 +65,7 @@ const TemplateCard: React.FunctionComponent<Props> = React.forwardRef(
       properties: {
         templateId: { type: 'string', title: 'Claim Template' },
         title: { type: 'string', title: 'H1 Title' },
-        goal: { type: 'string', title: 'Goal Description' },
+        goal: { type: 'string', title: 'Goal' },
         description: { type: 'string', title: 'Description' },
         minTargetClaims: {
           type: 'number',

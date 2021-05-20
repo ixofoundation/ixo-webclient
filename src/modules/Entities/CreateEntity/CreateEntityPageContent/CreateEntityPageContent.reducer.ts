@@ -1,4 +1,3 @@
-import { v4 as uuidv4 } from 'uuid'
 import {
   CreateEntityPageContentState,
   CreateEntityPageContentActionTypes,
@@ -6,11 +5,6 @@ import {
 } from './types'
 import { CreateEntityActionTypes, CreateEntityActions } from '../types'
 import * as reduxUtils from 'common/redux/utils'
-
-const firstBodySectionId: string = uuidv4()
-const firstImageSectionId: string = uuidv4()
-const firstProfileSectionId: string = uuidv4()
-const firstEmbeddedSectionId: string = uuidv4()
 
 export const initialState: CreateEntityPageContentState = {
   header: {

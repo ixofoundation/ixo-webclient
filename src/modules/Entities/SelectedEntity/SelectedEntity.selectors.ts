@@ -137,3 +137,10 @@ export const entityIsLoading = createSelector(
     return !entity
   },
 )
+
+export const selectEntityAnalytics = createSelector(
+  selectSelectedEntity,
+  (entity: Entity) => {
+    return entity && entity.embeddedAnalytics ? entity.embeddedAnalytics : []
+  },
+)

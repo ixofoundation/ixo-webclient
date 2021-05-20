@@ -11,7 +11,6 @@ const EmbeddedContentCard: React.FunctionComponent<Props> = ({
   title,
   urls,
 }) => {
-  console.log('fffffffffffffffff', urls)
   return (
     <Container>
       <h2>{title}</h2>

@@ -7,6 +7,8 @@ export const initialState: AccountState = {
   sequence: null,
   balances: [],
   loginStatusCheckCompleted: true,
+  assistantToggled: false,
+  assistantFixed: false,
 }
 
 export const reducer = (
@@ -30,6 +32,8 @@ export const reducer = (
       }
     case AccountActions.Logout:
       return { ...initialState, loginStatusCheckCompleted: true }
+    case AccountActions.ToggleAssistant:
+      return { ...state, assistantToggled: !state.assistantToggled && !action.payload.forceClose, assistantFixed: action.payload.fixed }
   }
 
   return state

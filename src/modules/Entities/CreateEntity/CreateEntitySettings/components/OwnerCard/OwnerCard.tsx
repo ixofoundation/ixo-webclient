@@ -134,7 +134,7 @@ const OwnerCard: React.FunctionComponent<Props> = React.forwardRef(
         'ui:placeholder': 'Enter ID or !name',
       },
     }
-    console.log('fffffffffffffffff', formData)
+
     return (
       <FormContainer>
         <MultiControlForm

@@ -16,7 +16,7 @@ import {
   ClaimsTopLabels,
   ClaimsWidget,
   SectionHeader,
-  ProgressContainer
+  ProgressContainer,
 } from './Dashboard.styles'
 import { Button, ButtonTypes } from 'common/components/Form/Buttons'
 import ButtonSlider from 'common/components/ButtonSlider/ButtonSlider'
@@ -26,6 +26,7 @@ import EventsTable from './EventsTable'
 import CircledLocation from 'assets/icons/CircledLocation'
 import Events from 'assets/icons/Events'
 import { Agent } from 'modules/Entities/types'
+import { Bar } from 'react-chartjs-2'
 
 export interface Props {
   did: string
@@ -62,17 +63,17 @@ const Dashboard: React.FunctionComponent<Props> = ({
   showAgentLinks,
   showClaimLinks,
   entityClaims,
-  agents
+  agents,
 }) => {
   const getClaimsOfType = (claimType: string): Array<any> => {
     return [...claims].filter((claim) => claim.status === claimType)
   }
 
-  const [activeTab, setActiveTab] = React.useState('educational_pass');
+  const [activeTab, setActiveTab] = React.useState('educational_pass')
   const [selectedHeader, setSelectedHeader] = React.useState('price')
 
   const handleTabClick = (tab) => {
-    setActiveTab(tab);
+    setActiveTab(tab)
   }
 
   return (
@@ -83,22 +84,22 @@ const Dashboard: React.FunctionComponent<Props> = ({
             title="Project performance timeline"
             path={`/projects/${did}/detail/investors`}
             linkIcon={'icon-expand'}
-            titleIcon={ <img src={ require('assets/img/sidebar/performance.svg') } /> }
+            titleIcon={
+              <img src={require('assets/img/sidebar/performance.svg')} />
+            }
           >
             <div className="d-flex justify-content-between w-100 mt-3 mb-2 flex-column flex-sm-row flex-wrap">
               <ButtonSlider>
-                {
-                  entityClaims.map((claim, key) =>
-                    <Button
-                      type={ ButtonTypes.dark }
-                      onClick={() => handleTabClick('educational_pass') }
-                      disabled={ activeTab !== 'educational_pass' }
-                      key={ key }
-                    >
-                      { claim.title }
-                    </Button>
-                  )
-                }
+                {entityClaims.map((claim, key) => (
+                  <Button
+                    type={ButtonTypes.dark}
+                    onClick={() => handleTabClick('educational_pass')}
+                    disabled={activeTab !== 'educational_pass'}
+                    key={key}
+                  >
+                    {claim.title}
+                  </Button>
+                ))}
               </ButtonSlider>
               <ClaimsTopLabels>
                 <p>Claims pending</p>
@@ -106,6 +107,7 @@ const Dashboard: React.FunctionComponent<Props> = ({
                 <p>Claims rejected</p>
               </ClaimsTopLabels>
             </div>
+
             <BarChart
               barData={[
                 {
@@ -128,14 +130,19 @@ const Dashboard: React.FunctionComponent<Props> = ({
           </WidgetWrapper>
         </div>
         {
-          <div className="col-sm-6 col-lg-3" style={{ paddingTop: 20, paddingBottom: 20 }}>
+          <div
+            className="col-sm-6 col-lg-3"
+            style={{ paddingTop: 20, paddingBottom: 20 }}
+          >
             <WidgetWrapper
               title="Project Governance"
               link={showAgentLinks}
               gridHeight={gridSizes.standard}
               path={`/projects/${did}/detail/evaluators`}
               linkIcon={'icon-expand'}
-              titleIcon={ <img src={ require('assets/img/sidebar/governance.svg') } /> }
+              titleIcon={
+                <img src={require('assets/img/sidebar/governance.svg')} />
+              }
             >
               <ProjectGovernance />
               {/* <SingleStatistic
@@ -154,26 +161,31 @@ const Dashboard: React.FunctionComponent<Props> = ({
           </div>
         }
         {
-          <div className="col-sm-6 col-lg-3" style={{ paddingTop: 20, paddingBottom: 20 }}>
+          <div
+            className="col-sm-6 col-lg-3"
+            style={{ paddingTop: 20, paddingBottom: 20 }}
+          >
             <WidgetWrapper
               title="Outcomes Targets"
               link={showAgentLinks}
               gridHeight={gridSizes.standard}
               path={`/projects/${did}/detail/service-providers`}
               linkIcon={'icon-expand'}
-              titleIcon={ <img src={ require('assets/img/sidebar/target.svg') } /> }
+              titleIcon={<img src={require('assets/img/sidebar/target.svg')} />}
             >
-              <Targets
-              />
+              <Targets />
             </WidgetWrapper>
           </div>
         }
         {
-          <div className="col-lg-6" style={{ paddingTop: 20, paddingBottom: 20 }}>
+          <div
+            className="col-lg-6"
+            style={{ paddingTop: 20, paddingBottom: 20 }}
+          >
             <WidgetWrapper
               title="Impact claims"
               gridHeight={gridSizes.standard}
-              titleIcon={ <img src={ require('assets/img/sidebar/claim.svg') } /> }
+              titleIcon={<img src={require('assets/img/sidebar/claim.svg')} />}
             >
               <ClaimsWidget>
                 <ClaimsLabels>
@@ -182,7 +194,8 @@ const Dashboard: React.FunctionComponent<Props> = ({
                       <strong>{successfulClaimsCount}</strong> claims approved
                     </p>
                     <p>
-                      <strong>{pendingClaimsCount}</strong> claims pending approval
+                      <strong>{pendingClaimsCount}</strong> claims pending
+                      approval
                     </p>
                     <p>
                       <strong>{rejectedClaimsCount}</strong> claims rejected
@@ -193,17 +206,19 @@ const Dashboard: React.FunctionComponent<Props> = ({
                   </div>
                   <div className="mt-2">
                     <SectionHeader>
-                      <img src={ require('assets/img/sidebar/profile.svg') } />
+                      <img src={require('assets/img/sidebar/profile.svg')} />
                       Agents
-                      <i className='icon-expand' />
+                      <i className="icon-expand" />
                     </SectionHeader>
                     <div className="mt-2 mt-sm-4">
-                      <div style={{ paddingLeft: '60px'}}>
+                      <div style={{ paddingLeft: '60px' }}>
                         <div>
-                          <strong>{ serviceProvidersCount }</strong> authorised Service Providers
+                          <strong>{serviceProvidersCount}</strong> authorised
+                          Service Providers
                         </div>
                         <div>
-                          <strong>{ serviceProvidersPendingCount }</strong> pending Service Providers
+                          <strong>{serviceProvidersPendingCount}</strong>{' '}
+                          pending Service Providers
                         </div>
                       </div>
                     </div>
@@ -215,7 +230,11 @@ const Dashboard: React.FunctionComponent<Props> = ({
                     rejected={rejectedClaimsCount}
                     pending={pendingClaimsCount}
                     totalNeeded={requiredClaimsCount}
-                    descriptor={<>{goal} by {agents.length} <strong>Agents</strong></>}
+                    descriptor={
+                      <>
+                        {goal} by {agents.length} <strong>Agents</strong>
+                      </>
+                    }
                   />
                 </ProgressContainer>
               </ClaimsWidget>
@@ -227,7 +246,7 @@ const Dashboard: React.FunctionComponent<Props> = ({
             title="Project Events"
             path={`/projects/${did}/detail/events`}
             gridHeight={gridSizes.standard}
-            titleIcon={ <Events /> }
+            titleIcon={<Events />}
             link={true}
             linkIcon={'icon-expand'}
           >
@@ -240,7 +259,7 @@ const Dashboard: React.FunctionComponent<Props> = ({
             title="Claim location activity"
             path={`/projects/${did}/detail/claims`}
             gridHeight={gridSizes.standard}
-            titleIcon={ <CircledLocation /> }
+            titleIcon={<CircledLocation />}
           >
             <WorldMap markers={[latLng]} />
           </WidgetWrapper>
@@ -250,7 +269,7 @@ const Dashboard: React.FunctionComponent<Props> = ({
             title="Latest claims"
             path={`/projects/${did}/detail/claims`}
             gridHeight={gridSizes.standard}
-            titleIcon={ <img src={ require('assets/img/sidebar/claim.svg') } /> }
+            titleIcon={<img src={require('assets/img/sidebar/claim.svg')} />}
             linkIcon={'icon-expand'}
             link={true}
           >

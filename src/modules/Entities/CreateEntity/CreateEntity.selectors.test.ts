@@ -369,7 +369,8 @@ beforeEach(() => {
         },
       },
       validation: {},
-      headlineTemplateId: '1b9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed'
+      headlineTemplateId: '1b9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed',
+      embeddedAnalytics: {}
     } as CreateEntitySettingsState,
     createEntityAdvanced: {
       linkedEntities: {
@@ -1429,7 +1430,8 @@ describe('CreateEntity Selectors', () => {
         ],
         headlineMetric: {
           claimTemplateId: '1b9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed'
-        }
+        },
+        embeddedAnalytics: []
       }
 
       // when ... we call the selector with project entity type
