@@ -26,7 +26,6 @@ import EventsTable from './EventsTable'
 import CircledLocation from 'assets/icons/CircledLocation'
 import Events from 'assets/icons/Events'
 import { Agent } from 'modules/Entities/types'
-import { Bar } from 'react-chartjs-2'
 
 export interface Props {
   did: string
@@ -61,7 +60,6 @@ const Dashboard: React.FunctionComponent<Props> = ({
   remainingClaimsCount,
   latLng,
   showAgentLinks,
-  showClaimLinks,
   entityClaims,
   agents,
 }) => {
@@ -70,9 +68,8 @@ const Dashboard: React.FunctionComponent<Props> = ({
   }
 
   const [activeTab, setActiveTab] = React.useState('educational_pass')
-  const [selectedHeader, setSelectedHeader] = React.useState('price')
 
-  const handleTabClick = (tab) => {
+  const handleTabClick = (tab): void => {
     setActiveTab(tab)
   }
 
@@ -93,7 +90,7 @@ const Dashboard: React.FunctionComponent<Props> = ({
                 {entityClaims.map((claim, key) => (
                   <Button
                     type={ButtonTypes.dark}
-                    onClick={() => handleTabClick('educational_pass')}
+                    onClick={(): void => handleTabClick('educational_pass')}
                     disabled={activeTab !== 'educational_pass'}
                     key={key}
                   >

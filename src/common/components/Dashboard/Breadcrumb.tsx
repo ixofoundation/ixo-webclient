@@ -49,11 +49,11 @@ const Breadcrumb: React.FunctionComponent<Props> = ({
 
   return (
     <Container theme={theme}>
-      {baseRoutes.map((baseRoute) => (
-        <>
+      {baseRoutes.map((baseRoute, key) => (
+        <span key={`breadcrumb-${key}`}>
           <NavItem to={baseRoute.url}>{baseRoute.sdg}</NavItem>
           <RightIcon fill={theme.isDark ? '#436779' : '#979797'} />
-        </>
+        </span>
       ))}
       {subRoutes.map((subRoute, key) => (
         <Route exact path={subRoute.url} key={`sdg-${key}`}>

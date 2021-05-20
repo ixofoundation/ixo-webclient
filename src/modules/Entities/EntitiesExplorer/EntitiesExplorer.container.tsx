@@ -194,8 +194,6 @@ class EntitiesExplorer extends React.Component<Props> {
   }
 
   render(): JSX.Element {
-    const { assistantPanelActive } = this.state
-    const { match } = this.props
     return (
       <Container>
         <div className="d-flex">

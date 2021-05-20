@@ -9,10 +9,6 @@ import * as reduxUtils from 'common/redux/utils'
 
 const firstEntityClaimId = uuidv4()
 const firstEntityClaimTemplateId = uuidv4()
-const firstEntityClaimAgentRoleId = uuidv4()
-const firstEntityClaimEvaluationId = uuidv4()
-const firstEntityClaimApprovalCriterionId = uuidv4()
-const firstEntityClaimEnrichmentId = uuidv4()
 
 export const initialState: CreateEntityClaimsState = {
   entityClaims: {

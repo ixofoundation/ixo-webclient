@@ -7,14 +7,7 @@ import {
 import { CreateEntityActionTypes, CreateEntityActions } from '../types'
 import * as reduxUtils from 'common/redux/utils'
 
-const firstLinkedEntityId = uuidv4()
-const firstPaymentId = uuidv4()
-const firstStakeId = uuidv4()
 const firstNodeId = uuidv4()
-const firstFundId = uuidv4()
-const firstKeyId = uuidv4()
-const firstServiceId = uuidv4()
-const firstDataResourceId = uuidv4()
 
 export const initialState: CreateEntityAdvancedState = {
   linkedEntities: {},

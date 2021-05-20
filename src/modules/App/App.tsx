@@ -20,7 +20,6 @@ import { Routes } from '../../routes'
 import { Spinner } from '../../common/components/Spinner'
 import '../../assets/icons.css'
 import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
-import { createLessThan } from 'typescript'
 
 require('dotenv').config()
 
