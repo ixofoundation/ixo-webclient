@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Route, Switch } from 'react-router-dom'
+import { Route, Switch, useLocation } from 'react-router-dom'
 import EntitiesExplorer from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.container'
 import EntitiesImpact from 'modules/Entities/EntitiesExplorer/EntitiesImpact/EntitiesImpact.container'
 import CreateEntity from 'modules/Entities/CreateEntity/CreateEntity.container'
@@ -15,8 +15,25 @@ import BondRoutes from './BondRoutes'
 import InvestmentRoutes from './InvestmentRoutes'
 import EntityLayout from 'modules/Entities/SelectedEntity/EntityLayout.container'
 import EntityEconomy from 'modules/Entities/SelectedEntity/EntityEconomy/EntityEconomy.container'
+import Dashboard from 'common/components/Dashboard/Dashboard'
+import { toggleAssistant } from 'modules/Account/Account.actions'
+import { ToogleAssistantPayload } from 'modules/Account/types'
+import { connect } from 'react-redux'
+import { RootState } from 'common/redux/types'
 
-export const Routes: React.SFC<{}> = (props) => {
+interface Props {
+  toggleAssistant?: (param: ToogleAssistantPayload) => void
+}
+
+const App: React.FunctionComponent<Props> = ({ toggleAssistant }) => {
+  const location = useLocation()
+
+  React.useEffect(() => {
+    toggleAssistant({
+      forceClose: true,
+    })
+  }, [location])
+
   return (
     <Fragment>
       <Switch>
@@ -47,6 +64,7 @@ export const Routes: React.SFC<{}> = (props) => {
         <Route path="/projects/:projectDID/detail" component={EntityImpact} />
         <Route path="/projects/:projectDID/economy" component={EntityEconomy} />
         <Route path="/investment/:projectDID" component={InvestmentRoutes} />
+        <Route path="/test" component={Dashboard} />
         {/* Old claims related screens - remove when new claims is ready */}
         {/*
                 <Route
@@ -92,3 +110,13 @@ export const Routes: React.SFC<{}> = (props) => {
     </Fragment>
   )
 }
+
+const mapStateToProps = (state: RootState): Record<string, any> => ({})
+
+const mapDispatchToProps = (dispatch: any): any => ({
+  toggleAssistant: (param: ToogleAssistantPayload): void => {
+    dispatch(toggleAssistant(param))
+  },
+})
+
+export const Routes = connect(mapStateToProps, mapDispatchToProps)(App)

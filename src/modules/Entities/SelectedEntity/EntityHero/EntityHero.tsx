@@ -43,6 +43,7 @@ interface Props {
   bondDid?: string
   userDid?: string
   creatorDid?: string
+  assistantFixed?: boolean
 }
 
 const EntityHero: React.FunctionComponent<Props> = ({
@@ -60,6 +61,7 @@ const EntityHero: React.FunctionComponent<Props> = ({
   assistantPanelToggle,
   enableAssistantButton = true,
   light = false,
+  assistantFixed = false,
 }) => {
   const bondDid = useSelector(selectEntityBondDid)
 
@@ -254,6 +256,7 @@ const EntityHero: React.FunctionComponent<Props> = ({
           assistantPanelToggle={assistantPanelToggle}
           enableAssistantButton={enableAssistantButton}
           activeTabColor={entityTypeMap[type].themeColor}
+          assistantFixed={assistantFixed}
         />
       </HeroContainer>
     </>

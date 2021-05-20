@@ -20,6 +20,10 @@ import {
   ValidationErrorAction,
   UpdateVersionAction,
   UpdateTermsOfUseAction,
+  UpdateHeadlineMetricAction,
+  UpdateAnalyticsContentAction,
+  RemoveAnalyticsSectionAction,
+  AddAnalyticsSectionAction
 } from './types'
 import { FormData } from 'common/components/JsonForm/types'
 import { PDS_URL } from '../../types'
@@ -87,6 +91,7 @@ export const updateOwner = (formData: FormData) => (
     })
   }
 
+
   return dispatch({
     type: CreateEntitySettingsActions.UpdateOwner,
     payload: {
@@ -96,6 +101,7 @@ export const updateOwner = (formData: FormData) => (
       website,
       mission,
       ownerId,
+      fileSrc
     },
   })
 }
@@ -136,6 +142,19 @@ export const updateTermsOfUse = (
     payload: {
       type,
       paymentTemplateId,
+    },
+  }
+}
+
+export const updateHeadlineMetric = (
+  formData: FormData
+): UpdateHeadlineMetricAction => {
+  const { headlineTemplateId } = formData
+
+  return {
+    type: CreateEntitySettingsActions.UpdateHeadlineMetric,
+    payload: {
+      headlineTemplateId
     },
   }
 }
@@ -246,5 +265,37 @@ export const validationError = (
   payload: {
     identifier,
     errors,
+  },
+})
+
+export const addAnalyticsSection = (): AddAnalyticsSectionAction => ({
+  type: CreateEntitySettingsActions.AddAnalyticsSection,
+  payload: {
+    id: uuidv4(),
+  },
+})
+
+export const updateAnalyticsContent = (
+  id: string,
+  formData: FormData,
+): UpdateAnalyticsContentAction => {
+  const { title, urls } = formData
+
+  return {
+    type: CreateEntitySettingsActions.UpdateAnalyticsContent,
+    payload: {
+      id,
+      title,
+      urls: urls.split('|'),
+    },
+  }
+}
+
+export const removeAnalyticsSection = (
+  id: string,
+): RemoveAnalyticsSectionAction => ({
+  type: CreateEntitySettingsActions.RemoveAnalyticsSection,
+  payload: {
+    id,
   },
 })

@@ -10,9 +10,6 @@ import {
   CardBottom,
   MainContent,
   Title,
-  StatisticsContainer,
-  StatisticLabel,
-  StatisticValue,
 } from '../EntityCard.styles'
 import {
   Impact,
@@ -23,7 +20,6 @@ import {
 } from './ProjectCard.styles'
 import SDGIcons from '../SDGIcons/SDGIcons'
 import Shield, { ShieldColor } from '../Shield/Shield'
-import Star from 'assets/icons/Star'
 import flagged from '../../../../../../assets/images/flagged.svg'
 
 interface Props {
@@ -88,7 +84,7 @@ const ProjectCard: React.FunctionComponent<Props> = ({
             <div className="col-6">
               <Shield
                 label="Status"
-                text={ status ? status.toLowerCase() : 'Created' }
+                text={status ? status.toLowerCase() : 'Created'}
                 color={ShieldColor.Blue}
               />
             </div>
@@ -99,7 +95,7 @@ const ProjectCard: React.FunctionComponent<Props> = ({
           <MainContent>
             <Title>{excerptText(name, 10)}</Title>
           </MainContent>
-         {/*  <StatisticsContainer className="row">
+          {/*  <StatisticsContainer className="row">
             <div className="col-4">
               <StatisticValue>68%</StatisticValue>
               <StatisticLabel>Funded</StatisticLabel>

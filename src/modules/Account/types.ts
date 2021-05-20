@@ -20,6 +20,8 @@ export interface AccountState {
   sequence: string
   balances: Currency[]
   loginStatusCheckCompleted: boolean
+  assistantToggled: boolean
+  assistantFixed: boolean
 }
 
 export enum AgentRole {
@@ -43,6 +45,7 @@ export enum AccountActions {
   GetAccountSuccess = 'ixo/Account/GET_ACCOUNT_FULFILLED',
   GetAccountPending = 'ixo/Account/GET_ACCOUNT_PENDING',
   GetAccountFailure = 'ixo/Account/GET_ACCOUNT_REJECTED',
+  ToggleAssistant = 'ixo/Account/TOGGLE_ASSISTANT'
 }
 
 export interface LoginAction {
@@ -71,8 +74,19 @@ export interface GetAccountSuccessAction {
   }
 }
 
+export interface ToogleAssistantPayload {
+  fixed?: boolean
+  forceClose?: boolean
+}
+
+export interface ToggleAssistantAction {
+  type: typeof AccountActions.ToggleAssistant
+  payload: ToogleAssistantPayload
+}
+
 export type AccountActionTypes =
   | LoginAction
   | LogoutAction
   | GetAccountAction
   | GetAccountSuccessAction
+  | ToggleAssistantAction

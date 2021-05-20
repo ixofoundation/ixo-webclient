@@ -7,44 +7,12 @@ import {
 import { CreateEntityActionTypes, CreateEntityActions } from '../types'
 import * as reduxUtils from 'common/redux/utils'
 
-const firstLinkedEntityId = uuidv4()
-const firstPaymentId = uuidv4()
-const firstStakeId = uuidv4()
 const firstNodeId = uuidv4()
-const firstFundId = uuidv4()
-const firstKeyId = uuidv4()
-const firstServiceId = uuidv4()
-const firstDataResourceId = uuidv4()
 
 export const initialState: CreateEntityAdvancedState = {
-  linkedEntities: {
-    [firstLinkedEntityId]: {
-      id: firstLinkedEntityId,
-      type: undefined,
-      entityId: undefined,
-    },
-  },
-  payments: {
-    [firstPaymentId]: {
-      id: firstPaymentId,
-      type: undefined,
-      paymentId: undefined,
-    },
-  },
-  staking: {
-    [firstStakeId]: {
-      id: firstStakeId,
-      type: undefined,
-      stakeId: undefined,
-      denom: undefined,
-      stakeAddress: undefined,
-      minStake: undefined,
-      slashCondition: undefined,
-      slashFactor: undefined,
-      slashAmount: undefined,
-      unbondPeriod: undefined,
-    },
-  },
+  linkedEntities: {},
+  payments: {},
+  staking: {},
   nodes: {
     [firstNodeId]: {
       id: firstNodeId,
@@ -52,45 +20,10 @@ export const initialState: CreateEntityAdvancedState = {
       nodeId: undefined,
     },
   },
-  funding: {
-    [firstFundId]: {
-      id: firstFundId,
-      source: undefined,
-      fundId: undefined,
-    },
-  },
-  keys: {
-    [firstKeyId]: {
-      id: firstKeyId,
-      purpose: undefined,
-      type: undefined,
-      controller: undefined,
-      dateCreated: undefined,
-      dateUpdated: undefined,
-      keyValue: undefined,
-      signature: undefined,
-    },
-  },
-  services: {
-    [firstServiceId]: {
-      id: firstServiceId,
-      type: undefined,
-      shortDescription: undefined,
-      serviceEndpoint: undefined,
-      properties: undefined,
-      publicKey: undefined,
-      serviceId: undefined,
-    },
-  },
-  dataResources: {
-    [firstDataResourceId]: {
-      id: firstDataResourceId,
-      type: undefined,
-      dataId: undefined,
-      serviceEndpoint: undefined,
-      properties: undefined,
-    },
-  },
+  funding: {},
+  keys: {},
+  services: {},
+  dataResources: {},
   validation: {},
 }
 

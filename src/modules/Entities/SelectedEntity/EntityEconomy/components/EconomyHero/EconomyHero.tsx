@@ -28,7 +28,7 @@ const EconomyHero: React.FunctionComponent<Props> = ({ did }) => {
             Marketplace
           </Route>
           <Route path={`/projects/${did}/economy/relayers`} exact>
-            Impact Relayers
+            Launchpad
           </Route>
           <Route path={`/projects/${did}/economy`} exact>
             IXO STAKING TOKENS
@@ -50,7 +50,7 @@ const EconomyHero: React.FunctionComponent<Props> = ({ did }) => {
           Marketplace
         </Route>
         <Route path={`/projects/${did}/economy/relayers`} exact>
-          Impact Relayers
+          Launchpad
         </Route>
         <Route path={`/projects/${did}/economy`} exact>
           IXO STAKING TOKENS

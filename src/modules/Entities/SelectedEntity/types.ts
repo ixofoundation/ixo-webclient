@@ -91,6 +91,7 @@ export interface Entity {
   content: PageContent | Attestation
   entityClaims: any
   claims: EntityClaim[]
+  embeddedAnalytics?: PageContentEmbedded[]
 }
 
 export enum SelectedEntityActions {

@@ -40,7 +40,7 @@ export default class CreateEntityDropDown extends React.Component<Props> {
           onClick={(): void => this.handleToggleModal()}
           className={this.state.isModalOpen ? 'modal-open' : ''}
         >
-          <span className="modal-text">LAUNCH</span>
+          <span className="modal-text">CREATE</span>
           <span
             className="down-icon"
             style={{
@@ -153,7 +153,7 @@ export default class CreateEntityDropDown extends React.Component<Props> {
             >
               <ButtonContent>
                 <DataAssets fill="#000" width="18" />
-                {'Data ' + entityTypeMap[EntityType.Data].title}
+                {entityTypeMap[EntityType.Data].title}
               </ButtonContent>
             </LaunchEntityButton>
           </ButtonsWrapper>

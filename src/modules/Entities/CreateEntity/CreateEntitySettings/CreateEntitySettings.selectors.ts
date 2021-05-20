@@ -24,6 +24,11 @@ export const selectTermsOfUse = createSelector(
   (settings) => settings.termsOfUse,
 )
 
+export const selectHeadlineTemplateId = createSelector(
+  selectSettings,
+  (settings) => settings.headlineTemplateId,
+)
+
 export const selectVersion = createSelector(
   selectSettings,
   (settings) => settings.version,
@@ -52,6 +57,14 @@ export const selectDisplayCredentials = createSelector(
 export const selectValidation = createSelector(
   selectSettings,
   (settings) => settings.validation,
+)
+
+
+export const selectEmbeddedAnalytics = createSelector(
+  selectSettings,
+  (settings) => {
+    return Object.values(settings.embeddedAnalytics)
+  },
 )
 
 export const selectValidationComplete = createSelector(

@@ -113,7 +113,7 @@ export const entityTypeMap: EntityTypeStrategyMap = {
     headerSchema: DataHeaderSchema,
     filterSchema: DataFilterSchema,
     controlPanelSchema: DataControlPanelSchema,
-    createNewTitle: 'Launch Data Assets',
+    createNewTitle: 'Launch Assets',
     urlPart: 'data',
   },
 }

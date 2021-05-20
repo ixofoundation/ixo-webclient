@@ -1,6 +1,10 @@
 import styled from 'styled-components'
 
-export const Container = styled.div``
+export const Container = styled.div`
+  canvas {
+    width: 100% !important;
+  }
+`
 
 export const LabelsX = styled.div`
   display: flex;

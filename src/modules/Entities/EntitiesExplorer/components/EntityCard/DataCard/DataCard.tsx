@@ -71,7 +71,7 @@ const DataCard: React.FunctionComponent<Props> = ({
           <div className="row">
             <div className="col-6">
               <Shield
-                label="Data Asset"
+                label="Asset"
                 text="Algorithm"
                 color={ShieldColor.Orange}
               />

@@ -2,6 +2,7 @@ import * as React from 'react'
 import { RouteProps } from 'react-router'
 import { Moment } from 'moment'
 import ProjectCard from './components/EntityCard/ProjectCard/ProjectCard'
+import LaunchpadCard from './components/EntityCard/LaunchpadCard/LaunchpadCard'
 import CellCard from './components/EntityCard/CellCard/CellCard'
 import TemplateCard from './components/EntityCard/TemplateCard/TemplateCard'
 import InvestmentCard from './components/EntityCard/InvestmentCard/InvestmentCard'
@@ -40,9 +41,6 @@ import { Schema as FilterSchema } from './components/EntitiesFilter/schema/types
 import * as entitiesSelectors from './EntitiesExplorer.selectors'
 import * as accountSelectors from 'modules/Account/Account.selectors'
 import { entityTypeMap } from '../strategy-map'
-import FundingChat from 'modules/FundingChat/FundingChat.container'
-import { Transition } from 'react-spring/renderprops'
-import AssistantContext from 'common/contexts/Assistant'
 
 export interface Props extends RouteProps {
   match: any
@@ -103,7 +101,16 @@ class EntitiesExplorer extends React.Component<Props> {
   }
 
   renderCards = (): JSX.Element[] => {
+    const { filterSector } = this.props
+
     return this.props.entities.map((entity: ExplorerEntity, index) => {
+      if (filterSector === 'Relayer Launchpad') {
+        return React.createElement(LaunchpadCard, {
+          ...entity,
+          key: index,
+        })
+      }
+
       return React.createElement(EntityCard[this.props.type], {
         ...entity,
         key: index,
@@ -187,29 +194,26 @@ class EntitiesExplorer extends React.Component<Props> {
   }
 
   render(): JSX.Element {
-    const { assistantPanelActive } = this.state
-    const { match } = this.props
     return (
-      <AssistantContext.Provider value={{ active: assistantPanelActive }}>
-        <Container>
-          <div className="d-flex">
-            <div className="d-flex flex-column flex-grow-1">
-              <EntitiesHero
-                type={this.props.type}
-                filterSector={this.props.filterSector}
-                showSearch={true}
-                handleChangeEntitiesType={this.props.handleChangeEntitiesType}
-                handleChangeQuery={this.props.handleChangeEntitiesQuery}
-                assistantPanelToggle={this.assistantPanelToggle}
+      <Container>
+        <div className="d-flex">
+          <div className="d-flex flex-column flex-grow-1">
+            <EntitiesHero
+              type={this.props.type}
+              filterSector={this.props.filterSector}
+              showSearch={true}
+              handleChangeEntitiesType={this.props.handleChangeEntitiesType}
+              handleChangeQuery={this.props.handleChangeEntitiesQuery}
+              assistantPanelToggle={this.assistantPanelToggle}
+            />
+            {this.props.isLoadingEntities && (
+              <Spinner
+                info={`Loading ${entityTypeMap[this.props.type].plural}`}
               />
-              {this.props.isLoadingEntities && (
-                <Spinner
-                  info={`Loading ${entityTypeMap[this.props.type].plural}`}
-                />
-              )}
-              {!this.props.isLoadingEntities && this.renderEntities()}
-            </div>
-            <Transition
+            )}
+            {!this.props.isLoadingEntities && this.renderEntities()}
+          </div>
+          {/* <Transition
               items={assistantPanelActive}
               from={{ width: '0%' }}
               enter={{ width: '25%' }}
@@ -228,10 +232,9 @@ class EntitiesExplorer extends React.Component<Props> {
                   </div>
                 ))
               }
-            </Transition>
-          </div>
-        </Container>
-      </AssistantContext.Provider>
+            </Transition> */}
+        </div>
+      </Container>
     )
   }
 }

@@ -72,4 +72,9 @@ export const ContentWrapper = styled.main`
   display: flex;
   flex-direction: column;
   flex: 1;
+  max-width: 100%;
+`
+
+export const AssistantContainer = styled.div`
+
 `

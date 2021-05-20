@@ -87,6 +87,7 @@ export const StyledForm = styled.form`
     border: none;
     outline: none;
     width: 100%;
+    height: 28px;
   }
 `
 
@@ -152,7 +153,7 @@ export const StyledTextarea = styled.textarea`
   border: none;
   outline: none;
   width: 100%;
-  height: 48px;
+  height: 28px;
   margin-bottom: 0;
   padding: 0;
   line-height: 1.5;

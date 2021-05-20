@@ -6,7 +6,6 @@ import {
   OverviewContainer,
   SidebarWrapper,
   MainPanelWrapper,
-  AssistantContainer,
 } from './EntityOverview.container.styles'
 import { EntityType } from 'modules/Entities/types'
 import { entityTypeMap } from 'modules/Entities/strategy-map'
@@ -19,9 +18,6 @@ import { Spinner } from 'common/components/Spinner'
 import PageContentComponent from './components/PageContent/PageContent'
 import TemplateContentComponent from './components/TemplateContent/TemplateContent'
 import { PageContent } from '../types'
-import FundingChat from 'modules/FundingChat/FundingChat.container'
-import AssistantContext from 'common/contexts/Assistant'
-import { Transition, animated } from 'react-spring/renderprops'
 import * as entityClaimsSelectors from 'modules/Entities/CreateEntity/CreateEntityClaims/CreateEntityClaims.selectors'
 import { CreateEntityClaimsState } from 'modules/Entities/CreateEntity/CreateEntityClaims/types'
 import { AgentRole } from 'modules/Account/types'
@@ -77,7 +73,7 @@ class EntityOverview extends React.Component<Props> {
     })
   }
 
-  componentDidMount() {
+  componentDidMount(): void {
     const { type } = this.props
 
     if (type === EntityType.Template) {
@@ -85,7 +81,7 @@ class EntityOverview extends React.Component<Props> {
     }
   }
 
-  componentWillUnmount() {
+  componentWillUnmount(): void {
     document?.querySelector('body')?.classList.remove('noScroll')
   }
 
@@ -132,7 +128,6 @@ class EntityOverview extends React.Component<Props> {
       entity,
       creatorDid,
     } = this.props
-    const { assistantPanelActive, assistantIntent, role } = this.state
 
     if (isLoading) {
       return <Spinner info="Loading Entity..." />
@@ -144,63 +139,41 @@ class EntityOverview extends React.Component<Props> {
     }
 
     return (
-      <AssistantContext.Provider value={{ active: assistantPanelActive }}>
-        <div>
-          <OverviewContainer className="container-fluid">
-            <div className="row">
-              <MainPanelWrapper className="col-lg-9 pr-md-5">
-                <EntityHero
-                  type={type}
-                  did={did}
-                  name={name}
-                  description={description}
-                  dateCreated={dateCreated}
-                  creatorDid={creatorDid}
-                  creatorName={creatorName}
-                  location={location}
-                  sdgs={sdgs}
-                  loggedIn={isLoggedIn}
-                  onlyTitle={false}
-                  assistantPanelToggle={this.assistantPanelToggle}
-                  userDid={userDid}
-                  light
-                />
-                {this.handleRenderContent()}
-              </MainPanelWrapper>
-              <SidebarWrapper className="col-lg-3 position-relative">
-                <ControlPanel
-                  schema={entityTypeMap[type].controlPanelSchema}
-                  entityDid={did}
-                  userDid={userDid}
-                  claims={claims}
-                  assistantPanelToggle={this.assistantPanelToggle}
-                />
-                <Transition
-                  items={assistantPanelActive}
-                  from={{ width: '0%' }}
-                  enter={{ width: '100%' }}
-                  leave={{ width: '0%' }}
-                >
-                  {(assistantPanelActive) =>
-                    assistantPanelActive &&
-                    ((props) => (
-                      <AssistantContainer style={props}>
-                        <animated.div style={{ width: '25%' }}>
-                          <FundingChat
-                            assistantPanelToggle={this.assistantPanelToggle}
-                            assistantIntent={assistantIntent}
-                            role={role}
-                          />
-                        </animated.div>
-                      </AssistantContainer>
-                    ))
-                  }
-                </Transition>
-              </SidebarWrapper>
-            </div>
-          </OverviewContainer>
-        </div>
-      </AssistantContext.Provider>
+      <div>
+        <OverviewContainer className="container-fluid">
+          <div className="row">
+            <MainPanelWrapper className="col-lg-9 pr-md-5">
+              <EntityHero
+                type={type}
+                did={did}
+                name={name}
+                description={description}
+                dateCreated={dateCreated}
+                creatorDid={creatorDid}
+                creatorName={creatorName}
+                location={location}
+                sdgs={sdgs}
+                loggedIn={isLoggedIn}
+                onlyTitle={false}
+                assistantPanelToggle={this.assistantPanelToggle}
+                userDid={userDid}
+                assistantFixed={true}
+                light
+              />
+              {this.handleRenderContent()}
+            </MainPanelWrapper>
+            <SidebarWrapper className="col-lg-3 position-relative">
+              <ControlPanel
+                schema={entityTypeMap[type].controlPanelSchema}
+                entityDid={did}
+                userDid={userDid}
+                claims={claims}
+                assistantPanelToggle={this.assistantPanelToggle}
+              />
+            </SidebarWrapper>
+          </div>
+        </OverviewContainer>
+      </div>
     )
   }
 }

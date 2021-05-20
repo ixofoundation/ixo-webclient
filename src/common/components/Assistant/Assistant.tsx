@@ -1,4 +1,4 @@
-import React, { FormEvent, useRef, useEffect, Dispatch } from 'react'
+import React, { FormEvent, useRef, useEffect, Dispatch, useState } from 'react'
 import useBot from 'react-rasa-assistant'
 import ArrowUp from 'assets/icons/ArrowUp'
 import { createEntityAgent } from 'modules/Entities/SelectedEntity/EntityImpact/EntityAgents/EntityAgents.actions'
@@ -56,7 +56,6 @@ const Assistant: React.FunctionComponent<AssistantProps> = ({
         !msg.quick_replies &&
         !msg.buttons
       ) {
-        console.log('ffffffffffffffffffff', msg)
         switch (msg.action) {
           case 'authorise':
             if (userInfo) {
@@ -94,6 +93,14 @@ const Assistant: React.FunctionComponent<AssistantProps> = ({
       behavior: 'smooth',
     })
   })
+
+  const [renderTextarea, SetRenderTextarea] = useState(false)
+
+  useEffect(() => {
+    setTimeout(() => {
+      SetRenderTextarea(true)
+    }, 1000)
+  }, [])
 
   // sent msg but have not received response, show typing indicator
   const displayTypingIndicator =
@@ -149,20 +156,21 @@ const Assistant: React.FunctionComponent<AssistantProps> = ({
           </MessageWrapper>
         )}
       </MessagesContainer>
-      <StyledForm onSubmit={handleSubmit}>
-        <TextareaAutosize
-          name="message"
-          placeholder="Type a message..."
-          autoComplete="off"
-          onKeyDown={handleKeydown}
-          onChange={(event): void => setUserText(event.target.value)}
-          value={userText}
-          cacheMeasurements
-        />
-        <SendButton type="submit" disabled={!userText.length}>
-          <ArrowUp />
-        </SendButton>
-      </StyledForm>
+      {renderTextarea && (
+        <StyledForm onSubmit={handleSubmit}>
+          <TextareaAutosize
+            name="message"
+            placeholder="Type a message..."
+            autoComplete="off"
+            onKeyDown={handleKeydown}
+            onChange={(event): void => setUserText(event.target.value)}
+            value={userText}
+          />
+          <SendButton type="submit" disabled={!userText.length}>
+            <ArrowUp />
+          </SendButton>
+        </StyledForm>
+      )}
     </Container>
   )
 }

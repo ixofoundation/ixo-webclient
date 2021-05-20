@@ -35,6 +35,9 @@ export interface ApiEntity {
   startDate: string
   endDate: string
   status: EntityStatus
+  headlineMetric: {
+    claimTemplateId: string
+  }
   stage: EntityStage
   relayerNode: string
   version: {
@@ -213,6 +216,10 @@ export interface ApiListedEntityData extends ApiEntity {
     status: string
     saDid: string
     eaDid?: string
+  }[]
+  embeddedAnalytics?: {
+    title: string
+    urls: string[]
   }[]
 }
 

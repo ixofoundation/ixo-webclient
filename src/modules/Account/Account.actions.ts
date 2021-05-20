@@ -4,6 +4,8 @@ import {
   LogoutAction,
   GetAccountAction,
   UserInfo,
+  ToggleAssistantAction,
+  ToogleAssistantPayload
 } from './types'
 import { RootState } from 'common/redux/types'
 import { Dispatch } from 'redux'
@@ -95,4 +97,11 @@ export const updateLoginStatus = () => (
       }
     }
   })
+}
+
+export const toggleAssistant = (params: ToogleAssistantPayload = { fixed: false, forceClose: false }): ToggleAssistantAction => {
+  return {
+    type: AccountActions.ToggleAssistant,
+    payload: params
+  }
 }
