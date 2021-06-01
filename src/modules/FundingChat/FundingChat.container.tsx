@@ -28,7 +28,7 @@ interface Props {
   sending?: boolean
   sent?: boolean
   error?: string
-  assistantIntent?: string
+  intent?: string
   role?: AgentRole
   handleGetOrder?: (assistantResponse: any) => void
   handleConfirmOrder?: (entityDid: string) => void
@@ -47,14 +47,14 @@ class FundingChat extends React.Component<Props & RouteProps> {
   }
 
   render(): JSX.Element {
-    const { assistantIntent, role } = this.props
+    const { intent, role } = this.props
 
     return (
       <Fragment>
         <AssistantWrapper>
           <AssistantHeader></AssistantHeader>
           <div className="assistant-container">
-            <Assistant initMsg={assistantIntent} role={role} />
+            <Assistant initMsg={intent} role={role} />
           </div>
         </AssistantWrapper>
       </Fragment>
@@ -77,6 +77,7 @@ const mapStateToProps = (state: RootState): any => ({
   sending: fundingChatSelectors.selectSending(state),
   error: fundingChatSelectors.selectError(state),
   sent: fundingChatSelectors.selectSent(state),
+  intent: state.account.intent,
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({

@@ -53,34 +53,6 @@ class EntityOverview extends React.Component<Props> {
     role: AgentRole.ServiceProvider,
   }
 
-  assistantPanelToggle = (
-    intent = '',
-    role = AgentRole.ServiceProvider,
-  ): void => {
-    const { assistantPanelActive } = this.state
-
-    // Assistant panel shown
-    if (!assistantPanelActive) {
-      document?.querySelector('body')?.classList?.add('noScroll')
-    } else {
-      document?.querySelector('body')?.classList.remove('noScroll')
-    }
-
-    this.setState({
-      assistantPanelActive: !assistantPanelActive,
-      assistantIntent: intent,
-      role,
-    })
-  }
-
-  componentDidMount(): void {
-    const { type } = this.props
-
-    if (type === EntityType.Template) {
-      this.assistantPanelToggle()
-    }
-  }
-
   componentWillUnmount(): void {
     document?.querySelector('body')?.classList.remove('noScroll')
   }
@@ -155,7 +127,6 @@ class EntityOverview extends React.Component<Props> {
                 sdgs={sdgs}
                 loggedIn={isLoggedIn}
                 onlyTitle={false}
-                assistantPanelToggle={this.assistantPanelToggle}
                 userDid={userDid}
                 assistantFixed={true}
                 light
@@ -168,7 +139,6 @@ class EntityOverview extends React.Component<Props> {
                 entityDid={did}
                 userDid={userDid}
                 claims={claims}
-                assistantPanelToggle={this.assistantPanelToggle}
               />
             </SidebarWrapper>
           </div>

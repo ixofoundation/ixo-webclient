@@ -12,6 +12,7 @@ interface Props extends FormCardProps {
   mission: string
   ownerId: string
   fileSrc: string
+  entityType: string
   uploadingImage: boolean
   handleCopyFromOwner: () => void
 }
@@ -68,6 +69,7 @@ const OwnerCard: React.FunctionComponent<Props> = React.forwardRef(
       mission,
       ownerId,
       fileSrc,
+      entityType,
       uploadingImage,
       handleUpdateContent,
       handleSubmitted,
@@ -151,7 +153,7 @@ const OwnerCard: React.FunctionComponent<Props> = React.forwardRef(
         </MultiControlForm>
         <ButtonContainer>
           <button onClick={handleCopyFromOwner}>
-            Copy from project creator
+            Copy from {entityType.toLowerCase()} creator
           </button>
         </ButtonContainer>
       </FormContainer>

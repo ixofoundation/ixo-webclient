@@ -29,6 +29,10 @@ const App: React.FunctionComponent<Props> = ({ toggleAssistant }) => {
   const location = useLocation()
 
   React.useEffect(() => {
+    if (location.pathname.includes('action')) {
+      return
+    }
+
     toggleAssistant({
       forceClose: true,
     })

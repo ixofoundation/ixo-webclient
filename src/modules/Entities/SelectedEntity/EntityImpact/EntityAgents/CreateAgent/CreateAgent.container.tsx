@@ -1,4 +1,4 @@
-import { RootState } from 'common/redux/types';
+import { RootState } from 'common/redux/types'
 import React, { Dispatch } from 'react'
 import { connect } from 'react-redux'
 import * as accountSelectors from 'modules/Account/Account.selectors'
@@ -10,6 +10,8 @@ import { updateProjectStatus } from 'modules/Entities/SelectedEntity/SelectedEnt
 import { ProjectStatus } from 'modules/Entities/types'
 import { AgentRole } from 'modules/Account/types'
 import { createEntityAgent } from 'modules/Entities/SelectedEntity/EntityImpact/EntityAgents/EntityAgents.actions'
+import { ToogleAssistantPayload } from 'modules/Account/types'
+import { toggleAssistant } from 'modules/Account/Account.actions'
 
 interface Props {
   role: AgentRole
@@ -17,41 +19,50 @@ interface Props {
   error?: any
   userInfo?: UserInfo
   updateProjectStatus?: (projectDid: string, status: ProjectStatus) => void
-  assistantPanelToggle?: (string, AgentRole) => void
-  handleCreateEntityAgent?: (email: string, name: string, role: AgentRole) => void
+  toggleAssistant?: (param: ToogleAssistantPayload) => void
+  handleCreateEntityAgent?: (
+    email: string,
+    name: string,
+    role: AgentRole,
+  ) => void
 }
 
-class  CreateAgent extends React.Component<Props> {
+class CreateAgent extends React.Component<Props> {
   componentDidMount(): void {
-    const { assistantPanelToggle, role, updateProjectStatus, entityDid } = this.props;
-    //updateProjectStatus(entityDid, ProjectStatus.Pending)
-
-    assistantPanelToggle('/apply{"action":"authorise","msg_type":"agent_application"}', role)
+    const { role, updateProjectStatus, entityDid, toggleAssistant } = this.props
+    toggleAssistant({
+      fixed: true,
+      intent: '/apply{"action":"authorise","msg_type":"agent_application"}',
+    })
   }
 
   render(): JSX.Element {
-    const { userInfo, entityDid } = this.props;
-
+    const { userInfo, entityDid } = this.props
     if (userInfo === null) {
       const to = `/projects/${entityDid}/overview`
       return <Redirect to={to} />
     }
 
-    return null;
+    return null
   }
 }
 
 const mapStateToProps = (state: RootState): any => ({
   entityDid: entitySelectors.selectEntityDid(state),
   userInfo: accountSelectors.selectUserInfo(state),
-  error: entityAgentSelectors.selectFetchError(state)
+  error: entityAgentSelectors.selectFetchError(state),
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
   updateProjectStatus: (projectDid: string, status: ProjectStatus): void =>
     dispatch(updateProjectStatus(projectDid, status)),
-  handleCreateEntityAgent: (email: string, name:string, role: AgentRole): void =>
-    dispatch(createEntityAgent(email, name, role)),
+  handleCreateEntityAgent: (
+    email: string,
+    name: string,
+    role: AgentRole,
+  ): void => dispatch(createEntityAgent(email, name, role)),
+  toggleAssistant: (param: ToogleAssistantPayload): void =>
+    dispatch(toggleAssistant(param)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateAgent)

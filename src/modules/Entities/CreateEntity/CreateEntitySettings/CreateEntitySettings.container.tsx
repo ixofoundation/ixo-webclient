@@ -55,6 +55,7 @@ import HeadlineMetricCard from './components/HeadlineMetricCard/HeadlineMetricCa
 import * as entityClaimsSelectors from '../CreateEntityClaims/CreateEntityClaims.selectors'
 import { EntityClaimItem } from '../CreateEntityClaims/types'
 import EmbeddedAnalyticsCard from './components/EmbeddedAnalyticsCard/EmbeddedAnalyticsCard'
+import { EntityType } from 'modules/Entities/types'
 
 interface Props extends CreateEntityBaseProps {
   owner: Owner
@@ -157,6 +158,7 @@ class CreateEntitySettings extends CreateEntityBase<Props> {
         fileSrc,
         uploading,
       },
+      entityType,
       creator,
       handleUpdateOwner,
     } = this.props
@@ -176,6 +178,7 @@ class CreateEntitySettings extends CreateEntityBase<Props> {
           ownerId={ownerId}
           fileSrc={fileSrc}
           uploadingImage={uploading}
+          entityType={entityType}
           handleUpdateContent={handleUpdateOwner}
           handleSubmitted={(): void => this.props.handleValidated('owner')}
           handleError={(errors): void =>
@@ -512,7 +515,7 @@ class CreateEntitySettings extends CreateEntityBase<Props> {
   }
 
   render(): JSX.Element {
-    const { requiredCredentials, displayCredentials } = this.props
+    const { requiredCredentials, displayCredentials, entityType } = this.props
     const identifiers: string[] = []
 
     identifiers.push('owner')
@@ -522,7 +525,10 @@ class CreateEntitySettings extends CreateEntityBase<Props> {
     identifiers.push('termsofuse')
     identifiers.push('privacy')
     identifiers.push('filter')
-    identifiers.push('headline')
+
+    if (entityType !== EntityType.Template) {
+      identifiers.push('headline')
+    }
 
     requiredCredentials.forEach((section) => {
       identifiers.push(section.id)
@@ -536,7 +542,7 @@ class CreateEntitySettings extends CreateEntityBase<Props> {
         {this.renderCreator()}
         {this.renderOwner()}
         {this.renderStatus()}
-        {this.renderHeadlineMetric()}
+        {entityType !== EntityType.Template && this.renderHeadlineMetric()}
         {this.renderVersion()}
         {this.renderTermsOfUse()}
         {this.renderPrivacy()}

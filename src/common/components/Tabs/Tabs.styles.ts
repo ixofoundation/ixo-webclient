@@ -92,13 +92,13 @@ export const createTabsContainer = (
   @media (min-width: ${deviceWidth.mobileSmall}px) {
     a {
       min-width: 100px;
-      width: calc(100% / 3);
+      width: 100%;
     }
   }
   @media (min-width: ${deviceWidth.mobile}px) {
     a {
       min-width: 168px;
-      width: calc(100% / 3);
+      width: 100%;
     }
   }
   @media (max-width: ${deviceWidth.tablet}px) {

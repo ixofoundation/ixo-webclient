@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { NavLink } from 'react-router-dom'
+import { NavLink, withRouter } from 'react-router-dom'
 import { MatchType } from '../../../types/models'
 import { createTabsContainer } from './Tabs.styles'
 import Tooltip, { TooltipPosition } from '../Tooltip/Tooltip'
@@ -22,23 +22,34 @@ export interface Props {
   activeTabColor: string | undefined
   assistantPanelToggle?: () => void
   enableAssistantButton: boolean
+  history: any
+  location: any
+  match: any
 }
 
-export const Tabs: React.FunctionComponent<Props> = ({
+const TabsComponent: React.FunctionComponent<Props> = ({
   buttons,
   matchType,
   activeTabColor,
   assistantPanelToggle,
   enableAssistantButton,
+  location,
+  history,
 }) => {
   const [animation, setAnimation] = React.useState(inactiveAnimation)
   const assistant = React.useContext(AssistantContext)
 
   const assistantButtonClicked = (): void => {
     const isActive = assistant.active
+
     if (isActive) {
       setAnimation(hoverAnimation)
-      assistantPanelToggle()
+
+      if (location.pathname.includes('action')) {
+        history.goBack()
+      } else {
+        assistantPanelToggle()
+      }
       return
     }
 
@@ -139,3 +150,5 @@ export const Tabs: React.FunctionComponent<Props> = ({
     </TabsContainer>
   )
 }
+
+export const Tabs = withRouter(TabsComponent)

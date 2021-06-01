@@ -1,18 +1,19 @@
 import React from 'react'
+import { ToogleAssistantPayload } from 'modules/Account/types'
 
 interface Props {
-  assistantPanelToggle: () => void
+  assistantPanelToggle: (param: ToogleAssistantPayload) => void
 }
 
 class ShowAssistantPanel extends React.Component<Props> {
   componentDidMount(): void {
-    const { assistantPanelToggle } = this.props;
-    assistantPanelToggle()
+    const { assistantPanelToggle } = this.props
+    assistantPanelToggle({ fixed: true })
   }
 
   render(): JSX.Element {
-    return null;
+    return null
   }
 }
 
-export default ShowAssistantPanel;
+export default ShowAssistantPanel

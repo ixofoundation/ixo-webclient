@@ -99,7 +99,7 @@ const Assistant: React.FunctionComponent<AssistantProps> = ({
   useEffect(() => {
     setTimeout(() => {
       SetRenderTextarea(true)
-    }, 1000)
+    }, 1500)
   }, [])
 
   // sent msg but have not received response, show typing indicator

@@ -213,26 +213,6 @@ class EntitiesExplorer extends React.Component<Props> {
             )}
             {!this.props.isLoadingEntities && this.renderEntities()}
           </div>
-          {/* <Transition
-              items={assistantPanelActive}
-              from={{ width: '0%' }}
-              enter={{ width: '25%' }}
-              leave={{ width: '0%' }}
-            >
-              {(assistantPanelActive): any =>
-                assistantPanelActive &&
-                ((props): JSX.Element => (
-                  <div style={{ background: '#F0F3F9', ...props }}>
-                    {assistantPanelActive && (
-                      <FundingChat
-                        match={match}
-                        assistantPanelToggle={this.assistantPanelToggle}
-                      />
-                    )}
-                  </div>
-                ))
-              }
-            </Transition> */}
         </div>
       </Container>
     )
