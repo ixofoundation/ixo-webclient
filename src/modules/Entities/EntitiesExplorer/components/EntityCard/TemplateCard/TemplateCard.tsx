@@ -49,6 +49,8 @@ const TemplateCard: React.FunctionComponent<Props> = ({
     }
   }
 
+  console.log('fffffffffffffffffff', badges)
+
   return (
     <CardContainer className="col-xl-4 col-md-6 col-sm-12 col-12">
       <CardLink

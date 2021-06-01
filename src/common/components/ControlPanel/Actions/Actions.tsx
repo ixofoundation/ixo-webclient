@@ -18,9 +18,10 @@ import Down from 'assets/icons/Down'
 import ShowAssistantPanel from './ShowAssistantPanel'
 import { AgentRole } from 'modules/Account/types'
 import { updateProjectStatusToStarted } from 'modules/Entities/SelectedEntity/SelectedEntity.actions'
-import { ProjectStatus } from 'modules/Entities/types'
 import { connect } from 'react-redux'
-import { RootState } from 'common/redux/types';
+import { RootState } from 'common/redux/types'
+import { toggleAssistant } from 'modules/Account/Account.actions'
+import { ToogleAssistantPayload } from 'modules/Account/types'
 
 interface IconTypes {
   [key: string]: any
@@ -40,7 +41,7 @@ interface Props {
   widget: Widget
   toggleShowMore: () => void
   showMore: boolean
-  assistantPanelToggle: () => void
+  toggleAssistant?: (param: ToogleAssistantPayload) => void
   handleUpdateProjectStatusToStarted?: (projectDid: string) => void
 }
 
@@ -50,8 +51,8 @@ const Actions: React.FunctionComponent<Props> = ({
   entityDid,
   showMore,
   toggleShowMore,
-  assistantPanelToggle,
-  handleUpdateProjectStatusToStarted
+  toggleAssistant,
+  handleUpdateProjectStatusToStarted,
 }) => {
   const visibleControls = controls.filter(
     (control) => !(control.permissions[0].role === 'user' && !userDid),
@@ -91,7 +92,7 @@ const Actions: React.FunctionComponent<Props> = ({
         exact
         path={`/projects/:projectDID/overview/action/fuel_my_entity`}
       >
-        <FuelEntity assistantPanelToggle={ assistantPanelToggle } />
+        <FuelEntity assistantPanelToggle={toggleAssistant} />
       </Route>
       <Route
         exact
@@ -103,46 +104,22 @@ const Actions: React.FunctionComponent<Props> = ({
         path={`/projects/:projectDID/overview/action/new_claim`}
         component={InstructionsContainerConnected}
       />
-      <Route
-        exact
-        path={`/projects/:projectDID/overview/action/join`}
-        component={CreateAgentContainer}
-      >
-        <CreateAgentContainer
-          assistantPanelToggle={ assistantPanelToggle }
-          role={ AgentRole.ServiceProvider }
-        />
+      <Route exact path={`/projects/:projectDID/overview/action/join`}>
+        <CreateAgentContainer role={AgentRole.ServiceProvider} />
       </Route>
-      <Route
-        exact
-        path={`/projects/:projectDID/overview/action/evaluator`}
-        component={CreateAgentContainer}
-      >
-        <CreateAgentContainer
-          assistantPanelToggle={ assistantPanelToggle }
-          role={ AgentRole.Evaluator }
-        />
+      <Route exact path={`/projects/:projectDID/overview/action/evaluator`}>
+        <CreateAgentContainer role={AgentRole.Evaluator} />
       </Route>
 
-      <Route
-        exact
-        path={`/projects/:projectDID/overview/action/help`}
-      >
-        <ShowAssistantPanel assistantPanelToggle={ assistantPanelToggle } />
+      <Route exact path={`/projects/:projectDID/overview/action/help`}>
+        <ShowAssistantPanel assistantPanelToggle={toggleAssistant} />
       </Route>
-      <Route
-        exact
-        path={`/projects/:projectDID/overview/action/oracle`}
-      >
-        <ShowAssistantPanel assistantPanelToggle={ assistantPanelToggle } />
+      <Route exact path={`/projects/:projectDID/overview/action/oracle`}>
+        <ShowAssistantPanel assistantPanelToggle={toggleAssistant} />
       </Route>
-      <Route
-        exact
-        path={`/projects/:projectDID/overview/action/rate`}
-      >
-        <ShowAssistantPanel assistantPanelToggle={ assistantPanelToggle } />
+      <Route exact path={`/projects/:projectDID/overview/action/rate`}>
+        <ShowAssistantPanel assistantPanelToggle={toggleAssistant} />
       </Route>
-
       <ControlPanelSection key={title}>
         <h4>
           <div className="heading-icon">
@@ -171,12 +148,13 @@ const Actions: React.FunctionComponent<Props> = ({
   )
 }
 
-const mapStateToProps = (state: RootState): any => ({
-})
+const mapStateToProps = (state: RootState): any => ({})
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
   handleUpdateProjectStatusToStarted: (projectDid: string): void =>
     dispatch(updateProjectStatusToStarted(projectDid)),
+  toggleAssistant: (param: ToogleAssistantPayload): void =>
+    dispatch(toggleAssistant(param)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Actions)

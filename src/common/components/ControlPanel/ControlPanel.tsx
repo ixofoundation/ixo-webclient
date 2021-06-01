@@ -37,7 +37,7 @@ class ControlPanel extends React.Component<Props, State> {
     currentAction: null,
     currentConnection: null,
     showMoreActions: false,
-    showMoreConnections: false
+    showMoreConnections: false,
   }
 
   panelRef = null
@@ -64,25 +64,36 @@ class ControlPanel extends React.Component<Props, State> {
       currentAction: null,
     })
 
-    setTimeout(():void => this.panelRef.scroll({
-      top: this.panelRef.scrollHeight,
-      behavior: 'smooth'
-    }), 1000)
+    setTimeout(
+      (): void =>
+        this.panelRef.scroll({
+          top: this.panelRef.scrollHeight,
+          behavior: 'smooth',
+        }),
+      1000,
+    )
   }
 
   toggleShowActions = (): void => {
-    localStorage.setItem('show_more_actions', String(!this.state.showMoreActions))
+    localStorage.setItem(
+      'show_more_actions',
+      String(!this.state.showMoreActions),
+    )
     this.setState({ showMoreActions: !this.state.showMoreActions })
   }
 
   toggleShowConnections = (): void => {
-    localStorage.setItem('show_more_connections', String(!this.state.showMoreConnections))
+    localStorage.setItem(
+      'show_more_connections',
+      String(!this.state.showMoreConnections),
+    )
     this.setState({ showMoreConnections: !this.state.showMoreConnections })
   }
 
   componentDidMount(): void {
     const showMoreActions = localStorage.getItem('show_more_actions') === 'true'
-    const showMoreConnections = localStorage.getItem('show_more_connections') === 'true'
+    const showMoreConnections =
+      localStorage.getItem('show_more_connections') === 'true'
     this.setState({ showMoreActions, showMoreConnections })
   }
 
@@ -92,7 +103,6 @@ class ControlPanel extends React.Component<Props, State> {
       entityDid,
       userDid,
       claims,
-      assistantPanelToggle
     } = this.props
     return (
       <>
@@ -108,16 +118,15 @@ class ControlPanel extends React.Component<Props, State> {
         <ControlPanelScrollWrapper id="ControlPanelWrapper">
           <ControlPanelWrapper
             className={this.state.showControlPanelMobile ? 'open' : ''}
-            ref={ (ref): HTMLDivElement => this.panelRef = ref }
+            ref={(ref): HTMLDivElement => (this.panelRef = ref)}
           >
             <Dashboard widget={dashboard} entityDid={entityDid} />
             <Actions
               widget={actions}
               entityDid={entityDid}
               userDid={userDid}
-              toggleShowMore={ this.toggleShowActions }
-              showMore={ this.state.showMoreActions }
-              assistantPanelToggle={ assistantPanelToggle }
+              toggleShowMore={this.toggleShowActions}
+              showMore={this.state.showMoreActions}
             />
             <Apps
               widget={apps}
@@ -128,15 +137,15 @@ class ControlPanel extends React.Component<Props, State> {
               widget={apps}
               showMore={this.state.showMoreApps}
               toggleShowMore={this.toggleShowApps}
-              claims={ claims }
-              entityDid={ entityDid }
+              claims={claims}
+              entityDid={entityDid}
             />
             <Connections
               widget={connections}
               selectedConnection={this.state.currentConnection}
               handleConnectionClick={this.handleConnectionClick}
-              toggleShowConnections={ this.toggleShowConnections }
-              showMore={ this.state.showMoreConnections }
+              toggleShowConnections={this.toggleShowConnections}
+              showMore={this.state.showMoreConnections}
             />
           </ControlPanelWrapper>
         </ControlPanelScrollWrapper>

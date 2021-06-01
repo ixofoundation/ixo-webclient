@@ -22,6 +22,7 @@ export interface AccountState {
   loginStatusCheckCompleted: boolean
   assistantToggled: boolean
   assistantFixed: boolean
+  intent: string
 }
 
 export enum AgentRole {
@@ -77,6 +78,9 @@ export interface GetAccountSuccessAction {
 export interface ToogleAssistantPayload {
   fixed?: boolean
   forceClose?: boolean
+  forceOpen?: boolean
+  intent?: string
+  params?: any
 }
 
 export interface ToggleAssistantAction {

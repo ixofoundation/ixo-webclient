@@ -99,7 +99,7 @@ export const updateLoginStatus = () => (
   })
 }
 
-export const toggleAssistant = (params: ToogleAssistantPayload = { fixed: false, forceClose: false }): ToggleAssistantAction => {
+export const toggleAssistant = (params: ToogleAssistantPayload = { fixed: false, forceClose: false, forceOpen: false }): ToggleAssistantAction => {
   return {
     type: AccountActions.ToggleAssistant,
     payload: params

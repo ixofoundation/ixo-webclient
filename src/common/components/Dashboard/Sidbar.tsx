@@ -17,6 +17,7 @@ export const ToolTip = styled.div`
   opacity: 0;
   transition: all 0.3s ease;
   color: white;
+  white-space: nowrap;
 
   :after {
     content: '';

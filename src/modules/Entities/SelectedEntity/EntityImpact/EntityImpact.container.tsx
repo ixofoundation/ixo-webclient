@@ -22,6 +22,7 @@ import { EntityClaimType } from 'modules/EntityClaims/types'
 import Dashboard from 'common/components/Dashboard/Dashboard'
 import { entityTypeMap } from 'modules/Entities/strategy-map'
 import EntityAnalytics from './Analytics/Analytics.container'
+import VotingBond from '../VotingBond/VotingBond.container'
 
 interface Props {
   match: any
@@ -181,6 +182,12 @@ class EntityImpact extends React.Component<Props> {
         sdg: 'Claims',
         tooltip: 'Claims',
       },
+      {
+        url: `/projects/${did}/detail/voting`,
+        icon: require('assets/img/sidebar/investment.svg'),
+        sdg: 'Voting',
+        tooltip: 'Voting Bond',
+      },
     ]
 
     if (analytics.length) {
@@ -218,7 +225,8 @@ class EntityImpact extends React.Component<Props> {
     const pathname = window.location.pathname
     const theme =
       pathname.includes(`/projects/${did}/detail/claims`) ||
-      pathname.includes(`/projects/${did}/detail/analytics`)
+      pathname.includes(`/projects/${did}/detail/analytics`) ||
+      pathname.includes(`/projects/${did}/detail/voting`)
         ? 'light'
         : 'dark'
 
@@ -269,6 +277,10 @@ class EntityImpact extends React.Component<Props> {
           exact
           path={`/projects/:projectDID/detail/claims/:claimId`}
           component={EvaluateClaim}
+        />
+        <Route
+          path={`/projects/:projectDID/detail/voting`}
+          component={VotingBond}
         />
         {!!analytics.length && (
           <Route

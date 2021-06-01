@@ -9,6 +9,7 @@ export const initialState: AccountState = {
   loginStatusCheckCompleted: true,
   assistantToggled: false,
   assistantFixed: false,
+  intent: '',
 }
 
 export const reducer = (
@@ -33,7 +34,11 @@ export const reducer = (
     case AccountActions.Logout:
       return { ...initialState, loginStatusCheckCompleted: true }
     case AccountActions.ToggleAssistant:
-      return { ...state, assistantToggled: !state.assistantToggled && !action.payload.forceClose, assistantFixed: action.payload.fixed }
+      return {
+        ...state,
+        assistantToggled: (!state.assistantToggled && !action.payload.forceClose) || (!!action.payload.forceOpen),
+        assistantFixed: action.payload.fixed ?? state.assistantFixed ,
+        intent: action.payload.intent }
   }
 
   return state

@@ -53,7 +53,7 @@ export const HeroContainer = styled.div`
   background-position: center;
   position: relative;
   color: #143f54;
-
+  padding: 0 1rem;
   @media (min-width: ${deviceWidth.tablet}px) {
     height: 200px;
   }

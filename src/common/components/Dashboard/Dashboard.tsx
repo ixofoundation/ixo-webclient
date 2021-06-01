@@ -21,7 +21,6 @@ const Container = styled.div`
 `
 
 const Board = styled.div<{ theme: string }>`
-  width: calc(100% - 75px);
   background: ${({ theme }): string =>
     theme === 'light' ? '#f0f3f9' : '#002233'};
 
@@ -29,6 +28,7 @@ const Board = styled.div<{ theme: string }>`
 
   @media (min-width: ${deviceWidth.mobile}px) {
     padding: 2rem 2.25rem;
+    width: calc(100% - 75px);
   }
 `
 const Content = styled.div`
