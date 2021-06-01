@@ -103,7 +103,6 @@ class ControlPanel extends React.Component<Props, State> {
       entityDid,
       userDid,
       claims,
-      assistantPanelToggle,
     } = this.props
     return (
       <>

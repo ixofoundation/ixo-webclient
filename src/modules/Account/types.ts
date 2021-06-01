@@ -1,4 +1,3 @@
-import { AnyARecord } from 'dns'
 import { Currency } from '../../types/models'
 
 export interface DidDoc {
