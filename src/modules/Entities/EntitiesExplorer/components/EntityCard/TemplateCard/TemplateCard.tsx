@@ -3,6 +3,7 @@ import { excerptText } from 'common/utils/formatters'
 import {
   CardContainer,
   CardLink,
+  CardTop,
   CardBottom,
   MainContent,
   Title,
@@ -49,8 +50,6 @@ const TemplateCard: React.FunctionComponent<Props> = ({
     }
   }
 
-  console.log('fffffffffffffffffff', badges)
-
   return (
     <CardContainer className="col-xl-4 col-md-6 col-sm-12 col-12">
       <CardLink
@@ -58,6 +57,11 @@ const TemplateCard: React.FunctionComponent<Props> = ({
           pathname: `/projects/${did}/overview`,
         }}
       >
+        <CardTop
+          style={{
+            backgroundImage: `url(${require('assets/images/ixo-placeholder-large.jpg')})`,
+          }}
+        ></CardTop>
         <CardBottom>
           <div className="row">
             <div className="col-6">

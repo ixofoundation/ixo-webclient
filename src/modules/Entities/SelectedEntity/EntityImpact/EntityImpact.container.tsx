@@ -22,7 +22,8 @@ import { EntityClaimType } from 'modules/EntityClaims/types'
 import Dashboard from 'common/components/Dashboard/Dashboard'
 import { entityTypeMap } from 'modules/Entities/strategy-map'
 import EntityAnalytics from './Analytics/Analytics.container'
-import VotingBond from '../VotingBond/VotingBond.container'
+import VotingBond from './VotingBond/VotingBond.container'
+import Events from './Events/Events.container'
 
 interface Props {
   match: any
@@ -90,6 +91,7 @@ class EntityImpact extends React.Component<Props> {
         linkClass: null,
         path: `/projects/${did}/overview`,
         title: entityTypeMap[type].title,
+        tooltip: `View ${type} Page`,
       },
     ]
 
@@ -99,6 +101,7 @@ class EntityImpact extends React.Component<Props> {
         linkClass: null,
         path: `/projects/${did}/detail`,
         title: 'DASHBOARD',
+        tooltip: `${type} Management`,
       })
     } else {
       tabs.push({
@@ -106,31 +109,46 @@ class EntityImpact extends React.Component<Props> {
         linkClass: 'in-active',
         path: '/performace',
         title: 'DASHBOARD',
+        tooltip: `${type} Management`,
       })
     }
-    if (isLoggedIn && bondDid) {
-      tabs.push({
-        iconClass: 'icon-funding',
-        linkClass: null,
-        path: `/projects/${did}/bonds/${bondDid}`,
-        title: 'FUNDING',
-      })
-    } else {
-      if (creatorDid !== userDid) {
-        tabs.push({
-          iconClass: 'icon-funding',
-          linkClass: 'restricted',
-          path: `/projects/${did}/bonds/${bondDid}`,
-          title: 'FUNDING',
-        })
-      } else {
+
+    if (bondDid) {
+      if (isLoggedIn) {
         tabs.push({
           iconClass: 'icon-funding',
           linkClass: '',
           path: `/projects/${did}/bonds/${bondDid}`,
           title: 'FUNDING',
+          tooltip: `${type} Funding`,
         })
+      } else {
+        if (creatorDid !== userDid) {
+          tabs.push({
+            iconClass: 'icon-funding',
+            linkClass: 'restricted',
+            path: `/projects/${did}/bonds/${bondDid}`,
+            title: 'FUNDING',
+            tooltip: `${type} Funding`,
+          })
+        } else {
+          tabs.push({
+            iconClass: 'icon-funding',
+            linkClass: '',
+            path: `/projects/${did}/bonds/${bondDid}`,
+            title: 'FUNDING',
+            tooltip: `${type} Funding`,
+          })
+        }
       }
+    } else {
+      tabs.push({
+        iconClass: 'icon-funding',
+        linkClass: 'restricted',
+        path: `/projects/${did}/bonds/${bondDid}`,
+        title: 'FUNDING',
+        tooltip: `${type} Funding`,
+      })
     }
 
     return tabs
@@ -148,6 +166,7 @@ class EntityImpact extends React.Component<Props> {
       isClaimTemplateLoading,
       claimTemplateType,
       analytics,
+      bondDid,
     } = this.props
 
     if (isLoading || isClaimTemplateLoading) {
@@ -182,13 +201,23 @@ class EntityImpact extends React.Component<Props> {
         sdg: 'Claims',
         tooltip: 'Claims',
       },
+
       {
-        url: `/projects/${did}/detail/voting`,
-        icon: require('assets/img/sidebar/investment.svg'),
-        sdg: 'Voting',
-        tooltip: 'Voting Bond',
+        url: `/projects/${did}/detail/events`,
+        icon: require('assets/img/sidebar/events.svg'),
+        sdg: 'Events',
+        tooltip: 'Voting Events',
       },
     ]
+
+    if (bondDid) {
+      routes.push({
+        url: `/projects/${did}/detail/voting`,
+        icon: require('assets/img/sidebar/voting.svg'),
+        sdg: 'Voting',
+        tooltip: 'Voting Bond',
+      })
+    }
 
     if (analytics.length) {
       routes.push({
@@ -226,7 +255,8 @@ class EntityImpact extends React.Component<Props> {
     const theme =
       pathname.includes(`/projects/${did}/detail/claims`) ||
       pathname.includes(`/projects/${did}/detail/analytics`) ||
-      pathname.includes(`/projects/${did}/detail/voting`)
+      pathname.includes(`/projects/${did}/detail/voting`) ||
+      pathname.includes(`/projects/${did}/detail/events`)
         ? 'light'
         : 'dark'
 
@@ -278,9 +308,16 @@ class EntityImpact extends React.Component<Props> {
           path={`/projects/:projectDID/detail/claims/:claimId`}
           component={EvaluateClaim}
         />
+        {!!bondDid && (
+          <Route
+            path={`/projects/:projectDID/detail/voting`}
+            component={VotingBond}
+          />
+        )}
+
         <Route
-          path={`/projects/:projectDID/detail/voting`}
-          component={VotingBond}
+          path={`/projects/:projectDID/detail/events`}
+          component={Events}
         />
         {!!analytics.length && (
           <Route

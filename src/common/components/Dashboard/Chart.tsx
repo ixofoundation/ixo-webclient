@@ -220,6 +220,7 @@ const Chart: React.FunctionComponent<Props> = ({ data, token }) => {
       },
       foreColor: '#2A7597',
       redrawOnParentResize: true,
+      responsive: true,
     },
     plotOptions: {
       candlestick: {

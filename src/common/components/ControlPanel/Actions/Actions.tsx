@@ -5,6 +5,7 @@ import Message from 'assets/icons/Message'
 import Target from 'assets/icons/Target'
 import Star from 'assets/icons/Star'
 import Fuel from 'assets/icons/Fuel'
+import Vote from 'assets/icons/Vote'
 import ActionIcon from 'assets/icons/Actions'
 import { Widget } from '../types'
 import { ControlPanelSection } from '../ControlPanel.styles'
@@ -21,7 +22,9 @@ import { updateProjectStatusToStarted } from 'modules/Entities/SelectedEntity/Se
 import { connect } from 'react-redux'
 import { RootState } from 'common/redux/types'
 import { toggleAssistant } from 'modules/Account/Account.actions'
+import * as entitySelectors from 'modules/Entities/SelectedEntity/SelectedEntity.selectors'
 import { ToogleAssistantPayload } from 'modules/Account/types'
+import ShowVoteAssistant from './ShowVoteAssistant'
 
 interface IconTypes {
   [key: string]: any
@@ -33,11 +36,13 @@ const icons: IconTypes = {
   Target,
   Star,
   Fuel,
+  Vote,
 }
 
 interface Props {
   userDid: string
   entityDid: string
+  bondDid?: string
   widget: Widget
   toggleShowMore: () => void
   showMore: boolean
@@ -50,6 +55,7 @@ const Actions: React.FunctionComponent<Props> = ({
   userDid,
   entityDid,
   showMore,
+  bondDid,
   toggleShowMore,
   toggleAssistant,
   handleUpdateProjectStatusToStarted,
@@ -71,6 +77,12 @@ const Actions: React.FunctionComponent<Props> = ({
 
       if (window.location.pathname.startsWith(to)) {
         e.preventDefault()
+      }
+    }
+
+    if (control['@id'] === 'actionVote') {
+      if (!bondDid) {
+        return null
       }
     }
 
@@ -120,6 +132,11 @@ const Actions: React.FunctionComponent<Props> = ({
       <Route exact path={`/projects/:projectDID/overview/action/rate`}>
         <ShowAssistantPanel assistantPanelToggle={toggleAssistant} />
       </Route>
+      <Route
+        exact
+        path={`/projects/:projectDID/overview/action/relayer_vote`}
+        component={ShowVoteAssistant}
+      />
       <ControlPanelSection key={title}>
         <h4>
           <div className="heading-icon">
@@ -148,7 +165,9 @@ const Actions: React.FunctionComponent<Props> = ({
   )
 }
 
-const mapStateToProps = (state: RootState): any => ({})
+const mapStateToProps = (state: RootState): any => ({
+  bondDid: entitySelectors.selectEntityBondDid(state),
+})
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
   handleUpdateProjectStatusToStarted: (projectDid: string): void =>

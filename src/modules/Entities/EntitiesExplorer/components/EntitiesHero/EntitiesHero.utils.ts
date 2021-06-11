@@ -22,6 +22,7 @@ export const getHeaderTabButtons = (
       linkClass: entityType.toLowerCase(),
       path: '/',
       title: entityTitle,
+      tooltip: `${entityType}s Explorer`
     },
   ]
 
@@ -32,12 +33,14 @@ export const getHeaderTabButtons = (
         linkClass: 'in-active',
         path: '/impact',
         title: 'IMPACT',
+        tooltip: `Impacts of ${entityType}s`
       },
       {
         iconClass: 'icon-economy',
         linkClass: 'in-active',
         path: '/economy',
         title: 'ECONOMY',
+        tooltip: `The Impact Economy`
       },
     )
   }

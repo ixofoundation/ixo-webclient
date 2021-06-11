@@ -32,7 +32,7 @@ export const getAccount = (address: string) => (
   return dispatch({
     type: AccountActions.GetAccount,
     payload: Axios.get(
-      process.env.REACT_APP_GAIA_URL + '/auth/accounts/' + address,
+      process.env.REACT_APP_GAIA_URL + '/bank/balances/' + address,
       {
         transformResponse: [
           (response: string): any => {

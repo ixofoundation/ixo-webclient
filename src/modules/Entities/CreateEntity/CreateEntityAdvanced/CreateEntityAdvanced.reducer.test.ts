@@ -154,7 +154,7 @@ describe('CreateEntityAdvanced Reducer', () => {
           linkedEntities: {
             [id]: {
               id,
-              type: EntityType.Data,
+              type: EntityType.Asset,
               entityId: 'someOldLinkedEntityId',
             },
           },

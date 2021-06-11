@@ -10,6 +10,7 @@ export const initialState: AccountState = {
   assistantToggled: false,
   assistantFixed: false,
   intent: '',
+  params: null
 }
 
 export const reducer = (
@@ -38,7 +39,9 @@ export const reducer = (
         ...state,
         assistantToggled: (!state.assistantToggled && !action.payload.forceClose) || (!!action.payload.forceOpen),
         assistantFixed: action.payload.fixed ?? state.assistantFixed ,
-        intent: action.payload.intent }
+        intent: action.payload.intent,
+        params: action.payload.params ? action.payload.params : state.params
+      }
   }
 
   return state

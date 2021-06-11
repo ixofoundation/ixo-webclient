@@ -47,7 +47,7 @@ export const MessageWrapper = styled.div`
   display: flex;
   position: relative;
   flex-wrap: wrap;
-  line-height: 1;
+  line-height: 1.25;
   padding-left: 1.5rem;
   padding-right: 1.5rem;
   white-space: pre-line;

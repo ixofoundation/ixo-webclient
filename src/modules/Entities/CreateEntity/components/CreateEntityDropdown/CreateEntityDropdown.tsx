@@ -143,17 +143,17 @@ export default class CreateEntityDropDown extends React.Component<Props> {
             </LaunchEntityButton>
             <LaunchEntityButton
               exact={true}
-              to={'/data/new/start'}
+              to={'/asset/new/start'}
               className={`
-                    ${EntityType.Data.toLowerCase()} ${
-                this.props.entityType === EntityType.Data ? 'active' : ''
+                    ${EntityType.Asset.toLowerCase()} ${
+                this.props.entityType === EntityType.Asset ? 'active' : ''
               }
                     `}
               onClick={this.handleToggleModal}
             >
               <ButtonContent>
                 <DataAssets fill="#000" width="18" />
-                {entityTypeMap[EntityType.Data].title}
+                {entityTypeMap[EntityType.Asset].title}
               </ButtonContent>
             </LaunchEntityButton>
           </ButtonsWrapper>

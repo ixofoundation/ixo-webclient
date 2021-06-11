@@ -23,6 +23,7 @@ export interface AccountState {
   assistantToggled: boolean
   assistantFixed: boolean
   intent: string
+  params: any
 }
 
 export enum AgentRole {

@@ -194,6 +194,29 @@
             "value": "update_status"
           }
         ]
+      },
+      {
+        "@type": "Vote",
+        "@id": "actionVote",
+        "title": "Vote",
+        "tooltip": "Stake or Unstake",
+        "icon": "Vote",
+        "iconColor": "#49BFE0",
+        "endpoint": "/vote",
+        "accessToken": null,
+        "permissions": [
+          {
+            "credential": null,
+            "role": "user"
+          }
+        ],
+        "data": null,
+        "parameters": [
+          {
+            "name": "intent",
+            "value": "relayer_vote"
+          }
+        ]
       }
     ]
   },

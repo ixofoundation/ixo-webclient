@@ -29,10 +29,13 @@ interface Props {
 
 class CreateAgent extends React.Component<Props> {
   componentDidMount(): void {
-    const { toggleAssistant } = this.props
+    const { toggleAssistant, role } = this.props
     toggleAssistant({
       fixed: true,
       intent: '/apply{"action":"authorise","msg_type":"agent_application"}',
+      params: {
+        role,
+      },
     })
   }
 
