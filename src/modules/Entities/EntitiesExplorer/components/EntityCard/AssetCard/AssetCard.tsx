@@ -13,7 +13,6 @@ import {
   CardTopContainer,
 } from '../EntityCard.styles'
 import { TermsOfUseType } from 'modules/Entities/types'
-import { termsOfUseTypeStrategyMap } from 'modules/Entities/strategy-map'
 import SDGIcons from '../SDGIcons/SDGIcons'
 import { ProgressBar } from 'common/components/ProgressBar'
 
