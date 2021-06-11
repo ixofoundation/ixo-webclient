@@ -153,6 +153,7 @@ class CreateEntity extends React.Component<Props> {
     if (!entityType) {
       return <></>
     }
+
     const entityMap = entityTypeMap[toTitleCase(entityType)]
 
     return (

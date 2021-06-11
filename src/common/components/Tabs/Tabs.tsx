@@ -14,6 +14,7 @@ export interface Button {
   iconClass: string
   title?: string
   path: string
+  tooltip?: string
 }
 
 export interface Props {
@@ -76,6 +77,27 @@ const TabsComponent: React.FunctionComponent<Props> = ({
       {buttons.map((button, index) => {
         switch (button.linkClass) {
           case 'in-active':
+            if (button.tooltip) {
+              return (
+                <Tooltip
+                  text={button.tooltip}
+                  key={index}
+                  position={TooltipPosition.Bottom}
+                >
+                  <NavLink
+                    className={button.linkClass ? button.linkClass : ''}
+                    exact={matchType === MatchType.exact}
+                    strict={matchType === MatchType.strict}
+                    to={{ pathname: button.path }}
+                    key={index}
+                  >
+                    {button.iconClass && <i className={button.iconClass} />}
+                    {button.title && <p>{button.title}</p>}
+                  </NavLink>
+                </Tooltip>
+              )
+            }
+
             return (
               <NavLink
                 className={button.linkClass ? button.linkClass : ''}
@@ -88,15 +110,16 @@ const TabsComponent: React.FunctionComponent<Props> = ({
                 {button.title && <p>{button.title}</p>}
               </NavLink>
             )
+
           case 'restricted':
             return (
               <Tooltip
-                text="Restricted View"
+                text="Requires Authorisation"
                 key={index}
                 position={TooltipPosition.Bottom}
               >
                 <NavLink
-                  className={button.linkClass}
+                  className="in-active"
                   exact={matchType === MatchType.exact}
                   strict={matchType === MatchType.strict}
                   to={{ pathname: button.path }}
@@ -107,22 +130,37 @@ const TabsComponent: React.FunctionComponent<Props> = ({
               </Tooltip>
             )
           default:
-            return (
-              <Tooltip
-                text="Coming Soon"
-                key={index}
-                position={TooltipPosition.Bottom}
-              >
-                <NavLink
-                  className={button.linkClass}
-                  exact={matchType === MatchType.exact}
-                  strict={matchType === MatchType.strict}
-                  to={{ pathname: button.path }}
+            if (button.tooltip) {
+              return (
+                <Tooltip
+                  text={button.tooltip}
+                  key={index}
+                  position={TooltipPosition.Bottom}
                 >
-                  {button.iconClass && <i className={button.iconClass} />}
-                  {button.title && <p>{button.title}</p>}
-                </NavLink>
-              </Tooltip>
+                  <NavLink
+                    className={button.linkClass}
+                    exact={matchType === MatchType.exact}
+                    strict={matchType === MatchType.strict}
+                    to={{ pathname: button.path }}
+                  >
+                    {button.iconClass && <i className={button.iconClass} />}
+                    {button.title && <p>{button.title}</p>}
+                  </NavLink>
+                </Tooltip>
+              )
+            }
+
+            return (
+              <NavLink
+                className={button.linkClass}
+                exact={matchType === MatchType.exact}
+                strict={matchType === MatchType.strict}
+                to={{ pathname: button.path }}
+                key={index}
+              >
+                {button.iconClass && <i className={button.iconClass} />}
+                {button.title && <p>{button.title}</p>}
+              </NavLink>
             )
         }
       })}

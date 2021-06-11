@@ -106,7 +106,7 @@ export const entityTypeMap: EntityTypeStrategyMap = {
     createNewTitle: 'Create a Claim Template',
     urlPart: 'template',
   },
-  [EntityType.Data]: {
+  [EntityType.Asset]: {
     title: 'Asset',
     plural: 'Assets',
     themeColor: '#ED9526',
@@ -114,7 +114,7 @@ export const entityTypeMap: EntityTypeStrategyMap = {
     filterSchema: DataFilterSchema,
     controlPanelSchema: DataControlPanelSchema,
     createNewTitle: 'Create Assets',
-    urlPart: 'data',
+    urlPart: 'asset',
   },
 }
 

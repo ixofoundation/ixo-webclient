@@ -1,12 +1,12 @@
 import * as React from 'react'
 import styled from 'styled-components'
 
-const Bar = styled.div`
+const Bar = styled.div<{ height: number }>`
   background: ${/* eslint-disable-line */ (props) => props.theme.grey};
   display: flex;
   justify-content: flex-start;
   width: 100%;
-  height: 6px;
+  height: ${({ height }) => height}px;
   border-radius: 10px;
 `
 
@@ -33,6 +33,7 @@ export interface Props {
   total: number
   approved: number
   rejected: number
+  height?: number
   activeBarColor?: string
 }
 
@@ -41,12 +42,13 @@ export const ProgressBar: React.FunctionComponent<Props> = ({
   approved,
   rejected,
   activeBarColor,
+  height = 6,
 }) => {
   const approvedWidth = (approved / total) * 100
   const rejectedWidth = (rejected / total) * 100
 
   return (
-    <Bar>
+    <Bar height={height}>
       <Successful
         style={{ width: approvedWidth + '%' }}
         barColor={activeBarColor}

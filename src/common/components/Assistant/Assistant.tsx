@@ -25,7 +25,7 @@ import {
 interface AssistantProps {
   initMsg: string
   userInfo?: UserInfo
-  role?: AgentRole
+  params: any
   handleCreateEntityAgent?: (
     email: string,
     name: string,
@@ -35,8 +35,8 @@ interface AssistantProps {
 
 const Assistant: React.FunctionComponent<AssistantProps> = ({
   initMsg,
+  params,
   userInfo,
-  role,
   handleCreateEntityAgent,
 }) => {
   const messagesRef = useRef(null)
@@ -56,6 +56,7 @@ const Assistant: React.FunctionComponent<AssistantProps> = ({
         !msg.quick_replies &&
         !msg.buttons
       ) {
+        const { role } = params
         switch (msg.action) {
           case 'authorise':
             if (userInfo) {

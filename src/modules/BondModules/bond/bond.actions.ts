@@ -7,6 +7,7 @@ import { apiCurrencyToCurrency } from "../../Account/Account.utils";
 export const getBalances = (bondDid: string) => (
   dispatch: Dispatch
 ): GetBalancesAction => {
+  bondDid = 'did:ixo:49BSStn5nAwrfZwvGT6HFa'
   const bondRequest = Axios.get(
     `${process.env.REACT_APP_GAIA_URL}/bonds/${bondDid}`,
     {

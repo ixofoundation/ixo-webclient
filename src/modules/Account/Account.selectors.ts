@@ -25,3 +25,10 @@ export const selectUserDid = createSelector(
     return userInfo ? userInfo.didDoc.did : ''
   },
 )
+
+export const selectUserAddress = createSelector(
+  selectAccountState,
+  (account: AccountState): string => {
+    return account ? account.address : null
+  },
+)

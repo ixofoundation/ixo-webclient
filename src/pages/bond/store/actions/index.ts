@@ -29,7 +29,7 @@ export const getProjectAccounts = (projectDID) => (
         }))
       })
       const values = await Promise.all(promises)
-      console.log('values', values)
+
       dispatch({
         type: ProjectAccountActions.GetAccountsSuccess,
         payload: values

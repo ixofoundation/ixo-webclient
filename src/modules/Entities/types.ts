@@ -18,7 +18,7 @@ export enum EntityType {
   Investment = 'Investment',
   Oracle = 'Oracle',
   Template = 'Template',
-  Data = 'Data',
+  Asset = 'Asset',
 }
 
 export enum EntityStatus {

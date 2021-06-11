@@ -20,15 +20,16 @@ const modalStyles = {
     maxHeight: '90vh',
     padding: '0',
     borderRadius: '2px',
-    background: 'transparent'
+    background: 'transparent',
   },
 }
 
 const ModalInner = styled.div<{ color?: string }>`
-  background: ${/* eslint-disable-line */ props => props.color ? props.color : props.theme.bg.modal};
+  background: ${/* eslint-disable-line */ (props) =>
+    props.color ? props.color : props.theme.bg.modal};
   color: white;
   padding: 10px 30px;
-  font-family: ${/* eslint-disable-line */ props => props.theme.fontRoboto};
+  font-family: ${/* eslint-disable-line */ (props) => props.theme.fontRoboto};
 `
 
 const CloseModal = styled.button`
@@ -69,7 +70,7 @@ const FlexContainer = styled.div`
     line-height: 1;
     text-transform: uppercase;
     margin: 0;
-    font-family: ${/* eslint-disable-line */ props =>
+    font-family: ${/* eslint-disable-line */ (props) =>
       props.theme.fontRobotoCondensed};
   }
 
@@ -81,13 +82,13 @@ const FlexContainer = styled.div`
     font-weight: 300;
     margin: 0;
     font-size: 18px;
-    color: ${/* eslint-disable-line */ props => props.theme.fontLightBlue};
-    font-family: ${/* eslint-disable-line */ props => props.theme.fontRoboto};
+    color: ${/* eslint-disable-line */ (props) => props.theme.fontLightBlue};
+    font-family: ${/* eslint-disable-line */ (props) => props.theme.fontRoboto};
   }
 `
 
 const Line = styled.div`
-  background: ${/* eslint-disable-line */ props => props.theme.widgetBorder};
+  background: ${/* eslint-disable-line */ (props) => props.theme.widgetBorder};
   width: calc(100% + 60px);
   margin: 10px -30px 25px;
   height: 1px;
@@ -110,7 +111,7 @@ interface Callbacks {
 }
 export interface Props extends ParentProps, Callbacks {}
 
-export const ModalWrapper: React.SFC<Props> = props => {
+export const ModalWrapper: React.SFC<Props> = (props) => {
   const renderHeader = (): JSX.Element => {
     return (
       <React.Fragment>
@@ -145,7 +146,7 @@ export const ModalWrapper: React.SFC<Props> = props => {
     >
       <ModalInner color={props.bgColor}>
         <CloseModal onClick={(): void => props.handleToggleModal(false)}>
-          <img src={ require('assets/images/icon-close.svg') } />
+          <img src={require('assets/images/icon-close.svg')} />
         </CloseModal>
         {props.header && renderHeader()}
         <div>{props.children}</div>
@@ -153,3 +154,16 @@ export const ModalWrapper: React.SFC<Props> = props => {
     </Modal>
   )
 }
+
+export const Button = styled.button`
+  border-radius: 7px;
+  border: 1px solid #00d2ff;
+  color: #fff;
+  font-weight: 500;
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  height: 2.25rem;
+`

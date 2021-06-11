@@ -93,33 +93,33 @@ export const createEntityMap: EntityStepStrategyMap = {
     selectClaimsApiPayload: (state: RootState): any =>
       selectClaimsForEntityApiPayload(state),
   },
-  [EntityType.Data]: {
+  [EntityType.Asset]: {
     stepCount: 4,
     steps: {
       [1]: {
         container: CreateEntityPageContentConnected,
-        url: '/data/new/page',
+        url: '/asset/new/page',
         name: 'Page',
         previousStep: null,
         nextStep: 2,
       },
       [2]: {
         container: CreateEntityClaimsConnected,
-        url: '/data/new/claims',
+        url: '/asset/new/claims',
         name: 'Claims',
         previousStep: 1,
         nextStep: 3,
       },
       [3]: {
         container: CreateEntitySettingsConnected,
-        url: '/data/new/settings',
+        url: '/asset/new/settings',
         name: 'Settings',
         previousStep: 2,
         nextStep: 4,
       },
       [4]: {
         container: CreateEntityAdvancedConnected,
-        url: '/data/new/advanced',
+        url: '/asset/new/advanced',
         name: 'Advanced',
         previousStep: 3,
         nextStep: null,

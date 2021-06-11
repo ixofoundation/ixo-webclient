@@ -87,7 +87,7 @@ export default class Search extends React.Component<Props> {
                 {this.props.type === EntityType.Template && (
                   <Template fill="#000" width="26" />
                 )}
-                {this.props.type === EntityType.Data && (
+                {this.props.type === EntityType.Asset && (
                   <DataAssets fill="#000" width="26" />
                 )}
                 <span className="modal-text">
@@ -202,17 +202,17 @@ export default class Search extends React.Component<Props> {
                   </SearchFilterButton>
                   <SearchFilterButton
                     onClick={(): void =>
-                      this.handleSearchFilter(EntityType.Data)
+                      this.handleSearchFilter(EntityType.Asset)
                     }
                     className={`
-                    ${EntityType.Data.toLowerCase()} ${
-                      this.props.type === EntityType.Data ? 'active' : ''
+                    ${EntityType.Asset.toLowerCase()} ${
+                      this.props.type === EntityType.Asset ? 'active' : ''
                     }
                     `}
                   >
                     <ButtonContent>
                       <DataAssets fill="#000" width="26" />
-                      {entityTypeMap[EntityType.Data].plural}
+                      {entityTypeMap[EntityType.Asset].plural}
                     </ButtonContent>
                   </SearchFilterButton>
                 </SearchButtonsWrapper>

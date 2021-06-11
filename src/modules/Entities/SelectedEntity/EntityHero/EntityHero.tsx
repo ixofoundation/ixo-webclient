@@ -71,6 +71,7 @@ const EntityHero: React.FunctionComponent<Props> = ({
       linkClass: null,
       path: `/projects/${did}/overview`,
       title: entityTypeMap[type].title,
+      tooltip: `View ${type} Page`,
     },
   ]
 
@@ -80,6 +81,7 @@ const EntityHero: React.FunctionComponent<Props> = ({
       linkClass: null,
       path: `/projects/${did}/detail`,
       title: 'DASHBOARD',
+      tooltip: `${type} Management`,
     })
   } else {
     buttonsArray.push({
@@ -87,32 +89,46 @@ const EntityHero: React.FunctionComponent<Props> = ({
       linkClass: 'in-active',
       path: '/performace',
       title: 'DASHBOARD',
+      tooltip: `${type} Management`,
     })
   }
-  console.log('loggedIn && bondDid', loggedIn, bondDid)
-  if (loggedIn && bondDid) {
-    buttonsArray.push({
-      iconClass: 'icon-funding',
-      linkClass: null,
-      path: `/projects/${did}/bonds/${bondDid}`,
-      title: 'FUNDING',
-    })
-  } else {
-    if (creatorDid !== userDid) {
+
+  if (bondDid) {
+    if (loggedIn) {
       buttonsArray.push({
         iconClass: 'icon-funding',
-        linkClass: 'restricted',
+        linkClass: null,
         path: `/projects/${did}/bonds/${bondDid}`,
         title: 'FUNDING',
+        tooltip: `${type} Funding`,
       })
     } else {
-      buttonsArray.push({
-        iconClass: 'icon-funding',
-        linkClass: '',
-        path: `/projects/${did}/bonds/${bondDid}`,
-        title: 'FUNDING',
-      })
+      if (creatorDid !== userDid) {
+        buttonsArray.push({
+          iconClass: 'icon-funding',
+          linkClass: 'restricted',
+          path: `/projects/${did}/bonds/${bondDid}`,
+          title: 'FUNDING',
+          tooltip: `${type} Funding`,
+        })
+      } else {
+        buttonsArray.push({
+          iconClass: 'icon-funding',
+          linkClass: '',
+          path: `/projects/${did}/bonds/${bondDid}`,
+          title: 'FUNDING',
+          tooltip: `${type} Funding`,
+        })
+      }
     }
+  } else {
+    buttonsArray.push({
+      iconClass: 'icon-funding',
+      linkClass: 'restricted',
+      path: `/projects/${did}/bonds/${bondDid}`,
+      title: 'FUNDING',
+      tooltip: `${type} Funding`,
+    })
   }
 
   const getFlagURL = (projectLocation: string): string => {

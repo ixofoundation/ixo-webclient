@@ -79,6 +79,7 @@ class EntityOverview extends React.Component<Props> {
             creatorName={creatorName}
             creatorMission={creatorMission}
             creatorWebsite={creatorWebsite}
+            type={type}
           />
         )
     }

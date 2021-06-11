@@ -5,7 +5,7 @@ export const theme = {
   ixoOrange: '#F89D28',
   bg: {
     blue: '#002233', // dashboard background,
-    modal: '#01283C',
+    modal: '#002233',
     green: '#5AB946',
     darkBlue: '#01151F', // Tooltips background
     lightBlue: '#017492', // active button background for tabs on hero section

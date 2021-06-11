@@ -68,10 +68,12 @@ export const ControlPanelWrapper = styled.div`
     display: flex;
     overflow: hidden;
     transition: max-height 0s ease-out;
+    opacity: 0;
     &.show {
       overflow: initial;
-      transition: max-height 1.75s ease-out;
+      transition: max-height 1.75s ease-out, opacity 1.75s;
       max-height: 300px;
+      opacity: 1;
     }
   }
 `

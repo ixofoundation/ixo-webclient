@@ -1,5 +1,6 @@
 import React from 'react'
 import { PageContent as PageContentType } from 'common/api/blocksync-api/types/page-content'
+import { EntityType } from 'modules/Entities/types'
 import { ProfileCardsWrapper } from './PageContent.styles'
 import BodyContentCard from '../BodyContentCard/BodyContentCard'
 import ImageContentCard from '../ImageContentCard/ImageContentCard'
@@ -7,6 +8,7 @@ import ProfileCard from '../ProfileCard/ProfileCard'
 import Header from '../Header/Header'
 import EmbeddedContentCard from '../EmbeddedContentCard/EmbeddedContentCard'
 import Footer from '../Footer/Footer'
+import LinkedResourcesCard from '../LinkedResourcesCard/LinkedResourcesCard'
 
 interface Props {
   creatorName: string
@@ -14,6 +16,7 @@ interface Props {
   creatorLogo: string
   creatorWebsite: string
   pageContent: PageContentType
+  type: EntityType
 }
 
 const PageContent: React.FunctionComponent<Props> = ({
@@ -22,6 +25,7 @@ const PageContent: React.FunctionComponent<Props> = ({
   creatorMission,
   creatorLogo,
   creatorWebsite,
+  type,
 }) => {
   const renderHeader = (): JSX.Element => {
     const { title, image, imageDescription } = pageContent.header
@@ -138,6 +142,14 @@ const PageContent: React.FunctionComponent<Props> = ({
     )
   }
 
+  const renderLinkedResources = (): JSX.Element => {
+    if (type === EntityType.Asset) {
+      return <LinkedResourcesCard />
+    }
+
+    return null
+  }
+
   return (
     <div>
       {renderHeader()}
@@ -146,6 +158,7 @@ const PageContent: React.FunctionComponent<Props> = ({
       {renderProfiles()}
       {renderEmbeddedContent()}
       {renderFooter()}
+      {renderLinkedResources()}
     </div>
   )
 }

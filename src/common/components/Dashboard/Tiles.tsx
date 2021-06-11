@@ -5,7 +5,7 @@ import { deviceWidth } from 'lib/commonData'
 import ThreeDot from 'assets/icons/ThreeDot'
 
 export interface TileProps {
-  to: string
+  to?: string
   title: ReactNode
   value: ReactNode
   subtle: ReactNode
@@ -16,13 +16,12 @@ const DotsContainer = styled.div`
   position: absolute;
   right: 1rem;
   top: 1rem;
-  opacity: 0;
+  opacity: 1;
   transition: opacity 0.3s;
 
   @media (max-width: ${deviceWidth.mobile}px) {
     right: 0.5rem;
     top: 0.5rem;
-    opacity: 1;
   }
 `
 
@@ -56,12 +55,6 @@ const StyledLink = styled(NavLink)`
     margin: 0.625rem 0.375rem;
     padding: 0.625rem 0.5rem;
     line-height: 1.25;
-  }
-
-  &:hover {
-    ${DotsContainer} {
-      opacity: 1;
-    }
   }
 `
 
@@ -108,7 +101,7 @@ const Icon = styled.div`
 `
 
 export const Tile: React.FunctionComponent<TileProps> = ({
-  to,
+  to = '#',
   title,
   value,
   subtle,
@@ -125,9 +118,11 @@ export const Tile: React.FunctionComponent<TileProps> = ({
             <Subtle>{subtle}</Subtle>
           </div>
         </div>
-        <DotsContainer>
-          <ThreeDot />
-        </DotsContainer>
+        {to ? (
+          <DotsContainer>
+            <ThreeDot />
+          </DotsContainer>
+        ) : null}
       </StyledLink>
     )
   }

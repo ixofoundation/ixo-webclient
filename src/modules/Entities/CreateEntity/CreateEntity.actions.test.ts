@@ -8,7 +8,7 @@ let store
 beforeEach(() => {
   store = mockStore({
     createEntity: {
-      entityType: EntityType.Data,
+      entityType: EntityType.Asset,
     },
   })
 })
@@ -46,10 +46,10 @@ describe('CreateEntity Actions', () => {
 
   it('should start a new entity creation if the current entity is equal to the new entity and there was a previous entity created', async () => {
     // given ... some content
-    const entityType = EntityType.Data
+    const entityType = EntityType.Asset
     store = mockStore({
       createEntity: {
-        entityType: EntityType.Data,
+        entityType: EntityType.Asset,
         created: true,
       },
     })
@@ -66,7 +66,7 @@ describe('CreateEntity Actions', () => {
 
   it('should not do anything if the entity type is the same as the current entity type', async () => {
     // given ... some content
-    const entityType = EntityType.Data
+    const entityType = EntityType.Asset
 
     // when ... we call the newEntity action creator
     await store.dispatch(SUT.newEntity(entityType))
@@ -78,10 +78,10 @@ describe('CreateEntity Actions', () => {
 
   it('should start a new entity creation no matter what is set when a forceNew param is passed', async () => {
     // given ... some content
-    const entityType = EntityType.Data
+    const entityType = EntityType.Asset
     store = mockStore({
       createEntity: {
-        entityType: EntityType.Data,
+        entityType: EntityType.Asset,
         creating: true,
         step: 4,
       },
