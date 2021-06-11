@@ -14,9 +14,7 @@ import {
 } from '../EntityCard.styles'
 import { TermsOfUseType } from 'modules/Entities/types'
 import { termsOfUseTypeStrategyMap } from 'modules/Entities/strategy-map'
-import Tooltip, { TooltipPosition } from 'common/components/Tooltip/Tooltip'
 import SDGIcons from '../SDGIcons/SDGIcons'
-import Star from 'assets/icons/Star'
 import { ProgressBar } from 'common/components/ProgressBar'
 
 interface Props {
@@ -66,11 +64,7 @@ const DataCard: React.FunctionComponent<Props> = ({
   sdgs,
   description,
   termsType,
-  badges,
-  version,
 }) => {
-  const termsOfUseMap = termsOfUseTypeStrategyMap[termsType]
-
   return (
     <CardContainer
       className="col-xl-3 col-md-4 col-sm-12 col-12"

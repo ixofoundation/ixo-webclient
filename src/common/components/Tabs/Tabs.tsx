@@ -156,6 +156,7 @@ const TabsComponent: React.FunctionComponent<Props> = ({
                 exact={matchType === MatchType.exact}
                 strict={matchType === MatchType.strict}
                 to={{ pathname: button.path }}
+                key={index}
               >
                 {button.iconClass && <i className={button.iconClass} />}
                 {button.title && <p>{button.title}</p>}
