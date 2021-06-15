@@ -16,8 +16,6 @@ export interface UserInfo {
 export interface AccountState {
   userInfo: UserInfo
   address: string
-  accountNumber: string
-  sequence: string
   balances: Currency[]
   loginStatusCheckCompleted: boolean
   assistantToggled: boolean
@@ -71,8 +69,6 @@ export interface GetAccountSuccessAction {
   type: typeof AccountActions.GetAccountSuccess
   payload: {
     balances: Currency[]
-    sequence: string
-    accountNumber: string
   }
 }
 

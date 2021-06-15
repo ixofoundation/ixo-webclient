@@ -32,21 +32,10 @@ export const getAccount = (address: string) => (
   return dispatch({
     type: AccountActions.GetAccount,
     payload: Axios.get(
-      process.env.REACT_APP_GAIA_URL + '/bank/balances/' + address,
-      {
-        transformResponse: [
-          (response: string): any => {
-            return JSON.parse(response).result.value
-          },
-        ],
-      },
+      process.env.REACT_APP_GAIA_URL + '/bank/balances/' + address
     ).then((response) => {
       return {
-        balances: response.data.coins.map((coin) =>
-          apiCurrencyToCurrency(coin),
-        ),
-        sequence: response.data.sequence.toString(),
-        accountNumber: response.data.account_number.toString(),
+        balances: response.data.result.map((coin) => apiCurrencyToCurrency(coin)),
       }
     }),
   })

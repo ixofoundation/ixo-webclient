@@ -55,7 +55,7 @@
     {
       "@type": "Category",
       "hidden": false,
-      "name": "Asset Class",
+      "name": "Asset Type",
       "multiSelect": true,
       "tags": [
         {
@@ -141,9 +141,95 @@
       ]
     },
     {
-      "@type": "Category",
+      "@type": "Token Class",
       "hidden": false,
-      "name": "Format",
+      "name": "Token Class",
+      "multiSelect": true,
+      "tags": [
+        {
+          "@type": "Tag",
+          "name": "Non-Fungible Token",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Option",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Contract",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Ownership Certificate",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Exchange Listing",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Digital Goods",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Unspecified",
+          "icon": "tag.svg"
+        }
+      ]
+    },
+    {
+      "@type": "Market",
+      "hidden": false,
+      "name": "Market",
+      "multiSelect": true,
+      "tags": [
+        {
+          "@type": "Tag",
+          "name": "Non-Fungible Token",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Option",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Contract",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Ownership Certificate",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Exchange Listing",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Digital Goods",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "Tag",
+          "name": "Unspecified",
+          "icon": "tag.svg"
+        }
+      ]
+    },
+    {
+      "@type": "SDG",
+      "hidden": false,
+      "name": "SDG",
       "multiSelect": true,
       "tags": [
         {

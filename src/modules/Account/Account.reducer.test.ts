@@ -75,9 +75,11 @@ describe('Account Reducer', () => {
         },
         address: 'abc',
         balances: [{ amount: 1, denom: 'sometoken' }],
-        sequence: '123',
-        accountNumber: '0123456',
         loginStatusCheckCompleted: true,
+        assistantToggled: false,
+        assistantFixed: false,
+        intent: '',
+        params: null
       }
 
       // ... we create a resetUserInfo action
@@ -113,8 +115,6 @@ describe('Account Reducer', () => {
         type: AccountActions.GetAccountSuccess,
         payload: {
           balances,
-          accountNumber,
-          sequence,
         },
       }
 
@@ -125,8 +125,6 @@ describe('Account Reducer', () => {
       expect(state).toEqual({
         ...initialState,
         balances,
-        accountNumber,
-        sequence,
       })
     })
   })

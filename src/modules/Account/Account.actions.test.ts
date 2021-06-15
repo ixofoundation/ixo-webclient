@@ -67,12 +67,10 @@ describe("Account Actions", () => {
       mockAxios.get.mockImplementationOnce(() =>
         Promise.resolve({
           data: {
-            coins: [
+            result: [
               { denom: "someval1", amount: 2 },
               { denom: "someval2", amount: 3 },
             ],
-            sequence: "123",
-            account_number: "0123456",
           },
         })
       );
@@ -82,12 +80,10 @@ describe("Account Actions", () => {
       const actions = store.getActions();
 
       // then we should expect it to create actions with the correct types and payload
-      expect.assertions(5);
+      expect.assertions(3);
       expect(actions[0].type).toEqual(AccountActions.GetAccountPending);
       expect(actions[1].type).toEqual(AccountActions.GetAccountSuccess);
       expect(actions[1].payload.balances).toEqual(balances);
-      expect(actions[1].payload.accountNumber).toEqual(accountNumber);
-      expect(actions[1].payload.sequence).toEqual(sequence);
     });
 
     it("should return an error on failure", async () => {
