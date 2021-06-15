@@ -3,8 +3,6 @@ import { AccountActionTypes, AccountActions, AccountState } from './types'
 export const initialState: AccountState = {
   userInfo: null,
   address: null,
-  accountNumber: null,
-  sequence: null,
   balances: [],
   loginStatusCheckCompleted: true,
   assistantToggled: false,
@@ -29,8 +27,6 @@ export const reducer = (
       return {
         ...state,
         balances: action.payload.balances,
-        accountNumber: action.payload.accountNumber,
-        sequence: action.payload.sequence,
       }
     case AccountActions.Logout:
       return { ...initialState, loginStatusCheckCompleted: true }
