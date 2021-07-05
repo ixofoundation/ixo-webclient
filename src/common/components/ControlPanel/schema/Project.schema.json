@@ -217,6 +217,29 @@
             "value": "relayer_vote"
           }
         ]
+      },
+      {
+        "@type": "Claim",
+        "@id": "actionClaimJson",
+        "title": "Get Claims List",
+        "tooltip": "Get Claims Json Payload",
+        "icon": "Vote",
+        "iconColor": "#49BFE0",
+        "endpoint": "#",
+        "accessToken": null,
+        "permissions": [
+          {
+            "credential": null,
+            "role": "user"
+          }
+        ],
+        "data": null,
+        "parameters": [
+          {
+            "name": "intent",
+            "value": "get_claim"
+          }
+        ]
       }
     ]
   },

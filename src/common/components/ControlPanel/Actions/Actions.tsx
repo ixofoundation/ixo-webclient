@@ -7,6 +7,8 @@ import Star from 'assets/icons/Star'
 import Fuel from 'assets/icons/Fuel'
 import Vote from 'assets/icons/Vote'
 import ActionIcon from 'assets/icons/Actions'
+import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
+import keysafe from 'common/keysafe/keysafe'
 import { Widget } from '../types'
 import { ControlPanelSection } from '../ControlPanel.styles'
 import { ActionLinksWrapper } from './Actions.styles'
@@ -24,6 +26,7 @@ import { RootState } from 'common/redux/types'
 import { toggleAssistant } from 'modules/Account/Account.actions'
 import * as entitySelectors from 'modules/Entities/SelectedEntity/SelectedEntity.selectors'
 import { ToogleAssistantPayload } from 'modules/Account/types'
+import { PDS_URL } from 'modules/Entities/types'
 import ShowVoteAssistant from './ShowVoteAssistant'
 
 interface IconTypes {
@@ -71,6 +74,31 @@ const Actions: React.FunctionComponent<Props> = ({
     const to = `/projects/${entityDid}/overview/action/${intent}`
 
     const interceptNavClick = (e: any): void => {
+      if (intent === 'get_claim') {
+        const projectDid = entityDid
+        const ProjectDIDPayload: Record<string, any> = {
+          projectDid: projectDid,
+        }
+
+        keysafe.requestSigning(
+          JSON.stringify(ProjectDIDPayload),
+          async (error, signature) => {
+            if (!error) {
+              await blocksyncApi.claim
+                .listClaimsForProject(ProjectDIDPayload, signature, PDS_URL)
+                .then((response: any) => {
+                  const wnd = window.open('about:blank', '', '_blank')
+                  wnd.document.write(JSON.stringify(response))
+                })
+            }
+          },
+          'base64',
+        )
+
+        e.preventDefault()
+        return
+      }
+
       if (intent === 'update_status') {
         handleUpdateProjectStatusToStarted(entityDid)
       }
