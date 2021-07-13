@@ -168,7 +168,6 @@ class ProjectAgents extends React.Component<ParentProps, State> {
   }
 
   handleRenderAgents = (agents, emptyMsg: string): JSX.Element => {
-    console.log('ffffffffffffffffff', agents)
     if (agents.length) {
       return (
         <div className="row">
