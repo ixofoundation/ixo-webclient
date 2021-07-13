@@ -98,8 +98,14 @@ class EvaluateClaim extends React.Component<Props> {
   }
 
   handleRenderApproveSection = (): JSX.Element => {
-    const { claim, templateForms } = this.props
-    return <ApproveClaim claim={claim} template={templateForms} />
+    const { claim, templateForms, entityDid } = this.props
+    return (
+      <ApproveClaim
+        claim={claim}
+        template={templateForms}
+        projectDid={entityDid}
+      />
+    )
   }
 
   validatedToSubmit = (): boolean => {

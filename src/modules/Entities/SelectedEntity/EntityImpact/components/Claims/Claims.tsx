@@ -15,7 +15,7 @@ import {
   ViewAllLink,
 } from './Claims.styles'
 import MediaQuery from 'react-responsive'
-import { deviceWidth } from "lib/commonData";
+import { deviceWidth } from 'lib/commonData'
 
 export interface Props {
   claims?: any[]
@@ -44,25 +44,26 @@ export const ProjectClaims: React.FunctionComponent<Props> = ({
   const claimItem = (claim, index, colorClass): JSX.Element => {
     const theItem = (
       <>
-      <MediaQuery minWidth={`${deviceWidth.mobile}px`}>
-        <ListItemWrapper key={index} className="col-12">
-          <Indicator color={colorClass} />
-          <ClaimTitle>
-            <ID>{claim.claimId}</ID><Date>{claimDate(claim.date)}</Date>
-          </ClaimTitle>
-          <Did>{claim.saDid}</Did>
-        </ListItemWrapper>
-      </MediaQuery>
-      <MediaQuery maxWidth={`${deviceWidth.mobile}px`}>
-        <ListItemWrapper key={index} className="col-12">
-          <Indicator color={colorClass} />
-          <ClaimTitle>
-            <ID>{claim.claimId}</ID>
+        <MediaQuery minWidth={`${deviceWidth.mobile}px`}>
+          <ListItemWrapper key={index} className="col-12">
+            <Indicator color={colorClass} />
+            <ClaimTitle>
+              <ID>{claim.claimId}</ID>
+              <Date>{claimDate(claim.date)}</Date>
+            </ClaimTitle>
             <Did>{claim.saDid}</Did>
-            <Date>{claimDate(claim.date)}</Date>
-          </ClaimTitle>
-        </ListItemWrapper>
-      </MediaQuery>
+          </ListItemWrapper>
+        </MediaQuery>
+        <MediaQuery maxWidth={`${deviceWidth.mobile}px`}>
+          <ListItemWrapper key={index} className="col-12">
+            <Indicator color={colorClass} />
+            <ClaimTitle>
+              <ID>{claim.claimId}</ID>
+              <Did>{claim.saDid}</Did>
+              <Date>{claimDate(claim.date)}</Date>
+            </ClaimTitle>
+          </ListItemWrapper>
+        </MediaQuery>
       </>
     )
 
@@ -102,12 +103,11 @@ export const ProjectClaims: React.FunctionComponent<Props> = ({
           }
           return claimItem(claim, index, colorCLass)
         })}
-        {
-          claims.length > 0 &&
-            <ViewAllLink to={`/projects/${did}/detail/claims`}>
-              <ListItemWrapper>View all claims</ListItemWrapper>
-            </ViewAllLink>
-        }
+        {claims.length > 0 && (
+          <ViewAllLink to={`/projects/${did}/detail/claims`}>
+            <ListItemWrapper>View all claims</ListItemWrapper>
+          </ViewAllLink>
+        )}
       </ClaimsWidget>
     )
   }
@@ -142,6 +142,7 @@ export const ProjectClaims: React.FunctionComponent<Props> = ({
     const approved = []
     const pending = []
     const revoked = []
+    const disputed = []
     const sections = []
     claims.map((claim) => {
       switch (claim.status) {
@@ -150,6 +151,9 @@ export const ProjectClaims: React.FunctionComponent<Props> = ({
           break
         case '2':
           revoked.push(claim)
+          break
+        case '3':
+          disputed.push(claim)
           break
         case '0':
         default:
@@ -185,6 +189,16 @@ export const ProjectClaims: React.FunctionComponent<Props> = ({
           approved,
           '#5AB946',
           'Claims Approved',
+          3,
+        ),
+      )
+    disputed.length > 0 &&
+      disputed.push(
+        handleRenderPageSection(
+          'icon-disputed',
+          disputed,
+          '#e18c21',
+          'Claims Disputed',
           3,
         ),
       )

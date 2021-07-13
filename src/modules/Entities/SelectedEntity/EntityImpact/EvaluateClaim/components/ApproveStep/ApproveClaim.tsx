@@ -7,6 +7,9 @@ import styled from 'styled-components'
 import Rating from 'react-rating'
 import CommentViewModal from '../CommentViewModal'
 import { Switch } from 'common/components/Switch/Switch'
+import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
+import keysafe from 'common/keysafe/keysafe'
+import { PDS_URL } from 'modules/Entities/types'
 
 const Container = styled.div`
   background: white;
@@ -135,11 +138,13 @@ const ApproveButton = styled(DeferButton)`
 interface Props {
   claim: any
   template: any
+  projectDid: string
 }
 
 const ApproveClaim: React.FunctionComponent<Props> = ({
   claim,
   template,
+  projectDid,
 }): JSX.Element => {
   const [commentModalProps, setCommentModalProps] = React.useState({
     isOpen: false,
@@ -222,6 +227,66 @@ const ApproveClaim: React.FunctionComponent<Props> = ({
     )
   }
 
+  const handleApproveClick = () => {
+    const payload = {
+      claimId: claim.txHash,
+      status: '1',
+      projectDid,
+    }
+
+    keysafe.requestSigning(
+      JSON.stringify(payload),
+      async (error, signature) => {
+        if (!error) {
+          await blocksyncApi.claim
+            .evaluateClaim(payload, signature, PDS_URL)
+            .then((response: any) => {})
+        }
+      },
+      'base64',
+    )
+  }
+
+  const handleRejectClick = () => {
+    const payload = {
+      claimId: claim.txHash,
+      status: '2',
+      projectDid,
+    }
+
+    keysafe.requestSigning(
+      JSON.stringify(payload),
+      async (error, signature) => {
+        if (!error) {
+          await blocksyncApi.claim
+            .evaluateClaim(payload, signature, PDS_URL)
+            .then((response: any) => {})
+        }
+      },
+      'base64',
+    )
+  }
+
+  const handleDisputeClick = () => {
+    const payload = {
+      claimId: claim.txHash,
+      status: '3',
+      projectDid,
+    }
+
+    keysafe.requestSigning(
+      JSON.stringify(payload),
+      async (error, signature) => {
+        if (!error) {
+          await blocksyncApi.claim
+            .evaluateClaim(payload, signature, PDS_URL)
+            .then((response: any) => {})
+        }
+      },
+      'base64',
+    )
+  }
+
   return (
     <Container>
       <SectionTitle>Approve</SectionTitle>
@@ -261,9 +326,9 @@ const ApproveClaim: React.FunctionComponent<Props> = ({
       </SwitchContainer>
       <ActionButtons>
         <DeferButton>Defer</DeferButton>
-        <DisputeButton>Dispute</DisputeButton>
-        <RejectButton>Reject</RejectButton>
-        <ApproveButton>Approve</ApproveButton>
+        <DisputeButton onClick={handleDisputeClick}>Dispute</DisputeButton>
+        <RejectButton onClick={handleRejectClick}>Reject</RejectButton>
+        <ApproveButton onClick={handleApproveClick}>Approve</ApproveButton>
       </ActionButtons>
       <CommentViewModal
         {...commentModalProps}

@@ -180,7 +180,6 @@ class EntityImpact extends React.Component<Props> {
       agents,
       [AgentRole.Owner],
     )
-
     const routes = [
       {
         url: `/projects/${did}/detail`,
@@ -188,27 +187,28 @@ class EntityImpact extends React.Component<Props> {
         sdg: 'Dashboard',
         tooltip: 'Overview',
       },
-
-      {
+    ]
+    if (showAgentLinks) {
+      routes.push({
         url: `/projects/${did}/detail/agents`,
         icon: require('assets/img/sidebar/profile.svg'),
         sdg: 'Agents',
         tooltip: 'Agents',
-      },
-      {
-        url: `/projects/${did}/detail/claims`,
-        icon: require('assets/img/sidebar/claim.svg'),
-        sdg: 'Claims',
-        tooltip: 'Claims',
-      },
+      })
+    }
+    routes.push({
+      url: `/projects/${did}/detail/claims`,
+      icon: require('assets/img/sidebar/claim.svg'),
+      sdg: 'Claims',
+      tooltip: 'Claims',
+    })
 
-      {
-        url: `/projects/${did}/detail/events`,
-        icon: require('assets/img/sidebar/events.svg'),
-        sdg: 'Events',
-        tooltip: 'Voting Events',
-      },
-    ]
+    routes.push({
+      url: `/projects/${did}/detail/events`,
+      icon: require('assets/img/sidebar/events.svg'),
+      sdg: 'Events',
+      tooltip: 'Voting Events',
+    })
 
     if (bondDid) {
       routes.push({

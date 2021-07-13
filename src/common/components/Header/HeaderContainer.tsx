@@ -204,6 +204,7 @@ class Header extends React.Component<Props, State> {
   handleLedgerDid = (): void => {
     if (this.props.userInfo.didDoc) {
       const payload = this.props.userInfo.didDoc
+
       blocksyncApi.utils
         .getSignData(payload, 'did/AddDid', payload.pubKey)
         .then((response: any) => {
