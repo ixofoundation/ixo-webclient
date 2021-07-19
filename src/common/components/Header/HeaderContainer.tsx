@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
+import Axios from 'axios'
 import { RootState } from 'common/redux/types'
 import { EntityType } from 'modules/Entities/types'
 import * as entitiesSelectors from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.selectors'
@@ -31,6 +32,8 @@ export interface State {
   isLedgering: boolean
   ledgerPopupShown: boolean
   isMobileMenuOpen: boolean
+  accountAddress: string
+  funded: boolean
 }
 
 export interface StateProps {
@@ -53,6 +56,8 @@ class Header extends React.Component<Props, State> {
     isLedgering: false,
     ledgerPopupShown: false,
     isMobileMenuOpen: false,
+    accountAddress: '',
+    funded: false,
   }
 
   componentDidMount(): void {
@@ -87,8 +92,18 @@ class Header extends React.Component<Props, State> {
       this.state.ledgerPopupShown === false
     ) {
       this.setState({ ledgerPopupShown: true })
+      this.getAccountAddress()
+
       this.handleToggleModal(true)
     }
+  }
+
+  getAccountAddress = () => {
+    Axios.get(
+      `https://testnet.ixo.world/pubKeyToAddr/${this.props.userInfo.didDoc.pubKey}`,
+    ).then((response) => {
+      this.setState({ accountAddress: response.data.result })
+    })
   }
 
   pingExplorer = (): void => {
@@ -161,7 +176,13 @@ class Header extends React.Component<Props, State> {
     }
   }
 
+  handleFunded = () => {
+    this.setState({ funded: true })
+  }
+
   renderModalData = (): JSX.Element => {
+    const { accountAddress, funded } = this.state
+
     if (this.state.modalResponse.length > 0) {
       return (
         <ModalData>
@@ -174,17 +195,36 @@ class Header extends React.Component<Props, State> {
           </Button>
         </ModalData>
       )
+    } else if (funded) {
+      return (
+        <ModalData>
+          <p>
+            YOUR ACCOUNT HAS SUCCESSFULLY BEEN FUNDED
+            <br />
+            Now you can Register your self-sovereign identity on the blockchain,
+            which will deduct a small gas fee from your account.
+          </p>
+          <Button type={ButtonTypes.dark} onClick={this.handleLedgerDid}>
+            SIGN THIS REQUEST
+          </Button>
+        </ModalData>
+      )
     } else {
       return (
         <ModalData>
           <Success width="64" fill="#49BFE0" />
           <h3>YOU HAVE SUCCESSFULLY INSTALLED THE IXO KEYSAFE</h3>
           <p>
-            <span>LAST STEP - </span>create your self-sovereign credentials on
-            the ixo blockchain.
+            <span>NEXT STEP - </span>Fund your Account with IXO Tokens to
+            Register your self-sovereign identity on the blockchain
+            <br />
+            (This requires a small amount of IXO for gas).
+            <br />
+            Your Account address is{' '}
+            <span>{accountAddress ? accountAddress : '-'}</span>
           </p>
-          <Button type={ButtonTypes.dark} onClick={this.handleLedgerDid}>
-            SIGN NOW USING KEYSAFE
+          <Button type={ButtonTypes.dark} onClick={this.handleFunded}>
+            I HAVE FUNDED MY ACCOUNT
           </Button>
           <InfoLink
             href="https://medium.com/ixo-blog/the-ixo-keysafe-kyc-and-becoming-an-ixo-member-ef33d9e985b6"
