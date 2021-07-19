@@ -24,6 +24,7 @@ import { Button, ButtonTypes } from 'common/components/Form/Buttons'
 import * as entityClaimsSelectors from './EntityClaims.selectors'
 import ExpandableList from 'common/components/ExpandableList/ExpandableList'
 import * as accountSelectors from 'modules/Account/Account.selectors'
+import { useLocation } from 'react-router-dom'
 
 const ClaimStatusOrder = [
   EntityClaimStatus.Saved,
@@ -44,9 +45,11 @@ const EntityClaims: React.FunctionComponent<Props> = ({
   claims,
   userDid,
 }) => {
+  const query = new URLSearchParams(useLocation().search)
+
   const claimTemplates = entity.entityClaims.items
   const [filter, setFilter] = React.useState({
-    status: null,
+    status: query.get('status') ? query.get('status') : null,
     query: '',
     all: true,
     claimTemplateId: '',

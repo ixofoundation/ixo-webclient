@@ -10,6 +10,8 @@ import { Switch } from 'common/components/Switch/Switch'
 import blocksyncApi from 'common/api/blocksync-api/blocksync-api'
 import keysafe from 'common/keysafe/keysafe'
 import { PDS_URL } from 'modules/Entities/types'
+import * as Toast from 'common/utils/Toast'
+import { withRouter, RouteComponentProps } from 'react-router-dom'
 
 const Container = styled.div`
   background: white;
@@ -135,7 +137,7 @@ const ApproveButton = styled(DeferButton)`
   background: linear-gradient(180deg, #6fcf97 0%, #52a675 100%);
 `
 
-interface Props {
+interface Props extends RouteComponentProps {
   claim: any
   template: any
   projectDid: string
@@ -145,6 +147,7 @@ const ApproveClaim: React.FunctionComponent<Props> = ({
   claim,
   template,
   projectDid,
+  history,
 }): JSX.Element => {
   const [commentModalProps, setCommentModalProps] = React.useState({
     isOpen: false,
@@ -227,6 +230,16 @@ const ApproveClaim: React.FunctionComponent<Props> = ({
     )
   }
 
+  const handleEvaluated = () => {
+    Toast.successToast(`Successfully evaluated`)
+    setTimeout(() => {
+      history.push({
+        pathname: `/projects/${projectDid}/detail/claims`,
+        search: '?status=0',
+      })
+    }, 2000)
+  }
+
   const handleApproveClick = () => {
     const payload = {
       claimId: claim.txHash,
@@ -240,7 +253,9 @@ const ApproveClaim: React.FunctionComponent<Props> = ({
         if (!error) {
           await blocksyncApi.claim
             .evaluateClaim(payload, signature, PDS_URL)
-            .then((response: any) => {})
+            .then((response: any) => {
+              handleEvaluated()
+            })
         }
       },
       'base64',
@@ -260,7 +275,9 @@ const ApproveClaim: React.FunctionComponent<Props> = ({
         if (!error) {
           await blocksyncApi.claim
             .evaluateClaim(payload, signature, PDS_URL)
-            .then((response: any) => {})
+            .then((response: any) => {
+              handleEvaluated()
+            })
         }
       },
       'base64',
@@ -280,7 +297,9 @@ const ApproveClaim: React.FunctionComponent<Props> = ({
         if (!error) {
           await blocksyncApi.claim
             .evaluateClaim(payload, signature, PDS_URL)
-            .then((response: any) => {})
+            .then((response: any) => {
+              handleEvaluated()
+            })
         }
       },
       'base64',
@@ -338,4 +357,4 @@ const ApproveClaim: React.FunctionComponent<Props> = ({
   )
 }
 
-export default ApproveClaim
+export default withRouter(ApproveClaim)
