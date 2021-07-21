@@ -3,7 +3,7 @@ import {
   CreateEntityTemplateActions,
   CreateEntityTemplateActionTypes
 } from './types'
-import { CreateEntityActionTypes, CreateEntityActions } from '../types'
+
 export const initialState: CreateEntityTemplateState = {
   existingEntity: {
     did: '',

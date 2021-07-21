@@ -4,8 +4,6 @@ import CreateEntityBase from '../components/CreateEntityBase/CreateEntityBase'
 import { RootState } from 'common/redux/types'
 import * as createEntitySelectors from '../CreateEntity.selectors'
 import { entityTypeMap } from '../../strategy-map'
-import * as entityClaimsSelectors from '../CreateEntityClaims/CreateEntityClaims.selectors'
-import { EntityType } from 'modules/Entities/types'
 import FormCardWrapper from 'common/components/Wrappers/FormCardWrapper/FormCardWrapper'
 import ExistingEntityCard from './components/ExistingEntityCard/ExistingEntityCard'
 import TokenTemplateCard from './components/TokenTemplateCard/TokenTemplateCard'
@@ -100,7 +98,7 @@ class CreateTemplate extends CreateEntityBase<any> {
   }
 
   render(): JSX.Element {
-    const { requiredCredentials, displayCredentials, entityType } = this.props
+    const { entityType } = this.props
     const identifiers: string[] = []
     identifiers.push('existingentity')
 

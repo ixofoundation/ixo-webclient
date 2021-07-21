@@ -24,37 +24,6 @@ const FormContainer = styled.div`
   }
 `
 
-const ButtonContainer = styled.div`
-  position: absolute;
-  top: -2.5rem;
-  right: 0;
-  width: auto !important;
-
-  button {
-    width: 220px;
-    height: 40px;
-    font-weight: normal;
-    font-size: 1rem;
-    line-height: 19px;
-    border-radius: 4px;
-    border: none;
-    background: linear-gradient(180deg, #04d0fb 0%, #49bfe0 100%);
-    color: #fff;
-    margin-left: 1.25rem;
-
-    &:focus {
-      outline-style: none;
-      box-shadow: none;
-      border: 1px solid #fff;
-    }
-
-    &:disabled {
-      opacity: 0.8;
-      color: ${(props: any): string => props.theme.fontLightGreyBlue};
-    }
-  }
-`
-
 const TokenTemplateCard: React.FunctionComponent<Props> = React.forwardRef(
   (
     {
