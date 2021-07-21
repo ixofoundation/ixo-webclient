@@ -146,6 +146,8 @@ export enum CreateEntityAdvancedActions {
   // Validation
   Validated = 'ixo/CreateEntityAdvanced/SET_VALIDATED',
   ValidationError = 'ixo/CreateEntityAdvanced/VALIDATION_ERROR',
+
+  ImportEntityAdvanced = 'ixo/CreateEntityAdvanced/IMPORT_ENTITY_ADVANCED'
 }
 
 export interface UpdateLinkedEntityAction {
@@ -375,6 +377,11 @@ export interface ValidationErrorAction {
   }
 }
 
+export interface ImportEntityAdvanced {
+  type: typeof CreateEntityAdvancedActions.ImportEntityAdvanced
+  payload: any
+}
+
 export type CreateEntityAdvancedActionTypes =
   | AddLinkedEntitySectionAction
   | RemoveLinkedEntitySectionAction
@@ -402,3 +409,4 @@ export type CreateEntityAdvancedActionTypes =
   | UpdateDataResourceAction
   | ValidatedAction
   | ValidationErrorAction
+  | ImportEntityAdvanced

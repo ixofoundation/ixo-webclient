@@ -116,6 +116,8 @@ export enum CreateEntityClaimsActions {
   // Validation
   Validated = 'ixo/CreateEntitySettings/SET_VALIDATED',
   ValidationError = 'ixo/CreateEntitySettings/VALIDATION_ERROR',
+
+  ImportEntityClaims = 'ixo/CreateEntityClaims/IMPORT_ENTITY_CLAIMS',
 }
 
 export interface AddEntityClaimAction {
@@ -273,6 +275,11 @@ export interface ValidationErrorAction {
   }
 }
 
+export interface ImportEntityClaimsAction {
+  type: typeof CreateEntityClaimsActions.ImportEntityClaims,
+  payload: any
+}
+
 export type CreateEntityClaimActionTypes =
   | AddEntityClaimAction
   | RemoveEntityClaimAction
@@ -291,3 +298,4 @@ export type CreateEntityClaimActionTypes =
   | UpdateEntityClaimEnrichmentAction
   | ValidatedAction
   | ValidationErrorAction
+  | ImportEntityClaimsAction

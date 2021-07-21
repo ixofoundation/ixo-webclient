@@ -289,3 +289,10 @@ export const validationError = (
     errors,
   },
 })
+
+export const importEntityPageContent = (payload: any) => {
+  return {
+    type: CreateEntityPageContentActions.ImportEntityPageContent,
+    payload
+  }
+}

@@ -381,6 +381,11 @@ export const reducer = (
           },
         },
       }
+    case CreateEntityPageContentActions.ImportEntityPageContent:
+      return {
+        ...state,
+        ...action.payload
+      }
     case CreateEntityPageContentActions.ValidationError:
       return {
         ...state,
