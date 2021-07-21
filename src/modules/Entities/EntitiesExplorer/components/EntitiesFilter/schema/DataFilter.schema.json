@@ -59,19 +59,24 @@
       "multiSelect": true,
       "tags": [
         {
+          "@type": "impactToken",
+          "name": "Impact Token",
+          "icon": "impact.svg"
+        },
+        {
           "@type": "data",
-          "name": "Data",
-          "icon": "tag.svg"
+          "name": "Data Asset",
+          "icon": "data.svg"
         },
         {
           "@type": "carbonCredit",
           "name": "Carbon Credit",
-          "icon": "tag.svg"
+          "icon": "carbonCredit.svg"
         },
         {
           "@type": "outcomeContract",
           "name": "Outcome Contract",
-          "icon": "outcomecontract.svg"
+          "icon": "outcomeContract.svg"
         },
         {
           "@type": "equity",
@@ -80,148 +85,163 @@
         },
         {
           "@type": "cryptocurrency",
-          "name": "Cryptocurrency",
-          "icon": "tag.svg"
+          "name": "Crypto Wallet",
+          "icon": "cryptocurrrency.svg"
         },
         {
           "@type": "commodity",
           "name": "Commodity",
-          "icon": "tag.svg"
+          "icon": "commodity.svg"
         },
         {
           "@type": "equipment",
           "name": "Equipment",
-          "icon": "tag.svg"
+          "icon": "equipment.svg"
         },
         {
           "@type": "realEstate",
           "name": "Real Estate",
-          "icon": "tag.svg"
+          "icon": "realEstate.svg"
         },
         {
           "@type": "intellectualProperty",
           "name": "Intellectual Property",
-          "icon": "tag.svg"
+          "icon": "intellectualProperty.svg"
         },
         {
           "@type": "incomeSecurity",
           "name": "Income Security",
-          "icon": "tag.svg"
+          "icon": "incomeSecurity.svg"
         },
         {
           "@type": "commercialRights",
           "name": "Commercial Rights",
-          "icon": "tag.svg"
+          "icon": "commercialRights.svg"
         },
         {
           "@type": "inventory",
           "name": "Inventory",
-          "icon": "tag.svg"
+          "icon": "inventory.svg"
         },
         {
           "@type": "digital",
-          "name": "Digital",
-          "icon": "tag.svg"
+          "name": "Digital Asset",
+          "icon": "digital.svg"
         },
         {
           "@type": "bond",
           "name": "Bond",
-          "icon": "tag.svg"
+          "icon": "bond.svg"
         },
         {
           "@type": "brand",
           "name": "Brand",
-          "icon": "tag.svg"
+          "icon": "brand.svg"
         },
         {
           "@type": "other",
           "name": "Other",
-          "icon": "tag.svg"
+          "icon": "other.svg"
         }
       ]
     },
     {
-      "@type": "Token Class",
+      "@type": "category",
       "hidden": false,
       "name": "Token Class",
       "multiSelect": true,
       "tags": [
         {
-          "@type": "Tag",
+          "@type": "nft",
           "name": "Non-Fungible Token",
-          "icon": "tag.svg"
+          "icon": "nft.svg"
         },
         {
-          "@type": "Tag",
+          "@type": "bearerCertificate",
+          "name": "Bearer Certificate",
+          "icon": "certificate.svg"
+        },
+        {
+          "@type": "option",
           "name": "Option",
           "icon": "tag.svg"
         },
         {
-          "@type": "Tag",
+          "@type": "contract",
           "name": "Contract",
           "icon": "tag.svg"
         },
         {
-          "@type": "Tag",
+          "@type": "certificate",
           "name": "Ownership Certificate",
           "icon": "tag.svg"
         },
         {
-          "@type": "Tag",
+          "@type": "listing",
           "name": "Exchange Listing",
-          "icon": "tag.svg"
+          "icon": "listing.svg"
         },
         {
-          "@type": "Tag",
+          "@type": "digitalGoods",
           "name": "Digital Goods",
           "icon": "tag.svg"
         },
         {
-          "@type": "Tag",
+          "@type": "wallet",
+          "name": "Crypto Wallet",
+          "icon": "tag.svg"
+        },
+        {
+          "@type": "unspecified",
           "name": "Unspecified",
           "icon": "tag.svg"
         }
       ]
     },
     {
-      "@type": "Market",
+      "@type": "category",
       "hidden": false,
       "name": "Market",
       "multiSelect": true,
       "tags": [
         {
-          "@type": "Tag",
-          "name": "Non-Fungible Token",
-          "icon": "tag.svg"
+          "@type": "commodities",
+          "name": "Commodities",
+          "icon": "commodities.svg"
         },
         {
-          "@type": "Tag",
-          "name": "Option",
-          "icon": "tag.svg"
+          "@type": "securities",
+          "name": "Securities",
+          "icon": "securities.svg"
         },
         {
-          "@type": "Tag",
-          "name": "Contract",
-          "icon": "tag.svg"
+          "@type": "private",
+          "name": "Private",
+          "icon": "private.svg"
         },
         {
-          "@type": "Tag",
-          "name": "Ownership Certificate",
-          "icon": "tag.svg"
+          "@type": "impactdex",
+          "name": "Impact Exchange",
+          "icon": "dex.svg"
         },
         {
-          "@type": "Tag",
-          "name": "Exchange Listing",
-          "icon": "tag.svg"
+          "@type": "auction",
+          "name": "Auction",
+          "icon": "auction.svg"
         },
         {
-          "@type": "Tag",
-          "name": "Digital Goods",
-          "icon": "tag.svg"
+          "@type": "registry",
+          "name": "Asset Registry",
+          "icon": "registry.svg"
         },
         {
-          "@type": "Tag",
-          "name": "Unspecified",
+          "@type": "archive",
+          "name": "Asset Archive",
+          "icon": "archive.svg"
+        },
+        {
+          "@type": "unspecified",
+          "name": "Not Specified",
           "icon": "tag.svg"
         }
       ]
