@@ -4,41 +4,38 @@ import { deviceWidth } from '../../../../lib/commonData'
 export const ActionLinksWrapper = styled.div`
   display: flex;
   flex-flow: row wrap;
-  margin: 0 -0.5rem;
+  margin: 0;
   width: 100%;
   > div {
     width: 50% !important;
+    padding: 0.25rem;
   }
   a {
-    background: #ffffff;
-    border-radius: 0.75rem;
+    background: #F8F9FD;
+    border-radius: 0.25rem;
+    border: 1px solid #E0E5EF;
     font-weight: normal;
-    font-size: 0.75rem;
-    line-height: 1.2;
+    font-size: 13px;
+    line-height: 15px;
     display: flex;
     align-items: center;
-    width: calc(100% - 1rem) !important;
     padding: 0.5rem 0.75rem;
-    margin: 0.5rem;
-    color: #47568c;
+    color: #122045;
     transition: all 0.3s;
-    border: 1px solid transparent;
     cursor: pointer;
-    min-height: 2.25rem;
+    min-height: 2.5rem;
     svg {
       fill: #47568c;
-      margin-right: 1rem;
+      margin-right: 0.5rem;
       min-width: 0.8rem;
     }
     &:hover {
-      color: #47568c;
+      border-color: #00D2FF;
       text-decoration: none;
-      border: 1px solid ${(props: any): string => props.theme.ixoBlue};
     }
     &:focus {
       outline: none;
     }
-
     &.active {
       border: 1px solid ${(props: any): string => props.theme.ixoBlue};
     }
@@ -114,7 +111,6 @@ export const ActionWrapper = styled.div`
       animation: fadeInSummary 1s ease-in-out;
     }
   }
-
   @media (max-width: ${deviceWidth.desktop}px) {
     background: white;
     position: fixed;
@@ -144,7 +140,6 @@ export const AssistantWrapper = styled.div`
   display: flex;
   box-shadow: inset 2px 0px 6px rgba(24, 103, 136, 0.13);
   flex-direction: column;
-
   .assistant-container {
     height: calc(100% - 20px);
   }
@@ -173,7 +168,6 @@ export const AssistantHeader = styled.div`
     background: #FFFFFF;
     box-shadow: 0px 1px 8px rgba(0, 42, 63, 0.1);
     cursor: pointer;
-
     svg {
       width: 13px;
       height: 13px;
@@ -233,11 +227,9 @@ export const AssistantProgress = styled.div`
       animation: iconPulse 1s infinite ease-in-out;
     }
   }
-
   .error {
     color: firebrick;
   }
-
   .close-button,
   button {
     background: none;

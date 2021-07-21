@@ -33,11 +33,11 @@ const Connections: React.FunctionComponent<Props> = ({
   selectedConnection,
   handleConnectionClick,
   toggleShowConnections,
-  showMore
+  showMore,
 }) => {
   const findControl = (type: ConnectionType): Control | undefined =>
     controls?.find((conn) => conn['@type'] === type)
-  const windowSize = useWindowSize();
+  const windowSize = useWindowSize()
 
   return (
     <ControlPanelSection>
@@ -46,15 +46,14 @@ const Connections: React.FunctionComponent<Props> = ({
           <ConnectionIcon />
         </div>
         {title}
-        {
-          controls.length >= 4 &&
-            <div
-              onClick={ toggleShowConnections }
-              className={`arrow-icon ${showMore ? 'active' : ''}`}
-            >
-              <Down width="16" fill="#A5ADB0" />
-            </div>
-        }
+        {controls.length >= 4 && (
+          <div
+            onClick={toggleShowConnections}
+            className={`arrow-icon ${showMore ? 'active' : ''}`}
+          >
+            <Down width="16" fill="#A5ADB0" />
+          </div>
+        )}
       </h4>
       <ConnectionButtonsWrapper>
         {Object.keys(ConnectionType).map((key: string) => {
@@ -70,7 +69,11 @@ const Connections: React.FunctionComponent<Props> = ({
                   <button
                     onClick={(): void => handleConnectionClick(connectionType)}
                   >
-                    <div className={`icon-wrapper ${ selectedConnection === connectionType ? 'selected': '' }`}>
+                    <div
+                      className={`icon-wrapper ${
+                        selectedConnection === connectionType ? 'selected' : ''
+                      }`}
+                    >
                       {React.createElement(icons[control.icon], {
                         fill: control.iconColor,
                         width: 50,
@@ -82,13 +85,17 @@ const Connections: React.FunctionComponent<Props> = ({
               ) : null
             }
           }
-          
+
           return control ? (
             <Tooltip key={key} text={control.tooltip}>
               <button
                 onClick={(): void => handleConnectionClick(connectionType)}
               >
-                <div className={`icon-wrapper ${ selectedConnection === connectionType ? 'selected': '' }`}>
+                <div
+                  className={`icon-wrapper ${
+                    selectedConnection === connectionType ? 'selected' : ''
+                  }`}
+                >
                   {React.createElement(icons[control.icon], {
                     fill: control.iconColor,
                     width: 50,

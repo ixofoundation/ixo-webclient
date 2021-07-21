@@ -241,7 +241,7 @@
       {
         "@type": "Mobile",
         "@id": "connectionMobileApp",
-        "title": "Connect ixo Mobile",
+        "title": "Mobile",
         "tooltip": "Scan the QR with your mobile",
         "icon": "Mobile",
         "iconColor": null,
@@ -282,7 +282,7 @@
       {
         "@type": "Forum",
         "@id": "connectionForum",
-        "title": "Join the forum",
+        "title": "Forum",
         "tooltip": "Share information about this project",
         "icon": "Forum",
         "iconColor": "#49BFE0",

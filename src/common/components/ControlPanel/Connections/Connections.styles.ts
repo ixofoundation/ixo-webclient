@@ -5,12 +5,19 @@ import { QRInner } from "../../QRCode/QRCode.styles";
 export const ConnectionButtonsWrapper = styled(SquareButtonSection)`
   button {
     max-width: 5.5rem;
+    min-width: auto;
+    padding: 0.25rem;
     .icon-wrapper {
       border-radius: 50%;
-      padding: 1.25rem;
+      background: #F8F9FD;
+      border: 1px solid #E0E5EF;
+      width: 3.5rem;
+      height: 3.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       svg {
         margin: 0 auto;
-        width: 1.875rem;
         path {
           fill: ${(props: any): string => props.theme.ixoBlue};
         }

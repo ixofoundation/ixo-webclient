@@ -3,40 +3,39 @@ import styled from 'styled-components'
 export const LinksWrapper = styled.div`
   display: flex;
   flex-flow: row wrap;
-  margin: 0 -0.5rem;
+  margin: 0;
   > div {
     width: 50% !important;
+    padding: 0.25rem;
   }
   a {
-    background: #ffffff;
-    border-radius: 0.75rem;
+    background: #F8F9FD;
+    border-radius: 0.25rem;
+    border: 1px solid #E0E5EF;
     font-weight: normal;
-    font-size: 0.75rem;
-    line-height: 1.2;
+    font-size: 13px;
+    line-height: 15px;
     display: flex;
     align-items: center;
-    width: calc(100% - 1rem) !important;
     padding: 0.5rem 0.75rem;
-    margin: 0.5rem;
-    color: #47568c;
+    color: #122045;
     transition: all 0.3s;
-    border: 1px solid transparent;
     cursor: pointer;
+    min-height: 2.5rem;
     svg {
       fill: #49BFE0;
-      margin-right: 1rem;
+      margin-right: 0.5rem;
       min-width: 0.8rem;
     }
     &:hover {
-      color: #47568c;
+      border-color: #00D2FF;
       text-decoration: none;
-      border: 1px solid ${(props: any): string => props.theme.ixoBlue};
     }
     &:focus {
       outline: none;
     }
     &.active {
-      border: 1px solid ${(props: any): string => props.theme.ixoBlue};
+      border-color: #00D2FF;
     }
   }
 `
