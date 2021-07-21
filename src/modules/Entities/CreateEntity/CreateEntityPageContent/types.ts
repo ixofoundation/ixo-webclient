@@ -137,6 +137,9 @@ export enum CreateEntityPageContentActions {
   // Validation
   Validated = 'ixo/CreateEntityPageContent/SET_VALIDATED',
   ValidationError = 'ixo/CreateEntityPageContent/VALIDATION_ERROR',
+
+   // Import Page Contnet
+   ImportEntityPageContent = 'ixo/CreateEntityPageContent/IMPORT_ENTITY_PAGE_CONTENT',
 }
 
 export interface UpdateHeaderContentAction {
@@ -462,6 +465,11 @@ export interface ValidationErrorAction {
   }
 }
 
+export interface ImportEntityPageContentAction {
+  type: typeof CreateEntityPageContentActions.ImportEntityPageContent,
+  payload: any
+}
+
 export type CreateEntityPageContentActionTypes =
   | UpdateHeaderContentAction
   | UploadHeaderImageAction
@@ -506,3 +514,4 @@ export type CreateEntityPageContentActionTypes =
   | UpdateEmbeddedContentAction
   | ValidatedAction
   | ValidationErrorAction
+  | ImportEntityPageContentAction

@@ -274,7 +274,11 @@ export const reducer = (
     case CreateEntityActions.NewEntity:
     case CreateEntityActions.CreateEntitySuccess:
       return initialState
-
+    case CreateEntitySettingsActions.ImportEntitySettings:
+      return {
+        ...state,
+        ...action.payload
+      }
   }
 
   return state

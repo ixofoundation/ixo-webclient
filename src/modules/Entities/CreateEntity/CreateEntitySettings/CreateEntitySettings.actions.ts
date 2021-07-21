@@ -299,3 +299,10 @@ export const removeAnalyticsSection = (
     id,
   },
 })
+
+export const importEntitySettings = (payload: any) => {
+  return {
+    type: CreateEntitySettingsActions.ImportEntitySettings,
+    payload
+  }
+}

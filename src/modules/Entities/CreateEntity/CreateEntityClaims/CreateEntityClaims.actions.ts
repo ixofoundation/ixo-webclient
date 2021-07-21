@@ -256,3 +256,8 @@ export const validationError = (
     errors,
   },
 })
+
+export const importEntityClaims = (payload) => ({
+  type: CreateEntityClaimsActions.ImportEntityClaims,
+  payload
+})

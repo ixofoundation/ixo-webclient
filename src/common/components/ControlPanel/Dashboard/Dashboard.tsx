@@ -18,7 +18,7 @@ const Dashboard: React.FunctionComponent<Props> = ({
     <ControlPanelSection key={title}>
       <h4>
         <div className="heading-icon">
-          <DashboardIcon width={25} />
+          <DashboardIcon />
         </div>
         {title}
       </h4>

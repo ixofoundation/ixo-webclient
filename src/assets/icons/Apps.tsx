@@ -1,31 +1,55 @@
-import React from "react";
+import React from 'react'
 
 const Apps = (props: any): JSX.Element => {
   return (
     <svg
-      width={props.width || 18}
+      width="18"
+      height="17"
+      viewBox="0 0 18 17"
+      fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 18 18"
     >
       <path
-        fill="#e4bc3d"
-        d="M5.12 8.99L1.36 12.9l.01 4.08 3.87-.02 3.75-3.91-3.87-4.06z"
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M8.86778 4.52015L5.11783 0.770203H1.36768V4.52015L5.11783 8.2701L1.36768 12.02V15.7702H5.11783L8.86778 12.02L12.6177 15.7702H16.3677V12.02L12.6177 8.2701L16.3677 4.52015V0.770203H12.6177L8.86778 4.52015Z"
+        stroke="#00D2FF"
+        strokeWidth="1.4"
       />
-      <path
-        fill="#79af50"
-        d="M16.6 1.02l-3.86.03L9 4.94 12.88 9l3.75-3.91-.03-4.07z"
+      <line
+        x1="7.34214"
+        y1="2.98989"
+        x2="14.5748"
+        y2="10.2226"
+        stroke="#00D2FF"
+        strokeWidth="1.4"
       />
-      <path
-        fill="#ad245c"
-        d="M16.64 12.94L12.88 9l-3.89 4.05 3.77 3.94 3.89-.01-.01-4.04z"
+      <line
+        x1="3.10142"
+        y1="6.26345"
+        x2="10.3341"
+        y2="13.4961"
+        stroke="#00D2FF"
+        strokeWidth="1.4"
       />
-      <path
-        fill="#f3815c"
-        d="M5.24 1.01l-3.89.01h-.01l.01 4.04 3.77 3.93L9 4.94 5.24 1.01z"
+      <line
+        x1="14.5748"
+        y1="6.32859"
+        x2="7.8186"
+        y2="13.0848"
+        stroke="#00D2FF"
+        strokeWidth="1.4"
       />
-      <path fill="#00c6ff" d="M9 4.94L5.12 8.99l3.87 4.06L12.88 9 9 4.94z" />
+      <line
+        x1="10.5064"
+        y1="2.869"
+        x2="3.75024"
+        y2="9.62521"
+        stroke="#00D2FF"
+        strokeWidth="1.4"
+      />
     </svg>
-  );
-};
+  )
+}
 
-export default Apps;
+export default Apps

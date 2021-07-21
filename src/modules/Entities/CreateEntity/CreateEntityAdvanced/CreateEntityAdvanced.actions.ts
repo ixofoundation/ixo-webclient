@@ -340,3 +340,8 @@ export const validationError = (
     errors,
   },
 })
+
+export const importEntityAdvanced = (payload) => ({
+  type: CreateEntityAdvancedActions.ImportEntityAdvanced,
+  payload
+})
