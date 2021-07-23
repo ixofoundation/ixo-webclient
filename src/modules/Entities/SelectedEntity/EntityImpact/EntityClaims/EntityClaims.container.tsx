@@ -123,13 +123,10 @@ const EntityClaims: React.FunctionComponent<Props> = ({
     const claimsHasStatus = filterClaims(claims)
       .filter((claim) => claim.status === status)
       .map((claim) => {
-        let templateTitle = ''
-        const claimTemplateId = claim.claimTemplateId
-        if (claimTemplateId) {
-          const templateIndex = claimTemplateIds.indexOf(claimTemplateId)
+        let templateTitle = claimTemplates[0]?.title
+        if (claim.claimTemplateId) {
+          const templateIndex = claimTemplateIds.indexOf(claim.claimTemplateId)
           templateTitle = claimTemplates[templateIndex]?.title
-        } else {
-          templateTitle = claimTemplates[0]?.title
         }
         return { templateTitle, ...claim }
       })
