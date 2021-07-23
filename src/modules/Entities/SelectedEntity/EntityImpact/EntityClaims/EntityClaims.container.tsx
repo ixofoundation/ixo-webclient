@@ -48,6 +48,7 @@ const EntityClaims: React.FunctionComponent<Props> = ({
   const query = new URLSearchParams(useLocation().search)
 
   const claimTemplates = entity.entityClaims.items
+  const claimTemplateIds = claimTemplates.map((item) => item['@id'])
   const [filter, setFilter] = React.useState({
     status: query.get('status') ? query.get('status') : null,
     query: '',
@@ -119,9 +120,19 @@ const EntityClaims: React.FunctionComponent<Props> = ({
   }
 
   const handleRenderClaimsPerStatus = (status, key): JSX.Element => {
-    const claimsHasStatus = filterClaims(claims).filter(
-      (claim) => claim.status === status,
-    )
+    const claimsHasStatus = filterClaims(claims)
+      .filter((claim) => claim.status === status)
+      .map((claim) => {
+        let templateTitle = ''
+        const claimTemplateId = claim.claimTemplateId
+        if (claimTemplateId) {
+          const templateIndex = claimTemplateIds.indexOf(claimTemplateId)
+          templateTitle = claimTemplates[templateIndex]?.title
+        } else {
+          templateTitle = claimTemplates[0]?.title
+        }
+        return { templateTitle, ...claim }
+      })
     return (
       <div key={key}>
         {!filter.status && status !== EntityClaimStatus.Saved && <Divider />}

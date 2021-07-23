@@ -10,6 +10,8 @@ export interface EntityClaim {
   status: string
   saDid: string
   eaDid?: string
+  claimTemplateId?: string
+  templateTitle?: string
 }
 
 export enum EntityClaimStatus {
@@ -25,5 +27,5 @@ export const EntityClaimColorSchema = [
   theme.fontGreen,
   theme.red,
   theme.fontSkyBlue,
-  theme.fontYellow
+  theme.fontYellow,
 ]
