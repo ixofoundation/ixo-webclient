@@ -68,7 +68,11 @@ const ProjectCard: React.FunctionComponent<Props> = ({
             />
 
             <ActionButton>{buttonTexts[index]}</ActionButton>
-            <img src={require('assets/images/yoma.png')} className="ml-auto" />
+            <img
+              alt=""
+              src={require('assets/images/yoma.png')}
+              className="ml-auto"
+            />
           </div>
           <Title>{excerptText(name, 10)}</Title>
           <ProgressBar

@@ -13,7 +13,7 @@ const InComponentContainer = styled.div`
   text-align: right;
 
   .in {
-    color: #83D9F2;
+    color: #83d9f2;
   }
 `
 const OutComponentContainer = styled.div`
@@ -24,7 +24,7 @@ const OutComponentContainer = styled.div`
   padding-right: 96px;
 
   .out {
-    color: #83D9F2;
+    color: #83d9f2;
   }
 `
 
@@ -51,22 +51,18 @@ const StyledEyeContainer = styled.div`
 const InComponent: FunctionComponent<ValueComponentProps> = ({ value }) => (
   <InComponentContainer>
     <span className="in">In</span>
-    <StyledValueContainer>
-      {value}
-    </StyledValueContainer>
+    <StyledValueContainer>{value}</StyledValueContainer>
   </InComponentContainer>
 )
 
 const OutComponent: FunctionComponent<ValueComponentProps> = ({ value }) => (
   <OutComponentContainer>
     <span className="out">Out</span>
-    <StyledValueContainer>
-      {value}
-    </StyledValueContainer>
+    <StyledValueContainer>{value}</StyledValueContainer>
     <StyledEyeContainer>
-      <img src={EyeIcon} />
+      <img alt="" src={EyeIcon} />
     </StyledEyeContainer>
   </OutComponentContainer>
 )
 
-export { InComponent, OutComponent}
+export { InComponent, OutComponent }

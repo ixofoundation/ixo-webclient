@@ -1,6 +1,6 @@
 import React from 'react'
 
-const ArrowUp: React.FunctionComponent = ({}) => {
+const ArrowUp: React.FunctionComponent = () => {
   return (
     <svg
       width="12"

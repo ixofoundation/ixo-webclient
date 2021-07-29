@@ -56,6 +56,7 @@ const EvaluateCard: React.FunctionComponent<Props> = ({
         {showMedia && (
           <ImageContainer>
             <img
+              alt=""
               src={claimItem.value}
               onError={(error) => setShowMedia(false)}
             />

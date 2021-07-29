@@ -140,7 +140,7 @@ export const selectClaimApiPayload = createSelector(
   selectAnswers,
   (templateDid, type, userDid, entityDid, questions, answers): ApiClaim => {
     return {
-      ['@context']:
+      '@context':
         'https://schema.ixo.foundation/claims/53690e7d550278dbe228ddf35e0ba72b2666cba6',
       id: templateDid,
       type,
@@ -159,7 +159,7 @@ export const selectClaimApiPayload = createSelector(
       }),
       dateTime: serverDateFormat(Date.now()),
       projectDid: entityDid, // needed to make the submission work,
-      claimTemplateId: templateDid
+      claimTemplateId: templateDid,
     }
   },
 )
