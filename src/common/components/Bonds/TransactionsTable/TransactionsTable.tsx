@@ -331,11 +331,22 @@ class TransactionsTable extends Component<any, any> {
           </div>
 
           <div className="pagination">
-            <a className="pageNumber active">{this.state.page}</a>
-            <a className="pageNumber">{this.state.page + 1}</a>
-            <a className="pageNumber">{this.state.page + 2}</a>
-            <a className="pageNumber">...</a>
-            <a className="pageNumber">{this.state.totalPages}</a>
+            {/* TODO: remove href when handling pagination */}
+            <a href="/" className="pageNumber active">
+              {this.state.page}
+            </a>
+            <a href="/" className="pageNumber">
+              {this.state.page + 1}
+            </a>
+            <a href="/" className="pageNumber">
+              {this.state.page + 2}
+            </a>
+            <a href="/" className="pageNumber">
+              ...
+            </a>
+            <a href="/" className="pageNumber">
+              {this.state.totalPages}
+            </a>
           </div>
         </div>
       </div>
