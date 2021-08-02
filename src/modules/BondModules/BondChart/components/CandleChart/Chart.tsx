@@ -322,7 +322,6 @@ const optionsBar = {
   },
 }
 export const Chart: React.FunctionComponent<Props> = ({ data, token }) => {
-
   return (
     <Fragment>
       <StyledHeader>Price of {token}</StyledHeader>
@@ -347,5 +346,5 @@ export const Chart: React.FunctionComponent<Props> = ({ data, token }) => {
 }
 
 Chart.defaultProps = {
-  token: 'EDU'
+  token: 'EDU',
 }

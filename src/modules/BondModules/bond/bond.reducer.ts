@@ -32,6 +32,8 @@ export const reducer = (
         ...state,
         trades: action.payload.trades,
       }
+    case BondActions.ClearBond:
+      return initialState
   }
 
   return state

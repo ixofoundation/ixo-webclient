@@ -1,13 +1,17 @@
 import Axios from "axios";
-import { BondActions, GetBalancesAction, GetTradesAction } from "./types";
+import { BondActions, GetBalancesAction, GetTradesAction, ClearBondAction } from "./types";
 import { Dispatch } from "redux";
 import { get } from 'lodash'
 import { apiCurrencyToCurrency } from "../../Account/Account.utils";
 
+export const clearBond = (): ClearBondAction => ({
+  type: BondActions.ClearBond,
+})
+
 export const getBalances = (bondDid: string) => (
   dispatch: Dispatch
 ): GetBalancesAction => {
-  bondDid = 'did:ixo:49BSStn5nAwrfZwvGT6HFa'
+  dispatch(clearBond())
   const bondRequest = Axios.get(
     `${process.env.REACT_APP_GAIA_URL}/bonds/${bondDid}`,
     {
