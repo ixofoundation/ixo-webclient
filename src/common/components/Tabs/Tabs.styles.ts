@@ -65,12 +65,6 @@ export const createTabsContainer = (
       font-weight: bold;
     }
 
-    &.active-exchange {
-      background: #ED9526;
-      color: white;
-      font-weight: bold;
-    }
-
     &.in-active {
       pointer-events: none;
       cursor: default;
