@@ -58,7 +58,7 @@ class EntityExchange extends React.Component<Props> {
   }
 
   getTabButtons(): any[] {
-    const { did, type, creatorDid, isLoggedIn, bondDid, userDid } = this.props
+    const { did, type } = this.props
 
     const tabs = [
       {
@@ -74,7 +74,7 @@ class EntityExchange extends React.Component<Props> {
       tabs.push({
         iconClass: 'icon-dashboard',
         linkClass: null,
-        path: `/projects/${did}/exchange`,
+        path: `/projects/${did}/detail`,
         title: 'DASHBOARD',
         tooltip: `${type} Management`,
       })
@@ -88,43 +88,13 @@ class EntityExchange extends React.Component<Props> {
       })
     }
 
-    if (bondDid) {
-      if (isLoggedIn) {
-        tabs.push({
-          iconClass: 'icon-funding',
-          linkClass: '',
-          path: `/projects/${did}/bonds/${bondDid}`,
-          title: 'EXCHANGE',
-          tooltip: `${type} Funding`,
-        })
-      } else {
-        if (creatorDid !== userDid) {
-          tabs.push({
-            iconClass: 'icon-funding',
-            linkClass: 'restricted',
-            path: `/projects/${did}/bonds/${bondDid}`,
-            title: 'EXCHANGE',
-            tooltip: `${type} Funding`,
-          })
-        } else {
-          tabs.push({
-            iconClass: 'icon-funding',
-            linkClass: '',
-            path: `/projects/${did}/bonds/${bondDid}`,
-            title: 'EXCHANGE',
-            tooltip: `${type} Funding`,
-          })
-        }
-      }
-    } else {
-      tabs.push({
-        iconClass: 'icon-funding',
-        linkClass: 'restricted',
-        path: `/projects/${did}/bonds/${bondDid}`,
-        title: 'EXCHANGE',
-        tooltip: `${type} Funding`,
-      })
-    }
+    tabs.push({
+      iconClass: 'icon-funding',
+      linkClass: 'active',
+      path: `#`,
+      title: 'EXCHANGE',
+      tooltip: `${type} EXCHANGE`,
+    })
 
     return tabs
   }
