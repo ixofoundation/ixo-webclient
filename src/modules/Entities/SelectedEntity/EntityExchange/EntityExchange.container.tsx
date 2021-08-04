@@ -153,7 +153,7 @@ class EntityExchange extends React.Component<Props> {
     
     const baseRoutes = [
       {
-        url: `/`,
+        url: `#`,
         icon: '',
         sdg: 'Exchange',
         tooltip: '',
