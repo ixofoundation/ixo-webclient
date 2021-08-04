@@ -4,7 +4,7 @@ import { withRouter, RouteComponentProps } from 'react-router'
 import Home from 'assets/icons/Home'
 import Select, { components, ControlProps, OptionProps } from 'react-select'
 
-const Control: React.FunctionComponent<ControlProps<any, any>> = ({
+const Control: React.FunctionComponent<ControlProps<any>> = ({
   children,
   ...rest
 }) => {
@@ -24,7 +24,7 @@ const OptionWrapper = styled.div`
   }
 `
 
-const Option: React.FunctionComponent<OptionProps<any, any>> = ({
+const Option: React.FunctionComponent<OptionProps<any>> = ({
   children,
   ...rest
 }) => {
