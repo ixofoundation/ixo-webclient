@@ -257,7 +257,7 @@ class Header extends React.Component<Props, State> {
                   blocksyncApi.user
                     .registerUserDid(payload, signature, response.fee, 'sync')
                     .then((response: any) => {
-                      if ((response.code || 0) == 0) {
+                      if ((response.code || 0) === 0) {
                         this.setState({
                           shouldLedgerDid: false,
                           modalResponse:

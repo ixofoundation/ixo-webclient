@@ -36,11 +36,11 @@ const StyledEyeContainer = styled.div`
 const ValueComponent: FunctionComponent<ValueComponentProps> = ({ value }) => (
   <ValueComponentContainer>
     <StyledValueContainer>
-      <img src={XIcon} />
+      <img alt="" src={XIcon} />
       {value}
     </StyledValueContainer>
     <StyledEyeContainer>
-      <img src={EyeIcon} />
+      <img alt="" src={EyeIcon} />
     </StyledEyeContainer>
   </ValueComponentContainer>
 )

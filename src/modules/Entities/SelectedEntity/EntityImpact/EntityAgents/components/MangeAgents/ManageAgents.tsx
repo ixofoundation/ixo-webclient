@@ -123,7 +123,7 @@ class ManageAgents extends React.Component<Props, State> {
     const pending = []
     const revoked = []
     const sections = []
-    this.props.agents.map((agent) => {
+    this.props.agents.forEach((agent) => {
       if (agent.status === null) {
         pending.push(agent)
       } else {

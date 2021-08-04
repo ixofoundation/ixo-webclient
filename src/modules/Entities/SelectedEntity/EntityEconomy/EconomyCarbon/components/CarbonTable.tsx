@@ -22,7 +22,7 @@ interface TableProps {
 const renderCell = (cell: any): any => {
   switch (cell.column.id) {
     case 'relayer':
-      return <img src={require('assets/img/relayer.png')} />
+      return <img alt="" src={require('assets/img/relayer.png')} />
     case 'yieldPerIxo':
       return <Value value={cell.value} />
     default:

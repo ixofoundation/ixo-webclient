@@ -121,7 +121,7 @@ export const ModalWrapper: React.SFC<Props> = (props) => {
         >
           <div>
             {props.header.icon && props.header.icon}
-            {props.header.image && <img src={props.header.image} />}
+            {props.header.image && <img alt="" src={props.header.image} />}
           </div>
           <TitleContainer>
             <h3 className={props.header.titleNoCaps === true ? 'noCaps' : ''}>
@@ -146,7 +146,7 @@ export const ModalWrapper: React.SFC<Props> = (props) => {
     >
       <ModalInner color={props.bgColor}>
         <CloseModal onClick={(): void => props.handleToggleModal(false)}>
-          <img src={require('assets/images/icon-close.svg')} />
+          <img alt="" src={require('assets/images/icon-close.svg')} />
         </CloseModal>
         {props.header && renderHeader()}
         <div>{props.children}</div>
