@@ -20,6 +20,7 @@ interface Props {
 }
 
 class InstructionsContainer extends React.Component<Props> {
+  // eslint-disable-next-line
   constructor(props: any) {
     super(props)
   }
@@ -31,7 +32,7 @@ class InstructionsContainer extends React.Component<Props> {
     document.querySelector('#ControlPanelWrapper').classList.add('fixed')
 
     const { templateDid, handleGetClaimTemplate } = this.props
-    
+
     handleGetClaimTemplate(templateDid)
   }
 

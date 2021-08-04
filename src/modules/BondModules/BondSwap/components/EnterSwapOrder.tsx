@@ -1,18 +1,18 @@
-import React, { Dispatch } from "react";
-import { useForm } from "react-hook-form";
-import { withRouter, RouteComponentProps } from "react-router-dom";
-import { connect } from "react-redux";
-import { RootState } from "common/redux/types";
-import { getQuote } from "../BondSwap.actions";
-import { currencyStr, tokenBalance } from "modules/Account/Account.utils";
-import { Currency } from "types/models";
-import * as bondSellSelectors from "../BondSwap.selectors";
+import React, { Dispatch } from 'react'
+import { useForm } from 'react-hook-form'
+import { withRouter, RouteComponentProps } from 'react-router-dom'
+import { connect } from 'react-redux'
+import { RootState } from 'common/redux/types'
+import { getQuote } from '../BondSwap.actions'
+import { currencyStr, tokenBalance } from 'modules/Account/Account.utils'
+import { Currency } from 'types/models'
+import * as bondSellSelectors from '../BondSwap.selectors'
 
 interface Props extends RouteComponentProps {
-  tokenSupply: Currency[];
-  balances: Currency[];
-  quotePending: boolean;
-  handleGetQuote: (sending: Currency, receiving: Currency) => void;
+  tokenSupply: Currency[]
+  balances: Currency[]
+  quotePending: boolean
+  handleGetQuote: (sending: Currency, receiving: Currency) => void
 }
 
 const EnterSwapOrder: React.FunctionComponent<Props> = ({
@@ -21,7 +21,7 @@ const EnterSwapOrder: React.FunctionComponent<Props> = ({
   quotePending,
   handleGetQuote,
 }) => {
-  const { register, handleSubmit, watch, errors } = useForm();
+  const { register, handleSubmit, watch, errors } = useForm()
   // const { state, action } = useStateMachine(wizardUpdateAction);
 
   // const subscriptions: Subscription = new Subscription();
@@ -59,22 +59,22 @@ const EnterSwapOrder: React.FunctionComponent<Props> = ({
     const sending = {
       denom: formData.denom,
       amount: parseInt(formData.amount, 10),
-    };
-    const receiving = { denom: formData.receivingDenom };
+    }
+    const receiving = { denom: formData.receivingDenom }
 
-    handleGetQuote(sending, receiving);
-  };
+    handleGetQuote(sending, receiving)
+  }
 
   if (quotePending) {
-    return <div>Loading quote...</div>;
+    return <div>Loading quote...</div>
   } else {
-    watch();
-    const payDenom = watch("denom") || "res";
-    const recDenom = watch("receivingDenom") || "res";
-    const payOptions: string[] = balances.map((balance) => balance.denom);
+    watch()
+    const payDenom = watch('denom') || 'res'
+    const recDenom = watch('receivingDenom') || 'res'
+    const payOptions: string[] = balances.map((balance) => balance.denom)
 
-    const curBal = currencyStr(tokenBalance(balances, payDenom));
-    const recBal = currencyStr(tokenBalance(balances, recDenom));
+    const curBal = currencyStr(tokenBalance(balances, payDenom))
+    const recBal = currencyStr(tokenBalance(balances, recDenom))
 
     return (
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -96,26 +96,27 @@ const EnterSwapOrder: React.FunctionComponent<Props> = ({
         </div>
         <div
           style={{
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-between",
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'space-between',
           }}
         >
-          <span style={{ marginTop: "-0.5em", padding: "0" }}>
+          <span style={{ marginTop: '-0.5em', padding: '0' }}>
             {errors.amount && (
               <span className="error">This field requires a number value</span>
             )}
           </span>
           <div className="label_subtitle">
-            My current balance is{" "}
+            My current balance is{' '}
             <span className="label_subtitle__bold">{curBal}</span>
           </div>
         </div>
 
         <img
-          src={require("assets/img/arrows-icon.png")}
+          alt=""
+          src={require('assets/img/arrows-icon.png')}
           width={25}
-          style={{ display: "block", margin: "0 auto" }}
+          style={{ display: 'block', margin: '0 auto' }}
         />
 
         {/* displays the balances of the connected Cosmos account addresses */}
@@ -129,13 +130,13 @@ const EnterSwapOrder: React.FunctionComponent<Props> = ({
         </select>
         <div
           style={{
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "flex-end",
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'flex-end',
           }}
         >
           <span className="label_subtitle">
-            My current balance is{" "}
+            My current balance is{' '}
             <span className="label_subtitle__bold">{recBal}</span>
           </span>
         </div>
@@ -145,9 +146,9 @@ const EnterSwapOrder: React.FunctionComponent<Props> = ({
                 Insufficient balance should show an error - which says balance is to low */}
         <div
           style={{
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-between",
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'space-between',
           }}
         >
           <input
@@ -157,22 +158,22 @@ const EnterSwapOrder: React.FunctionComponent<Props> = ({
           />
         </div>
       </form>
-    );
+    )
   }
-};
+}
 
 const mapStateToProps = (state: RootState): any => ({
   quotePending: bondSellSelectors.selectBondSwapQuotePending(state),
   tokenSupply: state.tokenSupply,
   balances: state.account.balances,
-});
+})
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
   handleGetQuote: (sending: Currency, receiving: Currency): void =>
     dispatch(getQuote(sending, receiving)),
-});
+})
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
-)(withRouter(EnterSwapOrder));
+  mapDispatchToProps,
+)(withRouter(EnterSwapOrder))
