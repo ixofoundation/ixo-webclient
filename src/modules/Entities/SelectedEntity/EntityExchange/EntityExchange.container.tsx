@@ -19,6 +19,7 @@ import EntityExchangeStake from './Stake'
 import EntityExchangePools from './Pools'
 import EntityExchangeAirdrop from './Airdrop'
 import EntityExchangeVote from './Vote'
+import { changeEntitiesType } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.actions'
 
 interface Props {
   match: any
@@ -42,6 +43,7 @@ interface Props {
   bondDid: string
   analytics: any[]
   handleGetEntity: (did: string) => void
+  handleChangeEntitiesType: (type: EntityType) => void
 }
 
 class EntityExchange extends React.Component<Props> {
@@ -58,7 +60,9 @@ class EntityExchange extends React.Component<Props> {
   }
 
   getTabButtons(): any[] {
-    const { did, type } = this.props
+    const { did, type, handleChangeEntitiesType } = this.props
+
+    handleChangeEntitiesType(type)
 
     const tabs = [
       {
@@ -153,7 +157,7 @@ class EntityExchange extends React.Component<Props> {
     
     const baseRoutes = [
       {
-        url: `#`,
+        url: `/`,
         icon: '',
         sdg: 'Exchange',
         tooltip: '',
@@ -240,6 +244,8 @@ const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
   handleGetEntity: (did: string): void => dispatch(getEntity(did)),
   handleGetClaimTemplate: (templateDid): void =>
     dispatch(getClaimTemplate(templateDid)),
+  handleChangeEntitiesType: (type: EntityType): void =>
+    dispatch(changeEntitiesType(type)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(EntityExchange)
