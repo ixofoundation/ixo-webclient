@@ -40,11 +40,11 @@ const Value: FunctionComponent<ValueProps> = ({ value }) => {
   return (
     <ValueComponentContainer theme={theme}>
       <StyledValueContainer>
-        <img src={XIcon} />
+        <img alt="" src={XIcon} />
         {value}
       </StyledValueContainer>
       <StyledEyeContainer theme={theme}>
-        <img src={EyeIcon} />
+        <img alt="" src={EyeIcon} />
       </StyledEyeContainer>
     </ValueComponentContainer>
   )

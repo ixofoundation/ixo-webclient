@@ -112,7 +112,7 @@ export const iconUpload = (): string => {
 const isoCountriesTmp: any = {}
 const isoCountriesLatLngTmp = {}
 
-countryLatLng.map((value) => {
+countryLatLng.forEach((value) => {
   isoCountriesTmp[value.alpha2] = value.country
   isoCountriesLatLngTmp[value.alpha2] = {
     lat: value.latitude,
