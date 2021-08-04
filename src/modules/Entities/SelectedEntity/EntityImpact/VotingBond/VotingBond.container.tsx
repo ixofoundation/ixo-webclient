@@ -124,6 +124,7 @@ const VotingBond: React.FunctionComponent<Props> = ({
         setShare(getBalanceNumber(token.amount))
       }
     })
+    // eslint-disable-next-line
   }, [])
 
   const tiles = useMemo(() => {

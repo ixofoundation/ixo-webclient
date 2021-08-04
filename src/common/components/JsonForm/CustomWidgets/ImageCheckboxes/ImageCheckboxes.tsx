@@ -59,7 +59,7 @@ const CheckboxesWidget: React.FunctionComponent<Props> = ({
               />
               <span>{option.label}</span>
             </div>
-            <img src={image} />
+            <img alt="" src={image} />
           </span>
         )
         return inline ? (
