@@ -19,6 +19,7 @@ import { ProjectType } from 'pages/bond/store/types'
 import { Entity } from 'modules/Entities/SelectedEntity/types'
 import { EntityAgentsState } from 'modules/Entities/SelectedEntity/EntityImpact/EntityAgents/types'
 import { EvaluateClaimState } from 'modules/Entities/SelectedEntity/EntityImpact/EvaluateClaim/types'
+import { EntityExchangeState } from 'modules/Entities/SelectedEntity/EntityExchange/types'
 import { CreateEntityTemplateState } from 'modules/Entities/CreateEntity/CreateTemplate/types'
 
 export interface RootState {
@@ -35,6 +36,7 @@ export interface RootState {
   submitEntityClaim: SubmitEntityClaimState
   selectedEntity: Entity
   selectedEntityAgents: EntityAgentsState
+  selectedEntityExchange: EntityExchangeState
   createEntity: CreateEntityState
   createEntityPageContent: CreateEntityPageContentState
   createEntityAttestation: CreateEntityAttestationState

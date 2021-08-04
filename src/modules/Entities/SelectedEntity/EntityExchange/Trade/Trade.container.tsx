@@ -1,20 +1,20 @@
-import React, { useState } from 'react'
-
-// export interface Props {
-// }
+import React from 'react'
+import { useDispatch } from 'react-redux'
+import { changeTradeMethod } from '../EntityExchange.actions'
 
 const Trade: React.FunctionComponent = () => {
 
-  const [action, setAction] = useState('Swap')
+  const dispatch = useDispatch()
 
-  const handleAction = (event: any): any => {
-    setAction(event.target.value)
+  const handleMethod = (event: any): any => {
+    const newMethod = event.target.value
+    dispatch(changeTradeMethod(newMethod))
   }
 
   return (
     <>
       <h1>Trade</h1>
-      <select name="action" onChange={handleAction}>
+      <select name="method" onChange={handleMethod}>
         <option value="Swap">Swap</option>
         <option value="Purchase">Purchase</option>
         <option value="Sell">Sell</option>
