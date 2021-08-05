@@ -5,13 +5,21 @@ import { changeTradeMethod } from '../EntityExchange.actions'
 import DataCard from 'modules/Entities/EntitiesExplorer/components/EntityCard/AssetCard/AssetCard'
 import { TermsOfUseType } from 'modules/Entities/types'
 import keysafe from 'common/keysafe/keysafe'
-import { CardHeader, CardBody, WalletBox } from './Trade.container.styles'
+import {
+  CardHeader,
+  CardBody,
+  WalletBox,
+  PurchaseBox,
+  RateBox,
+} from './Trade.container.styles'
 import { TradeMethodType } from '../types'
 import SelectMethod from './partials/SelectMethod'
 
 import IMG_wallet1 from 'assets/images/exchange/wallet1.svg'
 import IMG_wallet2 from 'assets/images/exchange/wallet2.svg'
 import IMG_wallet3 from 'assets/images/exchange/wallet3.svg'
+import IMG_token_usdc from 'assets/images/exchange/token-usdc.svg'
+import IMG_token_rhino from 'assets/images/exchange/token-rhino.svg'
 import IMG_arrow_down from 'assets/images/exchange/arrow-down.svg'
 
 const Trade: React.FunctionComponent = () => {
@@ -106,20 +114,63 @@ const Trade: React.FunctionComponent = () => {
               )}
             </CardHeader>
 
-            <CardBody>
-              <WalletBox>
-                <img src={IMG_wallet1} alt='wallet1' />
-                <span>WalletConnect</span>
-              </WalletBox>
-              <WalletBox onClick={handleWalletClick}>
-                <img src={IMG_wallet2} alt='wallet1' />
-                <span>Keplr</span>
-              </WalletBox>
-              <WalletBox>
-                <img src={IMG_wallet3} alt='wallet1' />
-                <span>ixo mobile</span>
-              </WalletBox>
-            </CardBody>
+            {method === null && (
+              <CardBody>
+                <WalletBox>
+                  <img src={IMG_wallet1} alt='wallet1' />
+                  <span>WalletConnect</span>
+                </WalletBox>
+                <WalletBox onClick={handleWalletClick}>
+                  <img src={IMG_wallet2} alt='wallet2' />
+                  <span>Keplr</span>
+                </WalletBox>
+                <WalletBox>
+                  <img src={IMG_wallet3} alt='wallet3' />
+                  <span>ixo mobile</span>
+                </WalletBox>
+              </CardBody>
+            )}
+            {method !== null && (
+              <>
+                <CardBody>
+                  <PurchaseBox>
+                    <img
+                      src={IMG_token_usdc}
+                      alt='usdc'
+                      style={{ marginRight: '10px' }}
+                    />
+                    <div className='d-inline-flex flex-column'>
+                      <span className='token-label'>USDC</span>
+                      <span className='token-amount'>100 USDC</span>
+                    </div>
+                  </PurchaseBox>
+
+                  <div style={{ marginTop: '10px' }} />
+
+                  <PurchaseBox>
+                    <img
+                      src={IMG_token_rhino}
+                      alt='rhino'
+                      style={{ marginRight: '10px' }}
+                    />
+                    <span className='token-label'>White Rhino Token</span>
+                    <div className="triangle-left"/>
+                  </PurchaseBox>
+                </CardBody>
+
+                <div style={{ marginTop: '10px' }} />
+
+                <CardBody style={{ padding: '20px' }}>
+                  <RateBox>
+                    <span>Price</span>
+                    <br />
+                    1,200 USDC
+                    <br />
+                    <span>For 1 WHITE RHINO</span>
+                  </RateBox>
+                </CardBody>
+              </>
+            )}
           </div>
         </div>
       )}
