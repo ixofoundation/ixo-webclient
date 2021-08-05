@@ -69,7 +69,7 @@ export const PurchaseBox = styled.div`
     border-bottom: 11px solid transparent;
     border-right: 20px solid #083347;
     position: absolute;
-    left: 6px;
+    left: -10px;
   }
   
   & .triangle-left:after {
