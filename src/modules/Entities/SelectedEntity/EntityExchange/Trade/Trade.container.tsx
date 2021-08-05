@@ -5,7 +5,7 @@ import { changeTradeMethod } from '../EntityExchange.actions'
 import DataCard from 'modules/Entities/EntitiesExplorer/components/EntityCard/AssetCard/AssetCard'
 import { TermsOfUseType } from 'modules/Entities/types'
 import keysafe from 'common/keysafe/keysafe'
-import { CardHeader, CardBodyWallet, WalletBox } from './Trade.container.styles'
+import { CardHeader, CardBody, WalletBox } from './Trade.container.styles'
 import { TradeMethodType } from '../types'
 import SelectMethod from './partials/SelectMethod'
 
@@ -17,9 +17,7 @@ import IMG_arrow_down from 'assets/images/exchange/arrow-down.svg'
 const Trade: React.FunctionComponent = () => {
   const dispatch = useDispatch()
   const [signedIn, setSignedIn] = useState<boolean>(false)
-  const [method, setMethod] = useState<TradeMethodType>(
-    TradeMethodType.Purchase,
-  )
+  const [method, setMethod] = useState<TradeMethodType>(null)
   const [methodHover, setMethodHover] = useState<boolean>(false)
   const selectedEntity = useSelector((state: RootState) => state.selectedEntity)
 
@@ -41,6 +39,9 @@ const Trade: React.FunctionComponent = () => {
         console.log('signature', signature)
         if (!signError) {
           setSignedIn(true)
+          handleMethodChange(TradeMethodType.Purchase)
+        } else {
+          setSignedIn(false)
         }
       },
       'base64',
@@ -105,7 +106,7 @@ const Trade: React.FunctionComponent = () => {
               )}
             </CardHeader>
 
-            <CardBodyWallet>
+            <CardBody>
               <WalletBox>
                 <img src={IMG_wallet1} alt='wallet1' />
                 <span>WalletConnect</span>
@@ -118,7 +119,7 @@ const Trade: React.FunctionComponent = () => {
                 <img src={IMG_wallet3} alt='wallet1' />
                 <span>ixo mobile</span>
               </WalletBox>
-            </CardBodyWallet>
+            </CardBody>
           </div>
         </div>
       )}

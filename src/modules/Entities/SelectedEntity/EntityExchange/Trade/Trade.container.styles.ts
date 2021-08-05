@@ -18,7 +18,7 @@ export const CardHeader = styled.span`
   }
 `
 
-export const CardBodyWallet = styled.div`
+export const CardBody = styled.div`
   background: linear-gradient(180deg, #01273A 0%, #002D42 100%);
   border: 1px solid #083347;
   box-sizing: border-box;

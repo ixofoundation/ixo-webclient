@@ -123,7 +123,7 @@ class EntityExchange extends React.Component<Props> {
       {
         url: `/projects/${did}/exchange`,
         icon: require('assets/img/sidebar/trade.svg'),
-        sdg: tradeMethod,
+        sdg: tradeMethod ?? 'Trade',
         tooltip: 'Trade',
       },
       {
