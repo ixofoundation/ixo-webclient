@@ -10,6 +10,7 @@ export const PopoverList = styled.div`
   position: absolute;
   top: -20px;
   left: 20px;
+  z-index: 102;
 `
 
 export const PopoverItem = styled.div`
