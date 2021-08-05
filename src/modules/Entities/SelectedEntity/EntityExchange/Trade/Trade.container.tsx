@@ -24,12 +24,31 @@ import IMG_token_rhino from 'assets/images/exchange/token-rhino.svg'
 import IMG_arrow_down from 'assets/images/exchange/arrow-down.svg'
 import IMG_swap from 'assets/images/exchange/swap.svg'
 
+interface TokenInfo {
+  src: string
+  name: string
+  unit: string
+  amount: number
+}
+
 const Trade: React.FunctionComponent = () => {
   const dispatch = useDispatch()
+  const selectedEntity = useSelector((state: RootState) => state.selectedEntity)
   const [signedIn, setSignedIn] = useState<boolean>(false)
   const [method, setMethod] = useState<TradeMethodType>(null)
   const [methodHover, setMethodHover] = useState<boolean>(false)
-  const selectedEntity = useSelector((state: RootState) => state.selectedEntity)
+  const [fromToken, setFromToken] = useState<TokenInfo>({
+    src: IMG_token_usdc,
+    name: 'USDC',
+    unit: 'USDC',
+    amount: 100,
+  })
+  const [toToken, setToToken] = useState<TokenInfo>({
+    src: IMG_token_rhino,
+    name: 'White Rhino Token',
+    unit: 'WRT',
+    amount: 1,
+  })
 
   const handleMethodChange = (newMethod: TradeMethodType): any => {
     setMethod(newMethod)
@@ -56,6 +75,11 @@ const Trade: React.FunctionComponent = () => {
       },
       'base64',
     )
+  }
+
+  const handleSwapClick = (): any => {
+    setFromToken(toToken)
+    setToToken(fromToken)
   }
 
   useEffect(() => {
@@ -137,13 +161,15 @@ const Trade: React.FunctionComponent = () => {
                 <CardBody>
                   <PurchaseBox>
                     <img
-                      src={IMG_token_usdc}
-                      alt='usdc'
+                      src={fromToken.src}
+                      alt={fromToken.name}
                       style={{ marginRight: '10px' }}
                     />
                     <div className='d-inline-flex flex-column'>
-                      <span className='token-label'>USDC</span>
-                      <span className='token-amount'>100 USDC</span>
+                      <span className='token-label'>{fromToken.name}</span>
+                      <span className='token-amount'>
+                        {fromToken.amount}&nbsp;{fromToken.unit}
+                      </span>
                     </div>
                   </PurchaseBox>
 
@@ -151,15 +177,18 @@ const Trade: React.FunctionComponent = () => {
 
                   <PurchaseBox>
                     <img
-                      src={IMG_token_rhino}
-                      alt='rhino'
+                      src={toToken.src}
+                      alt={toToken.name}
                       style={{ marginRight: '10px' }}
                     />
-                    <span className='token-label'>White Rhino Token</span>
+                    <span className='token-label'>{toToken.name}</span>
                     <div className='triangle-left' />
                   </PurchaseBox>
 
-                  <SwapButton className="d-flex justify-content-center align-itmes-center">
+                  <SwapButton
+                    className='d-flex justify-content-center align-itmes-center'
+                    onClick={handleSwapClick}
+                  >
                     <img src={IMG_swap} alt='swap button' />
                   </SwapButton>
                 </CardBody>
