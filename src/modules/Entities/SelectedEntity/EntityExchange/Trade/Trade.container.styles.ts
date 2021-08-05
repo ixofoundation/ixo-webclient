@@ -5,7 +5,6 @@ import styled from 'styled-components'
 // const textHint = "#828E94";
 
 export const CardHeader = styled.span`
-  font-family: ${(props: any): string => props.theme.fontRobotoCondensed};
   font-style: normal;
   font-weight: normal;
   font-size: 24px;
@@ -13,6 +12,10 @@ export const CardHeader = styled.span`
   display: flex;
   align-items: center;
   color: #FFFFFF;
+
+  & > span {
+    color: #00D2FF;
+  }
 `
 
 export const CardBodyWallet = styled.div`

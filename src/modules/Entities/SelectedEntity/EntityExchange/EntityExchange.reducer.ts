@@ -8,7 +8,7 @@ import {
 
 
 export const initialState: EntityExchangeState = {
-  tradeMethod: TradeMethodType.Swap
+  tradeMethod: TradeMethodType.Purchase
 }
 
 export const reducer = (

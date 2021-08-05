@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from 'common/redux/types'
 import { changeTradeMethod } from '../EntityExchange.actions'
@@ -6,18 +6,26 @@ import DataCard from 'modules/Entities/EntitiesExplorer/components/EntityCard/As
 import { TermsOfUseType } from 'modules/Entities/types'
 import keysafe from 'common/keysafe/keysafe'
 import { CardHeader, CardBodyWallet, WalletBox } from './Trade.container.styles'
+import { TradeMethodType } from '../types'
+import SelectMethod from './partials/SelectMethod'
 
 import IMG_wallet1 from 'assets/images/exchange/wallet1.svg'
 import IMG_wallet2 from 'assets/images/exchange/wallet2.svg'
 import IMG_wallet3 from 'assets/images/exchange/wallet3.svg'
+import IMG_arrow_down from 'assets/images/exchange/arrow-down.svg'
 
 const Trade: React.FunctionComponent = () => {
   const dispatch = useDispatch()
-
+  const [signedIn, setSignedIn] = useState<boolean>(false)
+  const [method, setMethod] = useState<TradeMethodType>(
+    TradeMethodType.Purchase,
+  )
+  const [methodHover, setMethodHover] = useState<boolean>(false)
   const selectedEntity = useSelector((state: RootState) => state.selectedEntity)
 
-  const handleMethod = (event: any): any => {
-    const newMethod = event.target.value
+  const handleMethodChange = (newMethod: TradeMethodType): any => {
+    setMethod(newMethod)
+    setMethodHover(false)
     dispatch(changeTradeMethod(newMethod))
   }
 
@@ -31,6 +39,9 @@ const Trade: React.FunctionComponent = () => {
       (signError: any, signature: any): any => {
         console.log('signError', signError)
         console.log('signature', signature)
+        if (!signError) {
+          setSignedIn(true)
+        }
       },
       'base64',
     )
@@ -60,18 +71,39 @@ const Trade: React.FunctionComponent = () => {
             />
           </div>
           <div className='col-4'>
-            <CardHeader>Connect My Wallet</CardHeader>
-            <select
-              name='method'
-              onChange={handleMethod}
-              style={{ display: 'none' }}
-            >
-              <option value='Swap'>Swap</option>
-              <option value='Purchase'>Purchase</option>
-              <option value='Sell'>Sell</option>
-              <option value='Auction'>Auction</option>
-              <option value='Bid'>Bid</option>
-            </select>
+            <CardHeader>
+              {!signedIn && 'Connect My Wallet'}
+              {signedIn && (
+                <>
+                  I want to&nbsp;
+                  <span
+                    className='position-relative'
+                    style={{ cursor: 'pointer' }}
+                  >
+                    {method}&nbsp;
+                    <img
+                      src={IMG_arrow_down}
+                      alt='drop down'
+                      width={'13px'}
+                      onMouseEnter={(): any => {
+                        setMethodHover(true)
+                      }}
+                      onMouseLeave={(): any => {
+                        setMethodHover(false)
+                      }}
+                    />
+                    {methodHover && (
+                      <SelectMethod
+                        handleMethodChange={handleMethodChange}
+                        handleMethodHover={(hover): any => {
+                          setMethodHover(hover)
+                        }}
+                      />
+                    )}
+                  </span>
+                </>
+              )}
+            </CardHeader>
 
             <CardBodyWallet>
               <WalletBox>
