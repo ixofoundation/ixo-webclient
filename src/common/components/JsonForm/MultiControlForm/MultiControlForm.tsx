@@ -16,7 +16,7 @@ interface Props {
   onFormDataChange: (formData: any) => void
   onSubmit: () => void
   onError?: (fields: string[]) => void
-  validate?: (formData:any, errors: FormValidation) => FormValidation
+  validate?: (formData: any, errors: FormValidation) => FormValidation
 }
 
 const MultiControlForm: React.FunctionComponent<Props> = React.forwardRef(
@@ -32,7 +32,7 @@ const MultiControlForm: React.FunctionComponent<Props> = React.forwardRef(
       onFormDataChange,
       onSubmit,
       onError,
-      validate
+      validate,
     },
     ref,
   ) => {
@@ -44,6 +44,7 @@ const MultiControlForm: React.FunctionComponent<Props> = React.forwardRef(
       if (validationComplete) {
         jsonFormRef.current.submit()
       }
+      // eslint-disable-next-line
     }, [validationComplete])
 
     useImperativeHandle(ref, () => ({
@@ -53,7 +54,7 @@ const MultiControlForm: React.FunctionComponent<Props> = React.forwardRef(
         } else {
           setValidatedComplete(true)
         }
-      }
+      },
     }))
 
     const handleTouched = (id): void => {
@@ -61,13 +62,15 @@ const MultiControlForm: React.FunctionComponent<Props> = React.forwardRef(
     }
 
     const handleError = (errors: any[]): void => {
-      onError(errors.map(error => {
-        if (error.property) {
-          error.property.replace('.', '')
-        }
+      onError(
+        errors.map((error) => {
+          if (error.property) {
+            error.property.replace('.', '')
+          }
 
-        return error
-      }))
+          return error
+        }),
+      )
     }
 
     return (
@@ -78,7 +81,7 @@ const MultiControlForm: React.FunctionComponent<Props> = React.forwardRef(
           onChange={(e): void => onFormDataChange(e.formData)}
           onSubmit={onSubmit}
           noHtml5Validate
-          liveValidate={ liveValidate }
+          liveValidate={liveValidate}
           showErrorList={false}
           schema={schema}
           uiSchema={uiSchema}
@@ -94,7 +97,7 @@ const MultiControlForm: React.FunctionComponent<Props> = React.forwardRef(
           ObjectFieldTemplate={
             multiColumn ? ObjectFieldTemplate2Column : undefined
           }
-          extraErrors={ extraErrors }
+          extraErrors={extraErrors}
         >
           {children}
         </Form>

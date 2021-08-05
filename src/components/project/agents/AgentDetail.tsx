@@ -36,17 +36,16 @@ const Details = styled.div`
   @media (max-width: ${deviceWidth.mobile}px) {
     flex-direction: column;
   }
-
 `
 const Name = styled.h3`
   color: #fff;
   font-size: 1.5rem;
   font-weight: 700;
-  margin-bottom: .2rem;
+  margin-bottom: 0.2rem;
 `
 
 const Job = styled.div`
-  color: #83D9F2;
+  color: #83d9f2;
   font-size: 0.75rem;
 `
 const Username = styled.div`
@@ -64,7 +63,7 @@ const Username = styled.div`
 `
 
 const Exclamation = styled.div`
-  color: #39C3E6;
+  color: #39c3e6;
   font-size: 1rem;
   font-weight: 700;
   margin-right: 7px;
@@ -85,30 +84,30 @@ const Avatar = styled.img`
   height: 137px;
 `
 
-const ItemsContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  > div {
-    background: #022D43;
-    padding: 0.5rem 1rem;
-    margin-bottom: 0.4rem;
-  }
-`
+// const ItemsContainer = styled.div`
+//   display: flex;
+//   flex-direction: column;
+//   > div {
+//     background: #022D43;
+//     padding: 0.5rem 1rem;
+//     margin-bottom: 0.4rem;
+//   }
+// `
 
-const Bullet = styled.div`
-  width: 0.75rem;
-  height: 0.75rem;
-  background: ${props => props.color ? props.color : '#ffffff'};
-  border-radius: 1rem;
-  margin-right: 0.625rem;
-`
+// const Bullet = styled.div`
+//   width: 0.75rem;
+//   height: 0.75rem;
+//   background: ${(props) => (props.color ? props.color : '#ffffff')};
+//   border-radius: 1rem;
+//   margin-right: 0.625rem;
+// `
 
-const ClaimLabel = styled.span`
-  font-size: 14px;
-`
+// const ClaimLabel = styled.span`
+//   font-size: 14px;
+// `
 
 const Divider = styled.hr`
-  border-color: #143F54;
+  border-color: #143f54;
   margin-top: 1rem;
   margin-bottom: 0.75rem;
   @media (max-width: ${deviceWidth.mobile}px) {
@@ -122,7 +121,7 @@ const ButtonWrapper = styled.div`
 `
 
 const ActionButtonContainer = styled.div`
-  border-top: 1px solid #143F54;
+  border-top: 1px solid #143f54;
   display: flex;
   justify-content: space-between;
   padding-top: 1rem;
@@ -131,9 +130,10 @@ const ActionButtonContainer = styled.div`
 
 const ActionButton = styled.button`
   border-radius: 4px;
-  color: ${/* eslint-disable-line */ (props) => props.theme.fontDarkBlueButtonHover};
+  color: ${/* eslint-disable-line */ (props) =>
+    props.theme.fontDarkBlueButtonHover};
   font-size: 1rem;
-  border: 1px solid #29C7ED;
+  border: 1px solid #29c7ed;
   font-weight: bold;
   background: transparent;
   padding: 0.4rem 1rem;
@@ -143,14 +143,15 @@ const ActionButton = styled.button`
   }
 
   &.green {
-    background: linear-gradient(180deg, #41C1E4 0%, #49BFE0 100%);
+    background: linear-gradient(180deg, #41c1e4 0%, #49bfe0 100%);
     color: white;
     border-width: 0;
 
     :hover {
       background: ${/* eslint-disable-line */ (props) =>
         props.theme.bg.fontDarkBlue};
-      color: ${/* eslint-disable-line */ (props) => props.theme.fontDarkBlueButtonHover};
+      color: ${/* eslint-disable-line */ (props) =>
+        props.theme.fontDarkBlueButtonHover};
     }
   }
 
@@ -168,7 +169,12 @@ export interface Props {
   handleReject: (agent: EntityAgent) => void
 }
 
-const AgentDetail : React.FunctionComponent<Props> = ({agent, onClose, handleAuthorize, handleReject}) => {
+const AgentDetail: React.FunctionComponent<Props> = ({
+  agent,
+  onClose,
+  handleAuthorize,
+  handleReject,
+}) => {
   const [expanded, setExpanded] = React.useState(false)
 
   const handleAuthorizeClick = (event: React.SyntheticEvent): void => {
@@ -186,66 +192,70 @@ const AgentDetail : React.FunctionComponent<Props> = ({agent, onClose, handleAut
   return (
     <DetailContainer>
       <div
-        onMouseEnter={ ():void => setExpanded(true) }
-        onMouseLeave={ ():void => setExpanded(false) }
+        onMouseEnter={(): void => setExpanded(true)}
+        onMouseLeave={(): void => setExpanded(false)}
       >
-      <Details
-      >
-        <Avatar src={ require('assets/images/user-thumb.png') } className="mb-2 mb-sm-0 mr-sm-3" />
-        <div className="d-flex flex-column flex-grow-1 ml-3 align-items-sm-start align-items-center">
-          <Name>
-            { agent.name }
-          </Name>
-          <Job>
-            { agent.role === AgentRole.ServiceProvider ? 'Service Provider': 'Evaluator' }
-          </Job>
-          <Username>
-            <a href={`mailto:${agent.email}`}>
-              <Exclamation></Exclamation>{ agent.email }
-            </a>
-          </Username>
-          <Logos>
-            <Call fill="#39C3E6" />
-            <Message fill="#39C3E6" />
-            <Linkedin />
-            <Twitter />
-            <Github />
-            <div className="d-flex align-items-center ml-auto">
-              <img src={ require('assets/images/agents/icon-shield.svg') } />
-              <img src={ require('assets/images/agents/icon-shield.svg') } className="ml-3" />
-              <img src={ require('assets/images/agents/icon-shield.svg') } className="ml-3" />
-            </div>
-          </Logos>
-        </div>
-      </Details>
-      <Expand
-        expanded={ expanded }
-      >
-        <ActionButtonContainer
-        >
-          <ActionButton
-          >
-            Message
-            <Texting />
-          </ActionButton>
-          <div className="d-flex">
-            <ActionButton
-              className="mr-2"
-              onClick={handleRejectClick}
-            >
-              Reject
-              <Cross />
-            </ActionButton>
-            <ActionButton
-              className="green"
-              onClick={handleAuthorizeClick}
-            >
-              Authorize
-              <Tick />
-            </ActionButton>
+        <Details>
+          <Avatar
+            src={require('assets/images/user-thumb.png')}
+            className="mb-2 mb-sm-0 mr-sm-3"
+          />
+          <div className="d-flex flex-column flex-grow-1 ml-3 align-items-sm-start align-items-center">
+            <Name>{agent.name}</Name>
+            <Job>
+              {agent.role === AgentRole.ServiceProvider
+                ? 'Service Provider'
+                : 'Evaluator'}
+            </Job>
+            <Username>
+              <a href={`mailto:${agent.email}`}>
+                <Exclamation></Exclamation>
+                {agent.email}
+              </a>
+            </Username>
+            <Logos>
+              <Call fill="#39C3E6" />
+              <Message fill="#39C3E6" />
+              <Linkedin />
+              <Twitter />
+              <Github />
+              <div className="d-flex align-items-center ml-auto">
+                <img
+                  alt=""
+                  src={require('assets/images/agents/icon-shield.svg')}
+                />
+                <img
+                  alt=""
+                  src={require('assets/images/agents/icon-shield.svg')}
+                  className="ml-3"
+                />
+                <img
+                  alt=""
+                  src={require('assets/images/agents/icon-shield.svg')}
+                  className="ml-3"
+                />
+              </div>
+            </Logos>
           </div>
-        </ActionButtonContainer>
-      </Expand>
+        </Details>
+        <Expand expanded={expanded}>
+          <ActionButtonContainer>
+            <ActionButton>
+              Message
+              <Texting />
+            </ActionButton>
+            <div className="d-flex">
+              <ActionButton className="mr-2" onClick={handleRejectClick}>
+                Reject
+                <Cross />
+              </ActionButton>
+              <ActionButton className="green" onClick={handleAuthorizeClick}>
+                Authorize
+                <Tick />
+              </ActionButton>
+            </div>
+          </ActionButtonContainer>
+        </Expand>
       </div>
       <Divider />
       {/* <ItemsContainer>
@@ -322,14 +332,13 @@ const AgentDetail : React.FunctionComponent<Props> = ({agent, onClose, handleAut
           </div>
         </div>
       </ItemsContainer> */}
-      <ButtonWrapper >
-        <Button type={ ButtonTypes.dark } onClick={ onClose }>
+      <ButtonWrapper>
+        <Button type={ButtonTypes.dark} onClick={onClose}>
           Close
         </Button>
       </ButtonWrapper>
-
     </DetailContainer>
   )
-};
+}
 
-export default AgentDetail;
+export default AgentDetail

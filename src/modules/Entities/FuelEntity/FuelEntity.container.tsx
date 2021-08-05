@@ -9,6 +9,7 @@ interface Props {
 }
 
 class FuelEntity extends React.Component<Props & RouteProps> {
+  // eslint-disable-next-line
   constructor(props: any) {
     super(props)
   }

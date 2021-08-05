@@ -414,7 +414,7 @@ export const fetchExistingEntity = (did: string) =>(
             "errors": []
           }
         },
-        "headlineTemplateId": headlineMetric.claimTemplateId,
+        "headlineTemplateId": headlineMetric ? headlineMetric.claimTemplateId : undefined,
         "embeddedAnalytics": embeddedAnalytics.reduce((obj, item) => {
           const uuid = uuidv4()
           identifiers.push(uuid)
@@ -564,6 +564,7 @@ export const fetchExistingEntity = (did: string) =>(
       }))
     })
   }).catch((err) => {
+    console.log('ffffffffffffffffffffff', err)
     dispatch({
       type: CreateEntityTemplateActions.FetchExistingEntityFailure,
     })

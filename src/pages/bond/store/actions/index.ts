@@ -24,7 +24,7 @@ export const getProjectAccounts = (projectDID) => (
       const promises = []
       Object.values(responses.data).forEach(value => {
         promises.push(new Promise((resolve, reject) => {
-          getAccountBalance(value).then(response => resolve(response.data.result))
+          getAccountBalance(value[projectDID]).then(response => resolve(response.data.result))
           .catch(e => reject(e))
         }))
       })

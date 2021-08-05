@@ -271,14 +271,15 @@ export const reducer = (
         ...state,
         embeddedAnalytics: reduxUtils.omitKey(state.embeddedAnalytics, action.payload.id),
       }
-    case CreateEntityActions.NewEntity:
-    case CreateEntityActions.CreateEntitySuccess:
-      return initialState
     case CreateEntitySettingsActions.ImportEntitySettings:
       return {
         ...state,
         ...action.payload
       }
+    case CreateEntityActions.NewEntity:
+    case CreateEntityActions.CreateEntitySuccess:
+      return initialState
+
   }
 
   return state

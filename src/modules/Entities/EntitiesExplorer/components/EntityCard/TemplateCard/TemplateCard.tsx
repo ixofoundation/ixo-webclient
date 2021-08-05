@@ -13,7 +13,7 @@ import {
   StatisticValue,
   CardBottomLogoContainer,
 } from '../EntityCard.styles'
-import Star from 'assets/icons/Star'
+// import Star from 'assets/icons/Star'
 import { TermsOfUseType } from 'modules/Entities/types'
 import { termsOfUseTypeStrategyMap } from 'modules/Entities/strategy-map'
 import Tooltip, { TooltipPosition } from 'common/components/Tooltip/Tooltip'
