@@ -6,9 +6,14 @@ import {
   CardLayout,
   CardHeader,
   CardBodyAsset,
+  CardBodyWallet,
+  WalletBox
 } from './Trade.container.styles'
 
-import IMG_lock from "assets/images/lock.svg"
+import IMG_lock from 'assets/images/lock.svg'
+import IMG_wallet1 from 'assets/images/exchange/wallet1.svg'
+import IMG_wallet2 from 'assets/images/exchange/wallet2.svg'
+import IMG_wallet3 from 'assets/images/exchange/wallet3.svg'
 
 const Trade: React.FunctionComponent = () => {
   const dispatch = useDispatch()
@@ -71,35 +76,47 @@ const Trade: React.FunctionComponent = () => {
 
             <div style={{ marginTop: '10px' }} />
 
-            <div className="count">
-              <span><b>1</b>/8</span>
+            <div className='count'>
+              <span>
+                <b>1</b>/8
+              </span>
               <span>#02</span>
-              <div className="float-right" style={{ marginTop: '7px' }}>
-                <img src={IMG_lock} alt="locked" />
+              <div className='float-right' style={{ marginTop: '7px' }}>
+                <img src={IMG_lock} alt='locked' />
               </div>
             </div>
 
-            <div className="verified">
-              Verified Live and Well
-            </div>
+            <div className='verified'>Verified Live and Well</div>
 
-            <div className="datetime">
-              By MIT  •  31/12/2022
-            </div>
-
-
+            <div className='datetime'>By MIT • 31/12/2022</div>
           </div>
         </CardBodyAsset>
       </CardLayout>
       <CardLayout>
         <CardHeader>Connect My Wallet</CardHeader>
-        <select name='method' onChange={handleMethod}>
+        {/* <select name='method' onChange={handleMethod}>
           <option value='Swap'>Swap</option>
           <option value='Purchase'>Purchase</option>
           <option value='Sell'>Sell</option>
           <option value='Auction'>Auction</option>
           <option value='Bid'>Bid</option>
-        </select>
+        </select> */}
+
+        <CardBodyWallet>
+          <WalletBox>
+            <img src={IMG_wallet1} alt='wallet1' />
+            <span>WalletConnect</span>
+          </WalletBox>
+          <WalletBox>
+            <img src={IMG_wallet2} alt='wallet1' />
+            <span>Keplr</span>
+          </WalletBox>
+          <WalletBox>
+            <img src={IMG_wallet3} alt='wallet1' />
+            <span>ixo mobile</span>
+          </WalletBox>
+        </CardBodyWallet>
+
       </CardLayout>
     </TradeContainerLayout>
   )

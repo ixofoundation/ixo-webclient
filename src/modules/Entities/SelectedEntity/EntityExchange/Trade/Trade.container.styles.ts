@@ -208,6 +208,7 @@ export const SubNavItem = styled(NavLink).attrs({
 export const TradeContainerLayout = styled.div`
   width: 100%;
   padding: 0px 30px;
+  display: flex;
 `
 export const CardLayout = styled.div`
   display: inline-block;
@@ -226,7 +227,7 @@ export const CardHeader = styled.span`
 `
 export const CardBodyAsset = styled.div`
   box-shadow: -1px 10px 30px rgba(0, 0, 0, 0.25);
-  border-radius: 5px;
+  border-radius: 10px;
   width: 300px;
   font-family: ${(props: any): string => props.theme.fontRobotoCondensed};
   font-style: normal;
@@ -234,7 +235,7 @@ export const CardBodyAsset = styled.div`
   & > img {
     width: 100%;
     box-shadow: 0px 10px 35px 0px rgb(0 0 0 / 25%);
-    border-radius: 5px;
+    border-radius: 10px;
     border-bottom-left-radius: unset;
     border-bottom-right-radius: unset;
   }
@@ -331,5 +332,40 @@ export const CardBodyAsset = styled.div`
     line-height: 15px;
     color: ${textSecondary};
     padding-top: 3px;
+  }
+`
+export const CardBodyWallet = styled.div`
+  background: linear-gradient(180deg, #01273A 0%, #002D42 100%);
+  border: 1px solid #083347;
+  box-sizing: border-box;
+  box-shadow: -1px 10px 30px rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
+  color: white;
+  padding: 10px;
+  height: 424px;
+`
+export const WalletBox = styled.div`
+  background: linear-gradient(180deg, #01273A 0%, #002D42 100%);
+  border: 1px solid #083347;
+  box-sizing: border-box;
+  box-shadow: -1px 10px 30px rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
+  width: 300px;
+  margin: 10px;
+  padding: 10px;
+  cursor: pointer;
+
+
+  & > img {
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+  }
+
+  & > span {
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 19px;
+    padding-left: 20px;
   }
 `
