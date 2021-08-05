@@ -116,7 +116,7 @@ const Trade: React.FunctionComponent = () => {
               )}
             </CardHeader>
 
-            {method !== null && (
+            {method === null && (
               <CardBody>
                 <WalletBox>
                   <img src={IMG_wallet1} alt='wallet1' />
@@ -132,7 +132,7 @@ const Trade: React.FunctionComponent = () => {
                 </WalletBox>
               </CardBody>
             )}
-            {method === null && (
+            {method !== null && (
               <>
                 <CardBody>
                   <PurchaseBox>
