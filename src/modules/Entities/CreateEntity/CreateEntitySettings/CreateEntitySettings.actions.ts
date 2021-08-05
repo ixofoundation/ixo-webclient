@@ -23,7 +23,8 @@ import {
   UpdateHeadlineMetricAction,
   UpdateAnalyticsContentAction,
   RemoveAnalyticsSectionAction,
-  AddAnalyticsSectionAction
+  AddAnalyticsSectionAction,
+  ImportEntitySettingsAction
 } from './types'
 import { FormData } from 'common/components/JsonForm/types'
 import { PDS_URL } from '../../types'
@@ -300,9 +301,7 @@ export const removeAnalyticsSection = (
   },
 })
 
-export const importEntitySettings = (payload: any) => {
-  return {
-    type: CreateEntitySettingsActions.ImportEntitySettings,
-    payload
-  }
-}
+export const importEntitySettings = (payload: any): ImportEntitySettingsAction => ({
+  type: CreateEntitySettingsActions.ImportEntitySettings,
+  payload
+})

@@ -132,7 +132,7 @@ class TransactionsTable extends Component<any, any> {
   }
 
   UNSAFE_componentWillReceiveProps(props: any): void {
-    if (props.txs && props.txs.length != this.state.list.length) {
+    if (props.txs && props.txs.length !== this.state.list.length) {
       this.setState({ list: this.sortItems(props.txs) })
     }
   }
@@ -193,7 +193,7 @@ class TransactionsTable extends Component<any, any> {
               {this.props.tokenSupply.map((supply: Currency) => (
                 <option
                   key={supply.denom}
-                  selected={this.props.selectedToken == supply.denom!}
+                  selected={this.props.selectedToken === supply.denom!}
                 >
                   {supply.denom!.toUpperCase()}
                 </option>
@@ -293,15 +293,20 @@ class TransactionsTable extends Component<any, any> {
                   cellRenderer={(tcp): JSX.Element =>
                     tcp.cellData[0].success ? (
                       <>
-                        <img src={checkmark} width={15} className="icon" />
+                        <img
+                          alt=""
+                          src={checkmark}
+                          width={15}
+                          className="icon"
+                        />
                         Confirmed
                       </>
                     ) : (
-                        <>
-                          <img src={x} width={15} className="icon" />
+                      <>
+                        <img alt="" src={x} width={15} className="icon" />
                         Cancelled
                       </>
-                      )
+                    )
                   }
                 />
 
@@ -326,11 +331,22 @@ class TransactionsTable extends Component<any, any> {
           </div>
 
           <div className="pagination">
-            <a className="pageNumber active">{this.state.page}</a>
-            <a className="pageNumber">{this.state.page + 1}</a>
-            <a className="pageNumber">{this.state.page + 2}</a>
-            <a className="pageNumber">...</a>
-            <a className="pageNumber">{this.state.totalPages}</a>
+            {/* TODO: remove href when handling pagination */}
+            <a href="/" className="pageNumber active">
+              {this.state.page}
+            </a>
+            <a href="/" className="pageNumber">
+              {this.state.page + 1}
+            </a>
+            <a href="/" className="pageNumber">
+              {this.state.page + 2}
+            </a>
+            <a href="/" className="pageNumber">
+              ...
+            </a>
+            <a href="/" className="pageNumber">
+              {this.state.totalPages}
+            </a>
           </div>
         </div>
       </div>

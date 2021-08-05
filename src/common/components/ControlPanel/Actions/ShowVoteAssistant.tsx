@@ -22,6 +22,7 @@ const ShowVoteAssistant: React.FunctionComponent<Props> = ({
       fixed: true,
       intent: `/relayer_vote{ "trigger":"proto_msg", "type":"bonds/MsgBuy", "user_did":","${userDid}", "bond_did":"${bondDid}"`,
     })
+    // eslint-disable-next-line
   }, [])
 
   return null
