@@ -19,6 +19,8 @@ import EntityExchangeStake from './Stake'
 import EntityExchangePools from './Pools'
 import EntityExchangeAirdrop from './Airdrop'
 import EntityExchangeVote from './Vote'
+import { changeEntitiesType } from 'modules/Entities/EntitiesExplorer/EntitiesExplorer.actions'
+import { selectTradeMethod } from './EntityExchange.selectors'
 
 interface Props {
   match: any
@@ -41,7 +43,9 @@ interface Props {
   claimTemplateType: string
   bondDid: string
   analytics: any[]
+  tradeMethod: string
   handleGetEntity: (did: string) => void
+  handleChangeEntitiesType: (type: EntityType) => void
 }
 
 class EntityExchange extends React.Component<Props> {
@@ -58,7 +62,9 @@ class EntityExchange extends React.Component<Props> {
   }
 
   getTabButtons(): any[] {
-    const { did, type, creatorDid, isLoggedIn, bondDid, userDid } = this.props
+    const { did, type, handleChangeEntitiesType } = this.props
+
+    handleChangeEntitiesType(type)
 
     const tabs = [
       {
@@ -74,7 +80,7 @@ class EntityExchange extends React.Component<Props> {
       tabs.push({
         iconClass: 'icon-dashboard',
         linkClass: null,
-        path: `/projects/${did}/exchange`,
+        path: `/projects/${did}/detail`,
         title: 'DASHBOARD',
         tooltip: `${type} Management`,
       })
@@ -88,43 +94,13 @@ class EntityExchange extends React.Component<Props> {
       })
     }
 
-    if (bondDid) {
-      if (isLoggedIn) {
-        tabs.push({
-          iconClass: 'icon-funding',
-          linkClass: '',
-          path: `/projects/${did}/bonds/${bondDid}`,
-          title: 'EXCHANGE',
-          tooltip: `${type} Funding`,
-        })
-      } else {
-        if (creatorDid !== userDid) {
-          tabs.push({
-            iconClass: 'icon-funding',
-            linkClass: 'restricted',
-            path: `/projects/${did}/bonds/${bondDid}`,
-            title: 'EXCHANGE',
-            tooltip: `${type} Funding`,
-          })
-        } else {
-          tabs.push({
-            iconClass: 'icon-funding',
-            linkClass: '',
-            path: `/projects/${did}/bonds/${bondDid}`,
-            title: 'EXCHANGE',
-            tooltip: `${type} Funding`,
-          })
-        }
-      }
-    } else {
-      tabs.push({
-        iconClass: 'icon-funding',
-        linkClass: 'restricted',
-        path: `/projects/${did}/bonds/${bondDid}`,
-        title: 'EXCHANGE',
-        tooltip: `${type} Funding`,
-      })
-    }
+    tabs.push({
+      iconClass: 'icon-funding',
+      linkClass: 'active',
+      path: `/projects/${did}/exchange`,
+      title: 'EXCHANGE',
+      tooltip: `EXCHANGE`,
+    })
 
     return tabs
   }
@@ -134,6 +110,7 @@ class EntityExchange extends React.Component<Props> {
       did,
       type,
       name,
+      tradeMethod,
       isLoading,
       isClaimTemplateLoading,
     } = this.props
@@ -146,7 +123,7 @@ class EntityExchange extends React.Component<Props> {
       {
         url: `/projects/${did}/exchange`,
         icon: require('assets/img/sidebar/trade.svg'),
-        sdg: 'Trade',
+        sdg: tradeMethod,
         tooltip: 'Trade',
       },
       {
@@ -264,12 +241,15 @@ const mapStateToProps = (state: RootState): any => ({
   claimTemplateType: submitEntityClaimSelectors.selectClaimType(state),
   bondDid: entitySelectors.selectEntityBondDid(state),
   analytics: entitySelectors.selectEntityAnalytics(state),
+  tradeMethod: selectTradeMethod(state)
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
   handleGetEntity: (did: string): void => dispatch(getEntity(did)),
   handleGetClaimTemplate: (templateDid): void =>
     dispatch(getClaimTemplate(templateDid)),
+  handleChangeEntitiesType: (type: EntityType): void =>
+    dispatch(changeEntitiesType(type)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(EntityExchange)

@@ -93,7 +93,16 @@ const EntityHero: React.FunctionComponent<Props> = ({
     })
   }
 
-  if (bondDid) {
+  if (type === EntityType.Asset) {
+    buttonsArray.push({
+      iconClass: 'icon-funding',
+      linkClass: null,
+      path: `/projects/${did}/exchange`,
+      title: 'EXCHANGE',
+      tooltip: `${type} Exchange`,
+    })
+  }
+  else if (bondDid) {
     if (loggedIn) {
       buttonsArray.push({
         iconClass: 'icon-funding',
